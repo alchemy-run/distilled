@@ -678,7 +678,6 @@ export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspen
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -708,7 +707,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -718,7 +718,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -736,13 +735,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -772,7 +771,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -782,7 +782,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -800,13 +799,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -824,13 +823,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -851,13 +850,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Lists Certificates in a given project and location. */
 export interface ListProjectsLocationsCertificatesRequest {
   /** Required. The project and location from which the certificate should be listed, specified in the format `projects/* /locations/*`. */
   parent: string;
@@ -887,7 +886,8 @@ export const ListProjectsLocationsCertificatesResponse = ListCertificatesRespons
 
 export type ListProjectsLocationsCertificatesError = CommonErrors;
 
-export const listProjectsLocationsCertificates = API.makePaginated(() => ({
+/** Lists Certificates in a given project and location. */
+export const listProjectsLocationsCertificates: API.PaginatedOperationMethod<ListProjectsLocationsCertificatesRequest, ListProjectsLocationsCertificatesResponse, ListProjectsLocationsCertificatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCertificatesRequest,
   output: ListProjectsLocationsCertificatesResponse,
   errors: [],
@@ -897,7 +897,6 @@ export const listProjectsLocationsCertificates = API.makePaginated(() => ({
   },
 }));
 
-/** Gets details of a single Certificate. */
 export interface GetProjectsLocationsCertificatesRequest {
   /** Required. A name of the certificate to describe. Must be in the format `projects/* /locations/* /certificates/*`. */
   name: string;
@@ -915,13 +914,13 @@ export const GetProjectsLocationsCertificatesResponse = Certificate;
 
 export type GetProjectsLocationsCertificatesError = CommonErrors;
 
+/** Gets details of a single Certificate. */
 export const getProjectsLocationsCertificates: API.OperationMethod<GetProjectsLocationsCertificatesRequest, GetProjectsLocationsCertificatesResponse, GetProjectsLocationsCertificatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCertificatesRequest,
   output: GetProjectsLocationsCertificatesResponse,
   errors: [],
 }));
 
-/** Creates a new Certificate in a given project and location. */
 export interface CreateProjectsLocationsCertificatesRequest {
   /** Required. The parent resource of the certificate. Must be in the format `projects/* /locations/*`. */
   parent: string;
@@ -945,13 +944,13 @@ export const CreateProjectsLocationsCertificatesResponse = Operation;
 
 export type CreateProjectsLocationsCertificatesError = CommonErrors;
 
+/** Creates a new Certificate in a given project and location. */
 export const createProjectsLocationsCertificates: API.OperationMethod<CreateProjectsLocationsCertificatesRequest, CreateProjectsLocationsCertificatesResponse, CreateProjectsLocationsCertificatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCertificatesRequest,
   output: CreateProjectsLocationsCertificatesResponse,
   errors: [],
 }));
 
-/** Updates a Certificate. */
 export interface PatchProjectsLocationsCertificatesRequest {
   /** Identifier. A user-defined name of the certificate. Certificate names must be unique globally and match pattern `projects/* /locations/* /certificates/*`. */
   name: string;
@@ -975,13 +974,13 @@ export const PatchProjectsLocationsCertificatesResponse = Operation;
 
 export type PatchProjectsLocationsCertificatesError = CommonErrors;
 
+/** Updates a Certificate. */
 export const patchProjectsLocationsCertificates: API.OperationMethod<PatchProjectsLocationsCertificatesRequest, PatchProjectsLocationsCertificatesResponse, PatchProjectsLocationsCertificatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCertificatesRequest,
   output: PatchProjectsLocationsCertificatesResponse,
   errors: [],
 }));
 
-/** Deletes a single Certificate. */
 export interface DeleteProjectsLocationsCertificatesRequest {
   /** Required. A name of the certificate to delete. Must be in the format `projects/* /locations/* /certificates/*`. */
   name: string;
@@ -999,13 +998,13 @@ export const DeleteProjectsLocationsCertificatesResponse = Operation;
 
 export type DeleteProjectsLocationsCertificatesError = CommonErrors;
 
+/** Deletes a single Certificate. */
 export const deleteProjectsLocationsCertificates: API.OperationMethod<DeleteProjectsLocationsCertificatesRequest, DeleteProjectsLocationsCertificatesResponse, DeleteProjectsLocationsCertificatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCertificatesRequest,
   output: DeleteProjectsLocationsCertificatesResponse,
   errors: [],
 }));
 
-/** Lists CertificateMaps in a given project and location. */
 export interface ListProjectsLocationsCertificateMapsRequest {
   /** Required. The project and location from which the certificate maps should be listed, specified in the format `projects/* /locations/*`. */
   parent: string;
@@ -1035,7 +1034,8 @@ export const ListProjectsLocationsCertificateMapsResponse = ListCertificateMapsR
 
 export type ListProjectsLocationsCertificateMapsError = CommonErrors;
 
-export const listProjectsLocationsCertificateMaps = API.makePaginated(() => ({
+/** Lists CertificateMaps in a given project and location. */
+export const listProjectsLocationsCertificateMaps: API.PaginatedOperationMethod<ListProjectsLocationsCertificateMapsRequest, ListProjectsLocationsCertificateMapsResponse, ListProjectsLocationsCertificateMapsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCertificateMapsRequest,
   output: ListProjectsLocationsCertificateMapsResponse,
   errors: [],
@@ -1045,7 +1045,6 @@ export const listProjectsLocationsCertificateMaps = API.makePaginated(() => ({
   },
 }));
 
-/** Gets details of a single CertificateMap. */
 export interface GetProjectsLocationsCertificateMapsRequest {
   /** Required. A name of the certificate map to describe. Must be in the format `projects/* /locations/* /certificateMaps/*`. */
   name: string;
@@ -1063,13 +1062,13 @@ export const GetProjectsLocationsCertificateMapsResponse = CertificateMap;
 
 export type GetProjectsLocationsCertificateMapsError = CommonErrors;
 
+/** Gets details of a single CertificateMap. */
 export const getProjectsLocationsCertificateMaps: API.OperationMethod<GetProjectsLocationsCertificateMapsRequest, GetProjectsLocationsCertificateMapsResponse, GetProjectsLocationsCertificateMapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCertificateMapsRequest,
   output: GetProjectsLocationsCertificateMapsResponse,
   errors: [],
 }));
 
-/** Creates a new CertificateMap in a given project and location. */
 export interface CreateProjectsLocationsCertificateMapsRequest {
   /** Required. The parent resource of the certificate map. Must be in the format `projects/* /locations/*`. */
   parent: string;
@@ -1093,13 +1092,13 @@ export const CreateProjectsLocationsCertificateMapsResponse = Operation;
 
 export type CreateProjectsLocationsCertificateMapsError = CommonErrors;
 
+/** Creates a new CertificateMap in a given project and location. */
 export const createProjectsLocationsCertificateMaps: API.OperationMethod<CreateProjectsLocationsCertificateMapsRequest, CreateProjectsLocationsCertificateMapsResponse, CreateProjectsLocationsCertificateMapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCertificateMapsRequest,
   output: CreateProjectsLocationsCertificateMapsResponse,
   errors: [],
 }));
 
-/** Updates a CertificateMap. */
 export interface PatchProjectsLocationsCertificateMapsRequest {
   /** Identifier. A user-defined name of the Certificate Map. Certificate Map names must be unique globally and match pattern `projects/* /locations/* /certificateMaps/*`. */
   name: string;
@@ -1123,13 +1122,13 @@ export const PatchProjectsLocationsCertificateMapsResponse = Operation;
 
 export type PatchProjectsLocationsCertificateMapsError = CommonErrors;
 
+/** Updates a CertificateMap. */
 export const patchProjectsLocationsCertificateMaps: API.OperationMethod<PatchProjectsLocationsCertificateMapsRequest, PatchProjectsLocationsCertificateMapsResponse, PatchProjectsLocationsCertificateMapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCertificateMapsRequest,
   output: PatchProjectsLocationsCertificateMapsResponse,
   errors: [],
 }));
 
-/** Deletes a single CertificateMap. A Certificate Map can't be deleted if it contains Certificate Map Entries. Remove all the entries from the map before calling this method. */
 export interface DeleteProjectsLocationsCertificateMapsRequest {
   /** Required. A name of the certificate map to delete. Must be in the format `projects/* /locations/* /certificateMaps/*`. */
   name: string;
@@ -1147,13 +1146,13 @@ export const DeleteProjectsLocationsCertificateMapsResponse = Operation;
 
 export type DeleteProjectsLocationsCertificateMapsError = CommonErrors;
 
+/** Deletes a single CertificateMap. A Certificate Map can't be deleted if it contains Certificate Map Entries. Remove all the entries from the map before calling this method. */
 export const deleteProjectsLocationsCertificateMaps: API.OperationMethod<DeleteProjectsLocationsCertificateMapsRequest, DeleteProjectsLocationsCertificateMapsResponse, DeleteProjectsLocationsCertificateMapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCertificateMapsRequest,
   output: DeleteProjectsLocationsCertificateMapsResponse,
   errors: [],
 }));
 
-/** Lists CertificateMapEntries in a given project and location. */
 export interface ListProjectsLocationsCertificateMapsCertificateMapEntriesRequest {
   /** Required. The project, location and certificate map from which the certificate map entries should be listed, specified in the format `projects/* /locations/* /certificateMaps/*`. */
   parent: string;
@@ -1183,7 +1182,8 @@ export const ListProjectsLocationsCertificateMapsCertificateMapEntriesResponse =
 
 export type ListProjectsLocationsCertificateMapsCertificateMapEntriesError = CommonErrors;
 
-export const listProjectsLocationsCertificateMapsCertificateMapEntries = API.makePaginated(() => ({
+/** Lists CertificateMapEntries in a given project and location. */
+export const listProjectsLocationsCertificateMapsCertificateMapEntries: API.PaginatedOperationMethod<ListProjectsLocationsCertificateMapsCertificateMapEntriesRequest, ListProjectsLocationsCertificateMapsCertificateMapEntriesResponse, ListProjectsLocationsCertificateMapsCertificateMapEntriesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCertificateMapsCertificateMapEntriesRequest,
   output: ListProjectsLocationsCertificateMapsCertificateMapEntriesResponse,
   errors: [],
@@ -1193,7 +1193,6 @@ export const listProjectsLocationsCertificateMapsCertificateMapEntries = API.mak
   },
 }));
 
-/** Gets details of a single CertificateMapEntry. */
 export interface GetProjectsLocationsCertificateMapsCertificateMapEntriesRequest {
   /** Required. A name of the certificate map entry to describe. Must be in the format `projects/* /locations/* /certificateMaps/* /certificateMapEntries/*`. */
   name: string;
@@ -1211,13 +1210,13 @@ export const GetProjectsLocationsCertificateMapsCertificateMapEntriesResponse = 
 
 export type GetProjectsLocationsCertificateMapsCertificateMapEntriesError = CommonErrors;
 
+/** Gets details of a single CertificateMapEntry. */
 export const getProjectsLocationsCertificateMapsCertificateMapEntries: API.OperationMethod<GetProjectsLocationsCertificateMapsCertificateMapEntriesRequest, GetProjectsLocationsCertificateMapsCertificateMapEntriesResponse, GetProjectsLocationsCertificateMapsCertificateMapEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCertificateMapsCertificateMapEntriesRequest,
   output: GetProjectsLocationsCertificateMapsCertificateMapEntriesResponse,
   errors: [],
 }));
 
-/** Creates a new CertificateMapEntry in a given project and location. */
 export interface CreateProjectsLocationsCertificateMapsCertificateMapEntriesRequest {
   /** Required. The parent resource of the certificate map entry. Must be in the format `projects/* /locations/* /certificateMaps/*`. */
   parent: string;
@@ -1241,13 +1240,13 @@ export const CreateProjectsLocationsCertificateMapsCertificateMapEntriesResponse
 
 export type CreateProjectsLocationsCertificateMapsCertificateMapEntriesError = CommonErrors;
 
+/** Creates a new CertificateMapEntry in a given project and location. */
 export const createProjectsLocationsCertificateMapsCertificateMapEntries: API.OperationMethod<CreateProjectsLocationsCertificateMapsCertificateMapEntriesRequest, CreateProjectsLocationsCertificateMapsCertificateMapEntriesResponse, CreateProjectsLocationsCertificateMapsCertificateMapEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCertificateMapsCertificateMapEntriesRequest,
   output: CreateProjectsLocationsCertificateMapsCertificateMapEntriesResponse,
   errors: [],
 }));
 
-/** Updates a CertificateMapEntry. */
 export interface PatchProjectsLocationsCertificateMapsCertificateMapEntriesRequest {
   /** Identifier. A user-defined name of the Certificate Map Entry. Certificate Map Entry names must be unique globally and match pattern `projects/* /locations/* /certificateMaps/* /certificateMapEntries/*`. */
   name: string;
@@ -1271,13 +1270,13 @@ export const PatchProjectsLocationsCertificateMapsCertificateMapEntriesResponse 
 
 export type PatchProjectsLocationsCertificateMapsCertificateMapEntriesError = CommonErrors;
 
+/** Updates a CertificateMapEntry. */
 export const patchProjectsLocationsCertificateMapsCertificateMapEntries: API.OperationMethod<PatchProjectsLocationsCertificateMapsCertificateMapEntriesRequest, PatchProjectsLocationsCertificateMapsCertificateMapEntriesResponse, PatchProjectsLocationsCertificateMapsCertificateMapEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCertificateMapsCertificateMapEntriesRequest,
   output: PatchProjectsLocationsCertificateMapsCertificateMapEntriesResponse,
   errors: [],
 }));
 
-/** Deletes a single CertificateMapEntry. */
 export interface DeleteProjectsLocationsCertificateMapsCertificateMapEntriesRequest {
   /** Required. A name of the certificate map entry to delete. Must be in the format `projects/* /locations/* /certificateMaps/* /certificateMapEntries/*`. */
   name: string;
@@ -1295,13 +1294,13 @@ export const DeleteProjectsLocationsCertificateMapsCertificateMapEntriesResponse
 
 export type DeleteProjectsLocationsCertificateMapsCertificateMapEntriesError = CommonErrors;
 
+/** Deletes a single CertificateMapEntry. */
 export const deleteProjectsLocationsCertificateMapsCertificateMapEntries: API.OperationMethod<DeleteProjectsLocationsCertificateMapsCertificateMapEntriesRequest, DeleteProjectsLocationsCertificateMapsCertificateMapEntriesResponse, DeleteProjectsLocationsCertificateMapsCertificateMapEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCertificateMapsCertificateMapEntriesRequest,
   output: DeleteProjectsLocationsCertificateMapsCertificateMapEntriesResponse,
   errors: [],
 }));
 
-/** Lists DnsAuthorizations in a given project and location. */
 export interface ListProjectsLocationsDnsAuthorizationsRequest {
   /** Required. The project and location from which the dns authorizations should be listed, specified in the format `projects/* /locations/*`. */
   parent: string;
@@ -1331,7 +1330,8 @@ export const ListProjectsLocationsDnsAuthorizationsResponse = ListDnsAuthorizati
 
 export type ListProjectsLocationsDnsAuthorizationsError = CommonErrors;
 
-export const listProjectsLocationsDnsAuthorizations = API.makePaginated(() => ({
+/** Lists DnsAuthorizations in a given project and location. */
+export const listProjectsLocationsDnsAuthorizations: API.PaginatedOperationMethod<ListProjectsLocationsDnsAuthorizationsRequest, ListProjectsLocationsDnsAuthorizationsResponse, ListProjectsLocationsDnsAuthorizationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDnsAuthorizationsRequest,
   output: ListProjectsLocationsDnsAuthorizationsResponse,
   errors: [],
@@ -1341,7 +1341,6 @@ export const listProjectsLocationsDnsAuthorizations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets details of a single DnsAuthorization. */
 export interface GetProjectsLocationsDnsAuthorizationsRequest {
   /** Required. A name of the dns authorization to describe. Must be in the format `projects/* /locations/* /dnsAuthorizations/*`. */
   name: string;
@@ -1359,13 +1358,13 @@ export const GetProjectsLocationsDnsAuthorizationsResponse = DnsAuthorization;
 
 export type GetProjectsLocationsDnsAuthorizationsError = CommonErrors;
 
+/** Gets details of a single DnsAuthorization. */
 export const getProjectsLocationsDnsAuthorizations: API.OperationMethod<GetProjectsLocationsDnsAuthorizationsRequest, GetProjectsLocationsDnsAuthorizationsResponse, GetProjectsLocationsDnsAuthorizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDnsAuthorizationsRequest,
   output: GetProjectsLocationsDnsAuthorizationsResponse,
   errors: [],
 }));
 
-/** Creates a new DnsAuthorization in a given project and location. */
 export interface CreateProjectsLocationsDnsAuthorizationsRequest {
   /** Required. The parent resource of the dns authorization. Must be in the format `projects/* /locations/*`. */
   parent: string;
@@ -1389,13 +1388,13 @@ export const CreateProjectsLocationsDnsAuthorizationsResponse = Operation;
 
 export type CreateProjectsLocationsDnsAuthorizationsError = CommonErrors;
 
+/** Creates a new DnsAuthorization in a given project and location. */
 export const createProjectsLocationsDnsAuthorizations: API.OperationMethod<CreateProjectsLocationsDnsAuthorizationsRequest, CreateProjectsLocationsDnsAuthorizationsResponse, CreateProjectsLocationsDnsAuthorizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsDnsAuthorizationsRequest,
   output: CreateProjectsLocationsDnsAuthorizationsResponse,
   errors: [],
 }));
 
-/** Updates a DnsAuthorization. */
 export interface PatchProjectsLocationsDnsAuthorizationsRequest {
   /** Identifier. A user-defined name of the dns authorization. DnsAuthorization names must be unique globally and match pattern `projects/* /locations/* /dnsAuthorizations/*`. */
   name: string;
@@ -1419,13 +1418,13 @@ export const PatchProjectsLocationsDnsAuthorizationsResponse = Operation;
 
 export type PatchProjectsLocationsDnsAuthorizationsError = CommonErrors;
 
+/** Updates a DnsAuthorization. */
 export const patchProjectsLocationsDnsAuthorizations: API.OperationMethod<PatchProjectsLocationsDnsAuthorizationsRequest, PatchProjectsLocationsDnsAuthorizationsResponse, PatchProjectsLocationsDnsAuthorizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsDnsAuthorizationsRequest,
   output: PatchProjectsLocationsDnsAuthorizationsResponse,
   errors: [],
 }));
 
-/** Deletes a single DnsAuthorization. */
 export interface DeleteProjectsLocationsDnsAuthorizationsRequest {
   /** Required. A name of the dns authorization to delete. Must be in the format `projects/* /locations/* /dnsAuthorizations/*`. */
   name: string;
@@ -1443,13 +1442,13 @@ export const DeleteProjectsLocationsDnsAuthorizationsResponse = Operation;
 
 export type DeleteProjectsLocationsDnsAuthorizationsError = CommonErrors;
 
+/** Deletes a single DnsAuthorization. */
 export const deleteProjectsLocationsDnsAuthorizations: API.OperationMethod<DeleteProjectsLocationsDnsAuthorizationsRequest, DeleteProjectsLocationsDnsAuthorizationsResponse, DeleteProjectsLocationsDnsAuthorizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDnsAuthorizationsRequest,
   output: DeleteProjectsLocationsDnsAuthorizationsResponse,
   errors: [],
 }));
 
-/** Lists CertificateIssuanceConfigs in a given project and location. */
 export interface ListProjectsLocationsCertificateIssuanceConfigsRequest {
   /** Required. The project and location from which the certificate should be listed, specified in the format `projects/* /locations/*`. */
   parent: string;
@@ -1479,7 +1478,8 @@ export const ListProjectsLocationsCertificateIssuanceConfigsResponse = ListCerti
 
 export type ListProjectsLocationsCertificateIssuanceConfigsError = CommonErrors;
 
-export const listProjectsLocationsCertificateIssuanceConfigs = API.makePaginated(() => ({
+/** Lists CertificateIssuanceConfigs in a given project and location. */
+export const listProjectsLocationsCertificateIssuanceConfigs: API.PaginatedOperationMethod<ListProjectsLocationsCertificateIssuanceConfigsRequest, ListProjectsLocationsCertificateIssuanceConfigsResponse, ListProjectsLocationsCertificateIssuanceConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCertificateIssuanceConfigsRequest,
   output: ListProjectsLocationsCertificateIssuanceConfigsResponse,
   errors: [],
@@ -1489,7 +1489,6 @@ export const listProjectsLocationsCertificateIssuanceConfigs = API.makePaginated
   },
 }));
 
-/** Gets details of a single CertificateIssuanceConfig. */
 export interface GetProjectsLocationsCertificateIssuanceConfigsRequest {
   /** Required. A name of the certificate issuance config to describe. Must be in the format `projects/* /locations/* /certificateIssuanceConfigs/*`. */
   name: string;
@@ -1507,13 +1506,13 @@ export const GetProjectsLocationsCertificateIssuanceConfigsResponse = Certificat
 
 export type GetProjectsLocationsCertificateIssuanceConfigsError = CommonErrors;
 
+/** Gets details of a single CertificateIssuanceConfig. */
 export const getProjectsLocationsCertificateIssuanceConfigs: API.OperationMethod<GetProjectsLocationsCertificateIssuanceConfigsRequest, GetProjectsLocationsCertificateIssuanceConfigsResponse, GetProjectsLocationsCertificateIssuanceConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCertificateIssuanceConfigsRequest,
   output: GetProjectsLocationsCertificateIssuanceConfigsResponse,
   errors: [],
 }));
 
-/** Creates a new CertificateIssuanceConfig in a given project and location. */
 export interface CreateProjectsLocationsCertificateIssuanceConfigsRequest {
   /** Required. The parent resource of the certificate issuance config. Must be in the format `projects/* /locations/*`. */
   parent: string;
@@ -1537,13 +1536,13 @@ export const CreateProjectsLocationsCertificateIssuanceConfigsResponse = Operati
 
 export type CreateProjectsLocationsCertificateIssuanceConfigsError = CommonErrors;
 
+/** Creates a new CertificateIssuanceConfig in a given project and location. */
 export const createProjectsLocationsCertificateIssuanceConfigs: API.OperationMethod<CreateProjectsLocationsCertificateIssuanceConfigsRequest, CreateProjectsLocationsCertificateIssuanceConfigsResponse, CreateProjectsLocationsCertificateIssuanceConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCertificateIssuanceConfigsRequest,
   output: CreateProjectsLocationsCertificateIssuanceConfigsResponse,
   errors: [],
 }));
 
-/** Updates a CertificateIssuanceConfig. */
 export interface PatchProjectsLocationsCertificateIssuanceConfigsRequest {
   /** Identifier. A user-defined name of the certificate issuance config. CertificateIssuanceConfig names must be unique globally and match pattern `projects/* /locations/* /certificateIssuanceConfigs/*`. */
   name: string;
@@ -1567,13 +1566,13 @@ export const PatchProjectsLocationsCertificateIssuanceConfigsResponse = Operatio
 
 export type PatchProjectsLocationsCertificateIssuanceConfigsError = CommonErrors;
 
+/** Updates a CertificateIssuanceConfig. */
 export const patchProjectsLocationsCertificateIssuanceConfigs: API.OperationMethod<PatchProjectsLocationsCertificateIssuanceConfigsRequest, PatchProjectsLocationsCertificateIssuanceConfigsResponse, PatchProjectsLocationsCertificateIssuanceConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCertificateIssuanceConfigsRequest,
   output: PatchProjectsLocationsCertificateIssuanceConfigsResponse,
   errors: [],
 }));
 
-/** Deletes a single CertificateIssuanceConfig. */
 export interface DeleteProjectsLocationsCertificateIssuanceConfigsRequest {
   /** Required. A name of the certificate issuance config to delete. Must be in the format `projects/* /locations/* /certificateIssuanceConfigs/*`. */
   name: string;
@@ -1591,13 +1590,13 @@ export const DeleteProjectsLocationsCertificateIssuanceConfigsResponse = Operati
 
 export type DeleteProjectsLocationsCertificateIssuanceConfigsError = CommonErrors;
 
+/** Deletes a single CertificateIssuanceConfig. */
 export const deleteProjectsLocationsCertificateIssuanceConfigs: API.OperationMethod<DeleteProjectsLocationsCertificateIssuanceConfigsRequest, DeleteProjectsLocationsCertificateIssuanceConfigsResponse, DeleteProjectsLocationsCertificateIssuanceConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCertificateIssuanceConfigsRequest,
   output: DeleteProjectsLocationsCertificateIssuanceConfigsResponse,
   errors: [],
 }));
 
-/** Lists TrustConfigs in a given project and location. */
 export interface ListProjectsLocationsTrustConfigsRequest {
   /** Required. The project and location from which the TrustConfigs should be listed, specified in the format `projects/* /locations/*`. */
   parent: string;
@@ -1627,7 +1626,8 @@ export const ListProjectsLocationsTrustConfigsResponse = ListTrustConfigsRespons
 
 export type ListProjectsLocationsTrustConfigsError = CommonErrors;
 
-export const listProjectsLocationsTrustConfigs = API.makePaginated(() => ({
+/** Lists TrustConfigs in a given project and location. */
+export const listProjectsLocationsTrustConfigs: API.PaginatedOperationMethod<ListProjectsLocationsTrustConfigsRequest, ListProjectsLocationsTrustConfigsResponse, ListProjectsLocationsTrustConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsTrustConfigsRequest,
   output: ListProjectsLocationsTrustConfigsResponse,
   errors: [],
@@ -1637,7 +1637,6 @@ export const listProjectsLocationsTrustConfigs = API.makePaginated(() => ({
   },
 }));
 
-/** Gets details of a single TrustConfig. */
 export interface GetProjectsLocationsTrustConfigsRequest {
   /** Required. A name of the TrustConfig to describe. Must be in the format `projects/* /locations/* /trustConfigs/*`. */
   name: string;
@@ -1655,13 +1654,13 @@ export const GetProjectsLocationsTrustConfigsResponse = TrustConfig;
 
 export type GetProjectsLocationsTrustConfigsError = CommonErrors;
 
+/** Gets details of a single TrustConfig. */
 export const getProjectsLocationsTrustConfigs: API.OperationMethod<GetProjectsLocationsTrustConfigsRequest, GetProjectsLocationsTrustConfigsResponse, GetProjectsLocationsTrustConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsTrustConfigsRequest,
   output: GetProjectsLocationsTrustConfigsResponse,
   errors: [],
 }));
 
-/** Creates a new TrustConfig in a given project and location. */
 export interface CreateProjectsLocationsTrustConfigsRequest {
   /** Required. The parent resource of the TrustConfig. Must be in the format `projects/* /locations/*`. */
   parent: string;
@@ -1685,13 +1684,13 @@ export const CreateProjectsLocationsTrustConfigsResponse = Operation;
 
 export type CreateProjectsLocationsTrustConfigsError = CommonErrors;
 
+/** Creates a new TrustConfig in a given project and location. */
 export const createProjectsLocationsTrustConfigs: API.OperationMethod<CreateProjectsLocationsTrustConfigsRequest, CreateProjectsLocationsTrustConfigsResponse, CreateProjectsLocationsTrustConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsTrustConfigsRequest,
   output: CreateProjectsLocationsTrustConfigsResponse,
   errors: [],
 }));
 
-/** Updates a TrustConfig. */
 export interface PatchProjectsLocationsTrustConfigsRequest {
   /** Identifier. A user-defined name of the trust config. TrustConfig names must be unique globally and match pattern `projects/* /locations/* /trustConfigs/*`. */
   name: string;
@@ -1715,13 +1714,13 @@ export const PatchProjectsLocationsTrustConfigsResponse = Operation;
 
 export type PatchProjectsLocationsTrustConfigsError = CommonErrors;
 
+/** Updates a TrustConfig. */
 export const patchProjectsLocationsTrustConfigs: API.OperationMethod<PatchProjectsLocationsTrustConfigsRequest, PatchProjectsLocationsTrustConfigsResponse, PatchProjectsLocationsTrustConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsTrustConfigsRequest,
   output: PatchProjectsLocationsTrustConfigsResponse,
   errors: [],
 }));
 
-/** Deletes a single TrustConfig. */
 export interface DeleteProjectsLocationsTrustConfigsRequest {
   /** Required. A name of the TrustConfig to delete. Must be in the format `projects/* /locations/* /trustConfigs/*`. */
   name: string;
@@ -1742,6 +1741,7 @@ export const DeleteProjectsLocationsTrustConfigsResponse = Operation;
 
 export type DeleteProjectsLocationsTrustConfigsError = CommonErrors;
 
+/** Deletes a single TrustConfig. */
 export const deleteProjectsLocationsTrustConfigs: API.OperationMethod<DeleteProjectsLocationsTrustConfigsRequest, DeleteProjectsLocationsTrustConfigsResponse, DeleteProjectsLocationsTrustConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsTrustConfigsRequest,
   output: DeleteProjectsLocationsTrustConfigsResponse,

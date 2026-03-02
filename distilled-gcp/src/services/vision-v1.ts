@@ -4446,7 +4446,6 @@ export const ListReferenceImagesResponse: Schema.Schema<ListReferenceImagesRespo
 // Operations
 // ==========================================================================
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -4467,13 +4466,13 @@ export const CancelOperationsResponse = Empty;
 
 export type CancelOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelOperations: API.OperationMethod<CancelOperationsRequest, CancelOperationsResponse, CancelOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelOperationsRequest,
   output: CancelOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListOperationsRequest {
   /** The standard list filter. */
   filter?: string;
@@ -4503,7 +4502,8 @@ export const ListOperationsResponse_Op = ListOperationsResponse;
 
 export type ListOperationsError = CommonErrors;
 
-export const listOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listOperations: API.PaginatedOperationMethod<ListOperationsRequest, ListOperationsResponse_Op, ListOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOperationsRequest,
   output: ListOperationsResponse_Op,
   errors: [],
@@ -4513,7 +4513,6 @@ export const listOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -4531,13 +4530,13 @@ export const GetOperationsResponse = Operation;
 
 export type GetOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOperations: API.OperationMethod<GetOperationsRequest, GetOperationsResponse, GetOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -4555,13 +4554,13 @@ export const DeleteOperationsResponse = Empty;
 
 export type DeleteOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteOperations: API.OperationMethod<DeleteOperationsRequest, DeleteOperationsResponse, DeleteOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOperationsRequest,
   output: DeleteOperationsResponse,
   errors: [],
 }));
 
-/** Run image detection and annotation for a batch of images. */
 export interface AnnotateProjectsLocationsImagesRequest {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
@@ -4582,13 +4581,13 @@ export const AnnotateProjectsLocationsImagesResponse = BatchAnnotateImagesRespon
 
 export type AnnotateProjectsLocationsImagesError = CommonErrors;
 
+/** Run image detection and annotation for a batch of images. */
 export const annotateProjectsLocationsImages: API.OperationMethod<AnnotateProjectsLocationsImagesRequest, AnnotateProjectsLocationsImagesResponse, AnnotateProjectsLocationsImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AnnotateProjectsLocationsImagesRequest,
   output: AnnotateProjectsLocationsImagesResponse,
   errors: [],
 }));
 
-/** Run asynchronous image detection and annotation for a list of images. Progress and results can be retrieved through the `google.longrunning.Operations` interface. `Operation.metadata` contains `OperationMetadata` (metadata). `Operation.response` contains `AsyncBatchAnnotateImagesResponse` (results). This service will write image annotation outputs to json files in customer GCS bucket, each json file containing BatchAnnotateImagesResponse proto. */
 export interface AsyncBatchAnnotateProjectsLocationsImagesRequest {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
@@ -4609,13 +4608,13 @@ export const AsyncBatchAnnotateProjectsLocationsImagesResponse = Operation;
 
 export type AsyncBatchAnnotateProjectsLocationsImagesError = CommonErrors;
 
+/** Run asynchronous image detection and annotation for a list of images. Progress and results can be retrieved through the `google.longrunning.Operations` interface. `Operation.metadata` contains `OperationMetadata` (metadata). `Operation.response` contains `AsyncBatchAnnotateImagesResponse` (results). This service will write image annotation outputs to json files in customer GCS bucket, each json file containing BatchAnnotateImagesResponse proto. */
 export const asyncBatchAnnotateProjectsLocationsImages: API.OperationMethod<AsyncBatchAnnotateProjectsLocationsImagesRequest, AsyncBatchAnnotateProjectsLocationsImagesResponse, AsyncBatchAnnotateProjectsLocationsImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AsyncBatchAnnotateProjectsLocationsImagesRequest,
   output: AsyncBatchAnnotateProjectsLocationsImagesResponse,
   errors: [],
 }));
 
-/** Creates and returns a new product resource. Possible errors: * Returns INVALID_ARGUMENT if display_name is missing or longer than 4096 characters. * Returns INVALID_ARGUMENT if description is longer than 4096 characters. * Returns INVALID_ARGUMENT if product_category is missing or invalid. */
 export interface CreateProjectsLocationsProductsRequest {
   /** Required. The project in which the Product should be created. Format is `projects/PROJECT_ID/locations/LOC_ID`. */
   parent: string;
@@ -4639,13 +4638,13 @@ export const CreateProjectsLocationsProductsResponse = Product;
 
 export type CreateProjectsLocationsProductsError = CommonErrors;
 
+/** Creates and returns a new product resource. Possible errors: * Returns INVALID_ARGUMENT if display_name is missing or longer than 4096 characters. * Returns INVALID_ARGUMENT if description is longer than 4096 characters. * Returns INVALID_ARGUMENT if product_category is missing or invalid. */
 export const createProjectsLocationsProducts: API.OperationMethod<CreateProjectsLocationsProductsRequest, CreateProjectsLocationsProductsResponse, CreateProjectsLocationsProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsProductsRequest,
   output: CreateProjectsLocationsProductsResponse,
   errors: [],
 }));
 
-/** Makes changes to a Product resource. Only the `display_name`, `description`, and `labels` fields can be updated right now. If labels are updated, the change will not be reflected in queries until the next index time. Possible errors: * Returns NOT_FOUND if the Product does not exist. * Returns INVALID_ARGUMENT if display_name is present in update_mask but is missing from the request or longer than 4096 characters. * Returns INVALID_ARGUMENT if description is present in update_mask but is longer than 4096 characters. * Returns INVALID_ARGUMENT if product_category is present in update_mask. */
 export interface PatchProjectsLocationsProductsRequest {
   /** The resource name of the product. Format is: `projects/PROJECT_ID/locations/LOC_ID/products/PRODUCT_ID`. This field is ignored when creating a product. */
   name: string;
@@ -4669,13 +4668,13 @@ export const PatchProjectsLocationsProductsResponse = Product;
 
 export type PatchProjectsLocationsProductsError = CommonErrors;
 
+/** Makes changes to a Product resource. Only the `display_name`, `description`, and `labels` fields can be updated right now. If labels are updated, the change will not be reflected in queries until the next index time. Possible errors: * Returns NOT_FOUND if the Product does not exist. * Returns INVALID_ARGUMENT if display_name is present in update_mask but is missing from the request or longer than 4096 characters. * Returns INVALID_ARGUMENT if description is present in update_mask but is longer than 4096 characters. * Returns INVALID_ARGUMENT if product_category is present in update_mask. */
 export const patchProjectsLocationsProducts: API.OperationMethod<PatchProjectsLocationsProductsRequest, PatchProjectsLocationsProductsResponse, PatchProjectsLocationsProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsProductsRequest,
   output: PatchProjectsLocationsProductsResponse,
   errors: [],
 }));
 
-/** Gets information associated with a Product. Possible errors: * Returns NOT_FOUND if the Product does not exist. */
 export interface GetProjectsLocationsProductsRequest {
   /** Required. Resource name of the Product to get. Format is: `projects/PROJECT_ID/locations/LOC_ID/products/PRODUCT_ID` */
   name: string;
@@ -4693,13 +4692,13 @@ export const GetProjectsLocationsProductsResponse = Product;
 
 export type GetProjectsLocationsProductsError = CommonErrors;
 
+/** Gets information associated with a Product. Possible errors: * Returns NOT_FOUND if the Product does not exist. */
 export const getProjectsLocationsProducts: API.OperationMethod<GetProjectsLocationsProductsRequest, GetProjectsLocationsProductsResponse, GetProjectsLocationsProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsProductsRequest,
   output: GetProjectsLocationsProductsResponse,
   errors: [],
 }));
 
-/** Asynchronous API to delete all Products in a ProductSet or all Products that are in no ProductSet. If a Product is a member of the specified ProductSet in addition to other ProductSets, the Product will still be deleted. It is recommended to not delete the specified ProductSet until after this operation has completed. It is also recommended to not add any of the Products involved in the batch delete to a new ProductSet while this operation is running because those Products may still end up deleted. It's not possible to undo the PurgeProducts operation. Therefore, it is recommended to keep the csv files used in ImportProductSets (if that was how you originally built the Product Set) before starting PurgeProducts, in case you need to re-import the data after deletion. If the plan is to purge all of the Products from a ProductSet and then re-use the empty ProductSet to re-import new Products into the empty ProductSet, you must wait until the PurgeProducts operation has finished for that ProductSet. The google.longrunning.Operation API can be used to keep track of the progress and results of the request. `Operation.metadata` contains `BatchOperationMetadata`. (progress) */
 export interface PurgeProjectsLocationsProductsRequest {
   /** Required. The project and location in which the Products should be deleted. Format is `projects/PROJECT_ID/locations/LOC_ID`. */
   parent: string;
@@ -4720,13 +4719,13 @@ export const PurgeProjectsLocationsProductsResponse = Operation;
 
 export type PurgeProjectsLocationsProductsError = CommonErrors;
 
+/** Asynchronous API to delete all Products in a ProductSet or all Products that are in no ProductSet. If a Product is a member of the specified ProductSet in addition to other ProductSets, the Product will still be deleted. It is recommended to not delete the specified ProductSet until after this operation has completed. It is also recommended to not add any of the Products involved in the batch delete to a new ProductSet while this operation is running because those Products may still end up deleted. It's not possible to undo the PurgeProducts operation. Therefore, it is recommended to keep the csv files used in ImportProductSets (if that was how you originally built the Product Set) before starting PurgeProducts, in case you need to re-import the data after deletion. If the plan is to purge all of the Products from a ProductSet and then re-use the empty ProductSet to re-import new Products into the empty ProductSet, you must wait until the PurgeProducts operation has finished for that ProductSet. The google.longrunning.Operation API can be used to keep track of the progress and results of the request. `Operation.metadata` contains `BatchOperationMetadata`. (progress) */
 export const purgeProjectsLocationsProducts: API.OperationMethod<PurgeProjectsLocationsProductsRequest, PurgeProjectsLocationsProductsResponse, PurgeProjectsLocationsProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PurgeProjectsLocationsProductsRequest,
   output: PurgeProjectsLocationsProductsResponse,
   errors: [],
 }));
 
-/** Permanently deletes a product and its reference images. Metadata of the product and all its images will be deleted right away, but search queries against ProductSets containing the product may still work until all related caches are refreshed. */
 export interface DeleteProjectsLocationsProductsRequest {
   /** Required. Resource name of product to delete. Format is: `projects/PROJECT_ID/locations/LOC_ID/products/PRODUCT_ID` */
   name: string;
@@ -4744,13 +4743,13 @@ export const DeleteProjectsLocationsProductsResponse = Empty;
 
 export type DeleteProjectsLocationsProductsError = CommonErrors;
 
+/** Permanently deletes a product and its reference images. Metadata of the product and all its images will be deleted right away, but search queries against ProductSets containing the product may still work until all related caches are refreshed. */
 export const deleteProjectsLocationsProducts: API.OperationMethod<DeleteProjectsLocationsProductsRequest, DeleteProjectsLocationsProductsResponse, DeleteProjectsLocationsProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsProductsRequest,
   output: DeleteProjectsLocationsProductsResponse,
   errors: [],
 }));
 
-/** Lists products in an unspecified order. Possible errors: * Returns INVALID_ARGUMENT if page_size is greater than 100 or less than 1. */
 export interface ListProjectsLocationsProductsRequest {
   /** The maximum number of items to return. Default 10, maximum 100. */
   pageSize?: number;
@@ -4774,7 +4773,8 @@ export const ListProjectsLocationsProductsResponse = ListProductsResponse;
 
 export type ListProjectsLocationsProductsError = CommonErrors;
 
-export const listProjectsLocationsProducts = API.makePaginated(() => ({
+/** Lists products in an unspecified order. Possible errors: * Returns INVALID_ARGUMENT if page_size is greater than 100 or less than 1. */
+export const listProjectsLocationsProducts: API.PaginatedOperationMethod<ListProjectsLocationsProductsRequest, ListProjectsLocationsProductsResponse, ListProjectsLocationsProductsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsProductsRequest,
   output: ListProjectsLocationsProductsResponse,
   errors: [],
@@ -4784,7 +4784,6 @@ export const listProjectsLocationsProducts = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information associated with a ReferenceImage. Possible errors: * Returns NOT_FOUND if the specified image does not exist. */
 export interface GetProjectsLocationsProductsReferenceImagesRequest {
   /** Required. The resource name of the ReferenceImage to get. Format is: `projects/PROJECT_ID/locations/LOC_ID/products/PRODUCT_ID/referenceImages/IMAGE_ID`. */
   name: string;
@@ -4802,13 +4801,13 @@ export const GetProjectsLocationsProductsReferenceImagesResponse = ReferenceImag
 
 export type GetProjectsLocationsProductsReferenceImagesError = CommonErrors;
 
+/** Gets information associated with a ReferenceImage. Possible errors: * Returns NOT_FOUND if the specified image does not exist. */
 export const getProjectsLocationsProductsReferenceImages: API.OperationMethod<GetProjectsLocationsProductsReferenceImagesRequest, GetProjectsLocationsProductsReferenceImagesResponse, GetProjectsLocationsProductsReferenceImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsProductsReferenceImagesRequest,
   output: GetProjectsLocationsProductsReferenceImagesResponse,
   errors: [],
 }));
 
-/** Lists reference images. Possible errors: * Returns NOT_FOUND if the parent product does not exist. * Returns INVALID_ARGUMENT if the page_size is greater than 100, or less than 1. */
 export interface ListProjectsLocationsProductsReferenceImagesRequest {
   /** Required. Resource name of the product containing the reference images. Format is `projects/PROJECT_ID/locations/LOC_ID/products/PRODUCT_ID`. */
   parent: string;
@@ -4832,7 +4831,8 @@ export const ListProjectsLocationsProductsReferenceImagesResponse = ListReferenc
 
 export type ListProjectsLocationsProductsReferenceImagesError = CommonErrors;
 
-export const listProjectsLocationsProductsReferenceImages = API.makePaginated(() => ({
+/** Lists reference images. Possible errors: * Returns NOT_FOUND if the parent product does not exist. * Returns INVALID_ARGUMENT if the page_size is greater than 100, or less than 1. */
+export const listProjectsLocationsProductsReferenceImages: API.PaginatedOperationMethod<ListProjectsLocationsProductsReferenceImagesRequest, ListProjectsLocationsProductsReferenceImagesResponse, ListProjectsLocationsProductsReferenceImagesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsProductsReferenceImagesRequest,
   output: ListProjectsLocationsProductsReferenceImagesResponse,
   errors: [],
@@ -4842,7 +4842,6 @@ export const listProjectsLocationsProductsReferenceImages = API.makePaginated(()
   },
 }));
 
-/** Permanently deletes a reference image. The image metadata will be deleted right away, but search queries against ProductSets containing the image may still work until all related caches are refreshed. The actual image files are not deleted from Google Cloud Storage. */
 export interface DeleteProjectsLocationsProductsReferenceImagesRequest {
   /** Required. The resource name of the reference image to delete. Format is: `projects/PROJECT_ID/locations/LOC_ID/products/PRODUCT_ID/referenceImages/IMAGE_ID` */
   name: string;
@@ -4860,13 +4859,13 @@ export const DeleteProjectsLocationsProductsReferenceImagesResponse = Empty;
 
 export type DeleteProjectsLocationsProductsReferenceImagesError = CommonErrors;
 
+/** Permanently deletes a reference image. The image metadata will be deleted right away, but search queries against ProductSets containing the image may still work until all related caches are refreshed. The actual image files are not deleted from Google Cloud Storage. */
 export const deleteProjectsLocationsProductsReferenceImages: API.OperationMethod<DeleteProjectsLocationsProductsReferenceImagesRequest, DeleteProjectsLocationsProductsReferenceImagesResponse, DeleteProjectsLocationsProductsReferenceImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsProductsReferenceImagesRequest,
   output: DeleteProjectsLocationsProductsReferenceImagesResponse,
   errors: [],
 }));
 
-/** Creates and returns a new ReferenceImage resource. The `bounding_poly` field is optional. If `bounding_poly` is not specified, the system will try to detect regions of interest in the image that are compatible with the product_category on the parent product. If it is specified, detection is ALWAYS skipped. The system converts polygons into non-rotated rectangles. Note that the pipeline will resize the image if the image resolution is too large to process (above 50MP). Possible errors: * Returns INVALID_ARGUMENT if the image_uri is missing or longer than 4096 characters. * Returns INVALID_ARGUMENT if the product does not exist. * Returns INVALID_ARGUMENT if bounding_poly is not provided, and nothing compatible with the parent product's product_category is detected. * Returns INVALID_ARGUMENT if bounding_poly contains more than 10 polygons. */
 export interface CreateProjectsLocationsProductsReferenceImagesRequest {
   /** Required. Resource name of the product in which to create the reference image. Format is `projects/PROJECT_ID/locations/LOC_ID/products/PRODUCT_ID`. */
   parent: string;
@@ -4890,13 +4889,13 @@ export const CreateProjectsLocationsProductsReferenceImagesResponse = ReferenceI
 
 export type CreateProjectsLocationsProductsReferenceImagesError = CommonErrors;
 
+/** Creates and returns a new ReferenceImage resource. The `bounding_poly` field is optional. If `bounding_poly` is not specified, the system will try to detect regions of interest in the image that are compatible with the product_category on the parent product. If it is specified, detection is ALWAYS skipped. The system converts polygons into non-rotated rectangles. Note that the pipeline will resize the image if the image resolution is too large to process (above 50MP). Possible errors: * Returns INVALID_ARGUMENT if the image_uri is missing or longer than 4096 characters. * Returns INVALID_ARGUMENT if the product does not exist. * Returns INVALID_ARGUMENT if bounding_poly is not provided, and nothing compatible with the parent product's product_category is detected. * Returns INVALID_ARGUMENT if bounding_poly contains more than 10 polygons. */
 export const createProjectsLocationsProductsReferenceImages: API.OperationMethod<CreateProjectsLocationsProductsReferenceImagesRequest, CreateProjectsLocationsProductsReferenceImagesResponse, CreateProjectsLocationsProductsReferenceImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsProductsReferenceImagesRequest,
   output: CreateProjectsLocationsProductsReferenceImagesResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -4914,13 +4913,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Run asynchronous image detection and annotation for a list of generic files, such as PDF files, which may contain multiple pages and multiple images per page. Progress and results can be retrieved through the `google.longrunning.Operations` interface. `Operation.metadata` contains `OperationMetadata` (metadata). `Operation.response` contains `AsyncBatchAnnotateFilesResponse` (results). */
 export interface AsyncBatchAnnotateProjectsLocationsFilesRequest {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
@@ -4941,13 +4940,13 @@ export const AsyncBatchAnnotateProjectsLocationsFilesResponse = Operation;
 
 export type AsyncBatchAnnotateProjectsLocationsFilesError = CommonErrors;
 
+/** Run asynchronous image detection and annotation for a list of generic files, such as PDF files, which may contain multiple pages and multiple images per page. Progress and results can be retrieved through the `google.longrunning.Operations` interface. `Operation.metadata` contains `OperationMetadata` (metadata). `Operation.response` contains `AsyncBatchAnnotateFilesResponse` (results). */
 export const asyncBatchAnnotateProjectsLocationsFiles: API.OperationMethod<AsyncBatchAnnotateProjectsLocationsFilesRequest, AsyncBatchAnnotateProjectsLocationsFilesResponse, AsyncBatchAnnotateProjectsLocationsFilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AsyncBatchAnnotateProjectsLocationsFilesRequest,
   output: AsyncBatchAnnotateProjectsLocationsFilesResponse,
   errors: [],
 }));
 
-/** Service that performs image detection and annotation for a batch of files. Now only "application/pdf", "image/tiff" and "image/gif" are supported. This service will extract at most 5 (customers can specify which 5 in AnnotateFileRequest.pages) frames (gif) or pages (pdf or tiff) from each file provided and perform detection and annotation for each image extracted. */
 export interface AnnotateProjectsLocationsFilesRequest {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
@@ -4968,13 +4967,13 @@ export const AnnotateProjectsLocationsFilesResponse = BatchAnnotateFilesResponse
 
 export type AnnotateProjectsLocationsFilesError = CommonErrors;
 
+/** Service that performs image detection and annotation for a batch of files. Now only "application/pdf", "image/tiff" and "image/gif" are supported. This service will extract at most 5 (customers can specify which 5 in AnnotateFileRequest.pages) frames (gif) or pages (pdf or tiff) from each file provided and perform detection and annotation for each image extracted. */
 export const annotateProjectsLocationsFiles: API.OperationMethod<AnnotateProjectsLocationsFilesRequest, AnnotateProjectsLocationsFilesResponse, AnnotateProjectsLocationsFilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AnnotateProjectsLocationsFilesRequest,
   output: AnnotateProjectsLocationsFilesResponse,
   errors: [],
 }));
 
-/** Gets information associated with a ProductSet. Possible errors: * Returns NOT_FOUND if the ProductSet does not exist. */
 export interface GetProjectsLocationsProductSetsRequest {
   /** Required. Resource name of the ProductSet to get. Format is: `projects/PROJECT_ID/locations/LOC_ID/productSets/PRODUCT_SET_ID` */
   name: string;
@@ -4992,13 +4991,13 @@ export const GetProjectsLocationsProductSetsResponse = ProductSet;
 
 export type GetProjectsLocationsProductSetsError = CommonErrors;
 
+/** Gets information associated with a ProductSet. Possible errors: * Returns NOT_FOUND if the ProductSet does not exist. */
 export const getProjectsLocationsProductSets: API.OperationMethod<GetProjectsLocationsProductSetsRequest, GetProjectsLocationsProductSetsResponse, GetProjectsLocationsProductSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsProductSetsRequest,
   output: GetProjectsLocationsProductSetsResponse,
   errors: [],
 }));
 
-/** Permanently deletes a ProductSet. Products and ReferenceImages in the ProductSet are not deleted. The actual image files are not deleted from Google Cloud Storage. */
 export interface DeleteProjectsLocationsProductSetsRequest {
   /** Required. Resource name of the ProductSet to delete. Format is: `projects/PROJECT_ID/locations/LOC_ID/productSets/PRODUCT_SET_ID` */
   name: string;
@@ -5016,13 +5015,13 @@ export const DeleteProjectsLocationsProductSetsResponse = Empty;
 
 export type DeleteProjectsLocationsProductSetsError = CommonErrors;
 
+/** Permanently deletes a ProductSet. Products and ReferenceImages in the ProductSet are not deleted. The actual image files are not deleted from Google Cloud Storage. */
 export const deleteProjectsLocationsProductSets: API.OperationMethod<DeleteProjectsLocationsProductSetsRequest, DeleteProjectsLocationsProductSetsResponse, DeleteProjectsLocationsProductSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsProductSetsRequest,
   output: DeleteProjectsLocationsProductSetsResponse,
   errors: [],
 }));
 
-/** Asynchronous API that imports a list of reference images to specified product sets based on a list of image information. The google.longrunning.Operation API can be used to keep track of the progress and results of the request. `Operation.metadata` contains `BatchOperationMetadata`. (progress) `Operation.response` contains `ImportProductSetsResponse`. (results) The input source of this method is a csv file on Google Cloud Storage. For the format of the csv file please see ImportProductSetsGcsSource.csv_file_uri. */
 export interface ImportProjectsLocationsProductSetsRequest {
   /** Required. The project in which the ProductSets should be imported. Format is `projects/PROJECT_ID/locations/LOC_ID`. */
   parent: string;
@@ -5043,13 +5042,13 @@ export const ImportProjectsLocationsProductSetsResponse = Operation;
 
 export type ImportProjectsLocationsProductSetsError = CommonErrors;
 
+/** Asynchronous API that imports a list of reference images to specified product sets based on a list of image information. The google.longrunning.Operation API can be used to keep track of the progress and results of the request. `Operation.metadata` contains `BatchOperationMetadata`. (progress) `Operation.response` contains `ImportProductSetsResponse`. (results) The input source of this method is a csv file on Google Cloud Storage. For the format of the csv file please see ImportProductSetsGcsSource.csv_file_uri. */
 export const importProjectsLocationsProductSets: API.OperationMethod<ImportProjectsLocationsProductSetsRequest, ImportProjectsLocationsProductSetsResponse, ImportProjectsLocationsProductSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportProjectsLocationsProductSetsRequest,
   output: ImportProjectsLocationsProductSetsResponse,
   errors: [],
 }));
 
-/** Makes changes to a ProductSet resource. Only display_name can be updated currently. Possible errors: * Returns NOT_FOUND if the ProductSet does not exist. * Returns INVALID_ARGUMENT if display_name is present in update_mask but missing from the request or longer than 4096 characters. */
 export interface PatchProjectsLocationsProductSetsRequest {
   /** The resource name of the ProductSet. Format is: `projects/PROJECT_ID/locations/LOC_ID/productSets/PRODUCT_SET_ID`. This field is ignored when creating a ProductSet. */
   name: string;
@@ -5073,13 +5072,13 @@ export const PatchProjectsLocationsProductSetsResponse = ProductSet;
 
 export type PatchProjectsLocationsProductSetsError = CommonErrors;
 
+/** Makes changes to a ProductSet resource. Only display_name can be updated currently. Possible errors: * Returns NOT_FOUND if the ProductSet does not exist. * Returns INVALID_ARGUMENT if display_name is present in update_mask but missing from the request or longer than 4096 characters. */
 export const patchProjectsLocationsProductSets: API.OperationMethod<PatchProjectsLocationsProductSetsRequest, PatchProjectsLocationsProductSetsResponse, PatchProjectsLocationsProductSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsProductSetsRequest,
   output: PatchProjectsLocationsProductSetsResponse,
   errors: [],
 }));
 
-/** Creates and returns a new ProductSet resource. Possible errors: * Returns INVALID_ARGUMENT if display_name is missing, or is longer than 4096 characters. */
 export interface CreateProjectsLocationsProductSetsRequest {
   /** A user-supplied resource id for this ProductSet. If set, the server will attempt to use this value as the resource id. If it is already in use, an error is returned with code ALREADY_EXISTS. Must be at most 128 characters long. It cannot contain the character `/`. */
   productSetId?: string;
@@ -5103,13 +5102,13 @@ export const CreateProjectsLocationsProductSetsResponse = ProductSet;
 
 export type CreateProjectsLocationsProductSetsError = CommonErrors;
 
+/** Creates and returns a new ProductSet resource. Possible errors: * Returns INVALID_ARGUMENT if display_name is missing, or is longer than 4096 characters. */
 export const createProjectsLocationsProductSets: API.OperationMethod<CreateProjectsLocationsProductSetsRequest, CreateProjectsLocationsProductSetsResponse, CreateProjectsLocationsProductSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsProductSetsRequest,
   output: CreateProjectsLocationsProductSetsResponse,
   errors: [],
 }));
 
-/** Removes a Product from the specified ProductSet. */
 export interface RemoveProductProjectsLocationsProductSetsRequest {
   /** Required. The resource name for the ProductSet to modify. Format is: `projects/PROJECT_ID/locations/LOC_ID/productSets/PRODUCT_SET_ID` */
   name: string;
@@ -5130,13 +5129,13 @@ export const RemoveProductProjectsLocationsProductSetsResponse = Empty;
 
 export type RemoveProductProjectsLocationsProductSetsError = CommonErrors;
 
+/** Removes a Product from the specified ProductSet. */
 export const removeProductProjectsLocationsProductSets: API.OperationMethod<RemoveProductProjectsLocationsProductSetsRequest, RemoveProductProjectsLocationsProductSetsResponse, RemoveProductProjectsLocationsProductSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveProductProjectsLocationsProductSetsRequest,
   output: RemoveProductProjectsLocationsProductSetsResponse,
   errors: [],
 }));
 
-/** Adds a Product to the specified ProductSet. If the Product is already present, no change is made. One Product can be added to at most 100 ProductSets. Possible errors: * Returns NOT_FOUND if the Product or the ProductSet doesn't exist. */
 export interface AddProductProjectsLocationsProductSetsRequest {
   /** Required. The resource name for the ProductSet to modify. Format is: `projects/PROJECT_ID/locations/LOC_ID/productSets/PRODUCT_SET_ID` */
   name: string;
@@ -5157,13 +5156,13 @@ export const AddProductProjectsLocationsProductSetsResponse = Empty;
 
 export type AddProductProjectsLocationsProductSetsError = CommonErrors;
 
+/** Adds a Product to the specified ProductSet. If the Product is already present, no change is made. One Product can be added to at most 100 ProductSets. Possible errors: * Returns NOT_FOUND if the Product or the ProductSet doesn't exist. */
 export const addProductProjectsLocationsProductSets: API.OperationMethod<AddProductProjectsLocationsProductSetsRequest, AddProductProjectsLocationsProductSetsResponse, AddProductProjectsLocationsProductSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddProductProjectsLocationsProductSetsRequest,
   output: AddProductProjectsLocationsProductSetsResponse,
   errors: [],
 }));
 
-/** Lists ProductSets in an unspecified order. Possible errors: * Returns INVALID_ARGUMENT if page_size is greater than 100, or less than 1. */
 export interface ListProjectsLocationsProductSetsRequest {
   /** The next_page_token returned from a previous List request, if any. */
   pageToken?: string;
@@ -5187,7 +5186,8 @@ export const ListProjectsLocationsProductSetsResponse = ListProductSetsResponse;
 
 export type ListProjectsLocationsProductSetsError = CommonErrors;
 
-export const listProjectsLocationsProductSets = API.makePaginated(() => ({
+/** Lists ProductSets in an unspecified order. Possible errors: * Returns INVALID_ARGUMENT if page_size is greater than 100, or less than 1. */
+export const listProjectsLocationsProductSets: API.PaginatedOperationMethod<ListProjectsLocationsProductSetsRequest, ListProjectsLocationsProductSetsResponse, ListProjectsLocationsProductSetsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsProductSetsRequest,
   output: ListProjectsLocationsProductSetsResponse,
   errors: [],
@@ -5197,7 +5197,6 @@ export const listProjectsLocationsProductSets = API.makePaginated(() => ({
   },
 }));
 
-/** Lists the Products in a ProductSet, in an unspecified order. If the ProductSet does not exist, the products field of the response will be empty. Possible errors: * Returns INVALID_ARGUMENT if page_size is greater than 100 or less than 1. */
 export interface ListProjectsLocationsProductSetsProductsRequest {
   /** The next_page_token returned from a previous List request, if any. */
   pageToken?: string;
@@ -5221,7 +5220,8 @@ export const ListProjectsLocationsProductSetsProductsResponse = ListProductsInPr
 
 export type ListProjectsLocationsProductSetsProductsError = CommonErrors;
 
-export const listProjectsLocationsProductSetsProducts = API.makePaginated(() => ({
+/** Lists the Products in a ProductSet, in an unspecified order. If the ProductSet does not exist, the products field of the response will be empty. Possible errors: * Returns INVALID_ARGUMENT if page_size is greater than 100 or less than 1. */
+export const listProjectsLocationsProductSetsProducts: API.PaginatedOperationMethod<ListProjectsLocationsProductSetsProductsRequest, ListProjectsLocationsProductSetsProductsResponse, ListProjectsLocationsProductSetsProductsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsProductSetsProductsRequest,
   output: ListProjectsLocationsProductSetsProductsResponse,
   errors: [],
@@ -5231,7 +5231,6 @@ export const listProjectsLocationsProductSetsProducts = API.makePaginated(() => 
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -5249,13 +5248,13 @@ export const GetProjectsOperationsResponse = Operation;
 
 export type GetProjectsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsOperations: API.OperationMethod<GetProjectsOperationsRequest, GetProjectsOperationsResponse, GetProjectsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsOperationsRequest,
   output: GetProjectsOperationsResponse,
   errors: [],
 }));
 
-/** Run image detection and annotation for a batch of images. */
 export interface AnnotateProjectsImagesRequest {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
@@ -5276,13 +5275,13 @@ export const AnnotateProjectsImagesResponse = BatchAnnotateImagesResponse;
 
 export type AnnotateProjectsImagesError = CommonErrors;
 
+/** Run image detection and annotation for a batch of images. */
 export const annotateProjectsImages: API.OperationMethod<AnnotateProjectsImagesRequest, AnnotateProjectsImagesResponse, AnnotateProjectsImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AnnotateProjectsImagesRequest,
   output: AnnotateProjectsImagesResponse,
   errors: [],
 }));
 
-/** Run asynchronous image detection and annotation for a list of images. Progress and results can be retrieved through the `google.longrunning.Operations` interface. `Operation.metadata` contains `OperationMetadata` (metadata). `Operation.response` contains `AsyncBatchAnnotateImagesResponse` (results). This service will write image annotation outputs to json files in customer GCS bucket, each json file containing BatchAnnotateImagesResponse proto. */
 export interface AsyncBatchAnnotateProjectsImagesRequest {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
@@ -5303,13 +5302,13 @@ export const AsyncBatchAnnotateProjectsImagesResponse = Operation;
 
 export type AsyncBatchAnnotateProjectsImagesError = CommonErrors;
 
+/** Run asynchronous image detection and annotation for a list of images. Progress and results can be retrieved through the `google.longrunning.Operations` interface. `Operation.metadata` contains `OperationMetadata` (metadata). `Operation.response` contains `AsyncBatchAnnotateImagesResponse` (results). This service will write image annotation outputs to json files in customer GCS bucket, each json file containing BatchAnnotateImagesResponse proto. */
 export const asyncBatchAnnotateProjectsImages: API.OperationMethod<AsyncBatchAnnotateProjectsImagesRequest, AsyncBatchAnnotateProjectsImagesResponse, AsyncBatchAnnotateProjectsImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AsyncBatchAnnotateProjectsImagesRequest,
   output: AsyncBatchAnnotateProjectsImagesResponse,
   errors: [],
 }));
 
-/** Run asynchronous image detection and annotation for a list of generic files, such as PDF files, which may contain multiple pages and multiple images per page. Progress and results can be retrieved through the `google.longrunning.Operations` interface. `Operation.metadata` contains `OperationMetadata` (metadata). `Operation.response` contains `AsyncBatchAnnotateFilesResponse` (results). */
 export interface AsyncBatchAnnotateProjectsFilesRequest {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
@@ -5330,13 +5329,13 @@ export const AsyncBatchAnnotateProjectsFilesResponse = Operation;
 
 export type AsyncBatchAnnotateProjectsFilesError = CommonErrors;
 
+/** Run asynchronous image detection and annotation for a list of generic files, such as PDF files, which may contain multiple pages and multiple images per page. Progress and results can be retrieved through the `google.longrunning.Operations` interface. `Operation.metadata` contains `OperationMetadata` (metadata). `Operation.response` contains `AsyncBatchAnnotateFilesResponse` (results). */
 export const asyncBatchAnnotateProjectsFiles: API.OperationMethod<AsyncBatchAnnotateProjectsFilesRequest, AsyncBatchAnnotateProjectsFilesResponse, AsyncBatchAnnotateProjectsFilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AsyncBatchAnnotateProjectsFilesRequest,
   output: AsyncBatchAnnotateProjectsFilesResponse,
   errors: [],
 }));
 
-/** Service that performs image detection and annotation for a batch of files. Now only "application/pdf", "image/tiff" and "image/gif" are supported. This service will extract at most 5 (customers can specify which 5 in AnnotateFileRequest.pages) frames (gif) or pages (pdf or tiff) from each file provided and perform detection and annotation for each image extracted. */
 export interface AnnotateProjectsFilesRequest {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
@@ -5357,13 +5356,13 @@ export const AnnotateProjectsFilesResponse = BatchAnnotateFilesResponse;
 
 export type AnnotateProjectsFilesError = CommonErrors;
 
+/** Service that performs image detection and annotation for a batch of files. Now only "application/pdf", "image/tiff" and "image/gif" are supported. This service will extract at most 5 (customers can specify which 5 in AnnotateFileRequest.pages) frames (gif) or pages (pdf or tiff) from each file provided and perform detection and annotation for each image extracted. */
 export const annotateProjectsFiles: API.OperationMethod<AnnotateProjectsFilesRequest, AnnotateProjectsFilesResponse, AnnotateProjectsFilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AnnotateProjectsFilesRequest,
   output: AnnotateProjectsFilesResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -5381,13 +5380,13 @@ export const GetLocationsOperationsResponse = Operation;
 
 export type GetLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getLocationsOperations: API.OperationMethod<GetLocationsOperationsRequest, GetLocationsOperationsResponse, GetLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetLocationsOperationsRequest,
   output: GetLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Run asynchronous image detection and annotation for a list of images. Progress and results can be retrieved through the `google.longrunning.Operations` interface. `Operation.metadata` contains `OperationMetadata` (metadata). `Operation.response` contains `AsyncBatchAnnotateImagesResponse` (results). This service will write image annotation outputs to json files in customer GCS bucket, each json file containing BatchAnnotateImagesResponse proto. */
 export interface AsyncBatchAnnotateImagesRequest_Op {
   /** Request body */
   body?: AsyncBatchAnnotateImagesRequest;
@@ -5405,13 +5404,13 @@ export const AsyncBatchAnnotateImagesResponse_Op = Operation;
 
 export type AsyncBatchAnnotateImagesError = CommonErrors;
 
+/** Run asynchronous image detection and annotation for a list of images. Progress and results can be retrieved through the `google.longrunning.Operations` interface. `Operation.metadata` contains `OperationMetadata` (metadata). `Operation.response` contains `AsyncBatchAnnotateImagesResponse` (results). This service will write image annotation outputs to json files in customer GCS bucket, each json file containing BatchAnnotateImagesResponse proto. */
 export const asyncBatchAnnotateImages: API.OperationMethod<AsyncBatchAnnotateImagesRequest_Op, AsyncBatchAnnotateImagesResponse_Op, AsyncBatchAnnotateImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AsyncBatchAnnotateImagesRequest_Op,
   output: AsyncBatchAnnotateImagesResponse_Op,
   errors: [],
 }));
 
-/** Run image detection and annotation for a batch of images. */
 export interface AnnotateImagesRequest {
   /** Request body */
   body?: BatchAnnotateImagesRequest;
@@ -5429,13 +5428,13 @@ export const AnnotateImagesResponse = BatchAnnotateImagesResponse;
 
 export type AnnotateImagesError = CommonErrors;
 
+/** Run image detection and annotation for a batch of images. */
 export const annotateImages: API.OperationMethod<AnnotateImagesRequest, AnnotateImagesResponse, AnnotateImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AnnotateImagesRequest,
   output: AnnotateImagesResponse,
   errors: [],
 }));
 
-/** Service that performs image detection and annotation for a batch of files. Now only "application/pdf", "image/tiff" and "image/gif" are supported. This service will extract at most 5 (customers can specify which 5 in AnnotateFileRequest.pages) frames (gif) or pages (pdf or tiff) from each file provided and perform detection and annotation for each image extracted. */
 export interface AnnotateFilesRequest {
   /** Request body */
   body?: BatchAnnotateFilesRequest;
@@ -5453,13 +5452,13 @@ export const AnnotateFilesResponse = BatchAnnotateFilesResponse;
 
 export type AnnotateFilesError = CommonErrors;
 
+/** Service that performs image detection and annotation for a batch of files. Now only "application/pdf", "image/tiff" and "image/gif" are supported. This service will extract at most 5 (customers can specify which 5 in AnnotateFileRequest.pages) frames (gif) or pages (pdf or tiff) from each file provided and perform detection and annotation for each image extracted. */
 export const annotateFiles: API.OperationMethod<AnnotateFilesRequest, AnnotateFilesResponse, AnnotateFilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AnnotateFilesRequest,
   output: AnnotateFilesResponse,
   errors: [],
 }));
 
-/** Run asynchronous image detection and annotation for a list of generic files, such as PDF files, which may contain multiple pages and multiple images per page. Progress and results can be retrieved through the `google.longrunning.Operations` interface. `Operation.metadata` contains `OperationMetadata` (metadata). `Operation.response` contains `AsyncBatchAnnotateFilesResponse` (results). */
 export interface AsyncBatchAnnotateFilesRequest_Op {
   /** Request body */
   body?: AsyncBatchAnnotateFilesRequest;
@@ -5477,6 +5476,7 @@ export const AsyncBatchAnnotateFilesResponse_Op = Operation;
 
 export type AsyncBatchAnnotateFilesError = CommonErrors;
 
+/** Run asynchronous image detection and annotation for a list of generic files, such as PDF files, which may contain multiple pages and multiple images per page. Progress and results can be retrieved through the `google.longrunning.Operations` interface. `Operation.metadata` contains `OperationMetadata` (metadata). `Operation.response` contains `AsyncBatchAnnotateFilesResponse` (results). */
 export const asyncBatchAnnotateFiles: API.OperationMethod<AsyncBatchAnnotateFilesRequest_Op, AsyncBatchAnnotateFilesResponse_Op, AsyncBatchAnnotateFilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AsyncBatchAnnotateFilesRequest_Op,
   output: AsyncBatchAnnotateFilesResponse_Op,

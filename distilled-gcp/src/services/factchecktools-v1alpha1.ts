@@ -240,7 +240,6 @@ export const GoogleProtobufEmpty: Schema.Schema<GoogleProtobufEmpty> = Schema.su
 // Operations
 // ==========================================================================
 
-/** Search through fact-checked claims. */
 export interface SearchClaimsRequest {
   /** Textual query string. Required unless `review_publisher_site_filter` is specified. */
   query?: string;
@@ -276,7 +275,8 @@ export const SearchClaimsResponse = GoogleFactcheckingFactchecktoolsV1alpha1Fact
 
 export type SearchClaimsError = CommonErrors;
 
-export const searchClaims = API.makePaginated(() => ({
+/** Search through fact-checked claims. */
+export const searchClaims: API.PaginatedOperationMethod<SearchClaimsRequest, SearchClaimsResponse, SearchClaimsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchClaimsRequest,
   output: SearchClaimsResponse,
   errors: [],
@@ -286,7 +286,6 @@ export const searchClaims = API.makePaginated(() => ({
   },
 }));
 
-/** Search through fact-checked claims using an image as the query. */
 export interface ImageSearchClaimsRequest {
   /** Required. The URI of the source image. This must be a publicly-accessible image HTTP/HTTPS URL. When fetching images from HTTP/HTTPS URLs, Google cannot guarantee that the request will be completed. Your request may fail if the specified host denies the request (e.g. due to request throttling or DOS prevention), or if Google throttles requests to the site for abuse prevention. You should not depend on externally-hosted images for production applications. */
   imageUri?: string;
@@ -316,7 +315,8 @@ export const ImageSearchClaimsResponse = GoogleFactcheckingFactchecktoolsV1alpha
 
 export type ImageSearchClaimsError = CommonErrors;
 
-export const imageSearchClaims = API.makePaginated(() => ({
+/** Search through fact-checked claims using an image as the query. */
+export const imageSearchClaims: API.PaginatedOperationMethod<ImageSearchClaimsRequest, ImageSearchClaimsResponse, ImageSearchClaimsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ImageSearchClaimsRequest,
   output: ImageSearchClaimsResponse,
   errors: [],
@@ -326,7 +326,6 @@ export const imageSearchClaims = API.makePaginated(() => ({
   },
 }));
 
-/** Create `ClaimReview` markup on a page. */
 export interface CreatePagesRequest {
   /** Request body */
   body?: GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage;
@@ -344,13 +343,13 @@ export const CreatePagesResponse = GoogleFactcheckingFactchecktoolsV1alpha1Claim
 
 export type CreatePagesError = CommonErrors;
 
+/** Create `ClaimReview` markup on a page. */
 export const createPages: API.OperationMethod<CreatePagesRequest, CreatePagesResponse, CreatePagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreatePagesRequest,
   output: CreatePagesResponse,
   errors: [],
 }));
 
-/** Get all `ClaimReview` markup on a page. */
 export interface GetPagesRequest {
   /** The name of the resource to get, in the form of `pages/{page_id}`. */
   name: string;
@@ -368,13 +367,13 @@ export const GetPagesResponse = GoogleFactcheckingFactchecktoolsV1alpha1ClaimRev
 
 export type GetPagesError = CommonErrors;
 
+/** Get all `ClaimReview` markup on a page. */
 export const getPages: API.OperationMethod<GetPagesRequest, GetPagesResponse, GetPagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPagesRequest,
   output: GetPagesResponse,
   errors: [],
 }));
 
-/** List the `ClaimReview` markup pages for a specific URL or for an organization. */
 export interface ListPagesRequest {
   /** The URL from which to get `ClaimReview` markup. There will be at most one result. If markup is associated with a more canonical version of the URL provided, we will return that URL instead. Cannot be specified along with an organization. */
   url?: string;
@@ -404,7 +403,8 @@ export const ListPagesResponse = GoogleFactcheckingFactchecktoolsV1alpha1ListCla
 
 export type ListPagesError = CommonErrors;
 
-export const listPages = API.makePaginated(() => ({
+/** List the `ClaimReview` markup pages for a specific URL or for an organization. */
+export const listPages: API.PaginatedOperationMethod<ListPagesRequest, ListPagesResponse, ListPagesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPagesRequest,
   output: ListPagesResponse,
   errors: [],
@@ -414,7 +414,6 @@ export const listPages = API.makePaginated(() => ({
   },
 }));
 
-/** Update for all `ClaimReview` markup on a page Note that this is a full update. To retain the existing `ClaimReview` markup on a page, first perform a Get operation, then modify the returned markup, and finally call Update with the entire `ClaimReview` markup as the body. */
 export interface UpdatePagesRequest {
   /** The name of this `ClaimReview` markup page resource, in the form of `pages/{page_id}`. Except for update requests, this field is output-only and should not be set by the user. */
   name: string;
@@ -435,13 +434,13 @@ export const UpdatePagesResponse = GoogleFactcheckingFactchecktoolsV1alpha1Claim
 
 export type UpdatePagesError = CommonErrors;
 
+/** Update for all `ClaimReview` markup on a page Note that this is a full update. To retain the existing `ClaimReview` markup on a page, first perform a Get operation, then modify the returned markup, and finally call Update with the entire `ClaimReview` markup as the body. */
 export const updatePages: API.OperationMethod<UpdatePagesRequest, UpdatePagesResponse, UpdatePagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdatePagesRequest,
   output: UpdatePagesResponse,
   errors: [],
 }));
 
-/** Delete all `ClaimReview` markup on a page. */
 export interface DeletePagesRequest {
   /** The name of the resource to delete, in the form of `pages/{page_id}`. */
   name: string;
@@ -459,6 +458,7 @@ export const DeletePagesResponse = GoogleProtobufEmpty;
 
 export type DeletePagesError = CommonErrors;
 
+/** Delete all `ClaimReview` markup on a page. */
 export const deletePages: API.OperationMethod<DeletePagesRequest, DeletePagesResponse, DeletePagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeletePagesRequest,
   output: DeletePagesResponse,

@@ -591,7 +591,6 @@ export const GoogleFirebaseAppcheckV1ExchangeAppAttestAssertionRequest: Schema.S
 // Operations
 // ==========================================================================
 
-/** Gets the Service configuration for the specified service name. */
 export interface GetProjectsServicesRequest {
   /** Required. The relative resource name of the Service to retrieve, in the format: ``` projects/{project_number}/services/{service_id} ``` Note that the `service_id` element must be a supported service ID. Currently, the following service IDs are supported: * `firebasestorage.googleapis.com` (Cloud Storage for Firebase) * `firebasedatabase.googleapis.com` (Firebase Realtime Database) * `firestore.googleapis.com` (Cloud Firestore) * `oauth2.googleapis.com` (Google Identity for iOS) */
   name: string;
@@ -609,13 +608,13 @@ export const GetProjectsServicesResponse = GoogleFirebaseAppcheckV1Service;
 
 export type GetProjectsServicesError = CommonErrors;
 
+/** Gets the Service configuration for the specified service name. */
 export const getProjectsServices: API.OperationMethod<GetProjectsServicesRequest, GetProjectsServicesResponse, GetProjectsServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsServicesRequest,
   output: GetProjectsServicesResponse,
   errors: [],
 }));
 
-/** Lists all Service configurations for the specified project. Only Services which were explicitly configured using UpdateService or BatchUpdateServices will be returned. */
 export interface ListProjectsServicesRequest {
   /** Required. The relative resource name of the parent project for which to list each associated Service, in the format: ``` projects/{project_number} ``` */
   parent: string;
@@ -639,7 +638,8 @@ export const ListProjectsServicesResponse = GoogleFirebaseAppcheckV1ListServices
 
 export type ListProjectsServicesError = CommonErrors;
 
-export const listProjectsServices = API.makePaginated(() => ({
+/** Lists all Service configurations for the specified project. Only Services which were explicitly configured using UpdateService or BatchUpdateServices will be returned. */
+export const listProjectsServices: API.PaginatedOperationMethod<ListProjectsServicesRequest, ListProjectsServicesResponse, ListProjectsServicesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsServicesRequest,
   output: ListProjectsServicesResponse,
   errors: [],
@@ -649,7 +649,6 @@ export const listProjectsServices = API.makePaginated(() => ({
   },
 }));
 
-/** Updates the specified Service configuration. */
 export interface PatchProjectsServicesRequest {
   /** Required. The relative resource name of the service configuration object, in the format: ``` projects/{project_number}/services/{service_id} ``` Note that the `service_id` element must be a supported service ID. Currently, the following service IDs are supported: * `firebasestorage.googleapis.com` (Cloud Storage for Firebase) * `firebasedatabase.googleapis.com` (Firebase Realtime Database) * `firestore.googleapis.com` (Cloud Firestore) * `oauth2.googleapis.com` (Google Identity for iOS) */
   name: string;
@@ -673,13 +672,13 @@ export const PatchProjectsServicesResponse = GoogleFirebaseAppcheckV1Service;
 
 export type PatchProjectsServicesError = CommonErrors;
 
+/** Updates the specified Service configuration. */
 export const patchProjectsServices: API.OperationMethod<PatchProjectsServicesRequest, PatchProjectsServicesResponse, PatchProjectsServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsServicesRequest,
   output: PatchProjectsServicesResponse,
   errors: [],
 }));
 
-/** Atomically updates the specified Service configurations. */
 export interface BatchUpdateProjectsServicesRequest {
   /** Required. The parent project name shared by all Service configurations being updated, in the format ``` projects/{project_number} ``` The parent collection in the `name` field of any resource being updated must match this field, or the entire batch fails. */
   parent: string;
@@ -700,13 +699,13 @@ export const BatchUpdateProjectsServicesResponse = GoogleFirebaseAppcheckV1Batch
 
 export type BatchUpdateProjectsServicesError = CommonErrors;
 
+/** Atomically updates the specified Service configurations. */
 export const batchUpdateProjectsServices: API.OperationMethod<BatchUpdateProjectsServicesRequest, BatchUpdateProjectsServicesResponse, BatchUpdateProjectsServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchUpdateProjectsServicesRequest,
   output: BatchUpdateProjectsServicesResponse,
   errors: [],
 }));
 
-/** Gets the requested ResourcePolicy configuration. */
 export interface GetProjectsServicesResourcePoliciesRequest {
   /** Required. The relative resource name of the ResourcePolicy to retrieve, in the format: ``` projects/{project_number}/services/{service_id}/resourcePolicies/{resource_policy_id} ``` Note that the `service_id` element must be a supported service ID. Currently, the following service IDs are supported: * `oauth2.googleapis.com` (Google Identity for iOS) */
   name: string;
@@ -724,13 +723,13 @@ export const GetProjectsServicesResourcePoliciesResponse = GoogleFirebaseAppchec
 
 export type GetProjectsServicesResourcePoliciesError = CommonErrors;
 
+/** Gets the requested ResourcePolicy configuration. */
 export const getProjectsServicesResourcePolicies: API.OperationMethod<GetProjectsServicesResourcePoliciesRequest, GetProjectsServicesResourcePoliciesResponse, GetProjectsServicesResourcePoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsServicesResourcePoliciesRequest,
   output: GetProjectsServicesResourcePoliciesResponse,
   errors: [],
 }));
 
-/** Lists all ResourcePolicy configurations for the specified project and service. */
 export interface ListProjectsServicesResourcePoliciesRequest {
   /** Required. The relative resource name of the parent Service for which to list each associated ResourcePolicy, in the format: ``` projects/{project_number}/services/{service_id} ``` Note that the `service_id` element must be a supported service ID. Currently, the following service IDs are supported: * `oauth2.googleapis.com` (Google Identity for iOS) */
   parent: string;
@@ -757,7 +756,8 @@ export const ListProjectsServicesResourcePoliciesResponse = GoogleFirebaseAppche
 
 export type ListProjectsServicesResourcePoliciesError = CommonErrors;
 
-export const listProjectsServicesResourcePolicies = API.makePaginated(() => ({
+/** Lists all ResourcePolicy configurations for the specified project and service. */
+export const listProjectsServicesResourcePolicies: API.PaginatedOperationMethod<ListProjectsServicesResourcePoliciesRequest, ListProjectsServicesResourcePoliciesResponse, ListProjectsServicesResourcePoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsServicesResourcePoliciesRequest,
   output: ListProjectsServicesResourcePoliciesResponse,
   errors: [],
@@ -767,7 +767,6 @@ export const listProjectsServicesResourcePolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Creates the specified ResourcePolicy configuration. */
 export interface CreateProjectsServicesResourcePoliciesRequest {
   /** Required. The relative resource name of the parent Service in which the specified ResourcePolicy will be created, in the format: ``` projects/{project_number}/services/{service_id} ``` Note that the `service_id` element must be a supported service ID. Currently, the following service IDs are supported: * `oauth2.googleapis.com` (Google Identity for iOS) */
   parent: string;
@@ -788,13 +787,13 @@ export const CreateProjectsServicesResourcePoliciesResponse = GoogleFirebaseAppc
 
 export type CreateProjectsServicesResourcePoliciesError = CommonErrors;
 
+/** Creates the specified ResourcePolicy configuration. */
 export const createProjectsServicesResourcePolicies: API.OperationMethod<CreateProjectsServicesResourcePoliciesRequest, CreateProjectsServicesResourcePoliciesResponse, CreateProjectsServicesResourcePoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsServicesResourcePoliciesRequest,
   output: CreateProjectsServicesResourcePoliciesResponse,
   errors: [],
 }));
 
-/** Updates the specified ResourcePolicy configuration. */
 export interface PatchProjectsServicesResourcePoliciesRequest {
   /** Required. Identifier. The relative name of the resource policy object, in the format: ``` projects/{project_number}/services/{service_id}/resourcePolicies/{resource_policy_id} ``` Note that the `service_id` element must be a supported service ID. Currently, the following service IDs are supported: * `oauth2.googleapis.com` (Google Identity for iOS) `resource_policy_id` is a system-generated UID. */
   name: string;
@@ -818,13 +817,13 @@ export const PatchProjectsServicesResourcePoliciesResponse = GoogleFirebaseAppch
 
 export type PatchProjectsServicesResourcePoliciesError = CommonErrors;
 
+/** Updates the specified ResourcePolicy configuration. */
 export const patchProjectsServicesResourcePolicies: API.OperationMethod<PatchProjectsServicesResourcePoliciesRequest, PatchProjectsServicesResourcePoliciesResponse, PatchProjectsServicesResourcePoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsServicesResourcePoliciesRequest,
   output: PatchProjectsServicesResourcePoliciesResponse,
   errors: [],
 }));
 
-/** Deletes the specified ResourcePolicy configuration. */
 export interface DeleteProjectsServicesResourcePoliciesRequest {
   /** Required. The relative resource name of the ResourcePolicy to delete, in the format: ``` projects/{project_number}/services/{service_id}/resourcePolicies/{resource_policy_id} ``` */
   name: string;
@@ -845,13 +844,13 @@ export const DeleteProjectsServicesResourcePoliciesResponse = GoogleProtobufEmpt
 
 export type DeleteProjectsServicesResourcePoliciesError = CommonErrors;
 
+/** Deletes the specified ResourcePolicy configuration. */
 export const deleteProjectsServicesResourcePolicies: API.OperationMethod<DeleteProjectsServicesResourcePoliciesRequest, DeleteProjectsServicesResourcePoliciesResponse, DeleteProjectsServicesResourcePoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsServicesResourcePoliciesRequest,
   output: DeleteProjectsServicesResourcePoliciesResponse,
   errors: [],
 }));
 
-/** Atomically updates the specified ResourcePolicy configurations. */
 export interface BatchUpdateProjectsServicesResourcePoliciesRequest {
   /** Required. The parent service name, in the format ``` projects/{project_number}/services/{service_id} ``` The parent collection in the `name` field of any resource being updated must match this field, or the entire batch fails. */
   parent: string;
@@ -872,13 +871,13 @@ export const BatchUpdateProjectsServicesResourcePoliciesResponse = GoogleFirebas
 
 export type BatchUpdateProjectsServicesResourcePoliciesError = CommonErrors;
 
+/** Atomically updates the specified ResourcePolicy configurations. */
 export const batchUpdateProjectsServicesResourcePolicies: API.OperationMethod<BatchUpdateProjectsServicesResourcePoliciesRequest, BatchUpdateProjectsServicesResourcePoliciesResponse, BatchUpdateProjectsServicesResourcePoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchUpdateProjectsServicesResourcePoliciesRequest,
   output: BatchUpdateProjectsServicesResourcePoliciesResponse,
   errors: [],
 }));
 
-/** Validates a [SafetyNet token](https://developer.android.com/training/safetynet/attestation#request-attestation-step). If valid, returns an AppCheckToken. */
 export interface ExchangeSafetyNetTokenProjectsAppsRequest {
   /** Required. The relative resource name of the Android app, in the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the `project_number` element can be replaced with the project ID of the Firebase project. Learn more about using project identifiers in Google's [AIP 2510](https://google.aip.dev/cloud/2510) standard. */
   app: string;
@@ -899,13 +898,13 @@ export const ExchangeSafetyNetTokenProjectsAppsResponse = GoogleFirebaseAppcheck
 
 export type ExchangeSafetyNetTokenProjectsAppsError = CommonErrors;
 
+/** Validates a [SafetyNet token](https://developer.android.com/training/safetynet/attestation#request-attestation-step). If valid, returns an AppCheckToken. */
 export const exchangeSafetyNetTokenProjectsApps: API.OperationMethod<ExchangeSafetyNetTokenProjectsAppsRequest, ExchangeSafetyNetTokenProjectsAppsResponse, ExchangeSafetyNetTokenProjectsAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExchangeSafetyNetTokenProjectsAppsRequest,
   output: ExchangeSafetyNetTokenProjectsAppsResponse,
   errors: [],
 }));
 
-/** Generates a challenge that protects the integrity of an immediately following integrity verdict request to the Play Integrity API. The next call to ExchangePlayIntegrityToken using the resulting integrity token will verify the presence and validity of the challenge. A challenge should not be reused for multiple calls. */
 export interface GeneratePlayIntegrityChallengeProjectsAppsRequest {
   /** Required. The relative resource name of the app, in the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the `project_number` element can be replaced with the project ID of the Firebase project. Learn more about using project identifiers in Google's [AIP 2510](https://google.aip.dev/cloud/2510) standard. */
   app: string;
@@ -926,13 +925,13 @@ export const GeneratePlayIntegrityChallengeProjectsAppsResponse = GoogleFirebase
 
 export type GeneratePlayIntegrityChallengeProjectsAppsError = CommonErrors;
 
+/** Generates a challenge that protects the integrity of an immediately following integrity verdict request to the Play Integrity API. The next call to ExchangePlayIntegrityToken using the resulting integrity token will verify the presence and validity of the challenge. A challenge should not be reused for multiple calls. */
 export const generatePlayIntegrityChallengeProjectsApps: API.OperationMethod<GeneratePlayIntegrityChallengeProjectsAppsRequest, GeneratePlayIntegrityChallengeProjectsAppsResponse, GeneratePlayIntegrityChallengeProjectsAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GeneratePlayIntegrityChallengeProjectsAppsRequest,
   output: GeneratePlayIntegrityChallengeProjectsAppsResponse,
   errors: [],
 }));
 
-/** Validates an [integrity verdict response token from Play Integrity](https://developer.android.com/google/play/integrity/verdict#decrypt-verify). If valid, returns an AppCheckToken. */
 export interface ExchangePlayIntegrityTokenProjectsAppsRequest {
   /** Required. The relative resource name of the Android app, in the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the `project_number` element can be replaced with the project ID of the Firebase project. Learn more about using project identifiers in Google's [AIP 2510](https://google.aip.dev/cloud/2510) standard. */
   app: string;
@@ -953,13 +952,13 @@ export const ExchangePlayIntegrityTokenProjectsAppsResponse = GoogleFirebaseAppc
 
 export type ExchangePlayIntegrityTokenProjectsAppsError = CommonErrors;
 
+/** Validates an [integrity verdict response token from Play Integrity](https://developer.android.com/google/play/integrity/verdict#decrypt-verify). If valid, returns an AppCheckToken. */
 export const exchangePlayIntegrityTokenProjectsApps: API.OperationMethod<ExchangePlayIntegrityTokenProjectsAppsRequest, ExchangePlayIntegrityTokenProjectsAppsResponse, ExchangePlayIntegrityTokenProjectsAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExchangePlayIntegrityTokenProjectsAppsRequest,
   output: ExchangePlayIntegrityTokenProjectsAppsResponse,
   errors: [],
 }));
 
-/** Accepts a [`device_token`](https://developer.apple.com/documentation/devicecheck/dcdevice) issued by DeviceCheck, and attempts to validate it with Apple. If valid, returns an AppCheckToken. */
 export interface ExchangeDeviceCheckTokenProjectsAppsRequest {
   /** Required. The relative resource name of the iOS app, in the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the `project_number` element can be replaced with the project ID of the Firebase project. Learn more about using project identifiers in Google's [AIP 2510](https://google.aip.dev/cloud/2510) standard. */
   app: string;
@@ -980,13 +979,13 @@ export const ExchangeDeviceCheckTokenProjectsAppsResponse = GoogleFirebaseAppche
 
 export type ExchangeDeviceCheckTokenProjectsAppsError = CommonErrors;
 
+/** Accepts a [`device_token`](https://developer.apple.com/documentation/devicecheck/dcdevice) issued by DeviceCheck, and attempts to validate it with Apple. If valid, returns an AppCheckToken. */
 export const exchangeDeviceCheckTokenProjectsApps: API.OperationMethod<ExchangeDeviceCheckTokenProjectsAppsRequest, ExchangeDeviceCheckTokenProjectsAppsResponse, ExchangeDeviceCheckTokenProjectsAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExchangeDeviceCheckTokenProjectsAppsRequest,
   output: ExchangeDeviceCheckTokenProjectsAppsResponse,
   errors: [],
 }));
 
-/** Validates a [reCAPTCHA v3 response token](https://developers.google.com/recaptcha/docs/v3). If valid, returns an AppCheckToken. */
 export interface ExchangeRecaptchaV3TokenProjectsAppsRequest {
   /** Required. The relative resource name of the web app, in the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the `project_number` element can be replaced with the project ID of the Firebase project. Learn more about using project identifiers in Google's [AIP 2510](https://google.aip.dev/cloud/2510) standard. */
   app: string;
@@ -1007,13 +1006,13 @@ export const ExchangeRecaptchaV3TokenProjectsAppsResponse = GoogleFirebaseAppche
 
 export type ExchangeRecaptchaV3TokenProjectsAppsError = CommonErrors;
 
+/** Validates a [reCAPTCHA v3 response token](https://developers.google.com/recaptcha/docs/v3). If valid, returns an AppCheckToken. */
 export const exchangeRecaptchaV3TokenProjectsApps: API.OperationMethod<ExchangeRecaptchaV3TokenProjectsAppsRequest, ExchangeRecaptchaV3TokenProjectsAppsResponse, ExchangeRecaptchaV3TokenProjectsAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExchangeRecaptchaV3TokenProjectsAppsRequest,
   output: ExchangeRecaptchaV3TokenProjectsAppsResponse,
   errors: [],
 }));
 
-/** Validates a [reCAPTCHA Enterprise response token](https://cloud.google.com/recaptcha-enterprise/docs/create-assessment#retrieve_token). If valid, returns an AppCheckToken. */
 export interface ExchangeRecaptchaEnterpriseTokenProjectsAppsRequest {
   /** Required. The relative resource name of the web app, in the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the `project_number` element can be replaced with the project ID of the Firebase project. Learn more about using project identifiers in Google's [AIP 2510](https://google.aip.dev/cloud/2510) standard. */
   app: string;
@@ -1034,13 +1033,13 @@ export const ExchangeRecaptchaEnterpriseTokenProjectsAppsResponse = GoogleFireba
 
 export type ExchangeRecaptchaEnterpriseTokenProjectsAppsError = CommonErrors;
 
+/** Validates a [reCAPTCHA Enterprise response token](https://cloud.google.com/recaptcha-enterprise/docs/create-assessment#retrieve_token). If valid, returns an AppCheckToken. */
 export const exchangeRecaptchaEnterpriseTokenProjectsApps: API.OperationMethod<ExchangeRecaptchaEnterpriseTokenProjectsAppsRequest, ExchangeRecaptchaEnterpriseTokenProjectsAppsResponse, ExchangeRecaptchaEnterpriseTokenProjectsAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExchangeRecaptchaEnterpriseTokenProjectsAppsRequest,
   output: ExchangeRecaptchaEnterpriseTokenProjectsAppsResponse,
   errors: [],
 }));
 
-/** Validates a custom token signed using your project's Admin SDK service account credentials. If valid, returns an AppCheckToken. */
 export interface ExchangeCustomTokenProjectsAppsRequest {
   /** Required. The relative resource name of the app, in the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the `project_number` element can be replaced with the project ID of the Firebase project. Learn more about using project identifiers in Google's [AIP 2510](https://google.aip.dev/cloud/2510) standard. */
   app: string;
@@ -1061,13 +1060,13 @@ export const ExchangeCustomTokenProjectsAppsResponse = GoogleFirebaseAppcheckV1A
 
 export type ExchangeCustomTokenProjectsAppsError = CommonErrors;
 
+/** Validates a custom token signed using your project's Admin SDK service account credentials. If valid, returns an AppCheckToken. */
 export const exchangeCustomTokenProjectsApps: API.OperationMethod<ExchangeCustomTokenProjectsAppsRequest, ExchangeCustomTokenProjectsAppsResponse, ExchangeCustomTokenProjectsAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExchangeCustomTokenProjectsAppsRequest,
   output: ExchangeCustomTokenProjectsAppsResponse,
   errors: [],
 }));
 
-/** Validates a debug token secret that you have previously created using CreateDebugToken. If valid, returns an AppCheckToken. Note that a restrictive quota is enforced on this method to prevent accidental exposure of the app to abuse. */
 export interface ExchangeDebugTokenProjectsAppsRequest {
   /** Required. The relative resource name of the app, in the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the `project_number` element can be replaced with the project ID of the Firebase project. Learn more about using project identifiers in Google's [AIP 2510](https://google.aip.dev/cloud/2510) standard. */
   app: string;
@@ -1088,13 +1087,13 @@ export const ExchangeDebugTokenProjectsAppsResponse = GoogleFirebaseAppcheckV1Ap
 
 export type ExchangeDebugTokenProjectsAppsError = CommonErrors;
 
+/** Validates a debug token secret that you have previously created using CreateDebugToken. If valid, returns an AppCheckToken. Note that a restrictive quota is enforced on this method to prevent accidental exposure of the app to abuse. */
 export const exchangeDebugTokenProjectsApps: API.OperationMethod<ExchangeDebugTokenProjectsAppsRequest, ExchangeDebugTokenProjectsAppsResponse, ExchangeDebugTokenProjectsAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExchangeDebugTokenProjectsAppsRequest,
   output: ExchangeDebugTokenProjectsAppsResponse,
   errors: [],
 }));
 
-/** Generates a challenge that protects the integrity of an immediately following call to ExchangeAppAttestAttestation or ExchangeAppAttestAssertion. A challenge should not be reused for multiple calls. */
 export interface GenerateAppAttestChallengeProjectsAppsRequest {
   /** Required. The relative resource name of the iOS app, in the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the `project_number` element can be replaced with the project ID of the Firebase project. Learn more about using project identifiers in Google's [AIP 2510](https://google.aip.dev/cloud/2510) standard. */
   app: string;
@@ -1115,13 +1114,13 @@ export const GenerateAppAttestChallengeProjectsAppsResponse = GoogleFirebaseAppc
 
 export type GenerateAppAttestChallengeProjectsAppsError = CommonErrors;
 
+/** Generates a challenge that protects the integrity of an immediately following call to ExchangeAppAttestAttestation or ExchangeAppAttestAssertion. A challenge should not be reused for multiple calls. */
 export const generateAppAttestChallengeProjectsApps: API.OperationMethod<GenerateAppAttestChallengeProjectsAppsRequest, GenerateAppAttestChallengeProjectsAppsResponse, GenerateAppAttestChallengeProjectsAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateAppAttestChallengeProjectsAppsRequest,
   output: GenerateAppAttestChallengeProjectsAppsResponse,
   errors: [],
 }));
 
-/** Accepts an App Attest CBOR attestation and verifies it with Apple using your preconfigured team and bundle IDs. If valid, returns an attestation artifact that can later be exchanged for an AppCheckToken using ExchangeAppAttestAssertion. For convenience and performance, this method's response object will also contain an AppCheckToken (if the verification is successful). */
 export interface ExchangeAppAttestAttestationProjectsAppsRequest {
   /** Required. The relative resource name of the iOS app, in the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the `project_number` element can be replaced with the project ID of the Firebase project. Learn more about using project identifiers in Google's [AIP 2510](https://google.aip.dev/cloud/2510) standard. */
   app: string;
@@ -1142,13 +1141,13 @@ export const ExchangeAppAttestAttestationProjectsAppsResponse = GoogleFirebaseAp
 
 export type ExchangeAppAttestAttestationProjectsAppsError = CommonErrors;
 
+/** Accepts an App Attest CBOR attestation and verifies it with Apple using your preconfigured team and bundle IDs. If valid, returns an attestation artifact that can later be exchanged for an AppCheckToken using ExchangeAppAttestAssertion. For convenience and performance, this method's response object will also contain an AppCheckToken (if the verification is successful). */
 export const exchangeAppAttestAttestationProjectsApps: API.OperationMethod<ExchangeAppAttestAttestationProjectsAppsRequest, ExchangeAppAttestAttestationProjectsAppsResponse, ExchangeAppAttestAttestationProjectsAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExchangeAppAttestAttestationProjectsAppsRequest,
   output: ExchangeAppAttestAttestationProjectsAppsResponse,
   errors: [],
 }));
 
-/** Accepts an App Attest assertion and an artifact previously obtained from ExchangeAppAttestAttestation and verifies those with Apple. If valid, returns an AppCheckToken. */
 export interface ExchangeAppAttestAssertionProjectsAppsRequest {
   /** Required. The relative resource name of the iOS app, in the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the `project_number` element can be replaced with the project ID of the Firebase project. Learn more about using project identifiers in Google's [AIP 2510](https://google.aip.dev/cloud/2510) standard. */
   app: string;
@@ -1169,13 +1168,13 @@ export const ExchangeAppAttestAssertionProjectsAppsResponse = GoogleFirebaseAppc
 
 export type ExchangeAppAttestAssertionProjectsAppsError = CommonErrors;
 
+/** Accepts an App Attest assertion and an artifact previously obtained from ExchangeAppAttestAttestation and verifies those with Apple. If valid, returns an AppCheckToken. */
 export const exchangeAppAttestAssertionProjectsApps: API.OperationMethod<ExchangeAppAttestAssertionProjectsAppsRequest, ExchangeAppAttestAssertionProjectsAppsResponse, ExchangeAppAttestAssertionProjectsAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExchangeAppAttestAssertionProjectsAppsRequest,
   output: ExchangeAppAttestAssertionProjectsAppsResponse,
   errors: [],
 }));
 
-/** Gets the AppAttestConfig for the specified app. */
 export interface GetProjectsAppsAppAttestConfigRequest {
   /** Required. The relative resource name of the AppAttestConfig, in the format: ``` projects/{project_number}/apps/{app_id}/appAttestConfig ``` */
   name: string;
@@ -1193,13 +1192,13 @@ export const GetProjectsAppsAppAttestConfigResponse = GoogleFirebaseAppcheckV1Ap
 
 export type GetProjectsAppsAppAttestConfigError = CommonErrors;
 
+/** Gets the AppAttestConfig for the specified app. */
 export const getProjectsAppsAppAttestConfig: API.OperationMethod<GetProjectsAppsAppAttestConfigRequest, GetProjectsAppsAppAttestConfigResponse, GetProjectsAppsAppAttestConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsAppsAppAttestConfigRequest,
   output: GetProjectsAppsAppAttestConfigResponse,
   errors: [],
 }));
 
-/** Atomically gets the AppAttestConfigs for the specified list of apps. */
 export interface BatchGetProjectsAppsAppAttestConfigRequest {
   /** Required. The parent project name shared by all AppAttestConfigs being retrieved, in the format ``` projects/{project_number} ``` The parent collection in the `name` field of any resource being retrieved must match this field, or the entire batch fails. */
   parent: string;
@@ -1220,13 +1219,13 @@ export const BatchGetProjectsAppsAppAttestConfigResponse = GoogleFirebaseAppchec
 
 export type BatchGetProjectsAppsAppAttestConfigError = CommonErrors;
 
+/** Atomically gets the AppAttestConfigs for the specified list of apps. */
 export const batchGetProjectsAppsAppAttestConfig: API.OperationMethod<BatchGetProjectsAppsAppAttestConfigRequest, BatchGetProjectsAppsAppAttestConfigResponse, BatchGetProjectsAppsAppAttestConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchGetProjectsAppsAppAttestConfigRequest,
   output: BatchGetProjectsAppsAppAttestConfigResponse,
   errors: [],
 }));
 
-/** Updates the AppAttestConfig for the specified app. While this configuration is incomplete or invalid, the app will be unable to exchange AppAttest tokens for App Check tokens. */
 export interface PatchProjectsAppsAppAttestConfigRequest {
   /** Required. The relative resource name of the App Attest configuration object, in the format: ``` projects/{project_number}/apps/{app_id}/appAttestConfig ``` */
   name: string;
@@ -1250,13 +1249,13 @@ export const PatchProjectsAppsAppAttestConfigResponse = GoogleFirebaseAppcheckV1
 
 export type PatchProjectsAppsAppAttestConfigError = CommonErrors;
 
+/** Updates the AppAttestConfig for the specified app. While this configuration is incomplete or invalid, the app will be unable to exchange AppAttest tokens for App Check tokens. */
 export const patchProjectsAppsAppAttestConfig: API.OperationMethod<PatchProjectsAppsAppAttestConfigRequest, PatchProjectsAppsAppAttestConfigResponse, PatchProjectsAppsAppAttestConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsAppsAppAttestConfigRequest,
   output: PatchProjectsAppsAppAttestConfigResponse,
   errors: [],
 }));
 
-/** Gets the DeviceCheckConfig for the specified app. For security reasons, the `private_key` field is never populated in the response. */
 export interface GetProjectsAppsDeviceCheckConfigRequest {
   /** Required. The relative resource name of the DeviceCheckConfig, in the format: ``` projects/{project_number}/apps/{app_id}/deviceCheckConfig ``` */
   name: string;
@@ -1274,13 +1273,13 @@ export const GetProjectsAppsDeviceCheckConfigResponse = GoogleFirebaseAppcheckV1
 
 export type GetProjectsAppsDeviceCheckConfigError = CommonErrors;
 
+/** Gets the DeviceCheckConfig for the specified app. For security reasons, the `private_key` field is never populated in the response. */
 export const getProjectsAppsDeviceCheckConfig: API.OperationMethod<GetProjectsAppsDeviceCheckConfigRequest, GetProjectsAppsDeviceCheckConfigResponse, GetProjectsAppsDeviceCheckConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsAppsDeviceCheckConfigRequest,
   output: GetProjectsAppsDeviceCheckConfigResponse,
   errors: [],
 }));
 
-/** Atomically gets the DeviceCheckConfigs for the specified list of apps. For security reasons, the `private_key` field is never populated in the response. */
 export interface BatchGetProjectsAppsDeviceCheckConfigRequest {
   /** Required. The parent project name shared by all DeviceCheckConfigs being retrieved, in the format ``` projects/{project_number} ``` The parent collection in the `name` field of any resource being retrieved must match this field, or the entire batch fails. */
   parent: string;
@@ -1301,13 +1300,13 @@ export const BatchGetProjectsAppsDeviceCheckConfigResponse = GoogleFirebaseAppch
 
 export type BatchGetProjectsAppsDeviceCheckConfigError = CommonErrors;
 
+/** Atomically gets the DeviceCheckConfigs for the specified list of apps. For security reasons, the `private_key` field is never populated in the response. */
 export const batchGetProjectsAppsDeviceCheckConfig: API.OperationMethod<BatchGetProjectsAppsDeviceCheckConfigRequest, BatchGetProjectsAppsDeviceCheckConfigResponse, BatchGetProjectsAppsDeviceCheckConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchGetProjectsAppsDeviceCheckConfigRequest,
   output: BatchGetProjectsAppsDeviceCheckConfigResponse,
   errors: [],
 }));
 
-/** Updates the DeviceCheckConfig for the specified app. While this configuration is incomplete or invalid, the app will be unable to exchange DeviceCheck tokens for App Check tokens. For security reasons, the `private_key` field is never populated in the response. */
 export interface PatchProjectsAppsDeviceCheckConfigRequest {
   /** Required. The relative resource name of the DeviceCheck configuration object, in the format: ``` projects/{project_number}/apps/{app_id}/deviceCheckConfig ``` */
   name: string;
@@ -1331,13 +1330,13 @@ export const PatchProjectsAppsDeviceCheckConfigResponse = GoogleFirebaseAppcheck
 
 export type PatchProjectsAppsDeviceCheckConfigError = CommonErrors;
 
+/** Updates the DeviceCheckConfig for the specified app. While this configuration is incomplete or invalid, the app will be unable to exchange DeviceCheck tokens for App Check tokens. For security reasons, the `private_key` field is never populated in the response. */
 export const patchProjectsAppsDeviceCheckConfig: API.OperationMethod<PatchProjectsAppsDeviceCheckConfigRequest, PatchProjectsAppsDeviceCheckConfigResponse, PatchProjectsAppsDeviceCheckConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsAppsDeviceCheckConfigRequest,
   output: PatchProjectsAppsDeviceCheckConfigResponse,
   errors: [],
 }));
 
-/** Gets the RecaptchaV3Config for the specified app. For security reasons, the `site_secret` field is never populated in the response. */
 export interface GetProjectsAppsRecaptchaV3ConfigRequest {
   /** Required. The relative resource name of the RecaptchaV3Config, in the format: ``` projects/{project_number}/apps/{app_id}/recaptchaV3Config ``` */
   name: string;
@@ -1355,13 +1354,13 @@ export const GetProjectsAppsRecaptchaV3ConfigResponse = GoogleFirebaseAppcheckV1
 
 export type GetProjectsAppsRecaptchaV3ConfigError = CommonErrors;
 
+/** Gets the RecaptchaV3Config for the specified app. For security reasons, the `site_secret` field is never populated in the response. */
 export const getProjectsAppsRecaptchaV3Config: API.OperationMethod<GetProjectsAppsRecaptchaV3ConfigRequest, GetProjectsAppsRecaptchaV3ConfigResponse, GetProjectsAppsRecaptchaV3ConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsAppsRecaptchaV3ConfigRequest,
   output: GetProjectsAppsRecaptchaV3ConfigResponse,
   errors: [],
 }));
 
-/** Atomically gets the RecaptchaV3Configs for the specified list of apps. For security reasons, the `site_secret` field is never populated in the response. */
 export interface BatchGetProjectsAppsRecaptchaV3ConfigRequest {
   /** Required. The parent project name shared by all RecaptchaV3Configs being retrieved, in the format ``` projects/{project_number} ``` The parent collection in the `name` field of any resource being retrieved must match this field, or the entire batch fails. */
   parent: string;
@@ -1382,13 +1381,13 @@ export const BatchGetProjectsAppsRecaptchaV3ConfigResponse = GoogleFirebaseAppch
 
 export type BatchGetProjectsAppsRecaptchaV3ConfigError = CommonErrors;
 
+/** Atomically gets the RecaptchaV3Configs for the specified list of apps. For security reasons, the `site_secret` field is never populated in the response. */
 export const batchGetProjectsAppsRecaptchaV3Config: API.OperationMethod<BatchGetProjectsAppsRecaptchaV3ConfigRequest, BatchGetProjectsAppsRecaptchaV3ConfigResponse, BatchGetProjectsAppsRecaptchaV3ConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchGetProjectsAppsRecaptchaV3ConfigRequest,
   output: BatchGetProjectsAppsRecaptchaV3ConfigResponse,
   errors: [],
 }));
 
-/** Updates the RecaptchaV3Config for the specified app. While this configuration is incomplete or invalid, the app will be unable to exchange reCAPTCHA V3 tokens for App Check tokens. For security reasons, the `site_secret` field is never populated in the response. */
 export interface PatchProjectsAppsRecaptchaV3ConfigRequest {
   /** Required. The relative resource name of the reCAPTCHA v3 configuration object, in the format: ``` projects/{project_number}/apps/{app_id}/recaptchaV3Config ``` */
   name: string;
@@ -1412,13 +1411,13 @@ export const PatchProjectsAppsRecaptchaV3ConfigResponse = GoogleFirebaseAppcheck
 
 export type PatchProjectsAppsRecaptchaV3ConfigError = CommonErrors;
 
+/** Updates the RecaptchaV3Config for the specified app. While this configuration is incomplete or invalid, the app will be unable to exchange reCAPTCHA V3 tokens for App Check tokens. For security reasons, the `site_secret` field is never populated in the response. */
 export const patchProjectsAppsRecaptchaV3Config: API.OperationMethod<PatchProjectsAppsRecaptchaV3ConfigRequest, PatchProjectsAppsRecaptchaV3ConfigResponse, PatchProjectsAppsRecaptchaV3ConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsAppsRecaptchaV3ConfigRequest,
   output: PatchProjectsAppsRecaptchaV3ConfigResponse,
   errors: [],
 }));
 
-/** Gets the RecaptchaEnterpriseConfig for the specified app. */
 export interface GetProjectsAppsRecaptchaEnterpriseConfigRequest {
   /** Required. The relative resource name of the RecaptchaEnterpriseConfig, in the format: ``` projects/{project_number}/apps/{app_id}/recaptchaEnterpriseConfig ``` */
   name: string;
@@ -1436,13 +1435,13 @@ export const GetProjectsAppsRecaptchaEnterpriseConfigResponse = GoogleFirebaseAp
 
 export type GetProjectsAppsRecaptchaEnterpriseConfigError = CommonErrors;
 
+/** Gets the RecaptchaEnterpriseConfig for the specified app. */
 export const getProjectsAppsRecaptchaEnterpriseConfig: API.OperationMethod<GetProjectsAppsRecaptchaEnterpriseConfigRequest, GetProjectsAppsRecaptchaEnterpriseConfigResponse, GetProjectsAppsRecaptchaEnterpriseConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsAppsRecaptchaEnterpriseConfigRequest,
   output: GetProjectsAppsRecaptchaEnterpriseConfigResponse,
   errors: [],
 }));
 
-/** Atomically gets the RecaptchaEnterpriseConfigs for the specified list of apps. */
 export interface BatchGetProjectsAppsRecaptchaEnterpriseConfigRequest {
   /** Required. The parent project name shared by all RecaptchaEnterpriseConfigs being retrieved, in the format ``` projects/{project_number} ``` The parent collection in the `name` field of any resource being retrieved must match this field, or the entire batch fails. */
   parent: string;
@@ -1463,13 +1462,13 @@ export const BatchGetProjectsAppsRecaptchaEnterpriseConfigResponse = GoogleFireb
 
 export type BatchGetProjectsAppsRecaptchaEnterpriseConfigError = CommonErrors;
 
+/** Atomically gets the RecaptchaEnterpriseConfigs for the specified list of apps. */
 export const batchGetProjectsAppsRecaptchaEnterpriseConfig: API.OperationMethod<BatchGetProjectsAppsRecaptchaEnterpriseConfigRequest, BatchGetProjectsAppsRecaptchaEnterpriseConfigResponse, BatchGetProjectsAppsRecaptchaEnterpriseConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchGetProjectsAppsRecaptchaEnterpriseConfigRequest,
   output: BatchGetProjectsAppsRecaptchaEnterpriseConfigResponse,
   errors: [],
 }));
 
-/** Updates the RecaptchaEnterpriseConfig for the specified app. While this configuration is incomplete or invalid, the app will be unable to exchange reCAPTCHA Enterprise tokens for App Check tokens. */
 export interface PatchProjectsAppsRecaptchaEnterpriseConfigRequest {
   /** Required. The relative resource name of the reCAPTCHA Enterprise configuration object, in the format: ``` projects/{project_number}/apps/{app_id}/recaptchaEnterpriseConfig ``` */
   name: string;
@@ -1493,13 +1492,13 @@ export const PatchProjectsAppsRecaptchaEnterpriseConfigResponse = GoogleFirebase
 
 export type PatchProjectsAppsRecaptchaEnterpriseConfigError = CommonErrors;
 
+/** Updates the RecaptchaEnterpriseConfig for the specified app. While this configuration is incomplete or invalid, the app will be unable to exchange reCAPTCHA Enterprise tokens for App Check tokens. */
 export const patchProjectsAppsRecaptchaEnterpriseConfig: API.OperationMethod<PatchProjectsAppsRecaptchaEnterpriseConfigRequest, PatchProjectsAppsRecaptchaEnterpriseConfigResponse, PatchProjectsAppsRecaptchaEnterpriseConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsAppsRecaptchaEnterpriseConfigRequest,
   output: PatchProjectsAppsRecaptchaEnterpriseConfigResponse,
   errors: [],
 }));
 
-/** Gets the SafetyNetConfig for the specified app. */
 export interface GetProjectsAppsSafetyNetConfigRequest {
   /** Required. The relative resource name of the SafetyNetConfig, in the format: ``` projects/{project_number}/apps/{app_id}/safetyNetConfig ``` */
   name: string;
@@ -1517,13 +1516,13 @@ export const GetProjectsAppsSafetyNetConfigResponse = GoogleFirebaseAppcheckV1Sa
 
 export type GetProjectsAppsSafetyNetConfigError = CommonErrors;
 
+/** Gets the SafetyNetConfig for the specified app. */
 export const getProjectsAppsSafetyNetConfig: API.OperationMethod<GetProjectsAppsSafetyNetConfigRequest, GetProjectsAppsSafetyNetConfigResponse, GetProjectsAppsSafetyNetConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsAppsSafetyNetConfigRequest,
   output: GetProjectsAppsSafetyNetConfigResponse,
   errors: [],
 }));
 
-/** Atomically gets the SafetyNetConfigs for the specified list of apps. */
 export interface BatchGetProjectsAppsSafetyNetConfigRequest {
   /** Required. The parent project name shared by all SafetyNetConfigs being retrieved, in the format ``` projects/{project_number} ``` The parent collection in the `name` field of any resource being retrieved must match this field, or the entire batch fails. */
   parent: string;
@@ -1544,13 +1543,13 @@ export const BatchGetProjectsAppsSafetyNetConfigResponse = GoogleFirebaseAppchec
 
 export type BatchGetProjectsAppsSafetyNetConfigError = CommonErrors;
 
+/** Atomically gets the SafetyNetConfigs for the specified list of apps. */
 export const batchGetProjectsAppsSafetyNetConfig: API.OperationMethod<BatchGetProjectsAppsSafetyNetConfigRequest, BatchGetProjectsAppsSafetyNetConfigResponse, BatchGetProjectsAppsSafetyNetConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchGetProjectsAppsSafetyNetConfigRequest,
   output: BatchGetProjectsAppsSafetyNetConfigResponse,
   errors: [],
 }));
 
-/** Updates the SafetyNetConfig for the specified app. While this configuration is incomplete or invalid, the app will be unable to exchange SafetyNet tokens for App Check tokens. */
 export interface PatchProjectsAppsSafetyNetConfigRequest {
   /** Required. The relative resource name of the SafetyNet configuration object, in the format: ``` projects/{project_number}/apps/{app_id}/safetyNetConfig ``` */
   name: string;
@@ -1574,13 +1573,13 @@ export const PatchProjectsAppsSafetyNetConfigResponse = GoogleFirebaseAppcheckV1
 
 export type PatchProjectsAppsSafetyNetConfigError = CommonErrors;
 
+/** Updates the SafetyNetConfig for the specified app. While this configuration is incomplete or invalid, the app will be unable to exchange SafetyNet tokens for App Check tokens. */
 export const patchProjectsAppsSafetyNetConfig: API.OperationMethod<PatchProjectsAppsSafetyNetConfigRequest, PatchProjectsAppsSafetyNetConfigResponse, PatchProjectsAppsSafetyNetConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsAppsSafetyNetConfigRequest,
   output: PatchProjectsAppsSafetyNetConfigResponse,
   errors: [],
 }));
 
-/** Gets the PlayIntegrityConfig for the specified app. */
 export interface GetProjectsAppsPlayIntegrityConfigRequest {
   /** Required. The relative resource name of the PlayIntegrityConfig, in the format: ``` projects/{project_number}/apps/{app_id}/playIntegrityConfig ``` */
   name: string;
@@ -1598,13 +1597,13 @@ export const GetProjectsAppsPlayIntegrityConfigResponse = GoogleFirebaseAppcheck
 
 export type GetProjectsAppsPlayIntegrityConfigError = CommonErrors;
 
+/** Gets the PlayIntegrityConfig for the specified app. */
 export const getProjectsAppsPlayIntegrityConfig: API.OperationMethod<GetProjectsAppsPlayIntegrityConfigRequest, GetProjectsAppsPlayIntegrityConfigResponse, GetProjectsAppsPlayIntegrityConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsAppsPlayIntegrityConfigRequest,
   output: GetProjectsAppsPlayIntegrityConfigResponse,
   errors: [],
 }));
 
-/** Atomically gets the PlayIntegrityConfigs for the specified list of apps. */
 export interface BatchGetProjectsAppsPlayIntegrityConfigRequest {
   /** Required. The parent project name shared by all PlayIntegrityConfigs being retrieved, in the format ``` projects/{project_number} ``` The parent collection in the `name` field of any resource being retrieved must match this field, or the entire batch fails. */
   parent: string;
@@ -1625,13 +1624,13 @@ export const BatchGetProjectsAppsPlayIntegrityConfigResponse = GoogleFirebaseApp
 
 export type BatchGetProjectsAppsPlayIntegrityConfigError = CommonErrors;
 
+/** Atomically gets the PlayIntegrityConfigs for the specified list of apps. */
 export const batchGetProjectsAppsPlayIntegrityConfig: API.OperationMethod<BatchGetProjectsAppsPlayIntegrityConfigRequest, BatchGetProjectsAppsPlayIntegrityConfigResponse, BatchGetProjectsAppsPlayIntegrityConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchGetProjectsAppsPlayIntegrityConfigRequest,
   output: BatchGetProjectsAppsPlayIntegrityConfigResponse,
   errors: [],
 }));
 
-/** Updates the PlayIntegrityConfig for the specified app. While this configuration is incomplete or invalid, the app will be unable to exchange Play Integrity tokens for App Check tokens. */
 export interface PatchProjectsAppsPlayIntegrityConfigRequest {
   /** Required. The relative resource name of the Play Integrity configuration object, in the format: ``` projects/{project_number}/apps/{app_id}/playIntegrityConfig ``` */
   name: string;
@@ -1655,13 +1654,13 @@ export const PatchProjectsAppsPlayIntegrityConfigResponse = GoogleFirebaseAppche
 
 export type PatchProjectsAppsPlayIntegrityConfigError = CommonErrors;
 
+/** Updates the PlayIntegrityConfig for the specified app. While this configuration is incomplete or invalid, the app will be unable to exchange Play Integrity tokens for App Check tokens. */
 export const patchProjectsAppsPlayIntegrityConfig: API.OperationMethod<PatchProjectsAppsPlayIntegrityConfigRequest, PatchProjectsAppsPlayIntegrityConfigResponse, PatchProjectsAppsPlayIntegrityConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsAppsPlayIntegrityConfigRequest,
   output: PatchProjectsAppsPlayIntegrityConfigResponse,
   errors: [],
 }));
 
-/** Gets the specified DebugToken. For security reasons, the `token` field is never populated in the response. */
 export interface GetProjectsAppsDebugTokensRequest {
   /** Required. The relative resource name of the debug token, in the format: ``` projects/{project_number}/apps/{app_id}/debugTokens/{debug_token_id} ``` */
   name: string;
@@ -1679,13 +1678,13 @@ export const GetProjectsAppsDebugTokensResponse = GoogleFirebaseAppcheckV1DebugT
 
 export type GetProjectsAppsDebugTokensError = CommonErrors;
 
+/** Gets the specified DebugToken. For security reasons, the `token` field is never populated in the response. */
 export const getProjectsAppsDebugTokens: API.OperationMethod<GetProjectsAppsDebugTokensRequest, GetProjectsAppsDebugTokensResponse, GetProjectsAppsDebugTokensError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsAppsDebugTokensRequest,
   output: GetProjectsAppsDebugTokensResponse,
   errors: [],
 }));
 
-/** Lists all DebugTokens for the specified app. For security reasons, the `token` field is never populated in the response. */
 export interface ListProjectsAppsDebugTokensRequest {
   /** Required. The relative resource name of the parent app for which to list each associated DebugToken, in the format: ``` projects/{project_number}/apps/{app_id} ``` */
   parent: string;
@@ -1709,7 +1708,8 @@ export const ListProjectsAppsDebugTokensResponse = GoogleFirebaseAppcheckV1ListD
 
 export type ListProjectsAppsDebugTokensError = CommonErrors;
 
-export const listProjectsAppsDebugTokens = API.makePaginated(() => ({
+/** Lists all DebugTokens for the specified app. For security reasons, the `token` field is never populated in the response. */
+export const listProjectsAppsDebugTokens: API.PaginatedOperationMethod<ListProjectsAppsDebugTokensRequest, ListProjectsAppsDebugTokensResponse, ListProjectsAppsDebugTokensError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsAppsDebugTokensRequest,
   output: ListProjectsAppsDebugTokensResponse,
   errors: [],
@@ -1719,7 +1719,6 @@ export const listProjectsAppsDebugTokens = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new DebugToken for the specified app. For security reasons, after the creation operation completes, the `token` field cannot be updated or retrieved, but you can revoke the debug token using DeleteDebugToken. Each app can have a maximum of 20 debug tokens. */
 export interface CreateProjectsAppsDebugTokensRequest {
   /** Required. The relative resource name of the parent app in which the specified DebugToken will be created, in the format: ``` projects/{project_number}/apps/{app_id} ``` */
   parent: string;
@@ -1740,13 +1739,13 @@ export const CreateProjectsAppsDebugTokensResponse = GoogleFirebaseAppcheckV1Deb
 
 export type CreateProjectsAppsDebugTokensError = CommonErrors;
 
+/** Creates a new DebugToken for the specified app. For security reasons, after the creation operation completes, the `token` field cannot be updated or retrieved, but you can revoke the debug token using DeleteDebugToken. Each app can have a maximum of 20 debug tokens. */
 export const createProjectsAppsDebugTokens: API.OperationMethod<CreateProjectsAppsDebugTokensRequest, CreateProjectsAppsDebugTokensResponse, CreateProjectsAppsDebugTokensError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsAppsDebugTokensRequest,
   output: CreateProjectsAppsDebugTokensResponse,
   errors: [],
 }));
 
-/** Updates the specified DebugToken. For security reasons, the `token` field cannot be updated, nor will it be populated in the response, but you can revoke the debug token using DeleteDebugToken. */
 export interface PatchProjectsAppsDebugTokensRequest {
   /** Required. The relative resource name of the debug token, in the format: ``` projects/{project_number}/apps/{app_id}/debugTokens/{debug_token_id} ``` */
   name: string;
@@ -1770,13 +1769,13 @@ export const PatchProjectsAppsDebugTokensResponse = GoogleFirebaseAppcheckV1Debu
 
 export type PatchProjectsAppsDebugTokensError = CommonErrors;
 
+/** Updates the specified DebugToken. For security reasons, the `token` field cannot be updated, nor will it be populated in the response, but you can revoke the debug token using DeleteDebugToken. */
 export const patchProjectsAppsDebugTokens: API.OperationMethod<PatchProjectsAppsDebugTokensRequest, PatchProjectsAppsDebugTokensResponse, PatchProjectsAppsDebugTokensError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsAppsDebugTokensRequest,
   output: PatchProjectsAppsDebugTokensResponse,
   errors: [],
 }));
 
-/** Deletes the specified DebugToken. A deleted debug token cannot be used to exchange for an App Check token. Use this method when you suspect the secret `token` has been compromised or when you no longer need the debug token. */
 export interface DeleteProjectsAppsDebugTokensRequest {
   /** Required. The relative resource name of the DebugToken to delete, in the format: ``` projects/{project_number}/apps/{app_id}/debugTokens/{debug_token_id} ``` */
   name: string;
@@ -1794,13 +1793,13 @@ export const DeleteProjectsAppsDebugTokensResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsAppsDebugTokensError = CommonErrors;
 
+/** Deletes the specified DebugToken. A deleted debug token cannot be used to exchange for an App Check token. Use this method when you suspect the secret `token` has been compromised or when you no longer need the debug token. */
 export const deleteProjectsAppsDebugTokens: API.OperationMethod<DeleteProjectsAppsDebugTokensRequest, DeleteProjectsAppsDebugTokensResponse, DeleteProjectsAppsDebugTokensError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsAppsDebugTokensRequest,
   output: DeleteProjectsAppsDebugTokensResponse,
   errors: [],
 }));
 
-/** Returns a public JWK set as specified by [RFC 7517](https://tools.ietf.org/html/rfc7517) that can be used to verify App Check tokens. Exactly one of the public keys in the returned set will successfully validate any App Check token that is currently valid. */
 export interface GetJwksRequest {
   /** Required. The relative resource name to the public JWK set. Must always be exactly the string `jwks`. */
   name: string;
@@ -1818,13 +1817,13 @@ export const GetJwksResponse = GoogleFirebaseAppcheckV1PublicJwkSet;
 
 export type GetJwksError = CommonErrors;
 
+/** Returns a public JWK set as specified by [RFC 7517](https://tools.ietf.org/html/rfc7517) that can be used to verify App Check tokens. Exactly one of the public keys in the returned set will successfully validate any App Check token that is currently valid. */
 export const getJwks: API.OperationMethod<GetJwksRequest, GetJwksResponse, GetJwksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetJwksRequest,
   output: GetJwksResponse,
   errors: [],
 }));
 
-/** Validates a debug token secret that you have previously created using CreateDebugToken. If valid, returns an AppCheckToken. Note that a restrictive quota is enforced on this method to prevent accidental exposure of the app to abuse. */
 export interface ExchangeDebugTokenOauthClientsRequest {
   /** Required. The relative resource name of the app, in the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the `project_number` element can be replaced with the project ID of the Firebase project. Learn more about using project identifiers in Google's [AIP 2510](https://google.aip.dev/cloud/2510) standard. */
   app: string;
@@ -1845,13 +1844,13 @@ export const ExchangeDebugTokenOauthClientsResponse = GoogleFirebaseAppcheckV1Ap
 
 export type ExchangeDebugTokenOauthClientsError = CommonErrors;
 
+/** Validates a debug token secret that you have previously created using CreateDebugToken. If valid, returns an AppCheckToken. Note that a restrictive quota is enforced on this method to prevent accidental exposure of the app to abuse. */
 export const exchangeDebugTokenOauthClients: API.OperationMethod<ExchangeDebugTokenOauthClientsRequest, ExchangeDebugTokenOauthClientsResponse, ExchangeDebugTokenOauthClientsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExchangeDebugTokenOauthClientsRequest,
   output: ExchangeDebugTokenOauthClientsResponse,
   errors: [],
 }));
 
-/** Generates a challenge that protects the integrity of an immediately following call to ExchangeAppAttestAttestation or ExchangeAppAttestAssertion. A challenge should not be reused for multiple calls. */
 export interface GenerateAppAttestChallengeOauthClientsRequest {
   /** Required. The relative resource name of the iOS app, in the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the `project_number` element can be replaced with the project ID of the Firebase project. Learn more about using project identifiers in Google's [AIP 2510](https://google.aip.dev/cloud/2510) standard. */
   app: string;
@@ -1872,13 +1871,13 @@ export const GenerateAppAttestChallengeOauthClientsResponse = GoogleFirebaseAppc
 
 export type GenerateAppAttestChallengeOauthClientsError = CommonErrors;
 
+/** Generates a challenge that protects the integrity of an immediately following call to ExchangeAppAttestAttestation or ExchangeAppAttestAssertion. A challenge should not be reused for multiple calls. */
 export const generateAppAttestChallengeOauthClients: API.OperationMethod<GenerateAppAttestChallengeOauthClientsRequest, GenerateAppAttestChallengeOauthClientsResponse, GenerateAppAttestChallengeOauthClientsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateAppAttestChallengeOauthClientsRequest,
   output: GenerateAppAttestChallengeOauthClientsResponse,
   errors: [],
 }));
 
-/** Accepts an App Attest CBOR attestation and verifies it with Apple using your preconfigured team and bundle IDs. If valid, returns an attestation artifact that can later be exchanged for an AppCheckToken using ExchangeAppAttestAssertion. For convenience and performance, this method's response object will also contain an AppCheckToken (if the verification is successful). */
 export interface ExchangeAppAttestAttestationOauthClientsRequest {
   /** Required. The relative resource name of the iOS app, in the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the `project_number` element can be replaced with the project ID of the Firebase project. Learn more about using project identifiers in Google's [AIP 2510](https://google.aip.dev/cloud/2510) standard. */
   app: string;
@@ -1899,13 +1898,13 @@ export const ExchangeAppAttestAttestationOauthClientsResponse = GoogleFirebaseAp
 
 export type ExchangeAppAttestAttestationOauthClientsError = CommonErrors;
 
+/** Accepts an App Attest CBOR attestation and verifies it with Apple using your preconfigured team and bundle IDs. If valid, returns an attestation artifact that can later be exchanged for an AppCheckToken using ExchangeAppAttestAssertion. For convenience and performance, this method's response object will also contain an AppCheckToken (if the verification is successful). */
 export const exchangeAppAttestAttestationOauthClients: API.OperationMethod<ExchangeAppAttestAttestationOauthClientsRequest, ExchangeAppAttestAttestationOauthClientsResponse, ExchangeAppAttestAttestationOauthClientsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExchangeAppAttestAttestationOauthClientsRequest,
   output: ExchangeAppAttestAttestationOauthClientsResponse,
   errors: [],
 }));
 
-/** Accepts an App Attest assertion and an artifact previously obtained from ExchangeAppAttestAttestation and verifies those with Apple. If valid, returns an AppCheckToken. */
 export interface ExchangeAppAttestAssertionOauthClientsRequest {
   /** Required. The relative resource name of the iOS app, in the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the `project_number` element can be replaced with the project ID of the Firebase project. Learn more about using project identifiers in Google's [AIP 2510](https://google.aip.dev/cloud/2510) standard. */
   app: string;
@@ -1926,6 +1925,7 @@ export const ExchangeAppAttestAssertionOauthClientsResponse = GoogleFirebaseAppc
 
 export type ExchangeAppAttestAssertionOauthClientsError = CommonErrors;
 
+/** Accepts an App Attest assertion and an artifact previously obtained from ExchangeAppAttestAttestation and verifies those with Apple. If valid, returns an AppCheckToken. */
 export const exchangeAppAttestAssertionOauthClients: API.OperationMethod<ExchangeAppAttestAssertionOauthClientsRequest, ExchangeAppAttestAssertionOauthClientsResponse, ExchangeAppAttestAssertionOauthClientsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExchangeAppAttestAssertionOauthClientsRequest,
   output: ExchangeAppAttestAssertionOauthClientsResponse,

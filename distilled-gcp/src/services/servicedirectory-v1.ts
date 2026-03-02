@@ -272,7 +272,6 @@ export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsRespons
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -302,7 +301,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -312,7 +312,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -330,13 +329,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Creates a namespace, and returns the new namespace. */
 export interface CreateProjectsLocationsNamespacesRequest {
   /** Required. The resource name of the project and location the namespace will be created in. */
   parent: string;
@@ -360,13 +359,13 @@ export const CreateProjectsLocationsNamespacesResponse = Namespace;
 
 export type CreateProjectsLocationsNamespacesError = CommonErrors;
 
+/** Creates a namespace, and returns the new namespace. */
 export const createProjectsLocationsNamespaces: API.OperationMethod<CreateProjectsLocationsNamespacesRequest, CreateProjectsLocationsNamespacesResponse, CreateProjectsLocationsNamespacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsNamespacesRequest,
   output: CreateProjectsLocationsNamespacesResponse,
   errors: [],
 }));
 
-/** Lists all namespaces. */
 export interface ListProjectsLocationsNamespacesRequest {
   /** Required. The resource name of the project and location whose namespaces you'd like to list. */
   parent: string;
@@ -396,7 +395,8 @@ export const ListProjectsLocationsNamespacesResponse = ListNamespacesResponse;
 
 export type ListProjectsLocationsNamespacesError = CommonErrors;
 
-export const listProjectsLocationsNamespaces = API.makePaginated(() => ({
+/** Lists all namespaces. */
+export const listProjectsLocationsNamespaces: API.PaginatedOperationMethod<ListProjectsLocationsNamespacesRequest, ListProjectsLocationsNamespacesResponse, ListProjectsLocationsNamespacesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsNamespacesRequest,
   output: ListProjectsLocationsNamespacesResponse,
   errors: [],
@@ -406,7 +406,6 @@ export const listProjectsLocationsNamespaces = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a namespace. */
 export interface GetProjectsLocationsNamespacesRequest {
   /** Required. The name of the namespace to retrieve. */
   name: string;
@@ -424,13 +423,13 @@ export const GetProjectsLocationsNamespacesResponse = Namespace;
 
 export type GetProjectsLocationsNamespacesError = CommonErrors;
 
+/** Gets a namespace. */
 export const getProjectsLocationsNamespaces: API.OperationMethod<GetProjectsLocationsNamespacesRequest, GetProjectsLocationsNamespacesResponse, GetProjectsLocationsNamespacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsNamespacesRequest,
   output: GetProjectsLocationsNamespacesResponse,
   errors: [],
 }));
 
-/** Updates a namespace. */
 export interface PatchProjectsLocationsNamespacesRequest {
   /** Immutable. The resource name for the namespace in the format `projects/* /locations/* /namespaces/*`. */
   name: string;
@@ -454,13 +453,13 @@ export const PatchProjectsLocationsNamespacesResponse = Namespace;
 
 export type PatchProjectsLocationsNamespacesError = CommonErrors;
 
+/** Updates a namespace. */
 export const patchProjectsLocationsNamespaces: API.OperationMethod<PatchProjectsLocationsNamespacesRequest, PatchProjectsLocationsNamespacesResponse, PatchProjectsLocationsNamespacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsNamespacesRequest,
   output: PatchProjectsLocationsNamespacesResponse,
   errors: [],
 }));
 
-/** Deletes a namespace. This also deletes all services and endpoints in the namespace. */
 export interface DeleteProjectsLocationsNamespacesRequest {
   /** Required. The name of the namespace to delete. */
   name: string;
@@ -478,13 +477,13 @@ export const DeleteProjectsLocationsNamespacesResponse = Empty;
 
 export type DeleteProjectsLocationsNamespacesError = CommonErrors;
 
+/** Deletes a namespace. This also deletes all services and endpoints in the namespace. */
 export const deleteProjectsLocationsNamespaces: API.OperationMethod<DeleteProjectsLocationsNamespacesRequest, DeleteProjectsLocationsNamespacesResponse, DeleteProjectsLocationsNamespacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsNamespacesRequest,
   output: DeleteProjectsLocationsNamespacesResponse,
   errors: [],
 }));
 
-/** Gets the IAM Policy for a resource (namespace or service only). */
 export interface GetIamPolicyProjectsLocationsNamespacesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -505,13 +504,13 @@ export const GetIamPolicyProjectsLocationsNamespacesResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsNamespacesError = CommonErrors;
 
+/** Gets the IAM Policy for a resource (namespace or service only). */
 export const getIamPolicyProjectsLocationsNamespaces: API.OperationMethod<GetIamPolicyProjectsLocationsNamespacesRequest, GetIamPolicyProjectsLocationsNamespacesResponse, GetIamPolicyProjectsLocationsNamespacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsNamespacesRequest,
   output: GetIamPolicyProjectsLocationsNamespacesResponse,
   errors: [],
 }));
 
-/** Sets the IAM Policy for a resource (namespace or service only). */
 export interface SetIamPolicyProjectsLocationsNamespacesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -532,13 +531,13 @@ export const SetIamPolicyProjectsLocationsNamespacesResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsNamespacesError = CommonErrors;
 
+/** Sets the IAM Policy for a resource (namespace or service only). */
 export const setIamPolicyProjectsLocationsNamespaces: API.OperationMethod<SetIamPolicyProjectsLocationsNamespacesRequest, SetIamPolicyProjectsLocationsNamespacesResponse, SetIamPolicyProjectsLocationsNamespacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsNamespacesRequest,
   output: SetIamPolicyProjectsLocationsNamespacesResponse,
   errors: [],
 }));
 
-/** Tests IAM permissions for a resource (namespace or service only). */
 export interface TestIamPermissionsProjectsLocationsNamespacesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -559,13 +558,13 @@ export const TestIamPermissionsProjectsLocationsNamespacesResponse = TestIamPerm
 
 export type TestIamPermissionsProjectsLocationsNamespacesError = CommonErrors;
 
+/** Tests IAM permissions for a resource (namespace or service only). */
 export const testIamPermissionsProjectsLocationsNamespaces: API.OperationMethod<TestIamPermissionsProjectsLocationsNamespacesRequest, TestIamPermissionsProjectsLocationsNamespacesResponse, TestIamPermissionsProjectsLocationsNamespacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsNamespacesRequest,
   output: TestIamPermissionsProjectsLocationsNamespacesResponse,
   errors: [],
 }));
 
-/** Returns a service and its associated endpoints. Resolving a service is not considered an active developer method. */
 export interface ResolveProjectsLocationsNamespacesServicesRequest {
   /** Required. The name of the service to resolve. */
   name: string;
@@ -586,13 +585,13 @@ export const ResolveProjectsLocationsNamespacesServicesResponse = ResolveService
 
 export type ResolveProjectsLocationsNamespacesServicesError = CommonErrors;
 
+/** Returns a service and its associated endpoints. Resolving a service is not considered an active developer method. */
 export const resolveProjectsLocationsNamespacesServices: API.OperationMethod<ResolveProjectsLocationsNamespacesServicesRequest, ResolveProjectsLocationsNamespacesServicesResponse, ResolveProjectsLocationsNamespacesServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResolveProjectsLocationsNamespacesServicesRequest,
   output: ResolveProjectsLocationsNamespacesServicesResponse,
   errors: [],
 }));
 
-/** Creates a service, and returns the new service. */
 export interface CreateProjectsLocationsNamespacesServicesRequest {
   /** Required. The resource name of the namespace this service will belong to. */
   parent: string;
@@ -616,13 +615,13 @@ export const CreateProjectsLocationsNamespacesServicesResponse = Service;
 
 export type CreateProjectsLocationsNamespacesServicesError = CommonErrors;
 
+/** Creates a service, and returns the new service. */
 export const createProjectsLocationsNamespacesServices: API.OperationMethod<CreateProjectsLocationsNamespacesServicesRequest, CreateProjectsLocationsNamespacesServicesResponse, CreateProjectsLocationsNamespacesServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsNamespacesServicesRequest,
   output: CreateProjectsLocationsNamespacesServicesResponse,
   errors: [],
 }));
 
-/** Lists all services belonging to a namespace. */
 export interface ListProjectsLocationsNamespacesServicesRequest {
   /** Required. The resource name of the namespace whose services you'd like to list. */
   parent: string;
@@ -652,7 +651,8 @@ export const ListProjectsLocationsNamespacesServicesResponse = ListServicesRespo
 
 export type ListProjectsLocationsNamespacesServicesError = CommonErrors;
 
-export const listProjectsLocationsNamespacesServices = API.makePaginated(() => ({
+/** Lists all services belonging to a namespace. */
+export const listProjectsLocationsNamespacesServices: API.PaginatedOperationMethod<ListProjectsLocationsNamespacesServicesRequest, ListProjectsLocationsNamespacesServicesResponse, ListProjectsLocationsNamespacesServicesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsNamespacesServicesRequest,
   output: ListProjectsLocationsNamespacesServicesResponse,
   errors: [],
@@ -662,7 +662,6 @@ export const listProjectsLocationsNamespacesServices = API.makePaginated(() => (
   },
 }));
 
-/** Gets a service. */
 export interface GetProjectsLocationsNamespacesServicesRequest {
   /** Required. The name of the service to get. */
   name: string;
@@ -680,13 +679,13 @@ export const GetProjectsLocationsNamespacesServicesResponse = Service;
 
 export type GetProjectsLocationsNamespacesServicesError = CommonErrors;
 
+/** Gets a service. */
 export const getProjectsLocationsNamespacesServices: API.OperationMethod<GetProjectsLocationsNamespacesServicesRequest, GetProjectsLocationsNamespacesServicesResponse, GetProjectsLocationsNamespacesServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsNamespacesServicesRequest,
   output: GetProjectsLocationsNamespacesServicesResponse,
   errors: [],
 }));
 
-/** Updates a service. */
 export interface PatchProjectsLocationsNamespacesServicesRequest {
   /** Immutable. The resource name for the service in the format `projects/* /locations/* /namespaces/* /services/*`. */
   name: string;
@@ -710,13 +709,13 @@ export const PatchProjectsLocationsNamespacesServicesResponse = Service;
 
 export type PatchProjectsLocationsNamespacesServicesError = CommonErrors;
 
+/** Updates a service. */
 export const patchProjectsLocationsNamespacesServices: API.OperationMethod<PatchProjectsLocationsNamespacesServicesRequest, PatchProjectsLocationsNamespacesServicesResponse, PatchProjectsLocationsNamespacesServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsNamespacesServicesRequest,
   output: PatchProjectsLocationsNamespacesServicesResponse,
   errors: [],
 }));
 
-/** Deletes a service. This also deletes all endpoints associated with the service. */
 export interface DeleteProjectsLocationsNamespacesServicesRequest {
   /** Required. The name of the service to delete. */
   name: string;
@@ -734,13 +733,13 @@ export const DeleteProjectsLocationsNamespacesServicesResponse = Empty;
 
 export type DeleteProjectsLocationsNamespacesServicesError = CommonErrors;
 
+/** Deletes a service. This also deletes all endpoints associated with the service. */
 export const deleteProjectsLocationsNamespacesServices: API.OperationMethod<DeleteProjectsLocationsNamespacesServicesRequest, DeleteProjectsLocationsNamespacesServicesResponse, DeleteProjectsLocationsNamespacesServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsNamespacesServicesRequest,
   output: DeleteProjectsLocationsNamespacesServicesResponse,
   errors: [],
 }));
 
-/** Gets the IAM Policy for a resource (namespace or service only). */
 export interface GetIamPolicyProjectsLocationsNamespacesServicesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -761,13 +760,13 @@ export const GetIamPolicyProjectsLocationsNamespacesServicesResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsNamespacesServicesError = CommonErrors;
 
+/** Gets the IAM Policy for a resource (namespace or service only). */
 export const getIamPolicyProjectsLocationsNamespacesServices: API.OperationMethod<GetIamPolicyProjectsLocationsNamespacesServicesRequest, GetIamPolicyProjectsLocationsNamespacesServicesResponse, GetIamPolicyProjectsLocationsNamespacesServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsNamespacesServicesRequest,
   output: GetIamPolicyProjectsLocationsNamespacesServicesResponse,
   errors: [],
 }));
 
-/** Sets the IAM Policy for a resource (namespace or service only). */
 export interface SetIamPolicyProjectsLocationsNamespacesServicesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -788,13 +787,13 @@ export const SetIamPolicyProjectsLocationsNamespacesServicesResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsNamespacesServicesError = CommonErrors;
 
+/** Sets the IAM Policy for a resource (namespace or service only). */
 export const setIamPolicyProjectsLocationsNamespacesServices: API.OperationMethod<SetIamPolicyProjectsLocationsNamespacesServicesRequest, SetIamPolicyProjectsLocationsNamespacesServicesResponse, SetIamPolicyProjectsLocationsNamespacesServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsNamespacesServicesRequest,
   output: SetIamPolicyProjectsLocationsNamespacesServicesResponse,
   errors: [],
 }));
 
-/** Tests IAM permissions for a resource (namespace or service only). */
 export interface TestIamPermissionsProjectsLocationsNamespacesServicesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -815,13 +814,13 @@ export const TestIamPermissionsProjectsLocationsNamespacesServicesResponse = Tes
 
 export type TestIamPermissionsProjectsLocationsNamespacesServicesError = CommonErrors;
 
+/** Tests IAM permissions for a resource (namespace or service only). */
 export const testIamPermissionsProjectsLocationsNamespacesServices: API.OperationMethod<TestIamPermissionsProjectsLocationsNamespacesServicesRequest, TestIamPermissionsProjectsLocationsNamespacesServicesResponse, TestIamPermissionsProjectsLocationsNamespacesServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsNamespacesServicesRequest,
   output: TestIamPermissionsProjectsLocationsNamespacesServicesResponse,
   errors: [],
 }));
 
-/** Creates an endpoint, and returns the new endpoint. */
 export interface CreateProjectsLocationsNamespacesServicesEndpointsRequest {
   /** Required. The resource name of the service that this endpoint provides. */
   parent: string;
@@ -845,13 +844,13 @@ export const CreateProjectsLocationsNamespacesServicesEndpointsResponse = Endpoi
 
 export type CreateProjectsLocationsNamespacesServicesEndpointsError = CommonErrors;
 
+/** Creates an endpoint, and returns the new endpoint. */
 export const createProjectsLocationsNamespacesServicesEndpoints: API.OperationMethod<CreateProjectsLocationsNamespacesServicesEndpointsRequest, CreateProjectsLocationsNamespacesServicesEndpointsResponse, CreateProjectsLocationsNamespacesServicesEndpointsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsNamespacesServicesEndpointsRequest,
   output: CreateProjectsLocationsNamespacesServicesEndpointsResponse,
   errors: [],
 }));
 
-/** Lists all endpoints. */
 export interface ListProjectsLocationsNamespacesServicesEndpointsRequest {
   /** Required. The resource name of the service whose endpoints you'd like to list. */
   parent: string;
@@ -881,7 +880,8 @@ export const ListProjectsLocationsNamespacesServicesEndpointsResponse = ListEndp
 
 export type ListProjectsLocationsNamespacesServicesEndpointsError = CommonErrors;
 
-export const listProjectsLocationsNamespacesServicesEndpoints = API.makePaginated(() => ({
+/** Lists all endpoints. */
+export const listProjectsLocationsNamespacesServicesEndpoints: API.PaginatedOperationMethod<ListProjectsLocationsNamespacesServicesEndpointsRequest, ListProjectsLocationsNamespacesServicesEndpointsResponse, ListProjectsLocationsNamespacesServicesEndpointsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsNamespacesServicesEndpointsRequest,
   output: ListProjectsLocationsNamespacesServicesEndpointsResponse,
   errors: [],
@@ -891,7 +891,6 @@ export const listProjectsLocationsNamespacesServicesEndpoints = API.makePaginate
   },
 }));
 
-/** Gets an endpoint. */
 export interface GetProjectsLocationsNamespacesServicesEndpointsRequest {
   /** Required. The name of the endpoint to get. */
   name: string;
@@ -909,13 +908,13 @@ export const GetProjectsLocationsNamespacesServicesEndpointsResponse = Endpoint;
 
 export type GetProjectsLocationsNamespacesServicesEndpointsError = CommonErrors;
 
+/** Gets an endpoint. */
 export const getProjectsLocationsNamespacesServicesEndpoints: API.OperationMethod<GetProjectsLocationsNamespacesServicesEndpointsRequest, GetProjectsLocationsNamespacesServicesEndpointsResponse, GetProjectsLocationsNamespacesServicesEndpointsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsNamespacesServicesEndpointsRequest,
   output: GetProjectsLocationsNamespacesServicesEndpointsResponse,
   errors: [],
 }));
 
-/** Updates an endpoint. */
 export interface PatchProjectsLocationsNamespacesServicesEndpointsRequest {
   /** Immutable. The resource name for the endpoint in the format `projects/* /locations/* /namespaces/* /services/* /endpoints/*`. */
   name: string;
@@ -939,13 +938,13 @@ export const PatchProjectsLocationsNamespacesServicesEndpointsResponse = Endpoin
 
 export type PatchProjectsLocationsNamespacesServicesEndpointsError = CommonErrors;
 
+/** Updates an endpoint. */
 export const patchProjectsLocationsNamespacesServicesEndpoints: API.OperationMethod<PatchProjectsLocationsNamespacesServicesEndpointsRequest, PatchProjectsLocationsNamespacesServicesEndpointsResponse, PatchProjectsLocationsNamespacesServicesEndpointsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsNamespacesServicesEndpointsRequest,
   output: PatchProjectsLocationsNamespacesServicesEndpointsResponse,
   errors: [],
 }));
 
-/** Deletes an endpoint. */
 export interface DeleteProjectsLocationsNamespacesServicesEndpointsRequest {
   /** Required. The name of the endpoint to delete. */
   name: string;
@@ -963,6 +962,7 @@ export const DeleteProjectsLocationsNamespacesServicesEndpointsResponse = Empty;
 
 export type DeleteProjectsLocationsNamespacesServicesEndpointsError = CommonErrors;
 
+/** Deletes an endpoint. */
 export const deleteProjectsLocationsNamespacesServicesEndpoints: API.OperationMethod<DeleteProjectsLocationsNamespacesServicesEndpointsRequest, DeleteProjectsLocationsNamespacesServicesEndpointsResponse, DeleteProjectsLocationsNamespacesServicesEndpointsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsNamespacesServicesEndpointsRequest,
   output: DeleteProjectsLocationsNamespacesServicesEndpointsResponse,

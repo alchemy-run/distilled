@@ -132,7 +132,6 @@ export const Search: Schema.Schema<Search> = Schema.suspend(() => Schema.Struct(
 // Operations
 // ==========================================================================
 
-/** Returns metadata about the search performed, metadata about the engine used for the search, and the search results. */
 export interface ListCseRequest {
   /** Enables or disables [Simplified and Traditional Chinese Search](https://developers.google.com/custom-search/docs/json_api_reference#chineseSearch). The default value for this parameter is 0 (zero), meaning that the feature is enabled. Supported values are: * `1`: Disabled * `0`: Enabled (default) */
   c2coff?: string;
@@ -246,13 +245,13 @@ export const ListCseResponse = Search;
 
 export type ListCseError = CommonErrors;
 
+/** Returns metadata about the search performed, metadata about the engine used for the search, and the search results. */
 export const listCse: API.OperationMethod<ListCseRequest, ListCseResponse, ListCseError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListCseRequest,
   output: ListCseResponse,
   errors: [],
 }));
 
-/** Returns metadata about the search performed, metadata about the engine used for the search, and the search results. Uses a small set of url patterns. */
 export interface ListCseSiterestrictRequest {
   /** Enables or disables [Simplified and Traditional Chinese Search](https://developers.google.com/custom-search/docs/json_api_reference#chineseSearch). The default value for this parameter is 0 (zero), meaning that the feature is enabled. Supported values are: * `1`: Disabled * `0`: Enabled (default) */
   c2coff?: string;
@@ -366,6 +365,7 @@ export const ListCseSiterestrictResponse = Search;
 
 export type ListCseSiterestrictError = CommonErrors;
 
+/** Returns metadata about the search performed, metadata about the engine used for the search, and the search results. Uses a small set of url patterns. */
 export const listCseSiterestrict: API.OperationMethod<ListCseSiterestrictRequest, ListCseSiterestrictResponse, ListCseSiterestrictError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListCseSiterestrictRequest,
   output: ListCseSiterestrictResponse,

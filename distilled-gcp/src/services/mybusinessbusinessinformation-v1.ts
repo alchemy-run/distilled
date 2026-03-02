@@ -780,7 +780,6 @@ export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
 // Operations
 // ==========================================================================
 
-/** Returns the list of attributes that would be available for a location with the given primary category and country. */
 export interface ListAttributesRequest {
   /** Resource name of the location to look up available attributes. If this field is set, category_name, region_code, language_code and show_all are not required and must not be set. */
   parent?: string;
@@ -816,7 +815,8 @@ export const ListAttributesResponse = ListAttributeMetadataResponse;
 
 export type ListAttributesError = CommonErrors;
 
-export const listAttributes = API.makePaginated(() => ({
+/** Returns the list of attributes that would be available for a location with the given primary category and country. */
+export const listAttributes: API.PaginatedOperationMethod<ListAttributesRequest, ListAttributesResponse, ListAttributesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAttributesRequest,
   output: ListAttributesResponse,
   errors: [],
@@ -826,7 +826,6 @@ export const listAttributes = API.makePaginated(() => ({
   },
 }));
 
-/** Update attributes for a given location. */
 export interface UpdateAttributesLocationsRequest {
   /** Required. Google identifier for this location in the form of `locations/{location_id}/attributes`. */
   name: string;
@@ -850,13 +849,13 @@ export const UpdateAttributesLocationsResponse = Attributes;
 
 export type UpdateAttributesLocationsError = CommonErrors;
 
+/** Update attributes for a given location. */
 export const updateAttributesLocations: API.OperationMethod<UpdateAttributesLocationsRequest, UpdateAttributesLocationsResponse, UpdateAttributesLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAttributesLocationsRequest,
   output: UpdateAttributesLocationsResponse,
   errors: [],
 }));
 
-/** Looks up all the attributes set for a given location. */
 export interface GetAttributesLocationsRequest {
   /** Required. Google identifier for this location in the form of `locations/{location_id}/attributes`. */
   name: string;
@@ -874,13 +873,13 @@ export const GetAttributesLocationsResponse = Attributes;
 
 export type GetAttributesLocationsError = CommonErrors;
 
+/** Looks up all the attributes set for a given location. */
 export const getAttributesLocations: API.OperationMethod<GetAttributesLocationsRequest, GetAttributesLocationsResponse, GetAttributesLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAttributesLocationsRequest,
   output: GetAttributesLocationsResponse,
   errors: [],
 }));
 
-/** Returns the specified location. */
 export interface GetLocationsRequest {
   /** Required. The name of the location to fetch. */
   name: string;
@@ -901,13 +900,13 @@ export const GetLocationsResponse = Location;
 
 export type GetLocationsError = CommonErrors;
 
+/** Returns the specified location. */
 export const getLocations: API.OperationMethod<GetLocationsRequest, GetLocationsResponse, GetLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetLocationsRequest,
   output: GetLocationsResponse,
   errors: [],
 }));
 
-/** Gets the Google-updated version of the specified location. */
 export interface GetGoogleUpdatedLocationsRequest {
   /** Required. The name of the location to fetch. */
   name: string;
@@ -928,13 +927,13 @@ export const GetGoogleUpdatedLocationsResponse = GoogleUpdatedLocation;
 
 export type GetGoogleUpdatedLocationsError = CommonErrors;
 
+/** Gets the Google-updated version of the specified location. */
 export const getGoogleUpdatedLocations: API.OperationMethod<GetGoogleUpdatedLocationsRequest, GetGoogleUpdatedLocationsResponse, GetGoogleUpdatedLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetGoogleUpdatedLocationsRequest,
   output: GetGoogleUpdatedLocationsResponse,
   errors: [],
 }));
 
-/** Updates the specified location. */
 export interface PatchLocationsRequest {
   /** Google identifier for this location in the form: `locations/{location_id}`. */
   name: string;
@@ -961,13 +960,13 @@ export const PatchLocationsResponse = Location;
 
 export type PatchLocationsError = CommonErrors;
 
+/** Updates the specified location. */
 export const patchLocations: API.OperationMethod<PatchLocationsRequest, PatchLocationsResponse, PatchLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchLocationsRequest,
   output: PatchLocationsResponse,
   errors: [],
 }));
 
-/** Deletes a location. If this location cannot be deleted using the API and it is marked so in the `google.mybusiness.businessinformation.v1.LocationState`, use the [Google Business Profile](https://business.google.com/manage/) website. */
 export interface DeleteLocationsRequest {
   /** Required. The name of the location to delete. */
   name: string;
@@ -985,13 +984,13 @@ export const DeleteLocationsResponse = Empty;
 
 export type DeleteLocationsError = CommonErrors;
 
+/** Deletes a location. If this location cannot be deleted using the API and it is marked so in the `google.mybusiness.businessinformation.v1.LocationState`, use the [Google Business Profile](https://business.google.com/manage/) website. */
 export const deleteLocations: API.OperationMethod<DeleteLocationsRequest, DeleteLocationsResponse, DeleteLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteLocationsRequest,
   output: DeleteLocationsResponse,
   errors: [],
 }));
 
-/** Gets the Google-updated version of the specified location. */
 export interface GetGoogleUpdatedLocationsAttributesRequest {
   /** Required. Google identifier for this location in the form of `locations/{location_id}/attributes`. */
   name: string;
@@ -1009,13 +1008,13 @@ export const GetGoogleUpdatedLocationsAttributesResponse = Attributes;
 
 export type GetGoogleUpdatedLocationsAttributesError = CommonErrors;
 
+/** Gets the Google-updated version of the specified location. */
 export const getGoogleUpdatedLocationsAttributes: API.OperationMethod<GetGoogleUpdatedLocationsAttributesRequest, GetGoogleUpdatedLocationsAttributesResponse, GetGoogleUpdatedLocationsAttributesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetGoogleUpdatedLocationsAttributesRequest,
   output: GetGoogleUpdatedLocationsAttributesResponse,
   errors: [],
 }));
 
-/** Returns a list of business categories. Search will match the category name but not the category ID. Search only matches the front of a category name (that is, 'food' may return 'Food Court' but not 'Fast Food Restaurant'). */
 export interface ListCategoriesRequest {
   /** Required. The ISO 3166-1 alpha-2 country code. */
   regionCode?: string;
@@ -1048,7 +1047,8 @@ export const ListCategoriesResponse_Op = ListCategoriesResponse;
 
 export type ListCategoriesError = CommonErrors;
 
-export const listCategories = API.makePaginated(() => ({
+/** Returns a list of business categories. Search will match the category name but not the category ID. Search only matches the front of a category name (that is, 'food' may return 'Food Court' but not 'Fast Food Restaurant'). */
+export const listCategories: API.PaginatedOperationMethod<ListCategoriesRequest, ListCategoriesResponse_Op, ListCategoriesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCategoriesRequest,
   output: ListCategoriesResponse_Op,
   errors: [],
@@ -1058,7 +1058,6 @@ export const listCategories = API.makePaginated(() => ({
   },
 }));
 
-/** Returns a list of business categories for the provided language and GConcept ids. */
 export interface BatchGetCategoriesRequest {
   /** Required. At least one name must be set. The GConcept ids the localized category names should be returned for. To return details for more than one category, repeat this parameter in the request. */
   names?: string[];
@@ -1085,13 +1084,13 @@ export const BatchGetCategoriesResponse_Op = BatchGetCategoriesResponse;
 
 export type BatchGetCategoriesError = CommonErrors;
 
+/** Returns a list of business categories for the provided language and GConcept ids. */
 export const batchGetCategories: API.OperationMethod<BatchGetCategoriesRequest, BatchGetCategoriesResponse_Op, BatchGetCategoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchGetCategoriesRequest,
   output: BatchGetCategoriesResponse_Op,
   errors: [],
 }));
 
-/** Gets the specified chain. Returns `NOT_FOUND` if the chain does not exist. */
 export interface GetChainsRequest {
   /** Required. The chain's resource name, in the format `chains/{chain_place_id}`. */
   name: string;
@@ -1109,13 +1108,13 @@ export const GetChainsResponse = Chain;
 
 export type GetChainsError = CommonErrors;
 
+/** Gets the specified chain. Returns `NOT_FOUND` if the chain does not exist. */
 export const getChains: API.OperationMethod<GetChainsRequest, GetChainsResponse, GetChainsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetChainsRequest,
   output: GetChainsResponse,
   errors: [],
 }));
 
-/** Searches the chain based on chain name. */
 export interface SearchChainsRequest {
   /** Required. Search for a chain by its name. Exact/partial/fuzzy/related queries are supported. Examples: "walmart", "wal-mart", "walmmmart", "沃尔玛" */
   chainName?: string;
@@ -1136,13 +1135,13 @@ export const SearchChainsResponse_Op = SearchChainsResponse;
 
 export type SearchChainsError = CommonErrors;
 
+/** Searches the chain based on chain name. */
 export const searchChains: API.OperationMethod<SearchChainsRequest, SearchChainsResponse_Op, SearchChainsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchChainsRequest,
   output: SearchChainsResponse_Op,
   errors: [],
 }));
 
-/** Search all of the possible locations that are a match to the specified request. */
 export interface SearchGoogleLocationsRequest_Op {
   /** Request body */
   body?: SearchGoogleLocationsRequest;
@@ -1160,13 +1159,13 @@ export const SearchGoogleLocationsResponse_Op = SearchGoogleLocationsResponse;
 
 export type SearchGoogleLocationsError = CommonErrors;
 
+/** Search all of the possible locations that are a match to the specified request. */
 export const searchGoogleLocations: API.OperationMethod<SearchGoogleLocationsRequest_Op, SearchGoogleLocationsResponse_Op, SearchGoogleLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchGoogleLocationsRequest_Op,
   output: SearchGoogleLocationsResponse_Op,
   errors: [],
 }));
 
-/** Lists the locations for the specified account. */
 export interface ListAccountsLocationsRequest {
   /** Required. The name of the account to fetch locations from. If the parent Account is of AccountType PERSONAL, only Locations that are directly owned by the Account are returned, otherwise it will return all accessible locations from the Account, either directly or indirectly. */
   parent: string;
@@ -1199,7 +1198,8 @@ export const ListAccountsLocationsResponse = ListLocationsResponse;
 
 export type ListAccountsLocationsError = CommonErrors;
 
-export const listAccountsLocations = API.makePaginated(() => ({
+/** Lists the locations for the specified account. */
+export const listAccountsLocations: API.PaginatedOperationMethod<ListAccountsLocationsRequest, ListAccountsLocationsResponse, ListAccountsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsLocationsRequest,
   output: ListAccountsLocationsResponse,
   errors: [],
@@ -1209,7 +1209,6 @@ export const listAccountsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new Location that will be owned by the logged in user. */
 export interface CreateAccountsLocationsRequest {
   /** Required. The name of the account in which to create this location. */
   parent: string;
@@ -1236,6 +1235,7 @@ export const CreateAccountsLocationsResponse = Location;
 
 export type CreateAccountsLocationsError = CommonErrors;
 
+/** Creates a new Location that will be owned by the logged in user. */
 export const createAccountsLocations: API.OperationMethod<CreateAccountsLocationsRequest, CreateAccountsLocationsResponse, CreateAccountsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsLocationsRequest,
   output: CreateAccountsLocationsResponse,

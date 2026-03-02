@@ -1149,7 +1149,6 @@ export const GoogleCloudRecaptchaenterpriseV1SearchRelatedAccountGroupMembership
 // Operations
 // ==========================================================================
 
-/** Creates an Assessment of the likelihood an event is legitimate. */
 export interface CreateProjectsAssessmentsRequest {
   /** Required. The name of the project in which the assessment is created, in the format `projects/{project}`. */
   parent: string;
@@ -1170,13 +1169,13 @@ export const CreateProjectsAssessmentsResponse = GoogleCloudRecaptchaenterpriseV
 
 export type CreateProjectsAssessmentsError = CommonErrors;
 
+/** Creates an Assessment of the likelihood an event is legitimate. */
 export const createProjectsAssessments: API.OperationMethod<CreateProjectsAssessmentsRequest, CreateProjectsAssessmentsResponse, CreateProjectsAssessmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsAssessmentsRequest,
   output: CreateProjectsAssessmentsResponse,
   errors: [],
 }));
 
-/** Annotates a previously created Assessment to provide additional information on whether the event turned out to be authentic or fraudulent. */
 export interface AnnotateProjectsAssessmentsRequest {
   /** Required. The resource name of the Assessment, in the format `projects/{project}/assessments/{assessment}`. */
   name: string;
@@ -1197,13 +1196,13 @@ export const AnnotateProjectsAssessmentsResponse = GoogleCloudRecaptchaenterpris
 
 export type AnnotateProjectsAssessmentsError = CommonErrors;
 
+/** Annotates a previously created Assessment to provide additional information on whether the event turned out to be authentic or fraudulent. */
 export const annotateProjectsAssessments: API.OperationMethod<AnnotateProjectsAssessmentsRequest, AnnotateProjectsAssessmentsResponse, AnnotateProjectsAssessmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AnnotateProjectsAssessmentsRequest,
   output: AnnotateProjectsAssessmentsResponse,
   errors: [],
 }));
 
-/** Creates a new reCAPTCHA Enterprise key. */
 export interface CreateProjectsKeysRequest {
   /** Required. The name of the project in which the key is created, in the format `projects/{project}`. */
   parent: string;
@@ -1224,13 +1223,13 @@ export const CreateProjectsKeysResponse = GoogleCloudRecaptchaenterpriseV1Key;
 
 export type CreateProjectsKeysError = CommonErrors;
 
+/** Creates a new reCAPTCHA Enterprise key. */
 export const createProjectsKeys: API.OperationMethod<CreateProjectsKeysRequest, CreateProjectsKeysResponse, CreateProjectsKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsKeysRequest,
   output: CreateProjectsKeysResponse,
   errors: [],
 }));
 
-/** Returns the list of all keys that belong to a project. */
 export interface ListProjectsKeysRequest {
   /** Required. The name of the project that contains the keys that is listed, in the format `projects/{project}`. */
   parent: string;
@@ -1254,7 +1253,8 @@ export const ListProjectsKeysResponse = GoogleCloudRecaptchaenterpriseV1ListKeys
 
 export type ListProjectsKeysError = CommonErrors;
 
-export const listProjectsKeys = API.makePaginated(() => ({
+/** Returns the list of all keys that belong to a project. */
+export const listProjectsKeys: API.PaginatedOperationMethod<ListProjectsKeysRequest, ListProjectsKeysResponse, ListProjectsKeysError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsKeysRequest,
   output: ListProjectsKeysResponse,
   errors: [],
@@ -1264,7 +1264,6 @@ export const listProjectsKeys = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the secret key related to the specified public key. You must use the legacy secret key only in a 3rd party integration with legacy reCAPTCHA. */
 export interface RetrieveLegacySecretKeyProjectsKeysRequest {
 }
 
@@ -1279,13 +1278,13 @@ export const RetrieveLegacySecretKeyProjectsKeysResponse = GoogleCloudRecaptchae
 
 export type RetrieveLegacySecretKeyProjectsKeysError = CommonErrors;
 
+/** Returns the secret key related to the specified public key. You must use the legacy secret key only in a 3rd party integration with legacy reCAPTCHA. */
 export const retrieveLegacySecretKeyProjectsKeys: API.OperationMethod<RetrieveLegacySecretKeyProjectsKeysRequest, RetrieveLegacySecretKeyProjectsKeysResponse, RetrieveLegacySecretKeyProjectsKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RetrieveLegacySecretKeyProjectsKeysRequest,
   output: RetrieveLegacySecretKeyProjectsKeysResponse,
   errors: [],
 }));
 
-/** Returns the specified key. */
 export interface GetProjectsKeysRequest {
   /** Required. The name of the requested key, in the format `projects/{project}/keys/{key}`. */
   name: string;
@@ -1303,13 +1302,13 @@ export const GetProjectsKeysResponse = GoogleCloudRecaptchaenterpriseV1Key;
 
 export type GetProjectsKeysError = CommonErrors;
 
+/** Returns the specified key. */
 export const getProjectsKeys: API.OperationMethod<GetProjectsKeysRequest, GetProjectsKeysResponse, GetProjectsKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsKeysRequest,
   output: GetProjectsKeysResponse,
   errors: [],
 }));
 
-/** Updates the specified key. */
 export interface PatchProjectsKeysRequest {
   /** Identifier. The resource name for the Key in the format `projects/{project}/keys/{key}`. */
   name: string;
@@ -1333,13 +1332,13 @@ export const PatchProjectsKeysResponse = GoogleCloudRecaptchaenterpriseV1Key;
 
 export type PatchProjectsKeysError = CommonErrors;
 
+/** Updates the specified key. */
 export const patchProjectsKeys: API.OperationMethod<PatchProjectsKeysRequest, PatchProjectsKeysResponse, PatchProjectsKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsKeysRequest,
   output: PatchProjectsKeysResponse,
   errors: [],
 }));
 
-/** Deletes the specified key. */
 export interface DeleteProjectsKeysRequest {
   /** Required. The name of the key to be deleted, in the format `projects/{project}/keys/{key}`. */
   name: string;
@@ -1357,13 +1356,13 @@ export const DeleteProjectsKeysResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsKeysError = CommonErrors;
 
+/** Deletes the specified key. */
 export const deleteProjectsKeys: API.OperationMethod<DeleteProjectsKeysRequest, DeleteProjectsKeysResponse, DeleteProjectsKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsKeysRequest,
   output: DeleteProjectsKeysResponse,
   errors: [],
 }));
 
-/** Migrates an existing key from reCAPTCHA to reCAPTCHA Enterprise. Once a key is migrated, it can be used from either product. SiteVerify requests are billed as CreateAssessment calls. You must be authenticated as one of the current owners of the reCAPTCHA Key, and your user must have the reCAPTCHA Enterprise Admin IAM role in the destination project. */
 export interface MigrateProjectsKeysRequest {
   /** Required. The name of the key to be migrated, in the format `projects/{project}/keys/{key}`. */
   name: string;
@@ -1384,13 +1383,13 @@ export const MigrateProjectsKeysResponse = GoogleCloudRecaptchaenterpriseV1Key;
 
 export type MigrateProjectsKeysError = CommonErrors;
 
+/** Migrates an existing key from reCAPTCHA to reCAPTCHA Enterprise. Once a key is migrated, it can be used from either product. SiteVerify requests are billed as CreateAssessment calls. You must be authenticated as one of the current owners of the reCAPTCHA Key, and your user must have the reCAPTCHA Enterprise Admin IAM role in the destination project. */
 export const migrateProjectsKeys: API.OperationMethod<MigrateProjectsKeysRequest, MigrateProjectsKeysResponse, MigrateProjectsKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MigrateProjectsKeysRequest,
   output: MigrateProjectsKeysResponse,
   errors: [],
 }));
 
-/** Adds an IP override to a key. The following restrictions hold: * The maximum number of IP overrides per key is 1000. * For any conflict (such as IP already exists or IP part of an existing IP range), an error is returned. */
 export interface AddIpOverrideProjectsKeysRequest {
   /** Required. The name of the key to which the IP override is added, in the format `projects/{project}/keys/{key}`. */
   name: string;
@@ -1411,13 +1410,13 @@ export const AddIpOverrideProjectsKeysResponse = GoogleCloudRecaptchaenterpriseV
 
 export type AddIpOverrideProjectsKeysError = CommonErrors;
 
+/** Adds an IP override to a key. The following restrictions hold: * The maximum number of IP overrides per key is 1000. * For any conflict (such as IP already exists or IP part of an existing IP range), an error is returned. */
 export const addIpOverrideProjectsKeys: API.OperationMethod<AddIpOverrideProjectsKeysRequest, AddIpOverrideProjectsKeysResponse, AddIpOverrideProjectsKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddIpOverrideProjectsKeysRequest,
   output: AddIpOverrideProjectsKeysResponse,
   errors: [],
 }));
 
-/** Removes an IP override from a key. The following restrictions hold: * If the IP isn't found in an existing IP override, a `NOT_FOUND` error is returned. * If the IP is found in an existing IP override, but the override type does not match, a `NOT_FOUND` error is returned. */
 export interface RemoveIpOverrideProjectsKeysRequest {
   /** Required. The name of the key from which the IP override is removed, in the format `projects/{project}/keys/{key}`. */
   name: string;
@@ -1438,13 +1437,13 @@ export const RemoveIpOverrideProjectsKeysResponse = GoogleCloudRecaptchaenterpri
 
 export type RemoveIpOverrideProjectsKeysError = CommonErrors;
 
+/** Removes an IP override from a key. The following restrictions hold: * If the IP isn't found in an existing IP override, a `NOT_FOUND` error is returned. * If the IP is found in an existing IP override, but the override type does not match, a `NOT_FOUND` error is returned. */
 export const removeIpOverrideProjectsKeys: API.OperationMethod<RemoveIpOverrideProjectsKeysRequest, RemoveIpOverrideProjectsKeysResponse, RemoveIpOverrideProjectsKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveIpOverrideProjectsKeysRequest,
   output: RemoveIpOverrideProjectsKeysResponse,
   errors: [],
 }));
 
-/** Lists all IP overrides for a key. */
 export interface ListIpOverridesProjectsKeysRequest {
   /** Required. The parent key for which the IP overrides are listed, in the format `projects/{project}/keys/{key}`. */
   parent: string;
@@ -1468,7 +1467,8 @@ export const ListIpOverridesProjectsKeysResponse = GoogleCloudRecaptchaenterpris
 
 export type ListIpOverridesProjectsKeysError = CommonErrors;
 
-export const listIpOverridesProjectsKeys = API.makePaginated(() => ({
+/** Lists all IP overrides for a key. */
+export const listIpOverridesProjectsKeys: API.PaginatedOperationMethod<ListIpOverridesProjectsKeysRequest, ListIpOverridesProjectsKeysResponse, ListIpOverridesProjectsKeysError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListIpOverridesProjectsKeysRequest,
   output: ListIpOverridesProjectsKeysResponse,
   errors: [],
@@ -1478,7 +1478,6 @@ export const listIpOverridesProjectsKeys = API.makePaginated(() => ({
   },
 }));
 
-/** Get some aggregated metrics for a Key. This data can be used to build dashboards. */
 export interface GetMetricsProjectsKeysRequest {
   /** Required. The name of the requested metrics, in the format `projects/{project}/keys/{key}/metrics`. */
   name: string;
@@ -1496,13 +1495,13 @@ export const GetMetricsProjectsKeysResponse = GoogleCloudRecaptchaenterpriseV1Me
 
 export type GetMetricsProjectsKeysError = CommonErrors;
 
+/** Get some aggregated metrics for a Key. This data can be used to build dashboards. */
 export const getMetricsProjectsKeys: API.OperationMethod<GetMetricsProjectsKeysRequest, GetMetricsProjectsKeysResponse, GetMetricsProjectsKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetMetricsProjectsKeysRequest,
   output: GetMetricsProjectsKeysResponse,
   errors: [],
 }));
 
-/** Creates a new FirewallPolicy, specifying conditions at which reCAPTCHA Enterprise actions can be executed. A project may have a maximum of 1000 policies. */
 export interface CreateProjectsFirewallpoliciesRequest {
   /** Required. The name of the project this policy applies to, in the format `projects/{project}`. */
   parent: string;
@@ -1523,13 +1522,13 @@ export const CreateProjectsFirewallpoliciesResponse = GoogleCloudRecaptchaenterp
 
 export type CreateProjectsFirewallpoliciesError = CommonErrors;
 
+/** Creates a new FirewallPolicy, specifying conditions at which reCAPTCHA Enterprise actions can be executed. A project may have a maximum of 1000 policies. */
 export const createProjectsFirewallpolicies: API.OperationMethod<CreateProjectsFirewallpoliciesRequest, CreateProjectsFirewallpoliciesResponse, CreateProjectsFirewallpoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsFirewallpoliciesRequest,
   output: CreateProjectsFirewallpoliciesResponse,
   errors: [],
 }));
 
-/** Returns the list of all firewall policies that belong to a project. */
 export interface ListProjectsFirewallpoliciesRequest {
   /** Required. The name of the project to list the policies for, in the format `projects/{project}`. */
   parent: string;
@@ -1553,7 +1552,8 @@ export const ListProjectsFirewallpoliciesResponse = GoogleCloudRecaptchaenterpri
 
 export type ListProjectsFirewallpoliciesError = CommonErrors;
 
-export const listProjectsFirewallpolicies = API.makePaginated(() => ({
+/** Returns the list of all firewall policies that belong to a project. */
+export const listProjectsFirewallpolicies: API.PaginatedOperationMethod<ListProjectsFirewallpoliciesRequest, ListProjectsFirewallpoliciesResponse, ListProjectsFirewallpoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsFirewallpoliciesRequest,
   output: ListProjectsFirewallpoliciesResponse,
   errors: [],
@@ -1563,7 +1563,6 @@ export const listProjectsFirewallpolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the specified firewall policy. */
 export interface GetProjectsFirewallpoliciesRequest {
   /** Required. The name of the requested policy, in the format `projects/{project}/firewallpolicies/{firewallpolicy}`. */
   name: string;
@@ -1581,13 +1580,13 @@ export const GetProjectsFirewallpoliciesResponse = GoogleCloudRecaptchaenterpris
 
 export type GetProjectsFirewallpoliciesError = CommonErrors;
 
+/** Returns the specified firewall policy. */
 export const getProjectsFirewallpolicies: API.OperationMethod<GetProjectsFirewallpoliciesRequest, GetProjectsFirewallpoliciesResponse, GetProjectsFirewallpoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsFirewallpoliciesRequest,
   output: GetProjectsFirewallpoliciesResponse,
   errors: [],
 }));
 
-/** Updates the specified firewall policy. */
 export interface PatchProjectsFirewallpoliciesRequest {
   /** Identifier. The resource name for the FirewallPolicy in the format `projects/{project}/firewallpolicies/{firewallpolicy}`. */
   name: string;
@@ -1611,13 +1610,13 @@ export const PatchProjectsFirewallpoliciesResponse = GoogleCloudRecaptchaenterpr
 
 export type PatchProjectsFirewallpoliciesError = CommonErrors;
 
+/** Updates the specified firewall policy. */
 export const patchProjectsFirewallpolicies: API.OperationMethod<PatchProjectsFirewallpoliciesRequest, PatchProjectsFirewallpoliciesResponse, PatchProjectsFirewallpoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsFirewallpoliciesRequest,
   output: PatchProjectsFirewallpoliciesResponse,
   errors: [],
 }));
 
-/** Deletes the specified firewall policy. */
 export interface DeleteProjectsFirewallpoliciesRequest {
   /** Required. The name of the policy to be deleted, in the format `projects/{project}/firewallpolicies/{firewallpolicy}`. */
   name: string;
@@ -1635,13 +1634,13 @@ export const DeleteProjectsFirewallpoliciesResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsFirewallpoliciesError = CommonErrors;
 
+/** Deletes the specified firewall policy. */
 export const deleteProjectsFirewallpolicies: API.OperationMethod<DeleteProjectsFirewallpoliciesRequest, DeleteProjectsFirewallpoliciesResponse, DeleteProjectsFirewallpoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsFirewallpoliciesRequest,
   output: DeleteProjectsFirewallpoliciesResponse,
   errors: [],
 }));
 
-/** Reorders all firewall policies. */
 export interface ReorderProjectsFirewallpoliciesRequest {
   /** Required. The name of the project to list the policies for, in the format `projects/{project}`. */
   parent: string;
@@ -1662,13 +1661,13 @@ export const ReorderProjectsFirewallpoliciesResponse = GoogleCloudRecaptchaenter
 
 export type ReorderProjectsFirewallpoliciesError = CommonErrors;
 
+/** Reorders all firewall policies. */
 export const reorderProjectsFirewallpolicies: API.OperationMethod<ReorderProjectsFirewallpoliciesRequest, ReorderProjectsFirewallpoliciesResponse, ReorderProjectsFirewallpoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReorderProjectsFirewallpoliciesRequest,
   output: ReorderProjectsFirewallpoliciesResponse,
   errors: [],
 }));
 
-/** List groups of related accounts. */
 export interface ListProjectsRelatedaccountgroupsRequest {
   /** Required. The name of the project to list related account groups from, in the format `projects/{project}`. */
   parent: string;
@@ -1692,7 +1691,8 @@ export const ListProjectsRelatedaccountgroupsResponse = GoogleCloudRecaptchaente
 
 export type ListProjectsRelatedaccountgroupsError = CommonErrors;
 
-export const listProjectsRelatedaccountgroups = API.makePaginated(() => ({
+/** List groups of related accounts. */
+export const listProjectsRelatedaccountgroups: API.PaginatedOperationMethod<ListProjectsRelatedaccountgroupsRequest, ListProjectsRelatedaccountgroupsResponse, ListProjectsRelatedaccountgroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsRelatedaccountgroupsRequest,
   output: ListProjectsRelatedaccountgroupsResponse,
   errors: [],
@@ -1702,7 +1702,6 @@ export const listProjectsRelatedaccountgroups = API.makePaginated(() => ({
   },
 }));
 
-/** Get memberships in a group of related accounts. */
 export interface ListProjectsRelatedaccountgroupsMembershipsRequest {
   /** Required. The resource name for the related account group in the format `projects/{project}/relatedaccountgroups/{relatedaccountgroup}`. */
   parent: string;
@@ -1726,7 +1725,8 @@ export const ListProjectsRelatedaccountgroupsMembershipsResponse = GoogleCloudRe
 
 export type ListProjectsRelatedaccountgroupsMembershipsError = CommonErrors;
 
-export const listProjectsRelatedaccountgroupsMemberships = API.makePaginated(() => ({
+/** Get memberships in a group of related accounts. */
+export const listProjectsRelatedaccountgroupsMemberships: API.PaginatedOperationMethod<ListProjectsRelatedaccountgroupsMembershipsRequest, ListProjectsRelatedaccountgroupsMembershipsResponse, ListProjectsRelatedaccountgroupsMembershipsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsRelatedaccountgroupsMembershipsRequest,
   output: ListProjectsRelatedaccountgroupsMembershipsResponse,
   errors: [],
@@ -1736,7 +1736,6 @@ export const listProjectsRelatedaccountgroupsMemberships = API.makePaginated(() 
   },
 }));
 
-/** Search group memberships related to a given account. */
 export interface SearchProjectsRelatedaccountgroupmembershipsRequest {
   /** Required. The name of the project to search related account group memberships from. Specify the project name in the following format: `projects/{project}`. */
   project: string;
@@ -1757,6 +1756,7 @@ export const SearchProjectsRelatedaccountgroupmembershipsResponse = GoogleCloudR
 
 export type SearchProjectsRelatedaccountgroupmembershipsError = CommonErrors;
 
+/** Search group memberships related to a given account. */
 export const searchProjectsRelatedaccountgroupmemberships: API.OperationMethod<SearchProjectsRelatedaccountgroupmembershipsRequest, SearchProjectsRelatedaccountgroupmembershipsResponse, SearchProjectsRelatedaccountgroupmembershipsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchProjectsRelatedaccountgroupmembershipsRequest,
   output: SearchProjectsRelatedaccountgroupmembershipsResponse,

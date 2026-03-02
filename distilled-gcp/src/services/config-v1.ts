@@ -1026,7 +1026,6 @@ export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspen
 // Operations
 // ==========================================================================
 
-/** Get the AutoMigrationConfig for a given project and location. */
 export interface GetAutoMigrationConfigProjectsLocationsRequest {
   /** Required. The name of the AutoMigrationConfig. Format: 'projects/{project_id}/locations/{location}/AutoMigrationConfig'. */
   name: string;
@@ -1044,13 +1043,13 @@ export const GetAutoMigrationConfigProjectsLocationsResponse = AutoMigrationConf
 
 export type GetAutoMigrationConfigProjectsLocationsError = CommonErrors;
 
+/** Get the AutoMigrationConfig for a given project and location. */
 export const getAutoMigrationConfigProjectsLocations: API.OperationMethod<GetAutoMigrationConfigProjectsLocationsRequest, GetAutoMigrationConfigProjectsLocationsResponse, GetAutoMigrationConfigProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAutoMigrationConfigProjectsLocationsRequest,
   output: GetAutoMigrationConfigProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Updates the AutoMigrationConfig for a given project and location. */
 export interface UpdateAutoMigrationConfigProjectsLocationsRequest {
   /** Identifier. The name of the AutoMigrationConfig. Format: 'projects/{project_id}/locations/{location}/AutoMigrationConfig'. */
   name: string;
@@ -1074,13 +1073,13 @@ export const UpdateAutoMigrationConfigProjectsLocationsResponse = Operation;
 
 export type UpdateAutoMigrationConfigProjectsLocationsError = CommonErrors;
 
+/** Updates the AutoMigrationConfig for a given project and location. */
 export const updateAutoMigrationConfigProjectsLocations: API.OperationMethod<UpdateAutoMigrationConfigProjectsLocationsRequest, UpdateAutoMigrationConfigProjectsLocationsResponse, UpdateAutoMigrationConfigProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAutoMigrationConfigProjectsLocationsRequest,
   output: UpdateAutoMigrationConfigProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -1110,7 +1109,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -1120,7 +1120,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -1138,13 +1137,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -1174,7 +1173,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -1184,7 +1184,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1202,13 +1201,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -1226,13 +1225,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -1253,13 +1252,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Lists Deployments in a given project and location. */
 export interface ListProjectsLocationsDeploymentsRequest {
   /** Required. The parent in whose context the Deployments are listed. The parent value is in the format: 'projects/{project_id}/locations/{location}'. */
   parent: string;
@@ -1289,7 +1288,8 @@ export const ListProjectsLocationsDeploymentsResponse = ListDeploymentsResponse;
 
 export type ListProjectsLocationsDeploymentsError = CommonErrors;
 
-export const listProjectsLocationsDeployments = API.makePaginated(() => ({
+/** Lists Deployments in a given project and location. */
+export const listProjectsLocationsDeployments: API.PaginatedOperationMethod<ListProjectsLocationsDeploymentsRequest, ListProjectsLocationsDeploymentsResponse, ListProjectsLocationsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDeploymentsRequest,
   output: ListProjectsLocationsDeploymentsResponse,
   errors: [],
@@ -1299,7 +1299,6 @@ export const listProjectsLocationsDeployments = API.makePaginated(() => ({
   },
 }));
 
-/** Gets details about a Deployment. */
 export interface GetProjectsLocationsDeploymentsRequest {
   /** Required. The name of the deployment. Format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
   name: string;
@@ -1317,13 +1316,13 @@ export const GetProjectsLocationsDeploymentsResponse = Deployment;
 
 export type GetProjectsLocationsDeploymentsError = CommonErrors;
 
+/** Gets details about a Deployment. */
 export const getProjectsLocationsDeployments: API.OperationMethod<GetProjectsLocationsDeploymentsRequest, GetProjectsLocationsDeploymentsResponse, GetProjectsLocationsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDeploymentsRequest,
   output: GetProjectsLocationsDeploymentsResponse,
   errors: [],
 }));
 
-/** Creates a Deployment. */
 export interface CreateProjectsLocationsDeploymentsRequest {
   /** Required. The parent in whose context the Deployment is created. The parent value is in the format: 'projects/{project_id}/locations/{location}'. */
   parent: string;
@@ -1350,13 +1349,13 @@ export const CreateProjectsLocationsDeploymentsResponse = Operation;
 
 export type CreateProjectsLocationsDeploymentsError = CommonErrors;
 
+/** Creates a Deployment. */
 export const createProjectsLocationsDeployments: API.OperationMethod<CreateProjectsLocationsDeploymentsRequest, CreateProjectsLocationsDeploymentsResponse, CreateProjectsLocationsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsDeploymentsRequest,
   output: CreateProjectsLocationsDeploymentsResponse,
   errors: [],
 }));
 
-/** Updates a Deployment. */
 export interface PatchProjectsLocationsDeploymentsRequest {
   /** Identifier. Resource name of the deployment. Format: `projects/{project}/locations/{location}/deployments/{deployment}` */
   name: string;
@@ -1383,13 +1382,13 @@ export const PatchProjectsLocationsDeploymentsResponse = Operation;
 
 export type PatchProjectsLocationsDeploymentsError = CommonErrors;
 
+/** Updates a Deployment. */
 export const patchProjectsLocationsDeployments: API.OperationMethod<PatchProjectsLocationsDeploymentsRequest, PatchProjectsLocationsDeploymentsResponse, PatchProjectsLocationsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsDeploymentsRequest,
   output: PatchProjectsLocationsDeploymentsResponse,
   errors: [],
 }));
 
-/** Deletes a Deployment. */
 export interface DeleteProjectsLocationsDeploymentsRequest {
   /** Required. The name of the Deployment in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
   name: string;
@@ -1416,13 +1415,13 @@ export const DeleteProjectsLocationsDeploymentsResponse = Operation;
 
 export type DeleteProjectsLocationsDeploymentsError = CommonErrors;
 
+/** Deletes a Deployment. */
 export const deleteProjectsLocationsDeployments: API.OperationMethod<DeleteProjectsLocationsDeploymentsRequest, DeleteProjectsLocationsDeploymentsResponse, DeleteProjectsLocationsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDeploymentsRequest,
   output: DeleteProjectsLocationsDeploymentsResponse,
   errors: [],
 }));
 
-/** Exports Terraform state file from a given deployment. */
 export interface ExportStateProjectsLocationsDeploymentsRequest {
   /** Required. The parent in whose context the statefile is listed. The parent value is in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
   parent: string;
@@ -1443,13 +1442,13 @@ export const ExportStateProjectsLocationsDeploymentsResponse = Statefile;
 
 export type ExportStateProjectsLocationsDeploymentsError = CommonErrors;
 
+/** Exports Terraform state file from a given deployment. */
 export const exportStateProjectsLocationsDeployments: API.OperationMethod<ExportStateProjectsLocationsDeploymentsRequest, ExportStateProjectsLocationsDeploymentsResponse, ExportStateProjectsLocationsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExportStateProjectsLocationsDeploymentsRequest,
   output: ExportStateProjectsLocationsDeploymentsResponse,
   errors: [],
 }));
 
-/** Imports Terraform state file in a given deployment. The state file does not take effect until the Deployment has been unlocked. */
 export interface ImportStateProjectsLocationsDeploymentsRequest {
   /** Required. The parent in whose context the statefile is listed. The parent value is in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
   parent: string;
@@ -1470,13 +1469,13 @@ export const ImportStateProjectsLocationsDeploymentsResponse = Statefile;
 
 export type ImportStateProjectsLocationsDeploymentsError = CommonErrors;
 
+/** Imports Terraform state file in a given deployment. The state file does not take effect until the Deployment has been unlocked. */
 export const importStateProjectsLocationsDeployments: API.OperationMethod<ImportStateProjectsLocationsDeploymentsRequest, ImportStateProjectsLocationsDeploymentsResponse, ImportStateProjectsLocationsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportStateProjectsLocationsDeploymentsRequest,
   output: ImportStateProjectsLocationsDeploymentsResponse,
   errors: [],
 }));
 
-/** Deletes Terraform state file in a given deployment. */
 export interface DeleteStateProjectsLocationsDeploymentsRequest {
   /** Required. The name of the deployment in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
   name: string;
@@ -1497,13 +1496,13 @@ export const DeleteStateProjectsLocationsDeploymentsResponse = Empty;
 
 export type DeleteStateProjectsLocationsDeploymentsError = CommonErrors;
 
+/** Deletes Terraform state file in a given deployment. */
 export const deleteStateProjectsLocationsDeployments: API.OperationMethod<DeleteStateProjectsLocationsDeploymentsRequest, DeleteStateProjectsLocationsDeploymentsResponse, DeleteStateProjectsLocationsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteStateProjectsLocationsDeploymentsRequest,
   output: DeleteStateProjectsLocationsDeploymentsResponse,
   errors: [],
 }));
 
-/** Locks a deployment. */
 export interface LockProjectsLocationsDeploymentsRequest {
   /** Required. The name of the deployment in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
   name: string;
@@ -1524,13 +1523,13 @@ export const LockProjectsLocationsDeploymentsResponse = Operation;
 
 export type LockProjectsLocationsDeploymentsError = CommonErrors;
 
+/** Locks a deployment. */
 export const lockProjectsLocationsDeployments: API.OperationMethod<LockProjectsLocationsDeploymentsRequest, LockProjectsLocationsDeploymentsResponse, LockProjectsLocationsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LockProjectsLocationsDeploymentsRequest,
   output: LockProjectsLocationsDeploymentsResponse,
   errors: [],
 }));
 
-/** Unlocks a locked deployment. */
 export interface UnlockProjectsLocationsDeploymentsRequest {
   /** Required. The name of the deployment in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
   name: string;
@@ -1551,13 +1550,13 @@ export const UnlockProjectsLocationsDeploymentsResponse = Operation;
 
 export type UnlockProjectsLocationsDeploymentsError = CommonErrors;
 
+/** Unlocks a locked deployment. */
 export const unlockProjectsLocationsDeployments: API.OperationMethod<UnlockProjectsLocationsDeploymentsRequest, UnlockProjectsLocationsDeploymentsResponse, UnlockProjectsLocationsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UnlockProjectsLocationsDeploymentsRequest,
   output: UnlockProjectsLocationsDeploymentsResponse,
   errors: [],
 }));
 
-/** Exports the lock info on a locked deployment. */
 export interface ExportLockProjectsLocationsDeploymentsRequest {
   /** Required. The name of the deployment in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
   name: string;
@@ -1575,13 +1574,13 @@ export const ExportLockProjectsLocationsDeploymentsResponse = LockInfo;
 
 export type ExportLockProjectsLocationsDeploymentsError = CommonErrors;
 
+/** Exports the lock info on a locked deployment. */
 export const exportLockProjectsLocationsDeployments: API.OperationMethod<ExportLockProjectsLocationsDeploymentsRequest, ExportLockProjectsLocationsDeploymentsResponse, ExportLockProjectsLocationsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExportLockProjectsLocationsDeploymentsRequest,
   output: ExportLockProjectsLocationsDeploymentsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsDeploymentsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1602,13 +1601,13 @@ export const SetIamPolicyProjectsLocationsDeploymentsResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsDeploymentsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsDeployments: API.OperationMethod<SetIamPolicyProjectsLocationsDeploymentsRequest, SetIamPolicyProjectsLocationsDeploymentsResponse, SetIamPolicyProjectsLocationsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsDeploymentsRequest,
   output: SetIamPolicyProjectsLocationsDeploymentsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsDeploymentsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1629,13 +1628,13 @@ export const GetIamPolicyProjectsLocationsDeploymentsResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsDeploymentsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsDeployments: API.OperationMethod<GetIamPolicyProjectsLocationsDeploymentsRequest, GetIamPolicyProjectsLocationsDeploymentsResponse, GetIamPolicyProjectsLocationsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsDeploymentsRequest,
   output: GetIamPolicyProjectsLocationsDeploymentsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsDeploymentsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1656,13 +1655,13 @@ export const TestIamPermissionsProjectsLocationsDeploymentsResponse = TestIamPer
 
 export type TestIamPermissionsProjectsLocationsDeploymentsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsDeployments: API.OperationMethod<TestIamPermissionsProjectsLocationsDeploymentsRequest, TestIamPermissionsProjectsLocationsDeploymentsResponse, TestIamPermissionsProjectsLocationsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsDeploymentsRequest,
   output: TestIamPermissionsProjectsLocationsDeploymentsResponse,
   errors: [],
 }));
 
-/** Lists Revisions of a deployment. */
 export interface ListProjectsLocationsDeploymentsRevisionsRequest {
   /** Required. The parent in whose context the Revisions are listed. The parent value is in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
   parent: string;
@@ -1692,7 +1691,8 @@ export const ListProjectsLocationsDeploymentsRevisionsResponse = ListRevisionsRe
 
 export type ListProjectsLocationsDeploymentsRevisionsError = CommonErrors;
 
-export const listProjectsLocationsDeploymentsRevisions = API.makePaginated(() => ({
+/** Lists Revisions of a deployment. */
+export const listProjectsLocationsDeploymentsRevisions: API.PaginatedOperationMethod<ListProjectsLocationsDeploymentsRevisionsRequest, ListProjectsLocationsDeploymentsRevisionsResponse, ListProjectsLocationsDeploymentsRevisionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDeploymentsRevisionsRequest,
   output: ListProjectsLocationsDeploymentsRevisionsResponse,
   errors: [],
@@ -1702,7 +1702,6 @@ export const listProjectsLocationsDeploymentsRevisions = API.makePaginated(() =>
   },
 }));
 
-/** Gets details about a Revision. */
 export interface GetProjectsLocationsDeploymentsRevisionsRequest {
   /** Required. The name of the Revision in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}/revisions/{revision}'. */
   name: string;
@@ -1720,13 +1719,13 @@ export const GetProjectsLocationsDeploymentsRevisionsResponse = Revision;
 
 export type GetProjectsLocationsDeploymentsRevisionsError = CommonErrors;
 
+/** Gets details about a Revision. */
 export const getProjectsLocationsDeploymentsRevisions: API.OperationMethod<GetProjectsLocationsDeploymentsRevisionsRequest, GetProjectsLocationsDeploymentsRevisionsResponse, GetProjectsLocationsDeploymentsRevisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDeploymentsRevisionsRequest,
   output: GetProjectsLocationsDeploymentsRevisionsResponse,
   errors: [],
 }));
 
-/** Exports Terraform state file from a given revision. */
 export interface ExportStateProjectsLocationsDeploymentsRevisionsRequest {
   /** Required. The parent in whose context the statefile is listed. The parent value is in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}/revisions/{revision}'. */
   parent: string;
@@ -1747,13 +1746,13 @@ export const ExportStateProjectsLocationsDeploymentsRevisionsResponse = Statefil
 
 export type ExportStateProjectsLocationsDeploymentsRevisionsError = CommonErrors;
 
+/** Exports Terraform state file from a given revision. */
 export const exportStateProjectsLocationsDeploymentsRevisions: API.OperationMethod<ExportStateProjectsLocationsDeploymentsRevisionsRequest, ExportStateProjectsLocationsDeploymentsRevisionsResponse, ExportStateProjectsLocationsDeploymentsRevisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExportStateProjectsLocationsDeploymentsRevisionsRequest,
   output: ExportStateProjectsLocationsDeploymentsRevisionsResponse,
   errors: [],
 }));
 
-/** Gets details about a Resource deployed by Infra Manager. */
 export interface GetProjectsLocationsDeploymentsRevisionsResourcesRequest {
   /** Required. The name of the Resource in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}/revisions/{revision}/resource/{resource}'. */
   name: string;
@@ -1771,13 +1770,13 @@ export const GetProjectsLocationsDeploymentsRevisionsResourcesResponse = Resourc
 
 export type GetProjectsLocationsDeploymentsRevisionsResourcesError = CommonErrors;
 
+/** Gets details about a Resource deployed by Infra Manager. */
 export const getProjectsLocationsDeploymentsRevisionsResources: API.OperationMethod<GetProjectsLocationsDeploymentsRevisionsResourcesRequest, GetProjectsLocationsDeploymentsRevisionsResourcesResponse, GetProjectsLocationsDeploymentsRevisionsResourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDeploymentsRevisionsResourcesRequest,
   output: GetProjectsLocationsDeploymentsRevisionsResourcesResponse,
   errors: [],
 }));
 
-/** Lists Resources in a given revision. */
 export interface ListProjectsLocationsDeploymentsRevisionsResourcesRequest {
   /** Required. The parent in whose context the Resources are listed. The parent value is in the format: 'projects/{project_id}/locations/{location}/deployments/{deployment}/revisions/{revision}'. */
   parent: string;
@@ -1807,7 +1806,8 @@ export const ListProjectsLocationsDeploymentsRevisionsResourcesResponse = ListRe
 
 export type ListProjectsLocationsDeploymentsRevisionsResourcesError = CommonErrors;
 
-export const listProjectsLocationsDeploymentsRevisionsResources = API.makePaginated(() => ({
+/** Lists Resources in a given revision. */
+export const listProjectsLocationsDeploymentsRevisionsResources: API.PaginatedOperationMethod<ListProjectsLocationsDeploymentsRevisionsResourcesRequest, ListProjectsLocationsDeploymentsRevisionsResourcesResponse, ListProjectsLocationsDeploymentsRevisionsResourcesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDeploymentsRevisionsResourcesRequest,
   output: ListProjectsLocationsDeploymentsRevisionsResourcesResponse,
   errors: [],
@@ -1817,7 +1817,6 @@ export const listProjectsLocationsDeploymentsRevisionsResources = API.makePagina
   },
 }));
 
-/** Creates a Preview. */
 export interface CreateProjectsLocationsPreviewsRequest {
   /** Required. The parent in whose context the Preview is created. The parent value is in the format: 'projects/{project_id}/locations/{location}'. */
   parent: string;
@@ -1844,13 +1843,13 @@ export const CreateProjectsLocationsPreviewsResponse = Operation;
 
 export type CreateProjectsLocationsPreviewsError = CommonErrors;
 
+/** Creates a Preview. */
 export const createProjectsLocationsPreviews: API.OperationMethod<CreateProjectsLocationsPreviewsRequest, CreateProjectsLocationsPreviewsResponse, CreateProjectsLocationsPreviewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsPreviewsRequest,
   output: CreateProjectsLocationsPreviewsResponse,
   errors: [],
 }));
 
-/** Gets details about a Preview. */
 export interface GetProjectsLocationsPreviewsRequest {
   /** Required. The name of the preview. Format: 'projects/{project_id}/locations/{location}/previews/{preview}'. */
   name: string;
@@ -1868,13 +1867,13 @@ export const GetProjectsLocationsPreviewsResponse = Preview;
 
 export type GetProjectsLocationsPreviewsError = CommonErrors;
 
+/** Gets details about a Preview. */
 export const getProjectsLocationsPreviews: API.OperationMethod<GetProjectsLocationsPreviewsRequest, GetProjectsLocationsPreviewsResponse, GetProjectsLocationsPreviewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsPreviewsRequest,
   output: GetProjectsLocationsPreviewsResponse,
   errors: [],
 }));
 
-/** Lists Previews in a given project and location. */
 export interface ListProjectsLocationsPreviewsRequest {
   /** Required. The parent in whose context the Previews are listed. The parent value is in the format: 'projects/{project_id}/locations/{location}'. */
   parent: string;
@@ -1904,7 +1903,8 @@ export const ListProjectsLocationsPreviewsResponse = ListPreviewsResponse;
 
 export type ListProjectsLocationsPreviewsError = CommonErrors;
 
-export const listProjectsLocationsPreviews = API.makePaginated(() => ({
+/** Lists Previews in a given project and location. */
+export const listProjectsLocationsPreviews: API.PaginatedOperationMethod<ListProjectsLocationsPreviewsRequest, ListProjectsLocationsPreviewsResponse, ListProjectsLocationsPreviewsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsPreviewsRequest,
   output: ListProjectsLocationsPreviewsResponse,
   errors: [],
@@ -1914,7 +1914,6 @@ export const listProjectsLocationsPreviews = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a Preview. */
 export interface DeleteProjectsLocationsPreviewsRequest {
   /** Required. The name of the Preview in the format: 'projects/{project_id}/locations/{location}/previews/{preview}'. */
   name: string;
@@ -1935,13 +1934,13 @@ export const DeleteProjectsLocationsPreviewsResponse = Operation;
 
 export type DeleteProjectsLocationsPreviewsError = CommonErrors;
 
+/** Deletes a Preview. */
 export const deleteProjectsLocationsPreviews: API.OperationMethod<DeleteProjectsLocationsPreviewsRequest, DeleteProjectsLocationsPreviewsResponse, DeleteProjectsLocationsPreviewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsPreviewsRequest,
   output: DeleteProjectsLocationsPreviewsResponse,
   errors: [],
 }));
 
-/** Export Preview results. */
 export interface ExportProjectsLocationsPreviewsRequest {
   /** Required. The preview whose results should be exported. The preview value is in the format: 'projects/{project_id}/locations/{location}/previews/{preview}'. */
   parent: string;
@@ -1962,13 +1961,13 @@ export const ExportProjectsLocationsPreviewsResponse = ExportPreviewResultRespon
 
 export type ExportProjectsLocationsPreviewsError = CommonErrors;
 
+/** Export Preview results. */
 export const exportProjectsLocationsPreviews: API.OperationMethod<ExportProjectsLocationsPreviewsRequest, ExportProjectsLocationsPreviewsResponse, ExportProjectsLocationsPreviewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExportProjectsLocationsPreviewsRequest,
   output: ExportProjectsLocationsPreviewsResponse,
   errors: [],
 }));
 
-/** Lists ResourceChanges for a given preview. */
 export interface ListProjectsLocationsPreviewsResourceChangesRequest {
   /** Required. The parent in whose context the ResourceChanges are listed. The parent value is in the format: 'projects/{project_id}/locations/{location}/previews/{preview}'. */
   parent: string;
@@ -1998,7 +1997,8 @@ export const ListProjectsLocationsPreviewsResourceChangesResponse = ListResource
 
 export type ListProjectsLocationsPreviewsResourceChangesError = CommonErrors;
 
-export const listProjectsLocationsPreviewsResourceChanges = API.makePaginated(() => ({
+/** Lists ResourceChanges for a given preview. */
+export const listProjectsLocationsPreviewsResourceChanges: API.PaginatedOperationMethod<ListProjectsLocationsPreviewsResourceChangesRequest, ListProjectsLocationsPreviewsResourceChangesResponse, ListProjectsLocationsPreviewsResourceChangesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsPreviewsResourceChangesRequest,
   output: ListProjectsLocationsPreviewsResourceChangesResponse,
   errors: [],
@@ -2008,7 +2008,6 @@ export const listProjectsLocationsPreviewsResourceChanges = API.makePaginated(()
   },
 }));
 
-/** Get a ResourceChange for a given preview. */
 export interface GetProjectsLocationsPreviewsResourceChangesRequest {
   /** Required. The name of the resource change to retrieve. Format: 'projects/{project_id}/locations/{location}/previews/{preview}/resourceChanges/{resource_change}'. */
   name: string;
@@ -2026,13 +2025,13 @@ export const GetProjectsLocationsPreviewsResourceChangesResponse = ResourceChang
 
 export type GetProjectsLocationsPreviewsResourceChangesError = CommonErrors;
 
+/** Get a ResourceChange for a given preview. */
 export const getProjectsLocationsPreviewsResourceChanges: API.OperationMethod<GetProjectsLocationsPreviewsResourceChangesRequest, GetProjectsLocationsPreviewsResourceChangesResponse, GetProjectsLocationsPreviewsResourceChangesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsPreviewsResourceChangesRequest,
   output: GetProjectsLocationsPreviewsResourceChangesResponse,
   errors: [],
 }));
 
-/** List ResourceDrifts for a given preview. */
 export interface ListProjectsLocationsPreviewsResourceDriftsRequest {
   /** Required. The parent in whose context the ResourceDrifts are listed. The parent value is in the format: 'projects/{project_id}/locations/{location}/previews/{preview}'. */
   parent: string;
@@ -2062,7 +2061,8 @@ export const ListProjectsLocationsPreviewsResourceDriftsResponse = ListResourceD
 
 export type ListProjectsLocationsPreviewsResourceDriftsError = CommonErrors;
 
-export const listProjectsLocationsPreviewsResourceDrifts = API.makePaginated(() => ({
+/** List ResourceDrifts for a given preview. */
+export const listProjectsLocationsPreviewsResourceDrifts: API.PaginatedOperationMethod<ListProjectsLocationsPreviewsResourceDriftsRequest, ListProjectsLocationsPreviewsResourceDriftsResponse, ListProjectsLocationsPreviewsResourceDriftsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsPreviewsResourceDriftsRequest,
   output: ListProjectsLocationsPreviewsResourceDriftsResponse,
   errors: [],
@@ -2072,7 +2072,6 @@ export const listProjectsLocationsPreviewsResourceDrifts = API.makePaginated(() 
   },
 }));
 
-/** Get a ResourceDrift for a given preview. */
 export interface GetProjectsLocationsPreviewsResourceDriftsRequest {
   /** Required. The name of the resource drift to retrieve. Format: 'projects/{project_id}/locations/{location}/previews/{preview}/resourceDrifts/{resource_drift}'. */
   name: string;
@@ -2090,13 +2089,13 @@ export const GetProjectsLocationsPreviewsResourceDriftsResponse = ResourceDrift;
 
 export type GetProjectsLocationsPreviewsResourceDriftsError = CommonErrors;
 
+/** Get a ResourceDrift for a given preview. */
 export const getProjectsLocationsPreviewsResourceDrifts: API.OperationMethod<GetProjectsLocationsPreviewsResourceDriftsRequest, GetProjectsLocationsPreviewsResourceDriftsResponse, GetProjectsLocationsPreviewsResourceDriftsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsPreviewsResourceDriftsRequest,
   output: GetProjectsLocationsPreviewsResourceDriftsResponse,
   errors: [],
 }));
 
-/** Lists TerraformVersions in a given project and location. */
 export interface ListProjectsLocationsTerraformVersionsRequest {
   /** Required. The parent in whose context the TerraformVersions are listed. The parent value is in the format: 'projects/{project_id}/locations/{location}'. */
   parent: string;
@@ -2126,7 +2125,8 @@ export const ListProjectsLocationsTerraformVersionsResponse = ListTerraformVersi
 
 export type ListProjectsLocationsTerraformVersionsError = CommonErrors;
 
-export const listProjectsLocationsTerraformVersions = API.makePaginated(() => ({
+/** Lists TerraformVersions in a given project and location. */
+export const listProjectsLocationsTerraformVersions: API.PaginatedOperationMethod<ListProjectsLocationsTerraformVersionsRequest, ListProjectsLocationsTerraformVersionsResponse, ListProjectsLocationsTerraformVersionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsTerraformVersionsRequest,
   output: ListProjectsLocationsTerraformVersionsResponse,
   errors: [],
@@ -2136,7 +2136,6 @@ export const listProjectsLocationsTerraformVersions = API.makePaginated(() => ({
   },
 }));
 
-/** Gets details about a TerraformVersion. */
 export interface GetProjectsLocationsTerraformVersionsRequest {
   /** Required. The name of the TerraformVersion. Format: 'projects/{project_id}/locations/{location}/terraformVersions/{terraform_version}' */
   name: string;
@@ -2154,6 +2153,7 @@ export const GetProjectsLocationsTerraformVersionsResponse = TerraformVersion;
 
 export type GetProjectsLocationsTerraformVersionsError = CommonErrors;
 
+/** Gets details about a TerraformVersion. */
 export const getProjectsLocationsTerraformVersions: API.OperationMethod<GetProjectsLocationsTerraformVersionsRequest, GetProjectsLocationsTerraformVersionsResponse, GetProjectsLocationsTerraformVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsTerraformVersionsRequest,
   output: GetProjectsLocationsTerraformVersionsResponse,

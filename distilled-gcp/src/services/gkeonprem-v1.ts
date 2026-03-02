@@ -2586,7 +2586,6 @@ export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> = Schem
 // Operations
 // ==========================================================================
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -2604,13 +2603,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists information about the supported locations for this service. */
 export interface ListProjectsLocationsRequest {
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string;
@@ -2640,7 +2639,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -2650,7 +2650,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Queries the bare metal admin cluster version config. */
 export interface QueryVersionConfigProjectsLocationsBareMetalAdminClustersRequest {
   /** Required. The parent of the project and location to query for version config. Format: "projects/{project}/locations/{location}" */
   parent: string;
@@ -2671,13 +2670,13 @@ export const QueryVersionConfigProjectsLocationsBareMetalAdminClustersResponse =
 
 export type QueryVersionConfigProjectsLocationsBareMetalAdminClustersError = CommonErrors;
 
+/** Queries the bare metal admin cluster version config. */
 export const queryVersionConfigProjectsLocationsBareMetalAdminClusters: API.OperationMethod<QueryVersionConfigProjectsLocationsBareMetalAdminClustersRequest, QueryVersionConfigProjectsLocationsBareMetalAdminClustersResponse, QueryVersionConfigProjectsLocationsBareMetalAdminClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: QueryVersionConfigProjectsLocationsBareMetalAdminClustersRequest,
   output: QueryVersionConfigProjectsLocationsBareMetalAdminClustersResponse,
   errors: [],
 }));
 
-/** Enrolls an existing bare metal admin cluster to the Anthos On-Prem API within a given project and location. Through enrollment, an existing admin cluster will become Anthos On-Prem API managed. The corresponding GCP resources will be created and all future modifications to the cluster will be expected to be performed through the API. */
 export interface EnrollProjectsLocationsBareMetalAdminClustersRequest {
   /** Required. The parent of the project and location where the cluster is enrolled in. Format: "projects/{project}/locations/{location}" */
   parent: string;
@@ -2698,13 +2697,13 @@ export const EnrollProjectsLocationsBareMetalAdminClustersResponse = Operation;
 
 export type EnrollProjectsLocationsBareMetalAdminClustersError = CommonErrors;
 
+/** Enrolls an existing bare metal admin cluster to the Anthos On-Prem API within a given project and location. Through enrollment, an existing admin cluster will become Anthos On-Prem API managed. The corresponding GCP resources will be created and all future modifications to the cluster will be expected to be performed through the API. */
 export const enrollProjectsLocationsBareMetalAdminClusters: API.OperationMethod<EnrollProjectsLocationsBareMetalAdminClustersRequest, EnrollProjectsLocationsBareMetalAdminClustersResponse, EnrollProjectsLocationsBareMetalAdminClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnrollProjectsLocationsBareMetalAdminClustersRequest,
   output: EnrollProjectsLocationsBareMetalAdminClustersResponse,
   errors: [],
 }));
 
-/** Unenrolls an existing bare metal admin cluster from the Anthos On-Prem API within a given project and location. Unenrollment removes the Cloud reference to the cluster without modifying the underlying OnPrem Resources. Clusters will continue to run; however, they will no longer be accessible through the Anthos On-Prem API or its clients. */
 export interface UnenrollProjectsLocationsBareMetalAdminClustersRequest {
   /** Validate the request without actually doing any updates. */
   validateOnly?: boolean;
@@ -2734,13 +2733,13 @@ export const UnenrollProjectsLocationsBareMetalAdminClustersResponse = Operation
 
 export type UnenrollProjectsLocationsBareMetalAdminClustersError = CommonErrors;
 
+/** Unenrolls an existing bare metal admin cluster from the Anthos On-Prem API within a given project and location. Unenrollment removes the Cloud reference to the cluster without modifying the underlying OnPrem Resources. Clusters will continue to run; however, they will no longer be accessible through the Anthos On-Prem API or its clients. */
 export const unenrollProjectsLocationsBareMetalAdminClusters: API.OperationMethod<UnenrollProjectsLocationsBareMetalAdminClustersRequest, UnenrollProjectsLocationsBareMetalAdminClustersResponse, UnenrollProjectsLocationsBareMetalAdminClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UnenrollProjectsLocationsBareMetalAdminClustersRequest,
   output: UnenrollProjectsLocationsBareMetalAdminClustersResponse,
   errors: [],
 }));
 
-/** Creates a new bare metal admin cluster in a given project and location. The API needs to be combined with creating a bootstrap cluster to work. See: https://cloud.google.com/anthos/clusters/docs/bare-metal/latest/installing/creating-clusters/create-admin-cluster-api#prepare_bootstrap_environment */
 export interface CreateProjectsLocationsBareMetalAdminClustersRequest {
   /** Required. The parent of the project and location where the cluster is created in. Format: "projects/{project}/locations/{location}" */
   parent: string;
@@ -2770,13 +2769,13 @@ export const CreateProjectsLocationsBareMetalAdminClustersResponse = Operation;
 
 export type CreateProjectsLocationsBareMetalAdminClustersError = CommonErrors;
 
+/** Creates a new bare metal admin cluster in a given project and location. The API needs to be combined with creating a bootstrap cluster to work. See: https://cloud.google.com/anthos/clusters/docs/bare-metal/latest/installing/creating-clusters/create-admin-cluster-api#prepare_bootstrap_environment */
 export const createProjectsLocationsBareMetalAdminClusters: API.OperationMethod<CreateProjectsLocationsBareMetalAdminClustersRequest, CreateProjectsLocationsBareMetalAdminClustersResponse, CreateProjectsLocationsBareMetalAdminClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsBareMetalAdminClustersRequest,
   output: CreateProjectsLocationsBareMetalAdminClustersResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsBareMetalAdminClustersRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2797,13 +2796,13 @@ export const TestIamPermissionsProjectsLocationsBareMetalAdminClustersResponse =
 
 export type TestIamPermissionsProjectsLocationsBareMetalAdminClustersError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsBareMetalAdminClusters: API.OperationMethod<TestIamPermissionsProjectsLocationsBareMetalAdminClustersRequest, TestIamPermissionsProjectsLocationsBareMetalAdminClustersResponse, TestIamPermissionsProjectsLocationsBareMetalAdminClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsBareMetalAdminClustersRequest,
   output: TestIamPermissionsProjectsLocationsBareMetalAdminClustersResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsBareMetalAdminClustersRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2824,13 +2823,13 @@ export const SetIamPolicyProjectsLocationsBareMetalAdminClustersResponse = Polic
 
 export type SetIamPolicyProjectsLocationsBareMetalAdminClustersError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsBareMetalAdminClusters: API.OperationMethod<SetIamPolicyProjectsLocationsBareMetalAdminClustersRequest, SetIamPolicyProjectsLocationsBareMetalAdminClustersResponse, SetIamPolicyProjectsLocationsBareMetalAdminClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsBareMetalAdminClustersRequest,
   output: SetIamPolicyProjectsLocationsBareMetalAdminClustersResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsBareMetalAdminClustersRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2851,13 +2850,13 @@ export const GetIamPolicyProjectsLocationsBareMetalAdminClustersResponse = Polic
 
 export type GetIamPolicyProjectsLocationsBareMetalAdminClustersError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsBareMetalAdminClusters: API.OperationMethod<GetIamPolicyProjectsLocationsBareMetalAdminClustersRequest, GetIamPolicyProjectsLocationsBareMetalAdminClustersResponse, GetIamPolicyProjectsLocationsBareMetalAdminClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsBareMetalAdminClustersRequest,
   output: GetIamPolicyProjectsLocationsBareMetalAdminClustersResponse,
   errors: [],
 }));
 
-/** Gets details of a single bare metal admin cluster. */
 export interface GetProjectsLocationsBareMetalAdminClustersRequest {
   /** Optional. If true, return BareMetal Admin Cluster including the one that only exists in RMS. */
   allowMissing?: boolean;
@@ -2881,13 +2880,13 @@ export const GetProjectsLocationsBareMetalAdminClustersResponse = BareMetalAdmin
 
 export type GetProjectsLocationsBareMetalAdminClustersError = CommonErrors;
 
+/** Gets details of a single bare metal admin cluster. */
 export const getProjectsLocationsBareMetalAdminClusters: API.OperationMethod<GetProjectsLocationsBareMetalAdminClustersRequest, GetProjectsLocationsBareMetalAdminClustersResponse, GetProjectsLocationsBareMetalAdminClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBareMetalAdminClustersRequest,
   output: GetProjectsLocationsBareMetalAdminClustersResponse,
   errors: [],
 }));
 
-/** Lists bare metal admin clusters in a given project and location. */
 export interface ListProjectsLocationsBareMetalAdminClustersRequest {
   /** Requested page size. Server may return fewer items than requested. If unspecified, at most 50 clusters will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
@@ -2917,7 +2916,8 @@ export const ListProjectsLocationsBareMetalAdminClustersResponse = ListBareMetal
 
 export type ListProjectsLocationsBareMetalAdminClustersError = CommonErrors;
 
-export const listProjectsLocationsBareMetalAdminClusters = API.makePaginated(() => ({
+/** Lists bare metal admin clusters in a given project and location. */
+export const listProjectsLocationsBareMetalAdminClusters: API.PaginatedOperationMethod<ListProjectsLocationsBareMetalAdminClustersRequest, ListProjectsLocationsBareMetalAdminClustersResponse, ListProjectsLocationsBareMetalAdminClustersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBareMetalAdminClustersRequest,
   output: ListProjectsLocationsBareMetalAdminClustersResponse,
   errors: [],
@@ -2927,7 +2927,6 @@ export const listProjectsLocationsBareMetalAdminClusters = API.makePaginated(() 
   },
 }));
 
-/** Updates the parameters of a single bare metal admin cluster. */
 export interface PatchProjectsLocationsBareMetalAdminClustersRequest {
   /** Validate the request without actually doing any updates. */
   validateOnly?: boolean;
@@ -2954,13 +2953,13 @@ export const PatchProjectsLocationsBareMetalAdminClustersResponse = Operation;
 
 export type PatchProjectsLocationsBareMetalAdminClustersError = CommonErrors;
 
+/** Updates the parameters of a single bare metal admin cluster. */
 export const patchProjectsLocationsBareMetalAdminClusters: API.OperationMethod<PatchProjectsLocationsBareMetalAdminClustersRequest, PatchProjectsLocationsBareMetalAdminClustersResponse, PatchProjectsLocationsBareMetalAdminClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsBareMetalAdminClustersRequest,
   output: PatchProjectsLocationsBareMetalAdminClustersResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsBareMetalAdminClustersOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -2978,13 +2977,13 @@ export const GetProjectsLocationsBareMetalAdminClustersOperationsResponse = Oper
 
 export type GetProjectsLocationsBareMetalAdminClustersOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsBareMetalAdminClustersOperations: API.OperationMethod<GetProjectsLocationsBareMetalAdminClustersOperationsRequest, GetProjectsLocationsBareMetalAdminClustersOperationsResponse, GetProjectsLocationsBareMetalAdminClustersOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBareMetalAdminClustersOperationsRequest,
   output: GetProjectsLocationsBareMetalAdminClustersOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsBareMetalAdminClustersOperationsRequest {
   /** The standard list filter. */
   filter?: string;
@@ -3014,7 +3013,8 @@ export const ListProjectsLocationsBareMetalAdminClustersOperationsResponse = Lis
 
 export type ListProjectsLocationsBareMetalAdminClustersOperationsError = CommonErrors;
 
-export const listProjectsLocationsBareMetalAdminClustersOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsBareMetalAdminClustersOperations: API.PaginatedOperationMethod<ListProjectsLocationsBareMetalAdminClustersOperationsRequest, ListProjectsLocationsBareMetalAdminClustersOperationsResponse, ListProjectsLocationsBareMetalAdminClustersOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBareMetalAdminClustersOperationsRequest,
   output: ListProjectsLocationsBareMetalAdminClustersOperationsResponse,
   errors: [],
@@ -3024,7 +3024,6 @@ export const listProjectsLocationsBareMetalAdminClustersOperations = API.makePag
   },
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsVmwareAdminClustersRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3045,13 +3044,13 @@ export const GetIamPolicyProjectsLocationsVmwareAdminClustersResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsVmwareAdminClustersError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsVmwareAdminClusters: API.OperationMethod<GetIamPolicyProjectsLocationsVmwareAdminClustersRequest, GetIamPolicyProjectsLocationsVmwareAdminClustersResponse, GetIamPolicyProjectsLocationsVmwareAdminClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsVmwareAdminClustersRequest,
   output: GetIamPolicyProjectsLocationsVmwareAdminClustersResponse,
   errors: [],
 }));
 
-/** Enrolls an existing VMware admin cluster to the Anthos On-Prem API within a given project and location. Through enrollment, an existing admin cluster will become Anthos On-Prem API managed. The corresponding GCP resources will be created and all future modifications to the cluster will be expected to be performed through the API. */
 export interface EnrollProjectsLocationsVmwareAdminClustersRequest {
   /** Required. The parent of the project and location where the cluster is enrolled in. Format: "projects/{project}/locations/{location}" */
   parent: string;
@@ -3072,13 +3071,13 @@ export const EnrollProjectsLocationsVmwareAdminClustersResponse = Operation;
 
 export type EnrollProjectsLocationsVmwareAdminClustersError = CommonErrors;
 
+/** Enrolls an existing VMware admin cluster to the Anthos On-Prem API within a given project and location. Through enrollment, an existing admin cluster will become Anthos On-Prem API managed. The corresponding GCP resources will be created and all future modifications to the cluster will be expected to be performed through the API. */
 export const enrollProjectsLocationsVmwareAdminClusters: API.OperationMethod<EnrollProjectsLocationsVmwareAdminClustersRequest, EnrollProjectsLocationsVmwareAdminClustersResponse, EnrollProjectsLocationsVmwareAdminClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnrollProjectsLocationsVmwareAdminClustersRequest,
   output: EnrollProjectsLocationsVmwareAdminClustersResponse,
   errors: [],
 }));
 
-/** Creates a new VMware admin cluster in a given project and location. The API needs to be combined with creating a bootstrap cluster to work. */
 export interface CreateProjectsLocationsVmwareAdminClustersRequest {
   /** Validate the request without actually doing any updates. */
   validateOnly?: boolean;
@@ -3111,13 +3110,13 @@ export const CreateProjectsLocationsVmwareAdminClustersResponse = Operation;
 
 export type CreateProjectsLocationsVmwareAdminClustersError = CommonErrors;
 
+/** Creates a new VMware admin cluster in a given project and location. The API needs to be combined with creating a bootstrap cluster to work. */
 export const createProjectsLocationsVmwareAdminClusters: API.OperationMethod<CreateProjectsLocationsVmwareAdminClustersRequest, CreateProjectsLocationsVmwareAdminClustersResponse, CreateProjectsLocationsVmwareAdminClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsVmwareAdminClustersRequest,
   output: CreateProjectsLocationsVmwareAdminClustersResponse,
   errors: [],
 }));
 
-/** Lists VMware admin clusters in a given project and location. */
 export interface ListProjectsLocationsVmwareAdminClustersRequest {
   /** Optional. If true, return list of Vmware Admin Clusters including the ones that only exists in RMS. */
   allowMissing?: boolean;
@@ -3147,7 +3146,8 @@ export const ListProjectsLocationsVmwareAdminClustersResponse = ListVmwareAdminC
 
 export type ListProjectsLocationsVmwareAdminClustersError = CommonErrors;
 
-export const listProjectsLocationsVmwareAdminClusters = API.makePaginated(() => ({
+/** Lists VMware admin clusters in a given project and location. */
+export const listProjectsLocationsVmwareAdminClusters: API.PaginatedOperationMethod<ListProjectsLocationsVmwareAdminClustersRequest, ListProjectsLocationsVmwareAdminClustersResponse, ListProjectsLocationsVmwareAdminClustersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsVmwareAdminClustersRequest,
   output: ListProjectsLocationsVmwareAdminClustersResponse,
   errors: [],
@@ -3157,7 +3157,6 @@ export const listProjectsLocationsVmwareAdminClusters = API.makePaginated(() => 
   },
 }));
 
-/** Gets details of a single VMware admin cluster. */
 export interface GetProjectsLocationsVmwareAdminClustersRequest {
   /** Required. Name of the VMware admin cluster to be returned. Format: "projects/{project}/locations/{location}/vmwareAdminClusters/{vmware_admin_cluster}" */
   name: string;
@@ -3181,13 +3180,13 @@ export const GetProjectsLocationsVmwareAdminClustersResponse = VmwareAdminCluste
 
 export type GetProjectsLocationsVmwareAdminClustersError = CommonErrors;
 
+/** Gets details of a single VMware admin cluster. */
 export const getProjectsLocationsVmwareAdminClusters: API.OperationMethod<GetProjectsLocationsVmwareAdminClustersRequest, GetProjectsLocationsVmwareAdminClustersResponse, GetProjectsLocationsVmwareAdminClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsVmwareAdminClustersRequest,
   output: GetProjectsLocationsVmwareAdminClustersResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsVmwareAdminClustersRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3208,13 +3207,13 @@ export const TestIamPermissionsProjectsLocationsVmwareAdminClustersResponse = Te
 
 export type TestIamPermissionsProjectsLocationsVmwareAdminClustersError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsVmwareAdminClusters: API.OperationMethod<TestIamPermissionsProjectsLocationsVmwareAdminClustersRequest, TestIamPermissionsProjectsLocationsVmwareAdminClustersResponse, TestIamPermissionsProjectsLocationsVmwareAdminClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsVmwareAdminClustersRequest,
   output: TestIamPermissionsProjectsLocationsVmwareAdminClustersResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single VMware admin cluster. */
 export interface PatchProjectsLocationsVmwareAdminClustersRequest {
   /** Validate the request without actually doing any updates. */
   validateOnly?: boolean;
@@ -3244,13 +3243,13 @@ export const PatchProjectsLocationsVmwareAdminClustersResponse = Operation;
 
 export type PatchProjectsLocationsVmwareAdminClustersError = CommonErrors;
 
+/** Updates the parameters of a single VMware admin cluster. */
 export const patchProjectsLocationsVmwareAdminClusters: API.OperationMethod<PatchProjectsLocationsVmwareAdminClustersRequest, PatchProjectsLocationsVmwareAdminClustersResponse, PatchProjectsLocationsVmwareAdminClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsVmwareAdminClustersRequest,
   output: PatchProjectsLocationsVmwareAdminClustersResponse,
   errors: [],
 }));
 
-/** Unenrolls an existing VMware admin cluster from the Anthos On-Prem API within a given project and location. Unenrollment removes the Cloud reference to the cluster without modifying the underlying OnPrem Resources. Clusters will continue to run; however, they will no longer be accessible through the Anthos On-Prem API or its clients. */
 export interface UnenrollProjectsLocationsVmwareAdminClustersRequest {
   /** Required. Name of the VMware admin cluster to be unenrolled. Format: "projects/{project}/locations/{location}/vmwareAdminClusters/{cluster}" */
   name: string;
@@ -3280,13 +3279,13 @@ export const UnenrollProjectsLocationsVmwareAdminClustersResponse = Operation;
 
 export type UnenrollProjectsLocationsVmwareAdminClustersError = CommonErrors;
 
+/** Unenrolls an existing VMware admin cluster from the Anthos On-Prem API within a given project and location. Unenrollment removes the Cloud reference to the cluster without modifying the underlying OnPrem Resources. Clusters will continue to run; however, they will no longer be accessible through the Anthos On-Prem API or its clients. */
 export const unenrollProjectsLocationsVmwareAdminClusters: API.OperationMethod<UnenrollProjectsLocationsVmwareAdminClustersRequest, UnenrollProjectsLocationsVmwareAdminClustersResponse, UnenrollProjectsLocationsVmwareAdminClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UnenrollProjectsLocationsVmwareAdminClustersRequest,
   output: UnenrollProjectsLocationsVmwareAdminClustersResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsVmwareAdminClustersRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3307,13 +3306,13 @@ export const SetIamPolicyProjectsLocationsVmwareAdminClustersResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsVmwareAdminClustersError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsVmwareAdminClusters: API.OperationMethod<SetIamPolicyProjectsLocationsVmwareAdminClustersRequest, SetIamPolicyProjectsLocationsVmwareAdminClustersResponse, SetIamPolicyProjectsLocationsVmwareAdminClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsVmwareAdminClustersRequest,
   output: SetIamPolicyProjectsLocationsVmwareAdminClustersResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsVmwareAdminClustersOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -3331,13 +3330,13 @@ export const GetProjectsLocationsVmwareAdminClustersOperationsResponse = Operati
 
 export type GetProjectsLocationsVmwareAdminClustersOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsVmwareAdminClustersOperations: API.OperationMethod<GetProjectsLocationsVmwareAdminClustersOperationsRequest, GetProjectsLocationsVmwareAdminClustersOperationsResponse, GetProjectsLocationsVmwareAdminClustersOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsVmwareAdminClustersOperationsRequest,
   output: GetProjectsLocationsVmwareAdminClustersOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsVmwareAdminClustersOperationsRequest {
   /** The standard list page token. */
   pageToken?: string;
@@ -3367,7 +3366,8 @@ export const ListProjectsLocationsVmwareAdminClustersOperationsResponse = ListOp
 
 export type ListProjectsLocationsVmwareAdminClustersOperationsError = CommonErrors;
 
-export const listProjectsLocationsVmwareAdminClustersOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsVmwareAdminClustersOperations: API.PaginatedOperationMethod<ListProjectsLocationsVmwareAdminClustersOperationsRequest, ListProjectsLocationsVmwareAdminClustersOperationsResponse, ListProjectsLocationsVmwareAdminClustersOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsVmwareAdminClustersOperationsRequest,
   output: ListProjectsLocationsVmwareAdminClustersOperationsResponse,
   errors: [],
@@ -3377,7 +3377,6 @@ export const listProjectsLocationsVmwareAdminClustersOperations = API.makePagina
   },
 }));
 
-/** Updates the parameters of a single bare metal Cluster. */
 export interface PatchProjectsLocationsBareMetalClustersRequest {
   /** Validate the request without actually doing any updates. */
   validateOnly?: boolean;
@@ -3407,13 +3406,13 @@ export const PatchProjectsLocationsBareMetalClustersResponse = Operation;
 
 export type PatchProjectsLocationsBareMetalClustersError = CommonErrors;
 
+/** Updates the parameters of a single bare metal Cluster. */
 export const patchProjectsLocationsBareMetalClusters: API.OperationMethod<PatchProjectsLocationsBareMetalClustersRequest, PatchProjectsLocationsBareMetalClustersResponse, PatchProjectsLocationsBareMetalClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsBareMetalClustersRequest,
   output: PatchProjectsLocationsBareMetalClustersResponse,
   errors: [],
 }));
 
-/** Deletes a single bare metal Cluster. */
 export interface DeleteProjectsLocationsBareMetalClustersRequest {
   /** If set to true, and the bare metal cluster is not found, the request will succeed but no action will be taken on the server and return a completed LRO. */
   allowMissing?: boolean;
@@ -3446,13 +3445,13 @@ export const DeleteProjectsLocationsBareMetalClustersResponse = Operation;
 
 export type DeleteProjectsLocationsBareMetalClustersError = CommonErrors;
 
+/** Deletes a single bare metal Cluster. */
 export const deleteProjectsLocationsBareMetalClusters: API.OperationMethod<DeleteProjectsLocationsBareMetalClustersRequest, DeleteProjectsLocationsBareMetalClustersResponse, DeleteProjectsLocationsBareMetalClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsBareMetalClustersRequest,
   output: DeleteProjectsLocationsBareMetalClustersResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsBareMetalClustersRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3473,13 +3472,13 @@ export const TestIamPermissionsProjectsLocationsBareMetalClustersResponse = Test
 
 export type TestIamPermissionsProjectsLocationsBareMetalClustersError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsBareMetalClusters: API.OperationMethod<TestIamPermissionsProjectsLocationsBareMetalClustersRequest, TestIamPermissionsProjectsLocationsBareMetalClustersResponse, TestIamPermissionsProjectsLocationsBareMetalClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsBareMetalClustersRequest,
   output: TestIamPermissionsProjectsLocationsBareMetalClustersResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsBareMetalClustersRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3500,13 +3499,13 @@ export const SetIamPolicyProjectsLocationsBareMetalClustersResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsBareMetalClustersError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsBareMetalClusters: API.OperationMethod<SetIamPolicyProjectsLocationsBareMetalClustersRequest, SetIamPolicyProjectsLocationsBareMetalClustersResponse, SetIamPolicyProjectsLocationsBareMetalClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsBareMetalClustersRequest,
   output: SetIamPolicyProjectsLocationsBareMetalClustersResponse,
   errors: [],
 }));
 
-/** Gets details of a single bare metal Cluster. */
 export interface GetProjectsLocationsBareMetalClustersRequest {
   /** Required. Name of the bare metal user cluster to get. Format: "projects/{project}/locations/{location}/bareMetalClusters/{bare_metal_cluster}" */
   name: string;
@@ -3530,13 +3529,13 @@ export const GetProjectsLocationsBareMetalClustersResponse = BareMetalCluster;
 
 export type GetProjectsLocationsBareMetalClustersError = CommonErrors;
 
+/** Gets details of a single bare metal Cluster. */
 export const getProjectsLocationsBareMetalClusters: API.OperationMethod<GetProjectsLocationsBareMetalClustersRequest, GetProjectsLocationsBareMetalClustersResponse, GetProjectsLocationsBareMetalClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBareMetalClustersRequest,
   output: GetProjectsLocationsBareMetalClustersResponse,
   errors: [],
 }));
 
-/** Lists bare metal clusters in a given project and location. */
 export interface ListProjectsLocationsBareMetalClustersRequest {
   /** Optional. If true, return list of BareMetal Clusters including the ones that only exists in RMS. */
   allowMissing?: boolean;
@@ -3569,7 +3568,8 @@ export const ListProjectsLocationsBareMetalClustersResponse = ListBareMetalClust
 
 export type ListProjectsLocationsBareMetalClustersError = CommonErrors;
 
-export const listProjectsLocationsBareMetalClusters = API.makePaginated(() => ({
+/** Lists bare metal clusters in a given project and location. */
+export const listProjectsLocationsBareMetalClusters: API.PaginatedOperationMethod<ListProjectsLocationsBareMetalClustersRequest, ListProjectsLocationsBareMetalClustersResponse, ListProjectsLocationsBareMetalClustersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBareMetalClustersRequest,
   output: ListProjectsLocationsBareMetalClustersResponse,
   errors: [],
@@ -3579,7 +3579,6 @@ export const listProjectsLocationsBareMetalClusters = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new bare metal cluster in a given project and location. */
 export interface CreateProjectsLocationsBareMetalClustersRequest {
   /** Optional. If set to true, CLM will force CCFE to persist the cluster resource in RMS when the creation fails during standalone preflight checks. In that case the subsequent create call will fail with "cluster already exists" error and hence a update cluster is required to fix the cluster. */
   allowPreflightFailure?: boolean;
@@ -3609,13 +3608,13 @@ export const CreateProjectsLocationsBareMetalClustersResponse = Operation;
 
 export type CreateProjectsLocationsBareMetalClustersError = CommonErrors;
 
+/** Creates a new bare metal cluster in a given project and location. */
 export const createProjectsLocationsBareMetalClusters: API.OperationMethod<CreateProjectsLocationsBareMetalClustersRequest, CreateProjectsLocationsBareMetalClustersResponse, CreateProjectsLocationsBareMetalClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsBareMetalClustersRequest,
   output: CreateProjectsLocationsBareMetalClustersResponse,
   errors: [],
 }));
 
-/** Enrolls an existing bare metal user cluster and its node pools to the Anthos On-Prem API within a given project and location. Through enrollment, an existing cluster will become Anthos On-Prem API managed. The corresponding GCP resources will be created and all future modifications to the cluster and/or its node pools will be expected to be performed through the API. */
 export interface EnrollProjectsLocationsBareMetalClustersRequest {
   /** Required. The parent of the project and location where the cluster is enrolled in. Format: "projects/{project}/locations/{location}" */
   parent: string;
@@ -3636,13 +3635,13 @@ export const EnrollProjectsLocationsBareMetalClustersResponse = Operation;
 
 export type EnrollProjectsLocationsBareMetalClustersError = CommonErrors;
 
+/** Enrolls an existing bare metal user cluster and its node pools to the Anthos On-Prem API within a given project and location. Through enrollment, an existing cluster will become Anthos On-Prem API managed. The corresponding GCP resources will be created and all future modifications to the cluster and/or its node pools will be expected to be performed through the API. */
 export const enrollProjectsLocationsBareMetalClusters: API.OperationMethod<EnrollProjectsLocationsBareMetalClustersRequest, EnrollProjectsLocationsBareMetalClustersResponse, EnrollProjectsLocationsBareMetalClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnrollProjectsLocationsBareMetalClustersRequest,
   output: EnrollProjectsLocationsBareMetalClustersResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsBareMetalClustersRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3663,13 +3662,13 @@ export const GetIamPolicyProjectsLocationsBareMetalClustersResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsBareMetalClustersError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsBareMetalClusters: API.OperationMethod<GetIamPolicyProjectsLocationsBareMetalClustersRequest, GetIamPolicyProjectsLocationsBareMetalClustersResponse, GetIamPolicyProjectsLocationsBareMetalClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsBareMetalClustersRequest,
   output: GetIamPolicyProjectsLocationsBareMetalClustersResponse,
   errors: [],
 }));
 
-/** Unenrolls an existing bare metal user cluster and its node pools from the Anthos On-Prem API within a given project and location. Unenrollment removes the Cloud reference to the cluster without modifying the underlying OnPrem Resources. Clusters and node pools will continue to run; however, they will no longer be accessible through the Anthos On-Prem API or its clients. */
 export interface UnenrollProjectsLocationsBareMetalClustersRequest {
   /** If set to true, and the bare metal cluster is not found, the request will succeed but no action will be taken on the server and return a completed LRO. */
   allowMissing?: boolean;
@@ -3699,13 +3698,13 @@ export const UnenrollProjectsLocationsBareMetalClustersResponse = Operation;
 
 export type UnenrollProjectsLocationsBareMetalClustersError = CommonErrors;
 
+/** Unenrolls an existing bare metal user cluster and its node pools from the Anthos On-Prem API within a given project and location. Unenrollment removes the Cloud reference to the cluster without modifying the underlying OnPrem Resources. Clusters and node pools will continue to run; however, they will no longer be accessible through the Anthos On-Prem API or its clients. */
 export const unenrollProjectsLocationsBareMetalClusters: API.OperationMethod<UnenrollProjectsLocationsBareMetalClustersRequest, UnenrollProjectsLocationsBareMetalClustersResponse, UnenrollProjectsLocationsBareMetalClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UnenrollProjectsLocationsBareMetalClustersRequest,
   output: UnenrollProjectsLocationsBareMetalClustersResponse,
   errors: [],
 }));
 
-/** Queries the bare metal user cluster version config. */
 export interface QueryVersionConfigProjectsLocationsBareMetalClustersRequest {
   /** The user cluster resource name. This is the full resource name of the user cluster resource. Format: "projects/{project}/locations/{location}/bareMetalClusters/{bare_metal_cluster}" */
   "upgradeConfig.clusterName"?: string;
@@ -3732,13 +3731,13 @@ export const QueryVersionConfigProjectsLocationsBareMetalClustersResponse = Quer
 
 export type QueryVersionConfigProjectsLocationsBareMetalClustersError = CommonErrors;
 
+/** Queries the bare metal user cluster version config. */
 export const queryVersionConfigProjectsLocationsBareMetalClusters: API.OperationMethod<QueryVersionConfigProjectsLocationsBareMetalClustersRequest, QueryVersionConfigProjectsLocationsBareMetalClustersResponse, QueryVersionConfigProjectsLocationsBareMetalClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: QueryVersionConfigProjectsLocationsBareMetalClustersRequest,
   output: QueryVersionConfigProjectsLocationsBareMetalClustersResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsBareMetalClustersOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -3756,13 +3755,13 @@ export const GetProjectsLocationsBareMetalClustersOperationsResponse = Operation
 
 export type GetProjectsLocationsBareMetalClustersOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsBareMetalClustersOperations: API.OperationMethod<GetProjectsLocationsBareMetalClustersOperationsRequest, GetProjectsLocationsBareMetalClustersOperationsResponse, GetProjectsLocationsBareMetalClustersOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBareMetalClustersOperationsRequest,
   output: GetProjectsLocationsBareMetalClustersOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsBareMetalClustersOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -3792,7 +3791,8 @@ export const ListProjectsLocationsBareMetalClustersOperationsResponse = ListOper
 
 export type ListProjectsLocationsBareMetalClustersOperationsError = CommonErrors;
 
-export const listProjectsLocationsBareMetalClustersOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsBareMetalClustersOperations: API.PaginatedOperationMethod<ListProjectsLocationsBareMetalClustersOperationsRequest, ListProjectsLocationsBareMetalClustersOperationsResponse, ListProjectsLocationsBareMetalClustersOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBareMetalClustersOperationsRequest,
   output: ListProjectsLocationsBareMetalClustersOperationsResponse,
   errors: [],
@@ -3802,7 +3802,6 @@ export const listProjectsLocationsBareMetalClustersOperations = API.makePaginate
   },
 }));
 
-/** Lists bare metal node pools in a given project, location and bare metal cluster. */
 export interface ListProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest {
   /** Required. The parent, which owns this collection of node pools. Format: projects/{project}/locations/{location}/bareMetalClusters/{bareMetalCluster} */
   parent: string;
@@ -3829,7 +3828,8 @@ export const ListProjectsLocationsBareMetalClustersBareMetalNodePoolsResponse = 
 
 export type ListProjectsLocationsBareMetalClustersBareMetalNodePoolsError = CommonErrors;
 
-export const listProjectsLocationsBareMetalClustersBareMetalNodePools = API.makePaginated(() => ({
+/** Lists bare metal node pools in a given project, location and bare metal cluster. */
+export const listProjectsLocationsBareMetalClustersBareMetalNodePools: API.PaginatedOperationMethod<ListProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest, ListProjectsLocationsBareMetalClustersBareMetalNodePoolsResponse, ListProjectsLocationsBareMetalClustersBareMetalNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest,
   output: ListProjectsLocationsBareMetalClustersBareMetalNodePoolsResponse,
   errors: [],
@@ -3839,7 +3839,6 @@ export const listProjectsLocationsBareMetalClustersBareMetalNodePools = API.make
   },
 }));
 
-/** Enrolls an existing bare metal node pool to the Anthos On-Prem API within a given project and location. Through enrollment, an existing node pool will become Anthos On-Prem API managed. The corresponding GCP resources will be created. */
 export interface EnrollProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest {
   /** Required. The parent resource where this node pool will be created. projects/{project}/locations/{location}/bareMetalClusters/{cluster} */
   parent: string;
@@ -3860,13 +3859,13 @@ export const EnrollProjectsLocationsBareMetalClustersBareMetalNodePoolsResponse 
 
 export type EnrollProjectsLocationsBareMetalClustersBareMetalNodePoolsError = CommonErrors;
 
+/** Enrolls an existing bare metal node pool to the Anthos On-Prem API within a given project and location. Through enrollment, an existing node pool will become Anthos On-Prem API managed. The corresponding GCP resources will be created. */
 export const enrollProjectsLocationsBareMetalClustersBareMetalNodePools: API.OperationMethod<EnrollProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest, EnrollProjectsLocationsBareMetalClustersBareMetalNodePoolsResponse, EnrollProjectsLocationsBareMetalClustersBareMetalNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnrollProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest,
   output: EnrollProjectsLocationsBareMetalClustersBareMetalNodePoolsResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single bare metal node pool. */
 export interface PatchProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest {
   /** Immutable. The bare metal node pool resource name. */
   name: string;
@@ -3896,13 +3895,13 @@ export const PatchProjectsLocationsBareMetalClustersBareMetalNodePoolsResponse =
 
 export type PatchProjectsLocationsBareMetalClustersBareMetalNodePoolsError = CommonErrors;
 
+/** Updates the parameters of a single bare metal node pool. */
 export const patchProjectsLocationsBareMetalClustersBareMetalNodePools: API.OperationMethod<PatchProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest, PatchProjectsLocationsBareMetalClustersBareMetalNodePoolsResponse, PatchProjectsLocationsBareMetalClustersBareMetalNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest,
   output: PatchProjectsLocationsBareMetalClustersBareMetalNodePoolsResponse,
   errors: [],
 }));
 
-/** Unenrolls a bare metal node pool from Anthos On-Prem API. */
 export interface UnenrollProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest {
   /** If set, only validate the request, but do not actually unenroll the node pool. */
   validateOnly?: boolean;
@@ -3929,13 +3928,13 @@ export const UnenrollProjectsLocationsBareMetalClustersBareMetalNodePoolsRespons
 
 export type UnenrollProjectsLocationsBareMetalClustersBareMetalNodePoolsError = CommonErrors;
 
+/** Unenrolls a bare metal node pool from Anthos On-Prem API. */
 export const unenrollProjectsLocationsBareMetalClustersBareMetalNodePools: API.OperationMethod<UnenrollProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest, UnenrollProjectsLocationsBareMetalClustersBareMetalNodePoolsResponse, UnenrollProjectsLocationsBareMetalClustersBareMetalNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UnenrollProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest,
   output: UnenrollProjectsLocationsBareMetalClustersBareMetalNodePoolsResponse,
   errors: [],
 }));
 
-/** Deletes a single bare metal node pool. */
 export interface DeleteProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest {
   /** If set to true, and the bare metal node pool is not found, the request will succeed but no action will be taken on the server and return a completed LRO. */
   allowMissing?: boolean;
@@ -3965,13 +3964,13 @@ export const DeleteProjectsLocationsBareMetalClustersBareMetalNodePoolsResponse 
 
 export type DeleteProjectsLocationsBareMetalClustersBareMetalNodePoolsError = CommonErrors;
 
+/** Deletes a single bare metal node pool. */
 export const deleteProjectsLocationsBareMetalClustersBareMetalNodePools: API.OperationMethod<DeleteProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest, DeleteProjectsLocationsBareMetalClustersBareMetalNodePoolsResponse, DeleteProjectsLocationsBareMetalClustersBareMetalNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest,
   output: DeleteProjectsLocationsBareMetalClustersBareMetalNodePoolsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3992,13 +3991,13 @@ export const TestIamPermissionsProjectsLocationsBareMetalClustersBareMetalNodePo
 
 export type TestIamPermissionsProjectsLocationsBareMetalClustersBareMetalNodePoolsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsBareMetalClustersBareMetalNodePools: API.OperationMethod<TestIamPermissionsProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest, TestIamPermissionsProjectsLocationsBareMetalClustersBareMetalNodePoolsResponse, TestIamPermissionsProjectsLocationsBareMetalClustersBareMetalNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest,
   output: TestIamPermissionsProjectsLocationsBareMetalClustersBareMetalNodePoolsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
@@ -4019,13 +4018,13 @@ export const GetIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePoolsRes
 
 export type GetIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePoolsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePools: API.OperationMethod<GetIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest, GetIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePoolsResponse, GetIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest,
   output: GetIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePoolsResponse,
   errors: [],
 }));
 
-/** Creates a new bare metal node pool in a given project, location and Bare Metal cluster. */
 export interface CreateProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest {
   /** The ID to use for the node pool, which will become the final component of the node pool's resource name. This value must be up to 63 characters, and valid characters are /a-z-/. The value must not be permitted to be a UUID (or UUID-like: anything matching /^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i). */
   bareMetalNodePoolId?: string;
@@ -4052,13 +4051,13 @@ export const CreateProjectsLocationsBareMetalClustersBareMetalNodePoolsResponse 
 
 export type CreateProjectsLocationsBareMetalClustersBareMetalNodePoolsError = CommonErrors;
 
+/** Creates a new bare metal node pool in a given project, location and Bare Metal cluster. */
 export const createProjectsLocationsBareMetalClustersBareMetalNodePools: API.OperationMethod<CreateProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest, CreateProjectsLocationsBareMetalClustersBareMetalNodePoolsResponse, CreateProjectsLocationsBareMetalClustersBareMetalNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest,
   output: CreateProjectsLocationsBareMetalClustersBareMetalNodePoolsResponse,
   errors: [],
 }));
 
-/** Gets details of a single bare metal node pool. */
 export interface GetProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest {
   /** View for bare metal node pool. When `BASIC` is specified, only the node pool resource name is returned. The default/unset value `NODE_POOL_VIEW_UNSPECIFIED` is the same as `FULL', which returns the complete node pool configuration details. */
   view?: "NODE_POOL_VIEW_UNSPECIFIED" | "BASIC" | "FULL" | (string & {});
@@ -4079,13 +4078,13 @@ export const GetProjectsLocationsBareMetalClustersBareMetalNodePoolsResponse = B
 
 export type GetProjectsLocationsBareMetalClustersBareMetalNodePoolsError = CommonErrors;
 
+/** Gets details of a single bare metal node pool. */
 export const getProjectsLocationsBareMetalClustersBareMetalNodePools: API.OperationMethod<GetProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest, GetProjectsLocationsBareMetalClustersBareMetalNodePoolsResponse, GetProjectsLocationsBareMetalClustersBareMetalNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest,
   output: GetProjectsLocationsBareMetalClustersBareMetalNodePoolsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -4106,13 +4105,13 @@ export const SetIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePoolsRes
 
 export type SetIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePoolsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePools: API.OperationMethod<SetIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest, SetIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePoolsResponse, SetIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePoolsRequest,
   output: SetIamPolicyProjectsLocationsBareMetalClustersBareMetalNodePoolsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsBareMetalClustersBareMetalNodePoolsOperationsRequest {
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
@@ -4142,7 +4141,8 @@ export const ListProjectsLocationsBareMetalClustersBareMetalNodePoolsOperationsR
 
 export type ListProjectsLocationsBareMetalClustersBareMetalNodePoolsOperationsError = CommonErrors;
 
-export const listProjectsLocationsBareMetalClustersBareMetalNodePoolsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsBareMetalClustersBareMetalNodePoolsOperations: API.PaginatedOperationMethod<ListProjectsLocationsBareMetalClustersBareMetalNodePoolsOperationsRequest, ListProjectsLocationsBareMetalClustersBareMetalNodePoolsOperationsResponse, ListProjectsLocationsBareMetalClustersBareMetalNodePoolsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBareMetalClustersBareMetalNodePoolsOperationsRequest,
   output: ListProjectsLocationsBareMetalClustersBareMetalNodePoolsOperationsResponse,
   errors: [],
@@ -4152,7 +4152,6 @@ export const listProjectsLocationsBareMetalClustersBareMetalNodePoolsOperations 
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsBareMetalClustersBareMetalNodePoolsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -4170,13 +4169,13 @@ export const GetProjectsLocationsBareMetalClustersBareMetalNodePoolsOperationsRe
 
 export type GetProjectsLocationsBareMetalClustersBareMetalNodePoolsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsBareMetalClustersBareMetalNodePoolsOperations: API.OperationMethod<GetProjectsLocationsBareMetalClustersBareMetalNodePoolsOperationsRequest, GetProjectsLocationsBareMetalClustersBareMetalNodePoolsOperationsResponse, GetProjectsLocationsBareMetalClustersBareMetalNodePoolsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBareMetalClustersBareMetalNodePoolsOperationsRequest,
   output: GetProjectsLocationsBareMetalClustersBareMetalNodePoolsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -4194,13 +4193,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list page token. */
   pageToken?: string;
@@ -4230,7 +4229,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -4240,7 +4240,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -4258,13 +4257,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -4285,13 +4284,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Gets details of a single VMware Cluster. */
 export interface GetProjectsLocationsVmwareClustersRequest {
   /** Required. Name of the VMware user cluster to be returned. Format: "projects/{project}/locations/{location}/vmwareClusters/{vmware_cluster}" */
   name: string;
@@ -4315,13 +4314,13 @@ export const GetProjectsLocationsVmwareClustersResponse = VmwareCluster;
 
 export type GetProjectsLocationsVmwareClustersError = CommonErrors;
 
+/** Gets details of a single VMware Cluster. */
 export const getProjectsLocationsVmwareClusters: API.OperationMethod<GetProjectsLocationsVmwareClustersRequest, GetProjectsLocationsVmwareClustersResponse, GetProjectsLocationsVmwareClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsVmwareClustersRequest,
   output: GetProjectsLocationsVmwareClustersResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsVmwareClustersRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -4342,13 +4341,13 @@ export const SetIamPolicyProjectsLocationsVmwareClustersResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsVmwareClustersError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsVmwareClusters: API.OperationMethod<SetIamPolicyProjectsLocationsVmwareClustersRequest, SetIamPolicyProjectsLocationsVmwareClustersResponse, SetIamPolicyProjectsLocationsVmwareClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsVmwareClustersRequest,
   output: SetIamPolicyProjectsLocationsVmwareClustersResponse,
   errors: [],
 }));
 
-/** Enrolls an existing VMware user cluster and its node pools to the Anthos On-Prem API within a given project and location. Through enrollment, an existing cluster will become Anthos On-Prem API managed. The corresponding GCP resources will be created and all future modifications to the cluster and/or its node pools will be expected to be performed through the API. */
 export interface EnrollProjectsLocationsVmwareClustersRequest {
   /** Required. The parent of the project and location where the cluster is Enrolled in. Format: "projects/{project}/locations/{location}" */
   parent: string;
@@ -4369,13 +4368,13 @@ export const EnrollProjectsLocationsVmwareClustersResponse = Operation;
 
 export type EnrollProjectsLocationsVmwareClustersError = CommonErrors;
 
+/** Enrolls an existing VMware user cluster and its node pools to the Anthos On-Prem API within a given project and location. Through enrollment, an existing cluster will become Anthos On-Prem API managed. The corresponding GCP resources will be created and all future modifications to the cluster and/or its node pools will be expected to be performed through the API. */
 export const enrollProjectsLocationsVmwareClusters: API.OperationMethod<EnrollProjectsLocationsVmwareClustersRequest, EnrollProjectsLocationsVmwareClustersResponse, EnrollProjectsLocationsVmwareClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnrollProjectsLocationsVmwareClustersRequest,
   output: EnrollProjectsLocationsVmwareClustersResponse,
   errors: [],
 }));
 
-/** Creates a new VMware user cluster in a given project and location. */
 export interface CreateProjectsLocationsVmwareClustersRequest {
   /** Optional. List of validations to skip during cluster creation. */
   skipValidations?: string[];
@@ -4408,13 +4407,13 @@ export const CreateProjectsLocationsVmwareClustersResponse = Operation;
 
 export type CreateProjectsLocationsVmwareClustersError = CommonErrors;
 
+/** Creates a new VMware user cluster in a given project and location. */
 export const createProjectsLocationsVmwareClusters: API.OperationMethod<CreateProjectsLocationsVmwareClustersRequest, CreateProjectsLocationsVmwareClustersResponse, CreateProjectsLocationsVmwareClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsVmwareClustersRequest,
   output: CreateProjectsLocationsVmwareClustersResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsVmwareClustersRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -4435,13 +4434,13 @@ export const TestIamPermissionsProjectsLocationsVmwareClustersResponse = TestIam
 
 export type TestIamPermissionsProjectsLocationsVmwareClustersError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsVmwareClusters: API.OperationMethod<TestIamPermissionsProjectsLocationsVmwareClustersRequest, TestIamPermissionsProjectsLocationsVmwareClustersResponse, TestIamPermissionsProjectsLocationsVmwareClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsVmwareClustersRequest,
   output: TestIamPermissionsProjectsLocationsVmwareClustersResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsVmwareClustersRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -4462,13 +4461,13 @@ export const GetIamPolicyProjectsLocationsVmwareClustersResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsVmwareClustersError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsVmwareClusters: API.OperationMethod<GetIamPolicyProjectsLocationsVmwareClustersRequest, GetIamPolicyProjectsLocationsVmwareClustersResponse, GetIamPolicyProjectsLocationsVmwareClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsVmwareClustersRequest,
   output: GetIamPolicyProjectsLocationsVmwareClustersResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single VMware cluster. */
 export interface PatchProjectsLocationsVmwareClustersRequest {
   /** Immutable. The VMware user cluster resource name. */
   name: string;
@@ -4497,13 +4496,13 @@ export const PatchProjectsLocationsVmwareClustersResponse = Operation;
 
 export type PatchProjectsLocationsVmwareClustersError = CommonErrors;
 
+/** Updates the parameters of a single VMware cluster. */
 export const patchProjectsLocationsVmwareClusters: API.OperationMethod<PatchProjectsLocationsVmwareClustersRequest, PatchProjectsLocationsVmwareClustersResponse, PatchProjectsLocationsVmwareClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsVmwareClustersRequest,
   output: PatchProjectsLocationsVmwareClustersResponse,
   errors: [],
 }));
 
-/** Lists VMware Clusters in a given project and location. */
 export interface ListProjectsLocationsVmwareClustersRequest {
   /** Requested page size. Server may return fewer items than requested. If unspecified, at most 50 clusters will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
@@ -4536,7 +4535,8 @@ export const ListProjectsLocationsVmwareClustersResponse = ListVmwareClustersRes
 
 export type ListProjectsLocationsVmwareClustersError = CommonErrors;
 
-export const listProjectsLocationsVmwareClusters = API.makePaginated(() => ({
+/** Lists VMware Clusters in a given project and location. */
+export const listProjectsLocationsVmwareClusters: API.PaginatedOperationMethod<ListProjectsLocationsVmwareClustersRequest, ListProjectsLocationsVmwareClustersResponse, ListProjectsLocationsVmwareClustersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsVmwareClustersRequest,
   output: ListProjectsLocationsVmwareClustersResponse,
   errors: [],
@@ -4546,7 +4546,6 @@ export const listProjectsLocationsVmwareClusters = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a single VMware Cluster. */
 export interface DeleteProjectsLocationsVmwareClustersRequest {
   /** Required. Name of the VMware user cluster to be deleted. Format: "projects/{project}/locations/{location}/vmwareClusters/{vmware_cluster}" */
   name: string;
@@ -4579,13 +4578,13 @@ export const DeleteProjectsLocationsVmwareClustersResponse = Operation;
 
 export type DeleteProjectsLocationsVmwareClustersError = CommonErrors;
 
+/** Deletes a single VMware Cluster. */
 export const deleteProjectsLocationsVmwareClusters: API.OperationMethod<DeleteProjectsLocationsVmwareClustersRequest, DeleteProjectsLocationsVmwareClustersResponse, DeleteProjectsLocationsVmwareClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsVmwareClustersRequest,
   output: DeleteProjectsLocationsVmwareClustersResponse,
   errors: [],
 }));
 
-/** Unenrolls an existing VMware user cluster and its node pools from the Anthos On-Prem API within a given project and location. Unenrollment removes the Cloud reference to the cluster without modifying the underlying OnPrem Resources. Clusters and node pools will continue to run; however, they will no longer be accessible through the Anthos On-Prem API or UI. */
 export interface UnenrollProjectsLocationsVmwareClustersRequest {
   /** The current etag of the VMware Cluster. If an etag is provided and does not match the current etag of the cluster, deletion will be blocked and an ABORTED error will be returned. */
   etag?: string;
@@ -4615,13 +4614,13 @@ export const UnenrollProjectsLocationsVmwareClustersResponse = Operation;
 
 export type UnenrollProjectsLocationsVmwareClustersError = CommonErrors;
 
+/** Unenrolls an existing VMware user cluster and its node pools from the Anthos On-Prem API within a given project and location. Unenrollment removes the Cloud reference to the cluster without modifying the underlying OnPrem Resources. Clusters and node pools will continue to run; however, they will no longer be accessible through the Anthos On-Prem API or UI. */
 export const unenrollProjectsLocationsVmwareClusters: API.OperationMethod<UnenrollProjectsLocationsVmwareClustersRequest, UnenrollProjectsLocationsVmwareClustersResponse, UnenrollProjectsLocationsVmwareClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UnenrollProjectsLocationsVmwareClustersRequest,
   output: UnenrollProjectsLocationsVmwareClustersResponse,
   errors: [],
 }));
 
-/** Queries the VMware user cluster version config. */
 export interface QueryVersionConfigProjectsLocationsVmwareClustersRequest {
   /** The user cluster resource name. This is the full resource name of the user cluster resource. Format: "projects/{project}/locations/{location}/vmwareClusters/{vmware_cluster}" */
   "upgradeConfig.clusterName"?: string;
@@ -4648,13 +4647,13 @@ export const QueryVersionConfigProjectsLocationsVmwareClustersResponse = QueryVm
 
 export type QueryVersionConfigProjectsLocationsVmwareClustersError = CommonErrors;
 
+/** Queries the VMware user cluster version config. */
 export const queryVersionConfigProjectsLocationsVmwareClusters: API.OperationMethod<QueryVersionConfigProjectsLocationsVmwareClustersRequest, QueryVersionConfigProjectsLocationsVmwareClustersResponse, QueryVersionConfigProjectsLocationsVmwareClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: QueryVersionConfigProjectsLocationsVmwareClustersRequest,
   output: QueryVersionConfigProjectsLocationsVmwareClustersResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsVmwareClustersVmwareNodePoolsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -4675,13 +4674,13 @@ export const TestIamPermissionsProjectsLocationsVmwareClustersVmwareNodePoolsRes
 
 export type TestIamPermissionsProjectsLocationsVmwareClustersVmwareNodePoolsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsVmwareClustersVmwareNodePools: API.OperationMethod<TestIamPermissionsProjectsLocationsVmwareClustersVmwareNodePoolsRequest, TestIamPermissionsProjectsLocationsVmwareClustersVmwareNodePoolsResponse, TestIamPermissionsProjectsLocationsVmwareClustersVmwareNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsVmwareClustersVmwareNodePoolsRequest,
   output: TestIamPermissionsProjectsLocationsVmwareClustersVmwareNodePoolsResponse,
   errors: [],
 }));
 
-/** Deletes a single VMware node pool. */
 export interface DeleteProjectsLocationsVmwareClustersVmwareNodePoolsRequest {
   /** If set to true, and the VMware node pool is not found, the request will succeed but no action will be taken on the server and return a completed LRO. */
   allowMissing?: boolean;
@@ -4711,13 +4710,13 @@ export const DeleteProjectsLocationsVmwareClustersVmwareNodePoolsResponse = Oper
 
 export type DeleteProjectsLocationsVmwareClustersVmwareNodePoolsError = CommonErrors;
 
+/** Deletes a single VMware node pool. */
 export const deleteProjectsLocationsVmwareClustersVmwareNodePools: API.OperationMethod<DeleteProjectsLocationsVmwareClustersVmwareNodePoolsRequest, DeleteProjectsLocationsVmwareClustersVmwareNodePoolsResponse, DeleteProjectsLocationsVmwareClustersVmwareNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsVmwareClustersVmwareNodePoolsRequest,
   output: DeleteProjectsLocationsVmwareClustersVmwareNodePoolsResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single VMware node pool. */
 export interface PatchProjectsLocationsVmwareClustersVmwareNodePoolsRequest {
   /** Immutable. The resource name of this node pool. */
   name: string;
@@ -4744,13 +4743,13 @@ export const PatchProjectsLocationsVmwareClustersVmwareNodePoolsResponse = Opera
 
 export type PatchProjectsLocationsVmwareClustersVmwareNodePoolsError = CommonErrors;
 
+/** Updates the parameters of a single VMware node pool. */
 export const patchProjectsLocationsVmwareClustersVmwareNodePools: API.OperationMethod<PatchProjectsLocationsVmwareClustersVmwareNodePoolsRequest, PatchProjectsLocationsVmwareClustersVmwareNodePoolsResponse, PatchProjectsLocationsVmwareClustersVmwareNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsVmwareClustersVmwareNodePoolsRequest,
   output: PatchProjectsLocationsVmwareClustersVmwareNodePoolsResponse,
   errors: [],
 }));
 
-/** Enrolls a VMware node pool to Anthos On-Prem API */
 export interface EnrollProjectsLocationsVmwareClustersVmwareNodePoolsRequest {
   /** Required. The parent resource where the node pool is enrolled in. */
   parent: string;
@@ -4771,13 +4770,13 @@ export const EnrollProjectsLocationsVmwareClustersVmwareNodePoolsResponse = Oper
 
 export type EnrollProjectsLocationsVmwareClustersVmwareNodePoolsError = CommonErrors;
 
+/** Enrolls a VMware node pool to Anthos On-Prem API */
 export const enrollProjectsLocationsVmwareClustersVmwareNodePools: API.OperationMethod<EnrollProjectsLocationsVmwareClustersVmwareNodePoolsRequest, EnrollProjectsLocationsVmwareClustersVmwareNodePoolsResponse, EnrollProjectsLocationsVmwareClustersVmwareNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnrollProjectsLocationsVmwareClustersVmwareNodePoolsRequest,
   output: EnrollProjectsLocationsVmwareClustersVmwareNodePoolsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsVmwareClustersVmwareNodePoolsRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
@@ -4798,13 +4797,13 @@ export const GetIamPolicyProjectsLocationsVmwareClustersVmwareNodePoolsResponse 
 
 export type GetIamPolicyProjectsLocationsVmwareClustersVmwareNodePoolsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsVmwareClustersVmwareNodePools: API.OperationMethod<GetIamPolicyProjectsLocationsVmwareClustersVmwareNodePoolsRequest, GetIamPolicyProjectsLocationsVmwareClustersVmwareNodePoolsResponse, GetIamPolicyProjectsLocationsVmwareClustersVmwareNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsVmwareClustersVmwareNodePoolsRequest,
   output: GetIamPolicyProjectsLocationsVmwareClustersVmwareNodePoolsResponse,
   errors: [],
 }));
 
-/** Creates a new VMware node pool in a given project, location and VMWare cluster. */
 export interface CreateProjectsLocationsVmwareClustersVmwareNodePoolsRequest {
   /** Required. The parent resource where this node pool will be created. projects/{project}/locations/{location}/vmwareClusters/{cluster} */
   parent: string;
@@ -4831,13 +4830,13 @@ export const CreateProjectsLocationsVmwareClustersVmwareNodePoolsResponse = Oper
 
 export type CreateProjectsLocationsVmwareClustersVmwareNodePoolsError = CommonErrors;
 
+/** Creates a new VMware node pool in a given project, location and VMWare cluster. */
 export const createProjectsLocationsVmwareClustersVmwareNodePools: API.OperationMethod<CreateProjectsLocationsVmwareClustersVmwareNodePoolsRequest, CreateProjectsLocationsVmwareClustersVmwareNodePoolsResponse, CreateProjectsLocationsVmwareClustersVmwareNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsVmwareClustersVmwareNodePoolsRequest,
   output: CreateProjectsLocationsVmwareClustersVmwareNodePoolsResponse,
   errors: [],
 }));
 
-/** Lists VMware node pools in a given project, location and VMWare cluster. */
 export interface ListProjectsLocationsVmwareClustersVmwareNodePoolsRequest {
   /** The maximum number of node pools to return. The service may return fewer than this value. If unspecified, at most 50 node pools will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
@@ -4864,7 +4863,8 @@ export const ListProjectsLocationsVmwareClustersVmwareNodePoolsResponse = ListVm
 
 export type ListProjectsLocationsVmwareClustersVmwareNodePoolsError = CommonErrors;
 
-export const listProjectsLocationsVmwareClustersVmwareNodePools = API.makePaginated(() => ({
+/** Lists VMware node pools in a given project, location and VMWare cluster. */
+export const listProjectsLocationsVmwareClustersVmwareNodePools: API.PaginatedOperationMethod<ListProjectsLocationsVmwareClustersVmwareNodePoolsRequest, ListProjectsLocationsVmwareClustersVmwareNodePoolsResponse, ListProjectsLocationsVmwareClustersVmwareNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsVmwareClustersVmwareNodePoolsRequest,
   output: ListProjectsLocationsVmwareClustersVmwareNodePoolsResponse,
   errors: [],
@@ -4874,7 +4874,6 @@ export const listProjectsLocationsVmwareClustersVmwareNodePools = API.makePagina
   },
 }));
 
-/** Unenrolls a VMware node pool to Anthos On-Prem API */
 export interface UnenrollProjectsLocationsVmwareClustersVmwareNodePoolsRequest {
   /** The current etag of the VMware node pool. If an etag is provided and does not match the current etag of node pool, deletion will be blocked and an ABORTED error will be returned. */
   etag?: string;
@@ -4901,13 +4900,13 @@ export const UnenrollProjectsLocationsVmwareClustersVmwareNodePoolsResponse = Op
 
 export type UnenrollProjectsLocationsVmwareClustersVmwareNodePoolsError = CommonErrors;
 
+/** Unenrolls a VMware node pool to Anthos On-Prem API */
 export const unenrollProjectsLocationsVmwareClustersVmwareNodePools: API.OperationMethod<UnenrollProjectsLocationsVmwareClustersVmwareNodePoolsRequest, UnenrollProjectsLocationsVmwareClustersVmwareNodePoolsResponse, UnenrollProjectsLocationsVmwareClustersVmwareNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UnenrollProjectsLocationsVmwareClustersVmwareNodePoolsRequest,
   output: UnenrollProjectsLocationsVmwareClustersVmwareNodePoolsResponse,
   errors: [],
 }));
 
-/** Gets details of a single VMware node pool. */
 export interface GetProjectsLocationsVmwareClustersVmwareNodePoolsRequest {
   /** View for VMware node pool. When `BASIC` is specified, only the node pool resource name is returned. The default/unset value `NODE_POOL_VIEW_UNSPECIFIED` is the same as `FULL', which returns the complete node pool configuration details. */
   view?: "NODE_POOL_VIEW_UNSPECIFIED" | "BASIC" | "FULL" | (string & {});
@@ -4928,13 +4927,13 @@ export const GetProjectsLocationsVmwareClustersVmwareNodePoolsResponse = VmwareN
 
 export type GetProjectsLocationsVmwareClustersVmwareNodePoolsError = CommonErrors;
 
+/** Gets details of a single VMware node pool. */
 export const getProjectsLocationsVmwareClustersVmwareNodePools: API.OperationMethod<GetProjectsLocationsVmwareClustersVmwareNodePoolsRequest, GetProjectsLocationsVmwareClustersVmwareNodePoolsResponse, GetProjectsLocationsVmwareClustersVmwareNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsVmwareClustersVmwareNodePoolsRequest,
   output: GetProjectsLocationsVmwareClustersVmwareNodePoolsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsVmwareClustersVmwareNodePoolsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -4955,13 +4954,13 @@ export const SetIamPolicyProjectsLocationsVmwareClustersVmwareNodePoolsResponse 
 
 export type SetIamPolicyProjectsLocationsVmwareClustersVmwareNodePoolsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsVmwareClustersVmwareNodePools: API.OperationMethod<SetIamPolicyProjectsLocationsVmwareClustersVmwareNodePoolsRequest, SetIamPolicyProjectsLocationsVmwareClustersVmwareNodePoolsResponse, SetIamPolicyProjectsLocationsVmwareClustersVmwareNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsVmwareClustersVmwareNodePoolsRequest,
   output: SetIamPolicyProjectsLocationsVmwareClustersVmwareNodePoolsResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsVmwareClustersVmwareNodePoolsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -4979,13 +4978,13 @@ export const GetProjectsLocationsVmwareClustersVmwareNodePoolsOperationsResponse
 
 export type GetProjectsLocationsVmwareClustersVmwareNodePoolsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsVmwareClustersVmwareNodePoolsOperations: API.OperationMethod<GetProjectsLocationsVmwareClustersVmwareNodePoolsOperationsRequest, GetProjectsLocationsVmwareClustersVmwareNodePoolsOperationsResponse, GetProjectsLocationsVmwareClustersVmwareNodePoolsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsVmwareClustersVmwareNodePoolsOperationsRequest,
   output: GetProjectsLocationsVmwareClustersVmwareNodePoolsOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsVmwareClustersVmwareNodePoolsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -5015,7 +5014,8 @@ export const ListProjectsLocationsVmwareClustersVmwareNodePoolsOperationsRespons
 
 export type ListProjectsLocationsVmwareClustersVmwareNodePoolsOperationsError = CommonErrors;
 
-export const listProjectsLocationsVmwareClustersVmwareNodePoolsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsVmwareClustersVmwareNodePoolsOperations: API.PaginatedOperationMethod<ListProjectsLocationsVmwareClustersVmwareNodePoolsOperationsRequest, ListProjectsLocationsVmwareClustersVmwareNodePoolsOperationsResponse, ListProjectsLocationsVmwareClustersVmwareNodePoolsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsVmwareClustersVmwareNodePoolsOperationsRequest,
   output: ListProjectsLocationsVmwareClustersVmwareNodePoolsOperationsResponse,
   errors: [],
@@ -5025,7 +5025,6 @@ export const listProjectsLocationsVmwareClustersVmwareNodePoolsOperations = API.
   },
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsVmwareClustersOperationsRequest {
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
@@ -5055,7 +5054,8 @@ export const ListProjectsLocationsVmwareClustersOperationsResponse = ListOperati
 
 export type ListProjectsLocationsVmwareClustersOperationsError = CommonErrors;
 
-export const listProjectsLocationsVmwareClustersOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsVmwareClustersOperations: API.PaginatedOperationMethod<ListProjectsLocationsVmwareClustersOperationsRequest, ListProjectsLocationsVmwareClustersOperationsResponse, ListProjectsLocationsVmwareClustersOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsVmwareClustersOperationsRequest,
   output: ListProjectsLocationsVmwareClustersOperationsResponse,
   errors: [],
@@ -5065,7 +5065,6 @@ export const listProjectsLocationsVmwareClustersOperations = API.makePaginated((
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsVmwareClustersOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -5083,6 +5082,7 @@ export const GetProjectsLocationsVmwareClustersOperationsResponse = Operation;
 
 export type GetProjectsLocationsVmwareClustersOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsVmwareClustersOperations: API.OperationMethod<GetProjectsLocationsVmwareClustersOperationsRequest, GetProjectsLocationsVmwareClustersOperationsResponse, GetProjectsLocationsVmwareClustersOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsVmwareClustersOperationsRequest,
   output: GetProjectsLocationsVmwareClustersOperationsResponse,

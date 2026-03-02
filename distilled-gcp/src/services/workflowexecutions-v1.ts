@@ -387,7 +387,6 @@ export const ListCallbacksResponse: Schema.Schema<ListCallbacksResponse> = Schem
 // Operations
 // ==========================================================================
 
-/** Triggers a new execution using the latest revision of the given workflow by a Pub/Sub push notification. */
 export interface TriggerPubsubExecutionProjectsLocationsWorkflowsRequest {
   /** Required. Name of the workflow for which an execution should be created. Format: projects/{project}/locations/{location}/workflows/{workflow} */
   workflow: string;
@@ -408,13 +407,13 @@ export const TriggerPubsubExecutionProjectsLocationsWorkflowsResponse = Executio
 
 export type TriggerPubsubExecutionProjectsLocationsWorkflowsError = CommonErrors;
 
+/** Triggers a new execution using the latest revision of the given workflow by a Pub/Sub push notification. */
 export const triggerPubsubExecutionProjectsLocationsWorkflows: API.OperationMethod<TriggerPubsubExecutionProjectsLocationsWorkflowsRequest, TriggerPubsubExecutionProjectsLocationsWorkflowsResponse, TriggerPubsubExecutionProjectsLocationsWorkflowsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TriggerPubsubExecutionProjectsLocationsWorkflowsRequest,
   output: TriggerPubsubExecutionProjectsLocationsWorkflowsResponse,
   errors: [],
 }));
 
-/** Creates a new execution using the latest revision of the given workflow. For more information, see Execute a workflow. */
 export interface CreateProjectsLocationsWorkflowsExecutionsRequest {
   /** Required. Name of the workflow for which an execution should be created. Format: projects/{project}/locations/{location}/workflows/{workflow} The latest revision of the workflow will be used. */
   parent: string;
@@ -435,13 +434,13 @@ export const CreateProjectsLocationsWorkflowsExecutionsResponse = Execution;
 
 export type CreateProjectsLocationsWorkflowsExecutionsError = CommonErrors;
 
+/** Creates a new execution using the latest revision of the given workflow. For more information, see Execute a workflow. */
 export const createProjectsLocationsWorkflowsExecutions: API.OperationMethod<CreateProjectsLocationsWorkflowsExecutionsRequest, CreateProjectsLocationsWorkflowsExecutionsResponse, CreateProjectsLocationsWorkflowsExecutionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsWorkflowsExecutionsRequest,
   output: CreateProjectsLocationsWorkflowsExecutionsResponse,
   errors: [],
 }));
 
-/** Cancels an execution of the given name. */
 export interface CancelProjectsLocationsWorkflowsExecutionsRequest {
   /** Required. Name of the execution to be cancelled. Format: projects/{project}/locations/{location}/workflows/{workflow}/executions/{execution} */
   name: string;
@@ -462,13 +461,13 @@ export const CancelProjectsLocationsWorkflowsExecutionsResponse = Execution;
 
 export type CancelProjectsLocationsWorkflowsExecutionsError = CommonErrors;
 
+/** Cancels an execution of the given name. */
 export const cancelProjectsLocationsWorkflowsExecutions: API.OperationMethod<CancelProjectsLocationsWorkflowsExecutionsRequest, CancelProjectsLocationsWorkflowsExecutionsResponse, CancelProjectsLocationsWorkflowsExecutionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsWorkflowsExecutionsRequest,
   output: CancelProjectsLocationsWorkflowsExecutionsResponse,
   errors: [],
 }));
 
-/** Returns a list of executions which belong to the workflow with the given name. The method returns executions of all workflow revisions. Returned executions are ordered by their start time (newest first). */
 export interface ListProjectsLocationsWorkflowsExecutionsRequest {
   /** Maximum number of executions to return per call. Max supported value depends on the selected Execution view: it's 1000 for BASIC and 100 for FULL. The default value used if the field is not specified is 100, regardless of the selected view. Values greater than the max value will be coerced down to it. */
   pageSize?: number;
@@ -501,7 +500,8 @@ export const ListProjectsLocationsWorkflowsExecutionsResponse = ListExecutionsRe
 
 export type ListProjectsLocationsWorkflowsExecutionsError = CommonErrors;
 
-export const listProjectsLocationsWorkflowsExecutions = API.makePaginated(() => ({
+/** Returns a list of executions which belong to the workflow with the given name. The method returns executions of all workflow revisions. Returned executions are ordered by their start time (newest first). */
+export const listProjectsLocationsWorkflowsExecutions: API.PaginatedOperationMethod<ListProjectsLocationsWorkflowsExecutionsRequest, ListProjectsLocationsWorkflowsExecutionsResponse, ListProjectsLocationsWorkflowsExecutionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsWorkflowsExecutionsRequest,
   output: ListProjectsLocationsWorkflowsExecutionsResponse,
   errors: [],
@@ -511,7 +511,6 @@ export const listProjectsLocationsWorkflowsExecutions = API.makePaginated(() => 
   },
 }));
 
-/** Deletes all step entries for an execution. */
 export interface DeleteExecutionHistoryProjectsLocationsWorkflowsExecutionsRequest {
   /** Required. Name of the execution for which step entries should be deleted. Format: projects/{project}/locations/{location}/workflows/{workflow}/executions/{execution} */
   name: string;
@@ -532,13 +531,13 @@ export const DeleteExecutionHistoryProjectsLocationsWorkflowsExecutionsResponse 
 
 export type DeleteExecutionHistoryProjectsLocationsWorkflowsExecutionsError = CommonErrors;
 
+/** Deletes all step entries for an execution. */
 export const deleteExecutionHistoryProjectsLocationsWorkflowsExecutions: API.OperationMethod<DeleteExecutionHistoryProjectsLocationsWorkflowsExecutionsRequest, DeleteExecutionHistoryProjectsLocationsWorkflowsExecutionsResponse, DeleteExecutionHistoryProjectsLocationsWorkflowsExecutionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteExecutionHistoryProjectsLocationsWorkflowsExecutionsRequest,
   output: DeleteExecutionHistoryProjectsLocationsWorkflowsExecutionsResponse,
   errors: [],
 }));
 
-/** Returns an execution of the given name. */
 export interface GetProjectsLocationsWorkflowsExecutionsRequest {
   /** Optional. A view defining which fields should be filled in the returned execution. The API will default to the FULL view. */
   view?: "EXECUTION_VIEW_UNSPECIFIED" | "BASIC" | "FULL" | (string & {});
@@ -559,13 +558,13 @@ export const GetProjectsLocationsWorkflowsExecutionsResponse = Execution;
 
 export type GetProjectsLocationsWorkflowsExecutionsError = CommonErrors;
 
+/** Returns an execution of the given name. */
 export const getProjectsLocationsWorkflowsExecutions: API.OperationMethod<GetProjectsLocationsWorkflowsExecutionsRequest, GetProjectsLocationsWorkflowsExecutionsResponse, GetProjectsLocationsWorkflowsExecutionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsWorkflowsExecutionsRequest,
   output: GetProjectsLocationsWorkflowsExecutionsResponse,
   errors: [],
 }));
 
-/** Returns all metadata stored about an execution, excluding most data that is already accessible using other API methods. */
 export interface ExportDataProjectsLocationsWorkflowsExecutionsRequest {
   /** Required. Name of the execution for which data is to be exported. Format: projects/{project}/locations/{location}/workflows/{workflow}/executions/{execution} */
   name: string;
@@ -583,13 +582,13 @@ export const ExportDataProjectsLocationsWorkflowsExecutionsResponse = ExportData
 
 export type ExportDataProjectsLocationsWorkflowsExecutionsError = CommonErrors;
 
+/** Returns all metadata stored about an execution, excluding most data that is already accessible using other API methods. */
 export const exportDataProjectsLocationsWorkflowsExecutions: API.OperationMethod<ExportDataProjectsLocationsWorkflowsExecutionsRequest, ExportDataProjectsLocationsWorkflowsExecutionsResponse, ExportDataProjectsLocationsWorkflowsExecutionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExportDataProjectsLocationsWorkflowsExecutionsRequest,
   output: ExportDataProjectsLocationsWorkflowsExecutionsResponse,
   errors: [],
 }));
 
-/** Lists step entries for the corresponding workflow execution. Returned entries are ordered by their create_time. */
 export interface ListProjectsLocationsWorkflowsExecutionsStepEntriesRequest {
   /** Optional. Filters applied to the `[StepEntries.ListStepEntries]` results. The following fields are supported for filtering: `entryId`, `createTime`, `updateTime`, `routine`, `step`, `stepType`, `parent`, `state`. For details, see AIP-160. For example, if you are using the Google APIs Explorer: `state="SUCCEEDED"` or `createTime>"2023-08-01" AND state="FAILED"` */
   filter?: string;
@@ -625,7 +624,8 @@ export const ListProjectsLocationsWorkflowsExecutionsStepEntriesResponse = ListS
 
 export type ListProjectsLocationsWorkflowsExecutionsStepEntriesError = CommonErrors;
 
-export const listProjectsLocationsWorkflowsExecutionsStepEntries = API.makePaginated(() => ({
+/** Lists step entries for the corresponding workflow execution. Returned entries are ordered by their create_time. */
+export const listProjectsLocationsWorkflowsExecutionsStepEntries: API.PaginatedOperationMethod<ListProjectsLocationsWorkflowsExecutionsStepEntriesRequest, ListProjectsLocationsWorkflowsExecutionsStepEntriesResponse, ListProjectsLocationsWorkflowsExecutionsStepEntriesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsWorkflowsExecutionsStepEntriesRequest,
   output: ListProjectsLocationsWorkflowsExecutionsStepEntriesResponse,
   errors: [],
@@ -635,7 +635,6 @@ export const listProjectsLocationsWorkflowsExecutionsStepEntries = API.makePagin
   },
 }));
 
-/** Gets a step entry. */
 export interface GetProjectsLocationsWorkflowsExecutionsStepEntriesRequest {
   /** Deprecated field. */
   view?: "EXECUTION_ENTRY_VIEW_UNSPECIFIED" | "EXECUTION_ENTRY_VIEW_BASIC" | "EXECUTION_ENTRY_VIEW_DETAILED" | (string & {});
@@ -656,13 +655,13 @@ export const GetProjectsLocationsWorkflowsExecutionsStepEntriesResponse = StepEn
 
 export type GetProjectsLocationsWorkflowsExecutionsStepEntriesError = CommonErrors;
 
+/** Gets a step entry. */
 export const getProjectsLocationsWorkflowsExecutionsStepEntries: API.OperationMethod<GetProjectsLocationsWorkflowsExecutionsStepEntriesRequest, GetProjectsLocationsWorkflowsExecutionsStepEntriesResponse, GetProjectsLocationsWorkflowsExecutionsStepEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsWorkflowsExecutionsStepEntriesRequest,
   output: GetProjectsLocationsWorkflowsExecutionsStepEntriesResponse,
   errors: [],
 }));
 
-/** Returns a list of active callbacks that belong to the execution with the given name. The returned callbacks are ordered by callback ID. */
 export interface ListProjectsLocationsWorkflowsExecutionsCallbacksRequest {
   /** Maximum number of callbacks to return per call. The default value is 100 and is also the maximum value. */
   pageSize?: number;
@@ -686,7 +685,8 @@ export const ListProjectsLocationsWorkflowsExecutionsCallbacksResponse = ListCal
 
 export type ListProjectsLocationsWorkflowsExecutionsCallbacksError = CommonErrors;
 
-export const listProjectsLocationsWorkflowsExecutionsCallbacks = API.makePaginated(() => ({
+/** Returns a list of active callbacks that belong to the execution with the given name. The returned callbacks are ordered by callback ID. */
+export const listProjectsLocationsWorkflowsExecutionsCallbacks: API.PaginatedOperationMethod<ListProjectsLocationsWorkflowsExecutionsCallbacksRequest, ListProjectsLocationsWorkflowsExecutionsCallbacksResponse, ListProjectsLocationsWorkflowsExecutionsCallbacksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsWorkflowsExecutionsCallbacksRequest,
   output: ListProjectsLocationsWorkflowsExecutionsCallbacksResponse,
   errors: [],

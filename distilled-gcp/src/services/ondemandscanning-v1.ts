@@ -1785,7 +1785,6 @@ export const AnalyzePackagesResponse: Schema.Schema<AnalyzePackagesResponse> = S
 // Operations
 // ==========================================================================
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -1815,7 +1814,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -1825,7 +1825,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1843,13 +1842,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -1867,13 +1866,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -1891,13 +1890,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Waits until the specified long-running operation is done or reaches at most a specified timeout, returning the latest state. If the operation is already done, the latest state is immediately returned. If the timeout specified is greater than the default HTTP/RPC timeout, the HTTP/RPC timeout is used. If the server does not support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Note that this method is on a best-effort basis. It may return the latest state before the specified timeout (including immediately), meaning even an immediate response is no guarantee that the operation is done. */
 export interface WaitProjectsLocationsOperationsRequest {
   /** The name of the operation resource to wait on. */
   name: string;
@@ -1918,13 +1917,13 @@ export const WaitProjectsLocationsOperationsResponse = Operation;
 
 export type WaitProjectsLocationsOperationsError = CommonErrors;
 
+/** Waits until the specified long-running operation is done or reaches at most a specified timeout, returning the latest state. If the operation is already done, the latest state is immediately returned. If the timeout specified is greater than the default HTTP/RPC timeout, the HTTP/RPC timeout is used. If the server does not support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Note that this method is on a best-effort basis. It may return the latest state before the specified timeout (including immediately), meaning even an immediate response is no guarantee that the operation is done. */
 export const waitProjectsLocationsOperations: API.OperationMethod<WaitProjectsLocationsOperationsRequest, WaitProjectsLocationsOperationsResponse, WaitProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WaitProjectsLocationsOperationsRequest,
   output: WaitProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Initiates an analysis of the provided packages. */
 export interface AnalyzePackagesProjectsLocationsScansRequest {
   /** Required. The parent of the resource for which analysis is requested. Format: projects/[project_name]/locations/[location] */
   parent: string;
@@ -1945,13 +1944,13 @@ export const AnalyzePackagesProjectsLocationsScansResponse = Operation;
 
 export type AnalyzePackagesProjectsLocationsScansError = CommonErrors;
 
+/** Initiates an analysis of the provided packages. */
 export const analyzePackagesProjectsLocationsScans: API.OperationMethod<AnalyzePackagesProjectsLocationsScansRequest, AnalyzePackagesProjectsLocationsScansResponse, AnalyzePackagesProjectsLocationsScansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AnalyzePackagesProjectsLocationsScansRequest,
   output: AnalyzePackagesProjectsLocationsScansResponse,
   errors: [],
 }));
 
-/** Lists vulnerabilities resulting from a successfully completed scan. */
 export interface ListProjectsLocationsScansVulnerabilitiesRequest {
   /** Required. The parent of the collection of Vulnerabilities being requested. Format: projects/[project_name]/locations/[location]/scans/[scan_id] */
   parent: string;
@@ -1975,7 +1974,8 @@ export const ListProjectsLocationsScansVulnerabilitiesResponse = ListVulnerabili
 
 export type ListProjectsLocationsScansVulnerabilitiesError = CommonErrors;
 
-export const listProjectsLocationsScansVulnerabilities = API.makePaginated(() => ({
+/** Lists vulnerabilities resulting from a successfully completed scan. */
+export const listProjectsLocationsScansVulnerabilities: API.PaginatedOperationMethod<ListProjectsLocationsScansVulnerabilitiesRequest, ListProjectsLocationsScansVulnerabilitiesResponse, ListProjectsLocationsScansVulnerabilitiesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsScansVulnerabilitiesRequest,
   output: ListProjectsLocationsScansVulnerabilitiesResponse,
   errors: [],

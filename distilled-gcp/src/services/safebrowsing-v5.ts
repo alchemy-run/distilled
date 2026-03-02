@@ -249,7 +249,6 @@ export const GoogleSecuritySafebrowsingV5BatchGetHashListsResponse: Schema.Schem
 // Operations
 // ==========================================================================
 
-/** Searches for full hashes matching the specified prefixes. This is a custom method as defined by https://google.aip.dev/136 (the custom method refers to this method having a custom name within Google's general API development nomenclature; it does not refer to using a custom HTTP method). */
 export interface SearchHashesRequest {
   /** Required. The hash prefixes to be looked up. Clients MUST NOT send more than 1000 hash prefixes. However, following the URL processing procedure, clients SHOULD NOT need to send more than 30 hash prefixes. Currently each hash prefix is required to be exactly 4 bytes long. This MAY be relaxed in the future. */
   hashPrefixes?: string[];
@@ -267,13 +266,13 @@ export const SearchHashesResponse = GoogleSecuritySafebrowsingV5SearchHashesResp
 
 export type SearchHashesError = CommonErrors;
 
+/** Searches for full hashes matching the specified prefixes. This is a custom method as defined by https://google.aip.dev/136 (the custom method refers to this method having a custom name within Google's general API development nomenclature; it does not refer to using a custom HTTP method). */
 export const searchHashes: API.OperationMethod<SearchHashesRequest, SearchHashesResponse, SearchHashesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchHashesRequest,
   output: SearchHashesResponse,
   errors: [],
 }));
 
-/** Searches for URLs matching known threats. Each URL and it's host-suffix and path-prefix expressions (up to a limited depth) are checked. This means that the response may contain URLs that were not included in the request, but are expressions of the requested URLs. */
 export interface SearchUrlsRequest {
   /** Required. The URLs to be looked up. Clients MUST NOT send more than 50 URLs. */
   urls?: string[];
@@ -291,13 +290,13 @@ export const SearchUrlsResponse = GoogleSecuritySafebrowsingV5SearchUrlsResponse
 
 export type SearchUrlsError = CommonErrors;
 
+/** Searches for URLs matching known threats. Each URL and it's host-suffix and path-prefix expressions (up to a limited depth) are checked. This means that the response may contain URLs that were not included in the request, but are expressions of the requested URLs. */
 export const searchUrls: API.OperationMethod<SearchUrlsRequest, SearchUrlsResponse, SearchUrlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchUrlsRequest,
   output: SearchUrlsResponse,
   errors: [],
 }));
 
-/** Gets the latest contents of a hash list. A hash list may either by a threat list or a non-threat list such as the Global Cache. This is a standard Get method as defined by https://google.aip.dev/131 and the HTTP method is also GET. */
 export interface GetHashListRequest {
   /** Required. The name of this particular hash list. It may be a threat list, or it may be the Global Cache. */
   name: string;
@@ -324,13 +323,13 @@ export const GetHashListResponse = GoogleSecuritySafebrowsingV5HashList;
 
 export type GetHashListError = CommonErrors;
 
+/** Gets the latest contents of a hash list. A hash list may either by a threat list or a non-threat list such as the Global Cache. This is a standard Get method as defined by https://google.aip.dev/131 and the HTTP method is also GET. */
 export const getHashList: API.OperationMethod<GetHashListRequest, GetHashListResponse, GetHashListError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetHashListRequest,
   output: GetHashListResponse,
   errors: [],
 }));
 
-/** Lists hash lists. In the V5 API, Google will never remove a hash list that has ever been returned by this method. This enables clients to skip using this method and simply hard-code all hash lists they need. This is a standard List method as defined by https://google.aip.dev/132 and the HTTP method is GET. */
 export interface ListHashListsRequest {
   /** The maximum number of hash lists to return. The service may return fewer than this value. If unspecified, the server will choose a page size, which may be larger than the number of hash lists so that pagination is not necessary. */
   pageSize?: number;
@@ -351,7 +350,8 @@ export const ListHashListsResponse = GoogleSecuritySafebrowsingV5ListHashListsRe
 
 export type ListHashListsError = CommonErrors;
 
-export const listHashLists = API.makePaginated(() => ({
+/** Lists hash lists. In the V5 API, Google will never remove a hash list that has ever been returned by this method. This enables clients to skip using this method and simply hard-code all hash lists they need. This is a standard List method as defined by https://google.aip.dev/132 and the HTTP method is GET. */
+export const listHashLists: API.PaginatedOperationMethod<ListHashListsRequest, ListHashListsResponse, ListHashListsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListHashListsRequest,
   output: ListHashListsResponse,
   errors: [],
@@ -361,7 +361,6 @@ export const listHashLists = API.makePaginated(() => ({
   },
 }));
 
-/** Gets multiple hash lists at once. It is very common for a client to need to get multiple hash lists. Using this method is preferred over using the regular Get method multiple times. This is a standard batch Get method as defined by https://google.aip.dev/231 and the HTTP method is also GET. */
 export interface BatchGetHashListsRequest {
   /** Required. The names of the particular hash lists. The list MAY be a threat list, or it may be the Global Cache. The names MUST NOT contain duplicates; if they did, the client will get an error. */
   names?: string[];
@@ -388,6 +387,7 @@ export const BatchGetHashListsResponse = GoogleSecuritySafebrowsingV5BatchGetHas
 
 export type BatchGetHashListsError = CommonErrors;
 
+/** Gets multiple hash lists at once. It is very common for a client to need to get multiple hash lists. Using this method is preferred over using the regular Get method multiple times. This is a standard batch Get method as defined by https://google.aip.dev/231 and the HTTP method is also GET. */
 export const batchGetHashLists: API.OperationMethod<BatchGetHashListsRequest, BatchGetHashListsResponse, BatchGetHashListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchGetHashListsRequest,
   output: BatchGetHashListsResponse,

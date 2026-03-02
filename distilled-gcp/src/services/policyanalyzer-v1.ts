@@ -69,7 +69,6 @@ export const GoogleCloudPolicyanalyzerV1QueryActivityResponse: Schema.Schema<Goo
 // Operations
 // ==========================================================================
 
-/** Queries policy activities on Google Cloud resources. */
 export interface QueryOrganizationsLocationsActivityTypesActivitiesRequest {
   /** Optional. Filter expression to restrict the activities returned. For serviceAccountLastAuthentication activities, supported filters are: - `activities.full_resource_name {=} [STRING]` - `activities.fullResourceName {=} [STRING]` where `[STRING]` is the full resource name of the service account. For serviceAccountKeyLastAuthentication activities, supported filters are: - `activities.full_resource_name {=} [STRING]` - `activities.fullResourceName {=} [STRING]` where `[STRING]` is the full resource name of the service account key. */
   filter?: string;
@@ -96,7 +95,8 @@ export const QueryOrganizationsLocationsActivityTypesActivitiesResponse = Google
 
 export type QueryOrganizationsLocationsActivityTypesActivitiesError = CommonErrors;
 
-export const queryOrganizationsLocationsActivityTypesActivities = API.makePaginated(() => ({
+/** Queries policy activities on Google Cloud resources. */
+export const queryOrganizationsLocationsActivityTypesActivities: API.PaginatedOperationMethod<QueryOrganizationsLocationsActivityTypesActivitiesRequest, QueryOrganizationsLocationsActivityTypesActivitiesResponse, QueryOrganizationsLocationsActivityTypesActivitiesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: QueryOrganizationsLocationsActivityTypesActivitiesRequest,
   output: QueryOrganizationsLocationsActivityTypesActivitiesResponse,
   errors: [],
@@ -106,7 +106,6 @@ export const queryOrganizationsLocationsActivityTypesActivities = API.makePagina
   },
 }));
 
-/** Queries policy activities on Google Cloud resources. */
 export interface QueryFoldersLocationsActivityTypesActivitiesRequest {
   /** Optional. If present, then retrieve the next batch of results from the preceding call to this method. `pageToken` must be the value of `nextPageToken` from the previous response. The values of other method parameters should be identical to those in the previous call. */
   pageToken?: string;
@@ -133,7 +132,8 @@ export const QueryFoldersLocationsActivityTypesActivitiesResponse = GoogleCloudP
 
 export type QueryFoldersLocationsActivityTypesActivitiesError = CommonErrors;
 
-export const queryFoldersLocationsActivityTypesActivities = API.makePaginated(() => ({
+/** Queries policy activities on Google Cloud resources. */
+export const queryFoldersLocationsActivityTypesActivities: API.PaginatedOperationMethod<QueryFoldersLocationsActivityTypesActivitiesRequest, QueryFoldersLocationsActivityTypesActivitiesResponse, QueryFoldersLocationsActivityTypesActivitiesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: QueryFoldersLocationsActivityTypesActivitiesRequest,
   output: QueryFoldersLocationsActivityTypesActivitiesResponse,
   errors: [],
@@ -143,7 +143,6 @@ export const queryFoldersLocationsActivityTypesActivities = API.makePaginated(()
   },
 }));
 
-/** Queries policy activities on Google Cloud resources. */
 export interface QueryProjectsLocationsActivityTypesActivitiesRequest {
   /** Optional. The maximum number of results to return from this request. Max limit is 1000. Non-positive values are ignored. The presence of `nextPageToken` in the response indicates that more results might be available. */
   pageSize?: number;
@@ -170,7 +169,8 @@ export const QueryProjectsLocationsActivityTypesActivitiesResponse = GoogleCloud
 
 export type QueryProjectsLocationsActivityTypesActivitiesError = CommonErrors;
 
-export const queryProjectsLocationsActivityTypesActivities = API.makePaginated(() => ({
+/** Queries policy activities on Google Cloud resources. */
+export const queryProjectsLocationsActivityTypesActivities: API.PaginatedOperationMethod<QueryProjectsLocationsActivityTypesActivitiesRequest, QueryProjectsLocationsActivityTypesActivitiesResponse, QueryProjectsLocationsActivityTypesActivitiesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: QueryProjectsLocationsActivityTypesActivitiesRequest,
   output: QueryProjectsLocationsActivityTypesActivitiesResponse,
   errors: [],

@@ -2343,7 +2343,6 @@ export const LocationMetadata: Schema.Schema<LocationMetadata> = Schema.suspend(
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -2373,7 +2372,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -2383,7 +2383,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -2401,13 +2400,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -2437,7 +2436,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -2447,7 +2447,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -2465,13 +2464,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -2489,13 +2488,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -2516,13 +2515,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Lists Exadata Infrastructures in a given project and location. */
 export interface ListProjectsLocationsCloudExadataInfrastructuresRequest {
   /** Required. The parent value for CloudExadataInfrastructure in the following format: projects/{project}/locations/{location}. */
   parent: string;
@@ -2552,7 +2551,8 @@ export const ListProjectsLocationsCloudExadataInfrastructuresResponse = ListClou
 
 export type ListProjectsLocationsCloudExadataInfrastructuresError = CommonErrors;
 
-export const listProjectsLocationsCloudExadataInfrastructures = API.makePaginated(() => ({
+/** Lists Exadata Infrastructures in a given project and location. */
+export const listProjectsLocationsCloudExadataInfrastructures: API.PaginatedOperationMethod<ListProjectsLocationsCloudExadataInfrastructuresRequest, ListProjectsLocationsCloudExadataInfrastructuresResponse, ListProjectsLocationsCloudExadataInfrastructuresError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCloudExadataInfrastructuresRequest,
   output: ListProjectsLocationsCloudExadataInfrastructuresResponse,
   errors: [],
@@ -2562,7 +2562,6 @@ export const listProjectsLocationsCloudExadataInfrastructures = API.makePaginate
   },
 }));
 
-/** Gets details of a single Exadata Infrastructure. */
 export interface GetProjectsLocationsCloudExadataInfrastructuresRequest {
   /** Required. The name of the Cloud Exadata Infrastructure in the following format: projects/{project}/locations/{location}/cloudExadataInfrastructures/{cloud_exadata_infrastructure}. */
   name: string;
@@ -2580,13 +2579,13 @@ export const GetProjectsLocationsCloudExadataInfrastructuresResponse = CloudExad
 
 export type GetProjectsLocationsCloudExadataInfrastructuresError = CommonErrors;
 
+/** Gets details of a single Exadata Infrastructure. */
 export const getProjectsLocationsCloudExadataInfrastructures: API.OperationMethod<GetProjectsLocationsCloudExadataInfrastructuresRequest, GetProjectsLocationsCloudExadataInfrastructuresResponse, GetProjectsLocationsCloudExadataInfrastructuresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCloudExadataInfrastructuresRequest,
   output: GetProjectsLocationsCloudExadataInfrastructuresResponse,
   errors: [],
 }));
 
-/** Creates a new Exadata Infrastructure in a given project and location. */
 export interface CreateProjectsLocationsCloudExadataInfrastructuresRequest {
   /** Required. The parent value for CloudExadataInfrastructure in the following format: projects/{project}/locations/{location}. */
   parent: string;
@@ -2613,13 +2612,13 @@ export const CreateProjectsLocationsCloudExadataInfrastructuresResponse = Operat
 
 export type CreateProjectsLocationsCloudExadataInfrastructuresError = CommonErrors;
 
+/** Creates a new Exadata Infrastructure in a given project and location. */
 export const createProjectsLocationsCloudExadataInfrastructures: API.OperationMethod<CreateProjectsLocationsCloudExadataInfrastructuresRequest, CreateProjectsLocationsCloudExadataInfrastructuresResponse, CreateProjectsLocationsCloudExadataInfrastructuresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCloudExadataInfrastructuresRequest,
   output: CreateProjectsLocationsCloudExadataInfrastructuresResponse,
   errors: [],
 }));
 
-/** Deletes a single Exadata Infrastructure. */
 export interface DeleteProjectsLocationsCloudExadataInfrastructuresRequest {
   /** Required. The name of the Cloud Exadata Infrastructure in the following format: projects/{project}/locations/{location}/cloudExadataInfrastructures/{cloud_exadata_infrastructure}. */
   name: string;
@@ -2643,13 +2642,13 @@ export const DeleteProjectsLocationsCloudExadataInfrastructuresResponse = Operat
 
 export type DeleteProjectsLocationsCloudExadataInfrastructuresError = CommonErrors;
 
+/** Deletes a single Exadata Infrastructure. */
 export const deleteProjectsLocationsCloudExadataInfrastructures: API.OperationMethod<DeleteProjectsLocationsCloudExadataInfrastructuresRequest, DeleteProjectsLocationsCloudExadataInfrastructuresResponse, DeleteProjectsLocationsCloudExadataInfrastructuresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCloudExadataInfrastructuresRequest,
   output: DeleteProjectsLocationsCloudExadataInfrastructuresResponse,
   errors: [],
 }));
 
-/** Lists the database servers of an Exadata Infrastructure instance. */
 export interface ListProjectsLocationsCloudExadataInfrastructuresDbServersRequest {
   /** Required. The parent value for database server in the following format: projects/{project}/locations/{location}/cloudExadataInfrastructures/{cloudExadataInfrastructure}. */
   parent: string;
@@ -2673,7 +2672,8 @@ export const ListProjectsLocationsCloudExadataInfrastructuresDbServersResponse =
 
 export type ListProjectsLocationsCloudExadataInfrastructuresDbServersError = CommonErrors;
 
-export const listProjectsLocationsCloudExadataInfrastructuresDbServers = API.makePaginated(() => ({
+/** Lists the database servers of an Exadata Infrastructure instance. */
+export const listProjectsLocationsCloudExadataInfrastructuresDbServers: API.PaginatedOperationMethod<ListProjectsLocationsCloudExadataInfrastructuresDbServersRequest, ListProjectsLocationsCloudExadataInfrastructuresDbServersResponse, ListProjectsLocationsCloudExadataInfrastructuresDbServersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCloudExadataInfrastructuresDbServersRequest,
   output: ListProjectsLocationsCloudExadataInfrastructuresDbServersResponse,
   errors: [],
@@ -2683,7 +2683,6 @@ export const listProjectsLocationsCloudExadataInfrastructuresDbServers = API.mak
   },
 }));
 
-/** Lists the VM Clusters in a given project and location. */
 export interface ListProjectsLocationsCloudVmClustersRequest {
   /** Required. The name of the parent in the following format: projects/{project}/locations/{location}. */
   parent: string;
@@ -2710,7 +2709,8 @@ export const ListProjectsLocationsCloudVmClustersResponse = ListCloudVmClustersR
 
 export type ListProjectsLocationsCloudVmClustersError = CommonErrors;
 
-export const listProjectsLocationsCloudVmClusters = API.makePaginated(() => ({
+/** Lists the VM Clusters in a given project and location. */
+export const listProjectsLocationsCloudVmClusters: API.PaginatedOperationMethod<ListProjectsLocationsCloudVmClustersRequest, ListProjectsLocationsCloudVmClustersResponse, ListProjectsLocationsCloudVmClustersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCloudVmClustersRequest,
   output: ListProjectsLocationsCloudVmClustersResponse,
   errors: [],
@@ -2720,7 +2720,6 @@ export const listProjectsLocationsCloudVmClusters = API.makePaginated(() => ({
   },
 }));
 
-/** Gets details of a single VM Cluster. */
 export interface GetProjectsLocationsCloudVmClustersRequest {
   /** Required. The name of the Cloud VM Cluster in the following format: projects/{project}/locations/{location}/cloudVmClusters/{cloud_vm_cluster}. */
   name: string;
@@ -2738,13 +2737,13 @@ export const GetProjectsLocationsCloudVmClustersResponse = CloudVmCluster;
 
 export type GetProjectsLocationsCloudVmClustersError = CommonErrors;
 
+/** Gets details of a single VM Cluster. */
 export const getProjectsLocationsCloudVmClusters: API.OperationMethod<GetProjectsLocationsCloudVmClustersRequest, GetProjectsLocationsCloudVmClustersResponse, GetProjectsLocationsCloudVmClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCloudVmClustersRequest,
   output: GetProjectsLocationsCloudVmClustersResponse,
   errors: [],
 }));
 
-/** Creates a new VM Cluster in a given project and location. */
 export interface CreateProjectsLocationsCloudVmClustersRequest {
   /** Required. The name of the parent in the following format: projects/{project}/locations/{location}. */
   parent: string;
@@ -2771,13 +2770,13 @@ export const CreateProjectsLocationsCloudVmClustersResponse = Operation;
 
 export type CreateProjectsLocationsCloudVmClustersError = CommonErrors;
 
+/** Creates a new VM Cluster in a given project and location. */
 export const createProjectsLocationsCloudVmClusters: API.OperationMethod<CreateProjectsLocationsCloudVmClustersRequest, CreateProjectsLocationsCloudVmClustersResponse, CreateProjectsLocationsCloudVmClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCloudVmClustersRequest,
   output: CreateProjectsLocationsCloudVmClustersResponse,
   errors: [],
 }));
 
-/** Deletes a single VM Cluster. */
 export interface DeleteProjectsLocationsCloudVmClustersRequest {
   /** Required. The name of the Cloud VM Cluster in the following format: projects/{project}/locations/{location}/cloudVmClusters/{cloud_vm_cluster}. */
   name: string;
@@ -2801,13 +2800,13 @@ export const DeleteProjectsLocationsCloudVmClustersResponse = Operation;
 
 export type DeleteProjectsLocationsCloudVmClustersError = CommonErrors;
 
+/** Deletes a single VM Cluster. */
 export const deleteProjectsLocationsCloudVmClusters: API.OperationMethod<DeleteProjectsLocationsCloudVmClustersRequest, DeleteProjectsLocationsCloudVmClustersResponse, DeleteProjectsLocationsCloudVmClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCloudVmClustersRequest,
   output: DeleteProjectsLocationsCloudVmClustersResponse,
   errors: [],
 }));
 
-/** Lists the database nodes of a VM Cluster. */
 export interface ListProjectsLocationsCloudVmClustersDbNodesRequest {
   /** Required. The parent value for database node in the following format: projects/{project}/locations/{location}/cloudVmClusters/{cloudVmCluster}. . */
   parent: string;
@@ -2831,7 +2830,8 @@ export const ListProjectsLocationsCloudVmClustersDbNodesResponse = ListDbNodesRe
 
 export type ListProjectsLocationsCloudVmClustersDbNodesError = CommonErrors;
 
-export const listProjectsLocationsCloudVmClustersDbNodes = API.makePaginated(() => ({
+/** Lists the database nodes of a VM Cluster. */
+export const listProjectsLocationsCloudVmClustersDbNodes: API.PaginatedOperationMethod<ListProjectsLocationsCloudVmClustersDbNodesRequest, ListProjectsLocationsCloudVmClustersDbNodesResponse, ListProjectsLocationsCloudVmClustersDbNodesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCloudVmClustersDbNodesRequest,
   output: ListProjectsLocationsCloudVmClustersDbNodesResponse,
   errors: [],
@@ -2841,7 +2841,6 @@ export const listProjectsLocationsCloudVmClustersDbNodes = API.makePaginated(() 
   },
 }));
 
-/** Lists the entitlements in a given project. */
 export interface ListProjectsLocationsEntitlementsRequest {
   /** Required. The parent value for the entitlement in the following format: projects/{project}/locations/{location}. */
   parent: string;
@@ -2865,7 +2864,8 @@ export const ListProjectsLocationsEntitlementsResponse = ListEntitlementsRespons
 
 export type ListProjectsLocationsEntitlementsError = CommonErrors;
 
-export const listProjectsLocationsEntitlements = API.makePaginated(() => ({
+/** Lists the entitlements in a given project. */
+export const listProjectsLocationsEntitlements: API.PaginatedOperationMethod<ListProjectsLocationsEntitlementsRequest, ListProjectsLocationsEntitlementsResponse, ListProjectsLocationsEntitlementsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsEntitlementsRequest,
   output: ListProjectsLocationsEntitlementsResponse,
   errors: [],
@@ -2875,7 +2875,6 @@ export const listProjectsLocationsEntitlements = API.makePaginated(() => ({
   },
 }));
 
-/** Lists all the valid Oracle Grid Infrastructure (GI) versions for the given project and location. */
 export interface ListProjectsLocationsGiVersionsRequest {
   /** Required. The parent value for Grid Infrastructure Version in the following format: Format: projects/{project}/locations/{location}. */
   parent: string;
@@ -2902,7 +2901,8 @@ export const ListProjectsLocationsGiVersionsResponse = ListGiVersionsResponse;
 
 export type ListProjectsLocationsGiVersionsError = CommonErrors;
 
-export const listProjectsLocationsGiVersions = API.makePaginated(() => ({
+/** Lists all the valid Oracle Grid Infrastructure (GI) versions for the given project and location. */
+export const listProjectsLocationsGiVersions: API.PaginatedOperationMethod<ListProjectsLocationsGiVersionsRequest, ListProjectsLocationsGiVersionsResponse, ListProjectsLocationsGiVersionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsGiVersionsRequest,
   output: ListProjectsLocationsGiVersionsResponse,
   errors: [],
@@ -2912,7 +2912,6 @@ export const listProjectsLocationsGiVersions = API.makePaginated(() => ({
   },
 }));
 
-/** Lists all the valid minor versions for the given project, location, gi version and shape family. */
 export interface ListProjectsLocationsGiVersionsMinorVersionsRequest {
   /** Required. The parent value for the MinorVersion resource with the format: projects/{project}/locations/{location}/giVersions/{gi_version} */
   parent: string;
@@ -2939,7 +2938,8 @@ export const ListProjectsLocationsGiVersionsMinorVersionsResponse = ListMinorVer
 
 export type ListProjectsLocationsGiVersionsMinorVersionsError = CommonErrors;
 
-export const listProjectsLocationsGiVersionsMinorVersions = API.makePaginated(() => ({
+/** Lists all the valid minor versions for the given project, location, gi version and shape family. */
+export const listProjectsLocationsGiVersionsMinorVersions: API.PaginatedOperationMethod<ListProjectsLocationsGiVersionsMinorVersionsRequest, ListProjectsLocationsGiVersionsMinorVersionsResponse, ListProjectsLocationsGiVersionsMinorVersionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsGiVersionsMinorVersionsRequest,
   output: ListProjectsLocationsGiVersionsMinorVersionsResponse,
   errors: [],
@@ -2949,7 +2949,6 @@ export const listProjectsLocationsGiVersionsMinorVersions = API.makePaginated(()
   },
 }));
 
-/** Lists the database system shapes available for the project and location. */
 export interface ListProjectsLocationsDbSystemShapesRequest {
   /** Required. The parent value for Database System Shapes in the following format: projects/{project}/locations/{location}. */
   parent: string;
@@ -2976,7 +2975,8 @@ export const ListProjectsLocationsDbSystemShapesResponse = ListDbSystemShapesRes
 
 export type ListProjectsLocationsDbSystemShapesError = CommonErrors;
 
-export const listProjectsLocationsDbSystemShapes = API.makePaginated(() => ({
+/** Lists the database system shapes available for the project and location. */
+export const listProjectsLocationsDbSystemShapes: API.PaginatedOperationMethod<ListProjectsLocationsDbSystemShapesRequest, ListProjectsLocationsDbSystemShapesResponse, ListProjectsLocationsDbSystemShapesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDbSystemShapesRequest,
   output: ListProjectsLocationsDbSystemShapesResponse,
   errors: [],
@@ -2986,7 +2986,6 @@ export const listProjectsLocationsDbSystemShapes = API.makePaginated(() => ({
   },
 }));
 
-/** Lists the Autonomous Databases in a given project and location. */
 export interface ListProjectsLocationsAutonomousDatabasesRequest {
   /** Required. The parent value for the Autonomous Database in the following format: projects/{project}/locations/{location}. */
   parent: string;
@@ -3016,7 +3015,8 @@ export const ListProjectsLocationsAutonomousDatabasesResponse = ListAutonomousDa
 
 export type ListProjectsLocationsAutonomousDatabasesError = CommonErrors;
 
-export const listProjectsLocationsAutonomousDatabases = API.makePaginated(() => ({
+/** Lists the Autonomous Databases in a given project and location. */
+export const listProjectsLocationsAutonomousDatabases: API.PaginatedOperationMethod<ListProjectsLocationsAutonomousDatabasesRequest, ListProjectsLocationsAutonomousDatabasesResponse, ListProjectsLocationsAutonomousDatabasesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAutonomousDatabasesRequest,
   output: ListProjectsLocationsAutonomousDatabasesResponse,
   errors: [],
@@ -3026,7 +3026,6 @@ export const listProjectsLocationsAutonomousDatabases = API.makePaginated(() => 
   },
 }));
 
-/** Gets the details of a single Autonomous Database. */
 export interface GetProjectsLocationsAutonomousDatabasesRequest {
   /** Required. The name of the Autonomous Database in the following format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database}. */
   name: string;
@@ -3044,13 +3043,13 @@ export const GetProjectsLocationsAutonomousDatabasesResponse = AutonomousDatabas
 
 export type GetProjectsLocationsAutonomousDatabasesError = CommonErrors;
 
+/** Gets the details of a single Autonomous Database. */
 export const getProjectsLocationsAutonomousDatabases: API.OperationMethod<GetProjectsLocationsAutonomousDatabasesRequest, GetProjectsLocationsAutonomousDatabasesResponse, GetProjectsLocationsAutonomousDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAutonomousDatabasesRequest,
   output: GetProjectsLocationsAutonomousDatabasesResponse,
   errors: [],
 }));
 
-/** Creates a new Autonomous Database in a given project and location. */
 export interface CreateProjectsLocationsAutonomousDatabasesRequest {
   /** Required. The name of the parent in the following format: projects/{project}/locations/{location}. */
   parent: string;
@@ -3077,13 +3076,13 @@ export const CreateProjectsLocationsAutonomousDatabasesResponse = Operation;
 
 export type CreateProjectsLocationsAutonomousDatabasesError = CommonErrors;
 
+/** Creates a new Autonomous Database in a given project and location. */
 export const createProjectsLocationsAutonomousDatabases: API.OperationMethod<CreateProjectsLocationsAutonomousDatabasesRequest, CreateProjectsLocationsAutonomousDatabasesResponse, CreateProjectsLocationsAutonomousDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsAutonomousDatabasesRequest,
   output: CreateProjectsLocationsAutonomousDatabasesResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single Autonomous Database. */
 export interface PatchProjectsLocationsAutonomousDatabasesRequest {
   /** Identifier. The name of the Autonomous Database resource in the following format: projects/{project}/locations/{region}/autonomousDatabases/{autonomous_database} */
   name: string;
@@ -3110,13 +3109,13 @@ export const PatchProjectsLocationsAutonomousDatabasesResponse = Operation;
 
 export type PatchProjectsLocationsAutonomousDatabasesError = CommonErrors;
 
+/** Updates the parameters of a single Autonomous Database. */
 export const patchProjectsLocationsAutonomousDatabases: API.OperationMethod<PatchProjectsLocationsAutonomousDatabasesRequest, PatchProjectsLocationsAutonomousDatabasesResponse, PatchProjectsLocationsAutonomousDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsAutonomousDatabasesRequest,
   output: PatchProjectsLocationsAutonomousDatabasesResponse,
   errors: [],
 }));
 
-/** Deletes a single Autonomous Database. */
 export interface DeleteProjectsLocationsAutonomousDatabasesRequest {
   /** Required. The name of the resource in the following format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database}. */
   name: string;
@@ -3137,13 +3136,13 @@ export const DeleteProjectsLocationsAutonomousDatabasesResponse = Operation;
 
 export type DeleteProjectsLocationsAutonomousDatabasesError = CommonErrors;
 
+/** Deletes a single Autonomous Database. */
 export const deleteProjectsLocationsAutonomousDatabases: API.OperationMethod<DeleteProjectsLocationsAutonomousDatabasesRequest, DeleteProjectsLocationsAutonomousDatabasesResponse, DeleteProjectsLocationsAutonomousDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsAutonomousDatabasesRequest,
   output: DeleteProjectsLocationsAutonomousDatabasesResponse,
   errors: [],
 }));
 
-/** Restores a single Autonomous Database. */
 export interface RestoreProjectsLocationsAutonomousDatabasesRequest {
   /** Required. The name of the Autonomous Database in the following format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database}. */
   name: string;
@@ -3164,13 +3163,13 @@ export const RestoreProjectsLocationsAutonomousDatabasesResponse = Operation;
 
 export type RestoreProjectsLocationsAutonomousDatabasesError = CommonErrors;
 
+/** Restores a single Autonomous Database. */
 export const restoreProjectsLocationsAutonomousDatabases: API.OperationMethod<RestoreProjectsLocationsAutonomousDatabasesRequest, RestoreProjectsLocationsAutonomousDatabasesResponse, RestoreProjectsLocationsAutonomousDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RestoreProjectsLocationsAutonomousDatabasesRequest,
   output: RestoreProjectsLocationsAutonomousDatabasesResponse,
   errors: [],
 }));
 
-/** Generates a wallet for an Autonomous Database. */
 export interface GenerateWalletProjectsLocationsAutonomousDatabasesRequest {
   /** Required. The name of the Autonomous Database in the following format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database}. */
   name: string;
@@ -3191,13 +3190,13 @@ export const GenerateWalletProjectsLocationsAutonomousDatabasesResponse = Genera
 
 export type GenerateWalletProjectsLocationsAutonomousDatabasesError = CommonErrors;
 
+/** Generates a wallet for an Autonomous Database. */
 export const generateWalletProjectsLocationsAutonomousDatabases: API.OperationMethod<GenerateWalletProjectsLocationsAutonomousDatabasesRequest, GenerateWalletProjectsLocationsAutonomousDatabasesResponse, GenerateWalletProjectsLocationsAutonomousDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateWalletProjectsLocationsAutonomousDatabasesRequest,
   output: GenerateWalletProjectsLocationsAutonomousDatabasesResponse,
   errors: [],
 }));
 
-/** Stops an Autonomous Database. */
 export interface StopProjectsLocationsAutonomousDatabasesRequest {
   /** Required. The name of the Autonomous Database in the following format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database}. */
   name: string;
@@ -3218,13 +3217,13 @@ export const StopProjectsLocationsAutonomousDatabasesResponse = Operation;
 
 export type StopProjectsLocationsAutonomousDatabasesError = CommonErrors;
 
+/** Stops an Autonomous Database. */
 export const stopProjectsLocationsAutonomousDatabases: API.OperationMethod<StopProjectsLocationsAutonomousDatabasesRequest, StopProjectsLocationsAutonomousDatabasesResponse, StopProjectsLocationsAutonomousDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StopProjectsLocationsAutonomousDatabasesRequest,
   output: StopProjectsLocationsAutonomousDatabasesResponse,
   errors: [],
 }));
 
-/** Starts an Autonomous Database. */
 export interface StartProjectsLocationsAutonomousDatabasesRequest {
   /** Required. The name of the Autonomous Database in the following format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database}. */
   name: string;
@@ -3245,13 +3244,13 @@ export const StartProjectsLocationsAutonomousDatabasesResponse = Operation;
 
 export type StartProjectsLocationsAutonomousDatabasesError = CommonErrors;
 
+/** Starts an Autonomous Database. */
 export const startProjectsLocationsAutonomousDatabases: API.OperationMethod<StartProjectsLocationsAutonomousDatabasesRequest, StartProjectsLocationsAutonomousDatabasesResponse, StartProjectsLocationsAutonomousDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StartProjectsLocationsAutonomousDatabasesRequest,
   output: StartProjectsLocationsAutonomousDatabasesResponse,
   errors: [],
 }));
 
-/** Restarts an Autonomous Database. */
 export interface RestartProjectsLocationsAutonomousDatabasesRequest {
   /** Required. The name of the Autonomous Database in the following format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database}. */
   name: string;
@@ -3272,13 +3271,13 @@ export const RestartProjectsLocationsAutonomousDatabasesResponse = Operation;
 
 export type RestartProjectsLocationsAutonomousDatabasesError = CommonErrors;
 
+/** Restarts an Autonomous Database. */
 export const restartProjectsLocationsAutonomousDatabases: API.OperationMethod<RestartProjectsLocationsAutonomousDatabasesRequest, RestartProjectsLocationsAutonomousDatabasesResponse, RestartProjectsLocationsAutonomousDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RestartProjectsLocationsAutonomousDatabasesRequest,
   output: RestartProjectsLocationsAutonomousDatabasesResponse,
   errors: [],
 }));
 
-/** Initiates a switchover of specified autonomous database to the associated peer database. */
 export interface SwitchoverProjectsLocationsAutonomousDatabasesRequest {
   /** Required. The name of the Autonomous Database in the following format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database}. */
   name: string;
@@ -3299,13 +3298,13 @@ export const SwitchoverProjectsLocationsAutonomousDatabasesResponse = Operation;
 
 export type SwitchoverProjectsLocationsAutonomousDatabasesError = CommonErrors;
 
+/** Initiates a switchover of specified autonomous database to the associated peer database. */
 export const switchoverProjectsLocationsAutonomousDatabases: API.OperationMethod<SwitchoverProjectsLocationsAutonomousDatabasesRequest, SwitchoverProjectsLocationsAutonomousDatabasesResponse, SwitchoverProjectsLocationsAutonomousDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SwitchoverProjectsLocationsAutonomousDatabasesRequest,
   output: SwitchoverProjectsLocationsAutonomousDatabasesResponse,
   errors: [],
 }));
 
-/** Initiates a failover to target autonomous database from the associated primary database. */
 export interface FailoverProjectsLocationsAutonomousDatabasesRequest {
   /** Required. The name of the Autonomous Database in the following format: projects/{project}/locations/{location}/autonomousDatabases/{autonomous_database}. */
   name: string;
@@ -3326,13 +3325,13 @@ export const FailoverProjectsLocationsAutonomousDatabasesResponse = Operation;
 
 export type FailoverProjectsLocationsAutonomousDatabasesError = CommonErrors;
 
+/** Initiates a failover to target autonomous database from the associated primary database. */
 export const failoverProjectsLocationsAutonomousDatabases: API.OperationMethod<FailoverProjectsLocationsAutonomousDatabasesRequest, FailoverProjectsLocationsAutonomousDatabasesResponse, FailoverProjectsLocationsAutonomousDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FailoverProjectsLocationsAutonomousDatabasesRequest,
   output: FailoverProjectsLocationsAutonomousDatabasesResponse,
   errors: [],
 }));
 
-/** Lists all the available Autonomous Database versions for a project and location. */
 export interface ListProjectsLocationsAutonomousDbVersionsRequest {
   /** Required. The parent value for the Autonomous Database in the following format: projects/{project}/locations/{location}. */
   parent: string;
@@ -3356,7 +3355,8 @@ export const ListProjectsLocationsAutonomousDbVersionsResponse = ListAutonomousD
 
 export type ListProjectsLocationsAutonomousDbVersionsError = CommonErrors;
 
-export const listProjectsLocationsAutonomousDbVersions = API.makePaginated(() => ({
+/** Lists all the available Autonomous Database versions for a project and location. */
+export const listProjectsLocationsAutonomousDbVersions: API.PaginatedOperationMethod<ListProjectsLocationsAutonomousDbVersionsRequest, ListProjectsLocationsAutonomousDbVersionsResponse, ListProjectsLocationsAutonomousDbVersionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAutonomousDbVersionsRequest,
   output: ListProjectsLocationsAutonomousDbVersionsResponse,
   errors: [],
@@ -3366,7 +3366,6 @@ export const listProjectsLocationsAutonomousDbVersions = API.makePaginated(() =>
   },
 }));
 
-/** Lists Autonomous Database Character Sets in a given project and location. */
 export interface ListProjectsLocationsAutonomousDatabaseCharacterSetsRequest {
   /** Required. The parent value for the Autonomous Database in the following format: projects/{project}/locations/{location}. */
   parent: string;
@@ -3393,7 +3392,8 @@ export const ListProjectsLocationsAutonomousDatabaseCharacterSetsResponse = List
 
 export type ListProjectsLocationsAutonomousDatabaseCharacterSetsError = CommonErrors;
 
-export const listProjectsLocationsAutonomousDatabaseCharacterSets = API.makePaginated(() => ({
+/** Lists Autonomous Database Character Sets in a given project and location. */
+export const listProjectsLocationsAutonomousDatabaseCharacterSets: API.PaginatedOperationMethod<ListProjectsLocationsAutonomousDatabaseCharacterSetsRequest, ListProjectsLocationsAutonomousDatabaseCharacterSetsResponse, ListProjectsLocationsAutonomousDatabaseCharacterSetsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAutonomousDatabaseCharacterSetsRequest,
   output: ListProjectsLocationsAutonomousDatabaseCharacterSetsResponse,
   errors: [],
@@ -3403,7 +3403,6 @@ export const listProjectsLocationsAutonomousDatabaseCharacterSets = API.makePagi
   },
 }));
 
-/** Lists the long-term and automatic backups of an Autonomous Database. */
 export interface ListProjectsLocationsAutonomousDatabaseBackupsRequest {
   /** Required. The parent value for ListAutonomousDatabaseBackups in the following format: projects/{project}/locations/{location}. */
   parent: string;
@@ -3430,7 +3429,8 @@ export const ListProjectsLocationsAutonomousDatabaseBackupsResponse = ListAutono
 
 export type ListProjectsLocationsAutonomousDatabaseBackupsError = CommonErrors;
 
-export const listProjectsLocationsAutonomousDatabaseBackups = API.makePaginated(() => ({
+/** Lists the long-term and automatic backups of an Autonomous Database. */
+export const listProjectsLocationsAutonomousDatabaseBackups: API.PaginatedOperationMethod<ListProjectsLocationsAutonomousDatabaseBackupsRequest, ListProjectsLocationsAutonomousDatabaseBackupsResponse, ListProjectsLocationsAutonomousDatabaseBackupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAutonomousDatabaseBackupsRequest,
   output: ListProjectsLocationsAutonomousDatabaseBackupsResponse,
   errors: [],
@@ -3440,7 +3440,6 @@ export const listProjectsLocationsAutonomousDatabaseBackups = API.makePaginated(
   },
 }));
 
-/** Lists the ODB Networks in a given project and location. */
 export interface ListProjectsLocationsOdbNetworksRequest {
   /** Required. The parent value for the ODB Network in the following format: projects/{project}/locations/{location}. */
   parent: string;
@@ -3470,7 +3469,8 @@ export const ListProjectsLocationsOdbNetworksResponse = ListOdbNetworksResponse;
 
 export type ListProjectsLocationsOdbNetworksError = CommonErrors;
 
-export const listProjectsLocationsOdbNetworks = API.makePaginated(() => ({
+/** Lists the ODB Networks in a given project and location. */
+export const listProjectsLocationsOdbNetworks: API.PaginatedOperationMethod<ListProjectsLocationsOdbNetworksRequest, ListProjectsLocationsOdbNetworksResponse, ListProjectsLocationsOdbNetworksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOdbNetworksRequest,
   output: ListProjectsLocationsOdbNetworksResponse,
   errors: [],
@@ -3480,7 +3480,6 @@ export const listProjectsLocationsOdbNetworks = API.makePaginated(() => ({
   },
 }));
 
-/** Gets details of a single ODB Network. */
 export interface GetProjectsLocationsOdbNetworksRequest {
   /** Required. The name of the OdbNetwork in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}. */
   name: string;
@@ -3498,13 +3497,13 @@ export const GetProjectsLocationsOdbNetworksResponse = OdbNetwork;
 
 export type GetProjectsLocationsOdbNetworksError = CommonErrors;
 
+/** Gets details of a single ODB Network. */
 export const getProjectsLocationsOdbNetworks: API.OperationMethod<GetProjectsLocationsOdbNetworksRequest, GetProjectsLocationsOdbNetworksResponse, GetProjectsLocationsOdbNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOdbNetworksRequest,
   output: GetProjectsLocationsOdbNetworksResponse,
   errors: [],
 }));
 
-/** Creates a new ODB Network in a given project and location. */
 export interface CreateProjectsLocationsOdbNetworksRequest {
   /** Required. The parent value for the OdbNetwork in the following format: projects/{project}/locations/{location}. */
   parent: string;
@@ -3531,13 +3530,13 @@ export const CreateProjectsLocationsOdbNetworksResponse = Operation;
 
 export type CreateProjectsLocationsOdbNetworksError = CommonErrors;
 
+/** Creates a new ODB Network in a given project and location. */
 export const createProjectsLocationsOdbNetworks: API.OperationMethod<CreateProjectsLocationsOdbNetworksRequest, CreateProjectsLocationsOdbNetworksResponse, CreateProjectsLocationsOdbNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsOdbNetworksRequest,
   output: CreateProjectsLocationsOdbNetworksResponse,
   errors: [],
 }));
 
-/** Deletes a single ODB Network. */
 export interface DeleteProjectsLocationsOdbNetworksRequest {
   /** Required. The name of the resource in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}. */
   name: string;
@@ -3558,13 +3557,13 @@ export const DeleteProjectsLocationsOdbNetworksResponse = Operation;
 
 export type DeleteProjectsLocationsOdbNetworksError = CommonErrors;
 
+/** Deletes a single ODB Network. */
 export const deleteProjectsLocationsOdbNetworks: API.OperationMethod<DeleteProjectsLocationsOdbNetworksRequest, DeleteProjectsLocationsOdbNetworksResponse, DeleteProjectsLocationsOdbNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOdbNetworksRequest,
   output: DeleteProjectsLocationsOdbNetworksResponse,
   errors: [],
 }));
 
-/** Lists all the ODB Subnets in a given ODB Network. */
 export interface ListProjectsLocationsOdbNetworksOdbSubnetsRequest {
   /** Required. The parent value for the OdbSubnet in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}. */
   parent: string;
@@ -3594,7 +3593,8 @@ export const ListProjectsLocationsOdbNetworksOdbSubnetsResponse = ListOdbSubnets
 
 export type ListProjectsLocationsOdbNetworksOdbSubnetsError = CommonErrors;
 
-export const listProjectsLocationsOdbNetworksOdbSubnets = API.makePaginated(() => ({
+/** Lists all the ODB Subnets in a given ODB Network. */
+export const listProjectsLocationsOdbNetworksOdbSubnets: API.PaginatedOperationMethod<ListProjectsLocationsOdbNetworksOdbSubnetsRequest, ListProjectsLocationsOdbNetworksOdbSubnetsResponse, ListProjectsLocationsOdbNetworksOdbSubnetsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOdbNetworksOdbSubnetsRequest,
   output: ListProjectsLocationsOdbNetworksOdbSubnetsResponse,
   errors: [],
@@ -3604,7 +3604,6 @@ export const listProjectsLocationsOdbNetworksOdbSubnets = API.makePaginated(() =
   },
 }));
 
-/** Gets details of a single ODB Subnet. */
 export interface GetProjectsLocationsOdbNetworksOdbSubnetsRequest {
   /** Required. The name of the OdbSubnet in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet}. */
   name: string;
@@ -3622,13 +3621,13 @@ export const GetProjectsLocationsOdbNetworksOdbSubnetsResponse = OdbSubnet;
 
 export type GetProjectsLocationsOdbNetworksOdbSubnetsError = CommonErrors;
 
+/** Gets details of a single ODB Subnet. */
 export const getProjectsLocationsOdbNetworksOdbSubnets: API.OperationMethod<GetProjectsLocationsOdbNetworksOdbSubnetsRequest, GetProjectsLocationsOdbNetworksOdbSubnetsResponse, GetProjectsLocationsOdbNetworksOdbSubnetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOdbNetworksOdbSubnetsRequest,
   output: GetProjectsLocationsOdbNetworksOdbSubnetsResponse,
   errors: [],
 }));
 
-/** Creates a new ODB Subnet in a given ODB Network. */
 export interface CreateProjectsLocationsOdbNetworksOdbSubnetsRequest {
   /** Required. The parent value for the OdbSubnet in the following format: projects/{project}/locations/{location}/odbNetworks/{odb_network}. */
   parent: string;
@@ -3655,13 +3654,13 @@ export const CreateProjectsLocationsOdbNetworksOdbSubnetsResponse = Operation;
 
 export type CreateProjectsLocationsOdbNetworksOdbSubnetsError = CommonErrors;
 
+/** Creates a new ODB Subnet in a given ODB Network. */
 export const createProjectsLocationsOdbNetworksOdbSubnets: API.OperationMethod<CreateProjectsLocationsOdbNetworksOdbSubnetsRequest, CreateProjectsLocationsOdbNetworksOdbSubnetsResponse, CreateProjectsLocationsOdbNetworksOdbSubnetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsOdbNetworksOdbSubnetsRequest,
   output: CreateProjectsLocationsOdbNetworksOdbSubnetsResponse,
   errors: [],
 }));
 
-/** Deletes a single ODB Subnet. */
 export interface DeleteProjectsLocationsOdbNetworksOdbSubnetsRequest {
   /** Required. The name of the resource in the following format: projects/{project}/locations/{region}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet}. */
   name: string;
@@ -3682,13 +3681,13 @@ export const DeleteProjectsLocationsOdbNetworksOdbSubnetsResponse = Operation;
 
 export type DeleteProjectsLocationsOdbNetworksOdbSubnetsError = CommonErrors;
 
+/** Deletes a single ODB Subnet. */
 export const deleteProjectsLocationsOdbNetworksOdbSubnets: API.OperationMethod<DeleteProjectsLocationsOdbNetworksOdbSubnetsRequest, DeleteProjectsLocationsOdbNetworksOdbSubnetsResponse, DeleteProjectsLocationsOdbNetworksOdbSubnetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOdbNetworksOdbSubnetsRequest,
   output: DeleteProjectsLocationsOdbNetworksOdbSubnetsResponse,
   errors: [],
 }));
 
-/** Lists all the Exadb (Exascale) VM Clusters for the given project and location. */
 export interface ListProjectsLocationsExadbVmClustersRequest {
   /** Required. The parent value for ExadbVmClusters in the following format: projects/{project}/locations/{location}. */
   parent: string;
@@ -3718,7 +3717,8 @@ export const ListProjectsLocationsExadbVmClustersResponse = ListExadbVmClustersR
 
 export type ListProjectsLocationsExadbVmClustersError = CommonErrors;
 
-export const listProjectsLocationsExadbVmClusters = API.makePaginated(() => ({
+/** Lists all the Exadb (Exascale) VM Clusters for the given project and location. */
+export const listProjectsLocationsExadbVmClusters: API.PaginatedOperationMethod<ListProjectsLocationsExadbVmClustersRequest, ListProjectsLocationsExadbVmClustersResponse, ListProjectsLocationsExadbVmClustersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsExadbVmClustersRequest,
   output: ListProjectsLocationsExadbVmClustersResponse,
   errors: [],
@@ -3728,7 +3728,6 @@ export const listProjectsLocationsExadbVmClusters = API.makePaginated(() => ({
   },
 }));
 
-/** Gets details of a single Exadb (Exascale) VM Cluster. */
 export interface GetProjectsLocationsExadbVmClustersRequest {
   /** Required. The name of the ExadbVmCluster in the following format: projects/{project}/locations/{location}/exadbVmClusters/{exadb_vm_cluster}. */
   name: string;
@@ -3746,13 +3745,13 @@ export const GetProjectsLocationsExadbVmClustersResponse = ExadbVmCluster;
 
 export type GetProjectsLocationsExadbVmClustersError = CommonErrors;
 
+/** Gets details of a single Exadb (Exascale) VM Cluster. */
 export const getProjectsLocationsExadbVmClusters: API.OperationMethod<GetProjectsLocationsExadbVmClustersRequest, GetProjectsLocationsExadbVmClustersResponse, GetProjectsLocationsExadbVmClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsExadbVmClustersRequest,
   output: GetProjectsLocationsExadbVmClustersResponse,
   errors: [],
 }));
 
-/** Creates a new Exadb (Exascale) VM Cluster resource. */
 export interface CreateProjectsLocationsExadbVmClustersRequest {
   /** Required. The value for parent of the ExadbVmCluster in the following format: projects/{project}/locations/{location}. */
   parent: string;
@@ -3779,13 +3778,13 @@ export const CreateProjectsLocationsExadbVmClustersResponse = Operation;
 
 export type CreateProjectsLocationsExadbVmClustersError = CommonErrors;
 
+/** Creates a new Exadb (Exascale) VM Cluster resource. */
 export const createProjectsLocationsExadbVmClusters: API.OperationMethod<CreateProjectsLocationsExadbVmClustersRequest, CreateProjectsLocationsExadbVmClustersResponse, CreateProjectsLocationsExadbVmClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsExadbVmClustersRequest,
   output: CreateProjectsLocationsExadbVmClustersResponse,
   errors: [],
 }));
 
-/** Deletes a single Exadb (Exascale) VM Cluster. */
 export interface DeleteProjectsLocationsExadbVmClustersRequest {
   /** Required. The name of the ExadbVmCluster in the following format: projects/{project}/locations/{location}/exadbVmClusters/{exadb_vm_cluster}. */
   name: string;
@@ -3806,13 +3805,13 @@ export const DeleteProjectsLocationsExadbVmClustersResponse = Operation;
 
 export type DeleteProjectsLocationsExadbVmClustersError = CommonErrors;
 
+/** Deletes a single Exadb (Exascale) VM Cluster. */
 export const deleteProjectsLocationsExadbVmClusters: API.OperationMethod<DeleteProjectsLocationsExadbVmClustersRequest, DeleteProjectsLocationsExadbVmClustersResponse, DeleteProjectsLocationsExadbVmClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsExadbVmClustersRequest,
   output: DeleteProjectsLocationsExadbVmClustersResponse,
   errors: [],
 }));
 
-/** Updates a single Exadb (Exascale) VM Cluster. To add virtual machines to existing exadb vm cluster, only pass the node count. */
 export interface PatchProjectsLocationsExadbVmClustersRequest {
   /** Identifier. The name of the ExadbVmCluster resource in the following format: projects/{project}/locations/{region}/exadbVmClusters/{exadb_vm_cluster} */
   name: string;
@@ -3839,13 +3838,13 @@ export const PatchProjectsLocationsExadbVmClustersResponse = Operation;
 
 export type PatchProjectsLocationsExadbVmClustersError = CommonErrors;
 
+/** Updates a single Exadb (Exascale) VM Cluster. To add virtual machines to existing exadb vm cluster, only pass the node count. */
 export const patchProjectsLocationsExadbVmClusters: API.OperationMethod<PatchProjectsLocationsExadbVmClustersRequest, PatchProjectsLocationsExadbVmClustersResponse, PatchProjectsLocationsExadbVmClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsExadbVmClustersRequest,
   output: PatchProjectsLocationsExadbVmClustersResponse,
   errors: [],
 }));
 
-/** Removes virtual machines from an existing exadb vm cluster. */
 export interface RemoveVirtualMachineProjectsLocationsExadbVmClustersRequest {
   /** Required. The name of the ExadbVmCluster in the following format: projects/{project}/locations/{location}/exadbVmClusters/{exadb_vm_cluster}. */
   name: string;
@@ -3866,13 +3865,13 @@ export const RemoveVirtualMachineProjectsLocationsExadbVmClustersResponse = Oper
 
 export type RemoveVirtualMachineProjectsLocationsExadbVmClustersError = CommonErrors;
 
+/** Removes virtual machines from an existing exadb vm cluster. */
 export const removeVirtualMachineProjectsLocationsExadbVmClusters: API.OperationMethod<RemoveVirtualMachineProjectsLocationsExadbVmClustersRequest, RemoveVirtualMachineProjectsLocationsExadbVmClustersResponse, RemoveVirtualMachineProjectsLocationsExadbVmClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveVirtualMachineProjectsLocationsExadbVmClustersRequest,
   output: RemoveVirtualMachineProjectsLocationsExadbVmClustersResponse,
   errors: [],
 }));
 
-/** Lists the database nodes of a VM Cluster. */
 export interface ListProjectsLocationsExadbVmClustersDbNodesRequest {
   /** Required. The parent value for database node in the following format: projects/{project}/locations/{location}/cloudVmClusters/{cloudVmCluster}. . */
   parent: string;
@@ -3896,7 +3895,8 @@ export const ListProjectsLocationsExadbVmClustersDbNodesResponse = ListDbNodesRe
 
 export type ListProjectsLocationsExadbVmClustersDbNodesError = CommonErrors;
 
-export const listProjectsLocationsExadbVmClustersDbNodes = API.makePaginated(() => ({
+/** Lists the database nodes of a VM Cluster. */
+export const listProjectsLocationsExadbVmClustersDbNodes: API.PaginatedOperationMethod<ListProjectsLocationsExadbVmClustersDbNodesRequest, ListProjectsLocationsExadbVmClustersDbNodesResponse, ListProjectsLocationsExadbVmClustersDbNodesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsExadbVmClustersDbNodesRequest,
   output: ListProjectsLocationsExadbVmClustersDbNodesResponse,
   errors: [],
@@ -3906,7 +3906,6 @@ export const listProjectsLocationsExadbVmClustersDbNodes = API.makePaginated(() 
   },
 }));
 
-/** Lists all the ExascaleDB Storage Vaults for the given project and location. */
 export interface ListProjectsLocationsExascaleDbStorageVaultsRequest {
   /** Required. The parent value for ExascaleDbStorageVault in the following format: projects/{project}/locations/{location}. */
   parent: string;
@@ -3936,7 +3935,8 @@ export const ListProjectsLocationsExascaleDbStorageVaultsResponse = ListExascale
 
 export type ListProjectsLocationsExascaleDbStorageVaultsError = CommonErrors;
 
-export const listProjectsLocationsExascaleDbStorageVaults = API.makePaginated(() => ({
+/** Lists all the ExascaleDB Storage Vaults for the given project and location. */
+export const listProjectsLocationsExascaleDbStorageVaults: API.PaginatedOperationMethod<ListProjectsLocationsExascaleDbStorageVaultsRequest, ListProjectsLocationsExascaleDbStorageVaultsResponse, ListProjectsLocationsExascaleDbStorageVaultsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsExascaleDbStorageVaultsRequest,
   output: ListProjectsLocationsExascaleDbStorageVaultsResponse,
   errors: [],
@@ -3946,7 +3946,6 @@ export const listProjectsLocationsExascaleDbStorageVaults = API.makePaginated(()
   },
 }));
 
-/** Gets details of a single ExascaleDB Storage Vault. */
 export interface GetProjectsLocationsExascaleDbStorageVaultsRequest {
   /** Required. The name of the ExascaleDbStorageVault in the following format: projects/{project}/locations/{location}/exascaleDbStorageVaults/{exascale_db_storage_vault}. */
   name: string;
@@ -3964,13 +3963,13 @@ export const GetProjectsLocationsExascaleDbStorageVaultsResponse = ExascaleDbSto
 
 export type GetProjectsLocationsExascaleDbStorageVaultsError = CommonErrors;
 
+/** Gets details of a single ExascaleDB Storage Vault. */
 export const getProjectsLocationsExascaleDbStorageVaults: API.OperationMethod<GetProjectsLocationsExascaleDbStorageVaultsRequest, GetProjectsLocationsExascaleDbStorageVaultsResponse, GetProjectsLocationsExascaleDbStorageVaultsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsExascaleDbStorageVaultsRequest,
   output: GetProjectsLocationsExascaleDbStorageVaultsResponse,
   errors: [],
 }));
 
-/** Creates a new ExascaleDB Storage Vault resource. */
 export interface CreateProjectsLocationsExascaleDbStorageVaultsRequest {
   /** Required. The value for parent of the ExascaleDbStorageVault in the following format: projects/{project}/locations/{location}. */
   parent: string;
@@ -3997,13 +3996,13 @@ export const CreateProjectsLocationsExascaleDbStorageVaultsResponse = Operation;
 
 export type CreateProjectsLocationsExascaleDbStorageVaultsError = CommonErrors;
 
+/** Creates a new ExascaleDB Storage Vault resource. */
 export const createProjectsLocationsExascaleDbStorageVaults: API.OperationMethod<CreateProjectsLocationsExascaleDbStorageVaultsRequest, CreateProjectsLocationsExascaleDbStorageVaultsResponse, CreateProjectsLocationsExascaleDbStorageVaultsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsExascaleDbStorageVaultsRequest,
   output: CreateProjectsLocationsExascaleDbStorageVaultsResponse,
   errors: [],
 }));
 
-/** Deletes a single ExascaleDB Storage Vault. */
 export interface DeleteProjectsLocationsExascaleDbStorageVaultsRequest {
   /** Required. The name of the ExascaleDbStorageVault in the following format: projects/{project}/locations/{location}/exascaleDbStorageVaults/{exascale_db_storage_vault}. */
   name: string;
@@ -4024,13 +4023,13 @@ export const DeleteProjectsLocationsExascaleDbStorageVaultsResponse = Operation;
 
 export type DeleteProjectsLocationsExascaleDbStorageVaultsError = CommonErrors;
 
+/** Deletes a single ExascaleDB Storage Vault. */
 export const deleteProjectsLocationsExascaleDbStorageVaults: API.OperationMethod<DeleteProjectsLocationsExascaleDbStorageVaultsRequest, DeleteProjectsLocationsExascaleDbStorageVaultsResponse, DeleteProjectsLocationsExascaleDbStorageVaultsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsExascaleDbStorageVaultsRequest,
   output: DeleteProjectsLocationsExascaleDbStorageVaultsResponse,
   errors: [],
 }));
 
-/** Lists all the DbSystemInitialStorageSizes for the given project and location. */
 export interface ListProjectsLocationsDbSystemInitialStorageSizesRequest {
   /** Required. The parent value for the DbSystemInitialStorageSize resource with the format: projects/{project}/locations/{location} */
   parent: string;
@@ -4054,7 +4053,8 @@ export const ListProjectsLocationsDbSystemInitialStorageSizesResponse = ListDbSy
 
 export type ListProjectsLocationsDbSystemInitialStorageSizesError = CommonErrors;
 
-export const listProjectsLocationsDbSystemInitialStorageSizes = API.makePaginated(() => ({
+/** Lists all the DbSystemInitialStorageSizes for the given project and location. */
+export const listProjectsLocationsDbSystemInitialStorageSizes: API.PaginatedOperationMethod<ListProjectsLocationsDbSystemInitialStorageSizesRequest, ListProjectsLocationsDbSystemInitialStorageSizesResponse, ListProjectsLocationsDbSystemInitialStorageSizesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDbSystemInitialStorageSizesRequest,
   output: ListProjectsLocationsDbSystemInitialStorageSizesResponse,
   errors: [],
@@ -4064,7 +4064,6 @@ export const listProjectsLocationsDbSystemInitialStorageSizes = API.makePaginate
   },
 }));
 
-/** Lists all the Databases for the given project, location and DbSystem. */
 export interface ListProjectsLocationsDatabasesRequest {
   /** Required. The parent resource name in the following format: projects/{project}/locations/{region} */
   parent: string;
@@ -4091,7 +4090,8 @@ export const ListProjectsLocationsDatabasesResponse = ListDatabasesResponse;
 
 export type ListProjectsLocationsDatabasesError = CommonErrors;
 
-export const listProjectsLocationsDatabases = API.makePaginated(() => ({
+/** Lists all the Databases for the given project, location and DbSystem. */
+export const listProjectsLocationsDatabases: API.PaginatedOperationMethod<ListProjectsLocationsDatabasesRequest, ListProjectsLocationsDatabasesResponse, ListProjectsLocationsDatabasesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDatabasesRequest,
   output: ListProjectsLocationsDatabasesResponse,
   errors: [],
@@ -4101,7 +4101,6 @@ export const listProjectsLocationsDatabases = API.makePaginated(() => ({
   },
 }));
 
-/** Gets details of a single Database. */
 export interface GetProjectsLocationsDatabasesRequest {
   /** Required. The name of the Database resource in the following format: projects/{project}/locations/{region}/databases/{database} */
   name: string;
@@ -4119,13 +4118,13 @@ export const GetProjectsLocationsDatabasesResponse = Database;
 
 export type GetProjectsLocationsDatabasesError = CommonErrors;
 
+/** Gets details of a single Database. */
 export const getProjectsLocationsDatabases: API.OperationMethod<GetProjectsLocationsDatabasesRequest, GetProjectsLocationsDatabasesResponse, GetProjectsLocationsDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDatabasesRequest,
   output: GetProjectsLocationsDatabasesResponse,
   errors: [],
 }));
 
-/** Lists all the PluggableDatabases for the given project, location and Container Database. */
 export interface ListProjectsLocationsPluggableDatabasesRequest {
   /** Required. The parent, which owns this collection of PluggableDatabases. Format: projects/{project}/locations/{location} */
   parent: string;
@@ -4152,7 +4151,8 @@ export const ListProjectsLocationsPluggableDatabasesResponse = ListPluggableData
 
 export type ListProjectsLocationsPluggableDatabasesError = CommonErrors;
 
-export const listProjectsLocationsPluggableDatabases = API.makePaginated(() => ({
+/** Lists all the PluggableDatabases for the given project, location and Container Database. */
+export const listProjectsLocationsPluggableDatabases: API.PaginatedOperationMethod<ListProjectsLocationsPluggableDatabasesRequest, ListProjectsLocationsPluggableDatabasesResponse, ListProjectsLocationsPluggableDatabasesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsPluggableDatabasesRequest,
   output: ListProjectsLocationsPluggableDatabasesResponse,
   errors: [],
@@ -4162,7 +4162,6 @@ export const listProjectsLocationsPluggableDatabases = API.makePaginated(() => (
   },
 }));
 
-/** Gets details of a single PluggableDatabase. */
 export interface GetProjectsLocationsPluggableDatabasesRequest {
   /** Required. The name of the PluggableDatabase resource in the following format: projects/{project}/locations/{region}/pluggableDatabases/{pluggable_database} */
   name: string;
@@ -4180,13 +4179,13 @@ export const GetProjectsLocationsPluggableDatabasesResponse = PluggableDatabase;
 
 export type GetProjectsLocationsPluggableDatabasesError = CommonErrors;
 
+/** Gets details of a single PluggableDatabase. */
 export const getProjectsLocationsPluggableDatabases: API.OperationMethod<GetProjectsLocationsPluggableDatabasesRequest, GetProjectsLocationsPluggableDatabasesResponse, GetProjectsLocationsPluggableDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsPluggableDatabasesRequest,
   output: GetProjectsLocationsPluggableDatabasesResponse,
   errors: [],
 }));
 
-/** Lists all the DbSystems for the given project and location. */
 export interface ListProjectsLocationsDbSystemsRequest {
   /** Required. The parent value for DbSystems in the following format: projects/{project}/locations/{location}. */
   parent: string;
@@ -4216,7 +4215,8 @@ export const ListProjectsLocationsDbSystemsResponse = ListDbSystemsResponse;
 
 export type ListProjectsLocationsDbSystemsError = CommonErrors;
 
-export const listProjectsLocationsDbSystems = API.makePaginated(() => ({
+/** Lists all the DbSystems for the given project and location. */
+export const listProjectsLocationsDbSystems: API.PaginatedOperationMethod<ListProjectsLocationsDbSystemsRequest, ListProjectsLocationsDbSystemsResponse, ListProjectsLocationsDbSystemsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDbSystemsRequest,
   output: ListProjectsLocationsDbSystemsResponse,
   errors: [],
@@ -4226,7 +4226,6 @@ export const listProjectsLocationsDbSystems = API.makePaginated(() => ({
   },
 }));
 
-/** Gets details of a single DbSystem. */
 export interface GetProjectsLocationsDbSystemsRequest {
   /** Required. The name of the DbSystem in the following format: projects/{project}/locations/{location}/dbSystems/{db_system}. */
   name: string;
@@ -4244,13 +4243,13 @@ export const GetProjectsLocationsDbSystemsResponse = DbSystem;
 
 export type GetProjectsLocationsDbSystemsError = CommonErrors;
 
+/** Gets details of a single DbSystem. */
 export const getProjectsLocationsDbSystems: API.OperationMethod<GetProjectsLocationsDbSystemsRequest, GetProjectsLocationsDbSystemsResponse, GetProjectsLocationsDbSystemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDbSystemsRequest,
   output: GetProjectsLocationsDbSystemsResponse,
   errors: [],
 }));
 
-/** Creates a new DbSystem in a given project and location. */
 export interface CreateProjectsLocationsDbSystemsRequest {
   /** Required. The value for parent of the DbSystem in the following format: projects/{project}/locations/{location}. */
   parent: string;
@@ -4277,13 +4276,13 @@ export const CreateProjectsLocationsDbSystemsResponse = Operation;
 
 export type CreateProjectsLocationsDbSystemsError = CommonErrors;
 
+/** Creates a new DbSystem in a given project and location. */
 export const createProjectsLocationsDbSystems: API.OperationMethod<CreateProjectsLocationsDbSystemsRequest, CreateProjectsLocationsDbSystemsResponse, CreateProjectsLocationsDbSystemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsDbSystemsRequest,
   output: CreateProjectsLocationsDbSystemsResponse,
   errors: [],
 }));
 
-/** Deletes a single DbSystem. */
 export interface DeleteProjectsLocationsDbSystemsRequest {
   /** Required. The name of the DbSystem in the following format: projects/{project}/locations/{location}/dbSystems/{db_system}. */
   name: string;
@@ -4304,13 +4303,13 @@ export const DeleteProjectsLocationsDbSystemsResponse = Operation;
 
 export type DeleteProjectsLocationsDbSystemsError = CommonErrors;
 
+/** Deletes a single DbSystem. */
 export const deleteProjectsLocationsDbSystems: API.OperationMethod<DeleteProjectsLocationsDbSystemsRequest, DeleteProjectsLocationsDbSystemsResponse, DeleteProjectsLocationsDbSystemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDbSystemsRequest,
   output: DeleteProjectsLocationsDbSystemsResponse,
   errors: [],
 }));
 
-/** List DbVersions for the given project and location. */
 export interface ListProjectsLocationsDbVersionsRequest {
   /** Required. The parent value for the DbVersion resource with the format: projects/{project}/locations/{location} */
   parent: string;
@@ -4337,7 +4336,8 @@ export const ListProjectsLocationsDbVersionsResponse = ListDbVersionsResponse;
 
 export type ListProjectsLocationsDbVersionsError = CommonErrors;
 
-export const listProjectsLocationsDbVersions = API.makePaginated(() => ({
+/** List DbVersions for the given project and location. */
+export const listProjectsLocationsDbVersions: API.PaginatedOperationMethod<ListProjectsLocationsDbVersionsRequest, ListProjectsLocationsDbVersionsResponse, ListProjectsLocationsDbVersionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDbVersionsRequest,
   output: ListProjectsLocationsDbVersionsResponse,
   errors: [],
@@ -4347,7 +4347,6 @@ export const listProjectsLocationsDbVersions = API.makePaginated(() => ({
   },
 }));
 
-/** List DatabaseCharacterSets for the given project and location. */
 export interface ListProjectsLocationsDatabaseCharacterSetsRequest {
   /** Required. The parent value for DatabaseCharacterSets in the following format: projects/{project}/locations/{location}. */
   parent: string;
@@ -4374,7 +4373,8 @@ export const ListProjectsLocationsDatabaseCharacterSetsResponse = ListDatabaseCh
 
 export type ListProjectsLocationsDatabaseCharacterSetsError = CommonErrors;
 
-export const listProjectsLocationsDatabaseCharacterSets = API.makePaginated(() => ({
+/** List DatabaseCharacterSets for the given project and location. */
+export const listProjectsLocationsDatabaseCharacterSets: API.PaginatedOperationMethod<ListProjectsLocationsDatabaseCharacterSetsRequest, ListProjectsLocationsDatabaseCharacterSetsResponse, ListProjectsLocationsDatabaseCharacterSetsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDatabaseCharacterSetsRequest,
   output: ListProjectsLocationsDatabaseCharacterSetsResponse,
   errors: [],

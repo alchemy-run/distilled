@@ -90,7 +90,6 @@ export const LicenseAssignmentList: Schema.Schema<LicenseAssignmentList> = Schem
 // Operations
 // ==========================================================================
 
-/** Revoke a license. */
 export interface DeleteLicenseAssignmentsRequest {
   /** A product's unique identifier. For more information about products in this version of the API, see Products and SKUs. */
   productId: string;
@@ -114,13 +113,13 @@ export const DeleteLicenseAssignmentsResponse = Empty;
 
 export type DeleteLicenseAssignmentsError = CommonErrors;
 
+/** Revoke a license. */
 export const deleteLicenseAssignments: API.OperationMethod<DeleteLicenseAssignmentsRequest, DeleteLicenseAssignmentsResponse, DeleteLicenseAssignmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteLicenseAssignmentsRequest,
   output: DeleteLicenseAssignmentsResponse,
   errors: [],
 }));
 
-/** Get a specific user's license by product SKU. */
 export interface GetLicenseAssignmentsRequest {
   /** A product's unique identifier. For more information about products in this version of the API, see Products and SKUs. */
   productId: string;
@@ -144,13 +143,13 @@ export const GetLicenseAssignmentsResponse = LicenseAssignment;
 
 export type GetLicenseAssignmentsError = CommonErrors;
 
+/** Get a specific user's license by product SKU. */
 export const getLicenseAssignments: API.OperationMethod<GetLicenseAssignmentsRequest, GetLicenseAssignmentsResponse, GetLicenseAssignmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetLicenseAssignmentsRequest,
   output: GetLicenseAssignmentsResponse,
   errors: [],
 }));
 
-/** Assign a license. */
 export interface InsertLicenseAssignmentsRequest {
   /** A product's unique identifier. For more information about products in this version of the API, see Products and SKUs. */
   productId: string;
@@ -174,13 +173,13 @@ export const InsertLicenseAssignmentsResponse = LicenseAssignment;
 
 export type InsertLicenseAssignmentsError = CommonErrors;
 
+/** Assign a license. */
 export const insertLicenseAssignments: API.OperationMethod<InsertLicenseAssignmentsRequest, InsertLicenseAssignmentsResponse, InsertLicenseAssignmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertLicenseAssignmentsRequest,
   output: InsertLicenseAssignmentsResponse,
   errors: [],
 }));
 
-/** List all users assigned licenses for a specific product SKU. */
 export interface ListForProductLicenseAssignmentsRequest {
   /** A product's unique identifier. For more information about products in this version of the API, see Products and SKUs. */
   productId: string;
@@ -207,7 +206,8 @@ export const ListForProductLicenseAssignmentsResponse = LicenseAssignmentList;
 
 export type ListForProductLicenseAssignmentsError = CommonErrors;
 
-export const listForProductLicenseAssignments = API.makePaginated(() => ({
+/** List all users assigned licenses for a specific product SKU. */
+export const listForProductLicenseAssignments: API.PaginatedOperationMethod<ListForProductLicenseAssignmentsRequest, ListForProductLicenseAssignmentsResponse, ListForProductLicenseAssignmentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListForProductLicenseAssignmentsRequest,
   output: ListForProductLicenseAssignmentsResponse,
   errors: [],
@@ -218,7 +218,6 @@ export const listForProductLicenseAssignments = API.makePaginated(() => ({
   },
 }));
 
-/** List all users assigned licenses for a specific product SKU. */
 export interface ListForProductAndSkuLicenseAssignmentsRequest {
   /** A product's unique identifier. For more information about products in this version of the API, see Products and SKUs. */
   productId: string;
@@ -248,7 +247,8 @@ export const ListForProductAndSkuLicenseAssignmentsResponse = LicenseAssignmentL
 
 export type ListForProductAndSkuLicenseAssignmentsError = CommonErrors;
 
-export const listForProductAndSkuLicenseAssignments = API.makePaginated(() => ({
+/** List all users assigned licenses for a specific product SKU. */
+export const listForProductAndSkuLicenseAssignments: API.PaginatedOperationMethod<ListForProductAndSkuLicenseAssignmentsRequest, ListForProductAndSkuLicenseAssignmentsResponse, ListForProductAndSkuLicenseAssignmentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListForProductAndSkuLicenseAssignmentsRequest,
   output: ListForProductAndSkuLicenseAssignmentsResponse,
   errors: [],
@@ -259,7 +259,6 @@ export const listForProductAndSkuLicenseAssignments = API.makePaginated(() => ({
   },
 }));
 
-/** Reassign a user's product SKU with a different SKU in the same product. */
 export interface UpdateLicenseAssignmentsRequest {
   /** A product's unique identifier. For more information about products in this version of the API, see Products and SKUs. */
   productId: string;
@@ -286,13 +285,13 @@ export const UpdateLicenseAssignmentsResponse = LicenseAssignment;
 
 export type UpdateLicenseAssignmentsError = CommonErrors;
 
+/** Reassign a user's product SKU with a different SKU in the same product. */
 export const updateLicenseAssignments: API.OperationMethod<UpdateLicenseAssignmentsRequest, UpdateLicenseAssignmentsResponse, UpdateLicenseAssignmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateLicenseAssignmentsRequest,
   output: UpdateLicenseAssignmentsResponse,
   errors: [],
 }));
 
-/** Reassign a user's product SKU with a different SKU in the same product. This method supports patch semantics. */
 export interface PatchLicenseAssignmentsRequest {
   /** A product's unique identifier. For more information about products in this version of the API, see Products and SKUs. */
   productId: string;
@@ -319,6 +318,7 @@ export const PatchLicenseAssignmentsResponse = LicenseAssignment;
 
 export type PatchLicenseAssignmentsError = CommonErrors;
 
+/** Reassign a user's product SKU with a different SKU in the same product. This method supports patch semantics. */
 export const patchLicenseAssignments: API.OperationMethod<PatchLicenseAssignmentsRequest, PatchLicenseAssignmentsResponse, PatchLicenseAssignmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchLicenseAssignmentsRequest,
   output: PatchLicenseAssignmentsResponse,

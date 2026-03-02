@@ -1038,7 +1038,6 @@ export const DatabaseFailoverResponse: Schema.Schema<DatabaseFailoverResponse> =
 // Operations
 // ==========================================================================
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -1068,7 +1067,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -1078,7 +1078,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1096,13 +1095,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -1120,13 +1119,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Create a new environment. */
 export interface CreateProjectsLocationsEnvironmentsRequest {
   /** The parent must be of the form "projects/{projectId}/locations/{locationId}". */
   parent: string;
@@ -1147,13 +1146,13 @@ export const CreateProjectsLocationsEnvironmentsResponse = Operation;
 
 export type CreateProjectsLocationsEnvironmentsError = CommonErrors;
 
+/** Create a new environment. */
 export const createProjectsLocationsEnvironments: API.OperationMethod<CreateProjectsLocationsEnvironmentsRequest, CreateProjectsLocationsEnvironmentsResponse, CreateProjectsLocationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsEnvironmentsRequest,
   output: CreateProjectsLocationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** Get an existing environment. */
 export interface GetProjectsLocationsEnvironmentsRequest {
   /** The resource name of the environment to get, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
   name: string;
@@ -1171,13 +1170,13 @@ export const GetProjectsLocationsEnvironmentsResponse = Environment;
 
 export type GetProjectsLocationsEnvironmentsError = CommonErrors;
 
+/** Get an existing environment. */
 export const getProjectsLocationsEnvironments: API.OperationMethod<GetProjectsLocationsEnvironmentsRequest, GetProjectsLocationsEnvironmentsResponse, GetProjectsLocationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsEnvironmentsRequest,
   output: GetProjectsLocationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** List environments. */
 export interface ListProjectsLocationsEnvironmentsRequest {
   /** List environments in the given project and location, in the form: "projects/{projectId}/locations/{locationId}" */
   parent: string;
@@ -1201,7 +1200,8 @@ export const ListProjectsLocationsEnvironmentsResponse = ListEnvironmentsRespons
 
 export type ListProjectsLocationsEnvironmentsError = CommonErrors;
 
-export const listProjectsLocationsEnvironments = API.makePaginated(() => ({
+/** List environments. */
+export const listProjectsLocationsEnvironments: API.PaginatedOperationMethod<ListProjectsLocationsEnvironmentsRequest, ListProjectsLocationsEnvironmentsResponse, ListProjectsLocationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsEnvironmentsRequest,
   output: ListProjectsLocationsEnvironmentsResponse,
   errors: [],
@@ -1211,7 +1211,6 @@ export const listProjectsLocationsEnvironments = API.makePaginated(() => ({
   },
 }));
 
-/** Update an environment. */
 export interface PatchProjectsLocationsEnvironmentsRequest {
   /** The relative resource name of the environment to update, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
   name: string;
@@ -1235,13 +1234,13 @@ export const PatchProjectsLocationsEnvironmentsResponse = Operation;
 
 export type PatchProjectsLocationsEnvironmentsError = CommonErrors;
 
+/** Update an environment. */
 export const patchProjectsLocationsEnvironments: API.OperationMethod<PatchProjectsLocationsEnvironmentsRequest, PatchProjectsLocationsEnvironmentsResponse, PatchProjectsLocationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsEnvironmentsRequest,
   output: PatchProjectsLocationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** Delete an environment. */
 export interface DeleteProjectsLocationsEnvironmentsRequest {
   /** The environment to delete, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
   name: string;
@@ -1259,13 +1258,13 @@ export const DeleteProjectsLocationsEnvironmentsResponse = Operation;
 
 export type DeleteProjectsLocationsEnvironmentsError = CommonErrors;
 
+/** Delete an environment. */
 export const deleteProjectsLocationsEnvironments: API.OperationMethod<DeleteProjectsLocationsEnvironmentsRequest, DeleteProjectsLocationsEnvironmentsResponse, DeleteProjectsLocationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsEnvironmentsRequest,
   output: DeleteProjectsLocationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** Restart Airflow web server. */
 export interface RestartWebServerProjectsLocationsEnvironmentsRequest {
   /** Required. The resource name of the environment to restart the web server for, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
   name: string;
@@ -1286,13 +1285,13 @@ export const RestartWebServerProjectsLocationsEnvironmentsResponse = Operation;
 
 export type RestartWebServerProjectsLocationsEnvironmentsError = CommonErrors;
 
+/** Restart Airflow web server. */
 export const restartWebServerProjectsLocationsEnvironments: API.OperationMethod<RestartWebServerProjectsLocationsEnvironmentsRequest, RestartWebServerProjectsLocationsEnvironmentsResponse, RestartWebServerProjectsLocationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RestartWebServerProjectsLocationsEnvironmentsRequest,
   output: RestartWebServerProjectsLocationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** Executes Airflow CLI command. */
 export interface ExecuteAirflowCommandProjectsLocationsEnvironmentsRequest {
   /** The resource name of the environment in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}". */
   environment: string;
@@ -1313,13 +1312,13 @@ export const ExecuteAirflowCommandProjectsLocationsEnvironmentsResponse = Execut
 
 export type ExecuteAirflowCommandProjectsLocationsEnvironmentsError = CommonErrors;
 
+/** Executes Airflow CLI command. */
 export const executeAirflowCommandProjectsLocationsEnvironments: API.OperationMethod<ExecuteAirflowCommandProjectsLocationsEnvironmentsRequest, ExecuteAirflowCommandProjectsLocationsEnvironmentsResponse, ExecuteAirflowCommandProjectsLocationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExecuteAirflowCommandProjectsLocationsEnvironmentsRequest,
   output: ExecuteAirflowCommandProjectsLocationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** Stops Airflow CLI command execution. */
 export interface StopAirflowCommandProjectsLocationsEnvironmentsRequest {
   /** The resource name of the environment in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}". */
   environment: string;
@@ -1340,13 +1339,13 @@ export const StopAirflowCommandProjectsLocationsEnvironmentsResponse = StopAirfl
 
 export type StopAirflowCommandProjectsLocationsEnvironmentsError = CommonErrors;
 
+/** Stops Airflow CLI command execution. */
 export const stopAirflowCommandProjectsLocationsEnvironments: API.OperationMethod<StopAirflowCommandProjectsLocationsEnvironmentsRequest, StopAirflowCommandProjectsLocationsEnvironmentsResponse, StopAirflowCommandProjectsLocationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StopAirflowCommandProjectsLocationsEnvironmentsRequest,
   output: StopAirflowCommandProjectsLocationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** Polls Airflow CLI command execution and fetches logs. */
 export interface PollAirflowCommandProjectsLocationsEnvironmentsRequest {
   /** The resource name of the environment in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
   environment: string;
@@ -1367,13 +1366,13 @@ export const PollAirflowCommandProjectsLocationsEnvironmentsResponse = PollAirfl
 
 export type PollAirflowCommandProjectsLocationsEnvironmentsError = CommonErrors;
 
+/** Polls Airflow CLI command execution and fetches logs. */
 export const pollAirflowCommandProjectsLocationsEnvironments: API.OperationMethod<PollAirflowCommandProjectsLocationsEnvironmentsRequest, PollAirflowCommandProjectsLocationsEnvironmentsResponse, PollAirflowCommandProjectsLocationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PollAirflowCommandProjectsLocationsEnvironmentsRequest,
   output: PollAirflowCommandProjectsLocationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** Check if an upgrade operation on the environment will succeed. In case of problems detailed info can be found in the returned Operation. */
 export interface CheckUpgradeProjectsLocationsEnvironmentsRequest {
   /** Required. The resource name of the environment to check upgrade for, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
   environment: string;
@@ -1394,13 +1393,13 @@ export const CheckUpgradeProjectsLocationsEnvironmentsResponse = Operation;
 
 export type CheckUpgradeProjectsLocationsEnvironmentsError = CommonErrors;
 
+/** Check if an upgrade operation on the environment will succeed. In case of problems detailed info can be found in the returned Operation. */
 export const checkUpgradeProjectsLocationsEnvironments: API.OperationMethod<CheckUpgradeProjectsLocationsEnvironmentsRequest, CheckUpgradeProjectsLocationsEnvironmentsResponse, CheckUpgradeProjectsLocationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CheckUpgradeProjectsLocationsEnvironmentsRequest,
   output: CheckUpgradeProjectsLocationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** Creates a snapshots of a Cloud Composer environment. As a result of this operation, snapshot of environment's state is stored in a location specified in the SaveSnapshotRequest. */
 export interface SaveSnapshotProjectsLocationsEnvironmentsRequest {
   /** The resource name of the source environment in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
   environment: string;
@@ -1421,13 +1420,13 @@ export const SaveSnapshotProjectsLocationsEnvironmentsResponse = Operation;
 
 export type SaveSnapshotProjectsLocationsEnvironmentsError = CommonErrors;
 
+/** Creates a snapshots of a Cloud Composer environment. As a result of this operation, snapshot of environment's state is stored in a location specified in the SaveSnapshotRequest. */
 export const saveSnapshotProjectsLocationsEnvironments: API.OperationMethod<SaveSnapshotProjectsLocationsEnvironmentsRequest, SaveSnapshotProjectsLocationsEnvironmentsResponse, SaveSnapshotProjectsLocationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SaveSnapshotProjectsLocationsEnvironmentsRequest,
   output: SaveSnapshotProjectsLocationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** Loads a snapshot of a Cloud Composer environment. As a result of this operation, a snapshot of environment's specified in LoadSnapshotRequest is loaded into the environment. */
 export interface LoadSnapshotProjectsLocationsEnvironmentsRequest {
   /** The resource name of the target environment in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
   environment: string;
@@ -1448,13 +1447,13 @@ export const LoadSnapshotProjectsLocationsEnvironmentsResponse = Operation;
 
 export type LoadSnapshotProjectsLocationsEnvironmentsError = CommonErrors;
 
+/** Loads a snapshot of a Cloud Composer environment. As a result of this operation, a snapshot of environment's specified in LoadSnapshotRequest is loaded into the environment. */
 export const loadSnapshotProjectsLocationsEnvironments: API.OperationMethod<LoadSnapshotProjectsLocationsEnvironmentsRequest, LoadSnapshotProjectsLocationsEnvironmentsResponse, LoadSnapshotProjectsLocationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LoadSnapshotProjectsLocationsEnvironmentsRequest,
   output: LoadSnapshotProjectsLocationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** Triggers database failover (only for highly resilient environments). */
 export interface DatabaseFailoverProjectsLocationsEnvironmentsRequest {
   /** Target environment: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
   environment: string;
@@ -1475,13 +1474,13 @@ export const DatabaseFailoverProjectsLocationsEnvironmentsResponse = Operation;
 
 export type DatabaseFailoverProjectsLocationsEnvironmentsError = CommonErrors;
 
+/** Triggers database failover (only for highly resilient environments). */
 export const databaseFailoverProjectsLocationsEnvironments: API.OperationMethod<DatabaseFailoverProjectsLocationsEnvironmentsRequest, DatabaseFailoverProjectsLocationsEnvironmentsResponse, DatabaseFailoverProjectsLocationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DatabaseFailoverProjectsLocationsEnvironmentsRequest,
   output: DatabaseFailoverProjectsLocationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** Fetches database properties. */
 export interface FetchDatabasePropertiesProjectsLocationsEnvironmentsRequest {
   /** Required. The resource name of the environment, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
   environment: string;
@@ -1499,13 +1498,13 @@ export const FetchDatabasePropertiesProjectsLocationsEnvironmentsResponse = Fetc
 
 export type FetchDatabasePropertiesProjectsLocationsEnvironmentsError = CommonErrors;
 
+/** Fetches database properties. */
 export const fetchDatabasePropertiesProjectsLocationsEnvironments: API.OperationMethod<FetchDatabasePropertiesProjectsLocationsEnvironmentsRequest, FetchDatabasePropertiesProjectsLocationsEnvironmentsResponse, FetchDatabasePropertiesProjectsLocationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FetchDatabasePropertiesProjectsLocationsEnvironmentsRequest,
   output: FetchDatabasePropertiesProjectsLocationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** Lists workloads in a Cloud Composer environment. Workload is a unit that runs a single Composer component. This method is supported for Cloud Composer environments in versions composer-2.*.*-airflow-*.*.* and newer. */
 export interface ListProjectsLocationsEnvironmentsWorkloadsRequest {
   /** Required. The environment name to get workloads for, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
   parent: string;
@@ -1532,7 +1531,8 @@ export const ListProjectsLocationsEnvironmentsWorkloadsResponse = ListWorkloadsR
 
 export type ListProjectsLocationsEnvironmentsWorkloadsError = CommonErrors;
 
-export const listProjectsLocationsEnvironmentsWorkloads = API.makePaginated(() => ({
+/** Lists workloads in a Cloud Composer environment. Workload is a unit that runs a single Composer component. This method is supported for Cloud Composer environments in versions composer-2.*.*-airflow-*.*.* and newer. */
+export const listProjectsLocationsEnvironmentsWorkloads: API.PaginatedOperationMethod<ListProjectsLocationsEnvironmentsWorkloadsRequest, ListProjectsLocationsEnvironmentsWorkloadsResponse, ListProjectsLocationsEnvironmentsWorkloadsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsEnvironmentsWorkloadsRequest,
   output: ListProjectsLocationsEnvironmentsWorkloadsResponse,
   errors: [],
@@ -1542,7 +1542,6 @@ export const listProjectsLocationsEnvironmentsWorkloads = API.makePaginated(() =
   },
 }));
 
-/** Creates a user workloads Secret. This method is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
 export interface CreateProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest {
   /** Required. The environment name to create a Secret for, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
   parent: string;
@@ -1563,13 +1562,13 @@ export const CreateProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse = U
 
 export type CreateProjectsLocationsEnvironmentsUserWorkloadsSecretsError = CommonErrors;
 
+/** Creates a user workloads Secret. This method is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
 export const createProjectsLocationsEnvironmentsUserWorkloadsSecrets: API.OperationMethod<CreateProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest, CreateProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse, CreateProjectsLocationsEnvironmentsUserWorkloadsSecretsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest,
   output: CreateProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse,
   errors: [],
 }));
 
-/** Gets an existing user workloads Secret. Values of the "data" field in the response are cleared. This method is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
 export interface GetProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest {
   /** Required. The resource name of the Secret to get, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}/userWorkloadsSecrets/{userWorkloadsSecretId}" */
   name: string;
@@ -1587,13 +1586,13 @@ export const GetProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse = User
 
 export type GetProjectsLocationsEnvironmentsUserWorkloadsSecretsError = CommonErrors;
 
+/** Gets an existing user workloads Secret. Values of the "data" field in the response are cleared. This method is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
 export const getProjectsLocationsEnvironmentsUserWorkloadsSecrets: API.OperationMethod<GetProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest, GetProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse, GetProjectsLocationsEnvironmentsUserWorkloadsSecretsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest,
   output: GetProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse,
   errors: [],
 }));
 
-/** Lists user workloads Secrets. This method is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
 export interface ListProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest {
   /** Required. List Secrets in the given environment, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
   parent: string;
@@ -1617,7 +1616,8 @@ export const ListProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse = Lis
 
 export type ListProjectsLocationsEnvironmentsUserWorkloadsSecretsError = CommonErrors;
 
-export const listProjectsLocationsEnvironmentsUserWorkloadsSecrets = API.makePaginated(() => ({
+/** Lists user workloads Secrets. This method is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
+export const listProjectsLocationsEnvironmentsUserWorkloadsSecrets: API.PaginatedOperationMethod<ListProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest, ListProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse, ListProjectsLocationsEnvironmentsUserWorkloadsSecretsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest,
   output: ListProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse,
   errors: [],
@@ -1627,7 +1627,6 @@ export const listProjectsLocationsEnvironmentsUserWorkloadsSecrets = API.makePag
   },
 }));
 
-/** Updates a user workloads Secret. This method is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
 export interface UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest {
   /** Identifier. The resource name of the Secret, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}/userWorkloadsSecrets/{userWorkloadsSecretId}" */
   name: string;
@@ -1648,13 +1647,13 @@ export const UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse = U
 
 export type UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsError = CommonErrors;
 
+/** Updates a user workloads Secret. This method is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
 export const updateProjectsLocationsEnvironmentsUserWorkloadsSecrets: API.OperationMethod<UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest, UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse, UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest,
   output: UpdateProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse,
   errors: [],
 }));
 
-/** Deletes a user workloads Secret. This method is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
 export interface DeleteProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest {
   /** Required. The Secret to delete, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}/userWorkloadsSecrets/{userWorkloadsSecretId}" */
   name: string;
@@ -1672,13 +1671,13 @@ export const DeleteProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse = E
 
 export type DeleteProjectsLocationsEnvironmentsUserWorkloadsSecretsError = CommonErrors;
 
+/** Deletes a user workloads Secret. This method is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
 export const deleteProjectsLocationsEnvironmentsUserWorkloadsSecrets: API.OperationMethod<DeleteProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest, DeleteProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse, DeleteProjectsLocationsEnvironmentsUserWorkloadsSecretsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsEnvironmentsUserWorkloadsSecretsRequest,
   output: DeleteProjectsLocationsEnvironmentsUserWorkloadsSecretsResponse,
   errors: [],
 }));
 
-/** Creates a user workloads ConfigMap. This method is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
 export interface CreateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest {
   /** Required. The environment name to create a ConfigMap for, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
   parent: string;
@@ -1699,13 +1698,13 @@ export const CreateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse 
 
 export type CreateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsError = CommonErrors;
 
+/** Creates a user workloads ConfigMap. This method is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
 export const createProjectsLocationsEnvironmentsUserWorkloadsConfigMaps: API.OperationMethod<CreateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest, CreateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse, CreateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest,
   output: CreateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse,
   errors: [],
 }));
 
-/** Gets an existing user workloads ConfigMap. This method is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
 export interface GetProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest {
   /** Required. The resource name of the ConfigMap to get, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}/userWorkloadsConfigMaps/{userWorkloadsConfigMapId}" */
   name: string;
@@ -1723,13 +1722,13 @@ export const GetProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse = U
 
 export type GetProjectsLocationsEnvironmentsUserWorkloadsConfigMapsError = CommonErrors;
 
+/** Gets an existing user workloads ConfigMap. This method is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
 export const getProjectsLocationsEnvironmentsUserWorkloadsConfigMaps: API.OperationMethod<GetProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest, GetProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse, GetProjectsLocationsEnvironmentsUserWorkloadsConfigMapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest,
   output: GetProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse,
   errors: [],
 }));
 
-/** Lists user workloads ConfigMaps. This method is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
 export interface ListProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest {
   /** Required. List ConfigMaps in the given environment, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}" */
   parent: string;
@@ -1753,7 +1752,8 @@ export const ListProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse = 
 
 export type ListProjectsLocationsEnvironmentsUserWorkloadsConfigMapsError = CommonErrors;
 
-export const listProjectsLocationsEnvironmentsUserWorkloadsConfigMaps = API.makePaginated(() => ({
+/** Lists user workloads ConfigMaps. This method is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
+export const listProjectsLocationsEnvironmentsUserWorkloadsConfigMaps: API.PaginatedOperationMethod<ListProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest, ListProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse, ListProjectsLocationsEnvironmentsUserWorkloadsConfigMapsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest,
   output: ListProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse,
   errors: [],
@@ -1763,7 +1763,6 @@ export const listProjectsLocationsEnvironmentsUserWorkloadsConfigMaps = API.make
   },
 }));
 
-/** Updates a user workloads ConfigMap. This method is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
 export interface UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest {
   /** Identifier. The resource name of the ConfigMap, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}/userWorkloadsConfigMaps/{userWorkloadsConfigMapId}" */
   name: string;
@@ -1784,13 +1783,13 @@ export const UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse 
 
 export type UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsError = CommonErrors;
 
+/** Updates a user workloads ConfigMap. This method is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
 export const updateProjectsLocationsEnvironmentsUserWorkloadsConfigMaps: API.OperationMethod<UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest, UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse, UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest,
   output: UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse,
   errors: [],
 }));
 
-/** Deletes a user workloads ConfigMap. This method is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
 export interface DeleteProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest {
   /** Required. The ConfigMap to delete, in the form: "projects/{projectId}/locations/{locationId}/environments/{environmentId}/userWorkloadsConfigMaps/{userWorkloadsConfigMapId}" */
   name: string;
@@ -1808,13 +1807,13 @@ export const DeleteProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse 
 
 export type DeleteProjectsLocationsEnvironmentsUserWorkloadsConfigMapsError = CommonErrors;
 
+/** Deletes a user workloads ConfigMap. This method is supported for Cloud Composer environments in versions composer-3-airflow-*.*.*-build.* and newer. */
 export const deleteProjectsLocationsEnvironmentsUserWorkloadsConfigMaps: API.OperationMethod<DeleteProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest, DeleteProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse, DeleteProjectsLocationsEnvironmentsUserWorkloadsConfigMapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsEnvironmentsUserWorkloadsConfigMapsRequest,
   output: DeleteProjectsLocationsEnvironmentsUserWorkloadsConfigMapsResponse,
   errors: [],
 }));
 
-/** List ImageVersions for provided location. */
 export interface ListProjectsLocationsImageVersionsRequest {
   /** List ImageVersions in the given project and location, in the form: "projects/{projectId}/locations/{locationId}" */
   parent: string;
@@ -1841,7 +1840,8 @@ export const ListProjectsLocationsImageVersionsResponse = ListImageVersionsRespo
 
 export type ListProjectsLocationsImageVersionsError = CommonErrors;
 
-export const listProjectsLocationsImageVersions = API.makePaginated(() => ({
+/** List ImageVersions for provided location. */
+export const listProjectsLocationsImageVersions: API.PaginatedOperationMethod<ListProjectsLocationsImageVersionsRequest, ListProjectsLocationsImageVersionsResponse, ListProjectsLocationsImageVersionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsImageVersionsRequest,
   output: ListProjectsLocationsImageVersionsResponse,
   errors: [],

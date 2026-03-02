@@ -96,7 +96,6 @@ export const UserLicense: Schema.Schema<UserLicense> = Schema.suspend(() => Sche
 // Operations
 // ==========================================================================
 
-/** Gets the customer's licensing status to determine if they have access to a given app. For more information, see [Getting app installation and licensing details](https://developers.google.com/workspace/marketplace/example-calls-marketplace-api). */
 export interface GetCustomerLicenseRequest {
   /** The ID of the application. */
   applicationId: string;
@@ -117,13 +116,13 @@ export const GetCustomerLicenseResponse = CustomerLicense;
 
 export type GetCustomerLicenseError = CommonErrors;
 
+/** Gets the customer's licensing status to determine if they have access to a given app. For more information, see [Getting app installation and licensing details](https://developers.google.com/workspace/marketplace/example-calls-marketplace-api). */
 export const getCustomerLicense: API.OperationMethod<GetCustomerLicenseRequest, GetCustomerLicenseResponse, GetCustomerLicenseError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCustomerLicenseRequest,
   output: GetCustomerLicenseResponse,
   errors: [],
 }));
 
-/** Gets the user's licensing status to determine if they have permission to use a given app. For more information, see [Getting app installation and licensing details](https://developers.google.com/workspace/marketplace/example-calls-marketplace-api). */
 export interface GetUserLicenseRequest {
   /** The ID of the application. */
   applicationId: string;
@@ -144,6 +143,7 @@ export const GetUserLicenseResponse = UserLicense;
 
 export type GetUserLicenseError = CommonErrors;
 
+/** Gets the user's licensing status to determine if they have permission to use a given app. For more information, see [Getting app installation and licensing details](https://developers.google.com/workspace/marketplace/example-calls-marketplace-api). */
 export const getUserLicense: API.OperationMethod<GetUserLicenseRequest, GetUserLicenseResponse, GetUserLicenseError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetUserLicenseRequest,
   output: GetUserLicenseResponse,

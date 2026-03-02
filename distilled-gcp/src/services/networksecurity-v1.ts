@@ -1980,7 +1980,6 @@ export const GoogleIamV1TestIamPermissionsRequest: Schema.Schema<GoogleIamV1Test
 // Operations
 // ==========================================================================
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListOrganizationsLocationsOperationsRequest {
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
@@ -2010,7 +2009,8 @@ export const ListOrganizationsLocationsOperationsResponse = ListOperationsRespon
 
 export type ListOrganizationsLocationsOperationsError = CommonErrors;
 
-export const listOrganizationsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listOrganizationsLocationsOperations: API.PaginatedOperationMethod<ListOrganizationsLocationsOperationsRequest, ListOrganizationsLocationsOperationsResponse, ListOrganizationsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsOperationsRequest,
   output: ListOrganizationsLocationsOperationsResponse,
   errors: [],
@@ -2020,7 +2020,6 @@ export const listOrganizationsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetOrganizationsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -2038,13 +2037,13 @@ export const GetOrganizationsLocationsOperationsResponse = Operation;
 
 export type GetOrganizationsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOrganizationsLocationsOperations: API.OperationMethod<GetOrganizationsLocationsOperationsRequest, GetOrganizationsLocationsOperationsResponse, GetOrganizationsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsOperationsRequest,
   output: GetOrganizationsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelOrganizationsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -2065,13 +2064,13 @@ export const CancelOrganizationsLocationsOperationsResponse = Empty;
 
 export type CancelOrganizationsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelOrganizationsLocationsOperations: API.OperationMethod<CancelOrganizationsLocationsOperationsRequest, CancelOrganizationsLocationsOperationsResponse, CancelOrganizationsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelOrganizationsLocationsOperationsRequest,
   output: CancelOrganizationsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteOrganizationsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -2089,13 +2088,13 @@ export const DeleteOrganizationsLocationsOperationsResponse = Empty;
 
 export type DeleteOrganizationsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteOrganizationsLocationsOperations: API.OperationMethod<DeleteOrganizationsLocationsOperationsRequest, DeleteOrganizationsLocationsOperationsResponse, DeleteOrganizationsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsLocationsOperationsRequest,
   output: DeleteOrganizationsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single SecurityProfile. */
 export interface PatchOrganizationsLocationsSecurityProfilesRequest {
   /** Immutable. Identifier. Name of the SecurityProfile resource. It matches pattern `projects|organizations/* /locations/{location}/securityProfiles/{security_profile}`. */
   name: string;
@@ -2119,13 +2118,13 @@ export const PatchOrganizationsLocationsSecurityProfilesResponse = Operation;
 
 export type PatchOrganizationsLocationsSecurityProfilesError = CommonErrors;
 
+/** Updates the parameters of a single SecurityProfile. */
 export const patchOrganizationsLocationsSecurityProfiles: API.OperationMethod<PatchOrganizationsLocationsSecurityProfilesRequest, PatchOrganizationsLocationsSecurityProfilesResponse, PatchOrganizationsLocationsSecurityProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsLocationsSecurityProfilesRequest,
   output: PatchOrganizationsLocationsSecurityProfilesResponse,
   errors: [],
 }));
 
-/** Lists SecurityProfiles in a given organization and location. */
 export interface ListOrganizationsLocationsSecurityProfilesRequest {
   /** Optional. The value returned by the last `ListSecurityProfilesResponse` Indicates that this is a continuation of a prior `ListSecurityProfiles` call, and that the system should return the next page of data. */
   pageToken?: string;
@@ -2149,7 +2148,8 @@ export const ListOrganizationsLocationsSecurityProfilesResponse = ListSecurityPr
 
 export type ListOrganizationsLocationsSecurityProfilesError = CommonErrors;
 
-export const listOrganizationsLocationsSecurityProfiles = API.makePaginated(() => ({
+/** Lists SecurityProfiles in a given organization and location. */
+export const listOrganizationsLocationsSecurityProfiles: API.PaginatedOperationMethod<ListOrganizationsLocationsSecurityProfilesRequest, ListOrganizationsLocationsSecurityProfilesResponse, ListOrganizationsLocationsSecurityProfilesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsSecurityProfilesRequest,
   output: ListOrganizationsLocationsSecurityProfilesResponse,
   errors: [],
@@ -2159,7 +2159,6 @@ export const listOrganizationsLocationsSecurityProfiles = API.makePaginated(() =
   },
 }));
 
-/** Deletes a single SecurityProfile. */
 export interface DeleteOrganizationsLocationsSecurityProfilesRequest {
   /** Optional. If client provided etag is out of date, delete will return FAILED_PRECONDITION error. */
   etag?: string;
@@ -2180,13 +2179,13 @@ export const DeleteOrganizationsLocationsSecurityProfilesResponse = Operation;
 
 export type DeleteOrganizationsLocationsSecurityProfilesError = CommonErrors;
 
+/** Deletes a single SecurityProfile. */
 export const deleteOrganizationsLocationsSecurityProfiles: API.OperationMethod<DeleteOrganizationsLocationsSecurityProfilesRequest, DeleteOrganizationsLocationsSecurityProfilesResponse, DeleteOrganizationsLocationsSecurityProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsLocationsSecurityProfilesRequest,
   output: DeleteOrganizationsLocationsSecurityProfilesResponse,
   errors: [],
 }));
 
-/** Creates a new SecurityProfile in a given organization and location. */
 export interface CreateOrganizationsLocationsSecurityProfilesRequest {
   /** Required. The parent resource of the SecurityProfile. Must be in the format `projects|organizations/* /locations/{location}`. */
   parent: string;
@@ -2210,13 +2209,13 @@ export const CreateOrganizationsLocationsSecurityProfilesResponse = Operation;
 
 export type CreateOrganizationsLocationsSecurityProfilesError = CommonErrors;
 
+/** Creates a new SecurityProfile in a given organization and location. */
 export const createOrganizationsLocationsSecurityProfiles: API.OperationMethod<CreateOrganizationsLocationsSecurityProfilesRequest, CreateOrganizationsLocationsSecurityProfilesResponse, CreateOrganizationsLocationsSecurityProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsLocationsSecurityProfilesRequest,
   output: CreateOrganizationsLocationsSecurityProfilesResponse,
   errors: [],
 }));
 
-/** Gets details of a single SecurityProfile. */
 export interface GetOrganizationsLocationsSecurityProfilesRequest {
   /** Required. A name of the SecurityProfile to get. Must be in the format `projects|organizations/* /locations/{location}/securityProfiles/{security_profile_id}`. */
   name: string;
@@ -2234,13 +2233,13 @@ export const GetOrganizationsLocationsSecurityProfilesResponse = SecurityProfile
 
 export type GetOrganizationsLocationsSecurityProfilesError = CommonErrors;
 
+/** Gets details of a single SecurityProfile. */
 export const getOrganizationsLocationsSecurityProfiles: API.OperationMethod<GetOrganizationsLocationsSecurityProfilesRequest, GetOrganizationsLocationsSecurityProfilesResponse, GetOrganizationsLocationsSecurityProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsSecurityProfilesRequest,
   output: GetOrganizationsLocationsSecurityProfilesResponse,
   errors: [],
 }));
 
-/** Update a single org Endpoint. */
 export interface PatchOrganizationsLocationsFirewallEndpointsRequest {
   /** Required. Field mask is used to specify the fields to be overwritten in the Endpoint resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
@@ -2267,13 +2266,13 @@ export const PatchOrganizationsLocationsFirewallEndpointsResponse = Operation;
 
 export type PatchOrganizationsLocationsFirewallEndpointsError = CommonErrors;
 
+/** Update a single org Endpoint. */
 export const patchOrganizationsLocationsFirewallEndpoints: API.OperationMethod<PatchOrganizationsLocationsFirewallEndpointsRequest, PatchOrganizationsLocationsFirewallEndpointsResponse, PatchOrganizationsLocationsFirewallEndpointsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsLocationsFirewallEndpointsRequest,
   output: PatchOrganizationsLocationsFirewallEndpointsResponse,
   errors: [],
 }));
 
-/** Lists FirewallEndpoints in a given organization and location. */
 export interface ListOrganizationsLocationsFirewallEndpointsRequest {
   /** Optional. Filtering results */
   filter?: string;
@@ -2303,7 +2302,8 @@ export const ListOrganizationsLocationsFirewallEndpointsResponse = ListFirewallE
 
 export type ListOrganizationsLocationsFirewallEndpointsError = CommonErrors;
 
-export const listOrganizationsLocationsFirewallEndpoints = API.makePaginated(() => ({
+/** Lists FirewallEndpoints in a given organization and location. */
+export const listOrganizationsLocationsFirewallEndpoints: API.PaginatedOperationMethod<ListOrganizationsLocationsFirewallEndpointsRequest, ListOrganizationsLocationsFirewallEndpointsResponse, ListOrganizationsLocationsFirewallEndpointsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsFirewallEndpointsRequest,
   output: ListOrganizationsLocationsFirewallEndpointsResponse,
   errors: [],
@@ -2313,7 +2313,6 @@ export const listOrganizationsLocationsFirewallEndpoints = API.makePaginated(() 
   },
 }));
 
-/** Creates a new FirewallEndpoint in a given organization and location. */
 export interface CreateOrganizationsLocationsFirewallEndpointsRequest {
   /** Required. Id of the requesting object. If auto-generating Id server-side, remove this field and firewall_endpoint_id from the method_signature of Create RPC. */
   firewallEndpointId?: string;
@@ -2340,13 +2339,13 @@ export const CreateOrganizationsLocationsFirewallEndpointsResponse = Operation;
 
 export type CreateOrganizationsLocationsFirewallEndpointsError = CommonErrors;
 
+/** Creates a new FirewallEndpoint in a given organization and location. */
 export const createOrganizationsLocationsFirewallEndpoints: API.OperationMethod<CreateOrganizationsLocationsFirewallEndpointsRequest, CreateOrganizationsLocationsFirewallEndpointsResponse, CreateOrganizationsLocationsFirewallEndpointsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsLocationsFirewallEndpointsRequest,
   output: CreateOrganizationsLocationsFirewallEndpointsResponse,
   errors: [],
 }));
 
-/** Deletes a single org Endpoint. */
 export interface DeleteOrganizationsLocationsFirewallEndpointsRequest {
   /** Required. Name of the resource */
   name: string;
@@ -2367,13 +2366,13 @@ export const DeleteOrganizationsLocationsFirewallEndpointsResponse = Operation;
 
 export type DeleteOrganizationsLocationsFirewallEndpointsError = CommonErrors;
 
+/** Deletes a single org Endpoint. */
 export const deleteOrganizationsLocationsFirewallEndpoints: API.OperationMethod<DeleteOrganizationsLocationsFirewallEndpointsRequest, DeleteOrganizationsLocationsFirewallEndpointsResponse, DeleteOrganizationsLocationsFirewallEndpointsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsLocationsFirewallEndpointsRequest,
   output: DeleteOrganizationsLocationsFirewallEndpointsResponse,
   errors: [],
 }));
 
-/** Gets details of a single org Endpoint. */
 export interface GetOrganizationsLocationsFirewallEndpointsRequest {
   /** Required. Name of the resource */
   name: string;
@@ -2391,13 +2390,13 @@ export const GetOrganizationsLocationsFirewallEndpointsResponse = FirewallEndpoi
 
 export type GetOrganizationsLocationsFirewallEndpointsError = CommonErrors;
 
+/** Gets details of a single org Endpoint. */
 export const getOrganizationsLocationsFirewallEndpoints: API.OperationMethod<GetOrganizationsLocationsFirewallEndpointsRequest, GetOrganizationsLocationsFirewallEndpointsResponse, GetOrganizationsLocationsFirewallEndpointsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsFirewallEndpointsRequest,
   output: GetOrganizationsLocationsFirewallEndpointsResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single SecurityProfileGroup. */
 export interface PatchOrganizationsLocationsSecurityProfileGroupsRequest {
   /** Immutable. Identifier. Name of the SecurityProfileGroup resource. It matches pattern `projects|organizations/* /locations/{location}/securityProfileGroups/{security_profile_group}`. */
   name: string;
@@ -2421,13 +2420,13 @@ export const PatchOrganizationsLocationsSecurityProfileGroupsResponse = Operatio
 
 export type PatchOrganizationsLocationsSecurityProfileGroupsError = CommonErrors;
 
+/** Updates the parameters of a single SecurityProfileGroup. */
 export const patchOrganizationsLocationsSecurityProfileGroups: API.OperationMethod<PatchOrganizationsLocationsSecurityProfileGroupsRequest, PatchOrganizationsLocationsSecurityProfileGroupsResponse, PatchOrganizationsLocationsSecurityProfileGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsLocationsSecurityProfileGroupsRequest,
   output: PatchOrganizationsLocationsSecurityProfileGroupsResponse,
   errors: [],
 }));
 
-/** Gets details of a single SecurityProfileGroup. */
 export interface GetOrganizationsLocationsSecurityProfileGroupsRequest {
   /** Required. A name of the SecurityProfileGroup to get. Must be in the format `projects|organizations/* /locations/{location}/securityProfileGroups/{security_profile_group}`. */
   name: string;
@@ -2445,13 +2444,13 @@ export const GetOrganizationsLocationsSecurityProfileGroupsResponse = SecurityPr
 
 export type GetOrganizationsLocationsSecurityProfileGroupsError = CommonErrors;
 
+/** Gets details of a single SecurityProfileGroup. */
 export const getOrganizationsLocationsSecurityProfileGroups: API.OperationMethod<GetOrganizationsLocationsSecurityProfileGroupsRequest, GetOrganizationsLocationsSecurityProfileGroupsResponse, GetOrganizationsLocationsSecurityProfileGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsSecurityProfileGroupsRequest,
   output: GetOrganizationsLocationsSecurityProfileGroupsResponse,
   errors: [],
 }));
 
-/** Deletes a single SecurityProfileGroup. */
 export interface DeleteOrganizationsLocationsSecurityProfileGroupsRequest {
   /** Optional. If client provided etag is out of date, delete will return FAILED_PRECONDITION error. */
   etag?: string;
@@ -2472,13 +2471,13 @@ export const DeleteOrganizationsLocationsSecurityProfileGroupsResponse = Operati
 
 export type DeleteOrganizationsLocationsSecurityProfileGroupsError = CommonErrors;
 
+/** Deletes a single SecurityProfileGroup. */
 export const deleteOrganizationsLocationsSecurityProfileGroups: API.OperationMethod<DeleteOrganizationsLocationsSecurityProfileGroupsRequest, DeleteOrganizationsLocationsSecurityProfileGroupsResponse, DeleteOrganizationsLocationsSecurityProfileGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsLocationsSecurityProfileGroupsRequest,
   output: DeleteOrganizationsLocationsSecurityProfileGroupsResponse,
   errors: [],
 }));
 
-/** Creates a new SecurityProfileGroup in a given organization and location. */
 export interface CreateOrganizationsLocationsSecurityProfileGroupsRequest {
   /** Required. The parent resource of the SecurityProfileGroup. Must be in the format `projects|organizations/* /locations/{location}`. */
   parent: string;
@@ -2502,13 +2501,13 @@ export const CreateOrganizationsLocationsSecurityProfileGroupsResponse = Operati
 
 export type CreateOrganizationsLocationsSecurityProfileGroupsError = CommonErrors;
 
+/** Creates a new SecurityProfileGroup in a given organization and location. */
 export const createOrganizationsLocationsSecurityProfileGroups: API.OperationMethod<CreateOrganizationsLocationsSecurityProfileGroupsRequest, CreateOrganizationsLocationsSecurityProfileGroupsResponse, CreateOrganizationsLocationsSecurityProfileGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsLocationsSecurityProfileGroupsRequest,
   output: CreateOrganizationsLocationsSecurityProfileGroupsResponse,
   errors: [],
 }));
 
-/** Lists SecurityProfileGroups in a given organization and location. */
 export interface ListOrganizationsLocationsSecurityProfileGroupsRequest {
   /** Optional. The value returned by the last `ListSecurityProfileGroupsResponse` Indicates that this is a continuation of a prior `ListSecurityProfileGroups` call, and that the system should return the next page of data. */
   pageToken?: string;
@@ -2532,7 +2531,8 @@ export const ListOrganizationsLocationsSecurityProfileGroupsResponse = ListSecur
 
 export type ListOrganizationsLocationsSecurityProfileGroupsError = CommonErrors;
 
-export const listOrganizationsLocationsSecurityProfileGroups = API.makePaginated(() => ({
+/** Lists SecurityProfileGroups in a given organization and location. */
+export const listOrganizationsLocationsSecurityProfileGroups: API.PaginatedOperationMethod<ListOrganizationsLocationsSecurityProfileGroupsRequest, ListOrganizationsLocationsSecurityProfileGroupsResponse, ListOrganizationsLocationsSecurityProfileGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsSecurityProfileGroupsRequest,
   output: ListOrganizationsLocationsSecurityProfileGroupsResponse,
   errors: [],
@@ -2542,7 +2542,6 @@ export const listOrganizationsLocationsSecurityProfileGroups = API.makePaginated
   },
 }));
 
-/** Clones items from one address group to another. */
 export interface CloneItemsOrganizationsLocationsAddressGroupsRequest {
   /** Required. A name of the AddressGroup to clone items to. Must be in the format `projects|organization/* /locations/{location}/addressGroups/*`. */
   addressGroup: string;
@@ -2563,13 +2562,13 @@ export const CloneItemsOrganizationsLocationsAddressGroupsResponse = Operation;
 
 export type CloneItemsOrganizationsLocationsAddressGroupsError = CommonErrors;
 
+/** Clones items from one address group to another. */
 export const cloneItemsOrganizationsLocationsAddressGroups: API.OperationMethod<CloneItemsOrganizationsLocationsAddressGroupsRequest, CloneItemsOrganizationsLocationsAddressGroupsResponse, CloneItemsOrganizationsLocationsAddressGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CloneItemsOrganizationsLocationsAddressGroupsRequest,
   output: CloneItemsOrganizationsLocationsAddressGroupsResponse,
   errors: [],
 }));
 
-/** Removes items from an address group. */
 export interface RemoveItemsOrganizationsLocationsAddressGroupsRequest {
   /** Required. A name of the AddressGroup to remove items from. Must be in the format `projects|organization/* /locations/{location}/addressGroups/*`. */
   addressGroup: string;
@@ -2590,13 +2589,13 @@ export const RemoveItemsOrganizationsLocationsAddressGroupsResponse = Operation;
 
 export type RemoveItemsOrganizationsLocationsAddressGroupsError = CommonErrors;
 
+/** Removes items from an address group. */
 export const removeItemsOrganizationsLocationsAddressGroups: API.OperationMethod<RemoveItemsOrganizationsLocationsAddressGroupsRequest, RemoveItemsOrganizationsLocationsAddressGroupsResponse, RemoveItemsOrganizationsLocationsAddressGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveItemsOrganizationsLocationsAddressGroupsRequest,
   output: RemoveItemsOrganizationsLocationsAddressGroupsResponse,
   errors: [],
 }));
 
-/** Lists references of an address group. */
 export interface ListReferencesOrganizationsLocationsAddressGroupsRequest {
   /** The next_page_token value returned from a previous List request, if any. */
   pageToken?: string;
@@ -2620,7 +2619,8 @@ export const ListReferencesOrganizationsLocationsAddressGroupsResponse = ListAdd
 
 export type ListReferencesOrganizationsLocationsAddressGroupsError = CommonErrors;
 
-export const listReferencesOrganizationsLocationsAddressGroups = API.makePaginated(() => ({
+/** Lists references of an address group. */
+export const listReferencesOrganizationsLocationsAddressGroups: API.PaginatedOperationMethod<ListReferencesOrganizationsLocationsAddressGroupsRequest, ListReferencesOrganizationsLocationsAddressGroupsResponse, ListReferencesOrganizationsLocationsAddressGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListReferencesOrganizationsLocationsAddressGroupsRequest,
   output: ListReferencesOrganizationsLocationsAddressGroupsResponse,
   errors: [],
@@ -2630,7 +2630,6 @@ export const listReferencesOrganizationsLocationsAddressGroups = API.makePaginat
   },
 }));
 
-/** Creates a new address group in a given project and location. */
 export interface CreateOrganizationsLocationsAddressGroupsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -2657,13 +2656,13 @@ export const CreateOrganizationsLocationsAddressGroupsResponse = Operation;
 
 export type CreateOrganizationsLocationsAddressGroupsError = CommonErrors;
 
+/** Creates a new address group in a given project and location. */
 export const createOrganizationsLocationsAddressGroups: API.OperationMethod<CreateOrganizationsLocationsAddressGroupsRequest, CreateOrganizationsLocationsAddressGroupsResponse, CreateOrganizationsLocationsAddressGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsLocationsAddressGroupsRequest,
   output: CreateOrganizationsLocationsAddressGroupsResponse,
   errors: [],
 }));
 
-/** Deletes an address group. */
 export interface DeleteOrganizationsLocationsAddressGroupsRequest {
   /** Required. A name of the AddressGroup to delete. Must be in the format `projects/* /locations/{location}/addressGroups/*`. */
   name: string;
@@ -2684,13 +2683,13 @@ export const DeleteOrganizationsLocationsAddressGroupsResponse = Operation;
 
 export type DeleteOrganizationsLocationsAddressGroupsError = CommonErrors;
 
+/** Deletes an address group. */
 export const deleteOrganizationsLocationsAddressGroups: API.OperationMethod<DeleteOrganizationsLocationsAddressGroupsRequest, DeleteOrganizationsLocationsAddressGroupsResponse, DeleteOrganizationsLocationsAddressGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsLocationsAddressGroupsRequest,
   output: DeleteOrganizationsLocationsAddressGroupsResponse,
   errors: [],
 }));
 
-/** Updates parameters of an address group. */
 export interface PatchOrganizationsLocationsAddressGroupsRequest {
   /** Required. Name of the AddressGroup resource. It matches pattern `projects/* /locations/{location}/addressGroups/`. */
   name: string;
@@ -2717,13 +2716,13 @@ export const PatchOrganizationsLocationsAddressGroupsResponse = Operation;
 
 export type PatchOrganizationsLocationsAddressGroupsError = CommonErrors;
 
+/** Updates parameters of an address group. */
 export const patchOrganizationsLocationsAddressGroups: API.OperationMethod<PatchOrganizationsLocationsAddressGroupsRequest, PatchOrganizationsLocationsAddressGroupsResponse, PatchOrganizationsLocationsAddressGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsLocationsAddressGroupsRequest,
   output: PatchOrganizationsLocationsAddressGroupsResponse,
   errors: [],
 }));
 
-/** Adds items to an address group. */
 export interface AddItemsOrganizationsLocationsAddressGroupsRequest {
   /** Required. A name of the AddressGroup to add items to. Must be in the format `projects|organization/* /locations/{location}/addressGroups/*`. */
   addressGroup: string;
@@ -2744,13 +2743,13 @@ export const AddItemsOrganizationsLocationsAddressGroupsResponse = Operation;
 
 export type AddItemsOrganizationsLocationsAddressGroupsError = CommonErrors;
 
+/** Adds items to an address group. */
 export const addItemsOrganizationsLocationsAddressGroups: API.OperationMethod<AddItemsOrganizationsLocationsAddressGroupsRequest, AddItemsOrganizationsLocationsAddressGroupsResponse, AddItemsOrganizationsLocationsAddressGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddItemsOrganizationsLocationsAddressGroupsRequest,
   output: AddItemsOrganizationsLocationsAddressGroupsResponse,
   errors: [],
 }));
 
-/** Lists address groups in a given project and location. */
 export interface ListOrganizationsLocationsAddressGroupsRequest {
   /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. */
   returnPartialSuccess?: boolean;
@@ -2777,7 +2776,8 @@ export const ListOrganizationsLocationsAddressGroupsResponse = ListAddressGroups
 
 export type ListOrganizationsLocationsAddressGroupsError = CommonErrors;
 
-export const listOrganizationsLocationsAddressGroups = API.makePaginated(() => ({
+/** Lists address groups in a given project and location. */
+export const listOrganizationsLocationsAddressGroups: API.PaginatedOperationMethod<ListOrganizationsLocationsAddressGroupsRequest, ListOrganizationsLocationsAddressGroupsResponse, ListOrganizationsLocationsAddressGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsAddressGroupsRequest,
   output: ListOrganizationsLocationsAddressGroupsResponse,
   errors: [],
@@ -2787,7 +2787,6 @@ export const listOrganizationsLocationsAddressGroups = API.makePaginated(() => (
   },
 }));
 
-/** Gets details of a single address group. */
 export interface GetOrganizationsLocationsAddressGroupsRequest {
   /** Required. A name of the AddressGroup to get. Must be in the format `projects/* /locations/{location}/addressGroups/*`. */
   name: string;
@@ -2805,13 +2804,13 @@ export const GetOrganizationsLocationsAddressGroupsResponse = AddressGroup;
 
 export type GetOrganizationsLocationsAddressGroupsError = CommonErrors;
 
+/** Gets details of a single address group. */
 export const getOrganizationsLocationsAddressGroups: API.OperationMethod<GetOrganizationsLocationsAddressGroupsRequest, GetOrganizationsLocationsAddressGroupsResponse, GetOrganizationsLocationsAddressGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsAddressGroupsRequest,
   output: GetOrganizationsLocationsAddressGroupsResponse,
   errors: [],
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -2829,13 +2828,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string;
@@ -2865,7 +2864,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -2875,7 +2875,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Lists endpoint groups in a given project and location. See https://google.aip.dev/132. */
 export interface ListProjectsLocationsInterceptEndpointGroupsRequest {
   /** Optional. Filter expression. See https://google.aip.dev/160#filtering for more details. */
   filter?: string;
@@ -2905,7 +2904,8 @@ export const ListProjectsLocationsInterceptEndpointGroupsResponse = ListIntercep
 
 export type ListProjectsLocationsInterceptEndpointGroupsError = CommonErrors;
 
-export const listProjectsLocationsInterceptEndpointGroups = API.makePaginated(() => ({
+/** Lists endpoint groups in a given project and location. See https://google.aip.dev/132. */
+export const listProjectsLocationsInterceptEndpointGroups: API.PaginatedOperationMethod<ListProjectsLocationsInterceptEndpointGroupsRequest, ListProjectsLocationsInterceptEndpointGroupsResponse, ListProjectsLocationsInterceptEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsInterceptEndpointGroupsRequest,
   output: ListProjectsLocationsInterceptEndpointGroupsResponse,
   errors: [],
@@ -2915,7 +2915,6 @@ export const listProjectsLocationsInterceptEndpointGroups = API.makePaginated(()
   },
 }));
 
-/** Creates an endpoint group in a given project and location. See https://google.aip.dev/133. */
 export interface CreateProjectsLocationsInterceptEndpointGroupsRequest {
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string;
@@ -2942,13 +2941,13 @@ export const CreateProjectsLocationsInterceptEndpointGroupsResponse = Operation;
 
 export type CreateProjectsLocationsInterceptEndpointGroupsError = CommonErrors;
 
+/** Creates an endpoint group in a given project and location. See https://google.aip.dev/133. */
 export const createProjectsLocationsInterceptEndpointGroups: API.OperationMethod<CreateProjectsLocationsInterceptEndpointGroupsRequest, CreateProjectsLocationsInterceptEndpointGroupsResponse, CreateProjectsLocationsInterceptEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsInterceptEndpointGroupsRequest,
   output: CreateProjectsLocationsInterceptEndpointGroupsResponse,
   errors: [],
 }));
 
-/** Updates an endpoint group. See https://google.aip.dev/134. */
 export interface PatchProjectsLocationsInterceptEndpointGroupsRequest {
   /** Optional. The list of fields to update. Fields are specified relative to the endpoint group (e.g. `description`; *not* `intercept_endpoint_group.description`). See https://google.aip.dev/161 for more details. */
   updateMask?: string;
@@ -2975,13 +2974,13 @@ export const PatchProjectsLocationsInterceptEndpointGroupsResponse = Operation;
 
 export type PatchProjectsLocationsInterceptEndpointGroupsError = CommonErrors;
 
+/** Updates an endpoint group. See https://google.aip.dev/134. */
 export const patchProjectsLocationsInterceptEndpointGroups: API.OperationMethod<PatchProjectsLocationsInterceptEndpointGroupsRequest, PatchProjectsLocationsInterceptEndpointGroupsResponse, PatchProjectsLocationsInterceptEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsInterceptEndpointGroupsRequest,
   output: PatchProjectsLocationsInterceptEndpointGroupsResponse,
   errors: [],
 }));
 
-/** Deletes an endpoint group. See https://google.aip.dev/135. */
 export interface DeleteProjectsLocationsInterceptEndpointGroupsRequest {
   /** Required. The endpoint group to delete. */
   name: string;
@@ -3002,13 +3001,13 @@ export const DeleteProjectsLocationsInterceptEndpointGroupsResponse = Operation;
 
 export type DeleteProjectsLocationsInterceptEndpointGroupsError = CommonErrors;
 
+/** Deletes an endpoint group. See https://google.aip.dev/135. */
 export const deleteProjectsLocationsInterceptEndpointGroups: API.OperationMethod<DeleteProjectsLocationsInterceptEndpointGroupsRequest, DeleteProjectsLocationsInterceptEndpointGroupsResponse, DeleteProjectsLocationsInterceptEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsInterceptEndpointGroupsRequest,
   output: DeleteProjectsLocationsInterceptEndpointGroupsResponse,
   errors: [],
 }));
 
-/** Gets a specific endpoint group. See https://google.aip.dev/131. */
 export interface GetProjectsLocationsInterceptEndpointGroupsRequest {
   /** Required. The name of the endpoint group to retrieve. Format: projects/{project}/locations/{location}/interceptEndpointGroups/{intercept_endpoint_group} */
   name: string;
@@ -3026,13 +3025,13 @@ export const GetProjectsLocationsInterceptEndpointGroupsResponse = InterceptEndp
 
 export type GetProjectsLocationsInterceptEndpointGroupsError = CommonErrors;
 
+/** Gets a specific endpoint group. See https://google.aip.dev/131. */
 export const getProjectsLocationsInterceptEndpointGroups: API.OperationMethod<GetProjectsLocationsInterceptEndpointGroupsRequest, GetProjectsLocationsInterceptEndpointGroupsResponse, GetProjectsLocationsInterceptEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsInterceptEndpointGroupsRequest,
   output: GetProjectsLocationsInterceptEndpointGroupsResponse,
   errors: [],
 }));
 
-/** Lists deployment groups in a given project and location. See https://google.aip.dev/132. */
 export interface ListProjectsLocationsInterceptDeploymentGroupsRequest {
   /** Optional. Sort expression. See https://google.aip.dev/132#ordering for more details. */
   orderBy?: string;
@@ -3062,7 +3061,8 @@ export const ListProjectsLocationsInterceptDeploymentGroupsResponse = ListInterc
 
 export type ListProjectsLocationsInterceptDeploymentGroupsError = CommonErrors;
 
-export const listProjectsLocationsInterceptDeploymentGroups = API.makePaginated(() => ({
+/** Lists deployment groups in a given project and location. See https://google.aip.dev/132. */
+export const listProjectsLocationsInterceptDeploymentGroups: API.PaginatedOperationMethod<ListProjectsLocationsInterceptDeploymentGroupsRequest, ListProjectsLocationsInterceptDeploymentGroupsResponse, ListProjectsLocationsInterceptDeploymentGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsInterceptDeploymentGroupsRequest,
   output: ListProjectsLocationsInterceptDeploymentGroupsResponse,
   errors: [],
@@ -3072,7 +3072,6 @@ export const listProjectsLocationsInterceptDeploymentGroups = API.makePaginated(
   },
 }));
 
-/** Deletes a deployment group. See https://google.aip.dev/135. */
 export interface DeleteProjectsLocationsInterceptDeploymentGroupsRequest {
   /** Required. The deployment group to delete. */
   name: string;
@@ -3093,13 +3092,13 @@ export const DeleteProjectsLocationsInterceptDeploymentGroupsResponse = Operatio
 
 export type DeleteProjectsLocationsInterceptDeploymentGroupsError = CommonErrors;
 
+/** Deletes a deployment group. See https://google.aip.dev/135. */
 export const deleteProjectsLocationsInterceptDeploymentGroups: API.OperationMethod<DeleteProjectsLocationsInterceptDeploymentGroupsRequest, DeleteProjectsLocationsInterceptDeploymentGroupsResponse, DeleteProjectsLocationsInterceptDeploymentGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsInterceptDeploymentGroupsRequest,
   output: DeleteProjectsLocationsInterceptDeploymentGroupsResponse,
   errors: [],
 }));
 
-/** Updates a deployment group. See https://google.aip.dev/134. */
 export interface PatchProjectsLocationsInterceptDeploymentGroupsRequest {
   /** Optional. The list of fields to update. Fields are specified relative to the deployment group (e.g. `description`; *not* `intercept_deployment_group.description`). See https://google.aip.dev/161 for more details. */
   updateMask?: string;
@@ -3126,13 +3125,13 @@ export const PatchProjectsLocationsInterceptDeploymentGroupsResponse = Operation
 
 export type PatchProjectsLocationsInterceptDeploymentGroupsError = CommonErrors;
 
+/** Updates a deployment group. See https://google.aip.dev/134. */
 export const patchProjectsLocationsInterceptDeploymentGroups: API.OperationMethod<PatchProjectsLocationsInterceptDeploymentGroupsRequest, PatchProjectsLocationsInterceptDeploymentGroupsResponse, PatchProjectsLocationsInterceptDeploymentGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsInterceptDeploymentGroupsRequest,
   output: PatchProjectsLocationsInterceptDeploymentGroupsResponse,
   errors: [],
 }));
 
-/** Creates a deployment group in a given project and location. See https://google.aip.dev/133. */
 export interface CreateProjectsLocationsInterceptDeploymentGroupsRequest {
   /** Required. The parent resource where this deployment group will be created. Format: projects/{project}/locations/{location} */
   parent: string;
@@ -3159,13 +3158,13 @@ export const CreateProjectsLocationsInterceptDeploymentGroupsResponse = Operatio
 
 export type CreateProjectsLocationsInterceptDeploymentGroupsError = CommonErrors;
 
+/** Creates a deployment group in a given project and location. See https://google.aip.dev/133. */
 export const createProjectsLocationsInterceptDeploymentGroups: API.OperationMethod<CreateProjectsLocationsInterceptDeploymentGroupsRequest, CreateProjectsLocationsInterceptDeploymentGroupsResponse, CreateProjectsLocationsInterceptDeploymentGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsInterceptDeploymentGroupsRequest,
   output: CreateProjectsLocationsInterceptDeploymentGroupsResponse,
   errors: [],
 }));
 
-/** Gets a specific deployment group. See https://google.aip.dev/131. */
 export interface GetProjectsLocationsInterceptDeploymentGroupsRequest {
   /** Required. The name of the deployment group to retrieve. Format: projects/{project}/locations/{location}/interceptDeploymentGroups/{intercept_deployment_group} */
   name: string;
@@ -3183,13 +3182,13 @@ export const GetProjectsLocationsInterceptDeploymentGroupsResponse = InterceptDe
 
 export type GetProjectsLocationsInterceptDeploymentGroupsError = CommonErrors;
 
+/** Gets a specific deployment group. See https://google.aip.dev/131. */
 export const getProjectsLocationsInterceptDeploymentGroups: API.OperationMethod<GetProjectsLocationsInterceptDeploymentGroupsRequest, GetProjectsLocationsInterceptDeploymentGroupsResponse, GetProjectsLocationsInterceptDeploymentGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsInterceptDeploymentGroupsRequest,
   output: GetProjectsLocationsInterceptDeploymentGroupsResponse,
   errors: [],
 }));
 
-/** Updates a deployment. See https://google.aip.dev/134. */
 export interface PatchProjectsLocationsInterceptDeploymentsRequest {
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string;
@@ -3216,13 +3215,13 @@ export const PatchProjectsLocationsInterceptDeploymentsResponse = Operation;
 
 export type PatchProjectsLocationsInterceptDeploymentsError = CommonErrors;
 
+/** Updates a deployment. See https://google.aip.dev/134. */
 export const patchProjectsLocationsInterceptDeployments: API.OperationMethod<PatchProjectsLocationsInterceptDeploymentsRequest, PatchProjectsLocationsInterceptDeploymentsResponse, PatchProjectsLocationsInterceptDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsInterceptDeploymentsRequest,
   output: PatchProjectsLocationsInterceptDeploymentsResponse,
   errors: [],
 }));
 
-/** Deletes a deployment. See https://google.aip.dev/135. */
 export interface DeleteProjectsLocationsInterceptDeploymentsRequest {
   /** Required. Name of the resource */
   name: string;
@@ -3243,13 +3242,13 @@ export const DeleteProjectsLocationsInterceptDeploymentsResponse = Operation;
 
 export type DeleteProjectsLocationsInterceptDeploymentsError = CommonErrors;
 
+/** Deletes a deployment. See https://google.aip.dev/135. */
 export const deleteProjectsLocationsInterceptDeployments: API.OperationMethod<DeleteProjectsLocationsInterceptDeploymentsRequest, DeleteProjectsLocationsInterceptDeploymentsResponse, DeleteProjectsLocationsInterceptDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsInterceptDeploymentsRequest,
   output: DeleteProjectsLocationsInterceptDeploymentsResponse,
   errors: [],
 }));
 
-/** Creates a deployment in a given project and location. See https://google.aip.dev/133. */
 export interface CreateProjectsLocationsInterceptDeploymentsRequest {
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string;
@@ -3276,13 +3275,13 @@ export const CreateProjectsLocationsInterceptDeploymentsResponse = Operation;
 
 export type CreateProjectsLocationsInterceptDeploymentsError = CommonErrors;
 
+/** Creates a deployment in a given project and location. See https://google.aip.dev/133. */
 export const createProjectsLocationsInterceptDeployments: API.OperationMethod<CreateProjectsLocationsInterceptDeploymentsRequest, CreateProjectsLocationsInterceptDeploymentsResponse, CreateProjectsLocationsInterceptDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsInterceptDeploymentsRequest,
   output: CreateProjectsLocationsInterceptDeploymentsResponse,
   errors: [],
 }));
 
-/** Gets a specific deployment. See https://google.aip.dev/131. */
 export interface GetProjectsLocationsInterceptDeploymentsRequest {
   /** Required. The name of the deployment to retrieve. Format: projects/{project}/locations/{location}/interceptDeployments/{intercept_deployment} */
   name: string;
@@ -3300,13 +3299,13 @@ export const GetProjectsLocationsInterceptDeploymentsResponse = InterceptDeploym
 
 export type GetProjectsLocationsInterceptDeploymentsError = CommonErrors;
 
+/** Gets a specific deployment. See https://google.aip.dev/131. */
 export const getProjectsLocationsInterceptDeployments: API.OperationMethod<GetProjectsLocationsInterceptDeploymentsRequest, GetProjectsLocationsInterceptDeploymentsResponse, GetProjectsLocationsInterceptDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsInterceptDeploymentsRequest,
   output: GetProjectsLocationsInterceptDeploymentsResponse,
   errors: [],
 }));
 
-/** Lists deployments in a given project and location. See https://google.aip.dev/132. */
 export interface ListProjectsLocationsInterceptDeploymentsRequest {
   /** Required. The parent, which owns this collection of deployments. Example: `projects/123456789/locations/us-central1-a`. See https://google.aip.dev/132 for more details. */
   parent: string;
@@ -3336,7 +3335,8 @@ export const ListProjectsLocationsInterceptDeploymentsResponse = ListInterceptDe
 
 export type ListProjectsLocationsInterceptDeploymentsError = CommonErrors;
 
-export const listProjectsLocationsInterceptDeployments = API.makePaginated(() => ({
+/** Lists deployments in a given project and location. See https://google.aip.dev/132. */
+export const listProjectsLocationsInterceptDeployments: API.PaginatedOperationMethod<ListProjectsLocationsInterceptDeploymentsRequest, ListProjectsLocationsInterceptDeploymentsResponse, ListProjectsLocationsInterceptDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsInterceptDeploymentsRequest,
   output: ListProjectsLocationsInterceptDeploymentsResponse,
   errors: [],
@@ -3346,7 +3346,6 @@ export const listProjectsLocationsInterceptDeployments = API.makePaginated(() =>
   },
 }));
 
-/** Deletes a deployment. See https://google.aip.dev/135. */
 export interface DeleteProjectsLocationsMirroringDeploymentsRequest {
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string;
@@ -3367,13 +3366,13 @@ export const DeleteProjectsLocationsMirroringDeploymentsResponse = Operation;
 
 export type DeleteProjectsLocationsMirroringDeploymentsError = CommonErrors;
 
+/** Deletes a deployment. See https://google.aip.dev/135. */
 export const deleteProjectsLocationsMirroringDeployments: API.OperationMethod<DeleteProjectsLocationsMirroringDeploymentsRequest, DeleteProjectsLocationsMirroringDeploymentsResponse, DeleteProjectsLocationsMirroringDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsMirroringDeploymentsRequest,
   output: DeleteProjectsLocationsMirroringDeploymentsResponse,
   errors: [],
 }));
 
-/** Creates a deployment in a given project and location. See https://google.aip.dev/133. */
 export interface CreateProjectsLocationsMirroringDeploymentsRequest {
   /** Required. The parent resource where this deployment will be created. Format: projects/{project}/locations/{location} */
   parent: string;
@@ -3400,13 +3399,13 @@ export const CreateProjectsLocationsMirroringDeploymentsResponse = Operation;
 
 export type CreateProjectsLocationsMirroringDeploymentsError = CommonErrors;
 
+/** Creates a deployment in a given project and location. See https://google.aip.dev/133. */
 export const createProjectsLocationsMirroringDeployments: API.OperationMethod<CreateProjectsLocationsMirroringDeploymentsRequest, CreateProjectsLocationsMirroringDeploymentsResponse, CreateProjectsLocationsMirroringDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsMirroringDeploymentsRequest,
   output: CreateProjectsLocationsMirroringDeploymentsResponse,
   errors: [],
 }));
 
-/** Lists deployments in a given project and location. See https://google.aip.dev/132. */
 export interface ListProjectsLocationsMirroringDeploymentsRequest {
   /** Optional. Filter expression. See https://google.aip.dev/160#filtering for more details. */
   filter?: string;
@@ -3436,7 +3435,8 @@ export const ListProjectsLocationsMirroringDeploymentsResponse = ListMirroringDe
 
 export type ListProjectsLocationsMirroringDeploymentsError = CommonErrors;
 
-export const listProjectsLocationsMirroringDeployments = API.makePaginated(() => ({
+/** Lists deployments in a given project and location. See https://google.aip.dev/132. */
+export const listProjectsLocationsMirroringDeployments: API.PaginatedOperationMethod<ListProjectsLocationsMirroringDeploymentsRequest, ListProjectsLocationsMirroringDeploymentsResponse, ListProjectsLocationsMirroringDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsMirroringDeploymentsRequest,
   output: ListProjectsLocationsMirroringDeploymentsResponse,
   errors: [],
@@ -3446,7 +3446,6 @@ export const listProjectsLocationsMirroringDeployments = API.makePaginated(() =>
   },
 }));
 
-/** Updates a deployment. See https://google.aip.dev/134. */
 export interface PatchProjectsLocationsMirroringDeploymentsRequest {
   /** Optional. The list of fields to update. Fields are specified relative to the deployment (e.g. `description`; *not* `mirroring_deployment.description`). See https://google.aip.dev/161 for more details. */
   updateMask?: string;
@@ -3473,13 +3472,13 @@ export const PatchProjectsLocationsMirroringDeploymentsResponse = Operation;
 
 export type PatchProjectsLocationsMirroringDeploymentsError = CommonErrors;
 
+/** Updates a deployment. See https://google.aip.dev/134. */
 export const patchProjectsLocationsMirroringDeployments: API.OperationMethod<PatchProjectsLocationsMirroringDeploymentsRequest, PatchProjectsLocationsMirroringDeploymentsResponse, PatchProjectsLocationsMirroringDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsMirroringDeploymentsRequest,
   output: PatchProjectsLocationsMirroringDeploymentsResponse,
   errors: [],
 }));
 
-/** Gets a specific deployment. See https://google.aip.dev/131. */
 export interface GetProjectsLocationsMirroringDeploymentsRequest {
   /** Required. The name of the deployment to retrieve. Format: projects/{project}/locations/{location}/mirroringDeployments/{mirroring_deployment} */
   name: string;
@@ -3497,13 +3496,13 @@ export const GetProjectsLocationsMirroringDeploymentsResponse = MirroringDeploym
 
 export type GetProjectsLocationsMirroringDeploymentsError = CommonErrors;
 
+/** Gets a specific deployment. See https://google.aip.dev/131. */
 export const getProjectsLocationsMirroringDeployments: API.OperationMethod<GetProjectsLocationsMirroringDeploymentsRequest, GetProjectsLocationsMirroringDeploymentsResponse, GetProjectsLocationsMirroringDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsMirroringDeploymentsRequest,
   output: GetProjectsLocationsMirroringDeploymentsResponse,
   errors: [],
 }));
 
-/** Deletes a single address group. */
 export interface DeleteProjectsLocationsAddressGroupsRequest {
   /** Required. A name of the AddressGroup to delete. Must be in the format `projects/* /locations/{location}/addressGroups/*`. */
   name: string;
@@ -3524,13 +3523,13 @@ export const DeleteProjectsLocationsAddressGroupsResponse = Operation;
 
 export type DeleteProjectsLocationsAddressGroupsError = CommonErrors;
 
+/** Deletes a single address group. */
 export const deleteProjectsLocationsAddressGroups: API.OperationMethod<DeleteProjectsLocationsAddressGroupsRequest, DeleteProjectsLocationsAddressGroupsResponse, DeleteProjectsLocationsAddressGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsAddressGroupsRequest,
   output: DeleteProjectsLocationsAddressGroupsResponse,
   errors: [],
 }));
 
-/** Lists references of an address group. */
 export interface ListReferencesProjectsLocationsAddressGroupsRequest {
   /** The maximum number of references to return. If unspecified, server will pick an appropriate default. Server may return fewer items than requested. A caller should only rely on response's next_page_token to determine if there are more AddressGroupUsers left to be queried. */
   pageSize?: number;
@@ -3554,7 +3553,8 @@ export const ListReferencesProjectsLocationsAddressGroupsResponse = ListAddressG
 
 export type ListReferencesProjectsLocationsAddressGroupsError = CommonErrors;
 
-export const listReferencesProjectsLocationsAddressGroups = API.makePaginated(() => ({
+/** Lists references of an address group. */
+export const listReferencesProjectsLocationsAddressGroups: API.PaginatedOperationMethod<ListReferencesProjectsLocationsAddressGroupsRequest, ListReferencesProjectsLocationsAddressGroupsResponse, ListReferencesProjectsLocationsAddressGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListReferencesProjectsLocationsAddressGroupsRequest,
   output: ListReferencesProjectsLocationsAddressGroupsResponse,
   errors: [],
@@ -3564,7 +3564,6 @@ export const listReferencesProjectsLocationsAddressGroups = API.makePaginated(()
   },
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsAddressGroupsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3585,13 +3584,13 @@ export const SetIamPolicyProjectsLocationsAddressGroupsResponse = GoogleIamV1Pol
 
 export type SetIamPolicyProjectsLocationsAddressGroupsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsAddressGroups: API.OperationMethod<SetIamPolicyProjectsLocationsAddressGroupsRequest, SetIamPolicyProjectsLocationsAddressGroupsResponse, SetIamPolicyProjectsLocationsAddressGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsAddressGroupsRequest,
   output: SetIamPolicyProjectsLocationsAddressGroupsResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single address group. */
 export interface PatchProjectsLocationsAddressGroupsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -3618,13 +3617,13 @@ export const PatchProjectsLocationsAddressGroupsResponse = Operation;
 
 export type PatchProjectsLocationsAddressGroupsError = CommonErrors;
 
+/** Updates the parameters of a single address group. */
 export const patchProjectsLocationsAddressGroups: API.OperationMethod<PatchProjectsLocationsAddressGroupsRequest, PatchProjectsLocationsAddressGroupsResponse, PatchProjectsLocationsAddressGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsAddressGroupsRequest,
   output: PatchProjectsLocationsAddressGroupsResponse,
   errors: [],
 }));
 
-/** Gets details of a single address group. */
 export interface GetProjectsLocationsAddressGroupsRequest {
   /** Required. A name of the AddressGroup to get. Must be in the format `projects/* /locations/{location}/addressGroups/*`. */
   name: string;
@@ -3642,13 +3641,13 @@ export const GetProjectsLocationsAddressGroupsResponse = AddressGroup;
 
 export type GetProjectsLocationsAddressGroupsError = CommonErrors;
 
+/** Gets details of a single address group. */
 export const getProjectsLocationsAddressGroups: API.OperationMethod<GetProjectsLocationsAddressGroupsRequest, GetProjectsLocationsAddressGroupsResponse, GetProjectsLocationsAddressGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAddressGroupsRequest,
   output: GetProjectsLocationsAddressGroupsResponse,
   errors: [],
 }));
 
-/** Creates a new address group in a given project and location. */
 export interface CreateProjectsLocationsAddressGroupsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -3675,13 +3674,13 @@ export const CreateProjectsLocationsAddressGroupsResponse = Operation;
 
 export type CreateProjectsLocationsAddressGroupsError = CommonErrors;
 
+/** Creates a new address group in a given project and location. */
 export const createProjectsLocationsAddressGroups: API.OperationMethod<CreateProjectsLocationsAddressGroupsRequest, CreateProjectsLocationsAddressGroupsResponse, CreateProjectsLocationsAddressGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsAddressGroupsRequest,
   output: CreateProjectsLocationsAddressGroupsResponse,
   errors: [],
 }));
 
-/** Clones items from one address group to another. */
 export interface CloneItemsProjectsLocationsAddressGroupsRequest {
   /** Required. A name of the AddressGroup to clone items to. Must be in the format `projects|organization/* /locations/{location}/addressGroups/*`. */
   addressGroup: string;
@@ -3702,13 +3701,13 @@ export const CloneItemsProjectsLocationsAddressGroupsResponse = Operation;
 
 export type CloneItemsProjectsLocationsAddressGroupsError = CommonErrors;
 
+/** Clones items from one address group to another. */
 export const cloneItemsProjectsLocationsAddressGroups: API.OperationMethod<CloneItemsProjectsLocationsAddressGroupsRequest, CloneItemsProjectsLocationsAddressGroupsResponse, CloneItemsProjectsLocationsAddressGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CloneItemsProjectsLocationsAddressGroupsRequest,
   output: CloneItemsProjectsLocationsAddressGroupsResponse,
   errors: [],
 }));
 
-/** Lists address groups in a given project and location. */
 export interface ListProjectsLocationsAddressGroupsRequest {
   /** Required. The project and location from which the AddressGroups should be listed, specified in the format `projects/* /locations/{location}`. */
   parent: string;
@@ -3735,7 +3734,8 @@ export const ListProjectsLocationsAddressGroupsResponse = ListAddressGroupsRespo
 
 export type ListProjectsLocationsAddressGroupsError = CommonErrors;
 
-export const listProjectsLocationsAddressGroups = API.makePaginated(() => ({
+/** Lists address groups in a given project and location. */
+export const listProjectsLocationsAddressGroups: API.PaginatedOperationMethod<ListProjectsLocationsAddressGroupsRequest, ListProjectsLocationsAddressGroupsResponse, ListProjectsLocationsAddressGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAddressGroupsRequest,
   output: ListProjectsLocationsAddressGroupsResponse,
   errors: [],
@@ -3745,7 +3745,6 @@ export const listProjectsLocationsAddressGroups = API.makePaginated(() => ({
   },
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsAddressGroupsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3766,13 +3765,13 @@ export const TestIamPermissionsProjectsLocationsAddressGroupsResponse = GoogleIa
 
 export type TestIamPermissionsProjectsLocationsAddressGroupsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsAddressGroups: API.OperationMethod<TestIamPermissionsProjectsLocationsAddressGroupsRequest, TestIamPermissionsProjectsLocationsAddressGroupsResponse, TestIamPermissionsProjectsLocationsAddressGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsAddressGroupsRequest,
   output: TestIamPermissionsProjectsLocationsAddressGroupsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsAddressGroupsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3793,13 +3792,13 @@ export const GetIamPolicyProjectsLocationsAddressGroupsResponse = GoogleIamV1Pol
 
 export type GetIamPolicyProjectsLocationsAddressGroupsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsAddressGroups: API.OperationMethod<GetIamPolicyProjectsLocationsAddressGroupsRequest, GetIamPolicyProjectsLocationsAddressGroupsResponse, GetIamPolicyProjectsLocationsAddressGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsAddressGroupsRequest,
   output: GetIamPolicyProjectsLocationsAddressGroupsResponse,
   errors: [],
 }));
 
-/** Removes items from an address group. */
 export interface RemoveItemsProjectsLocationsAddressGroupsRequest {
   /** Required. A name of the AddressGroup to remove items from. Must be in the format `projects|organization/* /locations/{location}/addressGroups/*`. */
   addressGroup: string;
@@ -3820,13 +3819,13 @@ export const RemoveItemsProjectsLocationsAddressGroupsResponse = Operation;
 
 export type RemoveItemsProjectsLocationsAddressGroupsError = CommonErrors;
 
+/** Removes items from an address group. */
 export const removeItemsProjectsLocationsAddressGroups: API.OperationMethod<RemoveItemsProjectsLocationsAddressGroupsRequest, RemoveItemsProjectsLocationsAddressGroupsResponse, RemoveItemsProjectsLocationsAddressGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveItemsProjectsLocationsAddressGroupsRequest,
   output: RemoveItemsProjectsLocationsAddressGroupsResponse,
   errors: [],
 }));
 
-/** Adds items to an address group. */
 export interface AddItemsProjectsLocationsAddressGroupsRequest {
   /** Required. A name of the AddressGroup to add items to. Must be in the format `projects|organization/* /locations/{location}/addressGroups/*`. */
   addressGroup: string;
@@ -3847,13 +3846,13 @@ export const AddItemsProjectsLocationsAddressGroupsResponse = Operation;
 
 export type AddItemsProjectsLocationsAddressGroupsError = CommonErrors;
 
+/** Adds items to an address group. */
 export const addItemsProjectsLocationsAddressGroups: API.OperationMethod<AddItemsProjectsLocationsAddressGroupsRequest, AddItemsProjectsLocationsAddressGroupsResponse, AddItemsProjectsLocationsAddressGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddItemsProjectsLocationsAddressGroupsRequest,
   output: AddItemsProjectsLocationsAddressGroupsResponse,
   errors: [],
 }));
 
-/** Gets a specific association. See https://google.aip.dev/131. */
 export interface GetProjectsLocationsMirroringEndpointGroupAssociationsRequest {
   /** Required. The name of the association to retrieve. Format: projects/{project}/locations/{location}/mirroringEndpointGroupAssociations/{mirroring_endpoint_group_association} */
   name: string;
@@ -3871,13 +3870,13 @@ export const GetProjectsLocationsMirroringEndpointGroupAssociationsResponse = Mi
 
 export type GetProjectsLocationsMirroringEndpointGroupAssociationsError = CommonErrors;
 
+/** Gets a specific association. See https://google.aip.dev/131. */
 export const getProjectsLocationsMirroringEndpointGroupAssociations: API.OperationMethod<GetProjectsLocationsMirroringEndpointGroupAssociationsRequest, GetProjectsLocationsMirroringEndpointGroupAssociationsResponse, GetProjectsLocationsMirroringEndpointGroupAssociationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsMirroringEndpointGroupAssociationsRequest,
   output: GetProjectsLocationsMirroringEndpointGroupAssociationsResponse,
   errors: [],
 }));
 
-/** Lists associations in a given project and location. See https://google.aip.dev/132. */
 export interface ListProjectsLocationsMirroringEndpointGroupAssociationsRequest {
   /** Optional. Sort expression. See https://google.aip.dev/132#ordering for more details. */
   orderBy?: string;
@@ -3907,7 +3906,8 @@ export const ListProjectsLocationsMirroringEndpointGroupAssociationsResponse = L
 
 export type ListProjectsLocationsMirroringEndpointGroupAssociationsError = CommonErrors;
 
-export const listProjectsLocationsMirroringEndpointGroupAssociations = API.makePaginated(() => ({
+/** Lists associations in a given project and location. See https://google.aip.dev/132. */
+export const listProjectsLocationsMirroringEndpointGroupAssociations: API.PaginatedOperationMethod<ListProjectsLocationsMirroringEndpointGroupAssociationsRequest, ListProjectsLocationsMirroringEndpointGroupAssociationsResponse, ListProjectsLocationsMirroringEndpointGroupAssociationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsMirroringEndpointGroupAssociationsRequest,
   output: ListProjectsLocationsMirroringEndpointGroupAssociationsResponse,
   errors: [],
@@ -3917,7 +3917,6 @@ export const listProjectsLocationsMirroringEndpointGroupAssociations = API.makeP
   },
 }));
 
-/** Deletes an association. See https://google.aip.dev/135. */
 export interface DeleteProjectsLocationsMirroringEndpointGroupAssociationsRequest {
   /** Required. The association to delete. */
   name: string;
@@ -3938,13 +3937,13 @@ export const DeleteProjectsLocationsMirroringEndpointGroupAssociationsResponse =
 
 export type DeleteProjectsLocationsMirroringEndpointGroupAssociationsError = CommonErrors;
 
+/** Deletes an association. See https://google.aip.dev/135. */
 export const deleteProjectsLocationsMirroringEndpointGroupAssociations: API.OperationMethod<DeleteProjectsLocationsMirroringEndpointGroupAssociationsRequest, DeleteProjectsLocationsMirroringEndpointGroupAssociationsResponse, DeleteProjectsLocationsMirroringEndpointGroupAssociationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsMirroringEndpointGroupAssociationsRequest,
   output: DeleteProjectsLocationsMirroringEndpointGroupAssociationsResponse,
   errors: [],
 }));
 
-/** Updates an association. See https://google.aip.dev/134. */
 export interface PatchProjectsLocationsMirroringEndpointGroupAssociationsRequest {
   /** Optional. The list of fields to update. Fields are specified relative to the association (e.g. `description`; *not* `mirroring_endpoint_group_association.description`). See https://google.aip.dev/161 for more details. */
   updateMask?: string;
@@ -3971,13 +3970,13 @@ export const PatchProjectsLocationsMirroringEndpointGroupAssociationsResponse = 
 
 export type PatchProjectsLocationsMirroringEndpointGroupAssociationsError = CommonErrors;
 
+/** Updates an association. See https://google.aip.dev/134. */
 export const patchProjectsLocationsMirroringEndpointGroupAssociations: API.OperationMethod<PatchProjectsLocationsMirroringEndpointGroupAssociationsRequest, PatchProjectsLocationsMirroringEndpointGroupAssociationsResponse, PatchProjectsLocationsMirroringEndpointGroupAssociationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsMirroringEndpointGroupAssociationsRequest,
   output: PatchProjectsLocationsMirroringEndpointGroupAssociationsResponse,
   errors: [],
 }));
 
-/** Creates an association in a given project and location. See https://google.aip.dev/133. */
 export interface CreateProjectsLocationsMirroringEndpointGroupAssociationsRequest {
   /** Optional. The ID to use for the new association, which will become the final component of the endpoint group's resource name. If not provided, the server will generate a unique ID. */
   mirroringEndpointGroupAssociationId?: string;
@@ -4004,13 +4003,13 @@ export const CreateProjectsLocationsMirroringEndpointGroupAssociationsResponse =
 
 export type CreateProjectsLocationsMirroringEndpointGroupAssociationsError = CommonErrors;
 
+/** Creates an association in a given project and location. See https://google.aip.dev/133. */
 export const createProjectsLocationsMirroringEndpointGroupAssociations: API.OperationMethod<CreateProjectsLocationsMirroringEndpointGroupAssociationsRequest, CreateProjectsLocationsMirroringEndpointGroupAssociationsResponse, CreateProjectsLocationsMirroringEndpointGroupAssociationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsMirroringEndpointGroupAssociationsRequest,
   output: CreateProjectsLocationsMirroringEndpointGroupAssociationsResponse,
   errors: [],
 }));
 
-/** Deletes a single FirewallEndpointAssociation. */
 export interface DeleteProjectsLocationsFirewallEndpointAssociationsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -4031,13 +4030,13 @@ export const DeleteProjectsLocationsFirewallEndpointAssociationsResponse = Opera
 
 export type DeleteProjectsLocationsFirewallEndpointAssociationsError = CommonErrors;
 
+/** Deletes a single FirewallEndpointAssociation. */
 export const deleteProjectsLocationsFirewallEndpointAssociations: API.OperationMethod<DeleteProjectsLocationsFirewallEndpointAssociationsRequest, DeleteProjectsLocationsFirewallEndpointAssociationsResponse, DeleteProjectsLocationsFirewallEndpointAssociationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsFirewallEndpointAssociationsRequest,
   output: DeleteProjectsLocationsFirewallEndpointAssociationsResponse,
   errors: [],
 }));
 
-/** Gets details of a single FirewallEndpointAssociation. */
 export interface GetProjectsLocationsFirewallEndpointAssociationsRequest {
   /** Required. Name of the resource */
   name: string;
@@ -4055,13 +4054,13 @@ export const GetProjectsLocationsFirewallEndpointAssociationsResponse = Firewall
 
 export type GetProjectsLocationsFirewallEndpointAssociationsError = CommonErrors;
 
+/** Gets details of a single FirewallEndpointAssociation. */
 export const getProjectsLocationsFirewallEndpointAssociations: API.OperationMethod<GetProjectsLocationsFirewallEndpointAssociationsRequest, GetProjectsLocationsFirewallEndpointAssociationsResponse, GetProjectsLocationsFirewallEndpointAssociationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsFirewallEndpointAssociationsRequest,
   output: GetProjectsLocationsFirewallEndpointAssociationsResponse,
   errors: [],
 }));
 
-/** Update a single FirewallEndpointAssociation. */
 export interface PatchProjectsLocationsFirewallEndpointAssociationsRequest {
   /** Required. Field mask is used to specify the fields to be overwritten in the Association resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
@@ -4088,13 +4087,13 @@ export const PatchProjectsLocationsFirewallEndpointAssociationsResponse = Operat
 
 export type PatchProjectsLocationsFirewallEndpointAssociationsError = CommonErrors;
 
+/** Update a single FirewallEndpointAssociation. */
 export const patchProjectsLocationsFirewallEndpointAssociations: API.OperationMethod<PatchProjectsLocationsFirewallEndpointAssociationsRequest, PatchProjectsLocationsFirewallEndpointAssociationsResponse, PatchProjectsLocationsFirewallEndpointAssociationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsFirewallEndpointAssociationsRequest,
   output: PatchProjectsLocationsFirewallEndpointAssociationsResponse,
   errors: [],
 }));
 
-/** Creates a new FirewallEndpointAssociation in a given project and location. */
 export interface CreateProjectsLocationsFirewallEndpointAssociationsRequest {
   /** Optional. Id of the requesting object. If auto-generating Id server-side, remove this field and firewall_endpoint_association_id from the method_signature of Create RPC. */
   firewallEndpointAssociationId?: string;
@@ -4121,13 +4120,13 @@ export const CreateProjectsLocationsFirewallEndpointAssociationsResponse = Opera
 
 export type CreateProjectsLocationsFirewallEndpointAssociationsError = CommonErrors;
 
+/** Creates a new FirewallEndpointAssociation in a given project and location. */
 export const createProjectsLocationsFirewallEndpointAssociations: API.OperationMethod<CreateProjectsLocationsFirewallEndpointAssociationsRequest, CreateProjectsLocationsFirewallEndpointAssociationsResponse, CreateProjectsLocationsFirewallEndpointAssociationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsFirewallEndpointAssociationsRequest,
   output: CreateProjectsLocationsFirewallEndpointAssociationsResponse,
   errors: [],
 }));
 
-/** Lists Associations in a given project and location. */
 export interface ListProjectsLocationsFirewallEndpointAssociationsRequest {
   /** Hint for how to order the results */
   orderBy?: string;
@@ -4157,7 +4156,8 @@ export const ListProjectsLocationsFirewallEndpointAssociationsResponse = ListFir
 
 export type ListProjectsLocationsFirewallEndpointAssociationsError = CommonErrors;
 
-export const listProjectsLocationsFirewallEndpointAssociations = API.makePaginated(() => ({
+/** Lists Associations in a given project and location. */
+export const listProjectsLocationsFirewallEndpointAssociations: API.PaginatedOperationMethod<ListProjectsLocationsFirewallEndpointAssociationsRequest, ListProjectsLocationsFirewallEndpointAssociationsResponse, ListProjectsLocationsFirewallEndpointAssociationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsFirewallEndpointAssociationsRequest,
   output: ListProjectsLocationsFirewallEndpointAssociationsResponse,
   errors: [],
@@ -4167,7 +4167,6 @@ export const listProjectsLocationsFirewallEndpointAssociations = API.makePaginat
   },
 }));
 
-/** Updates a deployment group. See https://google.aip.dev/134. */
 export interface PatchProjectsLocationsMirroringDeploymentGroupsRequest {
   /** Immutable. Identifier. The resource name of this deployment group, for example: `projects/123456789/locations/global/mirroringDeploymentGroups/my-dg`. See https://google.aip.dev/122 for more details. */
   name: string;
@@ -4194,13 +4193,13 @@ export const PatchProjectsLocationsMirroringDeploymentGroupsResponse = Operation
 
 export type PatchProjectsLocationsMirroringDeploymentGroupsError = CommonErrors;
 
+/** Updates a deployment group. See https://google.aip.dev/134. */
 export const patchProjectsLocationsMirroringDeploymentGroups: API.OperationMethod<PatchProjectsLocationsMirroringDeploymentGroupsRequest, PatchProjectsLocationsMirroringDeploymentGroupsResponse, PatchProjectsLocationsMirroringDeploymentGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsMirroringDeploymentGroupsRequest,
   output: PatchProjectsLocationsMirroringDeploymentGroupsResponse,
   errors: [],
 }));
 
-/** Lists deployment groups in a given project and location. See https://google.aip.dev/132. */
 export interface ListProjectsLocationsMirroringDeploymentGroupsRequest {
   /** Required. The parent, which owns this collection of deployment groups. Example: `projects/123456789/locations/global`. See https://google.aip.dev/132 for more details. */
   parent: string;
@@ -4230,7 +4229,8 @@ export const ListProjectsLocationsMirroringDeploymentGroupsResponse = ListMirror
 
 export type ListProjectsLocationsMirroringDeploymentGroupsError = CommonErrors;
 
-export const listProjectsLocationsMirroringDeploymentGroups = API.makePaginated(() => ({
+/** Lists deployment groups in a given project and location. See https://google.aip.dev/132. */
+export const listProjectsLocationsMirroringDeploymentGroups: API.PaginatedOperationMethod<ListProjectsLocationsMirroringDeploymentGroupsRequest, ListProjectsLocationsMirroringDeploymentGroupsResponse, ListProjectsLocationsMirroringDeploymentGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsMirroringDeploymentGroupsRequest,
   output: ListProjectsLocationsMirroringDeploymentGroupsResponse,
   errors: [],
@@ -4240,7 +4240,6 @@ export const listProjectsLocationsMirroringDeploymentGroups = API.makePaginated(
   },
 }));
 
-/** Creates a deployment group in a given project and location. See https://google.aip.dev/133. */
 export interface CreateProjectsLocationsMirroringDeploymentGroupsRequest {
   /** Required. The parent resource where this deployment group will be created. Format: projects/{project}/locations/{location} */
   parent: string;
@@ -4267,13 +4266,13 @@ export const CreateProjectsLocationsMirroringDeploymentGroupsResponse = Operatio
 
 export type CreateProjectsLocationsMirroringDeploymentGroupsError = CommonErrors;
 
+/** Creates a deployment group in a given project and location. See https://google.aip.dev/133. */
 export const createProjectsLocationsMirroringDeploymentGroups: API.OperationMethod<CreateProjectsLocationsMirroringDeploymentGroupsRequest, CreateProjectsLocationsMirroringDeploymentGroupsResponse, CreateProjectsLocationsMirroringDeploymentGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsMirroringDeploymentGroupsRequest,
   output: CreateProjectsLocationsMirroringDeploymentGroupsResponse,
   errors: [],
 }));
 
-/** Deletes a deployment group. See https://google.aip.dev/135. */
 export interface DeleteProjectsLocationsMirroringDeploymentGroupsRequest {
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string;
@@ -4294,13 +4293,13 @@ export const DeleteProjectsLocationsMirroringDeploymentGroupsResponse = Operatio
 
 export type DeleteProjectsLocationsMirroringDeploymentGroupsError = CommonErrors;
 
+/** Deletes a deployment group. See https://google.aip.dev/135. */
 export const deleteProjectsLocationsMirroringDeploymentGroups: API.OperationMethod<DeleteProjectsLocationsMirroringDeploymentGroupsRequest, DeleteProjectsLocationsMirroringDeploymentGroupsResponse, DeleteProjectsLocationsMirroringDeploymentGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsMirroringDeploymentGroupsRequest,
   output: DeleteProjectsLocationsMirroringDeploymentGroupsResponse,
   errors: [],
 }));
 
-/** Gets a specific deployment group. See https://google.aip.dev/131. */
 export interface GetProjectsLocationsMirroringDeploymentGroupsRequest {
   /** Required. The name of the deployment group to retrieve. Format: projects/{project}/locations/{location}/mirroringDeploymentGroups/{mirroring_deployment_group} */
   name: string;
@@ -4318,13 +4317,13 @@ export const GetProjectsLocationsMirroringDeploymentGroupsResponse = MirroringDe
 
 export type GetProjectsLocationsMirroringDeploymentGroupsError = CommonErrors;
 
+/** Gets a specific deployment group. See https://google.aip.dev/131. */
 export const getProjectsLocationsMirroringDeploymentGroups: API.OperationMethod<GetProjectsLocationsMirroringDeploymentGroupsRequest, GetProjectsLocationsMirroringDeploymentGroupsResponse, GetProjectsLocationsMirroringDeploymentGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsMirroringDeploymentGroupsRequest,
   output: GetProjectsLocationsMirroringDeploymentGroupsResponse,
   errors: [],
 }));
 
-/** Creates a new DnsThreatDetector in a given project and location. */
 export interface CreateProjectsLocationsDnsThreatDetectorsRequest {
   /** Optional. The ID of the requesting DnsThreatDetector object. If this field is not supplied, the service generates an identifier. */
   dnsThreatDetectorId?: string;
@@ -4348,13 +4347,13 @@ export const CreateProjectsLocationsDnsThreatDetectorsResponse = DnsThreatDetect
 
 export type CreateProjectsLocationsDnsThreatDetectorsError = CommonErrors;
 
+/** Creates a new DnsThreatDetector in a given project and location. */
 export const createProjectsLocationsDnsThreatDetectors: API.OperationMethod<CreateProjectsLocationsDnsThreatDetectorsRequest, CreateProjectsLocationsDnsThreatDetectorsResponse, CreateProjectsLocationsDnsThreatDetectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsDnsThreatDetectorsRequest,
   output: CreateProjectsLocationsDnsThreatDetectorsResponse,
   errors: [],
 }));
 
-/** Deletes a single DnsThreatDetector. */
 export interface DeleteProjectsLocationsDnsThreatDetectorsRequest {
   /** Required. Name of the DnsThreatDetector resource. */
   name: string;
@@ -4372,13 +4371,13 @@ export const DeleteProjectsLocationsDnsThreatDetectorsResponse = Empty;
 
 export type DeleteProjectsLocationsDnsThreatDetectorsError = CommonErrors;
 
+/** Deletes a single DnsThreatDetector. */
 export const deleteProjectsLocationsDnsThreatDetectors: API.OperationMethod<DeleteProjectsLocationsDnsThreatDetectorsRequest, DeleteProjectsLocationsDnsThreatDetectorsResponse, DeleteProjectsLocationsDnsThreatDetectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDnsThreatDetectorsRequest,
   output: DeleteProjectsLocationsDnsThreatDetectorsResponse,
   errors: [],
 }));
 
-/** Updates a single DnsThreatDetector. */
 export interface PatchProjectsLocationsDnsThreatDetectorsRequest {
   /** Immutable. Identifier. Name of the DnsThreatDetector resource. */
   name: string;
@@ -4402,13 +4401,13 @@ export const PatchProjectsLocationsDnsThreatDetectorsResponse = DnsThreatDetecto
 
 export type PatchProjectsLocationsDnsThreatDetectorsError = CommonErrors;
 
+/** Updates a single DnsThreatDetector. */
 export const patchProjectsLocationsDnsThreatDetectors: API.OperationMethod<PatchProjectsLocationsDnsThreatDetectorsRequest, PatchProjectsLocationsDnsThreatDetectorsResponse, PatchProjectsLocationsDnsThreatDetectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsDnsThreatDetectorsRequest,
   output: PatchProjectsLocationsDnsThreatDetectorsResponse,
   errors: [],
 }));
 
-/** Lists DnsThreatDetectors in a given project and location. */
 export interface ListProjectsLocationsDnsThreatDetectorsRequest {
   /** Optional. A page token received from a previous `ListDnsThreatDetectorsRequest` call. Provide this to retrieve the subsequent page. */
   pageToken?: string;
@@ -4432,7 +4431,8 @@ export const ListProjectsLocationsDnsThreatDetectorsResponse = ListDnsThreatDete
 
 export type ListProjectsLocationsDnsThreatDetectorsError = CommonErrors;
 
-export const listProjectsLocationsDnsThreatDetectors = API.makePaginated(() => ({
+/** Lists DnsThreatDetectors in a given project and location. */
+export const listProjectsLocationsDnsThreatDetectors: API.PaginatedOperationMethod<ListProjectsLocationsDnsThreatDetectorsRequest, ListProjectsLocationsDnsThreatDetectorsResponse, ListProjectsLocationsDnsThreatDetectorsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDnsThreatDetectorsRequest,
   output: ListProjectsLocationsDnsThreatDetectorsResponse,
   errors: [],
@@ -4442,7 +4442,6 @@ export const listProjectsLocationsDnsThreatDetectors = API.makePaginated(() => (
   },
 }));
 
-/** Gets the details of a single DnsThreatDetector. */
 export interface GetProjectsLocationsDnsThreatDetectorsRequest {
   /** Required. Name of the DnsThreatDetector resource. */
   name: string;
@@ -4460,13 +4459,13 @@ export const GetProjectsLocationsDnsThreatDetectorsResponse = DnsThreatDetector;
 
 export type GetProjectsLocationsDnsThreatDetectorsError = CommonErrors;
 
+/** Gets the details of a single DnsThreatDetector. */
 export const getProjectsLocationsDnsThreatDetectors: API.OperationMethod<GetProjectsLocationsDnsThreatDetectorsRequest, GetProjectsLocationsDnsThreatDetectorsResponse, GetProjectsLocationsDnsThreatDetectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDnsThreatDetectorsRequest,
   output: GetProjectsLocationsDnsThreatDetectorsResponse,
   errors: [],
 }));
 
-/** Creates a new FirewallEndpoint in a given project and location. */
 export interface CreateProjectsLocationsFirewallEndpointsRequest {
   /** Required. Id of the requesting object. If auto-generating Id server-side, remove this field and firewall_endpoint_id from the method_signature of Create RPC. */
   firewallEndpointId?: string;
@@ -4493,13 +4492,13 @@ export const CreateProjectsLocationsFirewallEndpointsResponse = Operation;
 
 export type CreateProjectsLocationsFirewallEndpointsError = CommonErrors;
 
+/** Creates a new FirewallEndpoint in a given project and location. */
 export const createProjectsLocationsFirewallEndpoints: API.OperationMethod<CreateProjectsLocationsFirewallEndpointsRequest, CreateProjectsLocationsFirewallEndpointsResponse, CreateProjectsLocationsFirewallEndpointsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsFirewallEndpointsRequest,
   output: CreateProjectsLocationsFirewallEndpointsResponse,
   errors: [],
 }));
 
-/** Deletes a single project Endpoint. */
 export interface DeleteProjectsLocationsFirewallEndpointsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -4520,13 +4519,13 @@ export const DeleteProjectsLocationsFirewallEndpointsResponse = Operation;
 
 export type DeleteProjectsLocationsFirewallEndpointsError = CommonErrors;
 
+/** Deletes a single project Endpoint. */
 export const deleteProjectsLocationsFirewallEndpoints: API.OperationMethod<DeleteProjectsLocationsFirewallEndpointsRequest, DeleteProjectsLocationsFirewallEndpointsResponse, DeleteProjectsLocationsFirewallEndpointsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsFirewallEndpointsRequest,
   output: DeleteProjectsLocationsFirewallEndpointsResponse,
   errors: [],
 }));
 
-/** Gets details of a single project Endpoint. */
 export interface GetProjectsLocationsFirewallEndpointsRequest {
   /** Required. Name of the resource */
   name: string;
@@ -4544,13 +4543,13 @@ export const GetProjectsLocationsFirewallEndpointsResponse = FirewallEndpoint;
 
 export type GetProjectsLocationsFirewallEndpointsError = CommonErrors;
 
+/** Gets details of a single project Endpoint. */
 export const getProjectsLocationsFirewallEndpoints: API.OperationMethod<GetProjectsLocationsFirewallEndpointsRequest, GetProjectsLocationsFirewallEndpointsResponse, GetProjectsLocationsFirewallEndpointsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsFirewallEndpointsRequest,
   output: GetProjectsLocationsFirewallEndpointsResponse,
   errors: [],
 }));
 
-/** Update a single project Endpoint. */
 export interface PatchProjectsLocationsFirewallEndpointsRequest {
   /** Required. Field mask is used to specify the fields to be overwritten in the Endpoint resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
@@ -4577,13 +4576,13 @@ export const PatchProjectsLocationsFirewallEndpointsResponse = Operation;
 
 export type PatchProjectsLocationsFirewallEndpointsError = CommonErrors;
 
+/** Update a single project Endpoint. */
 export const patchProjectsLocationsFirewallEndpoints: API.OperationMethod<PatchProjectsLocationsFirewallEndpointsRequest, PatchProjectsLocationsFirewallEndpointsResponse, PatchProjectsLocationsFirewallEndpointsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsFirewallEndpointsRequest,
   output: PatchProjectsLocationsFirewallEndpointsResponse,
   errors: [],
 }));
 
-/** Lists FirewallEndpoints in a given project and location. */
 export interface ListProjectsLocationsFirewallEndpointsRequest {
   /** A token identifying a page of results the server should return. */
   pageToken?: string;
@@ -4613,7 +4612,8 @@ export const ListProjectsLocationsFirewallEndpointsResponse = ListFirewallEndpoi
 
 export type ListProjectsLocationsFirewallEndpointsError = CommonErrors;
 
-export const listProjectsLocationsFirewallEndpoints = API.makePaginated(() => ({
+/** Lists FirewallEndpoints in a given project and location. */
+export const listProjectsLocationsFirewallEndpoints: API.PaginatedOperationMethod<ListProjectsLocationsFirewallEndpointsRequest, ListProjectsLocationsFirewallEndpointsResponse, ListProjectsLocationsFirewallEndpointsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsFirewallEndpointsRequest,
   output: ListProjectsLocationsFirewallEndpointsResponse,
   errors: [],
@@ -4623,7 +4623,6 @@ export const listProjectsLocationsFirewallEndpoints = API.makePaginated(() => ({
   },
 }));
 
-/** Lists UrlLists in a given project and location. */
 export interface ListProjectsLocationsUrlListsRequest {
   /** The value returned by the last `ListUrlListsResponse` Indicates that this is a continuation of a prior `ListUrlLists` call, and that the system should return the next page of data. */
   pageToken?: string;
@@ -4647,7 +4646,8 @@ export const ListProjectsLocationsUrlListsResponse = ListUrlListsResponse;
 
 export type ListProjectsLocationsUrlListsError = CommonErrors;
 
-export const listProjectsLocationsUrlLists = API.makePaginated(() => ({
+/** Lists UrlLists in a given project and location. */
+export const listProjectsLocationsUrlLists: API.PaginatedOperationMethod<ListProjectsLocationsUrlListsRequest, ListProjectsLocationsUrlListsResponse, ListProjectsLocationsUrlListsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsUrlListsRequest,
   output: ListProjectsLocationsUrlListsResponse,
   errors: [],
@@ -4657,7 +4657,6 @@ export const listProjectsLocationsUrlLists = API.makePaginated(() => ({
   },
 }));
 
-/** Gets details of a single UrlList. */
 export interface GetProjectsLocationsUrlListsRequest {
   /** Required. A name of the UrlList to get. Must be in the format `projects/* /locations/{location}/urlLists/*`. */
   name: string;
@@ -4675,13 +4674,13 @@ export const GetProjectsLocationsUrlListsResponse = UrlList;
 
 export type GetProjectsLocationsUrlListsError = CommonErrors;
 
+/** Gets details of a single UrlList. */
 export const getProjectsLocationsUrlLists: API.OperationMethod<GetProjectsLocationsUrlListsRequest, GetProjectsLocationsUrlListsResponse, GetProjectsLocationsUrlListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsUrlListsRequest,
   output: GetProjectsLocationsUrlListsResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single UrlList. */
 export interface PatchProjectsLocationsUrlListsRequest {
   /** Required. Name of the resource provided by the user. Name is of the form projects/{project}/locations/{location}/urlLists/{url_list} url_list should match the pattern:(^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$). */
   name: string;
@@ -4705,13 +4704,13 @@ export const PatchProjectsLocationsUrlListsResponse = Operation;
 
 export type PatchProjectsLocationsUrlListsError = CommonErrors;
 
+/** Updates the parameters of a single UrlList. */
 export const patchProjectsLocationsUrlLists: API.OperationMethod<PatchProjectsLocationsUrlListsRequest, PatchProjectsLocationsUrlListsResponse, PatchProjectsLocationsUrlListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsUrlListsRequest,
   output: PatchProjectsLocationsUrlListsResponse,
   errors: [],
 }));
 
-/** Creates a new UrlList in a given project and location. */
 export interface CreateProjectsLocationsUrlListsRequest {
   /** Required. Short name of the UrlList resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "url_list". */
   urlListId?: string;
@@ -4735,13 +4734,13 @@ export const CreateProjectsLocationsUrlListsResponse = Operation;
 
 export type CreateProjectsLocationsUrlListsError = CommonErrors;
 
+/** Creates a new UrlList in a given project and location. */
 export const createProjectsLocationsUrlLists: API.OperationMethod<CreateProjectsLocationsUrlListsRequest, CreateProjectsLocationsUrlListsResponse, CreateProjectsLocationsUrlListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsUrlListsRequest,
   output: CreateProjectsLocationsUrlListsResponse,
   errors: [],
 }));
 
-/** Deletes a single UrlList. */
 export interface DeleteProjectsLocationsUrlListsRequest {
   /** Required. A name of the UrlList to delete. Must be in the format `projects/* /locations/{location}/urlLists/*`. */
   name: string;
@@ -4759,13 +4758,13 @@ export const DeleteProjectsLocationsUrlListsResponse = Operation;
 
 export type DeleteProjectsLocationsUrlListsError = CommonErrors;
 
+/** Deletes a single UrlList. */
 export const deleteProjectsLocationsUrlLists: API.OperationMethod<DeleteProjectsLocationsUrlListsRequest, DeleteProjectsLocationsUrlListsResponse, DeleteProjectsLocationsUrlListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsUrlListsRequest,
   output: DeleteProjectsLocationsUrlListsResponse,
   errors: [],
 }));
 
-/** Creates an endpoint group in a given project and location. See https://google.aip.dev/133. */
 export interface CreateProjectsLocationsMirroringEndpointGroupsRequest {
   /** Required. The parent resource where this endpoint group will be created. Format: projects/{project}/locations/{location} */
   parent: string;
@@ -4792,13 +4791,13 @@ export const CreateProjectsLocationsMirroringEndpointGroupsResponse = Operation;
 
 export type CreateProjectsLocationsMirroringEndpointGroupsError = CommonErrors;
 
+/** Creates an endpoint group in a given project and location. See https://google.aip.dev/133. */
 export const createProjectsLocationsMirroringEndpointGroups: API.OperationMethod<CreateProjectsLocationsMirroringEndpointGroupsRequest, CreateProjectsLocationsMirroringEndpointGroupsResponse, CreateProjectsLocationsMirroringEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsMirroringEndpointGroupsRequest,
   output: CreateProjectsLocationsMirroringEndpointGroupsResponse,
   errors: [],
 }));
 
-/** Lists endpoint groups in a given project and location. See https://google.aip.dev/132. */
 export interface ListProjectsLocationsMirroringEndpointGroupsRequest {
   /** Optional. A page token, received from a previous `ListMirroringEndpointGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListMirroringEndpointGroups` must match the call that provided the page token. See https://google.aip.dev/158 for more details. */
   pageToken?: string;
@@ -4828,7 +4827,8 @@ export const ListProjectsLocationsMirroringEndpointGroupsResponse = ListMirrorin
 
 export type ListProjectsLocationsMirroringEndpointGroupsError = CommonErrors;
 
-export const listProjectsLocationsMirroringEndpointGroups = API.makePaginated(() => ({
+/** Lists endpoint groups in a given project and location. See https://google.aip.dev/132. */
+export const listProjectsLocationsMirroringEndpointGroups: API.PaginatedOperationMethod<ListProjectsLocationsMirroringEndpointGroupsRequest, ListProjectsLocationsMirroringEndpointGroupsResponse, ListProjectsLocationsMirroringEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsMirroringEndpointGroupsRequest,
   output: ListProjectsLocationsMirroringEndpointGroupsResponse,
   errors: [],
@@ -4838,7 +4838,6 @@ export const listProjectsLocationsMirroringEndpointGroups = API.makePaginated(()
   },
 }));
 
-/** Deletes an endpoint group. See https://google.aip.dev/135. */
 export interface DeleteProjectsLocationsMirroringEndpointGroupsRequest {
   /** Required. The endpoint group to delete. */
   name: string;
@@ -4859,13 +4858,13 @@ export const DeleteProjectsLocationsMirroringEndpointGroupsResponse = Operation;
 
 export type DeleteProjectsLocationsMirroringEndpointGroupsError = CommonErrors;
 
+/** Deletes an endpoint group. See https://google.aip.dev/135. */
 export const deleteProjectsLocationsMirroringEndpointGroups: API.OperationMethod<DeleteProjectsLocationsMirroringEndpointGroupsRequest, DeleteProjectsLocationsMirroringEndpointGroupsResponse, DeleteProjectsLocationsMirroringEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsMirroringEndpointGroupsRequest,
   output: DeleteProjectsLocationsMirroringEndpointGroupsResponse,
   errors: [],
 }));
 
-/** Gets a specific endpoint group. See https://google.aip.dev/131. */
 export interface GetProjectsLocationsMirroringEndpointGroupsRequest {
   /** Required. The name of the endpoint group to retrieve. Format: projects/{project}/locations/{location}/mirroringEndpointGroups/{mirroring_endpoint_group} */
   name: string;
@@ -4883,13 +4882,13 @@ export const GetProjectsLocationsMirroringEndpointGroupsResponse = MirroringEndp
 
 export type GetProjectsLocationsMirroringEndpointGroupsError = CommonErrors;
 
+/** Gets a specific endpoint group. See https://google.aip.dev/131. */
 export const getProjectsLocationsMirroringEndpointGroups: API.OperationMethod<GetProjectsLocationsMirroringEndpointGroupsRequest, GetProjectsLocationsMirroringEndpointGroupsResponse, GetProjectsLocationsMirroringEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsMirroringEndpointGroupsRequest,
   output: GetProjectsLocationsMirroringEndpointGroupsResponse,
   errors: [],
 }));
 
-/** Updates an endpoint group. See https://google.aip.dev/134. */
 export interface PatchProjectsLocationsMirroringEndpointGroupsRequest {
   /** Optional. The list of fields to update. Fields are specified relative to the endpoint group (e.g. `description`; *not* `mirroring_endpoint_group.description`). See https://google.aip.dev/161 for more details. */
   updateMask?: string;
@@ -4916,13 +4915,13 @@ export const PatchProjectsLocationsMirroringEndpointGroupsResponse = Operation;
 
 export type PatchProjectsLocationsMirroringEndpointGroupsError = CommonErrors;
 
+/** Updates an endpoint group. See https://google.aip.dev/134. */
 export const patchProjectsLocationsMirroringEndpointGroups: API.OperationMethod<PatchProjectsLocationsMirroringEndpointGroupsRequest, PatchProjectsLocationsMirroringEndpointGroupsResponse, PatchProjectsLocationsMirroringEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsMirroringEndpointGroupsRequest,
   output: PatchProjectsLocationsMirroringEndpointGroupsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -4943,13 +4942,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -4967,13 +4966,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -4991,13 +4990,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list page token. */
   pageToken?: string;
@@ -5027,7 +5026,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -5037,7 +5037,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new BackendAuthenticationConfig in a given project and location. */
 export interface CreateProjectsLocationsBackendAuthenticationConfigsRequest {
   /** Required. Short name of the BackendAuthenticationConfig resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "backend-auth-config". */
   backendAuthenticationConfigId?: string;
@@ -5061,13 +5060,13 @@ export const CreateProjectsLocationsBackendAuthenticationConfigsResponse = Opera
 
 export type CreateProjectsLocationsBackendAuthenticationConfigsError = CommonErrors;
 
+/** Creates a new BackendAuthenticationConfig in a given project and location. */
 export const createProjectsLocationsBackendAuthenticationConfigs: API.OperationMethod<CreateProjectsLocationsBackendAuthenticationConfigsRequest, CreateProjectsLocationsBackendAuthenticationConfigsResponse, CreateProjectsLocationsBackendAuthenticationConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsBackendAuthenticationConfigsRequest,
   output: CreateProjectsLocationsBackendAuthenticationConfigsResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single BackendAuthenticationConfig to BackendAuthenticationConfig. */
 export interface PatchProjectsLocationsBackendAuthenticationConfigsRequest {
   /** Optional. Field mask is used to specify the fields to be overwritten in the BackendAuthenticationConfig resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
@@ -5091,13 +5090,13 @@ export const PatchProjectsLocationsBackendAuthenticationConfigsResponse = Operat
 
 export type PatchProjectsLocationsBackendAuthenticationConfigsError = CommonErrors;
 
+/** Updates the parameters of a single BackendAuthenticationConfig to BackendAuthenticationConfig. */
 export const patchProjectsLocationsBackendAuthenticationConfigs: API.OperationMethod<PatchProjectsLocationsBackendAuthenticationConfigsRequest, PatchProjectsLocationsBackendAuthenticationConfigsResponse, PatchProjectsLocationsBackendAuthenticationConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsBackendAuthenticationConfigsRequest,
   output: PatchProjectsLocationsBackendAuthenticationConfigsResponse,
   errors: [],
 }));
 
-/** Deletes a single BackendAuthenticationConfig to BackendAuthenticationConfig. */
 export interface DeleteProjectsLocationsBackendAuthenticationConfigsRequest {
   /** Optional. Etag of the resource. If this is provided, it must match the server's etag. */
   etag?: string;
@@ -5118,13 +5117,13 @@ export const DeleteProjectsLocationsBackendAuthenticationConfigsResponse = Opera
 
 export type DeleteProjectsLocationsBackendAuthenticationConfigsError = CommonErrors;
 
+/** Deletes a single BackendAuthenticationConfig to BackendAuthenticationConfig. */
 export const deleteProjectsLocationsBackendAuthenticationConfigs: API.OperationMethod<DeleteProjectsLocationsBackendAuthenticationConfigsRequest, DeleteProjectsLocationsBackendAuthenticationConfigsResponse, DeleteProjectsLocationsBackendAuthenticationConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsBackendAuthenticationConfigsRequest,
   output: DeleteProjectsLocationsBackendAuthenticationConfigsResponse,
   errors: [],
 }));
 
-/** Gets details of a single BackendAuthenticationConfig to BackendAuthenticationConfig. */
 export interface GetProjectsLocationsBackendAuthenticationConfigsRequest {
   /** Required. A name of the BackendAuthenticationConfig to get. Must be in the format `projects/* /locations/{location}/backendAuthenticationConfigs/*`. */
   name: string;
@@ -5142,13 +5141,13 @@ export const GetProjectsLocationsBackendAuthenticationConfigsResponse = BackendA
 
 export type GetProjectsLocationsBackendAuthenticationConfigsError = CommonErrors;
 
+/** Gets details of a single BackendAuthenticationConfig to BackendAuthenticationConfig. */
 export const getProjectsLocationsBackendAuthenticationConfigs: API.OperationMethod<GetProjectsLocationsBackendAuthenticationConfigsRequest, GetProjectsLocationsBackendAuthenticationConfigsResponse, GetProjectsLocationsBackendAuthenticationConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBackendAuthenticationConfigsRequest,
   output: GetProjectsLocationsBackendAuthenticationConfigsResponse,
   errors: [],
 }));
 
-/** Lists BackendAuthenticationConfigs in a given project and location. */
 export interface ListProjectsLocationsBackendAuthenticationConfigsRequest {
   /** Required. The project and location from which the BackendAuthenticationConfigs should be listed, specified in the format `projects/* /locations/{location}`. */
   parent: string;
@@ -5172,7 +5171,8 @@ export const ListProjectsLocationsBackendAuthenticationConfigsResponse = ListBac
 
 export type ListProjectsLocationsBackendAuthenticationConfigsError = CommonErrors;
 
-export const listProjectsLocationsBackendAuthenticationConfigs = API.makePaginated(() => ({
+/** Lists BackendAuthenticationConfigs in a given project and location. */
+export const listProjectsLocationsBackendAuthenticationConfigs: API.PaginatedOperationMethod<ListProjectsLocationsBackendAuthenticationConfigsRequest, ListProjectsLocationsBackendAuthenticationConfigsResponse, ListProjectsLocationsBackendAuthenticationConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBackendAuthenticationConfigsRequest,
   output: ListProjectsLocationsBackendAuthenticationConfigsResponse,
   errors: [],
@@ -5182,7 +5182,6 @@ export const listProjectsLocationsBackendAuthenticationConfigs = API.makePaginat
   },
 }));
 
-/** Gets details of a single ClientTlsPolicy. */
 export interface GetProjectsLocationsClientTlsPoliciesRequest {
   /** Required. A name of the ClientTlsPolicy to get. Must be in the format `projects/* /locations/{location}/clientTlsPolicies/*`. */
   name: string;
@@ -5200,13 +5199,13 @@ export const GetProjectsLocationsClientTlsPoliciesResponse = ClientTlsPolicy;
 
 export type GetProjectsLocationsClientTlsPoliciesError = CommonErrors;
 
+/** Gets details of a single ClientTlsPolicy. */
 export const getProjectsLocationsClientTlsPolicies: API.OperationMethod<GetProjectsLocationsClientTlsPoliciesRequest, GetProjectsLocationsClientTlsPoliciesResponse, GetProjectsLocationsClientTlsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsClientTlsPoliciesRequest,
   output: GetProjectsLocationsClientTlsPoliciesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsClientTlsPoliciesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -5227,13 +5226,13 @@ export const SetIamPolicyProjectsLocationsClientTlsPoliciesResponse = GoogleIamV
 
 export type SetIamPolicyProjectsLocationsClientTlsPoliciesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsClientTlsPolicies: API.OperationMethod<SetIamPolicyProjectsLocationsClientTlsPoliciesRequest, SetIamPolicyProjectsLocationsClientTlsPoliciesResponse, SetIamPolicyProjectsLocationsClientTlsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsClientTlsPoliciesRequest,
   output: SetIamPolicyProjectsLocationsClientTlsPoliciesResponse,
   errors: [],
 }));
 
-/** Deletes a single ClientTlsPolicy. */
 export interface DeleteProjectsLocationsClientTlsPoliciesRequest {
   /** Required. A name of the ClientTlsPolicy to delete. Must be in the format `projects/* /locations/{location}/clientTlsPolicies/*`. */
   name: string;
@@ -5251,13 +5250,13 @@ export const DeleteProjectsLocationsClientTlsPoliciesResponse = Operation;
 
 export type DeleteProjectsLocationsClientTlsPoliciesError = CommonErrors;
 
+/** Deletes a single ClientTlsPolicy. */
 export const deleteProjectsLocationsClientTlsPolicies: API.OperationMethod<DeleteProjectsLocationsClientTlsPoliciesRequest, DeleteProjectsLocationsClientTlsPoliciesResponse, DeleteProjectsLocationsClientTlsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsClientTlsPoliciesRequest,
   output: DeleteProjectsLocationsClientTlsPoliciesResponse,
   errors: [],
 }));
 
-/** Creates a new ClientTlsPolicy in a given project and location. */
 export interface CreateProjectsLocationsClientTlsPoliciesRequest {
   /** Required. Short name of the ClientTlsPolicy resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "client_mtls_policy". */
   clientTlsPolicyId?: string;
@@ -5281,13 +5280,13 @@ export const CreateProjectsLocationsClientTlsPoliciesResponse = Operation;
 
 export type CreateProjectsLocationsClientTlsPoliciesError = CommonErrors;
 
+/** Creates a new ClientTlsPolicy in a given project and location. */
 export const createProjectsLocationsClientTlsPolicies: API.OperationMethod<CreateProjectsLocationsClientTlsPoliciesRequest, CreateProjectsLocationsClientTlsPoliciesResponse, CreateProjectsLocationsClientTlsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsClientTlsPoliciesRequest,
   output: CreateProjectsLocationsClientTlsPoliciesResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single ClientTlsPolicy. */
 export interface PatchProjectsLocationsClientTlsPoliciesRequest {
   /** Required. Name of the ClientTlsPolicy resource. It matches the pattern `projects/{project}/locations/{location}/clientTlsPolicies/{client_tls_policy}` */
   name: string;
@@ -5311,13 +5310,13 @@ export const PatchProjectsLocationsClientTlsPoliciesResponse = Operation;
 
 export type PatchProjectsLocationsClientTlsPoliciesError = CommonErrors;
 
+/** Updates the parameters of a single ClientTlsPolicy. */
 export const patchProjectsLocationsClientTlsPolicies: API.OperationMethod<PatchProjectsLocationsClientTlsPoliciesRequest, PatchProjectsLocationsClientTlsPoliciesResponse, PatchProjectsLocationsClientTlsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsClientTlsPoliciesRequest,
   output: PatchProjectsLocationsClientTlsPoliciesResponse,
   errors: [],
 }));
 
-/** Lists ClientTlsPolicies in a given project and location. */
 export interface ListProjectsLocationsClientTlsPoliciesRequest {
   /** Maximum number of ClientTlsPolicies to return per call. */
   pageSize?: number;
@@ -5341,7 +5340,8 @@ export const ListProjectsLocationsClientTlsPoliciesResponse = ListClientTlsPolic
 
 export type ListProjectsLocationsClientTlsPoliciesError = CommonErrors;
 
-export const listProjectsLocationsClientTlsPolicies = API.makePaginated(() => ({
+/** Lists ClientTlsPolicies in a given project and location. */
+export const listProjectsLocationsClientTlsPolicies: API.PaginatedOperationMethod<ListProjectsLocationsClientTlsPoliciesRequest, ListProjectsLocationsClientTlsPoliciesResponse, ListProjectsLocationsClientTlsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsClientTlsPoliciesRequest,
   output: ListProjectsLocationsClientTlsPoliciesResponse,
   errors: [],
@@ -5351,7 +5351,6 @@ export const listProjectsLocationsClientTlsPolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsClientTlsPoliciesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -5372,13 +5371,13 @@ export const TestIamPermissionsProjectsLocationsClientTlsPoliciesResponse = Goog
 
 export type TestIamPermissionsProjectsLocationsClientTlsPoliciesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsClientTlsPolicies: API.OperationMethod<TestIamPermissionsProjectsLocationsClientTlsPoliciesRequest, TestIamPermissionsProjectsLocationsClientTlsPoliciesResponse, TestIamPermissionsProjectsLocationsClientTlsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsClientTlsPoliciesRequest,
   output: TestIamPermissionsProjectsLocationsClientTlsPoliciesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsClientTlsPoliciesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -5399,13 +5398,13 @@ export const GetIamPolicyProjectsLocationsClientTlsPoliciesResponse = GoogleIamV
 
 export type GetIamPolicyProjectsLocationsClientTlsPoliciesError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsClientTlsPolicies: API.OperationMethod<GetIamPolicyProjectsLocationsClientTlsPoliciesRequest, GetIamPolicyProjectsLocationsClientTlsPoliciesResponse, GetIamPolicyProjectsLocationsClientTlsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsClientTlsPoliciesRequest,
   output: GetIamPolicyProjectsLocationsClientTlsPoliciesResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single TlsInspectionPolicy. */
 export interface PatchProjectsLocationsTlsInspectionPoliciesRequest {
   /** Optional. Field mask is used to specify the fields to be overwritten in the TlsInspectionPolicy resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
@@ -5429,13 +5428,13 @@ export const PatchProjectsLocationsTlsInspectionPoliciesResponse = Operation;
 
 export type PatchProjectsLocationsTlsInspectionPoliciesError = CommonErrors;
 
+/** Updates the parameters of a single TlsInspectionPolicy. */
 export const patchProjectsLocationsTlsInspectionPolicies: API.OperationMethod<PatchProjectsLocationsTlsInspectionPoliciesRequest, PatchProjectsLocationsTlsInspectionPoliciesResponse, PatchProjectsLocationsTlsInspectionPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsTlsInspectionPoliciesRequest,
   output: PatchProjectsLocationsTlsInspectionPoliciesResponse,
   errors: [],
 }));
 
-/** Lists TlsInspectionPolicies in a given project and location. */
 export interface ListProjectsLocationsTlsInspectionPoliciesRequest {
   /** Maximum number of TlsInspectionPolicies to return per call. */
   pageSize?: number;
@@ -5459,7 +5458,8 @@ export const ListProjectsLocationsTlsInspectionPoliciesResponse = ListTlsInspect
 
 export type ListProjectsLocationsTlsInspectionPoliciesError = CommonErrors;
 
-export const listProjectsLocationsTlsInspectionPolicies = API.makePaginated(() => ({
+/** Lists TlsInspectionPolicies in a given project and location. */
+export const listProjectsLocationsTlsInspectionPolicies: API.PaginatedOperationMethod<ListProjectsLocationsTlsInspectionPoliciesRequest, ListProjectsLocationsTlsInspectionPoliciesResponse, ListProjectsLocationsTlsInspectionPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsTlsInspectionPoliciesRequest,
   output: ListProjectsLocationsTlsInspectionPoliciesResponse,
   errors: [],
@@ -5469,7 +5469,6 @@ export const listProjectsLocationsTlsInspectionPolicies = API.makePaginated(() =
   },
 }));
 
-/** Deletes a single TlsInspectionPolicy. */
 export interface DeleteProjectsLocationsTlsInspectionPoliciesRequest {
   /** Required. A name of the TlsInspectionPolicy to delete. Must be in the format `projects/{project}/locations/{location}/tlsInspectionPolicies/{tls_inspection_policy}`. */
   name: string;
@@ -5490,13 +5489,13 @@ export const DeleteProjectsLocationsTlsInspectionPoliciesResponse = Operation;
 
 export type DeleteProjectsLocationsTlsInspectionPoliciesError = CommonErrors;
 
+/** Deletes a single TlsInspectionPolicy. */
 export const deleteProjectsLocationsTlsInspectionPolicies: API.OperationMethod<DeleteProjectsLocationsTlsInspectionPoliciesRequest, DeleteProjectsLocationsTlsInspectionPoliciesResponse, DeleteProjectsLocationsTlsInspectionPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsTlsInspectionPoliciesRequest,
   output: DeleteProjectsLocationsTlsInspectionPoliciesResponse,
   errors: [],
 }));
 
-/** Gets details of a single TlsInspectionPolicy. */
 export interface GetProjectsLocationsTlsInspectionPoliciesRequest {
   /** Required. A name of the TlsInspectionPolicy to get. Must be in the format `projects/{project}/locations/{location}/tlsInspectionPolicies/{tls_inspection_policy}`. */
   name: string;
@@ -5514,13 +5513,13 @@ export const GetProjectsLocationsTlsInspectionPoliciesResponse = TlsInspectionPo
 
 export type GetProjectsLocationsTlsInspectionPoliciesError = CommonErrors;
 
+/** Gets details of a single TlsInspectionPolicy. */
 export const getProjectsLocationsTlsInspectionPolicies: API.OperationMethod<GetProjectsLocationsTlsInspectionPoliciesRequest, GetProjectsLocationsTlsInspectionPoliciesResponse, GetProjectsLocationsTlsInspectionPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsTlsInspectionPoliciesRequest,
   output: GetProjectsLocationsTlsInspectionPoliciesResponse,
   errors: [],
 }));
 
-/** Creates a new TlsInspectionPolicy in a given project and location. */
 export interface CreateProjectsLocationsTlsInspectionPoliciesRequest {
   /** Required. The parent resource of the TlsInspectionPolicy. Must be in the format `projects/{project}/locations/{location}`. */
   parent: string;
@@ -5544,13 +5543,13 @@ export const CreateProjectsLocationsTlsInspectionPoliciesResponse = Operation;
 
 export type CreateProjectsLocationsTlsInspectionPoliciesError = CommonErrors;
 
+/** Creates a new TlsInspectionPolicy in a given project and location. */
 export const createProjectsLocationsTlsInspectionPolicies: API.OperationMethod<CreateProjectsLocationsTlsInspectionPoliciesRequest, CreateProjectsLocationsTlsInspectionPoliciesResponse, CreateProjectsLocationsTlsInspectionPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsTlsInspectionPoliciesRequest,
   output: CreateProjectsLocationsTlsInspectionPoliciesResponse,
   errors: [],
 }));
 
-/** Gets details of a single ServerTlsPolicy. */
 export interface GetProjectsLocationsServerTlsPoliciesRequest {
   /** Required. A name of the ServerTlsPolicy to get. Must be in the format `projects/* /locations/{location}/serverTlsPolicies/*`. */
   name: string;
@@ -5568,13 +5567,13 @@ export const GetProjectsLocationsServerTlsPoliciesResponse = ServerTlsPolicy;
 
 export type GetProjectsLocationsServerTlsPoliciesError = CommonErrors;
 
+/** Gets details of a single ServerTlsPolicy. */
 export const getProjectsLocationsServerTlsPolicies: API.OperationMethod<GetProjectsLocationsServerTlsPoliciesRequest, GetProjectsLocationsServerTlsPoliciesResponse, GetProjectsLocationsServerTlsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsServerTlsPoliciesRequest,
   output: GetProjectsLocationsServerTlsPoliciesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsServerTlsPoliciesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -5595,13 +5594,13 @@ export const TestIamPermissionsProjectsLocationsServerTlsPoliciesResponse = Goog
 
 export type TestIamPermissionsProjectsLocationsServerTlsPoliciesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsServerTlsPolicies: API.OperationMethod<TestIamPermissionsProjectsLocationsServerTlsPoliciesRequest, TestIamPermissionsProjectsLocationsServerTlsPoliciesResponse, TestIamPermissionsProjectsLocationsServerTlsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsServerTlsPoliciesRequest,
   output: TestIamPermissionsProjectsLocationsServerTlsPoliciesResponse,
   errors: [],
 }));
 
-/** Deletes a single ServerTlsPolicy. */
 export interface DeleteProjectsLocationsServerTlsPoliciesRequest {
   /** Required. A name of the ServerTlsPolicy to delete. Must be in the format `projects/* /locations/{location}/serverTlsPolicies/*`. */
   name: string;
@@ -5619,13 +5618,13 @@ export const DeleteProjectsLocationsServerTlsPoliciesResponse = Operation;
 
 export type DeleteProjectsLocationsServerTlsPoliciesError = CommonErrors;
 
+/** Deletes a single ServerTlsPolicy. */
 export const deleteProjectsLocationsServerTlsPolicies: API.OperationMethod<DeleteProjectsLocationsServerTlsPoliciesRequest, DeleteProjectsLocationsServerTlsPoliciesResponse, DeleteProjectsLocationsServerTlsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsServerTlsPoliciesRequest,
   output: DeleteProjectsLocationsServerTlsPoliciesResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single ServerTlsPolicy. */
 export interface PatchProjectsLocationsServerTlsPoliciesRequest {
   /** Optional. Field mask is used to specify the fields to be overwritten in the ServerTlsPolicy resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
@@ -5649,13 +5648,13 @@ export const PatchProjectsLocationsServerTlsPoliciesResponse = Operation;
 
 export type PatchProjectsLocationsServerTlsPoliciesError = CommonErrors;
 
+/** Updates the parameters of a single ServerTlsPolicy. */
 export const patchProjectsLocationsServerTlsPolicies: API.OperationMethod<PatchProjectsLocationsServerTlsPoliciesRequest, PatchProjectsLocationsServerTlsPoliciesResponse, PatchProjectsLocationsServerTlsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsServerTlsPoliciesRequest,
   output: PatchProjectsLocationsServerTlsPoliciesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsServerTlsPoliciesRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
@@ -5676,13 +5675,13 @@ export const GetIamPolicyProjectsLocationsServerTlsPoliciesResponse = GoogleIamV
 
 export type GetIamPolicyProjectsLocationsServerTlsPoliciesError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsServerTlsPolicies: API.OperationMethod<GetIamPolicyProjectsLocationsServerTlsPoliciesRequest, GetIamPolicyProjectsLocationsServerTlsPoliciesResponse, GetIamPolicyProjectsLocationsServerTlsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsServerTlsPoliciesRequest,
   output: GetIamPolicyProjectsLocationsServerTlsPoliciesResponse,
   errors: [],
 }));
 
-/** Lists ServerTlsPolicies in a given project and location. */
 export interface ListProjectsLocationsServerTlsPoliciesRequest {
   /** Required. The project and location from which the ServerTlsPolicies should be listed, specified in the format `projects/* /locations/{location}`. */
   parent: string;
@@ -5709,7 +5708,8 @@ export const ListProjectsLocationsServerTlsPoliciesResponse = ListServerTlsPolic
 
 export type ListProjectsLocationsServerTlsPoliciesError = CommonErrors;
 
-export const listProjectsLocationsServerTlsPolicies = API.makePaginated(() => ({
+/** Lists ServerTlsPolicies in a given project and location. */
+export const listProjectsLocationsServerTlsPolicies: API.PaginatedOperationMethod<ListProjectsLocationsServerTlsPoliciesRequest, ListProjectsLocationsServerTlsPoliciesResponse, ListProjectsLocationsServerTlsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsServerTlsPoliciesRequest,
   output: ListProjectsLocationsServerTlsPoliciesResponse,
   errors: [],
@@ -5719,7 +5719,6 @@ export const listProjectsLocationsServerTlsPolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new ServerTlsPolicy in a given project and location. */
 export interface CreateProjectsLocationsServerTlsPoliciesRequest {
   /** Required. Short name of the ServerTlsPolicy resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "server_mtls_policy". */
   serverTlsPolicyId?: string;
@@ -5743,13 +5742,13 @@ export const CreateProjectsLocationsServerTlsPoliciesResponse = Operation;
 
 export type CreateProjectsLocationsServerTlsPoliciesError = CommonErrors;
 
+/** Creates a new ServerTlsPolicy in a given project and location. */
 export const createProjectsLocationsServerTlsPolicies: API.OperationMethod<CreateProjectsLocationsServerTlsPoliciesRequest, CreateProjectsLocationsServerTlsPoliciesResponse, CreateProjectsLocationsServerTlsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsServerTlsPoliciesRequest,
   output: CreateProjectsLocationsServerTlsPoliciesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsServerTlsPoliciesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -5770,13 +5769,13 @@ export const SetIamPolicyProjectsLocationsServerTlsPoliciesResponse = GoogleIamV
 
 export type SetIamPolicyProjectsLocationsServerTlsPoliciesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsServerTlsPolicies: API.OperationMethod<SetIamPolicyProjectsLocationsServerTlsPoliciesRequest, SetIamPolicyProjectsLocationsServerTlsPoliciesResponse, SetIamPolicyProjectsLocationsServerTlsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsServerTlsPoliciesRequest,
   output: SetIamPolicyProjectsLocationsServerTlsPoliciesResponse,
   errors: [],
 }));
 
-/** Lists GatewaySecurityPolicies in a given project and location. */
 export interface ListProjectsLocationsGatewaySecurityPoliciesRequest {
   /** The value returned by the last 'ListGatewaySecurityPoliciesResponse' Indicates that this is a continuation of a prior 'ListGatewaySecurityPolicies' call, and that the system should return the next page of data. */
   pageToken?: string;
@@ -5800,7 +5799,8 @@ export const ListProjectsLocationsGatewaySecurityPoliciesResponse = ListGatewayS
 
 export type ListProjectsLocationsGatewaySecurityPoliciesError = CommonErrors;
 
-export const listProjectsLocationsGatewaySecurityPolicies = API.makePaginated(() => ({
+/** Lists GatewaySecurityPolicies in a given project and location. */
+export const listProjectsLocationsGatewaySecurityPolicies: API.PaginatedOperationMethod<ListProjectsLocationsGatewaySecurityPoliciesRequest, ListProjectsLocationsGatewaySecurityPoliciesResponse, ListProjectsLocationsGatewaySecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsGatewaySecurityPoliciesRequest,
   output: ListProjectsLocationsGatewaySecurityPoliciesResponse,
   errors: [],
@@ -5810,7 +5810,6 @@ export const listProjectsLocationsGatewaySecurityPolicies = API.makePaginated(()
   },
 }));
 
-/** Updates the parameters of a single GatewaySecurityPolicy. */
 export interface PatchProjectsLocationsGatewaySecurityPoliciesRequest {
   /** Required. Name of the resource. Name is of the form projects/{project}/locations/{location}/gatewaySecurityPolicies/{gateway_security_policy} gateway_security_policy should match the pattern:(^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$). */
   name: string;
@@ -5834,13 +5833,13 @@ export const PatchProjectsLocationsGatewaySecurityPoliciesResponse = Operation;
 
 export type PatchProjectsLocationsGatewaySecurityPoliciesError = CommonErrors;
 
+/** Updates the parameters of a single GatewaySecurityPolicy. */
 export const patchProjectsLocationsGatewaySecurityPolicies: API.OperationMethod<PatchProjectsLocationsGatewaySecurityPoliciesRequest, PatchProjectsLocationsGatewaySecurityPoliciesResponse, PatchProjectsLocationsGatewaySecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsGatewaySecurityPoliciesRequest,
   output: PatchProjectsLocationsGatewaySecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Creates a new GatewaySecurityPolicy in a given project and location. */
 export interface CreateProjectsLocationsGatewaySecurityPoliciesRequest {
   /** Required. Short name of the GatewaySecurityPolicy resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "gateway_security_policy1". */
   gatewaySecurityPolicyId?: string;
@@ -5864,13 +5863,13 @@ export const CreateProjectsLocationsGatewaySecurityPoliciesResponse = Operation;
 
 export type CreateProjectsLocationsGatewaySecurityPoliciesError = CommonErrors;
 
+/** Creates a new GatewaySecurityPolicy in a given project and location. */
 export const createProjectsLocationsGatewaySecurityPolicies: API.OperationMethod<CreateProjectsLocationsGatewaySecurityPoliciesRequest, CreateProjectsLocationsGatewaySecurityPoliciesResponse, CreateProjectsLocationsGatewaySecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsGatewaySecurityPoliciesRequest,
   output: CreateProjectsLocationsGatewaySecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Deletes a single GatewaySecurityPolicy. */
 export interface DeleteProjectsLocationsGatewaySecurityPoliciesRequest {
   /** Required. A name of the GatewaySecurityPolicy to delete. Must be in the format `projects/{project}/locations/{location}/gatewaySecurityPolicies/*`. */
   name: string;
@@ -5888,13 +5887,13 @@ export const DeleteProjectsLocationsGatewaySecurityPoliciesResponse = Operation;
 
 export type DeleteProjectsLocationsGatewaySecurityPoliciesError = CommonErrors;
 
+/** Deletes a single GatewaySecurityPolicy. */
 export const deleteProjectsLocationsGatewaySecurityPolicies: API.OperationMethod<DeleteProjectsLocationsGatewaySecurityPoliciesRequest, DeleteProjectsLocationsGatewaySecurityPoliciesResponse, DeleteProjectsLocationsGatewaySecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsGatewaySecurityPoliciesRequest,
   output: DeleteProjectsLocationsGatewaySecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Gets details of a single GatewaySecurityPolicy. */
 export interface GetProjectsLocationsGatewaySecurityPoliciesRequest {
   /** Required. A name of the GatewaySecurityPolicy to get. Must be in the format `projects/{project}/locations/{location}/gatewaySecurityPolicies/*`. */
   name: string;
@@ -5912,13 +5911,13 @@ export const GetProjectsLocationsGatewaySecurityPoliciesResponse = GatewaySecuri
 
 export type GetProjectsLocationsGatewaySecurityPoliciesError = CommonErrors;
 
+/** Gets details of a single GatewaySecurityPolicy. */
 export const getProjectsLocationsGatewaySecurityPolicies: API.OperationMethod<GetProjectsLocationsGatewaySecurityPoliciesRequest, GetProjectsLocationsGatewaySecurityPoliciesResponse, GetProjectsLocationsGatewaySecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsGatewaySecurityPoliciesRequest,
   output: GetProjectsLocationsGatewaySecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Gets details of a single GatewaySecurityPolicyRule. */
 export interface GetProjectsLocationsGatewaySecurityPoliciesRulesRequest {
   /** Required. The name of the GatewaySecurityPolicyRule to retrieve. Format: projects/{project}/location/{location}/gatewaySecurityPolicies/* /rules/* */
   name: string;
@@ -5936,13 +5935,13 @@ export const GetProjectsLocationsGatewaySecurityPoliciesRulesResponse = GatewayS
 
 export type GetProjectsLocationsGatewaySecurityPoliciesRulesError = CommonErrors;
 
+/** Gets details of a single GatewaySecurityPolicyRule. */
 export const getProjectsLocationsGatewaySecurityPoliciesRules: API.OperationMethod<GetProjectsLocationsGatewaySecurityPoliciesRulesRequest, GetProjectsLocationsGatewaySecurityPoliciesRulesResponse, GetProjectsLocationsGatewaySecurityPoliciesRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsGatewaySecurityPoliciesRulesRequest,
   output: GetProjectsLocationsGatewaySecurityPoliciesRulesResponse,
   errors: [],
 }));
 
-/** Lists GatewaySecurityPolicyRules in a given project and location. */
 export interface ListProjectsLocationsGatewaySecurityPoliciesRulesRequest {
   /** The value returned by the last 'ListGatewaySecurityPolicyRulesResponse' Indicates that this is a continuation of a prior 'ListGatewaySecurityPolicyRules' call, and that the system should return the next page of data. */
   pageToken?: string;
@@ -5966,7 +5965,8 @@ export const ListProjectsLocationsGatewaySecurityPoliciesRulesResponse = ListGat
 
 export type ListProjectsLocationsGatewaySecurityPoliciesRulesError = CommonErrors;
 
-export const listProjectsLocationsGatewaySecurityPoliciesRules = API.makePaginated(() => ({
+/** Lists GatewaySecurityPolicyRules in a given project and location. */
+export const listProjectsLocationsGatewaySecurityPoliciesRules: API.PaginatedOperationMethod<ListProjectsLocationsGatewaySecurityPoliciesRulesRequest, ListProjectsLocationsGatewaySecurityPoliciesRulesResponse, ListProjectsLocationsGatewaySecurityPoliciesRulesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsGatewaySecurityPoliciesRulesRequest,
   output: ListProjectsLocationsGatewaySecurityPoliciesRulesResponse,
   errors: [],
@@ -5976,7 +5976,6 @@ export const listProjectsLocationsGatewaySecurityPoliciesRules = API.makePaginat
   },
 }));
 
-/** Deletes a single GatewaySecurityPolicyRule. */
 export interface DeleteProjectsLocationsGatewaySecurityPoliciesRulesRequest {
   /** Required. A name of the GatewaySecurityPolicyRule to delete. Must be in the format `projects/{project}/locations/{location}/gatewaySecurityPolicies/{gatewaySecurityPolicy}/rules/*`. */
   name: string;
@@ -5994,13 +5993,13 @@ export const DeleteProjectsLocationsGatewaySecurityPoliciesRulesResponse = Opera
 
 export type DeleteProjectsLocationsGatewaySecurityPoliciesRulesError = CommonErrors;
 
+/** Deletes a single GatewaySecurityPolicyRule. */
 export const deleteProjectsLocationsGatewaySecurityPoliciesRules: API.OperationMethod<DeleteProjectsLocationsGatewaySecurityPoliciesRulesRequest, DeleteProjectsLocationsGatewaySecurityPoliciesRulesResponse, DeleteProjectsLocationsGatewaySecurityPoliciesRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsGatewaySecurityPoliciesRulesRequest,
   output: DeleteProjectsLocationsGatewaySecurityPoliciesRulesResponse,
   errors: [],
 }));
 
-/** Creates a new GatewaySecurityPolicy in a given project and location. */
 export interface CreateProjectsLocationsGatewaySecurityPoliciesRulesRequest {
   /** The ID to use for the rule, which will become the final component of the rule's resource name. This value should be 4-63 characters, and valid characters are /a-z-/. */
   gatewaySecurityPolicyRuleId?: string;
@@ -6024,13 +6023,13 @@ export const CreateProjectsLocationsGatewaySecurityPoliciesRulesResponse = Opera
 
 export type CreateProjectsLocationsGatewaySecurityPoliciesRulesError = CommonErrors;
 
+/** Creates a new GatewaySecurityPolicy in a given project and location. */
 export const createProjectsLocationsGatewaySecurityPoliciesRules: API.OperationMethod<CreateProjectsLocationsGatewaySecurityPoliciesRulesRequest, CreateProjectsLocationsGatewaySecurityPoliciesRulesResponse, CreateProjectsLocationsGatewaySecurityPoliciesRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsGatewaySecurityPoliciesRulesRequest,
   output: CreateProjectsLocationsGatewaySecurityPoliciesRulesResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single GatewaySecurityPolicyRule. */
 export interface PatchProjectsLocationsGatewaySecurityPoliciesRulesRequest {
   /** Required. Immutable. Name of the resource. ame is the full resource name so projects/{project}/locations/{location}/gatewaySecurityPolicies/{gateway_security_policy}/rules/{rule} rule should match the pattern: (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$). */
   name: string;
@@ -6054,13 +6053,13 @@ export const PatchProjectsLocationsGatewaySecurityPoliciesRulesResponse = Operat
 
 export type PatchProjectsLocationsGatewaySecurityPoliciesRulesError = CommonErrors;
 
+/** Updates the parameters of a single GatewaySecurityPolicyRule. */
 export const patchProjectsLocationsGatewaySecurityPoliciesRules: API.OperationMethod<PatchProjectsLocationsGatewaySecurityPoliciesRulesRequest, PatchProjectsLocationsGatewaySecurityPoliciesRulesResponse, PatchProjectsLocationsGatewaySecurityPoliciesRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsGatewaySecurityPoliciesRulesRequest,
   output: PatchProjectsLocationsGatewaySecurityPoliciesRulesResponse,
   errors: [],
 }));
 
-/** Deletes a single AuthzPolicy. */
 export interface DeleteProjectsLocationsAuthzPoliciesRequest {
   /** Required. The name of the `AuthzPolicy` resource to delete. Must be in the format `projects/{project}/locations/{location}/authzPolicies/{authz_policy}`. */
   name: string;
@@ -6081,13 +6080,13 @@ export const DeleteProjectsLocationsAuthzPoliciesResponse = Operation;
 
 export type DeleteProjectsLocationsAuthzPoliciesError = CommonErrors;
 
+/** Deletes a single AuthzPolicy. */
 export const deleteProjectsLocationsAuthzPolicies: API.OperationMethod<DeleteProjectsLocationsAuthzPoliciesRequest, DeleteProjectsLocationsAuthzPoliciesResponse, DeleteProjectsLocationsAuthzPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsAuthzPoliciesRequest,
   output: DeleteProjectsLocationsAuthzPoliciesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsAuthzPoliciesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -6108,13 +6107,13 @@ export const SetIamPolicyProjectsLocationsAuthzPoliciesResponse = GoogleIamV1Pol
 
 export type SetIamPolicyProjectsLocationsAuthzPoliciesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsAuthzPolicies: API.OperationMethod<SetIamPolicyProjectsLocationsAuthzPoliciesRequest, SetIamPolicyProjectsLocationsAuthzPoliciesResponse, SetIamPolicyProjectsLocationsAuthzPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsAuthzPoliciesRequest,
   output: SetIamPolicyProjectsLocationsAuthzPoliciesResponse,
   errors: [],
 }));
 
-/** Gets details of a single AuthzPolicy. */
 export interface GetProjectsLocationsAuthzPoliciesRequest {
   /** Required. A name of the `AuthzPolicy` resource to get. Must be in the format `projects/{project}/locations/{location}/authzPolicies/{authz_policy}`. */
   name: string;
@@ -6132,13 +6131,13 @@ export const GetProjectsLocationsAuthzPoliciesResponse = AuthzPolicy;
 
 export type GetProjectsLocationsAuthzPoliciesError = CommonErrors;
 
+/** Gets details of a single AuthzPolicy. */
 export const getProjectsLocationsAuthzPolicies: API.OperationMethod<GetProjectsLocationsAuthzPoliciesRequest, GetProjectsLocationsAuthzPoliciesResponse, GetProjectsLocationsAuthzPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAuthzPoliciesRequest,
   output: GetProjectsLocationsAuthzPoliciesResponse,
   errors: [],
 }));
 
-/** Lists AuthzPolicies in a given project and location. */
 export interface ListProjectsLocationsAuthzPoliciesRequest {
   /** Optional. Hint for how to order the results. */
   orderBy?: string;
@@ -6168,7 +6167,8 @@ export const ListProjectsLocationsAuthzPoliciesResponse = ListAuthzPoliciesRespo
 
 export type ListProjectsLocationsAuthzPoliciesError = CommonErrors;
 
-export const listProjectsLocationsAuthzPolicies = API.makePaginated(() => ({
+/** Lists AuthzPolicies in a given project and location. */
+export const listProjectsLocationsAuthzPolicies: API.PaginatedOperationMethod<ListProjectsLocationsAuthzPoliciesRequest, ListProjectsLocationsAuthzPoliciesResponse, ListProjectsLocationsAuthzPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAuthzPoliciesRequest,
   output: ListProjectsLocationsAuthzPoliciesResponse,
   errors: [],
@@ -6178,7 +6178,6 @@ export const listProjectsLocationsAuthzPolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsAuthzPoliciesRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
@@ -6199,13 +6198,13 @@ export const GetIamPolicyProjectsLocationsAuthzPoliciesResponse = GoogleIamV1Pol
 
 export type GetIamPolicyProjectsLocationsAuthzPoliciesError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsAuthzPolicies: API.OperationMethod<GetIamPolicyProjectsLocationsAuthzPoliciesRequest, GetIamPolicyProjectsLocationsAuthzPoliciesResponse, GetIamPolicyProjectsLocationsAuthzPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsAuthzPoliciesRequest,
   output: GetIamPolicyProjectsLocationsAuthzPoliciesResponse,
   errors: [],
 }));
 
-/** Creates a new AuthzPolicy in a given project and location. */
 export interface CreateProjectsLocationsAuthzPoliciesRequest {
   /** Required. User-provided ID of the `AuthzPolicy` resource to be created. */
   authzPolicyId?: string;
@@ -6232,13 +6231,13 @@ export const CreateProjectsLocationsAuthzPoliciesResponse = Operation;
 
 export type CreateProjectsLocationsAuthzPoliciesError = CommonErrors;
 
+/** Creates a new AuthzPolicy in a given project and location. */
 export const createProjectsLocationsAuthzPolicies: API.OperationMethod<CreateProjectsLocationsAuthzPoliciesRequest, CreateProjectsLocationsAuthzPoliciesResponse, CreateProjectsLocationsAuthzPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsAuthzPoliciesRequest,
   output: CreateProjectsLocationsAuthzPoliciesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsAuthzPoliciesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -6259,13 +6258,13 @@ export const TestIamPermissionsProjectsLocationsAuthzPoliciesResponse = GoogleIa
 
 export type TestIamPermissionsProjectsLocationsAuthzPoliciesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsAuthzPolicies: API.OperationMethod<TestIamPermissionsProjectsLocationsAuthzPoliciesRequest, TestIamPermissionsProjectsLocationsAuthzPoliciesResponse, TestIamPermissionsProjectsLocationsAuthzPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsAuthzPoliciesRequest,
   output: TestIamPermissionsProjectsLocationsAuthzPoliciesResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single AuthzPolicy. */
 export interface PatchProjectsLocationsAuthzPoliciesRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -6292,13 +6291,13 @@ export const PatchProjectsLocationsAuthzPoliciesResponse = Operation;
 
 export type PatchProjectsLocationsAuthzPoliciesError = CommonErrors;
 
+/** Updates the parameters of a single AuthzPolicy. */
 export const patchProjectsLocationsAuthzPolicies: API.OperationMethod<PatchProjectsLocationsAuthzPoliciesRequest, PatchProjectsLocationsAuthzPoliciesResponse, PatchProjectsLocationsAuthzPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsAuthzPoliciesRequest,
   output: PatchProjectsLocationsAuthzPoliciesResponse,
   errors: [],
 }));
 
-/** Lists associations in a given project and location. See https://google.aip.dev/132. */
 export interface ListProjectsLocationsInterceptEndpointGroupAssociationsRequest {
   /** Required. The parent, which owns this collection of associations. Example: `projects/123456789/locations/global`. See https://google.aip.dev/132 for more details. */
   parent: string;
@@ -6328,7 +6327,8 @@ export const ListProjectsLocationsInterceptEndpointGroupAssociationsResponse = L
 
 export type ListProjectsLocationsInterceptEndpointGroupAssociationsError = CommonErrors;
 
-export const listProjectsLocationsInterceptEndpointGroupAssociations = API.makePaginated(() => ({
+/** Lists associations in a given project and location. See https://google.aip.dev/132. */
+export const listProjectsLocationsInterceptEndpointGroupAssociations: API.PaginatedOperationMethod<ListProjectsLocationsInterceptEndpointGroupAssociationsRequest, ListProjectsLocationsInterceptEndpointGroupAssociationsResponse, ListProjectsLocationsInterceptEndpointGroupAssociationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsInterceptEndpointGroupAssociationsRequest,
   output: ListProjectsLocationsInterceptEndpointGroupAssociationsResponse,
   errors: [],
@@ -6338,7 +6338,6 @@ export const listProjectsLocationsInterceptEndpointGroupAssociations = API.makeP
   },
 }));
 
-/** Creates an association in a given project and location. See https://google.aip.dev/133. */
 export interface CreateProjectsLocationsInterceptEndpointGroupAssociationsRequest {
   /** Required. The parent resource where this association will be created. Format: projects/{project}/locations/{location} */
   parent: string;
@@ -6365,13 +6364,13 @@ export const CreateProjectsLocationsInterceptEndpointGroupAssociationsResponse =
 
 export type CreateProjectsLocationsInterceptEndpointGroupAssociationsError = CommonErrors;
 
+/** Creates an association in a given project and location. See https://google.aip.dev/133. */
 export const createProjectsLocationsInterceptEndpointGroupAssociations: API.OperationMethod<CreateProjectsLocationsInterceptEndpointGroupAssociationsRequest, CreateProjectsLocationsInterceptEndpointGroupAssociationsResponse, CreateProjectsLocationsInterceptEndpointGroupAssociationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsInterceptEndpointGroupAssociationsRequest,
   output: CreateProjectsLocationsInterceptEndpointGroupAssociationsResponse,
   errors: [],
 }));
 
-/** Updates an association. See https://google.aip.dev/134. */
 export interface PatchProjectsLocationsInterceptEndpointGroupAssociationsRequest {
   /** Immutable. Identifier. The resource name of this endpoint group association, for example: `projects/123456789/locations/global/interceptEndpointGroupAssociations/my-eg-association`. See https://google.aip.dev/122 for more details. */
   name: string;
@@ -6398,13 +6397,13 @@ export const PatchProjectsLocationsInterceptEndpointGroupAssociationsResponse = 
 
 export type PatchProjectsLocationsInterceptEndpointGroupAssociationsError = CommonErrors;
 
+/** Updates an association. See https://google.aip.dev/134. */
 export const patchProjectsLocationsInterceptEndpointGroupAssociations: API.OperationMethod<PatchProjectsLocationsInterceptEndpointGroupAssociationsRequest, PatchProjectsLocationsInterceptEndpointGroupAssociationsResponse, PatchProjectsLocationsInterceptEndpointGroupAssociationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsInterceptEndpointGroupAssociationsRequest,
   output: PatchProjectsLocationsInterceptEndpointGroupAssociationsResponse,
   errors: [],
 }));
 
-/** Gets a specific association. See https://google.aip.dev/131. */
 export interface GetProjectsLocationsInterceptEndpointGroupAssociationsRequest {
   /** Required. The name of the association to retrieve. Format: projects/{project}/locations/{location}/interceptEndpointGroupAssociations/{intercept_endpoint_group_association} */
   name: string;
@@ -6422,13 +6421,13 @@ export const GetProjectsLocationsInterceptEndpointGroupAssociationsResponse = In
 
 export type GetProjectsLocationsInterceptEndpointGroupAssociationsError = CommonErrors;
 
+/** Gets a specific association. See https://google.aip.dev/131. */
 export const getProjectsLocationsInterceptEndpointGroupAssociations: API.OperationMethod<GetProjectsLocationsInterceptEndpointGroupAssociationsRequest, GetProjectsLocationsInterceptEndpointGroupAssociationsResponse, GetProjectsLocationsInterceptEndpointGroupAssociationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsInterceptEndpointGroupAssociationsRequest,
   output: GetProjectsLocationsInterceptEndpointGroupAssociationsResponse,
   errors: [],
 }));
 
-/** Deletes an association. See https://google.aip.dev/135. */
 export interface DeleteProjectsLocationsInterceptEndpointGroupAssociationsRequest {
   /** Required. The association to delete. */
   name: string;
@@ -6449,13 +6448,13 @@ export const DeleteProjectsLocationsInterceptEndpointGroupAssociationsResponse =
 
 export type DeleteProjectsLocationsInterceptEndpointGroupAssociationsError = CommonErrors;
 
+/** Deletes an association. See https://google.aip.dev/135. */
 export const deleteProjectsLocationsInterceptEndpointGroupAssociations: API.OperationMethod<DeleteProjectsLocationsInterceptEndpointGroupAssociationsRequest, DeleteProjectsLocationsInterceptEndpointGroupAssociationsResponse, DeleteProjectsLocationsInterceptEndpointGroupAssociationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsInterceptEndpointGroupAssociationsRequest,
   output: DeleteProjectsLocationsInterceptEndpointGroupAssociationsResponse,
   errors: [],
 }));
 
-/** Creates a new AuthorizationPolicy in a given project and location. */
 export interface CreateProjectsLocationsAuthorizationPoliciesRequest {
   /** Required. The parent resource of the AuthorizationPolicy. Must be in the format `projects/{project}/locations/{location}`. */
   parent: string;
@@ -6479,13 +6478,13 @@ export const CreateProjectsLocationsAuthorizationPoliciesResponse = Operation;
 
 export type CreateProjectsLocationsAuthorizationPoliciesError = CommonErrors;
 
+/** Creates a new AuthorizationPolicy in a given project and location. */
 export const createProjectsLocationsAuthorizationPolicies: API.OperationMethod<CreateProjectsLocationsAuthorizationPoliciesRequest, CreateProjectsLocationsAuthorizationPoliciesResponse, CreateProjectsLocationsAuthorizationPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsAuthorizationPoliciesRequest,
   output: CreateProjectsLocationsAuthorizationPoliciesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsAuthorizationPoliciesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -6506,13 +6505,13 @@ export const TestIamPermissionsProjectsLocationsAuthorizationPoliciesResponse = 
 
 export type TestIamPermissionsProjectsLocationsAuthorizationPoliciesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsAuthorizationPolicies: API.OperationMethod<TestIamPermissionsProjectsLocationsAuthorizationPoliciesRequest, TestIamPermissionsProjectsLocationsAuthorizationPoliciesResponse, TestIamPermissionsProjectsLocationsAuthorizationPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsAuthorizationPoliciesRequest,
   output: TestIamPermissionsProjectsLocationsAuthorizationPoliciesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsAuthorizationPoliciesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -6533,13 +6532,13 @@ export const GetIamPolicyProjectsLocationsAuthorizationPoliciesResponse = Google
 
 export type GetIamPolicyProjectsLocationsAuthorizationPoliciesError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsAuthorizationPolicies: API.OperationMethod<GetIamPolicyProjectsLocationsAuthorizationPoliciesRequest, GetIamPolicyProjectsLocationsAuthorizationPoliciesResponse, GetIamPolicyProjectsLocationsAuthorizationPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsAuthorizationPoliciesRequest,
   output: GetIamPolicyProjectsLocationsAuthorizationPoliciesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsAuthorizationPoliciesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -6560,13 +6559,13 @@ export const SetIamPolicyProjectsLocationsAuthorizationPoliciesResponse = Google
 
 export type SetIamPolicyProjectsLocationsAuthorizationPoliciesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsAuthorizationPolicies: API.OperationMethod<SetIamPolicyProjectsLocationsAuthorizationPoliciesRequest, SetIamPolicyProjectsLocationsAuthorizationPoliciesResponse, SetIamPolicyProjectsLocationsAuthorizationPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsAuthorizationPoliciesRequest,
   output: SetIamPolicyProjectsLocationsAuthorizationPoliciesResponse,
   errors: [],
 }));
 
-/** Gets details of a single AuthorizationPolicy. */
 export interface GetProjectsLocationsAuthorizationPoliciesRequest {
   /** Required. A name of the AuthorizationPolicy to get. Must be in the format `projects/{project}/locations/{location}/authorizationPolicies/*`. */
   name: string;
@@ -6584,13 +6583,13 @@ export const GetProjectsLocationsAuthorizationPoliciesResponse = AuthorizationPo
 
 export type GetProjectsLocationsAuthorizationPoliciesError = CommonErrors;
 
+/** Gets details of a single AuthorizationPolicy. */
 export const getProjectsLocationsAuthorizationPolicies: API.OperationMethod<GetProjectsLocationsAuthorizationPoliciesRequest, GetProjectsLocationsAuthorizationPoliciesResponse, GetProjectsLocationsAuthorizationPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAuthorizationPoliciesRequest,
   output: GetProjectsLocationsAuthorizationPoliciesResponse,
   errors: [],
 }));
 
-/** Lists AuthorizationPolicies in a given project and location. */
 export interface ListProjectsLocationsAuthorizationPoliciesRequest {
   /** The value returned by the last `ListAuthorizationPoliciesResponse` Indicates that this is a continuation of a prior `ListAuthorizationPolicies` call, and that the system should return the next page of data. */
   pageToken?: string;
@@ -6614,7 +6613,8 @@ export const ListProjectsLocationsAuthorizationPoliciesResponse = ListAuthorizat
 
 export type ListProjectsLocationsAuthorizationPoliciesError = CommonErrors;
 
-export const listProjectsLocationsAuthorizationPolicies = API.makePaginated(() => ({
+/** Lists AuthorizationPolicies in a given project and location. */
+export const listProjectsLocationsAuthorizationPolicies: API.PaginatedOperationMethod<ListProjectsLocationsAuthorizationPoliciesRequest, ListProjectsLocationsAuthorizationPoliciesResponse, ListProjectsLocationsAuthorizationPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAuthorizationPoliciesRequest,
   output: ListProjectsLocationsAuthorizationPoliciesResponse,
   errors: [],
@@ -6624,7 +6624,6 @@ export const listProjectsLocationsAuthorizationPolicies = API.makePaginated(() =
   },
 }));
 
-/** Updates the parameters of a single AuthorizationPolicy. */
 export interface PatchProjectsLocationsAuthorizationPoliciesRequest {
   /** Optional. Field mask is used to specify the fields to be overwritten in the AuthorizationPolicy resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
@@ -6648,13 +6647,13 @@ export const PatchProjectsLocationsAuthorizationPoliciesResponse = Operation;
 
 export type PatchProjectsLocationsAuthorizationPoliciesError = CommonErrors;
 
+/** Updates the parameters of a single AuthorizationPolicy. */
 export const patchProjectsLocationsAuthorizationPolicies: API.OperationMethod<PatchProjectsLocationsAuthorizationPoliciesRequest, PatchProjectsLocationsAuthorizationPoliciesResponse, PatchProjectsLocationsAuthorizationPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsAuthorizationPoliciesRequest,
   output: PatchProjectsLocationsAuthorizationPoliciesResponse,
   errors: [],
 }));
 
-/** Deletes a single AuthorizationPolicy. */
 export interface DeleteProjectsLocationsAuthorizationPoliciesRequest {
   /** Required. A name of the AuthorizationPolicy to delete. Must be in the format `projects/{project}/locations/{location}/authorizationPolicies/*`. */
   name: string;
@@ -6672,6 +6671,7 @@ export const DeleteProjectsLocationsAuthorizationPoliciesResponse = Operation;
 
 export type DeleteProjectsLocationsAuthorizationPoliciesError = CommonErrors;
 
+/** Deletes a single AuthorizationPolicy. */
 export const deleteProjectsLocationsAuthorizationPolicies: API.OperationMethod<DeleteProjectsLocationsAuthorizationPoliciesRequest, DeleteProjectsLocationsAuthorizationPoliciesResponse, DeleteProjectsLocationsAuthorizationPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsAuthorizationPoliciesRequest,
   output: DeleteProjectsLocationsAuthorizationPoliciesResponse,

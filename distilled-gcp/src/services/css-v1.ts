@@ -582,7 +582,6 @@ export const ListQuotaGroupsResponse: Schema.Schema<ListQuotaGroupsResponse> = S
 // Operations
 // ==========================================================================
 
-/** Lists all the accounts under the specified CSS account ID, and optionally filters by label ID and account name. */
 export interface ListChildAccountsAccountsRequest {
   /** Required. The parent account. Must be a CSS group or domain. Format: accounts/{account} */
   parent: string;
@@ -612,7 +611,8 @@ export const ListChildAccountsAccountsResponse = ListChildAccountsResponse;
 
 export type ListChildAccountsAccountsError = CommonErrors;
 
-export const listChildAccountsAccounts = API.makePaginated(() => ({
+/** Lists all the accounts under the specified CSS account ID, and optionally filters by label ID and account name. */
+export const listChildAccountsAccounts: API.PaginatedOperationMethod<ListChildAccountsAccountsRequest, ListChildAccountsAccountsResponse, ListChildAccountsAccountsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListChildAccountsAccountsRequest,
   output: ListChildAccountsAccountsResponse,
   errors: [],
@@ -622,7 +622,6 @@ export const listChildAccountsAccounts = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves a single CSS/MC account by ID. */
 export interface GetAccountsRequest {
   /** Required. The name of the managed CSS/MC account. Format: accounts/{account} */
   name: string;
@@ -643,13 +642,13 @@ export const GetAccountsResponse = Account;
 
 export type GetAccountsError = CommonErrors;
 
+/** Retrieves a single CSS/MC account by ID. */
 export const getAccounts: API.OperationMethod<GetAccountsRequest, GetAccountsResponse, GetAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsRequest,
   output: GetAccountsResponse,
   errors: [],
 }));
 
-/** Updates labels assigned to CSS/MC accounts by a CSS domain. */
 export interface UpdateLabelsAccountsRequest {
   /** Required. The label resource name. Format: accounts/{account} */
   name: string;
@@ -670,13 +669,13 @@ export const UpdateLabelsAccountsResponse = Account;
 
 export type UpdateLabelsAccountsError = CommonErrors;
 
+/** Updates labels assigned to CSS/MC accounts by a CSS domain. */
 export const updateLabelsAccounts: API.OperationMethod<UpdateLabelsAccountsRequest, UpdateLabelsAccountsResponse, UpdateLabelsAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateLabelsAccountsRequest,
   output: UpdateLabelsAccountsResponse,
   errors: [],
 }));
 
-/** Lists the labels owned by an account. */
 export interface ListAccountsLabelsRequest {
   /** Required. The parent account. Format: accounts/{account} */
   parent: string;
@@ -700,7 +699,8 @@ export const ListAccountsLabelsResponse = ListAccountLabelsResponse;
 
 export type ListAccountsLabelsError = CommonErrors;
 
-export const listAccountsLabels = API.makePaginated(() => ({
+/** Lists the labels owned by an account. */
+export const listAccountsLabels: API.PaginatedOperationMethod<ListAccountsLabelsRequest, ListAccountsLabelsResponse, ListAccountsLabelsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsLabelsRequest,
   output: ListAccountsLabelsResponse,
   errors: [],
@@ -710,7 +710,6 @@ export const listAccountsLabels = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new label, not assigned to any account. */
 export interface CreateAccountsLabelsRequest {
   /** Required. The parent account. Format: accounts/{account} */
   parent: string;
@@ -731,13 +730,13 @@ export const CreateAccountsLabelsResponse = AccountLabel;
 
 export type CreateAccountsLabelsError = CommonErrors;
 
+/** Creates a new label, not assigned to any account. */
 export const createAccountsLabels: API.OperationMethod<CreateAccountsLabelsRequest, CreateAccountsLabelsResponse, CreateAccountsLabelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsLabelsRequest,
   output: CreateAccountsLabelsResponse,
   errors: [],
 }));
 
-/** Updates a label. */
 export interface PatchAccountsLabelsRequest {
   /** Identifier. The resource name of the label. Format: accounts/{account}/labels/{label} */
   name: string;
@@ -758,13 +757,13 @@ export const PatchAccountsLabelsResponse = AccountLabel;
 
 export type PatchAccountsLabelsError = CommonErrors;
 
+/** Updates a label. */
 export const patchAccountsLabels: API.OperationMethod<PatchAccountsLabelsRequest, PatchAccountsLabelsResponse, PatchAccountsLabelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAccountsLabelsRequest,
   output: PatchAccountsLabelsResponse,
   errors: [],
 }));
 
-/** Deletes a label and removes it from all accounts to which it was assigned. */
 export interface DeleteAccountsLabelsRequest {
   /** Required. The name of the label to delete. Format: accounts/{account}/labels/{label} */
   name: string;
@@ -782,13 +781,13 @@ export const DeleteAccountsLabelsResponse = Empty;
 
 export type DeleteAccountsLabelsError = CommonErrors;
 
+/** Deletes a label and removes it from all accounts to which it was assigned. */
 export const deleteAccountsLabels: API.OperationMethod<DeleteAccountsLabelsRequest, DeleteAccountsLabelsResponse, DeleteAccountsLabelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountsLabelsRequest,
   output: DeleteAccountsLabelsResponse,
   errors: [],
 }));
 
-/** Uploads a CssProductInput to your CSS Center account. If an input with the same contentLanguage, identity, feedLabel and feedId already exists, this method replaces that entry. After inserting, updating, or deleting a CSS Product input, it may take several minutes before the processed CSS Product can be retrieved. */
 export interface InsertAccountsCssProductInputsRequest {
   /** Required. The account where this CSS Product will be inserted. Format: accounts/{account} */
   parent: string;
@@ -812,13 +811,13 @@ export const InsertAccountsCssProductInputsResponse = CssProductInput;
 
 export type InsertAccountsCssProductInputsError = CommonErrors;
 
+/** Uploads a CssProductInput to your CSS Center account. If an input with the same contentLanguage, identity, feedLabel and feedId already exists, this method replaces that entry. After inserting, updating, or deleting a CSS Product input, it may take several minutes before the processed CSS Product can be retrieved. */
 export const insertAccountsCssProductInputs: API.OperationMethod<InsertAccountsCssProductInputsRequest, InsertAccountsCssProductInputsResponse, InsertAccountsCssProductInputsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertAccountsCssProductInputsRequest,
   output: InsertAccountsCssProductInputsResponse,
   errors: [],
 }));
 
-/** Updates the existing Css Product input in your CSS Center account. After inserting, updating, or deleting a CSS Product input, it may take several minutes before the processed Css Product can be retrieved. */
 export interface PatchAccountsCssProductInputsRequest {
   /** Identifier. The name of the CSS Product input. Format: `accounts/{account}/cssProductInputs/{css_product_input}`, where the last section `css_product_input` consists of 3 parts: contentLanguage~feedLabel~offerId. Example: accounts/123/cssProductInputs/de~DE~rawProvidedId123 */
   name: string;
@@ -842,13 +841,13 @@ export const PatchAccountsCssProductInputsResponse = CssProductInput;
 
 export type PatchAccountsCssProductInputsError = CommonErrors;
 
+/** Updates the existing Css Product input in your CSS Center account. After inserting, updating, or deleting a CSS Product input, it may take several minutes before the processed Css Product can be retrieved. */
 export const patchAccountsCssProductInputs: API.OperationMethod<PatchAccountsCssProductInputsRequest, PatchAccountsCssProductInputsResponse, PatchAccountsCssProductInputsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAccountsCssProductInputsRequest,
   output: PatchAccountsCssProductInputsResponse,
   errors: [],
 }));
 
-/** Deletes a CSS Product input from your CSS Center account. After a delete it may take several minutes until the input is no longer available. */
 export interface DeleteAccountsCssProductInputsRequest {
   /** Required. The name of the CSS product input resource to delete. Format: accounts/{account}/cssProductInputs/{css_product_input}, where the last section `css_product_input` consists of 3 parts: contentLanguage~feedLabel~offerId. Example: accounts/123/cssProductInputs/de~DE~rawProvidedId123 */
   name: string;
@@ -869,13 +868,13 @@ export const DeleteAccountsCssProductInputsResponse = Empty;
 
 export type DeleteAccountsCssProductInputsError = CommonErrors;
 
+/** Deletes a CSS Product input from your CSS Center account. After a delete it may take several minutes until the input is no longer available. */
 export const deleteAccountsCssProductInputs: API.OperationMethod<DeleteAccountsCssProductInputsRequest, DeleteAccountsCssProductInputsResponse, DeleteAccountsCssProductInputsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountsCssProductInputsRequest,
   output: DeleteAccountsCssProductInputsResponse,
   errors: [],
 }));
 
-/** Retrieves the processed CSS Product from your CSS Center account. After inserting, updating, or deleting a product input, it may take several minutes before the updated final product can be retrieved. */
 export interface GetAccountsCssProductsRequest {
   /** Required. The name of the CSS product to retrieve. Format: `accounts/{account}/cssProducts/{css_product}` */
   name: string;
@@ -893,13 +892,13 @@ export const GetAccountsCssProductsResponse = CssProduct;
 
 export type GetAccountsCssProductsError = CommonErrors;
 
+/** Retrieves the processed CSS Product from your CSS Center account. After inserting, updating, or deleting a product input, it may take several minutes before the updated final product can be retrieved. */
 export const getAccountsCssProducts: API.OperationMethod<GetAccountsCssProductsRequest, GetAccountsCssProductsResponse, GetAccountsCssProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsCssProductsRequest,
   output: GetAccountsCssProductsResponse,
   errors: [],
 }));
 
-/** Lists the processed CSS Products in your CSS Center account. The response might contain fewer items than specified by pageSize. Rely on pageToken to determine if there are more items to be requested. After inserting, updating, or deleting a CSS product input, it may take several minutes before the updated processed CSS product can be retrieved. */
 export interface ListAccountsCssProductsRequest {
   /** Required. The account/domain to list processed CSS Products for. Format: accounts/{account} */
   parent: string;
@@ -923,7 +922,8 @@ export const ListAccountsCssProductsResponse = ListCssProductsResponse;
 
 export type ListAccountsCssProductsError = CommonErrors;
 
-export const listAccountsCssProducts = API.makePaginated(() => ({
+/** Lists the processed CSS Products in your CSS Center account. The response might contain fewer items than specified by pageSize. Rely on pageToken to determine if there are more items to be requested. After inserting, updating, or deleting a CSS product input, it may take several minutes before the updated processed CSS product can be retrieved. */
+export const listAccountsCssProducts: API.PaginatedOperationMethod<ListAccountsCssProductsRequest, ListAccountsCssProductsResponse, ListAccountsCssProductsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsCssProductsRequest,
   output: ListAccountsCssProductsResponse,
   errors: [],
@@ -933,7 +933,6 @@ export const listAccountsCssProducts = API.makePaginated(() => ({
   },
 }));
 
-/** Lists the daily call quota and usage per group for your CSS Center account. */
 export interface ListAccountsQuotasRequest {
   /** Required. The CSS account that owns the collection of method quotas and resources. In most cases, this is the CSS domain. Format: accounts/{account} */
   parent: string;
@@ -957,7 +956,8 @@ export const ListAccountsQuotasResponse = ListQuotaGroupsResponse;
 
 export type ListAccountsQuotasError = CommonErrors;
 
-export const listAccountsQuotas = API.makePaginated(() => ({
+/** Lists the daily call quota and usage per group for your CSS Center account. */
+export const listAccountsQuotas: API.PaginatedOperationMethod<ListAccountsQuotasRequest, ListAccountsQuotasResponse, ListAccountsQuotasError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsQuotasRequest,
   output: ListAccountsQuotasResponse,
   errors: [],

@@ -18998,7 +18998,6 @@ export const OrganizationSecurityPoliciesListAssociationsResponse: Schema.Schema
 // Operations
 // ==========================================================================
 
-/** Returns the specified TargetHttpProxy resource in the specified region. */
 export interface GetRegionTargetHttpProxiesRequest {
   /** Name of the region scoping this request. */
   region: string;
@@ -19022,13 +19021,13 @@ export const GetRegionTargetHttpProxiesResponse = TargetHttpProxy;
 
 export type GetRegionTargetHttpProxiesError = CommonErrors;
 
+/** Returns the specified TargetHttpProxy resource in the specified region. */
 export const getRegionTargetHttpProxies: API.OperationMethod<GetRegionTargetHttpProxiesRequest, GetRegionTargetHttpProxiesResponse, GetRegionTargetHttpProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRegionTargetHttpProxiesRequest,
   output: GetRegionTargetHttpProxiesResponse,
   errors: [],
 }));
 
-/** Retrieves the list of TargetHttpProxy resources available to the specified project in the specified region. */
 export interface ListRegionTargetHttpProxiesRequest {
   /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
   orderBy?: string;
@@ -19064,7 +19063,8 @@ export const ListRegionTargetHttpProxiesResponse = TargetHttpProxyList;
 
 export type ListRegionTargetHttpProxiesError = CommonErrors;
 
-export const listRegionTargetHttpProxies = API.makePaginated(() => ({
+/** Retrieves the list of TargetHttpProxy resources available to the specified project in the specified region. */
+export const listRegionTargetHttpProxies: API.PaginatedOperationMethod<ListRegionTargetHttpProxiesRequest, ListRegionTargetHttpProxiesResponse, ListRegionTargetHttpProxiesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRegionTargetHttpProxiesRequest,
   output: ListRegionTargetHttpProxiesResponse,
   errors: [],
@@ -19075,7 +19075,6 @@ export const listRegionTargetHttpProxies = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a TargetHttpProxy resource in the specified project and region using the data included in the request. */
 export interface InsertRegionTargetHttpProxiesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -19102,13 +19101,13 @@ export const InsertRegionTargetHttpProxiesResponse = Operation;
 
 export type InsertRegionTargetHttpProxiesError = CommonErrors;
 
+/** Creates a TargetHttpProxy resource in the specified project and region using the data included in the request. */
 export const insertRegionTargetHttpProxies: API.OperationMethod<InsertRegionTargetHttpProxiesRequest, InsertRegionTargetHttpProxiesResponse, InsertRegionTargetHttpProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertRegionTargetHttpProxiesRequest,
   output: InsertRegionTargetHttpProxiesResponse,
   errors: [],
 }));
 
-/** Deletes the specified TargetHttpProxy resource. */
 export interface DeleteRegionTargetHttpProxiesRequest {
   /** Project ID for this request. */
   project: string;
@@ -19135,13 +19134,13 @@ export const DeleteRegionTargetHttpProxiesResponse = Operation;
 
 export type DeleteRegionTargetHttpProxiesError = CommonErrors;
 
+/** Deletes the specified TargetHttpProxy resource. */
 export const deleteRegionTargetHttpProxies: API.OperationMethod<DeleteRegionTargetHttpProxiesRequest, DeleteRegionTargetHttpProxiesResponse, DeleteRegionTargetHttpProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRegionTargetHttpProxiesRequest,
   output: DeleteRegionTargetHttpProxiesResponse,
   errors: [],
 }));
 
-/** Changes the URL map for TargetHttpProxy. */
 export interface SetUrlMapRegionTargetHttpProxiesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -19171,13 +19170,13 @@ export const SetUrlMapRegionTargetHttpProxiesResponse = Operation;
 
 export type SetUrlMapRegionTargetHttpProxiesError = CommonErrors;
 
+/** Changes the URL map for TargetHttpProxy. */
 export const setUrlMapRegionTargetHttpProxies: API.OperationMethod<SetUrlMapRegionTargetHttpProxiesRequest, SetUrlMapRegionTargetHttpProxiesResponse, SetUrlMapRegionTargetHttpProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetUrlMapRegionTargetHttpProxiesRequest,
   output: SetUrlMapRegionTargetHttpProxiesResponse,
   errors: [],
 }));
 
-/** Attach a network endpoint to the specified network endpoint group. */
 export interface AttachNetworkEndpointsGlobalNetworkEndpointGroupsRequest {
   /** Project ID for this request. */
   project: string;
@@ -19204,13 +19203,13 @@ export const AttachNetworkEndpointsGlobalNetworkEndpointGroupsResponse = Operati
 
 export type AttachNetworkEndpointsGlobalNetworkEndpointGroupsError = CommonErrors;
 
+/** Attach a network endpoint to the specified network endpoint group. */
 export const attachNetworkEndpointsGlobalNetworkEndpointGroups: API.OperationMethod<AttachNetworkEndpointsGlobalNetworkEndpointGroupsRequest, AttachNetworkEndpointsGlobalNetworkEndpointGroupsResponse, AttachNetworkEndpointsGlobalNetworkEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AttachNetworkEndpointsGlobalNetworkEndpointGroupsRequest,
   output: AttachNetworkEndpointsGlobalNetworkEndpointGroupsResponse,
   errors: [],
 }));
 
-/** Returns the specified network endpoint group. */
 export interface GetGlobalNetworkEndpointGroupsRequest {
   /** The name of the network endpoint group. It should comply with RFC1035. */
   networkEndpointGroup: string;
@@ -19231,13 +19230,13 @@ export const GetGlobalNetworkEndpointGroupsResponse = NetworkEndpointGroup;
 
 export type GetGlobalNetworkEndpointGroupsError = CommonErrors;
 
+/** Returns the specified network endpoint group. */
 export const getGlobalNetworkEndpointGroups: API.OperationMethod<GetGlobalNetworkEndpointGroupsRequest, GetGlobalNetworkEndpointGroupsResponse, GetGlobalNetworkEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetGlobalNetworkEndpointGroupsRequest,
   output: GetGlobalNetworkEndpointGroupsResponse,
   errors: [],
 }));
 
-/** Lists the network endpoints in the specified network endpoint group. */
 export interface ListNetworkEndpointsGlobalNetworkEndpointGroupsRequest {
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number;
@@ -19273,7 +19272,8 @@ export const ListNetworkEndpointsGlobalNetworkEndpointGroupsResponse = NetworkEn
 
 export type ListNetworkEndpointsGlobalNetworkEndpointGroupsError = CommonErrors;
 
-export const listNetworkEndpointsGlobalNetworkEndpointGroups = API.makePaginated(() => ({
+/** Lists the network endpoints in the specified network endpoint group. */
+export const listNetworkEndpointsGlobalNetworkEndpointGroups: API.PaginatedOperationMethod<ListNetworkEndpointsGlobalNetworkEndpointGroupsRequest, ListNetworkEndpointsGlobalNetworkEndpointGroupsResponse, ListNetworkEndpointsGlobalNetworkEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListNetworkEndpointsGlobalNetworkEndpointGroupsRequest,
   output: ListNetworkEndpointsGlobalNetworkEndpointGroupsResponse,
   errors: [],
@@ -19284,7 +19284,6 @@ export const listNetworkEndpointsGlobalNetworkEndpointGroups = API.makePaginated
   },
 }));
 
-/** Deletes the specified network endpoint group.Note that the NEG cannot be deleted if there are backend services referencing it. */
 export interface DeleteGlobalNetworkEndpointGroupsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -19308,13 +19307,13 @@ export const DeleteGlobalNetworkEndpointGroupsResponse = Operation;
 
 export type DeleteGlobalNetworkEndpointGroupsError = CommonErrors;
 
+/** Deletes the specified network endpoint group.Note that the NEG cannot be deleted if there are backend services referencing it. */
 export const deleteGlobalNetworkEndpointGroups: API.OperationMethod<DeleteGlobalNetworkEndpointGroupsRequest, DeleteGlobalNetworkEndpointGroupsResponse, DeleteGlobalNetworkEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteGlobalNetworkEndpointGroupsRequest,
   output: DeleteGlobalNetworkEndpointGroupsResponse,
   errors: [],
 }));
 
-/** Retrieves the list of network endpoint groups that are located in the specified project. */
 export interface ListGlobalNetworkEndpointGroupsRequest {
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number;
@@ -19347,7 +19346,8 @@ export const ListGlobalNetworkEndpointGroupsResponse = NetworkEndpointGroupList;
 
 export type ListGlobalNetworkEndpointGroupsError = CommonErrors;
 
-export const listGlobalNetworkEndpointGroups = API.makePaginated(() => ({
+/** Retrieves the list of network endpoint groups that are located in the specified project. */
+export const listGlobalNetworkEndpointGroups: API.PaginatedOperationMethod<ListGlobalNetworkEndpointGroupsRequest, ListGlobalNetworkEndpointGroupsResponse, ListGlobalNetworkEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListGlobalNetworkEndpointGroupsRequest,
   output: ListGlobalNetworkEndpointGroupsResponse,
   errors: [],
@@ -19358,7 +19358,6 @@ export const listGlobalNetworkEndpointGroups = API.makePaginated(() => ({
   },
 }));
 
-/** Detach the network endpoint from the specified network endpoint group. */
 export interface DetachNetworkEndpointsGlobalNetworkEndpointGroupsRequest {
   /** Project ID for this request. */
   project: string;
@@ -19385,13 +19384,13 @@ export const DetachNetworkEndpointsGlobalNetworkEndpointGroupsResponse = Operati
 
 export type DetachNetworkEndpointsGlobalNetworkEndpointGroupsError = CommonErrors;
 
+/** Detach the network endpoint from the specified network endpoint group. */
 export const detachNetworkEndpointsGlobalNetworkEndpointGroups: API.OperationMethod<DetachNetworkEndpointsGlobalNetworkEndpointGroupsRequest, DetachNetworkEndpointsGlobalNetworkEndpointGroupsResponse, DetachNetworkEndpointsGlobalNetworkEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DetachNetworkEndpointsGlobalNetworkEndpointGroupsRequest,
   output: DetachNetworkEndpointsGlobalNetworkEndpointGroupsResponse,
   errors: [],
 }));
 
-/** Creates a network endpoint group in the specified project using the parameters that are included in the request. Note: Use the following APIs to manage network endpoint groups: - To manage NEGs with zonal scope (such as zonal NEGs, hybrid connectivity NEGs): zonal API - To manage NEGs with regional scope (such as regional internet NEGs, serverless NEGs, Private Service Connect NEGs): regional API - To manage NEGs with global scope (such as global internet NEGs):global API */
 export interface InsertGlobalNetworkEndpointGroupsRequest {
   /** Project ID for this request. */
   project: string;
@@ -19415,13 +19414,13 @@ export const InsertGlobalNetworkEndpointGroupsResponse = Operation;
 
 export type InsertGlobalNetworkEndpointGroupsError = CommonErrors;
 
+/** Creates a network endpoint group in the specified project using the parameters that are included in the request. Note: Use the following APIs to manage network endpoint groups: - To manage NEGs with zonal scope (such as zonal NEGs, hybrid connectivity NEGs): zonal API - To manage NEGs with regional scope (such as regional internet NEGs, serverless NEGs, Private Service Connect NEGs): regional API - To manage NEGs with global scope (such as global internet NEGs):global API */
 export const insertGlobalNetworkEndpointGroups: API.OperationMethod<InsertGlobalNetworkEndpointGroupsRequest, InsertGlobalNetworkEndpointGroupsResponse, InsertGlobalNetworkEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertGlobalNetworkEndpointGroupsRequest,
   output: InsertGlobalNetworkEndpointGroupsResponse,
   errors: [],
 }));
 
-/** Deletes the specified NodeTemplate resource. */
 export interface DeleteNodeTemplatesRequest {
   /** The name of the region for this request. */
   region: string;
@@ -19448,13 +19447,13 @@ export const DeleteNodeTemplatesResponse = Operation;
 
 export type DeleteNodeTemplatesError = CommonErrors;
 
+/** Deletes the specified NodeTemplate resource. */
 export const deleteNodeTemplates: API.OperationMethod<DeleteNodeTemplatesRequest, DeleteNodeTemplatesResponse, DeleteNodeTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteNodeTemplatesRequest,
   output: DeleteNodeTemplatesResponse,
   errors: [],
 }));
 
-/** Retrieves an aggregated list of node templates. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListNodeTemplatesRequest {
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number;
@@ -19493,7 +19492,8 @@ export const AggregatedListNodeTemplatesResponse = NodeTemplateAggregatedList;
 
 export type AggregatedListNodeTemplatesError = CommonErrors;
 
-export const aggregatedListNodeTemplates = API.makePaginated(() => ({
+/** Retrieves an aggregated list of node templates. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListNodeTemplates: API.PaginatedOperationMethod<AggregatedListNodeTemplatesRequest, AggregatedListNodeTemplatesResponse, AggregatedListNodeTemplatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListNodeTemplatesRequest,
   output: AggregatedListNodeTemplatesResponse,
   errors: [],
@@ -19504,7 +19504,6 @@ export const aggregatedListNodeTemplates = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves a list of node templates available to the specified project. */
 export interface ListNodeTemplatesRequest {
   /** Opt-in for partial success behavior which provides partial results in case of failure. The default value is false. For example, when partial success behavior is enabled, aggregatedList for a single zone scope either returns all resources in the zone or no resources, with an error code. */
   returnPartialSuccess?: boolean;
@@ -19540,7 +19539,8 @@ export const ListNodeTemplatesResponse = NodeTemplateList;
 
 export type ListNodeTemplatesError = CommonErrors;
 
-export const listNodeTemplates = API.makePaginated(() => ({
+/** Retrieves a list of node templates available to the specified project. */
+export const listNodeTemplates: API.PaginatedOperationMethod<ListNodeTemplatesRequest, ListNodeTemplatesResponse, ListNodeTemplatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListNodeTemplatesRequest,
   output: ListNodeTemplatesResponse,
   errors: [],
@@ -19551,7 +19551,6 @@ export const listNodeTemplates = API.makePaginated(() => ({
   },
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export interface SetIamPolicyNodeTemplatesRequest {
   /** Project ID for this request. */
   project: string;
@@ -19578,13 +19577,13 @@ export const SetIamPolicyNodeTemplatesResponse = Policy;
 
 export type SetIamPolicyNodeTemplatesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export const setIamPolicyNodeTemplates: API.OperationMethod<SetIamPolicyNodeTemplatesRequest, SetIamPolicyNodeTemplatesResponse, SetIamPolicyNodeTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyNodeTemplatesRequest,
   output: SetIamPolicyNodeTemplatesResponse,
   errors: [],
 }));
 
-/** Returns the specified node template. */
 export interface GetNodeTemplatesRequest {
   /** The name of the region for this request. */
   region: string;
@@ -19608,13 +19607,13 @@ export const GetNodeTemplatesResponse = NodeTemplate;
 
 export type GetNodeTemplatesError = CommonErrors;
 
+/** Returns the specified node template. */
 export const getNodeTemplates: API.OperationMethod<GetNodeTemplatesRequest, GetNodeTemplatesResponse, GetNodeTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetNodeTemplatesRequest,
   output: GetNodeTemplatesResponse,
   errors: [],
 }));
 
-/** Creates a NodeTemplate resource in the specified project using the data included in the request. */
 export interface InsertNodeTemplatesRequest {
   /** Project ID for this request. */
   project: string;
@@ -19641,13 +19640,13 @@ export const InsertNodeTemplatesResponse = Operation;
 
 export type InsertNodeTemplatesError = CommonErrors;
 
+/** Creates a NodeTemplate resource in the specified project using the data included in the request. */
 export const insertNodeTemplates: API.OperationMethod<InsertNodeTemplatesRequest, InsertNodeTemplatesResponse, InsertNodeTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertNodeTemplatesRequest,
   output: InsertNodeTemplatesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsNodeTemplatesRequest {
   /** The name of the region for this request. */
   region: string;
@@ -19674,13 +19673,13 @@ export const TestIamPermissionsNodeTemplatesResponse = TestPermissionsResponse;
 
 export type TestIamPermissionsNodeTemplatesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsNodeTemplates: API.OperationMethod<TestIamPermissionsNodeTemplatesRequest, TestIamPermissionsNodeTemplatesResponse, TestIamPermissionsNodeTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsNodeTemplatesRequest,
   output: TestIamPermissionsNodeTemplatesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export interface GetIamPolicyNodeTemplatesRequest {
   /** Project ID for this request. */
   project: string;
@@ -19707,13 +19706,13 @@ export const GetIamPolicyNodeTemplatesResponse = Policy;
 
 export type GetIamPolicyNodeTemplatesError = CommonErrors;
 
+/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export const getIamPolicyNodeTemplates: API.OperationMethod<GetIamPolicyNodeTemplatesRequest, GetIamPolicyNodeTemplatesResponse, GetIamPolicyNodeTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyNodeTemplatesRequest,
   output: GetIamPolicyNodeTemplatesResponse,
   errors: [],
 }));
 
-/** Updates a HttpHealthCheck resource in the specified project using the data included in the request. */
 export interface UpdateHttpHealthChecksRequest {
   /** Name of the HttpHealthCheck resource to update. */
   httpHealthCheck: string;
@@ -19740,13 +19739,13 @@ export const UpdateHttpHealthChecksResponse = Operation;
 
 export type UpdateHttpHealthChecksError = CommonErrors;
 
+/** Updates a HttpHealthCheck resource in the specified project using the data included in the request. */
 export const updateHttpHealthChecks: API.OperationMethod<UpdateHttpHealthChecksRequest, UpdateHttpHealthChecksResponse, UpdateHttpHealthChecksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateHttpHealthChecksRequest,
   output: UpdateHttpHealthChecksResponse,
   errors: [],
 }));
 
-/** Returns the specified HttpHealthCheck resource. */
 export interface GetHttpHealthChecksRequest {
   /** Project ID for this request. */
   project: string;
@@ -19767,13 +19766,13 @@ export const GetHttpHealthChecksResponse = HttpHealthCheck;
 
 export type GetHttpHealthChecksError = CommonErrors;
 
+/** Returns the specified HttpHealthCheck resource. */
 export const getHttpHealthChecks: API.OperationMethod<GetHttpHealthChecksRequest, GetHttpHealthChecksResponse, GetHttpHealthChecksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetHttpHealthChecksRequest,
   output: GetHttpHealthChecksResponse,
   errors: [],
 }));
 
-/** Creates a HttpHealthCheck resource in the specified project using the data included in the request. */
 export interface InsertHttpHealthChecksRequest {
   /** Project ID for this request. */
   project: string;
@@ -19797,13 +19796,13 @@ export const InsertHttpHealthChecksResponse = Operation;
 
 export type InsertHttpHealthChecksError = CommonErrors;
 
+/** Creates a HttpHealthCheck resource in the specified project using the data included in the request. */
 export const insertHttpHealthChecks: API.OperationMethod<InsertHttpHealthChecksRequest, InsertHttpHealthChecksResponse, InsertHttpHealthChecksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertHttpHealthChecksRequest,
   output: InsertHttpHealthChecksResponse,
   errors: [],
 }));
 
-/** Deletes the specified HttpHealthCheck resource. */
 export interface DeleteHttpHealthChecksRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -19827,13 +19826,13 @@ export const DeleteHttpHealthChecksResponse = Operation;
 
 export type DeleteHttpHealthChecksError = CommonErrors;
 
+/** Deletes the specified HttpHealthCheck resource. */
 export const deleteHttpHealthChecks: API.OperationMethod<DeleteHttpHealthChecksRequest, DeleteHttpHealthChecksResponse, DeleteHttpHealthChecksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteHttpHealthChecksRequest,
   output: DeleteHttpHealthChecksResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsHttpHealthChecksRequest {
   /** Project ID for this request. */
   project: string;
@@ -19857,13 +19856,13 @@ export const TestIamPermissionsHttpHealthChecksResponse = TestPermissionsRespons
 
 export type TestIamPermissionsHttpHealthChecksError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsHttpHealthChecks: API.OperationMethod<TestIamPermissionsHttpHealthChecksRequest, TestIamPermissionsHttpHealthChecksResponse, TestIamPermissionsHttpHealthChecksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsHttpHealthChecksRequest,
   output: TestIamPermissionsHttpHealthChecksResponse,
   errors: [],
 }));
 
-/** Updates a HttpHealthCheck resource in the specified project using the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export interface PatchHttpHealthChecksRequest {
   /** Name of the HttpHealthCheck resource to patch. */
   httpHealthCheck: string;
@@ -19890,13 +19889,13 @@ export const PatchHttpHealthChecksResponse = Operation;
 
 export type PatchHttpHealthChecksError = CommonErrors;
 
+/** Updates a HttpHealthCheck resource in the specified project using the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export const patchHttpHealthChecks: API.OperationMethod<PatchHttpHealthChecksRequest, PatchHttpHealthChecksResponse, PatchHttpHealthChecksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchHttpHealthChecksRequest,
   output: PatchHttpHealthChecksResponse,
   errors: [],
 }));
 
-/** Retrieves the list of HttpHealthCheck resources available to the specified project. */
 export interface ListHttpHealthChecksRequest {
   /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based onresource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using GoogleRE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
   filter?: string;
@@ -19929,7 +19928,8 @@ export const ListHttpHealthChecksResponse = HttpHealthCheckList;
 
 export type ListHttpHealthChecksError = CommonErrors;
 
-export const listHttpHealthChecks = API.makePaginated(() => ({
+/** Retrieves the list of HttpHealthCheck resources available to the specified project. */
+export const listHttpHealthChecks: API.PaginatedOperationMethod<ListHttpHealthChecksRequest, ListHttpHealthChecksResponse, ListHttpHealthChecksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListHttpHealthChecksRequest,
   output: ListHttpHealthChecksResponse,
   errors: [],
@@ -19940,7 +19940,6 @@ export const listHttpHealthChecks = API.makePaginated(() => ({
   },
 }));
 
-/** Patch Instance settings */
 export interface PatchInstanceSettingsRequest {
   /** update_mask indicates fields to be updated as part of this request. */
   updateMask?: string;
@@ -19970,13 +19969,13 @@ export const PatchInstanceSettingsResponse = Operation;
 
 export type PatchInstanceSettingsError = CommonErrors;
 
+/** Patch Instance settings */
 export const patchInstanceSettings: API.OperationMethod<PatchInstanceSettingsRequest, PatchInstanceSettingsResponse, PatchInstanceSettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchInstanceSettingsRequest,
   output: PatchInstanceSettingsResponse,
   errors: [],
 }));
 
-/** Get Instance settings. */
 export interface GetInstanceSettingsRequest {
   /** Name of the zone for this request. */
   zone: string;
@@ -19997,13 +19996,13 @@ export const GetInstanceSettingsResponse = InstanceSettings;
 
 export type GetInstanceSettingsError = CommonErrors;
 
+/** Get Instance settings. */
 export const getInstanceSettings: API.OperationMethod<GetInstanceSettingsRequest, GetInstanceSettingsResponse, GetInstanceSettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetInstanceSettingsRequest,
   output: GetInstanceSettingsResponse,
   errors: [],
 }));
 
-/** Creates multiple instances in a given region. Count specifies the number of instances to create. */
 export interface BulkInsertRegionInstancesRequest {
   /** The name of the region for this request. */
   region: string;
@@ -20030,13 +20029,13 @@ export const BulkInsertRegionInstancesResponse = Operation;
 
 export type BulkInsertRegionInstancesError = CommonErrors;
 
+/** Creates multiple instances in a given region. Count specifies the number of instances to create. */
 export const bulkInsertRegionInstances: API.OperationMethod<BulkInsertRegionInstancesRequest, BulkInsertRegionInstancesResponse, BulkInsertRegionInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BulkInsertRegionInstancesRequest,
   output: BulkInsertRegionInstancesResponse,
   errors: [],
 }));
 
-/** Sets the labels on an InterconnectAttachment. To learn more about labels, read the Labeling Resources documentation. */
 export interface SetLabelsInterconnectAttachmentsRequest {
   /** Project ID for this request. */
   project: string;
@@ -20066,13 +20065,13 @@ export const SetLabelsInterconnectAttachmentsResponse = Operation;
 
 export type SetLabelsInterconnectAttachmentsError = CommonErrors;
 
+/** Sets the labels on an InterconnectAttachment. To learn more about labels, read the Labeling Resources documentation. */
 export const setLabelsInterconnectAttachments: API.OperationMethod<SetLabelsInterconnectAttachmentsRequest, SetLabelsInterconnectAttachmentsResponse, SetLabelsInterconnectAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetLabelsInterconnectAttachmentsRequest,
   output: SetLabelsInterconnectAttachmentsResponse,
   errors: [],
 }));
 
-/** Retrieves the list of interconnect attachments contained within the specified region. */
 export interface ListInterconnectAttachmentsRequest {
   /** Opt-in for partial success behavior which provides partial results in case of failure. The default value is false. For example, when partial success behavior is enabled, aggregatedList for a single zone scope either returns all resources in the zone or no resources, with an error code. */
   returnPartialSuccess?: boolean;
@@ -20108,7 +20107,8 @@ export const ListInterconnectAttachmentsResponse = InterconnectAttachmentList;
 
 export type ListInterconnectAttachmentsError = CommonErrors;
 
-export const listInterconnectAttachments = API.makePaginated(() => ({
+/** Retrieves the list of interconnect attachments contained within the specified region. */
+export const listInterconnectAttachments: API.PaginatedOperationMethod<ListInterconnectAttachmentsRequest, ListInterconnectAttachmentsResponse, ListInterconnectAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListInterconnectAttachmentsRequest,
   output: ListInterconnectAttachmentsResponse,
   errors: [],
@@ -20119,7 +20119,6 @@ export const listInterconnectAttachments = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves an aggregated list of interconnect attachments. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListInterconnectAttachmentsRequest {
   /** Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included. */
   includeAllScopes?: boolean;
@@ -20158,7 +20157,8 @@ export const AggregatedListInterconnectAttachmentsResponse = InterconnectAttachm
 
 export type AggregatedListInterconnectAttachmentsError = CommonErrors;
 
-export const aggregatedListInterconnectAttachments = API.makePaginated(() => ({
+/** Retrieves an aggregated list of interconnect attachments. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListInterconnectAttachments: API.PaginatedOperationMethod<AggregatedListInterconnectAttachmentsRequest, AggregatedListInterconnectAttachmentsResponse, AggregatedListInterconnectAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListInterconnectAttachmentsRequest,
   output: AggregatedListInterconnectAttachmentsResponse,
   errors: [],
@@ -20169,7 +20169,6 @@ export const aggregatedListInterconnectAttachments = API.makePaginated(() => ({
   },
 }));
 
-/** Creates an InterconnectAttachment in the specified project using the data included in the request. */
 export interface InsertInterconnectAttachmentsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -20199,13 +20198,13 @@ export const InsertInterconnectAttachmentsResponse = Operation;
 
 export type InsertInterconnectAttachmentsError = CommonErrors;
 
+/** Creates an InterconnectAttachment in the specified project using the data included in the request. */
 export const insertInterconnectAttachments: API.OperationMethod<InsertInterconnectAttachmentsRequest, InsertInterconnectAttachmentsResponse, InsertInterconnectAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertInterconnectAttachmentsRequest,
   output: InsertInterconnectAttachmentsResponse,
   errors: [],
 }));
 
-/** Updates the specified interconnect attachment with the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export interface PatchInterconnectAttachmentsRequest {
   /** Name of the interconnect attachment to patch. */
   interconnectAttachment: string;
@@ -20235,13 +20234,13 @@ export const PatchInterconnectAttachmentsResponse = Operation;
 
 export type PatchInterconnectAttachmentsError = CommonErrors;
 
+/** Updates the specified interconnect attachment with the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export const patchInterconnectAttachments: API.OperationMethod<PatchInterconnectAttachmentsRequest, PatchInterconnectAttachmentsResponse, PatchInterconnectAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchInterconnectAttachmentsRequest,
   output: PatchInterconnectAttachmentsResponse,
   errors: [],
 }));
 
-/** Deletes the specified interconnect attachment. */
 export interface DeleteInterconnectAttachmentsRequest {
   /** Name of the region for this request. */
   region: string;
@@ -20268,13 +20267,13 @@ export const DeleteInterconnectAttachmentsResponse = Operation;
 
 export type DeleteInterconnectAttachmentsError = CommonErrors;
 
+/** Deletes the specified interconnect attachment. */
 export const deleteInterconnectAttachments: API.OperationMethod<DeleteInterconnectAttachmentsRequest, DeleteInterconnectAttachmentsResponse, DeleteInterconnectAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteInterconnectAttachmentsRequest,
   output: DeleteInterconnectAttachmentsResponse,
   errors: [],
 }));
 
-/** Returns the specified interconnect attachment. */
 export interface GetInterconnectAttachmentsRequest {
   /** Project ID for this request. */
   project: string;
@@ -20298,13 +20297,13 @@ export const GetInterconnectAttachmentsResponse = InterconnectAttachment;
 
 export type GetInterconnectAttachmentsError = CommonErrors;
 
+/** Returns the specified interconnect attachment. */
 export const getInterconnectAttachments: API.OperationMethod<GetInterconnectAttachmentsRequest, GetInterconnectAttachmentsResponse, GetInterconnectAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetInterconnectAttachmentsRequest,
   output: GetInterconnectAttachmentsResponse,
   errors: [],
 }));
 
-/** Creates a snapshot of a specified persistent disk. For regular snapshot creation, consider using snapshots.insert instead, as that method supports more features, such as creating snapshots in a project different from the source disk project. */
 export interface CreateSnapshotRegionDisksRequest {
   /** Name of the region for this request. */
   region: string;
@@ -20334,13 +20333,13 @@ export const CreateSnapshotRegionDisksResponse = Operation;
 
 export type CreateSnapshotRegionDisksError = CommonErrors;
 
+/** Creates a snapshot of a specified persistent disk. For regular snapshot creation, consider using snapshots.insert instead, as that method supports more features, such as creating snapshots in a project different from the source disk project. */
 export const createSnapshotRegionDisks: API.OperationMethod<CreateSnapshotRegionDisksRequest, CreateSnapshotRegionDisksResponse, CreateSnapshotRegionDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateSnapshotRegionDisksRequest,
   output: CreateSnapshotRegionDisksResponse,
   errors: [],
 }));
 
-/** Update the specified disk with the data included in the request. Update is performed only on selected fields included as part of update-mask. */
 export interface UpdateRegionDisksRequest {
   /** Project ID for this request. */
   project: string;
@@ -20375,13 +20374,13 @@ export const UpdateRegionDisksResponse = Operation;
 
 export type UpdateRegionDisksError = CommonErrors;
 
+/** Update the specified disk with the data included in the request. Update is performed only on selected fields included as part of update-mask. */
 export const updateRegionDisks: API.OperationMethod<UpdateRegionDisksRequest, UpdateRegionDisksResponse, UpdateRegionDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateRegionDisksRequest,
   output: UpdateRegionDisksResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export interface SetIamPolicyRegionDisksRequest {
   /** Project ID for this request. */
   project: string;
@@ -20408,13 +20407,13 @@ export const SetIamPolicyRegionDisksResponse = Policy;
 
 export type SetIamPolicyRegionDisksError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export const setIamPolicyRegionDisks: API.OperationMethod<SetIamPolicyRegionDisksRequest, SetIamPolicyRegionDisksResponse, SetIamPolicyRegionDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyRegionDisksRequest,
   output: SetIamPolicyRegionDisksResponse,
   errors: [],
 }));
 
-/** Adds existing resource policies to a regional disk. You can only add one policy which will be applied to this disk for scheduling snapshot creation. */
 export interface AddResourcePoliciesRegionDisksRequest {
   /** Project ID for this request. */
   project: string;
@@ -20444,13 +20443,13 @@ export const AddResourcePoliciesRegionDisksResponse = Operation;
 
 export type AddResourcePoliciesRegionDisksError = CommonErrors;
 
+/** Adds existing resource policies to a regional disk. You can only add one policy which will be applied to this disk for scheduling snapshot creation. */
 export const addResourcePoliciesRegionDisks: API.OperationMethod<AddResourcePoliciesRegionDisksRequest, AddResourcePoliciesRegionDisksResponse, AddResourcePoliciesRegionDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddResourcePoliciesRegionDisksRequest,
   output: AddResourcePoliciesRegionDisksResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsRegionDisksRequest {
   /** Project ID for this request. */
   project: string;
@@ -20477,13 +20476,13 @@ export const TestIamPermissionsRegionDisksResponse = TestPermissionsResponse;
 
 export type TestIamPermissionsRegionDisksError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsRegionDisks: API.OperationMethod<TestIamPermissionsRegionDisksRequest, TestIamPermissionsRegionDisksResponse, TestIamPermissionsRegionDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsRegionDisksRequest,
   output: TestIamPermissionsRegionDisksResponse,
   errors: [],
 }));
 
-/** Stops asynchronous replication for a consistency group of disks. Can be invoked either in the primary or secondary scope. */
 export interface StopGroupAsyncReplicationRegionDisksRequest {
   /** The name of the region for this request. This must be the region of the primary or secondary disks in the consistency group. */
   region: string;
@@ -20510,13 +20509,13 @@ export const StopGroupAsyncReplicationRegionDisksResponse = Operation;
 
 export type StopGroupAsyncReplicationRegionDisksError = CommonErrors;
 
+/** Stops asynchronous replication for a consistency group of disks. Can be invoked either in the primary or secondary scope. */
 export const stopGroupAsyncReplicationRegionDisks: API.OperationMethod<StopGroupAsyncReplicationRegionDisksRequest, StopGroupAsyncReplicationRegionDisksResponse, StopGroupAsyncReplicationRegionDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StopGroupAsyncReplicationRegionDisksRequest,
   output: StopGroupAsyncReplicationRegionDisksResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export interface GetIamPolicyRegionDisksRequest {
   /** The name of the region for this request. */
   region: string;
@@ -20543,13 +20542,13 @@ export const GetIamPolicyRegionDisksResponse = Policy;
 
 export type GetIamPolicyRegionDisksError = CommonErrors;
 
+/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export const getIamPolicyRegionDisks: API.OperationMethod<GetIamPolicyRegionDisksRequest, GetIamPolicyRegionDisksResponse, GetIamPolicyRegionDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyRegionDisksRequest,
   output: GetIamPolicyRegionDisksResponse,
   errors: [],
 }));
 
-/** Bulk create a set of disks. */
 export interface BulkInsertRegionDisksRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -20576,13 +20575,13 @@ export const BulkInsertRegionDisksResponse = Operation;
 
 export type BulkInsertRegionDisksError = CommonErrors;
 
+/** Bulk create a set of disks. */
 export const bulkInsertRegionDisks: API.OperationMethod<BulkInsertRegionDisksRequest, BulkInsertRegionDisksResponse, BulkInsertRegionDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BulkInsertRegionDisksRequest,
   output: BulkInsertRegionDisksResponse,
   errors: [],
 }));
 
-/** Removes resource policies from a regional disk. */
 export interface RemoveResourcePoliciesRegionDisksRequest {
   /** The disk name for this request. */
   disk: string;
@@ -20612,13 +20611,13 @@ export const RemoveResourcePoliciesRegionDisksResponse = Operation;
 
 export type RemoveResourcePoliciesRegionDisksError = CommonErrors;
 
+/** Removes resource policies from a regional disk. */
 export const removeResourcePoliciesRegionDisks: API.OperationMethod<RemoveResourcePoliciesRegionDisksRequest, RemoveResourcePoliciesRegionDisksResponse, RemoveResourcePoliciesRegionDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveResourcePoliciesRegionDisksRequest,
   output: RemoveResourcePoliciesRegionDisksResponse,
   errors: [],
 }));
 
-/** Deletes the specified regional persistent disk. Deleting a regional disk removes all the replicas of its data permanently and is irreversible. However, deleting a disk does not delete anysnapshots previously made from the disk. You must separatelydelete snapshots. */
 export interface DeleteRegionDisksRequest {
   /** Project ID for this request. */
   project: string;
@@ -20645,13 +20644,13 @@ export const DeleteRegionDisksResponse = Operation;
 
 export type DeleteRegionDisksError = CommonErrors;
 
+/** Deletes the specified regional persistent disk. Deleting a regional disk removes all the replicas of its data permanently and is irreversible. However, deleting a disk does not delete anysnapshots previously made from the disk. You must separatelydelete snapshots. */
 export const deleteRegionDisks: API.OperationMethod<DeleteRegionDisksRequest, DeleteRegionDisksResponse, DeleteRegionDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRegionDisksRequest,
   output: DeleteRegionDisksResponse,
   errors: [],
 }));
 
-/** Sets the labels on the target regional disk. */
 export interface SetLabelsRegionDisksRequest {
   /** The region for this request. */
   region: string;
@@ -20681,13 +20680,13 @@ export const SetLabelsRegionDisksResponse = Operation;
 
 export type SetLabelsRegionDisksError = CommonErrors;
 
+/** Sets the labels on the target regional disk. */
 export const setLabelsRegionDisks: API.OperationMethod<SetLabelsRegionDisksRequest, SetLabelsRegionDisksResponse, SetLabelsRegionDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetLabelsRegionDisksRequest,
   output: SetLabelsRegionDisksResponse,
   errors: [],
 }));
 
-/** Retrieves the list of persistent disks contained within the specified region. */
 export interface ListRegionDisksRequest {
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string;
@@ -20723,7 +20722,8 @@ export const ListRegionDisksResponse = DiskList;
 
 export type ListRegionDisksError = CommonErrors;
 
-export const listRegionDisks = API.makePaginated(() => ({
+/** Retrieves the list of persistent disks contained within the specified region. */
+export const listRegionDisks: API.PaginatedOperationMethod<ListRegionDisksRequest, ListRegionDisksResponse, ListRegionDisksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRegionDisksRequest,
   output: ListRegionDisksResponse,
   errors: [],
@@ -20734,7 +20734,6 @@ export const listRegionDisks = API.makePaginated(() => ({
   },
 }));
 
-/** Starts asynchronous replication. Must be invoked on the primary disk. */
 export interface StartAsyncReplicationRegionDisksRequest {
   /** The name of the persistent disk. */
   disk: string;
@@ -20764,13 +20763,13 @@ export const StartAsyncReplicationRegionDisksResponse = Operation;
 
 export type StartAsyncReplicationRegionDisksError = CommonErrors;
 
+/** Starts asynchronous replication. Must be invoked on the primary disk. */
 export const startAsyncReplicationRegionDisks: API.OperationMethod<StartAsyncReplicationRegionDisksRequest, StartAsyncReplicationRegionDisksResponse, StartAsyncReplicationRegionDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StartAsyncReplicationRegionDisksRequest,
   output: StartAsyncReplicationRegionDisksResponse,
   errors: [],
 }));
 
-/** Returns a specified regional persistent disk. */
 export interface GetRegionDisksRequest {
   /** Name of the regional persistent disk to return. */
   disk: string;
@@ -20794,13 +20793,13 @@ export const GetRegionDisksResponse = Disk;
 
 export type GetRegionDisksError = CommonErrors;
 
+/** Returns a specified regional persistent disk. */
 export const getRegionDisks: API.OperationMethod<GetRegionDisksRequest, GetRegionDisksResponse, GetRegionDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRegionDisksRequest,
   output: GetRegionDisksResponse,
   errors: [],
 }));
 
-/** Stops asynchronous replication. Can be invoked either on the primary or on the secondary disk. */
 export interface StopAsyncReplicationRegionDisksRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -20827,13 +20826,13 @@ export const StopAsyncReplicationRegionDisksResponse = Operation;
 
 export type StopAsyncReplicationRegionDisksError = CommonErrors;
 
+/** Stops asynchronous replication. Can be invoked either on the primary or on the secondary disk. */
 export const stopAsyncReplicationRegionDisks: API.OperationMethod<StopAsyncReplicationRegionDisksRequest, StopAsyncReplicationRegionDisksResponse, StopAsyncReplicationRegionDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StopAsyncReplicationRegionDisksRequest,
   output: StopAsyncReplicationRegionDisksResponse,
   errors: [],
 }));
 
-/** Creates a persistent regional disk in the specified project using the data included in the request. */
 export interface InsertRegionDisksRequest {
   /** Name of the region for this request. */
   region: string;
@@ -20863,13 +20862,13 @@ export const InsertRegionDisksResponse = Operation;
 
 export type InsertRegionDisksError = CommonErrors;
 
+/** Creates a persistent regional disk in the specified project using the data included in the request. */
 export const insertRegionDisks: API.OperationMethod<InsertRegionDisksRequest, InsertRegionDisksResponse, InsertRegionDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertRegionDisksRequest,
   output: InsertRegionDisksResponse,
   errors: [],
 }));
 
-/** Resizes the specified regional persistent disk. */
 export interface ResizeRegionDisksRequest {
   /** Name of the regional persistent disk. */
   disk: string;
@@ -20899,13 +20898,13 @@ export const ResizeRegionDisksResponse = Operation;
 
 export type ResizeRegionDisksError = CommonErrors;
 
+/** Resizes the specified regional persistent disk. */
 export const resizeRegionDisks: API.OperationMethod<ResizeRegionDisksRequest, ResizeRegionDisksResponse, ResizeRegionDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResizeRegionDisksRequest,
   output: ResizeRegionDisksResponse,
   errors: [],
 }));
 
-/** Returns the specified Route resource. */
 export interface GetRoutesRequest {
   /** Name of the Route resource to return. */
   route: string;
@@ -20926,13 +20925,13 @@ export const GetRoutesResponse = Route;
 
 export type GetRoutesError = CommonErrors;
 
+/** Returns the specified Route resource. */
 export const getRoutes: API.OperationMethod<GetRoutesRequest, GetRoutesResponse, GetRoutesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRoutesRequest,
   output: GetRoutesResponse,
   errors: [],
 }));
 
-/** Creates a Route resource in the specified project using the data included in the request. */
 export interface InsertRoutesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -20956,13 +20955,13 @@ export const InsertRoutesResponse = Operation;
 
 export type InsertRoutesError = CommonErrors;
 
+/** Creates a Route resource in the specified project using the data included in the request. */
 export const insertRoutes: API.OperationMethod<InsertRoutesRequest, InsertRoutesResponse, InsertRoutesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertRoutesRequest,
   output: InsertRoutesResponse,
   errors: [],
 }));
 
-/** Deletes the specified Route resource. */
 export interface DeleteRoutesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -20986,13 +20985,13 @@ export const DeleteRoutesResponse = Operation;
 
 export type DeleteRoutesError = CommonErrors;
 
+/** Deletes the specified Route resource. */
 export const deleteRoutes: API.OperationMethod<DeleteRoutesRequest, DeleteRoutesResponse, DeleteRoutesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRoutesRequest,
   output: DeleteRoutesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsRoutesRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -21016,13 +21015,13 @@ export const TestIamPermissionsRoutesResponse = TestPermissionsResponse;
 
 export type TestIamPermissionsRoutesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsRoutes: API.OperationMethod<TestIamPermissionsRoutesRequest, TestIamPermissionsRoutesResponse, TestIamPermissionsRoutesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsRoutesRequest,
   output: TestIamPermissionsRoutesResponse,
   errors: [],
 }));
 
-/** Retrieves the list of Route resources available to the specified project. */
 export interface ListRoutesRequest {
   /** Project ID for this request. */
   project: string;
@@ -21055,7 +21054,8 @@ export const ListRoutesResponse = RouteList;
 
 export type ListRoutesError = CommonErrors;
 
-export const listRoutes = API.makePaginated(() => ({
+/** Retrieves the list of Route resources available to the specified project. */
+export const listRoutes: API.PaginatedOperationMethod<ListRoutesRequest, ListRoutesResponse, ListRoutesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRoutesRequest,
   output: ListRoutesResponse,
   errors: [],
@@ -21066,7 +21066,6 @@ export const listRoutes = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves an aggregated list of disk types. To prevent failure, it is recommended that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListDiskTypesRequest {
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number;
@@ -21105,7 +21104,8 @@ export const AggregatedListDiskTypesResponse = DiskTypeAggregatedList;
 
 export type AggregatedListDiskTypesError = CommonErrors;
 
-export const aggregatedListDiskTypes = API.makePaginated(() => ({
+/** Retrieves an aggregated list of disk types. To prevent failure, it is recommended that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListDiskTypes: API.PaginatedOperationMethod<AggregatedListDiskTypesRequest, AggregatedListDiskTypesResponse, AggregatedListDiskTypesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListDiskTypesRequest,
   output: AggregatedListDiskTypesResponse,
   errors: [],
@@ -21116,7 +21116,6 @@ export const aggregatedListDiskTypes = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the specified disk type. */
 export interface GetDiskTypesRequest {
   /** Name of the disk type to return. */
   diskType: string;
@@ -21140,13 +21139,13 @@ export const GetDiskTypesResponse = DiskType;
 
 export type GetDiskTypesError = CommonErrors;
 
+/** Returns the specified disk type. */
 export const getDiskTypes: API.OperationMethod<GetDiskTypesRequest, GetDiskTypesResponse, GetDiskTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDiskTypesRequest,
   output: GetDiskTypesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of disk types available to the specified project. */
 export interface ListDiskTypesRequest {
   /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
   orderBy?: string;
@@ -21182,7 +21181,8 @@ export const ListDiskTypesResponse = DiskTypeList;
 
 export type ListDiskTypesError = CommonErrors;
 
-export const listDiskTypes = API.makePaginated(() => ({
+/** Retrieves a list of disk types available to the specified project. */
+export const listDiskTypes: API.PaginatedOperationMethod<ListDiskTypesRequest, ListDiskTypesResponse, ListDiskTypesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListDiskTypesRequest,
   output: ListDiskTypesResponse,
   errors: [],
@@ -21193,7 +21193,6 @@ export const listDiskTypes = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves a list of VpnTunnel resources contained in the specified project and region. */
 export interface ListVpnTunnelsRequest {
   /** Opt-in for partial success behavior which provides partial results in case of failure. The default value is false. For example, when partial success behavior is enabled, aggregatedList for a single zone scope either returns all resources in the zone or no resources, with an error code. */
   returnPartialSuccess?: boolean;
@@ -21229,7 +21228,8 @@ export const ListVpnTunnelsResponse = VpnTunnelList;
 
 export type ListVpnTunnelsError = CommonErrors;
 
-export const listVpnTunnels = API.makePaginated(() => ({
+/** Retrieves a list of VpnTunnel resources contained in the specified project and region. */
+export const listVpnTunnels: API.PaginatedOperationMethod<ListVpnTunnelsRequest, ListVpnTunnelsResponse, ListVpnTunnelsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListVpnTunnelsRequest,
   output: ListVpnTunnelsResponse,
   errors: [],
@@ -21240,7 +21240,6 @@ export const listVpnTunnels = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves an aggregated list of VPN tunnels. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListVpnTunnelsRequest {
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string;
@@ -21279,7 +21278,8 @@ export const AggregatedListVpnTunnelsResponse = VpnTunnelAggregatedList;
 
 export type AggregatedListVpnTunnelsError = CommonErrors;
 
-export const aggregatedListVpnTunnels = API.makePaginated(() => ({
+/** Retrieves an aggregated list of VPN tunnels. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListVpnTunnels: API.PaginatedOperationMethod<AggregatedListVpnTunnelsRequest, AggregatedListVpnTunnelsResponse, AggregatedListVpnTunnelsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListVpnTunnelsRequest,
   output: AggregatedListVpnTunnelsResponse,
   errors: [],
@@ -21290,7 +21290,6 @@ export const aggregatedListVpnTunnels = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the specified VpnTunnel resource. */
 export interface DeleteVpnTunnelsRequest {
   /** Name of the VpnTunnel resource to delete. */
   vpnTunnel: string;
@@ -21317,13 +21316,13 @@ export const DeleteVpnTunnelsResponse = Operation;
 
 export type DeleteVpnTunnelsError = CommonErrors;
 
+/** Deletes the specified VpnTunnel resource. */
 export const deleteVpnTunnels: API.OperationMethod<DeleteVpnTunnelsRequest, DeleteVpnTunnelsResponse, DeleteVpnTunnelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteVpnTunnelsRequest,
   output: DeleteVpnTunnelsResponse,
   errors: [],
 }));
 
-/** Returns the specified VpnTunnel resource. */
 export interface GetVpnTunnelsRequest {
   /** Name of the VpnTunnel resource to return. */
   vpnTunnel: string;
@@ -21347,13 +21346,13 @@ export const GetVpnTunnelsResponse = VpnTunnel;
 
 export type GetVpnTunnelsError = CommonErrors;
 
+/** Returns the specified VpnTunnel resource. */
 export const getVpnTunnels: API.OperationMethod<GetVpnTunnelsRequest, GetVpnTunnelsResponse, GetVpnTunnelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetVpnTunnelsRequest,
   output: GetVpnTunnelsResponse,
   errors: [],
 }));
 
-/** Creates a VpnTunnel resource in the specified project and region using the data included in the request. */
 export interface InsertVpnTunnelsRequest {
   /** Name of the region for this request. */
   region: string;
@@ -21380,13 +21379,13 @@ export const InsertVpnTunnelsResponse = Operation;
 
 export type InsertVpnTunnelsError = CommonErrors;
 
+/** Creates a VpnTunnel resource in the specified project and region using the data included in the request. */
 export const insertVpnTunnels: API.OperationMethod<InsertVpnTunnelsRequest, InsertVpnTunnelsResponse, InsertVpnTunnelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertVpnTunnelsRequest,
   output: InsertVpnTunnelsResponse,
   errors: [],
 }));
 
-/** Sets the labels on a VpnTunnel. To learn more about labels, read theLabeling Resources documentation. */
 export interface SetLabelsVpnTunnelsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -21416,13 +21415,13 @@ export const SetLabelsVpnTunnelsResponse = Operation;
 
 export type SetLabelsVpnTunnelsError = CommonErrors;
 
+/** Sets the labels on a VpnTunnel. To learn more about labels, read theLabeling Resources documentation. */
 export const setLabelsVpnTunnels: API.OperationMethod<SetLabelsVpnTunnelsRequest, SetLabelsVpnTunnelsResponse, SetLabelsVpnTunnelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetLabelsVpnTunnelsRequest,
   output: SetLabelsVpnTunnelsResponse,
   errors: [],
 }));
 
-/** Advise how, where and when to create the requested amount of instances with specified accelerators, within the specified time and location limits. The method recommends creating future reservations for the requested resources. */
 export interface CalendarModeAdviceRequest_Op {
   /** Project ID for this request. */
   project: string;
@@ -21446,13 +21445,13 @@ export const CalendarModeAdviceResponse_Op = CalendarModeAdviceResponse;
 
 export type CalendarModeAdviceError = CommonErrors;
 
+/** Advise how, where and when to create the requested amount of instances with specified accelerators, within the specified time and location limits. The method recommends creating future reservations for the requested resources. */
 export const calendarModeAdvice: API.OperationMethod<CalendarModeAdviceRequest_Op, CalendarModeAdviceResponse_Op, CalendarModeAdviceError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CalendarModeAdviceRequest_Op,
   output: CalendarModeAdviceResponse_Op,
   errors: [],
 }));
 
-/** Returns the specified subnetwork. */
 export interface GetSubnetworksRequest {
   /** Defines the extra views returned back in the subnetwork resource. Supported values: - WITH_UTILIZATION: Utilization data is included in the response. */
   views?: "DEFAULT" | "WITH_UTILIZATION" | (string & {})[];
@@ -21479,13 +21478,13 @@ export const GetSubnetworksResponse = Subnetwork;
 
 export type GetSubnetworksError = CommonErrors;
 
+/** Returns the specified subnetwork. */
 export const getSubnetworks: API.OperationMethod<GetSubnetworksRequest, GetSubnetworksResponse, GetSubnetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSubnetworksRequest,
   output: GetSubnetworksResponse,
   errors: [],
 }));
 
-/** Deletes the specified subnetwork. */
 export interface DeleteSubnetworksRequest {
   /** Name of the Subnetwork resource to delete. */
   subnetwork: string;
@@ -21512,13 +21511,13 @@ export const DeleteSubnetworksResponse = Operation;
 
 export type DeleteSubnetworksError = CommonErrors;
 
+/** Deletes the specified subnetwork. */
 export const deleteSubnetworks: API.OperationMethod<DeleteSubnetworksRequest, DeleteSubnetworksResponse, DeleteSubnetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteSubnetworksRequest,
   output: DeleteSubnetworksResponse,
   errors: [],
 }));
 
-/** Set whether VMs in this subnet can access Google services without assigning external IP addresses through Private Google Access. */
 export interface SetPrivateIpGoogleAccessSubnetworksRequest {
   /** Project ID for this request. */
   project: string;
@@ -21548,13 +21547,13 @@ export const SetPrivateIpGoogleAccessSubnetworksResponse = Operation;
 
 export type SetPrivateIpGoogleAccessSubnetworksError = CommonErrors;
 
+/** Set whether VMs in this subnet can access Google services without assigning external IP addresses through Private Google Access. */
 export const setPrivateIpGoogleAccessSubnetworks: API.OperationMethod<SetPrivateIpGoogleAccessSubnetworksRequest, SetPrivateIpGoogleAccessSubnetworksResponse, SetPrivateIpGoogleAccessSubnetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetPrivateIpGoogleAccessSubnetworksRequest,
   output: SetPrivateIpGoogleAccessSubnetworksResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsSubnetworksRequest {
   /** Project ID for this request. */
   project: string;
@@ -21581,13 +21580,13 @@ export const TestIamPermissionsSubnetworksResponse = TestPermissionsResponse;
 
 export type TestIamPermissionsSubnetworksError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsSubnetworks: API.OperationMethod<TestIamPermissionsSubnetworksRequest, TestIamPermissionsSubnetworksResponse, TestIamPermissionsSubnetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsSubnetworksRequest,
   output: TestIamPermissionsSubnetworksResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export interface SetIamPolicySubnetworksRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -21614,13 +21613,13 @@ export const SetIamPolicySubnetworksResponse = Policy;
 
 export type SetIamPolicySubnetworksError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export const setIamPolicySubnetworks: API.OperationMethod<SetIamPolicySubnetworksRequest, SetIamPolicySubnetworksResponse, SetIamPolicySubnetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicySubnetworksRequest,
   output: SetIamPolicySubnetworksResponse,
   errors: [],
 }));
 
-/** Patches the specified subnetwork with the data included in the request. Only certain fields can be updated with a patch request as indicated in the field descriptions. You must specify the current fingerprint of the subnetwork resource being patched. */
 export interface PatchSubnetworksRequest {
   /** Project ID for this request. */
   project: string;
@@ -21653,13 +21652,13 @@ export const PatchSubnetworksResponse = Operation;
 
 export type PatchSubnetworksError = CommonErrors;
 
+/** Patches the specified subnetwork with the data included in the request. Only certain fields can be updated with a patch request as indicated in the field descriptions. You must specify the current fingerprint of the subnetwork resource being patched. */
 export const patchSubnetworks: API.OperationMethod<PatchSubnetworksRequest, PatchSubnetworksResponse, PatchSubnetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchSubnetworksRequest,
   output: PatchSubnetworksResponse,
   errors: [],
 }));
 
-/** Retrieves an aggregated list of all usable subnetworks in the project. */
 export interface ListUsableSubnetworksRequest {
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string;
@@ -21695,7 +21694,8 @@ export const ListUsableSubnetworksResponse = UsableSubnetworksAggregatedList;
 
 export type ListUsableSubnetworksError = CommonErrors;
 
-export const listUsableSubnetworks = API.makePaginated(() => ({
+/** Retrieves an aggregated list of all usable subnetworks in the project. */
+export const listUsableSubnetworks: API.PaginatedOperationMethod<ListUsableSubnetworksRequest, ListUsableSubnetworksResponse, ListUsableSubnetworksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListUsableSubnetworksRequest,
   output: ListUsableSubnetworksResponse,
   errors: [],
@@ -21706,7 +21706,6 @@ export const listUsableSubnetworks = API.makePaginated(() => ({
   },
 }));
 
-/** Expands the IP CIDR range of the subnetwork to a specified value. */
 export interface ExpandIpCidrRangeSubnetworksRequest {
   /** Name of the Subnetwork resource to update. */
   subnetwork: string;
@@ -21736,13 +21735,13 @@ export const ExpandIpCidrRangeSubnetworksResponse = Operation;
 
 export type ExpandIpCidrRangeSubnetworksError = CommonErrors;
 
+/** Expands the IP CIDR range of the subnetwork to a specified value. */
 export const expandIpCidrRangeSubnetworks: API.OperationMethod<ExpandIpCidrRangeSubnetworksRequest, ExpandIpCidrRangeSubnetworksResponse, ExpandIpCidrRangeSubnetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExpandIpCidrRangeSubnetworksRequest,
   output: ExpandIpCidrRangeSubnetworksResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export interface GetIamPolicySubnetworksRequest {
   /** The name of the region for this request. */
   region: string;
@@ -21769,13 +21768,13 @@ export const GetIamPolicySubnetworksResponse = Policy;
 
 export type GetIamPolicySubnetworksError = CommonErrors;
 
+/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export const getIamPolicySubnetworks: API.OperationMethod<GetIamPolicySubnetworksRequest, GetIamPolicySubnetworksResponse, GetIamPolicySubnetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicySubnetworksRequest,
   output: GetIamPolicySubnetworksResponse,
   errors: [],
 }));
 
-/** Retrieves an aggregated list of subnetworks. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListSubnetworksRequest {
   /** Defines the extra views returned back in the subnetwork resource. Supported values: - WITH_UTILIZATION: Utilization data is included in the response. */
   views?: "DEFAULT" | "WITH_UTILIZATION" | (string & {})[];
@@ -21817,7 +21816,8 @@ export const AggregatedListSubnetworksResponse = SubnetworkAggregatedList;
 
 export type AggregatedListSubnetworksError = CommonErrors;
 
-export const aggregatedListSubnetworks = API.makePaginated(() => ({
+/** Retrieves an aggregated list of subnetworks. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListSubnetworks: API.PaginatedOperationMethod<AggregatedListSubnetworksRequest, AggregatedListSubnetworksResponse, AggregatedListSubnetworksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListSubnetworksRequest,
   output: AggregatedListSubnetworksResponse,
   errors: [],
@@ -21828,7 +21828,6 @@ export const aggregatedListSubnetworks = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves a list of subnetworks available to the specified project. */
 export interface ListSubnetworksRequest {
   /** Name of the region scoping this request. */
   region: string;
@@ -21867,7 +21866,8 @@ export const ListSubnetworksResponse = SubnetworkList;
 
 export type ListSubnetworksError = CommonErrors;
 
-export const listSubnetworks = API.makePaginated(() => ({
+/** Retrieves a list of subnetworks available to the specified project. */
+export const listSubnetworks: API.PaginatedOperationMethod<ListSubnetworksRequest, ListSubnetworksResponse, ListSubnetworksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListSubnetworksRequest,
   output: ListSubnetworksResponse,
   errors: [],
@@ -21878,7 +21878,6 @@ export const listSubnetworks = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a subnetwork in the specified project using the data included in the request. */
 export interface InsertSubnetworksRequest {
   /** Name of the region scoping this request. */
   region: string;
@@ -21905,13 +21904,13 @@ export const InsertSubnetworksResponse = Operation;
 
 export type InsertSubnetworksError = CommonErrors;
 
+/** Creates a subnetwork in the specified project using the data included in the request. */
 export const insertSubnetworks: API.OperationMethod<InsertSubnetworksRequest, InsertSubnetworksResponse, InsertSubnetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertSubnetworksRequest,
   output: InsertSubnetworksResponse,
   errors: [],
 }));
 
-/** Updates a HttpsHealthCheck resource in the specified project using the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export interface PatchHttpsHealthChecksRequest {
   /** Project ID for this request. */
   project: string;
@@ -21938,13 +21937,13 @@ export const PatchHttpsHealthChecksResponse = Operation;
 
 export type PatchHttpsHealthChecksError = CommonErrors;
 
+/** Updates a HttpsHealthCheck resource in the specified project using the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export const patchHttpsHealthChecks: API.OperationMethod<PatchHttpsHealthChecksRequest, PatchHttpsHealthChecksResponse, PatchHttpsHealthChecksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchHttpsHealthChecksRequest,
   output: PatchHttpsHealthChecksResponse,
   errors: [],
 }));
 
-/** Updates a HttpsHealthCheck resource in the specified project using the data included in the request. */
 export interface UpdateHttpsHealthChecksRequest {
   /** Name of the HttpsHealthCheck resource to update. */
   httpsHealthCheck: string;
@@ -21971,13 +21970,13 @@ export const UpdateHttpsHealthChecksResponse = Operation;
 
 export type UpdateHttpsHealthChecksError = CommonErrors;
 
+/** Updates a HttpsHealthCheck resource in the specified project using the data included in the request. */
 export const updateHttpsHealthChecks: API.OperationMethod<UpdateHttpsHealthChecksRequest, UpdateHttpsHealthChecksResponse, UpdateHttpsHealthChecksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateHttpsHealthChecksRequest,
   output: UpdateHttpsHealthChecksResponse,
   errors: [],
 }));
 
-/** Retrieves the list of HttpsHealthCheck resources available to the specified project. */
 export interface ListHttpsHealthChecksRequest {
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number;
@@ -22010,7 +22009,8 @@ export const ListHttpsHealthChecksResponse = HttpsHealthCheckList;
 
 export type ListHttpsHealthChecksError = CommonErrors;
 
-export const listHttpsHealthChecks = API.makePaginated(() => ({
+/** Retrieves the list of HttpsHealthCheck resources available to the specified project. */
+export const listHttpsHealthChecks: API.PaginatedOperationMethod<ListHttpsHealthChecksRequest, ListHttpsHealthChecksResponse, ListHttpsHealthChecksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListHttpsHealthChecksRequest,
   output: ListHttpsHealthChecksResponse,
   errors: [],
@@ -22021,7 +22021,6 @@ export const listHttpsHealthChecks = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the specified HttpsHealthCheck resource. */
 export interface DeleteHttpsHealthChecksRequest {
   /** Name of the HttpsHealthCheck resource to delete. */
   httpsHealthCheck: string;
@@ -22045,13 +22044,13 @@ export const DeleteHttpsHealthChecksResponse = Operation;
 
 export type DeleteHttpsHealthChecksError = CommonErrors;
 
+/** Deletes the specified HttpsHealthCheck resource. */
 export const deleteHttpsHealthChecks: API.OperationMethod<DeleteHttpsHealthChecksRequest, DeleteHttpsHealthChecksResponse, DeleteHttpsHealthChecksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteHttpsHealthChecksRequest,
   output: DeleteHttpsHealthChecksResponse,
   errors: [],
 }));
 
-/** Creates a HttpsHealthCheck resource in the specified project using the data included in the request. */
 export interface InsertHttpsHealthChecksRequest {
   /** Project ID for this request. */
   project: string;
@@ -22075,13 +22074,13 @@ export const InsertHttpsHealthChecksResponse = Operation;
 
 export type InsertHttpsHealthChecksError = CommonErrors;
 
+/** Creates a HttpsHealthCheck resource in the specified project using the data included in the request. */
 export const insertHttpsHealthChecks: API.OperationMethod<InsertHttpsHealthChecksRequest, InsertHttpsHealthChecksResponse, InsertHttpsHealthChecksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertHttpsHealthChecksRequest,
   output: InsertHttpsHealthChecksResponse,
   errors: [],
 }));
 
-/** Returns the specified HttpsHealthCheck resource. */
 export interface GetHttpsHealthChecksRequest {
   /** Name of the HttpsHealthCheck resource to return. */
   httpsHealthCheck: string;
@@ -22102,13 +22101,13 @@ export const GetHttpsHealthChecksResponse = HttpsHealthCheck;
 
 export type GetHttpsHealthChecksError = CommonErrors;
 
+/** Returns the specified HttpsHealthCheck resource. */
 export const getHttpsHealthChecks: API.OperationMethod<GetHttpsHealthChecksRequest, GetHttpsHealthChecksResponse, GetHttpsHealthChecksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetHttpsHealthChecksRequest,
   output: GetHttpsHealthChecksResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsHttpsHealthChecksRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -22132,13 +22131,13 @@ export const TestIamPermissionsHttpsHealthChecksResponse = TestPermissionsRespon
 
 export type TestIamPermissionsHttpsHealthChecksError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsHttpsHealthChecks: API.OperationMethod<TestIamPermissionsHttpsHealthChecksRequest, TestIamPermissionsHttpsHealthChecksResponse, TestIamPermissionsHttpsHealthChecksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsHttpsHealthChecksRequest,
   output: TestIamPermissionsHttpsHealthChecksResponse,
   errors: [],
 }));
 
-/** Deletes the specified instance template. Deleting an instance template is permanent and cannot be undone. It is not possible to delete templates that are already in use by a managed instance group. */
 export interface DeleteInstanceTemplatesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -22162,13 +22161,13 @@ export const DeleteInstanceTemplatesResponse = Operation;
 
 export type DeleteInstanceTemplatesError = CommonErrors;
 
+/** Deletes the specified instance template. Deleting an instance template is permanent and cannot be undone. It is not possible to delete templates that are already in use by a managed instance group. */
 export const deleteInstanceTemplates: API.OperationMethod<DeleteInstanceTemplatesRequest, DeleteInstanceTemplatesResponse, DeleteInstanceTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteInstanceTemplatesRequest,
   output: DeleteInstanceTemplatesResponse,
   errors: [],
 }));
 
-/** Returns the specified instance template. */
 export interface GetInstanceTemplatesRequest {
   /** Project ID for this request. */
   project: string;
@@ -22189,13 +22188,13 @@ export const GetInstanceTemplatesResponse = InstanceTemplate;
 
 export type GetInstanceTemplatesError = CommonErrors;
 
+/** Returns the specified instance template. */
 export const getInstanceTemplates: API.OperationMethod<GetInstanceTemplatesRequest, GetInstanceTemplatesResponse, GetInstanceTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetInstanceTemplatesRequest,
   output: GetInstanceTemplatesResponse,
   errors: [],
 }));
 
-/** Creates an instance template in the specified project using the data that is included in the request. If you are creating a new template to update an existing instance group, your new instance template must use the same network or, if applicable, the same subnetwork as the original template. */
 export interface InsertInstanceTemplatesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -22219,13 +22218,13 @@ export const InsertInstanceTemplatesResponse = Operation;
 
 export type InsertInstanceTemplatesError = CommonErrors;
 
+/** Creates an instance template in the specified project using the data that is included in the request. If you are creating a new template to update an existing instance group, your new instance template must use the same network or, if applicable, the same subnetwork as the original template. */
 export const insertInstanceTemplates: API.OperationMethod<InsertInstanceTemplatesRequest, InsertInstanceTemplatesResponse, InsertInstanceTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertInstanceTemplatesRequest,
   output: InsertInstanceTemplatesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export interface GetIamPolicyInstanceTemplatesRequest {
   /** Requested IAM Policy version. */
   optionsRequestedPolicyVersion?: number;
@@ -22249,13 +22248,13 @@ export const GetIamPolicyInstanceTemplatesResponse = Policy;
 
 export type GetIamPolicyInstanceTemplatesError = CommonErrors;
 
+/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export const getIamPolicyInstanceTemplates: API.OperationMethod<GetIamPolicyInstanceTemplatesRequest, GetIamPolicyInstanceTemplatesResponse, GetIamPolicyInstanceTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyInstanceTemplatesRequest,
   output: GetIamPolicyInstanceTemplatesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsInstanceTemplatesRequest {
   /** Project ID for this request. */
   project: string;
@@ -22279,13 +22278,13 @@ export const TestIamPermissionsInstanceTemplatesResponse = TestPermissionsRespon
 
 export type TestIamPermissionsInstanceTemplatesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsInstanceTemplates: API.OperationMethod<TestIamPermissionsInstanceTemplatesRequest, TestIamPermissionsInstanceTemplatesResponse, TestIamPermissionsInstanceTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsInstanceTemplatesRequest,
   output: TestIamPermissionsInstanceTemplatesResponse,
   errors: [],
 }));
 
-/** Retrieves the list of all InstanceTemplates resources, regional and global, available to the specified project. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListInstanceTemplatesRequest {
   /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
   orderBy?: string;
@@ -22324,7 +22323,8 @@ export const AggregatedListInstanceTemplatesResponse = InstanceTemplateAggregate
 
 export type AggregatedListInstanceTemplatesError = CommonErrors;
 
-export const aggregatedListInstanceTemplates = API.makePaginated(() => ({
+/** Retrieves the list of all InstanceTemplates resources, regional and global, available to the specified project. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListInstanceTemplates: API.PaginatedOperationMethod<AggregatedListInstanceTemplatesRequest, AggregatedListInstanceTemplatesResponse, AggregatedListInstanceTemplatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListInstanceTemplatesRequest,
   output: AggregatedListInstanceTemplatesResponse,
   errors: [],
@@ -22335,7 +22335,6 @@ export const aggregatedListInstanceTemplates = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves a list of instance templates that are contained within the specified project. */
 export interface ListInstanceTemplatesRequest {
   /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based onresource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using GoogleRE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
   filter?: string;
@@ -22368,7 +22367,8 @@ export const ListInstanceTemplatesResponse = InstanceTemplateList;
 
 export type ListInstanceTemplatesError = CommonErrors;
 
-export const listInstanceTemplates = API.makePaginated(() => ({
+/** Retrieves a list of instance templates that are contained within the specified project. */
+export const listInstanceTemplates: API.PaginatedOperationMethod<ListInstanceTemplatesRequest, ListInstanceTemplatesResponse, ListInstanceTemplatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListInstanceTemplatesRequest,
   output: ListInstanceTemplatesResponse,
   errors: [],
@@ -22379,7 +22379,6 @@ export const listInstanceTemplates = API.makePaginated(() => ({
   },
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export interface SetIamPolicyInstanceTemplatesRequest {
   /** Project ID for this request. */
   project: string;
@@ -22403,13 +22402,13 @@ export const SetIamPolicyInstanceTemplatesResponse = Policy;
 
 export type SetIamPolicyInstanceTemplatesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export const setIamPolicyInstanceTemplates: API.OperationMethod<SetIamPolicyInstanceTemplatesRequest, SetIamPolicyInstanceTemplatesResponse, SetIamPolicyInstanceTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyInstanceTemplatesRequest,
   output: SetIamPolicyInstanceTemplatesResponse,
   errors: [],
 }));
 
-/** Deletes the specified zone-specific Operations resource. */
 export interface DeleteZoneOperationsRequest {
   /** Name of the zone for this request. */
   zone: string;
@@ -22433,13 +22432,13 @@ export const DeleteZoneOperationsResponse: Schema.Schema<DeleteZoneOperationsRes
 
 export type DeleteZoneOperationsError = CommonErrors;
 
+/** Deletes the specified zone-specific Operations resource. */
 export const deleteZoneOperations: API.OperationMethod<DeleteZoneOperationsRequest, DeleteZoneOperationsResponse, DeleteZoneOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteZoneOperationsRequest,
   output: DeleteZoneOperationsResponse,
   errors: [],
 }));
 
-/** Retrieves the specified zone-specific Operations resource. */
 export interface GetZoneOperationsRequest {
   /** Project ID for this request. */
   project: string;
@@ -22463,13 +22462,13 @@ export const GetZoneOperationsResponse = Operation;
 
 export type GetZoneOperationsError = CommonErrors;
 
+/** Retrieves the specified zone-specific Operations resource. */
 export const getZoneOperations: API.OperationMethod<GetZoneOperationsRequest, GetZoneOperationsResponse, GetZoneOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetZoneOperationsRequest,
   output: GetZoneOperationsResponse,
   errors: [],
 }));
 
-/** Waits for the specified Operation resource to return as `DONE` or for the request to approach the 2 minute deadline, and retrieves the specified Operation resource. This method waits for no more than the 2 minutes and then returns the current state of the operation, which might be `DONE` or still in progress. This method is called on a best-effort basis. Specifically: - In uncommon cases, when the server is overloaded, the request might return before the default deadline is reached, or might return after zero seconds. - If the default deadline is reached, there is no guarantee that the operation is actually done when the method returns. Be prepared to retry if the operation is not `DONE`. */
 export interface WaitZoneOperationsRequest {
   /** Name of the zone for this request. */
   zone: string;
@@ -22493,13 +22492,13 @@ export const WaitZoneOperationsResponse = Operation;
 
 export type WaitZoneOperationsError = CommonErrors;
 
+/** Waits for the specified Operation resource to return as `DONE` or for the request to approach the 2 minute deadline, and retrieves the specified Operation resource. This method waits for no more than the 2 minutes and then returns the current state of the operation, which might be `DONE` or still in progress. This method is called on a best-effort basis. Specifically: - In uncommon cases, when the server is overloaded, the request might return before the default deadline is reached, or might return after zero seconds. - If the default deadline is reached, there is no guarantee that the operation is actually done when the method returns. Be prepared to retry if the operation is not `DONE`. */
 export const waitZoneOperations: API.OperationMethod<WaitZoneOperationsRequest, WaitZoneOperationsResponse, WaitZoneOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WaitZoneOperationsRequest,
   output: WaitZoneOperationsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of Operation resources contained within the specified zone. */
 export interface ListZoneOperationsRequest {
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number;
@@ -22535,7 +22534,8 @@ export const ListZoneOperationsResponse = OperationList;
 
 export type ListZoneOperationsError = CommonErrors;
 
-export const listZoneOperations = API.makePaginated(() => ({
+/** Retrieves a list of Operation resources contained within the specified zone. */
+export const listZoneOperations: API.PaginatedOperationMethod<ListZoneOperationsRequest, ListZoneOperationsResponse, ListZoneOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListZoneOperationsRequest,
   output: ListZoneOperationsResponse,
   errors: [],
@@ -22546,7 +22546,6 @@ export const listZoneOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new network firewall policy in the specified project and region. */
 export interface InsertRegionNetworkFirewallPoliciesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -22573,13 +22572,13 @@ export const InsertRegionNetworkFirewallPoliciesResponse = Operation;
 
 export type InsertRegionNetworkFirewallPoliciesError = CommonErrors;
 
+/** Creates a new network firewall policy in the specified project and region. */
 export const insertRegionNetworkFirewallPolicies: API.OperationMethod<InsertRegionNetworkFirewallPoliciesRequest, InsertRegionNetworkFirewallPoliciesResponse, InsertRegionNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertRegionNetworkFirewallPoliciesRequest,
   output: InsertRegionNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Gets a rule of the specified priority. */
 export interface GetRuleRegionNetworkFirewallPoliciesRequest {
   /** The priority of the rule to get from the firewall policy. */
   priority?: number;
@@ -22606,13 +22605,13 @@ export const GetRuleRegionNetworkFirewallPoliciesResponse = FirewallPolicyRule;
 
 export type GetRuleRegionNetworkFirewallPoliciesError = CommonErrors;
 
+/** Gets a rule of the specified priority. */
 export const getRuleRegionNetworkFirewallPolicies: API.OperationMethod<GetRuleRegionNetworkFirewallPoliciesRequest, GetRuleRegionNetworkFirewallPoliciesResponse, GetRuleRegionNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRuleRegionNetworkFirewallPoliciesRequest,
   output: GetRuleRegionNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Returns the specified network firewall policy. */
 export interface GetRegionNetworkFirewallPoliciesRequest {
   /** Name of the region scoping this request. */
   region: string;
@@ -22636,13 +22635,13 @@ export const GetRegionNetworkFirewallPoliciesResponse = FirewallPolicy;
 
 export type GetRegionNetworkFirewallPoliciesError = CommonErrors;
 
+/** Returns the specified network firewall policy. */
 export const getRegionNetworkFirewallPolicies: API.OperationMethod<GetRegionNetworkFirewallPoliciesRequest, GetRegionNetworkFirewallPoliciesResponse, GetRegionNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRegionNetworkFirewallPoliciesRequest,
   output: GetRegionNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Deletes a rule of the specified priority. */
 export interface RemoveRuleRegionNetworkFirewallPoliciesRequest {
   /** The priority of the rule to remove from the firewall policy. */
   priority?: number;
@@ -22672,13 +22671,13 @@ export const RemoveRuleRegionNetworkFirewallPoliciesResponse = Operation;
 
 export type RemoveRuleRegionNetworkFirewallPoliciesError = CommonErrors;
 
+/** Deletes a rule of the specified priority. */
 export const removeRuleRegionNetworkFirewallPolicies: API.OperationMethod<RemoveRuleRegionNetworkFirewallPoliciesRequest, RemoveRuleRegionNetworkFirewallPoliciesResponse, RemoveRuleRegionNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveRuleRegionNetworkFirewallPoliciesRequest,
   output: RemoveRuleRegionNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Lists all the network firewall policies that have been configured for the specified project in the given region. */
 export interface ListRegionNetworkFirewallPoliciesRequest {
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string;
@@ -22714,7 +22713,8 @@ export const ListRegionNetworkFirewallPoliciesResponse = FirewallPolicyList;
 
 export type ListRegionNetworkFirewallPoliciesError = CommonErrors;
 
-export const listRegionNetworkFirewallPolicies = API.makePaginated(() => ({
+/** Lists all the network firewall policies that have been configured for the specified project in the given region. */
+export const listRegionNetworkFirewallPolicies: API.PaginatedOperationMethod<ListRegionNetworkFirewallPoliciesRequest, ListRegionNetworkFirewallPoliciesResponse, ListRegionNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRegionNetworkFirewallPoliciesRequest,
   output: ListRegionNetworkFirewallPoliciesResponse,
   errors: [],
@@ -22725,7 +22725,6 @@ export const listRegionNetworkFirewallPolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Patches a rule of the specified priority. */
 export interface PatchRuleRegionNetworkFirewallPoliciesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -22758,13 +22757,13 @@ export const PatchRuleRegionNetworkFirewallPoliciesResponse = Operation;
 
 export type PatchRuleRegionNetworkFirewallPoliciesError = CommonErrors;
 
+/** Patches a rule of the specified priority. */
 export const patchRuleRegionNetworkFirewallPolicies: API.OperationMethod<PatchRuleRegionNetworkFirewallPoliciesRequest, PatchRuleRegionNetworkFirewallPoliciesResponse, PatchRuleRegionNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchRuleRegionNetworkFirewallPoliciesRequest,
   output: PatchRuleRegionNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Removes an association for the specified network firewall policy. */
 export interface RemoveAssociationRegionNetworkFirewallPoliciesRequest {
   /** Name of the region scoping this request. */
   region: string;
@@ -22794,13 +22793,13 @@ export const RemoveAssociationRegionNetworkFirewallPoliciesResponse = Operation;
 
 export type RemoveAssociationRegionNetworkFirewallPoliciesError = CommonErrors;
 
+/** Removes an association for the specified network firewall policy. */
 export const removeAssociationRegionNetworkFirewallPolicies: API.OperationMethod<RemoveAssociationRegionNetworkFirewallPoliciesRequest, RemoveAssociationRegionNetworkFirewallPoliciesResponse, RemoveAssociationRegionNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveAssociationRegionNetworkFirewallPoliciesRequest,
   output: RemoveAssociationRegionNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Copies rules to the specified network firewall policy. */
 export interface CloneRulesRegionNetworkFirewallPoliciesRequest {
   /** Name of the firewall policy to update. */
   firewallPolicy: string;
@@ -22830,13 +22829,13 @@ export const CloneRulesRegionNetworkFirewallPoliciesResponse = Operation;
 
 export type CloneRulesRegionNetworkFirewallPoliciesError = CommonErrors;
 
+/** Copies rules to the specified network firewall policy. */
 export const cloneRulesRegionNetworkFirewallPolicies: API.OperationMethod<CloneRulesRegionNetworkFirewallPoliciesRequest, CloneRulesRegionNetworkFirewallPoliciesResponse, CloneRulesRegionNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CloneRulesRegionNetworkFirewallPoliciesRequest,
   output: CloneRulesRegionNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Deletes the specified network firewall policy. */
 export interface DeleteRegionNetworkFirewallPoliciesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -22863,13 +22862,13 @@ export const DeleteRegionNetworkFirewallPoliciesResponse = Operation;
 
 export type DeleteRegionNetworkFirewallPoliciesError = CommonErrors;
 
+/** Deletes the specified network firewall policy. */
 export const deleteRegionNetworkFirewallPolicies: API.OperationMethod<DeleteRegionNetworkFirewallPoliciesRequest, DeleteRegionNetworkFirewallPoliciesResponse, DeleteRegionNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRegionNetworkFirewallPoliciesRequest,
   output: DeleteRegionNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsRegionNetworkFirewallPoliciesRequest {
   /** Project ID for this request. */
   project: string;
@@ -22896,13 +22895,13 @@ export const TestIamPermissionsRegionNetworkFirewallPoliciesResponse = TestPermi
 
 export type TestIamPermissionsRegionNetworkFirewallPoliciesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsRegionNetworkFirewallPolicies: API.OperationMethod<TestIamPermissionsRegionNetworkFirewallPoliciesRequest, TestIamPermissionsRegionNetworkFirewallPoliciesResponse, TestIamPermissionsRegionNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsRegionNetworkFirewallPoliciesRequest,
   output: TestIamPermissionsRegionNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Inserts an association for the specified network firewall policy. */
 export interface AddAssociationRegionNetworkFirewallPoliciesRequest {
   /** Name of the firewall policy to update. */
   firewallPolicy: string;
@@ -22935,13 +22934,13 @@ export const AddAssociationRegionNetworkFirewallPoliciesResponse = Operation;
 
 export type AddAssociationRegionNetworkFirewallPoliciesError = CommonErrors;
 
+/** Inserts an association for the specified network firewall policy. */
 export const addAssociationRegionNetworkFirewallPolicies: API.OperationMethod<AddAssociationRegionNetworkFirewallPoliciesRequest, AddAssociationRegionNetworkFirewallPoliciesResponse, AddAssociationRegionNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddAssociationRegionNetworkFirewallPoliciesRequest,
   output: AddAssociationRegionNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Gets an association with the specified name. */
 export interface GetAssociationRegionNetworkFirewallPoliciesRequest {
   /** Name of the region scoping this request. */
   region: string;
@@ -22968,13 +22967,13 @@ export const GetAssociationRegionNetworkFirewallPoliciesResponse = FirewallPolic
 
 export type GetAssociationRegionNetworkFirewallPoliciesError = CommonErrors;
 
+/** Gets an association with the specified name. */
 export const getAssociationRegionNetworkFirewallPolicies: API.OperationMethod<GetAssociationRegionNetworkFirewallPoliciesRequest, GetAssociationRegionNetworkFirewallPoliciesResponse, GetAssociationRegionNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAssociationRegionNetworkFirewallPoliciesRequest,
   output: GetAssociationRegionNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Inserts a rule into a network firewall policy. */
 export interface AddRuleRegionNetworkFirewallPoliciesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -23010,13 +23009,13 @@ export const AddRuleRegionNetworkFirewallPoliciesResponse = Operation;
 
 export type AddRuleRegionNetworkFirewallPoliciesError = CommonErrors;
 
+/** Inserts a rule into a network firewall policy. */
 export const addRuleRegionNetworkFirewallPolicies: API.OperationMethod<AddRuleRegionNetworkFirewallPoliciesRequest, AddRuleRegionNetworkFirewallPoliciesResponse, AddRuleRegionNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddRuleRegionNetworkFirewallPoliciesRequest,
   output: AddRuleRegionNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Patches the specified network firewall policy. */
 export interface PatchRegionNetworkFirewallPoliciesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -23046,13 +23045,13 @@ export const PatchRegionNetworkFirewallPoliciesResponse = Operation;
 
 export type PatchRegionNetworkFirewallPoliciesError = CommonErrors;
 
+/** Patches the specified network firewall policy. */
 export const patchRegionNetworkFirewallPolicies: API.OperationMethod<PatchRegionNetworkFirewallPoliciesRequest, PatchRegionNetworkFirewallPoliciesResponse, PatchRegionNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchRegionNetworkFirewallPoliciesRequest,
   output: PatchRegionNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Returns the effective firewalls on a given network. */
 export interface GetEffectiveFirewallsRegionNetworkFirewallPoliciesRequest {
   /** Project ID for this request. */
   project: string;
@@ -23076,13 +23075,13 @@ export const GetEffectiveFirewallsRegionNetworkFirewallPoliciesResponse = Region
 
 export type GetEffectiveFirewallsRegionNetworkFirewallPoliciesError = CommonErrors;
 
+/** Returns the effective firewalls on a given network. */
 export const getEffectiveFirewallsRegionNetworkFirewallPolicies: API.OperationMethod<GetEffectiveFirewallsRegionNetworkFirewallPoliciesRequest, GetEffectiveFirewallsRegionNetworkFirewallPoliciesResponse, GetEffectiveFirewallsRegionNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEffectiveFirewallsRegionNetworkFirewallPoliciesRequest,
   output: GetEffectiveFirewallsRegionNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export interface GetIamPolicyRegionNetworkFirewallPoliciesRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -23109,13 +23108,13 @@ export const GetIamPolicyRegionNetworkFirewallPoliciesResponse = Policy;
 
 export type GetIamPolicyRegionNetworkFirewallPoliciesError = CommonErrors;
 
+/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export const getIamPolicyRegionNetworkFirewallPolicies: API.OperationMethod<GetIamPolicyRegionNetworkFirewallPoliciesRequest, GetIamPolicyRegionNetworkFirewallPoliciesResponse, GetIamPolicyRegionNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyRegionNetworkFirewallPoliciesRequest,
   output: GetIamPolicyRegionNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export interface SetIamPolicyRegionNetworkFirewallPoliciesRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -23142,13 +23141,13 @@ export const SetIamPolicyRegionNetworkFirewallPoliciesResponse = Policy;
 
 export type SetIamPolicyRegionNetworkFirewallPoliciesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export const setIamPolicyRegionNetworkFirewallPolicies: API.OperationMethod<SetIamPolicyRegionNetworkFirewallPoliciesRequest, SetIamPolicyRegionNetworkFirewallPoliciesResponse, SetIamPolicyRegionNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyRegionNetworkFirewallPoliciesRequest,
   output: SetIamPolicyRegionNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Deletes the specified wire group in the given scope. */
 export interface DeleteWireGroupsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder */
   requestId?: string;
@@ -23174,13 +23173,13 @@ export const DeleteWireGroupsResponse = Operation;
 
 export type DeleteWireGroupsError = CommonErrors;
 
+/** Deletes the specified wire group in the given scope. */
 export const deleteWireGroups: API.OperationMethod<DeleteWireGroupsRequest, DeleteWireGroupsResponse, DeleteWireGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteWireGroupsRequest,
   output: DeleteWireGroupsResponse,
   errors: [],
 }));
 
-/** Lists the wire groups for a project in the given scope. */
 export interface ListWireGroupsRequest {
   /** Project ID for this request. */
   project: string;
@@ -23215,7 +23214,8 @@ export const ListWireGroupsResponse = WireGroupList;
 
 export type ListWireGroupsError = CommonErrors;
 
-export const listWireGroups = API.makePaginated(() => ({
+/** Lists the wire groups for a project in the given scope. */
+export const listWireGroups: API.PaginatedOperationMethod<ListWireGroupsRequest, ListWireGroupsResponse, ListWireGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListWireGroupsRequest,
   output: ListWireGroupsResponse,
   errors: [],
@@ -23226,7 +23226,6 @@ export const listWireGroups = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the specified wire group resource in the given scope. */
 export interface GetWireGroupsRequest {
   /** Project ID for this request. */
   project: string;
@@ -23249,13 +23248,13 @@ export const GetWireGroupsResponse = WireGroup;
 
 export type GetWireGroupsError = CommonErrors;
 
+/** Gets the specified wire group resource in the given scope. */
 export const getWireGroups: API.OperationMethod<GetWireGroupsRequest, GetWireGroupsResponse, GetWireGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetWireGroupsRequest,
   output: GetWireGroupsResponse,
   errors: [],
 }));
 
-/** Creates a wire group in the specified project in the given scope using the parameters that are included in the request. */
 export interface InsertWireGroupsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder */
   requestId?: string;
@@ -23284,13 +23283,13 @@ export const InsertWireGroupsResponse = Operation;
 
 export type InsertWireGroupsError = CommonErrors;
 
+/** Creates a wire group in the specified project in the given scope using the parameters that are included in the request. */
 export const insertWireGroups: API.OperationMethod<InsertWireGroupsRequest, InsertWireGroupsResponse, InsertWireGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertWireGroupsRequest,
   output: InsertWireGroupsResponse,
   errors: [],
 }));
 
-/** Updates the specified wire group resource with the data included in the request. This method supportsPATCH semantics and usesJSON merge patch format and processing rules. */
 export interface PatchWireGroupsRequest {
   /** [Input Only] Validate the new configuration, but don't update it. */
   validateOnly?: boolean;
@@ -23325,13 +23324,13 @@ export const PatchWireGroupsResponse = Operation;
 
 export type PatchWireGroupsError = CommonErrors;
 
+/** Updates the specified wire group resource with the data included in the request. This method supportsPATCH semantics and usesJSON merge patch format and processing rules. */
 export const patchWireGroups: API.OperationMethod<PatchWireGroupsRequest, PatchWireGroupsResponse, PatchWireGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchWireGroupsRequest,
   output: PatchWireGroupsResponse,
   errors: [],
 }));
 
-/** Retrieves the list of Zone resources available to the specified project. */
 export interface ListZonesRequest {
   /** Project ID for this request. */
   project: string;
@@ -23364,7 +23363,8 @@ export const ListZonesResponse = ZoneList;
 
 export type ListZonesError = CommonErrors;
 
-export const listZones = API.makePaginated(() => ({
+/** Retrieves the list of Zone resources available to the specified project. */
+export const listZones: API.PaginatedOperationMethod<ListZonesRequest, ListZonesResponse, ListZonesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListZonesRequest,
   output: ListZonesResponse,
   errors: [],
@@ -23375,7 +23375,6 @@ export const listZones = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the specified Zone resource. */
 export interface GetZonesRequest {
   /** Name of the zone resource to return. */
   zone: string;
@@ -23396,13 +23395,13 @@ export const GetZonesResponse = Zone;
 
 export type GetZonesError = CommonErrors;
 
+/** Returns the specified Zone resource. */
 export const getZones: API.OperationMethod<GetZonesRequest, GetZonesResponse, GetZonesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetZonesRequest,
   output: GetZonesResponse,
   errors: [],
 }));
 
-/** Return a specified license code. License codes are mirrored across all projects that have permissions to read the License Code. *Caution* This resource is intended for use only by third-party partners who are creatingCloud Marketplace images. */
 export interface GetLicenseCodesRequest {
   /** Project ID for this request. */
   project: string;
@@ -23423,13 +23422,13 @@ export const GetLicenseCodesResponse = LicenseCode;
 
 export type GetLicenseCodesError = CommonErrors;
 
+/** Return a specified license code. License codes are mirrored across all projects that have permissions to read the License Code. *Caution* This resource is intended for use only by third-party partners who are creatingCloud Marketplace images. */
 export const getLicenseCodes: API.OperationMethod<GetLicenseCodesRequest, GetLicenseCodesResponse, GetLicenseCodesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetLicenseCodesRequest,
   output: GetLicenseCodesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. *Caution* This resource is intended for use only by third-party partners who are creatingCloud Marketplace images. */
 export interface TestIamPermissionsLicenseCodesRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -23453,13 +23452,13 @@ export const TestIamPermissionsLicenseCodesResponse = TestPermissionsResponse;
 
 export type TestIamPermissionsLicenseCodesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. *Caution* This resource is intended for use only by third-party partners who are creatingCloud Marketplace images. */
 export const testIamPermissionsLicenseCodes: API.OperationMethod<TestIamPermissionsLicenseCodesRequest, TestIamPermissionsLicenseCodesResponse, TestIamPermissionsLicenseCodesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsLicenseCodesRequest,
   output: TestIamPermissionsLicenseCodesResponse,
   errors: [],
 }));
 
-/** Deletes the specified managed instance group and all of the instances in that group. Note that the instance group must not belong to a backend service. Read Deleting an instance group for more information. */
 export interface DeleteInstanceGroupManagersRequest {
   /** The name of thezone where the managed instance group is located. */
   zone: string;
@@ -23486,13 +23485,13 @@ export const DeleteInstanceGroupManagersResponse = Operation;
 
 export type DeleteInstanceGroupManagersError = CommonErrors;
 
+/** Deletes the specified managed instance group and all of the instances in that group. Note that the instance group must not belong to a backend service. Read Deleting an instance group for more information. */
 export const deleteInstanceGroupManagers: API.OperationMethod<DeleteInstanceGroupManagersRequest, DeleteInstanceGroupManagersResponse, DeleteInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteInstanceGroupManagersRequest,
   output: DeleteInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Flags the specified instances in the managed instance group to be immediately stopped. You can only specify instances that are running in this request. This method reduces thetargetSize and increases the targetStoppedSize of the managed instance group by the number of instances that you stop. The stopInstances operation is marked DONE if the stopInstances request is successful. The underlying actions take additional time. You must separately verify the status of theSTOPPING action with thelistmanagedinstances method. If the standbyPolicy.initialDelaySec field is set, the group delays stopping the instances until initialDelaySec have passed from instance.creationTimestamp (that is, when the instance was created). This delay gives your application time to set itself up and initialize on the instance. If more thaninitialDelaySec seconds have passed sinceinstance.creationTimestamp when this method is called, there will be zero delay. If the group is part of a backend service that has enabled connection draining, it can take up to 60 seconds after the connection draining duration has elapsed before the VM instance is stopped. Stopped instances can be started using the startInstances method. You can specify a maximum of 1000 instances with this method per request. */
 export interface StopInstancesInstanceGroupManagersRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -23522,13 +23521,13 @@ export const StopInstancesInstanceGroupManagersResponse = Operation;
 
 export type StopInstancesInstanceGroupManagersError = CommonErrors;
 
+/** Flags the specified instances in the managed instance group to be immediately stopped. You can only specify instances that are running in this request. This method reduces thetargetSize and increases the targetStoppedSize of the managed instance group by the number of instances that you stop. The stopInstances operation is marked DONE if the stopInstances request is successful. The underlying actions take additional time. You must separately verify the status of theSTOPPING action with thelistmanagedinstances method. If the standbyPolicy.initialDelaySec field is set, the group delays stopping the instances until initialDelaySec have passed from instance.creationTimestamp (that is, when the instance was created). This delay gives your application time to set itself up and initialize on the instance. If more thaninitialDelaySec seconds have passed sinceinstance.creationTimestamp when this method is called, there will be zero delay. If the group is part of a backend service that has enabled connection draining, it can take up to 60 seconds after the connection draining duration has elapsed before the VM instance is stopped. Stopped instances can be started using the startInstances method. You can specify a maximum of 1000 instances with this method per request. */
 export const stopInstancesInstanceGroupManagers: API.OperationMethod<StopInstancesInstanceGroupManagersRequest, StopInstancesInstanceGroupManagersResponse, StopInstancesInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StopInstancesInstanceGroupManagersRequest,
   output: StopInstancesInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Applies changes to selected instances on the managed instance group. This method can be used to apply new overrides and/or new versions. */
 export interface ApplyUpdatesToInstancesInstanceGroupManagersRequest {
   /** The name of thezone where the managed instance group is located. Should conform to RFC1035. */
   zone: string;
@@ -23555,13 +23554,13 @@ export const ApplyUpdatesToInstancesInstanceGroupManagersResponse = Operation;
 
 export type ApplyUpdatesToInstancesInstanceGroupManagersError = CommonErrors;
 
+/** Applies changes to selected instances on the managed instance group. This method can be used to apply new overrides and/or new versions. */
 export const applyUpdatesToInstancesInstanceGroupManagers: API.OperationMethod<ApplyUpdatesToInstancesInstanceGroupManagersRequest, ApplyUpdatesToInstancesInstanceGroupManagersResponse, ApplyUpdatesToInstancesInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ApplyUpdatesToInstancesInstanceGroupManagersRequest,
   output: ApplyUpdatesToInstancesInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Inserts or updates per-instance configurations for the managed instance group. perInstanceConfig.name serves as a key used to distinguish whether to perform insert or patch. */
 export interface UpdatePerInstanceConfigsInstanceGroupManagersRequest {
   /** Project ID for this request. */
   project: string;
@@ -23591,13 +23590,13 @@ export const UpdatePerInstanceConfigsInstanceGroupManagersResponse = Operation;
 
 export type UpdatePerInstanceConfigsInstanceGroupManagersError = CommonErrors;
 
+/** Inserts or updates per-instance configurations for the managed instance group. perInstanceConfig.name serves as a key used to distinguish whether to perform insert or patch. */
 export const updatePerInstanceConfigsInstanceGroupManagers: API.OperationMethod<UpdatePerInstanceConfigsInstanceGroupManagersRequest, UpdatePerInstanceConfigsInstanceGroupManagersResponse, UpdatePerInstanceConfigsInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdatePerInstanceConfigsInstanceGroupManagersRequest,
   output: UpdatePerInstanceConfigsInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Returns all of the details about the specified managed instance group. */
 export interface GetInstanceGroupManagersRequest {
   /** The name of the managed instance group. */
   instanceGroupManager: string;
@@ -23621,13 +23620,13 @@ export const GetInstanceGroupManagersResponse = InstanceGroupManager;
 
 export type GetInstanceGroupManagersError = CommonErrors;
 
+/** Returns all of the details about the specified managed instance group. */
 export const getInstanceGroupManagers: API.OperationMethod<GetInstanceGroupManagersRequest, GetInstanceGroupManagersResponse, GetInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetInstanceGroupManagersRequest,
   output: GetInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Flags the specified instances to be removed from the managed instance group. Abandoning an instance does not delete the instance, but it does remove the instance from any target pools that are applied by the managed instance group. This method reduces thetargetSize of the managed instance group by the number of instances that you abandon. This operation is marked asDONE when the action is scheduled even if the instances have not yet been removed from the group. You must separately verify the status of the abandoning action with thelistmanagedinstances method. If the group is part of a backend service that has enabled connection draining, it can take up to 60 seconds after the connection draining duration has elapsed before the VM instance is removed or deleted. You can specify a maximum of 1000 instances with this method per request. */
 export interface AbandonInstancesInstanceGroupManagersRequest {
   /** The name of the managed instance group. */
   instanceGroupManager: string;
@@ -23657,13 +23656,13 @@ export const AbandonInstancesInstanceGroupManagersResponse = Operation;
 
 export type AbandonInstancesInstanceGroupManagersError = CommonErrors;
 
+/** Flags the specified instances to be removed from the managed instance group. Abandoning an instance does not delete the instance, but it does remove the instance from any target pools that are applied by the managed instance group. This method reduces thetargetSize of the managed instance group by the number of instances that you abandon. This operation is marked asDONE when the action is scheduled even if the instances have not yet been removed from the group. You must separately verify the status of the abandoning action with thelistmanagedinstances method. If the group is part of a backend service that has enabled connection draining, it can take up to 60 seconds after the connection draining duration has elapsed before the VM instance is removed or deleted. You can specify a maximum of 1000 instances with this method per request. */
 export const abandonInstancesInstanceGroupManagers: API.OperationMethod<AbandonInstancesInstanceGroupManagersRequest, AbandonInstancesInstanceGroupManagersResponse, AbandonInstancesInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AbandonInstancesInstanceGroupManagersRequest,
   output: AbandonInstancesInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Modifies the target pools to which all instances in this managed instance group are assigned. The target pools automatically apply to all of the instances in the managed instance group. This operation is markedDONE when you make the request even if the instances have not yet been added to their target pools. The change might take some time to apply to all of the instances in the group depending on the size of the group. */
 export interface SetTargetPoolsInstanceGroupManagersRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -23693,13 +23692,13 @@ export const SetTargetPoolsInstanceGroupManagersResponse = Operation;
 
 export type SetTargetPoolsInstanceGroupManagersError = CommonErrors;
 
+/** Modifies the target pools to which all instances in this managed instance group are assigned. The target pools automatically apply to all of the instances in the managed instance group. This operation is markedDONE when you make the request even if the instances have not yet been added to their target pools. The change might take some time to apply to all of the instances in the group depending on the size of the group. */
 export const setTargetPoolsInstanceGroupManagers: API.OperationMethod<SetTargetPoolsInstanceGroupManagersRequest, SetTargetPoolsInstanceGroupManagersResponse, SetTargetPoolsInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetTargetPoolsInstanceGroupManagersRequest,
   output: SetTargetPoolsInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Lists all errors thrown by actions on instances for a given managed instance group. The filter and orderBy query parameters are not supported. */
 export interface ListErrorsInstanceGroupManagersRequest {
   /** Project ID for this request. */
   project: string;
@@ -23738,7 +23737,8 @@ export const ListErrorsInstanceGroupManagersResponse = InstanceGroupManagersList
 
 export type ListErrorsInstanceGroupManagersError = CommonErrors;
 
-export const listErrorsInstanceGroupManagers = API.makePaginated(() => ({
+/** Lists all errors thrown by actions on instances for a given managed instance group. The filter and orderBy query parameters are not supported. */
+export const listErrorsInstanceGroupManagers: API.PaginatedOperationMethod<ListErrorsInstanceGroupManagersRequest, ListErrorsInstanceGroupManagersResponse, ListErrorsInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListErrorsInstanceGroupManagersRequest,
   output: ListErrorsInstanceGroupManagersResponse,
   errors: [],
@@ -23749,7 +23749,6 @@ export const listErrorsInstanceGroupManagers = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes selected per-instance configurations for the managed instance group. */
 export interface DeletePerInstanceConfigsInstanceGroupManagersRequest {
   /** Project ID for this request. */
   project: string;
@@ -23776,13 +23775,13 @@ export const DeletePerInstanceConfigsInstanceGroupManagersResponse = Operation;
 
 export type DeletePerInstanceConfigsInstanceGroupManagersError = CommonErrors;
 
+/** Deletes selected per-instance configurations for the managed instance group. */
 export const deletePerInstanceConfigsInstanceGroupManagers: API.OperationMethod<DeletePerInstanceConfigsInstanceGroupManagersRequest, DeletePerInstanceConfigsInstanceGroupManagersResponse, DeletePerInstanceConfigsInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeletePerInstanceConfigsInstanceGroupManagersRequest,
   output: DeletePerInstanceConfigsInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Lists all of the per-instance configurations defined for the managed instance group. The orderBy query parameter is not supported. */
 export interface ListPerInstanceConfigsInstanceGroupManagersRequest {
   /** Project ID for this request. */
   project: string;
@@ -23821,7 +23820,8 @@ export const ListPerInstanceConfigsInstanceGroupManagersResponse = InstanceGroup
 
 export type ListPerInstanceConfigsInstanceGroupManagersError = CommonErrors;
 
-export const listPerInstanceConfigsInstanceGroupManagers = API.makePaginated(() => ({
+/** Lists all of the per-instance configurations defined for the managed instance group. The orderBy query parameter is not supported. */
+export const listPerInstanceConfigsInstanceGroupManagers: API.PaginatedOperationMethod<ListPerInstanceConfigsInstanceGroupManagersRequest, ListPerInstanceConfigsInstanceGroupManagersResponse, ListPerInstanceConfigsInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPerInstanceConfigsInstanceGroupManagersRequest,
   output: ListPerInstanceConfigsInstanceGroupManagersResponse,
   errors: [],
@@ -23832,7 +23832,6 @@ export const listPerInstanceConfigsInstanceGroupManagers = API.makePaginated(() 
   },
 }));
 
-/** Flags the specified instances in the managed instance group to be immediately suspended. You can only specify instances that are running in this request. This method reduces thetargetSize and increases the targetSuspendedSize of the managed instance group by the number of instances that you suspend. The suspendInstances operation is marked DONE if the suspendInstances request is successful. The underlying actions take additional time. You must separately verify the status of theSUSPENDING action with thelistmanagedinstances method. If the standbyPolicy.initialDelaySec field is set, the group delays suspension of the instances until initialDelaySec have passed from instance.creationTimestamp (that is, when the instance was created). This delay gives your application time to set itself up and initialize on the instance. If more thaninitialDelaySec seconds have passed sinceinstance.creationTimestamp when this method is called, there will be zero delay. If the group is part of a backend service that has enabled connection draining, it can take up to 60 seconds after the connection draining duration has elapsed before the VM instance is suspended. Suspended instances can be resumed using the resumeInstances method. You can specify a maximum of 1000 instances with this method per request. */
 export interface SuspendInstancesInstanceGroupManagersRequest {
   /** The name of the managed instance group. */
   instanceGroupManager: string;
@@ -23862,13 +23861,13 @@ export const SuspendInstancesInstanceGroupManagersResponse = Operation;
 
 export type SuspendInstancesInstanceGroupManagersError = CommonErrors;
 
+/** Flags the specified instances in the managed instance group to be immediately suspended. You can only specify instances that are running in this request. This method reduces thetargetSize and increases the targetSuspendedSize of the managed instance group by the number of instances that you suspend. The suspendInstances operation is marked DONE if the suspendInstances request is successful. The underlying actions take additional time. You must separately verify the status of theSUSPENDING action with thelistmanagedinstances method. If the standbyPolicy.initialDelaySec field is set, the group delays suspension of the instances until initialDelaySec have passed from instance.creationTimestamp (that is, when the instance was created). This delay gives your application time to set itself up and initialize on the instance. If more thaninitialDelaySec seconds have passed sinceinstance.creationTimestamp when this method is called, there will be zero delay. If the group is part of a backend service that has enabled connection draining, it can take up to 60 seconds after the connection draining duration has elapsed before the VM instance is suspended. Suspended instances can be resumed using the resumeInstances method. You can specify a maximum of 1000 instances with this method per request. */
 export const suspendInstancesInstanceGroupManagers: API.OperationMethod<SuspendInstancesInstanceGroupManagersRequest, SuspendInstancesInstanceGroupManagersResponse, SuspendInstancesInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SuspendInstancesInstanceGroupManagersRequest,
   output: SuspendInstancesInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Retrieves the list of managed instance groups and groups them by zone. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListInstanceGroupManagersRequest {
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string;
@@ -23907,7 +23906,8 @@ export const AggregatedListInstanceGroupManagersResponse = InstanceGroupManagerA
 
 export type AggregatedListInstanceGroupManagersError = CommonErrors;
 
-export const aggregatedListInstanceGroupManagers = API.makePaginated(() => ({
+/** Retrieves the list of managed instance groups and groups them by zone. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListInstanceGroupManagers: API.PaginatedOperationMethod<AggregatedListInstanceGroupManagersRequest, AggregatedListInstanceGroupManagersResponse, AggregatedListInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListInstanceGroupManagersRequest,
   output: AggregatedListInstanceGroupManagersResponse,
   errors: [],
@@ -23918,7 +23918,6 @@ export const aggregatedListInstanceGroupManagers = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves a list of managed instance groups that are contained within the specified project and zone. */
 export interface ListInstanceGroupManagersRequest {
   /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based onresource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using GoogleRE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
   filter?: string;
@@ -23954,7 +23953,8 @@ export const ListInstanceGroupManagersResponse = InstanceGroupManagerList;
 
 export type ListInstanceGroupManagersError = CommonErrors;
 
-export const listInstanceGroupManagers = API.makePaginated(() => ({
+/** Retrieves a list of managed instance groups that are contained within the specified project and zone. */
+export const listInstanceGroupManagers: API.PaginatedOperationMethod<ListInstanceGroupManagersRequest, ListInstanceGroupManagersResponse, ListInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListInstanceGroupManagersRequest,
   output: ListInstanceGroupManagersResponse,
   errors: [],
@@ -23965,7 +23965,6 @@ export const listInstanceGroupManagers = API.makePaginated(() => ({
   },
 }));
 
-/** Updates a managed instance group using the information that you specify in the request. This operation is marked as DONE when the group is patched even if the instances in the group are still in the process of being patched. You must separately verify the status of the individual instances with thelistManagedInstances method. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. If you update your group to specify a new template or instance configuration, it's possible that your intended specification for each VM in the group is different from the current state of that VM. To learn how to apply an updated configuration to the VMs in a MIG, seeUpdating instances in a MIG. */
 export interface PatchInstanceGroupManagersRequest {
   /** The name of the zone where you want to create the managed instance group. */
   zone: string;
@@ -23995,13 +23994,13 @@ export const PatchInstanceGroupManagersResponse = Operation;
 
 export type PatchInstanceGroupManagersError = CommonErrors;
 
+/** Updates a managed instance group using the information that you specify in the request. This operation is marked as DONE when the group is patched even if the instances in the group are still in the process of being patched. You must separately verify the status of the individual instances with thelistManagedInstances method. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. If you update your group to specify a new template or instance configuration, it's possible that your intended specification for each VM in the group is different from the current state of that VM. To learn how to apply an updated configuration to the VMs in a MIG, seeUpdating instances in a MIG. */
 export const patchInstanceGroupManagers: API.OperationMethod<PatchInstanceGroupManagersRequest, PatchInstanceGroupManagersResponse, PatchInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchInstanceGroupManagersRequest,
   output: PatchInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Creates a managed instance group using the information that you specify in the request. After the group is created, instances in the group are created using the specified instance template. This operation is marked as DONE when the group is created even if the instances in the group have not yet been created. You must separately verify the status of the individual instances with thelistmanagedinstances method. A managed instance group can have up to 1000 VM instances per group. Please contact Cloud Support if you need an increase in this limit. */
 export interface InsertInstanceGroupManagersRequest {
   /** The name of the zone where you want to create the managed instance group. */
   zone: string;
@@ -24028,13 +24027,13 @@ export const InsertInstanceGroupManagersResponse = Operation;
 
 export type InsertInstanceGroupManagersError = CommonErrors;
 
+/** Creates a managed instance group using the information that you specify in the request. After the group is created, instances in the group are created using the specified instance template. This operation is marked as DONE when the group is created even if the instances in the group have not yet been created. You must separately verify the status of the individual instances with thelistmanagedinstances method. A managed instance group can have up to 1000 VM instances per group. Please contact Cloud Support if you need an increase in this limit. */
 export const insertInstanceGroupManagers: API.OperationMethod<InsertInstanceGroupManagersRequest, InsertInstanceGroupManagersResponse, InsertInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertInstanceGroupManagersRequest,
   output: InsertInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Creates instances with per-instance configurations in this managed instance group. Instances are created using the current instance template. Thecreate instances operation is marked DONE if thecreateInstances request is successful. The underlying actions take additional time. You must separately verify the status of thecreating or actions with the listmanagedinstances method. */
 export interface CreateInstancesInstanceGroupManagersRequest {
   /** The name of thezone where the managed instance group is located. It should conform to RFC1035. */
   zone: string;
@@ -24064,13 +24063,13 @@ export const CreateInstancesInstanceGroupManagersResponse = Operation;
 
 export type CreateInstancesInstanceGroupManagersError = CommonErrors;
 
+/** Creates instances with per-instance configurations in this managed instance group. Instances are created using the current instance template. Thecreate instances operation is marked DONE if thecreateInstances request is successful. The underlying actions take additional time. You must separately verify the status of thecreating or actions with the listmanagedinstances method. */
 export const createInstancesInstanceGroupManagers: API.OperationMethod<CreateInstancesInstanceGroupManagersRequest, CreateInstancesInstanceGroupManagersResponse, CreateInstancesInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateInstancesInstanceGroupManagersRequest,
   output: CreateInstancesInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Specifies the instance template to use when creating new instances in this group. The templates for existing instances in the group do not change unless you run recreateInstances, runapplyUpdatesToInstances, or set the group'supdatePolicy.type to PROACTIVE. */
 export interface SetInstanceTemplateInstanceGroupManagersRequest {
   /** Project ID for this request. */
   project: string;
@@ -24100,13 +24099,13 @@ export const SetInstanceTemplateInstanceGroupManagersResponse = Operation;
 
 export type SetInstanceTemplateInstanceGroupManagersError = CommonErrors;
 
+/** Specifies the instance template to use when creating new instances in this group. The templates for existing instances in the group do not change unless you run recreateInstances, runapplyUpdatesToInstances, or set the group'supdatePolicy.type to PROACTIVE. */
 export const setInstanceTemplateInstanceGroupManagers: API.OperationMethod<SetInstanceTemplateInstanceGroupManagersRequest, SetInstanceTemplateInstanceGroupManagersResponse, SetInstanceTemplateInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetInstanceTemplateInstanceGroupManagersRequest,
   output: SetInstanceTemplateInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Resizes the managed instance group. If you increase the size, the group creates new instances using the current instance template. If you decrease the size, the group deletes instances. The resize operation is markedDONE when the resize actions are scheduled even if the group has not yet added or deleted any instances. You must separately verify the status of the creating or deleting actions with thelistmanagedinstances method. When resizing down, the instance group arbitrarily chooses the order in which VMs are deleted. The group takes into account some VM attributes when making the selection including: + The status of the VM instance. + The health of the VM instance. + The instance template version the VM is based on. + For regional managed instance groups, the location of the VM instance. This list is subject to change. If the group is part of a backend service that has enabled connection draining, it can take up to 60 seconds after the connection draining duration has elapsed before the VM instance is removed or deleted. */
 export interface ResizeInstanceGroupManagersRequest {
   /** Project ID for this request. */
   project: string;
@@ -24136,13 +24135,13 @@ export const ResizeInstanceGroupManagersResponse = Operation;
 
 export type ResizeInstanceGroupManagersError = CommonErrors;
 
+/** Resizes the managed instance group. If you increase the size, the group creates new instances using the current instance template. If you decrease the size, the group deletes instances. The resize operation is markedDONE when the resize actions are scheduled even if the group has not yet added or deleted any instances. You must separately verify the status of the creating or deleting actions with thelistmanagedinstances method. When resizing down, the instance group arbitrarily chooses the order in which VMs are deleted. The group takes into account some VM attributes when making the selection including: + The status of the VM instance. + The health of the VM instance. + The instance template version the VM is based on. + For regional managed instance groups, the location of the VM instance. This list is subject to change. If the group is part of a backend service that has enabled connection draining, it can take up to 60 seconds after the connection draining duration has elapsed before the VM instance is removed or deleted. */
 export const resizeInstanceGroupManagers: API.OperationMethod<ResizeInstanceGroupManagersRequest, ResizeInstanceGroupManagersResponse, ResizeInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResizeInstanceGroupManagersRequest,
   output: ResizeInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Flags the specified VM instances in the managed instance group to be immediately recreated. Each instance is recreated using the group's current configuration. This operation is marked as DONE when the flag is set even if the instances have not yet been recreated. You must separately verify the status of each instance by checking itscurrentAction field; for more information, see Checking the status of managed instances. If the group is part of a backend service that has enabled connection draining, it can take up to 60 seconds after the connection draining duration has elapsed before the VM instance is removed or deleted. You can specify a maximum of 1000 instances with this method per request. */
 export interface RecreateInstancesInstanceGroupManagersRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -24172,13 +24171,13 @@ export const RecreateInstancesInstanceGroupManagersResponse = Operation;
 
 export type RecreateInstancesInstanceGroupManagersError = CommonErrors;
 
+/** Flags the specified VM instances in the managed instance group to be immediately recreated. Each instance is recreated using the group's current configuration. This operation is marked as DONE when the flag is set even if the instances have not yet been recreated. You must separately verify the status of each instance by checking itscurrentAction field; for more information, see Checking the status of managed instances. If the group is part of a backend service that has enabled connection draining, it can take up to 60 seconds after the connection draining duration has elapsed before the VM instance is removed or deleted. You can specify a maximum of 1000 instances with this method per request. */
 export const recreateInstancesInstanceGroupManagers: API.OperationMethod<RecreateInstancesInstanceGroupManagersRequest, RecreateInstancesInstanceGroupManagersResponse, RecreateInstancesInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RecreateInstancesInstanceGroupManagersRequest,
   output: RecreateInstancesInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Inserts or patches per-instance configurations for the managed instance group. perInstanceConfig.name serves as a key used to distinguish whether to perform insert or patch. */
 export interface PatchPerInstanceConfigsInstanceGroupManagersRequest {
   /** The name of the managed instance group. It should conform to RFC1035. */
   instanceGroupManager: string;
@@ -24208,13 +24207,13 @@ export const PatchPerInstanceConfigsInstanceGroupManagersResponse = Operation;
 
 export type PatchPerInstanceConfigsInstanceGroupManagersError = CommonErrors;
 
+/** Inserts or patches per-instance configurations for the managed instance group. perInstanceConfig.name serves as a key used to distinguish whether to perform insert or patch. */
 export const patchPerInstanceConfigsInstanceGroupManagers: API.OperationMethod<PatchPerInstanceConfigsInstanceGroupManagersRequest, PatchPerInstanceConfigsInstanceGroupManagersResponse, PatchPerInstanceConfigsInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchPerInstanceConfigsInstanceGroupManagersRequest,
   output: PatchPerInstanceConfigsInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Flags the specified instances in the managed instance group to be started. This method increases thetargetSize and decreases the targetStoppedSize of the managed instance group by the number of instances that you start. The startInstances operation is marked DONE if the startInstances request is successful. The underlying actions take additional time. You must separately verify the status of theSTARTING action with thelistmanagedinstances method. In this request, you can only specify instances that are stopped. For example, if an instance was previously stopped using the stopInstances method, it can be started using the startInstances method. If a health check is attached to the managed instance group, the specified instances will be verified as healthy after they are started. You can specify a maximum of 1000 instances with this method per request. */
 export interface StartInstancesInstanceGroupManagersRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -24244,13 +24243,13 @@ export const StartInstancesInstanceGroupManagersResponse = Operation;
 
 export type StartInstancesInstanceGroupManagersError = CommonErrors;
 
+/** Flags the specified instances in the managed instance group to be started. This method increases thetargetSize and decreases the targetStoppedSize of the managed instance group by the number of instances that you start. The startInstances operation is marked DONE if the startInstances request is successful. The underlying actions take additional time. You must separately verify the status of theSTARTING action with thelistmanagedinstances method. In this request, you can only specify instances that are stopped. For example, if an instance was previously stopped using the stopInstances method, it can be started using the startInstances method. If a health check is attached to the managed instance group, the specified instances will be verified as healthy after they are started. You can specify a maximum of 1000 instances with this method per request. */
 export const startInstancesInstanceGroupManagers: API.OperationMethod<StartInstancesInstanceGroupManagersRequest, StartInstancesInstanceGroupManagersResponse, StartInstancesInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StartInstancesInstanceGroupManagersRequest,
   output: StartInstancesInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Lists all of the instances in the managed instance group. Each instance in the list has a currentAction, which indicates the action that the managed instance group is performing on the instance. For example, if the group is still creating an instance, the currentAction is CREATING. If a previous action failed, the list displays the errors for that failed action. The orderBy query parameter is not supported. The `pageToken` query parameter is supported only if the group's `listManagedInstancesResults` field is set to `PAGINATED`. */
 export interface ListManagedInstancesInstanceGroupManagersRequest {
   /** The name of thezone where the managed instance group is located. */
   zone: string;
@@ -24289,7 +24288,8 @@ export const ListManagedInstancesInstanceGroupManagersResponse = InstanceGroupMa
 
 export type ListManagedInstancesInstanceGroupManagersError = CommonErrors;
 
-export const listManagedInstancesInstanceGroupManagers = API.makePaginated(() => ({
+/** Lists all of the instances in the managed instance group. Each instance in the list has a currentAction, which indicates the action that the managed instance group is performing on the instance. For example, if the group is still creating an instance, the currentAction is CREATING. If a previous action failed, the list displays the errors for that failed action. The orderBy query parameter is not supported. The `pageToken` query parameter is supported only if the group's `listManagedInstancesResults` field is set to `PAGINATED`. */
+export const listManagedInstancesInstanceGroupManagers: API.PaginatedOperationMethod<ListManagedInstancesInstanceGroupManagersRequest, ListManagedInstancesInstanceGroupManagersResponse, ListManagedInstancesInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListManagedInstancesInstanceGroupManagersRequest,
   output: ListManagedInstancesInstanceGroupManagersResponse,
   errors: [],
@@ -24299,7 +24299,6 @@ export const listManagedInstancesInstanceGroupManagers = API.makePaginated(() =>
   },
 }));
 
-/** Flags the specified instances in the managed instance group for immediate deletion. The instances are also removed from any target pools of which they were a member. This method reduces thetargetSize of the managed instance group by the number of instances that you delete. This operation is marked as DONE when the action is scheduled even if the instances are still being deleted. You must separately verify the status of the deleting action with thelistmanagedinstances method. If the group is part of a backend service that has enabled connection draining, it can take up to 60 seconds after the connection draining duration has elapsed before the VM instance is removed or deleted. You can specify a maximum of 1000 instances with this method per request. */
 export interface DeleteInstancesInstanceGroupManagersRequest {
   /** Project ID for this request. */
   project: string;
@@ -24329,13 +24328,13 @@ export const DeleteInstancesInstanceGroupManagersResponse = Operation;
 
 export type DeleteInstancesInstanceGroupManagersError = CommonErrors;
 
+/** Flags the specified instances in the managed instance group for immediate deletion. The instances are also removed from any target pools of which they were a member. This method reduces thetargetSize of the managed instance group by the number of instances that you delete. This operation is marked as DONE when the action is scheduled even if the instances are still being deleted. You must separately verify the status of the deleting action with thelistmanagedinstances method. If the group is part of a backend service that has enabled connection draining, it can take up to 60 seconds after the connection draining duration has elapsed before the VM instance is removed or deleted. You can specify a maximum of 1000 instances with this method per request. */
 export const deleteInstancesInstanceGroupManagers: API.OperationMethod<DeleteInstancesInstanceGroupManagersRequest, DeleteInstancesInstanceGroupManagersResponse, DeleteInstancesInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteInstancesInstanceGroupManagersRequest,
   output: DeleteInstancesInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Flags the specified instances in the managed instance group to be resumed. This method increases thetargetSize and decreases the targetSuspendedSize of the managed instance group by the number of instances that you resume. The resumeInstances operation is marked DONE if the resumeInstances request is successful. The underlying actions take additional time. You must separately verify the status of theRESUMING action with thelistmanagedinstances method. In this request, you can only specify instances that are suspended. For example, if an instance was previously suspended using the suspendInstances method, it can be resumed using the resumeInstances method. If a health check is attached to the managed instance group, the specified instances will be verified as healthy after they are resumed. You can specify a maximum of 1000 instances with this method per request. */
 export interface ResumeInstancesInstanceGroupManagersRequest {
   /** Project ID for this request. */
   project: string;
@@ -24365,13 +24364,13 @@ export const ResumeInstancesInstanceGroupManagersResponse = Operation;
 
 export type ResumeInstancesInstanceGroupManagersError = CommonErrors;
 
+/** Flags the specified instances in the managed instance group to be resumed. This method increases thetargetSize and decreases the targetSuspendedSize of the managed instance group by the number of instances that you resume. The resumeInstances operation is marked DONE if the resumeInstances request is successful. The underlying actions take additional time. You must separately verify the status of theRESUMING action with thelistmanagedinstances method. In this request, you can only specify instances that are suspended. For example, if an instance was previously suspended using the suspendInstances method, it can be resumed using the resumeInstances method. If a health check is attached to the managed instance group, the specified instances will be verified as healthy after they are resumed. You can specify a maximum of 1000 instances with this method per request. */
 export const resumeInstancesInstanceGroupManagers: API.OperationMethod<ResumeInstancesInstanceGroupManagersRequest, ResumeInstancesInstanceGroupManagersResponse, ResumeInstancesInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResumeInstancesInstanceGroupManagersRequest,
   output: ResumeInstancesInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Retrieves a list of regional disk types available to the specified project. */
 export interface ListRegionDiskTypesRequest {
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number;
@@ -24407,7 +24406,8 @@ export const ListRegionDiskTypesResponse = RegionDiskTypeList;
 
 export type ListRegionDiskTypesError = CommonErrors;
 
-export const listRegionDiskTypes = API.makePaginated(() => ({
+/** Retrieves a list of regional disk types available to the specified project. */
+export const listRegionDiskTypes: API.PaginatedOperationMethod<ListRegionDiskTypesRequest, ListRegionDiskTypesResponse, ListRegionDiskTypesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRegionDiskTypesRequest,
   output: ListRegionDiskTypesResponse,
   errors: [],
@@ -24418,7 +24418,6 @@ export const listRegionDiskTypes = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the specified regional disk type. */
 export interface GetRegionDiskTypesRequest {
   /** Project ID for this request. */
   project: string;
@@ -24442,13 +24441,13 @@ export const GetRegionDiskTypesResponse = DiskType;
 
 export type GetRegionDiskTypesError = CommonErrors;
 
+/** Returns the specified regional disk type. */
 export const getRegionDiskTypes: API.OperationMethod<GetRegionDiskTypesRequest, GetRegionDiskTypesResponse, GetRegionDiskTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRegionDiskTypesRequest,
   output: GetRegionDiskTypesResponse,
   errors: [],
 }));
 
-/** Creates a PublicAdvertisedPrefix in the specified project using the parameters that are included in the request. */
 export interface InsertPublicAdvertisedPrefixesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -24472,13 +24471,13 @@ export const InsertPublicAdvertisedPrefixesResponse = Operation;
 
 export type InsertPublicAdvertisedPrefixesError = CommonErrors;
 
+/** Creates a PublicAdvertisedPrefix in the specified project using the parameters that are included in the request. */
 export const insertPublicAdvertisedPrefixes: API.OperationMethod<InsertPublicAdvertisedPrefixesRequest, InsertPublicAdvertisedPrefixesResponse, InsertPublicAdvertisedPrefixesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertPublicAdvertisedPrefixesRequest,
   output: InsertPublicAdvertisedPrefixesResponse,
   errors: [],
 }));
 
-/** Patches the specified Router resource with the data included in the request. This method supportsPATCH semantics and usesJSON merge patch format and processing rules. */
 export interface PatchPublicAdvertisedPrefixesRequest {
   /** Name of the PublicAdvertisedPrefix resource to patch. */
   publicAdvertisedPrefix: string;
@@ -24505,13 +24504,13 @@ export const PatchPublicAdvertisedPrefixesResponse = Operation;
 
 export type PatchPublicAdvertisedPrefixesError = CommonErrors;
 
+/** Patches the specified Router resource with the data included in the request. This method supportsPATCH semantics and usesJSON merge patch format and processing rules. */
 export const patchPublicAdvertisedPrefixes: API.OperationMethod<PatchPublicAdvertisedPrefixesRequest, PatchPublicAdvertisedPrefixesResponse, PatchPublicAdvertisedPrefixesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchPublicAdvertisedPrefixesRequest,
   output: PatchPublicAdvertisedPrefixesResponse,
   errors: [],
 }));
 
-/** Deletes the specified PublicAdvertisedPrefix */
 export interface DeletePublicAdvertisedPrefixesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -24535,13 +24534,13 @@ export const DeletePublicAdvertisedPrefixesResponse = Operation;
 
 export type DeletePublicAdvertisedPrefixesError = CommonErrors;
 
+/** Deletes the specified PublicAdvertisedPrefix */
 export const deletePublicAdvertisedPrefixes: API.OperationMethod<DeletePublicAdvertisedPrefixesRequest, DeletePublicAdvertisedPrefixesResponse, DeletePublicAdvertisedPrefixesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeletePublicAdvertisedPrefixesRequest,
   output: DeletePublicAdvertisedPrefixesResponse,
   errors: [],
 }));
 
-/** Lists the PublicAdvertisedPrefixes for a project. */
 export interface ListPublicAdvertisedPrefixesRequest {
   /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
   orderBy?: string;
@@ -24574,7 +24573,8 @@ export const ListPublicAdvertisedPrefixesResponse = PublicAdvertisedPrefixList;
 
 export type ListPublicAdvertisedPrefixesError = CommonErrors;
 
-export const listPublicAdvertisedPrefixes = API.makePaginated(() => ({
+/** Lists the PublicAdvertisedPrefixes for a project. */
+export const listPublicAdvertisedPrefixes: API.PaginatedOperationMethod<ListPublicAdvertisedPrefixesRequest, ListPublicAdvertisedPrefixesResponse, ListPublicAdvertisedPrefixesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPublicAdvertisedPrefixesRequest,
   output: ListPublicAdvertisedPrefixesResponse,
   errors: [],
@@ -24585,7 +24585,6 @@ export const listPublicAdvertisedPrefixes = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the specified PublicAdvertisedPrefix resource. */
 export interface GetPublicAdvertisedPrefixesRequest {
   /** Name of the PublicAdvertisedPrefix resource to return. */
   publicAdvertisedPrefix: string;
@@ -24606,13 +24605,13 @@ export const GetPublicAdvertisedPrefixesResponse = PublicAdvertisedPrefix;
 
 export type GetPublicAdvertisedPrefixesError = CommonErrors;
 
+/** Returns the specified PublicAdvertisedPrefix resource. */
 export const getPublicAdvertisedPrefixes: API.OperationMethod<GetPublicAdvertisedPrefixesRequest, GetPublicAdvertisedPrefixesResponse, GetPublicAdvertisedPrefixesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPublicAdvertisedPrefixesRequest,
   output: GetPublicAdvertisedPrefixesResponse,
   errors: [],
 }));
 
-/** Withdraws the specified PublicAdvertisedPrefix */
 export interface WithdrawPublicAdvertisedPrefixesRequest {
   /** Project ID for this request. */
   project: string;
@@ -24636,13 +24635,13 @@ export const WithdrawPublicAdvertisedPrefixesResponse = Operation;
 
 export type WithdrawPublicAdvertisedPrefixesError = CommonErrors;
 
+/** Withdraws the specified PublicAdvertisedPrefix */
 export const withdrawPublicAdvertisedPrefixes: API.OperationMethod<WithdrawPublicAdvertisedPrefixesRequest, WithdrawPublicAdvertisedPrefixesResponse, WithdrawPublicAdvertisedPrefixesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WithdrawPublicAdvertisedPrefixesRequest,
   output: WithdrawPublicAdvertisedPrefixesResponse,
   errors: [],
 }));
 
-/** Announces the specified PublicAdvertisedPrefix */
 export interface AnnouncePublicAdvertisedPrefixesRequest {
   /** Project ID for this request. */
   project: string;
@@ -24666,13 +24665,13 @@ export const AnnouncePublicAdvertisedPrefixesResponse = Operation;
 
 export type AnnouncePublicAdvertisedPrefixesError = CommonErrors;
 
+/** Announces the specified PublicAdvertisedPrefix */
 export const announcePublicAdvertisedPrefixes: API.OperationMethod<AnnouncePublicAdvertisedPrefixesRequest, AnnouncePublicAdvertisedPrefixesResponse, AnnouncePublicAdvertisedPrefixesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AnnouncePublicAdvertisedPrefixesRequest,
   output: AnnouncePublicAdvertisedPrefixesResponse,
   errors: [],
 }));
 
-/** Patches the specified TargetHttpProxy resource with the data included in the request. This method supports PATCH semantics and usesJSON merge patch format and processing rules. */
 export interface PatchTargetHttpProxiesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -24699,13 +24698,13 @@ export const PatchTargetHttpProxiesResponse = Operation;
 
 export type PatchTargetHttpProxiesError = CommonErrors;
 
+/** Patches the specified TargetHttpProxy resource with the data included in the request. This method supports PATCH semantics and usesJSON merge patch format and processing rules. */
 export const patchTargetHttpProxies: API.OperationMethod<PatchTargetHttpProxiesRequest, PatchTargetHttpProxiesResponse, PatchTargetHttpProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchTargetHttpProxiesRequest,
   output: PatchTargetHttpProxiesResponse,
   errors: [],
 }));
 
-/** Retrieves the list of TargetHttpProxy resources available to the specified project. */
 export interface ListTargetHttpProxiesRequest {
   /** Opt-in for partial success behavior which provides partial results in case of failure. The default value is false. For example, when partial success behavior is enabled, aggregatedList for a single zone scope either returns all resources in the zone or no resources, with an error code. */
   returnPartialSuccess?: boolean;
@@ -24738,7 +24737,8 @@ export const ListTargetHttpProxiesResponse = TargetHttpProxyList;
 
 export type ListTargetHttpProxiesError = CommonErrors;
 
-export const listTargetHttpProxies = API.makePaginated(() => ({
+/** Retrieves the list of TargetHttpProxy resources available to the specified project. */
+export const listTargetHttpProxies: API.PaginatedOperationMethod<ListTargetHttpProxiesRequest, ListTargetHttpProxiesResponse, ListTargetHttpProxiesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListTargetHttpProxiesRequest,
   output: ListTargetHttpProxiesResponse,
   errors: [],
@@ -24749,7 +24749,6 @@ export const listTargetHttpProxies = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves the list of all TargetHttpProxy resources, regional and global, available to the specified project. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListTargetHttpProxiesRequest {
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number;
@@ -24788,7 +24787,8 @@ export const AggregatedListTargetHttpProxiesResponse = TargetHttpProxyAggregated
 
 export type AggregatedListTargetHttpProxiesError = CommonErrors;
 
-export const aggregatedListTargetHttpProxies = API.makePaginated(() => ({
+/** Retrieves the list of all TargetHttpProxy resources, regional and global, available to the specified project. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListTargetHttpProxies: API.PaginatedOperationMethod<AggregatedListTargetHttpProxiesRequest, AggregatedListTargetHttpProxiesResponse, AggregatedListTargetHttpProxiesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListTargetHttpProxiesRequest,
   output: AggregatedListTargetHttpProxiesResponse,
   errors: [],
@@ -24799,7 +24799,6 @@ export const aggregatedListTargetHttpProxies = API.makePaginated(() => ({
   },
 }));
 
-/** Changes the URL map for TargetHttpProxy. */
 export interface SetUrlMapTargetHttpProxiesRequest {
   /** Name of the TargetHttpProxy to set a URL map for. */
   targetHttpProxy: string;
@@ -24826,13 +24825,13 @@ export const SetUrlMapTargetHttpProxiesResponse = Operation;
 
 export type SetUrlMapTargetHttpProxiesError = CommonErrors;
 
+/** Changes the URL map for TargetHttpProxy. */
 export const setUrlMapTargetHttpProxies: API.OperationMethod<SetUrlMapTargetHttpProxiesRequest, SetUrlMapTargetHttpProxiesResponse, SetUrlMapTargetHttpProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetUrlMapTargetHttpProxiesRequest,
   output: SetUrlMapTargetHttpProxiesResponse,
   errors: [],
 }));
 
-/** Creates a TargetHttpProxy resource in the specified project using the data included in the request. */
 export interface InsertTargetHttpProxiesRequest {
   /** Project ID for this request. */
   project: string;
@@ -24856,13 +24855,13 @@ export const InsertTargetHttpProxiesResponse = Operation;
 
 export type InsertTargetHttpProxiesError = CommonErrors;
 
+/** Creates a TargetHttpProxy resource in the specified project using the data included in the request. */
 export const insertTargetHttpProxies: API.OperationMethod<InsertTargetHttpProxiesRequest, InsertTargetHttpProxiesResponse, InsertTargetHttpProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertTargetHttpProxiesRequest,
   output: InsertTargetHttpProxiesResponse,
   errors: [],
 }));
 
-/** Deletes the specified TargetHttpProxy resource. */
 export interface DeleteTargetHttpProxiesRequest {
   /** Project ID for this request. */
   project: string;
@@ -24886,13 +24885,13 @@ export const DeleteTargetHttpProxiesResponse = Operation;
 
 export type DeleteTargetHttpProxiesError = CommonErrors;
 
+/** Deletes the specified TargetHttpProxy resource. */
 export const deleteTargetHttpProxies: API.OperationMethod<DeleteTargetHttpProxiesRequest, DeleteTargetHttpProxiesResponse, DeleteTargetHttpProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteTargetHttpProxiesRequest,
   output: DeleteTargetHttpProxiesResponse,
   errors: [],
 }));
 
-/** Returns the specified TargetHttpProxy resource. */
 export interface GetTargetHttpProxiesRequest {
   /** Name of the TargetHttpProxy resource to return. */
   targetHttpProxy: string;
@@ -24913,13 +24912,13 @@ export const GetTargetHttpProxiesResponse = TargetHttpProxy;
 
 export type GetTargetHttpProxiesError = CommonErrors;
 
+/** Returns the specified TargetHttpProxy resource. */
 export const getTargetHttpProxies: API.OperationMethod<GetTargetHttpProxiesRequest, GetTargetHttpProxiesResponse, GetTargetHttpProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetTargetHttpProxiesRequest,
   output: GetTargetHttpProxiesResponse,
   errors: [],
 }));
 
-/** Inserts a rule into a security policy. */
 export interface AddRuleSecurityPoliciesRequest {
   /** Project ID for this request. */
   project: string;
@@ -24946,13 +24945,13 @@ export const AddRuleSecurityPoliciesResponse = Operation;
 
 export type AddRuleSecurityPoliciesError = CommonErrors;
 
+/** Inserts a rule into a security policy. */
 export const addRuleSecurityPolicies: API.OperationMethod<AddRuleSecurityPoliciesRequest, AddRuleSecurityPoliciesResponse, AddRuleSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddRuleSecurityPoliciesRequest,
   output: AddRuleSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** List all of the ordered rules present in a single specified policy. */
 export interface GetSecurityPoliciesRequest {
   /** Name of the security policy to get. */
   securityPolicy: string;
@@ -24973,13 +24972,13 @@ export const GetSecurityPoliciesResponse = SecurityPolicy;
 
 export type GetSecurityPoliciesError = CommonErrors;
 
+/** List all of the ordered rules present in a single specified policy. */
 export const getSecurityPolicies: API.OperationMethod<GetSecurityPoliciesRequest, GetSecurityPoliciesResponse, GetSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSecurityPoliciesRequest,
   output: GetSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Sets the labels on a security policy. To learn more about labels, read the Labeling Resources documentation. */
 export interface SetLabelsSecurityPoliciesRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -25003,13 +25002,13 @@ export const SetLabelsSecurityPoliciesResponse = Operation;
 
 export type SetLabelsSecurityPoliciesError = CommonErrors;
 
+/** Sets the labels on a security policy. To learn more about labels, read the Labeling Resources documentation. */
 export const setLabelsSecurityPolicies: API.OperationMethod<SetLabelsSecurityPoliciesRequest, SetLabelsSecurityPoliciesResponse, SetLabelsSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetLabelsSecurityPoliciesRequest,
   output: SetLabelsSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Retrieves the list of all SecurityPolicy resources, regional and global, available to the specified project. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListSecurityPoliciesRequest {
   /** Opt-in for partial success behavior which provides partial results in case of failure. The default value is false. For example, when partial success behavior is enabled, aggregatedList for a single zone scope either returns all resources in the zone or no resources, with an error code. */
   returnPartialSuccess?: boolean;
@@ -25048,7 +25047,8 @@ export const AggregatedListSecurityPoliciesResponse = SecurityPoliciesAggregated
 
 export type AggregatedListSecurityPoliciesError = CommonErrors;
 
-export const aggregatedListSecurityPolicies = API.makePaginated(() => ({
+/** Retrieves the list of all SecurityPolicy resources, regional and global, available to the specified project. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListSecurityPolicies: API.PaginatedOperationMethod<AggregatedListSecurityPoliciesRequest, AggregatedListSecurityPoliciesResponse, AggregatedListSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListSecurityPoliciesRequest,
   output: AggregatedListSecurityPoliciesResponse,
   errors: [],
@@ -25059,7 +25059,6 @@ export const aggregatedListSecurityPolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a rule at the specified priority. */
 export interface RemoveRuleSecurityPoliciesRequest {
   /** Project ID for this request. */
   project: string;
@@ -25083,13 +25082,13 @@ export const RemoveRuleSecurityPoliciesResponse = Operation;
 
 export type RemoveRuleSecurityPoliciesError = CommonErrors;
 
+/** Deletes a rule at the specified priority. */
 export const removeRuleSecurityPolicies: API.OperationMethod<RemoveRuleSecurityPoliciesRequest, RemoveRuleSecurityPoliciesResponse, RemoveRuleSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveRuleSecurityPoliciesRequest,
   output: RemoveRuleSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Patches the specified policy with the data included in the request. To clear fields in the policy, leave the fields empty and specify them in the updateMask. This cannot be used to be update the rules in the policy. Please use the per rule methods like addRule, patchRule, and removeRule instead. */
 export interface PatchSecurityPoliciesRequest {
   /** Project ID for this request. */
   project: string;
@@ -25119,13 +25118,13 @@ export const PatchSecurityPoliciesResponse = Operation;
 
 export type PatchSecurityPoliciesError = CommonErrors;
 
+/** Patches the specified policy with the data included in the request. To clear fields in the policy, leave the fields empty and specify them in the updateMask. This cannot be used to be update the rules in the policy. Please use the per rule methods like addRule, patchRule, and removeRule instead. */
 export const patchSecurityPolicies: API.OperationMethod<PatchSecurityPoliciesRequest, PatchSecurityPoliciesResponse, PatchSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchSecurityPoliciesRequest,
   output: PatchSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** List all the policies that have been configured for the specified project. */
 export interface ListSecurityPoliciesRequest {
   /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based onresource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using GoogleRE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
   filter?: string;
@@ -25158,7 +25157,8 @@ export const ListSecurityPoliciesResponse = SecurityPolicyList;
 
 export type ListSecurityPoliciesError = CommonErrors;
 
-export const listSecurityPolicies = API.makePaginated(() => ({
+/** List all the policies that have been configured for the specified project. */
+export const listSecurityPolicies: API.PaginatedOperationMethod<ListSecurityPoliciesRequest, ListSecurityPoliciesResponse, ListSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListSecurityPoliciesRequest,
   output: ListSecurityPoliciesResponse,
   errors: [],
@@ -25169,7 +25169,6 @@ export const listSecurityPolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the specified policy. */
 export interface DeleteSecurityPoliciesRequest {
   /** Name of the security policy to delete. */
   securityPolicy: string;
@@ -25193,13 +25192,13 @@ export const DeleteSecurityPoliciesResponse = Operation;
 
 export type DeleteSecurityPoliciesError = CommonErrors;
 
+/** Deletes the specified policy. */
 export const deleteSecurityPolicies: API.OperationMethod<DeleteSecurityPoliciesRequest, DeleteSecurityPoliciesResponse, DeleteSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteSecurityPoliciesRequest,
   output: DeleteSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Creates a new policy in the specified project using the data included in the request. */
 export interface InsertSecurityPoliciesRequest {
   /** If true, the request will not be committed. */
   validateOnly?: boolean;
@@ -25226,13 +25225,13 @@ export const InsertSecurityPoliciesResponse = Operation;
 
 export type InsertSecurityPoliciesError = CommonErrors;
 
+/** Creates a new policy in the specified project using the data included in the request. */
 export const insertSecurityPolicies: API.OperationMethod<InsertSecurityPoliciesRequest, InsertSecurityPoliciesResponse, InsertSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertSecurityPoliciesRequest,
   output: InsertSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Patches a rule at the specified priority. To clear fields in the rule, leave the fields empty and specify them in the updateMask. */
 export interface PatchRuleSecurityPoliciesRequest {
   /** Indicates fields to be cleared as part of this request. */
   updateMask?: string;
@@ -25265,13 +25264,13 @@ export const PatchRuleSecurityPoliciesResponse = Operation;
 
 export type PatchRuleSecurityPoliciesError = CommonErrors;
 
+/** Patches a rule at the specified priority. To clear fields in the rule, leave the fields empty and specify them in the updateMask. */
 export const patchRuleSecurityPolicies: API.OperationMethod<PatchRuleSecurityPoliciesRequest, PatchRuleSecurityPoliciesResponse, PatchRuleSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchRuleSecurityPoliciesRequest,
   output: PatchRuleSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Gets the current list of preconfigured Web Application Firewall (WAF) expressions. */
 export interface ListPreconfiguredExpressionSetsSecurityPoliciesRequest {
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string;
@@ -25304,13 +25303,13 @@ export const ListPreconfiguredExpressionSetsSecurityPoliciesResponse = SecurityP
 
 export type ListPreconfiguredExpressionSetsSecurityPoliciesError = CommonErrors;
 
+/** Gets the current list of preconfigured Web Application Firewall (WAF) expressions. */
 export const listPreconfiguredExpressionSetsSecurityPolicies: API.OperationMethod<ListPreconfiguredExpressionSetsSecurityPoliciesRequest, ListPreconfiguredExpressionSetsSecurityPoliciesResponse, ListPreconfiguredExpressionSetsSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListPreconfiguredExpressionSetsSecurityPoliciesRequest,
   output: ListPreconfiguredExpressionSetsSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Gets a rule at the specified priority. */
 export interface GetRuleSecurityPoliciesRequest {
   /** Project ID for this request. */
   project: string;
@@ -25334,13 +25333,13 @@ export const GetRuleSecurityPoliciesResponse = SecurityPolicyRule;
 
 export type GetRuleSecurityPoliciesError = CommonErrors;
 
+/** Gets a rule at the specified priority. */
 export const getRuleSecurityPolicies: API.OperationMethod<GetRuleSecurityPoliciesRequest, GetRuleSecurityPoliciesResponse, GetRuleSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRuleSecurityPoliciesRequest,
   output: GetRuleSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export interface SetIamPolicyImagesRequest {
   /** Project ID for this request. */
   project: string;
@@ -25364,13 +25363,13 @@ export const SetIamPolicyImagesResponse = Policy;
 
 export type SetIamPolicyImagesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export const setIamPolicyImages: API.OperationMethod<SetIamPolicyImagesRequest, SetIamPolicyImagesResponse, SetIamPolicyImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyImagesRequest,
   output: SetIamPolicyImagesResponse,
   errors: [],
 }));
 
-/** Patches the specified image with the data included in the request. Only the following fields can be modified: family, description, deprecation status. */
 export interface PatchImagesRequest {
   /** Name of the image resource to patch. */
   image: string;
@@ -25397,13 +25396,13 @@ export const PatchImagesResponse = Operation;
 
 export type PatchImagesError = CommonErrors;
 
+/** Patches the specified image with the data included in the request. Only the following fields can be modified: family, description, deprecation status. */
 export const patchImages: API.OperationMethod<PatchImagesRequest, PatchImagesResponse, PatchImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchImagesRequest,
   output: PatchImagesResponse,
   errors: [],
 }));
 
-/** Deletes the specified image. */
 export interface DeleteImagesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -25427,13 +25426,13 @@ export const DeleteImagesResponse = Operation;
 
 export type DeleteImagesError = CommonErrors;
 
+/** Deletes the specified image. */
 export const deleteImages: API.OperationMethod<DeleteImagesRequest, DeleteImagesResponse, DeleteImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteImagesRequest,
   output: DeleteImagesResponse,
   errors: [],
 }));
 
-/** Sets the deprecation status of an image. If an empty request body is given, clears the deprecation status instead. */
 export interface DeprecateImagesRequest {
   /** Project ID for this request. */
   project: string;
@@ -25460,13 +25459,13 @@ export const DeprecateImagesResponse = Operation;
 
 export type DeprecateImagesError = CommonErrors;
 
+/** Sets the deprecation status of an image. If an empty request body is given, clears the deprecation status instead. */
 export const deprecateImages: API.OperationMethod<DeprecateImagesRequest, DeprecateImagesResponse, DeprecateImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeprecateImagesRequest,
   output: DeprecateImagesResponse,
   errors: [],
 }));
 
-/** Sets the labels on an image. To learn more about labels, read theLabeling Resources documentation. */
 export interface SetLabelsImagesRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -25490,13 +25489,13 @@ export const SetLabelsImagesResponse = Operation;
 
 export type SetLabelsImagesError = CommonErrors;
 
+/** Sets the labels on an image. To learn more about labels, read theLabeling Resources documentation. */
 export const setLabelsImages: API.OperationMethod<SetLabelsImagesRequest, SetLabelsImagesResponse, SetLabelsImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetLabelsImagesRequest,
   output: SetLabelsImagesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export interface GetIamPolicyImagesRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -25520,13 +25519,13 @@ export const GetIamPolicyImagesResponse = Policy;
 
 export type GetIamPolicyImagesError = CommonErrors;
 
+/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export const getIamPolicyImages: API.OperationMethod<GetIamPolicyImagesRequest, GetIamPolicyImagesResponse, GetIamPolicyImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyImagesRequest,
   output: GetIamPolicyImagesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsImagesRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -25550,13 +25549,13 @@ export const TestIamPermissionsImagesResponse = TestPermissionsResponse;
 
 export type TestIamPermissionsImagesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsImages: API.OperationMethod<TestIamPermissionsImagesRequest, TestIamPermissionsImagesResponse, TestIamPermissionsImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsImagesRequest,
   output: TestIamPermissionsImagesResponse,
   errors: [],
 }));
 
-/** Returns the latest image that is part of an image family and is not deprecated. For more information on image families, seePublic image families documentation. */
 export interface GetFromFamilyImagesRequest {
   /** The image project that the image belongs to. For example, to get a CentOS image, specify centos-cloud as the image project. */
   project: string;
@@ -25577,13 +25576,13 @@ export const GetFromFamilyImagesResponse = Image;
 
 export type GetFromFamilyImagesError = CommonErrors;
 
+/** Returns the latest image that is part of an image family and is not deprecated. For more information on image families, seePublic image families documentation. */
 export const getFromFamilyImages: API.OperationMethod<GetFromFamilyImagesRequest, GetFromFamilyImagesResponse, GetFromFamilyImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFromFamilyImagesRequest,
   output: GetFromFamilyImagesResponse,
   errors: [],
 }));
 
-/** Retrieves the list of custom images available to the specified project. Custom images are images you create that belong to your project. This method does not get any images that belong to other projects, including publicly-available images, like Debian 8. If you want to get a list of publicly-available images, use this method to make a request to the respective image project, such as debian-cloud or windows-cloud. */
 export interface ListImagesRequest {
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number;
@@ -25616,7 +25615,8 @@ export const ListImagesResponse = ImageList;
 
 export type ListImagesError = CommonErrors;
 
-export const listImages = API.makePaginated(() => ({
+/** Retrieves the list of custom images available to the specified project. Custom images are images you create that belong to your project. This method does not get any images that belong to other projects, including publicly-available images, like Debian 8. If you want to get a list of publicly-available images, use this method to make a request to the respective image project, such as debian-cloud or windows-cloud. */
+export const listImages: API.PaginatedOperationMethod<ListImagesRequest, ListImagesResponse, ListImagesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListImagesRequest,
   output: ListImagesResponse,
   errors: [],
@@ -25627,7 +25627,6 @@ export const listImages = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the specified image. */
 export interface GetImagesRequest {
   /** Name of the image resource to return. */
   image: string;
@@ -25648,13 +25647,13 @@ export const GetImagesResponse = Image;
 
 export type GetImagesError = CommonErrors;
 
+/** Returns the specified image. */
 export const getImages: API.OperationMethod<GetImagesRequest, GetImagesResponse, GetImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetImagesRequest,
   output: GetImagesResponse,
   errors: [],
 }));
 
-/** Creates an image in the specified project using the data included in the request. */
 export interface InsertImagesRequest {
   /** Force image creation if true. */
   forceCreate?: boolean;
@@ -25681,13 +25680,13 @@ export const InsertImagesResponse = Operation;
 
 export type InsertImagesError = CommonErrors;
 
+/** Creates an image in the specified project using the data included in the request. */
 export const insertImages: API.OperationMethod<InsertImagesRequest, InsertImagesResponse, InsertImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertImagesRequest,
   output: InsertImagesResponse,
   errors: [],
 }));
 
-/** Creates a network endpoint group in the specified project using the parameters that are included in the request. Note: Use the following APIs to manage network endpoint groups: - To manage NEGs with zonal scope (such as zonal NEGs, hybrid connectivity NEGs): zonal API - To manage NEGs with regional scope (such as regional internet NEGs, serverless NEGs, Private Service Connect NEGs): regional API - To manage NEGs with global scope (such as global internet NEGs):global API */
 export interface InsertNetworkEndpointGroupsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -25714,13 +25713,13 @@ export const InsertNetworkEndpointGroupsResponse = Operation;
 
 export type InsertNetworkEndpointGroupsError = CommonErrors;
 
+/** Creates a network endpoint group in the specified project using the parameters that are included in the request. Note: Use the following APIs to manage network endpoint groups: - To manage NEGs with zonal scope (such as zonal NEGs, hybrid connectivity NEGs): zonal API - To manage NEGs with regional scope (such as regional internet NEGs, serverless NEGs, Private Service Connect NEGs): regional API - To manage NEGs with global scope (such as global internet NEGs):global API */
 export const insertNetworkEndpointGroups: API.OperationMethod<InsertNetworkEndpointGroupsRequest, InsertNetworkEndpointGroupsResponse, InsertNetworkEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertNetworkEndpointGroupsRequest,
   output: InsertNetworkEndpointGroupsResponse,
   errors: [],
 }));
 
-/** Returns the specified network endpoint group. */
 export interface GetNetworkEndpointGroupsRequest {
   /** Project ID for this request. */
   project: string;
@@ -25744,13 +25743,13 @@ export const GetNetworkEndpointGroupsResponse = NetworkEndpointGroup;
 
 export type GetNetworkEndpointGroupsError = CommonErrors;
 
+/** Returns the specified network endpoint group. */
 export const getNetworkEndpointGroups: API.OperationMethod<GetNetworkEndpointGroupsRequest, GetNetworkEndpointGroupsResponse, GetNetworkEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetNetworkEndpointGroupsRequest,
   output: GetNetworkEndpointGroupsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsNetworkEndpointGroupsRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -25777,13 +25776,13 @@ export const TestIamPermissionsNetworkEndpointGroupsResponse = TestPermissionsRe
 
 export type TestIamPermissionsNetworkEndpointGroupsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsNetworkEndpointGroups: API.OperationMethod<TestIamPermissionsNetworkEndpointGroupsRequest, TestIamPermissionsNetworkEndpointGroupsResponse, TestIamPermissionsNetworkEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsNetworkEndpointGroupsRequest,
   output: TestIamPermissionsNetworkEndpointGroupsResponse,
   errors: [],
 }));
 
-/** Retrieves the list of network endpoint groups and sorts them by zone. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListNetworkEndpointGroupsRequest {
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number;
@@ -25822,7 +25821,8 @@ export const AggregatedListNetworkEndpointGroupsResponse = NetworkEndpointGroupA
 
 export type AggregatedListNetworkEndpointGroupsError = CommonErrors;
 
-export const aggregatedListNetworkEndpointGroups = API.makePaginated(() => ({
+/** Retrieves the list of network endpoint groups and sorts them by zone. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListNetworkEndpointGroups: API.PaginatedOperationMethod<AggregatedListNetworkEndpointGroupsRequest, AggregatedListNetworkEndpointGroupsResponse, AggregatedListNetworkEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListNetworkEndpointGroupsRequest,
   output: AggregatedListNetworkEndpointGroupsResponse,
   errors: [],
@@ -25833,7 +25833,6 @@ export const aggregatedListNetworkEndpointGroups = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the specified network endpoint group. The network endpoints in the NEG and the VM instances they belong to are not terminated when the NEG is deleted. Note that the NEG cannot be deleted if there are backend services referencing it. */
 export interface DeleteNetworkEndpointGroupsRequest {
   /** The name of the zone where the network endpoint group is located. It should comply with RFC1035. */
   zone: string;
@@ -25860,13 +25859,13 @@ export const DeleteNetworkEndpointGroupsResponse = Operation;
 
 export type DeleteNetworkEndpointGroupsError = CommonErrors;
 
+/** Deletes the specified network endpoint group. The network endpoints in the NEG and the VM instances they belong to are not terminated when the NEG is deleted. Note that the NEG cannot be deleted if there are backend services referencing it. */
 export const deleteNetworkEndpointGroups: API.OperationMethod<DeleteNetworkEndpointGroupsRequest, DeleteNetworkEndpointGroupsResponse, DeleteNetworkEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteNetworkEndpointGroupsRequest,
   output: DeleteNetworkEndpointGroupsResponse,
   errors: [],
 }));
 
-/** Attach a list of network endpoints to the specified network endpoint group. */
 export interface AttachNetworkEndpointsNetworkEndpointGroupsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -25896,13 +25895,13 @@ export const AttachNetworkEndpointsNetworkEndpointGroupsResponse = Operation;
 
 export type AttachNetworkEndpointsNetworkEndpointGroupsError = CommonErrors;
 
+/** Attach a list of network endpoints to the specified network endpoint group. */
 export const attachNetworkEndpointsNetworkEndpointGroups: API.OperationMethod<AttachNetworkEndpointsNetworkEndpointGroupsRequest, AttachNetworkEndpointsNetworkEndpointGroupsResponse, AttachNetworkEndpointsNetworkEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AttachNetworkEndpointsNetworkEndpointGroupsRequest,
   output: AttachNetworkEndpointsNetworkEndpointGroupsResponse,
   errors: [],
 }));
 
-/** Lists the network endpoints in the specified network endpoint group. */
 export interface ListNetworkEndpointsNetworkEndpointGroupsRequest {
   /** The name of the network endpoint group from which you want to generate a list of included network endpoints. It should comply with RFC1035. */
   networkEndpointGroup: string;
@@ -25944,7 +25943,8 @@ export const ListNetworkEndpointsNetworkEndpointGroupsResponse = NetworkEndpoint
 
 export type ListNetworkEndpointsNetworkEndpointGroupsError = CommonErrors;
 
-export const listNetworkEndpointsNetworkEndpointGroups = API.makePaginated(() => ({
+/** Lists the network endpoints in the specified network endpoint group. */
+export const listNetworkEndpointsNetworkEndpointGroups: API.PaginatedOperationMethod<ListNetworkEndpointsNetworkEndpointGroupsRequest, ListNetworkEndpointsNetworkEndpointGroupsResponse, ListNetworkEndpointsNetworkEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListNetworkEndpointsNetworkEndpointGroupsRequest,
   output: ListNetworkEndpointsNetworkEndpointGroupsResponse,
   errors: [],
@@ -25955,7 +25955,6 @@ export const listNetworkEndpointsNetworkEndpointGroups = API.makePaginated(() =>
   },
 }));
 
-/** Detach a list of network endpoints from the specified network endpoint group. */
 export interface DetachNetworkEndpointsNetworkEndpointGroupsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -25985,13 +25984,13 @@ export const DetachNetworkEndpointsNetworkEndpointGroupsResponse = Operation;
 
 export type DetachNetworkEndpointsNetworkEndpointGroupsError = CommonErrors;
 
+/** Detach a list of network endpoints from the specified network endpoint group. */
 export const detachNetworkEndpointsNetworkEndpointGroups: API.OperationMethod<DetachNetworkEndpointsNetworkEndpointGroupsRequest, DetachNetworkEndpointsNetworkEndpointGroupsResponse, DetachNetworkEndpointsNetworkEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DetachNetworkEndpointsNetworkEndpointGroupsRequest,
   output: DetachNetworkEndpointsNetworkEndpointGroupsResponse,
   errors: [],
 }));
 
-/** Retrieves the list of network endpoint groups that are located in the specified project and zone. */
 export interface ListNetworkEndpointGroupsRequest {
   /** Opt-in for partial success behavior which provides partial results in case of failure. The default value is false. For example, when partial success behavior is enabled, aggregatedList for a single zone scope either returns all resources in the zone or no resources, with an error code. */
   returnPartialSuccess?: boolean;
@@ -26027,7 +26026,8 @@ export const ListNetworkEndpointGroupsResponse = NetworkEndpointGroupList;
 
 export type ListNetworkEndpointGroupsError = CommonErrors;
 
-export const listNetworkEndpointGroups = API.makePaginated(() => ({
+/** Retrieves the list of network endpoint groups that are located in the specified project and zone. */
+export const listNetworkEndpointGroups: API.PaginatedOperationMethod<ListNetworkEndpointGroupsRequest, ListNetworkEndpointGroupsResponse, ListNetworkEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListNetworkEndpointGroupsRequest,
   output: ListNetworkEndpointGroupsResponse,
   errors: [],
@@ -26038,7 +26038,6 @@ export const listNetworkEndpointGroups = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an autoscaler in the specified project using the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export interface PatchRegionAutoscalersRequest {
   /** Name of the region scoping this request. */
   region: string;
@@ -26068,13 +26067,13 @@ export const PatchRegionAutoscalersResponse = Operation;
 
 export type PatchRegionAutoscalersError = CommonErrors;
 
+/** Updates an autoscaler in the specified project using the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export const patchRegionAutoscalers: API.OperationMethod<PatchRegionAutoscalersRequest, PatchRegionAutoscalersResponse, PatchRegionAutoscalersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchRegionAutoscalersRequest,
   output: PatchRegionAutoscalersResponse,
   errors: [],
 }));
 
-/** Creates an autoscaler in the specified project using the data included in the request. */
 export interface InsertRegionAutoscalersRequest {
   /** Project ID for this request. */
   project: string;
@@ -26101,13 +26100,13 @@ export const InsertRegionAutoscalersResponse = Operation;
 
 export type InsertRegionAutoscalersError = CommonErrors;
 
+/** Creates an autoscaler in the specified project using the data included in the request. */
 export const insertRegionAutoscalers: API.OperationMethod<InsertRegionAutoscalersRequest, InsertRegionAutoscalersResponse, InsertRegionAutoscalersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertRegionAutoscalersRequest,
   output: InsertRegionAutoscalersResponse,
   errors: [],
 }));
 
-/** Returns the specified autoscaler. */
 export interface GetRegionAutoscalersRequest {
   /** Name of the region scoping this request. */
   region: string;
@@ -26131,13 +26130,13 @@ export const GetRegionAutoscalersResponse = Autoscaler;
 
 export type GetRegionAutoscalersError = CommonErrors;
 
+/** Returns the specified autoscaler. */
 export const getRegionAutoscalers: API.OperationMethod<GetRegionAutoscalersRequest, GetRegionAutoscalersResponse, GetRegionAutoscalersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRegionAutoscalersRequest,
   output: GetRegionAutoscalersResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsRegionAutoscalersRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -26164,13 +26163,13 @@ export const TestIamPermissionsRegionAutoscalersResponse = TestPermissionsRespon
 
 export type TestIamPermissionsRegionAutoscalersError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsRegionAutoscalers: API.OperationMethod<TestIamPermissionsRegionAutoscalersRequest, TestIamPermissionsRegionAutoscalersResponse, TestIamPermissionsRegionAutoscalersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsRegionAutoscalersRequest,
   output: TestIamPermissionsRegionAutoscalersResponse,
   errors: [],
 }));
 
-/** Updates an autoscaler in the specified project using the data included in the request. */
 export interface UpdateRegionAutoscalersRequest {
   /** Project ID for this request. */
   project: string;
@@ -26200,13 +26199,13 @@ export const UpdateRegionAutoscalersResponse = Operation;
 
 export type UpdateRegionAutoscalersError = CommonErrors;
 
+/** Updates an autoscaler in the specified project using the data included in the request. */
 export const updateRegionAutoscalers: API.OperationMethod<UpdateRegionAutoscalersRequest, UpdateRegionAutoscalersResponse, UpdateRegionAutoscalersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateRegionAutoscalersRequest,
   output: UpdateRegionAutoscalersResponse,
   errors: [],
 }));
 
-/** Retrieves a list of autoscalers contained within the specified region. */
 export interface ListRegionAutoscalersRequest {
   /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based onresource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using GoogleRE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
   filter?: string;
@@ -26242,7 +26241,8 @@ export const ListRegionAutoscalersResponse = RegionAutoscalerList;
 
 export type ListRegionAutoscalersError = CommonErrors;
 
-export const listRegionAutoscalers = API.makePaginated(() => ({
+/** Retrieves a list of autoscalers contained within the specified region. */
+export const listRegionAutoscalers: API.PaginatedOperationMethod<ListRegionAutoscalersRequest, ListRegionAutoscalersResponse, ListRegionAutoscalersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRegionAutoscalersRequest,
   output: ListRegionAutoscalersResponse,
   errors: [],
@@ -26253,7 +26253,6 @@ export const listRegionAutoscalers = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the specified autoscaler. */
 export interface DeleteRegionAutoscalersRequest {
   /** Name of the region scoping this request. */
   region: string;
@@ -26280,13 +26279,13 @@ export const DeleteRegionAutoscalersResponse = Operation;
 
 export type DeleteRegionAutoscalersError = CommonErrors;
 
+/** Deletes the specified autoscaler. */
 export const deleteRegionAutoscalers: API.OperationMethod<DeleteRegionAutoscalersRequest, DeleteRegionAutoscalersResponse, DeleteRegionAutoscalersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRegionAutoscalersRequest,
   output: DeleteRegionAutoscalersResponse,
   errors: [],
 }));
 
-/** Gets a rule of the specified priority. */
 export interface GetRuleFirewallPoliciesRequest {
   /** Name of the firewall policy to which the queried rule belongs. */
   firewallPolicy: string;
@@ -26307,13 +26306,13 @@ export const GetRuleFirewallPoliciesResponse = FirewallPolicyRule;
 
 export type GetRuleFirewallPoliciesError = CommonErrors;
 
+/** Gets a rule of the specified priority. */
 export const getRuleFirewallPolicies: API.OperationMethod<GetRuleFirewallPoliciesRequest, GetRuleFirewallPoliciesResponse, GetRuleFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRuleFirewallPoliciesRequest,
   output: GetRuleFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Inserts an association for the specified firewall policy. */
 export interface AddAssociationFirewallPoliciesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -26340,13 +26339,13 @@ export const AddAssociationFirewallPoliciesResponse = Operation;
 
 export type AddAssociationFirewallPoliciesError = CommonErrors;
 
+/** Inserts an association for the specified firewall policy. */
 export const addAssociationFirewallPolicies: API.OperationMethod<AddAssociationFirewallPoliciesRequest, AddAssociationFirewallPoliciesResponse, AddAssociationFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddAssociationFirewallPoliciesRequest,
   output: AddAssociationFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Lists all the policies that have been configured for the specified folder or organization. */
 export interface ListFirewallPoliciesRequest {
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string;
@@ -26379,7 +26378,8 @@ export const ListFirewallPoliciesResponse = FirewallPolicyList;
 
 export type ListFirewallPoliciesError = CommonErrors;
 
-export const listFirewallPolicies = API.makePaginated(() => ({
+/** Lists all the policies that have been configured for the specified folder or organization. */
+export const listFirewallPolicies: API.PaginatedOperationMethod<ListFirewallPoliciesRequest, ListFirewallPoliciesResponse, ListFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFirewallPoliciesRequest,
   output: ListFirewallPoliciesResponse,
   errors: [],
@@ -26390,7 +26390,6 @@ export const listFirewallPolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Patches the specified policy with the data included in the request. */
 export interface PatchFirewallPoliciesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -26414,13 +26413,13 @@ export const PatchFirewallPoliciesResponse = Operation;
 
 export type PatchFirewallPoliciesError = CommonErrors;
 
+/** Patches the specified policy with the data included in the request. */
 export const patchFirewallPolicies: API.OperationMethod<PatchFirewallPoliciesRequest, PatchFirewallPoliciesResponse, PatchFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchFirewallPoliciesRequest,
   output: PatchFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Deletes the specified policy. */
 export interface DeleteFirewallPoliciesRequest {
   /** Name of the firewall policy to delete. */
   firewallPolicy: string;
@@ -26441,13 +26440,13 @@ export const DeleteFirewallPoliciesResponse = Operation;
 
 export type DeleteFirewallPoliciesError = CommonErrors;
 
+/** Deletes the specified policy. */
 export const deleteFirewallPolicies: API.OperationMethod<DeleteFirewallPoliciesRequest, DeleteFirewallPoliciesResponse, DeleteFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteFirewallPoliciesRequest,
   output: DeleteFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Removes an association for the specified firewall policy. */
 export interface RemoveAssociationFirewallPoliciesRequest {
   /** Name for the attachment that will be removed. */
   name?: string;
@@ -26471,13 +26470,13 @@ export const RemoveAssociationFirewallPoliciesResponse = Operation;
 
 export type RemoveAssociationFirewallPoliciesError = CommonErrors;
 
+/** Removes an association for the specified firewall policy. */
 export const removeAssociationFirewallPolicies: API.OperationMethod<RemoveAssociationFirewallPoliciesRequest, RemoveAssociationFirewallPoliciesResponse, RemoveAssociationFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveAssociationFirewallPoliciesRequest,
   output: RemoveAssociationFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Copies rules to the specified firewall policy. */
 export interface CloneRulesFirewallPoliciesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -26501,13 +26500,13 @@ export const CloneRulesFirewallPoliciesResponse = Operation;
 
 export type CloneRulesFirewallPoliciesError = CommonErrors;
 
+/** Copies rules to the specified firewall policy. */
 export const cloneRulesFirewallPolicies: API.OperationMethod<CloneRulesFirewallPoliciesRequest, CloneRulesFirewallPoliciesResponse, CloneRulesFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CloneRulesFirewallPoliciesRequest,
   output: CloneRulesFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Lists associations of a specified target, i.e., organization or folder. */
 export interface ListAssociationsFirewallPoliciesRequest {
   /** If set to "true", the response will contain a list of all associations for the containing folders and the containing organization of the target. The parameter has no effect if the target is an organization. */
   includeInheritedPolicies?: boolean;
@@ -26528,13 +26527,13 @@ export const ListAssociationsFirewallPoliciesResponse = FirewallPoliciesListAsso
 
 export type ListAssociationsFirewallPoliciesError = CommonErrors;
 
+/** Lists associations of a specified target, i.e., organization or folder. */
 export const listAssociationsFirewallPolicies: API.OperationMethod<ListAssociationsFirewallPoliciesRequest, ListAssociationsFirewallPoliciesResponse, ListAssociationsFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListAssociationsFirewallPoliciesRequest,
   output: ListAssociationsFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Patches a rule of the specified priority. */
 export interface PatchRuleFirewallPoliciesRequest {
   /** Name of the firewall policy to update. */
   firewallPolicy: string;
@@ -26561,13 +26560,13 @@ export const PatchRuleFirewallPoliciesResponse = Operation;
 
 export type PatchRuleFirewallPoliciesError = CommonErrors;
 
+/** Patches a rule of the specified priority. */
 export const patchRuleFirewallPolicies: API.OperationMethod<PatchRuleFirewallPoliciesRequest, PatchRuleFirewallPoliciesResponse, PatchRuleFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchRuleFirewallPoliciesRequest,
   output: PatchRuleFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Creates a new policy in the specified project using the data included in the request. */
 export interface InsertFirewallPoliciesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -26591,13 +26590,13 @@ export const InsertFirewallPoliciesResponse = Operation;
 
 export type InsertFirewallPoliciesError = CommonErrors;
 
+/** Creates a new policy in the specified project using the data included in the request. */
 export const insertFirewallPolicies: API.OperationMethod<InsertFirewallPoliciesRequest, InsertFirewallPoliciesResponse, InsertFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertFirewallPoliciesRequest,
   output: InsertFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export interface SetIamPolicyFirewallPoliciesRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -26618,13 +26617,13 @@ export const SetIamPolicyFirewallPoliciesResponse = Policy;
 
 export type SetIamPolicyFirewallPoliciesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export const setIamPolicyFirewallPolicies: API.OperationMethod<SetIamPolicyFirewallPoliciesRequest, SetIamPolicyFirewallPoliciesResponse, SetIamPolicyFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyFirewallPoliciesRequest,
   output: SetIamPolicyFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export interface GetIamPolicyFirewallPoliciesRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -26645,13 +26644,13 @@ export const GetIamPolicyFirewallPoliciesResponse = Policy;
 
 export type GetIamPolicyFirewallPoliciesError = CommonErrors;
 
+/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export const getIamPolicyFirewallPolicies: API.OperationMethod<GetIamPolicyFirewallPoliciesRequest, GetIamPolicyFirewallPoliciesResponse, GetIamPolicyFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyFirewallPoliciesRequest,
   output: GetIamPolicyFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Gets an association with the specified name. */
 export interface GetAssociationFirewallPoliciesRequest {
   /** The name of the association to get from the firewall policy. */
   name?: string;
@@ -26672,13 +26671,13 @@ export const GetAssociationFirewallPoliciesResponse = FirewallPolicyAssociation;
 
 export type GetAssociationFirewallPoliciesError = CommonErrors;
 
+/** Gets an association with the specified name. */
 export const getAssociationFirewallPolicies: API.OperationMethod<GetAssociationFirewallPoliciesRequest, GetAssociationFirewallPoliciesResponse, GetAssociationFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAssociationFirewallPoliciesRequest,
   output: GetAssociationFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsFirewallPoliciesRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -26699,13 +26698,13 @@ export const TestIamPermissionsFirewallPoliciesResponse = TestPermissionsRespons
 
 export type TestIamPermissionsFirewallPoliciesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsFirewallPolicies: API.OperationMethod<TestIamPermissionsFirewallPoliciesRequest, TestIamPermissionsFirewallPoliciesResponse, TestIamPermissionsFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsFirewallPoliciesRequest,
   output: TestIamPermissionsFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Inserts a rule into a firewall policy. */
 export interface AddRuleFirewallPoliciesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -26729,13 +26728,13 @@ export const AddRuleFirewallPoliciesResponse = Operation;
 
 export type AddRuleFirewallPoliciesError = CommonErrors;
 
+/** Inserts a rule into a firewall policy. */
 export const addRuleFirewallPolicies: API.OperationMethod<AddRuleFirewallPoliciesRequest, AddRuleFirewallPoliciesResponse, AddRuleFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddRuleFirewallPoliciesRequest,
   output: AddRuleFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Returns the specified firewall policy. */
 export interface GetFirewallPoliciesRequest {
   /** Name of the firewall policy to get. */
   firewallPolicy: string;
@@ -26753,13 +26752,13 @@ export const GetFirewallPoliciesResponse = FirewallPolicy;
 
 export type GetFirewallPoliciesError = CommonErrors;
 
+/** Returns the specified firewall policy. */
 export const getFirewallPolicies: API.OperationMethod<GetFirewallPoliciesRequest, GetFirewallPoliciesResponse, GetFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFirewallPoliciesRequest,
   output: GetFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Moves the specified firewall policy. */
 export interface MoveFirewallPoliciesRequest {
   /** Name of the firewall policy to update. */
   firewallPolicy: string;
@@ -26783,13 +26782,13 @@ export const MoveFirewallPoliciesResponse = Operation;
 
 export type MoveFirewallPoliciesError = CommonErrors;
 
+/** Moves the specified firewall policy. */
 export const moveFirewallPolicies: API.OperationMethod<MoveFirewallPoliciesRequest, MoveFirewallPoliciesResponse, MoveFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MoveFirewallPoliciesRequest,
   output: MoveFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Deletes a rule of the specified priority. */
 export interface RemoveRuleFirewallPoliciesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -26813,13 +26812,13 @@ export const RemoveRuleFirewallPoliciesResponse = Operation;
 
 export type RemoveRuleFirewallPoliciesError = CommonErrors;
 
+/** Deletes a rule of the specified priority. */
 export const removeRuleFirewallPolicies: API.OperationMethod<RemoveRuleFirewallPoliciesRequest, RemoveRuleFirewallPoliciesResponse, RemoveRuleFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveRuleFirewallPoliciesRequest,
   output: RemoveRuleFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Sets the labels on the specified resource. To learn more about labels, read the Labeling Resources documentation. */
 export interface SetLabelsForwardingRulesRequest {
   /** Project ID for this request. */
   project: string;
@@ -26849,13 +26848,13 @@ export const SetLabelsForwardingRulesResponse = Operation;
 
 export type SetLabelsForwardingRulesError = CommonErrors;
 
+/** Sets the labels on the specified resource. To learn more about labels, read the Labeling Resources documentation. */
 export const setLabelsForwardingRules: API.OperationMethod<SetLabelsForwardingRulesRequest, SetLabelsForwardingRulesResponse, SetLabelsForwardingRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetLabelsForwardingRulesRequest,
   output: SetLabelsForwardingRulesResponse,
   errors: [],
 }));
 
-/** Creates a ForwardingRule resource in the specified project and region using the data included in the request. */
 export interface InsertForwardingRulesRequest {
   /** Name of the region scoping this request. */
   region: string;
@@ -26882,13 +26881,13 @@ export const InsertForwardingRulesResponse = Operation;
 
 export type InsertForwardingRulesError = CommonErrors;
 
+/** Creates a ForwardingRule resource in the specified project and region using the data included in the request. */
 export const insertForwardingRules: API.OperationMethod<InsertForwardingRulesRequest, InsertForwardingRulesResponse, InsertForwardingRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertForwardingRulesRequest,
   output: InsertForwardingRulesResponse,
   errors: [],
 }));
 
-/** Updates the specified forwarding rule with the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. Currently, you can only patch the network_tier field. */
 export interface PatchForwardingRulesRequest {
   /** Project ID for this request. */
   project: string;
@@ -26918,13 +26917,13 @@ export const PatchForwardingRulesResponse = Operation;
 
 export type PatchForwardingRulesError = CommonErrors;
 
+/** Updates the specified forwarding rule with the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. Currently, you can only patch the network_tier field. */
 export const patchForwardingRules: API.OperationMethod<PatchForwardingRulesRequest, PatchForwardingRulesResponse, PatchForwardingRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchForwardingRulesRequest,
   output: PatchForwardingRulesResponse,
   errors: [],
 }));
 
-/** Changes target URL for forwarding rule. The new target should be of the same type as the old target. */
 export interface SetTargetForwardingRulesRequest {
   /** Project ID for this request. */
   project: string;
@@ -26954,13 +26953,13 @@ export const SetTargetForwardingRulesResponse = Operation;
 
 export type SetTargetForwardingRulesError = CommonErrors;
 
+/** Changes target URL for forwarding rule. The new target should be of the same type as the old target. */
 export const setTargetForwardingRules: API.OperationMethod<SetTargetForwardingRulesRequest, SetTargetForwardingRulesResponse, SetTargetForwardingRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetTargetForwardingRulesRequest,
   output: SetTargetForwardingRulesResponse,
   errors: [],
 }));
 
-/** Deletes the specified ForwardingRule resource. */
 export interface DeleteForwardingRulesRequest {
   /** Name of the region scoping this request. */
   region: string;
@@ -26987,13 +26986,13 @@ export const DeleteForwardingRulesResponse = Operation;
 
 export type DeleteForwardingRulesError = CommonErrors;
 
+/** Deletes the specified ForwardingRule resource. */
 export const deleteForwardingRules: API.OperationMethod<DeleteForwardingRulesRequest, DeleteForwardingRulesResponse, DeleteForwardingRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteForwardingRulesRequest,
   output: DeleteForwardingRulesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of ForwardingRule resources available to the specified project and region. */
 export interface ListForwardingRulesRequest {
   /** Opt-in for partial success behavior which provides partial results in case of failure. The default value is false. For example, when partial success behavior is enabled, aggregatedList for a single zone scope either returns all resources in the zone or no resources, with an error code. */
   returnPartialSuccess?: boolean;
@@ -27029,7 +27028,8 @@ export const ListForwardingRulesResponse = ForwardingRuleList;
 
 export type ListForwardingRulesError = CommonErrors;
 
-export const listForwardingRules = API.makePaginated(() => ({
+/** Retrieves a list of ForwardingRule resources available to the specified project and region. */
+export const listForwardingRules: API.PaginatedOperationMethod<ListForwardingRulesRequest, ListForwardingRulesResponse, ListForwardingRulesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListForwardingRulesRequest,
   output: ListForwardingRulesResponse,
   errors: [],
@@ -27040,7 +27040,6 @@ export const listForwardingRules = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves an aggregated list of forwarding rules. To prevent failure, it is recommended that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListForwardingRulesRequest {
   /** The Shared VPC service project id or service project number for which aggregated list request is invoked for subnetworks list-usable api. */
   serviceProjectNumber?: string;
@@ -27079,7 +27078,8 @@ export const AggregatedListForwardingRulesResponse = ForwardingRuleAggregatedLis
 
 export type AggregatedListForwardingRulesError = CommonErrors;
 
-export const aggregatedListForwardingRules = API.makePaginated(() => ({
+/** Retrieves an aggregated list of forwarding rules. To prevent failure, it is recommended that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListForwardingRules: API.PaginatedOperationMethod<AggregatedListForwardingRulesRequest, AggregatedListForwardingRulesResponse, AggregatedListForwardingRulesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListForwardingRulesRequest,
   output: AggregatedListForwardingRulesResponse,
   errors: [],
@@ -27090,7 +27090,6 @@ export const aggregatedListForwardingRules = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the specified ForwardingRule resource. */
 export interface GetForwardingRulesRequest {
   /** Name of the ForwardingRule resource to return. */
   forwardingRule: string;
@@ -27114,13 +27113,13 @@ export const GetForwardingRulesResponse = ForwardingRule;
 
 export type GetForwardingRulesError = CommonErrors;
 
+/** Returns the specified ForwardingRule resource. */
 export const getForwardingRules: API.OperationMethod<GetForwardingRulesRequest, GetForwardingRulesResponse, GetForwardingRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetForwardingRulesRequest,
   output: GetForwardingRulesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsReservationSubBlocksRequest {
   /** Project ID for this request. */
   project: string;
@@ -27150,13 +27149,13 @@ export const TestIamPermissionsReservationSubBlocksResponse = TestPermissionsRes
 
 export type TestIamPermissionsReservationSubBlocksError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsReservationSubBlocks: API.OperationMethod<TestIamPermissionsReservationSubBlocksRequest, TestIamPermissionsReservationSubBlocksResponse, TestIamPermissionsReservationSubBlocksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsReservationSubBlocksRequest,
   output: TestIamPermissionsReservationSubBlocksResponse,
   errors: [],
 }));
 
-/** Allows customers to perform maintenance on a reservation subBlock */
 export interface PerformMaintenanceReservationSubBlocksRequest {
   /** The name of the reservation subBlock. Name should conform to RFC1035 or be a resource ID. */
   reservationSubBlock: string;
@@ -27186,13 +27185,13 @@ export const PerformMaintenanceReservationSubBlocksResponse = Operation;
 
 export type PerformMaintenanceReservationSubBlocksError = CommonErrors;
 
+/** Allows customers to perform maintenance on a reservation subBlock */
 export const performMaintenanceReservationSubBlocks: API.OperationMethod<PerformMaintenanceReservationSubBlocksRequest, PerformMaintenanceReservationSubBlocksResponse, PerformMaintenanceReservationSubBlocksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PerformMaintenanceReservationSubBlocksRequest,
   output: PerformMaintenanceReservationSubBlocksResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export interface GetIamPolicyReservationSubBlocksRequest {
   /** Requested IAM Policy version. */
   optionsRequestedPolicyVersion?: number;
@@ -27222,13 +27221,13 @@ export const GetIamPolicyReservationSubBlocksResponse = Policy;
 
 export type GetIamPolicyReservationSubBlocksError = CommonErrors;
 
+/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export const getIamPolicyReservationSubBlocks: API.OperationMethod<GetIamPolicyReservationSubBlocksRequest, GetIamPolicyReservationSubBlocksResponse, GetIamPolicyReservationSubBlocksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyReservationSubBlocksRequest,
   output: GetIamPolicyReservationSubBlocksResponse,
   errors: [],
 }));
 
-/** Retrieves information about the specified reservation subBlock. */
 export interface GetReservationSubBlocksRequest {
   /** The name of the reservation subBlock. Name should conform to RFC1035 or be a resource ID. */
   reservationSubBlock: string;
@@ -27258,13 +27257,13 @@ export const GetReservationSubBlocksResponse = ReservationSubBlocksGetResponse;
 
 export type GetReservationSubBlocksError = CommonErrors;
 
+/** Retrieves information about the specified reservation subBlock. */
 export const getReservationSubBlocks: API.OperationMethod<GetReservationSubBlocksRequest, GetReservationSubBlocksResponse, GetReservationSubBlocksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetReservationSubBlocksRequest,
   output: GetReservationSubBlocksResponse,
   errors: [],
 }));
 
-/** Allows customers to report a faulty subBlock. */
 export interface ReportFaultyReservationSubBlocksRequest {
   /** Project ID for this request. */
   project: string;
@@ -27297,13 +27296,13 @@ export const ReportFaultyReservationSubBlocksResponse = Operation;
 
 export type ReportFaultyReservationSubBlocksError = CommonErrors;
 
+/** Allows customers to report a faulty subBlock. */
 export const reportFaultyReservationSubBlocks: API.OperationMethod<ReportFaultyReservationSubBlocksRequest, ReportFaultyReservationSubBlocksResponse, ReportFaultyReservationSubBlocksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReportFaultyReservationSubBlocksRequest,
   output: ReportFaultyReservationSubBlocksResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export interface SetIamPolicyReservationSubBlocksRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -27333,13 +27332,13 @@ export const SetIamPolicyReservationSubBlocksResponse = Policy;
 
 export type SetIamPolicyReservationSubBlocksError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export const setIamPolicyReservationSubBlocks: API.OperationMethod<SetIamPolicyReservationSubBlocksRequest, SetIamPolicyReservationSubBlocksResponse, SetIamPolicyReservationSubBlocksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyReservationSubBlocksRequest,
   output: SetIamPolicyReservationSubBlocksResponse,
   errors: [],
 }));
 
-/** Retrieves a list of reservation subBlocks under a single reservation. */
 export interface ListReservationSubBlocksRequest {
   /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
   orderBy?: string;
@@ -27378,7 +27377,8 @@ export const ListReservationSubBlocksResponse = ReservationSubBlocksListResponse
 
 export type ListReservationSubBlocksError = CommonErrors;
 
-export const listReservationSubBlocks = API.makePaginated(() => ({
+/** Retrieves a list of reservation subBlocks under a single reservation. */
+export const listReservationSubBlocks: API.PaginatedOperationMethod<ListReservationSubBlocksRequest, ListReservationSubBlocksResponse, ListReservationSubBlocksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListReservationSubBlocksRequest,
   output: ListReservationSubBlocksResponse,
   errors: [],
@@ -27389,7 +27389,6 @@ export const listReservationSubBlocks = API.makePaginated(() => ({
   },
 }));
 
-/** Starts asynchronous replication. Must be invoked on the primary disk. */
 export interface StartAsyncReplicationDisksRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -27419,13 +27418,13 @@ export const StartAsyncReplicationDisksResponse = Operation;
 
 export type StartAsyncReplicationDisksError = CommonErrors;
 
+/** Starts asynchronous replication. Must be invoked on the primary disk. */
 export const startAsyncReplicationDisks: API.OperationMethod<StartAsyncReplicationDisksRequest, StartAsyncReplicationDisksResponse, StartAsyncReplicationDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StartAsyncReplicationDisksRequest,
   output: StartAsyncReplicationDisksResponse,
   errors: [],
 }));
 
-/** Removes resource policies from a disk. */
 export interface RemoveResourcePoliciesDisksRequest {
   /** Project ID for this request. */
   project: string;
@@ -27455,13 +27454,13 @@ export const RemoveResourcePoliciesDisksResponse = Operation;
 
 export type RemoveResourcePoliciesDisksError = CommonErrors;
 
+/** Removes resource policies from a disk. */
 export const removeResourcePoliciesDisks: API.OperationMethod<RemoveResourcePoliciesDisksRequest, RemoveResourcePoliciesDisksResponse, RemoveResourcePoliciesDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveResourcePoliciesDisksRequest,
   output: RemoveResourcePoliciesDisksResponse,
   errors: [],
 }));
 
-/** Updates the specified disk with the data included in the request. The update is performed only on selected fields included as part of update-mask. */
 export interface UpdateDisksRequest {
   /** Project ID for this request. */
   project: string;
@@ -27496,13 +27495,13 @@ export const UpdateDisksResponse = Operation;
 
 export type UpdateDisksError = CommonErrors;
 
+/** Updates the specified disk with the data included in the request. The update is performed only on selected fields included as part of update-mask. */
 export const updateDisks: API.OperationMethod<UpdateDisksRequest, UpdateDisksResponse, UpdateDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateDisksRequest,
   output: UpdateDisksResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export interface SetIamPolicyDisksRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -27529,13 +27528,13 @@ export const SetIamPolicyDisksResponse = Policy;
 
 export type SetIamPolicyDisksError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export const setIamPolicyDisks: API.OperationMethod<SetIamPolicyDisksRequest, SetIamPolicyDisksResponse, SetIamPolicyDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyDisksRequest,
   output: SetIamPolicyDisksResponse,
   errors: [],
 }));
 
-/** Creates a snapshot of a specified persistent disk. For regular snapshot creation, consider using snapshots.insert instead, as that method supports more features, such as creating snapshots in a project different from the source disk project. */
 export interface CreateSnapshotDisksRequest {
   /** Project ID for this request. */
   project: string;
@@ -27568,13 +27567,13 @@ export const CreateSnapshotDisksResponse = Operation;
 
 export type CreateSnapshotDisksError = CommonErrors;
 
+/** Creates a snapshot of a specified persistent disk. For regular snapshot creation, consider using snapshots.insert instead, as that method supports more features, such as creating snapshots in a project different from the source disk project. */
 export const createSnapshotDisks: API.OperationMethod<CreateSnapshotDisksRequest, CreateSnapshotDisksResponse, CreateSnapshotDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateSnapshotDisksRequest,
   output: CreateSnapshotDisksResponse,
   errors: [],
 }));
 
-/** Sets the labels on a disk. To learn more about labels, read theLabeling Resources documentation. */
 export interface SetLabelsDisksRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -27604,13 +27603,13 @@ export const SetLabelsDisksResponse = Operation;
 
 export type SetLabelsDisksError = CommonErrors;
 
+/** Sets the labels on a disk. To learn more about labels, read theLabeling Resources documentation. */
 export const setLabelsDisks: API.OperationMethod<SetLabelsDisksRequest, SetLabelsDisksResponse, SetLabelsDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetLabelsDisksRequest,
   output: SetLabelsDisksResponse,
   errors: [],
 }));
 
-/** Bulk create a set of disks. */
 export interface BulkInsertDisksRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -27637,13 +27636,13 @@ export const BulkInsertDisksResponse = Operation;
 
 export type BulkInsertDisksError = CommonErrors;
 
+/** Bulk create a set of disks. */
 export const bulkInsertDisks: API.OperationMethod<BulkInsertDisksRequest, BulkInsertDisksResponse, BulkInsertDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BulkInsertDisksRequest,
   output: BulkInsertDisksResponse,
   errors: [],
 }));
 
-/** Stops asynchronous replication for a consistency group of disks. Can be invoked either in the primary or secondary scope. */
 export interface StopGroupAsyncReplicationDisksRequest {
   /** Project ID for this request. */
   project: string;
@@ -27670,13 +27669,13 @@ export const StopGroupAsyncReplicationDisksResponse = Operation;
 
 export type StopGroupAsyncReplicationDisksError = CommonErrors;
 
+/** Stops asynchronous replication for a consistency group of disks. Can be invoked either in the primary or secondary scope. */
 export const stopGroupAsyncReplicationDisks: API.OperationMethod<StopGroupAsyncReplicationDisksRequest, StopGroupAsyncReplicationDisksResponse, StopGroupAsyncReplicationDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StopGroupAsyncReplicationDisksRequest,
   output: StopGroupAsyncReplicationDisksResponse,
   errors: [],
 }));
 
-/** Stops asynchronous replication. Can be invoked either on the primary or on the secondary disk. */
 export interface StopAsyncReplicationDisksRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -27703,13 +27702,13 @@ export const StopAsyncReplicationDisksResponse = Operation;
 
 export type StopAsyncReplicationDisksError = CommonErrors;
 
+/** Stops asynchronous replication. Can be invoked either on the primary or on the secondary disk. */
 export const stopAsyncReplicationDisks: API.OperationMethod<StopAsyncReplicationDisksRequest, StopAsyncReplicationDisksResponse, StopAsyncReplicationDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StopAsyncReplicationDisksRequest,
   output: StopAsyncReplicationDisksResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export interface GetIamPolicyDisksRequest {
   /** Requested IAM Policy version. */
   optionsRequestedPolicyVersion?: number;
@@ -27736,13 +27735,13 @@ export const GetIamPolicyDisksResponse = Policy;
 
 export type GetIamPolicyDisksError = CommonErrors;
 
+/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export const getIamPolicyDisks: API.OperationMethod<GetIamPolicyDisksRequest, GetIamPolicyDisksResponse, GetIamPolicyDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyDisksRequest,
   output: GetIamPolicyDisksResponse,
   errors: [],
 }));
 
-/** Returns the specified persistent disk. */
 export interface GetDisksRequest {
   /** Name of the persistent disk to return. */
   disk: string;
@@ -27766,13 +27765,13 @@ export const GetDisksResponse = Disk;
 
 export type GetDisksError = CommonErrors;
 
+/** Returns the specified persistent disk. */
 export const getDisks: API.OperationMethod<GetDisksRequest, GetDisksResponse, GetDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDisksRequest,
   output: GetDisksResponse,
   errors: [],
 }));
 
-/** Retrieves an aggregated list of persistent disks. To prevent failure, it is recommended that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListDisksRequest {
   /** Project ID for this request. */
   project: string;
@@ -27811,7 +27810,8 @@ export const AggregatedListDisksResponse = DiskAggregatedList;
 
 export type AggregatedListDisksError = CommonErrors;
 
-export const aggregatedListDisks = API.makePaginated(() => ({
+/** Retrieves an aggregated list of persistent disks. To prevent failure, it is recommended that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListDisks: API.PaginatedOperationMethod<AggregatedListDisksRequest, AggregatedListDisksResponse, AggregatedListDisksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListDisksRequest,
   output: AggregatedListDisksResponse,
   errors: [],
@@ -27822,7 +27822,6 @@ export const aggregatedListDisks = API.makePaginated(() => ({
   },
 }));
 
-/** Sets the labels on many disks at once. To learn more about labels, read theLabeling Resources documentation. */
 export interface BulkSetLabelsDisksRequest {
   /** Project ID for this request. */
   project: string;
@@ -27852,13 +27851,13 @@ export const BulkSetLabelsDisksResponse = Operation;
 
 export type BulkSetLabelsDisksError = CommonErrors;
 
+/** Sets the labels on many disks at once. To learn more about labels, read theLabeling Resources documentation. */
 export const bulkSetLabelsDisks: API.OperationMethod<BulkSetLabelsDisksRequest, BulkSetLabelsDisksResponse, BulkSetLabelsDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BulkSetLabelsDisksRequest,
   output: BulkSetLabelsDisksResponse,
   errors: [],
 }));
 
-/** Adds existing resource policies to a disk. You can only add one policy which will be applied to this disk for scheduling snapshot creation. */
 export interface AddResourcePoliciesDisksRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -27888,13 +27887,13 @@ export const AddResourcePoliciesDisksResponse = Operation;
 
 export type AddResourcePoliciesDisksError = CommonErrors;
 
+/** Adds existing resource policies to a disk. You can only add one policy which will be applied to this disk for scheduling snapshot creation. */
 export const addResourcePoliciesDisks: API.OperationMethod<AddResourcePoliciesDisksRequest, AddResourcePoliciesDisksResponse, AddResourcePoliciesDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddResourcePoliciesDisksRequest,
   output: AddResourcePoliciesDisksResponse,
   errors: [],
 }));
 
-/** Deletes the specified persistent disk. Deleting a disk removes its data permanently and is irreversible. However, deleting a disk does not delete any snapshots previously made from the disk. You must separatelydelete snapshots. */
 export interface DeleteDisksRequest {
   /** Name of the persistent disk to delete. */
   disk: string;
@@ -27921,13 +27920,13 @@ export const DeleteDisksResponse = Operation;
 
 export type DeleteDisksError = CommonErrors;
 
+/** Deletes the specified persistent disk. Deleting a disk removes its data permanently and is irreversible. However, deleting a disk does not delete any snapshots previously made from the disk. You must separatelydelete snapshots. */
 export const deleteDisks: API.OperationMethod<DeleteDisksRequest, DeleteDisksResponse, DeleteDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteDisksRequest,
   output: DeleteDisksResponse,
   errors: [],
 }));
 
-/** Creates a persistent disk in the specified project using the data in the request. You can create a disk from a source (sourceImage, sourceSnapshot, orsourceDisk) or create an empty 500 GB data disk by omitting all properties. You can also create a disk that is larger than the default size by specifying the sizeGb property. */
 export interface InsertDisksRequest {
   /** Project ID for this request. */
   project: string;
@@ -27957,13 +27956,13 @@ export const InsertDisksResponse = Operation;
 
 export type InsertDisksError = CommonErrors;
 
+/** Creates a persistent disk in the specified project using the data in the request. You can create a disk from a source (sourceImage, sourceSnapshot, orsourceDisk) or create an empty 500 GB data disk by omitting all properties. You can also create a disk that is larger than the default size by specifying the sizeGb property. */
 export const insertDisks: API.OperationMethod<InsertDisksRequest, InsertDisksResponse, InsertDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertDisksRequest,
   output: InsertDisksResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsDisksRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -27990,13 +27989,13 @@ export const TestIamPermissionsDisksResponse = TestPermissionsResponse;
 
 export type TestIamPermissionsDisksError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsDisks: API.OperationMethod<TestIamPermissionsDisksRequest, TestIamPermissionsDisksResponse, TestIamPermissionsDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsDisksRequest,
   output: TestIamPermissionsDisksResponse,
   errors: [],
 }));
 
-/** Resizes the specified persistent disk. You can only increase the size of the disk. */
 export interface ResizeDisksRequest {
   /** Project ID for this request. */
   project: string;
@@ -28026,13 +28025,13 @@ export const ResizeDisksResponse = Operation;
 
 export type ResizeDisksError = CommonErrors;
 
+/** Resizes the specified persistent disk. You can only increase the size of the disk. */
 export const resizeDisks: API.OperationMethod<ResizeDisksRequest, ResizeDisksResponse, ResizeDisksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResizeDisksRequest,
   output: ResizeDisksResponse,
   errors: [],
 }));
 
-/** Retrieves a list of persistent disks contained within the specified zone. */
 export interface ListDisksRequest {
   /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based onresource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using GoogleRE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
   filter?: string;
@@ -28068,7 +28067,8 @@ export const ListDisksResponse = DiskList;
 
 export type ListDisksError = CommonErrors;
 
-export const listDisks = API.makePaginated(() => ({
+/** Retrieves a list of persistent disks contained within the specified zone. */
+export const listDisks: API.PaginatedOperationMethod<ListDisksRequest, ListDisksResponse, ListDisksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListDisksRequest,
   output: ListDisksResponse,
   errors: [],
@@ -28079,7 +28079,6 @@ export const listDisks = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves the specified Operations resource. */
 export interface GetGlobalOperationsRequest {
   /** Name of the Operations resource to return, or its unique numeric identifier. */
   operation: string;
@@ -28100,13 +28099,13 @@ export const GetGlobalOperationsResponse = Operation;
 
 export type GetGlobalOperationsError = CommonErrors;
 
+/** Retrieves the specified Operations resource. */
 export const getGlobalOperations: API.OperationMethod<GetGlobalOperationsRequest, GetGlobalOperationsResponse, GetGlobalOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetGlobalOperationsRequest,
   output: GetGlobalOperationsResponse,
   errors: [],
 }));
 
-/** Retrieves an aggregated list of all operations. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListGlobalOperationsRequest {
   /** Opt-in for partial success behavior which provides partial results in case of failure. The default value is false. For example, when partial success behavior is enabled, aggregatedList for a single zone scope either returns all resources in the zone or no resources, with an error code. */
   returnPartialSuccess?: boolean;
@@ -28145,7 +28144,8 @@ export const AggregatedListGlobalOperationsResponse = OperationAggregatedList;
 
 export type AggregatedListGlobalOperationsError = CommonErrors;
 
-export const aggregatedListGlobalOperations = API.makePaginated(() => ({
+/** Retrieves an aggregated list of all operations. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListGlobalOperations: API.PaginatedOperationMethod<AggregatedListGlobalOperationsRequest, AggregatedListGlobalOperationsResponse, AggregatedListGlobalOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListGlobalOperationsRequest,
   output: AggregatedListGlobalOperationsResponse,
   errors: [],
@@ -28156,7 +28156,6 @@ export const aggregatedListGlobalOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Waits for the specified Operation resource to return as `DONE` or for the request to approach the 2 minute deadline, and retrieves the specified Operation resource. This method differs from the `GET` method in that it waits for no more than the default deadline (2 minutes) and then returns the current state of the operation, which might be `DONE` or still in progress. This method is called on a best-effort basis. Specifically: - In uncommon cases, when the server is overloaded, the request might return before the default deadline is reached, or might return after zero seconds. - If the default deadline is reached, there is no guarantee that the operation is actually done when the method returns. Be prepared to retry if the operation is not `DONE`. */
 export interface WaitGlobalOperationsRequest {
   /** Project ID for this request. */
   project: string;
@@ -28177,13 +28176,13 @@ export const WaitGlobalOperationsResponse = Operation;
 
 export type WaitGlobalOperationsError = CommonErrors;
 
+/** Waits for the specified Operation resource to return as `DONE` or for the request to approach the 2 minute deadline, and retrieves the specified Operation resource. This method differs from the `GET` method in that it waits for no more than the default deadline (2 minutes) and then returns the current state of the operation, which might be `DONE` or still in progress. This method is called on a best-effort basis. Specifically: - In uncommon cases, when the server is overloaded, the request might return before the default deadline is reached, or might return after zero seconds. - If the default deadline is reached, there is no guarantee that the operation is actually done when the method returns. Be prepared to retry if the operation is not `DONE`. */
 export const waitGlobalOperations: API.OperationMethod<WaitGlobalOperationsRequest, WaitGlobalOperationsResponse, WaitGlobalOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WaitGlobalOperationsRequest,
   output: WaitGlobalOperationsResponse,
   errors: [],
 }));
 
-/** Deletes the specified Operations resource. */
 export interface DeleteGlobalOperationsRequest {
   /** Project ID for this request. */
   project: string;
@@ -28204,13 +28203,13 @@ export const DeleteGlobalOperationsResponse: Schema.Schema<DeleteGlobalOperation
 
 export type DeleteGlobalOperationsError = CommonErrors;
 
+/** Deletes the specified Operations resource. */
 export const deleteGlobalOperations: API.OperationMethod<DeleteGlobalOperationsRequest, DeleteGlobalOperationsResponse, DeleteGlobalOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteGlobalOperationsRequest,
   output: DeleteGlobalOperationsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of Operation resources contained within the specified project. */
 export interface ListGlobalOperationsRequest {
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string;
@@ -28243,7 +28242,8 @@ export const ListGlobalOperationsResponse = OperationList;
 
 export type ListGlobalOperationsError = CommonErrors;
 
-export const listGlobalOperations = API.makePaginated(() => ({
+/** Retrieves a list of Operation resources contained within the specified project. */
+export const listGlobalOperations: API.PaginatedOperationMethod<ListGlobalOperationsRequest, ListGlobalOperationsResponse, ListGlobalOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListGlobalOperationsRequest,
   output: ListGlobalOperationsResponse,
   errors: [],
@@ -28254,7 +28254,6 @@ export const listGlobalOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the specified Operations resource. */
 export interface DeleteGlobalOrganizationOperationsRequest {
   /** Parent ID for this request. */
   parentId?: string;
@@ -28275,13 +28274,13 @@ export const DeleteGlobalOrganizationOperationsResponse: Schema.Schema<DeleteGlo
 
 export type DeleteGlobalOrganizationOperationsError = CommonErrors;
 
+/** Deletes the specified Operations resource. */
 export const deleteGlobalOrganizationOperations: API.OperationMethod<DeleteGlobalOrganizationOperationsRequest, DeleteGlobalOrganizationOperationsResponse, DeleteGlobalOrganizationOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteGlobalOrganizationOperationsRequest,
   output: DeleteGlobalOrganizationOperationsResponse,
   errors: [],
 }));
 
-/** Retrieves the specified Operations resource. Gets a list of operations by making a `list()` request. */
 export interface GetGlobalOrganizationOperationsRequest {
   /** Name of the Operations resource to return. Parent is derived from this field. */
   operation: string;
@@ -28302,13 +28301,13 @@ export const GetGlobalOrganizationOperationsResponse = Operation;
 
 export type GetGlobalOrganizationOperationsError = CommonErrors;
 
+/** Retrieves the specified Operations resource. Gets a list of operations by making a `list()` request. */
 export const getGlobalOrganizationOperations: API.OperationMethod<GetGlobalOrganizationOperationsRequest, GetGlobalOrganizationOperationsResponse, GetGlobalOrganizationOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetGlobalOrganizationOperationsRequest,
   output: GetGlobalOrganizationOperationsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of Operation resources contained within the specified organization. */
 export interface ListGlobalOrganizationOperationsRequest {
   /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
   orderBy?: string;
@@ -28341,7 +28340,8 @@ export const ListGlobalOrganizationOperationsResponse = OperationList;
 
 export type ListGlobalOrganizationOperationsError = CommonErrors;
 
-export const listGlobalOrganizationOperations = API.makePaginated(() => ({
+/** Retrieves a list of Operation resources contained within the specified organization. */
+export const listGlobalOrganizationOperations: API.PaginatedOperationMethod<ListGlobalOrganizationOperationsRequest, ListGlobalOrganizationOperationsResponse, ListGlobalOrganizationOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListGlobalOrganizationOperationsRequest,
   output: ListGlobalOrganizationOperationsResponse,
   errors: [],
@@ -28352,7 +28352,6 @@ export const listGlobalOrganizationOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves an aggregated list of addresses. To prevent failure, it is recommended that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListAddressesRequest {
   /** Project ID for this request. */
   project: string;
@@ -28391,7 +28390,8 @@ export const AggregatedListAddressesResponse = AddressAggregatedList;
 
 export type AggregatedListAddressesError = CommonErrors;
 
-export const aggregatedListAddresses = API.makePaginated(() => ({
+/** Retrieves an aggregated list of addresses. To prevent failure, it is recommended that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListAddresses: API.PaginatedOperationMethod<AggregatedListAddressesRequest, AggregatedListAddressesResponse, AggregatedListAddressesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListAddressesRequest,
   output: AggregatedListAddressesResponse,
   errors: [],
@@ -28402,7 +28402,6 @@ export const aggregatedListAddresses = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the specified address resource. */
 export interface GetAddressesRequest {
   /** Name of the region for this request. */
   region: string;
@@ -28426,13 +28425,13 @@ export const GetAddressesResponse = Address;
 
 export type GetAddressesError = CommonErrors;
 
+/** Returns the specified address resource. */
 export const getAddresses: API.OperationMethod<GetAddressesRequest, GetAddressesResponse, GetAddressesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAddressesRequest,
   output: GetAddressesResponse,
   errors: [],
 }));
 
-/** Deletes the specified address resource. */
 export interface DeleteAddressesRequest {
   /** Name of the address resource to delete. */
   address: string;
@@ -28459,13 +28458,13 @@ export const DeleteAddressesResponse = Operation;
 
 export type DeleteAddressesError = CommonErrors;
 
+/** Deletes the specified address resource. */
 export const deleteAddresses: API.OperationMethod<DeleteAddressesRequest, DeleteAddressesResponse, DeleteAddressesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAddressesRequest,
   output: DeleteAddressesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of addresses contained within the specified region. */
 export interface ListAddressesRequest {
   /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
   orderBy?: string;
@@ -28501,7 +28500,8 @@ export const ListAddressesResponse = AddressList;
 
 export type ListAddressesError = CommonErrors;
 
-export const listAddresses = API.makePaginated(() => ({
+/** Retrieves a list of addresses contained within the specified region. */
+export const listAddresses: API.PaginatedOperationMethod<ListAddressesRequest, ListAddressesResponse, ListAddressesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAddressesRequest,
   output: ListAddressesResponse,
   errors: [],
@@ -28512,7 +28512,6 @@ export const listAddresses = API.makePaginated(() => ({
   },
 }));
 
-/** Moves the specified address resource. */
 export interface MoveAddressesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -28542,13 +28541,13 @@ export const MoveAddressesResponse = Operation;
 
 export type MoveAddressesError = CommonErrors;
 
+/** Moves the specified address resource. */
 export const moveAddresses: API.OperationMethod<MoveAddressesRequest, MoveAddressesResponse, MoveAddressesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MoveAddressesRequest,
   output: MoveAddressesResponse,
   errors: [],
 }));
 
-/** Creates an address resource in the specified project by using the data included in the request. */
 export interface InsertAddressesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -28575,13 +28574,13 @@ export const InsertAddressesResponse = Operation;
 
 export type InsertAddressesError = CommonErrors;
 
+/** Creates an address resource in the specified project by using the data included in the request. */
 export const insertAddresses: API.OperationMethod<InsertAddressesRequest, InsertAddressesResponse, InsertAddressesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertAddressesRequest,
   output: InsertAddressesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsAddressesRequest {
   /** The name of the region for this request. */
   region: string;
@@ -28608,13 +28607,13 @@ export const TestIamPermissionsAddressesResponse = TestPermissionsResponse;
 
 export type TestIamPermissionsAddressesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsAddresses: API.OperationMethod<TestIamPermissionsAddressesRequest, TestIamPermissionsAddressesResponse, TestIamPermissionsAddressesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsAddressesRequest,
   output: TestIamPermissionsAddressesResponse,
   errors: [],
 }));
 
-/** Sets the labels on an Address. To learn more about labels, read theLabeling Resources documentation. */
 export interface SetLabelsAddressesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -28644,13 +28643,13 @@ export const SetLabelsAddressesResponse = Operation;
 
 export type SetLabelsAddressesError = CommonErrors;
 
+/** Sets the labels on an Address. To learn more about labels, read theLabeling Resources documentation. */
 export const setLabelsAddresses: API.OperationMethod<SetLabelsAddressesRequest, SetLabelsAddressesResponse, SetLabelsAddressesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetLabelsAddressesRequest,
   output: SetLabelsAddressesResponse,
   errors: [],
 }));
 
-/** Deletes the specified firewall. */
 export interface DeleteFirewallsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -28674,13 +28673,13 @@ export const DeleteFirewallsResponse = Operation;
 
 export type DeleteFirewallsError = CommonErrors;
 
+/** Deletes the specified firewall. */
 export const deleteFirewalls: API.OperationMethod<DeleteFirewallsRequest, DeleteFirewallsResponse, DeleteFirewallsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteFirewallsRequest,
   output: DeleteFirewallsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsFirewallsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -28704,13 +28703,13 @@ export const TestIamPermissionsFirewallsResponse = TestPermissionsResponse;
 
 export type TestIamPermissionsFirewallsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsFirewalls: API.OperationMethod<TestIamPermissionsFirewallsRequest, TestIamPermissionsFirewallsResponse, TestIamPermissionsFirewallsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsFirewallsRequest,
   output: TestIamPermissionsFirewallsResponse,
   errors: [],
 }));
 
-/** Returns the specified firewall. */
 export interface GetFirewallsRequest {
   /** Project ID for this request. */
   project: string;
@@ -28731,13 +28730,13 @@ export const GetFirewallsResponse = Firewall;
 
 export type GetFirewallsError = CommonErrors;
 
+/** Returns the specified firewall. */
 export const getFirewalls: API.OperationMethod<GetFirewallsRequest, GetFirewallsResponse, GetFirewallsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFirewallsRequest,
   output: GetFirewallsResponse,
   errors: [],
 }));
 
-/** Retrieves the list of firewall rules available to the specified project. */
 export interface ListFirewallsRequest {
   /** Opt-in for partial success behavior which provides partial results in case of failure. The default value is false. For example, when partial success behavior is enabled, aggregatedList for a single zone scope either returns all resources in the zone or no resources, with an error code. */
   returnPartialSuccess?: boolean;
@@ -28770,7 +28769,8 @@ export const ListFirewallsResponse = FirewallList;
 
 export type ListFirewallsError = CommonErrors;
 
-export const listFirewalls = API.makePaginated(() => ({
+/** Retrieves the list of firewall rules available to the specified project. */
+export const listFirewalls: API.PaginatedOperationMethod<ListFirewallsRequest, ListFirewallsResponse, ListFirewallsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFirewallsRequest,
   output: ListFirewallsResponse,
   errors: [],
@@ -28781,7 +28781,6 @@ export const listFirewalls = API.makePaginated(() => ({
   },
 }));
 
-/** Updates the specified firewall rule with the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export interface PatchFirewallsRequest {
   /** Project ID for this request. */
   project: string;
@@ -28808,13 +28807,13 @@ export const PatchFirewallsResponse = Operation;
 
 export type PatchFirewallsError = CommonErrors;
 
+/** Updates the specified firewall rule with the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export const patchFirewalls: API.OperationMethod<PatchFirewallsRequest, PatchFirewallsResponse, PatchFirewallsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchFirewallsRequest,
   output: PatchFirewallsResponse,
   errors: [],
 }));
 
-/** Creates a firewall rule in the specified project using the data included in the request. */
 export interface InsertFirewallsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -28838,13 +28837,13 @@ export const InsertFirewallsResponse = Operation;
 
 export type InsertFirewallsError = CommonErrors;
 
+/** Creates a firewall rule in the specified project using the data included in the request. */
 export const insertFirewalls: API.OperationMethod<InsertFirewallsRequest, InsertFirewallsResponse, InsertFirewallsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertFirewallsRequest,
   output: InsertFirewallsResponse,
   errors: [],
 }));
 
-/** Updates the specified firewall rule with the data included in the request. Note that all fields will be updated if using PUT, even fields that are not specified. To update individual fields, please use PATCH instead. */
 export interface UpdateFirewallsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -28871,13 +28870,13 @@ export const UpdateFirewallsResponse = Operation;
 
 export type UpdateFirewallsError = CommonErrors;
 
+/** Updates the specified firewall rule with the data included in the request. Note that all fields will be updated if using PUT, even fields that are not specified. To update individual fields, please use PATCH instead. */
 export const updateFirewalls: API.OperationMethod<UpdateFirewallsRequest, UpdateFirewallsResponse, UpdateFirewallsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateFirewallsRequest,
   output: UpdateFirewallsResponse,
   errors: [],
 }));
 
-/** Changes target URL for the GlobalForwardingRule resource. The new target should be of the same type as the old target. */
 export interface SetTargetGlobalForwardingRulesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -28904,13 +28903,13 @@ export const SetTargetGlobalForwardingRulesResponse = Operation;
 
 export type SetTargetGlobalForwardingRulesError = CommonErrors;
 
+/** Changes target URL for the GlobalForwardingRule resource. The new target should be of the same type as the old target. */
 export const setTargetGlobalForwardingRules: API.OperationMethod<SetTargetGlobalForwardingRulesRequest, SetTargetGlobalForwardingRulesResponse, SetTargetGlobalForwardingRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetTargetGlobalForwardingRulesRequest,
   output: SetTargetGlobalForwardingRulesResponse,
   errors: [],
 }));
 
-/** Returns the specified GlobalForwardingRule resource. Gets a list of available forwarding rules by making a list() request. */
 export interface GetGlobalForwardingRulesRequest {
   /** Name of the ForwardingRule resource to return. */
   forwardingRule: string;
@@ -28931,13 +28930,13 @@ export const GetGlobalForwardingRulesResponse = ForwardingRule;
 
 export type GetGlobalForwardingRulesError = CommonErrors;
 
+/** Returns the specified GlobalForwardingRule resource. Gets a list of available forwarding rules by making a list() request. */
 export const getGlobalForwardingRules: API.OperationMethod<GetGlobalForwardingRulesRequest, GetGlobalForwardingRulesResponse, GetGlobalForwardingRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetGlobalForwardingRulesRequest,
   output: GetGlobalForwardingRulesResponse,
   errors: [],
 }));
 
-/** Deletes the specified GlobalForwardingRule resource. */
 export interface DeleteGlobalForwardingRulesRequest {
   /** Project ID for this request. */
   project: string;
@@ -28961,13 +28960,13 @@ export const DeleteGlobalForwardingRulesResponse = Operation;
 
 export type DeleteGlobalForwardingRulesError = CommonErrors;
 
+/** Deletes the specified GlobalForwardingRule resource. */
 export const deleteGlobalForwardingRules: API.OperationMethod<DeleteGlobalForwardingRulesRequest, DeleteGlobalForwardingRulesResponse, DeleteGlobalForwardingRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteGlobalForwardingRulesRequest,
   output: DeleteGlobalForwardingRulesResponse,
   errors: [],
 }));
 
-/** Sets the labels on the specified resource. To learn more about labels, read the Labeling resources documentation. */
 export interface SetLabelsGlobalForwardingRulesRequest {
   /** Project ID for this request. */
   project: string;
@@ -28991,13 +28990,13 @@ export const SetLabelsGlobalForwardingRulesResponse = Operation;
 
 export type SetLabelsGlobalForwardingRulesError = CommonErrors;
 
+/** Sets the labels on the specified resource. To learn more about labels, read the Labeling resources documentation. */
 export const setLabelsGlobalForwardingRules: API.OperationMethod<SetLabelsGlobalForwardingRulesRequest, SetLabelsGlobalForwardingRulesResponse, SetLabelsGlobalForwardingRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetLabelsGlobalForwardingRulesRequest,
   output: SetLabelsGlobalForwardingRulesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of GlobalForwardingRule resources available to the specified project. */
 export interface ListGlobalForwardingRulesRequest {
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number;
@@ -29030,7 +29029,8 @@ export const ListGlobalForwardingRulesResponse = ForwardingRuleList;
 
 export type ListGlobalForwardingRulesError = CommonErrors;
 
-export const listGlobalForwardingRules = API.makePaginated(() => ({
+/** Retrieves a list of GlobalForwardingRule resources available to the specified project. */
+export const listGlobalForwardingRules: API.PaginatedOperationMethod<ListGlobalForwardingRulesRequest, ListGlobalForwardingRulesResponse, ListGlobalForwardingRulesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListGlobalForwardingRulesRequest,
   output: ListGlobalForwardingRulesResponse,
   errors: [],
@@ -29041,7 +29041,6 @@ export const listGlobalForwardingRules = API.makePaginated(() => ({
   },
 }));
 
-/** Updates the specified forwarding rule with the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. Currently, you can only patch the network_tier field. */
 export interface PatchGlobalForwardingRulesRequest {
   /** Project ID for this request. */
   project: string;
@@ -29068,13 +29067,13 @@ export const PatchGlobalForwardingRulesResponse = Operation;
 
 export type PatchGlobalForwardingRulesError = CommonErrors;
 
+/** Updates the specified forwarding rule with the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. Currently, you can only patch the network_tier field. */
 export const patchGlobalForwardingRules: API.OperationMethod<PatchGlobalForwardingRulesRequest, PatchGlobalForwardingRulesResponse, PatchGlobalForwardingRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchGlobalForwardingRulesRequest,
   output: PatchGlobalForwardingRulesResponse,
   errors: [],
 }));
 
-/** Creates a GlobalForwardingRule resource in the specified project using the data included in the request. */
 export interface InsertGlobalForwardingRulesRequest {
   /** Project ID for this request. */
   project: string;
@@ -29098,13 +29097,13 @@ export const InsertGlobalForwardingRulesResponse = Operation;
 
 export type InsertGlobalForwardingRulesError = CommonErrors;
 
+/** Creates a GlobalForwardingRule resource in the specified project using the data included in the request. */
 export const insertGlobalForwardingRules: API.OperationMethod<InsertGlobalForwardingRulesRequest, InsertGlobalForwardingRulesResponse, InsertGlobalForwardingRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertGlobalForwardingRulesRequest,
   output: InsertGlobalForwardingRulesResponse,
   errors: [],
 }));
 
-/** Deletes the specified ServiceAttachment in the given scope */
 export interface DeleteServiceAttachmentsRequest {
   /** Project ID for this request. */
   project: string;
@@ -29131,13 +29130,13 @@ export const DeleteServiceAttachmentsResponse = Operation;
 
 export type DeleteServiceAttachmentsError = CommonErrors;
 
+/** Deletes the specified ServiceAttachment in the given scope */
 export const deleteServiceAttachments: API.OperationMethod<DeleteServiceAttachmentsRequest, DeleteServiceAttachmentsResponse, DeleteServiceAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteServiceAttachmentsRequest,
   output: DeleteServiceAttachmentsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsServiceAttachmentsRequest {
   /** The name of the region for this request. */
   region: string;
@@ -29164,13 +29163,13 @@ export const TestIamPermissionsServiceAttachmentsResponse = TestPermissionsRespo
 
 export type TestIamPermissionsServiceAttachmentsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsServiceAttachments: API.OperationMethod<TestIamPermissionsServiceAttachmentsRequest, TestIamPermissionsServiceAttachmentsResponse, TestIamPermissionsServiceAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsServiceAttachmentsRequest,
   output: TestIamPermissionsServiceAttachmentsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export interface GetIamPolicyServiceAttachmentsRequest {
   /** Project ID for this request. */
   project: string;
@@ -29197,13 +29196,13 @@ export const GetIamPolicyServiceAttachmentsResponse = Policy;
 
 export type GetIamPolicyServiceAttachmentsError = CommonErrors;
 
+/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export const getIamPolicyServiceAttachments: API.OperationMethod<GetIamPolicyServiceAttachmentsRequest, GetIamPolicyServiceAttachmentsResponse, GetIamPolicyServiceAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyServiceAttachmentsRequest,
   output: GetIamPolicyServiceAttachmentsResponse,
   errors: [],
 }));
 
-/** Returns the specified ServiceAttachment resource in the given scope. */
 export interface GetServiceAttachmentsRequest {
   /** Name of the ServiceAttachment resource to return. */
   serviceAttachment: string;
@@ -29230,13 +29229,13 @@ export const GetServiceAttachmentsResponse = ServiceAttachment;
 
 export type GetServiceAttachmentsError = CommonErrors;
 
+/** Returns the specified ServiceAttachment resource in the given scope. */
 export const getServiceAttachments: API.OperationMethod<GetServiceAttachmentsRequest, GetServiceAttachmentsResponse, GetServiceAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetServiceAttachmentsRequest,
   output: GetServiceAttachmentsResponse,
   errors: [],
 }));
 
-/** Lists the ServiceAttachments for a project in the given scope. */
 export interface ListServiceAttachmentsRequest {
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number;
@@ -29272,7 +29271,8 @@ export const ListServiceAttachmentsResponse = ServiceAttachmentList;
 
 export type ListServiceAttachmentsError = CommonErrors;
 
-export const listServiceAttachments = API.makePaginated(() => ({
+/** Lists the ServiceAttachments for a project in the given scope. */
+export const listServiceAttachments: API.PaginatedOperationMethod<ListServiceAttachmentsRequest, ListServiceAttachmentsResponse, ListServiceAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListServiceAttachmentsRequest,
   output: ListServiceAttachmentsResponse,
   errors: [],
@@ -29283,7 +29283,6 @@ export const listServiceAttachments = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves the list of all ServiceAttachment resources, regional and global, available to the specified project. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListServiceAttachmentsRequest {
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number;
@@ -29322,7 +29321,8 @@ export const AggregatedListServiceAttachmentsResponse = ServiceAttachmentAggrega
 
 export type AggregatedListServiceAttachmentsError = CommonErrors;
 
-export const aggregatedListServiceAttachments = API.makePaginated(() => ({
+/** Retrieves the list of all ServiceAttachment resources, regional and global, available to the specified project. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListServiceAttachments: API.PaginatedOperationMethod<AggregatedListServiceAttachmentsRequest, AggregatedListServiceAttachmentsResponse, AggregatedListServiceAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListServiceAttachmentsRequest,
   output: AggregatedListServiceAttachmentsResponse,
   errors: [],
@@ -29333,7 +29333,6 @@ export const aggregatedListServiceAttachments = API.makePaginated(() => ({
   },
 }));
 
-/** Patches the specified ServiceAttachment resource with the data included in the request. This method supports PATCH semantics and usesJSON merge patch format and processing rules. */
 export interface PatchServiceAttachmentsRequest {
   /** The region scoping this request and should conform to RFC1035. */
   region: string;
@@ -29363,13 +29362,13 @@ export const PatchServiceAttachmentsResponse = Operation;
 
 export type PatchServiceAttachmentsError = CommonErrors;
 
+/** Patches the specified ServiceAttachment resource with the data included in the request. This method supports PATCH semantics and usesJSON merge patch format and processing rules. */
 export const patchServiceAttachments: API.OperationMethod<PatchServiceAttachmentsRequest, PatchServiceAttachmentsResponse, PatchServiceAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchServiceAttachmentsRequest,
   output: PatchServiceAttachmentsResponse,
   errors: [],
 }));
 
-/** Creates a ServiceAttachment in the specified project in the given scope using the parameters that are included in the request. */
 export interface InsertServiceAttachmentsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -29396,13 +29395,13 @@ export const InsertServiceAttachmentsResponse = Operation;
 
 export type InsertServiceAttachmentsError = CommonErrors;
 
+/** Creates a ServiceAttachment in the specified project in the given scope using the parameters that are included in the request. */
 export const insertServiceAttachments: API.OperationMethod<InsertServiceAttachmentsRequest, InsertServiceAttachmentsResponse, InsertServiceAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertServiceAttachmentsRequest,
   output: InsertServiceAttachmentsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export interface SetIamPolicyServiceAttachmentsRequest {
   /** The name of the region for this request. */
   region: string;
@@ -29429,13 +29428,13 @@ export const SetIamPolicyServiceAttachmentsResponse = Policy;
 
 export type SetIamPolicyServiceAttachmentsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export const setIamPolicyServiceAttachments: API.OperationMethod<SetIamPolicyServiceAttachmentsRequest, SetIamPolicyServiceAttachmentsResponse, SetIamPolicyServiceAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyServiceAttachmentsRequest,
   output: SetIamPolicyServiceAttachmentsResponse,
   errors: [],
 }));
 
-/** Creates a NodeGroup resource in the specified project using the data included in the request. */
 export interface InsertNodeGroupsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -29465,13 +29464,13 @@ export const InsertNodeGroupsResponse = Operation;
 
 export type InsertNodeGroupsError = CommonErrors;
 
+/** Creates a NodeGroup resource in the specified project using the data included in the request. */
 export const insertNodeGroups: API.OperationMethod<InsertNodeGroupsRequest, InsertNodeGroupsResponse, InsertNodeGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertNodeGroupsRequest,
   output: InsertNodeGroupsResponse,
   errors: [],
 }));
 
-/** Simulates maintenance event on specified nodes from the node group. */
 export interface SimulateMaintenanceEventNodeGroupsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -29501,13 +29500,13 @@ export const SimulateMaintenanceEventNodeGroupsResponse = Operation;
 
 export type SimulateMaintenanceEventNodeGroupsError = CommonErrors;
 
+/** Simulates maintenance event on specified nodes from the node group. */
 export const simulateMaintenanceEventNodeGroups: API.OperationMethod<SimulateMaintenanceEventNodeGroupsRequest, SimulateMaintenanceEventNodeGroupsResponse, SimulateMaintenanceEventNodeGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SimulateMaintenanceEventNodeGroupsRequest,
   output: SimulateMaintenanceEventNodeGroupsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export interface GetIamPolicyNodeGroupsRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -29534,13 +29533,13 @@ export const GetIamPolicyNodeGroupsResponse = Policy;
 
 export type GetIamPolicyNodeGroupsError = CommonErrors;
 
+/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export const getIamPolicyNodeGroups: API.OperationMethod<GetIamPolicyNodeGroupsRequest, GetIamPolicyNodeGroupsResponse, GetIamPolicyNodeGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyNodeGroupsRequest,
   output: GetIamPolicyNodeGroupsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of node groups available to the specified project. Note: use nodeGroups.listNodes for more details about each group. */
 export interface ListNodeGroupsRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -29576,7 +29575,8 @@ export const ListNodeGroupsResponse = NodeGroupList;
 
 export type ListNodeGroupsError = CommonErrors;
 
-export const listNodeGroups = API.makePaginated(() => ({
+/** Retrieves a list of node groups available to the specified project. Note: use nodeGroups.listNodes for more details about each group. */
+export const listNodeGroups: API.PaginatedOperationMethod<ListNodeGroupsRequest, ListNodeGroupsResponse, ListNodeGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListNodeGroupsRequest,
   output: ListNodeGroupsResponse,
   errors: [],
@@ -29587,7 +29587,6 @@ export const listNodeGroups = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the specified NodeGroup resource. */
 export interface DeleteNodeGroupsRequest {
   /** Project ID for this request. */
   project: string;
@@ -29614,13 +29613,13 @@ export const DeleteNodeGroupsResponse = Operation;
 
 export type DeleteNodeGroupsError = CommonErrors;
 
+/** Deletes the specified NodeGroup resource. */
 export const deleteNodeGroups: API.OperationMethod<DeleteNodeGroupsRequest, DeleteNodeGroupsResponse, DeleteNodeGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteNodeGroupsRequest,
   output: DeleteNodeGroupsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export interface SetIamPolicyNodeGroupsRequest {
   /** Project ID for this request. */
   project: string;
@@ -29647,13 +29646,13 @@ export const SetIamPolicyNodeGroupsResponse = Policy;
 
 export type SetIamPolicyNodeGroupsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export const setIamPolicyNodeGroups: API.OperationMethod<SetIamPolicyNodeGroupsRequest, SetIamPolicyNodeGroupsResponse, SetIamPolicyNodeGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyNodeGroupsRequest,
   output: SetIamPolicyNodeGroupsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsNodeGroupsRequest {
   /** Project ID for this request. */
   project: string;
@@ -29680,13 +29679,13 @@ export const TestIamPermissionsNodeGroupsResponse = TestPermissionsResponse;
 
 export type TestIamPermissionsNodeGroupsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsNodeGroups: API.OperationMethod<TestIamPermissionsNodeGroupsRequest, TestIamPermissionsNodeGroupsResponse, TestIamPermissionsNodeGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsNodeGroupsRequest,
   output: TestIamPermissionsNodeGroupsResponse,
   errors: [],
 }));
 
-/** Updates the specified node group. */
 export interface PatchNodeGroupsRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -29716,13 +29715,13 @@ export const PatchNodeGroupsResponse = Operation;
 
 export type PatchNodeGroupsError = CommonErrors;
 
+/** Updates the specified node group. */
 export const patchNodeGroups: API.OperationMethod<PatchNodeGroupsRequest, PatchNodeGroupsResponse, PatchNodeGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchNodeGroupsRequest,
   output: PatchNodeGroupsResponse,
   errors: [],
 }));
 
-/** Adds specified number of nodes to the node group. */
 export interface AddNodesNodeGroupsRequest {
   /** Name of the NodeGroup resource. */
   nodeGroup: string;
@@ -29752,13 +29751,13 @@ export const AddNodesNodeGroupsResponse = Operation;
 
 export type AddNodesNodeGroupsError = CommonErrors;
 
+/** Adds specified number of nodes to the node group. */
 export const addNodesNodeGroups: API.OperationMethod<AddNodesNodeGroupsRequest, AddNodesNodeGroupsResponse, AddNodesNodeGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddNodesNodeGroupsRequest,
   output: AddNodesNodeGroupsResponse,
   errors: [],
 }));
 
-/** Retrieves an aggregated list of node groups. Note: use nodeGroups.listNodes for more details about each group. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListNodeGroupsRequest {
   /** The Shared VPC service project id or service project number for which aggregated list request is invoked for subnetworks list-usable api. */
   serviceProjectNumber?: string;
@@ -29797,7 +29796,8 @@ export const AggregatedListNodeGroupsResponse = NodeGroupAggregatedList;
 
 export type AggregatedListNodeGroupsError = CommonErrors;
 
-export const aggregatedListNodeGroups = API.makePaginated(() => ({
+/** Retrieves an aggregated list of node groups. Note: use nodeGroups.listNodes for more details about each group. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListNodeGroups: API.PaginatedOperationMethod<AggregatedListNodeGroupsRequest, AggregatedListNodeGroupsResponse, AggregatedListNodeGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListNodeGroupsRequest,
   output: AggregatedListNodeGroupsResponse,
   errors: [],
@@ -29808,7 +29808,6 @@ export const aggregatedListNodeGroups = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes specified nodes from the node group. */
 export interface DeleteNodesNodeGroupsRequest {
   /** Name of the NodeGroup resource whose nodes will be deleted. */
   nodeGroup: string;
@@ -29838,13 +29837,13 @@ export const DeleteNodesNodeGroupsResponse = Operation;
 
 export type DeleteNodesNodeGroupsError = CommonErrors;
 
+/** Deletes specified nodes from the node group. */
 export const deleteNodesNodeGroups: API.OperationMethod<DeleteNodesNodeGroupsRequest, DeleteNodesNodeGroupsResponse, DeleteNodesNodeGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteNodesNodeGroupsRequest,
   output: DeleteNodesNodeGroupsResponse,
   errors: [],
 }));
 
-/** Updates the node template of the node group. */
 export interface SetNodeTemplateNodeGroupsRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -29874,13 +29873,13 @@ export const SetNodeTemplateNodeGroupsResponse = Operation;
 
 export type SetNodeTemplateNodeGroupsError = CommonErrors;
 
+/** Updates the node template of the node group. */
 export const setNodeTemplateNodeGroups: API.OperationMethod<SetNodeTemplateNodeGroupsRequest, SetNodeTemplateNodeGroupsResponse, SetNodeTemplateNodeGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetNodeTemplateNodeGroupsRequest,
   output: SetNodeTemplateNodeGroupsResponse,
   errors: [],
 }));
 
-/** Lists nodes in the node group. */
 export interface ListNodesNodeGroupsRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -29919,7 +29918,8 @@ export const ListNodesNodeGroupsResponse = NodeGroupsListNodes;
 
 export type ListNodesNodeGroupsError = CommonErrors;
 
-export const listNodesNodeGroups = API.makePaginated(() => ({
+/** Lists nodes in the node group. */
+export const listNodesNodeGroups: API.PaginatedOperationMethod<ListNodesNodeGroupsRequest, ListNodesNodeGroupsResponse, ListNodesNodeGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListNodesNodeGroupsRequest,
   output: ListNodesNodeGroupsResponse,
   errors: [],
@@ -29930,7 +29930,6 @@ export const listNodesNodeGroups = API.makePaginated(() => ({
   },
 }));
 
-/** Perform maintenance on a subset of nodes in the node group. */
 export interface PerformMaintenanceNodeGroupsRequest {
   /** Project ID for this request. */
   project: string;
@@ -29960,13 +29959,13 @@ export const PerformMaintenanceNodeGroupsResponse = Operation;
 
 export type PerformMaintenanceNodeGroupsError = CommonErrors;
 
+/** Perform maintenance on a subset of nodes in the node group. */
 export const performMaintenanceNodeGroups: API.OperationMethod<PerformMaintenanceNodeGroupsRequest, PerformMaintenanceNodeGroupsResponse, PerformMaintenanceNodeGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PerformMaintenanceNodeGroupsRequest,
   output: PerformMaintenanceNodeGroupsResponse,
   errors: [],
 }));
 
-/** Returns the specified NodeGroup. Get a list of available NodeGroups by making a list() request. Note: the "nodes" field should not be used. Use nodeGroups.listNodes instead. */
 export interface GetNodeGroupsRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -29990,13 +29989,13 @@ export const GetNodeGroupsResponse = NodeGroup;
 
 export type GetNodeGroupsError = CommonErrors;
 
+/** Returns the specified NodeGroup. Get a list of available NodeGroups by making a list() request. Note: the "nodes" field should not be used. Use nodeGroups.listNodes instead. */
 export const getNodeGroups: API.OperationMethod<GetNodeGroupsRequest, GetNodeGroupsResponse, GetNodeGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetNodeGroupsRequest,
   output: GetNodeGroupsResponse,
   errors: [],
 }));
 
-/** Deletes the specified Snapshot resource. Keep in mind that deleting a single snapshot might not necessarily delete all the data on that snapshot. If any data on the snapshot that is marked for deletion is needed for subsequent snapshots, the data will be moved to the next corresponding snapshot. For more information, seeDeleting snapshots. */
 export interface DeleteSnapshotsRequest {
   /** Project ID for this request. */
   project: string;
@@ -30020,13 +30019,13 @@ export const DeleteSnapshotsResponse = Operation;
 
 export type DeleteSnapshotsError = CommonErrors;
 
+/** Deletes the specified Snapshot resource. Keep in mind that deleting a single snapshot might not necessarily delete all the data on that snapshot. If any data on the snapshot that is marked for deletion is needed for subsequent snapshots, the data will be moved to the next corresponding snapshot. For more information, seeDeleting snapshots. */
 export const deleteSnapshots: API.OperationMethod<DeleteSnapshotsRequest, DeleteSnapshotsResponse, DeleteSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteSnapshotsRequest,
   output: DeleteSnapshotsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export interface GetIamPolicySnapshotsRequest {
   /** Project ID for this request. */
   project: string;
@@ -30050,13 +30049,13 @@ export const GetIamPolicySnapshotsResponse = Policy;
 
 export type GetIamPolicySnapshotsError = CommonErrors;
 
+/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export const getIamPolicySnapshots: API.OperationMethod<GetIamPolicySnapshotsRequest, GetIamPolicySnapshotsResponse, GetIamPolicySnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicySnapshotsRequest,
   output: GetIamPolicySnapshotsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsSnapshotsRequest {
   /** Project ID for this request. */
   project: string;
@@ -30080,13 +30079,13 @@ export const TestIamPermissionsSnapshotsResponse = TestPermissionsResponse;
 
 export type TestIamPermissionsSnapshotsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsSnapshots: API.OperationMethod<TestIamPermissionsSnapshotsRequest, TestIamPermissionsSnapshotsResponse, TestIamPermissionsSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsSnapshotsRequest,
   output: TestIamPermissionsSnapshotsResponse,
   errors: [],
 }));
 
-/** Returns the specified Snapshot resource. */
 export interface GetSnapshotsRequest {
   /** Project ID for this request. */
   project: string;
@@ -30107,13 +30106,13 @@ export const GetSnapshotsResponse = Snapshot;
 
 export type GetSnapshotsError = CommonErrors;
 
+/** Returns the specified Snapshot resource. */
 export const getSnapshots: API.OperationMethod<GetSnapshotsRequest, GetSnapshotsResponse, GetSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSnapshotsRequest,
   output: GetSnapshotsResponse,
   errors: [],
 }));
 
-/** Retrieves the list of Snapshot resources contained within the specified project. */
 export interface ListSnapshotsRequest {
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number;
@@ -30146,7 +30145,8 @@ export const ListSnapshotsResponse = SnapshotList;
 
 export type ListSnapshotsError = CommonErrors;
 
-export const listSnapshots = API.makePaginated(() => ({
+/** Retrieves the list of Snapshot resources contained within the specified project. */
+export const listSnapshots: API.PaginatedOperationMethod<ListSnapshotsRequest, ListSnapshotsResponse, ListSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListSnapshotsRequest,
   output: ListSnapshotsResponse,
   errors: [],
@@ -30157,7 +30157,6 @@ export const listSnapshots = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a snapshot in the specified project using the data included in the request. For regular snapshot creation, consider using this method instead of disks.createSnapshot, as this method supports more features, such as creating snapshots in a project different from the source disk project. */
 export interface InsertSnapshotsRequest {
   /** Project ID for this request. */
   project: string;
@@ -30181,13 +30180,13 @@ export const InsertSnapshotsResponse = Operation;
 
 export type InsertSnapshotsError = CommonErrors;
 
+/** Creates a snapshot in the specified project using the data included in the request. For regular snapshot creation, consider using this method instead of disks.createSnapshot, as this method supports more features, such as creating snapshots in a project different from the source disk project. */
 export const insertSnapshots: API.OperationMethod<InsertSnapshotsRequest, InsertSnapshotsResponse, InsertSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertSnapshotsRequest,
   output: InsertSnapshotsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export interface SetIamPolicySnapshotsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -30211,13 +30210,13 @@ export const SetIamPolicySnapshotsResponse = Policy;
 
 export type SetIamPolicySnapshotsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export const setIamPolicySnapshots: API.OperationMethod<SetIamPolicySnapshotsRequest, SetIamPolicySnapshotsResponse, SetIamPolicySnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicySnapshotsRequest,
   output: SetIamPolicySnapshotsResponse,
   errors: [],
 }));
 
-/** Sets the labels on a snapshot. To learn more about labels, read theLabeling Resources documentation. */
 export interface SetLabelsSnapshotsRequest {
   /** Project ID for this request. */
   project: string;
@@ -30241,13 +30240,13 @@ export const SetLabelsSnapshotsResponse = Operation;
 
 export type SetLabelsSnapshotsError = CommonErrors;
 
+/** Sets the labels on a snapshot. To learn more about labels, read theLabeling Resources documentation. */
 export const setLabelsSnapshots: API.OperationMethod<SetLabelsSnapshotsRequest, SetLabelsSnapshotsResponse, SetLabelsSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetLabelsSnapshotsRequest,
   output: SetLabelsSnapshotsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export interface GetIamPolicyInterconnectAttachmentGroupsRequest {
   /** Requested IAM Policy version. */
   optionsRequestedPolicyVersion?: number;
@@ -30271,13 +30270,13 @@ export const GetIamPolicyInterconnectAttachmentGroupsResponse = Policy;
 
 export type GetIamPolicyInterconnectAttachmentGroupsError = CommonErrors;
 
+/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export const getIamPolicyInterconnectAttachmentGroups: API.OperationMethod<GetIamPolicyInterconnectAttachmentGroupsRequest, GetIamPolicyInterconnectAttachmentGroupsResponse, GetIamPolicyInterconnectAttachmentGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyInterconnectAttachmentGroupsRequest,
   output: GetIamPolicyInterconnectAttachmentGroupsResponse,
   errors: [],
 }));
 
-/** Patches the specified InterconnectAttachmentGroup resource with the data included in the request. This method supports PATCH semantics and usesJSON merge patch format and processing rules. */
 export interface PatchInterconnectAttachmentGroupsRequest {
   /** Name of the InterconnectAttachmentGroup resource to patch. */
   interconnectAttachmentGroup: string;
@@ -30307,13 +30306,13 @@ export const PatchInterconnectAttachmentGroupsResponse = Operation;
 
 export type PatchInterconnectAttachmentGroupsError = CommonErrors;
 
+/** Patches the specified InterconnectAttachmentGroup resource with the data included in the request. This method supports PATCH semantics and usesJSON merge patch format and processing rules. */
 export const patchInterconnectAttachmentGroups: API.OperationMethod<PatchInterconnectAttachmentGroupsRequest, PatchInterconnectAttachmentGroupsResponse, PatchInterconnectAttachmentGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchInterconnectAttachmentGroupsRequest,
   output: PatchInterconnectAttachmentGroupsResponse,
   errors: [],
 }));
 
-/** Creates a InterconnectAttachmentGroup in the specified project in the given scope using the parameters that are included in the request. */
 export interface InsertInterconnectAttachmentGroupsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder */
   requestId?: string;
@@ -30337,13 +30336,13 @@ export const InsertInterconnectAttachmentGroupsResponse = Operation;
 
 export type InsertInterconnectAttachmentGroupsError = CommonErrors;
 
+/** Creates a InterconnectAttachmentGroup in the specified project in the given scope using the parameters that are included in the request. */
 export const insertInterconnectAttachmentGroups: API.OperationMethod<InsertInterconnectAttachmentGroupsRequest, InsertInterconnectAttachmentGroupsResponse, InsertInterconnectAttachmentGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertInterconnectAttachmentGroupsRequest,
   output: InsertInterconnectAttachmentGroupsResponse,
   errors: [],
 }));
 
-/** Deletes the specified InterconnectAttachmentGroup in the given scope */
 export interface DeleteInterconnectAttachmentGroupsRequest {
   /** Name of the InterconnectAttachmentGroup resource to delete. */
   interconnectAttachmentGroup: string;
@@ -30367,13 +30366,13 @@ export const DeleteInterconnectAttachmentGroupsResponse = Operation;
 
 export type DeleteInterconnectAttachmentGroupsError = CommonErrors;
 
+/** Deletes the specified InterconnectAttachmentGroup in the given scope */
 export const deleteInterconnectAttachmentGroups: API.OperationMethod<DeleteInterconnectAttachmentGroupsRequest, DeleteInterconnectAttachmentGroupsResponse, DeleteInterconnectAttachmentGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteInterconnectAttachmentGroupsRequest,
   output: DeleteInterconnectAttachmentGroupsResponse,
   errors: [],
 }));
 
-/** Returns the specified InterconnectAttachmentGroup resource in the given scope. */
 export interface GetInterconnectAttachmentGroupsRequest {
   /** Name of the InterconnectAttachmentGroup resource to return. */
   interconnectAttachmentGroup: string;
@@ -30394,13 +30393,13 @@ export const GetInterconnectAttachmentGroupsResponse = InterconnectAttachmentGro
 
 export type GetInterconnectAttachmentGroupsError = CommonErrors;
 
+/** Returns the specified InterconnectAttachmentGroup resource in the given scope. */
 export const getInterconnectAttachmentGroups: API.OperationMethod<GetInterconnectAttachmentGroupsRequest, GetInterconnectAttachmentGroupsResponse, GetInterconnectAttachmentGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetInterconnectAttachmentGroupsRequest,
   output: GetInterconnectAttachmentGroupsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsInterconnectAttachmentGroupsRequest {
   /** Project ID for this request. */
   project: string;
@@ -30424,13 +30423,13 @@ export const TestIamPermissionsInterconnectAttachmentGroupsResponse = TestPermis
 
 export type TestIamPermissionsInterconnectAttachmentGroupsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsInterconnectAttachmentGroups: API.OperationMethod<TestIamPermissionsInterconnectAttachmentGroupsRequest, TestIamPermissionsInterconnectAttachmentGroupsResponse, TestIamPermissionsInterconnectAttachmentGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsInterconnectAttachmentGroupsRequest,
   output: TestIamPermissionsInterconnectAttachmentGroupsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export interface SetIamPolicyInterconnectAttachmentGroupsRequest {
   /** Project ID for this request. */
   project: string;
@@ -30454,13 +30453,13 @@ export const SetIamPolicyInterconnectAttachmentGroupsResponse = Policy;
 
 export type SetIamPolicyInterconnectAttachmentGroupsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export const setIamPolicyInterconnectAttachmentGroups: API.OperationMethod<SetIamPolicyInterconnectAttachmentGroupsRequest, SetIamPolicyInterconnectAttachmentGroupsResponse, SetIamPolicyInterconnectAttachmentGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyInterconnectAttachmentGroupsRequest,
   output: SetIamPolicyInterconnectAttachmentGroupsResponse,
   errors: [],
 }));
 
-/** Returns the InterconnectAttachmentStatuses for the specified InterconnectAttachmentGroup resource. */
 export interface GetOperationalStatusInterconnectAttachmentGroupsRequest {
   /** Project ID for this request. */
   project: string;
@@ -30481,13 +30480,13 @@ export const GetOperationalStatusInterconnectAttachmentGroupsResponse = Intercon
 
 export type GetOperationalStatusInterconnectAttachmentGroupsError = CommonErrors;
 
+/** Returns the InterconnectAttachmentStatuses for the specified InterconnectAttachmentGroup resource. */
 export const getOperationalStatusInterconnectAttachmentGroups: API.OperationMethod<GetOperationalStatusInterconnectAttachmentGroupsRequest, GetOperationalStatusInterconnectAttachmentGroupsResponse, GetOperationalStatusInterconnectAttachmentGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOperationalStatusInterconnectAttachmentGroupsRequest,
   output: GetOperationalStatusInterconnectAttachmentGroupsResponse,
   errors: [],
 }));
 
-/** Lists the InterconnectAttachmentGroups for a project in the given scope. */
 export interface ListInterconnectAttachmentGroupsRequest {
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string;
@@ -30520,7 +30519,8 @@ export const ListInterconnectAttachmentGroupsResponse = InterconnectAttachmentGr
 
 export type ListInterconnectAttachmentGroupsError = CommonErrors;
 
-export const listInterconnectAttachmentGroups = API.makePaginated(() => ({
+/** Lists the InterconnectAttachmentGroups for a project in the given scope. */
+export const listInterconnectAttachmentGroups: API.PaginatedOperationMethod<ListInterconnectAttachmentGroupsRequest, ListInterconnectAttachmentGroupsResponse, ListInterconnectAttachmentGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListInterconnectAttachmentGroupsRequest,
   output: ListInterconnectAttachmentGroupsResponse,
   errors: [],
@@ -30531,7 +30531,6 @@ export const listInterconnectAttachmentGroups = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves an aggregated list of routers. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListRoutersRequest {
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number;
@@ -30570,7 +30569,8 @@ export const AggregatedListRoutersResponse = RouterAggregatedList;
 
 export type AggregatedListRoutersError = CommonErrors;
 
-export const aggregatedListRouters = API.makePaginated(() => ({
+/** Retrieves an aggregated list of routers. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListRouters: API.PaginatedOperationMethod<AggregatedListRoutersRequest, AggregatedListRoutersResponse, AggregatedListRoutersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListRoutersRequest,
   output: AggregatedListRoutersResponse,
   errors: [],
@@ -30581,7 +30581,6 @@ export const aggregatedListRouters = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves a list of router route policy subresources available to the specified project. */
 export interface ListRoutePoliciesRoutersRequest {
   /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
   orderBy?: string;
@@ -30620,7 +30619,8 @@ export const ListRoutePoliciesRoutersResponse = RoutersListRoutePolicies;
 
 export type ListRoutePoliciesRoutersError = CommonErrors;
 
-export const listRoutePoliciesRouters = API.makePaginated(() => ({
+/** Retrieves a list of router route policy subresources available to the specified project. */
+export const listRoutePoliciesRouters: API.PaginatedOperationMethod<ListRoutePoliciesRoutersRequest, ListRoutePoliciesRoutersResponse, ListRoutePoliciesRoutersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRoutePoliciesRoutersRequest,
   output: ListRoutePoliciesRoutersResponse,
   errors: [],
@@ -30630,7 +30630,6 @@ export const listRoutePoliciesRouters = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a Router resource in the specified project and region using the data included in the request. */
 export interface InsertRoutersRequest {
   /** Name of the region for this request. */
   region: string;
@@ -30657,13 +30656,13 @@ export const InsertRoutersResponse = Operation;
 
 export type InsertRoutersError = CommonErrors;
 
+/** Creates a Router resource in the specified project and region using the data included in the request. */
 export const insertRouters: API.OperationMethod<InsertRoutersRequest, InsertRoutersResponse, InsertRoutersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertRoutersRequest,
   output: InsertRoutersResponse,
   errors: [],
 }));
 
-/** Updates the specified Router resource with the data included in the request. This method conforms toPUT semantics, which requests that the state of the target resource be created or replaced with the state defined by the representation enclosed in the request message payload. */
 export interface UpdateRoutersRequest {
   /** Name of the Router resource to update. */
   router: string;
@@ -30693,13 +30692,13 @@ export const UpdateRoutersResponse = Operation;
 
 export type UpdateRoutersError = CommonErrors;
 
+/** Updates the specified Router resource with the data included in the request. This method conforms toPUT semantics, which requests that the state of the target resource be created or replaced with the state defined by the representation enclosed in the request message payload. */
 export const updateRouters: API.OperationMethod<UpdateRoutersRequest, UpdateRoutersResponse, UpdateRoutersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateRoutersRequest,
   output: UpdateRoutersResponse,
   errors: [],
 }));
 
-/** Retrieves a list of Router resources available to the specified project. */
 export interface ListRoutersRequest {
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string;
@@ -30735,7 +30734,8 @@ export const ListRoutersResponse = RouterList;
 
 export type ListRoutersError = CommonErrors;
 
-export const listRouters = API.makePaginated(() => ({
+/** Retrieves a list of Router resources available to the specified project. */
+export const listRouters: API.PaginatedOperationMethod<ListRoutersRequest, ListRoutersResponse, ListRoutersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRoutersRequest,
   output: ListRoutersResponse,
   errors: [],
@@ -30746,7 +30746,6 @@ export const listRouters = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves a list of router bgp routes available to the specified project. */
 export interface ListBgpRoutesRoutersRequest {
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string;
@@ -30800,7 +30799,8 @@ export const ListBgpRoutesRoutersResponse = RoutersListBgpRoutes;
 
 export type ListBgpRoutesRoutersError = CommonErrors;
 
-export const listBgpRoutesRouters = API.makePaginated(() => ({
+/** Retrieves a list of router bgp routes available to the specified project. */
+export const listBgpRoutesRouters: API.PaginatedOperationMethod<ListBgpRoutesRoutersRequest, ListBgpRoutesRoutersResponse, ListBgpRoutesRoutersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBgpRoutesRoutersRequest,
   output: ListBgpRoutesRoutersResponse,
   errors: [],
@@ -30810,7 +30810,6 @@ export const listBgpRoutesRouters = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves runtime Nat mapping information of VM endpoints. */
 export interface GetNatMappingInfoRoutersRequest {
   /** Name of the Router resource to query for Nat Mapping information of VM endpoints. */
   router: string;
@@ -30852,7 +30851,8 @@ export const GetNatMappingInfoRoutersResponse = VmEndpointNatMappingsList;
 
 export type GetNatMappingInfoRoutersError = CommonErrors;
 
-export const getNatMappingInfoRouters = API.makePaginated(() => ({
+/** Retrieves runtime Nat mapping information of VM endpoints. */
+export const getNatMappingInfoRouters: API.PaginatedOperationMethod<GetNatMappingInfoRoutersRequest, GetNatMappingInfoRoutersResponse, GetNatMappingInfoRoutersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: GetNatMappingInfoRoutersRequest,
   output: GetNatMappingInfoRoutersResponse,
   errors: [],
@@ -30862,7 +30862,6 @@ export const getNatMappingInfoRouters = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the specified Router resource. */
 export interface DeleteRoutersRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -30889,13 +30888,13 @@ export const DeleteRoutersResponse = Operation;
 
 export type DeleteRoutersError = CommonErrors;
 
+/** Deletes the specified Router resource. */
 export const deleteRouters: API.OperationMethod<DeleteRoutersRequest, DeleteRoutersResponse, DeleteRoutersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRoutersRequest,
   output: DeleteRoutersResponse,
   errors: [],
 }));
 
-/** Retrieves runtime information of the specified router. */
 export interface GetRouterStatusRoutersRequest {
   /** Name of the Router resource to query. */
   router: string;
@@ -30919,13 +30918,13 @@ export const GetRouterStatusRoutersResponse = RouterStatusResponse;
 
 export type GetRouterStatusRoutersError = CommonErrors;
 
+/** Retrieves runtime information of the specified router. */
 export const getRouterStatusRouters: API.OperationMethod<GetRouterStatusRoutersRequest, GetRouterStatusRoutersResponse, GetRouterStatusRoutersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRouterStatusRoutersRequest,
   output: GetRouterStatusRoutersResponse,
   errors: [],
 }));
 
-/** Patches the specified Router resource with the data included in the request. This method supportsPATCH semantics and usesJSON merge patch format and processing rules. */
 export interface PatchRoutersRequest {
   /** Project ID for this request. */
   project: string;
@@ -30955,13 +30954,13 @@ export const PatchRoutersResponse = Operation;
 
 export type PatchRoutersError = CommonErrors;
 
+/** Patches the specified Router resource with the data included in the request. This method supportsPATCH semantics and usesJSON merge patch format and processing rules. */
 export const patchRouters: API.OperationMethod<PatchRoutersRequest, PatchRoutersResponse, PatchRoutersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchRoutersRequest,
   output: PatchRoutersResponse,
   errors: [],
 }));
 
-/** Returns specified Route Policy */
 export interface GetRoutePolicyRoutersRequest {
   /** Project ID for this request. */
   project: string;
@@ -30988,13 +30987,13 @@ export const GetRoutePolicyRoutersResponse = RoutersGetRoutePolicyResponse;
 
 export type GetRoutePolicyRoutersError = CommonErrors;
 
+/** Returns specified Route Policy */
 export const getRoutePolicyRouters: API.OperationMethod<GetRoutePolicyRoutersRequest, GetRoutePolicyRoutersResponse, GetRoutePolicyRoutersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRoutePolicyRoutersRequest,
   output: GetRoutePolicyRoutersResponse,
   errors: [],
 }));
 
-/** Deletes Route Policy */
 export interface DeleteRoutePolicyRoutersRequest {
   /** Name of the Router resource where Route Policy is defined. */
   router: string;
@@ -31024,13 +31023,13 @@ export const DeleteRoutePolicyRoutersResponse = Operation;
 
 export type DeleteRoutePolicyRoutersError = CommonErrors;
 
+/** Deletes Route Policy */
 export const deleteRoutePolicyRouters: API.OperationMethod<DeleteRoutePolicyRoutersRequest, DeleteRoutePolicyRoutersResponse, DeleteRoutePolicyRoutersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRoutePolicyRoutersRequest,
   output: DeleteRoutePolicyRoutersResponse,
   errors: [],
 }));
 
-/** Patches Route Policy */
 export interface PatchRoutePolicyRoutersRequest {
   /** Name of the Router resource where Route Policy is defined. */
   router: string;
@@ -31060,13 +31059,13 @@ export const PatchRoutePolicyRoutersResponse = Operation;
 
 export type PatchRoutePolicyRoutersError = CommonErrors;
 
+/** Patches Route Policy */
 export const patchRoutePolicyRouters: API.OperationMethod<PatchRoutePolicyRoutersRequest, PatchRoutePolicyRoutersResponse, PatchRoutePolicyRoutersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchRoutePolicyRoutersRequest,
   output: PatchRoutePolicyRoutersResponse,
   errors: [],
 }));
 
-/** Preview fields auto-generated during router create andupdate operations. Calling this method does NOT create or update the router. */
 export interface PreviewRoutersRequest {
   /** Project ID for this request. */
   project: string;
@@ -31093,13 +31092,13 @@ export const PreviewRoutersResponse = RoutersPreviewResponse;
 
 export type PreviewRoutersError = CommonErrors;
 
+/** Preview fields auto-generated during router create andupdate operations. Calling this method does NOT create or update the router. */
 export const previewRouters: API.OperationMethod<PreviewRoutersRequest, PreviewRoutersResponse, PreviewRoutersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PreviewRoutersRequest,
   output: PreviewRoutersResponse,
   errors: [],
 }));
 
-/** Updates or creates new Route Policy */
 export interface UpdateRoutePolicyRoutersRequest {
   /** Name of the region for this request. */
   region: string;
@@ -31129,13 +31128,13 @@ export const UpdateRoutePolicyRoutersResponse = Operation;
 
 export type UpdateRoutePolicyRoutersError = CommonErrors;
 
+/** Updates or creates new Route Policy */
 export const updateRoutePolicyRouters: API.OperationMethod<UpdateRoutePolicyRoutersRequest, UpdateRoutePolicyRoutersResponse, UpdateRoutePolicyRoutersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateRoutePolicyRoutersRequest,
   output: UpdateRoutePolicyRoutersResponse,
   errors: [],
 }));
 
-/** Returns the specified Router resource. */
 export interface GetRoutersRequest {
   /** Name of the Router resource to return. */
   router: string;
@@ -31159,13 +31158,13 @@ export const GetRoutersResponse = Router;
 
 export type GetRoutersError = CommonErrors;
 
+/** Returns the specified Router resource. */
 export const getRouters: API.OperationMethod<GetRoutersRequest, GetRoutersResponse, GetRoutersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRoutersRequest,
   output: GetRoutersResponse,
   errors: [],
 }));
 
-/** Retrieves runtime NAT IP information. */
 export interface GetNatIpInfoRoutersRequest {
   /** Name of the nat service to filter the NAT IP information. If it is omitted, all nats for this router will be returned. Name should conform to RFC1035. */
   natName?: string;
@@ -31192,13 +31191,13 @@ export const GetNatIpInfoRoutersResponse = NatIpInfoResponse;
 
 export type GetNatIpInfoRoutersError = CommonErrors;
 
+/** Retrieves runtime NAT IP information. */
 export const getNatIpInfoRouters: API.OperationMethod<GetNatIpInfoRoutersRequest, GetNatIpInfoRoutersResponse, GetNatIpInfoRoutersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetNatIpInfoRoutersRequest,
   output: GetNatIpInfoRoutersResponse,
   errors: [],
 }));
 
-/** A list of all the future reservations that have been configured for the specified project in specified zone. */
 export interface ListFutureReservationsRequest {
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number;
@@ -31234,7 +31233,8 @@ export const ListFutureReservationsResponse = FutureReservationsListResponse;
 
 export type ListFutureReservationsError = CommonErrors;
 
-export const listFutureReservations = API.makePaginated(() => ({
+/** A list of all the future reservations that have been configured for the specified project in specified zone. */
+export const listFutureReservations: API.PaginatedOperationMethod<ListFutureReservationsRequest, ListFutureReservationsResponse, ListFutureReservationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFutureReservationsRequest,
   output: ListFutureReservationsResponse,
   errors: [],
@@ -31245,7 +31245,6 @@ export const listFutureReservations = API.makePaginated(() => ({
   },
 }));
 
-/** Cancel the specified future reservation. */
 export interface CancelFutureReservationsRequest {
   /** Name of the future reservation to retrieve. Name should conform to RFC1035. */
   futureReservation: string;
@@ -31272,13 +31271,13 @@ export const CancelFutureReservationsResponse = Operation;
 
 export type CancelFutureReservationsError = CommonErrors;
 
+/** Cancel the specified future reservation. */
 export const cancelFutureReservations: API.OperationMethod<CancelFutureReservationsRequest, CancelFutureReservationsResponse, CancelFutureReservationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelFutureReservationsRequest,
   output: CancelFutureReservationsResponse,
   errors: [],
 }));
 
-/** Retrieves information about the specified future reservation. */
 export interface GetFutureReservationsRequest {
   /** Project ID for this request. */
   project: string;
@@ -31302,13 +31301,13 @@ export const GetFutureReservationsResponse = FutureReservation;
 
 export type GetFutureReservationsError = CommonErrors;
 
+/** Retrieves information about the specified future reservation. */
 export const getFutureReservations: API.OperationMethod<GetFutureReservationsRequest, GetFutureReservationsResponse, GetFutureReservationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFutureReservationsRequest,
   output: GetFutureReservationsResponse,
   errors: [],
 }));
 
-/** Creates a new Future Reservation. */
 export interface InsertFutureReservationsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -31335,13 +31334,13 @@ export const InsertFutureReservationsResponse = Operation;
 
 export type InsertFutureReservationsError = CommonErrors;
 
+/** Creates a new Future Reservation. */
 export const insertFutureReservations: API.OperationMethod<InsertFutureReservationsRequest, InsertFutureReservationsResponse, InsertFutureReservationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertFutureReservationsRequest,
   output: InsertFutureReservationsResponse,
   errors: [],
 }));
 
-/** Retrieves an aggregated list of future reservations. To prevent failure, it is recommended that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListFutureReservationsRequest {
   /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
   orderBy?: string;
@@ -31380,7 +31379,8 @@ export const AggregatedListFutureReservationsResponse = FutureReservationsAggreg
 
 export type AggregatedListFutureReservationsError = CommonErrors;
 
-export const aggregatedListFutureReservations = API.makePaginated(() => ({
+/** Retrieves an aggregated list of future reservations. To prevent failure, it is recommended that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListFutureReservations: API.PaginatedOperationMethod<AggregatedListFutureReservationsRequest, AggregatedListFutureReservationsResponse, AggregatedListFutureReservationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListFutureReservationsRequest,
   output: AggregatedListFutureReservationsResponse,
   errors: [],
@@ -31391,7 +31391,6 @@ export const aggregatedListFutureReservations = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the specified future reservation. */
 export interface DeleteFutureReservationsRequest {
   /** Name of the zone for this request. Name should conform to RFC1035. */
   zone: string;
@@ -31418,13 +31417,13 @@ export const DeleteFutureReservationsResponse = Operation;
 
 export type DeleteFutureReservationsError = CommonErrors;
 
+/** Deletes the specified future reservation. */
 export const deleteFutureReservations: API.OperationMethod<DeleteFutureReservationsRequest, DeleteFutureReservationsResponse, DeleteFutureReservationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteFutureReservationsRequest,
   output: DeleteFutureReservationsResponse,
   errors: [],
 }));
 
-/** Updates the specified future reservation. */
 export interface UpdateFutureReservationsRequest {
   /** Name of the reservation to update. Name should conform to RFC1035. */
   futureReservation: string;
@@ -31457,13 +31456,13 @@ export const UpdateFutureReservationsResponse = Operation;
 
 export type UpdateFutureReservationsError = CommonErrors;
 
+/** Updates the specified future reservation. */
 export const updateFutureReservations: API.OperationMethod<UpdateFutureReservationsRequest, UpdateFutureReservationsResponse, UpdateFutureReservationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateFutureReservationsRequest,
   output: UpdateFutureReservationsResponse,
   errors: [],
 }));
 
-/** Updates an autoscaler in the specified project using the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export interface PatchAutoscalersRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -31493,13 +31492,13 @@ export const PatchAutoscalersResponse = Operation;
 
 export type PatchAutoscalersError = CommonErrors;
 
+/** Updates an autoscaler in the specified project using the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export const patchAutoscalers: API.OperationMethod<PatchAutoscalersRequest, PatchAutoscalersResponse, PatchAutoscalersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAutoscalersRequest,
   output: PatchAutoscalersResponse,
   errors: [],
 }));
 
-/** Updates an autoscaler in the specified project using the data included in the request. */
 export interface UpdateAutoscalersRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -31529,13 +31528,13 @@ export const UpdateAutoscalersResponse = Operation;
 
 export type UpdateAutoscalersError = CommonErrors;
 
+/** Updates an autoscaler in the specified project using the data included in the request. */
 export const updateAutoscalers: API.OperationMethod<UpdateAutoscalersRequest, UpdateAutoscalersResponse, UpdateAutoscalersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAutoscalersRequest,
   output: UpdateAutoscalersResponse,
   errors: [],
 }));
 
-/** Retrieves an aggregated list of autoscalers. To prevent failure, it is recommended that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListAutoscalersRequest {
   /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
   orderBy?: string;
@@ -31574,7 +31573,8 @@ export const AggregatedListAutoscalersResponse = AutoscalerAggregatedList;
 
 export type AggregatedListAutoscalersError = CommonErrors;
 
-export const aggregatedListAutoscalers = API.makePaginated(() => ({
+/** Retrieves an aggregated list of autoscalers. To prevent failure, it is recommended that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListAutoscalers: API.PaginatedOperationMethod<AggregatedListAutoscalersRequest, AggregatedListAutoscalersResponse, AggregatedListAutoscalersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListAutoscalersRequest,
   output: AggregatedListAutoscalersResponse,
   errors: [],
@@ -31585,7 +31585,6 @@ export const aggregatedListAutoscalers = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the specified autoscaler. */
 export interface DeleteAutoscalersRequest {
   /** Name of the autoscaler to delete. */
   autoscaler: string;
@@ -31612,13 +31611,13 @@ export const DeleteAutoscalersResponse = Operation;
 
 export type DeleteAutoscalersError = CommonErrors;
 
+/** Deletes the specified autoscaler. */
 export const deleteAutoscalers: API.OperationMethod<DeleteAutoscalersRequest, DeleteAutoscalersResponse, DeleteAutoscalersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAutoscalersRequest,
   output: DeleteAutoscalersResponse,
   errors: [],
 }));
 
-/** Creates an autoscaler in the specified project using the data included in the request. */
 export interface InsertAutoscalersRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -31645,13 +31644,13 @@ export const InsertAutoscalersResponse = Operation;
 
 export type InsertAutoscalersError = CommonErrors;
 
+/** Creates an autoscaler in the specified project using the data included in the request. */
 export const insertAutoscalers: API.OperationMethod<InsertAutoscalersRequest, InsertAutoscalersResponse, InsertAutoscalersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertAutoscalersRequest,
   output: InsertAutoscalersResponse,
   errors: [],
 }));
 
-/** Retrieves a list of autoscalers contained within the specified zone. */
 export interface ListAutoscalersRequest {
   /** Name of the zone for this request. */
   zone: string;
@@ -31687,7 +31686,8 @@ export const ListAutoscalersResponse = AutoscalerList;
 
 export type ListAutoscalersError = CommonErrors;
 
-export const listAutoscalers = API.makePaginated(() => ({
+/** Retrieves a list of autoscalers contained within the specified zone. */
+export const listAutoscalers: API.PaginatedOperationMethod<ListAutoscalersRequest, ListAutoscalersResponse, ListAutoscalersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAutoscalersRequest,
   output: ListAutoscalersResponse,
   errors: [],
@@ -31698,7 +31698,6 @@ export const listAutoscalers = API.makePaginated(() => ({
   },
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsAutoscalersRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -31725,13 +31724,13 @@ export const TestIamPermissionsAutoscalersResponse = TestPermissionsResponse;
 
 export type TestIamPermissionsAutoscalersError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsAutoscalers: API.OperationMethod<TestIamPermissionsAutoscalersRequest, TestIamPermissionsAutoscalersResponse, TestIamPermissionsAutoscalersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsAutoscalersRequest,
   output: TestIamPermissionsAutoscalersResponse,
   errors: [],
 }));
 
-/** Returns the specified autoscaler resource. */
 export interface GetAutoscalersRequest {
   /** Name of the zone for this request. */
   zone: string;
@@ -31755,13 +31754,13 @@ export const GetAutoscalersResponse = Autoscaler;
 
 export type GetAutoscalersError = CommonErrors;
 
+/** Returns the specified autoscaler resource. */
 export const getAutoscalers: API.OperationMethod<GetAutoscalersRequest, GetAutoscalersResponse, GetAutoscalersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAutoscalersRequest,
   output: GetAutoscalersResponse,
   errors: [],
 }));
 
-/** Deletes the specified TargetHttpsProxy resource. */
 export interface DeleteRegionTargetHttpsProxiesRequest {
   /** Name of the region scoping this request. */
   region: string;
@@ -31788,13 +31787,13 @@ export const DeleteRegionTargetHttpsProxiesResponse = Operation;
 
 export type DeleteRegionTargetHttpsProxiesError = CommonErrors;
 
+/** Deletes the specified TargetHttpsProxy resource. */
 export const deleteRegionTargetHttpsProxies: API.OperationMethod<DeleteRegionTargetHttpsProxiesRequest, DeleteRegionTargetHttpsProxiesResponse, DeleteRegionTargetHttpsProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRegionTargetHttpsProxiesRequest,
   output: DeleteRegionTargetHttpsProxiesResponse,
   errors: [],
 }));
 
-/** Returns the specified TargetHttpsProxy resource in the specified region. */
 export interface GetRegionTargetHttpsProxiesRequest {
   /** Project ID for this request. */
   project: string;
@@ -31818,13 +31817,13 @@ export const GetRegionTargetHttpsProxiesResponse = TargetHttpsProxy;
 
 export type GetRegionTargetHttpsProxiesError = CommonErrors;
 
+/** Returns the specified TargetHttpsProxy resource in the specified region. */
 export const getRegionTargetHttpsProxies: API.OperationMethod<GetRegionTargetHttpsProxiesRequest, GetRegionTargetHttpsProxiesResponse, GetRegionTargetHttpsProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRegionTargetHttpsProxiesRequest,
   output: GetRegionTargetHttpsProxiesResponse,
   errors: [],
 }));
 
-/** Changes the URL map for TargetHttpsProxy. */
 export interface SetUrlMapRegionTargetHttpsProxiesRequest {
   /** Project ID for this request. */
   project: string;
@@ -31854,13 +31853,13 @@ export const SetUrlMapRegionTargetHttpsProxiesResponse = Operation;
 
 export type SetUrlMapRegionTargetHttpsProxiesError = CommonErrors;
 
+/** Changes the URL map for TargetHttpsProxy. */
 export const setUrlMapRegionTargetHttpsProxies: API.OperationMethod<SetUrlMapRegionTargetHttpsProxiesRequest, SetUrlMapRegionTargetHttpsProxiesResponse, SetUrlMapRegionTargetHttpsProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetUrlMapRegionTargetHttpsProxiesRequest,
   output: SetUrlMapRegionTargetHttpsProxiesResponse,
   errors: [],
 }));
 
-/** Patches the specified regional TargetHttpsProxy resource with the data included in the request. This method supports PATCH semantics and usesJSON merge patch format and processing rules. */
 export interface PatchRegionTargetHttpsProxiesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -31890,13 +31889,13 @@ export const PatchRegionTargetHttpsProxiesResponse = Operation;
 
 export type PatchRegionTargetHttpsProxiesError = CommonErrors;
 
+/** Patches the specified regional TargetHttpsProxy resource with the data included in the request. This method supports PATCH semantics and usesJSON merge patch format and processing rules. */
 export const patchRegionTargetHttpsProxies: API.OperationMethod<PatchRegionTargetHttpsProxiesRequest, PatchRegionTargetHttpsProxiesResponse, PatchRegionTargetHttpsProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchRegionTargetHttpsProxiesRequest,
   output: PatchRegionTargetHttpsProxiesResponse,
   errors: [],
 }));
 
-/** Replaces SslCertificates for TargetHttpsProxy. */
 export interface SetSslCertificatesRegionTargetHttpsProxiesRequest {
   /** Project ID for this request. */
   project: string;
@@ -31926,13 +31925,13 @@ export const SetSslCertificatesRegionTargetHttpsProxiesResponse = Operation;
 
 export type SetSslCertificatesRegionTargetHttpsProxiesError = CommonErrors;
 
+/** Replaces SslCertificates for TargetHttpsProxy. */
 export const setSslCertificatesRegionTargetHttpsProxies: API.OperationMethod<SetSslCertificatesRegionTargetHttpsProxiesRequest, SetSslCertificatesRegionTargetHttpsProxiesResponse, SetSslCertificatesRegionTargetHttpsProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetSslCertificatesRegionTargetHttpsProxiesRequest,
   output: SetSslCertificatesRegionTargetHttpsProxiesResponse,
   errors: [],
 }));
 
-/** Retrieves the list of TargetHttpsProxy resources available to the specified project in the specified region. */
 export interface ListRegionTargetHttpsProxiesRequest {
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string;
@@ -31968,7 +31967,8 @@ export const ListRegionTargetHttpsProxiesResponse = TargetHttpsProxyList;
 
 export type ListRegionTargetHttpsProxiesError = CommonErrors;
 
-export const listRegionTargetHttpsProxies = API.makePaginated(() => ({
+/** Retrieves the list of TargetHttpsProxy resources available to the specified project in the specified region. */
+export const listRegionTargetHttpsProxies: API.PaginatedOperationMethod<ListRegionTargetHttpsProxiesRequest, ListRegionTargetHttpsProxiesResponse, ListRegionTargetHttpsProxiesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRegionTargetHttpsProxiesRequest,
   output: ListRegionTargetHttpsProxiesResponse,
   errors: [],
@@ -31979,7 +31979,6 @@ export const listRegionTargetHttpsProxies = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a TargetHttpsProxy resource in the specified project and region using the data included in the request. */
 export interface InsertRegionTargetHttpsProxiesRequest {
   /** Project ID for this request. */
   project: string;
@@ -32006,13 +32005,13 @@ export const InsertRegionTargetHttpsProxiesResponse = Operation;
 
 export type InsertRegionTargetHttpsProxiesError = CommonErrors;
 
+/** Creates a TargetHttpsProxy resource in the specified project and region using the data included in the request. */
 export const insertRegionTargetHttpsProxies: API.OperationMethod<InsertRegionTargetHttpsProxiesRequest, InsertRegionTargetHttpsProxiesResponse, InsertRegionTargetHttpsProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertRegionTargetHttpsProxiesRequest,
   output: InsertRegionTargetHttpsProxiesResponse,
   errors: [],
 }));
 
-/** Deletes the specified Interconnect. */
 export interface DeleteInterconnectsRequest {
   /** Project ID for this request. */
   project: string;
@@ -32036,13 +32035,13 @@ export const DeleteInterconnectsResponse = Operation;
 
 export type DeleteInterconnectsError = CommonErrors;
 
+/** Deletes the specified Interconnect. */
 export const deleteInterconnects: API.OperationMethod<DeleteInterconnectsRequest, DeleteInterconnectsResponse, DeleteInterconnectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteInterconnectsRequest,
   output: DeleteInterconnectsResponse,
   errors: [],
 }));
 
-/** Updates the specified Interconnect with the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export interface PatchInterconnectsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -32069,13 +32068,13 @@ export const PatchInterconnectsResponse = Operation;
 
 export type PatchInterconnectsError = CommonErrors;
 
+/** Updates the specified Interconnect with the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export const patchInterconnects: API.OperationMethod<PatchInterconnectsRequest, PatchInterconnectsResponse, PatchInterconnectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchInterconnectsRequest,
   output: PatchInterconnectsResponse,
   errors: [],
 }));
 
-/** Sets the labels on an Interconnect. To learn more about labels, read the Labeling Resources documentation. */
 export interface SetLabelsInterconnectsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -32099,13 +32098,13 @@ export const SetLabelsInterconnectsResponse = Operation;
 
 export type SetLabelsInterconnectsError = CommonErrors;
 
+/** Sets the labels on an Interconnect. To learn more about labels, read the Labeling Resources documentation. */
 export const setLabelsInterconnects: API.OperationMethod<SetLabelsInterconnectsRequest, SetLabelsInterconnectsResponse, SetLabelsInterconnectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetLabelsInterconnectsRequest,
   output: SetLabelsInterconnectsResponse,
   errors: [],
 }));
 
-/** Retrieves the list of Interconnects available to the specified project. */
 export interface ListInterconnectsRequest {
   /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based onresource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using GoogleRE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
   filter?: string;
@@ -32138,7 +32137,8 @@ export const ListInterconnectsResponse = InterconnectList;
 
 export type ListInterconnectsError = CommonErrors;
 
-export const listInterconnects = API.makePaginated(() => ({
+/** Retrieves the list of Interconnects available to the specified project. */
+export const listInterconnects: API.PaginatedOperationMethod<ListInterconnectsRequest, ListInterconnectsResponse, ListInterconnectsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListInterconnectsRequest,
   output: ListInterconnectsResponse,
   errors: [],
@@ -32149,7 +32149,6 @@ export const listInterconnects = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the specified Interconnect. Get a list of available Interconnects by making a list() request. */
 export interface GetInterconnectsRequest {
   /** Project ID for this request. */
   project: string;
@@ -32170,13 +32169,13 @@ export const GetInterconnectsResponse = Interconnect;
 
 export type GetInterconnectsError = CommonErrors;
 
+/** Returns the specified Interconnect. Get a list of available Interconnects by making a list() request. */
 export const getInterconnects: API.OperationMethod<GetInterconnectsRequest, GetInterconnectsResponse, GetInterconnectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetInterconnectsRequest,
   output: GetInterconnectsResponse,
   errors: [],
 }));
 
-/** Creates an Interconnect in the specified project using the data included in the request. */
 export interface InsertInterconnectsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -32200,13 +32199,13 @@ export const InsertInterconnectsResponse = Operation;
 
 export type InsertInterconnectsError = CommonErrors;
 
+/** Creates an Interconnect in the specified project using the data included in the request. */
 export const insertInterconnects: API.OperationMethod<InsertInterconnectsRequest, InsertInterconnectsResponse, InsertInterconnectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertInterconnectsRequest,
   output: InsertInterconnectsResponse,
   errors: [],
 }));
 
-/** Returns the interconnectMacsecConfig for the specified Interconnect. */
 export interface GetMacsecConfigInterconnectsRequest {
   /** Name of the interconnect resource to query. */
   interconnect: string;
@@ -32227,13 +32226,13 @@ export const GetMacsecConfigInterconnectsResponse = InterconnectsGetMacsecConfig
 
 export type GetMacsecConfigInterconnectsError = CommonErrors;
 
+/** Returns the interconnectMacsecConfig for the specified Interconnect. */
 export const getMacsecConfigInterconnects: API.OperationMethod<GetMacsecConfigInterconnectsRequest, GetMacsecConfigInterconnectsResponse, GetMacsecConfigInterconnectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetMacsecConfigInterconnectsRequest,
   output: GetMacsecConfigInterconnectsResponse,
   errors: [],
 }));
 
-/** Returns the interconnectDiagnostics for the specified Interconnect. In the event of a global outage, do not use this API to make decisions about where to redirect your network traffic. Unlike a VLAN attachment, which is regional, a Cloud Interconnect connection is a global resource. A global outage can prevent this API from functioning properly. */
 export interface GetDiagnosticsInterconnectsRequest {
   /** Name of the interconnect resource to query. */
   interconnect: string;
@@ -32254,13 +32253,13 @@ export const GetDiagnosticsInterconnectsResponse = InterconnectsGetDiagnosticsRe
 
 export type GetDiagnosticsInterconnectsError = CommonErrors;
 
+/** Returns the interconnectDiagnostics for the specified Interconnect. In the event of a global outage, do not use this API to make decisions about where to redirect your network traffic. Unlike a VLAN attachment, which is regional, a Cloud Interconnect connection is a global resource. A global outage can prevent this API from functioning properly. */
 export const getDiagnosticsInterconnects: API.OperationMethod<GetDiagnosticsInterconnectsRequest, GetDiagnosticsInterconnectsResponse, GetDiagnosticsInterconnectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDiagnosticsInterconnectsRequest,
   output: GetDiagnosticsInterconnectsResponse,
   errors: [],
 }));
 
-/** Returns the latest image that is part of an image family, is not deprecated and is rolled out in the specified zone. */
 export interface GetImageFamilyViewsRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -32284,13 +32283,13 @@ export const GetImageFamilyViewsResponse = ImageFamilyView;
 
 export type GetImageFamilyViewsError = CommonErrors;
 
+/** Returns the latest image that is part of an image family, is not deprecated and is rolled out in the specified zone. */
 export const getImageFamilyViews: API.OperationMethod<GetImageFamilyViewsRequest, GetImageFamilyViewsResponse, GetImageFamilyViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetImageFamilyViewsRequest,
   output: GetImageFamilyViewsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of reservation slots under a single reservation. */
 export interface ListReservationSlotsRequest {
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number;
@@ -32329,7 +32328,8 @@ export const ListReservationSlotsResponse = ReservationSlotsListResponse;
 
 export type ListReservationSlotsError = CommonErrors;
 
-export const listReservationSlots = API.makePaginated(() => ({
+/** Retrieves a list of reservation slots under a single reservation. */
+export const listReservationSlots: API.PaginatedOperationMethod<ListReservationSlotsRequest, ListReservationSlotsResponse, ListReservationSlotsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListReservationSlotsRequest,
   output: ListReservationSlotsResponse,
   errors: [],
@@ -32340,7 +32340,6 @@ export const listReservationSlots = API.makePaginated(() => ({
   },
 }));
 
-/** Update a reservation slot in the specified sub-block. */
 export interface UpdateReservationSlotsRequest {
   /** The name of the sub-block resource. */
   parentName: string;
@@ -32373,13 +32372,13 @@ export const UpdateReservationSlotsResponse = Operation;
 
 export type UpdateReservationSlotsError = CommonErrors;
 
+/** Update a reservation slot in the specified sub-block. */
 export const updateReservationSlots: API.OperationMethod<UpdateReservationSlotsRequest, UpdateReservationSlotsResponse, UpdateReservationSlotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateReservationSlotsRequest,
   output: UpdateReservationSlotsResponse,
   errors: [],
 }));
 
-/** Retrieves information about the specified reservation slot. */
 export interface GetReservationSlotsRequest {
   /** The name of the zone for this request, formatted as RFC1035. */
   zone: string;
@@ -32406,13 +32405,13 @@ export const GetReservationSlotsResponse = ReservationSlotsGetResponse;
 
 export type GetReservationSlotsError = CommonErrors;
 
+/** Retrieves information about the specified reservation slot. */
 export const getReservationSlots: API.OperationMethod<GetReservationSlotsRequest, GetReservationSlotsResponse, GetReservationSlotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetReservationSlotsRequest,
   output: GetReservationSlotsResponse,
   errors: [],
 }));
 
-/** Gets the most recent health check results for this regional BackendService. */
 export interface GetHealthRegionBackendServicesRequest {
   project: string;
   /** Name of the BackendService resource for which to get health. */
@@ -32438,13 +32437,13 @@ export const GetHealthRegionBackendServicesResponse = BackendServiceGroupHealth;
 
 export type GetHealthRegionBackendServicesError = CommonErrors;
 
+/** Gets the most recent health check results for this regional BackendService. */
 export const getHealthRegionBackendServices: API.OperationMethod<GetHealthRegionBackendServicesRequest, GetHealthRegionBackendServicesResponse, GetHealthRegionBackendServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetHealthRegionBackendServicesRequest,
   output: GetHealthRegionBackendServicesResponse,
   errors: [],
 }));
 
-/** Returns the specified regional BackendService resource. */
 export interface GetRegionBackendServicesRequest {
   /** Name of the BackendService resource to return. */
   backendService: string;
@@ -32468,13 +32467,13 @@ export const GetRegionBackendServicesResponse = BackendService;
 
 export type GetRegionBackendServicesError = CommonErrors;
 
+/** Returns the specified regional BackendService resource. */
 export const getRegionBackendServices: API.OperationMethod<GetRegionBackendServicesRequest, GetRegionBackendServicesResponse, GetRegionBackendServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRegionBackendServicesRequest,
   output: GetRegionBackendServicesResponse,
   errors: [],
 }));
 
-/** Deletes the specified regional BackendService resource. */
 export interface DeleteRegionBackendServicesRequest {
   /** Project ID for this request. */
   project: string;
@@ -32501,13 +32500,13 @@ export const DeleteRegionBackendServicesResponse = Operation;
 
 export type DeleteRegionBackendServicesError = CommonErrors;
 
+/** Deletes the specified regional BackendService resource. */
 export const deleteRegionBackendServices: API.OperationMethod<DeleteRegionBackendServicesRequest, DeleteRegionBackendServicesResponse, DeleteRegionBackendServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRegionBackendServicesRequest,
   output: DeleteRegionBackendServicesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export interface GetIamPolicyRegionBackendServicesRequest {
   /** Requested IAM Policy version. */
   optionsRequestedPolicyVersion?: number;
@@ -32534,13 +32533,13 @@ export const GetIamPolicyRegionBackendServicesResponse = Policy;
 
 export type GetIamPolicyRegionBackendServicesError = CommonErrors;
 
+/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export const getIamPolicyRegionBackendServices: API.OperationMethod<GetIamPolicyRegionBackendServicesRequest, GetIamPolicyRegionBackendServicesResponse, GetIamPolicyRegionBackendServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyRegionBackendServicesRequest,
   output: GetIamPolicyRegionBackendServicesResponse,
   errors: [],
 }));
 
-/** Sets the Google Cloud Armor security policy for the specified backend service. For more information, seeGoogle Cloud Armor Overview */
 export interface SetSecurityPolicyRegionBackendServicesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -32570,13 +32569,13 @@ export const SetSecurityPolicyRegionBackendServicesResponse = Operation;
 
 export type SetSecurityPolicyRegionBackendServicesError = CommonErrors;
 
+/** Sets the Google Cloud Armor security policy for the specified backend service. For more information, seeGoogle Cloud Armor Overview */
 export const setSecurityPolicyRegionBackendServices: API.OperationMethod<SetSecurityPolicyRegionBackendServicesRequest, SetSecurityPolicyRegionBackendServicesResponse, SetSecurityPolicyRegionBackendServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetSecurityPolicyRegionBackendServicesRequest,
   output: SetSecurityPolicyRegionBackendServicesResponse,
   errors: [],
 }));
 
-/** Updates the specified regional BackendService resource with the data included in the request. For more information, see Backend services overview. */
 export interface UpdateRegionBackendServicesRequest {
   /** Name of the region scoping this request. */
   region: string;
@@ -32606,13 +32605,13 @@ export const UpdateRegionBackendServicesResponse = Operation;
 
 export type UpdateRegionBackendServicesError = CommonErrors;
 
+/** Updates the specified regional BackendService resource with the data included in the request. For more information, see Backend services overview. */
 export const updateRegionBackendServices: API.OperationMethod<UpdateRegionBackendServicesRequest, UpdateRegionBackendServicesResponse, UpdateRegionBackendServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateRegionBackendServicesRequest,
   output: UpdateRegionBackendServicesResponse,
   errors: [],
 }));
 
-/** Creates a regional BackendService resource in the specified project using the data included in the request. For more information, see Backend services overview. */
 export interface InsertRegionBackendServicesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -32639,13 +32638,13 @@ export const InsertRegionBackendServicesResponse = Operation;
 
 export type InsertRegionBackendServicesError = CommonErrors;
 
+/** Creates a regional BackendService resource in the specified project using the data included in the request. For more information, see Backend services overview. */
 export const insertRegionBackendServices: API.OperationMethod<InsertRegionBackendServicesRequest, InsertRegionBackendServicesResponse, InsertRegionBackendServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertRegionBackendServicesRequest,
   output: InsertRegionBackendServicesResponse,
   errors: [],
 }));
 
-/** Retrieves the list of regional BackendService resources available to the specified project in the given region. */
 export interface ListRegionBackendServicesRequest {
   /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
   orderBy?: string;
@@ -32681,7 +32680,8 @@ export const ListRegionBackendServicesResponse = BackendServiceList;
 
 export type ListRegionBackendServicesError = CommonErrors;
 
-export const listRegionBackendServices = API.makePaginated(() => ({
+/** Retrieves the list of regional BackendService resources available to the specified project in the given region. */
+export const listRegionBackendServices: API.PaginatedOperationMethod<ListRegionBackendServicesRequest, ListRegionBackendServicesResponse, ListRegionBackendServicesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRegionBackendServicesRequest,
   output: ListRegionBackendServicesResponse,
   errors: [],
@@ -32692,7 +32692,6 @@ export const listRegionBackendServices = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves a list of all usable backend services in the specified project in the given region. */
 export interface ListUsableRegionBackendServicesRequest {
   /** Project ID for this request. */
   project: string;
@@ -32728,7 +32727,8 @@ export const ListUsableRegionBackendServicesResponse = BackendServiceListUsable;
 
 export type ListUsableRegionBackendServicesError = CommonErrors;
 
-export const listUsableRegionBackendServices = API.makePaginated(() => ({
+/** Retrieves a list of all usable backend services in the specified project in the given region. */
+export const listUsableRegionBackendServices: API.PaginatedOperationMethod<ListUsableRegionBackendServicesRequest, ListUsableRegionBackendServicesResponse, ListUsableRegionBackendServicesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListUsableRegionBackendServicesRequest,
   output: ListUsableRegionBackendServicesResponse,
   errors: [],
@@ -32739,7 +32739,6 @@ export const listUsableRegionBackendServices = API.makePaginated(() => ({
   },
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsRegionBackendServicesRequest {
   /** Project ID for this request. */
   project: string;
@@ -32766,13 +32765,13 @@ export const TestIamPermissionsRegionBackendServicesResponse = TestPermissionsRe
 
 export type TestIamPermissionsRegionBackendServicesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsRegionBackendServices: API.OperationMethod<TestIamPermissionsRegionBackendServicesRequest, TestIamPermissionsRegionBackendServicesResponse, TestIamPermissionsRegionBackendServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsRegionBackendServicesRequest,
   output: TestIamPermissionsRegionBackendServicesResponse,
   errors: [],
 }));
 
-/** Updates the specified regional BackendService resource with the data included in the request. For more information, see Understanding backend services This method supports PATCH semantics and uses the JSON merge patch format and processing rules. */
 export interface PatchRegionBackendServicesRequest {
   /** Project ID for this request. */
   project: string;
@@ -32802,13 +32801,13 @@ export const PatchRegionBackendServicesResponse = Operation;
 
 export type PatchRegionBackendServicesError = CommonErrors;
 
+/** Updates the specified regional BackendService resource with the data included in the request. For more information, see Understanding backend services This method supports PATCH semantics and uses the JSON merge patch format and processing rules. */
 export const patchRegionBackendServices: API.OperationMethod<PatchRegionBackendServicesRequest, PatchRegionBackendServicesResponse, PatchRegionBackendServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchRegionBackendServicesRequest,
   output: PatchRegionBackendServicesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export interface SetIamPolicyRegionBackendServicesRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -32835,13 +32834,13 @@ export const SetIamPolicyRegionBackendServicesResponse = Policy;
 
 export type SetIamPolicyRegionBackendServicesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export const setIamPolicyRegionBackendServices: API.OperationMethod<SetIamPolicyRegionBackendServicesRequest, SetIamPolicyRegionBackendServicesResponse, SetIamPolicyRegionBackendServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyRegionBackendServicesRequest,
   output: SetIamPolicyRegionBackendServicesResponse,
   errors: [],
 }));
 
-/** Deletes the specified NotificationEndpoint in the given region */
 export interface DeleteRegionNotificationEndpointsRequest {
   /** Name of the NotificationEndpoint resource to delete. */
   notificationEndpoint: string;
@@ -32868,13 +32867,13 @@ export const DeleteRegionNotificationEndpointsResponse = Operation;
 
 export type DeleteRegionNotificationEndpointsError = CommonErrors;
 
+/** Deletes the specified NotificationEndpoint in the given region */
 export const deleteRegionNotificationEndpoints: API.OperationMethod<DeleteRegionNotificationEndpointsRequest, DeleteRegionNotificationEndpointsResponse, DeleteRegionNotificationEndpointsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRegionNotificationEndpointsRequest,
   output: DeleteRegionNotificationEndpointsResponse,
   errors: [],
 }));
 
-/** Lists the NotificationEndpoints for a project in the given region. */
 export interface ListRegionNotificationEndpointsRequest {
   /** Name of the region scoping this request. */
   region: string;
@@ -32910,7 +32909,8 @@ export const ListRegionNotificationEndpointsResponse = NotificationEndpointList;
 
 export type ListRegionNotificationEndpointsError = CommonErrors;
 
-export const listRegionNotificationEndpoints = API.makePaginated(() => ({
+/** Lists the NotificationEndpoints for a project in the given region. */
+export const listRegionNotificationEndpoints: API.PaginatedOperationMethod<ListRegionNotificationEndpointsRequest, ListRegionNotificationEndpointsResponse, ListRegionNotificationEndpointsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRegionNotificationEndpointsRequest,
   output: ListRegionNotificationEndpointsResponse,
   errors: [],
@@ -32921,7 +32921,6 @@ export const listRegionNotificationEndpoints = API.makePaginated(() => ({
   },
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsRegionNotificationEndpointsRequest {
   /** The name of the region for this request. */
   region: string;
@@ -32948,13 +32947,13 @@ export const TestIamPermissionsRegionNotificationEndpointsResponse = TestPermiss
 
 export type TestIamPermissionsRegionNotificationEndpointsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsRegionNotificationEndpoints: API.OperationMethod<TestIamPermissionsRegionNotificationEndpointsRequest, TestIamPermissionsRegionNotificationEndpointsResponse, TestIamPermissionsRegionNotificationEndpointsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsRegionNotificationEndpointsRequest,
   output: TestIamPermissionsRegionNotificationEndpointsResponse,
   errors: [],
 }));
 
-/** Returns the specified NotificationEndpoint resource in the given region. */
 export interface GetRegionNotificationEndpointsRequest {
   /** Project ID for this request. */
   project: string;
@@ -32978,13 +32977,13 @@ export const GetRegionNotificationEndpointsResponse = NotificationEndpoint;
 
 export type GetRegionNotificationEndpointsError = CommonErrors;
 
+/** Returns the specified NotificationEndpoint resource in the given region. */
 export const getRegionNotificationEndpoints: API.OperationMethod<GetRegionNotificationEndpointsRequest, GetRegionNotificationEndpointsResponse, GetRegionNotificationEndpointsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRegionNotificationEndpointsRequest,
   output: GetRegionNotificationEndpointsResponse,
   errors: [],
 }));
 
-/** Create a NotificationEndpoint in the specified project in the given region using the parameters that are included in the request. */
 export interface InsertRegionNotificationEndpointsRequest {
   /** Name of the region scoping this request. */
   region: string;
@@ -33011,13 +33010,13 @@ export const InsertRegionNotificationEndpointsResponse = Operation;
 
 export type InsertRegionNotificationEndpointsError = CommonErrors;
 
+/** Create a NotificationEndpoint in the specified project in the given region using the parameters that are included in the request. */
 export const insertRegionNotificationEndpoints: API.OperationMethod<InsertRegionNotificationEndpointsRequest, InsertRegionNotificationEndpointsResponse, InsertRegionNotificationEndpointsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertRegionNotificationEndpointsRequest,
   output: InsertRegionNotificationEndpointsResponse,
   errors: [],
 }));
 
-/** Updates the specified BackendService resource with the data included in the request. For more information, seeBackend services overview. */
 export interface UpdateBackendServicesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -33044,13 +33043,13 @@ export const UpdateBackendServicesResponse = Operation;
 
 export type UpdateBackendServicesError = CommonErrors;
 
+/** Updates the specified BackendService resource with the data included in the request. For more information, seeBackend services overview. */
 export const updateBackendServices: API.OperationMethod<UpdateBackendServicesRequest, UpdateBackendServicesResponse, UpdateBackendServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateBackendServicesRequest,
   output: UpdateBackendServicesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export interface SetIamPolicyBackendServicesRequest {
   /** Project ID for this request. */
   project: string;
@@ -33074,13 +33073,13 @@ export const SetIamPolicyBackendServicesResponse = Policy;
 
 export type SetIamPolicyBackendServicesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export const setIamPolicyBackendServices: API.OperationMethod<SetIamPolicyBackendServicesRequest, SetIamPolicyBackendServicesResponse, SetIamPolicyBackendServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyBackendServicesRequest,
   output: SetIamPolicyBackendServicesResponse,
   errors: [],
 }));
 
-/** Gets the most recent health check results for this BackendService. Example request body: { "group": "/zones/us-east1-b/instanceGroups/lb-backend-example" } */
 export interface GetHealthBackendServicesRequest {
   /** Name of the BackendService resource to which the queried instance belongs. */
   backendService: string;
@@ -33103,13 +33102,13 @@ export const GetHealthBackendServicesResponse = BackendServiceGroupHealth;
 
 export type GetHealthBackendServicesError = CommonErrors;
 
+/** Gets the most recent health check results for this BackendService. Example request body: { "group": "/zones/us-east1-b/instanceGroups/lb-backend-example" } */
 export const getHealthBackendServices: API.OperationMethod<GetHealthBackendServicesRequest, GetHealthBackendServicesResponse, GetHealthBackendServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetHealthBackendServicesRequest,
   output: GetHealthBackendServicesResponse,
   errors: [],
 }));
 
-/** Deletes the specified BackendService resource. */
 export interface DeleteBackendServicesRequest {
   /** Name of the BackendService resource to delete. */
   backendService: string;
@@ -33133,13 +33132,13 @@ export const DeleteBackendServicesResponse = Operation;
 
 export type DeleteBackendServicesError = CommonErrors;
 
+/** Deletes the specified BackendService resource. */
 export const deleteBackendServices: API.OperationMethod<DeleteBackendServicesRequest, DeleteBackendServicesResponse, DeleteBackendServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteBackendServicesRequest,
   output: DeleteBackendServicesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsBackendServicesRequest {
   /** Project ID for this request. */
   project: string;
@@ -33163,13 +33162,13 @@ export const TestIamPermissionsBackendServicesResponse = TestPermissionsResponse
 
 export type TestIamPermissionsBackendServicesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsBackendServices: API.OperationMethod<TestIamPermissionsBackendServicesRequest, TestIamPermissionsBackendServicesResponse, TestIamPermissionsBackendServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsBackendServicesRequest,
   output: TestIamPermissionsBackendServicesResponse,
   errors: [],
 }));
 
-/** Sets the Google Cloud Armor security policy for the specified backend service. For more information, seeGoogle Cloud Armor Overview */
 export interface SetSecurityPolicyBackendServicesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -33196,13 +33195,13 @@ export const SetSecurityPolicyBackendServicesResponse = Operation;
 
 export type SetSecurityPolicyBackendServicesError = CommonErrors;
 
+/** Sets the Google Cloud Armor security policy for the specified backend service. For more information, seeGoogle Cloud Armor Overview */
 export const setSecurityPolicyBackendServices: API.OperationMethod<SetSecurityPolicyBackendServicesRequest, SetSecurityPolicyBackendServicesResponse, SetSecurityPolicyBackendServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetSecurityPolicyBackendServicesRequest,
   output: SetSecurityPolicyBackendServicesResponse,
   errors: [],
 }));
 
-/** Returns the specified BackendService resource. */
 export interface GetBackendServicesRequest {
   /** Project ID for this request. */
   project: string;
@@ -33223,13 +33222,13 @@ export const GetBackendServicesResponse = BackendService;
 
 export type GetBackendServicesError = CommonErrors;
 
+/** Returns the specified BackendService resource. */
 export const getBackendServices: API.OperationMethod<GetBackendServicesRequest, GetBackendServicesResponse, GetBackendServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBackendServicesRequest,
   output: GetBackendServicesResponse,
   errors: [],
 }));
 
-/** Creates a BackendService resource in the specified project using the data included in the request. For more information, see Backend services overview. */
 export interface InsertBackendServicesRequest {
   /** Project ID for this request. */
   project: string;
@@ -33253,13 +33252,13 @@ export const InsertBackendServicesResponse = Operation;
 
 export type InsertBackendServicesError = CommonErrors;
 
+/** Creates a BackendService resource in the specified project using the data included in the request. For more information, see Backend services overview. */
 export const insertBackendServices: API.OperationMethod<InsertBackendServicesRequest, InsertBackendServicesResponse, InsertBackendServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertBackendServicesRequest,
   output: InsertBackendServicesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of all usable backend services in the specified project. */
 export interface ListUsableBackendServicesRequest {
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number;
@@ -33292,7 +33291,8 @@ export const ListUsableBackendServicesResponse = BackendServiceListUsable;
 
 export type ListUsableBackendServicesError = CommonErrors;
 
-export const listUsableBackendServices = API.makePaginated(() => ({
+/** Retrieves a list of all usable backend services in the specified project. */
+export const listUsableBackendServices: API.PaginatedOperationMethod<ListUsableBackendServicesRequest, ListUsableBackendServicesResponse, ListUsableBackendServicesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListUsableBackendServicesRequest,
   output: ListUsableBackendServicesResponse,
   errors: [],
@@ -33303,7 +33303,6 @@ export const listUsableBackendServices = API.makePaginated(() => ({
   },
 }));
 
-/** Patches the specified BackendService resource with the data included in the request. For more information, see Backend services overview. This method supports PATCH semantics and uses the JSON merge patch format and processing rules. */
 export interface PatchBackendServicesRequest {
   /** Name of the BackendService resource to patch. */
   backendService: string;
@@ -33330,13 +33329,13 @@ export const PatchBackendServicesResponse = Operation;
 
 export type PatchBackendServicesError = CommonErrors;
 
+/** Patches the specified BackendService resource with the data included in the request. For more information, see Backend services overview. This method supports PATCH semantics and uses the JSON merge patch format and processing rules. */
 export const patchBackendServices: API.OperationMethod<PatchBackendServicesRequest, PatchBackendServicesResponse, PatchBackendServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchBackendServicesRequest,
   output: PatchBackendServicesResponse,
   errors: [],
 }));
 
-/** Sets the edge security policy for the specified backend service. */
 export interface SetEdgeSecurityPolicyBackendServicesRequest {
   /** Name of the BackendService resource to which the edge security policy should be set. The name should conform to RFC1035. */
   backendService: string;
@@ -33363,13 +33362,13 @@ export const SetEdgeSecurityPolicyBackendServicesResponse = Operation;
 
 export type SetEdgeSecurityPolicyBackendServicesError = CommonErrors;
 
+/** Sets the edge security policy for the specified backend service. */
 export const setEdgeSecurityPolicyBackendServices: API.OperationMethod<SetEdgeSecurityPolicyBackendServicesRequest, SetEdgeSecurityPolicyBackendServicesResponse, SetEdgeSecurityPolicyBackendServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetEdgeSecurityPolicyBackendServicesRequest,
   output: SetEdgeSecurityPolicyBackendServicesResponse,
   errors: [],
 }));
 
-/** Returns effective security policies applied to this backend service. */
 export interface GetEffectiveSecurityPoliciesBackendServicesRequest {
   /** Name of the Backend Service for this request. */
   backendService: string;
@@ -33390,13 +33389,13 @@ export const GetEffectiveSecurityPoliciesBackendServicesResponse: Schema.Schema<
 
 export type GetEffectiveSecurityPoliciesBackendServicesError = CommonErrors;
 
+/** Returns effective security policies applied to this backend service. */
 export const getEffectiveSecurityPoliciesBackendServices: API.OperationMethod<GetEffectiveSecurityPoliciesBackendServicesRequest, GetEffectiveSecurityPoliciesBackendServicesResponse, GetEffectiveSecurityPoliciesBackendServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEffectiveSecurityPoliciesBackendServicesRequest,
   output: GetEffectiveSecurityPoliciesBackendServicesResponse,
   errors: [],
 }));
 
-/** Retrieves the list of BackendService resources available to the specified project. */
 export interface ListBackendServicesRequest {
   /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based onresource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using GoogleRE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
   filter?: string;
@@ -33429,7 +33428,8 @@ export const ListBackendServicesResponse = BackendServiceList;
 
 export type ListBackendServicesError = CommonErrors;
 
-export const listBackendServices = API.makePaginated(() => ({
+/** Retrieves the list of BackendService resources available to the specified project. */
+export const listBackendServices: API.PaginatedOperationMethod<ListBackendServicesRequest, ListBackendServicesResponse, ListBackendServicesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBackendServicesRequest,
   output: ListBackendServicesResponse,
   errors: [],
@@ -33440,7 +33440,6 @@ export const listBackendServices = API.makePaginated(() => ({
   },
 }));
 
-/** Adds a key for validating requests with signed URLs for this backend service. */
 export interface AddSignedUrlKeyBackendServicesRequest {
   /** Project ID for this request. */
   project: string;
@@ -33467,13 +33466,13 @@ export const AddSignedUrlKeyBackendServicesResponse = Operation;
 
 export type AddSignedUrlKeyBackendServicesError = CommonErrors;
 
+/** Adds a key for validating requests with signed URLs for this backend service. */
 export const addSignedUrlKeyBackendServices: API.OperationMethod<AddSignedUrlKeyBackendServicesRequest, AddSignedUrlKeyBackendServicesResponse, AddSignedUrlKeyBackendServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddSignedUrlKeyBackendServicesRequest,
   output: AddSignedUrlKeyBackendServicesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export interface GetIamPolicyBackendServicesRequest {
   /** Requested IAM Policy version. */
   optionsRequestedPolicyVersion?: number;
@@ -33497,13 +33496,13 @@ export const GetIamPolicyBackendServicesResponse = Policy;
 
 export type GetIamPolicyBackendServicesError = CommonErrors;
 
+/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export const getIamPolicyBackendServices: API.OperationMethod<GetIamPolicyBackendServicesRequest, GetIamPolicyBackendServicesResponse, GetIamPolicyBackendServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyBackendServicesRequest,
   output: GetIamPolicyBackendServicesResponse,
   errors: [],
 }));
 
-/** Retrieves the list of all BackendService resources, regional and global, available to the specified project. To prevent failure, it is recommended that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListBackendServicesRequest {
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string;
@@ -33542,7 +33541,8 @@ export const AggregatedListBackendServicesResponse = BackendServiceAggregatedLis
 
 export type AggregatedListBackendServicesError = CommonErrors;
 
-export const aggregatedListBackendServices = API.makePaginated(() => ({
+/** Retrieves the list of all BackendService resources, regional and global, available to the specified project. To prevent failure, it is recommended that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListBackendServices: API.PaginatedOperationMethod<AggregatedListBackendServicesRequest, AggregatedListBackendServicesResponse, AggregatedListBackendServicesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListBackendServicesRequest,
   output: AggregatedListBackendServicesResponse,
   errors: [],
@@ -33553,7 +33553,6 @@ export const aggregatedListBackendServices = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a key for validating requests with signed URLs for this backend service. */
 export interface DeleteSignedUrlKeyBackendServicesRequest {
   /** Project ID for this request. */
   project: string;
@@ -33580,13 +33579,13 @@ export const DeleteSignedUrlKeyBackendServicesResponse = Operation;
 
 export type DeleteSignedUrlKeyBackendServicesError = CommonErrors;
 
+/** Deletes a key for validating requests with signed URLs for this backend service. */
 export const deleteSignedUrlKeyBackendServices: API.OperationMethod<DeleteSignedUrlKeyBackendServicesRequest, DeleteSignedUrlKeyBackendServicesResponse, DeleteSignedUrlKeyBackendServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteSignedUrlKeyBackendServicesRequest,
   output: DeleteSignedUrlKeyBackendServicesResponse,
   errors: [],
 }));
 
-/** Updates a HealthCheck resource in the specified project using the data included in the request. */
 export interface UpdateHealthChecksRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -33613,13 +33612,13 @@ export const UpdateHealthChecksResponse = Operation;
 
 export type UpdateHealthChecksError = CommonErrors;
 
+/** Updates a HealthCheck resource in the specified project using the data included in the request. */
 export const updateHealthChecks: API.OperationMethod<UpdateHealthChecksRequest, UpdateHealthChecksResponse, UpdateHealthChecksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateHealthChecksRequest,
   output: UpdateHealthChecksResponse,
   errors: [],
 }));
 
-/** Updates a HealthCheck resource in the specified project using the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export interface PatchHealthChecksRequest {
   /** Name of the HealthCheck resource to patch. */
   healthCheck: string;
@@ -33646,13 +33645,13 @@ export const PatchHealthChecksResponse = Operation;
 
 export type PatchHealthChecksError = CommonErrors;
 
+/** Updates a HealthCheck resource in the specified project using the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export const patchHealthChecks: API.OperationMethod<PatchHealthChecksRequest, PatchHealthChecksResponse, PatchHealthChecksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchHealthChecksRequest,
   output: PatchHealthChecksResponse,
   errors: [],
 }));
 
-/** Creates a HealthCheck resource in the specified project using the data included in the request. */
 export interface InsertHealthChecksRequest {
   /** Project ID for this request. */
   project: string;
@@ -33676,13 +33675,13 @@ export const InsertHealthChecksResponse = Operation;
 
 export type InsertHealthChecksError = CommonErrors;
 
+/** Creates a HealthCheck resource in the specified project using the data included in the request. */
 export const insertHealthChecks: API.OperationMethod<InsertHealthChecksRequest, InsertHealthChecksResponse, InsertHealthChecksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertHealthChecksRequest,
   output: InsertHealthChecksResponse,
   errors: [],
 }));
 
-/** Returns the specified HealthCheck resource. */
 export interface GetHealthChecksRequest {
   /** Name of the HealthCheck resource to return. */
   healthCheck: string;
@@ -33703,13 +33702,13 @@ export const GetHealthChecksResponse = HealthCheck;
 
 export type GetHealthChecksError = CommonErrors;
 
+/** Returns the specified HealthCheck resource. */
 export const getHealthChecks: API.OperationMethod<GetHealthChecksRequest, GetHealthChecksResponse, GetHealthChecksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetHealthChecksRequest,
   output: GetHealthChecksResponse,
   errors: [],
 }));
 
-/** Retrieves the list of all HealthCheck resources, regional and global, available to the specified project. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListHealthChecksRequest {
   /** Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included. */
   includeAllScopes?: boolean;
@@ -33748,7 +33747,8 @@ export const AggregatedListHealthChecksResponse = HealthChecksAggregatedList;
 
 export type AggregatedListHealthChecksError = CommonErrors;
 
-export const aggregatedListHealthChecks = API.makePaginated(() => ({
+/** Retrieves the list of all HealthCheck resources, regional and global, available to the specified project. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListHealthChecks: API.PaginatedOperationMethod<AggregatedListHealthChecksRequest, AggregatedListHealthChecksResponse, AggregatedListHealthChecksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListHealthChecksRequest,
   output: AggregatedListHealthChecksResponse,
   errors: [],
@@ -33759,7 +33759,6 @@ export const aggregatedListHealthChecks = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves the list of HealthCheck resources available to the specified project. */
 export interface ListHealthChecksRequest {
   /** Project ID for this request. */
   project: string;
@@ -33792,7 +33791,8 @@ export const ListHealthChecksResponse = HealthCheckList;
 
 export type ListHealthChecksError = CommonErrors;
 
-export const listHealthChecks = API.makePaginated(() => ({
+/** Retrieves the list of HealthCheck resources available to the specified project. */
+export const listHealthChecks: API.PaginatedOperationMethod<ListHealthChecksRequest, ListHealthChecksResponse, ListHealthChecksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListHealthChecksRequest,
   output: ListHealthChecksResponse,
   errors: [],
@@ -33803,7 +33803,6 @@ export const listHealthChecks = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the specified HealthCheck resource. */
 export interface DeleteHealthChecksRequest {
   /** Project ID for this request. */
   project: string;
@@ -33827,13 +33826,13 @@ export const DeleteHealthChecksResponse = Operation;
 
 export type DeleteHealthChecksError = CommonErrors;
 
+/** Deletes the specified HealthCheck resource. */
 export const deleteHealthChecks: API.OperationMethod<DeleteHealthChecksRequest, DeleteHealthChecksResponse, DeleteHealthChecksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteHealthChecksRequest,
   output: DeleteHealthChecksResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsHealthChecksRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -33857,13 +33856,13 @@ export const TestIamPermissionsHealthChecksResponse = TestPermissionsResponse;
 
 export type TestIamPermissionsHealthChecksError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsHealthChecks: API.OperationMethod<TestIamPermissionsHealthChecksRequest, TestIamPermissionsHealthChecksResponse, TestIamPermissionsHealthChecksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsHealthChecksRequest,
   output: TestIamPermissionsHealthChecksResponse,
   errors: [],
 }));
 
-/** Retrieves a list of PacketMirroring resources available to the specified project and region. */
 export interface ListPacketMirroringsRequest {
   /** Project ID for this request. */
   project: string;
@@ -33899,7 +33898,8 @@ export const ListPacketMirroringsResponse = PacketMirroringList;
 
 export type ListPacketMirroringsError = CommonErrors;
 
-export const listPacketMirrorings = API.makePaginated(() => ({
+/** Retrieves a list of PacketMirroring resources available to the specified project and region. */
+export const listPacketMirrorings: API.PaginatedOperationMethod<ListPacketMirroringsRequest, ListPacketMirroringsResponse, ListPacketMirroringsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPacketMirroringsRequest,
   output: ListPacketMirroringsResponse,
   errors: [],
@@ -33910,7 +33910,6 @@ export const listPacketMirrorings = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a PacketMirroring resource in the specified project and region using the data included in the request. */
 export interface InsertPacketMirroringsRequest {
   /** Project ID for this request. */
   project: string;
@@ -33937,13 +33936,13 @@ export const InsertPacketMirroringsResponse = Operation;
 
 export type InsertPacketMirroringsError = CommonErrors;
 
+/** Creates a PacketMirroring resource in the specified project and region using the data included in the request. */
 export const insertPacketMirrorings: API.OperationMethod<InsertPacketMirroringsRequest, InsertPacketMirroringsResponse, InsertPacketMirroringsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertPacketMirroringsRequest,
   output: InsertPacketMirroringsResponse,
   errors: [],
 }));
 
-/** Patches the specified PacketMirroring resource with the data included in the request. This method supportsPATCH semantics and usesJSON merge patch format and processing rules. */
 export interface PatchPacketMirroringsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -33973,13 +33972,13 @@ export const PatchPacketMirroringsResponse = Operation;
 
 export type PatchPacketMirroringsError = CommonErrors;
 
+/** Patches the specified PacketMirroring resource with the data included in the request. This method supportsPATCH semantics and usesJSON merge patch format and processing rules. */
 export const patchPacketMirrorings: API.OperationMethod<PatchPacketMirroringsRequest, PatchPacketMirroringsResponse, PatchPacketMirroringsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchPacketMirroringsRequest,
   output: PatchPacketMirroringsResponse,
   errors: [],
 }));
 
-/** Deletes the specified PacketMirroring resource. */
 export interface DeletePacketMirroringsRequest {
   /** Project ID for this request. */
   project: string;
@@ -34006,13 +34005,13 @@ export const DeletePacketMirroringsResponse = Operation;
 
 export type DeletePacketMirroringsError = CommonErrors;
 
+/** Deletes the specified PacketMirroring resource. */
 export const deletePacketMirrorings: API.OperationMethod<DeletePacketMirroringsRequest, DeletePacketMirroringsResponse, DeletePacketMirroringsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeletePacketMirroringsRequest,
   output: DeletePacketMirroringsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsPacketMirroringsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -34039,13 +34038,13 @@ export const TestIamPermissionsPacketMirroringsResponse = TestPermissionsRespons
 
 export type TestIamPermissionsPacketMirroringsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsPacketMirrorings: API.OperationMethod<TestIamPermissionsPacketMirroringsRequest, TestIamPermissionsPacketMirroringsResponse, TestIamPermissionsPacketMirroringsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsPacketMirroringsRequest,
   output: TestIamPermissionsPacketMirroringsResponse,
   errors: [],
 }));
 
-/** Returns the specified PacketMirroring resource. */
 export interface GetPacketMirroringsRequest {
   /** Name of the region for this request. */
   region: string;
@@ -34069,13 +34068,13 @@ export const GetPacketMirroringsResponse = PacketMirroring;
 
 export type GetPacketMirroringsError = CommonErrors;
 
+/** Returns the specified PacketMirroring resource. */
 export const getPacketMirrorings: API.OperationMethod<GetPacketMirroringsRequest, GetPacketMirroringsResponse, GetPacketMirroringsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPacketMirroringsRequest,
   output: GetPacketMirroringsResponse,
   errors: [],
 }));
 
-/** Retrieves an aggregated list of packetMirrorings. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListPacketMirroringsRequest {
   /** Project ID for this request. */
   project: string;
@@ -34114,7 +34113,8 @@ export const AggregatedListPacketMirroringsResponse = PacketMirroringAggregatedL
 
 export type AggregatedListPacketMirroringsError = CommonErrors;
 
-export const aggregatedListPacketMirrorings = API.makePaginated(() => ({
+/** Retrieves an aggregated list of packetMirrorings. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListPacketMirrorings: API.PaginatedOperationMethod<AggregatedListPacketMirroringsRequest, AggregatedListPacketMirroringsResponse, AggregatedListPacketMirroringsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListPacketMirroringsRequest,
   output: AggregatedListPacketMirroringsResponse,
   errors: [],
@@ -34125,7 +34125,6 @@ export const aggregatedListPacketMirrorings = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves an aggregated list of target instances. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListTargetInstancesRequest {
   /** Opt-in for partial success behavior which provides partial results in case of failure. The default value is false. For example, when partial success behavior is enabled, aggregatedList for a single zone scope either returns all resources in the zone or no resources, with an error code. */
   returnPartialSuccess?: boolean;
@@ -34164,7 +34163,8 @@ export const AggregatedListTargetInstancesResponse = TargetInstanceAggregatedLis
 
 export type AggregatedListTargetInstancesError = CommonErrors;
 
-export const aggregatedListTargetInstances = API.makePaginated(() => ({
+/** Retrieves an aggregated list of target instances. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListTargetInstances: API.PaginatedOperationMethod<AggregatedListTargetInstancesRequest, AggregatedListTargetInstancesResponse, AggregatedListTargetInstancesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListTargetInstancesRequest,
   output: AggregatedListTargetInstancesResponse,
   errors: [],
@@ -34175,7 +34175,6 @@ export const aggregatedListTargetInstances = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the specified TargetInstance resource. */
 export interface DeleteTargetInstancesRequest {
   /** Name of the TargetInstance resource to delete. */
   targetInstance: string;
@@ -34202,13 +34201,13 @@ export const DeleteTargetInstancesResponse = Operation;
 
 export type DeleteTargetInstancesError = CommonErrors;
 
+/** Deletes the specified TargetInstance resource. */
 export const deleteTargetInstances: API.OperationMethod<DeleteTargetInstancesRequest, DeleteTargetInstancesResponse, DeleteTargetInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteTargetInstancesRequest,
   output: DeleteTargetInstancesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of TargetInstance resources available to the specified project and zone. */
 export interface ListTargetInstancesRequest {
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number;
@@ -34244,7 +34243,8 @@ export const ListTargetInstancesResponse = TargetInstanceList;
 
 export type ListTargetInstancesError = CommonErrors;
 
-export const listTargetInstances = API.makePaginated(() => ({
+/** Retrieves a list of TargetInstance resources available to the specified project and zone. */
+export const listTargetInstances: API.PaginatedOperationMethod<ListTargetInstancesRequest, ListTargetInstancesResponse, ListTargetInstancesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListTargetInstancesRequest,
   output: ListTargetInstancesResponse,
   errors: [],
@@ -34255,7 +34255,6 @@ export const listTargetInstances = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the specified TargetInstance resource. */
 export interface GetTargetInstancesRequest {
   /** Project ID for this request. */
   project: string;
@@ -34279,13 +34278,13 @@ export const GetTargetInstancesResponse = TargetInstance;
 
 export type GetTargetInstancesError = CommonErrors;
 
+/** Returns the specified TargetInstance resource. */
 export const getTargetInstances: API.OperationMethod<GetTargetInstancesRequest, GetTargetInstancesResponse, GetTargetInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetTargetInstancesRequest,
   output: GetTargetInstancesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsTargetInstancesRequest {
   /** Project ID for this request. */
   project: string;
@@ -34312,13 +34311,13 @@ export const TestIamPermissionsTargetInstancesResponse = TestPermissionsResponse
 
 export type TestIamPermissionsTargetInstancesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsTargetInstances: API.OperationMethod<TestIamPermissionsTargetInstancesRequest, TestIamPermissionsTargetInstancesResponse, TestIamPermissionsTargetInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsTargetInstancesRequest,
   output: TestIamPermissionsTargetInstancesResponse,
   errors: [],
 }));
 
-/** Sets the Google Cloud Armor security policy for the specified target instance. For more information, seeGoogle Cloud Armor Overview */
 export interface SetSecurityPolicyTargetInstancesRequest {
   /** Project ID for this request. */
   project: string;
@@ -34348,13 +34347,13 @@ export const SetSecurityPolicyTargetInstancesResponse = Operation;
 
 export type SetSecurityPolicyTargetInstancesError = CommonErrors;
 
+/** Sets the Google Cloud Armor security policy for the specified target instance. For more information, seeGoogle Cloud Armor Overview */
 export const setSecurityPolicyTargetInstances: API.OperationMethod<SetSecurityPolicyTargetInstancesRequest, SetSecurityPolicyTargetInstancesResponse, SetSecurityPolicyTargetInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetSecurityPolicyTargetInstancesRequest,
   output: SetSecurityPolicyTargetInstancesResponse,
   errors: [],
 }));
 
-/** Creates a TargetInstance resource in the specified project and zone using the data included in the request. */
 export interface InsertTargetInstancesRequest {
   /** Name of the zone scoping this request. */
   zone: string;
@@ -34381,13 +34380,13 @@ export const InsertTargetInstancesResponse = Operation;
 
 export type InsertTargetInstancesError = CommonErrors;
 
+/** Creates a TargetInstance resource in the specified project and zone using the data included in the request. */
 export const insertTargetInstances: API.OperationMethod<InsertTargetInstancesRequest, InsertTargetInstancesResponse, InsertTargetInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertTargetInstancesRequest,
   output: InsertTargetInstancesResponse,
   errors: [],
 }));
 
-/** Sets the labels on a instantSnapshot in the given zone. To learn more about labels, read the Labeling Resources documentation. */
 export interface SetLabelsInstantSnapshotsRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -34417,13 +34416,13 @@ export const SetLabelsInstantSnapshotsResponse = Operation;
 
 export type SetLabelsInstantSnapshotsError = CommonErrors;
 
+/** Sets the labels on a instantSnapshot in the given zone. To learn more about labels, read the Labeling Resources documentation. */
 export const setLabelsInstantSnapshots: API.OperationMethod<SetLabelsInstantSnapshotsRequest, SetLabelsInstantSnapshotsResponse, SetLabelsInstantSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetLabelsInstantSnapshotsRequest,
   output: SetLabelsInstantSnapshotsResponse,
   errors: [],
 }));
 
-/** Creates an instant snapshot in the specified zone. */
 export interface InsertInstantSnapshotsRequest {
   /** Name of the zone for this request. */
   zone: string;
@@ -34450,13 +34449,13 @@ export const InsertInstantSnapshotsResponse = Operation;
 
 export type InsertInstantSnapshotsError = CommonErrors;
 
+/** Creates an instant snapshot in the specified zone. */
 export const insertInstantSnapshots: API.OperationMethod<InsertInstantSnapshotsRequest, InsertInstantSnapshotsResponse, InsertInstantSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertInstantSnapshotsRequest,
   output: InsertInstantSnapshotsResponse,
   errors: [],
 }));
 
-/** Retrieves the list of InstantSnapshot resources contained within the specified zone. */
 export interface ListInstantSnapshotsRequest {
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number;
@@ -34492,7 +34491,8 @@ export const ListInstantSnapshotsResponse = InstantSnapshotList;
 
 export type ListInstantSnapshotsError = CommonErrors;
 
-export const listInstantSnapshots = API.makePaginated(() => ({
+/** Retrieves the list of InstantSnapshot resources contained within the specified zone. */
+export const listInstantSnapshots: API.PaginatedOperationMethod<ListInstantSnapshotsRequest, ListInstantSnapshotsResponse, ListInstantSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListInstantSnapshotsRequest,
   output: ListInstantSnapshotsResponse,
   errors: [],
@@ -34503,7 +34503,6 @@ export const listInstantSnapshots = API.makePaginated(() => ({
   },
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export interface SetIamPolicyInstantSnapshotsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -34530,13 +34529,13 @@ export const SetIamPolicyInstantSnapshotsResponse = Policy;
 
 export type SetIamPolicyInstantSnapshotsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export const setIamPolicyInstantSnapshots: API.OperationMethod<SetIamPolicyInstantSnapshotsRequest, SetIamPolicyInstantSnapshotsResponse, SetIamPolicyInstantSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyInstantSnapshotsRequest,
   output: SetIamPolicyInstantSnapshotsResponse,
   errors: [],
 }));
 
-/** Retrieves an aggregated list of instantSnapshots. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListInstantSnapshotsRequest {
   /** The Shared VPC service project id or service project number for which aggregated list request is invoked for subnetworks list-usable api. */
   serviceProjectNumber?: string;
@@ -34575,7 +34574,8 @@ export const AggregatedListInstantSnapshotsResponse = InstantSnapshotAggregatedL
 
 export type AggregatedListInstantSnapshotsError = CommonErrors;
 
-export const aggregatedListInstantSnapshots = API.makePaginated(() => ({
+/** Retrieves an aggregated list of instantSnapshots. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListInstantSnapshots: API.PaginatedOperationMethod<AggregatedListInstantSnapshotsRequest, AggregatedListInstantSnapshotsResponse, AggregatedListInstantSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListInstantSnapshotsRequest,
   output: AggregatedListInstantSnapshotsResponse,
   errors: [],
@@ -34586,7 +34586,6 @@ export const aggregatedListInstantSnapshots = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the specified InstantSnapshot resource in the specified zone. */
 export interface GetInstantSnapshotsRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -34610,13 +34609,13 @@ export const GetInstantSnapshotsResponse = InstantSnapshot;
 
 export type GetInstantSnapshotsError = CommonErrors;
 
+/** Returns the specified InstantSnapshot resource in the specified zone. */
 export const getInstantSnapshots: API.OperationMethod<GetInstantSnapshotsRequest, GetInstantSnapshotsResponse, GetInstantSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetInstantSnapshotsRequest,
   output: GetInstantSnapshotsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsInstantSnapshotsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -34643,13 +34642,13 @@ export const TestIamPermissionsInstantSnapshotsResponse = TestPermissionsRespons
 
 export type TestIamPermissionsInstantSnapshotsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsInstantSnapshots: API.OperationMethod<TestIamPermissionsInstantSnapshotsRequest, TestIamPermissionsInstantSnapshotsResponse, TestIamPermissionsInstantSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsInstantSnapshotsRequest,
   output: TestIamPermissionsInstantSnapshotsResponse,
   errors: [],
 }));
 
-/** Deletes the specified InstantSnapshot resource. Keep in mind that deleting a single instantSnapshot might not necessarily delete all the data on that instantSnapshot. If any data on the instantSnapshot that is marked for deletion is needed for subsequent instantSnapshots, the data will be moved to the next corresponding instantSnapshot. For more information, seeDeleting instantSnapshots. */
 export interface DeleteInstantSnapshotsRequest {
   /** Project ID for this request. */
   project: string;
@@ -34676,13 +34675,13 @@ export const DeleteInstantSnapshotsResponse = Operation;
 
 export type DeleteInstantSnapshotsError = CommonErrors;
 
+/** Deletes the specified InstantSnapshot resource. Keep in mind that deleting a single instantSnapshot might not necessarily delete all the data on that instantSnapshot. If any data on the instantSnapshot that is marked for deletion is needed for subsequent instantSnapshots, the data will be moved to the next corresponding instantSnapshot. For more information, seeDeleting instantSnapshots. */
 export const deleteInstantSnapshots: API.OperationMethod<DeleteInstantSnapshotsRequest, DeleteInstantSnapshotsResponse, DeleteInstantSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteInstantSnapshotsRequest,
   output: DeleteInstantSnapshotsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export interface GetIamPolicyInstantSnapshotsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -34709,13 +34708,13 @@ export const GetIamPolicyInstantSnapshotsResponse = Policy;
 
 export type GetIamPolicyInstantSnapshotsError = CommonErrors;
 
+/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export const getIamPolicyInstantSnapshots: API.OperationMethod<GetIamPolicyInstantSnapshotsRequest, GetIamPolicyInstantSnapshotsResponse, GetIamPolicyInstantSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyInstantSnapshotsRequest,
   output: GetIamPolicyInstantSnapshotsResponse,
   errors: [],
 }));
 
-/** Creates a network in the specified project using the data included in the request. */
 export interface InsertNetworksRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -34739,13 +34738,13 @@ export const InsertNetworksResponse = Operation;
 
 export type InsertNetworksError = CommonErrors;
 
+/** Creates a network in the specified project using the data included in the request. */
 export const insertNetworks: API.OperationMethod<InsertNetworksRequest, InsertNetworksResponse, InsertNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertNetworksRequest,
   output: InsertNetworksResponse,
   errors: [],
 }));
 
-/** Adds a peering to the specified network. */
 export interface AddPeeringNetworksRequest {
   /** Name of the network resource to add peering to. */
   network: string;
@@ -34772,13 +34771,13 @@ export const AddPeeringNetworksResponse = Operation;
 
 export type AddPeeringNetworksError = CommonErrors;
 
+/** Adds a peering to the specified network. */
 export const addPeeringNetworks: API.OperationMethod<AddPeeringNetworksRequest, AddPeeringNetworksResponse, AddPeeringNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddPeeringNetworksRequest,
   output: AddPeeringNetworksResponse,
   errors: [],
 }));
 
-/** Patches the specified network with the data included in the request. Only routingConfig can be modified. */
 export interface PatchNetworksRequest {
   /** Project ID for this request. */
   project: string;
@@ -34805,13 +34804,13 @@ export const PatchNetworksResponse = Operation;
 
 export type PatchNetworksError = CommonErrors;
 
+/** Patches the specified network with the data included in the request. Only routingConfig can be modified. */
 export const patchNetworks: API.OperationMethod<PatchNetworksRequest, PatchNetworksResponse, PatchNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchNetworksRequest,
   output: PatchNetworksResponse,
   errors: [],
 }));
 
-/** Updates the specified network peering with the data included in the request. You can only modify the NetworkPeering.export_custom_routes field and the NetworkPeering.import_custom_routes field. */
 export interface UpdatePeeringNetworksRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -34838,13 +34837,13 @@ export const UpdatePeeringNetworksResponse = Operation;
 
 export type UpdatePeeringNetworksError = CommonErrors;
 
+/** Updates the specified network peering with the data included in the request. You can only modify the NetworkPeering.export_custom_routes field and the NetworkPeering.import_custom_routes field. */
 export const updatePeeringNetworks: API.OperationMethod<UpdatePeeringNetworksRequest, UpdatePeeringNetworksResponse, UpdatePeeringNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdatePeeringNetworksRequest,
   output: UpdatePeeringNetworksResponse,
   errors: [],
 }));
 
-/** Requests to remove a peering from the specified network. Applicable only for PeeringConnection with update_strategy=CONSENSUS. */
 export interface RequestRemovePeeringNetworksRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -34871,13 +34870,13 @@ export const RequestRemovePeeringNetworksResponse = Operation;
 
 export type RequestRemovePeeringNetworksError = CommonErrors;
 
+/** Requests to remove a peering from the specified network. Applicable only for PeeringConnection with update_strategy=CONSENSUS. */
 export const requestRemovePeeringNetworks: API.OperationMethod<RequestRemovePeeringNetworksRequest, RequestRemovePeeringNetworksResponse, RequestRemovePeeringNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RequestRemovePeeringNetworksRequest,
   output: RequestRemovePeeringNetworksResponse,
   errors: [],
 }));
 
-/** Deletes the specified network. */
 export interface DeleteNetworksRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -34901,13 +34900,13 @@ export const DeleteNetworksResponse = Operation;
 
 export type DeleteNetworksError = CommonErrors;
 
+/** Deletes the specified network. */
 export const deleteNetworks: API.OperationMethod<DeleteNetworksRequest, DeleteNetworksResponse, DeleteNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteNetworksRequest,
   output: DeleteNetworksResponse,
   errors: [],
 }));
 
-/** Returns the effective firewalls on a given network. */
 export interface GetEffectiveFirewallsNetworksRequest {
   /** Name of the network for this request. */
   network: string;
@@ -34928,13 +34927,13 @@ export const GetEffectiveFirewallsNetworksResponse = NetworksGetEffectiveFirewal
 
 export type GetEffectiveFirewallsNetworksError = CommonErrors;
 
+/** Returns the effective firewalls on a given network. */
 export const getEffectiveFirewallsNetworks: API.OperationMethod<GetEffectiveFirewallsNetworksRequest, GetEffectiveFirewallsNetworksResponse, GetEffectiveFirewallsNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEffectiveFirewallsNetworksRequest,
   output: GetEffectiveFirewallsNetworksResponse,
   errors: [],
 }));
 
-/** Switches the network mode from auto subnet mode to custom subnet mode. */
 export interface SwitchToCustomModeNetworksRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -34958,13 +34957,13 @@ export const SwitchToCustomModeNetworksResponse = Operation;
 
 export type SwitchToCustomModeNetworksError = CommonErrors;
 
+/** Switches the network mode from auto subnet mode to custom subnet mode. */
 export const switchToCustomModeNetworks: API.OperationMethod<SwitchToCustomModeNetworksRequest, SwitchToCustomModeNetworksResponse, SwitchToCustomModeNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SwitchToCustomModeNetworksRequest,
   output: SwitchToCustomModeNetworksResponse,
   errors: [],
 }));
 
-/** Lists the peering routes exchanged over peering connection. */
 export interface ListPeeringRoutesNetworksRequest {
   /** The region of the request. The response will include all subnet routes, static routes and dynamic routes in the region. */
   region?: string;
@@ -35009,7 +35008,8 @@ export const ListPeeringRoutesNetworksResponse = ExchangedPeeringRoutesList;
 
 export type ListPeeringRoutesNetworksError = CommonErrors;
 
-export const listPeeringRoutesNetworks = API.makePaginated(() => ({
+/** Lists the peering routes exchanged over peering connection. */
+export const listPeeringRoutesNetworks: API.PaginatedOperationMethod<ListPeeringRoutesNetworksRequest, ListPeeringRoutesNetworksResponse, ListPeeringRoutesNetworksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPeeringRoutesNetworksRequest,
   output: ListPeeringRoutesNetworksResponse,
   errors: [],
@@ -35020,7 +35020,6 @@ export const listPeeringRoutesNetworks = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the specified network. */
 export interface GetNetworksRequest {
   /** Project ID for this request. */
   project: string;
@@ -35041,13 +35040,13 @@ export const GetNetworksResponse = Network;
 
 export type GetNetworksError = CommonErrors;
 
+/** Returns the specified network. */
 export const getNetworks: API.OperationMethod<GetNetworksRequest, GetNetworksResponse, GetNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetNetworksRequest,
   output: GetNetworksResponse,
   errors: [],
 }));
 
-/** Retrieves the list of networks available to the specified project. */
 export interface ListNetworksRequest {
   /** Project ID for this request. */
   project: string;
@@ -35080,7 +35079,8 @@ export const ListNetworksResponse = NetworkList;
 
 export type ListNetworksError = CommonErrors;
 
-export const listNetworks = API.makePaginated(() => ({
+/** Retrieves the list of networks available to the specified project. */
+export const listNetworks: API.PaginatedOperationMethod<ListNetworksRequest, ListNetworksResponse, ListNetworksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListNetworksRequest,
   output: ListNetworksResponse,
   errors: [],
@@ -35091,7 +35091,6 @@ export const listNetworks = API.makePaginated(() => ({
   },
 }));
 
-/** Removes a peering from the specified network. */
 export interface RemovePeeringNetworksRequest {
   /** Project ID for this request. */
   project: string;
@@ -35118,13 +35117,13 @@ export const RemovePeeringNetworksResponse = Operation;
 
 export type RemovePeeringNetworksError = CommonErrors;
 
+/** Removes a peering from the specified network. */
 export const removePeeringNetworks: API.OperationMethod<RemovePeeringNetworksRequest, RemovePeeringNetworksResponse, RemovePeeringNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemovePeeringNetworksRequest,
   output: RemovePeeringNetworksResponse,
   errors: [],
 }));
 
-/** List all of the ordered rules present in a single specified policy. Use this API to read Cloud Armor policies. Previously, alpha and beta versions of this API were used to read firewall policies. This usage is now disabled for most organizations. Use firewallPolicies.get instead. */
 export interface GetOrganizationSecurityPoliciesRequest {
   /** Name of the security policy to get. */
   securityPolicy: string;
@@ -35142,13 +35141,13 @@ export const GetOrganizationSecurityPoliciesResponse = SecurityPolicy;
 
 export type GetOrganizationSecurityPoliciesError = CommonErrors;
 
+/** List all of the ordered rules present in a single specified policy. Use this API to read Cloud Armor policies. Previously, alpha and beta versions of this API were used to read firewall policies. This usage is now disabled for most organizations. Use firewallPolicies.get instead. */
 export const getOrganizationSecurityPolicies: API.OperationMethod<GetOrganizationSecurityPoliciesRequest, GetOrganizationSecurityPoliciesResponse, GetOrganizationSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationSecurityPoliciesRequest,
   output: GetOrganizationSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Deletes the specified policy. Use this API to remove Cloud Armor policies. Previously, alpha and beta versions of this API were used to remove firewall policies. This usage is now disabled for most organizations. Use firewallPolicies.delete instead. */
 export interface DeleteOrganizationSecurityPoliciesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -35169,13 +35168,13 @@ export const DeleteOrganizationSecurityPoliciesResponse = Operation;
 
 export type DeleteOrganizationSecurityPoliciesError = CommonErrors;
 
+/** Deletes the specified policy. Use this API to remove Cloud Armor policies. Previously, alpha and beta versions of this API were used to remove firewall policies. This usage is now disabled for most organizations. Use firewallPolicies.delete instead. */
 export const deleteOrganizationSecurityPolicies: API.OperationMethod<DeleteOrganizationSecurityPoliciesRequest, DeleteOrganizationSecurityPoliciesResponse, DeleteOrganizationSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationSecurityPoliciesRequest,
   output: DeleteOrganizationSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Creates a new policy in the specified organization using the data included in the request. Use this API to add Cloud Armor policies. Previously, alpha and beta versions of this API were used to add firewall policies. This usage is now disabled for most organizations. Use firewallPolicies.insert instead. */
 export interface InsertOrganizationSecurityPoliciesRequest {
   /** Parent ID for this request. The ID can be either be "folders/[FOLDER_ID]" if the parent is a folder or "organizations/[ORGANIZATION_ID]" if the parent is an organization. */
   parentId?: string;
@@ -35199,13 +35198,13 @@ export const InsertOrganizationSecurityPoliciesResponse = Operation;
 
 export type InsertOrganizationSecurityPoliciesError = CommonErrors;
 
+/** Creates a new policy in the specified organization using the data included in the request. Use this API to add Cloud Armor policies. Previously, alpha and beta versions of this API were used to add firewall policies. This usage is now disabled for most organizations. Use firewallPolicies.insert instead. */
 export const insertOrganizationSecurityPolicies: API.OperationMethod<InsertOrganizationSecurityPoliciesRequest, InsertOrganizationSecurityPoliciesResponse, InsertOrganizationSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertOrganizationSecurityPoliciesRequest,
   output: InsertOrganizationSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Gets the current list of preconfigured Web Application Firewall (WAF) expressions. */
 export interface ListPreconfiguredExpressionSetsOrganizationSecurityPoliciesRequest {
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string;
@@ -35238,13 +35237,13 @@ export const ListPreconfiguredExpressionSetsOrganizationSecurityPoliciesResponse
 
 export type ListPreconfiguredExpressionSetsOrganizationSecurityPoliciesError = CommonErrors;
 
+/** Gets the current list of preconfigured Web Application Firewall (WAF) expressions. */
 export const listPreconfiguredExpressionSetsOrganizationSecurityPolicies: API.OperationMethod<ListPreconfiguredExpressionSetsOrganizationSecurityPoliciesRequest, ListPreconfiguredExpressionSetsOrganizationSecurityPoliciesResponse, ListPreconfiguredExpressionSetsOrganizationSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListPreconfiguredExpressionSetsOrganizationSecurityPoliciesRequest,
   output: ListPreconfiguredExpressionSetsOrganizationSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** List all the policies that have been configured for the specified organization. Use this API to read Cloud Armor policies. Previously, alpha and beta versions of this API were used to read firewall policies. This usage is now disabled for most organizations. Use firewallPolicies.list instead. */
 export interface ListOrganizationSecurityPoliciesRequest {
   /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based onresource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using GoogleRE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
   filter?: string;
@@ -35277,7 +35276,8 @@ export const ListOrganizationSecurityPoliciesResponse = SecurityPolicyList;
 
 export type ListOrganizationSecurityPoliciesError = CommonErrors;
 
-export const listOrganizationSecurityPolicies = API.makePaginated(() => ({
+/** List all the policies that have been configured for the specified organization. Use this API to read Cloud Armor policies. Previously, alpha and beta versions of this API were used to read firewall policies. This usage is now disabled for most organizations. Use firewallPolicies.list instead. */
+export const listOrganizationSecurityPolicies: API.PaginatedOperationMethod<ListOrganizationSecurityPoliciesRequest, ListOrganizationSecurityPoliciesResponse, ListOrganizationSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationSecurityPoliciesRequest,
   output: ListOrganizationSecurityPoliciesResponse,
   errors: [],
@@ -35288,7 +35288,6 @@ export const listOrganizationSecurityPolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Gets an association with the specified name. Use this API to read Cloud Armor policies. Previously, alpha and beta versions of this API were used to read firewall policies. This usage is now disabled for most organizations. Use firewallPolicies.getAssociation instead. */
 export interface GetAssociationOrganizationSecurityPoliciesRequest {
   /** The name of the association to get from the security policy. */
   name?: string;
@@ -35309,13 +35308,13 @@ export const GetAssociationOrganizationSecurityPoliciesResponse = SecurityPolicy
 
 export type GetAssociationOrganizationSecurityPoliciesError = CommonErrors;
 
+/** Gets an association with the specified name. Use this API to read Cloud Armor policies. Previously, alpha and beta versions of this API were used to read firewall policies. This usage is now disabled for most organizations. Use firewallPolicies.getAssociation instead. */
 export const getAssociationOrganizationSecurityPolicies: API.OperationMethod<GetAssociationOrganizationSecurityPoliciesRequest, GetAssociationOrganizationSecurityPoliciesResponse, GetAssociationOrganizationSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAssociationOrganizationSecurityPoliciesRequest,
   output: GetAssociationOrganizationSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Removes an association for the specified security policy. Use this API to modify Cloud Armor policies. Previously, alpha and beta versions of this API were used to modify firewall policies. This usage is now disabled for most organizations. Use firewallPolicies.removeAssociation instead. */
 export interface RemoveAssociationOrganizationSecurityPoliciesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -35339,13 +35338,13 @@ export const RemoveAssociationOrganizationSecurityPoliciesResponse = Operation;
 
 export type RemoveAssociationOrganizationSecurityPoliciesError = CommonErrors;
 
+/** Removes an association for the specified security policy. Use this API to modify Cloud Armor policies. Previously, alpha and beta versions of this API were used to modify firewall policies. This usage is now disabled for most organizations. Use firewallPolicies.removeAssociation instead. */
 export const removeAssociationOrganizationSecurityPolicies: API.OperationMethod<RemoveAssociationOrganizationSecurityPoliciesRequest, RemoveAssociationOrganizationSecurityPoliciesResponse, RemoveAssociationOrganizationSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveAssociationOrganizationSecurityPoliciesRequest,
   output: RemoveAssociationOrganizationSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Patches a rule at the specified priority. Use this API to modify Cloud Armor policies. Previously, alpha and beta versions of this API were used to modify firewall policies. This usage is now disabled for most organizations. Use firewallPolicies.patchRule instead. */
 export interface PatchRuleOrganizationSecurityPoliciesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -35372,13 +35371,13 @@ export const PatchRuleOrganizationSecurityPoliciesResponse = Operation;
 
 export type PatchRuleOrganizationSecurityPoliciesError = CommonErrors;
 
+/** Patches a rule at the specified priority. Use this API to modify Cloud Armor policies. Previously, alpha and beta versions of this API were used to modify firewall policies. This usage is now disabled for most organizations. Use firewallPolicies.patchRule instead. */
 export const patchRuleOrganizationSecurityPolicies: API.OperationMethod<PatchRuleOrganizationSecurityPoliciesRequest, PatchRuleOrganizationSecurityPoliciesResponse, PatchRuleOrganizationSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchRuleOrganizationSecurityPoliciesRequest,
   output: PatchRuleOrganizationSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Gets a rule at the specified priority. Use this API to read Cloud Armor policies. Previously, alpha and beta versions of this API were used to read firewall policies. This usage is now disabled for most organizations. Use firewallPolicies.getRule instead. */
 export interface GetRuleOrganizationSecurityPoliciesRequest {
   /** The priority of the rule to get from the security policy. */
   priority?: number;
@@ -35399,13 +35398,13 @@ export const GetRuleOrganizationSecurityPoliciesResponse = SecurityPolicyRule;
 
 export type GetRuleOrganizationSecurityPoliciesError = CommonErrors;
 
+/** Gets a rule at the specified priority. Use this API to read Cloud Armor policies. Previously, alpha and beta versions of this API were used to read firewall policies. This usage is now disabled for most organizations. Use firewallPolicies.getRule instead. */
 export const getRuleOrganizationSecurityPolicies: API.OperationMethod<GetRuleOrganizationSecurityPoliciesRequest, GetRuleOrganizationSecurityPoliciesResponse, GetRuleOrganizationSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRuleOrganizationSecurityPoliciesRequest,
   output: GetRuleOrganizationSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Inserts an association for the specified security policy. This has billing implications. Projects in the hierarchy with effective hierarchical security policies will be automatically enrolled into Cloud Armor Enterprise if not already enrolled. Use this API to modify Cloud Armor policies. Previously, alpha and beta versions of this API were used to modify firewall policies. This usage is now disabled for most organizations. Use firewallPolicies.addAssociation instead. */
 export interface AddAssociationOrganizationSecurityPoliciesRequest {
   /** Indicates whether or not to replace it if an association of the attachment already exists. This is false by default, in which case an error will be returned if an association already exists. */
   replaceExistingAssociation?: boolean;
@@ -35432,13 +35431,13 @@ export const AddAssociationOrganizationSecurityPoliciesResponse = Operation;
 
 export type AddAssociationOrganizationSecurityPoliciesError = CommonErrors;
 
+/** Inserts an association for the specified security policy. This has billing implications. Projects in the hierarchy with effective hierarchical security policies will be automatically enrolled into Cloud Armor Enterprise if not already enrolled. Use this API to modify Cloud Armor policies. Previously, alpha and beta versions of this API were used to modify firewall policies. This usage is now disabled for most organizations. Use firewallPolicies.addAssociation instead. */
 export const addAssociationOrganizationSecurityPolicies: API.OperationMethod<AddAssociationOrganizationSecurityPoliciesRequest, AddAssociationOrganizationSecurityPoliciesResponse, AddAssociationOrganizationSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddAssociationOrganizationSecurityPoliciesRequest,
   output: AddAssociationOrganizationSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Deletes a rule at the specified priority. Use this API to modify Cloud Armor policies. Previously, alpha and beta versions of this API were used to modify firewall policies. This usage is now disabled for most organizations. Use firewallPolicies.removeRule instead. */
 export interface RemoveRuleOrganizationSecurityPoliciesRequest {
   /** The priority of the rule to remove from the security policy. */
   priority?: number;
@@ -35462,13 +35461,13 @@ export const RemoveRuleOrganizationSecurityPoliciesResponse = Operation;
 
 export type RemoveRuleOrganizationSecurityPoliciesError = CommonErrors;
 
+/** Deletes a rule at the specified priority. Use this API to modify Cloud Armor policies. Previously, alpha and beta versions of this API were used to modify firewall policies. This usage is now disabled for most organizations. Use firewallPolicies.removeRule instead. */
 export const removeRuleOrganizationSecurityPolicies: API.OperationMethod<RemoveRuleOrganizationSecurityPoliciesRequest, RemoveRuleOrganizationSecurityPoliciesResponse, RemoveRuleOrganizationSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveRuleOrganizationSecurityPoliciesRequest,
   output: RemoveRuleOrganizationSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Moves the specified security policy. Use this API to modify Cloud Armor policies. Previously, alpha and beta versions of this API were used to modify firewall policies. This usage is now disabled for most organizations. Use firewallPolicies.move instead. */
 export interface MoveOrganizationSecurityPoliciesRequest {
   /** Name of the security policy to update. */
   securityPolicy: string;
@@ -35492,13 +35491,13 @@ export const MoveOrganizationSecurityPoliciesResponse = Operation;
 
 export type MoveOrganizationSecurityPoliciesError = CommonErrors;
 
+/** Moves the specified security policy. Use this API to modify Cloud Armor policies. Previously, alpha and beta versions of this API were used to modify firewall policies. This usage is now disabled for most organizations. Use firewallPolicies.move instead. */
 export const moveOrganizationSecurityPolicies: API.OperationMethod<MoveOrganizationSecurityPoliciesRequest, MoveOrganizationSecurityPoliciesResponse, MoveOrganizationSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MoveOrganizationSecurityPoliciesRequest,
   output: MoveOrganizationSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Copies rules to the specified security policy. Use this API to modify Cloud Armor policies. Previously, alpha and beta versions of this API were used to modify firewall policies. This usage is now disabled for most organizations. Use firewallPolicies.cloneRules instead. */
 export interface CopyRulesOrganizationSecurityPoliciesRequest {
   /** Name of the security policy to update. */
   securityPolicy: string;
@@ -35522,13 +35521,13 @@ export const CopyRulesOrganizationSecurityPoliciesResponse = Operation;
 
 export type CopyRulesOrganizationSecurityPoliciesError = CommonErrors;
 
+/** Copies rules to the specified security policy. Use this API to modify Cloud Armor policies. Previously, alpha and beta versions of this API were used to modify firewall policies. This usage is now disabled for most organizations. Use firewallPolicies.cloneRules instead. */
 export const copyRulesOrganizationSecurityPolicies: API.OperationMethod<CopyRulesOrganizationSecurityPoliciesRequest, CopyRulesOrganizationSecurityPoliciesResponse, CopyRulesOrganizationSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CopyRulesOrganizationSecurityPoliciesRequest,
   output: CopyRulesOrganizationSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Inserts a rule into a security policy. Use this API to modify Cloud Armor policies. Previously, alpha and beta versions of this API were used to modify firewall policies. This usage is now disabled for most organizations. Use firewallPolicies.addRule instead. */
 export interface AddRuleOrganizationSecurityPoliciesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -35552,13 +35551,13 @@ export const AddRuleOrganizationSecurityPoliciesResponse = Operation;
 
 export type AddRuleOrganizationSecurityPoliciesError = CommonErrors;
 
+/** Inserts a rule into a security policy. Use this API to modify Cloud Armor policies. Previously, alpha and beta versions of this API were used to modify firewall policies. This usage is now disabled for most organizations. Use firewallPolicies.addRule instead. */
 export const addRuleOrganizationSecurityPolicies: API.OperationMethod<AddRuleOrganizationSecurityPoliciesRequest, AddRuleOrganizationSecurityPoliciesResponse, AddRuleOrganizationSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddRuleOrganizationSecurityPoliciesRequest,
   output: AddRuleOrganizationSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Patches the specified policy with the data included in the request. Use this API to modify Cloud Armor policies. Previously, alpha and beta versions of this API were used to modify firewall policies. This usage is now disabled for most organizations. Use firewallPolicies.patch instead. */
 export interface PatchOrganizationSecurityPoliciesRequest {
   /** Name of the security policy to update. */
   securityPolicy: string;
@@ -35582,13 +35581,13 @@ export const PatchOrganizationSecurityPoliciesResponse = Operation;
 
 export type PatchOrganizationSecurityPoliciesError = CommonErrors;
 
+/** Patches the specified policy with the data included in the request. Use this API to modify Cloud Armor policies. Previously, alpha and beta versions of this API were used to modify firewall policies. This usage is now disabled for most organizations. Use firewallPolicies.patch instead. */
 export const patchOrganizationSecurityPolicies: API.OperationMethod<PatchOrganizationSecurityPoliciesRequest, PatchOrganizationSecurityPoliciesResponse, PatchOrganizationSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationSecurityPoliciesRequest,
   output: PatchOrganizationSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Lists associations of a specified target, i.e., organization or folder. Use this API to read Cloud Armor policies. Previously, alpha and beta versions of this API were used to read firewall policies. This usage is now disabled for most organizations. Use firewallPolicies.listAssociations instead. */
 export interface ListAssociationsOrganizationSecurityPoliciesRequest {
   /** The target resource to list associations. It is an organization, or a folder. */
   targetResource?: string;
@@ -35606,13 +35605,13 @@ export const ListAssociationsOrganizationSecurityPoliciesResponse = Organization
 
 export type ListAssociationsOrganizationSecurityPoliciesError = CommonErrors;
 
+/** Lists associations of a specified target, i.e., organization or folder. Use this API to read Cloud Armor policies. Previously, alpha and beta versions of this API were used to read firewall policies. This usage is now disabled for most organizations. Use firewallPolicies.listAssociations instead. */
 export const listAssociationsOrganizationSecurityPolicies: API.OperationMethod<ListAssociationsOrganizationSecurityPoliciesRequest, ListAssociationsOrganizationSecurityPoliciesResponse, ListAssociationsOrganizationSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListAssociationsOrganizationSecurityPoliciesRequest,
   output: ListAssociationsOrganizationSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Returns the specified PublicDelegatedPrefix resource in the given region. */
 export interface GetPublicDelegatedPrefixesRequest {
   /** Name of the region of this request. */
   region: string;
@@ -35636,13 +35635,13 @@ export const GetPublicDelegatedPrefixesResponse = PublicDelegatedPrefix;
 
 export type GetPublicDelegatedPrefixesError = CommonErrors;
 
+/** Returns the specified PublicDelegatedPrefix resource in the given region. */
 export const getPublicDelegatedPrefixes: API.OperationMethod<GetPublicDelegatedPrefixesRequest, GetPublicDelegatedPrefixesResponse, GetPublicDelegatedPrefixesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPublicDelegatedPrefixesRequest,
   output: GetPublicDelegatedPrefixesResponse,
   errors: [],
 }));
 
-/** Deletes the specified PublicDelegatedPrefix in the given region. */
 export interface DeletePublicDelegatedPrefixesRequest {
   /** Name of the PublicDelegatedPrefix resource to delete. */
   publicDelegatedPrefix: string;
@@ -35669,13 +35668,13 @@ export const DeletePublicDelegatedPrefixesResponse = Operation;
 
 export type DeletePublicDelegatedPrefixesError = CommonErrors;
 
+/** Deletes the specified PublicDelegatedPrefix in the given region. */
 export const deletePublicDelegatedPrefixes: API.OperationMethod<DeletePublicDelegatedPrefixesRequest, DeletePublicDelegatedPrefixesResponse, DeletePublicDelegatedPrefixesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeletePublicDelegatedPrefixesRequest,
   output: DeletePublicDelegatedPrefixesResponse,
   errors: [],
 }));
 
-/** Patches the specified PublicDelegatedPrefix resource with the data included in the request. This method supportsPATCH semantics and usesJSON merge patch format and processing rules. */
 export interface PatchPublicDelegatedPrefixesRequest {
   /** Project ID for this request. */
   project: string;
@@ -35705,13 +35704,13 @@ export const PatchPublicDelegatedPrefixesResponse = Operation;
 
 export type PatchPublicDelegatedPrefixesError = CommonErrors;
 
+/** Patches the specified PublicDelegatedPrefix resource with the data included in the request. This method supportsPATCH semantics and usesJSON merge patch format and processing rules. */
 export const patchPublicDelegatedPrefixes: API.OperationMethod<PatchPublicDelegatedPrefixesRequest, PatchPublicDelegatedPrefixesResponse, PatchPublicDelegatedPrefixesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchPublicDelegatedPrefixesRequest,
   output: PatchPublicDelegatedPrefixesResponse,
   errors: [],
 }));
 
-/** Announces the specified PublicDelegatedPrefix in the given region. */
 export interface AnnouncePublicDelegatedPrefixesRequest {
   /** The name of theregion where the public delegated prefix is located. It should comply with RFC1035. */
   region: string;
@@ -35738,13 +35737,13 @@ export const AnnouncePublicDelegatedPrefixesResponse = Operation;
 
 export type AnnouncePublicDelegatedPrefixesError = CommonErrors;
 
+/** Announces the specified PublicDelegatedPrefix in the given region. */
 export const announcePublicDelegatedPrefixes: API.OperationMethod<AnnouncePublicDelegatedPrefixesRequest, AnnouncePublicDelegatedPrefixesResponse, AnnouncePublicDelegatedPrefixesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AnnouncePublicDelegatedPrefixesRequest,
   output: AnnouncePublicDelegatedPrefixesResponse,
   errors: [],
 }));
 
-/** Withdraws the specified PublicDelegatedPrefix in the given region. */
 export interface WithdrawPublicDelegatedPrefixesRequest {
   /** The name of theregion where the public delegated prefix is located. It should comply with RFC1035. */
   region: string;
@@ -35771,13 +35770,13 @@ export const WithdrawPublicDelegatedPrefixesResponse = Operation;
 
 export type WithdrawPublicDelegatedPrefixesError = CommonErrors;
 
+/** Withdraws the specified PublicDelegatedPrefix in the given region. */
 export const withdrawPublicDelegatedPrefixes: API.OperationMethod<WithdrawPublicDelegatedPrefixesRequest, WithdrawPublicDelegatedPrefixesResponse, WithdrawPublicDelegatedPrefixesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WithdrawPublicDelegatedPrefixesRequest,
   output: WithdrawPublicDelegatedPrefixesResponse,
   errors: [],
 }));
 
-/** Lists all PublicDelegatedPrefix resources owned by the specific project across all scopes. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListPublicDelegatedPrefixesRequest {
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string;
@@ -35816,7 +35815,8 @@ export const AggregatedListPublicDelegatedPrefixesResponse = PublicDelegatedPref
 
 export type AggregatedListPublicDelegatedPrefixesError = CommonErrors;
 
-export const aggregatedListPublicDelegatedPrefixes = API.makePaginated(() => ({
+/** Lists all PublicDelegatedPrefix resources owned by the specific project across all scopes. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListPublicDelegatedPrefixes: API.PaginatedOperationMethod<AggregatedListPublicDelegatedPrefixesRequest, AggregatedListPublicDelegatedPrefixesResponse, AggregatedListPublicDelegatedPrefixesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListPublicDelegatedPrefixesRequest,
   output: AggregatedListPublicDelegatedPrefixesResponse,
   errors: [],
@@ -35827,7 +35827,6 @@ export const aggregatedListPublicDelegatedPrefixes = API.makePaginated(() => ({
   },
 }));
 
-/** Lists the PublicDelegatedPrefixes for a project in the given region. */
 export interface ListPublicDelegatedPrefixesRequest {
   /** Name of the region of this request. */
   region: string;
@@ -35863,7 +35862,8 @@ export const ListPublicDelegatedPrefixesResponse = PublicDelegatedPrefixList;
 
 export type ListPublicDelegatedPrefixesError = CommonErrors;
 
-export const listPublicDelegatedPrefixes = API.makePaginated(() => ({
+/** Lists the PublicDelegatedPrefixes for a project in the given region. */
+export const listPublicDelegatedPrefixes: API.PaginatedOperationMethod<ListPublicDelegatedPrefixesRequest, ListPublicDelegatedPrefixesResponse, ListPublicDelegatedPrefixesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPublicDelegatedPrefixesRequest,
   output: ListPublicDelegatedPrefixesResponse,
   errors: [],
@@ -35874,7 +35874,6 @@ export const listPublicDelegatedPrefixes = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a PublicDelegatedPrefix in the specified project in the given region using the parameters that are included in the request. */
 export interface InsertPublicDelegatedPrefixesRequest {
   /** Name of the region of this request. */
   region: string;
@@ -35901,13 +35900,13 @@ export const InsertPublicDelegatedPrefixesResponse = Operation;
 
 export type InsertPublicDelegatedPrefixesError = CommonErrors;
 
+/** Creates a PublicDelegatedPrefix in the specified project in the given region using the parameters that are included in the request. */
 export const insertPublicDelegatedPrefixes: API.OperationMethod<InsertPublicDelegatedPrefixesRequest, InsertPublicDelegatedPrefixesResponse, InsertPublicDelegatedPrefixesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertPublicDelegatedPrefixesRequest,
   output: InsertPublicDelegatedPrefixesResponse,
   errors: [],
 }));
 
-/** Get snapshot settings. */
 export interface GetSnapshotSettingsRequest {
   /** Project ID for this request. */
   project: string;
@@ -35925,13 +35924,13 @@ export const GetSnapshotSettingsResponse = SnapshotSettings;
 
 export type GetSnapshotSettingsError = CommonErrors;
 
+/** Get snapshot settings. */
 export const getSnapshotSettings: API.OperationMethod<GetSnapshotSettingsRequest, GetSnapshotSettingsResponse, GetSnapshotSettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSnapshotSettingsRequest,
   output: GetSnapshotSettingsResponse,
   errors: [],
 }));
 
-/** Patch snapshot settings. */
 export interface PatchSnapshotSettingsRequest {
   /** update_mask indicates fields to be updated as part of this request. */
   updateMask?: string;
@@ -35958,13 +35957,13 @@ export const PatchSnapshotSettingsResponse = Operation;
 
 export type PatchSnapshotSettingsError = CommonErrors;
 
+/** Patch snapshot settings. */
 export const patchSnapshotSettings: API.OperationMethod<PatchSnapshotSettingsRequest, PatchSnapshotSettingsResponse, PatchSnapshotSettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchSnapshotSettingsRequest,
   output: PatchSnapshotSettingsResponse,
   errors: [],
 }));
 
-/** Retrieves the list of Zone resources under the specific region available to the specified project. */
 export interface ListRegionZonesRequest {
   /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based onresource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using GoogleRE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
   filter?: string;
@@ -36000,7 +35999,8 @@ export const ListRegionZonesResponse = ZoneList;
 
 export type ListRegionZonesError = CommonErrors;
 
-export const listRegionZones = API.makePaginated(() => ({
+/** Retrieves the list of Zone resources under the specific region available to the specified project. */
+export const listRegionZones: API.PaginatedOperationMethod<ListRegionZonesRequest, ListRegionZonesResponse, ListRegionZonesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRegionZonesRequest,
   output: ListRegionZonesResponse,
   errors: [],
@@ -36011,7 +36011,6 @@ export const listRegionZones = API.makePaginated(() => ({
   },
 }));
 
-/** Creates an instance group in the specified project using the parameters that are included in the request. */
 export interface InsertInstanceGroupsRequest {
   /** Project ID for this request. */
   project: string;
@@ -36038,13 +36037,13 @@ export const InsertInstanceGroupsResponse = Operation;
 
 export type InsertInstanceGroupsError = CommonErrors;
 
+/** Creates an instance group in the specified project using the parameters that are included in the request. */
 export const insertInstanceGroups: API.OperationMethod<InsertInstanceGroupsRequest, InsertInstanceGroupsResponse, InsertInstanceGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertInstanceGroupsRequest,
   output: InsertInstanceGroupsResponse,
   errors: [],
 }));
 
-/** Deletes the specified instance group. The instances in the group are not deleted. Note that instance group must not belong to a backend service. Read Deleting an instance group for more information. */
 export interface DeleteInstanceGroupsRequest {
   /** Project ID for this request. */
   project: string;
@@ -36071,13 +36070,13 @@ export const DeleteInstanceGroupsResponse = Operation;
 
 export type DeleteInstanceGroupsError = CommonErrors;
 
+/** Deletes the specified instance group. The instances in the group are not deleted. Note that instance group must not belong to a backend service. Read Deleting an instance group for more information. */
 export const deleteInstanceGroups: API.OperationMethod<DeleteInstanceGroupsRequest, DeleteInstanceGroupsResponse, DeleteInstanceGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteInstanceGroupsRequest,
   output: DeleteInstanceGroupsResponse,
   errors: [],
 }));
 
-/** Lists the instances in the specified instance group. The orderBy query parameter is not supported. The filter query parameter is supported, but only for expressions that use `eq` (equal) or `ne` (not equal) operators. */
 export interface ListInstancesInstanceGroupsRequest {
   /** Project ID for this request. */
   project: string;
@@ -36119,7 +36118,8 @@ export const ListInstancesInstanceGroupsResponse = InstanceGroupsListInstances;
 
 export type ListInstancesInstanceGroupsError = CommonErrors;
 
-export const listInstancesInstanceGroups = API.makePaginated(() => ({
+/** Lists the instances in the specified instance group. The orderBy query parameter is not supported. The filter query parameter is supported, but only for expressions that use `eq` (equal) or `ne` (not equal) operators. */
+export const listInstancesInstanceGroups: API.PaginatedOperationMethod<ListInstancesInstanceGroupsRequest, ListInstancesInstanceGroupsResponse, ListInstancesInstanceGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListInstancesInstanceGroupsRequest,
   output: ListInstancesInstanceGroupsResponse,
   errors: [],
@@ -36130,7 +36130,6 @@ export const listInstancesInstanceGroups = API.makePaginated(() => ({
   },
 }));
 
-/** Removes one or more instances from the specified instance group, but does not delete those instances. If the group is part of a backend service that has enabled connection draining, it can take up to 60 seconds after the connection draining duration before the VM instance is removed or deleted. */
 export interface RemoveInstancesInstanceGroupsRequest {
   /** The name of the zone where the instance group is located. */
   zone: string;
@@ -36160,13 +36159,13 @@ export const RemoveInstancesInstanceGroupsResponse = Operation;
 
 export type RemoveInstancesInstanceGroupsError = CommonErrors;
 
+/** Removes one or more instances from the specified instance group, but does not delete those instances. If the group is part of a backend service that has enabled connection draining, it can take up to 60 seconds after the connection draining duration before the VM instance is removed or deleted. */
 export const removeInstancesInstanceGroups: API.OperationMethod<RemoveInstancesInstanceGroupsRequest, RemoveInstancesInstanceGroupsResponse, RemoveInstancesInstanceGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveInstancesInstanceGroupsRequest,
   output: RemoveInstancesInstanceGroupsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsInstanceGroupsRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -36193,13 +36192,13 @@ export const TestIamPermissionsInstanceGroupsResponse = TestPermissionsResponse;
 
 export type TestIamPermissionsInstanceGroupsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsInstanceGroups: API.OperationMethod<TestIamPermissionsInstanceGroupsRequest, TestIamPermissionsInstanceGroupsResponse, TestIamPermissionsInstanceGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsInstanceGroupsRequest,
   output: TestIamPermissionsInstanceGroupsResponse,
   errors: [],
 }));
 
-/** Sets the named ports for the specified instance group. */
 export interface SetNamedPortsInstanceGroupsRequest {
   /** Project ID for this request. */
   project: string;
@@ -36229,13 +36228,13 @@ export const SetNamedPortsInstanceGroupsResponse = Operation;
 
 export type SetNamedPortsInstanceGroupsError = CommonErrors;
 
+/** Sets the named ports for the specified instance group. */
 export const setNamedPortsInstanceGroups: API.OperationMethod<SetNamedPortsInstanceGroupsRequest, SetNamedPortsInstanceGroupsResponse, SetNamedPortsInstanceGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetNamedPortsInstanceGroupsRequest,
   output: SetNamedPortsInstanceGroupsResponse,
   errors: [],
 }));
 
-/** Returns the specified zonal instance group. Get a list of available zonal instance groups by making a list() request. For managed instance groups, use theinstanceGroupManagers or regionInstanceGroupManagers methods instead. */
 export interface GetInstanceGroupsRequest {
   /** The name of the instance group. */
   instanceGroup: string;
@@ -36259,13 +36258,13 @@ export const GetInstanceGroupsResponse = InstanceGroup;
 
 export type GetInstanceGroupsError = CommonErrors;
 
+/** Returns the specified zonal instance group. Get a list of available zonal instance groups by making a list() request. For managed instance groups, use theinstanceGroupManagers or regionInstanceGroupManagers methods instead. */
 export const getInstanceGroups: API.OperationMethod<GetInstanceGroupsRequest, GetInstanceGroupsResponse, GetInstanceGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetInstanceGroupsRequest,
   output: GetInstanceGroupsResponse,
   errors: [],
 }));
 
-/** Adds a list of instances to the specified instance group. All of the instances in the instance group must be in the same network/subnetwork. Read Adding instances for more information. */
 export interface AddInstancesInstanceGroupsRequest {
   /** The name of the instance group where you are adding instances. */
   instanceGroup: string;
@@ -36295,13 +36294,13 @@ export const AddInstancesInstanceGroupsResponse = Operation;
 
 export type AddInstancesInstanceGroupsError = CommonErrors;
 
+/** Adds a list of instances to the specified instance group. All of the instances in the instance group must be in the same network/subnetwork. Read Adding instances for more information. */
 export const addInstancesInstanceGroups: API.OperationMethod<AddInstancesInstanceGroupsRequest, AddInstancesInstanceGroupsResponse, AddInstancesInstanceGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddInstancesInstanceGroupsRequest,
   output: AddInstancesInstanceGroupsResponse,
   errors: [],
 }));
 
-/** Retrieves the list of zonal instance group resources contained within the specified zone. For managed instance groups, use theinstanceGroupManagers or regionInstanceGroupManagers methods instead. */
 export interface ListInstanceGroupsRequest {
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string;
@@ -36337,7 +36336,8 @@ export const ListInstanceGroupsResponse = InstanceGroupList;
 
 export type ListInstanceGroupsError = CommonErrors;
 
-export const listInstanceGroups = API.makePaginated(() => ({
+/** Retrieves the list of zonal instance group resources contained within the specified zone. For managed instance groups, use theinstanceGroupManagers or regionInstanceGroupManagers methods instead. */
+export const listInstanceGroups: API.PaginatedOperationMethod<ListInstanceGroupsRequest, ListInstanceGroupsResponse, ListInstanceGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListInstanceGroupsRequest,
   output: ListInstanceGroupsResponse,
   errors: [],
@@ -36348,7 +36348,6 @@ export const listInstanceGroups = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves the list of instance groups and sorts them by zone. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListInstanceGroupsRequest {
   /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
   orderBy?: string;
@@ -36387,7 +36386,8 @@ export const AggregatedListInstanceGroupsResponse = InstanceGroupAggregatedList;
 
 export type AggregatedListInstanceGroupsError = CommonErrors;
 
-export const aggregatedListInstanceGroups = API.makePaginated(() => ({
+/** Retrieves the list of instance groups and sorts them by zone. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListInstanceGroups: API.PaginatedOperationMethod<AggregatedListInstanceGroupsRequest, AggregatedListInstanceGroupsResponse, AggregatedListInstanceGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListInstanceGroupsRequest,
   output: AggregatedListInstanceGroupsResponse,
   errors: [],
@@ -36398,7 +36398,6 @@ export const aggregatedListInstanceGroups = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves the list of region resources available to the specified project. To decrease latency for this method, you can optionally omit any unneeded information from the response by using a field mask. This practice is especially recommended for unused quota information (the `items.quotas` field). To exclude one or more fields, set your request's `fields` query parameter to only include the fields you need. For example, to only include the `id` and `selfLink` fields, add the query parameter `?fields=id,selfLink` to your request. This method fails if the quota information is unavailable for the region and if the organization policy constraint compute.requireBasicQuotaInResponse is enforced. This constraint, when enforced, disables the fail-open behaviour when quota information (the `items.quotas` field) is unavailable for the region. It is recommended to use the default setting for the constraint unless your application requires the fail-closed behaviour for this method. */
 export interface ListRegionsRequest {
   /** Opt-in for partial success behavior which provides partial results in case of failure. The default value is false. For example, when partial success behavior is enabled, aggregatedList for a single zone scope either returns all resources in the zone or no resources, with an error code. */
   returnPartialSuccess?: boolean;
@@ -36431,7 +36430,8 @@ export const ListRegionsResponse = RegionList;
 
 export type ListRegionsError = CommonErrors;
 
-export const listRegions = API.makePaginated(() => ({
+/** Retrieves the list of region resources available to the specified project. To decrease latency for this method, you can optionally omit any unneeded information from the response by using a field mask. This practice is especially recommended for unused quota information (the `items.quotas` field). To exclude one or more fields, set your request's `fields` query parameter to only include the fields you need. For example, to only include the `id` and `selfLink` fields, add the query parameter `?fields=id,selfLink` to your request. This method fails if the quota information is unavailable for the region and if the organization policy constraint compute.requireBasicQuotaInResponse is enforced. This constraint, when enforced, disables the fail-open behaviour when quota information (the `items.quotas` field) is unavailable for the region. It is recommended to use the default setting for the constraint unless your application requires the fail-closed behaviour for this method. */
+export const listRegions: API.PaginatedOperationMethod<ListRegionsRequest, ListRegionsResponse, ListRegionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRegionsRequest,
   output: ListRegionsResponse,
   errors: [],
@@ -36442,7 +36442,6 @@ export const listRegions = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the specified Region resource. To decrease latency for this method, you can optionally omit any unneeded information from the response by using a field mask. This practice is especially recommended for unused quota information (the `quotas` field). To exclude one or more fields, set your request's `fields` query parameter to only include the fields you need. For example, to only include the `id` and `selfLink` fields, add the query parameter `?fields=id,selfLink` to your request. This method fails if the quota information is unavailable for the region and if the organization policy constraint compute.requireBasicQuotaInResponse is enforced. This constraint, when enforced, disables the fail-open behaviour when quota information (the `items.quotas` field) is unavailable for the region. It is recommended to use the default setting for the constraint unless your application requires the fail-closed behaviour for this method. */
 export interface GetRegionsRequest {
   /** Project ID for this request. */
   project: string;
@@ -36463,13 +36462,13 @@ export const GetRegionsResponse = Region;
 
 export type GetRegionsError = CommonErrors;
 
+/** Returns the specified Region resource. To decrease latency for this method, you can optionally omit any unneeded information from the response by using a field mask. This practice is especially recommended for unused quota information (the `quotas` field). To exclude one or more fields, set your request's `fields` query parameter to only include the fields you need. For example, to only include the `id` and `selfLink` fields, add the query parameter `?fields=id,selfLink` to your request. This method fails if the quota information is unavailable for the region and if the organization policy constraint compute.requireBasicQuotaInResponse is enforced. This constraint, when enforced, disables the fail-open behaviour when quota information (the `items.quotas` field) is unavailable for the region. It is recommended to use the default setting for the constraint unless your application requires the fail-closed behaviour for this method. */
 export const getRegions: API.OperationMethod<GetRegionsRequest, GetRegionsResponse, GetRegionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRegionsRequest,
   output: GetRegionsResponse,
   errors: [],
 }));
 
-/** Patches the specified policy with the data included in the request. */
 export interface PatchNetworkEdgeSecurityServicesRequest {
   /** Name of the network edge security service to update. */
   networkEdgeSecurityService: string;
@@ -36504,13 +36503,13 @@ export const PatchNetworkEdgeSecurityServicesResponse = Operation;
 
 export type PatchNetworkEdgeSecurityServicesError = CommonErrors;
 
+/** Patches the specified policy with the data included in the request. */
 export const patchNetworkEdgeSecurityServices: API.OperationMethod<PatchNetworkEdgeSecurityServicesRequest, PatchNetworkEdgeSecurityServicesResponse, PatchNetworkEdgeSecurityServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchNetworkEdgeSecurityServicesRequest,
   output: PatchNetworkEdgeSecurityServicesResponse,
   errors: [],
 }));
 
-/** Deletes the specified service. */
 export interface DeleteNetworkEdgeSecurityServicesRequest {
   /** Name of the network edge security service to delete. */
   networkEdgeSecurityService: string;
@@ -36537,13 +36536,13 @@ export const DeleteNetworkEdgeSecurityServicesResponse = Operation;
 
 export type DeleteNetworkEdgeSecurityServicesError = CommonErrors;
 
+/** Deletes the specified service. */
 export const deleteNetworkEdgeSecurityServices: API.OperationMethod<DeleteNetworkEdgeSecurityServicesRequest, DeleteNetworkEdgeSecurityServicesResponse, DeleteNetworkEdgeSecurityServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteNetworkEdgeSecurityServicesRequest,
   output: DeleteNetworkEdgeSecurityServicesResponse,
   errors: [],
 }));
 
-/** Gets a specified NetworkEdgeSecurityService. */
 export interface GetNetworkEdgeSecurityServicesRequest {
   /** Name of the region scoping this request. */
   region: string;
@@ -36567,13 +36566,13 @@ export const GetNetworkEdgeSecurityServicesResponse = NetworkEdgeSecurityService
 
 export type GetNetworkEdgeSecurityServicesError = CommonErrors;
 
+/** Gets a specified NetworkEdgeSecurityService. */
 export const getNetworkEdgeSecurityServices: API.OperationMethod<GetNetworkEdgeSecurityServicesRequest, GetNetworkEdgeSecurityServicesResponse, GetNetworkEdgeSecurityServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetNetworkEdgeSecurityServicesRequest,
   output: GetNetworkEdgeSecurityServicesResponse,
   errors: [],
 }));
 
-/** Creates a new service in the specified project using the data included in the request. */
 export interface InsertNetworkEdgeSecurityServicesRequest {
   /** Name of the region scoping this request. */
   region: string;
@@ -36603,13 +36602,13 @@ export const InsertNetworkEdgeSecurityServicesResponse = Operation;
 
 export type InsertNetworkEdgeSecurityServicesError = CommonErrors;
 
+/** Creates a new service in the specified project using the data included in the request. */
 export const insertNetworkEdgeSecurityServices: API.OperationMethod<InsertNetworkEdgeSecurityServicesRequest, InsertNetworkEdgeSecurityServicesResponse, InsertNetworkEdgeSecurityServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertNetworkEdgeSecurityServicesRequest,
   output: InsertNetworkEdgeSecurityServicesResponse,
   errors: [],
 }));
 
-/** Retrieves the list of all NetworkEdgeSecurityService resources available to the specified project. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListNetworkEdgeSecurityServicesRequest {
   /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based onresource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using GoogleRE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
   filter?: string;
@@ -36648,7 +36647,8 @@ export const AggregatedListNetworkEdgeSecurityServicesResponse = NetworkEdgeSecu
 
 export type AggregatedListNetworkEdgeSecurityServicesError = CommonErrors;
 
-export const aggregatedListNetworkEdgeSecurityServices = API.makePaginated(() => ({
+/** Retrieves the list of all NetworkEdgeSecurityService resources available to the specified project. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListNetworkEdgeSecurityServices: API.PaginatedOperationMethod<AggregatedListNetworkEdgeSecurityServicesRequest, AggregatedListNetworkEdgeSecurityServicesResponse, AggregatedListNetworkEdgeSecurityServicesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListNetworkEdgeSecurityServicesRequest,
   output: AggregatedListNetworkEdgeSecurityServicesResponse,
   errors: [],
@@ -36659,7 +36659,6 @@ export const aggregatedListNetworkEdgeSecurityServices = API.makePaginated(() =>
   },
 }));
 
-/** Retrieves the list of SslCertificate resources available to the specified project in the specified region. */
 export interface ListRegionSslCertificatesRequest {
   /** Opt-in for partial success behavior which provides partial results in case of failure. The default value is false. For example, when partial success behavior is enabled, aggregatedList for a single zone scope either returns all resources in the zone or no resources, with an error code. */
   returnPartialSuccess?: boolean;
@@ -36695,7 +36694,8 @@ export const ListRegionSslCertificatesResponse = SslCertificateList;
 
 export type ListRegionSslCertificatesError = CommonErrors;
 
-export const listRegionSslCertificates = API.makePaginated(() => ({
+/** Retrieves the list of SslCertificate resources available to the specified project in the specified region. */
+export const listRegionSslCertificates: API.PaginatedOperationMethod<ListRegionSslCertificatesRequest, ListRegionSslCertificatesResponse, ListRegionSslCertificatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRegionSslCertificatesRequest,
   output: ListRegionSslCertificatesResponse,
   errors: [],
@@ -36706,7 +36706,6 @@ export const listRegionSslCertificates = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the specified SslCertificate resource in the region. */
 export interface DeleteRegionSslCertificatesRequest {
   /** Name of the SslCertificate resource to delete. */
   sslCertificate: string;
@@ -36733,13 +36732,13 @@ export const DeleteRegionSslCertificatesResponse = Operation;
 
 export type DeleteRegionSslCertificatesError = CommonErrors;
 
+/** Deletes the specified SslCertificate resource in the region. */
 export const deleteRegionSslCertificates: API.OperationMethod<DeleteRegionSslCertificatesRequest, DeleteRegionSslCertificatesResponse, DeleteRegionSslCertificatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRegionSslCertificatesRequest,
   output: DeleteRegionSslCertificatesResponse,
   errors: [],
 }));
 
-/** Returns the specified SslCertificate resource in the specified region. Get a list of available SSL certificates by making a list() request. */
 export interface GetRegionSslCertificatesRequest {
   /** Project ID for this request. */
   project: string;
@@ -36763,13 +36762,13 @@ export const GetRegionSslCertificatesResponse = SslCertificate;
 
 export type GetRegionSslCertificatesError = CommonErrors;
 
+/** Returns the specified SslCertificate resource in the specified region. Get a list of available SSL certificates by making a list() request. */
 export const getRegionSslCertificates: API.OperationMethod<GetRegionSslCertificatesRequest, GetRegionSslCertificatesResponse, GetRegionSslCertificatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRegionSslCertificatesRequest,
   output: GetRegionSslCertificatesResponse,
   errors: [],
 }));
 
-/** Creates a SslCertificate resource in the specified project and region using the data included in the request */
 export interface InsertRegionSslCertificatesRequest {
   /** Project ID for this request. */
   project: string;
@@ -36796,13 +36795,13 @@ export const InsertRegionSslCertificatesResponse = Operation;
 
 export type InsertRegionSslCertificatesError = CommonErrors;
 
+/** Creates a SslCertificate resource in the specified project and region using the data included in the request */
 export const insertRegionSslCertificates: API.OperationMethod<InsertRegionSslCertificatesRequest, InsertRegionSslCertificatesResponse, InsertRegionSslCertificatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertRegionSslCertificatesRequest,
   output: InsertRegionSslCertificatesResponse,
   errors: [],
 }));
 
-/** Returns the specified instance template. */
 export interface GetRegionInstanceTemplatesRequest {
   /** The name of the region for this request. */
   region: string;
@@ -36826,13 +36825,13 @@ export const GetRegionInstanceTemplatesResponse = InstanceTemplate;
 
 export type GetRegionInstanceTemplatesError = CommonErrors;
 
+/** Returns the specified instance template. */
 export const getRegionInstanceTemplates: API.OperationMethod<GetRegionInstanceTemplatesRequest, GetRegionInstanceTemplatesResponse, GetRegionInstanceTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRegionInstanceTemplatesRequest,
   output: GetRegionInstanceTemplatesResponse,
   errors: [],
 }));
 
-/** Deletes the specified instance template. Deleting an instance template is permanent and cannot be undone. */
 export interface DeleteRegionInstanceTemplatesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -36859,13 +36858,13 @@ export const DeleteRegionInstanceTemplatesResponse = Operation;
 
 export type DeleteRegionInstanceTemplatesError = CommonErrors;
 
+/** Deletes the specified instance template. Deleting an instance template is permanent and cannot be undone. */
 export const deleteRegionInstanceTemplates: API.OperationMethod<DeleteRegionInstanceTemplatesRequest, DeleteRegionInstanceTemplatesResponse, DeleteRegionInstanceTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRegionInstanceTemplatesRequest,
   output: DeleteRegionInstanceTemplatesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of instance templates that are contained within the specified project and region. */
 export interface ListRegionInstanceTemplatesRequest {
   /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based onresource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using GoogleRE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
   filter?: string;
@@ -36901,7 +36900,8 @@ export const ListRegionInstanceTemplatesResponse = InstanceTemplateList;
 
 export type ListRegionInstanceTemplatesError = CommonErrors;
 
-export const listRegionInstanceTemplates = API.makePaginated(() => ({
+/** Retrieves a list of instance templates that are contained within the specified project and region. */
+export const listRegionInstanceTemplates: API.PaginatedOperationMethod<ListRegionInstanceTemplatesRequest, ListRegionInstanceTemplatesResponse, ListRegionInstanceTemplatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRegionInstanceTemplatesRequest,
   output: ListRegionInstanceTemplatesResponse,
   errors: [],
@@ -36912,7 +36912,6 @@ export const listRegionInstanceTemplates = API.makePaginated(() => ({
   },
 }));
 
-/** Creates an instance template in the specified project and region using the global instance template whose URL is included in the request. */
 export interface InsertRegionInstanceTemplatesRequest {
   /** The name of the region for this request. */
   region: string;
@@ -36939,13 +36938,13 @@ export const InsertRegionInstanceTemplatesResponse = Operation;
 
 export type InsertRegionInstanceTemplatesError = CommonErrors;
 
+/** Creates an instance template in the specified project and region using the global instance template whose URL is included in the request. */
 export const insertRegionInstanceTemplates: API.OperationMethod<InsertRegionInstanceTemplatesRequest, InsertRegionInstanceTemplatesResponse, InsertRegionInstanceTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertRegionInstanceTemplatesRequest,
   output: InsertRegionInstanceTemplatesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of global addresses. */
 export interface ListGlobalAddressesRequest {
   /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based onresource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using GoogleRE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
   filter?: string;
@@ -36978,7 +36977,8 @@ export const ListGlobalAddressesResponse = AddressList;
 
 export type ListGlobalAddressesError = CommonErrors;
 
-export const listGlobalAddresses = API.makePaginated(() => ({
+/** Retrieves a list of global addresses. */
+export const listGlobalAddresses: API.PaginatedOperationMethod<ListGlobalAddressesRequest, ListGlobalAddressesResponse, ListGlobalAddressesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListGlobalAddressesRequest,
   output: ListGlobalAddressesResponse,
   errors: [],
@@ -36989,7 +36989,6 @@ export const listGlobalAddresses = API.makePaginated(() => ({
   },
 }));
 
-/** Moves the specified address resource from one project to another project. */
 export interface MoveGlobalAddressesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -37016,13 +37015,13 @@ export const MoveGlobalAddressesResponse = Operation;
 
 export type MoveGlobalAddressesError = CommonErrors;
 
+/** Moves the specified address resource from one project to another project. */
 export const moveGlobalAddresses: API.OperationMethod<MoveGlobalAddressesRequest, MoveGlobalAddressesResponse, MoveGlobalAddressesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MoveGlobalAddressesRequest,
   output: MoveGlobalAddressesResponse,
   errors: [],
 }));
 
-/** Returns the specified address resource. */
 export interface GetGlobalAddressesRequest {
   /** Name of the address resource to return. */
   address: string;
@@ -37043,13 +37042,13 @@ export const GetGlobalAddressesResponse = Address;
 
 export type GetGlobalAddressesError = CommonErrors;
 
+/** Returns the specified address resource. */
 export const getGlobalAddresses: API.OperationMethod<GetGlobalAddressesRequest, GetGlobalAddressesResponse, GetGlobalAddressesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetGlobalAddressesRequest,
   output: GetGlobalAddressesResponse,
   errors: [],
 }));
 
-/** Creates an address resource in the specified project by using the data included in the request. */
 export interface InsertGlobalAddressesRequest {
   /** Project ID for this request. */
   project: string;
@@ -37073,13 +37072,13 @@ export const InsertGlobalAddressesResponse = Operation;
 
 export type InsertGlobalAddressesError = CommonErrors;
 
+/** Creates an address resource in the specified project by using the data included in the request. */
 export const insertGlobalAddresses: API.OperationMethod<InsertGlobalAddressesRequest, InsertGlobalAddressesResponse, InsertGlobalAddressesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertGlobalAddressesRequest,
   output: InsertGlobalAddressesResponse,
   errors: [],
 }));
 
-/** Sets the labels on a GlobalAddress. To learn more about labels, read theLabeling Resources documentation. */
 export interface SetLabelsGlobalAddressesRequest {
   /** Project ID for this request. */
   project: string;
@@ -37103,13 +37102,13 @@ export const SetLabelsGlobalAddressesResponse = Operation;
 
 export type SetLabelsGlobalAddressesError = CommonErrors;
 
+/** Sets the labels on a GlobalAddress. To learn more about labels, read theLabeling Resources documentation. */
 export const setLabelsGlobalAddresses: API.OperationMethod<SetLabelsGlobalAddressesRequest, SetLabelsGlobalAddressesResponse, SetLabelsGlobalAddressesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetLabelsGlobalAddressesRequest,
   output: SetLabelsGlobalAddressesResponse,
   errors: [],
 }));
 
-/** Deletes the specified address resource. */
 export interface DeleteGlobalAddressesRequest {
   /** Project ID for this request. */
   project: string;
@@ -37133,13 +37132,13 @@ export const DeleteGlobalAddressesResponse = Operation;
 
 export type DeleteGlobalAddressesError = CommonErrors;
 
+/** Deletes the specified address resource. */
 export const deleteGlobalAddresses: API.OperationMethod<DeleteGlobalAddressesRequest, DeleteGlobalAddressesResponse, DeleteGlobalAddressesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteGlobalAddressesRequest,
   output: DeleteGlobalAddressesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsGlobalAddressesRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -37163,13 +37162,13 @@ export const TestIamPermissionsGlobalAddressesResponse = TestPermissionsResponse
 
 export type TestIamPermissionsGlobalAddressesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsGlobalAddresses: API.OperationMethod<TestIamPermissionsGlobalAddressesRequest, TestIamPermissionsGlobalAddressesResponse, TestIamPermissionsGlobalAddressesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsGlobalAddressesRequest,
   output: TestIamPermissionsGlobalAddressesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export interface GetIamPolicyRegionInstantSnapshotsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -37196,13 +37195,13 @@ export const GetIamPolicyRegionInstantSnapshotsResponse = Policy;
 
 export type GetIamPolicyRegionInstantSnapshotsError = CommonErrors;
 
+/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export const getIamPolicyRegionInstantSnapshots: API.OperationMethod<GetIamPolicyRegionInstantSnapshotsRequest, GetIamPolicyRegionInstantSnapshotsResponse, GetIamPolicyRegionInstantSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyRegionInstantSnapshotsRequest,
   output: GetIamPolicyRegionInstantSnapshotsResponse,
   errors: [],
 }));
 
-/** Sets the labels on a instantSnapshot in the given region. To learn more about labels, read the Labeling Resources documentation. */
 export interface SetLabelsRegionInstantSnapshotsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -37232,13 +37231,13 @@ export const SetLabelsRegionInstantSnapshotsResponse = Operation;
 
 export type SetLabelsRegionInstantSnapshotsError = CommonErrors;
 
+/** Sets the labels on a instantSnapshot in the given region. To learn more about labels, read the Labeling Resources documentation. */
 export const setLabelsRegionInstantSnapshots: API.OperationMethod<SetLabelsRegionInstantSnapshotsRequest, SetLabelsRegionInstantSnapshotsResponse, SetLabelsRegionInstantSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetLabelsRegionInstantSnapshotsRequest,
   output: SetLabelsRegionInstantSnapshotsResponse,
   errors: [],
 }));
 
-/** Creates an instant snapshot in the specified region. */
 export interface InsertRegionInstantSnapshotsRequest {
   /** Name of the region for this request. */
   region: string;
@@ -37265,13 +37264,13 @@ export const InsertRegionInstantSnapshotsResponse = Operation;
 
 export type InsertRegionInstantSnapshotsError = CommonErrors;
 
+/** Creates an instant snapshot in the specified region. */
 export const insertRegionInstantSnapshots: API.OperationMethod<InsertRegionInstantSnapshotsRequest, InsertRegionInstantSnapshotsResponse, InsertRegionInstantSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertRegionInstantSnapshotsRequest,
   output: InsertRegionInstantSnapshotsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsRegionInstantSnapshotsRequest {
   /** The name of the region for this request. */
   region: string;
@@ -37298,13 +37297,13 @@ export const TestIamPermissionsRegionInstantSnapshotsResponse = TestPermissionsR
 
 export type TestIamPermissionsRegionInstantSnapshotsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsRegionInstantSnapshots: API.OperationMethod<TestIamPermissionsRegionInstantSnapshotsRequest, TestIamPermissionsRegionInstantSnapshotsResponse, TestIamPermissionsRegionInstantSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsRegionInstantSnapshotsRequest,
   output: TestIamPermissionsRegionInstantSnapshotsResponse,
   errors: [],
 }));
 
-/** Returns the specified InstantSnapshot resource in the specified region. */
 export interface GetRegionInstantSnapshotsRequest {
   /** Name of the InstantSnapshot resource to return. */
   instantSnapshot: string;
@@ -37328,13 +37327,13 @@ export const GetRegionInstantSnapshotsResponse = InstantSnapshot;
 
 export type GetRegionInstantSnapshotsError = CommonErrors;
 
+/** Returns the specified InstantSnapshot resource in the specified region. */
 export const getRegionInstantSnapshots: API.OperationMethod<GetRegionInstantSnapshotsRequest, GetRegionInstantSnapshotsResponse, GetRegionInstantSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRegionInstantSnapshotsRequest,
   output: GetRegionInstantSnapshotsResponse,
   errors: [],
 }));
 
-/** Retrieves the list of InstantSnapshot resources contained within the specified region. */
 export interface ListRegionInstantSnapshotsRequest {
   /** Project ID for this request. */
   project: string;
@@ -37370,7 +37369,8 @@ export const ListRegionInstantSnapshotsResponse = InstantSnapshotList;
 
 export type ListRegionInstantSnapshotsError = CommonErrors;
 
-export const listRegionInstantSnapshots = API.makePaginated(() => ({
+/** Retrieves the list of InstantSnapshot resources contained within the specified region. */
+export const listRegionInstantSnapshots: API.PaginatedOperationMethod<ListRegionInstantSnapshotsRequest, ListRegionInstantSnapshotsResponse, ListRegionInstantSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRegionInstantSnapshotsRequest,
   output: ListRegionInstantSnapshotsResponse,
   errors: [],
@@ -37381,7 +37381,6 @@ export const listRegionInstantSnapshots = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the specified InstantSnapshot resource. Keep in mind that deleting a single instantSnapshot might not necessarily delete all the data on that instantSnapshot. If any data on the instantSnapshot that is marked for deletion is needed for subsequent instantSnapshots, the data will be moved to the next corresponding instantSnapshot. For more information, seeDeleting instantSnapshots. */
 export interface DeleteRegionInstantSnapshotsRequest {
   /** Name of the InstantSnapshot resource to delete. */
   instantSnapshot: string;
@@ -37408,13 +37407,13 @@ export const DeleteRegionInstantSnapshotsResponse = Operation;
 
 export type DeleteRegionInstantSnapshotsError = CommonErrors;
 
+/** Deletes the specified InstantSnapshot resource. Keep in mind that deleting a single instantSnapshot might not necessarily delete all the data on that instantSnapshot. If any data on the instantSnapshot that is marked for deletion is needed for subsequent instantSnapshots, the data will be moved to the next corresponding instantSnapshot. For more information, seeDeleting instantSnapshots. */
 export const deleteRegionInstantSnapshots: API.OperationMethod<DeleteRegionInstantSnapshotsRequest, DeleteRegionInstantSnapshotsResponse, DeleteRegionInstantSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRegionInstantSnapshotsRequest,
   output: DeleteRegionInstantSnapshotsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export interface SetIamPolicyRegionInstantSnapshotsRequest {
   /** Project ID for this request. */
   project: string;
@@ -37441,13 +37440,13 @@ export const SetIamPolicyRegionInstantSnapshotsResponse = Policy;
 
 export type SetIamPolicyRegionInstantSnapshotsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export const setIamPolicyRegionInstantSnapshots: API.OperationMethod<SetIamPolicyRegionInstantSnapshotsRequest, SetIamPolicyRegionInstantSnapshotsResponse, SetIamPolicyRegionInstantSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyRegionInstantSnapshotsRequest,
   output: SetIamPolicyRegionInstantSnapshotsResponse,
   errors: [],
 }));
 
-/** Returns the specified accelerator type. */
 export interface GetAcceleratorTypesRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -37471,13 +37470,13 @@ export const GetAcceleratorTypesResponse = AcceleratorType;
 
 export type GetAcceleratorTypesError = CommonErrors;
 
+/** Returns the specified accelerator type. */
 export const getAcceleratorTypes: API.OperationMethod<GetAcceleratorTypesRequest, GetAcceleratorTypesResponse, GetAcceleratorTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAcceleratorTypesRequest,
   output: GetAcceleratorTypesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of accelerator types that are available to the specified project. */
 export interface ListAcceleratorTypesRequest {
   /** Project ID for this request. */
   project: string;
@@ -37513,7 +37512,8 @@ export const ListAcceleratorTypesResponse = AcceleratorTypeList;
 
 export type ListAcceleratorTypesError = CommonErrors;
 
-export const listAcceleratorTypes = API.makePaginated(() => ({
+/** Retrieves a list of accelerator types that are available to the specified project. */
+export const listAcceleratorTypes: API.PaginatedOperationMethod<ListAcceleratorTypesRequest, ListAcceleratorTypesResponse, ListAcceleratorTypesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAcceleratorTypesRequest,
   output: ListAcceleratorTypesResponse,
   errors: [],
@@ -37524,7 +37524,6 @@ export const listAcceleratorTypes = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves an aggregated list of accelerator types. To prevent failure, it is recommended that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListAcceleratorTypesRequest {
   /** Opt-in for partial success behavior which provides partial results in case of failure. The default value is false. For example, when partial success behavior is enabled, aggregatedList for a single zone scope either returns all resources in the zone or no resources, with an error code. */
   returnPartialSuccess?: boolean;
@@ -37563,7 +37562,8 @@ export const AggregatedListAcceleratorTypesResponse = AcceleratorTypeAggregatedL
 
 export type AggregatedListAcceleratorTypesError = CommonErrors;
 
-export const aggregatedListAcceleratorTypes = API.makePaginated(() => ({
+/** Retrieves an aggregated list of accelerator types. To prevent failure, it is recommended that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListAcceleratorTypes: API.PaginatedOperationMethod<AggregatedListAcceleratorTypesRequest, AggregatedListAcceleratorTypesResponse, AggregatedListAcceleratorTypesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListAcceleratorTypesRequest,
   output: AggregatedListAcceleratorTypesResponse,
   errors: [],
@@ -37574,7 +37574,6 @@ export const aggregatedListAcceleratorTypes = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a cross-site network in the specified project in the given scope using the parameters that are included in the request. */
 export interface InsertCrossSiteNetworksRequest {
   /** Project ID for this request. */
   project: string;
@@ -37601,13 +37600,13 @@ export const InsertCrossSiteNetworksResponse = Operation;
 
 export type InsertCrossSiteNetworksError = CommonErrors;
 
+/** Creates a cross-site network in the specified project in the given scope using the parameters that are included in the request. */
 export const insertCrossSiteNetworks: API.OperationMethod<InsertCrossSiteNetworksRequest, InsertCrossSiteNetworksResponse, InsertCrossSiteNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertCrossSiteNetworksRequest,
   output: InsertCrossSiteNetworksResponse,
   errors: [],
 }));
 
-/** Deletes the specified cross-site network in the given scope. */
 export interface DeleteCrossSiteNetworksRequest {
   /** Name of the cross-site network to delete. */
   crossSiteNetwork: string;
@@ -37631,13 +37630,13 @@ export const DeleteCrossSiteNetworksResponse = Operation;
 
 export type DeleteCrossSiteNetworksError = CommonErrors;
 
+/** Deletes the specified cross-site network in the given scope. */
 export const deleteCrossSiteNetworks: API.OperationMethod<DeleteCrossSiteNetworksRequest, DeleteCrossSiteNetworksResponse, DeleteCrossSiteNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteCrossSiteNetworksRequest,
   output: DeleteCrossSiteNetworksResponse,
   errors: [],
 }));
 
-/** Lists the cross-site networks for a project in the given scope. */
 export interface ListCrossSiteNetworksRequest {
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string;
@@ -37670,7 +37669,8 @@ export const ListCrossSiteNetworksResponse = CrossSiteNetworkList;
 
 export type ListCrossSiteNetworksError = CommonErrors;
 
-export const listCrossSiteNetworks = API.makePaginated(() => ({
+/** Lists the cross-site networks for a project in the given scope. */
+export const listCrossSiteNetworks: API.PaginatedOperationMethod<ListCrossSiteNetworksRequest, ListCrossSiteNetworksResponse, ListCrossSiteNetworksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCrossSiteNetworksRequest,
   output: ListCrossSiteNetworksResponse,
   errors: [],
@@ -37681,7 +37681,6 @@ export const listCrossSiteNetworks = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the specified cross-site network in the given scope. */
 export interface GetCrossSiteNetworksRequest {
   /** Name of the cross-site network to return. */
   crossSiteNetwork: string;
@@ -37702,13 +37701,13 @@ export const GetCrossSiteNetworksResponse = CrossSiteNetwork;
 
 export type GetCrossSiteNetworksError = CommonErrors;
 
+/** Returns the specified cross-site network in the given scope. */
 export const getCrossSiteNetworks: API.OperationMethod<GetCrossSiteNetworksRequest, GetCrossSiteNetworksResponse, GetCrossSiteNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCrossSiteNetworksRequest,
   output: GetCrossSiteNetworksResponse,
   errors: [],
 }));
 
-/** Updates the specified cross-site network with the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export interface PatchCrossSiteNetworksRequest {
   /** Project ID for this request. */
   project: string;
@@ -37741,13 +37740,13 @@ export const PatchCrossSiteNetworksResponse = Operation;
 
 export type PatchCrossSiteNetworksError = CommonErrors;
 
+/** Updates the specified cross-site network with the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export const patchCrossSiteNetworks: API.OperationMethod<PatchCrossSiteNetworksRequest, PatchCrossSiteNetworksResponse, PatchCrossSiteNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchCrossSiteNetworksRequest,
   output: PatchCrossSiteNetworksResponse,
   errors: [],
 }));
 
-/** Updates the specified regional HealthCheckService resource with the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export interface PatchRegionHealthCheckServicesRequest {
   /** Project ID for this request. */
   project: string;
@@ -37777,13 +37776,13 @@ export const PatchRegionHealthCheckServicesResponse = Operation;
 
 export type PatchRegionHealthCheckServicesError = CommonErrors;
 
+/** Updates the specified regional HealthCheckService resource with the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export const patchRegionHealthCheckServices: API.OperationMethod<PatchRegionHealthCheckServicesRequest, PatchRegionHealthCheckServicesResponse, PatchRegionHealthCheckServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchRegionHealthCheckServicesRequest,
   output: PatchRegionHealthCheckServicesResponse,
   errors: [],
 }));
 
-/** Lists all the HealthCheckService resources that have been configured for the specified project in the given region. */
 export interface ListRegionHealthCheckServicesRequest {
   /** Opt-in for partial success behavior which provides partial results in case of failure. The default value is false. For example, when partial success behavior is enabled, aggregatedList for a single zone scope either returns all resources in the zone or no resources, with an error code. */
   returnPartialSuccess?: boolean;
@@ -37819,7 +37818,8 @@ export const ListRegionHealthCheckServicesResponse = HealthCheckServicesList;
 
 export type ListRegionHealthCheckServicesError = CommonErrors;
 
-export const listRegionHealthCheckServices = API.makePaginated(() => ({
+/** Lists all the HealthCheckService resources that have been configured for the specified project in the given region. */
+export const listRegionHealthCheckServices: API.PaginatedOperationMethod<ListRegionHealthCheckServicesRequest, ListRegionHealthCheckServicesResponse, ListRegionHealthCheckServicesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRegionHealthCheckServicesRequest,
   output: ListRegionHealthCheckServicesResponse,
   errors: [],
@@ -37830,7 +37830,6 @@ export const listRegionHealthCheckServices = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a regional HealthCheckService resource in the specified project and region using the data included in the request. */
 export interface InsertRegionHealthCheckServicesRequest {
   /** Name of the region scoping this request. */
   region: string;
@@ -37857,13 +37856,13 @@ export const InsertRegionHealthCheckServicesResponse = Operation;
 
 export type InsertRegionHealthCheckServicesError = CommonErrors;
 
+/** Creates a regional HealthCheckService resource in the specified project and region using the data included in the request. */
 export const insertRegionHealthCheckServices: API.OperationMethod<InsertRegionHealthCheckServicesRequest, InsertRegionHealthCheckServicesResponse, InsertRegionHealthCheckServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertRegionHealthCheckServicesRequest,
   output: InsertRegionHealthCheckServicesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsRegionHealthCheckServicesRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -37890,13 +37889,13 @@ export const TestIamPermissionsRegionHealthCheckServicesResponse = TestPermissio
 
 export type TestIamPermissionsRegionHealthCheckServicesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsRegionHealthCheckServices: API.OperationMethod<TestIamPermissionsRegionHealthCheckServicesRequest, TestIamPermissionsRegionHealthCheckServicesResponse, TestIamPermissionsRegionHealthCheckServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsRegionHealthCheckServicesRequest,
   output: TestIamPermissionsRegionHealthCheckServicesResponse,
   errors: [],
 }));
 
-/** Deletes the specified regional HealthCheckService. */
 export interface DeleteRegionHealthCheckServicesRequest {
   /** Name of the HealthCheckService to delete. The name must be 1-63 characters long, and comply with RFC1035. */
   healthCheckService: string;
@@ -37923,13 +37922,13 @@ export const DeleteRegionHealthCheckServicesResponse = Operation;
 
 export type DeleteRegionHealthCheckServicesError = CommonErrors;
 
+/** Deletes the specified regional HealthCheckService. */
 export const deleteRegionHealthCheckServices: API.OperationMethod<DeleteRegionHealthCheckServicesRequest, DeleteRegionHealthCheckServicesResponse, DeleteRegionHealthCheckServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRegionHealthCheckServicesRequest,
   output: DeleteRegionHealthCheckServicesResponse,
   errors: [],
 }));
 
-/** Returns the specified regional HealthCheckService resource. */
 export interface GetRegionHealthCheckServicesRequest {
   /** Name of the HealthCheckService to update. The name must be 1-63 characters long, and comply with RFC1035. */
   healthCheckService: string;
@@ -37953,13 +37952,13 @@ export const GetRegionHealthCheckServicesResponse = HealthCheckService;
 
 export type GetRegionHealthCheckServicesError = CommonErrors;
 
+/** Returns the specified regional HealthCheckService resource. */
 export const getRegionHealthCheckServices: API.OperationMethod<GetRegionHealthCheckServicesRequest, GetRegionHealthCheckServicesResponse, GetRegionHealthCheckServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRegionHealthCheckServicesRequest,
   output: GetRegionHealthCheckServicesResponse,
   errors: [],
 }));
 
-/** Retrieves the list of all SslCertificate resources, regional and global, available to the specified project. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListSslCertificatesRequest {
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string;
@@ -37998,7 +37997,8 @@ export const AggregatedListSslCertificatesResponse = SslCertificateAggregatedLis
 
 export type AggregatedListSslCertificatesError = CommonErrors;
 
-export const aggregatedListSslCertificates = API.makePaginated(() => ({
+/** Retrieves the list of all SslCertificate resources, regional and global, available to the specified project. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListSslCertificates: API.PaginatedOperationMethod<AggregatedListSslCertificatesRequest, AggregatedListSslCertificatesResponse, AggregatedListSslCertificatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListSslCertificatesRequest,
   output: AggregatedListSslCertificatesResponse,
   errors: [],
@@ -38009,7 +38009,6 @@ export const aggregatedListSslCertificates = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the specified SslCertificate resource. */
 export interface DeleteSslCertificatesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -38033,13 +38032,13 @@ export const DeleteSslCertificatesResponse = Operation;
 
 export type DeleteSslCertificatesError = CommonErrors;
 
+/** Deletes the specified SslCertificate resource. */
 export const deleteSslCertificates: API.OperationMethod<DeleteSslCertificatesRequest, DeleteSslCertificatesResponse, DeleteSslCertificatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteSslCertificatesRequest,
   output: DeleteSslCertificatesResponse,
   errors: [],
 }));
 
-/** Retrieves the list of SslCertificate resources available to the specified project. */
 export interface ListSslCertificatesRequest {
   /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
   orderBy?: string;
@@ -38072,7 +38071,8 @@ export const ListSslCertificatesResponse = SslCertificateList;
 
 export type ListSslCertificatesError = CommonErrors;
 
-export const listSslCertificates = API.makePaginated(() => ({
+/** Retrieves the list of SslCertificate resources available to the specified project. */
+export const listSslCertificates: API.PaginatedOperationMethod<ListSslCertificatesRequest, ListSslCertificatesResponse, ListSslCertificatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListSslCertificatesRequest,
   output: ListSslCertificatesResponse,
   errors: [],
@@ -38083,7 +38083,6 @@ export const listSslCertificates = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a SslCertificate resource in the specified project using the data included in the request. */
 export interface InsertSslCertificatesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -38107,13 +38106,13 @@ export const InsertSslCertificatesResponse = Operation;
 
 export type InsertSslCertificatesError = CommonErrors;
 
+/** Creates a SslCertificate resource in the specified project using the data included in the request. */
 export const insertSslCertificates: API.OperationMethod<InsertSslCertificatesRequest, InsertSslCertificatesResponse, InsertSslCertificatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertSslCertificatesRequest,
   output: InsertSslCertificatesResponse,
   errors: [],
 }));
 
-/** Returns the specified SslCertificate resource. */
 export interface GetSslCertificatesRequest {
   /** Name of the SslCertificate resource to return. */
   sslCertificate: string;
@@ -38134,13 +38133,13 @@ export const GetSslCertificatesResponse = SslCertificate;
 
 export type GetSslCertificatesError = CommonErrors;
 
+/** Returns the specified SslCertificate resource. */
 export const getSslCertificates: API.OperationMethod<GetSslCertificatesRequest, GetSslCertificatesResponse, GetSslCertificatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSslCertificatesRequest,
   output: GetSslCertificatesResponse,
   errors: [],
 }));
 
-/** Deletes the specified target VPN gateway. */
 export interface DeleteTargetVpnGatewaysRequest {
   /** Project ID for this request. */
   project: string;
@@ -38167,13 +38166,13 @@ export const DeleteTargetVpnGatewaysResponse = Operation;
 
 export type DeleteTargetVpnGatewaysError = CommonErrors;
 
+/** Deletes the specified target VPN gateway. */
 export const deleteTargetVpnGateways: API.OperationMethod<DeleteTargetVpnGatewaysRequest, DeleteTargetVpnGatewaysResponse, DeleteTargetVpnGatewaysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteTargetVpnGatewaysRequest,
   output: DeleteTargetVpnGatewaysResponse,
   errors: [],
 }));
 
-/** Returns the specified target VPN gateway. */
 export interface GetTargetVpnGatewaysRequest {
   /** Name of the target VPN gateway to return. */
   targetVpnGateway: string;
@@ -38197,13 +38196,13 @@ export const GetTargetVpnGatewaysResponse = TargetVpnGateway;
 
 export type GetTargetVpnGatewaysError = CommonErrors;
 
+/** Returns the specified target VPN gateway. */
 export const getTargetVpnGateways: API.OperationMethod<GetTargetVpnGatewaysRequest, GetTargetVpnGatewaysResponse, GetTargetVpnGatewaysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetTargetVpnGatewaysRequest,
   output: GetTargetVpnGatewaysResponse,
   errors: [],
 }));
 
-/** Sets the labels on a TargetVpnGateway. To learn more about labels, read theLabeling Resources documentation. */
 export interface SetLabelsTargetVpnGatewaysRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -38233,13 +38232,13 @@ export const SetLabelsTargetVpnGatewaysResponse = Operation;
 
 export type SetLabelsTargetVpnGatewaysError = CommonErrors;
 
+/** Sets the labels on a TargetVpnGateway. To learn more about labels, read theLabeling Resources documentation. */
 export const setLabelsTargetVpnGateways: API.OperationMethod<SetLabelsTargetVpnGatewaysRequest, SetLabelsTargetVpnGatewaysResponse, SetLabelsTargetVpnGatewaysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetLabelsTargetVpnGatewaysRequest,
   output: SetLabelsTargetVpnGatewaysResponse,
   errors: [],
 }));
 
-/** Creates a target VPN gateway in the specified project and region using the data included in the request. */
 export interface InsertTargetVpnGatewaysRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -38266,13 +38265,13 @@ export const InsertTargetVpnGatewaysResponse = Operation;
 
 export type InsertTargetVpnGatewaysError = CommonErrors;
 
+/** Creates a target VPN gateway in the specified project and region using the data included in the request. */
 export const insertTargetVpnGateways: API.OperationMethod<InsertTargetVpnGatewaysRequest, InsertTargetVpnGatewaysResponse, InsertTargetVpnGatewaysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertTargetVpnGatewaysRequest,
   output: InsertTargetVpnGatewaysResponse,
   errors: [],
 }));
 
-/** Retrieves an aggregated list of target VPN gateways. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListTargetVpnGatewaysRequest {
   /** Project ID for this request. */
   project: string;
@@ -38311,7 +38310,8 @@ export const AggregatedListTargetVpnGatewaysResponse = TargetVpnGatewayAggregate
 
 export type AggregatedListTargetVpnGatewaysError = CommonErrors;
 
-export const aggregatedListTargetVpnGateways = API.makePaginated(() => ({
+/** Retrieves an aggregated list of target VPN gateways. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListTargetVpnGateways: API.PaginatedOperationMethod<AggregatedListTargetVpnGatewaysRequest, AggregatedListTargetVpnGatewaysResponse, AggregatedListTargetVpnGatewaysError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListTargetVpnGatewaysRequest,
   output: AggregatedListTargetVpnGatewaysResponse,
   errors: [],
@@ -38322,7 +38322,6 @@ export const aggregatedListTargetVpnGateways = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves a list of target VPN gateways available to the specified project and region. */
 export interface ListTargetVpnGatewaysRequest {
   /** Name of the region for this request. */
   region: string;
@@ -38358,7 +38357,8 @@ export const ListTargetVpnGatewaysResponse = TargetVpnGatewayList;
 
 export type ListTargetVpnGatewaysError = CommonErrors;
 
-export const listTargetVpnGateways = API.makePaginated(() => ({
+/** Retrieves a list of target VPN gateways available to the specified project and region. */
+export const listTargetVpnGateways: API.PaginatedOperationMethod<ListTargetVpnGatewaysRequest, ListTargetVpnGatewaysResponse, ListTargetVpnGatewaysError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListTargetVpnGatewaysRequest,
   output: ListTargetVpnGatewaysResponse,
   errors: [],
@@ -38369,7 +38369,6 @@ export const listTargetVpnGateways = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves the list of all TargetHttpsProxy resources, regional and global, available to the specified project. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListTargetHttpsProxiesRequest {
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string;
@@ -38408,7 +38407,8 @@ export const AggregatedListTargetHttpsProxiesResponse = TargetHttpsProxyAggregat
 
 export type AggregatedListTargetHttpsProxiesError = CommonErrors;
 
-export const aggregatedListTargetHttpsProxies = API.makePaginated(() => ({
+/** Retrieves the list of all TargetHttpsProxy resources, regional and global, available to the specified project. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListTargetHttpsProxies: API.PaginatedOperationMethod<AggregatedListTargetHttpsProxiesRequest, AggregatedListTargetHttpsProxiesResponse, AggregatedListTargetHttpsProxiesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListTargetHttpsProxiesRequest,
   output: AggregatedListTargetHttpsProxiesResponse,
   errors: [],
@@ -38419,7 +38419,6 @@ export const aggregatedListTargetHttpsProxies = API.makePaginated(() => ({
   },
 }));
 
-/** Changes the Certificate Map for TargetHttpsProxy. */
 export interface SetCertificateMapTargetHttpsProxiesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -38446,13 +38445,13 @@ export const SetCertificateMapTargetHttpsProxiesResponse = Operation;
 
 export type SetCertificateMapTargetHttpsProxiesError = CommonErrors;
 
+/** Changes the Certificate Map for TargetHttpsProxy. */
 export const setCertificateMapTargetHttpsProxies: API.OperationMethod<SetCertificateMapTargetHttpsProxiesRequest, SetCertificateMapTargetHttpsProxiesResponse, SetCertificateMapTargetHttpsProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetCertificateMapTargetHttpsProxiesRequest,
   output: SetCertificateMapTargetHttpsProxiesResponse,
   errors: [],
 }));
 
-/** Retrieves the list of TargetHttpsProxy resources available to the specified project. */
 export interface ListTargetHttpsProxiesRequest {
   /** Project ID for this request. */
   project: string;
@@ -38485,7 +38484,8 @@ export const ListTargetHttpsProxiesResponse = TargetHttpsProxyList;
 
 export type ListTargetHttpsProxiesError = CommonErrors;
 
-export const listTargetHttpsProxies = API.makePaginated(() => ({
+/** Retrieves the list of TargetHttpsProxy resources available to the specified project. */
+export const listTargetHttpsProxies: API.PaginatedOperationMethod<ListTargetHttpsProxiesRequest, ListTargetHttpsProxiesResponse, ListTargetHttpsProxiesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListTargetHttpsProxiesRequest,
   output: ListTargetHttpsProxiesResponse,
   errors: [],
@@ -38496,7 +38496,6 @@ export const listTargetHttpsProxies = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the specified TargetHttpsProxy resource. */
 export interface DeleteTargetHttpsProxiesRequest {
   /** Project ID for this request. */
   project: string;
@@ -38520,13 +38519,13 @@ export const DeleteTargetHttpsProxiesResponse = Operation;
 
 export type DeleteTargetHttpsProxiesError = CommonErrors;
 
+/** Deletes the specified TargetHttpsProxy resource. */
 export const deleteTargetHttpsProxies: API.OperationMethod<DeleteTargetHttpsProxiesRequest, DeleteTargetHttpsProxiesResponse, DeleteTargetHttpsProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteTargetHttpsProxiesRequest,
   output: DeleteTargetHttpsProxiesResponse,
   errors: [],
 }));
 
-/** Sets the SSL policy for TargetHttpsProxy. The SSL policy specifies the server-side support for SSL features. This affects connections between clients and the HTTPS proxy load balancer. They do not affect the connection between the load balancer and the backends. */
 export interface SetSslPolicyTargetHttpsProxiesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -38553,13 +38552,13 @@ export const SetSslPolicyTargetHttpsProxiesResponse = Operation;
 
 export type SetSslPolicyTargetHttpsProxiesError = CommonErrors;
 
+/** Sets the SSL policy for TargetHttpsProxy. The SSL policy specifies the server-side support for SSL features. This affects connections between clients and the HTTPS proxy load balancer. They do not affect the connection between the load balancer and the backends. */
 export const setSslPolicyTargetHttpsProxies: API.OperationMethod<SetSslPolicyTargetHttpsProxiesRequest, SetSslPolicyTargetHttpsProxiesResponse, SetSslPolicyTargetHttpsProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetSslPolicyTargetHttpsProxiesRequest,
   output: SetSslPolicyTargetHttpsProxiesResponse,
   errors: [],
 }));
 
-/** Sets the QUIC override policy for TargetHttpsProxy. */
 export interface SetQuicOverrideTargetHttpsProxiesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -38586,13 +38585,13 @@ export const SetQuicOverrideTargetHttpsProxiesResponse = Operation;
 
 export type SetQuicOverrideTargetHttpsProxiesError = CommonErrors;
 
+/** Sets the QUIC override policy for TargetHttpsProxy. */
 export const setQuicOverrideTargetHttpsProxies: API.OperationMethod<SetQuicOverrideTargetHttpsProxiesRequest, SetQuicOverrideTargetHttpsProxiesResponse, SetQuicOverrideTargetHttpsProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetQuicOverrideTargetHttpsProxiesRequest,
   output: SetQuicOverrideTargetHttpsProxiesResponse,
   errors: [],
 }));
 
-/** Replaces SslCertificates for TargetHttpsProxy. */
 export interface SetSslCertificatesTargetHttpsProxiesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -38619,13 +38618,13 @@ export const SetSslCertificatesTargetHttpsProxiesResponse = Operation;
 
 export type SetSslCertificatesTargetHttpsProxiesError = CommonErrors;
 
+/** Replaces SslCertificates for TargetHttpsProxy. */
 export const setSslCertificatesTargetHttpsProxies: API.OperationMethod<SetSslCertificatesTargetHttpsProxiesRequest, SetSslCertificatesTargetHttpsProxiesResponse, SetSslCertificatesTargetHttpsProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetSslCertificatesTargetHttpsProxiesRequest,
   output: SetSslCertificatesTargetHttpsProxiesResponse,
   errors: [],
 }));
 
-/** Creates a TargetHttpsProxy resource in the specified project using the data included in the request. */
 export interface InsertTargetHttpsProxiesRequest {
   /** Project ID for this request. */
   project: string;
@@ -38649,13 +38648,13 @@ export const InsertTargetHttpsProxiesResponse = Operation;
 
 export type InsertTargetHttpsProxiesError = CommonErrors;
 
+/** Creates a TargetHttpsProxy resource in the specified project using the data included in the request. */
 export const insertTargetHttpsProxies: API.OperationMethod<InsertTargetHttpsProxiesRequest, InsertTargetHttpsProxiesResponse, InsertTargetHttpsProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertTargetHttpsProxiesRequest,
   output: InsertTargetHttpsProxiesResponse,
   errors: [],
 }));
 
-/** Changes the URL map for TargetHttpsProxy. */
 export interface SetUrlMapTargetHttpsProxiesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -38682,13 +38681,13 @@ export const SetUrlMapTargetHttpsProxiesResponse = Operation;
 
 export type SetUrlMapTargetHttpsProxiesError = CommonErrors;
 
+/** Changes the URL map for TargetHttpsProxy. */
 export const setUrlMapTargetHttpsProxies: API.OperationMethod<SetUrlMapTargetHttpsProxiesRequest, SetUrlMapTargetHttpsProxiesResponse, SetUrlMapTargetHttpsProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetUrlMapTargetHttpsProxiesRequest,
   output: SetUrlMapTargetHttpsProxiesResponse,
   errors: [],
 }));
 
-/** Returns the specified TargetHttpsProxy resource. */
 export interface GetTargetHttpsProxiesRequest {
   /** Project ID for this request. */
   project: string;
@@ -38709,13 +38708,13 @@ export const GetTargetHttpsProxiesResponse = TargetHttpsProxy;
 
 export type GetTargetHttpsProxiesError = CommonErrors;
 
+/** Returns the specified TargetHttpsProxy resource. */
 export const getTargetHttpsProxies: API.OperationMethod<GetTargetHttpsProxiesRequest, GetTargetHttpsProxiesResponse, GetTargetHttpsProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetTargetHttpsProxiesRequest,
   output: GetTargetHttpsProxiesResponse,
   errors: [],
 }));
 
-/** Patches the specified TargetHttpsProxy resource with the data included in the request. This method supports PATCH semantics and usesJSON merge patch format and processing rules. */
 export interface PatchTargetHttpsProxiesRequest {
   /** Name of the TargetHttpsProxy resource to patch. */
   targetHttpsProxy: string;
@@ -38742,13 +38741,13 @@ export const PatchTargetHttpsProxiesResponse = Operation;
 
 export type PatchTargetHttpsProxiesError = CommonErrors;
 
+/** Patches the specified TargetHttpsProxy resource with the data included in the request. This method supports PATCH semantics and usesJSON merge patch format and processing rules. */
 export const patchTargetHttpsProxies: API.OperationMethod<PatchTargetHttpsProxiesRequest, PatchTargetHttpsProxiesResponse, PatchTargetHttpsProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchTargetHttpsProxiesRequest,
   output: PatchTargetHttpsProxiesResponse,
   errors: [],
 }));
 
-/** Creates a new reservation. For more information, readReserving zonal resources. */
 export interface InsertReservationsRequest {
   /** Project ID for this request. */
   project: string;
@@ -38775,13 +38774,13 @@ export const InsertReservationsResponse = Operation;
 
 export type InsertReservationsError = CommonErrors;
 
+/** Creates a new reservation. For more information, readReserving zonal resources. */
 export const insertReservations: API.OperationMethod<InsertReservationsRequest, InsertReservationsResponse, InsertReservationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertReservationsRequest,
   output: InsertReservationsResponse,
   errors: [],
 }));
 
-/** Resizes the reservation (applicable to standalone reservations only). For more information, readModifying reservations. */
 export interface ResizeReservationsRequest {
   /** Name of the reservation to update. */
   reservation: string;
@@ -38811,13 +38810,13 @@ export const ResizeReservationsResponse = Operation;
 
 export type ResizeReservationsError = CommonErrors;
 
+/** Resizes the reservation (applicable to standalone reservations only). For more information, readModifying reservations. */
 export const resizeReservations: API.OperationMethod<ResizeReservationsRequest, ResizeReservationsResponse, ResizeReservationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResizeReservationsRequest,
   output: ResizeReservationsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsReservationsRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -38844,13 +38843,13 @@ export const TestIamPermissionsReservationsResponse = TestPermissionsResponse;
 
 export type TestIamPermissionsReservationsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsReservations: API.OperationMethod<TestIamPermissionsReservationsRequest, TestIamPermissionsReservationsResponse, TestIamPermissionsReservationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsReservationsRequest,
   output: TestIamPermissionsReservationsResponse,
   errors: [],
 }));
 
-/** Deletes the specified reservation. */
 export interface DeleteReservationsRequest {
   /** Project ID for this request. */
   project: string;
@@ -38877,13 +38876,13 @@ export const DeleteReservationsResponse = Operation;
 
 export type DeleteReservationsError = CommonErrors;
 
+/** Deletes the specified reservation. */
 export const deleteReservations: API.OperationMethod<DeleteReservationsRequest, DeleteReservationsResponse, DeleteReservationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteReservationsRequest,
   output: DeleteReservationsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export interface SetIamPolicyReservationsRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -38910,13 +38909,13 @@ export const SetIamPolicyReservationsResponse = Policy;
 
 export type SetIamPolicyReservationsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export const setIamPolicyReservations: API.OperationMethod<SetIamPolicyReservationsRequest, SetIamPolicyReservationsResponse, SetIamPolicyReservationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyReservationsRequest,
   output: SetIamPolicyReservationsResponse,
   errors: [],
 }));
 
-/** Perform maintenance on an extended reservation */
 export interface PerformMaintenanceReservationsRequest {
   /** Project ID for this request. */
   project: string;
@@ -38946,13 +38945,13 @@ export const PerformMaintenanceReservationsResponse = Operation;
 
 export type PerformMaintenanceReservationsError = CommonErrors;
 
+/** Perform maintenance on an extended reservation */
 export const performMaintenanceReservations: API.OperationMethod<PerformMaintenanceReservationsRequest, PerformMaintenanceReservationsResponse, PerformMaintenanceReservationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PerformMaintenanceReservationsRequest,
   output: PerformMaintenanceReservationsResponse,
   errors: [],
 }));
 
-/** Retrieves information about the specified reservation. */
 export interface GetReservationsRequest {
   /** Name of the zone for this request. */
   zone: string;
@@ -38976,13 +38975,13 @@ export const GetReservationsResponse = Reservation;
 
 export type GetReservationsError = CommonErrors;
 
+/** Retrieves information about the specified reservation. */
 export const getReservations: API.OperationMethod<GetReservationsRequest, GetReservationsResponse, GetReservationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetReservationsRequest,
   output: GetReservationsResponse,
   errors: [],
 }));
 
-/** A list of all the reservations that have been configured for the specified project in specified zone. */
 export interface ListReservationsRequest {
   /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
   orderBy?: string;
@@ -39018,7 +39017,8 @@ export const ListReservationsResponse = ReservationList;
 
 export type ListReservationsError = CommonErrors;
 
-export const listReservations = API.makePaginated(() => ({
+/** A list of all the reservations that have been configured for the specified project in specified zone. */
+export const listReservations: API.PaginatedOperationMethod<ListReservationsRequest, ListReservationsResponse, ListReservationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListReservationsRequest,
   output: ListReservationsResponse,
   errors: [],
@@ -39029,7 +39029,6 @@ export const listReservations = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves an aggregated list of reservations. To prevent failure, it is recommended that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListReservationsRequest {
   /** The Shared VPC service project id or service project number for which aggregated list request is invoked for subnetworks list-usable api. */
   serviceProjectNumber?: string;
@@ -39068,7 +39067,8 @@ export const AggregatedListReservationsResponse = ReservationAggregatedList;
 
 export type AggregatedListReservationsError = CommonErrors;
 
-export const aggregatedListReservations = API.makePaginated(() => ({
+/** Retrieves an aggregated list of reservations. To prevent failure, it is recommended that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListReservations: API.PaginatedOperationMethod<AggregatedListReservationsRequest, AggregatedListReservationsResponse, AggregatedListReservationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListReservationsRequest,
   output: AggregatedListReservationsResponse,
   errors: [],
@@ -39079,7 +39079,6 @@ export const aggregatedListReservations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export interface GetIamPolicyReservationsRequest {
   /** Project ID for this request. */
   project: string;
@@ -39106,13 +39105,13 @@ export const GetIamPolicyReservationsResponse = Policy;
 
 export type GetIamPolicyReservationsError = CommonErrors;
 
+/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export const getIamPolicyReservations: API.OperationMethod<GetIamPolicyReservationsRequest, GetIamPolicyReservationsResponse, GetIamPolicyReservationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyReservationsRequest,
   output: GetIamPolicyReservationsResponse,
   errors: [],
 }));
 
-/** Update share settings of the reservation. */
 export interface UpdateReservationsRequest {
   paths?: string[];
   /** Name of the zone for this request. */
@@ -39147,13 +39146,13 @@ export const UpdateReservationsResponse = Operation;
 
 export type UpdateReservationsError = CommonErrors;
 
+/** Update share settings of the reservation. */
 export const updateReservations: API.OperationMethod<UpdateReservationsRequest, UpdateReservationsResponse, UpdateReservationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateReservationsRequest,
   output: UpdateReservationsResponse,
   errors: [],
 }));
 
-/** Enables the usage export feature and sets theusage export bucket where reports are stored. If you provide an empty request body using this method, the usage export feature will be disabled. */
 export interface SetUsageExportBucketProjectsRequest {
   /** Project ID for this request. */
   project: string;
@@ -39177,13 +39176,13 @@ export const SetUsageExportBucketProjectsResponse = Operation;
 
 export type SetUsageExportBucketProjectsError = CommonErrors;
 
+/** Enables the usage export feature and sets theusage export bucket where reports are stored. If you provide an empty request body using this method, the usage export feature will be disabled. */
 export const setUsageExportBucketProjects: API.OperationMethod<SetUsageExportBucketProjectsRequest, SetUsageExportBucketProjectsResponse, SetUsageExportBucketProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetUsageExportBucketProjectsRequest,
   output: SetUsageExportBucketProjectsResponse,
   errors: [],
 }));
 
-/** Sets metadata common to all instances within the specified project using the data included in the request. */
 export interface SetCommonInstanceMetadataProjectsRequest {
   /** Project ID for this request. */
   project: string;
@@ -39207,13 +39206,13 @@ export const SetCommonInstanceMetadataProjectsResponse = Operation;
 
 export type SetCommonInstanceMetadataProjectsError = CommonErrors;
 
+/** Sets metadata common to all instances within the specified project using the data included in the request. */
 export const setCommonInstanceMetadataProjects: API.OperationMethod<SetCommonInstanceMetadataProjectsRequest, SetCommonInstanceMetadataProjectsResponse, SetCommonInstanceMetadataProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetCommonInstanceMetadataProjectsRequest,
   output: SetCommonInstanceMetadataProjectsResponse,
   errors: [],
 }));
 
-/** Enable this project as a shared VPC host project. */
 export interface EnableXpnHostProjectsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -39234,13 +39233,13 @@ export const EnableXpnHostProjectsResponse = Operation;
 
 export type EnableXpnHostProjectsError = CommonErrors;
 
+/** Enable this project as a shared VPC host project. */
 export const enableXpnHostProjects: API.OperationMethod<EnableXpnHostProjectsRequest, EnableXpnHostProjectsResponse, EnableXpnHostProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnableXpnHostProjectsRequest,
   output: EnableXpnHostProjectsResponse,
   errors: [],
 }));
 
-/** Enable service resource (a.k.a service project) for a host project, so that subnets in the host project can be used by instances in the service project. */
 export interface EnableXpnResourceProjectsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -39264,13 +39263,13 @@ export const EnableXpnResourceProjectsResponse = Operation;
 
 export type EnableXpnResourceProjectsError = CommonErrors;
 
+/** Enable service resource (a.k.a service project) for a host project, so that subnets in the host project can be used by instances in the service project. */
 export const enableXpnResourceProjects: API.OperationMethod<EnableXpnResourceProjectsRequest, EnableXpnResourceProjectsResponse, EnableXpnResourceProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnableXpnResourceProjectsRequest,
   output: EnableXpnResourceProjectsResponse,
   errors: [],
 }));
 
-/** Sets the default network tier of the project. The default network tier is used when an address/forwardingRule/instance is created without specifying the network tier field. */
 export interface SetDefaultNetworkTierProjectsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -39294,13 +39293,13 @@ export const SetDefaultNetworkTierProjectsResponse = Operation;
 
 export type SetDefaultNetworkTierProjectsError = CommonErrors;
 
+/** Sets the default network tier of the project. The default network tier is used when an address/forwardingRule/instance is created without specifying the network tier field. */
 export const setDefaultNetworkTierProjects: API.OperationMethod<SetDefaultNetworkTierProjectsRequest, SetDefaultNetworkTierProjectsResponse, SetDefaultNetworkTierProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetDefaultNetworkTierProjectsRequest,
   output: SetDefaultNetworkTierProjectsResponse,
   errors: [],
 }));
 
-/** Lists all shared VPC host projects visible to the user in an organization. */
 export interface ListXpnHostsProjectsRequest {
   /** Project ID for this request. */
   project: string;
@@ -39336,7 +39335,8 @@ export const ListXpnHostsProjectsResponse = XpnHostList;
 
 export type ListXpnHostsProjectsError = CommonErrors;
 
-export const listXpnHostsProjects = API.makePaginated(() => ({
+/** Lists all shared VPC host projects visible to the user in an organization. */
+export const listXpnHostsProjects: API.PaginatedOperationMethod<ListXpnHostsProjectsRequest, ListXpnHostsProjectsResponse, ListXpnHostsProjectsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListXpnHostsProjectsRequest,
   output: ListXpnHostsProjectsResponse,
   errors: [],
@@ -39347,7 +39347,6 @@ export const listXpnHostsProjects = API.makePaginated(() => ({
   },
 }));
 
-/** Sets the Cloud Armor tier of the project. To set ENTERPRISE or above the billing account of the project must be subscribed to Cloud Armor Enterprise. See Subscribing to Cloud Armor Enterprise for more information. */
 export interface SetCloudArmorTierProjectsRequest {
   /** Project ID for this request. */
   project: string;
@@ -39371,13 +39370,13 @@ export const SetCloudArmorTierProjectsResponse = Operation;
 
 export type SetCloudArmorTierProjectsError = CommonErrors;
 
+/** Sets the Cloud Armor tier of the project. To set ENTERPRISE or above the billing account of the project must be subscribed to Cloud Armor Enterprise. See Subscribing to Cloud Armor Enterprise for more information. */
 export const setCloudArmorTierProjects: API.OperationMethod<SetCloudArmorTierProjectsRequest, SetCloudArmorTierProjectsResponse, SetCloudArmorTierProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetCloudArmorTierProjectsRequest,
   output: SetCloudArmorTierProjectsResponse,
   errors: [],
 }));
 
-/** Disable a service resource (also known as service project) associated with this host project. */
 export interface DisableXpnResourceProjectsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -39401,13 +39400,13 @@ export const DisableXpnResourceProjectsResponse = Operation;
 
 export type DisableXpnResourceProjectsError = CommonErrors;
 
+/** Disable a service resource (also known as service project) associated with this host project. */
 export const disableXpnResourceProjects: API.OperationMethod<DisableXpnResourceProjectsRequest, DisableXpnResourceProjectsResponse, DisableXpnResourceProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DisableXpnResourceProjectsRequest,
   output: DisableXpnResourceProjectsResponse,
   errors: [],
 }));
 
-/** Moves a persistent disk from one zone to another. *Note*: The moveDisk API will be deprecated on September 29, 2026. Starting September 29, 2025, you can't use the moveDisk API on new projects. To move a disk to a different region or zone, follow the steps in [Change the location of a disk](https://cloud.google.com/compute/docs/disks/migrate-to-hyperdisk#migrate-to-hd). Projects that already use the moveDisk API can continue usage until September 29, 2026. Starting November 1, 2025, API responses will include a warning message in the response body about the upcoming deprecation. You can skip the message to continue using the service without interruption. */
 export interface MoveDiskProjectsRequest {
   /** Project ID for this request. */
   project: string;
@@ -39431,13 +39430,13 @@ export const MoveDiskProjectsResponse = Operation;
 
 export type MoveDiskProjectsError = CommonErrors;
 
+/** Moves a persistent disk from one zone to another. *Note*: The moveDisk API will be deprecated on September 29, 2026. Starting September 29, 2025, you can't use the moveDisk API on new projects. To move a disk to a different region or zone, follow the steps in [Change the location of a disk](https://cloud.google.com/compute/docs/disks/migrate-to-hyperdisk#migrate-to-hd). Projects that already use the moveDisk API can continue usage until September 29, 2026. Starting November 1, 2025, API responses will include a warning message in the response body about the upcoming deprecation. You can skip the message to continue using the service without interruption. */
 export const moveDiskProjects: API.OperationMethod<MoveDiskProjectsRequest, MoveDiskProjectsResponse, MoveDiskProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MoveDiskProjectsRequest,
   output: MoveDiskProjectsResponse,
   errors: [],
 }));
 
-/** Disable this project as a shared VPC host project. */
 export interface DisableXpnHostProjectsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -39458,13 +39457,13 @@ export const DisableXpnHostProjectsResponse = Operation;
 
 export type DisableXpnHostProjectsError = CommonErrors;
 
+/** Disable this project as a shared VPC host project. */
 export const disableXpnHostProjects: API.OperationMethod<DisableXpnHostProjectsRequest, DisableXpnHostProjectsResponse, DisableXpnHostProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DisableXpnHostProjectsRequest,
   output: DisableXpnHostProjectsResponse,
   errors: [],
 }));
 
-/** Gets service resources (a.k.a service project) associated with this host project. */
 export interface GetXpnResourcesProjectsRequest {
   /** Opt-in for partial success behavior which provides partial results in case of failure. The default value is false. For example, when partial success behavior is enabled, aggregatedList for a single zone scope either returns all resources in the zone or no resources, with an error code. */
   returnPartialSuccess?: boolean;
@@ -39497,7 +39496,8 @@ export const GetXpnResourcesProjectsResponse = ProjectsGetXpnResources;
 
 export type GetXpnResourcesProjectsError = CommonErrors;
 
-export const getXpnResourcesProjects = API.makePaginated(() => ({
+/** Gets service resources (a.k.a service project) associated with this host project. */
+export const getXpnResourcesProjects: API.PaginatedOperationMethod<GetXpnResourcesProjectsRequest, GetXpnResourcesProjectsResponse, GetXpnResourcesProjectsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: GetXpnResourcesProjectsRequest,
   output: GetXpnResourcesProjectsResponse,
   errors: [],
@@ -39507,7 +39507,6 @@ export const getXpnResourcesProjects = API.makePaginated(() => ({
   },
 }));
 
-/** Moves an instance and its attached persistent disks from one zone to another. *Note*: Moving VMs or disks by using this method might cause unexpected behavior. For more information, see the [known issue](/compute/docs/troubleshooting/known-issues#moving_vms_or_disks_using_the_moveinstance_api_or_the_causes_unexpected_behavior). [Deprecated] This method is deprecated. See [moving instance across zones](/compute/docs/instances/moving-instance-across-zones) instead. */
 export interface MoveInstanceProjectsRequest {
   /** Project ID for this request. */
   project: string;
@@ -39531,13 +39530,13 @@ export const MoveInstanceProjectsResponse = Operation;
 
 export type MoveInstanceProjectsError = CommonErrors;
 
+/** Moves an instance and its attached persistent disks from one zone to another. *Note*: Moving VMs or disks by using this method might cause unexpected behavior. For more information, see the [known issue](/compute/docs/troubleshooting/known-issues#moving_vms_or_disks_using_the_moveinstance_api_or_the_causes_unexpected_behavior). [Deprecated] This method is deprecated. See [moving instance across zones](/compute/docs/instances/moving-instance-across-zones) instead. */
 export const moveInstanceProjects: API.OperationMethod<MoveInstanceProjectsRequest, MoveInstanceProjectsResponse, MoveInstanceProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MoveInstanceProjectsRequest,
   output: MoveInstanceProjectsResponse,
   errors: [],
 }));
 
-/** Returns the specified Project resource. To decrease latency for this method, you can optionally omit any unneeded information from the response by using a field mask. This practice is especially recommended for unused quota information (the `quotas` field). To exclude one or more fields, set your request's `fields` query parameter to only include the fields you need. For example, to only include the `id` and `selfLink` fields, add the query parameter `?fields=id,selfLink` to your request. */
 export interface GetProjectsRequest {
   /** Project ID for this request. */
   project: string;
@@ -39555,13 +39554,13 @@ export const GetProjectsResponse = Project;
 
 export type GetProjectsError = CommonErrors;
 
+/** Returns the specified Project resource. To decrease latency for this method, you can optionally omit any unneeded information from the response by using a field mask. This practice is especially recommended for unused quota information (the `quotas` field). To exclude one or more fields, set your request's `fields` query parameter to only include the fields you need. For example, to only include the `id` and `selfLink` fields, add the query parameter `?fields=id,selfLink` to your request. */
 export const getProjects: API.OperationMethod<GetProjectsRequest, GetProjectsResponse, GetProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsRequest,
   output: GetProjectsResponse,
   errors: [],
 }));
 
-/** Gets the shared VPC host project that this project links to. May be empty if no link exists. */
 export interface GetXpnHostProjectsRequest {
   /** Project ID for this request. */
   project: string;
@@ -39579,13 +39578,13 @@ export const GetXpnHostProjectsResponse = Project;
 
 export type GetXpnHostProjectsError = CommonErrors;
 
+/** Gets the shared VPC host project that this project links to. May be empty if no link exists. */
 export const getXpnHostProjects: API.OperationMethod<GetXpnHostProjectsRequest, GetXpnHostProjectsResponse, GetXpnHostProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetXpnHostProjectsRequest,
   output: GetXpnHostProjectsResponse,
   errors: [],
 }));
 
-/** Sets the Google Cloud Armor security policy for the specified target pool. For more information, seeGoogle Cloud Armor Overview */
 export interface SetSecurityPolicyTargetPoolsRequest {
   /** Project ID for this request. */
   project: string;
@@ -39615,13 +39614,13 @@ export const SetSecurityPolicyTargetPoolsResponse = Operation;
 
 export type SetSecurityPolicyTargetPoolsError = CommonErrors;
 
+/** Sets the Google Cloud Armor security policy for the specified target pool. For more information, seeGoogle Cloud Armor Overview */
 export const setSecurityPolicyTargetPools: API.OperationMethod<SetSecurityPolicyTargetPoolsRequest, SetSecurityPolicyTargetPoolsResponse, SetSecurityPolicyTargetPoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetSecurityPolicyTargetPoolsRequest,
   output: SetSecurityPolicyTargetPoolsResponse,
   errors: [],
 }));
 
-/** Returns the specified target pool. */
 export interface GetTargetPoolsRequest {
   /** Name of the region scoping this request. */
   region: string;
@@ -39645,13 +39644,13 @@ export const GetTargetPoolsResponse = TargetPool;
 
 export type GetTargetPoolsError = CommonErrors;
 
+/** Returns the specified target pool. */
 export const getTargetPools: API.OperationMethod<GetTargetPoolsRequest, GetTargetPoolsResponse, GetTargetPoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetTargetPoolsRequest,
   output: GetTargetPoolsResponse,
   errors: [],
 }));
 
-/** Removes health check URL from a target pool. */
 export interface RemoveHealthCheckTargetPoolsRequest {
   /** Project ID for this request. */
   project: string;
@@ -39681,13 +39680,13 @@ export const RemoveHealthCheckTargetPoolsResponse = Operation;
 
 export type RemoveHealthCheckTargetPoolsError = CommonErrors;
 
+/** Removes health check URL from a target pool. */
 export const removeHealthCheckTargetPools: API.OperationMethod<RemoveHealthCheckTargetPoolsRequest, RemoveHealthCheckTargetPoolsResponse, RemoveHealthCheckTargetPoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveHealthCheckTargetPoolsRequest,
   output: RemoveHealthCheckTargetPoolsResponse,
   errors: [],
 }));
 
-/** Adds health check URLs to a target pool. */
 export interface AddHealthCheckTargetPoolsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -39717,13 +39716,13 @@ export const AddHealthCheckTargetPoolsResponse = Operation;
 
 export type AddHealthCheckTargetPoolsError = CommonErrors;
 
+/** Adds health check URLs to a target pool. */
 export const addHealthCheckTargetPools: API.OperationMethod<AddHealthCheckTargetPoolsRequest, AddHealthCheckTargetPoolsResponse, AddHealthCheckTargetPoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddHealthCheckTargetPoolsRequest,
   output: AddHealthCheckTargetPoolsResponse,
   errors: [],
 }));
 
-/** Gets the most recent health check results for each IP for the instance that is referenced by the given target pool. */
 export interface GetHealthTargetPoolsRequest {
   /** Project ID for this request. */
   project: string;
@@ -39750,13 +39749,13 @@ export const GetHealthTargetPoolsResponse = TargetPoolInstanceHealth;
 
 export type GetHealthTargetPoolsError = CommonErrors;
 
+/** Gets the most recent health check results for each IP for the instance that is referenced by the given target pool. */
 export const getHealthTargetPools: API.OperationMethod<GetHealthTargetPoolsRequest, GetHealthTargetPoolsResponse, GetHealthTargetPoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetHealthTargetPoolsRequest,
   output: GetHealthTargetPoolsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of target pools available to the specified project and region. */
 export interface ListTargetPoolsRequest {
   /** Opt-in for partial success behavior which provides partial results in case of failure. The default value is false. For example, when partial success behavior is enabled, aggregatedList for a single zone scope either returns all resources in the zone or no resources, with an error code. */
   returnPartialSuccess?: boolean;
@@ -39792,7 +39791,8 @@ export const ListTargetPoolsResponse = TargetPoolList;
 
 export type ListTargetPoolsError = CommonErrors;
 
-export const listTargetPools = API.makePaginated(() => ({
+/** Retrieves a list of target pools available to the specified project and region. */
+export const listTargetPools: API.PaginatedOperationMethod<ListTargetPoolsRequest, ListTargetPoolsResponse, ListTargetPoolsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListTargetPoolsRequest,
   output: ListTargetPoolsResponse,
   errors: [],
@@ -39803,7 +39803,6 @@ export const listTargetPools = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves an aggregated list of target pools. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListTargetPoolsRequest {
   /** Project ID for this request. */
   project: string;
@@ -39842,7 +39841,8 @@ export const AggregatedListTargetPoolsResponse = TargetPoolAggregatedList;
 
 export type AggregatedListTargetPoolsError = CommonErrors;
 
-export const aggregatedListTargetPools = API.makePaginated(() => ({
+/** Retrieves an aggregated list of target pools. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListTargetPools: API.PaginatedOperationMethod<AggregatedListTargetPoolsRequest, AggregatedListTargetPoolsResponse, AggregatedListTargetPoolsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListTargetPoolsRequest,
   output: AggregatedListTargetPoolsResponse,
   errors: [],
@@ -39853,7 +39853,6 @@ export const aggregatedListTargetPools = API.makePaginated(() => ({
   },
 }));
 
-/** Adds an instance to a target pool. */
 export interface AddInstanceTargetPoolsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -39883,13 +39882,13 @@ export const AddInstanceTargetPoolsResponse = Operation;
 
 export type AddInstanceTargetPoolsError = CommonErrors;
 
+/** Adds an instance to a target pool. */
 export const addInstanceTargetPools: API.OperationMethod<AddInstanceTargetPoolsRequest, AddInstanceTargetPoolsResponse, AddInstanceTargetPoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddInstanceTargetPoolsRequest,
   output: AddInstanceTargetPoolsResponse,
   errors: [],
 }));
 
-/** Changes a backup target pool's configurations. */
 export interface SetBackupTargetPoolsRequest {
   /** New failoverRatio value for the target pool. */
   failoverRatio?: number;
@@ -39922,13 +39921,13 @@ export const SetBackupTargetPoolsResponse = Operation;
 
 export type SetBackupTargetPoolsError = CommonErrors;
 
+/** Changes a backup target pool's configurations. */
 export const setBackupTargetPools: API.OperationMethod<SetBackupTargetPoolsRequest, SetBackupTargetPoolsResponse, SetBackupTargetPoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetBackupTargetPoolsRequest,
   output: SetBackupTargetPoolsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsTargetPoolsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -39955,13 +39954,13 @@ export const TestIamPermissionsTargetPoolsResponse = TestPermissionsResponse;
 
 export type TestIamPermissionsTargetPoolsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsTargetPools: API.OperationMethod<TestIamPermissionsTargetPoolsRequest, TestIamPermissionsTargetPoolsResponse, TestIamPermissionsTargetPoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsTargetPoolsRequest,
   output: TestIamPermissionsTargetPoolsResponse,
   errors: [],
 }));
 
-/** Removes instance URL from a target pool. */
 export interface RemoveInstanceTargetPoolsRequest {
   /** Project ID for this request. */
   project: string;
@@ -39991,13 +39990,13 @@ export const RemoveInstanceTargetPoolsResponse = Operation;
 
 export type RemoveInstanceTargetPoolsError = CommonErrors;
 
+/** Removes instance URL from a target pool. */
 export const removeInstanceTargetPools: API.OperationMethod<RemoveInstanceTargetPoolsRequest, RemoveInstanceTargetPoolsResponse, RemoveInstanceTargetPoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveInstanceTargetPoolsRequest,
   output: RemoveInstanceTargetPoolsResponse,
   errors: [],
 }));
 
-/** Creates a target pool in the specified project and region using the data included in the request. */
 export interface InsertTargetPoolsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -40024,13 +40023,13 @@ export const InsertTargetPoolsResponse = Operation;
 
 export type InsertTargetPoolsError = CommonErrors;
 
+/** Creates a target pool in the specified project and region using the data included in the request. */
 export const insertTargetPools: API.OperationMethod<InsertTargetPoolsRequest, InsertTargetPoolsResponse, InsertTargetPoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertTargetPoolsRequest,
   output: InsertTargetPoolsResponse,
   errors: [],
 }));
 
-/** Deletes the specified target pool. */
 export interface DeleteTargetPoolsRequest {
   /** Name of the region scoping this request. */
   region: string;
@@ -40057,13 +40056,13 @@ export const DeleteTargetPoolsResponse = Operation;
 
 export type DeleteTargetPoolsError = CommonErrors;
 
+/** Deletes the specified target pool. */
 export const deleteTargetPools: API.OperationMethod<DeleteTargetPoolsRequest, DeleteTargetPoolsResponse, DeleteTargetPoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteTargetPoolsRequest,
   output: DeleteTargetPoolsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of commitments contained within the specified region. */
 export interface ListRegionCommitmentsRequest {
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string;
@@ -40099,7 +40098,8 @@ export const ListRegionCommitmentsResponse = CommitmentList;
 
 export type ListRegionCommitmentsError = CommonErrors;
 
-export const listRegionCommitments = API.makePaginated(() => ({
+/** Retrieves a list of commitments contained within the specified region. */
+export const listRegionCommitments: API.PaginatedOperationMethod<ListRegionCommitmentsRequest, ListRegionCommitmentsResponse, ListRegionCommitmentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRegionCommitmentsRequest,
   output: ListRegionCommitmentsResponse,
   errors: [],
@@ -40110,7 +40110,6 @@ export const listRegionCommitments = API.makePaginated(() => ({
   },
 }));
 
-/** Updates the specified commitment with the data included in the request. Update is performed only on selected fields included as part of update-mask. Only the following fields can be updated: auto_renew and plan. */
 export interface UpdateRegionCommitmentsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -40145,13 +40144,13 @@ export const UpdateRegionCommitmentsResponse = Operation;
 
 export type UpdateRegionCommitmentsError = CommonErrors;
 
+/** Updates the specified commitment with the data included in the request. Update is performed only on selected fields included as part of update-mask. Only the following fields can be updated: auto_renew and plan. */
 export const updateRegionCommitments: API.OperationMethod<UpdateRegionCommitmentsRequest, UpdateRegionCommitmentsResponse, UpdateRegionCommitmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateRegionCommitmentsRequest,
   output: UpdateRegionCommitmentsResponse,
   errors: [],
 }));
 
-/** Returns the specified commitment resource. */
 export interface GetRegionCommitmentsRequest {
   /** Project ID for this request. */
   project: string;
@@ -40175,13 +40174,13 @@ export const GetRegionCommitmentsResponse = Commitment;
 
 export type GetRegionCommitmentsError = CommonErrors;
 
+/** Returns the specified commitment resource. */
 export const getRegionCommitments: API.OperationMethod<GetRegionCommitmentsRequest, GetRegionCommitmentsResponse, GetRegionCommitmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRegionCommitmentsRequest,
   output: GetRegionCommitmentsResponse,
   errors: [],
 }));
 
-/** Retrieves an aggregated list of commitments by region. To prevent failure, it is recommended that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListRegionCommitmentsRequest {
   /** Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included. */
   includeAllScopes?: boolean;
@@ -40220,7 +40219,8 @@ export const AggregatedListRegionCommitmentsResponse = CommitmentAggregatedList;
 
 export type AggregatedListRegionCommitmentsError = CommonErrors;
 
-export const aggregatedListRegionCommitments = API.makePaginated(() => ({
+/** Retrieves an aggregated list of commitments by region. To prevent failure, it is recommended that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListRegionCommitments: API.PaginatedOperationMethod<AggregatedListRegionCommitmentsRequest, AggregatedListRegionCommitmentsResponse, AggregatedListRegionCommitmentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListRegionCommitmentsRequest,
   output: AggregatedListRegionCommitmentsResponse,
   errors: [],
@@ -40231,7 +40231,6 @@ export const aggregatedListRegionCommitments = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a commitment in the specified project using the data included in the request. */
 export interface InsertRegionCommitmentsRequest {
   /** Name of the region for this request. */
   region: string;
@@ -40258,13 +40257,13 @@ export const InsertRegionCommitmentsResponse = Operation;
 
 export type InsertRegionCommitmentsError = CommonErrors;
 
+/** Creates a commitment in the specified project using the data included in the request. */
 export const insertRegionCommitments: API.OperationMethod<InsertRegionCommitmentsRequest, InsertRegionCommitmentsResponse, InsertRegionCommitmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertRegionCommitmentsRequest,
   output: InsertRegionCommitmentsResponse,
   errors: [],
 }));
 
-/** Retrieves the list of interconnect remote locations available to the specified project. */
 export interface ListInterconnectRemoteLocationsRequest {
   /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
   orderBy?: string;
@@ -40297,7 +40296,8 @@ export const ListInterconnectRemoteLocationsResponse = InterconnectRemoteLocatio
 
 export type ListInterconnectRemoteLocationsError = CommonErrors;
 
-export const listInterconnectRemoteLocations = API.makePaginated(() => ({
+/** Retrieves the list of interconnect remote locations available to the specified project. */
+export const listInterconnectRemoteLocations: API.PaginatedOperationMethod<ListInterconnectRemoteLocationsRequest, ListInterconnectRemoteLocationsResponse, ListInterconnectRemoteLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListInterconnectRemoteLocationsRequest,
   output: ListInterconnectRemoteLocationsResponse,
   errors: [],
@@ -40308,7 +40308,6 @@ export const listInterconnectRemoteLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the details for the specified interconnect remote location. Gets a list of available interconnect remote locations by making alist() request. */
 export interface GetInterconnectRemoteLocationsRequest {
   /** Project ID for this request. */
   project: string;
@@ -40329,13 +40328,13 @@ export const GetInterconnectRemoteLocationsResponse = InterconnectRemoteLocation
 
 export type GetInterconnectRemoteLocationsError = CommonErrors;
 
+/** Returns the details for the specified interconnect remote location. Gets a list of available interconnect remote locations by making alist() request. */
 export const getInterconnectRemoteLocations: API.OperationMethod<GetInterconnectRemoteLocationsRequest, GetInterconnectRemoteLocationsResponse, GetInterconnectRemoteLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetInterconnectRemoteLocationsRequest,
   output: GetInterconnectRemoteLocationsResponse,
   errors: [],
 }));
 
-/** Deletes the specified SSL policy. The SSL policy resource can be deleted only if it is not in use by any TargetHttpsProxy or TargetSslProxy resources. */
 export interface DeleteRegionSslPoliciesRequest {
   /** Project ID for this request. */
   project: string;
@@ -40362,13 +40361,13 @@ export const DeleteRegionSslPoliciesResponse = Operation;
 
 export type DeleteRegionSslPoliciesError = CommonErrors;
 
+/** Deletes the specified SSL policy. The SSL policy resource can be deleted only if it is not in use by any TargetHttpsProxy or TargetSslProxy resources. */
 export const deleteRegionSslPolicies: API.OperationMethod<DeleteRegionSslPoliciesRequest, DeleteRegionSslPoliciesResponse, DeleteRegionSslPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRegionSslPoliciesRequest,
   output: DeleteRegionSslPoliciesResponse,
   errors: [],
 }));
 
-/** Creates a new policy in the specified project and region using the data included in the request. */
 export interface InsertRegionSslPoliciesRequest {
   /** Name of the region scoping this request. */
   region: string;
@@ -40395,13 +40394,13 @@ export const InsertRegionSslPoliciesResponse = Operation;
 
 export type InsertRegionSslPoliciesError = CommonErrors;
 
+/** Creates a new policy in the specified project and region using the data included in the request. */
 export const insertRegionSslPolicies: API.OperationMethod<InsertRegionSslPoliciesRequest, InsertRegionSslPoliciesResponse, InsertRegionSslPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertRegionSslPoliciesRequest,
   output: InsertRegionSslPoliciesResponse,
   errors: [],
 }));
 
-/** Lists all features that can be specified in the SSL policy when using custom profile. */
 export interface ListAvailableFeaturesRegionSslPoliciesRequest {
   /** Project ID for this request. */
   project: string;
@@ -40437,13 +40436,13 @@ export const ListAvailableFeaturesRegionSslPoliciesResponse = SslPoliciesListAva
 
 export type ListAvailableFeaturesRegionSslPoliciesError = CommonErrors;
 
+/** Lists all features that can be specified in the SSL policy when using custom profile. */
 export const listAvailableFeaturesRegionSslPolicies: API.OperationMethod<ListAvailableFeaturesRegionSslPoliciesRequest, ListAvailableFeaturesRegionSslPoliciesResponse, ListAvailableFeaturesRegionSslPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListAvailableFeaturesRegionSslPoliciesRequest,
   output: ListAvailableFeaturesRegionSslPoliciesResponse,
   errors: [],
 }));
 
-/** Patches the specified SSL policy with the data included in the request. */
 export interface PatchRegionSslPoliciesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -40473,13 +40472,13 @@ export const PatchRegionSslPoliciesResponse = Operation;
 
 export type PatchRegionSslPoliciesError = CommonErrors;
 
+/** Patches the specified SSL policy with the data included in the request. */
 export const patchRegionSslPolicies: API.OperationMethod<PatchRegionSslPoliciesRequest, PatchRegionSslPoliciesResponse, PatchRegionSslPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchRegionSslPoliciesRequest,
   output: PatchRegionSslPoliciesResponse,
   errors: [],
 }));
 
-/** Lists all the SSL policies that have been configured for the specified project and region. */
 export interface ListRegionSslPoliciesRequest {
   /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based onresource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using GoogleRE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
   filter?: string;
@@ -40515,7 +40514,8 @@ export const ListRegionSslPoliciesResponse = SslPoliciesList;
 
 export type ListRegionSslPoliciesError = CommonErrors;
 
-export const listRegionSslPolicies = API.makePaginated(() => ({
+/** Lists all the SSL policies that have been configured for the specified project and region. */
+export const listRegionSslPolicies: API.PaginatedOperationMethod<ListRegionSslPoliciesRequest, ListRegionSslPoliciesResponse, ListRegionSslPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRegionSslPoliciesRequest,
   output: ListRegionSslPoliciesResponse,
   errors: [],
@@ -40526,7 +40526,6 @@ export const listRegionSslPolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Lists all of the ordered rules present in a single specified policy. */
 export interface GetRegionSslPoliciesRequest {
   /** Project ID for this request. */
   project: string;
@@ -40550,13 +40549,13 @@ export const GetRegionSslPoliciesResponse = SslPolicy;
 
 export type GetRegionSslPoliciesError = CommonErrors;
 
+/** Lists all of the ordered rules present in a single specified policy. */
 export const getRegionSslPolicies: API.OperationMethod<GetRegionSslPoliciesRequest, GetRegionSslPoliciesResponse, GetRegionSslPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRegionSslPoliciesRequest,
   output: GetRegionSslPoliciesResponse,
   errors: [],
 }));
 
-/** Retrieves the list of all HealthAggregationPolicy resources, regional and global, available to the specified project. To prevent failure, it is recommended that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListRegionHealthAggregationPoliciesRequest {
   /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based onresource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using GoogleRE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
   filter?: string;
@@ -40595,7 +40594,8 @@ export const AggregatedListRegionHealthAggregationPoliciesResponse = HealthAggre
 
 export type AggregatedListRegionHealthAggregationPoliciesError = CommonErrors;
 
-export const aggregatedListRegionHealthAggregationPolicies = API.makePaginated(() => ({
+/** Retrieves the list of all HealthAggregationPolicy resources, regional and global, available to the specified project. To prevent failure, it is recommended that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListRegionHealthAggregationPolicies: API.PaginatedOperationMethod<AggregatedListRegionHealthAggregationPoliciesRequest, AggregatedListRegionHealthAggregationPoliciesResponse, AggregatedListRegionHealthAggregationPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListRegionHealthAggregationPoliciesRequest,
   output: AggregatedListRegionHealthAggregationPoliciesResponse,
   errors: [],
@@ -40606,7 +40606,6 @@ export const aggregatedListRegionHealthAggregationPolicies = API.makePaginated((
   },
 }));
 
-/** Create a HealthAggregationPolicy in the specified project in the given region using the parameters that are included in the request. */
 export interface InsertRegionHealthAggregationPoliciesRequest {
   /** Name of the region scoping this request. */
   region: string;
@@ -40633,13 +40632,13 @@ export const InsertRegionHealthAggregationPoliciesResponse = Operation;
 
 export type InsertRegionHealthAggregationPoliciesError = CommonErrors;
 
+/** Create a HealthAggregationPolicy in the specified project in the given region using the parameters that are included in the request. */
 export const insertRegionHealthAggregationPolicies: API.OperationMethod<InsertRegionHealthAggregationPoliciesRequest, InsertRegionHealthAggregationPoliciesResponse, InsertRegionHealthAggregationPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertRegionHealthAggregationPoliciesRequest,
   output: InsertRegionHealthAggregationPoliciesResponse,
   errors: [],
 }));
 
-/** Updates the specified regional HealthAggregationPolicy resource with the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export interface PatchRegionHealthAggregationPoliciesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -40669,13 +40668,13 @@ export const PatchRegionHealthAggregationPoliciesResponse = Operation;
 
 export type PatchRegionHealthAggregationPoliciesError = CommonErrors;
 
+/** Updates the specified regional HealthAggregationPolicy resource with the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export const patchRegionHealthAggregationPolicies: API.OperationMethod<PatchRegionHealthAggregationPoliciesRequest, PatchRegionHealthAggregationPoliciesResponse, PatchRegionHealthAggregationPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchRegionHealthAggregationPoliciesRequest,
   output: PatchRegionHealthAggregationPoliciesResponse,
   errors: [],
 }));
 
-/** Returns the specified HealthAggregationPolicy resource in the given region. */
 export interface GetRegionHealthAggregationPoliciesRequest {
   /** Project ID for this request. */
   project: string;
@@ -40699,13 +40698,13 @@ export const GetRegionHealthAggregationPoliciesResponse = HealthAggregationPolic
 
 export type GetRegionHealthAggregationPoliciesError = CommonErrors;
 
+/** Returns the specified HealthAggregationPolicy resource in the given region. */
 export const getRegionHealthAggregationPolicies: API.OperationMethod<GetRegionHealthAggregationPoliciesRequest, GetRegionHealthAggregationPoliciesResponse, GetRegionHealthAggregationPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRegionHealthAggregationPoliciesRequest,
   output: GetRegionHealthAggregationPoliciesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsRegionHealthAggregationPoliciesRequest {
   /** The name of the region for this request. */
   region: string;
@@ -40732,13 +40731,13 @@ export const TestIamPermissionsRegionHealthAggregationPoliciesResponse = TestPer
 
 export type TestIamPermissionsRegionHealthAggregationPoliciesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsRegionHealthAggregationPolicies: API.OperationMethod<TestIamPermissionsRegionHealthAggregationPoliciesRequest, TestIamPermissionsRegionHealthAggregationPoliciesResponse, TestIamPermissionsRegionHealthAggregationPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsRegionHealthAggregationPoliciesRequest,
   output: TestIamPermissionsRegionHealthAggregationPoliciesResponse,
   errors: [],
 }));
 
-/** Lists the HealthAggregationPolicies for a project in the given region. */
 export interface ListRegionHealthAggregationPoliciesRequest {
   /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
   orderBy?: string;
@@ -40774,7 +40773,8 @@ export const ListRegionHealthAggregationPoliciesResponse = HealthAggregationPoli
 
 export type ListRegionHealthAggregationPoliciesError = CommonErrors;
 
-export const listRegionHealthAggregationPolicies = API.makePaginated(() => ({
+/** Lists the HealthAggregationPolicies for a project in the given region. */
+export const listRegionHealthAggregationPolicies: API.PaginatedOperationMethod<ListRegionHealthAggregationPoliciesRequest, ListRegionHealthAggregationPoliciesResponse, ListRegionHealthAggregationPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRegionHealthAggregationPoliciesRequest,
   output: ListRegionHealthAggregationPoliciesResponse,
   errors: [],
@@ -40785,7 +40785,6 @@ export const listRegionHealthAggregationPolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the specified HealthAggregationPolicy in the given region. */
 export interface DeleteRegionHealthAggregationPoliciesRequest {
   /** Name of the region scoping this request. */
   region: string;
@@ -40812,13 +40811,13 @@ export const DeleteRegionHealthAggregationPoliciesResponse = Operation;
 
 export type DeleteRegionHealthAggregationPoliciesError = CommonErrors;
 
+/** Deletes the specified HealthAggregationPolicy in the given region. */
 export const deleteRegionHealthAggregationPolicies: API.OperationMethod<DeleteRegionHealthAggregationPoliciesRequest, DeleteRegionHealthAggregationPoliciesResponse, DeleteRegionHealthAggregationPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRegionHealthAggregationPoliciesRequest,
   output: DeleteRegionHealthAggregationPoliciesResponse,
   errors: [],
 }));
 
-/** Lists the NetworkAttachments for a project in the given scope. */
 export interface ListNetworkAttachmentsRequest {
   /** Opt-in for partial success behavior which provides partial results in case of failure. The default value is false. For example, when partial success behavior is enabled, aggregatedList for a single zone scope either returns all resources in the zone or no resources, with an error code. */
   returnPartialSuccess?: boolean;
@@ -40854,7 +40853,8 @@ export const ListNetworkAttachmentsResponse = NetworkAttachmentList;
 
 export type ListNetworkAttachmentsError = CommonErrors;
 
-export const listNetworkAttachments = API.makePaginated(() => ({
+/** Lists the NetworkAttachments for a project in the given scope. */
+export const listNetworkAttachments: API.PaginatedOperationMethod<ListNetworkAttachmentsRequest, ListNetworkAttachmentsResponse, ListNetworkAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListNetworkAttachmentsRequest,
   output: ListNetworkAttachmentsResponse,
   errors: [],
@@ -40865,7 +40865,6 @@ export const listNetworkAttachments = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export interface GetIamPolicyNetworkAttachmentsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -40892,13 +40891,13 @@ export const GetIamPolicyNetworkAttachmentsResponse = Policy;
 
 export type GetIamPolicyNetworkAttachmentsError = CommonErrors;
 
+/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export const getIamPolicyNetworkAttachments: API.OperationMethod<GetIamPolicyNetworkAttachmentsRequest, GetIamPolicyNetworkAttachmentsResponse, GetIamPolicyNetworkAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyNetworkAttachmentsRequest,
   output: GetIamPolicyNetworkAttachmentsResponse,
   errors: [],
 }));
 
-/** Deletes the specified NetworkAttachment in the given scope */
 export interface DeleteNetworkAttachmentsRequest {
   /** Name of the NetworkAttachment resource to delete. */
   networkAttachment: string;
@@ -40925,13 +40924,13 @@ export const DeleteNetworkAttachmentsResponse = Operation;
 
 export type DeleteNetworkAttachmentsError = CommonErrors;
 
+/** Deletes the specified NetworkAttachment in the given scope */
 export const deleteNetworkAttachments: API.OperationMethod<DeleteNetworkAttachmentsRequest, DeleteNetworkAttachmentsResponse, DeleteNetworkAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteNetworkAttachmentsRequest,
   output: DeleteNetworkAttachmentsResponse,
   errors: [],
 }));
 
-/** Creates a NetworkAttachment in the specified project in the given scope using the parameters that are included in the request. */
 export interface InsertNetworkAttachmentsRequest {
   /** Name of the region of this request. */
   region: string;
@@ -40958,13 +40957,13 @@ export const InsertNetworkAttachmentsResponse = Operation;
 
 export type InsertNetworkAttachmentsError = CommonErrors;
 
+/** Creates a NetworkAttachment in the specified project in the given scope using the parameters that are included in the request. */
 export const insertNetworkAttachments: API.OperationMethod<InsertNetworkAttachmentsRequest, InsertNetworkAttachmentsResponse, InsertNetworkAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertNetworkAttachmentsRequest,
   output: InsertNetworkAttachmentsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsNetworkAttachmentsRequest {
   /** The name of the region for this request. */
   region: string;
@@ -40991,13 +40990,13 @@ export const TestIamPermissionsNetworkAttachmentsResponse = TestPermissionsRespo
 
 export type TestIamPermissionsNetworkAttachmentsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsNetworkAttachments: API.OperationMethod<TestIamPermissionsNetworkAttachmentsRequest, TestIamPermissionsNetworkAttachmentsResponse, TestIamPermissionsNetworkAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsNetworkAttachmentsRequest,
   output: TestIamPermissionsNetworkAttachmentsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export interface SetIamPolicyNetworkAttachmentsRequest {
   /** Project ID for this request. */
   project: string;
@@ -41024,13 +41023,13 @@ export const SetIamPolicyNetworkAttachmentsResponse = Policy;
 
 export type SetIamPolicyNetworkAttachmentsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export const setIamPolicyNetworkAttachments: API.OperationMethod<SetIamPolicyNetworkAttachmentsRequest, SetIamPolicyNetworkAttachmentsResponse, SetIamPolicyNetworkAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyNetworkAttachmentsRequest,
   output: SetIamPolicyNetworkAttachmentsResponse,
   errors: [],
 }));
 
-/** Patches the specified NetworkAttachment resource with the data included in the request. This method supports PATCH semantics and usesJSON merge patch format and processing rules. */
 export interface PatchNetworkAttachmentsRequest {
   /** Project ID for this request. */
   project: string;
@@ -41060,13 +41059,13 @@ export const PatchNetworkAttachmentsResponse = Operation;
 
 export type PatchNetworkAttachmentsError = CommonErrors;
 
+/** Patches the specified NetworkAttachment resource with the data included in the request. This method supports PATCH semantics and usesJSON merge patch format and processing rules. */
 export const patchNetworkAttachments: API.OperationMethod<PatchNetworkAttachmentsRequest, PatchNetworkAttachmentsResponse, PatchNetworkAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchNetworkAttachmentsRequest,
   output: PatchNetworkAttachmentsResponse,
   errors: [],
 }));
 
-/** Retrieves the list of all NetworkAttachment resources, regional and global, available to the specified project. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListNetworkAttachmentsRequest {
   /** Project ID for this request. */
   project: string;
@@ -41105,7 +41104,8 @@ export const AggregatedListNetworkAttachmentsResponse = NetworkAttachmentAggrega
 
 export type AggregatedListNetworkAttachmentsError = CommonErrors;
 
-export const aggregatedListNetworkAttachments = API.makePaginated(() => ({
+/** Retrieves the list of all NetworkAttachment resources, regional and global, available to the specified project. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListNetworkAttachments: API.PaginatedOperationMethod<AggregatedListNetworkAttachmentsRequest, AggregatedListNetworkAttachmentsResponse, AggregatedListNetworkAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListNetworkAttachmentsRequest,
   output: AggregatedListNetworkAttachmentsResponse,
   errors: [],
@@ -41116,7 +41116,6 @@ export const aggregatedListNetworkAttachments = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the specified NetworkAttachment resource in the given scope. */
 export interface GetNetworkAttachmentsRequest {
   /** Name of the region of this request. */
   region: string;
@@ -41140,13 +41139,13 @@ export const GetNetworkAttachmentsResponse = NetworkAttachment;
 
 export type GetNetworkAttachmentsError = CommonErrors;
 
+/** Returns the specified NetworkAttachment resource in the given scope. */
 export const getNetworkAttachments: API.OperationMethod<GetNetworkAttachmentsRequest, GetNetworkAttachmentsResponse, GetNetworkAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetNetworkAttachmentsRequest,
   output: GetNetworkAttachmentsResponse,
   errors: [],
 }));
 
-/** Runs static validation for the UrlMap. In particular, the tests of the provided UrlMap will be run. Calling this method does NOT create the UrlMap. */
 export interface ValidateRegionUrlMapsRequest {
   /** Name of the UrlMap resource to be validated as. */
   urlMap: string;
@@ -41173,13 +41172,13 @@ export const ValidateRegionUrlMapsResponse = UrlMapsValidateResponse;
 
 export type ValidateRegionUrlMapsError = CommonErrors;
 
+/** Runs static validation for the UrlMap. In particular, the tests of the provided UrlMap will be run. Calling this method does NOT create the UrlMap. */
 export const validateRegionUrlMaps: API.OperationMethod<ValidateRegionUrlMapsRequest, ValidateRegionUrlMapsResponse, ValidateRegionUrlMapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ValidateRegionUrlMapsRequest,
   output: ValidateRegionUrlMapsResponse,
   errors: [],
 }));
 
-/** Deletes the specified UrlMap resource. */
 export interface DeleteRegionUrlMapsRequest {
   /** begin_interface: MixerMutationRequestBuilder Request ID to support idempotency. */
   requestId?: string;
@@ -41206,13 +41205,13 @@ export const DeleteRegionUrlMapsResponse = Operation;
 
 export type DeleteRegionUrlMapsError = CommonErrors;
 
+/** Deletes the specified UrlMap resource. */
 export const deleteRegionUrlMaps: API.OperationMethod<DeleteRegionUrlMapsRequest, DeleteRegionUrlMapsResponse, DeleteRegionUrlMapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRegionUrlMapsRequest,
   output: DeleteRegionUrlMapsResponse,
   errors: [],
 }));
 
-/** Returns the specified UrlMap resource. */
 export interface GetRegionUrlMapsRequest {
   /** Name of the region scoping this request. */
   region: string;
@@ -41236,13 +41235,13 @@ export const GetRegionUrlMapsResponse = UrlMap;
 
 export type GetRegionUrlMapsError = CommonErrors;
 
+/** Returns the specified UrlMap resource. */
 export const getRegionUrlMaps: API.OperationMethod<GetRegionUrlMapsRequest, GetRegionUrlMapsResponse, GetRegionUrlMapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRegionUrlMapsRequest,
   output: GetRegionUrlMapsResponse,
   errors: [],
 }));
 
-/** Patches the specified UrlMap resource with the data included in the request. This method supportsPATCH semantics and usesJSON merge patch format and processing rules. */
 export interface PatchRegionUrlMapsRequest {
   /** begin_interface: MixerMutationRequestBuilder Request ID to support idempotency. */
   requestId?: string;
@@ -41272,13 +41271,13 @@ export const PatchRegionUrlMapsResponse = Operation;
 
 export type PatchRegionUrlMapsError = CommonErrors;
 
+/** Patches the specified UrlMap resource with the data included in the request. This method supportsPATCH semantics and usesJSON merge patch format and processing rules. */
 export const patchRegionUrlMaps: API.OperationMethod<PatchRegionUrlMapsRequest, PatchRegionUrlMapsResponse, PatchRegionUrlMapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchRegionUrlMapsRequest,
   output: PatchRegionUrlMapsResponse,
   errors: [],
 }));
 
-/** Creates a UrlMap resource in the specified project using the data included in the request. */
 export interface InsertRegionUrlMapsRequest {
   /** Project ID for this request. */
   project: string;
@@ -41305,13 +41304,13 @@ export const InsertRegionUrlMapsResponse = Operation;
 
 export type InsertRegionUrlMapsError = CommonErrors;
 
+/** Creates a UrlMap resource in the specified project using the data included in the request. */
 export const insertRegionUrlMaps: API.OperationMethod<InsertRegionUrlMapsRequest, InsertRegionUrlMapsResponse, InsertRegionUrlMapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertRegionUrlMapsRequest,
   output: InsertRegionUrlMapsResponse,
   errors: [],
 }));
 
-/** Retrieves the list of UrlMap resources available to the specified project in the specified region. */
 export interface ListRegionUrlMapsRequest {
   /** Project ID for this request. */
   project: string;
@@ -41347,7 +41346,8 @@ export const ListRegionUrlMapsResponse = UrlMapList;
 
 export type ListRegionUrlMapsError = CommonErrors;
 
-export const listRegionUrlMaps = API.makePaginated(() => ({
+/** Retrieves the list of UrlMap resources available to the specified project in the specified region. */
+export const listRegionUrlMaps: API.PaginatedOperationMethod<ListRegionUrlMapsRequest, ListRegionUrlMapsResponse, ListRegionUrlMapsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRegionUrlMapsRequest,
   output: ListRegionUrlMapsResponse,
   errors: [],
@@ -41358,7 +41358,6 @@ export const listRegionUrlMaps = API.makePaginated(() => ({
   },
 }));
 
-/** Updates the specified UrlMap resource with the data included in the request. */
 export interface UpdateRegionUrlMapsRequest {
   /** Name of the UrlMap resource to update. */
   urlMap: string;
@@ -41388,13 +41387,13 @@ export const UpdateRegionUrlMapsResponse = Operation;
 
 export type UpdateRegionUrlMapsError = CommonErrors;
 
+/** Updates the specified UrlMap resource with the data included in the request. */
 export const updateRegionUrlMaps: API.OperationMethod<UpdateRegionUrlMapsRequest, UpdateRegionUrlMapsResponse, UpdateRegionUrlMapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateRegionUrlMapsRequest,
   output: UpdateRegionUrlMapsResponse,
   errors: [],
 }));
 
-/** Lists the InterconnectGroups for a project in the given scope. */
 export interface ListInterconnectGroupsRequest {
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string;
@@ -41427,7 +41426,8 @@ export const ListInterconnectGroupsResponse = InterconnectGroupsListResponse;
 
 export type ListInterconnectGroupsError = CommonErrors;
 
-export const listInterconnectGroups = API.makePaginated(() => ({
+/** Lists the InterconnectGroups for a project in the given scope. */
+export const listInterconnectGroups: API.PaginatedOperationMethod<ListInterconnectGroupsRequest, ListInterconnectGroupsResponse, ListInterconnectGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListInterconnectGroupsRequest,
   output: ListInterconnectGroupsResponse,
   errors: [],
@@ -41438,7 +41438,6 @@ export const listInterconnectGroups = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the specified InterconnectGroup resource in the given scope. */
 export interface GetInterconnectGroupsRequest {
   /** Name of the InterconnectGroup resource to return. */
   interconnectGroup: string;
@@ -41459,13 +41458,13 @@ export const GetInterconnectGroupsResponse = InterconnectGroup;
 
 export type GetInterconnectGroupsError = CommonErrors;
 
+/** Returns the specified InterconnectGroup resource in the given scope. */
 export const getInterconnectGroups: API.OperationMethod<GetInterconnectGroupsRequest, GetInterconnectGroupsResponse, GetInterconnectGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetInterconnectGroupsRequest,
   output: GetInterconnectGroupsResponse,
   errors: [],
 }));
 
-/** Create Interconnects with redundancy by creating them in a specified interconnect group. */
 export interface CreateMembersInterconnectGroupsRequest {
   /** Name of the group resource to create members for. */
   interconnectGroup: string;
@@ -41489,13 +41488,13 @@ export const CreateMembersInterconnectGroupsResponse = Operation;
 
 export type CreateMembersInterconnectGroupsError = CommonErrors;
 
+/** Create Interconnects with redundancy by creating them in a specified interconnect group. */
 export const createMembersInterconnectGroups: API.OperationMethod<CreateMembersInterconnectGroupsRequest, CreateMembersInterconnectGroupsResponse, CreateMembersInterconnectGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateMembersInterconnectGroupsRequest,
   output: CreateMembersInterconnectGroupsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsInterconnectGroupsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -41519,13 +41518,13 @@ export const TestIamPermissionsInterconnectGroupsResponse = TestPermissionsRespo
 
 export type TestIamPermissionsInterconnectGroupsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsInterconnectGroups: API.OperationMethod<TestIamPermissionsInterconnectGroupsRequest, TestIamPermissionsInterconnectGroupsResponse, TestIamPermissionsInterconnectGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsInterconnectGroupsRequest,
   output: TestIamPermissionsInterconnectGroupsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export interface SetIamPolicyInterconnectGroupsRequest {
   /** Project ID for this request. */
   project: string;
@@ -41549,13 +41548,13 @@ export const SetIamPolicyInterconnectGroupsResponse = Policy;
 
 export type SetIamPolicyInterconnectGroupsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export const setIamPolicyInterconnectGroups: API.OperationMethod<SetIamPolicyInterconnectGroupsRequest, SetIamPolicyInterconnectGroupsResponse, SetIamPolicyInterconnectGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyInterconnectGroupsRequest,
   output: SetIamPolicyInterconnectGroupsResponse,
   errors: [],
 }));
 
-/** Returns the interconnectStatuses for the specified InterconnectGroup. */
 export interface GetOperationalStatusInterconnectGroupsRequest {
   /** Project ID for this request. */
   project: string;
@@ -41576,13 +41575,13 @@ export const GetOperationalStatusInterconnectGroupsResponse = InterconnectGroups
 
 export type GetOperationalStatusInterconnectGroupsError = CommonErrors;
 
+/** Returns the interconnectStatuses for the specified InterconnectGroup. */
 export const getOperationalStatusInterconnectGroups: API.OperationMethod<GetOperationalStatusInterconnectGroupsRequest, GetOperationalStatusInterconnectGroupsResponse, GetOperationalStatusInterconnectGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOperationalStatusInterconnectGroupsRequest,
   output: GetOperationalStatusInterconnectGroupsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export interface GetIamPolicyInterconnectGroupsRequest {
   /** Project ID for this request. */
   project: string;
@@ -41606,13 +41605,13 @@ export const GetIamPolicyInterconnectGroupsResponse = Policy;
 
 export type GetIamPolicyInterconnectGroupsError = CommonErrors;
 
+/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export const getIamPolicyInterconnectGroups: API.OperationMethod<GetIamPolicyInterconnectGroupsRequest, GetIamPolicyInterconnectGroupsResponse, GetIamPolicyInterconnectGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyInterconnectGroupsRequest,
   output: GetIamPolicyInterconnectGroupsResponse,
   errors: [],
 }));
 
-/** Patches the specified InterconnectGroup resource with the data included in the request. This method supports PATCH semantics and usesJSON merge patch format and processing rules. */
 export interface PatchInterconnectGroupsRequest {
   /** Name of the InterconnectGroup resource to patch. */
   interconnectGroup: string;
@@ -41642,13 +41641,13 @@ export const PatchInterconnectGroupsResponse = Operation;
 
 export type PatchInterconnectGroupsError = CommonErrors;
 
+/** Patches the specified InterconnectGroup resource with the data included in the request. This method supports PATCH semantics and usesJSON merge patch format and processing rules. */
 export const patchInterconnectGroups: API.OperationMethod<PatchInterconnectGroupsRequest, PatchInterconnectGroupsResponse, PatchInterconnectGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchInterconnectGroupsRequest,
   output: PatchInterconnectGroupsResponse,
   errors: [],
 }));
 
-/** Creates a InterconnectGroup in the specified project in the given scope using the parameters that are included in the request. */
 export interface InsertInterconnectGroupsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder */
   requestId?: string;
@@ -41672,13 +41671,13 @@ export const InsertInterconnectGroupsResponse = Operation;
 
 export type InsertInterconnectGroupsError = CommonErrors;
 
+/** Creates a InterconnectGroup in the specified project in the given scope using the parameters that are included in the request. */
 export const insertInterconnectGroups: API.OperationMethod<InsertInterconnectGroupsRequest, InsertInterconnectGroupsResponse, InsertInterconnectGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertInterconnectGroupsRequest,
   output: InsertInterconnectGroupsResponse,
   errors: [],
 }));
 
-/** Deletes the specified InterconnectGroup in the given scope */
 export interface DeleteInterconnectGroupsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). end_interface: MixerMutationRequestBuilder */
   requestId?: string;
@@ -41702,13 +41701,13 @@ export const DeleteInterconnectGroupsResponse = Operation;
 
 export type DeleteInterconnectGroupsError = CommonErrors;
 
+/** Deletes the specified InterconnectGroup in the given scope */
 export const deleteInterconnectGroups: API.OperationMethod<DeleteInterconnectGroupsRequest, DeleteInterconnectGroupsResponse, DeleteInterconnectGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteInterconnectGroupsRequest,
   output: DeleteInterconnectGroupsResponse,
   errors: [],
 }));
 
-/** Lists all features that can be specified in the SSL policy when using custom profile. */
 export interface ListAvailableFeaturesSslPoliciesRequest {
   /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based onresource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using GoogleRE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
   filter?: string;
@@ -41741,13 +41740,13 @@ export const ListAvailableFeaturesSslPoliciesResponse = SslPoliciesListAvailable
 
 export type ListAvailableFeaturesSslPoliciesError = CommonErrors;
 
+/** Lists all features that can be specified in the SSL policy when using custom profile. */
 export const listAvailableFeaturesSslPolicies: API.OperationMethod<ListAvailableFeaturesSslPoliciesRequest, ListAvailableFeaturesSslPoliciesResponse, ListAvailableFeaturesSslPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListAvailableFeaturesSslPoliciesRequest,
   output: ListAvailableFeaturesSslPoliciesResponse,
   errors: [],
 }));
 
-/** Patches the specified SSL policy with the data included in the request. */
 export interface PatchSslPoliciesRequest {
   /** Project ID for this request. */
   project: string;
@@ -41774,13 +41773,13 @@ export const PatchSslPoliciesResponse = Operation;
 
 export type PatchSslPoliciesError = CommonErrors;
 
+/** Patches the specified SSL policy with the data included in the request. */
 export const patchSslPolicies: API.OperationMethod<PatchSslPoliciesRequest, PatchSslPoliciesResponse, PatchSslPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchSslPoliciesRequest,
   output: PatchSslPoliciesResponse,
   errors: [],
 }));
 
-/** Returns the specified SSL policy resource. */
 export interface InsertSslPoliciesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -41804,13 +41803,13 @@ export const InsertSslPoliciesResponse = Operation;
 
 export type InsertSslPoliciesError = CommonErrors;
 
+/** Returns the specified SSL policy resource. */
 export const insertSslPolicies: API.OperationMethod<InsertSslPoliciesRequest, InsertSslPoliciesResponse, InsertSslPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertSslPoliciesRequest,
   output: InsertSslPoliciesResponse,
   errors: [],
 }));
 
-/** Lists all of the ordered rules present in a single specified policy. */
 export interface GetSslPoliciesRequest {
   /** Project ID for this request. */
   project: string;
@@ -41831,13 +41830,13 @@ export const GetSslPoliciesResponse = SslPolicy;
 
 export type GetSslPoliciesError = CommonErrors;
 
+/** Lists all of the ordered rules present in a single specified policy. */
 export const getSslPolicies: API.OperationMethod<GetSslPoliciesRequest, GetSslPoliciesResponse, GetSslPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSslPoliciesRequest,
   output: GetSslPoliciesResponse,
   errors: [],
 }));
 
-/** Lists all the SSL policies that have been configured for the specified project. */
 export interface ListSslPoliciesRequest {
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string;
@@ -41870,7 +41869,8 @@ export const ListSslPoliciesResponse = SslPoliciesList;
 
 export type ListSslPoliciesError = CommonErrors;
 
-export const listSslPolicies = API.makePaginated(() => ({
+/** Lists all the SSL policies that have been configured for the specified project. */
+export const listSslPolicies: API.PaginatedOperationMethod<ListSslPoliciesRequest, ListSslPoliciesResponse, ListSslPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListSslPoliciesRequest,
   output: ListSslPoliciesResponse,
   errors: [],
@@ -41881,7 +41881,6 @@ export const listSslPolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves the list of all SslPolicy resources, regional and global, available to the specified project. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListSslPoliciesRequest {
   /** Name of the project scoping this request. */
   project: string;
@@ -41920,7 +41919,8 @@ export const AggregatedListSslPoliciesResponse = SslPoliciesAggregatedList;
 
 export type AggregatedListSslPoliciesError = CommonErrors;
 
-export const aggregatedListSslPolicies = API.makePaginated(() => ({
+/** Retrieves the list of all SslPolicy resources, regional and global, available to the specified project. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListSslPolicies: API.PaginatedOperationMethod<AggregatedListSslPoliciesRequest, AggregatedListSslPoliciesResponse, AggregatedListSslPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListSslPoliciesRequest,
   output: AggregatedListSslPoliciesResponse,
   errors: [],
@@ -41931,7 +41931,6 @@ export const aggregatedListSslPolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the specified SSL policy. The SSL policy resource can be deleted only if it is not in use by any TargetHttpsProxy or TargetSslProxy resources. */
 export interface DeleteSslPoliciesRequest {
   /** Project ID for this request. */
   project: string;
@@ -41955,13 +41954,13 @@ export const DeleteSslPoliciesResponse = Operation;
 
 export type DeleteSslPoliciesError = CommonErrors;
 
+/** Deletes the specified SSL policy. The SSL policy resource can be deleted only if it is not in use by any TargetHttpsProxy or TargetSslProxy resources. */
 export const deleteSslPolicies: API.OperationMethod<DeleteSslPoliciesRequest, DeleteSslPoliciesResponse, DeleteSslPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteSslPoliciesRequest,
   output: DeleteSslPoliciesResponse,
   errors: [],
 }));
 
-/** Retrieves an aggregated list of node types. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListNodeTypesRequest {
   /** Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included. */
   includeAllScopes?: boolean;
@@ -42000,7 +41999,8 @@ export const AggregatedListNodeTypesResponse = NodeTypeAggregatedList;
 
 export type AggregatedListNodeTypesError = CommonErrors;
 
-export const aggregatedListNodeTypes = API.makePaginated(() => ({
+/** Retrieves an aggregated list of node types. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListNodeTypes: API.PaginatedOperationMethod<AggregatedListNodeTypesRequest, AggregatedListNodeTypesResponse, AggregatedListNodeTypesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListNodeTypesRequest,
   output: AggregatedListNodeTypesResponse,
   errors: [],
@@ -42011,7 +42011,6 @@ export const aggregatedListNodeTypes = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves a list of node types available to the specified project. */
 export interface ListNodeTypesRequest {
   /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based onresource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using GoogleRE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
   filter?: string;
@@ -42047,7 +42046,8 @@ export const ListNodeTypesResponse = NodeTypeList;
 
 export type ListNodeTypesError = CommonErrors;
 
-export const listNodeTypes = API.makePaginated(() => ({
+/** Retrieves a list of node types available to the specified project. */
+export const listNodeTypes: API.PaginatedOperationMethod<ListNodeTypesRequest, ListNodeTypesResponse, ListNodeTypesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListNodeTypesRequest,
   output: ListNodeTypesResponse,
   errors: [],
@@ -42058,7 +42058,6 @@ export const listNodeTypes = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the specified node type. */
 export interface GetNodeTypesRequest {
   /** Project ID for this request. */
   project: string;
@@ -42082,13 +42081,13 @@ export const GetNodeTypesResponse = NodeType;
 
 export type GetNodeTypesError = CommonErrors;
 
+/** Returns the specified node type. */
 export const getNodeTypes: API.OperationMethod<GetNodeTypesRequest, GetNodeTypesResponse, GetNodeTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetNodeTypesRequest,
   output: GetNodeTypesResponse,
   errors: [],
 }));
 
-/** Returns the status for the specified VPN gateway. */
 export interface GetStatusVpnGatewaysRequest {
   /** Name of the VPN gateway to return. */
   vpnGateway: string;
@@ -42112,13 +42111,13 @@ export const GetStatusVpnGatewaysResponse = VpnGatewaysGetStatusResponse;
 
 export type GetStatusVpnGatewaysError = CommonErrors;
 
+/** Returns the status for the specified VPN gateway. */
 export const getStatusVpnGateways: API.OperationMethod<GetStatusVpnGatewaysRequest, GetStatusVpnGatewaysResponse, GetStatusVpnGatewaysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetStatusVpnGatewaysRequest,
   output: GetStatusVpnGatewaysResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsVpnGatewaysRequest {
   /** Project ID for this request. */
   project: string;
@@ -42145,13 +42144,13 @@ export const TestIamPermissionsVpnGatewaysResponse = TestPermissionsResponse;
 
 export type TestIamPermissionsVpnGatewaysError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsVpnGateways: API.OperationMethod<TestIamPermissionsVpnGatewaysRequest, TestIamPermissionsVpnGatewaysResponse, TestIamPermissionsVpnGatewaysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsVpnGatewaysRequest,
   output: TestIamPermissionsVpnGatewaysResponse,
   errors: [],
 }));
 
-/** Retrieves an aggregated list of VPN gateways. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListVpnGatewaysRequest {
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number;
@@ -42190,7 +42189,8 @@ export const AggregatedListVpnGatewaysResponse = VpnGatewayAggregatedList;
 
 export type AggregatedListVpnGatewaysError = CommonErrors;
 
-export const aggregatedListVpnGateways = API.makePaginated(() => ({
+/** Retrieves an aggregated list of VPN gateways. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListVpnGateways: API.PaginatedOperationMethod<AggregatedListVpnGatewaysRequest, AggregatedListVpnGatewaysResponse, AggregatedListVpnGatewaysError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListVpnGatewaysRequest,
   output: AggregatedListVpnGatewaysResponse,
   errors: [],
@@ -42201,7 +42201,6 @@ export const aggregatedListVpnGateways = API.makePaginated(() => ({
   },
 }));
 
-/** Sets the labels on a VpnGateway. To learn more about labels, read theLabeling Resources documentation. */
 export interface SetLabelsVpnGatewaysRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -42231,13 +42230,13 @@ export const SetLabelsVpnGatewaysResponse = Operation;
 
 export type SetLabelsVpnGatewaysError = CommonErrors;
 
+/** Sets the labels on a VpnGateway. To learn more about labels, read theLabeling Resources documentation. */
 export const setLabelsVpnGateways: API.OperationMethod<SetLabelsVpnGatewaysRequest, SetLabelsVpnGatewaysResponse, SetLabelsVpnGatewaysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetLabelsVpnGatewaysRequest,
   output: SetLabelsVpnGatewaysResponse,
   errors: [],
 }));
 
-/** Deletes the specified VPN gateway. */
 export interface DeleteVpnGatewaysRequest {
   /** Project ID for this request. */
   project: string;
@@ -42264,13 +42263,13 @@ export const DeleteVpnGatewaysResponse = Operation;
 
 export type DeleteVpnGatewaysError = CommonErrors;
 
+/** Deletes the specified VPN gateway. */
 export const deleteVpnGateways: API.OperationMethod<DeleteVpnGatewaysRequest, DeleteVpnGatewaysResponse, DeleteVpnGatewaysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteVpnGatewaysRequest,
   output: DeleteVpnGatewaysResponse,
   errors: [],
 }));
 
-/** Creates a VPN gateway in the specified project and region using the data included in the request. */
 export interface InsertVpnGatewaysRequest {
   /** Project ID for this request. */
   project: string;
@@ -42297,13 +42296,13 @@ export const InsertVpnGatewaysResponse = Operation;
 
 export type InsertVpnGatewaysError = CommonErrors;
 
+/** Creates a VPN gateway in the specified project and region using the data included in the request. */
 export const insertVpnGateways: API.OperationMethod<InsertVpnGatewaysRequest, InsertVpnGatewaysResponse, InsertVpnGatewaysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertVpnGatewaysRequest,
   output: InsertVpnGatewaysResponse,
   errors: [],
 }));
 
-/** Retrieves a list of VPN gateways available to the specified project and region. */
 export interface ListVpnGatewaysRequest {
   /** Project ID for this request. */
   project: string;
@@ -42339,7 +42338,8 @@ export const ListVpnGatewaysResponse = VpnGatewayList;
 
 export type ListVpnGatewaysError = CommonErrors;
 
-export const listVpnGateways = API.makePaginated(() => ({
+/** Retrieves a list of VPN gateways available to the specified project and region. */
+export const listVpnGateways: API.PaginatedOperationMethod<ListVpnGatewaysRequest, ListVpnGatewaysResponse, ListVpnGatewaysError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListVpnGatewaysRequest,
   output: ListVpnGatewaysResponse,
   errors: [],
@@ -42350,7 +42350,6 @@ export const listVpnGateways = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the specified VPN gateway. */
 export interface GetVpnGatewaysRequest {
   /** Name of the region for this request. */
   region: string;
@@ -42374,13 +42373,13 @@ export const GetVpnGatewaysResponse = VpnGateway;
 
 export type GetVpnGatewaysError = CommonErrors;
 
+/** Returns the specified VPN gateway. */
 export const getVpnGateways: API.OperationMethod<GetVpnGatewaysRequest, GetVpnGatewaysResponse, GetVpnGatewaysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetVpnGatewaysRequest,
   output: GetVpnGatewaysResponse,
   errors: [],
 }));
 
-/** Returns the details for the specified interconnect location. Gets a list of available interconnect locations by making a list() request. */
 export interface GetInterconnectLocationsRequest {
   /** Name of the interconnect location to return. */
   interconnectLocation: string;
@@ -42401,13 +42400,13 @@ export const GetInterconnectLocationsResponse = InterconnectLocation;
 
 export type GetInterconnectLocationsError = CommonErrors;
 
+/** Returns the details for the specified interconnect location. Gets a list of available interconnect locations by making a list() request. */
 export const getInterconnectLocations: API.OperationMethod<GetInterconnectLocationsRequest, GetInterconnectLocationsResponse, GetInterconnectLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetInterconnectLocationsRequest,
   output: GetInterconnectLocationsResponse,
   errors: [],
 }));
 
-/** Retrieves the list of interconnect locations available to the specified project. */
 export interface ListInterconnectLocationsRequest {
   /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
   orderBy?: string;
@@ -42440,7 +42439,8 @@ export const ListInterconnectLocationsResponse = InterconnectLocationList;
 
 export type ListInterconnectLocationsError = CommonErrors;
 
-export const listInterconnectLocations = API.makePaginated(() => ({
+/** Retrieves the list of interconnect locations available to the specified project. */
+export const listInterconnectLocations: API.PaginatedOperationMethod<ListInterconnectLocationsRequest, ListInterconnectLocationsResponse, ListInterconnectLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListInterconnectLocationsRequest,
   output: ListInterconnectLocationsResponse,
   errors: [],
@@ -42451,7 +42451,6 @@ export const listInterconnectLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves a list of Operation resources contained within the specified region. */
 export interface ListRegionOperationsRequest {
   /** Name of the region for this request. */
   region: string;
@@ -42487,7 +42486,8 @@ export const ListRegionOperationsResponse = OperationList;
 
 export type ListRegionOperationsError = CommonErrors;
 
-export const listRegionOperations = API.makePaginated(() => ({
+/** Retrieves a list of Operation resources contained within the specified region. */
+export const listRegionOperations: API.PaginatedOperationMethod<ListRegionOperationsRequest, ListRegionOperationsResponse, ListRegionOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRegionOperationsRequest,
   output: ListRegionOperationsResponse,
   errors: [],
@@ -42498,7 +42498,6 @@ export const listRegionOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Waits for the specified Operation resource to return as `DONE` or for the request to approach the 2 minute deadline, and retrieves the specified Operation resource. This method differs from the `GET` method in that it waits for no more than the default deadline (2 minutes) and then returns the current state of the operation, which might be `DONE` or still in progress. This method is called on a best-effort basis. Specifically: - In uncommon cases, when the server is overloaded, the request might return before the default deadline is reached, or might return after zero seconds. - If the default deadline is reached, there is no guarantee that the operation is actually done when the method returns. Be prepared to retry if the operation is not `DONE`. */
 export interface WaitRegionOperationsRequest {
   /** Name of the Operations resource to return, or its unique numeric identifier. */
   operation: string;
@@ -42522,13 +42521,13 @@ export const WaitRegionOperationsResponse = Operation;
 
 export type WaitRegionOperationsError = CommonErrors;
 
+/** Waits for the specified Operation resource to return as `DONE` or for the request to approach the 2 minute deadline, and retrieves the specified Operation resource. This method differs from the `GET` method in that it waits for no more than the default deadline (2 minutes) and then returns the current state of the operation, which might be `DONE` or still in progress. This method is called on a best-effort basis. Specifically: - In uncommon cases, when the server is overloaded, the request might return before the default deadline is reached, or might return after zero seconds. - If the default deadline is reached, there is no guarantee that the operation is actually done when the method returns. Be prepared to retry if the operation is not `DONE`. */
 export const waitRegionOperations: API.OperationMethod<WaitRegionOperationsRequest, WaitRegionOperationsResponse, WaitRegionOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WaitRegionOperationsRequest,
   output: WaitRegionOperationsResponse,
   errors: [],
 }));
 
-/** Deletes the specified region-specific Operations resource. */
 export interface DeleteRegionOperationsRequest {
   /** Project ID for this request. */
   project: string;
@@ -42552,13 +42551,13 @@ export const DeleteRegionOperationsResponse: Schema.Schema<DeleteRegionOperation
 
 export type DeleteRegionOperationsError = CommonErrors;
 
+/** Deletes the specified region-specific Operations resource. */
 export const deleteRegionOperations: API.OperationMethod<DeleteRegionOperationsRequest, DeleteRegionOperationsResponse, DeleteRegionOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRegionOperationsRequest,
   output: DeleteRegionOperationsResponse,
   errors: [],
 }));
 
-/** Retrieves the specified region-specific Operations resource. */
 export interface GetRegionOperationsRequest {
   /** Project ID for this request. */
   project: string;
@@ -42582,13 +42581,13 @@ export const GetRegionOperationsResponse = Operation;
 
 export type GetRegionOperationsError = CommonErrors;
 
+/** Retrieves the specified region-specific Operations resource. */
 export const getRegionOperations: API.OperationMethod<GetRegionOperationsRequest, GetRegionOperationsResponse, GetRegionOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRegionOperationsRequest,
   output: GetRegionOperationsResponse,
   errors: [],
 }));
 
-/** Creates a new resize request that starts provisioning VMs immediately or queues VM creation. */
 export interface InsertInstanceGroupManagerResizeRequestsRequest {
   /** Project ID for this request. */
   project: string;
@@ -42618,13 +42617,13 @@ export const InsertInstanceGroupManagerResizeRequestsResponse = Operation;
 
 export type InsertInstanceGroupManagerResizeRequestsError = CommonErrors;
 
+/** Creates a new resize request that starts provisioning VMs immediately or queues VM creation. */
 export const insertInstanceGroupManagerResizeRequests: API.OperationMethod<InsertInstanceGroupManagerResizeRequestsRequest, InsertInstanceGroupManagerResizeRequestsResponse, InsertInstanceGroupManagerResizeRequestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertInstanceGroupManagerResizeRequestsRequest,
   output: InsertInstanceGroupManagerResizeRequestsResponse,
   errors: [],
 }));
 
-/** Returns all of the details about the specified resize request. */
 export interface GetInstanceGroupManagerResizeRequestsRequest {
   /** Project ID for this request. */
   project: string;
@@ -42651,13 +42650,13 @@ export const GetInstanceGroupManagerResizeRequestsResponse = InstanceGroupManage
 
 export type GetInstanceGroupManagerResizeRequestsError = CommonErrors;
 
+/** Returns all of the details about the specified resize request. */
 export const getInstanceGroupManagerResizeRequests: API.OperationMethod<GetInstanceGroupManagerResizeRequestsRequest, GetInstanceGroupManagerResizeRequestsResponse, GetInstanceGroupManagerResizeRequestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetInstanceGroupManagerResizeRequestsRequest,
   output: GetInstanceGroupManagerResizeRequestsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of resize requests that are contained in the managed instance group. */
 export interface ListInstanceGroupManagerResizeRequestsRequest {
   /** The name of thezone where the managed instance group is located. The name should conform to RFC1035. */
   zone: string;
@@ -42696,7 +42695,8 @@ export const ListInstanceGroupManagerResizeRequestsResponse = InstanceGroupManag
 
 export type ListInstanceGroupManagerResizeRequestsError = CommonErrors;
 
-export const listInstanceGroupManagerResizeRequests = API.makePaginated(() => ({
+/** Retrieves a list of resize requests that are contained in the managed instance group. */
+export const listInstanceGroupManagerResizeRequests: API.PaginatedOperationMethod<ListInstanceGroupManagerResizeRequestsRequest, ListInstanceGroupManagerResizeRequestsResponse, ListInstanceGroupManagerResizeRequestsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListInstanceGroupManagerResizeRequestsRequest,
   output: ListInstanceGroupManagerResizeRequestsResponse,
   errors: [],
@@ -42707,7 +42707,6 @@ export const listInstanceGroupManagerResizeRequests = API.makePaginated(() => ({
   },
 }));
 
-/** Cancels the specified resize request and removes it from the queue. Cancelled resize request does no longer wait for the resources to be provisioned. Cancel is only possible for requests that are accepted in the queue. */
 export interface CancelInstanceGroupManagerResizeRequestsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -42737,13 +42736,13 @@ export const CancelInstanceGroupManagerResizeRequestsResponse = Operation;
 
 export type CancelInstanceGroupManagerResizeRequestsError = CommonErrors;
 
+/** Cancels the specified resize request and removes it from the queue. Cancelled resize request does no longer wait for the resources to be provisioned. Cancel is only possible for requests that are accepted in the queue. */
 export const cancelInstanceGroupManagerResizeRequests: API.OperationMethod<CancelInstanceGroupManagerResizeRequestsRequest, CancelInstanceGroupManagerResizeRequestsResponse, CancelInstanceGroupManagerResizeRequestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelInstanceGroupManagerResizeRequestsRequest,
   output: CancelInstanceGroupManagerResizeRequestsResponse,
   errors: [],
 }));
 
-/** Deletes the specified, inactive resize request. Requests that are still active cannot be deleted. Deleting request does not delete instances that were provisioned previously. */
 export interface DeleteInstanceGroupManagerResizeRequestsRequest {
   /** The name of the managed instance group. The name should conform to RFC1035 or be a resource ID. */
   instanceGroupManager: string;
@@ -42773,13 +42772,13 @@ export const DeleteInstanceGroupManagerResizeRequestsResponse = Operation;
 
 export type DeleteInstanceGroupManagerResizeRequestsError = CommonErrors;
 
+/** Deletes the specified, inactive resize request. Requests that are still active cannot be deleted. Deleting request does not delete instances that were provisioned previously. */
 export const deleteInstanceGroupManagerResizeRequests: API.OperationMethod<DeleteInstanceGroupManagerResizeRequestsRequest, DeleteInstanceGroupManagerResizeRequestsResponse, DeleteInstanceGroupManagerResizeRequestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteInstanceGroupManagerResizeRequestsRequest,
   output: DeleteInstanceGroupManagerResizeRequestsResponse,
   errors: [],
 }));
 
-/** Sets labels on an instance. To learn more about labels, read theLabeling Resources documentation. */
 export interface SetLabelsInstancesRequest {
   /** Project ID for this request. */
   project: string;
@@ -42809,13 +42808,13 @@ export const SetLabelsInstancesResponse = Operation;
 
 export type SetLabelsInstancesError = CommonErrors;
 
+/** Sets labels on an instance. To learn more about labels, read theLabeling Resources documentation. */
 export const setLabelsInstances: API.OperationMethod<SetLabelsInstancesRequest, SetLabelsInstancesResponse, SetLabelsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetLabelsInstancesRequest,
   output: SetLabelsInstancesResponse,
   errors: [],
 }));
 
-/** Adds existing resource policies to an instance. You can only add one policy right now which will be applied to this instance for scheduling live migrations. */
 export interface AddResourcePoliciesInstancesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -42845,13 +42844,13 @@ export const AddResourcePoliciesInstancesResponse = Operation;
 
 export type AddResourcePoliciesInstancesError = CommonErrors;
 
+/** Adds existing resource policies to an instance. You can only add one policy right now which will be applied to this instance for scheduling live migrations. */
 export const addResourcePoliciesInstances: API.OperationMethod<AddResourcePoliciesInstancesRequest, AddResourcePoliciesInstancesResponse, AddResourcePoliciesInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddResourcePoliciesInstancesRequest,
   output: AddResourcePoliciesInstancesResponse,
   errors: [],
 }));
 
-/** Updates an instance's network interface. This method can only update an interface's alias IP range and attached network. See Modifying alias IP ranges for an existing instance for instructions on changing alias IP ranges. See Migrating a VM between networks for instructions on migrating an interface. This method follows PATCH semantics. */
 export interface UpdateNetworkInterfaceInstancesRequest {
   /** Project ID for this request. */
   project: string;
@@ -42884,13 +42883,13 @@ export const UpdateNetworkInterfaceInstancesResponse = Operation;
 
 export type UpdateNetworkInterfaceInstancesError = CommonErrors;
 
+/** Updates an instance's network interface. This method can only update an interface's alias IP range and attached network. See Modifying alias IP ranges for an existing instance for instructions on changing alias IP ranges. See Migrating a VM between networks for instructions on migrating an interface. This method follows PATCH semantics. */
 export const updateNetworkInterfaceInstances: API.OperationMethod<UpdateNetworkInterfaceInstancesRequest, UpdateNetworkInterfaceInstancesResponse, UpdateNetworkInterfaceInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateNetworkInterfaceInstancesRequest,
   output: UpdateNetworkInterfaceInstancesResponse,
   errors: [],
 }));
 
-/** Returns the Shielded Instance Identity of an instance */
 export interface GetShieldedInstanceIdentityInstancesRequest {
   /** Name or id of the instance scoping this request. */
   instance: string;
@@ -42914,13 +42913,13 @@ export const GetShieldedInstanceIdentityInstancesResponse = ShieldedInstanceIden
 
 export type GetShieldedInstanceIdentityInstancesError = CommonErrors;
 
+/** Returns the Shielded Instance Identity of an instance */
 export const getShieldedInstanceIdentityInstances: API.OperationMethod<GetShieldedInstanceIdentityInstancesRequest, GetShieldedInstanceIdentityInstancesResponse, GetShieldedInstanceIdentityInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetShieldedInstanceIdentityInstancesRequest,
   output: GetShieldedInstanceIdentityInstancesResponse,
   errors: [],
 }));
 
-/** Sets name of an instance. */
 export interface SetNameInstancesRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -42950,13 +42949,13 @@ export const SetNameInstancesResponse = Operation;
 
 export type SetNameInstancesError = CommonErrors;
 
+/** Sets name of an instance. */
 export const setNameInstances: API.OperationMethod<SetNameInstancesRequest, SetNameInstancesResponse, SetNameInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetNameInstancesRequest,
   output: SetNameInstancesResponse,
   errors: [],
 }));
 
-/** Sets the Google Cloud Armor security policy for the specified instance. For more information, seeGoogle Cloud Armor Overview */
 export interface SetSecurityPolicyInstancesRequest {
   /** Name of the Instance resource to which the security policy should be set. The name should conform to RFC1035. */
   instance: string;
@@ -42986,13 +42985,13 @@ export const SetSecurityPolicyInstancesResponse = Operation;
 
 export type SetSecurityPolicyInstancesError = CommonErrors;
 
+/** Sets the Google Cloud Armor security policy for the specified instance. For more information, seeGoogle Cloud Armor Overview */
 export const setSecurityPolicyInstances: API.OperationMethod<SetSecurityPolicyInstancesRequest, SetSecurityPolicyInstancesResponse, SetSecurityPolicyInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetSecurityPolicyInstancesRequest,
   output: SetSecurityPolicyInstancesResponse,
   errors: [],
 }));
 
-/** Adds an access config to an instance's network interface. */
 export interface AddAccessConfigInstancesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -43025,13 +43024,13 @@ export const AddAccessConfigInstancesResponse = Operation;
 
 export type AddAccessConfigInstancesError = CommonErrors;
 
+/** Adds an access config to an instance's network interface. */
 export const addAccessConfigInstances: API.OperationMethod<AddAccessConfigInstancesRequest, AddAccessConfigInstancesResponse, AddAccessConfigInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddAccessConfigInstancesRequest,
   output: AddAccessConfigInstancesResponse,
   errors: [],
 }));
 
-/** Retrieves the list of instances contained within the specified zone. */
 export interface ListInstancesRequest {
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string;
@@ -43067,7 +43066,8 @@ export const ListInstancesResponse = InstanceList;
 
 export type ListInstancesError = CommonErrors;
 
-export const listInstances = API.makePaginated(() => ({
+/** Retrieves the list of instances contained within the specified zone. */
+export const listInstances: API.PaginatedOperationMethod<ListInstancesRequest, ListInstancesResponse, ListInstancesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListInstancesRequest,
   output: ListInstancesResponse,
   errors: [],
@@ -43078,7 +43078,6 @@ export const listInstances = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the specified Instance resource. For more information, seeDeleting an instance. */
 export interface DeleteInstancesRequest {
   /** Project ID for this request. */
   project: string;
@@ -43105,13 +43104,13 @@ export const DeleteInstancesResponse = Operation;
 
 export type DeleteInstancesError = CommonErrors;
 
+/** Deletes the specified Instance resource. For more information, seeDeleting an instance. */
 export const deleteInstances: API.OperationMethod<DeleteInstancesRequest, DeleteInstancesResponse, DeleteInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteInstancesRequest,
   output: DeleteInstancesResponse,
   errors: [],
 }));
 
-/** Updates the specified access config from an instance's network interface with the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export interface UpdateAccessConfigInstancesRequest {
   /** Project ID for this request. */
   project: string;
@@ -43144,13 +43143,13 @@ export const UpdateAccessConfigInstancesResponse = Operation;
 
 export type UpdateAccessConfigInstancesError = CommonErrors;
 
+/** Updates the specified access config from an instance's network interface with the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export const updateAccessConfigInstances: API.OperationMethod<UpdateAccessConfigInstancesRequest, UpdateAccessConfigInstancesResponse, UpdateAccessConfigInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAccessConfigInstancesRequest,
   output: UpdateAccessConfigInstancesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of resources that refer to the VM instance specified in the request. For example, if the VM instance is part of a managed or unmanaged instance group, the referrers list includes the instance group. For more information, readViewing referrers to VM instances. */
 export interface ListReferrersInstancesRequest {
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number;
@@ -43189,7 +43188,8 @@ export const ListReferrersInstancesResponse = InstanceListReferrers;
 
 export type ListReferrersInstancesError = CommonErrors;
 
-export const listReferrersInstances = API.makePaginated(() => ({
+/** Retrieves a list of resources that refer to the VM instance specified in the request. For example, if the VM instance is part of a managed or unmanaged instance group, the referrers list includes the instance group. For more information, readViewing referrers to VM instances. */
+export const listReferrersInstances: API.PaginatedOperationMethod<ListReferrersInstancesRequest, ListReferrersInstancesResponse, ListReferrersInstancesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListReferrersInstancesRequest,
   output: ListReferrersInstancesResponse,
   errors: [],
@@ -43200,7 +43200,6 @@ export const listReferrersInstances = API.makePaginated(() => ({
   },
 }));
 
-/** Simulates a host maintenance event on a VM. For more information, see Simulate a host maintenance event. */
 export interface SimulateMaintenanceEventInstancesRequest {
   /** Project ID for this request. */
   project: string;
@@ -43230,13 +43229,13 @@ export const SimulateMaintenanceEventInstancesResponse = Operation;
 
 export type SimulateMaintenanceEventInstancesError = CommonErrors;
 
+/** Simulates a host maintenance event on a VM. For more information, see Simulate a host maintenance event. */
 export const simulateMaintenanceEventInstances: API.OperationMethod<SimulateMaintenanceEventInstancesRequest, SimulateMaintenanceEventInstancesResponse, SimulateMaintenanceEventInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SimulateMaintenanceEventInstancesRequest,
   output: SimulateMaintenanceEventInstancesResponse,
   errors: [],
 }));
 
-/** Deletes one dynamic network interface from an active instance. InstancesDeleteNetworkInterfaceRequest indicates: - instance from which to delete, using project+zone+resource_id fields; - dynamic network interface to be deleted, using network_interface_name field; */
 export interface DeleteNetworkInterfaceInstancesRequest {
   /** The instance name for this request stored as resource_id. Name should conform to RFC1035 or be an unsigned long integer. */
   instance: string;
@@ -43266,13 +43265,13 @@ export const DeleteNetworkInterfaceInstancesResponse = Operation;
 
 export type DeleteNetworkInterfaceInstancesError = CommonErrors;
 
+/** Deletes one dynamic network interface from an active instance. InstancesDeleteNetworkInterfaceRequest indicates: - instance from which to delete, using project+zone+resource_id fields; - dynamic network interface to be deleted, using network_interface_name field; */
 export const deleteNetworkInterfaceInstances: API.OperationMethod<DeleteNetworkInterfaceInstancesRequest, DeleteNetworkInterfaceInstancesResponse, DeleteNetworkInterfaceInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteNetworkInterfaceInstancesRequest,
   output: DeleteNetworkInterfaceInstancesResponse,
   errors: [],
 }));
 
-/** Deletes an access config from an instance's network interface. */
 export interface DeleteAccessConfigInstancesRequest {
   /** The name of the network interface. */
   networkInterface: string;
@@ -43305,13 +43304,13 @@ export const DeleteAccessConfigInstancesResponse = Operation;
 
 export type DeleteAccessConfigInstancesError = CommonErrors;
 
+/** Deletes an access config from an instance's network interface. */
 export const deleteAccessConfigInstances: API.OperationMethod<DeleteAccessConfigInstancesRequest, DeleteAccessConfigInstancesResponse, DeleteAccessConfigInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccessConfigInstancesRequest,
   output: DeleteAccessConfigInstancesResponse,
   errors: [],
 }));
 
-/** Sets an instance's scheduling options. You can only call this method on astopped instance, that is, a VM instance that is in a `TERMINATED` state. SeeInstance Life Cycle for more information on the possible instance states. For more information about setting scheduling options for a VM, seeSet VM host maintenance policy. */
 export interface SetSchedulingInstancesRequest {
   /** Project ID for this request. */
   project: string;
@@ -43341,13 +43340,13 @@ export const SetSchedulingInstancesResponse = Operation;
 
 export type SetSchedulingInstancesError = CommonErrors;
 
+/** Sets an instance's scheduling options. You can only call this method on astopped instance, that is, a VM instance that is in a `TERMINATED` state. SeeInstance Life Cycle for more information on the possible instance states. For more information about setting scheduling options for a VM, seeSet VM host maintenance policy. */
 export const setSchedulingInstances: API.OperationMethod<SetSchedulingInstancesRequest, SetSchedulingInstancesResponse, SetSchedulingInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetSchedulingInstancesRequest,
   output: SetSchedulingInstancesResponse,
   errors: [],
 }));
 
-/** Starts an instance that was stopped using theinstances().stop method. For more information, seeRestart an instance. */
 export interface StartWithEncryptionKeyInstancesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -43377,13 +43376,13 @@ export const StartWithEncryptionKeyInstancesResponse = Operation;
 
 export type StartWithEncryptionKeyInstancesError = CommonErrors;
 
+/** Starts an instance that was stopped using theinstances().stop method. For more information, seeRestart an instance. */
 export const startWithEncryptionKeyInstances: API.OperationMethod<StartWithEncryptionKeyInstancesRequest, StartWithEncryptionKeyInstancesResponse, StartWithEncryptionKeyInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StartWithEncryptionKeyInstancesRequest,
   output: StartWithEncryptionKeyInstancesResponse,
   errors: [],
 }));
 
-/** Performs a reset on the instance. This is a hard reset. The VM does not do a graceful shutdown. For more information, seeResetting an instance. */
 export interface ResetInstancesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -43410,13 +43409,13 @@ export const ResetInstancesResponse = Operation;
 
 export type ResetInstancesError = CommonErrors;
 
+/** Performs a reset on the instance. This is a hard reset. The VM does not do a graceful shutdown. For more information, seeResetting an instance. */
 export const resetInstances: API.OperationMethod<ResetInstancesRequest, ResetInstancesResponse, ResetInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetInstancesRequest,
   output: ResetInstancesResponse,
   errors: [],
 }));
 
-/** Creates an instance resource in the specified project using the data included in the request. */
 export interface InsertInstancesRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -43449,13 +43448,13 @@ export const InsertInstancesResponse = Operation;
 
 export type InsertInstancesError = CommonErrors;
 
+/** Creates an instance resource in the specified project using the data included in the request. */
 export const insertInstances: API.OperationMethod<InsertInstancesRequest, InsertInstancesResponse, InsertInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertInstancesRequest,
   output: InsertInstancesResponse,
   errors: [],
 }));
 
-/** Sets deletion protection on the instance. */
 export interface SetDeletionProtectionInstancesRequest {
   /** Whether the resource should be protected against deletion. */
   deletionProtection?: boolean;
@@ -43485,13 +43484,13 @@ export const SetDeletionProtectionInstancesResponse = Operation;
 
 export type SetDeletionProtectionInstancesError = CommonErrors;
 
+/** Sets deletion protection on the instance. */
 export const setDeletionProtectionInstances: API.OperationMethod<SetDeletionProtectionInstancesRequest, SetDeletionProtectionInstancesResponse, SetDeletionProtectionInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetDeletionProtectionInstancesRequest,
   output: SetDeletionProtectionInstancesResponse,
   errors: [],
 }));
 
-/** Detaches a disk from an instance. */
 export interface DetachDiskInstancesRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -43521,13 +43520,13 @@ export const DetachDiskInstancesResponse = Operation;
 
 export type DetachDiskInstancesError = CommonErrors;
 
+/** Detaches a disk from an instance. */
 export const detachDiskInstances: API.OperationMethod<DetachDiskInstancesRequest, DetachDiskInstancesResponse, DetachDiskInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DetachDiskInstancesRequest,
   output: DetachDiskInstancesResponse,
   errors: [],
 }));
 
-/** Updates the Shielded Instance config for an instance. You can only use this method on a stopped instance. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export interface UpdateShieldedInstanceConfigInstancesRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -43557,13 +43556,13 @@ export const UpdateShieldedInstanceConfigInstancesResponse = Operation;
 
 export type UpdateShieldedInstanceConfigInstancesError = CommonErrors;
 
+/** Updates the Shielded Instance config for an instance. You can only use this method on a stopped instance. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export const updateShieldedInstanceConfigInstances: API.OperationMethod<UpdateShieldedInstanceConfigInstancesRequest, UpdateShieldedInstanceConfigInstancesResponse, UpdateShieldedInstanceConfigInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateShieldedInstanceConfigInstancesRequest,
   output: UpdateShieldedInstanceConfigInstancesResponse,
   errors: [],
 }));
 
-/** Retrieves an aggregated list of all of the instances in your project across all regions and zones. The performance of this method degrades when a filter is specified on a project that has a very large number of instances. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListInstancesRequest {
   /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based onresource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using GoogleRE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
   filter?: string;
@@ -43602,7 +43601,8 @@ export const AggregatedListInstancesResponse = InstanceAggregatedList;
 
 export type AggregatedListInstancesError = CommonErrors;
 
-export const aggregatedListInstances = API.makePaginated(() => ({
+/** Retrieves an aggregated list of all of the instances in your project across all regions and zones. The performance of this method degrades when a filter is specified on a project that has a very large number of instances. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListInstances: API.PaginatedOperationMethod<AggregatedListInstancesRequest, AggregatedListInstancesResponse, AggregatedListInstancesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListInstancesRequest,
   output: AggregatedListInstancesResponse,
   errors: [],
@@ -43613,7 +43613,6 @@ export const aggregatedListInstances = API.makePaginated(() => ({
   },
 }));
 
-/** Sends diagnostic interrupt to the instance. */
 export interface SendDiagnosticInterruptInstancesRequest {
   /** Name of the instance scoping this request. */
   instance: string;
@@ -43637,13 +43636,13 @@ export const SendDiagnosticInterruptInstancesResponse: Schema.Schema<SendDiagnos
 
 export type SendDiagnosticInterruptInstancesError = CommonErrors;
 
+/** Sends diagnostic interrupt to the instance. */
 export const sendDiagnosticInterruptInstances: API.OperationMethod<SendDiagnosticInterruptInstancesRequest, SendDiagnosticInterruptInstancesResponse, SendDiagnosticInterruptInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SendDiagnosticInterruptInstancesRequest,
   output: SendDiagnosticInterruptInstancesResponse,
   errors: [],
 }));
 
-/** Changes the minimum CPU platform that this instance should use. This method can only be called on a stopped instance. For more information, readSpecifying a Minimum CPU Platform. */
 export interface SetMinCpuPlatformInstancesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -43673,13 +43672,13 @@ export const SetMinCpuPlatformInstancesResponse = Operation;
 
 export type SetMinCpuPlatformInstancesError = CommonErrors;
 
+/** Changes the minimum CPU platform that this instance should use. This method can only be called on a stopped instance. For more information, readSpecifying a Minimum CPU Platform. */
 export const setMinCpuPlatformInstances: API.OperationMethod<SetMinCpuPlatformInstancesRequest, SetMinCpuPlatformInstancesResponse, SetMinCpuPlatformInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetMinCpuPlatformInstancesRequest,
   output: SetMinCpuPlatformInstancesResponse,
   errors: [],
 }));
 
-/** Stops a running instance, shutting it down cleanly, and allows you to restart the instance at a later time. Stopped instances do not incur VM usage charges while they are stopped. However, resources that the VM is using, such as persistent disks and static IP addresses, will continue to be charged until they are deleted. For more information, seeStopping an instance. */
 export interface StopInstancesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -43709,13 +43708,13 @@ export const StopInstancesResponse = Operation;
 
 export type StopInstancesError = CommonErrors;
 
+/** Stops a running instance, shutting it down cleanly, and allows you to restart the instance at a later time. Stopped instances do not incur VM usage charges while they are stopped. However, resources that the VM is using, such as persistent disks and static IP addresses, will continue to be charged until they are deleted. For more information, seeStopping an instance. */
 export const stopInstances: API.OperationMethod<StopInstancesRequest, StopInstancesResponse, StopInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StopInstancesRequest,
   output: StopInstancesResponse,
   errors: [],
 }));
 
-/** Changes the number and/or type of accelerator for a stopped instance to the values specified in the request. */
 export interface SetMachineResourcesInstancesRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -43745,13 +43744,13 @@ export const SetMachineResourcesInstancesResponse = Operation;
 
 export type SetMachineResourcesInstancesError = CommonErrors;
 
+/** Changes the number and/or type of accelerator for a stopped instance to the values specified in the request. */
 export const setMachineResourcesInstances: API.OperationMethod<SetMachineResourcesInstancesRequest, SetMachineResourcesInstancesResponse, SetMachineResourcesInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetMachineResourcesInstancesRequest,
   output: SetMachineResourcesInstancesResponse,
   errors: [],
 }));
 
-/** Sets metadata for the specified instance to the data included in the request. */
 export interface SetMetadataInstancesRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -43781,13 +43780,13 @@ export const SetMetadataInstancesResponse = Operation;
 
 export type SetMetadataInstancesError = CommonErrors;
 
+/** Sets metadata for the specified instance to the data included in the request. */
 export const setMetadataInstances: API.OperationMethod<SetMetadataInstancesRequest, SetMetadataInstancesResponse, SetMetadataInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetMetadataInstancesRequest,
   output: SetMetadataInstancesResponse,
   errors: [],
 }));
 
-/** Sets network tags for the specified instance to the data included in the request. */
 export interface SetTagsInstancesRequest {
   /** Project ID for this request. */
   project: string;
@@ -43817,13 +43816,13 @@ export const SetTagsInstancesResponse = Operation;
 
 export type SetTagsInstancesError = CommonErrors;
 
+/** Sets network tags for the specified instance to the data included in the request. */
 export const setTagsInstances: API.OperationMethod<SetTagsInstancesRequest, SetTagsInstancesResponse, SetTagsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetTagsInstancesRequest,
   output: SetTagsInstancesResponse,
   errors: [],
 }));
 
-/** Attaches an existing Disk resource to an instance. You must first create the disk before you can attach it. It is not possible to create and attach a disk at the same time. For more information, readAdding a persistent disk to your instance. */
 export interface AttachDiskInstancesRequest {
   /** Whether to force attach the regional disk even if it's currently attached to another instance. If you try to force attach a zonal disk to an instance, you will receive an error. */
   forceAttach?: boolean;
@@ -43856,13 +43855,13 @@ export const AttachDiskInstancesResponse = Operation;
 
 export type AttachDiskInstancesError = CommonErrors;
 
+/** Attaches an existing Disk resource to an instance. You must first create the disk before you can attach it. It is not possible to create and attach a disk at the same time. For more information, readAdding a persistent disk to your instance. */
 export const attachDiskInstances: API.OperationMethod<AttachDiskInstancesRequest, AttachDiskInstancesResponse, AttachDiskInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AttachDiskInstancesRequest,
   output: AttachDiskInstancesResponse,
   errors: [],
 }));
 
-/** Updates an instance only if the necessary resources are available. This method can update only a specific set of instance properties. See Updating a running instance for a list of updatable instance properties. */
 export interface UpdateInstancesRequest {
   /** Project ID for this request. */
   project: string;
@@ -43898,13 +43897,13 @@ export const UpdateInstancesResponse = Operation;
 
 export type UpdateInstancesError = CommonErrors;
 
+/** Updates an instance only if the necessary resources are available. This method can update only a specific set of instance properties. See Updating a running instance for a list of updatable instance properties. */
 export const updateInstances: API.OperationMethod<UpdateInstancesRequest, UpdateInstancesResponse, UpdateInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateInstancesRequest,
   output: UpdateInstancesResponse,
   errors: [],
 }));
 
-/** Updates the Display config for a VM instance. You can only use this method on a stopped VM instance. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export interface UpdateDisplayDeviceInstancesRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -43934,13 +43933,13 @@ export const UpdateDisplayDeviceInstancesResponse = Operation;
 
 export type UpdateDisplayDeviceInstancesError = CommonErrors;
 
+/** Updates the Display config for a VM instance. You can only use this method on a stopped VM instance. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export const updateDisplayDeviceInstances: API.OperationMethod<UpdateDisplayDeviceInstancesRequest, UpdateDisplayDeviceInstancesResponse, UpdateDisplayDeviceInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateDisplayDeviceInstancesRequest,
   output: UpdateDisplayDeviceInstancesResponse,
   errors: [],
 }));
 
-/** Starts an instance that was stopped using theinstances().stop method. For more information, seeRestart an instance. */
 export interface StartInstancesRequest {
   /** Name of the instance resource to start. */
   instance: string;
@@ -43967,13 +43966,13 @@ export const StartInstancesResponse = Operation;
 
 export type StartInstancesError = CommonErrors;
 
+/** Starts an instance that was stopped using theinstances().stop method. For more information, seeRestart an instance. */
 export const startInstances: API.OperationMethod<StartInstancesRequest, StartInstancesResponse, StartInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StartInstancesRequest,
   output: StartInstancesResponse,
   errors: [],
 }));
 
-/** Changes the machine type for a stopped instance to the machine type specified in the request. */
 export interface SetMachineTypeInstancesRequest {
   /** Project ID for this request. */
   project: string;
@@ -44003,13 +44002,13 @@ export const SetMachineTypeInstancesResponse = Operation;
 
 export type SetMachineTypeInstancesError = CommonErrors;
 
+/** Changes the machine type for a stopped instance to the machine type specified in the request. */
 export const setMachineTypeInstances: API.OperationMethod<SetMachineTypeInstancesRequest, SetMachineTypeInstancesResponse, SetMachineTypeInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetMachineTypeInstancesRequest,
   output: SetMachineTypeInstancesResponse,
   errors: [],
 }));
 
-/** Returns the screenshot from the specified instance. */
 export interface GetScreenshotInstancesRequest {
   /** Name of the instance scoping this request. */
   instance: string;
@@ -44033,13 +44032,13 @@ export const GetScreenshotInstancesResponse = Screenshot;
 
 export type GetScreenshotInstancesError = CommonErrors;
 
+/** Returns the screenshot from the specified instance. */
 export const getScreenshotInstances: API.OperationMethod<GetScreenshotInstancesRequest, GetScreenshotInstancesResponse, GetScreenshotInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetScreenshotInstancesRequest,
   output: GetScreenshotInstancesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export interface GetIamPolicyInstancesRequest {
   /** Requested IAM Policy version. */
   optionsRequestedPolicyVersion?: number;
@@ -44066,13 +44065,13 @@ export const GetIamPolicyInstancesResponse = Policy;
 
 export type GetIamPolicyInstancesError = CommonErrors;
 
+/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export const getIamPolicyInstances: API.OperationMethod<GetIamPolicyInstancesRequest, GetIamPolicyInstancesResponse, GetIamPolicyInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyInstancesRequest,
   output: GetIamPolicyInstancesResponse,
   errors: [],
 }));
 
-/** Mark the host as faulty and try to restart the instance on a new host. */
 export interface ReportHostAsFaultyInstancesRequest {
   /** Project ID for this request. */
   project: string;
@@ -44102,13 +44101,13 @@ export const ReportHostAsFaultyInstancesResponse = Operation;
 
 export type ReportHostAsFaultyInstancesError = CommonErrors;
 
+/** Mark the host as faulty and try to restart the instance on a new host. */
 export const reportHostAsFaultyInstances: API.OperationMethod<ReportHostAsFaultyInstancesRequest, ReportHostAsFaultyInstancesResponse, ReportHostAsFaultyInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReportHostAsFaultyInstancesRequest,
   output: ReportHostAsFaultyInstancesResponse,
   errors: [],
 }));
 
-/** Perform a manual maintenance on the instance. */
 export interface PerformMaintenanceInstancesRequest {
   /** Name of the instance scoping this request. */
   instance: string;
@@ -44135,13 +44134,13 @@ export const PerformMaintenanceInstancesResponse = Operation;
 
 export type PerformMaintenanceInstancesError = CommonErrors;
 
+/** Perform a manual maintenance on the instance. */
 export const performMaintenanceInstances: API.OperationMethod<PerformMaintenanceInstancesRequest, PerformMaintenanceInstancesResponse, PerformMaintenanceInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PerformMaintenanceInstancesRequest,
   output: PerformMaintenanceInstancesResponse,
   errors: [],
 }));
 
-/** Resumes an instance that was suspended using theinstances().suspend method. */
 export interface ResumeInstancesRequest {
   /** Project ID for this request. */
   project: string;
@@ -44168,13 +44167,13 @@ export const ResumeInstancesResponse = Operation;
 
 export type ResumeInstancesError = CommonErrors;
 
+/** Resumes an instance that was suspended using theinstances().suspend method. */
 export const resumeInstances: API.OperationMethod<ResumeInstancesRequest, ResumeInstancesResponse, ResumeInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResumeInstancesRequest,
   output: ResumeInstancesResponse,
   errors: [],
 }));
 
-/** This method suspends a running instance, saving its state to persistent storage, and allows you to resume the instance at a later time. Suspended instances have no compute costs (cores or RAM), and incur only storage charges for the saved VM memory and localSSD data. Any charged resources the virtual machine was using, such as persistent disks and static IP addresses, will continue to be charged while the instance is suspended. For more information, see Suspending and resuming an instance. */
 export interface SuspendInstancesRequest {
   /** This property is required if the instance has any attached Local SSD disks. If false, Local SSD data will be preserved when the instance is suspended. If true, the contents of any attached Local SSD disks will be discarded. */
   discardLocalSsd?: boolean;
@@ -44204,13 +44203,13 @@ export const SuspendInstancesResponse = Operation;
 
 export type SuspendInstancesError = CommonErrors;
 
+/** This method suspends a running instance, saving its state to persistent storage, and allows you to resume the instance at a later time. Suspended instances have no compute costs (cores or RAM), and incur only storage charges for the saved VM memory and localSSD data. Any charged resources the virtual machine was using, such as persistent disks and static IP addresses, will continue to be charged while the instance is suspended. For more information, see Suspending and resuming an instance. */
 export const suspendInstances: API.OperationMethod<SuspendInstancesRequest, SuspendInstancesResponse, SuspendInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SuspendInstancesRequest,
   output: SuspendInstancesResponse,
   errors: [],
 }));
 
-/** Adds one dynamic network interface to an active instance. */
 export interface AddNetworkInterfaceInstancesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -44240,13 +44239,13 @@ export const AddNetworkInterfaceInstancesResponse = Operation;
 
 export type AddNetworkInterfaceInstancesError = CommonErrors;
 
+/** Adds one dynamic network interface to an active instance. */
 export const addNetworkInterfaceInstances: API.OperationMethod<AddNetworkInterfaceInstancesRequest, AddNetworkInterfaceInstancesResponse, AddNetworkInterfaceInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddNetworkInterfaceInstancesRequest,
   output: AddNetworkInterfaceInstancesResponse,
   errors: [],
 }));
 
-/** Sets the service account on the instance. For more information, readChanging the service account and access scopes for an instance. */
 export interface SetServiceAccountInstancesRequest {
   /** Name of the instance resource to start. */
   instance: string;
@@ -44276,13 +44275,13 @@ export const SetServiceAccountInstancesResponse = Operation;
 
 export type SetServiceAccountInstancesError = CommonErrors;
 
+/** Sets the service account on the instance. For more information, readChanging the service account and access scopes for an instance. */
 export const setServiceAccountInstances: API.OperationMethod<SetServiceAccountInstancesRequest, SetServiceAccountInstancesResponse, SetServiceAccountInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetServiceAccountInstancesRequest,
   output: SetServiceAccountInstancesResponse,
   errors: [],
 }));
 
-/** Returns the specified Instance resource. */
 export interface GetInstancesRequest {
   /** Name of the instance resource to return. */
   instance: string;
@@ -44306,13 +44305,13 @@ export const GetInstancesResponse = Instance;
 
 export type GetInstancesError = CommonErrors;
 
+/** Returns the specified Instance resource. */
 export const getInstances: API.OperationMethod<GetInstancesRequest, GetInstancesResponse, GetInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetInstancesRequest,
   output: GetInstancesResponse,
   errors: [],
 }));
 
-/** Sets the Shielded Instance integrity policy for an instance. You can only use this method on a running instance. This method supports PATCH semantics and uses the JSON merge patch format and processing rules. */
 export interface SetShieldedInstanceIntegrityPolicyInstancesRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -44342,13 +44341,13 @@ export const SetShieldedInstanceIntegrityPolicyInstancesResponse = Operation;
 
 export type SetShieldedInstanceIntegrityPolicyInstancesError = CommonErrors;
 
+/** Sets the Shielded Instance integrity policy for an instance. You can only use this method on a running instance. This method supports PATCH semantics and uses the JSON merge patch format and processing rules. */
 export const setShieldedInstanceIntegrityPolicyInstances: API.OperationMethod<SetShieldedInstanceIntegrityPolicyInstancesRequest, SetShieldedInstanceIntegrityPolicyInstancesResponse, SetShieldedInstanceIntegrityPolicyInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetShieldedInstanceIntegrityPolicyInstancesRequest,
   output: SetShieldedInstanceIntegrityPolicyInstancesResponse,
   errors: [],
 }));
 
-/** Creates multiple instances. Count specifies the number of instances to create. For more information, seeAbout bulk creation of VMs. */
 export interface BulkInsertInstancesRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -44375,13 +44374,13 @@ export const BulkInsertInstancesResponse = Operation;
 
 export type BulkInsertInstancesError = CommonErrors;
 
+/** Creates multiple instances. Count specifies the number of instances to create. For more information, seeAbout bulk creation of VMs. */
 export const bulkInsertInstances: API.OperationMethod<BulkInsertInstancesRequest, BulkInsertInstancesResponse, BulkInsertInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BulkInsertInstancesRequest,
   output: BulkInsertInstancesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export interface SetIamPolicyInstancesRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -44408,13 +44407,13 @@ export const SetIamPolicyInstancesResponse = Policy;
 
 export type SetIamPolicyInstancesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export const setIamPolicyInstances: API.OperationMethod<SetIamPolicyInstancesRequest, SetIamPolicyInstancesResponse, SetIamPolicyInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyInstancesRequest,
   output: SetIamPolicyInstancesResponse,
   errors: [],
 }));
 
-/** Returns the specified guest attributes entry. */
 export interface GetGuestAttributesInstancesRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -44444,13 +44443,13 @@ export const GetGuestAttributesInstancesResponse = GuestAttributes;
 
 export type GetGuestAttributesInstancesError = CommonErrors;
 
+/** Returns the specified guest attributes entry. */
 export const getGuestAttributesInstances: API.OperationMethod<GetGuestAttributesInstancesRequest, GetGuestAttributesInstancesResponse, GetGuestAttributesInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetGuestAttributesInstancesRequest,
   output: GetGuestAttributesInstancesResponse,
   errors: [],
 }));
 
-/** Sets the auto-delete flag for a disk attached to an instance. */
 export interface SetDiskAutoDeleteInstancesRequest {
   /** Whether to auto-delete the disk when the instance is deleted. */
   autoDelete: boolean;
@@ -44483,13 +44482,13 @@ export const SetDiskAutoDeleteInstancesResponse = Operation;
 
 export type SetDiskAutoDeleteInstancesError = CommonErrors;
 
+/** Sets the auto-delete flag for a disk attached to an instance. */
 export const setDiskAutoDeleteInstances: API.OperationMethod<SetDiskAutoDeleteInstancesRequest, SetDiskAutoDeleteInstancesResponse, SetDiskAutoDeleteInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetDiskAutoDeleteInstancesRequest,
   output: SetDiskAutoDeleteInstancesResponse,
   errors: [],
 }));
 
-/** Returns effective firewalls applied to an interface of the instance. */
 export interface GetEffectiveFirewallsInstancesRequest {
   /** The name of the network interface to get the effective firewalls. */
   networkInterface: string;
@@ -44516,13 +44515,13 @@ export const GetEffectiveFirewallsInstancesResponse = InstancesGetEffectiveFirew
 
 export type GetEffectiveFirewallsInstancesError = CommonErrors;
 
+/** Returns effective firewalls applied to an interface of the instance. */
 export const getEffectiveFirewallsInstances: API.OperationMethod<GetEffectiveFirewallsInstancesRequest, GetEffectiveFirewallsInstancesResponse, GetEffectiveFirewallsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEffectiveFirewallsInstancesRequest,
   output: GetEffectiveFirewallsInstancesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsInstancesRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -44549,13 +44548,13 @@ export const TestIamPermissionsInstancesResponse = TestPermissionsResponse;
 
 export type TestIamPermissionsInstancesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsInstances: API.OperationMethod<TestIamPermissionsInstancesRequest, TestIamPermissionsInstancesResponse, TestIamPermissionsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsInstancesRequest,
   output: TestIamPermissionsInstancesResponse,
   errors: [],
 }));
 
-/** Removes resource policies from an instance. */
 export interface RemoveResourcePoliciesInstancesRequest {
   /** Project ID for this request. */
   project: string;
@@ -44585,13 +44584,13 @@ export const RemoveResourcePoliciesInstancesResponse = Operation;
 
 export type RemoveResourcePoliciesInstancesError = CommonErrors;
 
+/** Removes resource policies from an instance. */
 export const removeResourcePoliciesInstances: API.OperationMethod<RemoveResourcePoliciesInstancesRequest, RemoveResourcePoliciesInstancesResponse, RemoveResourcePoliciesInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveResourcePoliciesInstancesRequest,
   output: RemoveResourcePoliciesInstancesResponse,
   errors: [],
 }));
 
-/** Returns the last 1 MB of serial port output from the specified instance. */
 export interface GetSerialPortOutputInstancesRequest {
   /** Project ID for this request. */
   project: string;
@@ -44621,13 +44620,13 @@ export const GetSerialPortOutputInstancesResponse = SerialPortOutput;
 
 export type GetSerialPortOutputInstancesError = CommonErrors;
 
+/** Returns the last 1 MB of serial port output from the specified instance. */
 export const getSerialPortOutputInstances: API.OperationMethod<GetSerialPortOutputInstancesRequest, GetSerialPortOutputInstancesResponse, GetSerialPortOutputInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSerialPortOutputInstancesRequest,
   output: GetSerialPortOutputInstancesResponse,
   errors: [],
 }));
 
-/** Returns the specified machine type. */
 export interface GetMachineTypesRequest {
   /** Name of the machine type to return. */
   machineType: string;
@@ -44651,13 +44650,13 @@ export const GetMachineTypesResponse = MachineType;
 
 export type GetMachineTypesError = CommonErrors;
 
+/** Returns the specified machine type. */
 export const getMachineTypes: API.OperationMethod<GetMachineTypesRequest, GetMachineTypesResponse, GetMachineTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetMachineTypesRequest,
   output: GetMachineTypesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of machine types available to the specified project. */
 export interface ListMachineTypesRequest {
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number;
@@ -44693,7 +44692,8 @@ export const ListMachineTypesResponse = MachineTypeList;
 
 export type ListMachineTypesError = CommonErrors;
 
-export const listMachineTypes = API.makePaginated(() => ({
+/** Retrieves a list of machine types available to the specified project. */
+export const listMachineTypes: API.PaginatedOperationMethod<ListMachineTypesRequest, ListMachineTypesResponse, ListMachineTypesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListMachineTypesRequest,
   output: ListMachineTypesResponse,
   errors: [],
@@ -44704,7 +44704,6 @@ export const listMachineTypes = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves an aggregated list of machine types. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListMachineTypesRequest {
   /** Project ID for this request. */
   project: string;
@@ -44743,7 +44742,8 @@ export const AggregatedListMachineTypesResponse = MachineTypeAggregatedList;
 
 export type AggregatedListMachineTypesError = CommonErrors;
 
-export const aggregatedListMachineTypes = API.makePaginated(() => ({
+/** Retrieves an aggregated list of machine types. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListMachineTypes: API.PaginatedOperationMethod<AggregatedListMachineTypesRequest, AggregatedListMachineTypesResponse, AggregatedListMachineTypesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListMachineTypesRequest,
   output: AggregatedListMachineTypesResponse,
   errors: [],
@@ -44754,7 +44754,6 @@ export const aggregatedListMachineTypes = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves a list of network profiles available to the specified project. */
 export interface ListNetworkProfilesRequest {
   /** Opt-in for partial success behavior which provides partial results in case of failure. The default value is false. For example, when partial success behavior is enabled, aggregatedList for a single zone scope either returns all resources in the zone or no resources, with an error code. */
   returnPartialSuccess?: boolean;
@@ -44787,7 +44786,8 @@ export const ListNetworkProfilesResponse = NetworkProfilesListResponse;
 
 export type ListNetworkProfilesError = CommonErrors;
 
-export const listNetworkProfiles = API.makePaginated(() => ({
+/** Retrieves a list of network profiles available to the specified project. */
+export const listNetworkProfiles: API.PaginatedOperationMethod<ListNetworkProfilesRequest, ListNetworkProfilesResponse, ListNetworkProfilesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListNetworkProfilesRequest,
   output: ListNetworkProfilesResponse,
   errors: [],
@@ -44798,7 +44798,6 @@ export const listNetworkProfiles = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the specified network profile. */
 export interface GetNetworkProfilesRequest {
   /** Project ID for this request. */
   project: string;
@@ -44819,13 +44818,13 @@ export const GetNetworkProfilesResponse = NetworkProfile;
 
 export type GetNetworkProfilesError = CommonErrors;
 
+/** Returns the specified network profile. */
 export const getNetworkProfiles: API.OperationMethod<GetNetworkProfilesRequest, GetNetworkProfilesResponse, GetNetworkProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetNetworkProfilesRequest,
   output: GetNetworkProfilesResponse,
   errors: [],
 }));
 
-/** Modify the specified resource policy. */
 export interface PatchResourcePoliciesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -44858,13 +44857,13 @@ export const PatchResourcePoliciesResponse = Operation;
 
 export type PatchResourcePoliciesError = CommonErrors;
 
+/** Modify the specified resource policy. */
 export const patchResourcePolicies: API.OperationMethod<PatchResourcePoliciesRequest, PatchResourcePoliciesResponse, PatchResourcePoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchResourcePoliciesRequest,
   output: PatchResourcePoliciesResponse,
   errors: [],
 }));
 
-/** A list all the resource policies that have been configured for the specified project in specified region. */
 export interface ListResourcePoliciesRequest {
   /** Opt-in for partial success behavior which provides partial results in case of failure. The default value is false. For example, when partial success behavior is enabled, aggregatedList for a single zone scope either returns all resources in the zone or no resources, with an error code. */
   returnPartialSuccess?: boolean;
@@ -44900,7 +44899,8 @@ export const ListResourcePoliciesResponse = ResourcePolicyList;
 
 export type ListResourcePoliciesError = CommonErrors;
 
-export const listResourcePolicies = API.makePaginated(() => ({
+/** A list all the resource policies that have been configured for the specified project in specified region. */
+export const listResourcePolicies: API.PaginatedOperationMethod<ListResourcePoliciesRequest, ListResourcePoliciesResponse, ListResourcePoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListResourcePoliciesRequest,
   output: ListResourcePoliciesResponse,
   errors: [],
@@ -44911,7 +44911,6 @@ export const listResourcePolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export interface GetIamPolicyResourcePoliciesRequest {
   /** Project ID for this request. */
   project: string;
@@ -44938,13 +44937,13 @@ export const GetIamPolicyResourcePoliciesResponse = Policy;
 
 export type GetIamPolicyResourcePoliciesError = CommonErrors;
 
+/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export const getIamPolicyResourcePolicies: API.OperationMethod<GetIamPolicyResourcePoliciesRequest, GetIamPolicyResourcePoliciesResponse, GetIamPolicyResourcePoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyResourcePoliciesRequest,
   output: GetIamPolicyResourcePoliciesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsResourcePoliciesRequest {
   /** Project ID for this request. */
   project: string;
@@ -44971,13 +44970,13 @@ export const TestIamPermissionsResourcePoliciesResponse = TestPermissionsRespons
 
 export type TestIamPermissionsResourcePoliciesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsResourcePolicies: API.OperationMethod<TestIamPermissionsResourcePoliciesRequest, TestIamPermissionsResourcePoliciesResponse, TestIamPermissionsResourcePoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsResourcePoliciesRequest,
   output: TestIamPermissionsResourcePoliciesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export interface SetIamPolicyResourcePoliciesRequest {
   /** Project ID for this request. */
   project: string;
@@ -45004,13 +45003,13 @@ export const SetIamPolicyResourcePoliciesResponse = Policy;
 
 export type SetIamPolicyResourcePoliciesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export const setIamPolicyResourcePolicies: API.OperationMethod<SetIamPolicyResourcePoliciesRequest, SetIamPolicyResourcePoliciesResponse, SetIamPolicyResourcePoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyResourcePoliciesRequest,
   output: SetIamPolicyResourcePoliciesResponse,
   errors: [],
 }));
 
-/** Deletes the specified resource policy. */
 export interface DeleteResourcePoliciesRequest {
   /** Name of the resource policy to delete. */
   resourcePolicy: string;
@@ -45037,13 +45036,13 @@ export const DeleteResourcePoliciesResponse = Operation;
 
 export type DeleteResourcePoliciesError = CommonErrors;
 
+/** Deletes the specified resource policy. */
 export const deleteResourcePolicies: API.OperationMethod<DeleteResourcePoliciesRequest, DeleteResourcePoliciesResponse, DeleteResourcePoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteResourcePoliciesRequest,
   output: DeleteResourcePoliciesResponse,
   errors: [],
 }));
 
-/** Retrieves all information of the specified resource policy. */
 export interface GetResourcePoliciesRequest {
   /** Name of the resource policy to retrieve. */
   resourcePolicy: string;
@@ -45067,13 +45066,13 @@ export const GetResourcePoliciesResponse = ResourcePolicy;
 
 export type GetResourcePoliciesError = CommonErrors;
 
+/** Retrieves all information of the specified resource policy. */
 export const getResourcePolicies: API.OperationMethod<GetResourcePoliciesRequest, GetResourcePoliciesResponse, GetResourcePoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetResourcePoliciesRequest,
   output: GetResourcePoliciesResponse,
   errors: [],
 }));
 
-/** Creates a new resource policy. */
 export interface InsertResourcePoliciesRequest {
   /** Project ID for this request. */
   project: string;
@@ -45100,13 +45099,13 @@ export const InsertResourcePoliciesResponse = Operation;
 
 export type InsertResourcePoliciesError = CommonErrors;
 
+/** Creates a new resource policy. */
 export const insertResourcePolicies: API.OperationMethod<InsertResourcePoliciesRequest, InsertResourcePoliciesResponse, InsertResourcePoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertResourcePoliciesRequest,
   output: InsertResourcePoliciesResponse,
   errors: [],
 }));
 
-/** Retrieves an aggregated list of resource policies. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListResourcePoliciesRequest {
   /** The Shared VPC service project id or service project number for which aggregated list request is invoked for subnetworks list-usable api. */
   serviceProjectNumber?: string;
@@ -45145,7 +45144,8 @@ export const AggregatedListResourcePoliciesResponse = ResourcePolicyAggregatedLi
 
 export type AggregatedListResourcePoliciesError = CommonErrors;
 
-export const aggregatedListResourcePolicies = API.makePaginated(() => ({
+/** Retrieves an aggregated list of resource policies. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListResourcePolicies: API.PaginatedOperationMethod<AggregatedListResourcePoliciesRequest, AggregatedListResourcePoliciesResponse, AggregatedListResourcePoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListResourcePoliciesRequest,
   output: AggregatedListResourcePoliciesResponse,
   errors: [],
@@ -45156,7 +45156,6 @@ export const aggregatedListResourcePolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves the list of regional network endpoint groups available to the specified project in the given region. */
 export interface ListRegionNetworkEndpointGroupsRequest {
   /** Opt-in for partial success behavior which provides partial results in case of failure. The default value is false. For example, when partial success behavior is enabled, aggregatedList for a single zone scope either returns all resources in the zone or no resources, with an error code. */
   returnPartialSuccess?: boolean;
@@ -45192,7 +45191,8 @@ export const ListRegionNetworkEndpointGroupsResponse = NetworkEndpointGroupList;
 
 export type ListRegionNetworkEndpointGroupsError = CommonErrors;
 
-export const listRegionNetworkEndpointGroups = API.makePaginated(() => ({
+/** Retrieves the list of regional network endpoint groups available to the specified project in the given region. */
+export const listRegionNetworkEndpointGroups: API.PaginatedOperationMethod<ListRegionNetworkEndpointGroupsRequest, ListRegionNetworkEndpointGroupsResponse, ListRegionNetworkEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRegionNetworkEndpointGroupsRequest,
   output: ListRegionNetworkEndpointGroupsResponse,
   errors: [],
@@ -45203,7 +45203,6 @@ export const listRegionNetworkEndpointGroups = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the specified network endpoint group. Note that the NEG cannot be deleted if it is configured as a backend of a backend service. */
 export interface DeleteRegionNetworkEndpointGroupsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -45230,13 +45229,13 @@ export const DeleteRegionNetworkEndpointGroupsResponse = Operation;
 
 export type DeleteRegionNetworkEndpointGroupsError = CommonErrors;
 
+/** Deletes the specified network endpoint group. Note that the NEG cannot be deleted if it is configured as a backend of a backend service. */
 export const deleteRegionNetworkEndpointGroups: API.OperationMethod<DeleteRegionNetworkEndpointGroupsRequest, DeleteRegionNetworkEndpointGroupsResponse, DeleteRegionNetworkEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRegionNetworkEndpointGroupsRequest,
   output: DeleteRegionNetworkEndpointGroupsResponse,
   errors: [],
 }));
 
-/** Detach the network endpoint from the specified network endpoint group. */
 export interface DetachNetworkEndpointsRegionNetworkEndpointGroupsRequest {
   /** Project ID for this request. */
   project: string;
@@ -45266,13 +45265,13 @@ export const DetachNetworkEndpointsRegionNetworkEndpointGroupsResponse = Operati
 
 export type DetachNetworkEndpointsRegionNetworkEndpointGroupsError = CommonErrors;
 
+/** Detach the network endpoint from the specified network endpoint group. */
 export const detachNetworkEndpointsRegionNetworkEndpointGroups: API.OperationMethod<DetachNetworkEndpointsRegionNetworkEndpointGroupsRequest, DetachNetworkEndpointsRegionNetworkEndpointGroupsResponse, DetachNetworkEndpointsRegionNetworkEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DetachNetworkEndpointsRegionNetworkEndpointGroupsRequest,
   output: DetachNetworkEndpointsRegionNetworkEndpointGroupsResponse,
   errors: [],
 }));
 
-/** Attach a list of network endpoints to the specified network endpoint group. */
 export interface AttachNetworkEndpointsRegionNetworkEndpointGroupsRequest {
   /** The name of the network endpoint group where you are attaching network endpoints to. It should comply with RFC1035. */
   networkEndpointGroup: string;
@@ -45302,13 +45301,13 @@ export const AttachNetworkEndpointsRegionNetworkEndpointGroupsResponse = Operati
 
 export type AttachNetworkEndpointsRegionNetworkEndpointGroupsError = CommonErrors;
 
+/** Attach a list of network endpoints to the specified network endpoint group. */
 export const attachNetworkEndpointsRegionNetworkEndpointGroups: API.OperationMethod<AttachNetworkEndpointsRegionNetworkEndpointGroupsRequest, AttachNetworkEndpointsRegionNetworkEndpointGroupsResponse, AttachNetworkEndpointsRegionNetworkEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AttachNetworkEndpointsRegionNetworkEndpointGroupsRequest,
   output: AttachNetworkEndpointsRegionNetworkEndpointGroupsResponse,
   errors: [],
 }));
 
-/** Returns the specified network endpoint group. */
 export interface GetRegionNetworkEndpointGroupsRequest {
   /** Project ID for this request. */
   project: string;
@@ -45332,13 +45331,13 @@ export const GetRegionNetworkEndpointGroupsResponse = NetworkEndpointGroup;
 
 export type GetRegionNetworkEndpointGroupsError = CommonErrors;
 
+/** Returns the specified network endpoint group. */
 export const getRegionNetworkEndpointGroups: API.OperationMethod<GetRegionNetworkEndpointGroupsRequest, GetRegionNetworkEndpointGroupsResponse, GetRegionNetworkEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRegionNetworkEndpointGroupsRequest,
   output: GetRegionNetworkEndpointGroupsResponse,
   errors: [],
 }));
 
-/** Creates a network endpoint group in the specified project using the parameters that are included in the request. Note: Use the following APIs to manage network endpoint groups: - To manage NEGs with zonal scope (such as zonal NEGs, hybrid connectivity NEGs): zonal API - To manage NEGs with regional scope (such as regional internet NEGs, serverless NEGs, Private Service Connect NEGs): regional API - To manage NEGs with global scope (such as global internet NEGs):global API */
 export interface InsertRegionNetworkEndpointGroupsRequest {
   /** The name of the region where you want to create the network endpoint group. It should comply with RFC1035. */
   region: string;
@@ -45365,13 +45364,13 @@ export const InsertRegionNetworkEndpointGroupsResponse = Operation;
 
 export type InsertRegionNetworkEndpointGroupsError = CommonErrors;
 
+/** Creates a network endpoint group in the specified project using the parameters that are included in the request. Note: Use the following APIs to manage network endpoint groups: - To manage NEGs with zonal scope (such as zonal NEGs, hybrid connectivity NEGs): zonal API - To manage NEGs with regional scope (such as regional internet NEGs, serverless NEGs, Private Service Connect NEGs): regional API - To manage NEGs with global scope (such as global internet NEGs):global API */
 export const insertRegionNetworkEndpointGroups: API.OperationMethod<InsertRegionNetworkEndpointGroupsRequest, InsertRegionNetworkEndpointGroupsResponse, InsertRegionNetworkEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertRegionNetworkEndpointGroupsRequest,
   output: InsertRegionNetworkEndpointGroupsResponse,
   errors: [],
 }));
 
-/** Lists the network endpoints in the specified network endpoint group. */
 export interface ListNetworkEndpointsRegionNetworkEndpointGroupsRequest {
   /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based onresource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using GoogleRE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
   filter?: string;
@@ -45410,7 +45409,8 @@ export const ListNetworkEndpointsRegionNetworkEndpointGroupsResponse = NetworkEn
 
 export type ListNetworkEndpointsRegionNetworkEndpointGroupsError = CommonErrors;
 
-export const listNetworkEndpointsRegionNetworkEndpointGroups = API.makePaginated(() => ({
+/** Lists the network endpoints in the specified network endpoint group. */
+export const listNetworkEndpointsRegionNetworkEndpointGroups: API.PaginatedOperationMethod<ListNetworkEndpointsRegionNetworkEndpointGroupsRequest, ListNetworkEndpointsRegionNetworkEndpointGroupsResponse, ListNetworkEndpointsRegionNetworkEndpointGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListNetworkEndpointsRegionNetworkEndpointGroupsRequest,
   output: ListNetworkEndpointsRegionNetworkEndpointGroupsResponse,
   errors: [],
@@ -45421,7 +45421,6 @@ export const listNetworkEndpointsRegionNetworkEndpointGroups = API.makePaginated
   },
 }));
 
-/** Initiates a cache invalidation operation, invalidating the specified path, scoped to the specified UrlMap. For more information, see [Invalidating cached content](/cdn/docs/invalidating-cached-content). */
 export interface InvalidateCacheUrlMapsRequest {
   /** Project ID for this request. */
   project: string;
@@ -45448,13 +45447,13 @@ export const InvalidateCacheUrlMapsResponse = Operation;
 
 export type InvalidateCacheUrlMapsError = CommonErrors;
 
+/** Initiates a cache invalidation operation, invalidating the specified path, scoped to the specified UrlMap. For more information, see [Invalidating cached content](/cdn/docs/invalidating-cached-content). */
 export const invalidateCacheUrlMaps: API.OperationMethod<InvalidateCacheUrlMapsRequest, InvalidateCacheUrlMapsResponse, InvalidateCacheUrlMapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InvalidateCacheUrlMapsRequest,
   output: InvalidateCacheUrlMapsResponse,
   errors: [],
 }));
 
-/** Returns the specified UrlMap resource. */
 export interface GetUrlMapsRequest {
   /** Name of the UrlMap resource to return. */
   urlMap: string;
@@ -45475,13 +45474,13 @@ export const GetUrlMapsResponse = UrlMap;
 
 export type GetUrlMapsError = CommonErrors;
 
+/** Returns the specified UrlMap resource. */
 export const getUrlMaps: API.OperationMethod<GetUrlMapsRequest, GetUrlMapsResponse, GetUrlMapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetUrlMapsRequest,
   output: GetUrlMapsResponse,
   errors: [],
 }));
 
-/** Creates a UrlMap resource in the specified project using the data included in the request. */
 export interface InsertUrlMapsRequest {
   /** Project ID for this request. */
   project: string;
@@ -45505,13 +45504,13 @@ export const InsertUrlMapsResponse = Operation;
 
 export type InsertUrlMapsError = CommonErrors;
 
+/** Creates a UrlMap resource in the specified project using the data included in the request. */
 export const insertUrlMaps: API.OperationMethod<InsertUrlMapsRequest, InsertUrlMapsResponse, InsertUrlMapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertUrlMapsRequest,
   output: InsertUrlMapsResponse,
   errors: [],
 }));
 
-/** Deletes the specified UrlMap resource. */
 export interface DeleteUrlMapsRequest {
   /** Project ID for this request. */
   project: string;
@@ -45535,13 +45534,13 @@ export const DeleteUrlMapsResponse = Operation;
 
 export type DeleteUrlMapsError = CommonErrors;
 
+/** Deletes the specified UrlMap resource. */
 export const deleteUrlMaps: API.OperationMethod<DeleteUrlMapsRequest, DeleteUrlMapsResponse, DeleteUrlMapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteUrlMapsRequest,
   output: DeleteUrlMapsResponse,
   errors: [],
 }));
 
-/** Retrieves the list of all UrlMap resources, regional and global, available to the specified project. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListUrlMapsRequest {
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string;
@@ -45580,7 +45579,8 @@ export const AggregatedListUrlMapsResponse = UrlMapsAggregatedList;
 
 export type AggregatedListUrlMapsError = CommonErrors;
 
-export const aggregatedListUrlMaps = API.makePaginated(() => ({
+/** Retrieves the list of all UrlMap resources, regional and global, available to the specified project. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListUrlMaps: API.PaginatedOperationMethod<AggregatedListUrlMapsRequest, AggregatedListUrlMapsResponse, AggregatedListUrlMapsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListUrlMapsRequest,
   output: AggregatedListUrlMapsResponse,
   errors: [],
@@ -45591,7 +45591,6 @@ export const aggregatedListUrlMaps = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves the list of UrlMap resources available to the specified project. */
 export interface ListUrlMapsRequest {
   /** Project ID for this request. */
   project: string;
@@ -45624,7 +45623,8 @@ export const ListUrlMapsResponse = UrlMapList;
 
 export type ListUrlMapsError = CommonErrors;
 
-export const listUrlMaps = API.makePaginated(() => ({
+/** Retrieves the list of UrlMap resources available to the specified project. */
+export const listUrlMaps: API.PaginatedOperationMethod<ListUrlMapsRequest, ListUrlMapsResponse, ListUrlMapsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListUrlMapsRequest,
   output: ListUrlMapsResponse,
   errors: [],
@@ -45635,7 +45635,6 @@ export const listUrlMaps = API.makePaginated(() => ({
   },
 }));
 
-/** Patches the specified UrlMap resource with the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export interface PatchUrlMapsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -45662,13 +45661,13 @@ export const PatchUrlMapsResponse = Operation;
 
 export type PatchUrlMapsError = CommonErrors;
 
+/** Patches the specified UrlMap resource with the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export const patchUrlMaps: API.OperationMethod<PatchUrlMapsRequest, PatchUrlMapsResponse, PatchUrlMapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchUrlMapsRequest,
   output: PatchUrlMapsResponse,
   errors: [],
 }));
 
-/** Runs static validation for the UrlMap. In particular, the tests of the provided UrlMap will be run. Calling this method does NOT create the UrlMap. */
 export interface ValidateUrlMapsRequest {
   /** Project ID for this request. */
   project: string;
@@ -45692,13 +45691,13 @@ export const ValidateUrlMapsResponse = UrlMapsValidateResponse;
 
 export type ValidateUrlMapsError = CommonErrors;
 
+/** Runs static validation for the UrlMap. In particular, the tests of the provided UrlMap will be run. Calling this method does NOT create the UrlMap. */
 export const validateUrlMaps: API.OperationMethod<ValidateUrlMapsRequest, ValidateUrlMapsResponse, ValidateUrlMapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ValidateUrlMapsRequest,
   output: ValidateUrlMapsResponse,
   errors: [],
 }));
 
-/** Updates the specified UrlMap resource with the data included in the request. */
 export interface UpdateUrlMapsRequest {
   /** Project ID for this request. */
   project: string;
@@ -45725,13 +45724,13 @@ export const UpdateUrlMapsResponse = Operation;
 
 export type UpdateUrlMapsError = CommonErrors;
 
+/** Updates the specified UrlMap resource with the data included in the request. */
 export const updateUrlMaps: API.OperationMethod<UpdateUrlMapsRequest, UpdateUrlMapsResponse, UpdateUrlMapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateUrlMapsRequest,
   output: UpdateUrlMapsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsUrlMapsRequest {
   /** Project ID for this request. */
   project: string;
@@ -45755,13 +45754,13 @@ export const TestIamPermissionsUrlMapsResponse = TestPermissionsResponse;
 
 export type TestIamPermissionsUrlMapsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsUrlMaps: API.OperationMethod<TestIamPermissionsUrlMapsRequest, TestIamPermissionsUrlMapsResponse, TestIamPermissionsUrlMapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsUrlMapsRequest,
   output: TestIamPermissionsUrlMapsResponse,
   errors: [],
 }));
 
-/** Sets the SSL policy for TargetSslProxy. The SSL policy specifies the server-side support for SSL features. This affects connections between clients and the load balancer. They do not affect the connection between the load balancer and the backends. */
 export interface SetSslPolicyTargetSslProxiesRequest {
   /** Project ID for this request. */
   project: string;
@@ -45788,13 +45787,13 @@ export const SetSslPolicyTargetSslProxiesResponse = Operation;
 
 export type SetSslPolicyTargetSslProxiesError = CommonErrors;
 
+/** Sets the SSL policy for TargetSslProxy. The SSL policy specifies the server-side support for SSL features. This affects connections between clients and the load balancer. They do not affect the connection between the load balancer and the backends. */
 export const setSslPolicyTargetSslProxies: API.OperationMethod<SetSslPolicyTargetSslProxiesRequest, SetSslPolicyTargetSslProxiesResponse, SetSslPolicyTargetSslProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetSslPolicyTargetSslProxiesRequest,
   output: SetSslPolicyTargetSslProxiesResponse,
   errors: [],
 }));
 
-/** Returns the specified TargetSslProxy resource. */
 export interface GetTargetSslProxiesRequest {
   /** Project ID for this request. */
   project: string;
@@ -45815,13 +45814,13 @@ export const GetTargetSslProxiesResponse = TargetSslProxy;
 
 export type GetTargetSslProxiesError = CommonErrors;
 
+/** Returns the specified TargetSslProxy resource. */
 export const getTargetSslProxies: API.OperationMethod<GetTargetSslProxiesRequest, GetTargetSslProxiesResponse, GetTargetSslProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetTargetSslProxiesRequest,
   output: GetTargetSslProxiesResponse,
   errors: [],
 }));
 
-/** Changes the ProxyHeaderType for TargetSslProxy. */
 export interface SetProxyHeaderTargetSslProxiesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -45848,13 +45847,13 @@ export const SetProxyHeaderTargetSslProxiesResponse = Operation;
 
 export type SetProxyHeaderTargetSslProxiesError = CommonErrors;
 
+/** Changes the ProxyHeaderType for TargetSslProxy. */
 export const setProxyHeaderTargetSslProxies: API.OperationMethod<SetProxyHeaderTargetSslProxiesRequest, SetProxyHeaderTargetSslProxiesResponse, SetProxyHeaderTargetSslProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetProxyHeaderTargetSslProxiesRequest,
   output: SetProxyHeaderTargetSslProxiesResponse,
   errors: [],
 }));
 
-/** Creates a TargetSslProxy resource in the specified project using the data included in the request. */
 export interface InsertTargetSslProxiesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -45878,13 +45877,13 @@ export const InsertTargetSslProxiesResponse = Operation;
 
 export type InsertTargetSslProxiesError = CommonErrors;
 
+/** Creates a TargetSslProxy resource in the specified project using the data included in the request. */
 export const insertTargetSslProxies: API.OperationMethod<InsertTargetSslProxiesRequest, InsertTargetSslProxiesResponse, InsertTargetSslProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertTargetSslProxiesRequest,
   output: InsertTargetSslProxiesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsTargetSslProxiesRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -45908,13 +45907,13 @@ export const TestIamPermissionsTargetSslProxiesResponse = TestPermissionsRespons
 
 export type TestIamPermissionsTargetSslProxiesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsTargetSslProxies: API.OperationMethod<TestIamPermissionsTargetSslProxiesRequest, TestIamPermissionsTargetSslProxiesResponse, TestIamPermissionsTargetSslProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsTargetSslProxiesRequest,
   output: TestIamPermissionsTargetSslProxiesResponse,
   errors: [],
 }));
 
-/** Changes the Certificate Map for TargetSslProxy. */
 export interface SetCertificateMapTargetSslProxiesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -45941,13 +45940,13 @@ export const SetCertificateMapTargetSslProxiesResponse = Operation;
 
 export type SetCertificateMapTargetSslProxiesError = CommonErrors;
 
+/** Changes the Certificate Map for TargetSslProxy. */
 export const setCertificateMapTargetSslProxies: API.OperationMethod<SetCertificateMapTargetSslProxiesRequest, SetCertificateMapTargetSslProxiesResponse, SetCertificateMapTargetSslProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetCertificateMapTargetSslProxiesRequest,
   output: SetCertificateMapTargetSslProxiesResponse,
   errors: [],
 }));
 
-/** Changes SslCertificates for TargetSslProxy. */
 export interface SetSslCertificatesTargetSslProxiesRequest {
   /** Project ID for this request. */
   project: string;
@@ -45974,13 +45973,13 @@ export const SetSslCertificatesTargetSslProxiesResponse = Operation;
 
 export type SetSslCertificatesTargetSslProxiesError = CommonErrors;
 
+/** Changes SslCertificates for TargetSslProxy. */
 export const setSslCertificatesTargetSslProxies: API.OperationMethod<SetSslCertificatesTargetSslProxiesRequest, SetSslCertificatesTargetSslProxiesResponse, SetSslCertificatesTargetSslProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetSslCertificatesTargetSslProxiesRequest,
   output: SetSslCertificatesTargetSslProxiesResponse,
   errors: [],
 }));
 
-/** Retrieves the list of TargetSslProxy resources available to the specified project. */
 export interface ListTargetSslProxiesRequest {
   /** Opt-in for partial success behavior which provides partial results in case of failure. The default value is false. For example, when partial success behavior is enabled, aggregatedList for a single zone scope either returns all resources in the zone or no resources, with an error code. */
   returnPartialSuccess?: boolean;
@@ -46013,7 +46012,8 @@ export const ListTargetSslProxiesResponse = TargetSslProxyList;
 
 export type ListTargetSslProxiesError = CommonErrors;
 
-export const listTargetSslProxies = API.makePaginated(() => ({
+/** Retrieves the list of TargetSslProxy resources available to the specified project. */
+export const listTargetSslProxies: API.PaginatedOperationMethod<ListTargetSslProxiesRequest, ListTargetSslProxiesResponse, ListTargetSslProxiesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListTargetSslProxiesRequest,
   output: ListTargetSslProxiesResponse,
   errors: [],
@@ -46024,7 +46024,6 @@ export const listTargetSslProxies = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the specified TargetSslProxy resource. */
 export interface DeleteTargetSslProxiesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -46048,13 +46047,13 @@ export const DeleteTargetSslProxiesResponse = Operation;
 
 export type DeleteTargetSslProxiesError = CommonErrors;
 
+/** Deletes the specified TargetSslProxy resource. */
 export const deleteTargetSslProxies: API.OperationMethod<DeleteTargetSslProxiesRequest, DeleteTargetSslProxiesResponse, DeleteTargetSslProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteTargetSslProxiesRequest,
   output: DeleteTargetSslProxiesResponse,
   errors: [],
 }));
 
-/** Changes the BackendService for TargetSslProxy. */
 export interface SetBackendServiceTargetSslProxiesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -46081,13 +46080,13 @@ export const SetBackendServiceTargetSslProxiesResponse = Operation;
 
 export type SetBackendServiceTargetSslProxiesError = CommonErrors;
 
+/** Changes the BackendService for TargetSslProxy. */
 export const setBackendServiceTargetSslProxies: API.OperationMethod<SetBackendServiceTargetSslProxiesRequest, SetBackendServiceTargetSslProxiesResponse, SetBackendServiceTargetSslProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetBackendServiceTargetSslProxiesRequest,
   output: SetBackendServiceTargetSslProxiesResponse,
   errors: [],
 }));
 
-/** Copies rules to the specified firewall policy. */
 export interface CloneRulesNetworkFirewallPoliciesRequest {
   /** Project ID for this request. */
   project: string;
@@ -46114,13 +46113,13 @@ export const CloneRulesNetworkFirewallPoliciesResponse = Operation;
 
 export type CloneRulesNetworkFirewallPoliciesError = CommonErrors;
 
+/** Copies rules to the specified firewall policy. */
 export const cloneRulesNetworkFirewallPolicies: API.OperationMethod<CloneRulesNetworkFirewallPoliciesRequest, CloneRulesNetworkFirewallPoliciesResponse, CloneRulesNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CloneRulesNetworkFirewallPoliciesRequest,
   output: CloneRulesNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Patches a packet mirroring rule of the specified priority. */
 export interface PatchPacketMirroringRuleNetworkFirewallPoliciesRequest {
   /** Project ID for this request. */
   project: string;
@@ -46150,13 +46149,13 @@ export const PatchPacketMirroringRuleNetworkFirewallPoliciesResponse = Operation
 
 export type PatchPacketMirroringRuleNetworkFirewallPoliciesError = CommonErrors;
 
+/** Patches a packet mirroring rule of the specified priority. */
 export const patchPacketMirroringRuleNetworkFirewallPolicies: API.OperationMethod<PatchPacketMirroringRuleNetworkFirewallPoliciesRequest, PatchPacketMirroringRuleNetworkFirewallPoliciesResponse, PatchPacketMirroringRuleNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchPacketMirroringRuleNetworkFirewallPoliciesRequest,
   output: PatchPacketMirroringRuleNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Inserts an association for the specified firewall policy. */
 export interface AddAssociationNetworkFirewallPoliciesRequest {
   /** Project ID for this request. */
   project: string;
@@ -46186,13 +46185,13 @@ export const AddAssociationNetworkFirewallPoliciesResponse = Operation;
 
 export type AddAssociationNetworkFirewallPoliciesError = CommonErrors;
 
+/** Inserts an association for the specified firewall policy. */
 export const addAssociationNetworkFirewallPolicies: API.OperationMethod<AddAssociationNetworkFirewallPoliciesRequest, AddAssociationNetworkFirewallPoliciesResponse, AddAssociationNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddAssociationNetworkFirewallPoliciesRequest,
   output: AddAssociationNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Deletes a packet mirroring rule of the specified priority. */
 export interface RemovePacketMirroringRuleNetworkFirewallPoliciesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -46219,13 +46218,13 @@ export const RemovePacketMirroringRuleNetworkFirewallPoliciesResponse = Operatio
 
 export type RemovePacketMirroringRuleNetworkFirewallPoliciesError = CommonErrors;
 
+/** Deletes a packet mirroring rule of the specified priority. */
 export const removePacketMirroringRuleNetworkFirewallPolicies: API.OperationMethod<RemovePacketMirroringRuleNetworkFirewallPoliciesRequest, RemovePacketMirroringRuleNetworkFirewallPoliciesResponse, RemovePacketMirroringRuleNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemovePacketMirroringRuleNetworkFirewallPoliciesRequest,
   output: RemovePacketMirroringRuleNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export interface GetIamPolicyNetworkFirewallPoliciesRequest {
   /** Project ID for this request. */
   project: string;
@@ -46249,13 +46248,13 @@ export const GetIamPolicyNetworkFirewallPoliciesResponse = Policy;
 
 export type GetIamPolicyNetworkFirewallPoliciesError = CommonErrors;
 
+/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export const getIamPolicyNetworkFirewallPolicies: API.OperationMethod<GetIamPolicyNetworkFirewallPoliciesRequest, GetIamPolicyNetworkFirewallPoliciesResponse, GetIamPolicyNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyNetworkFirewallPoliciesRequest,
   output: GetIamPolicyNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Creates a new policy in the specified project using the data included in the request. */
 export interface InsertNetworkFirewallPoliciesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -46279,13 +46278,13 @@ export const InsertNetworkFirewallPoliciesResponse = Operation;
 
 export type InsertNetworkFirewallPoliciesError = CommonErrors;
 
+/** Creates a new policy in the specified project using the data included in the request. */
 export const insertNetworkFirewallPolicies: API.OperationMethod<InsertNetworkFirewallPoliciesRequest, InsertNetworkFirewallPoliciesResponse, InsertNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertNetworkFirewallPoliciesRequest,
   output: InsertNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsNetworkFirewallPoliciesRequest {
   /** Project ID for this request. */
   project: string;
@@ -46309,13 +46308,13 @@ export const TestIamPermissionsNetworkFirewallPoliciesResponse = TestPermissions
 
 export type TestIamPermissionsNetworkFirewallPoliciesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsNetworkFirewallPolicies: API.OperationMethod<TestIamPermissionsNetworkFirewallPoliciesRequest, TestIamPermissionsNetworkFirewallPoliciesResponse, TestIamPermissionsNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsNetworkFirewallPoliciesRequest,
   output: TestIamPermissionsNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Deletes the specified policy. */
 export interface DeleteNetworkFirewallPoliciesRequest {
   /** Name of the firewall policy to delete. */
   firewallPolicy: string;
@@ -46339,13 +46338,13 @@ export const DeleteNetworkFirewallPoliciesResponse = Operation;
 
 export type DeleteNetworkFirewallPoliciesError = CommonErrors;
 
+/** Deletes the specified policy. */
 export const deleteNetworkFirewallPolicies: API.OperationMethod<DeleteNetworkFirewallPoliciesRequest, DeleteNetworkFirewallPoliciesResponse, DeleteNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteNetworkFirewallPoliciesRequest,
   output: DeleteNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Removes an association for the specified firewall policy. */
 export interface RemoveAssociationNetworkFirewallPoliciesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -46372,13 +46371,13 @@ export const RemoveAssociationNetworkFirewallPoliciesResponse = Operation;
 
 export type RemoveAssociationNetworkFirewallPoliciesError = CommonErrors;
 
+/** Removes an association for the specified firewall policy. */
 export const removeAssociationNetworkFirewallPolicies: API.OperationMethod<RemoveAssociationNetworkFirewallPoliciesRequest, RemoveAssociationNetworkFirewallPoliciesResponse, RemoveAssociationNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveAssociationNetworkFirewallPoliciesRequest,
   output: RemoveAssociationNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Deletes a rule of the specified priority. */
 export interface RemoveRuleNetworkFirewallPoliciesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -46405,13 +46404,13 @@ export const RemoveRuleNetworkFirewallPoliciesResponse = Operation;
 
 export type RemoveRuleNetworkFirewallPoliciesError = CommonErrors;
 
+/** Deletes a rule of the specified priority. */
 export const removeRuleNetworkFirewallPolicies: API.OperationMethod<RemoveRuleNetworkFirewallPoliciesRequest, RemoveRuleNetworkFirewallPoliciesResponse, RemoveRuleNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveRuleNetworkFirewallPoliciesRequest,
   output: RemoveRuleNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Patches the specified policy with the data included in the request. */
 export interface PatchNetworkFirewallPoliciesRequest {
   /** Name of the firewall policy to update. */
   firewallPolicy: string;
@@ -46438,13 +46437,13 @@ export const PatchNetworkFirewallPoliciesResponse = Operation;
 
 export type PatchNetworkFirewallPoliciesError = CommonErrors;
 
+/** Patches the specified policy with the data included in the request. */
 export const patchNetworkFirewallPolicies: API.OperationMethod<PatchNetworkFirewallPoliciesRequest, PatchNetworkFirewallPoliciesResponse, PatchNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchNetworkFirewallPoliciesRequest,
   output: PatchNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Returns the specified network firewall policy. */
 export interface GetNetworkFirewallPoliciesRequest {
   /** Project ID for this request. */
   project: string;
@@ -46465,13 +46464,13 @@ export const GetNetworkFirewallPoliciesResponse = FirewallPolicy;
 
 export type GetNetworkFirewallPoliciesError = CommonErrors;
 
+/** Returns the specified network firewall policy. */
 export const getNetworkFirewallPolicies: API.OperationMethod<GetNetworkFirewallPoliciesRequest, GetNetworkFirewallPoliciesResponse, GetNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetNetworkFirewallPoliciesRequest,
   output: GetNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Patches a rule of the specified priority. */
 export interface PatchRuleNetworkFirewallPoliciesRequest {
   /** Name of the firewall policy to update. */
   firewallPolicy: string;
@@ -46501,13 +46500,13 @@ export const PatchRuleNetworkFirewallPoliciesResponse = Operation;
 
 export type PatchRuleNetworkFirewallPoliciesError = CommonErrors;
 
+/** Patches a rule of the specified priority. */
 export const patchRuleNetworkFirewallPolicies: API.OperationMethod<PatchRuleNetworkFirewallPoliciesRequest, PatchRuleNetworkFirewallPoliciesResponse, PatchRuleNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchRuleNetworkFirewallPoliciesRequest,
   output: PatchRuleNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Gets an association with the specified name. */
 export interface GetAssociationNetworkFirewallPoliciesRequest {
   /** The name of the association to get from the firewall policy. */
   name?: string;
@@ -46531,13 +46530,13 @@ export const GetAssociationNetworkFirewallPoliciesResponse = FirewallPolicyAssoc
 
 export type GetAssociationNetworkFirewallPoliciesError = CommonErrors;
 
+/** Gets an association with the specified name. */
 export const getAssociationNetworkFirewallPolicies: API.OperationMethod<GetAssociationNetworkFirewallPoliciesRequest, GetAssociationNetworkFirewallPoliciesResponse, GetAssociationNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAssociationNetworkFirewallPoliciesRequest,
   output: GetAssociationNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Retrieves an aggregated list of network firewall policies, listing network firewall policies from all applicable scopes (global and regional) and grouping the results per scope. To prevent failure, it is recommended that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListNetworkFirewallPoliciesRequest {
   /** The Shared VPC service project id or service project number for which aggregated list request is invoked for subnetworks list-usable api. */
   serviceProjectNumber?: string;
@@ -46576,7 +46575,8 @@ export const AggregatedListNetworkFirewallPoliciesResponse = NetworkFirewallPoli
 
 export type AggregatedListNetworkFirewallPoliciesError = CommonErrors;
 
-export const aggregatedListNetworkFirewallPolicies = API.makePaginated(() => ({
+/** Retrieves an aggregated list of network firewall policies, listing network firewall policies from all applicable scopes (global and regional) and grouping the results per scope. To prevent failure, it is recommended that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListNetworkFirewallPolicies: API.PaginatedOperationMethod<AggregatedListNetworkFirewallPoliciesRequest, AggregatedListNetworkFirewallPoliciesResponse, AggregatedListNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListNetworkFirewallPoliciesRequest,
   output: AggregatedListNetworkFirewallPoliciesResponse,
   errors: [],
@@ -46587,7 +46587,6 @@ export const aggregatedListNetworkFirewallPolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Inserts a rule into a firewall policy. */
 export interface AddRuleNetworkFirewallPoliciesRequest {
   /** Project ID for this request. */
   project: string;
@@ -46620,13 +46619,13 @@ export const AddRuleNetworkFirewallPoliciesResponse = Operation;
 
 export type AddRuleNetworkFirewallPoliciesError = CommonErrors;
 
+/** Inserts a rule into a firewall policy. */
 export const addRuleNetworkFirewallPolicies: API.OperationMethod<AddRuleNetworkFirewallPoliciesRequest, AddRuleNetworkFirewallPoliciesResponse, AddRuleNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddRuleNetworkFirewallPoliciesRequest,
   output: AddRuleNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Inserts a packet mirroring rule into a firewall policy. */
 export interface AddPacketMirroringRuleNetworkFirewallPoliciesRequest {
   /** Name of the firewall policy to update. */
   firewallPolicy: string;
@@ -46659,13 +46658,13 @@ export const AddPacketMirroringRuleNetworkFirewallPoliciesResponse = Operation;
 
 export type AddPacketMirroringRuleNetworkFirewallPoliciesError = CommonErrors;
 
+/** Inserts a packet mirroring rule into a firewall policy. */
 export const addPacketMirroringRuleNetworkFirewallPolicies: API.OperationMethod<AddPacketMirroringRuleNetworkFirewallPoliciesRequest, AddPacketMirroringRuleNetworkFirewallPoliciesResponse, AddPacketMirroringRuleNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddPacketMirroringRuleNetworkFirewallPoliciesRequest,
   output: AddPacketMirroringRuleNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export interface SetIamPolicyNetworkFirewallPoliciesRequest {
   /** Project ID for this request. */
   project: string;
@@ -46689,13 +46688,13 @@ export const SetIamPolicyNetworkFirewallPoliciesResponse = Policy;
 
 export type SetIamPolicyNetworkFirewallPoliciesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export const setIamPolicyNetworkFirewallPolicies: API.OperationMethod<SetIamPolicyNetworkFirewallPoliciesRequest, SetIamPolicyNetworkFirewallPoliciesResponse, SetIamPolicyNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyNetworkFirewallPoliciesRequest,
   output: SetIamPolicyNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Lists all the policies that have been configured for the specified project. */
 export interface ListNetworkFirewallPoliciesRequest {
   /** Project ID for this request. */
   project: string;
@@ -46728,7 +46727,8 @@ export const ListNetworkFirewallPoliciesResponse = FirewallPolicyList;
 
 export type ListNetworkFirewallPoliciesError = CommonErrors;
 
-export const listNetworkFirewallPolicies = API.makePaginated(() => ({
+/** Lists all the policies that have been configured for the specified project. */
+export const listNetworkFirewallPolicies: API.PaginatedOperationMethod<ListNetworkFirewallPoliciesRequest, ListNetworkFirewallPoliciesResponse, ListNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListNetworkFirewallPoliciesRequest,
   output: ListNetworkFirewallPoliciesResponse,
   errors: [],
@@ -46739,7 +46739,6 @@ export const listNetworkFirewallPolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a packet mirroring rule of the specified priority. */
 export interface GetPacketMirroringRuleNetworkFirewallPoliciesRequest {
   /** Name of the firewall policy to which the queried rule belongs. */
   firewallPolicy: string;
@@ -46763,13 +46762,13 @@ export const GetPacketMirroringRuleNetworkFirewallPoliciesResponse = FirewallPol
 
 export type GetPacketMirroringRuleNetworkFirewallPoliciesError = CommonErrors;
 
+/** Gets a packet mirroring rule of the specified priority. */
 export const getPacketMirroringRuleNetworkFirewallPolicies: API.OperationMethod<GetPacketMirroringRuleNetworkFirewallPoliciesRequest, GetPacketMirroringRuleNetworkFirewallPoliciesResponse, GetPacketMirroringRuleNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPacketMirroringRuleNetworkFirewallPoliciesRequest,
   output: GetPacketMirroringRuleNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Gets a rule of the specified priority. */
 export interface GetRuleNetworkFirewallPoliciesRequest {
   /** Project ID for this request. */
   project: string;
@@ -46793,13 +46792,13 @@ export const GetRuleNetworkFirewallPoliciesResponse = FirewallPolicyRule;
 
 export type GetRuleNetworkFirewallPoliciesError = CommonErrors;
 
+/** Gets a rule of the specified priority. */
 export const getRuleNetworkFirewallPolicies: API.OperationMethod<GetRuleNetworkFirewallPoliciesRequest, GetRuleNetworkFirewallPoliciesResponse, GetRuleNetworkFirewallPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRuleNetworkFirewallPoliciesRequest,
   output: GetRuleNetworkFirewallPoliciesResponse,
   errors: [],
 }));
 
-/** Deletes the specified policy. */
 export interface DeleteRegionSecurityPoliciesRequest {
   /** Name of the security policy to delete. */
   securityPolicy: string;
@@ -46826,13 +46825,13 @@ export const DeleteRegionSecurityPoliciesResponse = Operation;
 
 export type DeleteRegionSecurityPoliciesError = CommonErrors;
 
+/** Deletes the specified policy. */
 export const deleteRegionSecurityPolicies: API.OperationMethod<DeleteRegionSecurityPoliciesRequest, DeleteRegionSecurityPoliciesResponse, DeleteRegionSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRegionSecurityPoliciesRequest,
   output: DeleteRegionSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Patches a rule at the specified priority. To clear fields in the rule, leave the fields empty and specify them in the updateMask. */
 export interface PatchRuleRegionSecurityPoliciesRequest {
   /** Indicates fields to be cleared as part of this request. */
   updateMask?: string;
@@ -46868,13 +46867,13 @@ export const PatchRuleRegionSecurityPoliciesResponse = Operation;
 
 export type PatchRuleRegionSecurityPoliciesError = CommonErrors;
 
+/** Patches a rule at the specified priority. To clear fields in the rule, leave the fields empty and specify them in the updateMask. */
 export const patchRuleRegionSecurityPolicies: API.OperationMethod<PatchRuleRegionSecurityPoliciesRequest, PatchRuleRegionSecurityPoliciesResponse, PatchRuleRegionSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchRuleRegionSecurityPoliciesRequest,
   output: PatchRuleRegionSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Deletes a rule at the specified priority. */
 export interface RemoveRuleRegionSecurityPoliciesRequest {
   /** The priority of the rule to remove from the security policy. */
   priority?: number;
@@ -46901,13 +46900,13 @@ export const RemoveRuleRegionSecurityPoliciesResponse = Operation;
 
 export type RemoveRuleRegionSecurityPoliciesError = CommonErrors;
 
+/** Deletes a rule at the specified priority. */
 export const removeRuleRegionSecurityPolicies: API.OperationMethod<RemoveRuleRegionSecurityPoliciesRequest, RemoveRuleRegionSecurityPoliciesResponse, RemoveRuleRegionSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveRuleRegionSecurityPoliciesRequest,
   output: RemoveRuleRegionSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Creates a new policy in the specified project using the data included in the request. */
 export interface InsertRegionSecurityPoliciesRequest {
   /** If true, the request will not be committed. */
   validateOnly?: boolean;
@@ -46937,13 +46936,13 @@ export const InsertRegionSecurityPoliciesResponse = Operation;
 
 export type InsertRegionSecurityPoliciesError = CommonErrors;
 
+/** Creates a new policy in the specified project using the data included in the request. */
 export const insertRegionSecurityPolicies: API.OperationMethod<InsertRegionSecurityPoliciesRequest, InsertRegionSecurityPoliciesResponse, InsertRegionSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertRegionSecurityPoliciesRequest,
   output: InsertRegionSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** List all the policies that have been configured for the specified project and region. */
 export interface ListRegionSecurityPoliciesRequest {
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string;
@@ -46979,7 +46978,8 @@ export const ListRegionSecurityPoliciesResponse = SecurityPolicyList;
 
 export type ListRegionSecurityPoliciesError = CommonErrors;
 
-export const listRegionSecurityPolicies = API.makePaginated(() => ({
+/** List all the policies that have been configured for the specified project and region. */
+export const listRegionSecurityPolicies: API.PaginatedOperationMethod<ListRegionSecurityPoliciesRequest, ListRegionSecurityPoliciesResponse, ListRegionSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRegionSecurityPoliciesRequest,
   output: ListRegionSecurityPoliciesResponse,
   errors: [],
@@ -46990,7 +46990,6 @@ export const listRegionSecurityPolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a rule at the specified priority. */
 export interface GetRuleRegionSecurityPoliciesRequest {
   /** The priority of the rule to get from the security policy. */
   priority?: number;
@@ -47017,13 +47016,13 @@ export const GetRuleRegionSecurityPoliciesResponse = SecurityPolicyRule;
 
 export type GetRuleRegionSecurityPoliciesError = CommonErrors;
 
+/** Gets a rule at the specified priority. */
 export const getRuleRegionSecurityPolicies: API.OperationMethod<GetRuleRegionSecurityPoliciesRequest, GetRuleRegionSecurityPoliciesResponse, GetRuleRegionSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRuleRegionSecurityPoliciesRequest,
   output: GetRuleRegionSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** List all of the ordered rules present in a single specified policy. */
 export interface GetRegionSecurityPoliciesRequest {
   /** Name of the region scoping this request. */
   region: string;
@@ -47047,13 +47046,13 @@ export const GetRegionSecurityPoliciesResponse = SecurityPolicy;
 
 export type GetRegionSecurityPoliciesError = CommonErrors;
 
+/** List all of the ordered rules present in a single specified policy. */
 export const getRegionSecurityPolicies: API.OperationMethod<GetRegionSecurityPoliciesRequest, GetRegionSecurityPoliciesResponse, GetRegionSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRegionSecurityPoliciesRequest,
   output: GetRegionSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Sets the labels on a security policy. To learn more about labels, read the Labeling Resources documentation. */
 export interface SetLabelsRegionSecurityPoliciesRequest {
   /** The region for this request. */
   region: string;
@@ -47083,13 +47082,13 @@ export const SetLabelsRegionSecurityPoliciesResponse = Operation;
 
 export type SetLabelsRegionSecurityPoliciesError = CommonErrors;
 
+/** Sets the labels on a security policy. To learn more about labels, read the Labeling Resources documentation. */
 export const setLabelsRegionSecurityPolicies: API.OperationMethod<SetLabelsRegionSecurityPoliciesRequest, SetLabelsRegionSecurityPoliciesResponse, SetLabelsRegionSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetLabelsRegionSecurityPoliciesRequest,
   output: SetLabelsRegionSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Patches the specified policy with the data included in the request. To clear fields in the policy, leave the fields empty and specify them in the updateMask. This cannot be used to be update the rules in the policy. Please use the per rule methods like addRule, patchRule, and removeRule instead. */
 export interface PatchRegionSecurityPoliciesRequest {
   /** Name of the region scoping this request. */
   region: string;
@@ -47122,13 +47121,13 @@ export const PatchRegionSecurityPoliciesResponse = Operation;
 
 export type PatchRegionSecurityPoliciesError = CommonErrors;
 
+/** Patches the specified policy with the data included in the request. To clear fields in the policy, leave the fields empty and specify them in the updateMask. This cannot be used to be update the rules in the policy. Please use the per rule methods like addRule, patchRule, and removeRule instead. */
 export const patchRegionSecurityPolicies: API.OperationMethod<PatchRegionSecurityPoliciesRequest, PatchRegionSecurityPoliciesResponse, PatchRegionSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchRegionSecurityPoliciesRequest,
   output: PatchRegionSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Inserts a rule into a security policy. */
 export interface AddRuleRegionSecurityPoliciesRequest {
   /** Name of the security policy to update. */
   securityPolicy: string;
@@ -47158,13 +47157,13 @@ export const AddRuleRegionSecurityPoliciesResponse = Operation;
 
 export type AddRuleRegionSecurityPoliciesError = CommonErrors;
 
+/** Inserts a rule into a security policy. */
 export const addRuleRegionSecurityPolicies: API.OperationMethod<AddRuleRegionSecurityPoliciesRequest, AddRuleRegionSecurityPoliciesResponse, AddRuleRegionSecurityPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddRuleRegionSecurityPoliciesRequest,
   output: AddRuleRegionSecurityPoliciesResponse,
   errors: [],
 }));
 
-/** Creates a HealthCheck resource in the specified project using the data included in the request. */
 export interface InsertRegionHealthChecksRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -47191,13 +47190,13 @@ export const InsertRegionHealthChecksResponse = Operation;
 
 export type InsertRegionHealthChecksError = CommonErrors;
 
+/** Creates a HealthCheck resource in the specified project using the data included in the request. */
 export const insertRegionHealthChecks: API.OperationMethod<InsertRegionHealthChecksRequest, InsertRegionHealthChecksResponse, InsertRegionHealthChecksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertRegionHealthChecksRequest,
   output: InsertRegionHealthChecksResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsRegionHealthChecksRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -47224,13 +47223,13 @@ export const TestIamPermissionsRegionHealthChecksResponse = TestPermissionsRespo
 
 export type TestIamPermissionsRegionHealthChecksError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsRegionHealthChecks: API.OperationMethod<TestIamPermissionsRegionHealthChecksRequest, TestIamPermissionsRegionHealthChecksResponse, TestIamPermissionsRegionHealthChecksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsRegionHealthChecksRequest,
   output: TestIamPermissionsRegionHealthChecksResponse,
   errors: [],
 }));
 
-/** Returns the specified HealthCheck resource. */
 export interface GetRegionHealthChecksRequest {
   /** Name of the HealthCheck resource to return. */
   healthCheck: string;
@@ -47254,13 +47253,13 @@ export const GetRegionHealthChecksResponse = HealthCheck;
 
 export type GetRegionHealthChecksError = CommonErrors;
 
+/** Returns the specified HealthCheck resource. */
 export const getRegionHealthChecks: API.OperationMethod<GetRegionHealthChecksRequest, GetRegionHealthChecksResponse, GetRegionHealthChecksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRegionHealthChecksRequest,
   output: GetRegionHealthChecksResponse,
   errors: [],
 }));
 
-/** Updates a HealthCheck resource in the specified project using the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export interface PatchRegionHealthChecksRequest {
   /** Project ID for this request. */
   project: string;
@@ -47290,13 +47289,13 @@ export const PatchRegionHealthChecksResponse = Operation;
 
 export type PatchRegionHealthChecksError = CommonErrors;
 
+/** Updates a HealthCheck resource in the specified project using the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export const patchRegionHealthChecks: API.OperationMethod<PatchRegionHealthChecksRequest, PatchRegionHealthChecksResponse, PatchRegionHealthChecksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchRegionHealthChecksRequest,
   output: PatchRegionHealthChecksResponse,
   errors: [],
 }));
 
-/** Retrieves the list of HealthCheck resources available to the specified project. */
 export interface ListRegionHealthChecksRequest {
   /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based onresource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using GoogleRE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
   filter?: string;
@@ -47332,7 +47331,8 @@ export const ListRegionHealthChecksResponse = HealthCheckList;
 
 export type ListRegionHealthChecksError = CommonErrors;
 
-export const listRegionHealthChecks = API.makePaginated(() => ({
+/** Retrieves the list of HealthCheck resources available to the specified project. */
+export const listRegionHealthChecks: API.PaginatedOperationMethod<ListRegionHealthChecksRequest, ListRegionHealthChecksResponse, ListRegionHealthChecksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRegionHealthChecksRequest,
   output: ListRegionHealthChecksResponse,
   errors: [],
@@ -47343,7 +47343,6 @@ export const listRegionHealthChecks = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the specified HealthCheck resource. */
 export interface DeleteRegionHealthChecksRequest {
   /** Name of the HealthCheck resource to delete. */
   healthCheck: string;
@@ -47370,13 +47369,13 @@ export const DeleteRegionHealthChecksResponse = Operation;
 
 export type DeleteRegionHealthChecksError = CommonErrors;
 
+/** Deletes the specified HealthCheck resource. */
 export const deleteRegionHealthChecks: API.OperationMethod<DeleteRegionHealthChecksRequest, DeleteRegionHealthChecksResponse, DeleteRegionHealthChecksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRegionHealthChecksRequest,
   output: DeleteRegionHealthChecksResponse,
   errors: [],
 }));
 
-/** Updates a HealthCheck resource in the specified project using the data included in the request. */
 export interface UpdateRegionHealthChecksRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -47406,13 +47405,13 @@ export const UpdateRegionHealthChecksResponse = Operation;
 
 export type UpdateRegionHealthChecksError = CommonErrors;
 
+/** Updates a HealthCheck resource in the specified project using the data included in the request. */
 export const updateRegionHealthChecks: API.OperationMethod<UpdateRegionHealthChecksRequest, UpdateRegionHealthChecksResponse, UpdateRegionHealthChecksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateRegionHealthChecksRequest,
   output: UpdateRegionHealthChecksResponse,
   errors: [],
 }));
 
-/** Patches the given PreviewFeature. This method is used to enable or disable a PreviewFeature. */
 export interface UpdatePreviewFeaturesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -47439,13 +47438,13 @@ export const UpdatePreviewFeaturesResponse = Operation;
 
 export type UpdatePreviewFeaturesError = CommonErrors;
 
+/** Patches the given PreviewFeature. This method is used to enable or disable a PreviewFeature. */
 export const updatePreviewFeatures: API.OperationMethod<UpdatePreviewFeaturesRequest, UpdatePreviewFeaturesResponse, UpdatePreviewFeaturesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdatePreviewFeaturesRequest,
   output: UpdatePreviewFeaturesResponse,
   errors: [],
 }));
 
-/** Returns the details of the given PreviewFeature. */
 export interface GetPreviewFeaturesRequest {
   /** Project ID for this request. */
   project: string;
@@ -47466,13 +47465,13 @@ export const GetPreviewFeaturesResponse = PreviewFeature;
 
 export type GetPreviewFeaturesError = CommonErrors;
 
+/** Returns the details of the given PreviewFeature. */
 export const getPreviewFeatures: API.OperationMethod<GetPreviewFeaturesRequest, GetPreviewFeaturesResponse, GetPreviewFeaturesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPreviewFeaturesRequest,
   output: GetPreviewFeaturesResponse,
   errors: [],
 }));
 
-/** Returns the details of the given PreviewFeature. */
 export interface ListPreviewFeaturesRequest {
   /** Project ID for this request. */
   project: string;
@@ -47505,7 +47504,8 @@ export const ListPreviewFeaturesResponse = PreviewFeatureList;
 
 export type ListPreviewFeaturesError = CommonErrors;
 
-export const listPreviewFeatures = API.makePaginated(() => ({
+/** Returns the details of the given PreviewFeature. */
+export const listPreviewFeatures: API.PaginatedOperationMethod<ListPreviewFeaturesRequest, ListPreviewFeaturesResponse, ListPreviewFeaturesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPreviewFeaturesRequest,
   output: ListPreviewFeaturesResponse,
   errors: [],
@@ -47516,7 +47516,6 @@ export const listPreviewFeatures = API.makePaginated(() => ({
   },
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsReservationBlocksRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -47546,13 +47545,13 @@ export const TestIamPermissionsReservationBlocksResponse = TestPermissionsRespon
 
 export type TestIamPermissionsReservationBlocksError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsReservationBlocks: API.OperationMethod<TestIamPermissionsReservationBlocksRequest, TestIamPermissionsReservationBlocksResponse, TestIamPermissionsReservationBlocksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsReservationBlocksRequest,
   output: TestIamPermissionsReservationBlocksResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export interface SetIamPolicyReservationBlocksRequest {
   /** Project ID for this request. */
   project: string;
@@ -47582,13 +47581,13 @@ export const SetIamPolicyReservationBlocksResponse = Policy;
 
 export type SetIamPolicyReservationBlocksError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export const setIamPolicyReservationBlocks: API.OperationMethod<SetIamPolicyReservationBlocksRequest, SetIamPolicyReservationBlocksResponse, SetIamPolicyReservationBlocksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyReservationBlocksRequest,
   output: SetIamPolicyReservationBlocksResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export interface GetIamPolicyReservationBlocksRequest {
   /** Name or id of parent resource of the resource for this request. */
   parentResource: string;
@@ -47618,13 +47617,13 @@ export const GetIamPolicyReservationBlocksResponse = Policy;
 
 export type GetIamPolicyReservationBlocksError = CommonErrors;
 
+/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export const getIamPolicyReservationBlocks: API.OperationMethod<GetIamPolicyReservationBlocksRequest, GetIamPolicyReservationBlocksResponse, GetIamPolicyReservationBlocksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyReservationBlocksRequest,
   output: GetIamPolicyReservationBlocksResponse,
   errors: [],
 }));
 
-/** Retrieves information about the specified reservation block. */
 export interface GetReservationBlocksRequest {
   /** Project ID for this request. */
   project: string;
@@ -47654,13 +47653,13 @@ export const GetReservationBlocksResponse = ReservationBlocksGetResponse;
 
 export type GetReservationBlocksError = CommonErrors;
 
+/** Retrieves information about the specified reservation block. */
 export const getReservationBlocks: API.OperationMethod<GetReservationBlocksRequest, GetReservationBlocksResponse, GetReservationBlocksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetReservationBlocksRequest,
   output: GetReservationBlocksResponse,
   errors: [],
 }));
 
-/** Retrieves a list of reservation blocks under a single reservation. */
 export interface ListReservationBlocksRequest {
   /** Name of the zone for this request. Zone name should conform to RFC1035. */
   zone: string;
@@ -47699,7 +47698,8 @@ export const ListReservationBlocksResponse = ReservationBlocksListResponse;
 
 export type ListReservationBlocksError = CommonErrors;
 
-export const listReservationBlocks = API.makePaginated(() => ({
+/** Retrieves a list of reservation blocks under a single reservation. */
+export const listReservationBlocks: API.PaginatedOperationMethod<ListReservationBlocksRequest, ListReservationBlocksResponse, ListReservationBlocksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListReservationBlocksRequest,
   output: ListReservationBlocksResponse,
   errors: [],
@@ -47710,7 +47710,6 @@ export const listReservationBlocks = API.makePaginated(() => ({
   },
 }));
 
-/** Allows customers to perform maintenance on a reservation block */
 export interface PerformMaintenanceReservationBlocksRequest {
   /** Name of the zone for this request. Zone name should conform to RFC1035. */
   zone: string;
@@ -47743,13 +47742,13 @@ export const PerformMaintenanceReservationBlocksResponse = Operation;
 
 export type PerformMaintenanceReservationBlocksError = CommonErrors;
 
+/** Allows customers to perform maintenance on a reservation block */
 export const performMaintenanceReservationBlocks: API.OperationMethod<PerformMaintenanceReservationBlocksRequest, PerformMaintenanceReservationBlocksResponse, PerformMaintenanceReservationBlocksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PerformMaintenanceReservationBlocksRequest,
   output: PerformMaintenanceReservationBlocksResponse,
   errors: [],
 }));
 
-/** Updates a License resource in the specified project. *Caution* This resource is intended for use only by third-party partners who are creatingCloud Marketplace images. */
 export interface UpdateLicensesRequest {
   /** The license name for this request. */
   license: string;
@@ -47779,13 +47778,13 @@ export const UpdateLicensesResponse = Operation;
 
 export type UpdateLicensesError = CommonErrors;
 
+/** Updates a License resource in the specified project. *Caution* This resource is intended for use only by third-party partners who are creatingCloud Marketplace images. */
 export const updateLicenses: API.OperationMethod<UpdateLicensesRequest, UpdateLicensesResponse, UpdateLicensesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateLicensesRequest,
   output: UpdateLicensesResponse,
   errors: [],
 }));
 
-/** Retrieves the list of licenses available in the specified project. This method does not get any licenses that belong to other projects, including licenses attached to publicly-available images, like Debian 9. If you want to get a list of publicly-available licenses, use this method to make a request to the respective image project, such as debian-cloud orwindows-cloud. *Caution* This resource is intended for use only by third-party partners who are creatingCloud Marketplace images. */
 export interface ListLicensesRequest {
   /** A filter expression that filters resources listed in the response. Most Compute resources support two types of filter expressions: expressions that support regular expressions and expressions that follow API improvement proposal AIP-160. These two types of filter expressions cannot be mixed in one request. If you want to use AIP-160, your expression must specify the field name, an operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you are filtering Compute Engine instances, you can exclude instances named `example-instance` by specifying `name != example-instance`. The `:*` comparison can be used to test whether a key has been defined. For example, to find all objects with `owner` label use: ``` labels.owner:* ``` You can also filter nested fields. For example, you could specify `scheduling.automaticRestart = false` to include instances only if they are not scheduled for automatic restarts. You can use filtering on nested fields to filter based onresource labels. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a regular expression, use the `eq` (equal) or `ne` (not equal) operator against a single un-parenthesized expression with or without quotes or against multiple parenthesized expressions. Examples: `fieldname eq unquoted literal` `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"` `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is interpreted as a regular expression using GoogleRE2 library syntax. The literal value must match the entire field. For example, to filter for instances that do not end with name "instance", you would use `name ne .*instance`. You cannot combine constraints on multiple fields using regular expressions. */
   filter?: string;
@@ -47818,7 +47817,8 @@ export const ListLicensesResponse = LicensesListResponse;
 
 export type ListLicensesError = CommonErrors;
 
-export const listLicenses = API.makePaginated(() => ({
+/** Retrieves the list of licenses available in the specified project. This method does not get any licenses that belong to other projects, including licenses attached to publicly-available images, like Debian 9. If you want to get a list of publicly-available licenses, use this method to make a request to the respective image project, such as debian-cloud orwindows-cloud. *Caution* This resource is intended for use only by third-party partners who are creatingCloud Marketplace images. */
+export const listLicenses: API.PaginatedOperationMethod<ListLicensesRequest, ListLicensesResponse, ListLicensesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListLicensesRequest,
   output: ListLicensesResponse,
   errors: [],
@@ -47829,7 +47829,6 @@ export const listLicenses = API.makePaginated(() => ({
   },
 }));
 
-/** Returns permissions that a caller has on the specified resource. *Caution* This resource is intended for use only by third-party partners who are creatingCloud Marketplace images. */
 export interface TestIamPermissionsLicensesRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -47853,13 +47852,13 @@ export const TestIamPermissionsLicensesResponse = TestPermissionsResponse;
 
 export type TestIamPermissionsLicensesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. *Caution* This resource is intended for use only by third-party partners who are creatingCloud Marketplace images. */
 export const testIamPermissionsLicenses: API.OperationMethod<TestIamPermissionsLicensesRequest, TestIamPermissionsLicensesResponse, TestIamPermissionsLicensesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsLicensesRequest,
   output: TestIamPermissionsLicensesResponse,
   errors: [],
 }));
 
-/** Returns the specified License resource. *Caution* This resource is intended for use only by third-party partners who are creatingCloud Marketplace images. */
 export interface GetLicensesRequest {
   /** Project ID for this request. */
   project: string;
@@ -47880,13 +47879,13 @@ export const GetLicensesResponse = License;
 
 export type GetLicensesError = CommonErrors;
 
+/** Returns the specified License resource. *Caution* This resource is intended for use only by third-party partners who are creatingCloud Marketplace images. */
 export const getLicenses: API.OperationMethod<GetLicensesRequest, GetLicensesResponse, GetLicensesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetLicensesRequest,
   output: GetLicensesResponse,
   errors: [],
 }));
 
-/** Deletes the specified license. *Caution* This resource is intended for use only by third-party partners who are creatingCloud Marketplace images. */
 export interface DeleteLicensesRequest {
   /** Project ID for this request. */
   project: string;
@@ -47910,13 +47909,13 @@ export const DeleteLicensesResponse = Operation;
 
 export type DeleteLicensesError = CommonErrors;
 
+/** Deletes the specified license. *Caution* This resource is intended for use only by third-party partners who are creatingCloud Marketplace images. */
 export const deleteLicenses: API.OperationMethod<DeleteLicensesRequest, DeleteLicensesResponse, DeleteLicensesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteLicensesRequest,
   output: DeleteLicensesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. *Caution* This resource is intended for use only by third-party partners who are creatingCloud Marketplace images. */
 export interface SetIamPolicyLicensesRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -47940,13 +47939,13 @@ export const SetIamPolicyLicensesResponse = Policy;
 
 export type SetIamPolicyLicensesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. *Caution* This resource is intended for use only by third-party partners who are creatingCloud Marketplace images. */
 export const setIamPolicyLicenses: API.OperationMethod<SetIamPolicyLicensesRequest, SetIamPolicyLicensesResponse, SetIamPolicyLicensesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyLicensesRequest,
   output: SetIamPolicyLicensesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. *Caution* This resource is intended for use only by third-party partners who are creatingCloud Marketplace images. */
 export interface GetIamPolicyLicensesRequest {
   /** Project ID for this request. */
   project: string;
@@ -47970,13 +47969,13 @@ export const GetIamPolicyLicensesResponse = Policy;
 
 export type GetIamPolicyLicensesError = CommonErrors;
 
+/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. *Caution* This resource is intended for use only by third-party partners who are creatingCloud Marketplace images. */
 export const getIamPolicyLicenses: API.OperationMethod<GetIamPolicyLicensesRequest, GetIamPolicyLicensesResponse, GetIamPolicyLicensesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyLicensesRequest,
   output: GetIamPolicyLicensesResponse,
   errors: [],
 }));
 
-/** Create a License resource in the specified project. *Caution* This resource is intended for use only by third-party partners who are creatingCloud Marketplace images. */
 export interface InsertLicensesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -48000,13 +47999,13 @@ export const InsertLicensesResponse = Operation;
 
 export type InsertLicensesError = CommonErrors;
 
+/** Create a License resource in the specified project. *Caution* This resource is intended for use only by third-party partners who are creatingCloud Marketplace images. */
 export const insertLicenses: API.OperationMethod<InsertLicensesRequest, InsertLicensesResponse, InsertLicensesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertLicensesRequest,
   output: InsertLicensesResponse,
   errors: [],
 }));
 
-/** Creates a managed instance group using the information that you specify in the request. After the group is created, instances in the group are created using the specified instance template. This operation is marked as DONE when the group is created even if the instances in the group have not yet been created. You must separately verify the status of the individual instances with thelistmanagedinstances method. A regional managed instance group can contain up to 2000 instances. */
 export interface InsertRegionInstanceGroupManagersRequest {
   /** Name of the region scoping this request. */
   region: string;
@@ -48033,13 +48032,13 @@ export const InsertRegionInstanceGroupManagersResponse = Operation;
 
 export type InsertRegionInstanceGroupManagersError = CommonErrors;
 
+/** Creates a managed instance group using the information that you specify in the request. After the group is created, instances in the group are created using the specified instance template. This operation is marked as DONE when the group is created even if the instances in the group have not yet been created. You must separately verify the status of the individual instances with thelistmanagedinstances method. A regional managed instance group can contain up to 2000 instances. */
 export const insertRegionInstanceGroupManagers: API.OperationMethod<InsertRegionInstanceGroupManagersRequest, InsertRegionInstanceGroupManagersResponse, InsertRegionInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertRegionInstanceGroupManagersRequest,
   output: InsertRegionInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Lists all errors thrown by actions on instances for a given regional managed instance group. The filter andorderBy query parameters are not supported. */
 export interface ListErrorsRegionInstanceGroupManagersRequest {
   /** Name of the region scoping this request. This should conform to RFC1035. */
   region: string;
@@ -48078,7 +48077,8 @@ export const ListErrorsRegionInstanceGroupManagersResponse = RegionInstanceGroup
 
 export type ListErrorsRegionInstanceGroupManagersError = CommonErrors;
 
-export const listErrorsRegionInstanceGroupManagers = API.makePaginated(() => ({
+/** Lists all errors thrown by actions on instances for a given regional managed instance group. The filter andorderBy query parameters are not supported. */
+export const listErrorsRegionInstanceGroupManagers: API.PaginatedOperationMethod<ListErrorsRegionInstanceGroupManagersRequest, ListErrorsRegionInstanceGroupManagersResponse, ListErrorsRegionInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListErrorsRegionInstanceGroupManagersRequest,
   output: ListErrorsRegionInstanceGroupManagersResponse,
   errors: [],
@@ -48089,7 +48089,6 @@ export const listErrorsRegionInstanceGroupManagers = API.makePaginated(() => ({
   },
 }));
 
-/** Modifies the target pools to which all new instances in this group are assigned. Existing instances in the group are not affected. */
 export interface SetTargetPoolsRegionInstanceGroupManagersRequest {
   /** Name of the managed instance group. */
   instanceGroupManager: string;
@@ -48119,13 +48118,13 @@ export const SetTargetPoolsRegionInstanceGroupManagersResponse = Operation;
 
 export type SetTargetPoolsRegionInstanceGroupManagersError = CommonErrors;
 
+/** Modifies the target pools to which all new instances in this group are assigned. Existing instances in the group are not affected. */
 export const setTargetPoolsRegionInstanceGroupManagers: API.OperationMethod<SetTargetPoolsRegionInstanceGroupManagersRequest, SetTargetPoolsRegionInstanceGroupManagersResponse, SetTargetPoolsRegionInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetTargetPoolsRegionInstanceGroupManagersRequest,
   output: SetTargetPoolsRegionInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Creates instances with per-instance configurations in this regional managed instance group. Instances are created using the current instance template. The create instances operation is marked DONE if the createInstances request is successful. The underlying actions take additional time. You must separately verify the status of thecreating or actions with the listmanagedinstances method. */
 export interface CreateInstancesRegionInstanceGroupManagersRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -48155,13 +48154,13 @@ export const CreateInstancesRegionInstanceGroupManagersResponse = Operation;
 
 export type CreateInstancesRegionInstanceGroupManagersError = CommonErrors;
 
+/** Creates instances with per-instance configurations in this regional managed instance group. Instances are created using the current instance template. The create instances operation is marked DONE if the createInstances request is successful. The underlying actions take additional time. You must separately verify the status of thecreating or actions with the listmanagedinstances method. */
 export const createInstancesRegionInstanceGroupManagers: API.OperationMethod<CreateInstancesRegionInstanceGroupManagersRequest, CreateInstancesRegionInstanceGroupManagersResponse, CreateInstancesRegionInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateInstancesRegionInstanceGroupManagersRequest,
   output: CreateInstancesRegionInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Flags the specified VM instances in the managed instance group to be immediately recreated. Each instance is recreated using the group's current configuration. This operation is marked as DONE when the flag is set even if the instances have not yet been recreated. You must separately verify the status of each instance by checking itscurrentAction field; for more information, see Checking the status of managed instances. If the group is part of a backend service that has enabled connection draining, it can take up to 60 seconds after the connection draining duration has elapsed before the VM instance is removed or deleted. You can specify a maximum of 1000 instances with this method per request. */
 export interface RecreateInstancesRegionInstanceGroupManagersRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -48191,13 +48190,13 @@ export const RecreateInstancesRegionInstanceGroupManagersResponse = Operation;
 
 export type RecreateInstancesRegionInstanceGroupManagersError = CommonErrors;
 
+/** Flags the specified VM instances in the managed instance group to be immediately recreated. Each instance is recreated using the group's current configuration. This operation is marked as DONE when the flag is set even if the instances have not yet been recreated. You must separately verify the status of each instance by checking itscurrentAction field; for more information, see Checking the status of managed instances. If the group is part of a backend service that has enabled connection draining, it can take up to 60 seconds after the connection draining duration has elapsed before the VM instance is removed or deleted. You can specify a maximum of 1000 instances with this method per request. */
 export const recreateInstancesRegionInstanceGroupManagers: API.OperationMethod<RecreateInstancesRegionInstanceGroupManagersRequest, RecreateInstancesRegionInstanceGroupManagersResponse, RecreateInstancesRegionInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RecreateInstancesRegionInstanceGroupManagersRequest,
   output: RecreateInstancesRegionInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Flags the specified instances in the managed instance group to be immediately deleted. The instances are also removed from any target pools of which they were a member. This method reduces thetargetSize of the managed instance group by the number of instances that you delete. The deleteInstances operation is marked DONE if the deleteInstances request is successful. The underlying actions take additional time. You must separately verify the status of thedeleting action with thelistmanagedinstances method. If the group is part of a backend service that has enabled connection draining, it can take up to 60 seconds after the connection draining duration has elapsed before the VM instance is removed or deleted. You can specify a maximum of 1000 instances with this method per request. */
 export interface DeleteInstancesRegionInstanceGroupManagersRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -48227,13 +48226,13 @@ export const DeleteInstancesRegionInstanceGroupManagersResponse = Operation;
 
 export type DeleteInstancesRegionInstanceGroupManagersError = CommonErrors;
 
+/** Flags the specified instances in the managed instance group to be immediately deleted. The instances are also removed from any target pools of which they were a member. This method reduces thetargetSize of the managed instance group by the number of instances that you delete. The deleteInstances operation is marked DONE if the deleteInstances request is successful. The underlying actions take additional time. You must separately verify the status of thedeleting action with thelistmanagedinstances method. If the group is part of a backend service that has enabled connection draining, it can take up to 60 seconds after the connection draining duration has elapsed before the VM instance is removed or deleted. You can specify a maximum of 1000 instances with this method per request. */
 export const deleteInstancesRegionInstanceGroupManagers: API.OperationMethod<DeleteInstancesRegionInstanceGroupManagersRequest, DeleteInstancesRegionInstanceGroupManagersResponse, DeleteInstancesRegionInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteInstancesRegionInstanceGroupManagersRequest,
   output: DeleteInstancesRegionInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Flags the specified instances in the managed instance group to be started. This method increases thetargetSize and decreases the targetStoppedSize of the managed instance group by the number of instances that you start. The startInstances operation is marked DONE if the startInstances request is successful. The underlying actions take additional time. You must separately verify the status of theSTARTING action with thelistmanagedinstances method. In this request, you can only specify instances that are stopped. For example, if an instance was previously stopped using the stopInstances method, it can be started using the startInstances method. If a health check is attached to the managed instance group, the specified instances will be verified as healthy after they are started. You can specify a maximum of 1000 instances with this method per request. */
 export interface StartInstancesRegionInstanceGroupManagersRequest {
   /** Project ID for this request. */
   project: string;
@@ -48263,13 +48262,13 @@ export const StartInstancesRegionInstanceGroupManagersResponse = Operation;
 
 export type StartInstancesRegionInstanceGroupManagersError = CommonErrors;
 
+/** Flags the specified instances in the managed instance group to be started. This method increases thetargetSize and decreases the targetStoppedSize of the managed instance group by the number of instances that you start. The startInstances operation is marked DONE if the startInstances request is successful. The underlying actions take additional time. You must separately verify the status of theSTARTING action with thelistmanagedinstances method. In this request, you can only specify instances that are stopped. For example, if an instance was previously stopped using the stopInstances method, it can be started using the startInstances method. If a health check is attached to the managed instance group, the specified instances will be verified as healthy after they are started. You can specify a maximum of 1000 instances with this method per request. */
 export const startInstancesRegionInstanceGroupManagers: API.OperationMethod<StartInstancesRegionInstanceGroupManagersRequest, StartInstancesRegionInstanceGroupManagersResponse, StartInstancesRegionInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StartInstancesRegionInstanceGroupManagersRequest,
   output: StartInstancesRegionInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Inserts or updates per-instance configurations for the managed instance group. perInstanceConfig.name serves as a key used to distinguish whether to perform insert or patch. */
 export interface UpdatePerInstanceConfigsRegionInstanceGroupManagersRequest {
   /** The name of the managed instance group. It should conform to RFC1035. */
   instanceGroupManager: string;
@@ -48299,13 +48298,13 @@ export const UpdatePerInstanceConfigsRegionInstanceGroupManagersResponse = Opera
 
 export type UpdatePerInstanceConfigsRegionInstanceGroupManagersError = CommonErrors;
 
+/** Inserts or updates per-instance configurations for the managed instance group. perInstanceConfig.name serves as a key used to distinguish whether to perform insert or patch. */
 export const updatePerInstanceConfigsRegionInstanceGroupManagers: API.OperationMethod<UpdatePerInstanceConfigsRegionInstanceGroupManagersRequest, UpdatePerInstanceConfigsRegionInstanceGroupManagersResponse, UpdatePerInstanceConfigsRegionInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdatePerInstanceConfigsRegionInstanceGroupManagersRequest,
   output: UpdatePerInstanceConfigsRegionInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Returns all of the details about the specified managed instance group. */
 export interface GetRegionInstanceGroupManagersRequest {
   /** Name of the region scoping this request. */
   region: string;
@@ -48329,13 +48328,13 @@ export const GetRegionInstanceGroupManagersResponse = InstanceGroupManager;
 
 export type GetRegionInstanceGroupManagersError = CommonErrors;
 
+/** Returns all of the details about the specified managed instance group. */
 export const getRegionInstanceGroupManagers: API.OperationMethod<GetRegionInstanceGroupManagersRequest, GetRegionInstanceGroupManagersResponse, GetRegionInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRegionInstanceGroupManagersRequest,
   output: GetRegionInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Flags the specified instances to be immediately removed from the managed instance group. Abandoning an instance does not delete the instance, but it does remove the instance from any target pools that are applied by the managed instance group. This method reduces thetargetSize of the managed instance group by the number of instances that you abandon. This operation is marked asDONE when the action is scheduled even if the instances have not yet been removed from the group. You must separately verify the status of the abandoning action with thelistmanagedinstances method. If the group is part of a backend service that has enabled connection draining, it can take up to 60 seconds after the connection draining duration has elapsed before the VM instance is removed or deleted. You can specify a maximum of 1000 instances with this method per request. */
 export interface AbandonInstancesRegionInstanceGroupManagersRequest {
   /** Project ID for this request. */
   project: string;
@@ -48365,13 +48364,13 @@ export const AbandonInstancesRegionInstanceGroupManagersResponse = Operation;
 
 export type AbandonInstancesRegionInstanceGroupManagersError = CommonErrors;
 
+/** Flags the specified instances to be immediately removed from the managed instance group. Abandoning an instance does not delete the instance, but it does remove the instance from any target pools that are applied by the managed instance group. This method reduces thetargetSize of the managed instance group by the number of instances that you abandon. This operation is marked asDONE when the action is scheduled even if the instances have not yet been removed from the group. You must separately verify the status of the abandoning action with thelistmanagedinstances method. If the group is part of a backend service that has enabled connection draining, it can take up to 60 seconds after the connection draining duration has elapsed before the VM instance is removed or deleted. You can specify a maximum of 1000 instances with this method per request. */
 export const abandonInstancesRegionInstanceGroupManagers: API.OperationMethod<AbandonInstancesRegionInstanceGroupManagersRequest, AbandonInstancesRegionInstanceGroupManagersResponse, AbandonInstancesRegionInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AbandonInstancesRegionInstanceGroupManagersRequest,
   output: AbandonInstancesRegionInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Sets the instance template to use when creating new instances or recreating instances in this group. Existing instances are not affected. */
 export interface SetInstanceTemplateRegionInstanceGroupManagersRequest {
   /** The name of the managed instance group. */
   instanceGroupManager: string;
@@ -48401,13 +48400,13 @@ export const SetInstanceTemplateRegionInstanceGroupManagersResponse = Operation;
 
 export type SetInstanceTemplateRegionInstanceGroupManagersError = CommonErrors;
 
+/** Sets the instance template to use when creating new instances or recreating instances in this group. Existing instances are not affected. */
 export const setInstanceTemplateRegionInstanceGroupManagers: API.OperationMethod<SetInstanceTemplateRegionInstanceGroupManagersRequest, SetInstanceTemplateRegionInstanceGroupManagersResponse, SetInstanceTemplateRegionInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetInstanceTemplateRegionInstanceGroupManagersRequest,
   output: SetInstanceTemplateRegionInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Changes the intended size of the managed instance group. If you increase the size, the group creates new instances using the current instance template. If you decrease the size, the group deletes one or more instances. The resize operation is marked DONE if theresize request is successful. The underlying actions take additional time. You must separately verify the status of thecreating or deleting actions with thelistmanagedinstances method. If the group is part of a backend service that has enabled connection draining, it can take up to 60 seconds after the connection draining duration has elapsed before the VM instance is removed or deleted. */
 export interface ResizeRegionInstanceGroupManagersRequest {
   /** Number of instances that should exist in this instance group manager. */
   size: number;
@@ -48437,13 +48436,13 @@ export const ResizeRegionInstanceGroupManagersResponse = Operation;
 
 export type ResizeRegionInstanceGroupManagersError = CommonErrors;
 
+/** Changes the intended size of the managed instance group. If you increase the size, the group creates new instances using the current instance template. If you decrease the size, the group deletes one or more instances. The resize operation is marked DONE if theresize request is successful. The underlying actions take additional time. You must separately verify the status of thecreating or deleting actions with thelistmanagedinstances method. If the group is part of a backend service that has enabled connection draining, it can take up to 60 seconds after the connection draining duration has elapsed before the VM instance is removed or deleted. */
 export const resizeRegionInstanceGroupManagers: API.OperationMethod<ResizeRegionInstanceGroupManagersRequest, ResizeRegionInstanceGroupManagersResponse, ResizeRegionInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResizeRegionInstanceGroupManagersRequest,
   output: ResizeRegionInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Updates a managed instance group using the information that you specify in the request. This operation is marked as DONE when the group is patched even if the instances in the group are still in the process of being patched. You must separately verify the status of the individual instances with the listmanagedinstances method. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. If you update your group to specify a new template or instance configuration, it's possible that your intended specification for each VM in the group is different from the current state of that VM. To learn how to apply an updated configuration to the VMs in a MIG, seeUpdating instances in a MIG. */
 export interface PatchRegionInstanceGroupManagersRequest {
   /** Name of the region scoping this request. */
   region: string;
@@ -48473,13 +48472,13 @@ export const PatchRegionInstanceGroupManagersResponse = Operation;
 
 export type PatchRegionInstanceGroupManagersError = CommonErrors;
 
+/** Updates a managed instance group using the information that you specify in the request. This operation is marked as DONE when the group is patched even if the instances in the group are still in the process of being patched. You must separately verify the status of the individual instances with the listmanagedinstances method. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. If you update your group to specify a new template or instance configuration, it's possible that your intended specification for each VM in the group is different from the current state of that VM. To learn how to apply an updated configuration to the VMs in a MIG, seeUpdating instances in a MIG. */
 export const patchRegionInstanceGroupManagers: API.OperationMethod<PatchRegionInstanceGroupManagersRequest, PatchRegionInstanceGroupManagersResponse, PatchRegionInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchRegionInstanceGroupManagersRequest,
   output: PatchRegionInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Flags the specified instances in the managed instance group to be immediately stopped. You can only specify instances that are running in this request. This method reduces thetargetSize and increases the targetStoppedSize of the managed instance group by the number of instances that you stop. The stopInstances operation is marked DONE if the stopInstances request is successful. The underlying actions take additional time. You must separately verify the status of theSTOPPING action with thelistmanagedinstances method. If the standbyPolicy.initialDelaySec field is set, the group delays stopping the instances until initialDelaySec have passed from instance.creationTimestamp (that is, when the instance was created). This delay gives your application time to set itself up and initialize on the instance. If more thaninitialDelaySec seconds have passed sinceinstance.creationTimestamp when this method is called, there will be zero delay. If the group is part of a backend service that has enabled connection draining, it can take up to 60 seconds after the connection draining duration has elapsed before the VM instance is stopped. Stopped instances can be started using the startInstances method. You can specify a maximum of 1000 instances with this method per request. */
 export interface StopInstancesRegionInstanceGroupManagersRequest {
   /** The name of the managed instance group. */
   instanceGroupManager: string;
@@ -48509,13 +48508,13 @@ export const StopInstancesRegionInstanceGroupManagersResponse = Operation;
 
 export type StopInstancesRegionInstanceGroupManagersError = CommonErrors;
 
+/** Flags the specified instances in the managed instance group to be immediately stopped. You can only specify instances that are running in this request. This method reduces thetargetSize and increases the targetStoppedSize of the managed instance group by the number of instances that you stop. The stopInstances operation is marked DONE if the stopInstances request is successful. The underlying actions take additional time. You must separately verify the status of theSTOPPING action with thelistmanagedinstances method. If the standbyPolicy.initialDelaySec field is set, the group delays stopping the instances until initialDelaySec have passed from instance.creationTimestamp (that is, when the instance was created). This delay gives your application time to set itself up and initialize on the instance. If more thaninitialDelaySec seconds have passed sinceinstance.creationTimestamp when this method is called, there will be zero delay. If the group is part of a backend service that has enabled connection draining, it can take up to 60 seconds after the connection draining duration has elapsed before the VM instance is stopped. Stopped instances can be started using the startInstances method. You can specify a maximum of 1000 instances with this method per request. */
 export const stopInstancesRegionInstanceGroupManagers: API.OperationMethod<StopInstancesRegionInstanceGroupManagersRequest, StopInstancesRegionInstanceGroupManagersResponse, StopInstancesRegionInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StopInstancesRegionInstanceGroupManagersRequest,
   output: StopInstancesRegionInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Lists all of the per-instance configurations defined for the managed instance group. The orderBy query parameter is not supported. */
 export interface ListPerInstanceConfigsRegionInstanceGroupManagersRequest {
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string;
@@ -48554,7 +48553,8 @@ export const ListPerInstanceConfigsRegionInstanceGroupManagersResponse = RegionI
 
 export type ListPerInstanceConfigsRegionInstanceGroupManagersError = CommonErrors;
 
-export const listPerInstanceConfigsRegionInstanceGroupManagers = API.makePaginated(() => ({
+/** Lists all of the per-instance configurations defined for the managed instance group. The orderBy query parameter is not supported. */
+export const listPerInstanceConfigsRegionInstanceGroupManagers: API.PaginatedOperationMethod<ListPerInstanceConfigsRegionInstanceGroupManagersRequest, ListPerInstanceConfigsRegionInstanceGroupManagersResponse, ListPerInstanceConfigsRegionInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPerInstanceConfigsRegionInstanceGroupManagersRequest,
   output: ListPerInstanceConfigsRegionInstanceGroupManagersResponse,
   errors: [],
@@ -48565,7 +48565,6 @@ export const listPerInstanceConfigsRegionInstanceGroupManagers = API.makePaginat
   },
 }));
 
-/** Flags the specified instances in the managed instance group to be resumed. This method increases thetargetSize and decreases the targetSuspendedSize of the managed instance group by the number of instances that you resume. The resumeInstances operation is marked DONE if the resumeInstances request is successful. The underlying actions take additional time. You must separately verify the status of theRESUMING action with thelistmanagedinstances method. In this request, you can only specify instances that are suspended. For example, if an instance was previously suspended using the suspendInstances method, it can be resumed using the resumeInstances method. If a health check is attached to the managed instance group, the specified instances will be verified as healthy after they are resumed. You can specify a maximum of 1000 instances with this method per request. */
 export interface ResumeInstancesRegionInstanceGroupManagersRequest {
   /** Name of the managed instance group. */
   instanceGroupManager: string;
@@ -48595,13 +48594,13 @@ export const ResumeInstancesRegionInstanceGroupManagersResponse = Operation;
 
 export type ResumeInstancesRegionInstanceGroupManagersError = CommonErrors;
 
+/** Flags the specified instances in the managed instance group to be resumed. This method increases thetargetSize and decreases the targetSuspendedSize of the managed instance group by the number of instances that you resume. The resumeInstances operation is marked DONE if the resumeInstances request is successful. The underlying actions take additional time. You must separately verify the status of theRESUMING action with thelistmanagedinstances method. In this request, you can only specify instances that are suspended. For example, if an instance was previously suspended using the suspendInstances method, it can be resumed using the resumeInstances method. If a health check is attached to the managed instance group, the specified instances will be verified as healthy after they are resumed. You can specify a maximum of 1000 instances with this method per request. */
 export const resumeInstancesRegionInstanceGroupManagers: API.OperationMethod<ResumeInstancesRegionInstanceGroupManagersRequest, ResumeInstancesRegionInstanceGroupManagersResponse, ResumeInstancesRegionInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResumeInstancesRegionInstanceGroupManagersRequest,
   output: ResumeInstancesRegionInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Lists the instances in the managed instance group and instances that are scheduled to be created. The list includes any current actions that the group has scheduled for its instances. The orderBy query parameter is not supported. The `pageToken` query parameter is supported only if the group's `listManagedInstancesResults` field is set to `PAGINATED`. */
 export interface ListManagedInstancesRegionInstanceGroupManagersRequest {
   /** Opt-in for partial success behavior which provides partial results in case of failure. The default value is false. For example, when partial success behavior is enabled, aggregatedList for a single zone scope either returns all resources in the zone or no resources, with an error code. */
   returnPartialSuccess?: boolean;
@@ -48640,7 +48639,8 @@ export const ListManagedInstancesRegionInstanceGroupManagersResponse = RegionIns
 
 export type ListManagedInstancesRegionInstanceGroupManagersError = CommonErrors;
 
-export const listManagedInstancesRegionInstanceGroupManagers = API.makePaginated(() => ({
+/** Lists the instances in the managed instance group and instances that are scheduled to be created. The list includes any current actions that the group has scheduled for its instances. The orderBy query parameter is not supported. The `pageToken` query parameter is supported only if the group's `listManagedInstancesResults` field is set to `PAGINATED`. */
+export const listManagedInstancesRegionInstanceGroupManagers: API.PaginatedOperationMethod<ListManagedInstancesRegionInstanceGroupManagersRequest, ListManagedInstancesRegionInstanceGroupManagersResponse, ListManagedInstancesRegionInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListManagedInstancesRegionInstanceGroupManagersRequest,
   output: ListManagedInstancesRegionInstanceGroupManagersResponse,
   errors: [],
@@ -48650,7 +48650,6 @@ export const listManagedInstancesRegionInstanceGroupManagers = API.makePaginated
   },
 }));
 
-/** Deletes the specified managed instance group and all of the instances in that group. */
 export interface DeleteRegionInstanceGroupManagersRequest {
   /** Project ID for this request. */
   project: string;
@@ -48677,13 +48676,13 @@ export const DeleteRegionInstanceGroupManagersResponse = Operation;
 
 export type DeleteRegionInstanceGroupManagersError = CommonErrors;
 
+/** Deletes the specified managed instance group and all of the instances in that group. */
 export const deleteRegionInstanceGroupManagers: API.OperationMethod<DeleteRegionInstanceGroupManagersRequest, DeleteRegionInstanceGroupManagersResponse, DeleteRegionInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRegionInstanceGroupManagersRequest,
   output: DeleteRegionInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Flags the specified instances in the managed instance group to be immediately suspended. You can only specify instances that are running in this request. This method reduces thetargetSize and increases the targetSuspendedSize of the managed instance group by the number of instances that you suspend. The suspendInstances operation is marked DONE if the suspendInstances request is successful. The underlying actions take additional time. You must separately verify the status of theSUSPENDING action with thelistmanagedinstances method. If the standbyPolicy.initialDelaySec field is set, the group delays suspension of the instances until initialDelaySec have passed from instance.creationTimestamp (that is, when the instance was created). This delay gives your application time to set itself up and initialize on the instance. If more thaninitialDelaySec seconds have passed sinceinstance.creationTimestamp when this method is called, there will be zero delay. If the group is part of a backend service that has enabled connection draining, it can take up to 60 seconds after the connection draining duration has elapsed before the VM instance is suspended. Suspended instances can be resumed using the resumeInstances method. You can specify a maximum of 1000 instances with this method per request. */
 export interface SuspendInstancesRegionInstanceGroupManagersRequest {
   /** Name of the managed instance group. */
   instanceGroupManager: string;
@@ -48713,13 +48712,13 @@ export const SuspendInstancesRegionInstanceGroupManagersResponse = Operation;
 
 export type SuspendInstancesRegionInstanceGroupManagersError = CommonErrors;
 
+/** Flags the specified instances in the managed instance group to be immediately suspended. You can only specify instances that are running in this request. This method reduces thetargetSize and increases the targetSuspendedSize of the managed instance group by the number of instances that you suspend. The suspendInstances operation is marked DONE if the suspendInstances request is successful. The underlying actions take additional time. You must separately verify the status of theSUSPENDING action with thelistmanagedinstances method. If the standbyPolicy.initialDelaySec field is set, the group delays suspension of the instances until initialDelaySec have passed from instance.creationTimestamp (that is, when the instance was created). This delay gives your application time to set itself up and initialize on the instance. If more thaninitialDelaySec seconds have passed sinceinstance.creationTimestamp when this method is called, there will be zero delay. If the group is part of a backend service that has enabled connection draining, it can take up to 60 seconds after the connection draining duration has elapsed before the VM instance is suspended. Suspended instances can be resumed using the resumeInstances method. You can specify a maximum of 1000 instances with this method per request. */
 export const suspendInstancesRegionInstanceGroupManagers: API.OperationMethod<SuspendInstancesRegionInstanceGroupManagersRequest, SuspendInstancesRegionInstanceGroupManagersResponse, SuspendInstancesRegionInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SuspendInstancesRegionInstanceGroupManagersRequest,
   output: SuspendInstancesRegionInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Retrieves the list of managed instance groups that are contained within the specified region. */
 export interface ListRegionInstanceGroupManagersRequest {
   /** Opt-in for partial success behavior which provides partial results in case of failure. The default value is false. For example, when partial success behavior is enabled, aggregatedList for a single zone scope either returns all resources in the zone or no resources, with an error code. */
   returnPartialSuccess?: boolean;
@@ -48755,7 +48754,8 @@ export const ListRegionInstanceGroupManagersResponse = RegionInstanceGroupManage
 
 export type ListRegionInstanceGroupManagersError = CommonErrors;
 
-export const listRegionInstanceGroupManagers = API.makePaginated(() => ({
+/** Retrieves the list of managed instance groups that are contained within the specified region. */
+export const listRegionInstanceGroupManagers: API.PaginatedOperationMethod<ListRegionInstanceGroupManagersRequest, ListRegionInstanceGroupManagersResponse, ListRegionInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRegionInstanceGroupManagersRequest,
   output: ListRegionInstanceGroupManagersResponse,
   errors: [],
@@ -48766,7 +48766,6 @@ export const listRegionInstanceGroupManagers = API.makePaginated(() => ({
   },
 }));
 
-/** Apply updates to selected instances the managed instance group. */
 export interface ApplyUpdatesToInstancesRegionInstanceGroupManagersRequest {
   /** Project ID for this request. */
   project: string;
@@ -48793,13 +48792,13 @@ export const ApplyUpdatesToInstancesRegionInstanceGroupManagersResponse = Operat
 
 export type ApplyUpdatesToInstancesRegionInstanceGroupManagersError = CommonErrors;
 
+/** Apply updates to selected instances the managed instance group. */
 export const applyUpdatesToInstancesRegionInstanceGroupManagers: API.OperationMethod<ApplyUpdatesToInstancesRegionInstanceGroupManagersRequest, ApplyUpdatesToInstancesRegionInstanceGroupManagersResponse, ApplyUpdatesToInstancesRegionInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ApplyUpdatesToInstancesRegionInstanceGroupManagersRequest,
   output: ApplyUpdatesToInstancesRegionInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Deletes selected per-instance configurations for the managed instance group. */
 export interface DeletePerInstanceConfigsRegionInstanceGroupManagersRequest {
   /** Name of the region scoping this request, should conform to RFC1035. */
   region: string;
@@ -48826,13 +48825,13 @@ export const DeletePerInstanceConfigsRegionInstanceGroupManagersResponse = Opera
 
 export type DeletePerInstanceConfigsRegionInstanceGroupManagersError = CommonErrors;
 
+/** Deletes selected per-instance configurations for the managed instance group. */
 export const deletePerInstanceConfigsRegionInstanceGroupManagers: API.OperationMethod<DeletePerInstanceConfigsRegionInstanceGroupManagersRequest, DeletePerInstanceConfigsRegionInstanceGroupManagersResponse, DeletePerInstanceConfigsRegionInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeletePerInstanceConfigsRegionInstanceGroupManagersRequest,
   output: DeletePerInstanceConfigsRegionInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Inserts or patches per-instance configurations for the managed instance group. perInstanceConfig.name serves as a key used to distinguish whether to perform insert or patch. */
 export interface PatchPerInstanceConfigsRegionInstanceGroupManagersRequest {
   /** The name of the managed instance group. It should conform to RFC1035. */
   instanceGroupManager: string;
@@ -48862,13 +48861,13 @@ export const PatchPerInstanceConfigsRegionInstanceGroupManagersResponse = Operat
 
 export type PatchPerInstanceConfigsRegionInstanceGroupManagersError = CommonErrors;
 
+/** Inserts or patches per-instance configurations for the managed instance group. perInstanceConfig.name serves as a key used to distinguish whether to perform insert or patch. */
 export const patchPerInstanceConfigsRegionInstanceGroupManagers: API.OperationMethod<PatchPerInstanceConfigsRegionInstanceGroupManagersRequest, PatchPerInstanceConfigsRegionInstanceGroupManagersResponse, PatchPerInstanceConfigsRegionInstanceGroupManagersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchPerInstanceConfigsRegionInstanceGroupManagersRequest,
   output: PatchPerInstanceConfigsRegionInstanceGroupManagersResponse,
   errors: [],
 }));
 
-/** Deletes the specified TargetTcpProxy resource. */
 export interface DeleteRegionTargetTcpProxiesRequest {
   /** Name of the region scoping this request. */
   region: string;
@@ -48895,13 +48894,13 @@ export const DeleteRegionTargetTcpProxiesResponse = Operation;
 
 export type DeleteRegionTargetTcpProxiesError = CommonErrors;
 
+/** Deletes the specified TargetTcpProxy resource. */
 export const deleteRegionTargetTcpProxies: API.OperationMethod<DeleteRegionTargetTcpProxiesRequest, DeleteRegionTargetTcpProxiesResponse, DeleteRegionTargetTcpProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRegionTargetTcpProxiesRequest,
   output: DeleteRegionTargetTcpProxiesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of TargetTcpProxy resources available to the specified project in a given region. */
 export interface ListRegionTargetTcpProxiesRequest {
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number;
@@ -48937,7 +48936,8 @@ export const ListRegionTargetTcpProxiesResponse = TargetTcpProxyList;
 
 export type ListRegionTargetTcpProxiesError = CommonErrors;
 
-export const listRegionTargetTcpProxies = API.makePaginated(() => ({
+/** Retrieves a list of TargetTcpProxy resources available to the specified project in a given region. */
+export const listRegionTargetTcpProxies: API.PaginatedOperationMethod<ListRegionTargetTcpProxiesRequest, ListRegionTargetTcpProxiesResponse, ListRegionTargetTcpProxiesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRegionTargetTcpProxiesRequest,
   output: ListRegionTargetTcpProxiesResponse,
   errors: [],
@@ -48948,7 +48948,6 @@ export const listRegionTargetTcpProxies = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the specified TargetTcpProxy resource. */
 export interface GetRegionTargetTcpProxiesRequest {
   /** Name of the TargetTcpProxy resource to return. */
   targetTcpProxy: string;
@@ -48972,13 +48971,13 @@ export const GetRegionTargetTcpProxiesResponse = TargetTcpProxy;
 
 export type GetRegionTargetTcpProxiesError = CommonErrors;
 
+/** Returns the specified TargetTcpProxy resource. */
 export const getRegionTargetTcpProxies: API.OperationMethod<GetRegionTargetTcpProxiesRequest, GetRegionTargetTcpProxiesResponse, GetRegionTargetTcpProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRegionTargetTcpProxiesRequest,
   output: GetRegionTargetTcpProxiesResponse,
   errors: [],
 }));
 
-/** Creates a TargetTcpProxy resource in the specified project and region using the data included in the request. */
 export interface InsertRegionTargetTcpProxiesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -49005,13 +49004,13 @@ export const InsertRegionTargetTcpProxiesResponse = Operation;
 
 export type InsertRegionTargetTcpProxiesError = CommonErrors;
 
+/** Creates a TargetTcpProxy resource in the specified project and region using the data included in the request. */
 export const insertRegionTargetTcpProxies: API.OperationMethod<InsertRegionTargetTcpProxiesRequest, InsertRegionTargetTcpProxiesResponse, InsertRegionTargetTcpProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertRegionTargetTcpProxiesRequest,
   output: InsertRegionTargetTcpProxiesResponse,
   errors: [],
 }));
 
-/** Returns the specified instance group resource. */
 export interface GetRegionInstanceGroupsRequest {
   /** Name of the region scoping this request. */
   region: string;
@@ -49035,13 +49034,13 @@ export const GetRegionInstanceGroupsResponse = InstanceGroup;
 
 export type GetRegionInstanceGroupsError = CommonErrors;
 
+/** Returns the specified instance group resource. */
 export const getRegionInstanceGroups: API.OperationMethod<GetRegionInstanceGroupsRequest, GetRegionInstanceGroupsResponse, GetRegionInstanceGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRegionInstanceGroupsRequest,
   output: GetRegionInstanceGroupsResponse,
   errors: [],
 }));
 
-/** Retrieves the list of instance group resources contained within the specified region. */
 export interface ListRegionInstanceGroupsRequest {
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number;
@@ -49077,7 +49076,8 @@ export const ListRegionInstanceGroupsResponse = RegionInstanceGroupList;
 
 export type ListRegionInstanceGroupsError = CommonErrors;
 
-export const listRegionInstanceGroups = API.makePaginated(() => ({
+/** Retrieves the list of instance group resources contained within the specified region. */
+export const listRegionInstanceGroups: API.PaginatedOperationMethod<ListRegionInstanceGroupsRequest, ListRegionInstanceGroupsResponse, ListRegionInstanceGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRegionInstanceGroupsRequest,
   output: ListRegionInstanceGroupsResponse,
   errors: [],
@@ -49088,7 +49088,6 @@ export const listRegionInstanceGroups = API.makePaginated(() => ({
   },
 }));
 
-/** Lists the instances in the specified instance group and displays information about the named ports. Depending on the specified options, this method can list all instances or only the instances that are running. The orderBy query parameter is not supported. */
 export interface ListInstancesRegionInstanceGroupsRequest {
   /** Project ID for this request. */
   project: string;
@@ -49130,7 +49129,8 @@ export const ListInstancesRegionInstanceGroupsResponse = RegionInstanceGroupsLis
 
 export type ListInstancesRegionInstanceGroupsError = CommonErrors;
 
-export const listInstancesRegionInstanceGroups = API.makePaginated(() => ({
+/** Lists the instances in the specified instance group and displays information about the named ports. Depending on the specified options, this method can list all instances or only the instances that are running. The orderBy query parameter is not supported. */
+export const listInstancesRegionInstanceGroups: API.PaginatedOperationMethod<ListInstancesRegionInstanceGroupsRequest, ListInstancesRegionInstanceGroupsResponse, ListInstancesRegionInstanceGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListInstancesRegionInstanceGroupsRequest,
   output: ListInstancesRegionInstanceGroupsResponse,
   errors: [],
@@ -49141,7 +49141,6 @@ export const listInstancesRegionInstanceGroups = API.makePaginated(() => ({
   },
 }));
 
-/** Sets the named ports for the specified regional instance group. */
 export interface SetNamedPortsRegionInstanceGroupsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -49171,13 +49170,13 @@ export const SetNamedPortsRegionInstanceGroupsResponse = Operation;
 
 export type SetNamedPortsRegionInstanceGroupsError = CommonErrors;
 
+/** Sets the named ports for the specified regional instance group. */
 export const setNamedPortsRegionInstanceGroups: API.OperationMethod<SetNamedPortsRegionInstanceGroupsRequest, SetNamedPortsRegionInstanceGroupsResponse, SetNamedPortsRegionInstanceGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetNamedPortsRegionInstanceGroupsRequest,
   output: SetNamedPortsRegionInstanceGroupsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsRegionInstanceGroupsRequest {
   /** The name of the region for this request. */
   region: string;
@@ -49204,13 +49203,13 @@ export const TestIamPermissionsRegionInstanceGroupsResponse = TestPermissionsRes
 
 export type TestIamPermissionsRegionInstanceGroupsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsRegionInstanceGroups: API.OperationMethod<TestIamPermissionsRegionInstanceGroupsRequest, TestIamPermissionsRegionInstanceGroupsResponse, TestIamPermissionsRegionInstanceGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsRegionInstanceGroupsRequest,
   output: TestIamPermissionsRegionInstanceGroupsResponse,
   errors: [],
 }));
 
-/** Deletes the specified machine image. Deleting a machine image is permanent and cannot be undone. */
 export interface DeleteMachineImagesRequest {
   /** The name of the machine image to delete. */
   machineImage: string;
@@ -49234,13 +49233,13 @@ export const DeleteMachineImagesResponse = Operation;
 
 export type DeleteMachineImagesError = CommonErrors;
 
+/** Deletes the specified machine image. Deleting a machine image is permanent and cannot be undone. */
 export const deleteMachineImages: API.OperationMethod<DeleteMachineImagesRequest, DeleteMachineImagesResponse, DeleteMachineImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteMachineImagesRequest,
   output: DeleteMachineImagesResponse,
   errors: [],
 }));
 
-/** Creates a machine image in the specified project using the data that is included in the request. If you are creating a new machine image to update an existing instance, your new machine image should use the same network or, if applicable, the same subnetwork as the original instance. */
 export interface InsertMachineImagesRequest {
   /** Project ID for this request. */
   project: string;
@@ -49267,13 +49266,13 @@ export const InsertMachineImagesResponse = Operation;
 
 export type InsertMachineImagesError = CommonErrors;
 
+/** Creates a machine image in the specified project using the data that is included in the request. If you are creating a new machine image to update an existing instance, your new machine image should use the same network or, if applicable, the same subnetwork as the original instance. */
 export const insertMachineImages: API.OperationMethod<InsertMachineImagesRequest, InsertMachineImagesResponse, InsertMachineImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertMachineImagesRequest,
   output: InsertMachineImagesResponse,
   errors: [],
 }));
 
-/** Returns the specified machine image. */
 export interface GetMachineImagesRequest {
   /** The name of the machine image. */
   machineImage: string;
@@ -49294,13 +49293,13 @@ export const GetMachineImagesResponse = MachineImage;
 
 export type GetMachineImagesError = CommonErrors;
 
+/** Returns the specified machine image. */
 export const getMachineImages: API.OperationMethod<GetMachineImagesRequest, GetMachineImagesResponse, GetMachineImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetMachineImagesRequest,
   output: GetMachineImagesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export interface GetIamPolicyMachineImagesRequest {
   /** Requested IAM Policy version. */
   optionsRequestedPolicyVersion?: number;
@@ -49324,13 +49323,13 @@ export const GetIamPolicyMachineImagesResponse = Policy;
 
 export type GetIamPolicyMachineImagesError = CommonErrors;
 
+/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export const getIamPolicyMachineImages: API.OperationMethod<GetIamPolicyMachineImagesRequest, GetIamPolicyMachineImagesResponse, GetIamPolicyMachineImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyMachineImagesRequest,
   output: GetIamPolicyMachineImagesResponse,
   errors: [],
 }));
 
-/** Sets the labels on a machine image. To learn more about labels, read theLabeling Resources documentation. */
 export interface SetLabelsMachineImagesRequest {
   /** Project ID for this request. */
   project: string;
@@ -49354,13 +49353,13 @@ export const SetLabelsMachineImagesResponse = Operation;
 
 export type SetLabelsMachineImagesError = CommonErrors;
 
+/** Sets the labels on a machine image. To learn more about labels, read theLabeling Resources documentation. */
 export const setLabelsMachineImages: API.OperationMethod<SetLabelsMachineImagesRequest, SetLabelsMachineImagesResponse, SetLabelsMachineImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetLabelsMachineImagesRequest,
   output: SetLabelsMachineImagesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsMachineImagesRequest {
   /** Project ID for this request. */
   project: string;
@@ -49384,13 +49383,13 @@ export const TestIamPermissionsMachineImagesResponse = TestPermissionsResponse;
 
 export type TestIamPermissionsMachineImagesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsMachineImages: API.OperationMethod<TestIamPermissionsMachineImagesRequest, TestIamPermissionsMachineImagesResponse, TestIamPermissionsMachineImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsMachineImagesRequest,
   output: TestIamPermissionsMachineImagesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of machine images that are contained within the specified project. */
 export interface ListMachineImagesRequest {
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number;
@@ -49423,7 +49422,8 @@ export const ListMachineImagesResponse = MachineImageList;
 
 export type ListMachineImagesError = CommonErrors;
 
-export const listMachineImages = API.makePaginated(() => ({
+/** Retrieves a list of machine images that are contained within the specified project. */
+export const listMachineImages: API.PaginatedOperationMethod<ListMachineImagesRequest, ListMachineImagesResponse, ListMachineImagesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListMachineImagesRequest,
   output: ListMachineImagesResponse,
   errors: [],
@@ -49434,7 +49434,6 @@ export const listMachineImages = API.makePaginated(() => ({
   },
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export interface SetIamPolicyMachineImagesRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -49458,13 +49457,13 @@ export const SetIamPolicyMachineImagesResponse = Policy;
 
 export type SetIamPolicyMachineImagesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export const setIamPolicyMachineImages: API.OperationMethod<SetIamPolicyMachineImagesRequest, SetIamPolicyMachineImagesResponse, SetIamPolicyMachineImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyMachineImagesRequest,
   output: SetIamPolicyMachineImagesResponse,
   errors: [],
 }));
 
-/** Returns the specified TargetGrpcProxy resource in the given scope. */
 export interface GetTargetGrpcProxiesRequest {
   /** Name of the TargetGrpcProxy resource to return. */
   targetGrpcProxy: string;
@@ -49485,13 +49484,13 @@ export const GetTargetGrpcProxiesResponse = TargetGrpcProxy;
 
 export type GetTargetGrpcProxiesError = CommonErrors;
 
+/** Returns the specified TargetGrpcProxy resource in the given scope. */
 export const getTargetGrpcProxies: API.OperationMethod<GetTargetGrpcProxiesRequest, GetTargetGrpcProxiesResponse, GetTargetGrpcProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetTargetGrpcProxiesRequest,
   output: GetTargetGrpcProxiesResponse,
   errors: [],
 }));
 
-/** Patches the specified TargetGrpcProxy resource with the data included in the request. This method supports PATCH semantics and usesJSON merge patch format and processing rules. */
 export interface PatchTargetGrpcProxiesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -49518,13 +49517,13 @@ export const PatchTargetGrpcProxiesResponse = Operation;
 
 export type PatchTargetGrpcProxiesError = CommonErrors;
 
+/** Patches the specified TargetGrpcProxy resource with the data included in the request. This method supports PATCH semantics and usesJSON merge patch format and processing rules. */
 export const patchTargetGrpcProxies: API.OperationMethod<PatchTargetGrpcProxiesRequest, PatchTargetGrpcProxiesResponse, PatchTargetGrpcProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchTargetGrpcProxiesRequest,
   output: PatchTargetGrpcProxiesResponse,
   errors: [],
 }));
 
-/** Creates a TargetGrpcProxy in the specified project in the given scope using the parameters that are included in the request. */
 export interface InsertTargetGrpcProxiesRequest {
   /** Project ID for this request. */
   project: string;
@@ -49548,13 +49547,13 @@ export const InsertTargetGrpcProxiesResponse = Operation;
 
 export type InsertTargetGrpcProxiesError = CommonErrors;
 
+/** Creates a TargetGrpcProxy in the specified project in the given scope using the parameters that are included in the request. */
 export const insertTargetGrpcProxies: API.OperationMethod<InsertTargetGrpcProxiesRequest, InsertTargetGrpcProxiesResponse, InsertTargetGrpcProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertTargetGrpcProxiesRequest,
   output: InsertTargetGrpcProxiesResponse,
   errors: [],
 }));
 
-/** Deletes the specified TargetGrpcProxy in the given scope */
 export interface DeleteTargetGrpcProxiesRequest {
   /** Project ID for this request. */
   project: string;
@@ -49578,13 +49577,13 @@ export const DeleteTargetGrpcProxiesResponse = Operation;
 
 export type DeleteTargetGrpcProxiesError = CommonErrors;
 
+/** Deletes the specified TargetGrpcProxy in the given scope */
 export const deleteTargetGrpcProxies: API.OperationMethod<DeleteTargetGrpcProxiesRequest, DeleteTargetGrpcProxiesResponse, DeleteTargetGrpcProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteTargetGrpcProxiesRequest,
   output: DeleteTargetGrpcProxiesResponse,
   errors: [],
 }));
 
-/** Lists the TargetGrpcProxies for a project in the given scope. */
 export interface ListTargetGrpcProxiesRequest {
   /** Opt-in for partial success behavior which provides partial results in case of failure. The default value is false. For example, when partial success behavior is enabled, aggregatedList for a single zone scope either returns all resources in the zone or no resources, with an error code. */
   returnPartialSuccess?: boolean;
@@ -49617,7 +49616,8 @@ export const ListTargetGrpcProxiesResponse = TargetGrpcProxyList;
 
 export type ListTargetGrpcProxiesError = CommonErrors;
 
-export const listTargetGrpcProxies = API.makePaginated(() => ({
+/** Lists the TargetGrpcProxies for a project in the given scope. */
+export const listTargetGrpcProxies: API.PaginatedOperationMethod<ListTargetGrpcProxiesRequest, ListTargetGrpcProxiesResponse, ListTargetGrpcProxiesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListTargetGrpcProxiesRequest,
   output: ListTargetGrpcProxiesResponse,
   errors: [],
@@ -49628,7 +49628,6 @@ export const listTargetGrpcProxies = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the specified BackendBucket resource. */
 export interface GetBackendBucketsRequest {
   /** Project ID for this request. */
   project: string;
@@ -49649,13 +49648,13 @@ export const GetBackendBucketsResponse = BackendBucket;
 
 export type GetBackendBucketsError = CommonErrors;
 
+/** Returns the specified BackendBucket resource. */
 export const getBackendBuckets: API.OperationMethod<GetBackendBucketsRequest, GetBackendBucketsResponse, GetBackendBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBackendBucketsRequest,
   output: GetBackendBucketsResponse,
   errors: [],
 }));
 
-/** Creates a BackendBucket resource in the specified project using the data included in the request. */
 export interface InsertBackendBucketsRequest {
   /** Project ID for this request. */
   project: string;
@@ -49679,13 +49678,13 @@ export const InsertBackendBucketsResponse = Operation;
 
 export type InsertBackendBucketsError = CommonErrors;
 
+/** Creates a BackendBucket resource in the specified project using the data included in the request. */
 export const insertBackendBuckets: API.OperationMethod<InsertBackendBucketsRequest, InsertBackendBucketsResponse, InsertBackendBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertBackendBucketsRequest,
   output: InsertBackendBucketsResponse,
   errors: [],
 }));
 
-/** Updates the specified BackendBucket resource with the data included in the request. */
 export interface UpdateBackendBucketsRequest {
   /** Project ID for this request. */
   project: string;
@@ -49712,13 +49711,13 @@ export const UpdateBackendBucketsResponse = Operation;
 
 export type UpdateBackendBucketsError = CommonErrors;
 
+/** Updates the specified BackendBucket resource with the data included in the request. */
 export const updateBackendBuckets: API.OperationMethod<UpdateBackendBucketsRequest, UpdateBackendBucketsResponse, UpdateBackendBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateBackendBucketsRequest,
   output: UpdateBackendBucketsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export interface GetIamPolicyBackendBucketsRequest {
   /** Project ID for this request. */
   project: string;
@@ -49742,13 +49741,13 @@ export const GetIamPolicyBackendBucketsResponse = Policy;
 
 export type GetIamPolicyBackendBucketsError = CommonErrors;
 
+/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export const getIamPolicyBackendBuckets: API.OperationMethod<GetIamPolicyBackendBucketsRequest, GetIamPolicyBackendBucketsResponse, GetIamPolicyBackendBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyBackendBucketsRequest,
   output: GetIamPolicyBackendBucketsResponse,
   errors: [],
 }));
 
-/** Deletes the specified BackendBucket resource. */
 export interface DeleteBackendBucketsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -49772,13 +49771,13 @@ export const DeleteBackendBucketsResponse = Operation;
 
 export type DeleteBackendBucketsError = CommonErrors;
 
+/** Deletes the specified BackendBucket resource. */
 export const deleteBackendBuckets: API.OperationMethod<DeleteBackendBucketsRequest, DeleteBackendBucketsResponse, DeleteBackendBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteBackendBucketsRequest,
   output: DeleteBackendBucketsResponse,
   errors: [],
 }));
 
-/** Retrieves the list of BackendBucket resources available to the specified project. */
 export interface ListBackendBucketsRequest {
   /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
   orderBy?: string;
@@ -49811,7 +49810,8 @@ export const ListBackendBucketsResponse = BackendBucketList;
 
 export type ListBackendBucketsError = CommonErrors;
 
-export const listBackendBuckets = API.makePaginated(() => ({
+/** Retrieves the list of BackendBucket resources available to the specified project. */
+export const listBackendBuckets: API.PaginatedOperationMethod<ListBackendBucketsRequest, ListBackendBucketsResponse, ListBackendBucketsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBackendBucketsRequest,
   output: ListBackendBucketsResponse,
   errors: [],
@@ -49822,7 +49822,6 @@ export const listBackendBuckets = API.makePaginated(() => ({
   },
 }));
 
-/** Adds a key for validating requests with signed URLs for this backend bucket. */
 export interface AddSignedUrlKeyBackendBucketsRequest {
   /** Name of the BackendBucket resource to which the Signed URL Key should be added. The name should conform to RFC1035. */
   backendBucket: string;
@@ -49849,13 +49848,13 @@ export const AddSignedUrlKeyBackendBucketsResponse = Operation;
 
 export type AddSignedUrlKeyBackendBucketsError = CommonErrors;
 
+/** Adds a key for validating requests with signed URLs for this backend bucket. */
 export const addSignedUrlKeyBackendBuckets: API.OperationMethod<AddSignedUrlKeyBackendBucketsRequest, AddSignedUrlKeyBackendBucketsResponse, AddSignedUrlKeyBackendBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddSignedUrlKeyBackendBucketsRequest,
   output: AddSignedUrlKeyBackendBucketsResponse,
   errors: [],
 }));
 
-/** Deletes a key for validating requests with signed URLs for this backend bucket. */
 export interface DeleteSignedUrlKeyBackendBucketsRequest {
   /** Name of the BackendBucket resource to which the Signed URL Key should be added. The name should conform to RFC1035. */
   backendBucket: string;
@@ -49882,13 +49881,13 @@ export const DeleteSignedUrlKeyBackendBucketsResponse = Operation;
 
 export type DeleteSignedUrlKeyBackendBucketsError = CommonErrors;
 
+/** Deletes a key for validating requests with signed URLs for this backend bucket. */
 export const deleteSignedUrlKeyBackendBuckets: API.OperationMethod<DeleteSignedUrlKeyBackendBucketsRequest, DeleteSignedUrlKeyBackendBucketsResponse, DeleteSignedUrlKeyBackendBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteSignedUrlKeyBackendBucketsRequest,
   output: DeleteSignedUrlKeyBackendBucketsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsBackendBucketsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -49912,13 +49911,13 @@ export const TestIamPermissionsBackendBucketsResponse = TestPermissionsResponse;
 
 export type TestIamPermissionsBackendBucketsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsBackendBuckets: API.OperationMethod<TestIamPermissionsBackendBucketsRequest, TestIamPermissionsBackendBucketsResponse, TestIamPermissionsBackendBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsBackendBucketsRequest,
   output: TestIamPermissionsBackendBucketsResponse,
   errors: [],
 }));
 
-/** Sets the edge security policy for the specified backend bucket. */
 export interface SetEdgeSecurityPolicyBackendBucketsRequest {
   /** Name of the BackendBucket resource to which the security policy should be set. The name should conform to RFC1035. */
   backendBucket: string;
@@ -49945,13 +49944,13 @@ export const SetEdgeSecurityPolicyBackendBucketsResponse = Operation;
 
 export type SetEdgeSecurityPolicyBackendBucketsError = CommonErrors;
 
+/** Sets the edge security policy for the specified backend bucket. */
 export const setEdgeSecurityPolicyBackendBuckets: API.OperationMethod<SetEdgeSecurityPolicyBackendBucketsRequest, SetEdgeSecurityPolicyBackendBucketsResponse, SetEdgeSecurityPolicyBackendBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetEdgeSecurityPolicyBackendBucketsRequest,
   output: SetEdgeSecurityPolicyBackendBucketsResponse,
   errors: [],
 }));
 
-/** Updates the specified BackendBucket resource with the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export interface PatchBackendBucketsRequest {
   /** Name of the BackendBucket resource to patch. */
   backendBucket: string;
@@ -49978,13 +49977,13 @@ export const PatchBackendBucketsResponse = Operation;
 
 export type PatchBackendBucketsError = CommonErrors;
 
+/** Updates the specified BackendBucket resource with the data included in the request. This method supportsPATCH semantics and uses theJSON merge patch format and processing rules. */
 export const patchBackendBuckets: API.OperationMethod<PatchBackendBucketsRequest, PatchBackendBucketsResponse, PatchBackendBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchBackendBucketsRequest,
   output: PatchBackendBucketsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export interface SetIamPolicyBackendBucketsRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -50008,13 +50007,13 @@ export const SetIamPolicyBackendBucketsResponse = Policy;
 
 export type SetIamPolicyBackendBucketsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export const setIamPolicyBackendBuckets: API.OperationMethod<SetIamPolicyBackendBucketsRequest, SetIamPolicyBackendBucketsResponse, SetIamPolicyBackendBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyBackendBucketsRequest,
   output: SetIamPolicyBackendBucketsResponse,
   errors: [],
 }));
 
-/** Retrieves the list of TargetTcpProxy resources available to the specified project. */
 export interface ListTargetTcpProxiesRequest {
   /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
   orderBy?: string;
@@ -50047,7 +50046,8 @@ export const ListTargetTcpProxiesResponse = TargetTcpProxyList;
 
 export type ListTargetTcpProxiesError = CommonErrors;
 
-export const listTargetTcpProxies = API.makePaginated(() => ({
+/** Retrieves the list of TargetTcpProxy resources available to the specified project. */
+export const listTargetTcpProxies: API.PaginatedOperationMethod<ListTargetTcpProxiesRequest, ListTargetTcpProxiesResponse, ListTargetTcpProxiesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListTargetTcpProxiesRequest,
   output: ListTargetTcpProxiesResponse,
   errors: [],
@@ -50058,7 +50058,6 @@ export const listTargetTcpProxies = API.makePaginated(() => ({
   },
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsTargetTcpProxiesRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -50082,13 +50081,13 @@ export const TestIamPermissionsTargetTcpProxiesResponse = TestPermissionsRespons
 
 export type TestIamPermissionsTargetTcpProxiesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsTargetTcpProxies: API.OperationMethod<TestIamPermissionsTargetTcpProxiesRequest, TestIamPermissionsTargetTcpProxiesResponse, TestIamPermissionsTargetTcpProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsTargetTcpProxiesRequest,
   output: TestIamPermissionsTargetTcpProxiesResponse,
   errors: [],
 }));
 
-/** Changes the ProxyHeaderType for TargetTcpProxy. */
 export interface SetProxyHeaderTargetTcpProxiesRequest {
   /** Project ID for this request. */
   project: string;
@@ -50115,13 +50114,13 @@ export const SetProxyHeaderTargetTcpProxiesResponse = Operation;
 
 export type SetProxyHeaderTargetTcpProxiesError = CommonErrors;
 
+/** Changes the ProxyHeaderType for TargetTcpProxy. */
 export const setProxyHeaderTargetTcpProxies: API.OperationMethod<SetProxyHeaderTargetTcpProxiesRequest, SetProxyHeaderTargetTcpProxiesResponse, SetProxyHeaderTargetTcpProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetProxyHeaderTargetTcpProxiesRequest,
   output: SetProxyHeaderTargetTcpProxiesResponse,
   errors: [],
 }));
 
-/** Returns the specified TargetTcpProxy resource. */
 export interface GetTargetTcpProxiesRequest {
   /** Project ID for this request. */
   project: string;
@@ -50142,13 +50141,13 @@ export const GetTargetTcpProxiesResponse = TargetTcpProxy;
 
 export type GetTargetTcpProxiesError = CommonErrors;
 
+/** Returns the specified TargetTcpProxy resource. */
 export const getTargetTcpProxies: API.OperationMethod<GetTargetTcpProxiesRequest, GetTargetTcpProxiesResponse, GetTargetTcpProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetTargetTcpProxiesRequest,
   output: GetTargetTcpProxiesResponse,
   errors: [],
 }));
 
-/** Creates a TargetTcpProxy resource in the specified project using the data included in the request. */
 export interface InsertTargetTcpProxiesRequest {
   /** Project ID for this request. */
   project: string;
@@ -50172,13 +50171,13 @@ export const InsertTargetTcpProxiesResponse = Operation;
 
 export type InsertTargetTcpProxiesError = CommonErrors;
 
+/** Creates a TargetTcpProxy resource in the specified project using the data included in the request. */
 export const insertTargetTcpProxies: API.OperationMethod<InsertTargetTcpProxiesRequest, InsertTargetTcpProxiesResponse, InsertTargetTcpProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertTargetTcpProxiesRequest,
   output: InsertTargetTcpProxiesResponse,
   errors: [],
 }));
 
-/** Changes the BackendService for TargetTcpProxy. */
 export interface SetBackendServiceTargetTcpProxiesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -50205,13 +50204,13 @@ export const SetBackendServiceTargetTcpProxiesResponse = Operation;
 
 export type SetBackendServiceTargetTcpProxiesError = CommonErrors;
 
+/** Changes the BackendService for TargetTcpProxy. */
 export const setBackendServiceTargetTcpProxies: API.OperationMethod<SetBackendServiceTargetTcpProxiesRequest, SetBackendServiceTargetTcpProxiesResponse, SetBackendServiceTargetTcpProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetBackendServiceTargetTcpProxiesRequest,
   output: SetBackendServiceTargetTcpProxiesResponse,
   errors: [],
 }));
 
-/** Retrieves the list of all TargetTcpProxy resources, regional and global, available to the specified project. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListTargetTcpProxiesRequest {
   /** The Shared VPC service project id or service project number for which aggregated list request is invoked for subnetworks list-usable api. */
   serviceProjectNumber?: string;
@@ -50250,7 +50249,8 @@ export const AggregatedListTargetTcpProxiesResponse = TargetTcpProxyAggregatedLi
 
 export type AggregatedListTargetTcpProxiesError = CommonErrors;
 
-export const aggregatedListTargetTcpProxies = API.makePaginated(() => ({
+/** Retrieves the list of all TargetTcpProxy resources, regional and global, available to the specified project. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListTargetTcpProxies: API.PaginatedOperationMethod<AggregatedListTargetTcpProxiesRequest, AggregatedListTargetTcpProxiesResponse, AggregatedListTargetTcpProxiesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListTargetTcpProxiesRequest,
   output: AggregatedListTargetTcpProxiesResponse,
   errors: [],
@@ -50261,7 +50261,6 @@ export const aggregatedListTargetTcpProxies = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the specified TargetTcpProxy resource. */
 export interface DeleteTargetTcpProxiesRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -50285,13 +50284,13 @@ export const DeleteTargetTcpProxiesResponse = Operation;
 
 export type DeleteTargetTcpProxiesError = CommonErrors;
 
+/** Deletes the specified TargetTcpProxy resource. */
 export const deleteTargetTcpProxies: API.OperationMethod<DeleteTargetTcpProxiesRequest, DeleteTargetTcpProxiesResponse, DeleteTargetTcpProxiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteTargetTcpProxiesRequest,
   output: DeleteTargetTcpProxiesResponse,
   errors: [],
 }));
 
-/** Deletes the specified externalVpnGateway. */
 export interface DeleteExternalVpnGatewaysRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -50315,13 +50314,13 @@ export const DeleteExternalVpnGatewaysResponse = Operation;
 
 export type DeleteExternalVpnGatewaysError = CommonErrors;
 
+/** Deletes the specified externalVpnGateway. */
 export const deleteExternalVpnGateways: API.OperationMethod<DeleteExternalVpnGatewaysRequest, DeleteExternalVpnGatewaysResponse, DeleteExternalVpnGatewaysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteExternalVpnGatewaysRequest,
   output: DeleteExternalVpnGatewaysResponse,
   errors: [],
 }));
 
-/** Returns the specified externalVpnGateway. Get a list of available externalVpnGateways by making a list() request. */
 export interface GetExternalVpnGatewaysRequest {
   /** Name of the externalVpnGateway to return. */
   externalVpnGateway: string;
@@ -50342,13 +50341,13 @@ export const GetExternalVpnGatewaysResponse = ExternalVpnGateway;
 
 export type GetExternalVpnGatewaysError = CommonErrors;
 
+/** Returns the specified externalVpnGateway. Get a list of available externalVpnGateways by making a list() request. */
 export const getExternalVpnGateways: API.OperationMethod<GetExternalVpnGatewaysRequest, GetExternalVpnGatewaysResponse, GetExternalVpnGatewaysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetExternalVpnGatewaysRequest,
   output: GetExternalVpnGatewaysResponse,
   errors: [],
 }));
 
-/** Retrieves the list of ExternalVpnGateway available to the specified project. */
 export interface ListExternalVpnGatewaysRequest {
   /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
   orderBy?: string;
@@ -50381,7 +50380,8 @@ export const ListExternalVpnGatewaysResponse = ExternalVpnGatewayList;
 
 export type ListExternalVpnGatewaysError = CommonErrors;
 
-export const listExternalVpnGateways = API.makePaginated(() => ({
+/** Retrieves the list of ExternalVpnGateway available to the specified project. */
+export const listExternalVpnGateways: API.PaginatedOperationMethod<ListExternalVpnGatewaysRequest, ListExternalVpnGatewaysResponse, ListExternalVpnGatewaysError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListExternalVpnGatewaysRequest,
   output: ListExternalVpnGatewaysResponse,
   errors: [],
@@ -50392,7 +50392,6 @@ export const listExternalVpnGateways = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a ExternalVpnGateway in the specified project using the data included in the request. */
 export interface InsertExternalVpnGatewaysRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -50416,13 +50415,13 @@ export const InsertExternalVpnGatewaysResponse = Operation;
 
 export type InsertExternalVpnGatewaysError = CommonErrors;
 
+/** Creates a ExternalVpnGateway in the specified project using the data included in the request. */
 export const insertExternalVpnGateways: API.OperationMethod<InsertExternalVpnGatewaysRequest, InsertExternalVpnGatewaysResponse, InsertExternalVpnGatewaysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertExternalVpnGatewaysRequest,
   output: InsertExternalVpnGatewaysResponse,
   errors: [],
 }));
 
-/** Sets the labels on an ExternalVpnGateway. To learn more about labels, read the Labeling Resources documentation. */
 export interface SetLabelsExternalVpnGatewaysRequest {
   /** Project ID for this request. */
   project: string;
@@ -50446,13 +50445,13 @@ export const SetLabelsExternalVpnGatewaysResponse = Operation;
 
 export type SetLabelsExternalVpnGatewaysError = CommonErrors;
 
+/** Sets the labels on an ExternalVpnGateway. To learn more about labels, read the Labeling Resources documentation. */
 export const setLabelsExternalVpnGateways: API.OperationMethod<SetLabelsExternalVpnGatewaysRequest, SetLabelsExternalVpnGatewaysResponse, SetLabelsExternalVpnGatewaysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetLabelsExternalVpnGatewaysRequest,
   output: SetLabelsExternalVpnGatewaysResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsExternalVpnGatewaysRequest {
   /** Name or id of the resource for this request. */
   resource: string;
@@ -50476,13 +50475,13 @@ export const TestIamPermissionsExternalVpnGatewaysResponse = TestPermissionsResp
 
 export type TestIamPermissionsExternalVpnGatewaysError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsExternalVpnGateways: API.OperationMethod<TestIamPermissionsExternalVpnGatewaysRequest, TestIamPermissionsExternalVpnGatewaysResponse, TestIamPermissionsExternalVpnGatewaysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsExternalVpnGatewaysRequest,
   output: TestIamPermissionsExternalVpnGatewaysResponse,
   errors: [],
 }));
 
-/** Returns the specified global PublicDelegatedPrefix resource. */
 export interface GetGlobalPublicDelegatedPrefixesRequest {
   /** Name of the PublicDelegatedPrefix resource to return. */
   publicDelegatedPrefix: string;
@@ -50503,13 +50502,13 @@ export const GetGlobalPublicDelegatedPrefixesResponse = PublicDelegatedPrefix;
 
 export type GetGlobalPublicDelegatedPrefixesError = CommonErrors;
 
+/** Returns the specified global PublicDelegatedPrefix resource. */
 export const getGlobalPublicDelegatedPrefixes: API.OperationMethod<GetGlobalPublicDelegatedPrefixesRequest, GetGlobalPublicDelegatedPrefixesResponse, GetGlobalPublicDelegatedPrefixesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetGlobalPublicDelegatedPrefixesRequest,
   output: GetGlobalPublicDelegatedPrefixesResponse,
   errors: [],
 }));
 
-/** Patches the specified global PublicDelegatedPrefix resource with the data included in the request. This method supportsPATCH semantics and usesJSON merge patch format and processing rules. */
 export interface PatchGlobalPublicDelegatedPrefixesRequest {
   /** Name of the PublicDelegatedPrefix resource to patch. */
   publicDelegatedPrefix: string;
@@ -50536,13 +50535,13 @@ export const PatchGlobalPublicDelegatedPrefixesResponse = Operation;
 
 export type PatchGlobalPublicDelegatedPrefixesError = CommonErrors;
 
+/** Patches the specified global PublicDelegatedPrefix resource with the data included in the request. This method supportsPATCH semantics and usesJSON merge patch format and processing rules. */
 export const patchGlobalPublicDelegatedPrefixes: API.OperationMethod<PatchGlobalPublicDelegatedPrefixesRequest, PatchGlobalPublicDelegatedPrefixesResponse, PatchGlobalPublicDelegatedPrefixesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchGlobalPublicDelegatedPrefixesRequest,
   output: PatchGlobalPublicDelegatedPrefixesResponse,
   errors: [],
 }));
 
-/** Creates a global PublicDelegatedPrefix in the specified project using the parameters that are included in the request. */
 export interface InsertGlobalPublicDelegatedPrefixesRequest {
   /** Project ID for this request. */
   project: string;
@@ -50566,13 +50565,13 @@ export const InsertGlobalPublicDelegatedPrefixesResponse = Operation;
 
 export type InsertGlobalPublicDelegatedPrefixesError = CommonErrors;
 
+/** Creates a global PublicDelegatedPrefix in the specified project using the parameters that are included in the request. */
 export const insertGlobalPublicDelegatedPrefixes: API.OperationMethod<InsertGlobalPublicDelegatedPrefixesRequest, InsertGlobalPublicDelegatedPrefixesResponse, InsertGlobalPublicDelegatedPrefixesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertGlobalPublicDelegatedPrefixesRequest,
   output: InsertGlobalPublicDelegatedPrefixesResponse,
   errors: [],
 }));
 
-/** Deletes the specified global PublicDelegatedPrefix. */
 export interface DeleteGlobalPublicDelegatedPrefixesRequest {
   /** Project ID for this request. */
   project: string;
@@ -50596,13 +50595,13 @@ export const DeleteGlobalPublicDelegatedPrefixesResponse = Operation;
 
 export type DeleteGlobalPublicDelegatedPrefixesError = CommonErrors;
 
+/** Deletes the specified global PublicDelegatedPrefix. */
 export const deleteGlobalPublicDelegatedPrefixes: API.OperationMethod<DeleteGlobalPublicDelegatedPrefixesRequest, DeleteGlobalPublicDelegatedPrefixesResponse, DeleteGlobalPublicDelegatedPrefixesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteGlobalPublicDelegatedPrefixesRequest,
   output: DeleteGlobalPublicDelegatedPrefixesResponse,
   errors: [],
 }));
 
-/** Lists the global PublicDelegatedPrefixes for a project. */
 export interface ListGlobalPublicDelegatedPrefixesRequest {
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string;
@@ -50635,7 +50634,8 @@ export const ListGlobalPublicDelegatedPrefixesResponse = PublicDelegatedPrefixLi
 
 export type ListGlobalPublicDelegatedPrefixesError = CommonErrors;
 
-export const listGlobalPublicDelegatedPrefixes = API.makePaginated(() => ({
+/** Lists the global PublicDelegatedPrefixes for a project. */
+export const listGlobalPublicDelegatedPrefixes: API.PaginatedOperationMethod<ListGlobalPublicDelegatedPrefixesRequest, ListGlobalPublicDelegatedPrefixesResponse, ListGlobalPublicDelegatedPrefixesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListGlobalPublicDelegatedPrefixesRequest,
   output: ListGlobalPublicDelegatedPrefixesResponse,
   errors: [],
@@ -50646,7 +50646,6 @@ export const listGlobalPublicDelegatedPrefixes = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a storage pool in the specified project using the data in the request. */
 export interface InsertStoragePoolsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -50673,13 +50672,13 @@ export const InsertStoragePoolsResponse = Operation;
 
 export type InsertStoragePoolsError = CommonErrors;
 
+/** Creates a storage pool in the specified project using the data in the request. */
 export const insertStoragePools: API.OperationMethod<InsertStoragePoolsRequest, InsertStoragePoolsResponse, InsertStoragePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertStoragePoolsRequest,
   output: InsertStoragePoolsResponse,
   errors: [],
 }));
 
-/** Deletes the specified storage pool. Deleting a storagePool removes its data permanently and is irreversible. However, deleting a storagePool does not delete any snapshots previously made from the storagePool. You must separately delete snapshots. */
 export interface DeleteStoragePoolsRequest {
   /** Name of the storage pool to delete. */
   storagePool: string;
@@ -50706,13 +50705,13 @@ export const DeleteStoragePoolsResponse = Operation;
 
 export type DeleteStoragePoolsError = CommonErrors;
 
+/** Deletes the specified storage pool. Deleting a storagePool removes its data permanently and is irreversible. However, deleting a storagePool does not delete any snapshots previously made from the storagePool. You must separately delete snapshots. */
 export const deleteStoragePools: API.OperationMethod<DeleteStoragePoolsRequest, DeleteStoragePoolsResponse, DeleteStoragePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteStoragePoolsRequest,
   output: DeleteStoragePoolsResponse,
   errors: [],
 }));
 
-/** Lists the disks in a specified storage pool. */
 export interface ListDisksStoragePoolsRequest {
   /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
   orderBy?: string;
@@ -50751,7 +50750,8 @@ export const ListDisksStoragePoolsResponse = StoragePoolListDisks;
 
 export type ListDisksStoragePoolsError = CommonErrors;
 
-export const listDisksStoragePools = API.makePaginated(() => ({
+/** Lists the disks in a specified storage pool. */
+export const listDisksStoragePools: API.PaginatedOperationMethod<ListDisksStoragePoolsRequest, ListDisksStoragePoolsResponse, ListDisksStoragePoolsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListDisksStoragePoolsRequest,
   output: ListDisksStoragePoolsResponse,
   errors: [],
@@ -50762,7 +50762,6 @@ export const listDisksStoragePools = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves a list of storage pools contained within the specified zone. */
 export interface ListStoragePoolsRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -50798,7 +50797,8 @@ export const ListStoragePoolsResponse = StoragePoolList;
 
 export type ListStoragePoolsError = CommonErrors;
 
-export const listStoragePools = API.makePaginated(() => ({
+/** Retrieves a list of storage pools contained within the specified zone. */
+export const listStoragePools: API.PaginatedOperationMethod<ListStoragePoolsRequest, ListStoragePoolsResponse, ListStoragePoolsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListStoragePoolsRequest,
   output: ListStoragePoolsResponse,
   errors: [],
@@ -50809,7 +50809,6 @@ export const listStoragePools = API.makePaginated(() => ({
   },
 }));
 
-/** Updates the specified storagePool with the data included in the request. The update is performed only on selected fields included as part of update-mask. Only the following fields can be modified: pool_provisioned_capacity_gb, pool_provisioned_iops and pool_provisioned_throughput. */
 export interface UpdateStoragePoolsRequest {
   /** update_mask indicates fields to be updated as part of this request. */
   updateMask?: string;
@@ -50842,13 +50841,13 @@ export const UpdateStoragePoolsResponse = Operation;
 
 export type UpdateStoragePoolsError = CommonErrors;
 
+/** Updates the specified storagePool with the data included in the request. The update is performed only on selected fields included as part of update-mask. Only the following fields can be modified: pool_provisioned_capacity_gb, pool_provisioned_iops and pool_provisioned_throughput. */
 export const updateStoragePools: API.OperationMethod<UpdateStoragePoolsRequest, UpdateStoragePoolsResponse, UpdateStoragePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateStoragePoolsRequest,
   output: UpdateStoragePoolsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export interface SetIamPolicyStoragePoolsRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -50875,13 +50874,13 @@ export const SetIamPolicyStoragePoolsResponse = Policy;
 
 export type SetIamPolicyStoragePoolsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export const setIamPolicyStoragePools: API.OperationMethod<SetIamPolicyStoragePoolsRequest, SetIamPolicyStoragePoolsResponse, SetIamPolicyStoragePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyStoragePoolsRequest,
   output: SetIamPolicyStoragePoolsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export interface GetIamPolicyStoragePoolsRequest {
   /** Project ID for this request. */
   project: string;
@@ -50908,13 +50907,13 @@ export const GetIamPolicyStoragePoolsResponse = Policy;
 
 export type GetIamPolicyStoragePoolsError = CommonErrors;
 
+/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export const getIamPolicyStoragePools: API.OperationMethod<GetIamPolicyStoragePoolsRequest, GetIamPolicyStoragePoolsResponse, GetIamPolicyStoragePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyStoragePoolsRequest,
   output: GetIamPolicyStoragePoolsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsStoragePoolsRequest {
   /** The name of the zone for this request. */
   zone: string;
@@ -50941,13 +50940,13 @@ export const TestIamPermissionsStoragePoolsResponse = TestPermissionsResponse;
 
 export type TestIamPermissionsStoragePoolsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsStoragePools: API.OperationMethod<TestIamPermissionsStoragePoolsRequest, TestIamPermissionsStoragePoolsResponse, TestIamPermissionsStoragePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsStoragePoolsRequest,
   output: TestIamPermissionsStoragePoolsResponse,
   errors: [],
 }));
 
-/** Retrieves an aggregated list of storage pools. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListStoragePoolsRequest {
   /** Indicates whether every visible scope for each scope type (zone, region, global) should be included in the response. For new resource types added after this field, the flag has no effect as new resource types will always include every visible scope for each scope type in response. For resource types which predate this field, if this flag is omitted or false, only scopes of the scope types where the resource type is expected to be found will be included. */
   includeAllScopes?: boolean;
@@ -50986,7 +50985,8 @@ export const AggregatedListStoragePoolsResponse = StoragePoolAggregatedList;
 
 export type AggregatedListStoragePoolsError = CommonErrors;
 
-export const aggregatedListStoragePools = API.makePaginated(() => ({
+/** Retrieves an aggregated list of storage pools. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListStoragePools: API.PaginatedOperationMethod<AggregatedListStoragePoolsRequest, AggregatedListStoragePoolsResponse, AggregatedListStoragePoolsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListStoragePoolsRequest,
   output: AggregatedListStoragePoolsResponse,
   errors: [],
@@ -50997,7 +50997,6 @@ export const aggregatedListStoragePools = API.makePaginated(() => ({
   },
 }));
 
-/** Returns a specified storage pool. Gets a list of available storage pools by making a list() request. */
 export interface GetStoragePoolsRequest {
   /** Name of the storage pool to return. */
   storagePool: string;
@@ -51021,13 +51020,13 @@ export const GetStoragePoolsResponse = StoragePool;
 
 export type GetStoragePoolsError = CommonErrors;
 
+/** Returns a specified storage pool. Gets a list of available storage pools by making a list() request. */
 export const getStoragePools: API.OperationMethod<GetStoragePoolsRequest, GetStoragePoolsResponse, GetStoragePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetStoragePoolsRequest,
   output: GetStoragePoolsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of storage pool types available to the specified project. */
 export interface ListStoragePoolTypesRequest {
   /** Opt-in for partial success behavior which provides partial results in case of failure. The default value is false. For example, when partial success behavior is enabled, aggregatedList for a single zone scope either returns all resources in the zone or no resources, with an error code. */
   returnPartialSuccess?: boolean;
@@ -51063,7 +51062,8 @@ export const ListStoragePoolTypesResponse = StoragePoolTypeList;
 
 export type ListStoragePoolTypesError = CommonErrors;
 
-export const listStoragePoolTypes = API.makePaginated(() => ({
+/** Retrieves a list of storage pool types available to the specified project. */
+export const listStoragePoolTypes: API.PaginatedOperationMethod<ListStoragePoolTypesRequest, ListStoragePoolTypesResponse, ListStoragePoolTypesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListStoragePoolTypesRequest,
   output: ListStoragePoolTypesResponse,
   errors: [],
@@ -51074,7 +51074,6 @@ export const listStoragePoolTypes = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves an aggregated list of storage pool types. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
 export interface AggregatedListStoragePoolTypesRequest {
   /** Opt-in for partial success behavior which provides partial results in case of failure. The default value is false. For example, when partial success behavior is enabled, aggregatedList for a single zone scope either returns all resources in the zone or no resources, with an error code. */
   returnPartialSuccess?: boolean;
@@ -51113,7 +51112,8 @@ export const AggregatedListStoragePoolTypesResponse = StoragePoolTypeAggregatedL
 
 export type AggregatedListStoragePoolTypesError = CommonErrors;
 
-export const aggregatedListStoragePoolTypes = API.makePaginated(() => ({
+/** Retrieves an aggregated list of storage pool types. To prevent failure, Google recommends that you set the `returnPartialSuccess` parameter to `true`. */
+export const aggregatedListStoragePoolTypes: API.PaginatedOperationMethod<AggregatedListStoragePoolTypesRequest, AggregatedListStoragePoolTypesResponse, AggregatedListStoragePoolTypesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedListStoragePoolTypesRequest,
   output: AggregatedListStoragePoolTypesResponse,
   errors: [],
@@ -51124,7 +51124,6 @@ export const aggregatedListStoragePoolTypes = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the specified storage pool type. */
 export interface GetStoragePoolTypesRequest {
   /** Project ID for this request. */
   project: string;
@@ -51148,6 +51147,7 @@ export const GetStoragePoolTypesResponse = StoragePoolType;
 
 export type GetStoragePoolTypesError = CommonErrors;
 
+/** Returns the specified storage pool type. */
 export const getStoragePoolTypes: API.OperationMethod<GetStoragePoolTypesRequest, GetStoragePoolTypesResponse, GetStoragePoolTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetStoragePoolTypesRequest,
   output: GetStoragePoolTypesResponse,

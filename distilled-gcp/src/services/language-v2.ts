@@ -2268,7 +2268,6 @@ export const XPSXpsOperationMetadata: Schema.Schema<XPSXpsOperationMetadata> = S
 // Operations
 // ==========================================================================
 
-/** Analyzes the sentiment of the provided text. */
 export interface AnalyzeSentimentDocumentsRequest {
   /** Request body */
   body?: AnalyzeSentimentRequest;
@@ -2286,13 +2285,13 @@ export const AnalyzeSentimentDocumentsResponse = AnalyzeSentimentResponse;
 
 export type AnalyzeSentimentDocumentsError = CommonErrors;
 
+/** Analyzes the sentiment of the provided text. */
 export const analyzeSentimentDocuments: API.OperationMethod<AnalyzeSentimentDocumentsRequest, AnalyzeSentimentDocumentsResponse, AnalyzeSentimentDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AnalyzeSentimentDocumentsRequest,
   output: AnalyzeSentimentDocumentsResponse,
   errors: [],
 }));
 
-/** Finds named entities (currently proper names and common nouns) in the text along with entity types, probability, mentions for each entity, and other properties. */
 export interface AnalyzeEntitiesDocumentsRequest {
   /** Request body */
   body?: AnalyzeEntitiesRequest;
@@ -2310,13 +2309,13 @@ export const AnalyzeEntitiesDocumentsResponse = AnalyzeEntitiesResponse;
 
 export type AnalyzeEntitiesDocumentsError = CommonErrors;
 
+/** Finds named entities (currently proper names and common nouns) in the text along with entity types, probability, mentions for each entity, and other properties. */
 export const analyzeEntitiesDocuments: API.OperationMethod<AnalyzeEntitiesDocumentsRequest, AnalyzeEntitiesDocumentsResponse, AnalyzeEntitiesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AnalyzeEntitiesDocumentsRequest,
   output: AnalyzeEntitiesDocumentsResponse,
   errors: [],
 }));
 
-/** Classifies a document into categories. */
 export interface ClassifyTextDocumentsRequest {
   /** Request body */
   body?: ClassifyTextRequest;
@@ -2334,13 +2333,13 @@ export const ClassifyTextDocumentsResponse = ClassifyTextResponse;
 
 export type ClassifyTextDocumentsError = CommonErrors;
 
+/** Classifies a document into categories. */
 export const classifyTextDocuments: API.OperationMethod<ClassifyTextDocumentsRequest, ClassifyTextDocumentsResponse, ClassifyTextDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ClassifyTextDocumentsRequest,
   output: ClassifyTextDocumentsResponse,
   errors: [],
 }));
 
-/** Moderates a document for harmful and sensitive categories. */
 export interface ModerateTextDocumentsRequest {
   /** Request body */
   body?: ModerateTextRequest;
@@ -2358,13 +2357,13 @@ export const ModerateTextDocumentsResponse = ModerateTextResponse;
 
 export type ModerateTextDocumentsError = CommonErrors;
 
+/** Moderates a document for harmful and sensitive categories. */
 export const moderateTextDocuments: API.OperationMethod<ModerateTextDocumentsRequest, ModerateTextDocumentsResponse, ModerateTextDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ModerateTextDocumentsRequest,
   output: ModerateTextDocumentsResponse,
   errors: [],
 }));
 
-/** A convenience method that provides all features in one call. */
 export interface AnnotateTextDocumentsRequest {
   /** Request body */
   body?: AnnotateTextRequest;
@@ -2382,6 +2381,7 @@ export const AnnotateTextDocumentsResponse = AnnotateTextResponse;
 
 export type AnnotateTextDocumentsError = CommonErrors;
 
+/** A convenience method that provides all features in one call. */
 export const annotateTextDocuments: API.OperationMethod<AnnotateTextDocumentsRequest, AnnotateTextDocumentsResponse, AnnotateTextDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AnnotateTextDocumentsRequest,
   output: AnnotateTextDocumentsResponse,

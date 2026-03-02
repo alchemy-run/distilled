@@ -336,7 +336,6 @@ export const GenerateInstantVerificationTokenResponse: Schema.Schema<GenerateIns
 // Operations
 // ==========================================================================
 
-/** Gets the VoiceOfMerchant state. */
 export interface GetVoiceOfMerchantStateLocationsRequest {
   /** Required. Resource name of the location. */
   name: string;
@@ -354,13 +353,13 @@ export const GetVoiceOfMerchantStateLocationsResponse = VoiceOfMerchantState;
 
 export type GetVoiceOfMerchantStateLocationsError = CommonErrors;
 
+/** Gets the VoiceOfMerchant state. */
 export const getVoiceOfMerchantStateLocations: API.OperationMethod<GetVoiceOfMerchantStateLocationsRequest, GetVoiceOfMerchantStateLocationsResponse, GetVoiceOfMerchantStateLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetVoiceOfMerchantStateLocationsRequest,
   output: GetVoiceOfMerchantStateLocationsResponse,
   errors: [],
 }));
 
-/** Reports all eligible verification options for a location in a specific language. */
 export interface FetchVerificationOptionsLocationsRequest {
   /** Required. The location to verify. */
   location: string;
@@ -381,13 +380,13 @@ export const FetchVerificationOptionsLocationsResponse = FetchVerificationOption
 
 export type FetchVerificationOptionsLocationsError = CommonErrors;
 
+/** Reports all eligible verification options for a location in a specific language. */
 export const fetchVerificationOptionsLocations: API.OperationMethod<FetchVerificationOptionsLocationsRequest, FetchVerificationOptionsLocationsResponse, FetchVerificationOptionsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FetchVerificationOptionsLocationsRequest,
   output: FetchVerificationOptionsLocationsResponse,
   errors: [],
 }));
 
-/** Starts the verification process for a location. */
 export interface VerifyLocationsRequest {
   /** Required. Resource name of the location to verify. */
   name: string;
@@ -408,13 +407,13 @@ export const VerifyLocationsResponse = VerifyLocationResponse;
 
 export type VerifyLocationsError = CommonErrors;
 
+/** Starts the verification process for a location. */
 export const verifyLocations: API.OperationMethod<VerifyLocationsRequest, VerifyLocationsResponse, VerifyLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: VerifyLocationsRequest,
   output: VerifyLocationsResponse,
   errors: [],
 }));
 
-/** Completes a `PENDING` verification. It is only necessary for non `AUTO` verification methods. `AUTO` verification request is instantly `VERIFIED` upon creation. */
 export interface CompleteLocationsVerificationsRequest {
   /** Required. Resource name of the verification to complete. */
   name: string;
@@ -435,13 +434,13 @@ export const CompleteLocationsVerificationsResponse = CompleteVerificationRespon
 
 export type CompleteLocationsVerificationsError = CommonErrors;
 
+/** Completes a `PENDING` verification. It is only necessary for non `AUTO` verification methods. `AUTO` verification request is instantly `VERIFIED` upon creation. */
 export const completeLocationsVerifications: API.OperationMethod<CompleteLocationsVerificationsRequest, CompleteLocationsVerificationsResponse, CompleteLocationsVerificationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CompleteLocationsVerificationsRequest,
   output: CompleteLocationsVerificationsResponse,
   errors: [],
 }));
 
-/** List verifications of a location, ordered by create time. */
 export interface ListLocationsVerificationsRequest {
   /** Required. Resource name of the location that verification requests belong to. */
   parent: string;
@@ -465,7 +464,8 @@ export const ListLocationsVerificationsResponse = ListVerificationsResponse;
 
 export type ListLocationsVerificationsError = CommonErrors;
 
-export const listLocationsVerifications = API.makePaginated(() => ({
+/** List verifications of a location, ordered by create time. */
+export const listLocationsVerifications: API.PaginatedOperationMethod<ListLocationsVerificationsRequest, ListLocationsVerificationsResponse, ListLocationsVerificationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListLocationsVerificationsRequest,
   output: ListLocationsVerificationsResponse,
   errors: [],
@@ -475,7 +475,6 @@ export const listLocationsVerifications = API.makePaginated(() => ({
   },
 }));
 
-/** Generate a token for the provided location data to verify the location. */
 export interface GenerateVerificationTokensRequest {
   /** Request body */
   body?: GenerateInstantVerificationTokenRequest;
@@ -493,6 +492,7 @@ export const GenerateVerificationTokensResponse = GenerateInstantVerificationTok
 
 export type GenerateVerificationTokensError = CommonErrors;
 
+/** Generate a token for the provided location data to verify the location. */
 export const generateVerificationTokens: API.OperationMethod<GenerateVerificationTokensRequest, GenerateVerificationTokensResponse, GenerateVerificationTokensError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateVerificationTokensRequest,
   output: GenerateVerificationTokensResponse,

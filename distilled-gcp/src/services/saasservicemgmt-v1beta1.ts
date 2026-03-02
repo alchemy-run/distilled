@@ -855,7 +855,6 @@ export const ListUnitOperationsResponse: Schema.Schema<ListUnitOperationsRespons
 // Operations
 // ==========================================================================
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -873,13 +872,13 @@ export const GetProjectsLocationsResponse = GoogleCloudLocationLocation;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** Optional. Do not use this field. It is unsupported and is ignored unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: string[];
@@ -909,7 +908,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -919,7 +919,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Delete a single unit operation. */
 export interface DeleteProjectsLocationsUnitOperationsRequest {
   /** The etag known to the client for the expected state of the unit operation. This is used with state-changing methods to prevent accidental overwrites when multiple user agents might be acting in parallel on the same resource. An etag wildcard provide optimistic concurrency based on the expected existence of the unit operation. The Any wildcard (`*`) requires that the resource must already exists, and the Not Any wildcard (`!*`) requires that it must not. */
   etag?: string;
@@ -946,13 +945,13 @@ export const DeleteProjectsLocationsUnitOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsUnitOperationsError = CommonErrors;
 
+/** Delete a single unit operation. */
 export const deleteProjectsLocationsUnitOperations: API.OperationMethod<DeleteProjectsLocationsUnitOperationsRequest, DeleteProjectsLocationsUnitOperationsResponse, DeleteProjectsLocationsUnitOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsUnitOperationsRequest,
   output: DeleteProjectsLocationsUnitOperationsResponse,
   errors: [],
 }));
 
-/** Update a single unit operation. */
 export interface PatchProjectsLocationsUnitOperationsRequest {
   /** Identifier. The resource name (full URI of the resource) following the standard naming scheme: "projects/{project}/locations/{location}/unitOperations/{unitOperation}" */
   name: string;
@@ -982,13 +981,13 @@ export const PatchProjectsLocationsUnitOperationsResponse = UnitOperation;
 
 export type PatchProjectsLocationsUnitOperationsError = CommonErrors;
 
+/** Update a single unit operation. */
 export const patchProjectsLocationsUnitOperations: API.OperationMethod<PatchProjectsLocationsUnitOperationsRequest, PatchProjectsLocationsUnitOperationsResponse, PatchProjectsLocationsUnitOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsUnitOperationsRequest,
   output: PatchProjectsLocationsUnitOperationsResponse,
   errors: [],
 }));
 
-/** Retrieve a single unit operation. */
 export interface GetProjectsLocationsUnitOperationsRequest {
   /** Required. The resource name of the resource within a service. */
   name: string;
@@ -1006,13 +1005,13 @@ export const GetProjectsLocationsUnitOperationsResponse = UnitOperation;
 
 export type GetProjectsLocationsUnitOperationsError = CommonErrors;
 
+/** Retrieve a single unit operation. */
 export const getProjectsLocationsUnitOperations: API.OperationMethod<GetProjectsLocationsUnitOperationsRequest, GetProjectsLocationsUnitOperationsResponse, GetProjectsLocationsUnitOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsUnitOperationsRequest,
   output: GetProjectsLocationsUnitOperationsResponse,
   errors: [],
 }));
 
-/** Create a new unit operation. */
 export interface CreateProjectsLocationsUnitOperationsRequest {
   /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
   validateOnly?: boolean;
@@ -1042,13 +1041,13 @@ export const CreateProjectsLocationsUnitOperationsResponse = UnitOperation;
 
 export type CreateProjectsLocationsUnitOperationsError = CommonErrors;
 
+/** Create a new unit operation. */
 export const createProjectsLocationsUnitOperations: API.OperationMethod<CreateProjectsLocationsUnitOperationsRequest, CreateProjectsLocationsUnitOperationsResponse, CreateProjectsLocationsUnitOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsUnitOperationsRequest,
   output: CreateProjectsLocationsUnitOperationsResponse,
   errors: [],
 }));
 
-/** Retrieve a collection of unit operations. */
 export interface ListProjectsLocationsUnitOperationsRequest {
   /** The page token: If the next_page_token from a previous response is provided, this request will send the subsequent page. */
   pageToken?: string;
@@ -1078,7 +1077,8 @@ export const ListProjectsLocationsUnitOperationsResponse = ListUnitOperationsRes
 
 export type ListProjectsLocationsUnitOperationsError = CommonErrors;
 
-export const listProjectsLocationsUnitOperations = API.makePaginated(() => ({
+/** Retrieve a collection of unit operations. */
+export const listProjectsLocationsUnitOperations: API.PaginatedOperationMethod<ListProjectsLocationsUnitOperationsRequest, ListProjectsLocationsUnitOperationsResponse, ListProjectsLocationsUnitOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsUnitOperationsRequest,
   output: ListProjectsLocationsUnitOperationsResponse,
   errors: [],
@@ -1088,7 +1088,6 @@ export const listProjectsLocationsUnitOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieve a single saas. */
 export interface GetProjectsLocationsSaasRequest {
   /** Required. The resource name of the resource within a service. */
   name: string;
@@ -1106,13 +1105,13 @@ export const GetProjectsLocationsSaasResponse = Saas;
 
 export type GetProjectsLocationsSaasError = CommonErrors;
 
+/** Retrieve a single saas. */
 export const getProjectsLocationsSaas: API.OperationMethod<GetProjectsLocationsSaasRequest, GetProjectsLocationsSaasResponse, GetProjectsLocationsSaasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSaasRequest,
   output: GetProjectsLocationsSaasResponse,
   errors: [],
 }));
 
-/** Create a new saas. */
 export interface CreateProjectsLocationsSaasRequest {
   /** Required. The ID value for the new saas. */
   saasId?: string;
@@ -1142,13 +1141,13 @@ export const CreateProjectsLocationsSaasResponse = Saas;
 
 export type CreateProjectsLocationsSaasError = CommonErrors;
 
+/** Create a new saas. */
 export const createProjectsLocationsSaas: API.OperationMethod<CreateProjectsLocationsSaasRequest, CreateProjectsLocationsSaasResponse, CreateProjectsLocationsSaasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsSaasRequest,
   output: CreateProjectsLocationsSaasResponse,
   errors: [],
 }));
 
-/** Delete a single saas. */
 export interface DeleteProjectsLocationsSaasRequest {
   /** Required. The resource name of the resource within a service. */
   name: string;
@@ -1175,13 +1174,13 @@ export const DeleteProjectsLocationsSaasResponse = Empty;
 
 export type DeleteProjectsLocationsSaasError = CommonErrors;
 
+/** Delete a single saas. */
 export const deleteProjectsLocationsSaas: API.OperationMethod<DeleteProjectsLocationsSaasRequest, DeleteProjectsLocationsSaasResponse, DeleteProjectsLocationsSaasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsSaasRequest,
   output: DeleteProjectsLocationsSaasResponse,
   errors: [],
 }));
 
-/** Update a single saas. */
 export interface PatchProjectsLocationsSaasRequest {
   /** Identifier. The resource name (full URI of the resource) following the standard naming scheme: "projects/{project}/locations/{location}/saas/{saas}" */
   name: string;
@@ -1211,13 +1210,13 @@ export const PatchProjectsLocationsSaasResponse = Saas;
 
 export type PatchProjectsLocationsSaasError = CommonErrors;
 
+/** Update a single saas. */
 export const patchProjectsLocationsSaas: API.OperationMethod<PatchProjectsLocationsSaasRequest, PatchProjectsLocationsSaasResponse, PatchProjectsLocationsSaasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsSaasRequest,
   output: PatchProjectsLocationsSaasResponse,
   errors: [],
 }));
 
-/** Retrieve a collection of saas. */
 export interface ListProjectsLocationsSaasRequest {
   /** Filter the list as specified in https://google.aip.dev/160. */
   filter?: string;
@@ -1247,7 +1246,8 @@ export const ListProjectsLocationsSaasResponse = ListSaasResponse;
 
 export type ListProjectsLocationsSaasError = CommonErrors;
 
-export const listProjectsLocationsSaas = API.makePaginated(() => ({
+/** Retrieve a collection of saas. */
+export const listProjectsLocationsSaas: API.PaginatedOperationMethod<ListProjectsLocationsSaasRequest, ListProjectsLocationsSaasResponse, ListProjectsLocationsSaasError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsSaasRequest,
   output: ListProjectsLocationsSaasResponse,
   errors: [],
@@ -1257,7 +1257,6 @@ export const listProjectsLocationsSaas = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieve a collection of units. */
 export interface ListProjectsLocationsUnitsRequest {
   /** The page token: If the next_page_token from a previous response is provided, this request will send the subsequent page. */
   pageToken?: string;
@@ -1287,7 +1286,8 @@ export const ListProjectsLocationsUnitsResponse = ListUnitsResponse;
 
 export type ListProjectsLocationsUnitsError = CommonErrors;
 
-export const listProjectsLocationsUnits = API.makePaginated(() => ({
+/** Retrieve a collection of units. */
+export const listProjectsLocationsUnits: API.PaginatedOperationMethod<ListProjectsLocationsUnitsRequest, ListProjectsLocationsUnitsResponse, ListProjectsLocationsUnitsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsUnitsRequest,
   output: ListProjectsLocationsUnitsResponse,
   errors: [],
@@ -1297,7 +1297,6 @@ export const listProjectsLocationsUnits = API.makePaginated(() => ({
   },
 }));
 
-/** Update a single unit. */
 export interface PatchProjectsLocationsUnitsRequest {
   /** Field mask is used to specify the fields to be overwritten in the Unit resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields in the Unit will be overwritten. */
   updateMask?: string;
@@ -1327,13 +1326,13 @@ export const PatchProjectsLocationsUnitsResponse = Unit;
 
 export type PatchProjectsLocationsUnitsError = CommonErrors;
 
+/** Update a single unit. */
 export const patchProjectsLocationsUnits: API.OperationMethod<PatchProjectsLocationsUnitsRequest, PatchProjectsLocationsUnitsResponse, PatchProjectsLocationsUnitsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsUnitsRequest,
   output: PatchProjectsLocationsUnitsResponse,
   errors: [],
 }));
 
-/** Retrieve a single unit. */
 export interface GetProjectsLocationsUnitsRequest {
   /** Required. The resource name of the resource within a service. */
   name: string;
@@ -1351,13 +1350,13 @@ export const GetProjectsLocationsUnitsResponse = Unit;
 
 export type GetProjectsLocationsUnitsError = CommonErrors;
 
+/** Retrieve a single unit. */
 export const getProjectsLocationsUnits: API.OperationMethod<GetProjectsLocationsUnitsRequest, GetProjectsLocationsUnitsResponse, GetProjectsLocationsUnitsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsUnitsRequest,
   output: GetProjectsLocationsUnitsResponse,
   errors: [],
 }));
 
-/** Create a new unit. */
 export interface CreateProjectsLocationsUnitsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -1387,13 +1386,13 @@ export const CreateProjectsLocationsUnitsResponse = Unit;
 
 export type CreateProjectsLocationsUnitsError = CommonErrors;
 
+/** Create a new unit. */
 export const createProjectsLocationsUnits: API.OperationMethod<CreateProjectsLocationsUnitsRequest, CreateProjectsLocationsUnitsResponse, CreateProjectsLocationsUnitsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsUnitsRequest,
   output: CreateProjectsLocationsUnitsResponse,
   errors: [],
 }));
 
-/** Delete a single unit. */
 export interface DeleteProjectsLocationsUnitsRequest {
   /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
   validateOnly?: boolean;
@@ -1420,13 +1419,13 @@ export const DeleteProjectsLocationsUnitsResponse = Empty;
 
 export type DeleteProjectsLocationsUnitsError = CommonErrors;
 
+/** Delete a single unit. */
 export const deleteProjectsLocationsUnits: API.OperationMethod<DeleteProjectsLocationsUnitsRequest, DeleteProjectsLocationsUnitsResponse, DeleteProjectsLocationsUnitsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsUnitsRequest,
   output: DeleteProjectsLocationsUnitsResponse,
   errors: [],
 }));
 
-/** Delete a single rollout kind. */
 export interface DeleteProjectsLocationsRolloutKindsRequest {
   /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
   validateOnly?: boolean;
@@ -1453,13 +1452,13 @@ export const DeleteProjectsLocationsRolloutKindsResponse = Empty;
 
 export type DeleteProjectsLocationsRolloutKindsError = CommonErrors;
 
+/** Delete a single rollout kind. */
 export const deleteProjectsLocationsRolloutKinds: API.OperationMethod<DeleteProjectsLocationsRolloutKindsRequest, DeleteProjectsLocationsRolloutKindsResponse, DeleteProjectsLocationsRolloutKindsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsRolloutKindsRequest,
   output: DeleteProjectsLocationsRolloutKindsResponse,
   errors: [],
 }));
 
-/** Retrieve a single rollout kind. */
 export interface GetProjectsLocationsRolloutKindsRequest {
   /** Required. The resource name of the resource within a service. */
   name: string;
@@ -1477,13 +1476,13 @@ export const GetProjectsLocationsRolloutKindsResponse = RolloutKind;
 
 export type GetProjectsLocationsRolloutKindsError = CommonErrors;
 
+/** Retrieve a single rollout kind. */
 export const getProjectsLocationsRolloutKinds: API.OperationMethod<GetProjectsLocationsRolloutKindsRequest, GetProjectsLocationsRolloutKindsResponse, GetProjectsLocationsRolloutKindsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRolloutKindsRequest,
   output: GetProjectsLocationsRolloutKindsResponse,
   errors: [],
 }));
 
-/** Create a new rollout kind. */
 export interface CreateProjectsLocationsRolloutKindsRequest {
   /** Required. The parent of the rollout kind. */
   parent: string;
@@ -1513,13 +1512,13 @@ export const CreateProjectsLocationsRolloutKindsResponse = RolloutKind;
 
 export type CreateProjectsLocationsRolloutKindsError = CommonErrors;
 
+/** Create a new rollout kind. */
 export const createProjectsLocationsRolloutKinds: API.OperationMethod<CreateProjectsLocationsRolloutKindsRequest, CreateProjectsLocationsRolloutKindsResponse, CreateProjectsLocationsRolloutKindsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsRolloutKindsRequest,
   output: CreateProjectsLocationsRolloutKindsResponse,
   errors: [],
 }));
 
-/** Retrieve a collection of rollout kinds. */
 export interface ListProjectsLocationsRolloutKindsRequest {
   /** Order results as specified in https://google.aip.dev/132. */
   orderBy?: string;
@@ -1549,7 +1548,8 @@ export const ListProjectsLocationsRolloutKindsResponse = ListRolloutKindsRespons
 
 export type ListProjectsLocationsRolloutKindsError = CommonErrors;
 
-export const listProjectsLocationsRolloutKinds = API.makePaginated(() => ({
+/** Retrieve a collection of rollout kinds. */
+export const listProjectsLocationsRolloutKinds: API.PaginatedOperationMethod<ListProjectsLocationsRolloutKindsRequest, ListProjectsLocationsRolloutKindsResponse, ListProjectsLocationsRolloutKindsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRolloutKindsRequest,
   output: ListProjectsLocationsRolloutKindsResponse,
   errors: [],
@@ -1559,7 +1559,6 @@ export const listProjectsLocationsRolloutKinds = API.makePaginated(() => ({
   },
 }));
 
-/** Update a single rollout kind. */
 export interface PatchProjectsLocationsRolloutKindsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -1589,13 +1588,13 @@ export const PatchProjectsLocationsRolloutKindsResponse = RolloutKind;
 
 export type PatchProjectsLocationsRolloutKindsError = CommonErrors;
 
+/** Update a single rollout kind. */
 export const patchProjectsLocationsRolloutKinds: API.OperationMethod<PatchProjectsLocationsRolloutKindsRequest, PatchProjectsLocationsRolloutKindsResponse, PatchProjectsLocationsRolloutKindsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsRolloutKindsRequest,
   output: PatchProjectsLocationsRolloutKindsResponse,
   errors: [],
 }));
 
-/** Delete a single tenant. */
 export interface DeleteProjectsLocationsTenantsRequest {
   /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
   validateOnly?: boolean;
@@ -1622,13 +1621,13 @@ export const DeleteProjectsLocationsTenantsResponse = Empty;
 
 export type DeleteProjectsLocationsTenantsError = CommonErrors;
 
+/** Delete a single tenant. */
 export const deleteProjectsLocationsTenants: API.OperationMethod<DeleteProjectsLocationsTenantsRequest, DeleteProjectsLocationsTenantsResponse, DeleteProjectsLocationsTenantsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsTenantsRequest,
   output: DeleteProjectsLocationsTenantsResponse,
   errors: [],
 }));
 
-/** Update a single tenant. */
 export interface PatchProjectsLocationsTenantsRequest {
   /** Identifier. The resource name (full URI of the resource) following the standard naming scheme: "projects/{project}/locations/{location}/tenants/{tenant}" */
   name: string;
@@ -1658,13 +1657,13 @@ export const PatchProjectsLocationsTenantsResponse = Tenant;
 
 export type PatchProjectsLocationsTenantsError = CommonErrors;
 
+/** Update a single tenant. */
 export const patchProjectsLocationsTenants: API.OperationMethod<PatchProjectsLocationsTenantsRequest, PatchProjectsLocationsTenantsResponse, PatchProjectsLocationsTenantsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsTenantsRequest,
   output: PatchProjectsLocationsTenantsResponse,
   errors: [],
 }));
 
-/** Retrieve a single tenant. */
 export interface GetProjectsLocationsTenantsRequest {
   /** Required. The resource name of the resource within a service. */
   name: string;
@@ -1682,13 +1681,13 @@ export const GetProjectsLocationsTenantsResponse = Tenant;
 
 export type GetProjectsLocationsTenantsError = CommonErrors;
 
+/** Retrieve a single tenant. */
 export const getProjectsLocationsTenants: API.OperationMethod<GetProjectsLocationsTenantsRequest, GetProjectsLocationsTenantsResponse, GetProjectsLocationsTenantsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsTenantsRequest,
   output: GetProjectsLocationsTenantsResponse,
   errors: [],
 }));
 
-/** Create a new tenant. */
 export interface CreateProjectsLocationsTenantsRequest {
   /** Required. The parent of the tenant. */
   parent: string;
@@ -1718,13 +1717,13 @@ export const CreateProjectsLocationsTenantsResponse = Tenant;
 
 export type CreateProjectsLocationsTenantsError = CommonErrors;
 
+/** Create a new tenant. */
 export const createProjectsLocationsTenants: API.OperationMethod<CreateProjectsLocationsTenantsRequest, CreateProjectsLocationsTenantsResponse, CreateProjectsLocationsTenantsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsTenantsRequest,
   output: CreateProjectsLocationsTenantsResponse,
   errors: [],
 }));
 
-/** Retrieve a collection of tenants. */
 export interface ListProjectsLocationsTenantsRequest {
   /** Order results as specified in https://google.aip.dev/132. */
   orderBy?: string;
@@ -1754,7 +1753,8 @@ export const ListProjectsLocationsTenantsResponse = ListTenantsResponse;
 
 export type ListProjectsLocationsTenantsError = CommonErrors;
 
-export const listProjectsLocationsTenants = API.makePaginated(() => ({
+/** Retrieve a collection of tenants. */
+export const listProjectsLocationsTenants: API.PaginatedOperationMethod<ListProjectsLocationsTenantsRequest, ListProjectsLocationsTenantsResponse, ListProjectsLocationsTenantsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsTenantsRequest,
   output: ListProjectsLocationsTenantsResponse,
   errors: [],
@@ -1764,7 +1764,6 @@ export const listProjectsLocationsTenants = API.makePaginated(() => ({
   },
 }));
 
-/** Create a new unit kind. */
 export interface CreateProjectsLocationsUnitKindsRequest {
   /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
   validateOnly?: boolean;
@@ -1794,13 +1793,13 @@ export const CreateProjectsLocationsUnitKindsResponse = UnitKind;
 
 export type CreateProjectsLocationsUnitKindsError = CommonErrors;
 
+/** Create a new unit kind. */
 export const createProjectsLocationsUnitKinds: API.OperationMethod<CreateProjectsLocationsUnitKindsRequest, CreateProjectsLocationsUnitKindsResponse, CreateProjectsLocationsUnitKindsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsUnitKindsRequest,
   output: CreateProjectsLocationsUnitKindsResponse,
   errors: [],
 }));
 
-/** Retrieve a single unit kind. */
 export interface GetProjectsLocationsUnitKindsRequest {
   /** Required. The resource name of the resource within a service. */
   name: string;
@@ -1818,13 +1817,13 @@ export const GetProjectsLocationsUnitKindsResponse = UnitKind;
 
 export type GetProjectsLocationsUnitKindsError = CommonErrors;
 
+/** Retrieve a single unit kind. */
 export const getProjectsLocationsUnitKinds: API.OperationMethod<GetProjectsLocationsUnitKindsRequest, GetProjectsLocationsUnitKindsResponse, GetProjectsLocationsUnitKindsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsUnitKindsRequest,
   output: GetProjectsLocationsUnitKindsResponse,
   errors: [],
 }));
 
-/** Delete a single unit kind. */
 export interface DeleteProjectsLocationsUnitKindsRequest {
   /** The etag known to the client for the expected state of the unit kind. This is used with state-changing methods to prevent accidental overwrites when multiple user agents might be acting in parallel on the same resource. An etag wildcard provide optimistic concurrency based on the expected existence of the unit kind. The Any wildcard (`*`) requires that the resource must already exists, and the Not Any wildcard (`!*`) requires that it must not. */
   etag?: string;
@@ -1851,13 +1850,13 @@ export const DeleteProjectsLocationsUnitKindsResponse = Empty;
 
 export type DeleteProjectsLocationsUnitKindsError = CommonErrors;
 
+/** Delete a single unit kind. */
 export const deleteProjectsLocationsUnitKinds: API.OperationMethod<DeleteProjectsLocationsUnitKindsRequest, DeleteProjectsLocationsUnitKindsResponse, DeleteProjectsLocationsUnitKindsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsUnitKindsRequest,
   output: DeleteProjectsLocationsUnitKindsResponse,
   errors: [],
 }));
 
-/** Update a single unit kind. */
 export interface PatchProjectsLocationsUnitKindsRequest {
   /** Field mask is used to specify the fields to be overwritten in the UnitKind resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields in the UnitKind will be overwritten. */
   updateMask?: string;
@@ -1887,13 +1886,13 @@ export const PatchProjectsLocationsUnitKindsResponse = UnitKind;
 
 export type PatchProjectsLocationsUnitKindsError = CommonErrors;
 
+/** Update a single unit kind. */
 export const patchProjectsLocationsUnitKinds: API.OperationMethod<PatchProjectsLocationsUnitKindsRequest, PatchProjectsLocationsUnitKindsResponse, PatchProjectsLocationsUnitKindsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsUnitKindsRequest,
   output: PatchProjectsLocationsUnitKindsResponse,
   errors: [],
 }));
 
-/** Retrieve a collection of unit kinds. */
 export interface ListProjectsLocationsUnitKindsRequest {
   /** Filter the list as specified in https://google.aip.dev/160. */
   filter?: string;
@@ -1923,7 +1922,8 @@ export const ListProjectsLocationsUnitKindsResponse = ListUnitKindsResponse;
 
 export type ListProjectsLocationsUnitKindsError = CommonErrors;
 
-export const listProjectsLocationsUnitKinds = API.makePaginated(() => ({
+/** Retrieve a collection of unit kinds. */
+export const listProjectsLocationsUnitKinds: API.PaginatedOperationMethod<ListProjectsLocationsUnitKindsRequest, ListProjectsLocationsUnitKindsResponse, ListProjectsLocationsUnitKindsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsUnitKindsRequest,
   output: ListProjectsLocationsUnitKindsResponse,
   errors: [],
@@ -1933,7 +1933,6 @@ export const listProjectsLocationsUnitKinds = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieve a single rollout. */
 export interface GetProjectsLocationsRolloutsRequest {
   /** Required. The resource name of the resource within a service. */
   name: string;
@@ -1951,13 +1950,13 @@ export const GetProjectsLocationsRolloutsResponse = Rollout;
 
 export type GetProjectsLocationsRolloutsError = CommonErrors;
 
+/** Retrieve a single rollout. */
 export const getProjectsLocationsRollouts: API.OperationMethod<GetProjectsLocationsRolloutsRequest, GetProjectsLocationsRolloutsResponse, GetProjectsLocationsRolloutsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRolloutsRequest,
   output: GetProjectsLocationsRolloutsResponse,
   errors: [],
 }));
 
-/** Update a single rollout. */
 export interface PatchProjectsLocationsRolloutsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -1987,13 +1986,13 @@ export const PatchProjectsLocationsRolloutsResponse = Rollout;
 
 export type PatchProjectsLocationsRolloutsError = CommonErrors;
 
+/** Update a single rollout. */
 export const patchProjectsLocationsRollouts: API.OperationMethod<PatchProjectsLocationsRolloutsRequest, PatchProjectsLocationsRolloutsResponse, PatchProjectsLocationsRolloutsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsRolloutsRequest,
   output: PatchProjectsLocationsRolloutsResponse,
   errors: [],
 }));
 
-/** Delete a single rollout. */
 export interface DeleteProjectsLocationsRolloutsRequest {
   /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
   validateOnly?: boolean;
@@ -2020,13 +2019,13 @@ export const DeleteProjectsLocationsRolloutsResponse = Empty;
 
 export type DeleteProjectsLocationsRolloutsError = CommonErrors;
 
+/** Delete a single rollout. */
 export const deleteProjectsLocationsRollouts: API.OperationMethod<DeleteProjectsLocationsRolloutsRequest, DeleteProjectsLocationsRolloutsResponse, DeleteProjectsLocationsRolloutsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsRolloutsRequest,
   output: DeleteProjectsLocationsRolloutsResponse,
   errors: [],
 }));
 
-/** Retrieve a collection of rollouts. */
 export interface ListProjectsLocationsRolloutsRequest {
   /** Filter the list as specified in https://google.aip.dev/160. */
   filter?: string;
@@ -2056,7 +2055,8 @@ export const ListProjectsLocationsRolloutsResponse = ListRolloutsResponse;
 
 export type ListProjectsLocationsRolloutsError = CommonErrors;
 
-export const listProjectsLocationsRollouts = API.makePaginated(() => ({
+/** Retrieve a collection of rollouts. */
+export const listProjectsLocationsRollouts: API.PaginatedOperationMethod<ListProjectsLocationsRolloutsRequest, ListProjectsLocationsRolloutsResponse, ListProjectsLocationsRolloutsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRolloutsRequest,
   output: ListProjectsLocationsRolloutsResponse,
   errors: [],
@@ -2066,7 +2066,6 @@ export const listProjectsLocationsRollouts = API.makePaginated(() => ({
   },
 }));
 
-/** Create a new rollout. */
 export interface CreateProjectsLocationsRolloutsRequest {
   /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -2096,13 +2095,13 @@ export const CreateProjectsLocationsRolloutsResponse = Rollout;
 
 export type CreateProjectsLocationsRolloutsError = CommonErrors;
 
+/** Create a new rollout. */
 export const createProjectsLocationsRollouts: API.OperationMethod<CreateProjectsLocationsRolloutsRequest, CreateProjectsLocationsRolloutsResponse, CreateProjectsLocationsRolloutsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsRolloutsRequest,
   output: CreateProjectsLocationsRolloutsResponse,
   errors: [],
 }));
 
-/** Retrieve a single release. */
 export interface GetProjectsLocationsReleasesRequest {
   /** Required. The resource name of the resource within a service. */
   name: string;
@@ -2120,13 +2119,13 @@ export const GetProjectsLocationsReleasesResponse = Release;
 
 export type GetProjectsLocationsReleasesError = CommonErrors;
 
+/** Retrieve a single release. */
 export const getProjectsLocationsReleases: API.OperationMethod<GetProjectsLocationsReleasesRequest, GetProjectsLocationsReleasesResponse, GetProjectsLocationsReleasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsReleasesRequest,
   output: GetProjectsLocationsReleasesResponse,
   errors: [],
 }));
 
-/** Create a new release. */
 export interface CreateProjectsLocationsReleasesRequest {
   /** Required. The ID value for the new release. */
   releaseId?: string;
@@ -2156,13 +2155,13 @@ export const CreateProjectsLocationsReleasesResponse = Release;
 
 export type CreateProjectsLocationsReleasesError = CommonErrors;
 
+/** Create a new release. */
 export const createProjectsLocationsReleases: API.OperationMethod<CreateProjectsLocationsReleasesRequest, CreateProjectsLocationsReleasesResponse, CreateProjectsLocationsReleasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsReleasesRequest,
   output: CreateProjectsLocationsReleasesResponse,
   errors: [],
 }));
 
-/** Retrieve a collection of releases. */
 export interface ListProjectsLocationsReleasesRequest {
   /** The maximum number of releases to send per page. */
   pageSize?: number;
@@ -2192,7 +2191,8 @@ export const ListProjectsLocationsReleasesResponse = ListReleasesResponse;
 
 export type ListProjectsLocationsReleasesError = CommonErrors;
 
-export const listProjectsLocationsReleases = API.makePaginated(() => ({
+/** Retrieve a collection of releases. */
+export const listProjectsLocationsReleases: API.PaginatedOperationMethod<ListProjectsLocationsReleasesRequest, ListProjectsLocationsReleasesResponse, ListProjectsLocationsReleasesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsReleasesRequest,
   output: ListProjectsLocationsReleasesResponse,
   errors: [],
@@ -2202,7 +2202,6 @@ export const listProjectsLocationsReleases = API.makePaginated(() => ({
   },
 }));
 
-/** Update a single release. */
 export interface PatchProjectsLocationsReleasesRequest {
   /** Field mask is used to specify the fields to be overwritten in the Release resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields in the Release will be overwritten. */
   updateMask?: string;
@@ -2232,13 +2231,13 @@ export const PatchProjectsLocationsReleasesResponse = Release;
 
 export type PatchProjectsLocationsReleasesError = CommonErrors;
 
+/** Update a single release. */
 export const patchProjectsLocationsReleases: API.OperationMethod<PatchProjectsLocationsReleasesRequest, PatchProjectsLocationsReleasesResponse, PatchProjectsLocationsReleasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsReleasesRequest,
   output: PatchProjectsLocationsReleasesResponse,
   errors: [],
 }));
 
-/** Delete a single release. */
 export interface DeleteProjectsLocationsReleasesRequest {
   /** If "validate_only" is set to true, the service will try to validate that this request would succeed, but will not actually make changes. */
   validateOnly?: boolean;
@@ -2265,6 +2264,7 @@ export const DeleteProjectsLocationsReleasesResponse = Empty;
 
 export type DeleteProjectsLocationsReleasesError = CommonErrors;
 
+/** Delete a single release. */
 export const deleteProjectsLocationsReleases: API.OperationMethod<DeleteProjectsLocationsReleasesRequest, DeleteProjectsLocationsReleasesResponse, DeleteProjectsLocationsReleasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsReleasesRequest,
   output: DeleteProjectsLocationsReleasesResponse,

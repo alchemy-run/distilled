@@ -897,7 +897,6 @@ export const GoogleCloudSaasacceleratorManagementProvidersV1Instance: Schema.Sch
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -927,7 +926,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -937,7 +937,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -955,13 +954,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -991,7 +990,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -1001,7 +1001,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1019,13 +1018,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -1043,13 +1042,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -1070,13 +1069,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Lists all instances in a project for either a specified location or for all locations. */
 export interface ListProjectsLocationsInstancesRequest {
   /** Required. The project and location for which to retrieve instance information, in the format `projects/{project_id}/locations/{location}`. In Cloud Filestore, locations map to Google Cloud zones, for example **us-west1-b**. To retrieve instance information for all locations, use "-" for the `{location}` value. */
   parent: string;
@@ -1106,7 +1105,8 @@ export const ListProjectsLocationsInstancesResponse = ListInstancesResponse;
 
 export type ListProjectsLocationsInstancesError = CommonErrors;
 
-export const listProjectsLocationsInstances = API.makePaginated(() => ({
+/** Lists all instances in a project for either a specified location or for all locations. */
+export const listProjectsLocationsInstances: API.PaginatedOperationMethod<ListProjectsLocationsInstancesRequest, ListProjectsLocationsInstancesResponse, ListProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsInstancesRequest,
   output: ListProjectsLocationsInstancesResponse,
   errors: [],
@@ -1116,7 +1116,6 @@ export const listProjectsLocationsInstances = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the details of a specific instance. */
 export interface GetProjectsLocationsInstancesRequest {
   /** Required. The instance resource name, in the format `projects/{project_id}/locations/{location}/instances/{instance_id}`. */
   name: string;
@@ -1134,13 +1133,13 @@ export const GetProjectsLocationsInstancesResponse = Instance;
 
 export type GetProjectsLocationsInstancesError = CommonErrors;
 
+/** Gets the details of a specific instance. */
 export const getProjectsLocationsInstances: API.OperationMethod<GetProjectsLocationsInstancesRequest, GetProjectsLocationsInstancesResponse, GetProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsInstancesRequest,
   output: GetProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Creates an instance. When creating from a backup, the capacity of the new instance needs to be equal to or larger than the capacity of the backup (and also equal to or larger than the minimum capacity of the tier). */
 export interface CreateProjectsLocationsInstancesRequest {
   /** Required. The instance's project and location, in the format `projects/{project_id}/locations/{location}`. In Filestore, locations map to Google Cloud zones, for example **us-west1-b**. */
   parent: string;
@@ -1164,13 +1163,13 @@ export const CreateProjectsLocationsInstancesResponse = Operation;
 
 export type CreateProjectsLocationsInstancesError = CommonErrors;
 
+/** Creates an instance. When creating from a backup, the capacity of the new instance needs to be equal to or larger than the capacity of the backup (and also equal to or larger than the minimum capacity of the tier). */
 export const createProjectsLocationsInstances: API.OperationMethod<CreateProjectsLocationsInstancesRequest, CreateProjectsLocationsInstancesResponse, CreateProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsInstancesRequest,
   output: CreateProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Updates the settings of a specific instance. */
 export interface PatchProjectsLocationsInstancesRequest {
   /** Output only. The resource name of the instance, in the format `projects/{project}/locations/{location}/instances/{instance}`. */
   name: string;
@@ -1194,13 +1193,13 @@ export const PatchProjectsLocationsInstancesResponse = Operation;
 
 export type PatchProjectsLocationsInstancesError = CommonErrors;
 
+/** Updates the settings of a specific instance. */
 export const patchProjectsLocationsInstances: API.OperationMethod<PatchProjectsLocationsInstancesRequest, PatchProjectsLocationsInstancesResponse, PatchProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsInstancesRequest,
   output: PatchProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Restores an existing instance's file share from a backup. The capacity of the instance needs to be equal to or larger than the capacity of the backup (and also equal to or larger than the minimum capacity of the tier). */
 export interface RestoreProjectsLocationsInstancesRequest {
   /** Required. The resource name of the instance, in the format `projects/{project_number}/locations/{location_id}/instances/{instance_id}`. */
   name: string;
@@ -1221,13 +1220,13 @@ export const RestoreProjectsLocationsInstancesResponse = Operation;
 
 export type RestoreProjectsLocationsInstancesError = CommonErrors;
 
+/** Restores an existing instance's file share from a backup. The capacity of the instance needs to be equal to or larger than the capacity of the backup (and also equal to or larger than the minimum capacity of the tier). */
 export const restoreProjectsLocationsInstances: API.OperationMethod<RestoreProjectsLocationsInstancesRequest, RestoreProjectsLocationsInstancesResponse, RestoreProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RestoreProjectsLocationsInstancesRequest,
   output: RestoreProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Revert an existing instance's file system to a specified snapshot. */
 export interface RevertProjectsLocationsInstancesRequest {
   /** Required. The resource name of the instance, in the format `projects/{project_id}/locations/{location_id}/instances/{instance_id}`. */
   name: string;
@@ -1248,13 +1247,13 @@ export const RevertProjectsLocationsInstancesResponse = Operation;
 
 export type RevertProjectsLocationsInstancesError = CommonErrors;
 
+/** Revert an existing instance's file system to a specified snapshot. */
 export const revertProjectsLocationsInstances: API.OperationMethod<RevertProjectsLocationsInstancesRequest, RevertProjectsLocationsInstancesResponse, RevertProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RevertProjectsLocationsInstancesRequest,
   output: RevertProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Deletes an instance. */
 export interface DeleteProjectsLocationsInstancesRequest {
   /** Required. The instance resource name, in the format `projects/{project_id}/locations/{location}/instances/{instance_id}` */
   name: string;
@@ -1275,13 +1274,13 @@ export const DeleteProjectsLocationsInstancesResponse = Operation;
 
 export type DeleteProjectsLocationsInstancesError = CommonErrors;
 
+/** Deletes an instance. */
 export const deleteProjectsLocationsInstances: API.OperationMethod<DeleteProjectsLocationsInstancesRequest, DeleteProjectsLocationsInstancesResponse, DeleteProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsInstancesRequest,
   output: DeleteProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Promote the standby instance (replica). */
 export interface PromoteReplicaProjectsLocationsInstancesRequest {
   /** Required. The resource name of the instance, in the format `projects/{project_id}/locations/{location_id}/instances/{instance_id}`. */
   name: string;
@@ -1302,13 +1301,13 @@ export const PromoteReplicaProjectsLocationsInstancesResponse = Operation;
 
 export type PromoteReplicaProjectsLocationsInstancesError = CommonErrors;
 
+/** Promote the standby instance (replica). */
 export const promoteReplicaProjectsLocationsInstances: API.OperationMethod<PromoteReplicaProjectsLocationsInstancesRequest, PromoteReplicaProjectsLocationsInstancesResponse, PromoteReplicaProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PromoteReplicaProjectsLocationsInstancesRequest,
   output: PromoteReplicaProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Pause the standby instance (replica). WARNING: This operation makes the standby instance's NFS filesystem writable. Any data written to the standby instance while paused will be lost when the replica is resumed or promoted. */
 export interface PauseReplicaProjectsLocationsInstancesRequest {
   /** Required. The resource name of the instance, in the format `projects/{project_id}/locations/{location_id}/instances/{instance_id}`. */
   name: string;
@@ -1329,13 +1328,13 @@ export const PauseReplicaProjectsLocationsInstancesResponse = Operation;
 
 export type PauseReplicaProjectsLocationsInstancesError = CommonErrors;
 
+/** Pause the standby instance (replica). WARNING: This operation makes the standby instance's NFS filesystem writable. Any data written to the standby instance while paused will be lost when the replica is resumed or promoted. */
 export const pauseReplicaProjectsLocationsInstances: API.OperationMethod<PauseReplicaProjectsLocationsInstancesRequest, PauseReplicaProjectsLocationsInstancesResponse, PauseReplicaProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PauseReplicaProjectsLocationsInstancesRequest,
   output: PauseReplicaProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Resume the standby instance (replica). WARNING: Any data written to the standby instance while paused will be lost when the replica is resumed. */
 export interface ResumeReplicaProjectsLocationsInstancesRequest {
   /** Required. The resource name of the instance, in the format `projects/{project_id}/locations/{location_id}/instances/{instance_id}`. */
   name: string;
@@ -1356,13 +1355,13 @@ export const ResumeReplicaProjectsLocationsInstancesResponse = Operation;
 
 export type ResumeReplicaProjectsLocationsInstancesError = CommonErrors;
 
+/** Resume the standby instance (replica). WARNING: Any data written to the standby instance while paused will be lost when the replica is resumed. */
 export const resumeReplicaProjectsLocationsInstances: API.OperationMethod<ResumeReplicaProjectsLocationsInstancesRequest, ResumeReplicaProjectsLocationsInstancesResponse, ResumeReplicaProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResumeReplicaProjectsLocationsInstancesRequest,
   output: ResumeReplicaProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Lists all snapshots in a project for either a specified location or for all locations. */
 export interface ListProjectsLocationsInstancesSnapshotsRequest {
   /** Required. The instance for which to retrieve snapshot information, in the format `projects/{project_id}/locations/{location}/instances/{instance_id}`. */
   parent: string;
@@ -1395,7 +1394,8 @@ export const ListProjectsLocationsInstancesSnapshotsResponse = ListSnapshotsResp
 
 export type ListProjectsLocationsInstancesSnapshotsError = CommonErrors;
 
-export const listProjectsLocationsInstancesSnapshots = API.makePaginated(() => ({
+/** Lists all snapshots in a project for either a specified location or for all locations. */
+export const listProjectsLocationsInstancesSnapshots: API.PaginatedOperationMethod<ListProjectsLocationsInstancesSnapshotsRequest, ListProjectsLocationsInstancesSnapshotsResponse, ListProjectsLocationsInstancesSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsInstancesSnapshotsRequest,
   output: ListProjectsLocationsInstancesSnapshotsResponse,
   errors: [],
@@ -1405,7 +1405,6 @@ export const listProjectsLocationsInstancesSnapshots = API.makePaginated(() => (
   },
 }));
 
-/** Gets the details of a specific snapshot. */
 export interface GetProjectsLocationsInstancesSnapshotsRequest {
   /** Required. The snapshot resource name, in the format `projects/{project_id}/locations/{location}/instances/{instance_id}/snapshots/{snapshot_id}` */
   name: string;
@@ -1423,13 +1422,13 @@ export const GetProjectsLocationsInstancesSnapshotsResponse = Snapshot;
 
 export type GetProjectsLocationsInstancesSnapshotsError = CommonErrors;
 
+/** Gets the details of a specific snapshot. */
 export const getProjectsLocationsInstancesSnapshots: API.OperationMethod<GetProjectsLocationsInstancesSnapshotsRequest, GetProjectsLocationsInstancesSnapshotsResponse, GetProjectsLocationsInstancesSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsInstancesSnapshotsRequest,
   output: GetProjectsLocationsInstancesSnapshotsResponse,
   errors: [],
 }));
 
-/** Creates a snapshot. */
 export interface CreateProjectsLocationsInstancesSnapshotsRequest {
   /** Required. The Filestore Instance to create the snapshots of, in the format `projects/{project_id}/locations/{location}/instances/{instance_id}` */
   parent: string;
@@ -1453,13 +1452,13 @@ export const CreateProjectsLocationsInstancesSnapshotsResponse = Operation;
 
 export type CreateProjectsLocationsInstancesSnapshotsError = CommonErrors;
 
+/** Creates a snapshot. */
 export const createProjectsLocationsInstancesSnapshots: API.OperationMethod<CreateProjectsLocationsInstancesSnapshotsRequest, CreateProjectsLocationsInstancesSnapshotsResponse, CreateProjectsLocationsInstancesSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsInstancesSnapshotsRequest,
   output: CreateProjectsLocationsInstancesSnapshotsResponse,
   errors: [],
 }));
 
-/** Deletes a snapshot. */
 export interface DeleteProjectsLocationsInstancesSnapshotsRequest {
   /** Required. The snapshot resource name, in the format `projects/{project_id}/locations/{location}/instances/{instance_id}/snapshots/{snapshot_id}` */
   name: string;
@@ -1477,13 +1476,13 @@ export const DeleteProjectsLocationsInstancesSnapshotsResponse = Operation;
 
 export type DeleteProjectsLocationsInstancesSnapshotsError = CommonErrors;
 
+/** Deletes a snapshot. */
 export const deleteProjectsLocationsInstancesSnapshots: API.OperationMethod<DeleteProjectsLocationsInstancesSnapshotsRequest, DeleteProjectsLocationsInstancesSnapshotsResponse, DeleteProjectsLocationsInstancesSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsInstancesSnapshotsRequest,
   output: DeleteProjectsLocationsInstancesSnapshotsResponse,
   errors: [],
 }));
 
-/** Updates the settings of a specific snapshot. */
 export interface PatchProjectsLocationsInstancesSnapshotsRequest {
   /** Output only. The resource name of the snapshot, in the format `projects/{project_id}/locations/{location_id}/instances/{instance_id}/snapshots/{snapshot_id}`. */
   name: string;
@@ -1507,13 +1506,13 @@ export const PatchProjectsLocationsInstancesSnapshotsResponse = Operation;
 
 export type PatchProjectsLocationsInstancesSnapshotsError = CommonErrors;
 
+/** Updates the settings of a specific snapshot. */
 export const patchProjectsLocationsInstancesSnapshots: API.OperationMethod<PatchProjectsLocationsInstancesSnapshotsRequest, PatchProjectsLocationsInstancesSnapshotsResponse, PatchProjectsLocationsInstancesSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsInstancesSnapshotsRequest,
   output: PatchProjectsLocationsInstancesSnapshotsResponse,
   errors: [],
 }));
 
-/** Lists all backups in a project for either a specified location or for all locations. */
 export interface ListProjectsLocationsBackupsRequest {
   /** Required. The project and location for which to retrieve backup information, in the format `projects/{project_number}/locations/{location}`. In Filestore, backup locations map to Google Cloud regions, for example **us-west1**. To retrieve backup information for all locations, use "-" for the `{location}` value. */
   parent: string;
@@ -1543,7 +1542,8 @@ export const ListProjectsLocationsBackupsResponse = ListBackupsResponse;
 
 export type ListProjectsLocationsBackupsError = CommonErrors;
 
-export const listProjectsLocationsBackups = API.makePaginated(() => ({
+/** Lists all backups in a project for either a specified location or for all locations. */
+export const listProjectsLocationsBackups: API.PaginatedOperationMethod<ListProjectsLocationsBackupsRequest, ListProjectsLocationsBackupsResponse, ListProjectsLocationsBackupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBackupsRequest,
   output: ListProjectsLocationsBackupsResponse,
   errors: [],
@@ -1553,7 +1553,6 @@ export const listProjectsLocationsBackups = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the details of a specific backup. */
 export interface GetProjectsLocationsBackupsRequest {
   /** Required. The backup resource name, in the format `projects/{project_number}/locations/{location}/backups/{backup_id}`. */
   name: string;
@@ -1571,13 +1570,13 @@ export const GetProjectsLocationsBackupsResponse = Backup;
 
 export type GetProjectsLocationsBackupsError = CommonErrors;
 
+/** Gets the details of a specific backup. */
 export const getProjectsLocationsBackups: API.OperationMethod<GetProjectsLocationsBackupsRequest, GetProjectsLocationsBackupsResponse, GetProjectsLocationsBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBackupsRequest,
   output: GetProjectsLocationsBackupsResponse,
   errors: [],
 }));
 
-/** Creates a backup. */
 export interface CreateProjectsLocationsBackupsRequest {
   /** Required. The backup's project and location, in the format `projects/{project_number}/locations/{location}`. In Filestore, backup locations map to Google Cloud regions, for example **us-west1**. */
   parent: string;
@@ -1601,13 +1600,13 @@ export const CreateProjectsLocationsBackupsResponse = Operation;
 
 export type CreateProjectsLocationsBackupsError = CommonErrors;
 
+/** Creates a backup. */
 export const createProjectsLocationsBackups: API.OperationMethod<CreateProjectsLocationsBackupsRequest, CreateProjectsLocationsBackupsResponse, CreateProjectsLocationsBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsBackupsRequest,
   output: CreateProjectsLocationsBackupsResponse,
   errors: [],
 }));
 
-/** Deletes a backup. */
 export interface DeleteProjectsLocationsBackupsRequest {
   /** Required. The backup resource name, in the format `projects/{project_number}/locations/{location}/backups/{backup_id}` */
   name: string;
@@ -1625,13 +1624,13 @@ export const DeleteProjectsLocationsBackupsResponse = Operation;
 
 export type DeleteProjectsLocationsBackupsError = CommonErrors;
 
+/** Deletes a backup. */
 export const deleteProjectsLocationsBackups: API.OperationMethod<DeleteProjectsLocationsBackupsRequest, DeleteProjectsLocationsBackupsResponse, DeleteProjectsLocationsBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsBackupsRequest,
   output: DeleteProjectsLocationsBackupsResponse,
   errors: [],
 }));
 
-/** Updates the settings of a specific backup. */
 export interface PatchProjectsLocationsBackupsRequest {
   /** Output only. The resource name of the backup, in the format `projects/{project_number}/locations/{location_id}/backups/{backup_id}`. */
   name: string;
@@ -1655,6 +1654,7 @@ export const PatchProjectsLocationsBackupsResponse = Operation;
 
 export type PatchProjectsLocationsBackupsError = CommonErrors;
 
+/** Updates the settings of a specific backup. */
 export const patchProjectsLocationsBackups: API.OperationMethod<PatchProjectsLocationsBackupsRequest, PatchProjectsLocationsBackupsResponse, PatchProjectsLocationsBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsBackupsRequest,
   output: PatchProjectsLocationsBackupsResponse,

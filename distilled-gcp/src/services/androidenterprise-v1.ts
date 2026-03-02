@@ -1379,7 +1379,6 @@ export const WebAppsListResponse: Schema.Schema<WebAppsListResponse> = Schema.su
 // Operations
 // ==========================================================================
 
-/** Retrieves the IDs of all of a user's devices. */
 export interface ListDevicesRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -1400,13 +1399,13 @@ export const ListDevicesResponse = DevicesListResponse;
 
 export type ListDevicesError = CommonErrors;
 
+/** Retrieves the IDs of all of a user's devices. */
 export const listDevices: API.OperationMethod<ListDevicesRequest, ListDevicesResponse, ListDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListDevicesRequest,
   output: ListDevicesResponse,
   errors: [],
 }));
 
-/** Retrieves the details of a device. */
 export interface GetDevicesRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -1430,13 +1429,13 @@ export const GetDevicesResponse = Device;
 
 export type GetDevicesError = CommonErrors;
 
+/** Retrieves the details of a device. */
 export const getDevices: API.OperationMethod<GetDevicesRequest, GetDevicesResponse, GetDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDevicesRequest,
   output: GetDevicesResponse,
   errors: [],
 }));
 
-/** Updates the device policy. To ensure the policy is properly enforced, you need to prevent unmanaged accounts from accessing Google Play by setting the allowed_accounts in the managed configuration for the Google Play package. See restrict accounts in Google Play. When provisioning a new device, you should set the device policy using this method before adding the managed Google Play Account to the device, otherwise the policy will not be applied for a short period of time after adding the account to the device. */
 export interface UpdateDevicesRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -1466,13 +1465,13 @@ export const UpdateDevicesResponse = Device;
 
 export type UpdateDevicesError = CommonErrors;
 
+/** Updates the device policy. To ensure the policy is properly enforced, you need to prevent unmanaged accounts from accessing Google Play by setting the allowed_accounts in the managed configuration for the Google Play package. See restrict accounts in Google Play. When provisioning a new device, you should set the device policy using this method before adding the managed Google Play Account to the device, otherwise the policy will not be applied for a short period of time after adding the account to the device. */
 export const updateDevices: API.OperationMethod<UpdateDevicesRequest, UpdateDevicesResponse, UpdateDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateDevicesRequest,
   output: UpdateDevicesResponse,
   errors: [],
 }));
 
-/** Retrieves whether a device's access to Google services is enabled or disabled. The device state takes effect only if enforcing EMM policies on Android devices is enabled in the Google Admin Console. Otherwise, the device state is ignored and all devices are allowed access to Google services. This is only supported for Google-managed users. */
 export interface GetStateDevicesRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -1496,13 +1495,13 @@ export const GetStateDevicesResponse = DeviceState;
 
 export type GetStateDevicesError = CommonErrors;
 
+/** Retrieves whether a device's access to Google services is enabled or disabled. The device state takes effect only if enforcing EMM policies on Android devices is enabled in the Google Admin Console. Otherwise, the device state is ignored and all devices are allowed access to Google services. This is only supported for Google-managed users. */
 export const getStateDevices: API.OperationMethod<GetStateDevicesRequest, GetStateDevicesResponse, GetStateDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetStateDevicesRequest,
   output: GetStateDevicesResponse,
   errors: [],
 }));
 
-/** Sets whether a device's access to Google services is enabled or disabled. The device state takes effect only if enforcing EMM policies on Android devices is enabled in the Google Admin Console. Otherwise, the device state is ignored and all devices are allowed access to Google services. This is only supported for Google-managed users. */
 export interface SetStateDevicesRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -1529,13 +1528,13 @@ export const SetStateDevicesResponse = DeviceState;
 
 export type SetStateDevicesError = CommonErrors;
 
+/** Sets whether a device's access to Google services is enabled or disabled. The device state takes effect only if enforcing EMM policies on Android devices is enabled in the Google Admin Console. Otherwise, the device state is ignored and all devices are allowed access to Google services. This is only supported for Google-managed users. */
 export const setStateDevices: API.OperationMethod<SetStateDevicesRequest, SetStateDevicesResponse, SetStateDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetStateDevicesRequest,
   output: SetStateDevicesResponse,
   errors: [],
 }));
 
-/** Uploads a report containing any changes in app states on the device since the last report was generated. You can call this method up to 3 times every 24 hours for a given device. If you exceed the quota, then the Google Play EMM API returns HTTP 429 Too Many Requests. */
 export interface ForceReportUploadDevicesRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -1559,13 +1558,13 @@ export const ForceReportUploadDevicesResponse: Schema.Schema<ForceReportUploadDe
 
 export type ForceReportUploadDevicesError = CommonErrors;
 
+/** Uploads a report containing any changes in app states on the device since the last report was generated. You can call this method up to 3 times every 24 hours for a given device. If you exceed the quota, then the Google Play EMM API returns HTTP 429 Too Many Requests. */
 export const forceReportUploadDevices: API.OperationMethod<ForceReportUploadDevicesRequest, ForceReportUploadDevicesResponse, ForceReportUploadDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ForceReportUploadDevicesRequest,
   output: ForceReportUploadDevicesResponse,
   errors: [],
 }));
 
-/** Returns a token for device enrollment. The DPC can encode this token within the QR/NFC/zero-touch enrollment payload or fetch it before calling the on-device API to authenticate the user. The token can be generated for each device or reused across multiple devices. */
 export interface CreateEnrollmentTokensRequest {
   /** Required. The ID of the enterprise. */
   enterpriseId: string;
@@ -1586,13 +1585,13 @@ export const CreateEnrollmentTokensResponse = EnrollmentToken;
 
 export type CreateEnrollmentTokensError = CommonErrors;
 
+/** Returns a token for device enrollment. The DPC can encode this token within the QR/NFC/zero-touch enrollment payload or fetch it before calling the on-device API to authenticate the user. The token can be generated for each device or reused across multiple devices. */
 export const createEnrollmentTokens: API.OperationMethod<CreateEnrollmentTokensRequest, CreateEnrollmentTokensResponse, CreateEnrollmentTokensError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateEnrollmentTokensRequest,
   output: CreateEnrollmentTokensResponse,
   errors: [],
 }));
 
-/** Looks up an enterprise by domain name. This is only supported for enterprises created via the Google-initiated creation flow. Lookup of the id is not needed for enterprises created via the EMM-initiated flow since the EMM learns the enterprise ID in the callback specified in the Enterprises.generateSignupUrl call. */
 export interface ListEnterprisesRequest {
   /** Required. The exact primary domain name of the enterprise to look up. */
   domain: string;
@@ -1610,13 +1609,13 @@ export const ListEnterprisesResponse = EnterprisesListResponse;
 
 export type ListEnterprisesError = CommonErrors;
 
+/** Looks up an enterprise by domain name. This is only supported for enterprises created via the Google-initiated creation flow. Lookup of the id is not needed for enterprises created via the EMM-initiated flow since the EMM learns the enterprise ID in the callback specified in the Enterprises.generateSignupUrl call. */
 export const listEnterprises: API.OperationMethod<ListEnterprisesRequest, ListEnterprisesResponse, ListEnterprisesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListEnterprisesRequest,
   output: ListEnterprisesResponse,
   errors: [],
 }));
 
-/** Retrieves the name and domain of an enterprise. */
 export interface GetEnterprisesRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -1634,13 +1633,13 @@ export const GetEnterprisesResponse = Enterprise;
 
 export type GetEnterprisesError = CommonErrors;
 
+/** Retrieves the name and domain of an enterprise. */
 export const getEnterprises: API.OperationMethod<GetEnterprisesRequest, GetEnterprisesResponse, GetEnterprisesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEnterprisesRequest,
   output: GetEnterprisesResponse,
   errors: [],
 }));
 
-/** Enrolls an enterprise with the calling EMM. */
 export interface EnrollEnterprisesRequest {
   /** Required. The token provided by the enterprise to register the EMM. */
   token: string;
@@ -1661,13 +1660,13 @@ export const EnrollEnterprisesResponse = Enterprise;
 
 export type EnrollEnterprisesError = CommonErrors;
 
+/** Enrolls an enterprise with the calling EMM. */
 export const enrollEnterprises: API.OperationMethod<EnrollEnterprisesRequest, EnrollEnterprisesResponse, EnrollEnterprisesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnrollEnterprisesRequest,
   output: EnrollEnterprisesResponse,
   errors: [],
 }));
 
-/** Sets the account that will be used to authenticate to the API as the enterprise. */
 export interface SetAccountEnterprisesRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -1688,13 +1687,13 @@ export const SetAccountEnterprisesResponse = EnterpriseAccount;
 
 export type SetAccountEnterprisesError = CommonErrors;
 
+/** Sets the account that will be used to authenticate to the API as the enterprise. */
 export const setAccountEnterprises: API.OperationMethod<SetAccountEnterprisesRequest, SetAccountEnterprisesResponse, SetAccountEnterprisesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetAccountEnterprisesRequest,
   output: SetAccountEnterprisesResponse,
   errors: [],
 }));
 
-/** Sends a test notification to validate the EMM integration with the Google Cloud Pub/Sub service for this enterprise. */
 export interface SendTestPushNotificationEnterprisesRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -1712,13 +1711,13 @@ export const SendTestPushNotificationEnterprisesResponse = EnterprisesSendTestPu
 
 export type SendTestPushNotificationEnterprisesError = CommonErrors;
 
+/** Sends a test notification to validate the EMM integration with the Google Cloud Pub/Sub service for this enterprise. */
 export const sendTestPushNotificationEnterprises: API.OperationMethod<SendTestPushNotificationEnterprisesRequest, SendTestPushNotificationEnterprisesResponse, SendTestPushNotificationEnterprisesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SendTestPushNotificationEnterprisesRequest,
   output: SendTestPushNotificationEnterprisesResponse,
   errors: [],
 }));
 
-/** Pulls and returns a notification set for the enterprises associated with the service account authenticated for the request. The notification set may be empty if no notification are pending. A notification set returned needs to be acknowledged within 20 seconds by calling Enterprises.AcknowledgeNotificationSet, unless the notification set is empty. Notifications that are not acknowledged within the 20 seconds will eventually be included again in the response to another PullNotificationSet request, and those that are never acknowledged will ultimately be deleted according to the Google Cloud Platform Pub/Sub system policy. Multiple requests might be performed concurrently to retrieve notifications, in which case the pending notifications (if any) will be split among each caller, if any are pending. If no notifications are present, an empty notification list is returned. Subsequent requests may return more notifications once they become available. */
 export interface PullNotificationSetEnterprisesRequest {
   /** The request mode for pulling notifications. Specifying waitForNotifications will cause the request to block and wait until one or more notifications are present, or return an empty notification list if no notifications are present after some time. Specifying returnImmediately will cause the request to immediately return the pending notifications, or an empty list if no notifications are present. If omitted, defaults to waitForNotifications. */
   requestMode?: "waitForNotifications" | "returnImmediately" | (string & {});
@@ -1736,13 +1735,13 @@ export const PullNotificationSetEnterprisesResponse = NotificationSet;
 
 export type PullNotificationSetEnterprisesError = CommonErrors;
 
+/** Pulls and returns a notification set for the enterprises associated with the service account authenticated for the request. The notification set may be empty if no notification are pending. A notification set returned needs to be acknowledged within 20 seconds by calling Enterprises.AcknowledgeNotificationSet, unless the notification set is empty. Notifications that are not acknowledged within the 20 seconds will eventually be included again in the response to another PullNotificationSet request, and those that are never acknowledged will ultimately be deleted according to the Google Cloud Platform Pub/Sub system policy. Multiple requests might be performed concurrently to retrieve notifications, in which case the pending notifications (if any) will be split among each caller, if any are pending. If no notifications are present, an empty notification list is returned. Subsequent requests may return more notifications once they become available. */
 export const pullNotificationSetEnterprises: API.OperationMethod<PullNotificationSetEnterprisesRequest, PullNotificationSetEnterprisesResponse, PullNotificationSetEnterprisesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PullNotificationSetEnterprisesRequest,
   output: PullNotificationSetEnterprisesResponse,
   errors: [],
 }));
 
-/** Acknowledges notifications that were received from Enterprises.PullNotificationSet to prevent subsequent calls from returning the same notifications. */
 export interface AcknowledgeNotificationSetEnterprisesRequest {
   /** The notification set ID as returned by Enterprises.PullNotificationSet. This must be provided. */
   notificationSetId?: string;
@@ -1760,13 +1759,13 @@ export const AcknowledgeNotificationSetEnterprisesResponse: Schema.Schema<Acknow
 
 export type AcknowledgeNotificationSetEnterprisesError = CommonErrors;
 
+/** Acknowledges notifications that were received from Enterprises.PullNotificationSet to prevent subsequent calls from returning the same notifications. */
 export const acknowledgeNotificationSetEnterprises: API.OperationMethod<AcknowledgeNotificationSetEnterprisesRequest, AcknowledgeNotificationSetEnterprisesResponse, AcknowledgeNotificationSetEnterprisesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AcknowledgeNotificationSetEnterprisesRequest,
   output: AcknowledgeNotificationSetEnterprisesResponse,
   errors: [],
 }));
 
-/** Unenrolls an enterprise from the calling EMM. */
 export interface UnenrollEnterprisesRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -1784,13 +1783,13 @@ export const UnenrollEnterprisesResponse: Schema.Schema<UnenrollEnterprisesRespo
 
 export type UnenrollEnterprisesError = CommonErrors;
 
+/** Unenrolls an enterprise from the calling EMM. */
 export const unenrollEnterprises: API.OperationMethod<UnenrollEnterprisesRequest, UnenrollEnterprisesResponse, UnenrollEnterprisesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UnenrollEnterprisesRequest,
   output: UnenrollEnterprisesResponse,
   errors: [],
 }));
 
-/** Returns the store layout for the enterprise. If the store layout has not been set, returns "basic" as the store layout type and no homepage. */
 export interface GetStoreLayoutEnterprisesRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -1808,13 +1807,13 @@ export const GetStoreLayoutEnterprisesResponse = StoreLayout;
 
 export type GetStoreLayoutEnterprisesError = CommonErrors;
 
+/** Returns the store layout for the enterprise. If the store layout has not been set, returns "basic" as the store layout type and no homepage. */
 export const getStoreLayoutEnterprises: API.OperationMethod<GetStoreLayoutEnterprisesRequest, GetStoreLayoutEnterprisesResponse, GetStoreLayoutEnterprisesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetStoreLayoutEnterprisesRequest,
   output: GetStoreLayoutEnterprisesResponse,
   errors: [],
 }));
 
-/** Sets the store layout for the enterprise. By default, storeLayoutType is set to "basic" and the basic store layout is enabled. The basic layout only contains apps approved by the admin, and that have been added to the available product set for a user (using the setAvailableProductSet call). Apps on the page are sorted in order of their product ID value. If you create a custom store layout (by setting storeLayoutType = "custom" and setting a homepage), the basic store layout is disabled. */
 export interface SetStoreLayoutEnterprisesRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -1835,13 +1834,13 @@ export const SetStoreLayoutEnterprisesResponse = StoreLayout;
 
 export type SetStoreLayoutEnterprisesError = CommonErrors;
 
+/** Sets the store layout for the enterprise. By default, storeLayoutType is set to "basic" and the basic store layout is enabled. The basic layout only contains apps approved by the admin, and that have been added to the available product set for a user (using the setAvailableProductSet call). Apps on the page are sorted in order of their product ID value. If you create a custom store layout (by setting storeLayoutType = "custom" and setting a homepage), the basic store layout is disabled. */
 export const setStoreLayoutEnterprises: API.OperationMethod<SetStoreLayoutEnterprisesRequest, SetStoreLayoutEnterprisesResponse, SetStoreLayoutEnterprisesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetStoreLayoutEnterprisesRequest,
   output: SetStoreLayoutEnterprisesResponse,
   errors: [],
 }));
 
-/** Generates a sign-up URL. */
 export interface GenerateSignupUrlEnterprisesRequest {
   /** The callback URL to which the Admin will be redirected after successfully creating an enterprise. Before redirecting there the system will add a single query parameter to this URL named "enterpriseToken" which will contain an opaque token to be used for the CompleteSignup request. Beware that this means that the URL will be parsed, the parameter added and then a new URL formatted, i.e. there may be some minor formatting changes and, more importantly, the URL must be well-formed so that it can be parsed. */
   callbackUrl?: string;
@@ -1865,13 +1864,13 @@ export const GenerateSignupUrlEnterprisesResponse = SignupInfo;
 
 export type GenerateSignupUrlEnterprisesError = CommonErrors;
 
+/** Generates a sign-up URL. */
 export const generateSignupUrlEnterprises: API.OperationMethod<GenerateSignupUrlEnterprisesRequest, GenerateSignupUrlEnterprisesResponse, GenerateSignupUrlEnterprisesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateSignupUrlEnterprisesRequest,
   output: GenerateSignupUrlEnterprisesResponse,
   errors: [],
 }));
 
-/** Completes the signup flow, by specifying the Completion token and Enterprise token. This request must not be called multiple times for a given Enterprise Token. */
 export interface CompleteSignupEnterprisesRequest {
   /** The Completion token initially returned by GenerateSignupUrl. */
   completionToken?: string;
@@ -1892,13 +1891,13 @@ export const CompleteSignupEnterprisesResponse = Enterprise;
 
 export type CompleteSignupEnterprisesError = CommonErrors;
 
+/** Completes the signup flow, by specifying the Completion token and Enterprise token. This request must not be called multiple times for a given Enterprise Token. */
 export const completeSignupEnterprises: API.OperationMethod<CompleteSignupEnterprisesRequest, CompleteSignupEnterprisesResponse, CompleteSignupEnterprisesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CompleteSignupEnterprisesRequest,
   output: CompleteSignupEnterprisesResponse,
   errors: [],
 }));
 
-/** Returns a service account and credentials. The service account can be bound to the enterprise by calling setAccount. The service account is unique to this enterprise and EMM, and will be deleted if the enterprise is unbound. The credentials contain private key data and are not stored server-side. This method can only be called after calling Enterprises.Enroll or Enterprises.CompleteSignup, and before Enterprises.SetAccount; at other times it will return an error. Subsequent calls after the first will generate a new, unique set of credentials, and invalidate the previously generated credentials. Once the service account is bound to the enterprise, it can be managed using the serviceAccountKeys resource. *Note:* After you create a key, you might need to wait for 60 seconds or more before you perform another operation with the key. If you try to perform an operation with the key immediately after you create the key, and you receive an error, you can retry the request with exponential backoff . */
 export interface GetServiceAccountEnterprisesRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -1919,13 +1918,13 @@ export const GetServiceAccountEnterprisesResponse = ServiceAccount;
 
 export type GetServiceAccountEnterprisesError = CommonErrors;
 
+/** Returns a service account and credentials. The service account can be bound to the enterprise by calling setAccount. The service account is unique to this enterprise and EMM, and will be deleted if the enterprise is unbound. The credentials contain private key data and are not stored server-side. This method can only be called after calling Enterprises.Enroll or Enterprises.CompleteSignup, and before Enterprises.SetAccount; at other times it will return an error. Subsequent calls after the first will generate a new, unique set of credentials, and invalidate the previously generated credentials. Once the service account is bound to the enterprise, it can be managed using the serviceAccountKeys resource. *Note:* After you create a key, you might need to wait for 60 seconds or more before you perform another operation with the key. If you try to perform an operation with the key immediately after you create the key, and you receive an error, you can retry the request with exponential backoff . */
 export const getServiceAccountEnterprises: API.OperationMethod<GetServiceAccountEnterprisesRequest, GetServiceAccountEnterprisesResponse, GetServiceAccountEnterprisesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetServiceAccountEnterprisesRequest,
   output: GetServiceAccountEnterprisesResponse,
   errors: [],
 }));
 
-/** Returns a unique token to access an embeddable UI. To generate a web UI, pass the generated token into the managed Google Play javascript API. Each token may only be used to start one UI session. See the JavaScript API documentation for further information. */
 export interface CreateWebTokenEnterprisesRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -1946,13 +1945,13 @@ export const CreateWebTokenEnterprisesResponse = AdministratorWebToken;
 
 export type CreateWebTokenEnterprisesError = CommonErrors;
 
+/** Returns a unique token to access an embeddable UI. To generate a web UI, pass the generated token into the managed Google Play javascript API. Each token may only be used to start one UI session. See the JavaScript API documentation for further information. */
 export const createWebTokenEnterprises: API.OperationMethod<CreateWebTokenEnterprisesRequest, CreateWebTokenEnterprisesResponse, CreateWebTokenEnterprisesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateWebTokenEnterprisesRequest,
   output: CreateWebTokenEnterprisesResponse,
   errors: [],
 }));
 
-/** Generates an enterprise upgrade URL to upgrade an existing managed Google Play Accounts enterprise to a managed Google domain. See the guide to upgrading an enterprise for more details. */
 export interface GenerateEnterpriseUpgradeUrlEnterprisesRequest {
   /** Required. The ID of the enterprise. */
   enterpriseId: string;
@@ -1976,13 +1975,13 @@ export const GenerateEnterpriseUpgradeUrlEnterprisesResponse = GenerateEnterpris
 
 export type GenerateEnterpriseUpgradeUrlEnterprisesError = CommonErrors;
 
+/** Generates an enterprise upgrade URL to upgrade an existing managed Google Play Accounts enterprise to a managed Google domain. See the guide to upgrading an enterprise for more details. */
 export const generateEnterpriseUpgradeUrlEnterprises: API.OperationMethod<GenerateEnterpriseUpgradeUrlEnterprisesRequest, GenerateEnterpriseUpgradeUrlEnterprisesResponse, GenerateEnterpriseUpgradeUrlEnterprisesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateEnterpriseUpgradeUrlEnterprisesRequest,
   output: GenerateEnterpriseUpgradeUrlEnterprisesResponse,
   errors: [],
 }));
 
-/** Lists all entitlements for the specified user. Only the ID is set. **Note:** This item has been deprecated. New integrations cannot use this method and can refer to our new recommendations. */
 export interface ListEntitlementsRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2003,13 +2002,13 @@ export const ListEntitlementsResponse = EntitlementsListResponse;
 
 export type ListEntitlementsError = CommonErrors;
 
+/** Lists all entitlements for the specified user. Only the ID is set. **Note:** This item has been deprecated. New integrations cannot use this method and can refer to our new recommendations. */
 export const listEntitlements: API.OperationMethod<ListEntitlementsRequest, ListEntitlementsResponse, ListEntitlementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListEntitlementsRequest,
   output: ListEntitlementsResponse,
   errors: [],
 }));
 
-/** Retrieves details of an entitlement. **Note:** This item has been deprecated. New integrations cannot use this method and can refer to our new recommendations. */
 export interface GetEntitlementsRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2033,13 +2032,13 @@ export const GetEntitlementsResponse = Entitlement;
 
 export type GetEntitlementsError = CommonErrors;
 
+/** Retrieves details of an entitlement. **Note:** This item has been deprecated. New integrations cannot use this method and can refer to our new recommendations. */
 export const getEntitlements: API.OperationMethod<GetEntitlementsRequest, GetEntitlementsResponse, GetEntitlementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEntitlementsRequest,
   output: GetEntitlementsResponse,
   errors: [],
 }));
 
-/** Adds or updates an entitlement to an app for a user. **Note:** This item has been deprecated. New integrations cannot use this method and can refer to our new recommendations. */
 export interface UpdateEntitlementsRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2069,13 +2068,13 @@ export const UpdateEntitlementsResponse = Entitlement;
 
 export type UpdateEntitlementsError = CommonErrors;
 
+/** Adds or updates an entitlement to an app for a user. **Note:** This item has been deprecated. New integrations cannot use this method and can refer to our new recommendations. */
 export const updateEntitlements: API.OperationMethod<UpdateEntitlementsRequest, UpdateEntitlementsResponse, UpdateEntitlementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateEntitlementsRequest,
   output: UpdateEntitlementsResponse,
   errors: [],
 }));
 
-/** Removes an entitlement to an app for a user. **Note:** This item has been deprecated. New integrations cannot use this method and can refer to our new recommendations. */
 export interface DeleteEntitlementsRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2099,13 +2098,13 @@ export const DeleteEntitlementsResponse: Schema.Schema<DeleteEntitlementsRespons
 
 export type DeleteEntitlementsError = CommonErrors;
 
+/** Removes an entitlement to an app for a user. **Note:** This item has been deprecated. New integrations cannot use this method and can refer to our new recommendations. */
 export const deleteEntitlements: API.OperationMethod<DeleteEntitlementsRequest, DeleteEntitlementsResponse, DeleteEntitlementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteEntitlementsRequest,
   output: DeleteEntitlementsResponse,
   errors: [],
 }));
 
-/** Retrieves the IDs of the users who have been granted entitlements under the license. **Note:** This item has been deprecated. New integrations cannot use this method and can refer to our new recommendations. */
 export interface ListGrouplicenseusersRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2126,13 +2125,13 @@ export const ListGrouplicenseusersResponse = GroupLicenseUsersListResponse;
 
 export type ListGrouplicenseusersError = CommonErrors;
 
+/** Retrieves the IDs of the users who have been granted entitlements under the license. **Note:** This item has been deprecated. New integrations cannot use this method and can refer to our new recommendations. */
 export const listGrouplicenseusers: API.OperationMethod<ListGrouplicenseusersRequest, ListGrouplicenseusersResponse, ListGrouplicenseusersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListGrouplicenseusersRequest,
   output: ListGrouplicenseusersResponse,
   errors: [],
 }));
 
-/** Retrieves IDs of all products for which the enterprise has a group license. **Note:** This item has been deprecated. New integrations cannot use this method and can refer to our new recommendations. */
 export interface ListGrouplicensesRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2150,13 +2149,13 @@ export const ListGrouplicensesResponse = GroupLicensesListResponse;
 
 export type ListGrouplicensesError = CommonErrors;
 
+/** Retrieves IDs of all products for which the enterprise has a group license. **Note:** This item has been deprecated. New integrations cannot use this method and can refer to our new recommendations. */
 export const listGrouplicenses: API.OperationMethod<ListGrouplicensesRequest, ListGrouplicensesResponse, ListGrouplicensesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListGrouplicensesRequest,
   output: ListGrouplicensesResponse,
   errors: [],
 }));
 
-/** Retrieves details of an enterprise's group license for a product. **Note:** This item has been deprecated. New integrations cannot use this method and can refer to our new recommendations. */
 export interface GetGrouplicensesRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2177,13 +2176,13 @@ export const GetGrouplicensesResponse = GroupLicense;
 
 export type GetGrouplicensesError = CommonErrors;
 
+/** Retrieves details of an enterprise's group license for a product. **Note:** This item has been deprecated. New integrations cannot use this method and can refer to our new recommendations. */
 export const getGrouplicenses: API.OperationMethod<GetGrouplicensesRequest, GetGrouplicensesResponse, GetGrouplicensesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetGrouplicensesRequest,
   output: GetGrouplicensesResponse,
   errors: [],
 }));
 
-/** Retrieves the details of all apps installed on the specified device. */
 export interface ListInstallsRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2207,13 +2206,13 @@ export const ListInstallsResponse = InstallsListResponse;
 
 export type ListInstallsError = CommonErrors;
 
+/** Retrieves the details of all apps installed on the specified device. */
 export const listInstalls: API.OperationMethod<ListInstallsRequest, ListInstallsResponse, ListInstallsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListInstallsRequest,
   output: ListInstallsResponse,
   errors: [],
 }));
 
-/** Retrieves details of an installation of an app on a device. */
 export interface GetInstallsRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2240,13 +2239,13 @@ export const GetInstallsResponse = Install;
 
 export type GetInstallsError = CommonErrors;
 
+/** Retrieves details of an installation of an app on a device. */
 export const getInstalls: API.OperationMethod<GetInstallsRequest, GetInstallsResponse, GetInstallsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetInstallsRequest,
   output: GetInstallsResponse,
   errors: [],
 }));
 
-/** Requests to install the latest version of an app to a device. If the app is already installed, then it is updated to the latest version if necessary. */
 export interface UpdateInstallsRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2276,13 +2275,13 @@ export const UpdateInstallsResponse = Install;
 
 export type UpdateInstallsError = CommonErrors;
 
+/** Requests to install the latest version of an app to a device. If the app is already installed, then it is updated to the latest version if necessary. */
 export const updateInstalls: API.OperationMethod<UpdateInstallsRequest, UpdateInstallsResponse, UpdateInstallsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateInstallsRequest,
   output: UpdateInstallsResponse,
   errors: [],
 }));
 
-/** Requests to remove an app from a device. A call to get or list will still show the app as installed on the device until it is actually removed. A successful response indicates that a removal request has been sent to the device. The call will be considered successful even if the app is not present on the device (e.g. it was never installed, or was removed by the user). */
 export interface DeleteInstallsRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2309,13 +2308,13 @@ export const DeleteInstallsResponse: Schema.Schema<DeleteInstallsResponse> = Sch
 
 export type DeleteInstallsError = CommonErrors;
 
+/** Requests to remove an app from a device. A call to get or list will still show the app as installed on the device until it is actually removed. A successful response indicates that a removal request has been sent to the device. The call will be considered successful even if the app is not present on the device (e.g. it was never installed, or was removed by the user). */
 export const deleteInstalls: API.OperationMethod<DeleteInstallsRequest, DeleteInstallsResponse, DeleteInstallsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteInstallsRequest,
   output: DeleteInstallsResponse,
   errors: [],
 }));
 
-/** Lists all the per-device managed configurations for the specified device. Only the ID is set. */
 export interface ListManagedconfigurationsfordeviceRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2339,13 +2338,13 @@ export const ListManagedconfigurationsfordeviceResponse = ManagedConfigurationsF
 
 export type ListManagedconfigurationsfordeviceError = CommonErrors;
 
+/** Lists all the per-device managed configurations for the specified device. Only the ID is set. */
 export const listManagedconfigurationsfordevice: API.OperationMethod<ListManagedconfigurationsfordeviceRequest, ListManagedconfigurationsfordeviceResponse, ListManagedconfigurationsfordeviceError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListManagedconfigurationsfordeviceRequest,
   output: ListManagedconfigurationsfordeviceResponse,
   errors: [],
 }));
 
-/** Retrieves details of a per-device managed configuration. */
 export interface GetManagedconfigurationsfordeviceRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2372,13 +2371,13 @@ export const GetManagedconfigurationsfordeviceResponse = ManagedConfiguration;
 
 export type GetManagedconfigurationsfordeviceError = CommonErrors;
 
+/** Retrieves details of a per-device managed configuration. */
 export const getManagedconfigurationsfordevice: API.OperationMethod<GetManagedconfigurationsfordeviceRequest, GetManagedconfigurationsfordeviceResponse, GetManagedconfigurationsfordeviceError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetManagedconfigurationsfordeviceRequest,
   output: GetManagedconfigurationsfordeviceResponse,
   errors: [],
 }));
 
-/** Adds or updates a per-device managed configuration for an app for the specified device. */
 export interface UpdateManagedconfigurationsfordeviceRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2408,13 +2407,13 @@ export const UpdateManagedconfigurationsfordeviceResponse = ManagedConfiguration
 
 export type UpdateManagedconfigurationsfordeviceError = CommonErrors;
 
+/** Adds or updates a per-device managed configuration for an app for the specified device. */
 export const updateManagedconfigurationsfordevice: API.OperationMethod<UpdateManagedconfigurationsfordeviceRequest, UpdateManagedconfigurationsfordeviceResponse, UpdateManagedconfigurationsfordeviceError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateManagedconfigurationsfordeviceRequest,
   output: UpdateManagedconfigurationsfordeviceResponse,
   errors: [],
 }));
 
-/** Removes a per-device managed configuration for an app for the specified device. */
 export interface DeleteManagedconfigurationsfordeviceRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2441,13 +2440,13 @@ export const DeleteManagedconfigurationsfordeviceResponse: Schema.Schema<DeleteM
 
 export type DeleteManagedconfigurationsfordeviceError = CommonErrors;
 
+/** Removes a per-device managed configuration for an app for the specified device. */
 export const deleteManagedconfigurationsfordevice: API.OperationMethod<DeleteManagedconfigurationsfordeviceRequest, DeleteManagedconfigurationsfordeviceResponse, DeleteManagedconfigurationsfordeviceError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteManagedconfigurationsfordeviceRequest,
   output: DeleteManagedconfigurationsfordeviceResponse,
   errors: [],
 }));
 
-/** Lists all the per-user managed configurations for the specified user. Only the ID is set. */
 export interface ListManagedconfigurationsforuserRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2468,13 +2467,13 @@ export const ListManagedconfigurationsforuserResponse = ManagedConfigurationsFor
 
 export type ListManagedconfigurationsforuserError = CommonErrors;
 
+/** Lists all the per-user managed configurations for the specified user. Only the ID is set. */
 export const listManagedconfigurationsforuser: API.OperationMethod<ListManagedconfigurationsforuserRequest, ListManagedconfigurationsforuserResponse, ListManagedconfigurationsforuserError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListManagedconfigurationsforuserRequest,
   output: ListManagedconfigurationsforuserResponse,
   errors: [],
 }));
 
-/** Retrieves details of a per-user managed configuration for an app for the specified user. */
 export interface GetManagedconfigurationsforuserRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2498,13 +2497,13 @@ export const GetManagedconfigurationsforuserResponse = ManagedConfiguration;
 
 export type GetManagedconfigurationsforuserError = CommonErrors;
 
+/** Retrieves details of a per-user managed configuration for an app for the specified user. */
 export const getManagedconfigurationsforuser: API.OperationMethod<GetManagedconfigurationsforuserRequest, GetManagedconfigurationsforuserResponse, GetManagedconfigurationsforuserError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetManagedconfigurationsforuserRequest,
   output: GetManagedconfigurationsforuserResponse,
   errors: [],
 }));
 
-/** Adds or updates the managed configuration settings for an app for the specified user. If you support the Managed configurations iframe, you can apply managed configurations to a user by specifying an mcmId and its associated configuration variables (if any) in the request. Alternatively, all EMMs can apply managed configurations by passing a list of managed properties. */
 export interface UpdateManagedconfigurationsforuserRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2531,13 +2530,13 @@ export const UpdateManagedconfigurationsforuserResponse = ManagedConfiguration;
 
 export type UpdateManagedconfigurationsforuserError = CommonErrors;
 
+/** Adds or updates the managed configuration settings for an app for the specified user. If you support the Managed configurations iframe, you can apply managed configurations to a user by specifying an mcmId and its associated configuration variables (if any) in the request. Alternatively, all EMMs can apply managed configurations by passing a list of managed properties. */
 export const updateManagedconfigurationsforuser: API.OperationMethod<UpdateManagedconfigurationsforuserRequest, UpdateManagedconfigurationsforuserResponse, UpdateManagedconfigurationsforuserError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateManagedconfigurationsforuserRequest,
   output: UpdateManagedconfigurationsforuserResponse,
   errors: [],
 }));
 
-/** Removes a per-user managed configuration for an app for the specified user. */
 export interface DeleteManagedconfigurationsforuserRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2561,13 +2560,13 @@ export const DeleteManagedconfigurationsforuserResponse: Schema.Schema<DeleteMan
 
 export type DeleteManagedconfigurationsforuserError = CommonErrors;
 
+/** Removes a per-user managed configuration for an app for the specified user. */
 export const deleteManagedconfigurationsforuser: API.OperationMethod<DeleteManagedconfigurationsforuserRequest, DeleteManagedconfigurationsforuserResponse, DeleteManagedconfigurationsforuserError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteManagedconfigurationsforuserRequest,
   output: DeleteManagedconfigurationsforuserResponse,
   errors: [],
 }));
 
-/** Lists all the managed configurations settings for the specified app. */
 export interface ListManagedconfigurationssettingsRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2588,13 +2587,13 @@ export const ListManagedconfigurationssettingsResponse = ManagedConfigurationsSe
 
 export type ListManagedconfigurationssettingsError = CommonErrors;
 
+/** Lists all the managed configurations settings for the specified app. */
 export const listManagedconfigurationssettings: API.OperationMethod<ListManagedconfigurationssettingsRequest, ListManagedconfigurationssettingsResponse, ListManagedconfigurationssettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListManagedconfigurationssettingsRequest,
   output: ListManagedconfigurationssettingsResponse,
   errors: [],
 }));
 
-/** Retrieves details of an Android app permission for display to an enterprise admin. */
 export interface GetPermissionsRequest {
   /** The ID of the permission. */
   permissionId: string;
@@ -2615,13 +2614,13 @@ export const GetPermissionsResponse = Permission;
 
 export type GetPermissionsError = CommonErrors;
 
+/** Retrieves details of an Android app permission for display to an enterprise admin. */
 export const getPermissions: API.OperationMethod<GetPermissionsRequest, GetPermissionsResponse, GetPermissionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPermissionsRequest,
   output: GetPermissionsResponse,
   errors: [],
 }));
 
-/** Retrieves details of a product for display to an enterprise admin. */
 export interface GetProductsRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2645,13 +2644,13 @@ export const GetProductsResponse = Product;
 
 export type GetProductsError = CommonErrors;
 
+/** Retrieves details of a product for display to an enterprise admin. */
 export const getProducts: API.OperationMethod<GetProductsRequest, GetProductsResponse, GetProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProductsRequest,
   output: GetProductsResponse,
   errors: [],
 }));
 
-/** Finds approved products that match a query, or all approved products if there is no query. **Note:** This item has been deprecated. New integrations cannot use this method and can refer to our new recommendations. */
 export interface ListProductsRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2684,13 +2683,13 @@ export const ListProductsResponse = ProductsListResponse;
 
 export type ListProductsError = CommonErrors;
 
+/** Finds approved products that match a query, or all approved products if there is no query. **Note:** This item has been deprecated. New integrations cannot use this method and can refer to our new recommendations. */
 export const listProducts: API.OperationMethod<ListProductsRequest, ListProductsResponse, ListProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProductsRequest,
   output: ListProductsResponse,
   errors: [],
 }));
 
-/** Retrieves the Android app permissions required by this app. */
 export interface GetPermissionsProductsRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2711,13 +2710,13 @@ export const GetPermissionsProductsResponse = ProductPermissions;
 
 export type GetPermissionsProductsError = CommonErrors;
 
+/** Retrieves the Android app permissions required by this app. */
 export const getPermissionsProducts: API.OperationMethod<GetPermissionsProductsRequest, GetPermissionsProductsResponse, GetPermissionsProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPermissionsProductsRequest,
   output: GetPermissionsProductsResponse,
   errors: [],
 }));
 
-/** Generates a URL that can be rendered in an iframe to display the permissions (if any) of a product. An enterprise admin must view these permissions and accept them on behalf of their organization in order to approve that product. Admins should accept the displayed permissions by interacting with a separate UI element in the EMM console, which in turn should trigger the use of this URL as the approvalUrlInfo.approvalUrl property in a Products.approve call to approve the product. This URL can only be used to display permissions for up to 1 day. **Note:** This item has been deprecated. New integrations cannot use this method and can refer to our new recommendations. */
 export interface GenerateApprovalUrlProductsRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2741,13 +2740,13 @@ export const GenerateApprovalUrlProductsResponse = ProductsGenerateApprovalUrlRe
 
 export type GenerateApprovalUrlProductsError = CommonErrors;
 
+/** Generates a URL that can be rendered in an iframe to display the permissions (if any) of a product. An enterprise admin must view these permissions and accept them on behalf of their organization in order to approve that product. Admins should accept the displayed permissions by interacting with a separate UI element in the EMM console, which in turn should trigger the use of this URL as the approvalUrlInfo.approvalUrl property in a Products.approve call to approve the product. This URL can only be used to display permissions for up to 1 day. **Note:** This item has been deprecated. New integrations cannot use this method and can refer to our new recommendations. */
 export const generateApprovalUrlProducts: API.OperationMethod<GenerateApprovalUrlProductsRequest, GenerateApprovalUrlProductsResponse, GenerateApprovalUrlProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateApprovalUrlProductsRequest,
   output: GenerateApprovalUrlProductsResponse,
   errors: [],
 }));
 
-/** Approves the specified product and the relevant app permissions, if any. The maximum number of products that you can approve per enterprise customer is 1,000. To learn how to use managed Google Play to design and create a store layout to display approved products to your users, see Store Layout Design. **Note:** This item has been deprecated. New integrations cannot use this method and can refer to our new recommendations. */
 export interface ApproveProductsRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2771,13 +2770,13 @@ export const ApproveProductsResponse: Schema.Schema<ApproveProductsResponse> = S
 
 export type ApproveProductsError = CommonErrors;
 
+/** Approves the specified product and the relevant app permissions, if any. The maximum number of products that you can approve per enterprise customer is 1,000. To learn how to use managed Google Play to design and create a store layout to display approved products to your users, see Store Layout Design. **Note:** This item has been deprecated. New integrations cannot use this method and can refer to our new recommendations. */
 export const approveProducts: API.OperationMethod<ApproveProductsRequest, ApproveProductsResponse, ApproveProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ApproveProductsRequest,
   output: ApproveProductsResponse,
   errors: [],
 }));
 
-/** Unapproves the specified product (and the relevant app permissions, if any) **Note:** This item has been deprecated. New integrations cannot use this method and can refer to our new recommendations. */
 export interface UnapproveProductsRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2798,13 +2797,13 @@ export const UnapproveProductsResponse: Schema.Schema<UnapproveProductsResponse>
 
 export type UnapproveProductsError = CommonErrors;
 
+/** Unapproves the specified product (and the relevant app permissions, if any) **Note:** This item has been deprecated. New integrations cannot use this method and can refer to our new recommendations. */
 export const unapproveProducts: API.OperationMethod<UnapproveProductsRequest, UnapproveProductsResponse, UnapproveProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UnapproveProductsRequest,
   output: UnapproveProductsResponse,
   errors: [],
 }));
 
-/** Retrieves the schema that defines the configurable properties for this product. All products have a schema, but this schema may be empty if no managed configurations have been defined. This schema can be used to populate a UI that allows an admin to configure the product. To apply a managed configuration based on the schema obtained using this API, see Managed Configurations through Play. */
 export interface GetAppRestrictionsSchemaProductsRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2828,13 +2827,13 @@ export const GetAppRestrictionsSchemaProductsResponse = AppRestrictionsSchema;
 
 export type GetAppRestrictionsSchemaProductsError = CommonErrors;
 
+/** Retrieves the schema that defines the configurable properties for this product. All products have a schema, but this schema may be empty if no managed configurations have been defined. This schema can be used to populate a UI that allows an admin to configure the product. To apply a managed configuration based on the schema obtained using this API, see Managed Configurations through Play. */
 export const getAppRestrictionsSchemaProducts: API.OperationMethod<GetAppRestrictionsSchemaProductsRequest, GetAppRestrictionsSchemaProductsResponse, GetAppRestrictionsSchemaProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAppRestrictionsSchemaProductsRequest,
   output: GetAppRestrictionsSchemaProductsResponse,
   errors: [],
 }));
 
-/** Generates new credentials for the service account associated with this enterprise. The calling service account must have been retrieved by calling Enterprises.GetServiceAccount and must have been set as the enterprise service account by calling Enterprises.SetAccount. Only the type of the key should be populated in the resource to be inserted. */
 export interface InsertServiceaccountkeysRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2855,13 +2854,13 @@ export const InsertServiceaccountkeysResponse = ServiceAccountKey;
 
 export type InsertServiceaccountkeysError = CommonErrors;
 
+/** Generates new credentials for the service account associated with this enterprise. The calling service account must have been retrieved by calling Enterprises.GetServiceAccount and must have been set as the enterprise service account by calling Enterprises.SetAccount. Only the type of the key should be populated in the resource to be inserted. */
 export const insertServiceaccountkeys: API.OperationMethod<InsertServiceaccountkeysRequest, InsertServiceaccountkeysResponse, InsertServiceaccountkeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertServiceaccountkeysRequest,
   output: InsertServiceaccountkeysResponse,
   errors: [],
 }));
 
-/** Lists all active credentials for the service account associated with this enterprise. Only the ID and key type are returned. The calling service account must have been retrieved by calling Enterprises.GetServiceAccount and must have been set as the enterprise service account by calling Enterprises.SetAccount. */
 export interface ListServiceaccountkeysRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2879,13 +2878,13 @@ export const ListServiceaccountkeysResponse = ServiceAccountKeysListResponse;
 
 export type ListServiceaccountkeysError = CommonErrors;
 
+/** Lists all active credentials for the service account associated with this enterprise. Only the ID and key type are returned. The calling service account must have been retrieved by calling Enterprises.GetServiceAccount and must have been set as the enterprise service account by calling Enterprises.SetAccount. */
 export const listServiceaccountkeys: API.OperationMethod<ListServiceaccountkeysRequest, ListServiceaccountkeysResponse, ListServiceaccountkeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListServiceaccountkeysRequest,
   output: ListServiceaccountkeysResponse,
   errors: [],
 }));
 
-/** Removes and invalidates the specified credentials for the service account associated with this enterprise. The calling service account must have been retrieved by calling Enterprises.GetServiceAccount and must have been set as the enterprise service account by calling Enterprises.SetAccount. */
 export interface DeleteServiceaccountkeysRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2906,13 +2905,13 @@ export const DeleteServiceaccountkeysResponse: Schema.Schema<DeleteServiceaccoun
 
 export type DeleteServiceaccountkeysError = CommonErrors;
 
+/** Removes and invalidates the specified credentials for the service account associated with this enterprise. The calling service account must have been retrieved by calling Enterprises.GetServiceAccount and must have been set as the enterprise service account by calling Enterprises.SetAccount. */
 export const deleteServiceaccountkeys: API.OperationMethod<DeleteServiceaccountkeysRequest, DeleteServiceaccountkeysResponse, DeleteServiceaccountkeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteServiceaccountkeysRequest,
   output: DeleteServiceaccountkeysResponse,
   errors: [],
 }));
 
-/** Retrieves the details of all clusters on the specified page. */
 export interface ListStorelayoutclustersRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2933,13 +2932,13 @@ export const ListStorelayoutclustersResponse = StoreLayoutClustersListResponse;
 
 export type ListStorelayoutclustersError = CommonErrors;
 
+/** Retrieves the details of all clusters on the specified page. */
 export const listStorelayoutclusters: API.OperationMethod<ListStorelayoutclustersRequest, ListStorelayoutclustersResponse, ListStorelayoutclustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListStorelayoutclustersRequest,
   output: ListStorelayoutclustersResponse,
   errors: [],
 }));
 
-/** Inserts a new cluster in a page. */
 export interface InsertStorelayoutclustersRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2963,13 +2962,13 @@ export const InsertStorelayoutclustersResponse = StoreCluster;
 
 export type InsertStorelayoutclustersError = CommonErrors;
 
+/** Inserts a new cluster in a page. */
 export const insertStorelayoutclusters: API.OperationMethod<InsertStorelayoutclustersRequest, InsertStorelayoutclustersResponse, InsertStorelayoutclustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertStorelayoutclustersRequest,
   output: InsertStorelayoutclustersResponse,
   errors: [],
 }));
 
-/** Retrieves details of a cluster. */
 export interface GetStorelayoutclustersRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -2993,13 +2992,13 @@ export const GetStorelayoutclustersResponse = StoreCluster;
 
 export type GetStorelayoutclustersError = CommonErrors;
 
+/** Retrieves details of a cluster. */
 export const getStorelayoutclusters: API.OperationMethod<GetStorelayoutclustersRequest, GetStorelayoutclustersResponse, GetStorelayoutclustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetStorelayoutclustersRequest,
   output: GetStorelayoutclustersResponse,
   errors: [],
 }));
 
-/** Updates a cluster. */
 export interface UpdateStorelayoutclustersRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -3026,13 +3025,13 @@ export const UpdateStorelayoutclustersResponse = StoreCluster;
 
 export type UpdateStorelayoutclustersError = CommonErrors;
 
+/** Updates a cluster. */
 export const updateStorelayoutclusters: API.OperationMethod<UpdateStorelayoutclustersRequest, UpdateStorelayoutclustersResponse, UpdateStorelayoutclustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateStorelayoutclustersRequest,
   output: UpdateStorelayoutclustersResponse,
   errors: [],
 }));
 
-/** Deletes a cluster. */
 export interface DeleteStorelayoutclustersRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -3056,13 +3055,13 @@ export const DeleteStorelayoutclustersResponse: Schema.Schema<DeleteStorelayoutc
 
 export type DeleteStorelayoutclustersError = CommonErrors;
 
+/** Deletes a cluster. */
 export const deleteStorelayoutclusters: API.OperationMethod<DeleteStorelayoutclustersRequest, DeleteStorelayoutclustersResponse, DeleteStorelayoutclustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteStorelayoutclustersRequest,
   output: DeleteStorelayoutclustersResponse,
   errors: [],
 }));
 
-/** Retrieves the details of all pages in the store. */
 export interface ListStorelayoutpagesRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -3080,13 +3079,13 @@ export const ListStorelayoutpagesResponse = StoreLayoutPagesListResponse;
 
 export type ListStorelayoutpagesError = CommonErrors;
 
+/** Retrieves the details of all pages in the store. */
 export const listStorelayoutpages: API.OperationMethod<ListStorelayoutpagesRequest, ListStorelayoutpagesResponse, ListStorelayoutpagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListStorelayoutpagesRequest,
   output: ListStorelayoutpagesResponse,
   errors: [],
 }));
 
-/** Inserts a new store page. */
 export interface InsertStorelayoutpagesRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -3107,13 +3106,13 @@ export const InsertStorelayoutpagesResponse = StorePage;
 
 export type InsertStorelayoutpagesError = CommonErrors;
 
+/** Inserts a new store page. */
 export const insertStorelayoutpages: API.OperationMethod<InsertStorelayoutpagesRequest, InsertStorelayoutpagesResponse, InsertStorelayoutpagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertStorelayoutpagesRequest,
   output: InsertStorelayoutpagesResponse,
   errors: [],
 }));
 
-/** Retrieves details of a store page. */
 export interface GetStorelayoutpagesRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -3134,13 +3133,13 @@ export const GetStorelayoutpagesResponse = StorePage;
 
 export type GetStorelayoutpagesError = CommonErrors;
 
+/** Retrieves details of a store page. */
 export const getStorelayoutpages: API.OperationMethod<GetStorelayoutpagesRequest, GetStorelayoutpagesResponse, GetStorelayoutpagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetStorelayoutpagesRequest,
   output: GetStorelayoutpagesResponse,
   errors: [],
 }));
 
-/** Updates the content of a store page. */
 export interface UpdateStorelayoutpagesRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -3164,13 +3163,13 @@ export const UpdateStorelayoutpagesResponse = StorePage;
 
 export type UpdateStorelayoutpagesError = CommonErrors;
 
+/** Updates the content of a store page. */
 export const updateStorelayoutpages: API.OperationMethod<UpdateStorelayoutpagesRequest, UpdateStorelayoutpagesResponse, UpdateStorelayoutpagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateStorelayoutpagesRequest,
   output: UpdateStorelayoutpagesResponse,
   errors: [],
 }));
 
-/** Deletes a store page. */
 export interface DeleteStorelayoutpagesRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -3191,13 +3190,13 @@ export const DeleteStorelayoutpagesResponse: Schema.Schema<DeleteStorelayoutpage
 
 export type DeleteStorelayoutpagesError = CommonErrors;
 
+/** Deletes a store page. */
 export const deleteStorelayoutpages: API.OperationMethod<DeleteStorelayoutpagesRequest, DeleteStorelayoutpagesResponse, DeleteStorelayoutpagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteStorelayoutpagesRequest,
   output: DeleteStorelayoutpagesResponse,
   errors: [],
 }));
 
-/** Creates a new EMM-managed user. The Users resource passed in the body of the request should include an accountIdentifier and an accountType. If a corresponding user already exists with the same account identifier, the user will be updated with the resource. In this case only the displayName field can be changed. */
 export interface InsertUsersRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -3218,13 +3217,13 @@ export const InsertUsersResponse = User;
 
 export type InsertUsersError = CommonErrors;
 
+/** Creates a new EMM-managed user. The Users resource passed in the body of the request should include an accountIdentifier and an accountType. If a corresponding user already exists with the same account identifier, the user will be updated with the resource. In this case only the displayName field can be changed. */
 export const insertUsers: API.OperationMethod<InsertUsersRequest, InsertUsersResponse, InsertUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertUsersRequest,
   output: InsertUsersResponse,
   errors: [],
 }));
 
-/** Updates the details of an EMM-managed user. Can be used with EMM-managed users only (not Google managed users). Pass the new details in the Users resource in the request body. Only the displayName field can be changed. Other fields must either be unset or have the currently active value. */
 export interface UpdateUsersRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -3248,13 +3247,13 @@ export const UpdateUsersResponse = User;
 
 export type UpdateUsersError = CommonErrors;
 
+/** Updates the details of an EMM-managed user. Can be used with EMM-managed users only (not Google managed users). Pass the new details in the Users resource in the request body. Only the displayName field can be changed. Other fields must either be unset or have the currently active value. */
 export const updateUsers: API.OperationMethod<UpdateUsersRequest, UpdateUsersResponse, UpdateUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateUsersRequest,
   output: UpdateUsersResponse,
   errors: [],
 }));
 
-/** Looks up a user by primary email address. This is only supported for Google-managed users. Lookup of the id is not needed for EMM-managed users because the id is already returned in the result of the Users.insert call. */
 export interface ListUsersRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -3275,13 +3274,13 @@ export const ListUsersResponse = UsersListResponse;
 
 export type ListUsersError = CommonErrors;
 
+/** Looks up a user by primary email address. This is only supported for Google-managed users. Lookup of the id is not needed for EMM-managed users because the id is already returned in the result of the Users.insert call. */
 export const listUsers: API.OperationMethod<ListUsersRequest, ListUsersResponse, ListUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListUsersRequest,
   output: ListUsersResponse,
   errors: [],
 }));
 
-/** Retrieves a user's details. */
 export interface GetUsersRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -3302,13 +3301,13 @@ export const GetUsersResponse = User;
 
 export type GetUsersError = CommonErrors;
 
+/** Retrieves a user's details. */
 export const getUsers: API.OperationMethod<GetUsersRequest, GetUsersResponse, GetUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetUsersRequest,
   output: GetUsersResponse,
   errors: [],
 }));
 
-/** Deleted an EMM-managed user. */
 export interface DeleteUsersRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -3329,13 +3328,13 @@ export const DeleteUsersResponse: Schema.Schema<DeleteUsersResponse> = Schema.St
 
 export type DeleteUsersError = CommonErrors;
 
+/** Deleted an EMM-managed user. */
 export const deleteUsers: API.OperationMethod<DeleteUsersRequest, DeleteUsersResponse, DeleteUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteUsersRequest,
   output: DeleteUsersResponse,
   errors: [],
 }));
 
-/** Generates an authentication token which the device policy client can use to provision the given EMM-managed user account on a device. The generated token is single-use and expires after a few minutes. You can provision a maximum of 10 devices per user. This call only works with EMM-managed accounts. */
 export interface GenerateAuthenticationTokenUsersRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -3356,13 +3355,13 @@ export const GenerateAuthenticationTokenUsersResponse = AuthenticationToken;
 
 export type GenerateAuthenticationTokenUsersError = CommonErrors;
 
+/** Generates an authentication token which the device policy client can use to provision the given EMM-managed user account on a device. The generated token is single-use and expires after a few minutes. You can provision a maximum of 10 devices per user. This call only works with EMM-managed accounts. */
 export const generateAuthenticationTokenUsers: API.OperationMethod<GenerateAuthenticationTokenUsersRequest, GenerateAuthenticationTokenUsersResponse, GenerateAuthenticationTokenUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateAuthenticationTokenUsersRequest,
   output: GenerateAuthenticationTokenUsersResponse,
   errors: [],
 }));
 
-/** Retrieves the set of products a user is entitled to access. **Note:** This item has been deprecated. New integrations cannot use this method and can refer to our new recommendations. */
 export interface GetAvailableProductSetUsersRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -3383,13 +3382,13 @@ export const GetAvailableProductSetUsersResponse = ProductSet;
 
 export type GetAvailableProductSetUsersError = CommonErrors;
 
+/** Retrieves the set of products a user is entitled to access. **Note:** This item has been deprecated. New integrations cannot use this method and can refer to our new recommendations. */
 export const getAvailableProductSetUsers: API.OperationMethod<GetAvailableProductSetUsersRequest, GetAvailableProductSetUsersResponse, GetAvailableProductSetUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAvailableProductSetUsersRequest,
   output: GetAvailableProductSetUsersResponse,
   errors: [],
 }));
 
-/** Revokes access to all devices currently provisioned to the user. The user will no longer be able to use the managed Play store on any of their managed devices. This call only works with EMM-managed accounts. */
 export interface RevokeDeviceAccessUsersRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -3410,13 +3409,13 @@ export const RevokeDeviceAccessUsersResponse: Schema.Schema<RevokeDeviceAccessUs
 
 export type RevokeDeviceAccessUsersError = CommonErrors;
 
+/** Revokes access to all devices currently provisioned to the user. The user will no longer be able to use the managed Play store on any of their managed devices. This call only works with EMM-managed accounts. */
 export const revokeDeviceAccessUsers: API.OperationMethod<RevokeDeviceAccessUsersRequest, RevokeDeviceAccessUsersResponse, RevokeDeviceAccessUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RevokeDeviceAccessUsersRequest,
   output: RevokeDeviceAccessUsersResponse,
   errors: [],
 }));
 
-/** Modifies the set of products that a user is entitled to access (referred to as *whitelisted* products). Only products that are approved or products that were previously approved (products with revoked approval) can be whitelisted. **Note:** This item has been deprecated. New integrations cannot use this method and can refer to our new recommendations. */
 export interface SetAvailableProductSetUsersRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -3440,13 +3439,13 @@ export const SetAvailableProductSetUsersResponse = ProductSet;
 
 export type SetAvailableProductSetUsersError = CommonErrors;
 
+/** Modifies the set of products that a user is entitled to access (referred to as *whitelisted* products). Only products that are approved or products that were previously approved (products with revoked approval) can be whitelisted. **Note:** This item has been deprecated. New integrations cannot use this method and can refer to our new recommendations. */
 export const setAvailableProductSetUsers: API.OperationMethod<SetAvailableProductSetUsersRequest, SetAvailableProductSetUsersResponse, SetAvailableProductSetUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetAvailableProductSetUsersRequest,
   output: SetAvailableProductSetUsersResponse,
   errors: [],
 }));
 
-/** Gets an existing web app. */
 export interface GetWebappsRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -3467,13 +3466,13 @@ export const GetWebappsResponse = WebApp;
 
 export type GetWebappsError = CommonErrors;
 
+/** Gets an existing web app. */
 export const getWebapps: API.OperationMethod<GetWebappsRequest, GetWebappsResponse, GetWebappsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetWebappsRequest,
   output: GetWebappsResponse,
   errors: [],
 }));
 
-/** Retrieves the details of all web apps for a given enterprise. */
 export interface ListWebappsRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -3491,13 +3490,13 @@ export const ListWebappsResponse = WebAppsListResponse;
 
 export type ListWebappsError = CommonErrors;
 
+/** Retrieves the details of all web apps for a given enterprise. */
 export const listWebapps: API.OperationMethod<ListWebappsRequest, ListWebappsResponse, ListWebappsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListWebappsRequest,
   output: ListWebappsResponse,
   errors: [],
 }));
 
-/** Creates a new web app for the enterprise. */
 export interface InsertWebappsRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -3518,13 +3517,13 @@ export const InsertWebappsResponse = WebApp;
 
 export type InsertWebappsError = CommonErrors;
 
+/** Creates a new web app for the enterprise. */
 export const insertWebapps: API.OperationMethod<InsertWebappsRequest, InsertWebappsResponse, InsertWebappsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertWebappsRequest,
   output: InsertWebappsResponse,
   errors: [],
 }));
 
-/** Updates an existing web app. */
 export interface UpdateWebappsRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -3548,13 +3547,13 @@ export const UpdateWebappsResponse = WebApp;
 
 export type UpdateWebappsError = CommonErrors;
 
+/** Updates an existing web app. */
 export const updateWebapps: API.OperationMethod<UpdateWebappsRequest, UpdateWebappsResponse, UpdateWebappsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateWebappsRequest,
   output: UpdateWebappsResponse,
   errors: [],
 }));
 
-/** Deletes an existing web app. */
 export interface DeleteWebappsRequest {
   /** The ID of the enterprise. */
   enterpriseId: string;
@@ -3575,6 +3574,7 @@ export const DeleteWebappsResponse: Schema.Schema<DeleteWebappsResponse> = Schem
 
 export type DeleteWebappsError = CommonErrors;
 
+/** Deletes an existing web app. */
 export const deleteWebapps: API.OperationMethod<DeleteWebappsRequest, DeleteWebappsResponse, DeleteWebappsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteWebappsRequest,
   output: DeleteWebappsResponse,

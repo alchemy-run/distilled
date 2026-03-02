@@ -132,7 +132,6 @@ export const CheckAccessTypeResponse: Schema.Schema<CheckAccessTypeResponse> = S
 // Operations
 // ==========================================================================
 
-/** Initiates a new Archive job for the Portability API. */
 export interface InitiatePortabilityArchiveRequest_Op {
   /** Request body */
   body?: InitiatePortabilityArchiveRequest;
@@ -150,13 +149,13 @@ export const InitiatePortabilityArchiveResponse_Op = InitiatePortabilityArchiveR
 
 export type InitiatePortabilityArchiveError = CommonErrors;
 
+/** Initiates a new Archive job for the Portability API. */
 export const initiatePortabilityArchive: API.OperationMethod<InitiatePortabilityArchiveRequest_Op, InitiatePortabilityArchiveResponse_Op, InitiatePortabilityArchiveError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InitiatePortabilityArchiveRequest_Op,
   output: InitiatePortabilityArchiveResponse_Op,
   errors: [],
 }));
 
-/** Retrieves the state of an Archive job for the Portability API. */
 export interface GetPortabilityArchiveStateArchiveJobsRequest {
   /** Required. The archive job ID that is returned when you request the state of the job. The format is: archiveJobs/{archive_job}/portabilityArchiveState. archive_job is the job ID returned by the InitiatePortabilityArchiveResponse. */
   name: string;
@@ -174,13 +173,13 @@ export const GetPortabilityArchiveStateArchiveJobsResponse = PortabilityArchiveS
 
 export type GetPortabilityArchiveStateArchiveJobsError = CommonErrors;
 
+/** Retrieves the state of an Archive job for the Portability API. */
 export const getPortabilityArchiveStateArchiveJobs: API.OperationMethod<GetPortabilityArchiveStateArchiveJobsRequest, GetPortabilityArchiveStateArchiveJobsResponse, GetPortabilityArchiveStateArchiveJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPortabilityArchiveStateArchiveJobsRequest,
   output: GetPortabilityArchiveStateArchiveJobsResponse,
   errors: [],
 }));
 
-/** Retries a failed Portability Archive job. */
 export interface RetryArchiveJobsRequest {
   /** Required. The Archive job ID you're retrying. This is returned by the InitiatePortabilityArchiveResponse. Retrying is only executed if the initial job failed. */
   name: string;
@@ -201,13 +200,13 @@ export const RetryArchiveJobsResponse = RetryPortabilityArchiveResponse;
 
 export type RetryArchiveJobsError = CommonErrors;
 
+/** Retries a failed Portability Archive job. */
 export const retryArchiveJobs: API.OperationMethod<RetryArchiveJobsRequest, RetryArchiveJobsResponse, RetryArchiveJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RetryArchiveJobsRequest,
   output: RetryArchiveJobsResponse,
   errors: [],
 }));
 
-/** Cancels a Portability Archive job. */
 export interface CancelArchiveJobsRequest {
   /** Required. The Archive job ID you're canceling. This is returned by the InitiatePortabilityArchive response. The format is: archiveJobs/{archive_job}. Canceling is only executed if the job is in progress. */
   name: string;
@@ -228,13 +227,13 @@ export const CancelArchiveJobsResponse = CancelPortabilityArchiveResponse;
 
 export type CancelArchiveJobsError = CommonErrors;
 
+/** Cancels a Portability Archive job. */
 export const cancelArchiveJobs: API.OperationMethod<CancelArchiveJobsRequest, CancelArchiveJobsResponse, CancelArchiveJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelArchiveJobsRequest,
   output: CancelArchiveJobsResponse,
   errors: [],
 }));
 
-/** Revokes OAuth tokens and resets exhausted scopes for a user/project pair. This method allows you to initiate a request after a new consent is granted. This method also indicates that previous archives can be garbage collected. You should call this method when all jobs are complete and all archives are downloaded. Do not call it only when you start a new job. */
 export interface ResetAuthorizationRequest_Op {
   /** Request body */
   body?: ResetAuthorizationRequest;
@@ -252,13 +251,13 @@ export const ResetAuthorizationResponse = Empty;
 
 export type ResetAuthorizationError = CommonErrors;
 
+/** Revokes OAuth tokens and resets exhausted scopes for a user/project pair. This method allows you to initiate a request after a new consent is granted. This method also indicates that previous archives can be garbage collected. You should call this method when all jobs are complete and all archives are downloaded. Do not call it only when you start a new job. */
 export const resetAuthorization: API.OperationMethod<ResetAuthorizationRequest_Op, ResetAuthorizationResponse, ResetAuthorizationError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetAuthorizationRequest_Op,
   output: ResetAuthorizationResponse,
   errors: [],
 }));
 
-/** Gets the access type of the token. */
 export interface CheckAccessTypeRequest_Op {
   /** Request body */
   body?: CheckAccessTypeRequest;
@@ -276,6 +275,7 @@ export const CheckAccessTypeResponse_Op = CheckAccessTypeResponse;
 
 export type CheckAccessTypeError = CommonErrors;
 
+/** Gets the access type of the token. */
 export const checkAccessType: API.OperationMethod<CheckAccessTypeRequest_Op, CheckAccessTypeResponse_Op, CheckAccessTypeError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CheckAccessTypeRequest_Op,
   output: CheckAccessTypeResponse_Op,

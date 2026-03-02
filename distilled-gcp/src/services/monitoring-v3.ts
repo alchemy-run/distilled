@@ -2175,7 +2175,6 @@ export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspen
 // Operations
 // ==========================================================================
 
-/** Lists monitored resource descriptors that match a filter. */
 export interface ListProjectsMonitoredResourceDescriptorsRequest {
   /** Required. The project (https://cloud.google.com/monitoring/api/v3#project_name) on which to execute the request. The format is: projects/[PROJECT_ID_OR_NUMBER] */
   name: string;
@@ -2202,7 +2201,8 @@ export const ListProjectsMonitoredResourceDescriptorsResponse = ListMonitoredRes
 
 export type ListProjectsMonitoredResourceDescriptorsError = CommonErrors;
 
-export const listProjectsMonitoredResourceDescriptors = API.makePaginated(() => ({
+/** Lists monitored resource descriptors that match a filter. */
+export const listProjectsMonitoredResourceDescriptors: API.PaginatedOperationMethod<ListProjectsMonitoredResourceDescriptorsRequest, ListProjectsMonitoredResourceDescriptorsResponse, ListProjectsMonitoredResourceDescriptorsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsMonitoredResourceDescriptorsRequest,
   output: ListProjectsMonitoredResourceDescriptorsResponse,
   errors: [],
@@ -2212,7 +2212,6 @@ export const listProjectsMonitoredResourceDescriptors = API.makePaginated(() => 
   },
 }));
 
-/** Gets a single monitored resource descriptor. */
 export interface GetProjectsMonitoredResourceDescriptorsRequest {
   /** Required. The monitored resource descriptor to get. The format is: projects/[PROJECT_ID_OR_NUMBER]/monitoredResourceDescriptors/[RESOURCE_TYPE] The [RESOURCE_TYPE] is a predefined type, such as cloudsql_database. */
   name: string;
@@ -2230,13 +2229,13 @@ export const GetProjectsMonitoredResourceDescriptorsResponse = MonitoredResource
 
 export type GetProjectsMonitoredResourceDescriptorsError = CommonErrors;
 
+/** Gets a single monitored resource descriptor. */
 export const getProjectsMonitoredResourceDescriptors: API.OperationMethod<GetProjectsMonitoredResourceDescriptorsRequest, GetProjectsMonitoredResourceDescriptorsResponse, GetProjectsMonitoredResourceDescriptorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsMonitoredResourceDescriptorsRequest,
   output: GetProjectsMonitoredResourceDescriptorsResponse,
   errors: [],
 }));
 
-/** Lists metric descriptors that match a filter. */
 export interface ListProjectsMetricDescriptorsRequest {
   /** Required. The project (https://cloud.google.com/monitoring/api/v3#project_name) on which to execute the request. The format is: projects/[PROJECT_ID_OR_NUMBER] */
   name: string;
@@ -2266,7 +2265,8 @@ export const ListProjectsMetricDescriptorsResponse = ListMetricDescriptorsRespon
 
 export type ListProjectsMetricDescriptorsError = CommonErrors;
 
-export const listProjectsMetricDescriptors = API.makePaginated(() => ({
+/** Lists metric descriptors that match a filter. */
+export const listProjectsMetricDescriptors: API.PaginatedOperationMethod<ListProjectsMetricDescriptorsRequest, ListProjectsMetricDescriptorsResponse, ListProjectsMetricDescriptorsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsMetricDescriptorsRequest,
   output: ListProjectsMetricDescriptorsResponse,
   errors: [],
@@ -2276,7 +2276,6 @@ export const listProjectsMetricDescriptors = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a single metric descriptor. */
 export interface GetProjectsMetricDescriptorsRequest {
   /** Required. The metric descriptor on which to execute the request. The format is: projects/[PROJECT_ID_OR_NUMBER]/metricDescriptors/[METRIC_ID] An example value of [METRIC_ID] is "compute.googleapis.com/instance/disk/read_bytes_count". */
   name: string;
@@ -2294,13 +2293,13 @@ export const GetProjectsMetricDescriptorsResponse = MetricDescriptor;
 
 export type GetProjectsMetricDescriptorsError = CommonErrors;
 
+/** Gets a single metric descriptor. */
 export const getProjectsMetricDescriptors: API.OperationMethod<GetProjectsMetricDescriptorsRequest, GetProjectsMetricDescriptorsResponse, GetProjectsMetricDescriptorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsMetricDescriptorsRequest,
   output: GetProjectsMetricDescriptorsResponse,
   errors: [],
 }));
 
-/** Creates a new metric descriptor. The creation is executed asynchronously. User-created metric descriptors define custom metrics (https://cloud.google.com/monitoring/custom-metrics). The metric descriptor is updated if it already exists, except that metric labels are never removed. */
 export interface CreateProjectsMetricDescriptorsRequest {
   /** Required. The project (https://cloud.google.com/monitoring/api/v3#project_name) on which to execute the request. The format is: 4 projects/PROJECT_ID_OR_NUMBER */
   name: string;
@@ -2321,13 +2320,13 @@ export const CreateProjectsMetricDescriptorsResponse = MetricDescriptor;
 
 export type CreateProjectsMetricDescriptorsError = CommonErrors;
 
+/** Creates a new metric descriptor. The creation is executed asynchronously. User-created metric descriptors define custom metrics (https://cloud.google.com/monitoring/custom-metrics). The metric descriptor is updated if it already exists, except that metric labels are never removed. */
 export const createProjectsMetricDescriptors: API.OperationMethod<CreateProjectsMetricDescriptorsRequest, CreateProjectsMetricDescriptorsResponse, CreateProjectsMetricDescriptorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsMetricDescriptorsRequest,
   output: CreateProjectsMetricDescriptorsResponse,
   errors: [],
 }));
 
-/** Deletes a metric descriptor. Only user-created custom metrics (https://cloud.google.com/monitoring/custom-metrics) can be deleted. */
 export interface DeleteProjectsMetricDescriptorsRequest {
   /** Required. The metric descriptor on which to execute the request. The format is: projects/[PROJECT_ID_OR_NUMBER]/metricDescriptors/[METRIC_ID] An example of [METRIC_ID] is: "custom.googleapis.com/my_test_metric". */
   name: string;
@@ -2345,13 +2344,13 @@ export const DeleteProjectsMetricDescriptorsResponse = Empty;
 
 export type DeleteProjectsMetricDescriptorsError = CommonErrors;
 
+/** Deletes a metric descriptor. Only user-created custom metrics (https://cloud.google.com/monitoring/custom-metrics) can be deleted. */
 export const deleteProjectsMetricDescriptors: API.OperationMethod<DeleteProjectsMetricDescriptorsRequest, DeleteProjectsMetricDescriptorsResponse, DeleteProjectsMetricDescriptorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsMetricDescriptorsRequest,
   output: DeleteProjectsMetricDescriptorsResponse,
   errors: [],
 }));
 
-/** Lists time series that match a filter. */
 export interface ListProjectsTimeSeriesRequest {
   /** Required. The project (https://cloud.google.com/monitoring/api/v3#project_name), organization or folder on which to execute the request. The format is: projects/[PROJECT_ID_OR_NUMBER] organizations/[ORGANIZATION_ID] folders/[FOLDER_ID] */
   name: string;
@@ -2414,7 +2413,8 @@ export const ListProjectsTimeSeriesResponse = ListTimeSeriesResponse;
 
 export type ListProjectsTimeSeriesError = CommonErrors;
 
-export const listProjectsTimeSeries = API.makePaginated(() => ({
+/** Lists time series that match a filter. */
+export const listProjectsTimeSeries: API.PaginatedOperationMethod<ListProjectsTimeSeriesRequest, ListProjectsTimeSeriesResponse, ListProjectsTimeSeriesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsTimeSeriesRequest,
   output: ListProjectsTimeSeriesResponse,
   errors: [],
@@ -2424,7 +2424,6 @@ export const listProjectsTimeSeries = API.makePaginated(() => ({
   },
 }));
 
-/** Creates or adds data to one or more time series. The response is empty if all time series in the request were written. If any time series could not be written, a corresponding failure message is included in the error response. This method does not support resource locations constraint of an organization policy (https://cloud.google.com/resource-manager/docs/organization-policy/defining-locations#setting_the_organization_policy). */
 export interface CreateProjectsTimeSeriesRequest {
   /** Required. The project (https://cloud.google.com/monitoring/api/v3#project_name) on which to execute the request. The format is: projects/[PROJECT_ID_OR_NUMBER] */
   name: string;
@@ -2445,13 +2444,13 @@ export const CreateProjectsTimeSeriesResponse = Empty;
 
 export type CreateProjectsTimeSeriesError = CommonErrors;
 
+/** Creates or adds data to one or more time series. The response is empty if all time series in the request were written. If any time series could not be written, a corresponding failure message is included in the error response. This method does not support resource locations constraint of an organization policy (https://cloud.google.com/resource-manager/docs/organization-policy/defining-locations#setting_the_organization_policy). */
 export const createProjectsTimeSeries: API.OperationMethod<CreateProjectsTimeSeriesRequest, CreateProjectsTimeSeriesResponse, CreateProjectsTimeSeriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsTimeSeriesRequest,
   output: CreateProjectsTimeSeriesResponse,
   errors: [],
 }));
 
-/** Creates or adds data to one or more service time series. A service time series is a time series for a metric from a Google Cloud service. The response is empty if all time series in the request were written. If any time series could not be written, a corresponding failure message is included in the error response. This endpoint rejects writes to user-defined metrics. This method is only for use by Google Cloud services. Use projects.timeSeries.create instead. */
 export interface CreateServiceProjectsTimeSeriesRequest {
   /** Required. The project (https://cloud.google.com/monitoring/api/v3#project_name) on which to execute the request. The format is: projects/[PROJECT_ID_OR_NUMBER] */
   name: string;
@@ -2472,13 +2471,13 @@ export const CreateServiceProjectsTimeSeriesResponse = Empty;
 
 export type CreateServiceProjectsTimeSeriesError = CommonErrors;
 
+/** Creates or adds data to one or more service time series. A service time series is a time series for a metric from a Google Cloud service. The response is empty if all time series in the request were written. If any time series could not be written, a corresponding failure message is included in the error response. This endpoint rejects writes to user-defined metrics. This method is only for use by Google Cloud services. Use projects.timeSeries.create instead. */
 export const createServiceProjectsTimeSeries: API.OperationMethod<CreateServiceProjectsTimeSeriesRequest, CreateServiceProjectsTimeSeriesResponse, CreateServiceProjectsTimeSeriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateServiceProjectsTimeSeriesRequest,
   output: CreateServiceProjectsTimeSeriesResponse,
   errors: [],
 }));
 
-/** Queries time series by using Monitoring Query Language (MQL). We recommend using PromQL instead of MQL. For more information about the status of MQL, see the MQL deprecation notice (https://cloud.google.com/stackdriver/docs/deprecations/mql). */
 export interface QueryProjectsTimeSeriesRequest {
   /** Required. The project (https://cloud.google.com/monitoring/api/v3#project_name) on which to execute the request. The format is: projects/[PROJECT_ID_OR_NUMBER] */
   name: string;
@@ -2499,13 +2498,13 @@ export const QueryProjectsTimeSeriesResponse = QueryTimeSeriesResponse;
 
 export type QueryProjectsTimeSeriesError = CommonErrors;
 
+/** Queries time series by using Monitoring Query Language (MQL). We recommend using PromQL instead of MQL. For more information about the status of MQL, see the MQL deprecation notice (https://cloud.google.com/stackdriver/docs/deprecations/mql). */
 export const queryProjectsTimeSeries: API.OperationMethod<QueryProjectsTimeSeriesRequest, QueryProjectsTimeSeriesResponse, QueryProjectsTimeSeriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: QueryProjectsTimeSeriesRequest,
   output: QueryProjectsTimeSeriesResponse,
   errors: [],
 }));
 
-/** Cloud Monitoring Agent only: Creates a new time series.This method is only for use by the Cloud Monitoring Agent. Use projects.timeSeries.create instead. */
 export interface CreateProjectsCollectdTimeSeriesRequest {
   /** The project (https://cloud.google.com/monitoring/api/v3#project_name) in which to create the time series. The format is: projects/[PROJECT_ID_OR_NUMBER] */
   name: string;
@@ -2526,13 +2525,13 @@ export const CreateProjectsCollectdTimeSeriesResponse = CreateCollectdTimeSeries
 
 export type CreateProjectsCollectdTimeSeriesError = CommonErrors;
 
+/** Cloud Monitoring Agent only: Creates a new time series.This method is only for use by the Cloud Monitoring Agent. Use projects.timeSeries.create instead. */
 export const createProjectsCollectdTimeSeries: API.OperationMethod<CreateProjectsCollectdTimeSeriesRequest, CreateProjectsCollectdTimeSeriesResponse, CreateProjectsCollectdTimeSeriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsCollectdTimeSeriesRequest,
   output: CreateProjectsCollectdTimeSeriesResponse,
   errors: [],
 }));
 
-/** Lists the existing alerting policies for the workspace. */
 export interface ListProjectsAlertPoliciesRequest {
   /** Required. The project (https://cloud.google.com/monitoring/api/v3#project_name) whose alert policies are to be listed. The format is: projects/[PROJECT_ID_OR_NUMBER] Note that this field names the parent container in which the alerting policies to be listed are stored. To retrieve a single alerting policy by name, use the GetAlertPolicy operation, instead. */
   name: string;
@@ -2562,7 +2561,8 @@ export const ListProjectsAlertPoliciesResponse = ListAlertPoliciesResponse;
 
 export type ListProjectsAlertPoliciesError = CommonErrors;
 
-export const listProjectsAlertPolicies = API.makePaginated(() => ({
+/** Lists the existing alerting policies for the workspace. */
+export const listProjectsAlertPolicies: API.PaginatedOperationMethod<ListProjectsAlertPoliciesRequest, ListProjectsAlertPoliciesResponse, ListProjectsAlertPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsAlertPoliciesRequest,
   output: ListProjectsAlertPoliciesResponse,
   errors: [],
@@ -2572,7 +2572,6 @@ export const listProjectsAlertPolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a single alerting policy. */
 export interface GetProjectsAlertPoliciesRequest {
   /** Required. The alerting policy to retrieve. The format is: projects/[PROJECT_ID_OR_NUMBER]/alertPolicies/[ALERT_POLICY_ID] */
   name: string;
@@ -2590,13 +2589,13 @@ export const GetProjectsAlertPoliciesResponse = AlertPolicy;
 
 export type GetProjectsAlertPoliciesError = CommonErrors;
 
+/** Gets a single alerting policy. */
 export const getProjectsAlertPolicies: API.OperationMethod<GetProjectsAlertPoliciesRequest, GetProjectsAlertPoliciesResponse, GetProjectsAlertPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsAlertPoliciesRequest,
   output: GetProjectsAlertPoliciesResponse,
   errors: [],
 }));
 
-/** Creates a new alerting policy.Design your application to single-thread API calls that modify the state of alerting policies in a single project. This includes calls to CreateAlertPolicy, DeleteAlertPolicy and UpdateAlertPolicy. */
 export interface CreateProjectsAlertPoliciesRequest {
   /** Required. The project (https://cloud.google.com/monitoring/api/v3#project_name) in which to create the alerting policy. The format is: projects/[PROJECT_ID_OR_NUMBER] Note that this field names the parent container in which the alerting policy will be written, not the name of the created policy. |name| must be a host project of a Metrics Scope, otherwise INVALID_ARGUMENT error will return. The alerting policy that is returned will have a name that contains a normalized representation of this name as a prefix but adds a suffix of the form /alertPolicies/[ALERT_POLICY_ID], identifying the policy in the container. */
   name: string;
@@ -2617,13 +2616,13 @@ export const CreateProjectsAlertPoliciesResponse = AlertPolicy;
 
 export type CreateProjectsAlertPoliciesError = CommonErrors;
 
+/** Creates a new alerting policy.Design your application to single-thread API calls that modify the state of alerting policies in a single project. This includes calls to CreateAlertPolicy, DeleteAlertPolicy and UpdateAlertPolicy. */
 export const createProjectsAlertPolicies: API.OperationMethod<CreateProjectsAlertPoliciesRequest, CreateProjectsAlertPoliciesResponse, CreateProjectsAlertPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsAlertPoliciesRequest,
   output: CreateProjectsAlertPoliciesResponse,
   errors: [],
 }));
 
-/** Deletes an alerting policy.Design your application to single-thread API calls that modify the state of alerting policies in a single project. This includes calls to CreateAlertPolicy, DeleteAlertPolicy and UpdateAlertPolicy. */
 export interface DeleteProjectsAlertPoliciesRequest {
   /** Required. The alerting policy to delete. The format is: projects/[PROJECT_ID_OR_NUMBER]/alertPolicies/[ALERT_POLICY_ID] For more information, see AlertPolicy. */
   name: string;
@@ -2641,13 +2640,13 @@ export const DeleteProjectsAlertPoliciesResponse = Empty;
 
 export type DeleteProjectsAlertPoliciesError = CommonErrors;
 
+/** Deletes an alerting policy.Design your application to single-thread API calls that modify the state of alerting policies in a single project. This includes calls to CreateAlertPolicy, DeleteAlertPolicy and UpdateAlertPolicy. */
 export const deleteProjectsAlertPolicies: API.OperationMethod<DeleteProjectsAlertPoliciesRequest, DeleteProjectsAlertPoliciesResponse, DeleteProjectsAlertPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsAlertPoliciesRequest,
   output: DeleteProjectsAlertPoliciesResponse,
   errors: [],
 }));
 
-/** Updates an alerting policy. You can either replace the entire policy with a new one or replace only certain fields in the current alerting policy by specifying the fields to be updated via updateMask. Returns the updated alerting policy.Design your application to single-thread API calls that modify the state of alerting policies in a single project. This includes calls to CreateAlertPolicy, DeleteAlertPolicy and UpdateAlertPolicy. */
 export interface PatchProjectsAlertPoliciesRequest {
   /** Identifier. Required if the policy exists. The resource name for this policy. The format is: projects/[PROJECT_ID_OR_NUMBER]/alertPolicies/[ALERT_POLICY_ID] [ALERT_POLICY_ID] is assigned by Cloud Monitoring when the policy is created. When calling the alertPolicies.create method, do not include the name field in the alerting policy passed as part of the request. */
   name: string;
@@ -2671,13 +2670,13 @@ export const PatchProjectsAlertPoliciesResponse = AlertPolicy;
 
 export type PatchProjectsAlertPoliciesError = CommonErrors;
 
+/** Updates an alerting policy. You can either replace the entire policy with a new one or replace only certain fields in the current alerting policy by specifying the fields to be updated via updateMask. Returns the updated alerting policy.Design your application to single-thread API calls that modify the state of alerting policies in a single project. This includes calls to CreateAlertPolicy, DeleteAlertPolicy and UpdateAlertPolicy. */
 export const patchProjectsAlertPolicies: API.OperationMethod<PatchProjectsAlertPoliciesRequest, PatchProjectsAlertPoliciesResponse, PatchProjectsAlertPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsAlertPoliciesRequest,
   output: PatchProjectsAlertPoliciesResponse,
   errors: [],
 }));
 
-/** Lists the existing groups. */
 export interface ListProjectsGroupsRequest {
   /** Required. The project (https://cloud.google.com/monitoring/api/v3#project_name) whose groups are to be listed. The format is: projects/[PROJECT_ID_OR_NUMBER] */
   name: string;
@@ -2710,7 +2709,8 @@ export const ListProjectsGroupsResponse = ListGroupsResponse;
 
 export type ListProjectsGroupsError = CommonErrors;
 
-export const listProjectsGroups = API.makePaginated(() => ({
+/** Lists the existing groups. */
+export const listProjectsGroups: API.PaginatedOperationMethod<ListProjectsGroupsRequest, ListProjectsGroupsResponse, ListProjectsGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsGroupsRequest,
   output: ListProjectsGroupsResponse,
   errors: [],
@@ -2720,7 +2720,6 @@ export const listProjectsGroups = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a single group. */
 export interface GetProjectsGroupsRequest {
   /** Required. The group to retrieve. The format is: projects/[PROJECT_ID_OR_NUMBER]/groups/[GROUP_ID] */
   name: string;
@@ -2738,13 +2737,13 @@ export const GetProjectsGroupsResponse = Group;
 
 export type GetProjectsGroupsError = CommonErrors;
 
+/** Gets a single group. */
 export const getProjectsGroups: API.OperationMethod<GetProjectsGroupsRequest, GetProjectsGroupsResponse, GetProjectsGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsGroupsRequest,
   output: GetProjectsGroupsResponse,
   errors: [],
 }));
 
-/** Creates a new group. */
 export interface CreateProjectsGroupsRequest {
   /** Required. The project (https://cloud.google.com/monitoring/api/v3#project_name) in which to create the group. The format is: projects/[PROJECT_ID_OR_NUMBER] */
   name: string;
@@ -2768,13 +2767,13 @@ export const CreateProjectsGroupsResponse = Group;
 
 export type CreateProjectsGroupsError = CommonErrors;
 
+/** Creates a new group. */
 export const createProjectsGroups: API.OperationMethod<CreateProjectsGroupsRequest, CreateProjectsGroupsResponse, CreateProjectsGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsGroupsRequest,
   output: CreateProjectsGroupsResponse,
   errors: [],
 }));
 
-/** Updates an existing group. You can change any group attributes except name. */
 export interface UpdateProjectsGroupsRequest {
   /** Output only. The name of this group. The format is: projects/[PROJECT_ID_OR_NUMBER]/groups/[GROUP_ID] When creating a group, this field is ignored and a new name is created consisting of the project specified in the call to CreateGroup and a unique [GROUP_ID] that is generated automatically. */
   name: string;
@@ -2798,13 +2797,13 @@ export const UpdateProjectsGroupsResponse = Group;
 
 export type UpdateProjectsGroupsError = CommonErrors;
 
+/** Updates an existing group. You can change any group attributes except name. */
 export const updateProjectsGroups: API.OperationMethod<UpdateProjectsGroupsRequest, UpdateProjectsGroupsResponse, UpdateProjectsGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateProjectsGroupsRequest,
   output: UpdateProjectsGroupsResponse,
   errors: [],
 }));
 
-/** Deletes an existing group. */
 export interface DeleteProjectsGroupsRequest {
   /** Required. The group to delete. The format is: projects/[PROJECT_ID_OR_NUMBER]/groups/[GROUP_ID] */
   name: string;
@@ -2825,13 +2824,13 @@ export const DeleteProjectsGroupsResponse = Empty;
 
 export type DeleteProjectsGroupsError = CommonErrors;
 
+/** Deletes an existing group. */
 export const deleteProjectsGroups: API.OperationMethod<DeleteProjectsGroupsRequest, DeleteProjectsGroupsResponse, DeleteProjectsGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsGroupsRequest,
   output: DeleteProjectsGroupsResponse,
   errors: [],
 }));
 
-/** Lists the monitored resources that are members of a group. */
 export interface ListProjectsGroupsMembersRequest {
   /** Required. The group whose members are listed. The format is: projects/[PROJECT_ID_OR_NUMBER]/groups/[GROUP_ID] */
   name: string;
@@ -2864,7 +2863,8 @@ export const ListProjectsGroupsMembersResponse = ListGroupMembersResponse;
 
 export type ListProjectsGroupsMembersError = CommonErrors;
 
-export const listProjectsGroupsMembers = API.makePaginated(() => ({
+/** Lists the monitored resources that are members of a group. */
+export const listProjectsGroupsMembers: API.PaginatedOperationMethod<ListProjectsGroupsMembersRequest, ListProjectsGroupsMembersResponse, ListProjectsGroupsMembersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsGroupsMembersRequest,
   output: ListProjectsGroupsMembersResponse,
   errors: [],
@@ -2874,7 +2874,6 @@ export const listProjectsGroupsMembers = API.makePaginated(() => ({
   },
 }));
 
-/** Lists the existing alerts for the metrics scope of the project. */
 export interface ListProjectsAlertsRequest {
   /** Required. The name of the project to list alerts for. */
   parent: string;
@@ -2904,7 +2903,8 @@ export const ListProjectsAlertsResponse = ListAlertsResponse;
 
 export type ListProjectsAlertsError = CommonErrors;
 
-export const listProjectsAlerts = API.makePaginated(() => ({
+/** Lists the existing alerts for the metrics scope of the project. */
+export const listProjectsAlerts: API.PaginatedOperationMethod<ListProjectsAlertsRequest, ListProjectsAlertsResponse, ListProjectsAlertsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsAlertsRequest,
   output: ListProjectsAlertsResponse,
   errors: [],
@@ -2914,7 +2914,6 @@ export const listProjectsAlerts = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a single alert. */
 export interface GetProjectsAlertsRequest {
   /** Required. The name of the alert.The format is: projects/[PROJECT_ID_OR_NUMBER]/alerts/[ALERT_ID] The [ALERT_ID] is a system-assigned unique identifier for the alert. */
   name: string;
@@ -2932,13 +2931,13 @@ export const GetProjectsAlertsResponse = Alert;
 
 export type GetProjectsAlertsError = CommonErrors;
 
+/** Gets a single alert. */
 export const getProjectsAlerts: API.OperationMethod<GetProjectsAlertsRequest, GetProjectsAlertsResponse, GetProjectsAlertsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsAlertsRequest,
   output: GetProjectsAlertsResponse,
   errors: [],
 }));
 
-/** Lists the descriptors for supported channel types. The use of descriptors makes it possible for new channel types to be dynamically added. */
 export interface ListProjectsNotificationChannelDescriptorsRequest {
   /** Required. The REST resource name of the parent from which to retrieve the notification channel descriptors. The expected syntax is: projects/[PROJECT_ID_OR_NUMBER] Note that this names (https://cloud.google.com/monitoring/api/v3#project_name) the parent container in which to look for the descriptors; to retrieve a single descriptor by name, use the GetNotificationChannelDescriptor operation, instead. */
   name: string;
@@ -2962,7 +2961,8 @@ export const ListProjectsNotificationChannelDescriptorsResponse = ListNotificati
 
 export type ListProjectsNotificationChannelDescriptorsError = CommonErrors;
 
-export const listProjectsNotificationChannelDescriptors = API.makePaginated(() => ({
+/** Lists the descriptors for supported channel types. The use of descriptors makes it possible for new channel types to be dynamically added. */
+export const listProjectsNotificationChannelDescriptors: API.PaginatedOperationMethod<ListProjectsNotificationChannelDescriptorsRequest, ListProjectsNotificationChannelDescriptorsResponse, ListProjectsNotificationChannelDescriptorsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsNotificationChannelDescriptorsRequest,
   output: ListProjectsNotificationChannelDescriptorsResponse,
   errors: [],
@@ -2972,7 +2972,6 @@ export const listProjectsNotificationChannelDescriptors = API.makePaginated(() =
   },
 }));
 
-/** Gets a single channel descriptor. The descriptor indicates which fields are expected / permitted for a notification channel of the given type. */
 export interface GetProjectsNotificationChannelDescriptorsRequest {
   /** Required. The channel type for which to execute the request. The format is: projects/[PROJECT_ID_OR_NUMBER]/notificationChannelDescriptors/[CHANNEL_TYPE] */
   name: string;
@@ -2990,13 +2989,13 @@ export const GetProjectsNotificationChannelDescriptorsResponse = NotificationCha
 
 export type GetProjectsNotificationChannelDescriptorsError = CommonErrors;
 
+/** Gets a single channel descriptor. The descriptor indicates which fields are expected / permitted for a notification channel of the given type. */
 export const getProjectsNotificationChannelDescriptors: API.OperationMethod<GetProjectsNotificationChannelDescriptorsRequest, GetProjectsNotificationChannelDescriptorsResponse, GetProjectsNotificationChannelDescriptorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsNotificationChannelDescriptorsRequest,
   output: GetProjectsNotificationChannelDescriptorsResponse,
   errors: [],
 }));
 
-/** Lists the notification channels that have been created for the project. To list the types of notification channels that are supported, use the ListNotificationChannelDescriptors method. */
 export interface ListProjectsNotificationChannelsRequest {
   /** Required. The project (https://cloud.google.com/monitoring/api/v3#project_name) on which to execute the request. The format is: projects/[PROJECT_ID_OR_NUMBER] This names the container in which to look for the notification channels; it does not name a specific channel. To query a specific channel by REST resource name, use the GetNotificationChannel operation. */
   name: string;
@@ -3026,7 +3025,8 @@ export const ListProjectsNotificationChannelsResponse = ListNotificationChannels
 
 export type ListProjectsNotificationChannelsError = CommonErrors;
 
-export const listProjectsNotificationChannels = API.makePaginated(() => ({
+/** Lists the notification channels that have been created for the project. To list the types of notification channels that are supported, use the ListNotificationChannelDescriptors method. */
+export const listProjectsNotificationChannels: API.PaginatedOperationMethod<ListProjectsNotificationChannelsRequest, ListProjectsNotificationChannelsResponse, ListProjectsNotificationChannelsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsNotificationChannelsRequest,
   output: ListProjectsNotificationChannelsResponse,
   errors: [],
@@ -3036,7 +3036,6 @@ export const listProjectsNotificationChannels = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a single notification channel. The channel includes the relevant configuration details with which the channel was created. However, the response may truncate or omit passwords, API keys, or other private key matter and thus the response may not be 100% identical to the information that was supplied in the call to the create method. */
 export interface GetProjectsNotificationChannelsRequest {
   /** Required. The channel for which to execute the request. The format is: projects/[PROJECT_ID_OR_NUMBER]/notificationChannels/[CHANNEL_ID] */
   name: string;
@@ -3054,13 +3053,13 @@ export const GetProjectsNotificationChannelsResponse = NotificationChannel;
 
 export type GetProjectsNotificationChannelsError = CommonErrors;
 
+/** Gets a single notification channel. The channel includes the relevant configuration details with which the channel was created. However, the response may truncate or omit passwords, API keys, or other private key matter and thus the response may not be 100% identical to the information that was supplied in the call to the create method. */
 export const getProjectsNotificationChannels: API.OperationMethod<GetProjectsNotificationChannelsRequest, GetProjectsNotificationChannelsResponse, GetProjectsNotificationChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsNotificationChannelsRequest,
   output: GetProjectsNotificationChannelsResponse,
   errors: [],
 }));
 
-/** Creates a new notification channel, representing a single notification endpoint such as an email address, SMS number, or PagerDuty service.Design your application to single-thread API calls that modify the state of notification channels in a single project. This includes calls to CreateNotificationChannel, DeleteNotificationChannel and UpdateNotificationChannel. */
 export interface CreateProjectsNotificationChannelsRequest {
   /** Required. The project (https://cloud.google.com/monitoring/api/v3#project_name) on which to execute the request. The format is: projects/[PROJECT_ID_OR_NUMBER] This names the container into which the channel will be written, this does not name the newly created channel. The resulting channel's name will have a normalized version of this field as a prefix, but will add /notificationChannels/[CHANNEL_ID] to identify the channel. */
   name: string;
@@ -3081,13 +3080,13 @@ export const CreateProjectsNotificationChannelsResponse = NotificationChannel;
 
 export type CreateProjectsNotificationChannelsError = CommonErrors;
 
+/** Creates a new notification channel, representing a single notification endpoint such as an email address, SMS number, or PagerDuty service.Design your application to single-thread API calls that modify the state of notification channels in a single project. This includes calls to CreateNotificationChannel, DeleteNotificationChannel and UpdateNotificationChannel. */
 export const createProjectsNotificationChannels: API.OperationMethod<CreateProjectsNotificationChannelsRequest, CreateProjectsNotificationChannelsResponse, CreateProjectsNotificationChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsNotificationChannelsRequest,
   output: CreateProjectsNotificationChannelsResponse,
   errors: [],
 }));
 
-/** Updates a notification channel. Fields not specified in the field mask remain unchanged.Design your application to single-thread API calls that modify the state of notification channels in a single project. This includes calls to CreateNotificationChannel, DeleteNotificationChannel and UpdateNotificationChannel. */
 export interface PatchProjectsNotificationChannelsRequest {
   /** Identifier. The full REST resource name for this channel. The format is: projects/[PROJECT_ID_OR_NUMBER]/notificationChannels/[CHANNEL_ID] The [CHANNEL_ID] is automatically assigned by the server on creation. */
   name: string;
@@ -3111,13 +3110,13 @@ export const PatchProjectsNotificationChannelsResponse = NotificationChannel;
 
 export type PatchProjectsNotificationChannelsError = CommonErrors;
 
+/** Updates a notification channel. Fields not specified in the field mask remain unchanged.Design your application to single-thread API calls that modify the state of notification channels in a single project. This includes calls to CreateNotificationChannel, DeleteNotificationChannel and UpdateNotificationChannel. */
 export const patchProjectsNotificationChannels: API.OperationMethod<PatchProjectsNotificationChannelsRequest, PatchProjectsNotificationChannelsResponse, PatchProjectsNotificationChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsNotificationChannelsRequest,
   output: PatchProjectsNotificationChannelsResponse,
   errors: [],
 }));
 
-/** Deletes a notification channel.Design your application to single-thread API calls that modify the state of notification channels in a single project. This includes calls to CreateNotificationChannel, DeleteNotificationChannel and UpdateNotificationChannel. */
 export interface DeleteProjectsNotificationChannelsRequest {
   /** Required. The channel for which to execute the request. The format is: projects/[PROJECT_ID_OR_NUMBER]/notificationChannels/[CHANNEL_ID] */
   name: string;
@@ -3138,13 +3137,13 @@ export const DeleteProjectsNotificationChannelsResponse = Empty;
 
 export type DeleteProjectsNotificationChannelsError = CommonErrors;
 
+/** Deletes a notification channel.Design your application to single-thread API calls that modify the state of notification channels in a single project. This includes calls to CreateNotificationChannel, DeleteNotificationChannel and UpdateNotificationChannel. */
 export const deleteProjectsNotificationChannels: API.OperationMethod<DeleteProjectsNotificationChannelsRequest, DeleteProjectsNotificationChannelsResponse, DeleteProjectsNotificationChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsNotificationChannelsRequest,
   output: DeleteProjectsNotificationChannelsResponse,
   errors: [],
 }));
 
-/** Causes a verification code to be delivered to the channel. The code can then be supplied in VerifyNotificationChannel to verify the channel. */
 export interface SendVerificationCodeProjectsNotificationChannelsRequest {
   /** Required. The notification channel to which to send a verification code. */
   name: string;
@@ -3165,13 +3164,13 @@ export const SendVerificationCodeProjectsNotificationChannelsResponse = Empty;
 
 export type SendVerificationCodeProjectsNotificationChannelsError = CommonErrors;
 
+/** Causes a verification code to be delivered to the channel. The code can then be supplied in VerifyNotificationChannel to verify the channel. */
 export const sendVerificationCodeProjectsNotificationChannels: API.OperationMethod<SendVerificationCodeProjectsNotificationChannelsRequest, SendVerificationCodeProjectsNotificationChannelsResponse, SendVerificationCodeProjectsNotificationChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SendVerificationCodeProjectsNotificationChannelsRequest,
   output: SendVerificationCodeProjectsNotificationChannelsResponse,
   errors: [],
 }));
 
-/** Requests a verification code for an already verified channel that can then be used in a call to VerifyNotificationChannel() on a different channel with an equivalent identity in the same or in a different project. This makes it possible to copy a channel between projects without requiring manual reverification of the channel. If the channel is not in the verified state, this method will fail (in other words, this may only be used if the SendNotificationChannelVerificationCode and VerifyNotificationChannel paths have already been used to put the given channel into the verified state).There is no guarantee that the verification codes returned by this method will be of a similar structure or form as the ones that are delivered to the channel via SendNotificationChannelVerificationCode; while VerifyNotificationChannel() will recognize both the codes delivered via SendNotificationChannelVerificationCode() and returned from GetNotificationChannelVerificationCode(), it is typically the case that the verification codes delivered via SendNotificationChannelVerificationCode() will be shorter and also have a shorter expiration (e.g. codes such as "G-123456") whereas GetVerificationCode() will typically return a much longer, websafe base 64 encoded string that has a longer expiration time. */
 export interface GetVerificationCodeProjectsNotificationChannelsRequest {
   /** Required. The notification channel for which a verification code is to be generated and retrieved. This must name a channel that is already verified; if the specified channel is not verified, the request will fail. */
   name: string;
@@ -3192,13 +3191,13 @@ export const GetVerificationCodeProjectsNotificationChannelsResponse = GetNotifi
 
 export type GetVerificationCodeProjectsNotificationChannelsError = CommonErrors;
 
+/** Requests a verification code for an already verified channel that can then be used in a call to VerifyNotificationChannel() on a different channel with an equivalent identity in the same or in a different project. This makes it possible to copy a channel between projects without requiring manual reverification of the channel. If the channel is not in the verified state, this method will fail (in other words, this may only be used if the SendNotificationChannelVerificationCode and VerifyNotificationChannel paths have already been used to put the given channel into the verified state).There is no guarantee that the verification codes returned by this method will be of a similar structure or form as the ones that are delivered to the channel via SendNotificationChannelVerificationCode; while VerifyNotificationChannel() will recognize both the codes delivered via SendNotificationChannelVerificationCode() and returned from GetNotificationChannelVerificationCode(), it is typically the case that the verification codes delivered via SendNotificationChannelVerificationCode() will be shorter and also have a shorter expiration (e.g. codes such as "G-123456") whereas GetVerificationCode() will typically return a much longer, websafe base 64 encoded string that has a longer expiration time. */
 export const getVerificationCodeProjectsNotificationChannels: API.OperationMethod<GetVerificationCodeProjectsNotificationChannelsRequest, GetVerificationCodeProjectsNotificationChannelsResponse, GetVerificationCodeProjectsNotificationChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetVerificationCodeProjectsNotificationChannelsRequest,
   output: GetVerificationCodeProjectsNotificationChannelsResponse,
   errors: [],
 }));
 
-/** Verifies a NotificationChannel by proving receipt of the code delivered to the channel as a result of calling SendNotificationChannelVerificationCode. */
 export interface VerifyProjectsNotificationChannelsRequest {
   /** Required. The notification channel to verify. */
   name: string;
@@ -3219,13 +3218,13 @@ export const VerifyProjectsNotificationChannelsResponse = NotificationChannel;
 
 export type VerifyProjectsNotificationChannelsError = CommonErrors;
 
+/** Verifies a NotificationChannel by proving receipt of the code delivered to the channel as a result of calling SendNotificationChannelVerificationCode. */
 export const verifyProjectsNotificationChannels: API.OperationMethod<VerifyProjectsNotificationChannelsRequest, VerifyProjectsNotificationChannelsResponse, VerifyProjectsNotificationChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: VerifyProjectsNotificationChannelsRequest,
   output: VerifyProjectsNotificationChannelsResponse,
   errors: [],
 }));
 
-/** Creates a Snooze that will prevent alerts, which match the provided criteria, from being opened. The Snooze applies for a specific time interval. */
 export interface CreateProjectsSnoozesRequest {
   /** Required. The project (https://cloud.google.com/monitoring/api/v3#project_name) in which a Snooze should be created. The format is: projects/[PROJECT_ID_OR_NUMBER] */
   parent: string;
@@ -3246,13 +3245,13 @@ export const CreateProjectsSnoozesResponse = Snooze;
 
 export type CreateProjectsSnoozesError = CommonErrors;
 
+/** Creates a Snooze that will prevent alerts, which match the provided criteria, from being opened. The Snooze applies for a specific time interval. */
 export const createProjectsSnoozes: API.OperationMethod<CreateProjectsSnoozesRequest, CreateProjectsSnoozesResponse, CreateProjectsSnoozesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsSnoozesRequest,
   output: CreateProjectsSnoozesResponse,
   errors: [],
 }));
 
-/** Lists the Snoozes associated with a project. Can optionally pass in filter, which specifies predicates to match Snoozes. */
 export interface ListProjectsSnoozesRequest {
   /** Required. The project (https://cloud.google.com/monitoring/api/v3#project_name) whose Snoozes should be listed. The format is: projects/[PROJECT_ID_OR_NUMBER] */
   parent: string;
@@ -3279,7 +3278,8 @@ export const ListProjectsSnoozesResponse = ListSnoozesResponse;
 
 export type ListProjectsSnoozesError = CommonErrors;
 
-export const listProjectsSnoozes = API.makePaginated(() => ({
+/** Lists the Snoozes associated with a project. Can optionally pass in filter, which specifies predicates to match Snoozes. */
+export const listProjectsSnoozes: API.PaginatedOperationMethod<ListProjectsSnoozesRequest, ListProjectsSnoozesResponse, ListProjectsSnoozesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsSnoozesRequest,
   output: ListProjectsSnoozesResponse,
   errors: [],
@@ -3289,7 +3289,6 @@ export const listProjectsSnoozes = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves a Snooze by name. */
 export interface GetProjectsSnoozesRequest {
   /** Required. The ID of the Snooze to retrieve. The format is: projects/[PROJECT_ID_OR_NUMBER]/snoozes/[SNOOZE_ID] */
   name: string;
@@ -3307,13 +3306,13 @@ export const GetProjectsSnoozesResponse = Snooze;
 
 export type GetProjectsSnoozesError = CommonErrors;
 
+/** Retrieves a Snooze by name. */
 export const getProjectsSnoozes: API.OperationMethod<GetProjectsSnoozesRequest, GetProjectsSnoozesResponse, GetProjectsSnoozesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsSnoozesRequest,
   output: GetProjectsSnoozesResponse,
   errors: [],
 }));
 
-/** Updates a Snooze, identified by its name, with the parameters in the given Snooze object. */
 export interface PatchProjectsSnoozesRequest {
   /** Required. Identifier. The name of the Snooze. The format is: projects/[PROJECT_ID_OR_NUMBER]/snoozes/[SNOOZE_ID] The ID of the Snooze will be generated by the system. */
   name: string;
@@ -3337,13 +3336,13 @@ export const PatchProjectsSnoozesResponse = Snooze;
 
 export type PatchProjectsSnoozesError = CommonErrors;
 
+/** Updates a Snooze, identified by its name, with the parameters in the given Snooze object. */
 export const patchProjectsSnoozes: API.OperationMethod<PatchProjectsSnoozesRequest, PatchProjectsSnoozesResponse, PatchProjectsSnoozesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsSnoozesRequest,
   output: PatchProjectsSnoozesResponse,
   errors: [],
 }));
 
-/** Lists the existing valid Uptime check configurations for the project (leaving out any invalid configurations). */
 export interface ListProjectsUptimeCheckConfigsRequest {
   /** Required. The project (https://cloud.google.com/monitoring/api/v3#project_name) whose Uptime check configurations are listed. The format is: projects/[PROJECT_ID_OR_NUMBER] */
   parent: string;
@@ -3370,7 +3369,8 @@ export const ListProjectsUptimeCheckConfigsResponse = ListUptimeCheckConfigsResp
 
 export type ListProjectsUptimeCheckConfigsError = CommonErrors;
 
-export const listProjectsUptimeCheckConfigs = API.makePaginated(() => ({
+/** Lists the existing valid Uptime check configurations for the project (leaving out any invalid configurations). */
+export const listProjectsUptimeCheckConfigs: API.PaginatedOperationMethod<ListProjectsUptimeCheckConfigsRequest, ListProjectsUptimeCheckConfigsResponse, ListProjectsUptimeCheckConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsUptimeCheckConfigsRequest,
   output: ListProjectsUptimeCheckConfigsResponse,
   errors: [],
@@ -3380,7 +3380,6 @@ export const listProjectsUptimeCheckConfigs = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a single Uptime check configuration. */
 export interface GetProjectsUptimeCheckConfigsRequest {
   /** Required. The Uptime check configuration to retrieve. The format is: projects/[PROJECT_ID_OR_NUMBER]/uptimeCheckConfigs/[UPTIME_CHECK_ID] */
   name: string;
@@ -3398,13 +3397,13 @@ export const GetProjectsUptimeCheckConfigsResponse = UptimeCheckConfig;
 
 export type GetProjectsUptimeCheckConfigsError = CommonErrors;
 
+/** Gets a single Uptime check configuration. */
 export const getProjectsUptimeCheckConfigs: API.OperationMethod<GetProjectsUptimeCheckConfigsRequest, GetProjectsUptimeCheckConfigsResponse, GetProjectsUptimeCheckConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsUptimeCheckConfigsRequest,
   output: GetProjectsUptimeCheckConfigsResponse,
   errors: [],
 }));
 
-/** Creates a new Uptime check configuration. */
 export interface CreateProjectsUptimeCheckConfigsRequest {
   /** Required. The project (https://cloud.google.com/monitoring/api/v3#project_name) in which to create the Uptime check. The format is: projects/[PROJECT_ID_OR_NUMBER] */
   parent: string;
@@ -3425,13 +3424,13 @@ export const CreateProjectsUptimeCheckConfigsResponse = UptimeCheckConfig;
 
 export type CreateProjectsUptimeCheckConfigsError = CommonErrors;
 
+/** Creates a new Uptime check configuration. */
 export const createProjectsUptimeCheckConfigs: API.OperationMethod<CreateProjectsUptimeCheckConfigsRequest, CreateProjectsUptimeCheckConfigsResponse, CreateProjectsUptimeCheckConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsUptimeCheckConfigsRequest,
   output: CreateProjectsUptimeCheckConfigsResponse,
   errors: [],
 }));
 
-/** Updates an Uptime check configuration. You can either replace the entire configuration with a new one or replace only certain fields in the current configuration by specifying the fields to be updated via updateMask. Returns the updated configuration. */
 export interface PatchProjectsUptimeCheckConfigsRequest {
   /** Identifier. A unique resource name for this Uptime check configuration. The format is: projects/[PROJECT_ID_OR_NUMBER]/uptimeCheckConfigs/[UPTIME_CHECK_ID] [PROJECT_ID_OR_NUMBER] is the Workspace host project associated with the Uptime check.This field should be omitted when creating the Uptime check configuration; on create, the resource name is assigned by the server and included in the response. */
   name: string;
@@ -3455,13 +3454,13 @@ export const PatchProjectsUptimeCheckConfigsResponse = UptimeCheckConfig;
 
 export type PatchProjectsUptimeCheckConfigsError = CommonErrors;
 
+/** Updates an Uptime check configuration. You can either replace the entire configuration with a new one or replace only certain fields in the current configuration by specifying the fields to be updated via updateMask. Returns the updated configuration. */
 export const patchProjectsUptimeCheckConfigs: API.OperationMethod<PatchProjectsUptimeCheckConfigsRequest, PatchProjectsUptimeCheckConfigsResponse, PatchProjectsUptimeCheckConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsUptimeCheckConfigsRequest,
   output: PatchProjectsUptimeCheckConfigsResponse,
   errors: [],
 }));
 
-/** Deletes an Uptime check configuration. Note that this method will fail if the Uptime check configuration is referenced by an alert policy or other dependent configs that would be rendered invalid by the deletion. */
 export interface DeleteProjectsUptimeCheckConfigsRequest {
   /** Required. The Uptime check configuration to delete. The format is: projects/[PROJECT_ID_OR_NUMBER]/uptimeCheckConfigs/[UPTIME_CHECK_ID] */
   name: string;
@@ -3479,13 +3478,13 @@ export const DeleteProjectsUptimeCheckConfigsResponse = Empty;
 
 export type DeleteProjectsUptimeCheckConfigsError = CommonErrors;
 
+/** Deletes an Uptime check configuration. Note that this method will fail if the Uptime check configuration is referenced by an alert policy or other dependent configs that would be rendered invalid by the deletion. */
 export const deleteProjectsUptimeCheckConfigs: API.OperationMethod<DeleteProjectsUptimeCheckConfigsRequest, DeleteProjectsUptimeCheckConfigsResponse, DeleteProjectsUptimeCheckConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsUptimeCheckConfigsRequest,
   output: DeleteProjectsUptimeCheckConfigsResponse,
   errors: [],
 }));
 
-/** Lists time series that match a filter. */
 export interface ListOrganizationsTimeSeriesRequest {
   /** Required. The project (https://cloud.google.com/monitoring/api/v3#project_name), organization or folder on which to execute the request. The format is: projects/[PROJECT_ID_OR_NUMBER] organizations/[ORGANIZATION_ID] folders/[FOLDER_ID] */
   name: string;
@@ -3548,7 +3547,8 @@ export const ListOrganizationsTimeSeriesResponse = ListTimeSeriesResponse;
 
 export type ListOrganizationsTimeSeriesError = CommonErrors;
 
-export const listOrganizationsTimeSeries = API.makePaginated(() => ({
+/** Lists time series that match a filter. */
+export const listOrganizationsTimeSeries: API.PaginatedOperationMethod<ListOrganizationsTimeSeriesRequest, ListOrganizationsTimeSeriesResponse, ListOrganizationsTimeSeriesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsTimeSeriesRequest,
   output: ListOrganizationsTimeSeriesResponse,
   errors: [],
@@ -3558,7 +3558,6 @@ export const listOrganizationsTimeSeries = API.makePaginated(() => ({
   },
 }));
 
-/** Lists time series that match a filter. */
 export interface ListFoldersTimeSeriesRequest {
   /** Required. The project (https://cloud.google.com/monitoring/api/v3#project_name), organization or folder on which to execute the request. The format is: projects/[PROJECT_ID_OR_NUMBER] organizations/[ORGANIZATION_ID] folders/[FOLDER_ID] */
   name: string;
@@ -3621,7 +3620,8 @@ export const ListFoldersTimeSeriesResponse = ListTimeSeriesResponse;
 
 export type ListFoldersTimeSeriesError = CommonErrors;
 
-export const listFoldersTimeSeries = API.makePaginated(() => ({
+/** Lists time series that match a filter. */
+export const listFoldersTimeSeries: API.PaginatedOperationMethod<ListFoldersTimeSeriesRequest, ListFoldersTimeSeriesResponse, ListFoldersTimeSeriesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersTimeSeriesRequest,
   output: ListFoldersTimeSeriesResponse,
   errors: [],
@@ -3631,7 +3631,6 @@ export const listFoldersTimeSeries = API.makePaginated(() => ({
   },
 }));
 
-/** Create a Service. */
 export interface CreateServicesRequest {
   /** Required. Resource name (https://cloud.google.com/monitoring/api/v3#project_name) of the parent Metrics Scope. The format is: projects/[PROJECT_ID_OR_NUMBER] */
   parent: string;
@@ -3655,13 +3654,13 @@ export const CreateServicesResponse = Service;
 
 export type CreateServicesError = CommonErrors;
 
+/** Create a Service. */
 export const createServices: API.OperationMethod<CreateServicesRequest, CreateServicesResponse, CreateServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateServicesRequest,
   output: CreateServicesResponse,
   errors: [],
 }));
 
-/** Get the named Service. */
 export interface GetServicesRequest {
   /** Required. Resource name of the Service. The format is: projects/[PROJECT_ID_OR_NUMBER]/services/[SERVICE_ID] */
   name: string;
@@ -3679,13 +3678,13 @@ export const GetServicesResponse = Service;
 
 export type GetServicesError = CommonErrors;
 
+/** Get the named Service. */
 export const getServices: API.OperationMethod<GetServicesRequest, GetServicesResponse, GetServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetServicesRequest,
   output: GetServicesResponse,
   errors: [],
 }));
 
-/** List Services for this Metrics Scope. */
 export interface ListServicesRequest {
   /** Required. Resource name of the parent containing the listed services, either a project (https://cloud.google.com/monitoring/api/v3#project_name) or a Monitoring Metrics Scope. The formats are: projects/[PROJECT_ID_OR_NUMBER] workspaces/[HOST_PROJECT_ID_OR_NUMBER] */
   parent: string;
@@ -3712,7 +3711,8 @@ export const ListServicesResponse_Op = ListServicesResponse;
 
 export type ListServicesError = CommonErrors;
 
-export const listServices = API.makePaginated(() => ({
+/** List Services for this Metrics Scope. */
+export const listServices: API.PaginatedOperationMethod<ListServicesRequest, ListServicesResponse_Op, ListServicesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListServicesRequest,
   output: ListServicesResponse_Op,
   errors: [],
@@ -3722,7 +3722,6 @@ export const listServices = API.makePaginated(() => ({
   },
 }));
 
-/** Update this Service. */
 export interface PatchServicesRequest {
   /** Identifier. Resource name for this Service. The format is: projects/[PROJECT_ID_OR_NUMBER]/services/[SERVICE_ID] */
   name: string;
@@ -3746,13 +3745,13 @@ export const PatchServicesResponse = Service;
 
 export type PatchServicesError = CommonErrors;
 
+/** Update this Service. */
 export const patchServices: API.OperationMethod<PatchServicesRequest, PatchServicesResponse, PatchServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchServicesRequest,
   output: PatchServicesResponse,
   errors: [],
 }));
 
-/** Soft delete this Service. */
 export interface DeleteServicesRequest {
   /** Required. Resource name of the Service to delete. The format is: projects/[PROJECT_ID_OR_NUMBER]/services/[SERVICE_ID] */
   name: string;
@@ -3770,13 +3769,13 @@ export const DeleteServicesResponse = Empty;
 
 export type DeleteServicesError = CommonErrors;
 
+/** Soft delete this Service. */
 export const deleteServices: API.OperationMethod<DeleteServicesRequest, DeleteServicesResponse, DeleteServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteServicesRequest,
   output: DeleteServicesResponse,
   errors: [],
 }));
 
-/** Create a ServiceLevelObjective for the given Service. */
 export interface CreateServicesServiceLevelObjectivesRequest {
   /** Required. Resource name of the parent Service. The format is: projects/[PROJECT_ID_OR_NUMBER]/services/[SERVICE_ID] */
   parent: string;
@@ -3800,13 +3799,13 @@ export const CreateServicesServiceLevelObjectivesResponse = ServiceLevelObjectiv
 
 export type CreateServicesServiceLevelObjectivesError = CommonErrors;
 
+/** Create a ServiceLevelObjective for the given Service. */
 export const createServicesServiceLevelObjectives: API.OperationMethod<CreateServicesServiceLevelObjectivesRequest, CreateServicesServiceLevelObjectivesResponse, CreateServicesServiceLevelObjectivesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateServicesServiceLevelObjectivesRequest,
   output: CreateServicesServiceLevelObjectivesResponse,
   errors: [],
 }));
 
-/** Get a ServiceLevelObjective by name. */
 export interface GetServicesServiceLevelObjectivesRequest {
   /** Required. Resource name of the ServiceLevelObjective to get. The format is: projects/[PROJECT_ID_OR_NUMBER]/services/[SERVICE_ID]/serviceLevelObjectives/[SLO_NAME] */
   name: string;
@@ -3827,13 +3826,13 @@ export const GetServicesServiceLevelObjectivesResponse = ServiceLevelObjective;
 
 export type GetServicesServiceLevelObjectivesError = CommonErrors;
 
+/** Get a ServiceLevelObjective by name. */
 export const getServicesServiceLevelObjectives: API.OperationMethod<GetServicesServiceLevelObjectivesRequest, GetServicesServiceLevelObjectivesResponse, GetServicesServiceLevelObjectivesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetServicesServiceLevelObjectivesRequest,
   output: GetServicesServiceLevelObjectivesResponse,
   errors: [],
 }));
 
-/** List the ServiceLevelObjectives for the given Service. */
 export interface ListServicesServiceLevelObjectivesRequest {
   /** Required. Resource name of the parent containing the listed SLOs, either a project or a Monitoring Metrics Scope. The formats are: projects/[PROJECT_ID_OR_NUMBER]/services/[SERVICE_ID] workspaces/[HOST_PROJECT_ID_OR_NUMBER]/services/- */
   parent: string;
@@ -3863,7 +3862,8 @@ export const ListServicesServiceLevelObjectivesResponse = ListServiceLevelObject
 
 export type ListServicesServiceLevelObjectivesError = CommonErrors;
 
-export const listServicesServiceLevelObjectives = API.makePaginated(() => ({
+/** List the ServiceLevelObjectives for the given Service. */
+export const listServicesServiceLevelObjectives: API.PaginatedOperationMethod<ListServicesServiceLevelObjectivesRequest, ListServicesServiceLevelObjectivesResponse, ListServicesServiceLevelObjectivesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListServicesServiceLevelObjectivesRequest,
   output: ListServicesServiceLevelObjectivesResponse,
   errors: [],
@@ -3873,7 +3873,6 @@ export const listServicesServiceLevelObjectives = API.makePaginated(() => ({
   },
 }));
 
-/** Update the given ServiceLevelObjective. */
 export interface PatchServicesServiceLevelObjectivesRequest {
   /** Identifier. Resource name for this ServiceLevelObjective. The format is: projects/[PROJECT_ID_OR_NUMBER]/services/[SERVICE_ID]/serviceLevelObjectives/[SLO_NAME] */
   name: string;
@@ -3897,13 +3896,13 @@ export const PatchServicesServiceLevelObjectivesResponse = ServiceLevelObjective
 
 export type PatchServicesServiceLevelObjectivesError = CommonErrors;
 
+/** Update the given ServiceLevelObjective. */
 export const patchServicesServiceLevelObjectives: API.OperationMethod<PatchServicesServiceLevelObjectivesRequest, PatchServicesServiceLevelObjectivesResponse, PatchServicesServiceLevelObjectivesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchServicesServiceLevelObjectivesRequest,
   output: PatchServicesServiceLevelObjectivesResponse,
   errors: [],
 }));
 
-/** Delete the given ServiceLevelObjective. */
 export interface DeleteServicesServiceLevelObjectivesRequest {
   /** Required. Resource name of the ServiceLevelObjective to delete. The format is: projects/[PROJECT_ID_OR_NUMBER]/services/[SERVICE_ID]/serviceLevelObjectives/[SLO_NAME] */
   name: string;
@@ -3921,13 +3920,13 @@ export const DeleteServicesServiceLevelObjectivesResponse = Empty;
 
 export type DeleteServicesServiceLevelObjectivesError = CommonErrors;
 
+/** Delete the given ServiceLevelObjective. */
 export const deleteServicesServiceLevelObjectives: API.OperationMethod<DeleteServicesServiceLevelObjectivesRequest, DeleteServicesServiceLevelObjectivesResponse, DeleteServicesServiceLevelObjectivesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteServicesServiceLevelObjectivesRequest,
   output: DeleteServicesServiceLevelObjectivesResponse,
   errors: [],
 }));
 
-/** Returns the list of IP addresses that checkers run from. */
 export interface ListUptimeCheckIpsRequest {
   /** The maximum number of results to return in a single response. The server may further constrain the maximum number of results returned in a single page. If the page_size is <=0, the server will decide the number of results to be returned. NOTE: this field is not yet implemented */
   pageSize?: number;
@@ -3948,7 +3947,8 @@ export const ListUptimeCheckIpsResponse_Op = ListUptimeCheckIpsResponse;
 
 export type ListUptimeCheckIpsError = CommonErrors;
 
-export const listUptimeCheckIps = API.makePaginated(() => ({
+/** Returns the list of IP addresses that checkers run from. */
+export const listUptimeCheckIps: API.PaginatedOperationMethod<ListUptimeCheckIpsRequest, ListUptimeCheckIpsResponse_Op, ListUptimeCheckIpsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListUptimeCheckIpsRequest,
   output: ListUptimeCheckIpsResponse_Op,
   errors: [],

@@ -138,7 +138,6 @@ export const GoogleHomeEnterpriseSdmV1ListRoomsResponse: Schema.Schema<GoogleHom
 // Operations
 // ==========================================================================
 
-/** Gets a structure managed by the enterprise. */
 export interface GetEnterprisesStructuresRequest {
   /** The name of the structure requested. For example: "enterprises/XYZ/structures/ABC". */
   name: string;
@@ -156,13 +155,13 @@ export const GetEnterprisesStructuresResponse = GoogleHomeEnterpriseSdmV1Structu
 
 export type GetEnterprisesStructuresError = CommonErrors;
 
+/** Gets a structure managed by the enterprise. */
 export const getEnterprisesStructures: API.OperationMethod<GetEnterprisesStructuresRequest, GetEnterprisesStructuresResponse, GetEnterprisesStructuresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEnterprisesStructuresRequest,
   output: GetEnterprisesStructuresResponse,
   errors: [],
 }));
 
-/** Lists structures managed by the enterprise. */
 export interface ListEnterprisesStructuresRequest {
   /** Optional filter to list structures. */
   filter?: string;
@@ -183,13 +182,13 @@ export const ListEnterprisesStructuresResponse = GoogleHomeEnterpriseSdmV1ListSt
 
 export type ListEnterprisesStructuresError = CommonErrors;
 
+/** Lists structures managed by the enterprise. */
 export const listEnterprisesStructures: API.OperationMethod<ListEnterprisesStructuresRequest, ListEnterprisesStructuresResponse, ListEnterprisesStructuresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListEnterprisesStructuresRequest,
   output: ListEnterprisesStructuresResponse,
   errors: [],
 }));
 
-/** Gets a room managed by the enterprise. */
 export interface GetEnterprisesStructuresRoomsRequest {
   /** The name of the room requested. For example: "enterprises/XYZ/structures/ABC/rooms/123". */
   name: string;
@@ -207,13 +206,13 @@ export const GetEnterprisesStructuresRoomsResponse = GoogleHomeEnterpriseSdmV1Ro
 
 export type GetEnterprisesStructuresRoomsError = CommonErrors;
 
+/** Gets a room managed by the enterprise. */
 export const getEnterprisesStructuresRooms: API.OperationMethod<GetEnterprisesStructuresRoomsRequest, GetEnterprisesStructuresRoomsResponse, GetEnterprisesStructuresRoomsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEnterprisesStructuresRoomsRequest,
   output: GetEnterprisesStructuresRoomsResponse,
   errors: [],
 }));
 
-/** Lists rooms managed by the enterprise. */
 export interface ListEnterprisesStructuresRoomsRequest {
   /** The parent resource name of the rooms requested. For example: "enterprises/XYZ/structures/ABC". */
   parent: string;
@@ -231,13 +230,13 @@ export const ListEnterprisesStructuresRoomsResponse = GoogleHomeEnterpriseSdmV1L
 
 export type ListEnterprisesStructuresRoomsError = CommonErrors;
 
+/** Lists rooms managed by the enterprise. */
 export const listEnterprisesStructuresRooms: API.OperationMethod<ListEnterprisesStructuresRoomsRequest, ListEnterprisesStructuresRoomsResponse, ListEnterprisesStructuresRoomsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListEnterprisesStructuresRoomsRequest,
   output: ListEnterprisesStructuresRoomsResponse,
   errors: [],
 }));
 
-/** Executes a command to device managed by the enterprise. */
 export interface ExecuteCommandEnterprisesDevicesRequest {
   /** The name of the device requested. For example: "enterprises/XYZ/devices/123" */
   name: string;
@@ -258,13 +257,13 @@ export const ExecuteCommandEnterprisesDevicesResponse = GoogleHomeEnterpriseSdmV
 
 export type ExecuteCommandEnterprisesDevicesError = CommonErrors;
 
+/** Executes a command to device managed by the enterprise. */
 export const executeCommandEnterprisesDevices: API.OperationMethod<ExecuteCommandEnterprisesDevicesRequest, ExecuteCommandEnterprisesDevicesResponse, ExecuteCommandEnterprisesDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExecuteCommandEnterprisesDevicesRequest,
   output: ExecuteCommandEnterprisesDevicesResponse,
   errors: [],
 }));
 
-/** Lists devices managed by the enterprise. */
 export interface ListEnterprisesDevicesRequest {
   /** Optional filter to list devices. Filters can be done on: Device custom name (substring match): 'customName=wing' */
   filter?: string;
@@ -285,13 +284,13 @@ export const ListEnterprisesDevicesResponse = GoogleHomeEnterpriseSdmV1ListDevic
 
 export type ListEnterprisesDevicesError = CommonErrors;
 
+/** Lists devices managed by the enterprise. */
 export const listEnterprisesDevices: API.OperationMethod<ListEnterprisesDevicesRequest, ListEnterprisesDevicesResponse, ListEnterprisesDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListEnterprisesDevicesRequest,
   output: ListEnterprisesDevicesResponse,
   errors: [],
 }));
 
-/** Gets a device managed by the enterprise. */
 export interface GetEnterprisesDevicesRequest {
   /** The name of the device requested. For example: "enterprises/XYZ/devices/123" */
   name: string;
@@ -309,6 +308,7 @@ export const GetEnterprisesDevicesResponse = GoogleHomeEnterpriseSdmV1Device;
 
 export type GetEnterprisesDevicesError = CommonErrors;
 
+/** Gets a device managed by the enterprise. */
 export const getEnterprisesDevices: API.OperationMethod<GetEnterprisesDevicesRequest, GetEnterprisesDevicesResponse, GetEnterprisesDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEnterprisesDevicesRequest,
   output: GetEnterprisesDevicesResponse,

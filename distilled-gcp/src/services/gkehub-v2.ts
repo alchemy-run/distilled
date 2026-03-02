@@ -1638,7 +1638,6 @@ export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspen
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -1668,7 +1667,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -1678,7 +1678,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -1696,13 +1695,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -1732,7 +1731,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -1742,7 +1742,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1760,13 +1759,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -1787,13 +1786,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** ========= MembershipFeature Services ========= Gets details of a membershipFeature. */
 export interface GetProjectsLocationsMembershipsFeaturesRequest {
   /** Required. The MembershipFeature resource name in the format `projects/* /locations/* /memberships/* /features/*`. */
   name: string;
@@ -1811,13 +1810,13 @@ export const GetProjectsLocationsMembershipsFeaturesResponse = MembershipFeature
 
 export type GetProjectsLocationsMembershipsFeaturesError = CommonErrors;
 
+/** ========= MembershipFeature Services ========= Gets details of a membershipFeature. */
 export const getProjectsLocationsMembershipsFeatures: API.OperationMethod<GetProjectsLocationsMembershipsFeaturesRequest, GetProjectsLocationsMembershipsFeaturesResponse, GetProjectsLocationsMembershipsFeaturesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsMembershipsFeaturesRequest,
   output: GetProjectsLocationsMembershipsFeaturesResponse,
   errors: [],
 }));
 
-/** Lists MembershipFeatures in a given project and location. */
 export interface ListProjectsLocationsMembershipsFeaturesRequest {
   /** Required. The parent where the MembershipFeature will be listed. In the format: `projects/* /locations/* /memberships/*`. */
   parent: string;
@@ -1847,7 +1846,8 @@ export const ListProjectsLocationsMembershipsFeaturesResponse = ListMembershipFe
 
 export type ListProjectsLocationsMembershipsFeaturesError = CommonErrors;
 
-export const listProjectsLocationsMembershipsFeatures = API.makePaginated(() => ({
+/** Lists MembershipFeatures in a given project and location. */
+export const listProjectsLocationsMembershipsFeatures: API.PaginatedOperationMethod<ListProjectsLocationsMembershipsFeaturesRequest, ListProjectsLocationsMembershipsFeaturesResponse, ListProjectsLocationsMembershipsFeaturesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsMembershipsFeaturesRequest,
   output: ListProjectsLocationsMembershipsFeaturesResponse,
   errors: [],
@@ -1857,7 +1857,6 @@ export const listProjectsLocationsMembershipsFeatures = API.makePaginated(() => 
   },
 }));
 
-/** Creates membershipFeature under a given parent. */
 export interface CreateProjectsLocationsMembershipsFeaturesRequest {
   /** Required. The name of parent where the MembershipFeature will be created. Specified in the format `projects/* /locations/* /memberships/*`. */
   parent: string;
@@ -1884,13 +1883,13 @@ export const CreateProjectsLocationsMembershipsFeaturesResponse = Operation;
 
 export type CreateProjectsLocationsMembershipsFeaturesError = CommonErrors;
 
+/** Creates membershipFeature under a given parent. */
 export const createProjectsLocationsMembershipsFeatures: API.OperationMethod<CreateProjectsLocationsMembershipsFeaturesRequest, CreateProjectsLocationsMembershipsFeaturesResponse, CreateProjectsLocationsMembershipsFeaturesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsMembershipsFeaturesRequest,
   output: CreateProjectsLocationsMembershipsFeaturesResponse,
   errors: [],
 }));
 
-/** Removes a membershipFeature. */
 export interface DeleteProjectsLocationsMembershipsFeaturesRequest {
   /** Required. The name of the membershipFeature to be deleted. Specified in the format `projects/* /locations/* /memberships/* /features/*`. */
   name: string;
@@ -1911,13 +1910,13 @@ export const DeleteProjectsLocationsMembershipsFeaturesResponse = Operation;
 
 export type DeleteProjectsLocationsMembershipsFeaturesError = CommonErrors;
 
+/** Removes a membershipFeature. */
 export const deleteProjectsLocationsMembershipsFeatures: API.OperationMethod<DeleteProjectsLocationsMembershipsFeaturesRequest, DeleteProjectsLocationsMembershipsFeaturesResponse, DeleteProjectsLocationsMembershipsFeaturesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsMembershipsFeaturesRequest,
   output: DeleteProjectsLocationsMembershipsFeaturesResponse,
   errors: [],
 }));
 
-/** Updates an existing MembershipFeature. */
 export interface PatchProjectsLocationsMembershipsFeaturesRequest {
   /** Output only. The resource name of the membershipFeature, in the format: `projects/{project}/locations/{location}/memberships/{membership}/features/{feature}`. Note that `membershipFeatures` is shortened to `features` in the resource name. (see http://go/aip/122#collection-identifiers) */
   name: string;
@@ -1947,6 +1946,7 @@ export const PatchProjectsLocationsMembershipsFeaturesResponse = Operation;
 
 export type PatchProjectsLocationsMembershipsFeaturesError = CommonErrors;
 
+/** Updates an existing MembershipFeature. */
 export const patchProjectsLocationsMembershipsFeatures: API.OperationMethod<PatchProjectsLocationsMembershipsFeaturesRequest, PatchProjectsLocationsMembershipsFeaturesResponse, PatchProjectsLocationsMembershipsFeaturesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsMembershipsFeaturesRequest,
   output: PatchProjectsLocationsMembershipsFeaturesResponse,

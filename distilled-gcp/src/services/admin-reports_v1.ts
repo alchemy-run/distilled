@@ -378,7 +378,6 @@ export const UsageReports: Schema.Schema<UsageReports> = Schema.suspend(() => Sc
 // Operations
 // ==========================================================================
 
-/** Retrieves a list of activities for a specific customer's account and application such as the Admin console application or the Google Drive application. For more information, see the guides for administrator and Google Drive activity reports. For more information about the activity report's parameters, see the activity parameters reference guides. */
 export interface ListActivitiesRequest {
   /** Represents the profile ID or the user email for which the data should be filtered. Can be `all` for all information, or `userKey` for a user's unique Google Workspace profile ID or their primary email address. Must not be a deleted user. For a deleted user, call `users.list` in Directory API with `showDeleted=true`, then use the returned `ID` as the `userKey`. */
   userKey: string;
@@ -441,7 +440,8 @@ export const ListActivitiesResponse = Activities;
 
 export type ListActivitiesError = CommonErrors;
 
-export const listActivities = API.makePaginated(() => ({
+/** Retrieves a list of activities for a specific customer's account and application such as the Admin console application or the Google Drive application. For more information, see the guides for administrator and Google Drive activity reports. For more information about the activity report's parameters, see the activity parameters reference guides. */
+export const listActivities: API.PaginatedOperationMethod<ListActivitiesRequest, ListActivitiesResponse, ListActivitiesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListActivitiesRequest,
   output: ListActivitiesResponse,
   errors: [],
@@ -452,7 +452,6 @@ export const listActivities = API.makePaginated(() => ({
   },
 }));
 
-/** Start receiving notifications for account activities. For more information, see Receiving Push Notifications. */
 export interface WatchActivitiesRequest {
   /** Represents the profile ID or the user email for which the data should be filtered. Can be `all` for all information, or `userKey` for a user's unique Google Workspace profile ID or their primary email address. Must not be a deleted user. For a deleted user, call `users.list` in Directory API with `showDeleted=true`, then use the returned `ID` as the `userKey`. */
   userKey: string;
@@ -506,13 +505,13 @@ export const WatchActivitiesResponse = Channel;
 
 export type WatchActivitiesError = CommonErrors;
 
+/** Start receiving notifications for account activities. For more information, see Receiving Push Notifications. */
 export const watchActivities: API.OperationMethod<WatchActivitiesRequest, WatchActivitiesResponse, WatchActivitiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WatchActivitiesRequest,
   output: WatchActivitiesResponse,
   errors: [],
 }));
 
-/** Stop watching resources through this channel. */
 export interface StopChannelsRequest {
   /** Request body */
   body?: Channel;
@@ -530,13 +529,13 @@ export const StopChannelsResponse: Schema.Schema<StopChannelsResponse> = Schema.
 
 export type StopChannelsError = CommonErrors;
 
+/** Stop watching resources through this channel. */
 export const stopChannels: API.OperationMethod<StopChannelsRequest, StopChannelsResponse, StopChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StopChannelsRequest,
   output: StopChannelsResponse,
   errors: [],
 }));
 
-/** Retrieves a report which is a collection of properties and statistics for a specific customer's account. For more information, see the Customers Usage Report guide. For more information about the customer report's parameters, see the Customers Usage parameters reference guides. */
 export interface GetCustomerUsageReportsRequest {
   /** Represents the date the usage occurred, based on UTC-8:00 (Pacific Standard Time). The timestamp is in the [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601), `yyyy-mm-dd`. */
   date: string;
@@ -563,7 +562,8 @@ export const GetCustomerUsageReportsResponse = UsageReports;
 
 export type GetCustomerUsageReportsError = CommonErrors;
 
-export const getCustomerUsageReports = API.makePaginated(() => ({
+/** Retrieves a report which is a collection of properties and statistics for a specific customer's account. For more information, see the Customers Usage Report guide. For more information about the customer report's parameters, see the Customers Usage parameters reference guides. */
+export const getCustomerUsageReports: API.PaginatedOperationMethod<GetCustomerUsageReportsRequest, GetCustomerUsageReportsResponse, GetCustomerUsageReportsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: GetCustomerUsageReportsRequest,
   output: GetCustomerUsageReportsResponse,
   errors: [],
@@ -573,7 +573,6 @@ export const getCustomerUsageReports = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves a report which is a collection of properties and statistics for entities used by users within the account. For more information, see the Entities Usage Report guide. For more information about the entities report's parameters, see the Entities Usage parameters reference guides. */
 export interface GetEntityUsageReportsRequest {
   /** Represents the type of entity for the report. */
   entityType: "gplus_communities" | (string & {});
@@ -612,7 +611,8 @@ export const GetEntityUsageReportsResponse = UsageReports;
 
 export type GetEntityUsageReportsError = CommonErrors;
 
-export const getEntityUsageReports = API.makePaginated(() => ({
+/** Retrieves a report which is a collection of properties and statistics for entities used by users within the account. For more information, see the Entities Usage Report guide. For more information about the entities report's parameters, see the Entities Usage parameters reference guides. */
+export const getEntityUsageReports: API.PaginatedOperationMethod<GetEntityUsageReportsRequest, GetEntityUsageReportsResponse, GetEntityUsageReportsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: GetEntityUsageReportsRequest,
   output: GetEntityUsageReportsResponse,
   errors: [],
@@ -622,7 +622,6 @@ export const getEntityUsageReports = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves a report which is a collection of properties and statistics for a set of users with the account. For more information, see the User Usage Report guide. For more information about the user report's parameters, see the Users Usage parameters reference guides. */
 export interface GetUserUsageReportRequest {
   /** Represents the profile ID or the user email for which the data should be filtered. Can be `all` for all information, or `userKey` for a user's unique Google Workspace profile ID or their primary email address. Must not be a deleted user. For a deleted user, call `users.list` in Directory API with `showDeleted=true`, then use the returned `ID` as the `userKey`. */
   userKey: string;
@@ -664,7 +663,8 @@ export const GetUserUsageReportResponse = UsageReports;
 
 export type GetUserUsageReportError = CommonErrors;
 
-export const getUserUsageReport = API.makePaginated(() => ({
+/** Retrieves a report which is a collection of properties and statistics for a set of users with the account. For more information, see the User Usage Report guide. For more information about the user report's parameters, see the Users Usage parameters reference guides. */
+export const getUserUsageReport: API.PaginatedOperationMethod<GetUserUsageReportRequest, GetUserUsageReportResponse, GetUserUsageReportError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: GetUserUsageReportRequest,
   output: GetUserUsageReportResponse,
   errors: [],

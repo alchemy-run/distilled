@@ -417,7 +417,6 @@ export const GdataMedia: Schema.Schema<GdataMedia> = Schema.suspend(() => Schema
 // Operations
 // ==========================================================================
 
-/** Lists report types. */
 export interface ListReportTypesRequest {
   /** The content owner's external ID on which behalf the user is acting on. If not set, the user is acting for himself (his own channel). */
   onBehalfOfContentOwner?: string;
@@ -444,7 +443,8 @@ export const ListReportTypesResponse_Op = ListReportTypesResponse;
 
 export type ListReportTypesError = CommonErrors;
 
-export const listReportTypes = API.makePaginated(() => ({
+/** Lists report types. */
+export const listReportTypes: API.PaginatedOperationMethod<ListReportTypesRequest, ListReportTypesResponse_Op, ListReportTypesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListReportTypesRequest,
   output: ListReportTypesResponse_Op,
   errors: [],
@@ -454,7 +454,6 @@ export const listReportTypes = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a job and returns it. */
 export interface CreateJobsRequest {
   /** The content owner's external ID on which behalf the user is acting on. If not set, the user is acting for himself (his own channel). */
   onBehalfOfContentOwner?: string;
@@ -475,13 +474,13 @@ export const CreateJobsResponse = Job;
 
 export type CreateJobsError = CommonErrors;
 
+/** Creates a job and returns it. */
 export const createJobs: API.OperationMethod<CreateJobsRequest, CreateJobsResponse, CreateJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateJobsRequest,
   output: CreateJobsResponse,
   errors: [],
 }));
 
-/** Lists jobs. */
 export interface ListJobsRequest {
   /** The content owner's external ID on which behalf the user is acting on. If not set, the user is acting for himself (his own channel). */
   onBehalfOfContentOwner?: string;
@@ -508,7 +507,8 @@ export const ListJobsResponse_Op = ListJobsResponse;
 
 export type ListJobsError = CommonErrors;
 
-export const listJobs = API.makePaginated(() => ({
+/** Lists jobs. */
+export const listJobs: API.PaginatedOperationMethod<ListJobsRequest, ListJobsResponse_Op, ListJobsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListJobsRequest,
   output: ListJobsResponse_Op,
   errors: [],
@@ -518,7 +518,6 @@ export const listJobs = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a job. */
 export interface GetJobsRequest {
   /** The ID of the job to retrieve. */
   jobId: string;
@@ -539,13 +538,13 @@ export const GetJobsResponse = Job;
 
 export type GetJobsError = CommonErrors;
 
+/** Gets a job. */
 export const getJobs: API.OperationMethod<GetJobsRequest, GetJobsResponse, GetJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetJobsRequest,
   output: GetJobsResponse,
   errors: [],
 }));
 
-/** Deletes a job. */
 export interface DeleteJobsRequest {
   /** The ID of the job to delete. */
   jobId: string;
@@ -566,13 +565,13 @@ export const DeleteJobsResponse = Empty;
 
 export type DeleteJobsError = CommonErrors;
 
+/** Deletes a job. */
 export const deleteJobs: API.OperationMethod<DeleteJobsRequest, DeleteJobsResponse, DeleteJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteJobsRequest,
   output: DeleteJobsResponse,
   errors: [],
 }));
 
-/** Lists reports created by a specific job. Returns NOT_FOUND if the job does not exist. */
 export interface ListJobsReportsRequest {
   /** The ID of the job. */
   jobId: string;
@@ -608,7 +607,8 @@ export const ListJobsReportsResponse = ListReportsResponse;
 
 export type ListJobsReportsError = CommonErrors;
 
-export const listJobsReports = API.makePaginated(() => ({
+/** Lists reports created by a specific job. Returns NOT_FOUND if the job does not exist. */
+export const listJobsReports: API.PaginatedOperationMethod<ListJobsReportsRequest, ListJobsReportsResponse, ListJobsReportsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListJobsReportsRequest,
   output: ListJobsReportsResponse,
   errors: [],
@@ -618,7 +618,6 @@ export const listJobsReports = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the metadata of a specific report. */
 export interface GetJobsReportsRequest {
   /** The ID of the job. */
   jobId: string;
@@ -642,13 +641,13 @@ export const GetJobsReportsResponse = Report;
 
 export type GetJobsReportsError = CommonErrors;
 
+/** Gets the metadata of a specific report. */
 export const getJobsReports: API.OperationMethod<GetJobsReportsRequest, GetJobsReportsResponse, GetJobsReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetJobsReportsRequest,
   output: GetJobsReportsResponse,
   errors: [],
 }));
 
-/** Method for media download. Download is supported on the URI `/v1/media/{+name}?alt=media`. */
 export interface DownloadMediaRequest {
   /** Name of the media that is being downloaded. */
   resourceName: string;
@@ -666,6 +665,7 @@ export const DownloadMediaResponse = GdataMedia;
 
 export type DownloadMediaError = CommonErrors;
 
+/** Method for media download. Download is supported on the URI `/v1/media/{+name}?alt=media`. */
 export const downloadMedia: API.OperationMethod<DownloadMediaRequest, DownloadMediaResponse, DownloadMediaError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DownloadMediaRequest,
   output: DownloadMediaResponse,

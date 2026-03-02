@@ -2480,7 +2480,6 @@ export const LocationMetadata: Schema.Schema<LocationMetadata> = Schema.suspend(
 // Operations
 // ==========================================================================
 
-/** Gets the Trial state for a given project */
 export interface GetTrialProjectsLocationsRequest {
   /** Required. The project for which trial details need to be retrieved. Format: projects/{project}/locations/{location} Supported Locations are - us, eu and asia. */
   name: string;
@@ -2498,13 +2497,13 @@ export const GetTrialProjectsLocationsResponse = Trial;
 
 export type GetTrialProjectsLocationsError = CommonErrors;
 
+/** Gets the Trial state for a given project */
 export const getTrialProjectsLocations: API.OperationMethod<GetTrialProjectsLocationsRequest, GetTrialProjectsLocationsResponse, GetTrialProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetTrialProjectsLocationsRequest,
   output: GetTrialProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -2534,7 +2533,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -2544,7 +2544,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -2562,13 +2561,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsManagementServersRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2589,13 +2588,13 @@ export const SetIamPolicyProjectsLocationsManagementServersResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsManagementServersError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsManagementServers: API.OperationMethod<SetIamPolicyProjectsLocationsManagementServersRequest, SetIamPolicyProjectsLocationsManagementServersResponse, SetIamPolicyProjectsLocationsManagementServersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsManagementServersRequest,
   output: SetIamPolicyProjectsLocationsManagementServersResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsManagementServersRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2616,13 +2615,13 @@ export const GetIamPolicyProjectsLocationsManagementServersResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsManagementServersError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsManagementServers: API.OperationMethod<GetIamPolicyProjectsLocationsManagementServersRequest, GetIamPolicyProjectsLocationsManagementServersResponse, GetIamPolicyProjectsLocationsManagementServersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsManagementServersRequest,
   output: GetIamPolicyProjectsLocationsManagementServersResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsManagementServersRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2643,13 +2642,13 @@ export const TestIamPermissionsProjectsLocationsManagementServersResponse = Test
 
 export type TestIamPermissionsProjectsLocationsManagementServersError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsManagementServers: API.OperationMethod<TestIamPermissionsProjectsLocationsManagementServersRequest, TestIamPermissionsProjectsLocationsManagementServersResponse, TestIamPermissionsProjectsLocationsManagementServersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsManagementServersRequest,
   output: TestIamPermissionsProjectsLocationsManagementServersResponse,
   errors: [],
 }));
 
-/** Lists ManagementServers in a given project and location. */
 export interface ListProjectsLocationsManagementServersRequest {
   /** Required. The project and location for which to retrieve management servers information, in the format 'projects/{project_id}/locations/{location}'. In Google Cloud Backup and DR, locations map to Google Cloud regions, for example **us-central1**. To retrieve management servers for all locations, use "-" for the '{location}' value. */
   parent: string;
@@ -2679,7 +2678,8 @@ export const ListProjectsLocationsManagementServersResponse = ListManagementServ
 
 export type ListProjectsLocationsManagementServersError = CommonErrors;
 
-export const listProjectsLocationsManagementServers = API.makePaginated(() => ({
+/** Lists ManagementServers in a given project and location. */
+export const listProjectsLocationsManagementServers: API.PaginatedOperationMethod<ListProjectsLocationsManagementServersRequest, ListProjectsLocationsManagementServersResponse, ListProjectsLocationsManagementServersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsManagementServersRequest,
   output: ListProjectsLocationsManagementServersResponse,
   errors: [],
@@ -2689,7 +2689,6 @@ export const listProjectsLocationsManagementServers = API.makePaginated(() => ({
   },
 }));
 
-/** Gets details of a single ManagementServer. */
 export interface GetProjectsLocationsManagementServersRequest {
   /** Required. Name of the management server resource name, in the format 'projects/{project_id}/locations/{location}/managementServers/{resource_name}' */
   name: string;
@@ -2707,13 +2706,13 @@ export const GetProjectsLocationsManagementServersResponse = ManagementServer;
 
 export type GetProjectsLocationsManagementServersError = CommonErrors;
 
+/** Gets details of a single ManagementServer. */
 export const getProjectsLocationsManagementServers: API.OperationMethod<GetProjectsLocationsManagementServersRequest, GetProjectsLocationsManagementServersResponse, GetProjectsLocationsManagementServersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsManagementServersRequest,
   output: GetProjectsLocationsManagementServersResponse,
   errors: [],
 }));
 
-/** Creates a new ManagementServer in a given project and location. */
 export interface CreateProjectsLocationsManagementServersRequest {
   /** Required. The management server project and location in the format 'projects/{project_id}/locations/{location}'. In Cloud Backup and DR locations map to Google Cloud regions, for example **us-central1**. */
   parent: string;
@@ -2740,13 +2739,13 @@ export const CreateProjectsLocationsManagementServersResponse = Operation;
 
 export type CreateProjectsLocationsManagementServersError = CommonErrors;
 
+/** Creates a new ManagementServer in a given project and location. */
 export const createProjectsLocationsManagementServers: API.OperationMethod<CreateProjectsLocationsManagementServersRequest, CreateProjectsLocationsManagementServersResponse, CreateProjectsLocationsManagementServersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsManagementServersRequest,
   output: CreateProjectsLocationsManagementServersResponse,
   errors: [],
 }));
 
-/** Deletes a single ManagementServer. */
 export interface DeleteProjectsLocationsManagementServersRequest {
   /** Required. Name of the resource */
   name: string;
@@ -2767,13 +2766,13 @@ export const DeleteProjectsLocationsManagementServersResponse = Operation;
 
 export type DeleteProjectsLocationsManagementServersError = CommonErrors;
 
+/** Deletes a single ManagementServer. */
 export const deleteProjectsLocationsManagementServers: API.OperationMethod<DeleteProjectsLocationsManagementServersRequest, DeleteProjectsLocationsManagementServersResponse, DeleteProjectsLocationsManagementServersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsManagementServersRequest,
   output: DeleteProjectsLocationsManagementServersResponse,
   errors: [],
 }));
 
-/** Returns the Assured Workloads compliance metadata for a given project. */
 export interface MsComplianceMetadataProjectsLocationsManagementServersRequest {
   /** Required. The project and location to be used to check CSS metadata for target project information, in the format 'projects/{project_id}/locations/{location}'. In Google Cloud Backup and DR, locations map to Google Cloud regions, for example **us-central1**. */
   parent: string;
@@ -2794,13 +2793,13 @@ export const MsComplianceMetadataProjectsLocationsManagementServersResponse = Fe
 
 export type MsComplianceMetadataProjectsLocationsManagementServersError = CommonErrors;
 
+/** Returns the Assured Workloads compliance metadata for a given project. */
 export const msComplianceMetadataProjectsLocationsManagementServers: API.OperationMethod<MsComplianceMetadataProjectsLocationsManagementServersRequest, MsComplianceMetadataProjectsLocationsManagementServersResponse, MsComplianceMetadataProjectsLocationsManagementServersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MsComplianceMetadataProjectsLocationsManagementServersRequest,
   output: MsComplianceMetadataProjectsLocationsManagementServersResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -2830,7 +2829,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -2840,7 +2840,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -2858,13 +2857,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -2882,13 +2881,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -2909,13 +2908,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Subscribes to a trial for a project */
 export interface SubscribeProjectsLocationsTrialRequest {
   /** Required. The project where this trial will be created. Format: projects/{project}/locations/{location} Supported Locations are - us, eu and asia. */
   parent: string;
@@ -2936,13 +2935,13 @@ export const SubscribeProjectsLocationsTrialResponse = Trial;
 
 export type SubscribeProjectsLocationsTrialError = CommonErrors;
 
+/** Subscribes to a trial for a project */
 export const subscribeProjectsLocationsTrial: API.OperationMethod<SubscribeProjectsLocationsTrialRequest, SubscribeProjectsLocationsTrialResponse, SubscribeProjectsLocationsTrialError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SubscribeProjectsLocationsTrialRequest,
   output: SubscribeProjectsLocationsTrialResponse,
   errors: [],
 }));
 
-/** Ends the trial for a project */
 export interface EndProjectsLocationsTrialRequest {
   /** Required. The parent resource where the trial has been created. Format: projects/{project}/locations/{location} */
   parent: string;
@@ -2963,13 +2962,13 @@ export const EndProjectsLocationsTrialResponse = Trial;
 
 export type EndProjectsLocationsTrialError = CommonErrors;
 
+/** Ends the trial for a project */
 export const endProjectsLocationsTrial: API.OperationMethod<EndProjectsLocationsTrialRequest, EndProjectsLocationsTrialResponse, EndProjectsLocationsTrialError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EndProjectsLocationsTrialRequest,
   output: EndProjectsLocationsTrialResponse,
   errors: [],
 }));
 
-/** Creates a new BackupVault in a given project and location. */
 export interface CreateProjectsLocationsBackupVaultsRequest {
   /** Required. Value for parent. */
   parent: string;
@@ -2999,13 +2998,13 @@ export const CreateProjectsLocationsBackupVaultsResponse = Operation;
 
 export type CreateProjectsLocationsBackupVaultsError = CommonErrors;
 
+/** Creates a new BackupVault in a given project and location. */
 export const createProjectsLocationsBackupVaults: API.OperationMethod<CreateProjectsLocationsBackupVaultsRequest, CreateProjectsLocationsBackupVaultsResponse, CreateProjectsLocationsBackupVaultsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsBackupVaultsRequest,
   output: CreateProjectsLocationsBackupVaultsResponse,
   errors: [],
 }));
 
-/** Lists BackupVaults in a given project and location. */
 export interface ListProjectsLocationsBackupVaultsRequest {
   /** Required. The project and location for which to retrieve backupvault stores information, in the format 'projects/{project_id}/locations/{location}'. In Cloud Backup and DR, locations map to Google Cloud regions, for example **us-central1**. To retrieve backupvault stores for all locations, use "-" for the '{location}' value. */
   parent: string;
@@ -3038,7 +3037,8 @@ export const ListProjectsLocationsBackupVaultsResponse = ListBackupVaultsRespons
 
 export type ListProjectsLocationsBackupVaultsError = CommonErrors;
 
-export const listProjectsLocationsBackupVaults = API.makePaginated(() => ({
+/** Lists BackupVaults in a given project and location. */
+export const listProjectsLocationsBackupVaults: API.PaginatedOperationMethod<ListProjectsLocationsBackupVaultsRequest, ListProjectsLocationsBackupVaultsResponse, ListProjectsLocationsBackupVaultsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBackupVaultsRequest,
   output: ListProjectsLocationsBackupVaultsResponse,
   errors: [],
@@ -3048,7 +3048,6 @@ export const listProjectsLocationsBackupVaults = API.makePaginated(() => ({
   },
 }));
 
-/** FetchUsableBackupVaults lists usable BackupVaults in a given project and location. Usable BackupVault are the ones that user has backupdr.backupVaults.get permission. */
 export interface FetchUsableProjectsLocationsBackupVaultsRequest {
   /** Required. The project and location for which to retrieve backupvault stores information, in the format 'projects/{project_id}/locations/{location}'. In Cloud Backup and DR, locations map to Google Cloud regions, for example **us-central1**. To retrieve backupvault stores for all locations, use "-" for the '{location}' value. */
   parent: string;
@@ -3078,7 +3077,8 @@ export const FetchUsableProjectsLocationsBackupVaultsResponse = FetchUsableBacku
 
 export type FetchUsableProjectsLocationsBackupVaultsError = CommonErrors;
 
-export const fetchUsableProjectsLocationsBackupVaults = API.makePaginated(() => ({
+/** FetchUsableBackupVaults lists usable BackupVaults in a given project and location. Usable BackupVault are the ones that user has backupdr.backupVaults.get permission. */
+export const fetchUsableProjectsLocationsBackupVaults: API.PaginatedOperationMethod<FetchUsableProjectsLocationsBackupVaultsRequest, FetchUsableProjectsLocationsBackupVaultsResponse, FetchUsableProjectsLocationsBackupVaultsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: FetchUsableProjectsLocationsBackupVaultsRequest,
   output: FetchUsableProjectsLocationsBackupVaultsResponse,
   errors: [],
@@ -3088,7 +3088,6 @@ export const fetchUsableProjectsLocationsBackupVaults = API.makePaginated(() => 
   },
 }));
 
-/** Gets details of a BackupVault. */
 export interface GetProjectsLocationsBackupVaultsRequest {
   /** Required. Name of the backupvault store resource name, in the format 'projects/{project_id}/locations/{location}/backupVaults/{resource_name}' */
   name: string;
@@ -3109,13 +3108,13 @@ export const GetProjectsLocationsBackupVaultsResponse = BackupVault;
 
 export type GetProjectsLocationsBackupVaultsError = CommonErrors;
 
+/** Gets details of a BackupVault. */
 export const getProjectsLocationsBackupVaults: API.OperationMethod<GetProjectsLocationsBackupVaultsRequest, GetProjectsLocationsBackupVaultsResponse, GetProjectsLocationsBackupVaultsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBackupVaultsRequest,
   output: GetProjectsLocationsBackupVaultsResponse,
   errors: [],
 }));
 
-/** Updates the settings of a BackupVault. */
 export interface PatchProjectsLocationsBackupVaultsRequest {
   /** Output only. Identifier. Name of the backup vault to create. It must have the format`"projects/{project}/locations/{location}/backupVaults/{backupvault}"`. `{backupvault}` cannot be changed after creation. It must be between 3-63 characters long and must be unique within the project and location. */
   name: string;
@@ -3151,13 +3150,13 @@ export const PatchProjectsLocationsBackupVaultsResponse = Operation;
 
 export type PatchProjectsLocationsBackupVaultsError = CommonErrors;
 
+/** Updates the settings of a BackupVault. */
 export const patchProjectsLocationsBackupVaults: API.OperationMethod<PatchProjectsLocationsBackupVaultsRequest, PatchProjectsLocationsBackupVaultsResponse, PatchProjectsLocationsBackupVaultsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsBackupVaultsRequest,
   output: PatchProjectsLocationsBackupVaultsResponse,
   errors: [],
 }));
 
-/** Deletes a BackupVault. */
 export interface DeleteProjectsLocationsBackupVaultsRequest {
   /** Required. Name of the resource. */
   name: string;
@@ -3193,13 +3192,13 @@ export const DeleteProjectsLocationsBackupVaultsResponse = Operation;
 
 export type DeleteProjectsLocationsBackupVaultsError = CommonErrors;
 
+/** Deletes a BackupVault. */
 export const deleteProjectsLocationsBackupVaults: API.OperationMethod<DeleteProjectsLocationsBackupVaultsRequest, DeleteProjectsLocationsBackupVaultsResponse, DeleteProjectsLocationsBackupVaultsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsBackupVaultsRequest,
   output: DeleteProjectsLocationsBackupVaultsResponse,
   errors: [],
 }));
 
-/** Returns the caller's permissions on a BackupVault resource. A caller is not required to have Google IAM permission to make this request. */
 export interface TestIamPermissionsProjectsLocationsBackupVaultsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3220,13 +3219,13 @@ export const TestIamPermissionsProjectsLocationsBackupVaultsResponse = TestIamPe
 
 export type TestIamPermissionsProjectsLocationsBackupVaultsError = CommonErrors;
 
+/** Returns the caller's permissions on a BackupVault resource. A caller is not required to have Google IAM permission to make this request. */
 export const testIamPermissionsProjectsLocationsBackupVaults: API.OperationMethod<TestIamPermissionsProjectsLocationsBackupVaultsRequest, TestIamPermissionsProjectsLocationsBackupVaultsResponse, TestIamPermissionsProjectsLocationsBackupVaultsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsBackupVaultsRequest,
   output: TestIamPermissionsProjectsLocationsBackupVaultsResponse,
   errors: [],
 }));
 
-/** Lists DataSources in a given project and location. */
 export interface ListProjectsLocationsBackupVaultsDataSourcesRequest {
   /** Required. The project and location for which to retrieve data sources information, in the format 'projects/{project_id}/locations/{location}'. In Cloud Backup and DR, locations map to Google Cloud regions, for example **us-central1**. To retrieve data sources for all locations, use "-" for the '{location}' value. */
   parent: string;
@@ -3256,7 +3255,8 @@ export const ListProjectsLocationsBackupVaultsDataSourcesResponse = ListDataSour
 
 export type ListProjectsLocationsBackupVaultsDataSourcesError = CommonErrors;
 
-export const listProjectsLocationsBackupVaultsDataSources = API.makePaginated(() => ({
+/** Lists DataSources in a given project and location. */
+export const listProjectsLocationsBackupVaultsDataSources: API.PaginatedOperationMethod<ListProjectsLocationsBackupVaultsDataSourcesRequest, ListProjectsLocationsBackupVaultsDataSourcesResponse, ListProjectsLocationsBackupVaultsDataSourcesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBackupVaultsDataSourcesRequest,
   output: ListProjectsLocationsBackupVaultsDataSourcesResponse,
   errors: [],
@@ -3266,7 +3266,6 @@ export const listProjectsLocationsBackupVaultsDataSources = API.makePaginated(()
   },
 }));
 
-/** Gets details of a DataSource. */
 export interface GetProjectsLocationsBackupVaultsDataSourcesRequest {
   /** Required. Name of the data source resource name, in the format 'projects/{project_id}/locations/{location}/backupVaults/{resource_name}/dataSource/{resource_name}' */
   name: string;
@@ -3284,13 +3283,13 @@ export const GetProjectsLocationsBackupVaultsDataSourcesResponse = DataSource;
 
 export type GetProjectsLocationsBackupVaultsDataSourcesError = CommonErrors;
 
+/** Gets details of a DataSource. */
 export const getProjectsLocationsBackupVaultsDataSources: API.OperationMethod<GetProjectsLocationsBackupVaultsDataSourcesRequest, GetProjectsLocationsBackupVaultsDataSourcesResponse, GetProjectsLocationsBackupVaultsDataSourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBackupVaultsDataSourcesRequest,
   output: GetProjectsLocationsBackupVaultsDataSourcesResponse,
   errors: [],
 }));
 
-/** Updates the settings of a DataSource. */
 export interface PatchProjectsLocationsBackupVaultsDataSourcesRequest {
   /** Output only. Identifier. Name of the datasource to create. It must have the format`"projects/{project}/locations/{location}/backupVaults/{backupvault}/dataSources/{datasource}"`. `{datasource}` cannot be changed after creation. It must be between 3-63 characters long and must be unique within the backup vault. */
   name: string;
@@ -3320,13 +3319,13 @@ export const PatchProjectsLocationsBackupVaultsDataSourcesResponse = Operation;
 
 export type PatchProjectsLocationsBackupVaultsDataSourcesError = CommonErrors;
 
+/** Updates the settings of a DataSource. */
 export const patchProjectsLocationsBackupVaultsDataSources: API.OperationMethod<PatchProjectsLocationsBackupVaultsDataSourcesRequest, PatchProjectsLocationsBackupVaultsDataSourcesResponse, PatchProjectsLocationsBackupVaultsDataSourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsBackupVaultsDataSourcesRequest,
   output: PatchProjectsLocationsBackupVaultsDataSourcesResponse,
   errors: [],
 }));
 
-/** Deletes a DataSource. This is a custom method instead of a standard delete method because external clients will not delete DataSources except for BackupDR backup appliances. */
 export interface RemoveProjectsLocationsBackupVaultsDataSourcesRequest {
   /** Required. Name of the resource. */
   name: string;
@@ -3347,13 +3346,13 @@ export const RemoveProjectsLocationsBackupVaultsDataSourcesResponse = Operation;
 
 export type RemoveProjectsLocationsBackupVaultsDataSourcesError = CommonErrors;
 
+/** Deletes a DataSource. This is a custom method instead of a standard delete method because external clients will not delete DataSources except for BackupDR backup appliances. */
 export const removeProjectsLocationsBackupVaultsDataSources: API.OperationMethod<RemoveProjectsLocationsBackupVaultsDataSourcesRequest, RemoveProjectsLocationsBackupVaultsDataSourcesResponse, RemoveProjectsLocationsBackupVaultsDataSourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveProjectsLocationsBackupVaultsDataSourcesRequest,
   output: RemoveProjectsLocationsBackupVaultsDataSourcesResponse,
   errors: [],
 }));
 
-/** Sets the internal status of a DataSource. */
 export interface SetInternalStatusProjectsLocationsBackupVaultsDataSourcesRequest {
   /** Required. The resource name of the instance, in the format 'projects/* /locations/* /backupVaults/* /dataSources/'. */
   dataSource: string;
@@ -3374,13 +3373,13 @@ export const SetInternalStatusProjectsLocationsBackupVaultsDataSourcesResponse =
 
 export type SetInternalStatusProjectsLocationsBackupVaultsDataSourcesError = CommonErrors;
 
+/** Sets the internal status of a DataSource. */
 export const setInternalStatusProjectsLocationsBackupVaultsDataSources: API.OperationMethod<SetInternalStatusProjectsLocationsBackupVaultsDataSourcesRequest, SetInternalStatusProjectsLocationsBackupVaultsDataSourcesResponse, SetInternalStatusProjectsLocationsBackupVaultsDataSourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetInternalStatusProjectsLocationsBackupVaultsDataSourcesRequest,
   output: SetInternalStatusProjectsLocationsBackupVaultsDataSourcesResponse,
   errors: [],
 }));
 
-/** Internal only. Initiates a backup. */
 export interface InitiateBackupProjectsLocationsBackupVaultsDataSourcesRequest {
   /** Required. The resource name of the instance, in the format 'projects/* /locations/* /backupVaults/* /dataSources/'. */
   dataSource: string;
@@ -3401,13 +3400,13 @@ export const InitiateBackupProjectsLocationsBackupVaultsDataSourcesResponse = In
 
 export type InitiateBackupProjectsLocationsBackupVaultsDataSourcesError = CommonErrors;
 
+/** Internal only. Initiates a backup. */
 export const initiateBackupProjectsLocationsBackupVaultsDataSources: API.OperationMethod<InitiateBackupProjectsLocationsBackupVaultsDataSourcesRequest, InitiateBackupProjectsLocationsBackupVaultsDataSourcesResponse, InitiateBackupProjectsLocationsBackupVaultsDataSourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InitiateBackupProjectsLocationsBackupVaultsDataSourcesRequest,
   output: InitiateBackupProjectsLocationsBackupVaultsDataSourcesResponse,
   errors: [],
 }));
 
-/** Internal only. Abandons a backup. */
 export interface AbandonBackupProjectsLocationsBackupVaultsDataSourcesRequest {
   /** Required. The resource name of the instance, in the format 'projects/* /locations/* /backupVaults/* /dataSources/'. */
   dataSource: string;
@@ -3428,13 +3427,13 @@ export const AbandonBackupProjectsLocationsBackupVaultsDataSourcesResponse = Ope
 
 export type AbandonBackupProjectsLocationsBackupVaultsDataSourcesError = CommonErrors;
 
+/** Internal only. Abandons a backup. */
 export const abandonBackupProjectsLocationsBackupVaultsDataSources: API.OperationMethod<AbandonBackupProjectsLocationsBackupVaultsDataSourcesRequest, AbandonBackupProjectsLocationsBackupVaultsDataSourcesResponse, AbandonBackupProjectsLocationsBackupVaultsDataSourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AbandonBackupProjectsLocationsBackupVaultsDataSourcesRequest,
   output: AbandonBackupProjectsLocationsBackupVaultsDataSourcesResponse,
   errors: [],
 }));
 
-/** Internal only. Finalize a backup that was started by a call to InitiateBackup. */
 export interface FinalizeBackupProjectsLocationsBackupVaultsDataSourcesRequest {
   /** Required. The resource name of the instance, in the format 'projects/* /locations/* /backupVaults/* /dataSources/'. */
   dataSource: string;
@@ -3455,13 +3454,13 @@ export const FinalizeBackupProjectsLocationsBackupVaultsDataSourcesResponse = Op
 
 export type FinalizeBackupProjectsLocationsBackupVaultsDataSourcesError = CommonErrors;
 
+/** Internal only. Finalize a backup that was started by a call to InitiateBackup. */
 export const finalizeBackupProjectsLocationsBackupVaultsDataSources: API.OperationMethod<FinalizeBackupProjectsLocationsBackupVaultsDataSourcesRequest, FinalizeBackupProjectsLocationsBackupVaultsDataSourcesResponse, FinalizeBackupProjectsLocationsBackupVaultsDataSourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FinalizeBackupProjectsLocationsBackupVaultsDataSourcesRequest,
   output: FinalizeBackupProjectsLocationsBackupVaultsDataSourcesResponse,
   errors: [],
 }));
 
-/** Internal only. Fetch access token for a given data source. */
 export interface FetchAccessTokenProjectsLocationsBackupVaultsDataSourcesRequest {
   /** Required. The resource name for the location for which static IPs should be returned. Must be in the format 'projects/* /locations/* /backupVaults/* /dataSources'. */
   name: string;
@@ -3482,13 +3481,13 @@ export const FetchAccessTokenProjectsLocationsBackupVaultsDataSourcesResponse = 
 
 export type FetchAccessTokenProjectsLocationsBackupVaultsDataSourcesError = CommonErrors;
 
+/** Internal only. Fetch access token for a given data source. */
 export const fetchAccessTokenProjectsLocationsBackupVaultsDataSources: API.OperationMethod<FetchAccessTokenProjectsLocationsBackupVaultsDataSourcesRequest, FetchAccessTokenProjectsLocationsBackupVaultsDataSourcesResponse, FetchAccessTokenProjectsLocationsBackupVaultsDataSourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FetchAccessTokenProjectsLocationsBackupVaultsDataSourcesRequest,
   output: FetchAccessTokenProjectsLocationsBackupVaultsDataSourcesResponse,
   errors: [],
 }));
 
-/** Lists Backups in a given project and location. */
 export interface ListProjectsLocationsBackupVaultsDataSourcesBackupsRequest {
   /** Required. The project and location for which to retrieve backup information, in the format 'projects/{project_id}/locations/{location}'. In Cloud Backup and DR, locations map to Google Cloud regions, for example **us-central1**. To retrieve data sources for all locations, use "-" for the '{location}' value. */
   parent: string;
@@ -3521,7 +3520,8 @@ export const ListProjectsLocationsBackupVaultsDataSourcesBackupsResponse = ListB
 
 export type ListProjectsLocationsBackupVaultsDataSourcesBackupsError = CommonErrors;
 
-export const listProjectsLocationsBackupVaultsDataSourcesBackups = API.makePaginated(() => ({
+/** Lists Backups in a given project and location. */
+export const listProjectsLocationsBackupVaultsDataSourcesBackups: API.PaginatedOperationMethod<ListProjectsLocationsBackupVaultsDataSourcesBackupsRequest, ListProjectsLocationsBackupVaultsDataSourcesBackupsResponse, ListProjectsLocationsBackupVaultsDataSourcesBackupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBackupVaultsDataSourcesBackupsRequest,
   output: ListProjectsLocationsBackupVaultsDataSourcesBackupsResponse,
   errors: [],
@@ -3531,7 +3531,6 @@ export const listProjectsLocationsBackupVaultsDataSourcesBackups = API.makePagin
   },
 }));
 
-/** Fetch Backups for a given resource type. */
 export interface FetchForResourceTypeProjectsLocationsBackupVaultsDataSourcesBackupsRequest {
   /** Required. Datasources are the parent resource for the backups. Format: projects/{project}/locations/{location}/backupVaults/{backupVaultId}/dataSources/{datasourceId} */
   parent: string;
@@ -3567,7 +3566,8 @@ export const FetchForResourceTypeProjectsLocationsBackupVaultsDataSourcesBackups
 
 export type FetchForResourceTypeProjectsLocationsBackupVaultsDataSourcesBackupsError = CommonErrors;
 
-export const fetchForResourceTypeProjectsLocationsBackupVaultsDataSourcesBackups = API.makePaginated(() => ({
+/** Fetch Backups for a given resource type. */
+export const fetchForResourceTypeProjectsLocationsBackupVaultsDataSourcesBackups: API.PaginatedOperationMethod<FetchForResourceTypeProjectsLocationsBackupVaultsDataSourcesBackupsRequest, FetchForResourceTypeProjectsLocationsBackupVaultsDataSourcesBackupsResponse, FetchForResourceTypeProjectsLocationsBackupVaultsDataSourcesBackupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: FetchForResourceTypeProjectsLocationsBackupVaultsDataSourcesBackupsRequest,
   output: FetchForResourceTypeProjectsLocationsBackupVaultsDataSourcesBackupsResponse,
   errors: [],
@@ -3577,7 +3577,6 @@ export const fetchForResourceTypeProjectsLocationsBackupVaultsDataSourcesBackups
   },
 }));
 
-/** Gets details of a Backup. */
 export interface GetProjectsLocationsBackupVaultsDataSourcesBackupsRequest {
   /** Required. Name of the data source resource name, in the format 'projects/{project_id}/locations/{location}/backupVaults/{backupVault}/dataSources/{datasource}/backups/{backup}' */
   name: string;
@@ -3598,13 +3597,13 @@ export const GetProjectsLocationsBackupVaultsDataSourcesBackupsResponse = Backup
 
 export type GetProjectsLocationsBackupVaultsDataSourcesBackupsError = CommonErrors;
 
+/** Gets details of a Backup. */
 export const getProjectsLocationsBackupVaultsDataSourcesBackups: API.OperationMethod<GetProjectsLocationsBackupVaultsDataSourcesBackupsRequest, GetProjectsLocationsBackupVaultsDataSourcesBackupsResponse, GetProjectsLocationsBackupVaultsDataSourcesBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBackupVaultsDataSourcesBackupsRequest,
   output: GetProjectsLocationsBackupVaultsDataSourcesBackupsResponse,
   errors: [],
 }));
 
-/** Updates the settings of a Backup. */
 export interface PatchProjectsLocationsBackupVaultsDataSourcesBackupsRequest {
   /** Output only. Identifier. Name of the backup to create. It must have the format`"projects//locations//backupVaults//dataSources/{datasource}/backups/{backup}"`. `{backup}` cannot be changed after creation. It must be between 3-63 characters long and must be unique within the datasource. */
   name: string;
@@ -3631,13 +3630,13 @@ export const PatchProjectsLocationsBackupVaultsDataSourcesBackupsResponse = Oper
 
 export type PatchProjectsLocationsBackupVaultsDataSourcesBackupsError = CommonErrors;
 
+/** Updates the settings of a Backup. */
 export const patchProjectsLocationsBackupVaultsDataSourcesBackups: API.OperationMethod<PatchProjectsLocationsBackupVaultsDataSourcesBackupsRequest, PatchProjectsLocationsBackupVaultsDataSourcesBackupsResponse, PatchProjectsLocationsBackupVaultsDataSourcesBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsBackupVaultsDataSourcesBackupsRequest,
   output: PatchProjectsLocationsBackupVaultsDataSourcesBackupsResponse,
   errors: [],
 }));
 
-/** Deletes a Backup. */
 export interface DeleteProjectsLocationsBackupVaultsDataSourcesBackupsRequest {
   /** Required. Name of the resource. */
   name: string;
@@ -3658,13 +3657,13 @@ export const DeleteProjectsLocationsBackupVaultsDataSourcesBackupsResponse = Ope
 
 export type DeleteProjectsLocationsBackupVaultsDataSourcesBackupsError = CommonErrors;
 
+/** Deletes a Backup. */
 export const deleteProjectsLocationsBackupVaultsDataSourcesBackups: API.OperationMethod<DeleteProjectsLocationsBackupVaultsDataSourcesBackupsRequest, DeleteProjectsLocationsBackupVaultsDataSourcesBackupsResponse, DeleteProjectsLocationsBackupVaultsDataSourcesBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsBackupVaultsDataSourcesBackupsRequest,
   output: DeleteProjectsLocationsBackupVaultsDataSourcesBackupsResponse,
   errors: [],
 }));
 
-/** Restore from a Backup */
 export interface RestoreProjectsLocationsBackupVaultsDataSourcesBackupsRequest {
   /** Required. The resource name of the Backup instance, in the format 'projects/* /locations/* /backupVaults/* /dataSources/* /backups/'. */
   name: string;
@@ -3685,13 +3684,13 @@ export const RestoreProjectsLocationsBackupVaultsDataSourcesBackupsResponse = Op
 
 export type RestoreProjectsLocationsBackupVaultsDataSourcesBackupsError = CommonErrors;
 
+/** Restore from a Backup */
 export const restoreProjectsLocationsBackupVaultsDataSourcesBackups: API.OperationMethod<RestoreProjectsLocationsBackupVaultsDataSourcesBackupsRequest, RestoreProjectsLocationsBackupVaultsDataSourcesBackupsResponse, RestoreProjectsLocationsBackupVaultsDataSourcesBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RestoreProjectsLocationsBackupVaultsDataSourcesBackupsRequest,
   output: RestoreProjectsLocationsBackupVaultsDataSourcesBackupsResponse,
   errors: [],
 }));
 
-/** Create a BackupPlan */
 export interface CreateProjectsLocationsBackupPlansRequest {
   /** Required. The `BackupPlan` project and location in the format `projects/{project}/locations/{location}`. In Google Cloud Backup and DR locations map to Google Cloud regions, for example **us-central1**. */
   parent: string;
@@ -3718,13 +3717,13 @@ export const CreateProjectsLocationsBackupPlansResponse = Operation;
 
 export type CreateProjectsLocationsBackupPlansError = CommonErrors;
 
+/** Create a BackupPlan */
 export const createProjectsLocationsBackupPlans: API.OperationMethod<CreateProjectsLocationsBackupPlansRequest, CreateProjectsLocationsBackupPlansResponse, CreateProjectsLocationsBackupPlansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsBackupPlansRequest,
   output: CreateProjectsLocationsBackupPlansResponse,
   errors: [],
 }));
 
-/** Update a BackupPlan. */
 export interface PatchProjectsLocationsBackupPlansRequest {
   /** Output only. Identifier. The resource name of the `BackupPlan`. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}` */
   name: string;
@@ -3751,13 +3750,13 @@ export const PatchProjectsLocationsBackupPlansResponse = Operation;
 
 export type PatchProjectsLocationsBackupPlansError = CommonErrors;
 
+/** Update a BackupPlan. */
 export const patchProjectsLocationsBackupPlans: API.OperationMethod<PatchProjectsLocationsBackupPlansRequest, PatchProjectsLocationsBackupPlansResponse, PatchProjectsLocationsBackupPlansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsBackupPlansRequest,
   output: PatchProjectsLocationsBackupPlansResponse,
   errors: [],
 }));
 
-/** Gets details of a single BackupPlan. */
 export interface GetProjectsLocationsBackupPlansRequest {
   /** Required. The resource name of the `BackupPlan` to retrieve. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}` */
   name: string;
@@ -3775,13 +3774,13 @@ export const GetProjectsLocationsBackupPlansResponse = BackupPlan;
 
 export type GetProjectsLocationsBackupPlansError = CommonErrors;
 
+/** Gets details of a single BackupPlan. */
 export const getProjectsLocationsBackupPlans: API.OperationMethod<GetProjectsLocationsBackupPlansRequest, GetProjectsLocationsBackupPlansResponse, GetProjectsLocationsBackupPlansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBackupPlansRequest,
   output: GetProjectsLocationsBackupPlansResponse,
   errors: [],
 }));
 
-/** Lists BackupPlans in a given project and location. */
 export interface ListProjectsLocationsBackupPlansRequest {
   /** Required. The project and location for which to retrieve `BackupPlans` information. Format: `projects/{project}/locations/{location}`. In Google Cloud Backup and DR, locations map to Google Cloud regions, for example **us-central1**. To retrieve backup plans for all locations, use "-" for the `{location}` value. */
   parent: string;
@@ -3811,7 +3810,8 @@ export const ListProjectsLocationsBackupPlansResponse = ListBackupPlansResponse;
 
 export type ListProjectsLocationsBackupPlansError = CommonErrors;
 
-export const listProjectsLocationsBackupPlans = API.makePaginated(() => ({
+/** Lists BackupPlans in a given project and location. */
+export const listProjectsLocationsBackupPlans: API.PaginatedOperationMethod<ListProjectsLocationsBackupPlansRequest, ListProjectsLocationsBackupPlansResponse, ListProjectsLocationsBackupPlansError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBackupPlansRequest,
   output: ListProjectsLocationsBackupPlansResponse,
   errors: [],
@@ -3821,7 +3821,6 @@ export const listProjectsLocationsBackupPlans = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a single BackupPlan. */
 export interface DeleteProjectsLocationsBackupPlansRequest {
   /** Required. The resource name of the `BackupPlan` to delete. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}` */
   name: string;
@@ -3842,13 +3841,13 @@ export const DeleteProjectsLocationsBackupPlansResponse = Operation;
 
 export type DeleteProjectsLocationsBackupPlansError = CommonErrors;
 
+/** Deletes a single BackupPlan. */
 export const deleteProjectsLocationsBackupPlans: API.OperationMethod<DeleteProjectsLocationsBackupPlansRequest, DeleteProjectsLocationsBackupPlansResponse, DeleteProjectsLocationsBackupPlansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsBackupPlansRequest,
   output: DeleteProjectsLocationsBackupPlansResponse,
   errors: [],
 }));
 
-/** Gets details of a single BackupPlanRevision. */
 export interface GetProjectsLocationsBackupPlansRevisionsRequest {
   /** Required. The resource name of the `BackupPlanRevision` to retrieve. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}/revisions/{revision}` */
   name: string;
@@ -3866,13 +3865,13 @@ export const GetProjectsLocationsBackupPlansRevisionsResponse = BackupPlanRevisi
 
 export type GetProjectsLocationsBackupPlansRevisionsError = CommonErrors;
 
+/** Gets details of a single BackupPlanRevision. */
 export const getProjectsLocationsBackupPlansRevisions: API.OperationMethod<GetProjectsLocationsBackupPlansRevisionsRequest, GetProjectsLocationsBackupPlansRevisionsResponse, GetProjectsLocationsBackupPlansRevisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBackupPlansRevisionsRequest,
   output: GetProjectsLocationsBackupPlansRevisionsResponse,
   errors: [],
 }));
 
-/** Lists BackupPlanRevisions in a given project and location. */
 export interface ListProjectsLocationsBackupPlansRevisionsRequest {
   /** Required. The project and location for which to retrieve `BackupPlanRevisions` information. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}`. In Google Cloud Backup and DR, locations map to Google Cloud regions, for example **us-central1**. */
   parent: string;
@@ -3896,7 +3895,8 @@ export const ListProjectsLocationsBackupPlansRevisionsResponse = ListBackupPlanR
 
 export type ListProjectsLocationsBackupPlansRevisionsError = CommonErrors;
 
-export const listProjectsLocationsBackupPlansRevisions = API.makePaginated(() => ({
+/** Lists BackupPlanRevisions in a given project and location. */
+export const listProjectsLocationsBackupPlansRevisions: API.PaginatedOperationMethod<ListProjectsLocationsBackupPlansRevisionsRequest, ListProjectsLocationsBackupPlansRevisionsResponse, ListProjectsLocationsBackupPlansRevisionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBackupPlansRevisionsRequest,
   output: ListProjectsLocationsBackupPlansRevisionsResponse,
   errors: [],
@@ -3906,7 +3906,6 @@ export const listProjectsLocationsBackupPlansRevisions = API.makePaginated(() =>
   },
 }));
 
-/** Create a BackupPlanAssociation */
 export interface CreateProjectsLocationsBackupPlanAssociationsRequest {
   /** Required. The backup plan association project and location in the format `projects/{project_id}/locations/{location}`. In Backup and DR locations map to Google Cloud regions, for example **us-central1**. */
   parent: string;
@@ -3933,13 +3932,13 @@ export const CreateProjectsLocationsBackupPlanAssociationsResponse = Operation;
 
 export type CreateProjectsLocationsBackupPlanAssociationsError = CommonErrors;
 
+/** Create a BackupPlanAssociation */
 export const createProjectsLocationsBackupPlanAssociations: API.OperationMethod<CreateProjectsLocationsBackupPlanAssociationsRequest, CreateProjectsLocationsBackupPlanAssociationsResponse, CreateProjectsLocationsBackupPlanAssociationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsBackupPlanAssociationsRequest,
   output: CreateProjectsLocationsBackupPlanAssociationsResponse,
   errors: [],
 }));
 
-/** Update a BackupPlanAssociation. */
 export interface PatchProjectsLocationsBackupPlanAssociationsRequest {
   /** Output only. Identifier. The resource name of BackupPlanAssociation in below format Format : projects/{project}/locations/{location}/backupPlanAssociations/{backupPlanAssociationId} */
   name: string;
@@ -3966,13 +3965,13 @@ export const PatchProjectsLocationsBackupPlanAssociationsResponse = Operation;
 
 export type PatchProjectsLocationsBackupPlanAssociationsError = CommonErrors;
 
+/** Update a BackupPlanAssociation. */
 export const patchProjectsLocationsBackupPlanAssociations: API.OperationMethod<PatchProjectsLocationsBackupPlanAssociationsRequest, PatchProjectsLocationsBackupPlanAssociationsResponse, PatchProjectsLocationsBackupPlanAssociationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsBackupPlanAssociationsRequest,
   output: PatchProjectsLocationsBackupPlanAssociationsResponse,
   errors: [],
 }));
 
-/** Gets details of a single BackupPlanAssociation. */
 export interface GetProjectsLocationsBackupPlanAssociationsRequest {
   /** Required. Name of the backup plan association resource, in the format `projects/{project}/locations/{location}/backupPlanAssociations/{backupPlanAssociationId}` */
   name: string;
@@ -3990,13 +3989,13 @@ export const GetProjectsLocationsBackupPlanAssociationsResponse = BackupPlanAsso
 
 export type GetProjectsLocationsBackupPlanAssociationsError = CommonErrors;
 
+/** Gets details of a single BackupPlanAssociation. */
 export const getProjectsLocationsBackupPlanAssociations: API.OperationMethod<GetProjectsLocationsBackupPlanAssociationsRequest, GetProjectsLocationsBackupPlanAssociationsResponse, GetProjectsLocationsBackupPlanAssociationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBackupPlanAssociationsRequest,
   output: GetProjectsLocationsBackupPlanAssociationsResponse,
   errors: [],
 }));
 
-/** Lists BackupPlanAssociations in a given project and location. */
 export interface ListProjectsLocationsBackupPlanAssociationsRequest {
   /** Required. The project and location for which to retrieve backup Plan Associations information, in the format `projects/{project_id}/locations/{location}`. In Backup and DR, locations map to Google Cloud regions, for example **us-central1**. To retrieve backup plan associations for all locations, use "-" for the `{location}` value. */
   parent: string;
@@ -4023,7 +4022,8 @@ export const ListProjectsLocationsBackupPlanAssociationsResponse = ListBackupPla
 
 export type ListProjectsLocationsBackupPlanAssociationsError = CommonErrors;
 
-export const listProjectsLocationsBackupPlanAssociations = API.makePaginated(() => ({
+/** Lists BackupPlanAssociations in a given project and location. */
+export const listProjectsLocationsBackupPlanAssociations: API.PaginatedOperationMethod<ListProjectsLocationsBackupPlanAssociationsRequest, ListProjectsLocationsBackupPlanAssociationsResponse, ListProjectsLocationsBackupPlanAssociationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBackupPlanAssociationsRequest,
   output: ListProjectsLocationsBackupPlanAssociationsResponse,
   errors: [],
@@ -4033,7 +4033,6 @@ export const listProjectsLocationsBackupPlanAssociations = API.makePaginated(() 
   },
 }));
 
-/** List BackupPlanAssociations for a given resource type. */
 export interface FetchForResourceTypeProjectsLocationsBackupPlanAssociationsRequest {
   /** Required. The parent resource name. Format: projects/{project}/locations/{location} */
   parent: string;
@@ -4066,7 +4065,8 @@ export const FetchForResourceTypeProjectsLocationsBackupPlanAssociationsResponse
 
 export type FetchForResourceTypeProjectsLocationsBackupPlanAssociationsError = CommonErrors;
 
-export const fetchForResourceTypeProjectsLocationsBackupPlanAssociations = API.makePaginated(() => ({
+/** List BackupPlanAssociations for a given resource type. */
+export const fetchForResourceTypeProjectsLocationsBackupPlanAssociations: API.PaginatedOperationMethod<FetchForResourceTypeProjectsLocationsBackupPlanAssociationsRequest, FetchForResourceTypeProjectsLocationsBackupPlanAssociationsResponse, FetchForResourceTypeProjectsLocationsBackupPlanAssociationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: FetchForResourceTypeProjectsLocationsBackupPlanAssociationsRequest,
   output: FetchForResourceTypeProjectsLocationsBackupPlanAssociationsResponse,
   errors: [],
@@ -4076,7 +4076,6 @@ export const fetchForResourceTypeProjectsLocationsBackupPlanAssociations = API.m
   },
 }));
 
-/** Deletes a single BackupPlanAssociation. */
 export interface DeleteProjectsLocationsBackupPlanAssociationsRequest {
   /** Required. Name of the backup plan association resource, in the format `projects/{project}/locations/{location}/backupPlanAssociations/{backupPlanAssociationId}` */
   name: string;
@@ -4097,13 +4096,13 @@ export const DeleteProjectsLocationsBackupPlanAssociationsResponse = Operation;
 
 export type DeleteProjectsLocationsBackupPlanAssociationsError = CommonErrors;
 
+/** Deletes a single BackupPlanAssociation. */
 export const deleteProjectsLocationsBackupPlanAssociations: API.OperationMethod<DeleteProjectsLocationsBackupPlanAssociationsRequest, DeleteProjectsLocationsBackupPlanAssociationsResponse, DeleteProjectsLocationsBackupPlanAssociationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsBackupPlanAssociationsRequest,
   output: DeleteProjectsLocationsBackupPlanAssociationsResponse,
   errors: [],
 }));
 
-/** Triggers a new Backup. */
 export interface TriggerBackupProjectsLocationsBackupPlanAssociationsRequest {
   /** Required. Name of the backup plan association resource, in the format `projects/{project}/locations/{location}/backupPlanAssociations/{backupPlanAssociationId}` */
   name: string;
@@ -4124,13 +4123,13 @@ export const TriggerBackupProjectsLocationsBackupPlanAssociationsResponse = Oper
 
 export type TriggerBackupProjectsLocationsBackupPlanAssociationsError = CommonErrors;
 
+/** Triggers a new Backup. */
 export const triggerBackupProjectsLocationsBackupPlanAssociations: API.OperationMethod<TriggerBackupProjectsLocationsBackupPlanAssociationsRequest, TriggerBackupProjectsLocationsBackupPlanAssociationsResponse, TriggerBackupProjectsLocationsBackupPlanAssociationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TriggerBackupProjectsLocationsBackupPlanAssociationsRequest,
   output: TriggerBackupProjectsLocationsBackupPlanAssociationsResponse,
   errors: [],
 }));
 
-/** Gets details of a single DataSourceReference. */
 export interface GetProjectsLocationsDataSourceReferencesRequest {
   /** Required. The name of the DataSourceReference to retrieve. Format: projects/{project}/locations/{location}/dataSourceReferences/{data_source_reference} */
   name: string;
@@ -4148,13 +4147,13 @@ export const GetProjectsLocationsDataSourceReferencesResponse = DataSourceRefere
 
 export type GetProjectsLocationsDataSourceReferencesError = CommonErrors;
 
+/** Gets details of a single DataSourceReference. */
 export const getProjectsLocationsDataSourceReferences: API.OperationMethod<GetProjectsLocationsDataSourceReferencesRequest, GetProjectsLocationsDataSourceReferencesResponse, GetProjectsLocationsDataSourceReferencesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDataSourceReferencesRequest,
   output: GetProjectsLocationsDataSourceReferencesResponse,
   errors: [],
 }));
 
-/** Lists DataSourceReferences for a given project and location. */
 export interface ListProjectsLocationsDataSourceReferencesRequest {
   /** Required. The parent resource name. Format: projects/{project}/locations/{location} */
   parent: string;
@@ -4184,7 +4183,8 @@ export const ListProjectsLocationsDataSourceReferencesResponse = ListDataSourceR
 
 export type ListProjectsLocationsDataSourceReferencesError = CommonErrors;
 
-export const listProjectsLocationsDataSourceReferences = API.makePaginated(() => ({
+/** Lists DataSourceReferences for a given project and location. */
+export const listProjectsLocationsDataSourceReferences: API.PaginatedOperationMethod<ListProjectsLocationsDataSourceReferencesRequest, ListProjectsLocationsDataSourceReferencesResponse, ListProjectsLocationsDataSourceReferencesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDataSourceReferencesRequest,
   output: ListProjectsLocationsDataSourceReferencesResponse,
   errors: [],
@@ -4194,7 +4194,6 @@ export const listProjectsLocationsDataSourceReferences = API.makePaginated(() =>
   },
 }));
 
-/** Fetch DataSourceReferences for a given project, location and resource type. */
 export interface FetchForResourceTypeProjectsLocationsDataSourceReferencesRequest {
   /** Required. The parent resource name. Format: projects/{project}/locations/{location} */
   parent: string;
@@ -4227,7 +4226,8 @@ export const FetchForResourceTypeProjectsLocationsDataSourceReferencesResponse =
 
 export type FetchForResourceTypeProjectsLocationsDataSourceReferencesError = CommonErrors;
 
-export const fetchForResourceTypeProjectsLocationsDataSourceReferences = API.makePaginated(() => ({
+/** Fetch DataSourceReferences for a given project, location and resource type. */
+export const fetchForResourceTypeProjectsLocationsDataSourceReferences: API.PaginatedOperationMethod<FetchForResourceTypeProjectsLocationsDataSourceReferencesRequest, FetchForResourceTypeProjectsLocationsDataSourceReferencesResponse, FetchForResourceTypeProjectsLocationsDataSourceReferencesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: FetchForResourceTypeProjectsLocationsDataSourceReferencesRequest,
   output: FetchForResourceTypeProjectsLocationsDataSourceReferencesResponse,
   errors: [],
@@ -4237,7 +4237,6 @@ export const fetchForResourceTypeProjectsLocationsDataSourceReferences = API.mak
   },
 }));
 
-/** Initializes the service related config for a project. */
 export interface InitializeProjectsLocationsServiceConfigRequest {
   /** Required. The resource name of the serviceConfig used to initialize the service. The location must be the location of the BackupVault. Format: `projects/{project_id}/locations/{location}/serviceConfig`. */
   name: string;
@@ -4258,13 +4257,13 @@ export const InitializeProjectsLocationsServiceConfigResponse = Operation;
 
 export type InitializeProjectsLocationsServiceConfigError = CommonErrors;
 
+/** Initializes the service related config for a project. */
 export const initializeProjectsLocationsServiceConfig: API.OperationMethod<InitializeProjectsLocationsServiceConfigRequest, InitializeProjectsLocationsServiceConfigResponse, InitializeProjectsLocationsServiceConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InitializeProjectsLocationsServiceConfigRequest,
   output: InitializeProjectsLocationsServiceConfigResponse,
   errors: [],
 }));
 
-/** Lists ResourceBackupConfigs. */
 export interface ListProjectsLocationsResourceBackupConfigsRequest {
   /** Required. The project and location for which to retrieve resource backup configs. Format: 'projects/{project_id}/locations/{location}'. In Google Cloud Backup and DR, locations map to Google Cloud regions, for example **us-central1**. */
   parent: string;
@@ -4294,7 +4293,8 @@ export const ListProjectsLocationsResourceBackupConfigsResponse = ListResourceBa
 
 export type ListProjectsLocationsResourceBackupConfigsError = CommonErrors;
 
-export const listProjectsLocationsResourceBackupConfigs = API.makePaginated(() => ({
+/** Lists ResourceBackupConfigs. */
+export const listProjectsLocationsResourceBackupConfigs: API.PaginatedOperationMethod<ListProjectsLocationsResourceBackupConfigsRequest, ListProjectsLocationsResourceBackupConfigsResponse, ListProjectsLocationsResourceBackupConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsResourceBackupConfigsRequest,
   output: ListProjectsLocationsResourceBackupConfigsResponse,
   errors: [],

@@ -219,7 +219,6 @@ export const Groups: Schema.Schema<Groups> = Schema.suspend(() => Schema.Struct(
 // Operations
 // ==========================================================================
 
-/** Gets one resource by id. */
 export interface GetGroupsRequest {
   /** The group's email address. */
   groupUniqueId: string;
@@ -237,13 +236,13 @@ export const GetGroupsResponse = Groups;
 
 export type GetGroupsError = CommonErrors;
 
+/** Gets one resource by id. */
 export const getGroups: API.OperationMethod<GetGroupsRequest, GetGroupsResponse, GetGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetGroupsRequest,
   output: GetGroupsResponse,
   errors: [],
 }));
 
-/** Updates an existing resource. */
 export interface UpdateGroupsRequest {
   /** The group's email address. */
   groupUniqueId: string;
@@ -264,13 +263,13 @@ export const UpdateGroupsResponse = Groups;
 
 export type UpdateGroupsError = CommonErrors;
 
+/** Updates an existing resource. */
 export const updateGroups: API.OperationMethod<UpdateGroupsRequest, UpdateGroupsResponse, UpdateGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateGroupsRequest,
   output: UpdateGroupsResponse,
   errors: [],
 }));
 
-/** Updates an existing resource. This method supports patch semantics. */
 export interface PatchGroupsRequest {
   /** The group's email address. */
   groupUniqueId: string;
@@ -291,6 +290,7 @@ export const PatchGroupsResponse = Groups;
 
 export type PatchGroupsError = CommonErrors;
 
+/** Updates an existing resource. This method supports patch semantics. */
 export const patchGroups: API.OperationMethod<PatchGroupsRequest, PatchGroupsResponse, PatchGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchGroupsRequest,
   output: PatchGroupsResponse,

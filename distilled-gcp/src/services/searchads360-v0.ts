@@ -3879,7 +3879,6 @@ export const GoogleAdsSearchads360V0Services__ListAccessibleCustomersResponse: S
 // Operations
 // ==========================================================================
 
-/** Returns just the requested field. List of thrown errors: [AuthenticationError]() [AuthorizationError]() [HeaderError]() [InternalError]() [QuotaError]() [RequestError]() */
 export interface GetSearchAds360FieldsRequest {
   /** Required. The resource name of the field to get. */
   resourceName: string;
@@ -3897,13 +3896,13 @@ export const GetSearchAds360FieldsResponse = GoogleAdsSearchads360V0Resources__S
 
 export type GetSearchAds360FieldsError = CommonErrors;
 
+/** Returns just the requested field. List of thrown errors: [AuthenticationError]() [AuthorizationError]() [HeaderError]() [InternalError]() [QuotaError]() [RequestError]() */
 export const getSearchAds360Fields: API.OperationMethod<GetSearchAds360FieldsRequest, GetSearchAds360FieldsResponse, GetSearchAds360FieldsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSearchAds360FieldsRequest,
   output: GetSearchAds360FieldsResponse,
   errors: [],
 }));
 
-/** Returns all fields that match the search [query](/search-ads/reporting/concepts/field-service#use_a_query_to_get_field_details). List of thrown errors: [AuthenticationError]() [AuthorizationError]() [HeaderError]() [InternalError]() [QueryError]() [QuotaError]() [RequestError]() */
 export interface SearchSearchAds360FieldsRequest {
   /** Request body */
   body?: GoogleAdsSearchads360V0Services__SearchSearchAds360FieldsRequest;
@@ -3921,13 +3920,13 @@ export const SearchSearchAds360FieldsResponse = GoogleAdsSearchads360V0Services_
 
 export type SearchSearchAds360FieldsError = CommonErrors;
 
+/** Returns all fields that match the search [query](/search-ads/reporting/concepts/field-service#use_a_query_to_get_field_details). List of thrown errors: [AuthenticationError]() [AuthorizationError]() [HeaderError]() [InternalError]() [QueryError]() [QuotaError]() [RequestError]() */
 export const searchSearchAds360Fields: API.OperationMethod<SearchSearchAds360FieldsRequest, SearchSearchAds360FieldsResponse, SearchSearchAds360FieldsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchSearchAds360FieldsRequest,
   output: SearchSearchAds360FieldsResponse,
   errors: [],
 }));
 
-/** Returns resource names of customers directly accessible by the user authenticating the call. List of thrown errors: [AuthenticationError]() [AuthorizationError]() [HeaderError]() [InternalError]() [QuotaError]() [RequestError]() */
 export interface ListAccessibleCustomersCustomersRequest {
 }
 
@@ -3942,13 +3941,13 @@ export const ListAccessibleCustomersCustomersResponse = GoogleAdsSearchads360V0S
 
 export type ListAccessibleCustomersCustomersError = CommonErrors;
 
+/** Returns resource names of customers directly accessible by the user authenticating the call. List of thrown errors: [AuthenticationError]() [AuthorizationError]() [HeaderError]() [InternalError]() [QuotaError]() [RequestError]() */
 export const listAccessibleCustomersCustomers: API.OperationMethod<ListAccessibleCustomersCustomersRequest, ListAccessibleCustomersCustomersResponse, ListAccessibleCustomersCustomersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListAccessibleCustomersCustomersRequest,
   output: ListAccessibleCustomersCustomersResponse,
   errors: [],
 }));
 
-/** Returns all the custom columns associated with the customer in full detail. */
 export interface ListCustomersCustomColumnsRequest {
   /** Required. The ID of the customer to apply the CustomColumn list operation to. */
   customerId: string;
@@ -3966,13 +3965,13 @@ export const ListCustomersCustomColumnsResponse = GoogleAdsSearchads360V0Service
 
 export type ListCustomersCustomColumnsError = CommonErrors;
 
+/** Returns all the custom columns associated with the customer in full detail. */
 export const listCustomersCustomColumns: API.OperationMethod<ListCustomersCustomColumnsRequest, ListCustomersCustomColumnsResponse, ListCustomersCustomColumnsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListCustomersCustomColumnsRequest,
   output: ListCustomersCustomColumnsResponse,
   errors: [],
 }));
 
-/** Returns the requested custom column in full detail. */
 export interface GetCustomersCustomColumnsRequest {
   /** Required. The resource name of the custom column to fetch. */
   resourceName: string;
@@ -3990,13 +3989,13 @@ export const GetCustomersCustomColumnsResponse = GoogleAdsSearchads360V0Resource
 
 export type GetCustomersCustomColumnsError = CommonErrors;
 
+/** Returns the requested custom column in full detail. */
 export const getCustomersCustomColumns: API.OperationMethod<GetCustomersCustomColumnsRequest, GetCustomersCustomColumnsResponse, GetCustomersCustomColumnsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCustomersCustomColumnsRequest,
   output: GetCustomersCustomColumnsResponse,
   errors: [],
 }));
 
-/** Returns all rows that match the search query. List of thrown errors: [AuthenticationError]() [AuthorizationError]() [HeaderError]() [InternalError]() [QueryError]() [QuotaError]() [RequestError]() */
 export interface SearchCustomersSearchAds360Request {
   /** Required. The ID of the customer being queried. */
   customerId: string;
@@ -4017,6 +4016,7 @@ export const SearchCustomersSearchAds360Response = GoogleAdsSearchads360V0Servic
 
 export type SearchCustomersSearchAds360Error = CommonErrors;
 
+/** Returns all rows that match the search query. List of thrown errors: [AuthenticationError]() [AuthorizationError]() [HeaderError]() [InternalError]() [QueryError]() [QuotaError]() [RequestError]() */
 export const searchCustomersSearchAds360: API.OperationMethod<SearchCustomersSearchAds360Request, SearchCustomersSearchAds360Response, SearchCustomersSearchAds360Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchCustomersSearchAds360Request,
   output: SearchCustomersSearchAds360Response,

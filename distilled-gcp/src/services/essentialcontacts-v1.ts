@@ -93,7 +93,6 @@ export const GoogleCloudEssentialcontactsV1SendTestMessageRequest: Schema.Schema
 // Operations
 // ==========================================================================
 
-/** Adds a new contact for a resource. */
 export interface CreateProjectsContactsRequest {
   /** Required. The resource to save this contact for. Format: organizations/{organization_id}, folders/{folder_id} or projects/{project_id} */
   parent: string;
@@ -114,13 +113,13 @@ export const CreateProjectsContactsResponse = GoogleCloudEssentialcontactsV1Cont
 
 export type CreateProjectsContactsError = CommonErrors;
 
+/** Adds a new contact for a resource. */
 export const createProjectsContacts: API.OperationMethod<CreateProjectsContactsRequest, CreateProjectsContactsResponse, CreateProjectsContactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsContactsRequest,
   output: CreateProjectsContactsResponse,
   errors: [],
 }));
 
-/** Updates a contact. Note: A contact's email address cannot be changed. */
 export interface PatchProjectsContactsRequest {
   /** Output only. The identifier for the contact. Format: {resource_type}/{resource_id}/contacts/{contact_id} */
   name: string;
@@ -144,13 +143,13 @@ export const PatchProjectsContactsResponse = GoogleCloudEssentialcontactsV1Conta
 
 export type PatchProjectsContactsError = CommonErrors;
 
+/** Updates a contact. Note: A contact's email address cannot be changed. */
 export const patchProjectsContacts: API.OperationMethod<PatchProjectsContactsRequest, PatchProjectsContactsResponse, PatchProjectsContactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsContactsRequest,
   output: PatchProjectsContactsResponse,
   errors: [],
 }));
 
-/** Lists the contacts that have been set on a resource. */
 export interface ListProjectsContactsRequest {
   /** Required. The parent resource name. Format: organizations/{organization_id}, folders/{folder_id} or projects/{project_id} */
   parent: string;
@@ -174,7 +173,8 @@ export const ListProjectsContactsResponse = GoogleCloudEssentialcontactsV1ListCo
 
 export type ListProjectsContactsError = CommonErrors;
 
-export const listProjectsContacts = API.makePaginated(() => ({
+/** Lists the contacts that have been set on a resource. */
+export const listProjectsContacts: API.PaginatedOperationMethod<ListProjectsContactsRequest, ListProjectsContactsResponse, ListProjectsContactsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsContactsRequest,
   output: ListProjectsContactsResponse,
   errors: [],
@@ -184,7 +184,6 @@ export const listProjectsContacts = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a single contact. */
 export interface GetProjectsContactsRequest {
   /** Required. The name of the contact to retrieve. Format: organizations/{organization_id}/contacts/{contact_id}, folders/{folder_id}/contacts/{contact_id} or projects/{project_id}/contacts/{contact_id} */
   name: string;
@@ -202,13 +201,13 @@ export const GetProjectsContactsResponse = GoogleCloudEssentialcontactsV1Contact
 
 export type GetProjectsContactsError = CommonErrors;
 
+/** Gets a single contact. */
 export const getProjectsContacts: API.OperationMethod<GetProjectsContactsRequest, GetProjectsContactsResponse, GetProjectsContactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsContactsRequest,
   output: GetProjectsContactsResponse,
   errors: [],
 }));
 
-/** Deletes a contact. */
 export interface DeleteProjectsContactsRequest {
   /** Required. The name of the contact to delete. Format: organizations/{organization_id}/contacts/{contact_id}, folders/{folder_id}/contacts/{contact_id} or projects/{project_id}/contacts/{contact_id} */
   name: string;
@@ -226,13 +225,13 @@ export const DeleteProjectsContactsResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsContactsError = CommonErrors;
 
+/** Deletes a contact. */
 export const deleteProjectsContacts: API.OperationMethod<DeleteProjectsContactsRequest, DeleteProjectsContactsResponse, DeleteProjectsContactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsContactsRequest,
   output: DeleteProjectsContactsResponse,
   errors: [],
 }));
 
-/** Lists all contacts for the resource that are subscribed to the specified notification categories, including contacts inherited from any parent resources. */
 export interface ComputeProjectsContactsRequest {
   /** Required. The name of the resource to compute contacts for. Format: organizations/{organization_id}, folders/{folder_id} or projects/{project_id} */
   parent: string;
@@ -259,7 +258,8 @@ export const ComputeProjectsContactsResponse = GoogleCloudEssentialcontactsV1Com
 
 export type ComputeProjectsContactsError = CommonErrors;
 
-export const computeProjectsContacts = API.makePaginated(() => ({
+/** Lists all contacts for the resource that are subscribed to the specified notification categories, including contacts inherited from any parent resources. */
+export const computeProjectsContacts: API.PaginatedOperationMethod<ComputeProjectsContactsRequest, ComputeProjectsContactsResponse, ComputeProjectsContactsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ComputeProjectsContactsRequest,
   output: ComputeProjectsContactsResponse,
   errors: [],
@@ -269,7 +269,6 @@ export const computeProjectsContacts = API.makePaginated(() => ({
   },
 }));
 
-/** Allows a contact admin to send a test message to contact to verify that it has been configured correctly. */
 export interface SendTestMessageProjectsContactsRequest {
   /** Required. The name of the resource to send the test message for. All contacts must either be set directly on this resource or inherited from another resource that is an ancestor of this one. Format: organizations/{organization_id}, folders/{folder_id} or projects/{project_id} */
   resource: string;
@@ -290,13 +289,13 @@ export const SendTestMessageProjectsContactsResponse = GoogleProtobufEmpty;
 
 export type SendTestMessageProjectsContactsError = CommonErrors;
 
+/** Allows a contact admin to send a test message to contact to verify that it has been configured correctly. */
 export const sendTestMessageProjectsContacts: API.OperationMethod<SendTestMessageProjectsContactsRequest, SendTestMessageProjectsContactsResponse, SendTestMessageProjectsContactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SendTestMessageProjectsContactsRequest,
   output: SendTestMessageProjectsContactsResponse,
   errors: [],
 }));
 
-/** Adds a new contact for a resource. */
 export interface CreateFoldersContactsRequest {
   /** Required. The resource to save this contact for. Format: organizations/{organization_id}, folders/{folder_id} or projects/{project_id} */
   parent: string;
@@ -317,13 +316,13 @@ export const CreateFoldersContactsResponse = GoogleCloudEssentialcontactsV1Conta
 
 export type CreateFoldersContactsError = CommonErrors;
 
+/** Adds a new contact for a resource. */
 export const createFoldersContacts: API.OperationMethod<CreateFoldersContactsRequest, CreateFoldersContactsResponse, CreateFoldersContactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateFoldersContactsRequest,
   output: CreateFoldersContactsResponse,
   errors: [],
 }));
 
-/** Updates a contact. Note: A contact's email address cannot be changed. */
 export interface PatchFoldersContactsRequest {
   /** Output only. The identifier for the contact. Format: {resource_type}/{resource_id}/contacts/{contact_id} */
   name: string;
@@ -347,13 +346,13 @@ export const PatchFoldersContactsResponse = GoogleCloudEssentialcontactsV1Contac
 
 export type PatchFoldersContactsError = CommonErrors;
 
+/** Updates a contact. Note: A contact's email address cannot be changed. */
 export const patchFoldersContacts: API.OperationMethod<PatchFoldersContactsRequest, PatchFoldersContactsResponse, PatchFoldersContactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchFoldersContactsRequest,
   output: PatchFoldersContactsResponse,
   errors: [],
 }));
 
-/** Lists the contacts that have been set on a resource. */
 export interface ListFoldersContactsRequest {
   /** Required. The parent resource name. Format: organizations/{organization_id}, folders/{folder_id} or projects/{project_id} */
   parent: string;
@@ -377,7 +376,8 @@ export const ListFoldersContactsResponse = GoogleCloudEssentialcontactsV1ListCon
 
 export type ListFoldersContactsError = CommonErrors;
 
-export const listFoldersContacts = API.makePaginated(() => ({
+/** Lists the contacts that have been set on a resource. */
+export const listFoldersContacts: API.PaginatedOperationMethod<ListFoldersContactsRequest, ListFoldersContactsResponse, ListFoldersContactsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersContactsRequest,
   output: ListFoldersContactsResponse,
   errors: [],
@@ -387,7 +387,6 @@ export const listFoldersContacts = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a single contact. */
 export interface GetFoldersContactsRequest {
   /** Required. The name of the contact to retrieve. Format: organizations/{organization_id}/contacts/{contact_id}, folders/{folder_id}/contacts/{contact_id} or projects/{project_id}/contacts/{contact_id} */
   name: string;
@@ -405,13 +404,13 @@ export const GetFoldersContactsResponse = GoogleCloudEssentialcontactsV1Contact;
 
 export type GetFoldersContactsError = CommonErrors;
 
+/** Gets a single contact. */
 export const getFoldersContacts: API.OperationMethod<GetFoldersContactsRequest, GetFoldersContactsResponse, GetFoldersContactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersContactsRequest,
   output: GetFoldersContactsResponse,
   errors: [],
 }));
 
-/** Deletes a contact. */
 export interface DeleteFoldersContactsRequest {
   /** Required. The name of the contact to delete. Format: organizations/{organization_id}/contacts/{contact_id}, folders/{folder_id}/contacts/{contact_id} or projects/{project_id}/contacts/{contact_id} */
   name: string;
@@ -429,13 +428,13 @@ export const DeleteFoldersContactsResponse = GoogleProtobufEmpty;
 
 export type DeleteFoldersContactsError = CommonErrors;
 
+/** Deletes a contact. */
 export const deleteFoldersContacts: API.OperationMethod<DeleteFoldersContactsRequest, DeleteFoldersContactsResponse, DeleteFoldersContactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteFoldersContactsRequest,
   output: DeleteFoldersContactsResponse,
   errors: [],
 }));
 
-/** Lists all contacts for the resource that are subscribed to the specified notification categories, including contacts inherited from any parent resources. */
 export interface ComputeFoldersContactsRequest {
   /** Required. The name of the resource to compute contacts for. Format: organizations/{organization_id}, folders/{folder_id} or projects/{project_id} */
   parent: string;
@@ -462,7 +461,8 @@ export const ComputeFoldersContactsResponse = GoogleCloudEssentialcontactsV1Comp
 
 export type ComputeFoldersContactsError = CommonErrors;
 
-export const computeFoldersContacts = API.makePaginated(() => ({
+/** Lists all contacts for the resource that are subscribed to the specified notification categories, including contacts inherited from any parent resources. */
+export const computeFoldersContacts: API.PaginatedOperationMethod<ComputeFoldersContactsRequest, ComputeFoldersContactsResponse, ComputeFoldersContactsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ComputeFoldersContactsRequest,
   output: ComputeFoldersContactsResponse,
   errors: [],
@@ -472,7 +472,6 @@ export const computeFoldersContacts = API.makePaginated(() => ({
   },
 }));
 
-/** Allows a contact admin to send a test message to contact to verify that it has been configured correctly. */
 export interface SendTestMessageFoldersContactsRequest {
   /** Required. The name of the resource to send the test message for. All contacts must either be set directly on this resource or inherited from another resource that is an ancestor of this one. Format: organizations/{organization_id}, folders/{folder_id} or projects/{project_id} */
   resource: string;
@@ -493,13 +492,13 @@ export const SendTestMessageFoldersContactsResponse = GoogleProtobufEmpty;
 
 export type SendTestMessageFoldersContactsError = CommonErrors;
 
+/** Allows a contact admin to send a test message to contact to verify that it has been configured correctly. */
 export const sendTestMessageFoldersContacts: API.OperationMethod<SendTestMessageFoldersContactsRequest, SendTestMessageFoldersContactsResponse, SendTestMessageFoldersContactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SendTestMessageFoldersContactsRequest,
   output: SendTestMessageFoldersContactsResponse,
   errors: [],
 }));
 
-/** Adds a new contact for a resource. */
 export interface CreateOrganizationsContactsRequest {
   /** Required. The resource to save this contact for. Format: organizations/{organization_id}, folders/{folder_id} or projects/{project_id} */
   parent: string;
@@ -520,13 +519,13 @@ export const CreateOrganizationsContactsResponse = GoogleCloudEssentialcontactsV
 
 export type CreateOrganizationsContactsError = CommonErrors;
 
+/** Adds a new contact for a resource. */
 export const createOrganizationsContacts: API.OperationMethod<CreateOrganizationsContactsRequest, CreateOrganizationsContactsResponse, CreateOrganizationsContactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsContactsRequest,
   output: CreateOrganizationsContactsResponse,
   errors: [],
 }));
 
-/** Updates a contact. Note: A contact's email address cannot be changed. */
 export interface PatchOrganizationsContactsRequest {
   /** Output only. The identifier for the contact. Format: {resource_type}/{resource_id}/contacts/{contact_id} */
   name: string;
@@ -550,13 +549,13 @@ export const PatchOrganizationsContactsResponse = GoogleCloudEssentialcontactsV1
 
 export type PatchOrganizationsContactsError = CommonErrors;
 
+/** Updates a contact. Note: A contact's email address cannot be changed. */
 export const patchOrganizationsContacts: API.OperationMethod<PatchOrganizationsContactsRequest, PatchOrganizationsContactsResponse, PatchOrganizationsContactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsContactsRequest,
   output: PatchOrganizationsContactsResponse,
   errors: [],
 }));
 
-/** Lists the contacts that have been set on a resource. */
 export interface ListOrganizationsContactsRequest {
   /** Required. The parent resource name. Format: organizations/{organization_id}, folders/{folder_id} or projects/{project_id} */
   parent: string;
@@ -580,7 +579,8 @@ export const ListOrganizationsContactsResponse = GoogleCloudEssentialcontactsV1L
 
 export type ListOrganizationsContactsError = CommonErrors;
 
-export const listOrganizationsContacts = API.makePaginated(() => ({
+/** Lists the contacts that have been set on a resource. */
+export const listOrganizationsContacts: API.PaginatedOperationMethod<ListOrganizationsContactsRequest, ListOrganizationsContactsResponse, ListOrganizationsContactsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsContactsRequest,
   output: ListOrganizationsContactsResponse,
   errors: [],
@@ -590,7 +590,6 @@ export const listOrganizationsContacts = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a single contact. */
 export interface GetOrganizationsContactsRequest {
   /** Required. The name of the contact to retrieve. Format: organizations/{organization_id}/contacts/{contact_id}, folders/{folder_id}/contacts/{contact_id} or projects/{project_id}/contacts/{contact_id} */
   name: string;
@@ -608,13 +607,13 @@ export const GetOrganizationsContactsResponse = GoogleCloudEssentialcontactsV1Co
 
 export type GetOrganizationsContactsError = CommonErrors;
 
+/** Gets a single contact. */
 export const getOrganizationsContacts: API.OperationMethod<GetOrganizationsContactsRequest, GetOrganizationsContactsResponse, GetOrganizationsContactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsContactsRequest,
   output: GetOrganizationsContactsResponse,
   errors: [],
 }));
 
-/** Deletes a contact. */
 export interface DeleteOrganizationsContactsRequest {
   /** Required. The name of the contact to delete. Format: organizations/{organization_id}/contacts/{contact_id}, folders/{folder_id}/contacts/{contact_id} or projects/{project_id}/contacts/{contact_id} */
   name: string;
@@ -632,13 +631,13 @@ export const DeleteOrganizationsContactsResponse = GoogleProtobufEmpty;
 
 export type DeleteOrganizationsContactsError = CommonErrors;
 
+/** Deletes a contact. */
 export const deleteOrganizationsContacts: API.OperationMethod<DeleteOrganizationsContactsRequest, DeleteOrganizationsContactsResponse, DeleteOrganizationsContactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsContactsRequest,
   output: DeleteOrganizationsContactsResponse,
   errors: [],
 }));
 
-/** Lists all contacts for the resource that are subscribed to the specified notification categories, including contacts inherited from any parent resources. */
 export interface ComputeOrganizationsContactsRequest {
   /** Required. The name of the resource to compute contacts for. Format: organizations/{organization_id}, folders/{folder_id} or projects/{project_id} */
   parent: string;
@@ -665,7 +664,8 @@ export const ComputeOrganizationsContactsResponse = GoogleCloudEssentialcontacts
 
 export type ComputeOrganizationsContactsError = CommonErrors;
 
-export const computeOrganizationsContacts = API.makePaginated(() => ({
+/** Lists all contacts for the resource that are subscribed to the specified notification categories, including contacts inherited from any parent resources. */
+export const computeOrganizationsContacts: API.PaginatedOperationMethod<ComputeOrganizationsContactsRequest, ComputeOrganizationsContactsResponse, ComputeOrganizationsContactsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ComputeOrganizationsContactsRequest,
   output: ComputeOrganizationsContactsResponse,
   errors: [],
@@ -675,7 +675,6 @@ export const computeOrganizationsContacts = API.makePaginated(() => ({
   },
 }));
 
-/** Allows a contact admin to send a test message to contact to verify that it has been configured correctly. */
 export interface SendTestMessageOrganizationsContactsRequest {
   /** Required. The name of the resource to send the test message for. All contacts must either be set directly on this resource or inherited from another resource that is an ancestor of this one. Format: organizations/{organization_id}, folders/{folder_id} or projects/{project_id} */
   resource: string;
@@ -696,6 +695,7 @@ export const SendTestMessageOrganizationsContactsResponse = GoogleProtobufEmpty;
 
 export type SendTestMessageOrganizationsContactsError = CommonErrors;
 
+/** Allows a contact admin to send a test message to contact to verify that it has been configured correctly. */
 export const sendTestMessageOrganizationsContacts: API.OperationMethod<SendTestMessageOrganizationsContactsRequest, SendTestMessageOrganizationsContactsResponse, SendTestMessageOrganizationsContactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SendTestMessageOrganizationsContactsRequest,
   output: SendTestMessageOrganizationsContactsResponse,

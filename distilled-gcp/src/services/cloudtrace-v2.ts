@@ -297,7 +297,6 @@ export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
 // Operations
 // ==========================================================================
 
-/** Batch writes new spans to new or existing traces. You cannot update existing spans. If a span ID already exists, an additional copy of the span will be stored. */
 export interface BatchWriteProjectsTracesRequest {
   /** Required. The name of the project where the spans belong. The format is `projects/[PROJECT_ID]`. */
   name: string;
@@ -318,13 +317,13 @@ export const BatchWriteProjectsTracesResponse = Empty;
 
 export type BatchWriteProjectsTracesError = CommonErrors;
 
+/** Batch writes new spans to new or existing traces. You cannot update existing spans. If a span ID already exists, an additional copy of the span will be stored. */
 export const batchWriteProjectsTraces: API.OperationMethod<BatchWriteProjectsTracesRequest, BatchWriteProjectsTracesResponse, BatchWriteProjectsTracesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchWriteProjectsTracesRequest,
   output: BatchWriteProjectsTracesResponse,
   errors: [],
 }));
 
-/** Creates a new span. If a span ID already exists, an additional copy of the span will be stored. */
 export interface CreateSpanProjectsTracesSpansRequest {
   /** Required. The resource name of the span in the following format: * `projects/[PROJECT_ID]/traces/[TRACE_ID]/spans/[SPAN_ID]` `[TRACE_ID]` is a unique identifier for a trace within a project; it is a 32-character hexadecimal encoding of a 16-byte array. It should not be zero. `[SPAN_ID]` is a unique identifier for a span within a trace; it is a 16-character hexadecimal encoding of an 8-byte array. It should not be zero. . */
   name: string;
@@ -345,6 +344,7 @@ export const CreateSpanProjectsTracesSpansResponse = Span;
 
 export type CreateSpanProjectsTracesSpansError = CommonErrors;
 
+/** Creates a new span. If a span ID already exists, an additional copy of the span will be stored. */
 export const createSpanProjectsTracesSpans: API.OperationMethod<CreateSpanProjectsTracesSpansRequest, CreateSpanProjectsTracesSpansResponse, CreateSpanProjectsTracesSpansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateSpanProjectsTracesSpansRequest,
   output: CreateSpanProjectsTracesSpansResponse,

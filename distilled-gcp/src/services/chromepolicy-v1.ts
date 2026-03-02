@@ -778,7 +778,6 @@ export const GoogleChromePolicyVersionsV1RemoveCertificateErrorDetails: Schema.S
 // Operations
 // ==========================================================================
 
-/** Creates an enterprise file from the content provided by user. Returns a public download url for end user. */
 export interface UploadMediaRequest {
   /** Required. The customer for which the file upload will apply. */
   customer: string;
@@ -799,13 +798,13 @@ export const UploadMediaResponse = GoogleChromePolicyVersionsV1UploadPolicyFileR
 
 export type UploadMediaError = CommonErrors;
 
+/** Creates an enterprise file from the content provided by user. Returns a public download url for end user. */
 export const uploadMedia: API.OperationMethod<UploadMediaRequest, UploadMediaResponse, UploadMediaError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadMediaRequest,
   output: UploadMediaResponse,
   errors: [],
 }));
 
-/** Gets the resolved policy values for a list of policies that match a search query. */
 export interface ResolveCustomersPoliciesRequest {
   /** ID of the G Suite account or literal "my_customer" for the customer associated to the request. */
   customer: string;
@@ -826,13 +825,13 @@ export const ResolveCustomersPoliciesResponse = GoogleChromePolicyVersionsV1Reso
 
 export type ResolveCustomersPoliciesError = CommonErrors;
 
+/** Gets the resolved policy values for a list of policies that match a search query. */
 export const resolveCustomersPolicies: API.OperationMethod<ResolveCustomersPoliciesRequest, ResolveCustomersPoliciesResponse, ResolveCustomersPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResolveCustomersPoliciesRequest,
   output: ResolveCustomersPoliciesResponse,
   errors: [],
 }));
 
-/** Modify multiple policy values that are applied to a specific org unit. All targets must have the same target format. That is to say that they must point to the same target resource and must have the same keys specified in `additionalTargetKeyNames`, though the values for those keys may be different. On failure the request will return the error details as part of the google.rpc.Status. */
 export interface BatchModifyCustomersPoliciesOrgunitsRequest {
   /** ID of the G Suite account or literal "my_customer" for the customer associated to the request. */
   customer: string;
@@ -853,13 +852,13 @@ export const BatchModifyCustomersPoliciesOrgunitsResponse = GoogleProtobufEmpty;
 
 export type BatchModifyCustomersPoliciesOrgunitsError = CommonErrors;
 
+/** Modify multiple policy values that are applied to a specific org unit. All targets must have the same target format. That is to say that they must point to the same target resource and must have the same keys specified in `additionalTargetKeyNames`, though the values for those keys may be different. On failure the request will return the error details as part of the google.rpc.Status. */
 export const batchModifyCustomersPoliciesOrgunits: API.OperationMethod<BatchModifyCustomersPoliciesOrgunitsRequest, BatchModifyCustomersPoliciesOrgunitsResponse, BatchModifyCustomersPoliciesOrgunitsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchModifyCustomersPoliciesOrgunitsRequest,
   output: BatchModifyCustomersPoliciesOrgunitsResponse,
   errors: [],
 }));
 
-/** Modify multiple policy values that are applied to a specific org unit so that they now inherit the value from a parent (if applicable). All targets must have the same target format. That is to say that they must point to the same target resource and must have the same keys specified in `additionalTargetKeyNames`, though the values for those keys may be different. On failure the request will return the error details as part of the google.rpc.Status. */
 export interface BatchInheritCustomersPoliciesOrgunitsRequest {
   /** ID of the G Suite account or literal "my_customer" for the customer associated to the request. */
   customer: string;
@@ -880,13 +879,13 @@ export const BatchInheritCustomersPoliciesOrgunitsResponse = GoogleProtobufEmpty
 
 export type BatchInheritCustomersPoliciesOrgunitsError = CommonErrors;
 
+/** Modify multiple policy values that are applied to a specific org unit so that they now inherit the value from a parent (if applicable). All targets must have the same target format. That is to say that they must point to the same target resource and must have the same keys specified in `additionalTargetKeyNames`, though the values for those keys may be different. On failure the request will return the error details as part of the google.rpc.Status. */
 export const batchInheritCustomersPoliciesOrgunits: API.OperationMethod<BatchInheritCustomersPoliciesOrgunitsRequest, BatchInheritCustomersPoliciesOrgunitsResponse, BatchInheritCustomersPoliciesOrgunitsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchInheritCustomersPoliciesOrgunitsRequest,
   output: BatchInheritCustomersPoliciesOrgunitsResponse,
   errors: [],
 }));
 
-/** Modify multiple policy values that are applied to a specific group. All targets must have the same target format. That is to say that they must point to the same target resource and must have the same keys specified in `additionalTargetKeyNames`, though the values for those keys may be different. On failure the request will return the error details as part of the google.rpc.Status. */
 export interface BatchModifyCustomersPoliciesGroupsRequest {
   /** ID of the Google Workspace account or literal "my_customer" for the customer associated to the request. */
   customer: string;
@@ -907,13 +906,13 @@ export const BatchModifyCustomersPoliciesGroupsResponse = GoogleProtobufEmpty;
 
 export type BatchModifyCustomersPoliciesGroupsError = CommonErrors;
 
+/** Modify multiple policy values that are applied to a specific group. All targets must have the same target format. That is to say that they must point to the same target resource and must have the same keys specified in `additionalTargetKeyNames`, though the values for those keys may be different. On failure the request will return the error details as part of the google.rpc.Status. */
 export const batchModifyCustomersPoliciesGroups: API.OperationMethod<BatchModifyCustomersPoliciesGroupsRequest, BatchModifyCustomersPoliciesGroupsResponse, BatchModifyCustomersPoliciesGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchModifyCustomersPoliciesGroupsRequest,
   output: BatchModifyCustomersPoliciesGroupsResponse,
   errors: [],
 }));
 
-/** Delete multiple policy values that are applied to a specific group. All targets must have the same target format. That is to say that they must point to the same target resource and must have the same keys specified in `additionalTargetKeyNames`, though the values for those keys may be different. On failure the request will return the error details as part of the google.rpc.Status. */
 export interface BatchDeleteCustomersPoliciesGroupsRequest {
   /** ID of the Google Workspace account or literal "my_customer" for the customer associated to the request. */
   customer: string;
@@ -934,13 +933,13 @@ export const BatchDeleteCustomersPoliciesGroupsResponse = GoogleProtobufEmpty;
 
 export type BatchDeleteCustomersPoliciesGroupsError = CommonErrors;
 
+/** Delete multiple policy values that are applied to a specific group. All targets must have the same target format. That is to say that they must point to the same target resource and must have the same keys specified in `additionalTargetKeyNames`, though the values for those keys may be different. On failure the request will return the error details as part of the google.rpc.Status. */
 export const batchDeleteCustomersPoliciesGroups: API.OperationMethod<BatchDeleteCustomersPoliciesGroupsRequest, BatchDeleteCustomersPoliciesGroupsResponse, BatchDeleteCustomersPoliciesGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchDeleteCustomersPoliciesGroupsRequest,
   output: BatchDeleteCustomersPoliciesGroupsResponse,
   errors: [],
 }));
 
-/** Retrieve a group priority ordering for an app. The target app must be supplied in `additionalTargetKeyNames` in the PolicyTargetKey. On failure the request will return the error details as part of the google.rpc.Status. */
 export interface ListGroupPriorityOrderingCustomersPoliciesGroupsRequest {
   /** Required. ID of the Google Workspace account or literal "my_customer" for the customer associated to the request. */
   customer: string;
@@ -961,13 +960,13 @@ export const ListGroupPriorityOrderingCustomersPoliciesGroupsResponse = GoogleCh
 
 export type ListGroupPriorityOrderingCustomersPoliciesGroupsError = CommonErrors;
 
+/** Retrieve a group priority ordering for an app. The target app must be supplied in `additionalTargetKeyNames` in the PolicyTargetKey. On failure the request will return the error details as part of the google.rpc.Status. */
 export const listGroupPriorityOrderingCustomersPoliciesGroups: API.OperationMethod<ListGroupPriorityOrderingCustomersPoliciesGroupsRequest, ListGroupPriorityOrderingCustomersPoliciesGroupsResponse, ListGroupPriorityOrderingCustomersPoliciesGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListGroupPriorityOrderingCustomersPoliciesGroupsRequest,
   output: ListGroupPriorityOrderingCustomersPoliciesGroupsResponse,
   errors: [],
 }));
 
-/** Update a group priority ordering for an app. The target app must be supplied in `additionalTargetKeyNames` in the PolicyTargetKey. On failure the request will return the error details as part of the google.rpc.Status. */
 export interface UpdateGroupPriorityOrderingCustomersPoliciesGroupsRequest {
   /** Required. ID of the Google Workspace account or literal "my_customer" for the customer associated to the request. */
   customer: string;
@@ -988,13 +987,13 @@ export const UpdateGroupPriorityOrderingCustomersPoliciesGroupsResponse = Google
 
 export type UpdateGroupPriorityOrderingCustomersPoliciesGroupsError = CommonErrors;
 
+/** Update a group priority ordering for an app. The target app must be supplied in `additionalTargetKeyNames` in the PolicyTargetKey. On failure the request will return the error details as part of the google.rpc.Status. */
 export const updateGroupPriorityOrderingCustomersPoliciesGroups: API.OperationMethod<UpdateGroupPriorityOrderingCustomersPoliciesGroupsRequest, UpdateGroupPriorityOrderingCustomersPoliciesGroupsResponse, UpdateGroupPriorityOrderingCustomersPoliciesGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateGroupPriorityOrderingCustomersPoliciesGroupsRequest,
   output: UpdateGroupPriorityOrderingCustomersPoliciesGroupsResponse,
   errors: [],
 }));
 
-/** Creates a certificate at a specified OU for a customer. */
 export interface DefineCertificateCustomersPoliciesNetworksRequest {
   /** Required. The customer for which the certificate will apply. */
   customer: string;
@@ -1015,13 +1014,13 @@ export const DefineCertificateCustomersPoliciesNetworksResponse = GoogleChromePo
 
 export type DefineCertificateCustomersPoliciesNetworksError = CommonErrors;
 
+/** Creates a certificate at a specified OU for a customer. */
 export const defineCertificateCustomersPoliciesNetworks: API.OperationMethod<DefineCertificateCustomersPoliciesNetworksRequest, DefineCertificateCustomersPoliciesNetworksResponse, DefineCertificateCustomersPoliciesNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DefineCertificateCustomersPoliciesNetworksRequest,
   output: DefineCertificateCustomersPoliciesNetworksResponse,
   errors: [],
 }));
 
-/** Remove an existing certificate by guid. */
 export interface RemoveCertificateCustomersPoliciesNetworksRequest {
   /** Required. The customer whose certificate will be removed. */
   customer: string;
@@ -1042,13 +1041,13 @@ export const RemoveCertificateCustomersPoliciesNetworksResponse = GoogleChromePo
 
 export type RemoveCertificateCustomersPoliciesNetworksError = CommonErrors;
 
+/** Remove an existing certificate by guid. */
 export const removeCertificateCustomersPoliciesNetworks: API.OperationMethod<RemoveCertificateCustomersPoliciesNetworksRequest, RemoveCertificateCustomersPoliciesNetworksResponse, RemoveCertificateCustomersPoliciesNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveCertificateCustomersPoliciesNetworksRequest,
   output: RemoveCertificateCustomersPoliciesNetworksResponse,
   errors: [],
 }));
 
-/** Remove an existing network by guid. */
 export interface RemoveNetworkCustomersPoliciesNetworksRequest {
   /** Required. The customer whose network will be removed. */
   customer: string;
@@ -1069,13 +1068,13 @@ export const RemoveNetworkCustomersPoliciesNetworksResponse = GoogleChromePolicy
 
 export type RemoveNetworkCustomersPoliciesNetworksError = CommonErrors;
 
+/** Remove an existing network by guid. */
 export const removeNetworkCustomersPoliciesNetworks: API.OperationMethod<RemoveNetworkCustomersPoliciesNetworksRequest, RemoveNetworkCustomersPoliciesNetworksResponse, RemoveNetworkCustomersPoliciesNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveNetworkCustomersPoliciesNetworksRequest,
   output: RemoveNetworkCustomersPoliciesNetworksResponse,
   errors: [],
 }));
 
-/** Define a new network. */
 export interface DefineNetworkCustomersPoliciesNetworksRequest {
   /** Required. The customer who will own this new network. */
   customer: string;
@@ -1096,13 +1095,13 @@ export const DefineNetworkCustomersPoliciesNetworksResponse = GoogleChromePolicy
 
 export type DefineNetworkCustomersPoliciesNetworksError = CommonErrors;
 
+/** Define a new network. */
 export const defineNetworkCustomersPoliciesNetworks: API.OperationMethod<DefineNetworkCustomersPoliciesNetworksRequest, DefineNetworkCustomersPoliciesNetworksResponse, DefineNetworkCustomersPoliciesNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DefineNetworkCustomersPoliciesNetworksRequest,
   output: DefineNetworkCustomersPoliciesNetworksResponse,
   errors: [],
 }));
 
-/** Get a specific policy schema for a customer by its resource name. */
 export interface GetCustomersPolicySchemasRequest {
   /** Required. The policy schema resource name to query. */
   name: string;
@@ -1120,13 +1119,13 @@ export const GetCustomersPolicySchemasResponse = GoogleChromePolicyVersionsV1Pol
 
 export type GetCustomersPolicySchemasError = CommonErrors;
 
+/** Get a specific policy schema for a customer by its resource name. */
 export const getCustomersPolicySchemas: API.OperationMethod<GetCustomersPolicySchemasRequest, GetCustomersPolicySchemasResponse, GetCustomersPolicySchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCustomersPolicySchemasRequest,
   output: GetCustomersPolicySchemasResponse,
   errors: [],
 }));
 
-/** Gets a list of policy schemas that match a specified filter value for a given customer. */
 export interface ListCustomersPolicySchemasRequest {
   /** Required. The customer for which the listing request will apply. */
   parent: string;
@@ -1153,7 +1152,8 @@ export const ListCustomersPolicySchemasResponse = GoogleChromePolicyVersionsV1Li
 
 export type ListCustomersPolicySchemasError = CommonErrors;
 
-export const listCustomersPolicySchemas = API.makePaginated(() => ({
+/** Gets a list of policy schemas that match a specified filter value for a given customer. */
+export const listCustomersPolicySchemas: API.PaginatedOperationMethod<ListCustomersPolicySchemasRequest, ListCustomersPolicySchemasResponse, ListCustomersPolicySchemasError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCustomersPolicySchemasRequest,
   output: ListCustomersPolicySchemasResponse,
   errors: [],

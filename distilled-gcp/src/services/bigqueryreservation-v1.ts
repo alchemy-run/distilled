@@ -486,7 +486,6 @@ export const ListReservationGroupsResponse: Schema.Schema<ListReservationGroupsR
 // Operations
 // ==========================================================================
 
-/** Deprecated: Looks up assignments for a specified resource for a particular region. If the request is about a project: 1. Assignments created on the project will be returned if they exist. 2. Otherwise assignments created on the closest ancestor will be returned. 3. Assignments for different JobTypes will all be returned. The same logic applies if the request is about a folder. If the request is about an organization, then assignments created on the organization will be returned (organization doesn't have ancestors). Comparing to ListAssignments, there are some behavior differences: 1. permission on the assignee will be verified in this API. 2. Hierarchy lookup (project->folder->organization) happens in this API. 3. Parent here is `projects/* /locations/*`, instead of `projects/* /locations/*reservations/*`. **Note** "-" cannot be used for projects nor locations. */
 export interface SearchAssignmentsProjectsLocationsRequest {
   /** The maximum number of items to return per page. */
   pageSize?: number;
@@ -513,7 +512,8 @@ export const SearchAssignmentsProjectsLocationsResponse = SearchAssignmentsRespo
 
 export type SearchAssignmentsProjectsLocationsError = CommonErrors;
 
-export const searchAssignmentsProjectsLocations = API.makePaginated(() => ({
+/** Deprecated: Looks up assignments for a specified resource for a particular region. If the request is about a project: 1. Assignments created on the project will be returned if they exist. 2. Otherwise assignments created on the closest ancestor will be returned. 3. Assignments for different JobTypes will all be returned. The same logic applies if the request is about a folder. If the request is about an organization, then assignments created on the organization will be returned (organization doesn't have ancestors). Comparing to ListAssignments, there are some behavior differences: 1. permission on the assignee will be verified in this API. 2. Hierarchy lookup (project->folder->organization) happens in this API. 3. Parent here is `projects/* /locations/*`, instead of `projects/* /locations/*reservations/*`. **Note** "-" cannot be used for projects nor locations. */
+export const searchAssignmentsProjectsLocations: API.PaginatedOperationMethod<SearchAssignmentsProjectsLocationsRequest, SearchAssignmentsProjectsLocationsResponse, SearchAssignmentsProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchAssignmentsProjectsLocationsRequest,
   output: SearchAssignmentsProjectsLocationsResponse,
   errors: [],
@@ -523,7 +523,6 @@ export const searchAssignmentsProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Looks up assignments for a specified resource for a particular region. If the request is about a project: 1. Assignments created on the project will be returned if they exist. 2. Otherwise assignments created on the closest ancestor will be returned. 3. Assignments for different JobTypes will all be returned. The same logic applies if the request is about a folder. If the request is about an organization, then assignments created on the organization will be returned (organization doesn't have ancestors). Comparing to ListAssignments, there are some behavior differences: 1. permission on the assignee will be verified in this API. 2. Hierarchy lookup (project->folder->organization) happens in this API. 3. Parent here is `projects/* /locations/*`, instead of `projects/* /locations/*reservations/*`. */
 export interface SearchAllAssignmentsProjectsLocationsRequest {
   /** Please specify resource name as assignee in the query. Examples: * `assignee=projects/myproject` * `assignee=folders/123` * `assignee=organizations/456` */
   query?: string;
@@ -550,7 +549,8 @@ export const SearchAllAssignmentsProjectsLocationsResponse = SearchAllAssignment
 
 export type SearchAllAssignmentsProjectsLocationsError = CommonErrors;
 
-export const searchAllAssignmentsProjectsLocations = API.makePaginated(() => ({
+/** Looks up assignments for a specified resource for a particular region. If the request is about a project: 1. Assignments created on the project will be returned if they exist. 2. Otherwise assignments created on the closest ancestor will be returned. 3. Assignments for different JobTypes will all be returned. The same logic applies if the request is about a folder. If the request is about an organization, then assignments created on the organization will be returned (organization doesn't have ancestors). Comparing to ListAssignments, there are some behavior differences: 1. permission on the assignee will be verified in this API. 2. Hierarchy lookup (project->folder->organization) happens in this API. 3. Parent here is `projects/* /locations/*`, instead of `projects/* /locations/*reservations/*`. */
+export const searchAllAssignmentsProjectsLocations: API.PaginatedOperationMethod<SearchAllAssignmentsProjectsLocationsRequest, SearchAllAssignmentsProjectsLocationsResponse, SearchAllAssignmentsProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchAllAssignmentsProjectsLocationsRequest,
   output: SearchAllAssignmentsProjectsLocationsResponse,
   errors: [],
@@ -560,7 +560,6 @@ export const searchAllAssignmentsProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Updates a BI reservation. Only fields specified in the `field_mask` are updated. A singleton BI reservation always exists with default size 0. In order to reserve BI capacity it needs to be updated to an amount greater than 0. In order to release BI capacity reservation size must be set to 0. */
 export interface UpdateBiReservationProjectsLocationsRequest {
   /** A list of fields to be updated in this request. */
   updateMask?: string;
@@ -584,13 +583,13 @@ export const UpdateBiReservationProjectsLocationsResponse = BiReservation;
 
 export type UpdateBiReservationProjectsLocationsError = CommonErrors;
 
+/** Updates a BI reservation. Only fields specified in the `field_mask` are updated. A singleton BI reservation always exists with default size 0. In order to reserve BI capacity it needs to be updated to an amount greater than 0. In order to release BI capacity reservation size must be set to 0. */
 export const updateBiReservationProjectsLocations: API.OperationMethod<UpdateBiReservationProjectsLocationsRequest, UpdateBiReservationProjectsLocationsResponse, UpdateBiReservationProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateBiReservationProjectsLocationsRequest,
   output: UpdateBiReservationProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Retrieves a BI reservation. */
 export interface GetBiReservationProjectsLocationsRequest {
   /** Required. Name of the requested reservation, for example: `projects/{project_id}/locations/{location_id}/biReservation` */
   name: string;
@@ -608,13 +607,13 @@ export const GetBiReservationProjectsLocationsResponse = BiReservation;
 
 export type GetBiReservationProjectsLocationsError = CommonErrors;
 
+/** Retrieves a BI reservation. */
 export const getBiReservationProjectsLocations: API.OperationMethod<GetBiReservationProjectsLocationsRequest, GetBiReservationProjectsLocationsResponse, GetBiReservationProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBiReservationProjectsLocationsRequest,
   output: GetBiReservationProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Creates a new capacity commitment resource. */
 export interface CreateProjectsLocationsCapacityCommitmentsRequest {
   /** The optional capacity commitment ID. Capacity commitment name will be generated automatically if this field is empty. This field must only contain lower case alphanumeric characters or dashes. The first and last character cannot be a dash. Max length is 64 characters. NOTE: this ID won't be kept if the capacity commitment is split or merged. */
   capacityCommitmentId?: string;
@@ -641,13 +640,13 @@ export const CreateProjectsLocationsCapacityCommitmentsResponse = CapacityCommit
 
 export type CreateProjectsLocationsCapacityCommitmentsError = CommonErrors;
 
+/** Creates a new capacity commitment resource. */
 export const createProjectsLocationsCapacityCommitments: API.OperationMethod<CreateProjectsLocationsCapacityCommitmentsRequest, CreateProjectsLocationsCapacityCommitmentsResponse, CreateProjectsLocationsCapacityCommitmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCapacityCommitmentsRequest,
   output: CreateProjectsLocationsCapacityCommitmentsResponse,
   errors: [],
 }));
 
-/** Returns information about the capacity commitment. */
 export interface GetProjectsLocationsCapacityCommitmentsRequest {
   /** Required. Resource name of the capacity commitment to retrieve. E.g., `projects/myproject/locations/US/capacityCommitments/123` */
   name: string;
@@ -665,13 +664,13 @@ export const GetProjectsLocationsCapacityCommitmentsResponse = CapacityCommitmen
 
 export type GetProjectsLocationsCapacityCommitmentsError = CommonErrors;
 
+/** Returns information about the capacity commitment. */
 export const getProjectsLocationsCapacityCommitments: API.OperationMethod<GetProjectsLocationsCapacityCommitmentsRequest, GetProjectsLocationsCapacityCommitmentsResponse, GetProjectsLocationsCapacityCommitmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCapacityCommitmentsRequest,
   output: GetProjectsLocationsCapacityCommitmentsResponse,
   errors: [],
 }));
 
-/** Updates an existing capacity commitment. Only `plan` and `renewal_plan` fields can be updated. Plan can only be changed to a plan of a longer commitment period. Attempting to change to a plan with shorter commitment period will fail with the error code `google.rpc.Code.FAILED_PRECONDITION`. */
 export interface PatchProjectsLocationsCapacityCommitmentsRequest {
   /** Standard field mask for the set of fields to be updated. */
   updateMask?: string;
@@ -695,13 +694,13 @@ export const PatchProjectsLocationsCapacityCommitmentsResponse = CapacityCommitm
 
 export type PatchProjectsLocationsCapacityCommitmentsError = CommonErrors;
 
+/** Updates an existing capacity commitment. Only `plan` and `renewal_plan` fields can be updated. Plan can only be changed to a plan of a longer commitment period. Attempting to change to a plan with shorter commitment period will fail with the error code `google.rpc.Code.FAILED_PRECONDITION`. */
 export const patchProjectsLocationsCapacityCommitments: API.OperationMethod<PatchProjectsLocationsCapacityCommitmentsRequest, PatchProjectsLocationsCapacityCommitmentsResponse, PatchProjectsLocationsCapacityCommitmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCapacityCommitmentsRequest,
   output: PatchProjectsLocationsCapacityCommitmentsResponse,
   errors: [],
 }));
 
-/** Splits capacity commitment to two commitments of the same plan and `commitment_end_time`. A common use case is to enable downgrading commitments. For example, in order to downgrade from 10000 slots to 8000, you might split a 10000 capacity commitment into commitments of 2000 and 8000. Then, you delete the first one after the commitment end time passes. */
 export interface SplitProjectsLocationsCapacityCommitmentsRequest {
   /** Required. The resource name e.g.,: `projects/myproject/locations/US/capacityCommitments/123` */
   name: string;
@@ -722,13 +721,13 @@ export const SplitProjectsLocationsCapacityCommitmentsResponse = SplitCapacityCo
 
 export type SplitProjectsLocationsCapacityCommitmentsError = CommonErrors;
 
+/** Splits capacity commitment to two commitments of the same plan and `commitment_end_time`. A common use case is to enable downgrading commitments. For example, in order to downgrade from 10000 slots to 8000, you might split a 10000 capacity commitment into commitments of 2000 and 8000. Then, you delete the first one after the commitment end time passes. */
 export const splitProjectsLocationsCapacityCommitments: API.OperationMethod<SplitProjectsLocationsCapacityCommitmentsRequest, SplitProjectsLocationsCapacityCommitmentsResponse, SplitProjectsLocationsCapacityCommitmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SplitProjectsLocationsCapacityCommitmentsRequest,
   output: SplitProjectsLocationsCapacityCommitmentsResponse,
   errors: [],
 }));
 
-/** Deletes a capacity commitment. Attempting to delete capacity commitment before its commitment_end_time will fail with the error code `google.rpc.Code.FAILED_PRECONDITION`. */
 export interface DeleteProjectsLocationsCapacityCommitmentsRequest {
   /** Required. Resource name of the capacity commitment to delete. E.g., `projects/myproject/locations/US/capacityCommitments/123` */
   name: string;
@@ -749,13 +748,13 @@ export const DeleteProjectsLocationsCapacityCommitmentsResponse = Empty;
 
 export type DeleteProjectsLocationsCapacityCommitmentsError = CommonErrors;
 
+/** Deletes a capacity commitment. Attempting to delete capacity commitment before its commitment_end_time will fail with the error code `google.rpc.Code.FAILED_PRECONDITION`. */
 export const deleteProjectsLocationsCapacityCommitments: API.OperationMethod<DeleteProjectsLocationsCapacityCommitmentsRequest, DeleteProjectsLocationsCapacityCommitmentsResponse, DeleteProjectsLocationsCapacityCommitmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCapacityCommitmentsRequest,
   output: DeleteProjectsLocationsCapacityCommitmentsResponse,
   errors: [],
 }));
 
-/** Lists all the capacity commitments for the admin project. */
 export interface ListProjectsLocationsCapacityCommitmentsRequest {
   /** The maximum number of items to return. */
   pageSize?: number;
@@ -779,7 +778,8 @@ export const ListProjectsLocationsCapacityCommitmentsResponse = ListCapacityComm
 
 export type ListProjectsLocationsCapacityCommitmentsError = CommonErrors;
 
-export const listProjectsLocationsCapacityCommitments = API.makePaginated(() => ({
+/** Lists all the capacity commitments for the admin project. */
+export const listProjectsLocationsCapacityCommitments: API.PaginatedOperationMethod<ListProjectsLocationsCapacityCommitmentsRequest, ListProjectsLocationsCapacityCommitmentsResponse, ListProjectsLocationsCapacityCommitmentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCapacityCommitmentsRequest,
   output: ListProjectsLocationsCapacityCommitmentsResponse,
   errors: [],
@@ -789,7 +789,6 @@ export const listProjectsLocationsCapacityCommitments = API.makePaginated(() => 
   },
 }));
 
-/** Merges capacity commitments of the same plan into a single commitment. The resulting capacity commitment has the greater commitment_end_time out of the to-be-merged capacity commitments. Attempting to merge capacity commitments of different plan will fail with the error code `google.rpc.Code.FAILED_PRECONDITION`. */
 export interface MergeProjectsLocationsCapacityCommitmentsRequest {
   /** Parent resource that identifies admin project and location e.g., `projects/myproject/locations/us` */
   parent: string;
@@ -810,13 +809,13 @@ export const MergeProjectsLocationsCapacityCommitmentsResponse = CapacityCommitm
 
 export type MergeProjectsLocationsCapacityCommitmentsError = CommonErrors;
 
+/** Merges capacity commitments of the same plan into a single commitment. The resulting capacity commitment has the greater commitment_end_time out of the to-be-merged capacity commitments. Attempting to merge capacity commitments of different plan will fail with the error code `google.rpc.Code.FAILED_PRECONDITION`. */
 export const mergeProjectsLocationsCapacityCommitments: API.OperationMethod<MergeProjectsLocationsCapacityCommitmentsRequest, MergeProjectsLocationsCapacityCommitmentsResponse, MergeProjectsLocationsCapacityCommitmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MergeProjectsLocationsCapacityCommitmentsRequest,
   output: MergeProjectsLocationsCapacityCommitmentsResponse,
   errors: [],
 }));
 
-/** Creates a new reservation group. */
 export interface CreateProjectsLocationsReservationGroupsRequest {
   /** Required. Project, location. E.g., `projects/myproject/locations/US` */
   parent: string;
@@ -840,13 +839,13 @@ export const CreateProjectsLocationsReservationGroupsResponse = ReservationGroup
 
 export type CreateProjectsLocationsReservationGroupsError = CommonErrors;
 
+/** Creates a new reservation group. */
 export const createProjectsLocationsReservationGroups: API.OperationMethod<CreateProjectsLocationsReservationGroupsRequest, CreateProjectsLocationsReservationGroupsResponse, CreateProjectsLocationsReservationGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsReservationGroupsRequest,
   output: CreateProjectsLocationsReservationGroupsResponse,
   errors: [],
 }));
 
-/** Returns information about the reservation group. */
 export interface GetProjectsLocationsReservationGroupsRequest {
   /** Required. Resource name of the reservation group to retrieve. E.g., `projects/myproject/locations/US/reservationGroups/team1-prod` */
   name: string;
@@ -864,13 +863,13 @@ export const GetProjectsLocationsReservationGroupsResponse = ReservationGroup;
 
 export type GetProjectsLocationsReservationGroupsError = CommonErrors;
 
+/** Returns information about the reservation group. */
 export const getProjectsLocationsReservationGroups: API.OperationMethod<GetProjectsLocationsReservationGroupsRequest, GetProjectsLocationsReservationGroupsResponse, GetProjectsLocationsReservationGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsReservationGroupsRequest,
   output: GetProjectsLocationsReservationGroupsResponse,
   errors: [],
 }));
 
-/** Lists all the reservation groups for the project in the specified location. */
 export interface ListProjectsLocationsReservationGroupsRequest {
   /** Required. The parent resource name containing project and location, e.g.: `projects/myproject/locations/US` */
   parent: string;
@@ -894,7 +893,8 @@ export const ListProjectsLocationsReservationGroupsResponse = ListReservationGro
 
 export type ListProjectsLocationsReservationGroupsError = CommonErrors;
 
-export const listProjectsLocationsReservationGroups = API.makePaginated(() => ({
+/** Lists all the reservation groups for the project in the specified location. */
+export const listProjectsLocationsReservationGroups: API.PaginatedOperationMethod<ListProjectsLocationsReservationGroupsRequest, ListProjectsLocationsReservationGroupsResponse, ListProjectsLocationsReservationGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsReservationGroupsRequest,
   output: ListProjectsLocationsReservationGroupsResponse,
   errors: [],
@@ -904,7 +904,6 @@ export const listProjectsLocationsReservationGroups = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a reservation. Returns `google.rpc.Code.FAILED_PRECONDITION` when reservation has assignments. */
 export interface DeleteProjectsLocationsReservationGroupsRequest {
   /** Required. Resource name of the reservation group to retrieve. E.g., `projects/myproject/locations/US/reservationGroups/team1-prod` */
   name: string;
@@ -922,13 +921,13 @@ export const DeleteProjectsLocationsReservationGroupsResponse = Empty;
 
 export type DeleteProjectsLocationsReservationGroupsError = CommonErrors;
 
+/** Deletes a reservation. Returns `google.rpc.Code.FAILED_PRECONDITION` when reservation has assignments. */
 export const deleteProjectsLocationsReservationGroups: API.OperationMethod<DeleteProjectsLocationsReservationGroupsRequest, DeleteProjectsLocationsReservationGroupsResponse, DeleteProjectsLocationsReservationGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsReservationGroupsRequest,
   output: DeleteProjectsLocationsReservationGroupsResponse,
   errors: [],
 }));
 
-/** Sets an access control policy for a resource. Replaces any existing policy. Supported resources are: - Reservations To call this method, you must have the following Google IAM permissions: - `bigqueryreservation.reservations.setIamPolicy` to set policies on reservations. */
 export interface SetIamPolicyProjectsLocationsReservationsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -949,13 +948,13 @@ export const SetIamPolicyProjectsLocationsReservationsResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsReservationsError = CommonErrors;
 
+/** Sets an access control policy for a resource. Replaces any existing policy. Supported resources are: - Reservations To call this method, you must have the following Google IAM permissions: - `bigqueryreservation.reservations.setIamPolicy` to set policies on reservations. */
 export const setIamPolicyProjectsLocationsReservations: API.OperationMethod<SetIamPolicyProjectsLocationsReservationsRequest, SetIamPolicyProjectsLocationsReservationsResponse, SetIamPolicyProjectsLocationsReservationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsReservationsRequest,
   output: SetIamPolicyProjectsLocationsReservationsResponse,
   errors: [],
 }));
 
-/** Returns information about the reservation. */
 export interface GetProjectsLocationsReservationsRequest {
   /** Required. Resource name of the reservation to retrieve. E.g., `projects/myproject/locations/US/reservations/team1-prod` */
   name: string;
@@ -973,13 +972,13 @@ export const GetProjectsLocationsReservationsResponse = Reservation;
 
 export type GetProjectsLocationsReservationsError = CommonErrors;
 
+/** Returns information about the reservation. */
 export const getProjectsLocationsReservations: API.OperationMethod<GetProjectsLocationsReservationsRequest, GetProjectsLocationsReservationsResponse, GetProjectsLocationsReservationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsReservationsRequest,
   output: GetProjectsLocationsReservationsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. May return: * A`NOT_FOUND` error if the resource doesn't exist or you don't have the permission to view it. * An empty policy if the resource exists but doesn't have a set policy. Supported resources are: - Reservations - ReservationAssignments To call this method, you must have the following Google IAM permissions: - `bigqueryreservation.reservations.getIamPolicy` to get policies on reservations. */
 export interface GetIamPolicyProjectsLocationsReservationsRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
@@ -1000,13 +999,13 @@ export const GetIamPolicyProjectsLocationsReservationsResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsReservationsError = CommonErrors;
 
+/** Gets the access control policy for a resource. May return: * A`NOT_FOUND` error if the resource doesn't exist or you don't have the permission to view it. * An empty policy if the resource exists but doesn't have a set policy. Supported resources are: - Reservations - ReservationAssignments To call this method, you must have the following Google IAM permissions: - `bigqueryreservation.reservations.getIamPolicy` to get policies on reservations. */
 export const getIamPolicyProjectsLocationsReservations: API.OperationMethod<GetIamPolicyProjectsLocationsReservationsRequest, GetIamPolicyProjectsLocationsReservationsResponse, GetIamPolicyProjectsLocationsReservationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsReservationsRequest,
   output: GetIamPolicyProjectsLocationsReservationsResponse,
   errors: [],
 }));
 
-/** Creates a new reservation resource. */
 export interface CreateProjectsLocationsReservationsRequest {
   /** The reservation ID. It must only contain lower case alphanumeric characters or dashes. It must start with a letter and must not end with a dash. Its maximum length is 64 characters. */
   reservationId?: string;
@@ -1030,13 +1029,13 @@ export const CreateProjectsLocationsReservationsResponse = Reservation;
 
 export type CreateProjectsLocationsReservationsError = CommonErrors;
 
+/** Creates a new reservation resource. */
 export const createProjectsLocationsReservations: API.OperationMethod<CreateProjectsLocationsReservationsRequest, CreateProjectsLocationsReservationsResponse, CreateProjectsLocationsReservationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsReservationsRequest,
   output: CreateProjectsLocationsReservationsResponse,
   errors: [],
 }));
 
-/** Gets your permissions on a resource. Returns an empty set of permissions if the resource doesn't exist. Supported resources are: - Reservations No Google IAM permissions are required to call this method. */
 export interface TestIamPermissionsProjectsLocationsReservationsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1057,13 +1056,13 @@ export const TestIamPermissionsProjectsLocationsReservationsResponse = TestIamPe
 
 export type TestIamPermissionsProjectsLocationsReservationsError = CommonErrors;
 
+/** Gets your permissions on a resource. Returns an empty set of permissions if the resource doesn't exist. Supported resources are: - Reservations No Google IAM permissions are required to call this method. */
 export const testIamPermissionsProjectsLocationsReservations: API.OperationMethod<TestIamPermissionsProjectsLocationsReservationsRequest, TestIamPermissionsProjectsLocationsReservationsResponse, TestIamPermissionsProjectsLocationsReservationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsReservationsRequest,
   output: TestIamPermissionsProjectsLocationsReservationsResponse,
   errors: [],
 }));
 
-/** Fail over a reservation to the secondary location. The operation should be done in the current secondary location, which will be promoted to the new primary location for the reservation. Attempting to failover a reservation in the current primary location will fail with the error code `google.rpc.Code.FAILED_PRECONDITION`. */
 export interface FailoverReservationProjectsLocationsReservationsRequest {
   /** Required. Resource name of the reservation to failover. E.g., `projects/myproject/locations/US/reservations/team1-prod` */
   name: string;
@@ -1084,13 +1083,13 @@ export const FailoverReservationProjectsLocationsReservationsResponse = Reservat
 
 export type FailoverReservationProjectsLocationsReservationsError = CommonErrors;
 
+/** Fail over a reservation to the secondary location. The operation should be done in the current secondary location, which will be promoted to the new primary location for the reservation. Attempting to failover a reservation in the current primary location will fail with the error code `google.rpc.Code.FAILED_PRECONDITION`. */
 export const failoverReservationProjectsLocationsReservations: API.OperationMethod<FailoverReservationProjectsLocationsReservationsRequest, FailoverReservationProjectsLocationsReservationsResponse, FailoverReservationProjectsLocationsReservationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FailoverReservationProjectsLocationsReservationsRequest,
   output: FailoverReservationProjectsLocationsReservationsResponse,
   errors: [],
 }));
 
-/** Deletes a reservation. Returns `google.rpc.Code.FAILED_PRECONDITION` when reservation has assignments. */
 export interface DeleteProjectsLocationsReservationsRequest {
   /** Required. Resource name of the reservation to retrieve. E.g., `projects/myproject/locations/US/reservations/team1-prod` */
   name: string;
@@ -1108,13 +1107,13 @@ export const DeleteProjectsLocationsReservationsResponse = Empty;
 
 export type DeleteProjectsLocationsReservationsError = CommonErrors;
 
+/** Deletes a reservation. Returns `google.rpc.Code.FAILED_PRECONDITION` when reservation has assignments. */
 export const deleteProjectsLocationsReservations: API.OperationMethod<DeleteProjectsLocationsReservationsRequest, DeleteProjectsLocationsReservationsResponse, DeleteProjectsLocationsReservationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsReservationsRequest,
   output: DeleteProjectsLocationsReservationsResponse,
   errors: [],
 }));
 
-/** Updates an existing reservation resource. */
 export interface PatchProjectsLocationsReservationsRequest {
   /** Standard field mask for the set of fields to be updated. */
   updateMask?: string;
@@ -1138,13 +1137,13 @@ export const PatchProjectsLocationsReservationsResponse = Reservation;
 
 export type PatchProjectsLocationsReservationsError = CommonErrors;
 
+/** Updates an existing reservation resource. */
 export const patchProjectsLocationsReservations: API.OperationMethod<PatchProjectsLocationsReservationsRequest, PatchProjectsLocationsReservationsResponse, PatchProjectsLocationsReservationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsReservationsRequest,
   output: PatchProjectsLocationsReservationsResponse,
   errors: [],
 }));
 
-/** Lists all the reservations for the project in the specified location. */
 export interface ListProjectsLocationsReservationsRequest {
   /** The next_page_token value returned from a previous List request, if any. */
   pageToken?: string;
@@ -1168,7 +1167,8 @@ export const ListProjectsLocationsReservationsResponse = ListReservationsRespons
 
 export type ListProjectsLocationsReservationsError = CommonErrors;
 
-export const listProjectsLocationsReservations = API.makePaginated(() => ({
+/** Lists all the reservations for the project in the specified location. */
+export const listProjectsLocationsReservations: API.PaginatedOperationMethod<ListProjectsLocationsReservationsRequest, ListProjectsLocationsReservationsResponse, ListProjectsLocationsReservationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsReservationsRequest,
   output: ListProjectsLocationsReservationsResponse,
   errors: [],
@@ -1178,7 +1178,6 @@ export const listProjectsLocationsReservations = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing assignment. Only the `priority` field can be updated. */
 export interface PatchProjectsLocationsReservationsAssignmentsRequest {
   /** Output only. Name of the resource. E.g.: `projects/myproject/locations/US/reservations/team1-prod/assignments/123`. The assignment_id must only contain lower case alphanumeric characters or dashes and the max length is 64 characters. */
   name: string;
@@ -1202,13 +1201,13 @@ export const PatchProjectsLocationsReservationsAssignmentsResponse = Assignment;
 
 export type PatchProjectsLocationsReservationsAssignmentsError = CommonErrors;
 
+/** Updates an existing assignment. Only the `priority` field can be updated. */
 export const patchProjectsLocationsReservationsAssignments: API.OperationMethod<PatchProjectsLocationsReservationsAssignmentsRequest, PatchProjectsLocationsReservationsAssignmentsResponse, PatchProjectsLocationsReservationsAssignmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsReservationsAssignmentsRequest,
   output: PatchProjectsLocationsReservationsAssignmentsResponse,
   errors: [],
 }));
 
-/** Deletes a assignment. No expansion will happen. Example: * Organization `organizationA` contains two projects, `project1` and `project2`. * Reservation `res1` exists and was created previously. * CreateAssignment was used previously to define the following associations between entities and reservations: `` and `` In this example, deletion of the `` assignment won't affect the other assignment ``. After said deletion, queries from `project1` will still use `res1` while queries from `project2` will switch to use on-demand mode. */
 export interface DeleteProjectsLocationsReservationsAssignmentsRequest {
   /** Required. Name of the resource, e.g. `projects/myproject/locations/US/reservations/team1-prod/assignments/123` */
   name: string;
@@ -1226,13 +1225,13 @@ export const DeleteProjectsLocationsReservationsAssignmentsResponse = Empty;
 
 export type DeleteProjectsLocationsReservationsAssignmentsError = CommonErrors;
 
+/** Deletes a assignment. No expansion will happen. Example: * Organization `organizationA` contains two projects, `project1` and `project2`. * Reservation `res1` exists and was created previously. * CreateAssignment was used previously to define the following associations between entities and reservations: `` and `` In this example, deletion of the `` assignment won't affect the other assignment ``. After said deletion, queries from `project1` will still use `res1` while queries from `project2` will switch to use on-demand mode. */
 export const deleteProjectsLocationsReservationsAssignments: API.OperationMethod<DeleteProjectsLocationsReservationsAssignmentsRequest, DeleteProjectsLocationsReservationsAssignmentsResponse, DeleteProjectsLocationsReservationsAssignmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsReservationsAssignmentsRequest,
   output: DeleteProjectsLocationsReservationsAssignmentsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. May return: * A`NOT_FOUND` error if the resource doesn't exist or you don't have the permission to view it. * An empty policy if the resource exists but doesn't have a set policy. Supported resources are: - Reservations - ReservationAssignments To call this method, you must have the following Google IAM permissions: - `bigqueryreservation.reservations.getIamPolicy` to get policies on reservations. */
 export interface GetIamPolicyProjectsLocationsReservationsAssignmentsRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
@@ -1253,13 +1252,13 @@ export const GetIamPolicyProjectsLocationsReservationsAssignmentsResponse = Poli
 
 export type GetIamPolicyProjectsLocationsReservationsAssignmentsError = CommonErrors;
 
+/** Gets the access control policy for a resource. May return: * A`NOT_FOUND` error if the resource doesn't exist or you don't have the permission to view it. * An empty policy if the resource exists but doesn't have a set policy. Supported resources are: - Reservations - ReservationAssignments To call this method, you must have the following Google IAM permissions: - `bigqueryreservation.reservations.getIamPolicy` to get policies on reservations. */
 export const getIamPolicyProjectsLocationsReservationsAssignments: API.OperationMethod<GetIamPolicyProjectsLocationsReservationsAssignmentsRequest, GetIamPolicyProjectsLocationsReservationsAssignmentsResponse, GetIamPolicyProjectsLocationsReservationsAssignmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsReservationsAssignmentsRequest,
   output: GetIamPolicyProjectsLocationsReservationsAssignmentsResponse,
   errors: [],
 }));
 
-/** Gets your permissions on a resource. Returns an empty set of permissions if the resource doesn't exist. Supported resources are: - Reservations No Google IAM permissions are required to call this method. */
 export interface TestIamPermissionsProjectsLocationsReservationsAssignmentsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1280,13 +1279,13 @@ export const TestIamPermissionsProjectsLocationsReservationsAssignmentsResponse 
 
 export type TestIamPermissionsProjectsLocationsReservationsAssignmentsError = CommonErrors;
 
+/** Gets your permissions on a resource. Returns an empty set of permissions if the resource doesn't exist. Supported resources are: - Reservations No Google IAM permissions are required to call this method. */
 export const testIamPermissionsProjectsLocationsReservationsAssignments: API.OperationMethod<TestIamPermissionsProjectsLocationsReservationsAssignmentsRequest, TestIamPermissionsProjectsLocationsReservationsAssignmentsResponse, TestIamPermissionsProjectsLocationsReservationsAssignmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsReservationsAssignmentsRequest,
   output: TestIamPermissionsProjectsLocationsReservationsAssignmentsResponse,
   errors: [],
 }));
 
-/** Creates an assignment object which allows the given project to submit jobs of a certain type using slots from the specified reservation. Currently a resource (project, folder, organization) can only have one assignment per each (job_type, location) combination, and that reservation will be used for all jobs of the matching type. Different assignments can be created on different levels of the projects, folders or organization hierarchy. During query execution, the assignment is looked up at the project, folder and organization levels in that order. The first assignment found is applied to the query. When creating assignments, it does not matter if other assignments exist at higher levels. Example: * The organization `organizationA` contains two projects, `project1` and `project2`. * Assignments for all three entities (`organizationA`, `project1`, and `project2`) could all be created and mapped to the same or different reservations. "None" assignments represent an absence of the assignment. Projects assigned to None use on-demand pricing. To create a "None" assignment, use "none" as a reservation_id in the parent. Example parent: `projects/myproject/locations/US/reservations/none`. Returns `google.rpc.Code.PERMISSION_DENIED` if user does not have 'bigquery.admin' permissions on the project using the reservation and the project that owns this reservation. Returns `google.rpc.Code.INVALID_ARGUMENT` when location of the assignment does not match location of the reservation. */
 export interface CreateProjectsLocationsReservationsAssignmentsRequest {
   /** Required. The parent resource name of the assignment E.g. `projects/myproject/locations/US/reservations/team1-prod` */
   parent: string;
@@ -1310,13 +1309,13 @@ export const CreateProjectsLocationsReservationsAssignmentsResponse = Assignment
 
 export type CreateProjectsLocationsReservationsAssignmentsError = CommonErrors;
 
+/** Creates an assignment object which allows the given project to submit jobs of a certain type using slots from the specified reservation. Currently a resource (project, folder, organization) can only have one assignment per each (job_type, location) combination, and that reservation will be used for all jobs of the matching type. Different assignments can be created on different levels of the projects, folders or organization hierarchy. During query execution, the assignment is looked up at the project, folder and organization levels in that order. The first assignment found is applied to the query. When creating assignments, it does not matter if other assignments exist at higher levels. Example: * The organization `organizationA` contains two projects, `project1` and `project2`. * Assignments for all three entities (`organizationA`, `project1`, and `project2`) could all be created and mapped to the same or different reservations. "None" assignments represent an absence of the assignment. Projects assigned to None use on-demand pricing. To create a "None" assignment, use "none" as a reservation_id in the parent. Example parent: `projects/myproject/locations/US/reservations/none`. Returns `google.rpc.Code.PERMISSION_DENIED` if user does not have 'bigquery.admin' permissions on the project using the reservation and the project that owns this reservation. Returns `google.rpc.Code.INVALID_ARGUMENT` when location of the assignment does not match location of the reservation. */
 export const createProjectsLocationsReservationsAssignments: API.OperationMethod<CreateProjectsLocationsReservationsAssignmentsRequest, CreateProjectsLocationsReservationsAssignmentsResponse, CreateProjectsLocationsReservationsAssignmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsReservationsAssignmentsRequest,
   output: CreateProjectsLocationsReservationsAssignmentsResponse,
   errors: [],
 }));
 
-/** Moves an assignment under a new reservation. This differs from removing an existing assignment and recreating a new one by providing a transactional change that ensures an assignee always has an associated reservation. */
 export interface MoveProjectsLocationsReservationsAssignmentsRequest {
   /** Required. The resource name of the assignment, e.g. `projects/myproject/locations/US/reservations/team1-prod/assignments/123` */
   name: string;
@@ -1337,13 +1336,13 @@ export const MoveProjectsLocationsReservationsAssignmentsResponse = Assignment;
 
 export type MoveProjectsLocationsReservationsAssignmentsError = CommonErrors;
 
+/** Moves an assignment under a new reservation. This differs from removing an existing assignment and recreating a new one by providing a transactional change that ensures an assignee always has an associated reservation. */
 export const moveProjectsLocationsReservationsAssignments: API.OperationMethod<MoveProjectsLocationsReservationsAssignmentsRequest, MoveProjectsLocationsReservationsAssignmentsResponse, MoveProjectsLocationsReservationsAssignmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MoveProjectsLocationsReservationsAssignmentsRequest,
   output: MoveProjectsLocationsReservationsAssignmentsResponse,
   errors: [],
 }));
 
-/** Lists assignments. Only explicitly created assignments will be returned. Example: * Organization `organizationA` contains two projects, `project1` and `project2`. * Reservation `res1` exists and was created previously. * CreateAssignment was used previously to define the following associations between entities and reservations: `` and `` In this example, ListAssignments will just return the above two assignments for reservation `res1`, and no expansion/merge will happen. The wildcard "-" can be used for reservations in the request. In that case all assignments belongs to the specified project and location will be listed. **Note** "-" cannot be used for projects nor locations. */
 export interface ListProjectsLocationsReservationsAssignmentsRequest {
   /** The next_page_token value returned from a previous List request, if any. */
   pageToken?: string;
@@ -1367,7 +1366,8 @@ export const ListProjectsLocationsReservationsAssignmentsResponse = ListAssignme
 
 export type ListProjectsLocationsReservationsAssignmentsError = CommonErrors;
 
-export const listProjectsLocationsReservationsAssignments = API.makePaginated(() => ({
+/** Lists assignments. Only explicitly created assignments will be returned. Example: * Organization `organizationA` contains two projects, `project1` and `project2`. * Reservation `res1` exists and was created previously. * CreateAssignment was used previously to define the following associations between entities and reservations: `` and `` In this example, ListAssignments will just return the above two assignments for reservation `res1`, and no expansion/merge will happen. The wildcard "-" can be used for reservations in the request. In that case all assignments belongs to the specified project and location will be listed. **Note** "-" cannot be used for projects nor locations. */
+export const listProjectsLocationsReservationsAssignments: API.PaginatedOperationMethod<ListProjectsLocationsReservationsAssignmentsRequest, ListProjectsLocationsReservationsAssignmentsResponse, ListProjectsLocationsReservationsAssignmentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsReservationsAssignmentsRequest,
   output: ListProjectsLocationsReservationsAssignmentsResponse,
   errors: [],
@@ -1377,7 +1377,6 @@ export const listProjectsLocationsReservationsAssignments = API.makePaginated(()
   },
 }));
 
-/** Sets an access control policy for a resource. Replaces any existing policy. Supported resources are: - Reservations To call this method, you must have the following Google IAM permissions: - `bigqueryreservation.reservations.setIamPolicy` to set policies on reservations. */
 export interface SetIamPolicyProjectsLocationsReservationsAssignmentsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1398,6 +1397,7 @@ export const SetIamPolicyProjectsLocationsReservationsAssignmentsResponse = Poli
 
 export type SetIamPolicyProjectsLocationsReservationsAssignmentsError = CommonErrors;
 
+/** Sets an access control policy for a resource. Replaces any existing policy. Supported resources are: - Reservations To call this method, you must have the following Google IAM permissions: - `bigqueryreservation.reservations.setIamPolicy` to set policies on reservations. */
 export const setIamPolicyProjectsLocationsReservationsAssignments: API.OperationMethod<SetIamPolicyProjectsLocationsReservationsAssignmentsRequest, SetIamPolicyProjectsLocationsReservationsAssignmentsResponse, SetIamPolicyProjectsLocationsReservationsAssignmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsReservationsAssignmentsRequest,
   output: SetIamPolicyProjectsLocationsReservationsAssignmentsResponse,

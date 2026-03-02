@@ -723,7 +723,6 @@ export const SasPortalSetupSasAnalyticsResponse: Schema.Schema<SasPortalSetupSas
 // Operations
 // ==========================================================================
 
-/** Returns a requested customer. */
 export interface GetCustomersRequest {
   /** Required. The name of the customer. */
   name: string;
@@ -741,13 +740,13 @@ export const GetCustomersResponse = SasPortalCustomer;
 
 export type GetCustomersError = CommonErrors;
 
+/** Returns a requested customer. */
 export const getCustomers: API.OperationMethod<GetCustomersRequest, GetCustomersResponse, GetCustomersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCustomersRequest,
   output: GetCustomersResponse,
   errors: [],
 }));
 
-/** Returns a list of requested customers. */
 export interface ListCustomersRequest {
   /** The maximum number of customers to return in the response. */
   pageSize?: number;
@@ -768,7 +767,8 @@ export const ListCustomersResponse = SasPortalListCustomersResponse;
 
 export type ListCustomersError = CommonErrors;
 
-export const listCustomers = API.makePaginated(() => ({
+/** Returns a list of requested customers. */
+export const listCustomers: API.PaginatedOperationMethod<ListCustomersRequest, ListCustomersResponse, ListCustomersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCustomersRequest,
   output: ListCustomersResponse,
   errors: [],
@@ -778,7 +778,6 @@ export const listCustomers = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing customer. */
 export interface PatchCustomersRequest {
   /** Output only. Resource name of the customer. */
   name: string;
@@ -802,13 +801,13 @@ export const PatchCustomersResponse = SasPortalCustomer;
 
 export type PatchCustomersError = CommonErrors;
 
+/** Updates an existing customer. */
 export const patchCustomers: API.OperationMethod<PatchCustomersRequest, PatchCustomersResponse, PatchCustomersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchCustomersRequest,
   output: PatchCustomersResponse,
   errors: [],
 }));
 
-/** Returns a list of SAS deployments associated with current GCP project. Includes whether SAS analytics has been enabled or not. */
 export interface ListGcpProjectDeploymentsCustomersRequest {
 }
 
@@ -823,13 +822,13 @@ export const ListGcpProjectDeploymentsCustomersResponse = SasPortalListGcpProjec
 
 export type ListGcpProjectDeploymentsCustomersError = CommonErrors;
 
+/** Returns a list of SAS deployments associated with current GCP project. Includes whether SAS analytics has been enabled or not. */
 export const listGcpProjectDeploymentsCustomers: API.OperationMethod<ListGcpProjectDeploymentsCustomersRequest, ListGcpProjectDeploymentsCustomersResponse, ListGcpProjectDeploymentsCustomersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListGcpProjectDeploymentsCustomersRequest,
   output: ListGcpProjectDeploymentsCustomersResponse,
   errors: [],
 }));
 
-/** Creates a new SAS deployment through the GCP workflow. Creates a SAS organization if an organization match is not found. */
 export interface ProvisionDeploymentCustomersRequest {
   /** Request body */
   body?: SasPortalProvisionDeploymentRequest;
@@ -847,13 +846,13 @@ export const ProvisionDeploymentCustomersResponse = SasPortalProvisionDeployment
 
 export type ProvisionDeploymentCustomersError = CommonErrors;
 
+/** Creates a new SAS deployment through the GCP workflow. Creates a SAS organization if an organization match is not found. */
 export const provisionDeploymentCustomers: API.OperationMethod<ProvisionDeploymentCustomersRequest, ProvisionDeploymentCustomersResponse, ProvisionDeploymentCustomersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ProvisionDeploymentCustomersRequest,
   output: ProvisionDeploymentCustomersResponse,
   errors: [],
 }));
 
-/** Returns a list of legacy organizations. */
 export interface ListLegacyOrganizationsCustomersRequest {
 }
 
@@ -868,13 +867,13 @@ export const ListLegacyOrganizationsCustomersResponse = SasPortalListLegacyOrgan
 
 export type ListLegacyOrganizationsCustomersError = CommonErrors;
 
+/** Returns a list of legacy organizations. */
 export const listLegacyOrganizationsCustomers: API.OperationMethod<ListLegacyOrganizationsCustomersRequest, ListLegacyOrganizationsCustomersResponse, ListLegacyOrganizationsCustomersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListLegacyOrganizationsCustomersRequest,
   output: ListLegacyOrganizationsCustomersResponse,
   errors: [],
 }));
 
-/** Migrates a SAS organization to the cloud. This will create GCP projects for each deployment and associate them. The SAS Organization is linked to the gcp project that called the command. go/sas-legacy-customer-migration */
 export interface MigrateOrganizationCustomersRequest {
   /** Request body */
   body?: SasPortalMigrateOrganizationRequest;
@@ -892,13 +891,13 @@ export const MigrateOrganizationCustomersResponse = SasPortalOperation;
 
 export type MigrateOrganizationCustomersError = CommonErrors;
 
+/** Migrates a SAS organization to the cloud. This will create GCP projects for each deployment and associate them. The SAS Organization is linked to the gcp project that called the command. go/sas-legacy-customer-migration */
 export const migrateOrganizationCustomers: API.OperationMethod<MigrateOrganizationCustomersRequest, MigrateOrganizationCustomersResponse, MigrateOrganizationCustomersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MigrateOrganizationCustomersRequest,
   output: MigrateOrganizationCustomersResponse,
   errors: [],
 }));
 
-/** Setups the a GCP Project to receive SAS Analytics messages via GCP Pub/Sub with a subscription to BigQuery. All the Pub/Sub topics and BigQuery tables are created automatically as part of this service. */
 export interface SetupSasAnalyticsCustomersRequest {
   /** Request body */
   body?: SasPortalSetupSasAnalyticsRequest;
@@ -916,13 +915,13 @@ export const SetupSasAnalyticsCustomersResponse = SasPortalOperation;
 
 export type SetupSasAnalyticsCustomersError = CommonErrors;
 
+/** Setups the a GCP Project to receive SAS Analytics messages via GCP Pub/Sub with a subscription to BigQuery. All the Pub/Sub topics and BigQuery tables are created automatically as part of this service. */
 export const setupSasAnalyticsCustomers: API.OperationMethod<SetupSasAnalyticsCustomersRequest, SetupSasAnalyticsCustomersResponse, SetupSasAnalyticsCustomersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetupSasAnalyticsCustomersRequest,
   output: SetupSasAnalyticsCustomersResponse,
   errors: [],
 }));
 
-/** Creates a device under a node or customer. */
 export interface CreateCustomersDevicesRequest {
   /** Required. The name of the parent resource. */
   parent: string;
@@ -943,13 +942,13 @@ export const CreateCustomersDevicesResponse = SasPortalDevice;
 
 export type CreateCustomersDevicesError = CommonErrors;
 
+/** Creates a device under a node or customer. */
 export const createCustomersDevices: API.OperationMethod<CreateCustomersDevicesRequest, CreateCustomersDevicesResponse, CreateCustomersDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateCustomersDevicesRequest,
   output: CreateCustomersDevicesResponse,
   errors: [],
 }));
 
-/** Creates a signed device under a node or customer. */
 export interface CreateSignedCustomersDevicesRequest {
   /** Required. The name of the parent resource. */
   parent: string;
@@ -970,13 +969,13 @@ export const CreateSignedCustomersDevicesResponse = SasPortalDevice;
 
 export type CreateSignedCustomersDevicesError = CommonErrors;
 
+/** Creates a signed device under a node or customer. */
 export const createSignedCustomersDevices: API.OperationMethod<CreateSignedCustomersDevicesRequest, CreateSignedCustomersDevicesResponse, CreateSignedCustomersDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateSignedCustomersDevicesRequest,
   output: CreateSignedCustomersDevicesResponse,
   errors: [],
 }));
 
-/** Deletes a device. */
 export interface DeleteCustomersDevicesRequest {
   /** Required. The name of the device. */
   name: string;
@@ -994,13 +993,13 @@ export const DeleteCustomersDevicesResponse = SasPortalEmpty;
 
 export type DeleteCustomersDevicesError = CommonErrors;
 
+/** Deletes a device. */
 export const deleteCustomersDevices: API.OperationMethod<DeleteCustomersDevicesRequest, DeleteCustomersDevicesResponse, DeleteCustomersDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteCustomersDevicesRequest,
   output: DeleteCustomersDevicesResponse,
   errors: [],
 }));
 
-/** Gets details about a device. */
 export interface GetCustomersDevicesRequest {
   /** Required. The name of the device. */
   name: string;
@@ -1018,13 +1017,13 @@ export const GetCustomersDevicesResponse = SasPortalDevice;
 
 export type GetCustomersDevicesError = CommonErrors;
 
+/** Gets details about a device. */
 export const getCustomersDevices: API.OperationMethod<GetCustomersDevicesRequest, GetCustomersDevicesResponse, GetCustomersDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCustomersDevicesRequest,
   output: GetCustomersDevicesResponse,
   errors: [],
 }));
 
-/** Lists devices under a node or customer. */
 export interface ListCustomersDevicesRequest {
   /** Required. The name of the parent resource. */
   parent: string;
@@ -1051,7 +1050,8 @@ export const ListCustomersDevicesResponse = SasPortalListDevicesResponse;
 
 export type ListCustomersDevicesError = CommonErrors;
 
-export const listCustomersDevices = API.makePaginated(() => ({
+/** Lists devices under a node or customer. */
+export const listCustomersDevices: API.PaginatedOperationMethod<ListCustomersDevicesRequest, ListCustomersDevicesResponse, ListCustomersDevicesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCustomersDevicesRequest,
   output: ListCustomersDevicesResponse,
   errors: [],
@@ -1061,7 +1061,6 @@ export const listCustomersDevices = API.makePaginated(() => ({
   },
 }));
 
-/** Moves a device under another node or customer. */
 export interface MoveCustomersDevicesRequest {
   /** Required. The name of the device to move. */
   name: string;
@@ -1082,13 +1081,13 @@ export const MoveCustomersDevicesResponse = SasPortalOperation;
 
 export type MoveCustomersDevicesError = CommonErrors;
 
+/** Moves a device under another node or customer. */
 export const moveCustomersDevices: API.OperationMethod<MoveCustomersDevicesRequest, MoveCustomersDevicesResponse, MoveCustomersDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MoveCustomersDevicesRequest,
   output: MoveCustomersDevicesResponse,
   errors: [],
 }));
 
-/** Updates a device. */
 export interface PatchCustomersDevicesRequest {
   /** Output only. The resource path name. */
   name: string;
@@ -1112,13 +1111,13 @@ export const PatchCustomersDevicesResponse = SasPortalDevice;
 
 export type PatchCustomersDevicesError = CommonErrors;
 
+/** Updates a device. */
 export const patchCustomersDevices: API.OperationMethod<PatchCustomersDevicesRequest, PatchCustomersDevicesResponse, PatchCustomersDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchCustomersDevicesRequest,
   output: PatchCustomersDevicesResponse,
   errors: [],
 }));
 
-/** Updates a signed device. */
 export interface UpdateSignedCustomersDevicesRequest {
   /** Required. The name of the device to update. */
   name: string;
@@ -1139,13 +1138,13 @@ export const UpdateSignedCustomersDevicesResponse = SasPortalDevice;
 
 export type UpdateSignedCustomersDevicesError = CommonErrors;
 
+/** Updates a signed device. */
 export const updateSignedCustomersDevices: API.OperationMethod<UpdateSignedCustomersDevicesRequest, UpdateSignedCustomersDevicesResponse, UpdateSignedCustomersDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateSignedCustomersDevicesRequest,
   output: UpdateSignedCustomersDevicesResponse,
   errors: [],
 }));
 
-/** Signs a device. */
 export interface SignDeviceCustomersDevicesRequest {
   /** Output only. The resource path name. */
   name: string;
@@ -1166,13 +1165,13 @@ export const SignDeviceCustomersDevicesResponse = SasPortalEmpty;
 
 export type SignDeviceCustomersDevicesError = CommonErrors;
 
+/** Signs a device. */
 export const signDeviceCustomersDevices: API.OperationMethod<SignDeviceCustomersDevicesRequest, SignDeviceCustomersDevicesResponse, SignDeviceCustomersDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SignDeviceCustomersDevicesRequest,
   output: SignDeviceCustomersDevicesResponse,
   errors: [],
 }));
 
-/** Creates a new node. */
 export interface CreateCustomersNodesRequest {
   /** Required. The parent resource name where the node is to be created. */
   parent: string;
@@ -1193,13 +1192,13 @@ export const CreateCustomersNodesResponse = SasPortalNode;
 
 export type CreateCustomersNodesError = CommonErrors;
 
+/** Creates a new node. */
 export const createCustomersNodes: API.OperationMethod<CreateCustomersNodesRequest, CreateCustomersNodesResponse, CreateCustomersNodesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateCustomersNodesRequest,
   output: CreateCustomersNodesResponse,
   errors: [],
 }));
 
-/** Deletes a node. */
 export interface DeleteCustomersNodesRequest {
   /** Required. The name of the node. */
   name: string;
@@ -1217,13 +1216,13 @@ export const DeleteCustomersNodesResponse = SasPortalEmpty;
 
 export type DeleteCustomersNodesError = CommonErrors;
 
+/** Deletes a node. */
 export const deleteCustomersNodes: API.OperationMethod<DeleteCustomersNodesRequest, DeleteCustomersNodesResponse, DeleteCustomersNodesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteCustomersNodesRequest,
   output: DeleteCustomersNodesResponse,
   errors: [],
 }));
 
-/** Returns a requested node. */
 export interface GetCustomersNodesRequest {
   /** Required. The name of the node. */
   name: string;
@@ -1241,13 +1240,13 @@ export const GetCustomersNodesResponse = SasPortalNode;
 
 export type GetCustomersNodesError = CommonErrors;
 
+/** Returns a requested node. */
 export const getCustomersNodes: API.OperationMethod<GetCustomersNodesRequest, GetCustomersNodesResponse, GetCustomersNodesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCustomersNodesRequest,
   output: GetCustomersNodesResponse,
   errors: [],
 }));
 
-/** Lists nodes. */
 export interface ListCustomersNodesRequest {
   /** Required. The parent resource name, for example, "nodes/1". */
   parent: string;
@@ -1274,7 +1273,8 @@ export const ListCustomersNodesResponse = SasPortalListNodesResponse;
 
 export type ListCustomersNodesError = CommonErrors;
 
-export const listCustomersNodes = API.makePaginated(() => ({
+/** Lists nodes. */
+export const listCustomersNodes: API.PaginatedOperationMethod<ListCustomersNodesRequest, ListCustomersNodesResponse, ListCustomersNodesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCustomersNodesRequest,
   output: ListCustomersNodesResponse,
   errors: [],
@@ -1284,7 +1284,6 @@ export const listCustomersNodes = API.makePaginated(() => ({
   },
 }));
 
-/** Moves a node under another node or customer. */
 export interface MoveCustomersNodesRequest {
   /** Required. The name of the node to move. */
   name: string;
@@ -1305,13 +1304,13 @@ export const MoveCustomersNodesResponse = SasPortalOperation;
 
 export type MoveCustomersNodesError = CommonErrors;
 
+/** Moves a node under another node or customer. */
 export const moveCustomersNodes: API.OperationMethod<MoveCustomersNodesRequest, MoveCustomersNodesResponse, MoveCustomersNodesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MoveCustomersNodesRequest,
   output: MoveCustomersNodesResponse,
   errors: [],
 }));
 
-/** Updates an existing node. */
 export interface PatchCustomersNodesRequest {
   /** Output only. Resource name. */
   name: string;
@@ -1335,13 +1334,13 @@ export const PatchCustomersNodesResponse = SasPortalNode;
 
 export type PatchCustomersNodesError = CommonErrors;
 
+/** Updates an existing node. */
 export const patchCustomersNodes: API.OperationMethod<PatchCustomersNodesRequest, PatchCustomersNodesResponse, PatchCustomersNodesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchCustomersNodesRequest,
   output: PatchCustomersNodesResponse,
   errors: [],
 }));
 
-/** Creates a device under a node or customer. */
 export interface CreateCustomersNodesDevicesRequest {
   /** Required. The name of the parent resource. */
   parent: string;
@@ -1362,13 +1361,13 @@ export const CreateCustomersNodesDevicesResponse = SasPortalDevice;
 
 export type CreateCustomersNodesDevicesError = CommonErrors;
 
+/** Creates a device under a node or customer. */
 export const createCustomersNodesDevices: API.OperationMethod<CreateCustomersNodesDevicesRequest, CreateCustomersNodesDevicesResponse, CreateCustomersNodesDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateCustomersNodesDevicesRequest,
   output: CreateCustomersNodesDevicesResponse,
   errors: [],
 }));
 
-/** Creates a signed device under a node or customer. */
 export interface CreateSignedCustomersNodesDevicesRequest {
   /** Required. The name of the parent resource. */
   parent: string;
@@ -1389,13 +1388,13 @@ export const CreateSignedCustomersNodesDevicesResponse = SasPortalDevice;
 
 export type CreateSignedCustomersNodesDevicesError = CommonErrors;
 
+/** Creates a signed device under a node or customer. */
 export const createSignedCustomersNodesDevices: API.OperationMethod<CreateSignedCustomersNodesDevicesRequest, CreateSignedCustomersNodesDevicesResponse, CreateSignedCustomersNodesDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateSignedCustomersNodesDevicesRequest,
   output: CreateSignedCustomersNodesDevicesResponse,
   errors: [],
 }));
 
-/** Lists devices under a node or customer. */
 export interface ListCustomersNodesDevicesRequest {
   /** Required. The name of the parent resource. */
   parent: string;
@@ -1422,7 +1421,8 @@ export const ListCustomersNodesDevicesResponse = SasPortalListDevicesResponse;
 
 export type ListCustomersNodesDevicesError = CommonErrors;
 
-export const listCustomersNodesDevices = API.makePaginated(() => ({
+/** Lists devices under a node or customer. */
+export const listCustomersNodesDevices: API.PaginatedOperationMethod<ListCustomersNodesDevicesRequest, ListCustomersNodesDevicesResponse, ListCustomersNodesDevicesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCustomersNodesDevicesRequest,
   output: ListCustomersNodesDevicesResponse,
   errors: [],
@@ -1432,7 +1432,6 @@ export const listCustomersNodesDevices = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new node. */
 export interface CreateCustomersNodesNodesRequest {
   /** Required. The parent resource name where the node is to be created. */
   parent: string;
@@ -1453,13 +1452,13 @@ export const CreateCustomersNodesNodesResponse = SasPortalNode;
 
 export type CreateCustomersNodesNodesError = CommonErrors;
 
+/** Creates a new node. */
 export const createCustomersNodesNodes: API.OperationMethod<CreateCustomersNodesNodesRequest, CreateCustomersNodesNodesResponse, CreateCustomersNodesNodesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateCustomersNodesNodesRequest,
   output: CreateCustomersNodesNodesResponse,
   errors: [],
 }));
 
-/** Lists nodes. */
 export interface ListCustomersNodesNodesRequest {
   /** Required. The parent resource name, for example, "nodes/1". */
   parent: string;
@@ -1486,7 +1485,8 @@ export const ListCustomersNodesNodesResponse = SasPortalListNodesResponse;
 
 export type ListCustomersNodesNodesError = CommonErrors;
 
-export const listCustomersNodesNodes = API.makePaginated(() => ({
+/** Lists nodes. */
+export const listCustomersNodesNodes: API.PaginatedOperationMethod<ListCustomersNodesNodesRequest, ListCustomersNodesNodesResponse, ListCustomersNodesNodesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCustomersNodesNodesRequest,
   output: ListCustomersNodesNodesResponse,
   errors: [],
@@ -1496,7 +1496,6 @@ export const listCustomersNodesNodes = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new deployment. */
 export interface CreateCustomersNodesDeploymentsRequest {
   /** Required. The parent resource name where the deployment is to be created. */
   parent: string;
@@ -1517,13 +1516,13 @@ export const CreateCustomersNodesDeploymentsResponse = SasPortalDeployment;
 
 export type CreateCustomersNodesDeploymentsError = CommonErrors;
 
+/** Creates a new deployment. */
 export const createCustomersNodesDeployments: API.OperationMethod<CreateCustomersNodesDeploymentsRequest, CreateCustomersNodesDeploymentsResponse, CreateCustomersNodesDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateCustomersNodesDeploymentsRequest,
   output: CreateCustomersNodesDeploymentsResponse,
   errors: [],
 }));
 
-/** Lists deployments. */
 export interface ListCustomersNodesDeploymentsRequest {
   /** Required. The parent resource name, for example, "nodes/1", customer/1/nodes/2. */
   parent: string;
@@ -1550,7 +1549,8 @@ export const ListCustomersNodesDeploymentsResponse = SasPortalListDeploymentsRes
 
 export type ListCustomersNodesDeploymentsError = CommonErrors;
 
-export const listCustomersNodesDeployments = API.makePaginated(() => ({
+/** Lists deployments. */
+export const listCustomersNodesDeployments: API.PaginatedOperationMethod<ListCustomersNodesDeploymentsRequest, ListCustomersNodesDeploymentsResponse, ListCustomersNodesDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCustomersNodesDeploymentsRequest,
   output: ListCustomersNodesDeploymentsResponse,
   errors: [],
@@ -1560,7 +1560,6 @@ export const listCustomersNodesDeployments = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new deployment. */
 export interface CreateCustomersDeploymentsRequest {
   /** Required. The parent resource name where the deployment is to be created. */
   parent: string;
@@ -1581,13 +1580,13 @@ export const CreateCustomersDeploymentsResponse = SasPortalDeployment;
 
 export type CreateCustomersDeploymentsError = CommonErrors;
 
+/** Creates a new deployment. */
 export const createCustomersDeployments: API.OperationMethod<CreateCustomersDeploymentsRequest, CreateCustomersDeploymentsResponse, CreateCustomersDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateCustomersDeploymentsRequest,
   output: CreateCustomersDeploymentsResponse,
   errors: [],
 }));
 
-/** Deletes a deployment. */
 export interface DeleteCustomersDeploymentsRequest {
   /** Required. The name of the deployment. */
   name: string;
@@ -1605,13 +1604,13 @@ export const DeleteCustomersDeploymentsResponse = SasPortalEmpty;
 
 export type DeleteCustomersDeploymentsError = CommonErrors;
 
+/** Deletes a deployment. */
 export const deleteCustomersDeployments: API.OperationMethod<DeleteCustomersDeploymentsRequest, DeleteCustomersDeploymentsResponse, DeleteCustomersDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteCustomersDeploymentsRequest,
   output: DeleteCustomersDeploymentsResponse,
   errors: [],
 }));
 
-/** Returns a requested deployment. */
 export interface GetCustomersDeploymentsRequest {
   /** Required. The name of the deployment. */
   name: string;
@@ -1629,13 +1628,13 @@ export const GetCustomersDeploymentsResponse = SasPortalDeployment;
 
 export type GetCustomersDeploymentsError = CommonErrors;
 
+/** Returns a requested deployment. */
 export const getCustomersDeployments: API.OperationMethod<GetCustomersDeploymentsRequest, GetCustomersDeploymentsResponse, GetCustomersDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCustomersDeploymentsRequest,
   output: GetCustomersDeploymentsResponse,
   errors: [],
 }));
 
-/** Lists deployments. */
 export interface ListCustomersDeploymentsRequest {
   /** Required. The parent resource name, for example, "nodes/1", customer/1/nodes/2. */
   parent: string;
@@ -1662,7 +1661,8 @@ export const ListCustomersDeploymentsResponse = SasPortalListDeploymentsResponse
 
 export type ListCustomersDeploymentsError = CommonErrors;
 
-export const listCustomersDeployments = API.makePaginated(() => ({
+/** Lists deployments. */
+export const listCustomersDeployments: API.PaginatedOperationMethod<ListCustomersDeploymentsRequest, ListCustomersDeploymentsResponse, ListCustomersDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCustomersDeploymentsRequest,
   output: ListCustomersDeploymentsResponse,
   errors: [],
@@ -1672,7 +1672,6 @@ export const listCustomersDeployments = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing deployment. */
 export interface PatchCustomersDeploymentsRequest {
   /** Output only. Resource name. */
   name: string;
@@ -1696,13 +1695,13 @@ export const PatchCustomersDeploymentsResponse = SasPortalDeployment;
 
 export type PatchCustomersDeploymentsError = CommonErrors;
 
+/** Updates an existing deployment. */
 export const patchCustomersDeployments: API.OperationMethod<PatchCustomersDeploymentsRequest, PatchCustomersDeploymentsResponse, PatchCustomersDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchCustomersDeploymentsRequest,
   output: PatchCustomersDeploymentsResponse,
   errors: [],
 }));
 
-/** Moves a deployment under another node or customer. */
 export interface MoveCustomersDeploymentsRequest {
   /** Required. The name of the deployment to move. */
   name: string;
@@ -1723,13 +1722,13 @@ export const MoveCustomersDeploymentsResponse = SasPortalOperation;
 
 export type MoveCustomersDeploymentsError = CommonErrors;
 
+/** Moves a deployment under another node or customer. */
 export const moveCustomersDeployments: API.OperationMethod<MoveCustomersDeploymentsRequest, MoveCustomersDeploymentsResponse, MoveCustomersDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MoveCustomersDeploymentsRequest,
   output: MoveCustomersDeploymentsResponse,
   errors: [],
 }));
 
-/** Creates a device under a node or customer. */
 export interface CreateCustomersDeploymentsDevicesRequest {
   /** Required. The name of the parent resource. */
   parent: string;
@@ -1750,13 +1749,13 @@ export const CreateCustomersDeploymentsDevicesResponse = SasPortalDevice;
 
 export type CreateCustomersDeploymentsDevicesError = CommonErrors;
 
+/** Creates a device under a node or customer. */
 export const createCustomersDeploymentsDevices: API.OperationMethod<CreateCustomersDeploymentsDevicesRequest, CreateCustomersDeploymentsDevicesResponse, CreateCustomersDeploymentsDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateCustomersDeploymentsDevicesRequest,
   output: CreateCustomersDeploymentsDevicesResponse,
   errors: [],
 }));
 
-/** Creates a signed device under a node or customer. */
 export interface CreateSignedCustomersDeploymentsDevicesRequest {
   /** Required. The name of the parent resource. */
   parent: string;
@@ -1777,13 +1776,13 @@ export const CreateSignedCustomersDeploymentsDevicesResponse = SasPortalDevice;
 
 export type CreateSignedCustomersDeploymentsDevicesError = CommonErrors;
 
+/** Creates a signed device under a node or customer. */
 export const createSignedCustomersDeploymentsDevices: API.OperationMethod<CreateSignedCustomersDeploymentsDevicesRequest, CreateSignedCustomersDeploymentsDevicesResponse, CreateSignedCustomersDeploymentsDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateSignedCustomersDeploymentsDevicesRequest,
   output: CreateSignedCustomersDeploymentsDevicesResponse,
   errors: [],
 }));
 
-/** Lists devices under a node or customer. */
 export interface ListCustomersDeploymentsDevicesRequest {
   /** Required. The name of the parent resource. */
   parent: string;
@@ -1810,7 +1809,8 @@ export const ListCustomersDeploymentsDevicesResponse = SasPortalListDevicesRespo
 
 export type ListCustomersDeploymentsDevicesError = CommonErrors;
 
-export const listCustomersDeploymentsDevices = API.makePaginated(() => ({
+/** Lists devices under a node or customer. */
+export const listCustomersDeploymentsDevices: API.PaginatedOperationMethod<ListCustomersDeploymentsDevicesRequest, ListCustomersDeploymentsDevicesResponse, ListCustomersDeploymentsDevicesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCustomersDeploymentsDevicesRequest,
   output: ListCustomersDeploymentsDevicesResponse,
   errors: [],
@@ -1820,7 +1820,6 @@ export const listCustomersDeploymentsDevices = API.makePaginated(() => ({
   },
 }));
 
-/** Returns a requested node. */
 export interface GetNodesRequest {
   /** Required. The name of the node. */
   name: string;
@@ -1838,13 +1837,13 @@ export const GetNodesResponse = SasPortalNode;
 
 export type GetNodesError = CommonErrors;
 
+/** Returns a requested node. */
 export const getNodes: API.OperationMethod<GetNodesRequest, GetNodesResponse, GetNodesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetNodesRequest,
   output: GetNodesResponse,
   errors: [],
 }));
 
-/** Creates a device under a node or customer. */
 export interface CreateNodesDevicesRequest {
   /** Required. The name of the parent resource. */
   parent: string;
@@ -1865,13 +1864,13 @@ export const CreateNodesDevicesResponse = SasPortalDevice;
 
 export type CreateNodesDevicesError = CommonErrors;
 
+/** Creates a device under a node or customer. */
 export const createNodesDevices: API.OperationMethod<CreateNodesDevicesRequest, CreateNodesDevicesResponse, CreateNodesDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateNodesDevicesRequest,
   output: CreateNodesDevicesResponse,
   errors: [],
 }));
 
-/** Creates a signed device under a node or customer. */
 export interface CreateSignedNodesDevicesRequest {
   /** Required. The name of the parent resource. */
   parent: string;
@@ -1892,13 +1891,13 @@ export const CreateSignedNodesDevicesResponse = SasPortalDevice;
 
 export type CreateSignedNodesDevicesError = CommonErrors;
 
+/** Creates a signed device under a node or customer. */
 export const createSignedNodesDevices: API.OperationMethod<CreateSignedNodesDevicesRequest, CreateSignedNodesDevicesResponse, CreateSignedNodesDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateSignedNodesDevicesRequest,
   output: CreateSignedNodesDevicesResponse,
   errors: [],
 }));
 
-/** Deletes a device. */
 export interface DeleteNodesDevicesRequest {
   /** Required. The name of the device. */
   name: string;
@@ -1916,13 +1915,13 @@ export const DeleteNodesDevicesResponse = SasPortalEmpty;
 
 export type DeleteNodesDevicesError = CommonErrors;
 
+/** Deletes a device. */
 export const deleteNodesDevices: API.OperationMethod<DeleteNodesDevicesRequest, DeleteNodesDevicesResponse, DeleteNodesDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteNodesDevicesRequest,
   output: DeleteNodesDevicesResponse,
   errors: [],
 }));
 
-/** Gets details about a device. */
 export interface GetNodesDevicesRequest {
   /** Required. The name of the device. */
   name: string;
@@ -1940,13 +1939,13 @@ export const GetNodesDevicesResponse = SasPortalDevice;
 
 export type GetNodesDevicesError = CommonErrors;
 
+/** Gets details about a device. */
 export const getNodesDevices: API.OperationMethod<GetNodesDevicesRequest, GetNodesDevicesResponse, GetNodesDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetNodesDevicesRequest,
   output: GetNodesDevicesResponse,
   errors: [],
 }));
 
-/** Lists devices under a node or customer. */
 export interface ListNodesDevicesRequest {
   /** Required. The name of the parent resource. */
   parent: string;
@@ -1973,7 +1972,8 @@ export const ListNodesDevicesResponse = SasPortalListDevicesResponse;
 
 export type ListNodesDevicesError = CommonErrors;
 
-export const listNodesDevices = API.makePaginated(() => ({
+/** Lists devices under a node or customer. */
+export const listNodesDevices: API.PaginatedOperationMethod<ListNodesDevicesRequest, ListNodesDevicesResponse, ListNodesDevicesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListNodesDevicesRequest,
   output: ListNodesDevicesResponse,
   errors: [],
@@ -1983,7 +1983,6 @@ export const listNodesDevices = API.makePaginated(() => ({
   },
 }));
 
-/** Moves a device under another node or customer. */
 export interface MoveNodesDevicesRequest {
   /** Required. The name of the device to move. */
   name: string;
@@ -2004,13 +2003,13 @@ export const MoveNodesDevicesResponse = SasPortalOperation;
 
 export type MoveNodesDevicesError = CommonErrors;
 
+/** Moves a device under another node or customer. */
 export const moveNodesDevices: API.OperationMethod<MoveNodesDevicesRequest, MoveNodesDevicesResponse, MoveNodesDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MoveNodesDevicesRequest,
   output: MoveNodesDevicesResponse,
   errors: [],
 }));
 
-/** Updates a device. */
 export interface PatchNodesDevicesRequest {
   /** Output only. The resource path name. */
   name: string;
@@ -2034,13 +2033,13 @@ export const PatchNodesDevicesResponse = SasPortalDevice;
 
 export type PatchNodesDevicesError = CommonErrors;
 
+/** Updates a device. */
 export const patchNodesDevices: API.OperationMethod<PatchNodesDevicesRequest, PatchNodesDevicesResponse, PatchNodesDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchNodesDevicesRequest,
   output: PatchNodesDevicesResponse,
   errors: [],
 }));
 
-/** Updates a signed device. */
 export interface UpdateSignedNodesDevicesRequest {
   /** Required. The name of the device to update. */
   name: string;
@@ -2061,13 +2060,13 @@ export const UpdateSignedNodesDevicesResponse = SasPortalDevice;
 
 export type UpdateSignedNodesDevicesError = CommonErrors;
 
+/** Updates a signed device. */
 export const updateSignedNodesDevices: API.OperationMethod<UpdateSignedNodesDevicesRequest, UpdateSignedNodesDevicesResponse, UpdateSignedNodesDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateSignedNodesDevicesRequest,
   output: UpdateSignedNodesDevicesResponse,
   errors: [],
 }));
 
-/** Signs a device. */
 export interface SignDeviceNodesDevicesRequest {
   /** Output only. The resource path name. */
   name: string;
@@ -2088,13 +2087,13 @@ export const SignDeviceNodesDevicesResponse = SasPortalEmpty;
 
 export type SignDeviceNodesDevicesError = CommonErrors;
 
+/** Signs a device. */
 export const signDeviceNodesDevices: API.OperationMethod<SignDeviceNodesDevicesRequest, SignDeviceNodesDevicesResponse, SignDeviceNodesDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SignDeviceNodesDevicesRequest,
   output: SignDeviceNodesDevicesResponse,
   errors: [],
 }));
 
-/** Creates a new node. */
 export interface CreateNodesNodesRequest {
   /** Required. The parent resource name where the node is to be created. */
   parent: string;
@@ -2115,13 +2114,13 @@ export const CreateNodesNodesResponse = SasPortalNode;
 
 export type CreateNodesNodesError = CommonErrors;
 
+/** Creates a new node. */
 export const createNodesNodes: API.OperationMethod<CreateNodesNodesRequest, CreateNodesNodesResponse, CreateNodesNodesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateNodesNodesRequest,
   output: CreateNodesNodesResponse,
   errors: [],
 }));
 
-/** Deletes a node. */
 export interface DeleteNodesNodesRequest {
   /** Required. The name of the node. */
   name: string;
@@ -2139,13 +2138,13 @@ export const DeleteNodesNodesResponse = SasPortalEmpty;
 
 export type DeleteNodesNodesError = CommonErrors;
 
+/** Deletes a node. */
 export const deleteNodesNodes: API.OperationMethod<DeleteNodesNodesRequest, DeleteNodesNodesResponse, DeleteNodesNodesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteNodesNodesRequest,
   output: DeleteNodesNodesResponse,
   errors: [],
 }));
 
-/** Returns a requested node. */
 export interface GetNodesNodesRequest {
   /** Required. The name of the node. */
   name: string;
@@ -2163,13 +2162,13 @@ export const GetNodesNodesResponse = SasPortalNode;
 
 export type GetNodesNodesError = CommonErrors;
 
+/** Returns a requested node. */
 export const getNodesNodes: API.OperationMethod<GetNodesNodesRequest, GetNodesNodesResponse, GetNodesNodesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetNodesNodesRequest,
   output: GetNodesNodesResponse,
   errors: [],
 }));
 
-/** Lists nodes. */
 export interface ListNodesNodesRequest {
   /** Required. The parent resource name, for example, "nodes/1". */
   parent: string;
@@ -2196,7 +2195,8 @@ export const ListNodesNodesResponse = SasPortalListNodesResponse;
 
 export type ListNodesNodesError = CommonErrors;
 
-export const listNodesNodes = API.makePaginated(() => ({
+/** Lists nodes. */
+export const listNodesNodes: API.PaginatedOperationMethod<ListNodesNodesRequest, ListNodesNodesResponse, ListNodesNodesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListNodesNodesRequest,
   output: ListNodesNodesResponse,
   errors: [],
@@ -2206,7 +2206,6 @@ export const listNodesNodes = API.makePaginated(() => ({
   },
 }));
 
-/** Moves a node under another node or customer. */
 export interface MoveNodesNodesRequest {
   /** Required. The name of the node to move. */
   name: string;
@@ -2227,13 +2226,13 @@ export const MoveNodesNodesResponse = SasPortalOperation;
 
 export type MoveNodesNodesError = CommonErrors;
 
+/** Moves a node under another node or customer. */
 export const moveNodesNodes: API.OperationMethod<MoveNodesNodesRequest, MoveNodesNodesResponse, MoveNodesNodesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MoveNodesNodesRequest,
   output: MoveNodesNodesResponse,
   errors: [],
 }));
 
-/** Updates an existing node. */
 export interface PatchNodesNodesRequest {
   /** Output only. Resource name. */
   name: string;
@@ -2257,13 +2256,13 @@ export const PatchNodesNodesResponse = SasPortalNode;
 
 export type PatchNodesNodesError = CommonErrors;
 
+/** Updates an existing node. */
 export const patchNodesNodes: API.OperationMethod<PatchNodesNodesRequest, PatchNodesNodesResponse, PatchNodesNodesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchNodesNodesRequest,
   output: PatchNodesNodesResponse,
   errors: [],
 }));
 
-/** Creates a device under a node or customer. */
 export interface CreateNodesNodesDevicesRequest {
   /** Required. The name of the parent resource. */
   parent: string;
@@ -2284,13 +2283,13 @@ export const CreateNodesNodesDevicesResponse = SasPortalDevice;
 
 export type CreateNodesNodesDevicesError = CommonErrors;
 
+/** Creates a device under a node or customer. */
 export const createNodesNodesDevices: API.OperationMethod<CreateNodesNodesDevicesRequest, CreateNodesNodesDevicesResponse, CreateNodesNodesDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateNodesNodesDevicesRequest,
   output: CreateNodesNodesDevicesResponse,
   errors: [],
 }));
 
-/** Creates a signed device under a node or customer. */
 export interface CreateSignedNodesNodesDevicesRequest {
   /** Required. The name of the parent resource. */
   parent: string;
@@ -2311,13 +2310,13 @@ export const CreateSignedNodesNodesDevicesResponse = SasPortalDevice;
 
 export type CreateSignedNodesNodesDevicesError = CommonErrors;
 
+/** Creates a signed device under a node or customer. */
 export const createSignedNodesNodesDevices: API.OperationMethod<CreateSignedNodesNodesDevicesRequest, CreateSignedNodesNodesDevicesResponse, CreateSignedNodesNodesDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateSignedNodesNodesDevicesRequest,
   output: CreateSignedNodesNodesDevicesResponse,
   errors: [],
 }));
 
-/** Lists devices under a node or customer. */
 export interface ListNodesNodesDevicesRequest {
   /** Required. The name of the parent resource. */
   parent: string;
@@ -2344,7 +2343,8 @@ export const ListNodesNodesDevicesResponse = SasPortalListDevicesResponse;
 
 export type ListNodesNodesDevicesError = CommonErrors;
 
-export const listNodesNodesDevices = API.makePaginated(() => ({
+/** Lists devices under a node or customer. */
+export const listNodesNodesDevices: API.PaginatedOperationMethod<ListNodesNodesDevicesRequest, ListNodesNodesDevicesResponse, ListNodesNodesDevicesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListNodesNodesDevicesRequest,
   output: ListNodesNodesDevicesResponse,
   errors: [],
@@ -2354,7 +2354,6 @@ export const listNodesNodesDevices = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new node. */
 export interface CreateNodesNodesNodesRequest {
   /** Required. The parent resource name where the node is to be created. */
   parent: string;
@@ -2375,13 +2374,13 @@ export const CreateNodesNodesNodesResponse = SasPortalNode;
 
 export type CreateNodesNodesNodesError = CommonErrors;
 
+/** Creates a new node. */
 export const createNodesNodesNodes: API.OperationMethod<CreateNodesNodesNodesRequest, CreateNodesNodesNodesResponse, CreateNodesNodesNodesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateNodesNodesNodesRequest,
   output: CreateNodesNodesNodesResponse,
   errors: [],
 }));
 
-/** Lists nodes. */
 export interface ListNodesNodesNodesRequest {
   /** Required. The parent resource name, for example, "nodes/1". */
   parent: string;
@@ -2408,7 +2407,8 @@ export const ListNodesNodesNodesResponse = SasPortalListNodesResponse;
 
 export type ListNodesNodesNodesError = CommonErrors;
 
-export const listNodesNodesNodes = API.makePaginated(() => ({
+/** Lists nodes. */
+export const listNodesNodesNodes: API.PaginatedOperationMethod<ListNodesNodesNodesRequest, ListNodesNodesNodesResponse, ListNodesNodesNodesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListNodesNodesNodesRequest,
   output: ListNodesNodesNodesResponse,
   errors: [],
@@ -2418,7 +2418,6 @@ export const listNodesNodesNodes = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new deployment. */
 export interface CreateNodesNodesDeploymentsRequest {
   /** Required. The parent resource name where the deployment is to be created. */
   parent: string;
@@ -2439,13 +2438,13 @@ export const CreateNodesNodesDeploymentsResponse = SasPortalDeployment;
 
 export type CreateNodesNodesDeploymentsError = CommonErrors;
 
+/** Creates a new deployment. */
 export const createNodesNodesDeployments: API.OperationMethod<CreateNodesNodesDeploymentsRequest, CreateNodesNodesDeploymentsResponse, CreateNodesNodesDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateNodesNodesDeploymentsRequest,
   output: CreateNodesNodesDeploymentsResponse,
   errors: [],
 }));
 
-/** Lists deployments. */
 export interface ListNodesNodesDeploymentsRequest {
   /** Required. The parent resource name, for example, "nodes/1", customer/1/nodes/2. */
   parent: string;
@@ -2472,7 +2471,8 @@ export const ListNodesNodesDeploymentsResponse = SasPortalListDeploymentsRespons
 
 export type ListNodesNodesDeploymentsError = CommonErrors;
 
-export const listNodesNodesDeployments = API.makePaginated(() => ({
+/** Lists deployments. */
+export const listNodesNodesDeployments: API.PaginatedOperationMethod<ListNodesNodesDeploymentsRequest, ListNodesNodesDeploymentsResponse, ListNodesNodesDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListNodesNodesDeploymentsRequest,
   output: ListNodesNodesDeploymentsResponse,
   errors: [],
@@ -2482,7 +2482,6 @@ export const listNodesNodesDeployments = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a deployment. */
 export interface DeleteNodesDeploymentsRequest {
   /** Required. The name of the deployment. */
   name: string;
@@ -2500,13 +2499,13 @@ export const DeleteNodesDeploymentsResponse = SasPortalEmpty;
 
 export type DeleteNodesDeploymentsError = CommonErrors;
 
+/** Deletes a deployment. */
 export const deleteNodesDeployments: API.OperationMethod<DeleteNodesDeploymentsRequest, DeleteNodesDeploymentsResponse, DeleteNodesDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteNodesDeploymentsRequest,
   output: DeleteNodesDeploymentsResponse,
   errors: [],
 }));
 
-/** Returns a requested deployment. */
 export interface GetNodesDeploymentsRequest {
   /** Required. The name of the deployment. */
   name: string;
@@ -2524,13 +2523,13 @@ export const GetNodesDeploymentsResponse = SasPortalDeployment;
 
 export type GetNodesDeploymentsError = CommonErrors;
 
+/** Returns a requested deployment. */
 export const getNodesDeployments: API.OperationMethod<GetNodesDeploymentsRequest, GetNodesDeploymentsResponse, GetNodesDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetNodesDeploymentsRequest,
   output: GetNodesDeploymentsResponse,
   errors: [],
 }));
 
-/** Lists deployments. */
 export interface ListNodesDeploymentsRequest {
   /** Required. The parent resource name, for example, "nodes/1", customer/1/nodes/2. */
   parent: string;
@@ -2557,7 +2556,8 @@ export const ListNodesDeploymentsResponse = SasPortalListDeploymentsResponse;
 
 export type ListNodesDeploymentsError = CommonErrors;
 
-export const listNodesDeployments = API.makePaginated(() => ({
+/** Lists deployments. */
+export const listNodesDeployments: API.PaginatedOperationMethod<ListNodesDeploymentsRequest, ListNodesDeploymentsResponse, ListNodesDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListNodesDeploymentsRequest,
   output: ListNodesDeploymentsResponse,
   errors: [],
@@ -2567,7 +2567,6 @@ export const listNodesDeployments = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing deployment. */
 export interface PatchNodesDeploymentsRequest {
   /** Output only. Resource name. */
   name: string;
@@ -2591,13 +2590,13 @@ export const PatchNodesDeploymentsResponse = SasPortalDeployment;
 
 export type PatchNodesDeploymentsError = CommonErrors;
 
+/** Updates an existing deployment. */
 export const patchNodesDeployments: API.OperationMethod<PatchNodesDeploymentsRequest, PatchNodesDeploymentsResponse, PatchNodesDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchNodesDeploymentsRequest,
   output: PatchNodesDeploymentsResponse,
   errors: [],
 }));
 
-/** Moves a deployment under another node or customer. */
 export interface MoveNodesDeploymentsRequest {
   /** Required. The name of the deployment to move. */
   name: string;
@@ -2618,13 +2617,13 @@ export const MoveNodesDeploymentsResponse = SasPortalOperation;
 
 export type MoveNodesDeploymentsError = CommonErrors;
 
+/** Moves a deployment under another node or customer. */
 export const moveNodesDeployments: API.OperationMethod<MoveNodesDeploymentsRequest, MoveNodesDeploymentsResponse, MoveNodesDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MoveNodesDeploymentsRequest,
   output: MoveNodesDeploymentsResponse,
   errors: [],
 }));
 
-/** Creates a device under a node or customer. */
 export interface CreateNodesDeploymentsDevicesRequest {
   /** Required. The name of the parent resource. */
   parent: string;
@@ -2645,13 +2644,13 @@ export const CreateNodesDeploymentsDevicesResponse = SasPortalDevice;
 
 export type CreateNodesDeploymentsDevicesError = CommonErrors;
 
+/** Creates a device under a node or customer. */
 export const createNodesDeploymentsDevices: API.OperationMethod<CreateNodesDeploymentsDevicesRequest, CreateNodesDeploymentsDevicesResponse, CreateNodesDeploymentsDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateNodesDeploymentsDevicesRequest,
   output: CreateNodesDeploymentsDevicesResponse,
   errors: [],
 }));
 
-/** Creates a signed device under a node or customer. */
 export interface CreateSignedNodesDeploymentsDevicesRequest {
   /** Required. The name of the parent resource. */
   parent: string;
@@ -2672,13 +2671,13 @@ export const CreateSignedNodesDeploymentsDevicesResponse = SasPortalDevice;
 
 export type CreateSignedNodesDeploymentsDevicesError = CommonErrors;
 
+/** Creates a signed device under a node or customer. */
 export const createSignedNodesDeploymentsDevices: API.OperationMethod<CreateSignedNodesDeploymentsDevicesRequest, CreateSignedNodesDeploymentsDevicesResponse, CreateSignedNodesDeploymentsDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateSignedNodesDeploymentsDevicesRequest,
   output: CreateSignedNodesDeploymentsDevicesResponse,
   errors: [],
 }));
 
-/** Lists devices under a node or customer. */
 export interface ListNodesDeploymentsDevicesRequest {
   /** Required. The name of the parent resource. */
   parent: string;
@@ -2705,7 +2704,8 @@ export const ListNodesDeploymentsDevicesResponse = SasPortalListDevicesResponse;
 
 export type ListNodesDeploymentsDevicesError = CommonErrors;
 
-export const listNodesDeploymentsDevices = API.makePaginated(() => ({
+/** Lists devices under a node or customer. */
+export const listNodesDeploymentsDevices: API.PaginatedOperationMethod<ListNodesDeploymentsDevicesRequest, ListNodesDeploymentsDevicesResponse, ListNodesDeploymentsDevicesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListNodesDeploymentsDevicesRequest,
   output: ListNodesDeploymentsDevicesResponse,
   errors: [],
@@ -2715,7 +2715,6 @@ export const listNodesDeploymentsDevices = API.makePaginated(() => ({
   },
 }));
 
-/** Generates a secret to be used with the ValidateInstaller. */
 export interface GenerateSecretInstallerRequest {
   /** Request body */
   body?: SasPortalGenerateSecretRequest;
@@ -2733,13 +2732,13 @@ export const GenerateSecretInstallerResponse = SasPortalGenerateSecretResponse;
 
 export type GenerateSecretInstallerError = CommonErrors;
 
+/** Generates a secret to be used with the ValidateInstaller. */
 export const generateSecretInstaller: API.OperationMethod<GenerateSecretInstallerRequest, GenerateSecretInstallerResponse, GenerateSecretInstallerError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateSecretInstallerRequest,
   output: GenerateSecretInstallerResponse,
   errors: [],
 }));
 
-/** Validates the identity of a Certified Professional Installer (CPI). */
 export interface ValidateInstallerRequest {
   /** Request body */
   body?: SasPortalValidateInstallerRequest;
@@ -2757,13 +2756,13 @@ export const ValidateInstallerResponse = SasPortalValidateInstallerResponse;
 
 export type ValidateInstallerError = CommonErrors;
 
+/** Validates the identity of a Certified Professional Installer (CPI). */
 export const validateInstaller: API.OperationMethod<ValidateInstallerRequest, ValidateInstallerResponse, ValidateInstallerError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ValidateInstallerRequest,
   output: ValidateInstallerResponse,
   errors: [],
 }));
 
-/** Returns a requested deployment. */
 export interface GetDeploymentsRequest {
   /** Required. The name of the deployment. */
   name: string;
@@ -2781,13 +2780,13 @@ export const GetDeploymentsResponse = SasPortalDeployment;
 
 export type GetDeploymentsError = CommonErrors;
 
+/** Returns a requested deployment. */
 export const getDeployments: API.OperationMethod<GetDeploymentsRequest, GetDeploymentsResponse, GetDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDeploymentsRequest,
   output: GetDeploymentsResponse,
   errors: [],
 }));
 
-/** Deletes a device. */
 export interface DeleteDeploymentsDevicesRequest {
   /** Required. The name of the device. */
   name: string;
@@ -2805,13 +2804,13 @@ export const DeleteDeploymentsDevicesResponse = SasPortalEmpty;
 
 export type DeleteDeploymentsDevicesError = CommonErrors;
 
+/** Deletes a device. */
 export const deleteDeploymentsDevices: API.OperationMethod<DeleteDeploymentsDevicesRequest, DeleteDeploymentsDevicesResponse, DeleteDeploymentsDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteDeploymentsDevicesRequest,
   output: DeleteDeploymentsDevicesResponse,
   errors: [],
 }));
 
-/** Gets details about a device. */
 export interface GetDeploymentsDevicesRequest {
   /** Required. The name of the device. */
   name: string;
@@ -2829,13 +2828,13 @@ export const GetDeploymentsDevicesResponse = SasPortalDevice;
 
 export type GetDeploymentsDevicesError = CommonErrors;
 
+/** Gets details about a device. */
 export const getDeploymentsDevices: API.OperationMethod<GetDeploymentsDevicesRequest, GetDeploymentsDevicesResponse, GetDeploymentsDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDeploymentsDevicesRequest,
   output: GetDeploymentsDevicesResponse,
   errors: [],
 }));
 
-/** Moves a device under another node or customer. */
 export interface MoveDeploymentsDevicesRequest {
   /** Required. The name of the device to move. */
   name: string;
@@ -2856,13 +2855,13 @@ export const MoveDeploymentsDevicesResponse = SasPortalOperation;
 
 export type MoveDeploymentsDevicesError = CommonErrors;
 
+/** Moves a device under another node or customer. */
 export const moveDeploymentsDevices: API.OperationMethod<MoveDeploymentsDevicesRequest, MoveDeploymentsDevicesResponse, MoveDeploymentsDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MoveDeploymentsDevicesRequest,
   output: MoveDeploymentsDevicesResponse,
   errors: [],
 }));
 
-/** Updates a device. */
 export interface PatchDeploymentsDevicesRequest {
   /** Output only. The resource path name. */
   name: string;
@@ -2886,13 +2885,13 @@ export const PatchDeploymentsDevicesResponse = SasPortalDevice;
 
 export type PatchDeploymentsDevicesError = CommonErrors;
 
+/** Updates a device. */
 export const patchDeploymentsDevices: API.OperationMethod<PatchDeploymentsDevicesRequest, PatchDeploymentsDevicesResponse, PatchDeploymentsDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchDeploymentsDevicesRequest,
   output: PatchDeploymentsDevicesResponse,
   errors: [],
 }));
 
-/** Updates a signed device. */
 export interface UpdateSignedDeploymentsDevicesRequest {
   /** Required. The name of the device to update. */
   name: string;
@@ -2913,13 +2912,13 @@ export const UpdateSignedDeploymentsDevicesResponse = SasPortalDevice;
 
 export type UpdateSignedDeploymentsDevicesError = CommonErrors;
 
+/** Updates a signed device. */
 export const updateSignedDeploymentsDevices: API.OperationMethod<UpdateSignedDeploymentsDevicesRequest, UpdateSignedDeploymentsDevicesResponse, UpdateSignedDeploymentsDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateSignedDeploymentsDevicesRequest,
   output: UpdateSignedDeploymentsDevicesResponse,
   errors: [],
 }));
 
-/** Signs a device. */
 export interface SignDeviceDeploymentsDevicesRequest {
   /** Output only. The resource path name. */
   name: string;
@@ -2940,13 +2939,13 @@ export const SignDeviceDeploymentsDevicesResponse = SasPortalEmpty;
 
 export type SignDeviceDeploymentsDevicesError = CommonErrors;
 
+/** Signs a device. */
 export const signDeviceDeploymentsDevices: API.OperationMethod<SignDeviceDeploymentsDevicesRequest, SignDeviceDeploymentsDevicesResponse, SignDeviceDeploymentsDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SignDeviceDeploymentsDevicesRequest,
   output: SignDeviceDeploymentsDevicesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export interface SetPoliciesRequest {
   /** Request body */
   body?: SasPortalSetPolicyRequest;
@@ -2964,13 +2963,13 @@ export const SetPoliciesResponse = SasPortalPolicy;
 
 export type SetPoliciesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export const setPolicies: API.OperationMethod<SetPoliciesRequest, SetPoliciesResponse, SetPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetPoliciesRequest,
   output: SetPoliciesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetPoliciesRequest {
   /** Request body */
   body?: SasPortalGetPolicyRequest;
@@ -2988,13 +2987,13 @@ export const GetPoliciesResponse = SasPortalPolicy;
 
 export type GetPoliciesError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getPolicies: API.OperationMethod<GetPoliciesRequest, GetPoliciesResponse, GetPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPoliciesRequest,
   output: GetPoliciesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestPoliciesRequest {
   /** Request body */
   body?: SasPortalTestPermissionsRequest;
@@ -3012,6 +3011,7 @@ export const TestPoliciesResponse = SasPortalTestPermissionsResponse;
 
 export type TestPoliciesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testPolicies: API.OperationMethod<TestPoliciesRequest, TestPoliciesResponse, TestPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestPoliciesRequest,
   output: TestPoliciesResponse,

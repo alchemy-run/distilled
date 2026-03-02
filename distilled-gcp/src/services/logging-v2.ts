@@ -1737,7 +1737,6 @@ export const LocationMetadata: Schema.Schema<LocationMetadata> = Schema.suspend(
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: List all public locations: Use the path GET /v1/locations. List project-visible locations: Use the path GET /v1/projects/{project_id}/locations. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -1767,7 +1766,8 @@ export const ListLocationsResponse_Op = ListLocationsResponse;
 
 export type ListLocationsError = CommonErrors;
 
-export const listLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: List all public locations: Use the path GET /v1/locations. List project-visible locations: Use the path GET /v1/projects/{project_id}/locations. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listLocations: API.PaginatedOperationMethod<ListLocationsRequest, ListLocationsResponse_Op, ListLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListLocationsRequest,
   output: ListLocationsResponse_Op,
   errors: [],
@@ -1777,7 +1777,6 @@ export const listLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -1795,13 +1794,13 @@ export const GetLocationsResponse = Location;
 
 export type GetLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getLocations: API.OperationMethod<GetLocationsRequest, GetLocationsResponse, GetLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetLocationsRequest,
   output: GetLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns UNIMPLEMENTED. */
 export interface ListLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -1831,7 +1830,8 @@ export const ListLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListLocationsOperationsError = CommonErrors;
 
-export const listLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns UNIMPLEMENTED. */
+export const listLocationsOperations: API.PaginatedOperationMethod<ListLocationsOperationsRequest, ListLocationsOperationsResponse, ListLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListLocationsOperationsRequest,
   output: ListLocationsOperationsResponse,
   errors: [],
@@ -1841,7 +1841,6 @@ export const listLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1859,13 +1858,13 @@ export const GetLocationsOperationsResponse = Operation;
 
 export type GetLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getLocationsOperations: API.OperationMethod<GetLocationsOperationsRequest, GetLocationsOperationsResponse, GetLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetLocationsOperationsRequest,
   output: GetLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns google.rpc.Code.UNIMPLEMENTED. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of 1, corresponding to Code.CANCELLED. */
 export interface CancelLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -1886,13 +1885,13 @@ export const CancelLocationsOperationsResponse = Empty;
 
 export type CancelLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns google.rpc.Code.UNIMPLEMENTED. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of 1, corresponding to Code.CANCELLED. */
 export const cancelLocationsOperations: API.OperationMethod<CancelLocationsOperationsRequest, CancelLocationsOperationsResponse, CancelLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelLocationsOperationsRequest,
   output: CancelLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Lists log buckets. */
 export interface ListLocationsBucketsRequest {
   /** Required. The parent resource whose buckets are to be listed: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" Note: The locations portion of the resource must be specified, but supplying the character - in place of LOCATION_ID will return all buckets. */
   parent: string;
@@ -1916,7 +1915,8 @@ export const ListLocationsBucketsResponse = ListBucketsResponse;
 
 export type ListLocationsBucketsError = CommonErrors;
 
-export const listLocationsBuckets = API.makePaginated(() => ({
+/** Lists log buckets. */
+export const listLocationsBuckets: API.PaginatedOperationMethod<ListLocationsBucketsRequest, ListLocationsBucketsResponse, ListLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListLocationsBucketsRequest,
   output: ListLocationsBucketsResponse,
   errors: [],
@@ -1926,7 +1926,6 @@ export const listLocationsBuckets = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a log bucket. */
 export interface GetLocationsBucketsRequest {
   /** Required. The resource name of the bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
@@ -1944,13 +1943,13 @@ export const GetLocationsBucketsResponse = LogBucket;
 
 export type GetLocationsBucketsError = CommonErrors;
 
+/** Gets a log bucket. */
 export const getLocationsBuckets: API.OperationMethod<GetLocationsBucketsRequest, GetLocationsBucketsResponse, GetLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetLocationsBucketsRequest,
   output: GetLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Creates a log bucket asynchronously that can be used to store log entries.After a bucket has been created, the bucket's location cannot be changed. */
 export interface CreateAsyncLocationsBucketsRequest {
   /** Required. The resource in which to create the log bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
@@ -1974,13 +1973,13 @@ export const CreateAsyncLocationsBucketsResponse = Operation;
 
 export type CreateAsyncLocationsBucketsError = CommonErrors;
 
+/** Creates a log bucket asynchronously that can be used to store log entries.After a bucket has been created, the bucket's location cannot be changed. */
 export const createAsyncLocationsBuckets: API.OperationMethod<CreateAsyncLocationsBucketsRequest, CreateAsyncLocationsBucketsResponse, CreateAsyncLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAsyncLocationsBucketsRequest,
   output: CreateAsyncLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Updates a log bucket asynchronously.If the bucket has a lifecycle_state of DELETE_REQUESTED, then FAILED_PRECONDITION will be returned.After a bucket has been created, the bucket's location cannot be changed. */
 export interface UpdateAsyncLocationsBucketsRequest {
   /** Required. The full resource name of the bucket to update. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
@@ -2004,13 +2003,13 @@ export const UpdateAsyncLocationsBucketsResponse = Operation;
 
 export type UpdateAsyncLocationsBucketsError = CommonErrors;
 
+/** Updates a log bucket asynchronously.If the bucket has a lifecycle_state of DELETE_REQUESTED, then FAILED_PRECONDITION will be returned.After a bucket has been created, the bucket's location cannot be changed. */
 export const updateAsyncLocationsBuckets: API.OperationMethod<UpdateAsyncLocationsBucketsRequest, UpdateAsyncLocationsBucketsResponse, UpdateAsyncLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAsyncLocationsBucketsRequest,
   output: UpdateAsyncLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Creates a log bucket that can be used to store log entries. After a bucket has been created, the bucket's location cannot be changed. */
 export interface CreateLocationsBucketsRequest {
   /** Required. The resource in which to create the log bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
@@ -2034,13 +2033,13 @@ export const CreateLocationsBucketsResponse = LogBucket;
 
 export type CreateLocationsBucketsError = CommonErrors;
 
+/** Creates a log bucket that can be used to store log entries. After a bucket has been created, the bucket's location cannot be changed. */
 export const createLocationsBuckets: API.OperationMethod<CreateLocationsBucketsRequest, CreateLocationsBucketsResponse, CreateLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateLocationsBucketsRequest,
   output: CreateLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Updates a log bucket.If the bucket has a lifecycle_state of DELETE_REQUESTED, then FAILED_PRECONDITION will be returned.After a bucket has been created, the bucket's location cannot be changed. */
 export interface PatchLocationsBucketsRequest {
   /** Required. The full resource name of the bucket to update. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
@@ -2064,13 +2063,13 @@ export const PatchLocationsBucketsResponse = LogBucket;
 
 export type PatchLocationsBucketsError = CommonErrors;
 
+/** Updates a log bucket.If the bucket has a lifecycle_state of DELETE_REQUESTED, then FAILED_PRECONDITION will be returned.After a bucket has been created, the bucket's location cannot be changed. */
 export const patchLocationsBuckets: API.OperationMethod<PatchLocationsBucketsRequest, PatchLocationsBucketsResponse, PatchLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchLocationsBucketsRequest,
   output: PatchLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Deletes a log bucket.Changes the bucket's lifecycle_state to the DELETE_REQUESTED state. After 7 days, the bucket will be purged and all log entries in the bucket will be permanently deleted. */
 export interface DeleteLocationsBucketsRequest {
   /** Required. The full resource name of the bucket to delete. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
@@ -2088,13 +2087,13 @@ export const DeleteLocationsBucketsResponse = Empty;
 
 export type DeleteLocationsBucketsError = CommonErrors;
 
+/** Deletes a log bucket.Changes the bucket's lifecycle_state to the DELETE_REQUESTED state. After 7 days, the bucket will be purged and all log entries in the bucket will be permanently deleted. */
 export const deleteLocationsBuckets: API.OperationMethod<DeleteLocationsBucketsRequest, DeleteLocationsBucketsResponse, DeleteLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteLocationsBucketsRequest,
   output: DeleteLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Undeletes a log bucket. A bucket that has been deleted can be undeleted within the grace period of 7 days. */
 export interface UndeleteLocationsBucketsRequest {
   /** Required. The full resource name of the bucket to undelete. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
@@ -2115,13 +2114,13 @@ export const UndeleteLocationsBucketsResponse = Empty;
 
 export type UndeleteLocationsBucketsError = CommonErrors;
 
+/** Undeletes a log bucket. A bucket that has been deleted can be undeleted within the grace period of 7 days. */
 export const undeleteLocationsBuckets: API.OperationMethod<UndeleteLocationsBucketsRequest, UndeleteLocationsBucketsResponse, UndeleteLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UndeleteLocationsBucketsRequest,
   output: UndeleteLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND, INVALID_ARGUMENT, and PERMISSION_DENIED errors. */
 export interface SetIamPolicyLocationsBucketsViewsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2142,13 +2141,13 @@ export const SetIamPolicyLocationsBucketsViewsResponse = Policy;
 
 export type SetIamPolicyLocationsBucketsViewsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND, INVALID_ARGUMENT, and PERMISSION_DENIED errors. */
 export const setIamPolicyLocationsBucketsViews: API.OperationMethod<SetIamPolicyLocationsBucketsViewsRequest, SetIamPolicyLocationsBucketsViewsResponse, SetIamPolicyLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyLocationsBucketsViewsRequest,
   output: SetIamPolicyLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyLocationsBucketsViewsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2169,13 +2168,13 @@ export const GetIamPolicyLocationsBucketsViewsResponse = Policy;
 
 export type GetIamPolicyLocationsBucketsViewsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyLocationsBucketsViews: API.OperationMethod<GetIamPolicyLocationsBucketsViewsRequest, GetIamPolicyLocationsBucketsViewsResponse, GetIamPolicyLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyLocationsBucketsViewsRequest,
   output: GetIamPolicyLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsLocationsBucketsViewsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2196,13 +2195,13 @@ export const TestIamPermissionsLocationsBucketsViewsResponse = TestIamPermission
 
 export type TestIamPermissionsLocationsBucketsViewsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsLocationsBucketsViews: API.OperationMethod<TestIamPermissionsLocationsBucketsViewsRequest, TestIamPermissionsLocationsBucketsViewsResponse, TestIamPermissionsLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsLocationsBucketsViewsRequest,
   output: TestIamPermissionsLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Lists views on a log bucket. */
 export interface ListLocationsBucketsViewsRequest {
   /** Required. The bucket whose views are to be listed: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" */
   parent: string;
@@ -2226,7 +2225,8 @@ export const ListLocationsBucketsViewsResponse = ListViewsResponse;
 
 export type ListLocationsBucketsViewsError = CommonErrors;
 
-export const listLocationsBucketsViews = API.makePaginated(() => ({
+/** Lists views on a log bucket. */
+export const listLocationsBucketsViews: API.PaginatedOperationMethod<ListLocationsBucketsViewsRequest, ListLocationsBucketsViewsResponse, ListLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListLocationsBucketsViewsRequest,
   output: ListLocationsBucketsViewsResponse,
   errors: [],
@@ -2236,7 +2236,6 @@ export const listLocationsBucketsViews = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a view on a log bucket. */
 export interface GetLocationsBucketsViewsRequest {
   /** Required. The resource name of the policy: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket/views/my-view" */
   name: string;
@@ -2254,13 +2253,13 @@ export const GetLocationsBucketsViewsResponse = LogView;
 
 export type GetLocationsBucketsViewsError = CommonErrors;
 
+/** Gets a view on a log bucket. */
 export const getLocationsBucketsViews: API.OperationMethod<GetLocationsBucketsViewsRequest, GetLocationsBucketsViewsResponse, GetLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetLocationsBucketsViewsRequest,
   output: GetLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Creates a view over log entries in a log bucket. A bucket may contain a maximum of 30 views. */
 export interface CreateLocationsBucketsViewsRequest {
   /** Required. The bucket in which to create the view `"projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]"` For example:"projects/my-project/locations/global/buckets/my-bucket" */
   parent: string;
@@ -2284,13 +2283,13 @@ export const CreateLocationsBucketsViewsResponse = LogView;
 
 export type CreateLocationsBucketsViewsError = CommonErrors;
 
+/** Creates a view over log entries in a log bucket. A bucket may contain a maximum of 30 views. */
 export const createLocationsBucketsViews: API.OperationMethod<CreateLocationsBucketsViewsRequest, CreateLocationsBucketsViewsResponse, CreateLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateLocationsBucketsViewsRequest,
   output: CreateLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Updates a view on a log bucket. This method replaces the value of the filter field from the existing view with the corresponding value from the new view. If an UNAVAILABLE error is returned, this indicates that system is not in a state where it can update the view. If this occurs, please try again in a few minutes. */
 export interface PatchLocationsBucketsViewsRequest {
   /** Required. The full resource name of the view to update "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket/views/my-view" */
   name: string;
@@ -2314,13 +2313,13 @@ export const PatchLocationsBucketsViewsResponse = LogView;
 
 export type PatchLocationsBucketsViewsError = CommonErrors;
 
+/** Updates a view on a log bucket. This method replaces the value of the filter field from the existing view with the corresponding value from the new view. If an UNAVAILABLE error is returned, this indicates that system is not in a state where it can update the view. If this occurs, please try again in a few minutes. */
 export const patchLocationsBucketsViews: API.OperationMethod<PatchLocationsBucketsViewsRequest, PatchLocationsBucketsViewsResponse, PatchLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchLocationsBucketsViewsRequest,
   output: PatchLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Deletes a view on a log bucket. If an UNAVAILABLE error is returned, this indicates that system is not in a state where it can delete the view. If this occurs, please try again in a few minutes. */
 export interface DeleteLocationsBucketsViewsRequest {
   /** Required. The full resource name of the view to delete: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket/views/my-view" */
   name: string;
@@ -2338,13 +2337,13 @@ export const DeleteLocationsBucketsViewsResponse = Empty;
 
 export type DeleteLocationsBucketsViewsError = CommonErrors;
 
+/** Deletes a view on a log bucket. If an UNAVAILABLE error is returned, this indicates that system is not in a state where it can delete the view. If this occurs, please try again in a few minutes. */
 export const deleteLocationsBucketsViews: API.OperationMethod<DeleteLocationsBucketsViewsRequest, DeleteLocationsBucketsViewsResponse, DeleteLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteLocationsBucketsViewsRequest,
   output: DeleteLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Lists links. */
 export interface ListLocationsBucketsLinksRequest {
   /** Required. The parent resource whose links are to be listed: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" */
   parent: string;
@@ -2368,7 +2367,8 @@ export const ListLocationsBucketsLinksResponse = ListLinksResponse;
 
 export type ListLocationsBucketsLinksError = CommonErrors;
 
-export const listLocationsBucketsLinks = API.makePaginated(() => ({
+/** Lists links. */
+export const listLocationsBucketsLinks: API.PaginatedOperationMethod<ListLocationsBucketsLinksRequest, ListLocationsBucketsLinksResponse, ListLocationsBucketsLinksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListLocationsBucketsLinksRequest,
   output: ListLocationsBucketsLinksResponse,
   errors: [],
@@ -2378,7 +2378,6 @@ export const listLocationsBucketsLinks = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a link. */
 export interface GetLocationsBucketsLinksRequest {
   /** Required. The resource name of the link: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" */
   name: string;
@@ -2396,13 +2395,13 @@ export const GetLocationsBucketsLinksResponse = Link;
 
 export type GetLocationsBucketsLinksError = CommonErrors;
 
+/** Gets a link. */
 export const getLocationsBucketsLinks: API.OperationMethod<GetLocationsBucketsLinksRequest, GetLocationsBucketsLinksResponse, GetLocationsBucketsLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetLocationsBucketsLinksRequest,
   output: GetLocationsBucketsLinksResponse,
   errors: [],
 }));
 
-/** Asynchronously creates a linked dataset in BigQuery which makes it possible to use BigQuery to read the logs stored in the log bucket. A log bucket may currently only contain one link. */
 export interface CreateLocationsBucketsLinksRequest {
   /** Required. The full resource name of the bucket to create a link for. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" */
   parent: string;
@@ -2426,13 +2425,13 @@ export const CreateLocationsBucketsLinksResponse = Operation;
 
 export type CreateLocationsBucketsLinksError = CommonErrors;
 
+/** Asynchronously creates a linked dataset in BigQuery which makes it possible to use BigQuery to read the logs stored in the log bucket. A log bucket may currently only contain one link. */
 export const createLocationsBucketsLinks: API.OperationMethod<CreateLocationsBucketsLinksRequest, CreateLocationsBucketsLinksResponse, CreateLocationsBucketsLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateLocationsBucketsLinksRequest,
   output: CreateLocationsBucketsLinksResponse,
   errors: [],
 }));
 
-/** Deletes a link. This will also delete the corresponding BigQuery linked dataset. */
 export interface DeleteLocationsBucketsLinksRequest {
   /** Required. The full resource name of the link to delete. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" */
   name: string;
@@ -2450,13 +2449,13 @@ export const DeleteLocationsBucketsLinksResponse = Operation;
 
 export type DeleteLocationsBucketsLinksError = CommonErrors;
 
+/** Deletes a link. This will also delete the corresponding BigQuery linked dataset. */
 export const deleteLocationsBucketsLinks: API.OperationMethod<DeleteLocationsBucketsLinksRequest, DeleteLocationsBucketsLinksResponse, DeleteLocationsBucketsLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteLocationsBucketsLinksRequest,
   output: DeleteLocationsBucketsLinksResponse,
   errors: [],
 }));
 
-/** Lists all the exclusions on the _Default sink in a parent resource. */
 export interface ListExclusionsRequest {
   /** Required. The parent resource whose exclusions are to be listed. "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" */
   parent: string;
@@ -2480,7 +2479,8 @@ export const ListExclusionsResponse_Op = ListExclusionsResponse;
 
 export type ListExclusionsError = CommonErrors;
 
-export const listExclusions = API.makePaginated(() => ({
+/** Lists all the exclusions on the _Default sink in a parent resource. */
+export const listExclusions: API.PaginatedOperationMethod<ListExclusionsRequest, ListExclusionsResponse_Op, ListExclusionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListExclusionsRequest,
   output: ListExclusionsResponse_Op,
   errors: [],
@@ -2490,7 +2490,6 @@ export const listExclusions = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the description of an exclusion in the _Default sink. */
 export interface GetExclusionsRequest {
   /** Required. The resource name of an existing exclusion: "projects/[PROJECT_ID]/exclusions/[EXCLUSION_ID]" "organizations/[ORGANIZATION_ID]/exclusions/[EXCLUSION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/exclusions/[EXCLUSION_ID]" "folders/[FOLDER_ID]/exclusions/[EXCLUSION_ID]" For example:"projects/my-project/exclusions/my-exclusion" */
   name: string;
@@ -2508,13 +2507,13 @@ export const GetExclusionsResponse = LogExclusion;
 
 export type GetExclusionsError = CommonErrors;
 
+/** Gets the description of an exclusion in the _Default sink. */
 export const getExclusions: API.OperationMethod<GetExclusionsRequest, GetExclusionsResponse, GetExclusionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetExclusionsRequest,
   output: GetExclusionsResponse,
   errors: [],
 }));
 
-/** Creates a new exclusion in the _Default sink in a specified parent resource. Only log entries belonging to that resource can be excluded. You can have up to 10 exclusions in a resource. */
 export interface CreateExclusionsRequest {
   /** Required. The parent resource in which to create the exclusion: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-logging-project" "organizations/123456789" */
   parent: string;
@@ -2535,13 +2534,13 @@ export const CreateExclusionsResponse = LogExclusion;
 
 export type CreateExclusionsError = CommonErrors;
 
+/** Creates a new exclusion in the _Default sink in a specified parent resource. Only log entries belonging to that resource can be excluded. You can have up to 10 exclusions in a resource. */
 export const createExclusions: API.OperationMethod<CreateExclusionsRequest, CreateExclusionsResponse, CreateExclusionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateExclusionsRequest,
   output: CreateExclusionsResponse,
   errors: [],
 }));
 
-/** Changes one or more properties of an existing exclusion in the _Default sink. */
 export interface PatchExclusionsRequest {
   /** Required. The resource name of the exclusion to update: "projects/[PROJECT_ID]/exclusions/[EXCLUSION_ID]" "organizations/[ORGANIZATION_ID]/exclusions/[EXCLUSION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/exclusions/[EXCLUSION_ID]" "folders/[FOLDER_ID]/exclusions/[EXCLUSION_ID]" For example:"projects/my-project/exclusions/my-exclusion" */
   name: string;
@@ -2565,13 +2564,13 @@ export const PatchExclusionsResponse = LogExclusion;
 
 export type PatchExclusionsError = CommonErrors;
 
+/** Changes one or more properties of an existing exclusion in the _Default sink. */
 export const patchExclusions: API.OperationMethod<PatchExclusionsRequest, PatchExclusionsResponse, PatchExclusionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchExclusionsRequest,
   output: PatchExclusionsResponse,
   errors: [],
 }));
 
-/** Deletes an exclusion in the _Default sink. */
 export interface DeleteExclusionsRequest {
   /** Required. The resource name of an existing exclusion to delete: "projects/[PROJECT_ID]/exclusions/[EXCLUSION_ID]" "organizations/[ORGANIZATION_ID]/exclusions/[EXCLUSION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/exclusions/[EXCLUSION_ID]" "folders/[FOLDER_ID]/exclusions/[EXCLUSION_ID]" For example:"projects/my-project/exclusions/my-exclusion" */
   name: string;
@@ -2589,13 +2588,13 @@ export const DeleteExclusionsResponse = Empty;
 
 export type DeleteExclusionsError = CommonErrors;
 
+/** Deletes an exclusion in the _Default sink. */
 export const deleteExclusions: API.OperationMethod<DeleteExclusionsRequest, DeleteExclusionsResponse, DeleteExclusionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteExclusionsRequest,
   output: DeleteExclusionsResponse,
   errors: [],
 }));
 
-/** Lists sinks. */
 export interface ListSinksRequest {
   /** Required. The parent resource whose sinks are to be listed: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" */
   parent: string;
@@ -2622,7 +2621,8 @@ export const ListSinksResponse_Op = ListSinksResponse;
 
 export type ListSinksError = CommonErrors;
 
-export const listSinks = API.makePaginated(() => ({
+/** Lists sinks. */
+export const listSinks: API.PaginatedOperationMethod<ListSinksRequest, ListSinksResponse_Op, ListSinksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListSinksRequest,
   output: ListSinksResponse_Op,
   errors: [],
@@ -2632,7 +2632,6 @@ export const listSinks = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a sink. */
 export interface GetSinksRequest {
   /** Required. The resource name of the sink: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
   sinkName: string;
@@ -2650,13 +2649,13 @@ export const GetSinksResponse = LogSink;
 
 export type GetSinksError = CommonErrors;
 
+/** Gets a sink. */
 export const getSinks: API.OperationMethod<GetSinksRequest, GetSinksResponse, GetSinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSinksRequest,
   output: GetSinksResponse,
   errors: [],
 }));
 
-/** Creates a sink that exports specified log entries to a destination. The export begins upon ingress, unless the sink's writer_identity is not permitted to write to the destination. A sink can export log entries only from the resource owning the sink. */
 export interface CreateSinksRequest {
   /** Required. The resource in which to create the sink: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-project" "organizations/123456789" */
   parent: string;
@@ -2683,13 +2682,13 @@ export const CreateSinksResponse = LogSink;
 
 export type CreateSinksError = CommonErrors;
 
+/** Creates a sink that exports specified log entries to a destination. The export begins upon ingress, unless the sink's writer_identity is not permitted to write to the destination. A sink can export log entries only from the resource owning the sink. */
 export const createSinks: API.OperationMethod<CreateSinksRequest, CreateSinksResponse, CreateSinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateSinksRequest,
   output: CreateSinksResponse,
   errors: [],
 }));
 
-/** Updates a sink. This method replaces the values of the destination and filter fields of the existing sink with the corresponding values from the new sink.The updated sink might also have a new writer_identity; see the unique_writer_identity field. */
 export interface UpdateSinksRequest {
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
   sinkName: string;
@@ -2719,13 +2718,13 @@ export const UpdateSinksResponse = LogSink;
 
 export type UpdateSinksError = CommonErrors;
 
+/** Updates a sink. This method replaces the values of the destination and filter fields of the existing sink with the corresponding values from the new sink.The updated sink might also have a new writer_identity; see the unique_writer_identity field. */
 export const updateSinks: API.OperationMethod<UpdateSinksRequest, UpdateSinksResponse, UpdateSinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateSinksRequest,
   output: UpdateSinksResponse,
   errors: [],
 }));
 
-/** Deletes a sink. If the sink has a unique writer_identity, then that service account is also deleted. */
 export interface DeleteSinksRequest {
   /** Required. The full resource name of the sink to delete, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
   sinkName: string;
@@ -2743,13 +2742,13 @@ export const DeleteSinksResponse = Empty;
 
 export type DeleteSinksError = CommonErrors;
 
+/** Deletes a sink. If the sink has a unique writer_identity, then that service account is also deleted. */
 export const deleteSinks: API.OperationMethod<DeleteSinksRequest, DeleteSinksResponse, DeleteSinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteSinksRequest,
   output: DeleteSinksResponse,
   errors: [],
 }));
 
-/** Gets the Logging CMEK settings for the given resource.Note: CMEK for the Log Router can be configured for Google Cloud projects, folders, organizations, and billing accounts. Once configured for an organization, it applies to all projects and folders in the Google Cloud organization.See Configure CMEK for Cloud Logging (https://docs.cloud.google.com/logging/docs/routing/managed-encryption) for more information. */
 export interface GetCmekSettingsV2Request {
   /** Required. The resource for which to retrieve CMEK settings. "projects/[PROJECT_ID]/cmekSettings" "organizations/[ORGANIZATION_ID]/cmekSettings" "billingAccounts/[BILLING_ACCOUNT_ID]/cmekSettings" "folders/[FOLDER_ID]/cmekSettings" For example:"organizations/12345/cmekSettings"Note: CMEK for the Log Router can be configured for Google Cloud projects, folders, organizations, and billing accounts. Once configured for an organization, it applies to all projects and folders in the Google Cloud organization. */
   name: string;
@@ -2767,13 +2766,13 @@ export const GetCmekSettingsV2Response = CmekSettings;
 
 export type GetCmekSettingsV2Error = CommonErrors;
 
+/** Gets the Logging CMEK settings for the given resource.Note: CMEK for the Log Router can be configured for Google Cloud projects, folders, organizations, and billing accounts. Once configured for an organization, it applies to all projects and folders in the Google Cloud organization.See Configure CMEK for Cloud Logging (https://docs.cloud.google.com/logging/docs/routing/managed-encryption) for more information. */
 export const getCmekSettingsV2: API.OperationMethod<GetCmekSettingsV2Request, GetCmekSettingsV2Response, GetCmekSettingsV2Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCmekSettingsV2Request,
   output: GetCmekSettingsV2Response,
   errors: [],
 }));
 
-/** Updates the Log Router CMEK settings for the given resource.Note: CMEK for the Log Router can currently only be configured for Google Cloud organizations. Once configured, it applies to all projects and folders in the Google Cloud organization.UpdateCmekSettings fails when any of the following are true: The value of kms_key_name is invalid. The associated service account doesn't have the required roles/cloudkms.cryptoKeyEncrypterDecrypter role assigned for the key. Access to the key is disabled.See Configure CMEK for Cloud Logging (https://docs.cloud.google.com/logging/docs/routing/managed-encryption) for more information. */
 export interface UpdateCmekSettingsV2Request {
   /** Required. The resource name for the CMEK settings to update. "projects/[PROJECT_ID]/cmekSettings" "organizations/[ORGANIZATION_ID]/cmekSettings" "billingAccounts/[BILLING_ACCOUNT_ID]/cmekSettings" "folders/[FOLDER_ID]/cmekSettings" For example:"organizations/12345/cmekSettings"Note: CMEK for the Log Router can currently only be configured for Google Cloud organizations. Once configured, it applies to all projects and folders in the Google Cloud organization. */
   name: string;
@@ -2797,13 +2796,13 @@ export const UpdateCmekSettingsV2Response = CmekSettings;
 
 export type UpdateCmekSettingsV2Error = CommonErrors;
 
+/** Updates the Log Router CMEK settings for the given resource.Note: CMEK for the Log Router can currently only be configured for Google Cloud organizations. Once configured, it applies to all projects and folders in the Google Cloud organization.UpdateCmekSettings fails when any of the following are true: The value of kms_key_name is invalid. The associated service account doesn't have the required roles/cloudkms.cryptoKeyEncrypterDecrypter role assigned for the key. Access to the key is disabled.See Configure CMEK for Cloud Logging (https://docs.cloud.google.com/logging/docs/routing/managed-encryption) for more information. */
 export const updateCmekSettingsV2: API.OperationMethod<UpdateCmekSettingsV2Request, UpdateCmekSettingsV2Response, UpdateCmekSettingsV2Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateCmekSettingsV2Request,
   output: UpdateCmekSettingsV2Response,
   errors: [],
 }));
 
-/** Gets the settings for the given resource.Note: Settings can be retrieved for Google Cloud projects, folders, organizations, and billing accounts.See View default resource settings for Logging (https://docs.cloud.google.com/logging/docs/default-settings#view-org-settings) for more information. */
 export interface GetSettingsV2Request {
   /** Required. The resource for which to retrieve settings. "projects/[PROJECT_ID]/settings" "organizations/[ORGANIZATION_ID]/settings" "billingAccounts/[BILLING_ACCOUNT_ID]/settings" "folders/[FOLDER_ID]/settings" For example:"organizations/12345/settings"Note: Settings can be retrieved for Google Cloud projects, folders, organizations, and billing accounts. */
   name: string;
@@ -2821,13 +2820,13 @@ export const GetSettingsV2Response = Settings;
 
 export type GetSettingsV2Error = CommonErrors;
 
+/** Gets the settings for the given resource.Note: Settings can be retrieved for Google Cloud projects, folders, organizations, and billing accounts.See View default resource settings for Logging (https://docs.cloud.google.com/logging/docs/default-settings#view-org-settings) for more information. */
 export const getSettingsV2: API.OperationMethod<GetSettingsV2Request, GetSettingsV2Response, GetSettingsV2Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSettingsV2Request,
   output: GetSettingsV2Response,
   errors: [],
 }));
 
-/** Updates the settings for the given resource. This method applies to all feature configurations for organization and folders.UpdateSettings fails when any of the following are true: The value of storage_location either isn't supported by Logging or violates the location OrgPolicy. The default_sink_config field is set, but it has an unspecified filter write mode. The value of kms_key_name is invalid. The associated service account doesn't have the required roles/cloudkms.cryptoKeyEncrypterDecrypter role assigned for the key. Access to the key is disabled.See Configure default settings for organizations and folders (https://docs.cloud.google.com/logging/docs/default-settings) for more information. */
 export interface UpdateSettingsV2Request {
   /** Required. The resource name for the settings to update. "organizations/[ORGANIZATION_ID]/settings" "folders/[FOLDER_ID]/settings" For example:"organizations/12345/settings" */
   name: string;
@@ -2851,13 +2850,13 @@ export const UpdateSettingsV2Response = Settings;
 
 export type UpdateSettingsV2Error = CommonErrors;
 
+/** Updates the settings for the given resource. This method applies to all feature configurations for organization and folders.UpdateSettings fails when any of the following are true: The value of storage_location either isn't supported by Logging or violates the location OrgPolicy. The default_sink_config field is set, but it has an unspecified filter write mode. The value of kms_key_name is invalid. The associated service account doesn't have the required roles/cloudkms.cryptoKeyEncrypterDecrypter role assigned for the key. Access to the key is disabled.See Configure default settings for organizations and folders (https://docs.cloud.google.com/logging/docs/default-settings) for more information. */
 export const updateSettingsV2: API.OperationMethod<UpdateSettingsV2Request, UpdateSettingsV2Response, UpdateSettingsV2Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateSettingsV2Request,
   output: UpdateSettingsV2Response,
   errors: [],
 }));
 
-/** Gets the Logging CMEK settings for the given resource.Note: CMEK for the Log Router can be configured for Google Cloud projects, folders, organizations, and billing accounts. Once configured for an organization, it applies to all projects and folders in the Google Cloud organization.See Configure CMEK for Cloud Logging (https://docs.cloud.google.com/logging/docs/routing/managed-encryption) for more information. */
 export interface GetCmekSettingsProjectsRequest {
   /** Required. The resource for which to retrieve CMEK settings. "projects/[PROJECT_ID]/cmekSettings" "organizations/[ORGANIZATION_ID]/cmekSettings" "billingAccounts/[BILLING_ACCOUNT_ID]/cmekSettings" "folders/[FOLDER_ID]/cmekSettings" For example:"organizations/12345/cmekSettings"Note: CMEK for the Log Router can be configured for Google Cloud projects, folders, organizations, and billing accounts. Once configured for an organization, it applies to all projects and folders in the Google Cloud organization. */
   name: string;
@@ -2875,13 +2874,13 @@ export const GetCmekSettingsProjectsResponse = CmekSettings;
 
 export type GetCmekSettingsProjectsError = CommonErrors;
 
+/** Gets the Logging CMEK settings for the given resource.Note: CMEK for the Log Router can be configured for Google Cloud projects, folders, organizations, and billing accounts. Once configured for an organization, it applies to all projects and folders in the Google Cloud organization.See Configure CMEK for Cloud Logging (https://docs.cloud.google.com/logging/docs/routing/managed-encryption) for more information. */
 export const getCmekSettingsProjects: API.OperationMethod<GetCmekSettingsProjectsRequest, GetCmekSettingsProjectsResponse, GetCmekSettingsProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCmekSettingsProjectsRequest,
   output: GetCmekSettingsProjectsResponse,
   errors: [],
 }));
 
-/** Gets the settings for the given resource.Note: Settings can be retrieved for Google Cloud projects, folders, organizations, and billing accounts.See View default resource settings for Logging (https://docs.cloud.google.com/logging/docs/default-settings#view-org-settings) for more information. */
 export interface GetSettingsProjectsRequest {
   /** Required. The resource for which to retrieve settings. "projects/[PROJECT_ID]/settings" "organizations/[ORGANIZATION_ID]/settings" "billingAccounts/[BILLING_ACCOUNT_ID]/settings" "folders/[FOLDER_ID]/settings" For example:"organizations/12345/settings"Note: Settings can be retrieved for Google Cloud projects, folders, organizations, and billing accounts. */
   name: string;
@@ -2899,13 +2898,13 @@ export const GetSettingsProjectsResponse = Settings;
 
 export type GetSettingsProjectsError = CommonErrors;
 
+/** Gets the settings for the given resource.Note: Settings can be retrieved for Google Cloud projects, folders, organizations, and billing accounts.See View default resource settings for Logging (https://docs.cloud.google.com/logging/docs/default-settings#view-org-settings) for more information. */
 export const getSettingsProjects: API.OperationMethod<GetSettingsProjectsRequest, GetSettingsProjectsResponse, GetSettingsProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSettingsProjectsRequest,
   output: GetSettingsProjectsResponse,
   errors: [],
 }));
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: List all public locations: Use the path GET /v1/locations. List project-visible locations: Use the path GET /v1/projects/{project_id}/locations. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -2935,7 +2934,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: List all public locations: Use the path GET /v1/locations. List project-visible locations: Use the path GET /v1/projects/{project_id}/locations. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -2945,7 +2945,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -2963,13 +2962,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns UNIMPLEMENTED. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -2999,7 +2998,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns UNIMPLEMENTED. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -3009,7 +3009,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -3027,13 +3026,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns google.rpc.Code.UNIMPLEMENTED. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of 1, corresponding to Code.CANCELLED. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -3054,13 +3053,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns google.rpc.Code.UNIMPLEMENTED. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of 1, corresponding to Code.CANCELLED. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Lists log buckets. */
 export interface ListProjectsLocationsBucketsRequest {
   /** Required. The parent resource whose buckets are to be listed: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" Note: The locations portion of the resource must be specified, but supplying the character - in place of LOCATION_ID will return all buckets. */
   parent: string;
@@ -3084,7 +3083,8 @@ export const ListProjectsLocationsBucketsResponse = ListBucketsResponse;
 
 export type ListProjectsLocationsBucketsError = CommonErrors;
 
-export const listProjectsLocationsBuckets = API.makePaginated(() => ({
+/** Lists log buckets. */
+export const listProjectsLocationsBuckets: API.PaginatedOperationMethod<ListProjectsLocationsBucketsRequest, ListProjectsLocationsBucketsResponse, ListProjectsLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBucketsRequest,
   output: ListProjectsLocationsBucketsResponse,
   errors: [],
@@ -3094,7 +3094,6 @@ export const listProjectsLocationsBuckets = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a log bucket. */
 export interface GetProjectsLocationsBucketsRequest {
   /** Required. The resource name of the bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
@@ -3112,13 +3111,13 @@ export const GetProjectsLocationsBucketsResponse = LogBucket;
 
 export type GetProjectsLocationsBucketsError = CommonErrors;
 
+/** Gets a log bucket. */
 export const getProjectsLocationsBuckets: API.OperationMethod<GetProjectsLocationsBucketsRequest, GetProjectsLocationsBucketsResponse, GetProjectsLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBucketsRequest,
   output: GetProjectsLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Creates a log bucket asynchronously that can be used to store log entries.After a bucket has been created, the bucket's location cannot be changed. */
 export interface CreateAsyncProjectsLocationsBucketsRequest {
   /** Required. The resource in which to create the log bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
@@ -3142,13 +3141,13 @@ export const CreateAsyncProjectsLocationsBucketsResponse = Operation;
 
 export type CreateAsyncProjectsLocationsBucketsError = CommonErrors;
 
+/** Creates a log bucket asynchronously that can be used to store log entries.After a bucket has been created, the bucket's location cannot be changed. */
 export const createAsyncProjectsLocationsBuckets: API.OperationMethod<CreateAsyncProjectsLocationsBucketsRequest, CreateAsyncProjectsLocationsBucketsResponse, CreateAsyncProjectsLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAsyncProjectsLocationsBucketsRequest,
   output: CreateAsyncProjectsLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Updates a log bucket asynchronously.If the bucket has a lifecycle_state of DELETE_REQUESTED, then FAILED_PRECONDITION will be returned.After a bucket has been created, the bucket's location cannot be changed. */
 export interface UpdateAsyncProjectsLocationsBucketsRequest {
   /** Required. The full resource name of the bucket to update. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
@@ -3172,13 +3171,13 @@ export const UpdateAsyncProjectsLocationsBucketsResponse = Operation;
 
 export type UpdateAsyncProjectsLocationsBucketsError = CommonErrors;
 
+/** Updates a log bucket asynchronously.If the bucket has a lifecycle_state of DELETE_REQUESTED, then FAILED_PRECONDITION will be returned.After a bucket has been created, the bucket's location cannot be changed. */
 export const updateAsyncProjectsLocationsBuckets: API.OperationMethod<UpdateAsyncProjectsLocationsBucketsRequest, UpdateAsyncProjectsLocationsBucketsResponse, UpdateAsyncProjectsLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAsyncProjectsLocationsBucketsRequest,
   output: UpdateAsyncProjectsLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Creates a log bucket that can be used to store log entries. After a bucket has been created, the bucket's location cannot be changed. */
 export interface CreateProjectsLocationsBucketsRequest {
   /** Required. The resource in which to create the log bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
@@ -3202,13 +3201,13 @@ export const CreateProjectsLocationsBucketsResponse = LogBucket;
 
 export type CreateProjectsLocationsBucketsError = CommonErrors;
 
+/** Creates a log bucket that can be used to store log entries. After a bucket has been created, the bucket's location cannot be changed. */
 export const createProjectsLocationsBuckets: API.OperationMethod<CreateProjectsLocationsBucketsRequest, CreateProjectsLocationsBucketsResponse, CreateProjectsLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsBucketsRequest,
   output: CreateProjectsLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Updates a log bucket.If the bucket has a lifecycle_state of DELETE_REQUESTED, then FAILED_PRECONDITION will be returned.After a bucket has been created, the bucket's location cannot be changed. */
 export interface PatchProjectsLocationsBucketsRequest {
   /** Required. The full resource name of the bucket to update. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
@@ -3232,13 +3231,13 @@ export const PatchProjectsLocationsBucketsResponse = LogBucket;
 
 export type PatchProjectsLocationsBucketsError = CommonErrors;
 
+/** Updates a log bucket.If the bucket has a lifecycle_state of DELETE_REQUESTED, then FAILED_PRECONDITION will be returned.After a bucket has been created, the bucket's location cannot be changed. */
 export const patchProjectsLocationsBuckets: API.OperationMethod<PatchProjectsLocationsBucketsRequest, PatchProjectsLocationsBucketsResponse, PatchProjectsLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsBucketsRequest,
   output: PatchProjectsLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Deletes a log bucket.Changes the bucket's lifecycle_state to the DELETE_REQUESTED state. After 7 days, the bucket will be purged and all log entries in the bucket will be permanently deleted. */
 export interface DeleteProjectsLocationsBucketsRequest {
   /** Required. The full resource name of the bucket to delete. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
@@ -3256,13 +3255,13 @@ export const DeleteProjectsLocationsBucketsResponse = Empty;
 
 export type DeleteProjectsLocationsBucketsError = CommonErrors;
 
+/** Deletes a log bucket.Changes the bucket's lifecycle_state to the DELETE_REQUESTED state. After 7 days, the bucket will be purged and all log entries in the bucket will be permanently deleted. */
 export const deleteProjectsLocationsBuckets: API.OperationMethod<DeleteProjectsLocationsBucketsRequest, DeleteProjectsLocationsBucketsResponse, DeleteProjectsLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsBucketsRequest,
   output: DeleteProjectsLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Undeletes a log bucket. A bucket that has been deleted can be undeleted within the grace period of 7 days. */
 export interface UndeleteProjectsLocationsBucketsRequest {
   /** Required. The full resource name of the bucket to undelete. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
@@ -3283,13 +3282,13 @@ export const UndeleteProjectsLocationsBucketsResponse = Empty;
 
 export type UndeleteProjectsLocationsBucketsError = CommonErrors;
 
+/** Undeletes a log bucket. A bucket that has been deleted can be undeleted within the grace period of 7 days. */
 export const undeleteProjectsLocationsBuckets: API.OperationMethod<UndeleteProjectsLocationsBucketsRequest, UndeleteProjectsLocationsBucketsResponse, UndeleteProjectsLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UndeleteProjectsLocationsBucketsRequest,
   output: UndeleteProjectsLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND, INVALID_ARGUMENT, and PERMISSION_DENIED errors. */
 export interface SetIamPolicyProjectsLocationsBucketsViewsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3310,13 +3309,13 @@ export const SetIamPolicyProjectsLocationsBucketsViewsResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsBucketsViewsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND, INVALID_ARGUMENT, and PERMISSION_DENIED errors. */
 export const setIamPolicyProjectsLocationsBucketsViews: API.OperationMethod<SetIamPolicyProjectsLocationsBucketsViewsRequest, SetIamPolicyProjectsLocationsBucketsViewsResponse, SetIamPolicyProjectsLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsBucketsViewsRequest,
   output: SetIamPolicyProjectsLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsBucketsViewsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3337,13 +3336,13 @@ export const GetIamPolicyProjectsLocationsBucketsViewsResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsBucketsViewsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsBucketsViews: API.OperationMethod<GetIamPolicyProjectsLocationsBucketsViewsRequest, GetIamPolicyProjectsLocationsBucketsViewsResponse, GetIamPolicyProjectsLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsBucketsViewsRequest,
   output: GetIamPolicyProjectsLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsBucketsViewsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3364,13 +3363,13 @@ export const TestIamPermissionsProjectsLocationsBucketsViewsResponse = TestIamPe
 
 export type TestIamPermissionsProjectsLocationsBucketsViewsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsBucketsViews: API.OperationMethod<TestIamPermissionsProjectsLocationsBucketsViewsRequest, TestIamPermissionsProjectsLocationsBucketsViewsResponse, TestIamPermissionsProjectsLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsBucketsViewsRequest,
   output: TestIamPermissionsProjectsLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Lists views on a log bucket. */
 export interface ListProjectsLocationsBucketsViewsRequest {
   /** Required. The bucket whose views are to be listed: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" */
   parent: string;
@@ -3394,7 +3393,8 @@ export const ListProjectsLocationsBucketsViewsResponse = ListViewsResponse;
 
 export type ListProjectsLocationsBucketsViewsError = CommonErrors;
 
-export const listProjectsLocationsBucketsViews = API.makePaginated(() => ({
+/** Lists views on a log bucket. */
+export const listProjectsLocationsBucketsViews: API.PaginatedOperationMethod<ListProjectsLocationsBucketsViewsRequest, ListProjectsLocationsBucketsViewsResponse, ListProjectsLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBucketsViewsRequest,
   output: ListProjectsLocationsBucketsViewsResponse,
   errors: [],
@@ -3404,7 +3404,6 @@ export const listProjectsLocationsBucketsViews = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a view on a log bucket. */
 export interface GetProjectsLocationsBucketsViewsRequest {
   /** Required. The resource name of the policy: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket/views/my-view" */
   name: string;
@@ -3422,13 +3421,13 @@ export const GetProjectsLocationsBucketsViewsResponse = LogView;
 
 export type GetProjectsLocationsBucketsViewsError = CommonErrors;
 
+/** Gets a view on a log bucket. */
 export const getProjectsLocationsBucketsViews: API.OperationMethod<GetProjectsLocationsBucketsViewsRequest, GetProjectsLocationsBucketsViewsResponse, GetProjectsLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBucketsViewsRequest,
   output: GetProjectsLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Creates a view over log entries in a log bucket. A bucket may contain a maximum of 30 views. */
 export interface CreateProjectsLocationsBucketsViewsRequest {
   /** Required. The bucket in which to create the view `"projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]"` For example:"projects/my-project/locations/global/buckets/my-bucket" */
   parent: string;
@@ -3452,13 +3451,13 @@ export const CreateProjectsLocationsBucketsViewsResponse = LogView;
 
 export type CreateProjectsLocationsBucketsViewsError = CommonErrors;
 
+/** Creates a view over log entries in a log bucket. A bucket may contain a maximum of 30 views. */
 export const createProjectsLocationsBucketsViews: API.OperationMethod<CreateProjectsLocationsBucketsViewsRequest, CreateProjectsLocationsBucketsViewsResponse, CreateProjectsLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsBucketsViewsRequest,
   output: CreateProjectsLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Updates a view on a log bucket. This method replaces the value of the filter field from the existing view with the corresponding value from the new view. If an UNAVAILABLE error is returned, this indicates that system is not in a state where it can update the view. If this occurs, please try again in a few minutes. */
 export interface PatchProjectsLocationsBucketsViewsRequest {
   /** Required. The full resource name of the view to update "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket/views/my-view" */
   name: string;
@@ -3482,13 +3481,13 @@ export const PatchProjectsLocationsBucketsViewsResponse = LogView;
 
 export type PatchProjectsLocationsBucketsViewsError = CommonErrors;
 
+/** Updates a view on a log bucket. This method replaces the value of the filter field from the existing view with the corresponding value from the new view. If an UNAVAILABLE error is returned, this indicates that system is not in a state where it can update the view. If this occurs, please try again in a few minutes. */
 export const patchProjectsLocationsBucketsViews: API.OperationMethod<PatchProjectsLocationsBucketsViewsRequest, PatchProjectsLocationsBucketsViewsResponse, PatchProjectsLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsBucketsViewsRequest,
   output: PatchProjectsLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Deletes a view on a log bucket. If an UNAVAILABLE error is returned, this indicates that system is not in a state where it can delete the view. If this occurs, please try again in a few minutes. */
 export interface DeleteProjectsLocationsBucketsViewsRequest {
   /** Required. The full resource name of the view to delete: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket/views/my-view" */
   name: string;
@@ -3506,13 +3505,13 @@ export const DeleteProjectsLocationsBucketsViewsResponse = Empty;
 
 export type DeleteProjectsLocationsBucketsViewsError = CommonErrors;
 
+/** Deletes a view on a log bucket. If an UNAVAILABLE error is returned, this indicates that system is not in a state where it can delete the view. If this occurs, please try again in a few minutes. */
 export const deleteProjectsLocationsBucketsViews: API.OperationMethod<DeleteProjectsLocationsBucketsViewsRequest, DeleteProjectsLocationsBucketsViewsResponse, DeleteProjectsLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsBucketsViewsRequest,
   output: DeleteProjectsLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Lists the logs in projects, organizations, folders, or billing accounts. Only logs that have entries are listed. */
 export interface ListProjectsLocationsBucketsViewsLogsRequest {
   /** Required. The resource name to list logs for: projects/[PROJECT_ID] organizations/[ORGANIZATION_ID] billingAccounts/[BILLING_ACCOUNT_ID] folders/[FOLDER_ID] */
   parent: string;
@@ -3539,7 +3538,8 @@ export const ListProjectsLocationsBucketsViewsLogsResponse = ListLogsResponse;
 
 export type ListProjectsLocationsBucketsViewsLogsError = CommonErrors;
 
-export const listProjectsLocationsBucketsViewsLogs = API.makePaginated(() => ({
+/** Lists the logs in projects, organizations, folders, or billing accounts. Only logs that have entries are listed. */
+export const listProjectsLocationsBucketsViewsLogs: API.PaginatedOperationMethod<ListProjectsLocationsBucketsViewsLogsRequest, ListProjectsLocationsBucketsViewsLogsResponse, ListProjectsLocationsBucketsViewsLogsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBucketsViewsLogsRequest,
   output: ListProjectsLocationsBucketsViewsLogsResponse,
   errors: [],
@@ -3549,7 +3549,6 @@ export const listProjectsLocationsBucketsViewsLogs = API.makePaginated(() => ({
   },
 }));
 
-/** Lists links. */
 export interface ListProjectsLocationsBucketsLinksRequest {
   /** Required. The parent resource whose links are to be listed: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" */
   parent: string;
@@ -3573,7 +3572,8 @@ export const ListProjectsLocationsBucketsLinksResponse = ListLinksResponse;
 
 export type ListProjectsLocationsBucketsLinksError = CommonErrors;
 
-export const listProjectsLocationsBucketsLinks = API.makePaginated(() => ({
+/** Lists links. */
+export const listProjectsLocationsBucketsLinks: API.PaginatedOperationMethod<ListProjectsLocationsBucketsLinksRequest, ListProjectsLocationsBucketsLinksResponse, ListProjectsLocationsBucketsLinksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBucketsLinksRequest,
   output: ListProjectsLocationsBucketsLinksResponse,
   errors: [],
@@ -3583,7 +3583,6 @@ export const listProjectsLocationsBucketsLinks = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a link. */
 export interface GetProjectsLocationsBucketsLinksRequest {
   /** Required. The resource name of the link: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" */
   name: string;
@@ -3601,13 +3600,13 @@ export const GetProjectsLocationsBucketsLinksResponse = Link;
 
 export type GetProjectsLocationsBucketsLinksError = CommonErrors;
 
+/** Gets a link. */
 export const getProjectsLocationsBucketsLinks: API.OperationMethod<GetProjectsLocationsBucketsLinksRequest, GetProjectsLocationsBucketsLinksResponse, GetProjectsLocationsBucketsLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBucketsLinksRequest,
   output: GetProjectsLocationsBucketsLinksResponse,
   errors: [],
 }));
 
-/** Asynchronously creates a linked dataset in BigQuery which makes it possible to use BigQuery to read the logs stored in the log bucket. A log bucket may currently only contain one link. */
 export interface CreateProjectsLocationsBucketsLinksRequest {
   /** Required. The full resource name of the bucket to create a link for. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" */
   parent: string;
@@ -3631,13 +3630,13 @@ export const CreateProjectsLocationsBucketsLinksResponse = Operation;
 
 export type CreateProjectsLocationsBucketsLinksError = CommonErrors;
 
+/** Asynchronously creates a linked dataset in BigQuery which makes it possible to use BigQuery to read the logs stored in the log bucket. A log bucket may currently only contain one link. */
 export const createProjectsLocationsBucketsLinks: API.OperationMethod<CreateProjectsLocationsBucketsLinksRequest, CreateProjectsLocationsBucketsLinksResponse, CreateProjectsLocationsBucketsLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsBucketsLinksRequest,
   output: CreateProjectsLocationsBucketsLinksResponse,
   errors: [],
 }));
 
-/** Deletes a link. This will also delete the corresponding BigQuery linked dataset. */
 export interface DeleteProjectsLocationsBucketsLinksRequest {
   /** Required. The full resource name of the link to delete. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" */
   name: string;
@@ -3655,13 +3654,13 @@ export const DeleteProjectsLocationsBucketsLinksResponse = Operation;
 
 export type DeleteProjectsLocationsBucketsLinksError = CommonErrors;
 
+/** Deletes a link. This will also delete the corresponding BigQuery linked dataset. */
 export const deleteProjectsLocationsBucketsLinks: API.OperationMethod<DeleteProjectsLocationsBucketsLinksRequest, DeleteProjectsLocationsBucketsLinksResponse, DeleteProjectsLocationsBucketsLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsBucketsLinksRequest,
   output: DeleteProjectsLocationsBucketsLinksResponse,
   errors: [],
 }));
 
-/** Lists log scopes. */
 export interface ListProjectsLocationsLogScopesRequest {
   /** Required. The parent resource whose log scopes are to be listed: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" */
   parent: string;
@@ -3685,7 +3684,8 @@ export const ListProjectsLocationsLogScopesResponse = ListLogScopesResponse;
 
 export type ListProjectsLocationsLogScopesError = CommonErrors;
 
-export const listProjectsLocationsLogScopes = API.makePaginated(() => ({
+/** Lists log scopes. */
+export const listProjectsLocationsLogScopes: API.PaginatedOperationMethod<ListProjectsLocationsLogScopesRequest, ListProjectsLocationsLogScopesResponse, ListProjectsLocationsLogScopesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsLogScopesRequest,
   output: ListProjectsLocationsLogScopesResponse,
   errors: [],
@@ -3695,7 +3695,6 @@ export const listProjectsLocationsLogScopes = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a log scope. */
 export interface GetProjectsLocationsLogScopesRequest {
   /** Required. The resource name of the log scope: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global/logScopes/my-log-scope" */
   name: string;
@@ -3713,13 +3712,13 @@ export const GetProjectsLocationsLogScopesResponse = LogScope;
 
 export type GetProjectsLocationsLogScopesError = CommonErrors;
 
+/** Gets a log scope. */
 export const getProjectsLocationsLogScopes: API.OperationMethod<GetProjectsLocationsLogScopesRequest, GetProjectsLocationsLogScopesResponse, GetProjectsLocationsLogScopesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsLogScopesRequest,
   output: GetProjectsLocationsLogScopesResponse,
   errors: [],
 }));
 
-/** Creates a log scope. */
 export interface CreateProjectsLocationsLogScopesRequest {
   /** Required. The parent resource in which to create the log scope: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
@@ -3743,13 +3742,13 @@ export const CreateProjectsLocationsLogScopesResponse = LogScope;
 
 export type CreateProjectsLocationsLogScopesError = CommonErrors;
 
+/** Creates a log scope. */
 export const createProjectsLocationsLogScopes: API.OperationMethod<CreateProjectsLocationsLogScopesRequest, CreateProjectsLocationsLogScopesResponse, CreateProjectsLocationsLogScopesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsLogScopesRequest,
   output: CreateProjectsLocationsLogScopesResponse,
   errors: [],
 }));
 
-/** Updates a log scope. */
 export interface PatchProjectsLocationsLogScopesRequest {
   /** Output only. The resource name of the log scope.Log scopes are only available in the global location. For example:projects/my-project/locations/global/logScopes/my-log-scope */
   name: string;
@@ -3773,13 +3772,13 @@ export const PatchProjectsLocationsLogScopesResponse = LogScope;
 
 export type PatchProjectsLocationsLogScopesError = CommonErrors;
 
+/** Updates a log scope. */
 export const patchProjectsLocationsLogScopes: API.OperationMethod<PatchProjectsLocationsLogScopesRequest, PatchProjectsLocationsLogScopesResponse, PatchProjectsLocationsLogScopesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsLogScopesRequest,
   output: PatchProjectsLocationsLogScopesResponse,
   errors: [],
 }));
 
-/** Deletes a log scope. */
 export interface DeleteProjectsLocationsLogScopesRequest {
   /** Required. The resource name of the log scope to delete: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global/logScopes/my-log-scope" */
   name: string;
@@ -3797,13 +3796,13 @@ export const DeleteProjectsLocationsLogScopesResponse = Empty;
 
 export type DeleteProjectsLocationsLogScopesError = CommonErrors;
 
+/** Deletes a log scope. */
 export const deleteProjectsLocationsLogScopes: API.OperationMethod<DeleteProjectsLocationsLogScopesRequest, DeleteProjectsLocationsLogScopesResponse, DeleteProjectsLocationsLogScopesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsLogScopesRequest,
   output: DeleteProjectsLocationsLogScopesResponse,
   errors: [],
 }));
 
-/** Lists the SavedQueries that were created by the user making the request. */
 export interface ListProjectsLocationsSavedQueriesRequest {
   /** Required. The resource to which the listed queries belong. "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example: "projects/my-project/locations/us-central1" Note: The locations portion of the resource must be specified. To get a list of all saved queries, a wildcard character - can be used for LOCATION_ID, for example: "projects/my-project/locations/-" */
   parent: string;
@@ -3830,7 +3829,8 @@ export const ListProjectsLocationsSavedQueriesResponse = ListSavedQueriesRespons
 
 export type ListProjectsLocationsSavedQueriesError = CommonErrors;
 
-export const listProjectsLocationsSavedQueries = API.makePaginated(() => ({
+/** Lists the SavedQueries that were created by the user making the request. */
+export const listProjectsLocationsSavedQueries: API.PaginatedOperationMethod<ListProjectsLocationsSavedQueriesRequest, ListProjectsLocationsSavedQueriesResponse, ListProjectsLocationsSavedQueriesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsSavedQueriesRequest,
   output: ListProjectsLocationsSavedQueriesResponse,
   errors: [],
@@ -3840,7 +3840,6 @@ export const listProjectsLocationsSavedQueries = API.makePaginated(() => ({
   },
 }));
 
-/** Returns all data associated with the requested query. */
 export interface GetProjectsLocationsSavedQueriesRequest {
   /** Required. The resource name of the saved query. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" For example: "projects/my-project/locations/global/savedQueries/my-saved-query" */
   name: string;
@@ -3858,13 +3857,13 @@ export const GetProjectsLocationsSavedQueriesResponse = SavedQuery;
 
 export type GetProjectsLocationsSavedQueriesError = CommonErrors;
 
+/** Returns all data associated with the requested query. */
 export const getProjectsLocationsSavedQueries: API.OperationMethod<GetProjectsLocationsSavedQueriesRequest, GetProjectsLocationsSavedQueriesResponse, GetProjectsLocationsSavedQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSavedQueriesRequest,
   output: GetProjectsLocationsSavedQueriesResponse,
   errors: [],
 }));
 
-/** Creates a new SavedQuery for the user making the request. */
 export interface CreateProjectsLocationsSavedQueriesRequest {
   /** Required. The parent resource in which to create the saved query: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example: "projects/my-project/locations/global" "organizations/123456789/locations/us-central1" */
   parent: string;
@@ -3888,13 +3887,13 @@ export const CreateProjectsLocationsSavedQueriesResponse = SavedQuery;
 
 export type CreateProjectsLocationsSavedQueriesError = CommonErrors;
 
+/** Creates a new SavedQuery for the user making the request. */
 export const createProjectsLocationsSavedQueries: API.OperationMethod<CreateProjectsLocationsSavedQueriesRequest, CreateProjectsLocationsSavedQueriesResponse, CreateProjectsLocationsSavedQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsSavedQueriesRequest,
   output: CreateProjectsLocationsSavedQueriesResponse,
   errors: [],
 }));
 
-/** Updates an existing SavedQuery. */
 export interface PatchProjectsLocationsSavedQueriesRequest {
   /** Output only. Resource name of the saved query.In the format: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" For a list of supported locations, see Supported Regions (https://docs.cloud.google.com/logging/docs/region-support#bucket-regions)After the saved query is created, the location cannot be changed.If the user doesn't provide a QUERY_ID, the system will generate an alphanumeric ID. */
   name: string;
@@ -3918,13 +3917,13 @@ export const PatchProjectsLocationsSavedQueriesResponse = SavedQuery;
 
 export type PatchProjectsLocationsSavedQueriesError = CommonErrors;
 
+/** Updates an existing SavedQuery. */
 export const patchProjectsLocationsSavedQueries: API.OperationMethod<PatchProjectsLocationsSavedQueriesRequest, PatchProjectsLocationsSavedQueriesResponse, PatchProjectsLocationsSavedQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsSavedQueriesRequest,
   output: PatchProjectsLocationsSavedQueriesResponse,
   errors: [],
 }));
 
-/** Deletes an existing SavedQuery that was created by the user making the request. */
 export interface DeleteProjectsLocationsSavedQueriesRequest {
   /** Required. The full resource name of the saved query to delete. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" For example: "projects/my-project/locations/global/savedQueries/my-saved-query" */
   name: string;
@@ -3942,13 +3941,13 @@ export const DeleteProjectsLocationsSavedQueriesResponse = Empty;
 
 export type DeleteProjectsLocationsSavedQueriesError = CommonErrors;
 
+/** Deletes an existing SavedQuery that was created by the user making the request. */
 export const deleteProjectsLocationsSavedQueries: API.OperationMethod<DeleteProjectsLocationsSavedQueriesRequest, DeleteProjectsLocationsSavedQueriesResponse, DeleteProjectsLocationsSavedQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsSavedQueriesRequest,
   output: DeleteProjectsLocationsSavedQueriesResponse,
   errors: [],
 }));
 
-/** Lists the RecentQueries that were created by the user making the request. */
 export interface ListProjectsLocationsRecentQueriesRequest {
   /** Required. The resource to which the listed queries belong. "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example:projects/my-project/locations/us-central1Note: The location portion of the resource must be specified, but supplying the character - in place of LOCATION_ID will return all recent queries. */
   parent: string;
@@ -3975,7 +3974,8 @@ export const ListProjectsLocationsRecentQueriesResponse = ListRecentQueriesRespo
 
 export type ListProjectsLocationsRecentQueriesError = CommonErrors;
 
-export const listProjectsLocationsRecentQueries = API.makePaginated(() => ({
+/** Lists the RecentQueries that were created by the user making the request. */
+export const listProjectsLocationsRecentQueries: API.PaginatedOperationMethod<ListProjectsLocationsRecentQueriesRequest, ListProjectsLocationsRecentQueriesResponse, ListProjectsLocationsRecentQueriesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRecentQueriesRequest,
   output: ListProjectsLocationsRecentQueriesResponse,
   errors: [],
@@ -3985,7 +3985,6 @@ export const listProjectsLocationsRecentQueries = API.makePaginated(() => ({
   },
 }));
 
-/** Lists all the exclusions on the _Default sink in a parent resource. */
 export interface ListProjectsExclusionsRequest {
   /** Required. The parent resource whose exclusions are to be listed. "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" */
   parent: string;
@@ -4009,7 +4008,8 @@ export const ListProjectsExclusionsResponse = ListExclusionsResponse;
 
 export type ListProjectsExclusionsError = CommonErrors;
 
-export const listProjectsExclusions = API.makePaginated(() => ({
+/** Lists all the exclusions on the _Default sink in a parent resource. */
+export const listProjectsExclusions: API.PaginatedOperationMethod<ListProjectsExclusionsRequest, ListProjectsExclusionsResponse, ListProjectsExclusionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsExclusionsRequest,
   output: ListProjectsExclusionsResponse,
   errors: [],
@@ -4019,7 +4019,6 @@ export const listProjectsExclusions = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the description of an exclusion in the _Default sink. */
 export interface GetProjectsExclusionsRequest {
   /** Required. The resource name of an existing exclusion: "projects/[PROJECT_ID]/exclusions/[EXCLUSION_ID]" "organizations/[ORGANIZATION_ID]/exclusions/[EXCLUSION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/exclusions/[EXCLUSION_ID]" "folders/[FOLDER_ID]/exclusions/[EXCLUSION_ID]" For example:"projects/my-project/exclusions/my-exclusion" */
   name: string;
@@ -4037,13 +4036,13 @@ export const GetProjectsExclusionsResponse = LogExclusion;
 
 export type GetProjectsExclusionsError = CommonErrors;
 
+/** Gets the description of an exclusion in the _Default sink. */
 export const getProjectsExclusions: API.OperationMethod<GetProjectsExclusionsRequest, GetProjectsExclusionsResponse, GetProjectsExclusionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsExclusionsRequest,
   output: GetProjectsExclusionsResponse,
   errors: [],
 }));
 
-/** Creates a new exclusion in the _Default sink in a specified parent resource. Only log entries belonging to that resource can be excluded. You can have up to 10 exclusions in a resource. */
 export interface CreateProjectsExclusionsRequest {
   /** Required. The parent resource in which to create the exclusion: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-logging-project" "organizations/123456789" */
   parent: string;
@@ -4064,13 +4063,13 @@ export const CreateProjectsExclusionsResponse = LogExclusion;
 
 export type CreateProjectsExclusionsError = CommonErrors;
 
+/** Creates a new exclusion in the _Default sink in a specified parent resource. Only log entries belonging to that resource can be excluded. You can have up to 10 exclusions in a resource. */
 export const createProjectsExclusions: API.OperationMethod<CreateProjectsExclusionsRequest, CreateProjectsExclusionsResponse, CreateProjectsExclusionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsExclusionsRequest,
   output: CreateProjectsExclusionsResponse,
   errors: [],
 }));
 
-/** Changes one or more properties of an existing exclusion in the _Default sink. */
 export interface PatchProjectsExclusionsRequest {
   /** Required. The resource name of the exclusion to update: "projects/[PROJECT_ID]/exclusions/[EXCLUSION_ID]" "organizations/[ORGANIZATION_ID]/exclusions/[EXCLUSION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/exclusions/[EXCLUSION_ID]" "folders/[FOLDER_ID]/exclusions/[EXCLUSION_ID]" For example:"projects/my-project/exclusions/my-exclusion" */
   name: string;
@@ -4094,13 +4093,13 @@ export const PatchProjectsExclusionsResponse = LogExclusion;
 
 export type PatchProjectsExclusionsError = CommonErrors;
 
+/** Changes one or more properties of an existing exclusion in the _Default sink. */
 export const patchProjectsExclusions: API.OperationMethod<PatchProjectsExclusionsRequest, PatchProjectsExclusionsResponse, PatchProjectsExclusionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsExclusionsRequest,
   output: PatchProjectsExclusionsResponse,
   errors: [],
 }));
 
-/** Deletes an exclusion in the _Default sink. */
 export interface DeleteProjectsExclusionsRequest {
   /** Required. The resource name of an existing exclusion to delete: "projects/[PROJECT_ID]/exclusions/[EXCLUSION_ID]" "organizations/[ORGANIZATION_ID]/exclusions/[EXCLUSION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/exclusions/[EXCLUSION_ID]" "folders/[FOLDER_ID]/exclusions/[EXCLUSION_ID]" For example:"projects/my-project/exclusions/my-exclusion" */
   name: string;
@@ -4118,13 +4117,13 @@ export const DeleteProjectsExclusionsResponse = Empty;
 
 export type DeleteProjectsExclusionsError = CommonErrors;
 
+/** Deletes an exclusion in the _Default sink. */
 export const deleteProjectsExclusions: API.OperationMethod<DeleteProjectsExclusionsRequest, DeleteProjectsExclusionsResponse, DeleteProjectsExclusionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsExclusionsRequest,
   output: DeleteProjectsExclusionsResponse,
   errors: [],
 }));
 
-/** Lists sinks. */
 export interface ListProjectsSinksRequest {
   /** Required. The parent resource whose sinks are to be listed: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" */
   parent: string;
@@ -4151,7 +4150,8 @@ export const ListProjectsSinksResponse = ListSinksResponse;
 
 export type ListProjectsSinksError = CommonErrors;
 
-export const listProjectsSinks = API.makePaginated(() => ({
+/** Lists sinks. */
+export const listProjectsSinks: API.PaginatedOperationMethod<ListProjectsSinksRequest, ListProjectsSinksResponse, ListProjectsSinksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsSinksRequest,
   output: ListProjectsSinksResponse,
   errors: [],
@@ -4161,7 +4161,6 @@ export const listProjectsSinks = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a sink. */
 export interface GetProjectsSinksRequest {
   /** Required. The resource name of the sink: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
   sinkName: string;
@@ -4179,13 +4178,13 @@ export const GetProjectsSinksResponse = LogSink;
 
 export type GetProjectsSinksError = CommonErrors;
 
+/** Gets a sink. */
 export const getProjectsSinks: API.OperationMethod<GetProjectsSinksRequest, GetProjectsSinksResponse, GetProjectsSinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsSinksRequest,
   output: GetProjectsSinksResponse,
   errors: [],
 }));
 
-/** Creates a sink that exports specified log entries to a destination. The export begins upon ingress, unless the sink's writer_identity is not permitted to write to the destination. A sink can export log entries only from the resource owning the sink. */
 export interface CreateProjectsSinksRequest {
   /** Required. The resource in which to create the sink: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-project" "organizations/123456789" */
   parent: string;
@@ -4212,13 +4211,13 @@ export const CreateProjectsSinksResponse = LogSink;
 
 export type CreateProjectsSinksError = CommonErrors;
 
+/** Creates a sink that exports specified log entries to a destination. The export begins upon ingress, unless the sink's writer_identity is not permitted to write to the destination. A sink can export log entries only from the resource owning the sink. */
 export const createProjectsSinks: API.OperationMethod<CreateProjectsSinksRequest, CreateProjectsSinksResponse, CreateProjectsSinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsSinksRequest,
   output: CreateProjectsSinksResponse,
   errors: [],
 }));
 
-/** Updates a sink. This method replaces the values of the destination and filter fields of the existing sink with the corresponding values from the new sink.The updated sink might also have a new writer_identity; see the unique_writer_identity field. */
 export interface UpdateProjectsSinksRequest {
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
   sinkName: string;
@@ -4248,13 +4247,13 @@ export const UpdateProjectsSinksResponse = LogSink;
 
 export type UpdateProjectsSinksError = CommonErrors;
 
+/** Updates a sink. This method replaces the values of the destination and filter fields of the existing sink with the corresponding values from the new sink.The updated sink might also have a new writer_identity; see the unique_writer_identity field. */
 export const updateProjectsSinks: API.OperationMethod<UpdateProjectsSinksRequest, UpdateProjectsSinksResponse, UpdateProjectsSinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateProjectsSinksRequest,
   output: UpdateProjectsSinksResponse,
   errors: [],
 }));
 
-/** Updates a sink. This method replaces the values of the destination and filter fields of the existing sink with the corresponding values from the new sink.The updated sink might also have a new writer_identity; see the unique_writer_identity field. */
 export interface PatchProjectsSinksRequest {
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
   sinkName: string;
@@ -4284,13 +4283,13 @@ export const PatchProjectsSinksResponse = LogSink;
 
 export type PatchProjectsSinksError = CommonErrors;
 
+/** Updates a sink. This method replaces the values of the destination and filter fields of the existing sink with the corresponding values from the new sink.The updated sink might also have a new writer_identity; see the unique_writer_identity field. */
 export const patchProjectsSinks: API.OperationMethod<PatchProjectsSinksRequest, PatchProjectsSinksResponse, PatchProjectsSinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsSinksRequest,
   output: PatchProjectsSinksResponse,
   errors: [],
 }));
 
-/** Deletes a sink. If the sink has a unique writer_identity, then that service account is also deleted. */
 export interface DeleteProjectsSinksRequest {
   /** Required. The full resource name of the sink to delete, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
   sinkName: string;
@@ -4308,13 +4307,13 @@ export const DeleteProjectsSinksResponse = Empty;
 
 export type DeleteProjectsSinksError = CommonErrors;
 
+/** Deletes a sink. If the sink has a unique writer_identity, then that service account is also deleted. */
 export const deleteProjectsSinks: API.OperationMethod<DeleteProjectsSinksRequest, DeleteProjectsSinksResponse, DeleteProjectsSinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsSinksRequest,
   output: DeleteProjectsSinksResponse,
   errors: [],
 }));
 
-/** Deletes all the log entries in a log for the global _Default Log Bucket. The log reappears if it receives new entries. Log entries written shortly before the delete operation might not be deleted. Entries received after the delete operation with a timestamp before the operation will be deleted. */
 export interface DeleteProjectsLogsRequest {
   /** Required. The resource name of the log to delete: projects/[PROJECT_ID]/logs/[LOG_ID] organizations/[ORGANIZATION_ID]/logs/[LOG_ID] billingAccounts/[BILLING_ACCOUNT_ID]/logs/[LOG_ID] folders/[FOLDER_ID]/logs/[LOG_ID][LOG_ID] must be URL-encoded. For example, "projects/my-project-id/logs/syslog", "organizations/123/logs/cloudaudit.googleapis.com%2Factivity".For more information about log names, see LogEntry. */
   logName: string;
@@ -4332,13 +4331,13 @@ export const DeleteProjectsLogsResponse = Empty;
 
 export type DeleteProjectsLogsError = CommonErrors;
 
+/** Deletes all the log entries in a log for the global _Default Log Bucket. The log reappears if it receives new entries. Log entries written shortly before the delete operation might not be deleted. Entries received after the delete operation with a timestamp before the operation will be deleted. */
 export const deleteProjectsLogs: API.OperationMethod<DeleteProjectsLogsRequest, DeleteProjectsLogsResponse, DeleteProjectsLogsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLogsRequest,
   output: DeleteProjectsLogsResponse,
   errors: [],
 }));
 
-/** Lists the logs in projects, organizations, folders, or billing accounts. Only logs that have entries are listed. */
 export interface ListProjectsLogsRequest {
   /** Required. The resource name to list logs for: projects/[PROJECT_ID] organizations/[ORGANIZATION_ID] billingAccounts/[BILLING_ACCOUNT_ID] folders/[FOLDER_ID] */
   parent: string;
@@ -4365,7 +4364,8 @@ export const ListProjectsLogsResponse = ListLogsResponse;
 
 export type ListProjectsLogsError = CommonErrors;
 
-export const listProjectsLogs = API.makePaginated(() => ({
+/** Lists the logs in projects, organizations, folders, or billing accounts. Only logs that have entries are listed. */
+export const listProjectsLogs: API.PaginatedOperationMethod<ListProjectsLogsRequest, ListProjectsLogsResponse, ListProjectsLogsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLogsRequest,
   output: ListProjectsLogsResponse,
   errors: [],
@@ -4375,7 +4375,6 @@ export const listProjectsLogs = API.makePaginated(() => ({
   },
 }));
 
-/** Lists logs-based metrics. */
 export interface ListProjectsMetricsRequest {
   /** Required. The name of the project containing the metrics: "projects/[PROJECT_ID]" */
   parent: string;
@@ -4399,7 +4398,8 @@ export const ListProjectsMetricsResponse = ListLogMetricsResponse;
 
 export type ListProjectsMetricsError = CommonErrors;
 
-export const listProjectsMetrics = API.makePaginated(() => ({
+/** Lists logs-based metrics. */
+export const listProjectsMetrics: API.PaginatedOperationMethod<ListProjectsMetricsRequest, ListProjectsMetricsResponse, ListProjectsMetricsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsMetricsRequest,
   output: ListProjectsMetricsResponse,
   errors: [],
@@ -4409,7 +4409,6 @@ export const listProjectsMetrics = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a logs-based metric. */
 export interface GetProjectsMetricsRequest {
   /** Required. The resource name of the desired metric: "projects/[PROJECT_ID]/metrics/[METRIC_ID]" */
   metricName: string;
@@ -4427,13 +4426,13 @@ export const GetProjectsMetricsResponse = LogMetric;
 
 export type GetProjectsMetricsError = CommonErrors;
 
+/** Gets a logs-based metric. */
 export const getProjectsMetrics: API.OperationMethod<GetProjectsMetricsRequest, GetProjectsMetricsResponse, GetProjectsMetricsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsMetricsRequest,
   output: GetProjectsMetricsResponse,
   errors: [],
 }));
 
-/** Creates a logs-based metric. */
 export interface CreateProjectsMetricsRequest {
   /** Required. The resource name of the project in which to create the metric: "projects/[PROJECT_ID]" The new metric must be provided in the request. */
   parent: string;
@@ -4454,13 +4453,13 @@ export const CreateProjectsMetricsResponse = LogMetric;
 
 export type CreateProjectsMetricsError = CommonErrors;
 
+/** Creates a logs-based metric. */
 export const createProjectsMetrics: API.OperationMethod<CreateProjectsMetricsRequest, CreateProjectsMetricsResponse, CreateProjectsMetricsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsMetricsRequest,
   output: CreateProjectsMetricsResponse,
   errors: [],
 }));
 
-/** Creates or updates a logs-based metric. */
 export interface UpdateProjectsMetricsRequest {
   /** Required. The resource name of the metric to update: "projects/[PROJECT_ID]/metrics/[METRIC_ID]" The updated metric must be provided in the request and it's name field must be the same as [METRIC_ID] If the metric does not exist in [PROJECT_ID], then a new metric is created. */
   metricName: string;
@@ -4481,13 +4480,13 @@ export const UpdateProjectsMetricsResponse = LogMetric;
 
 export type UpdateProjectsMetricsError = CommonErrors;
 
+/** Creates or updates a logs-based metric. */
 export const updateProjectsMetrics: API.OperationMethod<UpdateProjectsMetricsRequest, UpdateProjectsMetricsResponse, UpdateProjectsMetricsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateProjectsMetricsRequest,
   output: UpdateProjectsMetricsResponse,
   errors: [],
 }));
 
-/** Deletes a logs-based metric. */
 export interface DeleteProjectsMetricsRequest {
   /** Required. The resource name of the metric to delete: "projects/[PROJECT_ID]/metrics/[METRIC_ID]" */
   metricName: string;
@@ -4505,13 +4504,13 @@ export const DeleteProjectsMetricsResponse = Empty;
 
 export type DeleteProjectsMetricsError = CommonErrors;
 
+/** Deletes a logs-based metric. */
 export const deleteProjectsMetrics: API.OperationMethod<DeleteProjectsMetricsRequest, DeleteProjectsMetricsResponse, DeleteProjectsMetricsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsMetricsRequest,
   output: DeleteProjectsMetricsResponse,
   errors: [],
 }));
 
-/** Gets the Logging CMEK settings for the given resource.Note: CMEK for the Log Router can be configured for Google Cloud projects, folders, organizations, and billing accounts. Once configured for an organization, it applies to all projects and folders in the Google Cloud organization.See Configure CMEK for Cloud Logging (https://docs.cloud.google.com/logging/docs/routing/managed-encryption) for more information. */
 export interface GetCmekSettingsOrganizationsRequest {
   /** Required. The resource for which to retrieve CMEK settings. "projects/[PROJECT_ID]/cmekSettings" "organizations/[ORGANIZATION_ID]/cmekSettings" "billingAccounts/[BILLING_ACCOUNT_ID]/cmekSettings" "folders/[FOLDER_ID]/cmekSettings" For example:"organizations/12345/cmekSettings"Note: CMEK for the Log Router can be configured for Google Cloud projects, folders, organizations, and billing accounts. Once configured for an organization, it applies to all projects and folders in the Google Cloud organization. */
   name: string;
@@ -4529,13 +4528,13 @@ export const GetCmekSettingsOrganizationsResponse = CmekSettings;
 
 export type GetCmekSettingsOrganizationsError = CommonErrors;
 
+/** Gets the Logging CMEK settings for the given resource.Note: CMEK for the Log Router can be configured for Google Cloud projects, folders, organizations, and billing accounts. Once configured for an organization, it applies to all projects and folders in the Google Cloud organization.See Configure CMEK for Cloud Logging (https://docs.cloud.google.com/logging/docs/routing/managed-encryption) for more information. */
 export const getCmekSettingsOrganizations: API.OperationMethod<GetCmekSettingsOrganizationsRequest, GetCmekSettingsOrganizationsResponse, GetCmekSettingsOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCmekSettingsOrganizationsRequest,
   output: GetCmekSettingsOrganizationsResponse,
   errors: [],
 }));
 
-/** Updates the Log Router CMEK settings for the given resource.Note: CMEK for the Log Router can currently only be configured for Google Cloud organizations. Once configured, it applies to all projects and folders in the Google Cloud organization.UpdateCmekSettings fails when any of the following are true: The value of kms_key_name is invalid. The associated service account doesn't have the required roles/cloudkms.cryptoKeyEncrypterDecrypter role assigned for the key. Access to the key is disabled.See Configure CMEK for Cloud Logging (https://docs.cloud.google.com/logging/docs/routing/managed-encryption) for more information. */
 export interface UpdateCmekSettingsOrganizationsRequest {
   /** Required. The resource name for the CMEK settings to update. "projects/[PROJECT_ID]/cmekSettings" "organizations/[ORGANIZATION_ID]/cmekSettings" "billingAccounts/[BILLING_ACCOUNT_ID]/cmekSettings" "folders/[FOLDER_ID]/cmekSettings" For example:"organizations/12345/cmekSettings"Note: CMEK for the Log Router can currently only be configured for Google Cloud organizations. Once configured, it applies to all projects and folders in the Google Cloud organization. */
   name: string;
@@ -4559,13 +4558,13 @@ export const UpdateCmekSettingsOrganizationsResponse = CmekSettings;
 
 export type UpdateCmekSettingsOrganizationsError = CommonErrors;
 
+/** Updates the Log Router CMEK settings for the given resource.Note: CMEK for the Log Router can currently only be configured for Google Cloud organizations. Once configured, it applies to all projects and folders in the Google Cloud organization.UpdateCmekSettings fails when any of the following are true: The value of kms_key_name is invalid. The associated service account doesn't have the required roles/cloudkms.cryptoKeyEncrypterDecrypter role assigned for the key. Access to the key is disabled.See Configure CMEK for Cloud Logging (https://docs.cloud.google.com/logging/docs/routing/managed-encryption) for more information. */
 export const updateCmekSettingsOrganizations: API.OperationMethod<UpdateCmekSettingsOrganizationsRequest, UpdateCmekSettingsOrganizationsResponse, UpdateCmekSettingsOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateCmekSettingsOrganizationsRequest,
   output: UpdateCmekSettingsOrganizationsResponse,
   errors: [],
 }));
 
-/** Gets the settings for the given resource.Note: Settings can be retrieved for Google Cloud projects, folders, organizations, and billing accounts.See View default resource settings for Logging (https://docs.cloud.google.com/logging/docs/default-settings#view-org-settings) for more information. */
 export interface GetSettingsOrganizationsRequest {
   /** Required. The resource for which to retrieve settings. "projects/[PROJECT_ID]/settings" "organizations/[ORGANIZATION_ID]/settings" "billingAccounts/[BILLING_ACCOUNT_ID]/settings" "folders/[FOLDER_ID]/settings" For example:"organizations/12345/settings"Note: Settings can be retrieved for Google Cloud projects, folders, organizations, and billing accounts. */
   name: string;
@@ -4583,13 +4582,13 @@ export const GetSettingsOrganizationsResponse = Settings;
 
 export type GetSettingsOrganizationsError = CommonErrors;
 
+/** Gets the settings for the given resource.Note: Settings can be retrieved for Google Cloud projects, folders, organizations, and billing accounts.See View default resource settings for Logging (https://docs.cloud.google.com/logging/docs/default-settings#view-org-settings) for more information. */
 export const getSettingsOrganizations: API.OperationMethod<GetSettingsOrganizationsRequest, GetSettingsOrganizationsResponse, GetSettingsOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSettingsOrganizationsRequest,
   output: GetSettingsOrganizationsResponse,
   errors: [],
 }));
 
-/** Updates the settings for the given resource. This method applies to all feature configurations for organization and folders.UpdateSettings fails when any of the following are true: The value of storage_location either isn't supported by Logging or violates the location OrgPolicy. The default_sink_config field is set, but it has an unspecified filter write mode. The value of kms_key_name is invalid. The associated service account doesn't have the required roles/cloudkms.cryptoKeyEncrypterDecrypter role assigned for the key. Access to the key is disabled.See Configure default settings for organizations and folders (https://docs.cloud.google.com/logging/docs/default-settings) for more information. */
 export interface UpdateSettingsOrganizationsRequest {
   /** Required. The resource name for the settings to update. "organizations/[ORGANIZATION_ID]/settings" "folders/[FOLDER_ID]/settings" For example:"organizations/12345/settings" */
   name: string;
@@ -4613,13 +4612,13 @@ export const UpdateSettingsOrganizationsResponse = Settings;
 
 export type UpdateSettingsOrganizationsError = CommonErrors;
 
+/** Updates the settings for the given resource. This method applies to all feature configurations for organization and folders.UpdateSettings fails when any of the following are true: The value of storage_location either isn't supported by Logging or violates the location OrgPolicy. The default_sink_config field is set, but it has an unspecified filter write mode. The value of kms_key_name is invalid. The associated service account doesn't have the required roles/cloudkms.cryptoKeyEncrypterDecrypter role assigned for the key. Access to the key is disabled.See Configure default settings for organizations and folders (https://docs.cloud.google.com/logging/docs/default-settings) for more information. */
 export const updateSettingsOrganizations: API.OperationMethod<UpdateSettingsOrganizationsRequest, UpdateSettingsOrganizationsResponse, UpdateSettingsOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateSettingsOrganizationsRequest,
   output: UpdateSettingsOrganizationsResponse,
   errors: [],
 }));
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: List all public locations: Use the path GET /v1/locations. List project-visible locations: Use the path GET /v1/projects/{project_id}/locations. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListOrganizationsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -4649,7 +4648,8 @@ export const ListOrganizationsLocationsResponse = ListLocationsResponse;
 
 export type ListOrganizationsLocationsError = CommonErrors;
 
-export const listOrganizationsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: List all public locations: Use the path GET /v1/locations. List project-visible locations: Use the path GET /v1/projects/{project_id}/locations. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listOrganizationsLocations: API.PaginatedOperationMethod<ListOrganizationsLocationsRequest, ListOrganizationsLocationsResponse, ListOrganizationsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsRequest,
   output: ListOrganizationsLocationsResponse,
   errors: [],
@@ -4659,7 +4659,6 @@ export const listOrganizationsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetOrganizationsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -4677,13 +4676,13 @@ export const GetOrganizationsLocationsResponse = Location;
 
 export type GetOrganizationsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getOrganizationsLocations: API.OperationMethod<GetOrganizationsLocationsRequest, GetOrganizationsLocationsResponse, GetOrganizationsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsRequest,
   output: GetOrganizationsLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns UNIMPLEMENTED. */
 export interface ListOrganizationsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -4713,7 +4712,8 @@ export const ListOrganizationsLocationsOperationsResponse = ListOperationsRespon
 
 export type ListOrganizationsLocationsOperationsError = CommonErrors;
 
-export const listOrganizationsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns UNIMPLEMENTED. */
+export const listOrganizationsLocationsOperations: API.PaginatedOperationMethod<ListOrganizationsLocationsOperationsRequest, ListOrganizationsLocationsOperationsResponse, ListOrganizationsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsOperationsRequest,
   output: ListOrganizationsLocationsOperationsResponse,
   errors: [],
@@ -4723,7 +4723,6 @@ export const listOrganizationsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetOrganizationsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -4741,13 +4740,13 @@ export const GetOrganizationsLocationsOperationsResponse = Operation;
 
 export type GetOrganizationsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOrganizationsLocationsOperations: API.OperationMethod<GetOrganizationsLocationsOperationsRequest, GetOrganizationsLocationsOperationsResponse, GetOrganizationsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsOperationsRequest,
   output: GetOrganizationsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns google.rpc.Code.UNIMPLEMENTED. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of 1, corresponding to Code.CANCELLED. */
 export interface CancelOrganizationsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -4768,13 +4767,13 @@ export const CancelOrganizationsLocationsOperationsResponse = Empty;
 
 export type CancelOrganizationsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns google.rpc.Code.UNIMPLEMENTED. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of 1, corresponding to Code.CANCELLED. */
 export const cancelOrganizationsLocationsOperations: API.OperationMethod<CancelOrganizationsLocationsOperationsRequest, CancelOrganizationsLocationsOperationsResponse, CancelOrganizationsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelOrganizationsLocationsOperationsRequest,
   output: CancelOrganizationsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Lists log buckets. */
 export interface ListOrganizationsLocationsBucketsRequest {
   /** Required. The parent resource whose buckets are to be listed: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" Note: The locations portion of the resource must be specified, but supplying the character - in place of LOCATION_ID will return all buckets. */
   parent: string;
@@ -4798,7 +4797,8 @@ export const ListOrganizationsLocationsBucketsResponse = ListBucketsResponse;
 
 export type ListOrganizationsLocationsBucketsError = CommonErrors;
 
-export const listOrganizationsLocationsBuckets = API.makePaginated(() => ({
+/** Lists log buckets. */
+export const listOrganizationsLocationsBuckets: API.PaginatedOperationMethod<ListOrganizationsLocationsBucketsRequest, ListOrganizationsLocationsBucketsResponse, ListOrganizationsLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsBucketsRequest,
   output: ListOrganizationsLocationsBucketsResponse,
   errors: [],
@@ -4808,7 +4808,6 @@ export const listOrganizationsLocationsBuckets = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a log bucket. */
 export interface GetOrganizationsLocationsBucketsRequest {
   /** Required. The resource name of the bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
@@ -4826,13 +4825,13 @@ export const GetOrganizationsLocationsBucketsResponse = LogBucket;
 
 export type GetOrganizationsLocationsBucketsError = CommonErrors;
 
+/** Gets a log bucket. */
 export const getOrganizationsLocationsBuckets: API.OperationMethod<GetOrganizationsLocationsBucketsRequest, GetOrganizationsLocationsBucketsResponse, GetOrganizationsLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsBucketsRequest,
   output: GetOrganizationsLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Creates a log bucket asynchronously that can be used to store log entries.After a bucket has been created, the bucket's location cannot be changed. */
 export interface CreateAsyncOrganizationsLocationsBucketsRequest {
   /** Required. The resource in which to create the log bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
@@ -4856,13 +4855,13 @@ export const CreateAsyncOrganizationsLocationsBucketsResponse = Operation;
 
 export type CreateAsyncOrganizationsLocationsBucketsError = CommonErrors;
 
+/** Creates a log bucket asynchronously that can be used to store log entries.After a bucket has been created, the bucket's location cannot be changed. */
 export const createAsyncOrganizationsLocationsBuckets: API.OperationMethod<CreateAsyncOrganizationsLocationsBucketsRequest, CreateAsyncOrganizationsLocationsBucketsResponse, CreateAsyncOrganizationsLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAsyncOrganizationsLocationsBucketsRequest,
   output: CreateAsyncOrganizationsLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Updates a log bucket asynchronously.If the bucket has a lifecycle_state of DELETE_REQUESTED, then FAILED_PRECONDITION will be returned.After a bucket has been created, the bucket's location cannot be changed. */
 export interface UpdateAsyncOrganizationsLocationsBucketsRequest {
   /** Required. The full resource name of the bucket to update. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
@@ -4886,13 +4885,13 @@ export const UpdateAsyncOrganizationsLocationsBucketsResponse = Operation;
 
 export type UpdateAsyncOrganizationsLocationsBucketsError = CommonErrors;
 
+/** Updates a log bucket asynchronously.If the bucket has a lifecycle_state of DELETE_REQUESTED, then FAILED_PRECONDITION will be returned.After a bucket has been created, the bucket's location cannot be changed. */
 export const updateAsyncOrganizationsLocationsBuckets: API.OperationMethod<UpdateAsyncOrganizationsLocationsBucketsRequest, UpdateAsyncOrganizationsLocationsBucketsResponse, UpdateAsyncOrganizationsLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAsyncOrganizationsLocationsBucketsRequest,
   output: UpdateAsyncOrganizationsLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Creates a log bucket that can be used to store log entries. After a bucket has been created, the bucket's location cannot be changed. */
 export interface CreateOrganizationsLocationsBucketsRequest {
   /** Required. The resource in which to create the log bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
@@ -4916,13 +4915,13 @@ export const CreateOrganizationsLocationsBucketsResponse = LogBucket;
 
 export type CreateOrganizationsLocationsBucketsError = CommonErrors;
 
+/** Creates a log bucket that can be used to store log entries. After a bucket has been created, the bucket's location cannot be changed. */
 export const createOrganizationsLocationsBuckets: API.OperationMethod<CreateOrganizationsLocationsBucketsRequest, CreateOrganizationsLocationsBucketsResponse, CreateOrganizationsLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsLocationsBucketsRequest,
   output: CreateOrganizationsLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Updates a log bucket.If the bucket has a lifecycle_state of DELETE_REQUESTED, then FAILED_PRECONDITION will be returned.After a bucket has been created, the bucket's location cannot be changed. */
 export interface PatchOrganizationsLocationsBucketsRequest {
   /** Required. The full resource name of the bucket to update. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
@@ -4946,13 +4945,13 @@ export const PatchOrganizationsLocationsBucketsResponse = LogBucket;
 
 export type PatchOrganizationsLocationsBucketsError = CommonErrors;
 
+/** Updates a log bucket.If the bucket has a lifecycle_state of DELETE_REQUESTED, then FAILED_PRECONDITION will be returned.After a bucket has been created, the bucket's location cannot be changed. */
 export const patchOrganizationsLocationsBuckets: API.OperationMethod<PatchOrganizationsLocationsBucketsRequest, PatchOrganizationsLocationsBucketsResponse, PatchOrganizationsLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsLocationsBucketsRequest,
   output: PatchOrganizationsLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Deletes a log bucket.Changes the bucket's lifecycle_state to the DELETE_REQUESTED state. After 7 days, the bucket will be purged and all log entries in the bucket will be permanently deleted. */
 export interface DeleteOrganizationsLocationsBucketsRequest {
   /** Required. The full resource name of the bucket to delete. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
@@ -4970,13 +4969,13 @@ export const DeleteOrganizationsLocationsBucketsResponse = Empty;
 
 export type DeleteOrganizationsLocationsBucketsError = CommonErrors;
 
+/** Deletes a log bucket.Changes the bucket's lifecycle_state to the DELETE_REQUESTED state. After 7 days, the bucket will be purged and all log entries in the bucket will be permanently deleted. */
 export const deleteOrganizationsLocationsBuckets: API.OperationMethod<DeleteOrganizationsLocationsBucketsRequest, DeleteOrganizationsLocationsBucketsResponse, DeleteOrganizationsLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsLocationsBucketsRequest,
   output: DeleteOrganizationsLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Undeletes a log bucket. A bucket that has been deleted can be undeleted within the grace period of 7 days. */
 export interface UndeleteOrganizationsLocationsBucketsRequest {
   /** Required. The full resource name of the bucket to undelete. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
@@ -4997,13 +4996,13 @@ export const UndeleteOrganizationsLocationsBucketsResponse = Empty;
 
 export type UndeleteOrganizationsLocationsBucketsError = CommonErrors;
 
+/** Undeletes a log bucket. A bucket that has been deleted can be undeleted within the grace period of 7 days. */
 export const undeleteOrganizationsLocationsBuckets: API.OperationMethod<UndeleteOrganizationsLocationsBucketsRequest, UndeleteOrganizationsLocationsBucketsResponse, UndeleteOrganizationsLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UndeleteOrganizationsLocationsBucketsRequest,
   output: UndeleteOrganizationsLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND, INVALID_ARGUMENT, and PERMISSION_DENIED errors. */
 export interface SetIamPolicyOrganizationsLocationsBucketsViewsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -5024,13 +5023,13 @@ export const SetIamPolicyOrganizationsLocationsBucketsViewsResponse = Policy;
 
 export type SetIamPolicyOrganizationsLocationsBucketsViewsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND, INVALID_ARGUMENT, and PERMISSION_DENIED errors. */
 export const setIamPolicyOrganizationsLocationsBucketsViews: API.OperationMethod<SetIamPolicyOrganizationsLocationsBucketsViewsRequest, SetIamPolicyOrganizationsLocationsBucketsViewsResponse, SetIamPolicyOrganizationsLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyOrganizationsLocationsBucketsViewsRequest,
   output: SetIamPolicyOrganizationsLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyOrganizationsLocationsBucketsViewsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -5051,13 +5050,13 @@ export const GetIamPolicyOrganizationsLocationsBucketsViewsResponse = Policy;
 
 export type GetIamPolicyOrganizationsLocationsBucketsViewsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyOrganizationsLocationsBucketsViews: API.OperationMethod<GetIamPolicyOrganizationsLocationsBucketsViewsRequest, GetIamPolicyOrganizationsLocationsBucketsViewsResponse, GetIamPolicyOrganizationsLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyOrganizationsLocationsBucketsViewsRequest,
   output: GetIamPolicyOrganizationsLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsOrganizationsLocationsBucketsViewsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -5078,13 +5077,13 @@ export const TestIamPermissionsOrganizationsLocationsBucketsViewsResponse = Test
 
 export type TestIamPermissionsOrganizationsLocationsBucketsViewsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsOrganizationsLocationsBucketsViews: API.OperationMethod<TestIamPermissionsOrganizationsLocationsBucketsViewsRequest, TestIamPermissionsOrganizationsLocationsBucketsViewsResponse, TestIamPermissionsOrganizationsLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsOrganizationsLocationsBucketsViewsRequest,
   output: TestIamPermissionsOrganizationsLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Lists views on a log bucket. */
 export interface ListOrganizationsLocationsBucketsViewsRequest {
   /** Required. The bucket whose views are to be listed: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" */
   parent: string;
@@ -5108,7 +5107,8 @@ export const ListOrganizationsLocationsBucketsViewsResponse = ListViewsResponse;
 
 export type ListOrganizationsLocationsBucketsViewsError = CommonErrors;
 
-export const listOrganizationsLocationsBucketsViews = API.makePaginated(() => ({
+/** Lists views on a log bucket. */
+export const listOrganizationsLocationsBucketsViews: API.PaginatedOperationMethod<ListOrganizationsLocationsBucketsViewsRequest, ListOrganizationsLocationsBucketsViewsResponse, ListOrganizationsLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsBucketsViewsRequest,
   output: ListOrganizationsLocationsBucketsViewsResponse,
   errors: [],
@@ -5118,7 +5118,6 @@ export const listOrganizationsLocationsBucketsViews = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a view on a log bucket. */
 export interface GetOrganizationsLocationsBucketsViewsRequest {
   /** Required. The resource name of the policy: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket/views/my-view" */
   name: string;
@@ -5136,13 +5135,13 @@ export const GetOrganizationsLocationsBucketsViewsResponse = LogView;
 
 export type GetOrganizationsLocationsBucketsViewsError = CommonErrors;
 
+/** Gets a view on a log bucket. */
 export const getOrganizationsLocationsBucketsViews: API.OperationMethod<GetOrganizationsLocationsBucketsViewsRequest, GetOrganizationsLocationsBucketsViewsResponse, GetOrganizationsLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsBucketsViewsRequest,
   output: GetOrganizationsLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Creates a view over log entries in a log bucket. A bucket may contain a maximum of 30 views. */
 export interface CreateOrganizationsLocationsBucketsViewsRequest {
   /** Required. The bucket in which to create the view `"projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]"` For example:"projects/my-project/locations/global/buckets/my-bucket" */
   parent: string;
@@ -5166,13 +5165,13 @@ export const CreateOrganizationsLocationsBucketsViewsResponse = LogView;
 
 export type CreateOrganizationsLocationsBucketsViewsError = CommonErrors;
 
+/** Creates a view over log entries in a log bucket. A bucket may contain a maximum of 30 views. */
 export const createOrganizationsLocationsBucketsViews: API.OperationMethod<CreateOrganizationsLocationsBucketsViewsRequest, CreateOrganizationsLocationsBucketsViewsResponse, CreateOrganizationsLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsLocationsBucketsViewsRequest,
   output: CreateOrganizationsLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Updates a view on a log bucket. This method replaces the value of the filter field from the existing view with the corresponding value from the new view. If an UNAVAILABLE error is returned, this indicates that system is not in a state where it can update the view. If this occurs, please try again in a few minutes. */
 export interface PatchOrganizationsLocationsBucketsViewsRequest {
   /** Required. The full resource name of the view to update "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket/views/my-view" */
   name: string;
@@ -5196,13 +5195,13 @@ export const PatchOrganizationsLocationsBucketsViewsResponse = LogView;
 
 export type PatchOrganizationsLocationsBucketsViewsError = CommonErrors;
 
+/** Updates a view on a log bucket. This method replaces the value of the filter field from the existing view with the corresponding value from the new view. If an UNAVAILABLE error is returned, this indicates that system is not in a state where it can update the view. If this occurs, please try again in a few minutes. */
 export const patchOrganizationsLocationsBucketsViews: API.OperationMethod<PatchOrganizationsLocationsBucketsViewsRequest, PatchOrganizationsLocationsBucketsViewsResponse, PatchOrganizationsLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsLocationsBucketsViewsRequest,
   output: PatchOrganizationsLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Deletes a view on a log bucket. If an UNAVAILABLE error is returned, this indicates that system is not in a state where it can delete the view. If this occurs, please try again in a few minutes. */
 export interface DeleteOrganizationsLocationsBucketsViewsRequest {
   /** Required. The full resource name of the view to delete: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket/views/my-view" */
   name: string;
@@ -5220,13 +5219,13 @@ export const DeleteOrganizationsLocationsBucketsViewsResponse = Empty;
 
 export type DeleteOrganizationsLocationsBucketsViewsError = CommonErrors;
 
+/** Deletes a view on a log bucket. If an UNAVAILABLE error is returned, this indicates that system is not in a state where it can delete the view. If this occurs, please try again in a few minutes. */
 export const deleteOrganizationsLocationsBucketsViews: API.OperationMethod<DeleteOrganizationsLocationsBucketsViewsRequest, DeleteOrganizationsLocationsBucketsViewsResponse, DeleteOrganizationsLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsLocationsBucketsViewsRequest,
   output: DeleteOrganizationsLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Lists the logs in projects, organizations, folders, or billing accounts. Only logs that have entries are listed. */
 export interface ListOrganizationsLocationsBucketsViewsLogsRequest {
   /** Required. The resource name to list logs for: projects/[PROJECT_ID] organizations/[ORGANIZATION_ID] billingAccounts/[BILLING_ACCOUNT_ID] folders/[FOLDER_ID] */
   parent: string;
@@ -5253,7 +5252,8 @@ export const ListOrganizationsLocationsBucketsViewsLogsResponse = ListLogsRespon
 
 export type ListOrganizationsLocationsBucketsViewsLogsError = CommonErrors;
 
-export const listOrganizationsLocationsBucketsViewsLogs = API.makePaginated(() => ({
+/** Lists the logs in projects, organizations, folders, or billing accounts. Only logs that have entries are listed. */
+export const listOrganizationsLocationsBucketsViewsLogs: API.PaginatedOperationMethod<ListOrganizationsLocationsBucketsViewsLogsRequest, ListOrganizationsLocationsBucketsViewsLogsResponse, ListOrganizationsLocationsBucketsViewsLogsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsBucketsViewsLogsRequest,
   output: ListOrganizationsLocationsBucketsViewsLogsResponse,
   errors: [],
@@ -5263,7 +5263,6 @@ export const listOrganizationsLocationsBucketsViewsLogs = API.makePaginated(() =
   },
 }));
 
-/** Lists links. */
 export interface ListOrganizationsLocationsBucketsLinksRequest {
   /** Required. The parent resource whose links are to be listed: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" */
   parent: string;
@@ -5287,7 +5286,8 @@ export const ListOrganizationsLocationsBucketsLinksResponse = ListLinksResponse;
 
 export type ListOrganizationsLocationsBucketsLinksError = CommonErrors;
 
-export const listOrganizationsLocationsBucketsLinks = API.makePaginated(() => ({
+/** Lists links. */
+export const listOrganizationsLocationsBucketsLinks: API.PaginatedOperationMethod<ListOrganizationsLocationsBucketsLinksRequest, ListOrganizationsLocationsBucketsLinksResponse, ListOrganizationsLocationsBucketsLinksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsBucketsLinksRequest,
   output: ListOrganizationsLocationsBucketsLinksResponse,
   errors: [],
@@ -5297,7 +5297,6 @@ export const listOrganizationsLocationsBucketsLinks = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a link. */
 export interface GetOrganizationsLocationsBucketsLinksRequest {
   /** Required. The resource name of the link: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" */
   name: string;
@@ -5315,13 +5314,13 @@ export const GetOrganizationsLocationsBucketsLinksResponse = Link;
 
 export type GetOrganizationsLocationsBucketsLinksError = CommonErrors;
 
+/** Gets a link. */
 export const getOrganizationsLocationsBucketsLinks: API.OperationMethod<GetOrganizationsLocationsBucketsLinksRequest, GetOrganizationsLocationsBucketsLinksResponse, GetOrganizationsLocationsBucketsLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsBucketsLinksRequest,
   output: GetOrganizationsLocationsBucketsLinksResponse,
   errors: [],
 }));
 
-/** Asynchronously creates a linked dataset in BigQuery which makes it possible to use BigQuery to read the logs stored in the log bucket. A log bucket may currently only contain one link. */
 export interface CreateOrganizationsLocationsBucketsLinksRequest {
   /** Required. The full resource name of the bucket to create a link for. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" */
   parent: string;
@@ -5345,13 +5344,13 @@ export const CreateOrganizationsLocationsBucketsLinksResponse = Operation;
 
 export type CreateOrganizationsLocationsBucketsLinksError = CommonErrors;
 
+/** Asynchronously creates a linked dataset in BigQuery which makes it possible to use BigQuery to read the logs stored in the log bucket. A log bucket may currently only contain one link. */
 export const createOrganizationsLocationsBucketsLinks: API.OperationMethod<CreateOrganizationsLocationsBucketsLinksRequest, CreateOrganizationsLocationsBucketsLinksResponse, CreateOrganizationsLocationsBucketsLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsLocationsBucketsLinksRequest,
   output: CreateOrganizationsLocationsBucketsLinksResponse,
   errors: [],
 }));
 
-/** Deletes a link. This will also delete the corresponding BigQuery linked dataset. */
 export interface DeleteOrganizationsLocationsBucketsLinksRequest {
   /** Required. The full resource name of the link to delete. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" */
   name: string;
@@ -5369,13 +5368,13 @@ export const DeleteOrganizationsLocationsBucketsLinksResponse = Operation;
 
 export type DeleteOrganizationsLocationsBucketsLinksError = CommonErrors;
 
+/** Deletes a link. This will also delete the corresponding BigQuery linked dataset. */
 export const deleteOrganizationsLocationsBucketsLinks: API.OperationMethod<DeleteOrganizationsLocationsBucketsLinksRequest, DeleteOrganizationsLocationsBucketsLinksResponse, DeleteOrganizationsLocationsBucketsLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsLocationsBucketsLinksRequest,
   output: DeleteOrganizationsLocationsBucketsLinksResponse,
   errors: [],
 }));
 
-/** Lists log scopes. */
 export interface ListOrganizationsLocationsLogScopesRequest {
   /** Required. The parent resource whose log scopes are to be listed: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" */
   parent: string;
@@ -5399,7 +5398,8 @@ export const ListOrganizationsLocationsLogScopesResponse = ListLogScopesResponse
 
 export type ListOrganizationsLocationsLogScopesError = CommonErrors;
 
-export const listOrganizationsLocationsLogScopes = API.makePaginated(() => ({
+/** Lists log scopes. */
+export const listOrganizationsLocationsLogScopes: API.PaginatedOperationMethod<ListOrganizationsLocationsLogScopesRequest, ListOrganizationsLocationsLogScopesResponse, ListOrganizationsLocationsLogScopesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsLogScopesRequest,
   output: ListOrganizationsLocationsLogScopesResponse,
   errors: [],
@@ -5409,7 +5409,6 @@ export const listOrganizationsLocationsLogScopes = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a log scope. */
 export interface GetOrganizationsLocationsLogScopesRequest {
   /** Required. The resource name of the log scope: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global/logScopes/my-log-scope" */
   name: string;
@@ -5427,13 +5426,13 @@ export const GetOrganizationsLocationsLogScopesResponse = LogScope;
 
 export type GetOrganizationsLocationsLogScopesError = CommonErrors;
 
+/** Gets a log scope. */
 export const getOrganizationsLocationsLogScopes: API.OperationMethod<GetOrganizationsLocationsLogScopesRequest, GetOrganizationsLocationsLogScopesResponse, GetOrganizationsLocationsLogScopesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsLogScopesRequest,
   output: GetOrganizationsLocationsLogScopesResponse,
   errors: [],
 }));
 
-/** Creates a log scope. */
 export interface CreateOrganizationsLocationsLogScopesRequest {
   /** Required. The parent resource in which to create the log scope: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
@@ -5457,13 +5456,13 @@ export const CreateOrganizationsLocationsLogScopesResponse = LogScope;
 
 export type CreateOrganizationsLocationsLogScopesError = CommonErrors;
 
+/** Creates a log scope. */
 export const createOrganizationsLocationsLogScopes: API.OperationMethod<CreateOrganizationsLocationsLogScopesRequest, CreateOrganizationsLocationsLogScopesResponse, CreateOrganizationsLocationsLogScopesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsLocationsLogScopesRequest,
   output: CreateOrganizationsLocationsLogScopesResponse,
   errors: [],
 }));
 
-/** Updates a log scope. */
 export interface PatchOrganizationsLocationsLogScopesRequest {
   /** Output only. The resource name of the log scope.Log scopes are only available in the global location. For example:projects/my-project/locations/global/logScopes/my-log-scope */
   name: string;
@@ -5487,13 +5486,13 @@ export const PatchOrganizationsLocationsLogScopesResponse = LogScope;
 
 export type PatchOrganizationsLocationsLogScopesError = CommonErrors;
 
+/** Updates a log scope. */
 export const patchOrganizationsLocationsLogScopes: API.OperationMethod<PatchOrganizationsLocationsLogScopesRequest, PatchOrganizationsLocationsLogScopesResponse, PatchOrganizationsLocationsLogScopesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsLocationsLogScopesRequest,
   output: PatchOrganizationsLocationsLogScopesResponse,
   errors: [],
 }));
 
-/** Deletes a log scope. */
 export interface DeleteOrganizationsLocationsLogScopesRequest {
   /** Required. The resource name of the log scope to delete: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global/logScopes/my-log-scope" */
   name: string;
@@ -5511,13 +5510,13 @@ export const DeleteOrganizationsLocationsLogScopesResponse = Empty;
 
 export type DeleteOrganizationsLocationsLogScopesError = CommonErrors;
 
+/** Deletes a log scope. */
 export const deleteOrganizationsLocationsLogScopes: API.OperationMethod<DeleteOrganizationsLocationsLogScopesRequest, DeleteOrganizationsLocationsLogScopesResponse, DeleteOrganizationsLocationsLogScopesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsLocationsLogScopesRequest,
   output: DeleteOrganizationsLocationsLogScopesResponse,
   errors: [],
 }));
 
-/** Lists the SavedQueries that were created by the user making the request. */
 export interface ListOrganizationsLocationsSavedQueriesRequest {
   /** Required. The resource to which the listed queries belong. "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example: "projects/my-project/locations/us-central1" Note: The locations portion of the resource must be specified. To get a list of all saved queries, a wildcard character - can be used for LOCATION_ID, for example: "projects/my-project/locations/-" */
   parent: string;
@@ -5544,7 +5543,8 @@ export const ListOrganizationsLocationsSavedQueriesResponse = ListSavedQueriesRe
 
 export type ListOrganizationsLocationsSavedQueriesError = CommonErrors;
 
-export const listOrganizationsLocationsSavedQueries = API.makePaginated(() => ({
+/** Lists the SavedQueries that were created by the user making the request. */
+export const listOrganizationsLocationsSavedQueries: API.PaginatedOperationMethod<ListOrganizationsLocationsSavedQueriesRequest, ListOrganizationsLocationsSavedQueriesResponse, ListOrganizationsLocationsSavedQueriesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsSavedQueriesRequest,
   output: ListOrganizationsLocationsSavedQueriesResponse,
   errors: [],
@@ -5554,7 +5554,6 @@ export const listOrganizationsLocationsSavedQueries = API.makePaginated(() => ({
   },
 }));
 
-/** Returns all data associated with the requested query. */
 export interface GetOrganizationsLocationsSavedQueriesRequest {
   /** Required. The resource name of the saved query. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" For example: "projects/my-project/locations/global/savedQueries/my-saved-query" */
   name: string;
@@ -5572,13 +5571,13 @@ export const GetOrganizationsLocationsSavedQueriesResponse = SavedQuery;
 
 export type GetOrganizationsLocationsSavedQueriesError = CommonErrors;
 
+/** Returns all data associated with the requested query. */
 export const getOrganizationsLocationsSavedQueries: API.OperationMethod<GetOrganizationsLocationsSavedQueriesRequest, GetOrganizationsLocationsSavedQueriesResponse, GetOrganizationsLocationsSavedQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsSavedQueriesRequest,
   output: GetOrganizationsLocationsSavedQueriesResponse,
   errors: [],
 }));
 
-/** Creates a new SavedQuery for the user making the request. */
 export interface CreateOrganizationsLocationsSavedQueriesRequest {
   /** Required. The parent resource in which to create the saved query: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example: "projects/my-project/locations/global" "organizations/123456789/locations/us-central1" */
   parent: string;
@@ -5602,13 +5601,13 @@ export const CreateOrganizationsLocationsSavedQueriesResponse = SavedQuery;
 
 export type CreateOrganizationsLocationsSavedQueriesError = CommonErrors;
 
+/** Creates a new SavedQuery for the user making the request. */
 export const createOrganizationsLocationsSavedQueries: API.OperationMethod<CreateOrganizationsLocationsSavedQueriesRequest, CreateOrganizationsLocationsSavedQueriesResponse, CreateOrganizationsLocationsSavedQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsLocationsSavedQueriesRequest,
   output: CreateOrganizationsLocationsSavedQueriesResponse,
   errors: [],
 }));
 
-/** Updates an existing SavedQuery. */
 export interface PatchOrganizationsLocationsSavedQueriesRequest {
   /** Output only. Resource name of the saved query.In the format: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" For a list of supported locations, see Supported Regions (https://docs.cloud.google.com/logging/docs/region-support#bucket-regions)After the saved query is created, the location cannot be changed.If the user doesn't provide a QUERY_ID, the system will generate an alphanumeric ID. */
   name: string;
@@ -5632,13 +5631,13 @@ export const PatchOrganizationsLocationsSavedQueriesResponse = SavedQuery;
 
 export type PatchOrganizationsLocationsSavedQueriesError = CommonErrors;
 
+/** Updates an existing SavedQuery. */
 export const patchOrganizationsLocationsSavedQueries: API.OperationMethod<PatchOrganizationsLocationsSavedQueriesRequest, PatchOrganizationsLocationsSavedQueriesResponse, PatchOrganizationsLocationsSavedQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsLocationsSavedQueriesRequest,
   output: PatchOrganizationsLocationsSavedQueriesResponse,
   errors: [],
 }));
 
-/** Deletes an existing SavedQuery that was created by the user making the request. */
 export interface DeleteOrganizationsLocationsSavedQueriesRequest {
   /** Required. The full resource name of the saved query to delete. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" For example: "projects/my-project/locations/global/savedQueries/my-saved-query" */
   name: string;
@@ -5656,13 +5655,13 @@ export const DeleteOrganizationsLocationsSavedQueriesResponse = Empty;
 
 export type DeleteOrganizationsLocationsSavedQueriesError = CommonErrors;
 
+/** Deletes an existing SavedQuery that was created by the user making the request. */
 export const deleteOrganizationsLocationsSavedQueries: API.OperationMethod<DeleteOrganizationsLocationsSavedQueriesRequest, DeleteOrganizationsLocationsSavedQueriesResponse, DeleteOrganizationsLocationsSavedQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsLocationsSavedQueriesRequest,
   output: DeleteOrganizationsLocationsSavedQueriesResponse,
   errors: [],
 }));
 
-/** Lists the RecentQueries that were created by the user making the request. */
 export interface ListOrganizationsLocationsRecentQueriesRequest {
   /** Required. The resource to which the listed queries belong. "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example:projects/my-project/locations/us-central1Note: The location portion of the resource must be specified, but supplying the character - in place of LOCATION_ID will return all recent queries. */
   parent: string;
@@ -5689,7 +5688,8 @@ export const ListOrganizationsLocationsRecentQueriesResponse = ListRecentQueries
 
 export type ListOrganizationsLocationsRecentQueriesError = CommonErrors;
 
-export const listOrganizationsLocationsRecentQueries = API.makePaginated(() => ({
+/** Lists the RecentQueries that were created by the user making the request. */
+export const listOrganizationsLocationsRecentQueries: API.PaginatedOperationMethod<ListOrganizationsLocationsRecentQueriesRequest, ListOrganizationsLocationsRecentQueriesResponse, ListOrganizationsLocationsRecentQueriesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsRecentQueriesRequest,
   output: ListOrganizationsLocationsRecentQueriesResponse,
   errors: [],
@@ -5699,7 +5699,6 @@ export const listOrganizationsLocationsRecentQueries = API.makePaginated(() => (
   },
 }));
 
-/** Lists all the exclusions on the _Default sink in a parent resource. */
 export interface ListOrganizationsExclusionsRequest {
   /** Required. The parent resource whose exclusions are to be listed. "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" */
   parent: string;
@@ -5723,7 +5722,8 @@ export const ListOrganizationsExclusionsResponse = ListExclusionsResponse;
 
 export type ListOrganizationsExclusionsError = CommonErrors;
 
-export const listOrganizationsExclusions = API.makePaginated(() => ({
+/** Lists all the exclusions on the _Default sink in a parent resource. */
+export const listOrganizationsExclusions: API.PaginatedOperationMethod<ListOrganizationsExclusionsRequest, ListOrganizationsExclusionsResponse, ListOrganizationsExclusionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsExclusionsRequest,
   output: ListOrganizationsExclusionsResponse,
   errors: [],
@@ -5733,7 +5733,6 @@ export const listOrganizationsExclusions = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the description of an exclusion in the _Default sink. */
 export interface GetOrganizationsExclusionsRequest {
   /** Required. The resource name of an existing exclusion: "projects/[PROJECT_ID]/exclusions/[EXCLUSION_ID]" "organizations/[ORGANIZATION_ID]/exclusions/[EXCLUSION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/exclusions/[EXCLUSION_ID]" "folders/[FOLDER_ID]/exclusions/[EXCLUSION_ID]" For example:"projects/my-project/exclusions/my-exclusion" */
   name: string;
@@ -5751,13 +5750,13 @@ export const GetOrganizationsExclusionsResponse = LogExclusion;
 
 export type GetOrganizationsExclusionsError = CommonErrors;
 
+/** Gets the description of an exclusion in the _Default sink. */
 export const getOrganizationsExclusions: API.OperationMethod<GetOrganizationsExclusionsRequest, GetOrganizationsExclusionsResponse, GetOrganizationsExclusionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsExclusionsRequest,
   output: GetOrganizationsExclusionsResponse,
   errors: [],
 }));
 
-/** Creates a new exclusion in the _Default sink in a specified parent resource. Only log entries belonging to that resource can be excluded. You can have up to 10 exclusions in a resource. */
 export interface CreateOrganizationsExclusionsRequest {
   /** Required. The parent resource in which to create the exclusion: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-logging-project" "organizations/123456789" */
   parent: string;
@@ -5778,13 +5777,13 @@ export const CreateOrganizationsExclusionsResponse = LogExclusion;
 
 export type CreateOrganizationsExclusionsError = CommonErrors;
 
+/** Creates a new exclusion in the _Default sink in a specified parent resource. Only log entries belonging to that resource can be excluded. You can have up to 10 exclusions in a resource. */
 export const createOrganizationsExclusions: API.OperationMethod<CreateOrganizationsExclusionsRequest, CreateOrganizationsExclusionsResponse, CreateOrganizationsExclusionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsExclusionsRequest,
   output: CreateOrganizationsExclusionsResponse,
   errors: [],
 }));
 
-/** Changes one or more properties of an existing exclusion in the _Default sink. */
 export interface PatchOrganizationsExclusionsRequest {
   /** Required. The resource name of the exclusion to update: "projects/[PROJECT_ID]/exclusions/[EXCLUSION_ID]" "organizations/[ORGANIZATION_ID]/exclusions/[EXCLUSION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/exclusions/[EXCLUSION_ID]" "folders/[FOLDER_ID]/exclusions/[EXCLUSION_ID]" For example:"projects/my-project/exclusions/my-exclusion" */
   name: string;
@@ -5808,13 +5807,13 @@ export const PatchOrganizationsExclusionsResponse = LogExclusion;
 
 export type PatchOrganizationsExclusionsError = CommonErrors;
 
+/** Changes one or more properties of an existing exclusion in the _Default sink. */
 export const patchOrganizationsExclusions: API.OperationMethod<PatchOrganizationsExclusionsRequest, PatchOrganizationsExclusionsResponse, PatchOrganizationsExclusionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsExclusionsRequest,
   output: PatchOrganizationsExclusionsResponse,
   errors: [],
 }));
 
-/** Deletes an exclusion in the _Default sink. */
 export interface DeleteOrganizationsExclusionsRequest {
   /** Required. The resource name of an existing exclusion to delete: "projects/[PROJECT_ID]/exclusions/[EXCLUSION_ID]" "organizations/[ORGANIZATION_ID]/exclusions/[EXCLUSION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/exclusions/[EXCLUSION_ID]" "folders/[FOLDER_ID]/exclusions/[EXCLUSION_ID]" For example:"projects/my-project/exclusions/my-exclusion" */
   name: string;
@@ -5832,13 +5831,13 @@ export const DeleteOrganizationsExclusionsResponse = Empty;
 
 export type DeleteOrganizationsExclusionsError = CommonErrors;
 
+/** Deletes an exclusion in the _Default sink. */
 export const deleteOrganizationsExclusions: API.OperationMethod<DeleteOrganizationsExclusionsRequest, DeleteOrganizationsExclusionsResponse, DeleteOrganizationsExclusionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsExclusionsRequest,
   output: DeleteOrganizationsExclusionsResponse,
   errors: [],
 }));
 
-/** Lists sinks. */
 export interface ListOrganizationsSinksRequest {
   /** Required. The parent resource whose sinks are to be listed: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" */
   parent: string;
@@ -5865,7 +5864,8 @@ export const ListOrganizationsSinksResponse = ListSinksResponse;
 
 export type ListOrganizationsSinksError = CommonErrors;
 
-export const listOrganizationsSinks = API.makePaginated(() => ({
+/** Lists sinks. */
+export const listOrganizationsSinks: API.PaginatedOperationMethod<ListOrganizationsSinksRequest, ListOrganizationsSinksResponse, ListOrganizationsSinksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsSinksRequest,
   output: ListOrganizationsSinksResponse,
   errors: [],
@@ -5875,7 +5875,6 @@ export const listOrganizationsSinks = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a sink. */
 export interface GetOrganizationsSinksRequest {
   /** Required. The resource name of the sink: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
   sinkName: string;
@@ -5893,13 +5892,13 @@ export const GetOrganizationsSinksResponse = LogSink;
 
 export type GetOrganizationsSinksError = CommonErrors;
 
+/** Gets a sink. */
 export const getOrganizationsSinks: API.OperationMethod<GetOrganizationsSinksRequest, GetOrganizationsSinksResponse, GetOrganizationsSinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsSinksRequest,
   output: GetOrganizationsSinksResponse,
   errors: [],
 }));
 
-/** Creates a sink that exports specified log entries to a destination. The export begins upon ingress, unless the sink's writer_identity is not permitted to write to the destination. A sink can export log entries only from the resource owning the sink. */
 export interface CreateOrganizationsSinksRequest {
   /** Required. The resource in which to create the sink: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-project" "organizations/123456789" */
   parent: string;
@@ -5926,13 +5925,13 @@ export const CreateOrganizationsSinksResponse = LogSink;
 
 export type CreateOrganizationsSinksError = CommonErrors;
 
+/** Creates a sink that exports specified log entries to a destination. The export begins upon ingress, unless the sink's writer_identity is not permitted to write to the destination. A sink can export log entries only from the resource owning the sink. */
 export const createOrganizationsSinks: API.OperationMethod<CreateOrganizationsSinksRequest, CreateOrganizationsSinksResponse, CreateOrganizationsSinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsSinksRequest,
   output: CreateOrganizationsSinksResponse,
   errors: [],
 }));
 
-/** Updates a sink. This method replaces the values of the destination and filter fields of the existing sink with the corresponding values from the new sink.The updated sink might also have a new writer_identity; see the unique_writer_identity field. */
 export interface UpdateOrganizationsSinksRequest {
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
   sinkName: string;
@@ -5962,13 +5961,13 @@ export const UpdateOrganizationsSinksResponse = LogSink;
 
 export type UpdateOrganizationsSinksError = CommonErrors;
 
+/** Updates a sink. This method replaces the values of the destination and filter fields of the existing sink with the corresponding values from the new sink.The updated sink might also have a new writer_identity; see the unique_writer_identity field. */
 export const updateOrganizationsSinks: API.OperationMethod<UpdateOrganizationsSinksRequest, UpdateOrganizationsSinksResponse, UpdateOrganizationsSinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateOrganizationsSinksRequest,
   output: UpdateOrganizationsSinksResponse,
   errors: [],
 }));
 
-/** Updates a sink. This method replaces the values of the destination and filter fields of the existing sink with the corresponding values from the new sink.The updated sink might also have a new writer_identity; see the unique_writer_identity field. */
 export interface PatchOrganizationsSinksRequest {
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
   sinkName: string;
@@ -5998,13 +5997,13 @@ export const PatchOrganizationsSinksResponse = LogSink;
 
 export type PatchOrganizationsSinksError = CommonErrors;
 
+/** Updates a sink. This method replaces the values of the destination and filter fields of the existing sink with the corresponding values from the new sink.The updated sink might also have a new writer_identity; see the unique_writer_identity field. */
 export const patchOrganizationsSinks: API.OperationMethod<PatchOrganizationsSinksRequest, PatchOrganizationsSinksResponse, PatchOrganizationsSinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsSinksRequest,
   output: PatchOrganizationsSinksResponse,
   errors: [],
 }));
 
-/** Deletes a sink. If the sink has a unique writer_identity, then that service account is also deleted. */
 export interface DeleteOrganizationsSinksRequest {
   /** Required. The full resource name of the sink to delete, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
   sinkName: string;
@@ -6022,13 +6021,13 @@ export const DeleteOrganizationsSinksResponse = Empty;
 
 export type DeleteOrganizationsSinksError = CommonErrors;
 
+/** Deletes a sink. If the sink has a unique writer_identity, then that service account is also deleted. */
 export const deleteOrganizationsSinks: API.OperationMethod<DeleteOrganizationsSinksRequest, DeleteOrganizationsSinksResponse, DeleteOrganizationsSinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsSinksRequest,
   output: DeleteOrganizationsSinksResponse,
   errors: [],
 }));
 
-/** Deletes all the log entries in a log for the global _Default Log Bucket. The log reappears if it receives new entries. Log entries written shortly before the delete operation might not be deleted. Entries received after the delete operation with a timestamp before the operation will be deleted. */
 export interface DeleteOrganizationsLogsRequest {
   /** Required. The resource name of the log to delete: projects/[PROJECT_ID]/logs/[LOG_ID] organizations/[ORGANIZATION_ID]/logs/[LOG_ID] billingAccounts/[BILLING_ACCOUNT_ID]/logs/[LOG_ID] folders/[FOLDER_ID]/logs/[LOG_ID][LOG_ID] must be URL-encoded. For example, "projects/my-project-id/logs/syslog", "organizations/123/logs/cloudaudit.googleapis.com%2Factivity".For more information about log names, see LogEntry. */
   logName: string;
@@ -6046,13 +6045,13 @@ export const DeleteOrganizationsLogsResponse = Empty;
 
 export type DeleteOrganizationsLogsError = CommonErrors;
 
+/** Deletes all the log entries in a log for the global _Default Log Bucket. The log reappears if it receives new entries. Log entries written shortly before the delete operation might not be deleted. Entries received after the delete operation with a timestamp before the operation will be deleted. */
 export const deleteOrganizationsLogs: API.OperationMethod<DeleteOrganizationsLogsRequest, DeleteOrganizationsLogsResponse, DeleteOrganizationsLogsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsLogsRequest,
   output: DeleteOrganizationsLogsResponse,
   errors: [],
 }));
 
-/** Lists the logs in projects, organizations, folders, or billing accounts. Only logs that have entries are listed. */
 export interface ListOrganizationsLogsRequest {
   /** Required. The resource name to list logs for: projects/[PROJECT_ID] organizations/[ORGANIZATION_ID] billingAccounts/[BILLING_ACCOUNT_ID] folders/[FOLDER_ID] */
   parent: string;
@@ -6079,7 +6078,8 @@ export const ListOrganizationsLogsResponse = ListLogsResponse;
 
 export type ListOrganizationsLogsError = CommonErrors;
 
-export const listOrganizationsLogs = API.makePaginated(() => ({
+/** Lists the logs in projects, organizations, folders, or billing accounts. Only logs that have entries are listed. */
+export const listOrganizationsLogs: API.PaginatedOperationMethod<ListOrganizationsLogsRequest, ListOrganizationsLogsResponse, ListOrganizationsLogsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLogsRequest,
   output: ListOrganizationsLogsResponse,
   errors: [],
@@ -6089,7 +6089,6 @@ export const listOrganizationsLogs = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the Logging CMEK settings for the given resource.Note: CMEK for the Log Router can be configured for Google Cloud projects, folders, organizations, and billing accounts. Once configured for an organization, it applies to all projects and folders in the Google Cloud organization.See Configure CMEK for Cloud Logging (https://docs.cloud.google.com/logging/docs/routing/managed-encryption) for more information. */
 export interface GetCmekSettingsFoldersRequest {
   /** Required. The resource for which to retrieve CMEK settings. "projects/[PROJECT_ID]/cmekSettings" "organizations/[ORGANIZATION_ID]/cmekSettings" "billingAccounts/[BILLING_ACCOUNT_ID]/cmekSettings" "folders/[FOLDER_ID]/cmekSettings" For example:"organizations/12345/cmekSettings"Note: CMEK for the Log Router can be configured for Google Cloud projects, folders, organizations, and billing accounts. Once configured for an organization, it applies to all projects and folders in the Google Cloud organization. */
   name: string;
@@ -6107,13 +6106,13 @@ export const GetCmekSettingsFoldersResponse = CmekSettings;
 
 export type GetCmekSettingsFoldersError = CommonErrors;
 
+/** Gets the Logging CMEK settings for the given resource.Note: CMEK for the Log Router can be configured for Google Cloud projects, folders, organizations, and billing accounts. Once configured for an organization, it applies to all projects and folders in the Google Cloud organization.See Configure CMEK for Cloud Logging (https://docs.cloud.google.com/logging/docs/routing/managed-encryption) for more information. */
 export const getCmekSettingsFolders: API.OperationMethod<GetCmekSettingsFoldersRequest, GetCmekSettingsFoldersResponse, GetCmekSettingsFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCmekSettingsFoldersRequest,
   output: GetCmekSettingsFoldersResponse,
   errors: [],
 }));
 
-/** Gets the settings for the given resource.Note: Settings can be retrieved for Google Cloud projects, folders, organizations, and billing accounts.See View default resource settings for Logging (https://docs.cloud.google.com/logging/docs/default-settings#view-org-settings) for more information. */
 export interface GetSettingsFoldersRequest {
   /** Required. The resource for which to retrieve settings. "projects/[PROJECT_ID]/settings" "organizations/[ORGANIZATION_ID]/settings" "billingAccounts/[BILLING_ACCOUNT_ID]/settings" "folders/[FOLDER_ID]/settings" For example:"organizations/12345/settings"Note: Settings can be retrieved for Google Cloud projects, folders, organizations, and billing accounts. */
   name: string;
@@ -6131,13 +6130,13 @@ export const GetSettingsFoldersResponse = Settings;
 
 export type GetSettingsFoldersError = CommonErrors;
 
+/** Gets the settings for the given resource.Note: Settings can be retrieved for Google Cloud projects, folders, organizations, and billing accounts.See View default resource settings for Logging (https://docs.cloud.google.com/logging/docs/default-settings#view-org-settings) for more information. */
 export const getSettingsFolders: API.OperationMethod<GetSettingsFoldersRequest, GetSettingsFoldersResponse, GetSettingsFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSettingsFoldersRequest,
   output: GetSettingsFoldersResponse,
   errors: [],
 }));
 
-/** Updates the settings for the given resource. This method applies to all feature configurations for organization and folders.UpdateSettings fails when any of the following are true: The value of storage_location either isn't supported by Logging or violates the location OrgPolicy. The default_sink_config field is set, but it has an unspecified filter write mode. The value of kms_key_name is invalid. The associated service account doesn't have the required roles/cloudkms.cryptoKeyEncrypterDecrypter role assigned for the key. Access to the key is disabled.See Configure default settings for organizations and folders (https://docs.cloud.google.com/logging/docs/default-settings) for more information. */
 export interface UpdateSettingsFoldersRequest {
   /** Required. The resource name for the settings to update. "organizations/[ORGANIZATION_ID]/settings" "folders/[FOLDER_ID]/settings" For example:"organizations/12345/settings" */
   name: string;
@@ -6161,13 +6160,13 @@ export const UpdateSettingsFoldersResponse = Settings;
 
 export type UpdateSettingsFoldersError = CommonErrors;
 
+/** Updates the settings for the given resource. This method applies to all feature configurations for organization and folders.UpdateSettings fails when any of the following are true: The value of storage_location either isn't supported by Logging or violates the location OrgPolicy. The default_sink_config field is set, but it has an unspecified filter write mode. The value of kms_key_name is invalid. The associated service account doesn't have the required roles/cloudkms.cryptoKeyEncrypterDecrypter role assigned for the key. Access to the key is disabled.See Configure default settings for organizations and folders (https://docs.cloud.google.com/logging/docs/default-settings) for more information. */
 export const updateSettingsFolders: API.OperationMethod<UpdateSettingsFoldersRequest, UpdateSettingsFoldersResponse, UpdateSettingsFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateSettingsFoldersRequest,
   output: UpdateSettingsFoldersResponse,
   errors: [],
 }));
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: List all public locations: Use the path GET /v1/locations. List project-visible locations: Use the path GET /v1/projects/{project_id}/locations. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListFoldersLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -6197,7 +6196,8 @@ export const ListFoldersLocationsResponse = ListLocationsResponse;
 
 export type ListFoldersLocationsError = CommonErrors;
 
-export const listFoldersLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: List all public locations: Use the path GET /v1/locations. List project-visible locations: Use the path GET /v1/projects/{project_id}/locations. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listFoldersLocations: API.PaginatedOperationMethod<ListFoldersLocationsRequest, ListFoldersLocationsResponse, ListFoldersLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersLocationsRequest,
   output: ListFoldersLocationsResponse,
   errors: [],
@@ -6207,7 +6207,6 @@ export const listFoldersLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetFoldersLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -6225,13 +6224,13 @@ export const GetFoldersLocationsResponse = Location;
 
 export type GetFoldersLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getFoldersLocations: API.OperationMethod<GetFoldersLocationsRequest, GetFoldersLocationsResponse, GetFoldersLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersLocationsRequest,
   output: GetFoldersLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns UNIMPLEMENTED. */
 export interface ListFoldersLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -6261,7 +6260,8 @@ export const ListFoldersLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListFoldersLocationsOperationsError = CommonErrors;
 
-export const listFoldersLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns UNIMPLEMENTED. */
+export const listFoldersLocationsOperations: API.PaginatedOperationMethod<ListFoldersLocationsOperationsRequest, ListFoldersLocationsOperationsResponse, ListFoldersLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersLocationsOperationsRequest,
   output: ListFoldersLocationsOperationsResponse,
   errors: [],
@@ -6271,7 +6271,6 @@ export const listFoldersLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetFoldersLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -6289,13 +6288,13 @@ export const GetFoldersLocationsOperationsResponse = Operation;
 
 export type GetFoldersLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getFoldersLocationsOperations: API.OperationMethod<GetFoldersLocationsOperationsRequest, GetFoldersLocationsOperationsResponse, GetFoldersLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersLocationsOperationsRequest,
   output: GetFoldersLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns google.rpc.Code.UNIMPLEMENTED. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of 1, corresponding to Code.CANCELLED. */
 export interface CancelFoldersLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -6316,13 +6315,13 @@ export const CancelFoldersLocationsOperationsResponse = Empty;
 
 export type CancelFoldersLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns google.rpc.Code.UNIMPLEMENTED. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of 1, corresponding to Code.CANCELLED. */
 export const cancelFoldersLocationsOperations: API.OperationMethod<CancelFoldersLocationsOperationsRequest, CancelFoldersLocationsOperationsResponse, CancelFoldersLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelFoldersLocationsOperationsRequest,
   output: CancelFoldersLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Lists log buckets. */
 export interface ListFoldersLocationsBucketsRequest {
   /** Required. The parent resource whose buckets are to be listed: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" Note: The locations portion of the resource must be specified, but supplying the character - in place of LOCATION_ID will return all buckets. */
   parent: string;
@@ -6346,7 +6345,8 @@ export const ListFoldersLocationsBucketsResponse = ListBucketsResponse;
 
 export type ListFoldersLocationsBucketsError = CommonErrors;
 
-export const listFoldersLocationsBuckets = API.makePaginated(() => ({
+/** Lists log buckets. */
+export const listFoldersLocationsBuckets: API.PaginatedOperationMethod<ListFoldersLocationsBucketsRequest, ListFoldersLocationsBucketsResponse, ListFoldersLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersLocationsBucketsRequest,
   output: ListFoldersLocationsBucketsResponse,
   errors: [],
@@ -6356,7 +6356,6 @@ export const listFoldersLocationsBuckets = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a log bucket. */
 export interface GetFoldersLocationsBucketsRequest {
   /** Required. The resource name of the bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
@@ -6374,13 +6373,13 @@ export const GetFoldersLocationsBucketsResponse = LogBucket;
 
 export type GetFoldersLocationsBucketsError = CommonErrors;
 
+/** Gets a log bucket. */
 export const getFoldersLocationsBuckets: API.OperationMethod<GetFoldersLocationsBucketsRequest, GetFoldersLocationsBucketsResponse, GetFoldersLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersLocationsBucketsRequest,
   output: GetFoldersLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Creates a log bucket asynchronously that can be used to store log entries.After a bucket has been created, the bucket's location cannot be changed. */
 export interface CreateAsyncFoldersLocationsBucketsRequest {
   /** Required. The resource in which to create the log bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
@@ -6404,13 +6403,13 @@ export const CreateAsyncFoldersLocationsBucketsResponse = Operation;
 
 export type CreateAsyncFoldersLocationsBucketsError = CommonErrors;
 
+/** Creates a log bucket asynchronously that can be used to store log entries.After a bucket has been created, the bucket's location cannot be changed. */
 export const createAsyncFoldersLocationsBuckets: API.OperationMethod<CreateAsyncFoldersLocationsBucketsRequest, CreateAsyncFoldersLocationsBucketsResponse, CreateAsyncFoldersLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAsyncFoldersLocationsBucketsRequest,
   output: CreateAsyncFoldersLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Updates a log bucket asynchronously.If the bucket has a lifecycle_state of DELETE_REQUESTED, then FAILED_PRECONDITION will be returned.After a bucket has been created, the bucket's location cannot be changed. */
 export interface UpdateAsyncFoldersLocationsBucketsRequest {
   /** Required. The full resource name of the bucket to update. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
@@ -6434,13 +6433,13 @@ export const UpdateAsyncFoldersLocationsBucketsResponse = Operation;
 
 export type UpdateAsyncFoldersLocationsBucketsError = CommonErrors;
 
+/** Updates a log bucket asynchronously.If the bucket has a lifecycle_state of DELETE_REQUESTED, then FAILED_PRECONDITION will be returned.After a bucket has been created, the bucket's location cannot be changed. */
 export const updateAsyncFoldersLocationsBuckets: API.OperationMethod<UpdateAsyncFoldersLocationsBucketsRequest, UpdateAsyncFoldersLocationsBucketsResponse, UpdateAsyncFoldersLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAsyncFoldersLocationsBucketsRequest,
   output: UpdateAsyncFoldersLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Creates a log bucket that can be used to store log entries. After a bucket has been created, the bucket's location cannot be changed. */
 export interface CreateFoldersLocationsBucketsRequest {
   /** Required. The resource in which to create the log bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
@@ -6464,13 +6463,13 @@ export const CreateFoldersLocationsBucketsResponse = LogBucket;
 
 export type CreateFoldersLocationsBucketsError = CommonErrors;
 
+/** Creates a log bucket that can be used to store log entries. After a bucket has been created, the bucket's location cannot be changed. */
 export const createFoldersLocationsBuckets: API.OperationMethod<CreateFoldersLocationsBucketsRequest, CreateFoldersLocationsBucketsResponse, CreateFoldersLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateFoldersLocationsBucketsRequest,
   output: CreateFoldersLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Updates a log bucket.If the bucket has a lifecycle_state of DELETE_REQUESTED, then FAILED_PRECONDITION will be returned.After a bucket has been created, the bucket's location cannot be changed. */
 export interface PatchFoldersLocationsBucketsRequest {
   /** Required. The full resource name of the bucket to update. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
@@ -6494,13 +6493,13 @@ export const PatchFoldersLocationsBucketsResponse = LogBucket;
 
 export type PatchFoldersLocationsBucketsError = CommonErrors;
 
+/** Updates a log bucket.If the bucket has a lifecycle_state of DELETE_REQUESTED, then FAILED_PRECONDITION will be returned.After a bucket has been created, the bucket's location cannot be changed. */
 export const patchFoldersLocationsBuckets: API.OperationMethod<PatchFoldersLocationsBucketsRequest, PatchFoldersLocationsBucketsResponse, PatchFoldersLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchFoldersLocationsBucketsRequest,
   output: PatchFoldersLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Deletes a log bucket.Changes the bucket's lifecycle_state to the DELETE_REQUESTED state. After 7 days, the bucket will be purged and all log entries in the bucket will be permanently deleted. */
 export interface DeleteFoldersLocationsBucketsRequest {
   /** Required. The full resource name of the bucket to delete. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
@@ -6518,13 +6517,13 @@ export const DeleteFoldersLocationsBucketsResponse = Empty;
 
 export type DeleteFoldersLocationsBucketsError = CommonErrors;
 
+/** Deletes a log bucket.Changes the bucket's lifecycle_state to the DELETE_REQUESTED state. After 7 days, the bucket will be purged and all log entries in the bucket will be permanently deleted. */
 export const deleteFoldersLocationsBuckets: API.OperationMethod<DeleteFoldersLocationsBucketsRequest, DeleteFoldersLocationsBucketsResponse, DeleteFoldersLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteFoldersLocationsBucketsRequest,
   output: DeleteFoldersLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Undeletes a log bucket. A bucket that has been deleted can be undeleted within the grace period of 7 days. */
 export interface UndeleteFoldersLocationsBucketsRequest {
   /** Required. The full resource name of the bucket to undelete. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
@@ -6545,13 +6544,13 @@ export const UndeleteFoldersLocationsBucketsResponse = Empty;
 
 export type UndeleteFoldersLocationsBucketsError = CommonErrors;
 
+/** Undeletes a log bucket. A bucket that has been deleted can be undeleted within the grace period of 7 days. */
 export const undeleteFoldersLocationsBuckets: API.OperationMethod<UndeleteFoldersLocationsBucketsRequest, UndeleteFoldersLocationsBucketsResponse, UndeleteFoldersLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UndeleteFoldersLocationsBucketsRequest,
   output: UndeleteFoldersLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND, INVALID_ARGUMENT, and PERMISSION_DENIED errors. */
 export interface SetIamPolicyFoldersLocationsBucketsViewsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -6572,13 +6571,13 @@ export const SetIamPolicyFoldersLocationsBucketsViewsResponse = Policy;
 
 export type SetIamPolicyFoldersLocationsBucketsViewsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND, INVALID_ARGUMENT, and PERMISSION_DENIED errors. */
 export const setIamPolicyFoldersLocationsBucketsViews: API.OperationMethod<SetIamPolicyFoldersLocationsBucketsViewsRequest, SetIamPolicyFoldersLocationsBucketsViewsResponse, SetIamPolicyFoldersLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyFoldersLocationsBucketsViewsRequest,
   output: SetIamPolicyFoldersLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyFoldersLocationsBucketsViewsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -6599,13 +6598,13 @@ export const GetIamPolicyFoldersLocationsBucketsViewsResponse = Policy;
 
 export type GetIamPolicyFoldersLocationsBucketsViewsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyFoldersLocationsBucketsViews: API.OperationMethod<GetIamPolicyFoldersLocationsBucketsViewsRequest, GetIamPolicyFoldersLocationsBucketsViewsResponse, GetIamPolicyFoldersLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyFoldersLocationsBucketsViewsRequest,
   output: GetIamPolicyFoldersLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsFoldersLocationsBucketsViewsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -6626,13 +6625,13 @@ export const TestIamPermissionsFoldersLocationsBucketsViewsResponse = TestIamPer
 
 export type TestIamPermissionsFoldersLocationsBucketsViewsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsFoldersLocationsBucketsViews: API.OperationMethod<TestIamPermissionsFoldersLocationsBucketsViewsRequest, TestIamPermissionsFoldersLocationsBucketsViewsResponse, TestIamPermissionsFoldersLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsFoldersLocationsBucketsViewsRequest,
   output: TestIamPermissionsFoldersLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Lists views on a log bucket. */
 export interface ListFoldersLocationsBucketsViewsRequest {
   /** Required. The bucket whose views are to be listed: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" */
   parent: string;
@@ -6656,7 +6655,8 @@ export const ListFoldersLocationsBucketsViewsResponse = ListViewsResponse;
 
 export type ListFoldersLocationsBucketsViewsError = CommonErrors;
 
-export const listFoldersLocationsBucketsViews = API.makePaginated(() => ({
+/** Lists views on a log bucket. */
+export const listFoldersLocationsBucketsViews: API.PaginatedOperationMethod<ListFoldersLocationsBucketsViewsRequest, ListFoldersLocationsBucketsViewsResponse, ListFoldersLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersLocationsBucketsViewsRequest,
   output: ListFoldersLocationsBucketsViewsResponse,
   errors: [],
@@ -6666,7 +6666,6 @@ export const listFoldersLocationsBucketsViews = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a view on a log bucket. */
 export interface GetFoldersLocationsBucketsViewsRequest {
   /** Required. The resource name of the policy: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket/views/my-view" */
   name: string;
@@ -6684,13 +6683,13 @@ export const GetFoldersLocationsBucketsViewsResponse = LogView;
 
 export type GetFoldersLocationsBucketsViewsError = CommonErrors;
 
+/** Gets a view on a log bucket. */
 export const getFoldersLocationsBucketsViews: API.OperationMethod<GetFoldersLocationsBucketsViewsRequest, GetFoldersLocationsBucketsViewsResponse, GetFoldersLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersLocationsBucketsViewsRequest,
   output: GetFoldersLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Creates a view over log entries in a log bucket. A bucket may contain a maximum of 30 views. */
 export interface CreateFoldersLocationsBucketsViewsRequest {
   /** Required. The bucket in which to create the view `"projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]"` For example:"projects/my-project/locations/global/buckets/my-bucket" */
   parent: string;
@@ -6714,13 +6713,13 @@ export const CreateFoldersLocationsBucketsViewsResponse = LogView;
 
 export type CreateFoldersLocationsBucketsViewsError = CommonErrors;
 
+/** Creates a view over log entries in a log bucket. A bucket may contain a maximum of 30 views. */
 export const createFoldersLocationsBucketsViews: API.OperationMethod<CreateFoldersLocationsBucketsViewsRequest, CreateFoldersLocationsBucketsViewsResponse, CreateFoldersLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateFoldersLocationsBucketsViewsRequest,
   output: CreateFoldersLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Updates a view on a log bucket. This method replaces the value of the filter field from the existing view with the corresponding value from the new view. If an UNAVAILABLE error is returned, this indicates that system is not in a state where it can update the view. If this occurs, please try again in a few minutes. */
 export interface PatchFoldersLocationsBucketsViewsRequest {
   /** Required. The full resource name of the view to update "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket/views/my-view" */
   name: string;
@@ -6744,13 +6743,13 @@ export const PatchFoldersLocationsBucketsViewsResponse = LogView;
 
 export type PatchFoldersLocationsBucketsViewsError = CommonErrors;
 
+/** Updates a view on a log bucket. This method replaces the value of the filter field from the existing view with the corresponding value from the new view. If an UNAVAILABLE error is returned, this indicates that system is not in a state where it can update the view. If this occurs, please try again in a few minutes. */
 export const patchFoldersLocationsBucketsViews: API.OperationMethod<PatchFoldersLocationsBucketsViewsRequest, PatchFoldersLocationsBucketsViewsResponse, PatchFoldersLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchFoldersLocationsBucketsViewsRequest,
   output: PatchFoldersLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Deletes a view on a log bucket. If an UNAVAILABLE error is returned, this indicates that system is not in a state where it can delete the view. If this occurs, please try again in a few minutes. */
 export interface DeleteFoldersLocationsBucketsViewsRequest {
   /** Required. The full resource name of the view to delete: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket/views/my-view" */
   name: string;
@@ -6768,13 +6767,13 @@ export const DeleteFoldersLocationsBucketsViewsResponse = Empty;
 
 export type DeleteFoldersLocationsBucketsViewsError = CommonErrors;
 
+/** Deletes a view on a log bucket. If an UNAVAILABLE error is returned, this indicates that system is not in a state where it can delete the view. If this occurs, please try again in a few minutes. */
 export const deleteFoldersLocationsBucketsViews: API.OperationMethod<DeleteFoldersLocationsBucketsViewsRequest, DeleteFoldersLocationsBucketsViewsResponse, DeleteFoldersLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteFoldersLocationsBucketsViewsRequest,
   output: DeleteFoldersLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Lists the logs in projects, organizations, folders, or billing accounts. Only logs that have entries are listed. */
 export interface ListFoldersLocationsBucketsViewsLogsRequest {
   /** Required. The resource name to list logs for: projects/[PROJECT_ID] organizations/[ORGANIZATION_ID] billingAccounts/[BILLING_ACCOUNT_ID] folders/[FOLDER_ID] */
   parent: string;
@@ -6801,7 +6800,8 @@ export const ListFoldersLocationsBucketsViewsLogsResponse = ListLogsResponse;
 
 export type ListFoldersLocationsBucketsViewsLogsError = CommonErrors;
 
-export const listFoldersLocationsBucketsViewsLogs = API.makePaginated(() => ({
+/** Lists the logs in projects, organizations, folders, or billing accounts. Only logs that have entries are listed. */
+export const listFoldersLocationsBucketsViewsLogs: API.PaginatedOperationMethod<ListFoldersLocationsBucketsViewsLogsRequest, ListFoldersLocationsBucketsViewsLogsResponse, ListFoldersLocationsBucketsViewsLogsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersLocationsBucketsViewsLogsRequest,
   output: ListFoldersLocationsBucketsViewsLogsResponse,
   errors: [],
@@ -6811,7 +6811,6 @@ export const listFoldersLocationsBucketsViewsLogs = API.makePaginated(() => ({
   },
 }));
 
-/** Lists links. */
 export interface ListFoldersLocationsBucketsLinksRequest {
   /** Required. The parent resource whose links are to be listed: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" */
   parent: string;
@@ -6835,7 +6834,8 @@ export const ListFoldersLocationsBucketsLinksResponse = ListLinksResponse;
 
 export type ListFoldersLocationsBucketsLinksError = CommonErrors;
 
-export const listFoldersLocationsBucketsLinks = API.makePaginated(() => ({
+/** Lists links. */
+export const listFoldersLocationsBucketsLinks: API.PaginatedOperationMethod<ListFoldersLocationsBucketsLinksRequest, ListFoldersLocationsBucketsLinksResponse, ListFoldersLocationsBucketsLinksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersLocationsBucketsLinksRequest,
   output: ListFoldersLocationsBucketsLinksResponse,
   errors: [],
@@ -6845,7 +6845,6 @@ export const listFoldersLocationsBucketsLinks = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a link. */
 export interface GetFoldersLocationsBucketsLinksRequest {
   /** Required. The resource name of the link: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" */
   name: string;
@@ -6863,13 +6862,13 @@ export const GetFoldersLocationsBucketsLinksResponse = Link;
 
 export type GetFoldersLocationsBucketsLinksError = CommonErrors;
 
+/** Gets a link. */
 export const getFoldersLocationsBucketsLinks: API.OperationMethod<GetFoldersLocationsBucketsLinksRequest, GetFoldersLocationsBucketsLinksResponse, GetFoldersLocationsBucketsLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersLocationsBucketsLinksRequest,
   output: GetFoldersLocationsBucketsLinksResponse,
   errors: [],
 }));
 
-/** Asynchronously creates a linked dataset in BigQuery which makes it possible to use BigQuery to read the logs stored in the log bucket. A log bucket may currently only contain one link. */
 export interface CreateFoldersLocationsBucketsLinksRequest {
   /** Required. The full resource name of the bucket to create a link for. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" */
   parent: string;
@@ -6893,13 +6892,13 @@ export const CreateFoldersLocationsBucketsLinksResponse = Operation;
 
 export type CreateFoldersLocationsBucketsLinksError = CommonErrors;
 
+/** Asynchronously creates a linked dataset in BigQuery which makes it possible to use BigQuery to read the logs stored in the log bucket. A log bucket may currently only contain one link. */
 export const createFoldersLocationsBucketsLinks: API.OperationMethod<CreateFoldersLocationsBucketsLinksRequest, CreateFoldersLocationsBucketsLinksResponse, CreateFoldersLocationsBucketsLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateFoldersLocationsBucketsLinksRequest,
   output: CreateFoldersLocationsBucketsLinksResponse,
   errors: [],
 }));
 
-/** Deletes a link. This will also delete the corresponding BigQuery linked dataset. */
 export interface DeleteFoldersLocationsBucketsLinksRequest {
   /** Required. The full resource name of the link to delete. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" */
   name: string;
@@ -6917,13 +6916,13 @@ export const DeleteFoldersLocationsBucketsLinksResponse = Operation;
 
 export type DeleteFoldersLocationsBucketsLinksError = CommonErrors;
 
+/** Deletes a link. This will also delete the corresponding BigQuery linked dataset. */
 export const deleteFoldersLocationsBucketsLinks: API.OperationMethod<DeleteFoldersLocationsBucketsLinksRequest, DeleteFoldersLocationsBucketsLinksResponse, DeleteFoldersLocationsBucketsLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteFoldersLocationsBucketsLinksRequest,
   output: DeleteFoldersLocationsBucketsLinksResponse,
   errors: [],
 }));
 
-/** Lists log scopes. */
 export interface ListFoldersLocationsLogScopesRequest {
   /** Required. The parent resource whose log scopes are to be listed: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" */
   parent: string;
@@ -6947,7 +6946,8 @@ export const ListFoldersLocationsLogScopesResponse = ListLogScopesResponse;
 
 export type ListFoldersLocationsLogScopesError = CommonErrors;
 
-export const listFoldersLocationsLogScopes = API.makePaginated(() => ({
+/** Lists log scopes. */
+export const listFoldersLocationsLogScopes: API.PaginatedOperationMethod<ListFoldersLocationsLogScopesRequest, ListFoldersLocationsLogScopesResponse, ListFoldersLocationsLogScopesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersLocationsLogScopesRequest,
   output: ListFoldersLocationsLogScopesResponse,
   errors: [],
@@ -6957,7 +6957,6 @@ export const listFoldersLocationsLogScopes = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a log scope. */
 export interface GetFoldersLocationsLogScopesRequest {
   /** Required. The resource name of the log scope: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global/logScopes/my-log-scope" */
   name: string;
@@ -6975,13 +6974,13 @@ export const GetFoldersLocationsLogScopesResponse = LogScope;
 
 export type GetFoldersLocationsLogScopesError = CommonErrors;
 
+/** Gets a log scope. */
 export const getFoldersLocationsLogScopes: API.OperationMethod<GetFoldersLocationsLogScopesRequest, GetFoldersLocationsLogScopesResponse, GetFoldersLocationsLogScopesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersLocationsLogScopesRequest,
   output: GetFoldersLocationsLogScopesResponse,
   errors: [],
 }));
 
-/** Creates a log scope. */
 export interface CreateFoldersLocationsLogScopesRequest {
   /** Required. The parent resource in which to create the log scope: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
@@ -7005,13 +7004,13 @@ export const CreateFoldersLocationsLogScopesResponse = LogScope;
 
 export type CreateFoldersLocationsLogScopesError = CommonErrors;
 
+/** Creates a log scope. */
 export const createFoldersLocationsLogScopes: API.OperationMethod<CreateFoldersLocationsLogScopesRequest, CreateFoldersLocationsLogScopesResponse, CreateFoldersLocationsLogScopesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateFoldersLocationsLogScopesRequest,
   output: CreateFoldersLocationsLogScopesResponse,
   errors: [],
 }));
 
-/** Updates a log scope. */
 export interface PatchFoldersLocationsLogScopesRequest {
   /** Output only. The resource name of the log scope.Log scopes are only available in the global location. For example:projects/my-project/locations/global/logScopes/my-log-scope */
   name: string;
@@ -7035,13 +7034,13 @@ export const PatchFoldersLocationsLogScopesResponse = LogScope;
 
 export type PatchFoldersLocationsLogScopesError = CommonErrors;
 
+/** Updates a log scope. */
 export const patchFoldersLocationsLogScopes: API.OperationMethod<PatchFoldersLocationsLogScopesRequest, PatchFoldersLocationsLogScopesResponse, PatchFoldersLocationsLogScopesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchFoldersLocationsLogScopesRequest,
   output: PatchFoldersLocationsLogScopesResponse,
   errors: [],
 }));
 
-/** Deletes a log scope. */
 export interface DeleteFoldersLocationsLogScopesRequest {
   /** Required. The resource name of the log scope to delete: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global/logScopes/my-log-scope" */
   name: string;
@@ -7059,13 +7058,13 @@ export const DeleteFoldersLocationsLogScopesResponse = Empty;
 
 export type DeleteFoldersLocationsLogScopesError = CommonErrors;
 
+/** Deletes a log scope. */
 export const deleteFoldersLocationsLogScopes: API.OperationMethod<DeleteFoldersLocationsLogScopesRequest, DeleteFoldersLocationsLogScopesResponse, DeleteFoldersLocationsLogScopesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteFoldersLocationsLogScopesRequest,
   output: DeleteFoldersLocationsLogScopesResponse,
   errors: [],
 }));
 
-/** Lists the SavedQueries that were created by the user making the request. */
 export interface ListFoldersLocationsSavedQueriesRequest {
   /** Required. The resource to which the listed queries belong. "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example: "projects/my-project/locations/us-central1" Note: The locations portion of the resource must be specified. To get a list of all saved queries, a wildcard character - can be used for LOCATION_ID, for example: "projects/my-project/locations/-" */
   parent: string;
@@ -7092,7 +7091,8 @@ export const ListFoldersLocationsSavedQueriesResponse = ListSavedQueriesResponse
 
 export type ListFoldersLocationsSavedQueriesError = CommonErrors;
 
-export const listFoldersLocationsSavedQueries = API.makePaginated(() => ({
+/** Lists the SavedQueries that were created by the user making the request. */
+export const listFoldersLocationsSavedQueries: API.PaginatedOperationMethod<ListFoldersLocationsSavedQueriesRequest, ListFoldersLocationsSavedQueriesResponse, ListFoldersLocationsSavedQueriesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersLocationsSavedQueriesRequest,
   output: ListFoldersLocationsSavedQueriesResponse,
   errors: [],
@@ -7102,7 +7102,6 @@ export const listFoldersLocationsSavedQueries = API.makePaginated(() => ({
   },
 }));
 
-/** Returns all data associated with the requested query. */
 export interface GetFoldersLocationsSavedQueriesRequest {
   /** Required. The resource name of the saved query. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" For example: "projects/my-project/locations/global/savedQueries/my-saved-query" */
   name: string;
@@ -7120,13 +7119,13 @@ export const GetFoldersLocationsSavedQueriesResponse = SavedQuery;
 
 export type GetFoldersLocationsSavedQueriesError = CommonErrors;
 
+/** Returns all data associated with the requested query. */
 export const getFoldersLocationsSavedQueries: API.OperationMethod<GetFoldersLocationsSavedQueriesRequest, GetFoldersLocationsSavedQueriesResponse, GetFoldersLocationsSavedQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersLocationsSavedQueriesRequest,
   output: GetFoldersLocationsSavedQueriesResponse,
   errors: [],
 }));
 
-/** Creates a new SavedQuery for the user making the request. */
 export interface CreateFoldersLocationsSavedQueriesRequest {
   /** Required. The parent resource in which to create the saved query: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example: "projects/my-project/locations/global" "organizations/123456789/locations/us-central1" */
   parent: string;
@@ -7150,13 +7149,13 @@ export const CreateFoldersLocationsSavedQueriesResponse = SavedQuery;
 
 export type CreateFoldersLocationsSavedQueriesError = CommonErrors;
 
+/** Creates a new SavedQuery for the user making the request. */
 export const createFoldersLocationsSavedQueries: API.OperationMethod<CreateFoldersLocationsSavedQueriesRequest, CreateFoldersLocationsSavedQueriesResponse, CreateFoldersLocationsSavedQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateFoldersLocationsSavedQueriesRequest,
   output: CreateFoldersLocationsSavedQueriesResponse,
   errors: [],
 }));
 
-/** Updates an existing SavedQuery. */
 export interface PatchFoldersLocationsSavedQueriesRequest {
   /** Output only. Resource name of the saved query.In the format: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" For a list of supported locations, see Supported Regions (https://docs.cloud.google.com/logging/docs/region-support#bucket-regions)After the saved query is created, the location cannot be changed.If the user doesn't provide a QUERY_ID, the system will generate an alphanumeric ID. */
   name: string;
@@ -7180,13 +7179,13 @@ export const PatchFoldersLocationsSavedQueriesResponse = SavedQuery;
 
 export type PatchFoldersLocationsSavedQueriesError = CommonErrors;
 
+/** Updates an existing SavedQuery. */
 export const patchFoldersLocationsSavedQueries: API.OperationMethod<PatchFoldersLocationsSavedQueriesRequest, PatchFoldersLocationsSavedQueriesResponse, PatchFoldersLocationsSavedQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchFoldersLocationsSavedQueriesRequest,
   output: PatchFoldersLocationsSavedQueriesResponse,
   errors: [],
 }));
 
-/** Deletes an existing SavedQuery that was created by the user making the request. */
 export interface DeleteFoldersLocationsSavedQueriesRequest {
   /** Required. The full resource name of the saved query to delete. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" For example: "projects/my-project/locations/global/savedQueries/my-saved-query" */
   name: string;
@@ -7204,13 +7203,13 @@ export const DeleteFoldersLocationsSavedQueriesResponse = Empty;
 
 export type DeleteFoldersLocationsSavedQueriesError = CommonErrors;
 
+/** Deletes an existing SavedQuery that was created by the user making the request. */
 export const deleteFoldersLocationsSavedQueries: API.OperationMethod<DeleteFoldersLocationsSavedQueriesRequest, DeleteFoldersLocationsSavedQueriesResponse, DeleteFoldersLocationsSavedQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteFoldersLocationsSavedQueriesRequest,
   output: DeleteFoldersLocationsSavedQueriesResponse,
   errors: [],
 }));
 
-/** Lists the RecentQueries that were created by the user making the request. */
 export interface ListFoldersLocationsRecentQueriesRequest {
   /** Required. The resource to which the listed queries belong. "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example:projects/my-project/locations/us-central1Note: The location portion of the resource must be specified, but supplying the character - in place of LOCATION_ID will return all recent queries. */
   parent: string;
@@ -7237,7 +7236,8 @@ export const ListFoldersLocationsRecentQueriesResponse = ListRecentQueriesRespon
 
 export type ListFoldersLocationsRecentQueriesError = CommonErrors;
 
-export const listFoldersLocationsRecentQueries = API.makePaginated(() => ({
+/** Lists the RecentQueries that were created by the user making the request. */
+export const listFoldersLocationsRecentQueries: API.PaginatedOperationMethod<ListFoldersLocationsRecentQueriesRequest, ListFoldersLocationsRecentQueriesResponse, ListFoldersLocationsRecentQueriesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersLocationsRecentQueriesRequest,
   output: ListFoldersLocationsRecentQueriesResponse,
   errors: [],
@@ -7247,7 +7247,6 @@ export const listFoldersLocationsRecentQueries = API.makePaginated(() => ({
   },
 }));
 
-/** Lists all the exclusions on the _Default sink in a parent resource. */
 export interface ListFoldersExclusionsRequest {
   /** Required. The parent resource whose exclusions are to be listed. "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" */
   parent: string;
@@ -7271,7 +7270,8 @@ export const ListFoldersExclusionsResponse = ListExclusionsResponse;
 
 export type ListFoldersExclusionsError = CommonErrors;
 
-export const listFoldersExclusions = API.makePaginated(() => ({
+/** Lists all the exclusions on the _Default sink in a parent resource. */
+export const listFoldersExclusions: API.PaginatedOperationMethod<ListFoldersExclusionsRequest, ListFoldersExclusionsResponse, ListFoldersExclusionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersExclusionsRequest,
   output: ListFoldersExclusionsResponse,
   errors: [],
@@ -7281,7 +7281,6 @@ export const listFoldersExclusions = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the description of an exclusion in the _Default sink. */
 export interface GetFoldersExclusionsRequest {
   /** Required. The resource name of an existing exclusion: "projects/[PROJECT_ID]/exclusions/[EXCLUSION_ID]" "organizations/[ORGANIZATION_ID]/exclusions/[EXCLUSION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/exclusions/[EXCLUSION_ID]" "folders/[FOLDER_ID]/exclusions/[EXCLUSION_ID]" For example:"projects/my-project/exclusions/my-exclusion" */
   name: string;
@@ -7299,13 +7298,13 @@ export const GetFoldersExclusionsResponse = LogExclusion;
 
 export type GetFoldersExclusionsError = CommonErrors;
 
+/** Gets the description of an exclusion in the _Default sink. */
 export const getFoldersExclusions: API.OperationMethod<GetFoldersExclusionsRequest, GetFoldersExclusionsResponse, GetFoldersExclusionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersExclusionsRequest,
   output: GetFoldersExclusionsResponse,
   errors: [],
 }));
 
-/** Creates a new exclusion in the _Default sink in a specified parent resource. Only log entries belonging to that resource can be excluded. You can have up to 10 exclusions in a resource. */
 export interface CreateFoldersExclusionsRequest {
   /** Required. The parent resource in which to create the exclusion: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-logging-project" "organizations/123456789" */
   parent: string;
@@ -7326,13 +7325,13 @@ export const CreateFoldersExclusionsResponse = LogExclusion;
 
 export type CreateFoldersExclusionsError = CommonErrors;
 
+/** Creates a new exclusion in the _Default sink in a specified parent resource. Only log entries belonging to that resource can be excluded. You can have up to 10 exclusions in a resource. */
 export const createFoldersExclusions: API.OperationMethod<CreateFoldersExclusionsRequest, CreateFoldersExclusionsResponse, CreateFoldersExclusionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateFoldersExclusionsRequest,
   output: CreateFoldersExclusionsResponse,
   errors: [],
 }));
 
-/** Changes one or more properties of an existing exclusion in the _Default sink. */
 export interface PatchFoldersExclusionsRequest {
   /** Required. The resource name of the exclusion to update: "projects/[PROJECT_ID]/exclusions/[EXCLUSION_ID]" "organizations/[ORGANIZATION_ID]/exclusions/[EXCLUSION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/exclusions/[EXCLUSION_ID]" "folders/[FOLDER_ID]/exclusions/[EXCLUSION_ID]" For example:"projects/my-project/exclusions/my-exclusion" */
   name: string;
@@ -7356,13 +7355,13 @@ export const PatchFoldersExclusionsResponse = LogExclusion;
 
 export type PatchFoldersExclusionsError = CommonErrors;
 
+/** Changes one or more properties of an existing exclusion in the _Default sink. */
 export const patchFoldersExclusions: API.OperationMethod<PatchFoldersExclusionsRequest, PatchFoldersExclusionsResponse, PatchFoldersExclusionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchFoldersExclusionsRequest,
   output: PatchFoldersExclusionsResponse,
   errors: [],
 }));
 
-/** Deletes an exclusion in the _Default sink. */
 export interface DeleteFoldersExclusionsRequest {
   /** Required. The resource name of an existing exclusion to delete: "projects/[PROJECT_ID]/exclusions/[EXCLUSION_ID]" "organizations/[ORGANIZATION_ID]/exclusions/[EXCLUSION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/exclusions/[EXCLUSION_ID]" "folders/[FOLDER_ID]/exclusions/[EXCLUSION_ID]" For example:"projects/my-project/exclusions/my-exclusion" */
   name: string;
@@ -7380,13 +7379,13 @@ export const DeleteFoldersExclusionsResponse = Empty;
 
 export type DeleteFoldersExclusionsError = CommonErrors;
 
+/** Deletes an exclusion in the _Default sink. */
 export const deleteFoldersExclusions: API.OperationMethod<DeleteFoldersExclusionsRequest, DeleteFoldersExclusionsResponse, DeleteFoldersExclusionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteFoldersExclusionsRequest,
   output: DeleteFoldersExclusionsResponse,
   errors: [],
 }));
 
-/** Lists sinks. */
 export interface ListFoldersSinksRequest {
   /** Required. The parent resource whose sinks are to be listed: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" */
   parent: string;
@@ -7413,7 +7412,8 @@ export const ListFoldersSinksResponse = ListSinksResponse;
 
 export type ListFoldersSinksError = CommonErrors;
 
-export const listFoldersSinks = API.makePaginated(() => ({
+/** Lists sinks. */
+export const listFoldersSinks: API.PaginatedOperationMethod<ListFoldersSinksRequest, ListFoldersSinksResponse, ListFoldersSinksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersSinksRequest,
   output: ListFoldersSinksResponse,
   errors: [],
@@ -7423,7 +7423,6 @@ export const listFoldersSinks = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a sink. */
 export interface GetFoldersSinksRequest {
   /** Required. The resource name of the sink: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
   sinkName: string;
@@ -7441,13 +7440,13 @@ export const GetFoldersSinksResponse = LogSink;
 
 export type GetFoldersSinksError = CommonErrors;
 
+/** Gets a sink. */
 export const getFoldersSinks: API.OperationMethod<GetFoldersSinksRequest, GetFoldersSinksResponse, GetFoldersSinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersSinksRequest,
   output: GetFoldersSinksResponse,
   errors: [],
 }));
 
-/** Creates a sink that exports specified log entries to a destination. The export begins upon ingress, unless the sink's writer_identity is not permitted to write to the destination. A sink can export log entries only from the resource owning the sink. */
 export interface CreateFoldersSinksRequest {
   /** Required. The resource in which to create the sink: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-project" "organizations/123456789" */
   parent: string;
@@ -7474,13 +7473,13 @@ export const CreateFoldersSinksResponse = LogSink;
 
 export type CreateFoldersSinksError = CommonErrors;
 
+/** Creates a sink that exports specified log entries to a destination. The export begins upon ingress, unless the sink's writer_identity is not permitted to write to the destination. A sink can export log entries only from the resource owning the sink. */
 export const createFoldersSinks: API.OperationMethod<CreateFoldersSinksRequest, CreateFoldersSinksResponse, CreateFoldersSinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateFoldersSinksRequest,
   output: CreateFoldersSinksResponse,
   errors: [],
 }));
 
-/** Updates a sink. This method replaces the values of the destination and filter fields of the existing sink with the corresponding values from the new sink.The updated sink might also have a new writer_identity; see the unique_writer_identity field. */
 export interface UpdateFoldersSinksRequest {
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
   sinkName: string;
@@ -7510,13 +7509,13 @@ export const UpdateFoldersSinksResponse = LogSink;
 
 export type UpdateFoldersSinksError = CommonErrors;
 
+/** Updates a sink. This method replaces the values of the destination and filter fields of the existing sink with the corresponding values from the new sink.The updated sink might also have a new writer_identity; see the unique_writer_identity field. */
 export const updateFoldersSinks: API.OperationMethod<UpdateFoldersSinksRequest, UpdateFoldersSinksResponse, UpdateFoldersSinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateFoldersSinksRequest,
   output: UpdateFoldersSinksResponse,
   errors: [],
 }));
 
-/** Updates a sink. This method replaces the values of the destination and filter fields of the existing sink with the corresponding values from the new sink.The updated sink might also have a new writer_identity; see the unique_writer_identity field. */
 export interface PatchFoldersSinksRequest {
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
   sinkName: string;
@@ -7546,13 +7545,13 @@ export const PatchFoldersSinksResponse = LogSink;
 
 export type PatchFoldersSinksError = CommonErrors;
 
+/** Updates a sink. This method replaces the values of the destination and filter fields of the existing sink with the corresponding values from the new sink.The updated sink might also have a new writer_identity; see the unique_writer_identity field. */
 export const patchFoldersSinks: API.OperationMethod<PatchFoldersSinksRequest, PatchFoldersSinksResponse, PatchFoldersSinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchFoldersSinksRequest,
   output: PatchFoldersSinksResponse,
   errors: [],
 }));
 
-/** Deletes a sink. If the sink has a unique writer_identity, then that service account is also deleted. */
 export interface DeleteFoldersSinksRequest {
   /** Required. The full resource name of the sink to delete, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
   sinkName: string;
@@ -7570,13 +7569,13 @@ export const DeleteFoldersSinksResponse = Empty;
 
 export type DeleteFoldersSinksError = CommonErrors;
 
+/** Deletes a sink. If the sink has a unique writer_identity, then that service account is also deleted. */
 export const deleteFoldersSinks: API.OperationMethod<DeleteFoldersSinksRequest, DeleteFoldersSinksResponse, DeleteFoldersSinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteFoldersSinksRequest,
   output: DeleteFoldersSinksResponse,
   errors: [],
 }));
 
-/** Deletes all the log entries in a log for the global _Default Log Bucket. The log reappears if it receives new entries. Log entries written shortly before the delete operation might not be deleted. Entries received after the delete operation with a timestamp before the operation will be deleted. */
 export interface DeleteFoldersLogsRequest {
   /** Required. The resource name of the log to delete: projects/[PROJECT_ID]/logs/[LOG_ID] organizations/[ORGANIZATION_ID]/logs/[LOG_ID] billingAccounts/[BILLING_ACCOUNT_ID]/logs/[LOG_ID] folders/[FOLDER_ID]/logs/[LOG_ID][LOG_ID] must be URL-encoded. For example, "projects/my-project-id/logs/syslog", "organizations/123/logs/cloudaudit.googleapis.com%2Factivity".For more information about log names, see LogEntry. */
   logName: string;
@@ -7594,13 +7593,13 @@ export const DeleteFoldersLogsResponse = Empty;
 
 export type DeleteFoldersLogsError = CommonErrors;
 
+/** Deletes all the log entries in a log for the global _Default Log Bucket. The log reappears if it receives new entries. Log entries written shortly before the delete operation might not be deleted. Entries received after the delete operation with a timestamp before the operation will be deleted. */
 export const deleteFoldersLogs: API.OperationMethod<DeleteFoldersLogsRequest, DeleteFoldersLogsResponse, DeleteFoldersLogsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteFoldersLogsRequest,
   output: DeleteFoldersLogsResponse,
   errors: [],
 }));
 
-/** Lists the logs in projects, organizations, folders, or billing accounts. Only logs that have entries are listed. */
 export interface ListFoldersLogsRequest {
   /** Required. The resource name to list logs for: projects/[PROJECT_ID] organizations/[ORGANIZATION_ID] billingAccounts/[BILLING_ACCOUNT_ID] folders/[FOLDER_ID] */
   parent: string;
@@ -7627,7 +7626,8 @@ export const ListFoldersLogsResponse = ListLogsResponse;
 
 export type ListFoldersLogsError = CommonErrors;
 
-export const listFoldersLogs = API.makePaginated(() => ({
+/** Lists the logs in projects, organizations, folders, or billing accounts. Only logs that have entries are listed. */
+export const listFoldersLogs: API.PaginatedOperationMethod<ListFoldersLogsRequest, ListFoldersLogsResponse, ListFoldersLogsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersLogsRequest,
   output: ListFoldersLogsResponse,
   errors: [],
@@ -7637,7 +7637,6 @@ export const listFoldersLogs = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the Logging CMEK settings for the given resource.Note: CMEK for the Log Router can be configured for Google Cloud projects, folders, organizations, and billing accounts. Once configured for an organization, it applies to all projects and folders in the Google Cloud organization.See Configure CMEK for Cloud Logging (https://docs.cloud.google.com/logging/docs/routing/managed-encryption) for more information. */
 export interface GetCmekSettingsBillingAccountsRequest {
   /** Required. The resource for which to retrieve CMEK settings. "projects/[PROJECT_ID]/cmekSettings" "organizations/[ORGANIZATION_ID]/cmekSettings" "billingAccounts/[BILLING_ACCOUNT_ID]/cmekSettings" "folders/[FOLDER_ID]/cmekSettings" For example:"organizations/12345/cmekSettings"Note: CMEK for the Log Router can be configured for Google Cloud projects, folders, organizations, and billing accounts. Once configured for an organization, it applies to all projects and folders in the Google Cloud organization. */
   name: string;
@@ -7655,13 +7654,13 @@ export const GetCmekSettingsBillingAccountsResponse = CmekSettings;
 
 export type GetCmekSettingsBillingAccountsError = CommonErrors;
 
+/** Gets the Logging CMEK settings for the given resource.Note: CMEK for the Log Router can be configured for Google Cloud projects, folders, organizations, and billing accounts. Once configured for an organization, it applies to all projects and folders in the Google Cloud organization.See Configure CMEK for Cloud Logging (https://docs.cloud.google.com/logging/docs/routing/managed-encryption) for more information. */
 export const getCmekSettingsBillingAccounts: API.OperationMethod<GetCmekSettingsBillingAccountsRequest, GetCmekSettingsBillingAccountsResponse, GetCmekSettingsBillingAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCmekSettingsBillingAccountsRequest,
   output: GetCmekSettingsBillingAccountsResponse,
   errors: [],
 }));
 
-/** Gets the settings for the given resource.Note: Settings can be retrieved for Google Cloud projects, folders, organizations, and billing accounts.See View default resource settings for Logging (https://docs.cloud.google.com/logging/docs/default-settings#view-org-settings) for more information. */
 export interface GetSettingsBillingAccountsRequest {
   /** Required. The resource for which to retrieve settings. "projects/[PROJECT_ID]/settings" "organizations/[ORGANIZATION_ID]/settings" "billingAccounts/[BILLING_ACCOUNT_ID]/settings" "folders/[FOLDER_ID]/settings" For example:"organizations/12345/settings"Note: Settings can be retrieved for Google Cloud projects, folders, organizations, and billing accounts. */
   name: string;
@@ -7679,13 +7678,13 @@ export const GetSettingsBillingAccountsResponse = Settings;
 
 export type GetSettingsBillingAccountsError = CommonErrors;
 
+/** Gets the settings for the given resource.Note: Settings can be retrieved for Google Cloud projects, folders, organizations, and billing accounts.See View default resource settings for Logging (https://docs.cloud.google.com/logging/docs/default-settings#view-org-settings) for more information. */
 export const getSettingsBillingAccounts: API.OperationMethod<GetSettingsBillingAccountsRequest, GetSettingsBillingAccountsResponse, GetSettingsBillingAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSettingsBillingAccountsRequest,
   output: GetSettingsBillingAccountsResponse,
   errors: [],
 }));
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: List all public locations: Use the path GET /v1/locations. List project-visible locations: Use the path GET /v1/projects/{project_id}/locations. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListBillingAccountsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -7715,7 +7714,8 @@ export const ListBillingAccountsLocationsResponse = ListLocationsResponse;
 
 export type ListBillingAccountsLocationsError = CommonErrors;
 
-export const listBillingAccountsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: List all public locations: Use the path GET /v1/locations. List project-visible locations: Use the path GET /v1/projects/{project_id}/locations. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listBillingAccountsLocations: API.PaginatedOperationMethod<ListBillingAccountsLocationsRequest, ListBillingAccountsLocationsResponse, ListBillingAccountsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBillingAccountsLocationsRequest,
   output: ListBillingAccountsLocationsResponse,
   errors: [],
@@ -7725,7 +7725,6 @@ export const listBillingAccountsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetBillingAccountsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -7743,13 +7742,13 @@ export const GetBillingAccountsLocationsResponse = Location;
 
 export type GetBillingAccountsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getBillingAccountsLocations: API.OperationMethod<GetBillingAccountsLocationsRequest, GetBillingAccountsLocationsResponse, GetBillingAccountsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBillingAccountsLocationsRequest,
   output: GetBillingAccountsLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns UNIMPLEMENTED. */
 export interface ListBillingAccountsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -7779,7 +7778,8 @@ export const ListBillingAccountsLocationsOperationsResponse = ListOperationsResp
 
 export type ListBillingAccountsLocationsOperationsError = CommonErrors;
 
-export const listBillingAccountsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns UNIMPLEMENTED. */
+export const listBillingAccountsLocationsOperations: API.PaginatedOperationMethod<ListBillingAccountsLocationsOperationsRequest, ListBillingAccountsLocationsOperationsResponse, ListBillingAccountsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBillingAccountsLocationsOperationsRequest,
   output: ListBillingAccountsLocationsOperationsResponse,
   errors: [],
@@ -7789,7 +7789,6 @@ export const listBillingAccountsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetBillingAccountsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -7807,13 +7806,13 @@ export const GetBillingAccountsLocationsOperationsResponse = Operation;
 
 export type GetBillingAccountsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getBillingAccountsLocationsOperations: API.OperationMethod<GetBillingAccountsLocationsOperationsRequest, GetBillingAccountsLocationsOperationsResponse, GetBillingAccountsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBillingAccountsLocationsOperationsRequest,
   output: GetBillingAccountsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns google.rpc.Code.UNIMPLEMENTED. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of 1, corresponding to Code.CANCELLED. */
 export interface CancelBillingAccountsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -7834,13 +7833,13 @@ export const CancelBillingAccountsLocationsOperationsResponse = Empty;
 
 export type CancelBillingAccountsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns google.rpc.Code.UNIMPLEMENTED. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of 1, corresponding to Code.CANCELLED. */
 export const cancelBillingAccountsLocationsOperations: API.OperationMethod<CancelBillingAccountsLocationsOperationsRequest, CancelBillingAccountsLocationsOperationsResponse, CancelBillingAccountsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelBillingAccountsLocationsOperationsRequest,
   output: CancelBillingAccountsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Lists log buckets. */
 export interface ListBillingAccountsLocationsBucketsRequest {
   /** Required. The parent resource whose buckets are to be listed: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" Note: The locations portion of the resource must be specified, but supplying the character - in place of LOCATION_ID will return all buckets. */
   parent: string;
@@ -7864,7 +7863,8 @@ export const ListBillingAccountsLocationsBucketsResponse = ListBucketsResponse;
 
 export type ListBillingAccountsLocationsBucketsError = CommonErrors;
 
-export const listBillingAccountsLocationsBuckets = API.makePaginated(() => ({
+/** Lists log buckets. */
+export const listBillingAccountsLocationsBuckets: API.PaginatedOperationMethod<ListBillingAccountsLocationsBucketsRequest, ListBillingAccountsLocationsBucketsResponse, ListBillingAccountsLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBillingAccountsLocationsBucketsRequest,
   output: ListBillingAccountsLocationsBucketsResponse,
   errors: [],
@@ -7874,7 +7874,6 @@ export const listBillingAccountsLocationsBuckets = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a log bucket. */
 export interface GetBillingAccountsLocationsBucketsRequest {
   /** Required. The resource name of the bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
@@ -7892,13 +7891,13 @@ export const GetBillingAccountsLocationsBucketsResponse = LogBucket;
 
 export type GetBillingAccountsLocationsBucketsError = CommonErrors;
 
+/** Gets a log bucket. */
 export const getBillingAccountsLocationsBuckets: API.OperationMethod<GetBillingAccountsLocationsBucketsRequest, GetBillingAccountsLocationsBucketsResponse, GetBillingAccountsLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBillingAccountsLocationsBucketsRequest,
   output: GetBillingAccountsLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Creates a log bucket asynchronously that can be used to store log entries.After a bucket has been created, the bucket's location cannot be changed. */
 export interface CreateAsyncBillingAccountsLocationsBucketsRequest {
   /** Required. The resource in which to create the log bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
@@ -7922,13 +7921,13 @@ export const CreateAsyncBillingAccountsLocationsBucketsResponse = Operation;
 
 export type CreateAsyncBillingAccountsLocationsBucketsError = CommonErrors;
 
+/** Creates a log bucket asynchronously that can be used to store log entries.After a bucket has been created, the bucket's location cannot be changed. */
 export const createAsyncBillingAccountsLocationsBuckets: API.OperationMethod<CreateAsyncBillingAccountsLocationsBucketsRequest, CreateAsyncBillingAccountsLocationsBucketsResponse, CreateAsyncBillingAccountsLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAsyncBillingAccountsLocationsBucketsRequest,
   output: CreateAsyncBillingAccountsLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Updates a log bucket asynchronously.If the bucket has a lifecycle_state of DELETE_REQUESTED, then FAILED_PRECONDITION will be returned.After a bucket has been created, the bucket's location cannot be changed. */
 export interface UpdateAsyncBillingAccountsLocationsBucketsRequest {
   /** Required. The full resource name of the bucket to update. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
@@ -7952,13 +7951,13 @@ export const UpdateAsyncBillingAccountsLocationsBucketsResponse = Operation;
 
 export type UpdateAsyncBillingAccountsLocationsBucketsError = CommonErrors;
 
+/** Updates a log bucket asynchronously.If the bucket has a lifecycle_state of DELETE_REQUESTED, then FAILED_PRECONDITION will be returned.After a bucket has been created, the bucket's location cannot be changed. */
 export const updateAsyncBillingAccountsLocationsBuckets: API.OperationMethod<UpdateAsyncBillingAccountsLocationsBucketsRequest, UpdateAsyncBillingAccountsLocationsBucketsResponse, UpdateAsyncBillingAccountsLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAsyncBillingAccountsLocationsBucketsRequest,
   output: UpdateAsyncBillingAccountsLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Creates a log bucket that can be used to store log entries. After a bucket has been created, the bucket's location cannot be changed. */
 export interface CreateBillingAccountsLocationsBucketsRequest {
   /** Required. The resource in which to create the log bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects/my-project/locations/global" */
   parent: string;
@@ -7982,13 +7981,13 @@ export const CreateBillingAccountsLocationsBucketsResponse = LogBucket;
 
 export type CreateBillingAccountsLocationsBucketsError = CommonErrors;
 
+/** Creates a log bucket that can be used to store log entries. After a bucket has been created, the bucket's location cannot be changed. */
 export const createBillingAccountsLocationsBuckets: API.OperationMethod<CreateBillingAccountsLocationsBucketsRequest, CreateBillingAccountsLocationsBucketsResponse, CreateBillingAccountsLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateBillingAccountsLocationsBucketsRequest,
   output: CreateBillingAccountsLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Updates a log bucket.If the bucket has a lifecycle_state of DELETE_REQUESTED, then FAILED_PRECONDITION will be returned.After a bucket has been created, the bucket's location cannot be changed. */
 export interface PatchBillingAccountsLocationsBucketsRequest {
   /** Required. The full resource name of the bucket to update. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
@@ -8012,13 +8011,13 @@ export const PatchBillingAccountsLocationsBucketsResponse = LogBucket;
 
 export type PatchBillingAccountsLocationsBucketsError = CommonErrors;
 
+/** Updates a log bucket.If the bucket has a lifecycle_state of DELETE_REQUESTED, then FAILED_PRECONDITION will be returned.After a bucket has been created, the bucket's location cannot be changed. */
 export const patchBillingAccountsLocationsBuckets: API.OperationMethod<PatchBillingAccountsLocationsBucketsRequest, PatchBillingAccountsLocationsBucketsResponse, PatchBillingAccountsLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchBillingAccountsLocationsBucketsRequest,
   output: PatchBillingAccountsLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Deletes a log bucket.Changes the bucket's lifecycle_state to the DELETE_REQUESTED state. After 7 days, the bucket will be purged and all log entries in the bucket will be permanently deleted. */
 export interface DeleteBillingAccountsLocationsBucketsRequest {
   /** Required. The full resource name of the bucket to delete. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
@@ -8036,13 +8035,13 @@ export const DeleteBillingAccountsLocationsBucketsResponse = Empty;
 
 export type DeleteBillingAccountsLocationsBucketsError = CommonErrors;
 
+/** Deletes a log bucket.Changes the bucket's lifecycle_state to the DELETE_REQUESTED state. After 7 days, the bucket will be purged and all log entries in the bucket will be permanently deleted. */
 export const deleteBillingAccountsLocationsBuckets: API.OperationMethod<DeleteBillingAccountsLocationsBucketsRequest, DeleteBillingAccountsLocationsBucketsResponse, DeleteBillingAccountsLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteBillingAccountsLocationsBucketsRequest,
   output: DeleteBillingAccountsLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Undeletes a log bucket. A bucket that has been deleted can be undeleted within the grace period of 7 days. */
 export interface UndeleteBillingAccountsLocationsBucketsRequest {
   /** Required. The full resource name of the bucket to undelete. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket" */
   name: string;
@@ -8063,13 +8062,13 @@ export const UndeleteBillingAccountsLocationsBucketsResponse = Empty;
 
 export type UndeleteBillingAccountsLocationsBucketsError = CommonErrors;
 
+/** Undeletes a log bucket. A bucket that has been deleted can be undeleted within the grace period of 7 days. */
 export const undeleteBillingAccountsLocationsBuckets: API.OperationMethod<UndeleteBillingAccountsLocationsBucketsRequest, UndeleteBillingAccountsLocationsBucketsResponse, UndeleteBillingAccountsLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UndeleteBillingAccountsLocationsBucketsRequest,
   output: UndeleteBillingAccountsLocationsBucketsResponse,
   errors: [],
 }));
 
-/** Lists views on a log bucket. */
 export interface ListBillingAccountsLocationsBucketsViewsRequest {
   /** Required. The bucket whose views are to be listed: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" */
   parent: string;
@@ -8093,7 +8092,8 @@ export const ListBillingAccountsLocationsBucketsViewsResponse = ListViewsRespons
 
 export type ListBillingAccountsLocationsBucketsViewsError = CommonErrors;
 
-export const listBillingAccountsLocationsBucketsViews = API.makePaginated(() => ({
+/** Lists views on a log bucket. */
+export const listBillingAccountsLocationsBucketsViews: API.PaginatedOperationMethod<ListBillingAccountsLocationsBucketsViewsRequest, ListBillingAccountsLocationsBucketsViewsResponse, ListBillingAccountsLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBillingAccountsLocationsBucketsViewsRequest,
   output: ListBillingAccountsLocationsBucketsViewsResponse,
   errors: [],
@@ -8103,7 +8103,6 @@ export const listBillingAccountsLocationsBucketsViews = API.makePaginated(() => 
   },
 }));
 
-/** Gets a view on a log bucket. */
 export interface GetBillingAccountsLocationsBucketsViewsRequest {
   /** Required. The resource name of the policy: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket/views/my-view" */
   name: string;
@@ -8121,13 +8120,13 @@ export const GetBillingAccountsLocationsBucketsViewsResponse = LogView;
 
 export type GetBillingAccountsLocationsBucketsViewsError = CommonErrors;
 
+/** Gets a view on a log bucket. */
 export const getBillingAccountsLocationsBucketsViews: API.OperationMethod<GetBillingAccountsLocationsBucketsViewsRequest, GetBillingAccountsLocationsBucketsViewsResponse, GetBillingAccountsLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBillingAccountsLocationsBucketsViewsRequest,
   output: GetBillingAccountsLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Creates a view over log entries in a log bucket. A bucket may contain a maximum of 30 views. */
 export interface CreateBillingAccountsLocationsBucketsViewsRequest {
   /** Required. The bucket in which to create the view `"projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]"` For example:"projects/my-project/locations/global/buckets/my-bucket" */
   parent: string;
@@ -8151,13 +8150,13 @@ export const CreateBillingAccountsLocationsBucketsViewsResponse = LogView;
 
 export type CreateBillingAccountsLocationsBucketsViewsError = CommonErrors;
 
+/** Creates a view over log entries in a log bucket. A bucket may contain a maximum of 30 views. */
 export const createBillingAccountsLocationsBucketsViews: API.OperationMethod<CreateBillingAccountsLocationsBucketsViewsRequest, CreateBillingAccountsLocationsBucketsViewsResponse, CreateBillingAccountsLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateBillingAccountsLocationsBucketsViewsRequest,
   output: CreateBillingAccountsLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Updates a view on a log bucket. This method replaces the value of the filter field from the existing view with the corresponding value from the new view. If an UNAVAILABLE error is returned, this indicates that system is not in a state where it can update the view. If this occurs, please try again in a few minutes. */
 export interface PatchBillingAccountsLocationsBucketsViewsRequest {
   /** Required. The full resource name of the view to update "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket/views/my-view" */
   name: string;
@@ -8181,13 +8180,13 @@ export const PatchBillingAccountsLocationsBucketsViewsResponse = LogView;
 
 export type PatchBillingAccountsLocationsBucketsViewsError = CommonErrors;
 
+/** Updates a view on a log bucket. This method replaces the value of the filter field from the existing view with the corresponding value from the new view. If an UNAVAILABLE error is returned, this indicates that system is not in a state where it can update the view. If this occurs, please try again in a few minutes. */
 export const patchBillingAccountsLocationsBucketsViews: API.OperationMethod<PatchBillingAccountsLocationsBucketsViewsRequest, PatchBillingAccountsLocationsBucketsViewsResponse, PatchBillingAccountsLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchBillingAccountsLocationsBucketsViewsRequest,
   output: PatchBillingAccountsLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Deletes a view on a log bucket. If an UNAVAILABLE error is returned, this indicates that system is not in a state where it can delete the view. If this occurs, please try again in a few minutes. */
 export interface DeleteBillingAccountsLocationsBucketsViewsRequest {
   /** Required. The full resource name of the view to delete: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]" For example:"projects/my-project/locations/global/buckets/my-bucket/views/my-view" */
   name: string;
@@ -8205,13 +8204,13 @@ export const DeleteBillingAccountsLocationsBucketsViewsResponse = Empty;
 
 export type DeleteBillingAccountsLocationsBucketsViewsError = CommonErrors;
 
+/** Deletes a view on a log bucket. If an UNAVAILABLE error is returned, this indicates that system is not in a state where it can delete the view. If this occurs, please try again in a few minutes. */
 export const deleteBillingAccountsLocationsBucketsViews: API.OperationMethod<DeleteBillingAccountsLocationsBucketsViewsRequest, DeleteBillingAccountsLocationsBucketsViewsResponse, DeleteBillingAccountsLocationsBucketsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteBillingAccountsLocationsBucketsViewsRequest,
   output: DeleteBillingAccountsLocationsBucketsViewsResponse,
   errors: [],
 }));
 
-/** Lists the logs in projects, organizations, folders, or billing accounts. Only logs that have entries are listed. */
 export interface ListBillingAccountsLocationsBucketsViewsLogsRequest {
   /** Required. The resource name to list logs for: projects/[PROJECT_ID] organizations/[ORGANIZATION_ID] billingAccounts/[BILLING_ACCOUNT_ID] folders/[FOLDER_ID] */
   parent: string;
@@ -8238,7 +8237,8 @@ export const ListBillingAccountsLocationsBucketsViewsLogsResponse = ListLogsResp
 
 export type ListBillingAccountsLocationsBucketsViewsLogsError = CommonErrors;
 
-export const listBillingAccountsLocationsBucketsViewsLogs = API.makePaginated(() => ({
+/** Lists the logs in projects, organizations, folders, or billing accounts. Only logs that have entries are listed. */
+export const listBillingAccountsLocationsBucketsViewsLogs: API.PaginatedOperationMethod<ListBillingAccountsLocationsBucketsViewsLogsRequest, ListBillingAccountsLocationsBucketsViewsLogsResponse, ListBillingAccountsLocationsBucketsViewsLogsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBillingAccountsLocationsBucketsViewsLogsRequest,
   output: ListBillingAccountsLocationsBucketsViewsLogsResponse,
   errors: [],
@@ -8248,7 +8248,6 @@ export const listBillingAccountsLocationsBucketsViewsLogs = API.makePaginated(()
   },
 }));
 
-/** Lists links. */
 export interface ListBillingAccountsLocationsBucketsLinksRequest {
   /** Required. The parent resource whose links are to be listed: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" */
   parent: string;
@@ -8272,7 +8271,8 @@ export const ListBillingAccountsLocationsBucketsLinksResponse = ListLinksRespons
 
 export type ListBillingAccountsLocationsBucketsLinksError = CommonErrors;
 
-export const listBillingAccountsLocationsBucketsLinks = API.makePaginated(() => ({
+/** Lists links. */
+export const listBillingAccountsLocationsBucketsLinks: API.PaginatedOperationMethod<ListBillingAccountsLocationsBucketsLinksRequest, ListBillingAccountsLocationsBucketsLinksResponse, ListBillingAccountsLocationsBucketsLinksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBillingAccountsLocationsBucketsLinksRequest,
   output: ListBillingAccountsLocationsBucketsLinksResponse,
   errors: [],
@@ -8282,7 +8282,6 @@ export const listBillingAccountsLocationsBucketsLinks = API.makePaginated(() => 
   },
 }));
 
-/** Gets a link. */
 export interface GetBillingAccountsLocationsBucketsLinksRequest {
   /** Required. The resource name of the link: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" */
   name: string;
@@ -8300,13 +8299,13 @@ export const GetBillingAccountsLocationsBucketsLinksResponse = Link;
 
 export type GetBillingAccountsLocationsBucketsLinksError = CommonErrors;
 
+/** Gets a link. */
 export const getBillingAccountsLocationsBucketsLinks: API.OperationMethod<GetBillingAccountsLocationsBucketsLinksRequest, GetBillingAccountsLocationsBucketsLinksResponse, GetBillingAccountsLocationsBucketsLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBillingAccountsLocationsBucketsLinksRequest,
   output: GetBillingAccountsLocationsBucketsLinksResponse,
   errors: [],
 }));
 
-/** Asynchronously creates a linked dataset in BigQuery which makes it possible to use BigQuery to read the logs stored in the log bucket. A log bucket may currently only contain one link. */
 export interface CreateBillingAccountsLocationsBucketsLinksRequest {
   /** Required. The full resource name of the bucket to create a link for. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" */
   parent: string;
@@ -8330,13 +8329,13 @@ export const CreateBillingAccountsLocationsBucketsLinksResponse = Operation;
 
 export type CreateBillingAccountsLocationsBucketsLinksError = CommonErrors;
 
+/** Asynchronously creates a linked dataset in BigQuery which makes it possible to use BigQuery to read the logs stored in the log bucket. A log bucket may currently only contain one link. */
 export const createBillingAccountsLocationsBucketsLinks: API.OperationMethod<CreateBillingAccountsLocationsBucketsLinksRequest, CreateBillingAccountsLocationsBucketsLinksResponse, CreateBillingAccountsLocationsBucketsLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateBillingAccountsLocationsBucketsLinksRequest,
   output: CreateBillingAccountsLocationsBucketsLinksResponse,
   errors: [],
 }));
 
-/** Deletes a link. This will also delete the corresponding BigQuery linked dataset. */
 export interface DeleteBillingAccountsLocationsBucketsLinksRequest {
   /** Required. The full resource name of the link to delete. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/links/[LINK_ID]" */
   name: string;
@@ -8354,13 +8353,13 @@ export const DeleteBillingAccountsLocationsBucketsLinksResponse = Operation;
 
 export type DeleteBillingAccountsLocationsBucketsLinksError = CommonErrors;
 
+/** Deletes a link. This will also delete the corresponding BigQuery linked dataset. */
 export const deleteBillingAccountsLocationsBucketsLinks: API.OperationMethod<DeleteBillingAccountsLocationsBucketsLinksRequest, DeleteBillingAccountsLocationsBucketsLinksResponse, DeleteBillingAccountsLocationsBucketsLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteBillingAccountsLocationsBucketsLinksRequest,
   output: DeleteBillingAccountsLocationsBucketsLinksResponse,
   errors: [],
 }));
 
-/** Lists the SavedQueries that were created by the user making the request. */
 export interface ListBillingAccountsLocationsSavedQueriesRequest {
   /** Required. The resource to which the listed queries belong. "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example: "projects/my-project/locations/us-central1" Note: The locations portion of the resource must be specified. To get a list of all saved queries, a wildcard character - can be used for LOCATION_ID, for example: "projects/my-project/locations/-" */
   parent: string;
@@ -8387,7 +8386,8 @@ export const ListBillingAccountsLocationsSavedQueriesResponse = ListSavedQueries
 
 export type ListBillingAccountsLocationsSavedQueriesError = CommonErrors;
 
-export const listBillingAccountsLocationsSavedQueries = API.makePaginated(() => ({
+/** Lists the SavedQueries that were created by the user making the request. */
+export const listBillingAccountsLocationsSavedQueries: API.PaginatedOperationMethod<ListBillingAccountsLocationsSavedQueriesRequest, ListBillingAccountsLocationsSavedQueriesResponse, ListBillingAccountsLocationsSavedQueriesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBillingAccountsLocationsSavedQueriesRequest,
   output: ListBillingAccountsLocationsSavedQueriesResponse,
   errors: [],
@@ -8397,7 +8397,6 @@ export const listBillingAccountsLocationsSavedQueries = API.makePaginated(() => 
   },
 }));
 
-/** Returns all data associated with the requested query. */
 export interface GetBillingAccountsLocationsSavedQueriesRequest {
   /** Required. The resource name of the saved query. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" For example: "projects/my-project/locations/global/savedQueries/my-saved-query" */
   name: string;
@@ -8415,13 +8414,13 @@ export const GetBillingAccountsLocationsSavedQueriesResponse = SavedQuery;
 
 export type GetBillingAccountsLocationsSavedQueriesError = CommonErrors;
 
+/** Returns all data associated with the requested query. */
 export const getBillingAccountsLocationsSavedQueries: API.OperationMethod<GetBillingAccountsLocationsSavedQueriesRequest, GetBillingAccountsLocationsSavedQueriesResponse, GetBillingAccountsLocationsSavedQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBillingAccountsLocationsSavedQueriesRequest,
   output: GetBillingAccountsLocationsSavedQueriesResponse,
   errors: [],
 }));
 
-/** Creates a new SavedQuery for the user making the request. */
 export interface CreateBillingAccountsLocationsSavedQueriesRequest {
   /** Required. The parent resource in which to create the saved query: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example: "projects/my-project/locations/global" "organizations/123456789/locations/us-central1" */
   parent: string;
@@ -8445,13 +8444,13 @@ export const CreateBillingAccountsLocationsSavedQueriesResponse = SavedQuery;
 
 export type CreateBillingAccountsLocationsSavedQueriesError = CommonErrors;
 
+/** Creates a new SavedQuery for the user making the request. */
 export const createBillingAccountsLocationsSavedQueries: API.OperationMethod<CreateBillingAccountsLocationsSavedQueriesRequest, CreateBillingAccountsLocationsSavedQueriesResponse, CreateBillingAccountsLocationsSavedQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateBillingAccountsLocationsSavedQueriesRequest,
   output: CreateBillingAccountsLocationsSavedQueriesResponse,
   errors: [],
 }));
 
-/** Updates an existing SavedQuery. */
 export interface PatchBillingAccountsLocationsSavedQueriesRequest {
   /** Output only. Resource name of the saved query.In the format: "projects/[PROJECT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" For a list of supported locations, see Supported Regions (https://docs.cloud.google.com/logging/docs/region-support#bucket-regions)After the saved query is created, the location cannot be changed.If the user doesn't provide a QUERY_ID, the system will generate an alphanumeric ID. */
   name: string;
@@ -8475,13 +8474,13 @@ export const PatchBillingAccountsLocationsSavedQueriesResponse = SavedQuery;
 
 export type PatchBillingAccountsLocationsSavedQueriesError = CommonErrors;
 
+/** Updates an existing SavedQuery. */
 export const patchBillingAccountsLocationsSavedQueries: API.OperationMethod<PatchBillingAccountsLocationsSavedQueriesRequest, PatchBillingAccountsLocationsSavedQueriesResponse, PatchBillingAccountsLocationsSavedQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchBillingAccountsLocationsSavedQueriesRequest,
   output: PatchBillingAccountsLocationsSavedQueriesResponse,
   errors: [],
 }));
 
-/** Deletes an existing SavedQuery that was created by the user making the request. */
 export interface DeleteBillingAccountsLocationsSavedQueriesRequest {
   /** Required. The full resource name of the saved query to delete. "projects/[PROJECT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/savedQueries/[QUERY_ID]" For example: "projects/my-project/locations/global/savedQueries/my-saved-query" */
   name: string;
@@ -8499,13 +8498,13 @@ export const DeleteBillingAccountsLocationsSavedQueriesResponse = Empty;
 
 export type DeleteBillingAccountsLocationsSavedQueriesError = CommonErrors;
 
+/** Deletes an existing SavedQuery that was created by the user making the request. */
 export const deleteBillingAccountsLocationsSavedQueries: API.OperationMethod<DeleteBillingAccountsLocationsSavedQueriesRequest, DeleteBillingAccountsLocationsSavedQueriesResponse, DeleteBillingAccountsLocationsSavedQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteBillingAccountsLocationsSavedQueriesRequest,
   output: DeleteBillingAccountsLocationsSavedQueriesResponse,
   errors: [],
 }));
 
-/** Lists the RecentQueries that were created by the user making the request. */
 export interface ListBillingAccountsLocationsRecentQueriesRequest {
   /** Required. The resource to which the listed queries belong. "projects/[PROJECT_ID]/locations/[LOCATION_ID]" "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]" For example:projects/my-project/locations/us-central1Note: The location portion of the resource must be specified, but supplying the character - in place of LOCATION_ID will return all recent queries. */
   parent: string;
@@ -8532,7 +8531,8 @@ export const ListBillingAccountsLocationsRecentQueriesResponse = ListRecentQueri
 
 export type ListBillingAccountsLocationsRecentQueriesError = CommonErrors;
 
-export const listBillingAccountsLocationsRecentQueries = API.makePaginated(() => ({
+/** Lists the RecentQueries that were created by the user making the request. */
+export const listBillingAccountsLocationsRecentQueries: API.PaginatedOperationMethod<ListBillingAccountsLocationsRecentQueriesRequest, ListBillingAccountsLocationsRecentQueriesResponse, ListBillingAccountsLocationsRecentQueriesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBillingAccountsLocationsRecentQueriesRequest,
   output: ListBillingAccountsLocationsRecentQueriesResponse,
   errors: [],
@@ -8542,7 +8542,6 @@ export const listBillingAccountsLocationsRecentQueries = API.makePaginated(() =>
   },
 }));
 
-/** Lists all the exclusions on the _Default sink in a parent resource. */
 export interface ListBillingAccountsExclusionsRequest {
   /** Required. The parent resource whose exclusions are to be listed. "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" */
   parent: string;
@@ -8566,7 +8565,8 @@ export const ListBillingAccountsExclusionsResponse = ListExclusionsResponse;
 
 export type ListBillingAccountsExclusionsError = CommonErrors;
 
-export const listBillingAccountsExclusions = API.makePaginated(() => ({
+/** Lists all the exclusions on the _Default sink in a parent resource. */
+export const listBillingAccountsExclusions: API.PaginatedOperationMethod<ListBillingAccountsExclusionsRequest, ListBillingAccountsExclusionsResponse, ListBillingAccountsExclusionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBillingAccountsExclusionsRequest,
   output: ListBillingAccountsExclusionsResponse,
   errors: [],
@@ -8576,7 +8576,6 @@ export const listBillingAccountsExclusions = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the description of an exclusion in the _Default sink. */
 export interface GetBillingAccountsExclusionsRequest {
   /** Required. The resource name of an existing exclusion: "projects/[PROJECT_ID]/exclusions/[EXCLUSION_ID]" "organizations/[ORGANIZATION_ID]/exclusions/[EXCLUSION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/exclusions/[EXCLUSION_ID]" "folders/[FOLDER_ID]/exclusions/[EXCLUSION_ID]" For example:"projects/my-project/exclusions/my-exclusion" */
   name: string;
@@ -8594,13 +8593,13 @@ export const GetBillingAccountsExclusionsResponse = LogExclusion;
 
 export type GetBillingAccountsExclusionsError = CommonErrors;
 
+/** Gets the description of an exclusion in the _Default sink. */
 export const getBillingAccountsExclusions: API.OperationMethod<GetBillingAccountsExclusionsRequest, GetBillingAccountsExclusionsResponse, GetBillingAccountsExclusionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBillingAccountsExclusionsRequest,
   output: GetBillingAccountsExclusionsResponse,
   errors: [],
 }));
 
-/** Creates a new exclusion in the _Default sink in a specified parent resource. Only log entries belonging to that resource can be excluded. You can have up to 10 exclusions in a resource. */
 export interface CreateBillingAccountsExclusionsRequest {
   /** Required. The parent resource in which to create the exclusion: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-logging-project" "organizations/123456789" */
   parent: string;
@@ -8621,13 +8620,13 @@ export const CreateBillingAccountsExclusionsResponse = LogExclusion;
 
 export type CreateBillingAccountsExclusionsError = CommonErrors;
 
+/** Creates a new exclusion in the _Default sink in a specified parent resource. Only log entries belonging to that resource can be excluded. You can have up to 10 exclusions in a resource. */
 export const createBillingAccountsExclusions: API.OperationMethod<CreateBillingAccountsExclusionsRequest, CreateBillingAccountsExclusionsResponse, CreateBillingAccountsExclusionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateBillingAccountsExclusionsRequest,
   output: CreateBillingAccountsExclusionsResponse,
   errors: [],
 }));
 
-/** Changes one or more properties of an existing exclusion in the _Default sink. */
 export interface PatchBillingAccountsExclusionsRequest {
   /** Required. The resource name of the exclusion to update: "projects/[PROJECT_ID]/exclusions/[EXCLUSION_ID]" "organizations/[ORGANIZATION_ID]/exclusions/[EXCLUSION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/exclusions/[EXCLUSION_ID]" "folders/[FOLDER_ID]/exclusions/[EXCLUSION_ID]" For example:"projects/my-project/exclusions/my-exclusion" */
   name: string;
@@ -8651,13 +8650,13 @@ export const PatchBillingAccountsExclusionsResponse = LogExclusion;
 
 export type PatchBillingAccountsExclusionsError = CommonErrors;
 
+/** Changes one or more properties of an existing exclusion in the _Default sink. */
 export const patchBillingAccountsExclusions: API.OperationMethod<PatchBillingAccountsExclusionsRequest, PatchBillingAccountsExclusionsResponse, PatchBillingAccountsExclusionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchBillingAccountsExclusionsRequest,
   output: PatchBillingAccountsExclusionsResponse,
   errors: [],
 }));
 
-/** Deletes an exclusion in the _Default sink. */
 export interface DeleteBillingAccountsExclusionsRequest {
   /** Required. The resource name of an existing exclusion to delete: "projects/[PROJECT_ID]/exclusions/[EXCLUSION_ID]" "organizations/[ORGANIZATION_ID]/exclusions/[EXCLUSION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/exclusions/[EXCLUSION_ID]" "folders/[FOLDER_ID]/exclusions/[EXCLUSION_ID]" For example:"projects/my-project/exclusions/my-exclusion" */
   name: string;
@@ -8675,13 +8674,13 @@ export const DeleteBillingAccountsExclusionsResponse = Empty;
 
 export type DeleteBillingAccountsExclusionsError = CommonErrors;
 
+/** Deletes an exclusion in the _Default sink. */
 export const deleteBillingAccountsExclusions: API.OperationMethod<DeleteBillingAccountsExclusionsRequest, DeleteBillingAccountsExclusionsResponse, DeleteBillingAccountsExclusionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteBillingAccountsExclusionsRequest,
   output: DeleteBillingAccountsExclusionsResponse,
   errors: [],
 }));
 
-/** Lists sinks. */
 export interface ListBillingAccountsSinksRequest {
   /** Required. The parent resource whose sinks are to be listed: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" */
   parent: string;
@@ -8708,7 +8707,8 @@ export const ListBillingAccountsSinksResponse = ListSinksResponse;
 
 export type ListBillingAccountsSinksError = CommonErrors;
 
-export const listBillingAccountsSinks = API.makePaginated(() => ({
+/** Lists sinks. */
+export const listBillingAccountsSinks: API.PaginatedOperationMethod<ListBillingAccountsSinksRequest, ListBillingAccountsSinksResponse, ListBillingAccountsSinksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBillingAccountsSinksRequest,
   output: ListBillingAccountsSinksResponse,
   errors: [],
@@ -8718,7 +8718,6 @@ export const listBillingAccountsSinks = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a sink. */
 export interface GetBillingAccountsSinksRequest {
   /** Required. The resource name of the sink: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
   sinkName: string;
@@ -8736,13 +8735,13 @@ export const GetBillingAccountsSinksResponse = LogSink;
 
 export type GetBillingAccountsSinksError = CommonErrors;
 
+/** Gets a sink. */
 export const getBillingAccountsSinks: API.OperationMethod<GetBillingAccountsSinksRequest, GetBillingAccountsSinksResponse, GetBillingAccountsSinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBillingAccountsSinksRequest,
   output: GetBillingAccountsSinksResponse,
   errors: [],
 }));
 
-/** Creates a sink that exports specified log entries to a destination. The export begins upon ingress, unless the sink's writer_identity is not permitted to write to the destination. A sink can export log entries only from the resource owning the sink. */
 export interface CreateBillingAccountsSinksRequest {
   /** Required. The resource in which to create the sink: "projects/[PROJECT_ID]" "organizations/[ORGANIZATION_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]" "folders/[FOLDER_ID]" For examples:"projects/my-project" "organizations/123456789" */
   parent: string;
@@ -8769,13 +8768,13 @@ export const CreateBillingAccountsSinksResponse = LogSink;
 
 export type CreateBillingAccountsSinksError = CommonErrors;
 
+/** Creates a sink that exports specified log entries to a destination. The export begins upon ingress, unless the sink's writer_identity is not permitted to write to the destination. A sink can export log entries only from the resource owning the sink. */
 export const createBillingAccountsSinks: API.OperationMethod<CreateBillingAccountsSinksRequest, CreateBillingAccountsSinksResponse, CreateBillingAccountsSinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateBillingAccountsSinksRequest,
   output: CreateBillingAccountsSinksResponse,
   errors: [],
 }));
 
-/** Updates a sink. This method replaces the values of the destination and filter fields of the existing sink with the corresponding values from the new sink.The updated sink might also have a new writer_identity; see the unique_writer_identity field. */
 export interface UpdateBillingAccountsSinksRequest {
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
   sinkName: string;
@@ -8805,13 +8804,13 @@ export const UpdateBillingAccountsSinksResponse = LogSink;
 
 export type UpdateBillingAccountsSinksError = CommonErrors;
 
+/** Updates a sink. This method replaces the values of the destination and filter fields of the existing sink with the corresponding values from the new sink.The updated sink might also have a new writer_identity; see the unique_writer_identity field. */
 export const updateBillingAccountsSinks: API.OperationMethod<UpdateBillingAccountsSinksRequest, UpdateBillingAccountsSinksResponse, UpdateBillingAccountsSinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateBillingAccountsSinksRequest,
   output: UpdateBillingAccountsSinksResponse,
   errors: [],
 }));
 
-/** Updates a sink. This method replaces the values of the destination and filter fields of the existing sink with the corresponding values from the new sink.The updated sink might also have a new writer_identity; see the unique_writer_identity field. */
 export interface PatchBillingAccountsSinksRequest {
   /** Required. The full resource name of the sink to update, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
   sinkName: string;
@@ -8841,13 +8840,13 @@ export const PatchBillingAccountsSinksResponse = LogSink;
 
 export type PatchBillingAccountsSinksError = CommonErrors;
 
+/** Updates a sink. This method replaces the values of the destination and filter fields of the existing sink with the corresponding values from the new sink.The updated sink might also have a new writer_identity; see the unique_writer_identity field. */
 export const patchBillingAccountsSinks: API.OperationMethod<PatchBillingAccountsSinksRequest, PatchBillingAccountsSinksResponse, PatchBillingAccountsSinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchBillingAccountsSinksRequest,
   output: PatchBillingAccountsSinksResponse,
   errors: [],
 }));
 
-/** Deletes a sink. If the sink has a unique writer_identity, then that service account is also deleted. */
 export interface DeleteBillingAccountsSinksRequest {
   /** Required. The full resource name of the sink to delete, including the parent resource and the sink identifier: "projects/[PROJECT_ID]/sinks/[SINK_ID]" "organizations/[ORGANIZATION_ID]/sinks/[SINK_ID]" "billingAccounts/[BILLING_ACCOUNT_ID]/sinks/[SINK_ID]" "folders/[FOLDER_ID]/sinks/[SINK_ID]" For example:"projects/my-project/sinks/my-sink" */
   sinkName: string;
@@ -8865,13 +8864,13 @@ export const DeleteBillingAccountsSinksResponse = Empty;
 
 export type DeleteBillingAccountsSinksError = CommonErrors;
 
+/** Deletes a sink. If the sink has a unique writer_identity, then that service account is also deleted. */
 export const deleteBillingAccountsSinks: API.OperationMethod<DeleteBillingAccountsSinksRequest, DeleteBillingAccountsSinksResponse, DeleteBillingAccountsSinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteBillingAccountsSinksRequest,
   output: DeleteBillingAccountsSinksResponse,
   errors: [],
 }));
 
-/** Deletes all the log entries in a log for the global _Default Log Bucket. The log reappears if it receives new entries. Log entries written shortly before the delete operation might not be deleted. Entries received after the delete operation with a timestamp before the operation will be deleted. */
 export interface DeleteBillingAccountsLogsRequest {
   /** Required. The resource name of the log to delete: projects/[PROJECT_ID]/logs/[LOG_ID] organizations/[ORGANIZATION_ID]/logs/[LOG_ID] billingAccounts/[BILLING_ACCOUNT_ID]/logs/[LOG_ID] folders/[FOLDER_ID]/logs/[LOG_ID][LOG_ID] must be URL-encoded. For example, "projects/my-project-id/logs/syslog", "organizations/123/logs/cloudaudit.googleapis.com%2Factivity".For more information about log names, see LogEntry. */
   logName: string;
@@ -8889,13 +8888,13 @@ export const DeleteBillingAccountsLogsResponse = Empty;
 
 export type DeleteBillingAccountsLogsError = CommonErrors;
 
+/** Deletes all the log entries in a log for the global _Default Log Bucket. The log reappears if it receives new entries. Log entries written shortly before the delete operation might not be deleted. Entries received after the delete operation with a timestamp before the operation will be deleted. */
 export const deleteBillingAccountsLogs: API.OperationMethod<DeleteBillingAccountsLogsRequest, DeleteBillingAccountsLogsResponse, DeleteBillingAccountsLogsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteBillingAccountsLogsRequest,
   output: DeleteBillingAccountsLogsResponse,
   errors: [],
 }));
 
-/** Lists the logs in projects, organizations, folders, or billing accounts. Only logs that have entries are listed. */
 export interface ListBillingAccountsLogsRequest {
   /** Required. The resource name to list logs for: projects/[PROJECT_ID] organizations/[ORGANIZATION_ID] billingAccounts/[BILLING_ACCOUNT_ID] folders/[FOLDER_ID] */
   parent: string;
@@ -8922,7 +8921,8 @@ export const ListBillingAccountsLogsResponse = ListLogsResponse;
 
 export type ListBillingAccountsLogsError = CommonErrors;
 
-export const listBillingAccountsLogs = API.makePaginated(() => ({
+/** Lists the logs in projects, organizations, folders, or billing accounts. Only logs that have entries are listed. */
+export const listBillingAccountsLogs: API.PaginatedOperationMethod<ListBillingAccountsLogsRequest, ListBillingAccountsLogsResponse, ListBillingAccountsLogsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBillingAccountsLogsRequest,
   output: ListBillingAccountsLogsResponse,
   errors: [],
@@ -8932,7 +8932,6 @@ export const listBillingAccountsLogs = API.makePaginated(() => ({
   },
 }));
 
-/** Copies a set of log entries from a log bucket to a Cloud Storage bucket. */
 export interface CopyEntriesRequest {
   /** Request body */
   body?: CopyLogEntriesRequest;
@@ -8950,13 +8949,13 @@ export const CopyEntriesResponse = Operation;
 
 export type CopyEntriesError = CommonErrors;
 
+/** Copies a set of log entries from a log bucket to a Cloud Storage bucket. */
 export const copyEntries: API.OperationMethod<CopyEntriesRequest, CopyEntriesResponse, CopyEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CopyEntriesRequest,
   output: CopyEntriesResponse,
   errors: [],
 }));
 
-/** Writes log entries to Logging. This API method is the only way to send log entries to Logging. This method is used, directly or indirectly, by the Logging agent (fluentd) and all logging libraries configured to use Logging. A single request may contain log entries for a maximum of 1000 different resource names (projects, organizations, billing accounts or folders), where the resource name for a log entry is determined from its logName field. */
 export interface WriteEntriesRequest {
   /** Request body */
   body?: WriteLogEntriesRequest;
@@ -8974,13 +8973,13 @@ export const WriteEntriesResponse = WriteLogEntriesResponse;
 
 export type WriteEntriesError = CommonErrors;
 
+/** Writes log entries to Logging. This API method is the only way to send log entries to Logging. This method is used, directly or indirectly, by the Logging agent (fluentd) and all logging libraries configured to use Logging. A single request may contain log entries for a maximum of 1000 different resource names (projects, organizations, billing accounts or folders), where the resource name for a log entry is determined from its logName field. */
 export const writeEntries: API.OperationMethod<WriteEntriesRequest, WriteEntriesResponse, WriteEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WriteEntriesRequest,
   output: WriteEntriesResponse,
   errors: [],
 }));
 
-/** Lists log entries. Use this method to retrieve log entries that originated from a project/folder/organization/billing account. For ways to export log entries, see Exporting Logs (https://cloud.google.com/logging/docs/export). */
 export interface ListEntriesRequest {
   /** Request body */
   body?: ListLogEntriesRequest;
@@ -8998,13 +8997,13 @@ export const ListEntriesResponse = ListLogEntriesResponse;
 
 export type ListEntriesError = CommonErrors;
 
+/** Lists log entries. Use this method to retrieve log entries that originated from a project/folder/organization/billing account. For ways to export log entries, see Exporting Logs (https://cloud.google.com/logging/docs/export). */
 export const listEntries: API.OperationMethod<ListEntriesRequest, ListEntriesResponse, ListEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListEntriesRequest,
   output: ListEntriesResponse,
   errors: [],
 }));
 
-/** Streaming read of log entries as they are received. Until the stream is terminated, it will continue reading logs. */
 export interface TailEntriesRequest {
   /** Request body */
   body?: TailLogEntriesRequest;
@@ -9022,13 +9021,13 @@ export const TailEntriesResponse = TailLogEntriesResponse;
 
 export type TailEntriesError = CommonErrors;
 
+/** Streaming read of log entries as they are received. Until the stream is terminated, it will continue reading logs. */
 export const tailEntries: API.OperationMethod<TailEntriesRequest, TailEntriesResponse, TailEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TailEntriesRequest,
   output: TailEntriesResponse,
   errors: [],
 }));
 
-/** Deletes all the log entries in a log for the global _Default Log Bucket. The log reappears if it receives new entries. Log entries written shortly before the delete operation might not be deleted. Entries received after the delete operation with a timestamp before the operation will be deleted. */
 export interface DeleteLogsRequest {
   /** Required. The resource name of the log to delete: projects/[PROJECT_ID]/logs/[LOG_ID] organizations/[ORGANIZATION_ID]/logs/[LOG_ID] billingAccounts/[BILLING_ACCOUNT_ID]/logs/[LOG_ID] folders/[FOLDER_ID]/logs/[LOG_ID][LOG_ID] must be URL-encoded. For example, "projects/my-project-id/logs/syslog", "organizations/123/logs/cloudaudit.googleapis.com%2Factivity".For more information about log names, see LogEntry. */
   logName: string;
@@ -9046,13 +9045,13 @@ export const DeleteLogsResponse = Empty;
 
 export type DeleteLogsError = CommonErrors;
 
+/** Deletes all the log entries in a log for the global _Default Log Bucket. The log reappears if it receives new entries. Log entries written shortly before the delete operation might not be deleted. Entries received after the delete operation with a timestamp before the operation will be deleted. */
 export const deleteLogs: API.OperationMethod<DeleteLogsRequest, DeleteLogsResponse, DeleteLogsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteLogsRequest,
   output: DeleteLogsResponse,
   errors: [],
 }));
 
-/** Lists the logs in projects, organizations, folders, or billing accounts. Only logs that have entries are listed. */
 export interface ListLogsRequest {
   /** Required. The resource name to list logs for: projects/[PROJECT_ID] organizations/[ORGANIZATION_ID] billingAccounts/[BILLING_ACCOUNT_ID] folders/[FOLDER_ID] */
   parent: string;
@@ -9079,7 +9078,8 @@ export const ListLogsResponse_Op = ListLogsResponse;
 
 export type ListLogsError = CommonErrors;
 
-export const listLogs = API.makePaginated(() => ({
+/** Lists the logs in projects, organizations, folders, or billing accounts. Only logs that have entries are listed. */
+export const listLogs: API.PaginatedOperationMethod<ListLogsRequest, ListLogsResponse_Op, ListLogsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListLogsRequest,
   output: ListLogsResponse_Op,
   errors: [],
@@ -9089,7 +9089,6 @@ export const listLogs = API.makePaginated(() => ({
   },
 }));
 
-/** Lists the descriptors for monitored resource types used by Logging. */
 export interface ListMonitoredResourceDescriptorsRequest {
   /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. The presence of nextPageToken in the response indicates that more results might be available. */
   pageSize?: number;
@@ -9110,7 +9109,8 @@ export const ListMonitoredResourceDescriptorsResponse_Op = ListMonitoredResource
 
 export type ListMonitoredResourceDescriptorsError = CommonErrors;
 
-export const listMonitoredResourceDescriptors = API.makePaginated(() => ({
+/** Lists the descriptors for monitored resource types used by Logging. */
+export const listMonitoredResourceDescriptors: API.PaginatedOperationMethod<ListMonitoredResourceDescriptorsRequest, ListMonitoredResourceDescriptorsResponse_Op, ListMonitoredResourceDescriptorsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListMonitoredResourceDescriptorsRequest,
   output: ListMonitoredResourceDescriptorsResponse_Op,
   errors: [],

@@ -369,7 +369,6 @@ export const GoogleCloudTexttospeechV1SynthesizeLongAudioMetadata: Schema.Schema
 // Operations
 // ==========================================================================
 
-/** Returns a list of Voice supported for synthesis. */
 export interface ListVoicesRequest {
   /** Optional. Recommended. [BCP-47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt) language tag. If not specified, the API will return all supported voices. If specified, the ListVoices call will only return voices that can be used to synthesize this language_code. For example, if you specify `"en-NZ"`, all `"en-NZ"` voices will be returned. If you specify `"no"`, both `"no-\*"` (Norwegian) and `"nb-\*"` (Norwegian Bokmal) voices will be returned. */
   languageCode?: string;
@@ -387,13 +386,13 @@ export const ListVoicesResponse_Op = ListVoicesResponse;
 
 export type ListVoicesError = CommonErrors;
 
+/** Returns a list of Voice supported for synthesis. */
 export const listVoices: API.OperationMethod<ListVoicesRequest, ListVoicesResponse_Op, ListVoicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListVoicesRequest,
   output: ListVoicesResponse_Op,
   errors: [],
 }));
 
-/** Synthesizes speech synchronously: receive results after all text input has been processed. */
 export interface SynthesizeTextRequest {
   /** Request body */
   body?: SynthesizeSpeechRequest;
@@ -411,13 +410,13 @@ export const SynthesizeTextResponse = SynthesizeSpeechResponse;
 
 export type SynthesizeTextError = CommonErrors;
 
+/** Synthesizes speech synchronously: receive results after all text input has been processed. */
 export const synthesizeText: API.OperationMethod<SynthesizeTextRequest, SynthesizeTextResponse, SynthesizeTextError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SynthesizeTextRequest,
   output: SynthesizeTextResponse,
   errors: [],
 }));
 
-/** Synthesizes long form text asynchronously. */
 export interface SynthesizeLongAudioProjectsLocationsRequest {
   /** The resource states of the request in the form of `projects/* /locations/*`. */
   parent: string;
@@ -438,13 +437,13 @@ export const SynthesizeLongAudioProjectsLocationsResponse = Operation;
 
 export type SynthesizeLongAudioProjectsLocationsError = CommonErrors;
 
+/** Synthesizes long form text asynchronously. */
 export const synthesizeLongAudioProjectsLocations: API.OperationMethod<SynthesizeLongAudioProjectsLocationsRequest, SynthesizeLongAudioProjectsLocationsResponse, SynthesizeLongAudioProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SynthesizeLongAudioProjectsLocationsRequest,
   output: SynthesizeLongAudioProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -474,7 +473,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -484,7 +484,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -502,13 +501,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -526,13 +525,13 @@ export const DeleteOperationsResponse = Empty;
 
 export type DeleteOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteOperations: API.OperationMethod<DeleteOperationsRequest, DeleteOperationsResponse, DeleteOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOperationsRequest,
   output: DeleteOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -553,6 +552,7 @@ export const CancelOperationsResponse = Empty;
 
 export type CancelOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelOperations: API.OperationMethod<CancelOperationsRequest, CancelOperationsResponse, CancelOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelOperationsRequest,
   output: CancelOperationsResponse,

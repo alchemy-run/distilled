@@ -201,7 +201,6 @@ export const HttpBody: Schema.Schema<HttpBody> = Schema.suspend(() => Schema.Str
 // Operations
 // ==========================================================================
 
-/** Returns up to 5 days of daily pollen information in more than 65 countries, up to 1km resolution. */
 export interface LookupForecastRequest {
   /** The latitude in degrees. It must be in the range [-90.0, +90.0]. */
   "location.latitude"?: number;
@@ -237,7 +236,8 @@ export const LookupForecastResponse_Op = LookupForecastResponse;
 
 export type LookupForecastError = CommonErrors;
 
-export const lookupForecast = API.makePaginated(() => ({
+/** Returns up to 5 days of daily pollen information in more than 65 countries, up to 1km resolution. */
+export const lookupForecast: API.PaginatedOperationMethod<LookupForecastRequest, LookupForecastResponse_Op, LookupForecastError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: LookupForecastRequest,
   output: LookupForecastResponse_Op,
   errors: [],
@@ -247,7 +247,6 @@ export const lookupForecast = API.makePaginated(() => ({
   },
 }));
 
-/** Returns a byte array containing the data of the tile PNG image. */
 export interface LookupHeatmapTileMapTypesHeatmapTilesRequest {
   /** Required. The type of the pollen heatmap. Defines the combination of pollen type and index that the map will graphically represent. */
   mapType: "MAP_TYPE_UNSPECIFIED" | "TREE_UPI" | "GRASS_UPI" | "WEED_UPI" | (string & {});
@@ -274,6 +273,7 @@ export const LookupHeatmapTileMapTypesHeatmapTilesResponse = HttpBody;
 
 export type LookupHeatmapTileMapTypesHeatmapTilesError = CommonErrors;
 
+/** Returns a byte array containing the data of the tile PNG image. */
 export const lookupHeatmapTileMapTypesHeatmapTiles: API.OperationMethod<LookupHeatmapTileMapTypesHeatmapTilesRequest, LookupHeatmapTileMapTypesHeatmapTilesResponse, LookupHeatmapTileMapTypesHeatmapTilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LookupHeatmapTileMapTypesHeatmapTilesRequest,
   output: LookupHeatmapTileMapTypesHeatmapTilesResponse,

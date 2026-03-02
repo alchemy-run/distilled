@@ -872,7 +872,6 @@ export const ListDelegatesResponse: Schema.Schema<ListDelegatesResponse> = Schem
 // Operations
 // ==========================================================================
 
-/** Gets the current user's Gmail profile. */
 export interface GetProfileUsersRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -890,13 +889,13 @@ export const GetProfileUsersResponse = Profile;
 
 export type GetProfileUsersError = CommonErrors;
 
+/** Gets the current user's Gmail profile. */
 export const getProfileUsers: API.OperationMethod<GetProfileUsersRequest, GetProfileUsersResponse, GetProfileUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProfileUsersRequest,
   output: GetProfileUsersResponse,
   errors: [],
 }));
 
-/** Set up or update a push notification watch on the given user mailbox. */
 export interface WatchUsersRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -917,13 +916,13 @@ export const WatchUsersResponse = WatchResponse;
 
 export type WatchUsersError = CommonErrors;
 
+/** Set up or update a push notification watch on the given user mailbox. */
 export const watchUsers: API.OperationMethod<WatchUsersRequest, WatchUsersResponse, WatchUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WatchUsersRequest,
   output: WatchUsersResponse,
   errors: [],
 }));
 
-/** Stop receiving push notifications for the given user mailbox. */
 export interface StopUsersRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -941,13 +940,13 @@ export const StopUsersResponse: Schema.Schema<StopUsersResponse> = Schema.Struct
 
 export type StopUsersError = CommonErrors;
 
+/** Stop receiving push notifications for the given user mailbox. */
 export const stopUsers: API.OperationMethod<StopUsersRequest, StopUsersResponse, StopUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StopUsersRequest,
   output: StopUsersResponse,
   errors: [],
 }));
 
-/** Immediately and permanently deletes the specified draft. Does not simply trash it. */
 export interface DeleteUsersDraftsRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -968,13 +967,13 @@ export const DeleteUsersDraftsResponse: Schema.Schema<DeleteUsersDraftsResponse>
 
 export type DeleteUsersDraftsError = CommonErrors;
 
+/** Immediately and permanently deletes the specified draft. Does not simply trash it. */
 export const deleteUsersDrafts: API.OperationMethod<DeleteUsersDraftsRequest, DeleteUsersDraftsResponse, DeleteUsersDraftsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteUsersDraftsRequest,
   output: DeleteUsersDraftsResponse,
   errors: [],
 }));
 
-/** Creates a new draft with the `DRAFT` label. */
 export interface CreateUsersDraftsRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -995,13 +994,13 @@ export const CreateUsersDraftsResponse = Draft;
 
 export type CreateUsersDraftsError = CommonErrors;
 
+/** Creates a new draft with the `DRAFT` label. */
 export const createUsersDrafts: API.OperationMethod<CreateUsersDraftsRequest, CreateUsersDraftsResponse, CreateUsersDraftsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateUsersDraftsRequest,
   output: CreateUsersDraftsResponse,
   errors: [],
 }));
 
-/** Gets the specified draft. */
 export interface GetUsersDraftsRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -1025,13 +1024,13 @@ export const GetUsersDraftsResponse = Draft;
 
 export type GetUsersDraftsError = CommonErrors;
 
+/** Gets the specified draft. */
 export const getUsersDrafts: API.OperationMethod<GetUsersDraftsRequest, GetUsersDraftsResponse, GetUsersDraftsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetUsersDraftsRequest,
   output: GetUsersDraftsResponse,
   errors: [],
 }));
 
-/** Lists the drafts in the user's mailbox. */
 export interface ListUsersDraftsRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -1061,7 +1060,8 @@ export const ListUsersDraftsResponse = ListDraftsResponse;
 
 export type ListUsersDraftsError = CommonErrors;
 
-export const listUsersDrafts = API.makePaginated(() => ({
+/** Lists the drafts in the user's mailbox. */
+export const listUsersDrafts: API.PaginatedOperationMethod<ListUsersDraftsRequest, ListUsersDraftsResponse, ListUsersDraftsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListUsersDraftsRequest,
   output: ListUsersDraftsResponse,
   errors: [],
@@ -1071,7 +1071,6 @@ export const listUsersDrafts = API.makePaginated(() => ({
   },
 }));
 
-/** Sends the specified, existing draft to the recipients in the `To`, `Cc`, and `Bcc` headers. */
 export interface SendUsersDraftsRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -1092,13 +1091,13 @@ export const SendUsersDraftsResponse = Message;
 
 export type SendUsersDraftsError = CommonErrors;
 
+/** Sends the specified, existing draft to the recipients in the `To`, `Cc`, and `Bcc` headers. */
 export const sendUsersDrafts: API.OperationMethod<SendUsersDraftsRequest, SendUsersDraftsResponse, SendUsersDraftsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SendUsersDraftsRequest,
   output: SendUsersDraftsResponse,
   errors: [],
 }));
 
-/** Replaces a draft's content. */
 export interface UpdateUsersDraftsRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -1122,13 +1121,13 @@ export const UpdateUsersDraftsResponse = Draft;
 
 export type UpdateUsersDraftsError = CommonErrors;
 
+/** Replaces a draft's content. */
 export const updateUsersDrafts: API.OperationMethod<UpdateUsersDraftsRequest, UpdateUsersDraftsResponse, UpdateUsersDraftsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateUsersDraftsRequest,
   output: UpdateUsersDraftsResponse,
   errors: [],
 }));
 
-/** Lists the history of all changes to the given mailbox. History results are returned in chronological order (increasing `historyId`). */
 export interface ListUsersHistoryRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -1161,7 +1160,8 @@ export const ListUsersHistoryResponse = ListHistoryResponse;
 
 export type ListUsersHistoryError = CommonErrors;
 
-export const listUsersHistory = API.makePaginated(() => ({
+/** Lists the history of all changes to the given mailbox. History results are returned in chronological order (increasing `historyId`). */
+export const listUsersHistory: API.PaginatedOperationMethod<ListUsersHistoryRequest, ListUsersHistoryResponse, ListUsersHistoryError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListUsersHistoryRequest,
   output: ListUsersHistoryResponse,
   errors: [],
@@ -1171,7 +1171,6 @@ export const listUsersHistory = API.makePaginated(() => ({
   },
 }));
 
-/** Moves the specified message to the trash. */
 export interface TrashUsersMessagesRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -1192,13 +1191,13 @@ export const TrashUsersMessagesResponse = Message;
 
 export type TrashUsersMessagesError = CommonErrors;
 
+/** Moves the specified message to the trash. */
 export const trashUsersMessages: API.OperationMethod<TrashUsersMessagesRequest, TrashUsersMessagesResponse, TrashUsersMessagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TrashUsersMessagesRequest,
   output: TrashUsersMessagesResponse,
   errors: [],
 }));
 
-/** Removes the specified message from the trash. */
 export interface UntrashUsersMessagesRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -1219,13 +1218,13 @@ export const UntrashUsersMessagesResponse = Message;
 
 export type UntrashUsersMessagesError = CommonErrors;
 
+/** Removes the specified message from the trash. */
 export const untrashUsersMessages: API.OperationMethod<UntrashUsersMessagesRequest, UntrashUsersMessagesResponse, UntrashUsersMessagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UntrashUsersMessagesRequest,
   output: UntrashUsersMessagesResponse,
   errors: [],
 }));
 
-/** Immediately and permanently deletes the specified message. This operation cannot be undone. Prefer `messages.trash` instead. */
 export interface DeleteUsersMessagesRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -1246,13 +1245,13 @@ export const DeleteUsersMessagesResponse: Schema.Schema<DeleteUsersMessagesRespo
 
 export type DeleteUsersMessagesError = CommonErrors;
 
+/** Immediately and permanently deletes the specified message. This operation cannot be undone. Prefer `messages.trash` instead. */
 export const deleteUsersMessages: API.OperationMethod<DeleteUsersMessagesRequest, DeleteUsersMessagesResponse, DeleteUsersMessagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteUsersMessagesRequest,
   output: DeleteUsersMessagesResponse,
   errors: [],
 }));
 
-/** Deletes many messages by message ID. Provides no guarantees that messages were not already deleted or even existed at all. */
 export interface BatchDeleteUsersMessagesRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -1273,13 +1272,13 @@ export const BatchDeleteUsersMessagesResponse: Schema.Schema<BatchDeleteUsersMes
 
 export type BatchDeleteUsersMessagesError = CommonErrors;
 
+/** Deletes many messages by message ID. Provides no guarantees that messages were not already deleted or even existed at all. */
 export const batchDeleteUsersMessages: API.OperationMethod<BatchDeleteUsersMessagesRequest, BatchDeleteUsersMessagesResponse, BatchDeleteUsersMessagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchDeleteUsersMessagesRequest,
   output: BatchDeleteUsersMessagesResponse,
   errors: [],
 }));
 
-/** Imports a message into only this user's mailbox, with standard email delivery scanning and classification similar to receiving via SMTP. This method doesn't perform SPF checks, so it might not work for some spam messages, such as those attempting to perform domain spoofing. This method does not send a message. Note that the maximum size of the message is 150MB. */
 export interface ImportUsersMessagesRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -1312,13 +1311,13 @@ export const ImportUsersMessagesResponse = Message;
 
 export type ImportUsersMessagesError = CommonErrors;
 
+/** Imports a message into only this user's mailbox, with standard email delivery scanning and classification similar to receiving via SMTP. This method doesn't perform SPF checks, so it might not work for some spam messages, such as those attempting to perform domain spoofing. This method does not send a message. Note that the maximum size of the message is 150MB. */
 export const importUsersMessages: API.OperationMethod<ImportUsersMessagesRequest, ImportUsersMessagesResponse, ImportUsersMessagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportUsersMessagesRequest,
   output: ImportUsersMessagesResponse,
   errors: [],
 }));
 
-/** Directly inserts a message into only this user's mailbox similar to `IMAP APPEND`, bypassing most scanning and classification. Does not send a message. */
 export interface InsertUsersMessagesRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -1345,13 +1344,13 @@ export const InsertUsersMessagesResponse = Message;
 
 export type InsertUsersMessagesError = CommonErrors;
 
+/** Directly inserts a message into only this user's mailbox similar to `IMAP APPEND`, bypassing most scanning and classification. Does not send a message. */
 export const insertUsersMessages: API.OperationMethod<InsertUsersMessagesRequest, InsertUsersMessagesResponse, InsertUsersMessagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertUsersMessagesRequest,
   output: InsertUsersMessagesResponse,
   errors: [],
 }));
 
-/** Gets the specified message. */
 export interface GetUsersMessagesRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -1378,13 +1377,13 @@ export const GetUsersMessagesResponse = Message;
 
 export type GetUsersMessagesError = CommonErrors;
 
+/** Gets the specified message. */
 export const getUsersMessages: API.OperationMethod<GetUsersMessagesRequest, GetUsersMessagesResponse, GetUsersMessagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetUsersMessagesRequest,
   output: GetUsersMessagesResponse,
   errors: [],
 }));
 
-/** Sends the specified message to the recipients in the `To`, `Cc`, and `Bcc` headers. For example usage, see [Sending email](https://developers.google.com/workspace/gmail/api/guides/sending). */
 export interface SendUsersMessagesRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -1405,13 +1404,13 @@ export const SendUsersMessagesResponse = Message;
 
 export type SendUsersMessagesError = CommonErrors;
 
+/** Sends the specified message to the recipients in the `To`, `Cc`, and `Bcc` headers. For example usage, see [Sending email](https://developers.google.com/workspace/gmail/api/guides/sending). */
 export const sendUsersMessages: API.OperationMethod<SendUsersMessagesRequest, SendUsersMessagesResponse, SendUsersMessagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SendUsersMessagesRequest,
   output: SendUsersMessagesResponse,
   errors: [],
 }));
 
-/** Lists the messages in the user's mailbox. For example usage, see [List Gmail messages](https://developers.google.com/workspace/gmail/api/guides/list-messages). */
 export interface ListUsersMessagesRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -1444,7 +1443,8 @@ export const ListUsersMessagesResponse = ListMessagesResponse;
 
 export type ListUsersMessagesError = CommonErrors;
 
-export const listUsersMessages = API.makePaginated(() => ({
+/** Lists the messages in the user's mailbox. For example usage, see [List Gmail messages](https://developers.google.com/workspace/gmail/api/guides/list-messages). */
+export const listUsersMessages: API.PaginatedOperationMethod<ListUsersMessagesRequest, ListUsersMessagesResponse, ListUsersMessagesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListUsersMessagesRequest,
   output: ListUsersMessagesResponse,
   errors: [],
@@ -1454,7 +1454,6 @@ export const listUsersMessages = API.makePaginated(() => ({
   },
 }));
 
-/** Modifies the labels on the specified message. */
 export interface ModifyUsersMessagesRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -1478,13 +1477,13 @@ export const ModifyUsersMessagesResponse = Message;
 
 export type ModifyUsersMessagesError = CommonErrors;
 
+/** Modifies the labels on the specified message. */
 export const modifyUsersMessages: API.OperationMethod<ModifyUsersMessagesRequest, ModifyUsersMessagesResponse, ModifyUsersMessagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ModifyUsersMessagesRequest,
   output: ModifyUsersMessagesResponse,
   errors: [],
 }));
 
-/** Modifies the labels on the specified messages. */
 export interface BatchModifyUsersMessagesRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -1505,13 +1504,13 @@ export const BatchModifyUsersMessagesResponse: Schema.Schema<BatchModifyUsersMes
 
 export type BatchModifyUsersMessagesError = CommonErrors;
 
+/** Modifies the labels on the specified messages. */
 export const batchModifyUsersMessages: API.OperationMethod<BatchModifyUsersMessagesRequest, BatchModifyUsersMessagesResponse, BatchModifyUsersMessagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchModifyUsersMessagesRequest,
   output: BatchModifyUsersMessagesResponse,
   errors: [],
 }));
 
-/** Gets the specified message attachment. */
 export interface GetUsersMessagesAttachmentsRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -1535,13 +1534,13 @@ export const GetUsersMessagesAttachmentsResponse = MessagePartBody;
 
 export type GetUsersMessagesAttachmentsError = CommonErrors;
 
+/** Gets the specified message attachment. */
 export const getUsersMessagesAttachments: API.OperationMethod<GetUsersMessagesAttachmentsRequest, GetUsersMessagesAttachmentsResponse, GetUsersMessagesAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetUsersMessagesAttachmentsRequest,
   output: GetUsersMessagesAttachmentsResponse,
   errors: [],
 }));
 
-/** Creates a new label. */
 export interface CreateUsersLabelsRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -1562,13 +1561,13 @@ export const CreateUsersLabelsResponse = Label;
 
 export type CreateUsersLabelsError = CommonErrors;
 
+/** Creates a new label. */
 export const createUsersLabels: API.OperationMethod<CreateUsersLabelsRequest, CreateUsersLabelsResponse, CreateUsersLabelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateUsersLabelsRequest,
   output: CreateUsersLabelsResponse,
   errors: [],
 }));
 
-/** Immediately and permanently deletes the specified label and removes it from any messages and threads that it is applied to. */
 export interface DeleteUsersLabelsRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -1589,13 +1588,13 @@ export const DeleteUsersLabelsResponse: Schema.Schema<DeleteUsersLabelsResponse>
 
 export type DeleteUsersLabelsError = CommonErrors;
 
+/** Immediately and permanently deletes the specified label and removes it from any messages and threads that it is applied to. */
 export const deleteUsersLabels: API.OperationMethod<DeleteUsersLabelsRequest, DeleteUsersLabelsResponse, DeleteUsersLabelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteUsersLabelsRequest,
   output: DeleteUsersLabelsResponse,
   errors: [],
 }));
 
-/** Gets the specified label. */
 export interface GetUsersLabelsRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -1616,13 +1615,13 @@ export const GetUsersLabelsResponse = Label;
 
 export type GetUsersLabelsError = CommonErrors;
 
+/** Gets the specified label. */
 export const getUsersLabels: API.OperationMethod<GetUsersLabelsRequest, GetUsersLabelsResponse, GetUsersLabelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetUsersLabelsRequest,
   output: GetUsersLabelsResponse,
   errors: [],
 }));
 
-/** Lists all labels in the user's mailbox. */
 export interface ListUsersLabelsRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -1640,13 +1639,13 @@ export const ListUsersLabelsResponse = ListLabelsResponse;
 
 export type ListUsersLabelsError = CommonErrors;
 
+/** Lists all labels in the user's mailbox. */
 export const listUsersLabels: API.OperationMethod<ListUsersLabelsRequest, ListUsersLabelsResponse, ListUsersLabelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListUsersLabelsRequest,
   output: ListUsersLabelsResponse,
   errors: [],
 }));
 
-/** Updates the specified label. */
 export interface UpdateUsersLabelsRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -1670,13 +1669,13 @@ export const UpdateUsersLabelsResponse = Label;
 
 export type UpdateUsersLabelsError = CommonErrors;
 
+/** Updates the specified label. */
 export const updateUsersLabels: API.OperationMethod<UpdateUsersLabelsRequest, UpdateUsersLabelsResponse, UpdateUsersLabelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateUsersLabelsRequest,
   output: UpdateUsersLabelsResponse,
   errors: [],
 }));
 
-/** Patch the specified label. */
 export interface PatchUsersLabelsRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -1700,13 +1699,13 @@ export const PatchUsersLabelsResponse = Label;
 
 export type PatchUsersLabelsError = CommonErrors;
 
+/** Patch the specified label. */
 export const patchUsersLabels: API.OperationMethod<PatchUsersLabelsRequest, PatchUsersLabelsResponse, PatchUsersLabelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchUsersLabelsRequest,
   output: PatchUsersLabelsResponse,
   errors: [],
 }));
 
-/** Moves the specified thread to the trash. Any messages that belong to the thread are also moved to the trash. */
 export interface TrashUsersThreadsRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -1727,13 +1726,13 @@ export const TrashUsersThreadsResponse = Thread;
 
 export type TrashUsersThreadsError = CommonErrors;
 
+/** Moves the specified thread to the trash. Any messages that belong to the thread are also moved to the trash. */
 export const trashUsersThreads: API.OperationMethod<TrashUsersThreadsRequest, TrashUsersThreadsResponse, TrashUsersThreadsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TrashUsersThreadsRequest,
   output: TrashUsersThreadsResponse,
   errors: [],
 }));
 
-/** Removes the specified thread from the trash. Any messages that belong to the thread are also removed from the trash. */
 export interface UntrashUsersThreadsRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -1754,13 +1753,13 @@ export const UntrashUsersThreadsResponse = Thread;
 
 export type UntrashUsersThreadsError = CommonErrors;
 
+/** Removes the specified thread from the trash. Any messages that belong to the thread are also removed from the trash. */
 export const untrashUsersThreads: API.OperationMethod<UntrashUsersThreadsRequest, UntrashUsersThreadsResponse, UntrashUsersThreadsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UntrashUsersThreadsRequest,
   output: UntrashUsersThreadsResponse,
   errors: [],
 }));
 
-/** Immediately and permanently deletes the specified thread. Any messages that belong to the thread are also deleted. This operation cannot be undone. Prefer `threads.trash` instead. */
 export interface DeleteUsersThreadsRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -1781,13 +1780,13 @@ export const DeleteUsersThreadsResponse: Schema.Schema<DeleteUsersThreadsRespons
 
 export type DeleteUsersThreadsError = CommonErrors;
 
+/** Immediately and permanently deletes the specified thread. Any messages that belong to the thread are also deleted. This operation cannot be undone. Prefer `threads.trash` instead. */
 export const deleteUsersThreads: API.OperationMethod<DeleteUsersThreadsRequest, DeleteUsersThreadsResponse, DeleteUsersThreadsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteUsersThreadsRequest,
   output: DeleteUsersThreadsResponse,
   errors: [],
 }));
 
-/** Gets the specified thread. */
 export interface GetUsersThreadsRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -1814,13 +1813,13 @@ export const GetUsersThreadsResponse = Thread;
 
 export type GetUsersThreadsError = CommonErrors;
 
+/** Gets the specified thread. */
 export const getUsersThreads: API.OperationMethod<GetUsersThreadsRequest, GetUsersThreadsResponse, GetUsersThreadsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetUsersThreadsRequest,
   output: GetUsersThreadsResponse,
   errors: [],
 }));
 
-/** Lists the threads in the user's mailbox. */
 export interface ListUsersThreadsRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -1853,7 +1852,8 @@ export const ListUsersThreadsResponse = ListThreadsResponse;
 
 export type ListUsersThreadsError = CommonErrors;
 
-export const listUsersThreads = API.makePaginated(() => ({
+/** Lists the threads in the user's mailbox. */
+export const listUsersThreads: API.PaginatedOperationMethod<ListUsersThreadsRequest, ListUsersThreadsResponse, ListUsersThreadsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListUsersThreadsRequest,
   output: ListUsersThreadsResponse,
   errors: [],
@@ -1863,7 +1863,6 @@ export const listUsersThreads = API.makePaginated(() => ({
   },
 }));
 
-/** Modifies the labels applied to the thread. This applies to all messages in the thread. */
 export interface ModifyUsersThreadsRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -1887,13 +1886,13 @@ export const ModifyUsersThreadsResponse = Thread;
 
 export type ModifyUsersThreadsError = CommonErrors;
 
+/** Modifies the labels applied to the thread. This applies to all messages in the thread. */
 export const modifyUsersThreads: API.OperationMethod<ModifyUsersThreadsRequest, ModifyUsersThreadsResponse, ModifyUsersThreadsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ModifyUsersThreadsRequest,
   output: ModifyUsersThreadsResponse,
   errors: [],
 }));
 
-/** Gets IMAP settings. */
 export interface GetImapUsersSettingsRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
@@ -1911,13 +1910,13 @@ export const GetImapUsersSettingsResponse = ImapSettings;
 
 export type GetImapUsersSettingsError = CommonErrors;
 
+/** Gets IMAP settings. */
 export const getImapUsersSettings: API.OperationMethod<GetImapUsersSettingsRequest, GetImapUsersSettingsResponse, GetImapUsersSettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetImapUsersSettingsRequest,
   output: GetImapUsersSettingsResponse,
   errors: [],
 }));
 
-/** Updates IMAP settings. */
 export interface UpdateImapUsersSettingsRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
@@ -1938,13 +1937,13 @@ export const UpdateImapUsersSettingsResponse = ImapSettings;
 
 export type UpdateImapUsersSettingsError = CommonErrors;
 
+/** Updates IMAP settings. */
 export const updateImapUsersSettings: API.OperationMethod<UpdateImapUsersSettingsRequest, UpdateImapUsersSettingsResponse, UpdateImapUsersSettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateImapUsersSettingsRequest,
   output: UpdateImapUsersSettingsResponse,
   errors: [],
 }));
 
-/** Gets POP settings. */
 export interface GetPopUsersSettingsRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
@@ -1962,13 +1961,13 @@ export const GetPopUsersSettingsResponse = PopSettings;
 
 export type GetPopUsersSettingsError = CommonErrors;
 
+/** Gets POP settings. */
 export const getPopUsersSettings: API.OperationMethod<GetPopUsersSettingsRequest, GetPopUsersSettingsResponse, GetPopUsersSettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPopUsersSettingsRequest,
   output: GetPopUsersSettingsResponse,
   errors: [],
 }));
 
-/** Updates POP settings. */
 export interface UpdatePopUsersSettingsRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
@@ -1989,13 +1988,13 @@ export const UpdatePopUsersSettingsResponse = PopSettings;
 
 export type UpdatePopUsersSettingsError = CommonErrors;
 
+/** Updates POP settings. */
 export const updatePopUsersSettings: API.OperationMethod<UpdatePopUsersSettingsRequest, UpdatePopUsersSettingsResponse, UpdatePopUsersSettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdatePopUsersSettingsRequest,
   output: UpdatePopUsersSettingsResponse,
   errors: [],
 }));
 
-/** Gets vacation responder settings. */
 export interface GetVacationUsersSettingsRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
@@ -2013,13 +2012,13 @@ export const GetVacationUsersSettingsResponse = VacationSettings;
 
 export type GetVacationUsersSettingsError = CommonErrors;
 
+/** Gets vacation responder settings. */
 export const getVacationUsersSettings: API.OperationMethod<GetVacationUsersSettingsRequest, GetVacationUsersSettingsResponse, GetVacationUsersSettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetVacationUsersSettingsRequest,
   output: GetVacationUsersSettingsResponse,
   errors: [],
 }));
 
-/** Updates vacation responder settings. */
 export interface UpdateVacationUsersSettingsRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
@@ -2040,13 +2039,13 @@ export const UpdateVacationUsersSettingsResponse = VacationSettings;
 
 export type UpdateVacationUsersSettingsError = CommonErrors;
 
+/** Updates vacation responder settings. */
 export const updateVacationUsersSettings: API.OperationMethod<UpdateVacationUsersSettingsRequest, UpdateVacationUsersSettingsResponse, UpdateVacationUsersSettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateVacationUsersSettingsRequest,
   output: UpdateVacationUsersSettingsResponse,
   errors: [],
 }));
 
-/** Gets language settings. */
 export interface GetLanguageUsersSettingsRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
@@ -2064,13 +2063,13 @@ export const GetLanguageUsersSettingsResponse = LanguageSettings;
 
 export type GetLanguageUsersSettingsError = CommonErrors;
 
+/** Gets language settings. */
 export const getLanguageUsersSettings: API.OperationMethod<GetLanguageUsersSettingsRequest, GetLanguageUsersSettingsResponse, GetLanguageUsersSettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetLanguageUsersSettingsRequest,
   output: GetLanguageUsersSettingsResponse,
   errors: [],
 }));
 
-/** Updates language settings. If successful, the return object contains the `displayLanguage` that was saved for the user, which may differ from the value passed into the request. This is because the requested `displayLanguage` may not be directly supported by Gmail but have a close variant that is, and so the variant may be chosen and saved instead. */
 export interface UpdateLanguageUsersSettingsRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
@@ -2091,13 +2090,13 @@ export const UpdateLanguageUsersSettingsResponse = LanguageSettings;
 
 export type UpdateLanguageUsersSettingsError = CommonErrors;
 
+/** Updates language settings. If successful, the return object contains the `displayLanguage` that was saved for the user, which may differ from the value passed into the request. This is because the requested `displayLanguage` may not be directly supported by Gmail but have a close variant that is, and so the variant may be chosen and saved instead. */
 export const updateLanguageUsersSettings: API.OperationMethod<UpdateLanguageUsersSettingsRequest, UpdateLanguageUsersSettingsResponse, UpdateLanguageUsersSettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateLanguageUsersSettingsRequest,
   output: UpdateLanguageUsersSettingsResponse,
   errors: [],
 }));
 
-/** Gets the auto-forwarding setting for the specified account. */
 export interface GetAutoForwardingUsersSettingsRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
@@ -2115,13 +2114,13 @@ export const GetAutoForwardingUsersSettingsResponse = AutoForwarding;
 
 export type GetAutoForwardingUsersSettingsError = CommonErrors;
 
+/** Gets the auto-forwarding setting for the specified account. */
 export const getAutoForwardingUsersSettings: API.OperationMethod<GetAutoForwardingUsersSettingsRequest, GetAutoForwardingUsersSettingsResponse, GetAutoForwardingUsersSettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAutoForwardingUsersSettingsRequest,
   output: GetAutoForwardingUsersSettingsResponse,
   errors: [],
 }));
 
-/** Updates the auto-forwarding setting for the specified account. A verified forwarding address must be specified when auto-forwarding is enabled. This method is only available to service account clients that have been delegated domain-wide authority. */
 export interface UpdateAutoForwardingUsersSettingsRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
@@ -2142,13 +2141,13 @@ export const UpdateAutoForwardingUsersSettingsResponse = AutoForwarding;
 
 export type UpdateAutoForwardingUsersSettingsError = CommonErrors;
 
+/** Updates the auto-forwarding setting for the specified account. A verified forwarding address must be specified when auto-forwarding is enabled. This method is only available to service account clients that have been delegated domain-wide authority. */
 export const updateAutoForwardingUsersSettings: API.OperationMethod<UpdateAutoForwardingUsersSettingsRequest, UpdateAutoForwardingUsersSettingsResponse, UpdateAutoForwardingUsersSettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAutoForwardingUsersSettingsRequest,
   output: UpdateAutoForwardingUsersSettingsResponse,
   errors: [],
 }));
 
-/** Lists the send-as aliases for the specified account. The result includes the primary send-as address associated with the account as well as any custom "from" aliases. */
 export interface ListUsersSettingsSendAsRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
@@ -2166,13 +2165,13 @@ export const ListUsersSettingsSendAsResponse = ListSendAsResponse;
 
 export type ListUsersSettingsSendAsError = CommonErrors;
 
+/** Lists the send-as aliases for the specified account. The result includes the primary send-as address associated with the account as well as any custom "from" aliases. */
 export const listUsersSettingsSendAs: API.OperationMethod<ListUsersSettingsSendAsRequest, ListUsersSettingsSendAsResponse, ListUsersSettingsSendAsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListUsersSettingsSendAsRequest,
   output: ListUsersSettingsSendAsResponse,
   errors: [],
 }));
 
-/** Gets the specified send-as alias. Fails with an HTTP 404 error if the specified address is not a member of the collection. */
 export interface GetUsersSettingsSendAsRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
@@ -2193,13 +2192,13 @@ export const GetUsersSettingsSendAsResponse = SendAs;
 
 export type GetUsersSettingsSendAsError = CommonErrors;
 
+/** Gets the specified send-as alias. Fails with an HTTP 404 error if the specified address is not a member of the collection. */
 export const getUsersSettingsSendAs: API.OperationMethod<GetUsersSettingsSendAsRequest, GetUsersSettingsSendAsResponse, GetUsersSettingsSendAsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetUsersSettingsSendAsRequest,
   output: GetUsersSettingsSendAsResponse,
   errors: [],
 }));
 
-/** Creates a custom "from" send-as alias. If an SMTP MSA is specified, Gmail will attempt to connect to the SMTP service to validate the configuration before creating the alias. If ownership verification is required for the alias, a message will be sent to the email address and the resource's verification status will be set to `pending`; otherwise, the resource will be created with verification status set to `accepted`. If a signature is provided, Gmail will sanitize the HTML before saving it with the alias. This method is only available to service account clients that have been delegated domain-wide authority. */
 export interface CreateUsersSettingsSendAsRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
@@ -2220,13 +2219,13 @@ export const CreateUsersSettingsSendAsResponse = SendAs;
 
 export type CreateUsersSettingsSendAsError = CommonErrors;
 
+/** Creates a custom "from" send-as alias. If an SMTP MSA is specified, Gmail will attempt to connect to the SMTP service to validate the configuration before creating the alias. If ownership verification is required for the alias, a message will be sent to the email address and the resource's verification status will be set to `pending`; otherwise, the resource will be created with verification status set to `accepted`. If a signature is provided, Gmail will sanitize the HTML before saving it with the alias. This method is only available to service account clients that have been delegated domain-wide authority. */
 export const createUsersSettingsSendAs: API.OperationMethod<CreateUsersSettingsSendAsRequest, CreateUsersSettingsSendAsResponse, CreateUsersSettingsSendAsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateUsersSettingsSendAsRequest,
   output: CreateUsersSettingsSendAsResponse,
   errors: [],
 }));
 
-/** Updates a send-as alias. If a signature is provided, Gmail will sanitize the HTML before saving it with the alias. Addresses other than the primary address for the account can only be updated by service account clients that have been delegated domain-wide authority. */
 export interface UpdateUsersSettingsSendAsRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
@@ -2250,13 +2249,13 @@ export const UpdateUsersSettingsSendAsResponse = SendAs;
 
 export type UpdateUsersSettingsSendAsError = CommonErrors;
 
+/** Updates a send-as alias. If a signature is provided, Gmail will sanitize the HTML before saving it with the alias. Addresses other than the primary address for the account can only be updated by service account clients that have been delegated domain-wide authority. */
 export const updateUsersSettingsSendAs: API.OperationMethod<UpdateUsersSettingsSendAsRequest, UpdateUsersSettingsSendAsResponse, UpdateUsersSettingsSendAsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateUsersSettingsSendAsRequest,
   output: UpdateUsersSettingsSendAsResponse,
   errors: [],
 }));
 
-/** Patch the specified send-as alias. */
 export interface PatchUsersSettingsSendAsRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
@@ -2280,13 +2279,13 @@ export const PatchUsersSettingsSendAsResponse = SendAs;
 
 export type PatchUsersSettingsSendAsError = CommonErrors;
 
+/** Patch the specified send-as alias. */
 export const patchUsersSettingsSendAs: API.OperationMethod<PatchUsersSettingsSendAsRequest, PatchUsersSettingsSendAsResponse, PatchUsersSettingsSendAsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchUsersSettingsSendAsRequest,
   output: PatchUsersSettingsSendAsResponse,
   errors: [],
 }));
 
-/** Deletes the specified send-as alias. Revokes any verification that may have been required for using it. This method is only available to service account clients that have been delegated domain-wide authority. */
 export interface DeleteUsersSettingsSendAsRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
@@ -2307,13 +2306,13 @@ export const DeleteUsersSettingsSendAsResponse: Schema.Schema<DeleteUsersSetting
 
 export type DeleteUsersSettingsSendAsError = CommonErrors;
 
+/** Deletes the specified send-as alias. Revokes any verification that may have been required for using it. This method is only available to service account clients that have been delegated domain-wide authority. */
 export const deleteUsersSettingsSendAs: API.OperationMethod<DeleteUsersSettingsSendAsRequest, DeleteUsersSettingsSendAsResponse, DeleteUsersSettingsSendAsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteUsersSettingsSendAsRequest,
   output: DeleteUsersSettingsSendAsResponse,
   errors: [],
 }));
 
-/** Sends a verification email to the specified send-as alias address. The verification status must be `pending`. This method is only available to service account clients that have been delegated domain-wide authority. */
 export interface VerifyUsersSettingsSendAsRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
@@ -2334,13 +2333,13 @@ export const VerifyUsersSettingsSendAsResponse: Schema.Schema<VerifyUsersSetting
 
 export type VerifyUsersSettingsSendAsError = CommonErrors;
 
+/** Sends a verification email to the specified send-as alias address. The verification status must be `pending`. This method is only available to service account clients that have been delegated domain-wide authority. */
 export const verifyUsersSettingsSendAs: API.OperationMethod<VerifyUsersSettingsSendAsRequest, VerifyUsersSettingsSendAsResponse, VerifyUsersSettingsSendAsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: VerifyUsersSettingsSendAsRequest,
   output: VerifyUsersSettingsSendAsResponse,
   errors: [],
 }));
 
-/** Lists S/MIME configs for the specified send-as alias. */
 export interface ListUsersSettingsSendAsSmimeInfoRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -2361,13 +2360,13 @@ export const ListUsersSettingsSendAsSmimeInfoResponse = ListSmimeInfoResponse;
 
 export type ListUsersSettingsSendAsSmimeInfoError = CommonErrors;
 
+/** Lists S/MIME configs for the specified send-as alias. */
 export const listUsersSettingsSendAsSmimeInfo: API.OperationMethod<ListUsersSettingsSendAsSmimeInfoRequest, ListUsersSettingsSendAsSmimeInfoResponse, ListUsersSettingsSendAsSmimeInfoError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListUsersSettingsSendAsSmimeInfoRequest,
   output: ListUsersSettingsSendAsSmimeInfoResponse,
   errors: [],
 }));
 
-/** Gets the specified S/MIME config for the specified send-as alias. */
 export interface GetUsersSettingsSendAsSmimeInfoRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -2391,13 +2390,13 @@ export const GetUsersSettingsSendAsSmimeInfoResponse = SmimeInfo;
 
 export type GetUsersSettingsSendAsSmimeInfoError = CommonErrors;
 
+/** Gets the specified S/MIME config for the specified send-as alias. */
 export const getUsersSettingsSendAsSmimeInfo: API.OperationMethod<GetUsersSettingsSendAsSmimeInfoRequest, GetUsersSettingsSendAsSmimeInfoResponse, GetUsersSettingsSendAsSmimeInfoError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetUsersSettingsSendAsSmimeInfoRequest,
   output: GetUsersSettingsSendAsSmimeInfoResponse,
   errors: [],
 }));
 
-/** Insert (upload) the given S/MIME config for the specified send-as alias. Note that pkcs12 format is required for the key. */
 export interface InsertUsersSettingsSendAsSmimeInfoRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -2421,13 +2420,13 @@ export const InsertUsersSettingsSendAsSmimeInfoResponse = SmimeInfo;
 
 export type InsertUsersSettingsSendAsSmimeInfoError = CommonErrors;
 
+/** Insert (upload) the given S/MIME config for the specified send-as alias. Note that pkcs12 format is required for the key. */
 export const insertUsersSettingsSendAsSmimeInfo: API.OperationMethod<InsertUsersSettingsSendAsSmimeInfoRequest, InsertUsersSettingsSendAsSmimeInfoResponse, InsertUsersSettingsSendAsSmimeInfoError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertUsersSettingsSendAsSmimeInfoRequest,
   output: InsertUsersSettingsSendAsSmimeInfoResponse,
   errors: [],
 }));
 
-/** Deletes the specified S/MIME config for the specified send-as alias. */
 export interface DeleteUsersSettingsSendAsSmimeInfoRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -2451,13 +2450,13 @@ export const DeleteUsersSettingsSendAsSmimeInfoResponse: Schema.Schema<DeleteUse
 
 export type DeleteUsersSettingsSendAsSmimeInfoError = CommonErrors;
 
+/** Deletes the specified S/MIME config for the specified send-as alias. */
 export const deleteUsersSettingsSendAsSmimeInfo: API.OperationMethod<DeleteUsersSettingsSendAsSmimeInfoRequest, DeleteUsersSettingsSendAsSmimeInfoResponse, DeleteUsersSettingsSendAsSmimeInfoError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteUsersSettingsSendAsSmimeInfoRequest,
   output: DeleteUsersSettingsSendAsSmimeInfoResponse,
   errors: [],
 }));
 
-/** Sets the default S/MIME config for the specified send-as alias. */
 export interface SetDefaultUsersSettingsSendAsSmimeInfoRequest {
   /** The user's email address. The special value `me` can be used to indicate the authenticated user. */
   userId: string;
@@ -2481,13 +2480,13 @@ export const SetDefaultUsersSettingsSendAsSmimeInfoResponse: Schema.Schema<SetDe
 
 export type SetDefaultUsersSettingsSendAsSmimeInfoError = CommonErrors;
 
+/** Sets the default S/MIME config for the specified send-as alias. */
 export const setDefaultUsersSettingsSendAsSmimeInfo: API.OperationMethod<SetDefaultUsersSettingsSendAsSmimeInfoRequest, SetDefaultUsersSettingsSendAsSmimeInfoResponse, SetDefaultUsersSettingsSendAsSmimeInfoError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetDefaultUsersSettingsSendAsSmimeInfoRequest,
   output: SetDefaultUsersSettingsSendAsSmimeInfoResponse,
   errors: [],
 }));
 
-/** Creates and configures a client-side encryption identity that's authorized to send mail from the user account. Google publishes the S/MIME certificate to a shared domain-wide directory so that people within a Google Workspace organization can encrypt and send mail to the identity. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
 export interface CreateUsersSettingsCseIdentitiesRequest {
   /** The requester's primary email address. To indicate the authenticated user, you can use the special value `me`. */
   userId: string;
@@ -2508,13 +2507,13 @@ export const CreateUsersSettingsCseIdentitiesResponse = CseIdentity;
 
 export type CreateUsersSettingsCseIdentitiesError = CommonErrors;
 
+/** Creates and configures a client-side encryption identity that's authorized to send mail from the user account. Google publishes the S/MIME certificate to a shared domain-wide directory so that people within a Google Workspace organization can encrypt and send mail to the identity. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
 export const createUsersSettingsCseIdentities: API.OperationMethod<CreateUsersSettingsCseIdentitiesRequest, CreateUsersSettingsCseIdentitiesResponse, CreateUsersSettingsCseIdentitiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateUsersSettingsCseIdentitiesRequest,
   output: CreateUsersSettingsCseIdentitiesResponse,
   errors: [],
 }));
 
-/** Deletes a client-side encryption identity. The authenticated user can no longer use the identity to send encrypted messages. You cannot restore the identity after you delete it. Instead, use the CreateCseIdentity method to create another identity with the same configuration. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
 export interface DeleteUsersSettingsCseIdentitiesRequest {
   /** The requester's primary email address. To indicate the authenticated user, you can use the special value `me`. */
   userId: string;
@@ -2535,13 +2534,13 @@ export const DeleteUsersSettingsCseIdentitiesResponse: Schema.Schema<DeleteUsers
 
 export type DeleteUsersSettingsCseIdentitiesError = CommonErrors;
 
+/** Deletes a client-side encryption identity. The authenticated user can no longer use the identity to send encrypted messages. You cannot restore the identity after you delete it. Instead, use the CreateCseIdentity method to create another identity with the same configuration. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
 export const deleteUsersSettingsCseIdentities: API.OperationMethod<DeleteUsersSettingsCseIdentitiesRequest, DeleteUsersSettingsCseIdentitiesResponse, DeleteUsersSettingsCseIdentitiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteUsersSettingsCseIdentitiesRequest,
   output: DeleteUsersSettingsCseIdentitiesResponse,
   errors: [],
 }));
 
-/** Retrieves a client-side encryption identity configuration. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
 export interface GetUsersSettingsCseIdentitiesRequest {
   /** The requester's primary email address. To indicate the authenticated user, you can use the special value `me`. */
   userId: string;
@@ -2562,13 +2561,13 @@ export const GetUsersSettingsCseIdentitiesResponse = CseIdentity;
 
 export type GetUsersSettingsCseIdentitiesError = CommonErrors;
 
+/** Retrieves a client-side encryption identity configuration. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
 export const getUsersSettingsCseIdentities: API.OperationMethod<GetUsersSettingsCseIdentitiesRequest, GetUsersSettingsCseIdentitiesResponse, GetUsersSettingsCseIdentitiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetUsersSettingsCseIdentitiesRequest,
   output: GetUsersSettingsCseIdentitiesResponse,
   errors: [],
 }));
 
-/** Lists the client-side encrypted identities for an authenticated user. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
 export interface ListUsersSettingsCseIdentitiesRequest {
   /** The requester's primary email address. To indicate the authenticated user, you can use the special value `me`. */
   userId: string;
@@ -2592,7 +2591,8 @@ export const ListUsersSettingsCseIdentitiesResponse = ListCseIdentitiesResponse;
 
 export type ListUsersSettingsCseIdentitiesError = CommonErrors;
 
-export const listUsersSettingsCseIdentities = API.makePaginated(() => ({
+/** Lists the client-side encrypted identities for an authenticated user. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
+export const listUsersSettingsCseIdentities: API.PaginatedOperationMethod<ListUsersSettingsCseIdentitiesRequest, ListUsersSettingsCseIdentitiesResponse, ListUsersSettingsCseIdentitiesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListUsersSettingsCseIdentitiesRequest,
   output: ListUsersSettingsCseIdentitiesResponse,
   errors: [],
@@ -2602,7 +2602,6 @@ export const listUsersSettingsCseIdentities = API.makePaginated(() => ({
   },
 }));
 
-/** Associates a different key pair with an existing client-side encryption identity. The updated key pair must validate against Google's [S/MIME certificate profiles](https://support.google.com/a/answer/7300887). For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
 export interface PatchUsersSettingsCseIdentitiesRequest {
   /** The requester's primary email address. To indicate the authenticated user, you can use the special value `me`. */
   userId: string;
@@ -2626,13 +2625,13 @@ export const PatchUsersSettingsCseIdentitiesResponse = CseIdentity;
 
 export type PatchUsersSettingsCseIdentitiesError = CommonErrors;
 
+/** Associates a different key pair with an existing client-side encryption identity. The updated key pair must validate against Google's [S/MIME certificate profiles](https://support.google.com/a/answer/7300887). For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
 export const patchUsersSettingsCseIdentities: API.OperationMethod<PatchUsersSettingsCseIdentitiesRequest, PatchUsersSettingsCseIdentitiesResponse, PatchUsersSettingsCseIdentitiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchUsersSettingsCseIdentitiesRequest,
   output: PatchUsersSettingsCseIdentitiesResponse,
   errors: [],
 }));
 
-/** Creates and uploads a client-side encryption S/MIME public key certificate chain and private key metadata for the authenticated user. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
 export interface CreateUsersSettingsCseKeypairsRequest {
   /** The requester's primary email address. To indicate the authenticated user, you can use the special value `me`. */
   userId: string;
@@ -2653,13 +2652,13 @@ export const CreateUsersSettingsCseKeypairsResponse = CseKeyPair;
 
 export type CreateUsersSettingsCseKeypairsError = CommonErrors;
 
+/** Creates and uploads a client-side encryption S/MIME public key certificate chain and private key metadata for the authenticated user. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
 export const createUsersSettingsCseKeypairs: API.OperationMethod<CreateUsersSettingsCseKeypairsRequest, CreateUsersSettingsCseKeypairsResponse, CreateUsersSettingsCseKeypairsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateUsersSettingsCseKeypairsRequest,
   output: CreateUsersSettingsCseKeypairsResponse,
   errors: [],
 }));
 
-/** Turns off a client-side encryption key pair. The authenticated user can no longer use the key pair to decrypt incoming CSE message texts or sign outgoing CSE mail. To regain access, use the EnableCseKeyPair to turn on the key pair. After 30 days, you can permanently delete the key pair by using the ObliterateCseKeyPair method. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
 export interface DisableUsersSettingsCseKeypairsRequest {
   /** The requester's primary email address. To indicate the authenticated user, you can use the special value `me`. */
   userId: string;
@@ -2683,13 +2682,13 @@ export const DisableUsersSettingsCseKeypairsResponse = CseKeyPair;
 
 export type DisableUsersSettingsCseKeypairsError = CommonErrors;
 
+/** Turns off a client-side encryption key pair. The authenticated user can no longer use the key pair to decrypt incoming CSE message texts or sign outgoing CSE mail. To regain access, use the EnableCseKeyPair to turn on the key pair. After 30 days, you can permanently delete the key pair by using the ObliterateCseKeyPair method. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
 export const disableUsersSettingsCseKeypairs: API.OperationMethod<DisableUsersSettingsCseKeypairsRequest, DisableUsersSettingsCseKeypairsResponse, DisableUsersSettingsCseKeypairsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DisableUsersSettingsCseKeypairsRequest,
   output: DisableUsersSettingsCseKeypairsResponse,
   errors: [],
 }));
 
-/** Turns on a client-side encryption key pair that was turned off. The key pair becomes active again for any associated client-side encryption identities. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
 export interface EnableUsersSettingsCseKeypairsRequest {
   /** The requester's primary email address. To indicate the authenticated user, you can use the special value `me`. */
   userId: string;
@@ -2713,13 +2712,13 @@ export const EnableUsersSettingsCseKeypairsResponse = CseKeyPair;
 
 export type EnableUsersSettingsCseKeypairsError = CommonErrors;
 
+/** Turns on a client-side encryption key pair that was turned off. The key pair becomes active again for any associated client-side encryption identities. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
 export const enableUsersSettingsCseKeypairs: API.OperationMethod<EnableUsersSettingsCseKeypairsRequest, EnableUsersSettingsCseKeypairsResponse, EnableUsersSettingsCseKeypairsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnableUsersSettingsCseKeypairsRequest,
   output: EnableUsersSettingsCseKeypairsResponse,
   errors: [],
 }));
 
-/** Retrieves an existing client-side encryption key pair. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
 export interface GetUsersSettingsCseKeypairsRequest {
   /** The requester's primary email address. To indicate the authenticated user, you can use the special value `me`. */
   userId: string;
@@ -2740,13 +2739,13 @@ export const GetUsersSettingsCseKeypairsResponse = CseKeyPair;
 
 export type GetUsersSettingsCseKeypairsError = CommonErrors;
 
+/** Retrieves an existing client-side encryption key pair. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
 export const getUsersSettingsCseKeypairs: API.OperationMethod<GetUsersSettingsCseKeypairsRequest, GetUsersSettingsCseKeypairsResponse, GetUsersSettingsCseKeypairsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetUsersSettingsCseKeypairsRequest,
   output: GetUsersSettingsCseKeypairsResponse,
   errors: [],
 }));
 
-/** Lists client-side encryption key pairs for an authenticated user. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
 export interface ListUsersSettingsCseKeypairsRequest {
   /** The requester's primary email address. To indicate the authenticated user, you can use the special value `me`. */
   userId: string;
@@ -2770,7 +2769,8 @@ export const ListUsersSettingsCseKeypairsResponse = ListCseKeyPairsResponse;
 
 export type ListUsersSettingsCseKeypairsError = CommonErrors;
 
-export const listUsersSettingsCseKeypairs = API.makePaginated(() => ({
+/** Lists client-side encryption key pairs for an authenticated user. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
+export const listUsersSettingsCseKeypairs: API.PaginatedOperationMethod<ListUsersSettingsCseKeypairsRequest, ListUsersSettingsCseKeypairsResponse, ListUsersSettingsCseKeypairsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListUsersSettingsCseKeypairsRequest,
   output: ListUsersSettingsCseKeypairsResponse,
   errors: [],
@@ -2780,7 +2780,6 @@ export const listUsersSettingsCseKeypairs = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a client-side encryption key pair permanently and immediately. You can only permanently delete key pairs that have been turned off for more than 30 days. To turn off a key pair, use the DisableCseKeyPair method. Gmail can't restore or decrypt any messages that were encrypted by an obliterated key. Authenticated users and Google Workspace administrators lose access to reading the encrypted messages. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
 export interface ObliterateUsersSettingsCseKeypairsRequest {
   /** The requester's primary email address. To indicate the authenticated user, you can use the special value `me`. */
   userId: string;
@@ -2804,13 +2803,13 @@ export const ObliterateUsersSettingsCseKeypairsResponse: Schema.Schema<Obliterat
 
 export type ObliterateUsersSettingsCseKeypairsError = CommonErrors;
 
+/** Deletes a client-side encryption key pair permanently and immediately. You can only permanently delete key pairs that have been turned off for more than 30 days. To turn off a key pair, use the DisableCseKeyPair method. Gmail can't restore or decrypt any messages that were encrypted by an obliterated key. Authenticated users and Google Workspace administrators lose access to reading the encrypted messages. For administrators managing identities and keypairs for users in their organization, requests require authorization with a [service account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) that has [domain-wide delegation authority](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#delegatingauthority) to impersonate users with the `https://www.googleapis.com/auth/gmail.settings.basic` scope. For users managing their own identities and keypairs, requests require [hardware key encryption](https://support.google.com/a/answer/14153163) turned on and configured. */
 export const obliterateUsersSettingsCseKeypairs: API.OperationMethod<ObliterateUsersSettingsCseKeypairsRequest, ObliterateUsersSettingsCseKeypairsResponse, ObliterateUsersSettingsCseKeypairsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ObliterateUsersSettingsCseKeypairsRequest,
   output: ObliterateUsersSettingsCseKeypairsResponse,
   errors: [],
 }));
 
-/** Lists the message filters of a Gmail user. */
 export interface ListUsersSettingsFiltersRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
@@ -2828,13 +2827,13 @@ export const ListUsersSettingsFiltersResponse = ListFiltersResponse;
 
 export type ListUsersSettingsFiltersError = CommonErrors;
 
+/** Lists the message filters of a Gmail user. */
 export const listUsersSettingsFilters: API.OperationMethod<ListUsersSettingsFiltersRequest, ListUsersSettingsFiltersResponse, ListUsersSettingsFiltersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListUsersSettingsFiltersRequest,
   output: ListUsersSettingsFiltersResponse,
   errors: [],
 }));
 
-/** Gets a filter. */
 export interface GetUsersSettingsFiltersRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
@@ -2855,13 +2854,13 @@ export const GetUsersSettingsFiltersResponse = Filter;
 
 export type GetUsersSettingsFiltersError = CommonErrors;
 
+/** Gets a filter. */
 export const getUsersSettingsFilters: API.OperationMethod<GetUsersSettingsFiltersRequest, GetUsersSettingsFiltersResponse, GetUsersSettingsFiltersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetUsersSettingsFiltersRequest,
   output: GetUsersSettingsFiltersResponse,
   errors: [],
 }));
 
-/** Creates a filter. Note: you can only create a maximum of 1,000 filters. */
 export interface CreateUsersSettingsFiltersRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
@@ -2882,13 +2881,13 @@ export const CreateUsersSettingsFiltersResponse = Filter;
 
 export type CreateUsersSettingsFiltersError = CommonErrors;
 
+/** Creates a filter. Note: you can only create a maximum of 1,000 filters. */
 export const createUsersSettingsFilters: API.OperationMethod<CreateUsersSettingsFiltersRequest, CreateUsersSettingsFiltersResponse, CreateUsersSettingsFiltersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateUsersSettingsFiltersRequest,
   output: CreateUsersSettingsFiltersResponse,
   errors: [],
 }));
 
-/** Immediately and permanently deletes the specified filter. */
 export interface DeleteUsersSettingsFiltersRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
@@ -2909,13 +2908,13 @@ export const DeleteUsersSettingsFiltersResponse: Schema.Schema<DeleteUsersSettin
 
 export type DeleteUsersSettingsFiltersError = CommonErrors;
 
+/** Immediately and permanently deletes the specified filter. */
 export const deleteUsersSettingsFilters: API.OperationMethod<DeleteUsersSettingsFiltersRequest, DeleteUsersSettingsFiltersResponse, DeleteUsersSettingsFiltersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteUsersSettingsFiltersRequest,
   output: DeleteUsersSettingsFiltersResponse,
   errors: [],
 }));
 
-/** Lists the forwarding addresses for the specified account. */
 export interface ListUsersSettingsForwardingAddressesRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
@@ -2933,13 +2932,13 @@ export const ListUsersSettingsForwardingAddressesResponse = ListForwardingAddres
 
 export type ListUsersSettingsForwardingAddressesError = CommonErrors;
 
+/** Lists the forwarding addresses for the specified account. */
 export const listUsersSettingsForwardingAddresses: API.OperationMethod<ListUsersSettingsForwardingAddressesRequest, ListUsersSettingsForwardingAddressesResponse, ListUsersSettingsForwardingAddressesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListUsersSettingsForwardingAddressesRequest,
   output: ListUsersSettingsForwardingAddressesResponse,
   errors: [],
 }));
 
-/** Gets the specified forwarding address. */
 export interface GetUsersSettingsForwardingAddressesRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
@@ -2960,13 +2959,13 @@ export const GetUsersSettingsForwardingAddressesResponse = ForwardingAddress;
 
 export type GetUsersSettingsForwardingAddressesError = CommonErrors;
 
+/** Gets the specified forwarding address. */
 export const getUsersSettingsForwardingAddresses: API.OperationMethod<GetUsersSettingsForwardingAddressesRequest, GetUsersSettingsForwardingAddressesResponse, GetUsersSettingsForwardingAddressesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetUsersSettingsForwardingAddressesRequest,
   output: GetUsersSettingsForwardingAddressesResponse,
   errors: [],
 }));
 
-/** Creates a forwarding address. If ownership verification is required, a message will be sent to the recipient and the resource's verification status will be set to `pending`; otherwise, the resource will be created with verification status set to `accepted`. This method is only available to service account clients that have been delegated domain-wide authority. */
 export interface CreateUsersSettingsForwardingAddressesRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
@@ -2987,13 +2986,13 @@ export const CreateUsersSettingsForwardingAddressesResponse = ForwardingAddress;
 
 export type CreateUsersSettingsForwardingAddressesError = CommonErrors;
 
+/** Creates a forwarding address. If ownership verification is required, a message will be sent to the recipient and the resource's verification status will be set to `pending`; otherwise, the resource will be created with verification status set to `accepted`. This method is only available to service account clients that have been delegated domain-wide authority. */
 export const createUsersSettingsForwardingAddresses: API.OperationMethod<CreateUsersSettingsForwardingAddressesRequest, CreateUsersSettingsForwardingAddressesResponse, CreateUsersSettingsForwardingAddressesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateUsersSettingsForwardingAddressesRequest,
   output: CreateUsersSettingsForwardingAddressesResponse,
   errors: [],
 }));
 
-/** Deletes the specified forwarding address and revokes any verification that may have been required. This method is only available to service account clients that have been delegated domain-wide authority. */
 export interface DeleteUsersSettingsForwardingAddressesRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
@@ -3014,13 +3013,13 @@ export const DeleteUsersSettingsForwardingAddressesResponse: Schema.Schema<Delet
 
 export type DeleteUsersSettingsForwardingAddressesError = CommonErrors;
 
+/** Deletes the specified forwarding address and revokes any verification that may have been required. This method is only available to service account clients that have been delegated domain-wide authority. */
 export const deleteUsersSettingsForwardingAddresses: API.OperationMethod<DeleteUsersSettingsForwardingAddressesRequest, DeleteUsersSettingsForwardingAddressesResponse, DeleteUsersSettingsForwardingAddressesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteUsersSettingsForwardingAddressesRequest,
   output: DeleteUsersSettingsForwardingAddressesResponse,
   errors: [],
 }));
 
-/** Lists the delegates for the specified account. This method is only available to service account clients that have been delegated domain-wide authority. */
 export interface ListUsersSettingsDelegatesRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
@@ -3038,13 +3037,13 @@ export const ListUsersSettingsDelegatesResponse = ListDelegatesResponse;
 
 export type ListUsersSettingsDelegatesError = CommonErrors;
 
+/** Lists the delegates for the specified account. This method is only available to service account clients that have been delegated domain-wide authority. */
 export const listUsersSettingsDelegates: API.OperationMethod<ListUsersSettingsDelegatesRequest, ListUsersSettingsDelegatesResponse, ListUsersSettingsDelegatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListUsersSettingsDelegatesRequest,
   output: ListUsersSettingsDelegatesResponse,
   errors: [],
 }));
 
-/** Gets the specified delegate. Note that a delegate user must be referred to by their primary email address, and not an email alias. This method is only available to service account clients that have been delegated domain-wide authority. */
 export interface GetUsersSettingsDelegatesRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
@@ -3065,13 +3064,13 @@ export const GetUsersSettingsDelegatesResponse = Delegate;
 
 export type GetUsersSettingsDelegatesError = CommonErrors;
 
+/** Gets the specified delegate. Note that a delegate user must be referred to by their primary email address, and not an email alias. This method is only available to service account clients that have been delegated domain-wide authority. */
 export const getUsersSettingsDelegates: API.OperationMethod<GetUsersSettingsDelegatesRequest, GetUsersSettingsDelegatesResponse, GetUsersSettingsDelegatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetUsersSettingsDelegatesRequest,
   output: GetUsersSettingsDelegatesResponse,
   errors: [],
 }));
 
-/** Adds a delegate with its verification status set directly to `accepted`, without sending any verification email. The delegate user must be a member of the same Google Workspace organization as the delegator user. Gmail imposes limitations on the number of delegates and delegators each user in a Google Workspace organization can have. These limits depend on your organization, but in general each user can have up to 25 delegates and up to 10 delegators. Note that a delegate user must be referred to by their primary email address, and not an email alias. Also note that when a new delegate is created, there may be up to a one minute delay before the new delegate is available for use. This method is only available to service account clients that have been delegated domain-wide authority. */
 export interface CreateUsersSettingsDelegatesRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
@@ -3092,13 +3091,13 @@ export const CreateUsersSettingsDelegatesResponse = Delegate;
 
 export type CreateUsersSettingsDelegatesError = CommonErrors;
 
+/** Adds a delegate with its verification status set directly to `accepted`, without sending any verification email. The delegate user must be a member of the same Google Workspace organization as the delegator user. Gmail imposes limitations on the number of delegates and delegators each user in a Google Workspace organization can have. These limits depend on your organization, but in general each user can have up to 25 delegates and up to 10 delegators. Note that a delegate user must be referred to by their primary email address, and not an email alias. Also note that when a new delegate is created, there may be up to a one minute delay before the new delegate is available for use. This method is only available to service account clients that have been delegated domain-wide authority. */
 export const createUsersSettingsDelegates: API.OperationMethod<CreateUsersSettingsDelegatesRequest, CreateUsersSettingsDelegatesResponse, CreateUsersSettingsDelegatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateUsersSettingsDelegatesRequest,
   output: CreateUsersSettingsDelegatesResponse,
   errors: [],
 }));
 
-/** Removes the specified delegate (which can be of any verification status), and revokes any verification that may have been required for using it. Note that a delegate user must be referred to by their primary email address, and not an email alias. This method is only available to service account clients that have been delegated domain-wide authority. */
 export interface DeleteUsersSettingsDelegatesRequest {
   /** User's email address. The special value "me" can be used to indicate the authenticated user. */
   userId: string;
@@ -3119,6 +3118,7 @@ export const DeleteUsersSettingsDelegatesResponse: Schema.Schema<DeleteUsersSett
 
 export type DeleteUsersSettingsDelegatesError = CommonErrors;
 
+/** Removes the specified delegate (which can be of any verification status), and revokes any verification that may have been required for using it. Note that a delegate user must be referred to by their primary email address, and not an email alias. This method is only available to service account clients that have been delegated domain-wide authority. */
 export const deleteUsersSettingsDelegates: API.OperationMethod<DeleteUsersSettingsDelegatesRequest, DeleteUsersSettingsDelegatesResponse, DeleteUsersSettingsDelegatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteUsersSettingsDelegatesRequest,
   output: DeleteUsersSettingsDelegatesResponse,

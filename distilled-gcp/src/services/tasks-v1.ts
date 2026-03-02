@@ -183,7 +183,6 @@ export const TaskLists: Schema.Schema<TaskLists> = Schema.suspend(() => Schema.S
 // Operations
 // ==========================================================================
 
-/** Clears all completed tasks from the specified task list. The affected tasks will be marked as 'hidden' and no longer be returned by default when retrieving all tasks for a task list. */
 export interface ClearTasksRequest {
   /** Task list identifier. */
   tasklist: string;
@@ -201,13 +200,13 @@ export const ClearTasksResponse: Schema.Schema<ClearTasksResponse> = Schema.Stru
 
 export type ClearTasksError = CommonErrors;
 
+/** Clears all completed tasks from the specified task list. The affected tasks will be marked as 'hidden' and no longer be returned by default when retrieving all tasks for a task list. */
 export const clearTasks: API.OperationMethod<ClearTasksRequest, ClearTasksResponse, ClearTasksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ClearTasksRequest,
   output: ClearTasksResponse,
   errors: [],
 }));
 
-/** Deletes the specified task from the task list. If the task is assigned, both the assigned task and the original task (in Docs, Chat Spaces) are deleted. To delete the assigned task only, navigate to the assignment surface and unassign the task from there. */
 export interface DeleteTasksRequest {
   /** Task list identifier. */
   tasklist: string;
@@ -228,13 +227,13 @@ export const DeleteTasksResponse: Schema.Schema<DeleteTasksResponse> = Schema.St
 
 export type DeleteTasksError = CommonErrors;
 
+/** Deletes the specified task from the task list. If the task is assigned, both the assigned task and the original task (in Docs, Chat Spaces) are deleted. To delete the assigned task only, navigate to the assignment surface and unassign the task from there. */
 export const deleteTasks: API.OperationMethod<DeleteTasksRequest, DeleteTasksResponse, DeleteTasksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteTasksRequest,
   output: DeleteTasksResponse,
   errors: [],
 }));
 
-/** Returns the specified task. */
 export interface GetTasksRequest {
   /** Task list identifier. */
   tasklist: string;
@@ -255,13 +254,13 @@ export const GetTasksResponse = Task;
 
 export type GetTasksError = CommonErrors;
 
+/** Returns the specified task. */
 export const getTasks: API.OperationMethod<GetTasksRequest, GetTasksResponse, GetTasksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetTasksRequest,
   output: GetTasksResponse,
   errors: [],
 }));
 
-/** Creates a new task on the specified task list. Tasks assigned from Docs or Chat Spaces cannot be inserted from Tasks Public API; they can only be created by assigning them from Docs or Chat Spaces. A user can have up to 20,000 non-hidden tasks per list and up to 100,000 tasks in total at a time. */
 export interface InsertTasksRequest {
   /** Task list identifier. */
   tasklist: string;
@@ -288,13 +287,13 @@ export const InsertTasksResponse = Task;
 
 export type InsertTasksError = CommonErrors;
 
+/** Creates a new task on the specified task list. Tasks assigned from Docs or Chat Spaces cannot be inserted from Tasks Public API; they can only be created by assigning them from Docs or Chat Spaces. A user can have up to 20,000 non-hidden tasks per list and up to 100,000 tasks in total at a time. */
 export const insertTasks: API.OperationMethod<InsertTasksRequest, InsertTasksResponse, InsertTasksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertTasksRequest,
   output: InsertTasksResponse,
   errors: [],
 }));
 
-/** Returns all tasks in the specified task list. Doesn't return assigned tasks by default (from Docs, Chat Spaces). A user can have up to 20,000 non-hidden tasks per list and up to 100,000 tasks in total at a time. */
 export interface ListTasksRequest {
   /** Task list identifier. */
   tasklist: string;
@@ -345,7 +344,8 @@ export const ListTasksResponse = Tasks;
 
 export type ListTasksError = CommonErrors;
 
-export const listTasks = API.makePaginated(() => ({
+/** Returns all tasks in the specified task list. Doesn't return assigned tasks by default (from Docs, Chat Spaces). A user can have up to 20,000 non-hidden tasks per list and up to 100,000 tasks in total at a time. */
+export const listTasks: API.PaginatedOperationMethod<ListTasksRequest, ListTasksResponse, ListTasksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListTasksRequest,
   output: ListTasksResponse,
   errors: [],
@@ -356,7 +356,6 @@ export const listTasks = API.makePaginated(() => ({
   },
 }));
 
-/** Moves the specified task to another position in the destination task list. If the destination list is not specified, the task is moved within its current list. This can include putting it as a child task under a new parent and/or move it to a different position among its sibling tasks. A user can have up to 2,000 subtasks per task. */
 export interface MoveTasksRequest {
   /** Task list identifier. */
   tasklist: string;
@@ -386,13 +385,13 @@ export const MoveTasksResponse = Task;
 
 export type MoveTasksError = CommonErrors;
 
+/** Moves the specified task to another position in the destination task list. If the destination list is not specified, the task is moved within its current list. This can include putting it as a child task under a new parent and/or move it to a different position among its sibling tasks. A user can have up to 2,000 subtasks per task. */
 export const moveTasks: API.OperationMethod<MoveTasksRequest, MoveTasksResponse, MoveTasksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MoveTasksRequest,
   output: MoveTasksResponse,
   errors: [],
 }));
 
-/** Updates the specified task. This method supports patch semantics. */
 export interface PatchTasksRequest {
   /** Task list identifier. */
   tasklist: string;
@@ -416,13 +415,13 @@ export const PatchTasksResponse = Task;
 
 export type PatchTasksError = CommonErrors;
 
+/** Updates the specified task. This method supports patch semantics. */
 export const patchTasks: API.OperationMethod<PatchTasksRequest, PatchTasksResponse, PatchTasksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchTasksRequest,
   output: PatchTasksResponse,
   errors: [],
 }));
 
-/** Updates the specified task. */
 export interface UpdateTasksRequest {
   /** Task list identifier. */
   tasklist: string;
@@ -446,13 +445,13 @@ export const UpdateTasksResponse = Task;
 
 export type UpdateTasksError = CommonErrors;
 
+/** Updates the specified task. */
 export const updateTasks: API.OperationMethod<UpdateTasksRequest, UpdateTasksResponse, UpdateTasksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateTasksRequest,
   output: UpdateTasksResponse,
   errors: [],
 }));
 
-/** Deletes the authenticated user's specified task list. If the list contains assigned tasks, both the assigned tasks and the original tasks in the assignment surface (Docs, Chat Spaces) are deleted. */
 export interface DeleteTasklistsRequest {
   /** Task list identifier. */
   tasklist: string;
@@ -470,13 +469,13 @@ export const DeleteTasklistsResponse: Schema.Schema<DeleteTasklistsResponse> = S
 
 export type DeleteTasklistsError = CommonErrors;
 
+/** Deletes the authenticated user's specified task list. If the list contains assigned tasks, both the assigned tasks and the original tasks in the assignment surface (Docs, Chat Spaces) are deleted. */
 export const deleteTasklists: API.OperationMethod<DeleteTasklistsRequest, DeleteTasklistsResponse, DeleteTasklistsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteTasklistsRequest,
   output: DeleteTasklistsResponse,
   errors: [],
 }));
 
-/** Returns the authenticated user's specified task list. */
 export interface GetTasklistsRequest {
   /** Task list identifier. */
   tasklist: string;
@@ -494,13 +493,13 @@ export const GetTasklistsResponse = TaskList;
 
 export type GetTasklistsError = CommonErrors;
 
+/** Returns the authenticated user's specified task list. */
 export const getTasklists: API.OperationMethod<GetTasklistsRequest, GetTasklistsResponse, GetTasklistsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetTasklistsRequest,
   output: GetTasklistsResponse,
   errors: [],
 }));
 
-/** Creates a new task list and adds it to the authenticated user's task lists. A user can have up to 2000 lists at a time. */
 export interface InsertTasklistsRequest {
   /** Request body */
   body?: TaskList;
@@ -518,13 +517,13 @@ export const InsertTasklistsResponse = TaskList;
 
 export type InsertTasklistsError = CommonErrors;
 
+/** Creates a new task list and adds it to the authenticated user's task lists. A user can have up to 2000 lists at a time. */
 export const insertTasklists: API.OperationMethod<InsertTasklistsRequest, InsertTasklistsResponse, InsertTasklistsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertTasklistsRequest,
   output: InsertTasklistsResponse,
   errors: [],
 }));
 
-/** Returns all the authenticated user's task lists. A user can have up to 2000 lists at a time. */
 export interface ListTasklistsRequest {
   /** Maximum number of task lists returned on one page. Optional. The default is 1000 (max allowed: 1000). */
   maxResults?: number;
@@ -545,7 +544,8 @@ export const ListTasklistsResponse = TaskLists;
 
 export type ListTasklistsError = CommonErrors;
 
-export const listTasklists = API.makePaginated(() => ({
+/** Returns all the authenticated user's task lists. A user can have up to 2000 lists at a time. */
+export const listTasklists: API.PaginatedOperationMethod<ListTasklistsRequest, ListTasklistsResponse, ListTasklistsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListTasklistsRequest,
   output: ListTasklistsResponse,
   errors: [],
@@ -556,7 +556,6 @@ export const listTasklists = API.makePaginated(() => ({
   },
 }));
 
-/** Updates the authenticated user's specified task list. This method supports patch semantics. */
 export interface PatchTasklistsRequest {
   /** Task list identifier. */
   tasklist: string;
@@ -577,13 +576,13 @@ export const PatchTasklistsResponse = TaskList;
 
 export type PatchTasklistsError = CommonErrors;
 
+/** Updates the authenticated user's specified task list. This method supports patch semantics. */
 export const patchTasklists: API.OperationMethod<PatchTasklistsRequest, PatchTasklistsResponse, PatchTasklistsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchTasklistsRequest,
   output: PatchTasklistsResponse,
   errors: [],
 }));
 
-/** Updates the authenticated user's specified task list. */
 export interface UpdateTasklistsRequest {
   /** Task list identifier. */
   tasklist: string;
@@ -604,6 +603,7 @@ export const UpdateTasklistsResponse = TaskList;
 
 export type UpdateTasklistsError = CommonErrors;
 
+/** Updates the authenticated user's specified task list. */
 export const updateTasklists: API.OperationMethod<UpdateTasklistsRequest, UpdateTasklistsResponse, UpdateTasklistsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateTasklistsRequest,
   output: UpdateTasklistsResponse,

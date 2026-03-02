@@ -6078,7 +6078,6 @@ export const AlgorithmRules: Schema.Schema<AlgorithmRules> = Schema.suspend(() =
 // Operations
 // ==========================================================================
 
-/** Lists assigned targeting options of an advertiser across targeting types. */
 export interface ListAssignedTargetingOptionsAdvertisersRequest {
   /** Required. The ID of the advertiser the line item belongs to. */
   advertiserId: string;
@@ -6108,7 +6107,8 @@ export const ListAssignedTargetingOptionsAdvertisersResponse = BulkListAdvertise
 
 export type ListAssignedTargetingOptionsAdvertisersError = CommonErrors;
 
-export const listAssignedTargetingOptionsAdvertisers = API.makePaginated(() => ({
+/** Lists assigned targeting options of an advertiser across targeting types. */
+export const listAssignedTargetingOptionsAdvertisers: API.PaginatedOperationMethod<ListAssignedTargetingOptionsAdvertisersRequest, ListAssignedTargetingOptionsAdvertisersResponse, ListAssignedTargetingOptionsAdvertisersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAssignedTargetingOptionsAdvertisersRequest,
   output: ListAssignedTargetingOptionsAdvertisersResponse,
   errors: [],
@@ -6118,7 +6118,6 @@ export const listAssignedTargetingOptionsAdvertisers = API.makePaginated(() => (
   },
 }));
 
-/** Edits targeting options under a single advertiser. The operation will delete the assigned targeting options provided in BulkEditAdvertiserAssignedTargetingOptionsRequest.delete_requests and then create the assigned targeting options provided in BulkEditAdvertiserAssignedTargetingOptionsRequest.create_requests . */
 export interface EditAssignedTargetingOptionsAdvertisersRequest {
   /** Required. The ID of the advertiser. */
   advertiserId: string;
@@ -6139,13 +6138,13 @@ export const EditAssignedTargetingOptionsAdvertisersResponse = BulkEditAdvertise
 
 export type EditAssignedTargetingOptionsAdvertisersError = CommonErrors;
 
+/** Edits targeting options under a single advertiser. The operation will delete the assigned targeting options provided in BulkEditAdvertiserAssignedTargetingOptionsRequest.delete_requests and then create the assigned targeting options provided in BulkEditAdvertiserAssignedTargetingOptionsRequest.create_requests . */
 export const editAssignedTargetingOptionsAdvertisers: API.OperationMethod<EditAssignedTargetingOptionsAdvertisersRequest, EditAssignedTargetingOptionsAdvertisersResponse, EditAssignedTargetingOptionsAdvertisersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EditAssignedTargetingOptionsAdvertisersRequest,
   output: EditAssignedTargetingOptionsAdvertisersResponse,
   errors: [],
 }));
 
-/** Gets an advertiser. */
 export interface GetAdvertisersRequest {
   /** Required. The ID of the advertiser to fetch. */
   advertiserId: string;
@@ -6163,13 +6162,13 @@ export const GetAdvertisersResponse = Advertiser;
 
 export type GetAdvertisersError = CommonErrors;
 
+/** Gets an advertiser. */
 export const getAdvertisers: API.OperationMethod<GetAdvertisersRequest, GetAdvertisersResponse, GetAdvertisersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAdvertisersRequest,
   output: GetAdvertisersResponse,
   errors: [],
 }));
 
-/** Lists advertisers that are accessible to the current user. The order is defined by the order_by parameter. A single partner_id is required. Cross-partner listing is not supported. */
 export interface ListAdvertisersRequest {
   /** Required. The ID of the partner that the fetched advertisers should all belong to. The system only supports listing advertisers for one partner at a time. */
   partnerId?: string;
@@ -6199,7 +6198,8 @@ export const ListAdvertisersResponse_Op = ListAdvertisersResponse;
 
 export type ListAdvertisersError = CommonErrors;
 
-export const listAdvertisers = API.makePaginated(() => ({
+/** Lists advertisers that are accessible to the current user. The order is defined by the order_by parameter. A single partner_id is required. Cross-partner listing is not supported. */
+export const listAdvertisers: API.PaginatedOperationMethod<ListAdvertisersRequest, ListAdvertisersResponse_Op, ListAdvertisersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAdvertisersRequest,
   output: ListAdvertisersResponse_Op,
   errors: [],
@@ -6209,7 +6209,6 @@ export const listAdvertisers = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new advertiser. Returns the newly created advertiser if successful. **This method regularly experiences high latency.** We recommend [increasing your default timeout](/display-video/api/guides/best-practices/timeouts#client_library_timeout) to avoid errors. */
 export interface CreateAdvertisersRequest {
   /** Request body */
   body?: Advertiser;
@@ -6227,13 +6226,13 @@ export const CreateAdvertisersResponse = Advertiser;
 
 export type CreateAdvertisersError = CommonErrors;
 
+/** Creates a new advertiser. Returns the newly created advertiser if successful. **This method regularly experiences high latency.** We recommend [increasing your default timeout](/display-video/api/guides/best-practices/timeouts#client_library_timeout) to avoid errors. */
 export const createAdvertisers: API.OperationMethod<CreateAdvertisersRequest, CreateAdvertisersResponse, CreateAdvertisersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAdvertisersRequest,
   output: CreateAdvertisersResponse,
   errors: [],
 }));
 
-/** Updates an existing advertiser. Returns the updated advertiser if successful. */
 export interface PatchAdvertisersRequest {
   /** Output only. The unique ID of the advertiser. Assigned by the system. */
   advertiserId: string;
@@ -6257,13 +6256,13 @@ export const PatchAdvertisersResponse = Advertiser;
 
 export type PatchAdvertisersError = CommonErrors;
 
+/** Updates an existing advertiser. Returns the updated advertiser if successful. */
 export const patchAdvertisers: API.OperationMethod<PatchAdvertisersRequest, PatchAdvertisersResponse, PatchAdvertisersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAdvertisersRequest,
   output: PatchAdvertisersResponse,
   errors: [],
 }));
 
-/** Deletes an advertiser. Deleting an advertiser will delete all of its child resources, for example, campaigns, insertion orders and line items. A deleted advertiser cannot be recovered. */
 export interface DeleteAdvertisersRequest {
   /** The ID of the advertiser we need to delete. */
   advertiserId: string;
@@ -6281,13 +6280,13 @@ export const DeleteAdvertisersResponse = Empty;
 
 export type DeleteAdvertisersError = CommonErrors;
 
+/** Deletes an advertiser. Deleting an advertiser will delete all of its child resources, for example, campaigns, insertion orders and line items. A deleted advertiser cannot be recovered. */
 export const deleteAdvertisers: API.OperationMethod<DeleteAdvertisersRequest, DeleteAdvertisersResponse, DeleteAdvertisersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAdvertisersRequest,
   output: DeleteAdvertisersResponse,
   errors: [],
 }));
 
-/** Audits an advertiser. Returns the counts of used entities per resource type under the advertiser provided. Used entities count towards their respective resource limit. See https://support.google.com/displayvideo/answer/6071450. */
 export interface AuditAdvertisersRequest {
   /** Required. The ID of the advertiser to audit. */
   advertiserId: string;
@@ -6308,13 +6307,13 @@ export const AuditAdvertisersResponse = AuditAdvertiserResponse;
 
 export type AuditAdvertisersError = CommonErrors;
 
+/** Audits an advertiser. Returns the counts of used entities per resource type under the advertiser provided. Used entities count towards their respective resource limit. See https://support.google.com/displayvideo/answer/6071450. */
 export const auditAdvertisers: API.OperationMethod<AuditAdvertisersRequest, AuditAdvertisersResponse, AuditAdvertisersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AuditAdvertisersRequest,
   output: AuditAdvertisersResponse,
   errors: [],
 }));
 
-/** Gets an ad asset. Only supports the retrieval of assets of AdAssetType `AD_ASSET_TYPE_YOUTUBE_VIDEO`. */
 export interface GetAdvertisersAdAssetsRequest {
   /** Required. The ID of the advertiser this ad asset belongs to. */
   advertiserId: string;
@@ -6335,13 +6334,13 @@ export const GetAdvertisersAdAssetsResponse = AdAsset;
 
 export type GetAdvertisersAdAssetsError = CommonErrors;
 
+/** Gets an ad asset. Only supports the retrieval of assets of AdAssetType `AD_ASSET_TYPE_YOUTUBE_VIDEO`. */
 export const getAdvertisersAdAssets: API.OperationMethod<GetAdvertisersAdAssetsRequest, GetAdvertisersAdAssetsResponse, GetAdvertisersAdAssetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAdvertisersAdAssetsRequest,
   output: GetAdvertisersAdAssetsResponse,
   errors: [],
 }));
 
-/** Lists ad assets under an advertiser ID. Only supports the retrieval of assets of AdAssetType `AD_ASSET_TYPE_YOUTUBE_VIDEO`. */
 export interface ListAdvertisersAdAssetsRequest {
   /** Required. The ID of the advertiser the ad assets belong to. */
   advertiserId: string;
@@ -6371,7 +6370,8 @@ export const ListAdvertisersAdAssetsResponse = ListAdAssetsResponse;
 
 export type ListAdvertisersAdAssetsError = CommonErrors;
 
-export const listAdvertisersAdAssets = API.makePaginated(() => ({
+/** Lists ad assets under an advertiser ID. Only supports the retrieval of assets of AdAssetType `AD_ASSET_TYPE_YOUTUBE_VIDEO`. */
+export const listAdvertisersAdAssets: API.PaginatedOperationMethod<ListAdvertisersAdAssetsRequest, ListAdvertisersAdAssetsResponse, ListAdvertisersAdAssetsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAdvertisersAdAssetsRequest,
   output: ListAdvertisersAdAssetsResponse,
   errors: [],
@@ -6381,7 +6381,6 @@ export const listAdvertisersAdAssets = API.makePaginated(() => ({
   },
 }));
 
-/** Uploads and creates an ad asset. Returns the ID of the newly-created ad asset if successful. Only supports the uploading of assets with the AdAssetType `AD_ASSET_TYPE_IMAGE`. */
 export interface UploadAdvertisersAdAssetsRequest {
   /** Required. The ID of the advertiser this ad asset belongs to. */
   advertiserId: string;
@@ -6402,13 +6401,13 @@ export const UploadAdvertisersAdAssetsResponse = UploadAdAssetResponse;
 
 export type UploadAdvertisersAdAssetsError = CommonErrors;
 
+/** Uploads and creates an ad asset. Returns the ID of the newly-created ad asset if successful. Only supports the uploading of assets with the AdAssetType `AD_ASSET_TYPE_IMAGE`. */
 export const uploadAdvertisersAdAssets: API.OperationMethod<UploadAdvertisersAdAssetsRequest, UploadAdvertisersAdAssetsResponse, UploadAdvertisersAdAssetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadAdvertisersAdAssetsRequest,
   output: UploadAdvertisersAdAssetsResponse,
   errors: [],
 }));
 
-/** Creates an ad asset. Returns the newly-created ad asset if successful. Only supports the creation of assets of AdAssetType `AD_ASSET_TYPE_YOUTUBE_VIDEO`. */
 export interface CreateAdvertisersAdAssetsRequest {
   /** Required. The ID of the advertiser this ad asset belongs to. */
   advertiserId: string;
@@ -6429,13 +6428,13 @@ export const CreateAdvertisersAdAssetsResponse = AdAsset;
 
 export type CreateAdvertisersAdAssetsError = CommonErrors;
 
+/** Creates an ad asset. Returns the newly-created ad asset if successful. Only supports the creation of assets of AdAssetType `AD_ASSET_TYPE_YOUTUBE_VIDEO`. */
 export const createAdvertisersAdAssets: API.OperationMethod<CreateAdvertisersAdAssetsRequest, CreateAdvertisersAdAssetsResponse, CreateAdvertisersAdAssetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAdvertisersAdAssetsRequest,
   output: CreateAdvertisersAdAssetsResponse,
   errors: [],
 }));
 
-/** Creates multiple ad assets in a single request. Returns the newly-created ad assets if successful. Only supports the creation of assets of AdAssetType `AD_ASSET_TYPE_YOUTUBE_VIDEO`. */
 export interface BulkCreateAdvertisersAdAssetsRequest {
   /** Required. The ID of the advertiser these ad assets belong to. */
   advertiserId: string;
@@ -6456,13 +6455,13 @@ export const BulkCreateAdvertisersAdAssetsResponse = BulkCreateAdAssetsResponse;
 
 export type BulkCreateAdvertisersAdAssetsError = CommonErrors;
 
+/** Creates multiple ad assets in a single request. Returns the newly-created ad assets if successful. Only supports the creation of assets of AdAssetType `AD_ASSET_TYPE_YOUTUBE_VIDEO`. */
 export const bulkCreateAdvertisersAdAssets: API.OperationMethod<BulkCreateAdvertisersAdAssetsRequest, BulkCreateAdvertisersAdAssetsResponse, BulkCreateAdvertisersAdAssetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BulkCreateAdvertisersAdAssetsRequest,
   output: BulkCreateAdvertisersAdAssetsResponse,
   errors: [],
 }));
 
-/** Gets an ad group ad. */
 export interface GetAdvertisersAdGroupAdsRequest {
   /** Required. The ID of the advertiser this ad group ad belongs to. */
   advertiserId: string;
@@ -6483,13 +6482,13 @@ export const GetAdvertisersAdGroupAdsResponse = AdGroupAd;
 
 export type GetAdvertisersAdGroupAdsError = CommonErrors;
 
+/** Gets an ad group ad. */
 export const getAdvertisersAdGroupAds: API.OperationMethod<GetAdvertisersAdGroupAdsRequest, GetAdvertisersAdGroupAdsResponse, GetAdvertisersAdGroupAdsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAdvertisersAdGroupAdsRequest,
   output: GetAdvertisersAdGroupAdsResponse,
   errors: [],
 }));
 
-/** Lists ad group ads. */
 export interface ListAdvertisersAdGroupAdsRequest {
   /** Required. The ID of the advertiser the ads belong to. */
   advertiserId: string;
@@ -6519,7 +6518,8 @@ export const ListAdvertisersAdGroupAdsResponse = ListAdGroupAdsResponse;
 
 export type ListAdvertisersAdGroupAdsError = CommonErrors;
 
-export const listAdvertisersAdGroupAds = API.makePaginated(() => ({
+/** Lists ad group ads. */
+export const listAdvertisersAdGroupAds: API.PaginatedOperationMethod<ListAdvertisersAdGroupAdsRequest, ListAdvertisersAdGroupAdsResponse, ListAdvertisersAdGroupAdsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAdvertisersAdGroupAdsRequest,
   output: ListAdvertisersAdGroupAdsResponse,
   errors: [],
@@ -6529,7 +6529,6 @@ export const listAdvertisersAdGroupAds = API.makePaginated(() => ({
   },
 }));
 
-/** Lists assigned targeting options for multiple line items across targeting types. */
 export interface BulkListAssignedTargetingOptionsAdvertisersLineItemsRequest {
   /** Required. The ID of the advertiser the line items belongs to. */
   advertiserId: string;
@@ -6562,7 +6561,8 @@ export const BulkListAssignedTargetingOptionsAdvertisersLineItemsResponse = Bulk
 
 export type BulkListAssignedTargetingOptionsAdvertisersLineItemsError = CommonErrors;
 
-export const bulkListAssignedTargetingOptionsAdvertisersLineItems = API.makePaginated(() => ({
+/** Lists assigned targeting options for multiple line items across targeting types. */
+export const bulkListAssignedTargetingOptionsAdvertisersLineItems: API.PaginatedOperationMethod<BulkListAssignedTargetingOptionsAdvertisersLineItemsRequest, BulkListAssignedTargetingOptionsAdvertisersLineItemsResponse, BulkListAssignedTargetingOptionsAdvertisersLineItemsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: BulkListAssignedTargetingOptionsAdvertisersLineItemsRequest,
   output: BulkListAssignedTargetingOptionsAdvertisersLineItemsResponse,
   errors: [],
@@ -6572,7 +6572,6 @@ export const bulkListAssignedTargetingOptionsAdvertisersLineItems = API.makePagi
   },
 }));
 
-/** Bulk edits targeting options under multiple line items. The operation will delete the assigned targeting options provided in BulkEditAssignedTargetingOptionsRequest.delete_requests and then create the assigned targeting options provided in BulkEditAssignedTargetingOptionsRequest.create_requests. Requests to this endpoint cannot be made concurrently with the following requests updating the same line item: * lineItems.bulkUpdate * lineItems.patch * assignedTargetingOptions.create * assignedTargetingOptions.delete YouTube & Partners line items cannot be created or updated using the API. */
 export interface BulkEditAssignedTargetingOptionsAdvertisersLineItemsRequest {
   /** Required. The ID of the advertiser the line items belong to. */
   advertiserId: string;
@@ -6593,13 +6592,13 @@ export const BulkEditAssignedTargetingOptionsAdvertisersLineItemsResponse = Bulk
 
 export type BulkEditAssignedTargetingOptionsAdvertisersLineItemsError = CommonErrors;
 
+/** Bulk edits targeting options under multiple line items. The operation will delete the assigned targeting options provided in BulkEditAssignedTargetingOptionsRequest.delete_requests and then create the assigned targeting options provided in BulkEditAssignedTargetingOptionsRequest.create_requests. Requests to this endpoint cannot be made concurrently with the following requests updating the same line item: * lineItems.bulkUpdate * lineItems.patch * assignedTargetingOptions.create * assignedTargetingOptions.delete YouTube & Partners line items cannot be created or updated using the API. */
 export const bulkEditAssignedTargetingOptionsAdvertisersLineItems: API.OperationMethod<BulkEditAssignedTargetingOptionsAdvertisersLineItemsRequest, BulkEditAssignedTargetingOptionsAdvertisersLineItemsResponse, BulkEditAssignedTargetingOptionsAdvertisersLineItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BulkEditAssignedTargetingOptionsAdvertisersLineItemsRequest,
   output: BulkEditAssignedTargetingOptionsAdvertisersLineItemsResponse,
   errors: [],
 }));
 
-/** Gets a line item. */
 export interface GetAdvertisersLineItemsRequest {
   /** Required. The ID of the advertiser this line item belongs to. */
   advertiserId: string;
@@ -6620,13 +6619,13 @@ export const GetAdvertisersLineItemsResponse = LineItem;
 
 export type GetAdvertisersLineItemsError = CommonErrors;
 
+/** Gets a line item. */
 export const getAdvertisersLineItems: API.OperationMethod<GetAdvertisersLineItemsRequest, GetAdvertisersLineItemsResponse, GetAdvertisersLineItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAdvertisersLineItemsRequest,
   output: GetAdvertisersLineItemsResponse,
   errors: [],
 }));
 
-/** Lists line items in an advertiser. The order is defined by the order_by parameter. If a filter by entity_status is not specified, line items with `ENTITY_STATUS_ARCHIVED` will not be included in the results. */
 export interface ListAdvertisersLineItemsRequest {
   /** Required. The ID of the advertiser to list line items for. */
   advertiserId: string;
@@ -6656,7 +6655,8 @@ export const ListAdvertisersLineItemsResponse = ListLineItemsResponse;
 
 export type ListAdvertisersLineItemsError = CommonErrors;
 
-export const listAdvertisersLineItems = API.makePaginated(() => ({
+/** Lists line items in an advertiser. The order is defined by the order_by parameter. If a filter by entity_status is not specified, line items with `ENTITY_STATUS_ARCHIVED` will not be included in the results. */
+export const listAdvertisersLineItems: API.PaginatedOperationMethod<ListAdvertisersLineItemsRequest, ListAdvertisersLineItemsResponse, ListAdvertisersLineItemsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAdvertisersLineItemsRequest,
   output: ListAdvertisersLineItemsResponse,
   errors: [],
@@ -6666,7 +6666,6 @@ export const listAdvertisersLineItems = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new line item. Returns the newly created line item if successful. YouTube & Partners line items cannot be created or updated using the API. */
 export interface CreateAdvertisersLineItemsRequest {
   /** Output only. The unique ID of the advertiser the line item belongs to. */
   advertiserId: string;
@@ -6687,13 +6686,13 @@ export const CreateAdvertisersLineItemsResponse = LineItem;
 
 export type CreateAdvertisersLineItemsError = CommonErrors;
 
+/** Creates a new line item. Returns the newly created line item if successful. YouTube & Partners line items cannot be created or updated using the API. */
 export const createAdvertisersLineItems: API.OperationMethod<CreateAdvertisersLineItemsRequest, CreateAdvertisersLineItemsResponse, CreateAdvertisersLineItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAdvertisersLineItemsRequest,
   output: CreateAdvertisersLineItemsResponse,
   errors: [],
 }));
 
-/** Updates an existing line item. Returns the updated line item if successful. Requests to this endpoint cannot be made concurrently with the following requests updating the same line item: * BulkEditAssignedTargetingOptions * BulkUpdateLineItems * assignedTargetingOptions.create * assignedTargetingOptions.delete YouTube & Partners line items cannot be created or updated using the API. **This method regularly experiences high latency.** We recommend [increasing your default timeout](/display-video/api/guides/best-practices/timeouts#client_library_timeout) to avoid errors. */
 export interface PatchAdvertisersLineItemsRequest {
   /** Output only. The unique ID of the advertiser the line item belongs to. */
   advertiserId: string;
@@ -6720,13 +6719,13 @@ export const PatchAdvertisersLineItemsResponse = LineItem;
 
 export type PatchAdvertisersLineItemsError = CommonErrors;
 
+/** Updates an existing line item. Returns the updated line item if successful. Requests to this endpoint cannot be made concurrently with the following requests updating the same line item: * BulkEditAssignedTargetingOptions * BulkUpdateLineItems * assignedTargetingOptions.create * assignedTargetingOptions.delete YouTube & Partners line items cannot be created or updated using the API. **This method regularly experiences high latency.** We recommend [increasing your default timeout](/display-video/api/guides/best-practices/timeouts#client_library_timeout) to avoid errors. */
 export const patchAdvertisersLineItems: API.OperationMethod<PatchAdvertisersLineItemsRequest, PatchAdvertisersLineItemsResponse, PatchAdvertisersLineItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAdvertisersLineItemsRequest,
   output: PatchAdvertisersLineItemsResponse,
   errors: [],
 }));
 
-/** Deletes a line item. Returns error code `NOT_FOUND` if the line item does not exist. The line item should be archived first, i.e. set entity_status to `ENTITY_STATUS_ARCHIVED`, to be able to delete it. YouTube & Partners line items cannot be created or updated using the API. */
 export interface DeleteAdvertisersLineItemsRequest {
   /** The ID of the advertiser this line item belongs to. */
   advertiserId: string;
@@ -6747,13 +6746,13 @@ export const DeleteAdvertisersLineItemsResponse = Empty;
 
 export type DeleteAdvertisersLineItemsError = CommonErrors;
 
+/** Deletes a line item. Returns error code `NOT_FOUND` if the line item does not exist. The line item should be archived first, i.e. set entity_status to `ENTITY_STATUS_ARCHIVED`, to be able to delete it. YouTube & Partners line items cannot be created or updated using the API. */
 export const deleteAdvertisersLineItems: API.OperationMethod<DeleteAdvertisersLineItemsRequest, DeleteAdvertisersLineItemsResponse, DeleteAdvertisersLineItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAdvertisersLineItemsRequest,
   output: DeleteAdvertisersLineItemsResponse,
   errors: [],
 }));
 
-/** Duplicates a line item. Returns the ID of the created line item if successful. YouTube & Partners line items cannot be created or updated using the API. **This method regularly experiences high latency.** We recommend [increasing your default timeout](/display-video/api/guides/best-practices/timeouts#client_library_timeout) to avoid errors. */
 export interface DuplicateAdvertisersLineItemsRequest {
   /** Required. The ID of the advertiser this line item belongs to. */
   advertiserId: string;
@@ -6777,13 +6776,13 @@ export const DuplicateAdvertisersLineItemsResponse = DuplicateLineItemResponse;
 
 export type DuplicateAdvertisersLineItemsError = CommonErrors;
 
+/** Duplicates a line item. Returns the ID of the created line item if successful. YouTube & Partners line items cannot be created or updated using the API. **This method regularly experiences high latency.** We recommend [increasing your default timeout](/display-video/api/guides/best-practices/timeouts#client_library_timeout) to avoid errors. */
 export const duplicateAdvertisersLineItems: API.OperationMethod<DuplicateAdvertisersLineItemsRequest, DuplicateAdvertisersLineItemsResponse, DuplicateAdvertisersLineItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DuplicateAdvertisersLineItemsRequest,
   output: DuplicateAdvertisersLineItemsResponse,
   errors: [],
 }));
 
-/** Updates multiple line items. Requests to this endpoint cannot be made concurrently with the following requests updating the same line item: * BulkEditAssignedTargetingOptions * UpdateLineItem * assignedTargetingOptions.create * assignedTargetingOptions.delete YouTube & Partners line items cannot be created or updated using the API. */
 export interface BulkUpdateAdvertisersLineItemsRequest {
   /** Required. The ID of the advertiser this line item belongs to. */
   advertiserId: string;
@@ -6804,13 +6803,13 @@ export const BulkUpdateAdvertisersLineItemsResponse = BulkUpdateLineItemsRespons
 
 export type BulkUpdateAdvertisersLineItemsError = CommonErrors;
 
+/** Updates multiple line items. Requests to this endpoint cannot be made concurrently with the following requests updating the same line item: * BulkEditAssignedTargetingOptions * UpdateLineItem * assignedTargetingOptions.create * assignedTargetingOptions.delete YouTube & Partners line items cannot be created or updated using the API. */
 export const bulkUpdateAdvertisersLineItems: API.OperationMethod<BulkUpdateAdvertisersLineItemsRequest, BulkUpdateAdvertisersLineItemsResponse, BulkUpdateAdvertisersLineItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BulkUpdateAdvertisersLineItemsRequest,
   output: BulkUpdateAdvertisersLineItemsResponse,
   errors: [],
 }));
 
-/** Gets a single targeting option assigned to a line item. */
 export interface GetAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRequest {
   /** Required. The ID of the advertiser the line item belongs to. */
   advertiserId: string;
@@ -6837,13 +6836,13 @@ export const GetAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRespon
 
 export type GetAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsError = CommonErrors;
 
+/** Gets a single targeting option assigned to a line item. */
 export const getAdvertisersLineItemsTargetingTypesAssignedTargetingOptions: API.OperationMethod<GetAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRequest, GetAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsResponse, GetAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRequest,
   output: GetAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsResponse,
   errors: [],
 }));
 
-/** Lists the targeting options assigned to a line item. */
 export interface ListAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRequest {
   /** Required. The ID of the advertiser the line item belongs to. */
   advertiserId: string;
@@ -6879,7 +6878,8 @@ export const ListAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRespo
 
 export type ListAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsError = CommonErrors;
 
-export const listAdvertisersLineItemsTargetingTypesAssignedTargetingOptions = API.makePaginated(() => ({
+/** Lists the targeting options assigned to a line item. */
+export const listAdvertisersLineItemsTargetingTypesAssignedTargetingOptions: API.PaginatedOperationMethod<ListAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRequest, ListAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsResponse, ListAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRequest,
   output: ListAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsResponse,
   errors: [],
@@ -6889,7 +6889,6 @@ export const listAdvertisersLineItemsTargetingTypesAssignedTargetingOptions = AP
   },
 }));
 
-/** Assigns a targeting option to a line item. Returns the assigned targeting option if successful. Requests to this endpoint cannot be made concurrently with the following requests updating the same line item: * lineItems.bulkEditAssignedTargetingOptions * lineItems.bulkUpdate * lineItems.patch * DeleteLineItemAssignedTargetingOption YouTube & Partners line items cannot be created or updated using the API. */
 export interface CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRequest {
   /** Required. The ID of the advertiser the line item belongs to. */
   advertiserId: string;
@@ -6916,13 +6915,13 @@ export const CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRes
 
 export type CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsError = CommonErrors;
 
+/** Assigns a targeting option to a line item. Returns the assigned targeting option if successful. Requests to this endpoint cannot be made concurrently with the following requests updating the same line item: * lineItems.bulkEditAssignedTargetingOptions * lineItems.bulkUpdate * lineItems.patch * DeleteLineItemAssignedTargetingOption YouTube & Partners line items cannot be created or updated using the API. */
 export const createAdvertisersLineItemsTargetingTypesAssignedTargetingOptions: API.OperationMethod<CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRequest, CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsResponse, CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRequest,
   output: CreateAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsResponse,
   errors: [],
 }));
 
-/** Deletes an assigned targeting option from a line item. Requests to this endpoint cannot be made concurrently with the following requests updating the same line item: * lineItems.bulkEditAssignedTargetingOptions * lineItems.bulkUpdate * lineItems.patch * CreateLineItemAssignedTargetingOption YouTube & Partners line items cannot be created or updated using the API. */
 export interface DeleteAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRequest {
   /** Required. The ID of the advertiser the line item belongs to. */
   advertiserId: string;
@@ -6949,13 +6948,13 @@ export const DeleteAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRes
 
 export type DeleteAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsError = CommonErrors;
 
+/** Deletes an assigned targeting option from a line item. Requests to this endpoint cannot be made concurrently with the following requests updating the same line item: * lineItems.bulkEditAssignedTargetingOptions * lineItems.bulkUpdate * lineItems.patch * CreateLineItemAssignedTargetingOption YouTube & Partners line items cannot be created or updated using the API. */
 export const deleteAdvertisersLineItemsTargetingTypesAssignedTargetingOptions: API.OperationMethod<DeleteAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRequest, DeleteAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsResponse, DeleteAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsRequest,
   output: DeleteAdvertisersLineItemsTargetingTypesAssignedTargetingOptionsResponse,
   errors: [],
 }));
 
-/** Lists the YouTube asset associations linked to the given resource. */
 export interface ListAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsRequest {
   /** Required. The ID of the advertiser that the linked entity belongs to. */
   advertiserId: string;
@@ -6991,7 +6990,8 @@ export const ListAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsRe
 
 export type ListAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsError = CommonErrors;
 
-export const listAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociations = API.makePaginated(() => ({
+/** Lists the YouTube asset associations linked to the given resource. */
+export const listAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociations: API.PaginatedOperationMethod<ListAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsRequest, ListAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsResponse, ListAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsRequest,
   output: ListAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsResponse,
   errors: [],
@@ -7001,7 +7001,6 @@ export const listAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociations =
   },
 }));
 
-/** Creates a new association between the identified resource and a YouTube asset. Returns the newly-created association. *Warning:* This method is only available to an informed subset of users. */
 export interface CreateAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsRequest {
   /** Required. The ID of the advertiser that the linked entity belongs to. */
   advertiserId: string;
@@ -7031,13 +7030,13 @@ export const CreateAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociations
 
 export type CreateAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsError = CommonErrors;
 
+/** Creates a new association between the identified resource and a YouTube asset. Returns the newly-created association. *Warning:* This method is only available to an informed subset of users. */
 export const createAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociations: API.OperationMethod<CreateAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsRequest, CreateAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsResponse, CreateAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsRequest,
   output: CreateAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsResponse,
   errors: [],
 }));
 
-/** Deletes an existing association between the identified resource and a YouTube asset. *Warning:* This method is only available to an informed subset of users. */
 export interface DeleteAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsRequest {
   /** Required. The ID of the advertiser that the linked entity belongs to. */
   advertiserId: string;
@@ -7067,13 +7066,13 @@ export const DeleteAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociations
 
 export type DeleteAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsError = CommonErrors;
 
+/** Deletes an existing association between the identified resource and a YouTube asset. *Warning:* This method is only available to an informed subset of users. */
 export const deleteAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociations: API.OperationMethod<DeleteAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsRequest, DeleteAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsResponse, DeleteAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsRequest,
   output: DeleteAdvertisersLineItemsYoutubeAssetTypesYoutubeAssetAssociationsResponse,
   errors: [],
 }));
 
-/** Lists assigned targeting options for multiple ad groups across targeting types. Inherited assigned targeting options are not included. */
 export interface BulkListAssignedTargetingOptionsAdvertisersAdGroupsRequest {
   /** Required. The ID of the advertiser the line items belongs to. */
   advertiserId: string;
@@ -7106,7 +7105,8 @@ export const BulkListAssignedTargetingOptionsAdvertisersAdGroupsResponse = BulkL
 
 export type BulkListAssignedTargetingOptionsAdvertisersAdGroupsError = CommonErrors;
 
-export const bulkListAssignedTargetingOptionsAdvertisersAdGroups = API.makePaginated(() => ({
+/** Lists assigned targeting options for multiple ad groups across targeting types. Inherited assigned targeting options are not included. */
+export const bulkListAssignedTargetingOptionsAdvertisersAdGroups: API.PaginatedOperationMethod<BulkListAssignedTargetingOptionsAdvertisersAdGroupsRequest, BulkListAssignedTargetingOptionsAdvertisersAdGroupsResponse, BulkListAssignedTargetingOptionsAdvertisersAdGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: BulkListAssignedTargetingOptionsAdvertisersAdGroupsRequest,
   output: BulkListAssignedTargetingOptionsAdvertisersAdGroupsResponse,
   errors: [],
@@ -7116,7 +7116,6 @@ export const bulkListAssignedTargetingOptionsAdvertisersAdGroups = API.makePagin
   },
 }));
 
-/** Gets an ad group. */
 export interface GetAdvertisersAdGroupsRequest {
   /** Required. The ID of the advertiser this ad group belongs to. */
   advertiserId: string;
@@ -7137,13 +7136,13 @@ export const GetAdvertisersAdGroupsResponse = AdGroup;
 
 export type GetAdvertisersAdGroupsError = CommonErrors;
 
+/** Gets an ad group. */
 export const getAdvertisersAdGroups: API.OperationMethod<GetAdvertisersAdGroupsRequest, GetAdvertisersAdGroupsResponse, GetAdvertisersAdGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAdvertisersAdGroupsRequest,
   output: GetAdvertisersAdGroupsResponse,
   errors: [],
 }));
 
-/** Lists ad groups. */
 export interface ListAdvertisersAdGroupsRequest {
   /** Required. The ID of the advertiser the ad groups belongs to. */
   advertiserId: string;
@@ -7173,7 +7172,8 @@ export const ListAdvertisersAdGroupsResponse = ListAdGroupsResponse;
 
 export type ListAdvertisersAdGroupsError = CommonErrors;
 
-export const listAdvertisersAdGroups = API.makePaginated(() => ({
+/** Lists ad groups. */
+export const listAdvertisersAdGroups: API.PaginatedOperationMethod<ListAdvertisersAdGroupsRequest, ListAdvertisersAdGroupsResponse, ListAdvertisersAdGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAdvertisersAdGroupsRequest,
   output: ListAdvertisersAdGroupsResponse,
   errors: [],
@@ -7183,7 +7183,6 @@ export const listAdvertisersAdGroups = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a single targeting option assigned to an ad group. Inherited assigned targeting options are not included. */
 export interface GetAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsRequest {
   /** Required. The ID of the advertiser the ad group belongs to. */
   advertiserId: string;
@@ -7210,13 +7209,13 @@ export const GetAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsRespons
 
 export type GetAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsError = CommonErrors;
 
+/** Gets a single targeting option assigned to an ad group. Inherited assigned targeting options are not included. */
 export const getAdvertisersAdGroupsTargetingTypesAssignedTargetingOptions: API.OperationMethod<GetAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsRequest, GetAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsResponse, GetAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsRequest,
   output: GetAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsResponse,
   errors: [],
 }));
 
-/** Lists the targeting options assigned to an ad group. Inherited assigned targeting options are not included. */
 export interface ListAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsRequest {
   /** Required. The ID of the advertiser the ad group belongs to. */
   advertiserId: string;
@@ -7252,7 +7251,8 @@ export const ListAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsRespon
 
 export type ListAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsError = CommonErrors;
 
-export const listAdvertisersAdGroupsTargetingTypesAssignedTargetingOptions = API.makePaginated(() => ({
+/** Lists the targeting options assigned to an ad group. Inherited assigned targeting options are not included. */
+export const listAdvertisersAdGroupsTargetingTypesAssignedTargetingOptions: API.PaginatedOperationMethod<ListAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsRequest, ListAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsResponse, ListAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsRequest,
   output: ListAdvertisersAdGroupsTargetingTypesAssignedTargetingOptionsResponse,
   errors: [],
@@ -7262,7 +7262,6 @@ export const listAdvertisersAdGroupsTargetingTypesAssignedTargetingOptions = API
   },
 }));
 
-/** Lists the YouTube asset associations linked to the given resource. */
 export interface ListAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsRequest {
   /** Required. The ID of the advertiser that the linked entity belongs to. */
   advertiserId: string;
@@ -7298,7 +7297,8 @@ export const ListAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsRes
 
 export type ListAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsError = CommonErrors;
 
-export const listAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociations = API.makePaginated(() => ({
+/** Lists the YouTube asset associations linked to the given resource. */
+export const listAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociations: API.PaginatedOperationMethod<ListAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsRequest, ListAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsResponse, ListAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsRequest,
   output: ListAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsResponse,
   errors: [],
@@ -7308,7 +7308,6 @@ export const listAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociations = 
   },
 }));
 
-/** Creates a new association between the identified resource and a YouTube asset. Returns the newly-created association. *Warning:* This method is only available to an informed subset of users. */
 export interface CreateAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsRequest {
   /** Required. The ID of the advertiser that the linked entity belongs to. */
   advertiserId: string;
@@ -7338,13 +7337,13 @@ export const CreateAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsR
 
 export type CreateAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsError = CommonErrors;
 
+/** Creates a new association between the identified resource and a YouTube asset. Returns the newly-created association. *Warning:* This method is only available to an informed subset of users. */
 export const createAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociations: API.OperationMethod<CreateAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsRequest, CreateAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsResponse, CreateAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsRequest,
   output: CreateAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsResponse,
   errors: [],
 }));
 
-/** Deletes an existing association between the identified resource and a YouTube asset. *Warning:* This method is only available to an informed subset of users. */
 export interface DeleteAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsRequest {
   /** Required. The ID of the advertiser that the linked entity belongs to. */
   advertiserId: string;
@@ -7374,13 +7373,13 @@ export const DeleteAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsR
 
 export type DeleteAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsError = CommonErrors;
 
+/** Deletes an existing association between the identified resource and a YouTube asset. *Warning:* This method is only available to an informed subset of users. */
 export const deleteAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociations: API.OperationMethod<DeleteAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsRequest, DeleteAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsResponse, DeleteAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsRequest,
   output: DeleteAdvertisersAdGroupsYoutubeAssetTypesYoutubeAssetAssociationsResponse,
   errors: [],
 }));
 
-/** Gets a single targeting option assigned to an advertiser. */
 export interface GetAdvertisersTargetingTypesAssignedTargetingOptionsRequest {
   /** Required. The ID of the advertiser. */
   advertiserId: string;
@@ -7404,13 +7403,13 @@ export const GetAdvertisersTargetingTypesAssignedTargetingOptionsResponse = Assi
 
 export type GetAdvertisersTargetingTypesAssignedTargetingOptionsError = CommonErrors;
 
+/** Gets a single targeting option assigned to an advertiser. */
 export const getAdvertisersTargetingTypesAssignedTargetingOptions: API.OperationMethod<GetAdvertisersTargetingTypesAssignedTargetingOptionsRequest, GetAdvertisersTargetingTypesAssignedTargetingOptionsResponse, GetAdvertisersTargetingTypesAssignedTargetingOptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAdvertisersTargetingTypesAssignedTargetingOptionsRequest,
   output: GetAdvertisersTargetingTypesAssignedTargetingOptionsResponse,
   errors: [],
 }));
 
-/** Lists the targeting options assigned to an advertiser. */
 export interface ListAdvertisersTargetingTypesAssignedTargetingOptionsRequest {
   /** Required. The ID of the advertiser. */
   advertiserId: string;
@@ -7443,7 +7442,8 @@ export const ListAdvertisersTargetingTypesAssignedTargetingOptionsResponse = Lis
 
 export type ListAdvertisersTargetingTypesAssignedTargetingOptionsError = CommonErrors;
 
-export const listAdvertisersTargetingTypesAssignedTargetingOptions = API.makePaginated(() => ({
+/** Lists the targeting options assigned to an advertiser. */
+export const listAdvertisersTargetingTypesAssignedTargetingOptions: API.PaginatedOperationMethod<ListAdvertisersTargetingTypesAssignedTargetingOptionsRequest, ListAdvertisersTargetingTypesAssignedTargetingOptionsResponse, ListAdvertisersTargetingTypesAssignedTargetingOptionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAdvertisersTargetingTypesAssignedTargetingOptionsRequest,
   output: ListAdvertisersTargetingTypesAssignedTargetingOptionsResponse,
   errors: [],
@@ -7453,7 +7453,6 @@ export const listAdvertisersTargetingTypesAssignedTargetingOptions = API.makePag
   },
 }));
 
-/** Assigns a targeting option to an advertiser. Returns the assigned targeting option if successful. */
 export interface CreateAdvertisersTargetingTypesAssignedTargetingOptionsRequest {
   /** Required. The ID of the advertiser. */
   advertiserId: string;
@@ -7477,13 +7476,13 @@ export const CreateAdvertisersTargetingTypesAssignedTargetingOptionsResponse = A
 
 export type CreateAdvertisersTargetingTypesAssignedTargetingOptionsError = CommonErrors;
 
+/** Assigns a targeting option to an advertiser. Returns the assigned targeting option if successful. */
 export const createAdvertisersTargetingTypesAssignedTargetingOptions: API.OperationMethod<CreateAdvertisersTargetingTypesAssignedTargetingOptionsRequest, CreateAdvertisersTargetingTypesAssignedTargetingOptionsResponse, CreateAdvertisersTargetingTypesAssignedTargetingOptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAdvertisersTargetingTypesAssignedTargetingOptionsRequest,
   output: CreateAdvertisersTargetingTypesAssignedTargetingOptionsResponse,
   errors: [],
 }));
 
-/** Deletes an assigned targeting option from an advertiser. */
 export interface DeleteAdvertisersTargetingTypesAssignedTargetingOptionsRequest {
   /** Required. The ID of the advertiser. */
   advertiserId: string;
@@ -7507,13 +7506,13 @@ export const DeleteAdvertisersTargetingTypesAssignedTargetingOptionsResponse = E
 
 export type DeleteAdvertisersTargetingTypesAssignedTargetingOptionsError = CommonErrors;
 
+/** Deletes an assigned targeting option from an advertiser. */
 export const deleteAdvertisersTargetingTypesAssignedTargetingOptions: API.OperationMethod<DeleteAdvertisersTargetingTypesAssignedTargetingOptionsRequest, DeleteAdvertisersTargetingTypesAssignedTargetingOptionsResponse, DeleteAdvertisersTargetingTypesAssignedTargetingOptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAdvertisersTargetingTypesAssignedTargetingOptionsRequest,
   output: DeleteAdvertisersTargetingTypesAssignedTargetingOptionsResponse,
   errors: [],
 }));
 
-/** Uploads an asset. Returns the ID of the newly uploaded asset if successful. The asset file size should be no more than 10 MB for images, 200 MB for ZIP files, and 1 GB for videos. Must be used within the [multipart media upload process](/display-video/api/guides/how-tos/upload#multipart). Examples using provided client libraries can be found in our [Creating Creatives guide](/display-video/api/guides/creating-creatives/overview#upload_an_asset). */
 export interface UploadAdvertisersAssetsRequest {
   /** Required. The ID of the advertiser this asset belongs to. */
   advertiserId: string;
@@ -7534,13 +7533,13 @@ export const UploadAdvertisersAssetsResponse = CreateAssetResponse;
 
 export type UploadAdvertisersAssetsError = CommonErrors;
 
+/** Uploads an asset. Returns the ID of the newly uploaded asset if successful. The asset file size should be no more than 10 MB for images, 200 MB for ZIP files, and 1 GB for videos. Must be used within the [multipart media upload process](/display-video/api/guides/how-tos/upload#multipart). Examples using provided client libraries can be found in our [Creating Creatives guide](/display-video/api/guides/creating-creatives/overview#upload_an_asset). */
 export const uploadAdvertisersAssets: API.OperationMethod<UploadAdvertisersAssetsRequest, UploadAdvertisersAssetsResponse, UploadAdvertisersAssetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadAdvertisersAssetsRequest,
   output: UploadAdvertisersAssetsResponse,
   errors: [],
 }));
 
-/** Gets a campaign. */
 export interface GetAdvertisersCampaignsRequest {
   /** Required. The ID of the advertiser this campaign belongs to. */
   advertiserId: string;
@@ -7561,13 +7560,13 @@ export const GetAdvertisersCampaignsResponse = Campaign;
 
 export type GetAdvertisersCampaignsError = CommonErrors;
 
+/** Gets a campaign. */
 export const getAdvertisersCampaigns: API.OperationMethod<GetAdvertisersCampaignsRequest, GetAdvertisersCampaignsResponse, GetAdvertisersCampaignsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAdvertisersCampaignsRequest,
   output: GetAdvertisersCampaignsResponse,
   errors: [],
 }));
 
-/** Lists campaigns in an advertiser. The order is defined by the order_by parameter. If a filter by entity_status is not specified, campaigns with `ENTITY_STATUS_ARCHIVED` will not be included in the results. */
 export interface ListAdvertisersCampaignsRequest {
   /** The ID of the advertiser to list campaigns for. */
   advertiserId: string;
@@ -7597,7 +7596,8 @@ export const ListAdvertisersCampaignsResponse = ListCampaignsResponse;
 
 export type ListAdvertisersCampaignsError = CommonErrors;
 
-export const listAdvertisersCampaigns = API.makePaginated(() => ({
+/** Lists campaigns in an advertiser. The order is defined by the order_by parameter. If a filter by entity_status is not specified, campaigns with `ENTITY_STATUS_ARCHIVED` will not be included in the results. */
+export const listAdvertisersCampaigns: API.PaginatedOperationMethod<ListAdvertisersCampaignsRequest, ListAdvertisersCampaignsResponse, ListAdvertisersCampaignsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAdvertisersCampaignsRequest,
   output: ListAdvertisersCampaignsResponse,
   errors: [],
@@ -7607,7 +7607,6 @@ export const listAdvertisersCampaigns = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new campaign. Returns the newly created campaign if successful. */
 export interface CreateAdvertisersCampaignsRequest {
   /** Output only. The unique ID of the advertiser the campaign belongs to. */
   advertiserId: string;
@@ -7628,13 +7627,13 @@ export const CreateAdvertisersCampaignsResponse = Campaign;
 
 export type CreateAdvertisersCampaignsError = CommonErrors;
 
+/** Creates a new campaign. Returns the newly created campaign if successful. */
 export const createAdvertisersCampaigns: API.OperationMethod<CreateAdvertisersCampaignsRequest, CreateAdvertisersCampaignsResponse, CreateAdvertisersCampaignsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAdvertisersCampaignsRequest,
   output: CreateAdvertisersCampaignsResponse,
   errors: [],
 }));
 
-/** Updates an existing campaign. Returns the updated campaign if successful. */
 export interface PatchAdvertisersCampaignsRequest {
   /** Output only. The unique ID of the advertiser the campaign belongs to. */
   advertiserId: string;
@@ -7661,13 +7660,13 @@ export const PatchAdvertisersCampaignsResponse = Campaign;
 
 export type PatchAdvertisersCampaignsError = CommonErrors;
 
+/** Updates an existing campaign. Returns the updated campaign if successful. */
 export const patchAdvertisersCampaigns: API.OperationMethod<PatchAdvertisersCampaignsRequest, PatchAdvertisersCampaignsResponse, PatchAdvertisersCampaignsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAdvertisersCampaignsRequest,
   output: PatchAdvertisersCampaignsResponse,
   errors: [],
 }));
 
-/** Permanently deletes a campaign. A deleted campaign cannot be recovered. The campaign should be archived first, i.e. set entity_status to `ENTITY_STATUS_ARCHIVED`, to be able to delete it. **This method regularly experiences high latency.** We recommend [increasing your default timeout](/display-video/api/guides/best-practices/timeouts#client_library_timeout) to avoid errors. */
 export interface DeleteAdvertisersCampaignsRequest {
   /** The ID of the advertiser this campaign belongs to. */
   advertiserId: string;
@@ -7688,13 +7687,13 @@ export const DeleteAdvertisersCampaignsResponse = Empty;
 
 export type DeleteAdvertisersCampaignsError = CommonErrors;
 
+/** Permanently deletes a campaign. A deleted campaign cannot be recovered. The campaign should be archived first, i.e. set entity_status to `ENTITY_STATUS_ARCHIVED`, to be able to delete it. **This method regularly experiences high latency.** We recommend [increasing your default timeout](/display-video/api/guides/best-practices/timeouts#client_library_timeout) to avoid errors. */
 export const deleteAdvertisersCampaigns: API.OperationMethod<DeleteAdvertisersCampaignsRequest, DeleteAdvertisersCampaignsResponse, DeleteAdvertisersCampaignsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAdvertisersCampaignsRequest,
   output: DeleteAdvertisersCampaignsResponse,
   errors: [],
 }));
 
-/** Gets a channel for a partner or advertiser. */
 export interface GetAdvertisersChannelsRequest {
   /** The ID of the advertiser that owns the fetched channel. */
   advertiserId: string;
@@ -7718,13 +7717,13 @@ export const GetAdvertisersChannelsResponse = Channel;
 
 export type GetAdvertisersChannelsError = CommonErrors;
 
+/** Gets a channel for a partner or advertiser. */
 export const getAdvertisersChannels: API.OperationMethod<GetAdvertisersChannelsRequest, GetAdvertisersChannelsResponse, GetAdvertisersChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAdvertisersChannelsRequest,
   output: GetAdvertisersChannelsResponse,
   errors: [],
 }));
 
-/** Lists channels for a partner or advertiser. */
 export interface ListAdvertisersChannelsRequest {
   /** The ID of the advertiser that owns the channels. */
   advertiserId: string;
@@ -7757,7 +7756,8 @@ export const ListAdvertisersChannelsResponse = ListChannelsResponse;
 
 export type ListAdvertisersChannelsError = CommonErrors;
 
-export const listAdvertisersChannels = API.makePaginated(() => ({
+/** Lists channels for a partner or advertiser. */
+export const listAdvertisersChannels: API.PaginatedOperationMethod<ListAdvertisersChannelsRequest, ListAdvertisersChannelsResponse, ListAdvertisersChannelsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAdvertisersChannelsRequest,
   output: ListAdvertisersChannelsResponse,
   errors: [],
@@ -7767,7 +7767,6 @@ export const listAdvertisersChannels = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new channel. Returns the newly created channel if successful. */
 export interface CreateAdvertisersChannelsRequest {
   /** The ID of the advertiser that owns the created channel. */
   advertiserId: string;
@@ -7791,13 +7790,13 @@ export const CreateAdvertisersChannelsResponse = Channel;
 
 export type CreateAdvertisersChannelsError = CommonErrors;
 
+/** Creates a new channel. Returns the newly created channel if successful. */
 export const createAdvertisersChannels: API.OperationMethod<CreateAdvertisersChannelsRequest, CreateAdvertisersChannelsResponse, CreateAdvertisersChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAdvertisersChannelsRequest,
   output: CreateAdvertisersChannelsResponse,
   errors: [],
 }));
 
-/** Updates a channel. Returns the updated channel if successful. */
 export interface PatchAdvertisersChannelsRequest {
   /** The ID of the advertiser that owns the created channel. */
   advertiserId: string;
@@ -7827,13 +7826,13 @@ export const PatchAdvertisersChannelsResponse = Channel;
 
 export type PatchAdvertisersChannelsError = CommonErrors;
 
+/** Updates a channel. Returns the updated channel if successful. */
 export const patchAdvertisersChannels: API.OperationMethod<PatchAdvertisersChannelsRequest, PatchAdvertisersChannelsResponse, PatchAdvertisersChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAdvertisersChannelsRequest,
   output: PatchAdvertisersChannelsResponse,
   errors: [],
 }));
 
-/** Lists sites in a channel. */
 export interface ListAdvertisersChannelsSitesRequest {
   /** The ID of the advertiser that owns the parent channel. */
   advertiserId: string;
@@ -7869,7 +7868,8 @@ export const ListAdvertisersChannelsSitesResponse = ListSitesResponse;
 
 export type ListAdvertisersChannelsSitesError = CommonErrors;
 
-export const listAdvertisersChannelsSites = API.makePaginated(() => ({
+/** Lists sites in a channel. */
+export const listAdvertisersChannelsSites: API.PaginatedOperationMethod<ListAdvertisersChannelsSitesRequest, ListAdvertisersChannelsSitesResponse, ListAdvertisersChannelsSitesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAdvertisersChannelsSitesRequest,
   output: ListAdvertisersChannelsSitesResponse,
   errors: [],
@@ -7879,7 +7879,6 @@ export const listAdvertisersChannelsSites = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a site in a channel. */
 export interface CreateAdvertisersChannelsSitesRequest {
   /** The ID of the advertiser that owns the parent channel. */
   advertiserId: string;
@@ -7906,13 +7905,13 @@ export const CreateAdvertisersChannelsSitesResponse = Site;
 
 export type CreateAdvertisersChannelsSitesError = CommonErrors;
 
+/** Creates a site in a channel. */
 export const createAdvertisersChannelsSites: API.OperationMethod<CreateAdvertisersChannelsSitesRequest, CreateAdvertisersChannelsSitesResponse, CreateAdvertisersChannelsSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAdvertisersChannelsSitesRequest,
   output: CreateAdvertisersChannelsSitesResponse,
   errors: [],
 }));
 
-/** Deletes a site from a channel. */
 export interface DeleteAdvertisersChannelsSitesRequest {
   /** The ID of the advertiser that owns the parent channel. */
   advertiserId: string;
@@ -7939,13 +7938,13 @@ export const DeleteAdvertisersChannelsSitesResponse = Empty;
 
 export type DeleteAdvertisersChannelsSitesError = CommonErrors;
 
+/** Deletes a site from a channel. */
 export const deleteAdvertisersChannelsSites: API.OperationMethod<DeleteAdvertisersChannelsSitesRequest, DeleteAdvertisersChannelsSitesResponse, DeleteAdvertisersChannelsSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAdvertisersChannelsSitesRequest,
   output: DeleteAdvertisersChannelsSitesResponse,
   errors: [],
 }));
 
-/** Bulk edits sites under a single channel. The operation will delete the sites provided in BulkEditSitesRequest.deleted_sites and then create the sites provided in BulkEditSitesRequest.created_sites. */
 export interface BulkEditAdvertisersChannelsSitesRequest {
   /** The ID of the advertiser that owns the parent channel. */
   advertiserId: string;
@@ -7969,13 +7968,13 @@ export const BulkEditAdvertisersChannelsSitesResponse = BulkEditSitesResponse;
 
 export type BulkEditAdvertisersChannelsSitesError = CommonErrors;
 
+/** Bulk edits sites under a single channel. The operation will delete the sites provided in BulkEditSitesRequest.deleted_sites and then create the sites provided in BulkEditSitesRequest.created_sites. */
 export const bulkEditAdvertisersChannelsSites: API.OperationMethod<BulkEditAdvertisersChannelsSitesRequest, BulkEditAdvertisersChannelsSitesResponse, BulkEditAdvertisersChannelsSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BulkEditAdvertisersChannelsSitesRequest,
   output: BulkEditAdvertisersChannelsSitesResponse,
   errors: [],
 }));
 
-/** Replaces all of the sites under a single channel. The operation will replace the sites under a channel with the sites provided in ReplaceSitesRequest.new_sites. **This method regularly experiences high latency.** We recommend [increasing your default timeout](/display-video/api/guides/best-practices/timeouts#client_library_timeout) to avoid errors. */
 export interface ReplaceAdvertisersChannelsSitesRequest {
   /** The ID of the advertiser that owns the parent channel. */
   advertiserId: string;
@@ -7999,13 +7998,13 @@ export const ReplaceAdvertisersChannelsSitesResponse = ReplaceSitesResponse;
 
 export type ReplaceAdvertisersChannelsSitesError = CommonErrors;
 
+/** Replaces all of the sites under a single channel. The operation will replace the sites under a channel with the sites provided in ReplaceSitesRequest.new_sites. **This method regularly experiences high latency.** We recommend [increasing your default timeout](/display-video/api/guides/best-practices/timeouts#client_library_timeout) to avoid errors. */
 export const replaceAdvertisersChannelsSites: API.OperationMethod<ReplaceAdvertisersChannelsSitesRequest, ReplaceAdvertisersChannelsSitesResponse, ReplaceAdvertisersChannelsSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReplaceAdvertisersChannelsSitesRequest,
   output: ReplaceAdvertisersChannelsSitesResponse,
   errors: [],
 }));
 
-/** Gets a creative. */
 export interface GetAdvertisersCreativesRequest {
   /** Required. The ID of the advertiser this creative belongs to. */
   advertiserId: string;
@@ -8026,13 +8025,13 @@ export const GetAdvertisersCreativesResponse = Creative;
 
 export type GetAdvertisersCreativesError = CommonErrors;
 
+/** Gets a creative. */
 export const getAdvertisersCreatives: API.OperationMethod<GetAdvertisersCreativesRequest, GetAdvertisersCreativesResponse, GetAdvertisersCreativesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAdvertisersCreativesRequest,
   output: GetAdvertisersCreativesResponse,
   errors: [],
 }));
 
-/** Lists creatives in an advertiser. The order is defined by the order_by parameter. If a filter by entity_status is not specified, creatives with `ENTITY_STATUS_ARCHIVED` will not be included in the results. */
 export interface ListAdvertisersCreativesRequest {
   /** Required. The ID of the advertiser to list creatives for. */
   advertiserId: string;
@@ -8062,7 +8061,8 @@ export const ListAdvertisersCreativesResponse = ListCreativesResponse;
 
 export type ListAdvertisersCreativesError = CommonErrors;
 
-export const listAdvertisersCreatives = API.makePaginated(() => ({
+/** Lists creatives in an advertiser. The order is defined by the order_by parameter. If a filter by entity_status is not specified, creatives with `ENTITY_STATUS_ARCHIVED` will not be included in the results. */
+export const listAdvertisersCreatives: API.PaginatedOperationMethod<ListAdvertisersCreativesRequest, ListAdvertisersCreativesResponse, ListAdvertisersCreativesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAdvertisersCreativesRequest,
   output: ListAdvertisersCreativesResponse,
   errors: [],
@@ -8072,7 +8072,6 @@ export const listAdvertisersCreatives = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new creative. Returns the newly created creative if successful. A ["Standard" user role](//support.google.com/displayvideo/answer/2723011) or greater for the parent advertiser or partner is required to make this request. */
 export interface CreateAdvertisersCreativesRequest {
   /** Output only. The unique ID of the advertiser the creative belongs to. */
   advertiserId: string;
@@ -8093,13 +8092,13 @@ export const CreateAdvertisersCreativesResponse = Creative;
 
 export type CreateAdvertisersCreativesError = CommonErrors;
 
+/** Creates a new creative. Returns the newly created creative if successful. A ["Standard" user role](//support.google.com/displayvideo/answer/2723011) or greater for the parent advertiser or partner is required to make this request. */
 export const createAdvertisersCreatives: API.OperationMethod<CreateAdvertisersCreativesRequest, CreateAdvertisersCreativesResponse, CreateAdvertisersCreativesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAdvertisersCreativesRequest,
   output: CreateAdvertisersCreativesResponse,
   errors: [],
 }));
 
-/** Updates an existing creative. Returns the updated creative if successful. A ["Standard" user role](//support.google.com/displayvideo/answer/2723011) or greater for the parent advertiser or partner is required to make this request. */
 export interface PatchAdvertisersCreativesRequest {
   /** Output only. The unique ID of the advertiser the creative belongs to. */
   advertiserId: string;
@@ -8126,13 +8125,13 @@ export const PatchAdvertisersCreativesResponse = Creative;
 
 export type PatchAdvertisersCreativesError = CommonErrors;
 
+/** Updates an existing creative. Returns the updated creative if successful. A ["Standard" user role](//support.google.com/displayvideo/answer/2723011) or greater for the parent advertiser or partner is required to make this request. */
 export const patchAdvertisersCreatives: API.OperationMethod<PatchAdvertisersCreativesRequest, PatchAdvertisersCreativesResponse, PatchAdvertisersCreativesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAdvertisersCreativesRequest,
   output: PatchAdvertisersCreativesResponse,
   errors: [],
 }));
 
-/** Deletes a creative. Returns error code `NOT_FOUND` if the creative does not exist. The creative should be archived first, i.e. set entity_status to `ENTITY_STATUS_ARCHIVED`, before it can be deleted. A ["Standard" user role](//support.google.com/displayvideo/answer/2723011) or greater for the parent advertiser or partner is required to make this request. */
 export interface DeleteAdvertisersCreativesRequest {
   /** The ID of the advertiser this creative belongs to. */
   advertiserId: string;
@@ -8153,13 +8152,13 @@ export const DeleteAdvertisersCreativesResponse = Empty;
 
 export type DeleteAdvertisersCreativesError = CommonErrors;
 
+/** Deletes a creative. Returns error code `NOT_FOUND` if the creative does not exist. The creative should be archived first, i.e. set entity_status to `ENTITY_STATUS_ARCHIVED`, before it can be deleted. A ["Standard" user role](//support.google.com/displayvideo/answer/2723011) or greater for the parent advertiser or partner is required to make this request. */
 export const deleteAdvertisersCreatives: API.OperationMethod<DeleteAdvertisersCreativesRequest, DeleteAdvertisersCreativesResponse, DeleteAdvertisersCreativesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAdvertisersCreativesRequest,
   output: DeleteAdvertisersCreativesResponse,
   errors: [],
 }));
 
-/** Gets an insertion order. Returns error code `NOT_FOUND` if the insertion order does not exist. */
 export interface GetAdvertisersInsertionOrdersRequest {
   /** Required. The ID of the advertiser this insertion order belongs to. */
   advertiserId: string;
@@ -8180,13 +8179,13 @@ export const GetAdvertisersInsertionOrdersResponse = InsertionOrder;
 
 export type GetAdvertisersInsertionOrdersError = CommonErrors;
 
+/** Gets an insertion order. Returns error code `NOT_FOUND` if the insertion order does not exist. */
 export const getAdvertisersInsertionOrders: API.OperationMethod<GetAdvertisersInsertionOrdersRequest, GetAdvertisersInsertionOrdersResponse, GetAdvertisersInsertionOrdersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAdvertisersInsertionOrdersRequest,
   output: GetAdvertisersInsertionOrdersResponse,
   errors: [],
 }));
 
-/** Lists insertion orders in an advertiser. The order is defined by the order_by parameter. If a filter by entity_status is not specified, insertion orders with `ENTITY_STATUS_ARCHIVED` will not be included in the results. */
 export interface ListAdvertisersInsertionOrdersRequest {
   /** Required. The ID of the advertiser to list insertion orders for. */
   advertiserId: string;
@@ -8216,7 +8215,8 @@ export const ListAdvertisersInsertionOrdersResponse = ListInsertionOrdersRespons
 
 export type ListAdvertisersInsertionOrdersError = CommonErrors;
 
-export const listAdvertisersInsertionOrders = API.makePaginated(() => ({
+/** Lists insertion orders in an advertiser. The order is defined by the order_by parameter. If a filter by entity_status is not specified, insertion orders with `ENTITY_STATUS_ARCHIVED` will not be included in the results. */
+export const listAdvertisersInsertionOrders: API.PaginatedOperationMethod<ListAdvertisersInsertionOrdersRequest, ListAdvertisersInsertionOrdersResponse, ListAdvertisersInsertionOrdersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAdvertisersInsertionOrdersRequest,
   output: ListAdvertisersInsertionOrdersResponse,
   errors: [],
@@ -8226,7 +8226,6 @@ export const listAdvertisersInsertionOrders = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new insertion order. Returns the newly created insertion order if successful. */
 export interface CreateAdvertisersInsertionOrdersRequest {
   /** Output only. The unique ID of the advertiser the insertion order belongs to. */
   advertiserId: string;
@@ -8247,13 +8246,13 @@ export const CreateAdvertisersInsertionOrdersResponse = InsertionOrder;
 
 export type CreateAdvertisersInsertionOrdersError = CommonErrors;
 
+/** Creates a new insertion order. Returns the newly created insertion order if successful. */
 export const createAdvertisersInsertionOrders: API.OperationMethod<CreateAdvertisersInsertionOrdersRequest, CreateAdvertisersInsertionOrdersResponse, CreateAdvertisersInsertionOrdersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAdvertisersInsertionOrdersRequest,
   output: CreateAdvertisersInsertionOrdersResponse,
   errors: [],
 }));
 
-/** Updates an existing insertion order. Returns the updated insertion order if successful. */
 export interface PatchAdvertisersInsertionOrdersRequest {
   /** Output only. The unique ID of the advertiser the insertion order belongs to. */
   advertiserId: string;
@@ -8280,13 +8279,13 @@ export const PatchAdvertisersInsertionOrdersResponse = InsertionOrder;
 
 export type PatchAdvertisersInsertionOrdersError = CommonErrors;
 
+/** Updates an existing insertion order. Returns the updated insertion order if successful. */
 export const patchAdvertisersInsertionOrders: API.OperationMethod<PatchAdvertisersInsertionOrdersRequest, PatchAdvertisersInsertionOrdersResponse, PatchAdvertisersInsertionOrdersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAdvertisersInsertionOrdersRequest,
   output: PatchAdvertisersInsertionOrdersResponse,
   errors: [],
 }));
 
-/** Deletes an insertion order. Returns error code `NOT_FOUND` if the insertion order does not exist. The insertion order should be archived first, i.e. set entity_status to `ENTITY_STATUS_ARCHIVED`, to be able to delete it. */
 export interface DeleteAdvertisersInsertionOrdersRequest {
   /** The ID of the advertiser this insertion order belongs to. */
   advertiserId: string;
@@ -8307,13 +8306,13 @@ export const DeleteAdvertisersInsertionOrdersResponse = Empty;
 
 export type DeleteAdvertisersInsertionOrdersError = CommonErrors;
 
+/** Deletes an insertion order. Returns error code `NOT_FOUND` if the insertion order does not exist. The insertion order should be archived first, i.e. set entity_status to `ENTITY_STATUS_ARCHIVED`, to be able to delete it. */
 export const deleteAdvertisersInsertionOrders: API.OperationMethod<DeleteAdvertisersInsertionOrdersRequest, DeleteAdvertisersInsertionOrdersResponse, DeleteAdvertisersInsertionOrdersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAdvertisersInsertionOrdersRequest,
   output: DeleteAdvertisersInsertionOrdersResponse,
   errors: [],
 }));
 
-/** Lists invoices posted for an advertiser in a given month. Invoices generated by billing profiles with a "Partner" invoice level are not retrievable through this method. */
 export interface ListAdvertisersInvoicesRequest {
   /** Required. The ID of the advertiser to list invoices for. */
   advertiserId: string;
@@ -8343,7 +8342,8 @@ export const ListAdvertisersInvoicesResponse = ListInvoicesResponse;
 
 export type ListAdvertisersInvoicesError = CommonErrors;
 
-export const listAdvertisersInvoices = API.makePaginated(() => ({
+/** Lists invoices posted for an advertiser in a given month. Invoices generated by billing profiles with a "Partner" invoice level are not retrievable through this method. */
+export const listAdvertisersInvoices: API.PaginatedOperationMethod<ListAdvertisersInvoicesRequest, ListAdvertisersInvoicesResponse, ListAdvertisersInvoicesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAdvertisersInvoicesRequest,
   output: ListAdvertisersInvoicesResponse,
   errors: [],
@@ -8353,7 +8353,6 @@ export const listAdvertisersInvoices = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves the invoice currency used by an advertiser in a given month. */
 export interface LookupInvoiceCurrencyAdvertisersInvoicesRequest {
   /** Required. The ID of the advertiser to lookup currency for. */
   advertiserId: string;
@@ -8374,13 +8373,13 @@ export const LookupInvoiceCurrencyAdvertisersInvoicesResponse = LookupInvoiceCur
 
 export type LookupInvoiceCurrencyAdvertisersInvoicesError = CommonErrors;
 
+/** Retrieves the invoice currency used by an advertiser in a given month. */
 export const lookupInvoiceCurrencyAdvertisersInvoices: API.OperationMethod<LookupInvoiceCurrencyAdvertisersInvoicesRequest, LookupInvoiceCurrencyAdvertisersInvoicesResponse, LookupInvoiceCurrencyAdvertisersInvoicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LookupInvoiceCurrencyAdvertisersInvoicesRequest,
   output: LookupInvoiceCurrencyAdvertisersInvoicesResponse,
   errors: [],
 }));
 
-/** Gets a location list. */
 export interface GetAdvertisersLocationListsRequest {
   /** Required. The ID of the DV360 advertiser to which the fetched location list belongs. */
   advertiserId: string;
@@ -8401,13 +8400,13 @@ export const GetAdvertisersLocationListsResponse = LocationList;
 
 export type GetAdvertisersLocationListsError = CommonErrors;
 
+/** Gets a location list. */
 export const getAdvertisersLocationLists: API.OperationMethod<GetAdvertisersLocationListsRequest, GetAdvertisersLocationListsResponse, GetAdvertisersLocationListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAdvertisersLocationListsRequest,
   output: GetAdvertisersLocationListsResponse,
   errors: [],
 }));
 
-/** Lists location lists based on a given advertiser id. */
 export interface ListAdvertisersLocationListsRequest {
   /** Required. The ID of the DV360 advertiser to which the fetched location lists belong. */
   advertiserId: string;
@@ -8437,7 +8436,8 @@ export const ListAdvertisersLocationListsResponse = ListLocationListsResponse;
 
 export type ListAdvertisersLocationListsError = CommonErrors;
 
-export const listAdvertisersLocationLists = API.makePaginated(() => ({
+/** Lists location lists based on a given advertiser id. */
+export const listAdvertisersLocationLists: API.PaginatedOperationMethod<ListAdvertisersLocationListsRequest, ListAdvertisersLocationListsResponse, ListAdvertisersLocationListsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAdvertisersLocationListsRequest,
   output: ListAdvertisersLocationListsResponse,
   errors: [],
@@ -8447,7 +8447,6 @@ export const listAdvertisersLocationLists = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new location list. Returns the newly created location list if successful. */
 export interface CreateAdvertisersLocationListsRequest {
   /** Required. The ID of the DV360 advertiser to which the location list belongs. */
   advertiserId: string;
@@ -8468,13 +8467,13 @@ export const CreateAdvertisersLocationListsResponse = LocationList;
 
 export type CreateAdvertisersLocationListsError = CommonErrors;
 
+/** Creates a new location list. Returns the newly created location list if successful. */
 export const createAdvertisersLocationLists: API.OperationMethod<CreateAdvertisersLocationListsRequest, CreateAdvertisersLocationListsResponse, CreateAdvertisersLocationListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAdvertisersLocationListsRequest,
   output: CreateAdvertisersLocationListsResponse,
   errors: [],
 }));
 
-/** Updates a location list. Returns the updated location list if successful. */
 export interface PatchAdvertisersLocationListsRequest {
   /** Required. The ID of the DV360 advertiser to which the location lists belongs. */
   advertiserId: string;
@@ -8501,13 +8500,13 @@ export const PatchAdvertisersLocationListsResponse = LocationList;
 
 export type PatchAdvertisersLocationListsError = CommonErrors;
 
+/** Updates a location list. Returns the updated location list if successful. */
 export const patchAdvertisersLocationLists: API.OperationMethod<PatchAdvertisersLocationListsRequest, PatchAdvertisersLocationListsResponse, PatchAdvertisersLocationListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAdvertisersLocationListsRequest,
   output: PatchAdvertisersLocationListsResponse,
   errors: [],
 }));
 
-/** Lists locations assigned to a location list. */
 export interface ListAdvertisersLocationListsAssignedLocationsRequest {
   /** Required. The ID of the DV360 advertiser to which the location list belongs. */
   advertiserId: string;
@@ -8540,7 +8539,8 @@ export const ListAdvertisersLocationListsAssignedLocationsResponse = ListAssigne
 
 export type ListAdvertisersLocationListsAssignedLocationsError = CommonErrors;
 
-export const listAdvertisersLocationListsAssignedLocations = API.makePaginated(() => ({
+/** Lists locations assigned to a location list. */
+export const listAdvertisersLocationListsAssignedLocations: API.PaginatedOperationMethod<ListAdvertisersLocationListsAssignedLocationsRequest, ListAdvertisersLocationListsAssignedLocationsResponse, ListAdvertisersLocationListsAssignedLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAdvertisersLocationListsAssignedLocationsRequest,
   output: ListAdvertisersLocationListsAssignedLocationsResponse,
   errors: [],
@@ -8550,7 +8550,6 @@ export const listAdvertisersLocationListsAssignedLocations = API.makePaginated((
   },
 }));
 
-/** Creates an assignment between a location and a location list. */
 export interface CreateAdvertisersLocationListsAssignedLocationsRequest {
   /** Required. The ID of the DV360 advertiser to which the location list belongs. */
   advertiserId: string;
@@ -8574,13 +8573,13 @@ export const CreateAdvertisersLocationListsAssignedLocationsResponse = AssignedL
 
 export type CreateAdvertisersLocationListsAssignedLocationsError = CommonErrors;
 
+/** Creates an assignment between a location and a location list. */
 export const createAdvertisersLocationListsAssignedLocations: API.OperationMethod<CreateAdvertisersLocationListsAssignedLocationsRequest, CreateAdvertisersLocationListsAssignedLocationsResponse, CreateAdvertisersLocationListsAssignedLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAdvertisersLocationListsAssignedLocationsRequest,
   output: CreateAdvertisersLocationListsAssignedLocationsResponse,
   errors: [],
 }));
 
-/** Deletes the assignment between a location and a location list. */
 export interface DeleteAdvertisersLocationListsAssignedLocationsRequest {
   /** Required. The ID of the DV360 advertiser to which the location list belongs. */
   advertiserId: string;
@@ -8604,13 +8603,13 @@ export const DeleteAdvertisersLocationListsAssignedLocationsResponse = Empty;
 
 export type DeleteAdvertisersLocationListsAssignedLocationsError = CommonErrors;
 
+/** Deletes the assignment between a location and a location list. */
 export const deleteAdvertisersLocationListsAssignedLocations: API.OperationMethod<DeleteAdvertisersLocationListsAssignedLocationsRequest, DeleteAdvertisersLocationListsAssignedLocationsResponse, DeleteAdvertisersLocationListsAssignedLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAdvertisersLocationListsAssignedLocationsRequest,
   output: DeleteAdvertisersLocationListsAssignedLocationsResponse,
   errors: [],
 }));
 
-/** Bulk edits multiple assignments between locations and a single location list. The operation will delete the assigned locations provided in deletedAssignedLocations and then create the assigned locations provided in createdAssignedLocations. */
 export interface BulkEditAdvertisersLocationListsAssignedLocationsRequest {
   /** Required. The ID of the DV360 advertiser to which the location list belongs. */
   advertiserId: string;
@@ -8634,13 +8633,13 @@ export const BulkEditAdvertisersLocationListsAssignedLocationsResponse = BulkEdi
 
 export type BulkEditAdvertisersLocationListsAssignedLocationsError = CommonErrors;
 
+/** Bulk edits multiple assignments between locations and a single location list. The operation will delete the assigned locations provided in deletedAssignedLocations and then create the assigned locations provided in createdAssignedLocations. */
 export const bulkEditAdvertisersLocationListsAssignedLocations: API.OperationMethod<BulkEditAdvertisersLocationListsAssignedLocationsRequest, BulkEditAdvertisersLocationListsAssignedLocationsResponse, BulkEditAdvertisersLocationListsAssignedLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BulkEditAdvertisersLocationListsAssignedLocationsRequest,
   output: BulkEditAdvertisersLocationListsAssignedLocationsResponse,
   errors: [],
 }));
 
-/** Gets a negative keyword list given an advertiser ID and a negative keyword list ID. */
 export interface GetAdvertisersNegativeKeywordListsRequest {
   /** Required. The ID of the DV360 advertiser to which the fetched negative keyword list belongs. */
   advertiserId: string;
@@ -8661,13 +8660,13 @@ export const GetAdvertisersNegativeKeywordListsResponse = NegativeKeywordList;
 
 export type GetAdvertisersNegativeKeywordListsError = CommonErrors;
 
+/** Gets a negative keyword list given an advertiser ID and a negative keyword list ID. */
 export const getAdvertisersNegativeKeywordLists: API.OperationMethod<GetAdvertisersNegativeKeywordListsRequest, GetAdvertisersNegativeKeywordListsResponse, GetAdvertisersNegativeKeywordListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAdvertisersNegativeKeywordListsRequest,
   output: GetAdvertisersNegativeKeywordListsResponse,
   errors: [],
 }));
 
-/** Lists negative keyword lists based on a given advertiser id. */
 export interface ListAdvertisersNegativeKeywordListsRequest {
   /** Required. The ID of the DV360 advertiser to which the fetched negative keyword lists belong. */
   advertiserId: string;
@@ -8691,7 +8690,8 @@ export const ListAdvertisersNegativeKeywordListsResponse = ListNegativeKeywordLi
 
 export type ListAdvertisersNegativeKeywordListsError = CommonErrors;
 
-export const listAdvertisersNegativeKeywordLists = API.makePaginated(() => ({
+/** Lists negative keyword lists based on a given advertiser id. */
+export const listAdvertisersNegativeKeywordLists: API.PaginatedOperationMethod<ListAdvertisersNegativeKeywordListsRequest, ListAdvertisersNegativeKeywordListsResponse, ListAdvertisersNegativeKeywordListsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAdvertisersNegativeKeywordListsRequest,
   output: ListAdvertisersNegativeKeywordListsResponse,
   errors: [],
@@ -8701,7 +8701,6 @@ export const listAdvertisersNegativeKeywordLists = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new negative keyword list. Returns the newly created negative keyword list if successful. */
 export interface CreateAdvertisersNegativeKeywordListsRequest {
   /** Required. The ID of the DV360 advertiser to which the negative keyword list will belong. */
   advertiserId: string;
@@ -8722,13 +8721,13 @@ export const CreateAdvertisersNegativeKeywordListsResponse = NegativeKeywordList
 
 export type CreateAdvertisersNegativeKeywordListsError = CommonErrors;
 
+/** Creates a new negative keyword list. Returns the newly created negative keyword list if successful. */
 export const createAdvertisersNegativeKeywordLists: API.OperationMethod<CreateAdvertisersNegativeKeywordListsRequest, CreateAdvertisersNegativeKeywordListsResponse, CreateAdvertisersNegativeKeywordListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAdvertisersNegativeKeywordListsRequest,
   output: CreateAdvertisersNegativeKeywordListsResponse,
   errors: [],
 }));
 
-/** Updates a negative keyword list. Returns the updated negative keyword list if successful. */
 export interface PatchAdvertisersNegativeKeywordListsRequest {
   /** Required. The ID of the DV360 advertiser to which the negative keyword list belongs. */
   advertiserId: string;
@@ -8755,13 +8754,13 @@ export const PatchAdvertisersNegativeKeywordListsResponse = NegativeKeywordList;
 
 export type PatchAdvertisersNegativeKeywordListsError = CommonErrors;
 
+/** Updates a negative keyword list. Returns the updated negative keyword list if successful. */
 export const patchAdvertisersNegativeKeywordLists: API.OperationMethod<PatchAdvertisersNegativeKeywordListsRequest, PatchAdvertisersNegativeKeywordListsResponse, PatchAdvertisersNegativeKeywordListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAdvertisersNegativeKeywordListsRequest,
   output: PatchAdvertisersNegativeKeywordListsResponse,
   errors: [],
 }));
 
-/** Deletes a negative keyword list given an advertiser ID and a negative keyword list ID. */
 export interface DeleteAdvertisersNegativeKeywordListsRequest {
   /** Required. The ID of the DV360 advertiser to which the negative keyword list belongs. */
   advertiserId: string;
@@ -8782,13 +8781,13 @@ export const DeleteAdvertisersNegativeKeywordListsResponse = Empty;
 
 export type DeleteAdvertisersNegativeKeywordListsError = CommonErrors;
 
+/** Deletes a negative keyword list given an advertiser ID and a negative keyword list ID. */
 export const deleteAdvertisersNegativeKeywordLists: API.OperationMethod<DeleteAdvertisersNegativeKeywordListsRequest, DeleteAdvertisersNegativeKeywordListsResponse, DeleteAdvertisersNegativeKeywordListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAdvertisersNegativeKeywordListsRequest,
   output: DeleteAdvertisersNegativeKeywordListsResponse,
   errors: [],
 }));
 
-/** Lists negative keywords in a negative keyword list. */
 export interface ListAdvertisersNegativeKeywordListsNegativeKeywordsRequest {
   /** Required. The ID of the DV360 advertiser to which the parent negative keyword list belongs. */
   advertiserId: string;
@@ -8821,7 +8820,8 @@ export const ListAdvertisersNegativeKeywordListsNegativeKeywordsResponse = ListN
 
 export type ListAdvertisersNegativeKeywordListsNegativeKeywordsError = CommonErrors;
 
-export const listAdvertisersNegativeKeywordListsNegativeKeywords = API.makePaginated(() => ({
+/** Lists negative keywords in a negative keyword list. */
+export const listAdvertisersNegativeKeywordListsNegativeKeywords: API.PaginatedOperationMethod<ListAdvertisersNegativeKeywordListsNegativeKeywordsRequest, ListAdvertisersNegativeKeywordListsNegativeKeywordsResponse, ListAdvertisersNegativeKeywordListsNegativeKeywordsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAdvertisersNegativeKeywordListsNegativeKeywordsRequest,
   output: ListAdvertisersNegativeKeywordListsNegativeKeywordsResponse,
   errors: [],
@@ -8831,7 +8831,6 @@ export const listAdvertisersNegativeKeywordListsNegativeKeywords = API.makePagin
   },
 }));
 
-/** Creates a negative keyword in a negative keyword list. */
 export interface CreateAdvertisersNegativeKeywordListsNegativeKeywordsRequest {
   /** Required. The ID of the DV360 advertiser to which the parent negative keyword list belongs. */
   advertiserId: string;
@@ -8855,13 +8854,13 @@ export const CreateAdvertisersNegativeKeywordListsNegativeKeywordsResponse = Neg
 
 export type CreateAdvertisersNegativeKeywordListsNegativeKeywordsError = CommonErrors;
 
+/** Creates a negative keyword in a negative keyword list. */
 export const createAdvertisersNegativeKeywordListsNegativeKeywords: API.OperationMethod<CreateAdvertisersNegativeKeywordListsNegativeKeywordsRequest, CreateAdvertisersNegativeKeywordListsNegativeKeywordsResponse, CreateAdvertisersNegativeKeywordListsNegativeKeywordsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAdvertisersNegativeKeywordListsNegativeKeywordsRequest,
   output: CreateAdvertisersNegativeKeywordListsNegativeKeywordsResponse,
   errors: [],
 }));
 
-/** Deletes a negative keyword from a negative keyword list. */
 export interface DeleteAdvertisersNegativeKeywordListsNegativeKeywordsRequest {
   /** Required. The ID of the DV360 advertiser to which the parent negative keyword list belongs. */
   advertiserId: string;
@@ -8885,13 +8884,13 @@ export const DeleteAdvertisersNegativeKeywordListsNegativeKeywordsResponse = Emp
 
 export type DeleteAdvertisersNegativeKeywordListsNegativeKeywordsError = CommonErrors;
 
+/** Deletes a negative keyword from a negative keyword list. */
 export const deleteAdvertisersNegativeKeywordListsNegativeKeywords: API.OperationMethod<DeleteAdvertisersNegativeKeywordListsNegativeKeywordsRequest, DeleteAdvertisersNegativeKeywordListsNegativeKeywordsResponse, DeleteAdvertisersNegativeKeywordListsNegativeKeywordsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAdvertisersNegativeKeywordListsNegativeKeywordsRequest,
   output: DeleteAdvertisersNegativeKeywordListsNegativeKeywordsResponse,
   errors: [],
 }));
 
-/** Bulk edits negative keywords in a single negative keyword list. The operation will delete the negative keywords provided in BulkEditNegativeKeywordsRequest.deleted_negative_keywords and then create the negative keywords provided in BulkEditNegativeKeywordsRequest.created_negative_keywords. This operation is guaranteed to be atomic and will never result in a partial success or partial failure. */
 export interface BulkEditAdvertisersNegativeKeywordListsNegativeKeywordsRequest {
   /** Required. The ID of the DV360 advertiser to which the parent negative keyword list belongs. */
   advertiserId: string;
@@ -8915,13 +8914,13 @@ export const BulkEditAdvertisersNegativeKeywordListsNegativeKeywordsResponse = B
 
 export type BulkEditAdvertisersNegativeKeywordListsNegativeKeywordsError = CommonErrors;
 
+/** Bulk edits negative keywords in a single negative keyword list. The operation will delete the negative keywords provided in BulkEditNegativeKeywordsRequest.deleted_negative_keywords and then create the negative keywords provided in BulkEditNegativeKeywordsRequest.created_negative_keywords. This operation is guaranteed to be atomic and will never result in a partial success or partial failure. */
 export const bulkEditAdvertisersNegativeKeywordListsNegativeKeywords: API.OperationMethod<BulkEditAdvertisersNegativeKeywordListsNegativeKeywordsRequest, BulkEditAdvertisersNegativeKeywordListsNegativeKeywordsResponse, BulkEditAdvertisersNegativeKeywordListsNegativeKeywordsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BulkEditAdvertisersNegativeKeywordListsNegativeKeywordsRequest,
   output: BulkEditAdvertisersNegativeKeywordListsNegativeKeywordsResponse,
   errors: [],
 }));
 
-/** Replaces all negative keywords in a single negative keyword list. The operation will replace the keywords in a negative keyword list with keywords provided in ReplaceNegativeKeywordsRequest.new_negative_keywords. */
 export interface ReplaceAdvertisersNegativeKeywordListsNegativeKeywordsRequest {
   /** Required. The ID of the DV360 advertiser to which the parent negative keyword list belongs. */
   advertiserId: string;
@@ -8945,13 +8944,13 @@ export const ReplaceAdvertisersNegativeKeywordListsNegativeKeywordsResponse = Re
 
 export type ReplaceAdvertisersNegativeKeywordListsNegativeKeywordsError = CommonErrors;
 
+/** Replaces all negative keywords in a single negative keyword list. The operation will replace the keywords in a negative keyword list with keywords provided in ReplaceNegativeKeywordsRequest.new_negative_keywords. */
 export const replaceAdvertisersNegativeKeywordListsNegativeKeywords: API.OperationMethod<ReplaceAdvertisersNegativeKeywordListsNegativeKeywordsRequest, ReplaceAdvertisersNegativeKeywordListsNegativeKeywordsResponse, ReplaceAdvertisersNegativeKeywordListsNegativeKeywordsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReplaceAdvertisersNegativeKeywordListsNegativeKeywordsRequest,
   output: ReplaceAdvertisersNegativeKeywordListsNegativeKeywordsResponse,
   errors: [],
 }));
 
-/** Gets a combined audience. */
 export interface GetCombinedAudiencesRequest {
   /** Required. The ID of the combined audience to fetch. */
   combinedAudienceId: string;
@@ -8975,13 +8974,13 @@ export const GetCombinedAudiencesResponse = CombinedAudience;
 
 export type GetCombinedAudiencesError = CommonErrors;
 
+/** Gets a combined audience. */
 export const getCombinedAudiences: API.OperationMethod<GetCombinedAudiencesRequest, GetCombinedAudiencesResponse, GetCombinedAudiencesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCombinedAudiencesRequest,
   output: GetCombinedAudiencesResponse,
   errors: [],
 }));
 
-/** Lists combined audiences. The order is defined by the order_by parameter. */
 export interface ListCombinedAudiencesRequest {
   /** The ID of the partner that has access to the fetched combined audiences. */
   partnerId?: string;
@@ -9014,7 +9013,8 @@ export const ListCombinedAudiencesResponse_Op = ListCombinedAudiencesResponse;
 
 export type ListCombinedAudiencesError = CommonErrors;
 
-export const listCombinedAudiences = API.makePaginated(() => ({
+/** Lists combined audiences. The order is defined by the order_by parameter. */
+export const listCombinedAudiences: API.PaginatedOperationMethod<ListCombinedAudiencesRequest, ListCombinedAudiencesResponse_Op, ListCombinedAudiencesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCombinedAudiencesRequest,
   output: ListCombinedAudiencesResponse_Op,
   errors: [],
@@ -9024,7 +9024,6 @@ export const listCombinedAudiences = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a rules reference object for an AlgorithmRules file. The resulting reference object provides a resource path where the AlgorithmRules file should be uploaded. This reference object should be included when creating a new CustomBiddingAlgorithmRules resource. */
 export interface UploadRulesCustomBiddingAlgorithmsRequest {
   /** Required. The ID of the custom bidding algorithm that owns the rules resource. */
   customBiddingAlgorithmId: string;
@@ -9048,13 +9047,13 @@ export const UploadRulesCustomBiddingAlgorithmsResponse = CustomBiddingAlgorithm
 
 export type UploadRulesCustomBiddingAlgorithmsError = CommonErrors;
 
+/** Creates a rules reference object for an AlgorithmRules file. The resulting reference object provides a resource path where the AlgorithmRules file should be uploaded. This reference object should be included when creating a new CustomBiddingAlgorithmRules resource. */
 export const uploadRulesCustomBiddingAlgorithms: API.OperationMethod<UploadRulesCustomBiddingAlgorithmsRequest, UploadRulesCustomBiddingAlgorithmsResponse, UploadRulesCustomBiddingAlgorithmsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadRulesCustomBiddingAlgorithmsRequest,
   output: UploadRulesCustomBiddingAlgorithmsResponse,
   errors: [],
 }));
 
-/** Gets a custom bidding algorithm. */
 export interface GetCustomBiddingAlgorithmsRequest {
   /** Required. The ID of the custom bidding algorithm to fetch. */
   customBiddingAlgorithmId: string;
@@ -9078,13 +9077,13 @@ export const GetCustomBiddingAlgorithmsResponse = CustomBiddingAlgorithm;
 
 export type GetCustomBiddingAlgorithmsError = CommonErrors;
 
+/** Gets a custom bidding algorithm. */
 export const getCustomBiddingAlgorithms: API.OperationMethod<GetCustomBiddingAlgorithmsRequest, GetCustomBiddingAlgorithmsResponse, GetCustomBiddingAlgorithmsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCustomBiddingAlgorithmsRequest,
   output: GetCustomBiddingAlgorithmsResponse,
   errors: [],
 }));
 
-/** Lists custom bidding algorithms that are accessible to the current user and can be used in bidding stratgies. The order is defined by the order_by parameter. */
 export interface ListCustomBiddingAlgorithmsRequest {
   /** The ID of the DV360 partner that has access to the custom bidding algorithm. */
   partnerId?: string;
@@ -9117,7 +9116,8 @@ export const ListCustomBiddingAlgorithmsResponse_Op = ListCustomBiddingAlgorithm
 
 export type ListCustomBiddingAlgorithmsError = CommonErrors;
 
-export const listCustomBiddingAlgorithms = API.makePaginated(() => ({
+/** Lists custom bidding algorithms that are accessible to the current user and can be used in bidding stratgies. The order is defined by the order_by parameter. */
+export const listCustomBiddingAlgorithms: API.PaginatedOperationMethod<ListCustomBiddingAlgorithmsRequest, ListCustomBiddingAlgorithmsResponse_Op, ListCustomBiddingAlgorithmsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCustomBiddingAlgorithmsRequest,
   output: ListCustomBiddingAlgorithmsResponse_Op,
   errors: [],
@@ -9127,7 +9127,6 @@ export const listCustomBiddingAlgorithms = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new custom bidding algorithm. Returns the newly created custom bidding algorithm if successful. */
 export interface CreateCustomBiddingAlgorithmsRequest {
   /** Request body */
   body?: CustomBiddingAlgorithm;
@@ -9145,13 +9144,13 @@ export const CreateCustomBiddingAlgorithmsResponse = CustomBiddingAlgorithm;
 
 export type CreateCustomBiddingAlgorithmsError = CommonErrors;
 
+/** Creates a new custom bidding algorithm. Returns the newly created custom bidding algorithm if successful. */
 export const createCustomBiddingAlgorithms: API.OperationMethod<CreateCustomBiddingAlgorithmsRequest, CreateCustomBiddingAlgorithmsResponse, CreateCustomBiddingAlgorithmsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateCustomBiddingAlgorithmsRequest,
   output: CreateCustomBiddingAlgorithmsResponse,
   errors: [],
 }));
 
-/** Updates an existing custom bidding algorithm. Returns the updated custom bidding algorithm if successful. Requests updating a custom bidding algorithm assigned to a line item will return an error. */
 export interface PatchCustomBiddingAlgorithmsRequest {
   /** Output only. The unique ID of the custom bidding algorithm. Assigned by the system. */
   customBiddingAlgorithmId: string;
@@ -9175,13 +9174,13 @@ export const PatchCustomBiddingAlgorithmsResponse = CustomBiddingAlgorithm;
 
 export type PatchCustomBiddingAlgorithmsError = CommonErrors;
 
+/** Updates an existing custom bidding algorithm. Returns the updated custom bidding algorithm if successful. Requests updating a custom bidding algorithm assigned to a line item will return an error. */
 export const patchCustomBiddingAlgorithms: API.OperationMethod<PatchCustomBiddingAlgorithmsRequest, PatchCustomBiddingAlgorithmsResponse, PatchCustomBiddingAlgorithmsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchCustomBiddingAlgorithmsRequest,
   output: PatchCustomBiddingAlgorithmsResponse,
   errors: [],
 }));
 
-/** Creates a custom bidding script reference object for a script file. The resulting reference object provides a resource path to which the script file should be uploaded. This reference object should be included in when creating a new custom bidding script object. */
 export interface UploadScriptCustomBiddingAlgorithmsRequest {
   /** Required. The ID of the custom bidding algorithm owns the script. */
   customBiddingAlgorithmId: string;
@@ -9205,13 +9204,13 @@ export const UploadScriptCustomBiddingAlgorithmsResponse = CustomBiddingScriptRe
 
 export type UploadScriptCustomBiddingAlgorithmsError = CommonErrors;
 
+/** Creates a custom bidding script reference object for a script file. The resulting reference object provides a resource path to which the script file should be uploaded. This reference object should be included in when creating a new custom bidding script object. */
 export const uploadScriptCustomBiddingAlgorithms: API.OperationMethod<UploadScriptCustomBiddingAlgorithmsRequest, UploadScriptCustomBiddingAlgorithmsResponse, UploadScriptCustomBiddingAlgorithmsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadScriptCustomBiddingAlgorithmsRequest,
   output: UploadScriptCustomBiddingAlgorithmsResponse,
   errors: [],
 }));
 
-/** Creates a new rules resource. Returns the newly created rules resource if successful. Requests creating a custom bidding rules resource under an algorithm assigned to a line item will return an error. */
 export interface CreateCustomBiddingAlgorithmsRulesRequest {
   /** Required. The ID of the custom bidding algorithm that owns the rules resource. */
   customBiddingAlgorithmId: string;
@@ -9238,13 +9237,13 @@ export const CreateCustomBiddingAlgorithmsRulesResponse = CustomBiddingAlgorithm
 
 export type CreateCustomBiddingAlgorithmsRulesError = CommonErrors;
 
+/** Creates a new rules resource. Returns the newly created rules resource if successful. Requests creating a custom bidding rules resource under an algorithm assigned to a line item will return an error. */
 export const createCustomBiddingAlgorithmsRules: API.OperationMethod<CreateCustomBiddingAlgorithmsRulesRequest, CreateCustomBiddingAlgorithmsRulesResponse, CreateCustomBiddingAlgorithmsRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateCustomBiddingAlgorithmsRulesRequest,
   output: CreateCustomBiddingAlgorithmsRulesResponse,
   errors: [],
 }));
 
-/** Retrieves a rules resource. */
 export interface GetCustomBiddingAlgorithmsRulesRequest {
   /** Required. The ID of the custom bidding algorithm that owns the rules resource. */
   customBiddingAlgorithmId: string;
@@ -9271,13 +9270,13 @@ export const GetCustomBiddingAlgorithmsRulesResponse = CustomBiddingAlgorithmRul
 
 export type GetCustomBiddingAlgorithmsRulesError = CommonErrors;
 
+/** Retrieves a rules resource. */
 export const getCustomBiddingAlgorithmsRules: API.OperationMethod<GetCustomBiddingAlgorithmsRulesRequest, GetCustomBiddingAlgorithmsRulesResponse, GetCustomBiddingAlgorithmsRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCustomBiddingAlgorithmsRulesRequest,
   output: GetCustomBiddingAlgorithmsRulesResponse,
   errors: [],
 }));
 
-/** Lists rules resources that belong to the given algorithm. The order is defined by the order_by parameter. */
 export interface ListCustomBiddingAlgorithmsRulesRequest {
   /** Required. The ID of the custom bidding algorithm that owns the rules resource. */
   customBiddingAlgorithmId: string;
@@ -9310,7 +9309,8 @@ export const ListCustomBiddingAlgorithmsRulesResponse = ListCustomBiddingAlgorit
 
 export type ListCustomBiddingAlgorithmsRulesError = CommonErrors;
 
-export const listCustomBiddingAlgorithmsRules = API.makePaginated(() => ({
+/** Lists rules resources that belong to the given algorithm. The order is defined by the order_by parameter. */
+export const listCustomBiddingAlgorithmsRules: API.PaginatedOperationMethod<ListCustomBiddingAlgorithmsRulesRequest, ListCustomBiddingAlgorithmsRulesResponse, ListCustomBiddingAlgorithmsRulesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCustomBiddingAlgorithmsRulesRequest,
   output: ListCustomBiddingAlgorithmsRulesResponse,
   errors: [],
@@ -9320,7 +9320,6 @@ export const listCustomBiddingAlgorithmsRules = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new custom bidding script. Returns the newly created script if successful. Requests creating a custom bidding script under an algorithm assigned to a line item will return an error. */
 export interface CreateCustomBiddingAlgorithmsScriptsRequest {
   /** Required. The ID of the custom bidding algorithm that owns the script. */
   customBiddingAlgorithmId: string;
@@ -9347,13 +9346,13 @@ export const CreateCustomBiddingAlgorithmsScriptsResponse = CustomBiddingScript;
 
 export type CreateCustomBiddingAlgorithmsScriptsError = CommonErrors;
 
+/** Creates a new custom bidding script. Returns the newly created script if successful. Requests creating a custom bidding script under an algorithm assigned to a line item will return an error. */
 export const createCustomBiddingAlgorithmsScripts: API.OperationMethod<CreateCustomBiddingAlgorithmsScriptsRequest, CreateCustomBiddingAlgorithmsScriptsResponse, CreateCustomBiddingAlgorithmsScriptsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateCustomBiddingAlgorithmsScriptsRequest,
   output: CreateCustomBiddingAlgorithmsScriptsResponse,
   errors: [],
 }));
 
-/** Gets a custom bidding script. */
 export interface GetCustomBiddingAlgorithmsScriptsRequest {
   /** Required. The ID of the custom bidding algorithm owns the script. */
   customBiddingAlgorithmId: string;
@@ -9380,13 +9379,13 @@ export const GetCustomBiddingAlgorithmsScriptsResponse = CustomBiddingScript;
 
 export type GetCustomBiddingAlgorithmsScriptsError = CommonErrors;
 
+/** Gets a custom bidding script. */
 export const getCustomBiddingAlgorithmsScripts: API.OperationMethod<GetCustomBiddingAlgorithmsScriptsRequest, GetCustomBiddingAlgorithmsScriptsResponse, GetCustomBiddingAlgorithmsScriptsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCustomBiddingAlgorithmsScriptsRequest,
   output: GetCustomBiddingAlgorithmsScriptsResponse,
   errors: [],
 }));
 
-/** Lists custom bidding scripts that belong to the given algorithm. The order is defined by the order_by parameter. */
 export interface ListCustomBiddingAlgorithmsScriptsRequest {
   /** Required. The ID of the custom bidding algorithm owns the script. */
   customBiddingAlgorithmId: string;
@@ -9419,7 +9418,8 @@ export const ListCustomBiddingAlgorithmsScriptsResponse = ListCustomBiddingScrip
 
 export type ListCustomBiddingAlgorithmsScriptsError = CommonErrors;
 
-export const listCustomBiddingAlgorithmsScripts = API.makePaginated(() => ({
+/** Lists custom bidding scripts that belong to the given algorithm. The order is defined by the order_by parameter. */
+export const listCustomBiddingAlgorithmsScripts: API.PaginatedOperationMethod<ListCustomBiddingAlgorithmsScriptsRequest, ListCustomBiddingAlgorithmsScriptsResponse, ListCustomBiddingAlgorithmsScriptsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCustomBiddingAlgorithmsScriptsRequest,
   output: ListCustomBiddingAlgorithmsScriptsResponse,
   errors: [],
@@ -9429,7 +9429,6 @@ export const listCustomBiddingAlgorithmsScripts = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a custom list. */
 export interface GetCustomListsRequest {
   /** Required. The ID of the custom list to fetch. */
   customListId: string;
@@ -9450,13 +9449,13 @@ export const GetCustomListsResponse = CustomList;
 
 export type GetCustomListsError = CommonErrors;
 
+/** Gets a custom list. */
 export const getCustomLists: API.OperationMethod<GetCustomListsRequest, GetCustomListsResponse, GetCustomListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCustomListsRequest,
   output: GetCustomListsResponse,
   errors: [],
 }));
 
-/** Lists custom lists. The order is defined by the order_by parameter. */
 export interface ListCustomListsRequest {
   /** The ID of the DV360 advertiser that has access to the fetched custom lists. */
   advertiserId?: string;
@@ -9486,7 +9485,8 @@ export const ListCustomListsResponse_Op = ListCustomListsResponse;
 
 export type ListCustomListsError = CommonErrors;
 
-export const listCustomLists = API.makePaginated(() => ({
+/** Lists custom lists. The order is defined by the order_by parameter. */
+export const listCustomLists: API.PaginatedOperationMethod<ListCustomListsRequest, ListCustomListsResponse_Op, ListCustomListsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCustomListsRequest,
   output: ListCustomListsResponse_Op,
   errors: [],
@@ -9496,7 +9496,6 @@ export const listCustomLists = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a first party or partner audience. */
 export interface GetFirstPartyAndPartnerAudiencesRequest {
   /** Required. The ID of the first party and partner audience to fetch. */
   firstPartyAndPartnerAudienceId: string;
@@ -9520,13 +9519,13 @@ export const GetFirstPartyAndPartnerAudiencesResponse = FirstPartyAndPartnerAudi
 
 export type GetFirstPartyAndPartnerAudiencesError = CommonErrors;
 
+/** Gets a first party or partner audience. */
 export const getFirstPartyAndPartnerAudiences: API.OperationMethod<GetFirstPartyAndPartnerAudiencesRequest, GetFirstPartyAndPartnerAudiencesResponse, GetFirstPartyAndPartnerAudiencesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFirstPartyAndPartnerAudiencesRequest,
   output: GetFirstPartyAndPartnerAudiencesResponse,
   errors: [],
 }));
 
-/** Lists first party and partner audiences. The order is defined by the order_by parameter. */
 export interface ListFirstPartyAndPartnerAudiencesRequest {
   /** The ID of the partner that has access to the fetched first party and partner audiences. */
   partnerId?: string;
@@ -9559,7 +9558,8 @@ export const ListFirstPartyAndPartnerAudiencesResponse_Op = ListFirstPartyAndPar
 
 export type ListFirstPartyAndPartnerAudiencesError = CommonErrors;
 
-export const listFirstPartyAndPartnerAudiences = API.makePaginated(() => ({
+/** Lists first party and partner audiences. The order is defined by the order_by parameter. */
+export const listFirstPartyAndPartnerAudiences: API.PaginatedOperationMethod<ListFirstPartyAndPartnerAudiencesRequest, ListFirstPartyAndPartnerAudiencesResponse_Op, ListFirstPartyAndPartnerAudiencesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFirstPartyAndPartnerAudiencesRequest,
   output: ListFirstPartyAndPartnerAudiencesResponse_Op,
   errors: [],
@@ -9569,7 +9569,6 @@ export const listFirstPartyAndPartnerAudiences = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a FirstPartyAndPartnerAudience. Only supported for the following audience_type: * `CUSTOMER_MATCH_CONTACT_INFO` * `CUSTOMER_MATCH_DEVICE_ID` */
 export interface CreateFirstPartyAndPartnerAudiencesRequest {
   /** Required. The ID of the advertiser under whom the FirstPartyAndPartnerAudience will be created. */
   advertiserId?: string;
@@ -9590,13 +9589,13 @@ export const CreateFirstPartyAndPartnerAudiencesResponse = FirstPartyAndPartnerA
 
 export type CreateFirstPartyAndPartnerAudiencesError = CommonErrors;
 
+/** Creates a FirstPartyAndPartnerAudience. Only supported for the following audience_type: * `CUSTOMER_MATCH_CONTACT_INFO` * `CUSTOMER_MATCH_DEVICE_ID` */
 export const createFirstPartyAndPartnerAudiences: API.OperationMethod<CreateFirstPartyAndPartnerAudiencesRequest, CreateFirstPartyAndPartnerAudiencesResponse, CreateFirstPartyAndPartnerAudiencesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateFirstPartyAndPartnerAudiencesRequest,
   output: CreateFirstPartyAndPartnerAudiencesResponse,
   errors: [],
 }));
 
-/** Updates an existing FirstPartyAndPartnerAudience. Only supported for the following audience_type: * `CUSTOMER_MATCH_CONTACT_INFO` * `CUSTOMER_MATCH_DEVICE_ID` */
 export interface PatchFirstPartyAndPartnerAudiencesRequest {
   /** Identifier. The unique ID of the first party and partner audience. Assigned by the system. */
   firstPartyAndPartnerAudienceId: string;
@@ -9623,13 +9622,13 @@ export const PatchFirstPartyAndPartnerAudiencesResponse = FirstPartyAndPartnerAu
 
 export type PatchFirstPartyAndPartnerAudiencesError = CommonErrors;
 
+/** Updates an existing FirstPartyAndPartnerAudience. Only supported for the following audience_type: * `CUSTOMER_MATCH_CONTACT_INFO` * `CUSTOMER_MATCH_DEVICE_ID` */
 export const patchFirstPartyAndPartnerAudiences: API.OperationMethod<PatchFirstPartyAndPartnerAudiencesRequest, PatchFirstPartyAndPartnerAudiencesResponse, PatchFirstPartyAndPartnerAudiencesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchFirstPartyAndPartnerAudiencesRequest,
   output: PatchFirstPartyAndPartnerAudiencesResponse,
   errors: [],
 }));
 
-/** Updates the member list of a Customer Match audience. Only supported for the following audience_type: * `CUSTOMER_MATCH_CONTACT_INFO` * `CUSTOMER_MATCH_DEVICE_ID` */
 export interface EditCustomerMatchMembersFirstPartyAndPartnerAudiencesRequest {
   /** Required. The ID of the Customer Match FirstPartyAndPartnerAudience whose members will be edited. */
   firstPartyAndPartnerAudienceId: string;
@@ -9650,13 +9649,13 @@ export const EditCustomerMatchMembersFirstPartyAndPartnerAudiencesResponse = Edi
 
 export type EditCustomerMatchMembersFirstPartyAndPartnerAudiencesError = CommonErrors;
 
+/** Updates the member list of a Customer Match audience. Only supported for the following audience_type: * `CUSTOMER_MATCH_CONTACT_INFO` * `CUSTOMER_MATCH_DEVICE_ID` */
 export const editCustomerMatchMembersFirstPartyAndPartnerAudiences: API.OperationMethod<EditCustomerMatchMembersFirstPartyAndPartnerAudiencesRequest, EditCustomerMatchMembersFirstPartyAndPartnerAudiencesResponse, EditCustomerMatchMembersFirstPartyAndPartnerAudiencesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EditCustomerMatchMembersFirstPartyAndPartnerAudiencesRequest,
   output: EditCustomerMatchMembersFirstPartyAndPartnerAudiencesResponse,
   errors: [],
 }));
 
-/** Gets a Floodlight group. */
 export interface GetFloodlightGroupsRequest {
   /** Required. The ID of the Floodlight group to fetch. */
   floodlightGroupId: string;
@@ -9677,13 +9676,13 @@ export const GetFloodlightGroupsResponse = FloodlightGroup;
 
 export type GetFloodlightGroupsError = CommonErrors;
 
+/** Gets a Floodlight group. */
 export const getFloodlightGroups: API.OperationMethod<GetFloodlightGroupsRequest, GetFloodlightGroupsResponse, GetFloodlightGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFloodlightGroupsRequest,
   output: GetFloodlightGroupsResponse,
   errors: [],
 }));
 
-/** Updates an existing Floodlight group. Returns the updated Floodlight group if successful. */
 export interface PatchFloodlightGroupsRequest {
   /** Output only. The unique ID of the Floodlight group. Assigned by the system. */
   floodlightGroupId: string;
@@ -9710,13 +9709,13 @@ export const PatchFloodlightGroupsResponse = FloodlightGroup;
 
 export type PatchFloodlightGroupsError = CommonErrors;
 
+/** Updates an existing Floodlight group. Returns the updated Floodlight group if successful. */
 export const patchFloodlightGroups: API.OperationMethod<PatchFloodlightGroupsRequest, PatchFloodlightGroupsResponse, PatchFloodlightGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchFloodlightGroupsRequest,
   output: PatchFloodlightGroupsResponse,
   errors: [],
 }));
 
-/** Gets a Floodlight activity. */
 export interface GetFloodlightGroupsFloodlightActivitiesRequest {
   /** Required. The ID of the parent Floodlight group to which the requested Floodlight activity belongs. */
   floodlightGroupId: string;
@@ -9740,13 +9739,13 @@ export const GetFloodlightGroupsFloodlightActivitiesResponse = FloodlightActivit
 
 export type GetFloodlightGroupsFloodlightActivitiesError = CommonErrors;
 
+/** Gets a Floodlight activity. */
 export const getFloodlightGroupsFloodlightActivities: API.OperationMethod<GetFloodlightGroupsFloodlightActivitiesRequest, GetFloodlightGroupsFloodlightActivitiesResponse, GetFloodlightGroupsFloodlightActivitiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFloodlightGroupsFloodlightActivitiesRequest,
   output: GetFloodlightGroupsFloodlightActivitiesResponse,
   errors: [],
 }));
 
-/** Lists Floodlight activities in a Floodlight group. */
 export interface ListFloodlightGroupsFloodlightActivitiesRequest {
   /** Required. The ID of the parent Floodlight group to which the requested Floodlight activities belong. */
   floodlightGroupId: string;
@@ -9776,7 +9775,8 @@ export const ListFloodlightGroupsFloodlightActivitiesResponse = ListFloodlightAc
 
 export type ListFloodlightGroupsFloodlightActivitiesError = CommonErrors;
 
-export const listFloodlightGroupsFloodlightActivities = API.makePaginated(() => ({
+/** Lists Floodlight activities in a Floodlight group. */
+export const listFloodlightGroupsFloodlightActivities: API.PaginatedOperationMethod<ListFloodlightGroupsFloodlightActivitiesRequest, ListFloodlightGroupsFloodlightActivitiesResponse, ListFloodlightGroupsFloodlightActivitiesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFloodlightGroupsFloodlightActivitiesRequest,
   output: ListFloodlightGroupsFloodlightActivitiesResponse,
   errors: [],
@@ -9786,7 +9786,6 @@ export const listFloodlightGroupsFloodlightActivities = API.makePaginated(() => 
   },
 }));
 
-/** Gets a Google audience. */
 export interface GetGoogleAudiencesRequest {
   /** Required. The ID of the Google audience to fetch. */
   googleAudienceId: string;
@@ -9810,13 +9809,13 @@ export const GetGoogleAudiencesResponse = GoogleAudience;
 
 export type GetGoogleAudiencesError = CommonErrors;
 
+/** Gets a Google audience. */
 export const getGoogleAudiences: API.OperationMethod<GetGoogleAudiencesRequest, GetGoogleAudiencesResponse, GetGoogleAudiencesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetGoogleAudiencesRequest,
   output: GetGoogleAudiencesResponse,
   errors: [],
 }));
 
-/** Lists Google audiences. The order is defined by the order_by parameter. */
 export interface ListGoogleAudiencesRequest {
   /** The ID of the partner that has access to the fetched Google audiences. */
   partnerId?: string;
@@ -9849,7 +9848,8 @@ export const ListGoogleAudiencesResponse_Op = ListGoogleAudiencesResponse;
 
 export type ListGoogleAudiencesError = CommonErrors;
 
-export const listGoogleAudiences = API.makePaginated(() => ({
+/** Lists Google audiences. The order is defined by the order_by parameter. */
+export const listGoogleAudiences: API.PaginatedOperationMethod<ListGoogleAudiencesRequest, ListGoogleAudiencesResponse_Op, ListGoogleAudiencesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListGoogleAudiencesRequest,
   output: ListGoogleAudiencesResponse_Op,
   errors: [],
@@ -9859,7 +9859,6 @@ export const listGoogleAudiences = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new guaranteed order. Returns the newly created guaranteed order if successful. */
 export interface CreateGuaranteedOrdersRequest {
   /** The ID of the partner that the request is being made within. */
   partnerId?: string;
@@ -9883,13 +9882,13 @@ export const CreateGuaranteedOrdersResponse = GuaranteedOrder;
 
 export type CreateGuaranteedOrdersError = CommonErrors;
 
+/** Creates a new guaranteed order. Returns the newly created guaranteed order if successful. */
 export const createGuaranteedOrders: API.OperationMethod<CreateGuaranteedOrdersRequest, CreateGuaranteedOrdersResponse, CreateGuaranteedOrdersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateGuaranteedOrdersRequest,
   output: CreateGuaranteedOrdersResponse,
   errors: [],
 }));
 
-/** Gets a guaranteed order. */
 export interface GetGuaranteedOrdersRequest {
   /** Required. The ID of the guaranteed order to fetch. The ID is of the format `{exchange}-{legacy_guaranteed_order_id}` */
   guaranteedOrderId: string;
@@ -9913,13 +9912,13 @@ export const GetGuaranteedOrdersResponse = GuaranteedOrder;
 
 export type GetGuaranteedOrdersError = CommonErrors;
 
+/** Gets a guaranteed order. */
 export const getGuaranteedOrders: API.OperationMethod<GetGuaranteedOrdersRequest, GetGuaranteedOrdersResponse, GetGuaranteedOrdersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetGuaranteedOrdersRequest,
   output: GetGuaranteedOrdersResponse,
   errors: [],
 }));
 
-/** Lists guaranteed orders that are accessible to the current user. The order is defined by the order_by parameter. If a filter by entity_status is not specified, guaranteed orders with entity status `ENTITY_STATUS_ARCHIVED` will not be included in the results. */
 export interface ListGuaranteedOrdersRequest {
   /** The ID of the partner that has access to the guaranteed order. */
   partnerId?: string;
@@ -9952,7 +9951,8 @@ export const ListGuaranteedOrdersResponse_Op = ListGuaranteedOrdersResponse;
 
 export type ListGuaranteedOrdersError = CommonErrors;
 
-export const listGuaranteedOrders = API.makePaginated(() => ({
+/** Lists guaranteed orders that are accessible to the current user. The order is defined by the order_by parameter. If a filter by entity_status is not specified, guaranteed orders with entity status `ENTITY_STATUS_ARCHIVED` will not be included in the results. */
+export const listGuaranteedOrders: API.PaginatedOperationMethod<ListGuaranteedOrdersRequest, ListGuaranteedOrdersResponse_Op, ListGuaranteedOrdersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListGuaranteedOrdersRequest,
   output: ListGuaranteedOrdersResponse_Op,
   errors: [],
@@ -9962,7 +9962,6 @@ export const listGuaranteedOrders = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing guaranteed order. Returns the updated guaranteed order if successful. */
 export interface PatchGuaranteedOrdersRequest {
   /** Output only. The unique identifier of the guaranteed order. The guaranteed order IDs have the format `{exchange}-{legacy_guaranteed_order_id}`. */
   guaranteedOrderId: string;
@@ -9992,13 +9991,13 @@ export const PatchGuaranteedOrdersResponse = GuaranteedOrder;
 
 export type PatchGuaranteedOrdersError = CommonErrors;
 
+/** Updates an existing guaranteed order. Returns the updated guaranteed order if successful. */
 export const patchGuaranteedOrders: API.OperationMethod<PatchGuaranteedOrdersRequest, PatchGuaranteedOrdersResponse, PatchGuaranteedOrdersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchGuaranteedOrdersRequest,
   output: PatchGuaranteedOrdersResponse,
   errors: [],
 }));
 
-/** Edits read advertisers of a guaranteed order. */
 export interface EditGuaranteedOrderReadAccessorsGuaranteedOrdersRequest {
   /** Required. The ID of the guaranteed order to edit. The ID is of the format `{exchange}-{legacy_guaranteed_order_id}` */
   guaranteedOrderId: string;
@@ -10019,13 +10018,13 @@ export const EditGuaranteedOrderReadAccessorsGuaranteedOrdersResponse = EditGuar
 
 export type EditGuaranteedOrderReadAccessorsGuaranteedOrdersError = CommonErrors;
 
+/** Edits read advertisers of a guaranteed order. */
 export const editGuaranteedOrderReadAccessorsGuaranteedOrders: API.OperationMethod<EditGuaranteedOrderReadAccessorsGuaranteedOrdersRequest, EditGuaranteedOrderReadAccessorsGuaranteedOrdersResponse, EditGuaranteedOrderReadAccessorsGuaranteedOrdersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EditGuaranteedOrderReadAccessorsGuaranteedOrdersRequest,
   output: EditGuaranteedOrderReadAccessorsGuaranteedOrdersResponse,
   errors: [],
 }));
 
-/** Gets an inventory source group. */
 export interface GetInventorySourceGroupsRequest {
   /** Required. The ID of the inventory source group to fetch. */
   inventorySourceGroupId: string;
@@ -10049,13 +10048,13 @@ export const GetInventorySourceGroupsResponse = InventorySourceGroup;
 
 export type GetInventorySourceGroupsError = CommonErrors;
 
+/** Gets an inventory source group. */
 export const getInventorySourceGroups: API.OperationMethod<GetInventorySourceGroupsRequest, GetInventorySourceGroupsResponse, GetInventorySourceGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetInventorySourceGroupsRequest,
   output: GetInventorySourceGroupsResponse,
   errors: [],
 }));
 
-/** Lists inventory source groups that are accessible to the current user. The order is defined by the order_by parameter. */
 export interface ListInventorySourceGroupsRequest {
   /** The ID of the partner that has access to the inventory source group. A partner cannot access advertiser-owned inventory source groups. */
   partnerId?: string;
@@ -10088,7 +10087,8 @@ export const ListInventorySourceGroupsResponse_Op = ListInventorySourceGroupsRes
 
 export type ListInventorySourceGroupsError = CommonErrors;
 
-export const listInventorySourceGroups = API.makePaginated(() => ({
+/** Lists inventory source groups that are accessible to the current user. The order is defined by the order_by parameter. */
+export const listInventorySourceGroups: API.PaginatedOperationMethod<ListInventorySourceGroupsRequest, ListInventorySourceGroupsResponse_Op, ListInventorySourceGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListInventorySourceGroupsRequest,
   output: ListInventorySourceGroupsResponse_Op,
   errors: [],
@@ -10098,7 +10098,6 @@ export const listInventorySourceGroups = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new inventory source group. Returns the newly created inventory source group if successful. */
 export interface CreateInventorySourceGroupsRequest {
   /** The ID of the partner that owns the inventory source group. Only this partner will have write access to this group. Only advertisers to which this group is explicitly shared will have read access to this group. */
   partnerId?: string;
@@ -10122,13 +10121,13 @@ export const CreateInventorySourceGroupsResponse = InventorySourceGroup;
 
 export type CreateInventorySourceGroupsError = CommonErrors;
 
+/** Creates a new inventory source group. Returns the newly created inventory source group if successful. */
 export const createInventorySourceGroups: API.OperationMethod<CreateInventorySourceGroupsRequest, CreateInventorySourceGroupsResponse, CreateInventorySourceGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateInventorySourceGroupsRequest,
   output: CreateInventorySourceGroupsResponse,
   errors: [],
 }));
 
-/** Updates an inventory source group. Returns the updated inventory source group if successful. */
 export interface PatchInventorySourceGroupsRequest {
   /** Output only. The unique ID of the inventory source group. Assigned by the system. */
   inventorySourceGroupId: string;
@@ -10158,13 +10157,13 @@ export const PatchInventorySourceGroupsResponse = InventorySourceGroup;
 
 export type PatchInventorySourceGroupsError = CommonErrors;
 
+/** Updates an inventory source group. Returns the updated inventory source group if successful. */
 export const patchInventorySourceGroups: API.OperationMethod<PatchInventorySourceGroupsRequest, PatchInventorySourceGroupsResponse, PatchInventorySourceGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchInventorySourceGroupsRequest,
   output: PatchInventorySourceGroupsResponse,
   errors: [],
 }));
 
-/** Deletes an inventory source group. */
 export interface DeleteInventorySourceGroupsRequest {
   /** Required. The ID of the inventory source group to delete. */
   inventorySourceGroupId: string;
@@ -10188,13 +10187,13 @@ export const DeleteInventorySourceGroupsResponse = Empty;
 
 export type DeleteInventorySourceGroupsError = CommonErrors;
 
+/** Deletes an inventory source group. */
 export const deleteInventorySourceGroups: API.OperationMethod<DeleteInventorySourceGroupsRequest, DeleteInventorySourceGroupsResponse, DeleteInventorySourceGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteInventorySourceGroupsRequest,
   output: DeleteInventorySourceGroupsResponse,
   errors: [],
 }));
 
-/** Lists inventory sources assigned to an inventory source group. */
 export interface ListInventorySourceGroupsAssignedInventorySourcesRequest {
   /** Required. The ID of the inventory source group to which these assignments are assigned. */
   inventorySourceGroupId: string;
@@ -10230,7 +10229,8 @@ export const ListInventorySourceGroupsAssignedInventorySourcesResponse = ListAss
 
 export type ListInventorySourceGroupsAssignedInventorySourcesError = CommonErrors;
 
-export const listInventorySourceGroupsAssignedInventorySources = API.makePaginated(() => ({
+/** Lists inventory sources assigned to an inventory source group. */
+export const listInventorySourceGroupsAssignedInventorySources: API.PaginatedOperationMethod<ListInventorySourceGroupsAssignedInventorySourcesRequest, ListInventorySourceGroupsAssignedInventorySourcesResponse, ListInventorySourceGroupsAssignedInventorySourcesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListInventorySourceGroupsAssignedInventorySourcesRequest,
   output: ListInventorySourceGroupsAssignedInventorySourcesResponse,
   errors: [],
@@ -10240,7 +10240,6 @@ export const listInventorySourceGroupsAssignedInventorySources = API.makePaginat
   },
 }));
 
-/** Creates an assignment between an inventory source and an inventory source group. */
 export interface CreateInventorySourceGroupsAssignedInventorySourcesRequest {
   /** Required. The ID of the inventory source group to which the assignment will be assigned. */
   inventorySourceGroupId: string;
@@ -10267,13 +10266,13 @@ export const CreateInventorySourceGroupsAssignedInventorySourcesResponse = Assig
 
 export type CreateInventorySourceGroupsAssignedInventorySourcesError = CommonErrors;
 
+/** Creates an assignment between an inventory source and an inventory source group. */
 export const createInventorySourceGroupsAssignedInventorySources: API.OperationMethod<CreateInventorySourceGroupsAssignedInventorySourcesRequest, CreateInventorySourceGroupsAssignedInventorySourcesResponse, CreateInventorySourceGroupsAssignedInventorySourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateInventorySourceGroupsAssignedInventorySourcesRequest,
   output: CreateInventorySourceGroupsAssignedInventorySourcesResponse,
   errors: [],
 }));
 
-/** Deletes the assignment between an inventory source and an inventory source group. */
 export interface DeleteInventorySourceGroupsAssignedInventorySourcesRequest {
   /** Required. The ID of the inventory source group to which this assignment is assigned. */
   inventorySourceGroupId: string;
@@ -10300,13 +10299,13 @@ export const DeleteInventorySourceGroupsAssignedInventorySourcesResponse = Empty
 
 export type DeleteInventorySourceGroupsAssignedInventorySourcesError = CommonErrors;
 
+/** Deletes the assignment between an inventory source and an inventory source group. */
 export const deleteInventorySourceGroupsAssignedInventorySources: API.OperationMethod<DeleteInventorySourceGroupsAssignedInventorySourcesRequest, DeleteInventorySourceGroupsAssignedInventorySourcesResponse, DeleteInventorySourceGroupsAssignedInventorySourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteInventorySourceGroupsAssignedInventorySourcesRequest,
   output: DeleteInventorySourceGroupsAssignedInventorySourcesResponse,
   errors: [],
 }));
 
-/** Bulk edits multiple assignments between inventory sources and a single inventory source group. The operation will delete the assigned inventory sources provided in BulkEditAssignedInventorySourcesRequest.deleted_assigned_inventory_sources and then create the assigned inventory sources provided in BulkEditAssignedInventorySourcesRequest.created_assigned_inventory_sources. */
 export interface BulkEditInventorySourceGroupsAssignedInventorySourcesRequest {
   /** Required. The ID of the inventory source group to which the assignments are assigned. */
   inventorySourceGroupId: string;
@@ -10327,13 +10326,13 @@ export const BulkEditInventorySourceGroupsAssignedInventorySourcesResponse = Bul
 
 export type BulkEditInventorySourceGroupsAssignedInventorySourcesError = CommonErrors;
 
+/** Bulk edits multiple assignments between inventory sources and a single inventory source group. The operation will delete the assigned inventory sources provided in BulkEditAssignedInventorySourcesRequest.deleted_assigned_inventory_sources and then create the assigned inventory sources provided in BulkEditAssignedInventorySourcesRequest.created_assigned_inventory_sources. */
 export const bulkEditInventorySourceGroupsAssignedInventorySources: API.OperationMethod<BulkEditInventorySourceGroupsAssignedInventorySourcesRequest, BulkEditInventorySourceGroupsAssignedInventorySourcesResponse, BulkEditInventorySourceGroupsAssignedInventorySourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BulkEditInventorySourceGroupsAssignedInventorySourcesRequest,
   output: BulkEditInventorySourceGroupsAssignedInventorySourcesResponse,
   errors: [],
 }));
 
-/** Gets an inventory source. */
 export interface GetInventorySourcesRequest {
   /** Required. The ID of the inventory source to fetch. */
   inventorySourceId: string;
@@ -10357,13 +10356,13 @@ export const GetInventorySourcesResponse = InventorySource;
 
 export type GetInventorySourcesError = CommonErrors;
 
+/** Gets an inventory source. */
 export const getInventorySources: API.OperationMethod<GetInventorySourcesRequest, GetInventorySourcesResponse, GetInventorySourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetInventorySourcesRequest,
   output: GetInventorySourcesResponse,
   errors: [],
 }));
 
-/** Lists inventory sources that are accessible to the current user. The order is defined by the order_by parameter. If a filter by entity_status is not specified, inventory sources with entity status `ENTITY_STATUS_ARCHIVED` will not be included in the results. */
 export interface ListInventorySourcesRequest {
   /** The ID of the partner that has access to the inventory source. */
   partnerId?: string;
@@ -10396,7 +10395,8 @@ export const ListInventorySourcesResponse_Op = ListInventorySourcesResponse;
 
 export type ListInventorySourcesError = CommonErrors;
 
-export const listInventorySources = API.makePaginated(() => ({
+/** Lists inventory sources that are accessible to the current user. The order is defined by the order_by parameter. If a filter by entity_status is not specified, inventory sources with entity status `ENTITY_STATUS_ARCHIVED` will not be included in the results. */
+export const listInventorySources: API.PaginatedOperationMethod<ListInventorySourcesRequest, ListInventorySourcesResponse_Op, ListInventorySourcesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListInventorySourcesRequest,
   output: ListInventorySourcesResponse_Op,
   errors: [],
@@ -10406,7 +10406,6 @@ export const listInventorySources = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new inventory source. Returns the newly created inventory source if successful. */
 export interface CreateInventorySourcesRequest {
   /** The ID of the partner that the request is being made within. */
   partnerId?: string;
@@ -10430,13 +10429,13 @@ export const CreateInventorySourcesResponse = InventorySource;
 
 export type CreateInventorySourcesError = CommonErrors;
 
+/** Creates a new inventory source. Returns the newly created inventory source if successful. */
 export const createInventorySources: API.OperationMethod<CreateInventorySourcesRequest, CreateInventorySourcesResponse, CreateInventorySourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateInventorySourcesRequest,
   output: CreateInventorySourcesResponse,
   errors: [],
 }));
 
-/** Updates an existing inventory source. Returns the updated inventory source if successful. */
 export interface PatchInventorySourcesRequest {
   /** Output only. The unique ID of the inventory source. Assigned by the system. */
   inventorySourceId: string;
@@ -10466,13 +10465,13 @@ export const PatchInventorySourcesResponse = InventorySource;
 
 export type PatchInventorySourcesError = CommonErrors;
 
+/** Updates an existing inventory source. Returns the updated inventory source if successful. */
 export const patchInventorySources: API.OperationMethod<PatchInventorySourcesRequest, PatchInventorySourcesResponse, PatchInventorySourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchInventorySourcesRequest,
   output: PatchInventorySourcesResponse,
   errors: [],
 }));
 
-/** Edits read/write accessors of an inventory source. Returns the updated read_write_accessors for the inventory source. */
 export interface EditInventorySourceReadWriteAccessorsInventorySourcesRequest {
   /** Required. The ID of inventory source to update. */
   inventorySourceId: string;
@@ -10493,13 +10492,13 @@ export const EditInventorySourceReadWriteAccessorsInventorySourcesResponse = Inv
 
 export type EditInventorySourceReadWriteAccessorsInventorySourcesError = CommonErrors;
 
+/** Edits read/write accessors of an inventory source. Returns the updated read_write_accessors for the inventory source. */
 export const editInventorySourceReadWriteAccessorsInventorySources: API.OperationMethod<EditInventorySourceReadWriteAccessorsInventorySourcesRequest, EditInventorySourceReadWriteAccessorsInventorySourcesResponse, EditInventorySourceReadWriteAccessorsInventorySourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EditInventorySourceReadWriteAccessorsInventorySourcesRequest,
   output: EditInventorySourceReadWriteAccessorsInventorySourcesResponse,
   errors: [],
 }));
 
-/** Edits targeting options under a single partner. The operation will delete the assigned targeting options provided in BulkEditPartnerAssignedTargetingOptionsRequest.deleteRequests and then create the assigned targeting options provided in BulkEditPartnerAssignedTargetingOptionsRequest.createRequests . */
 export interface EditAssignedTargetingOptionsPartnersRequest {
   /** Required. The ID of the partner. */
   partnerId: string;
@@ -10520,13 +10519,13 @@ export const EditAssignedTargetingOptionsPartnersResponse = BulkEditPartnerAssig
 
 export type EditAssignedTargetingOptionsPartnersError = CommonErrors;
 
+/** Edits targeting options under a single partner. The operation will delete the assigned targeting options provided in BulkEditPartnerAssignedTargetingOptionsRequest.deleteRequests and then create the assigned targeting options provided in BulkEditPartnerAssignedTargetingOptionsRequest.createRequests . */
 export const editAssignedTargetingOptionsPartners: API.OperationMethod<EditAssignedTargetingOptionsPartnersRequest, EditAssignedTargetingOptionsPartnersResponse, EditAssignedTargetingOptionsPartnersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EditAssignedTargetingOptionsPartnersRequest,
   output: EditAssignedTargetingOptionsPartnersResponse,
   errors: [],
 }));
 
-/** Gets a partner. */
 export interface GetPartnersRequest {
   /** Required. The ID of the partner to fetch. */
   partnerId: string;
@@ -10544,13 +10543,13 @@ export const GetPartnersResponse = Partner;
 
 export type GetPartnersError = CommonErrors;
 
+/** Gets a partner. */
 export const getPartners: API.OperationMethod<GetPartnersRequest, GetPartnersResponse, GetPartnersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPartnersRequest,
   output: GetPartnersResponse,
   errors: [],
 }));
 
-/** Lists partners that are accessible to the current user. The order is defined by the order_by parameter. */
 export interface ListPartnersRequest {
   /** Requested page size. Must be between `1` and `200`. If unspecified will default to `100`. */
   pageSize?: number;
@@ -10577,7 +10576,8 @@ export const ListPartnersResponse_Op = ListPartnersResponse;
 
 export type ListPartnersError = CommonErrors;
 
-export const listPartners = API.makePaginated(() => ({
+/** Lists partners that are accessible to the current user. The order is defined by the order_by parameter. */
+export const listPartners: API.PaginatedOperationMethod<ListPartnersRequest, ListPartnersResponse_Op, ListPartnersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPartnersRequest,
   output: ListPartnersResponse_Op,
   errors: [],
@@ -10587,7 +10587,6 @@ export const listPartners = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a channel for a partner or advertiser. */
 export interface GetPartnersChannelsRequest {
   /** The ID of the partner that owns the fetched channel. */
   partnerId: string;
@@ -10611,13 +10610,13 @@ export const GetPartnersChannelsResponse = Channel;
 
 export type GetPartnersChannelsError = CommonErrors;
 
+/** Gets a channel for a partner or advertiser. */
 export const getPartnersChannels: API.OperationMethod<GetPartnersChannelsRequest, GetPartnersChannelsResponse, GetPartnersChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPartnersChannelsRequest,
   output: GetPartnersChannelsResponse,
   errors: [],
 }));
 
-/** Lists channels for a partner or advertiser. */
 export interface ListPartnersChannelsRequest {
   /** The ID of the partner that owns the channels. */
   partnerId: string;
@@ -10650,7 +10649,8 @@ export const ListPartnersChannelsResponse = ListChannelsResponse;
 
 export type ListPartnersChannelsError = CommonErrors;
 
-export const listPartnersChannels = API.makePaginated(() => ({
+/** Lists channels for a partner or advertiser. */
+export const listPartnersChannels: API.PaginatedOperationMethod<ListPartnersChannelsRequest, ListPartnersChannelsResponse, ListPartnersChannelsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPartnersChannelsRequest,
   output: ListPartnersChannelsResponse,
   errors: [],
@@ -10660,7 +10660,6 @@ export const listPartnersChannels = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new channel. Returns the newly created channel if successful. */
 export interface CreatePartnersChannelsRequest {
   /** The ID of the partner that owns the created channel. */
   partnerId: string;
@@ -10684,13 +10683,13 @@ export const CreatePartnersChannelsResponse = Channel;
 
 export type CreatePartnersChannelsError = CommonErrors;
 
+/** Creates a new channel. Returns the newly created channel if successful. */
 export const createPartnersChannels: API.OperationMethod<CreatePartnersChannelsRequest, CreatePartnersChannelsResponse, CreatePartnersChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreatePartnersChannelsRequest,
   output: CreatePartnersChannelsResponse,
   errors: [],
 }));
 
-/** Updates a channel. Returns the updated channel if successful. */
 export interface PatchPartnersChannelsRequest {
   /** The ID of the partner that owns the created channel. */
   partnerId: string;
@@ -10720,13 +10719,13 @@ export const PatchPartnersChannelsResponse = Channel;
 
 export type PatchPartnersChannelsError = CommonErrors;
 
+/** Updates a channel. Returns the updated channel if successful. */
 export const patchPartnersChannels: API.OperationMethod<PatchPartnersChannelsRequest, PatchPartnersChannelsResponse, PatchPartnersChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchPartnersChannelsRequest,
   output: PatchPartnersChannelsResponse,
   errors: [],
 }));
 
-/** Lists sites in a channel. */
 export interface ListPartnersChannelsSitesRequest {
   /** The ID of the partner that owns the parent channel. */
   partnerId: string;
@@ -10762,7 +10761,8 @@ export const ListPartnersChannelsSitesResponse = ListSitesResponse;
 
 export type ListPartnersChannelsSitesError = CommonErrors;
 
-export const listPartnersChannelsSites = API.makePaginated(() => ({
+/** Lists sites in a channel. */
+export const listPartnersChannelsSites: API.PaginatedOperationMethod<ListPartnersChannelsSitesRequest, ListPartnersChannelsSitesResponse, ListPartnersChannelsSitesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPartnersChannelsSitesRequest,
   output: ListPartnersChannelsSitesResponse,
   errors: [],
@@ -10772,7 +10772,6 @@ export const listPartnersChannelsSites = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a site in a channel. */
 export interface CreatePartnersChannelsSitesRequest {
   /** The ID of the partner that owns the parent channel. */
   partnerId: string;
@@ -10799,13 +10798,13 @@ export const CreatePartnersChannelsSitesResponse = Site;
 
 export type CreatePartnersChannelsSitesError = CommonErrors;
 
+/** Creates a site in a channel. */
 export const createPartnersChannelsSites: API.OperationMethod<CreatePartnersChannelsSitesRequest, CreatePartnersChannelsSitesResponse, CreatePartnersChannelsSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreatePartnersChannelsSitesRequest,
   output: CreatePartnersChannelsSitesResponse,
   errors: [],
 }));
 
-/** Deletes a site from a channel. */
 export interface DeletePartnersChannelsSitesRequest {
   /** The ID of the partner that owns the parent channel. */
   partnerId: string;
@@ -10832,13 +10831,13 @@ export const DeletePartnersChannelsSitesResponse = Empty;
 
 export type DeletePartnersChannelsSitesError = CommonErrors;
 
+/** Deletes a site from a channel. */
 export const deletePartnersChannelsSites: API.OperationMethod<DeletePartnersChannelsSitesRequest, DeletePartnersChannelsSitesResponse, DeletePartnersChannelsSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeletePartnersChannelsSitesRequest,
   output: DeletePartnersChannelsSitesResponse,
   errors: [],
 }));
 
-/** Bulk edits sites under a single channel. The operation will delete the sites provided in BulkEditSitesRequest.deleted_sites and then create the sites provided in BulkEditSitesRequest.created_sites. */
 export interface BulkEditPartnersChannelsSitesRequest {
   /** The ID of the partner that owns the parent channel. */
   partnerId: string;
@@ -10862,13 +10861,13 @@ export const BulkEditPartnersChannelsSitesResponse = BulkEditSitesResponse;
 
 export type BulkEditPartnersChannelsSitesError = CommonErrors;
 
+/** Bulk edits sites under a single channel. The operation will delete the sites provided in BulkEditSitesRequest.deleted_sites and then create the sites provided in BulkEditSitesRequest.created_sites. */
 export const bulkEditPartnersChannelsSites: API.OperationMethod<BulkEditPartnersChannelsSitesRequest, BulkEditPartnersChannelsSitesResponse, BulkEditPartnersChannelsSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BulkEditPartnersChannelsSitesRequest,
   output: BulkEditPartnersChannelsSitesResponse,
   errors: [],
 }));
 
-/** Replaces all of the sites under a single channel. The operation will replace the sites under a channel with the sites provided in ReplaceSitesRequest.new_sites. **This method regularly experiences high latency.** We recommend [increasing your default timeout](/display-video/api/guides/best-practices/timeouts#client_library_timeout) to avoid errors. */
 export interface ReplacePartnersChannelsSitesRequest {
   /** The ID of the partner that owns the parent channel. */
   partnerId: string;
@@ -10892,13 +10891,13 @@ export const ReplacePartnersChannelsSitesResponse = ReplaceSitesResponse;
 
 export type ReplacePartnersChannelsSitesError = CommonErrors;
 
+/** Replaces all of the sites under a single channel. The operation will replace the sites under a channel with the sites provided in ReplaceSitesRequest.new_sites. **This method regularly experiences high latency.** We recommend [increasing your default timeout](/display-video/api/guides/best-practices/timeouts#client_library_timeout) to avoid errors. */
 export const replacePartnersChannelsSites: API.OperationMethod<ReplacePartnersChannelsSitesRequest, ReplacePartnersChannelsSitesResponse, ReplacePartnersChannelsSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReplacePartnersChannelsSitesRequest,
   output: ReplacePartnersChannelsSitesResponse,
   errors: [],
 }));
 
-/** Gets a single targeting option assigned to a partner. */
 export interface GetPartnersTargetingTypesAssignedTargetingOptionsRequest {
   /** Required. The ID of the partner. */
   partnerId: string;
@@ -10922,13 +10921,13 @@ export const GetPartnersTargetingTypesAssignedTargetingOptionsResponse = Assigne
 
 export type GetPartnersTargetingTypesAssignedTargetingOptionsError = CommonErrors;
 
+/** Gets a single targeting option assigned to a partner. */
 export const getPartnersTargetingTypesAssignedTargetingOptions: API.OperationMethod<GetPartnersTargetingTypesAssignedTargetingOptionsRequest, GetPartnersTargetingTypesAssignedTargetingOptionsResponse, GetPartnersTargetingTypesAssignedTargetingOptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPartnersTargetingTypesAssignedTargetingOptionsRequest,
   output: GetPartnersTargetingTypesAssignedTargetingOptionsResponse,
   errors: [],
 }));
 
-/** Lists the targeting options assigned to a partner. */
 export interface ListPartnersTargetingTypesAssignedTargetingOptionsRequest {
   /** Required. The ID of the partner. */
   partnerId: string;
@@ -10961,7 +10960,8 @@ export const ListPartnersTargetingTypesAssignedTargetingOptionsResponse = ListPa
 
 export type ListPartnersTargetingTypesAssignedTargetingOptionsError = CommonErrors;
 
-export const listPartnersTargetingTypesAssignedTargetingOptions = API.makePaginated(() => ({
+/** Lists the targeting options assigned to a partner. */
+export const listPartnersTargetingTypesAssignedTargetingOptions: API.PaginatedOperationMethod<ListPartnersTargetingTypesAssignedTargetingOptionsRequest, ListPartnersTargetingTypesAssignedTargetingOptionsResponse, ListPartnersTargetingTypesAssignedTargetingOptionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPartnersTargetingTypesAssignedTargetingOptionsRequest,
   output: ListPartnersTargetingTypesAssignedTargetingOptionsResponse,
   errors: [],
@@ -10971,7 +10971,6 @@ export const listPartnersTargetingTypesAssignedTargetingOptions = API.makePagina
   },
 }));
 
-/** Assigns a targeting option to a partner. Returns the assigned targeting option if successful. */
 export interface CreatePartnersTargetingTypesAssignedTargetingOptionsRequest {
   /** Required. The ID of the partner. */
   partnerId: string;
@@ -10995,13 +10994,13 @@ export const CreatePartnersTargetingTypesAssignedTargetingOptionsResponse = Assi
 
 export type CreatePartnersTargetingTypesAssignedTargetingOptionsError = CommonErrors;
 
+/** Assigns a targeting option to a partner. Returns the assigned targeting option if successful. */
 export const createPartnersTargetingTypesAssignedTargetingOptions: API.OperationMethod<CreatePartnersTargetingTypesAssignedTargetingOptionsRequest, CreatePartnersTargetingTypesAssignedTargetingOptionsResponse, CreatePartnersTargetingTypesAssignedTargetingOptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreatePartnersTargetingTypesAssignedTargetingOptionsRequest,
   output: CreatePartnersTargetingTypesAssignedTargetingOptionsResponse,
   errors: [],
 }));
 
-/** Deletes an assigned targeting option from a partner. */
 export interface DeletePartnersTargetingTypesAssignedTargetingOptionsRequest {
   /** Required. The ID of the partner. */
   partnerId: string;
@@ -11025,13 +11024,13 @@ export const DeletePartnersTargetingTypesAssignedTargetingOptionsResponse = Empt
 
 export type DeletePartnersTargetingTypesAssignedTargetingOptionsError = CommonErrors;
 
+/** Deletes an assigned targeting option from a partner. */
 export const deletePartnersTargetingTypesAssignedTargetingOptions: API.OperationMethod<DeletePartnersTargetingTypesAssignedTargetingOptionsRequest, DeletePartnersTargetingTypesAssignedTargetingOptionsResponse, DeletePartnersTargetingTypesAssignedTargetingOptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeletePartnersTargetingTypesAssignedTargetingOptionsRequest,
   output: DeletePartnersTargetingTypesAssignedTargetingOptionsResponse,
   errors: [],
 }));
 
-/** Creates an SDF Download Task. Returns an Operation. An SDF Download Task is a long-running, asynchronous operation. The metadata type of this operation is SdfDownloadTaskMetadata. If the request is successful, the response type of the operation is SdfDownloadTask. The response will not include the download files, which must be retrieved with media.download. The state of operation can be retrieved with `sdfdownloadtasks.operations.get`. Any errors can be found in the error.message. Note that error.details is expected to be empty. */
 export interface CreateSdfdownloadtasksRequest {
   /** Request body */
   body?: CreateSdfDownloadTaskRequest;
@@ -11049,13 +11048,13 @@ export const CreateSdfdownloadtasksResponse = Operation;
 
 export type CreateSdfdownloadtasksError = CommonErrors;
 
+/** Creates an SDF Download Task. Returns an Operation. An SDF Download Task is a long-running, asynchronous operation. The metadata type of this operation is SdfDownloadTaskMetadata. If the request is successful, the response type of the operation is SdfDownloadTask. The response will not include the download files, which must be retrieved with media.download. The state of operation can be retrieved with `sdfdownloadtasks.operations.get`. Any errors can be found in the error.message. Note that error.details is expected to be empty. */
 export const createSdfdownloadtasks: API.OperationMethod<CreateSdfdownloadtasksRequest, CreateSdfdownloadtasksResponse, CreateSdfdownloadtasksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateSdfdownloadtasksRequest,
   output: CreateSdfdownloadtasksResponse,
   errors: [],
 }));
 
-/** Gets the latest state of an asynchronous SDF download task operation. Clients should poll this method at intervals of 30 seconds. */
 export interface GetSdfdownloadtasksOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -11073,13 +11072,13 @@ export const GetSdfdownloadtasksOperationsResponse = Operation;
 
 export type GetSdfdownloadtasksOperationsError = CommonErrors;
 
+/** Gets the latest state of an asynchronous SDF download task operation. Clients should poll this method at intervals of 30 seconds. */
 export const getSdfdownloadtasksOperations: API.OperationMethod<GetSdfdownloadtasksOperationsRequest, GetSdfdownloadtasksOperationsResponse, GetSdfdownloadtasksOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSdfdownloadtasksOperationsRequest,
   output: GetSdfdownloadtasksOperationsResponse,
   errors: [],
 }));
 
-/** Gets a single targeting option. */
 export interface GetTargetingTypesTargetingOptionsRequest {
   /** Required. The type of targeting option to retrieve. Accepted values are: * `TARGETING_TYPE_APP_CATEGORY` * `TARGETING_TYPE_AGE_RANGE` * `TARGETING_TYPE_GENDER` * `TARGETING_TYPE_VIDEO_PLAYER_SIZE` * `TARGETING_TYPE_USER_REWARDED_CONTENT` * `TARGETING_TYPE_PARENTAL_STATUS` * `TARGETING_TYPE_CONTENT_INSTREAM_POSITION` * `TARGETING_TYPE_CONTENT_OUTSTREAM_POSITION` * `TARGETING_TYPE_DEVICE_TYPE` * `TARGETING_TYPE_BROWSER` * `TARGETING_TYPE_HOUSEHOLD_INCOME` * `TARGETING_TYPE_ON_SCREEN_POSITION` * `TARGETING_TYPE_CARRIER_AND_ISP` * `TARGETING_TYPE_OPERATING_SYSTEM` * `TARGETING_TYPE_DEVICE_MAKE_MODEL` * `TARGETING_TYPE_ENVIRONMENT` * `TARGETING_TYPE_CATEGORY` * `TARGETING_TYPE_VIEWABILITY` * `TARGETING_TYPE_AUTHORIZED_SELLER_STATUS` * `TARGETING_TYPE_LANGUAGE` * `TARGETING_TYPE_GEO_REGION` * `TARGETING_TYPE_DIGITAL_CONTENT_LABEL_EXCLUSION` * `TARGETING_TYPE_SENSITIVE_CATEGORY_EXCLUSION` * `TARGETING_TYPE_EXCHANGE` * `TARGETING_TYPE_SUB_EXCHANGE` * `TARGETING_TYPE_NATIVE_CONTENT_POSITION` * `TARGETING_TYPE_OMID` */
   targetingType: "TARGETING_TYPE_UNSPECIFIED" | "TARGETING_TYPE_CHANNEL" | "TARGETING_TYPE_APP_CATEGORY" | "TARGETING_TYPE_APP" | "TARGETING_TYPE_URL" | "TARGETING_TYPE_DAY_AND_TIME" | "TARGETING_TYPE_AGE_RANGE" | "TARGETING_TYPE_REGIONAL_LOCATION_LIST" | "TARGETING_TYPE_PROXIMITY_LOCATION_LIST" | "TARGETING_TYPE_GENDER" | "TARGETING_TYPE_VIDEO_PLAYER_SIZE" | "TARGETING_TYPE_USER_REWARDED_CONTENT" | "TARGETING_TYPE_PARENTAL_STATUS" | "TARGETING_TYPE_CONTENT_INSTREAM_POSITION" | "TARGETING_TYPE_CONTENT_OUTSTREAM_POSITION" | "TARGETING_TYPE_DEVICE_TYPE" | "TARGETING_TYPE_AUDIENCE_GROUP" | "TARGETING_TYPE_BROWSER" | "TARGETING_TYPE_HOUSEHOLD_INCOME" | "TARGETING_TYPE_ON_SCREEN_POSITION" | "TARGETING_TYPE_THIRD_PARTY_VERIFIER" | "TARGETING_TYPE_DIGITAL_CONTENT_LABEL_EXCLUSION" | "TARGETING_TYPE_SENSITIVE_CATEGORY_EXCLUSION" | "TARGETING_TYPE_ENVIRONMENT" | "TARGETING_TYPE_CARRIER_AND_ISP" | "TARGETING_TYPE_OPERATING_SYSTEM" | "TARGETING_TYPE_DEVICE_MAKE_MODEL" | "TARGETING_TYPE_KEYWORD" | "TARGETING_TYPE_NEGATIVE_KEYWORD_LIST" | "TARGETING_TYPE_VIEWABILITY" | "TARGETING_TYPE_CATEGORY" | "TARGETING_TYPE_INVENTORY_SOURCE" | "TARGETING_TYPE_LANGUAGE" | "TARGETING_TYPE_AUTHORIZED_SELLER_STATUS" | "TARGETING_TYPE_GEO_REGION" | "TARGETING_TYPE_INVENTORY_SOURCE_GROUP" | "TARGETING_TYPE_EXCHANGE" | "TARGETING_TYPE_SUB_EXCHANGE" | "TARGETING_TYPE_POI" | "TARGETING_TYPE_BUSINESS_CHAIN" | "TARGETING_TYPE_CONTENT_DURATION" | "TARGETING_TYPE_CONTENT_STREAM_TYPE" | "TARGETING_TYPE_NATIVE_CONTENT_POSITION" | "TARGETING_TYPE_OMID" | "TARGETING_TYPE_AUDIO_CONTENT_TYPE" | "TARGETING_TYPE_CONTENT_GENRE" | "TARGETING_TYPE_YOUTUBE_VIDEO" | "TARGETING_TYPE_YOUTUBE_CHANNEL" | "TARGETING_TYPE_SESSION_POSITION" | "TARGETING_TYPE_CONTENT_THEME_EXCLUSION" | (string & {});
@@ -11103,13 +11102,13 @@ export const GetTargetingTypesTargetingOptionsResponse = TargetingOption;
 
 export type GetTargetingTypesTargetingOptionsError = CommonErrors;
 
+/** Gets a single targeting option. */
 export const getTargetingTypesTargetingOptions: API.OperationMethod<GetTargetingTypesTargetingOptionsRequest, GetTargetingTypesTargetingOptionsResponse, GetTargetingTypesTargetingOptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetTargetingTypesTargetingOptionsRequest,
   output: GetTargetingTypesTargetingOptionsResponse,
   errors: [],
 }));
 
-/** Lists targeting options of a given type. */
 export interface ListTargetingTypesTargetingOptionsRequest {
   /** Required. The type of targeting option to be listed. Accepted values are: * `TARGETING_TYPE_APP_CATEGORY` * `TARGETING_TYPE_AGE_RANGE` * `TARGETING_TYPE_GENDER` * `TARGETING_TYPE_VIDEO_PLAYER_SIZE` * `TARGETING_TYPE_USER_REWARDED_CONTENT` * `TARGETING_TYPE_PARENTAL_STATUS` * `TARGETING_TYPE_CONTENT_INSTREAM_POSITION` * `TARGETING_TYPE_CONTENT_OUTSTREAM_POSITION` * `TARGETING_TYPE_DEVICE_TYPE` * `TARGETING_TYPE_BROWSER` * `TARGETING_TYPE_HOUSEHOLD_INCOME` * `TARGETING_TYPE_ON_SCREEN_POSITION` * `TARGETING_TYPE_CARRIER_AND_ISP` * `TARGETING_TYPE_OPERATING_SYSTEM` * `TARGETING_TYPE_DEVICE_MAKE_MODEL` * `TARGETING_TYPE_ENVIRONMENT` * `TARGETING_TYPE_CATEGORY` * `TARGETING_TYPE_VIEWABILITY` * `TARGETING_TYPE_AUTHORIZED_SELLER_STATUS` * `TARGETING_TYPE_LANGUAGE` * `TARGETING_TYPE_GEO_REGION` * `TARGETING_TYPE_DIGITAL_CONTENT_LABEL_EXCLUSION` * `TARGETING_TYPE_SENSITIVE_CATEGORY_EXCLUSION` * `TARGETING_TYPE_EXCHANGE` * `TARGETING_TYPE_SUB_EXCHANGE` * `TARGETING_TYPE_NATIVE_CONTENT_POSITION` * `TARGETING_TYPE_OMID` */
   targetingType: "TARGETING_TYPE_UNSPECIFIED" | "TARGETING_TYPE_CHANNEL" | "TARGETING_TYPE_APP_CATEGORY" | "TARGETING_TYPE_APP" | "TARGETING_TYPE_URL" | "TARGETING_TYPE_DAY_AND_TIME" | "TARGETING_TYPE_AGE_RANGE" | "TARGETING_TYPE_REGIONAL_LOCATION_LIST" | "TARGETING_TYPE_PROXIMITY_LOCATION_LIST" | "TARGETING_TYPE_GENDER" | "TARGETING_TYPE_VIDEO_PLAYER_SIZE" | "TARGETING_TYPE_USER_REWARDED_CONTENT" | "TARGETING_TYPE_PARENTAL_STATUS" | "TARGETING_TYPE_CONTENT_INSTREAM_POSITION" | "TARGETING_TYPE_CONTENT_OUTSTREAM_POSITION" | "TARGETING_TYPE_DEVICE_TYPE" | "TARGETING_TYPE_AUDIENCE_GROUP" | "TARGETING_TYPE_BROWSER" | "TARGETING_TYPE_HOUSEHOLD_INCOME" | "TARGETING_TYPE_ON_SCREEN_POSITION" | "TARGETING_TYPE_THIRD_PARTY_VERIFIER" | "TARGETING_TYPE_DIGITAL_CONTENT_LABEL_EXCLUSION" | "TARGETING_TYPE_SENSITIVE_CATEGORY_EXCLUSION" | "TARGETING_TYPE_ENVIRONMENT" | "TARGETING_TYPE_CARRIER_AND_ISP" | "TARGETING_TYPE_OPERATING_SYSTEM" | "TARGETING_TYPE_DEVICE_MAKE_MODEL" | "TARGETING_TYPE_KEYWORD" | "TARGETING_TYPE_NEGATIVE_KEYWORD_LIST" | "TARGETING_TYPE_VIEWABILITY" | "TARGETING_TYPE_CATEGORY" | "TARGETING_TYPE_INVENTORY_SOURCE" | "TARGETING_TYPE_LANGUAGE" | "TARGETING_TYPE_AUTHORIZED_SELLER_STATUS" | "TARGETING_TYPE_GEO_REGION" | "TARGETING_TYPE_INVENTORY_SOURCE_GROUP" | "TARGETING_TYPE_EXCHANGE" | "TARGETING_TYPE_SUB_EXCHANGE" | "TARGETING_TYPE_POI" | "TARGETING_TYPE_BUSINESS_CHAIN" | "TARGETING_TYPE_CONTENT_DURATION" | "TARGETING_TYPE_CONTENT_STREAM_TYPE" | "TARGETING_TYPE_NATIVE_CONTENT_POSITION" | "TARGETING_TYPE_OMID" | "TARGETING_TYPE_AUDIO_CONTENT_TYPE" | "TARGETING_TYPE_CONTENT_GENRE" | "TARGETING_TYPE_YOUTUBE_VIDEO" | "TARGETING_TYPE_YOUTUBE_CHANNEL" | "TARGETING_TYPE_SESSION_POSITION" | "TARGETING_TYPE_CONTENT_THEME_EXCLUSION" | (string & {});
@@ -11142,7 +11141,8 @@ export const ListTargetingTypesTargetingOptionsResponse = ListTargetingOptionsRe
 
 export type ListTargetingTypesTargetingOptionsError = CommonErrors;
 
-export const listTargetingTypesTargetingOptions = API.makePaginated(() => ({
+/** Lists targeting options of a given type. */
+export const listTargetingTypesTargetingOptions: API.PaginatedOperationMethod<ListTargetingTypesTargetingOptionsRequest, ListTargetingTypesTargetingOptionsResponse, ListTargetingTypesTargetingOptionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListTargetingTypesTargetingOptionsRequest,
   output: ListTargetingTypesTargetingOptionsResponse,
   errors: [],
@@ -11152,7 +11152,6 @@ export const listTargetingTypesTargetingOptions = API.makePaginated(() => ({
   },
 }));
 
-/** Searches for targeting options of a given type based on the given search terms. */
 export interface SearchTargetingTypesTargetingOptionsRequest {
   /** Required. The type of targeting options to retrieve. Accepted values are: * `TARGETING_TYPE_GEO_REGION` * `TARGETING_TYPE_POI` * `TARGETING_TYPE_BUSINESS_CHAIN` */
   targetingType: "TARGETING_TYPE_UNSPECIFIED" | "TARGETING_TYPE_CHANNEL" | "TARGETING_TYPE_APP_CATEGORY" | "TARGETING_TYPE_APP" | "TARGETING_TYPE_URL" | "TARGETING_TYPE_DAY_AND_TIME" | "TARGETING_TYPE_AGE_RANGE" | "TARGETING_TYPE_REGIONAL_LOCATION_LIST" | "TARGETING_TYPE_PROXIMITY_LOCATION_LIST" | "TARGETING_TYPE_GENDER" | "TARGETING_TYPE_VIDEO_PLAYER_SIZE" | "TARGETING_TYPE_USER_REWARDED_CONTENT" | "TARGETING_TYPE_PARENTAL_STATUS" | "TARGETING_TYPE_CONTENT_INSTREAM_POSITION" | "TARGETING_TYPE_CONTENT_OUTSTREAM_POSITION" | "TARGETING_TYPE_DEVICE_TYPE" | "TARGETING_TYPE_AUDIENCE_GROUP" | "TARGETING_TYPE_BROWSER" | "TARGETING_TYPE_HOUSEHOLD_INCOME" | "TARGETING_TYPE_ON_SCREEN_POSITION" | "TARGETING_TYPE_THIRD_PARTY_VERIFIER" | "TARGETING_TYPE_DIGITAL_CONTENT_LABEL_EXCLUSION" | "TARGETING_TYPE_SENSITIVE_CATEGORY_EXCLUSION" | "TARGETING_TYPE_ENVIRONMENT" | "TARGETING_TYPE_CARRIER_AND_ISP" | "TARGETING_TYPE_OPERATING_SYSTEM" | "TARGETING_TYPE_DEVICE_MAKE_MODEL" | "TARGETING_TYPE_KEYWORD" | "TARGETING_TYPE_NEGATIVE_KEYWORD_LIST" | "TARGETING_TYPE_VIEWABILITY" | "TARGETING_TYPE_CATEGORY" | "TARGETING_TYPE_INVENTORY_SOURCE" | "TARGETING_TYPE_LANGUAGE" | "TARGETING_TYPE_AUTHORIZED_SELLER_STATUS" | "TARGETING_TYPE_GEO_REGION" | "TARGETING_TYPE_INVENTORY_SOURCE_GROUP" | "TARGETING_TYPE_EXCHANGE" | "TARGETING_TYPE_SUB_EXCHANGE" | "TARGETING_TYPE_POI" | "TARGETING_TYPE_BUSINESS_CHAIN" | "TARGETING_TYPE_CONTENT_DURATION" | "TARGETING_TYPE_CONTENT_STREAM_TYPE" | "TARGETING_TYPE_NATIVE_CONTENT_POSITION" | "TARGETING_TYPE_OMID" | "TARGETING_TYPE_AUDIO_CONTENT_TYPE" | "TARGETING_TYPE_CONTENT_GENRE" | "TARGETING_TYPE_YOUTUBE_VIDEO" | "TARGETING_TYPE_YOUTUBE_CHANNEL" | "TARGETING_TYPE_SESSION_POSITION" | "TARGETING_TYPE_CONTENT_THEME_EXCLUSION" | (string & {});
@@ -11173,13 +11172,13 @@ export const SearchTargetingTypesTargetingOptionsResponse = SearchTargetingOptio
 
 export type SearchTargetingTypesTargetingOptionsError = CommonErrors;
 
+/** Searches for targeting options of a given type based on the given search terms. */
 export const searchTargetingTypesTargetingOptions: API.OperationMethod<SearchTargetingTypesTargetingOptionsRequest, SearchTargetingTypesTargetingOptionsResponse, SearchTargetingTypesTargetingOptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchTargetingTypesTargetingOptionsRequest,
   output: SearchTargetingTypesTargetingOptionsResponse,
   errors: [],
 }));
 
-/** Gets a user. This method has unique authentication requirements. Read the prerequisites in our [Managing Users guide](/display-video/api/guides/users/overview#prerequisites) before using this method. The "Try this method" feature does not work for this method. */
 export interface GetUsersRequest {
   /** Required. The ID of the user to fetch. */
   userId: string;
@@ -11197,13 +11196,13 @@ export const GetUsersResponse = User;
 
 export type GetUsersError = CommonErrors;
 
+/** Gets a user. This method has unique authentication requirements. Read the prerequisites in our [Managing Users guide](/display-video/api/guides/users/overview#prerequisites) before using this method. The "Try this method" feature does not work for this method. */
 export const getUsers: API.OperationMethod<GetUsersRequest, GetUsersResponse, GetUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetUsersRequest,
   output: GetUsersResponse,
   errors: [],
 }));
 
-/** Lists users that are accessible to the current user. If two users have user roles on the same partner or advertiser, they can access each other. This method has unique authentication requirements. Read the prerequisites in our [Managing Users guide](/display-video/api/guides/users/overview#prerequisites) before using this method. The "Try this method" feature does not work for this method. */
 export interface ListUsersRequest {
   /** Requested page size. Must be between `1` and `200`. If unspecified will default to `100`. */
   pageSize?: number;
@@ -11230,7 +11229,8 @@ export const ListUsersResponse_Op = ListUsersResponse;
 
 export type ListUsersError = CommonErrors;
 
-export const listUsers = API.makePaginated(() => ({
+/** Lists users that are accessible to the current user. If two users have user roles on the same partner or advertiser, they can access each other. This method has unique authentication requirements. Read the prerequisites in our [Managing Users guide](/display-video/api/guides/users/overview#prerequisites) before using this method. The "Try this method" feature does not work for this method. */
+export const listUsers: API.PaginatedOperationMethod<ListUsersRequest, ListUsersResponse_Op, ListUsersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListUsersRequest,
   output: ListUsersResponse_Op,
   errors: [],
@@ -11240,7 +11240,6 @@ export const listUsers = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new user. Returns the newly created user if successful. This method has unique authentication requirements. Read the prerequisites in our [Managing Users guide](/display-video/api/guides/users/overview#prerequisites) before using this method. The "Try this method" feature does not work for this method. */
 export interface CreateUsersRequest {
   /** Request body */
   body?: User;
@@ -11258,13 +11257,13 @@ export const CreateUsersResponse = User;
 
 export type CreateUsersError = CommonErrors;
 
+/** Creates a new user. Returns the newly created user if successful. This method has unique authentication requirements. Read the prerequisites in our [Managing Users guide](/display-video/api/guides/users/overview#prerequisites) before using this method. The "Try this method" feature does not work for this method. */
 export const createUsers: API.OperationMethod<CreateUsersRequest, CreateUsersResponse, CreateUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateUsersRequest,
   output: CreateUsersResponse,
   errors: [],
 }));
 
-/** Updates an existing user. Returns the updated user if successful. This method has unique authentication requirements. Read the prerequisites in our [Managing Users guide](/display-video/api/guides/users/overview#prerequisites) before using this method. The "Try this method" feature does not work for this method. */
 export interface PatchUsersRequest {
   /** Output only. The unique ID of the user. Assigned by the system. */
   userId: string;
@@ -11288,13 +11287,13 @@ export const PatchUsersResponse = User;
 
 export type PatchUsersError = CommonErrors;
 
+/** Updates an existing user. Returns the updated user if successful. This method has unique authentication requirements. Read the prerequisites in our [Managing Users guide](/display-video/api/guides/users/overview#prerequisites) before using this method. The "Try this method" feature does not work for this method. */
 export const patchUsers: API.OperationMethod<PatchUsersRequest, PatchUsersResponse, PatchUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchUsersRequest,
   output: PatchUsersResponse,
   errors: [],
 }));
 
-/** Deletes a user. This method has unique authentication requirements. Read the prerequisites in our [Managing Users guide](/display-video/api/guides/users/overview#prerequisites) before using this method. The "Try this method" feature does not work for this method. */
 export interface DeleteUsersRequest {
   /** Required. The ID of the user to delete. */
   userId: string;
@@ -11312,13 +11311,13 @@ export const DeleteUsersResponse = Empty;
 
 export type DeleteUsersError = CommonErrors;
 
+/** Deletes a user. This method has unique authentication requirements. Read the prerequisites in our [Managing Users guide](/display-video/api/guides/users/overview#prerequisites) before using this method. The "Try this method" feature does not work for this method. */
 export const deleteUsers: API.OperationMethod<DeleteUsersRequest, DeleteUsersResponse, DeleteUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteUsersRequest,
   output: DeleteUsersResponse,
   errors: [],
 }));
 
-/** Bulk edits user roles for a user. The operation will delete the assigned user roles provided in BulkEditAssignedUserRolesRequest.deletedAssignedUserRoles and then assign the user roles provided in BulkEditAssignedUserRolesRequest.createdAssignedUserRoles. This method has unique authentication requirements. Read the prerequisites in our [Managing Users guide](/display-video/api/guides/users/overview#prerequisites) before using this method. The "Try this method" feature does not work for this method. */
 export interface BulkEditAssignedUserRolesUsersRequest {
   /** Required. The ID of the user to which the assigned user roles belong. */
   userId: string;
@@ -11339,13 +11338,13 @@ export const BulkEditAssignedUserRolesUsersResponse = BulkEditAssignedUserRolesR
 
 export type BulkEditAssignedUserRolesUsersError = CommonErrors;
 
+/** Bulk edits user roles for a user. The operation will delete the assigned user roles provided in BulkEditAssignedUserRolesRequest.deletedAssignedUserRoles and then assign the user roles provided in BulkEditAssignedUserRolesRequest.createdAssignedUserRoles. This method has unique authentication requirements. Read the prerequisites in our [Managing Users guide](/display-video/api/guides/users/overview#prerequisites) before using this method. The "Try this method" feature does not work for this method. */
 export const bulkEditAssignedUserRolesUsers: API.OperationMethod<BulkEditAssignedUserRolesUsersRequest, BulkEditAssignedUserRolesUsersResponse, BulkEditAssignedUserRolesUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BulkEditAssignedUserRolesUsersRequest,
   output: BulkEditAssignedUserRolesUsersResponse,
   errors: [],
 }));
 
-/** Uploads media. Upload is supported on the URI `/upload/media/{resource_name=**}?upload_type=media.` **Note**: Upload requests will not be successful without including `upload_type=media` query string. */
 export interface UploadMediaRequest {
   /** Name of the media that is being downloaded. See ReadRequest.resource_name. */
   resourceName: string;
@@ -11366,13 +11365,13 @@ export const UploadMediaResponse = GoogleBytestreamMedia;
 
 export type UploadMediaError = CommonErrors;
 
+/** Uploads media. Upload is supported on the URI `/upload/media/{resource_name=**}?upload_type=media.` **Note**: Upload requests will not be successful without including `upload_type=media` query string. */
 export const uploadMedia: API.OperationMethod<UploadMediaRequest, UploadMediaResponse, UploadMediaError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadMediaRequest,
   output: UploadMediaResponse,
   errors: [],
 }));
 
-/** Downloads media. Download is supported on the URI `/download/{resource_name=**}?alt=media.` **Note**: Download requests will not be successful without including `alt=media` query string. */
 export interface DownloadMediaRequest {
   /** Name of the media that is being downloaded. See ReadRequest.resource_name. */
   resourceName: string;
@@ -11390,13 +11389,13 @@ export const DownloadMediaResponse = GoogleBytestreamMedia;
 
 export type DownloadMediaError = CommonErrors;
 
+/** Downloads media. Download is supported on the URI `/download/{resource_name=**}?alt=media.` **Note**: Download requests will not be successful without including `alt=media` query string. */
 export const downloadMedia: API.OperationMethod<DownloadMediaRequest, DownloadMediaResponse, DownloadMediaError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DownloadMediaRequest,
   output: DownloadMediaResponse,
   errors: [],
 }));
 
-/** Gets the latest state of an asynchronous SDF download task operation. Clients should poll this method at intervals of 30 seconds. */
 export interface GetSdfuploadtasksOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -11414,6 +11413,7 @@ export const GetSdfuploadtasksOperationsResponse = Operation;
 
 export type GetSdfuploadtasksOperationsError = CommonErrors;
 
+/** Gets the latest state of an asynchronous SDF download task operation. Clients should poll this method at intervals of 30 seconds. */
 export const getSdfuploadtasksOperations: API.OperationMethod<GetSdfuploadtasksOperationsRequest, GetSdfuploadtasksOperationsResponse, GetSdfuploadtasksOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSdfuploadtasksOperationsRequest,
   output: GetSdfuploadtasksOperationsResponse,

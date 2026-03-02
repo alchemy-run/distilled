@@ -807,7 +807,6 @@ export const GoogleCloudRecommendationengineV1beta1CreatePredictionApiKeyRegistr
 // Operations
 // ==========================================================================
 
-/** Lists all the catalog configurations associated with the project. */
 export interface ListProjectsLocationsCatalogsRequest {
   /** Optional. A page token, received from a previous `ListCatalogs` call. Provide this to retrieve the subsequent page. */
   pageToken?: string;
@@ -831,7 +830,8 @@ export const ListProjectsLocationsCatalogsResponse = GoogleCloudRecommendationen
 
 export type ListProjectsLocationsCatalogsError = CommonErrors;
 
-export const listProjectsLocationsCatalogs = API.makePaginated(() => ({
+/** Lists all the catalog configurations associated with the project. */
+export const listProjectsLocationsCatalogs: API.PaginatedOperationMethod<ListProjectsLocationsCatalogsRequest, ListProjectsLocationsCatalogsResponse, ListProjectsLocationsCatalogsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCatalogsRequest,
   output: ListProjectsLocationsCatalogsResponse,
   errors: [],
@@ -841,7 +841,6 @@ export const listProjectsLocationsCatalogs = API.makePaginated(() => ({
   },
 }));
 
-/** Updates the catalog configuration. */
 export interface PatchProjectsLocationsCatalogsRequest {
   /** The fully qualified resource name of the catalog. */
   name: string;
@@ -865,13 +864,13 @@ export const PatchProjectsLocationsCatalogsResponse = GoogleCloudRecommendatione
 
 export type PatchProjectsLocationsCatalogsError = CommonErrors;
 
+/** Updates the catalog configuration. */
 export const patchProjectsLocationsCatalogs: API.OperationMethod<PatchProjectsLocationsCatalogsRequest, PatchProjectsLocationsCatalogsResponse, PatchProjectsLocationsCatalogsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCatalogsRequest,
   output: PatchProjectsLocationsCatalogsResponse,
   errors: [],
 }));
 
-/** Gets a list of user events within a time range, with potential filtering. The method does not list unjoined user events. Unjoined user event definition: when a user event is ingested from Recommendations AI User Event APIs, the catalog item included in the user event is connected with the current catalog. If a catalog item of the ingested event is not in the current catalog, it could lead to degraded model quality. This is called an unjoined event. */
 export interface ListProjectsLocationsCatalogsEventStoresUserEventsRequest {
   /** Optional. The previous ListUserEventsResponse.next_page_token. */
   pageToken?: string;
@@ -898,7 +897,8 @@ export const ListProjectsLocationsCatalogsEventStoresUserEventsResponse = Google
 
 export type ListProjectsLocationsCatalogsEventStoresUserEventsError = CommonErrors;
 
-export const listProjectsLocationsCatalogsEventStoresUserEvents = API.makePaginated(() => ({
+/** Gets a list of user events within a time range, with potential filtering. The method does not list unjoined user events. Unjoined user event definition: when a user event is ingested from Recommendations AI User Event APIs, the catalog item included in the user event is connected with the current catalog. If a catalog item of the ingested event is not in the current catalog, it could lead to degraded model quality. This is called an unjoined event. */
+export const listProjectsLocationsCatalogsEventStoresUserEvents: API.PaginatedOperationMethod<ListProjectsLocationsCatalogsEventStoresUserEventsRequest, ListProjectsLocationsCatalogsEventStoresUserEventsResponse, ListProjectsLocationsCatalogsEventStoresUserEventsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCatalogsEventStoresUserEventsRequest,
   output: ListProjectsLocationsCatalogsEventStoresUserEventsResponse,
   errors: [],
@@ -908,7 +908,6 @@ export const listProjectsLocationsCatalogsEventStoresUserEvents = API.makePagina
   },
 }));
 
-/** Triggers a user event rejoin operation with latest catalog data. Events will not be annotated with detailed catalog information if catalog item is missing at the time the user event is ingested, and these events are stored as unjoined events with a limited usage on training and serving. This API can be used to trigger a 'join' operation on specified events with latest version of catalog items. It can also be used to correct events joined with wrong catalog items. */
 export interface RejoinProjectsLocationsCatalogsEventStoresUserEventsRequest {
   /** Required. Full resource name of user event, such as `projects/* /locations/* /catalogs/default_catalog/eventStores/default_event_store`. */
   parent: string;
@@ -929,13 +928,13 @@ export const RejoinProjectsLocationsCatalogsEventStoresUserEventsResponse = Goog
 
 export type RejoinProjectsLocationsCatalogsEventStoresUserEventsError = CommonErrors;
 
+/** Triggers a user event rejoin operation with latest catalog data. Events will not be annotated with detailed catalog information if catalog item is missing at the time the user event is ingested, and these events are stored as unjoined events with a limited usage on training and serving. This API can be used to trigger a 'join' operation on specified events with latest version of catalog items. It can also be used to correct events joined with wrong catalog items. */
 export const rejoinProjectsLocationsCatalogsEventStoresUserEvents: API.OperationMethod<RejoinProjectsLocationsCatalogsEventStoresUserEventsRequest, RejoinProjectsLocationsCatalogsEventStoresUserEventsResponse, RejoinProjectsLocationsCatalogsEventStoresUserEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RejoinProjectsLocationsCatalogsEventStoresUserEventsRequest,
   output: RejoinProjectsLocationsCatalogsEventStoresUserEventsResponse,
   errors: [],
 }));
 
-/** Deletes permanently all user events specified by the filter provided. Depending on the number of events specified by the filter, this operation could take hours or days to complete. To test a filter, use the list command first. */
 export interface PurgeProjectsLocationsCatalogsEventStoresUserEventsRequest {
   /** Required. The resource name of the event_store under which the events are created. The format is `projects/${projectId}/locations/global/catalogs/${catalogId}/eventStores/${eventStoreId}` */
   parent: string;
@@ -956,13 +955,13 @@ export const PurgeProjectsLocationsCatalogsEventStoresUserEventsResponse = Googl
 
 export type PurgeProjectsLocationsCatalogsEventStoresUserEventsError = CommonErrors;
 
+/** Deletes permanently all user events specified by the filter provided. Depending on the number of events specified by the filter, this operation could take hours or days to complete. To test a filter, use the list command first. */
 export const purgeProjectsLocationsCatalogsEventStoresUserEvents: API.OperationMethod<PurgeProjectsLocationsCatalogsEventStoresUserEventsRequest, PurgeProjectsLocationsCatalogsEventStoresUserEventsResponse, PurgeProjectsLocationsCatalogsEventStoresUserEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PurgeProjectsLocationsCatalogsEventStoresUserEventsRequest,
   output: PurgeProjectsLocationsCatalogsEventStoresUserEventsResponse,
   errors: [],
 }));
 
-/** Writes a single user event. */
 export interface WriteProjectsLocationsCatalogsEventStoresUserEventsRequest {
   /** Required. The parent eventStore resource name, such as "projects/1234/locations/global/catalogs/default_catalog/eventStores/default_event_store". */
   parent: string;
@@ -983,13 +982,13 @@ export const WriteProjectsLocationsCatalogsEventStoresUserEventsResponse = Googl
 
 export type WriteProjectsLocationsCatalogsEventStoresUserEventsError = CommonErrors;
 
+/** Writes a single user event. */
 export const writeProjectsLocationsCatalogsEventStoresUserEvents: API.OperationMethod<WriteProjectsLocationsCatalogsEventStoresUserEventsRequest, WriteProjectsLocationsCatalogsEventStoresUserEventsResponse, WriteProjectsLocationsCatalogsEventStoresUserEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WriteProjectsLocationsCatalogsEventStoresUserEventsRequest,
   output: WriteProjectsLocationsCatalogsEventStoresUserEventsResponse,
   errors: [],
 }));
 
-/** Bulk import of User events. Request processing might be synchronous. Events that already exist are skipped. Use this method for backfilling historical user events. Operation.response is of type ImportResponse. Note that it is possible for a subset of the items to be successfully inserted. Operation.metadata is of type ImportMetadata. */
 export interface ImportProjectsLocationsCatalogsEventStoresUserEventsRequest {
   /** Required. `projects/1234/locations/global/catalogs/default_catalog/eventStores/default_event_store` */
   parent: string;
@@ -1010,13 +1009,13 @@ export const ImportProjectsLocationsCatalogsEventStoresUserEventsResponse = Goog
 
 export type ImportProjectsLocationsCatalogsEventStoresUserEventsError = CommonErrors;
 
+/** Bulk import of User events. Request processing might be synchronous. Events that already exist are skipped. Use this method for backfilling historical user events. Operation.response is of type ImportResponse. Note that it is possible for a subset of the items to be successfully inserted. Operation.metadata is of type ImportMetadata. */
 export const importProjectsLocationsCatalogsEventStoresUserEvents: API.OperationMethod<ImportProjectsLocationsCatalogsEventStoresUserEventsRequest, ImportProjectsLocationsCatalogsEventStoresUserEventsResponse, ImportProjectsLocationsCatalogsEventStoresUserEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportProjectsLocationsCatalogsEventStoresUserEventsRequest,
   output: ImportProjectsLocationsCatalogsEventStoresUserEventsResponse,
   errors: [],
 }));
 
-/** Writes a single user event from the browser. This uses a GET request to due to browser restriction of POST-ing to a 3rd party domain. This method is used only by the Recommendations AI JavaScript pixel. Users should not call this method directly. */
 export interface CollectProjectsLocationsCatalogsEventStoresUserEventsRequest {
   /** Optional. The event timestamp in milliseconds. This prevents browser caching of otherwise identical get requests. The name is abbreviated to reduce the payload bytes. */
   ets?: string;
@@ -1043,13 +1042,13 @@ export const CollectProjectsLocationsCatalogsEventStoresUserEventsResponse = Goo
 
 export type CollectProjectsLocationsCatalogsEventStoresUserEventsError = CommonErrors;
 
+/** Writes a single user event from the browser. This uses a GET request to due to browser restriction of POST-ing to a 3rd party domain. This method is used only by the Recommendations AI JavaScript pixel. Users should not call this method directly. */
 export const collectProjectsLocationsCatalogsEventStoresUserEvents: API.OperationMethod<CollectProjectsLocationsCatalogsEventStoresUserEventsRequest, CollectProjectsLocationsCatalogsEventStoresUserEventsResponse, CollectProjectsLocationsCatalogsEventStoresUserEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CollectProjectsLocationsCatalogsEventStoresUserEventsRequest,
   output: CollectProjectsLocationsCatalogsEventStoresUserEventsResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsCatalogsEventStoresOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1067,13 +1066,13 @@ export const GetProjectsLocationsCatalogsEventStoresOperationsResponse = GoogleL
 
 export type GetProjectsLocationsCatalogsEventStoresOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsCatalogsEventStoresOperations: API.OperationMethod<GetProjectsLocationsCatalogsEventStoresOperationsRequest, GetProjectsLocationsCatalogsEventStoresOperationsResponse, GetProjectsLocationsCatalogsEventStoresOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCatalogsEventStoresOperationsRequest,
   output: GetProjectsLocationsCatalogsEventStoresOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsCatalogsEventStoresOperationsRequest {
   /** The standard list page token. */
   pageToken?: string;
@@ -1103,7 +1102,8 @@ export const ListProjectsLocationsCatalogsEventStoresOperationsResponse = Google
 
 export type ListProjectsLocationsCatalogsEventStoresOperationsError = CommonErrors;
 
-export const listProjectsLocationsCatalogsEventStoresOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsCatalogsEventStoresOperations: API.PaginatedOperationMethod<ListProjectsLocationsCatalogsEventStoresOperationsRequest, ListProjectsLocationsCatalogsEventStoresOperationsResponse, ListProjectsLocationsCatalogsEventStoresOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCatalogsEventStoresOperationsRequest,
   output: ListProjectsLocationsCatalogsEventStoresOperationsResponse,
   errors: [],
@@ -1113,7 +1113,6 @@ export const listProjectsLocationsCatalogsEventStoresOperations = API.makePagina
   },
 }));
 
-/** Makes a recommendation prediction. If using API Key based authentication, the API Key must be registered using the PredictionApiKeyRegistry service. [Learn more](https://cloud.google.com/recommendations-ai/docs/setting-up#register-key). */
 export interface PredictProjectsLocationsCatalogsEventStoresPlacementsRequest {
   name: string;
   /** Request body */
@@ -1133,13 +1132,13 @@ export const PredictProjectsLocationsCatalogsEventStoresPlacementsResponse = Goo
 
 export type PredictProjectsLocationsCatalogsEventStoresPlacementsError = CommonErrors;
 
+/** Makes a recommendation prediction. If using API Key based authentication, the API Key must be registered using the PredictionApiKeyRegistry service. [Learn more](https://cloud.google.com/recommendations-ai/docs/setting-up#register-key). */
 export const predictProjectsLocationsCatalogsEventStoresPlacements: API.OperationMethod<PredictProjectsLocationsCatalogsEventStoresPlacementsRequest, PredictProjectsLocationsCatalogsEventStoresPlacementsResponse, PredictProjectsLocationsCatalogsEventStoresPlacementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PredictProjectsLocationsCatalogsEventStoresPlacementsRequest,
   output: PredictProjectsLocationsCatalogsEventStoresPlacementsResponse,
   errors: [],
 }));
 
-/** List the registered apiKeys for use with predict method. */
 export interface ListProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsRequest {
   /** Optional. Maximum number of results to return per page. If unset, the service will choose a reasonable default. */
   pageSize?: number;
@@ -1163,7 +1162,8 @@ export const ListProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistratio
 
 export type ListProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsError = CommonErrors;
 
-export const listProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrations = API.makePaginated(() => ({
+/** List the registered apiKeys for use with predict method. */
+export const listProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrations: API.PaginatedOperationMethod<ListProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsRequest, ListProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsResponse, ListProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsRequest,
   output: ListProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsResponse,
   errors: [],
@@ -1173,7 +1173,6 @@ export const listProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistratio
   },
 }));
 
-/** Unregister an apiKey from using for predict method. */
 export interface DeleteProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsRequest {
   /** Required. The API key to unregister including full resource path. `projects/* /locations/global/catalogs/default_catalog/eventStores/default_event_store/predictionApiKeyRegistrations/` */
   name: string;
@@ -1191,13 +1190,13 @@ export const DeleteProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrat
 
 export type DeleteProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsError = CommonErrors;
 
+/** Unregister an apiKey from using for predict method. */
 export const deleteProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrations: API.OperationMethod<DeleteProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsRequest, DeleteProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsResponse, DeleteProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsRequest,
   output: DeleteProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsResponse,
   errors: [],
 }));
 
-/** Register an API key for use with predict method. */
 export interface CreateProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsRequest {
   /** Required. The parent resource path. `projects/* /locations/global/catalogs/default_catalog/eventStores/default_event_store`. */
   parent: string;
@@ -1218,13 +1217,13 @@ export const CreateProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrat
 
 export type CreateProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsError = CommonErrors;
 
+/** Register an API key for use with predict method. */
 export const createProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrations: API.OperationMethod<CreateProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsRequest, CreateProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsResponse, CreateProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsRequest,
   output: CreateProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsCatalogsOperationsRequest {
   /** The standard list filter. */
   filter?: string;
@@ -1254,7 +1253,8 @@ export const ListProjectsLocationsCatalogsOperationsResponse = GoogleLongrunning
 
 export type ListProjectsLocationsCatalogsOperationsError = CommonErrors;
 
-export const listProjectsLocationsCatalogsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsCatalogsOperations: API.PaginatedOperationMethod<ListProjectsLocationsCatalogsOperationsRequest, ListProjectsLocationsCatalogsOperationsResponse, ListProjectsLocationsCatalogsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCatalogsOperationsRequest,
   output: ListProjectsLocationsCatalogsOperationsResponse,
   errors: [],
@@ -1264,7 +1264,6 @@ export const listProjectsLocationsCatalogsOperations = API.makePaginated(() => (
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsCatalogsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1282,13 +1281,13 @@ export const GetProjectsLocationsCatalogsOperationsResponse = GoogleLongrunningO
 
 export type GetProjectsLocationsCatalogsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsCatalogsOperations: API.OperationMethod<GetProjectsLocationsCatalogsOperationsRequest, GetProjectsLocationsCatalogsOperationsResponse, GetProjectsLocationsCatalogsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCatalogsOperationsRequest,
   output: GetProjectsLocationsCatalogsOperationsResponse,
   errors: [],
 }));
 
-/** Gets a list of catalog items. */
 export interface ListProjectsLocationsCatalogsCatalogItemsRequest {
   /** Optional. Maximum number of results to return per page. If zero, the service will choose a reasonable default. */
   pageSize?: number;
@@ -1315,7 +1314,8 @@ export const ListProjectsLocationsCatalogsCatalogItemsResponse = GoogleCloudReco
 
 export type ListProjectsLocationsCatalogsCatalogItemsError = CommonErrors;
 
-export const listProjectsLocationsCatalogsCatalogItems = API.makePaginated(() => ({
+/** Gets a list of catalog items. */
+export const listProjectsLocationsCatalogsCatalogItems: API.PaginatedOperationMethod<ListProjectsLocationsCatalogsCatalogItemsRequest, ListProjectsLocationsCatalogsCatalogItemsResponse, ListProjectsLocationsCatalogsCatalogItemsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCatalogsCatalogItemsRequest,
   output: ListProjectsLocationsCatalogsCatalogItemsResponse,
   errors: [],
@@ -1325,7 +1325,6 @@ export const listProjectsLocationsCatalogsCatalogItems = API.makePaginated(() =>
   },
 }));
 
-/** Gets a specific catalog item. */
 export interface GetProjectsLocationsCatalogsCatalogItemsRequest {
   /** Required. Full resource name of catalog item, such as `projects/* /locations/global/catalogs/default_catalog/catalogitems/some_catalog_item_id`. */
   name: string;
@@ -1343,13 +1342,13 @@ export const GetProjectsLocationsCatalogsCatalogItemsResponse = GoogleCloudRecom
 
 export type GetProjectsLocationsCatalogsCatalogItemsError = CommonErrors;
 
+/** Gets a specific catalog item. */
 export const getProjectsLocationsCatalogsCatalogItems: API.OperationMethod<GetProjectsLocationsCatalogsCatalogItemsRequest, GetProjectsLocationsCatalogsCatalogItemsResponse, GetProjectsLocationsCatalogsCatalogItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCatalogsCatalogItemsRequest,
   output: GetProjectsLocationsCatalogsCatalogItemsResponse,
   errors: [],
 }));
 
-/** Updates a catalog item. Partial updating is supported. Non-existing items will be created. */
 export interface PatchProjectsLocationsCatalogsCatalogItemsRequest {
   /** Required. Full resource name of catalog item, such as `projects/* /locations/global/catalogs/default_catalog/catalogItems/some_catalog_item_id`. */
   name: string;
@@ -1373,13 +1372,13 @@ export const PatchProjectsLocationsCatalogsCatalogItemsResponse = GoogleCloudRec
 
 export type PatchProjectsLocationsCatalogsCatalogItemsError = CommonErrors;
 
+/** Updates a catalog item. Partial updating is supported. Non-existing items will be created. */
 export const patchProjectsLocationsCatalogsCatalogItems: API.OperationMethod<PatchProjectsLocationsCatalogsCatalogItemsRequest, PatchProjectsLocationsCatalogsCatalogItemsResponse, PatchProjectsLocationsCatalogsCatalogItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCatalogsCatalogItemsRequest,
   output: PatchProjectsLocationsCatalogsCatalogItemsResponse,
   errors: [],
 }));
 
-/** Creates a catalog item. */
 export interface CreateProjectsLocationsCatalogsCatalogItemsRequest {
   /** Required. The parent catalog resource name, such as `projects/* /locations/global/catalogs/default_catalog`. */
   parent: string;
@@ -1400,13 +1399,13 @@ export const CreateProjectsLocationsCatalogsCatalogItemsResponse = GoogleCloudRe
 
 export type CreateProjectsLocationsCatalogsCatalogItemsError = CommonErrors;
 
+/** Creates a catalog item. */
 export const createProjectsLocationsCatalogsCatalogItems: API.OperationMethod<CreateProjectsLocationsCatalogsCatalogItemsRequest, CreateProjectsLocationsCatalogsCatalogItemsResponse, CreateProjectsLocationsCatalogsCatalogItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCatalogsCatalogItemsRequest,
   output: CreateProjectsLocationsCatalogsCatalogItemsResponse,
   errors: [],
 }));
 
-/** Deletes a catalog item. */
 export interface DeleteProjectsLocationsCatalogsCatalogItemsRequest {
   /** Required. Full resource name of catalog item, such as `projects/* /locations/global/catalogs/default_catalog/catalogItems/some_catalog_item_id`. */
   name: string;
@@ -1424,13 +1423,13 @@ export const DeleteProjectsLocationsCatalogsCatalogItemsResponse = GoogleProtobu
 
 export type DeleteProjectsLocationsCatalogsCatalogItemsError = CommonErrors;
 
+/** Deletes a catalog item. */
 export const deleteProjectsLocationsCatalogsCatalogItems: API.OperationMethod<DeleteProjectsLocationsCatalogsCatalogItemsRequest, DeleteProjectsLocationsCatalogsCatalogItemsResponse, DeleteProjectsLocationsCatalogsCatalogItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCatalogsCatalogItemsRequest,
   output: DeleteProjectsLocationsCatalogsCatalogItemsResponse,
   errors: [],
 }));
 
-/** Bulk import of multiple catalog items. Request processing may be synchronous. No partial updating supported. Non-existing items will be created. Operation.response is of type ImportResponse. Note that it is possible for a subset of the items to be successfully updated. */
 export interface ImportProjectsLocationsCatalogsCatalogItemsRequest {
   /** Required. `projects/1234/locations/global/catalogs/default_catalog` If no updateMask is specified, requires catalogItems.create permission. If updateMask is specified, requires catalogItems.update permission. */
   parent: string;
@@ -1451,6 +1450,7 @@ export const ImportProjectsLocationsCatalogsCatalogItemsResponse = GoogleLongrun
 
 export type ImportProjectsLocationsCatalogsCatalogItemsError = CommonErrors;
 
+/** Bulk import of multiple catalog items. Request processing may be synchronous. No partial updating supported. Non-existing items will be created. Operation.response is of type ImportResponse. Note that it is possible for a subset of the items to be successfully updated. */
 export const importProjectsLocationsCatalogsCatalogItems: API.OperationMethod<ImportProjectsLocationsCatalogsCatalogItemsRequest, ImportProjectsLocationsCatalogsCatalogItemsResponse, ImportProjectsLocationsCatalogsCatalogItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportProjectsLocationsCatalogsCatalogItemsRequest,
   output: ImportProjectsLocationsCatalogsCatalogItemsResponse,

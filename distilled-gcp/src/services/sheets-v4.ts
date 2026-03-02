@@ -4446,7 +4446,6 @@ export const CopySheetToAnotherSpreadsheetRequest: Schema.Schema<CopySheetToAnot
 // Operations
 // ==========================================================================
 
-/** Creates a spreadsheet, returning the newly created spreadsheet. */
 export interface CreateSpreadsheetsRequest {
   /** Request body */
   body?: Spreadsheet;
@@ -4464,13 +4463,13 @@ export const CreateSpreadsheetsResponse = Spreadsheet;
 
 export type CreateSpreadsheetsError = CommonErrors;
 
+/** Creates a spreadsheet, returning the newly created spreadsheet. */
 export const createSpreadsheets: API.OperationMethod<CreateSpreadsheetsRequest, CreateSpreadsheetsResponse, CreateSpreadsheetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateSpreadsheetsRequest,
   output: CreateSpreadsheetsResponse,
   errors: [],
 }));
 
-/** Returns the spreadsheet at the given ID. The caller must specify the spreadsheet ID. By default, data within grids is not returned. You can include grid data in one of 2 ways: * Specify a [field mask](https://developers.google.com/workspace/sheets/api/guides/field-masks) listing your desired fields using the `fields` URL parameter in HTTP * Set the includeGridData URL parameter to true. If a field mask is set, the `includeGridData` parameter is ignored For large spreadsheets, as a best practice, retrieve only the specific spreadsheet fields that you want. To retrieve only subsets of spreadsheet data, use the ranges URL parameter. Ranges are specified using [A1 notation](https://developers.google.com/workspace/sheets/api/guides/concepts#cell). You can define a single cell (for example, `A1`) or multiple cells (for example, `A1:D5`). You can also get cells from other sheets within the same spreadsheet (for example, `Sheet2!A1:C4`) or retrieve multiple ranges at once (for example, `?ranges=A1:D5&ranges=Sheet2!A1:C4`). Limiting the range returns only the portions of the spreadsheet that intersect the requested ranges. */
 export interface GetSpreadsheetsRequest {
   /** The spreadsheet to request. */
   spreadsheetId: string;
@@ -4497,13 +4496,13 @@ export const GetSpreadsheetsResponse = Spreadsheet;
 
 export type GetSpreadsheetsError = CommonErrors;
 
+/** Returns the spreadsheet at the given ID. The caller must specify the spreadsheet ID. By default, data within grids is not returned. You can include grid data in one of 2 ways: * Specify a [field mask](https://developers.google.com/workspace/sheets/api/guides/field-masks) listing your desired fields using the `fields` URL parameter in HTTP * Set the includeGridData URL parameter to true. If a field mask is set, the `includeGridData` parameter is ignored For large spreadsheets, as a best practice, retrieve only the specific spreadsheet fields that you want. To retrieve only subsets of spreadsheet data, use the ranges URL parameter. Ranges are specified using [A1 notation](https://developers.google.com/workspace/sheets/api/guides/concepts#cell). You can define a single cell (for example, `A1`) or multiple cells (for example, `A1:D5`). You can also get cells from other sheets within the same spreadsheet (for example, `Sheet2!A1:C4`) or retrieve multiple ranges at once (for example, `?ranges=A1:D5&ranges=Sheet2!A1:C4`). Limiting the range returns only the portions of the spreadsheet that intersect the requested ranges. */
 export const getSpreadsheets: API.OperationMethod<GetSpreadsheetsRequest, GetSpreadsheetsResponse, GetSpreadsheetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSpreadsheetsRequest,
   output: GetSpreadsheetsResponse,
   errors: [],
 }));
 
-/** Returns the spreadsheet at the given ID. The caller must specify the spreadsheet ID. For more information, see [Read, write, and search metadata](https://developers.google.com/workspace/sheets/api/guides/metadata). This method differs from GetSpreadsheet in that it allows selecting which subsets of spreadsheet data to return by specifying a dataFilters parameter. Multiple DataFilters can be specified. Specifying one or more data filters returns the portions of the spreadsheet that intersect ranges matched by any of the filters. By default, data within grids is not returned. You can include grid data in one of two ways: * Specify a [field mask](https://developers.google.com/workspace/sheets/api/guides/field-masks) listing your desired fields using the `fields` URL parameter in HTTP. * Set the includeGridData parameter to `true`. If a field mask is set, the `includeGridData` parameter is ignored. For large spreadsheets, as a best practice, retrieve only the specific spreadsheet fields that you want. */
 export interface GetByDataFilterSpreadsheetsRequest {
   /** The spreadsheet to request. */
   spreadsheetId: string;
@@ -4524,13 +4523,13 @@ export const GetByDataFilterSpreadsheetsResponse = Spreadsheet;
 
 export type GetByDataFilterSpreadsheetsError = CommonErrors;
 
+/** Returns the spreadsheet at the given ID. The caller must specify the spreadsheet ID. For more information, see [Read, write, and search metadata](https://developers.google.com/workspace/sheets/api/guides/metadata). This method differs from GetSpreadsheet in that it allows selecting which subsets of spreadsheet data to return by specifying a dataFilters parameter. Multiple DataFilters can be specified. Specifying one or more data filters returns the portions of the spreadsheet that intersect ranges matched by any of the filters. By default, data within grids is not returned. You can include grid data in one of two ways: * Specify a [field mask](https://developers.google.com/workspace/sheets/api/guides/field-masks) listing your desired fields using the `fields` URL parameter in HTTP. * Set the includeGridData parameter to `true`. If a field mask is set, the `includeGridData` parameter is ignored. For large spreadsheets, as a best practice, retrieve only the specific spreadsheet fields that you want. */
 export const getByDataFilterSpreadsheets: API.OperationMethod<GetByDataFilterSpreadsheetsRequest, GetByDataFilterSpreadsheetsResponse, GetByDataFilterSpreadsheetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetByDataFilterSpreadsheetsRequest,
   output: GetByDataFilterSpreadsheetsResponse,
   errors: [],
 }));
 
-/** Applies one or more updates to the spreadsheet. Each request is validated before being applied. If any request is not valid then the entire request will fail and nothing will be applied. Some requests have replies to give you some information about how they are applied. The replies will mirror the requests. For example, if you applied 4 updates and the 3rd one had a reply, then the response will have 2 empty replies, the actual reply, and another empty reply, in that order. Due to the collaborative nature of spreadsheets, it is not guaranteed that the spreadsheet will reflect exactly your changes after this completes, however it is guaranteed that the updates in the request will be applied together atomically. Your changes may be altered with respect to collaborator changes. If there are no collaborators, the spreadsheet should reflect your changes. */
 export interface BatchUpdateSpreadsheetsRequest {
   /** The spreadsheet to apply the updates to. */
   spreadsheetId: string;
@@ -4551,13 +4550,13 @@ export const BatchUpdateSpreadsheetsResponse = BatchUpdateSpreadsheetResponse;
 
 export type BatchUpdateSpreadsheetsError = CommonErrors;
 
+/** Applies one or more updates to the spreadsheet. Each request is validated before being applied. If any request is not valid then the entire request will fail and nothing will be applied. Some requests have replies to give you some information about how they are applied. The replies will mirror the requests. For example, if you applied 4 updates and the 3rd one had a reply, then the response will have 2 empty replies, the actual reply, and another empty reply, in that order. Due to the collaborative nature of spreadsheets, it is not guaranteed that the spreadsheet will reflect exactly your changes after this completes, however it is guaranteed that the updates in the request will be applied together atomically. Your changes may be altered with respect to collaborator changes. If there are no collaborators, the spreadsheet should reflect your changes. */
 export const batchUpdateSpreadsheets: API.OperationMethod<BatchUpdateSpreadsheetsRequest, BatchUpdateSpreadsheetsResponse, BatchUpdateSpreadsheetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchUpdateSpreadsheetsRequest,
   output: BatchUpdateSpreadsheetsResponse,
   errors: [],
 }));
 
-/** Returns a range of values from a spreadsheet. The caller must specify the spreadsheet ID and a range. */
 export interface GetSpreadsheetsValuesRequest {
   /** The ID of the spreadsheet to retrieve data from. */
   spreadsheetId: string;
@@ -4587,13 +4586,13 @@ export const GetSpreadsheetsValuesResponse = ValueRange;
 
 export type GetSpreadsheetsValuesError = CommonErrors;
 
+/** Returns a range of values from a spreadsheet. The caller must specify the spreadsheet ID and a range. */
 export const getSpreadsheetsValues: API.OperationMethod<GetSpreadsheetsValuesRequest, GetSpreadsheetsValuesResponse, GetSpreadsheetsValuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSpreadsheetsValuesRequest,
   output: GetSpreadsheetsValuesResponse,
   errors: [],
 }));
 
-/** Sets values in a range of a spreadsheet. The caller must specify the spreadsheet ID, range, and a valueInputOption. */
 export interface UpdateSpreadsheetsValuesRequest {
   /** The ID of the spreadsheet to update. */
   spreadsheetId: string;
@@ -4629,13 +4628,13 @@ export const UpdateSpreadsheetsValuesResponse = UpdateValuesResponse;
 
 export type UpdateSpreadsheetsValuesError = CommonErrors;
 
+/** Sets values in a range of a spreadsheet. The caller must specify the spreadsheet ID, range, and a valueInputOption. */
 export const updateSpreadsheetsValues: API.OperationMethod<UpdateSpreadsheetsValuesRequest, UpdateSpreadsheetsValuesResponse, UpdateSpreadsheetsValuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateSpreadsheetsValuesRequest,
   output: UpdateSpreadsheetsValuesResponse,
   errors: [],
 }));
 
-/** Appends values to a spreadsheet. The input range is used to search for existing data and find a "table" within that range. Values will be appended to the next row of the table, starting with the first column of the table. See the [guide](https://developers.google.com/workspace/sheets/api/guides/values#appending_values) and [sample code](https://developers.google.com/workspace/sheets/api/samples/writing#append_values) for specific details of how tables are detected and data is appended. The caller must specify the spreadsheet ID, range, and a valueInputOption. The `valueInputOption` only controls how the input data will be added to the sheet (column-wise or row-wise), it does not influence what cell the data starts being written to. */
 export interface AppendSpreadsheetsValuesRequest {
   /** The ID of the spreadsheet to update. */
   spreadsheetId: string;
@@ -4674,13 +4673,13 @@ export const AppendSpreadsheetsValuesResponse = AppendValuesResponse;
 
 export type AppendSpreadsheetsValuesError = CommonErrors;
 
+/** Appends values to a spreadsheet. The input range is used to search for existing data and find a "table" within that range. Values will be appended to the next row of the table, starting with the first column of the table. See the [guide](https://developers.google.com/workspace/sheets/api/guides/values#appending_values) and [sample code](https://developers.google.com/workspace/sheets/api/samples/writing#append_values) for specific details of how tables are detected and data is appended. The caller must specify the spreadsheet ID, range, and a valueInputOption. The `valueInputOption` only controls how the input data will be added to the sheet (column-wise or row-wise), it does not influence what cell the data starts being written to. */
 export const appendSpreadsheetsValues: API.OperationMethod<AppendSpreadsheetsValuesRequest, AppendSpreadsheetsValuesResponse, AppendSpreadsheetsValuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AppendSpreadsheetsValuesRequest,
   output: AppendSpreadsheetsValuesResponse,
   errors: [],
 }));
 
-/** Clears values from a spreadsheet. The caller must specify the spreadsheet ID and range. Only values are cleared -- all other properties of the cell (such as formatting, data validation, etc..) are kept. */
 export interface ClearSpreadsheetsValuesRequest {
   /** The ID of the spreadsheet to update. */
   spreadsheetId: string;
@@ -4704,13 +4703,13 @@ export const ClearSpreadsheetsValuesResponse = ClearValuesResponse;
 
 export type ClearSpreadsheetsValuesError = CommonErrors;
 
+/** Clears values from a spreadsheet. The caller must specify the spreadsheet ID and range. Only values are cleared -- all other properties of the cell (such as formatting, data validation, etc..) are kept. */
 export const clearSpreadsheetsValues: API.OperationMethod<ClearSpreadsheetsValuesRequest, ClearSpreadsheetsValuesResponse, ClearSpreadsheetsValuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ClearSpreadsheetsValuesRequest,
   output: ClearSpreadsheetsValuesResponse,
   errors: [],
 }));
 
-/** Returns one or more ranges of values from a spreadsheet. The caller must specify the spreadsheet ID and one or more ranges. */
 export interface BatchGetSpreadsheetsValuesRequest {
   /** The ID of the spreadsheet to retrieve data from. */
   spreadsheetId: string;
@@ -4740,13 +4739,13 @@ export const BatchGetSpreadsheetsValuesResponse = BatchGetValuesResponse;
 
 export type BatchGetSpreadsheetsValuesError = CommonErrors;
 
+/** Returns one or more ranges of values from a spreadsheet. The caller must specify the spreadsheet ID and one or more ranges. */
 export const batchGetSpreadsheetsValues: API.OperationMethod<BatchGetSpreadsheetsValuesRequest, BatchGetSpreadsheetsValuesResponse, BatchGetSpreadsheetsValuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchGetSpreadsheetsValuesRequest,
   output: BatchGetSpreadsheetsValuesResponse,
   errors: [],
 }));
 
-/** Sets values in one or more ranges of a spreadsheet. The caller must specify the spreadsheet ID, a valueInputOption, and one or more ValueRanges. */
 export interface BatchUpdateSpreadsheetsValuesRequest {
   /** The ID of the spreadsheet to update. */
   spreadsheetId: string;
@@ -4767,13 +4766,13 @@ export const BatchUpdateSpreadsheetsValuesResponse = BatchUpdateValuesResponse;
 
 export type BatchUpdateSpreadsheetsValuesError = CommonErrors;
 
+/** Sets values in one or more ranges of a spreadsheet. The caller must specify the spreadsheet ID, a valueInputOption, and one or more ValueRanges. */
 export const batchUpdateSpreadsheetsValues: API.OperationMethod<BatchUpdateSpreadsheetsValuesRequest, BatchUpdateSpreadsheetsValuesResponse, BatchUpdateSpreadsheetsValuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchUpdateSpreadsheetsValuesRequest,
   output: BatchUpdateSpreadsheetsValuesResponse,
   errors: [],
 }));
 
-/** Clears one or more ranges of values from a spreadsheet. The caller must specify the spreadsheet ID and one or more ranges. Only values are cleared -- all other properties of the cell (such as formatting and data validation) are kept. */
 export interface BatchClearSpreadsheetsValuesRequest {
   /** The ID of the spreadsheet to update. */
   spreadsheetId: string;
@@ -4794,13 +4793,13 @@ export const BatchClearSpreadsheetsValuesResponse = BatchClearValuesResponse;
 
 export type BatchClearSpreadsheetsValuesError = CommonErrors;
 
+/** Clears one or more ranges of values from a spreadsheet. The caller must specify the spreadsheet ID and one or more ranges. Only values are cleared -- all other properties of the cell (such as formatting and data validation) are kept. */
 export const batchClearSpreadsheetsValues: API.OperationMethod<BatchClearSpreadsheetsValuesRequest, BatchClearSpreadsheetsValuesResponse, BatchClearSpreadsheetsValuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchClearSpreadsheetsValuesRequest,
   output: BatchClearSpreadsheetsValuesResponse,
   errors: [],
 }));
 
-/** Returns one or more ranges of values that match the specified data filters. For more information, see [Read, write, and search metadata](https://developers.google.com/workspace/sheets/api/guides/metadata). The caller must specify the spreadsheet ID and one or more DataFilters. Ranges that match any of the data filters in the request will be returned. */
 export interface BatchGetByDataFilterSpreadsheetsValuesRequest {
   /** The ID of the spreadsheet to retrieve data from. */
   spreadsheetId: string;
@@ -4821,13 +4820,13 @@ export const BatchGetByDataFilterSpreadsheetsValuesResponse = BatchGetValuesByDa
 
 export type BatchGetByDataFilterSpreadsheetsValuesError = CommonErrors;
 
+/** Returns one or more ranges of values that match the specified data filters. For more information, see [Read, write, and search metadata](https://developers.google.com/workspace/sheets/api/guides/metadata). The caller must specify the spreadsheet ID and one or more DataFilters. Ranges that match any of the data filters in the request will be returned. */
 export const batchGetByDataFilterSpreadsheetsValues: API.OperationMethod<BatchGetByDataFilterSpreadsheetsValuesRequest, BatchGetByDataFilterSpreadsheetsValuesResponse, BatchGetByDataFilterSpreadsheetsValuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchGetByDataFilterSpreadsheetsValuesRequest,
   output: BatchGetByDataFilterSpreadsheetsValuesResponse,
   errors: [],
 }));
 
-/** Sets values in one or more ranges of a spreadsheet. For more information, see [Read, write, and search metadata](https://developers.google.com/workspace/sheets/api/guides/metadata). The caller must specify the spreadsheet ID, a valueInputOption, and one or more DataFilterValueRanges. */
 export interface BatchUpdateByDataFilterSpreadsheetsValuesRequest {
   /** The ID of the spreadsheet to update. */
   spreadsheetId: string;
@@ -4848,13 +4847,13 @@ export const BatchUpdateByDataFilterSpreadsheetsValuesResponse = BatchUpdateValu
 
 export type BatchUpdateByDataFilterSpreadsheetsValuesError = CommonErrors;
 
+/** Sets values in one or more ranges of a spreadsheet. For more information, see [Read, write, and search metadata](https://developers.google.com/workspace/sheets/api/guides/metadata). The caller must specify the spreadsheet ID, a valueInputOption, and one or more DataFilterValueRanges. */
 export const batchUpdateByDataFilterSpreadsheetsValues: API.OperationMethod<BatchUpdateByDataFilterSpreadsheetsValuesRequest, BatchUpdateByDataFilterSpreadsheetsValuesResponse, BatchUpdateByDataFilterSpreadsheetsValuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchUpdateByDataFilterSpreadsheetsValuesRequest,
   output: BatchUpdateByDataFilterSpreadsheetsValuesResponse,
   errors: [],
 }));
 
-/** Clears one or more ranges of values from a spreadsheet. For more information, see [Read, write, and search metadata](https://developers.google.com/workspace/sheets/api/guides/metadata). The caller must specify the spreadsheet ID and one or more DataFilters. Ranges matching any of the specified data filters will be cleared. Only values are cleared -- all other properties of the cell (such as formatting, data validation, etc.) are kept. */
 export interface BatchClearByDataFilterSpreadsheetsValuesRequest {
   /** The ID of the spreadsheet to update. */
   spreadsheetId: string;
@@ -4875,13 +4874,13 @@ export const BatchClearByDataFilterSpreadsheetsValuesResponse = BatchClearValues
 
 export type BatchClearByDataFilterSpreadsheetsValuesError = CommonErrors;
 
+/** Clears one or more ranges of values from a spreadsheet. For more information, see [Read, write, and search metadata](https://developers.google.com/workspace/sheets/api/guides/metadata). The caller must specify the spreadsheet ID and one or more DataFilters. Ranges matching any of the specified data filters will be cleared. Only values are cleared -- all other properties of the cell (such as formatting, data validation, etc.) are kept. */
 export const batchClearByDataFilterSpreadsheetsValues: API.OperationMethod<BatchClearByDataFilterSpreadsheetsValuesRequest, BatchClearByDataFilterSpreadsheetsValuesResponse, BatchClearByDataFilterSpreadsheetsValuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchClearByDataFilterSpreadsheetsValuesRequest,
   output: BatchClearByDataFilterSpreadsheetsValuesResponse,
   errors: [],
 }));
 
-/** Returns the developer metadata with the specified ID. The caller must specify the spreadsheet ID and the developer metadata's unique metadataId. For more information, see [Read, write, and search metadata](https://developers.google.com/workspace/sheets/api/guides/metadata). */
 export interface GetSpreadsheetsDeveloperMetadataRequest {
   /** The ID of the spreadsheet to retrieve metadata from. */
   spreadsheetId: string;
@@ -4902,13 +4901,13 @@ export const GetSpreadsheetsDeveloperMetadataResponse = DeveloperMetadata;
 
 export type GetSpreadsheetsDeveloperMetadataError = CommonErrors;
 
+/** Returns the developer metadata with the specified ID. The caller must specify the spreadsheet ID and the developer metadata's unique metadataId. For more information, see [Read, write, and search metadata](https://developers.google.com/workspace/sheets/api/guides/metadata). */
 export const getSpreadsheetsDeveloperMetadata: API.OperationMethod<GetSpreadsheetsDeveloperMetadataRequest, GetSpreadsheetsDeveloperMetadataResponse, GetSpreadsheetsDeveloperMetadataError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSpreadsheetsDeveloperMetadataRequest,
   output: GetSpreadsheetsDeveloperMetadataResponse,
   errors: [],
 }));
 
-/** Returns all developer metadata matching the specified DataFilter. For more information, see [Read, write, and search metadata](https://developers.google.com/workspace/sheets/api/guides/metadata). If the provided DataFilter represents a DeveloperMetadataLookup object, this will return all DeveloperMetadata entries selected by it. If the DataFilter represents a location in a spreadsheet, this will return all developer metadata associated with locations intersecting that region. */
 export interface SearchSpreadsheetsDeveloperMetadataRequest {
   /** The ID of the spreadsheet to retrieve metadata from. */
   spreadsheetId: string;
@@ -4929,13 +4928,13 @@ export const SearchSpreadsheetsDeveloperMetadataResponse = SearchDeveloperMetada
 
 export type SearchSpreadsheetsDeveloperMetadataError = CommonErrors;
 
+/** Returns all developer metadata matching the specified DataFilter. For more information, see [Read, write, and search metadata](https://developers.google.com/workspace/sheets/api/guides/metadata). If the provided DataFilter represents a DeveloperMetadataLookup object, this will return all DeveloperMetadata entries selected by it. If the DataFilter represents a location in a spreadsheet, this will return all developer metadata associated with locations intersecting that region. */
 export const searchSpreadsheetsDeveloperMetadata: API.OperationMethod<SearchSpreadsheetsDeveloperMetadataRequest, SearchSpreadsheetsDeveloperMetadataResponse, SearchSpreadsheetsDeveloperMetadataError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchSpreadsheetsDeveloperMetadataRequest,
   output: SearchSpreadsheetsDeveloperMetadataResponse,
   errors: [],
 }));
 
-/** Copies a single sheet from a spreadsheet to another spreadsheet. Returns the properties of the newly created sheet. */
 export interface CopyToSpreadsheetsSheetsRequest {
   /** The ID of the spreadsheet containing the sheet to copy. */
   spreadsheetId: string;
@@ -4959,6 +4958,7 @@ export const CopyToSpreadsheetsSheetsResponse = SheetProperties;
 
 export type CopyToSpreadsheetsSheetsError = CommonErrors;
 
+/** Copies a single sheet from a spreadsheet to another spreadsheet. Returns the properties of the newly created sheet. */
 export const copyToSpreadsheetsSheets: API.OperationMethod<CopyToSpreadsheetsSheetsRequest, CopyToSpreadsheetsSheetsResponse, CopyToSpreadsheetsSheetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CopyToSpreadsheetsSheetsRequest,
   output: CopyToSpreadsheetsSheetsResponse,

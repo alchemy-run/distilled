@@ -4737,7 +4737,6 @@ export const VoidedPurchasesListResponse: Schema.Schema<VoidedPurchasesListRespo
 // Operations
 // ==========================================================================
 
-/** Grant access for a user to the given developer account. */
 export interface CreateUsersRequest {
   /** Required. The developer account to add the user to. Format: developers/{developer} */
   parent: string;
@@ -4758,13 +4757,13 @@ export const CreateUsersResponse = User;
 
 export type CreateUsersError = CommonErrors;
 
+/** Grant access for a user to the given developer account. */
 export const createUsers: API.OperationMethod<CreateUsersRequest, CreateUsersResponse, CreateUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateUsersRequest,
   output: CreateUsersResponse,
   errors: [],
 }));
 
-/** Lists all users with access to a developer account. */
 export interface ListUsersRequest {
   /** Required. The developer account to fetch users from. Format: developers/{developer} */
   parent: string;
@@ -4788,7 +4787,8 @@ export const ListUsersResponse_Op = ListUsersResponse;
 
 export type ListUsersError = CommonErrors;
 
-export const listUsers = API.makePaginated(() => ({
+/** Lists all users with access to a developer account. */
+export const listUsers: API.PaginatedOperationMethod<ListUsersRequest, ListUsersResponse_Op, ListUsersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListUsersRequest,
   output: ListUsersResponse_Op,
   errors: [],
@@ -4798,7 +4798,6 @@ export const listUsers = API.makePaginated(() => ({
   },
 }));
 
-/** Updates access for the user to the developer account. */
 export interface PatchUsersRequest {
   /** Required. Resource name for this user, following the pattern "developers/{developer}/users/{email}". */
   name: string;
@@ -4822,13 +4821,13 @@ export const PatchUsersResponse = User;
 
 export type PatchUsersError = CommonErrors;
 
+/** Updates access for the user to the developer account. */
 export const patchUsers: API.OperationMethod<PatchUsersRequest, PatchUsersResponse, PatchUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchUsersRequest,
   output: PatchUsersResponse,
   errors: [],
 }));
 
-/** Removes all access for the user to the given developer account. */
 export interface DeleteUsersRequest {
   /** Required. The name of the user to delete. Format: developers/{developer}/users/{email} */
   name: string;
@@ -4846,13 +4845,13 @@ export const DeleteUsersResponse: Schema.Schema<DeleteUsersResponse> = Schema.St
 
 export type DeleteUsersError = CommonErrors;
 
+/** Removes all access for the user to the given developer account. */
 export const deleteUsers: API.OperationMethod<DeleteUsersRequest, DeleteUsersResponse, DeleteUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteUsersRequest,
   output: DeleteUsersResponse,
   errors: [],
 }));
 
-/** Grant access for a user to the given package. */
 export interface CreateGrantsRequest {
   /** Required. The user which needs permission. Format: developers/{developer}/users/{user} */
   parent: string;
@@ -4873,13 +4872,13 @@ export const CreateGrantsResponse = Grant;
 
 export type CreateGrantsError = CommonErrors;
 
+/** Grant access for a user to the given package. */
 export const createGrants: API.OperationMethod<CreateGrantsRequest, CreateGrantsResponse, CreateGrantsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateGrantsRequest,
   output: CreateGrantsResponse,
   errors: [],
 }));
 
-/** Updates access for the user to the given package. */
 export interface PatchGrantsRequest {
   /** Required. Resource name for this grant, following the pattern "developers/{developer}/users/{email}/grants/{package_name}". If this grant is for a draft app, the app ID will be used in this resource name instead of the package name. */
   name: string;
@@ -4903,13 +4902,13 @@ export const PatchGrantsResponse = Grant;
 
 export type PatchGrantsError = CommonErrors;
 
+/** Updates access for the user to the given package. */
 export const patchGrants: API.OperationMethod<PatchGrantsRequest, PatchGrantsResponse, PatchGrantsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchGrantsRequest,
   output: PatchGrantsResponse,
   errors: [],
 }));
 
-/** Removes all access for the user to the given package or developer account. */
 export interface DeleteGrantsRequest {
   /** Required. The name of the grant to delete. Format: developers/{developer}/users/{email}/grants/{package_name} */
   name: string;
@@ -4927,13 +4926,13 @@ export const DeleteGrantsResponse: Schema.Schema<DeleteGrantsResponse> = Schema.
 
 export type DeleteGrantsError = CommonErrors;
 
+/** Removes all access for the user to the given package or developer account. */
 export const deleteGrants: API.OperationMethod<DeleteGrantsRequest, DeleteGrantsResponse, DeleteGrantsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteGrantsRequest,
   output: DeleteGrantsResponse,
   errors: [],
 }));
 
-/** Create an app recovery action with recovery status as DRAFT. Note that this action does not execute the recovery action. */
 export interface CreateApprecoveryRequest {
   /** Required. Package name of the app on which recovery action is performed. */
   packageName: string;
@@ -4954,13 +4953,13 @@ export const CreateApprecoveryResponse = AppRecoveryAction;
 
 export type CreateApprecoveryError = CommonErrors;
 
+/** Create an app recovery action with recovery status as DRAFT. Note that this action does not execute the recovery action. */
 export const createApprecovery: API.OperationMethod<CreateApprecoveryRequest, CreateApprecoveryResponse, CreateApprecoveryError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateApprecoveryRequest,
   output: CreateApprecoveryResponse,
   errors: [],
 }));
 
-/** Deploy an already created app recovery action with recovery status DRAFT. Note that this action activates the recovery action for all targeted users and changes its status to ACTIVE. */
 export interface DeployApprecoveryRequest {
   /** Required. Package name of the app for which recovery action is deployed. */
   packageName: string;
@@ -4984,13 +4983,13 @@ export const DeployApprecoveryResponse = DeployAppRecoveryResponse;
 
 export type DeployApprecoveryError = CommonErrors;
 
+/** Deploy an already created app recovery action with recovery status DRAFT. Note that this action activates the recovery action for all targeted users and changes its status to ACTIVE. */
 export const deployApprecovery: API.OperationMethod<DeployApprecoveryRequest, DeployApprecoveryResponse, DeployApprecoveryError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeployApprecoveryRequest,
   output: DeployApprecoveryResponse,
   errors: [],
 }));
 
-/** List all app recovery action resources associated with a particular package name and app version. */
 export interface ListApprecoveryRequest {
   /** Required. Package name of the app for which list of recovery actions is requested. */
   packageName: string;
@@ -5011,13 +5010,13 @@ export const ListApprecoveryResponse = ListAppRecoveriesResponse;
 
 export type ListApprecoveryError = CommonErrors;
 
+/** List all app recovery action resources associated with a particular package name and app version. */
 export const listApprecovery: API.OperationMethod<ListApprecoveryRequest, ListApprecoveryResponse, ListApprecoveryError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListApprecoveryRequest,
   output: ListApprecoveryResponse,
   errors: [],
 }));
 
-/** Incrementally update targeting for a recovery action. Note that only the criteria selected during the creation of recovery action can be expanded. */
 export interface AddTargetingApprecoveryRequest {
   /** Required. Package name of the app for which recovery action is to be updated. */
   packageName: string;
@@ -5041,13 +5040,13 @@ export const AddTargetingApprecoveryResponse = AddTargetingResponse;
 
 export type AddTargetingApprecoveryError = CommonErrors;
 
+/** Incrementally update targeting for a recovery action. Note that only the criteria selected during the creation of recovery action can be expanded. */
 export const addTargetingApprecovery: API.OperationMethod<AddTargetingApprecoveryRequest, AddTargetingApprecoveryResponse, AddTargetingApprecoveryError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddTargetingApprecoveryRequest,
   output: AddTargetingApprecoveryResponse,
   errors: [],
 }));
 
-/** Cancel an already executing app recovery action. Note that this action changes status of the recovery action to CANCELED. */
 export interface CancelApprecoveryRequest {
   /** Required. Package name of the app for which recovery action cancellation is requested. */
   packageName: string;
@@ -5071,13 +5070,13 @@ export const CancelApprecoveryResponse = CancelAppRecoveryResponse;
 
 export type CancelApprecoveryError = CommonErrors;
 
+/** Cancel an already executing app recovery action. Note that this action changes status of the recovery action to CANCELED. */
 export const cancelApprecovery: API.OperationMethod<CancelApprecoveryRequest, CancelApprecoveryResponse, CancelApprecoveryError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelApprecoveryRequest,
   output: CancelApprecoveryResponse,
   errors: [],
 }));
 
-/** Checks the purchase and consumption status of an inapp item. */
 export interface Getproductpurchasev2PurchasesProductsv2Request {
   /** The package name of the application the inapp product was sold in (for example, 'com.some.thing'). */
   packageName: string;
@@ -5098,13 +5097,13 @@ export const Getproductpurchasev2PurchasesProductsv2Response = ProductPurchaseV2
 
 export type Getproductpurchasev2PurchasesProductsv2Error = CommonErrors;
 
+/** Checks the purchase and consumption status of an inapp item. */
 export const getproductpurchasev2PurchasesProductsv2: API.OperationMethod<Getproductpurchasev2PurchasesProductsv2Request, Getproductpurchasev2PurchasesProductsv2Response, Getproductpurchasev2PurchasesProductsv2Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: Getproductpurchasev2PurchasesProductsv2Request,
   output: Getproductpurchasev2PurchasesProductsv2Response,
   errors: [],
 }));
 
-/** Checks the purchase and consumption status of an inapp item. */
 export interface GetPurchasesProductsRequest {
   /** The package name of the application the inapp product was sold in (for example, 'com.some.thing'). */
   packageName: string;
@@ -5128,13 +5127,13 @@ export const GetPurchasesProductsResponse = ProductPurchase;
 
 export type GetPurchasesProductsError = CommonErrors;
 
+/** Checks the purchase and consumption status of an inapp item. */
 export const getPurchasesProducts: API.OperationMethod<GetPurchasesProductsRequest, GetPurchasesProductsResponse, GetPurchasesProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPurchasesProductsRequest,
   output: GetPurchasesProductsResponse,
   errors: [],
 }));
 
-/** Acknowledges a purchase of an inapp item. */
 export interface AcknowledgePurchasesProductsRequest {
   /** The package name of the application the inapp product was sold in (for example, 'com.some.thing'). */
   packageName: string;
@@ -5161,13 +5160,13 @@ export const AcknowledgePurchasesProductsResponse: Schema.Schema<AcknowledgePurc
 
 export type AcknowledgePurchasesProductsError = CommonErrors;
 
+/** Acknowledges a purchase of an inapp item. */
 export const acknowledgePurchasesProducts: API.OperationMethod<AcknowledgePurchasesProductsRequest, AcknowledgePurchasesProductsResponse, AcknowledgePurchasesProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AcknowledgePurchasesProductsRequest,
   output: AcknowledgePurchasesProductsResponse,
   errors: [],
 }));
 
-/** Consumes a purchase for an inapp item. */
 export interface ConsumePurchasesProductsRequest {
   /** The package name of the application the inapp product was sold in (for example, 'com.some.thing'). */
   packageName: string;
@@ -5191,13 +5190,13 @@ export const ConsumePurchasesProductsResponse: Schema.Schema<ConsumePurchasesPro
 
 export type ConsumePurchasesProductsError = CommonErrors;
 
+/** Consumes a purchase for an inapp item. */
 export const consumePurchasesProducts: API.OperationMethod<ConsumePurchasesProductsRequest, ConsumePurchasesProductsResponse, ConsumePurchasesProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ConsumePurchasesProductsRequest,
   output: ConsumePurchasesProductsResponse,
   errors: [],
 }));
 
-/** Deprecated: Use purchases.subscriptionsv2.get instead. Checks whether a user's subscription purchase is valid and returns its expiry time. */
 export interface GetPurchasesSubscriptionsRequest {
   /** The package name of the application for which this subscription was purchased (for example, 'com.some.thing'). */
   packageName: string;
@@ -5221,13 +5220,13 @@ export const GetPurchasesSubscriptionsResponse = SubscriptionPurchase;
 
 export type GetPurchasesSubscriptionsError = CommonErrors;
 
+/** Deprecated: Use purchases.subscriptionsv2.get instead. Checks whether a user's subscription purchase is valid and returns its expiry time. */
 export const getPurchasesSubscriptions: API.OperationMethod<GetPurchasesSubscriptionsRequest, GetPurchasesSubscriptionsResponse, GetPurchasesSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPurchasesSubscriptionsRequest,
   output: GetPurchasesSubscriptionsResponse,
   errors: [],
 }));
 
-/** Cancels a user's subscription purchase. The subscription remains valid until its expiration time. Newer version is available at purchases.subscriptionsv2.cancel for better client library support. */
 export interface CancelPurchasesSubscriptionsRequest {
   /** The package name of the application for which this subscription was purchased (for example, 'com.some.thing'). */
   packageName: string;
@@ -5251,13 +5250,13 @@ export const CancelPurchasesSubscriptionsResponse: Schema.Schema<CancelPurchases
 
 export type CancelPurchasesSubscriptionsError = CommonErrors;
 
+/** Cancels a user's subscription purchase. The subscription remains valid until its expiration time. Newer version is available at purchases.subscriptionsv2.cancel for better client library support. */
 export const cancelPurchasesSubscriptions: API.OperationMethod<CancelPurchasesSubscriptionsRequest, CancelPurchasesSubscriptionsResponse, CancelPurchasesSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelPurchasesSubscriptionsRequest,
   output: CancelPurchasesSubscriptionsResponse,
   errors: [],
 }));
 
-/** Defers a user's subscription purchase until a specified future expiration time. */
 export interface DeferPurchasesSubscriptionsRequest {
   /** The package name of the application for which this subscription was purchased (for example, 'com.some.thing'). */
   packageName: string;
@@ -5284,13 +5283,13 @@ export const DeferPurchasesSubscriptionsResponse = SubscriptionPurchasesDeferRes
 
 export type DeferPurchasesSubscriptionsError = CommonErrors;
 
+/** Defers a user's subscription purchase until a specified future expiration time. */
 export const deferPurchasesSubscriptions: API.OperationMethod<DeferPurchasesSubscriptionsRequest, DeferPurchasesSubscriptionsResponse, DeferPurchasesSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeferPurchasesSubscriptionsRequest,
   output: DeferPurchasesSubscriptionsResponse,
   errors: [],
 }));
 
-/** Deprecated: Use orders.refund instead. Refunds a user's subscription purchase, but the subscription remains valid until its expiration time and it will continue to recur. */
 export interface RefundPurchasesSubscriptionsRequest {
   /** The package name of the application for which this subscription was purchased (for example, 'com.some.thing'). */
   packageName: string;
@@ -5314,13 +5313,13 @@ export const RefundPurchasesSubscriptionsResponse: Schema.Schema<RefundPurchases
 
 export type RefundPurchasesSubscriptionsError = CommonErrors;
 
+/** Deprecated: Use orders.refund instead. Refunds a user's subscription purchase, but the subscription remains valid until its expiration time and it will continue to recur. */
 export const refundPurchasesSubscriptions: API.OperationMethod<RefundPurchasesSubscriptionsRequest, RefundPurchasesSubscriptionsResponse, RefundPurchasesSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RefundPurchasesSubscriptionsRequest,
   output: RefundPurchasesSubscriptionsResponse,
   errors: [],
 }));
 
-/** Deprecated: Use purchases.subscriptionsv2.revoke instead. Refunds and immediately revokes a user's subscription purchase. Access to the subscription will be terminated immediately and it will stop recurring. */
 export interface RevokePurchasesSubscriptionsRequest {
   /** The package name of the application for which this subscription was purchased (for example, 'com.some.thing'). */
   packageName: string;
@@ -5344,13 +5343,13 @@ export const RevokePurchasesSubscriptionsResponse: Schema.Schema<RevokePurchases
 
 export type RevokePurchasesSubscriptionsError = CommonErrors;
 
+/** Deprecated: Use purchases.subscriptionsv2.revoke instead. Refunds and immediately revokes a user's subscription purchase. Access to the subscription will be terminated immediately and it will stop recurring. */
 export const revokePurchasesSubscriptions: API.OperationMethod<RevokePurchasesSubscriptionsRequest, RevokePurchasesSubscriptionsResponse, RevokePurchasesSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RevokePurchasesSubscriptionsRequest,
   output: RevokePurchasesSubscriptionsResponse,
   errors: [],
 }));
 
-/** Acknowledges a subscription purchase. */
 export interface AcknowledgePurchasesSubscriptionsRequest {
   /** The package name of the application for which this subscription was purchased (for example, 'com.some.thing'). */
   packageName: string;
@@ -5377,13 +5376,13 @@ export const AcknowledgePurchasesSubscriptionsResponse: Schema.Schema<Acknowledg
 
 export type AcknowledgePurchasesSubscriptionsError = CommonErrors;
 
+/** Acknowledges a subscription purchase. */
 export const acknowledgePurchasesSubscriptions: API.OperationMethod<AcknowledgePurchasesSubscriptionsRequest, AcknowledgePurchasesSubscriptionsResponse, AcknowledgePurchasesSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AcknowledgePurchasesSubscriptionsRequest,
   output: AcknowledgePurchasesSubscriptionsResponse,
   errors: [],
 }));
 
-/** Get metadata about a subscription */
 export interface GetPurchasesSubscriptionsv2Request {
   /** The package of the application for which this subscription was purchased (for example, 'com.some.thing'). */
   packageName: string;
@@ -5404,13 +5403,13 @@ export const GetPurchasesSubscriptionsv2Response = SubscriptionPurchaseV2;
 
 export type GetPurchasesSubscriptionsv2Error = CommonErrors;
 
+/** Get metadata about a subscription */
 export const getPurchasesSubscriptionsv2: API.OperationMethod<GetPurchasesSubscriptionsv2Request, GetPurchasesSubscriptionsv2Response, GetPurchasesSubscriptionsv2Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPurchasesSubscriptionsv2Request,
   output: GetPurchasesSubscriptionsv2Response,
   errors: [],
 }));
 
-/** Revoke a subscription purchase for the user. */
 export interface RevokePurchasesSubscriptionsv2Request {
   /** Required. The package of the application for which this subscription was purchased (for example, 'com.some.thing'). */
   packageName: string;
@@ -5434,13 +5433,13 @@ export const RevokePurchasesSubscriptionsv2Response = RevokeSubscriptionPurchase
 
 export type RevokePurchasesSubscriptionsv2Error = CommonErrors;
 
+/** Revoke a subscription purchase for the user. */
 export const revokePurchasesSubscriptionsv2: API.OperationMethod<RevokePurchasesSubscriptionsv2Request, RevokePurchasesSubscriptionsv2Response, RevokePurchasesSubscriptionsv2Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RevokePurchasesSubscriptionsv2Request,
   output: RevokePurchasesSubscriptionsv2Response,
   errors: [],
 }));
 
-/** Cancel a subscription purchase for the user. */
 export interface CancelPurchasesSubscriptionsv2Request {
   /** Required. The package of the application for which this subscription was purchased (for example, 'com.some.thing'). */
   packageName: string;
@@ -5464,13 +5463,13 @@ export const CancelPurchasesSubscriptionsv2Response = CancelSubscriptionPurchase
 
 export type CancelPurchasesSubscriptionsv2Error = CommonErrors;
 
+/** Cancel a subscription purchase for the user. */
 export const cancelPurchasesSubscriptionsv2: API.OperationMethod<CancelPurchasesSubscriptionsv2Request, CancelPurchasesSubscriptionsv2Response, CancelPurchasesSubscriptionsv2Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelPurchasesSubscriptionsv2Request,
   output: CancelPurchasesSubscriptionsv2Response,
   errors: [],
 }));
 
-/** Defers the renewal of a subscription. */
 export interface DeferPurchasesSubscriptionsv2Request {
   /** Required. The package of the application for which this subscription was purchased (for example, 'com.some.thing'). */
   packageName: string;
@@ -5494,13 +5493,13 @@ export const DeferPurchasesSubscriptionsv2Response = DeferSubscriptionPurchaseRe
 
 export type DeferPurchasesSubscriptionsv2Error = CommonErrors;
 
+/** Defers the renewal of a subscription. */
 export const deferPurchasesSubscriptionsv2: API.OperationMethod<DeferPurchasesSubscriptionsv2Request, DeferPurchasesSubscriptionsv2Response, DeferPurchasesSubscriptionsv2Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeferPurchasesSubscriptionsv2Request,
   output: DeferPurchasesSubscriptionsv2Response,
   errors: [],
 }));
 
-/** Lists the purchases that were canceled, refunded or charged-back. */
 export interface ListPurchasesVoidedpurchasesRequest {
   /** The package name of the application for which voided purchases need to be returned (for example, 'com.some.thing'). */
   packageName: string;
@@ -5539,13 +5538,13 @@ export const ListPurchasesVoidedpurchasesResponse = VoidedPurchasesListResponse;
 
 export type ListPurchasesVoidedpurchasesError = CommonErrors;
 
+/** Lists the purchases that were canceled, refunded or charged-back. */
 export const listPurchasesVoidedpurchases: API.OperationMethod<ListPurchasesVoidedpurchasesRequest, ListPurchasesVoidedpurchasesResponse, ListPurchasesVoidedpurchasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListPurchasesVoidedpurchasesRequest,
   output: ListPurchasesVoidedpurchasesResponse,
   errors: [],
 }));
 
-/** Creates a new edit for an app. */
 export interface InsertEditsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -5566,13 +5565,13 @@ export const InsertEditsResponse = AppEdit;
 
 export type InsertEditsError = CommonErrors;
 
+/** Creates a new edit for an app. */
 export const insertEdits: API.OperationMethod<InsertEditsRequest, InsertEditsResponse, InsertEditsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertEditsRequest,
   output: InsertEditsResponse,
   errors: [],
 }));
 
-/** Gets an app edit. */
 export interface GetEditsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -5593,13 +5592,13 @@ export const GetEditsResponse = AppEdit;
 
 export type GetEditsError = CommonErrors;
 
+/** Gets an app edit. */
 export const getEdits: API.OperationMethod<GetEditsRequest, GetEditsResponse, GetEditsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEditsRequest,
   output: GetEditsResponse,
   errors: [],
 }));
 
-/** Deletes an app edit. */
 export interface DeleteEditsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -5620,13 +5619,13 @@ export const DeleteEditsResponse: Schema.Schema<DeleteEditsResponse> = Schema.St
 
 export type DeleteEditsError = CommonErrors;
 
+/** Deletes an app edit. */
 export const deleteEdits: API.OperationMethod<DeleteEditsRequest, DeleteEditsResponse, DeleteEditsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteEditsRequest,
   output: DeleteEditsResponse,
   errors: [],
 }));
 
-/** Commits an app edit. */
 export interface CommitEditsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -5650,13 +5649,13 @@ export const CommitEditsResponse = AppEdit;
 
 export type CommitEditsError = CommonErrors;
 
+/** Commits an app edit. */
 export const commitEdits: API.OperationMethod<CommitEditsRequest, CommitEditsResponse, CommitEditsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CommitEditsRequest,
   output: CommitEditsResponse,
   errors: [],
 }));
 
-/** Validates an app edit. */
 export interface ValidateEditsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -5677,13 +5676,13 @@ export const ValidateEditsResponse = AppEdit;
 
 export type ValidateEditsError = CommonErrors;
 
+/** Validates an app edit. */
 export const validateEdits: API.OperationMethod<ValidateEditsRequest, ValidateEditsResponse, ValidateEditsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ValidateEditsRequest,
   output: ValidateEditsResponse,
   errors: [],
 }));
 
-/** Uploads an APK and adds to the current edit. */
 export interface UploadEditsApksRequest {
   /** Package name of the app. */
   packageName: string;
@@ -5704,13 +5703,13 @@ export const UploadEditsApksResponse = Apk;
 
 export type UploadEditsApksError = CommonErrors;
 
+/** Uploads an APK and adds to the current edit. */
 export const uploadEditsApks: API.OperationMethod<UploadEditsApksRequest, UploadEditsApksResponse, UploadEditsApksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadEditsApksRequest,
   output: UploadEditsApksResponse,
   errors: [],
 }));
 
-/** Lists all current APKs of the app and edit. */
 export interface ListEditsApksRequest {
   /** Package name of the app. */
   packageName: string;
@@ -5731,13 +5730,13 @@ export const ListEditsApksResponse = ApksListResponse;
 
 export type ListEditsApksError = CommonErrors;
 
+/** Lists all current APKs of the app and edit. */
 export const listEditsApks: API.OperationMethod<ListEditsApksRequest, ListEditsApksResponse, ListEditsApksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListEditsApksRequest,
   output: ListEditsApksResponse,
   errors: [],
 }));
 
-/** Creates a new APK without uploading the APK itself to Google Play, instead hosting the APK at a specified URL. This function is only available to organizations using Managed Play whose application is configured to restrict distribution to the organizations. */
 export interface AddexternallyhostedEditsApksRequest {
   /** Package name of the app. */
   packageName: string;
@@ -5761,13 +5760,13 @@ export const AddexternallyhostedEditsApksResponse = ApksAddExternallyHostedRespo
 
 export type AddexternallyhostedEditsApksError = CommonErrors;
 
+/** Creates a new APK without uploading the APK itself to Google Play, instead hosting the APK at a specified URL. This function is only available to organizations using Managed Play whose application is configured to restrict distribution to the organizations. */
 export const addexternallyhostedEditsApks: API.OperationMethod<AddexternallyhostedEditsApksRequest, AddexternallyhostedEditsApksResponse, AddexternallyhostedEditsApksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddexternallyhostedEditsApksRequest,
   output: AddexternallyhostedEditsApksResponse,
   errors: [],
 }));
 
-/** Lists all current Android App Bundles of the app and edit. */
 export interface ListEditsBundlesRequest {
   /** Package name of the app. */
   packageName: string;
@@ -5788,13 +5787,13 @@ export const ListEditsBundlesResponse = BundlesListResponse;
 
 export type ListEditsBundlesError = CommonErrors;
 
+/** Lists all current Android App Bundles of the app and edit. */
 export const listEditsBundles: API.OperationMethod<ListEditsBundlesRequest, ListEditsBundlesResponse, ListEditsBundlesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListEditsBundlesRequest,
   output: ListEditsBundlesResponse,
   errors: [],
 }));
 
-/** Uploads a new Android App Bundle to this edit. If you are using the Google API client libraries, please increase the timeout of the http request before calling this endpoint (a timeout of 2 minutes is recommended). See [Timeouts and Errors](https://developers.google.com/api-client-library/java/google-api-java-client/errors) for an example in java. */
 export interface UploadEditsBundlesRequest {
   /** Package name of the app. */
   packageName: string;
@@ -5821,13 +5820,13 @@ export const UploadEditsBundlesResponse = Bundle;
 
 export type UploadEditsBundlesError = CommonErrors;
 
+/** Uploads a new Android App Bundle to this edit. If you are using the Google API client libraries, please increase the timeout of the http request before calling this endpoint (a timeout of 2 minutes is recommended). See [Timeouts and Errors](https://developers.google.com/api-client-library/java/google-api-java-client/errors) for an example in java. */
 export const uploadEditsBundles: API.OperationMethod<UploadEditsBundlesRequest, UploadEditsBundlesResponse, UploadEditsBundlesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadEditsBundlesRequest,
   output: UploadEditsBundlesResponse,
   errors: [],
 }));
 
-/** Gets country availability. */
 export interface GetEditsCountryavailabilityRequest {
   /** Package name of the app. */
   packageName: string;
@@ -5851,13 +5850,13 @@ export const GetEditsCountryavailabilityResponse = TrackCountryAvailability;
 
 export type GetEditsCountryavailabilityError = CommonErrors;
 
+/** Gets country availability. */
 export const getEditsCountryavailability: API.OperationMethod<GetEditsCountryavailabilityRequest, GetEditsCountryavailabilityResponse, GetEditsCountryavailabilityError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEditsCountryavailabilityRequest,
   output: GetEditsCountryavailabilityResponse,
   errors: [],
 }));
 
-/** Uploads a new deobfuscation file and attaches to the specified APK. */
 export interface UploadEditsDeobfuscationfilesRequest {
   /** Unique identifier for the Android app. */
   packageName: string;
@@ -5884,13 +5883,13 @@ export const UploadEditsDeobfuscationfilesResponse = DeobfuscationFilesUploadRes
 
 export type UploadEditsDeobfuscationfilesError = CommonErrors;
 
+/** Uploads a new deobfuscation file and attaches to the specified APK. */
 export const uploadEditsDeobfuscationfiles: API.OperationMethod<UploadEditsDeobfuscationfilesRequest, UploadEditsDeobfuscationfilesResponse, UploadEditsDeobfuscationfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadEditsDeobfuscationfilesRequest,
   output: UploadEditsDeobfuscationfilesResponse,
   errors: [],
 }));
 
-/** Gets details of an app. */
 export interface GetEditsDetailsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -5911,13 +5910,13 @@ export const GetEditsDetailsResponse = AppDetails;
 
 export type GetEditsDetailsError = CommonErrors;
 
+/** Gets details of an app. */
 export const getEditsDetails: API.OperationMethod<GetEditsDetailsRequest, GetEditsDetailsResponse, GetEditsDetailsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEditsDetailsRequest,
   output: GetEditsDetailsResponse,
   errors: [],
 }));
 
-/** Updates details of an app. */
 export interface UpdateEditsDetailsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -5941,13 +5940,13 @@ export const UpdateEditsDetailsResponse = AppDetails;
 
 export type UpdateEditsDetailsError = CommonErrors;
 
+/** Updates details of an app. */
 export const updateEditsDetails: API.OperationMethod<UpdateEditsDetailsRequest, UpdateEditsDetailsResponse, UpdateEditsDetailsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateEditsDetailsRequest,
   output: UpdateEditsDetailsResponse,
   errors: [],
 }));
 
-/** Patches details of an app. */
 export interface PatchEditsDetailsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -5971,13 +5970,13 @@ export const PatchEditsDetailsResponse = AppDetails;
 
 export type PatchEditsDetailsError = CommonErrors;
 
+/** Patches details of an app. */
 export const patchEditsDetails: API.OperationMethod<PatchEditsDetailsRequest, PatchEditsDetailsResponse, PatchEditsDetailsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchEditsDetailsRequest,
   output: PatchEditsDetailsResponse,
   errors: [],
 }));
 
-/** Fetches the expansion file configuration for the specified APK. */
 export interface GetEditsExpansionfilesRequest {
   /** Package name of the app. */
   packageName: string;
@@ -6004,13 +6003,13 @@ export const GetEditsExpansionfilesResponse = ExpansionFile;
 
 export type GetEditsExpansionfilesError = CommonErrors;
 
+/** Fetches the expansion file configuration for the specified APK. */
 export const getEditsExpansionfiles: API.OperationMethod<GetEditsExpansionfilesRequest, GetEditsExpansionfilesResponse, GetEditsExpansionfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEditsExpansionfilesRequest,
   output: GetEditsExpansionfilesResponse,
   errors: [],
 }));
 
-/** Updates the APK's expansion file configuration to reference another APK's expansion file. To add a new expansion file use the Upload method. */
 export interface UpdateEditsExpansionfilesRequest {
   /** Package name of the app. */
   packageName: string;
@@ -6040,13 +6039,13 @@ export const UpdateEditsExpansionfilesResponse = ExpansionFile;
 
 export type UpdateEditsExpansionfilesError = CommonErrors;
 
+/** Updates the APK's expansion file configuration to reference another APK's expansion file. To add a new expansion file use the Upload method. */
 export const updateEditsExpansionfiles: API.OperationMethod<UpdateEditsExpansionfilesRequest, UpdateEditsExpansionfilesResponse, UpdateEditsExpansionfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateEditsExpansionfilesRequest,
   output: UpdateEditsExpansionfilesResponse,
   errors: [],
 }));
 
-/** Patches the APK's expansion file configuration to reference another APK's expansion file. To add a new expansion file use the Upload method. */
 export interface PatchEditsExpansionfilesRequest {
   /** Package name of the app. */
   packageName: string;
@@ -6076,13 +6075,13 @@ export const PatchEditsExpansionfilesResponse = ExpansionFile;
 
 export type PatchEditsExpansionfilesError = CommonErrors;
 
+/** Patches the APK's expansion file configuration to reference another APK's expansion file. To add a new expansion file use the Upload method. */
 export const patchEditsExpansionfiles: API.OperationMethod<PatchEditsExpansionfilesRequest, PatchEditsExpansionfilesResponse, PatchEditsExpansionfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchEditsExpansionfilesRequest,
   output: PatchEditsExpansionfilesResponse,
   errors: [],
 }));
 
-/** Uploads a new expansion file and attaches to the specified APK. */
 export interface UploadEditsExpansionfilesRequest {
   /** Package name of the app. */
   packageName: string;
@@ -6109,13 +6108,13 @@ export const UploadEditsExpansionfilesResponse = ExpansionFilesUploadResponse;
 
 export type UploadEditsExpansionfilesError = CommonErrors;
 
+/** Uploads a new expansion file and attaches to the specified APK. */
 export const uploadEditsExpansionfiles: API.OperationMethod<UploadEditsExpansionfilesRequest, UploadEditsExpansionfilesResponse, UploadEditsExpansionfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadEditsExpansionfilesRequest,
   output: UploadEditsExpansionfilesResponse,
   errors: [],
 }));
 
-/** Lists all images. The response may be empty. */
 export interface ListEditsImagesRequest {
   /** Package name of the app. */
   packageName: string;
@@ -6142,13 +6141,13 @@ export const ListEditsImagesResponse = ImagesListResponse;
 
 export type ListEditsImagesError = CommonErrors;
 
+/** Lists all images. The response may be empty. */
 export const listEditsImages: API.OperationMethod<ListEditsImagesRequest, ListEditsImagesResponse, ListEditsImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListEditsImagesRequest,
   output: ListEditsImagesResponse,
   errors: [],
 }));
 
-/** Deletes the image (specified by id) from the edit. */
 export interface DeleteEditsImagesRequest {
   /** Package name of the app. */
   packageName: string;
@@ -6178,13 +6177,13 @@ export const DeleteEditsImagesResponse: Schema.Schema<DeleteEditsImagesResponse>
 
 export type DeleteEditsImagesError = CommonErrors;
 
+/** Deletes the image (specified by id) from the edit. */
 export const deleteEditsImages: API.OperationMethod<DeleteEditsImagesRequest, DeleteEditsImagesResponse, DeleteEditsImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteEditsImagesRequest,
   output: DeleteEditsImagesResponse,
   errors: [],
 }));
 
-/** Deletes all images for the specified language and image type. Returns an empty response if no images are found. */
 export interface DeleteallEditsImagesRequest {
   /** Package name of the app. */
   packageName: string;
@@ -6211,13 +6210,13 @@ export const DeleteallEditsImagesResponse = ImagesDeleteAllResponse;
 
 export type DeleteallEditsImagesError = CommonErrors;
 
+/** Deletes all images for the specified language and image type. Returns an empty response if no images are found. */
 export const deleteallEditsImages: API.OperationMethod<DeleteallEditsImagesRequest, DeleteallEditsImagesResponse, DeleteallEditsImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteallEditsImagesRequest,
   output: DeleteallEditsImagesResponse,
   errors: [],
 }));
 
-/** Uploads an image of the specified language and image type, and adds to the edit. */
 export interface UploadEditsImagesRequest {
   /** Package name of the app. */
   packageName: string;
@@ -6244,13 +6243,13 @@ export const UploadEditsImagesResponse = ImagesUploadResponse;
 
 export type UploadEditsImagesError = CommonErrors;
 
+/** Uploads an image of the specified language and image type, and adds to the edit. */
 export const uploadEditsImages: API.OperationMethod<UploadEditsImagesRequest, UploadEditsImagesResponse, UploadEditsImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadEditsImagesRequest,
   output: UploadEditsImagesResponse,
   errors: [],
 }));
 
-/** Creates or updates a localized store listing. */
 export interface UpdateEditsListingsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -6277,13 +6276,13 @@ export const UpdateEditsListingsResponse = Listing;
 
 export type UpdateEditsListingsError = CommonErrors;
 
+/** Creates or updates a localized store listing. */
 export const updateEditsListings: API.OperationMethod<UpdateEditsListingsRequest, UpdateEditsListingsResponse, UpdateEditsListingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateEditsListingsRequest,
   output: UpdateEditsListingsResponse,
   errors: [],
 }));
 
-/** Patches a localized store listing. */
 export interface PatchEditsListingsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -6310,13 +6309,13 @@ export const PatchEditsListingsResponse = Listing;
 
 export type PatchEditsListingsError = CommonErrors;
 
+/** Patches a localized store listing. */
 export const patchEditsListings: API.OperationMethod<PatchEditsListingsRequest, PatchEditsListingsResponse, PatchEditsListingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchEditsListingsRequest,
   output: PatchEditsListingsResponse,
   errors: [],
 }));
 
-/** Gets a localized store listing. */
 export interface GetEditsListingsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -6340,13 +6339,13 @@ export const GetEditsListingsResponse = Listing;
 
 export type GetEditsListingsError = CommonErrors;
 
+/** Gets a localized store listing. */
 export const getEditsListings: API.OperationMethod<GetEditsListingsRequest, GetEditsListingsResponse, GetEditsListingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEditsListingsRequest,
   output: GetEditsListingsResponse,
   errors: [],
 }));
 
-/** Lists all localized store listings. */
 export interface ListEditsListingsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -6367,13 +6366,13 @@ export const ListEditsListingsResponse = ListingsListResponse;
 
 export type ListEditsListingsError = CommonErrors;
 
+/** Lists all localized store listings. */
 export const listEditsListings: API.OperationMethod<ListEditsListingsRequest, ListEditsListingsResponse, ListEditsListingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListEditsListingsRequest,
   output: ListEditsListingsResponse,
   errors: [],
 }));
 
-/** Deletes a localized store listing. */
 export interface DeleteEditsListingsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -6397,13 +6396,13 @@ export const DeleteEditsListingsResponse: Schema.Schema<DeleteEditsListingsRespo
 
 export type DeleteEditsListingsError = CommonErrors;
 
+/** Deletes a localized store listing. */
 export const deleteEditsListings: API.OperationMethod<DeleteEditsListingsRequest, DeleteEditsListingsResponse, DeleteEditsListingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteEditsListingsRequest,
   output: DeleteEditsListingsResponse,
   errors: [],
 }));
 
-/** Deletes all store listings. */
 export interface DeleteallEditsListingsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -6424,13 +6423,13 @@ export const DeleteallEditsListingsResponse: Schema.Schema<DeleteallEditsListing
 
 export type DeleteallEditsListingsError = CommonErrors;
 
+/** Deletes all store listings. */
 export const deleteallEditsListings: API.OperationMethod<DeleteallEditsListingsRequest, DeleteallEditsListingsResponse, DeleteallEditsListingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteallEditsListingsRequest,
   output: DeleteallEditsListingsResponse,
   errors: [],
 }));
 
-/** Gets testers. Note: Testers resource does not support email lists. */
 export interface GetEditsTestersRequest {
   /** Package name of the app. */
   packageName: string;
@@ -6454,13 +6453,13 @@ export const GetEditsTestersResponse = Testers;
 
 export type GetEditsTestersError = CommonErrors;
 
+/** Gets testers. Note: Testers resource does not support email lists. */
 export const getEditsTesters: API.OperationMethod<GetEditsTestersRequest, GetEditsTestersResponse, GetEditsTestersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEditsTestersRequest,
   output: GetEditsTestersResponse,
   errors: [],
 }));
 
-/** Updates testers. Note: Testers resource does not support email lists. */
 export interface UpdateEditsTestersRequest {
   /** Package name of the app. */
   packageName: string;
@@ -6487,13 +6486,13 @@ export const UpdateEditsTestersResponse = Testers;
 
 export type UpdateEditsTestersError = CommonErrors;
 
+/** Updates testers. Note: Testers resource does not support email lists. */
 export const updateEditsTesters: API.OperationMethod<UpdateEditsTestersRequest, UpdateEditsTestersResponse, UpdateEditsTestersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateEditsTestersRequest,
   output: UpdateEditsTestersResponse,
   errors: [],
 }));
 
-/** Patches testers. Note: Testers resource does not support email lists. */
 export interface PatchEditsTestersRequest {
   /** Package name of the app. */
   packageName: string;
@@ -6520,13 +6519,13 @@ export const PatchEditsTestersResponse = Testers;
 
 export type PatchEditsTestersError = CommonErrors;
 
+/** Patches testers. Note: Testers resource does not support email lists. */
 export const patchEditsTesters: API.OperationMethod<PatchEditsTestersRequest, PatchEditsTestersResponse, PatchEditsTestersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchEditsTestersRequest,
   output: PatchEditsTestersResponse,
   errors: [],
 }));
 
-/** Gets a track. */
 export interface GetEditsTracksRequest {
   /** Package name of the app. */
   packageName: string;
@@ -6550,13 +6549,13 @@ export const GetEditsTracksResponse = Track;
 
 export type GetEditsTracksError = CommonErrors;
 
+/** Gets a track. */
 export const getEditsTracks: API.OperationMethod<GetEditsTracksRequest, GetEditsTracksResponse, GetEditsTracksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEditsTracksRequest,
   output: GetEditsTracksResponse,
   errors: [],
 }));
 
-/** Lists all tracks. */
 export interface ListEditsTracksRequest {
   /** Package name of the app. */
   packageName: string;
@@ -6577,13 +6576,13 @@ export const ListEditsTracksResponse = TracksListResponse;
 
 export type ListEditsTracksError = CommonErrors;
 
+/** Lists all tracks. */
 export const listEditsTracks: API.OperationMethod<ListEditsTracksRequest, ListEditsTracksResponse, ListEditsTracksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListEditsTracksRequest,
   output: ListEditsTracksResponse,
   errors: [],
 }));
 
-/** Updates a track. */
 export interface UpdateEditsTracksRequest {
   /** Package name of the app. */
   packageName: string;
@@ -6610,13 +6609,13 @@ export const UpdateEditsTracksResponse = Track;
 
 export type UpdateEditsTracksError = CommonErrors;
 
+/** Updates a track. */
 export const updateEditsTracks: API.OperationMethod<UpdateEditsTracksRequest, UpdateEditsTracksResponse, UpdateEditsTracksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateEditsTracksRequest,
   output: UpdateEditsTracksResponse,
   errors: [],
 }));
 
-/** Patches a track. */
 export interface PatchEditsTracksRequest {
   /** Package name of the app. */
   packageName: string;
@@ -6643,13 +6642,13 @@ export const PatchEditsTracksResponse = Track;
 
 export type PatchEditsTracksError = CommonErrors;
 
+/** Patches a track. */
 export const patchEditsTracks: API.OperationMethod<PatchEditsTracksRequest, PatchEditsTracksResponse, PatchEditsTracksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchEditsTracksRequest,
   output: PatchEditsTracksResponse,
   errors: [],
 }));
 
-/** Creates a new track. */
 export interface CreateEditsTracksRequest {
   /** Required. Package name of the app. */
   packageName: string;
@@ -6673,13 +6672,13 @@ export const CreateEditsTracksResponse = Track;
 
 export type CreateEditsTracksError = CommonErrors;
 
+/** Creates a new track. */
 export const createEditsTracks: API.OperationMethod<CreateEditsTracksRequest, CreateEditsTracksResponse, CreateEditsTracksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateEditsTracksRequest,
   output: CreateEditsTracksResponse,
   errors: [],
 }));
 
-/** Creates a new external transaction. */
 export interface CreateexternaltransactionExternaltransactionsRequest {
   /** Required. The parent resource where this external transaction will be created. Format: applications/{package_name} */
   parent: string;
@@ -6703,13 +6702,13 @@ export const CreateexternaltransactionExternaltransactionsResponse = ExternalTra
 
 export type CreateexternaltransactionExternaltransactionsError = CommonErrors;
 
+/** Creates a new external transaction. */
 export const createexternaltransactionExternaltransactions: API.OperationMethod<CreateexternaltransactionExternaltransactionsRequest, CreateexternaltransactionExternaltransactionsResponse, CreateexternaltransactionExternaltransactionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateexternaltransactionExternaltransactionsRequest,
   output: CreateexternaltransactionExternaltransactionsResponse,
   errors: [],
 }));
 
-/** Refunds or partially refunds an existing external transaction. */
 export interface RefundexternaltransactionExternaltransactionsRequest {
   /** Required. The name of the external transaction that will be refunded. Format: applications/{package_name}/externalTransactions/{external_transaction} */
   name: string;
@@ -6730,13 +6729,13 @@ export const RefundexternaltransactionExternaltransactionsResponse = ExternalTra
 
 export type RefundexternaltransactionExternaltransactionsError = CommonErrors;
 
+/** Refunds or partially refunds an existing external transaction. */
 export const refundexternaltransactionExternaltransactions: API.OperationMethod<RefundexternaltransactionExternaltransactionsRequest, RefundexternaltransactionExternaltransactionsResponse, RefundexternaltransactionExternaltransactionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RefundexternaltransactionExternaltransactionsRequest,
   output: RefundexternaltransactionExternaltransactionsResponse,
   errors: [],
 }));
 
-/** Gets an existing external transaction. */
 export interface GetexternaltransactionExternaltransactionsRequest {
   /** Required. The name of the external transaction to retrieve. Format: applications/{package_name}/externalTransactions/{external_transaction} */
   name: string;
@@ -6754,13 +6753,13 @@ export const GetexternaltransactionExternaltransactionsResponse = ExternalTransa
 
 export type GetexternaltransactionExternaltransactionsError = CommonErrors;
 
+/** Gets an existing external transaction. */
 export const getexternaltransactionExternaltransactions: API.OperationMethod<GetexternaltransactionExternaltransactionsRequest, GetexternaltransactionExternaltransactionsResponse, GetexternaltransactionExternaltransactionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetexternaltransactionExternaltransactionsRequest,
   output: GetexternaltransactionExternaltransactionsResponse,
   errors: [],
 }));
 
-/** Returns download metadata for all APKs that were generated from a given app bundle. */
 export interface ListGeneratedapksRequest {
   /** Package name of the app. */
   packageName: string;
@@ -6781,13 +6780,13 @@ export const ListGeneratedapksResponse = GeneratedApksListResponse;
 
 export type ListGeneratedapksError = CommonErrors;
 
+/** Returns download metadata for all APKs that were generated from a given app bundle. */
 export const listGeneratedapks: API.OperationMethod<ListGeneratedapksRequest, ListGeneratedapksResponse, ListGeneratedapksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListGeneratedapksRequest,
   output: ListGeneratedapksResponse,
   errors: [],
 }));
 
-/** Downloads a single signed APK generated from an app bundle. */
 export interface DownloadGeneratedapksRequest {
   /** Package name of the app. */
   packageName: string;
@@ -6811,13 +6810,13 @@ export const DownloadGeneratedapksResponse: Schema.Schema<DownloadGeneratedapksR
 
 export type DownloadGeneratedapksError = CommonErrors;
 
+/** Downloads a single signed APK generated from an app bundle. */
 export const downloadGeneratedapks: API.OperationMethod<DownloadGeneratedapksRequest, DownloadGeneratedapksResponse, DownloadGeneratedapksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DownloadGeneratedapksRequest,
   output: DownloadGeneratedapksResponse,
   errors: [],
 }));
 
-/** Gets an in-app product, which can be a managed product or a subscription. This method should no longer be used to retrieve subscriptions. See [this article](https://android-developers.googleblog.com/2023/06/changes-to-google-play-developer-api-june-2023.html) for more information. */
 export interface GetInappproductsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -6838,13 +6837,13 @@ export const GetInappproductsResponse = InAppProduct;
 
 export type GetInappproductsError = CommonErrors;
 
+/** Gets an in-app product, which can be a managed product or a subscription. This method should no longer be used to retrieve subscriptions. See [this article](https://android-developers.googleblog.com/2023/06/changes-to-google-play-developer-api-june-2023.html) for more information. */
 export const getInappproducts: API.OperationMethod<GetInappproductsRequest, GetInappproductsResponse, GetInappproductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetInappproductsRequest,
   output: GetInappproductsResponse,
   errors: [],
 }));
 
-/** Reads multiple in-app products, which can be managed products or subscriptions. This method should not be used to retrieve subscriptions. See [this article](https://android-developers.googleblog.com/2023/06/changes-to-google-play-developer-api-june-2023.html) for more information. */
 export interface BatchGetInappproductsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -6865,13 +6864,13 @@ export const BatchGetInappproductsResponse = InappproductsBatchGetResponse;
 
 export type BatchGetInappproductsError = CommonErrors;
 
+/** Reads multiple in-app products, which can be managed products or subscriptions. This method should not be used to retrieve subscriptions. See [this article](https://android-developers.googleblog.com/2023/06/changes-to-google-play-developer-api-june-2023.html) for more information. */
 export const batchGetInappproducts: API.OperationMethod<BatchGetInappproductsRequest, BatchGetInappproductsResponse, BatchGetInappproductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchGetInappproductsRequest,
   output: BatchGetInappproductsResponse,
   errors: [],
 }));
 
-/** Lists all in-app products - both managed products and subscriptions. If an app has a large number of in-app products, the response may be paginated. In this case the response field `tokenPagination.nextPageToken` will be set and the caller should provide its value as a `token` request parameter to retrieve the next page. This method should no longer be used to retrieve subscriptions. See [this article](https://android-developers.googleblog.com/2023/06/changes-to-google-play-developer-api-june-2023.html) for more information. */
 export interface ListInappproductsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -6898,13 +6897,13 @@ export const ListInappproductsResponse = InappproductsListResponse;
 
 export type ListInappproductsError = CommonErrors;
 
+/** Lists all in-app products - both managed products and subscriptions. If an app has a large number of in-app products, the response may be paginated. In this case the response field `tokenPagination.nextPageToken` will be set and the caller should provide its value as a `token` request parameter to retrieve the next page. This method should no longer be used to retrieve subscriptions. See [this article](https://android-developers.googleblog.com/2023/06/changes-to-google-play-developer-api-june-2023.html) for more information. */
 export const listInappproducts: API.OperationMethod<ListInappproductsRequest, ListInappproductsResponse, ListInappproductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListInappproductsRequest,
   output: ListInappproductsResponse,
   errors: [],
 }));
 
-/** Creates an in-app product (a managed product or a subscription). This method should no longer be used to create subscriptions. See [this article](https://android-developers.googleblog.com/2023/06/changes-to-google-play-developer-api-june-2023.html) for more information. */
 export interface InsertInappproductsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -6928,13 +6927,13 @@ export const InsertInappproductsResponse = InAppProduct;
 
 export type InsertInappproductsError = CommonErrors;
 
+/** Creates an in-app product (a managed product or a subscription). This method should no longer be used to create subscriptions. See [this article](https://android-developers.googleblog.com/2023/06/changes-to-google-play-developer-api-june-2023.html) for more information. */
 export const insertInappproducts: API.OperationMethod<InsertInappproductsRequest, InsertInappproductsResponse, InsertInappproductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertInappproductsRequest,
   output: InsertInappproductsResponse,
   errors: [],
 }));
 
-/** Updates an in-app product (a managed product or a subscription). This method should no longer be used to update subscriptions. See [this article](https://android-developers.googleblog.com/2023/06/changes-to-google-play-developer-api-june-2023.html) for more information. */
 export interface UpdateInappproductsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -6967,13 +6966,13 @@ export const UpdateInappproductsResponse = InAppProduct;
 
 export type UpdateInappproductsError = CommonErrors;
 
+/** Updates an in-app product (a managed product or a subscription). This method should no longer be used to update subscriptions. See [this article](https://android-developers.googleblog.com/2023/06/changes-to-google-play-developer-api-june-2023.html) for more information. */
 export const updateInappproducts: API.OperationMethod<UpdateInappproductsRequest, UpdateInappproductsResponse, UpdateInappproductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateInappproductsRequest,
   output: UpdateInappproductsResponse,
   errors: [],
 }));
 
-/** Updates or inserts one or more in-app products (managed products or subscriptions). Set the latencyTolerance field on nested requests to PRODUCT_UPDATE_LATENCY_TOLERANCE_LATENCY_TOLERANT to achieve maximum update throughput. This method should no longer be used to update subscriptions. See [this article](https://android-developers.googleblog.com/2023/06/changes-to-google-play-developer-api-june-2023.html) for more information. */
 export interface BatchUpdateInappproductsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -6994,13 +6993,13 @@ export const BatchUpdateInappproductsResponse = InappproductsBatchUpdateResponse
 
 export type BatchUpdateInappproductsError = CommonErrors;
 
+/** Updates or inserts one or more in-app products (managed products or subscriptions). Set the latencyTolerance field on nested requests to PRODUCT_UPDATE_LATENCY_TOLERANCE_LATENCY_TOLERANT to achieve maximum update throughput. This method should no longer be used to update subscriptions. See [this article](https://android-developers.googleblog.com/2023/06/changes-to-google-play-developer-api-june-2023.html) for more information. */
 export const batchUpdateInappproducts: API.OperationMethod<BatchUpdateInappproductsRequest, BatchUpdateInappproductsResponse, BatchUpdateInappproductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchUpdateInappproductsRequest,
   output: BatchUpdateInappproductsResponse,
   errors: [],
 }));
 
-/** Patches an in-app product (a managed product or a subscription). This method should no longer be used to update subscriptions. See [this article](https://android-developers.googleblog.com/2023/06/changes-to-google-play-developer-api-june-2023.html) for more information. */
 export interface PatchInappproductsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -7030,13 +7029,13 @@ export const PatchInappproductsResponse = InAppProduct;
 
 export type PatchInappproductsError = CommonErrors;
 
+/** Patches an in-app product (a managed product or a subscription). This method should no longer be used to update subscriptions. See [this article](https://android-developers.googleblog.com/2023/06/changes-to-google-play-developer-api-june-2023.html) for more information. */
 export const patchInappproducts: API.OperationMethod<PatchInappproductsRequest, PatchInappproductsResponse, PatchInappproductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchInappproductsRequest,
   output: PatchInappproductsResponse,
   errors: [],
 }));
 
-/** Deletes an in-app product (a managed product or a subscription). This method should no longer be used to delete subscriptions. See [this article](https://android-developers.googleblog.com/2023/06/changes-to-google-play-developer-api-june-2023.html) for more information. */
 export interface DeleteInappproductsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -7060,13 +7059,13 @@ export const DeleteInappproductsResponse: Schema.Schema<DeleteInappproductsRespo
 
 export type DeleteInappproductsError = CommonErrors;
 
+/** Deletes an in-app product (a managed product or a subscription). This method should no longer be used to delete subscriptions. See [this article](https://android-developers.googleblog.com/2023/06/changes-to-google-play-developer-api-june-2023.html) for more information. */
 export const deleteInappproducts: API.OperationMethod<DeleteInappproductsRequest, DeleteInappproductsResponse, DeleteInappproductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteInappproductsRequest,
   output: DeleteInappproductsResponse,
   errors: [],
 }));
 
-/** Deletes in-app products (managed products or subscriptions). Set the latencyTolerance field on nested requests to PRODUCT_UPDATE_LATENCY_TOLERANCE_LATENCY_TOLERANT to achieve maximum update throughput. This method should not be used to delete subscriptions. See [this article](https://android-developers.googleblog.com/2023/06/changes-to-google-play-developer-api-june-2023.html) for more information. */
 export interface BatchDeleteInappproductsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -7087,13 +7086,13 @@ export const BatchDeleteInappproductsResponse: Schema.Schema<BatchDeleteInapppro
 
 export type BatchDeleteInappproductsError = CommonErrors;
 
+/** Deletes in-app products (managed products or subscriptions). Set the latencyTolerance field on nested requests to PRODUCT_UPDATE_LATENCY_TOLERANCE_LATENCY_TOLERANT to achieve maximum update throughput. This method should not be used to delete subscriptions. See [this article](https://android-developers.googleblog.com/2023/06/changes-to-google-play-developer-api-june-2023.html) for more information. */
 export const batchDeleteInappproducts: API.OperationMethod<BatchDeleteInappproductsRequest, BatchDeleteInappproductsResponse, BatchDeleteInappproductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchDeleteInappproductsRequest,
   output: BatchDeleteInappproductsResponse,
   errors: [],
 }));
 
-/** Uploads an APK to internal app sharing. If you are using the Google API client libraries, please increase the timeout of the http request before calling this endpoint (a timeout of 2 minutes is recommended). See [Timeouts and Errors](https://developers.google.com/api-client-library/java/google-api-java-client/errors) for an example in java. */
 export interface UploadapkInternalappsharingartifactsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -7111,13 +7110,13 @@ export const UploadapkInternalappsharingartifactsResponse = InternalAppSharingAr
 
 export type UploadapkInternalappsharingartifactsError = CommonErrors;
 
+/** Uploads an APK to internal app sharing. If you are using the Google API client libraries, please increase the timeout of the http request before calling this endpoint (a timeout of 2 minutes is recommended). See [Timeouts and Errors](https://developers.google.com/api-client-library/java/google-api-java-client/errors) for an example in java. */
 export const uploadapkInternalappsharingartifacts: API.OperationMethod<UploadapkInternalappsharingartifactsRequest, UploadapkInternalappsharingartifactsResponse, UploadapkInternalappsharingartifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadapkInternalappsharingartifactsRequest,
   output: UploadapkInternalappsharingartifactsResponse,
   errors: [],
 }));
 
-/** Uploads an app bundle to internal app sharing. If you are using the Google API client libraries, please increase the timeout of the http request before calling this endpoint (a timeout of 2 minutes is recommended). See [Timeouts and Errors](https://developers.google.com/api-client-library/java/google-api-java-client/errors) for an example in java. */
 export interface UploadbundleInternalappsharingartifactsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -7135,13 +7134,13 @@ export const UploadbundleInternalappsharingartifactsResponse = InternalAppSharin
 
 export type UploadbundleInternalappsharingartifactsError = CommonErrors;
 
+/** Uploads an app bundle to internal app sharing. If you are using the Google API client libraries, please increase the timeout of the http request before calling this endpoint (a timeout of 2 minutes is recommended). See [Timeouts and Errors](https://developers.google.com/api-client-library/java/google-api-java-client/errors) for an example in java. */
 export const uploadbundleInternalappsharingartifacts: API.OperationMethod<UploadbundleInternalappsharingartifactsRequest, UploadbundleInternalappsharingartifactsResponse, UploadbundleInternalappsharingartifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadbundleInternalappsharingartifactsRequest,
   output: UploadbundleInternalappsharingartifactsResponse,
   errors: [],
 }));
 
-/** Refunds a user's subscription or in-app purchase order. Orders older than 3 years cannot be refunded. */
 export interface RefundOrdersRequest {
   /** The package name of the application for which this subscription or in-app item was purchased (for example, 'com.some.thing'). */
   packageName: string;
@@ -7165,13 +7164,13 @@ export const RefundOrdersResponse: Schema.Schema<RefundOrdersResponse> = Schema.
 
 export type RefundOrdersError = CommonErrors;
 
+/** Refunds a user's subscription or in-app purchase order. Orders older than 3 years cannot be refunded. */
 export const refundOrders: API.OperationMethod<RefundOrdersRequest, RefundOrdersResponse, RefundOrdersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RefundOrdersRequest,
   output: RefundOrdersResponse,
   errors: [],
 }));
 
-/** Get order details for a single order. */
 export interface GetOrdersRequest {
   /** Required. The package name of the application for which this subscription or in-app item was purchased (for example, 'com.some.thing'). */
   packageName: string;
@@ -7192,13 +7191,13 @@ export const GetOrdersResponse = Order;
 
 export type GetOrdersError = CommonErrors;
 
+/** Get order details for a single order. */
 export const getOrders: API.OperationMethod<GetOrdersRequest, GetOrdersResponse, GetOrdersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrdersRequest,
   output: GetOrdersResponse,
   errors: [],
 }));
 
-/** Get order details for a list of orders. */
 export interface BatchgetOrdersRequest {
   /** Required. The package name of the application for which this subscription or in-app item was purchased (for example, 'com.some.thing'). */
   packageName: string;
@@ -7219,13 +7218,13 @@ export const BatchgetOrdersResponse = BatchGetOrdersResponse;
 
 export type BatchgetOrdersError = CommonErrors;
 
+/** Get order details for a list of orders. */
 export const batchgetOrders: API.OperationMethod<BatchgetOrdersRequest, BatchgetOrdersResponse, BatchgetOrdersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchgetOrdersRequest,
   output: BatchgetOrdersResponse,
   errors: [],
 }));
 
-/** Writes the Safety Labels declaration of an app. */
 export interface DataSafetyApplicationsRequest {
   /** Required. Package name of the app. */
   packageName: string;
@@ -7246,13 +7245,13 @@ export const DataSafetyApplicationsResponse = SafetyLabelsUpdateResponse;
 
 export type DataSafetyApplicationsError = CommonErrors;
 
+/** Writes the Safety Labels declaration of an app. */
 export const dataSafetyApplications: API.OperationMethod<DataSafetyApplicationsRequest, DataSafetyApplicationsResponse, DataSafetyApplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DataSafetyApplicationsRequest,
   output: DataSafetyApplicationsResponse,
   errors: [],
 }));
 
-/** Creates a new device tier config for an app. */
 export interface CreateApplicationsDeviceTierConfigsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -7276,13 +7275,13 @@ export const CreateApplicationsDeviceTierConfigsResponse = DeviceTierConfig;
 
 export type CreateApplicationsDeviceTierConfigsError = CommonErrors;
 
+/** Creates a new device tier config for an app. */
 export const createApplicationsDeviceTierConfigs: API.OperationMethod<CreateApplicationsDeviceTierConfigsRequest, CreateApplicationsDeviceTierConfigsResponse, CreateApplicationsDeviceTierConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateApplicationsDeviceTierConfigsRequest,
   output: CreateApplicationsDeviceTierConfigsResponse,
   errors: [],
 }));
 
-/** Returns a particular device tier config. */
 export interface GetApplicationsDeviceTierConfigsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -7303,13 +7302,13 @@ export const GetApplicationsDeviceTierConfigsResponse = DeviceTierConfig;
 
 export type GetApplicationsDeviceTierConfigsError = CommonErrors;
 
+/** Returns a particular device tier config. */
 export const getApplicationsDeviceTierConfigs: API.OperationMethod<GetApplicationsDeviceTierConfigsRequest, GetApplicationsDeviceTierConfigsResponse, GetApplicationsDeviceTierConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetApplicationsDeviceTierConfigsRequest,
   output: GetApplicationsDeviceTierConfigsResponse,
   errors: [],
 }));
 
-/** Returns created device tier configs, ordered by descending creation time. */
 export interface ListApplicationsDeviceTierConfigsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -7333,7 +7332,8 @@ export const ListApplicationsDeviceTierConfigsResponse = ListDeviceTierConfigsRe
 
 export type ListApplicationsDeviceTierConfigsError = CommonErrors;
 
-export const listApplicationsDeviceTierConfigs = API.makePaginated(() => ({
+/** Returns created device tier configs, ordered by descending creation time. */
+export const listApplicationsDeviceTierConfigs: API.PaginatedOperationMethod<ListApplicationsDeviceTierConfigsRequest, ListApplicationsDeviceTierConfigsResponse, ListApplicationsDeviceTierConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListApplicationsDeviceTierConfigsRequest,
   output: ListApplicationsDeviceTierConfigsResponse,
   errors: [],
@@ -7343,7 +7343,6 @@ export const listApplicationsDeviceTierConfigs = API.makePaginated(() => ({
   },
 }));
 
-/** Calculates the region prices, using today's exchange rate and country-specific pricing patterns, based on the price in the request for a set of regions. */
 export interface ConvertRegionPricesMonetizationRequest {
   /** Required. The app package name. */
   packageName: string;
@@ -7364,13 +7363,13 @@ export const ConvertRegionPricesMonetizationResponse = ConvertRegionPricesRespon
 
 export type ConvertRegionPricesMonetizationError = CommonErrors;
 
+/** Calculates the region prices, using today's exchange rate and country-specific pricing patterns, based on the price in the request for a set of regions. */
 export const convertRegionPricesMonetization: API.OperationMethod<ConvertRegionPricesMonetizationRequest, ConvertRegionPricesMonetizationResponse, ConvertRegionPricesMonetizationError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ConvertRegionPricesMonetizationRequest,
   output: ConvertRegionPricesMonetizationResponse,
   errors: [],
 }));
 
-/** Reads a single one-time product. */
 export interface GetMonetizationOnetimeproductsRequest {
   /** Required. The parent app (package name) of the product to retrieve. */
   packageName: string;
@@ -7391,13 +7390,13 @@ export const GetMonetizationOnetimeproductsResponse = OneTimeProduct;
 
 export type GetMonetizationOnetimeproductsError = CommonErrors;
 
+/** Reads a single one-time product. */
 export const getMonetizationOnetimeproducts: API.OperationMethod<GetMonetizationOnetimeproductsRequest, GetMonetizationOnetimeproductsResponse, GetMonetizationOnetimeproductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetMonetizationOnetimeproductsRequest,
   output: GetMonetizationOnetimeproductsResponse,
   errors: [],
 }));
 
-/** Reads one or more one-time products. */
 export interface BatchGetMonetizationOnetimeproductsRequest {
   /** Required. The parent app (package name) for which the products should be retrieved. Must be equal to the package_name field on all requests. */
   packageName: string;
@@ -7418,13 +7417,13 @@ export const BatchGetMonetizationOnetimeproductsResponse = BatchGetOneTimeProduc
 
 export type BatchGetMonetizationOnetimeproductsError = CommonErrors;
 
+/** Reads one or more one-time products. */
 export const batchGetMonetizationOnetimeproducts: API.OperationMethod<BatchGetMonetizationOnetimeproductsRequest, BatchGetMonetizationOnetimeproductsResponse, BatchGetMonetizationOnetimeproductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchGetMonetizationOnetimeproductsRequest,
   output: BatchGetMonetizationOnetimeproductsResponse,
   errors: [],
 }));
 
-/** Lists all one-time products under a given app. */
 export interface ListMonetizationOnetimeproductsRequest {
   /** Required. The parent app (package name) for which the one-time product should be read. */
   packageName: string;
@@ -7448,7 +7447,8 @@ export const ListMonetizationOnetimeproductsResponse = ListOneTimeProductsRespon
 
 export type ListMonetizationOnetimeproductsError = CommonErrors;
 
-export const listMonetizationOnetimeproducts = API.makePaginated(() => ({
+/** Lists all one-time products under a given app. */
+export const listMonetizationOnetimeproducts: API.PaginatedOperationMethod<ListMonetizationOnetimeproductsRequest, ListMonetizationOnetimeproductsResponse, ListMonetizationOnetimeproductsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListMonetizationOnetimeproductsRequest,
   output: ListMonetizationOnetimeproductsResponse,
   errors: [],
@@ -7458,7 +7458,6 @@ export const listMonetizationOnetimeproducts = API.makePaginated(() => ({
   },
 }));
 
-/** Creates or updates a one-time product. */
 export interface PatchMonetizationOnetimeproductsRequest {
   /** Required. Immutable. Package name of the parent app. */
   packageName: string;
@@ -7494,13 +7493,13 @@ export const PatchMonetizationOnetimeproductsResponse = OneTimeProduct;
 
 export type PatchMonetizationOnetimeproductsError = CommonErrors;
 
+/** Creates or updates a one-time product. */
 export const patchMonetizationOnetimeproducts: API.OperationMethod<PatchMonetizationOnetimeproductsRequest, PatchMonetizationOnetimeproductsResponse, PatchMonetizationOnetimeproductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchMonetizationOnetimeproductsRequest,
   output: PatchMonetizationOnetimeproductsResponse,
   errors: [],
 }));
 
-/** Creates or updates one or more one-time products. */
 export interface BatchUpdateMonetizationOnetimeproductsRequest {
   /** Required. The parent app (package name) for which the one-time products should be updated. Must be equal to the package_name field on all the OneTimeProduct resources. */
   packageName: string;
@@ -7521,13 +7520,13 @@ export const BatchUpdateMonetizationOnetimeproductsResponse = BatchUpdateOneTime
 
 export type BatchUpdateMonetizationOnetimeproductsError = CommonErrors;
 
+/** Creates or updates one or more one-time products. */
 export const batchUpdateMonetizationOnetimeproducts: API.OperationMethod<BatchUpdateMonetizationOnetimeproductsRequest, BatchUpdateMonetizationOnetimeproductsResponse, BatchUpdateMonetizationOnetimeproductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchUpdateMonetizationOnetimeproductsRequest,
   output: BatchUpdateMonetizationOnetimeproductsResponse,
   errors: [],
 }));
 
-/** Deletes a one-time product. */
 export interface DeleteMonetizationOnetimeproductsRequest {
   /** Required. The parent app (package name) of the one-time product to delete. */
   packageName: string;
@@ -7551,13 +7550,13 @@ export const DeleteMonetizationOnetimeproductsResponse: Schema.Schema<DeleteMone
 
 export type DeleteMonetizationOnetimeproductsError = CommonErrors;
 
+/** Deletes a one-time product. */
 export const deleteMonetizationOnetimeproducts: API.OperationMethod<DeleteMonetizationOnetimeproductsRequest, DeleteMonetizationOnetimeproductsResponse, DeleteMonetizationOnetimeproductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteMonetizationOnetimeproductsRequest,
   output: DeleteMonetizationOnetimeproductsResponse,
   errors: [],
 }));
 
-/** Deletes one or more one-time products. */
 export interface BatchDeleteMonetizationOnetimeproductsRequest {
   /** Required. The parent app (package name) for which the one-time products should be deleted. Must be equal to the package_name field on all the OneTimeProduct resources. */
   packageName: string;
@@ -7578,13 +7577,13 @@ export const BatchDeleteMonetizationOnetimeproductsResponse: Schema.Schema<Batch
 
 export type BatchDeleteMonetizationOnetimeproductsError = CommonErrors;
 
+/** Deletes one or more one-time products. */
 export const batchDeleteMonetizationOnetimeproducts: API.OperationMethod<BatchDeleteMonetizationOnetimeproductsRequest, BatchDeleteMonetizationOnetimeproductsResponse, BatchDeleteMonetizationOnetimeproductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchDeleteMonetizationOnetimeproductsRequest,
   output: BatchDeleteMonetizationOnetimeproductsResponse,
   errors: [],
 }));
 
-/** Activates or deactivates purchase options across one or multiple one-time products. */
 export interface BatchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsRequest {
   /** Required. The parent app (package name) of the updated purchase options. */
   packageName: string;
@@ -7608,13 +7607,13 @@ export const BatchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsResponse
 
 export type BatchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsError = CommonErrors;
 
+/** Activates or deactivates purchase options across one or multiple one-time products. */
 export const batchUpdateStatesMonetizationOnetimeproductsPurchaseOptions: API.OperationMethod<BatchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsRequest, BatchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsResponse, BatchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsRequest,
   output: BatchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsResponse,
   errors: [],
 }));
 
-/** Deletes purchase options across one or multiple one-time products. By default this operation will fail if there are any existing offers under the deleted purchase options. Use the force parameter to override the default behavior. */
 export interface BatchDeleteMonetizationOnetimeproductsPurchaseOptionsRequest {
   /** Required. The parent app (package name) of the purchase options to delete. */
   packageName: string;
@@ -7638,13 +7637,13 @@ export const BatchDeleteMonetizationOnetimeproductsPurchaseOptionsResponse: Sche
 
 export type BatchDeleteMonetizationOnetimeproductsPurchaseOptionsError = CommonErrors;
 
+/** Deletes purchase options across one or multiple one-time products. By default this operation will fail if there are any existing offers under the deleted purchase options. Use the force parameter to override the default behavior. */
 export const batchDeleteMonetizationOnetimeproductsPurchaseOptions: API.OperationMethod<BatchDeleteMonetizationOnetimeproductsPurchaseOptionsRequest, BatchDeleteMonetizationOnetimeproductsPurchaseOptionsResponse, BatchDeleteMonetizationOnetimeproductsPurchaseOptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchDeleteMonetizationOnetimeproductsPurchaseOptionsRequest,
   output: BatchDeleteMonetizationOnetimeproductsPurchaseOptionsResponse,
   errors: [],
 }));
 
-/** Lists all offers under a given app, product, or purchase option. */
 export interface ListMonetizationOnetimeproductsPurchaseOptionsOffersRequest {
   /** Required. The parent app (package name) for which the offers should be read. */
   packageName: string;
@@ -7674,7 +7673,8 @@ export const ListMonetizationOnetimeproductsPurchaseOptionsOffersResponse = List
 
 export type ListMonetizationOnetimeproductsPurchaseOptionsOffersError = CommonErrors;
 
-export const listMonetizationOnetimeproductsPurchaseOptionsOffers = API.makePaginated(() => ({
+/** Lists all offers under a given app, product, or purchase option. */
+export const listMonetizationOnetimeproductsPurchaseOptionsOffers: API.PaginatedOperationMethod<ListMonetizationOnetimeproductsPurchaseOptionsOffersRequest, ListMonetizationOnetimeproductsPurchaseOptionsOffersResponse, ListMonetizationOnetimeproductsPurchaseOptionsOffersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListMonetizationOnetimeproductsPurchaseOptionsOffersRequest,
   output: ListMonetizationOnetimeproductsPurchaseOptionsOffersResponse,
   errors: [],
@@ -7684,7 +7684,6 @@ export const listMonetizationOnetimeproductsPurchaseOptionsOffers = API.makePagi
   },
 }));
 
-/** Reads one or more one-time product offers. */
 export interface BatchGetMonetizationOnetimeproductsPurchaseOptionsOffersRequest {
   /** Required. The parent app (package name) of the updated offers. Must be equal to the package_name field on all the updated OneTimeProductOffer resources. */
   packageName: string;
@@ -7711,13 +7710,13 @@ export const BatchGetMonetizationOnetimeproductsPurchaseOptionsOffersResponse = 
 
 export type BatchGetMonetizationOnetimeproductsPurchaseOptionsOffersError = CommonErrors;
 
+/** Reads one or more one-time product offers. */
 export const batchGetMonetizationOnetimeproductsPurchaseOptionsOffers: API.OperationMethod<BatchGetMonetizationOnetimeproductsPurchaseOptionsOffersRequest, BatchGetMonetizationOnetimeproductsPurchaseOptionsOffersResponse, BatchGetMonetizationOnetimeproductsPurchaseOptionsOffersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchGetMonetizationOnetimeproductsPurchaseOptionsOffersRequest,
   output: BatchGetMonetizationOnetimeproductsPurchaseOptionsOffersResponse,
   errors: [],
 }));
 
-/** Creates or updates one or more one-time product offers. */
 export interface BatchUpdateMonetizationOnetimeproductsPurchaseOptionsOffersRequest {
   /** Required. The parent app (package name) of the updated offers. Must be equal to the package_name field on all the updated OneTimeProductOffer resources. */
   packageName: string;
@@ -7744,13 +7743,13 @@ export const BatchUpdateMonetizationOnetimeproductsPurchaseOptionsOffersResponse
 
 export type BatchUpdateMonetizationOnetimeproductsPurchaseOptionsOffersError = CommonErrors;
 
+/** Creates or updates one or more one-time product offers. */
 export const batchUpdateMonetizationOnetimeproductsPurchaseOptionsOffers: API.OperationMethod<BatchUpdateMonetizationOnetimeproductsPurchaseOptionsOffersRequest, BatchUpdateMonetizationOnetimeproductsPurchaseOptionsOffersResponse, BatchUpdateMonetizationOnetimeproductsPurchaseOptionsOffersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchUpdateMonetizationOnetimeproductsPurchaseOptionsOffersRequest,
   output: BatchUpdateMonetizationOnetimeproductsPurchaseOptionsOffersResponse,
   errors: [],
 }));
 
-/** Updates a batch of one-time product offer states. */
 export interface BatchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsOffersRequest {
   /** Required. The parent app (package name) of the updated one-time product offers. */
   packageName: string;
@@ -7777,13 +7776,13 @@ export const BatchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsOffersRe
 
 export type BatchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsOffersError = CommonErrors;
 
+/** Updates a batch of one-time product offer states. */
 export const batchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsOffers: API.OperationMethod<BatchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsOffersRequest, BatchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsOffersResponse, BatchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsOffersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsOffersRequest,
   output: BatchUpdateStatesMonetizationOnetimeproductsPurchaseOptionsOffersResponse,
   errors: [],
 }));
 
-/** Deletes one or more one-time product offers. */
 export interface BatchDeleteMonetizationOnetimeproductsPurchaseOptionsOffersRequest {
   /** Required. The parent app (package name) of the offers to delete. Must be equal to the package_name field on all the OneTimeProductOffer resources. */
   packageName: string;
@@ -7810,13 +7809,13 @@ export const BatchDeleteMonetizationOnetimeproductsPurchaseOptionsOffersResponse
 
 export type BatchDeleteMonetizationOnetimeproductsPurchaseOptionsOffersError = CommonErrors;
 
+/** Deletes one or more one-time product offers. */
 export const batchDeleteMonetizationOnetimeproductsPurchaseOptionsOffers: API.OperationMethod<BatchDeleteMonetizationOnetimeproductsPurchaseOptionsOffersRequest, BatchDeleteMonetizationOnetimeproductsPurchaseOptionsOffersResponse, BatchDeleteMonetizationOnetimeproductsPurchaseOptionsOffersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchDeleteMonetizationOnetimeproductsPurchaseOptionsOffersRequest,
   output: BatchDeleteMonetizationOnetimeproductsPurchaseOptionsOffersResponse,
   errors: [],
 }));
 
-/** Activates a one-time product offer. */
 export interface ActivateMonetizationOnetimeproductsPurchaseOptionsOffersRequest {
   /** Required. The parent app (package name) of the offer to activate. */
   packageName: string;
@@ -7846,13 +7845,13 @@ export const ActivateMonetizationOnetimeproductsPurchaseOptionsOffersResponse = 
 
 export type ActivateMonetizationOnetimeproductsPurchaseOptionsOffersError = CommonErrors;
 
+/** Activates a one-time product offer. */
 export const activateMonetizationOnetimeproductsPurchaseOptionsOffers: API.OperationMethod<ActivateMonetizationOnetimeproductsPurchaseOptionsOffersRequest, ActivateMonetizationOnetimeproductsPurchaseOptionsOffersResponse, ActivateMonetizationOnetimeproductsPurchaseOptionsOffersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ActivateMonetizationOnetimeproductsPurchaseOptionsOffersRequest,
   output: ActivateMonetizationOnetimeproductsPurchaseOptionsOffersResponse,
   errors: [],
 }));
 
-/** Cancels a one-time product offer. */
 export interface CancelMonetizationOnetimeproductsPurchaseOptionsOffersRequest {
   /** Required. The parent app (package name) of the offer to cancel. */
   packageName: string;
@@ -7882,13 +7881,13 @@ export const CancelMonetizationOnetimeproductsPurchaseOptionsOffersResponse = On
 
 export type CancelMonetizationOnetimeproductsPurchaseOptionsOffersError = CommonErrors;
 
+/** Cancels a one-time product offer. */
 export const cancelMonetizationOnetimeproductsPurchaseOptionsOffers: API.OperationMethod<CancelMonetizationOnetimeproductsPurchaseOptionsOffersRequest, CancelMonetizationOnetimeproductsPurchaseOptionsOffersResponse, CancelMonetizationOnetimeproductsPurchaseOptionsOffersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelMonetizationOnetimeproductsPurchaseOptionsOffersRequest,
   output: CancelMonetizationOnetimeproductsPurchaseOptionsOffersResponse,
   errors: [],
 }));
 
-/** Deactivates a one-time product offer. */
 export interface DeactivateMonetizationOnetimeproductsPurchaseOptionsOffersRequest {
   /** Required. The parent app (package name) of the offer to deactivate. */
   packageName: string;
@@ -7918,13 +7917,13 @@ export const DeactivateMonetizationOnetimeproductsPurchaseOptionsOffersResponse 
 
 export type DeactivateMonetizationOnetimeproductsPurchaseOptionsOffersError = CommonErrors;
 
+/** Deactivates a one-time product offer. */
 export const deactivateMonetizationOnetimeproductsPurchaseOptionsOffers: API.OperationMethod<DeactivateMonetizationOnetimeproductsPurchaseOptionsOffersRequest, DeactivateMonetizationOnetimeproductsPurchaseOptionsOffersResponse, DeactivateMonetizationOnetimeproductsPurchaseOptionsOffersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeactivateMonetizationOnetimeproductsPurchaseOptionsOffersRequest,
   output: DeactivateMonetizationOnetimeproductsPurchaseOptionsOffersResponse,
   errors: [],
 }));
 
-/** Reads a single subscription. */
 export interface GetMonetizationSubscriptionsRequest {
   /** Required. The parent app (package name) of the subscription to get. */
   packageName: string;
@@ -7945,13 +7944,13 @@ export const GetMonetizationSubscriptionsResponse = Subscription;
 
 export type GetMonetizationSubscriptionsError = CommonErrors;
 
+/** Reads a single subscription. */
 export const getMonetizationSubscriptions: API.OperationMethod<GetMonetizationSubscriptionsRequest, GetMonetizationSubscriptionsResponse, GetMonetizationSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetMonetizationSubscriptionsRequest,
   output: GetMonetizationSubscriptionsResponse,
   errors: [],
 }));
 
-/** Reads one or more subscriptions. */
 export interface BatchGetMonetizationSubscriptionsRequest {
   /** Required. The parent app (package name) for which the subscriptions should be retrieved. Must be equal to the package_name field on all the requests. */
   packageName: string;
@@ -7972,13 +7971,13 @@ export const BatchGetMonetizationSubscriptionsResponse = BatchGetSubscriptionsRe
 
 export type BatchGetMonetizationSubscriptionsError = CommonErrors;
 
+/** Reads one or more subscriptions. */
 export const batchGetMonetizationSubscriptions: API.OperationMethod<BatchGetMonetizationSubscriptionsRequest, BatchGetMonetizationSubscriptionsResponse, BatchGetMonetizationSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchGetMonetizationSubscriptionsRequest,
   output: BatchGetMonetizationSubscriptionsResponse,
   errors: [],
 }));
 
-/** Lists all subscriptions under a given app. */
 export interface ListMonetizationSubscriptionsRequest {
   /** Required. The parent app (package name) for which the subscriptions should be read. */
   packageName: string;
@@ -8005,7 +8004,8 @@ export const ListMonetizationSubscriptionsResponse = ListSubscriptionsResponse;
 
 export type ListMonetizationSubscriptionsError = CommonErrors;
 
-export const listMonetizationSubscriptions = API.makePaginated(() => ({
+/** Lists all subscriptions under a given app. */
+export const listMonetizationSubscriptions: API.PaginatedOperationMethod<ListMonetizationSubscriptionsRequest, ListMonetizationSubscriptionsResponse, ListMonetizationSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListMonetizationSubscriptionsRequest,
   output: ListMonetizationSubscriptionsResponse,
   errors: [],
@@ -8015,7 +8015,6 @@ export const listMonetizationSubscriptions = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new subscription. Newly added base plans will remain in draft state until activated. */
 export interface CreateMonetizationSubscriptionsRequest {
   /** Required. The parent app (package name) for which the subscription should be created. Must be equal to the package_name field on the Subscription resource. */
   packageName: string;
@@ -8042,13 +8041,13 @@ export const CreateMonetizationSubscriptionsResponse = Subscription;
 
 export type CreateMonetizationSubscriptionsError = CommonErrors;
 
+/** Creates a new subscription. Newly added base plans will remain in draft state until activated. */
 export const createMonetizationSubscriptions: API.OperationMethod<CreateMonetizationSubscriptionsRequest, CreateMonetizationSubscriptionsResponse, CreateMonetizationSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateMonetizationSubscriptionsRequest,
   output: CreateMonetizationSubscriptionsResponse,
   errors: [],
 }));
 
-/** Updates an existing subscription. */
 export interface PatchMonetizationSubscriptionsRequest {
   /** Immutable. Package name of the parent app. */
   packageName: string;
@@ -8084,13 +8083,13 @@ export const PatchMonetizationSubscriptionsResponse = Subscription;
 
 export type PatchMonetizationSubscriptionsError = CommonErrors;
 
+/** Updates an existing subscription. */
 export const patchMonetizationSubscriptions: API.OperationMethod<PatchMonetizationSubscriptionsRequest, PatchMonetizationSubscriptionsResponse, PatchMonetizationSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchMonetizationSubscriptionsRequest,
   output: PatchMonetizationSubscriptionsResponse,
   errors: [],
 }));
 
-/** Updates a batch of subscriptions. Set the latencyTolerance field on nested requests to PRODUCT_UPDATE_LATENCY_TOLERANCE_LATENCY_TOLERANT to achieve maximum update throughput. */
 export interface BatchUpdateMonetizationSubscriptionsRequest {
   /** Required. The parent app (package name) for which the subscriptions should be updated. Must be equal to the package_name field on all the Subscription resources. */
   packageName: string;
@@ -8111,13 +8110,13 @@ export const BatchUpdateMonetizationSubscriptionsResponse = BatchUpdateSubscript
 
 export type BatchUpdateMonetizationSubscriptionsError = CommonErrors;
 
+/** Updates a batch of subscriptions. Set the latencyTolerance field on nested requests to PRODUCT_UPDATE_LATENCY_TOLERANCE_LATENCY_TOLERANT to achieve maximum update throughput. */
 export const batchUpdateMonetizationSubscriptions: API.OperationMethod<BatchUpdateMonetizationSubscriptionsRequest, BatchUpdateMonetizationSubscriptionsResponse, BatchUpdateMonetizationSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchUpdateMonetizationSubscriptionsRequest,
   output: BatchUpdateMonetizationSubscriptionsResponse,
   errors: [],
 }));
 
-/** Deletes a subscription. A subscription can only be deleted if it has never had a base plan published. */
 export interface DeleteMonetizationSubscriptionsRequest {
   /** Required. The parent app (package name) of the app of the subscription to delete. */
   packageName: string;
@@ -8138,13 +8137,13 @@ export const DeleteMonetizationSubscriptionsResponse: Schema.Schema<DeleteMoneti
 
 export type DeleteMonetizationSubscriptionsError = CommonErrors;
 
+/** Deletes a subscription. A subscription can only be deleted if it has never had a base plan published. */
 export const deleteMonetizationSubscriptions: API.OperationMethod<DeleteMonetizationSubscriptionsRequest, DeleteMonetizationSubscriptionsResponse, DeleteMonetizationSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteMonetizationSubscriptionsRequest,
   output: DeleteMonetizationSubscriptionsResponse,
   errors: [],
 }));
 
-/** Deprecated: subscription archiving is not supported. */
 export interface ArchiveMonetizationSubscriptionsRequest {
   /** Required. The parent app (package name) of the app of the subscription to delete. */
   packageName: string;
@@ -8168,13 +8167,13 @@ export const ArchiveMonetizationSubscriptionsResponse = Subscription;
 
 export type ArchiveMonetizationSubscriptionsError = CommonErrors;
 
+/** Deprecated: subscription archiving is not supported. */
 export const archiveMonetizationSubscriptions: API.OperationMethod<ArchiveMonetizationSubscriptionsRequest, ArchiveMonetizationSubscriptionsResponse, ArchiveMonetizationSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ArchiveMonetizationSubscriptionsRequest,
   output: ArchiveMonetizationSubscriptionsResponse,
   errors: [],
 }));
 
-/** Deletes a base plan. Can only be done for draft base plans. This action is irreversible. */
 export interface DeleteMonetizationSubscriptionsBasePlansRequest {
   /** Required. The parent app (package name) of the base plan to delete. */
   packageName: string;
@@ -8198,13 +8197,13 @@ export const DeleteMonetizationSubscriptionsBasePlansResponse: Schema.Schema<Del
 
 export type DeleteMonetizationSubscriptionsBasePlansError = CommonErrors;
 
+/** Deletes a base plan. Can only be done for draft base plans. This action is irreversible. */
 export const deleteMonetizationSubscriptionsBasePlans: API.OperationMethod<DeleteMonetizationSubscriptionsBasePlansRequest, DeleteMonetizationSubscriptionsBasePlansResponse, DeleteMonetizationSubscriptionsBasePlansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteMonetizationSubscriptionsBasePlansRequest,
   output: DeleteMonetizationSubscriptionsBasePlansResponse,
   errors: [],
 }));
 
-/** Activates a base plan. Once activated, base plans will be available to new subscribers. */
 export interface ActivateMonetizationSubscriptionsBasePlansRequest {
   /** Required. The parent app (package name) of the base plan to activate. */
   packageName: string;
@@ -8231,13 +8230,13 @@ export const ActivateMonetizationSubscriptionsBasePlansResponse = Subscription;
 
 export type ActivateMonetizationSubscriptionsBasePlansError = CommonErrors;
 
+/** Activates a base plan. Once activated, base plans will be available to new subscribers. */
 export const activateMonetizationSubscriptionsBasePlans: API.OperationMethod<ActivateMonetizationSubscriptionsBasePlansRequest, ActivateMonetizationSubscriptionsBasePlansResponse, ActivateMonetizationSubscriptionsBasePlansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ActivateMonetizationSubscriptionsBasePlansRequest,
   output: ActivateMonetizationSubscriptionsBasePlansResponse,
   errors: [],
 }));
 
-/** Deactivates a base plan. Once deactivated, the base plan will become unavailable to new subscribers, but existing subscribers will maintain their subscription */
 export interface DeactivateMonetizationSubscriptionsBasePlansRequest {
   /** Required. The parent app (package name) of the base plan to deactivate. */
   packageName: string;
@@ -8264,13 +8263,13 @@ export const DeactivateMonetizationSubscriptionsBasePlansResponse = Subscription
 
 export type DeactivateMonetizationSubscriptionsBasePlansError = CommonErrors;
 
+/** Deactivates a base plan. Once deactivated, the base plan will become unavailable to new subscribers, but existing subscribers will maintain their subscription */
 export const deactivateMonetizationSubscriptionsBasePlans: API.OperationMethod<DeactivateMonetizationSubscriptionsBasePlansRequest, DeactivateMonetizationSubscriptionsBasePlansResponse, DeactivateMonetizationSubscriptionsBasePlansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeactivateMonetizationSubscriptionsBasePlansRequest,
   output: DeactivateMonetizationSubscriptionsBasePlansResponse,
   errors: [],
 }));
 
-/** Activates or deactivates base plans across one or multiple subscriptions. Set the latencyTolerance field on nested requests to PRODUCT_UPDATE_LATENCY_TOLERANCE_LATENCY_TOLERANT to achieve maximum update throughput. */
 export interface BatchUpdateStatesMonetizationSubscriptionsBasePlansRequest {
   /** Required. The parent app (package name) of the updated base plans. */
   packageName: string;
@@ -8294,13 +8293,13 @@ export const BatchUpdateStatesMonetizationSubscriptionsBasePlansResponse = Batch
 
 export type BatchUpdateStatesMonetizationSubscriptionsBasePlansError = CommonErrors;
 
+/** Activates or deactivates base plans across one or multiple subscriptions. Set the latencyTolerance field on nested requests to PRODUCT_UPDATE_LATENCY_TOLERANCE_LATENCY_TOLERANT to achieve maximum update throughput. */
 export const batchUpdateStatesMonetizationSubscriptionsBasePlans: API.OperationMethod<BatchUpdateStatesMonetizationSubscriptionsBasePlansRequest, BatchUpdateStatesMonetizationSubscriptionsBasePlansResponse, BatchUpdateStatesMonetizationSubscriptionsBasePlansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchUpdateStatesMonetizationSubscriptionsBasePlansRequest,
   output: BatchUpdateStatesMonetizationSubscriptionsBasePlansResponse,
   errors: [],
 }));
 
-/** Migrates subscribers from one or more legacy price cohorts to the current price. Requests result in Google Play notifying affected subscribers. Only up to 250 simultaneous legacy price cohorts are supported. */
 export interface MigratePricesMonetizationSubscriptionsBasePlansRequest {
   /** Required. Package name of the parent app. Must be equal to the package_name field on the Subscription resource. */
   packageName: string;
@@ -8327,13 +8326,13 @@ export const MigratePricesMonetizationSubscriptionsBasePlansResponse = MigrateBa
 
 export type MigratePricesMonetizationSubscriptionsBasePlansError = CommonErrors;
 
+/** Migrates subscribers from one or more legacy price cohorts to the current price. Requests result in Google Play notifying affected subscribers. Only up to 250 simultaneous legacy price cohorts are supported. */
 export const migratePricesMonetizationSubscriptionsBasePlans: API.OperationMethod<MigratePricesMonetizationSubscriptionsBasePlansRequest, MigratePricesMonetizationSubscriptionsBasePlansResponse, MigratePricesMonetizationSubscriptionsBasePlansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MigratePricesMonetizationSubscriptionsBasePlansRequest,
   output: MigratePricesMonetizationSubscriptionsBasePlansResponse,
   errors: [],
 }));
 
-/** Batch variant of the MigrateBasePlanPrices endpoint. Set the latencyTolerance field on nested requests to PRODUCT_UPDATE_LATENCY_TOLERANCE_LATENCY_TOLERANT to achieve maximum update throughput. */
 export interface BatchMigratePricesMonetizationSubscriptionsBasePlansRequest {
   /** Required. The parent app (package name) for which the subscriptions should be created or updated. Must be equal to the package_name field on all the Subscription resources. */
   packageName: string;
@@ -8357,13 +8356,13 @@ export const BatchMigratePricesMonetizationSubscriptionsBasePlansResponse = Batc
 
 export type BatchMigratePricesMonetizationSubscriptionsBasePlansError = CommonErrors;
 
+/** Batch variant of the MigrateBasePlanPrices endpoint. Set the latencyTolerance field on nested requests to PRODUCT_UPDATE_LATENCY_TOLERANCE_LATENCY_TOLERANT to achieve maximum update throughput. */
 export const batchMigratePricesMonetizationSubscriptionsBasePlans: API.OperationMethod<BatchMigratePricesMonetizationSubscriptionsBasePlansRequest, BatchMigratePricesMonetizationSubscriptionsBasePlansResponse, BatchMigratePricesMonetizationSubscriptionsBasePlansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchMigratePricesMonetizationSubscriptionsBasePlansRequest,
   output: BatchMigratePricesMonetizationSubscriptionsBasePlansResponse,
   errors: [],
 }));
 
-/** Reads a single offer */
 export interface GetMonetizationSubscriptionsBasePlansOffersRequest {
   /** Required. The parent app (package name) of the offer to get. */
   packageName: string;
@@ -8390,13 +8389,13 @@ export const GetMonetizationSubscriptionsBasePlansOffersResponse = SubscriptionO
 
 export type GetMonetizationSubscriptionsBasePlansOffersError = CommonErrors;
 
+/** Reads a single offer */
 export const getMonetizationSubscriptionsBasePlansOffers: API.OperationMethod<GetMonetizationSubscriptionsBasePlansOffersRequest, GetMonetizationSubscriptionsBasePlansOffersResponse, GetMonetizationSubscriptionsBasePlansOffersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetMonetizationSubscriptionsBasePlansOffersRequest,
   output: GetMonetizationSubscriptionsBasePlansOffersResponse,
   errors: [],
 }));
 
-/** Reads one or more subscription offers. */
 export interface BatchGetMonetizationSubscriptionsBasePlansOffersRequest {
   /** Required. The parent app (package name) for which the subscriptions should be created or updated. Must be equal to the package_name field on all the requests. */
   packageName: string;
@@ -8423,13 +8422,13 @@ export const BatchGetMonetizationSubscriptionsBasePlansOffersResponse = BatchGet
 
 export type BatchGetMonetizationSubscriptionsBasePlansOffersError = CommonErrors;
 
+/** Reads one or more subscription offers. */
 export const batchGetMonetizationSubscriptionsBasePlansOffers: API.OperationMethod<BatchGetMonetizationSubscriptionsBasePlansOffersRequest, BatchGetMonetizationSubscriptionsBasePlansOffersResponse, BatchGetMonetizationSubscriptionsBasePlansOffersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchGetMonetizationSubscriptionsBasePlansOffersRequest,
   output: BatchGetMonetizationSubscriptionsBasePlansOffersResponse,
   errors: [],
 }));
 
-/** Lists all offers under a given subscription. */
 export interface ListMonetizationSubscriptionsBasePlansOffersRequest {
   /** Required. The parent app (package name) for which the subscriptions should be read. */
   packageName: string;
@@ -8459,7 +8458,8 @@ export const ListMonetizationSubscriptionsBasePlansOffersResponse = ListSubscrip
 
 export type ListMonetizationSubscriptionsBasePlansOffersError = CommonErrors;
 
-export const listMonetizationSubscriptionsBasePlansOffers = API.makePaginated(() => ({
+/** Lists all offers under a given subscription. */
+export const listMonetizationSubscriptionsBasePlansOffers: API.PaginatedOperationMethod<ListMonetizationSubscriptionsBasePlansOffersRequest, ListMonetizationSubscriptionsBasePlansOffersResponse, ListMonetizationSubscriptionsBasePlansOffersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListMonetizationSubscriptionsBasePlansOffersRequest,
   output: ListMonetizationSubscriptionsBasePlansOffersResponse,
   errors: [],
@@ -8469,7 +8469,6 @@ export const listMonetizationSubscriptionsBasePlansOffers = API.makePaginated(()
   },
 }));
 
-/** Creates a new subscription offer. Only auto-renewing base plans can have subscription offers. The offer state will be DRAFT until it is activated. */
 export interface CreateMonetizationSubscriptionsBasePlansOffersRequest {
   /** Required. The parent app (package name) for which the offer should be created. Must be equal to the package_name field on the Subscription resource. */
   packageName: string;
@@ -8502,13 +8501,13 @@ export const CreateMonetizationSubscriptionsBasePlansOffersResponse = Subscripti
 
 export type CreateMonetizationSubscriptionsBasePlansOffersError = CommonErrors;
 
+/** Creates a new subscription offer. Only auto-renewing base plans can have subscription offers. The offer state will be DRAFT until it is activated. */
 export const createMonetizationSubscriptionsBasePlansOffers: API.OperationMethod<CreateMonetizationSubscriptionsBasePlansOffersRequest, CreateMonetizationSubscriptionsBasePlansOffersResponse, CreateMonetizationSubscriptionsBasePlansOffersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateMonetizationSubscriptionsBasePlansOffersRequest,
   output: CreateMonetizationSubscriptionsBasePlansOffersResponse,
   errors: [],
 }));
 
-/** Updates an existing subscription offer. */
 export interface PatchMonetizationSubscriptionsBasePlansOffersRequest {
   /** Required. Immutable. The package name of the app the parent subscription belongs to. */
   packageName: string;
@@ -8550,13 +8549,13 @@ export const PatchMonetizationSubscriptionsBasePlansOffersResponse = Subscriptio
 
 export type PatchMonetizationSubscriptionsBasePlansOffersError = CommonErrors;
 
+/** Updates an existing subscription offer. */
 export const patchMonetizationSubscriptionsBasePlansOffers: API.OperationMethod<PatchMonetizationSubscriptionsBasePlansOffersRequest, PatchMonetizationSubscriptionsBasePlansOffersResponse, PatchMonetizationSubscriptionsBasePlansOffersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchMonetizationSubscriptionsBasePlansOffersRequest,
   output: PatchMonetizationSubscriptionsBasePlansOffersResponse,
   errors: [],
 }));
 
-/** Updates a batch of subscription offers. Set the latencyTolerance field on nested requests to PRODUCT_UPDATE_LATENCY_TOLERANCE_LATENCY_TOLERANT to achieve maximum update throughput. */
 export interface BatchUpdateMonetizationSubscriptionsBasePlansOffersRequest {
   /** Required. The parent app (package name) of the updated subscription offers. Must be equal to the package_name field on all the updated SubscriptionOffer resources. */
   packageName: string;
@@ -8583,13 +8582,13 @@ export const BatchUpdateMonetizationSubscriptionsBasePlansOffersResponse = Batch
 
 export type BatchUpdateMonetizationSubscriptionsBasePlansOffersError = CommonErrors;
 
+/** Updates a batch of subscription offers. Set the latencyTolerance field on nested requests to PRODUCT_UPDATE_LATENCY_TOLERANCE_LATENCY_TOLERANT to achieve maximum update throughput. */
 export const batchUpdateMonetizationSubscriptionsBasePlansOffers: API.OperationMethod<BatchUpdateMonetizationSubscriptionsBasePlansOffersRequest, BatchUpdateMonetizationSubscriptionsBasePlansOffersResponse, BatchUpdateMonetizationSubscriptionsBasePlansOffersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchUpdateMonetizationSubscriptionsBasePlansOffersRequest,
   output: BatchUpdateMonetizationSubscriptionsBasePlansOffersResponse,
   errors: [],
 }));
 
-/** Activates a subscription offer. Once activated, subscription offers will be available to new subscribers. */
 export interface ActivateMonetizationSubscriptionsBasePlansOffersRequest {
   /** Required. The parent app (package name) of the offer to activate. */
   packageName: string;
@@ -8619,13 +8618,13 @@ export const ActivateMonetizationSubscriptionsBasePlansOffersResponse = Subscrip
 
 export type ActivateMonetizationSubscriptionsBasePlansOffersError = CommonErrors;
 
+/** Activates a subscription offer. Once activated, subscription offers will be available to new subscribers. */
 export const activateMonetizationSubscriptionsBasePlansOffers: API.OperationMethod<ActivateMonetizationSubscriptionsBasePlansOffersRequest, ActivateMonetizationSubscriptionsBasePlansOffersResponse, ActivateMonetizationSubscriptionsBasePlansOffersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ActivateMonetizationSubscriptionsBasePlansOffersRequest,
   output: ActivateMonetizationSubscriptionsBasePlansOffersResponse,
   errors: [],
 }));
 
-/** Deactivates a subscription offer. Once deactivated, existing subscribers will maintain their subscription, but the offer will become unavailable to new subscribers. */
 export interface DeactivateMonetizationSubscriptionsBasePlansOffersRequest {
   /** Required. The parent app (package name) of the offer to deactivate. */
   packageName: string;
@@ -8655,13 +8654,13 @@ export const DeactivateMonetizationSubscriptionsBasePlansOffersResponse = Subscr
 
 export type DeactivateMonetizationSubscriptionsBasePlansOffersError = CommonErrors;
 
+/** Deactivates a subscription offer. Once deactivated, existing subscribers will maintain their subscription, but the offer will become unavailable to new subscribers. */
 export const deactivateMonetizationSubscriptionsBasePlansOffers: API.OperationMethod<DeactivateMonetizationSubscriptionsBasePlansOffersRequest, DeactivateMonetizationSubscriptionsBasePlansOffersResponse, DeactivateMonetizationSubscriptionsBasePlansOffersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeactivateMonetizationSubscriptionsBasePlansOffersRequest,
   output: DeactivateMonetizationSubscriptionsBasePlansOffersResponse,
   errors: [],
 }));
 
-/** Updates a batch of subscription offer states. Set the latencyTolerance field on nested requests to PRODUCT_UPDATE_LATENCY_TOLERANCE_LATENCY_TOLERANT to achieve maximum update throughput. */
 export interface BatchUpdateStatesMonetizationSubscriptionsBasePlansOffersRequest {
   /** Required. The parent app (package name) of the updated subscription offers. Must be equal to the package_name field on all the updated SubscriptionOffer resources. */
   packageName: string;
@@ -8688,13 +8687,13 @@ export const BatchUpdateStatesMonetizationSubscriptionsBasePlansOffersResponse =
 
 export type BatchUpdateStatesMonetizationSubscriptionsBasePlansOffersError = CommonErrors;
 
+/** Updates a batch of subscription offer states. Set the latencyTolerance field on nested requests to PRODUCT_UPDATE_LATENCY_TOLERANCE_LATENCY_TOLERANT to achieve maximum update throughput. */
 export const batchUpdateStatesMonetizationSubscriptionsBasePlansOffers: API.OperationMethod<BatchUpdateStatesMonetizationSubscriptionsBasePlansOffersRequest, BatchUpdateStatesMonetizationSubscriptionsBasePlansOffersResponse, BatchUpdateStatesMonetizationSubscriptionsBasePlansOffersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchUpdateStatesMonetizationSubscriptionsBasePlansOffersRequest,
   output: BatchUpdateStatesMonetizationSubscriptionsBasePlansOffersResponse,
   errors: [],
 }));
 
-/** Deletes a subscription offer. Can only be done for draft offers. This action is irreversible. */
 export interface DeleteMonetizationSubscriptionsBasePlansOffersRequest {
   /** Required. The parent app (package name) of the offer to delete. */
   packageName: string;
@@ -8721,13 +8720,13 @@ export const DeleteMonetizationSubscriptionsBasePlansOffersResponse: Schema.Sche
 
 export type DeleteMonetizationSubscriptionsBasePlansOffersError = CommonErrors;
 
+/** Deletes a subscription offer. Can only be done for draft offers. This action is irreversible. */
 export const deleteMonetizationSubscriptionsBasePlansOffers: API.OperationMethod<DeleteMonetizationSubscriptionsBasePlansOffersRequest, DeleteMonetizationSubscriptionsBasePlansOffersResponse, DeleteMonetizationSubscriptionsBasePlansOffersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteMonetizationSubscriptionsBasePlansOffersRequest,
   output: DeleteMonetizationSubscriptionsBasePlansOffersResponse,
   errors: [],
 }));
 
-/** Gets a single review. */
 export interface GetReviewsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -8751,13 +8750,13 @@ export const GetReviewsResponse = Review;
 
 export type GetReviewsError = CommonErrors;
 
+/** Gets a single review. */
 export const getReviews: API.OperationMethod<GetReviewsRequest, GetReviewsResponse, GetReviewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetReviewsRequest,
   output: GetReviewsResponse,
   errors: [],
 }));
 
-/** Lists all reviews. */
 export interface ListReviewsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -8787,13 +8786,13 @@ export const ListReviewsResponse = ReviewsListResponse;
 
 export type ListReviewsError = CommonErrors;
 
+/** Lists all reviews. */
 export const listReviews: API.OperationMethod<ListReviewsRequest, ListReviewsResponse, ListReviewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListReviewsRequest,
   output: ListReviewsResponse,
   errors: [],
 }));
 
-/** Replies to a single review, or updates an existing reply. */
 export interface ReplyReviewsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -8817,13 +8816,13 @@ export const ReplyReviewsResponse = ReviewsReplyResponse;
 
 export type ReplyReviewsError = CommonErrors;
 
+/** Replies to a single review, or updates an existing reply. */
 export const replyReviews: API.OperationMethod<ReplyReviewsRequest, ReplyReviewsResponse, ReplyReviewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReplyReviewsRequest,
   output: ReplyReviewsResponse,
   errors: [],
 }));
 
-/** Creates an APK which is suitable for inclusion in a system image from an already uploaded Android App Bundle. */
 export interface CreateSystemapksVariantsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -8847,13 +8846,13 @@ export const CreateSystemapksVariantsResponse = Variant;
 
 export type CreateSystemapksVariantsError = CommonErrors;
 
+/** Creates an APK which is suitable for inclusion in a system image from an already uploaded Android App Bundle. */
 export const createSystemapksVariants: API.OperationMethod<CreateSystemapksVariantsRequest, CreateSystemapksVariantsResponse, CreateSystemapksVariantsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateSystemapksVariantsRequest,
   output: CreateSystemapksVariantsResponse,
   errors: [],
 }));
 
-/** Returns the list of previously created system APK variants. */
 export interface ListSystemapksVariantsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -8874,13 +8873,13 @@ export const ListSystemapksVariantsResponse = SystemApksListResponse;
 
 export type ListSystemapksVariantsError = CommonErrors;
 
+/** Returns the list of previously created system APK variants. */
 export const listSystemapksVariants: API.OperationMethod<ListSystemapksVariantsRequest, ListSystemapksVariantsResponse, ListSystemapksVariantsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListSystemapksVariantsRequest,
   output: ListSystemapksVariantsResponse,
   errors: [],
 }));
 
-/** Returns a previously created system APK variant. */
 export interface GetSystemapksVariantsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -8904,13 +8903,13 @@ export const GetSystemapksVariantsResponse = Variant;
 
 export type GetSystemapksVariantsError = CommonErrors;
 
+/** Returns a previously created system APK variant. */
 export const getSystemapksVariants: API.OperationMethod<GetSystemapksVariantsRequest, GetSystemapksVariantsResponse, GetSystemapksVariantsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSystemapksVariantsRequest,
   output: GetSystemapksVariantsResponse,
   errors: [],
 }));
 
-/** Downloads a previously created system APK which is suitable for inclusion in a system image. */
 export interface DownloadSystemapksVariantsRequest {
   /** Package name of the app. */
   packageName: string;
@@ -8934,6 +8933,7 @@ export const DownloadSystemapksVariantsResponse: Schema.Schema<DownloadSystemapk
 
 export type DownloadSystemapksVariantsError = CommonErrors;
 
+/** Downloads a previously created system APK which is suitable for inclusion in a system image. */
 export const downloadSystemapksVariants: API.OperationMethod<DownloadSystemapksVariantsRequest, DownloadSystemapksVariantsResponse, DownloadSystemapksVariantsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DownloadSystemapksVariantsRequest,
   output: DownloadSystemapksVariantsResponse,

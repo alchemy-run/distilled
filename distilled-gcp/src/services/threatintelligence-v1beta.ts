@@ -894,7 +894,6 @@ export const AlertDocument: Schema.Schema<AlertDocument> = Schema.suspend(() => 
 // Operations
 // ==========================================================================
 
-/** Triggers the generation of a Customer Profile for a project. */
 export interface GenerateOrgProfileProjectsRequest {
   /** Required. The name of the project to generate the profile for. Format: projects/{project} */
   name: string;
@@ -915,13 +914,13 @@ export const GenerateOrgProfileProjectsResponse = Operation;
 
 export type GenerateOrgProfileProjectsError = CommonErrors;
 
+/** Triggers the generation of a Customer Profile for a project. */
 export const generateOrgProfileProjects: API.OperationMethod<GenerateOrgProfileProjectsRequest, GenerateOrgProfileProjectsResponse, GenerateOrgProfileProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateOrgProfileProjectsRequest,
   output: GenerateOrgProfileProjectsResponse,
   errors: [],
 }));
 
-/** Get a configuration by name. */
 export interface GetProjectsConfigurationsRequest {
   /** Required. Name of the configuration to get. Format: vaults/{vault}/configurations/{configuration} */
   name: string;
@@ -939,13 +938,13 @@ export const GetProjectsConfigurationsResponse = Configuration;
 
 export type GetProjectsConfigurationsError = CommonErrors;
 
+/** Get a configuration by name. */
 export const getProjectsConfigurations: API.OperationMethod<GetProjectsConfigurationsRequest, GetProjectsConfigurationsResponse, GetProjectsConfigurationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsConfigurationsRequest,
   output: GetProjectsConfigurationsResponse,
   errors: [],
 }));
 
-/** Get a list of configurations that meet the filter criteria. */
 export interface ListProjectsConfigurationsRequest {
   /** Required. Parent of the configuration. Format: vaults/{vault} */
   parent: string;
@@ -975,7 +974,8 @@ export const ListProjectsConfigurationsResponse = ListConfigurationsResponse;
 
 export type ListProjectsConfigurationsError = CommonErrors;
 
-export const listProjectsConfigurations = API.makePaginated(() => ({
+/** Get a list of configurations that meet the filter criteria. */
+export const listProjectsConfigurations: API.PaginatedOperationMethod<ListProjectsConfigurationsRequest, ListProjectsConfigurationsResponse, ListProjectsConfigurationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsConfigurationsRequest,
   output: ListProjectsConfigurationsResponse,
   errors: [],
@@ -985,7 +985,6 @@ export const listProjectsConfigurations = API.makePaginated(() => ({
   },
 }));
 
-/** Creates or updates a configuration. */
 export interface UpsertProjectsConfigurationsRequest {
   /** Required. Parent of the configuration. */
   parent: string;
@@ -1009,13 +1008,13 @@ export const UpsertProjectsConfigurationsResponse = UpsertConfigurationResponse;
 
 export type UpsertProjectsConfigurationsError = CommonErrors;
 
+/** Creates or updates a configuration. */
 export const upsertProjectsConfigurations: API.OperationMethod<UpsertProjectsConfigurationsRequest, UpsertProjectsConfigurationsResponse, UpsertProjectsConfigurationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpsertProjectsConfigurationsRequest,
   output: UpsertProjectsConfigurationsResponse,
   errors: [],
 }));
 
-/** List configuration revisions that meet the filter criteria. */
 export interface ListProjectsConfigurationsRevisionsRequest {
   /** Required. The name of the Configuration to retrieve Revisions for */
   parent: string;
@@ -1045,7 +1044,8 @@ export const ListProjectsConfigurationsRevisionsResponse = ListConfigurationRevi
 
 export type ListProjectsConfigurationsRevisionsError = CommonErrors;
 
-export const listProjectsConfigurationsRevisions = API.makePaginated(() => ({
+/** List configuration revisions that meet the filter criteria. */
+export const listProjectsConfigurationsRevisions: API.PaginatedOperationMethod<ListProjectsConfigurationsRevisionsRequest, ListProjectsConfigurationsRevisionsResponse, ListProjectsConfigurationsRevisionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsConfigurationsRevisionsRequest,
   output: ListProjectsConfigurationsRevisionsResponse,
   errors: [],
@@ -1055,7 +1055,6 @@ export const listProjectsConfigurationsRevisions = API.makePaginated(() => ({
   },
 }));
 
-/** Get a finding by name. The `name` field should have the format: `projects/{project}/findings/{finding}` */
 export interface GetProjectsFindingsRequest {
   /** Required. Name of the finding to get. */
   name: string;
@@ -1073,13 +1072,13 @@ export const GetProjectsFindingsResponse = Finding;
 
 export type GetProjectsFindingsError = CommonErrors;
 
+/** Get a finding by name. The `name` field should have the format: `projects/{project}/findings/{finding}` */
 export const getProjectsFindings: API.OperationMethod<GetProjectsFindingsRequest, GetProjectsFindingsResponse, GetProjectsFindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsFindingsRequest,
   output: GetProjectsFindingsResponse,
   errors: [],
 }));
 
-/** Get a list of findings that meet the filter criteria. The `parent` field in ListFindingsRequest should have the format: projects/{project} */
 export interface ListProjectsFindingsRequest {
   /** Required. Parent of the findings. */
   parent: string;
@@ -1109,7 +1108,8 @@ export const ListProjectsFindingsResponse = ListFindingsResponse;
 
 export type ListProjectsFindingsError = CommonErrors;
 
-export const listProjectsFindings = API.makePaginated(() => ({
+/** Get a list of findings that meet the filter criteria. The `parent` field in ListFindingsRequest should have the format: projects/{project} */
+export const listProjectsFindings: API.PaginatedOperationMethod<ListProjectsFindingsRequest, ListProjectsFindingsResponse, ListProjectsFindingsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsFindingsRequest,
   output: ListProjectsFindingsResponse,
   errors: [],
@@ -1119,7 +1119,6 @@ export const listProjectsFindings = API.makePaginated(() => ({
   },
 }));
 
-/** SearchFindings is a more powerful version of ListFindings that supports complex queries like "findings for alerts" using functions such as `has_alert` in the query string. The `parent` field in SearchFindingsRequest should have the format: projects/{project} Example to search for findings for a specific issue: `has_alert("name=\"projects/gti-12345/alerts/alert-12345\"")` */
 export interface SearchProjectsFindingsRequest {
   /** Required. Parent of the findings. Format: vaults/{vault} */
   parent: string;
@@ -1149,7 +1148,8 @@ export const SearchProjectsFindingsResponse = SearchFindingsResponse;
 
 export type SearchProjectsFindingsError = CommonErrors;
 
-export const searchProjectsFindings = API.makePaginated(() => ({
+/** SearchFindings is a more powerful version of ListFindings that supports complex queries like "findings for alerts" using functions such as `has_alert` in the query string. The `parent` field in SearchFindingsRequest should have the format: projects/{project} Example to search for findings for a specific issue: `has_alert("name=\"projects/gti-12345/alerts/alert-12345\"")` */
+export const searchProjectsFindings: API.PaginatedOperationMethod<SearchProjectsFindingsRequest, SearchProjectsFindingsResponse, SearchProjectsFindingsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchProjectsFindingsRequest,
   output: SearchProjectsFindingsResponse,
   errors: [],
@@ -1159,7 +1159,6 @@ export const searchProjectsFindings = API.makePaginated(() => ({
   },
 }));
 
-/** Get an alert by name. */
 export interface GetProjectsAlertsRequest {
   /** Required. Name of the alert to get. Format: projects/{project}/alerts/{alert} */
   name: string;
@@ -1177,13 +1176,13 @@ export const GetProjectsAlertsResponse = Alert;
 
 export type GetProjectsAlertsError = CommonErrors;
 
+/** Get an alert by name. */
 export const getProjectsAlerts: API.OperationMethod<GetProjectsAlertsRequest, GetProjectsAlertsResponse, GetProjectsAlertsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsAlertsRequest,
   output: GetProjectsAlertsResponse,
   errors: [],
 }));
 
-/** Get a list of alerts that meet the filter criteria. */
 export interface ListProjectsAlertsRequest {
   /** Required. Parent of the alerts. Format: projects/{project} */
   parent: string;
@@ -1213,7 +1212,8 @@ export const ListProjectsAlertsResponse = ListAlertsResponse;
 
 export type ListProjectsAlertsError = CommonErrors;
 
-export const listProjectsAlerts = API.makePaginated(() => ({
+/** Get a list of alerts that meet the filter criteria. */
+export const listProjectsAlerts: API.PaginatedOperationMethod<ListProjectsAlertsRequest, ListProjectsAlertsResponse, ListProjectsAlertsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsAlertsRequest,
   output: ListProjectsAlertsResponse,
   errors: [],
@@ -1223,7 +1223,6 @@ export const listProjectsAlerts = API.makePaginated(() => ({
   },
 }));
 
-/** EnumerateAlertFacets returns the facets and the number of alerts that meet the filter criteria and have that value for each facet. */
 export interface EnumerateFacetsProjectsAlertsRequest {
   /** Required. Parent of the alerts. */
   parent: string;
@@ -1244,13 +1243,13 @@ export const EnumerateFacetsProjectsAlertsResponse = EnumerateAlertFacetsRespons
 
 export type EnumerateFacetsProjectsAlertsError = CommonErrors;
 
+/** EnumerateAlertFacets returns the facets and the number of alerts that meet the filter criteria and have that value for each facet. */
 export const enumerateFacetsProjectsAlerts: API.OperationMethod<EnumerateFacetsProjectsAlertsRequest, EnumerateFacetsProjectsAlertsResponse, EnumerateFacetsProjectsAlertsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnumerateFacetsProjectsAlertsRequest,
   output: EnumerateFacetsProjectsAlertsResponse,
   errors: [],
 }));
 
-/** Marks an alert as read - READ. */
 export interface ReadProjectsAlertsRequest {
   /** Required. Name of the alert to mark as read. Format: projects/{project}/alerts/{alert} */
   name: string;
@@ -1271,13 +1270,13 @@ export const ReadProjectsAlertsResponse = Alert;
 
 export type ReadProjectsAlertsError = CommonErrors;
 
+/** Marks an alert as read - READ. */
 export const readProjectsAlerts: API.OperationMethod<ReadProjectsAlertsRequest, ReadProjectsAlertsResponse, ReadProjectsAlertsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReadProjectsAlertsRequest,
   output: ReadProjectsAlertsResponse,
   errors: [],
 }));
 
-/** Marks an alert as triaged - TRIAGED. */
 export interface TriageProjectsAlertsRequest {
   /** Required. Name of the alert to mark as a triaged. Format: projects/{project}/alerts/{alert} */
   name: string;
@@ -1298,13 +1297,13 @@ export const TriageProjectsAlertsResponse = Alert;
 
 export type TriageProjectsAlertsError = CommonErrors;
 
+/** Marks an alert as triaged - TRIAGED. */
 export const triageProjectsAlerts: API.OperationMethod<TriageProjectsAlertsRequest, TriageProjectsAlertsResponse, TriageProjectsAlertsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TriageProjectsAlertsRequest,
   output: TriageProjectsAlertsResponse,
   errors: [],
 }));
 
-/** Marks an alert as escalated - ESCALATED. */
 export interface EscalateProjectsAlertsRequest {
   /** Required. Name of the alert to mark as escalated. Format: projects/{project}/alerts/{alert} */
   name: string;
@@ -1325,13 +1324,13 @@ export const EscalateProjectsAlertsResponse = Alert;
 
 export type EscalateProjectsAlertsError = CommonErrors;
 
+/** Marks an alert as escalated - ESCALATED. */
 export const escalateProjectsAlerts: API.OperationMethod<EscalateProjectsAlertsRequest, EscalateProjectsAlertsResponse, EscalateProjectsAlertsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EscalateProjectsAlertsRequest,
   output: EscalateProjectsAlertsResponse,
   errors: [],
 }));
 
-/** Marks an alert to closed state - RESOLVED. */
 export interface ResolveProjectsAlertsRequest {
   /** Required. Name of the alert to mark as resolved. Format: projects/{project}/alerts/{alert} */
   name: string;
@@ -1352,13 +1351,13 @@ export const ResolveProjectsAlertsResponse = Alert;
 
 export type ResolveProjectsAlertsError = CommonErrors;
 
+/** Marks an alert to closed state - RESOLVED. */
 export const resolveProjectsAlerts: API.OperationMethod<ResolveProjectsAlertsRequest, ResolveProjectsAlertsResponse, ResolveProjectsAlertsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResolveProjectsAlertsRequest,
   output: ResolveProjectsAlertsResponse,
   errors: [],
 }));
 
-/** Marks an alert as a false positive - FALSE_POSITIVE. */
 export interface FalsePositiveProjectsAlertsRequest {
   /** Required. Name of the alert to mark as a false positive. Format: projects/{project}/alerts/{alert} */
   name: string;
@@ -1379,13 +1378,13 @@ export const FalsePositiveProjectsAlertsResponse = Alert;
 
 export type FalsePositiveProjectsAlertsError = CommonErrors;
 
+/** Marks an alert as a false positive - FALSE_POSITIVE. */
 export const falsePositiveProjectsAlerts: API.OperationMethod<FalsePositiveProjectsAlertsRequest, FalsePositiveProjectsAlertsResponse, FalsePositiveProjectsAlertsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FalsePositiveProjectsAlertsRequest,
   output: FalsePositiveProjectsAlertsResponse,
   errors: [],
 }));
 
-/** Marks an alert as not actionable - NOT_ACTIONABLE. */
 export interface NotActionableProjectsAlertsRequest {
   /** Required. Name of the alert to mark as a not actionable. Format: projects/{project}/alerts/{alert} */
   name: string;
@@ -1406,13 +1405,13 @@ export const NotActionableProjectsAlertsResponse = Alert;
 
 export type NotActionableProjectsAlertsError = CommonErrors;
 
+/** Marks an alert as not actionable - NOT_ACTIONABLE. */
 export const notActionableProjectsAlerts: API.OperationMethod<NotActionableProjectsAlertsRequest, NotActionableProjectsAlertsResponse, NotActionableProjectsAlertsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: NotActionableProjectsAlertsRequest,
   output: NotActionableProjectsAlertsResponse,
   errors: [],
 }));
 
-/** Marks an alert as benign - BENIGN. */
 export interface BenignProjectsAlertsRequest {
   /** Required. Name of the alert to mark as a benign. Format: projects/{project}/alerts/{alert} */
   name: string;
@@ -1433,13 +1432,13 @@ export const BenignProjectsAlertsResponse = Alert;
 
 export type BenignProjectsAlertsError = CommonErrors;
 
+/** Marks an alert as benign - BENIGN. */
 export const benignProjectsAlerts: API.OperationMethod<BenignProjectsAlertsRequest, BenignProjectsAlertsResponse, BenignProjectsAlertsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BenignProjectsAlertsRequest,
   output: BenignProjectsAlertsResponse,
   errors: [],
 }));
 
-/** Marks an alert as tracked externally - TRACKED_EXTERNALLY. */
 export interface TrackExternallyProjectsAlertsRequest {
   /** Required. Name of the alert to mark as tracked externally. Format: projects/{project}/alerts/{alert} */
   name: string;
@@ -1460,13 +1459,13 @@ export const TrackExternallyProjectsAlertsResponse = Alert;
 
 export type TrackExternallyProjectsAlertsError = CommonErrors;
 
+/** Marks an alert as tracked externally - TRACKED_EXTERNALLY. */
 export const trackExternallyProjectsAlerts: API.OperationMethod<TrackExternallyProjectsAlertsRequest, TrackExternallyProjectsAlertsResponse, TrackExternallyProjectsAlertsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TrackExternallyProjectsAlertsRequest,
   output: TrackExternallyProjectsAlertsResponse,
   errors: [],
 }));
 
-/** Marks an alert as a duplicate of another alert. - DUPLICATE. */
 export interface DuplicateProjectsAlertsRequest {
   /** Required. Name of the alert to mark as a duplicate. Format: projects/{project}/alerts/{alert} */
   name: string;
@@ -1487,13 +1486,13 @@ export const DuplicateProjectsAlertsResponse = Alert;
 
 export type DuplicateProjectsAlertsError = CommonErrors;
 
+/** Marks an alert as a duplicate of another alert. - DUPLICATE. */
 export const duplicateProjectsAlerts: API.OperationMethod<DuplicateProjectsAlertsRequest, DuplicateProjectsAlertsResponse, DuplicateProjectsAlertsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DuplicateProjectsAlertsRequest,
   output: DuplicateProjectsAlertsResponse,
   errors: [],
 }));
 
-/** Gets a specific document associated with an alert. */
 export interface GetProjectsAlertsDocumentsRequest {
   /** Required. Name of the alert document to get. Format: projects/{project}/alerts/{alert}/documents/{document} */
   name: string;
@@ -1511,6 +1510,7 @@ export const GetProjectsAlertsDocumentsResponse = AlertDocument;
 
 export type GetProjectsAlertsDocumentsError = CommonErrors;
 
+/** Gets a specific document associated with an alert. */
 export const getProjectsAlertsDocuments: API.OperationMethod<GetProjectsAlertsDocumentsRequest, GetProjectsAlertsDocumentsResponse, GetProjectsAlertsDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsAlertsDocumentsRequest,
   output: GetProjectsAlertsDocumentsResponse,

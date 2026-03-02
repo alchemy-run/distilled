@@ -498,7 +498,6 @@ export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspen
 // Operations
 // ==========================================================================
 
-/** ListApiObservationTags lists all extant tags on any observation in the given project. */
 export interface ListApiObservationTagsProjectsLocationsRequest {
   /** Required. The parent, which owns this collection of tags. Format: projects/{project}/locations/{location} */
   parent: string;
@@ -522,7 +521,8 @@ export const ListApiObservationTagsProjectsLocationsResponse = ListApiObservatio
 
 export type ListApiObservationTagsProjectsLocationsError = CommonErrors;
 
-export const listApiObservationTagsProjectsLocations = API.makePaginated(() => ({
+/** ListApiObservationTags lists all extant tags on any observation in the given project. */
+export const listApiObservationTagsProjectsLocations: API.PaginatedOperationMethod<ListApiObservationTagsProjectsLocationsRequest, ListApiObservationTagsProjectsLocationsResponse, ListApiObservationTagsProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListApiObservationTagsProjectsLocationsRequest,
   output: ListApiObservationTagsProjectsLocationsResponse,
   errors: [],
@@ -532,7 +532,6 @@ export const listApiObservationTagsProjectsLocations = API.makePaginated(() => (
   },
 }));
 
-/** GetEntitlement returns the entitlement for the provided project. */
 export interface GetEntitlementProjectsLocationsRequest {
   /** Required. The entitlement resource name Format: projects/{project}/locations/{location}/entitlement */
   name: string;
@@ -550,13 +549,13 @@ export const GetEntitlementProjectsLocationsResponse = Entitlement;
 
 export type GetEntitlementProjectsLocationsError = CommonErrors;
 
+/** GetEntitlement returns the entitlement for the provided project. */
 export const getEntitlementProjectsLocations: API.OperationMethod<GetEntitlementProjectsLocationsRequest, GetEntitlementProjectsLocationsResponse, GetEntitlementProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEntitlementProjectsLocationsRequest,
   output: GetEntitlementProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -586,7 +585,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -596,7 +596,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -614,13 +613,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -650,7 +649,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -660,7 +660,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -678,13 +677,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -702,13 +701,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -729,13 +728,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** CreateObservationSource creates a new ObservationSource but does not affect any deployed infrastructure. It is a configuration that can be used in an Observation Job to collect data about APIs running in user's dataplane. */
 export interface CreateProjectsLocationsObservationSourcesRequest {
   /** Required. Value for parent. */
   parent: string;
@@ -762,13 +761,13 @@ export const CreateProjectsLocationsObservationSourcesResponse = Operation;
 
 export type CreateProjectsLocationsObservationSourcesError = CommonErrors;
 
+/** CreateObservationSource creates a new ObservationSource but does not affect any deployed infrastructure. It is a configuration that can be used in an Observation Job to collect data about APIs running in user's dataplane. */
 export const createProjectsLocationsObservationSources: API.OperationMethod<CreateProjectsLocationsObservationSourcesRequest, CreateProjectsLocationsObservationSourcesResponse, CreateProjectsLocationsObservationSourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsObservationSourcesRequest,
   output: CreateProjectsLocationsObservationSourcesResponse,
   errors: [],
 }));
 
-/** GetObservationSource retrieves a single ObservationSource by name. */
 export interface GetProjectsLocationsObservationSourcesRequest {
   /** Required. The name of the ObservationSource to retrieve. Format: projects/{project}/locations/{location}/observationSources/{source} */
   name: string;
@@ -786,13 +785,13 @@ export const GetProjectsLocationsObservationSourcesResponse = ObservationSource;
 
 export type GetProjectsLocationsObservationSourcesError = CommonErrors;
 
+/** GetObservationSource retrieves a single ObservationSource by name. */
 export const getProjectsLocationsObservationSources: API.OperationMethod<GetProjectsLocationsObservationSourcesRequest, GetProjectsLocationsObservationSourcesResponse, GetProjectsLocationsObservationSourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsObservationSourcesRequest,
   output: GetProjectsLocationsObservationSourcesResponse,
   errors: [],
 }));
 
-/** ListObservationSources gets all ObservationSources for a given project and location. */
 export interface ListProjectsLocationsObservationSourcesRequest {
   /** Required. The parent, which owns this collection of ObservationSources. Format: projects/{project}/locations/{location} */
   parent: string;
@@ -816,7 +815,8 @@ export const ListProjectsLocationsObservationSourcesResponse = ListObservationSo
 
 export type ListProjectsLocationsObservationSourcesError = CommonErrors;
 
-export const listProjectsLocationsObservationSources = API.makePaginated(() => ({
+/** ListObservationSources gets all ObservationSources for a given project and location. */
+export const listProjectsLocationsObservationSources: API.PaginatedOperationMethod<ListProjectsLocationsObservationSourcesRequest, ListProjectsLocationsObservationSourcesResponse, ListProjectsLocationsObservationSourcesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsObservationSourcesRequest,
   output: ListProjectsLocationsObservationSourcesResponse,
   errors: [],
@@ -826,7 +826,6 @@ export const listProjectsLocationsObservationSources = API.makePaginated(() => (
   },
 }));
 
-/** DeleteObservationSource deletes an observation source. This method will fail if the observation source is currently being used by any ObservationJob, even if not enabled. */
 export interface DeleteProjectsLocationsObservationSourcesRequest {
   /** Required. Name of the resource Format: projects/{project}/locations/{location}/observationSources/{source} */
   name: string;
@@ -844,13 +843,13 @@ export const DeleteProjectsLocationsObservationSourcesResponse = Operation;
 
 export type DeleteProjectsLocationsObservationSourcesError = CommonErrors;
 
+/** DeleteObservationSource deletes an observation source. This method will fail if the observation source is currently being used by any ObservationJob, even if not enabled. */
 export const deleteProjectsLocationsObservationSources: API.OperationMethod<DeleteProjectsLocationsObservationSourcesRequest, DeleteProjectsLocationsObservationSourcesResponse, DeleteProjectsLocationsObservationSourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsObservationSourcesRequest,
   output: DeleteProjectsLocationsObservationSourcesResponse,
   errors: [],
 }));
 
-/** CreateObservationJob creates a new ObservationJob but does not have any effecton its own. It is a configuration that can be used in an Observation Job to collect data about existing APIs. */
 export interface CreateProjectsLocationsObservationJobsRequest {
   /** Required. The parent resource where this ObservationJob will be created. Format: projects/{project}/locations/{location} */
   parent: string;
@@ -877,13 +876,13 @@ export const CreateProjectsLocationsObservationJobsResponse = Operation;
 
 export type CreateProjectsLocationsObservationJobsError = CommonErrors;
 
+/** CreateObservationJob creates a new ObservationJob but does not have any effecton its own. It is a configuration that can be used in an Observation Job to collect data about existing APIs. */
 export const createProjectsLocationsObservationJobs: API.OperationMethod<CreateProjectsLocationsObservationJobsRequest, CreateProjectsLocationsObservationJobsResponse, CreateProjectsLocationsObservationJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsObservationJobsRequest,
   output: CreateProjectsLocationsObservationJobsResponse,
   errors: [],
 }));
 
-/** GetObservationJob retrieves a single ObservationJob by name. */
 export interface GetProjectsLocationsObservationJobsRequest {
   /** Required. The name of the ObservationJob to retrieve. Format: projects/{project}/locations/{location}/observationJobs/{job} */
   name: string;
@@ -901,13 +900,13 @@ export const GetProjectsLocationsObservationJobsResponse = ObservationJob;
 
 export type GetProjectsLocationsObservationJobsError = CommonErrors;
 
+/** GetObservationJob retrieves a single ObservationJob by name. */
 export const getProjectsLocationsObservationJobs: API.OperationMethod<GetProjectsLocationsObservationJobsRequest, GetProjectsLocationsObservationJobsResponse, GetProjectsLocationsObservationJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsObservationJobsRequest,
   output: GetProjectsLocationsObservationJobsResponse,
   errors: [],
 }));
 
-/** ListObservationJobs gets all ObservationJobs for a given project and location. */
 export interface ListProjectsLocationsObservationJobsRequest {
   /** Required. The parent, which owns this collection of ObservationJobs. Format: projects/{project}/locations/{location} */
   parent: string;
@@ -931,7 +930,8 @@ export const ListProjectsLocationsObservationJobsResponse = ListObservationJobsR
 
 export type ListProjectsLocationsObservationJobsError = CommonErrors;
 
-export const listProjectsLocationsObservationJobs = API.makePaginated(() => ({
+/** ListObservationJobs gets all ObservationJobs for a given project and location. */
+export const listProjectsLocationsObservationJobs: API.PaginatedOperationMethod<ListProjectsLocationsObservationJobsRequest, ListProjectsLocationsObservationJobsResponse, ListProjectsLocationsObservationJobsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsObservationJobsRequest,
   output: ListProjectsLocationsObservationJobsResponse,
   errors: [],
@@ -941,7 +941,6 @@ export const listProjectsLocationsObservationJobs = API.makePaginated(() => ({
   },
 }));
 
-/** DeleteObservationJob deletes an ObservationJob. This method will fail if the observation job is currently being used by any ObservationSource, even if not enabled. */
 export interface DeleteProjectsLocationsObservationJobsRequest {
   /** Required. Name of the resource Format: projects/{project}/locations/{location}/observationJobs/{observation_job} */
   name: string;
@@ -959,13 +958,13 @@ export const DeleteProjectsLocationsObservationJobsResponse = Operation;
 
 export type DeleteProjectsLocationsObservationJobsError = CommonErrors;
 
+/** DeleteObservationJob deletes an ObservationJob. This method will fail if the observation job is currently being used by any ObservationSource, even if not enabled. */
 export const deleteProjectsLocationsObservationJobs: API.OperationMethod<DeleteProjectsLocationsObservationJobsRequest, DeleteProjectsLocationsObservationJobsResponse, DeleteProjectsLocationsObservationJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsObservationJobsRequest,
   output: DeleteProjectsLocationsObservationJobsResponse,
   errors: [],
 }));
 
-/** Enables the given ObservationJob. */
 export interface EnableProjectsLocationsObservationJobsRequest {
   /** Required. The name of the ObservationJob to enable. Format: projects/{project}/locations/{location}/observationJobs/{job} */
   name: string;
@@ -986,13 +985,13 @@ export const EnableProjectsLocationsObservationJobsResponse = Operation;
 
 export type EnableProjectsLocationsObservationJobsError = CommonErrors;
 
+/** Enables the given ObservationJob. */
 export const enableProjectsLocationsObservationJobs: API.OperationMethod<EnableProjectsLocationsObservationJobsRequest, EnableProjectsLocationsObservationJobsResponse, EnableProjectsLocationsObservationJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnableProjectsLocationsObservationJobsRequest,
   output: EnableProjectsLocationsObservationJobsResponse,
   errors: [],
 }));
 
-/** Disables the given ObservationJob. */
 export interface DisableProjectsLocationsObservationJobsRequest {
   /** Required. The name of the ObservationJob to disable. Format: projects/{project}/locations/{location}/observationJobs/{job} */
   name: string;
@@ -1013,13 +1012,13 @@ export const DisableProjectsLocationsObservationJobsResponse = Operation;
 
 export type DisableProjectsLocationsObservationJobsError = CommonErrors;
 
+/** Disables the given ObservationJob. */
 export const disableProjectsLocationsObservationJobs: API.OperationMethod<DisableProjectsLocationsObservationJobsRequest, DisableProjectsLocationsObservationJobsResponse, DisableProjectsLocationsObservationJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DisableProjectsLocationsObservationJobsRequest,
   output: DisableProjectsLocationsObservationJobsResponse,
   errors: [],
 }));
 
-/** GetApiObservation retrieves a single ApiObservation by name. */
 export interface GetProjectsLocationsObservationJobsApiObservationsRequest {
   /** Required. The name of the ApiObservation to retrieve. Format: projects/{project}/locations/{location}/observationJobs/{observation_job}/apiObservations/{api_observation} */
   name: string;
@@ -1037,13 +1036,13 @@ export const GetProjectsLocationsObservationJobsApiObservationsResponse = ApiObs
 
 export type GetProjectsLocationsObservationJobsApiObservationsError = CommonErrors;
 
+/** GetApiObservation retrieves a single ApiObservation by name. */
 export const getProjectsLocationsObservationJobsApiObservations: API.OperationMethod<GetProjectsLocationsObservationJobsApiObservationsRequest, GetProjectsLocationsObservationJobsApiObservationsResponse, GetProjectsLocationsObservationJobsApiObservationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsObservationJobsApiObservationsRequest,
   output: GetProjectsLocationsObservationJobsApiObservationsResponse,
   errors: [],
 }));
 
-/** ListApiObservations gets all ApiObservations for a given project and location and ObservationJob. */
 export interface ListProjectsLocationsObservationJobsApiObservationsRequest {
   /** Required. The parent, which owns this collection of ApiObservations. Format: projects/{project}/locations/{location}/observationJobs/{observation_job} */
   parent: string;
@@ -1067,7 +1066,8 @@ export const ListProjectsLocationsObservationJobsApiObservationsResponse = ListA
 
 export type ListProjectsLocationsObservationJobsApiObservationsError = CommonErrors;
 
-export const listProjectsLocationsObservationJobsApiObservations = API.makePaginated(() => ({
+/** ListApiObservations gets all ApiObservations for a given project and location and ObservationJob. */
+export const listProjectsLocationsObservationJobsApiObservations: API.PaginatedOperationMethod<ListProjectsLocationsObservationJobsApiObservationsRequest, ListProjectsLocationsObservationJobsApiObservationsResponse, ListProjectsLocationsObservationJobsApiObservationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsObservationJobsApiObservationsRequest,
   output: ListProjectsLocationsObservationJobsApiObservationsResponse,
   errors: [],
@@ -1077,7 +1077,6 @@ export const listProjectsLocationsObservationJobsApiObservations = API.makePagin
   },
 }));
 
-/** BatchEditTagsApiObservations adds or removes Tags for ApiObservations. */
 export interface BatchEditTagsProjectsLocationsObservationJobsApiObservationsRequest {
   /** Required. The parent resource shared by all ApiObservations being edited. Format: projects/{project}/locations/{location}/observationJobs/{observation_job} */
   parent: string;
@@ -1098,13 +1097,13 @@ export const BatchEditTagsProjectsLocationsObservationJobsApiObservationsRespons
 
 export type BatchEditTagsProjectsLocationsObservationJobsApiObservationsError = CommonErrors;
 
+/** BatchEditTagsApiObservations adds or removes Tags for ApiObservations. */
 export const batchEditTagsProjectsLocationsObservationJobsApiObservations: API.OperationMethod<BatchEditTagsProjectsLocationsObservationJobsApiObservationsRequest, BatchEditTagsProjectsLocationsObservationJobsApiObservationsResponse, BatchEditTagsProjectsLocationsObservationJobsApiObservationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchEditTagsProjectsLocationsObservationJobsApiObservationsRequest,
   output: BatchEditTagsProjectsLocationsObservationJobsApiObservationsResponse,
   errors: [],
 }));
 
-/** GetApiOperation retrieves a single ApiOperation by name. */
 export interface GetProjectsLocationsObservationJobsApiObservationsApiOperationsRequest {
   /** Required. The name of the ApiOperation to retrieve. Format: projects/{project}/locations/{location}/observationJobs/{observation_job}/apiObservations/{api_observation}/apiOperation/{api_operation} */
   name: string;
@@ -1122,13 +1121,13 @@ export const GetProjectsLocationsObservationJobsApiObservationsApiOperationsResp
 
 export type GetProjectsLocationsObservationJobsApiObservationsApiOperationsError = CommonErrors;
 
+/** GetApiOperation retrieves a single ApiOperation by name. */
 export const getProjectsLocationsObservationJobsApiObservationsApiOperations: API.OperationMethod<GetProjectsLocationsObservationJobsApiObservationsApiOperationsRequest, GetProjectsLocationsObservationJobsApiObservationsApiOperationsResponse, GetProjectsLocationsObservationJobsApiObservationsApiOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsObservationJobsApiObservationsApiOperationsRequest,
   output: GetProjectsLocationsObservationJobsApiObservationsApiOperationsResponse,
   errors: [],
 }));
 
-/** ListApiOperations gets all ApiOperations for a given project and location and ObservationJob and ApiObservation. */
 export interface ListProjectsLocationsObservationJobsApiObservationsApiOperationsRequest {
   /** Required. The parent, which owns this collection of ApiOperations. Format: projects/{project}/locations/{location}/observationJobs/{observation_job}/apiObservations/{api_observation} */
   parent: string;
@@ -1152,7 +1151,8 @@ export const ListProjectsLocationsObservationJobsApiObservationsApiOperationsRes
 
 export type ListProjectsLocationsObservationJobsApiObservationsApiOperationsError = CommonErrors;
 
-export const listProjectsLocationsObservationJobsApiObservationsApiOperations = API.makePaginated(() => ({
+/** ListApiOperations gets all ApiOperations for a given project and location and ObservationJob and ApiObservation. */
+export const listProjectsLocationsObservationJobsApiObservationsApiOperations: API.PaginatedOperationMethod<ListProjectsLocationsObservationJobsApiObservationsApiOperationsRequest, ListProjectsLocationsObservationJobsApiObservationsApiOperationsResponse, ListProjectsLocationsObservationJobsApiObservationsApiOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsObservationJobsApiObservationsApiOperationsRequest,
   output: ListProjectsLocationsObservationJobsApiObservationsApiOperationsResponse,
   errors: [],

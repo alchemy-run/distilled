@@ -786,7 +786,6 @@ export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspen
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -816,7 +815,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -826,7 +826,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -844,13 +843,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Generates the Cloud TPU service identity for the project. */
 export interface GenerateServiceIdentityProjectsLocationsRequest {
   /** Required. The parent resource name. */
   parent: string;
@@ -871,13 +870,13 @@ export const GenerateServiceIdentityProjectsLocationsResponse = GenerateServiceI
 
 export type GenerateServiceIdentityProjectsLocationsError = CommonErrors;
 
+/** Generates the Cloud TPU service identity for the project. */
 export const generateServiceIdentityProjectsLocations: API.OperationMethod<GenerateServiceIdentityProjectsLocationsRequest, GenerateServiceIdentityProjectsLocationsResponse, GenerateServiceIdentityProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateServiceIdentityProjectsLocationsRequest,
   output: GenerateServiceIdentityProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -907,7 +906,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -917,7 +917,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -935,13 +934,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -959,13 +958,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -983,13 +982,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Lists nodes. */
 export interface ListProjectsLocationsNodesRequest {
   /** Required. The parent resource name. */
   parent: string;
@@ -1013,7 +1012,8 @@ export const ListProjectsLocationsNodesResponse = ListNodesResponse;
 
 export type ListProjectsLocationsNodesError = CommonErrors;
 
-export const listProjectsLocationsNodes = API.makePaginated(() => ({
+/** Lists nodes. */
+export const listProjectsLocationsNodes: API.PaginatedOperationMethod<ListProjectsLocationsNodesRequest, ListProjectsLocationsNodesResponse, ListProjectsLocationsNodesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsNodesRequest,
   output: ListProjectsLocationsNodesResponse,
   errors: [],
@@ -1023,7 +1023,6 @@ export const listProjectsLocationsNodes = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the details of a node. */
 export interface GetProjectsLocationsNodesRequest {
   /** Required. The resource name. */
   name: string;
@@ -1041,13 +1040,13 @@ export const GetProjectsLocationsNodesResponse = Node;
 
 export type GetProjectsLocationsNodesError = CommonErrors;
 
+/** Gets the details of a node. */
 export const getProjectsLocationsNodes: API.OperationMethod<GetProjectsLocationsNodesRequest, GetProjectsLocationsNodesResponse, GetProjectsLocationsNodesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsNodesRequest,
   output: GetProjectsLocationsNodesResponse,
   errors: [],
 }));
 
-/** Creates a node. */
 export interface CreateProjectsLocationsNodesRequest {
   /** Required. The parent resource name. */
   parent: string;
@@ -1071,13 +1070,13 @@ export const CreateProjectsLocationsNodesResponse = Operation;
 
 export type CreateProjectsLocationsNodesError = CommonErrors;
 
+/** Creates a node. */
 export const createProjectsLocationsNodes: API.OperationMethod<CreateProjectsLocationsNodesRequest, CreateProjectsLocationsNodesResponse, CreateProjectsLocationsNodesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsNodesRequest,
   output: CreateProjectsLocationsNodesResponse,
   errors: [],
 }));
 
-/** Deletes a node. */
 export interface DeleteProjectsLocationsNodesRequest {
   /** Required. The resource name. */
   name: string;
@@ -1095,13 +1094,13 @@ export const DeleteProjectsLocationsNodesResponse = Operation;
 
 export type DeleteProjectsLocationsNodesError = CommonErrors;
 
+/** Deletes a node. */
 export const deleteProjectsLocationsNodes: API.OperationMethod<DeleteProjectsLocationsNodesRequest, DeleteProjectsLocationsNodesResponse, DeleteProjectsLocationsNodesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsNodesRequest,
   output: DeleteProjectsLocationsNodesResponse,
   errors: [],
 }));
 
-/** Stops a node. This operation is only available with single TPU nodes. */
 export interface StopProjectsLocationsNodesRequest {
   /** Required. The resource name. */
   name: string;
@@ -1122,13 +1121,13 @@ export const StopProjectsLocationsNodesResponse = Operation;
 
 export type StopProjectsLocationsNodesError = CommonErrors;
 
+/** Stops a node. This operation is only available with single TPU nodes. */
 export const stopProjectsLocationsNodes: API.OperationMethod<StopProjectsLocationsNodesRequest, StopProjectsLocationsNodesResponse, StopProjectsLocationsNodesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StopProjectsLocationsNodesRequest,
   output: StopProjectsLocationsNodesResponse,
   errors: [],
 }));
 
-/** Starts a node. */
 export interface StartProjectsLocationsNodesRequest {
   /** Required. The resource name. */
   name: string;
@@ -1149,13 +1148,13 @@ export const StartProjectsLocationsNodesResponse = Operation;
 
 export type StartProjectsLocationsNodesError = CommonErrors;
 
+/** Starts a node. */
 export const startProjectsLocationsNodes: API.OperationMethod<StartProjectsLocationsNodesRequest, StartProjectsLocationsNodesResponse, StartProjectsLocationsNodesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StartProjectsLocationsNodesRequest,
   output: StartProjectsLocationsNodesResponse,
   errors: [],
 }));
 
-/** Updates the configurations of a node. */
 export interface PatchProjectsLocationsNodesRequest {
   /** Output only. Immutable. The name of the TPU. */
   name: string;
@@ -1179,13 +1178,13 @@ export const PatchProjectsLocationsNodesResponse = Operation;
 
 export type PatchProjectsLocationsNodesError = CommonErrors;
 
+/** Updates the configurations of a node. */
 export const patchProjectsLocationsNodes: API.OperationMethod<PatchProjectsLocationsNodesRequest, PatchProjectsLocationsNodesResponse, PatchProjectsLocationsNodesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsNodesRequest,
   output: PatchProjectsLocationsNodesResponse,
   errors: [],
 }));
 
-/** Retrieves the guest attributes for the node. */
 export interface GetGuestAttributesProjectsLocationsNodesRequest {
   /** Required. The resource name. */
   name: string;
@@ -1206,13 +1205,13 @@ export const GetGuestAttributesProjectsLocationsNodesResponse = GetGuestAttribut
 
 export type GetGuestAttributesProjectsLocationsNodesError = CommonErrors;
 
+/** Retrieves the guest attributes for the node. */
 export const getGuestAttributesProjectsLocationsNodes: API.OperationMethod<GetGuestAttributesProjectsLocationsNodesRequest, GetGuestAttributesProjectsLocationsNodesResponse, GetGuestAttributesProjectsLocationsNodesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetGuestAttributesProjectsLocationsNodesRequest,
   output: GetGuestAttributesProjectsLocationsNodesResponse,
   errors: [],
 }));
 
-/** Lists queued resources. */
 export interface ListProjectsLocationsQueuedResourcesRequest {
   /** Required. The parent resource name. */
   parent: string;
@@ -1236,7 +1235,8 @@ export const ListProjectsLocationsQueuedResourcesResponse = ListQueuedResourcesR
 
 export type ListProjectsLocationsQueuedResourcesError = CommonErrors;
 
-export const listProjectsLocationsQueuedResources = API.makePaginated(() => ({
+/** Lists queued resources. */
+export const listProjectsLocationsQueuedResources: API.PaginatedOperationMethod<ListProjectsLocationsQueuedResourcesRequest, ListProjectsLocationsQueuedResourcesResponse, ListProjectsLocationsQueuedResourcesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsQueuedResourcesRequest,
   output: ListProjectsLocationsQueuedResourcesResponse,
   errors: [],
@@ -1246,7 +1246,6 @@ export const listProjectsLocationsQueuedResources = API.makePaginated(() => ({
   },
 }));
 
-/** Gets details of a queued resource. */
 export interface GetProjectsLocationsQueuedResourcesRequest {
   /** Required. The resource name. */
   name: string;
@@ -1264,13 +1263,13 @@ export const GetProjectsLocationsQueuedResourcesResponse = QueuedResource;
 
 export type GetProjectsLocationsQueuedResourcesError = CommonErrors;
 
+/** Gets details of a queued resource. */
 export const getProjectsLocationsQueuedResources: API.OperationMethod<GetProjectsLocationsQueuedResourcesRequest, GetProjectsLocationsQueuedResourcesResponse, GetProjectsLocationsQueuedResourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsQueuedResourcesRequest,
   output: GetProjectsLocationsQueuedResourcesResponse,
   errors: [],
 }));
 
-/** Creates a QueuedResource TPU instance. */
 export interface CreateProjectsLocationsQueuedResourcesRequest {
   /** Required. The parent resource name. */
   parent: string;
@@ -1297,13 +1296,13 @@ export const CreateProjectsLocationsQueuedResourcesResponse = Operation;
 
 export type CreateProjectsLocationsQueuedResourcesError = CommonErrors;
 
+/** Creates a QueuedResource TPU instance. */
 export const createProjectsLocationsQueuedResources: API.OperationMethod<CreateProjectsLocationsQueuedResourcesRequest, CreateProjectsLocationsQueuedResourcesResponse, CreateProjectsLocationsQueuedResourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsQueuedResourcesRequest,
   output: CreateProjectsLocationsQueuedResourcesResponse,
   errors: [],
 }));
 
-/** Deletes a QueuedResource TPU instance. */
 export interface DeleteProjectsLocationsQueuedResourcesRequest {
   /** Required. The resource name. */
   name: string;
@@ -1327,13 +1326,13 @@ export const DeleteProjectsLocationsQueuedResourcesResponse = Operation;
 
 export type DeleteProjectsLocationsQueuedResourcesError = CommonErrors;
 
+/** Deletes a QueuedResource TPU instance. */
 export const deleteProjectsLocationsQueuedResources: API.OperationMethod<DeleteProjectsLocationsQueuedResourcesRequest, DeleteProjectsLocationsQueuedResourcesResponse, DeleteProjectsLocationsQueuedResourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsQueuedResourcesRequest,
   output: DeleteProjectsLocationsQueuedResourcesResponse,
   errors: [],
 }));
 
-/** Resets a QueuedResource TPU instance */
 export interface ResetProjectsLocationsQueuedResourcesRequest {
   /** Required. The name of the queued resource. */
   name: string;
@@ -1354,13 +1353,13 @@ export const ResetProjectsLocationsQueuedResourcesResponse = Operation;
 
 export type ResetProjectsLocationsQueuedResourcesError = CommonErrors;
 
+/** Resets a QueuedResource TPU instance */
 export const resetProjectsLocationsQueuedResources: API.OperationMethod<ResetProjectsLocationsQueuedResourcesRequest, ResetProjectsLocationsQueuedResourcesResponse, ResetProjectsLocationsQueuedResourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetProjectsLocationsQueuedResourcesRequest,
   output: ResetProjectsLocationsQueuedResourcesResponse,
   errors: [],
 }));
 
-/** Lists accelerator types supported by this API. */
 export interface ListProjectsLocationsAcceleratorTypesRequest {
   /** Required. The parent resource name. */
   parent: string;
@@ -1390,7 +1389,8 @@ export const ListProjectsLocationsAcceleratorTypesResponse = ListAcceleratorType
 
 export type ListProjectsLocationsAcceleratorTypesError = CommonErrors;
 
-export const listProjectsLocationsAcceleratorTypes = API.makePaginated(() => ({
+/** Lists accelerator types supported by this API. */
+export const listProjectsLocationsAcceleratorTypes: API.PaginatedOperationMethod<ListProjectsLocationsAcceleratorTypesRequest, ListProjectsLocationsAcceleratorTypesResponse, ListProjectsLocationsAcceleratorTypesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAcceleratorTypesRequest,
   output: ListProjectsLocationsAcceleratorTypesResponse,
   errors: [],
@@ -1400,7 +1400,6 @@ export const listProjectsLocationsAcceleratorTypes = API.makePaginated(() => ({
   },
 }));
 
-/** Gets AcceleratorType. */
 export interface GetProjectsLocationsAcceleratorTypesRequest {
   /** Required. The resource name. */
   name: string;
@@ -1418,13 +1417,13 @@ export const GetProjectsLocationsAcceleratorTypesResponse = AcceleratorType;
 
 export type GetProjectsLocationsAcceleratorTypesError = CommonErrors;
 
+/** Gets AcceleratorType. */
 export const getProjectsLocationsAcceleratorTypes: API.OperationMethod<GetProjectsLocationsAcceleratorTypesRequest, GetProjectsLocationsAcceleratorTypesResponse, GetProjectsLocationsAcceleratorTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAcceleratorTypesRequest,
   output: GetProjectsLocationsAcceleratorTypesResponse,
   errors: [],
 }));
 
-/** Lists runtime versions supported by this API. */
 export interface ListProjectsLocationsRuntimeVersionsRequest {
   /** Required. The parent resource name. */
   parent: string;
@@ -1454,7 +1453,8 @@ export const ListProjectsLocationsRuntimeVersionsResponse = ListRuntimeVersionsR
 
 export type ListProjectsLocationsRuntimeVersionsError = CommonErrors;
 
-export const listProjectsLocationsRuntimeVersions = API.makePaginated(() => ({
+/** Lists runtime versions supported by this API. */
+export const listProjectsLocationsRuntimeVersions: API.PaginatedOperationMethod<ListProjectsLocationsRuntimeVersionsRequest, ListProjectsLocationsRuntimeVersionsResponse, ListProjectsLocationsRuntimeVersionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRuntimeVersionsRequest,
   output: ListProjectsLocationsRuntimeVersionsResponse,
   errors: [],
@@ -1464,7 +1464,6 @@ export const listProjectsLocationsRuntimeVersions = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a runtime version. */
 export interface GetProjectsLocationsRuntimeVersionsRequest {
   /** Required. The resource name. */
   name: string;
@@ -1482,6 +1481,7 @@ export const GetProjectsLocationsRuntimeVersionsResponse = RuntimeVersion;
 
 export type GetProjectsLocationsRuntimeVersionsError = CommonErrors;
 
+/** Gets a runtime version. */
 export const getProjectsLocationsRuntimeVersions: API.OperationMethod<GetProjectsLocationsRuntimeVersionsRequest, GetProjectsLocationsRuntimeVersionsResponse, GetProjectsLocationsRuntimeVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRuntimeVersionsRequest,
   output: GetProjectsLocationsRuntimeVersionsResponse,

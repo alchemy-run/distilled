@@ -453,7 +453,6 @@ export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspen
 // Operations
 // ==========================================================================
 
-/** Get details of a Partner. */
 export interface GetPartnerOrganizationsLocationsRequest {
   /** Required. Format: `organizations/{organization}/locations/{location}/partner` */
   name: string;
@@ -471,13 +470,13 @@ export const GetPartnerOrganizationsLocationsResponse = Partner;
 
 export type GetPartnerOrganizationsLocationsError = CommonErrors;
 
+/** Get details of a Partner. */
 export const getPartnerOrganizationsLocations: API.OperationMethod<GetPartnerOrganizationsLocationsRequest, GetPartnerOrganizationsLocationsResponse, GetPartnerOrganizationsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPartnerOrganizationsLocationsRequest,
   output: GetPartnerOrganizationsLocationsResponse,
   errors: [],
 }));
 
-/** Gets details of a single customer */
 export interface GetOrganizationsLocationsCustomersRequest {
   /** Required. Format: `organizations/{organization}/locations/{location}/customers/{customer}` */
   name: string;
@@ -495,13 +494,13 @@ export const GetOrganizationsLocationsCustomersResponse = Customer;
 
 export type GetOrganizationsLocationsCustomersError = CommonErrors;
 
+/** Gets details of a single customer */
 export const getOrganizationsLocationsCustomers: API.OperationMethod<GetOrganizationsLocationsCustomersRequest, GetOrganizationsLocationsCustomersResponse, GetOrganizationsLocationsCustomersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsCustomersRequest,
   output: GetOrganizationsLocationsCustomersResponse,
   errors: [],
 }));
 
-/** Lists customers of a partner identified by its Google Cloud organization ID */
 export interface ListOrganizationsLocationsCustomersRequest {
   /** Required. Parent resource Format: `organizations/{organization}/locations/{location}` */
   parent: string;
@@ -531,7 +530,8 @@ export const ListOrganizationsLocationsCustomersResponse = ListCustomersResponse
 
 export type ListOrganizationsLocationsCustomersError = CommonErrors;
 
-export const listOrganizationsLocationsCustomers = API.makePaginated(() => ({
+/** Lists customers of a partner identified by its Google Cloud organization ID */
+export const listOrganizationsLocationsCustomers: API.PaginatedOperationMethod<ListOrganizationsLocationsCustomersRequest, ListOrganizationsLocationsCustomersResponse, ListOrganizationsLocationsCustomersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsCustomersRequest,
   output: ListOrganizationsLocationsCustomersResponse,
   errors: [],
@@ -541,7 +541,6 @@ export const listOrganizationsLocationsCustomers = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new customer. */
 export interface CreateOrganizationsLocationsCustomersRequest {
   /** Required. Parent resource Format: `organizations/{organization}/locations/{location}` */
   parent: string;
@@ -565,13 +564,13 @@ export const CreateOrganizationsLocationsCustomersResponse = Customer;
 
 export type CreateOrganizationsLocationsCustomersError = CommonErrors;
 
+/** Creates a new customer. */
 export const createOrganizationsLocationsCustomers: API.OperationMethod<CreateOrganizationsLocationsCustomersRequest, CreateOrganizationsLocationsCustomersResponse, CreateOrganizationsLocationsCustomersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsLocationsCustomersRequest,
   output: CreateOrganizationsLocationsCustomersResponse,
   errors: [],
 }));
 
-/** Update details of a single customer */
 export interface PatchOrganizationsLocationsCustomersRequest {
   /** Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}` */
   name: string;
@@ -595,13 +594,13 @@ export const PatchOrganizationsLocationsCustomersResponse = Customer;
 
 export type PatchOrganizationsLocationsCustomersError = CommonErrors;
 
+/** Update details of a single customer */
 export const patchOrganizationsLocationsCustomers: API.OperationMethod<PatchOrganizationsLocationsCustomersRequest, PatchOrganizationsLocationsCustomersResponse, PatchOrganizationsLocationsCustomersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsLocationsCustomersRequest,
   output: PatchOrganizationsLocationsCustomersResponse,
   errors: [],
 }));
 
-/** Delete details of a single customer */
 export interface DeleteOrganizationsLocationsCustomersRequest {
   /** Required. name of the resource to be deleted format: name=organizations/* /locations/* /customers/* */
   name: string;
@@ -619,13 +618,13 @@ export const DeleteOrganizationsLocationsCustomersResponse = Empty;
 
 export type DeleteOrganizationsLocationsCustomersError = CommonErrors;
 
+/** Delete details of a single customer */
 export const deleteOrganizationsLocationsCustomers: API.OperationMethod<DeleteOrganizationsLocationsCustomersRequest, DeleteOrganizationsLocationsCustomersResponse, DeleteOrganizationsLocationsCustomersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsLocationsCustomersRequest,
   output: DeleteOrganizationsLocationsCustomersResponse,
   errors: [],
 }));
 
-/** Gets details of a single workload */
 export interface GetOrganizationsLocationsCustomersWorkloadsRequest {
   /** Required. Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}` */
   name: string;
@@ -643,13 +642,13 @@ export const GetOrganizationsLocationsCustomersWorkloadsResponse = Workload;
 
 export type GetOrganizationsLocationsCustomersWorkloadsError = CommonErrors;
 
+/** Gets details of a single workload */
 export const getOrganizationsLocationsCustomersWorkloads: API.OperationMethod<GetOrganizationsLocationsCustomersWorkloadsRequest, GetOrganizationsLocationsCustomersWorkloadsResponse, GetOrganizationsLocationsCustomersWorkloadsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsCustomersWorkloadsRequest,
   output: GetOrganizationsLocationsCustomersWorkloadsResponse,
   errors: [],
 }));
 
-/** Lists customer workloads for a given customer org id */
 export interface ListOrganizationsLocationsCustomersWorkloadsRequest {
   /** Required. Parent resource Format: `organizations/{organization}/locations/{location}/customers/{customer}` */
   parent: string;
@@ -679,7 +678,8 @@ export const ListOrganizationsLocationsCustomersWorkloadsResponse = ListWorkload
 
 export type ListOrganizationsLocationsCustomersWorkloadsError = CommonErrors;
 
-export const listOrganizationsLocationsCustomersWorkloads = API.makePaginated(() => ({
+/** Lists customer workloads for a given customer org id */
+export const listOrganizationsLocationsCustomersWorkloads: API.PaginatedOperationMethod<ListOrganizationsLocationsCustomersWorkloadsRequest, ListOrganizationsLocationsCustomersWorkloadsResponse, ListOrganizationsLocationsCustomersWorkloadsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsCustomersWorkloadsRequest,
   output: ListOrganizationsLocationsCustomersWorkloadsResponse,
   errors: [],
@@ -689,7 +689,6 @@ export const listOrganizationsLocationsCustomersWorkloads = API.makePaginated(()
   },
 }));
 
-/** Gets the EKM connections associated with a workload */
 export interface GetEkmConnectionsOrganizationsLocationsCustomersWorkloadsRequest {
   /** Required. Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/ekmConnections` */
   name: string;
@@ -707,13 +706,13 @@ export const GetEkmConnectionsOrganizationsLocationsCustomersWorkloadsResponse =
 
 export type GetEkmConnectionsOrganizationsLocationsCustomersWorkloadsError = CommonErrors;
 
+/** Gets the EKM connections associated with a workload */
 export const getEkmConnectionsOrganizationsLocationsCustomersWorkloads: API.OperationMethod<GetEkmConnectionsOrganizationsLocationsCustomersWorkloadsRequest, GetEkmConnectionsOrganizationsLocationsCustomersWorkloadsResponse, GetEkmConnectionsOrganizationsLocationsCustomersWorkloadsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEkmConnectionsOrganizationsLocationsCustomersWorkloadsRequest,
   output: GetEkmConnectionsOrganizationsLocationsCustomersWorkloadsResponse,
   errors: [],
 }));
 
-/** Gets the partner permissions granted for a workload */
 export interface GetPartnerPermissionsOrganizationsLocationsCustomersWorkloadsRequest {
   /** Required. Name of the resource to get in the format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/partnerPermissions` */
   name: string;
@@ -731,13 +730,13 @@ export const GetPartnerPermissionsOrganizationsLocationsCustomersWorkloadsRespon
 
 export type GetPartnerPermissionsOrganizationsLocationsCustomersWorkloadsError = CommonErrors;
 
+/** Gets the partner permissions granted for a workload */
 export const getPartnerPermissionsOrganizationsLocationsCustomersWorkloads: API.OperationMethod<GetPartnerPermissionsOrganizationsLocationsCustomersWorkloadsRequest, GetPartnerPermissionsOrganizationsLocationsCustomersWorkloadsResponse, GetPartnerPermissionsOrganizationsLocationsCustomersWorkloadsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPartnerPermissionsOrganizationsLocationsCustomersWorkloadsRequest,
   output: GetPartnerPermissionsOrganizationsLocationsCustomersWorkloadsResponse,
   errors: [],
 }));
 
-/** Deprecated: Only returns access approval requests directly associated with an assured workload folder. */
 export interface ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsRequest {
   /** Required. Parent resource Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}` */
   parent: string;
@@ -767,7 +766,8 @@ export const ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsR
 
 export type ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsError = CommonErrors;
 
-export const listOrganizationsLocationsCustomersWorkloadsAccessApprovalRequests = API.makePaginated(() => ({
+/** Deprecated: Only returns access approval requests directly associated with an assured workload folder. */
+export const listOrganizationsLocationsCustomersWorkloadsAccessApprovalRequests: API.PaginatedOperationMethod<ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsRequest, ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsResponse, ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsRequest,
   output: ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequestsResponse,
   errors: [],
@@ -777,7 +777,6 @@ export const listOrganizationsLocationsCustomersWorkloadsAccessApprovalRequests 
   },
 }));
 
-/** Lists Violations for a workload Callers may also choose to read across multiple Customers or for a single customer as per [AIP-159](https://google.aip.dev/159) by using '-' (the hyphen or dash character) as a wildcard character instead of {customer} & {workload}. Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}` */
 export interface ListOrganizationsLocationsCustomersWorkloadsViolationsRequest {
   /** Required. Parent resource Format `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}` */
   parent: string;
@@ -813,7 +812,8 @@ export const ListOrganizationsLocationsCustomersWorkloadsViolationsResponse = Li
 
 export type ListOrganizationsLocationsCustomersWorkloadsViolationsError = CommonErrors;
 
-export const listOrganizationsLocationsCustomersWorkloadsViolations = API.makePaginated(() => ({
+/** Lists Violations for a workload Callers may also choose to read across multiple Customers or for a single customer as per [AIP-159](https://google.aip.dev/159) by using '-' (the hyphen or dash character) as a wildcard character instead of {customer} & {workload}. Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}` */
+export const listOrganizationsLocationsCustomersWorkloadsViolations: API.PaginatedOperationMethod<ListOrganizationsLocationsCustomersWorkloadsViolationsRequest, ListOrganizationsLocationsCustomersWorkloadsViolationsResponse, ListOrganizationsLocationsCustomersWorkloadsViolationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsCustomersWorkloadsViolationsRequest,
   output: ListOrganizationsLocationsCustomersWorkloadsViolationsResponse,
   errors: [],
@@ -823,7 +823,6 @@ export const listOrganizationsLocationsCustomersWorkloadsViolations = API.makePa
   },
 }));
 
-/** Gets details of a single Violation. */
 export interface GetOrganizationsLocationsCustomersWorkloadsViolationsRequest {
   /** Required. Format: `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/violations/{violation}` */
   name: string;
@@ -841,6 +840,7 @@ export const GetOrganizationsLocationsCustomersWorkloadsViolationsResponse = Vio
 
 export type GetOrganizationsLocationsCustomersWorkloadsViolationsError = CommonErrors;
 
+/** Gets details of a single Violation. */
 export const getOrganizationsLocationsCustomersWorkloadsViolations: API.OperationMethod<GetOrganizationsLocationsCustomersWorkloadsViolationsRequest, GetOrganizationsLocationsCustomersWorkloadsViolationsResponse, GetOrganizationsLocationsCustomersWorkloadsViolationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsCustomersWorkloadsViolationsRequest,
   output: GetOrganizationsLocationsCustomersWorkloadsViolationsResponse,

@@ -165,7 +165,6 @@ export const SignBlobRequest: Schema.Schema<SignBlobRequest> = Schema.suspend(()
 // Operations
 // ==========================================================================
 
-/** Returns the trust boundary info for a given workforce pool. */
 export interface GetAllowedLocationsLocationsWorkforcePoolsRequest {
   /** Required. Resource name of workforce pool. */
   name: string;
@@ -183,13 +182,13 @@ export const GetAllowedLocationsLocationsWorkforcePoolsResponse = WorkforcePoolA
 
 export type GetAllowedLocationsLocationsWorkforcePoolsError = CommonErrors;
 
+/** Returns the trust boundary info for a given workforce pool. */
 export const getAllowedLocationsLocationsWorkforcePools: API.OperationMethod<GetAllowedLocationsLocationsWorkforcePoolsRequest, GetAllowedLocationsLocationsWorkforcePoolsResponse, GetAllowedLocationsLocationsWorkforcePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAllowedLocationsLocationsWorkforcePoolsRequest,
   output: GetAllowedLocationsLocationsWorkforcePoolsResponse,
   errors: [],
 }));
 
-/** Returns the trust boundary info for a given workload identity pool. */
 export interface GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsRequest {
   /** Required. Resource name of workload identity pool. */
   name: string;
@@ -207,13 +206,13 @@ export const GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsResponse =
 
 export type GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsError = CommonErrors;
 
+/** Returns the trust boundary info for a given workload identity pool. */
 export const getAllowedLocationsProjectsLocationsWorkloadIdentityPools: API.OperationMethod<GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsRequest, GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsResponse, GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsRequest,
   output: GetAllowedLocationsProjectsLocationsWorkloadIdentityPoolsResponse,
   errors: [],
 }));
 
-/** Signs a blob using a service account's system-managed private key. */
 export interface SignBlobProjectsServiceAccountsRequest {
   /** Required. The resource name of the service account for which the credentials are requested, in the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
   name: string;
@@ -234,13 +233,13 @@ export const SignBlobProjectsServiceAccountsResponse = SignBlobResponse;
 
 export type SignBlobProjectsServiceAccountsError = CommonErrors;
 
+/** Signs a blob using a service account's system-managed private key. */
 export const signBlobProjectsServiceAccounts: API.OperationMethod<SignBlobProjectsServiceAccountsRequest, SignBlobProjectsServiceAccountsResponse, SignBlobProjectsServiceAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SignBlobProjectsServiceAccountsRequest,
   output: SignBlobProjectsServiceAccountsResponse,
   errors: [],
 }));
 
-/** Generates an OAuth 2.0 access token for a service account. */
 export interface GenerateAccessTokenProjectsServiceAccountsRequest {
   /** Required. The resource name of the service account for which the credentials are requested, in the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
   name: string;
@@ -261,13 +260,13 @@ export const GenerateAccessTokenProjectsServiceAccountsResponse = GenerateAccess
 
 export type GenerateAccessTokenProjectsServiceAccountsError = CommonErrors;
 
+/** Generates an OAuth 2.0 access token for a service account. */
 export const generateAccessTokenProjectsServiceAccounts: API.OperationMethod<GenerateAccessTokenProjectsServiceAccountsRequest, GenerateAccessTokenProjectsServiceAccountsResponse, GenerateAccessTokenProjectsServiceAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateAccessTokenProjectsServiceAccountsRequest,
   output: GenerateAccessTokenProjectsServiceAccountsResponse,
   errors: [],
 }));
 
-/** Generates an OpenID Connect ID token for a service account. */
 export interface GenerateIdTokenProjectsServiceAccountsRequest {
   /** Required. The resource name of the service account for which the credentials are requested, in the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
   name: string;
@@ -288,13 +287,13 @@ export const GenerateIdTokenProjectsServiceAccountsResponse = GenerateIdTokenRes
 
 export type GenerateIdTokenProjectsServiceAccountsError = CommonErrors;
 
+/** Generates an OpenID Connect ID token for a service account. */
 export const generateIdTokenProjectsServiceAccounts: API.OperationMethod<GenerateIdTokenProjectsServiceAccountsRequest, GenerateIdTokenProjectsServiceAccountsResponse, GenerateIdTokenProjectsServiceAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateIdTokenProjectsServiceAccountsRequest,
   output: GenerateIdTokenProjectsServiceAccountsResponse,
   errors: [],
 }));
 
-/** Signs a JWT using a service account's system-managed private key. */
 export interface SignJwtProjectsServiceAccountsRequest {
   /** Required. The resource name of the service account for which the credentials are requested, in the following format: `projects/-/serviceAccounts/{ACCOUNT_EMAIL_OR_UNIQUEID}`. The `-` wildcard character is required; replacing it with a project ID is invalid. */
   name: string;
@@ -315,13 +314,13 @@ export const SignJwtProjectsServiceAccountsResponse = SignJwtResponse;
 
 export type SignJwtProjectsServiceAccountsError = CommonErrors;
 
+/** Signs a JWT using a service account's system-managed private key. */
 export const signJwtProjectsServiceAccounts: API.OperationMethod<SignJwtProjectsServiceAccountsRequest, SignJwtProjectsServiceAccountsResponse, SignJwtProjectsServiceAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SignJwtProjectsServiceAccountsRequest,
   output: SignJwtProjectsServiceAccountsResponse,
   errors: [],
 }));
 
-/** Returns the trust boundary info for a given service account. */
 export interface GetAllowedLocationsProjectsServiceAccountsRequest {
   /** Required. Resource name of service account. */
   name: string;
@@ -339,6 +338,7 @@ export const GetAllowedLocationsProjectsServiceAccountsResponse = ServiceAccount
 
 export type GetAllowedLocationsProjectsServiceAccountsError = CommonErrors;
 
+/** Returns the trust boundary info for a given service account. */
 export const getAllowedLocationsProjectsServiceAccounts: API.OperationMethod<GetAllowedLocationsProjectsServiceAccountsRequest, GetAllowedLocationsProjectsServiceAccountsResponse, GetAllowedLocationsProjectsServiceAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAllowedLocationsProjectsServiceAccountsRequest,
   output: GetAllowedLocationsProjectsServiceAccountsResponse,

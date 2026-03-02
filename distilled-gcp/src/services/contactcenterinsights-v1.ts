@@ -10137,7 +10137,6 @@ export const GoogleCloudContactcenterinsightsV1mainUploadConversationMetadata: S
 // Operations
 // ==========================================================================
 
-/** Gets correlation config. */
 export interface GetCorrelationConfigProjectsLocationsRequest {
   /** Required. The name of the correlation config resource to get. Format: projects/{project}/locations/{location}/correlationConfig */
   name: string;
@@ -10155,13 +10154,13 @@ export const GetCorrelationConfigProjectsLocationsResponse = GoogleCloudContactc
 
 export type GetCorrelationConfigProjectsLocationsError = CommonErrors;
 
+/** Gets correlation config. */
 export const getCorrelationConfigProjectsLocations: API.OperationMethod<GetCorrelationConfigProjectsLocationsRequest, GetCorrelationConfigProjectsLocationsResponse, GetCorrelationConfigProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCorrelationConfigProjectsLocationsRequest,
   output: GetCorrelationConfigProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Updates correlation config. */
 export interface UpdateCorrelationConfigProjectsLocationsRequest {
   /** Immutable. Identifier. The resource name of the correlation config. Format: projects/{project}/locations/{location}/correlationConfig */
   name: string;
@@ -10185,13 +10184,13 @@ export const UpdateCorrelationConfigProjectsLocationsResponse = GoogleCloudConta
 
 export type UpdateCorrelationConfigProjectsLocationsError = CommonErrors;
 
+/** Updates correlation config. */
 export const updateCorrelationConfigProjectsLocations: API.OperationMethod<UpdateCorrelationConfigProjectsLocationsRequest, UpdateCorrelationConfigProjectsLocationsResponse, UpdateCorrelationConfigProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateCorrelationConfigProjectsLocationsRequest,
   output: UpdateCorrelationConfigProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Tests correlation config on a conversation. */
 export interface TestCorrelationConfigProjectsLocationsRequest {
   /** Required. The location to test correlation config. Format: projects/{project}/locations/{location} */
   location: string;
@@ -10212,13 +10211,13 @@ export const TestCorrelationConfigProjectsLocationsResponse = GoogleLongrunningO
 
 export type TestCorrelationConfigProjectsLocationsError = CommonErrors;
 
+/** Tests correlation config on a conversation. */
 export const testCorrelationConfigProjectsLocations: API.OperationMethod<TestCorrelationConfigProjectsLocationsRequest, TestCorrelationConfigProjectsLocationsResponse, TestCorrelationConfigProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestCorrelationConfigProjectsLocationsRequest,
   output: TestCorrelationConfigProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Gets project-level settings. */
 export interface GetSettingsProjectsLocationsRequest {
   /** Required. The name of the settings resource to get. */
   name: string;
@@ -10236,13 +10235,13 @@ export const GetSettingsProjectsLocationsResponse = GoogleCloudContactcenterinsi
 
 export type GetSettingsProjectsLocationsError = CommonErrors;
 
+/** Gets project-level settings. */
 export const getSettingsProjectsLocations: API.OperationMethod<GetSettingsProjectsLocationsRequest, GetSettingsProjectsLocationsResponse, GetSettingsProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSettingsProjectsLocationsRequest,
   output: GetSettingsProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Updates project-level settings. */
 export interface UpdateSettingsProjectsLocationsRequest {
   /** Immutable. The resource name of the settings resource. Format: projects/{project}/locations/{location}/settings */
   name: string;
@@ -10266,13 +10265,13 @@ export const UpdateSettingsProjectsLocationsResponse = GoogleCloudContactcenteri
 
 export type UpdateSettingsProjectsLocationsError = CommonErrors;
 
+/** Updates project-level settings. */
 export const updateSettingsProjectsLocations: API.OperationMethod<UpdateSettingsProjectsLocationsRequest, UpdateSettingsProjectsLocationsResponse, UpdateSettingsProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateSettingsProjectsLocationsRequest,
   output: UpdateSettingsProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Gets location-level encryption key specification. */
 export interface GetEncryptionSpecProjectsLocationsRequest {
   /** Required. The name of the encryption spec resource to get. */
   name: string;
@@ -10290,13 +10289,13 @@ export const GetEncryptionSpecProjectsLocationsResponse = GoogleCloudContactcent
 
 export type GetEncryptionSpecProjectsLocationsError = CommonErrors;
 
+/** Gets location-level encryption key specification. */
 export const getEncryptionSpecProjectsLocations: API.OperationMethod<GetEncryptionSpecProjectsLocationsRequest, GetEncryptionSpecProjectsLocationsResponse, GetEncryptionSpecProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEncryptionSpecProjectsLocationsRequest,
   output: GetEncryptionSpecProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Query metrics. */
 export interface QueryMetricsProjectsLocationsRequest {
   /** Required. The location of the data. "projects/{project}/locations/{location}" */
   location: string;
@@ -10317,13 +10316,13 @@ export const QueryMetricsProjectsLocationsResponse = GoogleLongrunningOperation;
 
 export type QueryMetricsProjectsLocationsError = CommonErrors;
 
+/** Query metrics. */
 export const queryMetricsProjectsLocations: API.OperationMethod<QueryMetricsProjectsLocationsRequest, QueryMetricsProjectsLocationsResponse, QueryMetricsProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: QueryMetricsProjectsLocationsRequest,
   output: QueryMetricsProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Natural language based Insights which powers the next generation of dashboards in Insights. Next generation of QueryMetrics. */
 export interface GenerativeInsightsProjectsLocationsRequest {
   /** Required. The location of the data. "projects/{project}/locations/{location}" */
   location: string;
@@ -10344,13 +10343,13 @@ export const GenerativeInsightsProjectsLocationsResponse = GoogleLongrunningOper
 
 export type GenerativeInsightsProjectsLocationsError = CommonErrors;
 
+/** Natural language based Insights which powers the next generation of dashboards in Insights. Next generation of QueryMetrics. */
 export const generativeInsightsProjectsLocations: API.OperationMethod<GenerativeInsightsProjectsLocationsRequest, GenerativeInsightsProjectsLocationsResponse, GenerativeInsightsProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerativeInsightsProjectsLocationsRequest,
   output: GenerativeInsightsProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Generates a summary of predefined performance metrics for a set of conversations. Conversations can be specified by specifying a time window and an agent id, for now. The summary includes a comparison of metrics computed for conversations in the previous time period, and also a comparison with peers in the same time period. */
 export interface QueryPerformanceOverviewProjectsLocationsRequest {
   /** Required. The parent resource of the conversations to derive performance stats from. "projects/{project}/locations/{location}" */
   parent: string;
@@ -10371,13 +10370,13 @@ export const QueryPerformanceOverviewProjectsLocationsResponse = GoogleLongrunni
 
 export type QueryPerformanceOverviewProjectsLocationsError = CommonErrors;
 
+/** Generates a summary of predefined performance metrics for a set of conversations. Conversations can be specified by specifying a time window and an agent id, for now. The summary includes a comparison of metrics computed for conversations in the previous time period, and also a comparison with peers in the same time period. */
 export const queryPerformanceOverviewProjectsLocations: API.OperationMethod<QueryPerformanceOverviewProjectsLocationsRequest, QueryPerformanceOverviewProjectsLocationsResponse, QueryPerformanceOverviewProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: QueryPerformanceOverviewProjectsLocationsRequest,
   output: QueryPerformanceOverviewProjectsLocationsResponse,
   errors: [],
 }));
 
-/** List all feedback labels by project number. */
 export interface ListAllFeedbackLabelsProjectsLocationsRequest {
   /** Required. The parent resource of all feedback labels per project. */
   parent: string;
@@ -10404,7 +10403,8 @@ export const ListAllFeedbackLabelsProjectsLocationsResponse = GoogleCloudContact
 
 export type ListAllFeedbackLabelsProjectsLocationsError = CommonErrors;
 
-export const listAllFeedbackLabelsProjectsLocations = API.makePaginated(() => ({
+/** List all feedback labels by project number. */
+export const listAllFeedbackLabelsProjectsLocations: API.PaginatedOperationMethod<ListAllFeedbackLabelsProjectsLocationsRequest, ListAllFeedbackLabelsProjectsLocationsResponse, ListAllFeedbackLabelsProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAllFeedbackLabelsProjectsLocationsRequest,
   output: ListAllFeedbackLabelsProjectsLocationsResponse,
   errors: [],
@@ -10414,7 +10414,6 @@ export const listAllFeedbackLabelsProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Upload feedback labels from an external source in bulk. Currently supports labeling Quality AI example conversations. */
 export interface BulkUploadFeedbackLabelsProjectsLocationsRequest {
   /** Required. The parent resource for new feedback labels. */
   parent: string;
@@ -10435,13 +10434,13 @@ export const BulkUploadFeedbackLabelsProjectsLocationsResponse = GoogleLongrunni
 
 export type BulkUploadFeedbackLabelsProjectsLocationsError = CommonErrors;
 
+/** Upload feedback labels from an external source in bulk. Currently supports labeling Quality AI example conversations. */
 export const bulkUploadFeedbackLabelsProjectsLocations: API.OperationMethod<BulkUploadFeedbackLabelsProjectsLocationsRequest, BulkUploadFeedbackLabelsProjectsLocationsResponse, BulkUploadFeedbackLabelsProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BulkUploadFeedbackLabelsProjectsLocationsRequest,
   output: BulkUploadFeedbackLabelsProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Download feedback labels in bulk from an external source. Currently supports exporting Quality AI example conversations with transcripts and question bodies. */
 export interface BulkDownloadFeedbackLabelsProjectsLocationsRequest {
   /** Required. The parent resource for new feedback labels. */
   parent: string;
@@ -10462,13 +10461,13 @@ export const BulkDownloadFeedbackLabelsProjectsLocationsResponse = GoogleLongrun
 
 export type BulkDownloadFeedbackLabelsProjectsLocationsError = CommonErrors;
 
+/** Download feedback labels in bulk from an external source. Currently supports exporting Quality AI example conversations with transcripts and question bodies. */
 export const bulkDownloadFeedbackLabelsProjectsLocations: API.OperationMethod<BulkDownloadFeedbackLabelsProjectsLocationsRequest, BulkDownloadFeedbackLabelsProjectsLocationsResponse, BulkDownloadFeedbackLabelsProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BulkDownloadFeedbackLabelsProjectsLocationsRequest,
   output: BulkDownloadFeedbackLabelsProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Delete feedback labels in bulk using a filter. */
 export interface BulkDeleteFeedbackLabelsProjectsLocationsRequest {
   /** Required. The parent resource for new feedback labels. */
   parent: string;
@@ -10489,13 +10488,13 @@ export const BulkDeleteFeedbackLabelsProjectsLocationsResponse = GoogleLongrunni
 
 export type BulkDeleteFeedbackLabelsProjectsLocationsError = CommonErrors;
 
+/** Delete feedback labels in bulk using a filter. */
 export const bulkDeleteFeedbackLabelsProjectsLocations: API.OperationMethod<BulkDeleteFeedbackLabelsProjectsLocationsRequest, BulkDeleteFeedbackLabelsProjectsLocationsResponse, BulkDeleteFeedbackLabelsProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BulkDeleteFeedbackLabelsProjectsLocationsRequest,
   output: BulkDeleteFeedbackLabelsProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -10525,7 +10524,8 @@ export const ListProjectsLocationsOperationsResponse = GoogleLongrunningListOper
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -10535,7 +10535,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -10553,13 +10552,13 @@ export const GetProjectsLocationsOperationsResponse = GoogleLongrunningOperation
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -10577,13 +10576,13 @@ export const CancelProjectsLocationsOperationsResponse = GoogleProtobufEmpty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Creates a conversation. Note that this method does not support audio transcription or redaction. Use `conversations.upload` instead. */
 export interface CreateProjectsLocationsConversationsRequest {
   /** Required. The parent resource of the conversation. */
   parent: string;
@@ -10607,13 +10606,13 @@ export const CreateProjectsLocationsConversationsResponse = GoogleCloudContactce
 
 export type CreateProjectsLocationsConversationsError = CommonErrors;
 
+/** Creates a conversation. Note that this method does not support audio transcription or redaction. Use `conversations.upload` instead. */
 export const createProjectsLocationsConversations: API.OperationMethod<CreateProjectsLocationsConversationsRequest, CreateProjectsLocationsConversationsResponse, CreateProjectsLocationsConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsConversationsRequest,
   output: CreateProjectsLocationsConversationsResponse,
   errors: [],
 }));
 
-/** Create a long-running conversation upload operation. This method differs from `CreateConversation` by allowing audio transcription and optional DLP redaction. */
 export interface UploadProjectsLocationsConversationsRequest {
   /** Required. The parent resource of the conversation. */
   parent: string;
@@ -10634,13 +10633,13 @@ export const UploadProjectsLocationsConversationsResponse = GoogleLongrunningOpe
 
 export type UploadProjectsLocationsConversationsError = CommonErrors;
 
+/** Create a long-running conversation upload operation. This method differs from `CreateConversation` by allowing audio transcription and optional DLP redaction. */
 export const uploadProjectsLocationsConversations: API.OperationMethod<UploadProjectsLocationsConversationsRequest, UploadProjectsLocationsConversationsResponse, UploadProjectsLocationsConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadProjectsLocationsConversationsRequest,
   output: UploadProjectsLocationsConversationsResponse,
   errors: [],
 }));
 
-/** Updates a conversation. */
 export interface PatchProjectsLocationsConversationsRequest {
   /** Immutable. The resource name of the conversation. Format: projects/{project}/locations/{location}/conversations/{conversation} */
   name: string;
@@ -10670,13 +10669,13 @@ export const PatchProjectsLocationsConversationsResponse = GoogleCloudContactcen
 
 export type PatchProjectsLocationsConversationsError = CommonErrors;
 
+/** Updates a conversation. */
 export const patchProjectsLocationsConversations: API.OperationMethod<PatchProjectsLocationsConversationsRequest, PatchProjectsLocationsConversationsResponse, PatchProjectsLocationsConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsConversationsRequest,
   output: PatchProjectsLocationsConversationsResponse,
   errors: [],
 }));
 
-/** Gets a conversation. */
 export interface GetProjectsLocationsConversationsRequest {
   /** Required. The name of the conversation to get. */
   name: string;
@@ -10697,13 +10696,13 @@ export const GetProjectsLocationsConversationsResponse = GoogleCloudContactcente
 
 export type GetProjectsLocationsConversationsError = CommonErrors;
 
+/** Gets a conversation. */
 export const getProjectsLocationsConversations: API.OperationMethod<GetProjectsLocationsConversationsRequest, GetProjectsLocationsConversationsResponse, GetProjectsLocationsConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsConversationsRequest,
   output: GetProjectsLocationsConversationsResponse,
   errors: [],
 }));
 
-/** Lists conversations. */
 export interface ListProjectsLocationsConversationsRequest {
   /** Required. The parent resource of the conversation. */
   parent: string;
@@ -10736,7 +10735,8 @@ export const ListProjectsLocationsConversationsResponse = GoogleCloudContactcent
 
 export type ListProjectsLocationsConversationsError = CommonErrors;
 
-export const listProjectsLocationsConversations = API.makePaginated(() => ({
+/** Lists conversations. */
+export const listProjectsLocationsConversations: API.PaginatedOperationMethod<ListProjectsLocationsConversationsRequest, ListProjectsLocationsConversationsResponse, ListProjectsLocationsConversationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsConversationsRequest,
   output: ListProjectsLocationsConversationsResponse,
   errors: [],
@@ -10746,7 +10746,6 @@ export const listProjectsLocationsConversations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the signed URI for the audio for the given conversation. */
 export interface GenerateSignedAudioProjectsLocationsConversationsRequest {
   /** Required. The name of the conversation to sign. */
   name: string;
@@ -10764,13 +10763,13 @@ export const GenerateSignedAudioProjectsLocationsConversationsResponse = GoogleC
 
 export type GenerateSignedAudioProjectsLocationsConversationsError = CommonErrors;
 
+/** Gets the signed URI for the audio for the given conversation. */
 export const generateSignedAudioProjectsLocationsConversations: API.OperationMethod<GenerateSignedAudioProjectsLocationsConversationsRequest, GenerateSignedAudioProjectsLocationsConversationsResponse, GenerateSignedAudioProjectsLocationsConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateSignedAudioProjectsLocationsConversationsRequest,
   output: GenerateSignedAudioProjectsLocationsConversationsResponse,
   errors: [],
 }));
 
-/** Deletes a conversation. */
 export interface DeleteProjectsLocationsConversationsRequest {
   /** Required. The name of the conversation to delete. */
   name: string;
@@ -10791,13 +10790,13 @@ export const DeleteProjectsLocationsConversationsResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsConversationsError = CommonErrors;
 
+/** Deletes a conversation. */
 export const deleteProjectsLocationsConversations: API.OperationMethod<DeleteProjectsLocationsConversationsRequest, DeleteProjectsLocationsConversationsResponse, DeleteProjectsLocationsConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsConversationsRequest,
   output: DeleteProjectsLocationsConversationsResponse,
   errors: [],
 }));
 
-/** Samples conversations based on user configuration and handles the sampled conversations for different use cases. */
 export interface SampleProjectsLocationsConversationsRequest {
   /** Required. The parent resource of the dataset. */
   parent: string;
@@ -10818,13 +10817,13 @@ export const SampleProjectsLocationsConversationsResponse = GoogleLongrunningOpe
 
 export type SampleProjectsLocationsConversationsError = CommonErrors;
 
+/** Samples conversations based on user configuration and handles the sampled conversations for different use cases. */
 export const sampleProjectsLocationsConversations: API.OperationMethod<SampleProjectsLocationsConversationsRequest, SampleProjectsLocationsConversationsResponse, SampleProjectsLocationsConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SampleProjectsLocationsConversationsRequest,
   output: SampleProjectsLocationsConversationsResponse,
   errors: [],
 }));
 
-/** Analyzes multiple conversations in a single request. */
 export interface BulkAnalyzeProjectsLocationsConversationsRequest {
   /** Required. The parent resource to create analyses in. */
   parent: string;
@@ -10845,13 +10844,13 @@ export const BulkAnalyzeProjectsLocationsConversationsResponse = GoogleLongrunni
 
 export type BulkAnalyzeProjectsLocationsConversationsError = CommonErrors;
 
+/** Analyzes multiple conversations in a single request. */
 export const bulkAnalyzeProjectsLocationsConversations: API.OperationMethod<BulkAnalyzeProjectsLocationsConversationsRequest, BulkAnalyzeProjectsLocationsConversationsResponse, BulkAnalyzeProjectsLocationsConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BulkAnalyzeProjectsLocationsConversationsRequest,
   output: BulkAnalyzeProjectsLocationsConversationsResponse,
   errors: [],
 }));
 
-/** Deletes multiple conversations in a single request. */
 export interface BulkDeleteProjectsLocationsConversationsRequest {
   /** Required. The parent resource to delete conversations from. Format: projects/{project}/locations/{location} */
   parent: string;
@@ -10872,13 +10871,13 @@ export const BulkDeleteProjectsLocationsConversationsResponse = GoogleLongrunnin
 
 export type BulkDeleteProjectsLocationsConversationsError = CommonErrors;
 
+/** Deletes multiple conversations in a single request. */
 export const bulkDeleteProjectsLocationsConversations: API.OperationMethod<BulkDeleteProjectsLocationsConversationsRequest, BulkDeleteProjectsLocationsConversationsResponse, BulkDeleteProjectsLocationsConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BulkDeleteProjectsLocationsConversationsRequest,
   output: BulkDeleteProjectsLocationsConversationsResponse,
   errors: [],
 }));
 
-/** Imports conversations and processes them according to the user's configuration. */
 export interface IngestProjectsLocationsConversationsRequest {
   /** Required. The parent resource for new conversations. */
   parent: string;
@@ -10899,13 +10898,13 @@ export const IngestProjectsLocationsConversationsResponse = GoogleLongrunningOpe
 
 export type IngestProjectsLocationsConversationsError = CommonErrors;
 
+/** Imports conversations and processes them according to the user's configuration. */
 export const ingestProjectsLocationsConversations: API.OperationMethod<IngestProjectsLocationsConversationsRequest, IngestProjectsLocationsConversationsResponse, IngestProjectsLocationsConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: IngestProjectsLocationsConversationsRequest,
   output: IngestProjectsLocationsConversationsResponse,
   errors: [],
 }));
 
-/** Gets conversation statistics. */
 export interface CalculateStatsProjectsLocationsConversationsRequest {
   /** Required. The location of the conversations. */
   location: string;
@@ -10926,13 +10925,13 @@ export const CalculateStatsProjectsLocationsConversationsResponse = GoogleCloudC
 
 export type CalculateStatsProjectsLocationsConversationsError = CommonErrors;
 
+/** Gets conversation statistics. */
 export const calculateStatsProjectsLocationsConversations: API.OperationMethod<CalculateStatsProjectsLocationsConversationsRequest, CalculateStatsProjectsLocationsConversationsResponse, CalculateStatsProjectsLocationsConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CalculateStatsProjectsLocationsConversationsRequest,
   output: CalculateStatsProjectsLocationsConversationsResponse,
   errors: [],
 }));
 
-/** Creates an analysis. The long running operation is done when the analysis has completed. */
 export interface CreateProjectsLocationsConversationsAnalysesRequest {
   /** Required. The parent resource of the analysis. */
   parent: string;
@@ -10953,13 +10952,13 @@ export const CreateProjectsLocationsConversationsAnalysesResponse = GoogleLongru
 
 export type CreateProjectsLocationsConversationsAnalysesError = CommonErrors;
 
+/** Creates an analysis. The long running operation is done when the analysis has completed. */
 export const createProjectsLocationsConversationsAnalyses: API.OperationMethod<CreateProjectsLocationsConversationsAnalysesRequest, CreateProjectsLocationsConversationsAnalysesResponse, CreateProjectsLocationsConversationsAnalysesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsConversationsAnalysesRequest,
   output: CreateProjectsLocationsConversationsAnalysesResponse,
   errors: [],
 }));
 
-/** Gets an analysis. */
 export interface GetProjectsLocationsConversationsAnalysesRequest {
   /** Required. The name of the analysis to get. */
   name: string;
@@ -10977,13 +10976,13 @@ export const GetProjectsLocationsConversationsAnalysesResponse = GoogleCloudCont
 
 export type GetProjectsLocationsConversationsAnalysesError = CommonErrors;
 
+/** Gets an analysis. */
 export const getProjectsLocationsConversationsAnalyses: API.OperationMethod<GetProjectsLocationsConversationsAnalysesRequest, GetProjectsLocationsConversationsAnalysesResponse, GetProjectsLocationsConversationsAnalysesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsConversationsAnalysesRequest,
   output: GetProjectsLocationsConversationsAnalysesResponse,
   errors: [],
 }));
 
-/** Lists analyses. */
 export interface ListProjectsLocationsConversationsAnalysesRequest {
   /** Required. The parent resource of the analyses. */
   parent: string;
@@ -11010,7 +11009,8 @@ export const ListProjectsLocationsConversationsAnalysesResponse = GoogleCloudCon
 
 export type ListProjectsLocationsConversationsAnalysesError = CommonErrors;
 
-export const listProjectsLocationsConversationsAnalyses = API.makePaginated(() => ({
+/** Lists analyses. */
+export const listProjectsLocationsConversationsAnalyses: API.PaginatedOperationMethod<ListProjectsLocationsConversationsAnalysesRequest, ListProjectsLocationsConversationsAnalysesResponse, ListProjectsLocationsConversationsAnalysesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsConversationsAnalysesRequest,
   output: ListProjectsLocationsConversationsAnalysesResponse,
   errors: [],
@@ -11020,7 +11020,6 @@ export const listProjectsLocationsConversationsAnalyses = API.makePaginated(() =
   },
 }));
 
-/** Deletes an analysis. */
 export interface DeleteProjectsLocationsConversationsAnalysesRequest {
   /** Required. The name of the analysis to delete. */
   name: string;
@@ -11038,13 +11037,13 @@ export const DeleteProjectsLocationsConversationsAnalysesResponse = GoogleProtob
 
 export type DeleteProjectsLocationsConversationsAnalysesError = CommonErrors;
 
+/** Deletes an analysis. */
 export const deleteProjectsLocationsConversationsAnalyses: API.OperationMethod<DeleteProjectsLocationsConversationsAnalysesRequest, DeleteProjectsLocationsConversationsAnalysesResponse, DeleteProjectsLocationsConversationsAnalysesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsConversationsAnalysesRequest,
   output: DeleteProjectsLocationsConversationsAnalysesResponse,
   errors: [],
 }));
 
-/** Analyzes multiple conversations in a single request. */
 export interface BulkAnalyzeProjectsLocationsConversationsSegmentsRequest {
   /** Required. The parent resource to create analyses in. */
   parent: string;
@@ -11065,13 +11064,13 @@ export const BulkAnalyzeProjectsLocationsConversationsSegmentsResponse = GoogleL
 
 export type BulkAnalyzeProjectsLocationsConversationsSegmentsError = CommonErrors;
 
+/** Analyzes multiple conversations in a single request. */
 export const bulkAnalyzeProjectsLocationsConversationsSegments: API.OperationMethod<BulkAnalyzeProjectsLocationsConversationsSegmentsRequest, BulkAnalyzeProjectsLocationsConversationsSegmentsResponse, BulkAnalyzeProjectsLocationsConversationsSegmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BulkAnalyzeProjectsLocationsConversationsSegmentsRequest,
   output: BulkAnalyzeProjectsLocationsConversationsSegmentsResponse,
   errors: [],
 }));
 
-/** Create feedback label. */
 export interface CreateProjectsLocationsConversationsFeedbackLabelsRequest {
   /** Required. The parent resource of the feedback label. */
   parent: string;
@@ -11095,13 +11094,13 @@ export const CreateProjectsLocationsConversationsFeedbackLabelsResponse = Google
 
 export type CreateProjectsLocationsConversationsFeedbackLabelsError = CommonErrors;
 
+/** Create feedback label. */
 export const createProjectsLocationsConversationsFeedbackLabels: API.OperationMethod<CreateProjectsLocationsConversationsFeedbackLabelsRequest, CreateProjectsLocationsConversationsFeedbackLabelsResponse, CreateProjectsLocationsConversationsFeedbackLabelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsConversationsFeedbackLabelsRequest,
   output: CreateProjectsLocationsConversationsFeedbackLabelsResponse,
   errors: [],
 }));
 
-/** List feedback labels. */
 export interface ListProjectsLocationsConversationsFeedbackLabelsRequest {
   /** Required. The parent resource of the feedback labels. */
   parent: string;
@@ -11128,7 +11127,8 @@ export const ListProjectsLocationsConversationsFeedbackLabelsResponse = GoogleCl
 
 export type ListProjectsLocationsConversationsFeedbackLabelsError = CommonErrors;
 
-export const listProjectsLocationsConversationsFeedbackLabels = API.makePaginated(() => ({
+/** List feedback labels. */
+export const listProjectsLocationsConversationsFeedbackLabels: API.PaginatedOperationMethod<ListProjectsLocationsConversationsFeedbackLabelsRequest, ListProjectsLocationsConversationsFeedbackLabelsResponse, ListProjectsLocationsConversationsFeedbackLabelsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsConversationsFeedbackLabelsRequest,
   output: ListProjectsLocationsConversationsFeedbackLabelsResponse,
   errors: [],
@@ -11138,7 +11138,6 @@ export const listProjectsLocationsConversationsFeedbackLabels = API.makePaginate
   },
 }));
 
-/** Get feedback label. */
 export interface GetProjectsLocationsConversationsFeedbackLabelsRequest {
   /** Required. The name of the feedback label to get. */
   name: string;
@@ -11156,13 +11155,13 @@ export const GetProjectsLocationsConversationsFeedbackLabelsResponse = GoogleClo
 
 export type GetProjectsLocationsConversationsFeedbackLabelsError = CommonErrors;
 
+/** Get feedback label. */
 export const getProjectsLocationsConversationsFeedbackLabels: API.OperationMethod<GetProjectsLocationsConversationsFeedbackLabelsRequest, GetProjectsLocationsConversationsFeedbackLabelsResponse, GetProjectsLocationsConversationsFeedbackLabelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsConversationsFeedbackLabelsRequest,
   output: GetProjectsLocationsConversationsFeedbackLabelsResponse,
   errors: [],
 }));
 
-/** Update feedback label. */
 export interface PatchProjectsLocationsConversationsFeedbackLabelsRequest {
   /** Immutable. Resource name of the FeedbackLabel. Format: projects/{project}/locations/{location}/conversations/{conversation}/feedbackLabels/{feedback_label} */
   name: string;
@@ -11186,13 +11185,13 @@ export const PatchProjectsLocationsConversationsFeedbackLabelsResponse = GoogleC
 
 export type PatchProjectsLocationsConversationsFeedbackLabelsError = CommonErrors;
 
+/** Update feedback label. */
 export const patchProjectsLocationsConversationsFeedbackLabels: API.OperationMethod<PatchProjectsLocationsConversationsFeedbackLabelsRequest, PatchProjectsLocationsConversationsFeedbackLabelsResponse, PatchProjectsLocationsConversationsFeedbackLabelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsConversationsFeedbackLabelsRequest,
   output: PatchProjectsLocationsConversationsFeedbackLabelsResponse,
   errors: [],
 }));
 
-/** Delete feedback label. */
 export interface DeleteProjectsLocationsConversationsFeedbackLabelsRequest {
   /** Required. The name of the feedback label to delete. */
   name: string;
@@ -11210,13 +11209,13 @@ export const DeleteProjectsLocationsConversationsFeedbackLabelsResponse = Google
 
 export type DeleteProjectsLocationsConversationsFeedbackLabelsError = CommonErrors;
 
+/** Delete feedback label. */
 export const deleteProjectsLocationsConversationsFeedbackLabels: API.OperationMethod<DeleteProjectsLocationsConversationsFeedbackLabelsRequest, DeleteProjectsLocationsConversationsFeedbackLabelsResponse, DeleteProjectsLocationsConversationsFeedbackLabelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsConversationsFeedbackLabelsRequest,
   output: DeleteProjectsLocationsConversationsFeedbackLabelsResponse,
   errors: [],
 }));
 
-/** Create Assessment. */
 export interface CreateProjectsLocationsConversationsAssessmentsRequest {
   /** Required. The parent resource of the assessment. */
   parent: string;
@@ -11237,13 +11236,13 @@ export const CreateProjectsLocationsConversationsAssessmentsResponse = GoogleClo
 
 export type CreateProjectsLocationsConversationsAssessmentsError = CommonErrors;
 
+/** Create Assessment. */
 export const createProjectsLocationsConversationsAssessments: API.OperationMethod<CreateProjectsLocationsConversationsAssessmentsRequest, CreateProjectsLocationsConversationsAssessmentsResponse, CreateProjectsLocationsConversationsAssessmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsConversationsAssessmentsRequest,
   output: CreateProjectsLocationsConversationsAssessmentsResponse,
   errors: [],
 }));
 
-/** Get Assessment. */
 export interface GetProjectsLocationsConversationsAssessmentsRequest {
   /** Required. The name of the assessment to get. */
   name: string;
@@ -11261,13 +11260,13 @@ export const GetProjectsLocationsConversationsAssessmentsResponse = GoogleCloudC
 
 export type GetProjectsLocationsConversationsAssessmentsError = CommonErrors;
 
+/** Get Assessment. */
 export const getProjectsLocationsConversationsAssessments: API.OperationMethod<GetProjectsLocationsConversationsAssessmentsRequest, GetProjectsLocationsConversationsAssessmentsResponse, GetProjectsLocationsConversationsAssessmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsConversationsAssessmentsRequest,
   output: GetProjectsLocationsConversationsAssessmentsResponse,
   errors: [],
 }));
 
-/** List Assessments. */
 export interface ListProjectsLocationsConversationsAssessmentsRequest {
   /** Required. The parent resource of the assessments. To list all assessments in a location, substitute the conversation ID with a '-' character. */
   parent: string;
@@ -11294,7 +11293,8 @@ export const ListProjectsLocationsConversationsAssessmentsResponse = GoogleCloud
 
 export type ListProjectsLocationsConversationsAssessmentsError = CommonErrors;
 
-export const listProjectsLocationsConversationsAssessments = API.makePaginated(() => ({
+/** List Assessments. */
+export const listProjectsLocationsConversationsAssessments: API.PaginatedOperationMethod<ListProjectsLocationsConversationsAssessmentsRequest, ListProjectsLocationsConversationsAssessmentsResponse, ListProjectsLocationsConversationsAssessmentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsConversationsAssessmentsRequest,
   output: ListProjectsLocationsConversationsAssessmentsResponse,
   errors: [],
@@ -11304,7 +11304,6 @@ export const listProjectsLocationsConversationsAssessments = API.makePaginated((
   },
 }));
 
-/** Delete an Assessment. */
 export interface DeleteProjectsLocationsConversationsAssessmentsRequest {
   /** Required. The name of the assessment to delete. */
   name: string;
@@ -11325,13 +11324,13 @@ export const DeleteProjectsLocationsConversationsAssessmentsResponse = GooglePro
 
 export type DeleteProjectsLocationsConversationsAssessmentsError = CommonErrors;
 
+/** Delete an Assessment. */
 export const deleteProjectsLocationsConversationsAssessments: API.OperationMethod<DeleteProjectsLocationsConversationsAssessmentsRequest, DeleteProjectsLocationsConversationsAssessmentsResponse, DeleteProjectsLocationsConversationsAssessmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsConversationsAssessmentsRequest,
   output: DeleteProjectsLocationsConversationsAssessmentsResponse,
   errors: [],
 }));
 
-/** Publish an Assessment. */
 export interface PublishProjectsLocationsConversationsAssessmentsRequest {
   /** Required. The name of the assessment to publish. */
   name: string;
@@ -11352,13 +11351,13 @@ export const PublishProjectsLocationsConversationsAssessmentsResponse = GoogleCl
 
 export type PublishProjectsLocationsConversationsAssessmentsError = CommonErrors;
 
+/** Publish an Assessment. */
 export const publishProjectsLocationsConversationsAssessments: API.OperationMethod<PublishProjectsLocationsConversationsAssessmentsRequest, PublishProjectsLocationsConversationsAssessmentsResponse, PublishProjectsLocationsConversationsAssessmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PublishProjectsLocationsConversationsAssessmentsRequest,
   output: PublishProjectsLocationsConversationsAssessmentsResponse,
   errors: [],
 }));
 
-/** Appeal an Assessment. */
 export interface AppealProjectsLocationsConversationsAssessmentsRequest {
   /** Required. The name of the assessment to appeal. */
   name: string;
@@ -11379,13 +11378,13 @@ export const AppealProjectsLocationsConversationsAssessmentsResponse = GoogleClo
 
 export type AppealProjectsLocationsConversationsAssessmentsError = CommonErrors;
 
+/** Appeal an Assessment. */
 export const appealProjectsLocationsConversationsAssessments: API.OperationMethod<AppealProjectsLocationsConversationsAssessmentsRequest, AppealProjectsLocationsConversationsAssessmentsResponse, AppealProjectsLocationsConversationsAssessmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AppealProjectsLocationsConversationsAssessmentsRequest,
   output: AppealProjectsLocationsConversationsAssessmentsResponse,
   errors: [],
 }));
 
-/** Finalize an Assessment. */
 export interface FinalizeProjectsLocationsConversationsAssessmentsRequest {
   /** Required. The name of the assessment to finalize. */
   name: string;
@@ -11406,13 +11405,13 @@ export const FinalizeProjectsLocationsConversationsAssessmentsResponse = GoogleC
 
 export type FinalizeProjectsLocationsConversationsAssessmentsError = CommonErrors;
 
+/** Finalize an Assessment. */
 export const finalizeProjectsLocationsConversationsAssessments: API.OperationMethod<FinalizeProjectsLocationsConversationsAssessmentsRequest, FinalizeProjectsLocationsConversationsAssessmentsResponse, FinalizeProjectsLocationsConversationsAssessmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FinalizeProjectsLocationsConversationsAssessmentsRequest,
   output: FinalizeProjectsLocationsConversationsAssessmentsResponse,
   errors: [],
 }));
 
-/** Create Note. */
 export interface CreateProjectsLocationsConversationsAssessmentsNotesRequest {
   /** Required. The parent resource of the note. */
   parent: string;
@@ -11433,13 +11432,13 @@ export const CreateProjectsLocationsConversationsAssessmentsNotesResponse = Goog
 
 export type CreateProjectsLocationsConversationsAssessmentsNotesError = CommonErrors;
 
+/** Create Note. */
 export const createProjectsLocationsConversationsAssessmentsNotes: API.OperationMethod<CreateProjectsLocationsConversationsAssessmentsNotesRequest, CreateProjectsLocationsConversationsAssessmentsNotesResponse, CreateProjectsLocationsConversationsAssessmentsNotesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsConversationsAssessmentsNotesRequest,
   output: CreateProjectsLocationsConversationsAssessmentsNotesResponse,
   errors: [],
 }));
 
-/** List Notes. */
 export interface ListProjectsLocationsConversationsAssessmentsNotesRequest {
   /** Required. The parent resource of the notes. */
   parent: string;
@@ -11463,7 +11462,8 @@ export const ListProjectsLocationsConversationsAssessmentsNotesResponse = Google
 
 export type ListProjectsLocationsConversationsAssessmentsNotesError = CommonErrors;
 
-export const listProjectsLocationsConversationsAssessmentsNotes = API.makePaginated(() => ({
+/** List Notes. */
+export const listProjectsLocationsConversationsAssessmentsNotes: API.PaginatedOperationMethod<ListProjectsLocationsConversationsAssessmentsNotesRequest, ListProjectsLocationsConversationsAssessmentsNotesResponse, ListProjectsLocationsConversationsAssessmentsNotesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsConversationsAssessmentsNotesRequest,
   output: ListProjectsLocationsConversationsAssessmentsNotesResponse,
   errors: [],
@@ -11473,7 +11473,6 @@ export const listProjectsLocationsConversationsAssessmentsNotes = API.makePagina
   },
 }));
 
-/** Update Note. */
 export interface PatchProjectsLocationsConversationsAssessmentsNotesRequest {
   /** Identifier. The resource name of the note. Format: projects/{project}/locations/{location}/conversations/{conversation}/assessments/{assessment}/notes/{note} */
   name: string;
@@ -11497,13 +11496,13 @@ export const PatchProjectsLocationsConversationsAssessmentsNotesResponse = Googl
 
 export type PatchProjectsLocationsConversationsAssessmentsNotesError = CommonErrors;
 
+/** Update Note. */
 export const patchProjectsLocationsConversationsAssessmentsNotes: API.OperationMethod<PatchProjectsLocationsConversationsAssessmentsNotesRequest, PatchProjectsLocationsConversationsAssessmentsNotesResponse, PatchProjectsLocationsConversationsAssessmentsNotesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsConversationsAssessmentsNotesRequest,
   output: PatchProjectsLocationsConversationsAssessmentsNotesResponse,
   errors: [],
 }));
 
-/** Deletes a Note. */
 export interface DeleteProjectsLocationsConversationsAssessmentsNotesRequest {
   /** Required. The name of the note to delete. */
   name: string;
@@ -11521,13 +11520,13 @@ export const DeleteProjectsLocationsConversationsAssessmentsNotesResponse = Goog
 
 export type DeleteProjectsLocationsConversationsAssessmentsNotesError = CommonErrors;
 
+/** Deletes a Note. */
 export const deleteProjectsLocationsConversationsAssessmentsNotes: API.OperationMethod<DeleteProjectsLocationsConversationsAssessmentsNotesRequest, DeleteProjectsLocationsConversationsAssessmentsNotesResponse, DeleteProjectsLocationsConversationsAssessmentsNotesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsConversationsAssessmentsNotesRequest,
   output: DeleteProjectsLocationsConversationsAssessmentsNotesResponse,
   errors: [],
 }));
 
-/** Creates a dataset. */
 export interface CreateProjectsLocationsDatasetsRequest {
   /** Required. The parent resource of the dataset. */
   parent: string;
@@ -11551,13 +11550,13 @@ export const CreateProjectsLocationsDatasetsResponse = GoogleCloudContactcenteri
 
 export type CreateProjectsLocationsDatasetsError = CommonErrors;
 
+/** Creates a dataset. */
 export const createProjectsLocationsDatasets: API.OperationMethod<CreateProjectsLocationsDatasetsRequest, CreateProjectsLocationsDatasetsResponse, CreateProjectsLocationsDatasetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsDatasetsRequest,
   output: CreateProjectsLocationsDatasetsResponse,
   errors: [],
 }));
 
-/** List datasets matching the input. */
 export interface ListProjectsLocationsDatasetsRequest {
   /** Required. The parent resource of the dataset. */
   parent: string;
@@ -11584,7 +11583,8 @@ export const ListProjectsLocationsDatasetsResponse = GoogleCloudContactcenterins
 
 export type ListProjectsLocationsDatasetsError = CommonErrors;
 
-export const listProjectsLocationsDatasets = API.makePaginated(() => ({
+/** List datasets matching the input. */
+export const listProjectsLocationsDatasets: API.PaginatedOperationMethod<ListProjectsLocationsDatasetsRequest, ListProjectsLocationsDatasetsResponse, ListProjectsLocationsDatasetsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDatasetsRequest,
   output: ListProjectsLocationsDatasetsResponse,
   errors: [],
@@ -11594,7 +11594,6 @@ export const listProjectsLocationsDatasets = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a dataset. */
 export interface GetProjectsLocationsDatasetsRequest {
   /** Required. The name of the dataset to get. */
   name: string;
@@ -11612,13 +11611,13 @@ export const GetProjectsLocationsDatasetsResponse = GoogleCloudContactcenterinsi
 
 export type GetProjectsLocationsDatasetsError = CommonErrors;
 
+/** Gets a dataset. */
 export const getProjectsLocationsDatasets: API.OperationMethod<GetProjectsLocationsDatasetsRequest, GetProjectsLocationsDatasetsResponse, GetProjectsLocationsDatasetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDatasetsRequest,
   output: GetProjectsLocationsDatasetsResponse,
   errors: [],
 }));
 
-/** Updates a dataset. */
 export interface PatchProjectsLocationsDatasetsRequest {
   /** Immutable. Identifier. Resource name of the dataset. Format: projects/{project}/locations/{location}/datasets/{dataset} */
   name: string;
@@ -11642,13 +11641,13 @@ export const PatchProjectsLocationsDatasetsResponse = GoogleCloudContactcenterin
 
 export type PatchProjectsLocationsDatasetsError = CommonErrors;
 
+/** Updates a dataset. */
 export const patchProjectsLocationsDatasets: API.OperationMethod<PatchProjectsLocationsDatasetsRequest, PatchProjectsLocationsDatasetsResponse, PatchProjectsLocationsDatasetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsDatasetsRequest,
   output: PatchProjectsLocationsDatasetsResponse,
   errors: [],
 }));
 
-/** Delete a dataset. */
 export interface DeleteProjectsLocationsDatasetsRequest {
   /** Required. The name of the dataset to delete. */
   name: string;
@@ -11666,13 +11665,13 @@ export const DeleteProjectsLocationsDatasetsResponse = GoogleLongrunningOperatio
 
 export type DeleteProjectsLocationsDatasetsError = CommonErrors;
 
+/** Delete a dataset. */
 export const deleteProjectsLocationsDatasets: API.OperationMethod<DeleteProjectsLocationsDatasetsRequest, DeleteProjectsLocationsDatasetsResponse, DeleteProjectsLocationsDatasetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDatasetsRequest,
   output: DeleteProjectsLocationsDatasetsResponse,
   errors: [],
 }));
 
-/** List all feedback labels by project number. */
 export interface ListAllFeedbackLabelsProjectsLocationsDatasetsRequest {
   /** Required. The parent resource of all feedback labels per project. */
   parent: string;
@@ -11699,7 +11698,8 @@ export const ListAllFeedbackLabelsProjectsLocationsDatasetsResponse = GoogleClou
 
 export type ListAllFeedbackLabelsProjectsLocationsDatasetsError = CommonErrors;
 
-export const listAllFeedbackLabelsProjectsLocationsDatasets = API.makePaginated(() => ({
+/** List all feedback labels by project number. */
+export const listAllFeedbackLabelsProjectsLocationsDatasets: API.PaginatedOperationMethod<ListAllFeedbackLabelsProjectsLocationsDatasetsRequest, ListAllFeedbackLabelsProjectsLocationsDatasetsResponse, ListAllFeedbackLabelsProjectsLocationsDatasetsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAllFeedbackLabelsProjectsLocationsDatasetsRequest,
   output: ListAllFeedbackLabelsProjectsLocationsDatasetsResponse,
   errors: [],
@@ -11709,7 +11709,6 @@ export const listAllFeedbackLabelsProjectsLocationsDatasets = API.makePaginated(
   },
 }));
 
-/** Upload feedback labels from an external source in bulk. Currently supports labeling Quality AI example conversations. */
 export interface BulkUploadFeedbackLabelsProjectsLocationsDatasetsRequest {
   /** Required. The parent resource for new feedback labels. */
   parent: string;
@@ -11730,13 +11729,13 @@ export const BulkUploadFeedbackLabelsProjectsLocationsDatasetsResponse = GoogleL
 
 export type BulkUploadFeedbackLabelsProjectsLocationsDatasetsError = CommonErrors;
 
+/** Upload feedback labels from an external source in bulk. Currently supports labeling Quality AI example conversations. */
 export const bulkUploadFeedbackLabelsProjectsLocationsDatasets: API.OperationMethod<BulkUploadFeedbackLabelsProjectsLocationsDatasetsRequest, BulkUploadFeedbackLabelsProjectsLocationsDatasetsResponse, BulkUploadFeedbackLabelsProjectsLocationsDatasetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BulkUploadFeedbackLabelsProjectsLocationsDatasetsRequest,
   output: BulkUploadFeedbackLabelsProjectsLocationsDatasetsResponse,
   errors: [],
 }));
 
-/** Download feedback labels in bulk from an external source. Currently supports exporting Quality AI example conversations with transcripts and question bodies. */
 export interface BulkDownloadFeedbackLabelsProjectsLocationsDatasetsRequest {
   /** Required. The parent resource for new feedback labels. */
   parent: string;
@@ -11757,13 +11756,13 @@ export const BulkDownloadFeedbackLabelsProjectsLocationsDatasetsResponse = Googl
 
 export type BulkDownloadFeedbackLabelsProjectsLocationsDatasetsError = CommonErrors;
 
+/** Download feedback labels in bulk from an external source. Currently supports exporting Quality AI example conversations with transcripts and question bodies. */
 export const bulkDownloadFeedbackLabelsProjectsLocationsDatasets: API.OperationMethod<BulkDownloadFeedbackLabelsProjectsLocationsDatasetsRequest, BulkDownloadFeedbackLabelsProjectsLocationsDatasetsResponse, BulkDownloadFeedbackLabelsProjectsLocationsDatasetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BulkDownloadFeedbackLabelsProjectsLocationsDatasetsRequest,
   output: BulkDownloadFeedbackLabelsProjectsLocationsDatasetsResponse,
   errors: [],
 }));
 
-/** Delete feedback labels in bulk using a filter. */
 export interface BulkDeleteFeedbackLabelsProjectsLocationsDatasetsRequest {
   /** Required. The parent resource for new feedback labels. */
   parent: string;
@@ -11784,13 +11783,13 @@ export const BulkDeleteFeedbackLabelsProjectsLocationsDatasetsResponse = GoogleL
 
 export type BulkDeleteFeedbackLabelsProjectsLocationsDatasetsError = CommonErrors;
 
+/** Delete feedback labels in bulk using a filter. */
 export const bulkDeleteFeedbackLabelsProjectsLocationsDatasets: API.OperationMethod<BulkDeleteFeedbackLabelsProjectsLocationsDatasetsRequest, BulkDeleteFeedbackLabelsProjectsLocationsDatasetsResponse, BulkDeleteFeedbackLabelsProjectsLocationsDatasetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BulkDeleteFeedbackLabelsProjectsLocationsDatasetsRequest,
   output: BulkDeleteFeedbackLabelsProjectsLocationsDatasetsResponse,
   errors: [],
 }));
 
-/** Gets a conversation. */
 export interface GetProjectsLocationsDatasetsConversationsRequest {
   /** Required. The name of the conversation to get. */
   name: string;
@@ -11811,13 +11810,13 @@ export const GetProjectsLocationsDatasetsConversationsResponse = GoogleCloudCont
 
 export type GetProjectsLocationsDatasetsConversationsError = CommonErrors;
 
+/** Gets a conversation. */
 export const getProjectsLocationsDatasetsConversations: API.OperationMethod<GetProjectsLocationsDatasetsConversationsRequest, GetProjectsLocationsDatasetsConversationsResponse, GetProjectsLocationsDatasetsConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDatasetsConversationsRequest,
   output: GetProjectsLocationsDatasetsConversationsResponse,
   errors: [],
 }));
 
-/** Lists conversations. */
 export interface ListProjectsLocationsDatasetsConversationsRequest {
   /** Required. The parent resource of the conversation. */
   parent: string;
@@ -11850,7 +11849,8 @@ export const ListProjectsLocationsDatasetsConversationsResponse = GoogleCloudCon
 
 export type ListProjectsLocationsDatasetsConversationsError = CommonErrors;
 
-export const listProjectsLocationsDatasetsConversations = API.makePaginated(() => ({
+/** Lists conversations. */
+export const listProjectsLocationsDatasetsConversations: API.PaginatedOperationMethod<ListProjectsLocationsDatasetsConversationsRequest, ListProjectsLocationsDatasetsConversationsResponse, ListProjectsLocationsDatasetsConversationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDatasetsConversationsRequest,
   output: ListProjectsLocationsDatasetsConversationsResponse,
   errors: [],
@@ -11860,7 +11860,6 @@ export const listProjectsLocationsDatasetsConversations = API.makePaginated(() =
   },
 }));
 
-/** Gets the signed URI for the audio for the given conversation. */
 export interface GenerateSignedAudioProjectsLocationsDatasetsConversationsRequest {
   /** Required. The name of the conversation to sign. */
   name: string;
@@ -11878,13 +11877,13 @@ export const GenerateSignedAudioProjectsLocationsDatasetsConversationsResponse =
 
 export type GenerateSignedAudioProjectsLocationsDatasetsConversationsError = CommonErrors;
 
+/** Gets the signed URI for the audio for the given conversation. */
 export const generateSignedAudioProjectsLocationsDatasetsConversations: API.OperationMethod<GenerateSignedAudioProjectsLocationsDatasetsConversationsRequest, GenerateSignedAudioProjectsLocationsDatasetsConversationsResponse, GenerateSignedAudioProjectsLocationsDatasetsConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateSignedAudioProjectsLocationsDatasetsConversationsRequest,
   output: GenerateSignedAudioProjectsLocationsDatasetsConversationsResponse,
   errors: [],
 }));
 
-/** Deletes a conversation. */
 export interface DeleteProjectsLocationsDatasetsConversationsRequest {
   /** Required. The name of the conversation to delete. */
   name: string;
@@ -11905,13 +11904,13 @@ export const DeleteProjectsLocationsDatasetsConversationsResponse = GoogleProtob
 
 export type DeleteProjectsLocationsDatasetsConversationsError = CommonErrors;
 
+/** Deletes a conversation. */
 export const deleteProjectsLocationsDatasetsConversations: API.OperationMethod<DeleteProjectsLocationsDatasetsConversationsRequest, DeleteProjectsLocationsDatasetsConversationsResponse, DeleteProjectsLocationsDatasetsConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDatasetsConversationsRequest,
   output: DeleteProjectsLocationsDatasetsConversationsResponse,
   errors: [],
 }));
 
-/** Samples conversations based on user configuration and handles the sampled conversations for different use cases. */
 export interface SampleProjectsLocationsDatasetsConversationsRequest {
   /** Required. The parent resource of the dataset. */
   parent: string;
@@ -11932,13 +11931,13 @@ export const SampleProjectsLocationsDatasetsConversationsResponse = GoogleLongru
 
 export type SampleProjectsLocationsDatasetsConversationsError = CommonErrors;
 
+/** Samples conversations based on user configuration and handles the sampled conversations for different use cases. */
 export const sampleProjectsLocationsDatasetsConversations: API.OperationMethod<SampleProjectsLocationsDatasetsConversationsRequest, SampleProjectsLocationsDatasetsConversationsResponse, SampleProjectsLocationsDatasetsConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SampleProjectsLocationsDatasetsConversationsRequest,
   output: SampleProjectsLocationsDatasetsConversationsResponse,
   errors: [],
 }));
 
-/** Deletes multiple conversations in a single request. */
 export interface BulkDeleteProjectsLocationsDatasetsConversationsRequest {
   /** Required. The parent resource to delete conversations from. Format: projects/{project}/locations/{location} */
   parent: string;
@@ -11959,13 +11958,13 @@ export const BulkDeleteProjectsLocationsDatasetsConversationsResponse = GoogleLo
 
 export type BulkDeleteProjectsLocationsDatasetsConversationsError = CommonErrors;
 
+/** Deletes multiple conversations in a single request. */
 export const bulkDeleteProjectsLocationsDatasetsConversations: API.OperationMethod<BulkDeleteProjectsLocationsDatasetsConversationsRequest, BulkDeleteProjectsLocationsDatasetsConversationsResponse, BulkDeleteProjectsLocationsDatasetsConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BulkDeleteProjectsLocationsDatasetsConversationsRequest,
   output: BulkDeleteProjectsLocationsDatasetsConversationsResponse,
   errors: [],
 }));
 
-/** Imports conversations and processes them according to the user's configuration. */
 export interface IngestProjectsLocationsDatasetsConversationsRequest {
   /** Required. The parent resource for new conversations. */
   parent: string;
@@ -11986,13 +11985,13 @@ export const IngestProjectsLocationsDatasetsConversationsResponse = GoogleLongru
 
 export type IngestProjectsLocationsDatasetsConversationsError = CommonErrors;
 
+/** Imports conversations and processes them according to the user's configuration. */
 export const ingestProjectsLocationsDatasetsConversations: API.OperationMethod<IngestProjectsLocationsDatasetsConversationsRequest, IngestProjectsLocationsDatasetsConversationsResponse, IngestProjectsLocationsDatasetsConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: IngestProjectsLocationsDatasetsConversationsRequest,
   output: IngestProjectsLocationsDatasetsConversationsResponse,
   errors: [],
 }));
 
-/** Gets conversation statistics. */
 export interface CalculateStatsProjectsLocationsDatasetsConversationsRequest {
   /** Required. The location of the conversations. */
   location: string;
@@ -12013,13 +12012,13 @@ export const CalculateStatsProjectsLocationsDatasetsConversationsResponse = Goog
 
 export type CalculateStatsProjectsLocationsDatasetsConversationsError = CommonErrors;
 
+/** Gets conversation statistics. */
 export const calculateStatsProjectsLocationsDatasetsConversations: API.OperationMethod<CalculateStatsProjectsLocationsDatasetsConversationsRequest, CalculateStatsProjectsLocationsDatasetsConversationsResponse, CalculateStatsProjectsLocationsDatasetsConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CalculateStatsProjectsLocationsDatasetsConversationsRequest,
   output: CalculateStatsProjectsLocationsDatasetsConversationsResponse,
   errors: [],
 }));
 
-/** Create feedback label. */
 export interface CreateProjectsLocationsDatasetsConversationsFeedbackLabelsRequest {
   /** Required. The parent resource of the feedback label. */
   parent: string;
@@ -12043,13 +12042,13 @@ export const CreateProjectsLocationsDatasetsConversationsFeedbackLabelsResponse 
 
 export type CreateProjectsLocationsDatasetsConversationsFeedbackLabelsError = CommonErrors;
 
+/** Create feedback label. */
 export const createProjectsLocationsDatasetsConversationsFeedbackLabels: API.OperationMethod<CreateProjectsLocationsDatasetsConversationsFeedbackLabelsRequest, CreateProjectsLocationsDatasetsConversationsFeedbackLabelsResponse, CreateProjectsLocationsDatasetsConversationsFeedbackLabelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsDatasetsConversationsFeedbackLabelsRequest,
   output: CreateProjectsLocationsDatasetsConversationsFeedbackLabelsResponse,
   errors: [],
 }));
 
-/** List feedback labels. */
 export interface ListProjectsLocationsDatasetsConversationsFeedbackLabelsRequest {
   /** Required. The parent resource of the feedback labels. */
   parent: string;
@@ -12076,7 +12075,8 @@ export const ListProjectsLocationsDatasetsConversationsFeedbackLabelsResponse = 
 
 export type ListProjectsLocationsDatasetsConversationsFeedbackLabelsError = CommonErrors;
 
-export const listProjectsLocationsDatasetsConversationsFeedbackLabels = API.makePaginated(() => ({
+/** List feedback labels. */
+export const listProjectsLocationsDatasetsConversationsFeedbackLabels: API.PaginatedOperationMethod<ListProjectsLocationsDatasetsConversationsFeedbackLabelsRequest, ListProjectsLocationsDatasetsConversationsFeedbackLabelsResponse, ListProjectsLocationsDatasetsConversationsFeedbackLabelsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDatasetsConversationsFeedbackLabelsRequest,
   output: ListProjectsLocationsDatasetsConversationsFeedbackLabelsResponse,
   errors: [],
@@ -12086,7 +12086,6 @@ export const listProjectsLocationsDatasetsConversationsFeedbackLabels = API.make
   },
 }));
 
-/** Get feedback label. */
 export interface GetProjectsLocationsDatasetsConversationsFeedbackLabelsRequest {
   /** Required. The name of the feedback label to get. */
   name: string;
@@ -12104,13 +12103,13 @@ export const GetProjectsLocationsDatasetsConversationsFeedbackLabelsResponse = G
 
 export type GetProjectsLocationsDatasetsConversationsFeedbackLabelsError = CommonErrors;
 
+/** Get feedback label. */
 export const getProjectsLocationsDatasetsConversationsFeedbackLabels: API.OperationMethod<GetProjectsLocationsDatasetsConversationsFeedbackLabelsRequest, GetProjectsLocationsDatasetsConversationsFeedbackLabelsResponse, GetProjectsLocationsDatasetsConversationsFeedbackLabelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDatasetsConversationsFeedbackLabelsRequest,
   output: GetProjectsLocationsDatasetsConversationsFeedbackLabelsResponse,
   errors: [],
 }));
 
-/** Update feedback label. */
 export interface PatchProjectsLocationsDatasetsConversationsFeedbackLabelsRequest {
   /** Immutable. Resource name of the FeedbackLabel. Format: projects/{project}/locations/{location}/conversations/{conversation}/feedbackLabels/{feedback_label} */
   name: string;
@@ -12134,13 +12133,13 @@ export const PatchProjectsLocationsDatasetsConversationsFeedbackLabelsResponse =
 
 export type PatchProjectsLocationsDatasetsConversationsFeedbackLabelsError = CommonErrors;
 
+/** Update feedback label. */
 export const patchProjectsLocationsDatasetsConversationsFeedbackLabels: API.OperationMethod<PatchProjectsLocationsDatasetsConversationsFeedbackLabelsRequest, PatchProjectsLocationsDatasetsConversationsFeedbackLabelsResponse, PatchProjectsLocationsDatasetsConversationsFeedbackLabelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsDatasetsConversationsFeedbackLabelsRequest,
   output: PatchProjectsLocationsDatasetsConversationsFeedbackLabelsResponse,
   errors: [],
 }));
 
-/** Delete feedback label. */
 export interface DeleteProjectsLocationsDatasetsConversationsFeedbackLabelsRequest {
   /** Required. The name of the feedback label to delete. */
   name: string;
@@ -12158,13 +12157,13 @@ export const DeleteProjectsLocationsDatasetsConversationsFeedbackLabelsResponse 
 
 export type DeleteProjectsLocationsDatasetsConversationsFeedbackLabelsError = CommonErrors;
 
+/** Delete feedback label. */
 export const deleteProjectsLocationsDatasetsConversationsFeedbackLabels: API.OperationMethod<DeleteProjectsLocationsDatasetsConversationsFeedbackLabelsRequest, DeleteProjectsLocationsDatasetsConversationsFeedbackLabelsResponse, DeleteProjectsLocationsDatasetsConversationsFeedbackLabelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDatasetsConversationsFeedbackLabelsRequest,
   output: DeleteProjectsLocationsDatasetsConversationsFeedbackLabelsResponse,
   errors: [],
 }));
 
-/** Export insights data to a destination defined in the request body. */
 export interface ExportProjectsLocationsDatasetsInsightsdataRequest {
   /** Required. The parent resource to export data from. */
   parent: string;
@@ -12185,13 +12184,13 @@ export const ExportProjectsLocationsDatasetsInsightsdataResponse = GoogleLongrun
 
 export type ExportProjectsLocationsDatasetsInsightsdataError = CommonErrors;
 
+/** Export insights data to a destination defined in the request body. */
 export const exportProjectsLocationsDatasetsInsightsdata: API.OperationMethod<ExportProjectsLocationsDatasetsInsightsdataRequest, ExportProjectsLocationsDatasetsInsightsdataResponse, ExportProjectsLocationsDatasetsInsightsdataError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExportProjectsLocationsDatasetsInsightsdataRequest,
   output: ExportProjectsLocationsDatasetsInsightsdataResponse,
   errors: [],
 }));
 
-/** Export insights data to a destination defined in the request body. */
 export interface ExportProjectsLocationsInsightsdataRequest {
   /** Required. The parent resource to export data from. */
   parent: string;
@@ -12212,13 +12211,13 @@ export const ExportProjectsLocationsInsightsdataResponse = GoogleLongrunningOper
 
 export type ExportProjectsLocationsInsightsdataError = CommonErrors;
 
+/** Export insights data to a destination defined in the request body. */
 export const exportProjectsLocationsInsightsdata: API.OperationMethod<ExportProjectsLocationsInsightsdataRequest, ExportProjectsLocationsInsightsdataResponse, ExportProjectsLocationsInsightsdataError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExportProjectsLocationsInsightsdataRequest,
   output: ExportProjectsLocationsInsightsdataResponse,
   errors: [],
 }));
 
-/** Creates an issue model. */
 export interface CreateProjectsLocationsIssueModelsRequest {
   /** Required. The parent resource of the issue model. */
   parent: string;
@@ -12239,13 +12238,13 @@ export const CreateProjectsLocationsIssueModelsResponse = GoogleLongrunningOpera
 
 export type CreateProjectsLocationsIssueModelsError = CommonErrors;
 
+/** Creates an issue model. */
 export const createProjectsLocationsIssueModels: API.OperationMethod<CreateProjectsLocationsIssueModelsRequest, CreateProjectsLocationsIssueModelsResponse, CreateProjectsLocationsIssueModelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsIssueModelsRequest,
   output: CreateProjectsLocationsIssueModelsResponse,
   errors: [],
 }));
 
-/** Updates an issue model. */
 export interface PatchProjectsLocationsIssueModelsRequest {
   /** Immutable. The resource name of the issue model. Format: projects/{project}/locations/{location}/issueModels/{issue_model} */
   name: string;
@@ -12269,13 +12268,13 @@ export const PatchProjectsLocationsIssueModelsResponse = GoogleCloudContactcente
 
 export type PatchProjectsLocationsIssueModelsError = CommonErrors;
 
+/** Updates an issue model. */
 export const patchProjectsLocationsIssueModels: API.OperationMethod<PatchProjectsLocationsIssueModelsRequest, PatchProjectsLocationsIssueModelsResponse, PatchProjectsLocationsIssueModelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsIssueModelsRequest,
   output: PatchProjectsLocationsIssueModelsResponse,
   errors: [],
 }));
 
-/** Gets an issue model. */
 export interface GetProjectsLocationsIssueModelsRequest {
   /** Required. The name of the issue model to get. */
   name: string;
@@ -12293,13 +12292,13 @@ export const GetProjectsLocationsIssueModelsResponse = GoogleCloudContactcenteri
 
 export type GetProjectsLocationsIssueModelsError = CommonErrors;
 
+/** Gets an issue model. */
 export const getProjectsLocationsIssueModels: API.OperationMethod<GetProjectsLocationsIssueModelsRequest, GetProjectsLocationsIssueModelsResponse, GetProjectsLocationsIssueModelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsIssueModelsRequest,
   output: GetProjectsLocationsIssueModelsResponse,
   errors: [],
 }));
 
-/** Lists issue models. */
 export interface ListProjectsLocationsIssueModelsRequest {
   /** Required. The parent resource of the issue model. */
   parent: string;
@@ -12317,13 +12316,13 @@ export const ListProjectsLocationsIssueModelsResponse = GoogleCloudContactcenter
 
 export type ListProjectsLocationsIssueModelsError = CommonErrors;
 
+/** Lists issue models. */
 export const listProjectsLocationsIssueModels: API.OperationMethod<ListProjectsLocationsIssueModelsRequest, ListProjectsLocationsIssueModelsResponse, ListProjectsLocationsIssueModelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsIssueModelsRequest,
   output: ListProjectsLocationsIssueModelsResponse,
   errors: [],
 }));
 
-/** Deletes an issue model. */
 export interface DeleteProjectsLocationsIssueModelsRequest {
   /** Required. The name of the issue model to delete. */
   name: string;
@@ -12341,13 +12340,13 @@ export const DeleteProjectsLocationsIssueModelsResponse = GoogleLongrunningOpera
 
 export type DeleteProjectsLocationsIssueModelsError = CommonErrors;
 
+/** Deletes an issue model. */
 export const deleteProjectsLocationsIssueModels: API.OperationMethod<DeleteProjectsLocationsIssueModelsRequest, DeleteProjectsLocationsIssueModelsResponse, DeleteProjectsLocationsIssueModelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsIssueModelsRequest,
   output: DeleteProjectsLocationsIssueModelsResponse,
   errors: [],
 }));
 
-/** Deploys an issue model. Returns an error if a model is already deployed. An issue model can only be used in analysis after it has been deployed. */
 export interface DeployProjectsLocationsIssueModelsRequest {
   /** Required. The issue model to deploy. */
   name: string;
@@ -12368,13 +12367,13 @@ export const DeployProjectsLocationsIssueModelsResponse = GoogleLongrunningOpera
 
 export type DeployProjectsLocationsIssueModelsError = CommonErrors;
 
+/** Deploys an issue model. Returns an error if a model is already deployed. An issue model can only be used in analysis after it has been deployed. */
 export const deployProjectsLocationsIssueModels: API.OperationMethod<DeployProjectsLocationsIssueModelsRequest, DeployProjectsLocationsIssueModelsResponse, DeployProjectsLocationsIssueModelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeployProjectsLocationsIssueModelsRequest,
   output: DeployProjectsLocationsIssueModelsResponse,
   errors: [],
 }));
 
-/** Undeploys an issue model. An issue model can not be used in analysis after it has been undeployed. */
 export interface UndeployProjectsLocationsIssueModelsRequest {
   /** Required. The issue model to undeploy. */
   name: string;
@@ -12395,13 +12394,13 @@ export const UndeployProjectsLocationsIssueModelsResponse = GoogleLongrunningOpe
 
 export type UndeployProjectsLocationsIssueModelsError = CommonErrors;
 
+/** Undeploys an issue model. An issue model can not be used in analysis after it has been undeployed. */
 export const undeployProjectsLocationsIssueModels: API.OperationMethod<UndeployProjectsLocationsIssueModelsRequest, UndeployProjectsLocationsIssueModelsResponse, UndeployProjectsLocationsIssueModelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UndeployProjectsLocationsIssueModelsRequest,
   output: UndeployProjectsLocationsIssueModelsResponse,
   errors: [],
 }));
 
-/** Exports an issue model to the provided destination. */
 export interface ExportProjectsLocationsIssueModelsRequest {
   /** Required. The issue model to export. */
   name: string;
@@ -12422,13 +12421,13 @@ export const ExportProjectsLocationsIssueModelsResponse = GoogleLongrunningOpera
 
 export type ExportProjectsLocationsIssueModelsError = CommonErrors;
 
+/** Exports an issue model to the provided destination. */
 export const exportProjectsLocationsIssueModels: API.OperationMethod<ExportProjectsLocationsIssueModelsRequest, ExportProjectsLocationsIssueModelsResponse, ExportProjectsLocationsIssueModelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExportProjectsLocationsIssueModelsRequest,
   output: ExportProjectsLocationsIssueModelsResponse,
   errors: [],
 }));
 
-/** Imports an issue model from a Cloud Storage bucket. */
 export interface ImportProjectsLocationsIssueModelsRequest {
   /** Required. The parent resource of the issue model. */
   parent: string;
@@ -12449,13 +12448,13 @@ export const ImportProjectsLocationsIssueModelsResponse = GoogleLongrunningOpera
 
 export type ImportProjectsLocationsIssueModelsError = CommonErrors;
 
+/** Imports an issue model from a Cloud Storage bucket. */
 export const importProjectsLocationsIssueModels: API.OperationMethod<ImportProjectsLocationsIssueModelsRequest, ImportProjectsLocationsIssueModelsResponse, ImportProjectsLocationsIssueModelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportProjectsLocationsIssueModelsRequest,
   output: ImportProjectsLocationsIssueModelsResponse,
   errors: [],
 }));
 
-/** Gets an issue model's statistics. */
 export interface CalculateIssueModelStatsProjectsLocationsIssueModelsRequest {
   /** Required. The resource name of the issue model to query against. */
   issueModel: string;
@@ -12473,13 +12472,13 @@ export const CalculateIssueModelStatsProjectsLocationsIssueModelsResponse = Goog
 
 export type CalculateIssueModelStatsProjectsLocationsIssueModelsError = CommonErrors;
 
+/** Gets an issue model's statistics. */
 export const calculateIssueModelStatsProjectsLocationsIssueModels: API.OperationMethod<CalculateIssueModelStatsProjectsLocationsIssueModelsRequest, CalculateIssueModelStatsProjectsLocationsIssueModelsResponse, CalculateIssueModelStatsProjectsLocationsIssueModelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CalculateIssueModelStatsProjectsLocationsIssueModelsRequest,
   output: CalculateIssueModelStatsProjectsLocationsIssueModelsResponse,
   errors: [],
 }));
 
-/** Gets an issue. */
 export interface GetProjectsLocationsIssueModelsIssuesRequest {
   /** Required. The name of the issue to get. */
   name: string;
@@ -12497,13 +12496,13 @@ export const GetProjectsLocationsIssueModelsIssuesResponse = GoogleCloudContactc
 
 export type GetProjectsLocationsIssueModelsIssuesError = CommonErrors;
 
+/** Gets an issue. */
 export const getProjectsLocationsIssueModelsIssues: API.OperationMethod<GetProjectsLocationsIssueModelsIssuesRequest, GetProjectsLocationsIssueModelsIssuesResponse, GetProjectsLocationsIssueModelsIssuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsIssueModelsIssuesRequest,
   output: GetProjectsLocationsIssueModelsIssuesResponse,
   errors: [],
 }));
 
-/** Lists issues. */
 export interface ListProjectsLocationsIssueModelsIssuesRequest {
   /** Required. The parent resource of the issue. */
   parent: string;
@@ -12521,13 +12520,13 @@ export const ListProjectsLocationsIssueModelsIssuesResponse = GoogleCloudContact
 
 export type ListProjectsLocationsIssueModelsIssuesError = CommonErrors;
 
+/** Lists issues. */
 export const listProjectsLocationsIssueModelsIssues: API.OperationMethod<ListProjectsLocationsIssueModelsIssuesRequest, ListProjectsLocationsIssueModelsIssuesResponse, ListProjectsLocationsIssueModelsIssuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsIssueModelsIssuesRequest,
   output: ListProjectsLocationsIssueModelsIssuesResponse,
   errors: [],
 }));
 
-/** Updates an issue. */
 export interface PatchProjectsLocationsIssueModelsIssuesRequest {
   /** Immutable. The resource name of the issue. Format: projects/{project}/locations/{location}/issueModels/{issue_model}/issues/{issue} */
   name: string;
@@ -12551,13 +12550,13 @@ export const PatchProjectsLocationsIssueModelsIssuesResponse = GoogleCloudContac
 
 export type PatchProjectsLocationsIssueModelsIssuesError = CommonErrors;
 
+/** Updates an issue. */
 export const patchProjectsLocationsIssueModelsIssues: API.OperationMethod<PatchProjectsLocationsIssueModelsIssuesRequest, PatchProjectsLocationsIssueModelsIssuesResponse, PatchProjectsLocationsIssueModelsIssuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsIssueModelsIssuesRequest,
   output: PatchProjectsLocationsIssueModelsIssuesResponse,
   errors: [],
 }));
 
-/** Creates an issue. */
 export interface CreateProjectsLocationsIssueModelsIssuesRequest {
   /** Required. The parent resource of the issue. */
   parent: string;
@@ -12578,13 +12577,13 @@ export const CreateProjectsLocationsIssueModelsIssuesResponse = GoogleLongrunnin
 
 export type CreateProjectsLocationsIssueModelsIssuesError = CommonErrors;
 
+/** Creates an issue. */
 export const createProjectsLocationsIssueModelsIssues: API.OperationMethod<CreateProjectsLocationsIssueModelsIssuesRequest, CreateProjectsLocationsIssueModelsIssuesResponse, CreateProjectsLocationsIssueModelsIssuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsIssueModelsIssuesRequest,
   output: CreateProjectsLocationsIssueModelsIssuesResponse,
   errors: [],
 }));
 
-/** Deletes an issue. */
 export interface DeleteProjectsLocationsIssueModelsIssuesRequest {
   /** Required. The name of the issue to delete. */
   name: string;
@@ -12602,13 +12601,13 @@ export const DeleteProjectsLocationsIssueModelsIssuesResponse = GoogleProtobufEm
 
 export type DeleteProjectsLocationsIssueModelsIssuesError = CommonErrors;
 
+/** Deletes an issue. */
 export const deleteProjectsLocationsIssueModelsIssues: API.OperationMethod<DeleteProjectsLocationsIssueModelsIssuesRequest, DeleteProjectsLocationsIssueModelsIssuesResponse, DeleteProjectsLocationsIssueModelsIssuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsIssueModelsIssuesRequest,
   output: DeleteProjectsLocationsIssueModelsIssuesResponse,
   errors: [],
 }));
 
-/** Creates a phrase matcher. */
 export interface CreateProjectsLocationsPhraseMatchersRequest {
   /** Required. The parent resource of the phrase matcher. Required. The location to create a phrase matcher for. Format: `projects//locations/` or `projects//locations/` */
   parent: string;
@@ -12629,13 +12628,13 @@ export const CreateProjectsLocationsPhraseMatchersResponse = GoogleCloudContactc
 
 export type CreateProjectsLocationsPhraseMatchersError = CommonErrors;
 
+/** Creates a phrase matcher. */
 export const createProjectsLocationsPhraseMatchers: API.OperationMethod<CreateProjectsLocationsPhraseMatchersRequest, CreateProjectsLocationsPhraseMatchersResponse, CreateProjectsLocationsPhraseMatchersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsPhraseMatchersRequest,
   output: CreateProjectsLocationsPhraseMatchersResponse,
   errors: [],
 }));
 
-/** Gets a phrase matcher. */
 export interface GetProjectsLocationsPhraseMatchersRequest {
   /** Required. The name of the phrase matcher to get. */
   name: string;
@@ -12653,13 +12652,13 @@ export const GetProjectsLocationsPhraseMatchersResponse = GoogleCloudContactcent
 
 export type GetProjectsLocationsPhraseMatchersError = CommonErrors;
 
+/** Gets a phrase matcher. */
 export const getProjectsLocationsPhraseMatchers: API.OperationMethod<GetProjectsLocationsPhraseMatchersRequest, GetProjectsLocationsPhraseMatchersResponse, GetProjectsLocationsPhraseMatchersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsPhraseMatchersRequest,
   output: GetProjectsLocationsPhraseMatchersResponse,
   errors: [],
 }));
 
-/** Lists phrase matchers. */
 export interface ListProjectsLocationsPhraseMatchersRequest {
   /** Required. The parent resource of the phrase matcher. */
   parent: string;
@@ -12686,7 +12685,8 @@ export const ListProjectsLocationsPhraseMatchersResponse = GoogleCloudContactcen
 
 export type ListProjectsLocationsPhraseMatchersError = CommonErrors;
 
-export const listProjectsLocationsPhraseMatchers = API.makePaginated(() => ({
+/** Lists phrase matchers. */
+export const listProjectsLocationsPhraseMatchers: API.PaginatedOperationMethod<ListProjectsLocationsPhraseMatchersRequest, ListProjectsLocationsPhraseMatchersResponse, ListProjectsLocationsPhraseMatchersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsPhraseMatchersRequest,
   output: ListProjectsLocationsPhraseMatchersResponse,
   errors: [],
@@ -12696,7 +12696,6 @@ export const listProjectsLocationsPhraseMatchers = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a phrase matcher. */
 export interface DeleteProjectsLocationsPhraseMatchersRequest {
   /** Required. The name of the phrase matcher to delete. */
   name: string;
@@ -12714,13 +12713,13 @@ export const DeleteProjectsLocationsPhraseMatchersResponse = GoogleProtobufEmpty
 
 export type DeleteProjectsLocationsPhraseMatchersError = CommonErrors;
 
+/** Deletes a phrase matcher. */
 export const deleteProjectsLocationsPhraseMatchers: API.OperationMethod<DeleteProjectsLocationsPhraseMatchersRequest, DeleteProjectsLocationsPhraseMatchersResponse, DeleteProjectsLocationsPhraseMatchersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsPhraseMatchersRequest,
   output: DeleteProjectsLocationsPhraseMatchersResponse,
   errors: [],
 }));
 
-/** Updates a phrase matcher. */
 export interface PatchProjectsLocationsPhraseMatchersRequest {
   /** The resource name of the phrase matcher. Format: projects/{project}/locations/{location}/phraseMatchers/{phrase_matcher} */
   name: string;
@@ -12744,13 +12743,13 @@ export const PatchProjectsLocationsPhraseMatchersResponse = GoogleCloudContactce
 
 export type PatchProjectsLocationsPhraseMatchersError = CommonErrors;
 
+/** Updates a phrase matcher. */
 export const patchProjectsLocationsPhraseMatchers: API.OperationMethod<PatchProjectsLocationsPhraseMatchersRequest, PatchProjectsLocationsPhraseMatchersResponse, PatchProjectsLocationsPhraseMatchersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsPhraseMatchersRequest,
   output: PatchProjectsLocationsPhraseMatchersResponse,
   errors: [],
 }));
 
-/** Creates a analysis rule. */
 export interface CreateProjectsLocationsAnalysisRulesRequest {
   /** Required. The parent resource of the analysis rule. Required. The location to create a analysis rule for. Format: `projects//locations/` or `projects//locations/` */
   parent: string;
@@ -12771,13 +12770,13 @@ export const CreateProjectsLocationsAnalysisRulesResponse = GoogleCloudContactce
 
 export type CreateProjectsLocationsAnalysisRulesError = CommonErrors;
 
+/** Creates a analysis rule. */
 export const createProjectsLocationsAnalysisRules: API.OperationMethod<CreateProjectsLocationsAnalysisRulesRequest, CreateProjectsLocationsAnalysisRulesResponse, CreateProjectsLocationsAnalysisRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsAnalysisRulesRequest,
   output: CreateProjectsLocationsAnalysisRulesResponse,
   errors: [],
 }));
 
-/** Get a analysis rule. */
 export interface GetProjectsLocationsAnalysisRulesRequest {
   /** Required. The name of the AnalysisRule to get. */
   name: string;
@@ -12795,13 +12794,13 @@ export const GetProjectsLocationsAnalysisRulesResponse = GoogleCloudContactcente
 
 export type GetProjectsLocationsAnalysisRulesError = CommonErrors;
 
+/** Get a analysis rule. */
 export const getProjectsLocationsAnalysisRules: API.OperationMethod<GetProjectsLocationsAnalysisRulesRequest, GetProjectsLocationsAnalysisRulesResponse, GetProjectsLocationsAnalysisRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAnalysisRulesRequest,
   output: GetProjectsLocationsAnalysisRulesResponse,
   errors: [],
 }));
 
-/** Lists analysis rules. */
 export interface ListProjectsLocationsAnalysisRulesRequest {
   /** Required. The parent resource of the analysis rules. */
   parent: string;
@@ -12825,7 +12824,8 @@ export const ListProjectsLocationsAnalysisRulesResponse = GoogleCloudContactcent
 
 export type ListProjectsLocationsAnalysisRulesError = CommonErrors;
 
-export const listProjectsLocationsAnalysisRules = API.makePaginated(() => ({
+/** Lists analysis rules. */
+export const listProjectsLocationsAnalysisRules: API.PaginatedOperationMethod<ListProjectsLocationsAnalysisRulesRequest, ListProjectsLocationsAnalysisRulesResponse, ListProjectsLocationsAnalysisRulesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAnalysisRulesRequest,
   output: ListProjectsLocationsAnalysisRulesResponse,
   errors: [],
@@ -12835,7 +12835,6 @@ export const listProjectsLocationsAnalysisRules = API.makePaginated(() => ({
   },
 }));
 
-/** Updates a analysis rule. */
 export interface PatchProjectsLocationsAnalysisRulesRequest {
   /** Identifier. The resource name of the analysis rule. Format: projects/{project}/locations/{location}/analysisRules/{analysis_rule} */
   name: string;
@@ -12859,13 +12858,13 @@ export const PatchProjectsLocationsAnalysisRulesResponse = GoogleCloudContactcen
 
 export type PatchProjectsLocationsAnalysisRulesError = CommonErrors;
 
+/** Updates a analysis rule. */
 export const patchProjectsLocationsAnalysisRules: API.OperationMethod<PatchProjectsLocationsAnalysisRulesRequest, PatchProjectsLocationsAnalysisRulesResponse, PatchProjectsLocationsAnalysisRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsAnalysisRulesRequest,
   output: PatchProjectsLocationsAnalysisRulesResponse,
   errors: [],
 }));
 
-/** Deletes a analysis rule. */
 export interface DeleteProjectsLocationsAnalysisRulesRequest {
   /** Required. The name of the analysis rule to delete. */
   name: string;
@@ -12883,13 +12882,13 @@ export const DeleteProjectsLocationsAnalysisRulesResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsAnalysisRulesError = CommonErrors;
 
+/** Deletes a analysis rule. */
 export const deleteProjectsLocationsAnalysisRules: API.OperationMethod<DeleteProjectsLocationsAnalysisRulesRequest, DeleteProjectsLocationsAnalysisRulesResponse, DeleteProjectsLocationsAnalysisRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsAnalysisRulesRequest,
   output: DeleteProjectsLocationsAnalysisRulesResponse,
   errors: [],
 }));
 
-/** Lists auto labeling rules. */
 export interface ListProjectsLocationsAutoLabelingRulesRequest {
   /** Required. The project and location to list auto labeling rules from. Format: projects/{project}/locations/{location} */
   parent: string;
@@ -12913,7 +12912,8 @@ export const ListProjectsLocationsAutoLabelingRulesResponse = GoogleCloudContact
 
 export type ListProjectsLocationsAutoLabelingRulesError = CommonErrors;
 
-export const listProjectsLocationsAutoLabelingRules = API.makePaginated(() => ({
+/** Lists auto labeling rules. */
+export const listProjectsLocationsAutoLabelingRules: API.PaginatedOperationMethod<ListProjectsLocationsAutoLabelingRulesRequest, ListProjectsLocationsAutoLabelingRulesResponse, ListProjectsLocationsAutoLabelingRulesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAutoLabelingRulesRequest,
   output: ListProjectsLocationsAutoLabelingRulesResponse,
   errors: [],
@@ -12923,7 +12923,6 @@ export const listProjectsLocationsAutoLabelingRules = API.makePaginated(() => ({
   },
 }));
 
-/** Gets an auto labeling rule. */
 export interface GetProjectsLocationsAutoLabelingRulesRequest {
   /** Required. The name of the auto labeling rule to get. Format: projects/{project}/locations/{location}/autoLabelingRules/{auto_labeling_rule} */
   name: string;
@@ -12941,13 +12940,13 @@ export const GetProjectsLocationsAutoLabelingRulesResponse = GoogleCloudContactc
 
 export type GetProjectsLocationsAutoLabelingRulesError = CommonErrors;
 
+/** Gets an auto labeling rule. */
 export const getProjectsLocationsAutoLabelingRules: API.OperationMethod<GetProjectsLocationsAutoLabelingRulesRequest, GetProjectsLocationsAutoLabelingRulesResponse, GetProjectsLocationsAutoLabelingRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAutoLabelingRulesRequest,
   output: GetProjectsLocationsAutoLabelingRulesResponse,
   errors: [],
 }));
 
-/** Creates an auto labeling rule. */
 export interface CreateProjectsLocationsAutoLabelingRulesRequest {
   /** Required. The project and location to create the auto labeling rule in. Format: projects/{project}/locations/{location} */
   parent: string;
@@ -12971,13 +12970,13 @@ export const CreateProjectsLocationsAutoLabelingRulesResponse = GoogleCloudConta
 
 export type CreateProjectsLocationsAutoLabelingRulesError = CommonErrors;
 
+/** Creates an auto labeling rule. */
 export const createProjectsLocationsAutoLabelingRules: API.OperationMethod<CreateProjectsLocationsAutoLabelingRulesRequest, CreateProjectsLocationsAutoLabelingRulesResponse, CreateProjectsLocationsAutoLabelingRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsAutoLabelingRulesRequest,
   output: CreateProjectsLocationsAutoLabelingRulesResponse,
   errors: [],
 }));
 
-/** Updates an auto labeling rule. */
 export interface PatchProjectsLocationsAutoLabelingRulesRequest {
   /** Identifier. The resource name of the auto-labeling rule. Format: projects/{project}/locations/{location}/autoLabelingRules/{auto_labeling_rule} */
   name: string;
@@ -13001,13 +13000,13 @@ export const PatchProjectsLocationsAutoLabelingRulesResponse = GoogleCloudContac
 
 export type PatchProjectsLocationsAutoLabelingRulesError = CommonErrors;
 
+/** Updates an auto labeling rule. */
 export const patchProjectsLocationsAutoLabelingRules: API.OperationMethod<PatchProjectsLocationsAutoLabelingRulesRequest, PatchProjectsLocationsAutoLabelingRulesResponse, PatchProjectsLocationsAutoLabelingRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsAutoLabelingRulesRequest,
   output: PatchProjectsLocationsAutoLabelingRulesResponse,
   errors: [],
 }));
 
-/** Deletes an auto labeling rule. */
 export interface DeleteProjectsLocationsAutoLabelingRulesRequest {
   /** Required. The name of the auto labeling rule to delete. Format: projects/{project}/locations/{location}/autoLabelingRules/{auto_labeling_rule} */
   name: string;
@@ -13025,13 +13024,13 @@ export const DeleteProjectsLocationsAutoLabelingRulesResponse = GoogleProtobufEm
 
 export type DeleteProjectsLocationsAutoLabelingRulesError = CommonErrors;
 
+/** Deletes an auto labeling rule. */
 export const deleteProjectsLocationsAutoLabelingRules: API.OperationMethod<DeleteProjectsLocationsAutoLabelingRulesRequest, DeleteProjectsLocationsAutoLabelingRulesResponse, DeleteProjectsLocationsAutoLabelingRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsAutoLabelingRulesRequest,
   output: DeleteProjectsLocationsAutoLabelingRulesResponse,
   errors: [],
 }));
 
-/** Tests auto labeling rules against a conversation. */
 export interface TestProjectsLocationsAutoLabelingRulesRequest {
   /** Required. The parent project and location. Format: projects/{project}/locations/{location} */
   parent: string;
@@ -13052,13 +13051,13 @@ export const TestProjectsLocationsAutoLabelingRulesResponse = GoogleCloudContact
 
 export type TestProjectsLocationsAutoLabelingRulesError = CommonErrors;
 
+/** Tests auto labeling rules against a conversation. */
 export const testProjectsLocationsAutoLabelingRules: API.OperationMethod<TestProjectsLocationsAutoLabelingRulesRequest, TestProjectsLocationsAutoLabelingRulesResponse, TestProjectsLocationsAutoLabelingRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestProjectsLocationsAutoLabelingRulesRequest,
   output: TestProjectsLocationsAutoLabelingRulesResponse,
   errors: [],
 }));
 
-/** Creates an assessment rule. */
 export interface CreateProjectsLocationsAssessmentRulesRequest {
   /** Required. The parent resource of the assessment rule. Required. The location to create a assessment rule for. Format: `projects//locations/` or `projects//locations/` */
   parent: string;
@@ -13082,13 +13081,13 @@ export const CreateProjectsLocationsAssessmentRulesResponse = GoogleCloudContact
 
 export type CreateProjectsLocationsAssessmentRulesError = CommonErrors;
 
+/** Creates an assessment rule. */
 export const createProjectsLocationsAssessmentRules: API.OperationMethod<CreateProjectsLocationsAssessmentRulesRequest, CreateProjectsLocationsAssessmentRulesResponse, CreateProjectsLocationsAssessmentRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsAssessmentRulesRequest,
   output: CreateProjectsLocationsAssessmentRulesResponse,
   errors: [],
 }));
 
-/** Get an assessment rule. */
 export interface GetProjectsLocationsAssessmentRulesRequest {
   /** Required. The name of the assessment rule to get. */
   name: string;
@@ -13106,13 +13105,13 @@ export const GetProjectsLocationsAssessmentRulesResponse = GoogleCloudContactcen
 
 export type GetProjectsLocationsAssessmentRulesError = CommonErrors;
 
+/** Get an assessment rule. */
 export const getProjectsLocationsAssessmentRules: API.OperationMethod<GetProjectsLocationsAssessmentRulesRequest, GetProjectsLocationsAssessmentRulesResponse, GetProjectsLocationsAssessmentRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAssessmentRulesRequest,
   output: GetProjectsLocationsAssessmentRulesResponse,
   errors: [],
 }));
 
-/** Lists assessment rules. */
 export interface ListProjectsLocationsAssessmentRulesRequest {
   /** Required. The parent resource of the assessment rules. */
   parent: string;
@@ -13136,7 +13135,8 @@ export const ListProjectsLocationsAssessmentRulesResponse = GoogleCloudContactce
 
 export type ListProjectsLocationsAssessmentRulesError = CommonErrors;
 
-export const listProjectsLocationsAssessmentRules = API.makePaginated(() => ({
+/** Lists assessment rules. */
+export const listProjectsLocationsAssessmentRules: API.PaginatedOperationMethod<ListProjectsLocationsAssessmentRulesRequest, ListProjectsLocationsAssessmentRulesResponse, ListProjectsLocationsAssessmentRulesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAssessmentRulesRequest,
   output: ListProjectsLocationsAssessmentRulesResponse,
   errors: [],
@@ -13146,7 +13146,6 @@ export const listProjectsLocationsAssessmentRules = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an assessment rule. */
 export interface PatchProjectsLocationsAssessmentRulesRequest {
   /** Identifier. The resource name of the assessment rule. Format: projects/{project}/locations/{location}/assessmentRules/{assessment_rule} */
   name: string;
@@ -13170,13 +13169,13 @@ export const PatchProjectsLocationsAssessmentRulesResponse = GoogleCloudContactc
 
 export type PatchProjectsLocationsAssessmentRulesError = CommonErrors;
 
+/** Updates an assessment rule. */
 export const patchProjectsLocationsAssessmentRules: API.OperationMethod<PatchProjectsLocationsAssessmentRulesRequest, PatchProjectsLocationsAssessmentRulesResponse, PatchProjectsLocationsAssessmentRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsAssessmentRulesRequest,
   output: PatchProjectsLocationsAssessmentRulesResponse,
   errors: [],
 }));
 
-/** Deletes an assessment rule. */
 export interface DeleteProjectsLocationsAssessmentRulesRequest {
   /** Required. The name of the assessment rule to delete. */
   name: string;
@@ -13194,13 +13193,13 @@ export const DeleteProjectsLocationsAssessmentRulesResponse = GoogleProtobufEmpt
 
 export type DeleteProjectsLocationsAssessmentRulesError = CommonErrors;
 
+/** Deletes an assessment rule. */
 export const deleteProjectsLocationsAssessmentRules: API.OperationMethod<DeleteProjectsLocationsAssessmentRulesRequest, DeleteProjectsLocationsAssessmentRulesResponse, DeleteProjectsLocationsAssessmentRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsAssessmentRulesRequest,
   output: DeleteProjectsLocationsAssessmentRulesResponse,
   errors: [],
 }));
 
-/** Initializes a location-level encryption key specification. An error will result if the location has resources already created before the initialization. After the encryption specification is initialized at a location, it is immutable and all newly created resources under the location will be encrypted with the existing specification. */
 export interface InitializeProjectsLocationsEncryptionSpecRequest {
   /** Immutable. The resource name of the encryption key specification resource. Format: projects/{project}/locations/{location}/encryptionSpec */
   name: string;
@@ -13221,13 +13220,13 @@ export const InitializeProjectsLocationsEncryptionSpecResponse = GoogleLongrunni
 
 export type InitializeProjectsLocationsEncryptionSpecError = CommonErrors;
 
+/** Initializes a location-level encryption key specification. An error will result if the location has resources already created before the initialization. After the encryption specification is initialized at a location, it is immutable and all newly created resources under the location will be encrypted with the existing specification. */
 export const initializeProjectsLocationsEncryptionSpec: API.OperationMethod<InitializeProjectsLocationsEncryptionSpecRequest, InitializeProjectsLocationsEncryptionSpecResponse, InitializeProjectsLocationsEncryptionSpecError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InitializeProjectsLocationsEncryptionSpecRequest,
   output: InitializeProjectsLocationsEncryptionSpecResponse,
   errors: [],
 }));
 
-/** Creates a view. */
 export interface CreateProjectsLocationsViewsRequest {
   /** Required. The parent resource of the view. Required. The location to create a view for. Format: `projects//locations/` or `projects//locations/` */
   parent: string;
@@ -13248,13 +13247,13 @@ export const CreateProjectsLocationsViewsResponse = GoogleCloudContactcenterinsi
 
 export type CreateProjectsLocationsViewsError = CommonErrors;
 
+/** Creates a view. */
 export const createProjectsLocationsViews: API.OperationMethod<CreateProjectsLocationsViewsRequest, CreateProjectsLocationsViewsResponse, CreateProjectsLocationsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsViewsRequest,
   output: CreateProjectsLocationsViewsResponse,
   errors: [],
 }));
 
-/** Gets a view. */
 export interface GetProjectsLocationsViewsRequest {
   /** Required. The name of the view to get. */
   name: string;
@@ -13272,13 +13271,13 @@ export const GetProjectsLocationsViewsResponse = GoogleCloudContactcenterinsight
 
 export type GetProjectsLocationsViewsError = CommonErrors;
 
+/** Gets a view. */
 export const getProjectsLocationsViews: API.OperationMethod<GetProjectsLocationsViewsRequest, GetProjectsLocationsViewsResponse, GetProjectsLocationsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsViewsRequest,
   output: GetProjectsLocationsViewsResponse,
   errors: [],
 }));
 
-/** Lists views. */
 export interface ListProjectsLocationsViewsRequest {
   /** Required. The parent resource of the views. */
   parent: string;
@@ -13302,7 +13301,8 @@ export const ListProjectsLocationsViewsResponse = GoogleCloudContactcenterinsigh
 
 export type ListProjectsLocationsViewsError = CommonErrors;
 
-export const listProjectsLocationsViews = API.makePaginated(() => ({
+/** Lists views. */
+export const listProjectsLocationsViews: API.PaginatedOperationMethod<ListProjectsLocationsViewsRequest, ListProjectsLocationsViewsResponse, ListProjectsLocationsViewsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsViewsRequest,
   output: ListProjectsLocationsViewsResponse,
   errors: [],
@@ -13312,7 +13312,6 @@ export const listProjectsLocationsViews = API.makePaginated(() => ({
   },
 }));
 
-/** Updates a view. */
 export interface PatchProjectsLocationsViewsRequest {
   /** Immutable. The resource name of the view. Format: projects/{project}/locations/{location}/views/{view} */
   name: string;
@@ -13336,13 +13335,13 @@ export const PatchProjectsLocationsViewsResponse = GoogleCloudContactcenterinsig
 
 export type PatchProjectsLocationsViewsError = CommonErrors;
 
+/** Updates a view. */
 export const patchProjectsLocationsViews: API.OperationMethod<PatchProjectsLocationsViewsRequest, PatchProjectsLocationsViewsResponse, PatchProjectsLocationsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsViewsRequest,
   output: PatchProjectsLocationsViewsResponse,
   errors: [],
 }));
 
-/** Deletes a view. */
 export interface DeleteProjectsLocationsViewsRequest {
   /** Required. The name of the view to delete. */
   name: string;
@@ -13360,13 +13359,13 @@ export const DeleteProjectsLocationsViewsResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsViewsError = CommonErrors;
 
+/** Deletes a view. */
 export const deleteProjectsLocationsViews: API.OperationMethod<DeleteProjectsLocationsViewsRequest, DeleteProjectsLocationsViewsResponse, DeleteProjectsLocationsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsViewsRequest,
   output: DeleteProjectsLocationsViewsResponse,
   errors: [],
 }));
 
-/** Creates a QaQuestionTag. */
 export interface CreateProjectsLocationsQaQuestionTagsRequest {
   /** Required. The parent resource of the QaQuestionTag. */
   parent: string;
@@ -13390,13 +13389,13 @@ export const CreateProjectsLocationsQaQuestionTagsResponse = GoogleCloudContactc
 
 export type CreateProjectsLocationsQaQuestionTagsError = CommonErrors;
 
+/** Creates a QaQuestionTag. */
 export const createProjectsLocationsQaQuestionTags: API.OperationMethod<CreateProjectsLocationsQaQuestionTagsRequest, CreateProjectsLocationsQaQuestionTagsResponse, CreateProjectsLocationsQaQuestionTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsQaQuestionTagsRequest,
   output: CreateProjectsLocationsQaQuestionTagsResponse,
   errors: [],
 }));
 
-/** Gets a QaQuestionTag. */
 export interface GetProjectsLocationsQaQuestionTagsRequest {
   /** Required. The name of the QaQuestionTag to get. */
   name: string;
@@ -13414,13 +13413,13 @@ export const GetProjectsLocationsQaQuestionTagsResponse = GoogleCloudContactcent
 
 export type GetProjectsLocationsQaQuestionTagsError = CommonErrors;
 
+/** Gets a QaQuestionTag. */
 export const getProjectsLocationsQaQuestionTags: API.OperationMethod<GetProjectsLocationsQaQuestionTagsRequest, GetProjectsLocationsQaQuestionTagsResponse, GetProjectsLocationsQaQuestionTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsQaQuestionTagsRequest,
   output: GetProjectsLocationsQaQuestionTagsResponse,
   errors: [],
 }));
 
-/** Updates a QaQuestionTag. */
 export interface PatchProjectsLocationsQaQuestionTagsRequest {
   /** Identifier. Resource name for the QaQuestionTag Format projects/{project}/locations/{location}/qaQuestionTags/{qa_question_tag} In the above format, the last segment, i.e., qa_question_tag, is a server-generated ID corresponding to the tag resource. */
   name: string;
@@ -13444,13 +13443,13 @@ export const PatchProjectsLocationsQaQuestionTagsResponse = GoogleLongrunningOpe
 
 export type PatchProjectsLocationsQaQuestionTagsError = CommonErrors;
 
+/** Updates a QaQuestionTag. */
 export const patchProjectsLocationsQaQuestionTags: API.OperationMethod<PatchProjectsLocationsQaQuestionTagsRequest, PatchProjectsLocationsQaQuestionTagsResponse, PatchProjectsLocationsQaQuestionTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsQaQuestionTagsRequest,
   output: PatchProjectsLocationsQaQuestionTagsResponse,
   errors: [],
 }));
 
-/** Deletes a QaQuestionTag. */
 export interface DeleteProjectsLocationsQaQuestionTagsRequest {
   /** Required. The name of the QaQuestionTag to delete. */
   name: string;
@@ -13468,13 +13467,13 @@ export const DeleteProjectsLocationsQaQuestionTagsResponse = GoogleLongrunningOp
 
 export type DeleteProjectsLocationsQaQuestionTagsError = CommonErrors;
 
+/** Deletes a QaQuestionTag. */
 export const deleteProjectsLocationsQaQuestionTags: API.OperationMethod<DeleteProjectsLocationsQaQuestionTagsRequest, DeleteProjectsLocationsQaQuestionTagsResponse, DeleteProjectsLocationsQaQuestionTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsQaQuestionTagsRequest,
   output: DeleteProjectsLocationsQaQuestionTagsResponse,
   errors: [],
 }));
 
-/** Lists the question tags. */
 export interface ListProjectsLocationsQaQuestionTagsRequest {
   /** Required. The parent resource of the QaQuestionTags. */
   parent: string;
@@ -13495,13 +13494,13 @@ export const ListProjectsLocationsQaQuestionTagsResponse = GoogleCloudContactcen
 
 export type ListProjectsLocationsQaQuestionTagsError = CommonErrors;
 
+/** Lists the question tags. */
 export const listProjectsLocationsQaQuestionTags: API.OperationMethod<ListProjectsLocationsQaQuestionTagsRequest, ListProjectsLocationsQaQuestionTagsResponse, ListProjectsLocationsQaQuestionTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsQaQuestionTagsRequest,
   output: ListProjectsLocationsQaQuestionTagsResponse,
   errors: [],
 }));
 
-/** Create a QaScorecard. */
 export interface CreateProjectsLocationsQaScorecardsRequest {
   /** Required. The parent resource of the QaScorecard. */
   parent: string;
@@ -13525,13 +13524,13 @@ export const CreateProjectsLocationsQaScorecardsResponse = GoogleCloudContactcen
 
 export type CreateProjectsLocationsQaScorecardsError = CommonErrors;
 
+/** Create a QaScorecard. */
 export const createProjectsLocationsQaScorecards: API.OperationMethod<CreateProjectsLocationsQaScorecardsRequest, CreateProjectsLocationsQaScorecardsResponse, CreateProjectsLocationsQaScorecardsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsQaScorecardsRequest,
   output: CreateProjectsLocationsQaScorecardsResponse,
   errors: [],
 }));
 
-/** Gets a QaScorecard. */
 export interface GetProjectsLocationsQaScorecardsRequest {
   /** Required. The name of the QaScorecard to get. */
   name: string;
@@ -13549,13 +13548,13 @@ export const GetProjectsLocationsQaScorecardsResponse = GoogleCloudContactcenter
 
 export type GetProjectsLocationsQaScorecardsError = CommonErrors;
 
+/** Gets a QaScorecard. */
 export const getProjectsLocationsQaScorecards: API.OperationMethod<GetProjectsLocationsQaScorecardsRequest, GetProjectsLocationsQaScorecardsResponse, GetProjectsLocationsQaScorecardsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsQaScorecardsRequest,
   output: GetProjectsLocationsQaScorecardsResponse,
   errors: [],
 }));
 
-/** Updates a QaScorecard. */
 export interface PatchProjectsLocationsQaScorecardsRequest {
   /** Identifier. The scorecard name. Format: projects/{project}/locations/{location}/qaScorecards/{qa_scorecard} */
   name: string;
@@ -13579,13 +13578,13 @@ export const PatchProjectsLocationsQaScorecardsResponse = GoogleCloudContactcent
 
 export type PatchProjectsLocationsQaScorecardsError = CommonErrors;
 
+/** Updates a QaScorecard. */
 export const patchProjectsLocationsQaScorecards: API.OperationMethod<PatchProjectsLocationsQaScorecardsRequest, PatchProjectsLocationsQaScorecardsResponse, PatchProjectsLocationsQaScorecardsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsQaScorecardsRequest,
   output: PatchProjectsLocationsQaScorecardsResponse,
   errors: [],
 }));
 
-/** Deletes a QaScorecard. */
 export interface DeleteProjectsLocationsQaScorecardsRequest {
   /** Required. The name of the QaScorecard to delete. */
   name: string;
@@ -13606,13 +13605,13 @@ export const DeleteProjectsLocationsQaScorecardsResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsQaScorecardsError = CommonErrors;
 
+/** Deletes a QaScorecard. */
 export const deleteProjectsLocationsQaScorecards: API.OperationMethod<DeleteProjectsLocationsQaScorecardsRequest, DeleteProjectsLocationsQaScorecardsResponse, DeleteProjectsLocationsQaScorecardsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsQaScorecardsRequest,
   output: DeleteProjectsLocationsQaScorecardsResponse,
   errors: [],
 }));
 
-/** Lists QaScorecards. */
 export interface ListProjectsLocationsQaScorecardsRequest {
   /** Required. The parent resource of the scorecards. */
   parent: string;
@@ -13639,7 +13638,8 @@ export const ListProjectsLocationsQaScorecardsResponse = GoogleCloudContactcente
 
 export type ListProjectsLocationsQaScorecardsError = CommonErrors;
 
-export const listProjectsLocationsQaScorecards = API.makePaginated(() => ({
+/** Lists QaScorecards. */
+export const listProjectsLocationsQaScorecards: API.PaginatedOperationMethod<ListProjectsLocationsQaScorecardsRequest, ListProjectsLocationsQaScorecardsResponse, ListProjectsLocationsQaScorecardsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsQaScorecardsRequest,
   output: ListProjectsLocationsQaScorecardsResponse,
   errors: [],
@@ -13649,7 +13649,6 @@ export const listProjectsLocationsQaScorecards = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a QaScorecardRevision. */
 export interface CreateProjectsLocationsQaScorecardsRevisionsRequest {
   /** Required. The parent resource of the QaScorecardRevision. */
   parent: string;
@@ -13673,13 +13672,13 @@ export const CreateProjectsLocationsQaScorecardsRevisionsResponse = GoogleCloudC
 
 export type CreateProjectsLocationsQaScorecardsRevisionsError = CommonErrors;
 
+/** Creates a QaScorecardRevision. */
 export const createProjectsLocationsQaScorecardsRevisions: API.OperationMethod<CreateProjectsLocationsQaScorecardsRevisionsRequest, CreateProjectsLocationsQaScorecardsRevisionsResponse, CreateProjectsLocationsQaScorecardsRevisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsQaScorecardsRevisionsRequest,
   output: CreateProjectsLocationsQaScorecardsRevisionsResponse,
   errors: [],
 }));
 
-/** Gets a QaScorecardRevision. */
 export interface GetProjectsLocationsQaScorecardsRevisionsRequest {
   /** Required. The name of the QaScorecardRevision to get. */
   name: string;
@@ -13697,13 +13696,13 @@ export const GetProjectsLocationsQaScorecardsRevisionsResponse = GoogleCloudCont
 
 export type GetProjectsLocationsQaScorecardsRevisionsError = CommonErrors;
 
+/** Gets a QaScorecardRevision. */
 export const getProjectsLocationsQaScorecardsRevisions: API.OperationMethod<GetProjectsLocationsQaScorecardsRevisionsRequest, GetProjectsLocationsQaScorecardsRevisionsResponse, GetProjectsLocationsQaScorecardsRevisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsQaScorecardsRevisionsRequest,
   output: GetProjectsLocationsQaScorecardsRevisionsResponse,
   errors: [],
 }));
 
-/** Fine tune one or more QaModels. */
 export interface TuneQaScorecardRevisionProjectsLocationsQaScorecardsRevisionsRequest {
   /** Required. The parent resource for new fine tuning job instance. */
   parent: string;
@@ -13724,13 +13723,13 @@ export const TuneQaScorecardRevisionProjectsLocationsQaScorecardsRevisionsRespon
 
 export type TuneQaScorecardRevisionProjectsLocationsQaScorecardsRevisionsError = CommonErrors;
 
+/** Fine tune one or more QaModels. */
 export const tuneQaScorecardRevisionProjectsLocationsQaScorecardsRevisions: API.OperationMethod<TuneQaScorecardRevisionProjectsLocationsQaScorecardsRevisionsRequest, TuneQaScorecardRevisionProjectsLocationsQaScorecardsRevisionsResponse, TuneQaScorecardRevisionProjectsLocationsQaScorecardsRevisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TuneQaScorecardRevisionProjectsLocationsQaScorecardsRevisionsRequest,
   output: TuneQaScorecardRevisionProjectsLocationsQaScorecardsRevisionsResponse,
   errors: [],
 }));
 
-/** Deploy a QaScorecardRevision. */
 export interface DeployProjectsLocationsQaScorecardsRevisionsRequest {
   /** Required. The name of the QaScorecardRevision to deploy. */
   name: string;
@@ -13751,13 +13750,13 @@ export const DeployProjectsLocationsQaScorecardsRevisionsResponse = GoogleCloudC
 
 export type DeployProjectsLocationsQaScorecardsRevisionsError = CommonErrors;
 
+/** Deploy a QaScorecardRevision. */
 export const deployProjectsLocationsQaScorecardsRevisions: API.OperationMethod<DeployProjectsLocationsQaScorecardsRevisionsRequest, DeployProjectsLocationsQaScorecardsRevisionsResponse, DeployProjectsLocationsQaScorecardsRevisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeployProjectsLocationsQaScorecardsRevisionsRequest,
   output: DeployProjectsLocationsQaScorecardsRevisionsResponse,
   errors: [],
 }));
 
-/** Undeploy a QaScorecardRevision. */
 export interface UndeployProjectsLocationsQaScorecardsRevisionsRequest {
   /** Required. The name of the QaScorecardRevision to undeploy. */
   name: string;
@@ -13778,13 +13777,13 @@ export const UndeployProjectsLocationsQaScorecardsRevisionsResponse = GoogleClou
 
 export type UndeployProjectsLocationsQaScorecardsRevisionsError = CommonErrors;
 
+/** Undeploy a QaScorecardRevision. */
 export const undeployProjectsLocationsQaScorecardsRevisions: API.OperationMethod<UndeployProjectsLocationsQaScorecardsRevisionsRequest, UndeployProjectsLocationsQaScorecardsRevisionsResponse, UndeployProjectsLocationsQaScorecardsRevisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UndeployProjectsLocationsQaScorecardsRevisionsRequest,
   output: UndeployProjectsLocationsQaScorecardsRevisionsResponse,
   errors: [],
 }));
 
-/** Deletes a QaScorecardRevision. */
 export interface DeleteProjectsLocationsQaScorecardsRevisionsRequest {
   /** Required. The name of the QaScorecardRevision to delete. */
   name: string;
@@ -13805,13 +13804,13 @@ export const DeleteProjectsLocationsQaScorecardsRevisionsResponse = GoogleProtob
 
 export type DeleteProjectsLocationsQaScorecardsRevisionsError = CommonErrors;
 
+/** Deletes a QaScorecardRevision. */
 export const deleteProjectsLocationsQaScorecardsRevisions: API.OperationMethod<DeleteProjectsLocationsQaScorecardsRevisionsRequest, DeleteProjectsLocationsQaScorecardsRevisionsResponse, DeleteProjectsLocationsQaScorecardsRevisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsQaScorecardsRevisionsRequest,
   output: DeleteProjectsLocationsQaScorecardsRevisionsResponse,
   errors: [],
 }));
 
-/** Lists all revisions under the parent QaScorecard. */
 export interface ListProjectsLocationsQaScorecardsRevisionsRequest {
   /** Required. The parent resource of the scorecard revisions. To list all revisions of all scorecards, substitute the QaScorecard ID with a '-' character. */
   parent: string;
@@ -13841,7 +13840,8 @@ export const ListProjectsLocationsQaScorecardsRevisionsResponse = GoogleCloudCon
 
 export type ListProjectsLocationsQaScorecardsRevisionsError = CommonErrors;
 
-export const listProjectsLocationsQaScorecardsRevisions = API.makePaginated(() => ({
+/** Lists all revisions under the parent QaScorecard. */
+export const listProjectsLocationsQaScorecardsRevisions: API.PaginatedOperationMethod<ListProjectsLocationsQaScorecardsRevisionsRequest, ListProjectsLocationsQaScorecardsRevisionsResponse, ListProjectsLocationsQaScorecardsRevisionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsQaScorecardsRevisionsRequest,
   output: ListProjectsLocationsQaScorecardsRevisionsResponse,
   errors: [],
@@ -13851,7 +13851,6 @@ export const listProjectsLocationsQaScorecardsRevisions = API.makePaginated(() =
   },
 }));
 
-/** Create a QaQuestion. */
 export interface CreateProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest {
   /** Required. The parent resource of the QaQuestion. */
   parent: string;
@@ -13875,13 +13874,13 @@ export const CreateProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse = G
 
 export type CreateProjectsLocationsQaScorecardsRevisionsQaQuestionsError = CommonErrors;
 
+/** Create a QaQuestion. */
 export const createProjectsLocationsQaScorecardsRevisionsQaQuestions: API.OperationMethod<CreateProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest, CreateProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse, CreateProjectsLocationsQaScorecardsRevisionsQaQuestionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest,
   output: CreateProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse,
   errors: [],
 }));
 
-/** Gets a QaQuestion. */
 export interface GetProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest {
   /** Required. The name of the QaQuestion to get. */
   name: string;
@@ -13899,13 +13898,13 @@ export const GetProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse = Goog
 
 export type GetProjectsLocationsQaScorecardsRevisionsQaQuestionsError = CommonErrors;
 
+/** Gets a QaQuestion. */
 export const getProjectsLocationsQaScorecardsRevisionsQaQuestions: API.OperationMethod<GetProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest, GetProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse, GetProjectsLocationsQaScorecardsRevisionsQaQuestionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest,
   output: GetProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse,
   errors: [],
 }));
 
-/** Updates a QaQuestion. */
 export interface PatchProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest {
   /** Identifier. The resource name of the question. Format: projects/{project}/locations/{location}/qaScorecards/{qa_scorecard}/revisions/{revision}/qaQuestions/{qa_question} */
   name: string;
@@ -13929,13 +13928,13 @@ export const PatchProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse = Go
 
 export type PatchProjectsLocationsQaScorecardsRevisionsQaQuestionsError = CommonErrors;
 
+/** Updates a QaQuestion. */
 export const patchProjectsLocationsQaScorecardsRevisionsQaQuestions: API.OperationMethod<PatchProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest, PatchProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse, PatchProjectsLocationsQaScorecardsRevisionsQaQuestionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest,
   output: PatchProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse,
   errors: [],
 }));
 
-/** Deletes a QaQuestion. */
 export interface DeleteProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest {
   /** Required. The name of the QaQuestion to delete. */
   name: string;
@@ -13953,13 +13952,13 @@ export const DeleteProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse = G
 
 export type DeleteProjectsLocationsQaScorecardsRevisionsQaQuestionsError = CommonErrors;
 
+/** Deletes a QaQuestion. */
 export const deleteProjectsLocationsQaScorecardsRevisionsQaQuestions: API.OperationMethod<DeleteProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest, DeleteProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse, DeleteProjectsLocationsQaScorecardsRevisionsQaQuestionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest,
   output: DeleteProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse,
   errors: [],
 }));
 
-/** Lists QaQuestions. */
 export interface ListProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest {
   /** Required. The parent resource of the questions. */
   parent: string;
@@ -13983,7 +13982,8 @@ export const ListProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse = Goo
 
 export type ListProjectsLocationsQaScorecardsRevisionsQaQuestionsError = CommonErrors;
 
-export const listProjectsLocationsQaScorecardsRevisionsQaQuestions = API.makePaginated(() => ({
+/** Lists QaQuestions. */
+export const listProjectsLocationsQaScorecardsRevisionsQaQuestions: API.PaginatedOperationMethod<ListProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest, ListProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse, ListProjectsLocationsQaScorecardsRevisionsQaQuestionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsQaScorecardsRevisionsQaQuestionsRequest,
   output: ListProjectsLocationsQaScorecardsRevisionsQaQuestionsResponse,
   errors: [],
@@ -13993,7 +13993,6 @@ export const listProjectsLocationsQaScorecardsRevisionsQaQuestions = API.makePag
   },
 }));
 
-/** Create AuthorizedViewSet */
 export interface CreateProjectsLocationsAuthorizedViewSetsRequest {
   /** Required. The parent resource of the AuthorizedViewSet. */
   parent: string;
@@ -14017,13 +14016,13 @@ export const CreateProjectsLocationsAuthorizedViewSetsResponse = GoogleCloudCont
 
 export type CreateProjectsLocationsAuthorizedViewSetsError = CommonErrors;
 
+/** Create AuthorizedViewSet */
 export const createProjectsLocationsAuthorizedViewSets: API.OperationMethod<CreateProjectsLocationsAuthorizedViewSetsRequest, CreateProjectsLocationsAuthorizedViewSetsResponse, CreateProjectsLocationsAuthorizedViewSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsAuthorizedViewSetsRequest,
   output: CreateProjectsLocationsAuthorizedViewSetsResponse,
   errors: [],
 }));
 
-/** Get AuthorizedViewSet */
 export interface GetProjectsLocationsAuthorizedViewSetsRequest {
   /** Required. The name of the AuthorizedViewSet to get. */
   name: string;
@@ -14041,13 +14040,13 @@ export const GetProjectsLocationsAuthorizedViewSetsResponse = GoogleCloudContact
 
 export type GetProjectsLocationsAuthorizedViewSetsError = CommonErrors;
 
+/** Get AuthorizedViewSet */
 export const getProjectsLocationsAuthorizedViewSets: API.OperationMethod<GetProjectsLocationsAuthorizedViewSetsRequest, GetProjectsLocationsAuthorizedViewSetsResponse, GetProjectsLocationsAuthorizedViewSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAuthorizedViewSetsRequest,
   output: GetProjectsLocationsAuthorizedViewSetsResponse,
   errors: [],
 }));
 
-/** List AuthorizedViewSets */
 export interface ListProjectsLocationsAuthorizedViewSetsRequest {
   /** Required. The parent resource of the AuthorizedViewSets. */
   parent: string;
@@ -14077,7 +14076,8 @@ export const ListProjectsLocationsAuthorizedViewSetsResponse = GoogleCloudContac
 
 export type ListProjectsLocationsAuthorizedViewSetsError = CommonErrors;
 
-export const listProjectsLocationsAuthorizedViewSets = API.makePaginated(() => ({
+/** List AuthorizedViewSets */
+export const listProjectsLocationsAuthorizedViewSets: API.PaginatedOperationMethod<ListProjectsLocationsAuthorizedViewSetsRequest, ListProjectsLocationsAuthorizedViewSetsResponse, ListProjectsLocationsAuthorizedViewSetsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAuthorizedViewSetsRequest,
   output: ListProjectsLocationsAuthorizedViewSetsResponse,
   errors: [],
@@ -14087,7 +14087,6 @@ export const listProjectsLocationsAuthorizedViewSets = API.makePaginated(() => (
   },
 }));
 
-/** Updates an AuthorizedViewSet. */
 export interface PatchProjectsLocationsAuthorizedViewSetsRequest {
   /** Identifier. The resource name of the AuthorizedViewSet. Format: projects/{project}/locations/{location}/authorizedViewSets/{authorized_view_set} */
   name: string;
@@ -14111,13 +14110,13 @@ export const PatchProjectsLocationsAuthorizedViewSetsResponse = GoogleCloudConta
 
 export type PatchProjectsLocationsAuthorizedViewSetsError = CommonErrors;
 
+/** Updates an AuthorizedViewSet. */
 export const patchProjectsLocationsAuthorizedViewSets: API.OperationMethod<PatchProjectsLocationsAuthorizedViewSetsRequest, PatchProjectsLocationsAuthorizedViewSetsResponse, PatchProjectsLocationsAuthorizedViewSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsAuthorizedViewSetsRequest,
   output: PatchProjectsLocationsAuthorizedViewSetsResponse,
   errors: [],
 }));
 
-/** Deletes an AuthorizedViewSet. */
 export interface DeleteProjectsLocationsAuthorizedViewSetsRequest {
   /** Required. The name of the AuthorizedViewSet to delete. */
   name: string;
@@ -14138,13 +14137,13 @@ export const DeleteProjectsLocationsAuthorizedViewSetsResponse = GoogleProtobufE
 
 export type DeleteProjectsLocationsAuthorizedViewSetsError = CommonErrors;
 
+/** Deletes an AuthorizedViewSet. */
 export const deleteProjectsLocationsAuthorizedViewSets: API.OperationMethod<DeleteProjectsLocationsAuthorizedViewSetsRequest, DeleteProjectsLocationsAuthorizedViewSetsResponse, DeleteProjectsLocationsAuthorizedViewSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsAuthorizedViewSetsRequest,
   output: DeleteProjectsLocationsAuthorizedViewSetsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -14165,13 +14164,13 @@ export const SetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsRespo
 
 export type SetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViews: API.OperationMethod<SetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest, SetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse, SetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest,
   output: SetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -14192,13 +14191,13 @@ export const GetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsRespo
 
 export type GetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViews: API.OperationMethod<GetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest, GetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse, GetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest,
   output: GetIamPolicyProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -14219,13 +14218,13 @@ export const TestIamPermissionsProjectsLocationsAuthorizedViewSetsAuthorizedView
 
 export type TestIamPermissionsProjectsLocationsAuthorizedViewSetsAuthorizedViewsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsAuthorizedViewSetsAuthorizedViews: API.OperationMethod<TestIamPermissionsProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest, TestIamPermissionsProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse, TestIamPermissionsProjectsLocationsAuthorizedViewSetsAuthorizedViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest,
   output: TestIamPermissionsProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
   errors: [],
 }));
 
-/** Query metrics. */
 export interface QueryMetricsProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest {
   /** Required. The location of the data. "projects/{project}/locations/{location}" */
   location: string;
@@ -14246,13 +14245,13 @@ export const QueryMetricsProjectsLocationsAuthorizedViewSetsAuthorizedViewsRespo
 
 export type QueryMetricsProjectsLocationsAuthorizedViewSetsAuthorizedViewsError = CommonErrors;
 
+/** Query metrics. */
 export const queryMetricsProjectsLocationsAuthorizedViewSetsAuthorizedViews: API.OperationMethod<QueryMetricsProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest, QueryMetricsProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse, QueryMetricsProjectsLocationsAuthorizedViewSetsAuthorizedViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: QueryMetricsProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest,
   output: QueryMetricsProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
   errors: [],
 }));
 
-/** Natural language based Insights which powers the next generation of dashboards in Insights. Next generation of QueryMetrics. */
 export interface GenerativeInsightsProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest {
   /** Required. The location of the data. "projects/{project}/locations/{location}" */
   location: string;
@@ -14273,13 +14272,13 @@ export const GenerativeInsightsProjectsLocationsAuthorizedViewSetsAuthorizedView
 
 export type GenerativeInsightsProjectsLocationsAuthorizedViewSetsAuthorizedViewsError = CommonErrors;
 
+/** Natural language based Insights which powers the next generation of dashboards in Insights. Next generation of QueryMetrics. */
 export const generativeInsightsProjectsLocationsAuthorizedViewSetsAuthorizedViews: API.OperationMethod<GenerativeInsightsProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest, GenerativeInsightsProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse, GenerativeInsightsProjectsLocationsAuthorizedViewSetsAuthorizedViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerativeInsightsProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest,
   output: GenerativeInsightsProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
   errors: [],
 }));
 
-/** Generates a summary of predefined performance metrics for a set of conversations. Conversations can be specified by specifying a time window and an agent id, for now. The summary includes a comparison of metrics computed for conversations in the previous time period, and also a comparison with peers in the same time period. */
 export interface QueryPerformanceOverviewProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest {
   /** Required. The parent resource of the conversations to derive performance stats from. "projects/{project}/locations/{location}" */
   parent: string;
@@ -14300,13 +14299,13 @@ export const QueryPerformanceOverviewProjectsLocationsAuthorizedViewSetsAuthoriz
 
 export type QueryPerformanceOverviewProjectsLocationsAuthorizedViewSetsAuthorizedViewsError = CommonErrors;
 
+/** Generates a summary of predefined performance metrics for a set of conversations. Conversations can be specified by specifying a time window and an agent id, for now. The summary includes a comparison of metrics computed for conversations in the previous time period, and also a comparison with peers in the same time period. */
 export const queryPerformanceOverviewProjectsLocationsAuthorizedViewSetsAuthorizedViews: API.OperationMethod<QueryPerformanceOverviewProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest, QueryPerformanceOverviewProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse, QueryPerformanceOverviewProjectsLocationsAuthorizedViewSetsAuthorizedViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: QueryPerformanceOverviewProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest,
   output: QueryPerformanceOverviewProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
   errors: [],
 }));
 
-/** Create AuthorizedView */
 export interface CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest {
   /** Required. The parent resource of the AuthorizedView. */
   parent: string;
@@ -14330,13 +14329,13 @@ export const CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse = 
 
 export type CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsError = CommonErrors;
 
+/** Create AuthorizedView */
 export const createProjectsLocationsAuthorizedViewSetsAuthorizedViews: API.OperationMethod<CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest, CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse, CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest,
   output: CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
   errors: [],
 }));
 
-/** Get AuthorizedView */
 export interface GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest {
   /** Required. The name of the AuthorizedView to get. */
   name: string;
@@ -14354,13 +14353,13 @@ export const GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse = Goo
 
 export type GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsError = CommonErrors;
 
+/** Get AuthorizedView */
 export const getProjectsLocationsAuthorizedViewSetsAuthorizedViews: API.OperationMethod<GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest, GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse, GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest,
   output: GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
   errors: [],
 }));
 
-/** List AuthorizedViewSets */
 export interface ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest {
   /** Required. The parent resource of the AuthorizedViews. If the parent is set to `-`, all AuthorizedViews under the location will be returned. */
   parent: string;
@@ -14390,7 +14389,8 @@ export const ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse = Go
 
 export type ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsError = CommonErrors;
 
-export const listProjectsLocationsAuthorizedViewSetsAuthorizedViews = API.makePaginated(() => ({
+/** List AuthorizedViewSets */
+export const listProjectsLocationsAuthorizedViewSetsAuthorizedViews: API.PaginatedOperationMethod<ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest, ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse, ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest,
   output: ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
   errors: [],
@@ -14400,7 +14400,6 @@ export const listProjectsLocationsAuthorizedViewSetsAuthorizedViews = API.makePa
   },
 }));
 
-/** SearchAuthorizedViewSets */
 export interface SearchProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest {
   /** Required. The parent resource of the AuthorizedViews. If the parent is set to `-`, all AuthorizedViews under the location will be returned. */
   parent: string;
@@ -14430,7 +14429,8 @@ export const SearchProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse = 
 
 export type SearchProjectsLocationsAuthorizedViewSetsAuthorizedViewsError = CommonErrors;
 
-export const searchProjectsLocationsAuthorizedViewSetsAuthorizedViews = API.makePaginated(() => ({
+/** SearchAuthorizedViewSets */
+export const searchProjectsLocationsAuthorizedViewSetsAuthorizedViews: API.PaginatedOperationMethod<SearchProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest, SearchProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse, SearchProjectsLocationsAuthorizedViewSetsAuthorizedViewsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest,
   output: SearchProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
   errors: [],
@@ -14440,7 +14440,6 @@ export const searchProjectsLocationsAuthorizedViewSetsAuthorizedViews = API.make
   },
 }));
 
-/** Updates an AuthorizedView. */
 export interface PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest {
   /** Identifier. The resource name of the AuthorizedView. Format: projects/{project}/locations/{location}/authorizedViewSets/{authorized_view_set}/authorizedViews/{authorized_view} */
   name: string;
@@ -14464,13 +14463,13 @@ export const PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse = G
 
 export type PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsError = CommonErrors;
 
+/** Updates an AuthorizedView. */
 export const patchProjectsLocationsAuthorizedViewSetsAuthorizedViews: API.OperationMethod<PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest, PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse, PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest,
   output: PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
   errors: [],
 }));
 
-/** Deletes an AuthorizedView. */
 export interface DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest {
   /** Required. The name of the AuthorizedView to delete. */
   name: string;
@@ -14488,13 +14487,13 @@ export const DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse = 
 
 export type DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsError = CommonErrors;
 
+/** Deletes an AuthorizedView. */
 export const deleteProjectsLocationsAuthorizedViewSetsAuthorizedViews: API.OperationMethod<DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest, DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse, DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsRequest,
   output: DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -14524,7 +14523,8 @@ export const ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsRes
 
 export type ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsError = CommonErrors;
 
-export const listProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperations: API.PaginatedOperationMethod<ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsRequest, ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsResponse, ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsRequest,
   output: ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsResponse,
   errors: [],
@@ -14534,7 +14534,6 @@ export const listProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperations = 
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -14552,13 +14551,13 @@ export const GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsResp
 
 export type GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperations: API.OperationMethod<GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsRequest, GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsResponse, GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsRequest,
   output: GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -14576,13 +14575,13 @@ export const CancelProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsR
 
 export type CancelProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperations: API.OperationMethod<CancelProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsRequest, CancelProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsResponse, CancelProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsRequest,
   output: CancelProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsResponse,
   errors: [],
 }));
 
-/** Gets a conversation. */
 export interface GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsRequest {
   /** Required. The name of the conversation to get. */
   name: string;
@@ -14603,13 +14602,13 @@ export const GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsR
 
 export type GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsError = CommonErrors;
 
+/** Gets a conversation. */
 export const getProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations: API.OperationMethod<GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsRequest, GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsResponse, GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsRequest,
   output: GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsResponse,
   errors: [],
 }));
 
-/** Lists conversations. */
 export interface ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsRequest {
   /** Required. The parent resource of the conversation. */
   parent: string;
@@ -14642,7 +14641,8 @@ export const ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations
 
 export type ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsError = CommonErrors;
 
-export const listProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations = API.makePaginated(() => ({
+/** Lists conversations. */
+export const listProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations: API.PaginatedOperationMethod<ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsRequest, ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsResponse, ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsRequest,
   output: ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsResponse,
   errors: [],
@@ -14652,7 +14652,6 @@ export const listProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations
   },
 }));
 
-/** Gets the signed URI for the audio for the given conversation. */
 export interface GenerateSignedAudioProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsRequest {
   /** Required. The name of the conversation to sign. */
   name: string;
@@ -14670,13 +14669,13 @@ export const GenerateSignedAudioProjectsLocationsAuthorizedViewSetsAuthorizedVie
 
 export type GenerateSignedAudioProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsError = CommonErrors;
 
+/** Gets the signed URI for the audio for the given conversation. */
 export const generateSignedAudioProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations: API.OperationMethod<GenerateSignedAudioProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsRequest, GenerateSignedAudioProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsResponse, GenerateSignedAudioProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateSignedAudioProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsRequest,
   output: GenerateSignedAudioProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsResponse,
   errors: [],
 }));
 
-/** Deletes a conversation. */
 export interface DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsRequest {
   /** Required. The name of the conversation to delete. */
   name: string;
@@ -14697,13 +14696,13 @@ export const DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversatio
 
 export type DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsError = CommonErrors;
 
+/** Deletes a conversation. */
 export const deleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations: API.OperationMethod<DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsRequest, DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsResponse, DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsRequest,
   output: DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsResponse,
   errors: [],
 }));
 
-/** Gets conversation statistics. */
 export interface CalculateStatsProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsRequest {
   /** Required. The location of the conversations. */
   location: string;
@@ -14724,13 +14723,13 @@ export const CalculateStatsProjectsLocationsAuthorizedViewSetsAuthorizedViewsCon
 
 export type CalculateStatsProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsError = CommonErrors;
 
+/** Gets conversation statistics. */
 export const calculateStatsProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations: API.OperationMethod<CalculateStatsProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsRequest, CalculateStatsProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsResponse, CalculateStatsProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CalculateStatsProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsRequest,
   output: CalculateStatsProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsResponse,
   errors: [],
 }));
 
-/** Create feedback label. */
 export interface CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest {
   /** Required. The parent resource of the feedback label. */
   parent: string;
@@ -14754,13 +14753,13 @@ export const CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversatio
 
 export type CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsError = CommonErrors;
 
+/** Create feedback label. */
 export const createProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabels: API.OperationMethod<CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest, CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsResponse, CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest,
   output: CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsResponse,
   errors: [],
 }));
 
-/** List feedback labels. */
 export interface ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest {
   /** Required. The parent resource of the feedback labels. */
   parent: string;
@@ -14787,7 +14786,8 @@ export const ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations
 
 export type ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsError = CommonErrors;
 
-export const listProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabels = API.makePaginated(() => ({
+/** List feedback labels. */
+export const listProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabels: API.PaginatedOperationMethod<ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest, ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsResponse, ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest,
   output: ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsResponse,
   errors: [],
@@ -14797,7 +14797,6 @@ export const listProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations
   },
 }));
 
-/** Get feedback label. */
 export interface GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest {
   /** Required. The name of the feedback label to get. */
   name: string;
@@ -14815,13 +14814,13 @@ export const GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsF
 
 export type GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsError = CommonErrors;
 
+/** Get feedback label. */
 export const getProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabels: API.OperationMethod<GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest, GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsResponse, GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest,
   output: GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsResponse,
   errors: [],
 }));
 
-/** Update feedback label. */
 export interface PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest {
   /** Immutable. Resource name of the FeedbackLabel. Format: projects/{project}/locations/{location}/conversations/{conversation}/feedbackLabels/{feedback_label} */
   name: string;
@@ -14845,13 +14844,13 @@ export const PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversation
 
 export type PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsError = CommonErrors;
 
+/** Update feedback label. */
 export const patchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabels: API.OperationMethod<PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest, PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsResponse, PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest,
   output: PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsResponse,
   errors: [],
 }));
 
-/** Delete feedback label. */
 export interface DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest {
   /** Required. The name of the feedback label to delete. */
   name: string;
@@ -14869,13 +14868,13 @@ export const DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversatio
 
 export type DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsError = CommonErrors;
 
+/** Delete feedback label. */
 export const deleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabels: API.OperationMethod<DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest, DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsResponse, DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsRequest,
   output: DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsResponse,
   errors: [],
 }));
 
-/** Create Assessment. */
 export interface CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest {
   /** Required. The parent resource of the assessment. */
   parent: string;
@@ -14896,13 +14895,13 @@ export const CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversatio
 
 export type CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError = CommonErrors;
 
+/** Create Assessment. */
 export const createProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessments: API.OperationMethod<CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest, CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse, CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest,
   output: CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse,
   errors: [],
 }));
 
-/** Get Assessment. */
 export interface GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest {
   /** Required. The name of the assessment to get. */
   name: string;
@@ -14920,13 +14919,13 @@ export const GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsA
 
 export type GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError = CommonErrors;
 
+/** Get Assessment. */
 export const getProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessments: API.OperationMethod<GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest, GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse, GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest,
   output: GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse,
   errors: [],
 }));
 
-/** List Assessments. */
 export interface ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest {
   /** Required. The parent resource of the assessments. To list all assessments in a location, substitute the conversation ID with a '-' character. */
   parent: string;
@@ -14953,7 +14952,8 @@ export const ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations
 
 export type ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError = CommonErrors;
 
-export const listProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessments = API.makePaginated(() => ({
+/** List Assessments. */
+export const listProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessments: API.PaginatedOperationMethod<ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest, ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse, ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest,
   output: ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse,
   errors: [],
@@ -14963,7 +14963,6 @@ export const listProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations
   },
 }));
 
-/** Delete an Assessment. */
 export interface DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest {
   /** Required. The name of the assessment to delete. */
   name: string;
@@ -14984,13 +14983,13 @@ export const DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversatio
 
 export type DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError = CommonErrors;
 
+/** Delete an Assessment. */
 export const deleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessments: API.OperationMethod<DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest, DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse, DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest,
   output: DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse,
   errors: [],
 }));
 
-/** Publish an Assessment. */
 export interface PublishProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest {
   /** Required. The name of the assessment to publish. */
   name: string;
@@ -15011,13 +15010,13 @@ export const PublishProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversati
 
 export type PublishProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError = CommonErrors;
 
+/** Publish an Assessment. */
 export const publishProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessments: API.OperationMethod<PublishProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest, PublishProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse, PublishProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PublishProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest,
   output: PublishProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse,
   errors: [],
 }));
 
-/** Appeal an Assessment. */
 export interface AppealProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest {
   /** Required. The name of the assessment to appeal. */
   name: string;
@@ -15038,13 +15037,13 @@ export const AppealProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversatio
 
 export type AppealProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError = CommonErrors;
 
+/** Appeal an Assessment. */
 export const appealProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessments: API.OperationMethod<AppealProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest, AppealProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse, AppealProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AppealProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest,
   output: AppealProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse,
   errors: [],
 }));
 
-/** Finalize an Assessment. */
 export interface FinalizeProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest {
   /** Required. The name of the assessment to finalize. */
   name: string;
@@ -15065,13 +15064,13 @@ export const FinalizeProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversat
 
 export type FinalizeProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError = CommonErrors;
 
+/** Finalize an Assessment. */
 export const finalizeProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessments: API.OperationMethod<FinalizeProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest, FinalizeProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse, FinalizeProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FinalizeProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsRequest,
   output: FinalizeProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsResponse,
   errors: [],
 }));
 
-/** Create Note. */
 export interface CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesRequest {
   /** Required. The parent resource of the note. */
   parent: string;
@@ -15092,13 +15091,13 @@ export const CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversatio
 
 export type CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesError = CommonErrors;
 
+/** Create Note. */
 export const createProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotes: API.OperationMethod<CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesRequest, CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesResponse, CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesRequest,
   output: CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesResponse,
   errors: [],
 }));
 
-/** List Notes. */
 export interface ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesRequest {
   /** Required. The parent resource of the notes. */
   parent: string;
@@ -15122,7 +15121,8 @@ export const ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations
 
 export type ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesError = CommonErrors;
 
-export const listProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotes = API.makePaginated(() => ({
+/** List Notes. */
+export const listProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotes: API.PaginatedOperationMethod<ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesRequest, ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesResponse, ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesRequest,
   output: ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesResponse,
   errors: [],
@@ -15132,7 +15132,6 @@ export const listProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations
   },
 }));
 
-/** Update Note. */
 export interface PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesRequest {
   /** Identifier. The resource name of the note. Format: projects/{project}/locations/{location}/conversations/{conversation}/assessments/{assessment}/notes/{note} */
   name: string;
@@ -15156,13 +15155,13 @@ export const PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversation
 
 export type PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesError = CommonErrors;
 
+/** Update Note. */
 export const patchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotes: API.OperationMethod<PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesRequest, PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesResponse, PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesRequest,
   output: PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesResponse,
   errors: [],
 }));
 
-/** Deletes a Note. */
 export interface DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesRequest {
   /** Required. The name of the note to delete. */
   name: string;
@@ -15180,13 +15179,13 @@ export const DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversatio
 
 export type DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesError = CommonErrors;
 
+/** Deletes a Note. */
 export const deleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotes: API.OperationMethod<DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesRequest, DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesResponse, DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesRequest,
   output: DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotesResponse,
   errors: [],
 }));
 
-/** Creates a Dashboard. */
 export interface CreateProjectsLocationsDashboardsRequest {
   /** Required. The parent resource of the dashboard. */
   parent: string;
@@ -15210,13 +15209,13 @@ export const CreateProjectsLocationsDashboardsResponse = GoogleCloudContactcente
 
 export type CreateProjectsLocationsDashboardsError = CommonErrors;
 
+/** Creates a Dashboard. */
 export const createProjectsLocationsDashboards: API.OperationMethod<CreateProjectsLocationsDashboardsRequest, CreateProjectsLocationsDashboardsResponse, CreateProjectsLocationsDashboardsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsDashboardsRequest,
   output: CreateProjectsLocationsDashboardsResponse,
   errors: [],
 }));
 
-/** Gets a Dashboard. */
 export interface GetProjectsLocationsDashboardsRequest {
   /** Required. The name of the dashboard to get. */
   name: string;
@@ -15234,13 +15233,13 @@ export const GetProjectsLocationsDashboardsResponse = GoogleCloudContactcenterin
 
 export type GetProjectsLocationsDashboardsError = CommonErrors;
 
+/** Gets a Dashboard. */
 export const getProjectsLocationsDashboards: API.OperationMethod<GetProjectsLocationsDashboardsRequest, GetProjectsLocationsDashboardsResponse, GetProjectsLocationsDashboardsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDashboardsRequest,
   output: GetProjectsLocationsDashboardsResponse,
   errors: [],
 }));
 
-/** Lists Dashboards. */
 export interface ListProjectsLocationsDashboardsRequest {
   /** Required. The parent resource of the dashboards. */
   parent: string;
@@ -15270,7 +15269,8 @@ export const ListProjectsLocationsDashboardsResponse = GoogleCloudContactcenteri
 
 export type ListProjectsLocationsDashboardsError = CommonErrors;
 
-export const listProjectsLocationsDashboards = API.makePaginated(() => ({
+/** Lists Dashboards. */
+export const listProjectsLocationsDashboards: API.PaginatedOperationMethod<ListProjectsLocationsDashboardsRequest, ListProjectsLocationsDashboardsResponse, ListProjectsLocationsDashboardsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDashboardsRequest,
   output: ListProjectsLocationsDashboardsResponse,
   errors: [],
@@ -15280,7 +15280,6 @@ export const listProjectsLocationsDashboards = API.makePaginated(() => ({
   },
 }));
 
-/** Updates a Dashboard. */
 export interface PatchProjectsLocationsDashboardsRequest {
   /** Identifier. Dashboard resource name. Format: projects/{project}/locations/{location}/dashboards/{dashboard} */
   name: string;
@@ -15304,13 +15303,13 @@ export const PatchProjectsLocationsDashboardsResponse = GoogleCloudContactcenter
 
 export type PatchProjectsLocationsDashboardsError = CommonErrors;
 
+/** Updates a Dashboard. */
 export const patchProjectsLocationsDashboards: API.OperationMethod<PatchProjectsLocationsDashboardsRequest, PatchProjectsLocationsDashboardsResponse, PatchProjectsLocationsDashboardsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsDashboardsRequest,
   output: PatchProjectsLocationsDashboardsResponse,
   errors: [],
 }));
 
-/** Deletes a Dashboard. */
 export interface DeleteProjectsLocationsDashboardsRequest {
   /** Required. The name of the dashboard to delete. */
   name: string;
@@ -15328,13 +15327,13 @@ export const DeleteProjectsLocationsDashboardsResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsDashboardsError = CommonErrors;
 
+/** Deletes a Dashboard. */
 export const deleteProjectsLocationsDashboards: API.OperationMethod<DeleteProjectsLocationsDashboardsRequest, DeleteProjectsLocationsDashboardsResponse, DeleteProjectsLocationsDashboardsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDashboardsRequest,
   output: DeleteProjectsLocationsDashboardsResponse,
   errors: [],
 }));
 
-/** Creates a Chart. */
 export interface CreateProjectsLocationsDashboardsChartsRequest {
   /** Required. The parent resource of the chart. */
   parent: string;
@@ -15358,13 +15357,13 @@ export const CreateProjectsLocationsDashboardsChartsResponse = GoogleCloudContac
 
 export type CreateProjectsLocationsDashboardsChartsError = CommonErrors;
 
+/** Creates a Chart. */
 export const createProjectsLocationsDashboardsCharts: API.OperationMethod<CreateProjectsLocationsDashboardsChartsRequest, CreateProjectsLocationsDashboardsChartsResponse, CreateProjectsLocationsDashboardsChartsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsDashboardsChartsRequest,
   output: CreateProjectsLocationsDashboardsChartsResponse,
   errors: [],
 }));
 
-/** Gets a Chart. */
 export interface GetProjectsLocationsDashboardsChartsRequest {
   /** Required. The name of the chart to get. */
   name: string;
@@ -15382,13 +15381,13 @@ export const GetProjectsLocationsDashboardsChartsResponse = GoogleCloudContactce
 
 export type GetProjectsLocationsDashboardsChartsError = CommonErrors;
 
+/** Gets a Chart. */
 export const getProjectsLocationsDashboardsCharts: API.OperationMethod<GetProjectsLocationsDashboardsChartsRequest, GetProjectsLocationsDashboardsChartsResponse, GetProjectsLocationsDashboardsChartsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDashboardsChartsRequest,
   output: GetProjectsLocationsDashboardsChartsResponse,
   errors: [],
 }));
 
-/** Lists Charts. */
 export interface ListProjectsLocationsDashboardsChartsRequest {
   /** Required. The parent resource of the charts. */
   parent: string;
@@ -15406,13 +15405,13 @@ export const ListProjectsLocationsDashboardsChartsResponse = GoogleCloudContactc
 
 export type ListProjectsLocationsDashboardsChartsError = CommonErrors;
 
+/** Lists Charts. */
 export const listProjectsLocationsDashboardsCharts: API.OperationMethod<ListProjectsLocationsDashboardsChartsRequest, ListProjectsLocationsDashboardsChartsResponse, ListProjectsLocationsDashboardsChartsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsDashboardsChartsRequest,
   output: ListProjectsLocationsDashboardsChartsResponse,
   errors: [],
 }));
 
-/** Updates a Chart. */
 export interface PatchProjectsLocationsDashboardsChartsRequest {
   /** Identifier. Chart resource name. Format: projects/{project}/locations/{location}/dashboards/{dashboard}/charts/{chart} */
   name: string;
@@ -15436,13 +15435,13 @@ export const PatchProjectsLocationsDashboardsChartsResponse = GoogleCloudContact
 
 export type PatchProjectsLocationsDashboardsChartsError = CommonErrors;
 
+/** Updates a Chart. */
 export const patchProjectsLocationsDashboardsCharts: API.OperationMethod<PatchProjectsLocationsDashboardsChartsRequest, PatchProjectsLocationsDashboardsChartsResponse, PatchProjectsLocationsDashboardsChartsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsDashboardsChartsRequest,
   output: PatchProjectsLocationsDashboardsChartsResponse,
   errors: [],
 }));
 
-/** Deletes a Chart. */
 export interface DeleteProjectsLocationsDashboardsChartsRequest {
   /** Required. The name of the chart to delete. */
   name: string;
@@ -15460,6 +15459,7 @@ export const DeleteProjectsLocationsDashboardsChartsResponse = GoogleProtobufEmp
 
 export type DeleteProjectsLocationsDashboardsChartsError = CommonErrors;
 
+/** Deletes a Chart. */
 export const deleteProjectsLocationsDashboardsCharts: API.OperationMethod<DeleteProjectsLocationsDashboardsChartsRequest, DeleteProjectsLocationsDashboardsChartsResponse, DeleteProjectsLocationsDashboardsChartsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDashboardsChartsRequest,
   output: DeleteProjectsLocationsDashboardsChartsResponse,

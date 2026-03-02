@@ -57,7 +57,6 @@ export const CustomApp: Schema.Schema<CustomApp> = Schema.suspend(() => Schema.S
 // Operations
 // ==========================================================================
 
-/** Creates a new custom app. */
 export interface CreateAccountsCustomAppsRequest {
   /** Developer account ID. */
   account: string;
@@ -78,6 +77,7 @@ export const CreateAccountsCustomAppsResponse = CustomApp;
 
 export type CreateAccountsCustomAppsError = CommonErrors;
 
+/** Creates a new custom app. */
 export const createAccountsCustomApps: API.OperationMethod<CreateAccountsCustomAppsRequest, CreateAccountsCustomAppsResponse, CreateAccountsCustomAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsCustomAppsRequest,
   output: CreateAccountsCustomAppsResponse,

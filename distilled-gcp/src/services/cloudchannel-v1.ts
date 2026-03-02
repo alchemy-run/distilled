@@ -2253,7 +2253,6 @@ export const GoogleCloudChannelV1RunReportJobResponse: Schema.Schema<GoogleCloud
 // Operations
 // ==========================================================================
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -2283,7 +2282,8 @@ export const ListOperationsResponse = GoogleLongrunningListOperationsResponse;
 
 export type ListOperationsError = CommonErrors;
 
-export const listOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listOperations: API.PaginatedOperationMethod<ListOperationsRequest, ListOperationsResponse, ListOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOperationsRequest,
   output: ListOperationsResponse,
   errors: [],
@@ -2293,7 +2293,6 @@ export const listOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -2311,13 +2310,13 @@ export const GetOperationsResponse = GoogleLongrunningOperation;
 
 export type GetOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOperations: API.OperationMethod<GetOperationsRequest, GetOperationsResponse, GetOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -2335,13 +2334,13 @@ export const DeleteOperationsResponse = GoogleProtobufEmpty;
 
 export type DeleteOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteOperations: API.OperationMethod<DeleteOperationsRequest, DeleteOperationsResponse, DeleteOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOperationsRequest,
   output: DeleteOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -2362,13 +2361,13 @@ export const CancelOperationsResponse = GoogleProtobufEmpty;
 
 export type CancelOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelOperations: API.OperationMethod<CancelOperationsRequest, CancelOperationsResponse, CancelOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelOperationsRequest,
   output: CancelOperationsResponse,
   errors: [],
 }));
 
-/** Confirms the existence of Cloud Identity accounts based on the domain and if the Cloud Identity accounts are owned by the reseller. Possible error codes: * PERMISSION_DENIED: The reseller account making the request is different from the reseller account in the API request. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * INVALID_VALUE: Invalid domain value in the request. Return value: A list of CloudIdentityCustomerAccount resources for the domain (may be empty) Note: in the v1alpha1 version of the API, a NOT_FOUND error returns if no CloudIdentityCustomerAccount resources match the domain. */
 export interface CheckCloudIdentityAccountsExistAccountsRequest {
   /** Required. The reseller account's resource name. Parent uses the format: accounts/{account_id} */
   parent: string;
@@ -2389,13 +2388,13 @@ export const CheckCloudIdentityAccountsExistAccountsResponse = GoogleCloudChanne
 
 export type CheckCloudIdentityAccountsExistAccountsError = CommonErrors;
 
+/** Confirms the existence of Cloud Identity accounts based on the domain and if the Cloud Identity accounts are owned by the reseller. Possible error codes: * PERMISSION_DENIED: The reseller account making the request is different from the reseller account in the API request. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * INVALID_VALUE: Invalid domain value in the request. Return value: A list of CloudIdentityCustomerAccount resources for the domain (may be empty) Note: in the v1alpha1 version of the API, a NOT_FOUND error returns if no CloudIdentityCustomerAccount resources match the domain. */
 export const checkCloudIdentityAccountsExistAccounts: API.OperationMethod<CheckCloudIdentityAccountsExistAccountsRequest, CheckCloudIdentityAccountsExistAccountsResponse, CheckCloudIdentityAccountsExistAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CheckCloudIdentityAccountsExistAccountsRequest,
   output: CheckCloudIdentityAccountsExistAccountsResponse,
   errors: [],
 }));
 
-/** List TransferableSkus of a customer based on the Cloud Identity ID or Customer Name in the request. Use this method to list the entitlements information of an unowned customer. You should provide the customer's Cloud Identity ID or Customer Name. Possible error codes: * PERMISSION_DENIED: * The customer doesn't belong to the reseller and has no auth token. * The supplied auth token is invalid. * The reseller account making the request is different from the reseller account in the query. * INVALID_ARGUMENT: Required request parameters are missing or invalid. Return value: A list of the customer's TransferableSku. */
 export interface ListTransferableSkusAccountsRequest {
   /** Required. The reseller account's resource name. Parent uses the format: accounts/{account_id} */
   parent: string;
@@ -2416,13 +2415,13 @@ export const ListTransferableSkusAccountsResponse = GoogleCloudChannelV1ListTran
 
 export type ListTransferableSkusAccountsError = CommonErrors;
 
+/** List TransferableSkus of a customer based on the Cloud Identity ID or Customer Name in the request. Use this method to list the entitlements information of an unowned customer. You should provide the customer's Cloud Identity ID or Customer Name. Possible error codes: * PERMISSION_DENIED: * The customer doesn't belong to the reseller and has no auth token. * The supplied auth token is invalid. * The reseller account making the request is different from the reseller account in the query. * INVALID_ARGUMENT: Required request parameters are missing or invalid. Return value: A list of the customer's TransferableSku. */
 export const listTransferableSkusAccounts: API.OperationMethod<ListTransferableSkusAccountsRequest, ListTransferableSkusAccountsResponse, ListTransferableSkusAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListTransferableSkusAccountsRequest,
   output: ListTransferableSkusAccountsResponse,
   errors: [],
 }));
 
-/** List TransferableOffers of a customer based on Cloud Identity ID or Customer Name in the request. Use this method when a reseller gets the entitlement information of an unowned customer. The reseller should provide the customer's Cloud Identity ID or Customer Name. Possible error codes: * PERMISSION_DENIED: * The customer doesn't belong to the reseller and has no auth token. * The customer provided incorrect reseller information when generating auth token. * The reseller account making the request is different from the reseller account in the query. * The reseller is not authorized to transact on this Product. See https://support.google.com/channelservices/answer/9759265 * INVALID_ARGUMENT: Required request parameters are missing or invalid. Return value: List of TransferableOffer for the given customer and SKU. */
 export interface ListTransferableOffersAccountsRequest {
   /** Required. The resource name of the reseller's account. */
   parent: string;
@@ -2443,13 +2442,13 @@ export const ListTransferableOffersAccountsResponse = GoogleCloudChannelV1ListTr
 
 export type ListTransferableOffersAccountsError = CommonErrors;
 
+/** List TransferableOffers of a customer based on Cloud Identity ID or Customer Name in the request. Use this method when a reseller gets the entitlement information of an unowned customer. The reseller should provide the customer's Cloud Identity ID or Customer Name. Possible error codes: * PERMISSION_DENIED: * The customer doesn't belong to the reseller and has no auth token. * The customer provided incorrect reseller information when generating auth token. * The reseller account making the request is different from the reseller account in the query. * The reseller is not authorized to transact on this Product. See https://support.google.com/channelservices/answer/9759265 * INVALID_ARGUMENT: Required request parameters are missing or invalid. Return value: List of TransferableOffer for the given customer and SKU. */
 export const listTransferableOffersAccounts: API.OperationMethod<ListTransferableOffersAccountsRequest, ListTransferableOffersAccountsResponse, ListTransferableOffersAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListTransferableOffersAccountsRequest,
   output: ListTransferableOffersAccountsResponse,
   errors: [],
 }));
 
-/** Registers a service account with subscriber privileges on the Pub/Sub topic for this Channel Services account or integrator. After you create a subscriber, you get the events through SubscriberEvent Possible error codes: * PERMISSION_DENIED: The reseller account making the request and the provided reseller account are different, or the impersonated user is not a super admin. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The topic name with the registered service email address. */
 export interface RegisterAccountsRequest {
   /** Optional. Resource name of the account. Required if integrator is not provided. Otherwise, leave this field empty/unset. */
   account: string;
@@ -2470,13 +2469,13 @@ export const RegisterAccountsResponse = GoogleCloudChannelV1RegisterSubscriberRe
 
 export type RegisterAccountsError = CommonErrors;
 
+/** Registers a service account with subscriber privileges on the Pub/Sub topic for this Channel Services account or integrator. After you create a subscriber, you get the events through SubscriberEvent Possible error codes: * PERMISSION_DENIED: The reseller account making the request and the provided reseller account are different, or the impersonated user is not a super admin. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The topic name with the registered service email address. */
 export const registerAccounts: API.OperationMethod<RegisterAccountsRequest, RegisterAccountsResponse, RegisterAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RegisterAccountsRequest,
   output: RegisterAccountsResponse,
   errors: [],
 }));
 
-/** Unregisters a service account with subscriber privileges on the Pub/Sub topic created for this Channel Services account or integrator. If there are no service accounts left with subscriber privileges, this deletes the topic. You can call ListSubscribers to check for these accounts. Possible error codes: * PERMISSION_DENIED: The reseller account making the request and the provided reseller account are different, or the impersonated user is not a super admin. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: The topic resource doesn't exist. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The topic name that unregistered the service email address. Returns a success response if the service email address wasn't registered with the topic. */
 export interface UnregisterAccountsRequest {
   /** Optional. Resource name of the account. Required if integrator is not provided. Otherwise, leave this field empty/unset. */
   account: string;
@@ -2497,13 +2496,13 @@ export const UnregisterAccountsResponse = GoogleCloudChannelV1UnregisterSubscrib
 
 export type UnregisterAccountsError = CommonErrors;
 
+/** Unregisters a service account with subscriber privileges on the Pub/Sub topic created for this Channel Services account or integrator. If there are no service accounts left with subscriber privileges, this deletes the topic. You can call ListSubscribers to check for these accounts. Possible error codes: * PERMISSION_DENIED: The reseller account making the request and the provided reseller account are different, or the impersonated user is not a super admin. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: The topic resource doesn't exist. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The topic name that unregistered the service email address. Returns a success response if the service email address wasn't registered with the topic. */
 export const unregisterAccounts: API.OperationMethod<UnregisterAccountsRequest, UnregisterAccountsResponse, UnregisterAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UnregisterAccountsRequest,
   output: UnregisterAccountsResponse,
   errors: [],
 }));
 
-/** Lists service accounts with subscriber privileges on the Pub/Sub topic created for this Channel Services account or integrator. Possible error codes: * PERMISSION_DENIED: The reseller account making the request and the provided reseller account are different, or the impersonated user is not a super admin. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: The topic resource doesn't exist. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: A list of service email addresses. */
 export interface ListSubscribersAccountsRequest {
   /** Optional. Resource name of the account. Required if integrator is not provided. Otherwise, leave this field empty/unset. */
   account: string;
@@ -2530,7 +2529,8 @@ export const ListSubscribersAccountsResponse = GoogleCloudChannelV1ListSubscribe
 
 export type ListSubscribersAccountsError = CommonErrors;
 
-export const listSubscribersAccounts = API.makePaginated(() => ({
+/** Lists service accounts with subscriber privileges on the Pub/Sub topic created for this Channel Services account or integrator. Possible error codes: * PERMISSION_DENIED: The reseller account making the request and the provided reseller account are different, or the impersonated user is not a super admin. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: The topic resource doesn't exist. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: A list of service email addresses. */
+export const listSubscribersAccounts: API.PaginatedOperationMethod<ListSubscribersAccountsRequest, ListSubscribersAccountsResponse, ListSubscribersAccountsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListSubscribersAccountsRequest,
   output: ListSubscribersAccountsResponse,
   errors: [],
@@ -2540,7 +2540,6 @@ export const listSubscribersAccounts = API.makePaginated(() => ({
   },
 }));
 
-/** Begins generation of data for a given report. The report identifier is a UID (for example, `613bf59q`). Possible error codes: * PERMISSION_DENIED: The user doesn't have access to this report. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: The report identifier was not found. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The ID of a long-running operation. To get the results of the operation, call the GetOperation method of CloudChannelOperationsService. The Operation metadata contains an instance of OperationMetadata. To get the results of report generation, call CloudChannelReportsService.FetchReportResults with the RunReportJobResponse.report_job. Deprecated: Please use [Export Channel Services data to BigQuery](https://cloud.google.com/channel/docs/rebilling/export-data-to-bigquery) instead. */
 export interface RunAccountsReportsRequest {
   /** Required. The report's resource name. Specifies the account and report used to generate report data. The report_id identifier is a UID (for example, `613bf59q`). Name uses the format: accounts/{account_id}/reports/{report_id} */
   name: string;
@@ -2561,13 +2560,13 @@ export const RunAccountsReportsResponse = GoogleLongrunningOperation;
 
 export type RunAccountsReportsError = CommonErrors;
 
+/** Begins generation of data for a given report. The report identifier is a UID (for example, `613bf59q`). Possible error codes: * PERMISSION_DENIED: The user doesn't have access to this report. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: The report identifier was not found. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The ID of a long-running operation. To get the results of the operation, call the GetOperation method of CloudChannelOperationsService. The Operation metadata contains an instance of OperationMetadata. To get the results of report generation, call CloudChannelReportsService.FetchReportResults with the RunReportJobResponse.report_job. Deprecated: Please use [Export Channel Services data to BigQuery](https://cloud.google.com/channel/docs/rebilling/export-data-to-bigquery) instead. */
 export const runAccountsReports: API.OperationMethod<RunAccountsReportsRequest, RunAccountsReportsResponse, RunAccountsReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RunAccountsReportsRequest,
   output: RunAccountsReportsResponse,
   errors: [],
 }));
 
-/** Lists the reports that RunReportJob can run. These reports include an ID, a description, and the list of columns that will be in the result. Deprecated: Please use [Export Channel Services data to BigQuery](https://cloud.google.com/channel/docs/rebilling/export-data-to-bigquery) instead. */
 export interface ListAccountsReportsRequest {
   /** Required. The resource name of the partner account to list available reports for. Parent uses the format: accounts/{account_id} */
   parent: string;
@@ -2594,7 +2593,8 @@ export const ListAccountsReportsResponse = GoogleCloudChannelV1ListReportsRespon
 
 export type ListAccountsReportsError = CommonErrors;
 
-export const listAccountsReports = API.makePaginated(() => ({
+/** Lists the reports that RunReportJob can run. These reports include an ID, a description, and the list of columns that will be in the result. Deprecated: Please use [Export Channel Services data to BigQuery](https://cloud.google.com/channel/docs/rebilling/export-data-to-bigquery) instead. */
+export const listAccountsReports: API.PaginatedOperationMethod<ListAccountsReportsRequest, ListAccountsReportsResponse, ListAccountsReportsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsReportsRequest,
   output: ListAccountsReportsResponse,
   errors: [],
@@ -2604,7 +2604,6 @@ export const listAccountsReports = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves data generated by CloudChannelReportsService.RunReportJob. Deprecated: Please use [Export Channel Services data to BigQuery](https://cloud.google.com/channel/docs/rebilling/export-data-to-bigquery) instead. */
 export interface FetchReportResultsAccountsReportJobsRequest {
   /** Required. The report job created by CloudChannelReportsService.RunReportJob. Report_job uses the format: accounts/{account_id}/reportJobs/{report_job_id} */
   reportJob: string;
@@ -2625,13 +2624,13 @@ export const FetchReportResultsAccountsReportJobsResponse = GoogleCloudChannelV1
 
 export type FetchReportResultsAccountsReportJobsError = CommonErrors;
 
+/** Retrieves data generated by CloudChannelReportsService.RunReportJob. Deprecated: Please use [Export Channel Services data to BigQuery](https://cloud.google.com/channel/docs/rebilling/export-data-to-bigquery) instead. */
 export const fetchReportResultsAccountsReportJobs: API.OperationMethod<FetchReportResultsAccountsReportJobsRequest, FetchReportResultsAccountsReportJobsResponse, FetchReportResultsAccountsReportJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FetchReportResultsAccountsReportJobsRequest,
   output: FetchReportResultsAccountsReportJobsResponse,
   errors: [],
 }));
 
-/** List Customers. Possible error codes: * PERMISSION_DENIED: The reseller account making the request is different from the reseller account in the API request. * INVALID_ARGUMENT: Required request parameters are missing or invalid. Return value: List of Customers, or an empty list if there are no customers. */
 export interface ListAccountsCustomersRequest {
   /** Required. The resource name of the reseller account to list customers from. Parent uses the format: accounts/{account_id}. */
   parent: string;
@@ -2658,7 +2657,8 @@ export const ListAccountsCustomersResponse = GoogleCloudChannelV1ListCustomersRe
 
 export type ListAccountsCustomersError = CommonErrors;
 
-export const listAccountsCustomers = API.makePaginated(() => ({
+/** List Customers. Possible error codes: * PERMISSION_DENIED: The reseller account making the request is different from the reseller account in the API request. * INVALID_ARGUMENT: Required request parameters are missing or invalid. Return value: List of Customers, or an empty list if there are no customers. */
+export const listAccountsCustomers: API.PaginatedOperationMethod<ListAccountsCustomersRequest, ListAccountsCustomersResponse, ListAccountsCustomersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsCustomersRequest,
   output: ListAccountsCustomersResponse,
   errors: [],
@@ -2668,7 +2668,6 @@ export const listAccountsCustomers = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the requested Customer resource. Possible error codes: * PERMISSION_DENIED: The reseller account making the request is different from the reseller account in the API request. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: The customer resource doesn't exist. Usually the result of an invalid name parameter. Return value: The Customer resource. */
 export interface GetAccountsCustomersRequest {
   /** Required. The resource name of the customer to retrieve. Name uses the format: accounts/{account_id}/customers/{customer_id} */
   name: string;
@@ -2686,13 +2685,13 @@ export const GetAccountsCustomersResponse = GoogleCloudChannelV1Customer;
 
 export type GetAccountsCustomersError = CommonErrors;
 
+/** Returns the requested Customer resource. Possible error codes: * PERMISSION_DENIED: The reseller account making the request is different from the reseller account in the API request. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: The customer resource doesn't exist. Usually the result of an invalid name parameter. Return value: The Customer resource. */
 export const getAccountsCustomers: API.OperationMethod<GetAccountsCustomersRequest, GetAccountsCustomersResponse, GetAccountsCustomersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsCustomersRequest,
   output: GetAccountsCustomersResponse,
   errors: [],
 }));
 
-/** Creates a new Customer resource under the reseller or distributor account. Possible error codes: * PERMISSION_DENIED: * The reseller account making the request is different from the reseller account in the API request. * You are not authorized to create a customer. See https://support.google.com/channelservices/answer/9759265 * INVALID_ARGUMENT: * Required request parameters are missing or invalid. * Domain field value doesn't match the primary email domain. Return value: The newly created Customer resource. */
 export interface CreateAccountsCustomersRequest {
   /** Required. The resource name of reseller account in which to create the customer. Parent uses the format: accounts/{account_id} */
   parent: string;
@@ -2713,13 +2712,13 @@ export const CreateAccountsCustomersResponse = GoogleCloudChannelV1Customer;
 
 export type CreateAccountsCustomersError = CommonErrors;
 
+/** Creates a new Customer resource under the reseller or distributor account. Possible error codes: * PERMISSION_DENIED: * The reseller account making the request is different from the reseller account in the API request. * You are not authorized to create a customer. See https://support.google.com/channelservices/answer/9759265 * INVALID_ARGUMENT: * Required request parameters are missing or invalid. * Domain field value doesn't match the primary email domain. Return value: The newly created Customer resource. */
 export const createAccountsCustomers: API.OperationMethod<CreateAccountsCustomersRequest, CreateAccountsCustomersResponse, CreateAccountsCustomersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsCustomersRequest,
   output: CreateAccountsCustomersResponse,
   errors: [],
 }));
 
-/** Updates an existing Customer resource for the reseller or distributor. Possible error codes: * PERMISSION_DENIED: The reseller account making the request is different from the reseller account in the API request. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: No Customer resource found for the name in the request. Return value: The updated Customer resource. */
 export interface PatchAccountsCustomersRequest {
   /** Output only. Resource name of the customer. Format: accounts/{account_id}/customers/{customer_id} */
   name: string;
@@ -2743,13 +2742,13 @@ export const PatchAccountsCustomersResponse = GoogleCloudChannelV1Customer;
 
 export type PatchAccountsCustomersError = CommonErrors;
 
+/** Updates an existing Customer resource for the reseller or distributor. Possible error codes: * PERMISSION_DENIED: The reseller account making the request is different from the reseller account in the API request. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: No Customer resource found for the name in the request. Return value: The updated Customer resource. */
 export const patchAccountsCustomers: API.OperationMethod<PatchAccountsCustomersRequest, PatchAccountsCustomersResponse, PatchAccountsCustomersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAccountsCustomersRequest,
   output: PatchAccountsCustomersResponse,
   errors: [],
 }));
 
-/** Deletes the given Customer permanently. Possible error codes: * PERMISSION_DENIED: The account making the request does not own this customer. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * FAILED_PRECONDITION: The customer has existing entitlements. * NOT_FOUND: No Customer resource found for the name in the request. */
 export interface DeleteAccountsCustomersRequest {
   /** Required. The resource name of the customer to delete. */
   name: string;
@@ -2767,13 +2766,13 @@ export const DeleteAccountsCustomersResponse = GoogleProtobufEmpty;
 
 export type DeleteAccountsCustomersError = CommonErrors;
 
+/** Deletes the given Customer permanently. Possible error codes: * PERMISSION_DENIED: The account making the request does not own this customer. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * FAILED_PRECONDITION: The customer has existing entitlements. * NOT_FOUND: No Customer resource found for the name in the request. */
 export const deleteAccountsCustomers: API.OperationMethod<DeleteAccountsCustomersRequest, DeleteAccountsCustomersResponse, DeleteAccountsCustomersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountsCustomersRequest,
   output: DeleteAccountsCustomersResponse,
   errors: [],
 }));
 
-/** Imports a Customer from the Cloud Identity associated with the provided Cloud Identity ID or domain before a TransferEntitlements call. If a linked Customer already exists and overwrite_if_exists is true, it will update that Customer's data. Possible error codes: * PERMISSION_DENIED: * The reseller account making the request is different from the reseller account in the API request. * You are not authorized to import the customer. See https://support.google.com/channelservices/answer/9759265 * NOT_FOUND: Cloud Identity doesn't exist or was deleted. * INVALID_ARGUMENT: Required parameters are missing, or the auth_token is expired or invalid. * ALREADY_EXISTS: A customer already exists and has conflicting critical fields. Requires an overwrite. Return value: The Customer. */
 export interface ImportAccountsCustomersRequest {
   /** Required. The resource name of the reseller's account. Parent takes the format: accounts/{account_id} or accounts/{account_id}/channelPartnerLinks/{channel_partner_id} */
   parent: string;
@@ -2794,13 +2793,13 @@ export const ImportAccountsCustomersResponse = GoogleCloudChannelV1Customer;
 
 export type ImportAccountsCustomersError = CommonErrors;
 
+/** Imports a Customer from the Cloud Identity associated with the provided Cloud Identity ID or domain before a TransferEntitlements call. If a linked Customer already exists and overwrite_if_exists is true, it will update that Customer's data. Possible error codes: * PERMISSION_DENIED: * The reseller account making the request is different from the reseller account in the API request. * You are not authorized to import the customer. See https://support.google.com/channelservices/answer/9759265 * NOT_FOUND: Cloud Identity doesn't exist or was deleted. * INVALID_ARGUMENT: Required parameters are missing, or the auth_token is expired or invalid. * ALREADY_EXISTS: A customer already exists and has conflicting critical fields. Requires an overwrite. Return value: The Customer. */
 export const importAccountsCustomers: API.OperationMethod<ImportAccountsCustomersRequest, ImportAccountsCustomersResponse, ImportAccountsCustomersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportAccountsCustomersRequest,
   output: ImportAccountsCustomersResponse,
   errors: [],
 }));
 
-/** Creates a Cloud Identity for the given customer using the customer's information, or the information provided here. Possible error codes: * PERMISSION_DENIED: * The customer doesn't belong to the reseller. * You are not authorized to provision cloud identity id. See https://support.google.com/channelservices/answer/9759265 * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: The customer was not found. * ALREADY_EXISTS: The customer's primary email already exists. Retry after changing the customer's primary contact email. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The ID of a long-running operation. To get the results of the operation, call the GetOperation method of CloudChannelOperationsService. The Operation metadata contains an instance of OperationMetadata. */
 export interface ProvisionCloudIdentityAccountsCustomersRequest {
   /** Required. Resource name of the customer. Format: accounts/{account_id}/customers/{customer_id} */
   customer: string;
@@ -2821,13 +2820,13 @@ export const ProvisionCloudIdentityAccountsCustomersResponse = GoogleLongrunning
 
 export type ProvisionCloudIdentityAccountsCustomersError = CommonErrors;
 
+/** Creates a Cloud Identity for the given customer using the customer's information, or the information provided here. Possible error codes: * PERMISSION_DENIED: * The customer doesn't belong to the reseller. * You are not authorized to provision cloud identity id. See https://support.google.com/channelservices/answer/9759265 * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: The customer was not found. * ALREADY_EXISTS: The customer's primary email already exists. Retry after changing the customer's primary contact email. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The ID of a long-running operation. To get the results of the operation, call the GetOperation method of CloudChannelOperationsService. The Operation metadata contains an instance of OperationMetadata. */
 export const provisionCloudIdentityAccountsCustomers: API.OperationMethod<ProvisionCloudIdentityAccountsCustomersRequest, ProvisionCloudIdentityAccountsCustomersResponse, ProvisionCloudIdentityAccountsCustomersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ProvisionCloudIdentityAccountsCustomersRequest,
   output: ProvisionCloudIdentityAccountsCustomersResponse,
   errors: [],
 }));
 
-/** Transfers customer entitlements to new reseller. Possible error codes: * PERMISSION_DENIED: * The customer doesn't belong to the reseller. * The reseller is not authorized to transact on this Product. See https://support.google.com/channelservices/answer/9759265 * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: The customer or offer resource was not found. * ALREADY_EXISTS: The SKU was already transferred for the customer. * CONDITION_NOT_MET or FAILED_PRECONDITION: * The SKU requires domain verification to transfer, but the domain is not verified. * An Add-On SKU (example, Vault or Drive) is missing the pre-requisite SKU (example, G Suite Basic). * (Developer accounts only) Reseller and resold domain must meet the following naming requirements: * Domain names must start with goog-test. * Domain names must include the reseller domain. * Specify all transferring entitlements. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The ID of a long-running operation. To get the results of the operation, call the GetOperation method of CloudChannelOperationsService. The Operation metadata will contain an instance of OperationMetadata. */
 export interface TransferEntitlementsAccountsCustomersRequest {
   /** Required. The resource name of the reseller's customer account that will receive transferred entitlements. Parent uses the format: accounts/{account_id}/customers/{customer_id} */
   parent: string;
@@ -2848,13 +2847,13 @@ export const TransferEntitlementsAccountsCustomersResponse = GoogleLongrunningOp
 
 export type TransferEntitlementsAccountsCustomersError = CommonErrors;
 
+/** Transfers customer entitlements to new reseller. Possible error codes: * PERMISSION_DENIED: * The customer doesn't belong to the reseller. * The reseller is not authorized to transact on this Product. See https://support.google.com/channelservices/answer/9759265 * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: The customer or offer resource was not found. * ALREADY_EXISTS: The SKU was already transferred for the customer. * CONDITION_NOT_MET or FAILED_PRECONDITION: * The SKU requires domain verification to transfer, but the domain is not verified. * An Add-On SKU (example, Vault or Drive) is missing the pre-requisite SKU (example, G Suite Basic). * (Developer accounts only) Reseller and resold domain must meet the following naming requirements: * Domain names must start with goog-test. * Domain names must include the reseller domain. * Specify all transferring entitlements. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The ID of a long-running operation. To get the results of the operation, call the GetOperation method of CloudChannelOperationsService. The Operation metadata will contain an instance of OperationMetadata. */
 export const transferEntitlementsAccountsCustomers: API.OperationMethod<TransferEntitlementsAccountsCustomersRequest, TransferEntitlementsAccountsCustomersResponse, TransferEntitlementsAccountsCustomersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TransferEntitlementsAccountsCustomersRequest,
   output: TransferEntitlementsAccountsCustomersResponse,
   errors: [],
 }));
 
-/** Transfers customer entitlements from their current reseller to Google. Possible error codes: * PERMISSION_DENIED: The customer doesn't belong to the reseller. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: The customer or offer resource was not found. * ALREADY_EXISTS: The SKU was already transferred for the customer. * CONDITION_NOT_MET or FAILED_PRECONDITION: * The SKU requires domain verification to transfer, but the domain is not verified. * An Add-On SKU (example, Vault or Drive) is missing the pre-requisite SKU (example, G Suite Basic). * (Developer accounts only) Reseller and resold domain must meet the following naming requirements: * Domain names must start with goog-test. * Domain names must include the reseller domain. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The ID of a long-running operation. To get the results of the operation, call the GetOperation method of CloudChannelOperationsService. The response will contain google.protobuf.Empty on success. The Operation metadata will contain an instance of OperationMetadata. */
 export interface TransferEntitlementsToGoogleAccountsCustomersRequest {
   /** Required. The resource name of the reseller's customer account where the entitlements transfer from. Parent uses the format: accounts/{account_id}/customers/{customer_id} */
   parent: string;
@@ -2875,13 +2874,13 @@ export const TransferEntitlementsToGoogleAccountsCustomersResponse = GoogleLongr
 
 export type TransferEntitlementsToGoogleAccountsCustomersError = CommonErrors;
 
+/** Transfers customer entitlements from their current reseller to Google. Possible error codes: * PERMISSION_DENIED: The customer doesn't belong to the reseller. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: The customer or offer resource was not found. * ALREADY_EXISTS: The SKU was already transferred for the customer. * CONDITION_NOT_MET or FAILED_PRECONDITION: * The SKU requires domain verification to transfer, but the domain is not verified. * An Add-On SKU (example, Vault or Drive) is missing the pre-requisite SKU (example, G Suite Basic). * (Developer accounts only) Reseller and resold domain must meet the following naming requirements: * Domain names must start with goog-test. * Domain names must include the reseller domain. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The ID of a long-running operation. To get the results of the operation, call the GetOperation method of CloudChannelOperationsService. The response will contain google.protobuf.Empty on success. The Operation metadata will contain an instance of OperationMetadata. */
 export const transferEntitlementsToGoogleAccountsCustomers: API.OperationMethod<TransferEntitlementsToGoogleAccountsCustomersRequest, TransferEntitlementsToGoogleAccountsCustomersResponse, TransferEntitlementsToGoogleAccountsCustomersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TransferEntitlementsToGoogleAccountsCustomersRequest,
   output: TransferEntitlementsToGoogleAccountsCustomersResponse,
   errors: [],
 }));
 
-/** Lists the following: * SKUs that you can purchase for a customer * SKUs that you can upgrade or downgrade for an entitlement. Possible error codes: * PERMISSION_DENIED: The customer doesn't belong to the reseller. * INVALID_ARGUMENT: Required request parameters are missing or invalid. */
 export interface ListPurchasableSkusAccountsCustomersRequest {
   /** Required. The resource name of the customer to list SKUs for. Format: accounts/{account_id}/customers/{customer_id}. */
   customer: string;
@@ -2917,7 +2916,8 @@ export const ListPurchasableSkusAccountsCustomersResponse = GoogleCloudChannelV1
 
 export type ListPurchasableSkusAccountsCustomersError = CommonErrors;
 
-export const listPurchasableSkusAccountsCustomers = API.makePaginated(() => ({
+/** Lists the following: * SKUs that you can purchase for a customer * SKUs that you can upgrade or downgrade for an entitlement. Possible error codes: * PERMISSION_DENIED: The customer doesn't belong to the reseller. * INVALID_ARGUMENT: Required request parameters are missing or invalid. */
+export const listPurchasableSkusAccountsCustomers: API.PaginatedOperationMethod<ListPurchasableSkusAccountsCustomersRequest, ListPurchasableSkusAccountsCustomersResponse, ListPurchasableSkusAccountsCustomersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPurchasableSkusAccountsCustomersRequest,
   output: ListPurchasableSkusAccountsCustomersResponse,
   errors: [],
@@ -2927,7 +2927,6 @@ export const listPurchasableSkusAccountsCustomers = API.makePaginated(() => ({
   },
 }));
 
-/** Lists the following: * Offers that you can purchase for a customer. * Offers that you can change for an entitlement. Possible error codes: * PERMISSION_DENIED: * The customer doesn't belong to the reseller * The reseller is not authorized to transact on this Product. See https://support.google.com/channelservices/answer/9759265 * INVALID_ARGUMENT: Required request parameters are missing or invalid. */
 export interface ListPurchasableOffersAccountsCustomersRequest {
   /** Required. The resource name of the customer to list Offers for. Format: accounts/{account_id}/customers/{customer_id}. */
   customer: string;
@@ -2969,7 +2968,8 @@ export const ListPurchasableOffersAccountsCustomersResponse = GoogleCloudChannel
 
 export type ListPurchasableOffersAccountsCustomersError = CommonErrors;
 
-export const listPurchasableOffersAccountsCustomers = API.makePaginated(() => ({
+/** Lists the following: * Offers that you can purchase for a customer. * Offers that you can change for an entitlement. Possible error codes: * PERMISSION_DENIED: * The customer doesn't belong to the reseller * The reseller is not authorized to transact on this Product. See https://support.google.com/channelservices/answer/9759265 * INVALID_ARGUMENT: Required request parameters are missing or invalid. */
+export const listPurchasableOffersAccountsCustomers: API.PaginatedOperationMethod<ListPurchasableOffersAccountsCustomersRequest, ListPurchasableOffersAccountsCustomersResponse, ListPurchasableOffersAccountsCustomersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPurchasableOffersAccountsCustomersRequest,
   output: ListPurchasableOffersAccountsCustomersResponse,
   errors: [],
@@ -2979,7 +2979,6 @@ export const listPurchasableOffersAccountsCustomers = API.makePaginated(() => ({
   },
 }));
 
-/** Lists the billing accounts that are eligible to purchase particular SKUs for a given customer. Possible error codes: * PERMISSION_DENIED: The customer doesn't belong to the reseller. * INVALID_ARGUMENT: Required request parameters are missing or invalid. Return value: Based on the provided list of SKUs, returns a list of SKU groups that must be purchased using the same billing account and the billing accounts eligible to purchase each SKU group. */
 export interface QueryEligibleBillingAccountsAccountsCustomersRequest {
   /** Required. The resource name of the customer to list eligible billing accounts for. Format: accounts/{account_id}/customers/{customer_id}. */
   customer: string;
@@ -3000,13 +2999,13 @@ export const QueryEligibleBillingAccountsAccountsCustomersResponse = GoogleCloud
 
 export type QueryEligibleBillingAccountsAccountsCustomersError = CommonErrors;
 
+/** Lists the billing accounts that are eligible to purchase particular SKUs for a given customer. Possible error codes: * PERMISSION_DENIED: The customer doesn't belong to the reseller. * INVALID_ARGUMENT: Required request parameters are missing or invalid. Return value: Based on the provided list of SKUs, returns a list of SKU groups that must be purchased using the same billing account and the billing accounts eligible to purchase each SKU group. */
 export const queryEligibleBillingAccountsAccountsCustomers: API.OperationMethod<QueryEligibleBillingAccountsAccountsCustomersRequest, QueryEligibleBillingAccountsAccountsCustomersResponse, QueryEligibleBillingAccountsAccountsCustomersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: QueryEligibleBillingAccountsAccountsCustomersRequest,
   output: QueryEligibleBillingAccountsAccountsCustomersResponse,
   errors: [],
 }));
 
-/** Lists Entitlements belonging to a customer. Possible error codes: * PERMISSION_DENIED: The customer doesn't belong to the reseller. * INVALID_ARGUMENT: Required request parameters are missing or invalid. Return value: A list of the customer's Entitlements. */
 export interface ListAccountsCustomersEntitlementsRequest {
   /** Required. The resource name of the reseller's customer account to list entitlements for. Parent uses the format: accounts/{account_id}/customers/{customer_id} */
   parent: string;
@@ -3030,7 +3029,8 @@ export const ListAccountsCustomersEntitlementsResponse = GoogleCloudChannelV1Lis
 
 export type ListAccountsCustomersEntitlementsError = CommonErrors;
 
-export const listAccountsCustomersEntitlements = API.makePaginated(() => ({
+/** Lists Entitlements belonging to a customer. Possible error codes: * PERMISSION_DENIED: The customer doesn't belong to the reseller. * INVALID_ARGUMENT: Required request parameters are missing or invalid. Return value: A list of the customer's Entitlements. */
+export const listAccountsCustomersEntitlements: API.PaginatedOperationMethod<ListAccountsCustomersEntitlementsRequest, ListAccountsCustomersEntitlementsResponse, ListAccountsCustomersEntitlementsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsCustomersEntitlementsRequest,
   output: ListAccountsCustomersEntitlementsResponse,
   errors: [],
@@ -3040,7 +3040,6 @@ export const listAccountsCustomersEntitlements = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the requested Entitlement resource. Possible error codes: * PERMISSION_DENIED: The customer doesn't belong to the reseller. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: The customer entitlement was not found. Return value: The requested Entitlement resource. */
 export interface GetAccountsCustomersEntitlementsRequest {
   /** Required. The resource name of the entitlement to retrieve. Name uses the format: accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id} */
   name: string;
@@ -3058,13 +3057,13 @@ export const GetAccountsCustomersEntitlementsResponse = GoogleCloudChannelV1Enti
 
 export type GetAccountsCustomersEntitlementsError = CommonErrors;
 
+/** Returns the requested Entitlement resource. Possible error codes: * PERMISSION_DENIED: The customer doesn't belong to the reseller. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: The customer entitlement was not found. Return value: The requested Entitlement resource. */
 export const getAccountsCustomersEntitlements: API.OperationMethod<GetAccountsCustomersEntitlementsRequest, GetAccountsCustomersEntitlementsResponse, GetAccountsCustomersEntitlementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsCustomersEntitlementsRequest,
   output: GetAccountsCustomersEntitlementsResponse,
   errors: [],
 }));
 
-/** Creates an entitlement for a customer. Possible error codes: * PERMISSION_DENIED: * The customer doesn't belong to the reseller. * The reseller is not authorized to transact on this Product. See https://support.google.com/channelservices/answer/9759265 * INVALID_ARGUMENT: * Required request parameters are missing or invalid. * There is already a customer entitlement for a SKU from the same product family. * INVALID_VALUE: Make sure the OfferId is valid. If it is, contact Google Channel support for further troubleshooting. * NOT_FOUND: The customer or offer resource was not found. * ALREADY_EXISTS: * The SKU was already purchased for the customer. * The customer's primary email already exists. Retry after changing the customer's primary contact email. * CONDITION_NOT_MET or FAILED_PRECONDITION: * The domain required for purchasing a SKU has not been verified. * A pre-requisite SKU required to purchase an Add-On SKU is missing. For example, Google Workspace Business Starter is required to purchase Vault or Drive. * (Developer accounts only) Reseller and resold domain must meet the following naming requirements: * Domain names must start with goog-test. * Domain names must include the reseller domain. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The ID of a long-running operation. To get the results of the operation, call the GetOperation method of CloudChannelOperationsService. The Operation metadata will contain an instance of OperationMetadata. */
 export interface CreateAccountsCustomersEntitlementsRequest {
   /** Required. The resource name of the reseller's customer account in which to create the entitlement. Parent uses the format: accounts/{account_id}/customers/{customer_id} */
   parent: string;
@@ -3085,13 +3084,13 @@ export const CreateAccountsCustomersEntitlementsResponse = GoogleLongrunningOper
 
 export type CreateAccountsCustomersEntitlementsError = CommonErrors;
 
+/** Creates an entitlement for a customer. Possible error codes: * PERMISSION_DENIED: * The customer doesn't belong to the reseller. * The reseller is not authorized to transact on this Product. See https://support.google.com/channelservices/answer/9759265 * INVALID_ARGUMENT: * Required request parameters are missing or invalid. * There is already a customer entitlement for a SKU from the same product family. * INVALID_VALUE: Make sure the OfferId is valid. If it is, contact Google Channel support for further troubleshooting. * NOT_FOUND: The customer or offer resource was not found. * ALREADY_EXISTS: * The SKU was already purchased for the customer. * The customer's primary email already exists. Retry after changing the customer's primary contact email. * CONDITION_NOT_MET or FAILED_PRECONDITION: * The domain required for purchasing a SKU has not been verified. * A pre-requisite SKU required to purchase an Add-On SKU is missing. For example, Google Workspace Business Starter is required to purchase Vault or Drive. * (Developer accounts only) Reseller and resold domain must meet the following naming requirements: * Domain names must start with goog-test. * Domain names must include the reseller domain. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The ID of a long-running operation. To get the results of the operation, call the GetOperation method of CloudChannelOperationsService. The Operation metadata will contain an instance of OperationMetadata. */
 export const createAccountsCustomersEntitlements: API.OperationMethod<CreateAccountsCustomersEntitlementsRequest, CreateAccountsCustomersEntitlementsResponse, CreateAccountsCustomersEntitlementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsCustomersEntitlementsRequest,
   output: CreateAccountsCustomersEntitlementsResponse,
   errors: [],
 }));
 
-/** Change parameters of the entitlement. An entitlement update is a long-running operation and it updates the entitlement as a result of fulfillment. Possible error codes: * PERMISSION_DENIED: The customer doesn't belong to the reseller. * INVALID_ARGUMENT: Required request parameters are missing or invalid. For example, the number of seats being changed is greater than the allowed number of max seats, or decreasing seats for a commitment based plan. * NOT_FOUND: Entitlement resource not found. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The ID of a long-running operation. To get the results of the operation, call the GetOperation method of CloudChannelOperationsService. The Operation metadata will contain an instance of OperationMetadata. */
 export interface ChangeParametersAccountsCustomersEntitlementsRequest {
   /** Required. The name of the entitlement to update. Name uses the format: accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id} */
   name: string;
@@ -3112,13 +3111,13 @@ export const ChangeParametersAccountsCustomersEntitlementsResponse = GoogleLongr
 
 export type ChangeParametersAccountsCustomersEntitlementsError = CommonErrors;
 
+/** Change parameters of the entitlement. An entitlement update is a long-running operation and it updates the entitlement as a result of fulfillment. Possible error codes: * PERMISSION_DENIED: The customer doesn't belong to the reseller. * INVALID_ARGUMENT: Required request parameters are missing or invalid. For example, the number of seats being changed is greater than the allowed number of max seats, or decreasing seats for a commitment based plan. * NOT_FOUND: Entitlement resource not found. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The ID of a long-running operation. To get the results of the operation, call the GetOperation method of CloudChannelOperationsService. The Operation metadata will contain an instance of OperationMetadata. */
 export const changeParametersAccountsCustomersEntitlements: API.OperationMethod<ChangeParametersAccountsCustomersEntitlementsRequest, ChangeParametersAccountsCustomersEntitlementsResponse, ChangeParametersAccountsCustomersEntitlementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ChangeParametersAccountsCustomersEntitlementsRequest,
   output: ChangeParametersAccountsCustomersEntitlementsResponse,
   errors: [],
 }));
 
-/** Updates the renewal settings for an existing customer entitlement. An entitlement update is a long-running operation and it updates the entitlement as a result of fulfillment. Possible error codes: * PERMISSION_DENIED: The customer doesn't belong to the reseller. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: Entitlement resource not found. * NOT_COMMITMENT_PLAN: Renewal Settings are only applicable for a commitment plan. Can't enable or disable renewals for non-commitment plans. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The ID of a long-running operation. To get the results of the operation, call the GetOperation method of CloudChannelOperationsService. The Operation metadata will contain an instance of OperationMetadata. */
 export interface ChangeRenewalSettingsAccountsCustomersEntitlementsRequest {
   /** Required. The name of the entitlement to update. Name uses the format: accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id} */
   name: string;
@@ -3139,13 +3138,13 @@ export const ChangeRenewalSettingsAccountsCustomersEntitlementsResponse = Google
 
 export type ChangeRenewalSettingsAccountsCustomersEntitlementsError = CommonErrors;
 
+/** Updates the renewal settings for an existing customer entitlement. An entitlement update is a long-running operation and it updates the entitlement as a result of fulfillment. Possible error codes: * PERMISSION_DENIED: The customer doesn't belong to the reseller. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: Entitlement resource not found. * NOT_COMMITMENT_PLAN: Renewal Settings are only applicable for a commitment plan. Can't enable or disable renewals for non-commitment plans. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The ID of a long-running operation. To get the results of the operation, call the GetOperation method of CloudChannelOperationsService. The Operation metadata will contain an instance of OperationMetadata. */
 export const changeRenewalSettingsAccountsCustomersEntitlements: API.OperationMethod<ChangeRenewalSettingsAccountsCustomersEntitlementsRequest, ChangeRenewalSettingsAccountsCustomersEntitlementsResponse, ChangeRenewalSettingsAccountsCustomersEntitlementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ChangeRenewalSettingsAccountsCustomersEntitlementsRequest,
   output: ChangeRenewalSettingsAccountsCustomersEntitlementsResponse,
   errors: [],
 }));
 
-/** Updates the Offer for an existing customer entitlement. An entitlement update is a long-running operation and it updates the entitlement as a result of fulfillment. Possible error codes: * PERMISSION_DENIED: The customer doesn't belong to the reseller. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: Offer or Entitlement resource not found. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The ID of a long-running operation. To get the results of the operation, call the GetOperation method of CloudChannelOperationsService. The Operation metadata will contain an instance of OperationMetadata. */
 export interface ChangeOfferAccountsCustomersEntitlementsRequest {
   /** Required. The resource name of the entitlement to update. Name uses the format: accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id} */
   name: string;
@@ -3166,13 +3165,13 @@ export const ChangeOfferAccountsCustomersEntitlementsResponse = GoogleLongrunnin
 
 export type ChangeOfferAccountsCustomersEntitlementsError = CommonErrors;
 
+/** Updates the Offer for an existing customer entitlement. An entitlement update is a long-running operation and it updates the entitlement as a result of fulfillment. Possible error codes: * PERMISSION_DENIED: The customer doesn't belong to the reseller. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: Offer or Entitlement resource not found. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The ID of a long-running operation. To get the results of the operation, call the GetOperation method of CloudChannelOperationsService. The Operation metadata will contain an instance of OperationMetadata. */
 export const changeOfferAccountsCustomersEntitlements: API.OperationMethod<ChangeOfferAccountsCustomersEntitlementsRequest, ChangeOfferAccountsCustomersEntitlementsResponse, ChangeOfferAccountsCustomersEntitlementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ChangeOfferAccountsCustomersEntitlementsRequest,
   output: ChangeOfferAccountsCustomersEntitlementsResponse,
   errors: [],
 }));
 
-/** Starts paid service for a trial entitlement. Starts paid service for a trial entitlement immediately. This method is only applicable if a plan is set up for a trial entitlement but has some trial days remaining. Possible error codes: * PERMISSION_DENIED: The customer doesn't belong to the reseller. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: Entitlement resource not found. * FAILED_PRECONDITION/NOT_IN_TRIAL: This method only works for entitlement on trial plans. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The ID of a long-running operation. To get the results of the operation, call the GetOperation method of CloudChannelOperationsService. The Operation metadata will contain an instance of OperationMetadata. */
 export interface StartPaidServiceAccountsCustomersEntitlementsRequest {
   /** Required. The name of the entitlement to start a paid service for. Name uses the format: accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id} */
   name: string;
@@ -3193,13 +3192,13 @@ export const StartPaidServiceAccountsCustomersEntitlementsResponse = GoogleLongr
 
 export type StartPaidServiceAccountsCustomersEntitlementsError = CommonErrors;
 
+/** Starts paid service for a trial entitlement. Starts paid service for a trial entitlement immediately. This method is only applicable if a plan is set up for a trial entitlement but has some trial days remaining. Possible error codes: * PERMISSION_DENIED: The customer doesn't belong to the reseller. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: Entitlement resource not found. * FAILED_PRECONDITION/NOT_IN_TRIAL: This method only works for entitlement on trial plans. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The ID of a long-running operation. To get the results of the operation, call the GetOperation method of CloudChannelOperationsService. The Operation metadata will contain an instance of OperationMetadata. */
 export const startPaidServiceAccountsCustomersEntitlements: API.OperationMethod<StartPaidServiceAccountsCustomersEntitlementsRequest, StartPaidServiceAccountsCustomersEntitlementsResponse, StartPaidServiceAccountsCustomersEntitlementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StartPaidServiceAccountsCustomersEntitlementsRequest,
   output: StartPaidServiceAccountsCustomersEntitlementsResponse,
   errors: [],
 }));
 
-/** Suspends a previously fulfilled entitlement. An entitlement suspension is a long-running operation. Possible error codes: * PERMISSION_DENIED: The customer doesn't belong to the reseller. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: Entitlement resource not found. * NOT_ACTIVE: Entitlement is not active. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The ID of a long-running operation. To get the results of the operation, call the GetOperation method of CloudChannelOperationsService. The Operation metadata will contain an instance of OperationMetadata. */
 export interface SuspendAccountsCustomersEntitlementsRequest {
   /** Required. The resource name of the entitlement to suspend. Name uses the format: accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id} */
   name: string;
@@ -3220,13 +3219,13 @@ export const SuspendAccountsCustomersEntitlementsResponse = GoogleLongrunningOpe
 
 export type SuspendAccountsCustomersEntitlementsError = CommonErrors;
 
+/** Suspends a previously fulfilled entitlement. An entitlement suspension is a long-running operation. Possible error codes: * PERMISSION_DENIED: The customer doesn't belong to the reseller. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: Entitlement resource not found. * NOT_ACTIVE: Entitlement is not active. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The ID of a long-running operation. To get the results of the operation, call the GetOperation method of CloudChannelOperationsService. The Operation metadata will contain an instance of OperationMetadata. */
 export const suspendAccountsCustomersEntitlements: API.OperationMethod<SuspendAccountsCustomersEntitlementsRequest, SuspendAccountsCustomersEntitlementsResponse, SuspendAccountsCustomersEntitlementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SuspendAccountsCustomersEntitlementsRequest,
   output: SuspendAccountsCustomersEntitlementsResponse,
   errors: [],
 }));
 
-/** Cancels a previously fulfilled entitlement. An entitlement cancellation is a long-running operation. Possible error codes: * PERMISSION_DENIED: The reseller account making the request is different from the reseller account in the API request. * FAILED_PRECONDITION: There are Google Cloud projects linked to the Google Cloud entitlement's Cloud Billing subaccount. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: Entitlement resource not found. * DELETION_TYPE_NOT_ALLOWED: Cancel is only allowed for Google Workspace add-ons, or entitlements for Google Cloud's development platform. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The ID of a long-running operation. To get the results of the operation, call the GetOperation method of CloudChannelOperationsService. The response will contain google.protobuf.Empty on success. The Operation metadata will contain an instance of OperationMetadata. */
 export interface CancelAccountsCustomersEntitlementsRequest {
   /** Required. The resource name of the entitlement to cancel. Name uses the format: accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id} */
   name: string;
@@ -3247,13 +3246,13 @@ export const CancelAccountsCustomersEntitlementsResponse = GoogleLongrunningOper
 
 export type CancelAccountsCustomersEntitlementsError = CommonErrors;
 
+/** Cancels a previously fulfilled entitlement. An entitlement cancellation is a long-running operation. Possible error codes: * PERMISSION_DENIED: The reseller account making the request is different from the reseller account in the API request. * FAILED_PRECONDITION: There are Google Cloud projects linked to the Google Cloud entitlement's Cloud Billing subaccount. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: Entitlement resource not found. * DELETION_TYPE_NOT_ALLOWED: Cancel is only allowed for Google Workspace add-ons, or entitlements for Google Cloud's development platform. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The ID of a long-running operation. To get the results of the operation, call the GetOperation method of CloudChannelOperationsService. The response will contain google.protobuf.Empty on success. The Operation metadata will contain an instance of OperationMetadata. */
 export const cancelAccountsCustomersEntitlements: API.OperationMethod<CancelAccountsCustomersEntitlementsRequest, CancelAccountsCustomersEntitlementsResponse, CancelAccountsCustomersEntitlementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelAccountsCustomersEntitlementsRequest,
   output: CancelAccountsCustomersEntitlementsResponse,
   errors: [],
 }));
 
-/** Activates a previously suspended entitlement. Entitlements suspended for pending ToS acceptance can't be activated using this method. An entitlement activation is a long-running operation and it updates the state of the customer entitlement. Possible error codes: * PERMISSION_DENIED: The reseller account making the request is different from the reseller account in the API request. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: Entitlement resource not found. * SUSPENSION_NOT_RESELLER_INITIATED: Can only activate reseller-initiated suspensions and entitlements that have accepted the TOS. * NOT_SUSPENDED: Can only activate suspended entitlements not in an ACTIVE state. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The ID of a long-running operation. To get the results of the operation, call the GetOperation method of CloudChannelOperationsService. The Operation metadata will contain an instance of OperationMetadata. */
 export interface ActivateAccountsCustomersEntitlementsRequest {
   /** Required. The resource name of the entitlement to activate. Name uses the format: accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id} */
   name: string;
@@ -3274,13 +3273,13 @@ export const ActivateAccountsCustomersEntitlementsResponse = GoogleLongrunningOp
 
 export type ActivateAccountsCustomersEntitlementsError = CommonErrors;
 
+/** Activates a previously suspended entitlement. Entitlements suspended for pending ToS acceptance can't be activated using this method. An entitlement activation is a long-running operation and it updates the state of the customer entitlement. Possible error codes: * PERMISSION_DENIED: The reseller account making the request is different from the reseller account in the API request. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: Entitlement resource not found. * SUSPENSION_NOT_RESELLER_INITIATED: Can only activate reseller-initiated suspensions and entitlements that have accepted the TOS. * NOT_SUSPENDED: Can only activate suspended entitlements not in an ACTIVE state. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The ID of a long-running operation. To get the results of the operation, call the GetOperation method of CloudChannelOperationsService. The Operation metadata will contain an instance of OperationMetadata. */
 export const activateAccountsCustomersEntitlements: API.OperationMethod<ActivateAccountsCustomersEntitlementsRequest, ActivateAccountsCustomersEntitlementsResponse, ActivateAccountsCustomersEntitlementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ActivateAccountsCustomersEntitlementsRequest,
   output: ActivateAccountsCustomersEntitlementsResponse,
   errors: [],
 }));
 
-/** Returns the requested Offer resource. Possible error codes: * PERMISSION_DENIED: The entitlement doesn't belong to the reseller. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: Entitlement or offer was not found. Return value: The Offer resource. */
 export interface LookupOfferAccountsCustomersEntitlementsRequest {
   /** Required. The resource name of the entitlement to retrieve the Offer. Entitlement uses the format: accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id} */
   entitlement: string;
@@ -3298,13 +3297,13 @@ export const LookupOfferAccountsCustomersEntitlementsResponse = GoogleCloudChann
 
 export type LookupOfferAccountsCustomersEntitlementsError = CommonErrors;
 
+/** Returns the requested Offer resource. Possible error codes: * PERMISSION_DENIED: The entitlement doesn't belong to the reseller. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: Entitlement or offer was not found. Return value: The Offer resource. */
 export const lookupOfferAccountsCustomersEntitlements: API.OperationMethod<LookupOfferAccountsCustomersEntitlementsRequest, LookupOfferAccountsCustomersEntitlementsResponse, LookupOfferAccountsCustomersEntitlementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LookupOfferAccountsCustomersEntitlementsRequest,
   output: LookupOfferAccountsCustomersEntitlementsResponse,
   errors: [],
 }));
 
-/** List entitlement history. Possible error codes: * PERMISSION_DENIED: The reseller account making the request and the provided reseller account are different. * INVALID_ARGUMENT: Missing or invalid required fields in the request. * NOT_FOUND: The parent resource doesn't exist. Usually the result of an invalid name parameter. * INTERNAL: Any non-user error related to a technical issue in the backend. In this case, contact CloudChannel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. In this case, contact Cloud Channel support. Return value: List of EntitlementChanges. */
 export interface ListEntitlementChangesAccountsCustomersEntitlementsRequest {
   /** Required. The resource name of the entitlement for which to list entitlement changes. The `-` wildcard may be used to match entitlements across a customer. Formats: * accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id} * accounts/{account_id}/customers/{customer_id}/entitlements/- */
   parent: string;
@@ -3331,7 +3330,8 @@ export const ListEntitlementChangesAccountsCustomersEntitlementsResponse = Googl
 
 export type ListEntitlementChangesAccountsCustomersEntitlementsError = CommonErrors;
 
-export const listEntitlementChangesAccountsCustomersEntitlements = API.makePaginated(() => ({
+/** List entitlement history. Possible error codes: * PERMISSION_DENIED: The reseller account making the request and the provided reseller account are different. * INVALID_ARGUMENT: Missing or invalid required fields in the request. * NOT_FOUND: The parent resource doesn't exist. Usually the result of an invalid name parameter. * INTERNAL: Any non-user error related to a technical issue in the backend. In this case, contact CloudChannel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. In this case, contact Cloud Channel support. Return value: List of EntitlementChanges. */
+export const listEntitlementChangesAccountsCustomersEntitlements: API.PaginatedOperationMethod<ListEntitlementChangesAccountsCustomersEntitlementsRequest, ListEntitlementChangesAccountsCustomersEntitlementsResponse, ListEntitlementChangesAccountsCustomersEntitlementsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListEntitlementChangesAccountsCustomersEntitlementsRequest,
   output: ListEntitlementChangesAccountsCustomersEntitlementsResponse,
   errors: [],
@@ -3341,7 +3341,6 @@ export const listEntitlementChangesAccountsCustomersEntitlements = API.makePagin
   },
 }));
 
-/** Gets information about how a Reseller modifies their bill before sending it to a Customer. Possible Error Codes: * PERMISSION_DENIED: If the account making the request and the account being queried are different. * NOT_FOUND: The CustomerRepricingConfig was not found. * INTERNAL: Any non-user error related to technical issues in the backend. In this case, contact Cloud Channel support. Return Value: If successful, the CustomerRepricingConfig resource, otherwise returns an error. */
 export interface GetAccountsCustomersCustomerRepricingConfigsRequest {
   /** Required. The resource name of the CustomerRepricingConfig. Format: accounts/{account_id}/customers/{customer_id}/customerRepricingConfigs/{id}. */
   name: string;
@@ -3359,13 +3358,13 @@ export const GetAccountsCustomersCustomerRepricingConfigsResponse = GoogleCloudC
 
 export type GetAccountsCustomersCustomerRepricingConfigsError = CommonErrors;
 
+/** Gets information about how a Reseller modifies their bill before sending it to a Customer. Possible Error Codes: * PERMISSION_DENIED: If the account making the request and the account being queried are different. * NOT_FOUND: The CustomerRepricingConfig was not found. * INTERNAL: Any non-user error related to technical issues in the backend. In this case, contact Cloud Channel support. Return Value: If successful, the CustomerRepricingConfig resource, otherwise returns an error. */
 export const getAccountsCustomersCustomerRepricingConfigs: API.OperationMethod<GetAccountsCustomersCustomerRepricingConfigsRequest, GetAccountsCustomersCustomerRepricingConfigsResponse, GetAccountsCustomersCustomerRepricingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsCustomersCustomerRepricingConfigsRequest,
   output: GetAccountsCustomersCustomerRepricingConfigsResponse,
   errors: [],
 }));
 
-/** Lists information about how a Reseller modifies their bill before sending it to a Customer. Possible Error Codes: * PERMISSION_DENIED: If the account making the request and the account being queried are different. * NOT_FOUND: The CustomerRepricingConfig specified does not exist or is not associated with the given account. * INTERNAL: Any non-user error related to technical issues in the backend. In this case, contact Cloud Channel support. Return Value: If successful, the CustomerRepricingConfig resources. The data for each resource is displayed in the ascending order of: * Customer ID * RepricingConfig.EntitlementGranularity.entitlement * RepricingConfig.effective_invoice_month * CustomerRepricingConfig.update_time If unsuccessful, returns an error. */
 export interface ListAccountsCustomersCustomerRepricingConfigsRequest {
   /** Required. The resource name of the customer. Parent uses the format: accounts/{account_id}/customers/{customer_id}. Supports accounts/{account_id}/customers/- to retrieve configs for all customers. */
   parent: string;
@@ -3392,7 +3391,8 @@ export const ListAccountsCustomersCustomerRepricingConfigsResponse = GoogleCloud
 
 export type ListAccountsCustomersCustomerRepricingConfigsError = CommonErrors;
 
-export const listAccountsCustomersCustomerRepricingConfigs = API.makePaginated(() => ({
+/** Lists information about how a Reseller modifies their bill before sending it to a Customer. Possible Error Codes: * PERMISSION_DENIED: If the account making the request and the account being queried are different. * NOT_FOUND: The CustomerRepricingConfig specified does not exist or is not associated with the given account. * INTERNAL: Any non-user error related to technical issues in the backend. In this case, contact Cloud Channel support. Return Value: If successful, the CustomerRepricingConfig resources. The data for each resource is displayed in the ascending order of: * Customer ID * RepricingConfig.EntitlementGranularity.entitlement * RepricingConfig.effective_invoice_month * CustomerRepricingConfig.update_time If unsuccessful, returns an error. */
+export const listAccountsCustomersCustomerRepricingConfigs: API.PaginatedOperationMethod<ListAccountsCustomersCustomerRepricingConfigsRequest, ListAccountsCustomersCustomerRepricingConfigsResponse, ListAccountsCustomersCustomerRepricingConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsCustomersCustomerRepricingConfigsRequest,
   output: ListAccountsCustomersCustomerRepricingConfigsResponse,
   errors: [],
@@ -3402,7 +3402,6 @@ export const listAccountsCustomersCustomerRepricingConfigs = API.makePaginated((
   },
 }));
 
-/** Creates a CustomerRepricingConfig. Call this method to set modifications for a specific customer's bill. You can only create configs if the RepricingConfig.effective_invoice_month is a future month. If needed, you can create a config for the current month, with some restrictions. When creating a config for a future month, make sure there are no existing configs for that RepricingConfig.effective_invoice_month. The following restrictions are for creating configs in the current month. * This functionality is reserved for recovering from an erroneous config, and should not be used for regular business cases. * The new config will not modify exports used with other configs. Changes to the config may be immediate, but may take up to 24 hours. * There is a limit of ten configs for any RepricingConfig.EntitlementGranularity.entitlement, for any RepricingConfig.effective_invoice_month. * The contained CustomerRepricingConfig.repricing_config value must be different from the value used in the current config for a RepricingConfig.EntitlementGranularity.entitlement. Possible Error Codes: * PERMISSION_DENIED: If the account making the request and the account being queried are different. * INVALID_ARGUMENT: Missing or invalid required parameters in the request. Also displays if the updated config is for the current month or past months. * NOT_FOUND: The CustomerRepricingConfig specified does not exist or is not associated with the given account. * INTERNAL: Any non-user error related to technical issues in the backend. In this case, contact Cloud Channel support. Return Value: If successful, the updated CustomerRepricingConfig resource, otherwise returns an error. */
 export interface CreateAccountsCustomersCustomerRepricingConfigsRequest {
   /** Required. The resource name of the customer that will receive this repricing config. Parent uses the format: accounts/{account_id}/customers/{customer_id} */
   parent: string;
@@ -3423,13 +3422,13 @@ export const CreateAccountsCustomersCustomerRepricingConfigsResponse = GoogleClo
 
 export type CreateAccountsCustomersCustomerRepricingConfigsError = CommonErrors;
 
+/** Creates a CustomerRepricingConfig. Call this method to set modifications for a specific customer's bill. You can only create configs if the RepricingConfig.effective_invoice_month is a future month. If needed, you can create a config for the current month, with some restrictions. When creating a config for a future month, make sure there are no existing configs for that RepricingConfig.effective_invoice_month. The following restrictions are for creating configs in the current month. * This functionality is reserved for recovering from an erroneous config, and should not be used for regular business cases. * The new config will not modify exports used with other configs. Changes to the config may be immediate, but may take up to 24 hours. * There is a limit of ten configs for any RepricingConfig.EntitlementGranularity.entitlement, for any RepricingConfig.effective_invoice_month. * The contained CustomerRepricingConfig.repricing_config value must be different from the value used in the current config for a RepricingConfig.EntitlementGranularity.entitlement. Possible Error Codes: * PERMISSION_DENIED: If the account making the request and the account being queried are different. * INVALID_ARGUMENT: Missing or invalid required parameters in the request. Also displays if the updated config is for the current month or past months. * NOT_FOUND: The CustomerRepricingConfig specified does not exist or is not associated with the given account. * INTERNAL: Any non-user error related to technical issues in the backend. In this case, contact Cloud Channel support. Return Value: If successful, the updated CustomerRepricingConfig resource, otherwise returns an error. */
 export const createAccountsCustomersCustomerRepricingConfigs: API.OperationMethod<CreateAccountsCustomersCustomerRepricingConfigsRequest, CreateAccountsCustomersCustomerRepricingConfigsResponse, CreateAccountsCustomersCustomerRepricingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsCustomersCustomerRepricingConfigsRequest,
   output: CreateAccountsCustomersCustomerRepricingConfigsResponse,
   errors: [],
 }));
 
-/** Updates a CustomerRepricingConfig. Call this method to set modifications for a specific customer's bill. This method overwrites the existing CustomerRepricingConfig. You can only update configs if the RepricingConfig.effective_invoice_month is a future month. To make changes to configs for the current month, use CreateCustomerRepricingConfig, taking note of its restrictions. You cannot update the RepricingConfig.effective_invoice_month. When updating a config in the future: * This config must already exist. Possible Error Codes: * PERMISSION_DENIED: If the account making the request and the account being queried are different. * INVALID_ARGUMENT: Missing or invalid required parameters in the request. Also displays if the updated config is for the current month or past months. * NOT_FOUND: The CustomerRepricingConfig specified does not exist or is not associated with the given account. * INTERNAL: Any non-user error related to technical issues in the backend. In this case, contact Cloud Channel support. Return Value: If successful, the updated CustomerRepricingConfig resource, otherwise returns an error. */
 export interface PatchAccountsCustomersCustomerRepricingConfigsRequest {
   /** Output only. Resource name of the CustomerRepricingConfig. Format: accounts/{account_id}/customers/{customer_id}/customerRepricingConfigs/{id}. */
   name: string;
@@ -3450,13 +3449,13 @@ export const PatchAccountsCustomersCustomerRepricingConfigsResponse = GoogleClou
 
 export type PatchAccountsCustomersCustomerRepricingConfigsError = CommonErrors;
 
+/** Updates a CustomerRepricingConfig. Call this method to set modifications for a specific customer's bill. This method overwrites the existing CustomerRepricingConfig. You can only update configs if the RepricingConfig.effective_invoice_month is a future month. To make changes to configs for the current month, use CreateCustomerRepricingConfig, taking note of its restrictions. You cannot update the RepricingConfig.effective_invoice_month. When updating a config in the future: * This config must already exist. Possible Error Codes: * PERMISSION_DENIED: If the account making the request and the account being queried are different. * INVALID_ARGUMENT: Missing or invalid required parameters in the request. Also displays if the updated config is for the current month or past months. * NOT_FOUND: The CustomerRepricingConfig specified does not exist or is not associated with the given account. * INTERNAL: Any non-user error related to technical issues in the backend. In this case, contact Cloud Channel support. Return Value: If successful, the updated CustomerRepricingConfig resource, otherwise returns an error. */
 export const patchAccountsCustomersCustomerRepricingConfigs: API.OperationMethod<PatchAccountsCustomersCustomerRepricingConfigsRequest, PatchAccountsCustomersCustomerRepricingConfigsResponse, PatchAccountsCustomersCustomerRepricingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAccountsCustomersCustomerRepricingConfigsRequest,
   output: PatchAccountsCustomersCustomerRepricingConfigsResponse,
   errors: [],
 }));
 
-/** Deletes the given CustomerRepricingConfig permanently. You can only delete configs if their RepricingConfig.effective_invoice_month is set to a date after the current month. Possible error codes: * PERMISSION_DENIED: The account making the request does not own this customer. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * FAILED_PRECONDITION: The CustomerRepricingConfig is active or in the past. * NOT_FOUND: No CustomerRepricingConfig found for the name in the request. */
 export interface DeleteAccountsCustomersCustomerRepricingConfigsRequest {
   /** Required. The resource name of the customer repricing config rule to delete. Format: accounts/{account_id}/customers/{customer_id}/customerRepricingConfigs/{id}. */
   name: string;
@@ -3474,13 +3473,13 @@ export const DeleteAccountsCustomersCustomerRepricingConfigsResponse = GooglePro
 
 export type DeleteAccountsCustomersCustomerRepricingConfigsError = CommonErrors;
 
+/** Deletes the given CustomerRepricingConfig permanently. You can only delete configs if their RepricingConfig.effective_invoice_month is set to a date after the current month. Possible error codes: * PERMISSION_DENIED: The account making the request does not own this customer. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * FAILED_PRECONDITION: The CustomerRepricingConfig is active or in the past. * NOT_FOUND: No CustomerRepricingConfig found for the name in the request. */
 export const deleteAccountsCustomersCustomerRepricingConfigs: API.OperationMethod<DeleteAccountsCustomersCustomerRepricingConfigsRequest, DeleteAccountsCustomersCustomerRepricingConfigsResponse, DeleteAccountsCustomersCustomerRepricingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountsCustomersCustomerRepricingConfigsRequest,
   output: DeleteAccountsCustomersCustomerRepricingConfigsResponse,
   errors: [],
 }));
 
-/** List ChannelPartnerLinks belonging to a distributor. You must be a distributor to call this method. Possible error codes: * PERMISSION_DENIED: The reseller account making the request is different from the reseller account in the API request. * INVALID_ARGUMENT: Required request parameters are missing or invalid. Return value: The list of the distributor account's ChannelPartnerLink resources. */
 export interface ListAccountsChannelPartnerLinksRequest {
   /** Required. The resource name of the reseller account for listing channel partner links. Parent uses the format: accounts/{account_id} */
   parent: string;
@@ -3507,7 +3506,8 @@ export const ListAccountsChannelPartnerLinksResponse = GoogleCloudChannelV1ListC
 
 export type ListAccountsChannelPartnerLinksError = CommonErrors;
 
-export const listAccountsChannelPartnerLinks = API.makePaginated(() => ({
+/** List ChannelPartnerLinks belonging to a distributor. You must be a distributor to call this method. Possible error codes: * PERMISSION_DENIED: The reseller account making the request is different from the reseller account in the API request. * INVALID_ARGUMENT: Required request parameters are missing or invalid. Return value: The list of the distributor account's ChannelPartnerLink resources. */
+export const listAccountsChannelPartnerLinks: API.PaginatedOperationMethod<ListAccountsChannelPartnerLinksRequest, ListAccountsChannelPartnerLinksResponse, ListAccountsChannelPartnerLinksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsChannelPartnerLinksRequest,
   output: ListAccountsChannelPartnerLinksResponse,
   errors: [],
@@ -3517,7 +3517,6 @@ export const listAccountsChannelPartnerLinks = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the requested ChannelPartnerLink resource. You must be a distributor to call this method. Possible error codes: * PERMISSION_DENIED: The reseller account making the request is different from the reseller account in the API request. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: ChannelPartnerLink resource not found because of an invalid channel partner link name. Return value: The ChannelPartnerLink resource. */
 export interface GetAccountsChannelPartnerLinksRequest {
   /** Required. The resource name of the channel partner link to retrieve. Name uses the format: accounts/{account_id}/channelPartnerLinks/{id} where {id} is the Cloud Identity ID of the partner. */
   name: string;
@@ -3538,13 +3537,13 @@ export const GetAccountsChannelPartnerLinksResponse = GoogleCloudChannelV1Channe
 
 export type GetAccountsChannelPartnerLinksError = CommonErrors;
 
+/** Returns the requested ChannelPartnerLink resource. You must be a distributor to call this method. Possible error codes: * PERMISSION_DENIED: The reseller account making the request is different from the reseller account in the API request. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: ChannelPartnerLink resource not found because of an invalid channel partner link name. Return value: The ChannelPartnerLink resource. */
 export const getAccountsChannelPartnerLinks: API.OperationMethod<GetAccountsChannelPartnerLinksRequest, GetAccountsChannelPartnerLinksResponse, GetAccountsChannelPartnerLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsChannelPartnerLinksRequest,
   output: GetAccountsChannelPartnerLinksResponse,
   errors: [],
 }));
 
-/** Initiates a channel partner link between a distributor and a reseller, or between resellers in an n-tier reseller channel. Invited partners need to follow the invite_link_uri provided in the response to accept. After accepting the invitation, a link is set up between the two parties. You must be a distributor to call this method. Possible error codes: * PERMISSION_DENIED: The reseller account making the request is different from the reseller account in the API request. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * ALREADY_EXISTS: The ChannelPartnerLink sent in the request already exists. * NOT_FOUND: No Cloud Identity customer exists for provided domain. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The new ChannelPartnerLink resource. */
 export interface CreateAccountsChannelPartnerLinksRequest {
   /** Required. Create a channel partner link for the provided reseller account's resource name. Parent uses the format: accounts/{account_id} */
   parent: string;
@@ -3565,13 +3564,13 @@ export const CreateAccountsChannelPartnerLinksResponse = GoogleCloudChannelV1Cha
 
 export type CreateAccountsChannelPartnerLinksError = CommonErrors;
 
+/** Initiates a channel partner link between a distributor and a reseller, or between resellers in an n-tier reseller channel. Invited partners need to follow the invite_link_uri provided in the response to accept. After accepting the invitation, a link is set up between the two parties. You must be a distributor to call this method. Possible error codes: * PERMISSION_DENIED: The reseller account making the request is different from the reseller account in the API request. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * ALREADY_EXISTS: The ChannelPartnerLink sent in the request already exists. * NOT_FOUND: No Cloud Identity customer exists for provided domain. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The new ChannelPartnerLink resource. */
 export const createAccountsChannelPartnerLinks: API.OperationMethod<CreateAccountsChannelPartnerLinksRequest, CreateAccountsChannelPartnerLinksResponse, CreateAccountsChannelPartnerLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsChannelPartnerLinksRequest,
   output: CreateAccountsChannelPartnerLinksResponse,
   errors: [],
 }));
 
-/** Updates a channel partner link. Distributors call this method to change a link's status. For example, to suspend a partner link. You must be a distributor to call this method. Possible error codes: * PERMISSION_DENIED: The reseller account making the request is different from the reseller account in the API request. * INVALID_ARGUMENT: * Required request parameters are missing or invalid. * Link state cannot change from invited to active or suspended. * Cannot send reseller_cloud_identity_id, invite_url, or name in update mask. * NOT_FOUND: ChannelPartnerLink resource not found. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The updated ChannelPartnerLink resource. */
 export interface PatchAccountsChannelPartnerLinksRequest {
   /** Required. The resource name of the channel partner link to cancel. Name uses the format: accounts/{account_id}/channelPartnerLinks/{id} where {id} is the Cloud Identity ID of the partner. */
   name: string;
@@ -3592,13 +3591,13 @@ export const PatchAccountsChannelPartnerLinksResponse = GoogleCloudChannelV1Chan
 
 export type PatchAccountsChannelPartnerLinksError = CommonErrors;
 
+/** Updates a channel partner link. Distributors call this method to change a link's status. For example, to suspend a partner link. You must be a distributor to call this method. Possible error codes: * PERMISSION_DENIED: The reseller account making the request is different from the reseller account in the API request. * INVALID_ARGUMENT: * Required request parameters are missing or invalid. * Link state cannot change from invited to active or suspended. * Cannot send reseller_cloud_identity_id, invite_url, or name in update mask. * NOT_FOUND: ChannelPartnerLink resource not found. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The updated ChannelPartnerLink resource. */
 export const patchAccountsChannelPartnerLinks: API.OperationMethod<PatchAccountsChannelPartnerLinksRequest, PatchAccountsChannelPartnerLinksResponse, PatchAccountsChannelPartnerLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAccountsChannelPartnerLinksRequest,
   output: PatchAccountsChannelPartnerLinksResponse,
   errors: [],
 }));
 
-/** List Customers. Possible error codes: * PERMISSION_DENIED: The reseller account making the request is different from the reseller account in the API request. * INVALID_ARGUMENT: Required request parameters are missing or invalid. Return value: List of Customers, or an empty list if there are no customers. */
 export interface ListAccountsChannelPartnerLinksCustomersRequest {
   /** Required. The resource name of the reseller account to list customers from. Parent uses the format: accounts/{account_id}. */
   parent: string;
@@ -3625,7 +3624,8 @@ export const ListAccountsChannelPartnerLinksCustomersResponse = GoogleCloudChann
 
 export type ListAccountsChannelPartnerLinksCustomersError = CommonErrors;
 
-export const listAccountsChannelPartnerLinksCustomers = API.makePaginated(() => ({
+/** List Customers. Possible error codes: * PERMISSION_DENIED: The reseller account making the request is different from the reseller account in the API request. * INVALID_ARGUMENT: Required request parameters are missing or invalid. Return value: List of Customers, or an empty list if there are no customers. */
+export const listAccountsChannelPartnerLinksCustomers: API.PaginatedOperationMethod<ListAccountsChannelPartnerLinksCustomersRequest, ListAccountsChannelPartnerLinksCustomersResponse, ListAccountsChannelPartnerLinksCustomersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsChannelPartnerLinksCustomersRequest,
   output: ListAccountsChannelPartnerLinksCustomersResponse,
   errors: [],
@@ -3635,7 +3635,6 @@ export const listAccountsChannelPartnerLinksCustomers = API.makePaginated(() => 
   },
 }));
 
-/** Returns the requested Customer resource. Possible error codes: * PERMISSION_DENIED: The reseller account making the request is different from the reseller account in the API request. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: The customer resource doesn't exist. Usually the result of an invalid name parameter. Return value: The Customer resource. */
 export interface GetAccountsChannelPartnerLinksCustomersRequest {
   /** Required. The resource name of the customer to retrieve. Name uses the format: accounts/{account_id}/customers/{customer_id} */
   name: string;
@@ -3653,13 +3652,13 @@ export const GetAccountsChannelPartnerLinksCustomersResponse = GoogleCloudChanne
 
 export type GetAccountsChannelPartnerLinksCustomersError = CommonErrors;
 
+/** Returns the requested Customer resource. Possible error codes: * PERMISSION_DENIED: The reseller account making the request is different from the reseller account in the API request. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: The customer resource doesn't exist. Usually the result of an invalid name parameter. Return value: The Customer resource. */
 export const getAccountsChannelPartnerLinksCustomers: API.OperationMethod<GetAccountsChannelPartnerLinksCustomersRequest, GetAccountsChannelPartnerLinksCustomersResponse, GetAccountsChannelPartnerLinksCustomersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsChannelPartnerLinksCustomersRequest,
   output: GetAccountsChannelPartnerLinksCustomersResponse,
   errors: [],
 }));
 
-/** Creates a new Customer resource under the reseller or distributor account. Possible error codes: * PERMISSION_DENIED: * The reseller account making the request is different from the reseller account in the API request. * You are not authorized to create a customer. See https://support.google.com/channelservices/answer/9759265 * INVALID_ARGUMENT: * Required request parameters are missing or invalid. * Domain field value doesn't match the primary email domain. Return value: The newly created Customer resource. */
 export interface CreateAccountsChannelPartnerLinksCustomersRequest {
   /** Required. The resource name of reseller account in which to create the customer. Parent uses the format: accounts/{account_id} */
   parent: string;
@@ -3680,13 +3679,13 @@ export const CreateAccountsChannelPartnerLinksCustomersResponse = GoogleCloudCha
 
 export type CreateAccountsChannelPartnerLinksCustomersError = CommonErrors;
 
+/** Creates a new Customer resource under the reseller or distributor account. Possible error codes: * PERMISSION_DENIED: * The reseller account making the request is different from the reseller account in the API request. * You are not authorized to create a customer. See https://support.google.com/channelservices/answer/9759265 * INVALID_ARGUMENT: * Required request parameters are missing or invalid. * Domain field value doesn't match the primary email domain. Return value: The newly created Customer resource. */
 export const createAccountsChannelPartnerLinksCustomers: API.OperationMethod<CreateAccountsChannelPartnerLinksCustomersRequest, CreateAccountsChannelPartnerLinksCustomersResponse, CreateAccountsChannelPartnerLinksCustomersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsChannelPartnerLinksCustomersRequest,
   output: CreateAccountsChannelPartnerLinksCustomersResponse,
   errors: [],
 }));
 
-/** Updates an existing Customer resource for the reseller or distributor. Possible error codes: * PERMISSION_DENIED: The reseller account making the request is different from the reseller account in the API request. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: No Customer resource found for the name in the request. Return value: The updated Customer resource. */
 export interface PatchAccountsChannelPartnerLinksCustomersRequest {
   /** Output only. Resource name of the customer. Format: accounts/{account_id}/customers/{customer_id} */
   name: string;
@@ -3710,13 +3709,13 @@ export const PatchAccountsChannelPartnerLinksCustomersResponse = GoogleCloudChan
 
 export type PatchAccountsChannelPartnerLinksCustomersError = CommonErrors;
 
+/** Updates an existing Customer resource for the reseller or distributor. Possible error codes: * PERMISSION_DENIED: The reseller account making the request is different from the reseller account in the API request. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: No Customer resource found for the name in the request. Return value: The updated Customer resource. */
 export const patchAccountsChannelPartnerLinksCustomers: API.OperationMethod<PatchAccountsChannelPartnerLinksCustomersRequest, PatchAccountsChannelPartnerLinksCustomersResponse, PatchAccountsChannelPartnerLinksCustomersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAccountsChannelPartnerLinksCustomersRequest,
   output: PatchAccountsChannelPartnerLinksCustomersResponse,
   errors: [],
 }));
 
-/** Deletes the given Customer permanently. Possible error codes: * PERMISSION_DENIED: The account making the request does not own this customer. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * FAILED_PRECONDITION: The customer has existing entitlements. * NOT_FOUND: No Customer resource found for the name in the request. */
 export interface DeleteAccountsChannelPartnerLinksCustomersRequest {
   /** Required. The resource name of the customer to delete. */
   name: string;
@@ -3734,13 +3733,13 @@ export const DeleteAccountsChannelPartnerLinksCustomersResponse = GoogleProtobuf
 
 export type DeleteAccountsChannelPartnerLinksCustomersError = CommonErrors;
 
+/** Deletes the given Customer permanently. Possible error codes: * PERMISSION_DENIED: The account making the request does not own this customer. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * FAILED_PRECONDITION: The customer has existing entitlements. * NOT_FOUND: No Customer resource found for the name in the request. */
 export const deleteAccountsChannelPartnerLinksCustomers: API.OperationMethod<DeleteAccountsChannelPartnerLinksCustomersRequest, DeleteAccountsChannelPartnerLinksCustomersResponse, DeleteAccountsChannelPartnerLinksCustomersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountsChannelPartnerLinksCustomersRequest,
   output: DeleteAccountsChannelPartnerLinksCustomersResponse,
   errors: [],
 }));
 
-/** Imports a Customer from the Cloud Identity associated with the provided Cloud Identity ID or domain before a TransferEntitlements call. If a linked Customer already exists and overwrite_if_exists is true, it will update that Customer's data. Possible error codes: * PERMISSION_DENIED: * The reseller account making the request is different from the reseller account in the API request. * You are not authorized to import the customer. See https://support.google.com/channelservices/answer/9759265 * NOT_FOUND: Cloud Identity doesn't exist or was deleted. * INVALID_ARGUMENT: Required parameters are missing, or the auth_token is expired or invalid. * ALREADY_EXISTS: A customer already exists and has conflicting critical fields. Requires an overwrite. Return value: The Customer. */
 export interface ImportAccountsChannelPartnerLinksCustomersRequest {
   /** Required. The resource name of the reseller's account. Parent takes the format: accounts/{account_id} or accounts/{account_id}/channelPartnerLinks/{channel_partner_id} */
   parent: string;
@@ -3761,13 +3760,13 @@ export const ImportAccountsChannelPartnerLinksCustomersResponse = GoogleCloudCha
 
 export type ImportAccountsChannelPartnerLinksCustomersError = CommonErrors;
 
+/** Imports a Customer from the Cloud Identity associated with the provided Cloud Identity ID or domain before a TransferEntitlements call. If a linked Customer already exists and overwrite_if_exists is true, it will update that Customer's data. Possible error codes: * PERMISSION_DENIED: * The reseller account making the request is different from the reseller account in the API request. * You are not authorized to import the customer. See https://support.google.com/channelservices/answer/9759265 * NOT_FOUND: Cloud Identity doesn't exist or was deleted. * INVALID_ARGUMENT: Required parameters are missing, or the auth_token is expired or invalid. * ALREADY_EXISTS: A customer already exists and has conflicting critical fields. Requires an overwrite. Return value: The Customer. */
 export const importAccountsChannelPartnerLinksCustomers: API.OperationMethod<ImportAccountsChannelPartnerLinksCustomersRequest, ImportAccountsChannelPartnerLinksCustomersResponse, ImportAccountsChannelPartnerLinksCustomersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportAccountsChannelPartnerLinksCustomersRequest,
   output: ImportAccountsChannelPartnerLinksCustomersResponse,
   errors: [],
 }));
 
-/** Gets information about how a Distributor modifies their bill before sending it to a ChannelPartner. Possible Error Codes: * PERMISSION_DENIED: If the account making the request and the account being queried are different. * NOT_FOUND: The ChannelPartnerRepricingConfig was not found. * INTERNAL: Any non-user error related to technical issues in the backend. In this case, contact Cloud Channel support. Return Value: If successful, the ChannelPartnerRepricingConfig resource, otherwise returns an error. */
 export interface GetAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest {
   /** Required. The resource name of the ChannelPartnerRepricingConfig Format: accounts/{account_id}/channelPartnerLinks/{channel_partner_id}/channelPartnerRepricingConfigs/{id}. */
   name: string;
@@ -3785,13 +3784,13 @@ export const GetAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRespons
 
 export type GetAccountsChannelPartnerLinksChannelPartnerRepricingConfigsError = CommonErrors;
 
+/** Gets information about how a Distributor modifies their bill before sending it to a ChannelPartner. Possible Error Codes: * PERMISSION_DENIED: If the account making the request and the account being queried are different. * NOT_FOUND: The ChannelPartnerRepricingConfig was not found. * INTERNAL: Any non-user error related to technical issues in the backend. In this case, contact Cloud Channel support. Return Value: If successful, the ChannelPartnerRepricingConfig resource, otherwise returns an error. */
 export const getAccountsChannelPartnerLinksChannelPartnerRepricingConfigs: API.OperationMethod<GetAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest, GetAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResponse, GetAccountsChannelPartnerLinksChannelPartnerRepricingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest,
   output: GetAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResponse,
   errors: [],
 }));
 
-/** Lists information about how a Reseller modifies their bill before sending it to a ChannelPartner. Possible Error Codes: * PERMISSION_DENIED: If the account making the request and the account being queried are different. * NOT_FOUND: The ChannelPartnerRepricingConfig specified does not exist or is not associated with the given account. * INTERNAL: Any non-user error related to technical issues in the backend. In this case, contact Cloud Channel support. Return Value: If successful, the ChannelPartnerRepricingConfig resources. The data for each resource is displayed in the ascending order of: * Channel Partner ID * RepricingConfig.effective_invoice_month * ChannelPartnerRepricingConfig.update_time If unsuccessful, returns an error. */
 export interface ListAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest {
   /** Required. The resource name of the account's ChannelPartnerLink. Parent uses the format: accounts/{account_id}/channelPartnerLinks/{channel_partner_id}. Supports accounts/{account_id}/channelPartnerLinks/- to retrieve configs for all channel partners. */
   parent: string;
@@ -3818,7 +3817,8 @@ export const ListAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRespon
 
 export type ListAccountsChannelPartnerLinksChannelPartnerRepricingConfigsError = CommonErrors;
 
-export const listAccountsChannelPartnerLinksChannelPartnerRepricingConfigs = API.makePaginated(() => ({
+/** Lists information about how a Reseller modifies their bill before sending it to a ChannelPartner. Possible Error Codes: * PERMISSION_DENIED: If the account making the request and the account being queried are different. * NOT_FOUND: The ChannelPartnerRepricingConfig specified does not exist or is not associated with the given account. * INTERNAL: Any non-user error related to technical issues in the backend. In this case, contact Cloud Channel support. Return Value: If successful, the ChannelPartnerRepricingConfig resources. The data for each resource is displayed in the ascending order of: * Channel Partner ID * RepricingConfig.effective_invoice_month * ChannelPartnerRepricingConfig.update_time If unsuccessful, returns an error. */
+export const listAccountsChannelPartnerLinksChannelPartnerRepricingConfigs: API.PaginatedOperationMethod<ListAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest, ListAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResponse, ListAccountsChannelPartnerLinksChannelPartnerRepricingConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest,
   output: ListAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResponse,
   errors: [],
@@ -3828,7 +3828,6 @@ export const listAccountsChannelPartnerLinksChannelPartnerRepricingConfigs = API
   },
 }));
 
-/** Creates a ChannelPartnerRepricingConfig. Call this method to set modifications for a specific ChannelPartner's bill. You can only create configs if the RepricingConfig.effective_invoice_month is a future month. If needed, you can create a config for the current month, with some restrictions. When creating a config for a future month, make sure there are no existing configs for that RepricingConfig.effective_invoice_month. The following restrictions are for creating configs in the current month. * This functionality is reserved for recovering from an erroneous config, and should not be used for regular business cases. * The new config will not modify exports used with other configs. Changes to the config may be immediate, but may take up to 24 hours. * There is a limit of ten configs for any ChannelPartner or RepricingConfig.EntitlementGranularity.entitlement, for any RepricingConfig.effective_invoice_month. * The contained ChannelPartnerRepricingConfig.repricing_config value must be different from the value used in the current config for a ChannelPartner. Possible Error Codes: * PERMISSION_DENIED: If the account making the request and the account being queried are different. * INVALID_ARGUMENT: Missing or invalid required parameters in the request. Also displays if the updated config is for the current month or past months. * NOT_FOUND: The ChannelPartnerRepricingConfig specified does not exist or is not associated with the given account. * INTERNAL: Any non-user error related to technical issues in the backend. In this case, contact Cloud Channel support. Return Value: If successful, the updated ChannelPartnerRepricingConfig resource, otherwise returns an error. */
 export interface CreateAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest {
   /** Required. The resource name of the ChannelPartner that will receive the repricing config. Parent uses the format: accounts/{account_id}/channelPartnerLinks/{channel_partner_id} */
   parent: string;
@@ -3849,13 +3848,13 @@ export const CreateAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResp
 
 export type CreateAccountsChannelPartnerLinksChannelPartnerRepricingConfigsError = CommonErrors;
 
+/** Creates a ChannelPartnerRepricingConfig. Call this method to set modifications for a specific ChannelPartner's bill. You can only create configs if the RepricingConfig.effective_invoice_month is a future month. If needed, you can create a config for the current month, with some restrictions. When creating a config for a future month, make sure there are no existing configs for that RepricingConfig.effective_invoice_month. The following restrictions are for creating configs in the current month. * This functionality is reserved for recovering from an erroneous config, and should not be used for regular business cases. * The new config will not modify exports used with other configs. Changes to the config may be immediate, but may take up to 24 hours. * There is a limit of ten configs for any ChannelPartner or RepricingConfig.EntitlementGranularity.entitlement, for any RepricingConfig.effective_invoice_month. * The contained ChannelPartnerRepricingConfig.repricing_config value must be different from the value used in the current config for a ChannelPartner. Possible Error Codes: * PERMISSION_DENIED: If the account making the request and the account being queried are different. * INVALID_ARGUMENT: Missing or invalid required parameters in the request. Also displays if the updated config is for the current month or past months. * NOT_FOUND: The ChannelPartnerRepricingConfig specified does not exist or is not associated with the given account. * INTERNAL: Any non-user error related to technical issues in the backend. In this case, contact Cloud Channel support. Return Value: If successful, the updated ChannelPartnerRepricingConfig resource, otherwise returns an error. */
 export const createAccountsChannelPartnerLinksChannelPartnerRepricingConfigs: API.OperationMethod<CreateAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest, CreateAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResponse, CreateAccountsChannelPartnerLinksChannelPartnerRepricingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest,
   output: CreateAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResponse,
   errors: [],
 }));
 
-/** Updates a ChannelPartnerRepricingConfig. Call this method to set modifications for a specific ChannelPartner's bill. This method overwrites the existing CustomerRepricingConfig. You can only update configs if the RepricingConfig.effective_invoice_month is a future month. To make changes to configs for the current month, use CreateChannelPartnerRepricingConfig, taking note of its restrictions. You cannot update the RepricingConfig.effective_invoice_month. When updating a config in the future: * This config must already exist. Possible Error Codes: * PERMISSION_DENIED: If the account making the request and the account being queried are different. * INVALID_ARGUMENT: Missing or invalid required parameters in the request. Also displays if the updated config is for the current month or past months. * NOT_FOUND: The ChannelPartnerRepricingConfig specified does not exist or is not associated with the given account. * INTERNAL: Any non-user error related to technical issues in the backend. In this case, contact Cloud Channel support. Return Value: If successful, the updated ChannelPartnerRepricingConfig resource, otherwise returns an error. */
 export interface PatchAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest {
   /** Output only. Resource name of the ChannelPartnerRepricingConfig. Format: accounts/{account_id}/channelPartnerLinks/{channel_partner_id}/channelPartnerRepricingConfigs/{id}. */
   name: string;
@@ -3876,13 +3875,13 @@ export const PatchAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRespo
 
 export type PatchAccountsChannelPartnerLinksChannelPartnerRepricingConfigsError = CommonErrors;
 
+/** Updates a ChannelPartnerRepricingConfig. Call this method to set modifications for a specific ChannelPartner's bill. This method overwrites the existing CustomerRepricingConfig. You can only update configs if the RepricingConfig.effective_invoice_month is a future month. To make changes to configs for the current month, use CreateChannelPartnerRepricingConfig, taking note of its restrictions. You cannot update the RepricingConfig.effective_invoice_month. When updating a config in the future: * This config must already exist. Possible Error Codes: * PERMISSION_DENIED: If the account making the request and the account being queried are different. * INVALID_ARGUMENT: Missing or invalid required parameters in the request. Also displays if the updated config is for the current month or past months. * NOT_FOUND: The ChannelPartnerRepricingConfig specified does not exist or is not associated with the given account. * INTERNAL: Any non-user error related to technical issues in the backend. In this case, contact Cloud Channel support. Return Value: If successful, the updated ChannelPartnerRepricingConfig resource, otherwise returns an error. */
 export const patchAccountsChannelPartnerLinksChannelPartnerRepricingConfigs: API.OperationMethod<PatchAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest, PatchAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResponse, PatchAccountsChannelPartnerLinksChannelPartnerRepricingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest,
   output: PatchAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResponse,
   errors: [],
 }));
 
-/** Deletes the given ChannelPartnerRepricingConfig permanently. You can only delete configs if their RepricingConfig.effective_invoice_month is set to a date after the current month. Possible error codes: * PERMISSION_DENIED: The account making the request does not own this customer. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * FAILED_PRECONDITION: The ChannelPartnerRepricingConfig is active or in the past. * NOT_FOUND: No ChannelPartnerRepricingConfig found for the name in the request. */
 export interface DeleteAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest {
   /** Required. The resource name of the channel partner repricing config rule to delete. */
   name: string;
@@ -3900,13 +3899,13 @@ export const DeleteAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResp
 
 export type DeleteAccountsChannelPartnerLinksChannelPartnerRepricingConfigsError = CommonErrors;
 
+/** Deletes the given ChannelPartnerRepricingConfig permanently. You can only delete configs if their RepricingConfig.effective_invoice_month is set to a date after the current month. Possible error codes: * PERMISSION_DENIED: The account making the request does not own this customer. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * FAILED_PRECONDITION: The ChannelPartnerRepricingConfig is active or in the past. * NOT_FOUND: No ChannelPartnerRepricingConfig found for the name in the request. */
 export const deleteAccountsChannelPartnerLinksChannelPartnerRepricingConfigs: API.OperationMethod<DeleteAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest, DeleteAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResponse, DeleteAccountsChannelPartnerLinksChannelPartnerRepricingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountsChannelPartnerLinksChannelPartnerRepricingConfigsRequest,
   output: DeleteAccountsChannelPartnerLinksChannelPartnerRepricingConfigsResponse,
   errors: [],
 }));
 
-/** Lists the Rebilling supported SKU groups the account is authorized to sell. Reference: https://cloud.google.com/skus/sku-groups Possible Error Codes: * PERMISSION_DENIED: If the account making the request and the account being queried are different, or the account doesn't exist. * INTERNAL: Any non-user error related to technical issues in the backend. In this case, contact Cloud Channel support. Return Value: If successful, the SkuGroup resources. The data for each resource is displayed in the alphabetical order of SKU group display name. The data for each resource is displayed in the ascending order of SkuGroup.display_name If unsuccessful, returns an error. */
 export interface ListAccountsSkuGroupsRequest {
   /** Required. The resource name of the account from which to list SKU groups. Parent uses the format: accounts/{account}. */
   parent: string;
@@ -3930,7 +3929,8 @@ export const ListAccountsSkuGroupsResponse = GoogleCloudChannelV1ListSkuGroupsRe
 
 export type ListAccountsSkuGroupsError = CommonErrors;
 
-export const listAccountsSkuGroups = API.makePaginated(() => ({
+/** Lists the Rebilling supported SKU groups the account is authorized to sell. Reference: https://cloud.google.com/skus/sku-groups Possible Error Codes: * PERMISSION_DENIED: If the account making the request and the account being queried are different, or the account doesn't exist. * INTERNAL: Any non-user error related to technical issues in the backend. In this case, contact Cloud Channel support. Return Value: If successful, the SkuGroup resources. The data for each resource is displayed in the alphabetical order of SKU group display name. The data for each resource is displayed in the ascending order of SkuGroup.display_name If unsuccessful, returns an error. */
+export const listAccountsSkuGroups: API.PaginatedOperationMethod<ListAccountsSkuGroupsRequest, ListAccountsSkuGroupsResponse, ListAccountsSkuGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsSkuGroupsRequest,
   output: ListAccountsSkuGroupsResponse,
   errors: [],
@@ -3940,7 +3940,6 @@ export const listAccountsSkuGroups = API.makePaginated(() => ({
   },
 }));
 
-/** Lists the Billable SKUs in a given SKU group. Possible error codes: PERMISSION_DENIED: If the account making the request and the account being queried for are different, or the account doesn't exist. INVALID_ARGUMENT: Missing or invalid required parameters in the request. INTERNAL: Any non-user error related to technical issue in the backend. In this case, contact cloud channel support. Return Value: If successful, the BillableSku resources. The data for each resource is displayed in the ascending order of: * BillableSku.service_display_name * BillableSku.sku_display_name If unsuccessful, returns an error. */
 export interface ListAccountsSkuGroupsBillableSkusRequest {
   /** Required. Resource name of the SKU group. Format: accounts/{account}/skuGroups/{sku_group}. */
   parent: string;
@@ -3964,7 +3963,8 @@ export const ListAccountsSkuGroupsBillableSkusResponse = GoogleCloudChannelV1Lis
 
 export type ListAccountsSkuGroupsBillableSkusError = CommonErrors;
 
-export const listAccountsSkuGroupsBillableSkus = API.makePaginated(() => ({
+/** Lists the Billable SKUs in a given SKU group. Possible error codes: PERMISSION_DENIED: If the account making the request and the account being queried for are different, or the account doesn't exist. INVALID_ARGUMENT: Missing or invalid required parameters in the request. INTERNAL: Any non-user error related to technical issue in the backend. In this case, contact cloud channel support. Return Value: If successful, the BillableSku resources. The data for each resource is displayed in the ascending order of: * BillableSku.service_display_name * BillableSku.sku_display_name If unsuccessful, returns an error. */
+export const listAccountsSkuGroupsBillableSkus: API.PaginatedOperationMethod<ListAccountsSkuGroupsBillableSkusRequest, ListAccountsSkuGroupsBillableSkusResponse, ListAccountsSkuGroupsBillableSkusError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsSkuGroupsBillableSkusRequest,
   output: ListAccountsSkuGroupsBillableSkusResponse,
   errors: [],
@@ -3974,7 +3974,6 @@ export const listAccountsSkuGroupsBillableSkus = API.makePaginated(() => ({
   },
 }));
 
-/** Lists the Offers the reseller can sell. Possible error codes: * INVALID_ARGUMENT: Required request parameters are missing or invalid. */
 export interface ListAccountsOffersRequest {
   /** Required. The resource name of the reseller account from which to list Offers. Parent uses the format: accounts/{account_id}. */
   parent: string;
@@ -4007,7 +4006,8 @@ export const ListAccountsOffersResponse = GoogleCloudChannelV1ListOffersResponse
 
 export type ListAccountsOffersError = CommonErrors;
 
-export const listAccountsOffers = API.makePaginated(() => ({
+/** Lists the Offers the reseller can sell. Possible error codes: * INVALID_ARGUMENT: Required request parameters are missing or invalid. */
+export const listAccountsOffers: API.PaginatedOperationMethod<ListAccountsOffersRequest, ListAccountsOffersResponse, ListAccountsOffersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsOffersRequest,
   output: ListAccountsOffersResponse,
   errors: [],
@@ -4017,7 +4017,6 @@ export const listAccountsOffers = API.makePaginated(() => ({
   },
 }));
 
-/** Lists the Products the reseller is authorized to sell. Possible error codes: * INVALID_ARGUMENT: Required request parameters are missing or invalid. */
 export interface ListProductsRequest {
   /** Required. The resource name of the reseller account. Format: accounts/{account_id}. */
   account?: string;
@@ -4044,7 +4043,8 @@ export const ListProductsResponse = GoogleCloudChannelV1ListProductsResponse;
 
 export type ListProductsError = CommonErrors;
 
-export const listProducts = API.makePaginated(() => ({
+/** Lists the Products the reseller is authorized to sell. Possible error codes: * INVALID_ARGUMENT: Required request parameters are missing or invalid. */
+export const listProducts: API.PaginatedOperationMethod<ListProductsRequest, ListProductsResponse, ListProductsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProductsRequest,
   output: ListProductsResponse,
   errors: [],
@@ -4054,7 +4054,6 @@ export const listProducts = API.makePaginated(() => ({
   },
 }));
 
-/** Lists the SKUs for a product the reseller is authorized to sell. Possible error codes: * INVALID_ARGUMENT: Required request parameters are missing or invalid. */
 export interface ListProductsSkusRequest {
   /** Required. The resource name of the Product to list SKUs for. Parent uses the format: products/{product_id}. Supports products/- to retrieve SKUs for all products. */
   parent: string;
@@ -4084,7 +4083,8 @@ export const ListProductsSkusResponse = GoogleCloudChannelV1ListSkusResponse;
 
 export type ListProductsSkusError = CommonErrors;
 
-export const listProductsSkus = API.makePaginated(() => ({
+/** Lists the SKUs for a product the reseller is authorized to sell. Possible error codes: * INVALID_ARGUMENT: Required request parameters are missing or invalid. */
+export const listProductsSkus: API.PaginatedOperationMethod<ListProductsSkusRequest, ListProductsSkusResponse, ListProductsSkusError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProductsSkusRequest,
   output: ListProductsSkusResponse,
   errors: [],
@@ -4094,7 +4094,6 @@ export const listProductsSkus = API.makePaginated(() => ({
   },
 }));
 
-/** Registers a service account with subscriber privileges on the Pub/Sub topic for this Channel Services account or integrator. After you create a subscriber, you get the events through SubscriberEvent Possible error codes: * PERMISSION_DENIED: The reseller account making the request and the provided reseller account are different, or the impersonated user is not a super admin. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The topic name with the registered service email address. */
 export interface RegisterSubscriberIntegratorsRequest {
   /** Optional. Resource name of the integrator. Required if account is not provided. Otherwise, leave this field empty/unset. */
   integrator: string;
@@ -4115,13 +4114,13 @@ export const RegisterSubscriberIntegratorsResponse = GoogleCloudChannelV1Registe
 
 export type RegisterSubscriberIntegratorsError = CommonErrors;
 
+/** Registers a service account with subscriber privileges on the Pub/Sub topic for this Channel Services account or integrator. After you create a subscriber, you get the events through SubscriberEvent Possible error codes: * PERMISSION_DENIED: The reseller account making the request and the provided reseller account are different, or the impersonated user is not a super admin. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The topic name with the registered service email address. */
 export const registerSubscriberIntegrators: API.OperationMethod<RegisterSubscriberIntegratorsRequest, RegisterSubscriberIntegratorsResponse, RegisterSubscriberIntegratorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RegisterSubscriberIntegratorsRequest,
   output: RegisterSubscriberIntegratorsResponse,
   errors: [],
 }));
 
-/** Unregisters a service account with subscriber privileges on the Pub/Sub topic created for this Channel Services account or integrator. If there are no service accounts left with subscriber privileges, this deletes the topic. You can call ListSubscribers to check for these accounts. Possible error codes: * PERMISSION_DENIED: The reseller account making the request and the provided reseller account are different, or the impersonated user is not a super admin. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: The topic resource doesn't exist. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The topic name that unregistered the service email address. Returns a success response if the service email address wasn't registered with the topic. */
 export interface UnregisterSubscriberIntegratorsRequest {
   /** Optional. Resource name of the integrator. Required if account is not provided. Otherwise, leave this field empty/unset. */
   integrator: string;
@@ -4142,13 +4141,13 @@ export const UnregisterSubscriberIntegratorsResponse = GoogleCloudChannelV1Unreg
 
 export type UnregisterSubscriberIntegratorsError = CommonErrors;
 
+/** Unregisters a service account with subscriber privileges on the Pub/Sub topic created for this Channel Services account or integrator. If there are no service accounts left with subscriber privileges, this deletes the topic. You can call ListSubscribers to check for these accounts. Possible error codes: * PERMISSION_DENIED: The reseller account making the request and the provided reseller account are different, or the impersonated user is not a super admin. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: The topic resource doesn't exist. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: The topic name that unregistered the service email address. Returns a success response if the service email address wasn't registered with the topic. */
 export const unregisterSubscriberIntegrators: API.OperationMethod<UnregisterSubscriberIntegratorsRequest, UnregisterSubscriberIntegratorsResponse, UnregisterSubscriberIntegratorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UnregisterSubscriberIntegratorsRequest,
   output: UnregisterSubscriberIntegratorsResponse,
   errors: [],
 }));
 
-/** Lists service accounts with subscriber privileges on the Pub/Sub topic created for this Channel Services account or integrator. Possible error codes: * PERMISSION_DENIED: The reseller account making the request and the provided reseller account are different, or the impersonated user is not a super admin. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: The topic resource doesn't exist. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: A list of service email addresses. */
 export interface ListSubscribersIntegratorsRequest {
   /** Optional. Resource name of the integrator. Required if account is not provided. Otherwise, leave this field empty/unset. */
   integrator: string;
@@ -4175,7 +4174,8 @@ export const ListSubscribersIntegratorsResponse = GoogleCloudChannelV1ListSubscr
 
 export type ListSubscribersIntegratorsError = CommonErrors;
 
-export const listSubscribersIntegrators = API.makePaginated(() => ({
+/** Lists service accounts with subscriber privileges on the Pub/Sub topic created for this Channel Services account or integrator. Possible error codes: * PERMISSION_DENIED: The reseller account making the request and the provided reseller account are different, or the impersonated user is not a super admin. * INVALID_ARGUMENT: Required request parameters are missing or invalid. * NOT_FOUND: The topic resource doesn't exist. * INTERNAL: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error related to a technical issue in the backend. Contact Cloud Channel support. Return value: A list of service email addresses. */
+export const listSubscribersIntegrators: API.PaginatedOperationMethod<ListSubscribersIntegratorsRequest, ListSubscribersIntegratorsResponse, ListSubscribersIntegratorsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListSubscribersIntegratorsRequest,
   output: ListSubscribersIntegratorsResponse,
   errors: [],

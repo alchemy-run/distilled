@@ -153,7 +153,6 @@ export const SignSshPublicKeyRequest: Schema.Schema<SignSshPublicKeyRequest> = S
 // Operations
 // ==========================================================================
 
-/** Adds an SSH public key and returns the profile information. Default POSIX account information is set when no username and UID exist as part of the login profile. */
 export interface ImportSshPublicKeyUsersRequest {
   /** Required. The unique ID for the user in format `users/{user}`. */
   parent: string;
@@ -180,13 +179,13 @@ export const ImportSshPublicKeyUsersResponse = ImportSshPublicKeyResponse;
 
 export type ImportSshPublicKeyUsersError = CommonErrors;
 
+/** Adds an SSH public key and returns the profile information. Default POSIX account information is set when no username and UID exist as part of the login profile. */
 export const importSshPublicKeyUsers: API.OperationMethod<ImportSshPublicKeyUsersRequest, ImportSshPublicKeyUsersResponse, ImportSshPublicKeyUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportSshPublicKeyUsersRequest,
   output: ImportSshPublicKeyUsersResponse,
   errors: [],
 }));
 
-/** Retrieves the profile information used for logging in to a virtual machine on Google Compute Engine. */
 export interface GetLoginProfileUsersRequest {
   /** Required. The project ID of the Google Cloud Platform project. */
   projectId?: string;
@@ -210,13 +209,13 @@ export const GetLoginProfileUsersResponse = LoginProfile;
 
 export type GetLoginProfileUsersError = CommonErrors;
 
+/** Retrieves the profile information used for logging in to a virtual machine on Google Compute Engine. */
 export const getLoginProfileUsers: API.OperationMethod<GetLoginProfileUsersRequest, GetLoginProfileUsersResponse, GetLoginProfileUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetLoginProfileUsersRequest,
   output: GetLoginProfileUsersResponse,
   errors: [],
 }));
 
-/** Deletes a POSIX account. */
 export interface DeleteUsersProjectsRequest {
   /** Required. A reference to the POSIX account to update. POSIX accounts are identified by the project ID they are associated with. A reference to the POSIX account is in format `users/{user}/projects/{project}`. */
   name: string;
@@ -234,13 +233,13 @@ export const DeleteUsersProjectsResponse = Empty;
 
 export type DeleteUsersProjectsError = CommonErrors;
 
+/** Deletes a POSIX account. */
 export const deleteUsersProjects: API.OperationMethod<DeleteUsersProjectsRequest, DeleteUsersProjectsResponse, DeleteUsersProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteUsersProjectsRequest,
   output: DeleteUsersProjectsResponse,
   errors: [],
 }));
 
-/** Adds a POSIX account and returns the profile information. Default POSIX account information is set when no username and UID exist as part of the login profile. */
 export interface ProvisionPosixAccountUsersProjectsRequest {
   /** Required. The unique ID for the user in format `users/{user}/projects/{project}`. */
   name: string;
@@ -261,13 +260,13 @@ export const ProvisionPosixAccountUsersProjectsResponse = PosixAccount;
 
 export type ProvisionPosixAccountUsersProjectsError = CommonErrors;
 
+/** Adds a POSIX account and returns the profile information. Default POSIX account information is set when no username and UID exist as part of the login profile. */
 export const provisionPosixAccountUsersProjects: API.OperationMethod<ProvisionPosixAccountUsersProjectsRequest, ProvisionPosixAccountUsersProjectsResponse, ProvisionPosixAccountUsersProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ProvisionPosixAccountUsersProjectsRequest,
   output: ProvisionPosixAccountUsersProjectsResponse,
   errors: [],
 }));
 
-/** Create an SSH public key */
 export interface CreateUsersSshPublicKeysRequest {
   /** Required. The unique ID for the user in format `users/{user}`. */
   parent: string;
@@ -288,13 +287,13 @@ export const CreateUsersSshPublicKeysResponse = SshPublicKey;
 
 export type CreateUsersSshPublicKeysError = CommonErrors;
 
+/** Create an SSH public key */
 export const createUsersSshPublicKeys: API.OperationMethod<CreateUsersSshPublicKeysRequest, CreateUsersSshPublicKeysResponse, CreateUsersSshPublicKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateUsersSshPublicKeysRequest,
   output: CreateUsersSshPublicKeysResponse,
   errors: [],
 }));
 
-/** Updates an SSH public key and returns the profile information. This method supports patch semantics. */
 export interface PatchUsersSshPublicKeysRequest {
   /** Optional. Mask to control which fields get updated. Updates all if not present. */
   updateMask?: string;
@@ -318,13 +317,13 @@ export const PatchUsersSshPublicKeysResponse = SshPublicKey;
 
 export type PatchUsersSshPublicKeysError = CommonErrors;
 
+/** Updates an SSH public key and returns the profile information. This method supports patch semantics. */
 export const patchUsersSshPublicKeys: API.OperationMethod<PatchUsersSshPublicKeysRequest, PatchUsersSshPublicKeysResponse, PatchUsersSshPublicKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchUsersSshPublicKeysRequest,
   output: PatchUsersSshPublicKeysResponse,
   errors: [],
 }));
 
-/** Deletes an SSH public key. */
 export interface DeleteUsersSshPublicKeysRequest {
   /** Required. The fingerprint of the public key to update. Public keys are identified by their SHA-256 fingerprint. The fingerprint of the public key is in format `users/{user}/sshPublicKeys/{fingerprint}`. */
   name: string;
@@ -342,13 +341,13 @@ export const DeleteUsersSshPublicKeysResponse = Empty;
 
 export type DeleteUsersSshPublicKeysError = CommonErrors;
 
+/** Deletes an SSH public key. */
 export const deleteUsersSshPublicKeys: API.OperationMethod<DeleteUsersSshPublicKeysRequest, DeleteUsersSshPublicKeysResponse, DeleteUsersSshPublicKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteUsersSshPublicKeysRequest,
   output: DeleteUsersSshPublicKeysResponse,
   errors: [],
 }));
 
-/** Retrieves an SSH public key. */
 export interface GetUsersSshPublicKeysRequest {
   /** Required. The fingerprint of the public key to retrieve. Public keys are identified by their SHA-256 fingerprint. The fingerprint of the public key is in format `users/{user}/sshPublicKeys/{fingerprint}`. */
   name: string;
@@ -366,13 +365,13 @@ export const GetUsersSshPublicKeysResponse = SshPublicKey;
 
 export type GetUsersSshPublicKeysError = CommonErrors;
 
+/** Retrieves an SSH public key. */
 export const getUsersSshPublicKeys: API.OperationMethod<GetUsersSshPublicKeysRequest, GetUsersSshPublicKeysResponse, GetUsersSshPublicKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetUsersSshPublicKeysRequest,
   output: GetUsersSshPublicKeysResponse,
   errors: [],
 }));
 
-/** Signs an SSH public key for a user to authenticate to a virtual machine on Google Compute Engine. */
 export interface SignSshPublicKeyProjectsLocationsRequest {
   /** Required. The parent for the signing request. Format: projects/{project}/locations/{location} */
   parent: string;
@@ -393,6 +392,7 @@ export const SignSshPublicKeyProjectsLocationsResponse = SignSshPublicKeyRespons
 
 export type SignSshPublicKeyProjectsLocationsError = CommonErrors;
 
+/** Signs an SSH public key for a user to authenticate to a virtual machine on Google Compute Engine. */
 export const signSshPublicKeyProjectsLocations: API.OperationMethod<SignSshPublicKeyProjectsLocationsRequest, SignSshPublicKeyProjectsLocationsResponse, SignSshPublicKeyProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SignSshPublicKeyProjectsLocationsRequest,
   output: SignSshPublicKeyProjectsLocationsResponse,

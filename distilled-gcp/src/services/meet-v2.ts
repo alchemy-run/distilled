@@ -408,7 +408,6 @@ export const ListTranscriptEntriesResponse: Schema.Schema<ListTranscriptEntriesR
 // Operations
 // ==========================================================================
 
-/** Creates a space. */
 export interface CreateSpacesRequest {
   /** Request body */
   body?: Space;
@@ -426,13 +425,13 @@ export const CreateSpacesResponse = Space;
 
 export type CreateSpacesError = CommonErrors;
 
+/** Creates a space. */
 export const createSpaces: API.OperationMethod<CreateSpacesRequest, CreateSpacesResponse, CreateSpacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateSpacesRequest,
   output: CreateSpacesResponse,
   errors: [],
 }));
 
-/** Gets details about a meeting space. For an example, see [Get a meeting space](https://developers.google.com/workspace/meet/api/guides/meeting-spaces#get-meeting-space). */
 export interface GetSpacesRequest {
   /** Required. Resource name of the space. Format: `spaces/{space}` or `spaces/{meetingCode}`. `{space}` is the resource identifier for the space. It's a unique, server-generated ID and is case sensitive. For example, `jQCFfuBOdN5z`. `{meetingCode}` is an alias for the space. It's a typeable, unique character string and is non-case sensitive. For example, `abc-mnop-xyz`. The maximum length is 128 characters. A `meetingCode` shouldn't be stored long term as it can become dissociated from a meeting space and can be reused for different meeting spaces in the future. Generally, a `meetingCode` expires 365 days after last use. For more information, see [Learn about meeting codes in Google Meet](https://support.google.com/meet/answer/10710509). For more information, see [How Meet identifies a meeting space](https://developers.google.com/workspace/meet/api/guides/meeting-spaces#identify-meeting-space). */
   name: string;
@@ -450,13 +449,13 @@ export const GetSpacesResponse = Space;
 
 export type GetSpacesError = CommonErrors;
 
+/** Gets details about a meeting space. For an example, see [Get a meeting space](https://developers.google.com/workspace/meet/api/guides/meeting-spaces#get-meeting-space). */
 export const getSpaces: API.OperationMethod<GetSpacesRequest, GetSpacesResponse, GetSpacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSpacesRequest,
   output: GetSpacesResponse,
   errors: [],
 }));
 
-/** Updates details about a meeting space. For an example, see [Update a meeting space](https://developers.google.com/workspace/meet/api/guides/meeting-spaces#update-meeting-space). */
 export interface PatchSpacesRequest {
   /** Immutable. Resource name of the space. Format: `spaces/{space}`. `{space}` is the resource identifier for the space. It's a unique, server-generated ID and is case sensitive. For example, `jQCFfuBOdN5z`. For more information, see [How Meet identifies a meeting space](https://developers.google.com/workspace/meet/api/guides/meeting-spaces#identify-meeting-space). */
   name: string;
@@ -480,13 +479,13 @@ export const PatchSpacesResponse = Space;
 
 export type PatchSpacesError = CommonErrors;
 
+/** Updates details about a meeting space. For an example, see [Update a meeting space](https://developers.google.com/workspace/meet/api/guides/meeting-spaces#update-meeting-space). */
 export const patchSpaces: API.OperationMethod<PatchSpacesRequest, PatchSpacesResponse, PatchSpacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchSpacesRequest,
   output: PatchSpacesResponse,
   errors: [],
 }));
 
-/** Ends an active conference (if there's one). For an example, see [End active conference](https://developers.google.com/workspace/meet/api/guides/meeting-spaces#end-active-conference). */
 export interface EndActiveConferenceSpacesRequest {
   /** Required. Resource name of the space. Format: `spaces/{space}`. `{space}` is the resource identifier for the space. It's a unique, server-generated ID and is case sensitive. For example, `jQCFfuBOdN5z`. For more information, see [How Meet identifies a meeting space](https://developers.google.com/workspace/meet/api/guides/meeting-spaces#identify-meeting-space). */
   name: string;
@@ -507,13 +506,13 @@ export const EndActiveConferenceSpacesResponse = Empty;
 
 export type EndActiveConferenceSpacesError = CommonErrors;
 
+/** Ends an active conference (if there's one). For an example, see [End active conference](https://developers.google.com/workspace/meet/api/guides/meeting-spaces#end-active-conference). */
 export const endActiveConferenceSpaces: API.OperationMethod<EndActiveConferenceSpacesRequest, EndActiveConferenceSpacesResponse, EndActiveConferenceSpacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EndActiveConferenceSpacesRequest,
   output: EndActiveConferenceSpacesResponse,
   errors: [],
 }));
 
-/** Gets a conference record by conference ID. */
 export interface GetConferenceRecordsRequest {
   /** Required. Resource name of the conference. */
   name: string;
@@ -531,13 +530,13 @@ export const GetConferenceRecordsResponse = ConferenceRecord;
 
 export type GetConferenceRecordsError = CommonErrors;
 
+/** Gets a conference record by conference ID. */
 export const getConferenceRecords: API.OperationMethod<GetConferenceRecordsRequest, GetConferenceRecordsResponse, GetConferenceRecordsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetConferenceRecordsRequest,
   output: GetConferenceRecordsResponse,
   errors: [],
 }));
 
-/** Lists the conference records. By default, ordered by start time and in descending order. */
 export interface ListConferenceRecordsRequest {
   /** Optional. Maximum number of conference records to return. The service might return fewer than this value. If unspecified, at most 25 conference records are returned. The maximum value is 100; values above 100 are coerced to 100. Maximum might change in the future. */
   pageSize?: number;
@@ -561,7 +560,8 @@ export const ListConferenceRecordsResponse_Op = ListConferenceRecordsResponse;
 
 export type ListConferenceRecordsError = CommonErrors;
 
-export const listConferenceRecords = API.makePaginated(() => ({
+/** Lists the conference records. By default, ordered by start time and in descending order. */
+export const listConferenceRecords: API.PaginatedOperationMethod<ListConferenceRecordsRequest, ListConferenceRecordsResponse_Op, ListConferenceRecordsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListConferenceRecordsRequest,
   output: ListConferenceRecordsResponse_Op,
   errors: [],
@@ -571,7 +571,6 @@ export const listConferenceRecords = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a participant by participant ID. */
 export interface GetConferenceRecordsParticipantsRequest {
   /** Required. Resource name of the participant. */
   name: string;
@@ -589,13 +588,13 @@ export const GetConferenceRecordsParticipantsResponse = Participant;
 
 export type GetConferenceRecordsParticipantsError = CommonErrors;
 
+/** Gets a participant by participant ID. */
 export const getConferenceRecordsParticipants: API.OperationMethod<GetConferenceRecordsParticipantsRequest, GetConferenceRecordsParticipantsResponse, GetConferenceRecordsParticipantsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetConferenceRecordsParticipantsRequest,
   output: GetConferenceRecordsParticipantsResponse,
   errors: [],
 }));
 
-/** Lists the participants in a conference record. By default, ordered by join time and in descending order. This API supports `fields` as standard parameters like every other API. However, when the `fields` request parameter is omitted, this API defaults to `'participants/*, next_page_token'`. */
 export interface ListConferenceRecordsParticipantsRequest {
   /** Required. Format: `conferenceRecords/{conference_record}` */
   parent: string;
@@ -622,7 +621,8 @@ export const ListConferenceRecordsParticipantsResponse = ListParticipantsRespons
 
 export type ListConferenceRecordsParticipantsError = CommonErrors;
 
-export const listConferenceRecordsParticipants = API.makePaginated(() => ({
+/** Lists the participants in a conference record. By default, ordered by join time and in descending order. This API supports `fields` as standard parameters like every other API. However, when the `fields` request parameter is omitted, this API defaults to `'participants/*, next_page_token'`. */
+export const listConferenceRecordsParticipants: API.PaginatedOperationMethod<ListConferenceRecordsParticipantsRequest, ListConferenceRecordsParticipantsResponse, ListConferenceRecordsParticipantsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListConferenceRecordsParticipantsRequest,
   output: ListConferenceRecordsParticipantsResponse,
   errors: [],
@@ -632,7 +632,6 @@ export const listConferenceRecordsParticipants = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a participant session by participant session ID. */
 export interface GetConferenceRecordsParticipantsParticipantSessionsRequest {
   /** Required. Resource name of the participant. */
   name: string;
@@ -650,13 +649,13 @@ export const GetConferenceRecordsParticipantsParticipantSessionsResponse = Parti
 
 export type GetConferenceRecordsParticipantsParticipantSessionsError = CommonErrors;
 
+/** Gets a participant session by participant session ID. */
 export const getConferenceRecordsParticipantsParticipantSessions: API.OperationMethod<GetConferenceRecordsParticipantsParticipantSessionsRequest, GetConferenceRecordsParticipantsParticipantSessionsResponse, GetConferenceRecordsParticipantsParticipantSessionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetConferenceRecordsParticipantsParticipantSessionsRequest,
   output: GetConferenceRecordsParticipantsParticipantSessionsResponse,
   errors: [],
 }));
 
-/** Lists the participant sessions of a participant in a conference record. By default, ordered by join time and in descending order. This API supports `fields` as standard parameters like every other API. However, when the `fields` request parameter is omitted this API defaults to `'participantsessions/*, next_page_token'`. */
 export interface ListConferenceRecordsParticipantsParticipantSessionsRequest {
   /** Required. Format: `conferenceRecords/{conference_record}/participants/{participant}` */
   parent: string;
@@ -683,7 +682,8 @@ export const ListConferenceRecordsParticipantsParticipantSessionsResponse = List
 
 export type ListConferenceRecordsParticipantsParticipantSessionsError = CommonErrors;
 
-export const listConferenceRecordsParticipantsParticipantSessions = API.makePaginated(() => ({
+/** Lists the participant sessions of a participant in a conference record. By default, ordered by join time and in descending order. This API supports `fields` as standard parameters like every other API. However, when the `fields` request parameter is omitted this API defaults to `'participantsessions/*, next_page_token'`. */
+export const listConferenceRecordsParticipantsParticipantSessions: API.PaginatedOperationMethod<ListConferenceRecordsParticipantsParticipantSessionsRequest, ListConferenceRecordsParticipantsParticipantSessionsResponse, ListConferenceRecordsParticipantsParticipantSessionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListConferenceRecordsParticipantsParticipantSessionsRequest,
   output: ListConferenceRecordsParticipantsParticipantSessionsResponse,
   errors: [],
@@ -693,7 +693,6 @@ export const listConferenceRecordsParticipantsParticipantSessions = API.makePagi
   },
 }));
 
-/** Gets a recording by recording ID. */
 export interface GetConferenceRecordsRecordingsRequest {
   /** Required. Resource name of the recording. */
   name: string;
@@ -711,13 +710,13 @@ export const GetConferenceRecordsRecordingsResponse = Recording;
 
 export type GetConferenceRecordsRecordingsError = CommonErrors;
 
+/** Gets a recording by recording ID. */
 export const getConferenceRecordsRecordings: API.OperationMethod<GetConferenceRecordsRecordingsRequest, GetConferenceRecordsRecordingsResponse, GetConferenceRecordsRecordingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetConferenceRecordsRecordingsRequest,
   output: GetConferenceRecordsRecordingsResponse,
   errors: [],
 }));
 
-/** Lists the recording resources from the conference record. By default, ordered by start time and in ascending order. */
 export interface ListConferenceRecordsRecordingsRequest {
   /** Required. Format: `conferenceRecords/{conference_record}` */
   parent: string;
@@ -741,7 +740,8 @@ export const ListConferenceRecordsRecordingsResponse = ListRecordingsResponse;
 
 export type ListConferenceRecordsRecordingsError = CommonErrors;
 
-export const listConferenceRecordsRecordings = API.makePaginated(() => ({
+/** Lists the recording resources from the conference record. By default, ordered by start time and in ascending order. */
+export const listConferenceRecordsRecordings: API.PaginatedOperationMethod<ListConferenceRecordsRecordingsRequest, ListConferenceRecordsRecordingsResponse, ListConferenceRecordsRecordingsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListConferenceRecordsRecordingsRequest,
   output: ListConferenceRecordsRecordingsResponse,
   errors: [],
@@ -751,7 +751,6 @@ export const listConferenceRecordsRecordings = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a transcript by transcript ID. */
 export interface GetConferenceRecordsTranscriptsRequest {
   /** Required. Resource name of the transcript. */
   name: string;
@@ -769,13 +768,13 @@ export const GetConferenceRecordsTranscriptsResponse = Transcript;
 
 export type GetConferenceRecordsTranscriptsError = CommonErrors;
 
+/** Gets a transcript by transcript ID. */
 export const getConferenceRecordsTranscripts: API.OperationMethod<GetConferenceRecordsTranscriptsRequest, GetConferenceRecordsTranscriptsResponse, GetConferenceRecordsTranscriptsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetConferenceRecordsTranscriptsRequest,
   output: GetConferenceRecordsTranscriptsResponse,
   errors: [],
 }));
 
-/** Lists the set of transcripts from the conference record. By default, ordered by start time and in ascending order. */
 export interface ListConferenceRecordsTranscriptsRequest {
   /** Required. Format: `conferenceRecords/{conference_record}` */
   parent: string;
@@ -799,7 +798,8 @@ export const ListConferenceRecordsTranscriptsResponse = ListTranscriptsResponse;
 
 export type ListConferenceRecordsTranscriptsError = CommonErrors;
 
-export const listConferenceRecordsTranscripts = API.makePaginated(() => ({
+/** Lists the set of transcripts from the conference record. By default, ordered by start time and in ascending order. */
+export const listConferenceRecordsTranscripts: API.PaginatedOperationMethod<ListConferenceRecordsTranscriptsRequest, ListConferenceRecordsTranscriptsResponse, ListConferenceRecordsTranscriptsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListConferenceRecordsTranscriptsRequest,
   output: ListConferenceRecordsTranscriptsResponse,
   errors: [],
@@ -809,7 +809,6 @@ export const listConferenceRecordsTranscripts = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a `TranscriptEntry` resource by entry ID. Note: The transcript entries returned by the Google Meet API might not match the transcription found in the Google Docs transcript file. This can occur when 1) we have interleaved speakers within milliseconds, or 2) the Google Docs transcript file is modified after generation. */
 export interface GetConferenceRecordsTranscriptsEntriesRequest {
   /** Required. Resource name of the `TranscriptEntry`. */
   name: string;
@@ -827,13 +826,13 @@ export const GetConferenceRecordsTranscriptsEntriesResponse = TranscriptEntry;
 
 export type GetConferenceRecordsTranscriptsEntriesError = CommonErrors;
 
+/** Gets a `TranscriptEntry` resource by entry ID. Note: The transcript entries returned by the Google Meet API might not match the transcription found in the Google Docs transcript file. This can occur when 1) we have interleaved speakers within milliseconds, or 2) the Google Docs transcript file is modified after generation. */
 export const getConferenceRecordsTranscriptsEntries: API.OperationMethod<GetConferenceRecordsTranscriptsEntriesRequest, GetConferenceRecordsTranscriptsEntriesResponse, GetConferenceRecordsTranscriptsEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetConferenceRecordsTranscriptsEntriesRequest,
   output: GetConferenceRecordsTranscriptsEntriesResponse,
   errors: [],
 }));
 
-/** Lists the structured transcript entries per transcript. By default, ordered by start time and in ascending order. Note: The transcript entries returned by the Google Meet API might not match the transcription found in the Google Docs transcript file. This can occur when 1) we have interleaved speakers within milliseconds, or 2) the Google Docs transcript file is modified after generation. */
 export interface ListConferenceRecordsTranscriptsEntriesRequest {
   /** Required. Format: `conferenceRecords/{conference_record}/transcripts/{transcript}` */
   parent: string;
@@ -857,7 +856,8 @@ export const ListConferenceRecordsTranscriptsEntriesResponse = ListTranscriptEnt
 
 export type ListConferenceRecordsTranscriptsEntriesError = CommonErrors;
 
-export const listConferenceRecordsTranscriptsEntries = API.makePaginated(() => ({
+/** Lists the structured transcript entries per transcript. By default, ordered by start time and in ascending order. Note: The transcript entries returned by the Google Meet API might not match the transcription found in the Google Docs transcript file. This can occur when 1) we have interleaved speakers within milliseconds, or 2) the Google Docs transcript file is modified after generation. */
+export const listConferenceRecordsTranscriptsEntries: API.PaginatedOperationMethod<ListConferenceRecordsTranscriptsEntriesRequest, ListConferenceRecordsTranscriptsEntriesResponse, ListConferenceRecordsTranscriptsEntriesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListConferenceRecordsTranscriptsEntriesRequest,
   output: ListConferenceRecordsTranscriptsEntriesResponse,
   errors: [],

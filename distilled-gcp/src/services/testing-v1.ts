@@ -1454,7 +1454,6 @@ export const TestEnvironmentCatalog: Schema.Schema<TestEnvironmentCatalog> = Sch
 // Operations
 // ==========================================================================
 
-/** Creates and runs a matrix of tests according to the given specifications. Unsupported environments will be returned in the state UNSUPPORTED. A test matrix is limited to use at most 2000 devices in parallel. The returned matrix will not yet contain the executions that will be created for this matrix. Execution creation happens later on and will require a call to GetTestMatrix. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to write to project - INVALID_ARGUMENT - if the request is malformed or if the matrix tries to use too many simultaneous devices. */
 export interface CreateProjectsTestMatricesRequest {
   /** The GCE project under which this job will run. */
   projectId: string;
@@ -1478,13 +1477,13 @@ export const CreateProjectsTestMatricesResponse = TestMatrix;
 
 export type CreateProjectsTestMatricesError = CommonErrors;
 
+/** Creates and runs a matrix of tests according to the given specifications. Unsupported environments will be returned in the state UNSUPPORTED. A test matrix is limited to use at most 2000 devices in parallel. The returned matrix will not yet contain the executions that will be created for this matrix. Execution creation happens later on and will require a call to GetTestMatrix. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to write to project - INVALID_ARGUMENT - if the request is malformed or if the matrix tries to use too many simultaneous devices. */
 export const createProjectsTestMatrices: API.OperationMethod<CreateProjectsTestMatricesRequest, CreateProjectsTestMatricesResponse, CreateProjectsTestMatricesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsTestMatricesRequest,
   output: CreateProjectsTestMatricesResponse,
   errors: [],
 }));
 
-/** Checks the status of a test matrix and the executions once they are created. The test matrix will contain the list of test executions to run if and only if the resultStorage.toolResultsExecution fields have been populated. Note: Flaky test executions may be added to the matrix at a later stage. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to read project - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the Test Matrix does not exist */
 export interface GetProjectsTestMatricesRequest {
   /** Cloud project that owns the test matrix. */
   projectId: string;
@@ -1505,13 +1504,13 @@ export const GetProjectsTestMatricesResponse = TestMatrix;
 
 export type GetProjectsTestMatricesError = CommonErrors;
 
+/** Checks the status of a test matrix and the executions once they are created. The test matrix will contain the list of test executions to run if and only if the resultStorage.toolResultsExecution fields have been populated. Note: Flaky test executions may be added to the matrix at a later stage. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to read project - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the Test Matrix does not exist */
 export const getProjectsTestMatrices: API.OperationMethod<GetProjectsTestMatricesRequest, GetProjectsTestMatricesResponse, GetProjectsTestMatricesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsTestMatricesRequest,
   output: GetProjectsTestMatricesResponse,
   errors: [],
 }));
 
-/** Cancels unfinished test executions in a test matrix. This call returns immediately and cancellation proceeds asynchronously. If the matrix is already final, this operation will have no effect. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to read project - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the Test Matrix does not exist */
 export interface CancelProjectsTestMatricesRequest {
   /** Cloud project that owns the test. */
   projectId: string;
@@ -1532,13 +1531,13 @@ export const CancelProjectsTestMatricesResponse = CancelTestMatrixResponse;
 
 export type CancelProjectsTestMatricesError = CommonErrors;
 
+/** Cancels unfinished test executions in a test matrix. This call returns immediately and cancellation proceeds asynchronously. If the matrix is already final, this operation will have no effect. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to read project - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the Test Matrix does not exist */
 export const cancelProjectsTestMatrices: API.OperationMethod<CancelProjectsTestMatricesRequest, CancelProjectsTestMatricesResponse, CancelProjectsTestMatricesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsTestMatricesRequest,
   output: CancelProjectsTestMatricesResponse,
   errors: [],
 }));
 
-/** POST /v1/projects/{project_id}/deviceSessions */
 export interface CreateProjectsDeviceSessionsRequest {
   /** Required. The Compute Engine project under which this device will be allocated. "projects/{project_id}" */
   parent: string;
@@ -1559,13 +1558,13 @@ export const CreateProjectsDeviceSessionsResponse = DeviceSession;
 
 export type CreateProjectsDeviceSessionsError = CommonErrors;
 
+/** POST /v1/projects/{project_id}/deviceSessions */
 export const createProjectsDeviceSessions: API.OperationMethod<CreateProjectsDeviceSessionsRequest, CreateProjectsDeviceSessionsResponse, CreateProjectsDeviceSessionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsDeviceSessionsRequest,
   output: CreateProjectsDeviceSessionsResponse,
   errors: [],
 }));
 
-/** GET /v1/projects/{project_id}/deviceSessions Lists device Sessions owned by the project user. */
 export interface ListProjectsDeviceSessionsRequest {
   /** Required. The name of the parent to request, e.g. "projects/{project_id}" */
   parent: string;
@@ -1592,7 +1591,8 @@ export const ListProjectsDeviceSessionsResponse = ListDeviceSessionsResponse;
 
 export type ListProjectsDeviceSessionsError = CommonErrors;
 
-export const listProjectsDeviceSessions = API.makePaginated(() => ({
+/** GET /v1/projects/{project_id}/deviceSessions Lists device Sessions owned by the project user. */
+export const listProjectsDeviceSessions: API.PaginatedOperationMethod<ListProjectsDeviceSessionsRequest, ListProjectsDeviceSessionsResponse, ListProjectsDeviceSessionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsDeviceSessionsRequest,
   output: ListProjectsDeviceSessionsResponse,
   errors: [],
@@ -1602,7 +1602,6 @@ export const listProjectsDeviceSessions = API.makePaginated(() => ({
   },
 }));
 
-/** GET /v1/projects/{project_id}/deviceSessions/{device_session_id} Return a DeviceSession, which documents the allocation status and whether the device is allocated. Clients making requests from this API must poll GetDeviceSession. */
 export interface GetProjectsDeviceSessionsRequest {
   /** Required. Name of the DeviceSession, e.g. "projects/{project_id}/deviceSessions/{session_id}" */
   name: string;
@@ -1620,13 +1619,13 @@ export const GetProjectsDeviceSessionsResponse = DeviceSession;
 
 export type GetProjectsDeviceSessionsError = CommonErrors;
 
+/** GET /v1/projects/{project_id}/deviceSessions/{device_session_id} Return a DeviceSession, which documents the allocation status and whether the device is allocated. Clients making requests from this API must poll GetDeviceSession. */
 export const getProjectsDeviceSessions: API.OperationMethod<GetProjectsDeviceSessionsRequest, GetProjectsDeviceSessionsResponse, GetProjectsDeviceSessionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsDeviceSessionsRequest,
   output: GetProjectsDeviceSessionsResponse,
   errors: [],
 }));
 
-/** POST /v1/projects/{project_id}/deviceSessions/{device_session_id}:cancel Changes the DeviceSession to state FINISHED and terminates all connections. Canceled sessions are not deleted and can be retrieved or listed by the user until they expire based on the 28 day deletion policy. */
 export interface CancelProjectsDeviceSessionsRequest {
   /** Required. Name of the DeviceSession, e.g. "projects/{project_id}/deviceSessions/{session_id}" */
   name: string;
@@ -1647,13 +1646,13 @@ export const CancelProjectsDeviceSessionsResponse = Empty;
 
 export type CancelProjectsDeviceSessionsError = CommonErrors;
 
+/** POST /v1/projects/{project_id}/deviceSessions/{device_session_id}:cancel Changes the DeviceSession to state FINISHED and terminates all connections. Canceled sessions are not deleted and can be retrieved or listed by the user until they expire based on the 28 day deletion policy. */
 export const cancelProjectsDeviceSessions: API.OperationMethod<CancelProjectsDeviceSessionsRequest, CancelProjectsDeviceSessionsResponse, CancelProjectsDeviceSessionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsDeviceSessionsRequest,
   output: CancelProjectsDeviceSessionsResponse,
   errors: [],
 }));
 
-/** PATCH /v1/projects/{projectId}/deviceSessions/deviceSessionId}:updateDeviceSession Updates the current device session to the fields described by the update_mask. */
 export interface PatchProjectsDeviceSessionsRequest {
   /** Optional. Name of the DeviceSession, e.g. "projects/{project_id}/deviceSessions/{session_id}" */
   name: string;
@@ -1677,13 +1676,13 @@ export const PatchProjectsDeviceSessionsResponse = DeviceSession;
 
 export type PatchProjectsDeviceSessionsError = CommonErrors;
 
+/** PATCH /v1/projects/{projectId}/deviceSessions/deviceSessionId}:updateDeviceSession Updates the current device session to the fields described by the update_mask. */
 export const patchProjectsDeviceSessions: API.OperationMethod<PatchProjectsDeviceSessionsRequest, PatchProjectsDeviceSessionsResponse, PatchProjectsDeviceSessionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsDeviceSessionsRequest,
   output: PatchProjectsDeviceSessionsResponse,
   errors: [],
 }));
 
-/** Gets the details of an Android application APK. */
 export interface GetApkDetailsApplicationDetailServiceRequest {
   /** A path to a file in Google Cloud Storage. Example: gs://build-app-1414623860166/app%40debug-unaligned.apk These paths are expected to be url encoded (percent encoding) */
   "bundleLocation.gcsPath"?: string;
@@ -1704,13 +1703,13 @@ export const GetApkDetailsApplicationDetailServiceResponse = GetApkDetailsRespon
 
 export type GetApkDetailsApplicationDetailServiceError = CommonErrors;
 
+/** Gets the details of an Android application APK. */
 export const getApkDetailsApplicationDetailService: API.OperationMethod<GetApkDetailsApplicationDetailServiceRequest, GetApkDetailsApplicationDetailServiceResponse, GetApkDetailsApplicationDetailServiceError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetApkDetailsApplicationDetailServiceRequest,
   output: GetApkDetailsApplicationDetailServiceResponse,
   errors: [],
 }));
 
-/** Gets the catalog of supported test environments. May return any of the following canonical error codes: - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the environment type does not exist - INTERNAL - if an internal error occurred */
 export interface GetTestEnvironmentCatalogRequest {
   /** Required. The type of environment that should be listed. */
   environmentType: "ENVIRONMENT_TYPE_UNSPECIFIED" | "ANDROID" | "IOS" | "NETWORK_CONFIGURATION" | "PROVIDED_SOFTWARE" | "DEVICE_IP_BLOCKS" | (string & {});
@@ -1734,6 +1733,7 @@ export const GetTestEnvironmentCatalogResponse = TestEnvironmentCatalog;
 
 export type GetTestEnvironmentCatalogError = CommonErrors;
 
+/** Gets the catalog of supported test environments. May return any of the following canonical error codes: - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the environment type does not exist - INTERNAL - if an internal error occurred */
 export const getTestEnvironmentCatalog: API.OperationMethod<GetTestEnvironmentCatalogRequest, GetTestEnvironmentCatalogResponse, GetTestEnvironmentCatalogError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetTestEnvironmentCatalogRequest,
   output: GetTestEnvironmentCatalogResponse,

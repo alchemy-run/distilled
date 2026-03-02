@@ -381,7 +381,6 @@ export const HttpBody: Schema.Schema<HttpBody> = Schema.suspend(() => Schema.Str
 // Operations
 // ==========================================================================
 
-/** The Current Conditions endpoint provides hourly air quality information in more than 100 countries, up to a 500 x 500 meters resolution. Includes over 70 local indexes and global air quality index and categories. */
 export interface LookupCurrentConditionsRequest_Op {
   /** Request body */
   body?: LookupCurrentConditionsRequest;
@@ -399,13 +398,13 @@ export const LookupCurrentConditionsResponse_Op = LookupCurrentConditionsRespons
 
 export type LookupCurrentConditionsError = CommonErrors;
 
+/** The Current Conditions endpoint provides hourly air quality information in more than 100 countries, up to a 500 x 500 meters resolution. Includes over 70 local indexes and global air quality index and categories. */
 export const lookupCurrentConditions: API.OperationMethod<LookupCurrentConditionsRequest_Op, LookupCurrentConditionsResponse_Op, LookupCurrentConditionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LookupCurrentConditionsRequest_Op,
   output: LookupCurrentConditionsResponse_Op,
   errors: [],
 }));
 
-/** Returns air quality history for a specific location for a given time range. */
 export interface LookupHistoryRequest_Op {
   /** Request body */
   body?: LookupHistoryRequest;
@@ -423,13 +422,13 @@ export const LookupHistoryResponse_Op = LookupHistoryResponse;
 
 export type LookupHistoryError = CommonErrors;
 
+/** Returns air quality history for a specific location for a given time range. */
 export const lookupHistory: API.OperationMethod<LookupHistoryRequest_Op, LookupHistoryResponse_Op, LookupHistoryError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LookupHistoryRequest_Op,
   output: LookupHistoryResponse_Op,
   errors: [],
 }));
 
-/** Returns air quality forecast for a specific location for a given time range. */
 export interface LookupForecastRequest_Op {
   /** Request body */
   body?: LookupForecastRequest;
@@ -447,13 +446,13 @@ export const LookupForecastResponse_Op = LookupForecastResponse;
 
 export type LookupForecastError = CommonErrors;
 
+/** Returns air quality forecast for a specific location for a given time range. */
 export const lookupForecast: API.OperationMethod<LookupForecastRequest_Op, LookupForecastResponse_Op, LookupForecastError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LookupForecastRequest_Op,
   output: LookupForecastResponse_Op,
   errors: [],
 }));
 
-/** Returns a bytes array containing the data of the tile PNG image. */
 export interface LookupHeatmapTileMapTypesHeatmapTilesRequest {
   /** Required. The type of the air quality heatmap. Defines the pollutant that the map will graphically represent. Allowed values: - UAQI_RED_GREEN (UAQI, red-green palette) - UAQI_INDIGO_PERSIAN (UAQI, indigo-persian palette) - PM25_INDIGO_PERSIAN - GBR_DEFRA - DEU_UBA - CAN_EC - FRA_ATMO - US_AQI */
   mapType: "MAP_TYPE_UNSPECIFIED" | "UAQI_RED_GREEN" | "UAQI_INDIGO_PERSIAN" | "PM25_INDIGO_PERSIAN" | "GBR_DEFRA" | "DEU_UBA" | "CAN_EC" | "FRA_ATMO" | "US_AQI" | (string & {});
@@ -480,6 +479,7 @@ export const LookupHeatmapTileMapTypesHeatmapTilesResponse = HttpBody;
 
 export type LookupHeatmapTileMapTypesHeatmapTilesError = CommonErrors;
 
+/** Returns a bytes array containing the data of the tile PNG image. */
 export const lookupHeatmapTileMapTypesHeatmapTiles: API.OperationMethod<LookupHeatmapTileMapTypesHeatmapTilesRequest, LookupHeatmapTileMapTypesHeatmapTilesResponse, LookupHeatmapTileMapTypesHeatmapTilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LookupHeatmapTileMapTypesHeatmapTilesRequest,
   output: LookupHeatmapTileMapTypesHeatmapTilesResponse,

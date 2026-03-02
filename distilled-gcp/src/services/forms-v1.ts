@@ -894,7 +894,6 @@ export const SetPublishSettingsResponse: Schema.Schema<SetPublishSettingsRespons
 // Operations
 // ==========================================================================
 
-/** Create a new form using the title given in the provided form message in the request. *Important:* Only the form.info.title and form.info.document_title fields are copied to the new form. All other fields including the form description, items and settings are disallowed. To create a new form and add items, you must first call forms.create to create an empty form with a title and (optional) document title, and then call forms.update to add the items. */
 export interface CreateFormsRequest {
   /** Optional. Whether the form is unpublished. If set to `true`, the form doesn't accept responses. If set to `false` or unset, the form is published and accepts responses. */
   unpublished?: boolean;
@@ -915,13 +914,13 @@ export const CreateFormsResponse = Form;
 
 export type CreateFormsError = CommonErrors;
 
+/** Create a new form using the title given in the provided form message in the request. *Important:* Only the form.info.title and form.info.document_title fields are copied to the new form. All other fields including the form description, items and settings are disallowed. To create a new form and add items, you must first call forms.create to create an empty form with a title and (optional) document title, and then call forms.update to add the items. */
 export const createForms: API.OperationMethod<CreateFormsRequest, CreateFormsResponse, CreateFormsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateFormsRequest,
   output: CreateFormsResponse,
   errors: [],
 }));
 
-/** Get a form. */
 export interface GetFormsRequest {
   /** Required. The form ID. */
   formId: string;
@@ -939,13 +938,13 @@ export const GetFormsResponse = Form;
 
 export type GetFormsError = CommonErrors;
 
+/** Get a form. */
 export const getForms: API.OperationMethod<GetFormsRequest, GetFormsResponse, GetFormsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFormsRequest,
   output: GetFormsResponse,
   errors: [],
 }));
 
-/** Change the form with a batch of updates. */
 export interface BatchUpdateFormsRequest {
   /** Required. The form ID. */
   formId: string;
@@ -966,13 +965,13 @@ export const BatchUpdateFormsResponse = BatchUpdateFormResponse;
 
 export type BatchUpdateFormsError = CommonErrors;
 
+/** Change the form with a batch of updates. */
 export const batchUpdateForms: API.OperationMethod<BatchUpdateFormsRequest, BatchUpdateFormsResponse, BatchUpdateFormsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchUpdateFormsRequest,
   output: BatchUpdateFormsResponse,
   errors: [],
 }));
 
-/** Updates the publish settings of a form. Legacy forms aren't supported because they don't have the `publish_settings` field. */
 export interface SetPublishSettingsFormsRequest {
   /** Required. The ID of the form. You can get the id from Form.form_id field. */
   formId: string;
@@ -993,13 +992,13 @@ export const SetPublishSettingsFormsResponse = SetPublishSettingsResponse;
 
 export type SetPublishSettingsFormsError = CommonErrors;
 
+/** Updates the publish settings of a form. Legacy forms aren't supported because they don't have the `publish_settings` field. */
 export const setPublishSettingsForms: API.OperationMethod<SetPublishSettingsFormsRequest, SetPublishSettingsFormsResponse, SetPublishSettingsFormsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetPublishSettingsFormsRequest,
   output: SetPublishSettingsFormsResponse,
   errors: [],
 }));
 
-/** Get one response from the form. */
 export interface GetFormsResponsesRequest {
   /** Required. The form ID. */
   formId: string;
@@ -1020,13 +1019,13 @@ export const GetFormsResponsesResponse = FormResponse;
 
 export type GetFormsResponsesError = CommonErrors;
 
+/** Get one response from the form. */
 export const getFormsResponses: API.OperationMethod<GetFormsResponsesRequest, GetFormsResponsesResponse, GetFormsResponsesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFormsResponsesRequest,
   output: GetFormsResponsesResponse,
   errors: [],
 }));
 
-/** List a form's responses. */
 export interface ListFormsResponsesRequest {
   /** Required. ID of the Form whose responses to list. */
   formId: string;
@@ -1053,7 +1052,8 @@ export const ListFormsResponsesResponse = ListFormResponsesResponse;
 
 export type ListFormsResponsesError = CommonErrors;
 
-export const listFormsResponses = API.makePaginated(() => ({
+/** List a form's responses. */
+export const listFormsResponses: API.PaginatedOperationMethod<ListFormsResponsesRequest, ListFormsResponsesResponse, ListFormsResponsesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFormsResponsesRequest,
   output: ListFormsResponsesResponse,
   errors: [],
@@ -1063,7 +1063,6 @@ export const listFormsResponses = API.makePaginated(() => ({
   },
 }));
 
-/** Create a new watch. If a watch ID is provided, it must be unused. For each invoking project, the per form limit is one watch per Watch.EventType. A watch expires seven days after it is created (see Watch.expire_time). */
 export interface CreateFormsWatchesRequest {
   /** Required. ID of the Form to watch. */
   formId: string;
@@ -1084,13 +1083,13 @@ export const CreateFormsWatchesResponse = Watch;
 
 export type CreateFormsWatchesError = CommonErrors;
 
+/** Create a new watch. If a watch ID is provided, it must be unused. For each invoking project, the per form limit is one watch per Watch.EventType. A watch expires seven days after it is created (see Watch.expire_time). */
 export const createFormsWatches: API.OperationMethod<CreateFormsWatchesRequest, CreateFormsWatchesResponse, CreateFormsWatchesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateFormsWatchesRequest,
   output: CreateFormsWatchesResponse,
   errors: [],
 }));
 
-/** Return a list of the watches owned by the invoking project. The maximum number of watches is two: For each invoker, the limit is one for each event type per form. */
 export interface ListFormsWatchesRequest {
   /** Required. ID of the Form whose watches to list. */
   formId: string;
@@ -1108,13 +1107,13 @@ export const ListFormsWatchesResponse = ListWatchesResponse;
 
 export type ListFormsWatchesError = CommonErrors;
 
+/** Return a list of the watches owned by the invoking project. The maximum number of watches is two: For each invoker, the limit is one for each event type per form. */
 export const listFormsWatches: API.OperationMethod<ListFormsWatchesRequest, ListFormsWatchesResponse, ListFormsWatchesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListFormsWatchesRequest,
   output: ListFormsWatchesResponse,
   errors: [],
 }));
 
-/** Renew an existing watch for seven days. The state of the watch after renewal is `ACTIVE`, and the `expire_time` is seven days from the renewal. Renewing a watch in an error state (e.g. `SUSPENDED`) succeeds if the error is no longer present, but fail otherwise. After a watch has expired, RenewWatch returns `NOT_FOUND`. */
 export interface RenewFormsWatchesRequest {
   /** Required. The ID of the Form. */
   formId: string;
@@ -1138,13 +1137,13 @@ export const RenewFormsWatchesResponse = Watch;
 
 export type RenewFormsWatchesError = CommonErrors;
 
+/** Renew an existing watch for seven days. The state of the watch after renewal is `ACTIVE`, and the `expire_time` is seven days from the renewal. Renewing a watch in an error state (e.g. `SUSPENDED`) succeeds if the error is no longer present, but fail otherwise. After a watch has expired, RenewWatch returns `NOT_FOUND`. */
 export const renewFormsWatches: API.OperationMethod<RenewFormsWatchesRequest, RenewFormsWatchesResponse, RenewFormsWatchesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RenewFormsWatchesRequest,
   output: RenewFormsWatchesResponse,
   errors: [],
 }));
 
-/** Delete a watch. */
 export interface DeleteFormsWatchesRequest {
   /** Required. The ID of the Form. */
   formId: string;
@@ -1165,6 +1164,7 @@ export const DeleteFormsWatchesResponse = Empty;
 
 export type DeleteFormsWatchesError = CommonErrors;
 
+/** Delete a watch. */
 export const deleteFormsWatches: API.OperationMethod<DeleteFormsWatchesRequest, DeleteFormsWatchesResponse, DeleteFormsWatchesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteFormsWatchesRequest,
   output: DeleteFormsWatchesResponse,

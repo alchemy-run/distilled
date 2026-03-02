@@ -774,7 +774,6 @@ export const GoogleCloudPolicysimulatorV1ReplayOperationMetadata: Schema.Schema<
 // Operations
 // ==========================================================================
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -792,13 +791,13 @@ export const GetOperationsResponse = GoogleLongrunningOperation;
 
 export type GetOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOperations: API.OperationMethod<GetOperationsRequest, GetOperationsResponse, GetOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListOperationsRequest {
   /** The standard list page size. */
   pageSize?: number;
@@ -828,7 +827,8 @@ export const ListOperationsResponse = GoogleLongrunningListOperationsResponse;
 
 export type ListOperationsError = CommonErrors;
 
-export const listOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listOperations: API.PaginatedOperationMethod<ListOperationsRequest, ListOperationsResponse, ListOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOperationsRequest,
   output: ListOperationsResponse,
   errors: [],
@@ -838,7 +838,6 @@ export const listOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetFoldersLocationsOrgPolicyViolationsPreviewsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -856,13 +855,13 @@ export const GetFoldersLocationsOrgPolicyViolationsPreviewsOperationsResponse = 
 
 export type GetFoldersLocationsOrgPolicyViolationsPreviewsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getFoldersLocationsOrgPolicyViolationsPreviewsOperations: API.OperationMethod<GetFoldersLocationsOrgPolicyViolationsPreviewsOperationsRequest, GetFoldersLocationsOrgPolicyViolationsPreviewsOperationsResponse, GetFoldersLocationsOrgPolicyViolationsPreviewsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersLocationsOrgPolicyViolationsPreviewsOperationsRequest,
   output: GetFoldersLocationsOrgPolicyViolationsPreviewsOperationsResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetFoldersLocationsAccessPolicySimulationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -880,13 +879,13 @@ export const GetFoldersLocationsAccessPolicySimulationsOperationsResponse = Goog
 
 export type GetFoldersLocationsAccessPolicySimulationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getFoldersLocationsAccessPolicySimulationsOperations: API.OperationMethod<GetFoldersLocationsAccessPolicySimulationsOperationsRequest, GetFoldersLocationsAccessPolicySimulationsOperationsResponse, GetFoldersLocationsAccessPolicySimulationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersLocationsAccessPolicySimulationsOperationsRequest,
   output: GetFoldersLocationsAccessPolicySimulationsOperationsResponse,
   errors: [],
 }));
 
-/** Gets the specified Replay. Each `Replay` is available for at least 7 days. */
 export interface GetFoldersLocationsReplaysRequest {
   /** Required. The name of the Replay to retrieve, in the following format: `{projects|folders|organizations}/{resource-id}/locations/global/replays/{replay-id}`, where `{resource-id}` is the ID of the project, folder, or organization that owns the `Replay`. Example: `projects/my-example-project/locations/global/replays/506a5f7f-38ce-4d7d-8e03-479ce1833c36` */
   name: string;
@@ -904,13 +903,13 @@ export const GetFoldersLocationsReplaysResponse = GoogleCloudPolicysimulatorV1Re
 
 export type GetFoldersLocationsReplaysError = CommonErrors;
 
+/** Gets the specified Replay. Each `Replay` is available for at least 7 days. */
 export const getFoldersLocationsReplays: API.OperationMethod<GetFoldersLocationsReplaysRequest, GetFoldersLocationsReplaysResponse, GetFoldersLocationsReplaysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersLocationsReplaysRequest,
   output: GetFoldersLocationsReplaysResponse,
   errors: [],
 }));
 
-/** Creates and starts a Replay using the given ReplayConfig. */
 export interface CreateFoldersLocationsReplaysRequest {
   /** Required. The parent resource where this Replay will be created. This resource must be a project, folder, or organization with a location. Example: `projects/my-example-project/locations/global` */
   parent: string;
@@ -931,13 +930,13 @@ export const CreateFoldersLocationsReplaysResponse = GoogleLongrunningOperation;
 
 export type CreateFoldersLocationsReplaysError = CommonErrors;
 
+/** Creates and starts a Replay using the given ReplayConfig. */
 export const createFoldersLocationsReplays: API.OperationMethod<CreateFoldersLocationsReplaysRequest, CreateFoldersLocationsReplaysResponse, CreateFoldersLocationsReplaysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateFoldersLocationsReplaysRequest,
   output: CreateFoldersLocationsReplaysResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListFoldersLocationsReplaysOperationsRequest {
   /** The standard list filter. */
   filter?: string;
@@ -967,7 +966,8 @@ export const ListFoldersLocationsReplaysOperationsResponse = GoogleLongrunningLi
 
 export type ListFoldersLocationsReplaysOperationsError = CommonErrors;
 
-export const listFoldersLocationsReplaysOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listFoldersLocationsReplaysOperations: API.PaginatedOperationMethod<ListFoldersLocationsReplaysOperationsRequest, ListFoldersLocationsReplaysOperationsResponse, ListFoldersLocationsReplaysOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersLocationsReplaysOperationsRequest,
   output: ListFoldersLocationsReplaysOperationsResponse,
   errors: [],
@@ -977,7 +977,6 @@ export const listFoldersLocationsReplaysOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetFoldersLocationsReplaysOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -995,13 +994,13 @@ export const GetFoldersLocationsReplaysOperationsResponse = GoogleLongrunningOpe
 
 export type GetFoldersLocationsReplaysOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getFoldersLocationsReplaysOperations: API.OperationMethod<GetFoldersLocationsReplaysOperationsRequest, GetFoldersLocationsReplaysOperationsResponse, GetFoldersLocationsReplaysOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersLocationsReplaysOperationsRequest,
   output: GetFoldersLocationsReplaysOperationsResponse,
   errors: [],
 }));
 
-/** Lists the results of running a Replay. */
 export interface ListFoldersLocationsReplaysResultsRequest {
   /** Required. The Replay whose results are listed, in the following format: `{projects|folders|organizations}/{resource-id}/locations/global/replays/{replay-id}` Example: `projects/my-project/locations/global/replays/506a5f7f-38ce-4d7d-8e03-479ce1833c36` */
   parent: string;
@@ -1025,7 +1024,8 @@ export const ListFoldersLocationsReplaysResultsResponse = GoogleCloudPolicysimul
 
 export type ListFoldersLocationsReplaysResultsError = CommonErrors;
 
-export const listFoldersLocationsReplaysResults = API.makePaginated(() => ({
+/** Lists the results of running a Replay. */
+export const listFoldersLocationsReplaysResults: API.PaginatedOperationMethod<ListFoldersLocationsReplaysResultsRequest, ListFoldersLocationsReplaysResultsResponse, ListFoldersLocationsReplaysResultsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersLocationsReplaysResultsRequest,
   output: ListFoldersLocationsReplaysResultsResponse,
   errors: [],
@@ -1035,7 +1035,6 @@ export const listFoldersLocationsReplaysResults = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsAccessPolicySimulationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1053,13 +1052,13 @@ export const GetProjectsLocationsAccessPolicySimulationsOperationsResponse = Goo
 
 export type GetProjectsLocationsAccessPolicySimulationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsAccessPolicySimulationsOperations: API.OperationMethod<GetProjectsLocationsAccessPolicySimulationsOperationsRequest, GetProjectsLocationsAccessPolicySimulationsOperationsResponse, GetProjectsLocationsAccessPolicySimulationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAccessPolicySimulationsOperationsRequest,
   output: GetProjectsLocationsAccessPolicySimulationsOperationsResponse,
   errors: [],
 }));
 
-/** Gets the specified Replay. Each `Replay` is available for at least 7 days. */
 export interface GetProjectsLocationsReplaysRequest {
   /** Required. The name of the Replay to retrieve, in the following format: `{projects|folders|organizations}/{resource-id}/locations/global/replays/{replay-id}`, where `{resource-id}` is the ID of the project, folder, or organization that owns the `Replay`. Example: `projects/my-example-project/locations/global/replays/506a5f7f-38ce-4d7d-8e03-479ce1833c36` */
   name: string;
@@ -1077,13 +1076,13 @@ export const GetProjectsLocationsReplaysResponse = GoogleCloudPolicysimulatorV1R
 
 export type GetProjectsLocationsReplaysError = CommonErrors;
 
+/** Gets the specified Replay. Each `Replay` is available for at least 7 days. */
 export const getProjectsLocationsReplays: API.OperationMethod<GetProjectsLocationsReplaysRequest, GetProjectsLocationsReplaysResponse, GetProjectsLocationsReplaysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsReplaysRequest,
   output: GetProjectsLocationsReplaysResponse,
   errors: [],
 }));
 
-/** Creates and starts a Replay using the given ReplayConfig. */
 export interface CreateProjectsLocationsReplaysRequest {
   /** Required. The parent resource where this Replay will be created. This resource must be a project, folder, or organization with a location. Example: `projects/my-example-project/locations/global` */
   parent: string;
@@ -1104,13 +1103,13 @@ export const CreateProjectsLocationsReplaysResponse = GoogleLongrunningOperation
 
 export type CreateProjectsLocationsReplaysError = CommonErrors;
 
+/** Creates and starts a Replay using the given ReplayConfig. */
 export const createProjectsLocationsReplays: API.OperationMethod<CreateProjectsLocationsReplaysRequest, CreateProjectsLocationsReplaysResponse, CreateProjectsLocationsReplaysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsReplaysRequest,
   output: CreateProjectsLocationsReplaysResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsReplaysOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1128,13 +1127,13 @@ export const GetProjectsLocationsReplaysOperationsResponse = GoogleLongrunningOp
 
 export type GetProjectsLocationsReplaysOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsReplaysOperations: API.OperationMethod<GetProjectsLocationsReplaysOperationsRequest, GetProjectsLocationsReplaysOperationsResponse, GetProjectsLocationsReplaysOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsReplaysOperationsRequest,
   output: GetProjectsLocationsReplaysOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsReplaysOperationsRequest {
   /** The standard list page token. */
   pageToken?: string;
@@ -1164,7 +1163,8 @@ export const ListProjectsLocationsReplaysOperationsResponse = GoogleLongrunningL
 
 export type ListProjectsLocationsReplaysOperationsError = CommonErrors;
 
-export const listProjectsLocationsReplaysOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsReplaysOperations: API.PaginatedOperationMethod<ListProjectsLocationsReplaysOperationsRequest, ListProjectsLocationsReplaysOperationsResponse, ListProjectsLocationsReplaysOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsReplaysOperationsRequest,
   output: ListProjectsLocationsReplaysOperationsResponse,
   errors: [],
@@ -1174,7 +1174,6 @@ export const listProjectsLocationsReplaysOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Lists the results of running a Replay. */
 export interface ListProjectsLocationsReplaysResultsRequest {
   /** The maximum number of ReplayResult objects to return. Defaults to 5000. The maximum value is 5000; values above 5000 are rounded down to 5000. */
   pageSize?: number;
@@ -1198,7 +1197,8 @@ export const ListProjectsLocationsReplaysResultsResponse = GoogleCloudPolicysimu
 
 export type ListProjectsLocationsReplaysResultsError = CommonErrors;
 
-export const listProjectsLocationsReplaysResults = API.makePaginated(() => ({
+/** Lists the results of running a Replay. */
+export const listProjectsLocationsReplaysResults: API.PaginatedOperationMethod<ListProjectsLocationsReplaysResultsRequest, ListProjectsLocationsReplaysResultsResponse, ListProjectsLocationsReplaysResultsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsReplaysResultsRequest,
   output: ListProjectsLocationsReplaysResultsResponse,
   errors: [],
@@ -1208,7 +1208,6 @@ export const listProjectsLocationsReplaysResults = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOrgPolicyViolationsPreviewsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1226,13 +1225,13 @@ export const GetProjectsLocationsOrgPolicyViolationsPreviewsOperationsResponse =
 
 export type GetProjectsLocationsOrgPolicyViolationsPreviewsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOrgPolicyViolationsPreviewsOperations: API.OperationMethod<GetProjectsLocationsOrgPolicyViolationsPreviewsOperationsRequest, GetProjectsLocationsOrgPolicyViolationsPreviewsOperationsResponse, GetProjectsLocationsOrgPolicyViolationsPreviewsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOrgPolicyViolationsPreviewsOperationsRequest,
   output: GetProjectsLocationsOrgPolicyViolationsPreviewsOperationsResponse,
   errors: [],
 }));
 
-/** Gets the specified Replay. Each `Replay` is available for at least 7 days. */
 export interface GetOrganizationsLocationsReplaysRequest {
   /** Required. The name of the Replay to retrieve, in the following format: `{projects|folders|organizations}/{resource-id}/locations/global/replays/{replay-id}`, where `{resource-id}` is the ID of the project, folder, or organization that owns the `Replay`. Example: `projects/my-example-project/locations/global/replays/506a5f7f-38ce-4d7d-8e03-479ce1833c36` */
   name: string;
@@ -1250,13 +1249,13 @@ export const GetOrganizationsLocationsReplaysResponse = GoogleCloudPolicysimulat
 
 export type GetOrganizationsLocationsReplaysError = CommonErrors;
 
+/** Gets the specified Replay. Each `Replay` is available for at least 7 days. */
 export const getOrganizationsLocationsReplays: API.OperationMethod<GetOrganizationsLocationsReplaysRequest, GetOrganizationsLocationsReplaysResponse, GetOrganizationsLocationsReplaysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsReplaysRequest,
   output: GetOrganizationsLocationsReplaysResponse,
   errors: [],
 }));
 
-/** Creates and starts a Replay using the given ReplayConfig. */
 export interface CreateOrganizationsLocationsReplaysRequest {
   /** Required. The parent resource where this Replay will be created. This resource must be a project, folder, or organization with a location. Example: `projects/my-example-project/locations/global` */
   parent: string;
@@ -1277,13 +1276,13 @@ export const CreateOrganizationsLocationsReplaysResponse = GoogleLongrunningOper
 
 export type CreateOrganizationsLocationsReplaysError = CommonErrors;
 
+/** Creates and starts a Replay using the given ReplayConfig. */
 export const createOrganizationsLocationsReplays: API.OperationMethod<CreateOrganizationsLocationsReplaysRequest, CreateOrganizationsLocationsReplaysResponse, CreateOrganizationsLocationsReplaysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsLocationsReplaysRequest,
   output: CreateOrganizationsLocationsReplaysResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetOrganizationsLocationsReplaysOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1301,13 +1300,13 @@ export const GetOrganizationsLocationsReplaysOperationsResponse = GoogleLongrunn
 
 export type GetOrganizationsLocationsReplaysOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOrganizationsLocationsReplaysOperations: API.OperationMethod<GetOrganizationsLocationsReplaysOperationsRequest, GetOrganizationsLocationsReplaysOperationsResponse, GetOrganizationsLocationsReplaysOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsReplaysOperationsRequest,
   output: GetOrganizationsLocationsReplaysOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListOrganizationsLocationsReplaysOperationsRequest {
   /** The standard list filter. */
   filter?: string;
@@ -1337,7 +1336,8 @@ export const ListOrganizationsLocationsReplaysOperationsResponse = GoogleLongrun
 
 export type ListOrganizationsLocationsReplaysOperationsError = CommonErrors;
 
-export const listOrganizationsLocationsReplaysOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listOrganizationsLocationsReplaysOperations: API.PaginatedOperationMethod<ListOrganizationsLocationsReplaysOperationsRequest, ListOrganizationsLocationsReplaysOperationsResponse, ListOrganizationsLocationsReplaysOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsReplaysOperationsRequest,
   output: ListOrganizationsLocationsReplaysOperationsResponse,
   errors: [],
@@ -1347,7 +1347,6 @@ export const listOrganizationsLocationsReplaysOperations = API.makePaginated(() 
   },
 }));
 
-/** Lists the results of running a Replay. */
 export interface ListOrganizationsLocationsReplaysResultsRequest {
   /** The maximum number of ReplayResult objects to return. Defaults to 5000. The maximum value is 5000; values above 5000 are rounded down to 5000. */
   pageSize?: number;
@@ -1371,7 +1370,8 @@ export const ListOrganizationsLocationsReplaysResultsResponse = GoogleCloudPolic
 
 export type ListOrganizationsLocationsReplaysResultsError = CommonErrors;
 
-export const listOrganizationsLocationsReplaysResults = API.makePaginated(() => ({
+/** Lists the results of running a Replay. */
+export const listOrganizationsLocationsReplaysResults: API.PaginatedOperationMethod<ListOrganizationsLocationsReplaysResultsRequest, ListOrganizationsLocationsReplaysResultsResponse, ListOrganizationsLocationsReplaysResultsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsReplaysResultsRequest,
   output: ListOrganizationsLocationsReplaysResultsResponse,
   errors: [],
@@ -1381,7 +1381,6 @@ export const listOrganizationsLocationsReplaysResults = API.makePaginated(() => 
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetOrganizationsLocationsAccessPolicySimulationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1399,13 +1398,13 @@ export const GetOrganizationsLocationsAccessPolicySimulationsOperationsResponse 
 
 export type GetOrganizationsLocationsAccessPolicySimulationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOrganizationsLocationsAccessPolicySimulationsOperations: API.OperationMethod<GetOrganizationsLocationsAccessPolicySimulationsOperationsRequest, GetOrganizationsLocationsAccessPolicySimulationsOperationsResponse, GetOrganizationsLocationsAccessPolicySimulationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsAccessPolicySimulationsOperationsRequest,
   output: GetOrganizationsLocationsAccessPolicySimulationsOperationsResponse,
   errors: [],
 }));
 
-/** ListOrgPolicyViolationsPreviews lists each OrgPolicyViolationsPreview in an organization. Each OrgPolicyViolationsPreview is available for at least 7 days. */
 export interface ListOrganizationsLocationsOrgPolicyViolationsPreviewsRequest {
   /** Required. The parent the violations are scoped to. Format: `organizations/{organization}/locations/{location}` Example: `organizations/my-example-org/locations/global` */
   parent: string;
@@ -1429,7 +1428,8 @@ export const ListOrganizationsLocationsOrgPolicyViolationsPreviewsResponse = Goo
 
 export type ListOrganizationsLocationsOrgPolicyViolationsPreviewsError = CommonErrors;
 
-export const listOrganizationsLocationsOrgPolicyViolationsPreviews = API.makePaginated(() => ({
+/** ListOrgPolicyViolationsPreviews lists each OrgPolicyViolationsPreview in an organization. Each OrgPolicyViolationsPreview is available for at least 7 days. */
+export const listOrganizationsLocationsOrgPolicyViolationsPreviews: API.PaginatedOperationMethod<ListOrganizationsLocationsOrgPolicyViolationsPreviewsRequest, ListOrganizationsLocationsOrgPolicyViolationsPreviewsResponse, ListOrganizationsLocationsOrgPolicyViolationsPreviewsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsOrgPolicyViolationsPreviewsRequest,
   output: ListOrganizationsLocationsOrgPolicyViolationsPreviewsResponse,
   errors: [],
@@ -1439,7 +1439,6 @@ export const listOrganizationsLocationsOrgPolicyViolationsPreviews = API.makePag
   },
 }));
 
-/** CreateOrgPolicyViolationsPreview creates an OrgPolicyViolationsPreview for the proposed changes in the provided OrgPolicyViolationsPreview.OrgPolicyOverlay. The changes to OrgPolicy are specified by this `OrgPolicyOverlay`. The resources to scan are inferred from these specified changes. */
 export interface CreateOrganizationsLocationsOrgPolicyViolationsPreviewsRequest {
   /** Optional. An optional user-specified ID for the OrgPolicyViolationsPreview. If not provided, a random ID will be generated. */
   orgPolicyViolationsPreviewId?: string;
@@ -1463,13 +1462,13 @@ export const CreateOrganizationsLocationsOrgPolicyViolationsPreviewsResponse = G
 
 export type CreateOrganizationsLocationsOrgPolicyViolationsPreviewsError = CommonErrors;
 
+/** CreateOrgPolicyViolationsPreview creates an OrgPolicyViolationsPreview for the proposed changes in the provided OrgPolicyViolationsPreview.OrgPolicyOverlay. The changes to OrgPolicy are specified by this `OrgPolicyOverlay`. The resources to scan are inferred from these specified changes. */
 export const createOrganizationsLocationsOrgPolicyViolationsPreviews: API.OperationMethod<CreateOrganizationsLocationsOrgPolicyViolationsPreviewsRequest, CreateOrganizationsLocationsOrgPolicyViolationsPreviewsResponse, CreateOrganizationsLocationsOrgPolicyViolationsPreviewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsLocationsOrgPolicyViolationsPreviewsRequest,
   output: CreateOrganizationsLocationsOrgPolicyViolationsPreviewsResponse,
   errors: [],
 }));
 
-/** GetOrgPolicyViolationsPreview gets the specified OrgPolicyViolationsPreview. Each OrgPolicyViolationsPreview is available for at least 7 days. */
 export interface GetOrganizationsLocationsOrgPolicyViolationsPreviewsRequest {
   /** Required. The name of the OrgPolicyViolationsPreview to get. */
   name: string;
@@ -1487,13 +1486,13 @@ export const GetOrganizationsLocationsOrgPolicyViolationsPreviewsResponse = Goog
 
 export type GetOrganizationsLocationsOrgPolicyViolationsPreviewsError = CommonErrors;
 
+/** GetOrgPolicyViolationsPreview gets the specified OrgPolicyViolationsPreview. Each OrgPolicyViolationsPreview is available for at least 7 days. */
 export const getOrganizationsLocationsOrgPolicyViolationsPreviews: API.OperationMethod<GetOrganizationsLocationsOrgPolicyViolationsPreviewsRequest, GetOrganizationsLocationsOrgPolicyViolationsPreviewsResponse, GetOrganizationsLocationsOrgPolicyViolationsPreviewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsOrgPolicyViolationsPreviewsRequest,
   output: GetOrganizationsLocationsOrgPolicyViolationsPreviewsResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1511,13 +1510,13 @@ export const GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsRespo
 
 export type GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOrganizationsLocationsOrgPolicyViolationsPreviewsOperations: API.OperationMethod<GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsRequest, GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsResponse, GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsRequest,
   output: GetOrganizationsLocationsOrgPolicyViolationsPreviewsOperationsResponse,
   errors: [],
 }));
 
-/** ListOrgPolicyViolations lists the OrgPolicyViolations that are present in an OrgPolicyViolationsPreview. */
 export interface ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolationsRequest {
   /** Required. The OrgPolicyViolationsPreview to get OrgPolicyViolations from. Format: organizations/{organization}/locations/{location}/orgPolicyViolationsPreviews/{orgPolicyViolationsPreview} */
   parent: string;
@@ -1541,7 +1540,8 @@ export const ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViola
 
 export type ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolationsError = CommonErrors;
 
-export const listOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolations = API.makePaginated(() => ({
+/** ListOrgPolicyViolations lists the OrgPolicyViolations that are present in an OrgPolicyViolationsPreview. */
+export const listOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolations: API.PaginatedOperationMethod<ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolationsRequest, ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolationsResponse, ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolationsRequest,
   output: ListOrganizationsLocationsOrgPolicyViolationsPreviewsOrgPolicyViolationsResponse,
   errors: [],

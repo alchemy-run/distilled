@@ -2979,7 +2979,6 @@ export const GoogleDevtoolsCloudbuildV1BuildOperationMetadata: Schema.Schema<Goo
 // Operations
 // ==========================================================================
 
-/** Export generated customer metadata for a given project. */
 export interface ExportProjectMetadataProjectsLocationsRequest {
   /** Required. The name of the project of which metadata should be exported. Format: `projects/{project_id_or_number}/locations/{location}` for Project in a given location. */
   name: string;
@@ -2997,13 +2996,13 @@ export const ExportProjectMetadataProjectsLocationsResponse = GoogleCloudRunV2Me
 
 export type ExportProjectMetadataProjectsLocationsError = CommonErrors;
 
+/** Export generated customer metadata for a given project. */
 export const exportProjectMetadataProjectsLocations: API.OperationMethod<ExportProjectMetadataProjectsLocationsRequest, ExportProjectMetadataProjectsLocationsResponse, ExportProjectMetadataProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExportProjectMetadataProjectsLocationsRequest,
   output: ExportProjectMetadataProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Export generated customer metadata for a given resource. */
 export interface ExportMetadataProjectsLocationsRequest {
   /** Required. The name of the resource of which metadata should be exported. Format: `projects/{project_id_or_number}/locations/{location}/services/{service}` for Service `projects/{project_id_or_number}/locations/{location}/services/{service}/revisions/{revision}` for Revision `projects/{project_id_or_number}/locations/{location}/jobs/{job}/executions/{execution}` for Execution {project_id_or_number} may contains domain-scoped project IDs */
   name: string;
@@ -3021,13 +3020,13 @@ export const ExportMetadataProjectsLocationsResponse = GoogleCloudRunV2Metadata;
 
 export type ExportMetadataProjectsLocationsError = CommonErrors;
 
+/** Export generated customer metadata for a given resource. */
 export const exportMetadataProjectsLocations: API.OperationMethod<ExportMetadataProjectsLocationsRequest, ExportMetadataProjectsLocationsResponse, ExportMetadataProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExportMetadataProjectsLocationsRequest,
   output: ExportMetadataProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Export image metadata for a given resource. */
 export interface ExportImageMetadataProjectsLocationsRequest {
   /** Required. The name of the resource of which image metadata should be exported. Format: `projects/{project_id_or_number}/locations/{location}/services/{service}/revisions/{revision}` for Revision `projects/{project_id_or_number}/locations/{location}/jobs/{job}/executions/{execution}` for Execution */
   name: string;
@@ -3045,13 +3044,13 @@ export const ExportImageMetadataProjectsLocationsResponse = GoogleCloudRunV2Meta
 
 export type ExportImageMetadataProjectsLocationsError = CommonErrors;
 
+/** Export image metadata for a given resource. */
 export const exportImageMetadataProjectsLocations: API.OperationMethod<ExportImageMetadataProjectsLocationsRequest, ExportImageMetadataProjectsLocationsResponse, ExportImageMetadataProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExportImageMetadataProjectsLocationsRequest,
   output: ExportImageMetadataProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Export image for a given resource. */
 export interface ExportImageProjectsLocationsRequest {
   /** Required. The name of the resource of which image metadata should be exported. Format: `projects/{project_id_or_number}/locations/{location}/services/{service}/revisions/{revision}` for Revision `projects/{project_id_or_number}/locations/{location}/jobs/{job}/executions/{execution}` for Execution */
   name: string;
@@ -3072,13 +3071,13 @@ export const ExportImageProjectsLocationsResponse = GoogleCloudRunV2ExportImageR
 
 export type ExportImageProjectsLocationsError = CommonErrors;
 
+/** Export image for a given resource. */
 export const exportImageProjectsLocations: API.OperationMethod<ExportImageProjectsLocationsRequest, ExportImageProjectsLocationsResponse, ExportImageProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExportImageProjectsLocationsRequest,
   output: ExportImageProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** Required. To query for all of the operations for a project. */
   name: string;
@@ -3108,7 +3107,8 @@ export const ListProjectsLocationsOperationsResponse = GoogleLongrunningListOper
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -3118,7 +3118,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -3136,13 +3135,13 @@ export const GetProjectsLocationsOperationsResponse = GoogleLongrunningOperation
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -3160,13 +3159,13 @@ export const DeleteProjectsLocationsOperationsResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Waits until the specified long-running operation is done or reaches at most a specified timeout, returning the latest state. If the operation is already done, the latest state is immediately returned. If the timeout specified is greater than the default HTTP/RPC timeout, the HTTP/RPC timeout is used. If the server does not support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Note that this method is on a best-effort basis. It may return the latest state before the specified timeout (including immediately), meaning even an immediate response is no guarantee that the operation is done. */
 export interface WaitProjectsLocationsOperationsRequest {
   /** The name of the operation resource to wait on. */
   name: string;
@@ -3187,13 +3186,13 @@ export const WaitProjectsLocationsOperationsResponse = GoogleLongrunningOperatio
 
 export type WaitProjectsLocationsOperationsError = CommonErrors;
 
+/** Waits until the specified long-running operation is done or reaches at most a specified timeout, returning the latest state. If the operation is already done, the latest state is immediately returned. If the timeout specified is greater than the default HTTP/RPC timeout, the HTTP/RPC timeout is used. If the server does not support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Note that this method is on a best-effort basis. It may return the latest state before the specified timeout (including immediately), meaning even an immediate response is no guarantee that the operation is done. */
 export const waitProjectsLocationsOperations: API.OperationMethod<WaitProjectsLocationsOperationsRequest, WaitProjectsLocationsOperationsResponse, WaitProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WaitProjectsLocationsOperationsRequest,
   output: WaitProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Submits a build in a given project. */
 export interface SubmitProjectsLocationsBuildsRequest {
   /** Required. The project and location to build in. Location must be a region, e.g., 'us-central1' or 'global' if the global builder is to be used. Format: `projects/{project}/locations/{location}` */
   parent: string;
@@ -3214,13 +3213,13 @@ export const SubmitProjectsLocationsBuildsResponse = GoogleCloudRunV2SubmitBuild
 
 export type SubmitProjectsLocationsBuildsError = CommonErrors;
 
+/** Submits a build in a given project. */
 export const submitProjectsLocationsBuilds: API.OperationMethod<SubmitProjectsLocationsBuildsRequest, SubmitProjectsLocationsBuildsResponse, SubmitProjectsLocationsBuildsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SubmitProjectsLocationsBuildsRequest,
   output: SubmitProjectsLocationsBuildsResponse,
   errors: [],
 }));
 
-/** Creates an Instance. */
 export interface CreateProjectsLocationsInstancesRequest {
   parent: string;
   /** Optional. The unique identifier for the Instance. It must begin with letter, and cannot end with hyphen; must contain fewer than 50 characters. The name of the instance becomes {parent}/instances/{instance_id}. If not provided, the server will generate a unique `instance_id`. */
@@ -3246,13 +3245,13 @@ export const CreateProjectsLocationsInstancesResponse = GoogleLongrunningOperati
 
 export type CreateProjectsLocationsInstancesError = CommonErrors;
 
+/** Creates an Instance. */
 export const createProjectsLocationsInstances: API.OperationMethod<CreateProjectsLocationsInstancesRequest, CreateProjectsLocationsInstancesResponse, CreateProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsInstancesRequest,
   output: CreateProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Deletes a Instance */
 export interface DeleteProjectsLocationsInstancesRequest {
   name: string;
   /** Optional. Indicates that the request should be validated without actually deleting any resources. */
@@ -3275,13 +3274,13 @@ export const DeleteProjectsLocationsInstancesResponse = GoogleLongrunningOperati
 
 export type DeleteProjectsLocationsInstancesError = CommonErrors;
 
+/** Deletes a Instance */
 export const deleteProjectsLocationsInstances: API.OperationMethod<DeleteProjectsLocationsInstancesRequest, DeleteProjectsLocationsInstancesResponse, DeleteProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsInstancesRequest,
   output: DeleteProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Gets a Instance */
 export interface GetProjectsLocationsInstancesRequest {
   name: string;
 }
@@ -3298,13 +3297,13 @@ export const GetProjectsLocationsInstancesResponse = GoogleCloudRunV2Instance;
 
 export type GetProjectsLocationsInstancesError = CommonErrors;
 
+/** Gets a Instance */
 export const getProjectsLocationsInstances: API.OperationMethod<GetProjectsLocationsInstancesRequest, GetProjectsLocationsInstancesResponse, GetProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsInstancesRequest,
   output: GetProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Lists Instances. Results are sorted by creation time, descending. */
 export interface ListProjectsLocationsInstancesRequest {
   /** Required. The location and project to list resources on. Format: projects/{project}/locations/{location}, where {project} can be project id or number. */
   parent: string;
@@ -3331,7 +3330,8 @@ export const ListProjectsLocationsInstancesResponse = GoogleCloudRunV2ListInstan
 
 export type ListProjectsLocationsInstancesError = CommonErrors;
 
-export const listProjectsLocationsInstances = API.makePaginated(() => ({
+/** Lists Instances. Results are sorted by creation time, descending. */
+export const listProjectsLocationsInstances: API.PaginatedOperationMethod<ListProjectsLocationsInstancesRequest, ListProjectsLocationsInstancesResponse, ListProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsInstancesRequest,
   output: ListProjectsLocationsInstancesResponse,
   errors: [],
@@ -3341,7 +3341,6 @@ export const listProjectsLocationsInstances = API.makePaginated(() => ({
   },
 }));
 
-/** Stops an Instance. */
 export interface StopProjectsLocationsInstancesRequest {
   /** Required. The name of the Instance to stop. Format: `projects/{project}/locations/{location}/instances/{instance}`, where `{project}` can be project id or number. */
   name: string;
@@ -3362,13 +3361,13 @@ export const StopProjectsLocationsInstancesResponse = GoogleLongrunningOperation
 
 export type StopProjectsLocationsInstancesError = CommonErrors;
 
+/** Stops an Instance. */
 export const stopProjectsLocationsInstances: API.OperationMethod<StopProjectsLocationsInstancesRequest, StopProjectsLocationsInstancesResponse, StopProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StopProjectsLocationsInstancesRequest,
   output: StopProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Starts an Instance. */
 export interface StartProjectsLocationsInstancesRequest {
   /** Required. The name of the Instance to stop. Format: `projects/{project}/locations/{location}/instances/{instance}`, where `{project}` can be project id or number. */
   name: string;
@@ -3389,13 +3388,13 @@ export const StartProjectsLocationsInstancesResponse = GoogleLongrunningOperatio
 
 export type StartProjectsLocationsInstancesError = CommonErrors;
 
+/** Starts an Instance. */
 export const startProjectsLocationsInstances: API.OperationMethod<StartProjectsLocationsInstancesRequest, StartProjectsLocationsInstancesResponse, StartProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StartProjectsLocationsInstancesRequest,
   output: StartProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Creates a Job. */
 export interface CreateProjectsLocationsJobsRequest {
   /** Required. The location and project in which this Job should be created. Format: projects/{project}/locations/{location}, where {project} can be project id or number. */
   parent: string;
@@ -3422,13 +3421,13 @@ export const CreateProjectsLocationsJobsResponse = GoogleLongrunningOperation;
 
 export type CreateProjectsLocationsJobsError = CommonErrors;
 
+/** Creates a Job. */
 export const createProjectsLocationsJobs: API.OperationMethod<CreateProjectsLocationsJobsRequest, CreateProjectsLocationsJobsResponse, CreateProjectsLocationsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsJobsRequest,
   output: CreateProjectsLocationsJobsResponse,
   errors: [],
 }));
 
-/** Gets information about a Job. */
 export interface GetProjectsLocationsJobsRequest {
   /** Required. The full name of the Job. Format: projects/{project}/locations/{location}/jobs/{job}, where {project} can be project id or number. */
   name: string;
@@ -3446,13 +3445,13 @@ export const GetProjectsLocationsJobsResponse = GoogleCloudRunV2Job;
 
 export type GetProjectsLocationsJobsError = CommonErrors;
 
+/** Gets information about a Job. */
 export const getProjectsLocationsJobs: API.OperationMethod<GetProjectsLocationsJobsRequest, GetProjectsLocationsJobsResponse, GetProjectsLocationsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsJobsRequest,
   output: GetProjectsLocationsJobsResponse,
   errors: [],
 }));
 
-/** Lists Jobs. Results are sorted by creation time, descending. */
 export interface ListProjectsLocationsJobsRequest {
   /** Required. The location and project to list resources on. Format: projects/{project}/locations/{location}, where {project} can be project id or number. */
   parent: string;
@@ -3479,7 +3478,8 @@ export const ListProjectsLocationsJobsResponse = GoogleCloudRunV2ListJobsRespons
 
 export type ListProjectsLocationsJobsError = CommonErrors;
 
-export const listProjectsLocationsJobs = API.makePaginated(() => ({
+/** Lists Jobs. Results are sorted by creation time, descending. */
+export const listProjectsLocationsJobs: API.PaginatedOperationMethod<ListProjectsLocationsJobsRequest, ListProjectsLocationsJobsResponse, ListProjectsLocationsJobsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsJobsRequest,
   output: ListProjectsLocationsJobsResponse,
   errors: [],
@@ -3489,7 +3489,6 @@ export const listProjectsLocationsJobs = API.makePaginated(() => ({
   },
 }));
 
-/** Updates a Job. */
 export interface PatchProjectsLocationsJobsRequest {
   /** The fully qualified name of this Job. Format: projects/{project}/locations/{location}/jobs/{job} */
   name: string;
@@ -3516,13 +3515,13 @@ export const PatchProjectsLocationsJobsResponse = GoogleLongrunningOperation;
 
 export type PatchProjectsLocationsJobsError = CommonErrors;
 
+/** Updates a Job. */
 export const patchProjectsLocationsJobs: API.OperationMethod<PatchProjectsLocationsJobsRequest, PatchProjectsLocationsJobsResponse, PatchProjectsLocationsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsJobsRequest,
   output: PatchProjectsLocationsJobsResponse,
   errors: [],
 }));
 
-/** Deletes a Job. */
 export interface DeleteProjectsLocationsJobsRequest {
   /** Required. The full name of the Job. Format: projects/{project}/locations/{location}/jobs/{job}, where {project} can be project id or number. */
   name: string;
@@ -3546,13 +3545,13 @@ export const DeleteProjectsLocationsJobsResponse = GoogleLongrunningOperation;
 
 export type DeleteProjectsLocationsJobsError = CommonErrors;
 
+/** Deletes a Job. */
 export const deleteProjectsLocationsJobs: API.OperationMethod<DeleteProjectsLocationsJobsRequest, DeleteProjectsLocationsJobsResponse, DeleteProjectsLocationsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsJobsRequest,
   output: DeleteProjectsLocationsJobsResponse,
   errors: [],
 }));
 
-/** Triggers creation of a new Execution of this Job. */
 export interface RunProjectsLocationsJobsRequest {
   /** Required. The full name of the Job. Format: projects/{project}/locations/{location}/jobs/{job}, where {project} can be project id or number. */
   name: string;
@@ -3573,13 +3572,13 @@ export const RunProjectsLocationsJobsResponse = GoogleLongrunningOperation;
 
 export type RunProjectsLocationsJobsError = CommonErrors;
 
+/** Triggers creation of a new Execution of this Job. */
 export const runProjectsLocationsJobs: API.OperationMethod<RunProjectsLocationsJobsRequest, RunProjectsLocationsJobsResponse, RunProjectsLocationsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RunProjectsLocationsJobsRequest,
   output: RunProjectsLocationsJobsResponse,
   errors: [],
 }));
 
-/** Gets the IAM Access Control policy currently in effect for the given Job. This result does not include any inherited policies. */
 export interface GetIamPolicyProjectsLocationsJobsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3600,13 +3599,13 @@ export const GetIamPolicyProjectsLocationsJobsResponse = GoogleIamV1Policy;
 
 export type GetIamPolicyProjectsLocationsJobsError = CommonErrors;
 
+/** Gets the IAM Access Control policy currently in effect for the given Job. This result does not include any inherited policies. */
 export const getIamPolicyProjectsLocationsJobs: API.OperationMethod<GetIamPolicyProjectsLocationsJobsRequest, GetIamPolicyProjectsLocationsJobsResponse, GetIamPolicyProjectsLocationsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsJobsRequest,
   output: GetIamPolicyProjectsLocationsJobsResponse,
   errors: [],
 }));
 
-/** Sets the IAM Access control policy for the specified Job. Overwrites any existing policy. */
 export interface SetIamPolicyProjectsLocationsJobsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3627,13 +3626,13 @@ export const SetIamPolicyProjectsLocationsJobsResponse = GoogleIamV1Policy;
 
 export type SetIamPolicyProjectsLocationsJobsError = CommonErrors;
 
+/** Sets the IAM Access control policy for the specified Job. Overwrites any existing policy. */
 export const setIamPolicyProjectsLocationsJobs: API.OperationMethod<SetIamPolicyProjectsLocationsJobsRequest, SetIamPolicyProjectsLocationsJobsResponse, SetIamPolicyProjectsLocationsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsJobsRequest,
   output: SetIamPolicyProjectsLocationsJobsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified Project. There are no permissions required for making this API call. */
 export interface TestIamPermissionsProjectsLocationsJobsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3654,13 +3653,13 @@ export const TestIamPermissionsProjectsLocationsJobsResponse = GoogleIamV1TestIa
 
 export type TestIamPermissionsProjectsLocationsJobsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified Project. There are no permissions required for making this API call. */
 export const testIamPermissionsProjectsLocationsJobs: API.OperationMethod<TestIamPermissionsProjectsLocationsJobsRequest, TestIamPermissionsProjectsLocationsJobsResponse, TestIamPermissionsProjectsLocationsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsJobsRequest,
   output: TestIamPermissionsProjectsLocationsJobsResponse,
   errors: [],
 }));
 
-/** Read the status of an image export operation. */
 export interface ExportStatusProjectsLocationsJobsExecutionsRequest {
   /** Required. The name of the resource of which image export operation status has to be fetched. Format: `projects/{project_id_or_number}/locations/{location}/services/{service}/revisions/{revision}` for Revision `projects/{project_id_or_number}/locations/{location}/jobs/{job}/executions/{execution}` for Execution */
   name: string;
@@ -3681,13 +3680,13 @@ export const ExportStatusProjectsLocationsJobsExecutionsResponse = GoogleCloudRu
 
 export type ExportStatusProjectsLocationsJobsExecutionsError = CommonErrors;
 
+/** Read the status of an image export operation. */
 export const exportStatusProjectsLocationsJobsExecutions: API.OperationMethod<ExportStatusProjectsLocationsJobsExecutionsRequest, ExportStatusProjectsLocationsJobsExecutionsResponse, ExportStatusProjectsLocationsJobsExecutionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExportStatusProjectsLocationsJobsExecutionsRequest,
   output: ExportStatusProjectsLocationsJobsExecutionsResponse,
   errors: [],
 }));
 
-/** Gets information about an Execution. */
 export interface GetProjectsLocationsJobsExecutionsRequest {
   /** Required. The full name of the Execution. Format: `projects/{project}/locations/{location}/jobs/{job}/executions/{execution}`, where `{project}` can be project id or number. */
   name: string;
@@ -3705,13 +3704,13 @@ export const GetProjectsLocationsJobsExecutionsResponse = GoogleCloudRunV2Execut
 
 export type GetProjectsLocationsJobsExecutionsError = CommonErrors;
 
+/** Gets information about an Execution. */
 export const getProjectsLocationsJobsExecutions: API.OperationMethod<GetProjectsLocationsJobsExecutionsRequest, GetProjectsLocationsJobsExecutionsResponse, GetProjectsLocationsJobsExecutionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsJobsExecutionsRequest,
   output: GetProjectsLocationsJobsExecutionsResponse,
   errors: [],
 }));
 
-/** Lists Executions from a Job. Results are sorted by creation time, descending. */
 export interface ListProjectsLocationsJobsExecutionsRequest {
   /** Required. The Execution from which the Executions should be listed. To list all Executions across Jobs, use "-" instead of Job name. Format: `projects/{project}/locations/{location}/jobs/{job}`, where `{project}` can be project id or number. */
   parent: string;
@@ -3738,7 +3737,8 @@ export const ListProjectsLocationsJobsExecutionsResponse = GoogleCloudRunV2ListE
 
 export type ListProjectsLocationsJobsExecutionsError = CommonErrors;
 
-export const listProjectsLocationsJobsExecutions = API.makePaginated(() => ({
+/** Lists Executions from a Job. Results are sorted by creation time, descending. */
+export const listProjectsLocationsJobsExecutions: API.PaginatedOperationMethod<ListProjectsLocationsJobsExecutionsRequest, ListProjectsLocationsJobsExecutionsResponse, ListProjectsLocationsJobsExecutionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsJobsExecutionsRequest,
   output: ListProjectsLocationsJobsExecutionsResponse,
   errors: [],
@@ -3748,7 +3748,6 @@ export const listProjectsLocationsJobsExecutions = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes an Execution. */
 export interface DeleteProjectsLocationsJobsExecutionsRequest {
   /** Required. The name of the Execution to delete. Format: `projects/{project}/locations/{location}/jobs/{job}/executions/{execution}`, where `{project}` can be project id or number. */
   name: string;
@@ -3772,13 +3771,13 @@ export const DeleteProjectsLocationsJobsExecutionsResponse = GoogleLongrunningOp
 
 export type DeleteProjectsLocationsJobsExecutionsError = CommonErrors;
 
+/** Deletes an Execution. */
 export const deleteProjectsLocationsJobsExecutions: API.OperationMethod<DeleteProjectsLocationsJobsExecutionsRequest, DeleteProjectsLocationsJobsExecutionsResponse, DeleteProjectsLocationsJobsExecutionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsJobsExecutionsRequest,
   output: DeleteProjectsLocationsJobsExecutionsResponse,
   errors: [],
 }));
 
-/** Cancels an Execution. */
 export interface CancelProjectsLocationsJobsExecutionsRequest {
   /** Required. The name of the Execution to cancel. Format: `projects/{project}/locations/{location}/jobs/{job}/executions/{execution}`, where `{project}` can be project id or number. */
   name: string;
@@ -3799,13 +3798,13 @@ export const CancelProjectsLocationsJobsExecutionsResponse = GoogleLongrunningOp
 
 export type CancelProjectsLocationsJobsExecutionsError = CommonErrors;
 
+/** Cancels an Execution. */
 export const cancelProjectsLocationsJobsExecutions: API.OperationMethod<CancelProjectsLocationsJobsExecutionsRequest, CancelProjectsLocationsJobsExecutionsResponse, CancelProjectsLocationsJobsExecutionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsJobsExecutionsRequest,
   output: CancelProjectsLocationsJobsExecutionsResponse,
   errors: [],
 }));
 
-/** Gets information about a Task. */
 export interface GetProjectsLocationsJobsExecutionsTasksRequest {
   /** Required. The full name of the Task. Format: projects/{project}/locations/{location}/jobs/{job}/executions/{execution}/tasks/{task} */
   name: string;
@@ -3823,13 +3822,13 @@ export const GetProjectsLocationsJobsExecutionsTasksResponse = GoogleCloudRunV2T
 
 export type GetProjectsLocationsJobsExecutionsTasksError = CommonErrors;
 
+/** Gets information about a Task. */
 export const getProjectsLocationsJobsExecutionsTasks: API.OperationMethod<GetProjectsLocationsJobsExecutionsTasksRequest, GetProjectsLocationsJobsExecutionsTasksResponse, GetProjectsLocationsJobsExecutionsTasksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsJobsExecutionsTasksRequest,
   output: GetProjectsLocationsJobsExecutionsTasksResponse,
   errors: [],
 }));
 
-/** Lists Tasks from an Execution of a Job. */
 export interface ListProjectsLocationsJobsExecutionsTasksRequest {
   /** Required. The Execution from which the Tasks should be listed. To list all Tasks across Executions of a Job, use "-" instead of Execution name. To list all Tasks across Jobs, use "-" instead of Job name. Format: projects/{project}/locations/{location}/jobs/{job}/executions/{execution} */
   parent: string;
@@ -3856,7 +3855,8 @@ export const ListProjectsLocationsJobsExecutionsTasksResponse = GoogleCloudRunV2
 
 export type ListProjectsLocationsJobsExecutionsTasksError = CommonErrors;
 
-export const listProjectsLocationsJobsExecutionsTasks = API.makePaginated(() => ({
+/** Lists Tasks from an Execution of a Job. */
+export const listProjectsLocationsJobsExecutionsTasks: API.PaginatedOperationMethod<ListProjectsLocationsJobsExecutionsTasksRequest, ListProjectsLocationsJobsExecutionsTasksResponse, ListProjectsLocationsJobsExecutionsTasksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsJobsExecutionsTasksRequest,
   output: ListProjectsLocationsJobsExecutionsTasksResponse,
   errors: [],
@@ -3866,7 +3866,6 @@ export const listProjectsLocationsJobsExecutionsTasks = API.makePaginated(() => 
   },
 }));
 
-/** Creates a new Service in a given project and location. */
 export interface CreateProjectsLocationsServicesRequest {
   /** Required. The location and project in which this service should be created. Format: projects/{project}/locations/{location}, where {project} can be project id or number. Only lowercase characters, digits, and hyphens. */
   parent: string;
@@ -3893,13 +3892,13 @@ export const CreateProjectsLocationsServicesResponse = GoogleLongrunningOperatio
 
 export type CreateProjectsLocationsServicesError = CommonErrors;
 
+/** Creates a new Service in a given project and location. */
 export const createProjectsLocationsServices: API.OperationMethod<CreateProjectsLocationsServicesRequest, CreateProjectsLocationsServicesResponse, CreateProjectsLocationsServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsServicesRequest,
   output: CreateProjectsLocationsServicesResponse,
   errors: [],
 }));
 
-/** Gets information about a Service. */
 export interface GetProjectsLocationsServicesRequest {
   /** Required. The full name of the Service. Format: projects/{project}/locations/{location}/services/{service}, where {project} can be project id or number. */
   name: string;
@@ -3917,13 +3916,13 @@ export const GetProjectsLocationsServicesResponse = GoogleCloudRunV2Service;
 
 export type GetProjectsLocationsServicesError = CommonErrors;
 
+/** Gets information about a Service. */
 export const getProjectsLocationsServices: API.OperationMethod<GetProjectsLocationsServicesRequest, GetProjectsLocationsServicesResponse, GetProjectsLocationsServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsServicesRequest,
   output: GetProjectsLocationsServicesResponse,
   errors: [],
 }));
 
-/** Lists Services. Results are sorted by creation time, descending. */
 export interface ListProjectsLocationsServicesRequest {
   /** Required. The location and project to list resources on. Location must be a valid Google Cloud region, and cannot be the "-" wildcard. Format: projects/{project}/locations/{location}, where {project} can be project id or number. */
   parent: string;
@@ -3950,7 +3949,8 @@ export const ListProjectsLocationsServicesResponse = GoogleCloudRunV2ListService
 
 export type ListProjectsLocationsServicesError = CommonErrors;
 
-export const listProjectsLocationsServices = API.makePaginated(() => ({
+/** Lists Services. Results are sorted by creation time, descending. */
+export const listProjectsLocationsServices: API.PaginatedOperationMethod<ListProjectsLocationsServicesRequest, ListProjectsLocationsServicesResponse, ListProjectsLocationsServicesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsServicesRequest,
   output: ListProjectsLocationsServicesResponse,
   errors: [],
@@ -3960,7 +3960,6 @@ export const listProjectsLocationsServices = API.makePaginated(() => ({
   },
 }));
 
-/** Updates a Service. */
 export interface PatchProjectsLocationsServicesRequest {
   /** Identifier. The fully qualified name of this Service. In CreateServiceRequest, this field is ignored, and instead composed from CreateServiceRequest.parent and CreateServiceRequest.service_id. Format: projects/{project}/locations/{location}/services/{service_id} */
   name: string;
@@ -3993,13 +3992,13 @@ export const PatchProjectsLocationsServicesResponse = GoogleLongrunningOperation
 
 export type PatchProjectsLocationsServicesError = CommonErrors;
 
+/** Updates a Service. */
 export const patchProjectsLocationsServices: API.OperationMethod<PatchProjectsLocationsServicesRequest, PatchProjectsLocationsServicesResponse, PatchProjectsLocationsServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsServicesRequest,
   output: PatchProjectsLocationsServicesResponse,
   errors: [],
 }));
 
-/** Deletes a Service. This will cause the Service to stop serving traffic and will delete all revisions. */
 export interface DeleteProjectsLocationsServicesRequest {
   /** Required. The full name of the Service. Format: projects/{project}/locations/{location}/services/{service}, where {project} can be project id or number. */
   name: string;
@@ -4023,13 +4022,13 @@ export const DeleteProjectsLocationsServicesResponse = GoogleLongrunningOperatio
 
 export type DeleteProjectsLocationsServicesError = CommonErrors;
 
+/** Deletes a Service. This will cause the Service to stop serving traffic and will delete all revisions. */
 export const deleteProjectsLocationsServices: API.OperationMethod<DeleteProjectsLocationsServicesRequest, DeleteProjectsLocationsServicesResponse, DeleteProjectsLocationsServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsServicesRequest,
   output: DeleteProjectsLocationsServicesResponse,
   errors: [],
 }));
 
-/** Gets the IAM Access Control policy currently in effect for the given Cloud Run Service. This result does not include any inherited policies. */
 export interface GetIamPolicyProjectsLocationsServicesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -4050,13 +4049,13 @@ export const GetIamPolicyProjectsLocationsServicesResponse = GoogleIamV1Policy;
 
 export type GetIamPolicyProjectsLocationsServicesError = CommonErrors;
 
+/** Gets the IAM Access Control policy currently in effect for the given Cloud Run Service. This result does not include any inherited policies. */
 export const getIamPolicyProjectsLocationsServices: API.OperationMethod<GetIamPolicyProjectsLocationsServicesRequest, GetIamPolicyProjectsLocationsServicesResponse, GetIamPolicyProjectsLocationsServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsServicesRequest,
   output: GetIamPolicyProjectsLocationsServicesResponse,
   errors: [],
 }));
 
-/** Sets the IAM Access control policy for the specified Service. Overwrites any existing policy. */
 export interface SetIamPolicyProjectsLocationsServicesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -4077,13 +4076,13 @@ export const SetIamPolicyProjectsLocationsServicesResponse = GoogleIamV1Policy;
 
 export type SetIamPolicyProjectsLocationsServicesError = CommonErrors;
 
+/** Sets the IAM Access control policy for the specified Service. Overwrites any existing policy. */
 export const setIamPolicyProjectsLocationsServices: API.OperationMethod<SetIamPolicyProjectsLocationsServicesRequest, SetIamPolicyProjectsLocationsServicesResponse, SetIamPolicyProjectsLocationsServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsServicesRequest,
   output: SetIamPolicyProjectsLocationsServicesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified Project. There are no permissions required for making this API call. */
 export interface TestIamPermissionsProjectsLocationsServicesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -4104,13 +4103,13 @@ export const TestIamPermissionsProjectsLocationsServicesResponse = GoogleIamV1Te
 
 export type TestIamPermissionsProjectsLocationsServicesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified Project. There are no permissions required for making this API call. */
 export const testIamPermissionsProjectsLocationsServices: API.OperationMethod<TestIamPermissionsProjectsLocationsServicesRequest, TestIamPermissionsProjectsLocationsServicesResponse, TestIamPermissionsProjectsLocationsServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsServicesRequest,
   output: TestIamPermissionsProjectsLocationsServicesResponse,
   errors: [],
 }));
 
-/** Read the status of an image export operation. */
 export interface ExportStatusProjectsLocationsServicesRevisionsRequest {
   /** Required. The name of the resource of which image export operation status has to be fetched. Format: `projects/{project_id_or_number}/locations/{location}/services/{service}/revisions/{revision}` for Revision `projects/{project_id_or_number}/locations/{location}/jobs/{job}/executions/{execution}` for Execution */
   name: string;
@@ -4131,13 +4130,13 @@ export const ExportStatusProjectsLocationsServicesRevisionsResponse = GoogleClou
 
 export type ExportStatusProjectsLocationsServicesRevisionsError = CommonErrors;
 
+/** Read the status of an image export operation. */
 export const exportStatusProjectsLocationsServicesRevisions: API.OperationMethod<ExportStatusProjectsLocationsServicesRevisionsRequest, ExportStatusProjectsLocationsServicesRevisionsResponse, ExportStatusProjectsLocationsServicesRevisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExportStatusProjectsLocationsServicesRevisionsRequest,
   output: ExportStatusProjectsLocationsServicesRevisionsResponse,
   errors: [],
 }));
 
-/** Gets information about a Revision. */
 export interface GetProjectsLocationsServicesRevisionsRequest {
   /** Required. The full name of the Revision. Format: projects/{project}/locations/{location}/services/{service}/revisions/{revision} */
   name: string;
@@ -4155,13 +4154,13 @@ export const GetProjectsLocationsServicesRevisionsResponse = GoogleCloudRunV2Rev
 
 export type GetProjectsLocationsServicesRevisionsError = CommonErrors;
 
+/** Gets information about a Revision. */
 export const getProjectsLocationsServicesRevisions: API.OperationMethod<GetProjectsLocationsServicesRevisionsRequest, GetProjectsLocationsServicesRevisionsResponse, GetProjectsLocationsServicesRevisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsServicesRevisionsRequest,
   output: GetProjectsLocationsServicesRevisionsResponse,
   errors: [],
 }));
 
-/** Lists Revisions from a given Service, or from a given location. Results are sorted by creation time, descending. */
 export interface ListProjectsLocationsServicesRevisionsRequest {
   /** Required. The Service from which the Revisions should be listed. To list all Revisions across Services, use "-" instead of Service name. Format: projects/{project}/locations/{location}/services/{service} */
   parent: string;
@@ -4188,7 +4187,8 @@ export const ListProjectsLocationsServicesRevisionsResponse = GoogleCloudRunV2Li
 
 export type ListProjectsLocationsServicesRevisionsError = CommonErrors;
 
-export const listProjectsLocationsServicesRevisions = API.makePaginated(() => ({
+/** Lists Revisions from a given Service, or from a given location. Results are sorted by creation time, descending. */
+export const listProjectsLocationsServicesRevisions: API.PaginatedOperationMethod<ListProjectsLocationsServicesRevisionsRequest, ListProjectsLocationsServicesRevisionsResponse, ListProjectsLocationsServicesRevisionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsServicesRevisionsRequest,
   output: ListProjectsLocationsServicesRevisionsResponse,
   errors: [],
@@ -4198,7 +4198,6 @@ export const listProjectsLocationsServicesRevisions = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a Revision. */
 export interface DeleteProjectsLocationsServicesRevisionsRequest {
   /** Required. The name of the Revision to delete. Format: projects/{project}/locations/{location}/services/{service}/revisions/{revision} */
   name: string;
@@ -4222,13 +4221,13 @@ export const DeleteProjectsLocationsServicesRevisionsResponse = GoogleLongrunnin
 
 export type DeleteProjectsLocationsServicesRevisionsError = CommonErrors;
 
+/** Deletes a Revision. */
 export const deleteProjectsLocationsServicesRevisions: API.OperationMethod<DeleteProjectsLocationsServicesRevisionsRequest, DeleteProjectsLocationsServicesRevisionsResponse, DeleteProjectsLocationsServicesRevisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsServicesRevisionsRequest,
   output: DeleteProjectsLocationsServicesRevisionsResponse,
   errors: [],
 }));
 
-/** Creates a new WorkerPool in a given project and location. */
 export interface CreateProjectsLocationsWorkerPoolsRequest {
   /** Required. The location and project in which this worker pool should be created. Format: `projects/{project}/locations/{location}`, where `{project}` can be project id or number. Only lowercase characters, digits, and hyphens. */
   parent: string;
@@ -4255,13 +4254,13 @@ export const CreateProjectsLocationsWorkerPoolsResponse = GoogleLongrunningOpera
 
 export type CreateProjectsLocationsWorkerPoolsError = CommonErrors;
 
+/** Creates a new WorkerPool in a given project and location. */
 export const createProjectsLocationsWorkerPools: API.OperationMethod<CreateProjectsLocationsWorkerPoolsRequest, CreateProjectsLocationsWorkerPoolsResponse, CreateProjectsLocationsWorkerPoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsWorkerPoolsRequest,
   output: CreateProjectsLocationsWorkerPoolsResponse,
   errors: [],
 }));
 
-/** Gets information about a WorkerPool. */
 export interface GetProjectsLocationsWorkerPoolsRequest {
   /** Required. The full name of the WorkerPool. Format: `projects/{project}/locations/{location}/workerPools/{worker_pool}`, where `{project}` can be project id or number. */
   name: string;
@@ -4279,13 +4278,13 @@ export const GetProjectsLocationsWorkerPoolsResponse = GoogleCloudRunV2WorkerPoo
 
 export type GetProjectsLocationsWorkerPoolsError = CommonErrors;
 
+/** Gets information about a WorkerPool. */
 export const getProjectsLocationsWorkerPools: API.OperationMethod<GetProjectsLocationsWorkerPoolsRequest, GetProjectsLocationsWorkerPoolsResponse, GetProjectsLocationsWorkerPoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsWorkerPoolsRequest,
   output: GetProjectsLocationsWorkerPoolsResponse,
   errors: [],
 }));
 
-/** Lists WorkerPools. Results are sorted by creation time, descending. */
 export interface ListProjectsLocationsWorkerPoolsRequest {
   /** Required. The location and project to list resources on. Location must be a valid Google Cloud region, and cannot be the "-" wildcard. Format: `projects/{project}/locations/{location}`, where `{project}` can be project id or number. */
   parent: string;
@@ -4312,7 +4311,8 @@ export const ListProjectsLocationsWorkerPoolsResponse = GoogleCloudRunV2ListWork
 
 export type ListProjectsLocationsWorkerPoolsError = CommonErrors;
 
-export const listProjectsLocationsWorkerPools = API.makePaginated(() => ({
+/** Lists WorkerPools. Results are sorted by creation time, descending. */
+export const listProjectsLocationsWorkerPools: API.PaginatedOperationMethod<ListProjectsLocationsWorkerPoolsRequest, ListProjectsLocationsWorkerPoolsResponse, ListProjectsLocationsWorkerPoolsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsWorkerPoolsRequest,
   output: ListProjectsLocationsWorkerPoolsResponse,
   errors: [],
@@ -4322,7 +4322,6 @@ export const listProjectsLocationsWorkerPools = API.makePaginated(() => ({
   },
 }));
 
-/** Updates a WorkerPool. */
 export interface PatchProjectsLocationsWorkerPoolsRequest {
   /** The fully qualified name of this WorkerPool. In CreateWorkerPoolRequest, this field is ignored, and instead composed from CreateWorkerPoolRequest.parent and CreateWorkerPoolRequest.worker_id. Format: `projects/{project}/locations/{location}/workerPools/{worker_id}` */
   name: string;
@@ -4355,13 +4354,13 @@ export const PatchProjectsLocationsWorkerPoolsResponse = GoogleLongrunningOperat
 
 export type PatchProjectsLocationsWorkerPoolsError = CommonErrors;
 
+/** Updates a WorkerPool. */
 export const patchProjectsLocationsWorkerPools: API.OperationMethod<PatchProjectsLocationsWorkerPoolsRequest, PatchProjectsLocationsWorkerPoolsResponse, PatchProjectsLocationsWorkerPoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsWorkerPoolsRequest,
   output: PatchProjectsLocationsWorkerPoolsResponse,
   errors: [],
 }));
 
-/** Deletes a WorkerPool. */
 export interface DeleteProjectsLocationsWorkerPoolsRequest {
   /** Required. The full name of the WorkerPool. Format: `projects/{project}/locations/{location}/workerPools/{worker_pool}`, where `{project}` can be project id or number. */
   name: string;
@@ -4385,13 +4384,13 @@ export const DeleteProjectsLocationsWorkerPoolsResponse = GoogleLongrunningOpera
 
 export type DeleteProjectsLocationsWorkerPoolsError = CommonErrors;
 
+/** Deletes a WorkerPool. */
 export const deleteProjectsLocationsWorkerPools: API.OperationMethod<DeleteProjectsLocationsWorkerPoolsRequest, DeleteProjectsLocationsWorkerPoolsResponse, DeleteProjectsLocationsWorkerPoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsWorkerPoolsRequest,
   output: DeleteProjectsLocationsWorkerPoolsResponse,
   errors: [],
 }));
 
-/** Gets the IAM Access Control policy currently in effect for the given Cloud Run WorkerPool. This result does not include any inherited policies. */
 export interface GetIamPolicyProjectsLocationsWorkerPoolsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -4412,13 +4411,13 @@ export const GetIamPolicyProjectsLocationsWorkerPoolsResponse = GoogleIamV1Polic
 
 export type GetIamPolicyProjectsLocationsWorkerPoolsError = CommonErrors;
 
+/** Gets the IAM Access Control policy currently in effect for the given Cloud Run WorkerPool. This result does not include any inherited policies. */
 export const getIamPolicyProjectsLocationsWorkerPools: API.OperationMethod<GetIamPolicyProjectsLocationsWorkerPoolsRequest, GetIamPolicyProjectsLocationsWorkerPoolsResponse, GetIamPolicyProjectsLocationsWorkerPoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsWorkerPoolsRequest,
   output: GetIamPolicyProjectsLocationsWorkerPoolsResponse,
   errors: [],
 }));
 
-/** Sets the IAM Access control policy for the specified WorkerPool. Overwrites any existing policy. */
 export interface SetIamPolicyProjectsLocationsWorkerPoolsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -4439,13 +4438,13 @@ export const SetIamPolicyProjectsLocationsWorkerPoolsResponse = GoogleIamV1Polic
 
 export type SetIamPolicyProjectsLocationsWorkerPoolsError = CommonErrors;
 
+/** Sets the IAM Access control policy for the specified WorkerPool. Overwrites any existing policy. */
 export const setIamPolicyProjectsLocationsWorkerPools: API.OperationMethod<SetIamPolicyProjectsLocationsWorkerPoolsRequest, SetIamPolicyProjectsLocationsWorkerPoolsResponse, SetIamPolicyProjectsLocationsWorkerPoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsWorkerPoolsRequest,
   output: SetIamPolicyProjectsLocationsWorkerPoolsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified Project. There are no permissions required for making this API call. */
 export interface TestIamPermissionsProjectsLocationsWorkerPoolsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -4466,13 +4465,13 @@ export const TestIamPermissionsProjectsLocationsWorkerPoolsResponse = GoogleIamV
 
 export type TestIamPermissionsProjectsLocationsWorkerPoolsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified Project. There are no permissions required for making this API call. */
 export const testIamPermissionsProjectsLocationsWorkerPools: API.OperationMethod<TestIamPermissionsProjectsLocationsWorkerPoolsRequest, TestIamPermissionsProjectsLocationsWorkerPoolsResponse, TestIamPermissionsProjectsLocationsWorkerPoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsWorkerPoolsRequest,
   output: TestIamPermissionsProjectsLocationsWorkerPoolsResponse,
   errors: [],
 }));
 
-/** Gets information about a Revision. */
 export interface GetProjectsLocationsWorkerPoolsRevisionsRequest {
   /** Required. The full name of the Revision. Format: projects/{project}/locations/{location}/services/{service}/revisions/{revision} */
   name: string;
@@ -4490,13 +4489,13 @@ export const GetProjectsLocationsWorkerPoolsRevisionsResponse = GoogleCloudRunV2
 
 export type GetProjectsLocationsWorkerPoolsRevisionsError = CommonErrors;
 
+/** Gets information about a Revision. */
 export const getProjectsLocationsWorkerPoolsRevisions: API.OperationMethod<GetProjectsLocationsWorkerPoolsRevisionsRequest, GetProjectsLocationsWorkerPoolsRevisionsResponse, GetProjectsLocationsWorkerPoolsRevisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsWorkerPoolsRevisionsRequest,
   output: GetProjectsLocationsWorkerPoolsRevisionsResponse,
   errors: [],
 }));
 
-/** Lists Revisions from a given Service, or from a given location. Results are sorted by creation time, descending. */
 export interface ListProjectsLocationsWorkerPoolsRevisionsRequest {
   /** Required. The Service from which the Revisions should be listed. To list all Revisions across Services, use "-" instead of Service name. Format: projects/{project}/locations/{location}/services/{service} */
   parent: string;
@@ -4523,7 +4522,8 @@ export const ListProjectsLocationsWorkerPoolsRevisionsResponse = GoogleCloudRunV
 
 export type ListProjectsLocationsWorkerPoolsRevisionsError = CommonErrors;
 
-export const listProjectsLocationsWorkerPoolsRevisions = API.makePaginated(() => ({
+/** Lists Revisions from a given Service, or from a given location. Results are sorted by creation time, descending. */
+export const listProjectsLocationsWorkerPoolsRevisions: API.PaginatedOperationMethod<ListProjectsLocationsWorkerPoolsRevisionsRequest, ListProjectsLocationsWorkerPoolsRevisionsResponse, ListProjectsLocationsWorkerPoolsRevisionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsWorkerPoolsRevisionsRequest,
   output: ListProjectsLocationsWorkerPoolsRevisionsResponse,
   errors: [],
@@ -4533,7 +4533,6 @@ export const listProjectsLocationsWorkerPoolsRevisions = API.makePaginated(() =>
   },
 }));
 
-/** Deletes a Revision. */
 export interface DeleteProjectsLocationsWorkerPoolsRevisionsRequest {
   /** Required. The name of the Revision to delete. Format: projects/{project}/locations/{location}/services/{service}/revisions/{revision} */
   name: string;
@@ -4557,6 +4556,7 @@ export const DeleteProjectsLocationsWorkerPoolsRevisionsResponse = GoogleLongrun
 
 export type DeleteProjectsLocationsWorkerPoolsRevisionsError = CommonErrors;
 
+/** Deletes a Revision. */
 export const deleteProjectsLocationsWorkerPoolsRevisions: API.OperationMethod<DeleteProjectsLocationsWorkerPoolsRevisionsRequest, DeleteProjectsLocationsWorkerPoolsRevisionsResponse, DeleteProjectsLocationsWorkerPoolsRevisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsWorkerPoolsRevisionsRequest,
   output: DeleteProjectsLocationsWorkerPoolsRevisionsResponse,

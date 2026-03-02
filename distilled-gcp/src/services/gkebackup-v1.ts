@@ -1632,7 +1632,6 @@ export const BDRBackupPlanJobLog: Schema.Schema<BDRBackupPlanJobLog> = Schema.su
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -1662,7 +1661,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -1672,7 +1672,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -1690,13 +1689,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -1726,7 +1725,8 @@ export const ListProjectsLocationsOperationsResponse = GoogleLongrunningListOper
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -1736,7 +1736,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1754,13 +1753,13 @@ export const GetProjectsLocationsOperationsResponse = GoogleLongrunningOperation
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -1778,13 +1777,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -1805,13 +1804,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Creates a new BackupPlan in a given location. */
 export interface CreateProjectsLocationsBackupPlansRequest {
   /** Required. The location within which to create the BackupPlan. Format: `projects/* /locations/*` */
   parent: string;
@@ -1835,13 +1834,13 @@ export const CreateProjectsLocationsBackupPlansResponse = GoogleLongrunningOpera
 
 export type CreateProjectsLocationsBackupPlansError = CommonErrors;
 
+/** Creates a new BackupPlan in a given location. */
 export const createProjectsLocationsBackupPlans: API.OperationMethod<CreateProjectsLocationsBackupPlansRequest, CreateProjectsLocationsBackupPlansResponse, CreateProjectsLocationsBackupPlansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsBackupPlansRequest,
   output: CreateProjectsLocationsBackupPlansResponse,
   errors: [],
 }));
 
-/** Lists BackupPlans in a given location. */
 export interface ListProjectsLocationsBackupPlansRequest {
   /** Required. The location that contains the BackupPlans to list. Format: `projects/* /locations/*` */
   parent: string;
@@ -1871,7 +1870,8 @@ export const ListProjectsLocationsBackupPlansResponse = ListBackupPlansResponse;
 
 export type ListProjectsLocationsBackupPlansError = CommonErrors;
 
-export const listProjectsLocationsBackupPlans = API.makePaginated(() => ({
+/** Lists BackupPlans in a given location. */
+export const listProjectsLocationsBackupPlans: API.PaginatedOperationMethod<ListProjectsLocationsBackupPlansRequest, ListProjectsLocationsBackupPlansResponse, ListProjectsLocationsBackupPlansError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBackupPlansRequest,
   output: ListProjectsLocationsBackupPlansResponse,
   errors: [],
@@ -1881,7 +1881,6 @@ export const listProjectsLocationsBackupPlans = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieve the details of a single BackupPlan. */
 export interface GetProjectsLocationsBackupPlansRequest {
   /** Required. Fully qualified BackupPlan name. Format: `projects/* /locations/* /backupPlans/*` */
   name: string;
@@ -1899,13 +1898,13 @@ export const GetProjectsLocationsBackupPlansResponse = BackupPlan;
 
 export type GetProjectsLocationsBackupPlansError = CommonErrors;
 
+/** Retrieve the details of a single BackupPlan. */
 export const getProjectsLocationsBackupPlans: API.OperationMethod<GetProjectsLocationsBackupPlansRequest, GetProjectsLocationsBackupPlansResponse, GetProjectsLocationsBackupPlansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBackupPlansRequest,
   output: GetProjectsLocationsBackupPlansResponse,
   errors: [],
 }));
 
-/** Update a BackupPlan. */
 export interface PatchProjectsLocationsBackupPlansRequest {
   /** Output only. Identifier. The full name of the BackupPlan resource. Format: `projects/* /locations/* /backupPlans/*` */
   name: string;
@@ -1929,13 +1928,13 @@ export const PatchProjectsLocationsBackupPlansResponse = GoogleLongrunningOperat
 
 export type PatchProjectsLocationsBackupPlansError = CommonErrors;
 
+/** Update a BackupPlan. */
 export const patchProjectsLocationsBackupPlans: API.OperationMethod<PatchProjectsLocationsBackupPlansRequest, PatchProjectsLocationsBackupPlansResponse, PatchProjectsLocationsBackupPlansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsBackupPlansRequest,
   output: PatchProjectsLocationsBackupPlansResponse,
   errors: [],
 }));
 
-/** Deletes an existing BackupPlan. */
 export interface DeleteProjectsLocationsBackupPlansRequest {
   /** Required. Fully qualified BackupPlan name. Format: `projects/* /locations/* /backupPlans/*` */
   name: string;
@@ -1956,13 +1955,13 @@ export const DeleteProjectsLocationsBackupPlansResponse = GoogleLongrunningOpera
 
 export type DeleteProjectsLocationsBackupPlansError = CommonErrors;
 
+/** Deletes an existing BackupPlan. */
 export const deleteProjectsLocationsBackupPlans: API.OperationMethod<DeleteProjectsLocationsBackupPlansRequest, DeleteProjectsLocationsBackupPlansResponse, DeleteProjectsLocationsBackupPlansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsBackupPlansRequest,
   output: DeleteProjectsLocationsBackupPlansResponse,
   errors: [],
 }));
 
-/** Updates tags directly bound to a GCP resource. */
 export interface SetTagsProjectsLocationsBackupPlansRequest {
   /** Required. The full resource name of the service resource. */
   name: string;
@@ -1983,13 +1982,13 @@ export const SetTagsProjectsLocationsBackupPlansResponse = SetTagsResponse;
 
 export type SetTagsProjectsLocationsBackupPlansError = CommonErrors;
 
+/** Updates tags directly bound to a GCP resource. */
 export const setTagsProjectsLocationsBackupPlans: API.OperationMethod<SetTagsProjectsLocationsBackupPlansRequest, SetTagsProjectsLocationsBackupPlansResponse, SetTagsProjectsLocationsBackupPlansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetTagsProjectsLocationsBackupPlansRequest,
   output: SetTagsProjectsLocationsBackupPlansResponse,
   errors: [],
 }));
 
-/** Returns tags directly bound to a GCP resource. */
 export interface GetTagsProjectsLocationsBackupPlansRequest {
   /** Required. The full resource name of the service resource. */
   name: string;
@@ -2007,13 +2006,13 @@ export const GetTagsProjectsLocationsBackupPlansResponse = GetTagsResponse;
 
 export type GetTagsProjectsLocationsBackupPlansError = CommonErrors;
 
+/** Returns tags directly bound to a GCP resource. */
 export const getTagsProjectsLocationsBackupPlans: API.OperationMethod<GetTagsProjectsLocationsBackupPlansRequest, GetTagsProjectsLocationsBackupPlansResponse, GetTagsProjectsLocationsBackupPlansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetTagsProjectsLocationsBackupPlansRequest,
   output: GetTagsProjectsLocationsBackupPlansResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsBackupPlansRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2034,13 +2033,13 @@ export const SetIamPolicyProjectsLocationsBackupPlansResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsBackupPlansError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsBackupPlans: API.OperationMethod<SetIamPolicyProjectsLocationsBackupPlansRequest, SetIamPolicyProjectsLocationsBackupPlansResponse, SetIamPolicyProjectsLocationsBackupPlansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsBackupPlansRequest,
   output: SetIamPolicyProjectsLocationsBackupPlansResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsBackupPlansRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2061,13 +2060,13 @@ export const GetIamPolicyProjectsLocationsBackupPlansResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsBackupPlansError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsBackupPlans: API.OperationMethod<GetIamPolicyProjectsLocationsBackupPlansRequest, GetIamPolicyProjectsLocationsBackupPlansResponse, GetIamPolicyProjectsLocationsBackupPlansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsBackupPlansRequest,
   output: GetIamPolicyProjectsLocationsBackupPlansResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsBackupPlansRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2088,13 +2087,13 @@ export const TestIamPermissionsProjectsLocationsBackupPlansResponse = TestIamPer
 
 export type TestIamPermissionsProjectsLocationsBackupPlansError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsBackupPlans: API.OperationMethod<TestIamPermissionsProjectsLocationsBackupPlansRequest, TestIamPermissionsProjectsLocationsBackupPlansResponse, TestIamPermissionsProjectsLocationsBackupPlansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsBackupPlansRequest,
   output: TestIamPermissionsProjectsLocationsBackupPlansResponse,
   errors: [],
 }));
 
-/** Creates a Backup for the given BackupPlan. */
 export interface CreateProjectsLocationsBackupPlansBackupsRequest {
   /** Required. The BackupPlan within which to create the Backup. Format: `projects/* /locations/* /backupPlans/*` */
   parent: string;
@@ -2118,13 +2117,13 @@ export const CreateProjectsLocationsBackupPlansBackupsResponse = GoogleLongrunni
 
 export type CreateProjectsLocationsBackupPlansBackupsError = CommonErrors;
 
+/** Creates a Backup for the given BackupPlan. */
 export const createProjectsLocationsBackupPlansBackups: API.OperationMethod<CreateProjectsLocationsBackupPlansBackupsRequest, CreateProjectsLocationsBackupPlansBackupsResponse, CreateProjectsLocationsBackupPlansBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsBackupPlansBackupsRequest,
   output: CreateProjectsLocationsBackupPlansBackupsResponse,
   errors: [],
 }));
 
-/** Lists the Backups for a given BackupPlan. */
 export interface ListProjectsLocationsBackupPlansBackupsRequest {
   /** Required. The BackupPlan that contains the Backups to list. Format: `projects/* /locations/* /backupPlans/*` */
   parent: string;
@@ -2157,7 +2156,8 @@ export const ListProjectsLocationsBackupPlansBackupsResponse = ListBackupsRespon
 
 export type ListProjectsLocationsBackupPlansBackupsError = CommonErrors;
 
-export const listProjectsLocationsBackupPlansBackups = API.makePaginated(() => ({
+/** Lists the Backups for a given BackupPlan. */
+export const listProjectsLocationsBackupPlansBackups: API.PaginatedOperationMethod<ListProjectsLocationsBackupPlansBackupsRequest, ListProjectsLocationsBackupPlansBackupsResponse, ListProjectsLocationsBackupPlansBackupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBackupPlansBackupsRequest,
   output: ListProjectsLocationsBackupPlansBackupsResponse,
   errors: [],
@@ -2167,7 +2167,6 @@ export const listProjectsLocationsBackupPlansBackups = API.makePaginated(() => (
   },
 }));
 
-/** Retrieve the details of a single Backup. */
 export interface GetProjectsLocationsBackupPlansBackupsRequest {
   /** Required. Full name of the Backup resource. Format: `projects/* /locations/* /backupPlans/* /backups/*` */
   name: string;
@@ -2185,13 +2184,13 @@ export const GetProjectsLocationsBackupPlansBackupsResponse = Backup;
 
 export type GetProjectsLocationsBackupPlansBackupsError = CommonErrors;
 
+/** Retrieve the details of a single Backup. */
 export const getProjectsLocationsBackupPlansBackups: API.OperationMethod<GetProjectsLocationsBackupPlansBackupsRequest, GetProjectsLocationsBackupPlansBackupsResponse, GetProjectsLocationsBackupPlansBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBackupPlansBackupsRequest,
   output: GetProjectsLocationsBackupPlansBackupsResponse,
   errors: [],
 }));
 
-/** Update a Backup. */
 export interface PatchProjectsLocationsBackupPlansBackupsRequest {
   /** Output only. Identifier. The fully qualified name of the Backup. `projects/* /locations/* /backupPlans/* /backups/*` */
   name: string;
@@ -2215,13 +2214,13 @@ export const PatchProjectsLocationsBackupPlansBackupsResponse = GoogleLongrunnin
 
 export type PatchProjectsLocationsBackupPlansBackupsError = CommonErrors;
 
+/** Update a Backup. */
 export const patchProjectsLocationsBackupPlansBackups: API.OperationMethod<PatchProjectsLocationsBackupPlansBackupsRequest, PatchProjectsLocationsBackupPlansBackupsResponse, PatchProjectsLocationsBackupPlansBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsBackupPlansBackupsRequest,
   output: PatchProjectsLocationsBackupPlansBackupsResponse,
   errors: [],
 }));
 
-/** Deletes an existing Backup. */
 export interface DeleteProjectsLocationsBackupPlansBackupsRequest {
   /** Required. Name of the Backup resource. Format: `projects/* /locations/* /backupPlans/* /backups/*` */
   name: string;
@@ -2245,13 +2244,13 @@ export const DeleteProjectsLocationsBackupPlansBackupsResponse = GoogleLongrunni
 
 export type DeleteProjectsLocationsBackupPlansBackupsError = CommonErrors;
 
+/** Deletes an existing Backup. */
 export const deleteProjectsLocationsBackupPlansBackups: API.OperationMethod<DeleteProjectsLocationsBackupPlansBackupsRequest, DeleteProjectsLocationsBackupPlansBackupsResponse, DeleteProjectsLocationsBackupPlansBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsBackupPlansBackupsRequest,
   output: DeleteProjectsLocationsBackupPlansBackupsResponse,
   errors: [],
 }));
 
-/** Retrieve the link to the backupIndex. */
 export interface GetBackupIndexDownloadUrlProjectsLocationsBackupPlansBackupsRequest {
   /** Required. Full name of Backup resource. Format: projects/{project}/locations/{location}/backupPlans/{backup_plan}/backups/{backup} */
   backup: string;
@@ -2269,13 +2268,13 @@ export const GetBackupIndexDownloadUrlProjectsLocationsBackupPlansBackupsRespons
 
 export type GetBackupIndexDownloadUrlProjectsLocationsBackupPlansBackupsError = CommonErrors;
 
+/** Retrieve the link to the backupIndex. */
 export const getBackupIndexDownloadUrlProjectsLocationsBackupPlansBackups: API.OperationMethod<GetBackupIndexDownloadUrlProjectsLocationsBackupPlansBackupsRequest, GetBackupIndexDownloadUrlProjectsLocationsBackupPlansBackupsResponse, GetBackupIndexDownloadUrlProjectsLocationsBackupPlansBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBackupIndexDownloadUrlProjectsLocationsBackupPlansBackupsRequest,
   output: GetBackupIndexDownloadUrlProjectsLocationsBackupPlansBackupsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsBackupPlansBackupsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2296,13 +2295,13 @@ export const SetIamPolicyProjectsLocationsBackupPlansBackupsResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsBackupPlansBackupsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsBackupPlansBackups: API.OperationMethod<SetIamPolicyProjectsLocationsBackupPlansBackupsRequest, SetIamPolicyProjectsLocationsBackupPlansBackupsResponse, SetIamPolicyProjectsLocationsBackupPlansBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsBackupPlansBackupsRequest,
   output: SetIamPolicyProjectsLocationsBackupPlansBackupsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsBackupPlansBackupsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2323,13 +2322,13 @@ export const GetIamPolicyProjectsLocationsBackupPlansBackupsResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsBackupPlansBackupsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsBackupPlansBackups: API.OperationMethod<GetIamPolicyProjectsLocationsBackupPlansBackupsRequest, GetIamPolicyProjectsLocationsBackupPlansBackupsResponse, GetIamPolicyProjectsLocationsBackupPlansBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsBackupPlansBackupsRequest,
   output: GetIamPolicyProjectsLocationsBackupPlansBackupsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsBackupPlansBackupsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2350,13 +2349,13 @@ export const TestIamPermissionsProjectsLocationsBackupPlansBackupsResponse = Tes
 
 export type TestIamPermissionsProjectsLocationsBackupPlansBackupsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsBackupPlansBackups: API.OperationMethod<TestIamPermissionsProjectsLocationsBackupPlansBackupsRequest, TestIamPermissionsProjectsLocationsBackupPlansBackupsResponse, TestIamPermissionsProjectsLocationsBackupPlansBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsBackupPlansBackupsRequest,
   output: TestIamPermissionsProjectsLocationsBackupPlansBackupsResponse,
   errors: [],
 }));
 
-/** Lists the VolumeBackups for a given Backup. */
 export interface ListProjectsLocationsBackupPlansBackupsVolumeBackupsRequest {
   /** Required. The Backup that contains the VolumeBackups to list. Format: `projects/* /locations/* /backupPlans/* /backups/*` */
   parent: string;
@@ -2386,7 +2385,8 @@ export const ListProjectsLocationsBackupPlansBackupsVolumeBackupsResponse = List
 
 export type ListProjectsLocationsBackupPlansBackupsVolumeBackupsError = CommonErrors;
 
-export const listProjectsLocationsBackupPlansBackupsVolumeBackups = API.makePaginated(() => ({
+/** Lists the VolumeBackups for a given Backup. */
+export const listProjectsLocationsBackupPlansBackupsVolumeBackups: API.PaginatedOperationMethod<ListProjectsLocationsBackupPlansBackupsVolumeBackupsRequest, ListProjectsLocationsBackupPlansBackupsVolumeBackupsResponse, ListProjectsLocationsBackupPlansBackupsVolumeBackupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBackupPlansBackupsVolumeBackupsRequest,
   output: ListProjectsLocationsBackupPlansBackupsVolumeBackupsResponse,
   errors: [],
@@ -2396,7 +2396,6 @@ export const listProjectsLocationsBackupPlansBackupsVolumeBackups = API.makePagi
   },
 }));
 
-/** Retrieve the details of a single VolumeBackup. */
 export interface GetProjectsLocationsBackupPlansBackupsVolumeBackupsRequest {
   /** Required. Full name of the VolumeBackup resource. Format: `projects/* /locations/* /backupPlans/* /backups/* /volumeBackups/*` */
   name: string;
@@ -2414,13 +2413,13 @@ export const GetProjectsLocationsBackupPlansBackupsVolumeBackupsResponse = Volum
 
 export type GetProjectsLocationsBackupPlansBackupsVolumeBackupsError = CommonErrors;
 
+/** Retrieve the details of a single VolumeBackup. */
 export const getProjectsLocationsBackupPlansBackupsVolumeBackups: API.OperationMethod<GetProjectsLocationsBackupPlansBackupsVolumeBackupsRequest, GetProjectsLocationsBackupPlansBackupsVolumeBackupsResponse, GetProjectsLocationsBackupPlansBackupsVolumeBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBackupPlansBackupsVolumeBackupsRequest,
   output: GetProjectsLocationsBackupPlansBackupsVolumeBackupsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsBackupPlansBackupsVolumeBackupsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2441,13 +2440,13 @@ export const SetIamPolicyProjectsLocationsBackupPlansBackupsVolumeBackupsRespons
 
 export type SetIamPolicyProjectsLocationsBackupPlansBackupsVolumeBackupsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsBackupPlansBackupsVolumeBackups: API.OperationMethod<SetIamPolicyProjectsLocationsBackupPlansBackupsVolumeBackupsRequest, SetIamPolicyProjectsLocationsBackupPlansBackupsVolumeBackupsResponse, SetIamPolicyProjectsLocationsBackupPlansBackupsVolumeBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsBackupPlansBackupsVolumeBackupsRequest,
   output: SetIamPolicyProjectsLocationsBackupPlansBackupsVolumeBackupsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsBackupPlansBackupsVolumeBackupsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2468,13 +2467,13 @@ export const GetIamPolicyProjectsLocationsBackupPlansBackupsVolumeBackupsRespons
 
 export type GetIamPolicyProjectsLocationsBackupPlansBackupsVolumeBackupsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsBackupPlansBackupsVolumeBackups: API.OperationMethod<GetIamPolicyProjectsLocationsBackupPlansBackupsVolumeBackupsRequest, GetIamPolicyProjectsLocationsBackupPlansBackupsVolumeBackupsResponse, GetIamPolicyProjectsLocationsBackupPlansBackupsVolumeBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsBackupPlansBackupsVolumeBackupsRequest,
   output: GetIamPolicyProjectsLocationsBackupPlansBackupsVolumeBackupsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsBackupPlansBackupsVolumeBackupsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2495,13 +2494,13 @@ export const TestIamPermissionsProjectsLocationsBackupPlansBackupsVolumeBackupsR
 
 export type TestIamPermissionsProjectsLocationsBackupPlansBackupsVolumeBackupsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsBackupPlansBackupsVolumeBackups: API.OperationMethod<TestIamPermissionsProjectsLocationsBackupPlansBackupsVolumeBackupsRequest, TestIamPermissionsProjectsLocationsBackupPlansBackupsVolumeBackupsResponse, TestIamPermissionsProjectsLocationsBackupPlansBackupsVolumeBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsBackupPlansBackupsVolumeBackupsRequest,
   output: TestIamPermissionsProjectsLocationsBackupPlansBackupsVolumeBackupsResponse,
   errors: [],
 }));
 
-/** Creates a new BackupChannel in a given location. */
 export interface CreateProjectsLocationsBackupChannelsRequest {
   /** Required. The location within which to create the BackupChannel. Format: `projects/* /locations/*` */
   parent: string;
@@ -2525,13 +2524,13 @@ export const CreateProjectsLocationsBackupChannelsResponse = GoogleLongrunningOp
 
 export type CreateProjectsLocationsBackupChannelsError = CommonErrors;
 
+/** Creates a new BackupChannel in a given location. */
 export const createProjectsLocationsBackupChannels: API.OperationMethod<CreateProjectsLocationsBackupChannelsRequest, CreateProjectsLocationsBackupChannelsResponse, CreateProjectsLocationsBackupChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsBackupChannelsRequest,
   output: CreateProjectsLocationsBackupChannelsResponse,
   errors: [],
 }));
 
-/** Lists BackupChannels in a given location. */
 export interface ListProjectsLocationsBackupChannelsRequest {
   /** Required. The location that contains the BackupChannels to list. Format: `projects/* /locations/*` */
   parent: string;
@@ -2561,7 +2560,8 @@ export const ListProjectsLocationsBackupChannelsResponse = ListBackupChannelsRes
 
 export type ListProjectsLocationsBackupChannelsError = CommonErrors;
 
-export const listProjectsLocationsBackupChannels = API.makePaginated(() => ({
+/** Lists BackupChannels in a given location. */
+export const listProjectsLocationsBackupChannels: API.PaginatedOperationMethod<ListProjectsLocationsBackupChannelsRequest, ListProjectsLocationsBackupChannelsResponse, ListProjectsLocationsBackupChannelsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBackupChannelsRequest,
   output: ListProjectsLocationsBackupChannelsResponse,
   errors: [],
@@ -2571,7 +2571,6 @@ export const listProjectsLocationsBackupChannels = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieve the details of a single BackupChannel. */
 export interface GetProjectsLocationsBackupChannelsRequest {
   /** Required. Fully qualified BackupChannel name. Format: `projects/* /locations/* /backupChannels/*` */
   name: string;
@@ -2589,13 +2588,13 @@ export const GetProjectsLocationsBackupChannelsResponse = BackupChannel;
 
 export type GetProjectsLocationsBackupChannelsError = CommonErrors;
 
+/** Retrieve the details of a single BackupChannel. */
 export const getProjectsLocationsBackupChannels: API.OperationMethod<GetProjectsLocationsBackupChannelsRequest, GetProjectsLocationsBackupChannelsResponse, GetProjectsLocationsBackupChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBackupChannelsRequest,
   output: GetProjectsLocationsBackupChannelsResponse,
   errors: [],
 }));
 
-/** Update a BackupChannel. */
 export interface PatchProjectsLocationsBackupChannelsRequest {
   /** Identifier. The fully qualified name of the BackupChannel. `projects/* /locations/* /backupChannels/*` */
   name: string;
@@ -2619,13 +2618,13 @@ export const PatchProjectsLocationsBackupChannelsResponse = GoogleLongrunningOpe
 
 export type PatchProjectsLocationsBackupChannelsError = CommonErrors;
 
+/** Update a BackupChannel. */
 export const patchProjectsLocationsBackupChannels: API.OperationMethod<PatchProjectsLocationsBackupChannelsRequest, PatchProjectsLocationsBackupChannelsResponse, PatchProjectsLocationsBackupChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsBackupChannelsRequest,
   output: PatchProjectsLocationsBackupChannelsResponse,
   errors: [],
 }));
 
-/** Deletes an existing BackupChannel. */
 export interface DeleteProjectsLocationsBackupChannelsRequest {
   /** Required. Fully qualified BackupChannel name. Format: `projects/* /locations/* /backupChannels/*` */
   name: string;
@@ -2649,13 +2648,13 @@ export const DeleteProjectsLocationsBackupChannelsResponse = GoogleLongrunningOp
 
 export type DeleteProjectsLocationsBackupChannelsError = CommonErrors;
 
+/** Deletes an existing BackupChannel. */
 export const deleteProjectsLocationsBackupChannels: API.OperationMethod<DeleteProjectsLocationsBackupChannelsRequest, DeleteProjectsLocationsBackupChannelsResponse, DeleteProjectsLocationsBackupChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsBackupChannelsRequest,
   output: DeleteProjectsLocationsBackupChannelsResponse,
   errors: [],
 }));
 
-/** Lists BackupPlanBindings in a given location. */
 export interface ListProjectsLocationsBackupChannelsBackupPlanBindingsRequest {
   /** Required. The BackupChannel that contains the BackupPlanBindings to list. Format: `projects/* /locations/* /backupChannels/*` */
   parent: string;
@@ -2685,7 +2684,8 @@ export const ListProjectsLocationsBackupChannelsBackupPlanBindingsResponse = Lis
 
 export type ListProjectsLocationsBackupChannelsBackupPlanBindingsError = CommonErrors;
 
-export const listProjectsLocationsBackupChannelsBackupPlanBindings = API.makePaginated(() => ({
+/** Lists BackupPlanBindings in a given location. */
+export const listProjectsLocationsBackupChannelsBackupPlanBindings: API.PaginatedOperationMethod<ListProjectsLocationsBackupChannelsBackupPlanBindingsRequest, ListProjectsLocationsBackupChannelsBackupPlanBindingsResponse, ListProjectsLocationsBackupChannelsBackupPlanBindingsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBackupChannelsBackupPlanBindingsRequest,
   output: ListProjectsLocationsBackupChannelsBackupPlanBindingsResponse,
   errors: [],
@@ -2695,7 +2695,6 @@ export const listProjectsLocationsBackupChannelsBackupPlanBindings = API.makePag
   },
 }));
 
-/** Retrieve the details of a single BackupPlanBinding. */
 export interface GetProjectsLocationsBackupChannelsBackupPlanBindingsRequest {
   /** Required. Fully qualified BackupPlanBinding name. Format: `projects/* /locations/* /backupChannels/* /backupPlanBindings/*` */
   name: string;
@@ -2713,13 +2712,13 @@ export const GetProjectsLocationsBackupChannelsBackupPlanBindingsResponse = Back
 
 export type GetProjectsLocationsBackupChannelsBackupPlanBindingsError = CommonErrors;
 
+/** Retrieve the details of a single BackupPlanBinding. */
 export const getProjectsLocationsBackupChannelsBackupPlanBindings: API.OperationMethod<GetProjectsLocationsBackupChannelsBackupPlanBindingsRequest, GetProjectsLocationsBackupChannelsBackupPlanBindingsResponse, GetProjectsLocationsBackupChannelsBackupPlanBindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBackupChannelsBackupPlanBindingsRequest,
   output: GetProjectsLocationsBackupChannelsBackupPlanBindingsResponse,
   errors: [],
 }));
 
-/** Creates a new RestorePlan in a given location. */
 export interface CreateProjectsLocationsRestorePlansRequest {
   /** Required. The location within which to create the RestorePlan. Format: `projects/* /locations/*` */
   parent: string;
@@ -2743,13 +2742,13 @@ export const CreateProjectsLocationsRestorePlansResponse = GoogleLongrunningOper
 
 export type CreateProjectsLocationsRestorePlansError = CommonErrors;
 
+/** Creates a new RestorePlan in a given location. */
 export const createProjectsLocationsRestorePlans: API.OperationMethod<CreateProjectsLocationsRestorePlansRequest, CreateProjectsLocationsRestorePlansResponse, CreateProjectsLocationsRestorePlansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsRestorePlansRequest,
   output: CreateProjectsLocationsRestorePlansResponse,
   errors: [],
 }));
 
-/** Lists RestorePlans in a given location. */
 export interface ListProjectsLocationsRestorePlansRequest {
   /** Required. The location that contains the RestorePlans to list. Format: `projects/* /locations/*` */
   parent: string;
@@ -2779,7 +2778,8 @@ export const ListProjectsLocationsRestorePlansResponse = ListRestorePlansRespons
 
 export type ListProjectsLocationsRestorePlansError = CommonErrors;
 
-export const listProjectsLocationsRestorePlans = API.makePaginated(() => ({
+/** Lists RestorePlans in a given location. */
+export const listProjectsLocationsRestorePlans: API.PaginatedOperationMethod<ListProjectsLocationsRestorePlansRequest, ListProjectsLocationsRestorePlansResponse, ListProjectsLocationsRestorePlansError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRestorePlansRequest,
   output: ListProjectsLocationsRestorePlansResponse,
   errors: [],
@@ -2789,7 +2789,6 @@ export const listProjectsLocationsRestorePlans = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieve the details of a single RestorePlan. */
 export interface GetProjectsLocationsRestorePlansRequest {
   /** Required. Fully qualified RestorePlan name. Format: `projects/* /locations/* /restorePlans/*` */
   name: string;
@@ -2807,13 +2806,13 @@ export const GetProjectsLocationsRestorePlansResponse = RestorePlan;
 
 export type GetProjectsLocationsRestorePlansError = CommonErrors;
 
+/** Retrieve the details of a single RestorePlan. */
 export const getProjectsLocationsRestorePlans: API.OperationMethod<GetProjectsLocationsRestorePlansRequest, GetProjectsLocationsRestorePlansResponse, GetProjectsLocationsRestorePlansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRestorePlansRequest,
   output: GetProjectsLocationsRestorePlansResponse,
   errors: [],
 }));
 
-/** Update a RestorePlan. */
 export interface PatchProjectsLocationsRestorePlansRequest {
   /** Output only. Identifier. The full name of the RestorePlan resource. Format: `projects/* /locations/* /restorePlans/*`. */
   name: string;
@@ -2837,13 +2836,13 @@ export const PatchProjectsLocationsRestorePlansResponse = GoogleLongrunningOpera
 
 export type PatchProjectsLocationsRestorePlansError = CommonErrors;
 
+/** Update a RestorePlan. */
 export const patchProjectsLocationsRestorePlans: API.OperationMethod<PatchProjectsLocationsRestorePlansRequest, PatchProjectsLocationsRestorePlansResponse, PatchProjectsLocationsRestorePlansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsRestorePlansRequest,
   output: PatchProjectsLocationsRestorePlansResponse,
   errors: [],
 }));
 
-/** Deletes an existing RestorePlan. */
 export interface DeleteProjectsLocationsRestorePlansRequest {
   /** Required. Fully qualified RestorePlan name. Format: `projects/* /locations/* /restorePlans/*` */
   name: string;
@@ -2867,13 +2866,13 @@ export const DeleteProjectsLocationsRestorePlansResponse = GoogleLongrunningOper
 
 export type DeleteProjectsLocationsRestorePlansError = CommonErrors;
 
+/** Deletes an existing RestorePlan. */
 export const deleteProjectsLocationsRestorePlans: API.OperationMethod<DeleteProjectsLocationsRestorePlansRequest, DeleteProjectsLocationsRestorePlansResponse, DeleteProjectsLocationsRestorePlansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsRestorePlansRequest,
   output: DeleteProjectsLocationsRestorePlansResponse,
   errors: [],
 }));
 
-/** Updates tags directly bound to a GCP resource. */
 export interface SetTagsProjectsLocationsRestorePlansRequest {
   /** Required. The full resource name of the service resource. */
   name: string;
@@ -2894,13 +2893,13 @@ export const SetTagsProjectsLocationsRestorePlansResponse = SetTagsResponse;
 
 export type SetTagsProjectsLocationsRestorePlansError = CommonErrors;
 
+/** Updates tags directly bound to a GCP resource. */
 export const setTagsProjectsLocationsRestorePlans: API.OperationMethod<SetTagsProjectsLocationsRestorePlansRequest, SetTagsProjectsLocationsRestorePlansResponse, SetTagsProjectsLocationsRestorePlansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetTagsProjectsLocationsRestorePlansRequest,
   output: SetTagsProjectsLocationsRestorePlansResponse,
   errors: [],
 }));
 
-/** Returns tags directly bound to a GCP resource. */
 export interface GetTagsProjectsLocationsRestorePlansRequest {
   /** Required. The full resource name of the service resource. */
   name: string;
@@ -2918,13 +2917,13 @@ export const GetTagsProjectsLocationsRestorePlansResponse = GetTagsResponse;
 
 export type GetTagsProjectsLocationsRestorePlansError = CommonErrors;
 
+/** Returns tags directly bound to a GCP resource. */
 export const getTagsProjectsLocationsRestorePlans: API.OperationMethod<GetTagsProjectsLocationsRestorePlansRequest, GetTagsProjectsLocationsRestorePlansResponse, GetTagsProjectsLocationsRestorePlansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetTagsProjectsLocationsRestorePlansRequest,
   output: GetTagsProjectsLocationsRestorePlansResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsRestorePlansRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2945,13 +2944,13 @@ export const SetIamPolicyProjectsLocationsRestorePlansResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsRestorePlansError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsRestorePlans: API.OperationMethod<SetIamPolicyProjectsLocationsRestorePlansRequest, SetIamPolicyProjectsLocationsRestorePlansResponse, SetIamPolicyProjectsLocationsRestorePlansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsRestorePlansRequest,
   output: SetIamPolicyProjectsLocationsRestorePlansResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsRestorePlansRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2972,13 +2971,13 @@ export const GetIamPolicyProjectsLocationsRestorePlansResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsRestorePlansError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsRestorePlans: API.OperationMethod<GetIamPolicyProjectsLocationsRestorePlansRequest, GetIamPolicyProjectsLocationsRestorePlansResponse, GetIamPolicyProjectsLocationsRestorePlansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsRestorePlansRequest,
   output: GetIamPolicyProjectsLocationsRestorePlansResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsRestorePlansRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2999,13 +2998,13 @@ export const TestIamPermissionsProjectsLocationsRestorePlansResponse = TestIamPe
 
 export type TestIamPermissionsProjectsLocationsRestorePlansError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsRestorePlans: API.OperationMethod<TestIamPermissionsProjectsLocationsRestorePlansRequest, TestIamPermissionsProjectsLocationsRestorePlansResponse, TestIamPermissionsProjectsLocationsRestorePlansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsRestorePlansRequest,
   output: TestIamPermissionsProjectsLocationsRestorePlansResponse,
   errors: [],
 }));
 
-/** Creates a new Restore for the given RestorePlan. */
 export interface CreateProjectsLocationsRestorePlansRestoresRequest {
   /** Required. The RestorePlan within which to create the Restore. Format: `projects/* /locations/* /restorePlans/*` */
   parent: string;
@@ -3029,13 +3028,13 @@ export const CreateProjectsLocationsRestorePlansRestoresResponse = GoogleLongrun
 
 export type CreateProjectsLocationsRestorePlansRestoresError = CommonErrors;
 
+/** Creates a new Restore for the given RestorePlan. */
 export const createProjectsLocationsRestorePlansRestores: API.OperationMethod<CreateProjectsLocationsRestorePlansRestoresRequest, CreateProjectsLocationsRestorePlansRestoresResponse, CreateProjectsLocationsRestorePlansRestoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsRestorePlansRestoresRequest,
   output: CreateProjectsLocationsRestorePlansRestoresResponse,
   errors: [],
 }));
 
-/** Lists the Restores for a given RestorePlan. */
 export interface ListProjectsLocationsRestorePlansRestoresRequest {
   /** Required. The RestorePlan that contains the Restores to list. Format: `projects/* /locations/* /restorePlans/*` */
   parent: string;
@@ -3065,7 +3064,8 @@ export const ListProjectsLocationsRestorePlansRestoresResponse = ListRestoresRes
 
 export type ListProjectsLocationsRestorePlansRestoresError = CommonErrors;
 
-export const listProjectsLocationsRestorePlansRestores = API.makePaginated(() => ({
+/** Lists the Restores for a given RestorePlan. */
+export const listProjectsLocationsRestorePlansRestores: API.PaginatedOperationMethod<ListProjectsLocationsRestorePlansRestoresRequest, ListProjectsLocationsRestorePlansRestoresResponse, ListProjectsLocationsRestorePlansRestoresError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRestorePlansRestoresRequest,
   output: ListProjectsLocationsRestorePlansRestoresResponse,
   errors: [],
@@ -3075,7 +3075,6 @@ export const listProjectsLocationsRestorePlansRestores = API.makePaginated(() =>
   },
 }));
 
-/** Retrieves the details of a single Restore. */
 export interface GetProjectsLocationsRestorePlansRestoresRequest {
   /** Required. Name of the restore resource. Format: `projects/* /locations/* /restorePlans/* /restores/*` */
   name: string;
@@ -3093,13 +3092,13 @@ export const GetProjectsLocationsRestorePlansRestoresResponse = Restore;
 
 export type GetProjectsLocationsRestorePlansRestoresError = CommonErrors;
 
+/** Retrieves the details of a single Restore. */
 export const getProjectsLocationsRestorePlansRestores: API.OperationMethod<GetProjectsLocationsRestorePlansRestoresRequest, GetProjectsLocationsRestorePlansRestoresResponse, GetProjectsLocationsRestorePlansRestoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRestorePlansRestoresRequest,
   output: GetProjectsLocationsRestorePlansRestoresResponse,
   errors: [],
 }));
 
-/** Update a Restore. */
 export interface PatchProjectsLocationsRestorePlansRestoresRequest {
   /** Output only. Identifier. The full name of the Restore resource. Format: `projects/* /locations/* /restorePlans/* /restores/*` */
   name: string;
@@ -3123,13 +3122,13 @@ export const PatchProjectsLocationsRestorePlansRestoresResponse = GoogleLongrunn
 
 export type PatchProjectsLocationsRestorePlansRestoresError = CommonErrors;
 
+/** Update a Restore. */
 export const patchProjectsLocationsRestorePlansRestores: API.OperationMethod<PatchProjectsLocationsRestorePlansRestoresRequest, PatchProjectsLocationsRestorePlansRestoresResponse, PatchProjectsLocationsRestorePlansRestoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsRestorePlansRestoresRequest,
   output: PatchProjectsLocationsRestorePlansRestoresResponse,
   errors: [],
 }));
 
-/** Deletes an existing Restore. */
 export interface DeleteProjectsLocationsRestorePlansRestoresRequest {
   /** Required. Full name of the Restore Format: `projects/* /locations/* /restorePlans/* /restores/*` */
   name: string;
@@ -3153,13 +3152,13 @@ export const DeleteProjectsLocationsRestorePlansRestoresResponse = GoogleLongrun
 
 export type DeleteProjectsLocationsRestorePlansRestoresError = CommonErrors;
 
+/** Deletes an existing Restore. */
 export const deleteProjectsLocationsRestorePlansRestores: API.OperationMethod<DeleteProjectsLocationsRestorePlansRestoresRequest, DeleteProjectsLocationsRestorePlansRestoresResponse, DeleteProjectsLocationsRestorePlansRestoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsRestorePlansRestoresRequest,
   output: DeleteProjectsLocationsRestorePlansRestoresResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsRestorePlansRestoresRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3180,13 +3179,13 @@ export const SetIamPolicyProjectsLocationsRestorePlansRestoresResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsRestorePlansRestoresError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsRestorePlansRestores: API.OperationMethod<SetIamPolicyProjectsLocationsRestorePlansRestoresRequest, SetIamPolicyProjectsLocationsRestorePlansRestoresResponse, SetIamPolicyProjectsLocationsRestorePlansRestoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsRestorePlansRestoresRequest,
   output: SetIamPolicyProjectsLocationsRestorePlansRestoresResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsRestorePlansRestoresRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3207,13 +3206,13 @@ export const GetIamPolicyProjectsLocationsRestorePlansRestoresResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsRestorePlansRestoresError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsRestorePlansRestores: API.OperationMethod<GetIamPolicyProjectsLocationsRestorePlansRestoresRequest, GetIamPolicyProjectsLocationsRestorePlansRestoresResponse, GetIamPolicyProjectsLocationsRestorePlansRestoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsRestorePlansRestoresRequest,
   output: GetIamPolicyProjectsLocationsRestorePlansRestoresResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsRestorePlansRestoresRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3234,13 +3233,13 @@ export const TestIamPermissionsProjectsLocationsRestorePlansRestoresResponse = T
 
 export type TestIamPermissionsProjectsLocationsRestorePlansRestoresError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsRestorePlansRestores: API.OperationMethod<TestIamPermissionsProjectsLocationsRestorePlansRestoresRequest, TestIamPermissionsProjectsLocationsRestorePlansRestoresResponse, TestIamPermissionsProjectsLocationsRestorePlansRestoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsRestorePlansRestoresRequest,
   output: TestIamPermissionsProjectsLocationsRestorePlansRestoresResponse,
   errors: [],
 }));
 
-/** Lists the VolumeRestores for a given Restore. */
 export interface ListProjectsLocationsRestorePlansRestoresVolumeRestoresRequest {
   /** Required. The Restore that contains the VolumeRestores to list. Format: `projects/* /locations/* /restorePlans/* /restores/*` */
   parent: string;
@@ -3270,7 +3269,8 @@ export const ListProjectsLocationsRestorePlansRestoresVolumeRestoresResponse = L
 
 export type ListProjectsLocationsRestorePlansRestoresVolumeRestoresError = CommonErrors;
 
-export const listProjectsLocationsRestorePlansRestoresVolumeRestores = API.makePaginated(() => ({
+/** Lists the VolumeRestores for a given Restore. */
+export const listProjectsLocationsRestorePlansRestoresVolumeRestores: API.PaginatedOperationMethod<ListProjectsLocationsRestorePlansRestoresVolumeRestoresRequest, ListProjectsLocationsRestorePlansRestoresVolumeRestoresResponse, ListProjectsLocationsRestorePlansRestoresVolumeRestoresError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRestorePlansRestoresVolumeRestoresRequest,
   output: ListProjectsLocationsRestorePlansRestoresVolumeRestoresResponse,
   errors: [],
@@ -3280,7 +3280,6 @@ export const listProjectsLocationsRestorePlansRestoresVolumeRestores = API.makeP
   },
 }));
 
-/** Retrieve the details of a single VolumeRestore. */
 export interface GetProjectsLocationsRestorePlansRestoresVolumeRestoresRequest {
   /** Required. Full name of the VolumeRestore resource. Format: `projects/* /locations/* /restorePlans/* /restores/* /volumeRestores/*` */
   name: string;
@@ -3298,13 +3297,13 @@ export const GetProjectsLocationsRestorePlansRestoresVolumeRestoresResponse = Vo
 
 export type GetProjectsLocationsRestorePlansRestoresVolumeRestoresError = CommonErrors;
 
+/** Retrieve the details of a single VolumeRestore. */
 export const getProjectsLocationsRestorePlansRestoresVolumeRestores: API.OperationMethod<GetProjectsLocationsRestorePlansRestoresVolumeRestoresRequest, GetProjectsLocationsRestorePlansRestoresVolumeRestoresResponse, GetProjectsLocationsRestorePlansRestoresVolumeRestoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRestorePlansRestoresVolumeRestoresRequest,
   output: GetProjectsLocationsRestorePlansRestoresVolumeRestoresResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsRestorePlansRestoresVolumeRestoresRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3325,13 +3324,13 @@ export const SetIamPolicyProjectsLocationsRestorePlansRestoresVolumeRestoresResp
 
 export type SetIamPolicyProjectsLocationsRestorePlansRestoresVolumeRestoresError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsRestorePlansRestoresVolumeRestores: API.OperationMethod<SetIamPolicyProjectsLocationsRestorePlansRestoresVolumeRestoresRequest, SetIamPolicyProjectsLocationsRestorePlansRestoresVolumeRestoresResponse, SetIamPolicyProjectsLocationsRestorePlansRestoresVolumeRestoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsRestorePlansRestoresVolumeRestoresRequest,
   output: SetIamPolicyProjectsLocationsRestorePlansRestoresVolumeRestoresResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsRestorePlansRestoresVolumeRestoresRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3352,13 +3351,13 @@ export const GetIamPolicyProjectsLocationsRestorePlansRestoresVolumeRestoresResp
 
 export type GetIamPolicyProjectsLocationsRestorePlansRestoresVolumeRestoresError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsRestorePlansRestoresVolumeRestores: API.OperationMethod<GetIamPolicyProjectsLocationsRestorePlansRestoresVolumeRestoresRequest, GetIamPolicyProjectsLocationsRestorePlansRestoresVolumeRestoresResponse, GetIamPolicyProjectsLocationsRestorePlansRestoresVolumeRestoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsRestorePlansRestoresVolumeRestoresRequest,
   output: GetIamPolicyProjectsLocationsRestorePlansRestoresVolumeRestoresResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsRestorePlansRestoresVolumeRestoresRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3379,13 +3378,13 @@ export const TestIamPermissionsProjectsLocationsRestorePlansRestoresVolumeRestor
 
 export type TestIamPermissionsProjectsLocationsRestorePlansRestoresVolumeRestoresError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsRestorePlansRestoresVolumeRestores: API.OperationMethod<TestIamPermissionsProjectsLocationsRestorePlansRestoresVolumeRestoresRequest, TestIamPermissionsProjectsLocationsRestorePlansRestoresVolumeRestoresResponse, TestIamPermissionsProjectsLocationsRestorePlansRestoresVolumeRestoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsRestorePlansRestoresVolumeRestoresRequest,
   output: TestIamPermissionsProjectsLocationsRestorePlansRestoresVolumeRestoresResponse,
   errors: [],
 }));
 
-/** Creates a new RestoreChannel in a given location. */
 export interface CreateProjectsLocationsRestoreChannelsRequest {
   /** Required. The location within which to create the RestoreChannel. Format: `projects/* /locations/*` */
   parent: string;
@@ -3409,13 +3408,13 @@ export const CreateProjectsLocationsRestoreChannelsResponse = GoogleLongrunningO
 
 export type CreateProjectsLocationsRestoreChannelsError = CommonErrors;
 
+/** Creates a new RestoreChannel in a given location. */
 export const createProjectsLocationsRestoreChannels: API.OperationMethod<CreateProjectsLocationsRestoreChannelsRequest, CreateProjectsLocationsRestoreChannelsResponse, CreateProjectsLocationsRestoreChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsRestoreChannelsRequest,
   output: CreateProjectsLocationsRestoreChannelsResponse,
   errors: [],
 }));
 
-/** Lists RestoreChannels in a given location. */
 export interface ListProjectsLocationsRestoreChannelsRequest {
   /** Required. The location that contains the RestoreChannels to list. Format: `projects/* /locations/*` */
   parent: string;
@@ -3445,7 +3444,8 @@ export const ListProjectsLocationsRestoreChannelsResponse = ListRestoreChannelsR
 
 export type ListProjectsLocationsRestoreChannelsError = CommonErrors;
 
-export const listProjectsLocationsRestoreChannels = API.makePaginated(() => ({
+/** Lists RestoreChannels in a given location. */
+export const listProjectsLocationsRestoreChannels: API.PaginatedOperationMethod<ListProjectsLocationsRestoreChannelsRequest, ListProjectsLocationsRestoreChannelsResponse, ListProjectsLocationsRestoreChannelsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRestoreChannelsRequest,
   output: ListProjectsLocationsRestoreChannelsResponse,
   errors: [],
@@ -3455,7 +3455,6 @@ export const listProjectsLocationsRestoreChannels = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieve the details of a single RestoreChannel. */
 export interface GetProjectsLocationsRestoreChannelsRequest {
   /** Required. Fully qualified RestoreChannel name. Format: `projects/* /locations/* /restoreChannels/*` */
   name: string;
@@ -3473,13 +3472,13 @@ export const GetProjectsLocationsRestoreChannelsResponse = RestoreChannel;
 
 export type GetProjectsLocationsRestoreChannelsError = CommonErrors;
 
+/** Retrieve the details of a single RestoreChannel. */
 export const getProjectsLocationsRestoreChannels: API.OperationMethod<GetProjectsLocationsRestoreChannelsRequest, GetProjectsLocationsRestoreChannelsResponse, GetProjectsLocationsRestoreChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRestoreChannelsRequest,
   output: GetProjectsLocationsRestoreChannelsResponse,
   errors: [],
 }));
 
-/** Update a RestoreChannel. */
 export interface PatchProjectsLocationsRestoreChannelsRequest {
   /** Identifier. The fully qualified name of the RestoreChannel. `projects/* /locations/* /restoreChannels/*` */
   name: string;
@@ -3503,13 +3502,13 @@ export const PatchProjectsLocationsRestoreChannelsResponse = GoogleLongrunningOp
 
 export type PatchProjectsLocationsRestoreChannelsError = CommonErrors;
 
+/** Update a RestoreChannel. */
 export const patchProjectsLocationsRestoreChannels: API.OperationMethod<PatchProjectsLocationsRestoreChannelsRequest, PatchProjectsLocationsRestoreChannelsResponse, PatchProjectsLocationsRestoreChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsRestoreChannelsRequest,
   output: PatchProjectsLocationsRestoreChannelsResponse,
   errors: [],
 }));
 
-/** Deletes an existing RestoreChannel. */
 export interface DeleteProjectsLocationsRestoreChannelsRequest {
   /** Required. Fully qualified RestoreChannel name. Format: `projects/* /locations/* /restoreChannels/*` */
   name: string;
@@ -3530,13 +3529,13 @@ export const DeleteProjectsLocationsRestoreChannelsResponse = GoogleLongrunningO
 
 export type DeleteProjectsLocationsRestoreChannelsError = CommonErrors;
 
+/** Deletes an existing RestoreChannel. */
 export const deleteProjectsLocationsRestoreChannels: API.OperationMethod<DeleteProjectsLocationsRestoreChannelsRequest, DeleteProjectsLocationsRestoreChannelsResponse, DeleteProjectsLocationsRestoreChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsRestoreChannelsRequest,
   output: DeleteProjectsLocationsRestoreChannelsResponse,
   errors: [],
 }));
 
-/** Lists RestorePlanBindings in a given location. */
 export interface ListProjectsLocationsRestoreChannelsRestorePlanBindingsRequest {
   /** Required. The RestoreChannel that contains the ListRestorePlanBindings to list. Format: `projects/* /locations/* /restoreChannels/*` */
   parent: string;
@@ -3566,7 +3565,8 @@ export const ListProjectsLocationsRestoreChannelsRestorePlanBindingsResponse = L
 
 export type ListProjectsLocationsRestoreChannelsRestorePlanBindingsError = CommonErrors;
 
-export const listProjectsLocationsRestoreChannelsRestorePlanBindings = API.makePaginated(() => ({
+/** Lists RestorePlanBindings in a given location. */
+export const listProjectsLocationsRestoreChannelsRestorePlanBindings: API.PaginatedOperationMethod<ListProjectsLocationsRestoreChannelsRestorePlanBindingsRequest, ListProjectsLocationsRestoreChannelsRestorePlanBindingsResponse, ListProjectsLocationsRestoreChannelsRestorePlanBindingsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRestoreChannelsRestorePlanBindingsRequest,
   output: ListProjectsLocationsRestoreChannelsRestorePlanBindingsResponse,
   errors: [],
@@ -3576,7 +3576,6 @@ export const listProjectsLocationsRestoreChannelsRestorePlanBindings = API.makeP
   },
 }));
 
-/** Retrieve the details of a single RestorePlanBinding. */
 export interface GetProjectsLocationsRestoreChannelsRestorePlanBindingsRequest {
   /** Required. Fully qualified RestorePlanBinding name. Format: `projects/* /locations/* /restoreChannels/* /restorePlanBindings/*` */
   name: string;
@@ -3594,6 +3593,7 @@ export const GetProjectsLocationsRestoreChannelsRestorePlanBindingsResponse = Re
 
 export type GetProjectsLocationsRestoreChannelsRestorePlanBindingsError = CommonErrors;
 
+/** Retrieve the details of a single RestorePlanBinding. */
 export const getProjectsLocationsRestoreChannelsRestorePlanBindings: API.OperationMethod<GetProjectsLocationsRestoreChannelsRestorePlanBindingsRequest, GetProjectsLocationsRestoreChannelsRestorePlanBindingsResponse, GetProjectsLocationsRestoreChannelsRestorePlanBindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRestoreChannelsRestorePlanBindingsRequest,
   output: GetProjectsLocationsRestoreChannelsRestorePlanBindingsResponse,

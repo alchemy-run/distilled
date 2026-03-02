@@ -287,7 +287,6 @@ export const RestDescription: Schema.Schema<RestDescription> = Schema.suspend(()
 // Operations
 // ==========================================================================
 
-/** Retrieve the description of a particular version of an api. */
 export interface GetRestApisRequest {
   /** The name of the API. */
   api: string;
@@ -308,13 +307,13 @@ export const GetRestApisResponse = RestDescription;
 
 export type GetRestApisError = CommonErrors;
 
+/** Retrieve the description of a particular version of an api. */
 export const getRestApis: API.OperationMethod<GetRestApisRequest, GetRestApisResponse, GetRestApisError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRestApisRequest,
   output: GetRestApisResponse,
   errors: [],
 }));
 
-/** Retrieve the list of APIs supported at this endpoint. */
 export interface ListApisRequest {
   /** Only include APIs with the given name. */
   name?: string;
@@ -335,6 +334,7 @@ export const ListApisResponse = DirectoryList;
 
 export type ListApisError = CommonErrors;
 
+/** Retrieve the list of APIs supported at this endpoint. */
 export const listApis: API.OperationMethod<ListApisRequest, ListApisResponse, ListApisError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListApisRequest,
   output: ListApisResponse,

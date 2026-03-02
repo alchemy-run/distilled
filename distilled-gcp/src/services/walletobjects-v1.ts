@@ -3761,7 +3761,6 @@ export const TransitObjectUploadRotatingBarcodeValuesResponse: Schema.Schema<Tra
 // Operations
 // ==========================================================================
 
-/** Returns the issuer with the given issuer ID. */
 export interface GetIssuerRequest {
   /** The unique identifier for an issuer. */
   resourceId: string;
@@ -3779,13 +3778,13 @@ export const GetIssuerResponse = Issuer;
 
 export type GetIssuerError = CommonErrors;
 
+/** Returns the issuer with the given issuer ID. */
 export const getIssuer: API.OperationMethod<GetIssuerRequest, GetIssuerResponse, GetIssuerError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIssuerRequest,
   output: GetIssuerResponse,
   errors: [],
 }));
 
-/** Inserts an issuer with the given ID and properties. */
 export interface InsertIssuerRequest {
   /** Request body */
   body?: Issuer;
@@ -3803,13 +3802,13 @@ export const InsertIssuerResponse = Issuer;
 
 export type InsertIssuerError = CommonErrors;
 
+/** Inserts an issuer with the given ID and properties. */
 export const insertIssuer: API.OperationMethod<InsertIssuerRequest, InsertIssuerResponse, InsertIssuerError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertIssuerRequest,
   output: InsertIssuerResponse,
   errors: [],
 }));
 
-/** Returns a list of all issuers shared to the caller. */
 export interface ListIssuerRequest {
 }
 
@@ -3824,13 +3823,13 @@ export const ListIssuerResponse = IssuerListResponse;
 
 export type ListIssuerError = CommonErrors;
 
+/** Returns a list of all issuers shared to the caller. */
 export const listIssuer: API.OperationMethod<ListIssuerRequest, ListIssuerResponse, ListIssuerError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListIssuerRequest,
   output: ListIssuerResponse,
   errors: [],
 }));
 
-/** Updates the issuer referenced by the given issuer ID. This method supports patch semantics. */
 export interface PatchIssuerRequest {
   /** The unique identifier for an issuer. */
   resourceId: string;
@@ -3851,13 +3850,13 @@ export const PatchIssuerResponse = Issuer;
 
 export type PatchIssuerError = CommonErrors;
 
+/** Updates the issuer referenced by the given issuer ID. This method supports patch semantics. */
 export const patchIssuer: API.OperationMethod<PatchIssuerRequest, PatchIssuerResponse, PatchIssuerError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchIssuerRequest,
   output: PatchIssuerResponse,
   errors: [],
 }));
 
-/** Updates the issuer referenced by the given issuer ID. */
 export interface UpdateIssuerRequest {
   /** The unique identifier for an issuer. */
   resourceId: string;
@@ -3878,13 +3877,13 @@ export const UpdateIssuerResponse = Issuer;
 
 export type UpdateIssuerError = CommonErrors;
 
+/** Updates the issuer referenced by the given issuer ID. */
 export const updateIssuer: API.OperationMethod<UpdateIssuerRequest, UpdateIssuerResponse, UpdateIssuerError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateIssuerRequest,
   output: UpdateIssuerResponse,
   errors: [],
 }));
 
-/** Adds a message to the event ticket class referenced by the given class ID. */
 export interface AddmessageEventticketclassRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -3905,13 +3904,13 @@ export const AddmessageEventticketclassResponse = EventTicketClassAddMessageResp
 
 export type AddmessageEventticketclassError = CommonErrors;
 
+/** Adds a message to the event ticket class referenced by the given class ID. */
 export const addmessageEventticketclass: API.OperationMethod<AddmessageEventticketclassRequest, AddmessageEventticketclassResponse, AddmessageEventticketclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddmessageEventticketclassRequest,
   output: AddmessageEventticketclassResponse,
   errors: [],
 }));
 
-/** Returns the event ticket class with the given class ID. */
 export interface GetEventticketclassRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -3929,13 +3928,13 @@ export const GetEventticketclassResponse = EventTicketClass;
 
 export type GetEventticketclassError = CommonErrors;
 
+/** Returns the event ticket class with the given class ID. */
 export const getEventticketclass: API.OperationMethod<GetEventticketclassRequest, GetEventticketclassResponse, GetEventticketclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEventticketclassRequest,
   output: GetEventticketclassResponse,
   errors: [],
 }));
 
-/** Inserts an event ticket class with the given ID and properties. */
 export interface InsertEventticketclassRequest {
   /** Request body */
   body?: EventTicketClass;
@@ -3953,13 +3952,13 @@ export const InsertEventticketclassResponse = EventTicketClass;
 
 export type InsertEventticketclassError = CommonErrors;
 
+/** Inserts an event ticket class with the given ID and properties. */
 export const insertEventticketclass: API.OperationMethod<InsertEventticketclassRequest, InsertEventticketclassResponse, InsertEventticketclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertEventticketclassRequest,
   output: InsertEventticketclassResponse,
   errors: [],
 }));
 
-/** Returns a list of all event ticket classes for a given issuer ID. */
 export interface ListEventticketclassRequest {
   /** The ID of the issuer authorized to list classes. */
   issuerId?: string;
@@ -3983,13 +3982,13 @@ export const ListEventticketclassResponse = EventTicketClassListResponse;
 
 export type ListEventticketclassError = CommonErrors;
 
+/** Returns a list of all event ticket classes for a given issuer ID. */
 export const listEventticketclass: API.OperationMethod<ListEventticketclassRequest, ListEventticketclassResponse, ListEventticketclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListEventticketclassRequest,
   output: ListEventticketclassResponse,
   errors: [],
 }));
 
-/** Updates the event ticket class referenced by the given class ID. This method supports patch semantics. */
 export interface PatchEventticketclassRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -4010,13 +4009,13 @@ export const PatchEventticketclassResponse = EventTicketClass;
 
 export type PatchEventticketclassError = CommonErrors;
 
+/** Updates the event ticket class referenced by the given class ID. This method supports patch semantics. */
 export const patchEventticketclass: API.OperationMethod<PatchEventticketclassRequest, PatchEventticketclassResponse, PatchEventticketclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchEventticketclassRequest,
   output: PatchEventticketclassResponse,
   errors: [],
 }));
 
-/** Updates the event ticket class referenced by the given class ID. */
 export interface UpdateEventticketclassRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -4037,13 +4036,13 @@ export const UpdateEventticketclassResponse = EventTicketClass;
 
 export type UpdateEventticketclassError = CommonErrors;
 
+/** Updates the event ticket class referenced by the given class ID. */
 export const updateEventticketclass: API.OperationMethod<UpdateEventticketclassRequest, UpdateEventticketclassResponse, UpdateEventticketclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateEventticketclassRequest,
   output: UpdateEventticketclassResponse,
   errors: [],
 }));
 
-/** Adds a message to the event ticket object referenced by the given object ID. */
 export interface AddmessageEventticketobjectRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -4064,13 +4063,13 @@ export const AddmessageEventticketobjectResponse = EventTicketObjectAddMessageRe
 
 export type AddmessageEventticketobjectError = CommonErrors;
 
+/** Adds a message to the event ticket object referenced by the given object ID. */
 export const addmessageEventticketobject: API.OperationMethod<AddmessageEventticketobjectRequest, AddmessageEventticketobjectResponse, AddmessageEventticketobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddmessageEventticketobjectRequest,
   output: AddmessageEventticketobjectResponse,
   errors: [],
 }));
 
-/** Returns the event ticket object with the given object ID. */
 export interface GetEventticketobjectRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -4088,13 +4087,13 @@ export const GetEventticketobjectResponse = EventTicketObject;
 
 export type GetEventticketobjectError = CommonErrors;
 
+/** Returns the event ticket object with the given object ID. */
 export const getEventticketobject: API.OperationMethod<GetEventticketobjectRequest, GetEventticketobjectResponse, GetEventticketobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEventticketobjectRequest,
   output: GetEventticketobjectResponse,
   errors: [],
 }));
 
-/** Inserts an event ticket object with the given ID and properties. */
 export interface InsertEventticketobjectRequest {
   /** Request body */
   body?: EventTicketObject;
@@ -4112,13 +4111,13 @@ export const InsertEventticketobjectResponse = EventTicketObject;
 
 export type InsertEventticketobjectError = CommonErrors;
 
+/** Inserts an event ticket object with the given ID and properties. */
 export const insertEventticketobject: API.OperationMethod<InsertEventticketobjectRequest, InsertEventticketobjectResponse, InsertEventticketobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertEventticketobjectRequest,
   output: InsertEventticketobjectResponse,
   errors: [],
 }));
 
-/** Returns a list of all event ticket objects for a given issuer ID. */
 export interface ListEventticketobjectRequest {
   /** The ID of the class whose objects will be listed. */
   classId?: string;
@@ -4142,13 +4141,13 @@ export const ListEventticketobjectResponse = EventTicketObjectListResponse;
 
 export type ListEventticketobjectError = CommonErrors;
 
+/** Returns a list of all event ticket objects for a given issuer ID. */
 export const listEventticketobject: API.OperationMethod<ListEventticketobjectRequest, ListEventticketobjectResponse, ListEventticketobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListEventticketobjectRequest,
   output: ListEventticketobjectResponse,
   errors: [],
 }));
 
-/** Deprecated: Use Auto Linked Passes instead. Modifies linked offer objects for the event ticket object with the given ID. */
 export interface ModifylinkedofferobjectsEventticketobjectRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -4169,13 +4168,13 @@ export const ModifylinkedofferobjectsEventticketobjectResponse = EventTicketObje
 
 export type ModifylinkedofferobjectsEventticketobjectError = CommonErrors;
 
+/** Deprecated: Use Auto Linked Passes instead. Modifies linked offer objects for the event ticket object with the given ID. */
 export const modifylinkedofferobjectsEventticketobject: API.OperationMethod<ModifylinkedofferobjectsEventticketobjectRequest, ModifylinkedofferobjectsEventticketobjectResponse, ModifylinkedofferobjectsEventticketobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ModifylinkedofferobjectsEventticketobjectRequest,
   output: ModifylinkedofferobjectsEventticketobjectResponse,
   errors: [],
 }));
 
-/** Updates the event ticket object referenced by the given object ID. This method supports patch semantics. */
 export interface PatchEventticketobjectRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -4196,13 +4195,13 @@ export const PatchEventticketobjectResponse = EventTicketObject;
 
 export type PatchEventticketobjectError = CommonErrors;
 
+/** Updates the event ticket object referenced by the given object ID. This method supports patch semantics. */
 export const patchEventticketobject: API.OperationMethod<PatchEventticketobjectRequest, PatchEventticketobjectResponse, PatchEventticketobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchEventticketobjectRequest,
   output: PatchEventticketobjectResponse,
   errors: [],
 }));
 
-/** Updates the event ticket object referenced by the given object ID. */
 export interface UpdateEventticketobjectRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -4223,13 +4222,13 @@ export const UpdateEventticketobjectResponse = EventTicketObject;
 
 export type UpdateEventticketobjectError = CommonErrors;
 
+/** Updates the event ticket object referenced by the given object ID. */
 export const updateEventticketobject: API.OperationMethod<UpdateEventticketobjectRequest, UpdateEventticketobjectResponse, UpdateEventticketobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateEventticketobjectRequest,
   output: UpdateEventticketobjectResponse,
   errors: [],
 }));
 
-/** Adds a message to the flight class referenced by the given class ID. */
 export interface AddmessageFlightclassRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -4250,13 +4249,13 @@ export const AddmessageFlightclassResponse = FlightClassAddMessageResponse;
 
 export type AddmessageFlightclassError = CommonErrors;
 
+/** Adds a message to the flight class referenced by the given class ID. */
 export const addmessageFlightclass: API.OperationMethod<AddmessageFlightclassRequest, AddmessageFlightclassResponse, AddmessageFlightclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddmessageFlightclassRequest,
   output: AddmessageFlightclassResponse,
   errors: [],
 }));
 
-/** Returns the flight class with the given class ID. */
 export interface GetFlightclassRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -4274,13 +4273,13 @@ export const GetFlightclassResponse = FlightClass;
 
 export type GetFlightclassError = CommonErrors;
 
+/** Returns the flight class with the given class ID. */
 export const getFlightclass: API.OperationMethod<GetFlightclassRequest, GetFlightclassResponse, GetFlightclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFlightclassRequest,
   output: GetFlightclassResponse,
   errors: [],
 }));
 
-/** Inserts an flight class with the given ID and properties. */
 export interface InsertFlightclassRequest {
   /** Request body */
   body?: FlightClass;
@@ -4298,13 +4297,13 @@ export const InsertFlightclassResponse = FlightClass;
 
 export type InsertFlightclassError = CommonErrors;
 
+/** Inserts an flight class with the given ID and properties. */
 export const insertFlightclass: API.OperationMethod<InsertFlightclassRequest, InsertFlightclassResponse, InsertFlightclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertFlightclassRequest,
   output: InsertFlightclassResponse,
   errors: [],
 }));
 
-/** Returns a list of all flight classes for a given issuer ID. */
 export interface ListFlightclassRequest {
   /** The ID of the issuer authorized to list classes. */
   issuerId?: string;
@@ -4328,13 +4327,13 @@ export const ListFlightclassResponse = FlightClassListResponse;
 
 export type ListFlightclassError = CommonErrors;
 
+/** Returns a list of all flight classes for a given issuer ID. */
 export const listFlightclass: API.OperationMethod<ListFlightclassRequest, ListFlightclassResponse, ListFlightclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListFlightclassRequest,
   output: ListFlightclassResponse,
   errors: [],
 }));
 
-/** Updates the flight class referenced by the given class ID. This method supports patch semantics. */
 export interface PatchFlightclassRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -4355,13 +4354,13 @@ export const PatchFlightclassResponse = FlightClass;
 
 export type PatchFlightclassError = CommonErrors;
 
+/** Updates the flight class referenced by the given class ID. This method supports patch semantics. */
 export const patchFlightclass: API.OperationMethod<PatchFlightclassRequest, PatchFlightclassResponse, PatchFlightclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchFlightclassRequest,
   output: PatchFlightclassResponse,
   errors: [],
 }));
 
-/** Updates the flight class referenced by the given class ID. */
 export interface UpdateFlightclassRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -4382,13 +4381,13 @@ export const UpdateFlightclassResponse = FlightClass;
 
 export type UpdateFlightclassError = CommonErrors;
 
+/** Updates the flight class referenced by the given class ID. */
 export const updateFlightclass: API.OperationMethod<UpdateFlightclassRequest, UpdateFlightclassResponse, UpdateFlightclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateFlightclassRequest,
   output: UpdateFlightclassResponse,
   errors: [],
 }));
 
-/** Adds a message to the flight object referenced by the given object ID. */
 export interface AddmessageFlightobjectRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -4409,13 +4408,13 @@ export const AddmessageFlightobjectResponse = FlightObjectAddMessageResponse;
 
 export type AddmessageFlightobjectError = CommonErrors;
 
+/** Adds a message to the flight object referenced by the given object ID. */
 export const addmessageFlightobject: API.OperationMethod<AddmessageFlightobjectRequest, AddmessageFlightobjectResponse, AddmessageFlightobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddmessageFlightobjectRequest,
   output: AddmessageFlightobjectResponse,
   errors: [],
 }));
 
-/** Returns the flight object with the given object ID. */
 export interface GetFlightobjectRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -4433,13 +4432,13 @@ export const GetFlightobjectResponse = FlightObject;
 
 export type GetFlightobjectError = CommonErrors;
 
+/** Returns the flight object with the given object ID. */
 export const getFlightobject: API.OperationMethod<GetFlightobjectRequest, GetFlightobjectResponse, GetFlightobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFlightobjectRequest,
   output: GetFlightobjectResponse,
   errors: [],
 }));
 
-/** Inserts an flight object with the given ID and properties. */
 export interface InsertFlightobjectRequest {
   /** Request body */
   body?: FlightObject;
@@ -4457,13 +4456,13 @@ export const InsertFlightobjectResponse = FlightObject;
 
 export type InsertFlightobjectError = CommonErrors;
 
+/** Inserts an flight object with the given ID and properties. */
 export const insertFlightobject: API.OperationMethod<InsertFlightobjectRequest, InsertFlightobjectResponse, InsertFlightobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertFlightobjectRequest,
   output: InsertFlightobjectResponse,
   errors: [],
 }));
 
-/** Returns a list of all flight objects for a given issuer ID. */
 export interface ListFlightobjectRequest {
   /** The ID of the class whose objects will be listed. */
   classId?: string;
@@ -4487,13 +4486,13 @@ export const ListFlightobjectResponse = FlightObjectListResponse;
 
 export type ListFlightobjectError = CommonErrors;
 
+/** Returns a list of all flight objects for a given issuer ID. */
 export const listFlightobject: API.OperationMethod<ListFlightobjectRequest, ListFlightobjectResponse, ListFlightobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListFlightobjectRequest,
   output: ListFlightobjectResponse,
   errors: [],
 }));
 
-/** Updates the flight object referenced by the given object ID. This method supports patch semantics. */
 export interface PatchFlightobjectRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -4514,13 +4513,13 @@ export const PatchFlightobjectResponse = FlightObject;
 
 export type PatchFlightobjectError = CommonErrors;
 
+/** Updates the flight object referenced by the given object ID. This method supports patch semantics. */
 export const patchFlightobject: API.OperationMethod<PatchFlightobjectRequest, PatchFlightobjectResponse, PatchFlightobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchFlightobjectRequest,
   output: PatchFlightobjectResponse,
   errors: [],
 }));
 
-/** Updates the flight object referenced by the given object ID. */
 export interface UpdateFlightobjectRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -4541,13 +4540,13 @@ export const UpdateFlightobjectResponse = FlightObject;
 
 export type UpdateFlightobjectError = CommonErrors;
 
+/** Updates the flight object referenced by the given object ID. */
 export const updateFlightobject: API.OperationMethod<UpdateFlightobjectRequest, UpdateFlightobjectResponse, UpdateFlightobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateFlightobjectRequest,
   output: UpdateFlightobjectResponse,
   errors: [],
 }));
 
-/** Adds a message to the generic class referenced by the given class ID. */
 export interface AddmessageGenericclassRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -4568,13 +4567,13 @@ export const AddmessageGenericclassResponse = GenericClassAddMessageResponse;
 
 export type AddmessageGenericclassError = CommonErrors;
 
+/** Adds a message to the generic class referenced by the given class ID. */
 export const addmessageGenericclass: API.OperationMethod<AddmessageGenericclassRequest, AddmessageGenericclassResponse, AddmessageGenericclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddmessageGenericclassRequest,
   output: AddmessageGenericclassResponse,
   errors: [],
 }));
 
-/** Returns the generic class with the given class ID. */
 export interface GetGenericclassRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value needs to follow the format `issuerID.identifier` where `issuerID` is issued by Google and `identifier` is chosen by you. The unique identifier can only include alphanumeric characters, `.`, `_`, or `-`. */
   resourceId: string;
@@ -4592,13 +4591,13 @@ export const GetGenericclassResponse = GenericClass;
 
 export type GetGenericclassError = CommonErrors;
 
+/** Returns the generic class with the given class ID. */
 export const getGenericclass: API.OperationMethod<GetGenericclassRequest, GetGenericclassResponse, GetGenericclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetGenericclassRequest,
   output: GetGenericclassResponse,
   errors: [],
 }));
 
-/** Inserts a generic class with the given ID and properties. */
 export interface InsertGenericclassRequest {
   /** Request body */
   body?: GenericClass;
@@ -4616,13 +4615,13 @@ export const InsertGenericclassResponse = GenericClass;
 
 export type InsertGenericclassError = CommonErrors;
 
+/** Inserts a generic class with the given ID and properties. */
 export const insertGenericclass: API.OperationMethod<InsertGenericclassRequest, InsertGenericclassResponse, InsertGenericclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertGenericclassRequest,
   output: InsertGenericclassResponse,
   errors: [],
 }));
 
-/** Returns a list of all generic classes for a given issuer ID. */
 export interface ListGenericclassRequest {
   /** The ID of the issuer authorized to list classes. */
   issuerId?: string;
@@ -4646,13 +4645,13 @@ export const ListGenericclassResponse = GenericClassListResponse;
 
 export type ListGenericclassError = CommonErrors;
 
+/** Returns a list of all generic classes for a given issuer ID. */
 export const listGenericclass: API.OperationMethod<ListGenericclassRequest, ListGenericclassResponse, ListGenericclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListGenericclassRequest,
   output: ListGenericclassResponse,
   errors: [],
 }));
 
-/** Updates the generic class referenced by the given class ID. This method supports patch semantics. */
 export interface PatchGenericclassRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value needs to follow the format `issuerID.identifier` where `issuerID` is issued by Google and `identifier` is chosen by you. The unique identifier can only include alphanumeric characters, `.`, `_`, or `-`. */
   resourceId: string;
@@ -4673,13 +4672,13 @@ export const PatchGenericclassResponse = GenericClass;
 
 export type PatchGenericclassError = CommonErrors;
 
+/** Updates the generic class referenced by the given class ID. This method supports patch semantics. */
 export const patchGenericclass: API.OperationMethod<PatchGenericclassRequest, PatchGenericclassResponse, PatchGenericclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchGenericclassRequest,
   output: PatchGenericclassResponse,
   errors: [],
 }));
 
-/** Updates the Generic class referenced by the given class ID. */
 export interface UpdateGenericclassRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value needs to follow the format `issuerID.identifier` where `issuerID` is issued by Google and `identifier` is chosen by you. The unique identifier can only include alphanumeric characters, `.`, `_`, or `-`. */
   resourceId: string;
@@ -4700,13 +4699,13 @@ export const UpdateGenericclassResponse = GenericClass;
 
 export type UpdateGenericclassError = CommonErrors;
 
+/** Updates the Generic class referenced by the given class ID. */
 export const updateGenericclass: API.OperationMethod<UpdateGenericclassRequest, UpdateGenericclassResponse, UpdateGenericclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateGenericclassRequest,
   output: UpdateGenericclassResponse,
   errors: [],
 }));
 
-/** Adds a message to the generic object referenced by the given object ID. */
 export interface AddmessageGenericobjectRequest {
   /** The unique identifier for an object. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -4727,13 +4726,13 @@ export const AddmessageGenericobjectResponse = GenericObjectAddMessageResponse;
 
 export type AddmessageGenericobjectError = CommonErrors;
 
+/** Adds a message to the generic object referenced by the given object ID. */
 export const addmessageGenericobject: API.OperationMethod<AddmessageGenericobjectRequest, AddmessageGenericobjectResponse, AddmessageGenericobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddmessageGenericobjectRequest,
   output: AddmessageGenericobjectResponse,
   errors: [],
 }));
 
-/** Returns the generic object with the given object ID. */
 export interface GetGenericobjectRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value needs to follow the format `issuerID.identifier` where `issuerID` is issued by Google and `identifier` is chosen by you. The unique identifier can only include alphanumeric characters, `.`, `_`, or `-`. */
   resourceId: string;
@@ -4751,13 +4750,13 @@ export const GetGenericobjectResponse = GenericObject;
 
 export type GetGenericobjectError = CommonErrors;
 
+/** Returns the generic object with the given object ID. */
 export const getGenericobject: API.OperationMethod<GetGenericobjectRequest, GetGenericobjectResponse, GetGenericobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetGenericobjectRequest,
   output: GetGenericobjectResponse,
   errors: [],
 }));
 
-/** Inserts a generic object with the given ID and properties. */
 export interface InsertGenericobjectRequest {
   /** Request body */
   body?: GenericObject;
@@ -4775,13 +4774,13 @@ export const InsertGenericobjectResponse = GenericObject;
 
 export type InsertGenericobjectError = CommonErrors;
 
+/** Inserts a generic object with the given ID and properties. */
 export const insertGenericobject: API.OperationMethod<InsertGenericobjectRequest, InsertGenericobjectResponse, InsertGenericobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertGenericobjectRequest,
   output: InsertGenericobjectResponse,
   errors: [],
 }));
 
-/** Returns a list of all generic objects for a given issuer ID. */
 export interface ListGenericobjectRequest {
   /** The ID of the class whose objects will be listed. */
   classId?: string;
@@ -4805,13 +4804,13 @@ export const ListGenericobjectResponse = GenericObjectListResponse;
 
 export type ListGenericobjectError = CommonErrors;
 
+/** Returns a list of all generic objects for a given issuer ID. */
 export const listGenericobject: API.OperationMethod<ListGenericobjectRequest, ListGenericobjectResponse, ListGenericobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListGenericobjectRequest,
   output: ListGenericobjectResponse,
   errors: [],
 }));
 
-/** Updates the generic object referenced by the given object ID. This method supports patch semantics. */
 export interface PatchGenericobjectRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value needs to follow the format `issuerID.identifier` where `issuerID` is issued by Google and `identifier` is chosen by you. The unique identifier can only include alphanumeric characters, `.`, `_`, or `-`. */
   resourceId: string;
@@ -4832,13 +4831,13 @@ export const PatchGenericobjectResponse = GenericObject;
 
 export type PatchGenericobjectError = CommonErrors;
 
+/** Updates the generic object referenced by the given object ID. This method supports patch semantics. */
 export const patchGenericobject: API.OperationMethod<PatchGenericobjectRequest, PatchGenericobjectResponse, PatchGenericobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchGenericobjectRequest,
   output: PatchGenericobjectResponse,
   errors: [],
 }));
 
-/** Updates the generic object referenced by the given object ID. */
 export interface UpdateGenericobjectRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value needs to follow the format `issuerID.identifier` where `issuerID` is issued by Google and `identifier` is chosen by you. The unique identifier can only include alphanumeric characters, `.`, `_`, or `-`. */
   resourceId: string;
@@ -4859,13 +4858,13 @@ export const UpdateGenericobjectResponse = GenericObject;
 
 export type UpdateGenericobjectError = CommonErrors;
 
+/** Updates the generic object referenced by the given object ID. */
 export const updateGenericobject: API.OperationMethod<UpdateGenericobjectRequest, UpdateGenericobjectResponse, UpdateGenericobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateGenericobjectRequest,
   output: UpdateGenericobjectResponse,
   errors: [],
 }));
 
-/** Adds a message to the gift card class referenced by the given class ID. */
 export interface AddmessageGiftcardclassRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -4886,13 +4885,13 @@ export const AddmessageGiftcardclassResponse = GiftCardClassAddMessageResponse;
 
 export type AddmessageGiftcardclassError = CommonErrors;
 
+/** Adds a message to the gift card class referenced by the given class ID. */
 export const addmessageGiftcardclass: API.OperationMethod<AddmessageGiftcardclassRequest, AddmessageGiftcardclassResponse, AddmessageGiftcardclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddmessageGiftcardclassRequest,
   output: AddmessageGiftcardclassResponse,
   errors: [],
 }));
 
-/** Returns the gift card class with the given class ID. */
 export interface GetGiftcardclassRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -4910,13 +4909,13 @@ export const GetGiftcardclassResponse = GiftCardClass;
 
 export type GetGiftcardclassError = CommonErrors;
 
+/** Returns the gift card class with the given class ID. */
 export const getGiftcardclass: API.OperationMethod<GetGiftcardclassRequest, GetGiftcardclassResponse, GetGiftcardclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetGiftcardclassRequest,
   output: GetGiftcardclassResponse,
   errors: [],
 }));
 
-/** Inserts an gift card class with the given ID and properties. */
 export interface InsertGiftcardclassRequest {
   /** Request body */
   body?: GiftCardClass;
@@ -4934,13 +4933,13 @@ export const InsertGiftcardclassResponse = GiftCardClass;
 
 export type InsertGiftcardclassError = CommonErrors;
 
+/** Inserts an gift card class with the given ID and properties. */
 export const insertGiftcardclass: API.OperationMethod<InsertGiftcardclassRequest, InsertGiftcardclassResponse, InsertGiftcardclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertGiftcardclassRequest,
   output: InsertGiftcardclassResponse,
   errors: [],
 }));
 
-/** Returns a list of all gift card classes for a given issuer ID. */
 export interface ListGiftcardclassRequest {
   /** The ID of the issuer authorized to list classes. */
   issuerId?: string;
@@ -4964,13 +4963,13 @@ export const ListGiftcardclassResponse = GiftCardClassListResponse;
 
 export type ListGiftcardclassError = CommonErrors;
 
+/** Returns a list of all gift card classes for a given issuer ID. */
 export const listGiftcardclass: API.OperationMethod<ListGiftcardclassRequest, ListGiftcardclassResponse, ListGiftcardclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListGiftcardclassRequest,
   output: ListGiftcardclassResponse,
   errors: [],
 }));
 
-/** Updates the gift card class referenced by the given class ID. This method supports patch semantics. */
 export interface PatchGiftcardclassRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -4991,13 +4990,13 @@ export const PatchGiftcardclassResponse = GiftCardClass;
 
 export type PatchGiftcardclassError = CommonErrors;
 
+/** Updates the gift card class referenced by the given class ID. This method supports patch semantics. */
 export const patchGiftcardclass: API.OperationMethod<PatchGiftcardclassRequest, PatchGiftcardclassResponse, PatchGiftcardclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchGiftcardclassRequest,
   output: PatchGiftcardclassResponse,
   errors: [],
 }));
 
-/** Updates the gift card class referenced by the given class ID. */
 export interface UpdateGiftcardclassRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -5018,13 +5017,13 @@ export const UpdateGiftcardclassResponse = GiftCardClass;
 
 export type UpdateGiftcardclassError = CommonErrors;
 
+/** Updates the gift card class referenced by the given class ID. */
 export const updateGiftcardclass: API.OperationMethod<UpdateGiftcardclassRequest, UpdateGiftcardclassResponse, UpdateGiftcardclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateGiftcardclassRequest,
   output: UpdateGiftcardclassResponse,
   errors: [],
 }));
 
-/** Adds a message to the gift card object referenced by the given object ID. */
 export interface AddmessageGiftcardobjectRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -5045,13 +5044,13 @@ export const AddmessageGiftcardobjectResponse = GiftCardObjectAddMessageResponse
 
 export type AddmessageGiftcardobjectError = CommonErrors;
 
+/** Adds a message to the gift card object referenced by the given object ID. */
 export const addmessageGiftcardobject: API.OperationMethod<AddmessageGiftcardobjectRequest, AddmessageGiftcardobjectResponse, AddmessageGiftcardobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddmessageGiftcardobjectRequest,
   output: AddmessageGiftcardobjectResponse,
   errors: [],
 }));
 
-/** Returns the gift card object with the given object ID. */
 export interface GetGiftcardobjectRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -5069,13 +5068,13 @@ export const GetGiftcardobjectResponse = GiftCardObject;
 
 export type GetGiftcardobjectError = CommonErrors;
 
+/** Returns the gift card object with the given object ID. */
 export const getGiftcardobject: API.OperationMethod<GetGiftcardobjectRequest, GetGiftcardobjectResponse, GetGiftcardobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetGiftcardobjectRequest,
   output: GetGiftcardobjectResponse,
   errors: [],
 }));
 
-/** Inserts an gift card object with the given ID and properties. */
 export interface InsertGiftcardobjectRequest {
   /** Request body */
   body?: GiftCardObject;
@@ -5093,13 +5092,13 @@ export const InsertGiftcardobjectResponse = GiftCardObject;
 
 export type InsertGiftcardobjectError = CommonErrors;
 
+/** Inserts an gift card object with the given ID and properties. */
 export const insertGiftcardobject: API.OperationMethod<InsertGiftcardobjectRequest, InsertGiftcardobjectResponse, InsertGiftcardobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertGiftcardobjectRequest,
   output: InsertGiftcardobjectResponse,
   errors: [],
 }));
 
-/** Returns a list of all gift card objects for a given issuer ID. */
 export interface ListGiftcardobjectRequest {
   /** The ID of the class whose objects will be listed. */
   classId?: string;
@@ -5123,13 +5122,13 @@ export const ListGiftcardobjectResponse = GiftCardObjectListResponse;
 
 export type ListGiftcardobjectError = CommonErrors;
 
+/** Returns a list of all gift card objects for a given issuer ID. */
 export const listGiftcardobject: API.OperationMethod<ListGiftcardobjectRequest, ListGiftcardobjectResponse, ListGiftcardobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListGiftcardobjectRequest,
   output: ListGiftcardobjectResponse,
   errors: [],
 }));
 
-/** Updates the gift card object referenced by the given object ID. This method supports patch semantics. */
 export interface PatchGiftcardobjectRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -5150,13 +5149,13 @@ export const PatchGiftcardobjectResponse = GiftCardObject;
 
 export type PatchGiftcardobjectError = CommonErrors;
 
+/** Updates the gift card object referenced by the given object ID. This method supports patch semantics. */
 export const patchGiftcardobject: API.OperationMethod<PatchGiftcardobjectRequest, PatchGiftcardobjectResponse, PatchGiftcardobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchGiftcardobjectRequest,
   output: PatchGiftcardobjectResponse,
   errors: [],
 }));
 
-/** Updates the gift card object referenced by the given object ID. */
 export interface UpdateGiftcardobjectRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -5177,13 +5176,13 @@ export const UpdateGiftcardobjectResponse = GiftCardObject;
 
 export type UpdateGiftcardobjectError = CommonErrors;
 
+/** Updates the gift card object referenced by the given object ID. */
 export const updateGiftcardobject: API.OperationMethod<UpdateGiftcardobjectRequest, UpdateGiftcardobjectResponse, UpdateGiftcardobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateGiftcardobjectRequest,
   output: UpdateGiftcardobjectResponse,
   errors: [],
 }));
 
-/** Inserts the resources in the JWT. */
 export interface InsertJwtRequest {
   /** Request body */
   body?: JwtResource;
@@ -5201,13 +5200,13 @@ export const InsertJwtResponse = JwtInsertResponse;
 
 export type InsertJwtError = CommonErrors;
 
+/** Inserts the resources in the JWT. */
 export const insertJwt: API.OperationMethod<InsertJwtRequest, InsertJwtResponse, InsertJwtError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertJwtRequest,
   output: InsertJwtResponse,
   errors: [],
 }));
 
-/** Adds a message to the loyalty class referenced by the given class ID. */
 export interface AddmessageLoyaltyclassRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -5228,13 +5227,13 @@ export const AddmessageLoyaltyclassResponse = LoyaltyClassAddMessageResponse;
 
 export type AddmessageLoyaltyclassError = CommonErrors;
 
+/** Adds a message to the loyalty class referenced by the given class ID. */
 export const addmessageLoyaltyclass: API.OperationMethod<AddmessageLoyaltyclassRequest, AddmessageLoyaltyclassResponse, AddmessageLoyaltyclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddmessageLoyaltyclassRequest,
   output: AddmessageLoyaltyclassResponse,
   errors: [],
 }));
 
-/** Returns the loyalty class with the given class ID. */
 export interface GetLoyaltyclassRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -5252,13 +5251,13 @@ export const GetLoyaltyclassResponse = LoyaltyClass;
 
 export type GetLoyaltyclassError = CommonErrors;
 
+/** Returns the loyalty class with the given class ID. */
 export const getLoyaltyclass: API.OperationMethod<GetLoyaltyclassRequest, GetLoyaltyclassResponse, GetLoyaltyclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetLoyaltyclassRequest,
   output: GetLoyaltyclassResponse,
   errors: [],
 }));
 
-/** Inserts an loyalty class with the given ID and properties. */
 export interface InsertLoyaltyclassRequest {
   /** Request body */
   body?: LoyaltyClass;
@@ -5276,13 +5275,13 @@ export const InsertLoyaltyclassResponse = LoyaltyClass;
 
 export type InsertLoyaltyclassError = CommonErrors;
 
+/** Inserts an loyalty class with the given ID and properties. */
 export const insertLoyaltyclass: API.OperationMethod<InsertLoyaltyclassRequest, InsertLoyaltyclassResponse, InsertLoyaltyclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertLoyaltyclassRequest,
   output: InsertLoyaltyclassResponse,
   errors: [],
 }));
 
-/** Returns a list of all loyalty classes for a given issuer ID. */
 export interface ListLoyaltyclassRequest {
   /** The ID of the issuer authorized to list classes. */
   issuerId?: string;
@@ -5306,13 +5305,13 @@ export const ListLoyaltyclassResponse = LoyaltyClassListResponse;
 
 export type ListLoyaltyclassError = CommonErrors;
 
+/** Returns a list of all loyalty classes for a given issuer ID. */
 export const listLoyaltyclass: API.OperationMethod<ListLoyaltyclassRequest, ListLoyaltyclassResponse, ListLoyaltyclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListLoyaltyclassRequest,
   output: ListLoyaltyclassResponse,
   errors: [],
 }));
 
-/** Updates the loyalty class referenced by the given class ID. This method supports patch semantics. */
 export interface PatchLoyaltyclassRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -5333,13 +5332,13 @@ export const PatchLoyaltyclassResponse = LoyaltyClass;
 
 export type PatchLoyaltyclassError = CommonErrors;
 
+/** Updates the loyalty class referenced by the given class ID. This method supports patch semantics. */
 export const patchLoyaltyclass: API.OperationMethod<PatchLoyaltyclassRequest, PatchLoyaltyclassResponse, PatchLoyaltyclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchLoyaltyclassRequest,
   output: PatchLoyaltyclassResponse,
   errors: [],
 }));
 
-/** Updates the loyalty class referenced by the given class ID. */
 export interface UpdateLoyaltyclassRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -5360,13 +5359,13 @@ export const UpdateLoyaltyclassResponse = LoyaltyClass;
 
 export type UpdateLoyaltyclassError = CommonErrors;
 
+/** Updates the loyalty class referenced by the given class ID. */
 export const updateLoyaltyclass: API.OperationMethod<UpdateLoyaltyclassRequest, UpdateLoyaltyclassResponse, UpdateLoyaltyclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateLoyaltyclassRequest,
   output: UpdateLoyaltyclassResponse,
   errors: [],
 }));
 
-/** Adds a message to the loyalty object referenced by the given object ID. */
 export interface AddmessageLoyaltyobjectRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -5387,13 +5386,13 @@ export const AddmessageLoyaltyobjectResponse = LoyaltyObjectAddMessageResponse;
 
 export type AddmessageLoyaltyobjectError = CommonErrors;
 
+/** Adds a message to the loyalty object referenced by the given object ID. */
 export const addmessageLoyaltyobject: API.OperationMethod<AddmessageLoyaltyobjectRequest, AddmessageLoyaltyobjectResponse, AddmessageLoyaltyobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddmessageLoyaltyobjectRequest,
   output: AddmessageLoyaltyobjectResponse,
   errors: [],
 }));
 
-/** Returns the loyalty object with the given object ID. */
 export interface GetLoyaltyobjectRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -5411,13 +5410,13 @@ export const GetLoyaltyobjectResponse = LoyaltyObject;
 
 export type GetLoyaltyobjectError = CommonErrors;
 
+/** Returns the loyalty object with the given object ID. */
 export const getLoyaltyobject: API.OperationMethod<GetLoyaltyobjectRequest, GetLoyaltyobjectResponse, GetLoyaltyobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetLoyaltyobjectRequest,
   output: GetLoyaltyobjectResponse,
   errors: [],
 }));
 
-/** Inserts an loyalty object with the given ID and properties. */
 export interface InsertLoyaltyobjectRequest {
   /** Request body */
   body?: LoyaltyObject;
@@ -5435,13 +5434,13 @@ export const InsertLoyaltyobjectResponse = LoyaltyObject;
 
 export type InsertLoyaltyobjectError = CommonErrors;
 
+/** Inserts an loyalty object with the given ID and properties. */
 export const insertLoyaltyobject: API.OperationMethod<InsertLoyaltyobjectRequest, InsertLoyaltyobjectResponse, InsertLoyaltyobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertLoyaltyobjectRequest,
   output: InsertLoyaltyobjectResponse,
   errors: [],
 }));
 
-/** Returns a list of all loyalty objects for a given issuer ID. */
 export interface ListLoyaltyobjectRequest {
   /** The ID of the class whose objects will be listed. */
   classId?: string;
@@ -5465,13 +5464,13 @@ export const ListLoyaltyobjectResponse = LoyaltyObjectListResponse;
 
 export type ListLoyaltyobjectError = CommonErrors;
 
+/** Returns a list of all loyalty objects for a given issuer ID. */
 export const listLoyaltyobject: API.OperationMethod<ListLoyaltyobjectRequest, ListLoyaltyobjectResponse, ListLoyaltyobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListLoyaltyobjectRequest,
   output: ListLoyaltyobjectResponse,
   errors: [],
 }));
 
-/** Deprecated: Use Auto Linked Passes instead. Modifies linked offer objects for the loyalty object with the given ID. */
 export interface ModifylinkedofferobjectsLoyaltyobjectRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -5492,13 +5491,13 @@ export const ModifylinkedofferobjectsLoyaltyobjectResponse = LoyaltyObject;
 
 export type ModifylinkedofferobjectsLoyaltyobjectError = CommonErrors;
 
+/** Deprecated: Use Auto Linked Passes instead. Modifies linked offer objects for the loyalty object with the given ID. */
 export const modifylinkedofferobjectsLoyaltyobject: API.OperationMethod<ModifylinkedofferobjectsLoyaltyobjectRequest, ModifylinkedofferobjectsLoyaltyobjectResponse, ModifylinkedofferobjectsLoyaltyobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ModifylinkedofferobjectsLoyaltyobjectRequest,
   output: ModifylinkedofferobjectsLoyaltyobjectResponse,
   errors: [],
 }));
 
-/** Updates the loyalty object referenced by the given object ID. This method supports patch semantics. */
 export interface PatchLoyaltyobjectRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -5519,13 +5518,13 @@ export const PatchLoyaltyobjectResponse = LoyaltyObject;
 
 export type PatchLoyaltyobjectError = CommonErrors;
 
+/** Updates the loyalty object referenced by the given object ID. This method supports patch semantics. */
 export const patchLoyaltyobject: API.OperationMethod<PatchLoyaltyobjectRequest, PatchLoyaltyobjectResponse, PatchLoyaltyobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchLoyaltyobjectRequest,
   output: PatchLoyaltyobjectResponse,
   errors: [],
 }));
 
-/** Updates the loyalty object referenced by the given object ID. */
 export interface UpdateLoyaltyobjectRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -5546,13 +5545,13 @@ export const UpdateLoyaltyobjectResponse = LoyaltyObject;
 
 export type UpdateLoyaltyobjectError = CommonErrors;
 
+/** Updates the loyalty object referenced by the given object ID. */
 export const updateLoyaltyobject: API.OperationMethod<UpdateLoyaltyobjectRequest, UpdateLoyaltyobjectResponse, UpdateLoyaltyobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateLoyaltyobjectRequest,
   output: UpdateLoyaltyobjectResponse,
   errors: [],
 }));
 
-/** Adds a message to the offer class referenced by the given class ID. */
 export interface AddmessageOfferclassRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -5573,13 +5572,13 @@ export const AddmessageOfferclassResponse = OfferClassAddMessageResponse;
 
 export type AddmessageOfferclassError = CommonErrors;
 
+/** Adds a message to the offer class referenced by the given class ID. */
 export const addmessageOfferclass: API.OperationMethod<AddmessageOfferclassRequest, AddmessageOfferclassResponse, AddmessageOfferclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddmessageOfferclassRequest,
   output: AddmessageOfferclassResponse,
   errors: [],
 }));
 
-/** Returns the offer class with the given class ID. */
 export interface GetOfferclassRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -5597,13 +5596,13 @@ export const GetOfferclassResponse = OfferClass;
 
 export type GetOfferclassError = CommonErrors;
 
+/** Returns the offer class with the given class ID. */
 export const getOfferclass: API.OperationMethod<GetOfferclassRequest, GetOfferclassResponse, GetOfferclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOfferclassRequest,
   output: GetOfferclassResponse,
   errors: [],
 }));
 
-/** Inserts an offer class with the given ID and properties. */
 export interface InsertOfferclassRequest {
   /** Request body */
   body?: OfferClass;
@@ -5621,13 +5620,13 @@ export const InsertOfferclassResponse = OfferClass;
 
 export type InsertOfferclassError = CommonErrors;
 
+/** Inserts an offer class with the given ID and properties. */
 export const insertOfferclass: API.OperationMethod<InsertOfferclassRequest, InsertOfferclassResponse, InsertOfferclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertOfferclassRequest,
   output: InsertOfferclassResponse,
   errors: [],
 }));
 
-/** Returns a list of all offer classes for a given issuer ID. */
 export interface ListOfferclassRequest {
   /** The ID of the issuer authorized to list classes. */
   issuerId?: string;
@@ -5651,13 +5650,13 @@ export const ListOfferclassResponse = OfferClassListResponse;
 
 export type ListOfferclassError = CommonErrors;
 
+/** Returns a list of all offer classes for a given issuer ID. */
 export const listOfferclass: API.OperationMethod<ListOfferclassRequest, ListOfferclassResponse, ListOfferclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOfferclassRequest,
   output: ListOfferclassResponse,
   errors: [],
 }));
 
-/** Updates the offer class referenced by the given class ID. This method supports patch semantics. */
 export interface PatchOfferclassRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -5678,13 +5677,13 @@ export const PatchOfferclassResponse = OfferClass;
 
 export type PatchOfferclassError = CommonErrors;
 
+/** Updates the offer class referenced by the given class ID. This method supports patch semantics. */
 export const patchOfferclass: API.OperationMethod<PatchOfferclassRequest, PatchOfferclassResponse, PatchOfferclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOfferclassRequest,
   output: PatchOfferclassResponse,
   errors: [],
 }));
 
-/** Updates the offer class referenced by the given class ID. */
 export interface UpdateOfferclassRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -5705,13 +5704,13 @@ export const UpdateOfferclassResponse = OfferClass;
 
 export type UpdateOfferclassError = CommonErrors;
 
+/** Updates the offer class referenced by the given class ID. */
 export const updateOfferclass: API.OperationMethod<UpdateOfferclassRequest, UpdateOfferclassResponse, UpdateOfferclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateOfferclassRequest,
   output: UpdateOfferclassResponse,
   errors: [],
 }));
 
-/** Adds a message to the offer object referenced by the given object ID. */
 export interface AddmessageOfferobjectRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -5732,13 +5731,13 @@ export const AddmessageOfferobjectResponse = OfferObjectAddMessageResponse;
 
 export type AddmessageOfferobjectError = CommonErrors;
 
+/** Adds a message to the offer object referenced by the given object ID. */
 export const addmessageOfferobject: API.OperationMethod<AddmessageOfferobjectRequest, AddmessageOfferobjectResponse, AddmessageOfferobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddmessageOfferobjectRequest,
   output: AddmessageOfferobjectResponse,
   errors: [],
 }));
 
-/** Returns the offer object with the given object ID. */
 export interface GetOfferobjectRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -5756,13 +5755,13 @@ export const GetOfferobjectResponse = OfferObject;
 
 export type GetOfferobjectError = CommonErrors;
 
+/** Returns the offer object with the given object ID. */
 export const getOfferobject: API.OperationMethod<GetOfferobjectRequest, GetOfferobjectResponse, GetOfferobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOfferobjectRequest,
   output: GetOfferobjectResponse,
   errors: [],
 }));
 
-/** Inserts an offer object with the given ID and properties. */
 export interface InsertOfferobjectRequest {
   /** Request body */
   body?: OfferObject;
@@ -5780,13 +5779,13 @@ export const InsertOfferobjectResponse = OfferObject;
 
 export type InsertOfferobjectError = CommonErrors;
 
+/** Inserts an offer object with the given ID and properties. */
 export const insertOfferobject: API.OperationMethod<InsertOfferobjectRequest, InsertOfferobjectResponse, InsertOfferobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertOfferobjectRequest,
   output: InsertOfferobjectResponse,
   errors: [],
 }));
 
-/** Returns a list of all offer objects for a given issuer ID. */
 export interface ListOfferobjectRequest {
   /** The ID of the class whose objects will be listed. */
   classId?: string;
@@ -5810,13 +5809,13 @@ export const ListOfferobjectResponse = OfferObjectListResponse;
 
 export type ListOfferobjectError = CommonErrors;
 
+/** Returns a list of all offer objects for a given issuer ID. */
 export const listOfferobject: API.OperationMethod<ListOfferobjectRequest, ListOfferobjectResponse, ListOfferobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOfferobjectRequest,
   output: ListOfferobjectResponse,
   errors: [],
 }));
 
-/** Updates the offer object referenced by the given object ID. This method supports patch semantics. */
 export interface PatchOfferobjectRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -5837,13 +5836,13 @@ export const PatchOfferobjectResponse = OfferObject;
 
 export type PatchOfferobjectError = CommonErrors;
 
+/** Updates the offer object referenced by the given object ID. This method supports patch semantics. */
 export const patchOfferobject: API.OperationMethod<PatchOfferobjectRequest, PatchOfferobjectResponse, PatchOfferobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOfferobjectRequest,
   output: PatchOfferobjectResponse,
   errors: [],
 }));
 
-/** Updates the offer object referenced by the given object ID. */
 export interface UpdateOfferobjectRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -5864,13 +5863,13 @@ export const UpdateOfferobjectResponse = OfferObject;
 
 export type UpdateOfferobjectError = CommonErrors;
 
+/** Updates the offer object referenced by the given object ID. */
 export const updateOfferobject: API.OperationMethod<UpdateOfferobjectRequest, UpdateOfferobjectResponse, UpdateOfferobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateOfferobjectRequest,
   output: UpdateOfferobjectResponse,
   errors: [],
 }));
 
-/** Returns the permissions for the given issuer id. */
 export interface GetPermissionsRequest {
   /** The unique identifier for an issuer. This ID must be unique across all issuers. */
   resourceId: string;
@@ -5888,13 +5887,13 @@ export const GetPermissionsResponse = Permissions;
 
 export type GetPermissionsError = CommonErrors;
 
+/** Returns the permissions for the given issuer id. */
 export const getPermissions: API.OperationMethod<GetPermissionsRequest, GetPermissionsResponse, GetPermissionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPermissionsRequest,
   output: GetPermissionsResponse,
   errors: [],
 }));
 
-/** Updates the permissions for the given issuer. */
 export interface UpdatePermissionsRequest {
   /** The unique identifier for an issuer. This ID must be unique across all issuers. */
   resourceId: string;
@@ -5915,13 +5914,13 @@ export const UpdatePermissionsResponse = Permissions;
 
 export type UpdatePermissionsError = CommonErrors;
 
+/** Updates the permissions for the given issuer. */
 export const updatePermissions: API.OperationMethod<UpdatePermissionsRequest, UpdatePermissionsResponse, UpdatePermissionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdatePermissionsRequest,
   output: UpdatePermissionsResponse,
   errors: [],
 }));
 
-/** Uploads rotating barcode values for the transit object referenced by the given object ID. Note the max upload size is specified in google3/production/config/cdd/apps-upload/customers/payments-consumer-passes/config.gcl and enforced by Scotty. */
 export interface UploadMediaRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -5942,13 +5941,13 @@ export const UploadMediaResponse = TransitObjectUploadRotatingBarcodeValuesRespo
 
 export type UploadMediaError = CommonErrors;
 
+/** Uploads rotating barcode values for the transit object referenced by the given object ID. Note the max upload size is specified in google3/production/config/cdd/apps-upload/customers/payments-consumer-passes/config.gcl and enforced by Scotty. */
 export const uploadMedia: API.OperationMethod<UploadMediaRequest, UploadMediaResponse, UploadMediaError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadMediaRequest,
   output: UploadMediaResponse,
   errors: [],
 }));
 
-/** Downloads rotating barcode values for the transit object referenced by the given object ID. */
 export interface DownloadMediaRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -5966,13 +5965,13 @@ export const DownloadMediaResponse = Media;
 
 export type DownloadMediaError = CommonErrors;
 
+/** Downloads rotating barcode values for the transit object referenced by the given object ID. */
 export const downloadMedia: API.OperationMethod<DownloadMediaRequest, DownloadMediaResponse, DownloadMediaError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DownloadMediaRequest,
   output: DownloadMediaResponse,
   errors: [],
 }));
 
-/** Provide Google with information about awaiting private pass update. This will allow Google to provide the update notification to the device that currently holds this pass. */
 export interface SetPassUpdateNoticeWalletobjectsV1PrivateContentRequest {
   /** Request body */
   body?: SetPassUpdateNoticeRequest;
@@ -5990,13 +5989,13 @@ export const SetPassUpdateNoticeWalletobjectsV1PrivateContentResponse = SetPassU
 
 export type SetPassUpdateNoticeWalletobjectsV1PrivateContentError = CommonErrors;
 
+/** Provide Google with information about awaiting private pass update. This will allow Google to provide the update notification to the device that currently holds this pass. */
 export const setPassUpdateNoticeWalletobjectsV1PrivateContent: API.OperationMethod<SetPassUpdateNoticeWalletobjectsV1PrivateContentRequest, SetPassUpdateNoticeWalletobjectsV1PrivateContentResponse, SetPassUpdateNoticeWalletobjectsV1PrivateContentError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetPassUpdateNoticeWalletobjectsV1PrivateContentRequest,
   output: SetPassUpdateNoticeWalletobjectsV1PrivateContentResponse,
   errors: [],
 }));
 
-/** Inserts the smart tap. */
 export interface InsertSmarttapRequest {
   /** Request body */
   body?: SmartTap;
@@ -6014,13 +6013,13 @@ export const InsertSmarttapResponse = SmartTap;
 
 export type InsertSmarttapError = CommonErrors;
 
+/** Inserts the smart tap. */
 export const insertSmarttap: API.OperationMethod<InsertSmarttapRequest, InsertSmarttapResponse, InsertSmarttapError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertSmarttapRequest,
   output: InsertSmarttapResponse,
   errors: [],
 }));
 
-/** Adds a message to the transit class referenced by the given class ID. */
 export interface AddmessageTransitclassRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -6041,13 +6040,13 @@ export const AddmessageTransitclassResponse = TransitClassAddMessageResponse;
 
 export type AddmessageTransitclassError = CommonErrors;
 
+/** Adds a message to the transit class referenced by the given class ID. */
 export const addmessageTransitclass: API.OperationMethod<AddmessageTransitclassRequest, AddmessageTransitclassResponse, AddmessageTransitclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddmessageTransitclassRequest,
   output: AddmessageTransitclassResponse,
   errors: [],
 }));
 
-/** Returns the transit class with the given class ID. */
 export interface GetTransitclassRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -6065,13 +6064,13 @@ export const GetTransitclassResponse = TransitClass;
 
 export type GetTransitclassError = CommonErrors;
 
+/** Returns the transit class with the given class ID. */
 export const getTransitclass: API.OperationMethod<GetTransitclassRequest, GetTransitclassResponse, GetTransitclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetTransitclassRequest,
   output: GetTransitclassResponse,
   errors: [],
 }));
 
-/** Inserts a transit class with the given ID and properties. */
 export interface InsertTransitclassRequest {
   /** Request body */
   body?: TransitClass;
@@ -6089,13 +6088,13 @@ export const InsertTransitclassResponse = TransitClass;
 
 export type InsertTransitclassError = CommonErrors;
 
+/** Inserts a transit class with the given ID and properties. */
 export const insertTransitclass: API.OperationMethod<InsertTransitclassRequest, InsertTransitclassResponse, InsertTransitclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertTransitclassRequest,
   output: InsertTransitclassResponse,
   errors: [],
 }));
 
-/** Returns a list of all transit classes for a given issuer ID. */
 export interface ListTransitclassRequest {
   /** The ID of the issuer authorized to list classes. */
   issuerId?: string;
@@ -6119,13 +6118,13 @@ export const ListTransitclassResponse = TransitClassListResponse;
 
 export type ListTransitclassError = CommonErrors;
 
+/** Returns a list of all transit classes for a given issuer ID. */
 export const listTransitclass: API.OperationMethod<ListTransitclassRequest, ListTransitclassResponse, ListTransitclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListTransitclassRequest,
   output: ListTransitclassResponse,
   errors: [],
 }));
 
-/** Updates the transit class referenced by the given class ID. This method supports patch semantics. */
 export interface PatchTransitclassRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -6146,13 +6145,13 @@ export const PatchTransitclassResponse = TransitClass;
 
 export type PatchTransitclassError = CommonErrors;
 
+/** Updates the transit class referenced by the given class ID. This method supports patch semantics. */
 export const patchTransitclass: API.OperationMethod<PatchTransitclassRequest, PatchTransitclassResponse, PatchTransitclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchTransitclassRequest,
   output: PatchTransitclassResponse,
   errors: [],
 }));
 
-/** Updates the transit class referenced by the given class ID. */
 export interface UpdateTransitclassRequest {
   /** The unique identifier for a class. This ID must be unique across all classes from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -6173,13 +6172,13 @@ export const UpdateTransitclassResponse = TransitClass;
 
 export type UpdateTransitclassError = CommonErrors;
 
+/** Updates the transit class referenced by the given class ID. */
 export const updateTransitclass: API.OperationMethod<UpdateTransitclassRequest, UpdateTransitclassResponse, UpdateTransitclassError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateTransitclassRequest,
   output: UpdateTransitclassResponse,
   errors: [],
 }));
 
-/** Adds a message to the transit object referenced by the given object ID. */
 export interface AddmessageTransitobjectRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -6200,13 +6199,13 @@ export const AddmessageTransitobjectResponse = TransitObjectAddMessageResponse;
 
 export type AddmessageTransitobjectError = CommonErrors;
 
+/** Adds a message to the transit object referenced by the given object ID. */
 export const addmessageTransitobject: API.OperationMethod<AddmessageTransitobjectRequest, AddmessageTransitobjectResponse, AddmessageTransitobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddmessageTransitobjectRequest,
   output: AddmessageTransitobjectResponse,
   errors: [],
 }));
 
-/** Returns the transit object with the given object ID. */
 export interface GetTransitobjectRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -6224,13 +6223,13 @@ export const GetTransitobjectResponse = TransitObject;
 
 export type GetTransitobjectError = CommonErrors;
 
+/** Returns the transit object with the given object ID. */
 export const getTransitobject: API.OperationMethod<GetTransitobjectRequest, GetTransitobjectResponse, GetTransitobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetTransitobjectRequest,
   output: GetTransitobjectResponse,
   errors: [],
 }));
 
-/** Inserts an transit object with the given ID and properties. */
 export interface InsertTransitobjectRequest {
   /** Request body */
   body?: TransitObject;
@@ -6248,13 +6247,13 @@ export const InsertTransitobjectResponse = TransitObject;
 
 export type InsertTransitobjectError = CommonErrors;
 
+/** Inserts an transit object with the given ID and properties. */
 export const insertTransitobject: API.OperationMethod<InsertTransitobjectRequest, InsertTransitobjectResponse, InsertTransitobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertTransitobjectRequest,
   output: InsertTransitobjectResponse,
   errors: [],
 }));
 
-/** Returns a list of all transit objects for a given issuer ID. */
 export interface ListTransitobjectRequest {
   /** The ID of the class whose objects will be listed. */
   classId?: string;
@@ -6278,13 +6277,13 @@ export const ListTransitobjectResponse = TransitObjectListResponse;
 
 export type ListTransitobjectError = CommonErrors;
 
+/** Returns a list of all transit objects for a given issuer ID. */
 export const listTransitobject: API.OperationMethod<ListTransitobjectRequest, ListTransitobjectResponse, ListTransitobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListTransitobjectRequest,
   output: ListTransitobjectResponse,
   errors: [],
 }));
 
-/** Updates the transit object referenced by the given object ID. This method supports patch semantics. */
 export interface PatchTransitobjectRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -6305,13 +6304,13 @@ export const PatchTransitobjectResponse = TransitObject;
 
 export type PatchTransitobjectError = CommonErrors;
 
+/** Updates the transit object referenced by the given object ID. This method supports patch semantics. */
 export const patchTransitobject: API.OperationMethod<PatchTransitobjectRequest, PatchTransitobjectResponse, PatchTransitobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchTransitobjectRequest,
   output: PatchTransitobjectResponse,
   errors: [],
 }));
 
-/** Updates the transit object referenced by the given object ID. */
 export interface UpdateTransitobjectRequest {
   /** The unique identifier for an object. This ID must be unique across all objects from an issuer. This value should follow the format issuer ID. identifier where the former is issued by Google and latter is chosen by you. Your unique identifier should only include alphanumeric characters, '.', '_', or '-'. */
   resourceId: string;
@@ -6332,6 +6331,7 @@ export const UpdateTransitobjectResponse = TransitObject;
 
 export type UpdateTransitobjectError = CommonErrors;
 
+/** Updates the transit object referenced by the given object ID. */
 export const updateTransitobject: API.OperationMethod<UpdateTransitobjectRequest, UpdateTransitobjectResponse, UpdateTransitobjectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateTransitobjectRequest,
   output: UpdateTransitobjectResponse,

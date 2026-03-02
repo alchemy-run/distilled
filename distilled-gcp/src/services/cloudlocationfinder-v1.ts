@@ -111,7 +111,6 @@ export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> = Schem
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -141,7 +140,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -151,7 +151,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -169,13 +168,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists cloud locations under a given project and location. */
 export interface ListProjectsLocationsCloudLocationsRequest {
   /** Required. The parent, which owns this collection of cloud locations. Format: projects/{project}/locations/{location} */
   parent: string;
@@ -202,7 +201,8 @@ export const ListProjectsLocationsCloudLocationsResponse = ListCloudLocationsRes
 
 export type ListProjectsLocationsCloudLocationsError = CommonErrors;
 
-export const listProjectsLocationsCloudLocations = API.makePaginated(() => ({
+/** Lists cloud locations under a given project and location. */
+export const listProjectsLocationsCloudLocations: API.PaginatedOperationMethod<ListProjectsLocationsCloudLocationsRequest, ListProjectsLocationsCloudLocationsResponse, ListProjectsLocationsCloudLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCloudLocationsRequest,
   output: ListProjectsLocationsCloudLocationsResponse,
   errors: [],
@@ -212,7 +212,6 @@ export const listProjectsLocationsCloudLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves a resource containing information about a cloud location. */
 export interface GetProjectsLocationsCloudLocationsRequest {
   /** Required. Name of the resource. */
   name: string;
@@ -230,13 +229,13 @@ export const GetProjectsLocationsCloudLocationsResponse = CloudLocation;
 
 export type GetProjectsLocationsCloudLocationsError = CommonErrors;
 
+/** Retrieves a resource containing information about a cloud location. */
 export const getProjectsLocationsCloudLocations: API.OperationMethod<GetProjectsLocationsCloudLocationsRequest, GetProjectsLocationsCloudLocationsResponse, GetProjectsLocationsCloudLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCloudLocationsRequest,
   output: GetProjectsLocationsCloudLocationsResponse,
   errors: [],
 }));
 
-/** Searches for cloud locations from a given source location. */
 export interface SearchProjectsLocationsCloudLocationsRequest {
   /** Required. The parent, which owns this collection of cloud locations. Format: projects/{project}/locations/{location} */
   parent: string;
@@ -266,7 +265,8 @@ export const SearchProjectsLocationsCloudLocationsResponse = SearchCloudLocation
 
 export type SearchProjectsLocationsCloudLocationsError = CommonErrors;
 
-export const searchProjectsLocationsCloudLocations = API.makePaginated(() => ({
+/** Searches for cloud locations from a given source location. */
+export const searchProjectsLocationsCloudLocations: API.PaginatedOperationMethod<SearchProjectsLocationsCloudLocationsRequest, SearchProjectsLocationsCloudLocationsResponse, SearchProjectsLocationsCloudLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchProjectsLocationsCloudLocationsRequest,
   output: SearchProjectsLocationsCloudLocationsResponse,
   errors: [],

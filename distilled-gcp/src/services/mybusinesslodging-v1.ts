@@ -2058,7 +2058,6 @@ export const GetGoogleUpdatedLodgingResponse: Schema.Schema<GetGoogleUpdatedLodg
 // Operations
 // ==========================================================================
 
-/** Returns the Lodging of a specific location. */
 export interface GetLodgingLocationsRequest {
   /** Required. Google identifier for this location in the form: `locations/{location_id}/lodging` */
   name: string;
@@ -2079,13 +2078,13 @@ export const GetLodgingLocationsResponse = Lodging;
 
 export type GetLodgingLocationsError = CommonErrors;
 
+/** Returns the Lodging of a specific location. */
 export const getLodgingLocations: API.OperationMethod<GetLodgingLocationsRequest, GetLodgingLocationsResponse, GetLodgingLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetLodgingLocationsRequest,
   output: GetLodgingLocationsResponse,
   errors: [],
 }));
 
-/** Updates the Lodging of a specific location. */
 export interface UpdateLodgingLocationsRequest {
   /** Required. Google identifier for this location in the form: `locations/{location_id}/lodging` */
   name: string;
@@ -2109,13 +2108,13 @@ export const UpdateLodgingLocationsResponse = Lodging;
 
 export type UpdateLodgingLocationsError = CommonErrors;
 
+/** Updates the Lodging of a specific location. */
 export const updateLodgingLocations: API.OperationMethod<UpdateLodgingLocationsRequest, UpdateLodgingLocationsResponse, UpdateLodgingLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateLodgingLocationsRequest,
   output: UpdateLodgingLocationsResponse,
   errors: [],
 }));
 
-/** Returns the Google updated Lodging of a specific location. */
 export interface GetGoogleUpdatedLocationsLodgingRequest {
   /** Required. Google identifier for this location in the form: `locations/{location_id}/lodging` */
   name: string;
@@ -2136,6 +2135,7 @@ export const GetGoogleUpdatedLocationsLodgingResponse = GetGoogleUpdatedLodgingR
 
 export type GetGoogleUpdatedLocationsLodgingError = CommonErrors;
 
+/** Returns the Google updated Lodging of a specific location. */
 export const getGoogleUpdatedLocationsLodging: API.OperationMethod<GetGoogleUpdatedLocationsLodgingRequest, GetGoogleUpdatedLocationsLodgingResponse, GetGoogleUpdatedLocationsLodgingError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetGoogleUpdatedLocationsLodgingRequest,
   output: GetGoogleUpdatedLocationsLodgingResponse,

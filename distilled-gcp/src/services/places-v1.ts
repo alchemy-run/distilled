@@ -1436,7 +1436,6 @@ export const GoogleMapsPlacesV1AutocompletePlacesResponse: Schema.Schema<GoogleM
 // Operations
 // ==========================================================================
 
-/** Search for places near locations. */
 export interface SearchNearbyPlacesRequest {
   /** Request body */
   body?: GoogleMapsPlacesV1SearchNearbyRequest;
@@ -1454,13 +1453,13 @@ export const SearchNearbyPlacesResponse = GoogleMapsPlacesV1SearchNearbyResponse
 
 export type SearchNearbyPlacesError = CommonErrors;
 
+/** Search for places near locations. */
 export const searchNearbyPlaces: API.OperationMethod<SearchNearbyPlacesRequest, SearchNearbyPlacesResponse, SearchNearbyPlacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchNearbyPlacesRequest,
   output: SearchNearbyPlacesResponse,
   errors: [],
 }));
 
-/** Text query based place search. */
 export interface SearchTextPlacesRequest {
   /** Request body */
   body?: GoogleMapsPlacesV1SearchTextRequest;
@@ -1478,13 +1477,13 @@ export const SearchTextPlacesResponse = GoogleMapsPlacesV1SearchTextResponse;
 
 export type SearchTextPlacesError = CommonErrors;
 
+/** Text query based place search. */
 export const searchTextPlaces: API.OperationMethod<SearchTextPlacesRequest, SearchTextPlacesResponse, SearchTextPlacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchTextPlacesRequest,
   output: SearchTextPlacesResponse,
   errors: [],
 }));
 
-/** Get the details of a place based on its resource name, which is a string in the `places/{place_id}` format. */
 export interface GetPlacesRequest {
   /** Required. The resource name of a place, in the `places/{place_id}` format. */
   name: string;
@@ -1511,13 +1510,13 @@ export const GetPlacesResponse = GoogleMapsPlacesV1Place;
 
 export type GetPlacesError = CommonErrors;
 
+/** Get the details of a place based on its resource name, which is a string in the `places/{place_id}` format. */
 export const getPlaces: API.OperationMethod<GetPlacesRequest, GetPlacesResponse, GetPlacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPlacesRequest,
   output: GetPlacesResponse,
   errors: [],
 }));
 
-/** Returns predictions for the given input. */
 export interface AutocompletePlacesRequest {
   /** Request body */
   body?: GoogleMapsPlacesV1AutocompletePlacesRequest;
@@ -1535,13 +1534,13 @@ export const AutocompletePlacesResponse = GoogleMapsPlacesV1AutocompletePlacesRe
 
 export type AutocompletePlacesError = CommonErrors;
 
+/** Returns predictions for the given input. */
 export const autocompletePlaces: API.OperationMethod<AutocompletePlacesRequest, AutocompletePlacesResponse, AutocompletePlacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AutocompletePlacesRequest,
   output: AutocompletePlacesResponse,
   errors: [],
 }));
 
-/** Get a photo media with a photo reference string. */
 export interface GetMediaPlacesPhotosRequest {
   /** Required. The resource name of a photo media in the format: `places/{place_id}/photos/{photo_reference}/media`. The resource name of a photo as returned in a Place object's `photos.name` field comes with the format `places/{place_id}/photos/{photo_reference}`. You need to append `/media` at the end of the photo resource to get the photo media resource name. */
   name: string;
@@ -1568,6 +1567,7 @@ export const GetMediaPlacesPhotosResponse = GoogleMapsPlacesV1PhotoMedia;
 
 export type GetMediaPlacesPhotosError = CommonErrors;
 
+/** Get a photo media with a photo reference string. */
 export const getMediaPlacesPhotos: API.OperationMethod<GetMediaPlacesPhotosRequest, GetMediaPlacesPhotosResponse, GetMediaPlacesPhotosError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetMediaPlacesPhotosRequest,
   output: GetMediaPlacesPhotosResponse,

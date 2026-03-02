@@ -177,7 +177,6 @@ export const GoogleFirebaseFcmDataV1beta1ListAndroidDeliveryDataResponse: Schema
 // Operations
 // ==========================================================================
 
-/** List aggregate delivery data for the given Android application. */
 export interface ListProjectsAndroidAppsDeliveryDataRequest {
   /** Required. The application for which to list delivery data. Format: `projects/{project_id}/androidApps/{app_id}` */
   parent: string;
@@ -201,7 +200,8 @@ export const ListProjectsAndroidAppsDeliveryDataResponse = GoogleFirebaseFcmData
 
 export type ListProjectsAndroidAppsDeliveryDataError = CommonErrors;
 
-export const listProjectsAndroidAppsDeliveryData = API.makePaginated(() => ({
+/** List aggregate delivery data for the given Android application. */
+export const listProjectsAndroidAppsDeliveryData: API.PaginatedOperationMethod<ListProjectsAndroidAppsDeliveryDataRequest, ListProjectsAndroidAppsDeliveryDataResponse, ListProjectsAndroidAppsDeliveryDataError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsAndroidAppsDeliveryDataRequest,
   output: ListProjectsAndroidAppsDeliveryDataResponse,
   errors: [],

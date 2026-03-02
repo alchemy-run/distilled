@@ -546,7 +546,6 @@ export const GoogleCloudPolicytroubleshooterIamV3TroubleshootIamPolicyResponse: 
 // Operations
 // ==========================================================================
 
-/** Checks whether a principal has a specific permission for a specific resource, and explains why the principal does or doesn't have that permission. */
 export interface TroubleshootIamRequest {
   /** Request body */
   body?: GoogleCloudPolicytroubleshooterIamV3TroubleshootIamPolicyRequest;
@@ -564,6 +563,7 @@ export const TroubleshootIamResponse = GoogleCloudPolicytroubleshooterIamV3Troub
 
 export type TroubleshootIamError = CommonErrors;
 
+/** Checks whether a principal has a specific permission for a specific resource, and explains why the principal does or doesn't have that permission. */
 export const troubleshootIam: API.OperationMethod<TroubleshootIamRequest, TroubleshootIamResponse, TroubleshootIamError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TroubleshootIamRequest,
   output: TroubleshootIamResponse,

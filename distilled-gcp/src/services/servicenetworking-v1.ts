@@ -2121,7 +2121,6 @@ export const CleanupConnectionMetadata: Schema.Schema<CleanupConnectionMetadata>
 // Operations
 // ==========================================================================
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -2151,7 +2150,8 @@ export const ListOperationsResponse_Op = ListOperationsResponse;
 
 export type ListOperationsError = CommonErrors;
 
-export const listOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listOperations: API.PaginatedOperationMethod<ListOperationsRequest, ListOperationsResponse_Op, ListOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOperationsRequest,
   output: ListOperationsResponse_Op,
   errors: [],
@@ -2161,7 +2161,6 @@ export const listOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -2179,13 +2178,13 @@ export const GetOperationsResponse = Operation;
 
 export type GetOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOperations: API.OperationMethod<GetOperationsRequest, GetOperationsResponse, GetOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -2203,13 +2202,13 @@ export const DeleteOperationsResponse = Empty;
 
 export type DeleteOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteOperations: API.OperationMethod<DeleteOperationsRequest, DeleteOperationsResponse, DeleteOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOperationsRequest,
   output: DeleteOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -2230,13 +2229,13 @@ export const CancelOperationsResponse = Empty;
 
 export type CancelOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelOperations: API.OperationMethod<CancelOperationsRequest, CancelOperationsResponse, CancelOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelOperationsRequest,
   output: CancelOperationsResponse,
   errors: [],
 }));
 
-/** Disables VPC service controls for a connection. */
 export interface DisableVpcServiceControlsServicesRequest {
   /** Required. The service that is managing peering connectivity for a service producer's organization. For Google services that support this functionality, this value is `services/servicenetworking.googleapis.com`. */
   parent: string;
@@ -2257,13 +2256,13 @@ export const DisableVpcServiceControlsServicesResponse = Operation;
 
 export type DisableVpcServiceControlsServicesError = CommonErrors;
 
+/** Disables VPC service controls for a connection. */
 export const disableVpcServiceControlsServices: API.OperationMethod<DisableVpcServiceControlsServicesRequest, DisableVpcServiceControlsServicesResponse, DisableVpcServiceControlsServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DisableVpcServiceControlsServicesRequest,
   output: DisableVpcServiceControlsServicesResponse,
   errors: [],
 }));
 
-/** Enables VPC service controls for a connection. */
 export interface EnableVpcServiceControlsServicesRequest {
   /** Required. The service that is managing peering connectivity for a service producer's organization. For Google services that support this functionality, this value is `services/servicenetworking.googleapis.com`. */
   parent: string;
@@ -2284,13 +2283,13 @@ export const EnableVpcServiceControlsServicesResponse = Operation;
 
 export type EnableVpcServiceControlsServicesError = CommonErrors;
 
+/** Enables VPC service controls for a connection. */
 export const enableVpcServiceControlsServices: API.OperationMethod<EnableVpcServiceControlsServicesRequest, EnableVpcServiceControlsServicesResponse, EnableVpcServiceControlsServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnableVpcServiceControlsServicesRequest,
   output: EnableVpcServiceControlsServicesResponse,
   errors: [],
 }));
 
-/** For service producers, provisions a new subnet in a peered service's shared VPC network in the requested region and with the requested size that's expressed as a CIDR range (number of leading bits of ipV4 network mask). The method checks against the assigned allocated ranges to find a non-conflicting IP address range. The method will reuse a subnet if subsequent calls contain the same subnet name, region, and prefix length. This method will make producer's tenant project to be a shared VPC service project as needed. */
 export interface AddSubnetworkServicesRequest {
   /** Required. A tenant project in the service producer organization, in the following format: services/{service}/{collection-id}/{resource-id}. {collection-id} is the cloud resource collection type that represents the tenant project. Only `projects` are supported. {resource-id} is the tenant project numeric id, such as `123456`. {service} the name of the peering service, such as `service-peering.example.com`. This service must already be enabled in the service consumer's project. */
   parent: string;
@@ -2311,13 +2310,13 @@ export const AddSubnetworkServicesResponse = Operation;
 
 export type AddSubnetworkServicesError = CommonErrors;
 
+/** For service producers, provisions a new subnet in a peered service's shared VPC network in the requested region and with the requested size that's expressed as a CIDR range (number of leading bits of ipV4 network mask). The method checks against the assigned allocated ranges to find a non-conflicting IP address range. The method will reuse a subnet if subsequent calls contain the same subnet name, region, and prefix length. This method will make producer's tenant project to be a shared VPC service project as needed. */
 export const addSubnetworkServices: API.OperationMethod<AddSubnetworkServicesRequest, AddSubnetworkServicesResponse, AddSubnetworkServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddSubnetworkServicesRequest,
   output: AddSubnetworkServicesResponse,
   errors: [],
 }));
 
-/** Service producers can use this method to find a currently unused range within consumer allocated ranges. This returned range is not reserved, and not guaranteed to remain unused. It will validate previously provided allocated ranges, find non-conflicting sub-range of requested size (expressed in number of leading bits of ipv4 network mask, as in CIDR range notation). */
 export interface SearchRangeServicesRequest {
   /** Required. This is in a form services/{service}. {service} the name of the private access management service, for example 'service-peering.example.com'. */
   parent: string;
@@ -2338,13 +2337,13 @@ export const SearchRangeServicesResponse = Operation;
 
 export type SearchRangeServicesError = CommonErrors;
 
+/** Service producers can use this method to find a currently unused range within consumer allocated ranges. This returned range is not reserved, and not guaranteed to remain unused. It will validate previously provided allocated ranges, find non-conflicting sub-range of requested size (expressed in number of leading bits of ipv4 network mask, as in CIDR range notation). */
 export const searchRangeServices: API.OperationMethod<SearchRangeServicesRequest, SearchRangeServicesResponse, SearchRangeServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchRangeServicesRequest,
   output: SearchRangeServicesResponse,
   errors: [],
 }));
 
-/** Service producers use this method to validate if the consumer provided network, project and requested range are valid. This allows them to use a fail-fast mechanism for consumer requests, and not have to wait for AddSubnetwork operation completion to determine if user request is invalid. */
 export interface ValidateServicesRequest {
   /** Required. This is in a form services/{service} where {service} is the name of the private access management service. For example 'service-peering.example.com'. */
   parent: string;
@@ -2365,13 +2364,13 @@ export const ValidateServicesResponse = ValidateConsumerConfigResponse;
 
 export type ValidateServicesError = CommonErrors;
 
+/** Service producers use this method to validate if the consumer provided network, project and requested range are valid. This allows them to use a fail-fast mechanism for consumer requests, and not have to wait for AddSubnetwork operation completion to determine if user request is invalid. */
 export const validateServices: API.OperationMethod<ValidateServicesRequest, ValidateServicesResponse, ValidateServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ValidateServicesRequest,
   output: ValidateServicesResponse,
   errors: [],
 }));
 
-/** List the private connections that are configured in a service consumer's VPC network. */
 export interface ListServicesConnectionsRequest {
   /** Required. The service that is managing peering connectivity for a service producer's organization. For Google services that support this functionality, this value is `services/servicenetworking.googleapis.com`. If you specify `services/-` as the parameter value, all configured peering services are listed. */
   parent: string;
@@ -2392,13 +2391,13 @@ export const ListServicesConnectionsResponse = ListConnectionsResponse;
 
 export type ListServicesConnectionsError = CommonErrors;
 
+/** List the private connections that are configured in a service consumer's VPC network. */
 export const listServicesConnections: API.OperationMethod<ListServicesConnectionsRequest, ListServicesConnectionsResponse, ListServicesConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListServicesConnectionsRequest,
   output: ListServicesConnectionsResponse,
   errors: [],
 }));
 
-/** Creates a private connection that establishes a VPC Network Peering connection to a VPC network in the service producer's organization. The administrator of the service consumer's VPC network invokes this method. The administrator must assign one or more allocated IP ranges for provisioning subnetworks in the service producer's VPC network. This connection is used for all supported services in the service producer's organization, so it only needs to be invoked once. */
 export interface CreateServicesConnectionsRequest {
   /** Required. The service that is managing peering connectivity for a service producer's organization. For Google services that support this functionality, this value is `services/servicenetworking.googleapis.com`. */
   parent: string;
@@ -2419,13 +2418,13 @@ export const CreateServicesConnectionsResponse = Operation;
 
 export type CreateServicesConnectionsError = CommonErrors;
 
+/** Creates a private connection that establishes a VPC Network Peering connection to a VPC network in the service producer's organization. The administrator of the service consumer's VPC network invokes this method. The administrator must assign one or more allocated IP ranges for provisioning subnetworks in the service producer's VPC network. This connection is used for all supported services in the service producer's organization, so it only needs to be invoked once. */
 export const createServicesConnections: API.OperationMethod<CreateServicesConnectionsRequest, CreateServicesConnectionsResponse, CreateServicesConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateServicesConnectionsRequest,
   output: CreateServicesConnectionsResponse,
   errors: [],
 }));
 
-/** Deletes a private service access connection. */
 export interface DeleteConnectionServicesConnectionsRequest {
   /** Required. The private service connection that connects to a service producer organization. The name includes both the private service name and the VPC network peering name in the format of `services/{peering_service_name}/connections/{vpc_peering_name}`. For Google services that support this functionality, this is `services/servicenetworking.googleapis.com/connections/servicenetworking-googleapis-com`. */
   name: string;
@@ -2446,13 +2445,13 @@ export const DeleteConnectionServicesConnectionsResponse = Operation;
 
 export type DeleteConnectionServicesConnectionsError = CommonErrors;
 
+/** Deletes a private service access connection. */
 export const deleteConnectionServicesConnections: API.OperationMethod<DeleteConnectionServicesConnectionsRequest, DeleteConnectionServicesConnectionsResponse, DeleteConnectionServicesConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteConnectionServicesConnectionsRequest,
   output: DeleteConnectionServicesConnectionsResponse,
   errors: [],
 }));
 
-/** Updates the allocated ranges that are assigned to a connection. */
 export interface PatchServicesConnectionsRequest {
   /** Required. The private service connection that connects to a service producer organization. The name includes both the private service name and the VPC network peering name in the format of `services/{peering_service_name}/connections/{vpc_peering_name}`. For Google services that support this functionality, this is `services/servicenetworking.googleapis.com/connections/servicenetworking-googleapis-com`. */
   name: string;
@@ -2479,13 +2478,13 @@ export const PatchServicesConnectionsResponse = Operation;
 
 export type PatchServicesConnectionsError = CommonErrors;
 
+/** Updates the allocated ranges that are assigned to a connection. */
 export const patchServicesConnections: API.OperationMethod<PatchServicesConnectionsRequest, PatchServicesConnectionsResponse, PatchServicesConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchServicesConnectionsRequest,
   output: PatchServicesConnectionsResponse,
   errors: [],
 }));
 
-/** Consumers use this method to find out the state of VPC Service Controls. The controls could be enabled or disabled for a connection. */
 export interface GetVpcServiceControlsServicesProjectsGlobalNetworksRequest {
   /** Required. Name of the VPC Service Controls config to retrieve in the format: `services/{service}/projects/{project}/global/networks/{network}`. {service} is the peering service that is managing connectivity for the service producer's organization. For Google services that support this functionality, this value is `servicenetworking.googleapis.com`. {project} is a project number e.g. `12345` that contains the service consumer's VPC network. {network} is the name of the service consumer's VPC network. */
   name: string;
@@ -2503,13 +2502,13 @@ export const GetVpcServiceControlsServicesProjectsGlobalNetworksResponse = VpcSe
 
 export type GetVpcServiceControlsServicesProjectsGlobalNetworksError = CommonErrors;
 
+/** Consumers use this method to find out the state of VPC Service Controls. The controls could be enabled or disabled for a connection. */
 export const getVpcServiceControlsServicesProjectsGlobalNetworks: API.OperationMethod<GetVpcServiceControlsServicesProjectsGlobalNetworksRequest, GetVpcServiceControlsServicesProjectsGlobalNetworksResponse, GetVpcServiceControlsServicesProjectsGlobalNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetVpcServiceControlsServicesProjectsGlobalNetworksRequest,
   output: GetVpcServiceControlsServicesProjectsGlobalNetworksResponse,
   errors: [],
 }));
 
-/** Service producers use this method to update the configuration of their connection including the import/export of custom routes and subnetwork routes with public IP. */
 export interface UpdateConsumerConfigServicesProjectsGlobalNetworksRequest {
   /** Required. Parent resource identifying the connection for which the consumer config is being updated in the format: `services/{service}/projects/{project}/global/networks/{network}` {service} is the peering service that is managing connectivity for the service producer's organization. For Google services that support this functionality, this value is `servicenetworking.googleapis.com`. {project} is the number of the project that contains the service consumer's VPC network e.g. `12345`. {network} is the name of the service consumer's VPC network. */
   parent: string;
@@ -2530,13 +2529,13 @@ export const UpdateConsumerConfigServicesProjectsGlobalNetworksResponse = Operat
 
 export type UpdateConsumerConfigServicesProjectsGlobalNetworksError = CommonErrors;
 
+/** Service producers use this method to update the configuration of their connection including the import/export of custom routes and subnetwork routes with public IP. */
 export const updateConsumerConfigServicesProjectsGlobalNetworks: API.OperationMethod<UpdateConsumerConfigServicesProjectsGlobalNetworksRequest, UpdateConsumerConfigServicesProjectsGlobalNetworksResponse, UpdateConsumerConfigServicesProjectsGlobalNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateConsumerConfigServicesProjectsGlobalNetworksRequest,
   output: UpdateConsumerConfigServicesProjectsGlobalNetworksResponse,
   errors: [],
 }));
 
-/** Service producers use this method to get the configuration of their connection including the import/export of custom routes and subnetwork routes with public IP. */
 export interface GetServicesProjectsGlobalNetworksRequest {
   /** Required. Name of the consumer config to retrieve in the format: `services/{service}/projects/{project}/global/networks/{network}`. {service} is the peering service that is managing connectivity for the service producer's organization. For Google services that support this functionality, this value is `servicenetworking.googleapis.com`. {project} is a project number e.g. `12345` that contains the service consumer's VPC network. {network} is the name of the service consumer's VPC network. */
   name: string;
@@ -2557,13 +2556,13 @@ export const GetServicesProjectsGlobalNetworksResponse = ConsumerConfig;
 
 export type GetServicesProjectsGlobalNetworksError = CommonErrors;
 
+/** Service producers use this method to get the configuration of their connection including the import/export of custom routes and subnetwork routes with public IP. */
 export const getServicesProjectsGlobalNetworks: API.OperationMethod<GetServicesProjectsGlobalNetworksRequest, GetServicesProjectsGlobalNetworksResponse, GetServicesProjectsGlobalNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetServicesProjectsGlobalNetworksRequest,
   output: GetServicesProjectsGlobalNetworksResponse,
   errors: [],
 }));
 
-/** * Service producers can use this method to retrieve a list of available DNS zones in the shared producer host project and the matching peering zones in the consumer project. * */
 export interface ListServicesProjectsGlobalNetworksDnsZonesRequest {
   /** Required. Parent resource identifying the connection which owns this collection of DNS zones in the format services/{service}/projects/{project}/global/networks/{network} Service: The service that is managing connectivity for the service producer's organization. For Google services that support this functionality, this value is `servicenetworking.googleapis.com`. Projects: the consumer project containing the consumer network. Network: The consumer network accessible from the tenant project. */
   parent: string;
@@ -2581,13 +2580,13 @@ export const ListServicesProjectsGlobalNetworksDnsZonesResponse = ListDnsZonesRe
 
 export type ListServicesProjectsGlobalNetworksDnsZonesError = CommonErrors;
 
+/** * Service producers can use this method to retrieve a list of available DNS zones in the shared producer host project and the matching peering zones in the consumer project. * */
 export const listServicesProjectsGlobalNetworksDnsZones: API.OperationMethod<ListServicesProjectsGlobalNetworksDnsZonesRequest, ListServicesProjectsGlobalNetworksDnsZonesResponse, ListServicesProjectsGlobalNetworksDnsZonesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListServicesProjectsGlobalNetworksDnsZonesRequest,
   output: ListServicesProjectsGlobalNetworksDnsZonesResponse,
   errors: [],
 }));
 
-/** Service producers can use this method to retrieve a DNS zone in the shared producer host project and the matching peering zones in consumer project */
 export interface GetServicesProjectsGlobalNetworksDnsZonesRequest {
   /** Required. The network that the consumer is using to connect with services. Must be in the form of services/{service}/projects/{project}/global/networks/{network}/dnsZones/{zoneName} Where {service} is the peering service that is managing connectivity for the service producer's organization. For Google services that support this {project} is the project number, as in '12345' {network} is the network name. {zoneName} is the DNS zone name */
   name: string;
@@ -2605,13 +2604,13 @@ export const GetServicesProjectsGlobalNetworksDnsZonesResponse = GetDnsZoneRespo
 
 export type GetServicesProjectsGlobalNetworksDnsZonesError = CommonErrors;
 
+/** Service producers can use this method to retrieve a DNS zone in the shared producer host project and the matching peering zones in consumer project */
 export const getServicesProjectsGlobalNetworksDnsZones: API.OperationMethod<GetServicesProjectsGlobalNetworksDnsZonesRequest, GetServicesProjectsGlobalNetworksDnsZonesResponse, GetServicesProjectsGlobalNetworksDnsZonesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetServicesProjectsGlobalNetworksDnsZonesRequest,
   output: GetServicesProjectsGlobalNetworksDnsZonesResponse,
   errors: [],
 }));
 
-/** Creates a peered DNS domain which sends requests for records in given namespace originating in the service producer VPC network to the consumer VPC network to be resolved. */
 export interface CreateServicesProjectsGlobalNetworksPeeredDnsDomainsRequest {
   /** Required. Parent resource identifying the connection for which the peered DNS domain will be created in the format: `services/{service}/projects/{project}/global/networks/{network}` {service} is the peering service that is managing connectivity for the service producer's organization. For Google services that support this functionality, this value is `servicenetworking.googleapis.com`. {project} is the number of the project that contains the service consumer's VPC network e.g. `12345`. {network} is the name of the service consumer's VPC network. */
   parent: string;
@@ -2632,13 +2631,13 @@ export const CreateServicesProjectsGlobalNetworksPeeredDnsDomainsResponse = Oper
 
 export type CreateServicesProjectsGlobalNetworksPeeredDnsDomainsError = CommonErrors;
 
+/** Creates a peered DNS domain which sends requests for records in given namespace originating in the service producer VPC network to the consumer VPC network to be resolved. */
 export const createServicesProjectsGlobalNetworksPeeredDnsDomains: API.OperationMethod<CreateServicesProjectsGlobalNetworksPeeredDnsDomainsRequest, CreateServicesProjectsGlobalNetworksPeeredDnsDomainsResponse, CreateServicesProjectsGlobalNetworksPeeredDnsDomainsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateServicesProjectsGlobalNetworksPeeredDnsDomainsRequest,
   output: CreateServicesProjectsGlobalNetworksPeeredDnsDomainsResponse,
   errors: [],
 }));
 
-/** Deletes a peered DNS domain. */
 export interface DeleteServicesProjectsGlobalNetworksPeeredDnsDomainsRequest {
   /** Required. The name of the peered DNS domain to delete in the format: `services/{service}/projects/{project}/global/networks/{network}/peeredDnsDomains/{name}`. {service} is the peering service that is managing connectivity for the service producer's organization. For Google services that support this functionality, this value is `servicenetworking.googleapis.com`. {project} is the number of the project that contains the service consumer's VPC network e.g. `12345`. {network} is the name of the service consumer's VPC network. {name} is the name of the peered DNS domain. */
   name: string;
@@ -2656,13 +2655,13 @@ export const DeleteServicesProjectsGlobalNetworksPeeredDnsDomainsResponse = Oper
 
 export type DeleteServicesProjectsGlobalNetworksPeeredDnsDomainsError = CommonErrors;
 
+/** Deletes a peered DNS domain. */
 export const deleteServicesProjectsGlobalNetworksPeeredDnsDomains: API.OperationMethod<DeleteServicesProjectsGlobalNetworksPeeredDnsDomainsRequest, DeleteServicesProjectsGlobalNetworksPeeredDnsDomainsResponse, DeleteServicesProjectsGlobalNetworksPeeredDnsDomainsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteServicesProjectsGlobalNetworksPeeredDnsDomainsRequest,
   output: DeleteServicesProjectsGlobalNetworksPeeredDnsDomainsResponse,
   errors: [],
 }));
 
-/** Lists peered DNS domains for a connection. */
 export interface ListServicesProjectsGlobalNetworksPeeredDnsDomainsRequest {
   /** Required. Parent resource identifying the connection which owns this collection of peered DNS domains in the format: `services/{service}/projects/{project}/global/networks/{network}`. {service} is the peering service that is managing connectivity for the service producer's organization. For Google services that support this functionality, this value is `servicenetworking.googleapis.com`. {project} is a project number e.g. `12345` that contains the service consumer's VPC network. {network} is the name of the service consumer's VPC network. */
   parent: string;
@@ -2680,13 +2679,13 @@ export const ListServicesProjectsGlobalNetworksPeeredDnsDomainsResponse = ListPe
 
 export type ListServicesProjectsGlobalNetworksPeeredDnsDomainsError = CommonErrors;
 
+/** Lists peered DNS domains for a connection. */
 export const listServicesProjectsGlobalNetworksPeeredDnsDomains: API.OperationMethod<ListServicesProjectsGlobalNetworksPeeredDnsDomainsRequest, ListServicesProjectsGlobalNetworksPeeredDnsDomainsResponse, ListServicesProjectsGlobalNetworksPeeredDnsDomainsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListServicesProjectsGlobalNetworksPeeredDnsDomainsRequest,
   output: ListServicesProjectsGlobalNetworksPeeredDnsDomainsResponse,
   errors: [],
 }));
 
-/** Service producers can use this method to add roles in the shared VPC host project. Each role is bound to the provided member. Each role must be selected from within an allowlisted set of roles. Each role is applied at only the granularity specified in the allowlist. */
 export interface AddServicesRolesRequest {
   /** Required. This is in a form services/{service} where {service} is the name of the private access management service. For example 'service-peering.example.com'. */
   parent: string;
@@ -2707,13 +2706,13 @@ export const AddServicesRolesResponse = Operation;
 
 export type AddServicesRolesError = CommonErrors;
 
+/** Service producers can use this method to add roles in the shared VPC host project. Each role is bound to the provided member. Each role must be selected from within an allowlisted set of roles. Each role is applied at only the granularity specified in the allowlist. */
 export const addServicesRoles: API.OperationMethod<AddServicesRolesRequest, AddServicesRolesResponse, AddServicesRolesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddServicesRolesRequest,
   output: AddServicesRolesResponse,
   errors: [],
 }));
 
-/** Service producers can use this method to add private DNS zones in the shared producer host project and matching peering zones in the consumer project. */
 export interface AddServicesDnsZonesRequest {
   /** Required. The service that is managing peering connectivity for a service producer's organization. For Google services that support this functionality, this value is `services/servicenetworking.googleapis.com`. */
   parent: string;
@@ -2734,13 +2733,13 @@ export const AddServicesDnsZonesResponse = Operation;
 
 export type AddServicesDnsZonesError = CommonErrors;
 
+/** Service producers can use this method to add private DNS zones in the shared producer host project and matching peering zones in the consumer project. */
 export const addServicesDnsZones: API.OperationMethod<AddServicesDnsZonesRequest, AddServicesDnsZonesResponse, AddServicesDnsZonesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddServicesDnsZonesRequest,
   output: AddServicesDnsZonesResponse,
   errors: [],
 }));
 
-/** Service producers can use this method to remove private DNS zones in the shared producer host project and matching peering zones in the consumer project. */
 export interface RemoveServicesDnsZonesRequest {
   /** Required. The service that is managing peering connectivity for a service producer's organization. For Google services that support this functionality, this value is `services/servicenetworking.googleapis.com`. */
   parent: string;
@@ -2761,13 +2760,13 @@ export const RemoveServicesDnsZonesResponse = Operation;
 
 export type RemoveServicesDnsZonesError = CommonErrors;
 
+/** Service producers can use this method to remove private DNS zones in the shared producer host project and matching peering zones in the consumer project. */
 export const removeServicesDnsZones: API.OperationMethod<RemoveServicesDnsZonesRequest, RemoveServicesDnsZonesResponse, RemoveServicesDnsZonesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveServicesDnsZonesRequest,
   output: RemoveServicesDnsZonesResponse,
   errors: [],
 }));
 
-/** Service producers can use this method to add DNS record sets to private DNS zones in the shared producer host project. */
 export interface AddServicesDnsRecordSetsRequest {
   /** Required. The service that is managing peering connectivity for a service producer's organization. For Google services that support this functionality, this value is `services/servicenetworking.googleapis.com`. */
   parent: string;
@@ -2788,13 +2787,13 @@ export const AddServicesDnsRecordSetsResponse = Operation;
 
 export type AddServicesDnsRecordSetsError = CommonErrors;
 
+/** Service producers can use this method to add DNS record sets to private DNS zones in the shared producer host project. */
 export const addServicesDnsRecordSets: API.OperationMethod<AddServicesDnsRecordSetsRequest, AddServicesDnsRecordSetsResponse, AddServicesDnsRecordSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddServicesDnsRecordSetsRequest,
   output: AddServicesDnsRecordSetsResponse,
   errors: [],
 }));
 
-/** Service producers can use this method to remove DNS record sets from private DNS zones in the shared producer host project. */
 export interface RemoveServicesDnsRecordSetsRequest {
   /** Required. The service that is managing peering connectivity for a service producer's organization. For Google services that support this functionality, this value is `services/servicenetworking.googleapis.com`. */
   parent: string;
@@ -2815,13 +2814,13 @@ export const RemoveServicesDnsRecordSetsResponse = Operation;
 
 export type RemoveServicesDnsRecordSetsError = CommonErrors;
 
+/** Service producers can use this method to remove DNS record sets from private DNS zones in the shared producer host project. */
 export const removeServicesDnsRecordSets: API.OperationMethod<RemoveServicesDnsRecordSetsRequest, RemoveServicesDnsRecordSetsResponse, RemoveServicesDnsRecordSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveServicesDnsRecordSetsRequest,
   output: RemoveServicesDnsRecordSetsResponse,
   errors: [],
 }));
 
-/** Service producers can use this method to update DNS record sets from private DNS zones in the shared producer host project. */
 export interface UpdateServicesDnsRecordSetsRequest {
   /** Required. The service that is managing peering connectivity for a service producer's organization. For Google services that support this functionality, this value is `services/servicenetworking.googleapis.com`. */
   parent: string;
@@ -2842,13 +2841,13 @@ export const UpdateServicesDnsRecordSetsResponse = Operation;
 
 export type UpdateServicesDnsRecordSetsError = CommonErrors;
 
+/** Service producers can use this method to update DNS record sets from private DNS zones in the shared producer host project. */
 export const updateServicesDnsRecordSets: API.OperationMethod<UpdateServicesDnsRecordSetsRequest, UpdateServicesDnsRecordSetsResponse, UpdateServicesDnsRecordSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateServicesDnsRecordSetsRequest,
   output: UpdateServicesDnsRecordSetsResponse,
   errors: [],
 }));
 
-/** Producers can use this method to retrieve information about the DNS record set added to the private zone inside the shared tenant host project associated with a consumer network. */
 export interface GetServicesDnsRecordSetsRequest {
   /** Required. Parent resource identifying the connection which owns this collection of DNS zones in the format services/{service}. */
   parent: string;
@@ -2878,13 +2877,13 @@ export const GetServicesDnsRecordSetsResponse = DnsRecordSet;
 
 export type GetServicesDnsRecordSetsError = CommonErrors;
 
+/** Producers can use this method to retrieve information about the DNS record set added to the private zone inside the shared tenant host project associated with a consumer network. */
 export const getServicesDnsRecordSets: API.OperationMethod<GetServicesDnsRecordSetsRequest, GetServicesDnsRecordSetsResponse, GetServicesDnsRecordSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetServicesDnsRecordSetsRequest,
   output: GetServicesDnsRecordSetsResponse,
   errors: [],
 }));
 
-/** Producers can use this method to retrieve a list of available DNS RecordSets available inside the private zone on the tenant host project accessible from their network. */
 export interface ListServicesDnsRecordSetsRequest {
   /** Required. The service that is managing peering connectivity for a service producer's organization. For Google services that support this functionality, this value is `services/servicenetworking.googleapis.com`. */
   parent: string;
@@ -2908,6 +2907,7 @@ export const ListServicesDnsRecordSetsResponse = ListDnsRecordSetsResponse;
 
 export type ListServicesDnsRecordSetsError = CommonErrors;
 
+/** Producers can use this method to retrieve a list of available DNS RecordSets available inside the private zone on the tenant host project accessible from their network. */
 export const listServicesDnsRecordSets: API.OperationMethod<ListServicesDnsRecordSetsRequest, ListServicesDnsRecordSetsResponse, ListServicesDnsRecordSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListServicesDnsRecordSetsRequest,
   output: ListServicesDnsRecordSetsResponse,

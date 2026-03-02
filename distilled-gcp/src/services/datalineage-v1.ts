@@ -438,7 +438,6 @@ export const GoogleCloudDatacatalogLineageV1SearchLinksRequest: Schema.Schema<Go
 // Operations
 // ==========================================================================
 
-/** Get the Config for a given resource. */
 export interface GetFoldersLocationsConfigRequest {
   /** Required. REQUIRED: The resource name of the config to be fetched. Format: `organizations/{organization_id}/locations/global/config` `folders/{folder_id}/locations/global/config` `projects/{project_id}/locations/global/config` `projects/{project_number}/locations/global/config` */
   name: string;
@@ -456,13 +455,13 @@ export const GetFoldersLocationsConfigResponse = GoogleCloudDatacatalogLineageCo
 
 export type GetFoldersLocationsConfigError = CommonErrors;
 
+/** Get the Config for a given resource. */
 export const getFoldersLocationsConfig: API.OperationMethod<GetFoldersLocationsConfigRequest, GetFoldersLocationsConfigResponse, GetFoldersLocationsConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersLocationsConfigRequest,
   output: GetFoldersLocationsConfigResponse,
   errors: [],
 }));
 
-/** Update the Config for a given resource. */
 export interface PatchFoldersLocationsConfigRequest {
   /** Identifier. The resource name of the config. Format: `organizations/{organization_id}/locations/global/config` `folders/{folder_id}/locations/global/config` `projects/{project_id}/locations/global/config` `projects/{project_number}/locations/global/config` */
   name: string;
@@ -483,13 +482,13 @@ export const PatchFoldersLocationsConfigResponse = GoogleCloudDatacatalogLineage
 
 export type PatchFoldersLocationsConfigError = CommonErrors;
 
+/** Update the Config for a given resource. */
 export const patchFoldersLocationsConfig: API.OperationMethod<PatchFoldersLocationsConfigRequest, PatchFoldersLocationsConfigResponse, PatchFoldersLocationsConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchFoldersLocationsConfigRequest,
   output: PatchFoldersLocationsConfigResponse,
   errors: [],
 }));
 
-/** Retrieve a list of links connected to a specific asset. Links represent the data flow between **source** (upstream) and **target** (downstream) assets in transformation pipelines. Links are stored in the same project as the Lineage Events that create them. You can retrieve links in every project where you have the `datalineage.events.get` permission. The project provided in the URL is used for Billing and Quota. */
 export interface SearchLinksProjectsLocationsRequest {
   /** Required. The project and location you want search in. */
   parent: string;
@@ -510,13 +509,13 @@ export const SearchLinksProjectsLocationsResponse = GoogleCloudDatacatalogLineag
 
 export type SearchLinksProjectsLocationsError = CommonErrors;
 
+/** Retrieve a list of links connected to a specific asset. Links represent the data flow between **source** (upstream) and **target** (downstream) assets in transformation pipelines. Links are stored in the same project as the Lineage Events that create them. You can retrieve links in every project where you have the `datalineage.events.get` permission. The project provided in the URL is used for Billing and Quota. */
 export const searchLinksProjectsLocations: API.OperationMethod<SearchLinksProjectsLocationsRequest, SearchLinksProjectsLocationsResponse, SearchLinksProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchLinksProjectsLocationsRequest,
   output: SearchLinksProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Retrieve information about LineageProcesses associated with specific links. LineageProcesses are transformation pipelines that result in data flowing from **source** to **target** assets. Links between assets represent this operation. If you have specific link names, you can use this method to verify which LineageProcesses contribute to creating those links. See the SearchLinks method for more information on how to retrieve link name. You can retrieve the LineageProcess information in every project where you have the `datalineage.events.get` permission. The project provided in the URL is used for Billing and Quota. */
 export interface BatchSearchLinkProcessesProjectsLocationsRequest {
   /** Required. The project and location where you want to search. */
   parent: string;
@@ -537,13 +536,13 @@ export const BatchSearchLinkProcessesProjectsLocationsResponse = GoogleCloudData
 
 export type BatchSearchLinkProcessesProjectsLocationsError = CommonErrors;
 
+/** Retrieve information about LineageProcesses associated with specific links. LineageProcesses are transformation pipelines that result in data flowing from **source** to **target** assets. Links between assets represent this operation. If you have specific link names, you can use this method to verify which LineageProcesses contribute to creating those links. See the SearchLinks method for more information on how to retrieve link name. You can retrieve the LineageProcess information in every project where you have the `datalineage.events.get` permission. The project provided in the URL is used for Billing and Quota. */
 export const batchSearchLinkProcessesProjectsLocations: API.OperationMethod<BatchSearchLinkProcessesProjectsLocationsRequest, BatchSearchLinkProcessesProjectsLocationsResponse, BatchSearchLinkProcessesProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchSearchLinkProcessesProjectsLocationsRequest,
   output: BatchSearchLinkProcessesProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Creates new lineage events together with their parents: process and run. Updates the process and run if they already exist. Mapped from Open Lineage specification: https://github.com/OpenLineage/OpenLineage/blob/main/spec/OpenLineage.json. */
 export interface ProcessOpenLineageRunEventProjectsLocationsRequest {
   /** Optional. A unique identifier for this request. Restricted to 36 ASCII characters. A random UUID is recommended. This request is idempotent only if a `request_id` is provided. */
   requestId?: string;
@@ -564,13 +563,13 @@ export const ProcessOpenLineageRunEventProjectsLocationsResponse = GoogleCloudDa
 
 export type ProcessOpenLineageRunEventProjectsLocationsError = CommonErrors;
 
+/** Creates new lineage events together with their parents: process and run. Updates the process and run if they already exist. Mapped from Open Lineage specification: https://github.com/OpenLineage/OpenLineage/blob/main/spec/OpenLineage.json. */
 export const processOpenLineageRunEventProjectsLocations: API.OperationMethod<ProcessOpenLineageRunEventProjectsLocationsRequest, ProcessOpenLineageRunEventProjectsLocationsResponse, ProcessOpenLineageRunEventProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ProcessOpenLineageRunEventProjectsLocationsRequest,
   output: ProcessOpenLineageRunEventProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Gets the details of the specified process. */
 export interface GetProjectsLocationsProcessesRequest {
   /** Required. The name of the process to get. */
   name: string;
@@ -588,13 +587,13 @@ export const GetProjectsLocationsProcessesResponse = GoogleCloudDatacatalogLinea
 
 export type GetProjectsLocationsProcessesError = CommonErrors;
 
+/** Gets the details of the specified process. */
 export const getProjectsLocationsProcesses: API.OperationMethod<GetProjectsLocationsProcessesRequest, GetProjectsLocationsProcessesResponse, GetProjectsLocationsProcessesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsProcessesRequest,
   output: GetProjectsLocationsProcessesResponse,
   errors: [],
 }));
 
-/** Updates a process. */
 export interface PatchProjectsLocationsProcessesRequest {
   /** If set to true and the process is not found, the request inserts it. */
   allowMissing?: boolean;
@@ -624,13 +623,13 @@ export const PatchProjectsLocationsProcessesResponse = GoogleCloudDatacatalogLin
 
 export type PatchProjectsLocationsProcessesError = CommonErrors;
 
+/** Updates a process. */
 export const patchProjectsLocationsProcesses: API.OperationMethod<PatchProjectsLocationsProcessesRequest, PatchProjectsLocationsProcessesResponse, PatchProjectsLocationsProcessesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsProcessesRequest,
   output: PatchProjectsLocationsProcessesResponse,
   errors: [],
 }));
 
-/** List processes in the given project and location. List order is descending by insertion time. */
 export interface ListProjectsLocationsProcessesRequest {
   /** Required. The name of the project and its location that owns this collection of processes. */
   parent: string;
@@ -654,7 +653,8 @@ export const ListProjectsLocationsProcessesResponse = GoogleCloudDatacatalogLine
 
 export type ListProjectsLocationsProcessesError = CommonErrors;
 
-export const listProjectsLocationsProcesses = API.makePaginated(() => ({
+/** List processes in the given project and location. List order is descending by insertion time. */
+export const listProjectsLocationsProcesses: API.PaginatedOperationMethod<ListProjectsLocationsProcessesRequest, ListProjectsLocationsProcessesResponse, ListProjectsLocationsProcessesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsProcessesRequest,
   output: ListProjectsLocationsProcessesResponse,
   errors: [],
@@ -664,7 +664,6 @@ export const listProjectsLocationsProcesses = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the process with the specified name. */
 export interface DeleteProjectsLocationsProcessesRequest {
   /** Required. The name of the process to delete. */
   name: string;
@@ -685,13 +684,13 @@ export const DeleteProjectsLocationsProcessesResponse = GoogleLongrunningOperati
 
 export type DeleteProjectsLocationsProcessesError = CommonErrors;
 
+/** Deletes the process with the specified name. */
 export const deleteProjectsLocationsProcesses: API.OperationMethod<DeleteProjectsLocationsProcessesRequest, DeleteProjectsLocationsProcessesResponse, DeleteProjectsLocationsProcessesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsProcessesRequest,
   output: DeleteProjectsLocationsProcessesResponse,
   errors: [],
 }));
 
-/** Creates a new process. */
 export interface CreateProjectsLocationsProcessesRequest {
   /** Optional. A unique identifier for this request. Restricted to 36 ASCII characters. A random UUID is recommended. This request is idempotent only if a `request_id` is provided. */
   requestId?: string;
@@ -715,13 +714,13 @@ export const CreateProjectsLocationsProcessesResponse = GoogleCloudDatacatalogLi
 
 export type CreateProjectsLocationsProcessesError = CommonErrors;
 
+/** Creates a new process. */
 export const createProjectsLocationsProcesses: API.OperationMethod<CreateProjectsLocationsProcessesRequest, CreateProjectsLocationsProcessesResponse, CreateProjectsLocationsProcessesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsProcessesRequest,
   output: CreateProjectsLocationsProcessesResponse,
   errors: [],
 }));
 
-/** Deletes the run with the specified name. */
 export interface DeleteProjectsLocationsProcessesRunsRequest {
   /** If set to true and the run is not found, the request succeeds but the server doesn't perform any actions. */
   allowMissing?: boolean;
@@ -742,13 +741,13 @@ export const DeleteProjectsLocationsProcessesRunsResponse = GoogleLongrunningOpe
 
 export type DeleteProjectsLocationsProcessesRunsError = CommonErrors;
 
+/** Deletes the run with the specified name. */
 export const deleteProjectsLocationsProcessesRuns: API.OperationMethod<DeleteProjectsLocationsProcessesRunsRequest, DeleteProjectsLocationsProcessesRunsResponse, DeleteProjectsLocationsProcessesRunsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsProcessesRunsRequest,
   output: DeleteProjectsLocationsProcessesRunsResponse,
   errors: [],
 }));
 
-/** Creates a new run. */
 export interface CreateProjectsLocationsProcessesRunsRequest {
   /** Required. The name of the process that should own the run. */
   parent: string;
@@ -772,13 +771,13 @@ export const CreateProjectsLocationsProcessesRunsResponse = GoogleCloudDatacatal
 
 export type CreateProjectsLocationsProcessesRunsError = CommonErrors;
 
+/** Creates a new run. */
 export const createProjectsLocationsProcessesRuns: API.OperationMethod<CreateProjectsLocationsProcessesRunsRequest, CreateProjectsLocationsProcessesRunsResponse, CreateProjectsLocationsProcessesRunsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsProcessesRunsRequest,
   output: CreateProjectsLocationsProcessesRunsResponse,
   errors: [],
 }));
 
-/** Lists runs in the given project and location. List order is descending by `start_time`. */
 export interface ListProjectsLocationsProcessesRunsRequest {
   /** The page token received from a previous `ListRuns` call. Specify it to get the next page. When paginating, all other parameters specified in this call must match the parameters of the call that provided the page token. */
   pageToken?: string;
@@ -802,7 +801,8 @@ export const ListProjectsLocationsProcessesRunsResponse = GoogleCloudDatacatalog
 
 export type ListProjectsLocationsProcessesRunsError = CommonErrors;
 
-export const listProjectsLocationsProcessesRuns = API.makePaginated(() => ({
+/** Lists runs in the given project and location. List order is descending by `start_time`. */
+export const listProjectsLocationsProcessesRuns: API.PaginatedOperationMethod<ListProjectsLocationsProcessesRunsRequest, ListProjectsLocationsProcessesRunsResponse, ListProjectsLocationsProcessesRunsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsProcessesRunsRequest,
   output: ListProjectsLocationsProcessesRunsResponse,
   errors: [],
@@ -812,7 +812,6 @@ export const listProjectsLocationsProcessesRuns = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the details of the specified run. */
 export interface GetProjectsLocationsProcessesRunsRequest {
   /** Required. The name of the run to get. */
   name: string;
@@ -830,13 +829,13 @@ export const GetProjectsLocationsProcessesRunsResponse = GoogleCloudDatacatalogL
 
 export type GetProjectsLocationsProcessesRunsError = CommonErrors;
 
+/** Gets the details of the specified run. */
 export const getProjectsLocationsProcessesRuns: API.OperationMethod<GetProjectsLocationsProcessesRunsRequest, GetProjectsLocationsProcessesRunsResponse, GetProjectsLocationsProcessesRunsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsProcessesRunsRequest,
   output: GetProjectsLocationsProcessesRunsResponse,
   errors: [],
 }));
 
-/** Updates a run. */
 export interface PatchProjectsLocationsProcessesRunsRequest {
   /** Immutable. The resource name of the run. Format: `projects/{project}/locations/{location}/processes/{process}/runs/{run}`. Can be specified or auto-assigned. {run} must be not longer than 200 characters and only contain characters in a set: `a-zA-Z0-9_-:.` */
   name: string;
@@ -863,13 +862,13 @@ export const PatchProjectsLocationsProcessesRunsResponse = GoogleCloudDatacatalo
 
 export type PatchProjectsLocationsProcessesRunsError = CommonErrors;
 
+/** Updates a run. */
 export const patchProjectsLocationsProcessesRuns: API.OperationMethod<PatchProjectsLocationsProcessesRunsRequest, PatchProjectsLocationsProcessesRunsResponse, PatchProjectsLocationsProcessesRunsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsProcessesRunsRequest,
   output: PatchProjectsLocationsProcessesRunsResponse,
   errors: [],
 }));
 
-/** Lists lineage events in the given project and location. The list order is not defined. */
 export interface ListProjectsLocationsProcessesRunsLineageEventsRequest {
   /** Required. The name of the run that owns the collection of lineage events to get. */
   parent: string;
@@ -893,7 +892,8 @@ export const ListProjectsLocationsProcessesRunsLineageEventsResponse = GoogleClo
 
 export type ListProjectsLocationsProcessesRunsLineageEventsError = CommonErrors;
 
-export const listProjectsLocationsProcessesRunsLineageEvents = API.makePaginated(() => ({
+/** Lists lineage events in the given project and location. The list order is not defined. */
+export const listProjectsLocationsProcessesRunsLineageEvents: API.PaginatedOperationMethod<ListProjectsLocationsProcessesRunsLineageEventsRequest, ListProjectsLocationsProcessesRunsLineageEventsResponse, ListProjectsLocationsProcessesRunsLineageEventsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsProcessesRunsLineageEventsRequest,
   output: ListProjectsLocationsProcessesRunsLineageEventsResponse,
   errors: [],
@@ -903,7 +903,6 @@ export const listProjectsLocationsProcessesRunsLineageEvents = API.makePaginated
   },
 }));
 
-/** Creates a new lineage event. */
 export interface CreateProjectsLocationsProcessesRunsLineageEventsRequest {
   /** Optional. A unique identifier for this request. Restricted to 36 ASCII characters. A random UUID is recommended. This request is idempotent only if a `request_id` is provided. */
   requestId?: string;
@@ -927,13 +926,13 @@ export const CreateProjectsLocationsProcessesRunsLineageEventsResponse = GoogleC
 
 export type CreateProjectsLocationsProcessesRunsLineageEventsError = CommonErrors;
 
+/** Creates a new lineage event. */
 export const createProjectsLocationsProcessesRunsLineageEvents: API.OperationMethod<CreateProjectsLocationsProcessesRunsLineageEventsRequest, CreateProjectsLocationsProcessesRunsLineageEventsResponse, CreateProjectsLocationsProcessesRunsLineageEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsProcessesRunsLineageEventsRequest,
   output: CreateProjectsLocationsProcessesRunsLineageEventsResponse,
   errors: [],
 }));
 
-/** Gets details of a specified lineage event. */
 export interface GetProjectsLocationsProcessesRunsLineageEventsRequest {
   /** Required. The name of the lineage event to get. */
   name: string;
@@ -951,13 +950,13 @@ export const GetProjectsLocationsProcessesRunsLineageEventsResponse = GoogleClou
 
 export type GetProjectsLocationsProcessesRunsLineageEventsError = CommonErrors;
 
+/** Gets details of a specified lineage event. */
 export const getProjectsLocationsProcessesRunsLineageEvents: API.OperationMethod<GetProjectsLocationsProcessesRunsLineageEventsRequest, GetProjectsLocationsProcessesRunsLineageEventsResponse, GetProjectsLocationsProcessesRunsLineageEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsProcessesRunsLineageEventsRequest,
   output: GetProjectsLocationsProcessesRunsLineageEventsResponse,
   errors: [],
 }));
 
-/** Deletes the lineage event with the specified name. */
 export interface DeleteProjectsLocationsProcessesRunsLineageEventsRequest {
   /** If set to true and the lineage event is not found, the request succeeds but the server doesn't perform any actions. */
   allowMissing?: boolean;
@@ -978,13 +977,13 @@ export const DeleteProjectsLocationsProcessesRunsLineageEventsResponse = GoogleP
 
 export type DeleteProjectsLocationsProcessesRunsLineageEventsError = CommonErrors;
 
+/** Deletes the lineage event with the specified name. */
 export const deleteProjectsLocationsProcessesRunsLineageEvents: API.OperationMethod<DeleteProjectsLocationsProcessesRunsLineageEventsRequest, DeleteProjectsLocationsProcessesRunsLineageEventsResponse, DeleteProjectsLocationsProcessesRunsLineageEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsProcessesRunsLineageEventsRequest,
   output: DeleteProjectsLocationsProcessesRunsLineageEventsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -1002,13 +1001,13 @@ export const DeleteProjectsLocationsOperationsResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -1038,7 +1037,8 @@ export const ListProjectsLocationsOperationsResponse = GoogleLongrunningListOper
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -1048,7 +1048,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -1069,13 +1068,13 @@ export const CancelProjectsLocationsOperationsResponse = GoogleProtobufEmpty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1093,13 +1092,13 @@ export const GetProjectsLocationsOperationsResponse = GoogleLongrunningOperation
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Get the Config for a given resource. */
 export interface GetProjectsLocationsConfigRequest {
   /** Required. REQUIRED: The resource name of the config to be fetched. Format: `organizations/{organization_id}/locations/global/config` `folders/{folder_id}/locations/global/config` `projects/{project_id}/locations/global/config` `projects/{project_number}/locations/global/config` */
   name: string;
@@ -1117,13 +1116,13 @@ export const GetProjectsLocationsConfigResponse = GoogleCloudDatacatalogLineageC
 
 export type GetProjectsLocationsConfigError = CommonErrors;
 
+/** Get the Config for a given resource. */
 export const getProjectsLocationsConfig: API.OperationMethod<GetProjectsLocationsConfigRequest, GetProjectsLocationsConfigResponse, GetProjectsLocationsConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsConfigRequest,
   output: GetProjectsLocationsConfigResponse,
   errors: [],
 }));
 
-/** Update the Config for a given resource. */
 export interface PatchProjectsLocationsConfigRequest {
   /** Identifier. The resource name of the config. Format: `organizations/{organization_id}/locations/global/config` `folders/{folder_id}/locations/global/config` `projects/{project_id}/locations/global/config` `projects/{project_number}/locations/global/config` */
   name: string;
@@ -1144,13 +1143,13 @@ export const PatchProjectsLocationsConfigResponse = GoogleCloudDatacatalogLineag
 
 export type PatchProjectsLocationsConfigError = CommonErrors;
 
+/** Update the Config for a given resource. */
 export const patchProjectsLocationsConfig: API.OperationMethod<PatchProjectsLocationsConfigRequest, PatchProjectsLocationsConfigResponse, PatchProjectsLocationsConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsConfigRequest,
   output: PatchProjectsLocationsConfigResponse,
   errors: [],
 }));
 
-/** Update the Config for a given resource. */
 export interface PatchOrganizationsLocationsConfigRequest {
   /** Identifier. The resource name of the config. Format: `organizations/{organization_id}/locations/global/config` `folders/{folder_id}/locations/global/config` `projects/{project_id}/locations/global/config` `projects/{project_number}/locations/global/config` */
   name: string;
@@ -1171,13 +1170,13 @@ export const PatchOrganizationsLocationsConfigResponse = GoogleCloudDatacatalogL
 
 export type PatchOrganizationsLocationsConfigError = CommonErrors;
 
+/** Update the Config for a given resource. */
 export const patchOrganizationsLocationsConfig: API.OperationMethod<PatchOrganizationsLocationsConfigRequest, PatchOrganizationsLocationsConfigResponse, PatchOrganizationsLocationsConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsLocationsConfigRequest,
   output: PatchOrganizationsLocationsConfigResponse,
   errors: [],
 }));
 
-/** Get the Config for a given resource. */
 export interface GetOrganizationsLocationsConfigRequest {
   /** Required. REQUIRED: The resource name of the config to be fetched. Format: `organizations/{organization_id}/locations/global/config` `folders/{folder_id}/locations/global/config` `projects/{project_id}/locations/global/config` `projects/{project_number}/locations/global/config` */
   name: string;
@@ -1195,6 +1194,7 @@ export const GetOrganizationsLocationsConfigResponse = GoogleCloudDatacatalogLin
 
 export type GetOrganizationsLocationsConfigError = CommonErrors;
 
+/** Get the Config for a given resource. */
 export const getOrganizationsLocationsConfig: API.OperationMethod<GetOrganizationsLocationsConfigRequest, GetOrganizationsLocationsConfigResponse, GetOrganizationsLocationsConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsConfigRequest,
   output: GetOrganizationsLocationsConfigResponse,

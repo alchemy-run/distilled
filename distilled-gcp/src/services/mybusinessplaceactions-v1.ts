@@ -99,7 +99,6 @@ export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
 // Operations
 // ==========================================================================
 
-/** Returns the list of available place action types for a location or country. */
 export interface ListPlaceActionTypeMetadataRequest {
   /** Optional. The IETF BCP-47 code of language to get display names in. If this language is not available, they will be provided in English. */
   languageCode?: string;
@@ -126,7 +125,8 @@ export const ListPlaceActionTypeMetadataResponse_Op = ListPlaceActionTypeMetadat
 
 export type ListPlaceActionTypeMetadataError = CommonErrors;
 
-export const listPlaceActionTypeMetadata = API.makePaginated(() => ({
+/** Returns the list of available place action types for a location or country. */
+export const listPlaceActionTypeMetadata: API.PaginatedOperationMethod<ListPlaceActionTypeMetadataRequest, ListPlaceActionTypeMetadataResponse_Op, ListPlaceActionTypeMetadataError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPlaceActionTypeMetadataRequest,
   output: ListPlaceActionTypeMetadataResponse_Op,
   errors: [],
@@ -136,7 +136,6 @@ export const listPlaceActionTypeMetadata = API.makePaginated(() => ({
   },
 }));
 
-/** Lists the place action links for the specified location. */
 export interface ListLocationsPlaceActionLinksRequest {
   /** Required. The name of the location whose place action links will be listed. `locations/{location_id}`. */
   parent: string;
@@ -163,7 +162,8 @@ export const ListLocationsPlaceActionLinksResponse = ListPlaceActionLinksRespons
 
 export type ListLocationsPlaceActionLinksError = CommonErrors;
 
-export const listLocationsPlaceActionLinks = API.makePaginated(() => ({
+/** Lists the place action links for the specified location. */
+export const listLocationsPlaceActionLinks: API.PaginatedOperationMethod<ListLocationsPlaceActionLinksRequest, ListLocationsPlaceActionLinksResponse, ListLocationsPlaceActionLinksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListLocationsPlaceActionLinksRequest,
   output: ListLocationsPlaceActionLinksResponse,
   errors: [],
@@ -173,7 +173,6 @@ export const listLocationsPlaceActionLinks = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the specified place action link. */
 export interface GetLocationsPlaceActionLinksRequest {
   /** Required. The name of the place action link to fetch. */
   name: string;
@@ -191,13 +190,13 @@ export const GetLocationsPlaceActionLinksResponse = PlaceActionLink;
 
 export type GetLocationsPlaceActionLinksError = CommonErrors;
 
+/** Gets the specified place action link. */
 export const getLocationsPlaceActionLinks: API.OperationMethod<GetLocationsPlaceActionLinksRequest, GetLocationsPlaceActionLinksResponse, GetLocationsPlaceActionLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetLocationsPlaceActionLinksRequest,
   output: GetLocationsPlaceActionLinksResponse,
   errors: [],
 }));
 
-/** Creates a place action link associated with the specified location, and returns it. The request is considered duplicate if the `parent`, `place_action_link.uri` and `place_action_link.place_action_type` are the same as a previous request. */
 export interface CreateLocationsPlaceActionLinksRequest {
   /** Required. The resource name of the location where to create this place action link. `locations/{location_id}`. */
   parent: string;
@@ -218,13 +217,13 @@ export const CreateLocationsPlaceActionLinksResponse = PlaceActionLink;
 
 export type CreateLocationsPlaceActionLinksError = CommonErrors;
 
+/** Creates a place action link associated with the specified location, and returns it. The request is considered duplicate if the `parent`, `place_action_link.uri` and `place_action_link.place_action_type` are the same as a previous request. */
 export const createLocationsPlaceActionLinks: API.OperationMethod<CreateLocationsPlaceActionLinksRequest, CreateLocationsPlaceActionLinksResponse, CreateLocationsPlaceActionLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateLocationsPlaceActionLinksRequest,
   output: CreateLocationsPlaceActionLinksResponse,
   errors: [],
 }));
 
-/** Updates the specified place action link and returns it. */
 export interface PatchLocationsPlaceActionLinksRequest {
   /** Optional. The resource name, in the format `locations/{location_id}/placeActionLinks/{place_action_link_id}`. The name field will only be considered in UpdatePlaceActionLink and DeletePlaceActionLink requests for updating and deleting links respectively. However, it will be ignored in CreatePlaceActionLink request, where `place_action_link_id` will be assigned by the server on successful creation of a new link and returned as part of the response. */
   name: string;
@@ -248,13 +247,13 @@ export const PatchLocationsPlaceActionLinksResponse = PlaceActionLink;
 
 export type PatchLocationsPlaceActionLinksError = CommonErrors;
 
+/** Updates the specified place action link and returns it. */
 export const patchLocationsPlaceActionLinks: API.OperationMethod<PatchLocationsPlaceActionLinksRequest, PatchLocationsPlaceActionLinksResponse, PatchLocationsPlaceActionLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchLocationsPlaceActionLinksRequest,
   output: PatchLocationsPlaceActionLinksResponse,
   errors: [],
 }));
 
-/** Deletes a place action link from the specified location. */
 export interface DeleteLocationsPlaceActionLinksRequest {
   /** Required. The resource name of the place action link to remove from the location. */
   name: string;
@@ -272,6 +271,7 @@ export const DeleteLocationsPlaceActionLinksResponse = Empty;
 
 export type DeleteLocationsPlaceActionLinksError = CommonErrors;
 
+/** Deletes a place action link from the specified location. */
 export const deleteLocationsPlaceActionLinks: API.OperationMethod<DeleteLocationsPlaceActionLinksRequest, DeleteLocationsPlaceActionLinksResponse, DeleteLocationsPlaceActionLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteLocationsPlaceActionLinksRequest,
   output: DeleteLocationsPlaceActionLinksResponse,

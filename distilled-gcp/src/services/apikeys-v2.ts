@@ -222,7 +222,6 @@ export const V2LookupKeyResponse: Schema.Schema<V2LookupKeyResponse> = Schema.su
 // Operations
 // ==========================================================================
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -240,13 +239,13 @@ export const GetOperationsResponse = Operation;
 
 export type GetOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOperations: API.OperationMethod<GetOperationsRequest, GetOperationsResponse, GetOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
 }));
 
-/** Creates a new API key. NOTE: Key is a global resource; hence the only supported value for location is `global`. */
 export interface CreateProjectsLocationsKeysRequest {
   /** Required. The project in which the API key is created. */
   parent: string;
@@ -270,13 +269,13 @@ export const CreateProjectsLocationsKeysResponse = Operation;
 
 export type CreateProjectsLocationsKeysError = CommonErrors;
 
+/** Creates a new API key. NOTE: Key is a global resource; hence the only supported value for location is `global`. */
 export const createProjectsLocationsKeys: API.OperationMethod<CreateProjectsLocationsKeysRequest, CreateProjectsLocationsKeysResponse, CreateProjectsLocationsKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsKeysRequest,
   output: CreateProjectsLocationsKeysResponse,
   errors: [],
 }));
 
-/** Lists the API keys owned by a project. The key string of the API key isn't included in the response. NOTE: Key is a global resource; hence the only supported value for location is `global`. */
 export interface ListProjectsLocationsKeysRequest {
   /** Required. Lists all API keys associated with this project. */
   parent: string;
@@ -303,7 +302,8 @@ export const ListProjectsLocationsKeysResponse = V2ListKeysResponse;
 
 export type ListProjectsLocationsKeysError = CommonErrors;
 
-export const listProjectsLocationsKeys = API.makePaginated(() => ({
+/** Lists the API keys owned by a project. The key string of the API key isn't included in the response. NOTE: Key is a global resource; hence the only supported value for location is `global`. */
+export const listProjectsLocationsKeys: API.PaginatedOperationMethod<ListProjectsLocationsKeysRequest, ListProjectsLocationsKeysResponse, ListProjectsLocationsKeysError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsKeysRequest,
   output: ListProjectsLocationsKeysResponse,
   errors: [],
@@ -313,7 +313,6 @@ export const listProjectsLocationsKeys = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the metadata for an API key. The key string of the API key isn't included in the response. NOTE: Key is a global resource; hence the only supported value for location is `global`. */
 export interface GetProjectsLocationsKeysRequest {
   /** Required. The resource name of the API key to get. */
   name: string;
@@ -331,13 +330,13 @@ export const GetProjectsLocationsKeysResponse = V2Key;
 
 export type GetProjectsLocationsKeysError = CommonErrors;
 
+/** Gets the metadata for an API key. The key string of the API key isn't included in the response. NOTE: Key is a global resource; hence the only supported value for location is `global`. */
 export const getProjectsLocationsKeys: API.OperationMethod<GetProjectsLocationsKeysRequest, GetProjectsLocationsKeysResponse, GetProjectsLocationsKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsKeysRequest,
   output: GetProjectsLocationsKeysResponse,
   errors: [],
 }));
 
-/** Get the key string for an API key. NOTE: Key is a global resource; hence the only supported value for location is `global`. */
 export interface GetKeyStringProjectsLocationsKeysRequest {
   /** Required. The resource name of the API key to be retrieved. */
   name: string;
@@ -355,13 +354,13 @@ export const GetKeyStringProjectsLocationsKeysResponse = V2GetKeyStringResponse;
 
 export type GetKeyStringProjectsLocationsKeysError = CommonErrors;
 
+/** Get the key string for an API key. NOTE: Key is a global resource; hence the only supported value for location is `global`. */
 export const getKeyStringProjectsLocationsKeys: API.OperationMethod<GetKeyStringProjectsLocationsKeysRequest, GetKeyStringProjectsLocationsKeysResponse, GetKeyStringProjectsLocationsKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetKeyStringProjectsLocationsKeysRequest,
   output: GetKeyStringProjectsLocationsKeysResponse,
   errors: [],
 }));
 
-/** Patches the modifiable fields of an API key. The key string of the API key isn't included in the response. NOTE: Key is a global resource; hence the only supported value for location is `global`. */
 export interface PatchProjectsLocationsKeysRequest {
   /** Output only. The resource name of the key. The `name` has the form: `projects//locations/global/keys/`. For example: `projects/123456867718/locations/global/keys/b7ff1f9f-8275-410a-94dd-3855ee9b5dd2` NOTE: Key is a global resource; hence the only supported value for location is `global`. */
   name: string;
@@ -385,13 +384,13 @@ export const PatchProjectsLocationsKeysResponse = Operation;
 
 export type PatchProjectsLocationsKeysError = CommonErrors;
 
+/** Patches the modifiable fields of an API key. The key string of the API key isn't included in the response. NOTE: Key is a global resource; hence the only supported value for location is `global`. */
 export const patchProjectsLocationsKeys: API.OperationMethod<PatchProjectsLocationsKeysRequest, PatchProjectsLocationsKeysResponse, PatchProjectsLocationsKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsKeysRequest,
   output: PatchProjectsLocationsKeysResponse,
   errors: [],
 }));
 
-/** Deletes an API key. Deleted key can be retrieved within 30 days of deletion. Afterward, key will be purged from the project. NOTE: Key is a global resource; hence the only supported value for location is `global`. */
 export interface DeleteProjectsLocationsKeysRequest {
   /** Required. The resource name of the API key to be deleted. */
   name: string;
@@ -412,13 +411,13 @@ export const DeleteProjectsLocationsKeysResponse = Operation;
 
 export type DeleteProjectsLocationsKeysError = CommonErrors;
 
+/** Deletes an API key. Deleted key can be retrieved within 30 days of deletion. Afterward, key will be purged from the project. NOTE: Key is a global resource; hence the only supported value for location is `global`. */
 export const deleteProjectsLocationsKeys: API.OperationMethod<DeleteProjectsLocationsKeysRequest, DeleteProjectsLocationsKeysResponse, DeleteProjectsLocationsKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsKeysRequest,
   output: DeleteProjectsLocationsKeysResponse,
   errors: [],
 }));
 
-/** Undeletes an API key which was deleted within 30 days. NOTE: Key is a global resource; hence the only supported value for location is `global`. */
 export interface UndeleteProjectsLocationsKeysRequest {
   /** Required. The resource name of the API key to be undeleted. */
   name: string;
@@ -439,13 +438,13 @@ export const UndeleteProjectsLocationsKeysResponse = Operation;
 
 export type UndeleteProjectsLocationsKeysError = CommonErrors;
 
+/** Undeletes an API key which was deleted within 30 days. NOTE: Key is a global resource; hence the only supported value for location is `global`. */
 export const undeleteProjectsLocationsKeys: API.OperationMethod<UndeleteProjectsLocationsKeysRequest, UndeleteProjectsLocationsKeysResponse, UndeleteProjectsLocationsKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UndeleteProjectsLocationsKeysRequest,
   output: UndeleteProjectsLocationsKeysResponse,
   errors: [],
 }));
 
-/** Find the parent project and resource name of the API key that matches the key string in the request. If the API key has been purged, resource name will not be set. The service account must have the `apikeys.keys.lookup` permission on the parent project. */
 export interface LookupKeyKeysRequest {
   /** Required. Finds the project that owns the key string value. */
   keyString?: string;
@@ -463,6 +462,7 @@ export const LookupKeyKeysResponse = V2LookupKeyResponse;
 
 export type LookupKeyKeysError = CommonErrors;
 
+/** Find the parent project and resource name of the API key that matches the key string in the request. If the API key has been purged, resource name will not be set. The service account must have the `apikeys.keys.lookup` permission on the parent project. */
 export const lookupKeyKeys: API.OperationMethod<LookupKeyKeysRequest, LookupKeyKeysResponse, LookupKeyKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LookupKeyKeysRequest,
   output: LookupKeyKeysResponse,

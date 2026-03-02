@@ -2475,7 +2475,6 @@ export const RetryInfo: Schema.Schema<RetryInfo> = Schema.suspend(() => Schema.S
 // Operations
 // ==========================================================================
 
-/** The FetchStaticIps API call exposes the static IP addresses used by Datastream. */
 export interface FetchStaticIpsProjectsLocationsRequest {
   /** Required. The resource name for the location for which static IPs should be returned. Must be in the format `projects/* /locations/*`. */
   name: string;
@@ -2499,7 +2498,8 @@ export const FetchStaticIpsProjectsLocationsResponse = FetchStaticIpsResponse;
 
 export type FetchStaticIpsProjectsLocationsError = CommonErrors;
 
-export const fetchStaticIpsProjectsLocations = API.makePaginated(() => ({
+/** The FetchStaticIps API call exposes the static IP addresses used by Datastream. */
+export const fetchStaticIpsProjectsLocations: API.PaginatedOperationMethod<FetchStaticIpsProjectsLocationsRequest, FetchStaticIpsProjectsLocationsResponse, FetchStaticIpsProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: FetchStaticIpsProjectsLocationsRequest,
   output: FetchStaticIpsProjectsLocationsResponse,
   errors: [],
@@ -2509,7 +2509,6 @@ export const fetchStaticIpsProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -2539,7 +2538,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -2549,7 +2549,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -2567,13 +2566,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -2603,7 +2602,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -2613,7 +2613,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -2631,13 +2630,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -2655,13 +2654,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -2682,13 +2681,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Use this method to list connection profiles created in a project and location. */
 export interface ListProjectsLocationsConnectionProfilesRequest {
   /** Required. The parent that owns the collection of connection profiles. */
   parent: string;
@@ -2718,7 +2717,8 @@ export const ListProjectsLocationsConnectionProfilesResponse = ListConnectionPro
 
 export type ListProjectsLocationsConnectionProfilesError = CommonErrors;
 
-export const listProjectsLocationsConnectionProfiles = API.makePaginated(() => ({
+/** Use this method to list connection profiles created in a project and location. */
+export const listProjectsLocationsConnectionProfiles: API.PaginatedOperationMethod<ListProjectsLocationsConnectionProfilesRequest, ListProjectsLocationsConnectionProfilesResponse, ListProjectsLocationsConnectionProfilesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsConnectionProfilesRequest,
   output: ListProjectsLocationsConnectionProfilesResponse,
   errors: [],
@@ -2728,7 +2728,6 @@ export const listProjectsLocationsConnectionProfiles = API.makePaginated(() => (
   },
 }));
 
-/** Use this method to get details about a connection profile. */
 export interface GetProjectsLocationsConnectionProfilesRequest {
   /** Required. The name of the connection profile resource to get. */
   name: string;
@@ -2746,13 +2745,13 @@ export const GetProjectsLocationsConnectionProfilesResponse = ConnectionProfile;
 
 export type GetProjectsLocationsConnectionProfilesError = CommonErrors;
 
+/** Use this method to get details about a connection profile. */
 export const getProjectsLocationsConnectionProfiles: API.OperationMethod<GetProjectsLocationsConnectionProfilesRequest, GetProjectsLocationsConnectionProfilesResponse, GetProjectsLocationsConnectionProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsConnectionProfilesRequest,
   output: GetProjectsLocationsConnectionProfilesResponse,
   errors: [],
 }));
 
-/** Use this method to create a connection profile in a project and location. */
 export interface CreateProjectsLocationsConnectionProfilesRequest {
   /** Required. The parent that owns the collection of ConnectionProfiles. */
   parent: string;
@@ -2785,13 +2784,13 @@ export const CreateProjectsLocationsConnectionProfilesResponse = Operation;
 
 export type CreateProjectsLocationsConnectionProfilesError = CommonErrors;
 
+/** Use this method to create a connection profile in a project and location. */
 export const createProjectsLocationsConnectionProfiles: API.OperationMethod<CreateProjectsLocationsConnectionProfilesRequest, CreateProjectsLocationsConnectionProfilesResponse, CreateProjectsLocationsConnectionProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsConnectionProfilesRequest,
   output: CreateProjectsLocationsConnectionProfilesResponse,
   errors: [],
 }));
 
-/** Use this method to update the parameters of a connection profile. */
 export interface PatchProjectsLocationsConnectionProfilesRequest {
   /** Output only. Identifier. The resource's name. */
   name: string;
@@ -2824,13 +2823,13 @@ export const PatchProjectsLocationsConnectionProfilesResponse = Operation;
 
 export type PatchProjectsLocationsConnectionProfilesError = CommonErrors;
 
+/** Use this method to update the parameters of a connection profile. */
 export const patchProjectsLocationsConnectionProfiles: API.OperationMethod<PatchProjectsLocationsConnectionProfilesRequest, PatchProjectsLocationsConnectionProfilesResponse, PatchProjectsLocationsConnectionProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsConnectionProfilesRequest,
   output: PatchProjectsLocationsConnectionProfilesResponse,
   errors: [],
 }));
 
-/** Use this method to delete a connection profile. */
 export interface DeleteProjectsLocationsConnectionProfilesRequest {
   /** Required. The name of the connection profile resource to delete. */
   name: string;
@@ -2851,13 +2850,13 @@ export const DeleteProjectsLocationsConnectionProfilesResponse = Operation;
 
 export type DeleteProjectsLocationsConnectionProfilesError = CommonErrors;
 
+/** Use this method to delete a connection profile. */
 export const deleteProjectsLocationsConnectionProfiles: API.OperationMethod<DeleteProjectsLocationsConnectionProfilesRequest, DeleteProjectsLocationsConnectionProfilesResponse, DeleteProjectsLocationsConnectionProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsConnectionProfilesRequest,
   output: DeleteProjectsLocationsConnectionProfilesResponse,
   errors: [],
 }));
 
-/** Use this method to discover a connection profile. The discover API call exposes the data objects and metadata belonging to the profile. Typically, a request returns children data objects of a parent data object that's optionally supplied in the request. */
 export interface DiscoverProjectsLocationsConnectionProfilesRequest {
   /** Required. The parent resource of the connection profile type. Must be in the format `projects/* /locations/*`. */
   parent: string;
@@ -2878,13 +2877,13 @@ export const DiscoverProjectsLocationsConnectionProfilesResponse = DiscoverConne
 
 export type DiscoverProjectsLocationsConnectionProfilesError = CommonErrors;
 
+/** Use this method to discover a connection profile. The discover API call exposes the data objects and metadata belonging to the profile. Typically, a request returns children data objects of a parent data object that's optionally supplied in the request. */
 export const discoverProjectsLocationsConnectionProfiles: API.OperationMethod<DiscoverProjectsLocationsConnectionProfilesRequest, DiscoverProjectsLocationsConnectionProfilesResponse, DiscoverProjectsLocationsConnectionProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DiscoverProjectsLocationsConnectionProfilesRequest,
   output: DiscoverProjectsLocationsConnectionProfilesResponse,
   errors: [],
 }));
 
-/** Use this method to list streams in a project and location. */
 export interface ListProjectsLocationsStreamsRequest {
   /** Required. The parent that owns the collection of streams. */
   parent: string;
@@ -2914,7 +2913,8 @@ export const ListProjectsLocationsStreamsResponse = ListStreamsResponse;
 
 export type ListProjectsLocationsStreamsError = CommonErrors;
 
-export const listProjectsLocationsStreams = API.makePaginated(() => ({
+/** Use this method to list streams in a project and location. */
+export const listProjectsLocationsStreams: API.PaginatedOperationMethod<ListProjectsLocationsStreamsRequest, ListProjectsLocationsStreamsResponse, ListProjectsLocationsStreamsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsStreamsRequest,
   output: ListProjectsLocationsStreamsResponse,
   errors: [],
@@ -2924,7 +2924,6 @@ export const listProjectsLocationsStreams = API.makePaginated(() => ({
   },
 }));
 
-/** Use this method to get details about a stream. */
 export interface GetProjectsLocationsStreamsRequest {
   /** Required. The name of the stream resource to get. */
   name: string;
@@ -2942,13 +2941,13 @@ export const GetProjectsLocationsStreamsResponse = Stream;
 
 export type GetProjectsLocationsStreamsError = CommonErrors;
 
+/** Use this method to get details about a stream. */
 export const getProjectsLocationsStreams: API.OperationMethod<GetProjectsLocationsStreamsRequest, GetProjectsLocationsStreamsResponse, GetProjectsLocationsStreamsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsStreamsRequest,
   output: GetProjectsLocationsStreamsResponse,
   errors: [],
 }));
 
-/** Use this method to create a stream. */
 export interface CreateProjectsLocationsStreamsRequest {
   /** Required. The parent that owns the collection of streams. */
   parent: string;
@@ -2981,13 +2980,13 @@ export const CreateProjectsLocationsStreamsResponse = Operation;
 
 export type CreateProjectsLocationsStreamsError = CommonErrors;
 
+/** Use this method to create a stream. */
 export const createProjectsLocationsStreams: API.OperationMethod<CreateProjectsLocationsStreamsRequest, CreateProjectsLocationsStreamsResponse, CreateProjectsLocationsStreamsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsStreamsRequest,
   output: CreateProjectsLocationsStreamsResponse,
   errors: [],
 }));
 
-/** Use this method to update the configuration of a stream. */
 export interface PatchProjectsLocationsStreamsRequest {
   /** Output only. Identifier. The stream's name. */
   name: string;
@@ -3020,13 +3019,13 @@ export const PatchProjectsLocationsStreamsResponse = Operation;
 
 export type PatchProjectsLocationsStreamsError = CommonErrors;
 
+/** Use this method to update the configuration of a stream. */
 export const patchProjectsLocationsStreams: API.OperationMethod<PatchProjectsLocationsStreamsRequest, PatchProjectsLocationsStreamsResponse, PatchProjectsLocationsStreamsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsStreamsRequest,
   output: PatchProjectsLocationsStreamsResponse,
   errors: [],
 }));
 
-/** Use this method to delete a stream. */
 export interface DeleteProjectsLocationsStreamsRequest {
   /** Required. The name of the stream resource to delete. */
   name: string;
@@ -3047,13 +3046,13 @@ export const DeleteProjectsLocationsStreamsResponse = Operation;
 
 export type DeleteProjectsLocationsStreamsError = CommonErrors;
 
+/** Use this method to delete a stream. */
 export const deleteProjectsLocationsStreams: API.OperationMethod<DeleteProjectsLocationsStreamsRequest, DeleteProjectsLocationsStreamsResponse, DeleteProjectsLocationsStreamsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsStreamsRequest,
   output: DeleteProjectsLocationsStreamsResponse,
   errors: [],
 }));
 
-/** Use this method to start, resume or recover a stream with a non default CDC strategy. */
 export interface RunProjectsLocationsStreamsRequest {
   /** Required. Name of the stream resource to start, in the format: projects/{project_id}/locations/{location}/streams/{stream_name} */
   name: string;
@@ -3074,13 +3073,13 @@ export const RunProjectsLocationsStreamsResponse = Operation;
 
 export type RunProjectsLocationsStreamsError = CommonErrors;
 
+/** Use this method to start, resume or recover a stream with a non default CDC strategy. */
 export const runProjectsLocationsStreams: API.OperationMethod<RunProjectsLocationsStreamsRequest, RunProjectsLocationsStreamsResponse, RunProjectsLocationsStreamsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RunProjectsLocationsStreamsRequest,
   output: RunProjectsLocationsStreamsResponse,
   errors: [],
 }));
 
-/** Use this method to get details about a stream object. */
 export interface GetProjectsLocationsStreamsObjectsRequest {
   /** Required. The name of the stream object resource to get. */
   name: string;
@@ -3098,13 +3097,13 @@ export const GetProjectsLocationsStreamsObjectsResponse = StreamObject;
 
 export type GetProjectsLocationsStreamsObjectsError = CommonErrors;
 
+/** Use this method to get details about a stream object. */
 export const getProjectsLocationsStreamsObjects: API.OperationMethod<GetProjectsLocationsStreamsObjectsRequest, GetProjectsLocationsStreamsObjectsResponse, GetProjectsLocationsStreamsObjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsStreamsObjectsRequest,
   output: GetProjectsLocationsStreamsObjectsResponse,
   errors: [],
 }));
 
-/** Use this method to look up a stream object by its source object identifier. */
 export interface LookupProjectsLocationsStreamsObjectsRequest {
   /** Required. The parent stream that owns the collection of objects. */
   parent: string;
@@ -3125,13 +3124,13 @@ export const LookupProjectsLocationsStreamsObjectsResponse = StreamObject;
 
 export type LookupProjectsLocationsStreamsObjectsError = CommonErrors;
 
+/** Use this method to look up a stream object by its source object identifier. */
 export const lookupProjectsLocationsStreamsObjects: API.OperationMethod<LookupProjectsLocationsStreamsObjectsRequest, LookupProjectsLocationsStreamsObjectsResponse, LookupProjectsLocationsStreamsObjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LookupProjectsLocationsStreamsObjectsRequest,
   output: LookupProjectsLocationsStreamsObjectsResponse,
   errors: [],
 }));
 
-/** Use this method to list the objects of a specific stream. */
 export interface ListProjectsLocationsStreamsObjectsRequest {
   /** Required. The parent stream that owns the collection of objects. */
   parent: string;
@@ -3155,7 +3154,8 @@ export const ListProjectsLocationsStreamsObjectsResponse = ListStreamObjectsResp
 
 export type ListProjectsLocationsStreamsObjectsError = CommonErrors;
 
-export const listProjectsLocationsStreamsObjects = API.makePaginated(() => ({
+/** Use this method to list the objects of a specific stream. */
+export const listProjectsLocationsStreamsObjects: API.PaginatedOperationMethod<ListProjectsLocationsStreamsObjectsRequest, ListProjectsLocationsStreamsObjectsResponse, ListProjectsLocationsStreamsObjectsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsStreamsObjectsRequest,
   output: ListProjectsLocationsStreamsObjectsResponse,
   errors: [],
@@ -3165,7 +3165,6 @@ export const listProjectsLocationsStreamsObjects = API.makePaginated(() => ({
   },
 }));
 
-/** Use this method to start a backfill job for the specified stream object. */
 export interface StartBackfillJobProjectsLocationsStreamsObjectsRequest {
   /** Required. The name of the stream object resource to start a backfill job for. */
   object: string;
@@ -3186,13 +3185,13 @@ export const StartBackfillJobProjectsLocationsStreamsObjectsResponse = StartBack
 
 export type StartBackfillJobProjectsLocationsStreamsObjectsError = CommonErrors;
 
+/** Use this method to start a backfill job for the specified stream object. */
 export const startBackfillJobProjectsLocationsStreamsObjects: API.OperationMethod<StartBackfillJobProjectsLocationsStreamsObjectsRequest, StartBackfillJobProjectsLocationsStreamsObjectsResponse, StartBackfillJobProjectsLocationsStreamsObjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StartBackfillJobProjectsLocationsStreamsObjectsRequest,
   output: StartBackfillJobProjectsLocationsStreamsObjectsResponse,
   errors: [],
 }));
 
-/** Use this method to stop a backfill job for the specified stream object. */
 export interface StopBackfillJobProjectsLocationsStreamsObjectsRequest {
   /** Required. The name of the stream object resource to stop the backfill job for. */
   object: string;
@@ -3213,13 +3212,13 @@ export const StopBackfillJobProjectsLocationsStreamsObjectsResponse = StopBackfi
 
 export type StopBackfillJobProjectsLocationsStreamsObjectsError = CommonErrors;
 
+/** Use this method to stop a backfill job for the specified stream object. */
 export const stopBackfillJobProjectsLocationsStreamsObjects: API.OperationMethod<StopBackfillJobProjectsLocationsStreamsObjectsRequest, StopBackfillJobProjectsLocationsStreamsObjectsResponse, StopBackfillJobProjectsLocationsStreamsObjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StopBackfillJobProjectsLocationsStreamsObjectsRequest,
   output: StopBackfillJobProjectsLocationsStreamsObjectsResponse,
   errors: [],
 }));
 
-/** Use this method to create a private connectivity configuration. */
 export interface CreateProjectsLocationsPrivateConnectionsRequest {
   /** Required. The parent that owns the collection of PrivateConnections. */
   parent: string;
@@ -3252,13 +3251,13 @@ export const CreateProjectsLocationsPrivateConnectionsResponse = Operation;
 
 export type CreateProjectsLocationsPrivateConnectionsError = CommonErrors;
 
+/** Use this method to create a private connectivity configuration. */
 export const createProjectsLocationsPrivateConnections: API.OperationMethod<CreateProjectsLocationsPrivateConnectionsRequest, CreateProjectsLocationsPrivateConnectionsResponse, CreateProjectsLocationsPrivateConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsPrivateConnectionsRequest,
   output: CreateProjectsLocationsPrivateConnectionsResponse,
   errors: [],
 }));
 
-/** Use this method to get details about a private connectivity configuration. */
 export interface GetProjectsLocationsPrivateConnectionsRequest {
   /** Required. The name of the private connectivity configuration to get. */
   name: string;
@@ -3276,13 +3275,13 @@ export const GetProjectsLocationsPrivateConnectionsResponse = PrivateConnection;
 
 export type GetProjectsLocationsPrivateConnectionsError = CommonErrors;
 
+/** Use this method to get details about a private connectivity configuration. */
 export const getProjectsLocationsPrivateConnections: API.OperationMethod<GetProjectsLocationsPrivateConnectionsRequest, GetProjectsLocationsPrivateConnectionsResponse, GetProjectsLocationsPrivateConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsPrivateConnectionsRequest,
   output: GetProjectsLocationsPrivateConnectionsResponse,
   errors: [],
 }));
 
-/** Use this method to list private connectivity configurations in a project and location. */
 export interface ListProjectsLocationsPrivateConnectionsRequest {
   /** Required. The parent that owns the collection of private connectivity configurations. */
   parent: string;
@@ -3312,7 +3311,8 @@ export const ListProjectsLocationsPrivateConnectionsResponse = ListPrivateConnec
 
 export type ListProjectsLocationsPrivateConnectionsError = CommonErrors;
 
-export const listProjectsLocationsPrivateConnections = API.makePaginated(() => ({
+/** Use this method to list private connectivity configurations in a project and location. */
+export const listProjectsLocationsPrivateConnections: API.PaginatedOperationMethod<ListProjectsLocationsPrivateConnectionsRequest, ListProjectsLocationsPrivateConnectionsResponse, ListProjectsLocationsPrivateConnectionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsPrivateConnectionsRequest,
   output: ListProjectsLocationsPrivateConnectionsResponse,
   errors: [],
@@ -3322,7 +3322,6 @@ export const listProjectsLocationsPrivateConnections = API.makePaginated(() => (
   },
 }));
 
-/** Use this method to delete a private connectivity configuration. */
 export interface DeleteProjectsLocationsPrivateConnectionsRequest {
   /** Required. The name of the private connectivity configuration to delete. */
   name: string;
@@ -3346,13 +3345,13 @@ export const DeleteProjectsLocationsPrivateConnectionsResponse = Operation;
 
 export type DeleteProjectsLocationsPrivateConnectionsError = CommonErrors;
 
+/** Use this method to delete a private connectivity configuration. */
 export const deleteProjectsLocationsPrivateConnections: API.OperationMethod<DeleteProjectsLocationsPrivateConnectionsRequest, DeleteProjectsLocationsPrivateConnectionsResponse, DeleteProjectsLocationsPrivateConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsPrivateConnectionsRequest,
   output: DeleteProjectsLocationsPrivateConnectionsResponse,
   errors: [],
 }));
 
-/** Use this method to create a route for a private connectivity configuration in a project and location. */
 export interface CreateProjectsLocationsPrivateConnectionsRoutesRequest {
   /** Required. The parent that owns the collection of Routes. */
   parent: string;
@@ -3379,13 +3378,13 @@ export const CreateProjectsLocationsPrivateConnectionsRoutesResponse = Operation
 
 export type CreateProjectsLocationsPrivateConnectionsRoutesError = CommonErrors;
 
+/** Use this method to create a route for a private connectivity configuration in a project and location. */
 export const createProjectsLocationsPrivateConnectionsRoutes: API.OperationMethod<CreateProjectsLocationsPrivateConnectionsRoutesRequest, CreateProjectsLocationsPrivateConnectionsRoutesResponse, CreateProjectsLocationsPrivateConnectionsRoutesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsPrivateConnectionsRoutesRequest,
   output: CreateProjectsLocationsPrivateConnectionsRoutesResponse,
   errors: [],
 }));
 
-/** Use this method to get details about a route. */
 export interface GetProjectsLocationsPrivateConnectionsRoutesRequest {
   /** Required. The name of the Route resource to get. */
   name: string;
@@ -3403,13 +3402,13 @@ export const GetProjectsLocationsPrivateConnectionsRoutesResponse = Route;
 
 export type GetProjectsLocationsPrivateConnectionsRoutesError = CommonErrors;
 
+/** Use this method to get details about a route. */
 export const getProjectsLocationsPrivateConnectionsRoutes: API.OperationMethod<GetProjectsLocationsPrivateConnectionsRoutesRequest, GetProjectsLocationsPrivateConnectionsRoutesResponse, GetProjectsLocationsPrivateConnectionsRoutesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsPrivateConnectionsRoutesRequest,
   output: GetProjectsLocationsPrivateConnectionsRoutesResponse,
   errors: [],
 }));
 
-/** Use this method to list routes created for a private connectivity configuration in a project and location. */
 export interface ListProjectsLocationsPrivateConnectionsRoutesRequest {
   /** Required. The parent that owns the collection of Routess. */
   parent: string;
@@ -3439,7 +3438,8 @@ export const ListProjectsLocationsPrivateConnectionsRoutesResponse = ListRoutesR
 
 export type ListProjectsLocationsPrivateConnectionsRoutesError = CommonErrors;
 
-export const listProjectsLocationsPrivateConnectionsRoutes = API.makePaginated(() => ({
+/** Use this method to list routes created for a private connectivity configuration in a project and location. */
+export const listProjectsLocationsPrivateConnectionsRoutes: API.PaginatedOperationMethod<ListProjectsLocationsPrivateConnectionsRoutesRequest, ListProjectsLocationsPrivateConnectionsRoutesResponse, ListProjectsLocationsPrivateConnectionsRoutesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsPrivateConnectionsRoutesRequest,
   output: ListProjectsLocationsPrivateConnectionsRoutesResponse,
   errors: [],
@@ -3449,7 +3449,6 @@ export const listProjectsLocationsPrivateConnectionsRoutes = API.makePaginated((
   },
 }));
 
-/** Use this method to delete a route. */
 export interface DeleteProjectsLocationsPrivateConnectionsRoutesRequest {
   /** Required. The name of the Route resource to delete. */
   name: string;
@@ -3470,6 +3469,7 @@ export const DeleteProjectsLocationsPrivateConnectionsRoutesResponse = Operation
 
 export type DeleteProjectsLocationsPrivateConnectionsRoutesError = CommonErrors;
 
+/** Use this method to delete a route. */
 export const deleteProjectsLocationsPrivateConnectionsRoutes: API.OperationMethod<DeleteProjectsLocationsPrivateConnectionsRoutesRequest, DeleteProjectsLocationsPrivateConnectionsRoutesResponse, DeleteProjectsLocationsPrivateConnectionsRoutesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsPrivateConnectionsRoutesRequest,
   output: DeleteProjectsLocationsPrivateConnectionsRoutesResponse,

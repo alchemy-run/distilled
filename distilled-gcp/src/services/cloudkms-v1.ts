@@ -1524,7 +1524,6 @@ export const UpdateCryptoKeyPrimaryVersionRequest: Schema.Schema<UpdateCryptoKey
 // Operations
 // ==========================================================================
 
-/** Gets the KeyAccessJustificationsPolicyConfig for a given organization, folder, or project. */
 export interface GetKajPolicyConfigOrganizationsRequest {
   /** Required. The name of the KeyAccessJustificationsPolicyConfig to get. */
   name: string;
@@ -1542,13 +1541,13 @@ export const GetKajPolicyConfigOrganizationsResponse = KeyAccessJustificationsPo
 
 export type GetKajPolicyConfigOrganizationsError = CommonErrors;
 
+/** Gets the KeyAccessJustificationsPolicyConfig for a given organization, folder, or project. */
 export const getKajPolicyConfigOrganizations: API.OperationMethod<GetKajPolicyConfigOrganizationsRequest, GetKajPolicyConfigOrganizationsResponse, GetKajPolicyConfigOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetKajPolicyConfigOrganizationsRequest,
   output: GetKajPolicyConfigOrganizationsResponse,
   errors: [],
 }));
 
-/** Updates the KeyAccessJustificationsPolicyConfig for a given organization, folder, or project. */
 export interface UpdateKajPolicyConfigOrganizationsRequest {
   /** Identifier. The resource name for this KeyAccessJustificationsPolicyConfig in the format of "{organizations|folders|projects}/* /kajPolicyConfig". */
   name: string;
@@ -1572,13 +1571,13 @@ export const UpdateKajPolicyConfigOrganizationsResponse = KeyAccessJustification
 
 export type UpdateKajPolicyConfigOrganizationsError = CommonErrors;
 
+/** Updates the KeyAccessJustificationsPolicyConfig for a given organization, folder, or project. */
 export const updateKajPolicyConfigOrganizations: API.OperationMethod<UpdateKajPolicyConfigOrganizationsRequest, UpdateKajPolicyConfigOrganizationsResponse, UpdateKajPolicyConfigOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateKajPolicyConfigOrganizationsRequest,
   output: UpdateKajPolicyConfigOrganizationsResponse,
   errors: [],
 }));
 
-/** Gets the KeyAccessJustificationsPolicyConfig for a given organization, folder, or project. */
 export interface GetKajPolicyConfigProjectsRequest {
   /** Required. The name of the KeyAccessJustificationsPolicyConfig to get. */
   name: string;
@@ -1596,13 +1595,13 @@ export const GetKajPolicyConfigProjectsResponse = KeyAccessJustificationsPolicyC
 
 export type GetKajPolicyConfigProjectsError = CommonErrors;
 
+/** Gets the KeyAccessJustificationsPolicyConfig for a given organization, folder, or project. */
 export const getKajPolicyConfigProjects: API.OperationMethod<GetKajPolicyConfigProjectsRequest, GetKajPolicyConfigProjectsResponse, GetKajPolicyConfigProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetKajPolicyConfigProjectsRequest,
   output: GetKajPolicyConfigProjectsResponse,
   errors: [],
 }));
 
-/** Updates the AutokeyConfig for a folder or a project. The caller must have both `cloudkms.autokeyConfigs.update` permission on the parent folder and `cloudkms.cryptoKeys.setIamPolicy` permission on the provided key project. A KeyHandle creation in the folder's descendant projects will use this configuration to determine where to create the resulting CryptoKey. */
 export interface UpdateAutokeyConfigProjectsRequest {
   /** Identifier. Name of the AutokeyConfig resource, e.g. `folders/{FOLDER_NUMBER}/autokeyConfig` or `projects/{PROJECT_NUMBER}/autokeyConfig`. */
   name: string;
@@ -1626,13 +1625,13 @@ export const UpdateAutokeyConfigProjectsResponse = AutokeyConfig;
 
 export type UpdateAutokeyConfigProjectsError = CommonErrors;
 
+/** Updates the AutokeyConfig for a folder or a project. The caller must have both `cloudkms.autokeyConfigs.update` permission on the parent folder and `cloudkms.cryptoKeys.setIamPolicy` permission on the provided key project. A KeyHandle creation in the folder's descendant projects will use this configuration to determine where to create the resulting CryptoKey. */
 export const updateAutokeyConfigProjects: API.OperationMethod<UpdateAutokeyConfigProjectsRequest, UpdateAutokeyConfigProjectsResponse, UpdateAutokeyConfigProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAutokeyConfigProjectsRequest,
   output: UpdateAutokeyConfigProjectsResponse,
   errors: [],
 }));
 
-/** Returns the effective Cloud KMS Autokey configuration for a given project. */
 export interface ShowEffectiveAutokeyConfigProjectsRequest {
   /** Required. Name of the resource project to the show effective Cloud KMS Autokey configuration for. This may be helpful for interrogating the effect of nested folder configurations on a given resource project. */
   parent: string;
@@ -1650,13 +1649,13 @@ export const ShowEffectiveAutokeyConfigProjectsResponse = ShowEffectiveAutokeyCo
 
 export type ShowEffectiveAutokeyConfigProjectsError = CommonErrors;
 
+/** Returns the effective Cloud KMS Autokey configuration for a given project. */
 export const showEffectiveAutokeyConfigProjects: API.OperationMethod<ShowEffectiveAutokeyConfigProjectsRequest, ShowEffectiveAutokeyConfigProjectsResponse, ShowEffectiveAutokeyConfigProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ShowEffectiveAutokeyConfigProjectsRequest,
   output: ShowEffectiveAutokeyConfigProjectsResponse,
   errors: [],
 }));
 
-/** Returns the KeyAccessJustificationsEnrollmentConfig of the resource closest to the given project in hierarchy. */
 export interface ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsRequest {
   /** Required. The number or id of the project to get the effective KeyAccessJustificationsEnrollmentConfig for. */
   project: string;
@@ -1674,13 +1673,13 @@ export const ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsRespons
 
 export type ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsError = CommonErrors;
 
+/** Returns the KeyAccessJustificationsEnrollmentConfig of the resource closest to the given project in hierarchy. */
 export const showEffectiveKeyAccessJustificationsEnrollmentConfigProjects: API.OperationMethod<ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsRequest, ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsResponse, ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsRequest,
   output: ShowEffectiveKeyAccessJustificationsEnrollmentConfigProjectsResponse,
   errors: [],
 }));
 
-/** Returns the KeyAccessJustificationsPolicyConfig of the resource closest to the given project in hierarchy. */
 export interface ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsRequest {
   /** Required. The number or id of the project to get the effective KeyAccessJustificationsPolicyConfig. In the format of "projects/{|}" */
   project: string;
@@ -1698,13 +1697,13 @@ export const ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsResponse = 
 
 export type ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsError = CommonErrors;
 
+/** Returns the KeyAccessJustificationsPolicyConfig of the resource closest to the given project in hierarchy. */
 export const showEffectiveKeyAccessJustificationsPolicyConfigProjects: API.OperationMethod<ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsRequest, ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsResponse, ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsRequest,
   output: ShowEffectiveKeyAccessJustificationsPolicyConfigProjectsResponse,
   errors: [],
 }));
 
-/** Returns the AutokeyConfig for a folder or project. */
 export interface GetAutokeyConfigProjectsRequest {
   /** Required. Name of the AutokeyConfig resource, e.g. `folders/{FOLDER_NUMBER}/autokeyConfig` or `projects/{PROJECT_NUMBER}/autokeyConfig`. */
   name: string;
@@ -1722,13 +1721,13 @@ export const GetAutokeyConfigProjectsResponse = AutokeyConfig;
 
 export type GetAutokeyConfigProjectsError = CommonErrors;
 
+/** Returns the AutokeyConfig for a folder or project. */
 export const getAutokeyConfigProjects: API.OperationMethod<GetAutokeyConfigProjectsRequest, GetAutokeyConfigProjectsResponse, GetAutokeyConfigProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAutokeyConfigProjectsRequest,
   output: GetAutokeyConfigProjectsResponse,
   errors: [],
 }));
 
-/** Updates the KeyAccessJustificationsPolicyConfig for a given organization, folder, or project. */
 export interface UpdateKajPolicyConfigProjectsRequest {
   /** Optional. The list of fields to update. */
   updateMask?: string;
@@ -1752,13 +1751,13 @@ export const UpdateKajPolicyConfigProjectsResponse = KeyAccessJustificationsPoli
 
 export type UpdateKajPolicyConfigProjectsError = CommonErrors;
 
+/** Updates the KeyAccessJustificationsPolicyConfig for a given organization, folder, or project. */
 export const updateKajPolicyConfigProjects: API.OperationMethod<UpdateKajPolicyConfigProjectsRequest, UpdateKajPolicyConfigProjectsResponse, UpdateKajPolicyConfigProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateKajPolicyConfigProjectsRequest,
   output: UpdateKajPolicyConfigProjectsResponse,
   errors: [],
 }));
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number;
@@ -1788,7 +1787,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -1798,7 +1798,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -1816,13 +1815,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Updates the EkmConfig singleton resource for a given project and location. */
 export interface UpdateEkmConfigProjectsLocationsRequest {
   /** Required. List of fields to be updated in this request. */
   updateMask?: string;
@@ -1846,13 +1845,13 @@ export const UpdateEkmConfigProjectsLocationsResponse = EkmConfig;
 
 export type UpdateEkmConfigProjectsLocationsError = CommonErrors;
 
+/** Updates the EkmConfig singleton resource for a given project and location. */
 export const updateEkmConfigProjectsLocations: API.OperationMethod<UpdateEkmConfigProjectsLocationsRequest, UpdateEkmConfigProjectsLocationsResponse, UpdateEkmConfigProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateEkmConfigProjectsLocationsRequest,
   output: UpdateEkmConfigProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Returns the EkmConfig singleton resource for a given project and location. */
 export interface GetEkmConfigProjectsLocationsRequest {
   /** Required. The name of the EkmConfig to get. */
   name: string;
@@ -1870,13 +1869,13 @@ export const GetEkmConfigProjectsLocationsResponse = EkmConfig;
 
 export type GetEkmConfigProjectsLocationsError = CommonErrors;
 
+/** Returns the EkmConfig singleton resource for a given project and location. */
 export const getEkmConfigProjectsLocations: API.OperationMethod<GetEkmConfigProjectsLocationsRequest, GetEkmConfigProjectsLocationsResponse, GetEkmConfigProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEkmConfigProjectsLocationsRequest,
   output: GetEkmConfigProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Generate random bytes using the Cloud KMS randomness source in the provided location. */
 export interface GenerateRandomBytesProjectsLocationsRequest {
   /** The project-specific location in which to generate random bytes. For example, "projects/my-project/locations/us-central1". */
   location: string;
@@ -1897,13 +1896,13 @@ export const GenerateRandomBytesProjectsLocationsResponse = GenerateRandomBytesR
 
 export type GenerateRandomBytesProjectsLocationsError = CommonErrors;
 
+/** Generate random bytes using the Cloud KMS randomness source in the provided location. */
 export const generateRandomBytesProjectsLocations: API.OperationMethod<GenerateRandomBytesProjectsLocationsRequest, GenerateRandomBytesProjectsLocationsResponse, GenerateRandomBytesProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateRandomBytesProjectsLocationsRequest,
   output: GenerateRandomBytesProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists SingleTenantHsmInstances. */
 export interface ListProjectsLocationsSingleTenantHsmInstancesRequest {
   /** Optional. If set to true, HsmManagement.ListSingleTenantHsmInstances will also return SingleTenantHsmInstances in DELETED state. */
   showDeleted?: boolean;
@@ -1936,7 +1935,8 @@ export const ListProjectsLocationsSingleTenantHsmInstancesResponse = ListSingleT
 
 export type ListProjectsLocationsSingleTenantHsmInstancesError = CommonErrors;
 
-export const listProjectsLocationsSingleTenantHsmInstances = API.makePaginated(() => ({
+/** Lists SingleTenantHsmInstances. */
+export const listProjectsLocationsSingleTenantHsmInstances: API.PaginatedOperationMethod<ListProjectsLocationsSingleTenantHsmInstancesRequest, ListProjectsLocationsSingleTenantHsmInstancesResponse, ListProjectsLocationsSingleTenantHsmInstancesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsSingleTenantHsmInstancesRequest,
   output: ListProjectsLocationsSingleTenantHsmInstancesResponse,
   errors: [],
@@ -1946,7 +1946,6 @@ export const listProjectsLocationsSingleTenantHsmInstances = API.makePaginated((
   },
 }));
 
-/** Returns metadata for a given SingleTenantHsmInstance. */
 export interface GetProjectsLocationsSingleTenantHsmInstancesRequest {
   /** Required. The name of the SingleTenantHsmInstance to get. */
   name: string;
@@ -1964,13 +1963,13 @@ export const GetProjectsLocationsSingleTenantHsmInstancesResponse = SingleTenant
 
 export type GetProjectsLocationsSingleTenantHsmInstancesError = CommonErrors;
 
+/** Returns metadata for a given SingleTenantHsmInstance. */
 export const getProjectsLocationsSingleTenantHsmInstances: API.OperationMethod<GetProjectsLocationsSingleTenantHsmInstancesRequest, GetProjectsLocationsSingleTenantHsmInstancesResponse, GetProjectsLocationsSingleTenantHsmInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSingleTenantHsmInstancesRequest,
   output: GetProjectsLocationsSingleTenantHsmInstancesResponse,
   errors: [],
 }));
 
-/** Creates a new SingleTenantHsmInstance in a given Project and Location. User must create a RegisterTwoFactorAuthKeys proposal with this single-tenant HSM instance to finish setup of the instance. */
 export interface CreateProjectsLocationsSingleTenantHsmInstancesRequest {
   /** Required. The resource name of the location associated with the SingleTenantHsmInstance, in the format `projects/* /locations/*`. */
   parent: string;
@@ -1994,13 +1993,13 @@ export const CreateProjectsLocationsSingleTenantHsmInstancesResponse = Operation
 
 export type CreateProjectsLocationsSingleTenantHsmInstancesError = CommonErrors;
 
+/** Creates a new SingleTenantHsmInstance in a given Project and Location. User must create a RegisterTwoFactorAuthKeys proposal with this single-tenant HSM instance to finish setup of the instance. */
 export const createProjectsLocationsSingleTenantHsmInstances: API.OperationMethod<CreateProjectsLocationsSingleTenantHsmInstancesRequest, CreateProjectsLocationsSingleTenantHsmInstancesResponse, CreateProjectsLocationsSingleTenantHsmInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsSingleTenantHsmInstancesRequest,
   output: CreateProjectsLocationsSingleTenantHsmInstancesResponse,
   errors: [],
 }));
 
-/** Deletes a SingleTenantHsmInstanceProposal. */
 export interface DeleteProjectsLocationsSingleTenantHsmInstancesProposalsRequest {
   /** Required. The name of the SingleTenantHsmInstanceProposal to delete. */
   name: string;
@@ -2018,13 +2017,13 @@ export const DeleteProjectsLocationsSingleTenantHsmInstancesProposalsResponse = 
 
 export type DeleteProjectsLocationsSingleTenantHsmInstancesProposalsError = CommonErrors;
 
+/** Deletes a SingleTenantHsmInstanceProposal. */
 export const deleteProjectsLocationsSingleTenantHsmInstancesProposals: API.OperationMethod<DeleteProjectsLocationsSingleTenantHsmInstancesProposalsRequest, DeleteProjectsLocationsSingleTenantHsmInstancesProposalsResponse, DeleteProjectsLocationsSingleTenantHsmInstancesProposalsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsSingleTenantHsmInstancesProposalsRequest,
   output: DeleteProjectsLocationsSingleTenantHsmInstancesProposalsResponse,
   errors: [],
 }));
 
-/** Lists SingleTenantHsmInstanceProposals. */
 export interface ListProjectsLocationsSingleTenantHsmInstancesProposalsRequest {
   /** Optional. Specify how the results should be sorted. If not specified, the results will be sorted in the default order. For more information, see [Sorting and filtering list results](https://cloud.google.com/kms/docs/sorting-and-filtering). */
   orderBy?: string;
@@ -2057,7 +2056,8 @@ export const ListProjectsLocationsSingleTenantHsmInstancesProposalsResponse = Li
 
 export type ListProjectsLocationsSingleTenantHsmInstancesProposalsError = CommonErrors;
 
-export const listProjectsLocationsSingleTenantHsmInstancesProposals = API.makePaginated(() => ({
+/** Lists SingleTenantHsmInstanceProposals. */
+export const listProjectsLocationsSingleTenantHsmInstancesProposals: API.PaginatedOperationMethod<ListProjectsLocationsSingleTenantHsmInstancesProposalsRequest, ListProjectsLocationsSingleTenantHsmInstancesProposalsResponse, ListProjectsLocationsSingleTenantHsmInstancesProposalsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsSingleTenantHsmInstancesProposalsRequest,
   output: ListProjectsLocationsSingleTenantHsmInstancesProposalsResponse,
   errors: [],
@@ -2067,7 +2067,6 @@ export const listProjectsLocationsSingleTenantHsmInstancesProposals = API.makePa
   },
 }));
 
-/** Executes a SingleTenantHsmInstanceProposal for a given SingleTenantHsmInstance. The proposal must be in the APPROVED state. */
 export interface ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsRequest {
   /** Required. The name of the SingleTenantHsmInstanceProposal to execute. */
   name: string;
@@ -2088,13 +2087,13 @@ export const ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsResponse =
 
 export type ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsError = CommonErrors;
 
+/** Executes a SingleTenantHsmInstanceProposal for a given SingleTenantHsmInstance. The proposal must be in the APPROVED state. */
 export const executeProjectsLocationsSingleTenantHsmInstancesProposals: API.OperationMethod<ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsRequest, ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsResponse, ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsRequest,
   output: ExecuteProjectsLocationsSingleTenantHsmInstancesProposalsResponse,
   errors: [],
 }));
 
-/** Returns metadata for a given SingleTenantHsmInstanceProposal. */
 export interface GetProjectsLocationsSingleTenantHsmInstancesProposalsRequest {
   /** Required. The name of the SingleTenantHsmInstanceProposal to get. */
   name: string;
@@ -2112,13 +2111,13 @@ export const GetProjectsLocationsSingleTenantHsmInstancesProposalsResponse = Sin
 
 export type GetProjectsLocationsSingleTenantHsmInstancesProposalsError = CommonErrors;
 
+/** Returns metadata for a given SingleTenantHsmInstanceProposal. */
 export const getProjectsLocationsSingleTenantHsmInstancesProposals: API.OperationMethod<GetProjectsLocationsSingleTenantHsmInstancesProposalsRequest, GetProjectsLocationsSingleTenantHsmInstancesProposalsResponse, GetProjectsLocationsSingleTenantHsmInstancesProposalsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSingleTenantHsmInstancesProposalsRequest,
   output: GetProjectsLocationsSingleTenantHsmInstancesProposalsResponse,
   errors: [],
 }));
 
-/** Approves a SingleTenantHsmInstanceProposal for a given SingleTenantHsmInstance. The proposal must be in the PENDING state. */
 export interface ApproveProjectsLocationsSingleTenantHsmInstancesProposalsRequest {
   /** Required. The name of the SingleTenantHsmInstanceProposal to approve. */
   name: string;
@@ -2139,13 +2138,13 @@ export const ApproveProjectsLocationsSingleTenantHsmInstancesProposalsResponse =
 
 export type ApproveProjectsLocationsSingleTenantHsmInstancesProposalsError = CommonErrors;
 
+/** Approves a SingleTenantHsmInstanceProposal for a given SingleTenantHsmInstance. The proposal must be in the PENDING state. */
 export const approveProjectsLocationsSingleTenantHsmInstancesProposals: API.OperationMethod<ApproveProjectsLocationsSingleTenantHsmInstancesProposalsRequest, ApproveProjectsLocationsSingleTenantHsmInstancesProposalsResponse, ApproveProjectsLocationsSingleTenantHsmInstancesProposalsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ApproveProjectsLocationsSingleTenantHsmInstancesProposalsRequest,
   output: ApproveProjectsLocationsSingleTenantHsmInstancesProposalsResponse,
   errors: [],
 }));
 
-/** Creates a new SingleTenantHsmInstanceProposal for a given SingleTenantHsmInstance. */
 export interface CreateProjectsLocationsSingleTenantHsmInstancesProposalsRequest {
   /** Required. The name of the SingleTenantHsmInstance associated with the SingleTenantHsmInstanceProposals. */
   parent: string;
@@ -2169,13 +2168,13 @@ export const CreateProjectsLocationsSingleTenantHsmInstancesProposalsResponse = 
 
 export type CreateProjectsLocationsSingleTenantHsmInstancesProposalsError = CommonErrors;
 
+/** Creates a new SingleTenantHsmInstanceProposal for a given SingleTenantHsmInstance. */
 export const createProjectsLocationsSingleTenantHsmInstancesProposals: API.OperationMethod<CreateProjectsLocationsSingleTenantHsmInstancesProposalsRequest, CreateProjectsLocationsSingleTenantHsmInstancesProposalsResponse, CreateProjectsLocationsSingleTenantHsmInstancesProposalsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsSingleTenantHsmInstancesProposalsRequest,
   output: CreateProjectsLocationsSingleTenantHsmInstancesProposalsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsKeyRingsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2196,13 +2195,13 @@ export const GetIamPolicyProjectsLocationsKeyRingsResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsKeyRingsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsKeyRings: API.OperationMethod<GetIamPolicyProjectsLocationsKeyRingsRequest, GetIamPolicyProjectsLocationsKeyRingsResponse, GetIamPolicyProjectsLocationsKeyRingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsKeyRingsRequest,
   output: GetIamPolicyProjectsLocationsKeyRingsResponse,
   errors: [],
 }));
 
-/** Returns metadata for a given KeyRing. */
 export interface GetProjectsLocationsKeyRingsRequest {
   /** Required. The name of the KeyRing to get. */
   name: string;
@@ -2220,13 +2219,13 @@ export const GetProjectsLocationsKeyRingsResponse = KeyRing;
 
 export type GetProjectsLocationsKeyRingsError = CommonErrors;
 
+/** Returns metadata for a given KeyRing. */
 export const getProjectsLocationsKeyRings: API.OperationMethod<GetProjectsLocationsKeyRingsRequest, GetProjectsLocationsKeyRingsResponse, GetProjectsLocationsKeyRingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsKeyRingsRequest,
   output: GetProjectsLocationsKeyRingsResponse,
   errors: [],
 }));
 
-/** Create a new KeyRing in a given Project and Location. */
 export interface CreateProjectsLocationsKeyRingsRequest {
   /** Required. It must be unique within a location and match the regular expression `[a-zA-Z0-9_-]{1,63}` */
   keyRingId?: string;
@@ -2250,13 +2249,13 @@ export const CreateProjectsLocationsKeyRingsResponse = KeyRing;
 
 export type CreateProjectsLocationsKeyRingsError = CommonErrors;
 
+/** Create a new KeyRing in a given Project and Location. */
 export const createProjectsLocationsKeyRings: API.OperationMethod<CreateProjectsLocationsKeyRingsRequest, CreateProjectsLocationsKeyRingsResponse, CreateProjectsLocationsKeyRingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsKeyRingsRequest,
   output: CreateProjectsLocationsKeyRingsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsKeyRingsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2277,13 +2276,13 @@ export const TestIamPermissionsProjectsLocationsKeyRingsResponse = TestIamPermis
 
 export type TestIamPermissionsProjectsLocationsKeyRingsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsKeyRings: API.OperationMethod<TestIamPermissionsProjectsLocationsKeyRingsRequest, TestIamPermissionsProjectsLocationsKeyRingsResponse, TestIamPermissionsProjectsLocationsKeyRingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsKeyRingsRequest,
   output: TestIamPermissionsProjectsLocationsKeyRingsResponse,
   errors: [],
 }));
 
-/** Lists KeyRings. */
 export interface ListProjectsLocationsKeyRingsRequest {
   /** Optional. Optional pagination token, returned earlier via ListKeyRingsResponse.next_page_token. */
   pageToken?: string;
@@ -2313,7 +2312,8 @@ export const ListProjectsLocationsKeyRingsResponse = ListKeyRingsResponse;
 
 export type ListProjectsLocationsKeyRingsError = CommonErrors;
 
-export const listProjectsLocationsKeyRings = API.makePaginated(() => ({
+/** Lists KeyRings. */
+export const listProjectsLocationsKeyRings: API.PaginatedOperationMethod<ListProjectsLocationsKeyRingsRequest, ListProjectsLocationsKeyRingsResponse, ListProjectsLocationsKeyRingsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsKeyRingsRequest,
   output: ListProjectsLocationsKeyRingsResponse,
   errors: [],
@@ -2323,7 +2323,6 @@ export const listProjectsLocationsKeyRings = API.makePaginated(() => ({
   },
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsKeyRingsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2344,13 +2343,13 @@ export const SetIamPolicyProjectsLocationsKeyRingsResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsKeyRingsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsKeyRings: API.OperationMethod<SetIamPolicyProjectsLocationsKeyRingsRequest, SetIamPolicyProjectsLocationsKeyRingsResponse, SetIamPolicyProjectsLocationsKeyRingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsKeyRingsRequest,
   output: SetIamPolicyProjectsLocationsKeyRingsResponse,
   errors: [],
 }));
 
-/** Decrypts data that was protected by Encrypt. The CryptoKey.purpose must be ENCRYPT_DECRYPT. */
 export interface DecryptProjectsLocationsKeyRingsCryptoKeysRequest {
   /** Required. The resource name of the CryptoKey to use for decryption. The server will choose the appropriate version. */
   name: string;
@@ -2371,13 +2370,13 @@ export const DecryptProjectsLocationsKeyRingsCryptoKeysResponse = DecryptRespons
 
 export type DecryptProjectsLocationsKeyRingsCryptoKeysError = CommonErrors;
 
+/** Decrypts data that was protected by Encrypt. The CryptoKey.purpose must be ENCRYPT_DECRYPT. */
 export const decryptProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<DecryptProjectsLocationsKeyRingsCryptoKeysRequest, DecryptProjectsLocationsKeyRingsCryptoKeysResponse, DecryptProjectsLocationsKeyRingsCryptoKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DecryptProjectsLocationsKeyRingsCryptoKeysRequest,
   output: DecryptProjectsLocationsKeyRingsCryptoKeysResponse,
   errors: [],
 }));
 
-/** Returns metadata for a given CryptoKey, as well as its primary CryptoKeyVersion. */
 export interface GetProjectsLocationsKeyRingsCryptoKeysRequest {
   /** Required. The name of the CryptoKey to get. */
   name: string;
@@ -2395,13 +2394,13 @@ export const GetProjectsLocationsKeyRingsCryptoKeysResponse = CryptoKey;
 
 export type GetProjectsLocationsKeyRingsCryptoKeysError = CommonErrors;
 
+/** Returns metadata for a given CryptoKey, as well as its primary CryptoKeyVersion. */
 export const getProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<GetProjectsLocationsKeyRingsCryptoKeysRequest, GetProjectsLocationsKeyRingsCryptoKeysResponse, GetProjectsLocationsKeyRingsCryptoKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsKeyRingsCryptoKeysRequest,
   output: GetProjectsLocationsKeyRingsCryptoKeysResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsKeyRingsCryptoKeysRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2422,13 +2421,13 @@ export const SetIamPolicyProjectsLocationsKeyRingsCryptoKeysResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsKeyRingsCryptoKeysError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<SetIamPolicyProjectsLocationsKeyRingsCryptoKeysRequest, SetIamPolicyProjectsLocationsKeyRingsCryptoKeysResponse, SetIamPolicyProjectsLocationsKeyRingsCryptoKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsKeyRingsCryptoKeysRequest,
   output: SetIamPolicyProjectsLocationsKeyRingsCryptoKeysResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsKeyRingsCryptoKeysRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2449,13 +2448,13 @@ export const GetIamPolicyProjectsLocationsKeyRingsCryptoKeysResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsKeyRingsCryptoKeysError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<GetIamPolicyProjectsLocationsKeyRingsCryptoKeysRequest, GetIamPolicyProjectsLocationsKeyRingsCryptoKeysResponse, GetIamPolicyProjectsLocationsKeyRingsCryptoKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsKeyRingsCryptoKeysRequest,
   output: GetIamPolicyProjectsLocationsKeyRingsCryptoKeysResponse,
   errors: [],
 }));
 
-/** Permanently deletes the given CryptoKey. All child CryptoKeyVersions must have been previously deleted using KeyManagementService.DeleteCryptoKeyVersion. The specified crypto key will be immediately and permanently deleted upon calling this method. This action cannot be undone. */
 export interface DeleteProjectsLocationsKeyRingsCryptoKeysRequest {
   /** Required. The name of the CryptoKey to delete. */
   name: string;
@@ -2473,13 +2472,13 @@ export const DeleteProjectsLocationsKeyRingsCryptoKeysResponse = Operation;
 
 export type DeleteProjectsLocationsKeyRingsCryptoKeysError = CommonErrors;
 
+/** Permanently deletes the given CryptoKey. All child CryptoKeyVersions must have been previously deleted using KeyManagementService.DeleteCryptoKeyVersion. The specified crypto key will be immediately and permanently deleted upon calling this method. This action cannot be undone. */
 export const deleteProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<DeleteProjectsLocationsKeyRingsCryptoKeysRequest, DeleteProjectsLocationsKeyRingsCryptoKeysResponse, DeleteProjectsLocationsKeyRingsCryptoKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsKeyRingsCryptoKeysRequest,
   output: DeleteProjectsLocationsKeyRingsCryptoKeysResponse,
   errors: [],
 }));
 
-/** Update the version of a CryptoKey that will be used in Encrypt. Returns an error if called on a key whose purpose is not ENCRYPT_DECRYPT. */
 export interface UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeysRequest {
   /** Required. The resource name of the CryptoKey to update. */
   name: string;
@@ -2500,13 +2499,13 @@ export const UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeysResponse = C
 
 export type UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeysError = CommonErrors;
 
+/** Update the version of a CryptoKey that will be used in Encrypt. Returns an error if called on a key whose purpose is not ENCRYPT_DECRYPT. */
 export const updatePrimaryVersionProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeysRequest, UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeysResponse, UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeysRequest,
   output: UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeysResponse,
   errors: [],
 }));
 
-/** Lists CryptoKeys. */
 export interface ListProjectsLocationsKeyRingsCryptoKeysRequest {
   /** Required. The resource name of the KeyRing to list, in the format `projects/* /locations/* /keyRings/*`. */
   parent: string;
@@ -2539,7 +2538,8 @@ export const ListProjectsLocationsKeyRingsCryptoKeysResponse = ListCryptoKeysRes
 
 export type ListProjectsLocationsKeyRingsCryptoKeysError = CommonErrors;
 
-export const listProjectsLocationsKeyRingsCryptoKeys = API.makePaginated(() => ({
+/** Lists CryptoKeys. */
+export const listProjectsLocationsKeyRingsCryptoKeys: API.PaginatedOperationMethod<ListProjectsLocationsKeyRingsCryptoKeysRequest, ListProjectsLocationsKeyRingsCryptoKeysResponse, ListProjectsLocationsKeyRingsCryptoKeysError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsKeyRingsCryptoKeysRequest,
   output: ListProjectsLocationsKeyRingsCryptoKeysResponse,
   errors: [],
@@ -2549,7 +2549,6 @@ export const listProjectsLocationsKeyRingsCryptoKeys = API.makePaginated(() => (
   },
 }));
 
-/** Encrypts data, so that it can only be recovered by a call to Decrypt. The CryptoKey.purpose must be ENCRYPT_DECRYPT. */
 export interface EncryptProjectsLocationsKeyRingsCryptoKeysRequest {
   /** Required. The resource name of the CryptoKey or CryptoKeyVersion to use for encryption. If a CryptoKey is specified, the server will use its primary version. */
   name: string;
@@ -2570,13 +2569,13 @@ export const EncryptProjectsLocationsKeyRingsCryptoKeysResponse = EncryptRespons
 
 export type EncryptProjectsLocationsKeyRingsCryptoKeysError = CommonErrors;
 
+/** Encrypts data, so that it can only be recovered by a call to Decrypt. The CryptoKey.purpose must be ENCRYPT_DECRYPT. */
 export const encryptProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<EncryptProjectsLocationsKeyRingsCryptoKeysRequest, EncryptProjectsLocationsKeyRingsCryptoKeysResponse, EncryptProjectsLocationsKeyRingsCryptoKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EncryptProjectsLocationsKeyRingsCryptoKeysRequest,
   output: EncryptProjectsLocationsKeyRingsCryptoKeysResponse,
   errors: [],
 }));
 
-/** Create a new CryptoKey within a KeyRing. CryptoKey.purpose and CryptoKey.version_template.algorithm are required. */
 export interface CreateProjectsLocationsKeyRingsCryptoKeysRequest {
   /** If set to true, the request will create a CryptoKey without any CryptoKeyVersions. You must manually call CreateCryptoKeyVersion or ImportCryptoKeyVersion before you can use this CryptoKey. */
   skipInitialVersionCreation?: boolean;
@@ -2603,13 +2602,13 @@ export const CreateProjectsLocationsKeyRingsCryptoKeysResponse = CryptoKey;
 
 export type CreateProjectsLocationsKeyRingsCryptoKeysError = CommonErrors;
 
+/** Create a new CryptoKey within a KeyRing. CryptoKey.purpose and CryptoKey.version_template.algorithm are required. */
 export const createProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<CreateProjectsLocationsKeyRingsCryptoKeysRequest, CreateProjectsLocationsKeyRingsCryptoKeysResponse, CreateProjectsLocationsKeyRingsCryptoKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsKeyRingsCryptoKeysRequest,
   output: CreateProjectsLocationsKeyRingsCryptoKeysResponse,
   errors: [],
 }));
 
-/** Update a CryptoKey. */
 export interface PatchProjectsLocationsKeyRingsCryptoKeysRequest {
   /** Required. List of fields to be updated in this request. */
   updateMask?: string;
@@ -2633,13 +2632,13 @@ export const PatchProjectsLocationsKeyRingsCryptoKeysResponse = CryptoKey;
 
 export type PatchProjectsLocationsKeyRingsCryptoKeysError = CommonErrors;
 
+/** Update a CryptoKey. */
 export const patchProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<PatchProjectsLocationsKeyRingsCryptoKeysRequest, PatchProjectsLocationsKeyRingsCryptoKeysResponse, PatchProjectsLocationsKeyRingsCryptoKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsKeyRingsCryptoKeysRequest,
   output: PatchProjectsLocationsKeyRingsCryptoKeysResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsKeyRingsCryptoKeysRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2660,13 +2659,13 @@ export const TestIamPermissionsProjectsLocationsKeyRingsCryptoKeysResponse = Tes
 
 export type TestIamPermissionsProjectsLocationsKeyRingsCryptoKeysError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<TestIamPermissionsProjectsLocationsKeyRingsCryptoKeysRequest, TestIamPermissionsProjectsLocationsKeyRingsCryptoKeysResponse, TestIamPermissionsProjectsLocationsKeyRingsCryptoKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsKeyRingsCryptoKeysRequest,
   output: TestIamPermissionsProjectsLocationsKeyRingsCryptoKeysResponse,
   errors: [],
 }));
 
-/** Encrypts data using portable cryptographic primitives. Most users should choose Encrypt and Decrypt rather than their raw counterparts. The CryptoKey.purpose must be RAW_ENCRYPT_DECRYPT. */
 export interface RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
   /** Required. The resource name of the CryptoKeyVersion to use for encryption. */
   name: string;
@@ -2687,13 +2686,13 @@ export const RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRespo
 
 export type RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = CommonErrors;
 
+/** Encrypts data using portable cryptographic primitives. Most users should choose Encrypt and Decrypt rather than their raw counterparts. The CryptoKey.purpose must be RAW_ENCRYPT_DECRYPT. */
 export const rawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
   output: RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
 }));
 
-/** Signs data using a CryptoKeyVersion with CryptoKey.purpose MAC, producing a tag that can be verified by another source with the same key. */
 export interface MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
   /** Required. The resource name of the CryptoKeyVersion to use for signing. */
   name: string;
@@ -2714,13 +2713,13 @@ export const MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse
 
 export type MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = CommonErrors;
 
+/** Signs data using a CryptoKeyVersion with CryptoKey.purpose MAC, producing a tag that can be verified by another source with the same key. */
 export const macSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
   output: MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
 }));
 
-/** Returns the public key for the given CryptoKeyVersion. The CryptoKey.purpose must be ASYMMETRIC_SIGN or ASYMMETRIC_DECRYPT. */
 export interface GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
   /** Optional. The PublicKey format specified by the user. This field is required for PQC algorithms. If specified, the public key will be exported through the public_key field in the requested format. Otherwise, the pem field will be populated for non-PQC algorithms, and an error will be returned for PQC algorithms. */
   publicKeyFormat?: "PUBLIC_KEY_FORMAT_UNSPECIFIED" | "PEM" | "DER" | "NIST_PQC" | "XWING_RAW_BYTES" | (string & {});
@@ -2741,13 +2740,13 @@ export const GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRes
 
 export type GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = CommonErrors;
 
+/** Returns the public key for the given CryptoKeyVersion. The CryptoKey.purpose must be ASYMMETRIC_SIGN or ASYMMETRIC_DECRYPT. */
 export const getPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
   output: GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
 }));
 
-/** Restore a CryptoKeyVersion in the DESTROY_SCHEDULED state. Upon restoration of the CryptoKeyVersion, state will be set to DISABLED, and destroy_time will be cleared. */
 export interface RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
   /** Required. The resource name of the CryptoKeyVersion to restore. */
   name: string;
@@ -2768,13 +2767,13 @@ export const RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse
 
 export type RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = CommonErrors;
 
+/** Restore a CryptoKeyVersion in the DESTROY_SCHEDULED state. Upon restoration of the CryptoKeyVersion, state will be set to DISABLED, and destroy_time will be cleared. */
 export const restoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
   output: RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
 }));
 
-/** Decapsulates data that was encapsulated with a public key retrieved from GetPublicKey corresponding to a CryptoKeyVersion with CryptoKey.purpose KEY_ENCAPSULATION. */
 export interface DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
   /** Required. The resource name of the CryptoKeyVersion to use for decapsulation. */
   name: string;
@@ -2795,13 +2794,13 @@ export const DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResp
 
 export type DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = CommonErrors;
 
+/** Decapsulates data that was encapsulated with a public key retrieved from GetPublicKey corresponding to a CryptoKeyVersion with CryptoKey.purpose KEY_ENCAPSULATION. */
 export const decapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
   output: DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
 }));
 
-/** Signs data using a CryptoKeyVersion with CryptoKey.purpose ASYMMETRIC_SIGN, producing a signature that can be verified with the public key retrieved from GetPublicKey. */
 export interface AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
   /** Required. The resource name of the CryptoKeyVersion to use for signing. */
   name: string;
@@ -2822,13 +2821,13 @@ export const AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsR
 
 export type AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = CommonErrors;
 
+/** Signs data using a CryptoKeyVersion with CryptoKey.purpose ASYMMETRIC_SIGN, producing a signature that can be verified with the public key retrieved from GetPublicKey. */
 export const asymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
   output: AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
 }));
 
-/** Update a CryptoKeyVersion's metadata. state may be changed between ENABLED and DISABLED using this method. See DestroyCryptoKeyVersion and RestoreCryptoKeyVersion to move between other states. */
 export interface PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
   /** Required. List of fields to be updated in this request. */
   updateMask?: string;
@@ -2852,13 +2851,13 @@ export const PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse =
 
 export type PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = CommonErrors;
 
+/** Update a CryptoKeyVersion's metadata. state may be changed between ENABLED and DISABLED using this method. See DestroyCryptoKeyVersion and RestoreCryptoKeyVersion to move between other states. */
 export const patchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
   output: PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
 }));
 
-/** Returns metadata for a given CryptoKeyVersion. */
 export interface GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
   /** Required. The name of the CryptoKeyVersion to get. */
   name: string;
@@ -2876,13 +2875,13 @@ export const GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = C
 
 export type GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = CommonErrors;
 
+/** Returns metadata for a given CryptoKeyVersion. */
 export const getProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
   output: GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
 }));
 
-/** Decrypts data that was originally encrypted using a raw cryptographic mechanism. The CryptoKey.purpose must be RAW_ENCRYPT_DECRYPT. */
 export interface RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
   /** Required. The resource name of the CryptoKeyVersion to use for decryption. */
   name: string;
@@ -2903,13 +2902,13 @@ export const RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRespo
 
 export type RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = CommonErrors;
 
+/** Decrypts data that was originally encrypted using a raw cryptographic mechanism. The CryptoKey.purpose must be RAW_ENCRYPT_DECRYPT. */
 export const rawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
   output: RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
 }));
 
-/** Lists CryptoKeyVersions. */
 export interface ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
   /** The fields to include in the response. */
   view?: "CRYPTO_KEY_VERSION_VIEW_UNSPECIFIED" | "FULL" | (string & {});
@@ -2942,7 +2941,8 @@ export const ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse = 
 
 export type ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = CommonErrors;
 
-export const listProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions = API.makePaginated(() => ({
+/** Lists CryptoKeyVersions. */
+export const listProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.PaginatedOperationMethod<ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
   output: ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
@@ -2952,7 +2952,6 @@ export const listProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions = API.make
   },
 }));
 
-/** Import wrapped key material into a CryptoKeyVersion. All requests must specify a CryptoKey. If a CryptoKeyVersion is additionally specified in the request, key material will be reimported into that version. Otherwise, a new version will be created, and will be assigned the next sequential id within the CryptoKey. */
 export interface ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
   /** Required. The name of the CryptoKey to be imported into. The create permission is only required on this key when creating a new CryptoKeyVersion. */
   parent: string;
@@ -2973,13 +2972,13 @@ export const ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse 
 
 export type ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = CommonErrors;
 
+/** Import wrapped key material into a CryptoKeyVersion. All requests must specify a CryptoKey. If a CryptoKeyVersion is additionally specified in the request, key material will be reimported into that version. Otherwise, a new version will be created, and will be assigned the next sequential id within the CryptoKey. */
 export const importProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
   output: ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
 }));
 
-/** Decrypts data that was encrypted with a public key retrieved from GetPublicKey corresponding to a CryptoKeyVersion with CryptoKey.purpose ASYMMETRIC_DECRYPT. */
 export interface AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
   /** Required. The resource name of the CryptoKeyVersion to use for decryption. */
   name: string;
@@ -3000,13 +2999,13 @@ export const AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersio
 
 export type AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = CommonErrors;
 
+/** Decrypts data that was encrypted with a public key retrieved from GetPublicKey corresponding to a CryptoKeyVersion with CryptoKey.purpose ASYMMETRIC_DECRYPT. */
 export const asymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
   output: AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
 }));
 
-/** Schedule a CryptoKeyVersion for destruction. Upon calling this method, CryptoKeyVersion.state will be set to DESTROY_SCHEDULED, and destroy_time will be set to the time destroy_scheduled_duration in the future. At that time, the state will automatically change to DESTROYED, and the key material will be irrevocably destroyed. Before the destroy_time is reached, RestoreCryptoKeyVersion may be called to reverse the process. */
 export interface DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
   /** Required. The resource name of the CryptoKeyVersion to destroy. */
   name: string;
@@ -3027,13 +3026,13 @@ export const DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse
 
 export type DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = CommonErrors;
 
+/** Schedule a CryptoKeyVersion for destruction. Upon calling this method, CryptoKeyVersion.state will be set to DESTROY_SCHEDULED, and destroy_time will be set to the time destroy_scheduled_duration in the future. At that time, the state will automatically change to DESTROYED, and the key material will be irrevocably destroyed. Before the destroy_time is reached, RestoreCryptoKeyVersion may be called to reverse the process. */
 export const destroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
   output: DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
 }));
 
-/** Verifies MAC tag using a CryptoKeyVersion with CryptoKey.purpose MAC, and returns a response that indicates whether or not the verification was successful. */
 export interface MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
   /** Required. The resource name of the CryptoKeyVersion to use for verification. */
   name: string;
@@ -3054,13 +3053,13 @@ export const MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRespon
 
 export type MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = CommonErrors;
 
+/** Verifies MAC tag using a CryptoKeyVersion with CryptoKey.purpose MAC, and returns a response that indicates whether or not the verification was successful. */
 export const macVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
   output: MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
 }));
 
-/** Create a new CryptoKeyVersion in a CryptoKey. The server will assign the next sequential id. If unset, state will be set to ENABLED. */
 export interface CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
   /** Required. The name of the CryptoKey associated with the CryptoKeyVersions. */
   parent: string;
@@ -3081,13 +3080,13 @@ export const CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse 
 
 export type CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = CommonErrors;
 
+/** Create a new CryptoKeyVersion in a CryptoKey. The server will assign the next sequential id. If unset, state will be set to ENABLED. */
 export const createProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
   output: CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
 }));
 
-/** Permanently deletes the given CryptoKeyVersion. Only possible if the version has not been previously imported and if its state is one of DESTROYED, IMPORT_FAILED, or GENERATION_FAILED. Successfully imported CryptoKeyVersions cannot be deleted at this time. The specified version will be immediately and permanently deleted upon calling this method. This action cannot be undone. */
 export interface DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest {
   /** Required. The name of the CryptoKeyVersion to delete. */
   name: string;
@@ -3105,13 +3104,13 @@ export const DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse 
 
 export type DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError = CommonErrors;
 
+/** Permanently deletes the given CryptoKeyVersion. Only possible if the version has not been previously imported and if its state is one of DESTROYED, IMPORT_FAILED, or GENERATION_FAILED. Successfully imported CryptoKeyVersions cannot be deleted at this time. The specified version will be immediately and permanently deleted upon calling this method. This action cannot be undone. */
 export const deleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.OperationMethod<DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest, DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse, DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest,
   output: DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsKeyRingsImportJobsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3132,13 +3131,13 @@ export const SetIamPolicyProjectsLocationsKeyRingsImportJobsResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsKeyRingsImportJobsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsKeyRingsImportJobs: API.OperationMethod<SetIamPolicyProjectsLocationsKeyRingsImportJobsRequest, SetIamPolicyProjectsLocationsKeyRingsImportJobsResponse, SetIamPolicyProjectsLocationsKeyRingsImportJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsKeyRingsImportJobsRequest,
   output: SetIamPolicyProjectsLocationsKeyRingsImportJobsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsKeyRingsImportJobsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3159,13 +3158,13 @@ export const TestIamPermissionsProjectsLocationsKeyRingsImportJobsResponse = Tes
 
 export type TestIamPermissionsProjectsLocationsKeyRingsImportJobsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsKeyRingsImportJobs: API.OperationMethod<TestIamPermissionsProjectsLocationsKeyRingsImportJobsRequest, TestIamPermissionsProjectsLocationsKeyRingsImportJobsResponse, TestIamPermissionsProjectsLocationsKeyRingsImportJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsKeyRingsImportJobsRequest,
   output: TestIamPermissionsProjectsLocationsKeyRingsImportJobsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsKeyRingsImportJobsRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
@@ -3186,13 +3185,13 @@ export const GetIamPolicyProjectsLocationsKeyRingsImportJobsResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsKeyRingsImportJobsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsKeyRingsImportJobs: API.OperationMethod<GetIamPolicyProjectsLocationsKeyRingsImportJobsRequest, GetIamPolicyProjectsLocationsKeyRingsImportJobsResponse, GetIamPolicyProjectsLocationsKeyRingsImportJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsKeyRingsImportJobsRequest,
   output: GetIamPolicyProjectsLocationsKeyRingsImportJobsResponse,
   errors: [],
 }));
 
-/** Returns metadata for a given ImportJob. */
 export interface GetProjectsLocationsKeyRingsImportJobsRequest {
   /** Required. The name of the ImportJob to get. */
   name: string;
@@ -3210,13 +3209,13 @@ export const GetProjectsLocationsKeyRingsImportJobsResponse = ImportJob;
 
 export type GetProjectsLocationsKeyRingsImportJobsError = CommonErrors;
 
+/** Returns metadata for a given ImportJob. */
 export const getProjectsLocationsKeyRingsImportJobs: API.OperationMethod<GetProjectsLocationsKeyRingsImportJobsRequest, GetProjectsLocationsKeyRingsImportJobsResponse, GetProjectsLocationsKeyRingsImportJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsKeyRingsImportJobsRequest,
   output: GetProjectsLocationsKeyRingsImportJobsResponse,
   errors: [],
 }));
 
-/** Lists ImportJobs. */
 export interface ListProjectsLocationsKeyRingsImportJobsRequest {
   /** Optional. Optional pagination token, returned earlier via ListImportJobsResponse.next_page_token. */
   pageToken?: string;
@@ -3246,7 +3245,8 @@ export const ListProjectsLocationsKeyRingsImportJobsResponse = ListImportJobsRes
 
 export type ListProjectsLocationsKeyRingsImportJobsError = CommonErrors;
 
-export const listProjectsLocationsKeyRingsImportJobs = API.makePaginated(() => ({
+/** Lists ImportJobs. */
+export const listProjectsLocationsKeyRingsImportJobs: API.PaginatedOperationMethod<ListProjectsLocationsKeyRingsImportJobsRequest, ListProjectsLocationsKeyRingsImportJobsResponse, ListProjectsLocationsKeyRingsImportJobsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsKeyRingsImportJobsRequest,
   output: ListProjectsLocationsKeyRingsImportJobsResponse,
   errors: [],
@@ -3256,7 +3256,6 @@ export const listProjectsLocationsKeyRingsImportJobs = API.makePaginated(() => (
   },
 }));
 
-/** Create a new ImportJob within a KeyRing. ImportJob.import_method is required. */
 export interface CreateProjectsLocationsKeyRingsImportJobsRequest {
   /** Required. It must be unique within a KeyRing and match the regular expression `[a-zA-Z0-9_-]{1,63}` */
   importJobId?: string;
@@ -3280,13 +3279,13 @@ export const CreateProjectsLocationsKeyRingsImportJobsResponse = ImportJob;
 
 export type CreateProjectsLocationsKeyRingsImportJobsError = CommonErrors;
 
+/** Create a new ImportJob within a KeyRing. ImportJob.import_method is required. */
 export const createProjectsLocationsKeyRingsImportJobs: API.OperationMethod<CreateProjectsLocationsKeyRingsImportJobsRequest, CreateProjectsLocationsKeyRingsImportJobsResponse, CreateProjectsLocationsKeyRingsImportJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsKeyRingsImportJobsRequest,
   output: CreateProjectsLocationsKeyRingsImportJobsResponse,
   errors: [],
 }));
 
-/** Retrieves a specific RetiredResource resource, which represents the record of a deleted CryptoKey. */
 export interface GetProjectsLocationsRetiredResourcesRequest {
   /** Required. The name of the RetiredResource to get. */
   name: string;
@@ -3304,13 +3303,13 @@ export const GetProjectsLocationsRetiredResourcesResponse = RetiredResource;
 
 export type GetProjectsLocationsRetiredResourcesError = CommonErrors;
 
+/** Retrieves a specific RetiredResource resource, which represents the record of a deleted CryptoKey. */
 export const getProjectsLocationsRetiredResources: API.OperationMethod<GetProjectsLocationsRetiredResourcesRequest, GetProjectsLocationsRetiredResourcesResponse, GetProjectsLocationsRetiredResourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRetiredResourcesRequest,
   output: GetProjectsLocationsRetiredResourcesResponse,
   errors: [],
 }));
 
-/** Lists the RetiredResources which are the records of deleted CryptoKeys. RetiredResources prevent the reuse of these resource names after deletion. */
 export interface ListProjectsLocationsRetiredResourcesRequest {
   /** Required. The project-specific location holding the RetiredResources, in the format `projects/* /locations/*`. */
   parent: string;
@@ -3334,7 +3333,8 @@ export const ListProjectsLocationsRetiredResourcesResponse = ListRetiredResource
 
 export type ListProjectsLocationsRetiredResourcesError = CommonErrors;
 
-export const listProjectsLocationsRetiredResources = API.makePaginated(() => ({
+/** Lists the RetiredResources which are the records of deleted CryptoKeys. RetiredResources prevent the reuse of these resource names after deletion. */
+export const listProjectsLocationsRetiredResources: API.PaginatedOperationMethod<ListProjectsLocationsRetiredResourcesRequest, ListProjectsLocationsRetiredResourcesResponse, ListProjectsLocationsRetiredResourcesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRetiredResourcesRequest,
   output: ListProjectsLocationsRetiredResourcesResponse,
   errors: [],
@@ -3344,7 +3344,6 @@ export const listProjectsLocationsRetiredResources = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new EkmConnection in a given Project and Location. */
 export interface CreateProjectsLocationsEkmConnectionsRequest {
   /** Required. The resource name of the location associated with the EkmConnection, in the format `projects/* /locations/*`. */
   parent: string;
@@ -3368,13 +3367,13 @@ export const CreateProjectsLocationsEkmConnectionsResponse = EkmConnection;
 
 export type CreateProjectsLocationsEkmConnectionsError = CommonErrors;
 
+/** Creates a new EkmConnection in a given Project and Location. */
 export const createProjectsLocationsEkmConnections: API.OperationMethod<CreateProjectsLocationsEkmConnectionsRequest, CreateProjectsLocationsEkmConnectionsResponse, CreateProjectsLocationsEkmConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsEkmConnectionsRequest,
   output: CreateProjectsLocationsEkmConnectionsResponse,
   errors: [],
 }));
 
-/** Verifies that Cloud KMS can successfully connect to the external key manager specified by an EkmConnection. If there is an error connecting to the EKM, this method returns a FAILED_PRECONDITION status containing structured information as described at https://cloud.google.com/kms/docs/reference/ekm_errors. */
 export interface VerifyConnectivityProjectsLocationsEkmConnectionsRequest {
   /** Required. The name of the EkmConnection to verify. */
   name: string;
@@ -3392,13 +3391,13 @@ export const VerifyConnectivityProjectsLocationsEkmConnectionsResponse = VerifyC
 
 export type VerifyConnectivityProjectsLocationsEkmConnectionsError = CommonErrors;
 
+/** Verifies that Cloud KMS can successfully connect to the external key manager specified by an EkmConnection. If there is an error connecting to the EKM, this method returns a FAILED_PRECONDITION status containing structured information as described at https://cloud.google.com/kms/docs/reference/ekm_errors. */
 export const verifyConnectivityProjectsLocationsEkmConnections: API.OperationMethod<VerifyConnectivityProjectsLocationsEkmConnectionsRequest, VerifyConnectivityProjectsLocationsEkmConnectionsResponse, VerifyConnectivityProjectsLocationsEkmConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: VerifyConnectivityProjectsLocationsEkmConnectionsRequest,
   output: VerifyConnectivityProjectsLocationsEkmConnectionsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsEkmConnectionsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3419,13 +3418,13 @@ export const GetIamPolicyProjectsLocationsEkmConnectionsResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsEkmConnectionsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsEkmConnections: API.OperationMethod<GetIamPolicyProjectsLocationsEkmConnectionsRequest, GetIamPolicyProjectsLocationsEkmConnectionsResponse, GetIamPolicyProjectsLocationsEkmConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsEkmConnectionsRequest,
   output: GetIamPolicyProjectsLocationsEkmConnectionsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsEkmConnectionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3446,13 +3445,13 @@ export const TestIamPermissionsProjectsLocationsEkmConnectionsResponse = TestIam
 
 export type TestIamPermissionsProjectsLocationsEkmConnectionsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsEkmConnections: API.OperationMethod<TestIamPermissionsProjectsLocationsEkmConnectionsRequest, TestIamPermissionsProjectsLocationsEkmConnectionsResponse, TestIamPermissionsProjectsLocationsEkmConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsEkmConnectionsRequest,
   output: TestIamPermissionsProjectsLocationsEkmConnectionsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsEkmConnectionsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3473,13 +3472,13 @@ export const SetIamPolicyProjectsLocationsEkmConnectionsResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsEkmConnectionsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsEkmConnections: API.OperationMethod<SetIamPolicyProjectsLocationsEkmConnectionsRequest, SetIamPolicyProjectsLocationsEkmConnectionsResponse, SetIamPolicyProjectsLocationsEkmConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsEkmConnectionsRequest,
   output: SetIamPolicyProjectsLocationsEkmConnectionsResponse,
   errors: [],
 }));
 
-/** Lists EkmConnections. */
 export interface ListProjectsLocationsEkmConnectionsRequest {
   /** Optional. Only include resources that match the filter in the response. For more information, see [Sorting and filtering list results](https://cloud.google.com/kms/docs/sorting-and-filtering). */
   filter?: string;
@@ -3509,7 +3508,8 @@ export const ListProjectsLocationsEkmConnectionsResponse = ListEkmConnectionsRes
 
 export type ListProjectsLocationsEkmConnectionsError = CommonErrors;
 
-export const listProjectsLocationsEkmConnections = API.makePaginated(() => ({
+/** Lists EkmConnections. */
+export const listProjectsLocationsEkmConnections: API.PaginatedOperationMethod<ListProjectsLocationsEkmConnectionsRequest, ListProjectsLocationsEkmConnectionsResponse, ListProjectsLocationsEkmConnectionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsEkmConnectionsRequest,
   output: ListProjectsLocationsEkmConnectionsResponse,
   errors: [],
@@ -3519,7 +3519,6 @@ export const listProjectsLocationsEkmConnections = API.makePaginated(() => ({
   },
 }));
 
-/** Returns metadata for a given EkmConnection. */
 export interface GetProjectsLocationsEkmConnectionsRequest {
   /** Required. The name of the EkmConnection to get. */
   name: string;
@@ -3537,13 +3536,13 @@ export const GetProjectsLocationsEkmConnectionsResponse = EkmConnection;
 
 export type GetProjectsLocationsEkmConnectionsError = CommonErrors;
 
+/** Returns metadata for a given EkmConnection. */
 export const getProjectsLocationsEkmConnections: API.OperationMethod<GetProjectsLocationsEkmConnectionsRequest, GetProjectsLocationsEkmConnectionsResponse, GetProjectsLocationsEkmConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsEkmConnectionsRequest,
   output: GetProjectsLocationsEkmConnectionsResponse,
   errors: [],
 }));
 
-/** Updates an EkmConnection's metadata. */
 export interface PatchProjectsLocationsEkmConnectionsRequest {
   /** Required. List of fields to be updated in this request. */
   updateMask?: string;
@@ -3567,13 +3566,13 @@ export const PatchProjectsLocationsEkmConnectionsResponse = EkmConnection;
 
 export type PatchProjectsLocationsEkmConnectionsError = CommonErrors;
 
+/** Updates an EkmConnection's metadata. */
 export const patchProjectsLocationsEkmConnections: API.OperationMethod<PatchProjectsLocationsEkmConnectionsRequest, PatchProjectsLocationsEkmConnectionsResponse, PatchProjectsLocationsEkmConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsEkmConnectionsRequest,
   output: PatchProjectsLocationsEkmConnectionsResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -3591,13 +3590,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsEkmConfigRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3618,13 +3617,13 @@ export const TestIamPermissionsProjectsLocationsEkmConfigResponse = TestIamPermi
 
 export type TestIamPermissionsProjectsLocationsEkmConfigError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsEkmConfig: API.OperationMethod<TestIamPermissionsProjectsLocationsEkmConfigRequest, TestIamPermissionsProjectsLocationsEkmConfigResponse, TestIamPermissionsProjectsLocationsEkmConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsEkmConfigRequest,
   output: TestIamPermissionsProjectsLocationsEkmConfigResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsEkmConfigRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3645,13 +3644,13 @@ export const SetIamPolicyProjectsLocationsEkmConfigResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsEkmConfigError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsEkmConfig: API.OperationMethod<SetIamPolicyProjectsLocationsEkmConfigRequest, SetIamPolicyProjectsLocationsEkmConfigResponse, SetIamPolicyProjectsLocationsEkmConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsEkmConfigRequest,
   output: SetIamPolicyProjectsLocationsEkmConfigResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsEkmConfigRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
@@ -3672,13 +3671,13 @@ export const GetIamPolicyProjectsLocationsEkmConfigResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsEkmConfigError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsEkmConfig: API.OperationMethod<GetIamPolicyProjectsLocationsEkmConfigRequest, GetIamPolicyProjectsLocationsEkmConfigResponse, GetIamPolicyProjectsLocationsEkmConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsEkmConfigRequest,
   output: GetIamPolicyProjectsLocationsEkmConfigResponse,
   errors: [],
 }));
 
-/** Returns the KeyHandle. */
 export interface GetProjectsLocationsKeyHandlesRequest {
   /** Required. Name of the KeyHandle resource, e.g. `projects/{PROJECT_ID}/locations/{LOCATION}/keyHandles/{KEY_HANDLE_ID}`. */
   name: string;
@@ -3696,13 +3695,13 @@ export const GetProjectsLocationsKeyHandlesResponse = KeyHandle;
 
 export type GetProjectsLocationsKeyHandlesError = CommonErrors;
 
+/** Returns the KeyHandle. */
 export const getProjectsLocationsKeyHandles: API.OperationMethod<GetProjectsLocationsKeyHandlesRequest, GetProjectsLocationsKeyHandlesResponse, GetProjectsLocationsKeyHandlesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsKeyHandlesRequest,
   output: GetProjectsLocationsKeyHandlesResponse,
   errors: [],
 }));
 
-/** Creates a new KeyHandle, triggering the provisioning of a new CryptoKey for CMEK use with the given resource type in the configured key project and the same location. GetOperation should be used to resolve the resulting long-running operation and get the resulting KeyHandle and CryptoKey. */
 export interface CreateProjectsLocationsKeyHandlesRequest {
   /** Required. Name of the resource project and location to create the KeyHandle in, e.g. `projects/{PROJECT_ID}/locations/{LOCATION}`. */
   parent: string;
@@ -3726,13 +3725,13 @@ export const CreateProjectsLocationsKeyHandlesResponse = Operation;
 
 export type CreateProjectsLocationsKeyHandlesError = CommonErrors;
 
+/** Creates a new KeyHandle, triggering the provisioning of a new CryptoKey for CMEK use with the given resource type in the configured key project and the same location. GetOperation should be used to resolve the resulting long-running operation and get the resulting KeyHandle and CryptoKey. */
 export const createProjectsLocationsKeyHandles: API.OperationMethod<CreateProjectsLocationsKeyHandlesRequest, CreateProjectsLocationsKeyHandlesResponse, CreateProjectsLocationsKeyHandlesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsKeyHandlesRequest,
   output: CreateProjectsLocationsKeyHandlesResponse,
   errors: [],
 }));
 
-/** Lists KeyHandles. */
 export interface ListProjectsLocationsKeyHandlesRequest {
   /** Optional. Filter to apply when listing KeyHandles, e.g. `resource_type_selector="{SERVICE}.googleapis.com/{TYPE}"`. */
   filter?: string;
@@ -3759,7 +3758,8 @@ export const ListProjectsLocationsKeyHandlesResponse = ListKeyHandlesResponse;
 
 export type ListProjectsLocationsKeyHandlesError = CommonErrors;
 
-export const listProjectsLocationsKeyHandles = API.makePaginated(() => ({
+/** Lists KeyHandles. */
+export const listProjectsLocationsKeyHandles: API.PaginatedOperationMethod<ListProjectsLocationsKeyHandlesRequest, ListProjectsLocationsKeyHandlesResponse, ListProjectsLocationsKeyHandlesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsKeyHandlesRequest,
   output: ListProjectsLocationsKeyHandlesResponse,
   errors: [],
@@ -3769,7 +3769,6 @@ export const listProjectsLocationsKeyHandles = API.makePaginated(() => ({
   },
 }));
 
-/** Updates the AutokeyConfig for a folder or a project. The caller must have both `cloudkms.autokeyConfigs.update` permission on the parent folder and `cloudkms.cryptoKeys.setIamPolicy` permission on the provided key project. A KeyHandle creation in the folder's descendant projects will use this configuration to determine where to create the resulting CryptoKey. */
 export interface UpdateAutokeyConfigFoldersRequest {
   /** Required. Masks which fields of the AutokeyConfig to update, e.g. `keyProject`. */
   updateMask?: string;
@@ -3793,13 +3792,13 @@ export const UpdateAutokeyConfigFoldersResponse = AutokeyConfig;
 
 export type UpdateAutokeyConfigFoldersError = CommonErrors;
 
+/** Updates the AutokeyConfig for a folder or a project. The caller must have both `cloudkms.autokeyConfigs.update` permission on the parent folder and `cloudkms.cryptoKeys.setIamPolicy` permission on the provided key project. A KeyHandle creation in the folder's descendant projects will use this configuration to determine where to create the resulting CryptoKey. */
 export const updateAutokeyConfigFolders: API.OperationMethod<UpdateAutokeyConfigFoldersRequest, UpdateAutokeyConfigFoldersResponse, UpdateAutokeyConfigFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAutokeyConfigFoldersRequest,
   output: UpdateAutokeyConfigFoldersResponse,
   errors: [],
 }));
 
-/** Updates the KeyAccessJustificationsPolicyConfig for a given organization, folder, or project. */
 export interface UpdateKajPolicyConfigFoldersRequest {
   /** Identifier. The resource name for this KeyAccessJustificationsPolicyConfig in the format of "{organizations|folders|projects}/* /kajPolicyConfig". */
   name: string;
@@ -3823,13 +3822,13 @@ export const UpdateKajPolicyConfigFoldersResponse = KeyAccessJustificationsPolic
 
 export type UpdateKajPolicyConfigFoldersError = CommonErrors;
 
+/** Updates the KeyAccessJustificationsPolicyConfig for a given organization, folder, or project. */
 export const updateKajPolicyConfigFolders: API.OperationMethod<UpdateKajPolicyConfigFoldersRequest, UpdateKajPolicyConfigFoldersResponse, UpdateKajPolicyConfigFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateKajPolicyConfigFoldersRequest,
   output: UpdateKajPolicyConfigFoldersResponse,
   errors: [],
 }));
 
-/** Gets the KeyAccessJustificationsPolicyConfig for a given organization, folder, or project. */
 export interface GetKajPolicyConfigFoldersRequest {
   /** Required. The name of the KeyAccessJustificationsPolicyConfig to get. */
   name: string;
@@ -3847,13 +3846,13 @@ export const GetKajPolicyConfigFoldersResponse = KeyAccessJustificationsPolicyCo
 
 export type GetKajPolicyConfigFoldersError = CommonErrors;
 
+/** Gets the KeyAccessJustificationsPolicyConfig for a given organization, folder, or project. */
 export const getKajPolicyConfigFolders: API.OperationMethod<GetKajPolicyConfigFoldersRequest, GetKajPolicyConfigFoldersResponse, GetKajPolicyConfigFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetKajPolicyConfigFoldersRequest,
   output: GetKajPolicyConfigFoldersResponse,
   errors: [],
 }));
 
-/** Returns the AutokeyConfig for a folder or project. */
 export interface GetAutokeyConfigFoldersRequest {
   /** Required. Name of the AutokeyConfig resource, e.g. `folders/{FOLDER_NUMBER}/autokeyConfig` or `projects/{PROJECT_NUMBER}/autokeyConfig`. */
   name: string;
@@ -3871,6 +3870,7 @@ export const GetAutokeyConfigFoldersResponse = AutokeyConfig;
 
 export type GetAutokeyConfigFoldersError = CommonErrors;
 
+/** Returns the AutokeyConfig for a folder or project. */
 export const getAutokeyConfigFolders: API.OperationMethod<GetAutokeyConfigFoldersRequest, GetAutokeyConfigFoldersResponse, GetAutokeyConfigFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAutokeyConfigFoldersRequest,
   output: GetAutokeyConfigFoldersResponse,

@@ -200,7 +200,6 @@ export const GoogleProtobufEmpty: Schema.Schema<GoogleProtobufEmpty> = Schema.su
 // Operations
 // ==========================================================================
 
-/** Creates a new budget. See [Quotas and limits](https://cloud.google.com/billing/quotas) for more information on the limits of the number of budgets you can create. */
 export interface CreateBillingAccountsBudgetsRequest {
   /** Required. The name of the billing account to create the budget in. Values are of the form `billingAccounts/{billingAccountId}`. */
   parent: string;
@@ -221,13 +220,13 @@ export const CreateBillingAccountsBudgetsResponse = GoogleCloudBillingBudgetsV1B
 
 export type CreateBillingAccountsBudgetsError = CommonErrors;
 
+/** Creates a new budget. See [Quotas and limits](https://cloud.google.com/billing/quotas) for more information on the limits of the number of budgets you can create. */
 export const createBillingAccountsBudgets: API.OperationMethod<CreateBillingAccountsBudgetsRequest, CreateBillingAccountsBudgetsResponse, CreateBillingAccountsBudgetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateBillingAccountsBudgetsRequest,
   output: CreateBillingAccountsBudgetsResponse,
   errors: [],
 }));
 
-/** Updates a budget and returns the updated budget. WARNING: There are some fields exposed on the Google Cloud Console that aren't available on this API. Budget fields that are not exposed in this API will not be changed by this method. */
 export interface PatchBillingAccountsBudgetsRequest {
   /** Output only. Resource name of the budget. The resource name implies the scope of a budget. Values are of the form `billingAccounts/{billingAccountId}/budgets/{budgetId}`. */
   name: string;
@@ -251,13 +250,13 @@ export const PatchBillingAccountsBudgetsResponse = GoogleCloudBillingBudgetsV1Bu
 
 export type PatchBillingAccountsBudgetsError = CommonErrors;
 
+/** Updates a budget and returns the updated budget. WARNING: There are some fields exposed on the Google Cloud Console that aren't available on this API. Budget fields that are not exposed in this API will not be changed by this method. */
 export const patchBillingAccountsBudgets: API.OperationMethod<PatchBillingAccountsBudgetsRequest, PatchBillingAccountsBudgetsResponse, PatchBillingAccountsBudgetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchBillingAccountsBudgetsRequest,
   output: PatchBillingAccountsBudgetsResponse,
   errors: [],
 }));
 
-/** Returns a budget. WARNING: There are some fields exposed on the Google Cloud Console that aren't available on this API. When reading from the API, you will not see these fields in the return value, though they may have been set in the Cloud Console. */
 export interface GetBillingAccountsBudgetsRequest {
   /** Required. Name of budget to get. Values are of the form `billingAccounts/{billingAccountId}/budgets/{budgetId}`. */
   name: string;
@@ -275,13 +274,13 @@ export const GetBillingAccountsBudgetsResponse = GoogleCloudBillingBudgetsV1Budg
 
 export type GetBillingAccountsBudgetsError = CommonErrors;
 
+/** Returns a budget. WARNING: There are some fields exposed on the Google Cloud Console that aren't available on this API. When reading from the API, you will not see these fields in the return value, though they may have been set in the Cloud Console. */
 export const getBillingAccountsBudgets: API.OperationMethod<GetBillingAccountsBudgetsRequest, GetBillingAccountsBudgetsResponse, GetBillingAccountsBudgetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBillingAccountsBudgetsRequest,
   output: GetBillingAccountsBudgetsResponse,
   errors: [],
 }));
 
-/** Returns a list of budgets for a billing account. WARNING: There are some fields exposed on the Google Cloud Console that aren't available on this API. When reading from the API, you will not see these fields in the return value, though they may have been set in the Cloud Console. */
 export interface ListBillingAccountsBudgetsRequest {
   /** Required. Name of billing account to list budgets under. Values are of the form `billingAccounts/{billingAccountId}`. */
   parent: string;
@@ -308,7 +307,8 @@ export const ListBillingAccountsBudgetsResponse = GoogleCloudBillingBudgetsV1Lis
 
 export type ListBillingAccountsBudgetsError = CommonErrors;
 
-export const listBillingAccountsBudgets = API.makePaginated(() => ({
+/** Returns a list of budgets for a billing account. WARNING: There are some fields exposed on the Google Cloud Console that aren't available on this API. When reading from the API, you will not see these fields in the return value, though they may have been set in the Cloud Console. */
+export const listBillingAccountsBudgets: API.PaginatedOperationMethod<ListBillingAccountsBudgetsRequest, ListBillingAccountsBudgetsResponse, ListBillingAccountsBudgetsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBillingAccountsBudgetsRequest,
   output: ListBillingAccountsBudgetsResponse,
   errors: [],
@@ -318,7 +318,6 @@ export const listBillingAccountsBudgets = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a budget. Returns successfully if already deleted. */
 export interface DeleteBillingAccountsBudgetsRequest {
   /** Required. Name of the budget to delete. Values are of the form `billingAccounts/{billingAccountId}/budgets/{budgetId}`. */
   name: string;
@@ -336,6 +335,7 @@ export const DeleteBillingAccountsBudgetsResponse = GoogleProtobufEmpty;
 
 export type DeleteBillingAccountsBudgetsError = CommonErrors;
 
+/** Deletes a budget. Returns successfully if already deleted. */
 export const deleteBillingAccountsBudgets: API.OperationMethod<DeleteBillingAccountsBudgetsRequest, DeleteBillingAccountsBudgetsResponse, DeleteBillingAccountsBudgetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteBillingAccountsBudgetsRequest,
   output: DeleteBillingAccountsBudgetsResponse,

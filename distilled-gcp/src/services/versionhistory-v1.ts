@@ -162,7 +162,6 @@ export const ListReleasesResponse: Schema.Schema<ListReleasesResponse> = Schema.
 // Operations
 // ==========================================================================
 
-/** Returns list of platforms that are available for a given product. The resource "product" has no resource name in its name. */
 export interface ListPlatformsRequest {
   /** Required. The product, which owns this collection of platforms. Format: {product} */
   parent: string;
@@ -186,7 +185,8 @@ export const ListPlatformsResponse_Op = ListPlatformsResponse;
 
 export type ListPlatformsError = CommonErrors;
 
-export const listPlatforms = API.makePaginated(() => ({
+/** Returns list of platforms that are available for a given product. The resource "product" has no resource name in its name. */
+export const listPlatforms: API.PaginatedOperationMethod<ListPlatformsRequest, ListPlatformsResponse_Op, ListPlatformsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPlatformsRequest,
   output: ListPlatformsResponse_Op,
   errors: [],
@@ -196,7 +196,6 @@ export const listPlatforms = API.makePaginated(() => ({
   },
 }));
 
-/** Returns list of channels that are available for a given platform. */
 export interface ListPlatformsChannelsRequest {
   /** Required. The platform, which owns this collection of channels. Format: {product}/platforms/{platform} */
   parent: string;
@@ -220,7 +219,8 @@ export const ListPlatformsChannelsResponse = ListChannelsResponse;
 
 export type ListPlatformsChannelsError = CommonErrors;
 
-export const listPlatformsChannels = API.makePaginated(() => ({
+/** Returns list of channels that are available for a given platform. */
+export const listPlatformsChannels: API.PaginatedOperationMethod<ListPlatformsChannelsRequest, ListPlatformsChannelsResponse, ListPlatformsChannelsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPlatformsChannelsRequest,
   output: ListPlatformsChannelsResponse,
   errors: [],
@@ -230,7 +230,6 @@ export const listPlatformsChannels = API.makePaginated(() => ({
   },
 }));
 
-/** Returns list of version for the given platform/channel. */
 export interface ListPlatformsChannelsVersionsRequest {
   /** Required. The channel, which owns this collection of versions. Format: {product}/platforms/{platform}/channels/{channel} */
   parent: string;
@@ -260,7 +259,8 @@ export const ListPlatformsChannelsVersionsResponse = ListVersionsResponse;
 
 export type ListPlatformsChannelsVersionsError = CommonErrors;
 
-export const listPlatformsChannelsVersions = API.makePaginated(() => ({
+/** Returns list of version for the given platform/channel. */
+export const listPlatformsChannelsVersions: API.PaginatedOperationMethod<ListPlatformsChannelsVersionsRequest, ListPlatformsChannelsVersionsResponse, ListPlatformsChannelsVersionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPlatformsChannelsVersionsRequest,
   output: ListPlatformsChannelsVersionsResponse,
   errors: [],
@@ -270,7 +270,6 @@ export const listPlatformsChannelsVersions = API.makePaginated(() => ({
   },
 }));
 
-/** Returns list of releases of the given version. */
 export interface ListPlatformsChannelsVersionsReleasesRequest {
   /** Required. The version, which owns this collection of releases. Format: {product}/platforms/{platform}/channels/{channel}/versions/{version} */
   parent: string;
@@ -300,7 +299,8 @@ export const ListPlatformsChannelsVersionsReleasesResponse = ListReleasesRespons
 
 export type ListPlatformsChannelsVersionsReleasesError = CommonErrors;
 
-export const listPlatformsChannelsVersionsReleases = API.makePaginated(() => ({
+/** Returns list of releases of the given version. */
+export const listPlatformsChannelsVersionsReleases: API.PaginatedOperationMethod<ListPlatformsChannelsVersionsReleasesRequest, ListPlatformsChannelsVersionsReleasesResponse, ListPlatformsChannelsVersionsReleasesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPlatformsChannelsVersionsReleasesRequest,
   output: ListPlatformsChannelsVersionsReleasesResponse,
   errors: [],

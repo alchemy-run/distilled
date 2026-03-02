@@ -3498,7 +3498,6 @@ export const EnterpriseTopazSidekickAssistCardProto: Schema.Schema<EnterpriseTop
 // Operations
 // ==========================================================================
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -3516,13 +3515,13 @@ export const GetOperationsResponse = Operation;
 
 export type GetOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOperations: API.OperationMethod<GetOperationsRequest, GetOperationsResponse, GetOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListOperationsLroRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -3552,7 +3551,8 @@ export const ListOperationsLroResponse = ListOperationsResponse;
 
 export type ListOperationsLroError = CommonErrors;
 
-export const listOperationsLro = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listOperationsLro: API.PaginatedOperationMethod<ListOperationsLroRequest, ListOperationsLroResponse, ListOperationsLroError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOperationsLroRequest,
   output: ListOperationsLroResponse,
   errors: [],
@@ -3562,7 +3562,6 @@ export const listOperationsLro = API.makePaginated(() => ({
   },
 }));
 
-/** Checks whether an item is accessible by specified principal. Principal must be a user; groups and domain values aren't supported. **Note:** This API requires an admin account to execute. */
 export interface CheckAccessDebugDatasourcesItemsRequest {
   /** Item name, format: datasources/{source_id}/items/{item_id} */
   name: string;
@@ -3586,13 +3585,13 @@ export const CheckAccessDebugDatasourcesItemsResponse = CheckAccessResponse;
 
 export type CheckAccessDebugDatasourcesItemsError = CommonErrors;
 
+/** Checks whether an item is accessible by specified principal. Principal must be a user; groups and domain values aren't supported. **Note:** This API requires an admin account to execute. */
 export const checkAccessDebugDatasourcesItems: API.OperationMethod<CheckAccessDebugDatasourcesItemsRequest, CheckAccessDebugDatasourcesItemsResponse, CheckAccessDebugDatasourcesItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CheckAccessDebugDatasourcesItemsRequest,
   output: CheckAccessDebugDatasourcesItemsResponse,
   errors: [],
 }));
 
-/** Fetches the item whose viewUrl exactly matches that of the URL provided in the request. **Note:** This API requires an admin account to execute. */
 export interface SearchByViewUrlDebugDatasourcesItemsRequest {
   /** Source name, format: datasources/{source_id} */
   name: string;
@@ -3613,13 +3612,13 @@ export const SearchByViewUrlDebugDatasourcesItemsResponse = SearchItemsByViewUrl
 
 export type SearchByViewUrlDebugDatasourcesItemsError = CommonErrors;
 
+/** Fetches the item whose viewUrl exactly matches that of the URL provided in the request. **Note:** This API requires an admin account to execute. */
 export const searchByViewUrlDebugDatasourcesItems: API.OperationMethod<SearchByViewUrlDebugDatasourcesItemsRequest, SearchByViewUrlDebugDatasourcesItemsResponse, SearchByViewUrlDebugDatasourcesItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchByViewUrlDebugDatasourcesItemsRequest,
   output: SearchByViewUrlDebugDatasourcesItemsResponse,
   errors: [],
 }));
 
-/** List all unmapped identities for a specific item. **Note:** This API requires an admin account to execute. */
 export interface ListDebugDatasourcesItemsUnmappedidsRequest {
   /** The name of the item, in the following format: datasources/{source_id}/items/{ID} */
   parent: string;
@@ -3646,7 +3645,8 @@ export const ListDebugDatasourcesItemsUnmappedidsResponse = ListUnmappedIdentiti
 
 export type ListDebugDatasourcesItemsUnmappedidsError = CommonErrors;
 
-export const listDebugDatasourcesItemsUnmappedids = API.makePaginated(() => ({
+/** List all unmapped identities for a specific item. **Note:** This API requires an admin account to execute. */
+export const listDebugDatasourcesItemsUnmappedids: API.PaginatedOperationMethod<ListDebugDatasourcesItemsUnmappedidsRequest, ListDebugDatasourcesItemsUnmappedidsResponse, ListDebugDatasourcesItemsUnmappedidsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListDebugDatasourcesItemsUnmappedidsRequest,
   output: ListDebugDatasourcesItemsUnmappedidsResponse,
   errors: [],
@@ -3656,7 +3656,6 @@ export const listDebugDatasourcesItemsUnmappedids = API.makePaginated(() => ({
   },
 }));
 
-/** Lists unmapped user identities for an identity source. **Note:** This API requires an admin account to execute. */
 export interface ListDebugIdentitysourcesUnmappedidsRequest {
   /** The name of the identity source, in the following format: identitysources/{source_id} */
   parent: string;
@@ -3686,7 +3685,8 @@ export const ListDebugIdentitysourcesUnmappedidsResponse = ListUnmappedIdentitie
 
 export type ListDebugIdentitysourcesUnmappedidsError = CommonErrors;
 
-export const listDebugIdentitysourcesUnmappedids = API.makePaginated(() => ({
+/** Lists unmapped user identities for an identity source. **Note:** This API requires an admin account to execute. */
+export const listDebugIdentitysourcesUnmappedids: API.PaginatedOperationMethod<ListDebugIdentitysourcesUnmappedidsRequest, ListDebugIdentitysourcesUnmappedidsResponse, ListDebugIdentitysourcesUnmappedidsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListDebugIdentitysourcesUnmappedidsRequest,
   output: ListDebugIdentitysourcesUnmappedidsResponse,
   errors: [],
@@ -3696,7 +3696,6 @@ export const listDebugIdentitysourcesUnmappedids = API.makePaginated(() => ({
   },
 }));
 
-/** Lists names of items associated with an unmapped identity. **Note:** This API requires an admin account to execute. */
 export interface ListForunmappedidentityDebugIdentitysourcesItemsRequest {
   /** The name of the identity source, in the following format: identitysources/{source_id}} */
   parent: string;
@@ -3727,7 +3726,8 @@ export const ListForunmappedidentityDebugIdentitysourcesItemsResponse = ListItem
 
 export type ListForunmappedidentityDebugIdentitysourcesItemsError = CommonErrors;
 
-export const listForunmappedidentityDebugIdentitysourcesItems = API.makePaginated(() => ({
+/** Lists names of items associated with an unmapped identity. **Note:** This API requires an admin account to execute. */
+export const listForunmappedidentityDebugIdentitysourcesItems: API.PaginatedOperationMethod<ListForunmappedidentityDebugIdentitysourcesItemsRequest, ListForunmappedidentityDebugIdentitysourcesItemsResponse, ListForunmappedidentityDebugIdentitysourcesItemsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListForunmappedidentityDebugIdentitysourcesItemsRequest,
   output: ListForunmappedidentityDebugIdentitysourcesItemsResponse,
   errors: [],
@@ -3737,7 +3737,6 @@ export const listForunmappedidentityDebugIdentitysourcesItems = API.makePaginate
   },
 }));
 
-/** Get customer settings. **Note:** This API requires an admin account to execute. */
 export interface GetCustomerSettingsRequest {
 }
 
@@ -3752,13 +3751,13 @@ export const GetCustomerSettingsResponse = CustomerSettings;
 
 export type GetCustomerSettingsError = CommonErrors;
 
+/** Get customer settings. **Note:** This API requires an admin account to execute. */
 export const getCustomerSettings: API.OperationMethod<GetCustomerSettingsRequest, GetCustomerSettingsResponse, GetCustomerSettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCustomerSettingsRequest,
   output: GetCustomerSettingsResponse,
   errors: [],
 }));
 
-/** Update customer settings. **Note:** This API requires an admin account to execute. */
 export interface UpdateCustomerSettingsRequest {
   /** Update mask to control which fields get updated. If you specify a field in the update_mask but don't specify its value here, that field will be cleared. If the mask is not present or empty, all fields will be updated. Currently supported field paths: vpc_settings and audit_logging_settings */
   updateMask?: string;
@@ -3779,13 +3778,13 @@ export const UpdateCustomerSettingsResponse = Operation;
 
 export type UpdateCustomerSettingsError = CommonErrors;
 
+/** Update customer settings. **Note:** This API requires an admin account to execute. */
 export const updateCustomerSettings: API.OperationMethod<UpdateCustomerSettingsRequest, UpdateCustomerSettingsResponse, UpdateCustomerSettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateCustomerSettingsRequest,
   output: UpdateCustomerSettingsResponse,
   errors: [],
 }));
 
-/** Lists all search applications. **Note:** This API requires an admin account to execute. */
 export interface ListSettingsSearchapplicationsRequest {
   /** The next_page_token value returned from a previous List request, if any. The default value is 10 */
   pageToken?: string;
@@ -3809,7 +3808,8 @@ export const ListSettingsSearchapplicationsResponse = ListSearchApplicationsResp
 
 export type ListSettingsSearchapplicationsError = CommonErrors;
 
-export const listSettingsSearchapplications = API.makePaginated(() => ({
+/** Lists all search applications. **Note:** This API requires an admin account to execute. */
+export const listSettingsSearchapplications: API.PaginatedOperationMethod<ListSettingsSearchapplicationsRequest, ListSettingsSearchapplicationsResponse, ListSettingsSearchapplicationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListSettingsSearchapplicationsRequest,
   output: ListSettingsSearchapplicationsResponse,
   errors: [],
@@ -3819,7 +3819,6 @@ export const listSettingsSearchapplications = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the specified search application. **Note:** This API requires an admin account to execute. */
 export interface GetSettingsSearchapplicationsRequest {
   /** The name of the search application. Format: searchapplications/{application_id}. */
   name: string;
@@ -3840,13 +3839,13 @@ export const GetSettingsSearchapplicationsResponse = SearchApplication;
 
 export type GetSettingsSearchapplicationsError = CommonErrors;
 
+/** Gets the specified search application. **Note:** This API requires an admin account to execute. */
 export const getSettingsSearchapplications: API.OperationMethod<GetSettingsSearchapplicationsRequest, GetSettingsSearchapplicationsResponse, GetSettingsSearchapplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSettingsSearchapplicationsRequest,
   output: GetSettingsSearchapplicationsResponse,
   errors: [],
 }));
 
-/** Creates a search application. **Note:** This API requires an admin account to execute. */
 export interface CreateSettingsSearchapplicationsRequest {
   /** Request body */
   body?: SearchApplication;
@@ -3864,13 +3863,13 @@ export const CreateSettingsSearchapplicationsResponse = Operation;
 
 export type CreateSettingsSearchapplicationsError = CommonErrors;
 
+/** Creates a search application. **Note:** This API requires an admin account to execute. */
 export const createSettingsSearchapplications: API.OperationMethod<CreateSettingsSearchapplicationsRequest, CreateSettingsSearchapplicationsResponse, CreateSettingsSearchapplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateSettingsSearchapplicationsRequest,
   output: CreateSettingsSearchapplicationsResponse,
   errors: [],
 }));
 
-/** Updates a search application. **Note:** This API requires an admin account to execute. */
 export interface UpdateSettingsSearchapplicationsRequest {
   /** The name of the Search Application. Format: searchapplications/{application_id}. */
   name: string;
@@ -3894,13 +3893,13 @@ export const UpdateSettingsSearchapplicationsResponse = Operation;
 
 export type UpdateSettingsSearchapplicationsError = CommonErrors;
 
+/** Updates a search application. **Note:** This API requires an admin account to execute. */
 export const updateSettingsSearchapplications: API.OperationMethod<UpdateSettingsSearchapplicationsRequest, UpdateSettingsSearchapplicationsResponse, UpdateSettingsSearchapplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateSettingsSearchapplicationsRequest,
   output: UpdateSettingsSearchapplicationsResponse,
   errors: [],
 }));
 
-/** Updates a search application. **Note:** This API requires an admin account to execute. */
 export interface PatchSettingsSearchapplicationsRequest {
   /** The name of the Search Application. Format: searchapplications/{application_id}. */
   name: string;
@@ -3924,13 +3923,13 @@ export const PatchSettingsSearchapplicationsResponse = Operation;
 
 export type PatchSettingsSearchapplicationsError = CommonErrors;
 
+/** Updates a search application. **Note:** This API requires an admin account to execute. */
 export const patchSettingsSearchapplications: API.OperationMethod<PatchSettingsSearchapplicationsRequest, PatchSettingsSearchapplicationsResponse, PatchSettingsSearchapplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchSettingsSearchapplicationsRequest,
   output: PatchSettingsSearchapplicationsResponse,
   errors: [],
 }));
 
-/** Deletes a search application. **Note:** This API requires an admin account to execute. */
 export interface DeleteSettingsSearchapplicationsRequest {
   /** The name of the search application to be deleted. Format: applications/{application_id}. */
   name: string;
@@ -3951,13 +3950,13 @@ export const DeleteSettingsSearchapplicationsResponse = Operation;
 
 export type DeleteSettingsSearchapplicationsError = CommonErrors;
 
+/** Deletes a search application. **Note:** This API requires an admin account to execute. */
 export const deleteSettingsSearchapplications: API.OperationMethod<DeleteSettingsSearchapplicationsRequest, DeleteSettingsSearchapplicationsResponse, DeleteSettingsSearchapplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteSettingsSearchapplicationsRequest,
   output: DeleteSettingsSearchapplicationsResponse,
   errors: [],
 }));
 
-/** Resets a search application to default settings. This will return an empty response. **Note:** This API requires an admin account to execute. */
 export interface ResetSettingsSearchapplicationsRequest {
   /** The name of the search application to be reset. Format: applications/{application_id}. */
   name: string;
@@ -3978,13 +3977,13 @@ export const ResetSettingsSearchapplicationsResponse = Operation;
 
 export type ResetSettingsSearchapplicationsError = CommonErrors;
 
+/** Resets a search application to default settings. This will return an empty response. **Note:** This API requires an admin account to execute. */
 export const resetSettingsSearchapplications: API.OperationMethod<ResetSettingsSearchapplicationsRequest, ResetSettingsSearchapplicationsResponse, ResetSettingsSearchapplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetSettingsSearchapplicationsRequest,
   output: ResetSettingsSearchapplicationsResponse,
   errors: [],
 }));
 
-/** Creates a datasource. **Note:** This API requires an admin account to execute. */
 export interface CreateSettingsDatasourcesRequest {
   /** Request body */
   body?: DataSource;
@@ -4002,13 +4001,13 @@ export const CreateSettingsDatasourcesResponse = Operation;
 
 export type CreateSettingsDatasourcesError = CommonErrors;
 
+/** Creates a datasource. **Note:** This API requires an admin account to execute. */
 export const createSettingsDatasources: API.OperationMethod<CreateSettingsDatasourcesRequest, CreateSettingsDatasourcesResponse, CreateSettingsDatasourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateSettingsDatasourcesRequest,
   output: CreateSettingsDatasourcesResponse,
   errors: [],
 }));
 
-/** Deletes a datasource. **Note:** This API requires an admin account to execute. */
 export interface DeleteSettingsDatasourcesRequest {
   /** The name of the datasource. Format: datasources/{source_id}. */
   name: string;
@@ -4029,13 +4028,13 @@ export const DeleteSettingsDatasourcesResponse = Operation;
 
 export type DeleteSettingsDatasourcesError = CommonErrors;
 
+/** Deletes a datasource. **Note:** This API requires an admin account to execute. */
 export const deleteSettingsDatasources: API.OperationMethod<DeleteSettingsDatasourcesRequest, DeleteSettingsDatasourcesResponse, DeleteSettingsDatasourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteSettingsDatasourcesRequest,
   output: DeleteSettingsDatasourcesResponse,
   errors: [],
 }));
 
-/** Gets a datasource. **Note:** This API requires an admin account to execute. */
 export interface GetSettingsDatasourcesRequest {
   /** The name of the datasource resource. Format: datasources/{source_id}. */
   name: string;
@@ -4056,13 +4055,13 @@ export const GetSettingsDatasourcesResponse = DataSource;
 
 export type GetSettingsDatasourcesError = CommonErrors;
 
+/** Gets a datasource. **Note:** This API requires an admin account to execute. */
 export const getSettingsDatasources: API.OperationMethod<GetSettingsDatasourcesRequest, GetSettingsDatasourcesResponse, GetSettingsDatasourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSettingsDatasourcesRequest,
   output: GetSettingsDatasourcesResponse,
   errors: [],
 }));
 
-/** Updates a datasource. **Note:** This API requires an admin account to execute. */
 export interface UpdateSettingsDatasourcesRequest {
   /** The name of the datasource resource. Format: datasources/{source_id}. The name is ignored when creating a datasource. */
   name: string;
@@ -4083,13 +4082,13 @@ export const UpdateSettingsDatasourcesResponse = Operation;
 
 export type UpdateSettingsDatasourcesError = CommonErrors;
 
+/** Updates a datasource. **Note:** This API requires an admin account to execute. */
 export const updateSettingsDatasources: API.OperationMethod<UpdateSettingsDatasourcesRequest, UpdateSettingsDatasourcesResponse, UpdateSettingsDatasourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateSettingsDatasourcesRequest,
   output: UpdateSettingsDatasourcesResponse,
   errors: [],
 }));
 
-/** Updates a datasource. **Note:** This API requires an admin account to execute. */
 export interface PatchSettingsDatasourcesRequest {
   /** The name of the datasource resource. Format: datasources/{source_id}. The name is ignored when creating a datasource. */
   name: string;
@@ -4116,13 +4115,13 @@ export const PatchSettingsDatasourcesResponse = Operation;
 
 export type PatchSettingsDatasourcesError = CommonErrors;
 
+/** Updates a datasource. **Note:** This API requires an admin account to execute. */
 export const patchSettingsDatasources: API.OperationMethod<PatchSettingsDatasourcesRequest, PatchSettingsDatasourcesResponse, PatchSettingsDatasourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchSettingsDatasourcesRequest,
   output: PatchSettingsDatasourcesResponse,
   errors: [],
 }));
 
-/** Lists datasources. **Note:** This API requires an admin account to execute. */
 export interface ListSettingsDatasourcesRequest {
   /** Starting index of the results. */
   pageToken?: string;
@@ -4146,7 +4145,8 @@ export const ListSettingsDatasourcesResponse = ListDataSourceResponse;
 
 export type ListSettingsDatasourcesError = CommonErrors;
 
-export const listSettingsDatasources = API.makePaginated(() => ({
+/** Lists datasources. **Note:** This API requires an admin account to execute. */
+export const listSettingsDatasources: API.PaginatedOperationMethod<ListSettingsDatasourcesRequest, ListSettingsDatasourcesResponse, ListSettingsDatasourcesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListSettingsDatasourcesRequest,
   output: ListSettingsDatasourcesResponse,
   errors: [],
@@ -4156,7 +4156,6 @@ export const listSettingsDatasources = API.makePaginated(() => ({
   },
 }));
 
-/** Enables `third party` support in Google Cloud Search. **Note:** This API requires an admin account to execute. */
 export interface InitializeCustomerV1Request {
   /** Request body */
   body?: InitializeCustomerRequest;
@@ -4174,13 +4173,13 @@ export const InitializeCustomerV1Response = Operation;
 
 export type InitializeCustomerV1Error = CommonErrors;
 
+/** Enables `third party` support in Google Cloud Search. **Note:** This API requires an admin account to execute. */
 export const initializeCustomerV1: API.OperationMethod<InitializeCustomerV1Request, InitializeCustomerV1Response, InitializeCustomerV1Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InitializeCustomerV1Request,
   output: InitializeCustomerV1Response,
   errors: [],
 }));
 
-/** Updates the schema of a data source. This method does not perform incremental updates to the schema. Instead, this method updates the schema by overwriting the entire schema. **Note:** This API requires an admin or service account to execute. */
 export interface UpdateSchemaIndexingDatasourcesRequest {
   /** The name of the data source to update Schema. Format: datasources/{source_id} */
   name: string;
@@ -4201,13 +4200,13 @@ export const UpdateSchemaIndexingDatasourcesResponse = Operation;
 
 export type UpdateSchemaIndexingDatasourcesError = CommonErrors;
 
+/** Updates the schema of a data source. This method does not perform incremental updates to the schema. Instead, this method updates the schema by overwriting the entire schema. **Note:** This API requires an admin or service account to execute. */
 export const updateSchemaIndexingDatasources: API.OperationMethod<UpdateSchemaIndexingDatasourcesRequest, UpdateSchemaIndexingDatasourcesResponse, UpdateSchemaIndexingDatasourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateSchemaIndexingDatasourcesRequest,
   output: UpdateSchemaIndexingDatasourcesResponse,
   errors: [],
 }));
 
-/** Gets the schema of a data source. **Note:** This API requires an admin or service account to execute. */
 export interface GetSchemaIndexingDatasourcesRequest {
   /** The name of the data source to get Schema. Format: datasources/{source_id} */
   name: string;
@@ -4228,13 +4227,13 @@ export const GetSchemaIndexingDatasourcesResponse = Cloudsearch_Schema;
 
 export type GetSchemaIndexingDatasourcesError = CommonErrors;
 
+/** Gets the schema of a data source. **Note:** This API requires an admin or service account to execute. */
 export const getSchemaIndexingDatasources: API.OperationMethod<GetSchemaIndexingDatasourcesRequest, GetSchemaIndexingDatasourcesResponse, GetSchemaIndexingDatasourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSchemaIndexingDatasourcesRequest,
   output: GetSchemaIndexingDatasourcesResponse,
   errors: [],
 }));
 
-/** Deletes the schema of a data source. **Note:** This API requires an admin or service account to execute. */
 export interface DeleteSchemaIndexingDatasourcesRequest {
   /** The name of the data source to delete Schema. Format: datasources/{source_id} */
   name: string;
@@ -4255,13 +4254,13 @@ export const DeleteSchemaIndexingDatasourcesResponse = Operation;
 
 export type DeleteSchemaIndexingDatasourcesError = CommonErrors;
 
+/** Deletes the schema of a data source. **Note:** This API requires an admin or service account to execute. */
 export const deleteSchemaIndexingDatasources: API.OperationMethod<DeleteSchemaIndexingDatasourcesRequest, DeleteSchemaIndexingDatasourcesResponse, DeleteSchemaIndexingDatasourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteSchemaIndexingDatasourcesRequest,
   output: DeleteSchemaIndexingDatasourcesResponse,
   errors: [],
 }));
 
-/** Deletes Item resource for the specified resource name. This API requires an admin or service account to execute. The service account used is the one whitelisted in the corresponding data source. */
 export interface DeleteIndexingDatasourcesItemsRequest {
   /** Required. The name of the item to delete. Format: datasources/{source_id}/items/{item_id} */
   name: string;
@@ -4291,13 +4290,13 @@ export const DeleteIndexingDatasourcesItemsResponse = Operation;
 
 export type DeleteIndexingDatasourcesItemsError = CommonErrors;
 
+/** Deletes Item resource for the specified resource name. This API requires an admin or service account to execute. The service account used is the one whitelisted in the corresponding data source. */
 export const deleteIndexingDatasourcesItems: API.OperationMethod<DeleteIndexingDatasourcesItemsRequest, DeleteIndexingDatasourcesItemsResponse, DeleteIndexingDatasourcesItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteIndexingDatasourcesItemsRequest,
   output: DeleteIndexingDatasourcesItemsResponse,
   errors: [],
 }));
 
-/** Gets Item resource by item name. This API requires an admin or service account to execute. The service account used is the one whitelisted in the corresponding data source. */
 export interface GetIndexingDatasourcesItemsRequest {
   /** The name of the item to get info. Format: datasources/{source_id}/items/{item_id} */
   name: string;
@@ -4321,13 +4320,13 @@ export const GetIndexingDatasourcesItemsResponse = Item;
 
 export type GetIndexingDatasourcesItemsError = CommonErrors;
 
+/** Gets Item resource by item name. This API requires an admin or service account to execute. The service account used is the one whitelisted in the corresponding data source. */
 export const getIndexingDatasourcesItems: API.OperationMethod<GetIndexingDatasourcesItemsRequest, GetIndexingDatasourcesItemsResponse, GetIndexingDatasourcesItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIndexingDatasourcesItemsRequest,
   output: GetIndexingDatasourcesItemsResponse,
   errors: [],
 }));
 
-/** Lists all or a subset of Item resources. This API requires an admin or service account to execute. The service account used is the one whitelisted in the corresponding data source. */
 export interface ListIndexingDatasourcesItemsRequest {
   /** The name of the Data Source to list Items. Format: datasources/{source_id} */
   name: string;
@@ -4360,7 +4359,8 @@ export const ListIndexingDatasourcesItemsResponse = ListItemsResponse;
 
 export type ListIndexingDatasourcesItemsError = CommonErrors;
 
-export const listIndexingDatasourcesItems = API.makePaginated(() => ({
+/** Lists all or a subset of Item resources. This API requires an admin or service account to execute. The service account used is the one whitelisted in the corresponding data source. */
+export const listIndexingDatasourcesItems: API.PaginatedOperationMethod<ListIndexingDatasourcesItemsRequest, ListIndexingDatasourcesItemsResponse, ListIndexingDatasourcesItemsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListIndexingDatasourcesItemsRequest,
   output: ListIndexingDatasourcesItemsResponse,
   errors: [],
@@ -4371,7 +4371,6 @@ export const listIndexingDatasourcesItems = API.makePaginated(() => ({
   },
 }));
 
-/** Updates Item ACL, metadata, and content. It will insert the Item if it does not exist. This method does not support partial updates. Fields with no provided values are cleared out in the Cloud Search index. This API requires an admin or service account to execute. The service account used is the one whitelisted in the corresponding data source. */
 export interface IndexIndexingDatasourcesItemsRequest {
   /** The name of the Item. Format: datasources/{source_id}/items/{item_id} This is a required field. The maximum length is 1536 characters. */
   name: string;
@@ -4392,13 +4391,13 @@ export const IndexIndexingDatasourcesItemsResponse = Operation;
 
 export type IndexIndexingDatasourcesItemsError = CommonErrors;
 
+/** Updates Item ACL, metadata, and content. It will insert the Item if it does not exist. This method does not support partial updates. Fields with no provided values are cleared out in the Cloud Search index. This API requires an admin or service account to execute. The service account used is the one whitelisted in the corresponding data source. */
 export const indexIndexingDatasourcesItems: API.OperationMethod<IndexIndexingDatasourcesItemsRequest, IndexIndexingDatasourcesItemsResponse, IndexIndexingDatasourcesItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: IndexIndexingDatasourcesItemsRequest,
   output: IndexIndexingDatasourcesItemsResponse,
   errors: [],
 }));
 
-/** Creates an upload session for uploading item content. For items smaller than 100 KB, it's easier to embed the content inline within an index request. This API requires an admin or service account to execute. The service account used is the one whitelisted in the corresponding data source. */
 export interface UploadIndexingDatasourcesItemsRequest {
   /** The name of the Item to start a resumable upload. Format: datasources/{source_id}/items/{item_id}. The maximum length is 1536 bytes. */
   name: string;
@@ -4419,13 +4418,13 @@ export const UploadIndexingDatasourcesItemsResponse = UploadItemRef;
 
 export type UploadIndexingDatasourcesItemsError = CommonErrors;
 
+/** Creates an upload session for uploading item content. For items smaller than 100 KB, it's easier to embed the content inline within an index request. This API requires an admin or service account to execute. The service account used is the one whitelisted in the corresponding data source. */
 export const uploadIndexingDatasourcesItems: API.OperationMethod<UploadIndexingDatasourcesItemsRequest, UploadIndexingDatasourcesItemsResponse, UploadIndexingDatasourcesItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadIndexingDatasourcesItemsRequest,
   output: UploadIndexingDatasourcesItemsResponse,
   errors: [],
 }));
 
-/** Polls for unreserved items from the indexing queue and marks a set as reserved, starting with items that have the oldest timestamp from the highest priority ItemStatus. The priority order is as follows: ERROR MODIFIED NEW_ITEM ACCEPTED Reserving items ensures that polling from other threads cannot create overlapping sets. After handling the reserved items, the client should put items back into the unreserved state, either by calling index, or by calling push with the type REQUEUE. Items automatically become available (unreserved) after 4 hours even if no update or push method is called. This API requires an admin or service account to execute. The service account used is the one whitelisted in the corresponding data source. */
 export interface PollIndexingDatasourcesItemsRequest {
   /** The name of the Data Source to poll items. Format: datasources/{source_id} */
   name: string;
@@ -4446,13 +4445,13 @@ export const PollIndexingDatasourcesItemsResponse = PollItemsResponse;
 
 export type PollIndexingDatasourcesItemsError = CommonErrors;
 
+/** Polls for unreserved items from the indexing queue and marks a set as reserved, starting with items that have the oldest timestamp from the highest priority ItemStatus. The priority order is as follows: ERROR MODIFIED NEW_ITEM ACCEPTED Reserving items ensures that polling from other threads cannot create overlapping sets. After handling the reserved items, the client should put items back into the unreserved state, either by calling index, or by calling push with the type REQUEUE. Items automatically become available (unreserved) after 4 hours even if no update or push method is called. This API requires an admin or service account to execute. The service account used is the one whitelisted in the corresponding data source. */
 export const pollIndexingDatasourcesItems: API.OperationMethod<PollIndexingDatasourcesItemsRequest, PollIndexingDatasourcesItemsResponse, PollIndexingDatasourcesItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PollIndexingDatasourcesItemsRequest,
   output: PollIndexingDatasourcesItemsResponse,
   errors: [],
 }));
 
-/** Pushes an item onto a queue for later polling and updating. This API requires an admin or service account to execute. The service account used is the one whitelisted in the corresponding data source. */
 export interface PushIndexingDatasourcesItemsRequest {
   /** The name of the item to push into the indexing queue. Format: datasources/{source_id}/items/{ID} This is a required field. The maximum length is 1536 characters. */
   name: string;
@@ -4473,13 +4472,13 @@ export const PushIndexingDatasourcesItemsResponse = Item;
 
 export type PushIndexingDatasourcesItemsError = CommonErrors;
 
+/** Pushes an item onto a queue for later polling and updating. This API requires an admin or service account to execute. The service account used is the one whitelisted in the corresponding data source. */
 export const pushIndexingDatasourcesItems: API.OperationMethod<PushIndexingDatasourcesItemsRequest, PushIndexingDatasourcesItemsResponse, PushIndexingDatasourcesItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PushIndexingDatasourcesItemsRequest,
   output: PushIndexingDatasourcesItemsResponse,
   errors: [],
 }));
 
-/** Unreserves all items from a queue, making them all eligible to be polled. This method is useful for resetting the indexing queue after a connector has been restarted. This API requires an admin or service account to execute. The service account used is the one whitelisted in the corresponding data source. */
 export interface UnreserveIndexingDatasourcesItemsRequest {
   /** The name of the Data Source to unreserve all items. Format: datasources/{source_id} */
   name: string;
@@ -4500,13 +4499,13 @@ export const UnreserveIndexingDatasourcesItemsResponse = Operation;
 
 export type UnreserveIndexingDatasourcesItemsError = CommonErrors;
 
+/** Unreserves all items from a queue, making them all eligible to be polled. This method is useful for resetting the indexing queue after a connector has been restarted. This API requires an admin or service account to execute. The service account used is the one whitelisted in the corresponding data source. */
 export const unreserveIndexingDatasourcesItems: API.OperationMethod<UnreserveIndexingDatasourcesItemsRequest, UnreserveIndexingDatasourcesItemsResponse, UnreserveIndexingDatasourcesItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UnreserveIndexingDatasourcesItemsRequest,
   output: UnreserveIndexingDatasourcesItemsResponse,
   errors: [],
 }));
 
-/** Deletes all items in a queue. This method is useful for deleting stale items. This API requires an admin or service account to execute. The service account used is the one whitelisted in the corresponding data source. */
 export interface DeleteQueueItemsIndexingDatasourcesItemsRequest {
   /** The name of the Data Source to delete items in a queue. Format: datasources/{source_id} */
   name: string;
@@ -4527,13 +4526,13 @@ export const DeleteQueueItemsIndexingDatasourcesItemsResponse = Operation;
 
 export type DeleteQueueItemsIndexingDatasourcesItemsError = CommonErrors;
 
+/** Deletes all items in a queue. This method is useful for deleting stale items. This API requires an admin or service account to execute. The service account used is the one whitelisted in the corresponding data source. */
 export const deleteQueueItemsIndexingDatasourcesItems: API.OperationMethod<DeleteQueueItemsIndexingDatasourcesItemsRequest, DeleteQueueItemsIndexingDatasourcesItemsResponse, DeleteQueueItemsIndexingDatasourcesItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteQueueItemsIndexingDatasourcesItemsRequest,
   output: DeleteQueueItemsIndexingDatasourcesItemsResponse,
   errors: [],
 }));
 
-/** Provides suggestions for autocompleting the query. **Note:** This API requires a standard end user account to execute. A service account can't perform Query API requests directly; to use a service account to perform queries, set up [Google Workspace domain-wide delegation of authority](https://developers.google.com/workspace/cloud-search/docs/guides/delegation/). */
 export interface SuggestQueryRequest {
   /** Request body */
   body?: SuggestRequest;
@@ -4551,13 +4550,13 @@ export const SuggestQueryResponse = SuggestResponse;
 
 export type SuggestQueryError = CommonErrors;
 
+/** Provides suggestions for autocompleting the query. **Note:** This API requires a standard end user account to execute. A service account can't perform Query API requests directly; to use a service account to perform queries, set up [Google Workspace domain-wide delegation of authority](https://developers.google.com/workspace/cloud-search/docs/guides/delegation/). */
 export const suggestQuery: API.OperationMethod<SuggestQueryRequest, SuggestQueryResponse, SuggestQueryError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SuggestQueryRequest,
   output: SuggestQueryResponse,
   errors: [],
 }));
 
-/** The Cloud Search Query API provides the search method, which returns the most relevant results from a user query. The results can come from Google Workspace apps, such as Gmail or Google Drive, or they can come from data that you have indexed from a third party. **Note:** This API requires a standard end user account to execute. A service account can't perform Query API requests directly; to use a service account to perform queries, set up [Google Workspace domain-wide delegation of authority](https://developers.google.com/workspace/cloud-search/docs/guides/delegation/). */
 export interface SearchQueryRequest {
   /** Request body */
   body?: SearchRequest;
@@ -4575,13 +4574,13 @@ export const SearchQueryResponse = SearchResponse;
 
 export type SearchQueryError = CommonErrors;
 
+/** The Cloud Search Query API provides the search method, which returns the most relevant results from a user query. The results can come from Google Workspace apps, such as Gmail or Google Drive, or they can come from data that you have indexed from a third party. **Note:** This API requires a standard end user account to execute. A service account can't perform Query API requests directly; to use a service account to perform queries, set up [Google Workspace domain-wide delegation of authority](https://developers.google.com/workspace/cloud-search/docs/guides/delegation/). */
 export const searchQuery: API.OperationMethod<SearchQueryRequest, SearchQueryResponse, SearchQueryError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchQueryRequest,
   output: SearchQueryResponse,
   errors: [],
 }));
 
-/** Provides functionality to remove logged activity for a user. Currently to be used only for Chat 1p clients **Note:** This API requires a standard end user account to execute. A service account can't perform Remove Activity requests directly; to use a service account to perform queries, set up [Google Workspace domain-wide delegation of authority](https://developers.google.com/workspace/cloud-search/docs/guides/delegation/). */
 export interface RemoveActivityQueryRequest {
   /** Request body */
   body?: RemoveActivityRequest;
@@ -4599,13 +4598,13 @@ export const RemoveActivityQueryResponse = RemoveActivityResponse;
 
 export type RemoveActivityQueryError = CommonErrors;
 
+/** Provides functionality to remove logged activity for a user. Currently to be used only for Chat 1p clients **Note:** This API requires a standard end user account to execute. A service account can't perform Remove Activity requests directly; to use a service account to perform queries, set up [Google Workspace domain-wide delegation of authority](https://developers.google.com/workspace/cloud-search/docs/guides/delegation/). */
 export const removeActivityQuery: API.OperationMethod<RemoveActivityQueryRequest, RemoveActivityQueryResponse, RemoveActivityQueryError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveActivityQueryRequest,
   output: RemoveActivityQueryResponse,
   errors: [],
 }));
 
-/** Returns list of sources that user can use for Search and Suggest APIs. **Note:** This API requires a standard end user account to execute. A service account can't perform Query API requests directly; to use a service account to perform queries, set up [Google Workspace domain-wide delegation of authority](https://developers.google.com/workspace/cloud-search/docs/guides/delegation/). */
 export interface ListQuerySourcesRequest {
   /** The BCP-47 language code, such as "en-US" or "sr-Latn". For more information, see http://www.unicode.org/reports/tr35/#Unicode_locale_identifier. For translations. Set this field using the language set in browser or for the page. In the event that the user's language preference is known, set this field to the known user language. When specified, the documents in search results are biased towards the specified language. The Suggest API uses this field as a hint to make better third-party autocomplete predictions. */
   "requestOptions.languageCode"?: string;
@@ -4635,7 +4634,8 @@ export const ListQuerySourcesResponse_Op = ListQuerySourcesResponse;
 
 export type ListQuerySourcesError = CommonErrors;
 
-export const listQuerySources = API.makePaginated(() => ({
+/** Returns list of sources that user can use for Search and Suggest APIs. **Note:** This API requires a standard end user account to execute. A service account can't perform Query API requests directly; to use a service account to perform queries, set up [Google Workspace domain-wide delegation of authority](https://developers.google.com/workspace/cloud-search/docs/guides/delegation/). */
+export const listQuerySources: API.PaginatedOperationMethod<ListQuerySourcesRequest, ListQuerySourcesResponse_Op, ListQuerySourcesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListQuerySourcesRequest,
   output: ListQuerySourcesResponse_Op,
   errors: [],
@@ -4645,7 +4645,6 @@ export const listQuerySources = API.makePaginated(() => ({
   },
 }));
 
-/** Gets indexed item statistics aggreggated across all data sources. This API only returns statistics for previous dates; it doesn't return statistics for the current day. **Note:** This API requires a standard end user account to execute. */
 export interface GetIndexStatsRequest {
   /** Year of date. Must be from 1 to 9999. */
   "fromDate.year"?: number;
@@ -4678,13 +4677,13 @@ export const GetIndexStatsResponse = GetCustomerIndexStatsResponse;
 
 export type GetIndexStatsError = CommonErrors;
 
+/** Gets indexed item statistics aggreggated across all data sources. This API only returns statistics for previous dates; it doesn't return statistics for the current day. **Note:** This API requires a standard end user account to execute. */
 export const getIndexStats: API.OperationMethod<GetIndexStatsRequest, GetIndexStatsResponse, GetIndexStatsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIndexStatsRequest,
   output: GetIndexStatsResponse,
   errors: [],
 }));
 
-/** Get the query statistics for customer. **Note:** This API requires a standard end user account to execute. */
 export interface GetQueryStatsRequest {
   /** Year of date. Must be from 1 to 9999. */
   "fromDate.year"?: number;
@@ -4717,13 +4716,13 @@ export const GetQueryStatsResponse = GetCustomerQueryStatsResponse;
 
 export type GetQueryStatsError = CommonErrors;
 
+/** Get the query statistics for customer. **Note:** This API requires a standard end user account to execute. */
 export const getQueryStats: API.OperationMethod<GetQueryStatsRequest, GetQueryStatsResponse, GetQueryStatsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetQueryStatsRequest,
   output: GetQueryStatsResponse,
   errors: [],
 }));
 
-/** Get the users statistics for customer. **Note:** This API requires a standard end user account to execute. */
 export interface GetUserStatsRequest {
   /** Year of date. Must be from 1 to 9999. */
   "fromDate.year"?: number;
@@ -4756,13 +4755,13 @@ export const GetUserStatsResponse = GetCustomerUserStatsResponse;
 
 export type GetUserStatsError = CommonErrors;
 
+/** Get the users statistics for customer. **Note:** This API requires a standard end user account to execute. */
 export const getUserStats: API.OperationMethod<GetUserStatsRequest, GetUserStatsResponse, GetUserStatsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetUserStatsRequest,
   output: GetUserStatsResponse,
   errors: [],
 }));
 
-/** Get the # of search sessions, % of successful sessions with a click query statistics for customer. **Note:** This API requires a standard end user account to execute. */
 export interface GetSessionStatsRequest {
   /** Year of date. Must be from 1 to 9999. */
   "fromDate.year"?: number;
@@ -4795,13 +4794,13 @@ export const GetSessionStatsResponse = GetCustomerSessionStatsResponse;
 
 export type GetSessionStatsError = CommonErrors;
 
+/** Get the # of search sessions, % of successful sessions with a click query statistics for customer. **Note:** This API requires a standard end user account to execute. */
 export const getSessionStats: API.OperationMethod<GetSessionStatsRequest, GetSessionStatsResponse, GetSessionStatsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSessionStatsRequest,
   output: GetSessionStatsResponse,
   errors: [],
 }));
 
-/** Get search application stats for customer. **Note:** This API requires a standard end user account to execute. */
 export interface GetSearchapplicationStatsRequest {
   /** Year of date. Must be from 1 to 9999. */
   "startDate.year"?: number;
@@ -4834,13 +4833,13 @@ export const GetSearchapplicationStatsResponse = GetCustomerSearchApplicationSta
 
 export type GetSearchapplicationStatsError = CommonErrors;
 
+/** Get search application stats for customer. **Note:** This API requires a standard end user account to execute. */
 export const getSearchapplicationStats: API.OperationMethod<GetSearchapplicationStatsRequest, GetSearchapplicationStatsResponse, GetSearchapplicationStatsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSearchapplicationStatsRequest,
   output: GetSearchapplicationStatsResponse,
   errors: [],
 }));
 
-/** Gets indexed item statistics for a single data source. **Note:** This API requires a standard end user account to execute. */
 export interface GetStatsIndexDatasourcesRequest {
   /** The resource id of the data source to retrieve statistics for, in the following format: "datasources/{source_id}" */
   name: string;
@@ -4876,13 +4875,13 @@ export const GetStatsIndexDatasourcesResponse = GetDataSourceIndexStatsResponse;
 
 export type GetStatsIndexDatasourcesError = CommonErrors;
 
+/** Gets indexed item statistics for a single data source. **Note:** This API requires a standard end user account to execute. */
 export const getStatsIndexDatasources: API.OperationMethod<GetStatsIndexDatasourcesRequest, GetStatsIndexDatasourcesResponse, GetStatsIndexDatasourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetStatsIndexDatasourcesRequest,
   output: GetStatsIndexDatasourcesResponse,
   errors: [],
 }));
 
-/** Get the query statistics for search application. **Note:** This API requires a standard end user account to execute. */
 export interface GetStatsQuerySearchapplicationsRequest {
   /** The resource id of the search application query stats, in the following format: searchapplications/{application_id} */
   name: string;
@@ -4918,13 +4917,13 @@ export const GetStatsQuerySearchapplicationsResponse = GetSearchApplicationQuery
 
 export type GetStatsQuerySearchapplicationsError = CommonErrors;
 
+/** Get the query statistics for search application. **Note:** This API requires a standard end user account to execute. */
 export const getStatsQuerySearchapplications: API.OperationMethod<GetStatsQuerySearchapplicationsRequest, GetStatsQuerySearchapplicationsResponse, GetStatsQuerySearchapplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetStatsQuerySearchapplicationsRequest,
   output: GetStatsQuerySearchapplicationsResponse,
   errors: [],
 }));
 
-/** Get the users statistics for search application. **Note:** This API requires a standard end user account to execute. */
 export interface GetStatsUserSearchapplicationsRequest {
   /** The resource id of the search application session stats, in the following format: searchapplications/{application_id} */
   name: string;
@@ -4960,13 +4959,13 @@ export const GetStatsUserSearchapplicationsResponse = GetSearchApplicationUserSt
 
 export type GetStatsUserSearchapplicationsError = CommonErrors;
 
+/** Get the users statistics for search application. **Note:** This API requires a standard end user account to execute. */
 export const getStatsUserSearchapplications: API.OperationMethod<GetStatsUserSearchapplicationsRequest, GetStatsUserSearchapplicationsResponse, GetStatsUserSearchapplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetStatsUserSearchapplicationsRequest,
   output: GetStatsUserSearchapplicationsResponse,
   errors: [],
 }));
 
-/** Get the # of search sessions, % of successful sessions with a click query statistics for search application. **Note:** This API requires a standard end user account to execute. */
 export interface GetStatsSessionSearchapplicationsRequest {
   /** The resource id of the search application session stats, in the following format: searchapplications/{application_id} */
   name: string;
@@ -5002,13 +5001,13 @@ export const GetStatsSessionSearchapplicationsResponse = GetSearchApplicationSes
 
 export type GetStatsSessionSearchapplicationsError = CommonErrors;
 
+/** Get the # of search sessions, % of successful sessions with a click query statistics for search application. **Note:** This API requires a standard end user account to execute. */
 export const getStatsSessionSearchapplications: API.OperationMethod<GetStatsSessionSearchapplicationsRequest, GetStatsSessionSearchapplicationsResponse, GetStatsSessionSearchapplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetStatsSessionSearchapplicationsRequest,
   output: GetStatsSessionSearchapplicationsResponse,
   errors: [],
 }));
 
-/** Uploads media for indexing. The upload endpoint supports direct and resumable upload protocols and is intended for large items that can not be [inlined during index requests](https://developers.google.com/workspace/cloud-search/docs/reference/rest/v1/indexing.datasources.items#itemcontent). To index large content: 1. Call indexing.datasources.items.upload with the item name to begin an upload session and retrieve the UploadItemRef. 1. Call media.upload to upload the content, as a streaming request, using the same resource name from the UploadItemRef from step 1. 1. Call indexing.datasources.items.index to index the item. Populate the [ItemContent](/cloud-search/docs/reference/rest/v1/indexing.datasources.items#ItemContent) with the UploadItemRef from step 1. For additional information, see [Create a content connector using the REST API](https://developers.google.com/workspace/cloud-search/docs/guides/content-connector#rest). **Note:** This API requires a service account to execute. */
 export interface UploadMediaRequest {
   /** Name of the media that is being downloaded. See ReadRequest.resource_name. */
   resourceName: string;
@@ -5029,6 +5028,7 @@ export const UploadMediaResponse = Media;
 
 export type UploadMediaError = CommonErrors;
 
+/** Uploads media for indexing. The upload endpoint supports direct and resumable upload protocols and is intended for large items that can not be [inlined during index requests](https://developers.google.com/workspace/cloud-search/docs/reference/rest/v1/indexing.datasources.items#itemcontent). To index large content: 1. Call indexing.datasources.items.upload with the item name to begin an upload session and retrieve the UploadItemRef. 1. Call media.upload to upload the content, as a streaming request, using the same resource name from the UploadItemRef from step 1. 1. Call indexing.datasources.items.index to index the item. Populate the [ItemContent](/cloud-search/docs/reference/rest/v1/indexing.datasources.items#ItemContent) with the UploadItemRef from step 1. For additional information, see [Create a content connector using the REST API](https://developers.google.com/workspace/cloud-search/docs/guides/content-connector#rest). **Note:** This API requires a service account to execute. */
 export const uploadMedia: API.OperationMethod<UploadMediaRequest, UploadMediaResponse, UploadMediaError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadMediaRequest,
   output: UploadMediaResponse,

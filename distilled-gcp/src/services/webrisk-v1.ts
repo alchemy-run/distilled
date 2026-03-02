@@ -243,7 +243,6 @@ export const GoogleCloudWebriskV1Submission: Schema.Schema<GoogleCloudWebriskV1S
 // Operations
 // ==========================================================================
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -273,7 +272,8 @@ export const ListProjectsOperationsResponse = GoogleLongrunningListOperationsRes
 
 export type ListProjectsOperationsError = CommonErrors;
 
-export const listProjectsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsOperations: API.PaginatedOperationMethod<ListProjectsOperationsRequest, ListProjectsOperationsResponse, ListProjectsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsOperationsRequest,
   output: ListProjectsOperationsResponse,
   errors: [],
@@ -283,7 +283,6 @@ export const listProjectsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -301,13 +300,13 @@ export const GetProjectsOperationsResponse = GoogleLongrunningOperation;
 
 export type GetProjectsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsOperations: API.OperationMethod<GetProjectsOperationsRequest, GetProjectsOperationsResponse, GetProjectsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsOperationsRequest,
   output: GetProjectsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -325,13 +324,13 @@ export const DeleteProjectsOperationsResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsOperations: API.OperationMethod<DeleteProjectsOperationsRequest, DeleteProjectsOperationsResponse, DeleteProjectsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsOperationsRequest,
   output: DeleteProjectsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -352,13 +351,13 @@ export const CancelProjectsOperationsResponse = GoogleProtobufEmpty;
 
 export type CancelProjectsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsOperations: API.OperationMethod<CancelProjectsOperationsRequest, CancelProjectsOperationsResponse, CancelProjectsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsOperationsRequest,
   output: CancelProjectsOperationsResponse,
   errors: [],
 }));
 
-/** Creates a Submission of a URI suspected of containing phishing content to be reviewed. If the result verifies the existence of malicious phishing content, the site will be added to the [Google's Social Engineering lists](https://support.google.com/webmasters/answer/6350487/) in order to protect users that could get exposed to this threat in the future. Only allowlisted projects can use this method during Early Access. Please reach out to Sales or your customer engineer to obtain access. */
 export interface CreateProjectsSubmissionsRequest {
   /** Required. The name of the project that is making the submission. This string is in the format "projects/{project_number}". */
   parent: string;
@@ -379,13 +378,13 @@ export const CreateProjectsSubmissionsResponse = GoogleCloudWebriskV1Submission;
 
 export type CreateProjectsSubmissionsError = CommonErrors;
 
+/** Creates a Submission of a URI suspected of containing phishing content to be reviewed. If the result verifies the existence of malicious phishing content, the site will be added to the [Google's Social Engineering lists](https://support.google.com/webmasters/answer/6350487/) in order to protect users that could get exposed to this threat in the future. Only allowlisted projects can use this method during Early Access. Please reach out to Sales or your customer engineer to obtain access. */
 export const createProjectsSubmissions: API.OperationMethod<CreateProjectsSubmissionsRequest, CreateProjectsSubmissionsResponse, CreateProjectsSubmissionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsSubmissionsRequest,
   output: CreateProjectsSubmissionsResponse,
   errors: [],
 }));
 
-/** Gets the most recent threat list diffs. These diffs should be applied to a local database of hashes to keep it up-to-date. If the local database is empty or excessively out-of-date, a complete snapshot of the database will be returned. This Method only updates a single ThreatList at a time. To update multiple ThreatList databases, this method needs to be called once for each list. */
 export interface ComputeDiffThreatListsRequest {
   /** Required. The threat list to update. Only a single ThreatType should be specified per request. If you want to handle multiple ThreatTypes, you must make one request per ThreatType. */
   threatType?: "THREAT_TYPE_UNSPECIFIED" | "MALWARE" | "SOCIAL_ENGINEERING" | "UNWANTED_SOFTWARE" | "SOCIAL_ENGINEERING_EXTENDED_COVERAGE" | (string & {});
@@ -415,13 +414,13 @@ export const ComputeDiffThreatListsResponse = GoogleCloudWebriskV1ComputeThreatL
 
 export type ComputeDiffThreatListsError = CommonErrors;
 
+/** Gets the most recent threat list diffs. These diffs should be applied to a local database of hashes to keep it up-to-date. If the local database is empty or excessively out-of-date, a complete snapshot of the database will be returned. This Method only updates a single ThreatList at a time. To update multiple ThreatList databases, this method needs to be called once for each list. */
 export const computeDiffThreatLists: API.OperationMethod<ComputeDiffThreatListsRequest, ComputeDiffThreatListsResponse, ComputeDiffThreatListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ComputeDiffThreatListsRequest,
   output: ComputeDiffThreatListsResponse,
   errors: [],
 }));
 
-/** This method is used to check whether a URI is on a given threatList. Multiple threatLists may be searched in a single query. The response will list all requested threatLists the URI was found to match. If the URI is not found on any of the requested ThreatList an empty response will be returned. */
 export interface SearchUrisRequest {
   /** Required. The URI to be checked for matches. */
   uri?: string;
@@ -442,13 +441,13 @@ export const SearchUrisResponse = GoogleCloudWebriskV1SearchUrisResponse;
 
 export type SearchUrisError = CommonErrors;
 
+/** This method is used to check whether a URI is on a given threatList. Multiple threatLists may be searched in a single query. The response will list all requested threatLists the URI was found to match. If the URI is not found on any of the requested ThreatList an empty response will be returned. */
 export const searchUris: API.OperationMethod<SearchUrisRequest, SearchUrisResponse, SearchUrisError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchUrisRequest,
   output: SearchUrisResponse,
   errors: [],
 }));
 
-/** Gets the full hashes that match the requested hash prefix. This is used after a hash prefix is looked up in a threatList and there is a match. The client side threatList only holds partial hashes so the client must query this method to determine if there is a full hash match of a threat. */
 export interface SearchHashesRequest {
   /** A hash prefix, consisting of the most significant 4-32 bytes of a SHA256 hash. For JSON requests, this field is base64-encoded. Note that if this parameter is provided by a URI, it must be encoded using the web safe base64 variant (RFC 4648). */
   hashPrefix?: string;
@@ -469,6 +468,7 @@ export const SearchHashesResponse = GoogleCloudWebriskV1SearchHashesResponse;
 
 export type SearchHashesError = CommonErrors;
 
+/** Gets the full hashes that match the requested hash prefix. This is used after a hash prefix is looked up in a threatList and there is a match. The client side threatList only holds partial hashes so the client must query this method to determine if there is a full hash match of a threat. */
 export const searchHashes: API.OperationMethod<SearchHashesRequest, SearchHashesResponse, SearchHashesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchHashesRequest,
   output: SearchHashesResponse,

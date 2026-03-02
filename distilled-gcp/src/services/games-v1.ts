@@ -1421,7 +1421,6 @@ export const AchievementSetStepsAtLeastResponse: Schema.Schema<AchievementSetSte
 // Operations
 // ==========================================================================
 
-/** Generates a Play Grouping API token for the PGS user identified by the Recall session ID provided in the request. */
 export interface GenerateRecallPlayGroupingApiTokenAccesstokensRequest {
   /** Required. Opaque server-generated string that encodes all the necessary information to identify the PGS player / Google user and application. See https://developer.android.com/games/pgs/recall/recall-setup on how to integrate with Recall and get session ID. */
   recallSessionId?: string;
@@ -1445,13 +1444,13 @@ export const GenerateRecallPlayGroupingApiTokenAccesstokensResponse = GenerateRe
 
 export type GenerateRecallPlayGroupingApiTokenAccesstokensError = CommonErrors;
 
+/** Generates a Play Grouping API token for the PGS user identified by the Recall session ID provided in the request. */
 export const generateRecallPlayGroupingApiTokenAccesstokens: API.OperationMethod<GenerateRecallPlayGroupingApiTokenAccesstokensRequest, GenerateRecallPlayGroupingApiTokenAccesstokensResponse, GenerateRecallPlayGroupingApiTokenAccesstokensError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateRecallPlayGroupingApiTokenAccesstokensRequest,
   output: GenerateRecallPlayGroupingApiTokenAccesstokensResponse,
   errors: [],
 }));
 
-/** Generates a Play Grouping API token for the PGS user identified by the attached credential. */
 export interface GeneratePlayGroupingApiTokenAccesstokensRequest {
   /** Required. App package name to generate the token for (e.g. com.example.mygame). */
   packageName?: string;
@@ -1472,13 +1471,13 @@ export const GeneratePlayGroupingApiTokenAccesstokensResponse = GeneratePlayGrou
 
 export type GeneratePlayGroupingApiTokenAccesstokensError = CommonErrors;
 
+/** Generates a Play Grouping API token for the PGS user identified by the attached credential. */
 export const generatePlayGroupingApiTokenAccesstokens: API.OperationMethod<GeneratePlayGroupingApiTokenAccesstokensRequest, GeneratePlayGroupingApiTokenAccesstokensResponse, GeneratePlayGroupingApiTokenAccesstokensError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GeneratePlayGroupingApiTokenAccesstokensRequest,
   output: GeneratePlayGroupingApiTokenAccesstokensResponse,
   errors: [],
 }));
 
-/** Retrieves a list of snapshots created by your application for the player corresponding to the player ID. */
 export interface ListSnapshotsRequest {
   /** A player ID. A value of `me` may be used in place of the authenticated player's ID. */
   playerId: string;
@@ -1505,7 +1504,8 @@ export const ListSnapshotsResponse = SnapshotListResponse;
 
 export type ListSnapshotsError = CommonErrors;
 
-export const listSnapshots = API.makePaginated(() => ({
+/** Retrieves a list of snapshots created by your application for the player corresponding to the player ID. */
+export const listSnapshots: API.PaginatedOperationMethod<ListSnapshotsRequest, ListSnapshotsResponse, ListSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListSnapshotsRequest,
   output: ListSnapshotsResponse,
   errors: [],
@@ -1516,7 +1516,6 @@ export const listSnapshots = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves the metadata for a given snapshot ID. */
 export interface GetSnapshotsRequest {
   /** The preferred language to use for strings returned by this method. */
   language?: string;
@@ -1537,13 +1536,13 @@ export const GetSnapshotsResponse = Snapshot;
 
 export type GetSnapshotsError = CommonErrors;
 
+/** Retrieves the metadata for a given snapshot ID. */
 export const getSnapshots: API.OperationMethod<GetSnapshotsRequest, GetSnapshotsResponse, GetSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSnapshotsRequest,
   output: GetSnapshotsResponse,
   errors: [],
 }));
 
-/** Retrieve the Recall tokens from all requested games that is associated with the PGS Player encoded in the provided recall session id. The API is only available for users that have an active PGS Player profile. */
 export interface GamesPlayerTokensRecallRequest {
   /** Required. The application IDs from the Google Play developer console for the games to return scoped ids for. */
   applicationIds?: string[];
@@ -1564,13 +1563,13 @@ export const GamesPlayerTokensRecallResponse = RetrieveGamesPlayerTokensResponse
 
 export type GamesPlayerTokensRecallError = CommonErrors;
 
+/** Retrieve the Recall tokens from all requested games that is associated with the PGS Player encoded in the provided recall session id. The API is only available for users that have an active PGS Player profile. */
 export const gamesPlayerTokensRecall: API.OperationMethod<GamesPlayerTokensRecallRequest, GamesPlayerTokensRecallResponse, GamesPlayerTokensRecallError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GamesPlayerTokensRecallRequest,
   output: GamesPlayerTokensRecallResponse,
   errors: [],
 }));
 
-/** Retrieve all Recall tokens associated with the PGS Player encoded in the provided recall session id. The API is only available for users that have active PGS Player profile. */
 export interface RetrieveTokensRecallRequest {
   /** Required. Opaque server-generated string that encodes all the necessary information to identify the PGS player / Google user and application. */
   sessionId: string;
@@ -1588,13 +1587,13 @@ export const RetrieveTokensRecallResponse = RetrievePlayerTokensResponse;
 
 export type RetrieveTokensRecallError = CommonErrors;
 
+/** Retrieve all Recall tokens associated with the PGS Player encoded in the provided recall session id. The API is only available for users that have active PGS Player profile. */
 export const retrieveTokensRecall: API.OperationMethod<RetrieveTokensRecallRequest, RetrieveTokensRecallResponse, RetrieveTokensRecallError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RetrieveTokensRecallRequest,
   output: RetrieveTokensRecallResponse,
   errors: [],
 }));
 
-/** Retrieve the last Recall token from all developer games that is associated with the PGS Player encoded in the provided recall session id. The API is only available for users that have active PGS Player profile. */
 export interface LastTokenFromAllDeveloperGamesRecallRequest {
   /** Required. Opaque server-generated string that encodes all the necessary information to identify the PGS player / Google user and application. */
   sessionId: string;
@@ -1612,13 +1611,13 @@ export const LastTokenFromAllDeveloperGamesRecallResponse = RetrieveDeveloperGam
 
 export type LastTokenFromAllDeveloperGamesRecallError = CommonErrors;
 
+/** Retrieve the last Recall token from all developer games that is associated with the PGS Player encoded in the provided recall session id. The API is only available for users that have active PGS Player profile. */
 export const lastTokenFromAllDeveloperGamesRecall: API.OperationMethod<LastTokenFromAllDeveloperGamesRecallRequest, LastTokenFromAllDeveloperGamesRecallResponse, LastTokenFromAllDeveloperGamesRecallError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LastTokenFromAllDeveloperGamesRecallRequest,
   output: LastTokenFromAllDeveloperGamesRecallResponse,
   errors: [],
 }));
 
-/** Delete a Recall token linking the PGS Player principal identified by the Recall session and an in-game account identified either by the 'persona' or by the token value. */
 export interface UnlinkPersonaRecallRequest {
   /** Request body */
   body?: UnlinkPersonaRequest;
@@ -1636,13 +1635,13 @@ export const UnlinkPersonaRecallResponse = UnlinkPersonaResponse;
 
 export type UnlinkPersonaRecallError = CommonErrors;
 
+/** Delete a Recall token linking the PGS Player principal identified by the Recall session and an in-game account identified either by the 'persona' or by the token value. */
 export const unlinkPersonaRecall: API.OperationMethod<UnlinkPersonaRecallRequest, UnlinkPersonaRecallResponse, UnlinkPersonaRecallError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UnlinkPersonaRecallRequest,
   output: UnlinkPersonaRecallResponse,
   errors: [],
 }));
 
-/** Delete all Recall tokens linking the given persona to any player (with or without a profile). */
 export interface ResetPersonaRecallRequest {
   /** Request body */
   body?: ResetPersonaRequest;
@@ -1660,13 +1659,13 @@ export const ResetPersonaRecallResponse = ResetPersonaResponse;
 
 export type ResetPersonaRecallError = CommonErrors;
 
+/** Delete all Recall tokens linking the given persona to any player (with or without a profile). */
 export const resetPersonaRecall: API.OperationMethod<ResetPersonaRecallRequest, ResetPersonaRecallResponse, ResetPersonaRecallError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetPersonaRecallRequest,
   output: ResetPersonaRecallResponse,
   errors: [],
 }));
 
-/** Associate the PGS Player principal encoded in the provided recall session id with an in-game account */
 export interface LinkPersonaRecallRequest {
   /** Request body */
   body?: LinkPersonaRequest;
@@ -1684,13 +1683,13 @@ export const LinkPersonaRecallResponse = LinkPersonaResponse;
 
 export type LinkPersonaRecallError = CommonErrors;
 
+/** Associate the PGS Player principal encoded in the provided recall session id with an in-game account */
 export const linkPersonaRecall: API.OperationMethod<LinkPersonaRecallRequest, LinkPersonaRecallResponse, LinkPersonaRecallError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LinkPersonaRecallRequest,
   output: LinkPersonaRecallResponse,
   errors: [],
 }));
 
-/** Lists all the achievement definitions for your application. */
 export interface ListAchievementDefinitionsRequest {
   /** The preferred language to use for strings returned by this method. */
   language?: string;
@@ -1714,7 +1713,8 @@ export const ListAchievementDefinitionsResponse = AchievementDefinitionsListResp
 
 export type ListAchievementDefinitionsError = CommonErrors;
 
-export const listAchievementDefinitions = API.makePaginated(() => ({
+/** Lists all the achievement definitions for your application. */
+export const listAchievementDefinitions: API.PaginatedOperationMethod<ListAchievementDefinitionsRequest, ListAchievementDefinitionsResponse, ListAchievementDefinitionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAchievementDefinitionsRequest,
   output: ListAchievementDefinitionsResponse,
   errors: [],
@@ -1725,7 +1725,6 @@ export const listAchievementDefinitions = API.makePaginated(() => ({
   },
 }));
 
-/** List play data aggregated per category for the player corresponding to `playerId`. */
 export interface ListCategoriesByPlayerMetagameRequest {
   /** The preferred language to use for strings returned by this method. */
   language?: string;
@@ -1755,7 +1754,8 @@ export const ListCategoriesByPlayerMetagameResponse = CategoryListResponse;
 
 export type ListCategoriesByPlayerMetagameError = CommonErrors;
 
-export const listCategoriesByPlayerMetagame = API.makePaginated(() => ({
+/** List play data aggregated per category for the player corresponding to `playerId`. */
+export const listCategoriesByPlayerMetagame: API.PaginatedOperationMethod<ListCategoriesByPlayerMetagameRequest, ListCategoriesByPlayerMetagameResponse, ListCategoriesByPlayerMetagameError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCategoriesByPlayerMetagameRequest,
   output: ListCategoriesByPlayerMetagameResponse,
   errors: [],
@@ -1766,7 +1766,6 @@ export const listCategoriesByPlayerMetagame = API.makePaginated(() => ({
   },
 }));
 
-/** Return the metagame configuration data for the calling application. */
 export interface GetMetagameConfigMetagameRequest {
 }
 
@@ -1781,13 +1780,13 @@ export const GetMetagameConfigMetagameResponse = MetagameConfig;
 
 export type GetMetagameConfigMetagameError = CommonErrors;
 
+/** Return the metagame configuration data for the calling application. */
 export const getMetagameConfigMetagame: API.OperationMethod<GetMetagameConfigMetagameRequest, GetMetagameConfigMetagameResponse, GetMetagameConfigMetagameError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetMetagameConfigMetagameRequest,
   output: GetMetagameConfigMetagameResponse,
   errors: [],
 }));
 
-/** Retrieves the metadata of the leaderboard with the given ID. */
 export interface GetLeaderboardsRequest {
   /** The preferred language to use for strings returned by this method. */
   language?: string;
@@ -1808,13 +1807,13 @@ export const GetLeaderboardsResponse = Leaderboard;
 
 export type GetLeaderboardsError = CommonErrors;
 
+/** Retrieves the metadata of the leaderboard with the given ID. */
 export const getLeaderboards: API.OperationMethod<GetLeaderboardsRequest, GetLeaderboardsResponse, GetLeaderboardsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetLeaderboardsRequest,
   output: GetLeaderboardsResponse,
   errors: [],
 }));
 
-/** Lists all the leaderboard metadata for your application. */
 export interface ListLeaderboardsRequest {
   /** The token returned by the previous request. */
   pageToken?: string;
@@ -1838,7 +1837,8 @@ export const ListLeaderboardsResponse = LeaderboardListResponse;
 
 export type ListLeaderboardsError = CommonErrors;
 
-export const listLeaderboards = API.makePaginated(() => ({
+/** Lists all the leaderboard metadata for your application. */
+export const listLeaderboards: API.PaginatedOperationMethod<ListLeaderboardsRequest, ListLeaderboardsResponse, ListLeaderboardsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListLeaderboardsRequest,
   output: ListLeaderboardsResponse,
   errors: [],
@@ -1849,7 +1849,6 @@ export const listLeaderboards = API.makePaginated(() => ({
   },
 }));
 
-/** Updates multiple achievements for the currently authenticated player. */
 export interface UpdateMultipleAchievementsRequest {
   /** Request body */
   body?: AchievementUpdateMultipleRequest;
@@ -1867,13 +1866,13 @@ export const UpdateMultipleAchievementsResponse = AchievementUpdateMultipleRespo
 
 export type UpdateMultipleAchievementsError = CommonErrors;
 
+/** Updates multiple achievements for the currently authenticated player. */
 export const updateMultipleAchievements: API.OperationMethod<UpdateMultipleAchievementsRequest, UpdateMultipleAchievementsResponse, UpdateMultipleAchievementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateMultipleAchievementsRequest,
   output: UpdateMultipleAchievementsResponse,
   errors: [],
 }));
 
-/** Increments the steps of the achievement with the given ID for the currently authenticated player. */
 export interface IncrementAchievementsRequest {
   /** A randomly generated numeric ID for each request specified by the caller. This number is used at the server to ensure that the request is handled correctly across retries. */
   requestId?: string;
@@ -1897,13 +1896,13 @@ export const IncrementAchievementsResponse = AchievementIncrementResponse;
 
 export type IncrementAchievementsError = CommonErrors;
 
+/** Increments the steps of the achievement with the given ID for the currently authenticated player. */
 export const incrementAchievements: API.OperationMethod<IncrementAchievementsRequest, IncrementAchievementsResponse, IncrementAchievementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: IncrementAchievementsRequest,
   output: IncrementAchievementsResponse,
   errors: [],
 }));
 
-/** Sets the state of the achievement with the given ID to `REVEALED` for the currently authenticated player. */
 export interface RevealAchievementsRequest {
   /** The ID of the achievement used by this method. */
   achievementId: string;
@@ -1921,13 +1920,13 @@ export const RevealAchievementsResponse = AchievementRevealResponse;
 
 export type RevealAchievementsError = CommonErrors;
 
+/** Sets the state of the achievement with the given ID to `REVEALED` for the currently authenticated player. */
 export const revealAchievements: API.OperationMethod<RevealAchievementsRequest, RevealAchievementsResponse, RevealAchievementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RevealAchievementsRequest,
   output: RevealAchievementsResponse,
   errors: [],
 }));
 
-/** Sets the steps for the currently authenticated player towards unlocking an achievement. If the steps parameter is less than the current number of steps that the player already gained for the achievement, the achievement is not modified. */
 export interface SetStepsAtLeastAchievementsRequest {
   /** Required. The minimum value to set the steps to. */
   steps: number;
@@ -1948,13 +1947,13 @@ export const SetStepsAtLeastAchievementsResponse = AchievementSetStepsAtLeastRes
 
 export type SetStepsAtLeastAchievementsError = CommonErrors;
 
+/** Sets the steps for the currently authenticated player towards unlocking an achievement. If the steps parameter is less than the current number of steps that the player already gained for the achievement, the achievement is not modified. */
 export const setStepsAtLeastAchievements: API.OperationMethod<SetStepsAtLeastAchievementsRequest, SetStepsAtLeastAchievementsResponse, SetStepsAtLeastAchievementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetStepsAtLeastAchievementsRequest,
   output: SetStepsAtLeastAchievementsResponse,
   errors: [],
 }));
 
-/** Unlocks this achievement for the currently authenticated player. */
 export interface UnlockAchievementsRequest {
   /** The ID of the achievement used by this method. */
   achievementId: string;
@@ -1972,13 +1971,13 @@ export const UnlockAchievementsResponse = AchievementUnlockResponse;
 
 export type UnlockAchievementsError = CommonErrors;
 
+/** Unlocks this achievement for the currently authenticated player. */
 export const unlockAchievements: API.OperationMethod<UnlockAchievementsRequest, UnlockAchievementsResponse, UnlockAchievementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UnlockAchievementsRequest,
   output: UnlockAchievementsResponse,
   errors: [],
 }));
 
-/** Lists the progress for all your application's achievements for the currently authenticated player. */
 export interface ListAchievementsRequest {
   /** The preferred language to use for strings returned by this method. */
   language?: string;
@@ -2008,7 +2007,8 @@ export const ListAchievementsResponse = PlayerAchievementListResponse;
 
 export type ListAchievementsError = CommonErrors;
 
-export const listAchievements = API.makePaginated(() => ({
+/** Lists the progress for all your application's achievements for the currently authenticated player. */
+export const listAchievements: API.PaginatedOperationMethod<ListAchievementsRequest, ListAchievementsResponse, ListAchievementsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAchievementsRequest,
   output: ListAchievementsResponse,
   errors: [],
@@ -2019,7 +2019,6 @@ export const listAchievements = API.makePaginated(() => ({
   },
 }));
 
-/** Returns engagement and spend statistics in this application for the currently authenticated user. */
 export interface GetStatsRequest {
 }
 
@@ -2034,13 +2033,13 @@ export const GetStatsResponse = StatsResponse;
 
 export type GetStatsError = CommonErrors;
 
+/** Returns engagement and spend statistics in this application for the currently authenticated user. */
 export const getStats: API.OperationMethod<GetStatsRequest, GetStatsResponse, GetStatsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetStatsRequest,
   output: GetStatsResponse,
   errors: [],
 }));
 
-/** Retrieves the Player resource with the given ID. To retrieve the player for the currently authenticated user, set `playerId` to `me`. */
 export interface GetPlayersRequest {
   /** Consistency token of the player id. The call returns a 'not found' result when the token is present and invalid. Empty value is ignored. See also GlobalPlayerIdConsistencyTokenProto */
   playerIdConsistencyToken?: string;
@@ -2064,13 +2063,13 @@ export const GetPlayersResponse = Player;
 
 export type GetPlayersError = CommonErrors;
 
+/** Retrieves the Player resource with the given ID. To retrieve the player for the currently authenticated user, set `playerId` to `me`. */
 export const getPlayers: API.OperationMethod<GetPlayersRequest, GetPlayersResponse, GetPlayersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPlayersRequest,
   output: GetPlayersResponse,
   errors: [],
 }));
 
-/** Get the application player ids for the currently authenticated player across all requested games by the same developer as the calling application. This will only return ids for players that actually have an id (scoped or otherwise) with that game. */
 export interface GetMultipleApplicationPlayerIdsPlayersRequest {
   /** Required. The application IDs from the Google Play developer console for the games to return scoped ids for. */
   applicationIds?: string[];
@@ -2088,13 +2087,13 @@ export const GetMultipleApplicationPlayerIdsPlayersResponse = GetMultipleApplica
 
 export type GetMultipleApplicationPlayerIdsPlayersError = CommonErrors;
 
+/** Get the application player ids for the currently authenticated player across all requested games by the same developer as the calling application. This will only return ids for players that actually have an id (scoped or otherwise) with that game. */
 export const getMultipleApplicationPlayerIdsPlayers: API.OperationMethod<GetMultipleApplicationPlayerIdsPlayersRequest, GetMultipleApplicationPlayerIdsPlayersResponse, GetMultipleApplicationPlayerIdsPlayersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetMultipleApplicationPlayerIdsPlayersRequest,
   output: GetMultipleApplicationPlayerIdsPlayersResponse,
   errors: [],
 }));
 
-/** Get the collection of players for the currently authenticated user. */
 export interface ListPlayersRequest {
   /** The preferred language to use for strings returned by this method. */
   language?: string;
@@ -2121,7 +2120,8 @@ export const ListPlayersResponse = PlayerListResponse;
 
 export type ListPlayersError = CommonErrors;
 
-export const listPlayers = API.makePaginated(() => ({
+/** Get the collection of players for the currently authenticated user. */
+export const listPlayers: API.PaginatedOperationMethod<ListPlayersRequest, ListPlayersResponse, ListPlayersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPlayersRequest,
   output: ListPlayersResponse,
   errors: [],
@@ -2132,7 +2132,6 @@ export const listPlayers = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves scoped player identifiers for currently authenticated user. */
 export interface GetScopedPlayerIdsPlayersRequest {
 }
 
@@ -2147,13 +2146,13 @@ export const GetScopedPlayerIdsPlayersResponse = ScopedPlayerIds;
 
 export type GetScopedPlayerIdsPlayersError = CommonErrors;
 
+/** Retrieves scoped player identifiers for currently authenticated user. */
 export const getScopedPlayerIdsPlayers: API.OperationMethod<GetScopedPlayerIdsPlayersRequest, GetScopedPlayerIdsPlayersResponse, GetScopedPlayerIdsPlayersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetScopedPlayerIdsPlayersRequest,
   output: GetScopedPlayerIdsPlayersResponse,
   errors: [],
 }));
 
-/** Checks whether the games client is out of date. */
 export interface CheckRevisionsRequest {
   /** Required. The revision of the client SDK used by your application. Format: `[PLATFORM_TYPE]:[VERSION_NUMBER]`. Possible values of `PLATFORM_TYPE` are: * `ANDROID` - Client is running the Android SDK. * `IOS` - Client is running the iOS SDK. * `WEB_APP` - Client is running as a Web App. */
   clientRevision: string;
@@ -2171,13 +2170,13 @@ export const CheckRevisionsResponse = RevisionCheckResponse;
 
 export type CheckRevisionsError = CommonErrors;
 
+/** Checks whether the games client is out of date. */
 export const checkRevisions: API.OperationMethod<CheckRevisionsRequest, CheckRevisionsResponse, CheckRevisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CheckRevisionsRequest,
   output: CheckRevisionsResponse,
   errors: [],
 }));
 
-/** Returns a list showing the current progress on events in this application for the currently authenticated user. */
 export interface ListByPlayerEventsRequest {
   /** The preferred language to use for strings returned by this method. */
   language?: string;
@@ -2201,7 +2200,8 @@ export const ListByPlayerEventsResponse = PlayerEventListResponse;
 
 export type ListByPlayerEventsError = CommonErrors;
 
-export const listByPlayerEvents = API.makePaginated(() => ({
+/** Returns a list showing the current progress on events in this application for the currently authenticated user. */
+export const listByPlayerEvents: API.PaginatedOperationMethod<ListByPlayerEventsRequest, ListByPlayerEventsResponse, ListByPlayerEventsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListByPlayerEventsRequest,
   output: ListByPlayerEventsResponse,
   errors: [],
@@ -2212,7 +2212,6 @@ export const listByPlayerEvents = API.makePaginated(() => ({
   },
 }));
 
-/** Returns a list of the event definitions in this application. */
 export interface ListDefinitionsEventsRequest {
   /** The preferred language to use for strings returned by this method. */
   language?: string;
@@ -2236,7 +2235,8 @@ export const ListDefinitionsEventsResponse = EventDefinitionListResponse;
 
 export type ListDefinitionsEventsError = CommonErrors;
 
-export const listDefinitionsEvents = API.makePaginated(() => ({
+/** Returns a list of the event definitions in this application. */
+export const listDefinitionsEvents: API.PaginatedOperationMethod<ListDefinitionsEventsRequest, ListDefinitionsEventsResponse, ListDefinitionsEventsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListDefinitionsEventsRequest,
   output: ListDefinitionsEventsResponse,
   errors: [],
@@ -2247,7 +2247,6 @@ export const listDefinitionsEvents = API.makePaginated(() => ({
   },
 }));
 
-/** Records a batch of changes to the number of times events have occurred for the currently authenticated user of this application. */
 export interface RecordEventsRequest {
   /** The preferred language to use for strings returned by this method. */
   language?: string;
@@ -2268,13 +2267,13 @@ export const RecordEventsResponse = EventUpdateResponse;
 
 export type RecordEventsError = CommonErrors;
 
+/** Records a batch of changes to the number of times events have occurred for the currently authenticated user of this application. */
 export const recordEvents: API.OperationMethod<RecordEventsRequest, RecordEventsResponse, RecordEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RecordEventsRequest,
   output: RecordEventsResponse,
   errors: [],
 }));
 
-/** Indicate that the currently authenticated user is playing your application. */
 export interface PlayedApplicationsRequest {
 }
 
@@ -2289,13 +2288,13 @@ export const PlayedApplicationsResponse: Schema.Schema<PlayedApplicationsRespons
 
 export type PlayedApplicationsError = CommonErrors;
 
+/** Indicate that the currently authenticated user is playing your application. */
 export const playedApplications: API.OperationMethod<PlayedApplicationsRequest, PlayedApplicationsResponse, PlayedApplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PlayedApplicationsRequest,
   output: PlayedApplicationsResponse,
   errors: [],
 }));
 
-/** Verifies the auth token provided with this request is for the application with the specified ID, and returns the ID of the player it was granted for. */
 export interface VerifyApplicationsRequest {
   /** The application ID from the Google Play developer console. */
   applicationId: string;
@@ -2313,13 +2312,13 @@ export const VerifyApplicationsResponse = ApplicationVerifyResponse;
 
 export type VerifyApplicationsError = CommonErrors;
 
+/** Verifies the auth token provided with this request is for the application with the specified ID, and returns the ID of the player it was granted for. */
 export const verifyApplications: API.OperationMethod<VerifyApplicationsRequest, VerifyApplicationsResponse, VerifyApplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: VerifyApplicationsRequest,
   output: VerifyApplicationsResponse,
   errors: [],
 }));
 
-/** Retrieves the metadata of the application with the given ID. If the requested application is not available for the specified `platformType`, the returned response will not include any instance data. */
 export interface GetApplicationsRequest {
   /** The preferred language to use for strings returned by this method. */
   language?: string;
@@ -2343,13 +2342,13 @@ export const GetApplicationsResponse = Application;
 
 export type GetApplicationsError = CommonErrors;
 
+/** Retrieves the metadata of the application with the given ID. If the requested application is not available for the specified `platformType`, the returned response will not include any instance data. */
 export const getApplications: API.OperationMethod<GetApplicationsRequest, GetApplicationsResponse, GetApplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetApplicationsRequest,
   output: GetApplicationsResponse,
   errors: [],
 }));
 
-/** Returns a URL for the requested end point type. */
 export interface GetEndPointApplicationsRequest {
   /** The application ID from the Google Play developer console. */
   applicationId?: string;
@@ -2370,13 +2369,13 @@ export const GetEndPointApplicationsResponse = EndPoint;
 
 export type GetEndPointApplicationsError = CommonErrors;
 
+/** Returns a URL for the requested end point type. */
 export const getEndPointApplications: API.OperationMethod<GetEndPointApplicationsRequest, GetEndPointApplicationsResponse, GetEndPointApplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEndPointApplicationsRequest,
   output: GetEndPointApplicationsResponse,
   errors: [],
 }));
 
-/** Lists the scores in a leaderboard around (and including) a player's score. */
 export interface ListWindowScoresRequest {
   /** The ID of the leaderboard. */
   leaderboardId: string;
@@ -2415,7 +2414,8 @@ export const ListWindowScoresResponse = LeaderboardScores;
 
 export type ListWindowScoresError = CommonErrors;
 
-export const listWindowScores = API.makePaginated(() => ({
+/** Lists the scores in a leaderboard around (and including) a player's score. */
+export const listWindowScores: API.PaginatedOperationMethod<ListWindowScoresRequest, ListWindowScoresResponse, ListWindowScoresError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListWindowScoresRequest,
   output: ListWindowScoresResponse,
   errors: [],
@@ -2426,7 +2426,6 @@ export const listWindowScores = API.makePaginated(() => ({
   },
 }));
 
-/** Submits multiple scores to leaderboards. */
 export interface SubmitMultipleScoresRequest {
   /** The preferred language to use for strings returned by this method. */
   language?: string;
@@ -2447,13 +2446,13 @@ export const SubmitMultipleScoresResponse = PlayerScoreListResponse;
 
 export type SubmitMultipleScoresError = CommonErrors;
 
+/** Submits multiple scores to leaderboards. */
 export const submitMultipleScores: API.OperationMethod<SubmitMultipleScoresRequest, SubmitMultipleScoresResponse, SubmitMultipleScoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SubmitMultipleScoresRequest,
   output: SubmitMultipleScoresResponse,
   errors: [],
 }));
 
-/** Submits a score to the specified leaderboard. */
 export interface SubmitScoresRequest {
   /** The ID of the leaderboard. */
   leaderboardId: string;
@@ -2480,13 +2479,13 @@ export const SubmitScoresResponse = PlayerScoreResponse;
 
 export type SubmitScoresError = CommonErrors;
 
+/** Submits a score to the specified leaderboard. */
 export const submitScores: API.OperationMethod<SubmitScoresRequest, SubmitScoresResponse, SubmitScoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SubmitScoresRequest,
   output: SubmitScoresResponse,
   errors: [],
 }));
 
-/** Get high scores, and optionally ranks, in leaderboards for the currently authenticated player. For a specific time span, `leaderboardId` can be set to `ALL` to retrieve data for all leaderboards in a given time span. `NOTE: You cannot ask for 'ALL' leaderboards and 'ALL' timeSpans in the same request; only one parameter may be set to 'ALL'. */
 export interface GetScoresRequest {
   /** A player ID. A value of `me` may be used in place of the authenticated player's ID. */
   playerId: string;
@@ -2522,7 +2521,8 @@ export const GetScoresResponse = PlayerLeaderboardScoreListResponse;
 
 export type GetScoresError = CommonErrors;
 
-export const getScores = API.makePaginated(() => ({
+/** Get high scores, and optionally ranks, in leaderboards for the currently authenticated player. For a specific time span, `leaderboardId` can be set to `ALL` to retrieve data for all leaderboards in a given time span. `NOTE: You cannot ask for 'ALL' leaderboards and 'ALL' timeSpans in the same request; only one parameter may be set to 'ALL'. */
+export const getScores: API.PaginatedOperationMethod<GetScoresRequest, GetScoresResponse, GetScoresError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: GetScoresRequest,
   output: GetScoresResponse,
   errors: [],
@@ -2533,7 +2533,6 @@ export const getScores = API.makePaginated(() => ({
   },
 }));
 
-/** Lists the scores in a leaderboard, starting from the top. */
 export interface ListScoresRequest {
   /** The maximum number of leaderboard scores to return in the response. For any response, the actual number of leaderboard scores returned may be less than the specified `maxResults`. */
   maxResults?: number;
@@ -2566,7 +2565,8 @@ export const ListScoresResponse = LeaderboardScores;
 
 export type ListScoresError = CommonErrors;
 
-export const listScores = API.makePaginated(() => ({
+/** Lists the scores in a leaderboard, starting from the top. */
+export const listScores: API.PaginatedOperationMethod<ListScoresRequest, ListScoresResponse, ListScoresError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListScoresRequest,
   output: ListScoresResponse,
   errors: [],

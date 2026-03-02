@@ -2238,7 +2238,6 @@ export const Thumbnail: Schema.Schema<Thumbnail> = Schema.suspend(() => Schema.S
 // Operations
 // ==========================================================================
 
-/** Gets the latest version of the specified presentation. */
 export interface GetPresentationsRequest {
   /** The ID of the presentation to retrieve. */
   presentationId: string;
@@ -2256,13 +2255,13 @@ export const GetPresentationsResponse = Presentation;
 
 export type GetPresentationsError = CommonErrors;
 
+/** Gets the latest version of the specified presentation. */
 export const getPresentations: API.OperationMethod<GetPresentationsRequest, GetPresentationsResponse, GetPresentationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPresentationsRequest,
   output: GetPresentationsResponse,
   errors: [],
 }));
 
-/** Creates a blank presentation using the title given in the request. If a `presentationId` is provided, it is used as the ID of the new presentation. Otherwise, a new ID is generated. Other fields in the request, including any provided content, are ignored. Returns the created presentation. */
 export interface CreatePresentationsRequest {
   /** Request body */
   body?: Presentation;
@@ -2280,13 +2279,13 @@ export const CreatePresentationsResponse = Presentation;
 
 export type CreatePresentationsError = CommonErrors;
 
+/** Creates a blank presentation using the title given in the request. If a `presentationId` is provided, it is used as the ID of the new presentation. Otherwise, a new ID is generated. Other fields in the request, including any provided content, are ignored. Returns the created presentation. */
 export const createPresentations: API.OperationMethod<CreatePresentationsRequest, CreatePresentationsResponse, CreatePresentationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreatePresentationsRequest,
   output: CreatePresentationsResponse,
   errors: [],
 }));
 
-/** Applies one or more updates to the presentation. Each request is validated before being applied. If any request is not valid, then the entire request will fail and nothing will be applied. Some requests have replies to give you some information about how they are applied. Other requests do not need to return information; these each return an empty reply. The order of replies matches that of the requests. For example, suppose you call batchUpdate with four updates, and only the third one returns information. The response would have two empty replies: the reply to the third request, and another empty reply, in that order. Because other users may be editing the presentation, the presentation might not exactly reflect your changes: your changes may be altered with respect to collaborator changes. If there are no collaborators, the presentation should reflect your changes. In any case, the updates in your request are guaranteed to be applied together atomically. */
 export interface BatchUpdatePresentationsRequest {
   /** The presentation to apply the updates to. */
   presentationId: string;
@@ -2307,13 +2306,13 @@ export const BatchUpdatePresentationsResponse = BatchUpdatePresentationResponse;
 
 export type BatchUpdatePresentationsError = CommonErrors;
 
+/** Applies one or more updates to the presentation. Each request is validated before being applied. If any request is not valid, then the entire request will fail and nothing will be applied. Some requests have replies to give you some information about how they are applied. Other requests do not need to return information; these each return an empty reply. The order of replies matches that of the requests. For example, suppose you call batchUpdate with four updates, and only the third one returns information. The response would have two empty replies: the reply to the third request, and another empty reply, in that order. Because other users may be editing the presentation, the presentation might not exactly reflect your changes: your changes may be altered with respect to collaborator changes. If there are no collaborators, the presentation should reflect your changes. In any case, the updates in your request are guaranteed to be applied together atomically. */
 export const batchUpdatePresentations: API.OperationMethod<BatchUpdatePresentationsRequest, BatchUpdatePresentationsResponse, BatchUpdatePresentationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchUpdatePresentationsRequest,
   output: BatchUpdatePresentationsResponse,
   errors: [],
 }));
 
-/** Gets the latest version of the specified page in the presentation. */
 export interface GetPresentationsPagesRequest {
   /** The ID of the presentation to retrieve. */
   presentationId: string;
@@ -2334,13 +2333,13 @@ export const GetPresentationsPagesResponse = Page;
 
 export type GetPresentationsPagesError = CommonErrors;
 
+/** Gets the latest version of the specified page in the presentation. */
 export const getPresentationsPages: API.OperationMethod<GetPresentationsPagesRequest, GetPresentationsPagesResponse, GetPresentationsPagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPresentationsPagesRequest,
   output: GetPresentationsPagesResponse,
   errors: [],
 }));
 
-/** Generates a thumbnail of the latest version of the specified page in the presentation and returns a URL to the thumbnail image. This request counts as an [expensive read request](https://developers.google.com/workspace/slides/limits) for quota purposes. */
 export interface GetThumbnailPresentationsPagesRequest {
   /** The ID of the presentation to retrieve. */
   presentationId: string;
@@ -2367,6 +2366,7 @@ export const GetThumbnailPresentationsPagesResponse = Thumbnail;
 
 export type GetThumbnailPresentationsPagesError = CommonErrors;
 
+/** Generates a thumbnail of the latest version of the specified page in the presentation and returns a URL to the thumbnail image. This request counts as an [expensive read request](https://developers.google.com/workspace/slides/limits) for quota purposes. */
 export const getThumbnailPresentationsPages: API.OperationMethod<GetThumbnailPresentationsPagesRequest, GetThumbnailPresentationsPagesResponse, GetThumbnailPresentationsPagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetThumbnailPresentationsPagesRequest,
   output: GetThumbnailPresentationsPagesResponse,

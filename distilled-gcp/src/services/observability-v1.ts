@@ -375,7 +375,6 @@ export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspen
 // Operations
 // ==========================================================================
 
-/** Get Settings */
 export interface GetSettingsProjectsLocationsRequest {
   /** Required. Name of the settings to retrieve. Name format: "projects/[PROJECT_ID]/locations/[LOCATION]/settings" "folders/[FOLDER_ID]/locations/[LOCATION]/settings" "organizations/[ORGANIZATION_ID]/locations/[LOCATION]/settings" */
   name: string;
@@ -393,13 +392,13 @@ export const GetSettingsProjectsLocationsResponse = Settings;
 
 export type GetSettingsProjectsLocationsError = CommonErrors;
 
+/** Get Settings */
 export const getSettingsProjectsLocations: API.OperationMethod<GetSettingsProjectsLocationsRequest, GetSettingsProjectsLocationsResponse, GetSettingsProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSettingsProjectsLocationsRequest,
   output: GetSettingsProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Update Settings */
 export interface UpdateSettingsProjectsLocationsRequest {
   /** Identifier. The resource name of the settings. */
   name: string;
@@ -423,13 +422,13 @@ export const UpdateSettingsProjectsLocationsResponse = Operation;
 
 export type UpdateSettingsProjectsLocationsError = CommonErrors;
 
+/** Update Settings */
 export const updateSettingsProjectsLocations: API.OperationMethod<UpdateSettingsProjectsLocationsRequest, UpdateSettingsProjectsLocationsResponse, UpdateSettingsProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateSettingsProjectsLocationsRequest,
   output: UpdateSettingsProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -459,7 +458,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -469,7 +469,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -487,13 +486,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -523,7 +522,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -533,7 +533,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -551,13 +550,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -575,13 +574,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -602,13 +601,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Gets details of a single Scope. */
 export interface GetProjectsLocationsScopesRequest {
   /** Required. Name of the resource. The format is: projects/{project}/locations/{location}/scopes/{scope} The `{location}` field must be set to `global`. The `{scope}` field must be set to `_Default`. */
   name: string;
@@ -626,13 +625,13 @@ export const GetProjectsLocationsScopesResponse = Scope;
 
 export type GetProjectsLocationsScopesError = CommonErrors;
 
+/** Gets details of a single Scope. */
 export const getProjectsLocationsScopes: API.OperationMethod<GetProjectsLocationsScopesRequest, GetProjectsLocationsScopesResponse, GetProjectsLocationsScopesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsScopesRequest,
   output: GetProjectsLocationsScopesResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single Scope. */
 export interface PatchProjectsLocationsScopesRequest {
   /** Identifier. Name of the resource. The format is: projects/{project}/locations/{location}/scopes/{scope} The `{location}` field must be set to `global`. The `{scope}` field must be set to `_Default`. */
   name: string;
@@ -656,13 +655,13 @@ export const PatchProjectsLocationsScopesResponse = Scope;
 
 export type PatchProjectsLocationsScopesError = CommonErrors;
 
+/** Updates the parameters of a single Scope. */
 export const patchProjectsLocationsScopes: API.OperationMethod<PatchProjectsLocationsScopesRequest, PatchProjectsLocationsScopesResponse, PatchProjectsLocationsScopesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsScopesRequest,
   output: PatchProjectsLocationsScopesResponse,
   errors: [],
 }));
 
-/** Get bucket resource. */
 export interface GetProjectsLocationsBucketsRequest {
   /** Required. Name of the bucket to retrieve. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID] */
   name: string;
@@ -680,13 +679,13 @@ export const GetProjectsLocationsBucketsResponse = Bucket;
 
 export type GetProjectsLocationsBucketsError = CommonErrors;
 
+/** Get bucket resource. */
 export const getProjectsLocationsBuckets: API.OperationMethod<GetProjectsLocationsBucketsRequest, GetProjectsLocationsBucketsResponse, GetProjectsLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBucketsRequest,
   output: GetProjectsLocationsBucketsResponse,
   errors: [],
 }));
 
-/** List buckets of a project in a particular location. */
 export interface ListProjectsLocationsBucketsRequest {
   /** Required. The parent, which owns this collection of buckets. The format is: projects/[PROJECT_ID]/locations/[LOCATION] */
   parent: string;
@@ -713,7 +712,8 @@ export const ListProjectsLocationsBucketsResponse = ListBucketsResponse;
 
 export type ListProjectsLocationsBucketsError = CommonErrors;
 
-export const listProjectsLocationsBuckets = API.makePaginated(() => ({
+/** List buckets of a project in a particular location. */
+export const listProjectsLocationsBuckets: API.PaginatedOperationMethod<ListProjectsLocationsBucketsRequest, ListProjectsLocationsBucketsResponse, ListProjectsLocationsBucketsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBucketsRequest,
   output: ListProjectsLocationsBucketsResponse,
   errors: [],
@@ -723,7 +723,6 @@ export const listProjectsLocationsBuckets = API.makePaginated(() => ({
   },
 }));
 
-/** Get a dataset. */
 export interface GetProjectsLocationsBucketsDatasetsRequest {
   /** Required. Name of the dataset to retrieve. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID] */
   name: string;
@@ -741,13 +740,13 @@ export const GetProjectsLocationsBucketsDatasetsResponse = Dataset;
 
 export type GetProjectsLocationsBucketsDatasetsError = CommonErrors;
 
+/** Get a dataset. */
 export const getProjectsLocationsBucketsDatasets: API.OperationMethod<GetProjectsLocationsBucketsDatasetsRequest, GetProjectsLocationsBucketsDatasetsResponse, GetProjectsLocationsBucketsDatasetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBucketsDatasetsRequest,
   output: GetProjectsLocationsBucketsDatasetsResponse,
   errors: [],
 }));
 
-/** List datasets of a bucket. */
 export interface ListProjectsLocationsBucketsDatasetsRequest {
   /** Required. The parent bucket that owns this collection of datasets. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID] */
   parent: string;
@@ -774,7 +773,8 @@ export const ListProjectsLocationsBucketsDatasetsResponse = ListDatasetsResponse
 
 export type ListProjectsLocationsBucketsDatasetsError = CommonErrors;
 
-export const listProjectsLocationsBucketsDatasets = API.makePaginated(() => ({
+/** List datasets of a bucket. */
+export const listProjectsLocationsBucketsDatasets: API.PaginatedOperationMethod<ListProjectsLocationsBucketsDatasetsRequest, ListProjectsLocationsBucketsDatasetsResponse, ListProjectsLocationsBucketsDatasetsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBucketsDatasetsRequest,
   output: ListProjectsLocationsBucketsDatasetsResponse,
   errors: [],
@@ -784,7 +784,6 @@ export const listProjectsLocationsBucketsDatasets = API.makePaginated(() => ({
   },
 }));
 
-/** Get a view. */
 export interface GetProjectsLocationsBucketsDatasetsViewsRequest {
   /** Required. Name of the view to retrieve. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID]/views/[VIEW_ID] */
   name: string;
@@ -802,13 +801,13 @@ export const GetProjectsLocationsBucketsDatasetsViewsResponse = View;
 
 export type GetProjectsLocationsBucketsDatasetsViewsError = CommonErrors;
 
+/** Get a view. */
 export const getProjectsLocationsBucketsDatasetsViews: API.OperationMethod<GetProjectsLocationsBucketsDatasetsViewsRequest, GetProjectsLocationsBucketsDatasetsViewsResponse, GetProjectsLocationsBucketsDatasetsViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBucketsDatasetsViewsRequest,
   output: GetProjectsLocationsBucketsDatasetsViewsResponse,
   errors: [],
 }));
 
-/** List views of a dataset. */
 export interface ListProjectsLocationsBucketsDatasetsViewsRequest {
   /** Required. Dataset whose views are to be listed. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID] */
   parent: string;
@@ -832,7 +831,8 @@ export const ListProjectsLocationsBucketsDatasetsViewsResponse = ListViewsRespon
 
 export type ListProjectsLocationsBucketsDatasetsViewsError = CommonErrors;
 
-export const listProjectsLocationsBucketsDatasetsViews = API.makePaginated(() => ({
+/** List views of a dataset. */
+export const listProjectsLocationsBucketsDatasetsViews: API.PaginatedOperationMethod<ListProjectsLocationsBucketsDatasetsViewsRequest, ListProjectsLocationsBucketsDatasetsViewsResponse, ListProjectsLocationsBucketsDatasetsViewsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBucketsDatasetsViewsRequest,
   output: ListProjectsLocationsBucketsDatasetsViewsResponse,
   errors: [],
@@ -842,7 +842,6 @@ export const listProjectsLocationsBucketsDatasetsViews = API.makePaginated(() =>
   },
 }));
 
-/** Get a link. */
 export interface GetProjectsLocationsBucketsDatasetsLinksRequest {
   /** Required. Name of the link to retrieve. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID]/links/[LINK_ID] */
   name: string;
@@ -860,13 +859,13 @@ export const GetProjectsLocationsBucketsDatasetsLinksResponse = Link;
 
 export type GetProjectsLocationsBucketsDatasetsLinksError = CommonErrors;
 
+/** Get a link. */
 export const getProjectsLocationsBucketsDatasetsLinks: API.OperationMethod<GetProjectsLocationsBucketsDatasetsLinksRequest, GetProjectsLocationsBucketsDatasetsLinksResponse, GetProjectsLocationsBucketsDatasetsLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBucketsDatasetsLinksRequest,
   output: GetProjectsLocationsBucketsDatasetsLinksResponse,
   errors: [],
 }));
 
-/** List links of a dataset. */
 export interface ListProjectsLocationsBucketsDatasetsLinksRequest {
   /** Required. The parent dataset that owns this collection of links. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID] */
   parent: string;
@@ -890,7 +889,8 @@ export const ListProjectsLocationsBucketsDatasetsLinksResponse = ListLinksRespon
 
 export type ListProjectsLocationsBucketsDatasetsLinksError = CommonErrors;
 
-export const listProjectsLocationsBucketsDatasetsLinks = API.makePaginated(() => ({
+/** List links of a dataset. */
+export const listProjectsLocationsBucketsDatasetsLinks: API.PaginatedOperationMethod<ListProjectsLocationsBucketsDatasetsLinksRequest, ListProjectsLocationsBucketsDatasetsLinksResponse, ListProjectsLocationsBucketsDatasetsLinksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBucketsDatasetsLinksRequest,
   output: ListProjectsLocationsBucketsDatasetsLinksResponse,
   errors: [],
@@ -900,7 +900,6 @@ export const listProjectsLocationsBucketsDatasetsLinks = API.makePaginated(() =>
   },
 }));
 
-/** Create a new link. */
 export interface CreateProjectsLocationsBucketsDatasetsLinksRequest {
   /** Required. Name of the containing dataset for this link. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID] */
   parent: string;
@@ -924,13 +923,13 @@ export const CreateProjectsLocationsBucketsDatasetsLinksResponse = Operation;
 
 export type CreateProjectsLocationsBucketsDatasetsLinksError = CommonErrors;
 
+/** Create a new link. */
 export const createProjectsLocationsBucketsDatasetsLinks: API.OperationMethod<CreateProjectsLocationsBucketsDatasetsLinksRequest, CreateProjectsLocationsBucketsDatasetsLinksResponse, CreateProjectsLocationsBucketsDatasetsLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsBucketsDatasetsLinksRequest,
   output: CreateProjectsLocationsBucketsDatasetsLinksResponse,
   errors: [],
 }));
 
-/** Update a link. */
 export interface PatchProjectsLocationsBucketsDatasetsLinksRequest {
   /** Identifier. Name of the link. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID]/links/[LINK_ID] */
   name: string;
@@ -954,13 +953,13 @@ export const PatchProjectsLocationsBucketsDatasetsLinksResponse = Operation;
 
 export type PatchProjectsLocationsBucketsDatasetsLinksError = CommonErrors;
 
+/** Update a link. */
 export const patchProjectsLocationsBucketsDatasetsLinks: API.OperationMethod<PatchProjectsLocationsBucketsDatasetsLinksRequest, PatchProjectsLocationsBucketsDatasetsLinksResponse, PatchProjectsLocationsBucketsDatasetsLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsBucketsDatasetsLinksRequest,
   output: PatchProjectsLocationsBucketsDatasetsLinksResponse,
   errors: [],
 }));
 
-/** Delete a link. */
 export interface DeleteProjectsLocationsBucketsDatasetsLinksRequest {
   /** Required. Name of the link to delete. The format is: projects/[PROJECT_ID]/locations/[LOCATION]/buckets/[BUCKET_ID]/datasets/[DATASET_ID]/links/[LINK_ID] */
   name: string;
@@ -978,13 +977,13 @@ export const DeleteProjectsLocationsBucketsDatasetsLinksResponse = Operation;
 
 export type DeleteProjectsLocationsBucketsDatasetsLinksError = CommonErrors;
 
+/** Delete a link. */
 export const deleteProjectsLocationsBucketsDatasetsLinks: API.OperationMethod<DeleteProjectsLocationsBucketsDatasetsLinksRequest, DeleteProjectsLocationsBucketsDatasetsLinksResponse, DeleteProjectsLocationsBucketsDatasetsLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsBucketsDatasetsLinksRequest,
   output: DeleteProjectsLocationsBucketsDatasetsLinksResponse,
   errors: [],
 }));
 
-/** Get TraceScope resource. */
 export interface GetProjectsLocationsTraceScopesRequest {
   /** Required. The resource name of the trace scope: projects/[PROJECT_ID]/locations/[LOCATION_ID]/traceScopes/[TRACE_SCOPE_ID] For example: projects/my-project/locations/global/traceScopes/my-trace-scope */
   name: string;
@@ -1002,13 +1001,13 @@ export const GetProjectsLocationsTraceScopesResponse = TraceScope;
 
 export type GetProjectsLocationsTraceScopesError = CommonErrors;
 
+/** Get TraceScope resource. */
 export const getProjectsLocationsTraceScopes: API.OperationMethod<GetProjectsLocationsTraceScopesRequest, GetProjectsLocationsTraceScopesResponse, GetProjectsLocationsTraceScopesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsTraceScopesRequest,
   output: GetProjectsLocationsTraceScopesResponse,
   errors: [],
 }));
 
-/** List TraceScopes of a project in a particular location. */
 export interface ListProjectsLocationsTraceScopesRequest {
   /** Required. The full resource name of the location to look for trace scopes: projects/[PROJECT_ID]/locations/[LOCATION_ID] For example: projects/my-project/locations/global */
   parent: string;
@@ -1032,7 +1031,8 @@ export const ListProjectsLocationsTraceScopesResponse = ListTraceScopesResponse;
 
 export type ListProjectsLocationsTraceScopesError = CommonErrors;
 
-export const listProjectsLocationsTraceScopes = API.makePaginated(() => ({
+/** List TraceScopes of a project in a particular location. */
+export const listProjectsLocationsTraceScopes: API.PaginatedOperationMethod<ListProjectsLocationsTraceScopesRequest, ListProjectsLocationsTraceScopesResponse, ListProjectsLocationsTraceScopesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsTraceScopesRequest,
   output: ListProjectsLocationsTraceScopesResponse,
   errors: [],
@@ -1042,7 +1042,6 @@ export const listProjectsLocationsTraceScopes = API.makePaginated(() => ({
   },
 }));
 
-/** Create a new TraceScope. */
 export interface CreateProjectsLocationsTraceScopesRequest {
   /** Required. The full resource name of the location where the trace scope should be created projects/[PROJECT_ID]/locations/[LOCATION_ID] For example: projects/my-project/locations/global */
   parent: string;
@@ -1066,13 +1065,13 @@ export const CreateProjectsLocationsTraceScopesResponse = TraceScope;
 
 export type CreateProjectsLocationsTraceScopesError = CommonErrors;
 
+/** Create a new TraceScope. */
 export const createProjectsLocationsTraceScopes: API.OperationMethod<CreateProjectsLocationsTraceScopesRequest, CreateProjectsLocationsTraceScopesResponse, CreateProjectsLocationsTraceScopesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsTraceScopesRequest,
   output: CreateProjectsLocationsTraceScopesResponse,
   errors: [],
 }));
 
-/** Update a TraceScope. */
 export interface PatchProjectsLocationsTraceScopesRequest {
   /** Identifier. The resource name of the trace scope. For example: projects/my-project/locations/global/traceScopes/my-trace-scope */
   name: string;
@@ -1096,13 +1095,13 @@ export const PatchProjectsLocationsTraceScopesResponse = TraceScope;
 
 export type PatchProjectsLocationsTraceScopesError = CommonErrors;
 
+/** Update a TraceScope. */
 export const patchProjectsLocationsTraceScopes: API.OperationMethod<PatchProjectsLocationsTraceScopesRequest, PatchProjectsLocationsTraceScopesResponse, PatchProjectsLocationsTraceScopesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsTraceScopesRequest,
   output: PatchProjectsLocationsTraceScopesResponse,
   errors: [],
 }));
 
-/** Delete a TraceScope. */
 export interface DeleteProjectsLocationsTraceScopesRequest {
   /** Required. The full resource name of the trace scope to delete: projects/[PROJECT_ID]/locations/[LOCATION_ID]/traceScopes/[TRACE_SCOPE_ID] For example: projects/my-project/locations/global/traceScopes/my-trace-scope */
   name: string;
@@ -1120,13 +1119,13 @@ export const DeleteProjectsLocationsTraceScopesResponse = Empty;
 
 export type DeleteProjectsLocationsTraceScopesError = CommonErrors;
 
+/** Delete a TraceScope. */
 export const deleteProjectsLocationsTraceScopes: API.OperationMethod<DeleteProjectsLocationsTraceScopesRequest, DeleteProjectsLocationsTraceScopesResponse, DeleteProjectsLocationsTraceScopesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsTraceScopesRequest,
   output: DeleteProjectsLocationsTraceScopesResponse,
   errors: [],
 }));
 
-/** Get Settings */
 export interface GetSettingsFoldersLocationsRequest {
   /** Required. Name of the settings to retrieve. Name format: "projects/[PROJECT_ID]/locations/[LOCATION]/settings" "folders/[FOLDER_ID]/locations/[LOCATION]/settings" "organizations/[ORGANIZATION_ID]/locations/[LOCATION]/settings" */
   name: string;
@@ -1144,13 +1143,13 @@ export const GetSettingsFoldersLocationsResponse = Settings;
 
 export type GetSettingsFoldersLocationsError = CommonErrors;
 
+/** Get Settings */
 export const getSettingsFoldersLocations: API.OperationMethod<GetSettingsFoldersLocationsRequest, GetSettingsFoldersLocationsResponse, GetSettingsFoldersLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSettingsFoldersLocationsRequest,
   output: GetSettingsFoldersLocationsResponse,
   errors: [],
 }));
 
-/** Update Settings */
 export interface UpdateSettingsFoldersLocationsRequest {
   /** Identifier. The resource name of the settings. */
   name: string;
@@ -1174,13 +1173,13 @@ export const UpdateSettingsFoldersLocationsResponse = Operation;
 
 export type UpdateSettingsFoldersLocationsError = CommonErrors;
 
+/** Update Settings */
 export const updateSettingsFoldersLocations: API.OperationMethod<UpdateSettingsFoldersLocationsRequest, UpdateSettingsFoldersLocationsResponse, UpdateSettingsFoldersLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateSettingsFoldersLocationsRequest,
   output: UpdateSettingsFoldersLocationsResponse,
   errors: [],
 }));
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListFoldersLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -1210,7 +1209,8 @@ export const ListFoldersLocationsResponse = ListLocationsResponse;
 
 export type ListFoldersLocationsError = CommonErrors;
 
-export const listFoldersLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listFoldersLocations: API.PaginatedOperationMethod<ListFoldersLocationsRequest, ListFoldersLocationsResponse, ListFoldersLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersLocationsRequest,
   output: ListFoldersLocationsResponse,
   errors: [],
@@ -1220,7 +1220,6 @@ export const listFoldersLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetFoldersLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -1238,13 +1237,13 @@ export const GetFoldersLocationsResponse = Location;
 
 export type GetFoldersLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getFoldersLocations: API.OperationMethod<GetFoldersLocationsRequest, GetFoldersLocationsResponse, GetFoldersLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersLocationsRequest,
   output: GetFoldersLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListFoldersLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -1274,7 +1273,8 @@ export const ListFoldersLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListFoldersLocationsOperationsError = CommonErrors;
 
-export const listFoldersLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listFoldersLocationsOperations: API.PaginatedOperationMethod<ListFoldersLocationsOperationsRequest, ListFoldersLocationsOperationsResponse, ListFoldersLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersLocationsOperationsRequest,
   output: ListFoldersLocationsOperationsResponse,
   errors: [],
@@ -1284,7 +1284,6 @@ export const listFoldersLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetFoldersLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1302,13 +1301,13 @@ export const GetFoldersLocationsOperationsResponse = Operation;
 
 export type GetFoldersLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getFoldersLocationsOperations: API.OperationMethod<GetFoldersLocationsOperationsRequest, GetFoldersLocationsOperationsResponse, GetFoldersLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersLocationsOperationsRequest,
   output: GetFoldersLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteFoldersLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -1326,13 +1325,13 @@ export const DeleteFoldersLocationsOperationsResponse = Empty;
 
 export type DeleteFoldersLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteFoldersLocationsOperations: API.OperationMethod<DeleteFoldersLocationsOperationsRequest, DeleteFoldersLocationsOperationsResponse, DeleteFoldersLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteFoldersLocationsOperationsRequest,
   output: DeleteFoldersLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelFoldersLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -1353,13 +1352,13 @@ export const CancelFoldersLocationsOperationsResponse = Empty;
 
 export type CancelFoldersLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelFoldersLocationsOperations: API.OperationMethod<CancelFoldersLocationsOperationsRequest, CancelFoldersLocationsOperationsResponse, CancelFoldersLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelFoldersLocationsOperationsRequest,
   output: CancelFoldersLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Get Settings */
 export interface GetSettingsOrganizationsLocationsRequest {
   /** Required. Name of the settings to retrieve. Name format: "projects/[PROJECT_ID]/locations/[LOCATION]/settings" "folders/[FOLDER_ID]/locations/[LOCATION]/settings" "organizations/[ORGANIZATION_ID]/locations/[LOCATION]/settings" */
   name: string;
@@ -1377,13 +1376,13 @@ export const GetSettingsOrganizationsLocationsResponse = Settings;
 
 export type GetSettingsOrganizationsLocationsError = CommonErrors;
 
+/** Get Settings */
 export const getSettingsOrganizationsLocations: API.OperationMethod<GetSettingsOrganizationsLocationsRequest, GetSettingsOrganizationsLocationsResponse, GetSettingsOrganizationsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSettingsOrganizationsLocationsRequest,
   output: GetSettingsOrganizationsLocationsResponse,
   errors: [],
 }));
 
-/** Update Settings */
 export interface UpdateSettingsOrganizationsLocationsRequest {
   /** Identifier. The resource name of the settings. */
   name: string;
@@ -1407,13 +1406,13 @@ export const UpdateSettingsOrganizationsLocationsResponse = Operation;
 
 export type UpdateSettingsOrganizationsLocationsError = CommonErrors;
 
+/** Update Settings */
 export const updateSettingsOrganizationsLocations: API.OperationMethod<UpdateSettingsOrganizationsLocationsRequest, UpdateSettingsOrganizationsLocationsResponse, UpdateSettingsOrganizationsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateSettingsOrganizationsLocationsRequest,
   output: UpdateSettingsOrganizationsLocationsResponse,
   errors: [],
 }));
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListOrganizationsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -1443,7 +1442,8 @@ export const ListOrganizationsLocationsResponse = ListLocationsResponse;
 
 export type ListOrganizationsLocationsError = CommonErrors;
 
-export const listOrganizationsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listOrganizationsLocations: API.PaginatedOperationMethod<ListOrganizationsLocationsRequest, ListOrganizationsLocationsResponse, ListOrganizationsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsRequest,
   output: ListOrganizationsLocationsResponse,
   errors: [],
@@ -1453,7 +1453,6 @@ export const listOrganizationsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetOrganizationsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -1471,13 +1470,13 @@ export const GetOrganizationsLocationsResponse = Location;
 
 export type GetOrganizationsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getOrganizationsLocations: API.OperationMethod<GetOrganizationsLocationsRequest, GetOrganizationsLocationsResponse, GetOrganizationsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsRequest,
   output: GetOrganizationsLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListOrganizationsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -1507,7 +1506,8 @@ export const ListOrganizationsLocationsOperationsResponse = ListOperationsRespon
 
 export type ListOrganizationsLocationsOperationsError = CommonErrors;
 
-export const listOrganizationsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listOrganizationsLocationsOperations: API.PaginatedOperationMethod<ListOrganizationsLocationsOperationsRequest, ListOrganizationsLocationsOperationsResponse, ListOrganizationsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsOperationsRequest,
   output: ListOrganizationsLocationsOperationsResponse,
   errors: [],
@@ -1517,7 +1517,6 @@ export const listOrganizationsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetOrganizationsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1535,13 +1534,13 @@ export const GetOrganizationsLocationsOperationsResponse = Operation;
 
 export type GetOrganizationsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOrganizationsLocationsOperations: API.OperationMethod<GetOrganizationsLocationsOperationsRequest, GetOrganizationsLocationsOperationsResponse, GetOrganizationsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsOperationsRequest,
   output: GetOrganizationsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteOrganizationsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -1559,13 +1558,13 @@ export const DeleteOrganizationsLocationsOperationsResponse = Empty;
 
 export type DeleteOrganizationsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteOrganizationsLocationsOperations: API.OperationMethod<DeleteOrganizationsLocationsOperationsRequest, DeleteOrganizationsLocationsOperationsResponse, DeleteOrganizationsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsLocationsOperationsRequest,
   output: DeleteOrganizationsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelOrganizationsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -1586,6 +1585,7 @@ export const CancelOrganizationsLocationsOperationsResponse = Empty;
 
 export type CancelOrganizationsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelOrganizationsLocationsOperations: API.OperationMethod<CancelOrganizationsLocationsOperationsRequest, CancelOrganizationsLocationsOperationsResponse, CancelOrganizationsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelOrganizationsLocationsOperationsRequest,
   output: CancelOrganizationsLocationsOperationsResponse,

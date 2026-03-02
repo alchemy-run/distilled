@@ -1029,7 +1029,6 @@ export const DomainJoinMachineRequest: Schema.Schema<DomainJoinMachineRequest> =
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -1059,7 +1058,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -1069,7 +1069,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -1087,13 +1086,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Extend Schema for Domain */
 export interface ExtendSchemaProjectsLocationsGlobalDomainsRequest {
   /** Required. The domain resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   domain: string;
@@ -1114,13 +1113,13 @@ export const ExtendSchemaProjectsLocationsGlobalDomainsResponse = Operation;
 
 export type ExtendSchemaProjectsLocationsGlobalDomainsError = CommonErrors;
 
+/** Extend Schema for Domain */
 export const extendSchemaProjectsLocationsGlobalDomains: API.OperationMethod<ExtendSchemaProjectsLocationsGlobalDomainsRequest, ExtendSchemaProjectsLocationsGlobalDomainsResponse, ExtendSchemaProjectsLocationsGlobalDomainsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExtendSchemaProjectsLocationsGlobalDomainsRequest,
   output: ExtendSchemaProjectsLocationsGlobalDomainsResponse,
   errors: [],
 }));
 
-/** Creates a Microsoft AD domain. */
 export interface CreateProjectsLocationsGlobalDomainsRequest {
   /** Required. The resource project name and location using the form: `projects/{project_id}/locations/global` */
   parent: string;
@@ -1144,13 +1143,13 @@ export const CreateProjectsLocationsGlobalDomainsResponse = Operation;
 
 export type CreateProjectsLocationsGlobalDomainsError = CommonErrors;
 
+/** Creates a Microsoft AD domain. */
 export const createProjectsLocationsGlobalDomains: API.OperationMethod<CreateProjectsLocationsGlobalDomainsRequest, CreateProjectsLocationsGlobalDomainsResponse, CreateProjectsLocationsGlobalDomainsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsGlobalDomainsRequest,
   output: CreateProjectsLocationsGlobalDomainsResponse,
   errors: [],
 }));
 
-/** Validates a trust state, that the target domain is reachable, and that the target domain is able to accept incoming trust requests. */
 export interface ValidateTrustProjectsLocationsGlobalDomainsRequest {
   /** Required. The resource domain name, project name, and location using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   name: string;
@@ -1171,13 +1170,13 @@ export const ValidateTrustProjectsLocationsGlobalDomainsResponse = Operation;
 
 export type ValidateTrustProjectsLocationsGlobalDomainsError = CommonErrors;
 
+/** Validates a trust state, that the target domain is reachable, and that the target domain is able to accept incoming trust requests. */
 export const validateTrustProjectsLocationsGlobalDomains: API.OperationMethod<ValidateTrustProjectsLocationsGlobalDomainsRequest, ValidateTrustProjectsLocationsGlobalDomainsResponse, ValidateTrustProjectsLocationsGlobalDomainsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ValidateTrustProjectsLocationsGlobalDomainsRequest,
   output: ValidateTrustProjectsLocationsGlobalDomainsResponse,
   errors: [],
 }));
 
-/** Deletes a domain. */
 export interface DeleteProjectsLocationsGlobalDomainsRequest {
   /** Required. The domain resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   name: string;
@@ -1195,13 +1194,13 @@ export const DeleteProjectsLocationsGlobalDomainsResponse = Operation;
 
 export type DeleteProjectsLocationsGlobalDomainsError = CommonErrors;
 
+/** Deletes a domain. */
 export const deleteProjectsLocationsGlobalDomains: API.OperationMethod<DeleteProjectsLocationsGlobalDomainsRequest, DeleteProjectsLocationsGlobalDomainsResponse, DeleteProjectsLocationsGlobalDomainsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsGlobalDomainsRequest,
   output: DeleteProjectsLocationsGlobalDomainsResponse,
   errors: [],
 }));
 
-/** Patches a single ldaps settings. */
 export interface UpdateLdapssettingsProjectsLocationsGlobalDomainsRequest {
   /** Required. Mask of fields to update. At least one path must be supplied in this field. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string;
@@ -1225,13 +1224,13 @@ export const UpdateLdapssettingsProjectsLocationsGlobalDomainsResponse = Operati
 
 export type UpdateLdapssettingsProjectsLocationsGlobalDomainsError = CommonErrors;
 
+/** Patches a single ldaps settings. */
 export const updateLdapssettingsProjectsLocationsGlobalDomains: API.OperationMethod<UpdateLdapssettingsProjectsLocationsGlobalDomainsRequest, UpdateLdapssettingsProjectsLocationsGlobalDomainsResponse, UpdateLdapssettingsProjectsLocationsGlobalDomainsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateLdapssettingsProjectsLocationsGlobalDomainsRequest,
   output: UpdateLdapssettingsProjectsLocationsGlobalDomainsResponse,
   errors: [],
 }));
 
-/** Removes an AD trust. */
 export interface DetachTrustProjectsLocationsGlobalDomainsRequest {
   /** Required. The resource domain name, project name, and location using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   name: string;
@@ -1252,13 +1251,13 @@ export const DetachTrustProjectsLocationsGlobalDomainsResponse = Operation;
 
 export type DetachTrustProjectsLocationsGlobalDomainsError = CommonErrors;
 
+/** Removes an AD trust. */
 export const detachTrustProjectsLocationsGlobalDomains: API.OperationMethod<DetachTrustProjectsLocationsGlobalDomainsRequest, DetachTrustProjectsLocationsGlobalDomainsResponse, DetachTrustProjectsLocationsGlobalDomainsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DetachTrustProjectsLocationsGlobalDomainsRequest,
   output: DetachTrustProjectsLocationsGlobalDomainsResponse,
   errors: [],
 }));
 
-/** Lists domains in a project. */
 export interface ListProjectsLocationsGlobalDomainsRequest {
   /** Optional. Specifies the ordering of results. See [Sorting order](https://cloud.google.com/apis/design/design_patterns#sorting_order) for more information. */
   orderBy?: string;
@@ -1288,7 +1287,8 @@ export const ListProjectsLocationsGlobalDomainsResponse = ListDomainsResponse;
 
 export type ListProjectsLocationsGlobalDomainsError = CommonErrors;
 
-export const listProjectsLocationsGlobalDomains = API.makePaginated(() => ({
+/** Lists domains in a project. */
+export const listProjectsLocationsGlobalDomains: API.PaginatedOperationMethod<ListProjectsLocationsGlobalDomainsRequest, ListProjectsLocationsGlobalDomainsResponse, ListProjectsLocationsGlobalDomainsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsGlobalDomainsRequest,
   output: ListProjectsLocationsGlobalDomainsResponse,
   errors: [],
@@ -1298,7 +1298,6 @@ export const listProjectsLocationsGlobalDomains = API.makePaginated(() => ({
   },
 }));
 
-/** Updates the metadata and configuration of a domain. */
 export interface PatchProjectsLocationsGlobalDomainsRequest {
   /** Required. The unique name of the domain using the form: `projects/{project_id}/locations/global/domains/{domain_name}`. */
   name: string;
@@ -1322,13 +1321,13 @@ export const PatchProjectsLocationsGlobalDomainsResponse = Operation;
 
 export type PatchProjectsLocationsGlobalDomainsError = CommonErrors;
 
+/** Updates the metadata and configuration of a domain. */
 export const patchProjectsLocationsGlobalDomains: API.OperationMethod<PatchProjectsLocationsGlobalDomainsRequest, PatchProjectsLocationsGlobalDomainsResponse, PatchProjectsLocationsGlobalDomainsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsGlobalDomainsRequest,
   output: PatchProjectsLocationsGlobalDomainsResponse,
   errors: [],
 }));
 
-/** Disable Domain Migration */
 export interface DisableMigrationProjectsLocationsGlobalDomainsRequest {
   /** Required. The domain resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   domain: string;
@@ -1349,13 +1348,13 @@ export const DisableMigrationProjectsLocationsGlobalDomainsResponse = Operation;
 
 export type DisableMigrationProjectsLocationsGlobalDomainsError = CommonErrors;
 
+/** Disable Domain Migration */
 export const disableMigrationProjectsLocationsGlobalDomains: API.OperationMethod<DisableMigrationProjectsLocationsGlobalDomainsRequest, DisableMigrationProjectsLocationsGlobalDomainsResponse, DisableMigrationProjectsLocationsGlobalDomainsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DisableMigrationProjectsLocationsGlobalDomainsRequest,
   output: DisableMigrationProjectsLocationsGlobalDomainsResponse,
   errors: [],
 }));
 
-/** Enable Domain Migration */
 export interface EnableMigrationProjectsLocationsGlobalDomainsRequest {
   /** Required. The domain resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   domain: string;
@@ -1376,13 +1375,13 @@ export const EnableMigrationProjectsLocationsGlobalDomainsResponse = Operation;
 
 export type EnableMigrationProjectsLocationsGlobalDomainsError = CommonErrors;
 
+/** Enable Domain Migration */
 export const enableMigrationProjectsLocationsGlobalDomains: API.OperationMethod<EnableMigrationProjectsLocationsGlobalDomainsRequest, EnableMigrationProjectsLocationsGlobalDomainsResponse, EnableMigrationProjectsLocationsGlobalDomainsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnableMigrationProjectsLocationsGlobalDomainsRequest,
   output: EnableMigrationProjectsLocationsGlobalDomainsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsGlobalDomainsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1403,13 +1402,13 @@ export const SetIamPolicyProjectsLocationsGlobalDomainsResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsGlobalDomainsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsGlobalDomains: API.OperationMethod<SetIamPolicyProjectsLocationsGlobalDomainsRequest, SetIamPolicyProjectsLocationsGlobalDomainsResponse, SetIamPolicyProjectsLocationsGlobalDomainsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsGlobalDomainsRequest,
   output: SetIamPolicyProjectsLocationsGlobalDomainsResponse,
   errors: [],
 }));
 
-/** RestoreDomain restores domain backup mentioned in the RestoreDomainRequest */
 export interface RestoreProjectsLocationsGlobalDomainsRequest {
   /** Required. Resource name for the domain to which the backup belongs */
   name: string;
@@ -1430,13 +1429,13 @@ export const RestoreProjectsLocationsGlobalDomainsResponse = Operation;
 
 export type RestoreProjectsLocationsGlobalDomainsError = CommonErrors;
 
+/** RestoreDomain restores domain backup mentioned in the RestoreDomainRequest */
 export const restoreProjectsLocationsGlobalDomains: API.OperationMethod<RestoreProjectsLocationsGlobalDomainsRequest, RestoreProjectsLocationsGlobalDomainsResponse, RestoreProjectsLocationsGlobalDomainsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RestoreProjectsLocationsGlobalDomainsRequest,
   output: RestoreProjectsLocationsGlobalDomainsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsGlobalDomainsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1457,13 +1456,13 @@ export const TestIamPermissionsProjectsLocationsGlobalDomainsResponse = TestIamP
 
 export type TestIamPermissionsProjectsLocationsGlobalDomainsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsGlobalDomains: API.OperationMethod<TestIamPermissionsProjectsLocationsGlobalDomainsRequest, TestIamPermissionsProjectsLocationsGlobalDomainsResponse, TestIamPermissionsProjectsLocationsGlobalDomainsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsGlobalDomainsRequest,
   output: TestIamPermissionsProjectsLocationsGlobalDomainsResponse,
   errors: [],
 }));
 
-/** Resets a domain's administrator password. */
 export interface ResetAdminPasswordProjectsLocationsGlobalDomainsRequest {
   /** Required. The domain resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   name: string;
@@ -1484,13 +1483,13 @@ export const ResetAdminPasswordProjectsLocationsGlobalDomainsResponse = ResetAdm
 
 export type ResetAdminPasswordProjectsLocationsGlobalDomainsError = CommonErrors;
 
+/** Resets a domain's administrator password. */
 export const resetAdminPasswordProjectsLocationsGlobalDomains: API.OperationMethod<ResetAdminPasswordProjectsLocationsGlobalDomainsRequest, ResetAdminPasswordProjectsLocationsGlobalDomainsResponse, ResetAdminPasswordProjectsLocationsGlobalDomainsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetAdminPasswordProjectsLocationsGlobalDomainsRequest,
   output: ResetAdminPasswordProjectsLocationsGlobalDomainsResponse,
   errors: [],
 }));
 
-/** Updates the DNS conditional forwarder. */
 export interface ReconfigureTrustProjectsLocationsGlobalDomainsRequest {
   /** Required. The resource domain name, project name and location using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   name: string;
@@ -1511,13 +1510,13 @@ export const ReconfigureTrustProjectsLocationsGlobalDomainsResponse = Operation;
 
 export type ReconfigureTrustProjectsLocationsGlobalDomainsError = CommonErrors;
 
+/** Updates the DNS conditional forwarder. */
 export const reconfigureTrustProjectsLocationsGlobalDomains: API.OperationMethod<ReconfigureTrustProjectsLocationsGlobalDomainsRequest, ReconfigureTrustProjectsLocationsGlobalDomainsResponse, ReconfigureTrustProjectsLocationsGlobalDomainsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReconfigureTrustProjectsLocationsGlobalDomainsRequest,
   output: ReconfigureTrustProjectsLocationsGlobalDomainsResponse,
   errors: [],
 }));
 
-/** CheckMigrationPermission API gets the current state of DomainMigration */
 export interface CheckMigrationPermissionProjectsLocationsGlobalDomainsRequest {
   /** Required. The domain resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   domain: string;
@@ -1538,13 +1537,13 @@ export const CheckMigrationPermissionProjectsLocationsGlobalDomainsResponse = Ch
 
 export type CheckMigrationPermissionProjectsLocationsGlobalDomainsError = CommonErrors;
 
+/** CheckMigrationPermission API gets the current state of DomainMigration */
 export const checkMigrationPermissionProjectsLocationsGlobalDomains: API.OperationMethod<CheckMigrationPermissionProjectsLocationsGlobalDomainsRequest, CheckMigrationPermissionProjectsLocationsGlobalDomainsResponse, CheckMigrationPermissionProjectsLocationsGlobalDomainsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CheckMigrationPermissionProjectsLocationsGlobalDomainsRequest,
   output: CheckMigrationPermissionProjectsLocationsGlobalDomainsResponse,
   errors: [],
 }));
 
-/** Gets the domain ldaps settings. */
 export interface GetLdapssettingsProjectsLocationsGlobalDomainsRequest {
   /** Required. The domain resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   name: string;
@@ -1562,13 +1561,13 @@ export const GetLdapssettingsProjectsLocationsGlobalDomainsResponse = LDAPSSetti
 
 export type GetLdapssettingsProjectsLocationsGlobalDomainsError = CommonErrors;
 
+/** Gets the domain ldaps settings. */
 export const getLdapssettingsProjectsLocationsGlobalDomains: API.OperationMethod<GetLdapssettingsProjectsLocationsGlobalDomainsRequest, GetLdapssettingsProjectsLocationsGlobalDomainsResponse, GetLdapssettingsProjectsLocationsGlobalDomainsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetLdapssettingsProjectsLocationsGlobalDomainsRequest,
   output: GetLdapssettingsProjectsLocationsGlobalDomainsResponse,
   errors: [],
 }));
 
-/** Gets information about a domain. */
 export interface GetProjectsLocationsGlobalDomainsRequest {
   /** Required. The domain resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   name: string;
@@ -1586,13 +1585,13 @@ export const GetProjectsLocationsGlobalDomainsResponse = Domain;
 
 export type GetProjectsLocationsGlobalDomainsError = CommonErrors;
 
+/** Gets information about a domain. */
 export const getProjectsLocationsGlobalDomains: API.OperationMethod<GetProjectsLocationsGlobalDomainsRequest, GetProjectsLocationsGlobalDomainsResponse, GetProjectsLocationsGlobalDomainsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsGlobalDomainsRequest,
   output: GetProjectsLocationsGlobalDomainsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsGlobalDomainsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1613,13 +1612,13 @@ export const GetIamPolicyProjectsLocationsGlobalDomainsResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsGlobalDomainsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsGlobalDomains: API.OperationMethod<GetIamPolicyProjectsLocationsGlobalDomainsRequest, GetIamPolicyProjectsLocationsGlobalDomainsResponse, GetIamPolicyProjectsLocationsGlobalDomainsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsGlobalDomainsRequest,
   output: GetIamPolicyProjectsLocationsGlobalDomainsResponse,
   errors: [],
 }));
 
-/** DomainJoinMachine API joins a Compute Engine VM to the domain */
 export interface DomainJoinMachineProjectsLocationsGlobalDomainsRequest {
   /** Required. The domain resource name using the form: projects/{project_id}/locations/global/domains/{domain_name} */
   domain: string;
@@ -1640,13 +1639,13 @@ export const DomainJoinMachineProjectsLocationsGlobalDomainsResponse = DomainJoi
 
 export type DomainJoinMachineProjectsLocationsGlobalDomainsError = CommonErrors;
 
+/** DomainJoinMachine API joins a Compute Engine VM to the domain */
 export const domainJoinMachineProjectsLocationsGlobalDomains: API.OperationMethod<DomainJoinMachineProjectsLocationsGlobalDomainsRequest, DomainJoinMachineProjectsLocationsGlobalDomainsResponse, DomainJoinMachineProjectsLocationsGlobalDomainsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DomainJoinMachineProjectsLocationsGlobalDomainsRequest,
   output: DomainJoinMachineProjectsLocationsGlobalDomainsResponse,
   errors: [],
 }));
 
-/** Adds an AD trust to a domain. */
 export interface AttachTrustProjectsLocationsGlobalDomainsRequest {
   /** Required. The resource domain name, project name and location using the form: `projects/{project_id}/locations/global/domains/{domain_name}` */
   name: string;
@@ -1667,13 +1666,13 @@ export const AttachTrustProjectsLocationsGlobalDomainsResponse = Operation;
 
 export type AttachTrustProjectsLocationsGlobalDomainsError = CommonErrors;
 
+/** Adds an AD trust to a domain. */
 export const attachTrustProjectsLocationsGlobalDomains: API.OperationMethod<AttachTrustProjectsLocationsGlobalDomainsRequest, AttachTrustProjectsLocationsGlobalDomainsResponse, AttachTrustProjectsLocationsGlobalDomainsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AttachTrustProjectsLocationsGlobalDomainsRequest,
   output: AttachTrustProjectsLocationsGlobalDomainsResponse,
   errors: [],
 }));
 
-/** Gets details of a single sqlIntegration. */
 export interface GetProjectsLocationsGlobalDomainsSqlIntegrationsRequest {
   /** Required. SQLIntegration resource name using the form: `projects/{project_id}/locations/global/domains/{domain}/sqlIntegrations/{name}` */
   name: string;
@@ -1691,13 +1690,13 @@ export const GetProjectsLocationsGlobalDomainsSqlIntegrationsResponse = SqlInteg
 
 export type GetProjectsLocationsGlobalDomainsSqlIntegrationsError = CommonErrors;
 
+/** Gets details of a single sqlIntegration. */
 export const getProjectsLocationsGlobalDomainsSqlIntegrations: API.OperationMethod<GetProjectsLocationsGlobalDomainsSqlIntegrationsRequest, GetProjectsLocationsGlobalDomainsSqlIntegrationsResponse, GetProjectsLocationsGlobalDomainsSqlIntegrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsGlobalDomainsSqlIntegrationsRequest,
   output: GetProjectsLocationsGlobalDomainsSqlIntegrationsResponse,
   errors: [],
 }));
 
-/** Lists SqlIntegrations in a given domain. */
 export interface ListProjectsLocationsGlobalDomainsSqlIntegrationsRequest {
   /** Optional. The maximum number of items to return. If not specified, a default value of 1000 will be used by the service. Regardless of the page_size value, the response may include a partial list and a caller should only rely on response'ANIZATIONs next_page_token to determine if there are more instances left to be queried. */
   pageSize?: number;
@@ -1727,7 +1726,8 @@ export const ListProjectsLocationsGlobalDomainsSqlIntegrationsResponse = ListSql
 
 export type ListProjectsLocationsGlobalDomainsSqlIntegrationsError = CommonErrors;
 
-export const listProjectsLocationsGlobalDomainsSqlIntegrations = API.makePaginated(() => ({
+/** Lists SqlIntegrations in a given domain. */
+export const listProjectsLocationsGlobalDomainsSqlIntegrations: API.PaginatedOperationMethod<ListProjectsLocationsGlobalDomainsSqlIntegrationsRequest, ListProjectsLocationsGlobalDomainsSqlIntegrationsResponse, ListProjectsLocationsGlobalDomainsSqlIntegrationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsGlobalDomainsSqlIntegrationsRequest,
   output: ListProjectsLocationsGlobalDomainsSqlIntegrationsResponse,
   errors: [],
@@ -1737,7 +1737,6 @@ export const listProjectsLocationsGlobalDomainsSqlIntegrations = API.makePaginat
   },
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsGlobalDomainsBackupsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1758,13 +1757,13 @@ export const TestIamPermissionsProjectsLocationsGlobalDomainsBackupsResponse = T
 
 export type TestIamPermissionsProjectsLocationsGlobalDomainsBackupsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsGlobalDomainsBackups: API.OperationMethod<TestIamPermissionsProjectsLocationsGlobalDomainsBackupsRequest, TestIamPermissionsProjectsLocationsGlobalDomainsBackupsResponse, TestIamPermissionsProjectsLocationsGlobalDomainsBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsGlobalDomainsBackupsRequest,
   output: TestIamPermissionsProjectsLocationsGlobalDomainsBackupsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsGlobalDomainsBackupsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1785,13 +1784,13 @@ export const SetIamPolicyProjectsLocationsGlobalDomainsBackupsResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsGlobalDomainsBackupsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsGlobalDomainsBackups: API.OperationMethod<SetIamPolicyProjectsLocationsGlobalDomainsBackupsRequest, SetIamPolicyProjectsLocationsGlobalDomainsBackupsResponse, SetIamPolicyProjectsLocationsGlobalDomainsBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsGlobalDomainsBackupsRequest,
   output: SetIamPolicyProjectsLocationsGlobalDomainsBackupsResponse,
   errors: [],
 }));
 
-/** Updates the labels for specified Backup. */
 export interface PatchProjectsLocationsGlobalDomainsBackupsRequest {
   /** Required. Mask of fields to update. At least one path must be supplied in this field. The elements of the repeated paths field may only include these fields from Backup: * `labels` */
   updateMask?: string;
@@ -1815,13 +1814,13 @@ export const PatchProjectsLocationsGlobalDomainsBackupsResponse = Operation;
 
 export type PatchProjectsLocationsGlobalDomainsBackupsError = CommonErrors;
 
+/** Updates the labels for specified Backup. */
 export const patchProjectsLocationsGlobalDomainsBackups: API.OperationMethod<PatchProjectsLocationsGlobalDomainsBackupsRequest, PatchProjectsLocationsGlobalDomainsBackupsResponse, PatchProjectsLocationsGlobalDomainsBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsGlobalDomainsBackupsRequest,
   output: PatchProjectsLocationsGlobalDomainsBackupsResponse,
   errors: [],
 }));
 
-/** Gets details of a single Backup. */
 export interface GetProjectsLocationsGlobalDomainsBackupsRequest {
   /** Required. The backup resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}/backups/{backup_id}` */
   name: string;
@@ -1839,13 +1838,13 @@ export const GetProjectsLocationsGlobalDomainsBackupsResponse = Backup;
 
 export type GetProjectsLocationsGlobalDomainsBackupsError = CommonErrors;
 
+/** Gets details of a single Backup. */
 export const getProjectsLocationsGlobalDomainsBackups: API.OperationMethod<GetProjectsLocationsGlobalDomainsBackupsRequest, GetProjectsLocationsGlobalDomainsBackupsResponse, GetProjectsLocationsGlobalDomainsBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsGlobalDomainsBackupsRequest,
   output: GetProjectsLocationsGlobalDomainsBackupsResponse,
   errors: [],
 }));
 
-/** Lists Backup in a given project. */
 export interface ListProjectsLocationsGlobalDomainsBackupsRequest {
   /** Optional. The `next_page_token` value returned from a previous List request, if any. */
   pageToken?: string;
@@ -1875,7 +1874,8 @@ export const ListProjectsLocationsGlobalDomainsBackupsResponse = ListBackupsResp
 
 export type ListProjectsLocationsGlobalDomainsBackupsError = CommonErrors;
 
-export const listProjectsLocationsGlobalDomainsBackups = API.makePaginated(() => ({
+/** Lists Backup in a given project. */
+export const listProjectsLocationsGlobalDomainsBackups: API.PaginatedOperationMethod<ListProjectsLocationsGlobalDomainsBackupsRequest, ListProjectsLocationsGlobalDomainsBackupsResponse, ListProjectsLocationsGlobalDomainsBackupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsGlobalDomainsBackupsRequest,
   output: ListProjectsLocationsGlobalDomainsBackupsResponse,
   errors: [],
@@ -1885,7 +1885,6 @@ export const listProjectsLocationsGlobalDomainsBackups = API.makePaginated(() =>
   },
 }));
 
-/** Deletes identified Backup. */
 export interface DeleteProjectsLocationsGlobalDomainsBackupsRequest {
   /** Required. The backup resource name using the form: `projects/{project_id}/locations/global/domains/{domain_name}/backups/{backup_id}` */
   name: string;
@@ -1903,13 +1902,13 @@ export const DeleteProjectsLocationsGlobalDomainsBackupsResponse = Operation;
 
 export type DeleteProjectsLocationsGlobalDomainsBackupsError = CommonErrors;
 
+/** Deletes identified Backup. */
 export const deleteProjectsLocationsGlobalDomainsBackups: API.OperationMethod<DeleteProjectsLocationsGlobalDomainsBackupsRequest, DeleteProjectsLocationsGlobalDomainsBackupsResponse, DeleteProjectsLocationsGlobalDomainsBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsGlobalDomainsBackupsRequest,
   output: DeleteProjectsLocationsGlobalDomainsBackupsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsGlobalDomainsBackupsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1930,13 +1929,13 @@ export const GetIamPolicyProjectsLocationsGlobalDomainsBackupsResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsGlobalDomainsBackupsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsGlobalDomainsBackups: API.OperationMethod<GetIamPolicyProjectsLocationsGlobalDomainsBackupsRequest, GetIamPolicyProjectsLocationsGlobalDomainsBackupsResponse, GetIamPolicyProjectsLocationsGlobalDomainsBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsGlobalDomainsBackupsRequest,
   output: GetIamPolicyProjectsLocationsGlobalDomainsBackupsResponse,
   errors: [],
 }));
 
-/** Creates a Backup for a domain. */
 export interface CreateProjectsLocationsGlobalDomainsBackupsRequest {
   /** Required. Backup Id, unique name to identify the backups with the following restrictions: * Must be lowercase letters, numbers, and hyphens * Must start with a letter. * Must contain between 1-63 characters. * Must end with a number or a letter. * Must be unique within the domain. */
   backupId?: string;
@@ -1960,13 +1959,13 @@ export const CreateProjectsLocationsGlobalDomainsBackupsResponse = Operation;
 
 export type CreateProjectsLocationsGlobalDomainsBackupsError = CommonErrors;
 
+/** Creates a Backup for a domain. */
 export const createProjectsLocationsGlobalDomainsBackups: API.OperationMethod<CreateProjectsLocationsGlobalDomainsBackupsRequest, CreateProjectsLocationsGlobalDomainsBackupsResponse, CreateProjectsLocationsGlobalDomainsBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsGlobalDomainsBackupsRequest,
   output: CreateProjectsLocationsGlobalDomainsBackupsResponse,
   errors: [],
 }));
 
-/** Creates a Peering for Managed AD instance. */
 export interface CreateProjectsLocationsGlobalPeeringsRequest {
   /** Required. Peering Id, unique name to identify peering. It should follow the regex format "^(?:[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?)$" */
   peeringId?: string;
@@ -1990,13 +1989,13 @@ export const CreateProjectsLocationsGlobalPeeringsResponse = Operation;
 
 export type CreateProjectsLocationsGlobalPeeringsError = CommonErrors;
 
+/** Creates a Peering for Managed AD instance. */
 export const createProjectsLocationsGlobalPeerings: API.OperationMethod<CreateProjectsLocationsGlobalPeeringsRequest, CreateProjectsLocationsGlobalPeeringsResponse, CreateProjectsLocationsGlobalPeeringsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsGlobalPeeringsRequest,
   output: CreateProjectsLocationsGlobalPeeringsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsGlobalPeeringsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2017,13 +2016,13 @@ export const SetIamPolicyProjectsLocationsGlobalPeeringsResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsGlobalPeeringsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsGlobalPeerings: API.OperationMethod<SetIamPolicyProjectsLocationsGlobalPeeringsRequest, SetIamPolicyProjectsLocationsGlobalPeeringsResponse, SetIamPolicyProjectsLocationsGlobalPeeringsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsGlobalPeeringsRequest,
   output: SetIamPolicyProjectsLocationsGlobalPeeringsResponse,
   errors: [],
 }));
 
-/** Gets details of a single Peering. */
 export interface GetProjectsLocationsGlobalPeeringsRequest {
   /** Required. Peering resource name using the form: `projects/{project_id}/locations/global/peerings/{peering_id}` */
   name: string;
@@ -2041,13 +2040,13 @@ export const GetProjectsLocationsGlobalPeeringsResponse = Peering;
 
 export type GetProjectsLocationsGlobalPeeringsError = CommonErrors;
 
+/** Gets details of a single Peering. */
 export const getProjectsLocationsGlobalPeerings: API.OperationMethod<GetProjectsLocationsGlobalPeeringsRequest, GetProjectsLocationsGlobalPeeringsResponse, GetProjectsLocationsGlobalPeeringsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsGlobalPeeringsRequest,
   output: GetProjectsLocationsGlobalPeeringsResponse,
   errors: [],
 }));
 
-/** Lists Peerings in a given project. */
 export interface ListProjectsLocationsGlobalPeeringsRequest {
   /** Optional. The next_page_token value returned from a previous List request, if any. */
   pageToken?: string;
@@ -2077,7 +2076,8 @@ export const ListProjectsLocationsGlobalPeeringsResponse = ListPeeringsResponse;
 
 export type ListProjectsLocationsGlobalPeeringsError = CommonErrors;
 
-export const listProjectsLocationsGlobalPeerings = API.makePaginated(() => ({
+/** Lists Peerings in a given project. */
+export const listProjectsLocationsGlobalPeerings: API.PaginatedOperationMethod<ListProjectsLocationsGlobalPeeringsRequest, ListProjectsLocationsGlobalPeeringsResponse, ListProjectsLocationsGlobalPeeringsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsGlobalPeeringsRequest,
   output: ListProjectsLocationsGlobalPeeringsResponse,
   errors: [],
@@ -2087,7 +2087,6 @@ export const listProjectsLocationsGlobalPeerings = API.makePaginated(() => ({
   },
 }));
 
-/** Updates the labels for specified Peering. */
 export interface PatchProjectsLocationsGlobalPeeringsRequest {
   /** Output only. Unique name of the peering in this scope including projects and location using the form: `projects/{project_id}/locations/global/peerings/{peering_id}`. */
   name: string;
@@ -2111,13 +2110,13 @@ export const PatchProjectsLocationsGlobalPeeringsResponse = Operation;
 
 export type PatchProjectsLocationsGlobalPeeringsError = CommonErrors;
 
+/** Updates the labels for specified Peering. */
 export const patchProjectsLocationsGlobalPeerings: API.OperationMethod<PatchProjectsLocationsGlobalPeeringsRequest, PatchProjectsLocationsGlobalPeeringsResponse, PatchProjectsLocationsGlobalPeeringsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsGlobalPeeringsRequest,
   output: PatchProjectsLocationsGlobalPeeringsResponse,
   errors: [],
 }));
 
-/** Deletes identified Peering. */
 export interface DeleteProjectsLocationsGlobalPeeringsRequest {
   /** Required. Peering resource name using the form: `projects/{project_id}/locations/global/peerings/{peering_id}` */
   name: string;
@@ -2135,13 +2134,13 @@ export const DeleteProjectsLocationsGlobalPeeringsResponse = Operation;
 
 export type DeleteProjectsLocationsGlobalPeeringsError = CommonErrors;
 
+/** Deletes identified Peering. */
 export const deleteProjectsLocationsGlobalPeerings: API.OperationMethod<DeleteProjectsLocationsGlobalPeeringsRequest, DeleteProjectsLocationsGlobalPeeringsResponse, DeleteProjectsLocationsGlobalPeeringsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsGlobalPeeringsRequest,
   output: DeleteProjectsLocationsGlobalPeeringsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsGlobalPeeringsRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
@@ -2162,13 +2161,13 @@ export const GetIamPolicyProjectsLocationsGlobalPeeringsResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsGlobalPeeringsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsGlobalPeerings: API.OperationMethod<GetIamPolicyProjectsLocationsGlobalPeeringsRequest, GetIamPolicyProjectsLocationsGlobalPeeringsResponse, GetIamPolicyProjectsLocationsGlobalPeeringsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsGlobalPeeringsRequest,
   output: GetIamPolicyProjectsLocationsGlobalPeeringsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsGlobalPeeringsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2189,13 +2188,13 @@ export const TestIamPermissionsProjectsLocationsGlobalPeeringsResponse = TestIam
 
 export type TestIamPermissionsProjectsLocationsGlobalPeeringsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsGlobalPeerings: API.OperationMethod<TestIamPermissionsProjectsLocationsGlobalPeeringsRequest, TestIamPermissionsProjectsLocationsGlobalPeeringsResponse, TestIamPermissionsProjectsLocationsGlobalPeeringsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsGlobalPeeringsRequest,
   output: TestIamPermissionsProjectsLocationsGlobalPeeringsResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsGlobalOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -2213,13 +2212,13 @@ export const GetProjectsLocationsGlobalOperationsResponse = Operation;
 
 export type GetProjectsLocationsGlobalOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsGlobalOperations: API.OperationMethod<GetProjectsLocationsGlobalOperationsRequest, GetProjectsLocationsGlobalOperationsResponse, GetProjectsLocationsGlobalOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsGlobalOperationsRequest,
   output: GetProjectsLocationsGlobalOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsGlobalOperationsRequest {
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
@@ -2249,7 +2248,8 @@ export const ListProjectsLocationsGlobalOperationsResponse = ListOperationsRespo
 
 export type ListProjectsLocationsGlobalOperationsError = CommonErrors;
 
-export const listProjectsLocationsGlobalOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsGlobalOperations: API.PaginatedOperationMethod<ListProjectsLocationsGlobalOperationsRequest, ListProjectsLocationsGlobalOperationsResponse, ListProjectsLocationsGlobalOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsGlobalOperationsRequest,
   output: ListProjectsLocationsGlobalOperationsResponse,
   errors: [],
@@ -2259,7 +2259,6 @@ export const listProjectsLocationsGlobalOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsGlobalOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -2280,13 +2279,13 @@ export const CancelProjectsLocationsGlobalOperationsResponse = Empty;
 
 export type CancelProjectsLocationsGlobalOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsGlobalOperations: API.OperationMethod<CancelProjectsLocationsGlobalOperationsRequest, CancelProjectsLocationsGlobalOperationsResponse, CancelProjectsLocationsGlobalOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsGlobalOperationsRequest,
   output: CancelProjectsLocationsGlobalOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsGlobalOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -2304,6 +2303,7 @@ export const DeleteProjectsLocationsGlobalOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsGlobalOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsGlobalOperations: API.OperationMethod<DeleteProjectsLocationsGlobalOperationsRequest, DeleteProjectsLocationsGlobalOperationsResponse, DeleteProjectsLocationsGlobalOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsGlobalOperationsRequest,
   output: DeleteProjectsLocationsGlobalOperationsResponse,

@@ -1704,7 +1704,6 @@ export const IamPolicyOverrideView: Schema.Schema<IamPolicyOverrideView> = Schem
 // Operations
 // ==========================================================================
 
-/** Get default config for a given project and location. */
 export interface GetConfigProjectsLocationsRequest {
   /** Required. The config name. */
   name: string;
@@ -1722,13 +1721,13 @@ export const GetConfigProjectsLocationsResponse = Config;
 
 export type GetConfigProjectsLocationsError = CommonErrors;
 
+/** Get default config for a given project and location. */
 export const getConfigProjectsLocations: API.OperationMethod<GetConfigProjectsLocationsRequest, GetConfigProjectsLocationsResponse, GetConfigProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetConfigProjectsLocationsRequest,
   output: GetConfigProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Update default config for a given project and location. **Note:** *This method does not fully implement [AIP/134](https://google.aip.dev/134). The wildcard entry (\*) is treated as a bad request, and when the `field_mask` is omitted, the request is treated as a full update on all modifiable fields.* */
 export interface UpdateConfigProjectsLocationsRequest {
   /** Identifier. The config name. */
   name: string;
@@ -1752,13 +1751,13 @@ export const UpdateConfigProjectsLocationsResponse = Config;
 
 export type UpdateConfigProjectsLocationsError = CommonErrors;
 
+/** Update default config for a given project and location. **Note:** *This method does not fully implement [AIP/134](https://google.aip.dev/134). The wildcard entry (\*) is treated as a bad request, and when the `field_mask` is omitted, the request is treated as a full update on all modifiable fields.* */
 export const updateConfigProjectsLocations: API.OperationMethod<UpdateConfigProjectsLocationsRequest, UpdateConfigProjectsLocationsResponse, UpdateConfigProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateConfigProjectsLocationsRequest,
   output: UpdateConfigProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -1788,7 +1787,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -1798,7 +1798,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -1816,13 +1815,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -1852,7 +1851,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -1862,7 +1862,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1880,13 +1879,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -1904,13 +1903,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -1931,13 +1930,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Lists Repositories in a given project and location. **Note:** *This method can return repositories not shown in the [Dataform UI](https://console.cloud.google.com/bigquery/dataform)*. */
 export interface ListProjectsLocationsRepositoriesRequest {
   /** Required. The location in which to list repositories. Must be in the format `projects/* /locations/*`. */
   parent: string;
@@ -1967,7 +1966,8 @@ export const ListProjectsLocationsRepositoriesResponse = ListRepositoriesRespons
 
 export type ListProjectsLocationsRepositoriesError = CommonErrors;
 
-export const listProjectsLocationsRepositories = API.makePaginated(() => ({
+/** Lists Repositories in a given project and location. **Note:** *This method can return repositories not shown in the [Dataform UI](https://console.cloud.google.com/bigquery/dataform)*. */
+export const listProjectsLocationsRepositories: API.PaginatedOperationMethod<ListProjectsLocationsRepositoriesRequest, ListProjectsLocationsRepositoriesResponse, ListProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRepositoriesRequest,
   output: ListProjectsLocationsRepositoriesResponse,
   errors: [],
@@ -1977,7 +1977,6 @@ export const listProjectsLocationsRepositories = API.makePaginated(() => ({
   },
 }));
 
-/** Fetches a single Repository. */
 export interface GetProjectsLocationsRepositoriesRequest {
   /** Required. The repository's name. */
   name: string;
@@ -1995,13 +1994,13 @@ export const GetProjectsLocationsRepositoriesResponse = Repository;
 
 export type GetProjectsLocationsRepositoriesError = CommonErrors;
 
+/** Fetches a single Repository. */
 export const getProjectsLocationsRepositories: API.OperationMethod<GetProjectsLocationsRepositoriesRequest, GetProjectsLocationsRepositoriesResponse, GetProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRepositoriesRequest,
   output: GetProjectsLocationsRepositoriesResponse,
   errors: [],
 }));
 
-/** Creates a new Repository in a given project and location. */
 export interface CreateProjectsLocationsRepositoriesRequest {
   /** Required. The location in which to create the repository. Must be in the format `projects/* /locations/*`. */
   parent: string;
@@ -2025,13 +2024,13 @@ export const CreateProjectsLocationsRepositoriesResponse = Repository;
 
 export type CreateProjectsLocationsRepositoriesError = CommonErrors;
 
+/** Creates a new Repository in a given project and location. */
 export const createProjectsLocationsRepositories: API.OperationMethod<CreateProjectsLocationsRepositoriesRequest, CreateProjectsLocationsRepositoriesResponse, CreateProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsRepositoriesRequest,
   output: CreateProjectsLocationsRepositoriesResponse,
   errors: [],
 }));
 
-/** Updates a single Repository. **Note:** *This method does not fully implement [AIP/134](https://google.aip.dev/134). The wildcard entry (\*) is treated as a bad request, and when the `field_mask` is omitted, the request is treated as a full update on all modifiable fields.* */
 export interface PatchProjectsLocationsRepositoriesRequest {
   /** Identifier. The repository's name. */
   name: string;
@@ -2055,13 +2054,13 @@ export const PatchProjectsLocationsRepositoriesResponse = Repository;
 
 export type PatchProjectsLocationsRepositoriesError = CommonErrors;
 
+/** Updates a single Repository. **Note:** *This method does not fully implement [AIP/134](https://google.aip.dev/134). The wildcard entry (\*) is treated as a bad request, and when the `field_mask` is omitted, the request is treated as a full update on all modifiable fields.* */
 export const patchProjectsLocationsRepositories: API.OperationMethod<PatchProjectsLocationsRepositoriesRequest, PatchProjectsLocationsRepositoriesResponse, PatchProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsRepositoriesRequest,
   output: PatchProjectsLocationsRepositoriesResponse,
   errors: [],
 }));
 
-/** Deletes a single Repository. */
 export interface DeleteProjectsLocationsRepositoriesRequest {
   /** Required. The repository's name. */
   name: string;
@@ -2082,13 +2081,13 @@ export const DeleteProjectsLocationsRepositoriesResponse = Empty;
 
 export type DeleteProjectsLocationsRepositoriesError = CommonErrors;
 
+/** Deletes a single Repository. */
 export const deleteProjectsLocationsRepositories: API.OperationMethod<DeleteProjectsLocationsRepositoriesRequest, DeleteProjectsLocationsRepositoriesResponse, DeleteProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsRepositoriesRequest,
   output: DeleteProjectsLocationsRepositoriesResponse,
   errors: [],
 }));
 
-/** Applies a Git commit to a Repository. The Repository must not have a value for `git_remote_settings.url`. */
 export interface CommitProjectsLocationsRepositoriesRequest {
   /** Required. The repository's name. */
   name: string;
@@ -2109,13 +2108,13 @@ export const CommitProjectsLocationsRepositoriesResponse = CommitRepositoryChang
 
 export type CommitProjectsLocationsRepositoriesError = CommonErrors;
 
+/** Applies a Git commit to a Repository. The Repository must not have a value for `git_remote_settings.url`. */
 export const commitProjectsLocationsRepositories: API.OperationMethod<CommitProjectsLocationsRepositoriesRequest, CommitProjectsLocationsRepositoriesResponse, CommitProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CommitProjectsLocationsRepositoriesRequest,
   output: CommitProjectsLocationsRepositoriesResponse,
   errors: [],
 }));
 
-/** Returns the contents of a file (inside a Repository). The Repository must not have a value for `git_remote_settings.url`. */
 export interface ReadFileProjectsLocationsRepositoriesRequest {
   /** Required. The repository's name. */
   name: string;
@@ -2139,13 +2138,13 @@ export const ReadFileProjectsLocationsRepositoriesResponse = ReadRepositoryFileR
 
 export type ReadFileProjectsLocationsRepositoriesError = CommonErrors;
 
+/** Returns the contents of a file (inside a Repository). The Repository must not have a value for `git_remote_settings.url`. */
 export const readFileProjectsLocationsRepositories: API.OperationMethod<ReadFileProjectsLocationsRepositoriesRequest, ReadFileProjectsLocationsRepositoriesResponse, ReadFileProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReadFileProjectsLocationsRepositoriesRequest,
   output: ReadFileProjectsLocationsRepositoriesResponse,
   errors: [],
 }));
 
-/** Returns the contents of a given Repository directory. The Repository must not have a value for `git_remote_settings.url`. */
 export interface QueryDirectoryContentsProjectsLocationsRepositoriesRequest {
   /** Required. The repository's name. */
   name: string;
@@ -2175,7 +2174,8 @@ export const QueryDirectoryContentsProjectsLocationsRepositoriesResponse = Query
 
 export type QueryDirectoryContentsProjectsLocationsRepositoriesError = CommonErrors;
 
-export const queryDirectoryContentsProjectsLocationsRepositories = API.makePaginated(() => ({
+/** Returns the contents of a given Repository directory. The Repository must not have a value for `git_remote_settings.url`. */
+export const queryDirectoryContentsProjectsLocationsRepositories: API.PaginatedOperationMethod<QueryDirectoryContentsProjectsLocationsRepositoriesRequest, QueryDirectoryContentsProjectsLocationsRepositoriesResponse, QueryDirectoryContentsProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: QueryDirectoryContentsProjectsLocationsRepositoriesRequest,
   output: QueryDirectoryContentsProjectsLocationsRepositoriesResponse,
   errors: [],
@@ -2185,7 +2185,6 @@ export const queryDirectoryContentsProjectsLocationsRepositories = API.makePagin
   },
 }));
 
-/** Fetches a Repository's history of commits. The Repository must not have a value for `git_remote_settings.url`. */
 export interface FetchHistoryProjectsLocationsRepositoriesRequest {
   /** Required. The repository's name. */
   name: string;
@@ -2209,7 +2208,8 @@ export const FetchHistoryProjectsLocationsRepositoriesResponse = FetchRepository
 
 export type FetchHistoryProjectsLocationsRepositoriesError = CommonErrors;
 
-export const fetchHistoryProjectsLocationsRepositories = API.makePaginated(() => ({
+/** Fetches a Repository's history of commits. The Repository must not have a value for `git_remote_settings.url`. */
+export const fetchHistoryProjectsLocationsRepositories: API.PaginatedOperationMethod<FetchHistoryProjectsLocationsRepositoriesRequest, FetchHistoryProjectsLocationsRepositoriesResponse, FetchHistoryProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: FetchHistoryProjectsLocationsRepositoriesRequest,
   output: FetchHistoryProjectsLocationsRepositoriesResponse,
   errors: [],
@@ -2219,7 +2219,6 @@ export const fetchHistoryProjectsLocationsRepositories = API.makePaginated(() =>
   },
 }));
 
-/** Computes a Repository's Git access token status. */
 export interface ComputeAccessTokenStatusProjectsLocationsRepositoriesRequest {
   /** Required. The repository's name. */
   name: string;
@@ -2237,13 +2236,13 @@ export const ComputeAccessTokenStatusProjectsLocationsRepositoriesResponse = Com
 
 export type ComputeAccessTokenStatusProjectsLocationsRepositoriesError = CommonErrors;
 
+/** Computes a Repository's Git access token status. */
 export const computeAccessTokenStatusProjectsLocationsRepositories: API.OperationMethod<ComputeAccessTokenStatusProjectsLocationsRepositoriesRequest, ComputeAccessTokenStatusProjectsLocationsRepositoriesResponse, ComputeAccessTokenStatusProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ComputeAccessTokenStatusProjectsLocationsRepositoriesRequest,
   output: ComputeAccessTokenStatusProjectsLocationsRepositoriesResponse,
   errors: [],
 }));
 
-/** Fetches a Repository's remote branches. */
 export interface FetchRemoteBranchesProjectsLocationsRepositoriesRequest {
   /** Required. The repository's name. */
   name: string;
@@ -2261,13 +2260,13 @@ export const FetchRemoteBranchesProjectsLocationsRepositoriesResponse = FetchRem
 
 export type FetchRemoteBranchesProjectsLocationsRepositoriesError = CommonErrors;
 
+/** Fetches a Repository's remote branches. */
 export const fetchRemoteBranchesProjectsLocationsRepositories: API.OperationMethod<FetchRemoteBranchesProjectsLocationsRepositoriesRequest, FetchRemoteBranchesProjectsLocationsRepositoriesResponse, FetchRemoteBranchesProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FetchRemoteBranchesProjectsLocationsRepositoriesRequest,
   output: FetchRemoteBranchesProjectsLocationsRepositoriesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsRepositoriesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2288,13 +2287,13 @@ export const GetIamPolicyProjectsLocationsRepositoriesResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsRepositoriesError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsRepositories: API.OperationMethod<GetIamPolicyProjectsLocationsRepositoriesRequest, GetIamPolicyProjectsLocationsRepositoriesResponse, GetIamPolicyProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsRepositoriesRequest,
   output: GetIamPolicyProjectsLocationsRepositoriesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsRepositoriesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2315,13 +2314,13 @@ export const SetIamPolicyProjectsLocationsRepositoriesResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsRepositoriesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsRepositories: API.OperationMethod<SetIamPolicyProjectsLocationsRepositoriesRequest, SetIamPolicyProjectsLocationsRepositoriesResponse, SetIamPolicyProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsRepositoriesRequest,
   output: SetIamPolicyProjectsLocationsRepositoriesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsRepositoriesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2342,13 +2341,13 @@ export const TestIamPermissionsProjectsLocationsRepositoriesResponse = TestIamPe
 
 export type TestIamPermissionsProjectsLocationsRepositoriesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsRepositories: API.OperationMethod<TestIamPermissionsProjectsLocationsRepositoriesRequest, TestIamPermissionsProjectsLocationsRepositoriesResponse, TestIamPermissionsProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsRepositoriesRequest,
   output: TestIamPermissionsProjectsLocationsRepositoriesResponse,
   errors: [],
 }));
 
-/** Lists Workspaces in a given Repository. */
 export interface ListProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The repository in which to list workspaces. Must be in the format `projects/* /locations/* /repositories/*`. */
   parent: string;
@@ -2378,7 +2377,8 @@ export const ListProjectsLocationsRepositoriesWorkspacesResponse = ListWorkspace
 
 export type ListProjectsLocationsRepositoriesWorkspacesError = CommonErrors;
 
-export const listProjectsLocationsRepositoriesWorkspaces = API.makePaginated(() => ({
+/** Lists Workspaces in a given Repository. */
+export const listProjectsLocationsRepositoriesWorkspaces: API.PaginatedOperationMethod<ListProjectsLocationsRepositoriesWorkspacesRequest, ListProjectsLocationsRepositoriesWorkspacesResponse, ListProjectsLocationsRepositoriesWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRepositoriesWorkspacesRequest,
   output: ListProjectsLocationsRepositoriesWorkspacesResponse,
   errors: [],
@@ -2388,7 +2388,6 @@ export const listProjectsLocationsRepositoriesWorkspaces = API.makePaginated(() 
   },
 }));
 
-/** Fetches a single Workspace. */
 export interface GetProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
   name: string;
@@ -2406,13 +2405,13 @@ export const GetProjectsLocationsRepositoriesWorkspacesResponse = Workspace;
 
 export type GetProjectsLocationsRepositoriesWorkspacesError = CommonErrors;
 
+/** Fetches a single Workspace. */
 export const getProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<GetProjectsLocationsRepositoriesWorkspacesRequest, GetProjectsLocationsRepositoriesWorkspacesResponse, GetProjectsLocationsRepositoriesWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRepositoriesWorkspacesRequest,
   output: GetProjectsLocationsRepositoriesWorkspacesResponse,
   errors: [],
 }));
 
-/** Creates a new Workspace in a given Repository. */
 export interface CreateProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The repository in which to create the workspace. Must be in the format `projects/* /locations/* /repositories/*`. */
   parent: string;
@@ -2436,13 +2435,13 @@ export const CreateProjectsLocationsRepositoriesWorkspacesResponse = Workspace;
 
 export type CreateProjectsLocationsRepositoriesWorkspacesError = CommonErrors;
 
+/** Creates a new Workspace in a given Repository. */
 export const createProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<CreateProjectsLocationsRepositoriesWorkspacesRequest, CreateProjectsLocationsRepositoriesWorkspacesResponse, CreateProjectsLocationsRepositoriesWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsRepositoriesWorkspacesRequest,
   output: CreateProjectsLocationsRepositoriesWorkspacesResponse,
   errors: [],
 }));
 
-/** Deletes a single Workspace. */
 export interface DeleteProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace resource's name. */
   name: string;
@@ -2460,13 +2459,13 @@ export const DeleteProjectsLocationsRepositoriesWorkspacesResponse = Empty;
 
 export type DeleteProjectsLocationsRepositoriesWorkspacesError = CommonErrors;
 
+/** Deletes a single Workspace. */
 export const deleteProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<DeleteProjectsLocationsRepositoriesWorkspacesRequest, DeleteProjectsLocationsRepositoriesWorkspacesResponse, DeleteProjectsLocationsRepositoriesWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsRepositoriesWorkspacesRequest,
   output: DeleteProjectsLocationsRepositoriesWorkspacesResponse,
   errors: [],
 }));
 
-/** Installs dependency NPM packages (inside a Workspace). */
 export interface InstallNpmPackagesProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
   workspace: string;
@@ -2487,13 +2486,13 @@ export const InstallNpmPackagesProjectsLocationsRepositoriesWorkspacesResponse =
 
 export type InstallNpmPackagesProjectsLocationsRepositoriesWorkspacesError = CommonErrors;
 
+/** Installs dependency NPM packages (inside a Workspace). */
 export const installNpmPackagesProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<InstallNpmPackagesProjectsLocationsRepositoriesWorkspacesRequest, InstallNpmPackagesProjectsLocationsRepositoriesWorkspacesResponse, InstallNpmPackagesProjectsLocationsRepositoriesWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InstallNpmPackagesProjectsLocationsRepositoriesWorkspacesRequest,
   output: InstallNpmPackagesProjectsLocationsRepositoriesWorkspacesResponse,
   errors: [],
 }));
 
-/** Pulls Git commits from the Repository's remote into a Workspace. */
 export interface PullProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
   name: string;
@@ -2514,13 +2513,13 @@ export const PullProjectsLocationsRepositoriesWorkspacesResponse = PullGitCommit
 
 export type PullProjectsLocationsRepositoriesWorkspacesError = CommonErrors;
 
+/** Pulls Git commits from the Repository's remote into a Workspace. */
 export const pullProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<PullProjectsLocationsRepositoriesWorkspacesRequest, PullProjectsLocationsRepositoriesWorkspacesResponse, PullProjectsLocationsRepositoriesWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PullProjectsLocationsRepositoriesWorkspacesRequest,
   output: PullProjectsLocationsRepositoriesWorkspacesResponse,
   errors: [],
 }));
 
-/** Pushes Git commits from a Workspace to the Repository's remote. */
 export interface PushProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
   name: string;
@@ -2541,13 +2540,13 @@ export const PushProjectsLocationsRepositoriesWorkspacesResponse = PushGitCommit
 
 export type PushProjectsLocationsRepositoriesWorkspacesError = CommonErrors;
 
+/** Pushes Git commits from a Workspace to the Repository's remote. */
 export const pushProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<PushProjectsLocationsRepositoriesWorkspacesRequest, PushProjectsLocationsRepositoriesWorkspacesResponse, PushProjectsLocationsRepositoriesWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PushProjectsLocationsRepositoriesWorkspacesRequest,
   output: PushProjectsLocationsRepositoriesWorkspacesResponse,
   errors: [],
 }));
 
-/** Fetches Git statuses for the files in a Workspace. */
 export interface FetchFileGitStatusesProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
   name: string;
@@ -2565,13 +2564,13 @@ export const FetchFileGitStatusesProjectsLocationsRepositoriesWorkspacesResponse
 
 export type FetchFileGitStatusesProjectsLocationsRepositoriesWorkspacesError = CommonErrors;
 
+/** Fetches Git statuses for the files in a Workspace. */
 export const fetchFileGitStatusesProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<FetchFileGitStatusesProjectsLocationsRepositoriesWorkspacesRequest, FetchFileGitStatusesProjectsLocationsRepositoriesWorkspacesResponse, FetchFileGitStatusesProjectsLocationsRepositoriesWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FetchFileGitStatusesProjectsLocationsRepositoriesWorkspacesRequest,
   output: FetchFileGitStatusesProjectsLocationsRepositoriesWorkspacesResponse,
   errors: [],
 }));
 
-/** Fetches Git ahead/behind against a remote branch. */
 export interface FetchGitAheadBehindProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
   name: string;
@@ -2592,13 +2591,13 @@ export const FetchGitAheadBehindProjectsLocationsRepositoriesWorkspacesResponse 
 
 export type FetchGitAheadBehindProjectsLocationsRepositoriesWorkspacesError = CommonErrors;
 
+/** Fetches Git ahead/behind against a remote branch. */
 export const fetchGitAheadBehindProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<FetchGitAheadBehindProjectsLocationsRepositoriesWorkspacesRequest, FetchGitAheadBehindProjectsLocationsRepositoriesWorkspacesResponse, FetchGitAheadBehindProjectsLocationsRepositoriesWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FetchGitAheadBehindProjectsLocationsRepositoriesWorkspacesRequest,
   output: FetchGitAheadBehindProjectsLocationsRepositoriesWorkspacesResponse,
   errors: [],
 }));
 
-/** Applies a Git commit for uncommitted files in a Workspace. */
 export interface CommitProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
   name: string;
@@ -2619,13 +2618,13 @@ export const CommitProjectsLocationsRepositoriesWorkspacesResponse = CommitWorks
 
 export type CommitProjectsLocationsRepositoriesWorkspacesError = CommonErrors;
 
+/** Applies a Git commit for uncommitted files in a Workspace. */
 export const commitProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<CommitProjectsLocationsRepositoriesWorkspacesRequest, CommitProjectsLocationsRepositoriesWorkspacesResponse, CommitProjectsLocationsRepositoriesWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CommitProjectsLocationsRepositoriesWorkspacesRequest,
   output: CommitProjectsLocationsRepositoriesWorkspacesResponse,
   errors: [],
 }));
 
-/** Performs a Git reset for uncommitted files in a Workspace. */
 export interface ResetProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
   name: string;
@@ -2646,13 +2645,13 @@ export const ResetProjectsLocationsRepositoriesWorkspacesResponse = ResetWorkspa
 
 export type ResetProjectsLocationsRepositoriesWorkspacesError = CommonErrors;
 
+/** Performs a Git reset for uncommitted files in a Workspace. */
 export const resetProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<ResetProjectsLocationsRepositoriesWorkspacesRequest, ResetProjectsLocationsRepositoriesWorkspacesResponse, ResetProjectsLocationsRepositoriesWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetProjectsLocationsRepositoriesWorkspacesRequest,
   output: ResetProjectsLocationsRepositoriesWorkspacesResponse,
   errors: [],
 }));
 
-/** Fetches Git diff for an uncommitted file in a Workspace. */
 export interface FetchFileDiffProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
   workspace: string;
@@ -2673,13 +2672,13 @@ export const FetchFileDiffProjectsLocationsRepositoriesWorkspacesResponse = Fetc
 
 export type FetchFileDiffProjectsLocationsRepositoriesWorkspacesError = CommonErrors;
 
+/** Fetches Git diff for an uncommitted file in a Workspace. */
 export const fetchFileDiffProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<FetchFileDiffProjectsLocationsRepositoriesWorkspacesRequest, FetchFileDiffProjectsLocationsRepositoriesWorkspacesResponse, FetchFileDiffProjectsLocationsRepositoriesWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FetchFileDiffProjectsLocationsRepositoriesWorkspacesRequest,
   output: FetchFileDiffProjectsLocationsRepositoriesWorkspacesResponse,
   errors: [],
 }));
 
-/** Returns the contents of a given Workspace directory. */
 export interface QueryDirectoryContentsProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
   workspace: string;
@@ -2706,7 +2705,8 @@ export const QueryDirectoryContentsProjectsLocationsRepositoriesWorkspacesRespon
 
 export type QueryDirectoryContentsProjectsLocationsRepositoriesWorkspacesError = CommonErrors;
 
-export const queryDirectoryContentsProjectsLocationsRepositoriesWorkspaces = API.makePaginated(() => ({
+/** Returns the contents of a given Workspace directory. */
+export const queryDirectoryContentsProjectsLocationsRepositoriesWorkspaces: API.PaginatedOperationMethod<QueryDirectoryContentsProjectsLocationsRepositoriesWorkspacesRequest, QueryDirectoryContentsProjectsLocationsRepositoriesWorkspacesResponse, QueryDirectoryContentsProjectsLocationsRepositoriesWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: QueryDirectoryContentsProjectsLocationsRepositoriesWorkspacesRequest,
   output: QueryDirectoryContentsProjectsLocationsRepositoriesWorkspacesResponse,
   errors: [],
@@ -2716,7 +2716,6 @@ export const queryDirectoryContentsProjectsLocationsRepositoriesWorkspaces = API
   },
 }));
 
-/** Finds the contents of a given Workspace directory by filter. */
 export interface SearchFilesProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
   workspace: string;
@@ -2743,7 +2742,8 @@ export const SearchFilesProjectsLocationsRepositoriesWorkspacesResponse = Search
 
 export type SearchFilesProjectsLocationsRepositoriesWorkspacesError = CommonErrors;
 
-export const searchFilesProjectsLocationsRepositoriesWorkspaces = API.makePaginated(() => ({
+/** Finds the contents of a given Workspace directory by filter. */
+export const searchFilesProjectsLocationsRepositoriesWorkspaces: API.PaginatedOperationMethod<SearchFilesProjectsLocationsRepositoriesWorkspacesRequest, SearchFilesProjectsLocationsRepositoriesWorkspacesResponse, SearchFilesProjectsLocationsRepositoriesWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchFilesProjectsLocationsRepositoriesWorkspacesRequest,
   output: SearchFilesProjectsLocationsRepositoriesWorkspacesResponse,
   errors: [],
@@ -2753,7 +2753,6 @@ export const searchFilesProjectsLocationsRepositoriesWorkspaces = API.makePagina
   },
 }));
 
-/** Creates a directory inside a Workspace. */
 export interface MakeDirectoryProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
   workspace: string;
@@ -2774,13 +2773,13 @@ export const MakeDirectoryProjectsLocationsRepositoriesWorkspacesResponse = Make
 
 export type MakeDirectoryProjectsLocationsRepositoriesWorkspacesError = CommonErrors;
 
+/** Creates a directory inside a Workspace. */
 export const makeDirectoryProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<MakeDirectoryProjectsLocationsRepositoriesWorkspacesRequest, MakeDirectoryProjectsLocationsRepositoriesWorkspacesResponse, MakeDirectoryProjectsLocationsRepositoriesWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MakeDirectoryProjectsLocationsRepositoriesWorkspacesRequest,
   output: MakeDirectoryProjectsLocationsRepositoriesWorkspacesResponse,
   errors: [],
 }));
 
-/** Deletes a directory (inside a Workspace) and all of its contents. */
 export interface RemoveDirectoryProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
   workspace: string;
@@ -2801,13 +2800,13 @@ export const RemoveDirectoryProjectsLocationsRepositoriesWorkspacesResponse = Re
 
 export type RemoveDirectoryProjectsLocationsRepositoriesWorkspacesError = CommonErrors;
 
+/** Deletes a directory (inside a Workspace) and all of its contents. */
 export const removeDirectoryProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<RemoveDirectoryProjectsLocationsRepositoriesWorkspacesRequest, RemoveDirectoryProjectsLocationsRepositoriesWorkspacesResponse, RemoveDirectoryProjectsLocationsRepositoriesWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveDirectoryProjectsLocationsRepositoriesWorkspacesRequest,
   output: RemoveDirectoryProjectsLocationsRepositoriesWorkspacesResponse,
   errors: [],
 }));
 
-/** Moves a directory (inside a Workspace), and all of its contents, to a new location. */
 export interface MoveDirectoryProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
   workspace: string;
@@ -2828,13 +2827,13 @@ export const MoveDirectoryProjectsLocationsRepositoriesWorkspacesResponse = Move
 
 export type MoveDirectoryProjectsLocationsRepositoriesWorkspacesError = CommonErrors;
 
+/** Moves a directory (inside a Workspace), and all of its contents, to a new location. */
 export const moveDirectoryProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<MoveDirectoryProjectsLocationsRepositoriesWorkspacesRequest, MoveDirectoryProjectsLocationsRepositoriesWorkspacesResponse, MoveDirectoryProjectsLocationsRepositoriesWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MoveDirectoryProjectsLocationsRepositoriesWorkspacesRequest,
   output: MoveDirectoryProjectsLocationsRepositoriesWorkspacesResponse,
   errors: [],
 }));
 
-/** Returns the contents of a file (inside a Workspace). */
 export interface ReadFileProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
   workspace: string;
@@ -2858,13 +2857,13 @@ export const ReadFileProjectsLocationsRepositoriesWorkspacesResponse = ReadFileR
 
 export type ReadFileProjectsLocationsRepositoriesWorkspacesError = CommonErrors;
 
+/** Returns the contents of a file (inside a Workspace). */
 export const readFileProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<ReadFileProjectsLocationsRepositoriesWorkspacesRequest, ReadFileProjectsLocationsRepositoriesWorkspacesResponse, ReadFileProjectsLocationsRepositoriesWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReadFileProjectsLocationsRepositoriesWorkspacesRequest,
   output: ReadFileProjectsLocationsRepositoriesWorkspacesResponse,
   errors: [],
 }));
 
-/** Deletes a file (inside a Workspace). */
 export interface RemoveFileProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
   workspace: string;
@@ -2885,13 +2884,13 @@ export const RemoveFileProjectsLocationsRepositoriesWorkspacesResponse = RemoveF
 
 export type RemoveFileProjectsLocationsRepositoriesWorkspacesError = CommonErrors;
 
+/** Deletes a file (inside a Workspace). */
 export const removeFileProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<RemoveFileProjectsLocationsRepositoriesWorkspacesRequest, RemoveFileProjectsLocationsRepositoriesWorkspacesResponse, RemoveFileProjectsLocationsRepositoriesWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveFileProjectsLocationsRepositoriesWorkspacesRequest,
   output: RemoveFileProjectsLocationsRepositoriesWorkspacesResponse,
   errors: [],
 }));
 
-/** Moves a file (inside a Workspace) to a new location. */
 export interface MoveFileProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
   workspace: string;
@@ -2912,13 +2911,13 @@ export const MoveFileProjectsLocationsRepositoriesWorkspacesResponse = MoveFileR
 
 export type MoveFileProjectsLocationsRepositoriesWorkspacesError = CommonErrors;
 
+/** Moves a file (inside a Workspace) to a new location. */
 export const moveFileProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<MoveFileProjectsLocationsRepositoriesWorkspacesRequest, MoveFileProjectsLocationsRepositoriesWorkspacesResponse, MoveFileProjectsLocationsRepositoriesWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MoveFileProjectsLocationsRepositoriesWorkspacesRequest,
   output: MoveFileProjectsLocationsRepositoriesWorkspacesResponse,
   errors: [],
 }));
 
-/** Writes to a file (inside a Workspace). */
 export interface WriteFileProjectsLocationsRepositoriesWorkspacesRequest {
   /** Required. The workspace's name. */
   workspace: string;
@@ -2939,13 +2938,13 @@ export const WriteFileProjectsLocationsRepositoriesWorkspacesResponse = WriteFil
 
 export type WriteFileProjectsLocationsRepositoriesWorkspacesError = CommonErrors;
 
+/** Writes to a file (inside a Workspace). */
 export const writeFileProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<WriteFileProjectsLocationsRepositoriesWorkspacesRequest, WriteFileProjectsLocationsRepositoriesWorkspacesResponse, WriteFileProjectsLocationsRepositoriesWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WriteFileProjectsLocationsRepositoriesWorkspacesRequest,
   output: WriteFileProjectsLocationsRepositoriesWorkspacesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsRepositoriesWorkspacesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2966,13 +2965,13 @@ export const GetIamPolicyProjectsLocationsRepositoriesWorkspacesResponse = Polic
 
 export type GetIamPolicyProjectsLocationsRepositoriesWorkspacesError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<GetIamPolicyProjectsLocationsRepositoriesWorkspacesRequest, GetIamPolicyProjectsLocationsRepositoriesWorkspacesResponse, GetIamPolicyProjectsLocationsRepositoriesWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsRepositoriesWorkspacesRequest,
   output: GetIamPolicyProjectsLocationsRepositoriesWorkspacesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsRepositoriesWorkspacesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2993,13 +2992,13 @@ export const SetIamPolicyProjectsLocationsRepositoriesWorkspacesResponse = Polic
 
 export type SetIamPolicyProjectsLocationsRepositoriesWorkspacesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<SetIamPolicyProjectsLocationsRepositoriesWorkspacesRequest, SetIamPolicyProjectsLocationsRepositoriesWorkspacesResponse, SetIamPolicyProjectsLocationsRepositoriesWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsRepositoriesWorkspacesRequest,
   output: SetIamPolicyProjectsLocationsRepositoriesWorkspacesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsRepositoriesWorkspacesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3020,13 +3019,13 @@ export const TestIamPermissionsProjectsLocationsRepositoriesWorkspacesResponse =
 
 export type TestIamPermissionsProjectsLocationsRepositoriesWorkspacesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<TestIamPermissionsProjectsLocationsRepositoriesWorkspacesRequest, TestIamPermissionsProjectsLocationsRepositoriesWorkspacesResponse, TestIamPermissionsProjectsLocationsRepositoriesWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsRepositoriesWorkspacesRequest,
   output: TestIamPermissionsProjectsLocationsRepositoriesWorkspacesResponse,
   errors: [],
 }));
 
-/** Lists ReleaseConfigs in a given Repository. */
 export interface ListProjectsLocationsRepositoriesReleaseConfigsRequest {
   /** Required. The repository in which to list release configs. Must be in the format `projects/* /locations/* /repositories/*`. */
   parent: string;
@@ -3050,7 +3049,8 @@ export const ListProjectsLocationsRepositoriesReleaseConfigsResponse = ListRelea
 
 export type ListProjectsLocationsRepositoriesReleaseConfigsError = CommonErrors;
 
-export const listProjectsLocationsRepositoriesReleaseConfigs = API.makePaginated(() => ({
+/** Lists ReleaseConfigs in a given Repository. */
+export const listProjectsLocationsRepositoriesReleaseConfigs: API.PaginatedOperationMethod<ListProjectsLocationsRepositoriesReleaseConfigsRequest, ListProjectsLocationsRepositoriesReleaseConfigsResponse, ListProjectsLocationsRepositoriesReleaseConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRepositoriesReleaseConfigsRequest,
   output: ListProjectsLocationsRepositoriesReleaseConfigsResponse,
   errors: [],
@@ -3060,7 +3060,6 @@ export const listProjectsLocationsRepositoriesReleaseConfigs = API.makePaginated
   },
 }));
 
-/** Fetches a single ReleaseConfig. */
 export interface GetProjectsLocationsRepositoriesReleaseConfigsRequest {
   /** Required. The release config's name. */
   name: string;
@@ -3078,13 +3077,13 @@ export const GetProjectsLocationsRepositoriesReleaseConfigsResponse = ReleaseCon
 
 export type GetProjectsLocationsRepositoriesReleaseConfigsError = CommonErrors;
 
+/** Fetches a single ReleaseConfig. */
 export const getProjectsLocationsRepositoriesReleaseConfigs: API.OperationMethod<GetProjectsLocationsRepositoriesReleaseConfigsRequest, GetProjectsLocationsRepositoriesReleaseConfigsResponse, GetProjectsLocationsRepositoriesReleaseConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRepositoriesReleaseConfigsRequest,
   output: GetProjectsLocationsRepositoriesReleaseConfigsResponse,
   errors: [],
 }));
 
-/** Creates a new ReleaseConfig in a given Repository. */
 export interface CreateProjectsLocationsRepositoriesReleaseConfigsRequest {
   /** Required. The repository in which to create the release config. Must be in the format `projects/* /locations/* /repositories/*`. */
   parent: string;
@@ -3108,13 +3107,13 @@ export const CreateProjectsLocationsRepositoriesReleaseConfigsResponse = Release
 
 export type CreateProjectsLocationsRepositoriesReleaseConfigsError = CommonErrors;
 
+/** Creates a new ReleaseConfig in a given Repository. */
 export const createProjectsLocationsRepositoriesReleaseConfigs: API.OperationMethod<CreateProjectsLocationsRepositoriesReleaseConfigsRequest, CreateProjectsLocationsRepositoriesReleaseConfigsResponse, CreateProjectsLocationsRepositoriesReleaseConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsRepositoriesReleaseConfigsRequest,
   output: CreateProjectsLocationsRepositoriesReleaseConfigsResponse,
   errors: [],
 }));
 
-/** Updates a single ReleaseConfig. **Note:** *This method does not fully implement [AIP/134](https://google.aip.dev/134). The wildcard entry (\*) is treated as a bad request, and when the `field_mask` is omitted, the request is treated as a full update on all modifiable fields.* */
 export interface PatchProjectsLocationsRepositoriesReleaseConfigsRequest {
   /** Identifier. The release config's name. */
   name: string;
@@ -3138,13 +3137,13 @@ export const PatchProjectsLocationsRepositoriesReleaseConfigsResponse = ReleaseC
 
 export type PatchProjectsLocationsRepositoriesReleaseConfigsError = CommonErrors;
 
+/** Updates a single ReleaseConfig. **Note:** *This method does not fully implement [AIP/134](https://google.aip.dev/134). The wildcard entry (\*) is treated as a bad request, and when the `field_mask` is omitted, the request is treated as a full update on all modifiable fields.* */
 export const patchProjectsLocationsRepositoriesReleaseConfigs: API.OperationMethod<PatchProjectsLocationsRepositoriesReleaseConfigsRequest, PatchProjectsLocationsRepositoriesReleaseConfigsResponse, PatchProjectsLocationsRepositoriesReleaseConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsRepositoriesReleaseConfigsRequest,
   output: PatchProjectsLocationsRepositoriesReleaseConfigsResponse,
   errors: [],
 }));
 
-/** Deletes a single ReleaseConfig. */
 export interface DeleteProjectsLocationsRepositoriesReleaseConfigsRequest {
   /** Required. The release config's name. */
   name: string;
@@ -3162,13 +3161,13 @@ export const DeleteProjectsLocationsRepositoriesReleaseConfigsResponse = Empty;
 
 export type DeleteProjectsLocationsRepositoriesReleaseConfigsError = CommonErrors;
 
+/** Deletes a single ReleaseConfig. */
 export const deleteProjectsLocationsRepositoriesReleaseConfigs: API.OperationMethod<DeleteProjectsLocationsRepositoriesReleaseConfigsRequest, DeleteProjectsLocationsRepositoriesReleaseConfigsResponse, DeleteProjectsLocationsRepositoriesReleaseConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsRepositoriesReleaseConfigsRequest,
   output: DeleteProjectsLocationsRepositoriesReleaseConfigsResponse,
   errors: [],
 }));
 
-/** Lists CompilationResults in a given Repository. */
 export interface ListProjectsLocationsRepositoriesCompilationResultsRequest {
   /** Required. The repository in which to list compilation results. Must be in the format `projects/* /locations/* /repositories/*`. */
   parent: string;
@@ -3198,7 +3197,8 @@ export const ListProjectsLocationsRepositoriesCompilationResultsResponse = ListC
 
 export type ListProjectsLocationsRepositoriesCompilationResultsError = CommonErrors;
 
-export const listProjectsLocationsRepositoriesCompilationResults = API.makePaginated(() => ({
+/** Lists CompilationResults in a given Repository. */
+export const listProjectsLocationsRepositoriesCompilationResults: API.PaginatedOperationMethod<ListProjectsLocationsRepositoriesCompilationResultsRequest, ListProjectsLocationsRepositoriesCompilationResultsResponse, ListProjectsLocationsRepositoriesCompilationResultsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRepositoriesCompilationResultsRequest,
   output: ListProjectsLocationsRepositoriesCompilationResultsResponse,
   errors: [],
@@ -3208,7 +3208,6 @@ export const listProjectsLocationsRepositoriesCompilationResults = API.makePagin
   },
 }));
 
-/** Fetches a single CompilationResult. */
 export interface GetProjectsLocationsRepositoriesCompilationResultsRequest {
   /** Required. The compilation result's name. */
   name: string;
@@ -3226,13 +3225,13 @@ export const GetProjectsLocationsRepositoriesCompilationResultsResponse = Compil
 
 export type GetProjectsLocationsRepositoriesCompilationResultsError = CommonErrors;
 
+/** Fetches a single CompilationResult. */
 export const getProjectsLocationsRepositoriesCompilationResults: API.OperationMethod<GetProjectsLocationsRepositoriesCompilationResultsRequest, GetProjectsLocationsRepositoriesCompilationResultsResponse, GetProjectsLocationsRepositoriesCompilationResultsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRepositoriesCompilationResultsRequest,
   output: GetProjectsLocationsRepositoriesCompilationResultsResponse,
   errors: [],
 }));
 
-/** Creates a new CompilationResult in a given project and location. */
 export interface CreateProjectsLocationsRepositoriesCompilationResultsRequest {
   /** Required. The repository in which to create the compilation result. Must be in the format `projects/* /locations/* /repositories/*`. */
   parent: string;
@@ -3253,13 +3252,13 @@ export const CreateProjectsLocationsRepositoriesCompilationResultsResponse = Com
 
 export type CreateProjectsLocationsRepositoriesCompilationResultsError = CommonErrors;
 
+/** Creates a new CompilationResult in a given project and location. */
 export const createProjectsLocationsRepositoriesCompilationResults: API.OperationMethod<CreateProjectsLocationsRepositoriesCompilationResultsRequest, CreateProjectsLocationsRepositoriesCompilationResultsResponse, CreateProjectsLocationsRepositoriesCompilationResultsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsRepositoriesCompilationResultsRequest,
   output: CreateProjectsLocationsRepositoriesCompilationResultsResponse,
   errors: [],
 }));
 
-/** Returns CompilationResultActions in a given CompilationResult. */
 export interface QueryProjectsLocationsRepositoriesCompilationResultsRequest {
   /** Required. The compilation result's name. */
   name: string;
@@ -3286,7 +3285,8 @@ export const QueryProjectsLocationsRepositoriesCompilationResultsResponse = Quer
 
 export type QueryProjectsLocationsRepositoriesCompilationResultsError = CommonErrors;
 
-export const queryProjectsLocationsRepositoriesCompilationResults = API.makePaginated(() => ({
+/** Returns CompilationResultActions in a given CompilationResult. */
+export const queryProjectsLocationsRepositoriesCompilationResults: API.PaginatedOperationMethod<QueryProjectsLocationsRepositoriesCompilationResultsRequest, QueryProjectsLocationsRepositoriesCompilationResultsResponse, QueryProjectsLocationsRepositoriesCompilationResultsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: QueryProjectsLocationsRepositoriesCompilationResultsRequest,
   output: QueryProjectsLocationsRepositoriesCompilationResultsResponse,
   errors: [],
@@ -3296,7 +3296,6 @@ export const queryProjectsLocationsRepositoriesCompilationResults = API.makePagi
   },
 }));
 
-/** Lists WorkflowConfigs in a given Repository. */
 export interface ListProjectsLocationsRepositoriesWorkflowConfigsRequest {
   /** Required. The repository in which to list workflow configs. Must be in the format `projects/* /locations/* /repositories/*`. */
   parent: string;
@@ -3320,7 +3319,8 @@ export const ListProjectsLocationsRepositoriesWorkflowConfigsResponse = ListWork
 
 export type ListProjectsLocationsRepositoriesWorkflowConfigsError = CommonErrors;
 
-export const listProjectsLocationsRepositoriesWorkflowConfigs = API.makePaginated(() => ({
+/** Lists WorkflowConfigs in a given Repository. */
+export const listProjectsLocationsRepositoriesWorkflowConfigs: API.PaginatedOperationMethod<ListProjectsLocationsRepositoriesWorkflowConfigsRequest, ListProjectsLocationsRepositoriesWorkflowConfigsResponse, ListProjectsLocationsRepositoriesWorkflowConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRepositoriesWorkflowConfigsRequest,
   output: ListProjectsLocationsRepositoriesWorkflowConfigsResponse,
   errors: [],
@@ -3330,7 +3330,6 @@ export const listProjectsLocationsRepositoriesWorkflowConfigs = API.makePaginate
   },
 }));
 
-/** Fetches a single WorkflowConfig. */
 export interface GetProjectsLocationsRepositoriesWorkflowConfigsRequest {
   /** Required. The workflow config's name. */
   name: string;
@@ -3348,13 +3347,13 @@ export const GetProjectsLocationsRepositoriesWorkflowConfigsResponse = WorkflowC
 
 export type GetProjectsLocationsRepositoriesWorkflowConfigsError = CommonErrors;
 
+/** Fetches a single WorkflowConfig. */
 export const getProjectsLocationsRepositoriesWorkflowConfigs: API.OperationMethod<GetProjectsLocationsRepositoriesWorkflowConfigsRequest, GetProjectsLocationsRepositoriesWorkflowConfigsResponse, GetProjectsLocationsRepositoriesWorkflowConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRepositoriesWorkflowConfigsRequest,
   output: GetProjectsLocationsRepositoriesWorkflowConfigsResponse,
   errors: [],
 }));
 
-/** Creates a new WorkflowConfig in a given Repository. */
 export interface CreateProjectsLocationsRepositoriesWorkflowConfigsRequest {
   /** Required. The repository in which to create the workflow config. Must be in the format `projects/* /locations/* /repositories/*`. */
   parent: string;
@@ -3378,13 +3377,13 @@ export const CreateProjectsLocationsRepositoriesWorkflowConfigsResponse = Workfl
 
 export type CreateProjectsLocationsRepositoriesWorkflowConfigsError = CommonErrors;
 
+/** Creates a new WorkflowConfig in a given Repository. */
 export const createProjectsLocationsRepositoriesWorkflowConfigs: API.OperationMethod<CreateProjectsLocationsRepositoriesWorkflowConfigsRequest, CreateProjectsLocationsRepositoriesWorkflowConfigsResponse, CreateProjectsLocationsRepositoriesWorkflowConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsRepositoriesWorkflowConfigsRequest,
   output: CreateProjectsLocationsRepositoriesWorkflowConfigsResponse,
   errors: [],
 }));
 
-/** Updates a single WorkflowConfig. **Note:** *This method does not fully implement [AIP/134](https://google.aip.dev/134). The wildcard entry (\*) is treated as a bad request, and when the `field_mask` is omitted, the request is treated as a full update on all modifiable fields.* */
 export interface PatchProjectsLocationsRepositoriesWorkflowConfigsRequest {
   /** Identifier. The workflow config's name. */
   name: string;
@@ -3408,13 +3407,13 @@ export const PatchProjectsLocationsRepositoriesWorkflowConfigsResponse = Workflo
 
 export type PatchProjectsLocationsRepositoriesWorkflowConfigsError = CommonErrors;
 
+/** Updates a single WorkflowConfig. **Note:** *This method does not fully implement [AIP/134](https://google.aip.dev/134). The wildcard entry (\*) is treated as a bad request, and when the `field_mask` is omitted, the request is treated as a full update on all modifiable fields.* */
 export const patchProjectsLocationsRepositoriesWorkflowConfigs: API.OperationMethod<PatchProjectsLocationsRepositoriesWorkflowConfigsRequest, PatchProjectsLocationsRepositoriesWorkflowConfigsResponse, PatchProjectsLocationsRepositoriesWorkflowConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsRepositoriesWorkflowConfigsRequest,
   output: PatchProjectsLocationsRepositoriesWorkflowConfigsResponse,
   errors: [],
 }));
 
-/** Deletes a single WorkflowConfig. */
 export interface DeleteProjectsLocationsRepositoriesWorkflowConfigsRequest {
   /** Required. The workflow config's name. */
   name: string;
@@ -3432,13 +3431,13 @@ export const DeleteProjectsLocationsRepositoriesWorkflowConfigsResponse = Empty;
 
 export type DeleteProjectsLocationsRepositoriesWorkflowConfigsError = CommonErrors;
 
+/** Deletes a single WorkflowConfig. */
 export const deleteProjectsLocationsRepositoriesWorkflowConfigs: API.OperationMethod<DeleteProjectsLocationsRepositoriesWorkflowConfigsRequest, DeleteProjectsLocationsRepositoriesWorkflowConfigsResponse, DeleteProjectsLocationsRepositoriesWorkflowConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsRepositoriesWorkflowConfigsRequest,
   output: DeleteProjectsLocationsRepositoriesWorkflowConfigsResponse,
   errors: [],
 }));
 
-/** Lists WorkflowInvocations in a given Repository. */
 export interface ListProjectsLocationsRepositoriesWorkflowInvocationsRequest {
   /** Required. The parent resource of the WorkflowInvocation type. Must be in the format `projects/* /locations/* /repositories/*`. */
   parent: string;
@@ -3468,7 +3467,8 @@ export const ListProjectsLocationsRepositoriesWorkflowInvocationsResponse = List
 
 export type ListProjectsLocationsRepositoriesWorkflowInvocationsError = CommonErrors;
 
-export const listProjectsLocationsRepositoriesWorkflowInvocations = API.makePaginated(() => ({
+/** Lists WorkflowInvocations in a given Repository. */
+export const listProjectsLocationsRepositoriesWorkflowInvocations: API.PaginatedOperationMethod<ListProjectsLocationsRepositoriesWorkflowInvocationsRequest, ListProjectsLocationsRepositoriesWorkflowInvocationsResponse, ListProjectsLocationsRepositoriesWorkflowInvocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRepositoriesWorkflowInvocationsRequest,
   output: ListProjectsLocationsRepositoriesWorkflowInvocationsResponse,
   errors: [],
@@ -3478,7 +3478,6 @@ export const listProjectsLocationsRepositoriesWorkflowInvocations = API.makePagi
   },
 }));
 
-/** Fetches a single WorkflowInvocation. */
 export interface GetProjectsLocationsRepositoriesWorkflowInvocationsRequest {
   /** Required. The workflow invocation resource's name. */
   name: string;
@@ -3496,13 +3495,13 @@ export const GetProjectsLocationsRepositoriesWorkflowInvocationsResponse = Workf
 
 export type GetProjectsLocationsRepositoriesWorkflowInvocationsError = CommonErrors;
 
+/** Fetches a single WorkflowInvocation. */
 export const getProjectsLocationsRepositoriesWorkflowInvocations: API.OperationMethod<GetProjectsLocationsRepositoriesWorkflowInvocationsRequest, GetProjectsLocationsRepositoriesWorkflowInvocationsResponse, GetProjectsLocationsRepositoriesWorkflowInvocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRepositoriesWorkflowInvocationsRequest,
   output: GetProjectsLocationsRepositoriesWorkflowInvocationsResponse,
   errors: [],
 }));
 
-/** Creates a new WorkflowInvocation in a given Repository. */
 export interface CreateProjectsLocationsRepositoriesWorkflowInvocationsRequest {
   /** Required. The repository in which to create the workflow invocation. Must be in the format `projects/* /locations/* /repositories/*`. */
   parent: string;
@@ -3523,13 +3522,13 @@ export const CreateProjectsLocationsRepositoriesWorkflowInvocationsResponse = Wo
 
 export type CreateProjectsLocationsRepositoriesWorkflowInvocationsError = CommonErrors;
 
+/** Creates a new WorkflowInvocation in a given Repository. */
 export const createProjectsLocationsRepositoriesWorkflowInvocations: API.OperationMethod<CreateProjectsLocationsRepositoriesWorkflowInvocationsRequest, CreateProjectsLocationsRepositoriesWorkflowInvocationsResponse, CreateProjectsLocationsRepositoriesWorkflowInvocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsRepositoriesWorkflowInvocationsRequest,
   output: CreateProjectsLocationsRepositoriesWorkflowInvocationsResponse,
   errors: [],
 }));
 
-/** Deletes a single WorkflowInvocation. */
 export interface DeleteProjectsLocationsRepositoriesWorkflowInvocationsRequest {
   /** Required. The workflow invocation resource's name. */
   name: string;
@@ -3547,13 +3546,13 @@ export const DeleteProjectsLocationsRepositoriesWorkflowInvocationsResponse = Em
 
 export type DeleteProjectsLocationsRepositoriesWorkflowInvocationsError = CommonErrors;
 
+/** Deletes a single WorkflowInvocation. */
 export const deleteProjectsLocationsRepositoriesWorkflowInvocations: API.OperationMethod<DeleteProjectsLocationsRepositoriesWorkflowInvocationsRequest, DeleteProjectsLocationsRepositoriesWorkflowInvocationsResponse, DeleteProjectsLocationsRepositoriesWorkflowInvocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsRepositoriesWorkflowInvocationsRequest,
   output: DeleteProjectsLocationsRepositoriesWorkflowInvocationsResponse,
   errors: [],
 }));
 
-/** Requests cancellation of a running WorkflowInvocation. */
 export interface CancelProjectsLocationsRepositoriesWorkflowInvocationsRequest {
   /** Required. The workflow invocation resource's name. */
   name: string;
@@ -3574,13 +3573,13 @@ export const CancelProjectsLocationsRepositoriesWorkflowInvocationsResponse = Ca
 
 export type CancelProjectsLocationsRepositoriesWorkflowInvocationsError = CommonErrors;
 
+/** Requests cancellation of a running WorkflowInvocation. */
 export const cancelProjectsLocationsRepositoriesWorkflowInvocations: API.OperationMethod<CancelProjectsLocationsRepositoriesWorkflowInvocationsRequest, CancelProjectsLocationsRepositoriesWorkflowInvocationsResponse, CancelProjectsLocationsRepositoriesWorkflowInvocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsRepositoriesWorkflowInvocationsRequest,
   output: CancelProjectsLocationsRepositoriesWorkflowInvocationsResponse,
   errors: [],
 }));
 
-/** Returns WorkflowInvocationActions in a given WorkflowInvocation. */
 export interface QueryProjectsLocationsRepositoriesWorkflowInvocationsRequest {
   /** Required. The workflow invocation's name. */
   name: string;
@@ -3604,7 +3603,8 @@ export const QueryProjectsLocationsRepositoriesWorkflowInvocationsResponse = Que
 
 export type QueryProjectsLocationsRepositoriesWorkflowInvocationsError = CommonErrors;
 
-export const queryProjectsLocationsRepositoriesWorkflowInvocations = API.makePaginated(() => ({
+/** Returns WorkflowInvocationActions in a given WorkflowInvocation. */
+export const queryProjectsLocationsRepositoriesWorkflowInvocations: API.PaginatedOperationMethod<QueryProjectsLocationsRepositoriesWorkflowInvocationsRequest, QueryProjectsLocationsRepositoriesWorkflowInvocationsResponse, QueryProjectsLocationsRepositoriesWorkflowInvocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: QueryProjectsLocationsRepositoriesWorkflowInvocationsRequest,
   output: QueryProjectsLocationsRepositoriesWorkflowInvocationsResponse,
   errors: [],
@@ -3614,7 +3614,6 @@ export const queryProjectsLocationsRepositoriesWorkflowInvocations = API.makePag
   },
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsFoldersRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3635,13 +3634,13 @@ export const GetIamPolicyProjectsLocationsFoldersResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsFoldersError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsFolders: API.OperationMethod<GetIamPolicyProjectsLocationsFoldersRequest, GetIamPolicyProjectsLocationsFoldersResponse, GetIamPolicyProjectsLocationsFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsFoldersRequest,
   output: GetIamPolicyProjectsLocationsFoldersResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsFoldersRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3662,13 +3661,13 @@ export const SetIamPolicyProjectsLocationsFoldersResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsFoldersError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsFolders: API.OperationMethod<SetIamPolicyProjectsLocationsFoldersRequest, SetIamPolicyProjectsLocationsFoldersResponse, SetIamPolicyProjectsLocationsFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsFoldersRequest,
   output: SetIamPolicyProjectsLocationsFoldersResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsFoldersRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3689,13 +3688,13 @@ export const TestIamPermissionsProjectsLocationsFoldersResponse = TestIamPermiss
 
 export type TestIamPermissionsProjectsLocationsFoldersError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsFolders: API.OperationMethod<TestIamPermissionsProjectsLocationsFoldersRequest, TestIamPermissionsProjectsLocationsFoldersResponse, TestIamPermissionsProjectsLocationsFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsFoldersRequest,
   output: TestIamPermissionsProjectsLocationsFoldersResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsTeamFoldersRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3716,13 +3715,13 @@ export const GetIamPolicyProjectsLocationsTeamFoldersResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsTeamFoldersError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsTeamFolders: API.OperationMethod<GetIamPolicyProjectsLocationsTeamFoldersRequest, GetIamPolicyProjectsLocationsTeamFoldersResponse, GetIamPolicyProjectsLocationsTeamFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsTeamFoldersRequest,
   output: GetIamPolicyProjectsLocationsTeamFoldersResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsTeamFoldersRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3743,13 +3742,13 @@ export const SetIamPolicyProjectsLocationsTeamFoldersResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsTeamFoldersError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsTeamFolders: API.OperationMethod<SetIamPolicyProjectsLocationsTeamFoldersRequest, SetIamPolicyProjectsLocationsTeamFoldersResponse, SetIamPolicyProjectsLocationsTeamFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsTeamFoldersRequest,
   output: SetIamPolicyProjectsLocationsTeamFoldersResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsTeamFoldersRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3770,6 +3769,7 @@ export const TestIamPermissionsProjectsLocationsTeamFoldersResponse = TestIamPer
 
 export type TestIamPermissionsProjectsLocationsTeamFoldersError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsTeamFolders: API.OperationMethod<TestIamPermissionsProjectsLocationsTeamFoldersRequest, TestIamPermissionsProjectsLocationsTeamFoldersResponse, TestIamPermissionsProjectsLocationsTeamFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsTeamFoldersRequest,
   output: TestIamPermissionsProjectsLocationsTeamFoldersResponse,

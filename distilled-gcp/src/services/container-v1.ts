@@ -4338,7 +4338,6 @@ export const GetOpenIDConfigResponse: Schema.Schema<GetOpenIDConfigResponse> = S
 // Operations
 // ==========================================================================
 
-/** Returns configuration info about the Google Kubernetes Engine service. */
 export interface GetServerconfigProjectsZonesRequest {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) to return operations for. This field has been deprecated and replaced by the name field. */
   zone: string;
@@ -4362,13 +4361,13 @@ export const GetServerconfigProjectsZonesResponse = ServerConfig;
 
 export type GetServerconfigProjectsZonesError = CommonErrors;
 
+/** Returns configuration info about the Google Kubernetes Engine service. */
 export const getServerconfigProjectsZones: API.OperationMethod<GetServerconfigProjectsZonesRequest, GetServerconfigProjectsZonesResponse, GetServerconfigProjectsZonesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetServerconfigProjectsZonesRequest,
   output: GetServerconfigProjectsZonesResponse,
   errors: [],
 }));
 
-/** Sets the locations for a specific cluster. Deprecated. Use [projects.locations.clusters.update](https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1/projects.locations.clusters/update) instead. */
 export interface LocationsProjectsZonesClustersRequest {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
@@ -4395,13 +4394,13 @@ export const LocationsProjectsZonesClustersResponse = Operation;
 
 export type LocationsProjectsZonesClustersError = CommonErrors;
 
+/** Sets the locations for a specific cluster. Deprecated. Use [projects.locations.clusters.update](https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1/projects.locations.clusters/update) instead. */
 export const locationsProjectsZonesClusters: API.OperationMethod<LocationsProjectsZonesClustersRequest, LocationsProjectsZonesClustersResponse, LocationsProjectsZonesClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LocationsProjectsZonesClustersRequest,
   output: LocationsProjectsZonesClustersResponse,
   errors: [],
 }));
 
-/** Sets the maintenance policy for a cluster. */
 export interface SetMaintenancePolicyProjectsZonesClustersRequest {
   /** Required. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). */
   projectId: string;
@@ -4428,13 +4427,13 @@ export const SetMaintenancePolicyProjectsZonesClustersResponse = Operation;
 
 export type SetMaintenancePolicyProjectsZonesClustersError = CommonErrors;
 
+/** Sets the maintenance policy for a cluster. */
 export const setMaintenancePolicyProjectsZonesClusters: API.OperationMethod<SetMaintenancePolicyProjectsZonesClustersRequest, SetMaintenancePolicyProjectsZonesClustersResponse, SetMaintenancePolicyProjectsZonesClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetMaintenancePolicyProjectsZonesClustersRequest,
   output: SetMaintenancePolicyProjectsZonesClustersResponse,
   errors: [],
 }));
 
-/** Sets master auth materials. Currently supports changing the admin password or a specific cluster, either via password generation or explicitly setting the password. */
 export interface SetMasterAuthProjectsZonesClustersRequest {
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId: string;
@@ -4461,13 +4460,13 @@ export const SetMasterAuthProjectsZonesClustersResponse = Operation;
 
 export type SetMasterAuthProjectsZonesClustersError = CommonErrors;
 
+/** Sets master auth materials. Currently supports changing the admin password or a specific cluster, either via password generation or explicitly setting the password. */
 export const setMasterAuthProjectsZonesClusters: API.OperationMethod<SetMasterAuthProjectsZonesClustersRequest, SetMasterAuthProjectsZonesClustersResponse, SetMasterAuthProjectsZonesClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetMasterAuthProjectsZonesClustersRequest,
   output: SetMasterAuthProjectsZonesClustersResponse,
   errors: [],
 }));
 
-/** Updates the settings of a specific cluster. */
 export interface UpdateProjectsZonesClustersRequest {
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId: string;
@@ -4494,13 +4493,13 @@ export const UpdateProjectsZonesClustersResponse = Operation;
 
 export type UpdateProjectsZonesClustersError = CommonErrors;
 
+/** Updates the settings of a specific cluster. */
 export const updateProjectsZonesClusters: API.OperationMethod<UpdateProjectsZonesClustersRequest, UpdateProjectsZonesClustersResponse, UpdateProjectsZonesClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateProjectsZonesClustersRequest,
   output: UpdateProjectsZonesClustersResponse,
   errors: [],
 }));
 
-/** Deletes the cluster, including the Kubernetes endpoint and all worker nodes. Firewalls and routes that were configured during cluster creation are also deleted. Other Google Compute Engine resources that might be in use by the cluster, such as load balancer resources, are not deleted if they weren't present when the cluster was initially created. */
 export interface DeleteProjectsZonesClustersRequest {
   /** The name (project, location, cluster) of the cluster to delete. Specified in the format `projects/* /locations/* /clusters/*`. */
   name?: string;
@@ -4527,13 +4526,13 @@ export const DeleteProjectsZonesClustersResponse = Operation;
 
 export type DeleteProjectsZonesClustersError = CommonErrors;
 
+/** Deletes the cluster, including the Kubernetes endpoint and all worker nodes. Firewalls and routes that were configured during cluster creation are also deleted. Other Google Compute Engine resources that might be in use by the cluster, such as load balancer resources, are not deleted if they weren't present when the cluster was initially created. */
 export const deleteProjectsZonesClusters: API.OperationMethod<DeleteProjectsZonesClustersRequest, DeleteProjectsZonesClustersResponse, DeleteProjectsZonesClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsZonesClustersRequest,
   output: DeleteProjectsZonesClustersResponse,
   errors: [],
 }));
 
-/** Creates a cluster, consisting of the specified number and type of Google Compute Engine instances. By default, the cluster is created in the project's [default network](https://cloud.google.com/compute/docs/networks-and-firewalls#networks). One firewall is added for the cluster. After cluster creation, the kubelet creates routes for each node to allow the containers on that node to communicate with all other instances in the cluster. Finally, an entry is added to the project's global metadata indicating which CIDR range the cluster is using. */
 export interface CreateProjectsZonesClustersRequest {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the parent field. */
   projectId: string;
@@ -4557,13 +4556,13 @@ export const CreateProjectsZonesClustersResponse = Operation;
 
 export type CreateProjectsZonesClustersError = CommonErrors;
 
+/** Creates a cluster, consisting of the specified number and type of Google Compute Engine instances. By default, the cluster is created in the project's [default network](https://cloud.google.com/compute/docs/networks-and-firewalls#networks). One firewall is added for the cluster. After cluster creation, the kubelet creates routes for each node to allow the containers on that node to communicate with all other instances in the cluster. Finally, an entry is added to the project's global metadata indicating which CIDR range the cluster is using. */
 export const createProjectsZonesClusters: API.OperationMethod<CreateProjectsZonesClustersRequest, CreateProjectsZonesClustersResponse, CreateProjectsZonesClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsZonesClustersRequest,
   output: CreateProjectsZonesClustersResponse,
   errors: [],
 }));
 
-/** Gets the details of a specific cluster. */
 export interface GetProjectsZonesClustersRequest {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
@@ -4590,13 +4589,13 @@ export const GetProjectsZonesClustersResponse = Cluster;
 
 export type GetProjectsZonesClustersError = CommonErrors;
 
+/** Gets the details of a specific cluster. */
 export const getProjectsZonesClusters: API.OperationMethod<GetProjectsZonesClustersRequest, GetProjectsZonesClustersResponse, GetProjectsZonesClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsZonesClustersRequest,
   output: GetProjectsZonesClustersResponse,
   errors: [],
 }));
 
-/** Sets the addons for a specific cluster. */
 export interface AddonsProjectsZonesClustersRequest {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
@@ -4623,13 +4622,13 @@ export const AddonsProjectsZonesClustersResponse = Operation;
 
 export type AddonsProjectsZonesClustersError = CommonErrors;
 
+/** Sets the addons for a specific cluster. */
 export const addonsProjectsZonesClusters: API.OperationMethod<AddonsProjectsZonesClustersRequest, AddonsProjectsZonesClustersResponse, AddonsProjectsZonesClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddonsProjectsZonesClustersRequest,
   output: AddonsProjectsZonesClustersResponse,
   errors: [],
 }));
 
-/** Sets the logging service for a specific cluster. */
 export interface LoggingProjectsZonesClustersRequest {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
@@ -4656,13 +4655,13 @@ export const LoggingProjectsZonesClustersResponse = Operation;
 
 export type LoggingProjectsZonesClustersError = CommonErrors;
 
+/** Sets the logging service for a specific cluster. */
 export const loggingProjectsZonesClusters: API.OperationMethod<LoggingProjectsZonesClustersRequest, LoggingProjectsZonesClustersResponse, LoggingProjectsZonesClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LoggingProjectsZonesClustersRequest,
   output: LoggingProjectsZonesClustersResponse,
   errors: [],
 }));
 
-/** Updates the master for a specific cluster. */
 export interface MasterProjectsZonesClustersRequest {
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId: string;
@@ -4689,13 +4688,13 @@ export const MasterProjectsZonesClustersResponse = Operation;
 
 export type MasterProjectsZonesClustersError = CommonErrors;
 
+/** Updates the master for a specific cluster. */
 export const masterProjectsZonesClusters: API.OperationMethod<MasterProjectsZonesClustersRequest, MasterProjectsZonesClustersResponse, MasterProjectsZonesClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MasterProjectsZonesClustersRequest,
   output: MasterProjectsZonesClustersResponse,
   errors: [],
 }));
 
-/** Sets labels on a cluster. */
 export interface ResourceLabelsProjectsZonesClustersRequest {
   /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
   clusterId: string;
@@ -4722,13 +4721,13 @@ export const ResourceLabelsProjectsZonesClustersResponse = Operation;
 
 export type ResourceLabelsProjectsZonesClustersError = CommonErrors;
 
+/** Sets labels on a cluster. */
 export const resourceLabelsProjectsZonesClusters: API.OperationMethod<ResourceLabelsProjectsZonesClustersRequest, ResourceLabelsProjectsZonesClustersResponse, ResourceLabelsProjectsZonesClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResourceLabelsProjectsZonesClustersRequest,
   output: ResourceLabelsProjectsZonesClustersResponse,
   errors: [],
 }));
 
-/** Fetch upgrade information of a specific cluster. */
 export interface FetchClusterUpgradeInfoProjectsZonesClustersRequest {
   /** Required. The name (project, location, cluster) of the cluster to get. Specified in the format `projects/* /locations/* /clusters/*` or `projects/* /zones/* /clusters/*`. */
   name: string;
@@ -4749,13 +4748,13 @@ export const FetchClusterUpgradeInfoProjectsZonesClustersResponse = ClusterUpgra
 
 export type FetchClusterUpgradeInfoProjectsZonesClustersError = CommonErrors;
 
+/** Fetch upgrade information of a specific cluster. */
 export const fetchClusterUpgradeInfoProjectsZonesClusters: API.OperationMethod<FetchClusterUpgradeInfoProjectsZonesClustersRequest, FetchClusterUpgradeInfoProjectsZonesClustersResponse, FetchClusterUpgradeInfoProjectsZonesClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FetchClusterUpgradeInfoProjectsZonesClustersRequest,
   output: FetchClusterUpgradeInfoProjectsZonesClustersResponse,
   errors: [],
 }));
 
-/** Lists all clusters owned by a project in either the specified zone or all zones. */
 export interface ListProjectsZonesClustersRequest {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the parent field. */
   projectId: string;
@@ -4779,13 +4778,13 @@ export const ListProjectsZonesClustersResponse = ListClustersResponse;
 
 export type ListProjectsZonesClustersError = CommonErrors;
 
+/** Lists all clusters owned by a project in either the specified zone or all zones. */
 export const listProjectsZonesClusters: API.OperationMethod<ListProjectsZonesClustersRequest, ListProjectsZonesClustersResponse, ListProjectsZonesClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsZonesClustersRequest,
   output: ListProjectsZonesClustersResponse,
   errors: [],
 }));
 
-/** Sets the monitoring service for a specific cluster. */
 export interface MonitoringProjectsZonesClustersRequest {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
@@ -4812,13 +4811,13 @@ export const MonitoringProjectsZonesClustersResponse = Operation;
 
 export type MonitoringProjectsZonesClustersError = CommonErrors;
 
+/** Sets the monitoring service for a specific cluster. */
 export const monitoringProjectsZonesClusters: API.OperationMethod<MonitoringProjectsZonesClustersRequest, MonitoringProjectsZonesClustersResponse, MonitoringProjectsZonesClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MonitoringProjectsZonesClustersRequest,
   output: MonitoringProjectsZonesClustersResponse,
   errors: [],
 }));
 
-/** Enables or disables Network Policy for a cluster. */
 export interface SetNetworkPolicyProjectsZonesClustersRequest {
   /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
   clusterId: string;
@@ -4845,13 +4844,13 @@ export const SetNetworkPolicyProjectsZonesClustersResponse = Operation;
 
 export type SetNetworkPolicyProjectsZonesClustersError = CommonErrors;
 
+/** Enables or disables Network Policy for a cluster. */
 export const setNetworkPolicyProjectsZonesClusters: API.OperationMethod<SetNetworkPolicyProjectsZonesClustersRequest, SetNetworkPolicyProjectsZonesClustersResponse, SetNetworkPolicyProjectsZonesClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetNetworkPolicyProjectsZonesClustersRequest,
   output: SetNetworkPolicyProjectsZonesClustersResponse,
   errors: [],
 }));
 
-/** Enables or disables the ABAC authorization mechanism on a cluster. */
 export interface LegacyAbacProjectsZonesClustersRequest {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
@@ -4878,13 +4877,13 @@ export const LegacyAbacProjectsZonesClustersResponse = Operation;
 
 export type LegacyAbacProjectsZonesClustersError = CommonErrors;
 
+/** Enables or disables the ABAC authorization mechanism on a cluster. */
 export const legacyAbacProjectsZonesClusters: API.OperationMethod<LegacyAbacProjectsZonesClustersRequest, LegacyAbacProjectsZonesClustersResponse, LegacyAbacProjectsZonesClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LegacyAbacProjectsZonesClustersRequest,
   output: LegacyAbacProjectsZonesClustersResponse,
   errors: [],
 }));
 
-/** Completes master IP rotation. */
 export interface CompleteIpRotationProjectsZonesClustersRequest {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
@@ -4911,13 +4910,13 @@ export const CompleteIpRotationProjectsZonesClustersResponse = Operation;
 
 export type CompleteIpRotationProjectsZonesClustersError = CommonErrors;
 
+/** Completes master IP rotation. */
 export const completeIpRotationProjectsZonesClusters: API.OperationMethod<CompleteIpRotationProjectsZonesClustersRequest, CompleteIpRotationProjectsZonesClustersResponse, CompleteIpRotationProjectsZonesClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CompleteIpRotationProjectsZonesClustersRequest,
   output: CompleteIpRotationProjectsZonesClustersResponse,
   errors: [],
 }));
 
-/** Starts master IP rotation. */
 export interface StartIpRotationProjectsZonesClustersRequest {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone: string;
@@ -4944,13 +4943,13 @@ export const StartIpRotationProjectsZonesClustersResponse = Operation;
 
 export type StartIpRotationProjectsZonesClustersError = CommonErrors;
 
+/** Starts master IP rotation. */
 export const startIpRotationProjectsZonesClusters: API.OperationMethod<StartIpRotationProjectsZonesClustersRequest, StartIpRotationProjectsZonesClustersResponse, StartIpRotationProjectsZonesClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StartIpRotationProjectsZonesClustersRequest,
   output: StartIpRotationProjectsZonesClustersResponse,
   errors: [],
 }));
 
-/** Updates the version and/or image type for the specified node pool. */
 export interface UpdateProjectsZonesClustersNodePoolsRequest {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
@@ -4980,13 +4979,13 @@ export const UpdateProjectsZonesClustersNodePoolsResponse = Operation;
 
 export type UpdateProjectsZonesClustersNodePoolsError = CommonErrors;
 
+/** Updates the version and/or image type for the specified node pool. */
 export const updateProjectsZonesClustersNodePools: API.OperationMethod<UpdateProjectsZonesClustersNodePoolsRequest, UpdateProjectsZonesClustersNodePoolsResponse, UpdateProjectsZonesClustersNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateProjectsZonesClustersNodePoolsRequest,
   output: UpdateProjectsZonesClustersNodePoolsResponse,
   errors: [],
 }));
 
-/** Sets the autoscaling settings for the specified node pool. */
 export interface AutoscalingProjectsZonesClustersNodePoolsRequest {
   /** Deprecated. The name of the cluster to upgrade. This field has been deprecated and replaced by the name field. */
   clusterId: string;
@@ -5016,13 +5015,13 @@ export const AutoscalingProjectsZonesClustersNodePoolsResponse = Operation;
 
 export type AutoscalingProjectsZonesClustersNodePoolsError = CommonErrors;
 
+/** Sets the autoscaling settings for the specified node pool. */
 export const autoscalingProjectsZonesClustersNodePools: API.OperationMethod<AutoscalingProjectsZonesClustersNodePoolsRequest, AutoscalingProjectsZonesClustersNodePoolsResponse, AutoscalingProjectsZonesClustersNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AutoscalingProjectsZonesClustersNodePoolsRequest,
   output: AutoscalingProjectsZonesClustersNodePoolsResponse,
   errors: [],
 }));
 
-/** Lists the node pools for a cluster. */
 export interface ListProjectsZonesClustersNodePoolsRequest {
   /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the parent field. */
   clusterId: string;
@@ -5049,13 +5048,13 @@ export const ListProjectsZonesClustersNodePoolsResponse = ListNodePoolsResponse;
 
 export type ListProjectsZonesClustersNodePoolsError = CommonErrors;
 
+/** Lists the node pools for a cluster. */
 export const listProjectsZonesClustersNodePools: API.OperationMethod<ListProjectsZonesClustersNodePoolsRequest, ListProjectsZonesClustersNodePoolsResponse, ListProjectsZonesClustersNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsZonesClustersNodePoolsRequest,
   output: ListProjectsZonesClustersNodePoolsResponse,
   errors: [],
 }));
 
-/** Deletes a node pool from a cluster. */
 export interface DeleteProjectsZonesClustersNodePoolsRequest {
   /** Deprecated. The name of the node pool to delete. This field has been deprecated and replaced by the name field. */
   nodePoolId: string;
@@ -5085,13 +5084,13 @@ export const DeleteProjectsZonesClustersNodePoolsResponse = Operation;
 
 export type DeleteProjectsZonesClustersNodePoolsError = CommonErrors;
 
+/** Deletes a node pool from a cluster. */
 export const deleteProjectsZonesClustersNodePools: API.OperationMethod<DeleteProjectsZonesClustersNodePoolsRequest, DeleteProjectsZonesClustersNodePoolsResponse, DeleteProjectsZonesClustersNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsZonesClustersNodePoolsRequest,
   output: DeleteProjectsZonesClustersNodePoolsResponse,
   errors: [],
 }));
 
-/** Retrieves the requested node pool. */
 export interface GetProjectsZonesClustersNodePoolsRequest {
   /** Deprecated. The name of the node pool. This field has been deprecated and replaced by the name field. */
   nodePoolId: string;
@@ -5121,13 +5120,13 @@ export const GetProjectsZonesClustersNodePoolsResponse = NodePool;
 
 export type GetProjectsZonesClustersNodePoolsError = CommonErrors;
 
+/** Retrieves the requested node pool. */
 export const getProjectsZonesClustersNodePools: API.OperationMethod<GetProjectsZonesClustersNodePoolsRequest, GetProjectsZonesClustersNodePoolsResponse, GetProjectsZonesClustersNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsZonesClustersNodePoolsRequest,
   output: GetProjectsZonesClustersNodePoolsResponse,
   errors: [],
 }));
 
-/** Rolls back a previously Aborted or Failed NodePool upgrade. This makes no changes if the last upgrade successfully completed. */
 export interface RollbackProjectsZonesClustersNodePoolsRequest {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId: string;
@@ -5157,13 +5156,13 @@ export const RollbackProjectsZonesClustersNodePoolsResponse = Operation;
 
 export type RollbackProjectsZonesClustersNodePoolsError = CommonErrors;
 
+/** Rolls back a previously Aborted or Failed NodePool upgrade. This makes no changes if the last upgrade successfully completed. */
 export const rollbackProjectsZonesClustersNodePools: API.OperationMethod<RollbackProjectsZonesClustersNodePoolsRequest, RollbackProjectsZonesClustersNodePoolsResponse, RollbackProjectsZonesClustersNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RollbackProjectsZonesClustersNodePoolsRequest,
   output: RollbackProjectsZonesClustersNodePoolsResponse,
   errors: [],
 }));
 
-/** Sets the size for a specific node pool. The new size will be used for all replicas, including future replicas created by modifying NodePool.locations. */
 export interface SetSizeProjectsZonesClustersNodePoolsRequest {
   /** Deprecated. The name of the cluster to update. This field has been deprecated and replaced by the name field. */
   clusterId: string;
@@ -5193,13 +5192,13 @@ export const SetSizeProjectsZonesClustersNodePoolsResponse = Operation;
 
 export type SetSizeProjectsZonesClustersNodePoolsError = CommonErrors;
 
+/** Sets the size for a specific node pool. The new size will be used for all replicas, including future replicas created by modifying NodePool.locations. */
 export const setSizeProjectsZonesClustersNodePools: API.OperationMethod<SetSizeProjectsZonesClustersNodePoolsRequest, SetSizeProjectsZonesClustersNodePoolsResponse, SetSizeProjectsZonesClustersNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetSizeProjectsZonesClustersNodePoolsRequest,
   output: SetSizeProjectsZonesClustersNodePoolsResponse,
   errors: [],
 }));
 
-/** Sets the NodeManagement options for a node pool. */
 export interface SetManagementProjectsZonesClustersNodePoolsRequest {
   /** Deprecated. The name of the cluster to update. This field has been deprecated and replaced by the name field. */
   clusterId: string;
@@ -5229,13 +5228,13 @@ export const SetManagementProjectsZonesClustersNodePoolsResponse = Operation;
 
 export type SetManagementProjectsZonesClustersNodePoolsError = CommonErrors;
 
+/** Sets the NodeManagement options for a node pool. */
 export const setManagementProjectsZonesClustersNodePools: API.OperationMethod<SetManagementProjectsZonesClustersNodePoolsRequest, SetManagementProjectsZonesClustersNodePoolsResponse, SetManagementProjectsZonesClustersNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetManagementProjectsZonesClustersNodePoolsRequest,
   output: SetManagementProjectsZonesClustersNodePoolsResponse,
   errors: [],
 }));
 
-/** Creates a node pool for a cluster. */
 export interface CreateProjectsZonesClustersNodePoolsRequest {
   /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the parent field. */
   clusterId: string;
@@ -5262,13 +5261,13 @@ export const CreateProjectsZonesClustersNodePoolsResponse = Operation;
 
 export type CreateProjectsZonesClustersNodePoolsError = CommonErrors;
 
+/** Creates a node pool for a cluster. */
 export const createProjectsZonesClustersNodePools: API.OperationMethod<CreateProjectsZonesClustersNodePoolsRequest, CreateProjectsZonesClustersNodePoolsResponse, CreateProjectsZonesClustersNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsZonesClustersNodePoolsRequest,
   output: CreateProjectsZonesClustersNodePoolsResponse,
   errors: [],
 }));
 
-/** Fetch upgrade information of a specific nodepool. */
 export interface FetchNodePoolUpgradeInfoProjectsZonesClustersNodePoolsRequest {
   /** API request version that initiates this operation. */
   version?: string;
@@ -5289,13 +5288,13 @@ export const FetchNodePoolUpgradeInfoProjectsZonesClustersNodePoolsResponse = No
 
 export type FetchNodePoolUpgradeInfoProjectsZonesClustersNodePoolsError = CommonErrors;
 
+/** Fetch upgrade information of a specific nodepool. */
 export const fetchNodePoolUpgradeInfoProjectsZonesClustersNodePools: API.OperationMethod<FetchNodePoolUpgradeInfoProjectsZonesClustersNodePoolsRequest, FetchNodePoolUpgradeInfoProjectsZonesClustersNodePoolsResponse, FetchNodePoolUpgradeInfoProjectsZonesClustersNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FetchNodePoolUpgradeInfoProjectsZonesClustersNodePoolsRequest,
   output: FetchNodePoolUpgradeInfoProjectsZonesClustersNodePoolsResponse,
   errors: [],
 }));
 
-/** Gets the specified operation. */
 export interface GetProjectsZonesOperationsRequest {
   /** The name (project, location, operation id) of the operation to get. Specified in the format `projects/* /locations/* /operations/*`. */
   name?: string;
@@ -5322,13 +5321,13 @@ export const GetProjectsZonesOperationsResponse = Operation;
 
 export type GetProjectsZonesOperationsError = CommonErrors;
 
+/** Gets the specified operation. */
 export const getProjectsZonesOperations: API.OperationMethod<GetProjectsZonesOperationsRequest, GetProjectsZonesOperationsResponse, GetProjectsZonesOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsZonesOperationsRequest,
   output: GetProjectsZonesOperationsResponse,
   errors: [],
 }));
 
-/** Cancels the specified operation. */
 export interface CancelProjectsZonesOperationsRequest {
   /** Deprecated. The server-assigned `name` of the operation. This field has been deprecated and replaced by the name field. */
   operationId: string;
@@ -5355,13 +5354,13 @@ export const CancelProjectsZonesOperationsResponse = Empty;
 
 export type CancelProjectsZonesOperationsError = CommonErrors;
 
+/** Cancels the specified operation. */
 export const cancelProjectsZonesOperations: API.OperationMethod<CancelProjectsZonesOperationsRequest, CancelProjectsZonesOperationsResponse, CancelProjectsZonesOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsZonesOperationsRequest,
   output: CancelProjectsZonesOperationsResponse,
   errors: [],
 }));
 
-/** Lists all operations in a project in a specific zone or all zones. */
 export interface ListProjectsZonesOperationsRequest {
   /** The parent (project and location) where the operations will be listed. Specified in the format `projects/* /locations/*`. Location "-" matches all zones and all regions. */
   parent?: string;
@@ -5385,13 +5384,13 @@ export const ListProjectsZonesOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsZonesOperationsError = CommonErrors;
 
+/** Lists all operations in a project in a specific zone or all zones. */
 export const listProjectsZonesOperations: API.OperationMethod<ListProjectsZonesOperationsRequest, ListProjectsZonesOperationsResponse, ListProjectsZonesOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsZonesOperationsRequest,
   output: ListProjectsZonesOperationsResponse,
   errors: [],
 }));
 
-/** Returns configuration info about the Google Kubernetes Engine service. */
 export interface GetServerConfigProjectsLocationsRequest {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId?: string;
@@ -5415,13 +5414,13 @@ export const GetServerConfigProjectsLocationsResponse = ServerConfig;
 
 export type GetServerConfigProjectsLocationsError = CommonErrors;
 
+/** Returns configuration info about the Google Kubernetes Engine service. */
 export const getServerConfigProjectsLocations: API.OperationMethod<GetServerConfigProjectsLocationsRequest, GetServerConfigProjectsLocationsResponse, GetServerConfigProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetServerConfigProjectsLocationsRequest,
   output: GetServerConfigProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Cancels the specified operation. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name (project, location, operation id) of the operation to cancel. Specified in the format `projects/* /locations/* /operations/*`. */
   name: string;
@@ -5442,13 +5441,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Cancels the specified operation. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Gets the specified operation. */
 export interface GetProjectsLocationsOperationsRequest {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId?: string;
@@ -5475,13 +5474,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the specified operation. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Lists all operations in a project in a specific zone or all zones. */
 export interface ListProjectsLocationsOperationsRequest {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) to return operations for, or `-` for all zones. This field has been deprecated and replaced by the parent field. */
   zone?: string;
@@ -5505,13 +5504,13 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
+/** Lists all operations in a project in a specific zone or all zones. */
 export const listProjectsLocationsOperations: API.OperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Enables or disables the ABAC authorization mechanism on a cluster. */
 export interface SetLegacyAbacProjectsLocationsClustersRequest {
   /** The name (project, location, cluster name) of the cluster to set legacy abac. Specified in the format `projects/* /locations/* /clusters/*`. */
   name: string;
@@ -5532,13 +5531,13 @@ export const SetLegacyAbacProjectsLocationsClustersResponse = Operation;
 
 export type SetLegacyAbacProjectsLocationsClustersError = CommonErrors;
 
+/** Enables or disables the ABAC authorization mechanism on a cluster. */
 export const setLegacyAbacProjectsLocationsClusters: API.OperationMethod<SetLegacyAbacProjectsLocationsClustersRequest, SetLegacyAbacProjectsLocationsClustersResponse, SetLegacyAbacProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetLegacyAbacProjectsLocationsClustersRequest,
   output: SetLegacyAbacProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Sets labels on a cluster. */
 export interface SetResourceLabelsProjectsLocationsClustersRequest {
   /** The name (project, location, cluster name) of the cluster to set labels. Specified in the format `projects/* /locations/* /clusters/*`. */
   name: string;
@@ -5559,13 +5558,13 @@ export const SetResourceLabelsProjectsLocationsClustersResponse = Operation;
 
 export type SetResourceLabelsProjectsLocationsClustersError = CommonErrors;
 
+/** Sets labels on a cluster. */
 export const setResourceLabelsProjectsLocationsClusters: API.OperationMethod<SetResourceLabelsProjectsLocationsClustersRequest, SetResourceLabelsProjectsLocationsClustersResponse, SetResourceLabelsProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetResourceLabelsProjectsLocationsClustersRequest,
   output: SetResourceLabelsProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Sets the monitoring service for a specific cluster. */
 export interface SetMonitoringProjectsLocationsClustersRequest {
   /** The name (project, location, cluster) of the cluster to set monitoring. Specified in the format `projects/* /locations/* /clusters/*`. */
   name: string;
@@ -5586,13 +5585,13 @@ export const SetMonitoringProjectsLocationsClustersResponse = Operation;
 
 export type SetMonitoringProjectsLocationsClustersError = CommonErrors;
 
+/** Sets the monitoring service for a specific cluster. */
 export const setMonitoringProjectsLocationsClusters: API.OperationMethod<SetMonitoringProjectsLocationsClustersRequest, SetMonitoringProjectsLocationsClustersResponse, SetMonitoringProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetMonitoringProjectsLocationsClustersRequest,
   output: SetMonitoringProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Sets the logging service for a specific cluster. */
 export interface SetLoggingProjectsLocationsClustersRequest {
   /** The name (project, location, cluster) of the cluster to set logging. Specified in the format `projects/* /locations/* /clusters/*`. */
   name: string;
@@ -5613,13 +5612,13 @@ export const SetLoggingProjectsLocationsClustersResponse = Operation;
 
 export type SetLoggingProjectsLocationsClustersError = CommonErrors;
 
+/** Sets the logging service for a specific cluster. */
 export const setLoggingProjectsLocationsClusters: API.OperationMethod<SetLoggingProjectsLocationsClustersRequest, SetLoggingProjectsLocationsClustersResponse, SetLoggingProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetLoggingProjectsLocationsClustersRequest,
   output: SetLoggingProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Sets the addons for a specific cluster. */
 export interface SetAddonsProjectsLocationsClustersRequest {
   /** The name (project, location, cluster) of the cluster to set addons. Specified in the format `projects/* /locations/* /clusters/*`. */
   name: string;
@@ -5640,13 +5639,13 @@ export const SetAddonsProjectsLocationsClustersResponse = Operation;
 
 export type SetAddonsProjectsLocationsClustersError = CommonErrors;
 
+/** Sets the addons for a specific cluster. */
 export const setAddonsProjectsLocationsClusters: API.OperationMethod<SetAddonsProjectsLocationsClustersRequest, SetAddonsProjectsLocationsClustersResponse, SetAddonsProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetAddonsProjectsLocationsClustersRequest,
   output: SetAddonsProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Sets the locations for a specific cluster. Deprecated. Use [projects.locations.clusters.update](https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1/projects.locations.clusters/update) instead. */
 export interface SetLocationsProjectsLocationsClustersRequest {
   /** The name (project, location, cluster) of the cluster to set locations. Specified in the format `projects/* /locations/* /clusters/*`. */
   name: string;
@@ -5667,13 +5666,13 @@ export const SetLocationsProjectsLocationsClustersResponse = Operation;
 
 export type SetLocationsProjectsLocationsClustersError = CommonErrors;
 
+/** Sets the locations for a specific cluster. Deprecated. Use [projects.locations.clusters.update](https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1/projects.locations.clusters/update) instead. */
 export const setLocationsProjectsLocationsClusters: API.OperationMethod<SetLocationsProjectsLocationsClustersRequest, SetLocationsProjectsLocationsClustersResponse, SetLocationsProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetLocationsProjectsLocationsClustersRequest,
   output: SetLocationsProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Updates the master for a specific cluster. */
 export interface UpdateMasterProjectsLocationsClustersRequest {
   /** The name (project, location, cluster) of the cluster to update. Specified in the format `projects/* /locations/* /clusters/*`. */
   name: string;
@@ -5694,13 +5693,13 @@ export const UpdateMasterProjectsLocationsClustersResponse = Operation;
 
 export type UpdateMasterProjectsLocationsClustersError = CommonErrors;
 
+/** Updates the master for a specific cluster. */
 export const updateMasterProjectsLocationsClusters: API.OperationMethod<UpdateMasterProjectsLocationsClustersRequest, UpdateMasterProjectsLocationsClustersResponse, UpdateMasterProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateMasterProjectsLocationsClustersRequest,
   output: UpdateMasterProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Sets the maintenance policy for a cluster. */
 export interface SetMaintenancePolicyProjectsLocationsClustersRequest {
   /** The name (project, location, cluster name) of the cluster to set maintenance policy. Specified in the format `projects/* /locations/* /clusters/*`. */
   name: string;
@@ -5721,13 +5720,13 @@ export const SetMaintenancePolicyProjectsLocationsClustersResponse = Operation;
 
 export type SetMaintenancePolicyProjectsLocationsClustersError = CommonErrors;
 
+/** Sets the maintenance policy for a cluster. */
 export const setMaintenancePolicyProjectsLocationsClusters: API.OperationMethod<SetMaintenancePolicyProjectsLocationsClustersRequest, SetMaintenancePolicyProjectsLocationsClustersResponse, SetMaintenancePolicyProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetMaintenancePolicyProjectsLocationsClustersRequest,
   output: SetMaintenancePolicyProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Creates a cluster, consisting of the specified number and type of Google Compute Engine instances. By default, the cluster is created in the project's [default network](https://cloud.google.com/compute/docs/networks-and-firewalls#networks). One firewall is added for the cluster. After cluster creation, the kubelet creates routes for each node to allow the containers on that node to communicate with all other instances in the cluster. Finally, an entry is added to the project's global metadata indicating which CIDR range the cluster is using. */
 export interface CreateProjectsLocationsClustersRequest {
   /** The parent (project and location) where the cluster will be created. Specified in the format `projects/* /locations/*`. */
   parent: string;
@@ -5748,13 +5747,13 @@ export const CreateProjectsLocationsClustersResponse = Operation;
 
 export type CreateProjectsLocationsClustersError = CommonErrors;
 
+/** Creates a cluster, consisting of the specified number and type of Google Compute Engine instances. By default, the cluster is created in the project's [default network](https://cloud.google.com/compute/docs/networks-and-firewalls#networks). One firewall is added for the cluster. After cluster creation, the kubelet creates routes for each node to allow the containers on that node to communicate with all other instances in the cluster. Finally, an entry is added to the project's global metadata indicating which CIDR range the cluster is using. */
 export const createProjectsLocationsClusters: API.OperationMethod<CreateProjectsLocationsClustersRequest, CreateProjectsLocationsClustersResponse, CreateProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsClustersRequest,
   output: CreateProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Sets master auth materials. Currently supports changing the admin password or a specific cluster, either via password generation or explicitly setting the password. */
 export interface SetMasterAuthProjectsLocationsClustersRequest {
   /** The name (project, location, cluster) of the cluster to set auth. Specified in the format `projects/* /locations/* /clusters/*`. */
   name: string;
@@ -5775,13 +5774,13 @@ export const SetMasterAuthProjectsLocationsClustersResponse = Operation;
 
 export type SetMasterAuthProjectsLocationsClustersError = CommonErrors;
 
+/** Sets master auth materials. Currently supports changing the admin password or a specific cluster, either via password generation or explicitly setting the password. */
 export const setMasterAuthProjectsLocationsClusters: API.OperationMethod<SetMasterAuthProjectsLocationsClustersRequest, SetMasterAuthProjectsLocationsClustersResponse, SetMasterAuthProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetMasterAuthProjectsLocationsClustersRequest,
   output: SetMasterAuthProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Deletes the cluster, including the Kubernetes endpoint and all worker nodes. Firewalls and routes that were configured during cluster creation are also deleted. Other Google Compute Engine resources that might be in use by the cluster, such as load balancer resources, are not deleted if they weren't present when the cluster was initially created. */
 export interface DeleteProjectsLocationsClustersRequest {
   /** Deprecated. The name of the cluster to delete. This field has been deprecated and replaced by the name field. */
   clusterId?: string;
@@ -5808,13 +5807,13 @@ export const DeleteProjectsLocationsClustersResponse = Operation;
 
 export type DeleteProjectsLocationsClustersError = CommonErrors;
 
+/** Deletes the cluster, including the Kubernetes endpoint and all worker nodes. Firewalls and routes that were configured during cluster creation are also deleted. Other Google Compute Engine resources that might be in use by the cluster, such as load balancer resources, are not deleted if they weren't present when the cluster was initially created. */
 export const deleteProjectsLocationsClusters: API.OperationMethod<DeleteProjectsLocationsClustersRequest, DeleteProjectsLocationsClustersResponse, DeleteProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsClustersRequest,
   output: DeleteProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Fetch upgrade information of a specific cluster. */
 export interface FetchClusterUpgradeInfoProjectsLocationsClustersRequest {
   /** Required. The name (project, location, cluster) of the cluster to get. Specified in the format `projects/* /locations/* /clusters/*` or `projects/* /zones/* /clusters/*`. */
   name: string;
@@ -5835,13 +5834,13 @@ export const FetchClusterUpgradeInfoProjectsLocationsClustersResponse = ClusterU
 
 export type FetchClusterUpgradeInfoProjectsLocationsClustersError = CommonErrors;
 
+/** Fetch upgrade information of a specific cluster. */
 export const fetchClusterUpgradeInfoProjectsLocationsClusters: API.OperationMethod<FetchClusterUpgradeInfoProjectsLocationsClustersRequest, FetchClusterUpgradeInfoProjectsLocationsClustersResponse, FetchClusterUpgradeInfoProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FetchClusterUpgradeInfoProjectsLocationsClustersRequest,
   output: FetchClusterUpgradeInfoProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Enables or disables Network Policy for a cluster. */
 export interface SetNetworkPolicyProjectsLocationsClustersRequest {
   /** The name (project, location, cluster name) of the cluster to set networking policy. Specified in the format `projects/* /locations/* /clusters/*`. */
   name: string;
@@ -5862,13 +5861,13 @@ export const SetNetworkPolicyProjectsLocationsClustersResponse = Operation;
 
 export type SetNetworkPolicyProjectsLocationsClustersError = CommonErrors;
 
+/** Enables or disables Network Policy for a cluster. */
 export const setNetworkPolicyProjectsLocationsClusters: API.OperationMethod<SetNetworkPolicyProjectsLocationsClustersRequest, SetNetworkPolicyProjectsLocationsClustersResponse, SetNetworkPolicyProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetNetworkPolicyProjectsLocationsClustersRequest,
   output: SetNetworkPolicyProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Completes master IP rotation. */
 export interface CompleteIpRotationProjectsLocationsClustersRequest {
   /** The name (project, location, cluster name) of the cluster to complete IP rotation. Specified in the format `projects/* /locations/* /clusters/*`. */
   name: string;
@@ -5889,13 +5888,13 @@ export const CompleteIpRotationProjectsLocationsClustersResponse = Operation;
 
 export type CompleteIpRotationProjectsLocationsClustersError = CommonErrors;
 
+/** Completes master IP rotation. */
 export const completeIpRotationProjectsLocationsClusters: API.OperationMethod<CompleteIpRotationProjectsLocationsClustersRequest, CompleteIpRotationProjectsLocationsClustersResponse, CompleteIpRotationProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CompleteIpRotationProjectsLocationsClustersRequest,
   output: CompleteIpRotationProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Updates the settings of a specific cluster. */
 export interface UpdateProjectsLocationsClustersRequest {
   /** The name (project, location, cluster) of the cluster to update. Specified in the format `projects/* /locations/* /clusters/*`. */
   name: string;
@@ -5916,13 +5915,13 @@ export const UpdateProjectsLocationsClustersResponse = Operation;
 
 export type UpdateProjectsLocationsClustersError = CommonErrors;
 
+/** Updates the settings of a specific cluster. */
 export const updateProjectsLocationsClusters: API.OperationMethod<UpdateProjectsLocationsClustersRequest, UpdateProjectsLocationsClustersResponse, UpdateProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateProjectsLocationsClustersRequest,
   output: UpdateProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Lists all clusters owned by a project in either the specified zone or all zones. */
 export interface ListProjectsLocationsClustersRequest {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides, or "-" for all zones. This field has been deprecated and replaced by the parent field. */
   zone?: string;
@@ -5946,13 +5945,13 @@ export const ListProjectsLocationsClustersResponse = ListClustersResponse;
 
 export type ListProjectsLocationsClustersError = CommonErrors;
 
+/** Lists all clusters owned by a project in either the specified zone or all zones. */
 export const listProjectsLocationsClusters: API.OperationMethod<ListProjectsLocationsClustersRequest, ListProjectsLocationsClustersResponse, ListProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsClustersRequest,
   output: ListProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Gets the details of a specific cluster. */
 export interface GetProjectsLocationsClustersRequest {
   /** Deprecated. The name of the Google Compute Engine [zone](https://cloud.google.com/compute/docs/zones#available) in which the cluster resides. This field has been deprecated and replaced by the name field. */
   zone?: string;
@@ -5979,13 +5978,13 @@ export const GetProjectsLocationsClustersResponse = Cluster;
 
 export type GetProjectsLocationsClustersError = CommonErrors;
 
+/** Gets the details of a specific cluster. */
 export const getProjectsLocationsClusters: API.OperationMethod<GetProjectsLocationsClustersRequest, GetProjectsLocationsClustersResponse, GetProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsClustersRequest,
   output: GetProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Gets the public component of the cluster signing keys in JSON Web Key format. */
 export interface GetJwksProjectsLocationsClustersRequest {
   /** The cluster (project, location, cluster name) to get keys for. Specified in the format `projects/* /locations/* /clusters/*`. */
   parent: string;
@@ -6003,13 +6002,13 @@ export const GetJwksProjectsLocationsClustersResponse = GetJSONWebKeysResponse;
 
 export type GetJwksProjectsLocationsClustersError = CommonErrors;
 
+/** Gets the public component of the cluster signing keys in JSON Web Key format. */
 export const getJwksProjectsLocationsClusters: API.OperationMethod<GetJwksProjectsLocationsClustersRequest, GetJwksProjectsLocationsClustersResponse, GetJwksProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetJwksProjectsLocationsClustersRequest,
   output: GetJwksProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Checks the cluster compatibility with Autopilot mode, and returns a list of compatibility issues. */
 export interface CheckAutopilotCompatibilityProjectsLocationsClustersRequest {
   /** The name (project, location, cluster) of the cluster to retrieve. Specified in the format `projects/* /locations/* /clusters/*`. */
   name: string;
@@ -6027,13 +6026,13 @@ export const CheckAutopilotCompatibilityProjectsLocationsClustersResponse = Chec
 
 export type CheckAutopilotCompatibilityProjectsLocationsClustersError = CommonErrors;
 
+/** Checks the cluster compatibility with Autopilot mode, and returns a list of compatibility issues. */
 export const checkAutopilotCompatibilityProjectsLocationsClusters: API.OperationMethod<CheckAutopilotCompatibilityProjectsLocationsClustersRequest, CheckAutopilotCompatibilityProjectsLocationsClustersResponse, CheckAutopilotCompatibilityProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CheckAutopilotCompatibilityProjectsLocationsClustersRequest,
   output: CheckAutopilotCompatibilityProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Starts master IP rotation. */
 export interface StartIpRotationProjectsLocationsClustersRequest {
   /** The name (project, location, cluster name) of the cluster to start IP rotation. Specified in the format `projects/* /locations/* /clusters/*`. */
   name: string;
@@ -6054,13 +6053,13 @@ export const StartIpRotationProjectsLocationsClustersResponse = Operation;
 
 export type StartIpRotationProjectsLocationsClustersError = CommonErrors;
 
+/** Starts master IP rotation. */
 export const startIpRotationProjectsLocationsClusters: API.OperationMethod<StartIpRotationProjectsLocationsClustersRequest, StartIpRotationProjectsLocationsClustersResponse, StartIpRotationProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StartIpRotationProjectsLocationsClustersRequest,
   output: StartIpRotationProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Gets the OIDC discovery document for the cluster. See the [OpenID Connect Discovery 1.0 specification](https://openid.net/specs/openid-connect-discovery-1_0.html) for details. */
 export interface GetOpenid_configurationProjectsLocationsClustersWell_knownRequest {
   /** The cluster (project, location, cluster name) to get the discovery document for. Specified in the format `projects/* /locations/* /clusters/*`. */
   parent: string;
@@ -6078,13 +6077,13 @@ export const GetOpenid_configurationProjectsLocationsClustersWell_knownResponse 
 
 export type GetOpenid_configurationProjectsLocationsClustersWell_knownError = CommonErrors;
 
+/** Gets the OIDC discovery document for the cluster. See the [OpenID Connect Discovery 1.0 specification](https://openid.net/specs/openid-connect-discovery-1_0.html) for details. */
 export const getOpenid_configurationProjectsLocationsClustersWell_known: API.OperationMethod<GetOpenid_configurationProjectsLocationsClustersWell_knownRequest, GetOpenid_configurationProjectsLocationsClustersWell_knownResponse, GetOpenid_configurationProjectsLocationsClustersWell_knownError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOpenid_configurationProjectsLocationsClustersWell_knownRequest,
   output: GetOpenid_configurationProjectsLocationsClustersWell_knownResponse,
   errors: [],
 }));
 
-/** Sets the NodeManagement options for a node pool. */
 export interface SetManagementProjectsLocationsClustersNodePoolsRequest {
   /** The name (project, location, cluster, node pool id) of the node pool to set management properties. Specified in the format `projects/* /locations/* /clusters/* /nodePools/*`. */
   name: string;
@@ -6105,13 +6104,13 @@ export const SetManagementProjectsLocationsClustersNodePoolsResponse = Operation
 
 export type SetManagementProjectsLocationsClustersNodePoolsError = CommonErrors;
 
+/** Sets the NodeManagement options for a node pool. */
 export const setManagementProjectsLocationsClustersNodePools: API.OperationMethod<SetManagementProjectsLocationsClustersNodePoolsRequest, SetManagementProjectsLocationsClustersNodePoolsResponse, SetManagementProjectsLocationsClustersNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetManagementProjectsLocationsClustersNodePoolsRequest,
   output: SetManagementProjectsLocationsClustersNodePoolsResponse,
   errors: [],
 }));
 
-/** Lists the node pools for a cluster. */
 export interface ListProjectsLocationsClustersNodePoolsRequest {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the parent field. */
   projectId?: string;
@@ -6138,13 +6137,13 @@ export const ListProjectsLocationsClustersNodePoolsResponse = ListNodePoolsRespo
 
 export type ListProjectsLocationsClustersNodePoolsError = CommonErrors;
 
+/** Lists the node pools for a cluster. */
 export const listProjectsLocationsClustersNodePools: API.OperationMethod<ListProjectsLocationsClustersNodePoolsRequest, ListProjectsLocationsClustersNodePoolsResponse, ListProjectsLocationsClustersNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsClustersNodePoolsRequest,
   output: ListProjectsLocationsClustersNodePoolsResponse,
   errors: [],
 }));
 
-/** Sets the size for a specific node pool. The new size will be used for all replicas, including future replicas created by modifying NodePool.locations. */
 export interface SetSizeProjectsLocationsClustersNodePoolsRequest {
   /** The name (project, location, cluster, node pool id) of the node pool to set size. Specified in the format `projects/* /locations/* /clusters/* /nodePools/*`. */
   name: string;
@@ -6165,13 +6164,13 @@ export const SetSizeProjectsLocationsClustersNodePoolsResponse = Operation;
 
 export type SetSizeProjectsLocationsClustersNodePoolsError = CommonErrors;
 
+/** Sets the size for a specific node pool. The new size will be used for all replicas, including future replicas created by modifying NodePool.locations. */
 export const setSizeProjectsLocationsClustersNodePools: API.OperationMethod<SetSizeProjectsLocationsClustersNodePoolsRequest, SetSizeProjectsLocationsClustersNodePoolsResponse, SetSizeProjectsLocationsClustersNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetSizeProjectsLocationsClustersNodePoolsRequest,
   output: SetSizeProjectsLocationsClustersNodePoolsResponse,
   errors: [],
 }));
 
-/** Sets the autoscaling settings for the specified node pool. */
 export interface SetAutoscalingProjectsLocationsClustersNodePoolsRequest {
   /** The name (project, location, cluster, node pool) of the node pool to set autoscaler settings. Specified in the format `projects/* /locations/* /clusters/* /nodePools/*`. */
   name: string;
@@ -6192,13 +6191,13 @@ export const SetAutoscalingProjectsLocationsClustersNodePoolsResponse = Operatio
 
 export type SetAutoscalingProjectsLocationsClustersNodePoolsError = CommonErrors;
 
+/** Sets the autoscaling settings for the specified node pool. */
 export const setAutoscalingProjectsLocationsClustersNodePools: API.OperationMethod<SetAutoscalingProjectsLocationsClustersNodePoolsRequest, SetAutoscalingProjectsLocationsClustersNodePoolsResponse, SetAutoscalingProjectsLocationsClustersNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetAutoscalingProjectsLocationsClustersNodePoolsRequest,
   output: SetAutoscalingProjectsLocationsClustersNodePoolsResponse,
   errors: [],
 }));
 
-/** Retrieves the requested node pool. */
 export interface GetProjectsLocationsClustersNodePoolsRequest {
   /** Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the name field. */
   projectId?: string;
@@ -6228,13 +6227,13 @@ export const GetProjectsLocationsClustersNodePoolsResponse = NodePool;
 
 export type GetProjectsLocationsClustersNodePoolsError = CommonErrors;
 
+/** Retrieves the requested node pool. */
 export const getProjectsLocationsClustersNodePools: API.OperationMethod<GetProjectsLocationsClustersNodePoolsRequest, GetProjectsLocationsClustersNodePoolsResponse, GetProjectsLocationsClustersNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsClustersNodePoolsRequest,
   output: GetProjectsLocationsClustersNodePoolsResponse,
   errors: [],
 }));
 
-/** Rolls back a previously Aborted or Failed NodePool upgrade. This makes no changes if the last upgrade successfully completed. */
 export interface RollbackProjectsLocationsClustersNodePoolsRequest {
   /** The name (project, location, cluster, node pool id) of the node poll to rollback upgrade. Specified in the format `projects/* /locations/* /clusters/* /nodePools/*`. */
   name: string;
@@ -6255,13 +6254,13 @@ export const RollbackProjectsLocationsClustersNodePoolsResponse = Operation;
 
 export type RollbackProjectsLocationsClustersNodePoolsError = CommonErrors;
 
+/** Rolls back a previously Aborted or Failed NodePool upgrade. This makes no changes if the last upgrade successfully completed. */
 export const rollbackProjectsLocationsClustersNodePools: API.OperationMethod<RollbackProjectsLocationsClustersNodePoolsRequest, RollbackProjectsLocationsClustersNodePoolsResponse, RollbackProjectsLocationsClustersNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RollbackProjectsLocationsClustersNodePoolsRequest,
   output: RollbackProjectsLocationsClustersNodePoolsResponse,
   errors: [],
 }));
 
-/** Updates the version and/or image type for the specified node pool. */
 export interface UpdateProjectsLocationsClustersNodePoolsRequest {
   /** The name (project, location, cluster, node pool) of the node pool to update. Specified in the format `projects/* /locations/* /clusters/* /nodePools/*`. */
   name: string;
@@ -6282,13 +6281,13 @@ export const UpdateProjectsLocationsClustersNodePoolsResponse = Operation;
 
 export type UpdateProjectsLocationsClustersNodePoolsError = CommonErrors;
 
+/** Updates the version and/or image type for the specified node pool. */
 export const updateProjectsLocationsClustersNodePools: API.OperationMethod<UpdateProjectsLocationsClustersNodePoolsRequest, UpdateProjectsLocationsClustersNodePoolsResponse, UpdateProjectsLocationsClustersNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateProjectsLocationsClustersNodePoolsRequest,
   output: UpdateProjectsLocationsClustersNodePoolsResponse,
   errors: [],
 }));
 
-/** Deletes a node pool from a cluster. */
 export interface DeleteProjectsLocationsClustersNodePoolsRequest {
   /** Deprecated. The name of the cluster. This field has been deprecated and replaced by the name field. */
   clusterId?: string;
@@ -6318,13 +6317,13 @@ export const DeleteProjectsLocationsClustersNodePoolsResponse = Operation;
 
 export type DeleteProjectsLocationsClustersNodePoolsError = CommonErrors;
 
+/** Deletes a node pool from a cluster. */
 export const deleteProjectsLocationsClustersNodePools: API.OperationMethod<DeleteProjectsLocationsClustersNodePoolsRequest, DeleteProjectsLocationsClustersNodePoolsResponse, DeleteProjectsLocationsClustersNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsClustersNodePoolsRequest,
   output: DeleteProjectsLocationsClustersNodePoolsResponse,
   errors: [],
 }));
 
-/** CompleteNodePoolUpgrade will signal an on-going node pool upgrade to complete. */
 export interface CompleteUpgradeProjectsLocationsClustersNodePoolsRequest {
   /** The name (project, location, cluster, node pool id) of the node pool to complete upgrade. Specified in the format `projects/* /locations/* /clusters/* /nodePools/*`. */
   name: string;
@@ -6345,13 +6344,13 @@ export const CompleteUpgradeProjectsLocationsClustersNodePoolsResponse = Empty;
 
 export type CompleteUpgradeProjectsLocationsClustersNodePoolsError = CommonErrors;
 
+/** CompleteNodePoolUpgrade will signal an on-going node pool upgrade to complete. */
 export const completeUpgradeProjectsLocationsClustersNodePools: API.OperationMethod<CompleteUpgradeProjectsLocationsClustersNodePoolsRequest, CompleteUpgradeProjectsLocationsClustersNodePoolsResponse, CompleteUpgradeProjectsLocationsClustersNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CompleteUpgradeProjectsLocationsClustersNodePoolsRequest,
   output: CompleteUpgradeProjectsLocationsClustersNodePoolsResponse,
   errors: [],
 }));
 
-/** Fetch upgrade information of a specific nodepool. */
 export interface FetchNodePoolUpgradeInfoProjectsLocationsClustersNodePoolsRequest {
   /** API request version that initiates this operation. */
   version?: string;
@@ -6372,13 +6371,13 @@ export const FetchNodePoolUpgradeInfoProjectsLocationsClustersNodePoolsResponse 
 
 export type FetchNodePoolUpgradeInfoProjectsLocationsClustersNodePoolsError = CommonErrors;
 
+/** Fetch upgrade information of a specific nodepool. */
 export const fetchNodePoolUpgradeInfoProjectsLocationsClustersNodePools: API.OperationMethod<FetchNodePoolUpgradeInfoProjectsLocationsClustersNodePoolsRequest, FetchNodePoolUpgradeInfoProjectsLocationsClustersNodePoolsResponse, FetchNodePoolUpgradeInfoProjectsLocationsClustersNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FetchNodePoolUpgradeInfoProjectsLocationsClustersNodePoolsRequest,
   output: FetchNodePoolUpgradeInfoProjectsLocationsClustersNodePoolsResponse,
   errors: [],
 }));
 
-/** Creates a node pool for a cluster. */
 export interface CreateProjectsLocationsClustersNodePoolsRequest {
   /** The parent (project, location, cluster name) where the node pool will be created. Specified in the format `projects/* /locations/* /clusters/*`. */
   parent: string;
@@ -6399,13 +6398,13 @@ export const CreateProjectsLocationsClustersNodePoolsResponse = Operation;
 
 export type CreateProjectsLocationsClustersNodePoolsError = CommonErrors;
 
+/** Creates a node pool for a cluster. */
 export const createProjectsLocationsClustersNodePools: API.OperationMethod<CreateProjectsLocationsClustersNodePoolsRequest, CreateProjectsLocationsClustersNodePoolsResponse, CreateProjectsLocationsClustersNodePoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsClustersNodePoolsRequest,
   output: CreateProjectsLocationsClustersNodePoolsResponse,
   errors: [],
 }));
 
-/** Lists subnetworks that are usable for creating clusters in a project. */
 export interface ListProjectsAggregatedUsableSubnetworksRequest {
   /** Specifies a page token to use. Set this to the nextPageToken returned by previous list requests to get the next page of results. */
   pageToken?: string;
@@ -6432,7 +6431,8 @@ export const ListProjectsAggregatedUsableSubnetworksResponse = ListUsableSubnetw
 
 export type ListProjectsAggregatedUsableSubnetworksError = CommonErrors;
 
-export const listProjectsAggregatedUsableSubnetworks = API.makePaginated(() => ({
+/** Lists subnetworks that are usable for creating clusters in a project. */
+export const listProjectsAggregatedUsableSubnetworks: API.PaginatedOperationMethod<ListProjectsAggregatedUsableSubnetworksRequest, ListProjectsAggregatedUsableSubnetworksResponse, ListProjectsAggregatedUsableSubnetworksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsAggregatedUsableSubnetworksRequest,
   output: ListProjectsAggregatedUsableSubnetworksResponse,
   errors: [],

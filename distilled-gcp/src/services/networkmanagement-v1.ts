@@ -1671,7 +1671,6 @@ export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspen
 // Operations
 // ==========================================================================
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -1689,13 +1688,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string;
@@ -1725,7 +1724,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -1735,7 +1735,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the details of a specific Connectivity Test. */
 export interface GetProjectsLocationsGlobalConnectivityTestsRequest {
   /** Required. `ConnectivityTest` resource name using the form: `projects/{project_id}/locations/global/connectivityTests/{test_id}` */
   name: string;
@@ -1753,13 +1752,13 @@ export const GetProjectsLocationsGlobalConnectivityTestsResponse = ConnectivityT
 
 export type GetProjectsLocationsGlobalConnectivityTestsError = CommonErrors;
 
+/** Gets the details of a specific Connectivity Test. */
 export const getProjectsLocationsGlobalConnectivityTests: API.OperationMethod<GetProjectsLocationsGlobalConnectivityTestsRequest, GetProjectsLocationsGlobalConnectivityTestsResponse, GetProjectsLocationsGlobalConnectivityTestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsGlobalConnectivityTestsRequest,
   output: GetProjectsLocationsGlobalConnectivityTestsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsGlobalConnectivityTestsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1780,13 +1779,13 @@ export const TestIamPermissionsProjectsLocationsGlobalConnectivityTestsResponse 
 
 export type TestIamPermissionsProjectsLocationsGlobalConnectivityTestsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsGlobalConnectivityTests: API.OperationMethod<TestIamPermissionsProjectsLocationsGlobalConnectivityTestsRequest, TestIamPermissionsProjectsLocationsGlobalConnectivityTestsResponse, TestIamPermissionsProjectsLocationsGlobalConnectivityTestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsGlobalConnectivityTestsRequest,
   output: TestIamPermissionsProjectsLocationsGlobalConnectivityTestsResponse,
   errors: [],
 }));
 
-/** Creates a new Connectivity Test. After you create a test, the reachability analysis is performed as part of the long running operation, which completes when the analysis completes. If the endpoint specifications in `ConnectivityTest` are invalid (for example, containing non-existent resources in the network, or you don't have read permissions to the network configurations of listed projects), then the reachability result returns a value of `UNKNOWN`. If the endpoint specifications in `ConnectivityTest` are incomplete, the reachability result returns a value of AMBIGUOUS. For more information, see the Connectivity Test documentation. */
 export interface CreateProjectsLocationsGlobalConnectivityTestsRequest {
   /** Required. The parent resource of the Connectivity Test to create: `projects/{project_id}/locations/global` */
   parent: string;
@@ -1810,13 +1809,13 @@ export const CreateProjectsLocationsGlobalConnectivityTestsResponse = Operation;
 
 export type CreateProjectsLocationsGlobalConnectivityTestsError = CommonErrors;
 
+/** Creates a new Connectivity Test. After you create a test, the reachability analysis is performed as part of the long running operation, which completes when the analysis completes. If the endpoint specifications in `ConnectivityTest` are invalid (for example, containing non-existent resources in the network, or you don't have read permissions to the network configurations of listed projects), then the reachability result returns a value of `UNKNOWN`. If the endpoint specifications in `ConnectivityTest` are incomplete, the reachability result returns a value of AMBIGUOUS. For more information, see the Connectivity Test documentation. */
 export const createProjectsLocationsGlobalConnectivityTests: API.OperationMethod<CreateProjectsLocationsGlobalConnectivityTestsRequest, CreateProjectsLocationsGlobalConnectivityTestsResponse, CreateProjectsLocationsGlobalConnectivityTestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsGlobalConnectivityTestsRequest,
   output: CreateProjectsLocationsGlobalConnectivityTestsResponse,
   errors: [],
 }));
 
-/** Deletes a specific `ConnectivityTest`. */
 export interface DeleteProjectsLocationsGlobalConnectivityTestsRequest {
   /** Required. Connectivity Test resource name using the form: `projects/{project_id}/locations/global/connectivityTests/{test_id}` */
   name: string;
@@ -1834,13 +1833,13 @@ export const DeleteProjectsLocationsGlobalConnectivityTestsResponse = Operation;
 
 export type DeleteProjectsLocationsGlobalConnectivityTestsError = CommonErrors;
 
+/** Deletes a specific `ConnectivityTest`. */
 export const deleteProjectsLocationsGlobalConnectivityTests: API.OperationMethod<DeleteProjectsLocationsGlobalConnectivityTestsRequest, DeleteProjectsLocationsGlobalConnectivityTestsResponse, DeleteProjectsLocationsGlobalConnectivityTestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsGlobalConnectivityTestsRequest,
   output: DeleteProjectsLocationsGlobalConnectivityTestsResponse,
   errors: [],
 }));
 
-/** Lists all Connectivity Tests owned by a project. */
 export interface ListProjectsLocationsGlobalConnectivityTestsRequest {
   /** Lists the `ConnectivityTests` that match the filter expression. A filter expression filters the resources listed in the response. The expression must be of the form ` ` where operators: `<`, `>`, `<=`, `>=`, `!=`, `=`, `:` are supported (colon `:` represents a HAS operator which is roughly synonymous with equality). can refer to a proto or JSON field, or a synthetic field. Field names can be camelCase or snake_case. Examples: - Filter by name: name = "projects/proj-1/locations/global/connectivityTests/test-1 - Filter by labels: - Resources that have a key called `foo` labels.foo:* - Resources that have a key called `foo` whose value is `bar` labels.foo = bar */
   filter?: string;
@@ -1870,7 +1869,8 @@ export const ListProjectsLocationsGlobalConnectivityTestsResponse = ListConnecti
 
 export type ListProjectsLocationsGlobalConnectivityTestsError = CommonErrors;
 
-export const listProjectsLocationsGlobalConnectivityTests = API.makePaginated(() => ({
+/** Lists all Connectivity Tests owned by a project. */
+export const listProjectsLocationsGlobalConnectivityTests: API.PaginatedOperationMethod<ListProjectsLocationsGlobalConnectivityTestsRequest, ListProjectsLocationsGlobalConnectivityTestsResponse, ListProjectsLocationsGlobalConnectivityTestsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsGlobalConnectivityTestsRequest,
   output: ListProjectsLocationsGlobalConnectivityTestsResponse,
   errors: [],
@@ -1880,7 +1880,6 @@ export const listProjectsLocationsGlobalConnectivityTests = API.makePaginated(()
   },
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsGlobalConnectivityTestsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1901,13 +1900,13 @@ export const GetIamPolicyProjectsLocationsGlobalConnectivityTestsResponse = Poli
 
 export type GetIamPolicyProjectsLocationsGlobalConnectivityTestsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsGlobalConnectivityTests: API.OperationMethod<GetIamPolicyProjectsLocationsGlobalConnectivityTestsRequest, GetIamPolicyProjectsLocationsGlobalConnectivityTestsResponse, GetIamPolicyProjectsLocationsGlobalConnectivityTestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsGlobalConnectivityTestsRequest,
   output: GetIamPolicyProjectsLocationsGlobalConnectivityTestsResponse,
   errors: [],
 }));
 
-/** Updates the configuration of an existing `ConnectivityTest`. After you update a test, the reachability analysis is performed as part of the long running operation, which completes when the analysis completes. The Reachability state in the test resource is updated with the new result. If the endpoint specifications in `ConnectivityTest` are invalid (for example, they contain non-existent resources in the network, or the user does not have read permissions to the network configurations of listed projects), then the reachability result returns a value of UNKNOWN. If the endpoint specifications in `ConnectivityTest` are incomplete, the reachability result returns a value of `AMBIGUOUS`. See the documentation in `ConnectivityTest` for more details. */
 export interface PatchProjectsLocationsGlobalConnectivityTestsRequest {
   /** Identifier. Unique name of the resource using the form: `projects/{project_id}/locations/global/connectivityTests/{test_id}` */
   name: string;
@@ -1931,13 +1930,13 @@ export const PatchProjectsLocationsGlobalConnectivityTestsResponse = Operation;
 
 export type PatchProjectsLocationsGlobalConnectivityTestsError = CommonErrors;
 
+/** Updates the configuration of an existing `ConnectivityTest`. After you update a test, the reachability analysis is performed as part of the long running operation, which completes when the analysis completes. The Reachability state in the test resource is updated with the new result. If the endpoint specifications in `ConnectivityTest` are invalid (for example, they contain non-existent resources in the network, or the user does not have read permissions to the network configurations of listed projects), then the reachability result returns a value of UNKNOWN. If the endpoint specifications in `ConnectivityTest` are incomplete, the reachability result returns a value of `AMBIGUOUS`. See the documentation in `ConnectivityTest` for more details. */
 export const patchProjectsLocationsGlobalConnectivityTests: API.OperationMethod<PatchProjectsLocationsGlobalConnectivityTestsRequest, PatchProjectsLocationsGlobalConnectivityTestsResponse, PatchProjectsLocationsGlobalConnectivityTestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsGlobalConnectivityTestsRequest,
   output: PatchProjectsLocationsGlobalConnectivityTestsResponse,
   errors: [],
 }));
 
-/** Rerun an existing `ConnectivityTest`. After the user triggers the rerun, the reachability analysis is performed as part of the long running operation, which completes when the analysis completes. Even though the test configuration remains the same, the reachability result may change due to underlying network configuration changes. If the endpoint specifications in `ConnectivityTest` become invalid (for example, specified resources are deleted in the network, or you lost read permissions to the network configurations of listed projects), then the reachability result returns a value of `UNKNOWN`. */
 export interface RerunProjectsLocationsGlobalConnectivityTestsRequest {
   /** Required. Connectivity Test resource name using the form: `projects/{project_id}/locations/global/connectivityTests/{test_id}` */
   name: string;
@@ -1958,13 +1957,13 @@ export const RerunProjectsLocationsGlobalConnectivityTestsResponse = Operation;
 
 export type RerunProjectsLocationsGlobalConnectivityTestsError = CommonErrors;
 
+/** Rerun an existing `ConnectivityTest`. After the user triggers the rerun, the reachability analysis is performed as part of the long running operation, which completes when the analysis completes. Even though the test configuration remains the same, the reachability result may change due to underlying network configuration changes. If the endpoint specifications in `ConnectivityTest` become invalid (for example, specified resources are deleted in the network, or you lost read permissions to the network configurations of listed projects), then the reachability result returns a value of `UNKNOWN`. */
 export const rerunProjectsLocationsGlobalConnectivityTests: API.OperationMethod<RerunProjectsLocationsGlobalConnectivityTestsRequest, RerunProjectsLocationsGlobalConnectivityTestsResponse, RerunProjectsLocationsGlobalConnectivityTestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RerunProjectsLocationsGlobalConnectivityTestsRequest,
   output: RerunProjectsLocationsGlobalConnectivityTestsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsGlobalConnectivityTestsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1985,13 +1984,13 @@ export const SetIamPolicyProjectsLocationsGlobalConnectivityTestsResponse = Poli
 
 export type SetIamPolicyProjectsLocationsGlobalConnectivityTestsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsGlobalConnectivityTests: API.OperationMethod<SetIamPolicyProjectsLocationsGlobalConnectivityTestsRequest, SetIamPolicyProjectsLocationsGlobalConnectivityTestsResponse, SetIamPolicyProjectsLocationsGlobalConnectivityTestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsGlobalConnectivityTestsRequest,
   output: SetIamPolicyProjectsLocationsGlobalConnectivityTestsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsGlobalOperationsRequest {
   /** The standard list page size. */
   pageSize?: number;
@@ -2021,7 +2020,8 @@ export const ListProjectsLocationsGlobalOperationsResponse = ListOperationsRespo
 
 export type ListProjectsLocationsGlobalOperationsError = CommonErrors;
 
-export const listProjectsLocationsGlobalOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsGlobalOperations: API.PaginatedOperationMethod<ListProjectsLocationsGlobalOperationsRequest, ListProjectsLocationsGlobalOperationsResponse, ListProjectsLocationsGlobalOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsGlobalOperationsRequest,
   output: ListProjectsLocationsGlobalOperationsResponse,
   errors: [],
@@ -2031,7 +2031,6 @@ export const listProjectsLocationsGlobalOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsGlobalOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -2049,13 +2048,13 @@ export const DeleteProjectsLocationsGlobalOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsGlobalOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsGlobalOperations: API.OperationMethod<DeleteProjectsLocationsGlobalOperationsRequest, DeleteProjectsLocationsGlobalOperationsResponse, DeleteProjectsLocationsGlobalOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsGlobalOperationsRequest,
   output: DeleteProjectsLocationsGlobalOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsGlobalOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -2076,13 +2075,13 @@ export const CancelProjectsLocationsGlobalOperationsResponse = Empty;
 
 export type CancelProjectsLocationsGlobalOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsGlobalOperations: API.OperationMethod<CancelProjectsLocationsGlobalOperationsRequest, CancelProjectsLocationsGlobalOperationsResponse, CancelProjectsLocationsGlobalOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsGlobalOperationsRequest,
   output: CancelProjectsLocationsGlobalOperationsResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsGlobalOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -2100,13 +2099,13 @@ export const GetProjectsLocationsGlobalOperationsResponse = Operation;
 
 export type GetProjectsLocationsGlobalOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsGlobalOperations: API.OperationMethod<GetProjectsLocationsGlobalOperationsRequest, GetProjectsLocationsGlobalOperationsResponse, GetProjectsLocationsGlobalOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsGlobalOperationsRequest,
   output: GetProjectsLocationsGlobalOperationsResponse,
   errors: [],
 }));
 
-/** Lists all `VpcFlowLogsConfigs` in a given project. */
 export interface ListProjectsLocationsVpcFlowLogsConfigsRequest {
   /** Optional. Field to use to sort the list. */
   orderBy?: string;
@@ -2136,7 +2135,8 @@ export const ListProjectsLocationsVpcFlowLogsConfigsResponse = ListVpcFlowLogsCo
 
 export type ListProjectsLocationsVpcFlowLogsConfigsError = CommonErrors;
 
-export const listProjectsLocationsVpcFlowLogsConfigs = API.makePaginated(() => ({
+/** Lists all `VpcFlowLogsConfigs` in a given project. */
+export const listProjectsLocationsVpcFlowLogsConfigs: API.PaginatedOperationMethod<ListProjectsLocationsVpcFlowLogsConfigsRequest, ListProjectsLocationsVpcFlowLogsConfigsResponse, ListProjectsLocationsVpcFlowLogsConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsVpcFlowLogsConfigsRequest,
   output: ListProjectsLocationsVpcFlowLogsConfigsResponse,
   errors: [],
@@ -2146,7 +2146,6 @@ export const listProjectsLocationsVpcFlowLogsConfigs = API.makePaginated(() => (
   },
 }));
 
-/** QueryOrgVpcFlowLogsConfigs returns a list of all organization-level VPC Flow Logs configurations applicable to the specified project. */
 export interface QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsRequest {
   /** Optional. Number of `VpcFlowLogsConfigs` to return. */
   pageSize?: number;
@@ -2173,7 +2172,8 @@ export const QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsRespon
 
 export type QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsError = CommonErrors;
 
-export const queryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigs = API.makePaginated(() => ({
+/** QueryOrgVpcFlowLogsConfigs returns a list of all organization-level VPC Flow Logs configurations applicable to the specified project. */
+export const queryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigs: API.PaginatedOperationMethod<QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsRequest, QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsResponse, QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsRequest,
   output: QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsResponse,
   errors: [],
@@ -2183,7 +2183,6 @@ export const queryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigs = API
   },
 }));
 
-/** ShowEffectiveFlowLogsConfigs returns a list of all VPC Flow Logs configurations applicable to a specified resource. */
 export interface ShowEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsRequest {
   /** Optional. Page token from an earlier query, as returned in `next_page_token`. */
   pageToken?: string;
@@ -2213,7 +2212,8 @@ export const ShowEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsResp
 
 export type ShowEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsError = CommonErrors;
 
-export const showEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigs = API.makePaginated(() => ({
+/** ShowEffectiveFlowLogsConfigs returns a list of all VPC Flow Logs configurations applicable to a specified resource. */
+export const showEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigs: API.PaginatedOperationMethod<ShowEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsRequest, ShowEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsResponse, ShowEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ShowEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsRequest,
   output: ShowEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigsResponse,
   errors: [],
@@ -2223,7 +2223,6 @@ export const showEffectiveFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigs = A
   },
 }));
 
-/** Deletes a specific `VpcFlowLogsConfig`. */
 export interface DeleteProjectsLocationsVpcFlowLogsConfigsRequest {
   /** Required. The resource name of the VpcFlowLogsConfig, in one of the following formats: - For a project-level resource: `projects/{project_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id}` - For an organization-level resource: `organizations/{organization_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id}` */
   name: string;
@@ -2241,13 +2240,13 @@ export const DeleteProjectsLocationsVpcFlowLogsConfigsResponse = Operation;
 
 export type DeleteProjectsLocationsVpcFlowLogsConfigsError = CommonErrors;
 
+/** Deletes a specific `VpcFlowLogsConfig`. */
 export const deleteProjectsLocationsVpcFlowLogsConfigs: API.OperationMethod<DeleteProjectsLocationsVpcFlowLogsConfigsRequest, DeleteProjectsLocationsVpcFlowLogsConfigsResponse, DeleteProjectsLocationsVpcFlowLogsConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsVpcFlowLogsConfigsRequest,
   output: DeleteProjectsLocationsVpcFlowLogsConfigsResponse,
   errors: [],
 }));
 
-/** Gets the details of a specific `VpcFlowLogsConfig`. */
 export interface GetProjectsLocationsVpcFlowLogsConfigsRequest {
   /** Required. The resource name of the VpcFlowLogsConfig, in one of the following formats: - For project-level resources: `projects/{project_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id}` - For organization-level resources: `organizations/{organization_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id}` */
   name: string;
@@ -2265,13 +2264,13 @@ export const GetProjectsLocationsVpcFlowLogsConfigsResponse = VpcFlowLogsConfig;
 
 export type GetProjectsLocationsVpcFlowLogsConfigsError = CommonErrors;
 
+/** Gets the details of a specific `VpcFlowLogsConfig`. */
 export const getProjectsLocationsVpcFlowLogsConfigs: API.OperationMethod<GetProjectsLocationsVpcFlowLogsConfigsRequest, GetProjectsLocationsVpcFlowLogsConfigsResponse, GetProjectsLocationsVpcFlowLogsConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsVpcFlowLogsConfigsRequest,
   output: GetProjectsLocationsVpcFlowLogsConfigsResponse,
   errors: [],
 }));
 
-/** Creates a new `VpcFlowLogsConfig`. If a configuration with the exact same settings already exists (even if the ID is different), the creation fails. Notes: 1. Creating a configuration with `state=DISABLED` will fail 2. The following fields are not considered as settings for the purpose of the check mentioned above, therefore - creating another configuration with the same fields but different values for the following fields will fail as well: * name * create_time * update_time * labels * description */
 export interface CreateProjectsLocationsVpcFlowLogsConfigsRequest {
   /** Required. ID of the `VpcFlowLogsConfig`. */
   vpcFlowLogsConfigId?: string;
@@ -2295,13 +2294,13 @@ export const CreateProjectsLocationsVpcFlowLogsConfigsResponse = Operation;
 
 export type CreateProjectsLocationsVpcFlowLogsConfigsError = CommonErrors;
 
+/** Creates a new `VpcFlowLogsConfig`. If a configuration with the exact same settings already exists (even if the ID is different), the creation fails. Notes: 1. Creating a configuration with `state=DISABLED` will fail 2. The following fields are not considered as settings for the purpose of the check mentioned above, therefore - creating another configuration with the same fields but different values for the following fields will fail as well: * name * create_time * update_time * labels * description */
 export const createProjectsLocationsVpcFlowLogsConfigs: API.OperationMethod<CreateProjectsLocationsVpcFlowLogsConfigsRequest, CreateProjectsLocationsVpcFlowLogsConfigsResponse, CreateProjectsLocationsVpcFlowLogsConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsVpcFlowLogsConfigsRequest,
   output: CreateProjectsLocationsVpcFlowLogsConfigsResponse,
   errors: [],
 }));
 
-/** Updates an existing `VpcFlowLogsConfig`. If a configuration with the exact same settings already exists (even if the ID is different), the creation fails. Notes: 1. Updating a configuration with `state=DISABLED` will fail. 2. The following fields are not considered as settings for the purpose of the check mentioned above, therefore - updating another configuration with the same fields but different values for the following fields will fail as well: * name * create_time * update_time * labels * description */
 export interface PatchProjectsLocationsVpcFlowLogsConfigsRequest {
   /** Required. Mask of fields to update. At least one path must be supplied in this field. For example, to change the state of the configuration to ENABLED, specify `update_mask` = `"state"`, and the `vpc_flow_logs_config` would be: `vpc_flow_logs_config = { name = "projects/my-project/locations/global/vpcFlowLogsConfigs/my-config" state = "ENABLED" }` */
   updateMask?: string;
@@ -2325,13 +2324,13 @@ export const PatchProjectsLocationsVpcFlowLogsConfigsResponse = Operation;
 
 export type PatchProjectsLocationsVpcFlowLogsConfigsError = CommonErrors;
 
+/** Updates an existing `VpcFlowLogsConfig`. If a configuration with the exact same settings already exists (even if the ID is different), the creation fails. Notes: 1. Updating a configuration with `state=DISABLED` will fail. 2. The following fields are not considered as settings for the purpose of the check mentioned above, therefore - updating another configuration with the same fields but different values for the following fields will fail as well: * name * create_time * update_time * labels * description */
 export const patchProjectsLocationsVpcFlowLogsConfigs: API.OperationMethod<PatchProjectsLocationsVpcFlowLogsConfigsRequest, PatchProjectsLocationsVpcFlowLogsConfigsResponse, PatchProjectsLocationsVpcFlowLogsConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsVpcFlowLogsConfigsRequest,
   output: PatchProjectsLocationsVpcFlowLogsConfigsResponse,
   errors: [],
 }));
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListOrganizationsLocationsRequest {
   /** Optional. Do not use this field. It is unsupported and is ignored unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: string[];
@@ -2361,7 +2360,8 @@ export const ListOrganizationsLocationsResponse = ListLocationsResponse;
 
 export type ListOrganizationsLocationsError = CommonErrors;
 
-export const listOrganizationsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listOrganizationsLocations: API.PaginatedOperationMethod<ListOrganizationsLocationsRequest, ListOrganizationsLocationsResponse, ListOrganizationsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsRequest,
   output: ListOrganizationsLocationsResponse,
   errors: [],
@@ -2371,7 +2371,6 @@ export const listOrganizationsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetOrganizationsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -2389,13 +2388,13 @@ export const GetOrganizationsLocationsResponse = Location;
 
 export type GetOrganizationsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getOrganizationsLocations: API.OperationMethod<GetOrganizationsLocationsRequest, GetOrganizationsLocationsResponse, GetOrganizationsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsRequest,
   output: GetOrganizationsLocationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteOrganizationsLocationsGlobalOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -2413,13 +2412,13 @@ export const DeleteOrganizationsLocationsGlobalOperationsResponse = Empty;
 
 export type DeleteOrganizationsLocationsGlobalOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteOrganizationsLocationsGlobalOperations: API.OperationMethod<DeleteOrganizationsLocationsGlobalOperationsRequest, DeleteOrganizationsLocationsGlobalOperationsResponse, DeleteOrganizationsLocationsGlobalOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsLocationsGlobalOperationsRequest,
   output: DeleteOrganizationsLocationsGlobalOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListOrganizationsLocationsGlobalOperationsRequest {
   /** The standard list filter. */
   filter?: string;
@@ -2449,7 +2448,8 @@ export const ListOrganizationsLocationsGlobalOperationsResponse = ListOperations
 
 export type ListOrganizationsLocationsGlobalOperationsError = CommonErrors;
 
-export const listOrganizationsLocationsGlobalOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listOrganizationsLocationsGlobalOperations: API.PaginatedOperationMethod<ListOrganizationsLocationsGlobalOperationsRequest, ListOrganizationsLocationsGlobalOperationsResponse, ListOrganizationsLocationsGlobalOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsGlobalOperationsRequest,
   output: ListOrganizationsLocationsGlobalOperationsResponse,
   errors: [],
@@ -2459,7 +2459,6 @@ export const listOrganizationsLocationsGlobalOperations = API.makePaginated(() =
   },
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelOrganizationsLocationsGlobalOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -2480,13 +2479,13 @@ export const CancelOrganizationsLocationsGlobalOperationsResponse = Empty;
 
 export type CancelOrganizationsLocationsGlobalOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelOrganizationsLocationsGlobalOperations: API.OperationMethod<CancelOrganizationsLocationsGlobalOperationsRequest, CancelOrganizationsLocationsGlobalOperationsResponse, CancelOrganizationsLocationsGlobalOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelOrganizationsLocationsGlobalOperationsRequest,
   output: CancelOrganizationsLocationsGlobalOperationsResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetOrganizationsLocationsGlobalOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -2504,13 +2503,13 @@ export const GetOrganizationsLocationsGlobalOperationsResponse = Operation;
 
 export type GetOrganizationsLocationsGlobalOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOrganizationsLocationsGlobalOperations: API.OperationMethod<GetOrganizationsLocationsGlobalOperationsRequest, GetOrganizationsLocationsGlobalOperationsResponse, GetOrganizationsLocationsGlobalOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsGlobalOperationsRequest,
   output: GetOrganizationsLocationsGlobalOperationsResponse,
   errors: [],
 }));
 
-/** Creates a new `VpcFlowLogsConfig`. If a configuration with the exact same settings already exists (even if the ID is different), the creation fails. Notes: 1. Creating a configuration with `state=DISABLED` will fail 2. The following fields are not considered as settings for the purpose of the check mentioned above, therefore - creating another configuration with the same fields but different values for the following fields will fail as well: * name * create_time * update_time * labels * description */
 export interface CreateOrganizationsLocationsVpcFlowLogsConfigsRequest {
   /** Required. The parent resource of the VpcFlowLogsConfig to create, in one of the following formats: - For project-level resources: `projects/{project_id}/locations/global` - For organization-level resources: `organizations/{organization_id}/locations/global` */
   parent: string;
@@ -2534,13 +2533,13 @@ export const CreateOrganizationsLocationsVpcFlowLogsConfigsResponse = Operation;
 
 export type CreateOrganizationsLocationsVpcFlowLogsConfigsError = CommonErrors;
 
+/** Creates a new `VpcFlowLogsConfig`. If a configuration with the exact same settings already exists (even if the ID is different), the creation fails. Notes: 1. Creating a configuration with `state=DISABLED` will fail 2. The following fields are not considered as settings for the purpose of the check mentioned above, therefore - creating another configuration with the same fields but different values for the following fields will fail as well: * name * create_time * update_time * labels * description */
 export const createOrganizationsLocationsVpcFlowLogsConfigs: API.OperationMethod<CreateOrganizationsLocationsVpcFlowLogsConfigsRequest, CreateOrganizationsLocationsVpcFlowLogsConfigsResponse, CreateOrganizationsLocationsVpcFlowLogsConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsLocationsVpcFlowLogsConfigsRequest,
   output: CreateOrganizationsLocationsVpcFlowLogsConfigsResponse,
   errors: [],
 }));
 
-/** Gets the details of a specific `VpcFlowLogsConfig`. */
 export interface GetOrganizationsLocationsVpcFlowLogsConfigsRequest {
   /** Required. The resource name of the VpcFlowLogsConfig, in one of the following formats: - For project-level resources: `projects/{project_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id}` - For organization-level resources: `organizations/{organization_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id}` */
   name: string;
@@ -2558,13 +2557,13 @@ export const GetOrganizationsLocationsVpcFlowLogsConfigsResponse = VpcFlowLogsCo
 
 export type GetOrganizationsLocationsVpcFlowLogsConfigsError = CommonErrors;
 
+/** Gets the details of a specific `VpcFlowLogsConfig`. */
 export const getOrganizationsLocationsVpcFlowLogsConfigs: API.OperationMethod<GetOrganizationsLocationsVpcFlowLogsConfigsRequest, GetOrganizationsLocationsVpcFlowLogsConfigsResponse, GetOrganizationsLocationsVpcFlowLogsConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsVpcFlowLogsConfigsRequest,
   output: GetOrganizationsLocationsVpcFlowLogsConfigsResponse,
   errors: [],
 }));
 
-/** Lists all `VpcFlowLogsConfigs` in a given organization. */
 export interface ListOrganizationsLocationsVpcFlowLogsConfigsRequest {
   /** Optional. Field to use to sort the list. */
   orderBy?: string;
@@ -2594,7 +2593,8 @@ export const ListOrganizationsLocationsVpcFlowLogsConfigsResponse = ListVpcFlowL
 
 export type ListOrganizationsLocationsVpcFlowLogsConfigsError = CommonErrors;
 
-export const listOrganizationsLocationsVpcFlowLogsConfigs = API.makePaginated(() => ({
+/** Lists all `VpcFlowLogsConfigs` in a given organization. */
+export const listOrganizationsLocationsVpcFlowLogsConfigs: API.PaginatedOperationMethod<ListOrganizationsLocationsVpcFlowLogsConfigsRequest, ListOrganizationsLocationsVpcFlowLogsConfigsResponse, ListOrganizationsLocationsVpcFlowLogsConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsVpcFlowLogsConfigsRequest,
   output: ListOrganizationsLocationsVpcFlowLogsConfigsResponse,
   errors: [],
@@ -2604,7 +2604,6 @@ export const listOrganizationsLocationsVpcFlowLogsConfigs = API.makePaginated(()
   },
 }));
 
-/** Updates an existing `VpcFlowLogsConfig`. If a configuration with the exact same settings already exists (even if the ID is different), the creation fails. Notes: 1. Updating a configuration with `state=DISABLED` will fail 2. The following fields are not considered as settings for the purpose of the check mentioned above, therefore - updating another configuration with the same fields but different values for the following fields will fail as well: * name * create_time * update_time * labels * description */
 export interface PatchOrganizationsLocationsVpcFlowLogsConfigsRequest {
   /** Identifier. Unique name of the configuration. The name can have one of the following forms: - For project-level configurations: `projects/{project_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id}` - For organization-level configurations: `organizations/{organization_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id}` */
   name: string;
@@ -2628,13 +2627,13 @@ export const PatchOrganizationsLocationsVpcFlowLogsConfigsResponse = Operation;
 
 export type PatchOrganizationsLocationsVpcFlowLogsConfigsError = CommonErrors;
 
+/** Updates an existing `VpcFlowLogsConfig`. If a configuration with the exact same settings already exists (even if the ID is different), the creation fails. Notes: 1. Updating a configuration with `state=DISABLED` will fail 2. The following fields are not considered as settings for the purpose of the check mentioned above, therefore - updating another configuration with the same fields but different values for the following fields will fail as well: * name * create_time * update_time * labels * description */
 export const patchOrganizationsLocationsVpcFlowLogsConfigs: API.OperationMethod<PatchOrganizationsLocationsVpcFlowLogsConfigsRequest, PatchOrganizationsLocationsVpcFlowLogsConfigsResponse, PatchOrganizationsLocationsVpcFlowLogsConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsLocationsVpcFlowLogsConfigsRequest,
   output: PatchOrganizationsLocationsVpcFlowLogsConfigsResponse,
   errors: [],
 }));
 
-/** Deletes a specific `VpcFlowLogsConfig`. */
 export interface DeleteOrganizationsLocationsVpcFlowLogsConfigsRequest {
   /** Required. The resource name of the VpcFlowLogsConfig, in one of the following formats: - For a project-level resource: `projects/{project_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id}` - For an organization-level resource: `organizations/{organization_id}/locations/global/vpcFlowLogsConfigs/{vpc_flow_logs_config_id}` */
   name: string;
@@ -2652,6 +2651,7 @@ export const DeleteOrganizationsLocationsVpcFlowLogsConfigsResponse = Operation;
 
 export type DeleteOrganizationsLocationsVpcFlowLogsConfigsError = CommonErrors;
 
+/** Deletes a specific `VpcFlowLogsConfig`. */
 export const deleteOrganizationsLocationsVpcFlowLogsConfigs: API.OperationMethod<DeleteOrganizationsLocationsVpcFlowLogsConfigsRequest, DeleteOrganizationsLocationsVpcFlowLogsConfigsResponse, DeleteOrganizationsLocationsVpcFlowLogsConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsLocationsVpcFlowLogsConfigsRequest,
   output: DeleteOrganizationsLocationsVpcFlowLogsConfigsResponse,

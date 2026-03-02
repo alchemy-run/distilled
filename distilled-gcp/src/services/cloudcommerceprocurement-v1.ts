@@ -282,7 +282,6 @@ export const SuspendEntitlementRequest: Schema.Schema<SuspendEntitlementRequest>
 // Operations
 // ==========================================================================
 
-/** Gets a requested Account resource. */
 export interface GetProvidersAccountsRequest {
   /** Required. The name of the account to retrieve. */
   name: string;
@@ -303,13 +302,13 @@ export const GetProvidersAccountsResponse = Account;
 
 export type GetProvidersAccountsError = CommonErrors;
 
+/** Gets a requested Account resource. */
 export const getProvidersAccounts: API.OperationMethod<GetProvidersAccountsRequest, GetProvidersAccountsResponse, GetProvidersAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProvidersAccountsRequest,
   output: GetProvidersAccountsResponse,
   errors: [],
 }));
 
-/** Lists Accounts that the provider has access to. */
 export interface ListProvidersAccountsRequest {
   /** Required. The parent resource name. */
   parent: string;
@@ -333,7 +332,8 @@ export const ListProvidersAccountsResponse = ListAccountsResponse;
 
 export type ListProvidersAccountsError = CommonErrors;
 
-export const listProvidersAccounts = API.makePaginated(() => ({
+/** Lists Accounts that the provider has access to. */
+export const listProvidersAccounts: API.PaginatedOperationMethod<ListProvidersAccountsRequest, ListProvidersAccountsResponse, ListProvidersAccountsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProvidersAccountsRequest,
   output: ListProvidersAccountsResponse,
   errors: [],
@@ -343,7 +343,6 @@ export const listProvidersAccounts = API.makePaginated(() => ({
   },
 }));
 
-/** Grants an approval on an Account. */
 export interface ApproveProvidersAccountsRequest {
   /** Required. The resource name of the account, with the format `providers/{providerId}/accounts/{accountId}`. */
   name: string;
@@ -364,13 +363,13 @@ export const ApproveProvidersAccountsResponse = Empty;
 
 export type ApproveProvidersAccountsError = CommonErrors;
 
+/** Grants an approval on an Account. */
 export const approveProvidersAccounts: API.OperationMethod<ApproveProvidersAccountsRequest, ApproveProvidersAccountsResponse, ApproveProvidersAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ApproveProvidersAccountsRequest,
   output: ApproveProvidersAccountsResponse,
   errors: [],
 }));
 
-/** Rejects an approval on an Account. */
 export interface RejectProvidersAccountsRequest {
   /** Required. The resource name of the account. */
   name: string;
@@ -391,13 +390,13 @@ export const RejectProvidersAccountsResponse = Empty;
 
 export type RejectProvidersAccountsError = CommonErrors;
 
+/** Rejects an approval on an Account. */
 export const rejectProvidersAccounts: API.OperationMethod<RejectProvidersAccountsRequest, RejectProvidersAccountsResponse, RejectProvidersAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RejectProvidersAccountsRequest,
   output: RejectProvidersAccountsResponse,
   errors: [],
 }));
 
-/** Resets an Account and cancels all associated Entitlements. Partner can only reset accounts they own rather than customer accounts. */
 export interface ResetProvidersAccountsRequest {
   /** Required. The resource name of the account. */
   name: string;
@@ -418,13 +417,13 @@ export const ResetProvidersAccountsResponse = Empty;
 
 export type ResetProvidersAccountsError = CommonErrors;
 
+/** Resets an Account and cancels all associated Entitlements. Partner can only reset accounts they own rather than customer accounts. */
 export const resetProvidersAccounts: API.OperationMethod<ResetProvidersAccountsRequest, ResetProvidersAccountsResponse, ResetProvidersAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetProvidersAccountsRequest,
   output: ResetProvidersAccountsResponse,
   errors: [],
 }));
 
-/** Gets a requested Entitlement resource. */
 export interface GetProvidersEntitlementsRequest {
   /** Required. The name of the entitlement to retrieve. */
   name: string;
@@ -442,13 +441,13 @@ export const GetProvidersEntitlementsResponse = Entitlement;
 
 export type GetProvidersEntitlementsError = CommonErrors;
 
+/** Gets a requested Entitlement resource. */
 export const getProvidersEntitlements: API.OperationMethod<GetProvidersEntitlementsRequest, GetProvidersEntitlementsResponse, GetProvidersEntitlementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProvidersEntitlementsRequest,
   output: GetProvidersEntitlementsResponse,
   errors: [],
 }));
 
-/** Updates an existing Entitlement. */
 export interface PatchProvidersEntitlementsRequest {
   /** Required. The name of the entitlement to update. */
   name: string;
@@ -472,13 +471,13 @@ export const PatchProvidersEntitlementsResponse = Entitlement;
 
 export type PatchProvidersEntitlementsError = CommonErrors;
 
+/** Updates an existing Entitlement. */
 export const patchProvidersEntitlements: API.OperationMethod<PatchProvidersEntitlementsRequest, PatchProvidersEntitlementsResponse, PatchProvidersEntitlementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProvidersEntitlementsRequest,
   output: PatchProvidersEntitlementsResponse,
   errors: [],
 }));
 
-/** Lists Entitlements for which the provider has read access. */
 export interface ListProvidersEntitlementsRequest {
   /** Required. The parent resource name. */
   parent: string;
@@ -505,7 +504,8 @@ export const ListProvidersEntitlementsResponse = ListEntitlementsResponse;
 
 export type ListProvidersEntitlementsError = CommonErrors;
 
-export const listProvidersEntitlements = API.makePaginated(() => ({
+/** Lists Entitlements for which the provider has read access. */
+export const listProvidersEntitlements: API.PaginatedOperationMethod<ListProvidersEntitlementsRequest, ListProvidersEntitlementsResponse, ListProvidersEntitlementsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProvidersEntitlementsRequest,
   output: ListProvidersEntitlementsResponse,
   errors: [],
@@ -515,7 +515,6 @@ export const listProvidersEntitlements = API.makePaginated(() => ({
   },
 }));
 
-/** Approves an entitlement that is in the EntitlementState.ENTITLEMENT_ACTIVATION_REQUESTED state. This method is invoked by the provider to approve the creation of the entitlement resource. */
 export interface ApproveProvidersEntitlementsRequest {
   /** Required. The resource name of the entitlement, with the format `providers/{providerId}/entitlements/{entitlementId}`. */
   name: string;
@@ -536,13 +535,13 @@ export const ApproveProvidersEntitlementsResponse = Empty;
 
 export type ApproveProvidersEntitlementsError = CommonErrors;
 
+/** Approves an entitlement that is in the EntitlementState.ENTITLEMENT_ACTIVATION_REQUESTED state. This method is invoked by the provider to approve the creation of the entitlement resource. */
 export const approveProvidersEntitlements: API.OperationMethod<ApproveProvidersEntitlementsRequest, ApproveProvidersEntitlementsResponse, ApproveProvidersEntitlementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ApproveProvidersEntitlementsRequest,
   output: ApproveProvidersEntitlementsResponse,
   errors: [],
 }));
 
-/** Rejects an entitlement that is in the EntitlementState.ENTITLEMENT_ACTIVATION_REQUESTED state. This method is invoked by the provider to reject the creation of the entitlement resource. */
 export interface RejectProvidersEntitlementsRequest {
   /** Required. The resource name of the entitlement. */
   name: string;
@@ -563,13 +562,13 @@ export const RejectProvidersEntitlementsResponse = Empty;
 
 export type RejectProvidersEntitlementsError = CommonErrors;
 
+/** Rejects an entitlement that is in the EntitlementState.ENTITLEMENT_ACTIVATION_REQUESTED state. This method is invoked by the provider to reject the creation of the entitlement resource. */
 export const rejectProvidersEntitlements: API.OperationMethod<RejectProvidersEntitlementsRequest, RejectProvidersEntitlementsResponse, RejectProvidersEntitlementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RejectProvidersEntitlementsRequest,
   output: RejectProvidersEntitlementsResponse,
   errors: [],
 }));
 
-/** Approves an entitlement plan change that is in the EntitlementState.ENTITLEMENT_PENDING_PLAN_CHANGE_APPROVAL state. This method is invoked by the provider to approve the plan change on the entitlement resource. */
 export interface ApprovePlanChangeProvidersEntitlementsRequest {
   /** Required. The resource name of the entitlement. */
   name: string;
@@ -590,13 +589,13 @@ export const ApprovePlanChangeProvidersEntitlementsResponse = Empty;
 
 export type ApprovePlanChangeProvidersEntitlementsError = CommonErrors;
 
+/** Approves an entitlement plan change that is in the EntitlementState.ENTITLEMENT_PENDING_PLAN_CHANGE_APPROVAL state. This method is invoked by the provider to approve the plan change on the entitlement resource. */
 export const approvePlanChangeProvidersEntitlements: API.OperationMethod<ApprovePlanChangeProvidersEntitlementsRequest, ApprovePlanChangeProvidersEntitlementsResponse, ApprovePlanChangeProvidersEntitlementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ApprovePlanChangeProvidersEntitlementsRequest,
   output: ApprovePlanChangeProvidersEntitlementsResponse,
   errors: [],
 }));
 
-/** Rejects an entitlement plan change that is in the EntitlementState.ENTITLEMENT_PENDING_PLAN_CHANGE_APPROVAL state. This method is invoked by the provider to reject the plan change on the entitlement resource. */
 export interface RejectPlanChangeProvidersEntitlementsRequest {
   /** Required. The resource name of the entitlement. */
   name: string;
@@ -617,13 +616,13 @@ export const RejectPlanChangeProvidersEntitlementsResponse = Empty;
 
 export type RejectPlanChangeProvidersEntitlementsError = CommonErrors;
 
+/** Rejects an entitlement plan change that is in the EntitlementState.ENTITLEMENT_PENDING_PLAN_CHANGE_APPROVAL state. This method is invoked by the provider to reject the plan change on the entitlement resource. */
 export const rejectPlanChangeProvidersEntitlements: API.OperationMethod<RejectPlanChangeProvidersEntitlementsRequest, RejectPlanChangeProvidersEntitlementsResponse, RejectPlanChangeProvidersEntitlementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RejectPlanChangeProvidersEntitlementsRequest,
   output: RejectPlanChangeProvidersEntitlementsResponse,
   errors: [],
 }));
 
-/** Requests suspension of an active Entitlement. This is not yet supported. */
 export interface SuspendProvidersEntitlementsRequest {
   /** Required. The name of the entitlement to suspend. */
   name: string;
@@ -644,6 +643,7 @@ export const SuspendProvidersEntitlementsResponse = Empty;
 
 export type SuspendProvidersEntitlementsError = CommonErrors;
 
+/** Requests suspension of an active Entitlement. This is not yet supported. */
 export const suspendProvidersEntitlements: API.OperationMethod<SuspendProvidersEntitlementsRequest, SuspendProvidersEntitlementsResponse, SuspendProvidersEntitlementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SuspendProvidersEntitlementsRequest,
   output: SuspendProvidersEntitlementsResponse,

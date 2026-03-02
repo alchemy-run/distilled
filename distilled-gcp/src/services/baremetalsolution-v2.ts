@@ -1299,7 +1299,6 @@ export const RenameNfsShareRequest: Schema.Schema<RenameNfsShareRequest> = Schem
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string;
@@ -1329,7 +1328,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -1339,7 +1339,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -1357,13 +1356,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Create new ProvisioningConfig. */
 export interface CreateProjectsLocationsProvisioningConfigsRequest {
   /** Required. The parent project and location containing the ProvisioningConfig. */
   parent: string;
@@ -1387,13 +1386,13 @@ export const CreateProjectsLocationsProvisioningConfigsResponse = ProvisioningCo
 
 export type CreateProjectsLocationsProvisioningConfigsError = CommonErrors;
 
+/** Create new ProvisioningConfig. */
 export const createProjectsLocationsProvisioningConfigs: API.OperationMethod<CreateProjectsLocationsProvisioningConfigsRequest, CreateProjectsLocationsProvisioningConfigsResponse, CreateProjectsLocationsProvisioningConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsProvisioningConfigsRequest,
   output: CreateProjectsLocationsProvisioningConfigsResponse,
   errors: [],
 }));
 
-/** Submit a provisioning configuration for a given project. */
 export interface SubmitProjectsLocationsProvisioningConfigsRequest {
   /** Required. The parent project and location containing the ProvisioningConfig. */
   parent: string;
@@ -1414,13 +1413,13 @@ export const SubmitProjectsLocationsProvisioningConfigsResponse = SubmitProvisio
 
 export type SubmitProjectsLocationsProvisioningConfigsError = CommonErrors;
 
+/** Submit a provisioning configuration for a given project. */
 export const submitProjectsLocationsProvisioningConfigs: API.OperationMethod<SubmitProjectsLocationsProvisioningConfigsRequest, SubmitProjectsLocationsProvisioningConfigsResponse, SubmitProjectsLocationsProvisioningConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SubmitProjectsLocationsProvisioningConfigsRequest,
   output: SubmitProjectsLocationsProvisioningConfigsResponse,
   errors: [],
 }));
 
-/** Update existing ProvisioningConfig. */
 export interface PatchProjectsLocationsProvisioningConfigsRequest {
   /** Optional. Email provided to send a confirmation with provisioning config to. */
   email?: string;
@@ -1447,13 +1446,13 @@ export const PatchProjectsLocationsProvisioningConfigsResponse = ProvisioningCon
 
 export type PatchProjectsLocationsProvisioningConfigsError = CommonErrors;
 
+/** Update existing ProvisioningConfig. */
 export const patchProjectsLocationsProvisioningConfigs: API.OperationMethod<PatchProjectsLocationsProvisioningConfigsRequest, PatchProjectsLocationsProvisioningConfigsResponse, PatchProjectsLocationsProvisioningConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsProvisioningConfigsRequest,
   output: PatchProjectsLocationsProvisioningConfigsResponse,
   errors: [],
 }));
 
-/** Get ProvisioningConfig by name. */
 export interface GetProjectsLocationsProvisioningConfigsRequest {
   /** Required. Name of the ProvisioningConfig. */
   name: string;
@@ -1471,13 +1470,13 @@ export const GetProjectsLocationsProvisioningConfigsResponse = ProvisioningConfi
 
 export type GetProjectsLocationsProvisioningConfigsError = CommonErrors;
 
+/** Get ProvisioningConfig by name. */
 export const getProjectsLocationsProvisioningConfigs: API.OperationMethod<GetProjectsLocationsProvisioningConfigsRequest, GetProjectsLocationsProvisioningConfigsResponse, GetProjectsLocationsProvisioningConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsProvisioningConfigsRequest,
   output: GetProjectsLocationsProvisioningConfigsResponse,
   errors: [],
 }));
 
-/** RenameVolume sets a new name for a volume. Use with caution, previous names become immediately invalidated. */
 export interface RenameProjectsLocationsVolumesRequest {
   /** Required. The `name` field is used to identify the volume. Format: projects/{project}/locations/{location}/volumes/{volume} */
   name: string;
@@ -1498,13 +1497,13 @@ export const RenameProjectsLocationsVolumesResponse = Volume;
 
 export type RenameProjectsLocationsVolumesError = CommonErrors;
 
+/** RenameVolume sets a new name for a volume. Use with caution, previous names become immediately invalidated. */
 export const renameProjectsLocationsVolumes: API.OperationMethod<RenameProjectsLocationsVolumesRequest, RenameProjectsLocationsVolumesResponse, RenameProjectsLocationsVolumesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RenameProjectsLocationsVolumesRequest,
   output: RenameProjectsLocationsVolumesResponse,
   errors: [],
 }));
 
-/** Get details of a single storage volume. */
 export interface GetProjectsLocationsVolumesRequest {
   /** Required. Name of the resource. */
   name: string;
@@ -1522,13 +1521,13 @@ export const GetProjectsLocationsVolumesResponse = Volume;
 
 export type GetProjectsLocationsVolumesError = CommonErrors;
 
+/** Get details of a single storage volume. */
 export const getProjectsLocationsVolumes: API.OperationMethod<GetProjectsLocationsVolumesRequest, GetProjectsLocationsVolumesResponse, GetProjectsLocationsVolumesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsVolumesRequest,
   output: GetProjectsLocationsVolumesResponse,
   errors: [],
 }));
 
-/** Update details of a single storage volume. */
 export interface PatchProjectsLocationsVolumesRequest {
   /** The list of fields to update. The only currently supported fields are: 'labels' */
   updateMask?: string;
@@ -1552,13 +1551,13 @@ export const PatchProjectsLocationsVolumesResponse = Operation;
 
 export type PatchProjectsLocationsVolumesError = CommonErrors;
 
+/** Update details of a single storage volume. */
 export const patchProjectsLocationsVolumes: API.OperationMethod<PatchProjectsLocationsVolumesRequest, PatchProjectsLocationsVolumesResponse, PatchProjectsLocationsVolumesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsVolumesRequest,
   output: PatchProjectsLocationsVolumesResponse,
   errors: [],
 }));
 
-/** List storage volumes in a given project and location. */
 export interface ListProjectsLocationsVolumesRequest {
   /** Requested page size. The server might return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
@@ -1585,7 +1584,8 @@ export const ListProjectsLocationsVolumesResponse = ListVolumesResponse;
 
 export type ListProjectsLocationsVolumesError = CommonErrors;
 
-export const listProjectsLocationsVolumes = API.makePaginated(() => ({
+/** List storage volumes in a given project and location. */
+export const listProjectsLocationsVolumes: API.PaginatedOperationMethod<ListProjectsLocationsVolumesRequest, ListProjectsLocationsVolumesResponse, ListProjectsLocationsVolumesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsVolumesRequest,
   output: ListProjectsLocationsVolumesResponse,
   errors: [],
@@ -1595,7 +1595,6 @@ export const listProjectsLocationsVolumes = API.makePaginated(() => ({
   },
 }));
 
-/** Skips volume's cooloff and deletes it now. Volume must be in cooloff state. */
 export interface EvictProjectsLocationsVolumesRequest {
   /** Required. The name of the Volume. */
   name: string;
@@ -1616,13 +1615,13 @@ export const EvictProjectsLocationsVolumesResponse = Operation;
 
 export type EvictProjectsLocationsVolumesError = CommonErrors;
 
+/** Skips volume's cooloff and deletes it now. Volume must be in cooloff state. */
 export const evictProjectsLocationsVolumes: API.OperationMethod<EvictProjectsLocationsVolumesRequest, EvictProjectsLocationsVolumesResponse, EvictProjectsLocationsVolumesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EvictProjectsLocationsVolumesRequest,
   output: EvictProjectsLocationsVolumesResponse,
   errors: [],
 }));
 
-/** Emergency Volume resize. */
 export interface ResizeProjectsLocationsVolumesRequest {
   /** Required. Volume to resize. */
   volume: string;
@@ -1643,13 +1642,13 @@ export const ResizeProjectsLocationsVolumesResponse = Operation;
 
 export type ResizeProjectsLocationsVolumesError = CommonErrors;
 
+/** Emergency Volume resize. */
 export const resizeProjectsLocationsVolumes: API.OperationMethod<ResizeProjectsLocationsVolumesRequest, ResizeProjectsLocationsVolumesResponse, ResizeProjectsLocationsVolumesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResizeProjectsLocationsVolumesRequest,
   output: ResizeProjectsLocationsVolumesResponse,
   errors: [],
 }));
 
-/** List storage volume luns for given storage volume. */
 export interface ListProjectsLocationsVolumesLunsRequest {
   /** Requested page size. The server might return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
@@ -1673,7 +1672,8 @@ export const ListProjectsLocationsVolumesLunsResponse = ListLunsResponse;
 
 export type ListProjectsLocationsVolumesLunsError = CommonErrors;
 
-export const listProjectsLocationsVolumesLuns = API.makePaginated(() => ({
+/** List storage volume luns for given storage volume. */
+export const listProjectsLocationsVolumesLuns: API.PaginatedOperationMethod<ListProjectsLocationsVolumesLunsRequest, ListProjectsLocationsVolumesLunsResponse, ListProjectsLocationsVolumesLunsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsVolumesLunsRequest,
   output: ListProjectsLocationsVolumesLunsResponse,
   errors: [],
@@ -1683,7 +1683,6 @@ export const listProjectsLocationsVolumesLuns = API.makePaginated(() => ({
   },
 }));
 
-/** Get details of a single storage logical unit number(LUN). */
 export interface GetProjectsLocationsVolumesLunsRequest {
   /** Required. Name of the resource. */
   name: string;
@@ -1701,13 +1700,13 @@ export const GetProjectsLocationsVolumesLunsResponse = Lun;
 
 export type GetProjectsLocationsVolumesLunsError = CommonErrors;
 
+/** Get details of a single storage logical unit number(LUN). */
 export const getProjectsLocationsVolumesLuns: API.OperationMethod<GetProjectsLocationsVolumesLunsRequest, GetProjectsLocationsVolumesLunsResponse, GetProjectsLocationsVolumesLunsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsVolumesLunsRequest,
   output: GetProjectsLocationsVolumesLunsResponse,
   errors: [],
 }));
 
-/** Skips lun's cooloff and deletes it now. Lun must be in cooloff state. */
 export interface EvictProjectsLocationsVolumesLunsRequest {
   /** Required. The name of the lun. */
   name: string;
@@ -1728,13 +1727,13 @@ export const EvictProjectsLocationsVolumesLunsResponse = Operation;
 
 export type EvictProjectsLocationsVolumesLunsError = CommonErrors;
 
+/** Skips lun's cooloff and deletes it now. Lun must be in cooloff state. */
 export const evictProjectsLocationsVolumesLuns: API.OperationMethod<EvictProjectsLocationsVolumesLunsRequest, EvictProjectsLocationsVolumesLunsResponse, EvictProjectsLocationsVolumesLunsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EvictProjectsLocationsVolumesLunsRequest,
   output: EvictProjectsLocationsVolumesLunsResponse,
   errors: [],
 }));
 
-/** Takes a snapshot of a boot volume. Returns INVALID_ARGUMENT if called for a non-boot volume. */
 export interface CreateProjectsLocationsVolumesSnapshotsRequest {
   /** Required. The volume to snapshot. */
   parent: string;
@@ -1755,13 +1754,13 @@ export const CreateProjectsLocationsVolumesSnapshotsResponse = VolumeSnapshot;
 
 export type CreateProjectsLocationsVolumesSnapshotsError = CommonErrors;
 
+/** Takes a snapshot of a boot volume. Returns INVALID_ARGUMENT if called for a non-boot volume. */
 export const createProjectsLocationsVolumesSnapshots: API.OperationMethod<CreateProjectsLocationsVolumesSnapshotsRequest, CreateProjectsLocationsVolumesSnapshotsResponse, CreateProjectsLocationsVolumesSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsVolumesSnapshotsRequest,
   output: CreateProjectsLocationsVolumesSnapshotsResponse,
   errors: [],
 }));
 
-/** Returns the specified snapshot resource. Returns INVALID_ARGUMENT if called for a non-boot volume. */
 export interface GetProjectsLocationsVolumesSnapshotsRequest {
   /** Required. The name of the snapshot. */
   name: string;
@@ -1779,13 +1778,13 @@ export const GetProjectsLocationsVolumesSnapshotsResponse = VolumeSnapshot;
 
 export type GetProjectsLocationsVolumesSnapshotsError = CommonErrors;
 
+/** Returns the specified snapshot resource. Returns INVALID_ARGUMENT if called for a non-boot volume. */
 export const getProjectsLocationsVolumesSnapshots: API.OperationMethod<GetProjectsLocationsVolumesSnapshotsRequest, GetProjectsLocationsVolumesSnapshotsResponse, GetProjectsLocationsVolumesSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsVolumesSnapshotsRequest,
   output: GetProjectsLocationsVolumesSnapshotsResponse,
   errors: [],
 }));
 
-/** Deletes a volume snapshot. Returns INVALID_ARGUMENT if called for a non-boot volume. */
 export interface DeleteProjectsLocationsVolumesSnapshotsRequest {
   /** Required. The name of the snapshot to delete. */
   name: string;
@@ -1803,13 +1802,13 @@ export const DeleteProjectsLocationsVolumesSnapshotsResponse = Empty;
 
 export type DeleteProjectsLocationsVolumesSnapshotsError = CommonErrors;
 
+/** Deletes a volume snapshot. Returns INVALID_ARGUMENT if called for a non-boot volume. */
 export const deleteProjectsLocationsVolumesSnapshots: API.OperationMethod<DeleteProjectsLocationsVolumesSnapshotsRequest, DeleteProjectsLocationsVolumesSnapshotsResponse, DeleteProjectsLocationsVolumesSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsVolumesSnapshotsRequest,
   output: DeleteProjectsLocationsVolumesSnapshotsResponse,
   errors: [],
 }));
 
-/** Uses the specified snapshot to restore its parent volume. Returns INVALID_ARGUMENT if called for a non-boot volume. */
 export interface RestoreVolumeSnapshotProjectsLocationsVolumesSnapshotsRequest {
   /** Required. Name of the snapshot which will be used to restore its parent volume. */
   volumeSnapshot: string;
@@ -1830,13 +1829,13 @@ export const RestoreVolumeSnapshotProjectsLocationsVolumesSnapshotsResponse = Op
 
 export type RestoreVolumeSnapshotProjectsLocationsVolumesSnapshotsError = CommonErrors;
 
+/** Uses the specified snapshot to restore its parent volume. Returns INVALID_ARGUMENT if called for a non-boot volume. */
 export const restoreVolumeSnapshotProjectsLocationsVolumesSnapshots: API.OperationMethod<RestoreVolumeSnapshotProjectsLocationsVolumesSnapshotsRequest, RestoreVolumeSnapshotProjectsLocationsVolumesSnapshotsResponse, RestoreVolumeSnapshotProjectsLocationsVolumesSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RestoreVolumeSnapshotProjectsLocationsVolumesSnapshotsRequest,
   output: RestoreVolumeSnapshotProjectsLocationsVolumesSnapshotsResponse,
   errors: [],
 }));
 
-/** Retrieves the list of snapshots for the specified volume. Returns a response with an empty list of snapshots if called for a non-boot volume. */
 export interface ListProjectsLocationsVolumesSnapshotsRequest {
   /** Requested page size. The server might return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
@@ -1860,7 +1859,8 @@ export const ListProjectsLocationsVolumesSnapshotsResponse = ListVolumeSnapshots
 
 export type ListProjectsLocationsVolumesSnapshotsError = CommonErrors;
 
-export const listProjectsLocationsVolumesSnapshots = API.makePaginated(() => ({
+/** Retrieves the list of snapshots for the specified volume. Returns a response with an empty list of snapshots if called for a non-boot volume. */
+export const listProjectsLocationsVolumesSnapshots: API.PaginatedOperationMethod<ListProjectsLocationsVolumesSnapshotsRequest, ListProjectsLocationsVolumesSnapshotsResponse, ListProjectsLocationsVolumesSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsVolumesSnapshotsRequest,
   output: ListProjectsLocationsVolumesSnapshotsResponse,
   errors: [],
@@ -1870,7 +1870,6 @@ export const listProjectsLocationsVolumesSnapshots = API.makePaginated(() => ({
   },
 }));
 
-/** RenameNetwork sets a new name for a network. Use with caution, previous names become immediately invalidated. */
 export interface RenameProjectsLocationsNetworksRequest {
   /** Required. The `name` field is used to identify the network. Format: projects/{project}/locations/{location}/networks/{network} */
   name: string;
@@ -1891,13 +1890,13 @@ export const RenameProjectsLocationsNetworksResponse = Network;
 
 export type RenameProjectsLocationsNetworksError = CommonErrors;
 
+/** RenameNetwork sets a new name for a network. Use with caution, previous names become immediately invalidated. */
 export const renameProjectsLocationsNetworks: API.OperationMethod<RenameProjectsLocationsNetworksRequest, RenameProjectsLocationsNetworksResponse, RenameProjectsLocationsNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RenameProjectsLocationsNetworksRequest,
   output: RenameProjectsLocationsNetworksResponse,
   errors: [],
 }));
 
-/** List all Networks (and used IPs for each Network) in the vendor account associated with the specified project. */
 export interface ListNetworkUsageProjectsLocationsNetworksRequest {
   /** Required. Parent value (project and location). */
   location: string;
@@ -1915,13 +1914,13 @@ export const ListNetworkUsageProjectsLocationsNetworksResponse = ListNetworkUsag
 
 export type ListNetworkUsageProjectsLocationsNetworksError = CommonErrors;
 
+/** List all Networks (and used IPs for each Network) in the vendor account associated with the specified project. */
 export const listNetworkUsageProjectsLocationsNetworks: API.OperationMethod<ListNetworkUsageProjectsLocationsNetworksRequest, ListNetworkUsageProjectsLocationsNetworksResponse, ListNetworkUsageProjectsLocationsNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListNetworkUsageProjectsLocationsNetworksRequest,
   output: ListNetworkUsageProjectsLocationsNetworksResponse,
   errors: [],
 }));
 
-/** Get details of a single network. */
 export interface GetProjectsLocationsNetworksRequest {
   /** Required. Name of the resource. */
   name: string;
@@ -1939,13 +1938,13 @@ export const GetProjectsLocationsNetworksResponse = Network;
 
 export type GetProjectsLocationsNetworksError = CommonErrors;
 
+/** Get details of a single network. */
 export const getProjectsLocationsNetworks: API.OperationMethod<GetProjectsLocationsNetworksRequest, GetProjectsLocationsNetworksResponse, GetProjectsLocationsNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsNetworksRequest,
   output: GetProjectsLocationsNetworksResponse,
   errors: [],
 }));
 
-/** List network in a given project and location. */
 export interface ListProjectsLocationsNetworksRequest {
   /** Requested page size. The server might return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
@@ -1972,7 +1971,8 @@ export const ListProjectsLocationsNetworksResponse = ListNetworksResponse;
 
 export type ListProjectsLocationsNetworksError = CommonErrors;
 
-export const listProjectsLocationsNetworks = API.makePaginated(() => ({
+/** List network in a given project and location. */
+export const listProjectsLocationsNetworks: API.PaginatedOperationMethod<ListProjectsLocationsNetworksRequest, ListProjectsLocationsNetworksResponse, ListProjectsLocationsNetworksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsNetworksRequest,
   output: ListProjectsLocationsNetworksResponse,
   errors: [],
@@ -1982,7 +1982,6 @@ export const listProjectsLocationsNetworks = API.makePaginated(() => ({
   },
 }));
 
-/** Update details of a single network. */
 export interface PatchProjectsLocationsNetworksRequest {
   /** Output only. The resource name of this `Network`. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. Format: `projects/{project}/locations/{location}/networks/{network}` */
   name: string;
@@ -2006,13 +2005,13 @@ export const PatchProjectsLocationsNetworksResponse = Operation;
 
 export type PatchProjectsLocationsNetworksError = CommonErrors;
 
+/** Update details of a single network. */
 export const patchProjectsLocationsNetworks: API.OperationMethod<PatchProjectsLocationsNetworksRequest, PatchProjectsLocationsNetworksResponse, PatchProjectsLocationsNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsNetworksRequest,
   output: PatchProjectsLocationsNetworksResponse,
   errors: [],
 }));
 
-/** Get details of a single OS image. */
 export interface GetProjectsLocationsOsImagesRequest {
   /** Required. Name of the OS image. */
   name: string;
@@ -2030,13 +2029,13 @@ export const GetProjectsLocationsOsImagesResponse = OSImage;
 
 export type GetProjectsLocationsOsImagesError = CommonErrors;
 
+/** Get details of a single OS image. */
 export const getProjectsLocationsOsImages: API.OperationMethod<GetProjectsLocationsOsImagesRequest, GetProjectsLocationsOsImagesResponse, GetProjectsLocationsOsImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOsImagesRequest,
   output: GetProjectsLocationsOsImagesResponse,
   errors: [],
 }));
 
-/** Retrieves the list of OS images which are currently approved. */
 export interface ListProjectsLocationsOsImagesRequest {
   /** A token identifying a page of results from the server. */
   pageToken?: string;
@@ -2060,7 +2059,8 @@ export const ListProjectsLocationsOsImagesResponse = ListOSImagesResponse;
 
 export type ListProjectsLocationsOsImagesError = CommonErrors;
 
-export const listProjectsLocationsOsImages = API.makePaginated(() => ({
+/** Retrieves the list of OS images which are currently approved. */
+export const listProjectsLocationsOsImages: API.PaginatedOperationMethod<ListProjectsLocationsOsImagesRequest, ListProjectsLocationsOsImagesResponse, ListProjectsLocationsOsImagesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOsImagesRequest,
   output: ListProjectsLocationsOsImagesResponse,
   errors: [],
@@ -2070,7 +2070,6 @@ export const listProjectsLocationsOsImages = API.makePaginated(() => ({
   },
 }));
 
-/** Lists the public SSH keys registered for the specified project. These SSH keys are used only for the interactive serial console feature. */
 export interface ListProjectsLocationsSshKeysRequest {
   /** The maximum number of items to return. */
   pageSize?: number;
@@ -2094,7 +2093,8 @@ export const ListProjectsLocationsSshKeysResponse = ListSSHKeysResponse;
 
 export type ListProjectsLocationsSshKeysError = CommonErrors;
 
-export const listProjectsLocationsSshKeys = API.makePaginated(() => ({
+/** Lists the public SSH keys registered for the specified project. These SSH keys are used only for the interactive serial console feature. */
+export const listProjectsLocationsSshKeys: API.PaginatedOperationMethod<ListProjectsLocationsSshKeysRequest, ListProjectsLocationsSshKeysResponse, ListProjectsLocationsSshKeysError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsSshKeysRequest,
   output: ListProjectsLocationsSshKeysResponse,
   errors: [],
@@ -2104,7 +2104,6 @@ export const listProjectsLocationsSshKeys = API.makePaginated(() => ({
   },
 }));
 
-/** Register a public SSH key in the specified project for use with the interactive serial console feature. */
 export interface CreateProjectsLocationsSshKeysRequest {
   /** Required. The ID to use for the key, which will become the final component of the key's resource name. This value must match the regex: [a-zA-Z0-9@.\-_]{1,64} */
   sshKeyId?: string;
@@ -2128,13 +2127,13 @@ export const CreateProjectsLocationsSshKeysResponse = SSHKey;
 
 export type CreateProjectsLocationsSshKeysError = CommonErrors;
 
+/** Register a public SSH key in the specified project for use with the interactive serial console feature. */
 export const createProjectsLocationsSshKeys: API.OperationMethod<CreateProjectsLocationsSshKeysRequest, CreateProjectsLocationsSshKeysResponse, CreateProjectsLocationsSshKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsSshKeysRequest,
   output: CreateProjectsLocationsSshKeysResponse,
   errors: [],
 }));
 
-/** Deletes a public SSH key registered in the specified project. */
 export interface DeleteProjectsLocationsSshKeysRequest {
   /** Required. The name of the SSH key to delete. Currently, the only valid value for the location is "global". */
   name: string;
@@ -2152,13 +2151,13 @@ export const DeleteProjectsLocationsSshKeysResponse = Empty;
 
 export type DeleteProjectsLocationsSshKeysError = CommonErrors;
 
+/** Deletes a public SSH key registered in the specified project. */
 export const deleteProjectsLocationsSshKeys: API.OperationMethod<DeleteProjectsLocationsSshKeysRequest, DeleteProjectsLocationsSshKeysResponse, DeleteProjectsLocationsSshKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsSshKeysRequest,
   output: DeleteProjectsLocationsSshKeysResponse,
   errors: [],
 }));
 
-/** Get details about an operation. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -2176,13 +2175,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Get details about an operation. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Delete an NFS share. The underlying volume is automatically deleted. */
 export interface DeleteProjectsLocationsNfsSharesRequest {
   /** Required. The name of the NFS share to delete. */
   name: string;
@@ -2200,13 +2199,13 @@ export const DeleteProjectsLocationsNfsSharesResponse = Operation;
 
 export type DeleteProjectsLocationsNfsSharesError = CommonErrors;
 
+/** Delete an NFS share. The underlying volume is automatically deleted. */
 export const deleteProjectsLocationsNfsShares: API.OperationMethod<DeleteProjectsLocationsNfsSharesRequest, DeleteProjectsLocationsNfsSharesResponse, DeleteProjectsLocationsNfsSharesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsNfsSharesRequest,
   output: DeleteProjectsLocationsNfsSharesResponse,
   errors: [],
 }));
 
-/** List NFS shares. */
 export interface ListProjectsLocationsNfsSharesRequest {
   /** Requested page size. The server might return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
@@ -2233,7 +2232,8 @@ export const ListProjectsLocationsNfsSharesResponse = ListNfsSharesResponse;
 
 export type ListProjectsLocationsNfsSharesError = CommonErrors;
 
-export const listProjectsLocationsNfsShares = API.makePaginated(() => ({
+/** List NFS shares. */
+export const listProjectsLocationsNfsShares: API.PaginatedOperationMethod<ListProjectsLocationsNfsSharesRequest, ListProjectsLocationsNfsSharesResponse, ListProjectsLocationsNfsSharesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsNfsSharesRequest,
   output: ListProjectsLocationsNfsSharesResponse,
   errors: [],
@@ -2243,7 +2243,6 @@ export const listProjectsLocationsNfsShares = API.makePaginated(() => ({
   },
 }));
 
-/** RenameNfsShare sets a new name for an nfsshare. Use with caution, previous names become immediately invalidated. */
 export interface RenameProjectsLocationsNfsSharesRequest {
   /** Required. The `name` field is used to identify the nfsshare. Format: projects/{project}/locations/{location}/nfsshares/{nfsshare} */
   name: string;
@@ -2264,13 +2263,13 @@ export const RenameProjectsLocationsNfsSharesResponse = NfsShare;
 
 export type RenameProjectsLocationsNfsSharesError = CommonErrors;
 
+/** RenameNfsShare sets a new name for an nfsshare. Use with caution, previous names become immediately invalidated. */
 export const renameProjectsLocationsNfsShares: API.OperationMethod<RenameProjectsLocationsNfsSharesRequest, RenameProjectsLocationsNfsSharesResponse, RenameProjectsLocationsNfsSharesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RenameProjectsLocationsNfsSharesRequest,
   output: RenameProjectsLocationsNfsSharesResponse,
   errors: [],
 }));
 
-/** Get details of a single NFS share. */
 export interface GetProjectsLocationsNfsSharesRequest {
   /** Required. Name of the resource. */
   name: string;
@@ -2288,13 +2287,13 @@ export const GetProjectsLocationsNfsSharesResponse = NfsShare;
 
 export type GetProjectsLocationsNfsSharesError = CommonErrors;
 
+/** Get details of a single NFS share. */
 export const getProjectsLocationsNfsShares: API.OperationMethod<GetProjectsLocationsNfsSharesRequest, GetProjectsLocationsNfsSharesResponse, GetProjectsLocationsNfsSharesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsNfsSharesRequest,
   output: GetProjectsLocationsNfsSharesResponse,
   errors: [],
 }));
 
-/** Create an NFS share. */
 export interface CreateProjectsLocationsNfsSharesRequest {
   /** Required. The parent project and location. */
   parent: string;
@@ -2315,13 +2314,13 @@ export const CreateProjectsLocationsNfsSharesResponse = Operation;
 
 export type CreateProjectsLocationsNfsSharesError = CommonErrors;
 
+/** Create an NFS share. */
 export const createProjectsLocationsNfsShares: API.OperationMethod<CreateProjectsLocationsNfsSharesRequest, CreateProjectsLocationsNfsSharesResponse, CreateProjectsLocationsNfsSharesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsNfsSharesRequest,
   output: CreateProjectsLocationsNfsSharesResponse,
   errors: [],
 }));
 
-/** Update details of a single NFS share. */
 export interface PatchProjectsLocationsNfsSharesRequest {
   /** Immutable. The name of the NFS share. */
   name: string;
@@ -2345,13 +2344,13 @@ export const PatchProjectsLocationsNfsSharesResponse = Operation;
 
 export type PatchProjectsLocationsNfsSharesError = CommonErrors;
 
+/** Update details of a single NFS share. */
 export const patchProjectsLocationsNfsShares: API.OperationMethod<PatchProjectsLocationsNfsSharesRequest, PatchProjectsLocationsNfsSharesResponse, PatchProjectsLocationsNfsSharesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsNfsSharesRequest,
   output: PatchProjectsLocationsNfsSharesResponse,
   errors: [],
 }));
 
-/** List the budget details to provision resources on a given project. */
 export interface ListProjectsLocationsProvisioningQuotasRequest {
   /** A token identifying a page of results from the server. */
   pageToken?: string;
@@ -2375,7 +2374,8 @@ export const ListProjectsLocationsProvisioningQuotasResponse = ListProvisioningQ
 
 export type ListProjectsLocationsProvisioningQuotasError = CommonErrors;
 
-export const listProjectsLocationsProvisioningQuotas = API.makePaginated(() => ({
+/** List the budget details to provision resources on a given project. */
+export const listProjectsLocationsProvisioningQuotas: API.PaginatedOperationMethod<ListProjectsLocationsProvisioningQuotasRequest, ListProjectsLocationsProvisioningQuotasResponse, ListProjectsLocationsProvisioningQuotasError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsProvisioningQuotasRequest,
   output: ListProjectsLocationsProvisioningQuotasResponse,
   errors: [],
@@ -2385,7 +2385,6 @@ export const listProjectsLocationsProvisioningQuotas = API.makePaginated(() => (
   },
 }));
 
-/** Perform reimage operation on a single server. */
 export interface ReimageProjectsLocationsInstancesRequest {
   /** Required. The `name` field is used to identify the instance. Format: projects/{project}/locations/{location}/instances/{instance} */
   name: string;
@@ -2406,13 +2405,13 @@ export const ReimageProjectsLocationsInstancesResponse = Operation;
 
 export type ReimageProjectsLocationsInstancesError = CommonErrors;
 
+/** Perform reimage operation on a single server. */
 export const reimageProjectsLocationsInstances: API.OperationMethod<ReimageProjectsLocationsInstancesRequest, ReimageProjectsLocationsInstancesResponse, ReimageProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReimageProjectsLocationsInstancesRequest,
   output: ReimageProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Stop a running server. */
 export interface StopProjectsLocationsInstancesRequest {
   /** Required. Name of the resource. */
   name: string;
@@ -2433,13 +2432,13 @@ export const StopProjectsLocationsInstancesResponse = Operation;
 
 export type StopProjectsLocationsInstancesError = CommonErrors;
 
+/** Stop a running server. */
 export const stopProjectsLocationsInstances: API.OperationMethod<StopProjectsLocationsInstancesRequest, StopProjectsLocationsInstancesResponse, StopProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StopProjectsLocationsInstancesRequest,
   output: StopProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Get details about a single server. */
 export interface GetProjectsLocationsInstancesRequest {
   /** Required. Name of the resource. */
   name: string;
@@ -2457,13 +2456,13 @@ export const GetProjectsLocationsInstancesResponse = Instance;
 
 export type GetProjectsLocationsInstancesError = CommonErrors;
 
+/** Get details about a single server. */
 export const getProjectsLocationsInstances: API.OperationMethod<GetProjectsLocationsInstancesRequest, GetProjectsLocationsInstancesResponse, GetProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsInstancesRequest,
   output: GetProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Perform enable hyperthreading operation on a single server. */
 export interface EnableHyperthreadingProjectsLocationsInstancesRequest {
   /** Required. The `name` field is used to identify the instance. Format: projects/{project}/locations/{location}/instances/{instance} */
   name: string;
@@ -2484,13 +2483,13 @@ export const EnableHyperthreadingProjectsLocationsInstancesResponse = Operation;
 
 export type EnableHyperthreadingProjectsLocationsInstancesError = CommonErrors;
 
+/** Perform enable hyperthreading operation on a single server. */
 export const enableHyperthreadingProjectsLocationsInstances: API.OperationMethod<EnableHyperthreadingProjectsLocationsInstancesRequest, EnableHyperthreadingProjectsLocationsInstancesResponse, EnableHyperthreadingProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnableHyperthreadingProjectsLocationsInstancesRequest,
   output: EnableHyperthreadingProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Enable the interactive serial console feature on an instance. */
 export interface EnableInteractiveSerialConsoleProjectsLocationsInstancesRequest {
   /** Required. Name of the resource. */
   name: string;
@@ -2511,13 +2510,13 @@ export const EnableInteractiveSerialConsoleProjectsLocationsInstancesResponse = 
 
 export type EnableInteractiveSerialConsoleProjectsLocationsInstancesError = CommonErrors;
 
+/** Enable the interactive serial console feature on an instance. */
 export const enableInteractiveSerialConsoleProjectsLocationsInstances: API.OperationMethod<EnableInteractiveSerialConsoleProjectsLocationsInstancesRequest, EnableInteractiveSerialConsoleProjectsLocationsInstancesResponse, EnableInteractiveSerialConsoleProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnableInteractiveSerialConsoleProjectsLocationsInstancesRequest,
   output: EnableInteractiveSerialConsoleProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Perform an ungraceful, hard reset on a server. Equivalent to shutting the power off and then turning it back on. */
 export interface ResetProjectsLocationsInstancesRequest {
   /** Required. Name of the resource. */
   name: string;
@@ -2538,13 +2537,13 @@ export const ResetProjectsLocationsInstancesResponse = Operation;
 
 export type ResetProjectsLocationsInstancesError = CommonErrors;
 
+/** Perform an ungraceful, hard reset on a server. Equivalent to shutting the power off and then turning it back on. */
 export const resetProjectsLocationsInstances: API.OperationMethod<ResetProjectsLocationsInstancesRequest, ResetProjectsLocationsInstancesResponse, ResetProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetProjectsLocationsInstancesRequest,
   output: ResetProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Disable the interactive serial console feature on an instance. */
 export interface DisableInteractiveSerialConsoleProjectsLocationsInstancesRequest {
   /** Required. Name of the resource. */
   name: string;
@@ -2565,13 +2564,13 @@ export const DisableInteractiveSerialConsoleProjectsLocationsInstancesResponse =
 
 export type DisableInteractiveSerialConsoleProjectsLocationsInstancesError = CommonErrors;
 
+/** Disable the interactive serial console feature on an instance. */
 export const disableInteractiveSerialConsoleProjectsLocationsInstances: API.OperationMethod<DisableInteractiveSerialConsoleProjectsLocationsInstancesRequest, DisableInteractiveSerialConsoleProjectsLocationsInstancesResponse, DisableInteractiveSerialConsoleProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DisableInteractiveSerialConsoleProjectsLocationsInstancesRequest,
   output: DisableInteractiveSerialConsoleProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** RenameInstance sets a new name for an instance. Use with caution, previous names become immediately invalidated. */
 export interface RenameProjectsLocationsInstancesRequest {
   /** Required. The `name` field is used to identify the instance. Format: projects/{project}/locations/{location}/instances/{instance} */
   name: string;
@@ -2592,13 +2591,13 @@ export const RenameProjectsLocationsInstancesResponse = Instance;
 
 export type RenameProjectsLocationsInstancesError = CommonErrors;
 
+/** RenameInstance sets a new name for an instance. Use with caution, previous names become immediately invalidated. */
 export const renameProjectsLocationsInstances: API.OperationMethod<RenameProjectsLocationsInstancesRequest, RenameProjectsLocationsInstancesResponse, RenameProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RenameProjectsLocationsInstancesRequest,
   output: RenameProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Starts a server that was shutdown. */
 export interface StartProjectsLocationsInstancesRequest {
   /** Required. Name of the resource. */
   name: string;
@@ -2619,13 +2618,13 @@ export const StartProjectsLocationsInstancesResponse = Operation;
 
 export type StartProjectsLocationsInstancesError = CommonErrors;
 
+/** Starts a server that was shutdown. */
 export const startProjectsLocationsInstances: API.OperationMethod<StartProjectsLocationsInstancesRequest, StartProjectsLocationsInstancesResponse, StartProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StartProjectsLocationsInstancesRequest,
   output: StartProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Update details of a single server. */
 export interface PatchProjectsLocationsInstancesRequest {
   /** The list of fields to update. The currently supported fields are: `labels` `hyperthreading_enabled` `os_image` `ssh_keys` `kms_key_version` */
   updateMask?: string;
@@ -2649,13 +2648,13 @@ export const PatchProjectsLocationsInstancesResponse = Operation;
 
 export type PatchProjectsLocationsInstancesError = CommonErrors;
 
+/** Update details of a single server. */
 export const patchProjectsLocationsInstances: API.OperationMethod<PatchProjectsLocationsInstancesRequest, PatchProjectsLocationsInstancesResponse, PatchProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsInstancesRequest,
   output: PatchProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** List servers in a given project and location. */
 export interface ListProjectsLocationsInstancesRequest {
   /** List filter. */
   filter?: string;
@@ -2682,7 +2681,8 @@ export const ListProjectsLocationsInstancesResponse = ListInstancesResponse;
 
 export type ListProjectsLocationsInstancesError = CommonErrors;
 
-export const listProjectsLocationsInstances = API.makePaginated(() => ({
+/** List servers in a given project and location. */
+export const listProjectsLocationsInstances: API.PaginatedOperationMethod<ListProjectsLocationsInstancesRequest, ListProjectsLocationsInstancesResponse, ListProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsInstancesRequest,
   output: ListProjectsLocationsInstancesResponse,
   errors: [],
@@ -2692,7 +2692,6 @@ export const listProjectsLocationsInstances = API.makePaginated(() => ({
   },
 }));
 
-/** Detach LUN from Instance. */
 export interface DetachLunProjectsLocationsInstancesRequest {
   /** Required. Name of the instance. */
   instance: string;
@@ -2713,13 +2712,13 @@ export const DetachLunProjectsLocationsInstancesResponse = Operation;
 
 export type DetachLunProjectsLocationsInstancesError = CommonErrors;
 
+/** Detach LUN from Instance. */
 export const detachLunProjectsLocationsInstances: API.OperationMethod<DetachLunProjectsLocationsInstancesRequest, DetachLunProjectsLocationsInstancesResponse, DetachLunProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DetachLunProjectsLocationsInstancesRequest,
   output: DetachLunProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Perform disable hyperthreading operation on a single server. */
 export interface DisableHyperthreadingProjectsLocationsInstancesRequest {
   /** Required. The `name` field is used to identify the instance. Format: projects/{project}/locations/{location}/instances/{instance} */
   name: string;
@@ -2740,13 +2739,13 @@ export const DisableHyperthreadingProjectsLocationsInstancesResponse = Operation
 
 export type DisableHyperthreadingProjectsLocationsInstancesError = CommonErrors;
 
+/** Perform disable hyperthreading operation on a single server. */
 export const disableHyperthreadingProjectsLocationsInstances: API.OperationMethod<DisableHyperthreadingProjectsLocationsInstancesRequest, DisableHyperthreadingProjectsLocationsInstancesResponse, DisableHyperthreadingProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DisableHyperthreadingProjectsLocationsInstancesRequest,
   output: DisableHyperthreadingProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Load auth info for a server. */
 export interface LoadAuthInfoProjectsLocationsInstancesRequest {
   /** Required. Name of the server. */
   name: string;
@@ -2764,6 +2763,7 @@ export const LoadAuthInfoProjectsLocationsInstancesResponse = LoadInstanceAuthIn
 
 export type LoadAuthInfoProjectsLocationsInstancesError = CommonErrors;
 
+/** Load auth info for a server. */
 export const loadAuthInfoProjectsLocationsInstances: API.OperationMethod<LoadAuthInfoProjectsLocationsInstancesRequest, LoadAuthInfoProjectsLocationsInstancesResponse, LoadAuthInfoProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LoadAuthInfoProjectsLocationsInstancesRequest,
   output: LoadAuthInfoProjectsLocationsInstancesResponse,

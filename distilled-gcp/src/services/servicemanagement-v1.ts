@@ -1836,7 +1836,6 @@ export const ListServiceRolloutsResponse: Schema.Schema<ListServiceRolloutsRespo
 // Operations
 // ==========================================================================
 
-/** Lists service operations that match the specified filter in the request. */
 export interface ListOperationsRequest {
   /** The standard list page token. */
   pageToken?: string;
@@ -1866,7 +1865,8 @@ export const ListOperationsResponse_Op = ListOperationsResponse;
 
 export type ListOperationsError = CommonErrors;
 
-export const listOperations = API.makePaginated(() => ({
+/** Lists service operations that match the specified filter in the request. */
+export const listOperations: API.PaginatedOperationMethod<ListOperationsRequest, ListOperationsResponse_Op, ListOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOperationsRequest,
   output: ListOperationsResponse_Op,
   errors: [],
@@ -1876,7 +1876,6 @@ export const listOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1894,13 +1893,13 @@ export const GetOperationsResponse = Operation;
 
 export type GetOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOperations: API.OperationMethod<GetOperationsRequest, GetOperationsResponse, GetOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyServicesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1921,13 +1920,13 @@ export const GetIamPolicyServicesResponse = Policy;
 
 export type GetIamPolicyServicesError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyServices: API.OperationMethod<GetIamPolicyServicesRequest, GetIamPolicyServicesResponse, GetIamPolicyServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyServicesRequest,
   output: GetIamPolicyServicesResponse,
   errors: [],
 }));
 
-/** Gets a service configuration (version) for a managed service. */
 export interface GetConfigServicesRequest {
   /** Required. The id of the service configuration resource. This field must be specified for the server to return all fields, including `SourceInfo`. */
   configId?: string;
@@ -1951,13 +1950,13 @@ export const GetConfigServicesResponse = Service;
 
 export type GetConfigServicesError = CommonErrors;
 
+/** Gets a service configuration (version) for a managed service. */
 export const getConfigServices: API.OperationMethod<GetConfigServicesRequest, GetConfigServicesResponse, GetConfigServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetConfigServicesRequest,
   output: GetConfigServicesResponse,
   errors: [],
 }));
 
-/** Gets a managed service. Authentication is required unless the service is public. */
 export interface GetServicesRequest {
   /** Required. The name of the service. See the `ServiceManager` overview for naming requirements. For example: `example.googleapis.com`. */
   serviceName: string;
@@ -1975,13 +1974,13 @@ export const GetServicesResponse = ManagedService;
 
 export type GetServicesError = CommonErrors;
 
+/** Gets a managed service. Authentication is required unless the service is public. */
 export const getServices: API.OperationMethod<GetServicesRequest, GetServicesResponse, GetServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetServicesRequest,
   output: GetServicesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsServicesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2002,13 +2001,13 @@ export const TestIamPermissionsServicesResponse = TestIamPermissionsResponse;
 
 export type TestIamPermissionsServicesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsServices: API.OperationMethod<TestIamPermissionsServicesRequest, TestIamPermissionsServicesResponse, TestIamPermissionsServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsServicesRequest,
   output: TestIamPermissionsServicesResponse,
   errors: [],
 }));
 
-/** Deletes a managed service. This method will change the service to the `Soft-Delete` state for 30 days. Within this period, service producers may call UndeleteService to restore the service. After 30 days, the service will be permanently deleted. Operation */
 export interface DeleteServicesRequest {
   /** Required. The name of the service. See the [overview](https://cloud.google.com/service-management/overview) for naming requirements. For example: `example.googleapis.com`. */
   serviceName: string;
@@ -2026,13 +2025,13 @@ export const DeleteServicesResponse = Operation;
 
 export type DeleteServicesError = CommonErrors;
 
+/** Deletes a managed service. This method will change the service to the `Soft-Delete` state for 30 days. Within this period, service producers may call UndeleteService to restore the service. After 30 days, the service will be permanently deleted. Operation */
 export const deleteServices: API.OperationMethod<DeleteServicesRequest, DeleteServicesResponse, DeleteServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteServicesRequest,
   output: DeleteServicesResponse,
   errors: [],
 }));
 
-/** Revives a previously deleted managed service. The method restores the service using the configuration at the time the service was deleted. The target service must exist and must have been deleted within the last 30 days. Operation */
 export interface UndeleteServicesRequest {
   /** Required. The name of the service. See the [overview](https://cloud.google.com/service-management/overview) for naming requirements. For example: `example.googleapis.com`. */
   serviceName: string;
@@ -2050,13 +2049,13 @@ export const UndeleteServicesResponse = Operation;
 
 export type UndeleteServicesError = CommonErrors;
 
+/** Revives a previously deleted managed service. The method restores the service using the configuration at the time the service was deleted. The target service must exist and must have been deleted within the last 30 days. Operation */
 export const undeleteServices: API.OperationMethod<UndeleteServicesRequest, UndeleteServicesResponse, UndeleteServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UndeleteServicesRequest,
   output: UndeleteServicesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyServicesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2077,13 +2076,13 @@ export const SetIamPolicyServicesResponse = Policy;
 
 export type SetIamPolicyServicesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyServices: API.OperationMethod<SetIamPolicyServicesRequest, SetIamPolicyServicesResponse, SetIamPolicyServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyServicesRequest,
   output: SetIamPolicyServicesResponse,
   errors: [],
 }));
 
-/** Generates and returns a report (errors, warnings and changes from existing configurations) associated with GenerateConfigReportRequest.new_value If GenerateConfigReportRequest.old_value is specified, GenerateConfigReportRequest will contain a single ChangeReport based on the comparison between GenerateConfigReportRequest.new_value and GenerateConfigReportRequest.old_value. If GenerateConfigReportRequest.old_value is not specified, this method will compare GenerateConfigReportRequest.new_value with the last pushed service configuration. */
 export interface GenerateConfigReportServicesRequest {
   /** Request body */
   body?: GenerateConfigReportRequest;
@@ -2101,13 +2100,13 @@ export const GenerateConfigReportServicesResponse = GenerateConfigReportResponse
 
 export type GenerateConfigReportServicesError = CommonErrors;
 
+/** Generates and returns a report (errors, warnings and changes from existing configurations) associated with GenerateConfigReportRequest.new_value If GenerateConfigReportRequest.old_value is specified, GenerateConfigReportRequest will contain a single ChangeReport based on the comparison between GenerateConfigReportRequest.new_value and GenerateConfigReportRequest.old_value. If GenerateConfigReportRequest.old_value is not specified, this method will compare GenerateConfigReportRequest.new_value with the last pushed service configuration. */
 export const generateConfigReportServices: API.OperationMethod<GenerateConfigReportServicesRequest, GenerateConfigReportServicesResponse, GenerateConfigReportServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateConfigReportServicesRequest,
   output: GenerateConfigReportServicesResponse,
   errors: [],
 }));
 
-/** Creates a new managed service. A managed service is immutable, and is subject to mandatory 30-day data retention. You cannot move a service or recreate it within 30 days after deletion. One producer project can own no more than 500 services. For security and reliability purposes, a production service should be hosted in a dedicated producer project. Operation */
 export interface CreateServicesRequest {
   /** Request body */
   body?: ManagedService;
@@ -2125,13 +2124,13 @@ export const CreateServicesResponse = Operation;
 
 export type CreateServicesError = CommonErrors;
 
+/** Creates a new managed service. A managed service is immutable, and is subject to mandatory 30-day data retention. You cannot move a service or recreate it within 30 days after deletion. One producer project can own no more than 500 services. For security and reliability purposes, a production service should be hosted in a dedicated producer project. Operation */
 export const createServices: API.OperationMethod<CreateServicesRequest, CreateServicesResponse, CreateServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateServicesRequest,
   output: CreateServicesResponse,
   errors: [],
 }));
 
-/** Lists managed services. Returns all public services. For authenticated users, also returns all services the calling user has "servicemanagement.services.get" permission for. */
 export interface ListServicesRequest {
   /** Token identifying which result to start with; returned by a previous list call. */
   pageToken?: string;
@@ -2158,7 +2157,8 @@ export const ListServicesResponse_Op = ListServicesResponse;
 
 export type ListServicesError = CommonErrors;
 
-export const listServices = API.makePaginated(() => ({
+/** Lists managed services. Returns all public services. For authenticated users, also returns all services the calling user has "servicemanagement.services.get" permission for. */
+export const listServices: API.PaginatedOperationMethod<ListServicesRequest, ListServicesResponse_Op, ListServicesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListServicesRequest,
   output: ListServicesResponse_Op,
   errors: [],
@@ -2168,7 +2168,6 @@ export const listServices = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new service configuration (version) for a managed service based on user-supplied configuration source files (for example: OpenAPI Specification). This method stores the source configurations as well as the generated service configuration. To rollout the service configuration to other services, please call CreateServiceRollout. Only the 100 most recent configuration sources and ones referenced by existing service configurtions are kept for each service. The rest will be deleted eventually. Operation */
 export interface SubmitServicesConfigsRequest {
   /** Required. The name of the service. See the [overview](https://cloud.google.com/service-management/overview) for naming requirements. For example: `example.googleapis.com`. */
   serviceName: string;
@@ -2189,13 +2188,13 @@ export const SubmitServicesConfigsResponse = Operation;
 
 export type SubmitServicesConfigsError = CommonErrors;
 
+/** Creates a new service configuration (version) for a managed service based on user-supplied configuration source files (for example: OpenAPI Specification). This method stores the source configurations as well as the generated service configuration. To rollout the service configuration to other services, please call CreateServiceRollout. Only the 100 most recent configuration sources and ones referenced by existing service configurtions are kept for each service. The rest will be deleted eventually. Operation */
 export const submitServicesConfigs: API.OperationMethod<SubmitServicesConfigsRequest, SubmitServicesConfigsResponse, SubmitServicesConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SubmitServicesConfigsRequest,
   output: SubmitServicesConfigsResponse,
   errors: [],
 }));
 
-/** Creates a new service configuration (version) for a managed service. This method only stores the service configuration. To roll out the service configuration to backend systems please call CreateServiceRollout. Only the 100 most recent service configurations and ones referenced by existing rollouts are kept for each service. The rest will be deleted eventually. */
 export interface CreateServicesConfigsRequest {
   /** Required. The name of the service. See the [overview](https://cloud.google.com/service-management/overview) for naming requirements. For example: `example.googleapis.com`. */
   serviceName: string;
@@ -2216,13 +2215,13 @@ export const CreateServicesConfigsResponse = Service;
 
 export type CreateServicesConfigsError = CommonErrors;
 
+/** Creates a new service configuration (version) for a managed service. This method only stores the service configuration. To roll out the service configuration to backend systems please call CreateServiceRollout. Only the 100 most recent service configurations and ones referenced by existing rollouts are kept for each service. The rest will be deleted eventually. */
 export const createServicesConfigs: API.OperationMethod<CreateServicesConfigsRequest, CreateServicesConfigsResponse, CreateServicesConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateServicesConfigsRequest,
   output: CreateServicesConfigsResponse,
   errors: [],
 }));
 
-/** Lists the history of the service configuration for a managed service, from the newest to the oldest. */
 export interface ListServicesConfigsRequest {
   /** The max number of items to include in the response list. Page size is 50 if not specified. Maximum value is 100. */
   pageSize?: number;
@@ -2246,7 +2245,8 @@ export const ListServicesConfigsResponse = ListServiceConfigsResponse;
 
 export type ListServicesConfigsError = CommonErrors;
 
-export const listServicesConfigs = API.makePaginated(() => ({
+/** Lists the history of the service configuration for a managed service, from the newest to the oldest. */
+export const listServicesConfigs: API.PaginatedOperationMethod<ListServicesConfigsRequest, ListServicesConfigsResponse, ListServicesConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListServicesConfigsRequest,
   output: ListServicesConfigsResponse,
   errors: [],
@@ -2256,7 +2256,6 @@ export const listServicesConfigs = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a service configuration (version) for a managed service. */
 export interface GetServicesConfigsRequest {
   /** Required. The name of the service. See the [overview](https://cloud.google.com/service-management/overview) for naming requirements. For example: `example.googleapis.com`. */
   serviceName: string;
@@ -2280,13 +2279,13 @@ export const GetServicesConfigsResponse = Service;
 
 export type GetServicesConfigsError = CommonErrors;
 
+/** Gets a service configuration (version) for a managed service. */
 export const getServicesConfigs: API.OperationMethod<GetServicesConfigsRequest, GetServicesConfigsResponse, GetServicesConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetServicesConfigsRequest,
   output: GetServicesConfigsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyServicesConsumersRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2307,13 +2306,13 @@ export const SetIamPolicyServicesConsumersResponse = Policy;
 
 export type SetIamPolicyServicesConsumersError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyServicesConsumers: API.OperationMethod<SetIamPolicyServicesConsumersRequest, SetIamPolicyServicesConsumersResponse, SetIamPolicyServicesConsumersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyServicesConsumersRequest,
   output: SetIamPolicyServicesConsumersResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsServicesConsumersRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2334,13 +2333,13 @@ export const TestIamPermissionsServicesConsumersResponse = TestIamPermissionsRes
 
 export type TestIamPermissionsServicesConsumersError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsServicesConsumers: API.OperationMethod<TestIamPermissionsServicesConsumersRequest, TestIamPermissionsServicesConsumersResponse, TestIamPermissionsServicesConsumersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsServicesConsumersRequest,
   output: TestIamPermissionsServicesConsumersResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyServicesConsumersRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2361,13 +2360,13 @@ export const GetIamPolicyServicesConsumersResponse = Policy;
 
 export type GetIamPolicyServicesConsumersError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyServicesConsumers: API.OperationMethod<GetIamPolicyServicesConsumersRequest, GetIamPolicyServicesConsumersResponse, GetIamPolicyServicesConsumersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyServicesConsumersRequest,
   output: GetIamPolicyServicesConsumersResponse,
   errors: [],
 }));
 
-/** Lists the history of the service configuration rollouts for a managed service, from the newest to the oldest. */
 export interface ListServicesRolloutsRequest {
   /** The max number of items to include in the response list. Page size is 50 if not specified. Maximum value is 100. */
   pageSize?: number;
@@ -2394,7 +2393,8 @@ export const ListServicesRolloutsResponse = ListServiceRolloutsResponse;
 
 export type ListServicesRolloutsError = CommonErrors;
 
-export const listServicesRollouts = API.makePaginated(() => ({
+/** Lists the history of the service configuration rollouts for a managed service, from the newest to the oldest. */
+export const listServicesRollouts: API.PaginatedOperationMethod<ListServicesRolloutsRequest, ListServicesRolloutsResponse, ListServicesRolloutsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListServicesRolloutsRequest,
   output: ListServicesRolloutsResponse,
   errors: [],
@@ -2404,7 +2404,6 @@ export const listServicesRollouts = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new service configuration rollout. Based on rollout, the Google Service Management will roll out the service configurations to different backend services. For example, the logging configuration will be pushed to Google Cloud Logging. Please note that any previous pending and running Rollouts and associated Operations will be automatically cancelled so that the latest Rollout will not be blocked by previous Rollouts. Only the 100 most recent (in any state) and the last 10 successful (if not already part of the set of 100 most recent) rollouts are kept for each service. The rest will be deleted eventually. Operation */
 export interface CreateServicesRolloutsRequest {
   /** Required. The name of the service. See the [overview](https://cloud.google.com/service-management/overview) for naming requirements. For example: `example.googleapis.com`. */
   serviceName: string;
@@ -2425,13 +2424,13 @@ export const CreateServicesRolloutsResponse = Operation;
 
 export type CreateServicesRolloutsError = CommonErrors;
 
+/** Creates a new service configuration rollout. Based on rollout, the Google Service Management will roll out the service configurations to different backend services. For example, the logging configuration will be pushed to Google Cloud Logging. Please note that any previous pending and running Rollouts and associated Operations will be automatically cancelled so that the latest Rollout will not be blocked by previous Rollouts. Only the 100 most recent (in any state) and the last 10 successful (if not already part of the set of 100 most recent) rollouts are kept for each service. The rest will be deleted eventually. Operation */
 export const createServicesRollouts: API.OperationMethod<CreateServicesRolloutsRequest, CreateServicesRolloutsResponse, CreateServicesRolloutsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateServicesRolloutsRequest,
   output: CreateServicesRolloutsResponse,
   errors: [],
 }));
 
-/** Gets a service configuration rollout. */
 export interface GetServicesRolloutsRequest {
   /** Required. The name of the service. See the [overview](https://cloud.google.com/service-management/overview) for naming requirements. For example: `example.googleapis.com`. */
   serviceName: string;
@@ -2452,6 +2451,7 @@ export const GetServicesRolloutsResponse = Rollout;
 
 export type GetServicesRolloutsError = CommonErrors;
 
+/** Gets a service configuration rollout. */
 export const getServicesRollouts: API.OperationMethod<GetServicesRolloutsRequest, GetServicesRolloutsResponse, GetServicesRolloutsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetServicesRolloutsRequest,
   output: GetServicesRolloutsResponse,

@@ -1948,7 +1948,6 @@ export const CreateSchemaBundleMetadata: Schema.Schema<CreateSchemaBundleMetadat
 // Operations
 // ==========================================================================
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1966,13 +1965,13 @@ export const GetOperationsResponse = Operation;
 
 export type GetOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOperations: API.OperationMethod<GetOperationsRequest, GetOperationsResponse, GetOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListOperationsProjectsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -2002,7 +2001,8 @@ export const ListOperationsProjectsOperationsResponse = ListOperationsResponse;
 
 export type ListOperationsProjectsOperationsError = CommonErrors;
 
-export const listOperationsProjectsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listOperationsProjectsOperations: API.PaginatedOperationMethod<ListOperationsProjectsOperationsRequest, ListOperationsProjectsOperationsResponse, ListOperationsProjectsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOperationsProjectsOperationsRequest,
   output: ListOperationsProjectsOperationsResponse,
   errors: [],
@@ -2012,7 +2012,6 @@ export const listOperationsProjectsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Create an instance within a project. Note that exactly one of Cluster.serve_nodes and Cluster.cluster_config.cluster_autoscaling_config can be set. If serve_nodes is set to non-zero, then the cluster is manually scaled. If cluster_config.cluster_autoscaling_config is non-empty, then autoscaling is enabled. */
 export interface CreateProjectsInstancesRequest {
   /** Required. The unique name of the project in which to create the new instance. Values are of the form `projects/{project}`. */
   parent: string;
@@ -2033,13 +2032,13 @@ export const CreateProjectsInstancesResponse = Operation;
 
 export type CreateProjectsInstancesError = CommonErrors;
 
+/** Create an instance within a project. Note that exactly one of Cluster.serve_nodes and Cluster.cluster_config.cluster_autoscaling_config can be set. If serve_nodes is set to non-zero, then the cluster is manually scaled. If cluster_config.cluster_autoscaling_config is non-empty, then autoscaling is enabled. */
 export const createProjectsInstances: API.OperationMethod<CreateProjectsInstancesRequest, CreateProjectsInstancesResponse, CreateProjectsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsInstancesRequest,
   output: CreateProjectsInstancesResponse,
   errors: [],
 }));
 
-/** Updates an instance within a project. This method updates only the display name and type for an Instance. To update other Instance properties, such as labels, use PartialUpdateInstance. */
 export interface UpdateProjectsInstancesRequest {
   /** The unique name of the instance. Values are of the form `projects/{project}/instances/a-z+[a-z0-9]`. */
   name: string;
@@ -2060,13 +2059,13 @@ export const UpdateProjectsInstancesResponse = Instance;
 
 export type UpdateProjectsInstancesError = CommonErrors;
 
+/** Updates an instance within a project. This method updates only the display name and type for an Instance. To update other Instance properties, such as labels, use PartialUpdateInstance. */
 export const updateProjectsInstances: API.OperationMethod<UpdateProjectsInstancesRequest, UpdateProjectsInstancesResponse, UpdateProjectsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateProjectsInstancesRequest,
   output: UpdateProjectsInstancesResponse,
   errors: [],
 }));
 
-/** Delete an instance from a project. */
 export interface DeleteProjectsInstancesRequest {
   /** Required. The unique name of the instance to be deleted. Values are of the form `projects/{project}/instances/{instance}`. */
   name: string;
@@ -2084,13 +2083,13 @@ export const DeleteProjectsInstancesResponse = Empty;
 
 export type DeleteProjectsInstancesError = CommonErrors;
 
+/** Delete an instance from a project. */
 export const deleteProjectsInstances: API.OperationMethod<DeleteProjectsInstancesRequest, DeleteProjectsInstancesResponse, DeleteProjectsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsInstancesRequest,
   output: DeleteProjectsInstancesResponse,
   errors: [],
 }));
 
-/** Lists information about instances in a project. */
 export interface ListProjectsInstancesRequest {
   /** DEPRECATED: This field is unused and ignored. */
   pageToken?: string;
@@ -2111,7 +2110,8 @@ export const ListProjectsInstancesResponse = ListInstancesResponse;
 
 export type ListProjectsInstancesError = CommonErrors;
 
-export const listProjectsInstances = API.makePaginated(() => ({
+/** Lists information about instances in a project. */
+export const listProjectsInstances: API.PaginatedOperationMethod<ListProjectsInstancesRequest, ListProjectsInstancesResponse, ListProjectsInstancesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsInstancesRequest,
   output: ListProjectsInstancesResponse,
   errors: [],
@@ -2121,7 +2121,6 @@ export const listProjectsInstances = API.makePaginated(() => ({
   },
 }));
 
-/** Sets the access control policy on an instance resource. Replaces any existing policy. */
 export interface SetIamPolicyProjectsInstancesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2142,13 +2141,13 @@ export const SetIamPolicyProjectsInstancesResponse = Policy;
 
 export type SetIamPolicyProjectsInstancesError = CommonErrors;
 
+/** Sets the access control policy on an instance resource. Replaces any existing policy. */
 export const setIamPolicyProjectsInstances: API.OperationMethod<SetIamPolicyProjectsInstancesRequest, SetIamPolicyProjectsInstancesResponse, SetIamPolicyProjectsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsInstancesRequest,
   output: SetIamPolicyProjectsInstancesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for an instance resource. Returns an empty policy if an instance exists but does not have a policy set. */
 export interface GetIamPolicyProjectsInstancesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2169,13 +2168,13 @@ export const GetIamPolicyProjectsInstancesResponse = Policy;
 
 export type GetIamPolicyProjectsInstancesError = CommonErrors;
 
+/** Gets the access control policy for an instance resource. Returns an empty policy if an instance exists but does not have a policy set. */
 export const getIamPolicyProjectsInstances: API.OperationMethod<GetIamPolicyProjectsInstancesRequest, GetIamPolicyProjectsInstancesResponse, GetIamPolicyProjectsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsInstancesRequest,
   output: GetIamPolicyProjectsInstancesResponse,
   errors: [],
 }));
 
-/** Partially updates an instance within a project. This method can modify all fields of an Instance and is the preferred way to update an Instance. */
 export interface PartialUpdateInstanceProjectsInstancesRequest {
   /** Required. The subset of Instance fields which should be replaced. Must be explicitly set. */
   updateMask?: string;
@@ -2199,13 +2198,13 @@ export const PartialUpdateInstanceProjectsInstancesResponse = Operation;
 
 export type PartialUpdateInstanceProjectsInstancesError = CommonErrors;
 
+/** Partially updates an instance within a project. This method can modify all fields of an Instance and is the preferred way to update an Instance. */
 export const partialUpdateInstanceProjectsInstances: API.OperationMethod<PartialUpdateInstanceProjectsInstancesRequest, PartialUpdateInstanceProjectsInstancesResponse, PartialUpdateInstanceProjectsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PartialUpdateInstanceProjectsInstancesRequest,
   output: PartialUpdateInstanceProjectsInstancesResponse,
   errors: [],
 }));
 
-/** Gets information about an instance. */
 export interface GetProjectsInstancesRequest {
   /** Required. The unique name of the requested instance. Values are of the form `projects/{project}/instances/{instance}`. */
   name: string;
@@ -2223,13 +2222,13 @@ export const GetProjectsInstancesResponse = Instance;
 
 export type GetProjectsInstancesError = CommonErrors;
 
+/** Gets information about an instance. */
 export const getProjectsInstances: API.OperationMethod<GetProjectsInstancesRequest, GetProjectsInstancesResponse, GetProjectsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsInstancesRequest,
   output: GetProjectsInstancesResponse,
   errors: [],
 }));
 
-/** Returns permissions that the caller has on the specified instance resource. */
 export interface TestIamPermissionsProjectsInstancesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2250,13 +2249,13 @@ export const TestIamPermissionsProjectsInstancesResponse = TestIamPermissionsRes
 
 export type TestIamPermissionsProjectsInstancesError = CommonErrors;
 
+/** Returns permissions that the caller has on the specified instance resource. */
 export const testIamPermissionsProjectsInstances: API.OperationMethod<TestIamPermissionsProjectsInstancesRequest, TestIamPermissionsProjectsInstancesResponse, TestIamPermissionsProjectsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsInstancesRequest,
   output: TestIamPermissionsProjectsInstancesResponse,
   errors: [],
 }));
 
-/** Restores a specified table which was accidentally deleted. */
 export interface UndeleteProjectsInstancesTablesRequest {
   /** Required. The unique name of the table to be restored. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
   name: string;
@@ -2277,13 +2276,13 @@ export const UndeleteProjectsInstancesTablesResponse = Operation;
 
 export type UndeleteProjectsInstancesTablesError = CommonErrors;
 
+/** Restores a specified table which was accidentally deleted. */
 export const undeleteProjectsInstancesTables: API.OperationMethod<UndeleteProjectsInstancesTablesRequest, UndeleteProjectsInstancesTablesResponse, UndeleteProjectsInstancesTablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UndeleteProjectsInstancesTablesRequest,
   output: UndeleteProjectsInstancesTablesResponse,
   errors: [],
 }));
 
-/** Create a new table by restoring from a completed backup. The returned table long-running operation can be used to track the progress of the operation, and to cancel it. The metadata field type is RestoreTableMetadata. The response type is Table, if successful. */
 export interface RestoreProjectsInstancesTablesRequest {
   /** Required. The name of the instance in which to create the restored table. Values are of the form `projects//instances/`. */
   parent: string;
@@ -2304,13 +2303,13 @@ export const RestoreProjectsInstancesTablesResponse = Operation;
 
 export type RestoreProjectsInstancesTablesError = CommonErrors;
 
+/** Create a new table by restoring from a completed backup. The returned table long-running operation can be used to track the progress of the operation, and to cancel it. The metadata field type is RestoreTableMetadata. The response type is Table, if successful. */
 export const restoreProjectsInstancesTables: API.OperationMethod<RestoreProjectsInstancesTablesRequest, RestoreProjectsInstancesTablesResponse, RestoreProjectsInstancesTablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RestoreProjectsInstancesTablesRequest,
   output: RestoreProjectsInstancesTablesResponse,
   errors: [],
 }));
 
-/** Permanently deletes a specified table and all of its data. */
 export interface DeleteProjectsInstancesTablesRequest {
   /** Required. The unique name of the table to be deleted. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
   name: string;
@@ -2328,13 +2327,13 @@ export const DeleteProjectsInstancesTablesResponse = Empty;
 
 export type DeleteProjectsInstancesTablesError = CommonErrors;
 
+/** Permanently deletes a specified table and all of its data. */
 export const deleteProjectsInstancesTables: API.OperationMethod<DeleteProjectsInstancesTablesRequest, DeleteProjectsInstancesTablesResponse, DeleteProjectsInstancesTablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsInstancesTablesRequest,
   output: DeleteProjectsInstancesTablesResponse,
   errors: [],
 }));
 
-/** Checks replication consistency based on a consistency token, that is, if replication has caught up based on the conditions specified in the token and the check request. */
 export interface CheckConsistencyProjectsInstancesTablesRequest {
   /** Required. The unique name of the Table for which to check replication consistency. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
   name: string;
@@ -2355,13 +2354,13 @@ export const CheckConsistencyProjectsInstancesTablesResponse = CheckConsistencyR
 
 export type CheckConsistencyProjectsInstancesTablesError = CommonErrors;
 
+/** Checks replication consistency based on a consistency token, that is, if replication has caught up based on the conditions specified in the token and the check request. */
 export const checkConsistencyProjectsInstancesTables: API.OperationMethod<CheckConsistencyProjectsInstancesTablesRequest, CheckConsistencyProjectsInstancesTablesResponse, CheckConsistencyProjectsInstancesTablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CheckConsistencyProjectsInstancesTablesRequest,
   output: CheckConsistencyProjectsInstancesTablesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a Bigtable resource. Returns an empty policy if the resource exists but does not have a policy set. */
 export interface GetIamPolicyProjectsInstancesTablesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2382,13 +2381,13 @@ export const GetIamPolicyProjectsInstancesTablesResponse = Policy;
 
 export type GetIamPolicyProjectsInstancesTablesError = CommonErrors;
 
+/** Gets the access control policy for a Bigtable resource. Returns an empty policy if the resource exists but does not have a policy set. */
 export const getIamPolicyProjectsInstancesTables: API.OperationMethod<GetIamPolicyProjectsInstancesTablesRequest, GetIamPolicyProjectsInstancesTablesResponse, GetIamPolicyProjectsInstancesTablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsInstancesTablesRequest,
   output: GetIamPolicyProjectsInstancesTablesResponse,
   errors: [],
 }));
 
-/** Permanently drop/delete a row range from a specified table. The request can specify whether to delete all rows in a table, or only those that match a particular prefix. Note that row key prefixes used here are treated as service data. For more information about how service data is handled, see the [Google Cloud Privacy Notice](https://cloud.google.com/terms/cloud-privacy-notice). */
 export interface DropRowRangeProjectsInstancesTablesRequest {
   /** Required. The unique name of the table on which to drop a range of rows. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
   name: string;
@@ -2409,13 +2408,13 @@ export const DropRowRangeProjectsInstancesTablesResponse = Empty;
 
 export type DropRowRangeProjectsInstancesTablesError = CommonErrors;
 
+/** Permanently drop/delete a row range from a specified table. The request can specify whether to delete all rows in a table, or only those that match a particular prefix. Note that row key prefixes used here are treated as service data. For more information about how service data is handled, see the [Google Cloud Privacy Notice](https://cloud.google.com/terms/cloud-privacy-notice). */
 export const dropRowRangeProjectsInstancesTables: API.OperationMethod<DropRowRangeProjectsInstancesTablesRequest, DropRowRangeProjectsInstancesTablesResponse, DropRowRangeProjectsInstancesTablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DropRowRangeProjectsInstancesTablesRequest,
   output: DropRowRangeProjectsInstancesTablesResponse,
   errors: [],
 }));
 
-/** Returns permissions that the caller has on the specified Bigtable resource. */
 export interface TestIamPermissionsProjectsInstancesTablesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2436,13 +2435,13 @@ export const TestIamPermissionsProjectsInstancesTablesResponse = TestIamPermissi
 
 export type TestIamPermissionsProjectsInstancesTablesError = CommonErrors;
 
+/** Returns permissions that the caller has on the specified Bigtable resource. */
 export const testIamPermissionsProjectsInstancesTables: API.OperationMethod<TestIamPermissionsProjectsInstancesTablesRequest, TestIamPermissionsProjectsInstancesTablesResponse, TestIamPermissionsProjectsInstancesTablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsInstancesTablesRequest,
   output: TestIamPermissionsProjectsInstancesTablesResponse,
   errors: [],
 }));
 
-/** Updates a specified table. */
 export interface PatchProjectsInstancesTablesRequest {
   /** The unique name of the table. Values are of the form `projects/{project}/instances/{instance}/tables/_a-zA-Z0-9*`. Views: `NAME_ONLY`, `SCHEMA_VIEW`, `REPLICATION_VIEW`, `STATS_VIEW`, `FULL` */
   name: string;
@@ -2469,13 +2468,13 @@ export const PatchProjectsInstancesTablesResponse = Operation;
 
 export type PatchProjectsInstancesTablesError = CommonErrors;
 
+/** Updates a specified table. */
 export const patchProjectsInstancesTables: API.OperationMethod<PatchProjectsInstancesTablesRequest, PatchProjectsInstancesTablesResponse, PatchProjectsInstancesTablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsInstancesTablesRequest,
   output: PatchProjectsInstancesTablesResponse,
   errors: [],
 }));
 
-/** Generates a consistency token for a Table, which can be used in CheckConsistency to check whether mutations to the table that finished before this call started have been replicated. The tokens will be available for 90 days. */
 export interface GenerateConsistencyTokenProjectsInstancesTablesRequest {
   /** Required. The unique name of the Table for which to create a consistency token. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
   name: string;
@@ -2496,13 +2495,13 @@ export const GenerateConsistencyTokenProjectsInstancesTablesResponse = GenerateC
 
 export type GenerateConsistencyTokenProjectsInstancesTablesError = CommonErrors;
 
+/** Generates a consistency token for a Table, which can be used in CheckConsistency to check whether mutations to the table that finished before this call started have been replicated. The tokens will be available for 90 days. */
 export const generateConsistencyTokenProjectsInstancesTables: API.OperationMethod<GenerateConsistencyTokenProjectsInstancesTablesRequest, GenerateConsistencyTokenProjectsInstancesTablesResponse, GenerateConsistencyTokenProjectsInstancesTablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateConsistencyTokenProjectsInstancesTablesRequest,
   output: GenerateConsistencyTokenProjectsInstancesTablesResponse,
   errors: [],
 }));
 
-/** Gets metadata information about the specified table. */
 export interface GetProjectsInstancesTablesRequest {
   /** Required. The unique name of the requested table. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
   name: string;
@@ -2523,13 +2522,13 @@ export const GetProjectsInstancesTablesResponse = Table;
 
 export type GetProjectsInstancesTablesError = CommonErrors;
 
+/** Gets metadata information about the specified table. */
 export const getProjectsInstancesTables: API.OperationMethod<GetProjectsInstancesTablesRequest, GetProjectsInstancesTablesResponse, GetProjectsInstancesTablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsInstancesTablesRequest,
   output: GetProjectsInstancesTablesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on a Bigtable resource. Replaces any existing policy. */
 export interface SetIamPolicyProjectsInstancesTablesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2550,13 +2549,13 @@ export const SetIamPolicyProjectsInstancesTablesResponse = Policy;
 
 export type SetIamPolicyProjectsInstancesTablesError = CommonErrors;
 
+/** Sets the access control policy on a Bigtable resource. Replaces any existing policy. */
 export const setIamPolicyProjectsInstancesTables: API.OperationMethod<SetIamPolicyProjectsInstancesTablesRequest, SetIamPolicyProjectsInstancesTablesResponse, SetIamPolicyProjectsInstancesTablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsInstancesTablesRequest,
   output: SetIamPolicyProjectsInstancesTablesResponse,
   errors: [],
 }));
 
-/** Creates a new table in the specified instance. The table can be created with a full set of initial column families, specified in the request. */
 export interface CreateProjectsInstancesTablesRequest {
   /** Required. The unique name of the instance in which to create the table. Values are of the form `projects/{project}/instances/{instance}`. */
   parent: string;
@@ -2577,13 +2576,13 @@ export const CreateProjectsInstancesTablesResponse = Table;
 
 export type CreateProjectsInstancesTablesError = CommonErrors;
 
+/** Creates a new table in the specified instance. The table can be created with a full set of initial column families, specified in the request. */
 export const createProjectsInstancesTables: API.OperationMethod<CreateProjectsInstancesTablesRequest, CreateProjectsInstancesTablesResponse, CreateProjectsInstancesTablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsInstancesTablesRequest,
   output: CreateProjectsInstancesTablesResponse,
   errors: [],
 }));
 
-/** Lists all tables served from a specified instance. */
 export interface ListProjectsInstancesTablesRequest {
   /** Maximum number of results per page. A page_size of zero lets the server choose the number of items to return. A page_size which is strictly positive will return at most that many items. A negative page_size will cause an error. Following the first request, subsequent paginated calls are not required to pass a page_size. If a page_size is set in subsequent calls, it must match the page_size given in the first request. */
   pageSize?: number;
@@ -2610,7 +2609,8 @@ export const ListProjectsInstancesTablesResponse = ListTablesResponse;
 
 export type ListProjectsInstancesTablesError = CommonErrors;
 
-export const listProjectsInstancesTables = API.makePaginated(() => ({
+/** Lists all tables served from a specified instance. */
+export const listProjectsInstancesTables: API.PaginatedOperationMethod<ListProjectsInstancesTablesRequest, ListProjectsInstancesTablesResponse, ListProjectsInstancesTablesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsInstancesTablesRequest,
   output: ListProjectsInstancesTablesResponse,
   errors: [],
@@ -2620,7 +2620,6 @@ export const listProjectsInstancesTables = API.makePaginated(() => ({
   },
 }));
 
-/** Performs a series of column family modifications on the specified table. Either all or none of the modifications will occur before this method returns, but data requests received prior to that point may see a table where only some modifications have taken effect. */
 export interface ModifyColumnFamiliesProjectsInstancesTablesRequest {
   /** Required. The unique name of the table whose families should be modified. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
   name: string;
@@ -2641,13 +2640,13 @@ export const ModifyColumnFamiliesProjectsInstancesTablesResponse = Table;
 
 export type ModifyColumnFamiliesProjectsInstancesTablesError = CommonErrors;
 
+/** Performs a series of column family modifications on the specified table. Either all or none of the modifications will occur before this method returns, but data requests received prior to that point may see a table where only some modifications have taken effect. */
 export const modifyColumnFamiliesProjectsInstancesTables: API.OperationMethod<ModifyColumnFamiliesProjectsInstancesTablesRequest, ModifyColumnFamiliesProjectsInstancesTablesResponse, ModifyColumnFamiliesProjectsInstancesTablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ModifyColumnFamiliesProjectsInstancesTablesRequest,
   output: ModifyColumnFamiliesProjectsInstancesTablesResponse,
   errors: [],
 }));
 
-/** Creates a new AuthorizedView in a table. */
 export interface CreateProjectsInstancesTablesAuthorizedViewsRequest {
   /** Required. This is the name of the table the AuthorizedView belongs to. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
   parent: string;
@@ -2671,13 +2670,13 @@ export const CreateProjectsInstancesTablesAuthorizedViewsResponse = Operation;
 
 export type CreateProjectsInstancesTablesAuthorizedViewsError = CommonErrors;
 
+/** Creates a new AuthorizedView in a table. */
 export const createProjectsInstancesTablesAuthorizedViews: API.OperationMethod<CreateProjectsInstancesTablesAuthorizedViewsRequest, CreateProjectsInstancesTablesAuthorizedViewsResponse, CreateProjectsInstancesTablesAuthorizedViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsInstancesTablesAuthorizedViewsRequest,
   output: CreateProjectsInstancesTablesAuthorizedViewsResponse,
   errors: [],
 }));
 
-/** Gets information from a specified AuthorizedView. */
 export interface GetProjectsInstancesTablesAuthorizedViewsRequest {
   /** Required. The unique name of the requested AuthorizedView. Values are of the form `projects/{project}/instances/{instance}/tables/{table}/authorizedViews/{authorized_view}`. */
   name: string;
@@ -2698,13 +2697,13 @@ export const GetProjectsInstancesTablesAuthorizedViewsResponse = AuthorizedView;
 
 export type GetProjectsInstancesTablesAuthorizedViewsError = CommonErrors;
 
+/** Gets information from a specified AuthorizedView. */
 export const getProjectsInstancesTablesAuthorizedViews: API.OperationMethod<GetProjectsInstancesTablesAuthorizedViewsRequest, GetProjectsInstancesTablesAuthorizedViewsResponse, GetProjectsInstancesTablesAuthorizedViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsInstancesTablesAuthorizedViewsRequest,
   output: GetProjectsInstancesTablesAuthorizedViewsResponse,
   errors: [],
 }));
 
-/** Updates an AuthorizedView in a table. */
 export interface PatchProjectsInstancesTablesAuthorizedViewsRequest {
   /** Identifier. The name of this AuthorizedView. Values are of the form `projects/{project}/instances/{instance}/tables/{table}/authorizedViews/{authorized_view}` */
   name: string;
@@ -2731,13 +2730,13 @@ export const PatchProjectsInstancesTablesAuthorizedViewsResponse = Operation;
 
 export type PatchProjectsInstancesTablesAuthorizedViewsError = CommonErrors;
 
+/** Updates an AuthorizedView in a table. */
 export const patchProjectsInstancesTablesAuthorizedViews: API.OperationMethod<PatchProjectsInstancesTablesAuthorizedViewsRequest, PatchProjectsInstancesTablesAuthorizedViewsResponse, PatchProjectsInstancesTablesAuthorizedViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsInstancesTablesAuthorizedViewsRequest,
   output: PatchProjectsInstancesTablesAuthorizedViewsResponse,
   errors: [],
 }));
 
-/** Permanently deletes a specified AuthorizedView. */
 export interface DeleteProjectsInstancesTablesAuthorizedViewsRequest {
   /** Optional. The current etag of the AuthorizedView. If an etag is provided and does not match the current etag of the AuthorizedView, deletion will be blocked and an ABORTED error will be returned. */
   etag?: string;
@@ -2758,13 +2757,13 @@ export const DeleteProjectsInstancesTablesAuthorizedViewsResponse = Empty;
 
 export type DeleteProjectsInstancesTablesAuthorizedViewsError = CommonErrors;
 
+/** Permanently deletes a specified AuthorizedView. */
 export const deleteProjectsInstancesTablesAuthorizedViews: API.OperationMethod<DeleteProjectsInstancesTablesAuthorizedViewsRequest, DeleteProjectsInstancesTablesAuthorizedViewsResponse, DeleteProjectsInstancesTablesAuthorizedViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsInstancesTablesAuthorizedViewsRequest,
   output: DeleteProjectsInstancesTablesAuthorizedViewsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on a Bigtable resource. Replaces any existing policy. */
 export interface SetIamPolicyProjectsInstancesTablesAuthorizedViewsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2785,13 +2784,13 @@ export const SetIamPolicyProjectsInstancesTablesAuthorizedViewsResponse = Policy
 
 export type SetIamPolicyProjectsInstancesTablesAuthorizedViewsError = CommonErrors;
 
+/** Sets the access control policy on a Bigtable resource. Replaces any existing policy. */
 export const setIamPolicyProjectsInstancesTablesAuthorizedViews: API.OperationMethod<SetIamPolicyProjectsInstancesTablesAuthorizedViewsRequest, SetIamPolicyProjectsInstancesTablesAuthorizedViewsResponse, SetIamPolicyProjectsInstancesTablesAuthorizedViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsInstancesTablesAuthorizedViewsRequest,
   output: SetIamPolicyProjectsInstancesTablesAuthorizedViewsResponse,
   errors: [],
 }));
 
-/** Returns permissions that the caller has on the specified Bigtable resource. */
 export interface TestIamPermissionsProjectsInstancesTablesAuthorizedViewsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2812,13 +2811,13 @@ export const TestIamPermissionsProjectsInstancesTablesAuthorizedViewsResponse = 
 
 export type TestIamPermissionsProjectsInstancesTablesAuthorizedViewsError = CommonErrors;
 
+/** Returns permissions that the caller has on the specified Bigtable resource. */
 export const testIamPermissionsProjectsInstancesTablesAuthorizedViews: API.OperationMethod<TestIamPermissionsProjectsInstancesTablesAuthorizedViewsRequest, TestIamPermissionsProjectsInstancesTablesAuthorizedViewsResponse, TestIamPermissionsProjectsInstancesTablesAuthorizedViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsInstancesTablesAuthorizedViewsRequest,
   output: TestIamPermissionsProjectsInstancesTablesAuthorizedViewsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a Bigtable resource. Returns an empty policy if the resource exists but does not have a policy set. */
 export interface GetIamPolicyProjectsInstancesTablesAuthorizedViewsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2839,13 +2838,13 @@ export const GetIamPolicyProjectsInstancesTablesAuthorizedViewsResponse = Policy
 
 export type GetIamPolicyProjectsInstancesTablesAuthorizedViewsError = CommonErrors;
 
+/** Gets the access control policy for a Bigtable resource. Returns an empty policy if the resource exists but does not have a policy set. */
 export const getIamPolicyProjectsInstancesTablesAuthorizedViews: API.OperationMethod<GetIamPolicyProjectsInstancesTablesAuthorizedViewsRequest, GetIamPolicyProjectsInstancesTablesAuthorizedViewsResponse, GetIamPolicyProjectsInstancesTablesAuthorizedViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsInstancesTablesAuthorizedViewsRequest,
   output: GetIamPolicyProjectsInstancesTablesAuthorizedViewsResponse,
   errors: [],
 }));
 
-/** Lists all AuthorizedViews from a specific table. */
 export interface ListProjectsInstancesTablesAuthorizedViewsRequest {
   /** Optional. The resource_view to be applied to the returned AuthorizedViews' fields. Default to NAME_ONLY. */
   view?: "RESPONSE_VIEW_UNSPECIFIED" | "NAME_ONLY" | "BASIC" | "FULL" | (string & {});
@@ -2872,7 +2871,8 @@ export const ListProjectsInstancesTablesAuthorizedViewsResponse = ListAuthorized
 
 export type ListProjectsInstancesTablesAuthorizedViewsError = CommonErrors;
 
-export const listProjectsInstancesTablesAuthorizedViews = API.makePaginated(() => ({
+/** Lists all AuthorizedViews from a specific table. */
+export const listProjectsInstancesTablesAuthorizedViews: API.PaginatedOperationMethod<ListProjectsInstancesTablesAuthorizedViewsRequest, ListProjectsInstancesTablesAuthorizedViewsResponse, ListProjectsInstancesTablesAuthorizedViewsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsInstancesTablesAuthorizedViewsRequest,
   output: ListProjectsInstancesTablesAuthorizedViewsResponse,
   errors: [],
@@ -2882,7 +2882,6 @@ export const listProjectsInstancesTablesAuthorizedViews = API.makePaginated(() =
   },
 }));
 
-/** Updates a schema bundle in the specified table. */
 export interface PatchProjectsInstancesTablesSchemaBundlesRequest {
   /** Optional. The list of fields to update. */
   updateMask?: string;
@@ -2909,13 +2908,13 @@ export const PatchProjectsInstancesTablesSchemaBundlesResponse = Operation;
 
 export type PatchProjectsInstancesTablesSchemaBundlesError = CommonErrors;
 
+/** Updates a schema bundle in the specified table. */
 export const patchProjectsInstancesTablesSchemaBundles: API.OperationMethod<PatchProjectsInstancesTablesSchemaBundlesRequest, PatchProjectsInstancesTablesSchemaBundlesResponse, PatchProjectsInstancesTablesSchemaBundlesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsInstancesTablesSchemaBundlesRequest,
   output: PatchProjectsInstancesTablesSchemaBundlesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on a Bigtable resource. Replaces any existing policy. */
 export interface SetIamPolicyProjectsInstancesTablesSchemaBundlesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2936,13 +2935,13 @@ export const SetIamPolicyProjectsInstancesTablesSchemaBundlesResponse = Policy;
 
 export type SetIamPolicyProjectsInstancesTablesSchemaBundlesError = CommonErrors;
 
+/** Sets the access control policy on a Bigtable resource. Replaces any existing policy. */
 export const setIamPolicyProjectsInstancesTablesSchemaBundles: API.OperationMethod<SetIamPolicyProjectsInstancesTablesSchemaBundlesRequest, SetIamPolicyProjectsInstancesTablesSchemaBundlesResponse, SetIamPolicyProjectsInstancesTablesSchemaBundlesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsInstancesTablesSchemaBundlesRequest,
   output: SetIamPolicyProjectsInstancesTablesSchemaBundlesResponse,
   errors: [],
 }));
 
-/** Returns permissions that the caller has on the specified Bigtable resource. */
 export interface TestIamPermissionsProjectsInstancesTablesSchemaBundlesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2963,13 +2962,13 @@ export const TestIamPermissionsProjectsInstancesTablesSchemaBundlesResponse = Te
 
 export type TestIamPermissionsProjectsInstancesTablesSchemaBundlesError = CommonErrors;
 
+/** Returns permissions that the caller has on the specified Bigtable resource. */
 export const testIamPermissionsProjectsInstancesTablesSchemaBundles: API.OperationMethod<TestIamPermissionsProjectsInstancesTablesSchemaBundlesRequest, TestIamPermissionsProjectsInstancesTablesSchemaBundlesResponse, TestIamPermissionsProjectsInstancesTablesSchemaBundlesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsInstancesTablesSchemaBundlesRequest,
   output: TestIamPermissionsProjectsInstancesTablesSchemaBundlesResponse,
   errors: [],
 }));
 
-/** Lists all schema bundles associated with the specified table. */
 export interface ListProjectsInstancesTablesSchemaBundlesRequest {
   /** The maximum number of schema bundles to return. If the value is positive, the server may return at most this value. If unspecified, the server will return the maximum allowed page size. */
   pageSize?: number;
@@ -2996,7 +2995,8 @@ export const ListProjectsInstancesTablesSchemaBundlesResponse = ListSchemaBundle
 
 export type ListProjectsInstancesTablesSchemaBundlesError = CommonErrors;
 
-export const listProjectsInstancesTablesSchemaBundles = API.makePaginated(() => ({
+/** Lists all schema bundles associated with the specified table. */
+export const listProjectsInstancesTablesSchemaBundles: API.PaginatedOperationMethod<ListProjectsInstancesTablesSchemaBundlesRequest, ListProjectsInstancesTablesSchemaBundlesResponse, ListProjectsInstancesTablesSchemaBundlesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsInstancesTablesSchemaBundlesRequest,
   output: ListProjectsInstancesTablesSchemaBundlesResponse,
   errors: [],
@@ -3006,7 +3006,6 @@ export const listProjectsInstancesTablesSchemaBundles = API.makePaginated(() => 
   },
 }));
 
-/** Gets metadata information about the specified schema bundle. */
 export interface GetProjectsInstancesTablesSchemaBundlesRequest {
   /** Required. The unique name of the schema bundle to retrieve. Values are of the form `projects/{project}/instances/{instance}/tables/{table}/schemaBundles/{schema_bundle}` */
   name: string;
@@ -3024,13 +3023,13 @@ export const GetProjectsInstancesTablesSchemaBundlesResponse = SchemaBundle;
 
 export type GetProjectsInstancesTablesSchemaBundlesError = CommonErrors;
 
+/** Gets metadata information about the specified schema bundle. */
 export const getProjectsInstancesTablesSchemaBundles: API.OperationMethod<GetProjectsInstancesTablesSchemaBundlesRequest, GetProjectsInstancesTablesSchemaBundlesResponse, GetProjectsInstancesTablesSchemaBundlesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsInstancesTablesSchemaBundlesRequest,
   output: GetProjectsInstancesTablesSchemaBundlesResponse,
   errors: [],
 }));
 
-/** Deletes a schema bundle in the specified table. */
 export interface DeleteProjectsInstancesTablesSchemaBundlesRequest {
   /** Required. The unique name of the schema bundle to delete. Values are of the form `projects/{project}/instances/{instance}/tables/{table}/schemaBundles/{schema_bundle}` */
   name: string;
@@ -3051,13 +3050,13 @@ export const DeleteProjectsInstancesTablesSchemaBundlesResponse = Empty;
 
 export type DeleteProjectsInstancesTablesSchemaBundlesError = CommonErrors;
 
+/** Deletes a schema bundle in the specified table. */
 export const deleteProjectsInstancesTablesSchemaBundles: API.OperationMethod<DeleteProjectsInstancesTablesSchemaBundlesRequest, DeleteProjectsInstancesTablesSchemaBundlesResponse, DeleteProjectsInstancesTablesSchemaBundlesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsInstancesTablesSchemaBundlesRequest,
   output: DeleteProjectsInstancesTablesSchemaBundlesResponse,
   errors: [],
 }));
 
-/** Creates a new schema bundle in the specified table. */
 export interface CreateProjectsInstancesTablesSchemaBundlesRequest {
   /** Required. The unique ID to use for the schema bundle, which will become the final component of the schema bundle's resource name. */
   schemaBundleId?: string;
@@ -3081,13 +3080,13 @@ export const CreateProjectsInstancesTablesSchemaBundlesResponse = Operation;
 
 export type CreateProjectsInstancesTablesSchemaBundlesError = CommonErrors;
 
+/** Creates a new schema bundle in the specified table. */
 export const createProjectsInstancesTablesSchemaBundles: API.OperationMethod<CreateProjectsInstancesTablesSchemaBundlesRequest, CreateProjectsInstancesTablesSchemaBundlesResponse, CreateProjectsInstancesTablesSchemaBundlesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsInstancesTablesSchemaBundlesRequest,
   output: CreateProjectsInstancesTablesSchemaBundlesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a Bigtable resource. Returns an empty policy if the resource exists but does not have a policy set. */
 export interface GetIamPolicyProjectsInstancesTablesSchemaBundlesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3108,13 +3107,13 @@ export const GetIamPolicyProjectsInstancesTablesSchemaBundlesResponse = Policy;
 
 export type GetIamPolicyProjectsInstancesTablesSchemaBundlesError = CommonErrors;
 
+/** Gets the access control policy for a Bigtable resource. Returns an empty policy if the resource exists but does not have a policy set. */
 export const getIamPolicyProjectsInstancesTablesSchemaBundles: API.OperationMethod<GetIamPolicyProjectsInstancesTablesSchemaBundlesRequest, GetIamPolicyProjectsInstancesTablesSchemaBundlesResponse, GetIamPolicyProjectsInstancesTablesSchemaBundlesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsInstancesTablesSchemaBundlesRequest,
   output: GetIamPolicyProjectsInstancesTablesSchemaBundlesResponse,
   errors: [],
 }));
 
-/** Creates a cluster within an instance. Note that exactly one of Cluster.serve_nodes and Cluster.cluster_config.cluster_autoscaling_config can be set. If serve_nodes is set to non-zero, then the cluster is manually scaled. If cluster_config.cluster_autoscaling_config is non-empty, then autoscaling is enabled. */
 export interface CreateProjectsInstancesClustersRequest {
   /** Required. The unique name of the instance in which to create the new cluster. Values are of the form `projects/{project}/instances/{instance}`. */
   parent: string;
@@ -3138,13 +3137,13 @@ export const CreateProjectsInstancesClustersResponse = Operation;
 
 export type CreateProjectsInstancesClustersError = CommonErrors;
 
+/** Creates a cluster within an instance. Note that exactly one of Cluster.serve_nodes and Cluster.cluster_config.cluster_autoscaling_config can be set. If serve_nodes is set to non-zero, then the cluster is manually scaled. If cluster_config.cluster_autoscaling_config is non-empty, then autoscaling is enabled. */
 export const createProjectsInstancesClusters: API.OperationMethod<CreateProjectsInstancesClustersRequest, CreateProjectsInstancesClustersResponse, CreateProjectsInstancesClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsInstancesClustersRequest,
   output: CreateProjectsInstancesClustersResponse,
   errors: [],
 }));
 
-/** Partially updates a cluster within a project. This method is the preferred way to update a Cluster. To enable and update autoscaling, set cluster_config.cluster_autoscaling_config. When autoscaling is enabled, serve_nodes is treated as an OUTPUT_ONLY field, meaning that updates to it are ignored. Note that an update cannot simultaneously set serve_nodes to non-zero and cluster_config.cluster_autoscaling_config to non-empty, and also specify both in the update_mask. To disable autoscaling, clear cluster_config.cluster_autoscaling_config, and explicitly set a serve_node count via the update_mask. */
 export interface PartialUpdateClusterProjectsInstancesClustersRequest {
   /** The unique name of the cluster. Values are of the form `projects/{project}/instances/{instance}/clusters/a-z*`. */
   name: string;
@@ -3168,13 +3167,13 @@ export const PartialUpdateClusterProjectsInstancesClustersResponse = Operation;
 
 export type PartialUpdateClusterProjectsInstancesClustersError = CommonErrors;
 
+/** Partially updates a cluster within a project. This method is the preferred way to update a Cluster. To enable and update autoscaling, set cluster_config.cluster_autoscaling_config. When autoscaling is enabled, serve_nodes is treated as an OUTPUT_ONLY field, meaning that updates to it are ignored. Note that an update cannot simultaneously set serve_nodes to non-zero and cluster_config.cluster_autoscaling_config to non-empty, and also specify both in the update_mask. To disable autoscaling, clear cluster_config.cluster_autoscaling_config, and explicitly set a serve_node count via the update_mask. */
 export const partialUpdateClusterProjectsInstancesClusters: API.OperationMethod<PartialUpdateClusterProjectsInstancesClustersRequest, PartialUpdateClusterProjectsInstancesClustersResponse, PartialUpdateClusterProjectsInstancesClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PartialUpdateClusterProjectsInstancesClustersRequest,
   output: PartialUpdateClusterProjectsInstancesClustersResponse,
   errors: [],
 }));
 
-/** Lists information about clusters in an instance. */
 export interface ListProjectsInstancesClustersRequest {
   /** DEPRECATED: This field is unused and ignored. */
   pageToken?: string;
@@ -3195,7 +3194,8 @@ export const ListProjectsInstancesClustersResponse = ListClustersResponse;
 
 export type ListProjectsInstancesClustersError = CommonErrors;
 
-export const listProjectsInstancesClusters = API.makePaginated(() => ({
+/** Lists information about clusters in an instance. */
+export const listProjectsInstancesClusters: API.PaginatedOperationMethod<ListProjectsInstancesClustersRequest, ListProjectsInstancesClustersResponse, ListProjectsInstancesClustersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsInstancesClustersRequest,
   output: ListProjectsInstancesClustersResponse,
   errors: [],
@@ -3205,7 +3205,6 @@ export const listProjectsInstancesClusters = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a cluster from an instance. */
 export interface DeleteProjectsInstancesClustersRequest {
   /** Required. The unique name of the cluster to be deleted. Values are of the form `projects/{project}/instances/{instance}/clusters/{cluster}`. */
   name: string;
@@ -3223,13 +3222,13 @@ export const DeleteProjectsInstancesClustersResponse = Empty;
 
 export type DeleteProjectsInstancesClustersError = CommonErrors;
 
+/** Deletes a cluster from an instance. */
 export const deleteProjectsInstancesClusters: API.OperationMethod<DeleteProjectsInstancesClustersRequest, DeleteProjectsInstancesClustersResponse, DeleteProjectsInstancesClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsInstancesClustersRequest,
   output: DeleteProjectsInstancesClustersResponse,
   errors: [],
 }));
 
-/** Updates a cluster within an instance. Note that UpdateCluster does not support updating cluster_config.cluster_autoscaling_config. In order to update it, you must use PartialUpdateCluster. */
 export interface UpdateProjectsInstancesClustersRequest {
   /** The unique name of the cluster. Values are of the form `projects/{project}/instances/{instance}/clusters/a-z*`. */
   name: string;
@@ -3250,13 +3249,13 @@ export const UpdateProjectsInstancesClustersResponse = Operation;
 
 export type UpdateProjectsInstancesClustersError = CommonErrors;
 
+/** Updates a cluster within an instance. Note that UpdateCluster does not support updating cluster_config.cluster_autoscaling_config. In order to update it, you must use PartialUpdateCluster. */
 export const updateProjectsInstancesClusters: API.OperationMethod<UpdateProjectsInstancesClustersRequest, UpdateProjectsInstancesClustersResponse, UpdateProjectsInstancesClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateProjectsInstancesClustersRequest,
   output: UpdateProjectsInstancesClustersResponse,
   errors: [],
 }));
 
-/** Gets information about a cluster. */
 export interface GetProjectsInstancesClustersRequest {
   /** Required. The unique name of the requested cluster. Values are of the form `projects/{project}/instances/{instance}/clusters/{cluster}`. */
   name: string;
@@ -3274,13 +3273,13 @@ export const GetProjectsInstancesClustersResponse = Cluster;
 
 export type GetProjectsInstancesClustersError = CommonErrors;
 
+/** Gets information about a cluster. */
 export const getProjectsInstancesClusters: API.OperationMethod<GetProjectsInstancesClustersRequest, GetProjectsInstancesClustersResponse, GetProjectsInstancesClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsInstancesClustersRequest,
   output: GetProjectsInstancesClustersResponse,
   errors: [],
 }));
 
-/** Lists hot tablets in a cluster, within the time range provided. Hot tablets are ordered based on CPU usage. */
 export interface ListProjectsInstancesClustersHotTabletsRequest {
   /** Required. The cluster name to list hot tablets. Value is in the following form: `projects/{project}/instances/{instance}/clusters/{cluster}`. */
   parent: string;
@@ -3310,7 +3309,8 @@ export const ListProjectsInstancesClustersHotTabletsResponse = ListHotTabletsRes
 
 export type ListProjectsInstancesClustersHotTabletsError = CommonErrors;
 
-export const listProjectsInstancesClustersHotTablets = API.makePaginated(() => ({
+/** Lists hot tablets in a cluster, within the time range provided. Hot tablets are ordered based on CPU usage. */
+export const listProjectsInstancesClustersHotTablets: API.PaginatedOperationMethod<ListProjectsInstancesClustersHotTabletsRequest, ListProjectsInstancesClustersHotTabletsResponse, ListProjectsInstancesClustersHotTabletsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsInstancesClustersHotTabletsRequest,
   output: ListProjectsInstancesClustersHotTabletsResponse,
   errors: [],
@@ -3320,7 +3320,6 @@ export const listProjectsInstancesClustersHotTablets = API.makePaginated(() => (
   },
 }));
 
-/** Copy a Cloud Bigtable backup to a new backup in the destination cluster located in the destination instance and project. */
 export interface CopyProjectsInstancesClustersBackupsRequest {
   /** Required. The name of the destination cluster that will contain the backup copy. The cluster must already exist. Values are of the form: `projects/{project}/instances/{instance}/clusters/{cluster}`. */
   parent: string;
@@ -3341,13 +3340,13 @@ export const CopyProjectsInstancesClustersBackupsResponse = Operation;
 
 export type CopyProjectsInstancesClustersBackupsError = CommonErrors;
 
+/** Copy a Cloud Bigtable backup to a new backup in the destination cluster located in the destination instance and project. */
 export const copyProjectsInstancesClustersBackups: API.OperationMethod<CopyProjectsInstancesClustersBackupsRequest, CopyProjectsInstancesClustersBackupsResponse, CopyProjectsInstancesClustersBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CopyProjectsInstancesClustersBackupsRequest,
   output: CopyProjectsInstancesClustersBackupsResponse,
   errors: [],
 }));
 
-/** Updates a pending or completed Cloud Bigtable Backup. */
 export interface PatchProjectsInstancesClustersBackupsRequest {
   /** Required. A mask specifying which fields (e.g. `expire_time`) in the Backup resource should be updated. This mask is relative to the Backup resource, not to the request message. The field mask must always be specified; this prevents any future fields from being erased accidentally by clients that do not know about them. */
   updateMask?: string;
@@ -3371,13 +3370,13 @@ export const PatchProjectsInstancesClustersBackupsResponse = Backup;
 
 export type PatchProjectsInstancesClustersBackupsError = CommonErrors;
 
+/** Updates a pending or completed Cloud Bigtable Backup. */
 export const patchProjectsInstancesClustersBackups: API.OperationMethod<PatchProjectsInstancesClustersBackupsRequest, PatchProjectsInstancesClustersBackupsResponse, PatchProjectsInstancesClustersBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsInstancesClustersBackupsRequest,
   output: PatchProjectsInstancesClustersBackupsResponse,
   errors: [],
 }));
 
-/** Lists Cloud Bigtable backups. Returns both completed and pending backups. */
 export interface ListProjectsInstancesClustersBackupsRequest {
   /** A filter expression that filters backups listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be <, >, <=, >=, !=, =, or :. Colon ':' represents a HAS operator which is roughly synonymous with equality. Filter rules are case insensitive. The fields eligible for filtering are: * `name` * `source_table` * `state` * `start_time` (and values are of the format YYYY-MM-DDTHH:MM:SSZ) * `end_time` (and values are of the format YYYY-MM-DDTHH:MM:SSZ) * `expire_time` (and values are of the format YYYY-MM-DDTHH:MM:SSZ) * `size_bytes` To filter on multiple expressions, provide each separate expression within parentheses. By default, each expression is an AND expression. However, you can include AND, OR, and NOT expressions explicitly. Some examples of using filters are: * `name:"exact"` --> The backup's name is the string "exact". * `name:howl` --> The backup's name contains the string "howl". * `source_table:prod` --> The source_table's name contains the string "prod". * `state:CREATING` --> The backup is pending creation. * `state:READY` --> The backup is fully created and ready for use. * `(name:howl) AND (start_time < \"2018-03-28T14:50:00Z\")` --> The backup name contains the string "howl" and start_time of the backup is before 2018-03-28T14:50:00Z. * `size_bytes > 10000000000` --> The backup's size is greater than 10GB */
   filter?: string;
@@ -3407,7 +3406,8 @@ export const ListProjectsInstancesClustersBackupsResponse = ListBackupsResponse;
 
 export type ListProjectsInstancesClustersBackupsError = CommonErrors;
 
-export const listProjectsInstancesClustersBackups = API.makePaginated(() => ({
+/** Lists Cloud Bigtable backups. Returns both completed and pending backups. */
+export const listProjectsInstancesClustersBackups: API.PaginatedOperationMethod<ListProjectsInstancesClustersBackupsRequest, ListProjectsInstancesClustersBackupsResponse, ListProjectsInstancesClustersBackupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsInstancesClustersBackupsRequest,
   output: ListProjectsInstancesClustersBackupsResponse,
   errors: [],
@@ -3417,7 +3417,6 @@ export const listProjectsInstancesClustersBackups = API.makePaginated(() => ({
   },
 }));
 
-/** Sets the access control policy on a Bigtable resource. Replaces any existing policy. */
 export interface SetIamPolicyProjectsInstancesClustersBackupsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3438,13 +3437,13 @@ export const SetIamPolicyProjectsInstancesClustersBackupsResponse = Policy;
 
 export type SetIamPolicyProjectsInstancesClustersBackupsError = CommonErrors;
 
+/** Sets the access control policy on a Bigtable resource. Replaces any existing policy. */
 export const setIamPolicyProjectsInstancesClustersBackups: API.OperationMethod<SetIamPolicyProjectsInstancesClustersBackupsRequest, SetIamPolicyProjectsInstancesClustersBackupsResponse, SetIamPolicyProjectsInstancesClustersBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsInstancesClustersBackupsRequest,
   output: SetIamPolicyProjectsInstancesClustersBackupsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a Bigtable resource. Returns an empty policy if the resource exists but does not have a policy set. */
 export interface GetIamPolicyProjectsInstancesClustersBackupsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3465,13 +3464,13 @@ export const GetIamPolicyProjectsInstancesClustersBackupsResponse = Policy;
 
 export type GetIamPolicyProjectsInstancesClustersBackupsError = CommonErrors;
 
+/** Gets the access control policy for a Bigtable resource. Returns an empty policy if the resource exists but does not have a policy set. */
 export const getIamPolicyProjectsInstancesClustersBackups: API.OperationMethod<GetIamPolicyProjectsInstancesClustersBackupsRequest, GetIamPolicyProjectsInstancesClustersBackupsResponse, GetIamPolicyProjectsInstancesClustersBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsInstancesClustersBackupsRequest,
   output: GetIamPolicyProjectsInstancesClustersBackupsResponse,
   errors: [],
 }));
 
-/** Starts creating a new Cloud Bigtable Backup. The returned backup long-running operation can be used to track creation of the backup. The metadata field type is CreateBackupMetadata. The response field type is Backup, if successful. Cancelling the returned operation will stop the creation and delete the backup. */
 export interface CreateProjectsInstancesClustersBackupsRequest {
   /** Required. The id of the backup to be created. The `backup_id` along with the parent `parent` are combined as {parent}/backups/{backup_id} to create the full backup name, of the form: `projects/{project}/instances/{instance}/clusters/{cluster}/backups/{backup_id}`. This string must be between 1 and 50 characters in length and match the regex _a-zA-Z0-9*. */
   backupId?: string;
@@ -3495,13 +3494,13 @@ export const CreateProjectsInstancesClustersBackupsResponse = Operation;
 
 export type CreateProjectsInstancesClustersBackupsError = CommonErrors;
 
+/** Starts creating a new Cloud Bigtable Backup. The returned backup long-running operation can be used to track creation of the backup. The metadata field type is CreateBackupMetadata. The response field type is Backup, if successful. Cancelling the returned operation will stop the creation and delete the backup. */
 export const createProjectsInstancesClustersBackups: API.OperationMethod<CreateProjectsInstancesClustersBackupsRequest, CreateProjectsInstancesClustersBackupsResponse, CreateProjectsInstancesClustersBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsInstancesClustersBackupsRequest,
   output: CreateProjectsInstancesClustersBackupsResponse,
   errors: [],
 }));
 
-/** Returns permissions that the caller has on the specified Bigtable resource. */
 export interface TestIamPermissionsProjectsInstancesClustersBackupsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3522,13 +3521,13 @@ export const TestIamPermissionsProjectsInstancesClustersBackupsResponse = TestIa
 
 export type TestIamPermissionsProjectsInstancesClustersBackupsError = CommonErrors;
 
+/** Returns permissions that the caller has on the specified Bigtable resource. */
 export const testIamPermissionsProjectsInstancesClustersBackups: API.OperationMethod<TestIamPermissionsProjectsInstancesClustersBackupsRequest, TestIamPermissionsProjectsInstancesClustersBackupsResponse, TestIamPermissionsProjectsInstancesClustersBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsInstancesClustersBackupsRequest,
   output: TestIamPermissionsProjectsInstancesClustersBackupsResponse,
   errors: [],
 }));
 
-/** Gets metadata on a pending or completed Cloud Bigtable Backup. */
 export interface GetProjectsInstancesClustersBackupsRequest {
   /** Required. Name of the backup. Values are of the form `projects/{project}/instances/{instance}/clusters/{cluster}/backups/{backup}`. */
   name: string;
@@ -3546,13 +3545,13 @@ export const GetProjectsInstancesClustersBackupsResponse = Backup;
 
 export type GetProjectsInstancesClustersBackupsError = CommonErrors;
 
+/** Gets metadata on a pending or completed Cloud Bigtable Backup. */
 export const getProjectsInstancesClustersBackups: API.OperationMethod<GetProjectsInstancesClustersBackupsRequest, GetProjectsInstancesClustersBackupsResponse, GetProjectsInstancesClustersBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsInstancesClustersBackupsRequest,
   output: GetProjectsInstancesClustersBackupsResponse,
   errors: [],
 }));
 
-/** Deletes a pending or completed Cloud Bigtable backup. */
 export interface DeleteProjectsInstancesClustersBackupsRequest {
   /** Required. Name of the backup to delete. Values are of the form `projects/{project}/instances/{instance}/clusters/{cluster}/backups/{backup}`. */
   name: string;
@@ -3570,13 +3569,13 @@ export const DeleteProjectsInstancesClustersBackupsResponse = Empty;
 
 export type DeleteProjectsInstancesClustersBackupsError = CommonErrors;
 
+/** Deletes a pending or completed Cloud Bigtable backup. */
 export const deleteProjectsInstancesClustersBackups: API.OperationMethod<DeleteProjectsInstancesClustersBackupsRequest, DeleteProjectsInstancesClustersBackupsResponse, DeleteProjectsInstancesClustersBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsInstancesClustersBackupsRequest,
   output: DeleteProjectsInstancesClustersBackupsResponse,
   errors: [],
 }));
 
-/** Gets information about an app profile. */
 export interface GetProjectsInstancesAppProfilesRequest {
   /** Required. The unique name of the requested app profile. Values are of the form `projects/{project}/instances/{instance}/appProfiles/{app_profile}`. */
   name: string;
@@ -3594,13 +3593,13 @@ export const GetProjectsInstancesAppProfilesResponse = AppProfile;
 
 export type GetProjectsInstancesAppProfilesError = CommonErrors;
 
+/** Gets information about an app profile. */
 export const getProjectsInstancesAppProfiles: API.OperationMethod<GetProjectsInstancesAppProfilesRequest, GetProjectsInstancesAppProfilesResponse, GetProjectsInstancesAppProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsInstancesAppProfilesRequest,
   output: GetProjectsInstancesAppProfilesResponse,
   errors: [],
 }));
 
-/** Lists information about app profiles in an instance. */
 export interface ListProjectsInstancesAppProfilesRequest {
   /** Required. The unique name of the instance for which a list of app profiles is requested. Values are of the form `projects/{project}/instances/{instance}`. Use `{instance} = '-'` to list AppProfiles for all Instances in a project, e.g., `projects/myproject/instances/-`. */
   parent: string;
@@ -3624,7 +3623,8 @@ export const ListProjectsInstancesAppProfilesResponse = ListAppProfilesResponse;
 
 export type ListProjectsInstancesAppProfilesError = CommonErrors;
 
-export const listProjectsInstancesAppProfiles = API.makePaginated(() => ({
+/** Lists information about app profiles in an instance. */
+export const listProjectsInstancesAppProfiles: API.PaginatedOperationMethod<ListProjectsInstancesAppProfilesRequest, ListProjectsInstancesAppProfilesResponse, ListProjectsInstancesAppProfilesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsInstancesAppProfilesRequest,
   output: ListProjectsInstancesAppProfilesResponse,
   errors: [],
@@ -3634,7 +3634,6 @@ export const listProjectsInstancesAppProfiles = API.makePaginated(() => ({
   },
 }));
 
-/** Creates an app profile within an instance. */
 export interface CreateProjectsInstancesAppProfilesRequest {
   /** Required. The ID to be used when referring to the new app profile within its instance, e.g., just `myprofile` rather than `projects/myproject/instances/myinstance/appProfiles/myprofile`. */
   appProfileId?: string;
@@ -3661,13 +3660,13 @@ export const CreateProjectsInstancesAppProfilesResponse = AppProfile;
 
 export type CreateProjectsInstancesAppProfilesError = CommonErrors;
 
+/** Creates an app profile within an instance. */
 export const createProjectsInstancesAppProfiles: API.OperationMethod<CreateProjectsInstancesAppProfilesRequest, CreateProjectsInstancesAppProfilesResponse, CreateProjectsInstancesAppProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsInstancesAppProfilesRequest,
   output: CreateProjectsInstancesAppProfilesResponse,
   errors: [],
 }));
 
-/** Updates an app profile within an instance. */
 export interface PatchProjectsInstancesAppProfilesRequest {
   /** The unique name of the app profile, up to 50 characters long. Values are of the form `projects/{project}/instances/{instance}/appProfiles/_a-zA-Z0-9*`. */
   name: string;
@@ -3694,13 +3693,13 @@ export const PatchProjectsInstancesAppProfilesResponse = Operation;
 
 export type PatchProjectsInstancesAppProfilesError = CommonErrors;
 
+/** Updates an app profile within an instance. */
 export const patchProjectsInstancesAppProfiles: API.OperationMethod<PatchProjectsInstancesAppProfilesRequest, PatchProjectsInstancesAppProfilesResponse, PatchProjectsInstancesAppProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsInstancesAppProfilesRequest,
   output: PatchProjectsInstancesAppProfilesResponse,
   errors: [],
 }));
 
-/** Deletes an app profile from an instance. */
 export interface DeleteProjectsInstancesAppProfilesRequest {
   /** Required. The unique name of the app profile to be deleted. Values are of the form `projects/{project}/instances/{instance}/appProfiles/{app_profile}`. */
   name: string;
@@ -3721,13 +3720,13 @@ export const DeleteProjectsInstancesAppProfilesResponse = Empty;
 
 export type DeleteProjectsInstancesAppProfilesError = CommonErrors;
 
+/** Deletes an app profile from an instance. */
 export const deleteProjectsInstancesAppProfiles: API.OperationMethod<DeleteProjectsInstancesAppProfilesRequest, DeleteProjectsInstancesAppProfilesResponse, DeleteProjectsInstancesAppProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsInstancesAppProfilesRequest,
   output: DeleteProjectsInstancesAppProfilesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for an instance resource. Returns an empty policy if an instance exists but does not have a policy set. */
 export interface GetIamPolicyProjectsInstancesLogicalViewsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3748,13 +3747,13 @@ export const GetIamPolicyProjectsInstancesLogicalViewsResponse = Policy;
 
 export type GetIamPolicyProjectsInstancesLogicalViewsError = CommonErrors;
 
+/** Gets the access control policy for an instance resource. Returns an empty policy if an instance exists but does not have a policy set. */
 export const getIamPolicyProjectsInstancesLogicalViews: API.OperationMethod<GetIamPolicyProjectsInstancesLogicalViewsRequest, GetIamPolicyProjectsInstancesLogicalViewsResponse, GetIamPolicyProjectsInstancesLogicalViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsInstancesLogicalViewsRequest,
   output: GetIamPolicyProjectsInstancesLogicalViewsResponse,
   errors: [],
 }));
 
-/** Deletes a logical view from an instance. */
 export interface DeleteProjectsInstancesLogicalViewsRequest {
   /** Optional. The current etag of the logical view. If an etag is provided and does not match the current etag of the logical view, deletion will be blocked and an ABORTED error will be returned. */
   etag?: string;
@@ -3775,13 +3774,13 @@ export const DeleteProjectsInstancesLogicalViewsResponse = Empty;
 
 export type DeleteProjectsInstancesLogicalViewsError = CommonErrors;
 
+/** Deletes a logical view from an instance. */
 export const deleteProjectsInstancesLogicalViews: API.OperationMethod<DeleteProjectsInstancesLogicalViewsRequest, DeleteProjectsInstancesLogicalViewsResponse, DeleteProjectsInstancesLogicalViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsInstancesLogicalViewsRequest,
   output: DeleteProjectsInstancesLogicalViewsResponse,
   errors: [],
 }));
 
-/** Returns permissions that the caller has on the specified instance resource. */
 export interface TestIamPermissionsProjectsInstancesLogicalViewsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3802,13 +3801,13 @@ export const TestIamPermissionsProjectsInstancesLogicalViewsResponse = TestIamPe
 
 export type TestIamPermissionsProjectsInstancesLogicalViewsError = CommonErrors;
 
+/** Returns permissions that the caller has on the specified instance resource. */
 export const testIamPermissionsProjectsInstancesLogicalViews: API.OperationMethod<TestIamPermissionsProjectsInstancesLogicalViewsRequest, TestIamPermissionsProjectsInstancesLogicalViewsResponse, TestIamPermissionsProjectsInstancesLogicalViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsInstancesLogicalViewsRequest,
   output: TestIamPermissionsProjectsInstancesLogicalViewsResponse,
   errors: [],
 }));
 
-/** Updates a logical view within an instance. */
 export interface PatchProjectsInstancesLogicalViewsRequest {
   /** Optional. The list of fields to update. */
   updateMask?: string;
@@ -3832,13 +3831,13 @@ export const PatchProjectsInstancesLogicalViewsResponse = Operation;
 
 export type PatchProjectsInstancesLogicalViewsError = CommonErrors;
 
+/** Updates a logical view within an instance. */
 export const patchProjectsInstancesLogicalViews: API.OperationMethod<PatchProjectsInstancesLogicalViewsRequest, PatchProjectsInstancesLogicalViewsResponse, PatchProjectsInstancesLogicalViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsInstancesLogicalViewsRequest,
   output: PatchProjectsInstancesLogicalViewsResponse,
   errors: [],
 }));
 
-/** Lists information about logical views in an instance. */
 export interface ListProjectsInstancesLogicalViewsRequest {
   /** Optional. The maximum number of logical views to return. The service may return fewer than this value */
   pageSize?: number;
@@ -3862,7 +3861,8 @@ export const ListProjectsInstancesLogicalViewsResponse = ListLogicalViewsRespons
 
 export type ListProjectsInstancesLogicalViewsError = CommonErrors;
 
-export const listProjectsInstancesLogicalViews = API.makePaginated(() => ({
+/** Lists information about logical views in an instance. */
+export const listProjectsInstancesLogicalViews: API.PaginatedOperationMethod<ListProjectsInstancesLogicalViewsRequest, ListProjectsInstancesLogicalViewsResponse, ListProjectsInstancesLogicalViewsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsInstancesLogicalViewsRequest,
   output: ListProjectsInstancesLogicalViewsResponse,
   errors: [],
@@ -3872,7 +3872,6 @@ export const listProjectsInstancesLogicalViews = API.makePaginated(() => ({
   },
 }));
 
-/** Sets the access control policy on an instance resource. Replaces any existing policy. */
 export interface SetIamPolicyProjectsInstancesLogicalViewsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3893,13 +3892,13 @@ export const SetIamPolicyProjectsInstancesLogicalViewsResponse = Policy;
 
 export type SetIamPolicyProjectsInstancesLogicalViewsError = CommonErrors;
 
+/** Sets the access control policy on an instance resource. Replaces any existing policy. */
 export const setIamPolicyProjectsInstancesLogicalViews: API.OperationMethod<SetIamPolicyProjectsInstancesLogicalViewsRequest, SetIamPolicyProjectsInstancesLogicalViewsResponse, SetIamPolicyProjectsInstancesLogicalViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsInstancesLogicalViewsRequest,
   output: SetIamPolicyProjectsInstancesLogicalViewsResponse,
   errors: [],
 }));
 
-/** Gets information about a logical view. */
 export interface GetProjectsInstancesLogicalViewsRequest {
   /** Required. The unique name of the requested logical view. Values are of the form `projects/{project}/instances/{instance}/logicalViews/{logical_view}`. */
   name: string;
@@ -3917,13 +3916,13 @@ export const GetProjectsInstancesLogicalViewsResponse = LogicalView;
 
 export type GetProjectsInstancesLogicalViewsError = CommonErrors;
 
+/** Gets information about a logical view. */
 export const getProjectsInstancesLogicalViews: API.OperationMethod<GetProjectsInstancesLogicalViewsRequest, GetProjectsInstancesLogicalViewsResponse, GetProjectsInstancesLogicalViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsInstancesLogicalViewsRequest,
   output: GetProjectsInstancesLogicalViewsResponse,
   errors: [],
 }));
 
-/** Creates a logical view within an instance. */
 export interface CreateProjectsInstancesLogicalViewsRequest {
   /** Required. The parent instance where this logical view will be created. Format: `projects/{project}/instances/{instance}`. */
   parent: string;
@@ -3947,13 +3946,13 @@ export const CreateProjectsInstancesLogicalViewsResponse = Operation;
 
 export type CreateProjectsInstancesLogicalViewsError = CommonErrors;
 
+/** Creates a logical view within an instance. */
 export const createProjectsInstancesLogicalViews: API.OperationMethod<CreateProjectsInstancesLogicalViewsRequest, CreateProjectsInstancesLogicalViewsResponse, CreateProjectsInstancesLogicalViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsInstancesLogicalViewsRequest,
   output: CreateProjectsInstancesLogicalViewsResponse,
   errors: [],
 }));
 
-/** Deletes a materialized view from an instance. */
 export interface DeleteProjectsInstancesMaterializedViewsRequest {
   /** Required. The unique name of the materialized view to be deleted. Format: `projects/{project}/instances/{instance}/materializedViews/{materialized_view}`. */
   name: string;
@@ -3974,13 +3973,13 @@ export const DeleteProjectsInstancesMaterializedViewsResponse = Empty;
 
 export type DeleteProjectsInstancesMaterializedViewsError = CommonErrors;
 
+/** Deletes a materialized view from an instance. */
 export const deleteProjectsInstancesMaterializedViews: API.OperationMethod<DeleteProjectsInstancesMaterializedViewsRequest, DeleteProjectsInstancesMaterializedViewsResponse, DeleteProjectsInstancesMaterializedViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsInstancesMaterializedViewsRequest,
   output: DeleteProjectsInstancesMaterializedViewsResponse,
   errors: [],
 }));
 
-/** Gets information about a materialized view. */
 export interface GetProjectsInstancesMaterializedViewsRequest {
   /** Optional. Describes which of the materialized view's fields should be populated in the response. Defaults to SCHEMA_VIEW. */
   view?: "VIEW_UNSPECIFIED" | "SCHEMA_VIEW" | "REPLICATION_VIEW" | "FULL" | (string & {});
@@ -4001,13 +4000,13 @@ export const GetProjectsInstancesMaterializedViewsResponse = MaterializedView;
 
 export type GetProjectsInstancesMaterializedViewsError = CommonErrors;
 
+/** Gets information about a materialized view. */
 export const getProjectsInstancesMaterializedViews: API.OperationMethod<GetProjectsInstancesMaterializedViewsRequest, GetProjectsInstancesMaterializedViewsResponse, GetProjectsInstancesMaterializedViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsInstancesMaterializedViewsRequest,
   output: GetProjectsInstancesMaterializedViewsResponse,
   errors: [],
 }));
 
-/** Returns permissions that the caller has on the specified instance resource. */
 export interface TestIamPermissionsProjectsInstancesMaterializedViewsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -4028,13 +4027,13 @@ export const TestIamPermissionsProjectsInstancesMaterializedViewsResponse = Test
 
 export type TestIamPermissionsProjectsInstancesMaterializedViewsError = CommonErrors;
 
+/** Returns permissions that the caller has on the specified instance resource. */
 export const testIamPermissionsProjectsInstancesMaterializedViews: API.OperationMethod<TestIamPermissionsProjectsInstancesMaterializedViewsRequest, TestIamPermissionsProjectsInstancesMaterializedViewsResponse, TestIamPermissionsProjectsInstancesMaterializedViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsInstancesMaterializedViewsRequest,
   output: TestIamPermissionsProjectsInstancesMaterializedViewsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on an instance resource. Replaces any existing policy. */
 export interface SetIamPolicyProjectsInstancesMaterializedViewsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -4055,13 +4054,13 @@ export const SetIamPolicyProjectsInstancesMaterializedViewsResponse = Policy;
 
 export type SetIamPolicyProjectsInstancesMaterializedViewsError = CommonErrors;
 
+/** Sets the access control policy on an instance resource. Replaces any existing policy. */
 export const setIamPolicyProjectsInstancesMaterializedViews: API.OperationMethod<SetIamPolicyProjectsInstancesMaterializedViewsRequest, SetIamPolicyProjectsInstancesMaterializedViewsResponse, SetIamPolicyProjectsInstancesMaterializedViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsInstancesMaterializedViewsRequest,
   output: SetIamPolicyProjectsInstancesMaterializedViewsResponse,
   errors: [],
 }));
 
-/** Lists information about materialized views in an instance. */
 export interface ListProjectsInstancesMaterializedViewsRequest {
   /** Optional. The maximum number of materialized views to return. The service may return fewer than this value */
   pageSize?: number;
@@ -4088,7 +4087,8 @@ export const ListProjectsInstancesMaterializedViewsResponse = ListMaterializedVi
 
 export type ListProjectsInstancesMaterializedViewsError = CommonErrors;
 
-export const listProjectsInstancesMaterializedViews = API.makePaginated(() => ({
+/** Lists information about materialized views in an instance. */
+export const listProjectsInstancesMaterializedViews: API.PaginatedOperationMethod<ListProjectsInstancesMaterializedViewsRequest, ListProjectsInstancesMaterializedViewsResponse, ListProjectsInstancesMaterializedViewsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsInstancesMaterializedViewsRequest,
   output: ListProjectsInstancesMaterializedViewsResponse,
   errors: [],
@@ -4098,7 +4098,6 @@ export const listProjectsInstancesMaterializedViews = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a materialized view within an instance. */
 export interface CreateProjectsInstancesMaterializedViewsRequest {
   /** Required. The parent instance where this materialized view will be created. Format: `projects/{project}/instances/{instance}`. */
   parent: string;
@@ -4122,13 +4121,13 @@ export const CreateProjectsInstancesMaterializedViewsResponse = Operation;
 
 export type CreateProjectsInstancesMaterializedViewsError = CommonErrors;
 
+/** Creates a materialized view within an instance. */
 export const createProjectsInstancesMaterializedViews: API.OperationMethod<CreateProjectsInstancesMaterializedViewsRequest, CreateProjectsInstancesMaterializedViewsResponse, CreateProjectsInstancesMaterializedViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsInstancesMaterializedViewsRequest,
   output: CreateProjectsInstancesMaterializedViewsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for an instance resource. Returns an empty policy if an instance exists but does not have a policy set. */
 export interface GetIamPolicyProjectsInstancesMaterializedViewsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -4149,13 +4148,13 @@ export const GetIamPolicyProjectsInstancesMaterializedViewsResponse = Policy;
 
 export type GetIamPolicyProjectsInstancesMaterializedViewsError = CommonErrors;
 
+/** Gets the access control policy for an instance resource. Returns an empty policy if an instance exists but does not have a policy set. */
 export const getIamPolicyProjectsInstancesMaterializedViews: API.OperationMethod<GetIamPolicyProjectsInstancesMaterializedViewsRequest, GetIamPolicyProjectsInstancesMaterializedViewsResponse, GetIamPolicyProjectsInstancesMaterializedViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsInstancesMaterializedViewsRequest,
   output: GetIamPolicyProjectsInstancesMaterializedViewsResponse,
   errors: [],
 }));
 
-/** Updates a materialized view within an instance. */
 export interface PatchProjectsInstancesMaterializedViewsRequest {
   /** Identifier. The unique name of the materialized view. Format: `projects/{project}/instances/{instance}/materializedViews/{materialized_view}` Views: `SCHEMA_VIEW`, `REPLICATION_VIEW`, `FULL`. */
   name: string;
@@ -4179,13 +4178,13 @@ export const PatchProjectsInstancesMaterializedViewsResponse = Operation;
 
 export type PatchProjectsInstancesMaterializedViewsError = CommonErrors;
 
+/** Updates a materialized view within an instance. */
 export const patchProjectsInstancesMaterializedViews: API.OperationMethod<PatchProjectsInstancesMaterializedViewsRequest, PatchProjectsInstancesMaterializedViewsResponse, PatchProjectsInstancesMaterializedViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsInstancesMaterializedViewsRequest,
   output: PatchProjectsInstancesMaterializedViewsResponse,
   errors: [],
 }));
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -4215,7 +4214,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],

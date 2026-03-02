@@ -990,7 +990,6 @@ export const ReopenMatterResponse: Schema.Schema<ReopenMatterResponse> = Schema.
 // Operations
 // ==========================================================================
 
-/** Adds an account as a matter collaborator. */
 export interface AddPermissionsMattersRequest {
   /** The matter ID. */
   matterId: string;
@@ -1011,13 +1010,13 @@ export const AddPermissionsMattersResponse = MatterPermission;
 
 export type AddPermissionsMattersError = CommonErrors;
 
+/** Adds an account as a matter collaborator. */
 export const addPermissionsMatters: API.OperationMethod<AddPermissionsMattersRequest, AddPermissionsMattersResponse, AddPermissionsMattersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddPermissionsMattersRequest,
   output: AddPermissionsMattersResponse,
   errors: [],
 }));
 
-/** Undeletes the specified matter. Returns the matter with updated state. */
 export interface UndeleteMattersRequest {
   /** The matter ID. */
   matterId: string;
@@ -1038,13 +1037,13 @@ export const UndeleteMattersResponse = Matter;
 
 export type UndeleteMattersError = CommonErrors;
 
+/** Undeletes the specified matter. Returns the matter with updated state. */
 export const undeleteMatters: API.OperationMethod<UndeleteMattersRequest, UndeleteMattersResponse, UndeleteMattersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UndeleteMattersRequest,
   output: UndeleteMattersResponse,
   errors: [],
 }));
 
-/** Creates a matter with the given name and description. The initial state is open, and the owner is the method caller. Returns the created matter with default view. */
 export interface CreateMattersRequest {
   /** Request body */
   body?: Matter;
@@ -1062,13 +1061,13 @@ export const CreateMattersResponse = Matter;
 
 export type CreateMattersError = CommonErrors;
 
+/** Creates a matter with the given name and description. The initial state is open, and the owner is the method caller. Returns the created matter with default view. */
 export const createMatters: API.OperationMethod<CreateMattersRequest, CreateMattersResponse, CreateMattersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateMattersRequest,
   output: CreateMattersResponse,
   errors: [],
 }));
 
-/** Closes the specified matter. Returns the matter with updated state. */
 export interface CloseMattersRequest {
   /** The matter ID. */
   matterId: string;
@@ -1089,13 +1088,13 @@ export const CloseMattersResponse = CloseMatterResponse;
 
 export type CloseMattersError = CommonErrors;
 
+/** Closes the specified matter. Returns the matter with updated state. */
 export const closeMatters: API.OperationMethod<CloseMattersRequest, CloseMattersResponse, CloseMattersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CloseMattersRequest,
   output: CloseMattersResponse,
   errors: [],
 }));
 
-/** Counts the accounts processed by the specified query. */
 export interface CountMattersRequest {
   /** The matter ID. */
   matterId: string;
@@ -1116,13 +1115,13 @@ export const CountMattersResponse = Operation;
 
 export type CountMattersError = CommonErrors;
 
+/** Counts the accounts processed by the specified query. */
 export const countMatters: API.OperationMethod<CountMattersRequest, CountMattersResponse, CountMattersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CountMattersRequest,
   output: CountMattersResponse,
   errors: [],
 }));
 
-/** Lists matters the requestor has access to. */
 export interface ListMattersRequest {
   /** Specifies how much information about the matter to return in response. */
   view?: "VIEW_UNSPECIFIED" | "BASIC" | "FULL" | (string & {});
@@ -1149,7 +1148,8 @@ export const ListMattersResponse_Op = ListMattersResponse;
 
 export type ListMattersError = CommonErrors;
 
-export const listMatters = API.makePaginated(() => ({
+/** Lists matters the requestor has access to. */
+export const listMatters: API.PaginatedOperationMethod<ListMattersRequest, ListMattersResponse_Op, ListMattersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListMattersRequest,
   output: ListMattersResponse_Op,
   errors: [],
@@ -1159,7 +1159,6 @@ export const listMatters = API.makePaginated(() => ({
   },
 }));
 
-/** Updates the specified matter. This updates only the name and description of the matter, identified by matter ID. Changes to any other fields are ignored. Returns the default view of the matter. */
 export interface UpdateMattersRequest {
   /** The matter ID. */
   matterId: string;
@@ -1180,13 +1179,13 @@ export const UpdateMattersResponse = Matter;
 
 export type UpdateMattersError = CommonErrors;
 
+/** Updates the specified matter. This updates only the name and description of the matter, identified by matter ID. Changes to any other fields are ignored. Returns the default view of the matter. */
 export const updateMatters: API.OperationMethod<UpdateMattersRequest, UpdateMattersResponse, UpdateMattersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateMattersRequest,
   output: UpdateMattersResponse,
   errors: [],
 }));
 
-/** Removes an account as a matter collaborator. */
 export interface RemovePermissionsMattersRequest {
   /** The matter ID. */
   matterId: string;
@@ -1207,13 +1206,13 @@ export const RemovePermissionsMattersResponse = Empty;
 
 export type RemovePermissionsMattersError = CommonErrors;
 
+/** Removes an account as a matter collaborator. */
 export const removePermissionsMatters: API.OperationMethod<RemovePermissionsMattersRequest, RemovePermissionsMattersResponse, RemovePermissionsMattersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemovePermissionsMattersRequest,
   output: RemovePermissionsMattersResponse,
   errors: [],
 }));
 
-/** Reopens the specified matter. Returns the matter with updated state. */
 export interface ReopenMattersRequest {
   /** The matter ID. */
   matterId: string;
@@ -1234,13 +1233,13 @@ export const ReopenMattersResponse = ReopenMatterResponse;
 
 export type ReopenMattersError = CommonErrors;
 
+/** Reopens the specified matter. Returns the matter with updated state. */
 export const reopenMatters: API.OperationMethod<ReopenMattersRequest, ReopenMattersResponse, ReopenMattersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReopenMattersRequest,
   output: ReopenMattersResponse,
   errors: [],
 }));
 
-/** Gets the specified matter. */
 export interface GetMattersRequest {
   /** The matter ID. */
   matterId: string;
@@ -1261,13 +1260,13 @@ export const GetMattersResponse = Matter;
 
 export type GetMattersError = CommonErrors;
 
+/** Gets the specified matter. */
 export const getMatters: API.OperationMethod<GetMattersRequest, GetMattersResponse, GetMattersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetMattersRequest,
   output: GetMattersResponse,
   errors: [],
 }));
 
-/** Deletes the specified matter. Returns the matter with updated state. */
 export interface DeleteMattersRequest {
   /** The matter ID */
   matterId: string;
@@ -1285,13 +1284,13 @@ export const DeleteMattersResponse = Matter;
 
 export type DeleteMattersError = CommonErrors;
 
+/** Deletes the specified matter. Returns the matter with updated state. */
 export const deleteMatters: API.OperationMethod<DeleteMattersRequest, DeleteMattersResponse, DeleteMattersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteMattersRequest,
   output: DeleteMattersResponse,
   errors: [],
 }));
 
-/** Deletes an export. */
 export interface DeleteMattersExportsRequest {
   /** The export ID. */
   exportId: string;
@@ -1312,13 +1311,13 @@ export const DeleteMattersExportsResponse = Empty;
 
 export type DeleteMattersExportsError = CommonErrors;
 
+/** Deletes an export. */
 export const deleteMattersExports: API.OperationMethod<DeleteMattersExportsRequest, DeleteMattersExportsResponse, DeleteMattersExportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteMattersExportsRequest,
   output: DeleteMattersExportsResponse,
   errors: [],
 }));
 
-/** Gets an export. */
 export interface GetMattersExportsRequest {
   /** The matter ID. */
   matterId: string;
@@ -1339,13 +1338,13 @@ export const GetMattersExportsResponse = Export;
 
 export type GetMattersExportsError = CommonErrors;
 
+/** Gets an export. */
 export const getMattersExports: API.OperationMethod<GetMattersExportsRequest, GetMattersExportsResponse, GetMattersExportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetMattersExportsRequest,
   output: GetMattersExportsResponse,
   errors: [],
 }));
 
-/** Creates an export. */
 export interface CreateMattersExportsRequest {
   /** The matter ID. */
   matterId: string;
@@ -1366,13 +1365,13 @@ export const CreateMattersExportsResponse = Export;
 
 export type CreateMattersExportsError = CommonErrors;
 
+/** Creates an export. */
 export const createMattersExports: API.OperationMethod<CreateMattersExportsRequest, CreateMattersExportsResponse, CreateMattersExportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateMattersExportsRequest,
   output: CreateMattersExportsResponse,
   errors: [],
 }));
 
-/** Lists details about the exports in the specified matter. */
 export interface ListMattersExportsRequest {
   /** The matter ID. */
   matterId: string;
@@ -1396,7 +1395,8 @@ export const ListMattersExportsResponse = ListExportsResponse;
 
 export type ListMattersExportsError = CommonErrors;
 
-export const listMattersExports = API.makePaginated(() => ({
+/** Lists details about the exports in the specified matter. */
+export const listMattersExports: API.PaginatedOperationMethod<ListMattersExportsRequest, ListMattersExportsResponse, ListMattersExportsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListMattersExportsRequest,
   output: ListMattersExportsResponse,
   errors: [],
@@ -1406,7 +1406,6 @@ export const listMattersExports = API.makePaginated(() => ({
   },
 }));
 
-/** Adds accounts to a hold. Returns a list of accounts that have been successfully added. Accounts can be added only to an existing account-based hold. */
 export interface AddHeldAccountsMattersHoldsRequest {
   /** The hold ID. */
   holdId: string;
@@ -1430,13 +1429,13 @@ export const AddHeldAccountsMattersHoldsResponse = AddHeldAccountsResponse;
 
 export type AddHeldAccountsMattersHoldsError = CommonErrors;
 
+/** Adds accounts to a hold. Returns a list of accounts that have been successfully added. Accounts can be added only to an existing account-based hold. */
 export const addHeldAccountsMattersHolds: API.OperationMethod<AddHeldAccountsMattersHoldsRequest, AddHeldAccountsMattersHoldsResponse, AddHeldAccountsMattersHoldsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddHeldAccountsMattersHoldsRequest,
   output: AddHeldAccountsMattersHoldsResponse,
   errors: [],
 }));
 
-/** Removes the specified hold and releases the accounts or organizational unit covered by the hold. If the data is not preserved by another hold or retention rule, it might be purged. */
 export interface DeleteMattersHoldsRequest {
   /** The hold ID. */
   holdId: string;
@@ -1457,13 +1456,13 @@ export const DeleteMattersHoldsResponse = Empty;
 
 export type DeleteMattersHoldsError = CommonErrors;
 
+/** Removes the specified hold and releases the accounts or organizational unit covered by the hold. If the data is not preserved by another hold or retention rule, it might be purged. */
 export const deleteMattersHolds: API.OperationMethod<DeleteMattersHoldsRequest, DeleteMattersHoldsResponse, DeleteMattersHoldsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteMattersHoldsRequest,
   output: DeleteMattersHoldsResponse,
   errors: [],
 }));
 
-/** Creates a hold in the specified matter. */
 export interface CreateMattersHoldsRequest {
   /** The matter ID. */
   matterId: string;
@@ -1484,13 +1483,13 @@ export const CreateMattersHoldsResponse = Hold;
 
 export type CreateMattersHoldsError = CommonErrors;
 
+/** Creates a hold in the specified matter. */
 export const createMattersHolds: API.OperationMethod<CreateMattersHoldsRequest, CreateMattersHoldsResponse, CreateMattersHoldsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateMattersHoldsRequest,
   output: CreateMattersHoldsResponse,
   errors: [],
 }));
 
-/** Removes the specified accounts from a hold. Returns a list of statuses in the same order as the request. */
 export interface RemoveHeldAccountsMattersHoldsRequest {
   /** The matter ID. */
   matterId: string;
@@ -1514,13 +1513,13 @@ export const RemoveHeldAccountsMattersHoldsResponse = RemoveHeldAccountsResponse
 
 export type RemoveHeldAccountsMattersHoldsError = CommonErrors;
 
+/** Removes the specified accounts from a hold. Returns a list of statuses in the same order as the request. */
 export const removeHeldAccountsMattersHolds: API.OperationMethod<RemoveHeldAccountsMattersHoldsRequest, RemoveHeldAccountsMattersHoldsResponse, RemoveHeldAccountsMattersHoldsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveHeldAccountsMattersHoldsRequest,
   output: RemoveHeldAccountsMattersHoldsResponse,
   errors: [],
 }));
 
-/** Updates the scope (organizational unit or accounts) and query parameters of a hold. You cannot add accounts to a hold that covers an organizational unit, nor can you add organizational units to a hold that covers individual accounts. If you try, the unsupported values are ignored. */
 export interface UpdateMattersHoldsRequest {
   /** The matter ID. */
   matterId: string;
@@ -1544,13 +1543,13 @@ export const UpdateMattersHoldsResponse = Hold;
 
 export type UpdateMattersHoldsError = CommonErrors;
 
+/** Updates the scope (organizational unit or accounts) and query parameters of a hold. You cannot add accounts to a hold that covers an organizational unit, nor can you add organizational units to a hold that covers individual accounts. If you try, the unsupported values are ignored. */
 export const updateMattersHolds: API.OperationMethod<UpdateMattersHoldsRequest, UpdateMattersHoldsResponse, UpdateMattersHoldsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateMattersHoldsRequest,
   output: UpdateMattersHoldsResponse,
   errors: [],
 }));
 
-/** Lists the holds in a matter. */
 export interface ListMattersHoldsRequest {
   /** The matter ID. */
   matterId: string;
@@ -1577,7 +1576,8 @@ export const ListMattersHoldsResponse = ListHoldsResponse;
 
 export type ListMattersHoldsError = CommonErrors;
 
-export const listMattersHolds = API.makePaginated(() => ({
+/** Lists the holds in a matter. */
+export const listMattersHolds: API.PaginatedOperationMethod<ListMattersHoldsRequest, ListMattersHoldsResponse, ListMattersHoldsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListMattersHoldsRequest,
   output: ListMattersHoldsResponse,
   errors: [],
@@ -1587,7 +1587,6 @@ export const listMattersHolds = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the specified hold. */
 export interface GetMattersHoldsRequest {
   /** The amount of detail to return for a hold. */
   view?: "HOLD_VIEW_UNSPECIFIED" | "BASIC_HOLD" | "FULL_HOLD" | (string & {});
@@ -1611,13 +1610,13 @@ export const GetMattersHoldsResponse = Hold;
 
 export type GetMattersHoldsError = CommonErrors;
 
+/** Gets the specified hold. */
 export const getMattersHolds: API.OperationMethod<GetMattersHoldsRequest, GetMattersHoldsResponse, GetMattersHoldsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetMattersHoldsRequest,
   output: GetMattersHoldsResponse,
   errors: [],
 }));
 
-/** Removes an account from a hold. */
 export interface DeleteMattersHoldsAccountsRequest {
   /** The ID of the account to remove from the hold. */
   accountId: string;
@@ -1641,13 +1640,13 @@ export const DeleteMattersHoldsAccountsResponse = Empty;
 
 export type DeleteMattersHoldsAccountsError = CommonErrors;
 
+/** Removes an account from a hold. */
 export const deleteMattersHoldsAccounts: API.OperationMethod<DeleteMattersHoldsAccountsRequest, DeleteMattersHoldsAccountsResponse, DeleteMattersHoldsAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteMattersHoldsAccountsRequest,
   output: DeleteMattersHoldsAccountsResponse,
   errors: [],
 }));
 
-/** Lists the accounts covered by a hold. This can list only individually-specified accounts covered by the hold. If the hold covers an organizational unit, use the [Admin SDK](https://developers.google.com/admin-sdk/). to list the members of the organizational unit on hold. */
 export interface ListMattersHoldsAccountsRequest {
   /** The hold ID. */
   holdId: string;
@@ -1668,13 +1667,13 @@ export const ListMattersHoldsAccountsResponse = ListHeldAccountsResponse;
 
 export type ListMattersHoldsAccountsError = CommonErrors;
 
+/** Lists the accounts covered by a hold. This can list only individually-specified accounts covered by the hold. If the hold covers an organizational unit, use the [Admin SDK](https://developers.google.com/admin-sdk/). to list the members of the organizational unit on hold. */
 export const listMattersHoldsAccounts: API.OperationMethod<ListMattersHoldsAccountsRequest, ListMattersHoldsAccountsResponse, ListMattersHoldsAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListMattersHoldsAccountsRequest,
   output: ListMattersHoldsAccountsResponse,
   errors: [],
 }));
 
-/** Adds an account to a hold. Accounts can be added only to a hold that does not have an organizational unit set. If you try to add an account to an organizational unit-based hold, an error is returned. */
 export interface CreateMattersHoldsAccountsRequest {
   /** The hold ID. */
   holdId: string;
@@ -1698,13 +1697,13 @@ export const CreateMattersHoldsAccountsResponse = HeldAccount;
 
 export type CreateMattersHoldsAccountsError = CommonErrors;
 
+/** Adds an account to a hold. Accounts can be added only to a hold that does not have an organizational unit set. If you try to add an account to an organizational unit-based hold, an error is returned. */
 export const createMattersHoldsAccounts: API.OperationMethod<CreateMattersHoldsAccountsRequest, CreateMattersHoldsAccountsResponse, CreateMattersHoldsAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateMattersHoldsAccountsRequest,
   output: CreateMattersHoldsAccountsResponse,
   errors: [],
 }));
 
-/** Deletes the specified saved query. */
 export interface DeleteMattersSavedQueriesRequest {
   /** ID of the saved query to delete. */
   savedQueryId: string;
@@ -1725,13 +1724,13 @@ export const DeleteMattersSavedQueriesResponse = Empty;
 
 export type DeleteMattersSavedQueriesError = CommonErrors;
 
+/** Deletes the specified saved query. */
 export const deleteMattersSavedQueries: API.OperationMethod<DeleteMattersSavedQueriesRequest, DeleteMattersSavedQueriesResponse, DeleteMattersSavedQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteMattersSavedQueriesRequest,
   output: DeleteMattersSavedQueriesResponse,
   errors: [],
 }));
 
-/** Lists the saved queries in a matter. */
 export interface ListMattersSavedQueriesRequest {
   /** The pagination token as returned in the previous response. An empty token means start from the beginning. */
   pageToken?: string;
@@ -1755,7 +1754,8 @@ export const ListMattersSavedQueriesResponse = ListSavedQueriesResponse;
 
 export type ListMattersSavedQueriesError = CommonErrors;
 
-export const listMattersSavedQueries = API.makePaginated(() => ({
+/** Lists the saved queries in a matter. */
+export const listMattersSavedQueries: API.PaginatedOperationMethod<ListMattersSavedQueriesRequest, ListMattersSavedQueriesResponse, ListMattersSavedQueriesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListMattersSavedQueriesRequest,
   output: ListMattersSavedQueriesResponse,
   errors: [],
@@ -1765,7 +1765,6 @@ export const listMattersSavedQueries = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a saved query. */
 export interface CreateMattersSavedQueriesRequest {
   /** The ID of the matter to create the saved query in. */
   matterId: string;
@@ -1786,13 +1785,13 @@ export const CreateMattersSavedQueriesResponse = SavedQuery;
 
 export type CreateMattersSavedQueriesError = CommonErrors;
 
+/** Creates a saved query. */
 export const createMattersSavedQueries: API.OperationMethod<CreateMattersSavedQueriesRequest, CreateMattersSavedQueriesResponse, CreateMattersSavedQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateMattersSavedQueriesRequest,
   output: CreateMattersSavedQueriesResponse,
   errors: [],
 }));
 
-/** Retrieves the specified saved query. */
 export interface GetMattersSavedQueriesRequest {
   /** The ID of the matter to get the saved query from. */
   matterId: string;
@@ -1813,13 +1812,13 @@ export const GetMattersSavedQueriesResponse = SavedQuery;
 
 export type GetMattersSavedQueriesError = CommonErrors;
 
+/** Retrieves the specified saved query. */
 export const getMattersSavedQueries: API.OperationMethod<GetMattersSavedQueriesRequest, GetMattersSavedQueriesResponse, GetMattersSavedQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetMattersSavedQueriesRequest,
   output: GetMattersSavedQueriesResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -1840,13 +1839,13 @@ export const CancelOperationsResponse = Empty;
 
 export type CancelOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelOperations: API.OperationMethod<CancelOperationsRequest, CancelOperationsResponse, CancelOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelOperationsRequest,
   output: CancelOperationsResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1864,13 +1863,13 @@ export const GetOperationsResponse = Operation;
 
 export type GetOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOperations: API.OperationMethod<GetOperationsRequest, GetOperationsResponse, GetOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -1900,7 +1899,8 @@ export const ListOperationsResponse_Op = ListOperationsResponse;
 
 export type ListOperationsError = CommonErrors;
 
-export const listOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listOperations: API.PaginatedOperationMethod<ListOperationsRequest, ListOperationsResponse_Op, ListOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOperationsRequest,
   output: ListOperationsResponse_Op,
   errors: [],
@@ -1910,7 +1910,6 @@ export const listOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -1928,6 +1927,7 @@ export const DeleteOperationsResponse = Empty;
 
 export type DeleteOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteOperations: API.OperationMethod<DeleteOperationsRequest, DeleteOperationsResponse, DeleteOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOperationsRequest,
   output: DeleteOperationsResponse,

@@ -2382,7 +2382,6 @@ export const AnalyzeOrgPoliciesResponse: Schema.Schema<AnalyzeOrgPoliciesRespons
 // Operations
 // ==========================================================================
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -2400,13 +2399,13 @@ export const GetOperationsResponse = Operation;
 
 export type GetOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOperations: API.OperationMethod<GetOperationsRequest, GetOperationsResponse, GetOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
 }));
 
-/** Updates a saved query. */
 export interface PatchSavedQueriesRequest {
   /** Required. The list of fields to update. */
   updateMask?: string;
@@ -2430,13 +2429,13 @@ export const PatchSavedQueriesResponse = SavedQuery;
 
 export type PatchSavedQueriesError = CommonErrors;
 
+/** Updates a saved query. */
 export const patchSavedQueries: API.OperationMethod<PatchSavedQueriesRequest, PatchSavedQueriesResponse, PatchSavedQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchSavedQueriesRequest,
   output: PatchSavedQueriesResponse,
   errors: [],
 }));
 
-/** Lists all saved queries in a parent project/folder/organization. */
 export interface ListSavedQueriesRequest {
   /** Optional. The maximum number of saved queries to return per page. The service may return fewer than this value. If unspecified, at most 50 will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
@@ -2463,7 +2462,8 @@ export const ListSavedQueriesResponse_Op = ListSavedQueriesResponse;
 
 export type ListSavedQueriesError = CommonErrors;
 
-export const listSavedQueries = API.makePaginated(() => ({
+/** Lists all saved queries in a parent project/folder/organization. */
+export const listSavedQueries: API.PaginatedOperationMethod<ListSavedQueriesRequest, ListSavedQueriesResponse_Op, ListSavedQueriesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListSavedQueriesRequest,
   output: ListSavedQueriesResponse_Op,
   errors: [],
@@ -2473,7 +2473,6 @@ export const listSavedQueries = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a saved query. */
 export interface DeleteSavedQueriesRequest {
   /** Required. The name of the saved query to delete. It must be in the format of: * projects/project_number/savedQueries/saved_query_id * folders/folder_number/savedQueries/saved_query_id * organizations/organization_number/savedQueries/saved_query_id */
   name: string;
@@ -2491,13 +2490,13 @@ export const DeleteSavedQueriesResponse = Empty;
 
 export type DeleteSavedQueriesError = CommonErrors;
 
+/** Deletes a saved query. */
 export const deleteSavedQueries: API.OperationMethod<DeleteSavedQueriesRequest, DeleteSavedQueriesResponse, DeleteSavedQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteSavedQueriesRequest,
   output: DeleteSavedQueriesResponse,
   errors: [],
 }));
 
-/** Gets details about a saved query. */
 export interface GetSavedQueriesRequest {
   /** Required. The name of the saved query and it must be in the format of: * projects/project_number/savedQueries/saved_query_id * folders/folder_number/savedQueries/saved_query_id * organizations/organization_number/savedQueries/saved_query_id */
   name: string;
@@ -2515,13 +2514,13 @@ export const GetSavedQueriesResponse = SavedQuery;
 
 export type GetSavedQueriesError = CommonErrors;
 
+/** Gets details about a saved query. */
 export const getSavedQueries: API.OperationMethod<GetSavedQueriesRequest, GetSavedQueriesResponse, GetSavedQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSavedQueriesRequest,
   output: GetSavedQueriesResponse,
   errors: [],
 }));
 
-/** Creates a saved query in a parent project/folder/organization. */
 export interface CreateSavedQueriesRequest {
   /** Required. The name of the project/folder/organization where this saved_query should be created in. It can only be an organization number (such as "organizations/123"), a folder number (such as "folders/123"), a project ID (such as "projects/my-project-id"), or a project number (such as "projects/12345"). */
   parent: string;
@@ -2545,13 +2544,13 @@ export const CreateSavedQueriesResponse = SavedQuery;
 
 export type CreateSavedQueriesError = CommonErrors;
 
+/** Creates a saved query in a parent project/folder/organization. */
 export const createSavedQueries: API.OperationMethod<CreateSavedQueriesRequest, CreateSavedQueriesResponse, CreateSavedQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateSavedQueriesRequest,
   output: CreateSavedQueriesResponse,
   errors: [],
 }));
 
-/** Issue a job that queries assets using a SQL statement compatible with [BigQuery SQL](https://cloud.google.com/bigquery/docs/introduction-sql). If the query execution finishes within timeout and there's no pagination, the full query results will be returned in the `QueryAssetsResponse`. Otherwise, full query results can be obtained by issuing extra requests with the `job_reference` from the a previous `QueryAssets` call. Note, the query result has approximately 10 GB limitation enforced by [BigQuery](https://cloud.google.com/bigquery/docs/best-practices-performance-output). Queries return larger results will result in errors. */
 export interface QueryAssetsV1Request {
   /** Required. The relative name of the root asset. This can only be an organization number (such as "organizations/123"), a project ID (such as "projects/my-project-id"), or a project number (such as "projects/12345"), or a folder number (such as "folders/123"). Only assets belonging to the `parent` will be returned. */
   parent: string;
@@ -2572,13 +2571,13 @@ export const QueryAssetsV1Response = QueryAssetsResponse;
 
 export type QueryAssetsV1Error = CommonErrors;
 
+/** Issue a job that queries assets using a SQL statement compatible with [BigQuery SQL](https://cloud.google.com/bigquery/docs/introduction-sql). If the query execution finishes within timeout and there's no pagination, the full query results will be returned in the `QueryAssetsResponse`. Otherwise, full query results can be obtained by issuing extra requests with the `job_reference` from the a previous `QueryAssets` call. Note, the query result has approximately 10 GB limitation enforced by [BigQuery](https://cloud.google.com/bigquery/docs/best-practices-performance-output). Queries return larger results will result in errors. */
 export const queryAssetsV1: API.OperationMethod<QueryAssetsV1Request, QueryAssetsV1Response, QueryAssetsV1Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: QueryAssetsV1Request,
   output: QueryAssetsV1Response,
   errors: [],
 }));
 
-/** Analyzes organization policies governed containers (projects, folders or organization) under a scope. */
 export interface AnalyzeOrgPolicyGovernedContainersV1Request {
   /** Required. The organization to scope the request. Only organization policies within the scope will be analyzed. The output containers will also be limited to the ones governed by those in-scope organization policies. * organizations/{ORGANIZATION_NUMBER} (e.g., "organizations/123456") */
   scope: string;
@@ -2608,7 +2607,8 @@ export const AnalyzeOrgPolicyGovernedContainersV1Response = AnalyzeOrgPolicyGove
 
 export type AnalyzeOrgPolicyGovernedContainersV1Error = CommonErrors;
 
-export const analyzeOrgPolicyGovernedContainersV1 = API.makePaginated(() => ({
+/** Analyzes organization policies governed containers (projects, folders or organization) under a scope. */
+export const analyzeOrgPolicyGovernedContainersV1: API.PaginatedOperationMethod<AnalyzeOrgPolicyGovernedContainersV1Request, AnalyzeOrgPolicyGovernedContainersV1Response, AnalyzeOrgPolicyGovernedContainersV1Error, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AnalyzeOrgPolicyGovernedContainersV1Request,
   output: AnalyzeOrgPolicyGovernedContainersV1Response,
   errors: [],
@@ -2618,7 +2618,6 @@ export const analyzeOrgPolicyGovernedContainersV1 = API.makePaginated(() => ({
   },
 }));
 
-/** Analyzes IAM policies to answer which identities have what accesses on which resources. */
 export interface AnalyzeIamPolicyV1Request {
   /** Optional. Amount of time executable has to complete. See JSON representation of [Duration](https://developers.google.com/protocol-buffers/docs/proto3#json). If this field is set with a value less than the RPC deadline, and the execution of your query hasn't finished in the specified execution timeout, you will get a response with partial result. Otherwise, your query's execution will continue until the RPC deadline. If it's not finished until then, you will get a DEADLINE_EXCEEDED error. Default is empty. */
   executionTimeout?: string;
@@ -2675,13 +2674,13 @@ export const AnalyzeIamPolicyV1Response = AnalyzeIamPolicyResponse;
 
 export type AnalyzeIamPolicyV1Error = CommonErrors;
 
+/** Analyzes IAM policies to answer which identities have what accesses on which resources. */
 export const analyzeIamPolicyV1: API.OperationMethod<AnalyzeIamPolicyV1Request, AnalyzeIamPolicyV1Response, AnalyzeIamPolicyV1Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AnalyzeIamPolicyV1Request,
   output: AnalyzeIamPolicyV1Response,
   errors: [],
 }));
 
-/** Searches all Google Cloud resources within the specified scope, such as a project, folder, or organization. The caller must be granted the `cloudasset.assets.searchAllResources` permission on the desired scope, otherwise the request will be rejected. */
 export interface SearchAllResourcesV1Request {
   /** Optional. A comma-separated list of fields specifying the sorting order of the results. The default order is ascending. Add " DESC" after the field name to indicate descending order. Redundant space characters are ignored. Example: "location DESC, name". Only the following fields in the response are sortable: * name * assetType * project * displayName * description * location * createTime * updateTime * state * parentFullResourceName * parentAssetType */
   orderBy?: string;
@@ -2717,7 +2716,8 @@ export const SearchAllResourcesV1Response = SearchAllResourcesResponse;
 
 export type SearchAllResourcesV1Error = CommonErrors;
 
-export const searchAllResourcesV1 = API.makePaginated(() => ({
+/** Searches all Google Cloud resources within the specified scope, such as a project, folder, or organization. The caller must be granted the `cloudasset.assets.searchAllResources` permission on the desired scope, otherwise the request will be rejected. */
+export const searchAllResourcesV1: API.PaginatedOperationMethod<SearchAllResourcesV1Request, SearchAllResourcesV1Response, SearchAllResourcesV1Error, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchAllResourcesV1Request,
   output: SearchAllResourcesV1Response,
   errors: [],
@@ -2727,7 +2727,6 @@ export const searchAllResourcesV1 = API.makePaginated(() => ({
   },
 }));
 
-/** Analyzes organization policies governed assets (Google Cloud resources or policies) under a scope. This RPC supports custom constraints and the following canned constraints: * constraints/ainotebooks.accessMode * constraints/ainotebooks.disableFileDownloads * constraints/ainotebooks.disableRootAccess * constraints/ainotebooks.disableTerminal * constraints/ainotebooks.environmentOptions * constraints/ainotebooks.requireAutoUpgradeSchedule * constraints/ainotebooks.restrictVpcNetworks * constraints/compute.disableGuestAttributesAccess * constraints/compute.disableInstanceDataAccessApis * constraints/compute.disableNestedVirtualization * constraints/compute.disableSerialPortAccess * constraints/compute.disableSerialPortLogging * constraints/compute.disableVpcExternalIpv6 * constraints/compute.requireOsLogin * constraints/compute.requireShieldedVm * constraints/compute.restrictLoadBalancerCreationForTypes * constraints/compute.restrictProtocolForwardingCreationForTypes * constraints/compute.restrictXpnProjectLienRemoval * constraints/compute.setNewProjectDefaultToZonalDNSOnly * constraints/compute.skipDefaultNetworkCreation * constraints/compute.trustedImageProjects * constraints/compute.vmCanIpForward * constraints/compute.vmExternalIpAccess * constraints/gcp.detailedAuditLoggingMode * constraints/gcp.resourceLocations * constraints/iam.allowedPolicyMemberDomains * constraints/iam.automaticIamGrantsForDefaultServiceAccounts * constraints/iam.disableServiceAccountCreation * constraints/iam.disableServiceAccountKeyCreation * constraints/iam.disableServiceAccountKeyUpload * constraints/iam.restrictCrossProjectServiceAccountLienRemoval * constraints/iam.serviceAccountKeyExpiryHours * constraints/resourcemanager.accessBoundaries * constraints/resourcemanager.allowedExportDestinations * constraints/sql.restrictAuthorizedNetworks * constraints/sql.restrictNoncompliantDiagnosticDataAccess * constraints/sql.restrictNoncompliantResourceCreation * constraints/sql.restrictPublicIp * constraints/storage.publicAccessPrevention * constraints/storage.restrictAuthTypes * constraints/storage.uniformBucketLevelAccess This RPC only returns either resources of types [supported by search APIs](https://cloud.google.com/asset-inventory/docs/supported-asset-types) or IAM policies. */
 export interface AnalyzeOrgPolicyGovernedAssetsV1Request {
   /** The maximum number of items to return per page. If unspecified, AnalyzeOrgPolicyGovernedAssetsResponse.governed_assets will contain 100 items with a maximum of 200. */
   pageSize?: number;
@@ -2757,7 +2756,8 @@ export const AnalyzeOrgPolicyGovernedAssetsV1Response = AnalyzeOrgPolicyGoverned
 
 export type AnalyzeOrgPolicyGovernedAssetsV1Error = CommonErrors;
 
-export const analyzeOrgPolicyGovernedAssetsV1 = API.makePaginated(() => ({
+/** Analyzes organization policies governed assets (Google Cloud resources or policies) under a scope. This RPC supports custom constraints and the following canned constraints: * constraints/ainotebooks.accessMode * constraints/ainotebooks.disableFileDownloads * constraints/ainotebooks.disableRootAccess * constraints/ainotebooks.disableTerminal * constraints/ainotebooks.environmentOptions * constraints/ainotebooks.requireAutoUpgradeSchedule * constraints/ainotebooks.restrictVpcNetworks * constraints/compute.disableGuestAttributesAccess * constraints/compute.disableInstanceDataAccessApis * constraints/compute.disableNestedVirtualization * constraints/compute.disableSerialPortAccess * constraints/compute.disableSerialPortLogging * constraints/compute.disableVpcExternalIpv6 * constraints/compute.requireOsLogin * constraints/compute.requireShieldedVm * constraints/compute.restrictLoadBalancerCreationForTypes * constraints/compute.restrictProtocolForwardingCreationForTypes * constraints/compute.restrictXpnProjectLienRemoval * constraints/compute.setNewProjectDefaultToZonalDNSOnly * constraints/compute.skipDefaultNetworkCreation * constraints/compute.trustedImageProjects * constraints/compute.vmCanIpForward * constraints/compute.vmExternalIpAccess * constraints/gcp.detailedAuditLoggingMode * constraints/gcp.resourceLocations * constraints/iam.allowedPolicyMemberDomains * constraints/iam.automaticIamGrantsForDefaultServiceAccounts * constraints/iam.disableServiceAccountCreation * constraints/iam.disableServiceAccountKeyCreation * constraints/iam.disableServiceAccountKeyUpload * constraints/iam.restrictCrossProjectServiceAccountLienRemoval * constraints/iam.serviceAccountKeyExpiryHours * constraints/resourcemanager.accessBoundaries * constraints/resourcemanager.allowedExportDestinations * constraints/sql.restrictAuthorizedNetworks * constraints/sql.restrictNoncompliantDiagnosticDataAccess * constraints/sql.restrictNoncompliantResourceCreation * constraints/sql.restrictPublicIp * constraints/storage.publicAccessPrevention * constraints/storage.restrictAuthTypes * constraints/storage.uniformBucketLevelAccess This RPC only returns either resources of types [supported by search APIs](https://cloud.google.com/asset-inventory/docs/supported-asset-types) or IAM policies. */
+export const analyzeOrgPolicyGovernedAssetsV1: API.PaginatedOperationMethod<AnalyzeOrgPolicyGovernedAssetsV1Request, AnalyzeOrgPolicyGovernedAssetsV1Response, AnalyzeOrgPolicyGovernedAssetsV1Error, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AnalyzeOrgPolicyGovernedAssetsV1Request,
   output: AnalyzeOrgPolicyGovernedAssetsV1Response,
   errors: [],
@@ -2767,7 +2767,6 @@ export const analyzeOrgPolicyGovernedAssetsV1 = API.makePaginated(() => ({
   },
 }));
 
-/** Batch gets the update history of assets that overlap a time window. For IAM_POLICY content, this API outputs history when the asset and its attached IAM POLICY both exist. This can create gaps in the output history. Otherwise, this API outputs history with asset in both non-delete or deleted status. If a specified asset does not exist, this API returns an INVALID_ARGUMENT error. */
 export interface BatchGetAssetsHistoryV1Request {
   /** Start time of the time window (exclusive). */
   "readTimeWindow.startTime"?: string;
@@ -2800,13 +2799,13 @@ export const BatchGetAssetsHistoryV1Response = BatchGetAssetsHistoryResponse;
 
 export type BatchGetAssetsHistoryV1Error = CommonErrors;
 
+/** Batch gets the update history of assets that overlap a time window. For IAM_POLICY content, this API outputs history when the asset and its attached IAM POLICY both exist. This can create gaps in the output history. Otherwise, this API outputs history with asset in both non-delete or deleted status. If a specified asset does not exist, this API returns an INVALID_ARGUMENT error. */
 export const batchGetAssetsHistoryV1: API.OperationMethod<BatchGetAssetsHistoryV1Request, BatchGetAssetsHistoryV1Response, BatchGetAssetsHistoryV1Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchGetAssetsHistoryV1Request,
   output: BatchGetAssetsHistoryV1Response,
   errors: [],
 }));
 
-/** Searches all IAM policies within the specified scope, such as a project, folder, or organization. The caller must be granted the `cloudasset.assets.searchAllIamPolicies` permission on the desired scope, otherwise the request will be rejected. */
 export interface SearchAllIamPoliciesV1Request {
   /** Optional. A list of asset types that the IAM policies are attached to. If empty, it will search the IAM policies that are attached to all the asset types [supported by search APIs](https://cloud.google.com/asset-inventory/docs/supported-asset-types) Regular expressions are also supported. For example: * "compute.googleapis.com.*" snapshots IAM policies attached to asset type starts with "compute.googleapis.com". * ".*Instance" snapshots IAM policies attached to asset type ends with "Instance". * ".*Instance.*" snapshots IAM policies attached to asset type contains "Instance". See [RE2](https://github.com/google/re2/wiki/Syntax) for all supported regular expression syntax. If the regular expression does not match any supported asset type, an INVALID_ARGUMENT error will be returned. */
   assetTypes?: string[];
@@ -2839,7 +2838,8 @@ export const SearchAllIamPoliciesV1Response = SearchAllIamPoliciesResponse;
 
 export type SearchAllIamPoliciesV1Error = CommonErrors;
 
-export const searchAllIamPoliciesV1 = API.makePaginated(() => ({
+/** Searches all IAM policies within the specified scope, such as a project, folder, or organization. The caller must be granted the `cloudasset.assets.searchAllIamPolicies` permission on the desired scope, otherwise the request will be rejected. */
+export const searchAllIamPoliciesV1: API.PaginatedOperationMethod<SearchAllIamPoliciesV1Request, SearchAllIamPoliciesV1Response, SearchAllIamPoliciesV1Error, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchAllIamPoliciesV1Request,
   output: SearchAllIamPoliciesV1Response,
   errors: [],
@@ -2849,7 +2849,6 @@ export const searchAllIamPoliciesV1 = API.makePaginated(() => ({
   },
 }));
 
-/** Analyzes IAM policies asynchronously to answer which identities have what accesses on which resources, and writes the analysis results to a Google Cloud Storage or a BigQuery destination. For Cloud Storage destination, the output format is the JSON format that represents a AnalyzeIamPolicyResponse. This method implements the google.longrunning.Operation, which allows you to track the operation status. We recommend intervals of at least 2 seconds with exponential backoff retry to poll the operation result. The metadata contains the metadata for the long-running operation. */
 export interface AnalyzeIamPolicyLongrunningV1Request {
   /** Required. The relative name of the root asset. Only resources and IAM policies within the scope will be analyzed. This can only be an organization number (such as "organizations/123"), a folder number (such as "folders/123"), a project ID (such as "projects/my-project-id"), or a project number (such as "projects/12345"). To know how to get organization ID, visit [here ](https://cloud.google.com/resource-manager/docs/creating-managing-organization#retrieving_your_organization_id). To know how to get folder or project ID, visit [here ](https://cloud.google.com/resource-manager/docs/creating-managing-folders#viewing_or_listing_folders_and_projects). */
   scope: string;
@@ -2870,13 +2869,13 @@ export const AnalyzeIamPolicyLongrunningV1Response = Operation;
 
 export type AnalyzeIamPolicyLongrunningV1Error = CommonErrors;
 
+/** Analyzes IAM policies asynchronously to answer which identities have what accesses on which resources, and writes the analysis results to a Google Cloud Storage or a BigQuery destination. For Cloud Storage destination, the output format is the JSON format that represents a AnalyzeIamPolicyResponse. This method implements the google.longrunning.Operation, which allows you to track the operation status. We recommend intervals of at least 2 seconds with exponential backoff retry to poll the operation result. The metadata contains the metadata for the long-running operation. */
 export const analyzeIamPolicyLongrunningV1: API.OperationMethod<AnalyzeIamPolicyLongrunningV1Request, AnalyzeIamPolicyLongrunningV1Response, AnalyzeIamPolicyLongrunningV1Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AnalyzeIamPolicyLongrunningV1Request,
   output: AnalyzeIamPolicyLongrunningV1Response,
   errors: [],
 }));
 
-/** Analyzes organization policies under a scope. */
 export interface AnalyzeOrgPoliciesV1Request {
   /** Required. The name of the constraint to analyze organization policies for. The response only contains analyzed organization policies for the provided constraint. */
   constraint?: string;
@@ -2906,7 +2905,8 @@ export const AnalyzeOrgPoliciesV1Response = AnalyzeOrgPoliciesResponse;
 
 export type AnalyzeOrgPoliciesV1Error = CommonErrors;
 
-export const analyzeOrgPoliciesV1 = API.makePaginated(() => ({
+/** Analyzes organization policies under a scope. */
+export const analyzeOrgPoliciesV1: API.PaginatedOperationMethod<AnalyzeOrgPoliciesV1Request, AnalyzeOrgPoliciesV1Response, AnalyzeOrgPoliciesV1Error, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AnalyzeOrgPoliciesV1Request,
   output: AnalyzeOrgPoliciesV1Response,
   errors: [],
@@ -2916,7 +2916,6 @@ export const analyzeOrgPoliciesV1 = API.makePaginated(() => ({
   },
 }));
 
-/** Analyze moving a resource to a specified destination without kicking off the actual move. The analysis is best effort depending on the user's permissions of viewing different hierarchical policies and configurations. The policies and configuration are subject to change before the actual resource migration takes place. */
 export interface AnalyzeMoveV1Request {
   /** Required. Name of the Google Cloud folder or organization to reparent the target resource. The analysis will be performed against hypothetically moving the resource to this specified destination parent. This can only be a folder number (such as "folders/123") or an organization number (such as "organizations/123"). */
   destinationParent?: string;
@@ -2940,13 +2939,13 @@ export const AnalyzeMoveV1Response = AnalyzeMoveResponse;
 
 export type AnalyzeMoveV1Error = CommonErrors;
 
+/** Analyze moving a resource to a specified destination without kicking off the actual move. The analysis is best effort depending on the user's permissions of viewing different hierarchical policies and configurations. The policies and configuration are subject to change before the actual resource migration takes place. */
 export const analyzeMoveV1: API.OperationMethod<AnalyzeMoveV1Request, AnalyzeMoveV1Response, AnalyzeMoveV1Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AnalyzeMoveV1Request,
   output: AnalyzeMoveV1Response,
   errors: [],
 }));
 
-/** Exports assets with time and resource types to a given Cloud Storage location/BigQuery table. For Cloud Storage location destinations, the output format is newline-delimited JSON. Each line represents a google.cloud.asset.v1.Asset in the JSON format; for BigQuery table destinations, the output table stores the fields in asset Protobuf as columns. This API implements the google.longrunning.Operation API, which allows you to keep track of the export. We recommend intervals of at least 2 seconds with exponential retry to poll the export operation result. For regular-size resource parent, the export operation usually finishes within 5 minutes. */
 export interface ExportAssetsV1Request {
   /** Required. The relative name of the root asset. This can only be an organization number (such as "organizations/123"), a project ID (such as "projects/my-project-id"), or a project number (such as "projects/12345"), or a folder number (such as "folders/123"). */
   parent: string;
@@ -2967,13 +2966,13 @@ export const ExportAssetsV1Response = Operation;
 
 export type ExportAssetsV1Error = CommonErrors;
 
+/** Exports assets with time and resource types to a given Cloud Storage location/BigQuery table. For Cloud Storage location destinations, the output format is newline-delimited JSON. Each line represents a google.cloud.asset.v1.Asset in the JSON format; for BigQuery table destinations, the output table stores the fields in asset Protobuf as columns. This API implements the google.longrunning.Operation API, which allows you to keep track of the export. We recommend intervals of at least 2 seconds with exponential retry to poll the export operation result. For regular-size resource parent, the export operation usually finishes within 5 minutes. */
 export const exportAssetsV1: API.OperationMethod<ExportAssetsV1Request, ExportAssetsV1Response, ExportAssetsV1Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExportAssetsV1Request,
   output: ExportAssetsV1Response,
   errors: [],
 }));
 
-/** Lists assets with time and resource types and returns paged results in response. */
 export interface ListAssetsRequest {
   /** Required. Name of the organization, folder, or project the assets belong to. Format: "organizations/[organization-number]" (such as "organizations/123"), "projects/[project-id]" (such as "projects/my-project-id"), "projects/[project-number]" (such as "projects/12345"), or "folders/[folder-number]" (such as "folders/12345"). */
   parent: string;
@@ -3009,7 +3008,8 @@ export const ListAssetsResponse_Op = ListAssetsResponse;
 
 export type ListAssetsError = CommonErrors;
 
-export const listAssets = API.makePaginated(() => ({
+/** Lists assets with time and resource types and returns paged results in response. */
+export const listAssets: API.PaginatedOperationMethod<ListAssetsRequest, ListAssetsResponse_Op, ListAssetsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAssetsRequest,
   output: ListAssetsResponse_Op,
   errors: [],
@@ -3019,7 +3019,6 @@ export const listAssets = API.makePaginated(() => ({
   },
 }));
 
-/** Gets details about an asset feed. */
 export interface GetFeedsRequest {
   /** Required. The name of the Feed and it must be in the format of: projects/project_number/feeds/feed_id folders/folder_number/feeds/feed_id organizations/organization_number/feeds/feed_id */
   name: string;
@@ -3037,13 +3036,13 @@ export const GetFeedsResponse = Feed;
 
 export type GetFeedsError = CommonErrors;
 
+/** Gets details about an asset feed. */
 export const getFeeds: API.OperationMethod<GetFeedsRequest, GetFeedsResponse, GetFeedsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFeedsRequest,
   output: GetFeedsResponse,
   errors: [],
 }));
 
-/** Updates an asset feed configuration. */
 export interface PatchFeedsRequest {
   /** Required. The format will be projects/{project_number}/feeds/{client-assigned_feed_identifier} or folders/{folder_number}/feeds/{client-assigned_feed_identifier} or organizations/{organization_number}/feeds/{client-assigned_feed_identifier} The client-assigned feed identifier must be unique within the parent project/folder/organization. */
   name: string;
@@ -3064,13 +3063,13 @@ export const PatchFeedsResponse = Feed;
 
 export type PatchFeedsError = CommonErrors;
 
+/** Updates an asset feed configuration. */
 export const patchFeeds: API.OperationMethod<PatchFeedsRequest, PatchFeedsResponse, PatchFeedsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchFeedsRequest,
   output: PatchFeedsResponse,
   errors: [],
 }));
 
-/** Deletes an asset feed. */
 export interface DeleteFeedsRequest {
   /** Required. The name of the feed and it must be in the format of: projects/project_number/feeds/feed_id folders/folder_number/feeds/feed_id organizations/organization_number/feeds/feed_id */
   name: string;
@@ -3088,13 +3087,13 @@ export const DeleteFeedsResponse = Empty;
 
 export type DeleteFeedsError = CommonErrors;
 
+/** Deletes an asset feed. */
 export const deleteFeeds: API.OperationMethod<DeleteFeedsRequest, DeleteFeedsResponse, DeleteFeedsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteFeedsRequest,
   output: DeleteFeedsResponse,
   errors: [],
 }));
 
-/** Creates a feed in a parent project/folder/organization to listen to its asset updates. */
 export interface CreateFeedsRequest {
   /** Required. The name of the project/folder/organization where this feed should be created in. It can only be an organization number (such as "organizations/123"), a folder number (such as "folders/123"), a project ID (such as "projects/my-project-id"), or a project number (such as "projects/12345"). */
   parent: string;
@@ -3115,13 +3114,13 @@ export const CreateFeedsResponse = Feed;
 
 export type CreateFeedsError = CommonErrors;
 
+/** Creates a feed in a parent project/folder/organization to listen to its asset updates. */
 export const createFeeds: API.OperationMethod<CreateFeedsRequest, CreateFeedsResponse, CreateFeedsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateFeedsRequest,
   output: CreateFeedsResponse,
   errors: [],
 }));
 
-/** Lists all asset feeds in a parent project/folder/organization. */
 export interface ListFeedsRequest {
   /** Required. The parent project/folder/organization whose feeds are to be listed. It can only be using project/folder/organization number (such as "folders/12345")", or a project ID (such as "projects/my-project-id"). */
   parent: string;
@@ -3139,13 +3138,13 @@ export const ListFeedsResponse_Op = ListFeedsResponse;
 
 export type ListFeedsError = CommonErrors;
 
+/** Lists all asset feeds in a parent project/folder/organization. */
 export const listFeeds: API.OperationMethod<ListFeedsRequest, ListFeedsResponse_Op, ListFeedsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListFeedsRequest,
   output: ListFeedsResponse_Op,
   errors: [],
 }));
 
-/** Gets effective IAM policies for a batch of resources. */
 export interface BatchGetEffectiveIamPoliciesRequest {
   /** Required. The names refer to the [full_resource_names] (https://cloud.google.com/asset-inventory/docs/resource-name-format) of the asset types [supported by search APIs](https://cloud.google.com/asset-inventory/docs/supported-asset-types). A maximum of 20 resources' effective policies can be retrieved in a batch. */
   names?: string[];
@@ -3166,6 +3165,7 @@ export const BatchGetEffectiveIamPoliciesResponse_Op = BatchGetEffectiveIamPolic
 
 export type BatchGetEffectiveIamPoliciesError = CommonErrors;
 
+/** Gets effective IAM policies for a batch of resources. */
 export const batchGetEffectiveIamPolicies: API.OperationMethod<BatchGetEffectiveIamPoliciesRequest, BatchGetEffectiveIamPoliciesResponse_Op, BatchGetEffectiveIamPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchGetEffectiveIamPoliciesRequest,
   output: BatchGetEffectiveIamPoliciesResponse_Op,

@@ -456,7 +456,6 @@ export const HttpBody: Schema.Schema<HttpBody> = Schema.suspend(() => Schema.Str
 // Operations
 // ==========================================================================
 
-/** Locates the building whose centroid is closest to a query point. Returns an error with code `NOT_FOUND` if there are no buildings within approximately 50m of the query point. */
 export interface FindClosestBuildingInsightsRequest {
   /** The latitude in degrees. It must be in the range [-90.0, +90.0]. */
   "location.latitude"?: number;
@@ -486,13 +485,13 @@ export const FindClosestBuildingInsightsResponse = BuildingInsights;
 
 export type FindClosestBuildingInsightsError = CommonErrors;
 
+/** Locates the building whose centroid is closest to a query point. Returns an error with code `NOT_FOUND` if there are no buildings within approximately 50m of the query point. */
 export const findClosestBuildingInsights: API.OperationMethod<FindClosestBuildingInsightsRequest, FindClosestBuildingInsightsResponse, FindClosestBuildingInsightsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FindClosestBuildingInsightsRequest,
   output: FindClosestBuildingInsightsResponse,
   errors: [],
 }));
 
-/** Gets solar information for a region surrounding a location. Returns an error with code `NOT_FOUND` if the location is outside the coverage area. */
 export interface GetDataLayersRequest {
   /** The latitude in degrees. It must be in the range [-90.0, +90.0]. */
   "location.latitude"?: number;
@@ -531,13 +530,13 @@ export const GetDataLayersResponse = DataLayers;
 
 export type GetDataLayersError = CommonErrors;
 
+/** Gets solar information for a region surrounding a location. Returns an error with code `NOT_FOUND` if the location is outside the coverage area. */
 export const getDataLayers: API.OperationMethod<GetDataLayersRequest, GetDataLayersResponse, GetDataLayersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDataLayersRequest,
   output: GetDataLayersResponse,
   errors: [],
 }));
 
-/** Returns an image by its ID. */
 export interface GetGeoTiffRequest {
   /** Required. The ID of the asset being requested. */
   id?: string;
@@ -555,6 +554,7 @@ export const GetGeoTiffResponse = HttpBody;
 
 export type GetGeoTiffError = CommonErrors;
 
+/** Returns an image by its ID. */
 export const getGeoTiff: API.OperationMethod<GetGeoTiffRequest, GetGeoTiffResponse, GetGeoTiffError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetGeoTiffRequest,
   output: GetGeoTiffResponse,

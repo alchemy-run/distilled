@@ -1098,7 +1098,6 @@ export const ListJobTemplatesResponse: Schema.Schema<ListJobTemplatesResponse> =
 // Operations
 // ==========================================================================
 
-/** Creates a job in the specified region. */
 export interface CreateProjectsLocationsJobsRequest {
   /** Required. The parent location to create and process this job. Format: `projects/{project}/locations/{location}` */
   parent: string;
@@ -1119,13 +1118,13 @@ export const CreateProjectsLocationsJobsResponse = Job;
 
 export type CreateProjectsLocationsJobsError = CommonErrors;
 
+/** Creates a job in the specified region. */
 export const createProjectsLocationsJobs: API.OperationMethod<CreateProjectsLocationsJobsRequest, CreateProjectsLocationsJobsResponse, CreateProjectsLocationsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsJobsRequest,
   output: CreateProjectsLocationsJobsResponse,
   errors: [],
 }));
 
-/** Lists jobs in the specified region. */
 export interface ListProjectsLocationsJobsRequest {
   /** Required. Format: `projects/{project}/locations/{location}` */
   parent: string;
@@ -1155,7 +1154,8 @@ export const ListProjectsLocationsJobsResponse = ListJobsResponse;
 
 export type ListProjectsLocationsJobsError = CommonErrors;
 
-export const listProjectsLocationsJobs = API.makePaginated(() => ({
+/** Lists jobs in the specified region. */
+export const listProjectsLocationsJobs: API.PaginatedOperationMethod<ListProjectsLocationsJobsRequest, ListProjectsLocationsJobsResponse, ListProjectsLocationsJobsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsJobsRequest,
   output: ListProjectsLocationsJobsResponse,
   errors: [],
@@ -1165,7 +1165,6 @@ export const listProjectsLocationsJobs = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the job data. */
 export interface GetProjectsLocationsJobsRequest {
   /** Required. The name of the job to retrieve. Format: `projects/{project}/locations/{location}/jobs/{job}` */
   name: string;
@@ -1183,13 +1182,13 @@ export const GetProjectsLocationsJobsResponse = Job;
 
 export type GetProjectsLocationsJobsError = CommonErrors;
 
+/** Returns the job data. */
 export const getProjectsLocationsJobs: API.OperationMethod<GetProjectsLocationsJobsRequest, GetProjectsLocationsJobsResponse, GetProjectsLocationsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsJobsRequest,
   output: GetProjectsLocationsJobsResponse,
   errors: [],
 }));
 
-/** Deletes a job. */
 export interface DeleteProjectsLocationsJobsRequest {
   /** Required. The name of the job to delete. Format: `projects/{project}/locations/{location}/jobs/{job}` */
   name: string;
@@ -1210,13 +1209,13 @@ export const DeleteProjectsLocationsJobsResponse = Empty;
 
 export type DeleteProjectsLocationsJobsError = CommonErrors;
 
+/** Deletes a job. */
 export const deleteProjectsLocationsJobs: API.OperationMethod<DeleteProjectsLocationsJobsRequest, DeleteProjectsLocationsJobsResponse, DeleteProjectsLocationsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsJobsRequest,
   output: DeleteProjectsLocationsJobsResponse,
   errors: [],
 }));
 
-/** Creates a job template in the specified region. */
 export interface CreateProjectsLocationsJobTemplatesRequest {
   /** Required. The parent location to create this job template. Format: `projects/{project}/locations/{location}` */
   parent: string;
@@ -1240,13 +1239,13 @@ export const CreateProjectsLocationsJobTemplatesResponse = JobTemplate;
 
 export type CreateProjectsLocationsJobTemplatesError = CommonErrors;
 
+/** Creates a job template in the specified region. */
 export const createProjectsLocationsJobTemplates: API.OperationMethod<CreateProjectsLocationsJobTemplatesRequest, CreateProjectsLocationsJobTemplatesResponse, CreateProjectsLocationsJobTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsJobTemplatesRequest,
   output: CreateProjectsLocationsJobTemplatesResponse,
   errors: [],
 }));
 
-/** Lists job templates in the specified region. */
 export interface ListProjectsLocationsJobTemplatesRequest {
   /** Required. The parent location from which to retrieve the collection of job templates. Format: `projects/{project}/locations/{location}` */
   parent: string;
@@ -1276,7 +1275,8 @@ export const ListProjectsLocationsJobTemplatesResponse = ListJobTemplatesRespons
 
 export type ListProjectsLocationsJobTemplatesError = CommonErrors;
 
-export const listProjectsLocationsJobTemplates = API.makePaginated(() => ({
+/** Lists job templates in the specified region. */
+export const listProjectsLocationsJobTemplates: API.PaginatedOperationMethod<ListProjectsLocationsJobTemplatesRequest, ListProjectsLocationsJobTemplatesResponse, ListProjectsLocationsJobTemplatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsJobTemplatesRequest,
   output: ListProjectsLocationsJobTemplatesResponse,
   errors: [],
@@ -1286,7 +1286,6 @@ export const listProjectsLocationsJobTemplates = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the job template data. */
 export interface GetProjectsLocationsJobTemplatesRequest {
   /** Required. The name of the job template to retrieve. Format: `projects/{project}/locations/{location}/jobTemplates/{job_template}` */
   name: string;
@@ -1304,13 +1303,13 @@ export const GetProjectsLocationsJobTemplatesResponse = JobTemplate;
 
 export type GetProjectsLocationsJobTemplatesError = CommonErrors;
 
+/** Returns the job template data. */
 export const getProjectsLocationsJobTemplates: API.OperationMethod<GetProjectsLocationsJobTemplatesRequest, GetProjectsLocationsJobTemplatesResponse, GetProjectsLocationsJobTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsJobTemplatesRequest,
   output: GetProjectsLocationsJobTemplatesResponse,
   errors: [],
 }));
 
-/** Deletes a job template. */
 export interface DeleteProjectsLocationsJobTemplatesRequest {
   /** Required. The name of the job template to delete. `projects/{project}/locations/{location}/jobTemplates/{job_template}` */
   name: string;
@@ -1331,6 +1330,7 @@ export const DeleteProjectsLocationsJobTemplatesResponse = Empty;
 
 export type DeleteProjectsLocationsJobTemplatesError = CommonErrors;
 
+/** Deletes a job template. */
 export const deleteProjectsLocationsJobTemplates: API.OperationMethod<DeleteProjectsLocationsJobTemplatesRequest, DeleteProjectsLocationsJobTemplatesResponse, DeleteProjectsLocationsJobTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsJobTemplatesRequest,
   output: DeleteProjectsLocationsJobTemplatesResponse,

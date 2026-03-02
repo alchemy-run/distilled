@@ -1272,7 +1272,6 @@ export const GoogleDatastoreAdminV1MigrationStateEvent: Schema.Schema<GoogleData
 // Operations
 // ==========================================================================
 
-/** Exports a copy of all or a subset of entities from Google Cloud Datastore to another storage system, such as Google Cloud Storage. Recent updates to entities may not be reflected in the export. The export occurs in the background and its progress can be monitored and managed via the Operation resource that is created. The output of an export may only be used once the associated operation is done. If an export operation is cancelled before completion it may leave partial data behind in Google Cloud Storage. */
 export interface ExportProjectsRequest {
   /** Required. Project ID against which to make the request. */
   projectId: string;
@@ -1293,13 +1292,13 @@ export const ExportProjectsResponse = GoogleLongrunningOperation;
 
 export type ExportProjectsError = CommonErrors;
 
+/** Exports a copy of all or a subset of entities from Google Cloud Datastore to another storage system, such as Google Cloud Storage. Recent updates to entities may not be reflected in the export. The export occurs in the background and its progress can be monitored and managed via the Operation resource that is created. The output of an export may only be used once the associated operation is done. If an export operation is cancelled before completion it may leave partial data behind in Google Cloud Storage. */
 export const exportProjects: API.OperationMethod<ExportProjectsRequest, ExportProjectsResponse, ExportProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExportProjectsRequest,
   output: ExportProjectsResponse,
   errors: [],
 }));
 
-/** Imports entities into Google Cloud Datastore. Existing entities with the same key are overwritten. The import occurs in the background and its progress can be monitored and managed via the Operation resource that is created. If an ImportEntities operation is cancelled, it is possible that a subset of the data has already been imported to Cloud Datastore. */
 export interface ImportProjectsRequest {
   /** Required. Project ID against which to make the request. */
   projectId: string;
@@ -1320,13 +1319,13 @@ export const ImportProjectsResponse = GoogleLongrunningOperation;
 
 export type ImportProjectsError = CommonErrors;
 
+/** Imports entities into Google Cloud Datastore. Existing entities with the same key are overwritten. The import occurs in the background and its progress can be monitored and managed via the Operation resource that is created. If an ImportEntities operation is cancelled, it is possible that a subset of the data has already been imported to Cloud Datastore. */
 export const importProjects: API.OperationMethod<ImportProjectsRequest, ImportProjectsResponse, ImportProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportProjectsRequest,
   output: ImportProjectsResponse,
   errors: [],
 }));
 
-/** Looks up entities by key. */
 export interface LookupProjectsRequest {
   /** Required. The ID of the project against which to make the request. */
   projectId: string;
@@ -1347,13 +1346,13 @@ export const LookupProjectsResponse = LookupResponse;
 
 export type LookupProjectsError = CommonErrors;
 
+/** Looks up entities by key. */
 export const lookupProjects: API.OperationMethod<LookupProjectsRequest, LookupProjectsResponse, LookupProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LookupProjectsRequest,
   output: LookupProjectsResponse,
   errors: [],
 }));
 
-/** Queries for entities. */
 export interface RunQueryProjectsRequest {
   /** Required. The ID of the project against which to make the request. */
   projectId: string;
@@ -1374,13 +1373,13 @@ export const RunQueryProjectsResponse = RunQueryResponse;
 
 export type RunQueryProjectsError = CommonErrors;
 
+/** Queries for entities. */
 export const runQueryProjects: API.OperationMethod<RunQueryProjectsRequest, RunQueryProjectsResponse, RunQueryProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RunQueryProjectsRequest,
   output: RunQueryProjectsResponse,
   errors: [],
 }));
 
-/** Runs an aggregation query. */
 export interface RunAggregationQueryProjectsRequest {
   /** Required. The ID of the project against which to make the request. */
   projectId: string;
@@ -1401,13 +1400,13 @@ export const RunAggregationQueryProjectsResponse = RunAggregationQueryResponse;
 
 export type RunAggregationQueryProjectsError = CommonErrors;
 
+/** Runs an aggregation query. */
 export const runAggregationQueryProjects: API.OperationMethod<RunAggregationQueryProjectsRequest, RunAggregationQueryProjectsResponse, RunAggregationQueryProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RunAggregationQueryProjectsRequest,
   output: RunAggregationQueryProjectsResponse,
   errors: [],
 }));
 
-/** Begins a new transaction. */
 export interface BeginTransactionProjectsRequest {
   /** Required. The ID of the project against which to make the request. */
   projectId: string;
@@ -1428,13 +1427,13 @@ export const BeginTransactionProjectsResponse = BeginTransactionResponse;
 
 export type BeginTransactionProjectsError = CommonErrors;
 
+/** Begins a new transaction. */
 export const beginTransactionProjects: API.OperationMethod<BeginTransactionProjectsRequest, BeginTransactionProjectsResponse, BeginTransactionProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BeginTransactionProjectsRequest,
   output: BeginTransactionProjectsResponse,
   errors: [],
 }));
 
-/** Commits a transaction, optionally creating, deleting or modifying some entities. */
 export interface CommitProjectsRequest {
   /** Required. The ID of the project against which to make the request. */
   projectId: string;
@@ -1455,13 +1454,13 @@ export const CommitProjectsResponse = CommitResponse;
 
 export type CommitProjectsError = CommonErrors;
 
+/** Commits a transaction, optionally creating, deleting or modifying some entities. */
 export const commitProjects: API.OperationMethod<CommitProjectsRequest, CommitProjectsResponse, CommitProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CommitProjectsRequest,
   output: CommitProjectsResponse,
   errors: [],
 }));
 
-/** Rolls back a transaction. */
 export interface RollbackProjectsRequest {
   /** Required. The ID of the project against which to make the request. */
   projectId: string;
@@ -1482,13 +1481,13 @@ export const RollbackProjectsResponse = RollbackResponse;
 
 export type RollbackProjectsError = CommonErrors;
 
+/** Rolls back a transaction. */
 export const rollbackProjects: API.OperationMethod<RollbackProjectsRequest, RollbackProjectsResponse, RollbackProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RollbackProjectsRequest,
   output: RollbackProjectsResponse,
   errors: [],
 }));
 
-/** Allocates IDs for the given keys, which is useful for referencing an entity before it is inserted. */
 export interface AllocateIdsProjectsRequest {
   /** Required. The ID of the project against which to make the request. */
   projectId: string;
@@ -1509,13 +1508,13 @@ export const AllocateIdsProjectsResponse = AllocateIdsResponse;
 
 export type AllocateIdsProjectsError = CommonErrors;
 
+/** Allocates IDs for the given keys, which is useful for referencing an entity before it is inserted. */
 export const allocateIdsProjects: API.OperationMethod<AllocateIdsProjectsRequest, AllocateIdsProjectsResponse, AllocateIdsProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AllocateIdsProjectsRequest,
   output: AllocateIdsProjectsResponse,
   errors: [],
 }));
 
-/** Prevents the supplied keys' IDs from being auto-allocated by Cloud Datastore. */
 export interface ReserveIdsProjectsRequest {
   /** Required. The ID of the project against which to make the request. */
   projectId: string;
@@ -1536,13 +1535,13 @@ export const ReserveIdsProjectsResponse = ReserveIdsResponse;
 
 export type ReserveIdsProjectsError = CommonErrors;
 
+/** Prevents the supplied keys' IDs from being auto-allocated by Cloud Datastore. */
 export const reserveIdsProjects: API.OperationMethod<ReserveIdsProjectsRequest, ReserveIdsProjectsResponse, ReserveIdsProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReserveIdsProjectsRequest,
   output: ReserveIdsProjectsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -1572,7 +1571,8 @@ export const ListProjectsOperationsResponse = GoogleLongrunningListOperationsRes
 
 export type ListProjectsOperationsError = CommonErrors;
 
-export const listProjectsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsOperations: API.PaginatedOperationMethod<ListProjectsOperationsRequest, ListProjectsOperationsResponse, ListProjectsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsOperationsRequest,
   output: ListProjectsOperationsResponse,
   errors: [],
@@ -1582,7 +1582,6 @@ export const listProjectsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1600,13 +1599,13 @@ export const GetProjectsOperationsResponse = GoogleLongrunningOperation;
 
 export type GetProjectsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsOperations: API.OperationMethod<GetProjectsOperationsRequest, GetProjectsOperationsResponse, GetProjectsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsOperationsRequest,
   output: GetProjectsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -1624,13 +1623,13 @@ export const DeleteProjectsOperationsResponse = Empty;
 
 export type DeleteProjectsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsOperations: API.OperationMethod<DeleteProjectsOperationsRequest, DeleteProjectsOperationsResponse, DeleteProjectsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsOperationsRequest,
   output: DeleteProjectsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -1648,13 +1647,13 @@ export const CancelProjectsOperationsResponse = Empty;
 
 export type CancelProjectsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsOperations: API.OperationMethod<CancelProjectsOperationsRequest, CancelProjectsOperationsResponse, CancelProjectsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsOperationsRequest,
   output: CancelProjectsOperationsResponse,
   errors: [],
 }));
 
-/** Creates the specified index. A newly created index's initial state is `CREATING`. On completion of the returned google.longrunning.Operation, the state will be `READY`. If the index already exists, the call will return an `ALREADY_EXISTS` status. During index creation, the process could result in an error, in which case the index will move to the `ERROR` state. The process can be recovered by fixing the data that caused the error, removing the index with delete, then re-creating the index with create. Indexes with a single property cannot be created. */
 export interface CreateProjectsIndexesRequest {
   /** Project ID against which to make the request. */
   projectId: string;
@@ -1675,13 +1674,13 @@ export const CreateProjectsIndexesResponse = GoogleLongrunningOperation;
 
 export type CreateProjectsIndexesError = CommonErrors;
 
+/** Creates the specified index. A newly created index's initial state is `CREATING`. On completion of the returned google.longrunning.Operation, the state will be `READY`. If the index already exists, the call will return an `ALREADY_EXISTS` status. During index creation, the process could result in an error, in which case the index will move to the `ERROR` state. The process can be recovered by fixing the data that caused the error, removing the index with delete, then re-creating the index with create. Indexes with a single property cannot be created. */
 export const createProjectsIndexes: API.OperationMethod<CreateProjectsIndexesRequest, CreateProjectsIndexesResponse, CreateProjectsIndexesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsIndexesRequest,
   output: CreateProjectsIndexesResponse,
   errors: [],
 }));
 
-/** Deletes an existing index. An index can only be deleted if it is in a `READY` or `ERROR` state. On successful execution of the request, the index will be in a `DELETING` state. And on completion of the returned google.longrunning.Operation, the index will be removed. During index deletion, the process could result in an error, in which case the index will move to the `ERROR` state. The process can be recovered by fixing the data that caused the error, followed by calling delete again. */
 export interface DeleteProjectsIndexesRequest {
   /** Project ID against which to make the request. */
   projectId: string;
@@ -1702,13 +1701,13 @@ export const DeleteProjectsIndexesResponse = GoogleLongrunningOperation;
 
 export type DeleteProjectsIndexesError = CommonErrors;
 
+/** Deletes an existing index. An index can only be deleted if it is in a `READY` or `ERROR` state. On successful execution of the request, the index will be in a `DELETING` state. And on completion of the returned google.longrunning.Operation, the index will be removed. During index deletion, the process could result in an error, in which case the index will move to the `ERROR` state. The process can be recovered by fixing the data that caused the error, followed by calling delete again. */
 export const deleteProjectsIndexes: API.OperationMethod<DeleteProjectsIndexesRequest, DeleteProjectsIndexesResponse, DeleteProjectsIndexesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsIndexesRequest,
   output: DeleteProjectsIndexesResponse,
   errors: [],
 }));
 
-/** Gets an index. */
 export interface GetProjectsIndexesRequest {
   /** Project ID against which to make the request. */
   projectId: string;
@@ -1729,13 +1728,13 @@ export const GetProjectsIndexesResponse = GoogleDatastoreAdminV1Index;
 
 export type GetProjectsIndexesError = CommonErrors;
 
+/** Gets an index. */
 export const getProjectsIndexes: API.OperationMethod<GetProjectsIndexesRequest, GetProjectsIndexesResponse, GetProjectsIndexesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsIndexesRequest,
   output: GetProjectsIndexesResponse,
   errors: [],
 }));
 
-/** Lists the indexes that match the specified filters. Datastore uses an eventually consistent query to fetch the list of indexes and may occasionally return stale results. */
 export interface ListProjectsIndexesRequest {
   /** Project ID against which to make the request. */
   projectId: string;
@@ -1761,7 +1760,8 @@ export const ListProjectsIndexesResponse = GoogleDatastoreAdminV1ListIndexesResp
 
 export type ListProjectsIndexesError = CommonErrors;
 
-export const listProjectsIndexes = API.makePaginated(() => ({
+/** Lists the indexes that match the specified filters. Datastore uses an eventually consistent query to fetch the list of indexes and may occasionally return stale results. */
+export const listProjectsIndexes: API.PaginatedOperationMethod<ListProjectsIndexesRequest, ListProjectsIndexesResponse, ListProjectsIndexesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsIndexesRequest,
   output: ListProjectsIndexesResponse,
   errors: [],

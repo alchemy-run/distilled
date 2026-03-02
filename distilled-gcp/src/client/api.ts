@@ -58,9 +58,10 @@ export const make = <I extends Schema.Top, O extends Schema.Top>(
     errors: Schema.Top[];
     pagination?: T.PaginationTrait;
   },
-): any => {
+): OperationMethod<Schema.Schema.Type<I>, Schema.Schema.Type<O>, AuthError | UnknownGCPError | GCPNetworkError | GCPHttpError, GCPAuth | HttpClient.HttpClient> => {
   type Input = Schema.Schema.Type<I>;
   type Output = Schema.Schema.Type<O>;
+  type Errors = AuthError | UnknownGCPError | GCPNetworkError | GCPHttpError;
 
   const op = initOperation();
 
@@ -220,7 +221,15 @@ export const make = <I extends Schema.Top, O extends Schema.Top>(
     },
   };
 
-  return Object.assign(fn, Proto);
+  return Object.assign(fn, Proto) as unknown as OperationMethod<Input, Output, Errors, GCPAuth | HttpClient.HttpClient>;
+};
+
+/**
+ * Paginated operation method — extends OperationMethod with `.pages()` and `.items()`.
+ */
+export type PaginatedOperationMethod<I, A, E, R> = OperationMethod<I, A, E, R> & {
+  pages: (input: I) => Effect.Effect<A[], E, R>;
+  items: (input: I) => Effect.Effect<unknown[], E, R>;
 };
 
 /**
@@ -233,9 +242,15 @@ export const makePaginated = <I extends Schema.Top, O extends Schema.Top>(
     errors: Schema.Top[];
     pagination: T.PaginationTrait;
   },
-) => {
+): PaginatedOperationMethod<
+  Schema.Schema.Type<I>,
+  Schema.Schema.Type<O>,
+  AuthError | UnknownGCPError | GCPNetworkError | GCPHttpError,
+  GCPAuth | HttpClient.HttpClient
+> => {
   type Input = Schema.Schema.Type<I>;
   type Output = Schema.Schema.Type<O>;
+  type Errors = AuthError | UnknownGCPError | GCPNetworkError | GCPHttpError;
 
   const op = initOperation();
   const baseFn = make(initOperation);
@@ -289,11 +304,7 @@ export const makePaginated = <I extends Schema.Top, O extends Schema.Top>(
   return Object.assign(baseFn, {
     pages,
     items,
-    input: op.input,
-    output: op.output,
-    errors: op.errors,
-    pagination: op.pagination,
-  });
+  }) as unknown as PaginatedOperationMethod<Input, Output, Errors, GCPAuth | HttpClient.HttpClient>;
 };
 
 function getPath(obj: unknown, path: string): unknown {

@@ -710,7 +710,6 @@ export const DevicesLongRunningOperationResponse: Schema.Schema<DevicesLongRunni
 // Operations
 // ==========================================================================
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -728,13 +727,13 @@ export const GetOperationsResponse = Operation;
 
 export type GetOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOperations: API.OperationMethod<GetOperationsRequest, GetOperationsResponse, GetOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
 }));
 
-/** Lists the vendors of the partner. */
 export interface ListPartnersVendorsRequest {
   /** Required. The resource name in the format `partners/[PARTNER_ID]`. */
   parent: string;
@@ -758,7 +757,8 @@ export const ListPartnersVendorsResponse = ListVendorsResponse;
 
 export type ListPartnersVendorsError = CommonErrors;
 
-export const listPartnersVendors = API.makePaginated(() => ({
+/** Lists the vendors of the partner. */
+export const listPartnersVendors: API.PaginatedOperationMethod<ListPartnersVendorsRequest, ListPartnersVendorsResponse, ListPartnersVendorsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPartnersVendorsRequest,
   output: ListPartnersVendorsResponse,
   errors: [],
@@ -768,7 +768,6 @@ export const listPartnersVendors = API.makePaginated(() => ({
   },
 }));
 
-/** Lists the customers of the vendor. */
 export interface ListPartnersVendorsCustomersRequest {
   /** Required. The resource name in the format `partners/[PARTNER_ID]/vendors/[VENDOR_ID]`. */
   parent: string;
@@ -792,7 +791,8 @@ export const ListPartnersVendorsCustomersResponse = ListVendorCustomersResponse;
 
 export type ListPartnersVendorsCustomersError = CommonErrors;
 
-export const listPartnersVendorsCustomers = API.makePaginated(() => ({
+/** Lists the customers of the vendor. */
+export const listPartnersVendorsCustomers: API.PaginatedOperationMethod<ListPartnersVendorsCustomersRequest, ListPartnersVendorsCustomersResponse, ListPartnersVendorsCustomersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPartnersVendorsCustomersRequest,
   output: ListPartnersVendorsCustomersResponse,
   errors: [],
@@ -802,7 +802,6 @@ export const listPartnersVendorsCustomers = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a customer for zero-touch enrollment. After the method returns successfully, admin and owner roles can manage devices and EMM configs by calling API methods or using their zero-touch enrollment portal. The customer receives an email that welcomes them to zero-touch enrollment and explains how to sign into the portal. */
 export interface CreatePartnersCustomersRequest {
   /** Required. The parent resource ID in the format `partners/[PARTNER_ID]` that identifies the reseller. */
   parent: string;
@@ -823,13 +822,13 @@ export const CreatePartnersCustomersResponse = Company;
 
 export type CreatePartnersCustomersError = CommonErrors;
 
+/** Creates a customer for zero-touch enrollment. After the method returns successfully, admin and owner roles can manage devices and EMM configs by calling API methods or using their zero-touch enrollment portal. The customer receives an email that welcomes them to zero-touch enrollment and explains how to sign into the portal. */
 export const createPartnersCustomers: API.OperationMethod<CreatePartnersCustomersRequest, CreatePartnersCustomersResponse, CreatePartnersCustomersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreatePartnersCustomersRequest,
   output: CreatePartnersCustomersResponse,
   errors: [],
 }));
 
-/** Lists the customers that are enrolled to the reseller identified by the `partnerId` argument. This list includes customers that the reseller created and customers that enrolled themselves using the portal. */
 export interface ListPartnersCustomersRequest {
   /** Required. The ID of the reseller partner. */
   partnerId: string;
@@ -853,7 +852,8 @@ export const ListPartnersCustomersResponse = ListCustomersResponse;
 
 export type ListPartnersCustomersError = CommonErrors;
 
-export const listPartnersCustomers = API.makePaginated(() => ({
+/** Lists the customers that are enrolled to the reseller identified by the `partnerId` argument. This list includes customers that the reseller created and customers that enrolled themselves using the portal. */
+export const listPartnersCustomers: API.PaginatedOperationMethod<ListPartnersCustomersRequest, ListPartnersCustomersResponse, ListPartnersCustomersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPartnersCustomersRequest,
   output: ListPartnersCustomersResponse,
   errors: [],
@@ -863,7 +863,6 @@ export const listPartnersCustomers = API.makePaginated(() => ({
   },
 }));
 
-/** Claims a device for a customer and adds it to zero-touch enrollment. If the device is already claimed by another customer, the call returns an error. */
 export interface ClaimPartnersDevicesRequest {
   /** Required. The ID of the reseller partner. */
   partnerId: string;
@@ -884,13 +883,13 @@ export const ClaimPartnersDevicesResponse = ClaimDeviceResponse;
 
 export type ClaimPartnersDevicesError = CommonErrors;
 
+/** Claims a device for a customer and adds it to zero-touch enrollment. If the device is already claimed by another customer, the call returns an error. */
 export const claimPartnersDevices: API.OperationMethod<ClaimPartnersDevicesRequest, ClaimPartnersDevicesResponse, ClaimPartnersDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ClaimPartnersDevicesRequest,
   output: ClaimPartnersDevicesResponse,
   errors: [],
 }));
 
-/** Unclaims a device from a customer and removes it from zero-touch enrollment. */
 export interface UnclaimPartnersDevicesRequest {
   /** Required. The ID of the reseller partner. */
   partnerId: string;
@@ -911,13 +910,13 @@ export const UnclaimPartnersDevicesResponse = Empty;
 
 export type UnclaimPartnersDevicesError = CommonErrors;
 
+/** Unclaims a device from a customer and removes it from zero-touch enrollment. */
 export const unclaimPartnersDevices: API.OperationMethod<UnclaimPartnersDevicesRequest, UnclaimPartnersDevicesResponse, UnclaimPartnersDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UnclaimPartnersDevicesRequest,
   output: UnclaimPartnersDevicesResponse,
   errors: [],
 }));
 
-/** Finds devices by hardware identifiers, such as IMEI. */
 export interface FindByIdentifierPartnersDevicesRequest {
   /** Required. The ID of the reseller partner. */
   partnerId: string;
@@ -938,13 +937,13 @@ export const FindByIdentifierPartnersDevicesResponse = FindDevicesByDeviceIdenti
 
 export type FindByIdentifierPartnersDevicesError = CommonErrors;
 
+/** Finds devices by hardware identifiers, such as IMEI. */
 export const findByIdentifierPartnersDevices: API.OperationMethod<FindByIdentifierPartnersDevicesRequest, FindByIdentifierPartnersDevicesResponse, FindByIdentifierPartnersDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FindByIdentifierPartnersDevicesRequest,
   output: FindByIdentifierPartnersDevicesResponse,
   errors: [],
 }));
 
-/** Finds devices claimed for customers. The results only contain devices registered to the reseller that's identified by the `partnerId` argument. The customer's devices purchased from other resellers don't appear in the results. */
 export interface FindByOwnerPartnersDevicesRequest {
   /** Required. The ID of the reseller partner. */
   partnerId: string;
@@ -965,13 +964,13 @@ export const FindByOwnerPartnersDevicesResponse = FindDevicesByOwnerResponse;
 
 export type FindByOwnerPartnersDevicesError = CommonErrors;
 
+/** Finds devices claimed for customers. The results only contain devices registered to the reseller that's identified by the `partnerId` argument. The customer's devices purchased from other resellers don't appear in the results. */
 export const findByOwnerPartnersDevices: API.OperationMethod<FindByOwnerPartnersDevicesRequest, FindByOwnerPartnersDevicesResponse, FindByOwnerPartnersDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FindByOwnerPartnersDevicesRequest,
   output: FindByOwnerPartnersDevicesResponse,
   errors: [],
 }));
 
-/** Gets a device. */
 export interface GetPartnersDevicesRequest {
   /** Required. The device API resource name in the format `partners/[PARTNER_ID]/devices/[DEVICE_ID]`. */
   name: string;
@@ -989,13 +988,13 @@ export const GetPartnersDevicesResponse = Device;
 
 export type GetPartnersDevicesError = CommonErrors;
 
+/** Gets a device. */
 export const getPartnersDevices: API.OperationMethod<GetPartnersDevicesRequest, GetPartnersDevicesResponse, GetPartnersDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPartnersDevicesRequest,
   output: GetPartnersDevicesResponse,
   errors: [],
 }));
 
-/** Gets a device's SIM lock state. */
 export interface GetSimLockStatePartnersDevicesRequest {
   /** Required. The ID of the partner. */
   partnerId: string;
@@ -1016,13 +1015,13 @@ export const GetSimLockStatePartnersDevicesResponse = GetDeviceSimLockStateRespo
 
 export type GetSimLockStatePartnersDevicesError = CommonErrors;
 
+/** Gets a device's SIM lock state. */
 export const getSimLockStatePartnersDevices: API.OperationMethod<GetSimLockStatePartnersDevicesRequest, GetSimLockStatePartnersDevicesResponse, GetSimLockStatePartnersDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSimLockStatePartnersDevicesRequest,
   output: GetSimLockStatePartnersDevicesResponse,
   errors: [],
 }));
 
-/** Updates reseller metadata associated with the device. Android devices only. */
 export interface MetadataPartnersDevicesRequest {
   /** Required. The owner of the newly set metadata. Set this to the partner ID. */
   metadataOwnerId: string;
@@ -1046,13 +1045,13 @@ export const MetadataPartnersDevicesResponse = DeviceMetadata;
 
 export type MetadataPartnersDevicesError = CommonErrors;
 
+/** Updates reseller metadata associated with the device. Android devices only. */
 export const metadataPartnersDevices: API.OperationMethod<MetadataPartnersDevicesRequest, MetadataPartnersDevicesResponse, MetadataPartnersDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MetadataPartnersDevicesRequest,
   output: MetadataPartnersDevicesResponse,
   errors: [],
 }));
 
-/** Claims a batch of devices for a customer asynchronously. Adds the devices to zero-touch enrollment. To learn more, read [Long‑running batch operations](/zero-touch/guides/how-it-works#operations). */
 export interface ClaimAsyncPartnersDevicesRequest {
   /** Required. The ID of the reseller partner. */
   partnerId: string;
@@ -1073,13 +1072,13 @@ export const ClaimAsyncPartnersDevicesResponse = Operation;
 
 export type ClaimAsyncPartnersDevicesError = CommonErrors;
 
+/** Claims a batch of devices for a customer asynchronously. Adds the devices to zero-touch enrollment. To learn more, read [Long‑running batch operations](/zero-touch/guides/how-it-works#operations). */
 export const claimAsyncPartnersDevices: API.OperationMethod<ClaimAsyncPartnersDevicesRequest, ClaimAsyncPartnersDevicesResponse, ClaimAsyncPartnersDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ClaimAsyncPartnersDevicesRequest,
   output: ClaimAsyncPartnersDevicesResponse,
   errors: [],
 }));
 
-/** Unclaims a batch of devices for a customer asynchronously. Removes the devices from zero-touch enrollment. To learn more, read [Long‑running batch operations](/zero-touch/guides/how-it-works#operations). */
 export interface UnclaimAsyncPartnersDevicesRequest {
   /** Required. The reseller partner ID. */
   partnerId: string;
@@ -1100,13 +1099,13 @@ export const UnclaimAsyncPartnersDevicesResponse = Operation;
 
 export type UnclaimAsyncPartnersDevicesError = CommonErrors;
 
+/** Unclaims a batch of devices for a customer asynchronously. Removes the devices from zero-touch enrollment. To learn more, read [Long‑running batch operations](/zero-touch/guides/how-it-works#operations). */
 export const unclaimAsyncPartnersDevices: API.OperationMethod<UnclaimAsyncPartnersDevicesRequest, UnclaimAsyncPartnersDevicesResponse, UnclaimAsyncPartnersDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UnclaimAsyncPartnersDevicesRequest,
   output: UnclaimAsyncPartnersDevicesResponse,
   errors: [],
 }));
 
-/** Updates the reseller metadata attached to a batch of devices. This method updates devices asynchronously and returns an `Operation` that can be used to track progress. Read [Long‑running batch operations](/zero-touch/guides/how-it-works#operations). Android Devices only. */
 export interface UpdateMetadataAsyncPartnersDevicesRequest {
   /** Required. The reseller partner ID. */
   partnerId: string;
@@ -1127,13 +1126,13 @@ export const UpdateMetadataAsyncPartnersDevicesResponse = Operation;
 
 export type UpdateMetadataAsyncPartnersDevicesError = CommonErrors;
 
+/** Updates the reseller metadata attached to a batch of devices. This method updates devices asynchronously and returns an `Operation` that can be used to track progress. Read [Long‑running batch operations](/zero-touch/guides/how-it-works#operations). Android Devices only. */
 export const updateMetadataAsyncPartnersDevices: API.OperationMethod<UpdateMetadataAsyncPartnersDevicesRequest, UpdateMetadataAsyncPartnersDevicesResponse, UpdateMetadataAsyncPartnersDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateMetadataAsyncPartnersDevicesRequest,
   output: UpdateMetadataAsyncPartnersDevicesResponse,
   errors: [],
 }));
 
-/** Lists the user's customer accounts. */
 export interface ListCustomersRequest {
   /** Required. The maximum number of customers to show in a page of results. A number between 1 and 100 (inclusive). */
   pageSize?: number;
@@ -1154,7 +1153,8 @@ export const ListCustomersResponse_Op = CustomerListCustomersResponse;
 
 export type ListCustomersError = CommonErrors;
 
-export const listCustomers = API.makePaginated(() => ({
+/** Lists the user's customer accounts. */
+export const listCustomers: API.PaginatedOperationMethod<ListCustomersRequest, ListCustomersResponse_Op, ListCustomersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCustomersRequest,
   output: ListCustomersResponse_Op,
   errors: [],
@@ -1164,7 +1164,6 @@ export const listCustomers = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new configuration. Once created, a customer can apply the configuration to devices. */
 export interface CreateCustomersConfigurationsRequest {
   /** Required. The customer that manages the configuration. An API resource name in the format `customers/[CUSTOMER_ID]`. This field has custom validation in CreateConfigurationRequestValidator */
   parent: string;
@@ -1185,13 +1184,13 @@ export const CreateCustomersConfigurationsResponse = Configuration;
 
 export type CreateCustomersConfigurationsError = CommonErrors;
 
+/** Creates a new configuration. Once created, a customer can apply the configuration to devices. */
 export const createCustomersConfigurations: API.OperationMethod<CreateCustomersConfigurationsRequest, CreateCustomersConfigurationsResponse, CreateCustomersConfigurationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateCustomersConfigurationsRequest,
   output: CreateCustomersConfigurationsResponse,
   errors: [],
 }));
 
-/** Gets the details of a configuration. */
 export interface GetCustomersConfigurationsRequest {
   /** Required. The configuration to get. An API resource name in the format `customers/[CUSTOMER_ID]/configurations/[CONFIGURATION_ID]`. */
   name: string;
@@ -1209,13 +1208,13 @@ export const GetCustomersConfigurationsResponse = Configuration;
 
 export type GetCustomersConfigurationsError = CommonErrors;
 
+/** Gets the details of a configuration. */
 export const getCustomersConfigurations: API.OperationMethod<GetCustomersConfigurationsRequest, GetCustomersConfigurationsResponse, GetCustomersConfigurationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCustomersConfigurationsRequest,
   output: GetCustomersConfigurationsResponse,
   errors: [],
 }));
 
-/** Updates a configuration's field values. */
 export interface PatchCustomersConfigurationsRequest {
   /** Output only. The API resource name in the format `customers/[CUSTOMER_ID]/configurations/[CONFIGURATION_ID]`. Assigned by the server. */
   name: string;
@@ -1239,13 +1238,13 @@ export const PatchCustomersConfigurationsResponse = Configuration;
 
 export type PatchCustomersConfigurationsError = CommonErrors;
 
+/** Updates a configuration's field values. */
 export const patchCustomersConfigurations: API.OperationMethod<PatchCustomersConfigurationsRequest, PatchCustomersConfigurationsResponse, PatchCustomersConfigurationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchCustomersConfigurationsRequest,
   output: PatchCustomersConfigurationsResponse,
   errors: [],
 }));
 
-/** Deletes an unused configuration. The API call fails if the customer has devices with the configuration applied. */
 export interface DeleteCustomersConfigurationsRequest {
   /** Required. The configuration to delete. An API resource name in the format `customers/[CUSTOMER_ID]/configurations/[CONFIGURATION_ID]`. If the configuration is applied to any devices, the API call fails. */
   name: string;
@@ -1263,13 +1262,13 @@ export const DeleteCustomersConfigurationsResponse = Empty;
 
 export type DeleteCustomersConfigurationsError = CommonErrors;
 
+/** Deletes an unused configuration. The API call fails if the customer has devices with the configuration applied. */
 export const deleteCustomersConfigurations: API.OperationMethod<DeleteCustomersConfigurationsRequest, DeleteCustomersConfigurationsResponse, DeleteCustomersConfigurationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteCustomersConfigurationsRequest,
   output: DeleteCustomersConfigurationsResponse,
   errors: [],
 }));
 
-/** Lists a customer's configurations. */
 export interface ListCustomersConfigurationsRequest {
   /** Required. The customer that manages the listed configurations. An API resource name in the format `customers/[CUSTOMER_ID]`. */
   parent: string;
@@ -1287,13 +1286,13 @@ export const ListCustomersConfigurationsResponse = CustomerListConfigurationsRes
 
 export type ListCustomersConfigurationsError = CommonErrors;
 
+/** Lists a customer's configurations. */
 export const listCustomersConfigurations: API.OperationMethod<ListCustomersConfigurationsRequest, ListCustomersConfigurationsResponse, ListCustomersConfigurationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListCustomersConfigurationsRequest,
   output: ListCustomersConfigurationsResponse,
   errors: [],
 }));
 
-/** Lists the DPCs (device policy controllers) that support zero-touch enrollment. */
 export interface ListCustomersDpcsRequest {
   /** Required. The customer that can use the DPCs in configurations. An API resource name in the format `customers/[CUSTOMER_ID]`. */
   parent: string;
@@ -1311,13 +1310,13 @@ export const ListCustomersDpcsResponse = CustomerListDpcsResponse;
 
 export type ListCustomersDpcsError = CommonErrors;
 
+/** Lists the DPCs (device policy controllers) that support zero-touch enrollment. */
 export const listCustomersDpcs: API.OperationMethod<ListCustomersDpcsRequest, ListCustomersDpcsResponse, ListCustomersDpcsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListCustomersDpcsRequest,
   output: ListCustomersDpcsResponse,
   errors: [],
 }));
 
-/** Lists a customer's devices. */
 export interface ListCustomersDevicesRequest {
   /** Required. The customer managing the devices. An API resource name in the format `customers/[CUSTOMER_ID]`. */
   parent: string;
@@ -1341,7 +1340,8 @@ export const ListCustomersDevicesResponse = CustomerListDevicesResponse;
 
 export type ListCustomersDevicesError = CommonErrors;
 
-export const listCustomersDevices = API.makePaginated(() => ({
+/** Lists a customer's devices. */
+export const listCustomersDevices: API.PaginatedOperationMethod<ListCustomersDevicesRequest, ListCustomersDevicesResponse, ListCustomersDevicesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCustomersDevicesRequest,
   output: ListCustomersDevicesResponse,
   errors: [],
@@ -1351,7 +1351,6 @@ export const listCustomersDevices = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the details of a device. */
 export interface GetCustomersDevicesRequest {
   /** Required. The device to get. An API resource name in the format `customers/[CUSTOMER_ID]/devices/[DEVICE_ID]`. */
   name: string;
@@ -1369,13 +1368,13 @@ export const GetCustomersDevicesResponse = Device;
 
 export type GetCustomersDevicesError = CommonErrors;
 
+/** Gets the details of a device. */
 export const getCustomersDevices: API.OperationMethod<GetCustomersDevicesRequest, GetCustomersDevicesResponse, GetCustomersDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCustomersDevicesRequest,
   output: GetCustomersDevicesResponse,
   errors: [],
 }));
 
-/** Unclaims a device from a customer and removes it from zero-touch enrollment. After removing a device, a customer must contact their reseller to register the device into zero-touch enrollment again. */
 export interface UnclaimCustomersDevicesRequest {
   /** Required. The customer managing the device. An API resource name in the format `customers/[CUSTOMER_ID]`. */
   parent: string;
@@ -1396,13 +1395,13 @@ export const UnclaimCustomersDevicesResponse = Empty;
 
 export type UnclaimCustomersDevicesError = CommonErrors;
 
+/** Unclaims a device from a customer and removes it from zero-touch enrollment. After removing a device, a customer must contact their reseller to register the device into zero-touch enrollment again. */
 export const unclaimCustomersDevices: API.OperationMethod<UnclaimCustomersDevicesRequest, UnclaimCustomersDevicesResponse, UnclaimCustomersDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UnclaimCustomersDevicesRequest,
   output: UnclaimCustomersDevicesResponse,
   errors: [],
 }));
 
-/** Applies a Configuration to the device to register the device for zero-touch enrollment. After applying a configuration to a device, the device automatically provisions itself on first boot, or next factory reset. */
 export interface ApplyConfigurationCustomersDevicesRequest {
   /** Required. The customer managing the device. An API resource name in the format `customers/[CUSTOMER_ID]`. */
   parent: string;
@@ -1423,13 +1422,13 @@ export const ApplyConfigurationCustomersDevicesResponse = Empty;
 
 export type ApplyConfigurationCustomersDevicesError = CommonErrors;
 
+/** Applies a Configuration to the device to register the device for zero-touch enrollment. After applying a configuration to a device, the device automatically provisions itself on first boot, or next factory reset. */
 export const applyConfigurationCustomersDevices: API.OperationMethod<ApplyConfigurationCustomersDevicesRequest, ApplyConfigurationCustomersDevicesResponse, ApplyConfigurationCustomersDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ApplyConfigurationCustomersDevicesRequest,
   output: ApplyConfigurationCustomersDevicesResponse,
   errors: [],
 }));
 
-/** Removes a configuration from device. */
 export interface RemoveConfigurationCustomersDevicesRequest {
   /** Required. The customer managing the device in the format `customers/[CUSTOMER_ID]`. */
   parent: string;
@@ -1450,6 +1449,7 @@ export const RemoveConfigurationCustomersDevicesResponse = Empty;
 
 export type RemoveConfigurationCustomersDevicesError = CommonErrors;
 
+/** Removes a configuration from device. */
 export const removeConfigurationCustomersDevices: API.OperationMethod<RemoveConfigurationCustomersDevicesRequest, RemoveConfigurationCustomersDevicesResponse, RemoveConfigurationCustomersDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveConfigurationCustomersDevicesRequest,
   output: RemoveConfigurationCustomersDevicesResponse,

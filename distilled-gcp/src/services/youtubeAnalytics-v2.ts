@@ -233,7 +233,6 @@ export const QueryResponse: Schema.Schema<QueryResponse> = Schema.suspend(() => 
 // Operations
 // ==========================================================================
 
-/** Creates a group. */
 export interface InsertGroupsRequest {
   /** This parameter can only be used in a properly authorized request. **Note:** This parameter is intended exclusively for YouTube content partners that own and manage many different YouTube channels. The `onBehalfOfContentOwner` parameter indicates that the request's authorization credentials identify a YouTube user who is acting on behalf of the content owner specified in the parameter value. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The account that the user authenticates with must be linked to the specified YouTube content owner. */
   onBehalfOfContentOwner?: string;
@@ -254,13 +253,13 @@ export const InsertGroupsResponse = Group;
 
 export type InsertGroupsError = CommonErrors;
 
+/** Creates a group. */
 export const insertGroups: API.OperationMethod<InsertGroupsRequest, InsertGroupsResponse, InsertGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertGroupsRequest,
   output: InsertGroupsResponse,
   errors: [],
 }));
 
-/** Returns a collection of groups that match the API request parameters. For example, you can retrieve all groups that the authenticated user owns, or you can retrieve one or more groups by their unique IDs. */
 export interface ListGroupsRequest {
   /** This parameter can only be used in a properly authorized request. **Note:** This parameter is intended exclusively for YouTube content partners that own and manage many different YouTube channels. The `onBehalfOfContentOwner` parameter indicates that the request's authorization credentials identify a YouTube user who is acting on behalf of the content owner specified in the parameter value. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The account that the user authenticates with must be linked to the specified YouTube content owner. */
   onBehalfOfContentOwner?: string;
@@ -287,7 +286,8 @@ export const ListGroupsResponse_Op = ListGroupsResponse;
 
 export type ListGroupsError = CommonErrors;
 
-export const listGroups = API.makePaginated(() => ({
+/** Returns a collection of groups that match the API request parameters. For example, you can retrieve all groups that the authenticated user owns, or you can retrieve one or more groups by their unique IDs. */
+export const listGroups: API.PaginatedOperationMethod<ListGroupsRequest, ListGroupsResponse_Op, ListGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListGroupsRequest,
   output: ListGroupsResponse_Op,
   errors: [],
@@ -298,7 +298,6 @@ export const listGroups = API.makePaginated(() => ({
   },
 }));
 
-/** Modifies a group. For example, you could change a group's title. */
 export interface UpdateGroupsRequest {
   /** This parameter can only be used in a properly authorized request. **Note:** This parameter is intended exclusively for YouTube content partners that own and manage many different YouTube channels. The `onBehalfOfContentOwner` parameter indicates that the request's authorization credentials identify a YouTube user who is acting on behalf of the content owner specified in the parameter value. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The account that the user authenticates with must be linked to the specified YouTube content owner. */
   onBehalfOfContentOwner?: string;
@@ -319,13 +318,13 @@ export const UpdateGroupsResponse = Group;
 
 export type UpdateGroupsError = CommonErrors;
 
+/** Modifies a group. For example, you could change a group's title. */
 export const updateGroups: API.OperationMethod<UpdateGroupsRequest, UpdateGroupsResponse, UpdateGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateGroupsRequest,
   output: UpdateGroupsResponse,
   errors: [],
 }));
 
-/** Deletes a group. */
 export interface DeleteGroupsRequest {
   /** This parameter can only be used in a properly authorized request. **Note:** This parameter is intended exclusively for YouTube content partners that own and manage many different YouTube channels. The `onBehalfOfContentOwner` parameter indicates that the request's authorization credentials identify a YouTube user who is acting on behalf of the content owner specified in the parameter value. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The account that the user authenticates with must be linked to the specified YouTube content owner. */
   onBehalfOfContentOwner?: string;
@@ -346,13 +345,13 @@ export const DeleteGroupsResponse = EmptyResponse;
 
 export type DeleteGroupsError = CommonErrors;
 
+/** Deletes a group. */
 export const deleteGroups: API.OperationMethod<DeleteGroupsRequest, DeleteGroupsResponse, DeleteGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteGroupsRequest,
   output: DeleteGroupsResponse,
   errors: [],
 }));
 
-/** Creates a group item. */
 export interface InsertGroupItemsRequest {
   /** This parameter can only be used in a properly authorized request. **Note:** This parameter is intended exclusively for YouTube content partners that own and manage many different YouTube channels. The `onBehalfOfContentOwner` parameter indicates that the request's authorization credentials identify a YouTube user who is acting on behalf of the content owner specified in the parameter value. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The account that the user authenticates with must be linked to the specified YouTube content owner. */
   onBehalfOfContentOwner?: string;
@@ -373,13 +372,13 @@ export const InsertGroupItemsResponse = GroupItem;
 
 export type InsertGroupItemsError = CommonErrors;
 
+/** Creates a group item. */
 export const insertGroupItems: API.OperationMethod<InsertGroupItemsRequest, InsertGroupItemsResponse, InsertGroupItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertGroupItemsRequest,
   output: InsertGroupItemsResponse,
   errors: [],
 }));
 
-/** Returns a collection of group items that match the API request parameters. */
 export interface ListGroupItemsRequest {
   /** This parameter can only be used in a properly authorized request. **Note:** This parameter is intended exclusively for YouTube content partners that own and manage many different YouTube channels. The `onBehalfOfContentOwner` parameter indicates that the request's authorization credentials identify a YouTube user who is acting on behalf of the content owner specified in the parameter value. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The account that the user authenticates with must be linked to the specified YouTube content owner. */
   onBehalfOfContentOwner?: string;
@@ -400,13 +399,13 @@ export const ListGroupItemsResponse_Op = ListGroupItemsResponse;
 
 export type ListGroupItemsError = CommonErrors;
 
+/** Returns a collection of group items that match the API request parameters. */
 export const listGroupItems: API.OperationMethod<ListGroupItemsRequest, ListGroupItemsResponse_Op, ListGroupItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListGroupItemsRequest,
   output: ListGroupItemsResponse_Op,
   errors: [],
 }));
 
-/** Removes an item from a group. */
 export interface DeleteGroupItemsRequest {
   /** This parameter can only be used in a properly authorized request. **Note:** This parameter is intended exclusively for YouTube content partners that own and manage many different YouTube channels. The `onBehalfOfContentOwner` parameter indicates that the request's authorization credentials identify a YouTube user who is acting on behalf of the content owner specified in the parameter value. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The account that the user authenticates with must be linked to the specified YouTube content owner. */
   onBehalfOfContentOwner?: string;
@@ -427,13 +426,13 @@ export const DeleteGroupItemsResponse = EmptyResponse;
 
 export type DeleteGroupItemsError = CommonErrors;
 
+/** Removes an item from a group. */
 export const deleteGroupItems: API.OperationMethod<DeleteGroupItemsRequest, DeleteGroupItemsResponse, DeleteGroupItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteGroupItemsRequest,
   output: DeleteGroupItemsResponse,
   errors: [],
 }));
 
-/** Retrieve your YouTube Analytics reports. */
 export interface QueryReportsRequest {
   /** Identifies the YouTube channel or content owner for which you are retrieving YouTube Analytics data. - To request data for a YouTube user, set the `ids` parameter value to `channel==CHANNEL_ID`, where `CHANNEL_ID` specifies the unique YouTube channel ID. - To request data for a YouTube CMS content owner, set the `ids` parameter value to `contentOwner==OWNER_NAME`, where `OWNER_NAME` is the CMS name of the content owner. required: true, pattern: [a-zA-Z]+==[a-zA-Z0-9_+-]+ */
   ids?: string;
@@ -481,6 +480,7 @@ export const QueryReportsResponse = QueryResponse;
 
 export type QueryReportsError = CommonErrors;
 
+/** Retrieve your YouTube Analytics reports. */
 export const queryReports: API.OperationMethod<QueryReportsRequest, QueryReportsResponse, QueryReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: QueryReportsRequest,
   output: QueryReportsResponse,

@@ -6363,7 +6363,6 @@ export const ExportFindingsMetadata: Schema.Schema<ExportFindingsMetadata> = Sch
 // Operations
 // ==========================================================================
 
-/** Kicks off an LRO to bulk mute findings for a parent based on a filter. The parent can be either an organization, folder or project. The findings matched by the filter will be muted after the LRO is done. */
 export interface BulkMuteFoldersFindingsRequest {
   /** Required. The parent, at which bulk action needs to be applied. Its format is `organizations/[organization_id]`, `folders/[folder_id]`, `projects/[project_id]`. */
   parent: string;
@@ -6384,13 +6383,13 @@ export const BulkMuteFoldersFindingsResponse = Operation;
 
 export type BulkMuteFoldersFindingsError = CommonErrors;
 
+/** Kicks off an LRO to bulk mute findings for a parent based on a filter. The parent can be either an organization, folder or project. The findings matched by the filter will be muted after the LRO is done. */
 export const bulkMuteFoldersFindings: API.OperationMethod<BulkMuteFoldersFindingsRequest, BulkMuteFoldersFindingsResponse, BulkMuteFoldersFindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BulkMuteFoldersFindingsRequest,
   output: BulkMuteFoldersFindingsResponse,
   errors: [],
 }));
 
-/** Creates a resident SecurityHealthAnalyticsCustomModule at the scope of the given CRM parent, and also creates inherited SecurityHealthAnalyticsCustomModules for all CRM descendants of the given parent. These modules are enabled by default. */
 export interface CreateFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest {
   /** Required. Resource name of the new custom module's parent. Its format is `organizations/{organization}/securityHealthAnalyticsSettings`, `folders/{folder}/securityHealthAnalyticsSettings`, or `projects/{project}/securityHealthAnalyticsSettings` */
   parent: string;
@@ -6411,13 +6410,13 @@ export const CreateFoldersSecurityHealthAnalyticsSettingsCustomModulesResponse =
 
 export type CreateFoldersSecurityHealthAnalyticsSettingsCustomModulesError = CommonErrors;
 
+/** Creates a resident SecurityHealthAnalyticsCustomModule at the scope of the given CRM parent, and also creates inherited SecurityHealthAnalyticsCustomModules for all CRM descendants of the given parent. These modules are enabled by default. */
 export const createFoldersSecurityHealthAnalyticsSettingsCustomModules: API.OperationMethod<CreateFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest, CreateFoldersSecurityHealthAnalyticsSettingsCustomModulesResponse, CreateFoldersSecurityHealthAnalyticsSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: CreateFoldersSecurityHealthAnalyticsSettingsCustomModulesResponse,
   errors: [],
 }));
 
-/** Deletes the specified SecurityHealthAnalyticsCustomModule and all of its descendants in the CRM hierarchy. This method is only supported for resident custom modules. */
 export interface DeleteFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest {
   /** Required. Name of the custom module to delete. Its format is `organizations/{organization}/securityHealthAnalyticsSettings/customModules/{customModule}`, `folders/{folder}/securityHealthAnalyticsSettings/customModules/{customModule}`, or `projects/{project}/securityHealthAnalyticsSettings/customModules/{customModule}` */
   name: string;
@@ -6435,13 +6434,13 @@ export const DeleteFoldersSecurityHealthAnalyticsSettingsCustomModulesResponse =
 
 export type DeleteFoldersSecurityHealthAnalyticsSettingsCustomModulesError = CommonErrors;
 
+/** Deletes the specified SecurityHealthAnalyticsCustomModule and all of its descendants in the CRM hierarchy. This method is only supported for resident custom modules. */
 export const deleteFoldersSecurityHealthAnalyticsSettingsCustomModules: API.OperationMethod<DeleteFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest, DeleteFoldersSecurityHealthAnalyticsSettingsCustomModulesResponse, DeleteFoldersSecurityHealthAnalyticsSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: DeleteFoldersSecurityHealthAnalyticsSettingsCustomModulesResponse,
   errors: [],
 }));
 
-/** Retrieves a SecurityHealthAnalyticsCustomModule. */
 export interface GetFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest {
   /** Required. Name of the custom module to get. Its format is `organizations/{organization}/securityHealthAnalyticsSettings/customModules/{customModule}`, `folders/{folder}/securityHealthAnalyticsSettings/customModules/{customModule}`, or `projects/{project}/securityHealthAnalyticsSettings/customModules/{customModule}` */
   name: string;
@@ -6459,13 +6458,13 @@ export const GetFoldersSecurityHealthAnalyticsSettingsCustomModulesResponse = Go
 
 export type GetFoldersSecurityHealthAnalyticsSettingsCustomModulesError = CommonErrors;
 
+/** Retrieves a SecurityHealthAnalyticsCustomModule. */
 export const getFoldersSecurityHealthAnalyticsSettingsCustomModules: API.OperationMethod<GetFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest, GetFoldersSecurityHealthAnalyticsSettingsCustomModulesResponse, GetFoldersSecurityHealthAnalyticsSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: GetFoldersSecurityHealthAnalyticsSettingsCustomModulesResponse,
   errors: [],
 }));
 
-/** Returns a list of all resident SecurityHealthAnalyticsCustomModules under the given CRM parent and all of the parent’s CRM descendants. */
 export interface ListDescendantFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest {
   /** Required. Name of parent to list descendant custom modules. Its format is `organizations/{organization}/securityHealthAnalyticsSettings`, `folders/{folder}/securityHealthAnalyticsSettings`, or `projects/{project}/securityHealthAnalyticsSettings` */
   parent: string;
@@ -6489,7 +6488,8 @@ export const ListDescendantFoldersSecurityHealthAnalyticsSettingsCustomModulesRe
 
 export type ListDescendantFoldersSecurityHealthAnalyticsSettingsCustomModulesError = CommonErrors;
 
-export const listDescendantFoldersSecurityHealthAnalyticsSettingsCustomModules = API.makePaginated(() => ({
+/** Returns a list of all resident SecurityHealthAnalyticsCustomModules under the given CRM parent and all of the parent’s CRM descendants. */
+export const listDescendantFoldersSecurityHealthAnalyticsSettingsCustomModules: API.PaginatedOperationMethod<ListDescendantFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest, ListDescendantFoldersSecurityHealthAnalyticsSettingsCustomModulesResponse, ListDescendantFoldersSecurityHealthAnalyticsSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListDescendantFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: ListDescendantFoldersSecurityHealthAnalyticsSettingsCustomModulesResponse,
   errors: [],
@@ -6499,7 +6499,6 @@ export const listDescendantFoldersSecurityHealthAnalyticsSettingsCustomModules =
   },
 }));
 
-/** Returns a list of all SecurityHealthAnalyticsCustomModules for the given parent. This includes resident modules defined at the scope of the parent, and inherited modules, inherited from CRM ancestors. */
 export interface ListFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest {
   /** Required. Name of parent to list custom modules. Its format is `organizations/{organization}/securityHealthAnalyticsSettings`, `folders/{folder}/securityHealthAnalyticsSettings`, or `projects/{project}/securityHealthAnalyticsSettings` */
   parent: string;
@@ -6523,7 +6522,8 @@ export const ListFoldersSecurityHealthAnalyticsSettingsCustomModulesResponse = L
 
 export type ListFoldersSecurityHealthAnalyticsSettingsCustomModulesError = CommonErrors;
 
-export const listFoldersSecurityHealthAnalyticsSettingsCustomModules = API.makePaginated(() => ({
+/** Returns a list of all SecurityHealthAnalyticsCustomModules for the given parent. This includes resident modules defined at the scope of the parent, and inherited modules, inherited from CRM ancestors. */
+export const listFoldersSecurityHealthAnalyticsSettingsCustomModules: API.PaginatedOperationMethod<ListFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest, ListFoldersSecurityHealthAnalyticsSettingsCustomModulesResponse, ListFoldersSecurityHealthAnalyticsSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: ListFoldersSecurityHealthAnalyticsSettingsCustomModulesResponse,
   errors: [],
@@ -6533,7 +6533,6 @@ export const listFoldersSecurityHealthAnalyticsSettingsCustomModules = API.makeP
   },
 }));
 
-/** Simulates a given SecurityHealthAnalyticsCustomModule and Resource. */
 export interface SimulateFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest {
   /** Required. The relative resource name of the organization, project, or folder. For more information about relative resource names, see [Relative Resource Name](https://cloud.google.com/apis/design/resource_names#relative_resource_name) Example: `organizations/{organization_id}` */
   parent: string;
@@ -6554,13 +6553,13 @@ export const SimulateFoldersSecurityHealthAnalyticsSettingsCustomModulesResponse
 
 export type SimulateFoldersSecurityHealthAnalyticsSettingsCustomModulesError = CommonErrors;
 
+/** Simulates a given SecurityHealthAnalyticsCustomModule and Resource. */
 export const simulateFoldersSecurityHealthAnalyticsSettingsCustomModules: API.OperationMethod<SimulateFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest, SimulateFoldersSecurityHealthAnalyticsSettingsCustomModulesResponse, SimulateFoldersSecurityHealthAnalyticsSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SimulateFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: SimulateFoldersSecurityHealthAnalyticsSettingsCustomModulesResponse,
   errors: [],
 }));
 
-/** Updates the SecurityHealthAnalyticsCustomModule under the given name based on the given update mask. Updating the enablement state is supported on both resident and inherited modules (though resident modules cannot have an enablement state of "inherited"). Updating the display name and custom config of a module is supported on resident modules only. */
 export interface PatchFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest {
   /** Immutable. The resource name of the custom module. Its format is "organizations/{organization}/securityHealthAnalyticsSettings/customModules/{customModule}", or "folders/{folder}/securityHealthAnalyticsSettings/customModules/{customModule}", or "projects/{project}/securityHealthAnalyticsSettings/customModules/{customModule}" The id {customModule} is server-generated and is not user settable. It will be a numeric id containing 1-20 digits. */
   name: string;
@@ -6584,13 +6583,13 @@ export const PatchFoldersSecurityHealthAnalyticsSettingsCustomModulesResponse = 
 
 export type PatchFoldersSecurityHealthAnalyticsSettingsCustomModulesError = CommonErrors;
 
+/** Updates the SecurityHealthAnalyticsCustomModule under the given name based on the given update mask. Updating the enablement state is supported on both resident and inherited modules (though resident modules cannot have an enablement state of "inherited"). Updating the display name and custom config of a module is supported on resident modules only. */
 export const patchFoldersSecurityHealthAnalyticsSettingsCustomModules: API.OperationMethod<PatchFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest, PatchFoldersSecurityHealthAnalyticsSettingsCustomModulesResponse, PatchFoldersSecurityHealthAnalyticsSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchFoldersSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: PatchFoldersSecurityHealthAnalyticsSettingsCustomModulesResponse,
   errors: [],
 }));
 
-/** Retrieves an EffectiveSecurityHealthAnalyticsCustomModule. */
 export interface GetFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest {
   /** Required. Name of the effective custom module to get. Its format is `organizations/{organization}/securityHealthAnalyticsSettings/effectiveCustomModules/{customModule}`, `folders/{folder}/securityHealthAnalyticsSettings/effectiveCustomModules/{customModule}`, or `projects/{project}/securityHealthAnalyticsSettings/effectiveCustomModules/{customModule}` */
   name: string;
@@ -6608,13 +6607,13 @@ export const GetFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModulesResp
 
 export type GetFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModulesError = CommonErrors;
 
+/** Retrieves an EffectiveSecurityHealthAnalyticsCustomModule. */
 export const getFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModules: API.OperationMethod<GetFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest, GetFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModulesResponse, GetFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest,
   output: GetFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModulesResponse,
   errors: [],
 }));
 
-/** Returns a list of all EffectiveSecurityHealthAnalyticsCustomModules for the given parent. This includes resident modules defined at the scope of the parent, and inherited modules, inherited from CRM ancestors. */
 export interface ListFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest {
   /** Required. Name of parent to list effective custom modules. Its format is `organizations/{organization}/securityHealthAnalyticsSettings`, `folders/{folder}/securityHealthAnalyticsSettings`, or `projects/{project}/securityHealthAnalyticsSettings` */
   parent: string;
@@ -6638,7 +6637,8 @@ export const ListFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModulesRes
 
 export type ListFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModulesError = CommonErrors;
 
-export const listFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModules = API.makePaginated(() => ({
+/** Returns a list of all EffectiveSecurityHealthAnalyticsCustomModules for the given parent. This includes resident modules defined at the scope of the parent, and inherited modules, inherited from CRM ancestors. */
+export const listFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModules: API.PaginatedOperationMethod<ListFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest, ListFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModulesResponse, ListFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest,
   output: ListFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModulesResponse,
   errors: [],
@@ -6648,7 +6648,6 @@ export const listFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModules = 
   },
 }));
 
-/** Creates a mute config. */
 export interface CreateFoldersMuteConfigsRequest {
   /** Required. Resource name of the new mute configs's parent. Its format is `organizations/[organization_id]`, `folders/[folder_id]`, or `projects/[project_id]`. */
   parent: string;
@@ -6672,13 +6671,13 @@ export const CreateFoldersMuteConfigsResponse = GoogleCloudSecuritycenterV1MuteC
 
 export type CreateFoldersMuteConfigsError = CommonErrors;
 
+/** Creates a mute config. */
 export const createFoldersMuteConfigs: API.OperationMethod<CreateFoldersMuteConfigsRequest, CreateFoldersMuteConfigsResponse, CreateFoldersMuteConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateFoldersMuteConfigsRequest,
   output: CreateFoldersMuteConfigsResponse,
   errors: [],
 }));
 
-/** Deletes an existing mute config. */
 export interface DeleteFoldersMuteConfigsRequest {
   /** Required. Name of the mute config to delete. Its format is `organizations/{organization}/muteConfigs/{config_id}`, `folders/{folder}/muteConfigs/{config_id}`, `projects/{project}/muteConfigs/{config_id}`, `organizations/{organization}/locations/global/muteConfigs/{config_id}`, `folders/{folder}/locations/global/muteConfigs/{config_id}`, or `projects/{project}/locations/global/muteConfigs/{config_id}`. */
   name: string;
@@ -6696,13 +6695,13 @@ export const DeleteFoldersMuteConfigsResponse = Empty;
 
 export type DeleteFoldersMuteConfigsError = CommonErrors;
 
+/** Deletes an existing mute config. */
 export const deleteFoldersMuteConfigs: API.OperationMethod<DeleteFoldersMuteConfigsRequest, DeleteFoldersMuteConfigsResponse, DeleteFoldersMuteConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteFoldersMuteConfigsRequest,
   output: DeleteFoldersMuteConfigsResponse,
   errors: [],
 }));
 
-/** Gets a mute config. */
 export interface GetFoldersMuteConfigsRequest {
   /** Required. Name of the mute config to retrieve. Its format is `organizations/{organization}/muteConfigs/{config_id}`, `folders/{folder}/muteConfigs/{config_id}`, `projects/{project}/muteConfigs/{config_id}`, `organizations/{organization}/locations/global/muteConfigs/{config_id}`, `folders/{folder}/locations/global/muteConfigs/{config_id}`, or `projects/{project}/locations/global/muteConfigs/{config_id}`. */
   name: string;
@@ -6720,13 +6719,13 @@ export const GetFoldersMuteConfigsResponse = GoogleCloudSecuritycenterV1MuteConf
 
 export type GetFoldersMuteConfigsError = CommonErrors;
 
+/** Gets a mute config. */
 export const getFoldersMuteConfigs: API.OperationMethod<GetFoldersMuteConfigsRequest, GetFoldersMuteConfigsResponse, GetFoldersMuteConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersMuteConfigsRequest,
   output: GetFoldersMuteConfigsResponse,
   errors: [],
 }));
 
-/** Lists mute configs. */
 export interface ListFoldersMuteConfigsRequest {
   /** Required. The parent, which owns the collection of mute configs. Its format is `organizations/[organization_id]`, `folders/[folder_id]`, `projects/[project_id]`. */
   parent: string;
@@ -6750,7 +6749,8 @@ export const ListFoldersMuteConfigsResponse = ListMuteConfigsResponse;
 
 export type ListFoldersMuteConfigsError = CommonErrors;
 
-export const listFoldersMuteConfigs = API.makePaginated(() => ({
+/** Lists mute configs. */
+export const listFoldersMuteConfigs: API.PaginatedOperationMethod<ListFoldersMuteConfigsRequest, ListFoldersMuteConfigsResponse, ListFoldersMuteConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersMuteConfigsRequest,
   output: ListFoldersMuteConfigsResponse,
   errors: [],
@@ -6760,7 +6760,6 @@ export const listFoldersMuteConfigs = API.makePaginated(() => ({
   },
 }));
 
-/** Updates a mute config. */
 export interface PatchFoldersMuteConfigsRequest {
   /** This field will be ignored if provided on config creation. Format `organizations/{organization}/muteConfigs/{mute_config}` `folders/{folder}/muteConfigs/{mute_config}` `projects/{project}/muteConfigs/{mute_config}` `organizations/{organization}/locations/global/muteConfigs/{mute_config}` `folders/{folder}/locations/global/muteConfigs/{mute_config}` `projects/{project}/locations/global/muteConfigs/{mute_config}` */
   name: string;
@@ -6784,13 +6783,13 @@ export const PatchFoldersMuteConfigsResponse = GoogleCloudSecuritycenterV1MuteCo
 
 export type PatchFoldersMuteConfigsError = CommonErrors;
 
+/** Updates a mute config. */
 export const patchFoldersMuteConfigs: API.OperationMethod<PatchFoldersMuteConfigsRequest, PatchFoldersMuteConfigsResponse, PatchFoldersMuteConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchFoldersMuteConfigsRequest,
   output: PatchFoldersMuteConfigsResponse,
   errors: [],
 }));
 
-/** Creates a notification config. */
 export interface CreateFoldersNotificationConfigsRequest {
   /** Required. Resource name of the new notification config's parent. Its format is `organizations/[organization_id]`, `folders/[folder_id]`, or `projects/[project_id]`. */
   parent: string;
@@ -6814,13 +6813,13 @@ export const CreateFoldersNotificationConfigsResponse = NotificationConfig;
 
 export type CreateFoldersNotificationConfigsError = CommonErrors;
 
+/** Creates a notification config. */
 export const createFoldersNotificationConfigs: API.OperationMethod<CreateFoldersNotificationConfigsRequest, CreateFoldersNotificationConfigsResponse, CreateFoldersNotificationConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateFoldersNotificationConfigsRequest,
   output: CreateFoldersNotificationConfigsResponse,
   errors: [],
 }));
 
-/** Deletes a notification config. */
 export interface DeleteFoldersNotificationConfigsRequest {
   /** Required. Name of the notification config to delete. Its format is `organizations/[organization_id]/notificationConfigs/[config_id]`, `folders/[folder_id]/notificationConfigs/[config_id]`, or `projects/[project_id]/notificationConfigs/[config_id]`. */
   name: string;
@@ -6838,13 +6837,13 @@ export const DeleteFoldersNotificationConfigsResponse = Empty;
 
 export type DeleteFoldersNotificationConfigsError = CommonErrors;
 
+/** Deletes a notification config. */
 export const deleteFoldersNotificationConfigs: API.OperationMethod<DeleteFoldersNotificationConfigsRequest, DeleteFoldersNotificationConfigsResponse, DeleteFoldersNotificationConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteFoldersNotificationConfigsRequest,
   output: DeleteFoldersNotificationConfigsResponse,
   errors: [],
 }));
 
-/** Gets a notification config. */
 export interface GetFoldersNotificationConfigsRequest {
   /** Required. Name of the notification config to get. Its format is `organizations/[organization_id]/notificationConfigs/[config_id]`, `folders/[folder_id]/notificationConfigs/[config_id]`, or `projects/[project_id]/notificationConfigs/[config_id]`. */
   name: string;
@@ -6862,13 +6861,13 @@ export const GetFoldersNotificationConfigsResponse = NotificationConfig;
 
 export type GetFoldersNotificationConfigsError = CommonErrors;
 
+/** Gets a notification config. */
 export const getFoldersNotificationConfigs: API.OperationMethod<GetFoldersNotificationConfigsRequest, GetFoldersNotificationConfigsResponse, GetFoldersNotificationConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersNotificationConfigsRequest,
   output: GetFoldersNotificationConfigsResponse,
   errors: [],
 }));
 
-/** Lists notification configs. */
 export interface ListFoldersNotificationConfigsRequest {
   /** Required. The name of the parent in which to list the notification configurations. Its format is "organizations/[organization_id]", "folders/[folder_id]", or "projects/[project_id]". */
   parent: string;
@@ -6892,7 +6891,8 @@ export const ListFoldersNotificationConfigsResponse = ListNotificationConfigsRes
 
 export type ListFoldersNotificationConfigsError = CommonErrors;
 
-export const listFoldersNotificationConfigs = API.makePaginated(() => ({
+/** Lists notification configs. */
+export const listFoldersNotificationConfigs: API.PaginatedOperationMethod<ListFoldersNotificationConfigsRequest, ListFoldersNotificationConfigsResponse, ListFoldersNotificationConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersNotificationConfigsRequest,
   output: ListFoldersNotificationConfigsResponse,
   errors: [],
@@ -6902,7 +6902,6 @@ export const listFoldersNotificationConfigs = API.makePaginated(() => ({
   },
 }));
 
-/** Updates a notification config. The following update fields are allowed: description, pubsub_topic, streaming_config.filter */
 export interface PatchFoldersNotificationConfigsRequest {
   /** The relative resource name of this notification config. See: https://cloud.google.com/apis/design/resource_names#relative_resource_name Example: "organizations/{organization_id}/notificationConfigs/notify_public_bucket", "folders/{folder_id}/notificationConfigs/notify_public_bucket", or "projects/{project_id}/notificationConfigs/notify_public_bucket". */
   name: string;
@@ -6926,13 +6925,13 @@ export const PatchFoldersNotificationConfigsResponse = NotificationConfig;
 
 export type PatchFoldersNotificationConfigsError = CommonErrors;
 
+/** Updates a notification config. The following update fields are allowed: description, pubsub_topic, streaming_config.filter */
 export const patchFoldersNotificationConfigs: API.OperationMethod<PatchFoldersNotificationConfigsRequest, PatchFoldersNotificationConfigsResponse, PatchFoldersNotificationConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchFoldersNotificationConfigsRequest,
   output: PatchFoldersNotificationConfigsResponse,
   errors: [],
 }));
 
-/** Deletes an existing mute config. */
 export interface DeleteFoldersLocationsMuteConfigsRequest {
   /** Required. Name of the mute config to delete. Its format is `organizations/{organization}/muteConfigs/{config_id}`, `folders/{folder}/muteConfigs/{config_id}`, `projects/{project}/muteConfigs/{config_id}`, `organizations/{organization}/locations/global/muteConfigs/{config_id}`, `folders/{folder}/locations/global/muteConfigs/{config_id}`, or `projects/{project}/locations/global/muteConfigs/{config_id}`. */
   name: string;
@@ -6950,13 +6949,13 @@ export const DeleteFoldersLocationsMuteConfigsResponse = Empty;
 
 export type DeleteFoldersLocationsMuteConfigsError = CommonErrors;
 
+/** Deletes an existing mute config. */
 export const deleteFoldersLocationsMuteConfigs: API.OperationMethod<DeleteFoldersLocationsMuteConfigsRequest, DeleteFoldersLocationsMuteConfigsResponse, DeleteFoldersLocationsMuteConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteFoldersLocationsMuteConfigsRequest,
   output: DeleteFoldersLocationsMuteConfigsResponse,
   errors: [],
 }));
 
-/** Gets a mute config. */
 export interface GetFoldersLocationsMuteConfigsRequest {
   /** Required. Name of the mute config to retrieve. Its format is `organizations/{organization}/muteConfigs/{config_id}`, `folders/{folder}/muteConfigs/{config_id}`, `projects/{project}/muteConfigs/{config_id}`, `organizations/{organization}/locations/global/muteConfigs/{config_id}`, `folders/{folder}/locations/global/muteConfigs/{config_id}`, or `projects/{project}/locations/global/muteConfigs/{config_id}`. */
   name: string;
@@ -6974,13 +6973,13 @@ export const GetFoldersLocationsMuteConfigsResponse = GoogleCloudSecuritycenterV
 
 export type GetFoldersLocationsMuteConfigsError = CommonErrors;
 
+/** Gets a mute config. */
 export const getFoldersLocationsMuteConfigs: API.OperationMethod<GetFoldersLocationsMuteConfigsRequest, GetFoldersLocationsMuteConfigsResponse, GetFoldersLocationsMuteConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersLocationsMuteConfigsRequest,
   output: GetFoldersLocationsMuteConfigsResponse,
   errors: [],
 }));
 
-/** Updates a mute config. */
 export interface PatchFoldersLocationsMuteConfigsRequest {
   /** This field will be ignored if provided on config creation. Format `organizations/{organization}/muteConfigs/{mute_config}` `folders/{folder}/muteConfigs/{mute_config}` `projects/{project}/muteConfigs/{mute_config}` `organizations/{organization}/locations/global/muteConfigs/{mute_config}` `folders/{folder}/locations/global/muteConfigs/{mute_config}` `projects/{project}/locations/global/muteConfigs/{mute_config}` */
   name: string;
@@ -7004,13 +7003,13 @@ export const PatchFoldersLocationsMuteConfigsResponse = GoogleCloudSecuritycente
 
 export type PatchFoldersLocationsMuteConfigsError = CommonErrors;
 
+/** Updates a mute config. */
 export const patchFoldersLocationsMuteConfigs: API.OperationMethod<PatchFoldersLocationsMuteConfigsRequest, PatchFoldersLocationsMuteConfigsResponse, PatchFoldersLocationsMuteConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchFoldersLocationsMuteConfigsRequest,
   output: PatchFoldersLocationsMuteConfigsResponse,
   errors: [],
 }));
 
-/** Gets a BigQuery export. */
 export interface GetFoldersBigQueryExportsRequest {
   /** Required. Name of the BigQuery export to retrieve. Its format is `organizations/{organization}/bigQueryExports/{export_id}`, `folders/{folder}/bigQueryExports/{export_id}`, or `projects/{project}/bigQueryExports/{export_id}` */
   name: string;
@@ -7028,13 +7027,13 @@ export const GetFoldersBigQueryExportsResponse = GoogleCloudSecuritycenterV1BigQ
 
 export type GetFoldersBigQueryExportsError = CommonErrors;
 
+/** Gets a BigQuery export. */
 export const getFoldersBigQueryExports: API.OperationMethod<GetFoldersBigQueryExportsRequest, GetFoldersBigQueryExportsResponse, GetFoldersBigQueryExportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersBigQueryExportsRequest,
   output: GetFoldersBigQueryExportsResponse,
   errors: [],
 }));
 
-/** Creates a BigQuery export. */
 export interface CreateFoldersBigQueryExportsRequest {
   /** Required. The name of the parent resource of the new BigQuery export. Its format is `organizations/[organization_id]`, `folders/[folder_id]`, or `projects/[project_id]`. */
   parent: string;
@@ -7058,13 +7057,13 @@ export const CreateFoldersBigQueryExportsResponse = GoogleCloudSecuritycenterV1B
 
 export type CreateFoldersBigQueryExportsError = CommonErrors;
 
+/** Creates a BigQuery export. */
 export const createFoldersBigQueryExports: API.OperationMethod<CreateFoldersBigQueryExportsRequest, CreateFoldersBigQueryExportsResponse, CreateFoldersBigQueryExportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateFoldersBigQueryExportsRequest,
   output: CreateFoldersBigQueryExportsResponse,
   errors: [],
 }));
 
-/** Deletes an existing BigQuery export. */
 export interface DeleteFoldersBigQueryExportsRequest {
   /** Required. The name of the BigQuery export to delete. Its format is `organizations/{organization}/bigQueryExports/{export_id}`, `folders/{folder}/bigQueryExports/{export_id}`, or `projects/{project}/bigQueryExports/{export_id}` */
   name: string;
@@ -7082,13 +7081,13 @@ export const DeleteFoldersBigQueryExportsResponse = Empty;
 
 export type DeleteFoldersBigQueryExportsError = CommonErrors;
 
+/** Deletes an existing BigQuery export. */
 export const deleteFoldersBigQueryExports: API.OperationMethod<DeleteFoldersBigQueryExportsRequest, DeleteFoldersBigQueryExportsResponse, DeleteFoldersBigQueryExportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteFoldersBigQueryExportsRequest,
   output: DeleteFoldersBigQueryExportsResponse,
   errors: [],
 }));
 
-/** Updates a BigQuery export. */
 export interface PatchFoldersBigQueryExportsRequest {
   /** The relative resource name of this export. See: https://cloud.google.com/apis/design/resource_names#relative_resource_name. Example format: "organizations/{organization_id}/bigQueryExports/{export_id}" Example format: "folders/{folder_id}/bigQueryExports/{export_id}" Example format: "projects/{project_id}/bigQueryExports/{export_id}" This field is provided in responses, and is ignored when provided in create requests. */
   name: string;
@@ -7112,13 +7111,13 @@ export const PatchFoldersBigQueryExportsResponse = GoogleCloudSecuritycenterV1Bi
 
 export type PatchFoldersBigQueryExportsError = CommonErrors;
 
+/** Updates a BigQuery export. */
 export const patchFoldersBigQueryExports: API.OperationMethod<PatchFoldersBigQueryExportsRequest, PatchFoldersBigQueryExportsResponse, PatchFoldersBigQueryExportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchFoldersBigQueryExportsRequest,
   output: PatchFoldersBigQueryExportsResponse,
   errors: [],
 }));
 
-/** Lists BigQuery exports. Note that when requesting BigQuery exports at a given level all exports under that level are also returned e.g. if requesting BigQuery exports under a folder, then all BigQuery exports immediately under the folder plus the ones created under the projects within the folder are returned. */
 export interface ListFoldersBigQueryExportsRequest {
   /** Required. The parent, which owns the collection of BigQuery exports. Its format is `organizations/[organization_id]`, `folders/[folder_id]`, `projects/[project_id]`. */
   parent: string;
@@ -7142,7 +7141,8 @@ export const ListFoldersBigQueryExportsResponse = ListBigQueryExportsResponse;
 
 export type ListFoldersBigQueryExportsError = CommonErrors;
 
-export const listFoldersBigQueryExports = API.makePaginated(() => ({
+/** Lists BigQuery exports. Note that when requesting BigQuery exports at a given level all exports under that level are also returned e.g. if requesting BigQuery exports under a folder, then all BigQuery exports immediately under the folder plus the ones created under the projects within the folder are returned. */
+export const listFoldersBigQueryExports: API.PaginatedOperationMethod<ListFoldersBigQueryExportsRequest, ListFoldersBigQueryExportsResponse, ListFoldersBigQueryExportsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersBigQueryExportsRequest,
   output: ListFoldersBigQueryExportsResponse,
   errors: [],
@@ -7152,7 +7152,6 @@ export const listFoldersBigQueryExports = API.makePaginated(() => ({
   },
 }));
 
-/** Filters an organization's assets and groups them by their specified properties. */
 export interface GroupFoldersAssetsRequest {
   /** Required. The name of the parent to group the assets by. Its format is `organizations/[organization_id]`, `folders/[folder_id]`, or `projects/[project_id]`. */
   parent: string;
@@ -7173,13 +7172,13 @@ export const GroupFoldersAssetsResponse = GroupAssetsResponse;
 
 export type GroupFoldersAssetsError = CommonErrors;
 
+/** Filters an organization's assets and groups them by their specified properties. */
 export const groupFoldersAssets: API.OperationMethod<GroupFoldersAssetsRequest, GroupFoldersAssetsResponse, GroupFoldersAssetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GroupFoldersAssetsRequest,
   output: GroupFoldersAssetsResponse,
   errors: [],
 }));
 
-/** Lists an organization's assets. */
 export interface ListFoldersAssetsRequest {
   /** Required. The name of the parent resource that contains the assets. The value that you can specify on parent depends on the method in which you specify parent. You can specify one of the following values: `organizations/[organization_id]`, `folders/[folder_id]`, or `projects/[project_id]`. */
   parent: string;
@@ -7218,7 +7217,8 @@ export const ListFoldersAssetsResponse = ListAssetsResponse;
 
 export type ListFoldersAssetsError = CommonErrors;
 
-export const listFoldersAssets = API.makePaginated(() => ({
+/** Lists an organization's assets. */
+export const listFoldersAssets: API.PaginatedOperationMethod<ListFoldersAssetsRequest, ListFoldersAssetsResponse, ListFoldersAssetsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersAssetsRequest,
   output: ListFoldersAssetsResponse,
   errors: [],
@@ -7228,7 +7228,6 @@ export const listFoldersAssets = API.makePaginated(() => ({
   },
 }));
 
-/** Updates security marks. */
 export interface UpdateSecurityMarksFoldersAssetsRequest {
   /** The relative resource name of the SecurityMarks. See: https://cloud.google.com/apis/design/resource_names#relative_resource_name Examples: "organizations/{organization_id}/assets/{asset_id}/securityMarks" "organizations/{organization_id}/sources/{source_id}/findings/{finding_id}/securityMarks". */
   name: string;
@@ -7255,13 +7254,13 @@ export const UpdateSecurityMarksFoldersAssetsResponse = SecurityMarks;
 
 export type UpdateSecurityMarksFoldersAssetsError = CommonErrors;
 
+/** Updates security marks. */
 export const updateSecurityMarksFoldersAssets: API.OperationMethod<UpdateSecurityMarksFoldersAssetsRequest, UpdateSecurityMarksFoldersAssetsResponse, UpdateSecurityMarksFoldersAssetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateSecurityMarksFoldersAssetsRequest,
   output: UpdateSecurityMarksFoldersAssetsResponse,
   errors: [],
 }));
 
-/** Lists all sources belonging to an organization. */
 export interface ListFoldersSourcesRequest {
   /** Required. Resource name of the parent of sources to list. Its format should be `organizations/[organization_id]`, `folders/[folder_id]`, or `projects/[project_id]`. */
   parent: string;
@@ -7285,7 +7284,8 @@ export const ListFoldersSourcesResponse = ListSourcesResponse;
 
 export type ListFoldersSourcesError = CommonErrors;
 
-export const listFoldersSources = API.makePaginated(() => ({
+/** Lists all sources belonging to an organization. */
+export const listFoldersSources: API.PaginatedOperationMethod<ListFoldersSourcesRequest, ListFoldersSourcesResponse, ListFoldersSourcesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersSourcesRequest,
   output: ListFoldersSourcesResponse,
   errors: [],
@@ -7295,7 +7295,6 @@ export const listFoldersSources = API.makePaginated(() => ({
   },
 }));
 
-/** Filters an organization or source's findings and groups them by their specified properties. To group across all sources provide a `-` as the source id. Example: /v1/organizations/{organization_id}/sources/-/findings, /v1/folders/{folder_id}/sources/-/findings, /v1/projects/{project_id}/sources/-/findings */
 export interface GroupFoldersSourcesFindingsRequest {
   /** Required. Name of the source to groupBy. Its format is `organizations/[organization_id]/sources/[source_id]`, `folders/[folder_id]/sources/[source_id]`, or `projects/[project_id]/sources/[source_id]`. To groupBy across all sources provide a source_id of `-`. For example: `organizations/{organization_id}/sources/-, folders/{folder_id}/sources/-`, or `projects/{project_id}/sources/-` */
   parent: string;
@@ -7316,13 +7315,13 @@ export const GroupFoldersSourcesFindingsResponse = GroupFindingsResponse;
 
 export type GroupFoldersSourcesFindingsError = CommonErrors;
 
+/** Filters an organization or source's findings and groups them by their specified properties. To group across all sources provide a `-` as the source id. Example: /v1/organizations/{organization_id}/sources/-/findings, /v1/folders/{folder_id}/sources/-/findings, /v1/projects/{project_id}/sources/-/findings */
 export const groupFoldersSourcesFindings: API.OperationMethod<GroupFoldersSourcesFindingsRequest, GroupFoldersSourcesFindingsResponse, GroupFoldersSourcesFindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GroupFoldersSourcesFindingsRequest,
   output: GroupFoldersSourcesFindingsResponse,
   errors: [],
 }));
 
-/** Lists an organization or source's findings. To list across all sources provide a `-` as the source id. Example: /v1/organizations/{organization_id}/sources/-/findings */
 export interface ListFoldersSourcesFindingsRequest {
   /** Required. Name of the source the findings belong to. Its format is `organizations/[organization_id]/sources/[source_id]`, `folders/[folder_id]/sources/[source_id]`, or `projects/[project_id]/sources/[source_id]`. To list across all sources provide a source_id of `-`. For example: `organizations/{organization_id}/sources/-`, `folders/{folder_id}/sources/-` or `projects/{projects_id}/sources/-` */
   parent: string;
@@ -7361,7 +7360,8 @@ export const ListFoldersSourcesFindingsResponse = ListFindingsResponse;
 
 export type ListFoldersSourcesFindingsError = CommonErrors;
 
-export const listFoldersSourcesFindings = API.makePaginated(() => ({
+/** Lists an organization or source's findings. To list across all sources provide a `-` as the source id. Example: /v1/organizations/{organization_id}/sources/-/findings */
+export const listFoldersSourcesFindings: API.PaginatedOperationMethod<ListFoldersSourcesFindingsRequest, ListFoldersSourcesFindingsResponse, ListFoldersSourcesFindingsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersSourcesFindingsRequest,
   output: ListFoldersSourcesFindingsResponse,
   errors: [],
@@ -7371,7 +7371,6 @@ export const listFoldersSourcesFindings = API.makePaginated(() => ({
   },
 }));
 
-/** Updates the state of a finding. */
 export interface SetStateFoldersSourcesFindingsRequest {
   /** Required. The [relative resource name](https://cloud.google.com/apis/design/resource_names#relative_resource_name) of the finding. Example: `organizations/{organization_id}/sources/{source_id}/findings/{finding_id}`, `folders/{folder_id}/sources/{source_id}/findings/{finding_id}`, `projects/{project_id}/sources/{source_id}/findings/{finding_id}`. */
   name: string;
@@ -7392,13 +7391,13 @@ export const SetStateFoldersSourcesFindingsResponse = Finding;
 
 export type SetStateFoldersSourcesFindingsError = CommonErrors;
 
+/** Updates the state of a finding. */
 export const setStateFoldersSourcesFindings: API.OperationMethod<SetStateFoldersSourcesFindingsRequest, SetStateFoldersSourcesFindingsResponse, SetStateFoldersSourcesFindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetStateFoldersSourcesFindingsRequest,
   output: SetStateFoldersSourcesFindingsResponse,
   errors: [],
 }));
 
-/** Updates the mute state of a finding. */
 export interface SetMuteFoldersSourcesFindingsRequest {
   /** Required. The [relative resource name](https://cloud.google.com/apis/design/resource_names#relative_resource_name) of the finding. Example: `organizations/{organization_id}/sources/{source_id}/findings/{finding_id}`, `folders/{folder_id}/sources/{source_id}/findings/{finding_id}`, `projects/{project_id}/sources/{source_id}/findings/{finding_id}`. */
   name: string;
@@ -7419,13 +7418,13 @@ export const SetMuteFoldersSourcesFindingsResponse = Finding;
 
 export type SetMuteFoldersSourcesFindingsError = CommonErrors;
 
+/** Updates the mute state of a finding. */
 export const setMuteFoldersSourcesFindings: API.OperationMethod<SetMuteFoldersSourcesFindingsRequest, SetMuteFoldersSourcesFindingsResponse, SetMuteFoldersSourcesFindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetMuteFoldersSourcesFindingsRequest,
   output: SetMuteFoldersSourcesFindingsResponse,
   errors: [],
 }));
 
-/** Creates or updates a finding. The corresponding source must exist for a finding creation to succeed. */
 export interface PatchFoldersSourcesFindingsRequest {
   /** The [relative resource name](https://cloud.google.com/apis/design/resource_names#relative_resource_name) of the finding. Example: "organizations/{organization_id}/sources/{source_id}/findings/{finding_id}", "folders/{folder_id}/sources/{source_id}/findings/{finding_id}", "projects/{project_id}/sources/{source_id}/findings/{finding_id}". */
   name: string;
@@ -7449,13 +7448,13 @@ export const PatchFoldersSourcesFindingsResponse = Finding;
 
 export type PatchFoldersSourcesFindingsError = CommonErrors;
 
+/** Creates or updates a finding. The corresponding source must exist for a finding creation to succeed. */
 export const patchFoldersSourcesFindings: API.OperationMethod<PatchFoldersSourcesFindingsRequest, PatchFoldersSourcesFindingsResponse, PatchFoldersSourcesFindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchFoldersSourcesFindingsRequest,
   output: PatchFoldersSourcesFindingsResponse,
   errors: [],
 }));
 
-/** Updates security marks. */
 export interface UpdateSecurityMarksFoldersSourcesFindingsRequest {
   /** The relative resource name of the SecurityMarks. See: https://cloud.google.com/apis/design/resource_names#relative_resource_name Examples: "organizations/{organization_id}/assets/{asset_id}/securityMarks" "organizations/{organization_id}/sources/{source_id}/findings/{finding_id}/securityMarks". */
   name: string;
@@ -7482,13 +7481,13 @@ export const UpdateSecurityMarksFoldersSourcesFindingsResponse = SecurityMarks;
 
 export type UpdateSecurityMarksFoldersSourcesFindingsError = CommonErrors;
 
+/** Updates security marks. */
 export const updateSecurityMarksFoldersSourcesFindings: API.OperationMethod<UpdateSecurityMarksFoldersSourcesFindingsRequest, UpdateSecurityMarksFoldersSourcesFindingsResponse, UpdateSecurityMarksFoldersSourcesFindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateSecurityMarksFoldersSourcesFindingsRequest,
   output: UpdateSecurityMarksFoldersSourcesFindingsResponse,
   errors: [],
 }));
 
-/** Updates external system. This is for a given finding. */
 export interface PatchFoldersSourcesFindingsExternalSystemsRequest {
   /** Full resource name of the external system, for example: "organizations/1234/sources/5678/findings/123456/externalSystems/jira", "folders/1234/sources/5678/findings/123456/externalSystems/jira", "projects/1234/sources/5678/findings/123456/externalSystems/jira" */
   name: string;
@@ -7512,13 +7511,13 @@ export const PatchFoldersSourcesFindingsExternalSystemsResponse = GoogleCloudSec
 
 export type PatchFoldersSourcesFindingsExternalSystemsError = CommonErrors;
 
+/** Updates external system. This is for a given finding. */
 export const patchFoldersSourcesFindingsExternalSystems: API.OperationMethod<PatchFoldersSourcesFindingsExternalSystemsRequest, PatchFoldersSourcesFindingsExternalSystemsResponse, PatchFoldersSourcesFindingsExternalSystemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchFoldersSourcesFindingsExternalSystemsRequest,
   output: PatchFoldersSourcesFindingsExternalSystemsResponse,
   errors: [],
 }));
 
-/** Validates the given Event Threat Detection custom module. */
 export interface ValidateCustomModuleFoldersEventThreatDetectionSettingsRequest {
   /** Required. Resource name of the parent to validate the Custom Module under. Its format is: * `organizations/{organization}/eventThreatDetectionSettings`. * `folders/{folder}/eventThreatDetectionSettings`. * `projects/{project}/eventThreatDetectionSettings`. */
   parent: string;
@@ -7539,13 +7538,13 @@ export const ValidateCustomModuleFoldersEventThreatDetectionSettingsResponse = V
 
 export type ValidateCustomModuleFoldersEventThreatDetectionSettingsError = CommonErrors;
 
+/** Validates the given Event Threat Detection custom module. */
 export const validateCustomModuleFoldersEventThreatDetectionSettings: API.OperationMethod<ValidateCustomModuleFoldersEventThreatDetectionSettingsRequest, ValidateCustomModuleFoldersEventThreatDetectionSettingsResponse, ValidateCustomModuleFoldersEventThreatDetectionSettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ValidateCustomModuleFoldersEventThreatDetectionSettingsRequest,
   output: ValidateCustomModuleFoldersEventThreatDetectionSettingsResponse,
   errors: [],
 }));
 
-/** Creates a resident Event Threat Detection custom module at the scope of the given Resource Manager parent, and also creates inherited custom modules for all descendants of the given parent. These modules are enabled by default. */
 export interface CreateFoldersEventThreatDetectionSettingsCustomModulesRequest {
   /** Required. The new custom module's parent. Its format is: * `organizations/{organization}/eventThreatDetectionSettings`. * `folders/{folder}/eventThreatDetectionSettings`. * `projects/{project}/eventThreatDetectionSettings`. */
   parent: string;
@@ -7566,13 +7565,13 @@ export const CreateFoldersEventThreatDetectionSettingsCustomModulesResponse = Ev
 
 export type CreateFoldersEventThreatDetectionSettingsCustomModulesError = CommonErrors;
 
+/** Creates a resident Event Threat Detection custom module at the scope of the given Resource Manager parent, and also creates inherited custom modules for all descendants of the given parent. These modules are enabled by default. */
 export const createFoldersEventThreatDetectionSettingsCustomModules: API.OperationMethod<CreateFoldersEventThreatDetectionSettingsCustomModulesRequest, CreateFoldersEventThreatDetectionSettingsCustomModulesResponse, CreateFoldersEventThreatDetectionSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateFoldersEventThreatDetectionSettingsCustomModulesRequest,
   output: CreateFoldersEventThreatDetectionSettingsCustomModulesResponse,
   errors: [],
 }));
 
-/** Deletes the specified Event Threat Detection custom module and all of its descendants in the Resource Manager hierarchy. This method is only supported for resident custom modules. */
 export interface DeleteFoldersEventThreatDetectionSettingsCustomModulesRequest {
   /** Required. Name of the custom module to delete. Its format is: * `organizations/{organization}/eventThreatDetectionSettings/customModules/{module}`. * `folders/{folder}/eventThreatDetectionSettings/customModules/{module}`. * `projects/{project}/eventThreatDetectionSettings/customModules/{module}`. */
   name: string;
@@ -7590,13 +7589,13 @@ export const DeleteFoldersEventThreatDetectionSettingsCustomModulesResponse = Em
 
 export type DeleteFoldersEventThreatDetectionSettingsCustomModulesError = CommonErrors;
 
+/** Deletes the specified Event Threat Detection custom module and all of its descendants in the Resource Manager hierarchy. This method is only supported for resident custom modules. */
 export const deleteFoldersEventThreatDetectionSettingsCustomModules: API.OperationMethod<DeleteFoldersEventThreatDetectionSettingsCustomModulesRequest, DeleteFoldersEventThreatDetectionSettingsCustomModulesResponse, DeleteFoldersEventThreatDetectionSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteFoldersEventThreatDetectionSettingsCustomModulesRequest,
   output: DeleteFoldersEventThreatDetectionSettingsCustomModulesResponse,
   errors: [],
 }));
 
-/** Gets an Event Threat Detection custom module. */
 export interface GetFoldersEventThreatDetectionSettingsCustomModulesRequest {
   /** Required. Name of the custom module to get. Its format is: * `organizations/{organization}/eventThreatDetectionSettings/customModules/{module}`. * `folders/{folder}/eventThreatDetectionSettings/customModules/{module}`. * `projects/{project}/eventThreatDetectionSettings/customModules/{module}`. */
   name: string;
@@ -7614,13 +7613,13 @@ export const GetFoldersEventThreatDetectionSettingsCustomModulesResponse = Event
 
 export type GetFoldersEventThreatDetectionSettingsCustomModulesError = CommonErrors;
 
+/** Gets an Event Threat Detection custom module. */
 export const getFoldersEventThreatDetectionSettingsCustomModules: API.OperationMethod<GetFoldersEventThreatDetectionSettingsCustomModulesRequest, GetFoldersEventThreatDetectionSettingsCustomModulesResponse, GetFoldersEventThreatDetectionSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersEventThreatDetectionSettingsCustomModulesRequest,
   output: GetFoldersEventThreatDetectionSettingsCustomModulesResponse,
   errors: [],
 }));
 
-/** Lists all resident Event Threat Detection custom modules under the given Resource Manager parent and its descendants. */
 export interface ListDescendantFoldersEventThreatDetectionSettingsCustomModulesRequest {
   /** Required. Name of the parent to list custom modules under. Its format is: * `organizations/{organization}/eventThreatDetectionSettings`. * `folders/{folder}/eventThreatDetectionSettings`. * `projects/{project}/eventThreatDetectionSettings`. */
   parent: string;
@@ -7644,7 +7643,8 @@ export const ListDescendantFoldersEventThreatDetectionSettingsCustomModulesRespo
 
 export type ListDescendantFoldersEventThreatDetectionSettingsCustomModulesError = CommonErrors;
 
-export const listDescendantFoldersEventThreatDetectionSettingsCustomModules = API.makePaginated(() => ({
+/** Lists all resident Event Threat Detection custom modules under the given Resource Manager parent and its descendants. */
+export const listDescendantFoldersEventThreatDetectionSettingsCustomModules: API.PaginatedOperationMethod<ListDescendantFoldersEventThreatDetectionSettingsCustomModulesRequest, ListDescendantFoldersEventThreatDetectionSettingsCustomModulesResponse, ListDescendantFoldersEventThreatDetectionSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListDescendantFoldersEventThreatDetectionSettingsCustomModulesRequest,
   output: ListDescendantFoldersEventThreatDetectionSettingsCustomModulesResponse,
   errors: [],
@@ -7654,7 +7654,6 @@ export const listDescendantFoldersEventThreatDetectionSettingsCustomModules = AP
   },
 }));
 
-/** Lists all Event Threat Detection custom modules for the given Resource Manager parent. This includes resident modules defined at the scope of the parent along with modules inherited from ancestors. */
 export interface ListFoldersEventThreatDetectionSettingsCustomModulesRequest {
   /** Required. Name of the parent to list custom modules under. Its format is: * `organizations/{organization}/eventThreatDetectionSettings`. * `folders/{folder}/eventThreatDetectionSettings`. * `projects/{project}/eventThreatDetectionSettings`. */
   parent: string;
@@ -7678,7 +7677,8 @@ export const ListFoldersEventThreatDetectionSettingsCustomModulesResponse = List
 
 export type ListFoldersEventThreatDetectionSettingsCustomModulesError = CommonErrors;
 
-export const listFoldersEventThreatDetectionSettingsCustomModules = API.makePaginated(() => ({
+/** Lists all Event Threat Detection custom modules for the given Resource Manager parent. This includes resident modules defined at the scope of the parent along with modules inherited from ancestors. */
+export const listFoldersEventThreatDetectionSettingsCustomModules: API.PaginatedOperationMethod<ListFoldersEventThreatDetectionSettingsCustomModulesRequest, ListFoldersEventThreatDetectionSettingsCustomModulesResponse, ListFoldersEventThreatDetectionSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersEventThreatDetectionSettingsCustomModulesRequest,
   output: ListFoldersEventThreatDetectionSettingsCustomModulesResponse,
   errors: [],
@@ -7688,7 +7688,6 @@ export const listFoldersEventThreatDetectionSettingsCustomModules = API.makePagi
   },
 }));
 
-/** Updates the Event Threat Detection custom module with the given name based on the given update mask. Updating the enablement state is supported for both resident and inherited modules (though resident modules cannot have an enablement state of "inherited"). Updating the display name or configuration of a module is supported for resident modules only. The type of a module cannot be changed. */
 export interface PatchFoldersEventThreatDetectionSettingsCustomModulesRequest {
   /** Immutable. The resource name of the Event Threat Detection custom module. Its format is: * `organizations/{organization}/eventThreatDetectionSettings/customModules/{module}`. * `folders/{folder}/eventThreatDetectionSettings/customModules/{module}`. * `projects/{project}/eventThreatDetectionSettings/customModules/{module}`. */
   name: string;
@@ -7712,13 +7711,13 @@ export const PatchFoldersEventThreatDetectionSettingsCustomModulesResponse = Eve
 
 export type PatchFoldersEventThreatDetectionSettingsCustomModulesError = CommonErrors;
 
+/** Updates the Event Threat Detection custom module with the given name based on the given update mask. Updating the enablement state is supported for both resident and inherited modules (though resident modules cannot have an enablement state of "inherited"). Updating the display name or configuration of a module is supported for resident modules only. The type of a module cannot be changed. */
 export const patchFoldersEventThreatDetectionSettingsCustomModules: API.OperationMethod<PatchFoldersEventThreatDetectionSettingsCustomModulesRequest, PatchFoldersEventThreatDetectionSettingsCustomModulesResponse, PatchFoldersEventThreatDetectionSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchFoldersEventThreatDetectionSettingsCustomModulesRequest,
   output: PatchFoldersEventThreatDetectionSettingsCustomModulesResponse,
   errors: [],
 }));
 
-/** Gets an effective Event Threat Detection custom module at the given level. */
 export interface GetFoldersEventThreatDetectionSettingsEffectiveCustomModulesRequest {
   /** Required. The resource name of the effective Event Threat Detection custom module. Its format is: * `organizations/{organization}/eventThreatDetectionSettings/effectiveCustomModules/{module}`. * `folders/{folder}/eventThreatDetectionSettings/effectiveCustomModules/{module}`. * `projects/{project}/eventThreatDetectionSettings/effectiveCustomModules/{module}`. */
   name: string;
@@ -7736,13 +7735,13 @@ export const GetFoldersEventThreatDetectionSettingsEffectiveCustomModulesRespons
 
 export type GetFoldersEventThreatDetectionSettingsEffectiveCustomModulesError = CommonErrors;
 
+/** Gets an effective Event Threat Detection custom module at the given level. */
 export const getFoldersEventThreatDetectionSettingsEffectiveCustomModules: API.OperationMethod<GetFoldersEventThreatDetectionSettingsEffectiveCustomModulesRequest, GetFoldersEventThreatDetectionSettingsEffectiveCustomModulesResponse, GetFoldersEventThreatDetectionSettingsEffectiveCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersEventThreatDetectionSettingsEffectiveCustomModulesRequest,
   output: GetFoldersEventThreatDetectionSettingsEffectiveCustomModulesResponse,
   errors: [],
 }));
 
-/** Lists all effective Event Threat Detection custom modules for the given parent. This includes resident modules defined at the scope of the parent along with modules inherited from its ancestors. */
 export interface ListFoldersEventThreatDetectionSettingsEffectiveCustomModulesRequest {
   /** Required. Name of the parent to list custom modules for. Its format is: * `organizations/{organization}/eventThreatDetectionSettings`. * `folders/{folder}/eventThreatDetectionSettings`. * `projects/{project}/eventThreatDetectionSettings`. */
   parent: string;
@@ -7766,7 +7765,8 @@ export const ListFoldersEventThreatDetectionSettingsEffectiveCustomModulesRespon
 
 export type ListFoldersEventThreatDetectionSettingsEffectiveCustomModulesError = CommonErrors;
 
-export const listFoldersEventThreatDetectionSettingsEffectiveCustomModules = API.makePaginated(() => ({
+/** Lists all effective Event Threat Detection custom modules for the given parent. This includes resident modules defined at the scope of the parent along with modules inherited from its ancestors. */
+export const listFoldersEventThreatDetectionSettingsEffectiveCustomModules: API.PaginatedOperationMethod<ListFoldersEventThreatDetectionSettingsEffectiveCustomModulesRequest, ListFoldersEventThreatDetectionSettingsEffectiveCustomModulesResponse, ListFoldersEventThreatDetectionSettingsEffectiveCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersEventThreatDetectionSettingsEffectiveCustomModulesRequest,
   output: ListFoldersEventThreatDetectionSettingsEffectiveCustomModulesResponse,
   errors: [],
@@ -7776,7 +7776,6 @@ export const listFoldersEventThreatDetectionSettingsEffectiveCustomModules = API
   },
 }));
 
-/** Kicks off an LRO to bulk mute findings for a parent based on a filter. The parent can be either an organization, folder or project. The findings matched by the filter will be muted after the LRO is done. */
 export interface BulkMuteProjectsFindingsRequest {
   /** Required. The parent, at which bulk action needs to be applied. Its format is `organizations/[organization_id]`, `folders/[folder_id]`, `projects/[project_id]`. */
   parent: string;
@@ -7797,13 +7796,13 @@ export const BulkMuteProjectsFindingsResponse = Operation;
 
 export type BulkMuteProjectsFindingsError = CommonErrors;
 
+/** Kicks off an LRO to bulk mute findings for a parent based on a filter. The parent can be either an organization, folder or project. The findings matched by the filter will be muted after the LRO is done. */
 export const bulkMuteProjectsFindings: API.OperationMethod<BulkMuteProjectsFindingsRequest, BulkMuteProjectsFindingsResponse, BulkMuteProjectsFindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BulkMuteProjectsFindingsRequest,
   output: BulkMuteProjectsFindingsResponse,
   errors: [],
 }));
 
-/** Creates a resident SecurityHealthAnalyticsCustomModule at the scope of the given CRM parent, and also creates inherited SecurityHealthAnalyticsCustomModules for all CRM descendants of the given parent. These modules are enabled by default. */
 export interface CreateProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest {
   /** Required. Resource name of the new custom module's parent. Its format is `organizations/{organization}/securityHealthAnalyticsSettings`, `folders/{folder}/securityHealthAnalyticsSettings`, or `projects/{project}/securityHealthAnalyticsSettings` */
   parent: string;
@@ -7824,13 +7823,13 @@ export const CreateProjectsSecurityHealthAnalyticsSettingsCustomModulesResponse 
 
 export type CreateProjectsSecurityHealthAnalyticsSettingsCustomModulesError = CommonErrors;
 
+/** Creates a resident SecurityHealthAnalyticsCustomModule at the scope of the given CRM parent, and also creates inherited SecurityHealthAnalyticsCustomModules for all CRM descendants of the given parent. These modules are enabled by default. */
 export const createProjectsSecurityHealthAnalyticsSettingsCustomModules: API.OperationMethod<CreateProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest, CreateProjectsSecurityHealthAnalyticsSettingsCustomModulesResponse, CreateProjectsSecurityHealthAnalyticsSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: CreateProjectsSecurityHealthAnalyticsSettingsCustomModulesResponse,
   errors: [],
 }));
 
-/** Deletes the specified SecurityHealthAnalyticsCustomModule and all of its descendants in the CRM hierarchy. This method is only supported for resident custom modules. */
 export interface DeleteProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest {
   /** Required. Name of the custom module to delete. Its format is `organizations/{organization}/securityHealthAnalyticsSettings/customModules/{customModule}`, `folders/{folder}/securityHealthAnalyticsSettings/customModules/{customModule}`, or `projects/{project}/securityHealthAnalyticsSettings/customModules/{customModule}` */
   name: string;
@@ -7848,13 +7847,13 @@ export const DeleteProjectsSecurityHealthAnalyticsSettingsCustomModulesResponse 
 
 export type DeleteProjectsSecurityHealthAnalyticsSettingsCustomModulesError = CommonErrors;
 
+/** Deletes the specified SecurityHealthAnalyticsCustomModule and all of its descendants in the CRM hierarchy. This method is only supported for resident custom modules. */
 export const deleteProjectsSecurityHealthAnalyticsSettingsCustomModules: API.OperationMethod<DeleteProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest, DeleteProjectsSecurityHealthAnalyticsSettingsCustomModulesResponse, DeleteProjectsSecurityHealthAnalyticsSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: DeleteProjectsSecurityHealthAnalyticsSettingsCustomModulesResponse,
   errors: [],
 }));
 
-/** Retrieves a SecurityHealthAnalyticsCustomModule. */
 export interface GetProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest {
   /** Required. Name of the custom module to get. Its format is `organizations/{organization}/securityHealthAnalyticsSettings/customModules/{customModule}`, `folders/{folder}/securityHealthAnalyticsSettings/customModules/{customModule}`, or `projects/{project}/securityHealthAnalyticsSettings/customModules/{customModule}` */
   name: string;
@@ -7872,13 +7871,13 @@ export const GetProjectsSecurityHealthAnalyticsSettingsCustomModulesResponse = G
 
 export type GetProjectsSecurityHealthAnalyticsSettingsCustomModulesError = CommonErrors;
 
+/** Retrieves a SecurityHealthAnalyticsCustomModule. */
 export const getProjectsSecurityHealthAnalyticsSettingsCustomModules: API.OperationMethod<GetProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest, GetProjectsSecurityHealthAnalyticsSettingsCustomModulesResponse, GetProjectsSecurityHealthAnalyticsSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: GetProjectsSecurityHealthAnalyticsSettingsCustomModulesResponse,
   errors: [],
 }));
 
-/** Returns a list of all resident SecurityHealthAnalyticsCustomModules under the given CRM parent and all of the parent’s CRM descendants. */
 export interface ListDescendantProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest {
   /** Required. Name of parent to list descendant custom modules. Its format is `organizations/{organization}/securityHealthAnalyticsSettings`, `folders/{folder}/securityHealthAnalyticsSettings`, or `projects/{project}/securityHealthAnalyticsSettings` */
   parent: string;
@@ -7902,7 +7901,8 @@ export const ListDescendantProjectsSecurityHealthAnalyticsSettingsCustomModulesR
 
 export type ListDescendantProjectsSecurityHealthAnalyticsSettingsCustomModulesError = CommonErrors;
 
-export const listDescendantProjectsSecurityHealthAnalyticsSettingsCustomModules = API.makePaginated(() => ({
+/** Returns a list of all resident SecurityHealthAnalyticsCustomModules under the given CRM parent and all of the parent’s CRM descendants. */
+export const listDescendantProjectsSecurityHealthAnalyticsSettingsCustomModules: API.PaginatedOperationMethod<ListDescendantProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest, ListDescendantProjectsSecurityHealthAnalyticsSettingsCustomModulesResponse, ListDescendantProjectsSecurityHealthAnalyticsSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListDescendantProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: ListDescendantProjectsSecurityHealthAnalyticsSettingsCustomModulesResponse,
   errors: [],
@@ -7912,7 +7912,6 @@ export const listDescendantProjectsSecurityHealthAnalyticsSettingsCustomModules 
   },
 }));
 
-/** Returns a list of all SecurityHealthAnalyticsCustomModules for the given parent. This includes resident modules defined at the scope of the parent, and inherited modules, inherited from CRM ancestors. */
 export interface ListProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest {
   /** Required. Name of parent to list custom modules. Its format is `organizations/{organization}/securityHealthAnalyticsSettings`, `folders/{folder}/securityHealthAnalyticsSettings`, or `projects/{project}/securityHealthAnalyticsSettings` */
   parent: string;
@@ -7936,7 +7935,8 @@ export const ListProjectsSecurityHealthAnalyticsSettingsCustomModulesResponse = 
 
 export type ListProjectsSecurityHealthAnalyticsSettingsCustomModulesError = CommonErrors;
 
-export const listProjectsSecurityHealthAnalyticsSettingsCustomModules = API.makePaginated(() => ({
+/** Returns a list of all SecurityHealthAnalyticsCustomModules for the given parent. This includes resident modules defined at the scope of the parent, and inherited modules, inherited from CRM ancestors. */
+export const listProjectsSecurityHealthAnalyticsSettingsCustomModules: API.PaginatedOperationMethod<ListProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest, ListProjectsSecurityHealthAnalyticsSettingsCustomModulesResponse, ListProjectsSecurityHealthAnalyticsSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: ListProjectsSecurityHealthAnalyticsSettingsCustomModulesResponse,
   errors: [],
@@ -7946,7 +7946,6 @@ export const listProjectsSecurityHealthAnalyticsSettingsCustomModules = API.make
   },
 }));
 
-/** Simulates a given SecurityHealthAnalyticsCustomModule and Resource. */
 export interface SimulateProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest {
   /** Required. The relative resource name of the organization, project, or folder. For more information about relative resource names, see [Relative Resource Name](https://cloud.google.com/apis/design/resource_names#relative_resource_name) Example: `organizations/{organization_id}` */
   parent: string;
@@ -7967,13 +7966,13 @@ export const SimulateProjectsSecurityHealthAnalyticsSettingsCustomModulesRespons
 
 export type SimulateProjectsSecurityHealthAnalyticsSettingsCustomModulesError = CommonErrors;
 
+/** Simulates a given SecurityHealthAnalyticsCustomModule and Resource. */
 export const simulateProjectsSecurityHealthAnalyticsSettingsCustomModules: API.OperationMethod<SimulateProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest, SimulateProjectsSecurityHealthAnalyticsSettingsCustomModulesResponse, SimulateProjectsSecurityHealthAnalyticsSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SimulateProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: SimulateProjectsSecurityHealthAnalyticsSettingsCustomModulesResponse,
   errors: [],
 }));
 
-/** Updates the SecurityHealthAnalyticsCustomModule under the given name based on the given update mask. Updating the enablement state is supported on both resident and inherited modules (though resident modules cannot have an enablement state of "inherited"). Updating the display name and custom config of a module is supported on resident modules only. */
 export interface PatchProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest {
   /** Immutable. The resource name of the custom module. Its format is "organizations/{organization}/securityHealthAnalyticsSettings/customModules/{customModule}", or "folders/{folder}/securityHealthAnalyticsSettings/customModules/{customModule}", or "projects/{project}/securityHealthAnalyticsSettings/customModules/{customModule}" The id {customModule} is server-generated and is not user settable. It will be a numeric id containing 1-20 digits. */
   name: string;
@@ -7997,13 +7996,13 @@ export const PatchProjectsSecurityHealthAnalyticsSettingsCustomModulesResponse =
 
 export type PatchProjectsSecurityHealthAnalyticsSettingsCustomModulesError = CommonErrors;
 
+/** Updates the SecurityHealthAnalyticsCustomModule under the given name based on the given update mask. Updating the enablement state is supported on both resident and inherited modules (though resident modules cannot have an enablement state of "inherited"). Updating the display name and custom config of a module is supported on resident modules only. */
 export const patchProjectsSecurityHealthAnalyticsSettingsCustomModules: API.OperationMethod<PatchProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest, PatchProjectsSecurityHealthAnalyticsSettingsCustomModulesResponse, PatchProjectsSecurityHealthAnalyticsSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: PatchProjectsSecurityHealthAnalyticsSettingsCustomModulesResponse,
   errors: [],
 }));
 
-/** Retrieves an EffectiveSecurityHealthAnalyticsCustomModule. */
 export interface GetProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest {
   /** Required. Name of the effective custom module to get. Its format is `organizations/{organization}/securityHealthAnalyticsSettings/effectiveCustomModules/{customModule}`, `folders/{folder}/securityHealthAnalyticsSettings/effectiveCustomModules/{customModule}`, or `projects/{project}/securityHealthAnalyticsSettings/effectiveCustomModules/{customModule}` */
   name: string;
@@ -8021,13 +8020,13 @@ export const GetProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRes
 
 export type GetProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesError = CommonErrors;
 
+/** Retrieves an EffectiveSecurityHealthAnalyticsCustomModule. */
 export const getProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModules: API.OperationMethod<GetProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest, GetProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesResponse, GetProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest,
   output: GetProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesResponse,
   errors: [],
 }));
 
-/** Returns a list of all EffectiveSecurityHealthAnalyticsCustomModules for the given parent. This includes resident modules defined at the scope of the parent, and inherited modules, inherited from CRM ancestors. */
 export interface ListProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest {
   /** Required. Name of parent to list effective custom modules. Its format is `organizations/{organization}/securityHealthAnalyticsSettings`, `folders/{folder}/securityHealthAnalyticsSettings`, or `projects/{project}/securityHealthAnalyticsSettings` */
   parent: string;
@@ -8051,7 +8050,8 @@ export const ListProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRe
 
 export type ListProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesError = CommonErrors;
 
-export const listProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModules = API.makePaginated(() => ({
+/** Returns a list of all EffectiveSecurityHealthAnalyticsCustomModules for the given parent. This includes resident modules defined at the scope of the parent, and inherited modules, inherited from CRM ancestors. */
+export const listProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModules: API.PaginatedOperationMethod<ListProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest, ListProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesResponse, ListProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest,
   output: ListProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesResponse,
   errors: [],
@@ -8061,7 +8061,6 @@ export const listProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModules =
   },
 }));
 
-/** Creates a mute config. */
 export interface CreateProjectsMuteConfigsRequest {
   /** Required. Resource name of the new mute configs's parent. Its format is `organizations/[organization_id]`, `folders/[folder_id]`, or `projects/[project_id]`. */
   parent: string;
@@ -8085,13 +8084,13 @@ export const CreateProjectsMuteConfigsResponse = GoogleCloudSecuritycenterV1Mute
 
 export type CreateProjectsMuteConfigsError = CommonErrors;
 
+/** Creates a mute config. */
 export const createProjectsMuteConfigs: API.OperationMethod<CreateProjectsMuteConfigsRequest, CreateProjectsMuteConfigsResponse, CreateProjectsMuteConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsMuteConfigsRequest,
   output: CreateProjectsMuteConfigsResponse,
   errors: [],
 }));
 
-/** Deletes an existing mute config. */
 export interface DeleteProjectsMuteConfigsRequest {
   /** Required. Name of the mute config to delete. Its format is `organizations/{organization}/muteConfigs/{config_id}`, `folders/{folder}/muteConfigs/{config_id}`, `projects/{project}/muteConfigs/{config_id}`, `organizations/{organization}/locations/global/muteConfigs/{config_id}`, `folders/{folder}/locations/global/muteConfigs/{config_id}`, or `projects/{project}/locations/global/muteConfigs/{config_id}`. */
   name: string;
@@ -8109,13 +8108,13 @@ export const DeleteProjectsMuteConfigsResponse = Empty;
 
 export type DeleteProjectsMuteConfigsError = CommonErrors;
 
+/** Deletes an existing mute config. */
 export const deleteProjectsMuteConfigs: API.OperationMethod<DeleteProjectsMuteConfigsRequest, DeleteProjectsMuteConfigsResponse, DeleteProjectsMuteConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsMuteConfigsRequest,
   output: DeleteProjectsMuteConfigsResponse,
   errors: [],
 }));
 
-/** Gets a mute config. */
 export interface GetProjectsMuteConfigsRequest {
   /** Required. Name of the mute config to retrieve. Its format is `organizations/{organization}/muteConfigs/{config_id}`, `folders/{folder}/muteConfigs/{config_id}`, `projects/{project}/muteConfigs/{config_id}`, `organizations/{organization}/locations/global/muteConfigs/{config_id}`, `folders/{folder}/locations/global/muteConfigs/{config_id}`, or `projects/{project}/locations/global/muteConfigs/{config_id}`. */
   name: string;
@@ -8133,13 +8132,13 @@ export const GetProjectsMuteConfigsResponse = GoogleCloudSecuritycenterV1MuteCon
 
 export type GetProjectsMuteConfigsError = CommonErrors;
 
+/** Gets a mute config. */
 export const getProjectsMuteConfigs: API.OperationMethod<GetProjectsMuteConfigsRequest, GetProjectsMuteConfigsResponse, GetProjectsMuteConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsMuteConfigsRequest,
   output: GetProjectsMuteConfigsResponse,
   errors: [],
 }));
 
-/** Lists mute configs. */
 export interface ListProjectsMuteConfigsRequest {
   /** Required. The parent, which owns the collection of mute configs. Its format is `organizations/[organization_id]`, `folders/[folder_id]`, `projects/[project_id]`. */
   parent: string;
@@ -8163,7 +8162,8 @@ export const ListProjectsMuteConfigsResponse = ListMuteConfigsResponse;
 
 export type ListProjectsMuteConfigsError = CommonErrors;
 
-export const listProjectsMuteConfigs = API.makePaginated(() => ({
+/** Lists mute configs. */
+export const listProjectsMuteConfigs: API.PaginatedOperationMethod<ListProjectsMuteConfigsRequest, ListProjectsMuteConfigsResponse, ListProjectsMuteConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsMuteConfigsRequest,
   output: ListProjectsMuteConfigsResponse,
   errors: [],
@@ -8173,7 +8173,6 @@ export const listProjectsMuteConfigs = API.makePaginated(() => ({
   },
 }));
 
-/** Updates a mute config. */
 export interface PatchProjectsMuteConfigsRequest {
   /** This field will be ignored if provided on config creation. Format `organizations/{organization}/muteConfigs/{mute_config}` `folders/{folder}/muteConfigs/{mute_config}` `projects/{project}/muteConfigs/{mute_config}` `organizations/{organization}/locations/global/muteConfigs/{mute_config}` `folders/{folder}/locations/global/muteConfigs/{mute_config}` `projects/{project}/locations/global/muteConfigs/{mute_config}` */
   name: string;
@@ -8197,13 +8196,13 @@ export const PatchProjectsMuteConfigsResponse = GoogleCloudSecuritycenterV1MuteC
 
 export type PatchProjectsMuteConfigsError = CommonErrors;
 
+/** Updates a mute config. */
 export const patchProjectsMuteConfigs: API.OperationMethod<PatchProjectsMuteConfigsRequest, PatchProjectsMuteConfigsResponse, PatchProjectsMuteConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsMuteConfigsRequest,
   output: PatchProjectsMuteConfigsResponse,
   errors: [],
 }));
 
-/** Creates a notification config. */
 export interface CreateProjectsNotificationConfigsRequest {
   /** Required. Resource name of the new notification config's parent. Its format is `organizations/[organization_id]`, `folders/[folder_id]`, or `projects/[project_id]`. */
   parent: string;
@@ -8227,13 +8226,13 @@ export const CreateProjectsNotificationConfigsResponse = NotificationConfig;
 
 export type CreateProjectsNotificationConfigsError = CommonErrors;
 
+/** Creates a notification config. */
 export const createProjectsNotificationConfigs: API.OperationMethod<CreateProjectsNotificationConfigsRequest, CreateProjectsNotificationConfigsResponse, CreateProjectsNotificationConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsNotificationConfigsRequest,
   output: CreateProjectsNotificationConfigsResponse,
   errors: [],
 }));
 
-/** Deletes a notification config. */
 export interface DeleteProjectsNotificationConfigsRequest {
   /** Required. Name of the notification config to delete. Its format is `organizations/[organization_id]/notificationConfigs/[config_id]`, `folders/[folder_id]/notificationConfigs/[config_id]`, or `projects/[project_id]/notificationConfigs/[config_id]`. */
   name: string;
@@ -8251,13 +8250,13 @@ export const DeleteProjectsNotificationConfigsResponse = Empty;
 
 export type DeleteProjectsNotificationConfigsError = CommonErrors;
 
+/** Deletes a notification config. */
 export const deleteProjectsNotificationConfigs: API.OperationMethod<DeleteProjectsNotificationConfigsRequest, DeleteProjectsNotificationConfigsResponse, DeleteProjectsNotificationConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsNotificationConfigsRequest,
   output: DeleteProjectsNotificationConfigsResponse,
   errors: [],
 }));
 
-/** Gets a notification config. */
 export interface GetProjectsNotificationConfigsRequest {
   /** Required. Name of the notification config to get. Its format is `organizations/[organization_id]/notificationConfigs/[config_id]`, `folders/[folder_id]/notificationConfigs/[config_id]`, or `projects/[project_id]/notificationConfigs/[config_id]`. */
   name: string;
@@ -8275,13 +8274,13 @@ export const GetProjectsNotificationConfigsResponse = NotificationConfig;
 
 export type GetProjectsNotificationConfigsError = CommonErrors;
 
+/** Gets a notification config. */
 export const getProjectsNotificationConfigs: API.OperationMethod<GetProjectsNotificationConfigsRequest, GetProjectsNotificationConfigsResponse, GetProjectsNotificationConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsNotificationConfigsRequest,
   output: GetProjectsNotificationConfigsResponse,
   errors: [],
 }));
 
-/** Lists notification configs. */
 export interface ListProjectsNotificationConfigsRequest {
   /** Required. The name of the parent in which to list the notification configurations. Its format is "organizations/[organization_id]", "folders/[folder_id]", or "projects/[project_id]". */
   parent: string;
@@ -8305,7 +8304,8 @@ export const ListProjectsNotificationConfigsResponse = ListNotificationConfigsRe
 
 export type ListProjectsNotificationConfigsError = CommonErrors;
 
-export const listProjectsNotificationConfigs = API.makePaginated(() => ({
+/** Lists notification configs. */
+export const listProjectsNotificationConfigs: API.PaginatedOperationMethod<ListProjectsNotificationConfigsRequest, ListProjectsNotificationConfigsResponse, ListProjectsNotificationConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsNotificationConfigsRequest,
   output: ListProjectsNotificationConfigsResponse,
   errors: [],
@@ -8315,7 +8315,6 @@ export const listProjectsNotificationConfigs = API.makePaginated(() => ({
   },
 }));
 
-/** Updates a notification config. The following update fields are allowed: description, pubsub_topic, streaming_config.filter */
 export interface PatchProjectsNotificationConfigsRequest {
   /** The relative resource name of this notification config. See: https://cloud.google.com/apis/design/resource_names#relative_resource_name Example: "organizations/{organization_id}/notificationConfigs/notify_public_bucket", "folders/{folder_id}/notificationConfigs/notify_public_bucket", or "projects/{project_id}/notificationConfigs/notify_public_bucket". */
   name: string;
@@ -8339,13 +8338,13 @@ export const PatchProjectsNotificationConfigsResponse = NotificationConfig;
 
 export type PatchProjectsNotificationConfigsError = CommonErrors;
 
+/** Updates a notification config. The following update fields are allowed: description, pubsub_topic, streaming_config.filter */
 export const patchProjectsNotificationConfigs: API.OperationMethod<PatchProjectsNotificationConfigsRequest, PatchProjectsNotificationConfigsResponse, PatchProjectsNotificationConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsNotificationConfigsRequest,
   output: PatchProjectsNotificationConfigsResponse,
   errors: [],
 }));
 
-/** Deletes an existing mute config. */
 export interface DeleteProjectsLocationsMuteConfigsRequest {
   /** Required. Name of the mute config to delete. Its format is `organizations/{organization}/muteConfigs/{config_id}`, `folders/{folder}/muteConfigs/{config_id}`, `projects/{project}/muteConfigs/{config_id}`, `organizations/{organization}/locations/global/muteConfigs/{config_id}`, `folders/{folder}/locations/global/muteConfigs/{config_id}`, or `projects/{project}/locations/global/muteConfigs/{config_id}`. */
   name: string;
@@ -8363,13 +8362,13 @@ export const DeleteProjectsLocationsMuteConfigsResponse = Empty;
 
 export type DeleteProjectsLocationsMuteConfigsError = CommonErrors;
 
+/** Deletes an existing mute config. */
 export const deleteProjectsLocationsMuteConfigs: API.OperationMethod<DeleteProjectsLocationsMuteConfigsRequest, DeleteProjectsLocationsMuteConfigsResponse, DeleteProjectsLocationsMuteConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsMuteConfigsRequest,
   output: DeleteProjectsLocationsMuteConfigsResponse,
   errors: [],
 }));
 
-/** Gets a mute config. */
 export interface GetProjectsLocationsMuteConfigsRequest {
   /** Required. Name of the mute config to retrieve. Its format is `organizations/{organization}/muteConfigs/{config_id}`, `folders/{folder}/muteConfigs/{config_id}`, `projects/{project}/muteConfigs/{config_id}`, `organizations/{organization}/locations/global/muteConfigs/{config_id}`, `folders/{folder}/locations/global/muteConfigs/{config_id}`, or `projects/{project}/locations/global/muteConfigs/{config_id}`. */
   name: string;
@@ -8387,13 +8386,13 @@ export const GetProjectsLocationsMuteConfigsResponse = GoogleCloudSecuritycenter
 
 export type GetProjectsLocationsMuteConfigsError = CommonErrors;
 
+/** Gets a mute config. */
 export const getProjectsLocationsMuteConfigs: API.OperationMethod<GetProjectsLocationsMuteConfigsRequest, GetProjectsLocationsMuteConfigsResponse, GetProjectsLocationsMuteConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsMuteConfigsRequest,
   output: GetProjectsLocationsMuteConfigsResponse,
   errors: [],
 }));
 
-/** Updates a mute config. */
 export interface PatchProjectsLocationsMuteConfigsRequest {
   /** This field will be ignored if provided on config creation. Format `organizations/{organization}/muteConfigs/{mute_config}` `folders/{folder}/muteConfigs/{mute_config}` `projects/{project}/muteConfigs/{mute_config}` `organizations/{organization}/locations/global/muteConfigs/{mute_config}` `folders/{folder}/locations/global/muteConfigs/{mute_config}` `projects/{project}/locations/global/muteConfigs/{mute_config}` */
   name: string;
@@ -8417,13 +8416,13 @@ export const PatchProjectsLocationsMuteConfigsResponse = GoogleCloudSecuritycent
 
 export type PatchProjectsLocationsMuteConfigsError = CommonErrors;
 
+/** Updates a mute config. */
 export const patchProjectsLocationsMuteConfigs: API.OperationMethod<PatchProjectsLocationsMuteConfigsRequest, PatchProjectsLocationsMuteConfigsResponse, PatchProjectsLocationsMuteConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsMuteConfigsRequest,
   output: PatchProjectsLocationsMuteConfigsResponse,
   errors: [],
 }));
 
-/** Gets a BigQuery export. */
 export interface GetProjectsBigQueryExportsRequest {
   /** Required. Name of the BigQuery export to retrieve. Its format is `organizations/{organization}/bigQueryExports/{export_id}`, `folders/{folder}/bigQueryExports/{export_id}`, or `projects/{project}/bigQueryExports/{export_id}` */
   name: string;
@@ -8441,13 +8440,13 @@ export const GetProjectsBigQueryExportsResponse = GoogleCloudSecuritycenterV1Big
 
 export type GetProjectsBigQueryExportsError = CommonErrors;
 
+/** Gets a BigQuery export. */
 export const getProjectsBigQueryExports: API.OperationMethod<GetProjectsBigQueryExportsRequest, GetProjectsBigQueryExportsResponse, GetProjectsBigQueryExportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsBigQueryExportsRequest,
   output: GetProjectsBigQueryExportsResponse,
   errors: [],
 }));
 
-/** Creates a BigQuery export. */
 export interface CreateProjectsBigQueryExportsRequest {
   /** Required. The name of the parent resource of the new BigQuery export. Its format is `organizations/[organization_id]`, `folders/[folder_id]`, or `projects/[project_id]`. */
   parent: string;
@@ -8471,13 +8470,13 @@ export const CreateProjectsBigQueryExportsResponse = GoogleCloudSecuritycenterV1
 
 export type CreateProjectsBigQueryExportsError = CommonErrors;
 
+/** Creates a BigQuery export. */
 export const createProjectsBigQueryExports: API.OperationMethod<CreateProjectsBigQueryExportsRequest, CreateProjectsBigQueryExportsResponse, CreateProjectsBigQueryExportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsBigQueryExportsRequest,
   output: CreateProjectsBigQueryExportsResponse,
   errors: [],
 }));
 
-/** Deletes an existing BigQuery export. */
 export interface DeleteProjectsBigQueryExportsRequest {
   /** Required. The name of the BigQuery export to delete. Its format is `organizations/{organization}/bigQueryExports/{export_id}`, `folders/{folder}/bigQueryExports/{export_id}`, or `projects/{project}/bigQueryExports/{export_id}` */
   name: string;
@@ -8495,13 +8494,13 @@ export const DeleteProjectsBigQueryExportsResponse = Empty;
 
 export type DeleteProjectsBigQueryExportsError = CommonErrors;
 
+/** Deletes an existing BigQuery export. */
 export const deleteProjectsBigQueryExports: API.OperationMethod<DeleteProjectsBigQueryExportsRequest, DeleteProjectsBigQueryExportsResponse, DeleteProjectsBigQueryExportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsBigQueryExportsRequest,
   output: DeleteProjectsBigQueryExportsResponse,
   errors: [],
 }));
 
-/** Updates a BigQuery export. */
 export interface PatchProjectsBigQueryExportsRequest {
   /** The relative resource name of this export. See: https://cloud.google.com/apis/design/resource_names#relative_resource_name. Example format: "organizations/{organization_id}/bigQueryExports/{export_id}" Example format: "folders/{folder_id}/bigQueryExports/{export_id}" Example format: "projects/{project_id}/bigQueryExports/{export_id}" This field is provided in responses, and is ignored when provided in create requests. */
   name: string;
@@ -8525,13 +8524,13 @@ export const PatchProjectsBigQueryExportsResponse = GoogleCloudSecuritycenterV1B
 
 export type PatchProjectsBigQueryExportsError = CommonErrors;
 
+/** Updates a BigQuery export. */
 export const patchProjectsBigQueryExports: API.OperationMethod<PatchProjectsBigQueryExportsRequest, PatchProjectsBigQueryExportsResponse, PatchProjectsBigQueryExportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsBigQueryExportsRequest,
   output: PatchProjectsBigQueryExportsResponse,
   errors: [],
 }));
 
-/** Lists BigQuery exports. Note that when requesting BigQuery exports at a given level all exports under that level are also returned e.g. if requesting BigQuery exports under a folder, then all BigQuery exports immediately under the folder plus the ones created under the projects within the folder are returned. */
 export interface ListProjectsBigQueryExportsRequest {
   /** Required. The parent, which owns the collection of BigQuery exports. Its format is `organizations/[organization_id]`, `folders/[folder_id]`, `projects/[project_id]`. */
   parent: string;
@@ -8555,7 +8554,8 @@ export const ListProjectsBigQueryExportsResponse = ListBigQueryExportsResponse;
 
 export type ListProjectsBigQueryExportsError = CommonErrors;
 
-export const listProjectsBigQueryExports = API.makePaginated(() => ({
+/** Lists BigQuery exports. Note that when requesting BigQuery exports at a given level all exports under that level are also returned e.g. if requesting BigQuery exports under a folder, then all BigQuery exports immediately under the folder plus the ones created under the projects within the folder are returned. */
+export const listProjectsBigQueryExports: API.PaginatedOperationMethod<ListProjectsBigQueryExportsRequest, ListProjectsBigQueryExportsResponse, ListProjectsBigQueryExportsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsBigQueryExportsRequest,
   output: ListProjectsBigQueryExportsResponse,
   errors: [],
@@ -8565,7 +8565,6 @@ export const listProjectsBigQueryExports = API.makePaginated(() => ({
   },
 }));
 
-/** Filters an organization's assets and groups them by their specified properties. */
 export interface GroupProjectsAssetsRequest {
   /** Required. The name of the parent to group the assets by. Its format is `organizations/[organization_id]`, `folders/[folder_id]`, or `projects/[project_id]`. */
   parent: string;
@@ -8586,13 +8585,13 @@ export const GroupProjectsAssetsResponse = GroupAssetsResponse;
 
 export type GroupProjectsAssetsError = CommonErrors;
 
+/** Filters an organization's assets and groups them by their specified properties. */
 export const groupProjectsAssets: API.OperationMethod<GroupProjectsAssetsRequest, GroupProjectsAssetsResponse, GroupProjectsAssetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GroupProjectsAssetsRequest,
   output: GroupProjectsAssetsResponse,
   errors: [],
 }));
 
-/** Lists an organization's assets. */
 export interface ListProjectsAssetsRequest {
   /** Required. The name of the parent resource that contains the assets. The value that you can specify on parent depends on the method in which you specify parent. You can specify one of the following values: `organizations/[organization_id]`, `folders/[folder_id]`, or `projects/[project_id]`. */
   parent: string;
@@ -8631,7 +8630,8 @@ export const ListProjectsAssetsResponse = ListAssetsResponse;
 
 export type ListProjectsAssetsError = CommonErrors;
 
-export const listProjectsAssets = API.makePaginated(() => ({
+/** Lists an organization's assets. */
+export const listProjectsAssets: API.PaginatedOperationMethod<ListProjectsAssetsRequest, ListProjectsAssetsResponse, ListProjectsAssetsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsAssetsRequest,
   output: ListProjectsAssetsResponse,
   errors: [],
@@ -8641,7 +8641,6 @@ export const listProjectsAssets = API.makePaginated(() => ({
   },
 }));
 
-/** Updates security marks. */
 export interface UpdateSecurityMarksProjectsAssetsRequest {
   /** The relative resource name of the SecurityMarks. See: https://cloud.google.com/apis/design/resource_names#relative_resource_name Examples: "organizations/{organization_id}/assets/{asset_id}/securityMarks" "organizations/{organization_id}/sources/{source_id}/findings/{finding_id}/securityMarks". */
   name: string;
@@ -8668,13 +8667,13 @@ export const UpdateSecurityMarksProjectsAssetsResponse = SecurityMarks;
 
 export type UpdateSecurityMarksProjectsAssetsError = CommonErrors;
 
+/** Updates security marks. */
 export const updateSecurityMarksProjectsAssets: API.OperationMethod<UpdateSecurityMarksProjectsAssetsRequest, UpdateSecurityMarksProjectsAssetsResponse, UpdateSecurityMarksProjectsAssetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateSecurityMarksProjectsAssetsRequest,
   output: UpdateSecurityMarksProjectsAssetsResponse,
   errors: [],
 }));
 
-/** Lists all sources belonging to an organization. */
 export interface ListProjectsSourcesRequest {
   /** Required. Resource name of the parent of sources to list. Its format should be `organizations/[organization_id]`, `folders/[folder_id]`, or `projects/[project_id]`. */
   parent: string;
@@ -8698,7 +8697,8 @@ export const ListProjectsSourcesResponse = ListSourcesResponse;
 
 export type ListProjectsSourcesError = CommonErrors;
 
-export const listProjectsSources = API.makePaginated(() => ({
+/** Lists all sources belonging to an organization. */
+export const listProjectsSources: API.PaginatedOperationMethod<ListProjectsSourcesRequest, ListProjectsSourcesResponse, ListProjectsSourcesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsSourcesRequest,
   output: ListProjectsSourcesResponse,
   errors: [],
@@ -8708,7 +8708,6 @@ export const listProjectsSources = API.makePaginated(() => ({
   },
 }));
 
-/** Filters an organization or source's findings and groups them by their specified properties. To group across all sources provide a `-` as the source id. Example: /v1/organizations/{organization_id}/sources/-/findings, /v1/folders/{folder_id}/sources/-/findings, /v1/projects/{project_id}/sources/-/findings */
 export interface GroupProjectsSourcesFindingsRequest {
   /** Required. Name of the source to groupBy. Its format is `organizations/[organization_id]/sources/[source_id]`, `folders/[folder_id]/sources/[source_id]`, or `projects/[project_id]/sources/[source_id]`. To groupBy across all sources provide a source_id of `-`. For example: `organizations/{organization_id}/sources/-, folders/{folder_id}/sources/-`, or `projects/{project_id}/sources/-` */
   parent: string;
@@ -8729,13 +8728,13 @@ export const GroupProjectsSourcesFindingsResponse = GroupFindingsResponse;
 
 export type GroupProjectsSourcesFindingsError = CommonErrors;
 
+/** Filters an organization or source's findings and groups them by their specified properties. To group across all sources provide a `-` as the source id. Example: /v1/organizations/{organization_id}/sources/-/findings, /v1/folders/{folder_id}/sources/-/findings, /v1/projects/{project_id}/sources/-/findings */
 export const groupProjectsSourcesFindings: API.OperationMethod<GroupProjectsSourcesFindingsRequest, GroupProjectsSourcesFindingsResponse, GroupProjectsSourcesFindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GroupProjectsSourcesFindingsRequest,
   output: GroupProjectsSourcesFindingsResponse,
   errors: [],
 }));
 
-/** Lists an organization or source's findings. To list across all sources provide a `-` as the source id. Example: /v1/organizations/{organization_id}/sources/-/findings */
 export interface ListProjectsSourcesFindingsRequest {
   /** Required. Name of the source the findings belong to. Its format is `organizations/[organization_id]/sources/[source_id]`, `folders/[folder_id]/sources/[source_id]`, or `projects/[project_id]/sources/[source_id]`. To list across all sources provide a source_id of `-`. For example: `organizations/{organization_id}/sources/-`, `folders/{folder_id}/sources/-` or `projects/{projects_id}/sources/-` */
   parent: string;
@@ -8774,7 +8773,8 @@ export const ListProjectsSourcesFindingsResponse = ListFindingsResponse;
 
 export type ListProjectsSourcesFindingsError = CommonErrors;
 
-export const listProjectsSourcesFindings = API.makePaginated(() => ({
+/** Lists an organization or source's findings. To list across all sources provide a `-` as the source id. Example: /v1/organizations/{organization_id}/sources/-/findings */
+export const listProjectsSourcesFindings: API.PaginatedOperationMethod<ListProjectsSourcesFindingsRequest, ListProjectsSourcesFindingsResponse, ListProjectsSourcesFindingsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsSourcesFindingsRequest,
   output: ListProjectsSourcesFindingsResponse,
   errors: [],
@@ -8784,7 +8784,6 @@ export const listProjectsSourcesFindings = API.makePaginated(() => ({
   },
 }));
 
-/** Updates the state of a finding. */
 export interface SetStateProjectsSourcesFindingsRequest {
   /** Required. The [relative resource name](https://cloud.google.com/apis/design/resource_names#relative_resource_name) of the finding. Example: `organizations/{organization_id}/sources/{source_id}/findings/{finding_id}`, `folders/{folder_id}/sources/{source_id}/findings/{finding_id}`, `projects/{project_id}/sources/{source_id}/findings/{finding_id}`. */
   name: string;
@@ -8805,13 +8804,13 @@ export const SetStateProjectsSourcesFindingsResponse = Finding;
 
 export type SetStateProjectsSourcesFindingsError = CommonErrors;
 
+/** Updates the state of a finding. */
 export const setStateProjectsSourcesFindings: API.OperationMethod<SetStateProjectsSourcesFindingsRequest, SetStateProjectsSourcesFindingsResponse, SetStateProjectsSourcesFindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetStateProjectsSourcesFindingsRequest,
   output: SetStateProjectsSourcesFindingsResponse,
   errors: [],
 }));
 
-/** Updates the mute state of a finding. */
 export interface SetMuteProjectsSourcesFindingsRequest {
   /** Required. The [relative resource name](https://cloud.google.com/apis/design/resource_names#relative_resource_name) of the finding. Example: `organizations/{organization_id}/sources/{source_id}/findings/{finding_id}`, `folders/{folder_id}/sources/{source_id}/findings/{finding_id}`, `projects/{project_id}/sources/{source_id}/findings/{finding_id}`. */
   name: string;
@@ -8832,13 +8831,13 @@ export const SetMuteProjectsSourcesFindingsResponse = Finding;
 
 export type SetMuteProjectsSourcesFindingsError = CommonErrors;
 
+/** Updates the mute state of a finding. */
 export const setMuteProjectsSourcesFindings: API.OperationMethod<SetMuteProjectsSourcesFindingsRequest, SetMuteProjectsSourcesFindingsResponse, SetMuteProjectsSourcesFindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetMuteProjectsSourcesFindingsRequest,
   output: SetMuteProjectsSourcesFindingsResponse,
   errors: [],
 }));
 
-/** Creates or updates a finding. The corresponding source must exist for a finding creation to succeed. */
 export interface PatchProjectsSourcesFindingsRequest {
   /** The [relative resource name](https://cloud.google.com/apis/design/resource_names#relative_resource_name) of the finding. Example: "organizations/{organization_id}/sources/{source_id}/findings/{finding_id}", "folders/{folder_id}/sources/{source_id}/findings/{finding_id}", "projects/{project_id}/sources/{source_id}/findings/{finding_id}". */
   name: string;
@@ -8862,13 +8861,13 @@ export const PatchProjectsSourcesFindingsResponse = Finding;
 
 export type PatchProjectsSourcesFindingsError = CommonErrors;
 
+/** Creates or updates a finding. The corresponding source must exist for a finding creation to succeed. */
 export const patchProjectsSourcesFindings: API.OperationMethod<PatchProjectsSourcesFindingsRequest, PatchProjectsSourcesFindingsResponse, PatchProjectsSourcesFindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsSourcesFindingsRequest,
   output: PatchProjectsSourcesFindingsResponse,
   errors: [],
 }));
 
-/** Updates security marks. */
 export interface UpdateSecurityMarksProjectsSourcesFindingsRequest {
   /** The relative resource name of the SecurityMarks. See: https://cloud.google.com/apis/design/resource_names#relative_resource_name Examples: "organizations/{organization_id}/assets/{asset_id}/securityMarks" "organizations/{organization_id}/sources/{source_id}/findings/{finding_id}/securityMarks". */
   name: string;
@@ -8895,13 +8894,13 @@ export const UpdateSecurityMarksProjectsSourcesFindingsResponse = SecurityMarks;
 
 export type UpdateSecurityMarksProjectsSourcesFindingsError = CommonErrors;
 
+/** Updates security marks. */
 export const updateSecurityMarksProjectsSourcesFindings: API.OperationMethod<UpdateSecurityMarksProjectsSourcesFindingsRequest, UpdateSecurityMarksProjectsSourcesFindingsResponse, UpdateSecurityMarksProjectsSourcesFindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateSecurityMarksProjectsSourcesFindingsRequest,
   output: UpdateSecurityMarksProjectsSourcesFindingsResponse,
   errors: [],
 }));
 
-/** Updates external system. This is for a given finding. */
 export interface PatchProjectsSourcesFindingsExternalSystemsRequest {
   /** Full resource name of the external system, for example: "organizations/1234/sources/5678/findings/123456/externalSystems/jira", "folders/1234/sources/5678/findings/123456/externalSystems/jira", "projects/1234/sources/5678/findings/123456/externalSystems/jira" */
   name: string;
@@ -8925,13 +8924,13 @@ export const PatchProjectsSourcesFindingsExternalSystemsResponse = GoogleCloudSe
 
 export type PatchProjectsSourcesFindingsExternalSystemsError = CommonErrors;
 
+/** Updates external system. This is for a given finding. */
 export const patchProjectsSourcesFindingsExternalSystems: API.OperationMethod<PatchProjectsSourcesFindingsExternalSystemsRequest, PatchProjectsSourcesFindingsExternalSystemsResponse, PatchProjectsSourcesFindingsExternalSystemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsSourcesFindingsExternalSystemsRequest,
   output: PatchProjectsSourcesFindingsExternalSystemsResponse,
   errors: [],
 }));
 
-/** Validates the given Event Threat Detection custom module. */
 export interface ValidateCustomModuleProjectsEventThreatDetectionSettingsRequest {
   /** Required. Resource name of the parent to validate the Custom Module under. Its format is: * `organizations/{organization}/eventThreatDetectionSettings`. * `folders/{folder}/eventThreatDetectionSettings`. * `projects/{project}/eventThreatDetectionSettings`. */
   parent: string;
@@ -8952,13 +8951,13 @@ export const ValidateCustomModuleProjectsEventThreatDetectionSettingsResponse = 
 
 export type ValidateCustomModuleProjectsEventThreatDetectionSettingsError = CommonErrors;
 
+/** Validates the given Event Threat Detection custom module. */
 export const validateCustomModuleProjectsEventThreatDetectionSettings: API.OperationMethod<ValidateCustomModuleProjectsEventThreatDetectionSettingsRequest, ValidateCustomModuleProjectsEventThreatDetectionSettingsResponse, ValidateCustomModuleProjectsEventThreatDetectionSettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ValidateCustomModuleProjectsEventThreatDetectionSettingsRequest,
   output: ValidateCustomModuleProjectsEventThreatDetectionSettingsResponse,
   errors: [],
 }));
 
-/** Creates a resident Event Threat Detection custom module at the scope of the given Resource Manager parent, and also creates inherited custom modules for all descendants of the given parent. These modules are enabled by default. */
 export interface CreateProjectsEventThreatDetectionSettingsCustomModulesRequest {
   /** Required. The new custom module's parent. Its format is: * `organizations/{organization}/eventThreatDetectionSettings`. * `folders/{folder}/eventThreatDetectionSettings`. * `projects/{project}/eventThreatDetectionSettings`. */
   parent: string;
@@ -8979,13 +8978,13 @@ export const CreateProjectsEventThreatDetectionSettingsCustomModulesResponse = E
 
 export type CreateProjectsEventThreatDetectionSettingsCustomModulesError = CommonErrors;
 
+/** Creates a resident Event Threat Detection custom module at the scope of the given Resource Manager parent, and also creates inherited custom modules for all descendants of the given parent. These modules are enabled by default. */
 export const createProjectsEventThreatDetectionSettingsCustomModules: API.OperationMethod<CreateProjectsEventThreatDetectionSettingsCustomModulesRequest, CreateProjectsEventThreatDetectionSettingsCustomModulesResponse, CreateProjectsEventThreatDetectionSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsEventThreatDetectionSettingsCustomModulesRequest,
   output: CreateProjectsEventThreatDetectionSettingsCustomModulesResponse,
   errors: [],
 }));
 
-/** Deletes the specified Event Threat Detection custom module and all of its descendants in the Resource Manager hierarchy. This method is only supported for resident custom modules. */
 export interface DeleteProjectsEventThreatDetectionSettingsCustomModulesRequest {
   /** Required. Name of the custom module to delete. Its format is: * `organizations/{organization}/eventThreatDetectionSettings/customModules/{module}`. * `folders/{folder}/eventThreatDetectionSettings/customModules/{module}`. * `projects/{project}/eventThreatDetectionSettings/customModules/{module}`. */
   name: string;
@@ -9003,13 +9002,13 @@ export const DeleteProjectsEventThreatDetectionSettingsCustomModulesResponse = E
 
 export type DeleteProjectsEventThreatDetectionSettingsCustomModulesError = CommonErrors;
 
+/** Deletes the specified Event Threat Detection custom module and all of its descendants in the Resource Manager hierarchy. This method is only supported for resident custom modules. */
 export const deleteProjectsEventThreatDetectionSettingsCustomModules: API.OperationMethod<DeleteProjectsEventThreatDetectionSettingsCustomModulesRequest, DeleteProjectsEventThreatDetectionSettingsCustomModulesResponse, DeleteProjectsEventThreatDetectionSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsEventThreatDetectionSettingsCustomModulesRequest,
   output: DeleteProjectsEventThreatDetectionSettingsCustomModulesResponse,
   errors: [],
 }));
 
-/** Gets an Event Threat Detection custom module. */
 export interface GetProjectsEventThreatDetectionSettingsCustomModulesRequest {
   /** Required. Name of the custom module to get. Its format is: * `organizations/{organization}/eventThreatDetectionSettings/customModules/{module}`. * `folders/{folder}/eventThreatDetectionSettings/customModules/{module}`. * `projects/{project}/eventThreatDetectionSettings/customModules/{module}`. */
   name: string;
@@ -9027,13 +9026,13 @@ export const GetProjectsEventThreatDetectionSettingsCustomModulesResponse = Even
 
 export type GetProjectsEventThreatDetectionSettingsCustomModulesError = CommonErrors;
 
+/** Gets an Event Threat Detection custom module. */
 export const getProjectsEventThreatDetectionSettingsCustomModules: API.OperationMethod<GetProjectsEventThreatDetectionSettingsCustomModulesRequest, GetProjectsEventThreatDetectionSettingsCustomModulesResponse, GetProjectsEventThreatDetectionSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsEventThreatDetectionSettingsCustomModulesRequest,
   output: GetProjectsEventThreatDetectionSettingsCustomModulesResponse,
   errors: [],
 }));
 
-/** Lists all resident Event Threat Detection custom modules under the given Resource Manager parent and its descendants. */
 export interface ListDescendantProjectsEventThreatDetectionSettingsCustomModulesRequest {
   /** Required. Name of the parent to list custom modules under. Its format is: * `organizations/{organization}/eventThreatDetectionSettings`. * `folders/{folder}/eventThreatDetectionSettings`. * `projects/{project}/eventThreatDetectionSettings`. */
   parent: string;
@@ -9057,7 +9056,8 @@ export const ListDescendantProjectsEventThreatDetectionSettingsCustomModulesResp
 
 export type ListDescendantProjectsEventThreatDetectionSettingsCustomModulesError = CommonErrors;
 
-export const listDescendantProjectsEventThreatDetectionSettingsCustomModules = API.makePaginated(() => ({
+/** Lists all resident Event Threat Detection custom modules under the given Resource Manager parent and its descendants. */
+export const listDescendantProjectsEventThreatDetectionSettingsCustomModules: API.PaginatedOperationMethod<ListDescendantProjectsEventThreatDetectionSettingsCustomModulesRequest, ListDescendantProjectsEventThreatDetectionSettingsCustomModulesResponse, ListDescendantProjectsEventThreatDetectionSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListDescendantProjectsEventThreatDetectionSettingsCustomModulesRequest,
   output: ListDescendantProjectsEventThreatDetectionSettingsCustomModulesResponse,
   errors: [],
@@ -9067,7 +9067,6 @@ export const listDescendantProjectsEventThreatDetectionSettingsCustomModules = A
   },
 }));
 
-/** Lists all Event Threat Detection custom modules for the given Resource Manager parent. This includes resident modules defined at the scope of the parent along with modules inherited from ancestors. */
 export interface ListProjectsEventThreatDetectionSettingsCustomModulesRequest {
   /** Required. Name of the parent to list custom modules under. Its format is: * `organizations/{organization}/eventThreatDetectionSettings`. * `folders/{folder}/eventThreatDetectionSettings`. * `projects/{project}/eventThreatDetectionSettings`. */
   parent: string;
@@ -9091,7 +9090,8 @@ export const ListProjectsEventThreatDetectionSettingsCustomModulesResponse = Lis
 
 export type ListProjectsEventThreatDetectionSettingsCustomModulesError = CommonErrors;
 
-export const listProjectsEventThreatDetectionSettingsCustomModules = API.makePaginated(() => ({
+/** Lists all Event Threat Detection custom modules for the given Resource Manager parent. This includes resident modules defined at the scope of the parent along with modules inherited from ancestors. */
+export const listProjectsEventThreatDetectionSettingsCustomModules: API.PaginatedOperationMethod<ListProjectsEventThreatDetectionSettingsCustomModulesRequest, ListProjectsEventThreatDetectionSettingsCustomModulesResponse, ListProjectsEventThreatDetectionSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsEventThreatDetectionSettingsCustomModulesRequest,
   output: ListProjectsEventThreatDetectionSettingsCustomModulesResponse,
   errors: [],
@@ -9101,7 +9101,6 @@ export const listProjectsEventThreatDetectionSettingsCustomModules = API.makePag
   },
 }));
 
-/** Updates the Event Threat Detection custom module with the given name based on the given update mask. Updating the enablement state is supported for both resident and inherited modules (though resident modules cannot have an enablement state of "inherited"). Updating the display name or configuration of a module is supported for resident modules only. The type of a module cannot be changed. */
 export interface PatchProjectsEventThreatDetectionSettingsCustomModulesRequest {
   /** Immutable. The resource name of the Event Threat Detection custom module. Its format is: * `organizations/{organization}/eventThreatDetectionSettings/customModules/{module}`. * `folders/{folder}/eventThreatDetectionSettings/customModules/{module}`. * `projects/{project}/eventThreatDetectionSettings/customModules/{module}`. */
   name: string;
@@ -9125,13 +9124,13 @@ export const PatchProjectsEventThreatDetectionSettingsCustomModulesResponse = Ev
 
 export type PatchProjectsEventThreatDetectionSettingsCustomModulesError = CommonErrors;
 
+/** Updates the Event Threat Detection custom module with the given name based on the given update mask. Updating the enablement state is supported for both resident and inherited modules (though resident modules cannot have an enablement state of "inherited"). Updating the display name or configuration of a module is supported for resident modules only. The type of a module cannot be changed. */
 export const patchProjectsEventThreatDetectionSettingsCustomModules: API.OperationMethod<PatchProjectsEventThreatDetectionSettingsCustomModulesRequest, PatchProjectsEventThreatDetectionSettingsCustomModulesResponse, PatchProjectsEventThreatDetectionSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsEventThreatDetectionSettingsCustomModulesRequest,
   output: PatchProjectsEventThreatDetectionSettingsCustomModulesResponse,
   errors: [],
 }));
 
-/** Gets an effective Event Threat Detection custom module at the given level. */
 export interface GetProjectsEventThreatDetectionSettingsEffectiveCustomModulesRequest {
   /** Required. The resource name of the effective Event Threat Detection custom module. Its format is: * `organizations/{organization}/eventThreatDetectionSettings/effectiveCustomModules/{module}`. * `folders/{folder}/eventThreatDetectionSettings/effectiveCustomModules/{module}`. * `projects/{project}/eventThreatDetectionSettings/effectiveCustomModules/{module}`. */
   name: string;
@@ -9149,13 +9148,13 @@ export const GetProjectsEventThreatDetectionSettingsEffectiveCustomModulesRespon
 
 export type GetProjectsEventThreatDetectionSettingsEffectiveCustomModulesError = CommonErrors;
 
+/** Gets an effective Event Threat Detection custom module at the given level. */
 export const getProjectsEventThreatDetectionSettingsEffectiveCustomModules: API.OperationMethod<GetProjectsEventThreatDetectionSettingsEffectiveCustomModulesRequest, GetProjectsEventThreatDetectionSettingsEffectiveCustomModulesResponse, GetProjectsEventThreatDetectionSettingsEffectiveCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsEventThreatDetectionSettingsEffectiveCustomModulesRequest,
   output: GetProjectsEventThreatDetectionSettingsEffectiveCustomModulesResponse,
   errors: [],
 }));
 
-/** Lists all effective Event Threat Detection custom modules for the given parent. This includes resident modules defined at the scope of the parent along with modules inherited from its ancestors. */
 export interface ListProjectsEventThreatDetectionSettingsEffectiveCustomModulesRequest {
   /** Required. Name of the parent to list custom modules for. Its format is: * `organizations/{organization}/eventThreatDetectionSettings`. * `folders/{folder}/eventThreatDetectionSettings`. * `projects/{project}/eventThreatDetectionSettings`. */
   parent: string;
@@ -9179,7 +9178,8 @@ export const ListProjectsEventThreatDetectionSettingsEffectiveCustomModulesRespo
 
 export type ListProjectsEventThreatDetectionSettingsEffectiveCustomModulesError = CommonErrors;
 
-export const listProjectsEventThreatDetectionSettingsEffectiveCustomModules = API.makePaginated(() => ({
+/** Lists all effective Event Threat Detection custom modules for the given parent. This includes resident modules defined at the scope of the parent along with modules inherited from its ancestors. */
+export const listProjectsEventThreatDetectionSettingsEffectiveCustomModules: API.PaginatedOperationMethod<ListProjectsEventThreatDetectionSettingsEffectiveCustomModulesRequest, ListProjectsEventThreatDetectionSettingsEffectiveCustomModulesResponse, ListProjectsEventThreatDetectionSettingsEffectiveCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsEventThreatDetectionSettingsEffectiveCustomModulesRequest,
   output: ListProjectsEventThreatDetectionSettingsEffectiveCustomModulesResponse,
   errors: [],
@@ -9189,7 +9189,6 @@ export const listProjectsEventThreatDetectionSettingsEffectiveCustomModules = AP
   },
 }));
 
-/** Gets the settings for an organization. */
 export interface GetOrganizationSettingsOrganizationsRequest {
   /** Required. Name of the organization to get organization settings for. Its format is `organizations/[organization_id]/organizationSettings`. */
   name: string;
@@ -9207,13 +9206,13 @@ export const GetOrganizationSettingsOrganizationsResponse = OrganizationSettings
 
 export type GetOrganizationSettingsOrganizationsError = CommonErrors;
 
+/** Gets the settings for an organization. */
 export const getOrganizationSettingsOrganizations: API.OperationMethod<GetOrganizationSettingsOrganizationsRequest, GetOrganizationSettingsOrganizationsResponse, GetOrganizationSettingsOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationSettingsOrganizationsRequest,
   output: GetOrganizationSettingsOrganizationsResponse,
   errors: [],
 }));
 
-/** Updates an organization's settings. */
 export interface UpdateOrganizationSettingsOrganizationsRequest {
   /** The relative resource name of the settings. See: https://cloud.google.com/apis/design/resource_names#relative_resource_name Example: "organizations/{organization_id}/organizationSettings". */
   name: string;
@@ -9237,13 +9236,13 @@ export const UpdateOrganizationSettingsOrganizationsResponse = OrganizationSetti
 
 export type UpdateOrganizationSettingsOrganizationsError = CommonErrors;
 
+/** Updates an organization's settings. */
 export const updateOrganizationSettingsOrganizations: API.OperationMethod<UpdateOrganizationSettingsOrganizationsRequest, UpdateOrganizationSettingsOrganizationsResponse, UpdateOrganizationSettingsOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateOrganizationSettingsOrganizationsRequest,
   output: UpdateOrganizationSettingsOrganizationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListOrganizationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -9273,7 +9272,8 @@ export const ListOrganizationsOperationsResponse = ListOperationsResponse;
 
 export type ListOrganizationsOperationsError = CommonErrors;
 
-export const listOrganizationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listOrganizationsOperations: API.PaginatedOperationMethod<ListOrganizationsOperationsRequest, ListOrganizationsOperationsResponse, ListOrganizationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsOperationsRequest,
   output: ListOrganizationsOperationsResponse,
   errors: [],
@@ -9283,7 +9283,6 @@ export const listOrganizationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetOrganizationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -9301,13 +9300,13 @@ export const GetOrganizationsOperationsResponse = Operation;
 
 export type GetOrganizationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOrganizationsOperations: API.OperationMethod<GetOrganizationsOperationsRequest, GetOrganizationsOperationsResponse, GetOrganizationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsOperationsRequest,
   output: GetOrganizationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteOrganizationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -9325,13 +9324,13 @@ export const DeleteOrganizationsOperationsResponse = Empty;
 
 export type DeleteOrganizationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteOrganizationsOperations: API.OperationMethod<DeleteOrganizationsOperationsRequest, DeleteOrganizationsOperationsResponse, DeleteOrganizationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsOperationsRequest,
   output: DeleteOrganizationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelOrganizationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -9349,13 +9348,13 @@ export const CancelOrganizationsOperationsResponse = Empty;
 
 export type CancelOrganizationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelOrganizationsOperations: API.OperationMethod<CancelOrganizationsOperationsRequest, CancelOrganizationsOperationsResponse, CancelOrganizationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelOrganizationsOperationsRequest,
   output: CancelOrganizationsOperationsResponse,
   errors: [],
 }));
 
-/** Kicks off an LRO to bulk mute findings for a parent based on a filter. The parent can be either an organization, folder or project. The findings matched by the filter will be muted after the LRO is done. */
 export interface BulkMuteOrganizationsFindingsRequest {
   /** Required. The parent, at which bulk action needs to be applied. Its format is `organizations/[organization_id]`, `folders/[folder_id]`, `projects/[project_id]`. */
   parent: string;
@@ -9376,13 +9375,13 @@ export const BulkMuteOrganizationsFindingsResponse = Operation;
 
 export type BulkMuteOrganizationsFindingsError = CommonErrors;
 
+/** Kicks off an LRO to bulk mute findings for a parent based on a filter. The parent can be either an organization, folder or project. The findings matched by the filter will be muted after the LRO is done. */
 export const bulkMuteOrganizationsFindings: API.OperationMethod<BulkMuteOrganizationsFindingsRequest, BulkMuteOrganizationsFindingsResponse, BulkMuteOrganizationsFindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BulkMuteOrganizationsFindingsRequest,
   output: BulkMuteOrganizationsFindingsResponse,
   errors: [],
 }));
 
-/** Creates a resident SecurityHealthAnalyticsCustomModule at the scope of the given CRM parent, and also creates inherited SecurityHealthAnalyticsCustomModules for all CRM descendants of the given parent. These modules are enabled by default. */
 export interface CreateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest {
   /** Required. Resource name of the new custom module's parent. Its format is `organizations/{organization}/securityHealthAnalyticsSettings`, `folders/{folder}/securityHealthAnalyticsSettings`, or `projects/{project}/securityHealthAnalyticsSettings` */
   parent: string;
@@ -9403,13 +9402,13 @@ export const CreateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesResp
 
 export type CreateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesError = CommonErrors;
 
+/** Creates a resident SecurityHealthAnalyticsCustomModule at the scope of the given CRM parent, and also creates inherited SecurityHealthAnalyticsCustomModules for all CRM descendants of the given parent. These modules are enabled by default. */
 export const createOrganizationsSecurityHealthAnalyticsSettingsCustomModules: API.OperationMethod<CreateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest, CreateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesResponse, CreateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: CreateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesResponse,
   errors: [],
 }));
 
-/** Deletes the specified SecurityHealthAnalyticsCustomModule and all of its descendants in the CRM hierarchy. This method is only supported for resident custom modules. */
 export interface DeleteOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest {
   /** Required. Name of the custom module to delete. Its format is `organizations/{organization}/securityHealthAnalyticsSettings/customModules/{customModule}`, `folders/{folder}/securityHealthAnalyticsSettings/customModules/{customModule}`, or `projects/{project}/securityHealthAnalyticsSettings/customModules/{customModule}` */
   name: string;
@@ -9427,13 +9426,13 @@ export const DeleteOrganizationsSecurityHealthAnalyticsSettingsCustomModulesResp
 
 export type DeleteOrganizationsSecurityHealthAnalyticsSettingsCustomModulesError = CommonErrors;
 
+/** Deletes the specified SecurityHealthAnalyticsCustomModule and all of its descendants in the CRM hierarchy. This method is only supported for resident custom modules. */
 export const deleteOrganizationsSecurityHealthAnalyticsSettingsCustomModules: API.OperationMethod<DeleteOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest, DeleteOrganizationsSecurityHealthAnalyticsSettingsCustomModulesResponse, DeleteOrganizationsSecurityHealthAnalyticsSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: DeleteOrganizationsSecurityHealthAnalyticsSettingsCustomModulesResponse,
   errors: [],
 }));
 
-/** Retrieves a SecurityHealthAnalyticsCustomModule. */
 export interface GetOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest {
   /** Required. Name of the custom module to get. Its format is `organizations/{organization}/securityHealthAnalyticsSettings/customModules/{customModule}`, `folders/{folder}/securityHealthAnalyticsSettings/customModules/{customModule}`, or `projects/{project}/securityHealthAnalyticsSettings/customModules/{customModule}` */
   name: string;
@@ -9451,13 +9450,13 @@ export const GetOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRespons
 
 export type GetOrganizationsSecurityHealthAnalyticsSettingsCustomModulesError = CommonErrors;
 
+/** Retrieves a SecurityHealthAnalyticsCustomModule. */
 export const getOrganizationsSecurityHealthAnalyticsSettingsCustomModules: API.OperationMethod<GetOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest, GetOrganizationsSecurityHealthAnalyticsSettingsCustomModulesResponse, GetOrganizationsSecurityHealthAnalyticsSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: GetOrganizationsSecurityHealthAnalyticsSettingsCustomModulesResponse,
   errors: [],
 }));
 
-/** Returns a list of all resident SecurityHealthAnalyticsCustomModules under the given CRM parent and all of the parent’s CRM descendants. */
 export interface ListDescendantOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest {
   /** Required. Name of parent to list descendant custom modules. Its format is `organizations/{organization}/securityHealthAnalyticsSettings`, `folders/{folder}/securityHealthAnalyticsSettings`, or `projects/{project}/securityHealthAnalyticsSettings` */
   parent: string;
@@ -9481,7 +9480,8 @@ export const ListDescendantOrganizationsSecurityHealthAnalyticsSettingsCustomMod
 
 export type ListDescendantOrganizationsSecurityHealthAnalyticsSettingsCustomModulesError = CommonErrors;
 
-export const listDescendantOrganizationsSecurityHealthAnalyticsSettingsCustomModules = API.makePaginated(() => ({
+/** Returns a list of all resident SecurityHealthAnalyticsCustomModules under the given CRM parent and all of the parent’s CRM descendants. */
+export const listDescendantOrganizationsSecurityHealthAnalyticsSettingsCustomModules: API.PaginatedOperationMethod<ListDescendantOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest, ListDescendantOrganizationsSecurityHealthAnalyticsSettingsCustomModulesResponse, ListDescendantOrganizationsSecurityHealthAnalyticsSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListDescendantOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: ListDescendantOrganizationsSecurityHealthAnalyticsSettingsCustomModulesResponse,
   errors: [],
@@ -9491,7 +9491,6 @@ export const listDescendantOrganizationsSecurityHealthAnalyticsSettingsCustomMod
   },
 }));
 
-/** Returns a list of all SecurityHealthAnalyticsCustomModules for the given parent. This includes resident modules defined at the scope of the parent, and inherited modules, inherited from CRM ancestors. */
 export interface ListOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest {
   /** Required. Name of parent to list custom modules. Its format is `organizations/{organization}/securityHealthAnalyticsSettings`, `folders/{folder}/securityHealthAnalyticsSettings`, or `projects/{project}/securityHealthAnalyticsSettings` */
   parent: string;
@@ -9515,7 +9514,8 @@ export const ListOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRespon
 
 export type ListOrganizationsSecurityHealthAnalyticsSettingsCustomModulesError = CommonErrors;
 
-export const listOrganizationsSecurityHealthAnalyticsSettingsCustomModules = API.makePaginated(() => ({
+/** Returns a list of all SecurityHealthAnalyticsCustomModules for the given parent. This includes resident modules defined at the scope of the parent, and inherited modules, inherited from CRM ancestors. */
+export const listOrganizationsSecurityHealthAnalyticsSettingsCustomModules: API.PaginatedOperationMethod<ListOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest, ListOrganizationsSecurityHealthAnalyticsSettingsCustomModulesResponse, ListOrganizationsSecurityHealthAnalyticsSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: ListOrganizationsSecurityHealthAnalyticsSettingsCustomModulesResponse,
   errors: [],
@@ -9525,7 +9525,6 @@ export const listOrganizationsSecurityHealthAnalyticsSettingsCustomModules = API
   },
 }));
 
-/** Simulates a given SecurityHealthAnalyticsCustomModule and Resource. */
 export interface SimulateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest {
   /** Required. The relative resource name of the organization, project, or folder. For more information about relative resource names, see [Relative Resource Name](https://cloud.google.com/apis/design/resource_names#relative_resource_name) Example: `organizations/{organization_id}` */
   parent: string;
@@ -9546,13 +9545,13 @@ export const SimulateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRe
 
 export type SimulateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesError = CommonErrors;
 
+/** Simulates a given SecurityHealthAnalyticsCustomModule and Resource. */
 export const simulateOrganizationsSecurityHealthAnalyticsSettingsCustomModules: API.OperationMethod<SimulateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest, SimulateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesResponse, SimulateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SimulateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: SimulateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesResponse,
   errors: [],
 }));
 
-/** Updates the SecurityHealthAnalyticsCustomModule under the given name based on the given update mask. Updating the enablement state is supported on both resident and inherited modules (though resident modules cannot have an enablement state of "inherited"). Updating the display name and custom config of a module is supported on resident modules only. */
 export interface PatchOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest {
   /** Immutable. The resource name of the custom module. Its format is "organizations/{organization}/securityHealthAnalyticsSettings/customModules/{customModule}", or "folders/{folder}/securityHealthAnalyticsSettings/customModules/{customModule}", or "projects/{project}/securityHealthAnalyticsSettings/customModules/{customModule}" The id {customModule} is server-generated and is not user settable. It will be a numeric id containing 1-20 digits. */
   name: string;
@@ -9576,13 +9575,13 @@ export const PatchOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRespo
 
 export type PatchOrganizationsSecurityHealthAnalyticsSettingsCustomModulesError = CommonErrors;
 
+/** Updates the SecurityHealthAnalyticsCustomModule under the given name based on the given update mask. Updating the enablement state is supported on both resident and inherited modules (though resident modules cannot have an enablement state of "inherited"). Updating the display name and custom config of a module is supported on resident modules only. */
 export const patchOrganizationsSecurityHealthAnalyticsSettingsCustomModules: API.OperationMethod<PatchOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest, PatchOrganizationsSecurityHealthAnalyticsSettingsCustomModulesResponse, PatchOrganizationsSecurityHealthAnalyticsSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsSecurityHealthAnalyticsSettingsCustomModulesRequest,
   output: PatchOrganizationsSecurityHealthAnalyticsSettingsCustomModulesResponse,
   errors: [],
 }));
 
-/** Retrieves an EffectiveSecurityHealthAnalyticsCustomModule. */
 export interface GetOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest {
   /** Required. Name of the effective custom module to get. Its format is `organizations/{organization}/securityHealthAnalyticsSettings/effectiveCustomModules/{customModule}`, `folders/{folder}/securityHealthAnalyticsSettings/effectiveCustomModules/{customModule}`, or `projects/{project}/securityHealthAnalyticsSettings/effectiveCustomModules/{customModule}` */
   name: string;
@@ -9600,13 +9599,13 @@ export const GetOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModul
 
 export type GetOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModulesError = CommonErrors;
 
+/** Retrieves an EffectiveSecurityHealthAnalyticsCustomModule. */
 export const getOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModules: API.OperationMethod<GetOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest, GetOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModulesResponse, GetOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest,
   output: GetOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModulesResponse,
   errors: [],
 }));
 
-/** Returns a list of all EffectiveSecurityHealthAnalyticsCustomModules for the given parent. This includes resident modules defined at the scope of the parent, and inherited modules, inherited from CRM ancestors. */
 export interface ListOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest {
   /** Required. Name of parent to list effective custom modules. Its format is `organizations/{organization}/securityHealthAnalyticsSettings`, `folders/{folder}/securityHealthAnalyticsSettings`, or `projects/{project}/securityHealthAnalyticsSettings` */
   parent: string;
@@ -9630,7 +9629,8 @@ export const ListOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModu
 
 export type ListOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModulesError = CommonErrors;
 
-export const listOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModules = API.makePaginated(() => ({
+/** Returns a list of all EffectiveSecurityHealthAnalyticsCustomModules for the given parent. This includes resident modules defined at the scope of the parent, and inherited modules, inherited from CRM ancestors. */
+export const listOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModules: API.PaginatedOperationMethod<ListOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest, ListOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModulesResponse, ListOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModulesRequest,
   output: ListOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModulesResponse,
   errors: [],
@@ -9640,7 +9640,6 @@ export const listOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModu
   },
 }));
 
-/** Creates a source. */
 export interface CreateOrganizationsSourcesRequest {
   /** Required. Resource name of the new source's parent. Its format should be `organizations/[organization_id]`. */
   parent: string;
@@ -9661,13 +9660,13 @@ export const CreateOrganizationsSourcesResponse = Source;
 
 export type CreateOrganizationsSourcesError = CommonErrors;
 
+/** Creates a source. */
 export const createOrganizationsSources: API.OperationMethod<CreateOrganizationsSourcesRequest, CreateOrganizationsSourcesResponse, CreateOrganizationsSourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsSourcesRequest,
   output: CreateOrganizationsSourcesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy on the specified Source. */
 export interface GetIamPolicyOrganizationsSourcesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -9688,13 +9687,13 @@ export const GetIamPolicyOrganizationsSourcesResponse = Policy;
 
 export type GetIamPolicyOrganizationsSourcesError = CommonErrors;
 
+/** Gets the access control policy on the specified Source. */
 export const getIamPolicyOrganizationsSources: API.OperationMethod<GetIamPolicyOrganizationsSourcesRequest, GetIamPolicyOrganizationsSourcesResponse, GetIamPolicyOrganizationsSourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyOrganizationsSourcesRequest,
   output: GetIamPolicyOrganizationsSourcesResponse,
   errors: [],
 }));
 
-/** Gets a source. */
 export interface GetOrganizationsSourcesRequest {
   /** Required. Relative resource name of the source. Its format is `organizations/[organization_id]/source/[source_id]`. */
   name: string;
@@ -9712,13 +9711,13 @@ export const GetOrganizationsSourcesResponse = Source;
 
 export type GetOrganizationsSourcesError = CommonErrors;
 
+/** Gets a source. */
 export const getOrganizationsSources: API.OperationMethod<GetOrganizationsSourcesRequest, GetOrganizationsSourcesResponse, GetOrganizationsSourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsSourcesRequest,
   output: GetOrganizationsSourcesResponse,
   errors: [],
 }));
 
-/** Lists all sources belonging to an organization. */
 export interface ListOrganizationsSourcesRequest {
   /** Required. Resource name of the parent of sources to list. Its format should be `organizations/[organization_id]`, `folders/[folder_id]`, or `projects/[project_id]`. */
   parent: string;
@@ -9742,7 +9741,8 @@ export const ListOrganizationsSourcesResponse = ListSourcesResponse;
 
 export type ListOrganizationsSourcesError = CommonErrors;
 
-export const listOrganizationsSources = API.makePaginated(() => ({
+/** Lists all sources belonging to an organization. */
+export const listOrganizationsSources: API.PaginatedOperationMethod<ListOrganizationsSourcesRequest, ListOrganizationsSourcesResponse, ListOrganizationsSourcesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsSourcesRequest,
   output: ListOrganizationsSourcesResponse,
   errors: [],
@@ -9752,7 +9752,6 @@ export const listOrganizationsSources = API.makePaginated(() => ({
   },
 }));
 
-/** Sets the access control policy on the specified Source. */
 export interface SetIamPolicyOrganizationsSourcesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -9773,13 +9772,13 @@ export const SetIamPolicyOrganizationsSourcesResponse = Policy;
 
 export type SetIamPolicyOrganizationsSourcesError = CommonErrors;
 
+/** Sets the access control policy on the specified Source. */
 export const setIamPolicyOrganizationsSources: API.OperationMethod<SetIamPolicyOrganizationsSourcesRequest, SetIamPolicyOrganizationsSourcesResponse, SetIamPolicyOrganizationsSourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyOrganizationsSourcesRequest,
   output: SetIamPolicyOrganizationsSourcesResponse,
   errors: [],
 }));
 
-/** Returns the permissions that a caller has on the specified source. */
 export interface TestIamPermissionsOrganizationsSourcesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -9800,13 +9799,13 @@ export const TestIamPermissionsOrganizationsSourcesResponse = TestIamPermissions
 
 export type TestIamPermissionsOrganizationsSourcesError = CommonErrors;
 
+/** Returns the permissions that a caller has on the specified source. */
 export const testIamPermissionsOrganizationsSources: API.OperationMethod<TestIamPermissionsOrganizationsSourcesRequest, TestIamPermissionsOrganizationsSourcesResponse, TestIamPermissionsOrganizationsSourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsOrganizationsSourcesRequest,
   output: TestIamPermissionsOrganizationsSourcesResponse,
   errors: [],
 }));
 
-/** Updates a source. */
 export interface PatchOrganizationsSourcesRequest {
   /** The relative resource name of this source. See: https://cloud.google.com/apis/design/resource_names#relative_resource_name Example: "organizations/{organization_id}/sources/{source_id}" */
   name: string;
@@ -9830,13 +9829,13 @@ export const PatchOrganizationsSourcesResponse = Source;
 
 export type PatchOrganizationsSourcesError = CommonErrors;
 
+/** Updates a source. */
 export const patchOrganizationsSources: API.OperationMethod<PatchOrganizationsSourcesRequest, PatchOrganizationsSourcesResponse, PatchOrganizationsSourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsSourcesRequest,
   output: PatchOrganizationsSourcesResponse,
   errors: [],
 }));
 
-/** Creates a finding. The corresponding source must exist for finding creation to succeed. */
 export interface CreateOrganizationsSourcesFindingsRequest {
   /** Required. Resource name of the new finding's parent. Its format should be `organizations/[organization_id]/sources/[source_id]`. */
   parent: string;
@@ -9860,13 +9859,13 @@ export const CreateOrganizationsSourcesFindingsResponse = Finding;
 
 export type CreateOrganizationsSourcesFindingsError = CommonErrors;
 
+/** Creates a finding. The corresponding source must exist for finding creation to succeed. */
 export const createOrganizationsSourcesFindings: API.OperationMethod<CreateOrganizationsSourcesFindingsRequest, CreateOrganizationsSourcesFindingsResponse, CreateOrganizationsSourcesFindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsSourcesFindingsRequest,
   output: CreateOrganizationsSourcesFindingsResponse,
   errors: [],
 }));
 
-/** Filters an organization or source's findings and groups them by their specified properties. To group across all sources provide a `-` as the source id. Example: /v1/organizations/{organization_id}/sources/-/findings, /v1/folders/{folder_id}/sources/-/findings, /v1/projects/{project_id}/sources/-/findings */
 export interface GroupOrganizationsSourcesFindingsRequest {
   /** Required. Name of the source to groupBy. Its format is `organizations/[organization_id]/sources/[source_id]`, `folders/[folder_id]/sources/[source_id]`, or `projects/[project_id]/sources/[source_id]`. To groupBy across all sources provide a source_id of `-`. For example: `organizations/{organization_id}/sources/-, folders/{folder_id}/sources/-`, or `projects/{project_id}/sources/-` */
   parent: string;
@@ -9887,13 +9886,13 @@ export const GroupOrganizationsSourcesFindingsResponse = GroupFindingsResponse;
 
 export type GroupOrganizationsSourcesFindingsError = CommonErrors;
 
+/** Filters an organization or source's findings and groups them by their specified properties. To group across all sources provide a `-` as the source id. Example: /v1/organizations/{organization_id}/sources/-/findings, /v1/folders/{folder_id}/sources/-/findings, /v1/projects/{project_id}/sources/-/findings */
 export const groupOrganizationsSourcesFindings: API.OperationMethod<GroupOrganizationsSourcesFindingsRequest, GroupOrganizationsSourcesFindingsResponse, GroupOrganizationsSourcesFindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GroupOrganizationsSourcesFindingsRequest,
   output: GroupOrganizationsSourcesFindingsResponse,
   errors: [],
 }));
 
-/** Lists an organization or source's findings. To list across all sources provide a `-` as the source id. Example: /v1/organizations/{organization_id}/sources/-/findings */
 export interface ListOrganizationsSourcesFindingsRequest {
   /** Required. Name of the source the findings belong to. Its format is `organizations/[organization_id]/sources/[source_id]`, `folders/[folder_id]/sources/[source_id]`, or `projects/[project_id]/sources/[source_id]`. To list across all sources provide a source_id of `-`. For example: `organizations/{organization_id}/sources/-`, `folders/{folder_id}/sources/-` or `projects/{projects_id}/sources/-` */
   parent: string;
@@ -9932,7 +9931,8 @@ export const ListOrganizationsSourcesFindingsResponse = ListFindingsResponse;
 
 export type ListOrganizationsSourcesFindingsError = CommonErrors;
 
-export const listOrganizationsSourcesFindings = API.makePaginated(() => ({
+/** Lists an organization or source's findings. To list across all sources provide a `-` as the source id. Example: /v1/organizations/{organization_id}/sources/-/findings */
+export const listOrganizationsSourcesFindings: API.PaginatedOperationMethod<ListOrganizationsSourcesFindingsRequest, ListOrganizationsSourcesFindingsResponse, ListOrganizationsSourcesFindingsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsSourcesFindingsRequest,
   output: ListOrganizationsSourcesFindingsResponse,
   errors: [],
@@ -9942,7 +9942,6 @@ export const listOrganizationsSourcesFindings = API.makePaginated(() => ({
   },
 }));
 
-/** Updates the state of a finding. */
 export interface SetStateOrganizationsSourcesFindingsRequest {
   /** Required. The [relative resource name](https://cloud.google.com/apis/design/resource_names#relative_resource_name) of the finding. Example: `organizations/{organization_id}/sources/{source_id}/findings/{finding_id}`, `folders/{folder_id}/sources/{source_id}/findings/{finding_id}`, `projects/{project_id}/sources/{source_id}/findings/{finding_id}`. */
   name: string;
@@ -9963,13 +9962,13 @@ export const SetStateOrganizationsSourcesFindingsResponse = Finding;
 
 export type SetStateOrganizationsSourcesFindingsError = CommonErrors;
 
+/** Updates the state of a finding. */
 export const setStateOrganizationsSourcesFindings: API.OperationMethod<SetStateOrganizationsSourcesFindingsRequest, SetStateOrganizationsSourcesFindingsResponse, SetStateOrganizationsSourcesFindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetStateOrganizationsSourcesFindingsRequest,
   output: SetStateOrganizationsSourcesFindingsResponse,
   errors: [],
 }));
 
-/** Updates the mute state of a finding. */
 export interface SetMuteOrganizationsSourcesFindingsRequest {
   /** Required. The [relative resource name](https://cloud.google.com/apis/design/resource_names#relative_resource_name) of the finding. Example: `organizations/{organization_id}/sources/{source_id}/findings/{finding_id}`, `folders/{folder_id}/sources/{source_id}/findings/{finding_id}`, `projects/{project_id}/sources/{source_id}/findings/{finding_id}`. */
   name: string;
@@ -9990,13 +9989,13 @@ export const SetMuteOrganizationsSourcesFindingsResponse = Finding;
 
 export type SetMuteOrganizationsSourcesFindingsError = CommonErrors;
 
+/** Updates the mute state of a finding. */
 export const setMuteOrganizationsSourcesFindings: API.OperationMethod<SetMuteOrganizationsSourcesFindingsRequest, SetMuteOrganizationsSourcesFindingsResponse, SetMuteOrganizationsSourcesFindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetMuteOrganizationsSourcesFindingsRequest,
   output: SetMuteOrganizationsSourcesFindingsResponse,
   errors: [],
 }));
 
-/** Creates or updates a finding. The corresponding source must exist for a finding creation to succeed. */
 export interface PatchOrganizationsSourcesFindingsRequest {
   /** The [relative resource name](https://cloud.google.com/apis/design/resource_names#relative_resource_name) of the finding. Example: "organizations/{organization_id}/sources/{source_id}/findings/{finding_id}", "folders/{folder_id}/sources/{source_id}/findings/{finding_id}", "projects/{project_id}/sources/{source_id}/findings/{finding_id}". */
   name: string;
@@ -10020,13 +10019,13 @@ export const PatchOrganizationsSourcesFindingsResponse = Finding;
 
 export type PatchOrganizationsSourcesFindingsError = CommonErrors;
 
+/** Creates or updates a finding. The corresponding source must exist for a finding creation to succeed. */
 export const patchOrganizationsSourcesFindings: API.OperationMethod<PatchOrganizationsSourcesFindingsRequest, PatchOrganizationsSourcesFindingsResponse, PatchOrganizationsSourcesFindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsSourcesFindingsRequest,
   output: PatchOrganizationsSourcesFindingsResponse,
   errors: [],
 }));
 
-/** Updates security marks. */
 export interface UpdateSecurityMarksOrganizationsSourcesFindingsRequest {
   /** The relative resource name of the SecurityMarks. See: https://cloud.google.com/apis/design/resource_names#relative_resource_name Examples: "organizations/{organization_id}/assets/{asset_id}/securityMarks" "organizations/{organization_id}/sources/{source_id}/findings/{finding_id}/securityMarks". */
   name: string;
@@ -10053,13 +10052,13 @@ export const UpdateSecurityMarksOrganizationsSourcesFindingsResponse = SecurityM
 
 export type UpdateSecurityMarksOrganizationsSourcesFindingsError = CommonErrors;
 
+/** Updates security marks. */
 export const updateSecurityMarksOrganizationsSourcesFindings: API.OperationMethod<UpdateSecurityMarksOrganizationsSourcesFindingsRequest, UpdateSecurityMarksOrganizationsSourcesFindingsResponse, UpdateSecurityMarksOrganizationsSourcesFindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateSecurityMarksOrganizationsSourcesFindingsRequest,
   output: UpdateSecurityMarksOrganizationsSourcesFindingsResponse,
   errors: [],
 }));
 
-/** Updates external system. This is for a given finding. */
 export interface PatchOrganizationsSourcesFindingsExternalSystemsRequest {
   /** Full resource name of the external system, for example: "organizations/1234/sources/5678/findings/123456/externalSystems/jira", "folders/1234/sources/5678/findings/123456/externalSystems/jira", "projects/1234/sources/5678/findings/123456/externalSystems/jira" */
   name: string;
@@ -10083,13 +10082,13 @@ export const PatchOrganizationsSourcesFindingsExternalSystemsResponse = GoogleCl
 
 export type PatchOrganizationsSourcesFindingsExternalSystemsError = CommonErrors;
 
+/** Updates external system. This is for a given finding. */
 export const patchOrganizationsSourcesFindingsExternalSystems: API.OperationMethod<PatchOrganizationsSourcesFindingsExternalSystemsRequest, PatchOrganizationsSourcesFindingsExternalSystemsResponse, PatchOrganizationsSourcesFindingsExternalSystemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsSourcesFindingsExternalSystemsRequest,
   output: PatchOrganizationsSourcesFindingsExternalSystemsResponse,
   errors: [],
 }));
 
-/** Creates a mute config. */
 export interface CreateOrganizationsMuteConfigsRequest {
   /** Required. Resource name of the new mute configs's parent. Its format is `organizations/[organization_id]`, `folders/[folder_id]`, or `projects/[project_id]`. */
   parent: string;
@@ -10113,13 +10112,13 @@ export const CreateOrganizationsMuteConfigsResponse = GoogleCloudSecuritycenterV
 
 export type CreateOrganizationsMuteConfigsError = CommonErrors;
 
+/** Creates a mute config. */
 export const createOrganizationsMuteConfigs: API.OperationMethod<CreateOrganizationsMuteConfigsRequest, CreateOrganizationsMuteConfigsResponse, CreateOrganizationsMuteConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsMuteConfigsRequest,
   output: CreateOrganizationsMuteConfigsResponse,
   errors: [],
 }));
 
-/** Deletes an existing mute config. */
 export interface DeleteOrganizationsMuteConfigsRequest {
   /** Required. Name of the mute config to delete. Its format is `organizations/{organization}/muteConfigs/{config_id}`, `folders/{folder}/muteConfigs/{config_id}`, `projects/{project}/muteConfigs/{config_id}`, `organizations/{organization}/locations/global/muteConfigs/{config_id}`, `folders/{folder}/locations/global/muteConfigs/{config_id}`, or `projects/{project}/locations/global/muteConfigs/{config_id}`. */
   name: string;
@@ -10137,13 +10136,13 @@ export const DeleteOrganizationsMuteConfigsResponse = Empty;
 
 export type DeleteOrganizationsMuteConfigsError = CommonErrors;
 
+/** Deletes an existing mute config. */
 export const deleteOrganizationsMuteConfigs: API.OperationMethod<DeleteOrganizationsMuteConfigsRequest, DeleteOrganizationsMuteConfigsResponse, DeleteOrganizationsMuteConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsMuteConfigsRequest,
   output: DeleteOrganizationsMuteConfigsResponse,
   errors: [],
 }));
 
-/** Gets a mute config. */
 export interface GetOrganizationsMuteConfigsRequest {
   /** Required. Name of the mute config to retrieve. Its format is `organizations/{organization}/muteConfigs/{config_id}`, `folders/{folder}/muteConfigs/{config_id}`, `projects/{project}/muteConfigs/{config_id}`, `organizations/{organization}/locations/global/muteConfigs/{config_id}`, `folders/{folder}/locations/global/muteConfigs/{config_id}`, or `projects/{project}/locations/global/muteConfigs/{config_id}`. */
   name: string;
@@ -10161,13 +10160,13 @@ export const GetOrganizationsMuteConfigsResponse = GoogleCloudSecuritycenterV1Mu
 
 export type GetOrganizationsMuteConfigsError = CommonErrors;
 
+/** Gets a mute config. */
 export const getOrganizationsMuteConfigs: API.OperationMethod<GetOrganizationsMuteConfigsRequest, GetOrganizationsMuteConfigsResponse, GetOrganizationsMuteConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsMuteConfigsRequest,
   output: GetOrganizationsMuteConfigsResponse,
   errors: [],
 }));
 
-/** Lists mute configs. */
 export interface ListOrganizationsMuteConfigsRequest {
   /** Required. The parent, which owns the collection of mute configs. Its format is `organizations/[organization_id]`, `folders/[folder_id]`, `projects/[project_id]`. */
   parent: string;
@@ -10191,7 +10190,8 @@ export const ListOrganizationsMuteConfigsResponse = ListMuteConfigsResponse;
 
 export type ListOrganizationsMuteConfigsError = CommonErrors;
 
-export const listOrganizationsMuteConfigs = API.makePaginated(() => ({
+/** Lists mute configs. */
+export const listOrganizationsMuteConfigs: API.PaginatedOperationMethod<ListOrganizationsMuteConfigsRequest, ListOrganizationsMuteConfigsResponse, ListOrganizationsMuteConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsMuteConfigsRequest,
   output: ListOrganizationsMuteConfigsResponse,
   errors: [],
@@ -10201,7 +10201,6 @@ export const listOrganizationsMuteConfigs = API.makePaginated(() => ({
   },
 }));
 
-/** Updates a mute config. */
 export interface PatchOrganizationsMuteConfigsRequest {
   /** This field will be ignored if provided on config creation. Format `organizations/{organization}/muteConfigs/{mute_config}` `folders/{folder}/muteConfigs/{mute_config}` `projects/{project}/muteConfigs/{mute_config}` `organizations/{organization}/locations/global/muteConfigs/{mute_config}` `folders/{folder}/locations/global/muteConfigs/{mute_config}` `projects/{project}/locations/global/muteConfigs/{mute_config}` */
   name: string;
@@ -10225,13 +10224,13 @@ export const PatchOrganizationsMuteConfigsResponse = GoogleCloudSecuritycenterV1
 
 export type PatchOrganizationsMuteConfigsError = CommonErrors;
 
+/** Updates a mute config. */
 export const patchOrganizationsMuteConfigs: API.OperationMethod<PatchOrganizationsMuteConfigsRequest, PatchOrganizationsMuteConfigsResponse, PatchOrganizationsMuteConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsMuteConfigsRequest,
   output: PatchOrganizationsMuteConfigsResponse,
   errors: [],
 }));
 
-/** Creates a notification config. */
 export interface CreateOrganizationsNotificationConfigsRequest {
   /** Required. Resource name of the new notification config's parent. Its format is `organizations/[organization_id]`, `folders/[folder_id]`, or `projects/[project_id]`. */
   parent: string;
@@ -10255,13 +10254,13 @@ export const CreateOrganizationsNotificationConfigsResponse = NotificationConfig
 
 export type CreateOrganizationsNotificationConfigsError = CommonErrors;
 
+/** Creates a notification config. */
 export const createOrganizationsNotificationConfigs: API.OperationMethod<CreateOrganizationsNotificationConfigsRequest, CreateOrganizationsNotificationConfigsResponse, CreateOrganizationsNotificationConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsNotificationConfigsRequest,
   output: CreateOrganizationsNotificationConfigsResponse,
   errors: [],
 }));
 
-/** Deletes a notification config. */
 export interface DeleteOrganizationsNotificationConfigsRequest {
   /** Required. Name of the notification config to delete. Its format is `organizations/[organization_id]/notificationConfigs/[config_id]`, `folders/[folder_id]/notificationConfigs/[config_id]`, or `projects/[project_id]/notificationConfigs/[config_id]`. */
   name: string;
@@ -10279,13 +10278,13 @@ export const DeleteOrganizationsNotificationConfigsResponse = Empty;
 
 export type DeleteOrganizationsNotificationConfigsError = CommonErrors;
 
+/** Deletes a notification config. */
 export const deleteOrganizationsNotificationConfigs: API.OperationMethod<DeleteOrganizationsNotificationConfigsRequest, DeleteOrganizationsNotificationConfigsResponse, DeleteOrganizationsNotificationConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsNotificationConfigsRequest,
   output: DeleteOrganizationsNotificationConfigsResponse,
   errors: [],
 }));
 
-/** Gets a notification config. */
 export interface GetOrganizationsNotificationConfigsRequest {
   /** Required. Name of the notification config to get. Its format is `organizations/[organization_id]/notificationConfigs/[config_id]`, `folders/[folder_id]/notificationConfigs/[config_id]`, or `projects/[project_id]/notificationConfigs/[config_id]`. */
   name: string;
@@ -10303,13 +10302,13 @@ export const GetOrganizationsNotificationConfigsResponse = NotificationConfig;
 
 export type GetOrganizationsNotificationConfigsError = CommonErrors;
 
+/** Gets a notification config. */
 export const getOrganizationsNotificationConfigs: API.OperationMethod<GetOrganizationsNotificationConfigsRequest, GetOrganizationsNotificationConfigsResponse, GetOrganizationsNotificationConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsNotificationConfigsRequest,
   output: GetOrganizationsNotificationConfigsResponse,
   errors: [],
 }));
 
-/** Lists notification configs. */
 export interface ListOrganizationsNotificationConfigsRequest {
   /** Required. The name of the parent in which to list the notification configurations. Its format is "organizations/[organization_id]", "folders/[folder_id]", or "projects/[project_id]". */
   parent: string;
@@ -10333,7 +10332,8 @@ export const ListOrganizationsNotificationConfigsResponse = ListNotificationConf
 
 export type ListOrganizationsNotificationConfigsError = CommonErrors;
 
-export const listOrganizationsNotificationConfigs = API.makePaginated(() => ({
+/** Lists notification configs. */
+export const listOrganizationsNotificationConfigs: API.PaginatedOperationMethod<ListOrganizationsNotificationConfigsRequest, ListOrganizationsNotificationConfigsResponse, ListOrganizationsNotificationConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsNotificationConfigsRequest,
   output: ListOrganizationsNotificationConfigsResponse,
   errors: [],
@@ -10343,7 +10343,6 @@ export const listOrganizationsNotificationConfigs = API.makePaginated(() => ({
   },
 }));
 
-/** Updates a notification config. The following update fields are allowed: description, pubsub_topic, streaming_config.filter */
 export interface PatchOrganizationsNotificationConfigsRequest {
   /** The relative resource name of this notification config. See: https://cloud.google.com/apis/design/resource_names#relative_resource_name Example: "organizations/{organization_id}/notificationConfigs/notify_public_bucket", "folders/{folder_id}/notificationConfigs/notify_public_bucket", or "projects/{project_id}/notificationConfigs/notify_public_bucket". */
   name: string;
@@ -10367,13 +10366,13 @@ export const PatchOrganizationsNotificationConfigsResponse = NotificationConfig;
 
 export type PatchOrganizationsNotificationConfigsError = CommonErrors;
 
+/** Updates a notification config. The following update fields are allowed: description, pubsub_topic, streaming_config.filter */
 export const patchOrganizationsNotificationConfigs: API.OperationMethod<PatchOrganizationsNotificationConfigsRequest, PatchOrganizationsNotificationConfigsResponse, PatchOrganizationsNotificationConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsNotificationConfigsRequest,
   output: PatchOrganizationsNotificationConfigsResponse,
   errors: [],
 }));
 
-/** Deletes an existing mute config. */
 export interface DeleteOrganizationsLocationsMuteConfigsRequest {
   /** Required. Name of the mute config to delete. Its format is `organizations/{organization}/muteConfigs/{config_id}`, `folders/{folder}/muteConfigs/{config_id}`, `projects/{project}/muteConfigs/{config_id}`, `organizations/{organization}/locations/global/muteConfigs/{config_id}`, `folders/{folder}/locations/global/muteConfigs/{config_id}`, or `projects/{project}/locations/global/muteConfigs/{config_id}`. */
   name: string;
@@ -10391,13 +10390,13 @@ export const DeleteOrganizationsLocationsMuteConfigsResponse = Empty;
 
 export type DeleteOrganizationsLocationsMuteConfigsError = CommonErrors;
 
+/** Deletes an existing mute config. */
 export const deleteOrganizationsLocationsMuteConfigs: API.OperationMethod<DeleteOrganizationsLocationsMuteConfigsRequest, DeleteOrganizationsLocationsMuteConfigsResponse, DeleteOrganizationsLocationsMuteConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsLocationsMuteConfigsRequest,
   output: DeleteOrganizationsLocationsMuteConfigsResponse,
   errors: [],
 }));
 
-/** Gets a mute config. */
 export interface GetOrganizationsLocationsMuteConfigsRequest {
   /** Required. Name of the mute config to retrieve. Its format is `organizations/{organization}/muteConfigs/{config_id}`, `folders/{folder}/muteConfigs/{config_id}`, `projects/{project}/muteConfigs/{config_id}`, `organizations/{organization}/locations/global/muteConfigs/{config_id}`, `folders/{folder}/locations/global/muteConfigs/{config_id}`, or `projects/{project}/locations/global/muteConfigs/{config_id}`. */
   name: string;
@@ -10415,13 +10414,13 @@ export const GetOrganizationsLocationsMuteConfigsResponse = GoogleCloudSecurityc
 
 export type GetOrganizationsLocationsMuteConfigsError = CommonErrors;
 
+/** Gets a mute config. */
 export const getOrganizationsLocationsMuteConfigs: API.OperationMethod<GetOrganizationsLocationsMuteConfigsRequest, GetOrganizationsLocationsMuteConfigsResponse, GetOrganizationsLocationsMuteConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsMuteConfigsRequest,
   output: GetOrganizationsLocationsMuteConfigsResponse,
   errors: [],
 }));
 
-/** Updates a mute config. */
 export interface PatchOrganizationsLocationsMuteConfigsRequest {
   /** This field will be ignored if provided on config creation. Format `organizations/{organization}/muteConfigs/{mute_config}` `folders/{folder}/muteConfigs/{mute_config}` `projects/{project}/muteConfigs/{mute_config}` `organizations/{organization}/locations/global/muteConfigs/{mute_config}` `folders/{folder}/locations/global/muteConfigs/{mute_config}` `projects/{project}/locations/global/muteConfigs/{mute_config}` */
   name: string;
@@ -10445,13 +10444,13 @@ export const PatchOrganizationsLocationsMuteConfigsResponse = GoogleCloudSecurit
 
 export type PatchOrganizationsLocationsMuteConfigsError = CommonErrors;
 
+/** Updates a mute config. */
 export const patchOrganizationsLocationsMuteConfigs: API.OperationMethod<PatchOrganizationsLocationsMuteConfigsRequest, PatchOrganizationsLocationsMuteConfigsResponse, PatchOrganizationsLocationsMuteConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsLocationsMuteConfigsRequest,
   output: PatchOrganizationsLocationsMuteConfigsResponse,
   errors: [],
 }));
 
-/** Get the simulation by name or the latest simulation for the given organization. */
 export interface GetOrganizationsSimulationsRequest {
   /** Required. The organization name or simulation name of this simulation Valid format: `organizations/{organization}/simulations/latest` `organizations/{organization}/simulations/{simulation}` */
   name: string;
@@ -10469,13 +10468,13 @@ export const GetOrganizationsSimulationsResponse = Simulation;
 
 export type GetOrganizationsSimulationsError = CommonErrors;
 
+/** Get the simulation by name or the latest simulation for the given organization. */
 export const getOrganizationsSimulations: API.OperationMethod<GetOrganizationsSimulationsRequest, GetOrganizationsSimulationsResponse, GetOrganizationsSimulationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsSimulationsRequest,
   output: GetOrganizationsSimulationsResponse,
   errors: [],
 }));
 
-/** Get the valued resource by name */
 export interface GetOrganizationsSimulationsValuedResourcesRequest {
   /** Required. The name of this valued resource Valid format: `organizations/{organization}/simulations/{simulation}/valuedResources/{valued_resource}` */
   name: string;
@@ -10493,13 +10492,13 @@ export const GetOrganizationsSimulationsValuedResourcesResponse = ValuedResource
 
 export type GetOrganizationsSimulationsValuedResourcesError = CommonErrors;
 
+/** Get the valued resource by name */
 export const getOrganizationsSimulationsValuedResources: API.OperationMethod<GetOrganizationsSimulationsValuedResourcesRequest, GetOrganizationsSimulationsValuedResourcesResponse, GetOrganizationsSimulationsValuedResourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsSimulationsValuedResourcesRequest,
   output: GetOrganizationsSimulationsValuedResourcesResponse,
   errors: [],
 }));
 
-/** Lists the valued resources for a set of simulation results and filter. */
 export interface ListOrganizationsSimulationsValuedResourcesRequest {
   /** Required. Name of parent to list valued resources. Valid formats: `organizations/{organization}`, `organizations/{organization}/simulations/{simulation}` `organizations/{organization}/simulations/{simulation}/attackExposureResults/{attack_exposure_result_v2}` */
   parent: string;
@@ -10529,7 +10528,8 @@ export const ListOrganizationsSimulationsValuedResourcesResponse = ListValuedRes
 
 export type ListOrganizationsSimulationsValuedResourcesError = CommonErrors;
 
-export const listOrganizationsSimulationsValuedResources = API.makePaginated(() => ({
+/** Lists the valued resources for a set of simulation results and filter. */
+export const listOrganizationsSimulationsValuedResources: API.PaginatedOperationMethod<ListOrganizationsSimulationsValuedResourcesRequest, ListOrganizationsSimulationsValuedResourcesResponse, ListOrganizationsSimulationsValuedResourcesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsSimulationsValuedResourcesRequest,
   output: ListOrganizationsSimulationsValuedResourcesResponse,
   errors: [],
@@ -10539,7 +10539,6 @@ export const listOrganizationsSimulationsValuedResources = API.makePaginated(() 
   },
 }));
 
-/** Lists the attack paths for a set of simulation results or valued resources and filter. */
 export interface ListOrganizationsSimulationsValuedResourcesAttackPathsRequest {
   /** Required. Name of parent to list attack paths. Valid formats: `organizations/{organization}`, `organizations/{organization}/simulations/{simulation}` `organizations/{organization}/simulations/{simulation}/attackExposureResults/{attack_exposure_result_v2}` `organizations/{organization}/simulations/{simulation}/valuedResources/{valued_resource}` */
   parent: string;
@@ -10566,7 +10565,8 @@ export const ListOrganizationsSimulationsValuedResourcesAttackPathsResponse = Li
 
 export type ListOrganizationsSimulationsValuedResourcesAttackPathsError = CommonErrors;
 
-export const listOrganizationsSimulationsValuedResourcesAttackPaths = API.makePaginated(() => ({
+/** Lists the attack paths for a set of simulation results or valued resources and filter. */
+export const listOrganizationsSimulationsValuedResourcesAttackPaths: API.PaginatedOperationMethod<ListOrganizationsSimulationsValuedResourcesAttackPathsRequest, ListOrganizationsSimulationsValuedResourcesAttackPathsResponse, ListOrganizationsSimulationsValuedResourcesAttackPathsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsSimulationsValuedResourcesAttackPathsRequest,
   output: ListOrganizationsSimulationsValuedResourcesAttackPathsResponse,
   errors: [],
@@ -10576,7 +10576,6 @@ export const listOrganizationsSimulationsValuedResourcesAttackPaths = API.makePa
   },
 }));
 
-/** Lists the valued resources for a set of simulation results and filter. */
 export interface ListOrganizationsSimulationsAttackExposureResultsValuedResourcesRequest {
   /** Required. Name of parent to list valued resources. Valid formats: `organizations/{organization}`, `organizations/{organization}/simulations/{simulation}` `organizations/{organization}/simulations/{simulation}/attackExposureResults/{attack_exposure_result_v2}` */
   parent: string;
@@ -10606,7 +10605,8 @@ export const ListOrganizationsSimulationsAttackExposureResultsValuedResourcesRes
 
 export type ListOrganizationsSimulationsAttackExposureResultsValuedResourcesError = CommonErrors;
 
-export const listOrganizationsSimulationsAttackExposureResultsValuedResources = API.makePaginated(() => ({
+/** Lists the valued resources for a set of simulation results and filter. */
+export const listOrganizationsSimulationsAttackExposureResultsValuedResources: API.PaginatedOperationMethod<ListOrganizationsSimulationsAttackExposureResultsValuedResourcesRequest, ListOrganizationsSimulationsAttackExposureResultsValuedResourcesResponse, ListOrganizationsSimulationsAttackExposureResultsValuedResourcesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsSimulationsAttackExposureResultsValuedResourcesRequest,
   output: ListOrganizationsSimulationsAttackExposureResultsValuedResourcesResponse,
   errors: [],
@@ -10616,7 +10616,6 @@ export const listOrganizationsSimulationsAttackExposureResultsValuedResources = 
   },
 }));
 
-/** Lists the attack paths for a set of simulation results or valued resources and filter. */
 export interface ListOrganizationsSimulationsAttackExposureResultsAttackPathsRequest {
   /** Required. Name of parent to list attack paths. Valid formats: `organizations/{organization}`, `organizations/{organization}/simulations/{simulation}` `organizations/{organization}/simulations/{simulation}/attackExposureResults/{attack_exposure_result_v2}` `organizations/{organization}/simulations/{simulation}/valuedResources/{valued_resource}` */
   parent: string;
@@ -10643,7 +10642,8 @@ export const ListOrganizationsSimulationsAttackExposureResultsAttackPathsRespons
 
 export type ListOrganizationsSimulationsAttackExposureResultsAttackPathsError = CommonErrors;
 
-export const listOrganizationsSimulationsAttackExposureResultsAttackPaths = API.makePaginated(() => ({
+/** Lists the attack paths for a set of simulation results or valued resources and filter. */
+export const listOrganizationsSimulationsAttackExposureResultsAttackPaths: API.PaginatedOperationMethod<ListOrganizationsSimulationsAttackExposureResultsAttackPathsRequest, ListOrganizationsSimulationsAttackExposureResultsAttackPathsResponse, ListOrganizationsSimulationsAttackExposureResultsAttackPathsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsSimulationsAttackExposureResultsAttackPathsRequest,
   output: ListOrganizationsSimulationsAttackExposureResultsAttackPathsResponse,
   errors: [],
@@ -10653,7 +10653,6 @@ export const listOrganizationsSimulationsAttackExposureResultsAttackPaths = API.
   },
 }));
 
-/** Lists the attack paths for a set of simulation results or valued resources and filter. */
 export interface ListOrganizationsSimulationsAttackPathsRequest {
   /** Required. Name of parent to list attack paths. Valid formats: `organizations/{organization}`, `organizations/{organization}/simulations/{simulation}` `organizations/{organization}/simulations/{simulation}/attackExposureResults/{attack_exposure_result_v2}` `organizations/{organization}/simulations/{simulation}/valuedResources/{valued_resource}` */
   parent: string;
@@ -10680,7 +10679,8 @@ export const ListOrganizationsSimulationsAttackPathsResponse = ListAttackPathsRe
 
 export type ListOrganizationsSimulationsAttackPathsError = CommonErrors;
 
-export const listOrganizationsSimulationsAttackPaths = API.makePaginated(() => ({
+/** Lists the attack paths for a set of simulation results or valued resources and filter. */
+export const listOrganizationsSimulationsAttackPaths: API.PaginatedOperationMethod<ListOrganizationsSimulationsAttackPathsRequest, ListOrganizationsSimulationsAttackPathsResponse, ListOrganizationsSimulationsAttackPathsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsSimulationsAttackPathsRequest,
   output: ListOrganizationsSimulationsAttackPathsResponse,
   errors: [],
@@ -10690,7 +10690,6 @@ export const listOrganizationsSimulationsAttackPaths = API.makePaginated(() => (
   },
 }));
 
-/** Gets a BigQuery export. */
 export interface GetOrganizationsBigQueryExportsRequest {
   /** Required. Name of the BigQuery export to retrieve. Its format is `organizations/{organization}/bigQueryExports/{export_id}`, `folders/{folder}/bigQueryExports/{export_id}`, or `projects/{project}/bigQueryExports/{export_id}` */
   name: string;
@@ -10708,13 +10707,13 @@ export const GetOrganizationsBigQueryExportsResponse = GoogleCloudSecuritycenter
 
 export type GetOrganizationsBigQueryExportsError = CommonErrors;
 
+/** Gets a BigQuery export. */
 export const getOrganizationsBigQueryExports: API.OperationMethod<GetOrganizationsBigQueryExportsRequest, GetOrganizationsBigQueryExportsResponse, GetOrganizationsBigQueryExportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsBigQueryExportsRequest,
   output: GetOrganizationsBigQueryExportsResponse,
   errors: [],
 }));
 
-/** Creates a BigQuery export. */
 export interface CreateOrganizationsBigQueryExportsRequest {
   /** Required. The name of the parent resource of the new BigQuery export. Its format is `organizations/[organization_id]`, `folders/[folder_id]`, or `projects/[project_id]`. */
   parent: string;
@@ -10738,13 +10737,13 @@ export const CreateOrganizationsBigQueryExportsResponse = GoogleCloudSecuritycen
 
 export type CreateOrganizationsBigQueryExportsError = CommonErrors;
 
+/** Creates a BigQuery export. */
 export const createOrganizationsBigQueryExports: API.OperationMethod<CreateOrganizationsBigQueryExportsRequest, CreateOrganizationsBigQueryExportsResponse, CreateOrganizationsBigQueryExportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsBigQueryExportsRequest,
   output: CreateOrganizationsBigQueryExportsResponse,
   errors: [],
 }));
 
-/** Deletes an existing BigQuery export. */
 export interface DeleteOrganizationsBigQueryExportsRequest {
   /** Required. The name of the BigQuery export to delete. Its format is `organizations/{organization}/bigQueryExports/{export_id}`, `folders/{folder}/bigQueryExports/{export_id}`, or `projects/{project}/bigQueryExports/{export_id}` */
   name: string;
@@ -10762,13 +10761,13 @@ export const DeleteOrganizationsBigQueryExportsResponse = Empty;
 
 export type DeleteOrganizationsBigQueryExportsError = CommonErrors;
 
+/** Deletes an existing BigQuery export. */
 export const deleteOrganizationsBigQueryExports: API.OperationMethod<DeleteOrganizationsBigQueryExportsRequest, DeleteOrganizationsBigQueryExportsResponse, DeleteOrganizationsBigQueryExportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsBigQueryExportsRequest,
   output: DeleteOrganizationsBigQueryExportsResponse,
   errors: [],
 }));
 
-/** Updates a BigQuery export. */
 export interface PatchOrganizationsBigQueryExportsRequest {
   /** The relative resource name of this export. See: https://cloud.google.com/apis/design/resource_names#relative_resource_name. Example format: "organizations/{organization_id}/bigQueryExports/{export_id}" Example format: "folders/{folder_id}/bigQueryExports/{export_id}" Example format: "projects/{project_id}/bigQueryExports/{export_id}" This field is provided in responses, and is ignored when provided in create requests. */
   name: string;
@@ -10792,13 +10791,13 @@ export const PatchOrganizationsBigQueryExportsResponse = GoogleCloudSecuritycent
 
 export type PatchOrganizationsBigQueryExportsError = CommonErrors;
 
+/** Updates a BigQuery export. */
 export const patchOrganizationsBigQueryExports: API.OperationMethod<PatchOrganizationsBigQueryExportsRequest, PatchOrganizationsBigQueryExportsResponse, PatchOrganizationsBigQueryExportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsBigQueryExportsRequest,
   output: PatchOrganizationsBigQueryExportsResponse,
   errors: [],
 }));
 
-/** Lists BigQuery exports. Note that when requesting BigQuery exports at a given level all exports under that level are also returned e.g. if requesting BigQuery exports under a folder, then all BigQuery exports immediately under the folder plus the ones created under the projects within the folder are returned. */
 export interface ListOrganizationsBigQueryExportsRequest {
   /** Required. The parent, which owns the collection of BigQuery exports. Its format is `organizations/[organization_id]`, `folders/[folder_id]`, `projects/[project_id]`. */
   parent: string;
@@ -10822,7 +10821,8 @@ export const ListOrganizationsBigQueryExportsResponse = ListBigQueryExportsRespo
 
 export type ListOrganizationsBigQueryExportsError = CommonErrors;
 
-export const listOrganizationsBigQueryExports = API.makePaginated(() => ({
+/** Lists BigQuery exports. Note that when requesting BigQuery exports at a given level all exports under that level are also returned e.g. if requesting BigQuery exports under a folder, then all BigQuery exports immediately under the folder plus the ones created under the projects within the folder are returned. */
+export const listOrganizationsBigQueryExports: API.PaginatedOperationMethod<ListOrganizationsBigQueryExportsRequest, ListOrganizationsBigQueryExportsResponse, ListOrganizationsBigQueryExportsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsBigQueryExportsRequest,
   output: ListOrganizationsBigQueryExportsResponse,
   errors: [],
@@ -10832,7 +10832,6 @@ export const listOrganizationsBigQueryExports = API.makePaginated(() => ({
   },
 }));
 
-/** Filters an organization's assets and groups them by their specified properties. */
 export interface GroupOrganizationsAssetsRequest {
   /** Required. The name of the parent to group the assets by. Its format is `organizations/[organization_id]`, `folders/[folder_id]`, or `projects/[project_id]`. */
   parent: string;
@@ -10853,13 +10852,13 @@ export const GroupOrganizationsAssetsResponse = GroupAssetsResponse;
 
 export type GroupOrganizationsAssetsError = CommonErrors;
 
+/** Filters an organization's assets and groups them by their specified properties. */
 export const groupOrganizationsAssets: API.OperationMethod<GroupOrganizationsAssetsRequest, GroupOrganizationsAssetsResponse, GroupOrganizationsAssetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GroupOrganizationsAssetsRequest,
   output: GroupOrganizationsAssetsResponse,
   errors: [],
 }));
 
-/** Lists an organization's assets. */
 export interface ListOrganizationsAssetsRequest {
   /** Required. The name of the parent resource that contains the assets. The value that you can specify on parent depends on the method in which you specify parent. You can specify one of the following values: `organizations/[organization_id]`, `folders/[folder_id]`, or `projects/[project_id]`. */
   parent: string;
@@ -10898,7 +10897,8 @@ export const ListOrganizationsAssetsResponse = ListAssetsResponse;
 
 export type ListOrganizationsAssetsError = CommonErrors;
 
-export const listOrganizationsAssets = API.makePaginated(() => ({
+/** Lists an organization's assets. */
+export const listOrganizationsAssets: API.PaginatedOperationMethod<ListOrganizationsAssetsRequest, ListOrganizationsAssetsResponse, ListOrganizationsAssetsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsAssetsRequest,
   output: ListOrganizationsAssetsResponse,
   errors: [],
@@ -10908,7 +10908,6 @@ export const listOrganizationsAssets = API.makePaginated(() => ({
   },
 }));
 
-/** Runs asset discovery. The discovery is tracked with a long-running operation. This API can only be called with limited frequency for an organization. If it is called too frequently the caller will receive a TOO_MANY_REQUESTS error. */
 export interface RunDiscoveryOrganizationsAssetsRequest {
   /** Required. Name of the organization to run asset discovery for. Its format is `organizations/[organization_id]`. */
   parent: string;
@@ -10929,13 +10928,13 @@ export const RunDiscoveryOrganizationsAssetsResponse = Operation;
 
 export type RunDiscoveryOrganizationsAssetsError = CommonErrors;
 
+/** Runs asset discovery. The discovery is tracked with a long-running operation. This API can only be called with limited frequency for an organization. If it is called too frequently the caller will receive a TOO_MANY_REQUESTS error. */
 export const runDiscoveryOrganizationsAssets: API.OperationMethod<RunDiscoveryOrganizationsAssetsRequest, RunDiscoveryOrganizationsAssetsResponse, RunDiscoveryOrganizationsAssetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RunDiscoveryOrganizationsAssetsRequest,
   output: RunDiscoveryOrganizationsAssetsResponse,
   errors: [],
 }));
 
-/** Updates security marks. */
 export interface UpdateSecurityMarksOrganizationsAssetsRequest {
   /** The relative resource name of the SecurityMarks. See: https://cloud.google.com/apis/design/resource_names#relative_resource_name Examples: "organizations/{organization_id}/assets/{asset_id}/securityMarks" "organizations/{organization_id}/sources/{source_id}/findings/{finding_id}/securityMarks". */
   name: string;
@@ -10962,13 +10961,13 @@ export const UpdateSecurityMarksOrganizationsAssetsResponse = SecurityMarks;
 
 export type UpdateSecurityMarksOrganizationsAssetsError = CommonErrors;
 
+/** Updates security marks. */
 export const updateSecurityMarksOrganizationsAssets: API.OperationMethod<UpdateSecurityMarksOrganizationsAssetsRequest, UpdateSecurityMarksOrganizationsAssetsResponse, UpdateSecurityMarksOrganizationsAssetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateSecurityMarksOrganizationsAssetsRequest,
   output: UpdateSecurityMarksOrganizationsAssetsResponse,
   errors: [],
 }));
 
-/** Validates the given Event Threat Detection custom module. */
 export interface ValidateCustomModuleOrganizationsEventThreatDetectionSettingsRequest {
   /** Required. Resource name of the parent to validate the Custom Module under. Its format is: * `organizations/{organization}/eventThreatDetectionSettings`. * `folders/{folder}/eventThreatDetectionSettings`. * `projects/{project}/eventThreatDetectionSettings`. */
   parent: string;
@@ -10989,13 +10988,13 @@ export const ValidateCustomModuleOrganizationsEventThreatDetectionSettingsRespon
 
 export type ValidateCustomModuleOrganizationsEventThreatDetectionSettingsError = CommonErrors;
 
+/** Validates the given Event Threat Detection custom module. */
 export const validateCustomModuleOrganizationsEventThreatDetectionSettings: API.OperationMethod<ValidateCustomModuleOrganizationsEventThreatDetectionSettingsRequest, ValidateCustomModuleOrganizationsEventThreatDetectionSettingsResponse, ValidateCustomModuleOrganizationsEventThreatDetectionSettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ValidateCustomModuleOrganizationsEventThreatDetectionSettingsRequest,
   output: ValidateCustomModuleOrganizationsEventThreatDetectionSettingsResponse,
   errors: [],
 }));
 
-/** Creates a resident Event Threat Detection custom module at the scope of the given Resource Manager parent, and also creates inherited custom modules for all descendants of the given parent. These modules are enabled by default. */
 export interface CreateOrganizationsEventThreatDetectionSettingsCustomModulesRequest {
   /** Required. The new custom module's parent. Its format is: * `organizations/{organization}/eventThreatDetectionSettings`. * `folders/{folder}/eventThreatDetectionSettings`. * `projects/{project}/eventThreatDetectionSettings`. */
   parent: string;
@@ -11016,13 +11015,13 @@ export const CreateOrganizationsEventThreatDetectionSettingsCustomModulesRespons
 
 export type CreateOrganizationsEventThreatDetectionSettingsCustomModulesError = CommonErrors;
 
+/** Creates a resident Event Threat Detection custom module at the scope of the given Resource Manager parent, and also creates inherited custom modules for all descendants of the given parent. These modules are enabled by default. */
 export const createOrganizationsEventThreatDetectionSettingsCustomModules: API.OperationMethod<CreateOrganizationsEventThreatDetectionSettingsCustomModulesRequest, CreateOrganizationsEventThreatDetectionSettingsCustomModulesResponse, CreateOrganizationsEventThreatDetectionSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsEventThreatDetectionSettingsCustomModulesRequest,
   output: CreateOrganizationsEventThreatDetectionSettingsCustomModulesResponse,
   errors: [],
 }));
 
-/** Deletes the specified Event Threat Detection custom module and all of its descendants in the Resource Manager hierarchy. This method is only supported for resident custom modules. */
 export interface DeleteOrganizationsEventThreatDetectionSettingsCustomModulesRequest {
   /** Required. Name of the custom module to delete. Its format is: * `organizations/{organization}/eventThreatDetectionSettings/customModules/{module}`. * `folders/{folder}/eventThreatDetectionSettings/customModules/{module}`. * `projects/{project}/eventThreatDetectionSettings/customModules/{module}`. */
   name: string;
@@ -11040,13 +11039,13 @@ export const DeleteOrganizationsEventThreatDetectionSettingsCustomModulesRespons
 
 export type DeleteOrganizationsEventThreatDetectionSettingsCustomModulesError = CommonErrors;
 
+/** Deletes the specified Event Threat Detection custom module and all of its descendants in the Resource Manager hierarchy. This method is only supported for resident custom modules. */
 export const deleteOrganizationsEventThreatDetectionSettingsCustomModules: API.OperationMethod<DeleteOrganizationsEventThreatDetectionSettingsCustomModulesRequest, DeleteOrganizationsEventThreatDetectionSettingsCustomModulesResponse, DeleteOrganizationsEventThreatDetectionSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsEventThreatDetectionSettingsCustomModulesRequest,
   output: DeleteOrganizationsEventThreatDetectionSettingsCustomModulesResponse,
   errors: [],
 }));
 
-/** Gets an Event Threat Detection custom module. */
 export interface GetOrganizationsEventThreatDetectionSettingsCustomModulesRequest {
   /** Required. Name of the custom module to get. Its format is: * `organizations/{organization}/eventThreatDetectionSettings/customModules/{module}`. * `folders/{folder}/eventThreatDetectionSettings/customModules/{module}`. * `projects/{project}/eventThreatDetectionSettings/customModules/{module}`. */
   name: string;
@@ -11064,13 +11063,13 @@ export const GetOrganizationsEventThreatDetectionSettingsCustomModulesResponse =
 
 export type GetOrganizationsEventThreatDetectionSettingsCustomModulesError = CommonErrors;
 
+/** Gets an Event Threat Detection custom module. */
 export const getOrganizationsEventThreatDetectionSettingsCustomModules: API.OperationMethod<GetOrganizationsEventThreatDetectionSettingsCustomModulesRequest, GetOrganizationsEventThreatDetectionSettingsCustomModulesResponse, GetOrganizationsEventThreatDetectionSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsEventThreatDetectionSettingsCustomModulesRequest,
   output: GetOrganizationsEventThreatDetectionSettingsCustomModulesResponse,
   errors: [],
 }));
 
-/** Lists all resident Event Threat Detection custom modules under the given Resource Manager parent and its descendants. */
 export interface ListDescendantOrganizationsEventThreatDetectionSettingsCustomModulesRequest {
   /** Required. Name of the parent to list custom modules under. Its format is: * `organizations/{organization}/eventThreatDetectionSettings`. * `folders/{folder}/eventThreatDetectionSettings`. * `projects/{project}/eventThreatDetectionSettings`. */
   parent: string;
@@ -11094,7 +11093,8 @@ export const ListDescendantOrganizationsEventThreatDetectionSettingsCustomModule
 
 export type ListDescendantOrganizationsEventThreatDetectionSettingsCustomModulesError = CommonErrors;
 
-export const listDescendantOrganizationsEventThreatDetectionSettingsCustomModules = API.makePaginated(() => ({
+/** Lists all resident Event Threat Detection custom modules under the given Resource Manager parent and its descendants. */
+export const listDescendantOrganizationsEventThreatDetectionSettingsCustomModules: API.PaginatedOperationMethod<ListDescendantOrganizationsEventThreatDetectionSettingsCustomModulesRequest, ListDescendantOrganizationsEventThreatDetectionSettingsCustomModulesResponse, ListDescendantOrganizationsEventThreatDetectionSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListDescendantOrganizationsEventThreatDetectionSettingsCustomModulesRequest,
   output: ListDescendantOrganizationsEventThreatDetectionSettingsCustomModulesResponse,
   errors: [],
@@ -11104,7 +11104,6 @@ export const listDescendantOrganizationsEventThreatDetectionSettingsCustomModule
   },
 }));
 
-/** Lists all Event Threat Detection custom modules for the given Resource Manager parent. This includes resident modules defined at the scope of the parent along with modules inherited from ancestors. */
 export interface ListOrganizationsEventThreatDetectionSettingsCustomModulesRequest {
   /** Required. Name of the parent to list custom modules under. Its format is: * `organizations/{organization}/eventThreatDetectionSettings`. * `folders/{folder}/eventThreatDetectionSettings`. * `projects/{project}/eventThreatDetectionSettings`. */
   parent: string;
@@ -11128,7 +11127,8 @@ export const ListOrganizationsEventThreatDetectionSettingsCustomModulesResponse 
 
 export type ListOrganizationsEventThreatDetectionSettingsCustomModulesError = CommonErrors;
 
-export const listOrganizationsEventThreatDetectionSettingsCustomModules = API.makePaginated(() => ({
+/** Lists all Event Threat Detection custom modules for the given Resource Manager parent. This includes resident modules defined at the scope of the parent along with modules inherited from ancestors. */
+export const listOrganizationsEventThreatDetectionSettingsCustomModules: API.PaginatedOperationMethod<ListOrganizationsEventThreatDetectionSettingsCustomModulesRequest, ListOrganizationsEventThreatDetectionSettingsCustomModulesResponse, ListOrganizationsEventThreatDetectionSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsEventThreatDetectionSettingsCustomModulesRequest,
   output: ListOrganizationsEventThreatDetectionSettingsCustomModulesResponse,
   errors: [],
@@ -11138,7 +11138,6 @@ export const listOrganizationsEventThreatDetectionSettingsCustomModules = API.ma
   },
 }));
 
-/** Updates the Event Threat Detection custom module with the given name based on the given update mask. Updating the enablement state is supported for both resident and inherited modules (though resident modules cannot have an enablement state of "inherited"). Updating the display name or configuration of a module is supported for resident modules only. The type of a module cannot be changed. */
 export interface PatchOrganizationsEventThreatDetectionSettingsCustomModulesRequest {
   /** Immutable. The resource name of the Event Threat Detection custom module. Its format is: * `organizations/{organization}/eventThreatDetectionSettings/customModules/{module}`. * `folders/{folder}/eventThreatDetectionSettings/customModules/{module}`. * `projects/{project}/eventThreatDetectionSettings/customModules/{module}`. */
   name: string;
@@ -11162,13 +11161,13 @@ export const PatchOrganizationsEventThreatDetectionSettingsCustomModulesResponse
 
 export type PatchOrganizationsEventThreatDetectionSettingsCustomModulesError = CommonErrors;
 
+/** Updates the Event Threat Detection custom module with the given name based on the given update mask. Updating the enablement state is supported for both resident and inherited modules (though resident modules cannot have an enablement state of "inherited"). Updating the display name or configuration of a module is supported for resident modules only. The type of a module cannot be changed. */
 export const patchOrganizationsEventThreatDetectionSettingsCustomModules: API.OperationMethod<PatchOrganizationsEventThreatDetectionSettingsCustomModulesRequest, PatchOrganizationsEventThreatDetectionSettingsCustomModulesResponse, PatchOrganizationsEventThreatDetectionSettingsCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsEventThreatDetectionSettingsCustomModulesRequest,
   output: PatchOrganizationsEventThreatDetectionSettingsCustomModulesResponse,
   errors: [],
 }));
 
-/** Gets an effective Event Threat Detection custom module at the given level. */
 export interface GetOrganizationsEventThreatDetectionSettingsEffectiveCustomModulesRequest {
   /** Required. The resource name of the effective Event Threat Detection custom module. Its format is: * `organizations/{organization}/eventThreatDetectionSettings/effectiveCustomModules/{module}`. * `folders/{folder}/eventThreatDetectionSettings/effectiveCustomModules/{module}`. * `projects/{project}/eventThreatDetectionSettings/effectiveCustomModules/{module}`. */
   name: string;
@@ -11186,13 +11185,13 @@ export const GetOrganizationsEventThreatDetectionSettingsEffectiveCustomModulesR
 
 export type GetOrganizationsEventThreatDetectionSettingsEffectiveCustomModulesError = CommonErrors;
 
+/** Gets an effective Event Threat Detection custom module at the given level. */
 export const getOrganizationsEventThreatDetectionSettingsEffectiveCustomModules: API.OperationMethod<GetOrganizationsEventThreatDetectionSettingsEffectiveCustomModulesRequest, GetOrganizationsEventThreatDetectionSettingsEffectiveCustomModulesResponse, GetOrganizationsEventThreatDetectionSettingsEffectiveCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsEventThreatDetectionSettingsEffectiveCustomModulesRequest,
   output: GetOrganizationsEventThreatDetectionSettingsEffectiveCustomModulesResponse,
   errors: [],
 }));
 
-/** Lists all effective Event Threat Detection custom modules for the given parent. This includes resident modules defined at the scope of the parent along with modules inherited from its ancestors. */
 export interface ListOrganizationsEventThreatDetectionSettingsEffectiveCustomModulesRequest {
   /** Required. Name of the parent to list custom modules for. Its format is: * `organizations/{organization}/eventThreatDetectionSettings`. * `folders/{folder}/eventThreatDetectionSettings`. * `projects/{project}/eventThreatDetectionSettings`. */
   parent: string;
@@ -11216,7 +11215,8 @@ export const ListOrganizationsEventThreatDetectionSettingsEffectiveCustomModules
 
 export type ListOrganizationsEventThreatDetectionSettingsEffectiveCustomModulesError = CommonErrors;
 
-export const listOrganizationsEventThreatDetectionSettingsEffectiveCustomModules = API.makePaginated(() => ({
+/** Lists all effective Event Threat Detection custom modules for the given parent. This includes resident modules defined at the scope of the parent along with modules inherited from its ancestors. */
+export const listOrganizationsEventThreatDetectionSettingsEffectiveCustomModules: API.PaginatedOperationMethod<ListOrganizationsEventThreatDetectionSettingsEffectiveCustomModulesRequest, ListOrganizationsEventThreatDetectionSettingsEffectiveCustomModulesResponse, ListOrganizationsEventThreatDetectionSettingsEffectiveCustomModulesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsEventThreatDetectionSettingsEffectiveCustomModulesRequest,
   output: ListOrganizationsEventThreatDetectionSettingsEffectiveCustomModulesResponse,
   errors: [],
@@ -11226,7 +11226,6 @@ export const listOrganizationsEventThreatDetectionSettingsEffectiveCustomModules
   },
 }));
 
-/** Creates a ResourceValueConfig for an organization. Maps user's tags to difference resource values for use by the attack path simulation. */
 export interface BatchCreateOrganizationsResourceValueConfigsRequest {
   /** Required. Resource name of the new ResourceValueConfig's parent. The parent field in the CreateResourceValueConfigRequest messages must either be empty or match this field. */
   parent: string;
@@ -11247,13 +11246,13 @@ export const BatchCreateOrganizationsResourceValueConfigsResponse = BatchCreateR
 
 export type BatchCreateOrganizationsResourceValueConfigsError = CommonErrors;
 
+/** Creates a ResourceValueConfig for an organization. Maps user's tags to difference resource values for use by the attack path simulation. */
 export const batchCreateOrganizationsResourceValueConfigs: API.OperationMethod<BatchCreateOrganizationsResourceValueConfigsRequest, BatchCreateOrganizationsResourceValueConfigsResponse, BatchCreateOrganizationsResourceValueConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchCreateOrganizationsResourceValueConfigsRequest,
   output: BatchCreateOrganizationsResourceValueConfigsResponse,
   errors: [],
 }));
 
-/** Deletes a ResourceValueConfig. */
 export interface DeleteOrganizationsResourceValueConfigsRequest {
   /** Required. Name of the ResourceValueConfig to delete */
   name: string;
@@ -11271,13 +11270,13 @@ export const DeleteOrganizationsResourceValueConfigsResponse = Empty;
 
 export type DeleteOrganizationsResourceValueConfigsError = CommonErrors;
 
+/** Deletes a ResourceValueConfig. */
 export const deleteOrganizationsResourceValueConfigs: API.OperationMethod<DeleteOrganizationsResourceValueConfigsRequest, DeleteOrganizationsResourceValueConfigsResponse, DeleteOrganizationsResourceValueConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsResourceValueConfigsRequest,
   output: DeleteOrganizationsResourceValueConfigsResponse,
   errors: [],
 }));
 
-/** Gets a ResourceValueConfig. */
 export interface GetOrganizationsResourceValueConfigsRequest {
   /** Required. Name of the resource value config to retrieve. Its format is `organizations/{organization}/resourceValueConfigs/{config_id}`. */
   name: string;
@@ -11295,13 +11294,13 @@ export const GetOrganizationsResourceValueConfigsResponse = GoogleCloudSecurityc
 
 export type GetOrganizationsResourceValueConfigsError = CommonErrors;
 
+/** Gets a ResourceValueConfig. */
 export const getOrganizationsResourceValueConfigs: API.OperationMethod<GetOrganizationsResourceValueConfigsRequest, GetOrganizationsResourceValueConfigsResponse, GetOrganizationsResourceValueConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsResourceValueConfigsRequest,
   output: GetOrganizationsResourceValueConfigsResponse,
   errors: [],
 }));
 
-/** Lists all ResourceValueConfigs. */
 export interface ListOrganizationsResourceValueConfigsRequest {
   /** Required. The parent, which owns the collection of resource value configs. Its format is `organizations/[organization_id]` */
   parent: string;
@@ -11325,7 +11324,8 @@ export const ListOrganizationsResourceValueConfigsResponse = ListResourceValueCo
 
 export type ListOrganizationsResourceValueConfigsError = CommonErrors;
 
-export const listOrganizationsResourceValueConfigs = API.makePaginated(() => ({
+/** Lists all ResourceValueConfigs. */
+export const listOrganizationsResourceValueConfigs: API.PaginatedOperationMethod<ListOrganizationsResourceValueConfigsRequest, ListOrganizationsResourceValueConfigsResponse, ListOrganizationsResourceValueConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsResourceValueConfigsRequest,
   output: ListOrganizationsResourceValueConfigsResponse,
   errors: [],
@@ -11335,7 +11335,6 @@ export const listOrganizationsResourceValueConfigs = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing ResourceValueConfigs with new rules. */
 export interface PatchOrganizationsResourceValueConfigsRequest {
   /** Name for the resource value configuration */
   name: string;
@@ -11359,13 +11358,13 @@ export const PatchOrganizationsResourceValueConfigsResponse = GoogleCloudSecurit
 
 export type PatchOrganizationsResourceValueConfigsError = CommonErrors;
 
+/** Updates an existing ResourceValueConfigs with new rules. */
 export const patchOrganizationsResourceValueConfigs: API.OperationMethod<PatchOrganizationsResourceValueConfigsRequest, PatchOrganizationsResourceValueConfigsResponse, PatchOrganizationsResourceValueConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsResourceValueConfigsRequest,
   output: PatchOrganizationsResourceValueConfigsResponse,
   errors: [],
 }));
 
-/** Lists the valued resources for a set of simulation results and filter. */
 export interface ListOrganizationsValuedResourcesRequest {
   /** Required. Name of parent to list valued resources. Valid formats: `organizations/{organization}`, `organizations/{organization}/simulations/{simulation}` `organizations/{organization}/simulations/{simulation}/attackExposureResults/{attack_exposure_result_v2}` */
   parent: string;
@@ -11395,7 +11394,8 @@ export const ListOrganizationsValuedResourcesResponse = ListValuedResourcesRespo
 
 export type ListOrganizationsValuedResourcesError = CommonErrors;
 
-export const listOrganizationsValuedResources = API.makePaginated(() => ({
+/** Lists the valued resources for a set of simulation results and filter. */
+export const listOrganizationsValuedResources: API.PaginatedOperationMethod<ListOrganizationsValuedResourcesRequest, ListOrganizationsValuedResourcesResponse, ListOrganizationsValuedResourcesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsValuedResourcesRequest,
   output: ListOrganizationsValuedResourcesResponse,
   errors: [],
@@ -11405,7 +11405,6 @@ export const listOrganizationsValuedResources = API.makePaginated(() => ({
   },
 }));
 
-/** Lists the attack paths for a set of simulation results or valued resources and filter. */
 export interface ListOrganizationsAttackPathsRequest {
   /** Required. Name of parent to list attack paths. Valid formats: `organizations/{organization}`, `organizations/{organization}/simulations/{simulation}` `organizations/{organization}/simulations/{simulation}/attackExposureResults/{attack_exposure_result_v2}` `organizations/{organization}/simulations/{simulation}/valuedResources/{valued_resource}` */
   parent: string;
@@ -11432,7 +11431,8 @@ export const ListOrganizationsAttackPathsResponse = ListAttackPathsResponse;
 
 export type ListOrganizationsAttackPathsError = CommonErrors;
 
-export const listOrganizationsAttackPaths = API.makePaginated(() => ({
+/** Lists the attack paths for a set of simulation results or valued resources and filter. */
+export const listOrganizationsAttackPaths: API.PaginatedOperationMethod<ListOrganizationsAttackPathsRequest, ListOrganizationsAttackPathsResponse, ListOrganizationsAttackPathsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsAttackPathsRequest,
   output: ListOrganizationsAttackPathsResponse,
   errors: [],

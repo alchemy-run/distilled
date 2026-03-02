@@ -333,7 +333,6 @@ export const DecodePcIntegrityTokenResponse: Schema.Schema<DecodePcIntegrityToke
 // Operations
 // ==========================================================================
 
-/** Decodes the integrity token and returns the token payload. */
 export interface DecodeIntegrityTokenV1Request {
   /** Package name of the app the attached integrity token belongs to. */
   packageName: string;
@@ -354,13 +353,13 @@ export const DecodeIntegrityTokenV1Response = DecodeIntegrityTokenResponse;
 
 export type DecodeIntegrityTokenV1Error = CommonErrors;
 
+/** Decodes the integrity token and returns the token payload. */
 export const decodeIntegrityTokenV1: API.OperationMethod<DecodeIntegrityTokenV1Request, DecodeIntegrityTokenV1Response, DecodeIntegrityTokenV1Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DecodeIntegrityTokenV1Request,
   output: DecodeIntegrityTokenV1Response,
   errors: [],
 }));
 
-/** Decodes the PC integrity token and returns the PC token payload. */
 export interface DecodePcIntegrityTokenV1Request {
   /** Package name of the app the attached integrity token belongs to. */
   packageName: string;
@@ -381,13 +380,13 @@ export const DecodePcIntegrityTokenV1Response = DecodePcIntegrityTokenResponse;
 
 export type DecodePcIntegrityTokenV1Error = CommonErrors;
 
+/** Decodes the PC integrity token and returns the PC token payload. */
 export const decodePcIntegrityTokenV1: API.OperationMethod<DecodePcIntegrityTokenV1Request, DecodePcIntegrityTokenV1Response, DecodePcIntegrityTokenV1Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DecodePcIntegrityTokenV1Request,
   output: DecodePcIntegrityTokenV1Response,
   errors: [],
 }));
 
-/** Writes recall bits for the device where Play Integrity API token is obtained. The endpoint is available to select Play partners in an early access program (EAP). */
 export interface WriteDeviceRecallRequest_Op {
   /** Required. Package name of the app the attached integrity token belongs to. */
   packageName: string;
@@ -408,6 +407,7 @@ export const WriteDeviceRecallResponse_Op = WriteDeviceRecallResponse;
 
 export type WriteDeviceRecallError = CommonErrors;
 
+/** Writes recall bits for the device where Play Integrity API token is obtained. The endpoint is available to select Play partners in an early access program (EAP). */
 export const writeDeviceRecall: API.OperationMethod<WriteDeviceRecallRequest_Op, WriteDeviceRecallResponse_Op, WriteDeviceRecallError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WriteDeviceRecallRequest_Op,
   output: WriteDeviceRecallResponse_Op,

@@ -81,7 +81,6 @@ export const GoogleExampleLibraryagentV1ListBooksResponse: Schema.Schema<GoogleE
 // Operations
 // ==========================================================================
 
-/** Gets a shelf. Returns NOT_FOUND if the shelf does not exist. */
 export interface GetShelvesRequest {
   /** Required. The name of the shelf to retrieve. */
   name: string;
@@ -99,13 +98,13 @@ export const GetShelvesResponse = GoogleExampleLibraryagentV1Shelf;
 
 export type GetShelvesError = CommonErrors;
 
+/** Gets a shelf. Returns NOT_FOUND if the shelf does not exist. */
 export const getShelves: API.OperationMethod<GetShelvesRequest, GetShelvesResponse, GetShelvesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetShelvesRequest,
   output: GetShelvesResponse,
   errors: [],
 }));
 
-/** Lists shelves. The order is unspecified but deterministic. Newly created shelves will not necessarily be added to the end of this list. */
 export interface ListShelvesRequest {
   /** Requested page size. Server may return fewer shelves than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
@@ -126,7 +125,8 @@ export const ListShelvesResponse = GoogleExampleLibraryagentV1ListShelvesRespons
 
 export type ListShelvesError = CommonErrors;
 
-export const listShelves = API.makePaginated(() => ({
+/** Lists shelves. The order is unspecified but deterministic. Newly created shelves will not necessarily be added to the end of this list. */
+export const listShelves: API.PaginatedOperationMethod<ListShelvesRequest, ListShelvesResponse, ListShelvesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListShelvesRequest,
   output: ListShelvesResponse,
   errors: [],
@@ -136,7 +136,6 @@ export const listShelves = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a book. Returns NOT_FOUND if the book does not exist. */
 export interface GetShelvesBooksRequest {
   /** Required. The name of the book to retrieve. */
   name: string;
@@ -154,13 +153,13 @@ export const GetShelvesBooksResponse = GoogleExampleLibraryagentV1Book;
 
 export type GetShelvesBooksError = CommonErrors;
 
+/** Gets a book. Returns NOT_FOUND if the book does not exist. */
 export const getShelvesBooks: API.OperationMethod<GetShelvesBooksRequest, GetShelvesBooksResponse, GetShelvesBooksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetShelvesBooksRequest,
   output: GetShelvesBooksResponse,
   errors: [],
 }));
 
-/** Lists books in a shelf. The order is unspecified but deterministic. Newly created books will not necessarily be added to the end of this list. Returns NOT_FOUND if the shelf does not exist. */
 export interface ListShelvesBooksRequest {
   /** Required. The name of the shelf whose books we'd like to list. */
   parent: string;
@@ -184,7 +183,8 @@ export const ListShelvesBooksResponse = GoogleExampleLibraryagentV1ListBooksResp
 
 export type ListShelvesBooksError = CommonErrors;
 
-export const listShelvesBooks = API.makePaginated(() => ({
+/** Lists books in a shelf. The order is unspecified but deterministic. Newly created books will not necessarily be added to the end of this list. Returns NOT_FOUND if the shelf does not exist. */
+export const listShelvesBooks: API.PaginatedOperationMethod<ListShelvesBooksRequest, ListShelvesBooksResponse, ListShelvesBooksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListShelvesBooksRequest,
   output: ListShelvesBooksResponse,
   errors: [],
@@ -194,7 +194,6 @@ export const listShelvesBooks = API.makePaginated(() => ({
   },
 }));
 
-/** Borrow a book from the library. Returns the book if it is borrowed successfully. Returns NOT_FOUND if the book does not exist in the library. Returns quota exceeded error if the amount of books borrowed exceeds allocation quota in any dimensions. */
 export interface BorrowShelvesBooksRequest {
   /** Required. The name of the book to borrow. */
   name: string;
@@ -212,13 +211,13 @@ export const BorrowShelvesBooksResponse = GoogleExampleLibraryagentV1Book;
 
 export type BorrowShelvesBooksError = CommonErrors;
 
+/** Borrow a book from the library. Returns the book if it is borrowed successfully. Returns NOT_FOUND if the book does not exist in the library. Returns quota exceeded error if the amount of books borrowed exceeds allocation quota in any dimensions. */
 export const borrowShelvesBooks: API.OperationMethod<BorrowShelvesBooksRequest, BorrowShelvesBooksResponse, BorrowShelvesBooksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BorrowShelvesBooksRequest,
   output: BorrowShelvesBooksResponse,
   errors: [],
 }));
 
-/** Return a book to the library. Returns the book if it is returned to the library successfully. Returns error if the book does not belong to the library or the users didn't borrow before. */
 export interface ReturnShelvesBooksRequest {
   /** Required. The name of the book to return. */
   name: string;
@@ -236,6 +235,7 @@ export const ReturnShelvesBooksResponse = GoogleExampleLibraryagentV1Book;
 
 export type ReturnShelvesBooksError = CommonErrors;
 
+/** Return a book to the library. Returns the book if it is returned to the library successfully. Returns error if the book does not belong to the library or the users didn't borrow before. */
 export const returnShelvesBooks: API.OperationMethod<ReturnShelvesBooksRequest, ReturnShelvesBooksResponse, ReturnShelvesBooksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReturnShelvesBooksRequest,
   output: ReturnShelvesBooksResponse,

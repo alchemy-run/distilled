@@ -81,7 +81,6 @@ export const CreateOrUpdateTagsResponse: Schema.Schema<CreateOrUpdateTagsRespons
 // Operations
 // ==========================================================================
 
-/** Verify an API token by asserting the app and persona it belongs to. The verification is a protection against client-side attacks and will fail if the contents of the token don't match the provided values. A token must be verified before it can be used to manipulate user tags. */
 export interface VerifyAppsTokensRequest {
   /** Required. App the token belongs to. Format: apps/{package_name} */
   appPackage: string;
@@ -105,13 +104,13 @@ export const VerifyAppsTokensResponse = VerifyTokenResponse;
 
 export type VerifyAppsTokensError = CommonErrors;
 
+/** Verify an API token by asserting the app and persona it belongs to. The verification is a protection against client-side attacks and will fail if the contents of the token don't match the provided values. A token must be verified before it can be used to manipulate user tags. */
 export const verifyAppsTokens: API.OperationMethod<VerifyAppsTokensRequest, VerifyAppsTokensResponse, VerifyAppsTokensError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: VerifyAppsTokensRequest,
   output: VerifyAppsTokensResponse,
   errors: [],
 }));
 
-/** Create or update tags for the user and app that are represented by the given token. */
 export interface CreateOrUpdateAppsTokensTagsRequest {
   /** Required. App whose tags are being manipulated. Format: apps/{package_name} */
   appPackage: string;
@@ -135,6 +134,7 @@ export const CreateOrUpdateAppsTokensTagsResponse = CreateOrUpdateTagsResponse;
 
 export type CreateOrUpdateAppsTokensTagsError = CommonErrors;
 
+/** Create or update tags for the user and app that are represented by the given token. */
 export const createOrUpdateAppsTokensTags: API.OperationMethod<CreateOrUpdateAppsTokensTagsRequest, CreateOrUpdateAppsTokensTagsResponse, CreateOrUpdateAppsTokensTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrUpdateAppsTokensTagsRequest,
   output: CreateOrUpdateAppsTokensTagsResponse,

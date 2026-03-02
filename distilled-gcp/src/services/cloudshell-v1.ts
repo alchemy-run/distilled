@@ -246,7 +246,6 @@ export const RemovePublicKeyResponse: Schema.Schema<RemovePublicKeyResponse> = S
 // Operations
 // ==========================================================================
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListOperationsRequest {
   /** The standard list page size. */
   pageSize?: number;
@@ -276,7 +275,8 @@ export const ListOperationsResponse_Op = ListOperationsResponse;
 
 export type ListOperationsError = CommonErrors;
 
-export const listOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listOperations: API.PaginatedOperationMethod<ListOperationsRequest, ListOperationsResponse_Op, ListOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOperationsRequest,
   output: ListOperationsResponse_Op,
   errors: [],
@@ -286,7 +286,6 @@ export const listOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -304,13 +303,13 @@ export const GetOperationsResponse = Operation;
 
 export type GetOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOperations: API.OperationMethod<GetOperationsRequest, GetOperationsResponse, GetOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -328,13 +327,13 @@ export const DeleteOperationsResponse = Empty;
 
 export type DeleteOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteOperations: API.OperationMethod<DeleteOperationsRequest, DeleteOperationsResponse, DeleteOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOperationsRequest,
   output: DeleteOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -355,13 +354,13 @@ export const CancelOperationsResponse = Empty;
 
 export type CancelOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelOperations: API.OperationMethod<CancelOperationsRequest, CancelOperationsResponse, CancelOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelOperationsRequest,
   output: CancelOperationsResponse,
   errors: [],
 }));
 
-/** Sends OAuth credentials to a running environment on behalf of a user. When this completes, the environment will be authorized to run various Google Cloud command line tools without requiring the user to manually authenticate. */
 export interface AuthorizeUsersEnvironmentsRequest {
   /** Name of the resource that should receive the credentials, for example `users/me/environments/default` or `users/someone@example.com/environments/default`. */
   name: string;
@@ -382,13 +381,13 @@ export const AuthorizeUsersEnvironmentsResponse = Operation;
 
 export type AuthorizeUsersEnvironmentsError = CommonErrors;
 
+/** Sends OAuth credentials to a running environment on behalf of a user. When this completes, the environment will be authorized to run various Google Cloud command line tools without requiring the user to manually authenticate. */
 export const authorizeUsersEnvironments: API.OperationMethod<AuthorizeUsersEnvironmentsRequest, AuthorizeUsersEnvironmentsResponse, AuthorizeUsersEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AuthorizeUsersEnvironmentsRequest,
   output: AuthorizeUsersEnvironmentsResponse,
   errors: [],
 }));
 
-/** Removes a public SSH key from an environment. Clients will no longer be able to connect to the environment using the corresponding private key. If a key with the same content is not present, this will error with NOT_FOUND. */
 export interface RemovePublicKeyUsersEnvironmentsRequest {
   /** Environment this key should be removed from, e.g. `users/me/environments/default`. */
   environment: string;
@@ -409,13 +408,13 @@ export const RemovePublicKeyUsersEnvironmentsResponse = Operation;
 
 export type RemovePublicKeyUsersEnvironmentsError = CommonErrors;
 
+/** Removes a public SSH key from an environment. Clients will no longer be able to connect to the environment using the corresponding private key. If a key with the same content is not present, this will error with NOT_FOUND. */
 export const removePublicKeyUsersEnvironments: API.OperationMethod<RemovePublicKeyUsersEnvironmentsRequest, RemovePublicKeyUsersEnvironmentsResponse, RemovePublicKeyUsersEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemovePublicKeyUsersEnvironmentsRequest,
   output: RemovePublicKeyUsersEnvironmentsResponse,
   errors: [],
 }));
 
-/** Adds a public SSH key to an environment, allowing clients with the corresponding private key to connect to that environment via SSH. If a key with the same content already exists, this will error with ALREADY_EXISTS. */
 export interface AddPublicKeyUsersEnvironmentsRequest {
   /** Environment this key should be added to, e.g. `users/me/environments/default`. */
   environment: string;
@@ -436,13 +435,13 @@ export const AddPublicKeyUsersEnvironmentsResponse = Operation;
 
 export type AddPublicKeyUsersEnvironmentsError = CommonErrors;
 
+/** Adds a public SSH key to an environment, allowing clients with the corresponding private key to connect to that environment via SSH. If a key with the same content already exists, this will error with ALREADY_EXISTS. */
 export const addPublicKeyUsersEnvironments: API.OperationMethod<AddPublicKeyUsersEnvironmentsRequest, AddPublicKeyUsersEnvironmentsResponse, AddPublicKeyUsersEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddPublicKeyUsersEnvironmentsRequest,
   output: AddPublicKeyUsersEnvironmentsResponse,
   errors: [],
 }));
 
-/** Generates an access token for the user's environment. */
 export interface GenerateAccessTokenUsersEnvironmentsRequest {
   /** Desired lifetime duration of the access token. This value must be at most 24 hours. If a value is not specified, the token's lifetime will be set to a default value of 1 hour. */
   ttl?: string;
@@ -466,13 +465,13 @@ export const GenerateAccessTokenUsersEnvironmentsResponse = GenerateAccessTokenR
 
 export type GenerateAccessTokenUsersEnvironmentsError = CommonErrors;
 
+/** Generates an access token for the user's environment. */
 export const generateAccessTokenUsersEnvironments: API.OperationMethod<GenerateAccessTokenUsersEnvironmentsRequest, GenerateAccessTokenUsersEnvironmentsResponse, GenerateAccessTokenUsersEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateAccessTokenUsersEnvironmentsRequest,
   output: GenerateAccessTokenUsersEnvironmentsResponse,
   errors: [],
 }));
 
-/** Gets an environment. Returns NOT_FOUND if the environment does not exist. */
 export interface GetUsersEnvironmentsRequest {
   /** Required. Name of the requested resource, for example `users/me/environments/default` or `users/someone@example.com/environments/default`. */
   name: string;
@@ -490,13 +489,13 @@ export const GetUsersEnvironmentsResponse = Environment;
 
 export type GetUsersEnvironmentsError = CommonErrors;
 
+/** Gets an environment. Returns NOT_FOUND if the environment does not exist. */
 export const getUsersEnvironments: API.OperationMethod<GetUsersEnvironmentsRequest, GetUsersEnvironmentsResponse, GetUsersEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetUsersEnvironmentsRequest,
   output: GetUsersEnvironmentsResponse,
   errors: [],
 }));
 
-/** Starts an existing environment, allowing clients to connect to it. The returned operation will contain an instance of StartEnvironmentMetadata in its metadata field. Users can wait for the environment to start by polling this operation via GetOperation. Once the environment has finished starting and is ready to accept connections, the operation will contain a StartEnvironmentResponse in its response field. */
 export interface StartUsersEnvironmentsRequest {
   /** Name of the resource that should be started, for example `users/me/environments/default` or `users/someone@example.com/environments/default`. */
   name: string;
@@ -517,6 +516,7 @@ export const StartUsersEnvironmentsResponse = Operation;
 
 export type StartUsersEnvironmentsError = CommonErrors;
 
+/** Starts an existing environment, allowing clients to connect to it. The returned operation will contain an instance of StartEnvironmentMetadata in its metadata field. Users can wait for the environment to start by polling this operation via GetOperation. Once the environment has finished starting and is ready to accept connections, the operation will contain a StartEnvironmentResponse in its response field. */
 export const startUsersEnvironments: API.OperationMethod<StartUsersEnvironmentsRequest, StartUsersEnvironmentsResponse, StartUsersEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StartUsersEnvironmentsRequest,
   output: StartUsersEnvironmentsResponse,

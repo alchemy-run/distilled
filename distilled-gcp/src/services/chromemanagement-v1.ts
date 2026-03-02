@@ -2589,7 +2589,6 @@ export const GoogleChromeManagementVersionsV1SignDataResponse: Schema.Schema<Goo
 // Operations
 // ==========================================================================
 
-/** Generate summary of app installation requests. */
 export interface CountChromeAppRequestsCustomersAppsRequest {
   /** Required. Customer id or "my_customer" to use the customer associated to the account making the request. */
   customer: string;
@@ -2619,7 +2618,8 @@ export const CountChromeAppRequestsCustomersAppsResponse = GoogleChromeManagemen
 
 export type CountChromeAppRequestsCustomersAppsError = CommonErrors;
 
-export const countChromeAppRequestsCustomersApps = API.makePaginated(() => ({
+/** Generate summary of app installation requests. */
+export const countChromeAppRequestsCustomersApps: API.PaginatedOperationMethod<CountChromeAppRequestsCustomersAppsRequest, CountChromeAppRequestsCustomersAppsResponse, CountChromeAppRequestsCustomersAppsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: CountChromeAppRequestsCustomersAppsRequest,
   output: CountChromeAppRequestsCustomersAppsResponse,
   errors: [],
@@ -2629,7 +2629,6 @@ export const countChromeAppRequestsCustomersApps = API.makePaginated(() => ({
   },
 }));
 
-/** Get a list of devices that have requested to install an extension. */
 export interface FetchDevicesRequestingExtensionCustomersAppsRequest {
   /** Required. The customer ID or "my_customer" prefixed with "customers/". */
   customer: string;
@@ -2659,7 +2658,8 @@ export const FetchDevicesRequestingExtensionCustomersAppsResponse = GoogleChrome
 
 export type FetchDevicesRequestingExtensionCustomersAppsError = CommonErrors;
 
-export const fetchDevicesRequestingExtensionCustomersApps = API.makePaginated(() => ({
+/** Get a list of devices that have requested to install an extension. */
+export const fetchDevicesRequestingExtensionCustomersApps: API.PaginatedOperationMethod<FetchDevicesRequestingExtensionCustomersAppsRequest, FetchDevicesRequestingExtensionCustomersAppsResponse, FetchDevicesRequestingExtensionCustomersAppsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: FetchDevicesRequestingExtensionCustomersAppsRequest,
   output: FetchDevicesRequestingExtensionCustomersAppsResponse,
   errors: [],
@@ -2669,7 +2669,6 @@ export const fetchDevicesRequestingExtensionCustomersApps = API.makePaginated(()
   },
 }));
 
-/** Get a list of users that have requested to install an extension. */
 export interface FetchUsersRequestingExtensionCustomersAppsRequest {
   /** Required. The customer ID or "my_customer" prefixed with "customers/". */
   customer: string;
@@ -2699,7 +2698,8 @@ export const FetchUsersRequestingExtensionCustomersAppsResponse = GoogleChromeMa
 
 export type FetchUsersRequestingExtensionCustomersAppsError = CommonErrors;
 
-export const fetchUsersRequestingExtensionCustomersApps = API.makePaginated(() => ({
+/** Get a list of users that have requested to install an extension. */
+export const fetchUsersRequestingExtensionCustomersApps: API.PaginatedOperationMethod<FetchUsersRequestingExtensionCustomersAppsRequest, FetchUsersRequestingExtensionCustomersAppsResponse, FetchUsersRequestingExtensionCustomersAppsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: FetchUsersRequestingExtensionCustomersAppsRequest,
   output: FetchUsersRequestingExtensionCustomersAppsResponse,
   errors: [],
@@ -2709,7 +2709,6 @@ export const fetchUsersRequestingExtensionCustomersApps = API.makePaginated(() =
   },
 }));
 
-/** Get a specific app for a customer by its resource name. */
 export interface GetCustomersAppsChromeRequest {
   /** Required. The app for which details are being queried. Examples: "customers/my_customer/apps/chrome/gmbmikajjgmnabiglmofipeabaddhgne@2.1.2" for the Save to Google Drive Chrome extension version 2.1.2, "customers/my_customer/apps/android/com.google.android.apps.docs" for the Google Drive Android app's latest version. */
   name: string;
@@ -2727,13 +2726,13 @@ export const GetCustomersAppsChromeResponse = GoogleChromeManagementV1AppDetails
 
 export type GetCustomersAppsChromeError = CommonErrors;
 
+/** Get a specific app for a customer by its resource name. */
 export const getCustomersAppsChrome: API.OperationMethod<GetCustomersAppsChromeRequest, GetCustomersAppsChromeResponse, GetCustomersAppsChromeError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCustomersAppsChromeRequest,
   output: GetCustomersAppsChromeResponse,
   errors: [],
 }));
 
-/** Get a specific app for a customer by its resource name. */
 export interface GetCustomersAppsAndroidRequest {
   /** Required. The app for which details are being queried. Examples: "customers/my_customer/apps/chrome/gmbmikajjgmnabiglmofipeabaddhgne@2.1.2" for the Save to Google Drive Chrome extension version 2.1.2, "customers/my_customer/apps/android/com.google.android.apps.docs" for the Google Drive Android app's latest version. */
   name: string;
@@ -2751,13 +2750,13 @@ export const GetCustomersAppsAndroidResponse = GoogleChromeManagementV1AppDetail
 
 export type GetCustomersAppsAndroidError = CommonErrors;
 
+/** Get a specific app for a customer by its resource name. */
 export const getCustomersAppsAndroid: API.OperationMethod<GetCustomersAppsAndroidRequest, GetCustomersAppsAndroidResponse, GetCustomersAppsAndroidError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCustomersAppsAndroidRequest,
   output: GetCustomersAppsAndroidResponse,
   errors: [],
 }));
 
-/** Get a specific app for a customer by its resource name. */
 export interface GetCustomersAppsWebRequest {
   /** Required. The app for which details are being queried. Examples: "customers/my_customer/apps/chrome/gmbmikajjgmnabiglmofipeabaddhgne@2.1.2" for the Save to Google Drive Chrome extension version 2.1.2, "customers/my_customer/apps/android/com.google.android.apps.docs" for the Google Drive Android app's latest version. */
   name: string;
@@ -2775,13 +2774,13 @@ export const GetCustomersAppsWebResponse = GoogleChromeManagementV1AppDetails;
 
 export type GetCustomersAppsWebError = CommonErrors;
 
+/** Get a specific app for a customer by its resource name. */
 export const getCustomersAppsWeb: API.OperationMethod<GetCustomersAppsWebRequest, GetCustomersAppsWebResponse, GetCustomersAppsWebError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCustomersAppsWebRequest,
   output: GetCustomersAppsWebResponse,
   errors: [],
 }));
 
-/** Generate report of the number of devices expiring in each month of the selected time frame. Devices are grouped by auto update expiration date and model. Further information can be found [here](https://support.google.com/chrome/a/answer/10564947). */
 export interface CountChromeDevicesReachingAutoExpirationDateCustomersReportsRequest {
   /** Required. The customer ID or "my_customer" prefixed with "customers/". */
   customer: string;
@@ -2808,13 +2807,13 @@ export const CountChromeDevicesReachingAutoExpirationDateCustomersReportsRespons
 
 export type CountChromeDevicesReachingAutoExpirationDateCustomersReportsError = CommonErrors;
 
+/** Generate report of the number of devices expiring in each month of the selected time frame. Devices are grouped by auto update expiration date and model. Further information can be found [here](https://support.google.com/chrome/a/answer/10564947). */
 export const countChromeDevicesReachingAutoExpirationDateCustomersReports: API.OperationMethod<CountChromeDevicesReachingAutoExpirationDateCustomersReportsRequest, CountChromeDevicesReachingAutoExpirationDateCustomersReportsResponse, CountChromeDevicesReachingAutoExpirationDateCustomersReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CountChromeDevicesReachingAutoExpirationDateCustomersReportsRequest,
   output: CountChromeDevicesReachingAutoExpirationDateCustomersReportsResponse,
   errors: [],
 }));
 
-/** Counts of ChromeOS devices that have not synced policies or have lacked user activity in the past 28 days, are out of date, or are not complaint. Further information can be found here https://support.google.com/chrome/a/answer/10564947 */
 export interface CountChromeDevicesThatNeedAttentionCustomersReportsRequest {
   /** Required. The customer ID or "my_customer" prefixed with "customers/". */
   customer: string;
@@ -2838,13 +2837,13 @@ export const CountChromeDevicesThatNeedAttentionCustomersReportsResponse = Googl
 
 export type CountChromeDevicesThatNeedAttentionCustomersReportsError = CommonErrors;
 
+/** Counts of ChromeOS devices that have not synced policies or have lacked user activity in the past 28 days, are out of date, or are not complaint. Further information can be found here https://support.google.com/chrome/a/answer/10564947 */
 export const countChromeDevicesThatNeedAttentionCustomersReports: API.OperationMethod<CountChromeDevicesThatNeedAttentionCustomersReportsRequest, CountChromeDevicesThatNeedAttentionCustomersReportsResponse, CountChromeDevicesThatNeedAttentionCustomersReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CountChromeDevicesThatNeedAttentionCustomersReportsRequest,
   output: CountChromeDevicesThatNeedAttentionCustomersReportsResponse,
   errors: [],
 }));
 
-/** Count of Chrome Browsers that have been recently enrolled, have new policy to be synced, or have no recent activity. */
 export interface CountChromeBrowsersNeedingAttentionCustomersReportsRequest {
   /** Required. The customer ID or "my_customer" prefixed with "customers/". */
   customer: string;
@@ -2865,13 +2864,13 @@ export const CountChromeBrowsersNeedingAttentionCustomersReportsResponse = Googl
 
 export type CountChromeBrowsersNeedingAttentionCustomersReportsError = CommonErrors;
 
+/** Count of Chrome Browsers that have been recently enrolled, have new policy to be synced, or have no recent activity. */
 export const countChromeBrowsersNeedingAttentionCustomersReports: API.OperationMethod<CountChromeBrowsersNeedingAttentionCustomersReportsRequest, CountChromeBrowsersNeedingAttentionCustomersReportsResponse, CountChromeBrowsersNeedingAttentionCustomersReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CountChromeBrowsersNeedingAttentionCustomersReportsRequest,
   output: CountChromeBrowsersNeedingAttentionCustomersReportsResponse,
   errors: [],
 }));
 
-/** Counts of devices with a specific hardware specification from the requested hardware type (for example model name, processor type). Further information can be found here https://support.google.com/chrome/a/answer/10564947 */
 export interface CountChromeHardwareFleetDevicesCustomersReportsRequest {
   /** Required. The customer ID or "my_customer". */
   customer: string;
@@ -2895,13 +2894,13 @@ export const CountChromeHardwareFleetDevicesCustomersReportsResponse = GoogleChr
 
 export type CountChromeHardwareFleetDevicesCustomersReportsError = CommonErrors;
 
+/** Counts of devices with a specific hardware specification from the requested hardware type (for example model name, processor type). Further information can be found here https://support.google.com/chrome/a/answer/10564947 */
 export const countChromeHardwareFleetDevicesCustomersReports: API.OperationMethod<CountChromeHardwareFleetDevicesCustomersReportsRequest, CountChromeHardwareFleetDevicesCustomersReportsResponse, CountChromeHardwareFleetDevicesCustomersReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CountChromeHardwareFleetDevicesCustomersReportsRequest,
   output: CountChromeHardwareFleetDevicesCustomersReportsResponse,
   errors: [],
 }));
 
-/** Generate report of app installations. */
 export interface CountInstalledAppsCustomersReportsRequest {
   /** Required. Customer id or "my_customer" to use the customer associated to the account making the request. */
   customer: string;
@@ -2934,7 +2933,8 @@ export const CountInstalledAppsCustomersReportsResponse = GoogleChromeManagement
 
 export type CountInstalledAppsCustomersReportsError = CommonErrors;
 
-export const countInstalledAppsCustomersReports = API.makePaginated(() => ({
+/** Generate report of app installations. */
+export const countInstalledAppsCustomersReports: API.PaginatedOperationMethod<CountInstalledAppsCustomersReportsRequest, CountInstalledAppsCustomersReportsResponse, CountInstalledAppsCustomersReportsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: CountInstalledAppsCustomersReportsRequest,
   output: CountInstalledAppsCustomersReportsResponse,
   errors: [],
@@ -2944,7 +2944,6 @@ export const countInstalledAppsCustomersReports = API.makePaginated(() => ({
   },
 }));
 
-/** Generate report of managed Chrome browser devices that have a specified app installed. */
 export interface FindInstalledAppDevicesCustomersReportsRequest {
   /** Required. Customer id or "my_customer" to use the customer associated to the account making the request. */
   customer: string;
@@ -2983,7 +2982,8 @@ export const FindInstalledAppDevicesCustomersReportsResponse = GoogleChromeManag
 
 export type FindInstalledAppDevicesCustomersReportsError = CommonErrors;
 
-export const findInstalledAppDevicesCustomersReports = API.makePaginated(() => ({
+/** Generate report of managed Chrome browser devices that have a specified app installed. */
+export const findInstalledAppDevicesCustomersReports: API.PaginatedOperationMethod<FindInstalledAppDevicesCustomersReportsRequest, FindInstalledAppDevicesCustomersReportsResponse, FindInstalledAppDevicesCustomersReportsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: FindInstalledAppDevicesCustomersReportsRequest,
   output: FindInstalledAppDevicesCustomersReportsResponse,
   errors: [],
@@ -2993,7 +2993,6 @@ export const findInstalledAppDevicesCustomersReports = API.makePaginated(() => (
   },
 }));
 
-/** Generate report of installed Chrome versions. */
 export interface CountChromeVersionsCustomersReportsRequest {
   /** Required. Customer id or "my_customer" to use the customer associated to the account making the request. */
   customer: string;
@@ -3023,7 +3022,8 @@ export const CountChromeVersionsCustomersReportsResponse = GoogleChromeManagemen
 
 export type CountChromeVersionsCustomersReportsError = CommonErrors;
 
-export const countChromeVersionsCustomersReports = API.makePaginated(() => ({
+/** Generate report of installed Chrome versions. */
+export const countChromeVersionsCustomersReports: API.PaginatedOperationMethod<CountChromeVersionsCustomersReportsRequest, CountChromeVersionsCustomersReportsResponse, CountChromeVersionsCustomersReportsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: CountChromeVersionsCustomersReportsRequest,
   output: CountChromeVersionsCustomersReportsResponse,
   errors: [],
@@ -3033,7 +3033,6 @@ export const countChromeVersionsCustomersReports = API.makePaginated(() => ({
   },
 }));
 
-/** Get a summary of printing done by each user. */
 export interface CountPrintJobsByUserCustomersReportsRequest {
   /** Required. Customer ID prefixed with "customers/" or "customers/my_customer" to use the customer associated to the account making the request. */
   customer: string;
@@ -3066,7 +3065,8 @@ export const CountPrintJobsByUserCustomersReportsResponse = GoogleChromeManageme
 
 export type CountPrintJobsByUserCustomersReportsError = CommonErrors;
 
-export const countPrintJobsByUserCustomersReports = API.makePaginated(() => ({
+/** Get a summary of printing done by each user. */
+export const countPrintJobsByUserCustomersReports: API.PaginatedOperationMethod<CountPrintJobsByUserCustomersReportsRequest, CountPrintJobsByUserCustomersReportsResponse, CountPrintJobsByUserCustomersReportsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: CountPrintJobsByUserCustomersReportsRequest,
   output: CountPrintJobsByUserCustomersReportsResponse,
   errors: [],
@@ -3076,7 +3076,6 @@ export const countPrintJobsByUserCustomersReports = API.makePaginated(() => ({
   },
 }));
 
-/** Get a summary of printing done by each printer. */
 export interface CountPrintJobsByPrinterCustomersReportsRequest {
   /** Required. Customer ID prefixed with "customers/" or "customers/my_customer" to use the customer associated to the account making the request. */
   customer: string;
@@ -3109,7 +3108,8 @@ export const CountPrintJobsByPrinterCustomersReportsResponse = GoogleChromeManag
 
 export type CountPrintJobsByPrinterCustomersReportsError = CommonErrors;
 
-export const countPrintJobsByPrinterCustomersReports = API.makePaginated(() => ({
+/** Get a summary of printing done by each printer. */
+export const countPrintJobsByPrinterCustomersReports: API.PaginatedOperationMethod<CountPrintJobsByPrinterCustomersReportsRequest, CountPrintJobsByPrinterCustomersReportsResponse, CountPrintJobsByPrinterCustomersReportsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: CountPrintJobsByPrinterCustomersReportsRequest,
   output: CountPrintJobsByPrinterCustomersReportsResponse,
   errors: [],
@@ -3119,7 +3119,6 @@ export const countPrintJobsByPrinterCustomersReports = API.makePaginated(() => (
   },
 }));
 
-/** Get a list of print jobs. */
 export interface EnumeratePrintJobsCustomersReportsRequest {
   /** Required. Customer ID prefixed with "customers/" or "customers/my_customer" to use the customer associated to the account making the request. */
   customer: string;
@@ -3152,7 +3151,8 @@ export const EnumeratePrintJobsCustomersReportsResponse = GoogleChromeManagement
 
 export type EnumeratePrintJobsCustomersReportsError = CommonErrors;
 
-export const enumeratePrintJobsCustomersReports = API.makePaginated(() => ({
+/** Get a list of print jobs. */
+export const enumeratePrintJobsCustomersReports: API.PaginatedOperationMethod<EnumeratePrintJobsCustomersReportsRequest, EnumeratePrintJobsCustomersReportsResponse, EnumeratePrintJobsCustomersReportsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: EnumeratePrintJobsCustomersReportsRequest,
   output: EnumeratePrintJobsCustomersReportsResponse,
   errors: [],
@@ -3162,7 +3162,6 @@ export const enumeratePrintJobsCustomersReports = API.makePaginated(() => ({
   },
 }));
 
-/** Get a count of Chrome crash events. */
 export interface CountChromeCrashEventsCustomersReportsRequest {
   /** Customer ID. */
   customer: string;
@@ -3189,13 +3188,13 @@ export const CountChromeCrashEventsCustomersReportsResponse = GoogleChromeManage
 
 export type CountChromeCrashEventsCustomersReportsError = CommonErrors;
 
+/** Get a count of Chrome crash events. */
 export const countChromeCrashEventsCustomersReports: API.OperationMethod<CountChromeCrashEventsCustomersReportsRequest, CountChromeCrashEventsCustomersReportsResponse, CountChromeCrashEventsCustomersReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CountChromeCrashEventsCustomersReportsRequest,
   output: CountChromeCrashEventsCustomersReportsResponse,
   errors: [],
 }));
 
-/** Get a count of active devices per set time frames. */
 export interface CountActiveDevicesCustomersReportsRequest {
   /** Required. Obfuscated customer ID prefixed with "customers/C" or "customers/my_customer". */
   customer: string;
@@ -3222,13 +3221,13 @@ export const CountActiveDevicesCustomersReportsResponse = GoogleChromeManagement
 
 export type CountActiveDevicesCustomersReportsError = CommonErrors;
 
+/** Get a count of active devices per set time frames. */
 export const countActiveDevicesCustomersReports: API.OperationMethod<CountActiveDevicesCustomersReportsRequest, CountActiveDevicesCustomersReportsResponse, CountActiveDevicesCustomersReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CountActiveDevicesCustomersReportsRequest,
   output: CountActiveDevicesCustomersReportsResponse,
   errors: [],
 }));
 
-/** Get a count of devices per channel. */
 export interface CountDevicesPerReleaseChannelCustomersReportsRequest {
   /** Required. Obfuscated customer ID prefixed with "customers/C" or "customers/my_customer". */
   customer: string;
@@ -3255,13 +3254,13 @@ export const CountDevicesPerReleaseChannelCustomersReportsResponse = GoogleChrom
 
 export type CountDevicesPerReleaseChannelCustomersReportsError = CommonErrors;
 
+/** Get a count of devices per channel. */
 export const countDevicesPerReleaseChannelCustomersReports: API.OperationMethod<CountDevicesPerReleaseChannelCustomersReportsRequest, CountDevicesPerReleaseChannelCustomersReportsResponse, CountDevicesPerReleaseChannelCustomersReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CountDevicesPerReleaseChannelCustomersReportsRequest,
   output: CountDevicesPerReleaseChannelCustomersReportsResponse,
   errors: [],
 }));
 
-/** Get a count of devices per boot type. */
 export interface CountDevicesPerBootTypeCustomersReportsRequest {
   /** Required. Obfuscated customer ID prefixed with "customers/C" or "customers/my_customer". */
   customer: string;
@@ -3288,13 +3287,13 @@ export const CountDevicesPerBootTypeCustomersReportsResponse = GoogleChromeManag
 
 export type CountDevicesPerBootTypeCustomersReportsError = CommonErrors;
 
+/** Get a count of devices per boot type. */
 export const countDevicesPerBootTypeCustomersReports: API.OperationMethod<CountDevicesPerBootTypeCustomersReportsRequest, CountDevicesPerBootTypeCustomersReportsResponse, CountDevicesPerBootTypeCustomersReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CountDevicesPerBootTypeCustomersReportsRequest,
   output: CountDevicesPerBootTypeCustomersReportsResponse,
   errors: [],
 }));
 
-/** List all telemetry devices. */
 export interface ListCustomersTelemetryDevicesRequest {
   /** Required. Customer id or "my_customer" to use the customer associated to the account making the request. */
   parent: string;
@@ -3324,7 +3323,8 @@ export const ListCustomersTelemetryDevicesResponse = GoogleChromeManagementV1Lis
 
 export type ListCustomersTelemetryDevicesError = CommonErrors;
 
-export const listCustomersTelemetryDevices = API.makePaginated(() => ({
+/** List all telemetry devices. */
+export const listCustomersTelemetryDevices: API.PaginatedOperationMethod<ListCustomersTelemetryDevicesRequest, ListCustomersTelemetryDevicesResponse, ListCustomersTelemetryDevicesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCustomersTelemetryDevicesRequest,
   output: ListCustomersTelemetryDevicesResponse,
   errors: [],
@@ -3334,7 +3334,6 @@ export const listCustomersTelemetryDevices = API.makePaginated(() => ({
   },
 }));
 
-/** Get telemetry device. */
 export interface GetCustomersTelemetryDevicesRequest {
   /** Required. Name of the `TelemetryDevice` to return. */
   name: string;
@@ -3355,13 +3354,13 @@ export const GetCustomersTelemetryDevicesResponse = GoogleChromeManagementV1Tele
 
 export type GetCustomersTelemetryDevicesError = CommonErrors;
 
+/** Get telemetry device. */
 export const getCustomersTelemetryDevices: API.OperationMethod<GetCustomersTelemetryDevicesRequest, GetCustomersTelemetryDevicesResponse, GetCustomersTelemetryDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCustomersTelemetryDevicesRequest,
   output: GetCustomersTelemetryDevicesResponse,
   errors: [],
 }));
 
-/** List telemetry events. */
 export interface ListCustomersTelemetryEventsRequest {
   /** Required. Customer id or "my_customer" to use the customer associated to the account making the request. */
   parent: string;
@@ -3391,7 +3390,8 @@ export const ListCustomersTelemetryEventsResponse = GoogleChromeManagementV1List
 
 export type ListCustomersTelemetryEventsError = CommonErrors;
 
-export const listCustomersTelemetryEvents = API.makePaginated(() => ({
+/** List telemetry events. */
+export const listCustomersTelemetryEvents: API.PaginatedOperationMethod<ListCustomersTelemetryEventsRequest, ListCustomersTelemetryEventsResponse, ListCustomersTelemetryEventsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCustomersTelemetryEventsRequest,
   output: ListCustomersTelemetryEventsResponse,
   errors: [],
@@ -3401,7 +3401,6 @@ export const listCustomersTelemetryEvents = API.makePaginated(() => ({
   },
 }));
 
-/** List all telemetry users. */
 export interface ListCustomersTelemetryUsersRequest {
   /** Required. Customer id or "my_customer" to use the customer associated to the account making the request. */
   parent: string;
@@ -3431,7 +3430,8 @@ export const ListCustomersTelemetryUsersResponse = GoogleChromeManagementV1ListT
 
 export type ListCustomersTelemetryUsersError = CommonErrors;
 
-export const listCustomersTelemetryUsers = API.makePaginated(() => ({
+/** List all telemetry users. */
+export const listCustomersTelemetryUsers: API.PaginatedOperationMethod<ListCustomersTelemetryUsersRequest, ListCustomersTelemetryUsersResponse, ListCustomersTelemetryUsersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCustomersTelemetryUsersRequest,
   output: ListCustomersTelemetryUsersResponse,
   errors: [],
@@ -3441,7 +3441,6 @@ export const listCustomersTelemetryUsers = API.makePaginated(() => ({
   },
 }));
 
-/** Get telemetry user. */
 export interface GetCustomersTelemetryUsersRequest {
   /** Required. Name of the `TelemetryUser` to return. */
   name: string;
@@ -3462,13 +3461,13 @@ export const GetCustomersTelemetryUsersResponse = GoogleChromeManagementV1Teleme
 
 export type GetCustomersTelemetryUsersError = CommonErrors;
 
+/** Get telemetry user. */
 export const getCustomersTelemetryUsers: API.OperationMethod<GetCustomersTelemetryUsersRequest, GetCustomersTelemetryUsersResponse, GetCustomersTelemetryUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCustomersTelemetryUsersRequest,
   output: GetCustomersTelemetryUsersResponse,
   errors: [],
 }));
 
-/** List all telemetry notification configs. */
 export interface ListCustomersTelemetryNotificationConfigsRequest {
   /** Required. The parent which owns the notification configs. */
   parent: string;
@@ -3492,7 +3491,8 @@ export const ListCustomersTelemetryNotificationConfigsResponse = GoogleChromeMan
 
 export type ListCustomersTelemetryNotificationConfigsError = CommonErrors;
 
-export const listCustomersTelemetryNotificationConfigs = API.makePaginated(() => ({
+/** List all telemetry notification configs. */
+export const listCustomersTelemetryNotificationConfigs: API.PaginatedOperationMethod<ListCustomersTelemetryNotificationConfigsRequest, ListCustomersTelemetryNotificationConfigsResponse, ListCustomersTelemetryNotificationConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCustomersTelemetryNotificationConfigsRequest,
   output: ListCustomersTelemetryNotificationConfigsResponse,
   errors: [],
@@ -3502,7 +3502,6 @@ export const listCustomersTelemetryNotificationConfigs = API.makePaginated(() =>
   },
 }));
 
-/** Create a telemetry notification config. */
 export interface CreateCustomersTelemetryNotificationConfigsRequest {
   /** Required. The parent resource where this notification config will be created. Format: `customers/{customer}` */
   parent: string;
@@ -3523,13 +3522,13 @@ export const CreateCustomersTelemetryNotificationConfigsResponse = GoogleChromeM
 
 export type CreateCustomersTelemetryNotificationConfigsError = CommonErrors;
 
+/** Create a telemetry notification config. */
 export const createCustomersTelemetryNotificationConfigs: API.OperationMethod<CreateCustomersTelemetryNotificationConfigsRequest, CreateCustomersTelemetryNotificationConfigsResponse, CreateCustomersTelemetryNotificationConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateCustomersTelemetryNotificationConfigsRequest,
   output: CreateCustomersTelemetryNotificationConfigsResponse,
   errors: [],
 }));
 
-/** Delete a telemetry notification config. */
 export interface DeleteCustomersTelemetryNotificationConfigsRequest {
   /** Required. The name of the notification config to delete. Format: `customers/{customer}/telemetry/notificationConfigs/{notification_config}` */
   name: string;
@@ -3547,13 +3546,13 @@ export const DeleteCustomersTelemetryNotificationConfigsResponse = GoogleProtobu
 
 export type DeleteCustomersTelemetryNotificationConfigsError = CommonErrors;
 
+/** Delete a telemetry notification config. */
 export const deleteCustomersTelemetryNotificationConfigs: API.OperationMethod<DeleteCustomersTelemetryNotificationConfigsRequest, DeleteCustomersTelemetryNotificationConfigsResponse, DeleteCustomersTelemetryNotificationConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteCustomersTelemetryNotificationConfigsRequest,
   output: DeleteCustomersTelemetryNotificationConfigsResponse,
   errors: [],
 }));
 
-/** Gets a Chrome browser profile with customer ID and profile permanent ID. */
 export interface GetCustomersProfilesRequest {
   /** Required. Format: customers/{customer_id}/profiles/{profile_permanent_id} */
   name: string;
@@ -3571,13 +3570,13 @@ export const GetCustomersProfilesResponse = GoogleChromeManagementVersionsV1Chro
 
 export type GetCustomersProfilesError = CommonErrors;
 
+/** Gets a Chrome browser profile with customer ID and profile permanent ID. */
 export const getCustomersProfiles: API.OperationMethod<GetCustomersProfilesRequest, GetCustomersProfilesResponse, GetCustomersProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCustomersProfilesRequest,
   output: GetCustomersProfilesResponse,
   errors: [],
 }));
 
-/** Lists Chrome browser profiles of a customer based on the given search and sorting criteria. */
 export interface ListCustomersProfilesRequest {
   /** Required. Format: customers/{customer_id} */
   parent: string;
@@ -3607,7 +3606,8 @@ export const ListCustomersProfilesResponse = GoogleChromeManagementVersionsV1Lis
 
 export type ListCustomersProfilesError = CommonErrors;
 
-export const listCustomersProfiles = API.makePaginated(() => ({
+/** Lists Chrome browser profiles of a customer based on the given search and sorting criteria. */
+export const listCustomersProfiles: API.PaginatedOperationMethod<ListCustomersProfilesRequest, ListCustomersProfilesResponse, ListCustomersProfilesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCustomersProfilesRequest,
   output: ListCustomersProfilesResponse,
   errors: [],
@@ -3617,7 +3617,6 @@ export const listCustomersProfiles = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the data collected from a Chrome browser profile. */
 export interface DeleteCustomersProfilesRequest {
   /** Required. Format: customers/{customer_id}/profiles/{profile_permanent_id} */
   name: string;
@@ -3635,13 +3634,13 @@ export const DeleteCustomersProfilesResponse = GoogleProtobufEmpty;
 
 export type DeleteCustomersProfilesError = CommonErrors;
 
+/** Deletes the data collected from a Chrome browser profile. */
 export const deleteCustomersProfiles: API.OperationMethod<DeleteCustomersProfilesRequest, DeleteCustomersProfilesResponse, DeleteCustomersProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteCustomersProfilesRequest,
   output: DeleteCustomersProfilesResponse,
   errors: [],
 }));
 
-/** Creates a Chrome browser profile remote command. */
 export interface CreateCustomersProfilesCommandsRequest {
   /** Required. Format: customers/{customer_id}/profiles/{profile_permanent_id} */
   parent: string;
@@ -3662,13 +3661,13 @@ export const CreateCustomersProfilesCommandsResponse = GoogleChromeManagementVer
 
 export type CreateCustomersProfilesCommandsError = CommonErrors;
 
+/** Creates a Chrome browser profile remote command. */
 export const createCustomersProfilesCommands: API.OperationMethod<CreateCustomersProfilesCommandsRequest, CreateCustomersProfilesCommandsResponse, CreateCustomersProfilesCommandsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateCustomersProfilesCommandsRequest,
   output: CreateCustomersProfilesCommandsResponse,
   errors: [],
 }));
 
-/** Gets a Chrome browser profile remote command. */
 export interface GetCustomersProfilesCommandsRequest {
   /** Required. Format: customers/{customer_id}/profiles/{profile_permanent_id}/commands/{command_id} */
   name: string;
@@ -3686,13 +3685,13 @@ export const GetCustomersProfilesCommandsResponse = GoogleChromeManagementVersio
 
 export type GetCustomersProfilesCommandsError = CommonErrors;
 
+/** Gets a Chrome browser profile remote command. */
 export const getCustomersProfilesCommands: API.OperationMethod<GetCustomersProfilesCommandsRequest, GetCustomersProfilesCommandsResponse, GetCustomersProfilesCommandsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCustomersProfilesCommandsRequest,
   output: GetCustomersProfilesCommandsResponse,
   errors: [],
 }));
 
-/** Lists remote commands of a Chrome browser profile. */
 export interface ListCustomersProfilesCommandsRequest {
   /** Required. Format: customers/{customer_id}/profiles/{profile_permanent_id} */
   parent: string;
@@ -3716,7 +3715,8 @@ export const ListCustomersProfilesCommandsResponse = GoogleChromeManagementVersi
 
 export type ListCustomersProfilesCommandsError = CommonErrors;
 
-export const listCustomersProfilesCommands = API.makePaginated(() => ({
+/** Lists remote commands of a Chrome browser profile. */
+export const listCustomersProfilesCommands: API.PaginatedOperationMethod<ListCustomersProfilesCommandsRequest, ListCustomersProfilesCommandsResponse, ListCustomersProfilesCommandsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCustomersProfilesCommandsRequest,
   output: ListCustomersProfilesCommandsResponse,
   errors: [],
@@ -3726,7 +3726,6 @@ export const listCustomersProfilesCommands = API.makePaginated(() => ({
   },
 }));
 
-/** Claims a certificate provisioning process. For each certificate provisioning process, this operation can succeed only for one `caller_instance_id`. */
 export interface ClaimCustomersCertificateProvisioningProcessesRequest {
   /** Required. Resource name of the `CertificateProvisioningProcess` to claim. The name pattern is given as `customers/{customer}/certificateProvisioningProcesses/{certificate_provisioning_process}` with `{customer}` being the obfuscated customer id and `{certificate_provisioning_process}` being the certificate provisioning process id. */
   name: string;
@@ -3747,13 +3746,13 @@ export const ClaimCustomersCertificateProvisioningProcessesResponse = GoogleChro
 
 export type ClaimCustomersCertificateProvisioningProcessesError = CommonErrors;
 
+/** Claims a certificate provisioning process. For each certificate provisioning process, this operation can succeed only for one `caller_instance_id`. */
 export const claimCustomersCertificateProvisioningProcesses: API.OperationMethod<ClaimCustomersCertificateProvisioningProcessesRequest, ClaimCustomersCertificateProvisioningProcessesResponse, ClaimCustomersCertificateProvisioningProcessesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ClaimCustomersCertificateProvisioningProcessesRequest,
   output: ClaimCustomersCertificateProvisioningProcessesResponse,
   errors: [],
 }));
 
-/** Retrieves a certificate provisioning process. */
 export interface GetCustomersCertificateProvisioningProcessesRequest {
   /** Required. Resource name of the `CertificateProvisioningProcess` to return. The name pattern is given as `customers/{customer}/certificateProvisioningProcesses/{certificate_provisioning_process}` with `{customer}` being the obfuscated customer id and `{certificate_provisioning_process}` being the certificate provisioning process id. */
   name: string;
@@ -3771,13 +3770,13 @@ export const GetCustomersCertificateProvisioningProcessesResponse = GoogleChrome
 
 export type GetCustomersCertificateProvisioningProcessesError = CommonErrors;
 
+/** Retrieves a certificate provisioning process. */
 export const getCustomersCertificateProvisioningProcesses: API.OperationMethod<GetCustomersCertificateProvisioningProcessesRequest, GetCustomersCertificateProvisioningProcessesResponse, GetCustomersCertificateProvisioningProcessesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCustomersCertificateProvisioningProcessesRequest,
   output: GetCustomersCertificateProvisioningProcessesResponse,
   errors: [],
 }));
 
-/** Requests the client that initiated a certificate provisioning process to sign data. This should only be called after `ClaimCertificateProvisioningProcess` has been successfully executed. */
 export interface SignDataCustomersCertificateProvisioningProcessesRequest {
   /** Required. Resource name of the `CertificateProvisioningProcess` to return. The name pattern is given as `customers/{customer}/certificateProvisioningProcesses/{certificate_provisioning_process}` with `{customer}` being the obfuscated customer id and `{certificate_provisioning_process}` being the certificate provisioning process id. */
   name: string;
@@ -3798,13 +3797,13 @@ export const SignDataCustomersCertificateProvisioningProcessesResponse = GoogleL
 
 export type SignDataCustomersCertificateProvisioningProcessesError = CommonErrors;
 
+/** Requests the client that initiated a certificate provisioning process to sign data. This should only be called after `ClaimCertificateProvisioningProcess` has been successfully executed. */
 export const signDataCustomersCertificateProvisioningProcesses: API.OperationMethod<SignDataCustomersCertificateProvisioningProcessesRequest, SignDataCustomersCertificateProvisioningProcessesResponse, SignDataCustomersCertificateProvisioningProcessesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SignDataCustomersCertificateProvisioningProcessesRequest,
   output: SignDataCustomersCertificateProvisioningProcessesResponse,
   errors: [],
 }));
 
-/** Uploads a successfully issued certificate for a certificate provisioning process. */
 export interface UploadCertificateCustomersCertificateProvisioningProcessesRequest {
   /** Required. Resource name of the `CertificateProvisioningProcess` to return. The name pattern is given as `customers/{customer}/certificateProvisioningProcesses/{certificate_provisioning_process}` with `{customer}` being the obfuscated customer id and `{certificate_provisioning_process}` being the certificate provisioning process id. */
   name: string;
@@ -3825,13 +3824,13 @@ export const UploadCertificateCustomersCertificateProvisioningProcessesResponse 
 
 export type UploadCertificateCustomersCertificateProvisioningProcessesError = CommonErrors;
 
+/** Uploads a successfully issued certificate for a certificate provisioning process. */
 export const uploadCertificateCustomersCertificateProvisioningProcesses: API.OperationMethod<UploadCertificateCustomersCertificateProvisioningProcessesRequest, UploadCertificateCustomersCertificateProvisioningProcessesResponse, UploadCertificateCustomersCertificateProvisioningProcessesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadCertificateCustomersCertificateProvisioningProcessesRequest,
   output: UploadCertificateCustomersCertificateProvisioningProcessesResponse,
   errors: [],
 }));
 
-/** Marks a certificate provisioning process as failed. */
 export interface SetFailureCustomersCertificateProvisioningProcessesRequest {
   /** Required. Resource name of the `CertificateProvisioningProcess` to return. The name pattern is given as `customers/{customer}/certificateProvisioningProcesses/{certificate_provisioning_process}` with `{customer}` being the obfuscated customer id and `{certificate_provisioning_process}` being the certificate provisioning process id. */
   name: string;
@@ -3852,13 +3851,13 @@ export const SetFailureCustomersCertificateProvisioningProcessesResponse = Googl
 
 export type SetFailureCustomersCertificateProvisioningProcessesError = CommonErrors;
 
+/** Marks a certificate provisioning process as failed. */
 export const setFailureCustomersCertificateProvisioningProcesses: API.OperationMethod<SetFailureCustomersCertificateProvisioningProcessesRequest, SetFailureCustomersCertificateProvisioningProcessesResponse, SetFailureCustomersCertificateProvisioningProcessesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetFailureCustomersCertificateProvisioningProcessesRequest,
   output: SetFailureCustomersCertificateProvisioningProcessesResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetCustomersCertificateProvisioningProcessesOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -3876,13 +3875,13 @@ export const GetCustomersCertificateProvisioningProcessesOperationsResponse = Go
 
 export type GetCustomersCertificateProvisioningProcessesOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getCustomersCertificateProvisioningProcessesOperations: API.OperationMethod<GetCustomersCertificateProvisioningProcessesOperationsRequest, GetCustomersCertificateProvisioningProcessesOperationsResponse, GetCustomersCertificateProvisioningProcessesOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCustomersCertificateProvisioningProcessesOperationsRequest,
   output: GetCustomersCertificateProvisioningProcessesOperationsResponse,
   errors: [],
 }));
 
-/** Moves a third party chrome profile user to a destination OU. All profiles associated to that user will be moved to the destination OU. */
 export interface MoveCustomersThirdPartyProfileUsersRequest {
   /** Required. Format: customers/{customer_id}/thirdPartyProfileUsers/{third_party_profile_user_id} */
   name: string;
@@ -3903,13 +3902,13 @@ export const MoveCustomersThirdPartyProfileUsersResponse = GoogleChromeManagemen
 
 export type MoveCustomersThirdPartyProfileUsersError = CommonErrors;
 
+/** Moves a third party chrome profile user to a destination OU. All profiles associated to that user will be moved to the destination OU. */
 export const moveCustomersThirdPartyProfileUsers: API.OperationMethod<MoveCustomersThirdPartyProfileUsersRequest, MoveCustomersThirdPartyProfileUsersResponse, MoveCustomersThirdPartyProfileUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MoveCustomersThirdPartyProfileUsersRequest,
   output: MoveCustomersThirdPartyProfileUsersResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -3939,7 +3938,8 @@ export const ListOperationsResponse = GoogleLongrunningListOperationsResponse;
 
 export type ListOperationsError = CommonErrors;
 
-export const listOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listOperations: API.PaginatedOperationMethod<ListOperationsRequest, ListOperationsResponse, ListOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOperationsRequest,
   output: ListOperationsResponse,
   errors: [],
@@ -3949,7 +3949,6 @@ export const listOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -3967,13 +3966,13 @@ export const DeleteOperationsResponse = GoogleProtobufEmpty;
 
 export type DeleteOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteOperations: API.OperationMethod<DeleteOperationsRequest, DeleteOperationsResponse, DeleteOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOperationsRequest,
   output: DeleteOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -3994,6 +3993,7 @@ export const CancelOperationsResponse = GoogleProtobufEmpty;
 
 export type CancelOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelOperations: API.OperationMethod<CancelOperationsRequest, CancelOperationsResponse, CancelOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelOperationsRequest,
   output: CancelOperationsResponse,

@@ -918,7 +918,6 @@ export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> = Schema.su
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** Optional. Do not use this field. It is unsupported and is ignored unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: string[];
@@ -948,7 +947,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -958,7 +958,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -976,13 +975,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Deletes the specified workstation cluster. */
 export interface DeleteProjectsLocationsWorkstationClustersRequest {
   /** Optional. If set, the request will be rejected if the latest version of the workstation cluster on the server does not have this ETag. */
   etag?: string;
@@ -1009,13 +1008,13 @@ export const DeleteProjectsLocationsWorkstationClustersResponse = Operation;
 
 export type DeleteProjectsLocationsWorkstationClustersError = CommonErrors;
 
+/** Deletes the specified workstation cluster. */
 export const deleteProjectsLocationsWorkstationClusters: API.OperationMethod<DeleteProjectsLocationsWorkstationClustersRequest, DeleteProjectsLocationsWorkstationClustersResponse, DeleteProjectsLocationsWorkstationClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsWorkstationClustersRequest,
   output: DeleteProjectsLocationsWorkstationClustersResponse,
   errors: [],
 }));
 
-/** Returns the requested workstation cluster. */
 export interface GetProjectsLocationsWorkstationClustersRequest {
   /** Required. Name of the requested resource. */
   name: string;
@@ -1033,13 +1032,13 @@ export const GetProjectsLocationsWorkstationClustersResponse = WorkstationCluste
 
 export type GetProjectsLocationsWorkstationClustersError = CommonErrors;
 
+/** Returns the requested workstation cluster. */
 export const getProjectsLocationsWorkstationClusters: API.OperationMethod<GetProjectsLocationsWorkstationClustersRequest, GetProjectsLocationsWorkstationClustersResponse, GetProjectsLocationsWorkstationClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsWorkstationClustersRequest,
   output: GetProjectsLocationsWorkstationClustersResponse,
   errors: [],
 }));
 
-/** Returns all workstation clusters in the specified location. */
 export interface ListProjectsLocationsWorkstationClustersRequest {
   /** Optional. Maximum number of items to return. */
   pageSize?: number;
@@ -1066,7 +1065,8 @@ export const ListProjectsLocationsWorkstationClustersResponse = ListWorkstationC
 
 export type ListProjectsLocationsWorkstationClustersError = CommonErrors;
 
-export const listProjectsLocationsWorkstationClusters = API.makePaginated(() => ({
+/** Returns all workstation clusters in the specified location. */
+export const listProjectsLocationsWorkstationClusters: API.PaginatedOperationMethod<ListProjectsLocationsWorkstationClustersRequest, ListProjectsLocationsWorkstationClustersResponse, ListProjectsLocationsWorkstationClustersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsWorkstationClustersRequest,
   output: ListProjectsLocationsWorkstationClustersResponse,
   errors: [],
@@ -1076,7 +1076,6 @@ export const listProjectsLocationsWorkstationClusters = API.makePaginated(() => 
   },
 }));
 
-/** Creates a new workstation cluster. */
 export interface CreateProjectsLocationsWorkstationClustersRequest {
   /** Required. ID to use for the workstation cluster. */
   workstationClusterId?: string;
@@ -1103,13 +1102,13 @@ export const CreateProjectsLocationsWorkstationClustersResponse = Operation;
 
 export type CreateProjectsLocationsWorkstationClustersError = CommonErrors;
 
+/** Creates a new workstation cluster. */
 export const createProjectsLocationsWorkstationClusters: API.OperationMethod<CreateProjectsLocationsWorkstationClustersRequest, CreateProjectsLocationsWorkstationClustersResponse, CreateProjectsLocationsWorkstationClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsWorkstationClustersRequest,
   output: CreateProjectsLocationsWorkstationClustersResponse,
   errors: [],
 }));
 
-/** Updates an existing workstation cluster. */
 export interface PatchProjectsLocationsWorkstationClustersRequest {
   /** Identifier. Full name of this workstation cluster. */
   name: string;
@@ -1139,13 +1138,13 @@ export const PatchProjectsLocationsWorkstationClustersResponse = Operation;
 
 export type PatchProjectsLocationsWorkstationClustersError = CommonErrors;
 
+/** Updates an existing workstation cluster. */
 export const patchProjectsLocationsWorkstationClusters: API.OperationMethod<PatchProjectsLocationsWorkstationClustersRequest, PatchProjectsLocationsWorkstationClustersResponse, PatchProjectsLocationsWorkstationClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsWorkstationClustersRequest,
   output: PatchProjectsLocationsWorkstationClustersResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1166,13 +1165,13 @@ export const SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsR
 
 export type SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigs: API.OperationMethod<SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsRequest, SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsResponse, SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsRequest,
   output: SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsResponse,
   errors: [],
 }));
 
-/** Creates a new workstation configuration. */
 export interface CreateProjectsLocationsWorkstationClustersWorkstationConfigsRequest {
   /** Optional. If set, validate the request and preview the review, but do not actually apply it. */
   validateOnly?: boolean;
@@ -1199,13 +1198,13 @@ export const CreateProjectsLocationsWorkstationClustersWorkstationConfigsRespons
 
 export type CreateProjectsLocationsWorkstationClustersWorkstationConfigsError = CommonErrors;
 
+/** Creates a new workstation configuration. */
 export const createProjectsLocationsWorkstationClustersWorkstationConfigs: API.OperationMethod<CreateProjectsLocationsWorkstationClustersWorkstationConfigsRequest, CreateProjectsLocationsWorkstationClustersWorkstationConfigsResponse, CreateProjectsLocationsWorkstationClustersWorkstationConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsWorkstationClustersWorkstationConfigsRequest,
   output: CreateProjectsLocationsWorkstationClustersWorkstationConfigsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
@@ -1226,13 +1225,13 @@ export const GetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsR
 
 export type GetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigs: API.OperationMethod<GetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsRequest, GetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsResponse, GetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsRequest,
   output: GetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsResponse,
   errors: [],
 }));
 
-/** Returns all workstation configurations in the specified cluster on which the caller has the "workstations.workstation.create" permission. */
 export interface ListUsableProjectsLocationsWorkstationClustersWorkstationConfigsRequest {
   /** Required. Parent resource name. */
   parent: string;
@@ -1256,7 +1255,8 @@ export const ListUsableProjectsLocationsWorkstationClustersWorkstationConfigsRes
 
 export type ListUsableProjectsLocationsWorkstationClustersWorkstationConfigsError = CommonErrors;
 
-export const listUsableProjectsLocationsWorkstationClustersWorkstationConfigs = API.makePaginated(() => ({
+/** Returns all workstation configurations in the specified cluster on which the caller has the "workstations.workstation.create" permission. */
+export const listUsableProjectsLocationsWorkstationClustersWorkstationConfigs: API.PaginatedOperationMethod<ListUsableProjectsLocationsWorkstationClustersWorkstationConfigsRequest, ListUsableProjectsLocationsWorkstationClustersWorkstationConfigsResponse, ListUsableProjectsLocationsWorkstationClustersWorkstationConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListUsableProjectsLocationsWorkstationClustersWorkstationConfigsRequest,
   output: ListUsableProjectsLocationsWorkstationClustersWorkstationConfigsResponse,
   errors: [],
@@ -1266,7 +1266,6 @@ export const listUsableProjectsLocationsWorkstationClustersWorkstationConfigs = 
   },
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1287,13 +1286,13 @@ export const TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationCo
 
 export type TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigs: API.OperationMethod<TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsRequest, TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsResponse, TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsRequest,
   output: TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsResponse,
   errors: [],
 }));
 
-/** Updates an existing workstation configuration. */
 export interface PatchProjectsLocationsWorkstationClustersWorkstationConfigsRequest {
   /** Required. Mask specifying which fields in the workstation configuration should be updated. */
   updateMask?: string;
@@ -1323,13 +1322,13 @@ export const PatchProjectsLocationsWorkstationClustersWorkstationConfigsResponse
 
 export type PatchProjectsLocationsWorkstationClustersWorkstationConfigsError = CommonErrors;
 
+/** Updates an existing workstation configuration. */
 export const patchProjectsLocationsWorkstationClustersWorkstationConfigs: API.OperationMethod<PatchProjectsLocationsWorkstationClustersWorkstationConfigsRequest, PatchProjectsLocationsWorkstationClustersWorkstationConfigsResponse, PatchProjectsLocationsWorkstationClustersWorkstationConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsWorkstationClustersWorkstationConfigsRequest,
   output: PatchProjectsLocationsWorkstationClustersWorkstationConfigsResponse,
   errors: [],
 }));
 
-/** Returns the requested workstation configuration. */
 export interface GetProjectsLocationsWorkstationClustersWorkstationConfigsRequest {
   /** Required. Name of the requested resource. */
   name: string;
@@ -1347,13 +1346,13 @@ export const GetProjectsLocationsWorkstationClustersWorkstationConfigsResponse =
 
 export type GetProjectsLocationsWorkstationClustersWorkstationConfigsError = CommonErrors;
 
+/** Returns the requested workstation configuration. */
 export const getProjectsLocationsWorkstationClustersWorkstationConfigs: API.OperationMethod<GetProjectsLocationsWorkstationClustersWorkstationConfigsRequest, GetProjectsLocationsWorkstationClustersWorkstationConfigsResponse, GetProjectsLocationsWorkstationClustersWorkstationConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsWorkstationClustersWorkstationConfigsRequest,
   output: GetProjectsLocationsWorkstationClustersWorkstationConfigsResponse,
   errors: [],
 }));
 
-/** Returns all workstation configurations in the specified cluster. */
 export interface ListProjectsLocationsWorkstationClustersWorkstationConfigsRequest {
   /** Required. Parent resource name. */
   parent: string;
@@ -1380,7 +1379,8 @@ export const ListProjectsLocationsWorkstationClustersWorkstationConfigsResponse 
 
 export type ListProjectsLocationsWorkstationClustersWorkstationConfigsError = CommonErrors;
 
-export const listProjectsLocationsWorkstationClustersWorkstationConfigs = API.makePaginated(() => ({
+/** Returns all workstation configurations in the specified cluster. */
+export const listProjectsLocationsWorkstationClustersWorkstationConfigs: API.PaginatedOperationMethod<ListProjectsLocationsWorkstationClustersWorkstationConfigsRequest, ListProjectsLocationsWorkstationClustersWorkstationConfigsResponse, ListProjectsLocationsWorkstationClustersWorkstationConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsWorkstationClustersWorkstationConfigsRequest,
   output: ListProjectsLocationsWorkstationClustersWorkstationConfigsResponse,
   errors: [],
@@ -1390,7 +1390,6 @@ export const listProjectsLocationsWorkstationClustersWorkstationConfigs = API.ma
   },
 }));
 
-/** Deletes the specified workstation configuration. */
 export interface DeleteProjectsLocationsWorkstationClustersWorkstationConfigsRequest {
   /** Optional. If set, validate the request and preview the review, but do not actually apply it. */
   validateOnly?: boolean;
@@ -1417,13 +1416,13 @@ export const DeleteProjectsLocationsWorkstationClustersWorkstationConfigsRespons
 
 export type DeleteProjectsLocationsWorkstationClustersWorkstationConfigsError = CommonErrors;
 
+/** Deletes the specified workstation configuration. */
 export const deleteProjectsLocationsWorkstationClustersWorkstationConfigs: API.OperationMethod<DeleteProjectsLocationsWorkstationClustersWorkstationConfigsRequest, DeleteProjectsLocationsWorkstationClustersWorkstationConfigsResponse, DeleteProjectsLocationsWorkstationClustersWorkstationConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsWorkstationClustersWorkstationConfigsRequest,
   output: DeleteProjectsLocationsWorkstationClustersWorkstationConfigsResponse,
   errors: [],
 }));
 
-/** Returns all workstations using the specified workstation configuration on which the caller has the "workstations.workstations.use" permission. */
 export interface ListUsableProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
   /** Required. Parent resource name. */
   parent: string;
@@ -1447,7 +1446,8 @@ export const ListUsableProjectsLocationsWorkstationClustersWorkstationConfigsWor
 
 export type ListUsableProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError = CommonErrors;
 
-export const listUsableProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations = API.makePaginated(() => ({
+/** Returns all workstations using the specified workstation configuration on which the caller has the "workstations.workstations.use" permission. */
+export const listUsableProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations: API.PaginatedOperationMethod<ListUsableProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest, ListUsableProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsResponse, ListUsableProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListUsableProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest,
   output: ListUsableProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsResponse,
   errors: [],
@@ -1457,7 +1457,6 @@ export const listUsableProjectsLocationsWorkstationClustersWorkstationConfigsWor
   },
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1478,13 +1477,13 @@ export const SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsW
 
 export type SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations: API.OperationMethod<SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest, SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsResponse, SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest,
   output: SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1505,13 +1504,13 @@ export const TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationCo
 
 export type TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations: API.OperationMethod<TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest, TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsResponse, TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest,
   output: TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsResponse,
   errors: [],
 }));
 
-/** Deletes the specified workstation. */
 export interface DeleteProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
   /** Optional. If set, validate the request and preview the review, but do not actually apply it. */
   validateOnly?: boolean;
@@ -1535,13 +1534,13 @@ export const DeleteProjectsLocationsWorkstationClustersWorkstationConfigsWorksta
 
 export type DeleteProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError = CommonErrors;
 
+/** Deletes the specified workstation. */
 export const deleteProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations: API.OperationMethod<DeleteProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest, DeleteProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsResponse, DeleteProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest,
   output: DeleteProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsResponse,
   errors: [],
 }));
 
-/** Stops running a workstation, reducing costs. */
 export interface StopProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
   /** Required. Name of the workstation to stop. */
   name: string;
@@ -1562,13 +1561,13 @@ export const StopProjectsLocationsWorkstationClustersWorkstationConfigsWorkstati
 
 export type StopProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError = CommonErrors;
 
+/** Stops running a workstation, reducing costs. */
 export const stopProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations: API.OperationMethod<StopProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest, StopProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsResponse, StopProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StopProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest,
   output: StopProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsResponse,
   errors: [],
 }));
 
-/** Updates an existing workstation. */
 export interface PatchProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
   /** Required. Mask specifying which fields in the workstation configuration should be updated. */
   updateMask?: string;
@@ -1598,13 +1597,13 @@ export const PatchProjectsLocationsWorkstationClustersWorkstationConfigsWorkstat
 
 export type PatchProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError = CommonErrors;
 
+/** Updates an existing workstation. */
 export const patchProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations: API.OperationMethod<PatchProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest, PatchProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsResponse, PatchProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest,
   output: PatchProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
@@ -1625,13 +1624,13 @@ export const GetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsW
 
 export type GetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations: API.OperationMethod<GetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest, GetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsResponse, GetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest,
   output: GetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsResponse,
   errors: [],
 }));
 
-/** Starts running a workstation so that users can connect to it. */
 export interface StartProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
   /** Required. Name of the workstation to start. */
   name: string;
@@ -1652,13 +1651,13 @@ export const StartProjectsLocationsWorkstationClustersWorkstationConfigsWorkstat
 
 export type StartProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError = CommonErrors;
 
+/** Starts running a workstation so that users can connect to it. */
 export const startProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations: API.OperationMethod<StartProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest, StartProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsResponse, StartProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StartProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest,
   output: StartProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsResponse,
   errors: [],
 }));
 
-/** Returns all Workstations using the specified workstation configuration. */
 export interface ListProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
   /** Optional. Maximum number of items to return. */
   pageSize?: number;
@@ -1685,7 +1684,8 @@ export const ListProjectsLocationsWorkstationClustersWorkstationConfigsWorkstati
 
 export type ListProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError = CommonErrors;
 
-export const listProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations = API.makePaginated(() => ({
+/** Returns all Workstations using the specified workstation configuration. */
+export const listProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations: API.PaginatedOperationMethod<ListProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest, ListProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsResponse, ListProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest,
   output: ListProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsResponse,
   errors: [],
@@ -1695,7 +1695,6 @@ export const listProjectsLocationsWorkstationClustersWorkstationConfigsWorkstati
   },
 }));
 
-/** Creates a new workstation. */
 export interface CreateProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
   /** Required. ID to use for the workstation. */
   workstationId?: string;
@@ -1722,13 +1721,13 @@ export const CreateProjectsLocationsWorkstationClustersWorkstationConfigsWorksta
 
 export type CreateProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError = CommonErrors;
 
+/** Creates a new workstation. */
 export const createProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations: API.OperationMethod<CreateProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest, CreateProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsResponse, CreateProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest,
   output: CreateProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsResponse,
   errors: [],
 }));
 
-/** Returns a short-lived credential that can be used to send authenticated and authorized traffic to a workstation. Once generated this token cannot be revoked and is good for the lifetime of the token. */
 export interface GenerateAccessTokenProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
   /** Required. Name of the workstation for which the access token should be generated. */
   workstation: string;
@@ -1749,13 +1748,13 @@ export const GenerateAccessTokenProjectsLocationsWorkstationClustersWorkstationC
 
 export type GenerateAccessTokenProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError = CommonErrors;
 
+/** Returns a short-lived credential that can be used to send authenticated and authorized traffic to a workstation. Once generated this token cannot be revoked and is good for the lifetime of the token. */
 export const generateAccessTokenProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations: API.OperationMethod<GenerateAccessTokenProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest, GenerateAccessTokenProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsResponse, GenerateAccessTokenProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateAccessTokenProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest,
   output: GenerateAccessTokenProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsResponse,
   errors: [],
 }));
 
-/** Returns the requested workstation. */
 export interface GetProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest {
   /** Required. Name of the requested resource. */
   name: string;
@@ -1773,13 +1772,13 @@ export const GetProjectsLocationsWorkstationClustersWorkstationConfigsWorkstatio
 
 export type GetProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError = CommonErrors;
 
+/** Returns the requested workstation. */
 export const getProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations: API.OperationMethod<GetProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest, GetProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsResponse, GetProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsRequest,
   output: GetProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list filter. */
   filter?: string;
@@ -1809,7 +1808,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -1819,7 +1819,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -1837,13 +1836,13 @@ export const DeleteProjectsLocationsOperationsResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1861,13 +1860,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -1888,6 +1887,7 @@ export const CancelProjectsLocationsOperationsResponse = GoogleProtobufEmpty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,

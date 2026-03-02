@@ -324,7 +324,6 @@ export const SendMessageRequest: Schema.Schema<SendMessageRequest> = Schema.susp
 // Operations
 // ==========================================================================
 
-/** Send a message to specified target (a registration token, topic or condition). */
 export interface SendProjectsMessagesRequest {
   /** Required. It contains the Firebase project id (i.e. the unique identifier for your Firebase project), in the format of `projects/{project_id}`. The numeric project number with no padding is also supported in the format of `projects/{project_number}`. */
   parent: string;
@@ -345,6 +344,7 @@ export const SendProjectsMessagesResponse = Message;
 
 export type SendProjectsMessagesError = CommonErrors;
 
+/** Send a message to specified target (a registration token, topic or condition). */
 export const sendProjectsMessages: API.OperationMethod<SendProjectsMessagesRequest, SendProjectsMessagesResponse, SendProjectsMessagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SendProjectsMessagesRequest,
   output: SendProjectsMessagesResponse,

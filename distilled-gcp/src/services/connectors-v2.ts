@@ -1025,7 +1025,6 @@ export const Instance: Schema.Schema<Instance> = Schema.suspend(() => Schema.Str
 // Operations
 // ==========================================================================
 
-/** Reports the status of the connection. Note that when the connection is in a state that is not ACTIVE, the implementation of this RPC method must return a Status with the corresponding State instead of returning a gRPC status code that is not "OK", which indicates that ConnectionStatus itself, not the connection, failed. */
 export interface CheckStatusProjectsLocationsConnectionsRequest {
   name: string;
   /** headers to be used for the request. For example: headers:'{"x-integration-connectors-managed-connection-id":"conn-id","x-integration-connectors-runtime-config":"runtime-cfg"}' */
@@ -1045,13 +1044,13 @@ export const CheckStatusProjectsLocationsConnectionsResponse = CheckStatusRespon
 
 export type CheckStatusProjectsLocationsConnectionsError = CommonErrors;
 
+/** Reports the status of the connection. Note that when the connection is in a state that is not ACTIVE, the implementation of this RPC method must return a Status with the corresponding State instead of returning a gRPC status code that is not "OK", which indicates that ConnectionStatus itself, not the connection, failed. */
 export const checkStatusProjectsLocationsConnections: API.OperationMethod<CheckStatusProjectsLocationsConnectionsRequest, CheckStatusProjectsLocationsConnectionsResponse, CheckStatusProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CheckStatusProjectsLocationsConnectionsRequest,
   output: CheckStatusProjectsLocationsConnectionsResponse,
   errors: [],
 }));
 
-/** Reports readiness status of the connector. Similar logic to GetStatus but modified for kubernetes health check to understand. */
 export interface CheckReadinessProjectsLocationsConnectionsRequest {
   name: string;
 }
@@ -1068,13 +1067,13 @@ export const CheckReadinessProjectsLocationsConnectionsResponse = CheckReadiness
 
 export type CheckReadinessProjectsLocationsConnectionsError = CommonErrors;
 
+/** Reports readiness status of the connector. Similar logic to GetStatus but modified for kubernetes health check to understand. */
 export const checkReadinessProjectsLocationsConnections: API.OperationMethod<CheckReadinessProjectsLocationsConnectionsRequest, CheckReadinessProjectsLocationsConnectionsResponse, CheckReadinessProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CheckReadinessProjectsLocationsConnectionsRequest,
   output: CheckReadinessProjectsLocationsConnectionsResponse,
   errors: [],
 }));
 
-/** ExchangeAuthCode exchanges the OAuth authorization code (and other necessary data) for an access token (and associated credentials). */
 export interface ExchangeAuthCodeProjectsLocationsConnectionsRequest {
   name: string;
   /** Request body */
@@ -1094,13 +1093,13 @@ export const ExchangeAuthCodeProjectsLocationsConnectionsResponse = ExchangeAuth
 
 export type ExchangeAuthCodeProjectsLocationsConnectionsError = CommonErrors;
 
+/** ExchangeAuthCode exchanges the OAuth authorization code (and other necessary data) for an access token (and associated credentials). */
 export const exchangeAuthCodeProjectsLocationsConnections: API.OperationMethod<ExchangeAuthCodeProjectsLocationsConnectionsRequest, ExchangeAuthCodeProjectsLocationsConnectionsResponse, ExchangeAuthCodeProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExchangeAuthCodeProjectsLocationsConnectionsRequest,
   output: ExchangeAuthCodeProjectsLocationsConnectionsResponse,
   errors: [],
 }));
 
-/** RefreshAccessToken exchanges the OAuth refresh token (and other necessary data) for a new access token (and new associated credentials). */
 export interface RefreshAccessTokenProjectsLocationsConnectionsRequest {
   name: string;
   /** Request body */
@@ -1120,13 +1119,13 @@ export const RefreshAccessTokenProjectsLocationsConnectionsResponse = RefreshAcc
 
 export type RefreshAccessTokenProjectsLocationsConnectionsError = CommonErrors;
 
+/** RefreshAccessToken exchanges the OAuth refresh token (and other necessary data) for a new access token (and new associated credentials). */
 export const refreshAccessTokenProjectsLocationsConnections: API.OperationMethod<RefreshAccessTokenProjectsLocationsConnectionsRequest, RefreshAccessTokenProjectsLocationsConnectionsResponse, RefreshAccessTokenProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RefreshAccessTokenProjectsLocationsConnectionsRequest,
   output: RefreshAccessTokenProjectsLocationsConnectionsResponse,
   errors: [],
 }));
 
-/** Lists all available tools with POST. */
 export interface ToolsProjectsLocationsConnectionsRequest {
   /** Required. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
   parent: string;
@@ -1147,13 +1146,13 @@ export const ToolsProjectsLocationsConnectionsResponse = ListToolsResponse;
 
 export type ToolsProjectsLocationsConnectionsError = CommonErrors;
 
+/** Lists all available tools with POST. */
 export const toolsProjectsLocationsConnections: API.OperationMethod<ToolsProjectsLocationsConnectionsRequest, ToolsProjectsLocationsConnectionsResponse, ToolsProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ToolsProjectsLocationsConnectionsRequest,
   output: ToolsProjectsLocationsConnectionsResponse,
   errors: [],
 }));
 
-/** Generate toolspec override for the given list of toolNames. */
 export interface GenerateConnectionToolspecOverrideProjectsLocationsConnectionsRequest {
   /** Required. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
   name: string;
@@ -1174,13 +1173,13 @@ export const GenerateConnectionToolspecOverrideProjectsLocationsConnectionsRespo
 
 export type GenerateConnectionToolspecOverrideProjectsLocationsConnectionsError = CommonErrors;
 
+/** Generate toolspec override for the given list of toolNames. */
 export const generateConnectionToolspecOverrideProjectsLocationsConnections: API.OperationMethod<GenerateConnectionToolspecOverrideProjectsLocationsConnectionsRequest, GenerateConnectionToolspecOverrideProjectsLocationsConnectionsResponse, GenerateConnectionToolspecOverrideProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateConnectionToolspecOverrideProjectsLocationsConnectionsRequest,
   output: GenerateConnectionToolspecOverrideProjectsLocationsConnectionsResponse,
   errors: [],
 }));
 
-/** Lists custom tool names. */
 export interface ListCustomToolNamesProjectsLocationsConnectionsRequest {
   /** Required. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
   name: string;
@@ -1198,13 +1197,13 @@ export const ListCustomToolNamesProjectsLocationsConnectionsResponse = ListCusto
 
 export type ListCustomToolNamesProjectsLocationsConnectionsError = CommonErrors;
 
+/** Lists custom tool names. */
 export const listCustomToolNamesProjectsLocationsConnections: API.OperationMethod<ListCustomToolNamesProjectsLocationsConnectionsRequest, ListCustomToolNamesProjectsLocationsConnectionsResponse, ListCustomToolNamesProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListCustomToolNamesProjectsLocationsConnectionsRequest,
   output: ListCustomToolNamesProjectsLocationsConnectionsResponse,
   errors: [],
 }));
 
-/** Executes a SQL statement specified in the body of the request. An example of this SQL statement in the case of Salesforce connector would be 'select * from Account a, Order o where a.Id = o.AccountId'. */
 export interface ExecuteSqlQueryProjectsLocationsConnectionsRequest {
   /** Required. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
   connection: string;
@@ -1225,13 +1224,13 @@ export const ExecuteSqlQueryProjectsLocationsConnectionsResponse = ExecuteSqlQue
 
 export type ExecuteSqlQueryProjectsLocationsConnectionsError = CommonErrors;
 
+/** Executes a SQL statement specified in the body of the request. An example of this SQL statement in the case of Salesforce connector would be 'select * from Account a, Order o where a.Id = o.AccountId'. */
 export const executeSqlQueryProjectsLocationsConnections: API.OperationMethod<ExecuteSqlQueryProjectsLocationsConnectionsRequest, ExecuteSqlQueryProjectsLocationsConnectionsResponse, ExecuteSqlQueryProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExecuteSqlQueryProjectsLocationsConnectionsRequest,
   output: ExecuteSqlQueryProjectsLocationsConnectionsResponse,
   errors: [],
 }));
 
-/** Executes an action with the name specified in the request. The input parameters for executing the action are passed through the body of the ExecuteAction request. */
 export interface ExecuteProjectsLocationsConnectionsActionsRequest {
   /** Required. Resource name of the Action. Format: projects/{project}/locations/{location}/connections/{connection}/actions/{action} */
   name: string;
@@ -1252,13 +1251,13 @@ export const ExecuteProjectsLocationsConnectionsActionsResponse = ExecuteActionR
 
 export type ExecuteProjectsLocationsConnectionsActionsError = CommonErrors;
 
+/** Executes an action with the name specified in the request. The input parameters for executing the action are passed through the body of the ExecuteAction request. */
 export const executeProjectsLocationsConnectionsActions: API.OperationMethod<ExecuteProjectsLocationsConnectionsActionsRequest, ExecuteProjectsLocationsConnectionsActionsResponse, ExecuteProjectsLocationsConnectionsActionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExecuteProjectsLocationsConnectionsActionsRequest,
   output: ExecuteProjectsLocationsConnectionsActionsResponse,
   errors: [],
 }));
 
-/** Gets the schema of all the actions supported by the connector. */
 export interface ListProjectsLocationsConnectionsActionsRequest {
   /** Required. Parent resource name of the Action. Format: projects/{project}/locations/{location}/connections/{connection} */
   parent: string;
@@ -1288,7 +1287,8 @@ export const ListProjectsLocationsConnectionsActionsResponse = ListActionsRespon
 
 export type ListProjectsLocationsConnectionsActionsError = CommonErrors;
 
-export const listProjectsLocationsConnectionsActions = API.makePaginated(() => ({
+/** Gets the schema of all the actions supported by the connector. */
+export const listProjectsLocationsConnectionsActions: API.PaginatedOperationMethod<ListProjectsLocationsConnectionsActionsRequest, ListProjectsLocationsConnectionsActionsResponse, ListProjectsLocationsConnectionsActionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsConnectionsActionsRequest,
   output: ListProjectsLocationsConnectionsActionsResponse,
   errors: [],
@@ -1298,7 +1298,6 @@ export const listProjectsLocationsConnectionsActions = API.makePaginated(() => (
   },
 }));
 
-/** Gets the schema of the given action. */
 export interface GetProjectsLocationsConnectionsActionsRequest {
   /** Required. Resource name of the Action. Format: projects/{project}/locations/{location}/connections/{connection}/actions/{action} */
   name: string;
@@ -1322,13 +1321,13 @@ export const GetProjectsLocationsConnectionsActionsResponse = Action;
 
 export type GetProjectsLocationsConnectionsActionsError = CommonErrors;
 
+/** Gets the schema of the given action. */
 export const getProjectsLocationsConnectionsActions: API.OperationMethod<GetProjectsLocationsConnectionsActionsRequest, GetProjectsLocationsConnectionsActionsResponse, GetProjectsLocationsConnectionsActionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsConnectionsActionsRequest,
   output: GetProjectsLocationsConnectionsActionsResponse,
   errors: [],
 }));
 
-/** Lists all available tools. */
 export interface ListProjectsLocationsConnectionsToolsRequest {
   /** Required. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
   parent: string;
@@ -1355,7 +1354,8 @@ export const ListProjectsLocationsConnectionsToolsResponse = ListToolsResponse;
 
 export type ListProjectsLocationsConnectionsToolsError = CommonErrors;
 
-export const listProjectsLocationsConnectionsTools = API.makePaginated(() => ({
+/** Lists all available tools. */
+export const listProjectsLocationsConnectionsTools: API.PaginatedOperationMethod<ListProjectsLocationsConnectionsToolsRequest, ListProjectsLocationsConnectionsToolsResponse, ListProjectsLocationsConnectionsToolsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsConnectionsToolsRequest,
   output: ListProjectsLocationsConnectionsToolsResponse,
   errors: [],
@@ -1365,7 +1365,6 @@ export const listProjectsLocationsConnectionsTools = API.makePaginated(() => ({
   },
 }));
 
-/** Executes a specific tool. */
 export interface ExecuteProjectsLocationsConnectionsToolsRequest {
   /** Required. Resource name of the Tool. Format: projects/{project}/locations/{location}/connections/{connection}/tools/{tool} */
   name: string;
@@ -1386,13 +1385,13 @@ export const ExecuteProjectsLocationsConnectionsToolsResponse = ExecuteToolRespo
 
 export type ExecuteProjectsLocationsConnectionsToolsError = CommonErrors;
 
+/** Executes a specific tool. */
 export const executeProjectsLocationsConnectionsTools: API.OperationMethod<ExecuteProjectsLocationsConnectionsToolsRequest, ExecuteProjectsLocationsConnectionsToolsResponse, ExecuteProjectsLocationsConnectionsToolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExecuteProjectsLocationsConnectionsToolsRequest,
   output: ExecuteProjectsLocationsConnectionsToolsResponse,
   errors: [],
 }));
 
-/** Lists all available resources. */
 export interface ListProjectsLocationsConnectionsResourcesRequest {
   /** Required. Resource name of the connection. Format: projects/{project}/locations/{location}/connections/{connection} */
   parent: string;
@@ -1419,7 +1418,8 @@ export const ListProjectsLocationsConnectionsResourcesResponse = ListResourcesRe
 
 export type ListProjectsLocationsConnectionsResourcesError = CommonErrors;
 
-export const listProjectsLocationsConnectionsResources = API.makePaginated(() => ({
+/** Lists all available resources. */
+export const listProjectsLocationsConnectionsResources: API.PaginatedOperationMethod<ListProjectsLocationsConnectionsResourcesRequest, ListProjectsLocationsConnectionsResourcesResponse, ListProjectsLocationsConnectionsResourcesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsConnectionsResourcesRequest,
   output: ListProjectsLocationsConnectionsResourcesResponse,
   errors: [],
@@ -1429,7 +1429,6 @@ export const listProjectsLocationsConnectionsResources = API.makePaginated(() =>
   },
 }));
 
-/** Gets a specific resource. */
 export interface GetProjectsLocationsConnectionsResourcesRequest {
   /** Required. Resource name of the Resource. Format: projects/{project}/locations/{location}/connections/{connection}/resources/{resource} */
   name: string;
@@ -1450,13 +1449,13 @@ export const GetProjectsLocationsConnectionsResourcesResponse = GetResourceRespo
 
 export type GetProjectsLocationsConnectionsResourcesError = CommonErrors;
 
+/** Gets a specific resource. */
 export const getProjectsLocationsConnectionsResources: API.OperationMethod<GetProjectsLocationsConnectionsResourcesRequest, GetProjectsLocationsConnectionsResourcesResponse, GetProjectsLocationsConnectionsResourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsConnectionsResourcesRequest,
   output: GetProjectsLocationsConnectionsResourcesResponse,
   errors: [],
 }));
 
-/** Gets a specific resource with POST. */
 export interface GetResourcePostProjectsLocationsConnectionsResourcesRequest {
   /** Required. Resource name of the Resource. Format: projects/{project}/locations/{location}/connections/{connection}/resources/{resource} */
   name: string;
@@ -1477,13 +1476,13 @@ export const GetResourcePostProjectsLocationsConnectionsResourcesResponse = GetR
 
 export type GetResourcePostProjectsLocationsConnectionsResourcesError = CommonErrors;
 
+/** Gets a specific resource with POST. */
 export const getResourcePostProjectsLocationsConnectionsResources: API.OperationMethod<GetResourcePostProjectsLocationsConnectionsResourcesRequest, GetResourcePostProjectsLocationsConnectionsResourcesResponse, GetResourcePostProjectsLocationsConnectionsResourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetResourcePostProjectsLocationsConnectionsResourcesRequest,
   output: GetResourcePostProjectsLocationsConnectionsResourcesResponse,
   errors: [],
 }));
 
-/** Gets metadata of given entity type */
 export interface GetProjectsLocationsConnectionsEntityTypesRequest {
   /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{entityType} */
   name: string;
@@ -1510,13 +1509,13 @@ export const GetProjectsLocationsConnectionsEntityTypesResponse = EntityType;
 
 export type GetProjectsLocationsConnectionsEntityTypesError = CommonErrors;
 
+/** Gets metadata of given entity type */
 export const getProjectsLocationsConnectionsEntityTypes: API.OperationMethod<GetProjectsLocationsConnectionsEntityTypesRequest, GetProjectsLocationsConnectionsEntityTypesResponse, GetProjectsLocationsConnectionsEntityTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsConnectionsEntityTypesRequest,
   output: GetProjectsLocationsConnectionsEntityTypesResponse,
   errors: [],
 }));
 
-/** Lists metadata related to all entity types present in the external system. */
 export interface ListProjectsLocationsConnectionsEntityTypesRequest {
   /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection} */
   parent: string;
@@ -1546,7 +1545,8 @@ export const ListProjectsLocationsConnectionsEntityTypesResponse = ListEntityTyp
 
 export type ListProjectsLocationsConnectionsEntityTypesError = CommonErrors;
 
-export const listProjectsLocationsConnectionsEntityTypes = API.makePaginated(() => ({
+/** Lists metadata related to all entity types present in the external system. */
+export const listProjectsLocationsConnectionsEntityTypes: API.PaginatedOperationMethod<ListProjectsLocationsConnectionsEntityTypesRequest, ListProjectsLocationsConnectionsEntityTypesResponse, ListProjectsLocationsConnectionsEntityTypesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsConnectionsEntityTypesRequest,
   output: ListProjectsLocationsConnectionsEntityTypesResponse,
   errors: [],
@@ -1556,7 +1556,6 @@ export const listProjectsLocationsConnectionsEntityTypes = API.makePaginated(() 
   },
 }));
 
-/** Lists entity rows of a particular entity type contained in the request. Note: 1. Currently, only max of one 'sort_by' column is supported. 2. If no 'sort_by' column is provided, the primary key of the table is used. If zero or more than one primary key is available, we default to the unpaginated list entities logic which only returns the first page. 3. The values of the 'sort_by' columns must uniquely identify an entity row, otherwise undefined behaviors may be observed during pagination. 4. Since transactions are not supported, any updates, inserts or deletes during pagination can lead to stale data being returned or other unexpected behaviors. */
 export interface ListProjectsLocationsConnectionsEntityTypesEntitiesRequest {
   /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type} */
   parent: string;
@@ -1592,7 +1591,8 @@ export const ListProjectsLocationsConnectionsEntityTypesEntitiesResponse = ListE
 
 export type ListProjectsLocationsConnectionsEntityTypesEntitiesError = CommonErrors;
 
-export const listProjectsLocationsConnectionsEntityTypesEntities = API.makePaginated(() => ({
+/** Lists entity rows of a particular entity type contained in the request. Note: 1. Currently, only max of one 'sort_by' column is supported. 2. If no 'sort_by' column is provided, the primary key of the table is used. If zero or more than one primary key is available, we default to the unpaginated list entities logic which only returns the first page. 3. The values of the 'sort_by' columns must uniquely identify an entity row, otherwise undefined behaviors may be observed during pagination. 4. Since transactions are not supported, any updates, inserts or deletes during pagination can lead to stale data being returned or other unexpected behaviors. */
+export const listProjectsLocationsConnectionsEntityTypesEntities: API.PaginatedOperationMethod<ListProjectsLocationsConnectionsEntityTypesEntitiesRequest, ListProjectsLocationsConnectionsEntityTypesEntitiesResponse, ListProjectsLocationsConnectionsEntityTypesEntitiesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsConnectionsEntityTypesEntitiesRequest,
   output: ListProjectsLocationsConnectionsEntityTypesEntitiesResponse,
   errors: [],
@@ -1602,7 +1602,6 @@ export const listProjectsLocationsConnectionsEntityTypesEntities = API.makePagin
   },
 }));
 
-/** Gets a single entity row matching the entity type and entity id specified in the request. */
 export interface GetProjectsLocationsConnectionsEntityTypesEntitiesRequest {
   /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type}/entities/{id} */
   name: string;
@@ -1623,13 +1622,13 @@ export const GetProjectsLocationsConnectionsEntityTypesEntitiesResponse = Entity
 
 export type GetProjectsLocationsConnectionsEntityTypesEntitiesError = CommonErrors;
 
+/** Gets a single entity row matching the entity type and entity id specified in the request. */
 export const getProjectsLocationsConnectionsEntityTypesEntities: API.OperationMethod<GetProjectsLocationsConnectionsEntityTypesEntitiesRequest, GetProjectsLocationsConnectionsEntityTypesEntitiesResponse, GetProjectsLocationsConnectionsEntityTypesEntitiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsConnectionsEntityTypesEntitiesRequest,
   output: GetProjectsLocationsConnectionsEntityTypesEntitiesResponse,
   errors: [],
 }));
 
-/** Creates a new entity row of the specified entity type in the external system. The field values for creating the row are contained in the body of the request. The response message contains a `Entity` message object returned as a response by the external system. */
 export interface CreateProjectsLocationsConnectionsEntityTypesEntitiesRequest {
   /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type} */
   parent: string;
@@ -1653,13 +1652,13 @@ export const CreateProjectsLocationsConnectionsEntityTypesEntitiesResponse = Ent
 
 export type CreateProjectsLocationsConnectionsEntityTypesEntitiesError = CommonErrors;
 
+/** Creates a new entity row of the specified entity type in the external system. The field values for creating the row are contained in the body of the request. The response message contains a `Entity` message object returned as a response by the external system. */
 export const createProjectsLocationsConnectionsEntityTypesEntities: API.OperationMethod<CreateProjectsLocationsConnectionsEntityTypesEntitiesRequest, CreateProjectsLocationsConnectionsEntityTypesEntitiesResponse, CreateProjectsLocationsConnectionsEntityTypesEntitiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsConnectionsEntityTypesEntitiesRequest,
   output: CreateProjectsLocationsConnectionsEntityTypesEntitiesResponse,
   errors: [],
 }));
 
-/** Updates an existing entity row matching the entity type and entity id specified in the request. The fields in the entity row that need to be modified are contained in the body of the request. All unspecified fields are left unchanged. The response message contains a `Entity` message object returned as a response by the external system. */
 export interface PatchProjectsLocationsConnectionsEntityTypesEntitiesRequest {
   /** Output only. Resource name of the Entity. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type}/entities/{id} */
   name: string;
@@ -1683,13 +1682,13 @@ export const PatchProjectsLocationsConnectionsEntityTypesEntitiesResponse = Enti
 
 export type PatchProjectsLocationsConnectionsEntityTypesEntitiesError = CommonErrors;
 
+/** Updates an existing entity row matching the entity type and entity id specified in the request. The fields in the entity row that need to be modified are contained in the body of the request. All unspecified fields are left unchanged. The response message contains a `Entity` message object returned as a response by the external system. */
 export const patchProjectsLocationsConnectionsEntityTypesEntities: API.OperationMethod<PatchProjectsLocationsConnectionsEntityTypesEntitiesRequest, PatchProjectsLocationsConnectionsEntityTypesEntitiesResponse, PatchProjectsLocationsConnectionsEntityTypesEntitiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsConnectionsEntityTypesEntitiesRequest,
   output: PatchProjectsLocationsConnectionsEntityTypesEntitiesResponse,
   errors: [],
 }));
 
-/** Updates entities based on conditions specified in the request and not on entity id. */
 export interface UpdateEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesRequest {
   /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type} */
   entityType: string;
@@ -1716,13 +1715,13 @@ export const UpdateEntitiesWithConditionsProjectsLocationsConnectionsEntityTypes
 
 export type UpdateEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesError = CommonErrors;
 
+/** Updates entities based on conditions specified in the request and not on entity id. */
 export const updateEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntities: API.OperationMethod<UpdateEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesRequest, UpdateEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesResponse, UpdateEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesRequest,
   output: UpdateEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesResponse,
   errors: [],
 }));
 
-/** Deletes an existing entity row matching the entity type and entity id specified in the request. */
 export interface DeleteProjectsLocationsConnectionsEntityTypesEntitiesRequest {
   /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type}/entities/{id} */
   name: string;
@@ -1743,13 +1742,13 @@ export const DeleteProjectsLocationsConnectionsEntityTypesEntitiesResponse = Emp
 
 export type DeleteProjectsLocationsConnectionsEntityTypesEntitiesError = CommonErrors;
 
+/** Deletes an existing entity row matching the entity type and entity id specified in the request. */
 export const deleteProjectsLocationsConnectionsEntityTypesEntities: API.OperationMethod<DeleteProjectsLocationsConnectionsEntityTypesEntitiesRequest, DeleteProjectsLocationsConnectionsEntityTypesEntitiesResponse, DeleteProjectsLocationsConnectionsEntityTypesEntitiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsConnectionsEntityTypesEntitiesRequest,
   output: DeleteProjectsLocationsConnectionsEntityTypesEntitiesResponse,
   errors: [],
 }));
 
-/** Deletes entities based on conditions specified in the request and not on entity id. */
 export interface DeleteEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesRequest {
   /** Required. Resource name of the Entity Type. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type} */
   entityType: string;
@@ -1773,6 +1772,7 @@ export const DeleteEntitiesWithConditionsProjectsLocationsConnectionsEntityTypes
 
 export type DeleteEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesError = CommonErrors;
 
+/** Deletes entities based on conditions specified in the request and not on entity id. */
 export const deleteEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntities: API.OperationMethod<DeleteEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesRequest, DeleteEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesResponse, DeleteEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesRequest,
   output: DeleteEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesResponse,

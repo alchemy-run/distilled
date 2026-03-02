@@ -618,7 +618,6 @@ export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspen
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -648,7 +647,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -658,7 +658,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -676,13 +675,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -712,7 +711,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -722,7 +722,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -740,13 +739,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -764,13 +763,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -791,13 +790,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Lists possible versions for Data Fusion instances in the specified project and location. */
 export interface ListProjectsLocationsVersionsRequest {
   /** Required. The project and location for which to retrieve instance information in the format projects/{project}/locations/{location}. */
   parent: string;
@@ -824,7 +823,8 @@ export const ListProjectsLocationsVersionsResponse = ListAvailableVersionsRespon
 
 export type ListProjectsLocationsVersionsError = CommonErrors;
 
-export const listProjectsLocationsVersions = API.makePaginated(() => ({
+/** Lists possible versions for Data Fusion instances in the specified project and location. */
+export const listProjectsLocationsVersions: API.PaginatedOperationMethod<ListProjectsLocationsVersionsRequest, ListProjectsLocationsVersionsResponse, ListProjectsLocationsVersionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsVersionsRequest,
   output: ListProjectsLocationsVersionsResponse,
   errors: [],
@@ -834,7 +834,6 @@ export const listProjectsLocationsVersions = API.makePaginated(() => ({
   },
 }));
 
-/** Lists Data Fusion instances in the specified project and location. */
 export interface ListProjectsLocationsInstancesRequest {
   /** Required. The project and location for which to retrieve instance information in the format projects/{project}/locations/{location}. If the location is specified as '-' (wildcard), then all regions available to the project are queried, and the results are aggregated. */
   parent: string;
@@ -864,7 +863,8 @@ export const ListProjectsLocationsInstancesResponse = ListInstancesResponse;
 
 export type ListProjectsLocationsInstancesError = CommonErrors;
 
-export const listProjectsLocationsInstances = API.makePaginated(() => ({
+/** Lists Data Fusion instances in the specified project and location. */
+export const listProjectsLocationsInstances: API.PaginatedOperationMethod<ListProjectsLocationsInstancesRequest, ListProjectsLocationsInstancesResponse, ListProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsInstancesRequest,
   output: ListProjectsLocationsInstancesResponse,
   errors: [],
@@ -874,7 +874,6 @@ export const listProjectsLocationsInstances = API.makePaginated(() => ({
   },
 }));
 
-/** Gets details of a single Data Fusion instance. */
 export interface GetProjectsLocationsInstancesRequest {
   /** Required. The instance resource name in the format projects/{project}/locations/{location}/instances/{instance}. */
   name: string;
@@ -892,13 +891,13 @@ export const GetProjectsLocationsInstancesResponse = Instance;
 
 export type GetProjectsLocationsInstancesError = CommonErrors;
 
+/** Gets details of a single Data Fusion instance. */
 export const getProjectsLocationsInstances: API.OperationMethod<GetProjectsLocationsInstancesRequest, GetProjectsLocationsInstancesResponse, GetProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsInstancesRequest,
   output: GetProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Creates a new Data Fusion instance in the specified project and location. */
 export interface CreateProjectsLocationsInstancesRequest {
   /** Required. The instance's project and location in the format projects/{project}/locations/{location}. */
   parent: string;
@@ -922,13 +921,13 @@ export const CreateProjectsLocationsInstancesResponse = Operation;
 
 export type CreateProjectsLocationsInstancesError = CommonErrors;
 
+/** Creates a new Data Fusion instance in the specified project and location. */
 export const createProjectsLocationsInstances: API.OperationMethod<CreateProjectsLocationsInstancesRequest, CreateProjectsLocationsInstancesResponse, CreateProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsInstancesRequest,
   output: CreateProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Deletes a single Date Fusion instance. */
 export interface DeleteProjectsLocationsInstancesRequest {
   /** Required. The instance resource name in the format projects/{project}/locations/{location}/instances/{instance} */
   name: string;
@@ -949,13 +948,13 @@ export const DeleteProjectsLocationsInstancesResponse = Operation;
 
 export type DeleteProjectsLocationsInstancesError = CommonErrors;
 
+/** Deletes a single Date Fusion instance. */
 export const deleteProjectsLocationsInstances: API.OperationMethod<DeleteProjectsLocationsInstancesRequest, DeleteProjectsLocationsInstancesResponse, DeleteProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsInstancesRequest,
   output: DeleteProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Updates a single Data Fusion instance. */
 export interface PatchProjectsLocationsInstancesRequest {
   /** Output only. The name of this instance is in the form of projects/{project}/locations/{location}/instances/{instance}. */
   name: string;
@@ -979,13 +978,13 @@ export const PatchProjectsLocationsInstancesResponse = Operation;
 
 export type PatchProjectsLocationsInstancesError = CommonErrors;
 
+/** Updates a single Data Fusion instance. */
 export const patchProjectsLocationsInstances: API.OperationMethod<PatchProjectsLocationsInstancesRequest, PatchProjectsLocationsInstancesResponse, PatchProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsInstancesRequest,
   output: PatchProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Restart a single Data Fusion instance. At the end of an operation instance is fully restarted. */
 export interface RestartProjectsLocationsInstancesRequest {
   /** Required. Name of the Data Fusion instance which need to be restarted in the form of projects/{project}/locations/{location}/instances/{instance} */
   name: string;
@@ -1006,13 +1005,13 @@ export const RestartProjectsLocationsInstancesResponse = Operation;
 
 export type RestartProjectsLocationsInstancesError = CommonErrors;
 
+/** Restart a single Data Fusion instance. At the end of an operation instance is fully restarted. */
 export const restartProjectsLocationsInstances: API.OperationMethod<RestartProjectsLocationsInstancesRequest, RestartProjectsLocationsInstancesResponse, RestartProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RestartProjectsLocationsInstancesRequest,
   output: RestartProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsInstancesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1033,13 +1032,13 @@ export const SetIamPolicyProjectsLocationsInstancesResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsInstancesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsInstances: API.OperationMethod<SetIamPolicyProjectsLocationsInstancesRequest, SetIamPolicyProjectsLocationsInstancesResponse, SetIamPolicyProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsInstancesRequest,
   output: SetIamPolicyProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsInstancesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1060,13 +1059,13 @@ export const GetIamPolicyProjectsLocationsInstancesResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsInstancesError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsInstances: API.OperationMethod<GetIamPolicyProjectsLocationsInstancesRequest, GetIamPolicyProjectsLocationsInstancesResponse, GetIamPolicyProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsInstancesRequest,
   output: GetIamPolicyProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsInstancesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1087,13 +1086,13 @@ export const TestIamPermissionsProjectsLocationsInstancesResponse = TestIamPermi
 
 export type TestIamPermissionsProjectsLocationsInstancesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsInstances: API.OperationMethod<TestIamPermissionsProjectsLocationsInstancesRequest, TestIamPermissionsProjectsLocationsInstancesResponse, TestIamPermissionsProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsInstancesRequest,
   output: TestIamPermissionsProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Creates DNS peering on the given resource. */
 export interface CreateProjectsLocationsInstancesDnsPeeringsRequest {
   /** Required. The resource on which DNS peering will be created. */
   parent: string;
@@ -1117,13 +1116,13 @@ export const CreateProjectsLocationsInstancesDnsPeeringsResponse = DnsPeering;
 
 export type CreateProjectsLocationsInstancesDnsPeeringsError = CommonErrors;
 
+/** Creates DNS peering on the given resource. */
 export const createProjectsLocationsInstancesDnsPeerings: API.OperationMethod<CreateProjectsLocationsInstancesDnsPeeringsRequest, CreateProjectsLocationsInstancesDnsPeeringsResponse, CreateProjectsLocationsInstancesDnsPeeringsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsInstancesDnsPeeringsRequest,
   output: CreateProjectsLocationsInstancesDnsPeeringsResponse,
   errors: [],
 }));
 
-/** Deletes DNS peering on the given resource. */
 export interface DeleteProjectsLocationsInstancesDnsPeeringsRequest {
   /** Required. The name of the DNS peering zone to delete. Format: projects/{project}/locations/{location}/instances/{instance}/dnsPeerings/{dns_peering} */
   name: string;
@@ -1141,13 +1140,13 @@ export const DeleteProjectsLocationsInstancesDnsPeeringsResponse = Empty;
 
 export type DeleteProjectsLocationsInstancesDnsPeeringsError = CommonErrors;
 
+/** Deletes DNS peering on the given resource. */
 export const deleteProjectsLocationsInstancesDnsPeerings: API.OperationMethod<DeleteProjectsLocationsInstancesDnsPeeringsRequest, DeleteProjectsLocationsInstancesDnsPeeringsResponse, DeleteProjectsLocationsInstancesDnsPeeringsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsInstancesDnsPeeringsRequest,
   output: DeleteProjectsLocationsInstancesDnsPeeringsResponse,
   errors: [],
 }));
 
-/** Lists DNS peerings for a given resource. */
 export interface ListProjectsLocationsInstancesDnsPeeringsRequest {
   /** Required. The parent, which owns this collection of dns peerings. Format: projects/{project}/locations/{location}/instances/{instance} */
   parent: string;
@@ -1171,7 +1170,8 @@ export const ListProjectsLocationsInstancesDnsPeeringsResponse = ListDnsPeerings
 
 export type ListProjectsLocationsInstancesDnsPeeringsError = CommonErrors;
 
-export const listProjectsLocationsInstancesDnsPeerings = API.makePaginated(() => ({
+/** Lists DNS peerings for a given resource. */
+export const listProjectsLocationsInstancesDnsPeerings: API.PaginatedOperationMethod<ListProjectsLocationsInstancesDnsPeeringsRequest, ListProjectsLocationsInstancesDnsPeeringsResponse, ListProjectsLocationsInstancesDnsPeeringsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsInstancesDnsPeeringsRequest,
   output: ListProjectsLocationsInstancesDnsPeeringsResponse,
   errors: [],

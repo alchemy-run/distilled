@@ -462,7 +462,6 @@ export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspen
 // Operations
 // ==========================================================================
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListAdminProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -492,7 +491,8 @@ export const ListAdminProjectsLocationsOperationsResponse = ListOperationsRespon
 
 export type ListAdminProjectsLocationsOperationsError = CommonErrors;
 
-export const listAdminProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listAdminProjectsLocationsOperations: API.PaginatedOperationMethod<ListAdminProjectsLocationsOperationsRequest, ListAdminProjectsLocationsOperationsResponse, ListAdminProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAdminProjectsLocationsOperationsRequest,
   output: ListAdminProjectsLocationsOperationsResponse,
   errors: [],
@@ -502,7 +502,6 @@ export const listAdminProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetAdminProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -520,13 +519,13 @@ export const GetAdminProjectsLocationsOperationsResponse = Operation;
 
 export type GetAdminProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getAdminProjectsLocationsOperations: API.OperationMethod<GetAdminProjectsLocationsOperationsRequest, GetAdminProjectsLocationsOperationsResponse, GetAdminProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAdminProjectsLocationsOperationsRequest,
   output: GetAdminProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteAdminProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -544,13 +543,13 @@ export const DeleteAdminProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteAdminProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteAdminProjectsLocationsOperations: API.OperationMethod<DeleteAdminProjectsLocationsOperationsRequest, DeleteAdminProjectsLocationsOperationsResponse, DeleteAdminProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAdminProjectsLocationsOperationsRequest,
   output: DeleteAdminProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelAdminProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -571,13 +570,13 @@ export const CancelAdminProjectsLocationsOperationsResponse = Empty;
 
 export type CancelAdminProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelAdminProjectsLocationsOperations: API.OperationMethod<CancelAdminProjectsLocationsOperationsRequest, CancelAdminProjectsLocationsOperationsResponse, CancelAdminProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelAdminProjectsLocationsOperationsRequest,
   output: CancelAdminProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Creates a new topic. */
 export interface CreateAdminProjectsLocationsTopicsRequest {
   /** Required. The parent location in which to create the topic. Structured like `projects/{project_number}/locations/{location}`. */
   parent: string;
@@ -601,13 +600,13 @@ export const CreateAdminProjectsLocationsTopicsResponse = Topic;
 
 export type CreateAdminProjectsLocationsTopicsError = CommonErrors;
 
+/** Creates a new topic. */
 export const createAdminProjectsLocationsTopics: API.OperationMethod<CreateAdminProjectsLocationsTopicsRequest, CreateAdminProjectsLocationsTopicsResponse, CreateAdminProjectsLocationsTopicsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAdminProjectsLocationsTopicsRequest,
   output: CreateAdminProjectsLocationsTopicsResponse,
   errors: [],
 }));
 
-/** Returns the topic configuration. */
 export interface GetAdminProjectsLocationsTopicsRequest {
   /** Required. The name of the topic whose configuration to return. */
   name: string;
@@ -625,13 +624,13 @@ export const GetAdminProjectsLocationsTopicsResponse = Topic;
 
 export type GetAdminProjectsLocationsTopicsError = CommonErrors;
 
+/** Returns the topic configuration. */
 export const getAdminProjectsLocationsTopics: API.OperationMethod<GetAdminProjectsLocationsTopicsRequest, GetAdminProjectsLocationsTopicsResponse, GetAdminProjectsLocationsTopicsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAdminProjectsLocationsTopicsRequest,
   output: GetAdminProjectsLocationsTopicsResponse,
   errors: [],
 }));
 
-/** Returns the partition information for the requested topic. */
 export interface GetPartitionsAdminProjectsLocationsTopicsRequest {
   /** Required. The topic whose partition information to return. */
   name: string;
@@ -649,13 +648,13 @@ export const GetPartitionsAdminProjectsLocationsTopicsResponse = TopicPartitions
 
 export type GetPartitionsAdminProjectsLocationsTopicsError = CommonErrors;
 
+/** Returns the partition information for the requested topic. */
 export const getPartitionsAdminProjectsLocationsTopics: API.OperationMethod<GetPartitionsAdminProjectsLocationsTopicsRequest, GetPartitionsAdminProjectsLocationsTopicsResponse, GetPartitionsAdminProjectsLocationsTopicsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPartitionsAdminProjectsLocationsTopicsRequest,
   output: GetPartitionsAdminProjectsLocationsTopicsResponse,
   errors: [],
 }));
 
-/** Returns the list of topics for the given project. */
 export interface ListAdminProjectsLocationsTopicsRequest {
   /** Required. The parent whose topics are to be listed. Structured like `projects/{project_number}/locations/{location}`. */
   parent: string;
@@ -679,7 +678,8 @@ export const ListAdminProjectsLocationsTopicsResponse = ListTopicsResponse;
 
 export type ListAdminProjectsLocationsTopicsError = CommonErrors;
 
-export const listAdminProjectsLocationsTopics = API.makePaginated(() => ({
+/** Returns the list of topics for the given project. */
+export const listAdminProjectsLocationsTopics: API.PaginatedOperationMethod<ListAdminProjectsLocationsTopicsRequest, ListAdminProjectsLocationsTopicsResponse, ListAdminProjectsLocationsTopicsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAdminProjectsLocationsTopicsRequest,
   output: ListAdminProjectsLocationsTopicsResponse,
   errors: [],
@@ -689,7 +689,6 @@ export const listAdminProjectsLocationsTopics = API.makePaginated(() => ({
   },
 }));
 
-/** Updates properties of the specified topic. */
 export interface PatchAdminProjectsLocationsTopicsRequest {
   /** The name of the topic. Structured like: projects/{project_number}/locations/{location}/topics/{topic_id} */
   name: string;
@@ -713,13 +712,13 @@ export const PatchAdminProjectsLocationsTopicsResponse = Topic;
 
 export type PatchAdminProjectsLocationsTopicsError = CommonErrors;
 
+/** Updates properties of the specified topic. */
 export const patchAdminProjectsLocationsTopics: API.OperationMethod<PatchAdminProjectsLocationsTopicsRequest, PatchAdminProjectsLocationsTopicsResponse, PatchAdminProjectsLocationsTopicsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAdminProjectsLocationsTopicsRequest,
   output: PatchAdminProjectsLocationsTopicsResponse,
   errors: [],
 }));
 
-/** Deletes the specified topic. */
 export interface DeleteAdminProjectsLocationsTopicsRequest {
   /** Required. The name of the topic to delete. */
   name: string;
@@ -737,13 +736,13 @@ export const DeleteAdminProjectsLocationsTopicsResponse = Empty;
 
 export type DeleteAdminProjectsLocationsTopicsError = CommonErrors;
 
+/** Deletes the specified topic. */
 export const deleteAdminProjectsLocationsTopics: API.OperationMethod<DeleteAdminProjectsLocationsTopicsRequest, DeleteAdminProjectsLocationsTopicsResponse, DeleteAdminProjectsLocationsTopicsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAdminProjectsLocationsTopicsRequest,
   output: DeleteAdminProjectsLocationsTopicsResponse,
   errors: [],
 }));
 
-/** Lists the subscriptions attached to the specified topic. */
 export interface ListAdminProjectsLocationsTopicsSubscriptionsRequest {
   /** Required. The name of the topic whose subscriptions to list. */
   name: string;
@@ -767,7 +766,8 @@ export const ListAdminProjectsLocationsTopicsSubscriptionsResponse = ListTopicSu
 
 export type ListAdminProjectsLocationsTopicsSubscriptionsError = CommonErrors;
 
-export const listAdminProjectsLocationsTopicsSubscriptions = API.makePaginated(() => ({
+/** Lists the subscriptions attached to the specified topic. */
+export const listAdminProjectsLocationsTopicsSubscriptions: API.PaginatedOperationMethod<ListAdminProjectsLocationsTopicsSubscriptionsRequest, ListAdminProjectsLocationsTopicsSubscriptionsResponse, ListAdminProjectsLocationsTopicsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAdminProjectsLocationsTopicsSubscriptionsRequest,
   output: ListAdminProjectsLocationsTopicsSubscriptionsResponse,
   errors: [],
@@ -777,7 +777,6 @@ export const listAdminProjectsLocationsTopicsSubscriptions = API.makePaginated((
   },
 }));
 
-/** Creates a new subscription. */
 export interface CreateAdminProjectsLocationsSubscriptionsRequest {
   /** Required. The parent location in which to create the subscription. Structured like `projects/{project_number}/locations/{location}`. */
   parent: string;
@@ -804,13 +803,13 @@ export const CreateAdminProjectsLocationsSubscriptionsResponse = Subscription;
 
 export type CreateAdminProjectsLocationsSubscriptionsError = CommonErrors;
 
+/** Creates a new subscription. */
 export const createAdminProjectsLocationsSubscriptions: API.OperationMethod<CreateAdminProjectsLocationsSubscriptionsRequest, CreateAdminProjectsLocationsSubscriptionsResponse, CreateAdminProjectsLocationsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAdminProjectsLocationsSubscriptionsRequest,
   output: CreateAdminProjectsLocationsSubscriptionsResponse,
   errors: [],
 }));
 
-/** Returns the subscription configuration. */
 export interface GetAdminProjectsLocationsSubscriptionsRequest {
   /** Required. The name of the subscription whose configuration to return. */
   name: string;
@@ -828,13 +827,13 @@ export const GetAdminProjectsLocationsSubscriptionsResponse = Subscription;
 
 export type GetAdminProjectsLocationsSubscriptionsError = CommonErrors;
 
+/** Returns the subscription configuration. */
 export const getAdminProjectsLocationsSubscriptions: API.OperationMethod<GetAdminProjectsLocationsSubscriptionsRequest, GetAdminProjectsLocationsSubscriptionsResponse, GetAdminProjectsLocationsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAdminProjectsLocationsSubscriptionsRequest,
   output: GetAdminProjectsLocationsSubscriptionsResponse,
   errors: [],
 }));
 
-/** Returns the list of subscriptions for the given project. */
 export interface ListAdminProjectsLocationsSubscriptionsRequest {
   /** Required. The parent whose subscriptions are to be listed. Structured like `projects/{project_number}/locations/{location}`. */
   parent: string;
@@ -858,7 +857,8 @@ export const ListAdminProjectsLocationsSubscriptionsResponse = ListSubscriptions
 
 export type ListAdminProjectsLocationsSubscriptionsError = CommonErrors;
 
-export const listAdminProjectsLocationsSubscriptions = API.makePaginated(() => ({
+/** Returns the list of subscriptions for the given project. */
+export const listAdminProjectsLocationsSubscriptions: API.PaginatedOperationMethod<ListAdminProjectsLocationsSubscriptionsRequest, ListAdminProjectsLocationsSubscriptionsResponse, ListAdminProjectsLocationsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAdminProjectsLocationsSubscriptionsRequest,
   output: ListAdminProjectsLocationsSubscriptionsResponse,
   errors: [],
@@ -868,7 +868,6 @@ export const listAdminProjectsLocationsSubscriptions = API.makePaginated(() => (
   },
 }));
 
-/** Updates properties of the specified subscription. */
 export interface PatchAdminProjectsLocationsSubscriptionsRequest {
   /** The name of the subscription. Structured like: projects/{project_number}/locations/{location}/subscriptions/{subscription_id} */
   name: string;
@@ -892,13 +891,13 @@ export const PatchAdminProjectsLocationsSubscriptionsResponse = Subscription;
 
 export type PatchAdminProjectsLocationsSubscriptionsError = CommonErrors;
 
+/** Updates properties of the specified subscription. */
 export const patchAdminProjectsLocationsSubscriptions: API.OperationMethod<PatchAdminProjectsLocationsSubscriptionsRequest, PatchAdminProjectsLocationsSubscriptionsResponse, PatchAdminProjectsLocationsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAdminProjectsLocationsSubscriptionsRequest,
   output: PatchAdminProjectsLocationsSubscriptionsResponse,
   errors: [],
 }));
 
-/** Deletes the specified subscription. */
 export interface DeleteAdminProjectsLocationsSubscriptionsRequest {
   /** Required. The name of the subscription to delete. */
   name: string;
@@ -916,13 +915,13 @@ export const DeleteAdminProjectsLocationsSubscriptionsResponse = Empty;
 
 export type DeleteAdminProjectsLocationsSubscriptionsError = CommonErrors;
 
+/** Deletes the specified subscription. */
 export const deleteAdminProjectsLocationsSubscriptions: API.OperationMethod<DeleteAdminProjectsLocationsSubscriptionsRequest, DeleteAdminProjectsLocationsSubscriptionsResponse, DeleteAdminProjectsLocationsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAdminProjectsLocationsSubscriptionsRequest,
   output: DeleteAdminProjectsLocationsSubscriptionsResponse,
   errors: [],
 }));
 
-/** Performs an out-of-band seek for a subscription to a specified target, which may be timestamps or named positions within the message backlog. Seek translates these targets to cursors for each partition and orchestrates subscribers to start consuming messages from these seek cursors. If an operation is returned, the seek has been registered and subscribers will eventually receive messages from the seek cursors (i.e. eventual consistency), as long as they are using a minimum supported client library version and not a system that tracks cursors independently of Pub/Sub Lite (e.g. Apache Beam, Dataflow, Spark). The seek operation will fail for unsupported clients. If clients would like to know when subscribers react to the seek (or not), they can poll the operation. The seek operation will succeed and complete once subscribers are ready to receive messages from the seek cursors for all partitions of the topic. This means that the seek operation will not complete until all subscribers come online. If the previous seek operation has not yet completed, it will be aborted and the new invocation of seek will supersede it. */
 export interface SeekAdminProjectsLocationsSubscriptionsRequest {
   /** Required. The name of the subscription to seek. */
   name: string;
@@ -943,13 +942,13 @@ export const SeekAdminProjectsLocationsSubscriptionsResponse = Operation;
 
 export type SeekAdminProjectsLocationsSubscriptionsError = CommonErrors;
 
+/** Performs an out-of-band seek for a subscription to a specified target, which may be timestamps or named positions within the message backlog. Seek translates these targets to cursors for each partition and orchestrates subscribers to start consuming messages from these seek cursors. If an operation is returned, the seek has been registered and subscribers will eventually receive messages from the seek cursors (i.e. eventual consistency), as long as they are using a minimum supported client library version and not a system that tracks cursors independently of Pub/Sub Lite (e.g. Apache Beam, Dataflow, Spark). The seek operation will fail for unsupported clients. If clients would like to know when subscribers react to the seek (or not), they can poll the operation. The seek operation will succeed and complete once subscribers are ready to receive messages from the seek cursors for all partitions of the topic. This means that the seek operation will not complete until all subscribers come online. If the previous seek operation has not yet completed, it will be aborted and the new invocation of seek will supersede it. */
 export const seekAdminProjectsLocationsSubscriptions: API.OperationMethod<SeekAdminProjectsLocationsSubscriptionsRequest, SeekAdminProjectsLocationsSubscriptionsResponse, SeekAdminProjectsLocationsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SeekAdminProjectsLocationsSubscriptionsRequest,
   output: SeekAdminProjectsLocationsSubscriptionsResponse,
   errors: [],
 }));
 
-/** Creates a new reservation. */
 export interface CreateAdminProjectsLocationsReservationsRequest {
   /** Required. The parent location in which to create the reservation. Structured like `projects/{project_number}/locations/{location}`. */
   parent: string;
@@ -973,13 +972,13 @@ export const CreateAdminProjectsLocationsReservationsResponse = Reservation;
 
 export type CreateAdminProjectsLocationsReservationsError = CommonErrors;
 
+/** Creates a new reservation. */
 export const createAdminProjectsLocationsReservations: API.OperationMethod<CreateAdminProjectsLocationsReservationsRequest, CreateAdminProjectsLocationsReservationsResponse, CreateAdminProjectsLocationsReservationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAdminProjectsLocationsReservationsRequest,
   output: CreateAdminProjectsLocationsReservationsResponse,
   errors: [],
 }));
 
-/** Returns the reservation configuration. */
 export interface GetAdminProjectsLocationsReservationsRequest {
   /** Required. The name of the reservation whose configuration to return. Structured like: projects/{project_number}/locations/{location}/reservations/{reservation_id} */
   name: string;
@@ -997,13 +996,13 @@ export const GetAdminProjectsLocationsReservationsResponse = Reservation;
 
 export type GetAdminProjectsLocationsReservationsError = CommonErrors;
 
+/** Returns the reservation configuration. */
 export const getAdminProjectsLocationsReservations: API.OperationMethod<GetAdminProjectsLocationsReservationsRequest, GetAdminProjectsLocationsReservationsResponse, GetAdminProjectsLocationsReservationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAdminProjectsLocationsReservationsRequest,
   output: GetAdminProjectsLocationsReservationsResponse,
   errors: [],
 }));
 
-/** Returns the list of reservations for the given project. */
 export interface ListAdminProjectsLocationsReservationsRequest {
   /** Required. The parent whose reservations are to be listed. Structured like `projects/{project_number}/locations/{location}`. */
   parent: string;
@@ -1027,7 +1026,8 @@ export const ListAdminProjectsLocationsReservationsResponse = ListReservationsRe
 
 export type ListAdminProjectsLocationsReservationsError = CommonErrors;
 
-export const listAdminProjectsLocationsReservations = API.makePaginated(() => ({
+/** Returns the list of reservations for the given project. */
+export const listAdminProjectsLocationsReservations: API.PaginatedOperationMethod<ListAdminProjectsLocationsReservationsRequest, ListAdminProjectsLocationsReservationsResponse, ListAdminProjectsLocationsReservationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAdminProjectsLocationsReservationsRequest,
   output: ListAdminProjectsLocationsReservationsResponse,
   errors: [],
@@ -1037,7 +1037,6 @@ export const listAdminProjectsLocationsReservations = API.makePaginated(() => ({
   },
 }));
 
-/** Updates properties of the specified reservation. */
 export interface PatchAdminProjectsLocationsReservationsRequest {
   /** The name of the reservation. Structured like: projects/{project_number}/locations/{location}/reservations/{reservation_id} */
   name: string;
@@ -1061,13 +1060,13 @@ export const PatchAdminProjectsLocationsReservationsResponse = Reservation;
 
 export type PatchAdminProjectsLocationsReservationsError = CommonErrors;
 
+/** Updates properties of the specified reservation. */
 export const patchAdminProjectsLocationsReservations: API.OperationMethod<PatchAdminProjectsLocationsReservationsRequest, PatchAdminProjectsLocationsReservationsResponse, PatchAdminProjectsLocationsReservationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAdminProjectsLocationsReservationsRequest,
   output: PatchAdminProjectsLocationsReservationsResponse,
   errors: [],
 }));
 
-/** Deletes the specified reservation. */
 export interface DeleteAdminProjectsLocationsReservationsRequest {
   /** Required. The name of the reservation to delete. Structured like: projects/{project_number}/locations/{location}/reservations/{reservation_id} */
   name: string;
@@ -1085,13 +1084,13 @@ export const DeleteAdminProjectsLocationsReservationsResponse = Empty;
 
 export type DeleteAdminProjectsLocationsReservationsError = CommonErrors;
 
+/** Deletes the specified reservation. */
 export const deleteAdminProjectsLocationsReservations: API.OperationMethod<DeleteAdminProjectsLocationsReservationsRequest, DeleteAdminProjectsLocationsReservationsResponse, DeleteAdminProjectsLocationsReservationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAdminProjectsLocationsReservationsRequest,
   output: DeleteAdminProjectsLocationsReservationsResponse,
   errors: [],
 }));
 
-/** Lists the topics attached to the specified reservation. */
 export interface ListAdminProjectsLocationsReservationsTopicsRequest {
   /** Required. The name of the reservation whose topics to list. Structured like: projects/{project_number}/locations/{location}/reservations/{reservation_id} */
   name: string;
@@ -1115,7 +1114,8 @@ export const ListAdminProjectsLocationsReservationsTopicsResponse = ListReservat
 
 export type ListAdminProjectsLocationsReservationsTopicsError = CommonErrors;
 
-export const listAdminProjectsLocationsReservationsTopics = API.makePaginated(() => ({
+/** Lists the topics attached to the specified reservation. */
+export const listAdminProjectsLocationsReservationsTopics: API.PaginatedOperationMethod<ListAdminProjectsLocationsReservationsTopicsRequest, ListAdminProjectsLocationsReservationsTopicsResponse, ListAdminProjectsLocationsReservationsTopicsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAdminProjectsLocationsReservationsTopicsRequest,
   output: ListAdminProjectsLocationsReservationsTopicsResponse,
   errors: [],
@@ -1125,7 +1125,6 @@ export const listAdminProjectsLocationsReservationsTopics = API.makePaginated(()
   },
 }));
 
-/** Updates the committed cursor. */
 export interface CommitCursorCursorProjectsLocationsSubscriptionsRequest {
   /** The subscription for which to update the cursor. */
   subscription: string;
@@ -1146,13 +1145,13 @@ export const CommitCursorCursorProjectsLocationsSubscriptionsResponse = CommitCu
 
 export type CommitCursorCursorProjectsLocationsSubscriptionsError = CommonErrors;
 
+/** Updates the committed cursor. */
 export const commitCursorCursorProjectsLocationsSubscriptions: API.OperationMethod<CommitCursorCursorProjectsLocationsSubscriptionsRequest, CommitCursorCursorProjectsLocationsSubscriptionsResponse, CommitCursorCursorProjectsLocationsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CommitCursorCursorProjectsLocationsSubscriptionsRequest,
   output: CommitCursorCursorProjectsLocationsSubscriptionsResponse,
   errors: [],
 }));
 
-/** Returns all committed cursor information for a subscription. */
 export interface ListCursorProjectsLocationsSubscriptionsCursorsRequest {
   /** Required. The subscription for which to retrieve cursors. Structured like `projects/{project_number}/locations/{location}/subscriptions/{subscription_id}`. */
   parent: string;
@@ -1176,7 +1175,8 @@ export const ListCursorProjectsLocationsSubscriptionsCursorsResponse = ListParti
 
 export type ListCursorProjectsLocationsSubscriptionsCursorsError = CommonErrors;
 
-export const listCursorProjectsLocationsSubscriptionsCursors = API.makePaginated(() => ({
+/** Returns all committed cursor information for a subscription. */
+export const listCursorProjectsLocationsSubscriptionsCursors: API.PaginatedOperationMethod<ListCursorProjectsLocationsSubscriptionsCursorsRequest, ListCursorProjectsLocationsSubscriptionsCursorsResponse, ListCursorProjectsLocationsSubscriptionsCursorsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCursorProjectsLocationsSubscriptionsCursorsRequest,
   output: ListCursorProjectsLocationsSubscriptionsCursorsResponse,
   errors: [],
@@ -1186,7 +1186,6 @@ export const listCursorProjectsLocationsSubscriptionsCursors = API.makePaginated
   },
 }));
 
-/** Compute statistics about a range of messages in a given topic and partition. */
 export interface ComputeMessageStatsTopicStatsProjectsLocationsTopicsRequest {
   /** Required. The topic for which we should compute message stats. */
   topic: string;
@@ -1207,13 +1206,13 @@ export const ComputeMessageStatsTopicStatsProjectsLocationsTopicsResponse = Comp
 
 export type ComputeMessageStatsTopicStatsProjectsLocationsTopicsError = CommonErrors;
 
+/** Compute statistics about a range of messages in a given topic and partition. */
 export const computeMessageStatsTopicStatsProjectsLocationsTopics: API.OperationMethod<ComputeMessageStatsTopicStatsProjectsLocationsTopicsRequest, ComputeMessageStatsTopicStatsProjectsLocationsTopicsResponse, ComputeMessageStatsTopicStatsProjectsLocationsTopicsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ComputeMessageStatsTopicStatsProjectsLocationsTopicsRequest,
   output: ComputeMessageStatsTopicStatsProjectsLocationsTopicsResponse,
   errors: [],
 }));
 
-/** Compute the head cursor for the partition. The head cursor's offset is guaranteed to be less than or equal to all messages which have not yet been acknowledged as published, and greater than the offset of any message whose publish has already been acknowledged. It is zero if there have never been messages in the partition. */
 export interface ComputeHeadCursorTopicStatsProjectsLocationsTopicsRequest {
   /** Required. The topic for which we should compute the head cursor. */
   topic: string;
@@ -1234,13 +1233,13 @@ export const ComputeHeadCursorTopicStatsProjectsLocationsTopicsResponse = Comput
 
 export type ComputeHeadCursorTopicStatsProjectsLocationsTopicsError = CommonErrors;
 
+/** Compute the head cursor for the partition. The head cursor's offset is guaranteed to be less than or equal to all messages which have not yet been acknowledged as published, and greater than the offset of any message whose publish has already been acknowledged. It is zero if there have never been messages in the partition. */
 export const computeHeadCursorTopicStatsProjectsLocationsTopics: API.OperationMethod<ComputeHeadCursorTopicStatsProjectsLocationsTopicsRequest, ComputeHeadCursorTopicStatsProjectsLocationsTopicsResponse, ComputeHeadCursorTopicStatsProjectsLocationsTopicsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ComputeHeadCursorTopicStatsProjectsLocationsTopicsRequest,
   output: ComputeHeadCursorTopicStatsProjectsLocationsTopicsResponse,
   errors: [],
 }));
 
-/** Compute the corresponding cursor for a publish or event time in a topic partition. */
 export interface ComputeTimeCursorTopicStatsProjectsLocationsTopicsRequest {
   /** Required. The topic for which we should compute the cursor. */
   topic: string;
@@ -1261,6 +1260,7 @@ export const ComputeTimeCursorTopicStatsProjectsLocationsTopicsResponse = Comput
 
 export type ComputeTimeCursorTopicStatsProjectsLocationsTopicsError = CommonErrors;
 
+/** Compute the corresponding cursor for a publish or event time in a topic partition. */
 export const computeTimeCursorTopicStatsProjectsLocationsTopics: API.OperationMethod<ComputeTimeCursorTopicStatsProjectsLocationsTopicsRequest, ComputeTimeCursorTopicStatsProjectsLocationsTopicsResponse, ComputeTimeCursorTopicStatsProjectsLocationsTopicsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ComputeTimeCursorTopicStatsProjectsLocationsTopicsRequest,
   output: ComputeTimeCursorTopicStatsProjectsLocationsTopicsResponse,

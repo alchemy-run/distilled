@@ -3231,7 +3231,6 @@ export const GoogleDevtoolsContaineranalysisV1alpha1OperationMetadata: Schema.Sc
 // Operations
 // ==========================================================================
 
-/** Creates new notes in batch. */
 export interface BatchCreateProjectsNotesRequest {
   /** Required. The name of the project in the form of `projects/[PROJECT_ID]`, under which the notes are to be created. */
   parent: string;
@@ -3252,13 +3251,13 @@ export const BatchCreateProjectsNotesResponse = BatchCreateNotesResponse;
 
 export type BatchCreateProjectsNotesError = CommonErrors;
 
+/** Creates new notes in batch. */
 export const batchCreateProjectsNotes: API.OperationMethod<BatchCreateProjectsNotesRequest, BatchCreateProjectsNotesResponse, BatchCreateProjectsNotesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchCreateProjectsNotesRequest,
   output: BatchCreateProjectsNotesResponse,
   errors: [],
 }));
 
-/** Deletes the specified note. */
 export interface DeleteProjectsNotesRequest {
   /** Required. The name of the note in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. */
   name: string;
@@ -3276,13 +3275,13 @@ export const DeleteProjectsNotesResponse = Empty;
 
 export type DeleteProjectsNotesError = CommonErrors;
 
+/** Deletes the specified note. */
 export const deleteProjectsNotes: API.OperationMethod<DeleteProjectsNotesRequest, DeleteProjectsNotesResponse, DeleteProjectsNotesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsNotesRequest,
   output: DeleteProjectsNotesResponse,
   errors: [],
 }));
 
-/** Lists notes for the specified project. */
 export interface ListProjectsNotesRequest {
   /** Required. The name of the project to list notes for in the form of `projects/[PROJECT_ID]`. */
   parent: string;
@@ -3312,7 +3311,8 @@ export const ListProjectsNotesResponse = ListNotesResponse;
 
 export type ListProjectsNotesError = CommonErrors;
 
-export const listProjectsNotes = API.makePaginated(() => ({
+/** Lists notes for the specified project. */
+export const listProjectsNotes: API.PaginatedOperationMethod<ListProjectsNotesRequest, ListProjectsNotesResponse, ListProjectsNotesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsNotesRequest,
   output: ListProjectsNotesResponse,
   errors: [],
@@ -3322,7 +3322,6 @@ export const listProjectsNotes = API.makePaginated(() => ({
   },
 }));
 
-/** Sets the access control policy on the specified note or occurrence. Requires `containeranalysis.notes.setIamPolicy` or `containeranalysis.occurrences.setIamPolicy` permission if the resource is a note or an occurrence, respectively. The resource takes the format `projects/[PROJECT_ID]/notes/[NOTE_ID]` for notes and `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]` for occurrences. */
 export interface SetIamPolicyProjectsNotesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3343,13 +3342,13 @@ export const SetIamPolicyProjectsNotesResponse = Policy;
 
 export type SetIamPolicyProjectsNotesError = CommonErrors;
 
+/** Sets the access control policy on the specified note or occurrence. Requires `containeranalysis.notes.setIamPolicy` or `containeranalysis.occurrences.setIamPolicy` permission if the resource is a note or an occurrence, respectively. The resource takes the format `projects/[PROJECT_ID]/notes/[NOTE_ID]` for notes and `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]` for occurrences. */
 export const setIamPolicyProjectsNotes: API.OperationMethod<SetIamPolicyProjectsNotesRequest, SetIamPolicyProjectsNotesResponse, SetIamPolicyProjectsNotesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsNotesRequest,
   output: SetIamPolicyProjectsNotesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a note or an occurrence resource. Requires `containeranalysis.notes.setIamPolicy` or `containeranalysis.occurrences.setIamPolicy` permission if the resource is a note or occurrence, respectively. The resource takes the format `projects/[PROJECT_ID]/notes/[NOTE_ID]` for notes and `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]` for occurrences. */
 export interface GetIamPolicyProjectsNotesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3370,13 +3369,13 @@ export const GetIamPolicyProjectsNotesResponse = Policy;
 
 export type GetIamPolicyProjectsNotesError = CommonErrors;
 
+/** Gets the access control policy for a note or an occurrence resource. Requires `containeranalysis.notes.setIamPolicy` or `containeranalysis.occurrences.setIamPolicy` permission if the resource is a note or occurrence, respectively. The resource takes the format `projects/[PROJECT_ID]/notes/[NOTE_ID]` for notes and `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]` for occurrences. */
 export const getIamPolicyProjectsNotes: API.OperationMethod<GetIamPolicyProjectsNotesRequest, GetIamPolicyProjectsNotesResponse, GetIamPolicyProjectsNotesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsNotesRequest,
   output: GetIamPolicyProjectsNotesResponse,
   errors: [],
 }));
 
-/** Creates a new note. */
 export interface CreateProjectsNotesRequest {
   /** Required. The name of the project in the form of `projects/[PROJECT_ID]`, under which the note is to be created. */
   parent: string;
@@ -3400,13 +3399,13 @@ export const CreateProjectsNotesResponse = Note;
 
 export type CreateProjectsNotesError = CommonErrors;
 
+/** Creates a new note. */
 export const createProjectsNotes: API.OperationMethod<CreateProjectsNotesRequest, CreateProjectsNotesResponse, CreateProjectsNotesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsNotesRequest,
   output: CreateProjectsNotesResponse,
   errors: [],
 }));
 
-/** Updates the specified note. */
 export interface PatchProjectsNotesRequest {
   /** Required. The name of the note in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. */
   name: string;
@@ -3430,13 +3429,13 @@ export const PatchProjectsNotesResponse = Note;
 
 export type PatchProjectsNotesError = CommonErrors;
 
+/** Updates the specified note. */
 export const patchProjectsNotes: API.OperationMethod<PatchProjectsNotesRequest, PatchProjectsNotesResponse, PatchProjectsNotesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsNotesRequest,
   output: PatchProjectsNotesResponse,
   errors: [],
 }));
 
-/** Returns the permissions that a caller has on the specified note or occurrence. Requires list permission on the project (for example, `containeranalysis.notes.list`). The resource takes the format `projects/[PROJECT_ID]/notes/[NOTE_ID]` for notes and `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]` for occurrences. */
 export interface TestIamPermissionsProjectsNotesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3457,13 +3456,13 @@ export const TestIamPermissionsProjectsNotesResponse = TestIamPermissionsRespons
 
 export type TestIamPermissionsProjectsNotesError = CommonErrors;
 
+/** Returns the permissions that a caller has on the specified note or occurrence. Requires list permission on the project (for example, `containeranalysis.notes.list`). The resource takes the format `projects/[PROJECT_ID]/notes/[NOTE_ID]` for notes and `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]` for occurrences. */
 export const testIamPermissionsProjectsNotes: API.OperationMethod<TestIamPermissionsProjectsNotesRequest, TestIamPermissionsProjectsNotesResponse, TestIamPermissionsProjectsNotesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsNotesRequest,
   output: TestIamPermissionsProjectsNotesResponse,
   errors: [],
 }));
 
-/** Gets the specified note. */
 export interface GetProjectsNotesRequest {
   /** Required. The name of the note in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. */
   name: string;
@@ -3481,13 +3480,13 @@ export const GetProjectsNotesResponse = Note;
 
 export type GetProjectsNotesError = CommonErrors;
 
+/** Gets the specified note. */
 export const getProjectsNotes: API.OperationMethod<GetProjectsNotesRequest, GetProjectsNotesResponse, GetProjectsNotesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsNotesRequest,
   output: GetProjectsNotesResponse,
   errors: [],
 }));
 
-/** Lists occurrences referencing the specified note. Provider projects can use this method to get all occurrences across consumer projects referencing the specified note. */
 export interface ListProjectsNotesOccurrencesRequest {
   /** Token to provide to skip to a particular spot in the list. */
   pageToken?: string;
@@ -3514,7 +3513,8 @@ export const ListProjectsNotesOccurrencesResponse = ListNoteOccurrencesResponse;
 
 export type ListProjectsNotesOccurrencesError = CommonErrors;
 
-export const listProjectsNotesOccurrences = API.makePaginated(() => ({
+/** Lists occurrences referencing the specified note. Provider projects can use this method to get all occurrences across consumer projects referencing the specified note. */
+export const listProjectsNotesOccurrences: API.PaginatedOperationMethod<ListProjectsNotesOccurrencesRequest, ListProjectsNotesOccurrencesResponse, ListProjectsNotesOccurrencesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsNotesOccurrencesRequest,
   output: ListProjectsNotesOccurrencesResponse,
   errors: [],
@@ -3524,7 +3524,6 @@ export const listProjectsNotesOccurrences = API.makePaginated(() => ({
   },
 }));
 
-/** Lists notes for the specified project. */
 export interface ListProjectsLocationsNotesRequest {
   /** Token to provide to skip to a particular spot in the list. */
   pageToken?: string;
@@ -3554,7 +3553,8 @@ export const ListProjectsLocationsNotesResponse = ListNotesResponse;
 
 export type ListProjectsLocationsNotesError = CommonErrors;
 
-export const listProjectsLocationsNotes = API.makePaginated(() => ({
+/** Lists notes for the specified project. */
+export const listProjectsLocationsNotes: API.PaginatedOperationMethod<ListProjectsLocationsNotesRequest, ListProjectsLocationsNotesResponse, ListProjectsLocationsNotesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsNotesRequest,
   output: ListProjectsLocationsNotesResponse,
   errors: [],
@@ -3564,7 +3564,6 @@ export const listProjectsLocationsNotes = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the permissions that a caller has on the specified note or occurrence. Requires list permission on the project (for example, `containeranalysis.notes.list`). The resource takes the format `projects/[PROJECT_ID]/notes/[NOTE_ID]` for notes and `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]` for occurrences. */
 export interface TestIamPermissionsProjectsLocationsNotesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3585,13 +3584,13 @@ export const TestIamPermissionsProjectsLocationsNotesResponse = TestIamPermissio
 
 export type TestIamPermissionsProjectsLocationsNotesError = CommonErrors;
 
+/** Returns the permissions that a caller has on the specified note or occurrence. Requires list permission on the project (for example, `containeranalysis.notes.list`). The resource takes the format `projects/[PROJECT_ID]/notes/[NOTE_ID]` for notes and `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]` for occurrences. */
 export const testIamPermissionsProjectsLocationsNotes: API.OperationMethod<TestIamPermissionsProjectsLocationsNotesRequest, TestIamPermissionsProjectsLocationsNotesResponse, TestIamPermissionsProjectsLocationsNotesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsNotesRequest,
   output: TestIamPermissionsProjectsLocationsNotesResponse,
   errors: [],
 }));
 
-/** Creates a new note. */
 export interface CreateProjectsLocationsNotesRequest {
   /** Required. The name of the project in the form of `projects/[PROJECT_ID]`, under which the note is to be created. */
   parent: string;
@@ -3615,13 +3614,13 @@ export const CreateProjectsLocationsNotesResponse = Note;
 
 export type CreateProjectsLocationsNotesError = CommonErrors;
 
+/** Creates a new note. */
 export const createProjectsLocationsNotes: API.OperationMethod<CreateProjectsLocationsNotesRequest, CreateProjectsLocationsNotesResponse, CreateProjectsLocationsNotesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsNotesRequest,
   output: CreateProjectsLocationsNotesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a note or an occurrence resource. Requires `containeranalysis.notes.setIamPolicy` or `containeranalysis.occurrences.setIamPolicy` permission if the resource is a note or occurrence, respectively. The resource takes the format `projects/[PROJECT_ID]/notes/[NOTE_ID]` for notes and `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]` for occurrences. */
 export interface GetIamPolicyProjectsLocationsNotesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3642,13 +3641,13 @@ export const GetIamPolicyProjectsLocationsNotesResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsNotesError = CommonErrors;
 
+/** Gets the access control policy for a note or an occurrence resource. Requires `containeranalysis.notes.setIamPolicy` or `containeranalysis.occurrences.setIamPolicy` permission if the resource is a note or occurrence, respectively. The resource takes the format `projects/[PROJECT_ID]/notes/[NOTE_ID]` for notes and `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]` for occurrences. */
 export const getIamPolicyProjectsLocationsNotes: API.OperationMethod<GetIamPolicyProjectsLocationsNotesRequest, GetIamPolicyProjectsLocationsNotesResponse, GetIamPolicyProjectsLocationsNotesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsNotesRequest,
   output: GetIamPolicyProjectsLocationsNotesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified note or occurrence. Requires `containeranalysis.notes.setIamPolicy` or `containeranalysis.occurrences.setIamPolicy` permission if the resource is a note or an occurrence, respectively. The resource takes the format `projects/[PROJECT_ID]/notes/[NOTE_ID]` for notes and `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]` for occurrences. */
 export interface SetIamPolicyProjectsLocationsNotesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3669,13 +3668,13 @@ export const SetIamPolicyProjectsLocationsNotesResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsNotesError = CommonErrors;
 
+/** Sets the access control policy on the specified note or occurrence. Requires `containeranalysis.notes.setIamPolicy` or `containeranalysis.occurrences.setIamPolicy` permission if the resource is a note or an occurrence, respectively. The resource takes the format `projects/[PROJECT_ID]/notes/[NOTE_ID]` for notes and `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]` for occurrences. */
 export const setIamPolicyProjectsLocationsNotes: API.OperationMethod<SetIamPolicyProjectsLocationsNotesRequest, SetIamPolicyProjectsLocationsNotesResponse, SetIamPolicyProjectsLocationsNotesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsNotesRequest,
   output: SetIamPolicyProjectsLocationsNotesResponse,
   errors: [],
 }));
 
-/** Updates the specified note. */
 export interface PatchProjectsLocationsNotesRequest {
   /** Required. The name of the note in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. */
   name: string;
@@ -3699,13 +3698,13 @@ export const PatchProjectsLocationsNotesResponse = Note;
 
 export type PatchProjectsLocationsNotesError = CommonErrors;
 
+/** Updates the specified note. */
 export const patchProjectsLocationsNotes: API.OperationMethod<PatchProjectsLocationsNotesRequest, PatchProjectsLocationsNotesResponse, PatchProjectsLocationsNotesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsNotesRequest,
   output: PatchProjectsLocationsNotesResponse,
   errors: [],
 }));
 
-/** Gets the specified note. */
 export interface GetProjectsLocationsNotesRequest {
   /** Required. The name of the note in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. */
   name: string;
@@ -3723,13 +3722,13 @@ export const GetProjectsLocationsNotesResponse = Note;
 
 export type GetProjectsLocationsNotesError = CommonErrors;
 
+/** Gets the specified note. */
 export const getProjectsLocationsNotes: API.OperationMethod<GetProjectsLocationsNotesRequest, GetProjectsLocationsNotesResponse, GetProjectsLocationsNotesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsNotesRequest,
   output: GetProjectsLocationsNotesResponse,
   errors: [],
 }));
 
-/** Creates new notes in batch. */
 export interface BatchCreateProjectsLocationsNotesRequest {
   /** Required. The name of the project in the form of `projects/[PROJECT_ID]`, under which the notes are to be created. */
   parent: string;
@@ -3750,13 +3749,13 @@ export const BatchCreateProjectsLocationsNotesResponse = BatchCreateNotesRespons
 
 export type BatchCreateProjectsLocationsNotesError = CommonErrors;
 
+/** Creates new notes in batch. */
 export const batchCreateProjectsLocationsNotes: API.OperationMethod<BatchCreateProjectsLocationsNotesRequest, BatchCreateProjectsLocationsNotesResponse, BatchCreateProjectsLocationsNotesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchCreateProjectsLocationsNotesRequest,
   output: BatchCreateProjectsLocationsNotesResponse,
   errors: [],
 }));
 
-/** Deletes the specified note. */
 export interface DeleteProjectsLocationsNotesRequest {
   /** Required. The name of the note in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. */
   name: string;
@@ -3774,13 +3773,13 @@ export const DeleteProjectsLocationsNotesResponse = Empty;
 
 export type DeleteProjectsLocationsNotesError = CommonErrors;
 
+/** Deletes the specified note. */
 export const deleteProjectsLocationsNotes: API.OperationMethod<DeleteProjectsLocationsNotesRequest, DeleteProjectsLocationsNotesResponse, DeleteProjectsLocationsNotesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsNotesRequest,
   output: DeleteProjectsLocationsNotesResponse,
   errors: [],
 }));
 
-/** Lists occurrences referencing the specified note. Provider projects can use this method to get all occurrences across consumer projects referencing the specified note. */
 export interface ListProjectsLocationsNotesOccurrencesRequest {
   /** Token to provide to skip to a particular spot in the list. */
   pageToken?: string;
@@ -3807,7 +3806,8 @@ export const ListProjectsLocationsNotesOccurrencesResponse = ListNoteOccurrences
 
 export type ListProjectsLocationsNotesOccurrencesError = CommonErrors;
 
-export const listProjectsLocationsNotesOccurrences = API.makePaginated(() => ({
+/** Lists occurrences referencing the specified note. Provider projects can use this method to get all occurrences across consumer projects referencing the specified note. */
+export const listProjectsLocationsNotesOccurrences: API.PaginatedOperationMethod<ListProjectsLocationsNotesOccurrencesRequest, ListProjectsLocationsNotesOccurrencesResponse, ListProjectsLocationsNotesOccurrencesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsNotesOccurrencesRequest,
   output: ListProjectsLocationsNotesOccurrencesResponse,
   errors: [],
@@ -3817,7 +3817,6 @@ export const listProjectsLocationsNotesOccurrences = API.makePaginated(() => ({
   },
 }));
 
-/** Generates an SBOM for the given resource. */
 export interface ExportSBOMProjectsLocationsResourcesRequest {
   /** Required. The name of the resource in the form of `projects/[PROJECT_ID]/resources/[RESOURCE_URL]`. */
   name: string;
@@ -3838,13 +3837,13 @@ export const ExportSBOMProjectsLocationsResourcesResponse = ExportSBOMResponse;
 
 export type ExportSBOMProjectsLocationsResourcesError = CommonErrors;
 
+/** Generates an SBOM for the given resource. */
 export const exportSBOMProjectsLocationsResources: API.OperationMethod<ExportSBOMProjectsLocationsResourcesRequest, ExportSBOMProjectsLocationsResourcesResponse, ExportSBOMProjectsLocationsResourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExportSBOMProjectsLocationsResourcesRequest,
   output: ExportSBOMProjectsLocationsResourcesResponse,
   errors: [],
 }));
 
-/** Creates a new occurrence. */
 export interface CreateProjectsLocationsOccurrencesRequest {
   /** Required. The name of the project in the form of `projects/[PROJECT_ID]`, under which the occurrence is to be created. */
   parent: string;
@@ -3865,13 +3864,13 @@ export const CreateProjectsLocationsOccurrencesResponse = Occurrence;
 
 export type CreateProjectsLocationsOccurrencesError = CommonErrors;
 
+/** Creates a new occurrence. */
 export const createProjectsLocationsOccurrences: API.OperationMethod<CreateProjectsLocationsOccurrencesRequest, CreateProjectsLocationsOccurrencesResponse, CreateProjectsLocationsOccurrencesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsOccurrencesRequest,
   output: CreateProjectsLocationsOccurrencesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified note or occurrence. Requires `containeranalysis.notes.setIamPolicy` or `containeranalysis.occurrences.setIamPolicy` permission if the resource is a note or an occurrence, respectively. The resource takes the format `projects/[PROJECT_ID]/notes/[NOTE_ID]` for notes and `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]` for occurrences. */
 export interface SetIamPolicyProjectsLocationsOccurrencesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3892,13 +3891,13 @@ export const SetIamPolicyProjectsLocationsOccurrencesResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsOccurrencesError = CommonErrors;
 
+/** Sets the access control policy on the specified note or occurrence. Requires `containeranalysis.notes.setIamPolicy` or `containeranalysis.occurrences.setIamPolicy` permission if the resource is a note or an occurrence, respectively. The resource takes the format `projects/[PROJECT_ID]/notes/[NOTE_ID]` for notes and `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]` for occurrences. */
 export const setIamPolicyProjectsLocationsOccurrences: API.OperationMethod<SetIamPolicyProjectsLocationsOccurrencesRequest, SetIamPolicyProjectsLocationsOccurrencesResponse, SetIamPolicyProjectsLocationsOccurrencesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsOccurrencesRequest,
   output: SetIamPolicyProjectsLocationsOccurrencesResponse,
   errors: [],
 }));
 
-/** Gets the specified occurrence. */
 export interface GetProjectsLocationsOccurrencesRequest {
   /** Required. The name of the occurrence in the form of `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]`. */
   name: string;
@@ -3916,13 +3915,13 @@ export const GetProjectsLocationsOccurrencesResponse = Occurrence;
 
 export type GetProjectsLocationsOccurrencesError = CommonErrors;
 
+/** Gets the specified occurrence. */
 export const getProjectsLocationsOccurrences: API.OperationMethod<GetProjectsLocationsOccurrencesRequest, GetProjectsLocationsOccurrencesResponse, GetProjectsLocationsOccurrencesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOccurrencesRequest,
   output: GetProjectsLocationsOccurrencesResponse,
   errors: [],
 }));
 
-/** Lists occurrences for the specified project. */
 export interface ListProjectsLocationsOccurrencesRequest {
   /** The filter expression. */
   filter?: string;
@@ -3952,7 +3951,8 @@ export const ListProjectsLocationsOccurrencesResponse = ListOccurrencesResponse;
 
 export type ListProjectsLocationsOccurrencesError = CommonErrors;
 
-export const listProjectsLocationsOccurrences = API.makePaginated(() => ({
+/** Lists occurrences for the specified project. */
+export const listProjectsLocationsOccurrences: API.PaginatedOperationMethod<ListProjectsLocationsOccurrencesRequest, ListProjectsLocationsOccurrencesResponse, ListProjectsLocationsOccurrencesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOccurrencesRequest,
   output: ListProjectsLocationsOccurrencesResponse,
   errors: [],
@@ -3962,7 +3962,6 @@ export const listProjectsLocationsOccurrences = API.makePaginated(() => ({
   },
 }));
 
-/** Updates the specified occurrence. */
 export interface PatchProjectsLocationsOccurrencesRequest {
   /** The fields to update. */
   updateMask?: string;
@@ -3986,13 +3985,13 @@ export const PatchProjectsLocationsOccurrencesResponse = Occurrence;
 
 export type PatchProjectsLocationsOccurrencesError = CommonErrors;
 
+/** Updates the specified occurrence. */
 export const patchProjectsLocationsOccurrences: API.OperationMethod<PatchProjectsLocationsOccurrencesRequest, PatchProjectsLocationsOccurrencesResponse, PatchProjectsLocationsOccurrencesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsOccurrencesRequest,
   output: PatchProjectsLocationsOccurrencesResponse,
   errors: [],
 }));
 
-/** Creates new occurrences in batch. */
 export interface BatchCreateProjectsLocationsOccurrencesRequest {
   /** Required. The name of the project in the form of `projects/[PROJECT_ID]`, under which the occurrences are to be created. */
   parent: string;
@@ -4013,13 +4012,13 @@ export const BatchCreateProjectsLocationsOccurrencesResponse = BatchCreateOccurr
 
 export type BatchCreateProjectsLocationsOccurrencesError = CommonErrors;
 
+/** Creates new occurrences in batch. */
 export const batchCreateProjectsLocationsOccurrences: API.OperationMethod<BatchCreateProjectsLocationsOccurrencesRequest, BatchCreateProjectsLocationsOccurrencesResponse, BatchCreateProjectsLocationsOccurrencesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchCreateProjectsLocationsOccurrencesRequest,
   output: BatchCreateProjectsLocationsOccurrencesResponse,
   errors: [],
 }));
 
-/** Deletes the specified occurrence. For example, use this method to delete an occurrence when the occurrence is no longer applicable for the given resource. */
 export interface DeleteProjectsLocationsOccurrencesRequest {
   /** Required. The name of the occurrence in the form of `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]`. */
   name: string;
@@ -4037,13 +4036,13 @@ export const DeleteProjectsLocationsOccurrencesResponse = Empty;
 
 export type DeleteProjectsLocationsOccurrencesError = CommonErrors;
 
+/** Deletes the specified occurrence. For example, use this method to delete an occurrence when the occurrence is no longer applicable for the given resource. */
 export const deleteProjectsLocationsOccurrences: API.OperationMethod<DeleteProjectsLocationsOccurrencesRequest, DeleteProjectsLocationsOccurrencesResponse, DeleteProjectsLocationsOccurrencesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOccurrencesRequest,
   output: DeleteProjectsLocationsOccurrencesResponse,
   errors: [],
 }));
 
-/** Gets a summary of the number and severity of occurrences. */
 export interface GetVulnerabilitySummaryProjectsLocationsOccurrencesRequest {
   /** If set, the request will return all reachable occurrence summaries and report all unreachable regions in the `unreachable` field in the response. Only applicable for requests in the global region. */
   returnPartialSuccess?: boolean;
@@ -4067,13 +4066,13 @@ export const GetVulnerabilitySummaryProjectsLocationsOccurrencesResponse = Vulne
 
 export type GetVulnerabilitySummaryProjectsLocationsOccurrencesError = CommonErrors;
 
+/** Gets a summary of the number and severity of occurrences. */
 export const getVulnerabilitySummaryProjectsLocationsOccurrences: API.OperationMethod<GetVulnerabilitySummaryProjectsLocationsOccurrencesRequest, GetVulnerabilitySummaryProjectsLocationsOccurrencesResponse, GetVulnerabilitySummaryProjectsLocationsOccurrencesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetVulnerabilitySummaryProjectsLocationsOccurrencesRequest,
   output: GetVulnerabilitySummaryProjectsLocationsOccurrencesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a note or an occurrence resource. Requires `containeranalysis.notes.setIamPolicy` or `containeranalysis.occurrences.setIamPolicy` permission if the resource is a note or occurrence, respectively. The resource takes the format `projects/[PROJECT_ID]/notes/[NOTE_ID]` for notes and `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]` for occurrences. */
 export interface GetIamPolicyProjectsLocationsOccurrencesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -4094,13 +4093,13 @@ export const GetIamPolicyProjectsLocationsOccurrencesResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsOccurrencesError = CommonErrors;
 
+/** Gets the access control policy for a note or an occurrence resource. Requires `containeranalysis.notes.setIamPolicy` or `containeranalysis.occurrences.setIamPolicy` permission if the resource is a note or occurrence, respectively. The resource takes the format `projects/[PROJECT_ID]/notes/[NOTE_ID]` for notes and `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]` for occurrences. */
 export const getIamPolicyProjectsLocationsOccurrences: API.OperationMethod<GetIamPolicyProjectsLocationsOccurrencesRequest, GetIamPolicyProjectsLocationsOccurrencesResponse, GetIamPolicyProjectsLocationsOccurrencesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsOccurrencesRequest,
   output: GetIamPolicyProjectsLocationsOccurrencesResponse,
   errors: [],
 }));
 
-/** Returns the permissions that a caller has on the specified note or occurrence. Requires list permission on the project (for example, `containeranalysis.notes.list`). The resource takes the format `projects/[PROJECT_ID]/notes/[NOTE_ID]` for notes and `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]` for occurrences. */
 export interface TestIamPermissionsProjectsLocationsOccurrencesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -4121,13 +4120,13 @@ export const TestIamPermissionsProjectsLocationsOccurrencesResponse = TestIamPer
 
 export type TestIamPermissionsProjectsLocationsOccurrencesError = CommonErrors;
 
+/** Returns the permissions that a caller has on the specified note or occurrence. Requires list permission on the project (for example, `containeranalysis.notes.list`). The resource takes the format `projects/[PROJECT_ID]/notes/[NOTE_ID]` for notes and `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]` for occurrences. */
 export const testIamPermissionsProjectsLocationsOccurrences: API.OperationMethod<TestIamPermissionsProjectsLocationsOccurrencesRequest, TestIamPermissionsProjectsLocationsOccurrencesResponse, TestIamPermissionsProjectsLocationsOccurrencesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsOccurrencesRequest,
   output: TestIamPermissionsProjectsLocationsOccurrencesResponse,
   errors: [],
 }));
 
-/** Gets the note attached to the specified occurrence. Consumer projects can use this method to get a note that belongs to a provider project. */
 export interface GetNotesProjectsLocationsOccurrencesRequest {
   /** Required. The name of the occurrence in the form of `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]`. */
   name: string;
@@ -4145,13 +4144,13 @@ export const GetNotesProjectsLocationsOccurrencesResponse = Note;
 
 export type GetNotesProjectsLocationsOccurrencesError = CommonErrors;
 
+/** Gets the note attached to the specified occurrence. Consumer projects can use this method to get a note that belongs to a provider project. */
 export const getNotesProjectsLocationsOccurrences: API.OperationMethod<GetNotesProjectsLocationsOccurrencesRequest, GetNotesProjectsLocationsOccurrencesResponse, GetNotesProjectsLocationsOccurrencesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetNotesProjectsLocationsOccurrencesRequest,
   output: GetNotesProjectsLocationsOccurrencesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a note or an occurrence resource. Requires `containeranalysis.notes.setIamPolicy` or `containeranalysis.occurrences.setIamPolicy` permission if the resource is a note or occurrence, respectively. The resource takes the format `projects/[PROJECT_ID]/notes/[NOTE_ID]` for notes and `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]` for occurrences. */
 export interface GetIamPolicyProjectsOccurrencesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -4172,13 +4171,13 @@ export const GetIamPolicyProjectsOccurrencesResponse = Policy;
 
 export type GetIamPolicyProjectsOccurrencesError = CommonErrors;
 
+/** Gets the access control policy for a note or an occurrence resource. Requires `containeranalysis.notes.setIamPolicy` or `containeranalysis.occurrences.setIamPolicy` permission if the resource is a note or occurrence, respectively. The resource takes the format `projects/[PROJECT_ID]/notes/[NOTE_ID]` for notes and `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]` for occurrences. */
 export const getIamPolicyProjectsOccurrences: API.OperationMethod<GetIamPolicyProjectsOccurrencesRequest, GetIamPolicyProjectsOccurrencesResponse, GetIamPolicyProjectsOccurrencesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsOccurrencesRequest,
   output: GetIamPolicyProjectsOccurrencesResponse,
   errors: [],
 }));
 
-/** Deletes the specified occurrence. For example, use this method to delete an occurrence when the occurrence is no longer applicable for the given resource. */
 export interface DeleteProjectsOccurrencesRequest {
   /** Required. The name of the occurrence in the form of `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]`. */
   name: string;
@@ -4196,13 +4195,13 @@ export const DeleteProjectsOccurrencesResponse = Empty;
 
 export type DeleteProjectsOccurrencesError = CommonErrors;
 
+/** Deletes the specified occurrence. For example, use this method to delete an occurrence when the occurrence is no longer applicable for the given resource. */
 export const deleteProjectsOccurrences: API.OperationMethod<DeleteProjectsOccurrencesRequest, DeleteProjectsOccurrencesResponse, DeleteProjectsOccurrencesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsOccurrencesRequest,
   output: DeleteProjectsOccurrencesResponse,
   errors: [],
 }));
 
-/** Gets the note attached to the specified occurrence. Consumer projects can use this method to get a note that belongs to a provider project. */
 export interface GetNotesProjectsOccurrencesRequest {
   /** Required. The name of the occurrence in the form of `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]`. */
   name: string;
@@ -4220,13 +4219,13 @@ export const GetNotesProjectsOccurrencesResponse = Note;
 
 export type GetNotesProjectsOccurrencesError = CommonErrors;
 
+/** Gets the note attached to the specified occurrence. Consumer projects can use this method to get a note that belongs to a provider project. */
 export const getNotesProjectsOccurrences: API.OperationMethod<GetNotesProjectsOccurrencesRequest, GetNotesProjectsOccurrencesResponse, GetNotesProjectsOccurrencesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetNotesProjectsOccurrencesRequest,
   output: GetNotesProjectsOccurrencesResponse,
   errors: [],
 }));
 
-/** Updates the specified occurrence. */
 export interface PatchProjectsOccurrencesRequest {
   /** The fields to update. */
   updateMask?: string;
@@ -4250,13 +4249,13 @@ export const PatchProjectsOccurrencesResponse = Occurrence;
 
 export type PatchProjectsOccurrencesError = CommonErrors;
 
+/** Updates the specified occurrence. */
 export const patchProjectsOccurrences: API.OperationMethod<PatchProjectsOccurrencesRequest, PatchProjectsOccurrencesResponse, PatchProjectsOccurrencesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsOccurrencesRequest,
   output: PatchProjectsOccurrencesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified note or occurrence. Requires `containeranalysis.notes.setIamPolicy` or `containeranalysis.occurrences.setIamPolicy` permission if the resource is a note or an occurrence, respectively. The resource takes the format `projects/[PROJECT_ID]/notes/[NOTE_ID]` for notes and `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]` for occurrences. */
 export interface SetIamPolicyProjectsOccurrencesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -4277,13 +4276,13 @@ export const SetIamPolicyProjectsOccurrencesResponse = Policy;
 
 export type SetIamPolicyProjectsOccurrencesError = CommonErrors;
 
+/** Sets the access control policy on the specified note or occurrence. Requires `containeranalysis.notes.setIamPolicy` or `containeranalysis.occurrences.setIamPolicy` permission if the resource is a note or an occurrence, respectively. The resource takes the format `projects/[PROJECT_ID]/notes/[NOTE_ID]` for notes and `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]` for occurrences. */
 export const setIamPolicyProjectsOccurrences: API.OperationMethod<SetIamPolicyProjectsOccurrencesRequest, SetIamPolicyProjectsOccurrencesResponse, SetIamPolicyProjectsOccurrencesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsOccurrencesRequest,
   output: SetIamPolicyProjectsOccurrencesResponse,
   errors: [],
 }));
 
-/** Creates new occurrences in batch. */
 export interface BatchCreateProjectsOccurrencesRequest {
   /** Required. The name of the project in the form of `projects/[PROJECT_ID]`, under which the occurrences are to be created. */
   parent: string;
@@ -4304,13 +4303,13 @@ export const BatchCreateProjectsOccurrencesResponse = BatchCreateOccurrencesResp
 
 export type BatchCreateProjectsOccurrencesError = CommonErrors;
 
+/** Creates new occurrences in batch. */
 export const batchCreateProjectsOccurrences: API.OperationMethod<BatchCreateProjectsOccurrencesRequest, BatchCreateProjectsOccurrencesResponse, BatchCreateProjectsOccurrencesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchCreateProjectsOccurrencesRequest,
   output: BatchCreateProjectsOccurrencesResponse,
   errors: [],
 }));
 
-/** Returns the permissions that a caller has on the specified note or occurrence. Requires list permission on the project (for example, `containeranalysis.notes.list`). The resource takes the format `projects/[PROJECT_ID]/notes/[NOTE_ID]` for notes and `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]` for occurrences. */
 export interface TestIamPermissionsProjectsOccurrencesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -4331,13 +4330,13 @@ export const TestIamPermissionsProjectsOccurrencesResponse = TestIamPermissionsR
 
 export type TestIamPermissionsProjectsOccurrencesError = CommonErrors;
 
+/** Returns the permissions that a caller has on the specified note or occurrence. Requires list permission on the project (for example, `containeranalysis.notes.list`). The resource takes the format `projects/[PROJECT_ID]/notes/[NOTE_ID]` for notes and `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]` for occurrences. */
 export const testIamPermissionsProjectsOccurrences: API.OperationMethod<TestIamPermissionsProjectsOccurrencesRequest, TestIamPermissionsProjectsOccurrencesResponse, TestIamPermissionsProjectsOccurrencesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsOccurrencesRequest,
   output: TestIamPermissionsProjectsOccurrencesResponse,
   errors: [],
 }));
 
-/** Gets the specified occurrence. */
 export interface GetProjectsOccurrencesRequest {
   /** Required. The name of the occurrence in the form of `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]`. */
   name: string;
@@ -4355,13 +4354,13 @@ export const GetProjectsOccurrencesResponse = Occurrence;
 
 export type GetProjectsOccurrencesError = CommonErrors;
 
+/** Gets the specified occurrence. */
 export const getProjectsOccurrences: API.OperationMethod<GetProjectsOccurrencesRequest, GetProjectsOccurrencesResponse, GetProjectsOccurrencesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsOccurrencesRequest,
   output: GetProjectsOccurrencesResponse,
   errors: [],
 }));
 
-/** Gets a summary of the number and severity of occurrences. */
 export interface GetVulnerabilitySummaryProjectsOccurrencesRequest {
   /** The filter expression. */
   filter?: string;
@@ -4385,13 +4384,13 @@ export const GetVulnerabilitySummaryProjectsOccurrencesResponse = VulnerabilityO
 
 export type GetVulnerabilitySummaryProjectsOccurrencesError = CommonErrors;
 
+/** Gets a summary of the number and severity of occurrences. */
 export const getVulnerabilitySummaryProjectsOccurrences: API.OperationMethod<GetVulnerabilitySummaryProjectsOccurrencesRequest, GetVulnerabilitySummaryProjectsOccurrencesResponse, GetVulnerabilitySummaryProjectsOccurrencesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetVulnerabilitySummaryProjectsOccurrencesRequest,
   output: GetVulnerabilitySummaryProjectsOccurrencesResponse,
   errors: [],
 }));
 
-/** Lists occurrences for the specified project. */
 export interface ListProjectsOccurrencesRequest {
   /** Token to provide to skip to a particular spot in the list. */
   pageToken?: string;
@@ -4421,7 +4420,8 @@ export const ListProjectsOccurrencesResponse = ListOccurrencesResponse;
 
 export type ListProjectsOccurrencesError = CommonErrors;
 
-export const listProjectsOccurrences = API.makePaginated(() => ({
+/** Lists occurrences for the specified project. */
+export const listProjectsOccurrences: API.PaginatedOperationMethod<ListProjectsOccurrencesRequest, ListProjectsOccurrencesResponse, ListProjectsOccurrencesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsOccurrencesRequest,
   output: ListProjectsOccurrencesResponse,
   errors: [],
@@ -4431,7 +4431,6 @@ export const listProjectsOccurrences = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new occurrence. */
 export interface CreateProjectsOccurrencesRequest {
   /** Required. The name of the project in the form of `projects/[PROJECT_ID]`, under which the occurrence is to be created. */
   parent: string;
@@ -4452,13 +4451,13 @@ export const CreateProjectsOccurrencesResponse = Occurrence;
 
 export type CreateProjectsOccurrencesError = CommonErrors;
 
+/** Creates a new occurrence. */
 export const createProjectsOccurrences: API.OperationMethod<CreateProjectsOccurrencesRequest, CreateProjectsOccurrencesResponse, CreateProjectsOccurrencesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsOccurrencesRequest,
   output: CreateProjectsOccurrencesResponse,
   errors: [],
 }));
 
-/** Generates an SBOM for the given resource. */
 export interface ExportSBOMProjectsResourcesRequest {
   /** Required. The name of the resource in the form of `projects/[PROJECT_ID]/resources/[RESOURCE_URL]`. */
   name: string;
@@ -4479,6 +4478,7 @@ export const ExportSBOMProjectsResourcesResponse = ExportSBOMResponse;
 
 export type ExportSBOMProjectsResourcesError = CommonErrors;
 
+/** Generates an SBOM for the given resource. */
 export const exportSBOMProjectsResources: API.OperationMethod<ExportSBOMProjectsResourcesRequest, ExportSBOMProjectsResourcesResponse, ExportSBOMProjectsResourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExportSBOMProjectsResourcesRequest,
   output: ExportSBOMProjectsResourcesResponse,

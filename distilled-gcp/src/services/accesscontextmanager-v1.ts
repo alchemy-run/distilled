@@ -882,7 +882,6 @@ export const AccessContextManagerOperationMetadata: Schema.Schema<AccessContextM
 // Operations
 // ==========================================================================
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -912,7 +911,8 @@ export const ListOperationsResponse_Op = ListOperationsResponse;
 
 export type ListOperationsError = CommonErrors;
 
-export const listOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listOperations: API.PaginatedOperationMethod<ListOperationsRequest, ListOperationsResponse_Op, ListOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOperationsRequest,
   output: ListOperationsResponse_Op,
   errors: [],
@@ -922,7 +922,6 @@ export const listOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -940,13 +939,13 @@ export const GetOperationsResponse = Operation;
 
 export type GetOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOperations: API.OperationMethod<GetOperationsRequest, GetOperationsResponse, GetOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -964,13 +963,13 @@ export const DeleteOperationsResponse = Empty;
 
 export type DeleteOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteOperations: API.OperationMethod<DeleteOperationsRequest, DeleteOperationsResponse, DeleteOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOperationsRequest,
   output: DeleteOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -991,13 +990,13 @@ export const CancelOperationsResponse = Empty;
 
 export type CancelOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelOperations: API.OperationMethod<CancelOperationsRequest, CancelOperationsResponse, CancelOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelOperationsRequest,
   output: CancelOperationsResponse,
   errors: [],
 }));
 
-/** Lists all access policies in an organization. */
 export interface ListAccessPoliciesRequest {
   /** Required. Resource name for the container to list AccessPolicy instances from. Format: `organizations/{org_id}` */
   parent?: string;
@@ -1021,7 +1020,8 @@ export const ListAccessPoliciesResponse_Op = ListAccessPoliciesResponse;
 
 export type ListAccessPoliciesError = CommonErrors;
 
-export const listAccessPolicies = API.makePaginated(() => ({
+/** Lists all access policies in an organization. */
+export const listAccessPolicies: API.PaginatedOperationMethod<ListAccessPoliciesRequest, ListAccessPoliciesResponse_Op, ListAccessPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccessPoliciesRequest,
   output: ListAccessPoliciesResponse_Op,
   errors: [],
@@ -1031,7 +1031,6 @@ export const listAccessPolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Returns an access policy based on the name. */
 export interface GetAccessPoliciesRequest {
   /** Required. Resource name for the access policy to get. Format `accessPolicies/{policy_id}` */
   name: string;
@@ -1049,13 +1048,13 @@ export const GetAccessPoliciesResponse = AccessPolicy;
 
 export type GetAccessPoliciesError = CommonErrors;
 
+/** Returns an access policy based on the name. */
 export const getAccessPolicies: API.OperationMethod<GetAccessPoliciesRequest, GetAccessPoliciesResponse, GetAccessPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccessPoliciesRequest,
   output: GetAccessPoliciesResponse,
   errors: [],
 }));
 
-/** Creates an access policy. This method fails if the organization already has an access policy. The long-running operation has a successful status after the access policy propagates to long-lasting storage. Syntactic and basic semantic errors are returned in `metadata` as a BadRequest proto. */
 export interface CreateAccessPoliciesRequest {
   /** Request body */
   body?: AccessPolicy;
@@ -1073,13 +1072,13 @@ export const CreateAccessPoliciesResponse = Operation;
 
 export type CreateAccessPoliciesError = CommonErrors;
 
+/** Creates an access policy. This method fails if the organization already has an access policy. The long-running operation has a successful status after the access policy propagates to long-lasting storage. Syntactic and basic semantic errors are returned in `metadata` as a BadRequest proto. */
 export const createAccessPolicies: API.OperationMethod<CreateAccessPoliciesRequest, CreateAccessPoliciesResponse, CreateAccessPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccessPoliciesRequest,
   output: CreateAccessPoliciesResponse,
   errors: [],
 }));
 
-/** Updates an access policy. The long-running operation from this RPC has a successful status after the changes to the access policy propagate to long-lasting storage. */
 export interface PatchAccessPoliciesRequest {
   /** Output only. Identifier. Resource name of the `AccessPolicy`. Format: `accessPolicies/{access_policy}` */
   name: string;
@@ -1103,13 +1102,13 @@ export const PatchAccessPoliciesResponse = Operation;
 
 export type PatchAccessPoliciesError = CommonErrors;
 
+/** Updates an access policy. The long-running operation from this RPC has a successful status after the changes to the access policy propagate to long-lasting storage. */
 export const patchAccessPolicies: API.OperationMethod<PatchAccessPoliciesRequest, PatchAccessPoliciesResponse, PatchAccessPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAccessPoliciesRequest,
   output: PatchAccessPoliciesResponse,
   errors: [],
 }));
 
-/** Deletes an access policy based on the resource name. The long-running operation has a successful status after the access policy is removed from long-lasting storage. */
 export interface DeleteAccessPoliciesRequest {
   /** Required. Resource name for the access policy to delete. Format `accessPolicies/{policy_id}` */
   name: string;
@@ -1127,13 +1126,13 @@ export const DeleteAccessPoliciesResponse = Operation;
 
 export type DeleteAccessPoliciesError = CommonErrors;
 
+/** Deletes an access policy based on the resource name. The long-running operation has a successful status after the access policy is removed from long-lasting storage. */
 export const deleteAccessPolicies: API.OperationMethod<DeleteAccessPoliciesRequest, DeleteAccessPoliciesResponse, DeleteAccessPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccessPoliciesRequest,
   output: DeleteAccessPoliciesResponse,
   errors: [],
 }));
 
-/** Sets the IAM policy for the specified Access Context Manager access policy. This method replaces the existing IAM policy on the access policy. The IAM policy controls the set of users who can perform specific operations on the Access Context Manager access policy. */
 export interface SetIamPolicyAccessPoliciesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1154,13 +1153,13 @@ export const SetIamPolicyAccessPoliciesResponse = Policy;
 
 export type SetIamPolicyAccessPoliciesError = CommonErrors;
 
+/** Sets the IAM policy for the specified Access Context Manager access policy. This method replaces the existing IAM policy on the access policy. The IAM policy controls the set of users who can perform specific operations on the Access Context Manager access policy. */
 export const setIamPolicyAccessPolicies: API.OperationMethod<SetIamPolicyAccessPoliciesRequest, SetIamPolicyAccessPoliciesResponse, SetIamPolicyAccessPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyAccessPoliciesRequest,
   output: SetIamPolicyAccessPoliciesResponse,
   errors: [],
 }));
 
-/** Gets the IAM policy for the specified Access Context Manager access policy. */
 export interface GetIamPolicyAccessPoliciesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1181,13 +1180,13 @@ export const GetIamPolicyAccessPoliciesResponse = Policy;
 
 export type GetIamPolicyAccessPoliciesError = CommonErrors;
 
+/** Gets the IAM policy for the specified Access Context Manager access policy. */
 export const getIamPolicyAccessPolicies: API.OperationMethod<GetIamPolicyAccessPoliciesRequest, GetIamPolicyAccessPoliciesResponse, GetIamPolicyAccessPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyAccessPoliciesRequest,
   output: GetIamPolicyAccessPoliciesResponse,
   errors: [],
 }));
 
-/** Returns the IAM permissions that the caller has on the specified Access Context Manager resource. The resource can be an AccessPolicy, AccessLevel, or ServicePerimeter. This method does not support other resources. */
 export interface TestIamPermissionsAccessPoliciesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1208,13 +1207,13 @@ export const TestIamPermissionsAccessPoliciesResponse = TestIamPermissionsRespon
 
 export type TestIamPermissionsAccessPoliciesError = CommonErrors;
 
+/** Returns the IAM permissions that the caller has on the specified Access Context Manager resource. The resource can be an AccessPolicy, AccessLevel, or ServicePerimeter. This method does not support other resources. */
 export const testIamPermissionsAccessPolicies: API.OperationMethod<TestIamPermissionsAccessPoliciesRequest, TestIamPermissionsAccessPoliciesResponse, TestIamPermissionsAccessPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsAccessPoliciesRequest,
   output: TestIamPermissionsAccessPoliciesResponse,
   errors: [],
 }));
 
-/** Lists all access levels for an access policy. */
 export interface ListAccessPoliciesAccessLevelsRequest {
   /** Required. Resource name for the access policy to list Access Levels from. Format: `accessPolicies/{policy_id}` */
   parent: string;
@@ -1241,7 +1240,8 @@ export const ListAccessPoliciesAccessLevelsResponse = ListAccessLevelsResponse;
 
 export type ListAccessPoliciesAccessLevelsError = CommonErrors;
 
-export const listAccessPoliciesAccessLevels = API.makePaginated(() => ({
+/** Lists all access levels for an access policy. */
+export const listAccessPoliciesAccessLevels: API.PaginatedOperationMethod<ListAccessPoliciesAccessLevelsRequest, ListAccessPoliciesAccessLevelsResponse, ListAccessPoliciesAccessLevelsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccessPoliciesAccessLevelsRequest,
   output: ListAccessPoliciesAccessLevelsResponse,
   errors: [],
@@ -1251,7 +1251,6 @@ export const listAccessPoliciesAccessLevels = API.makePaginated(() => ({
   },
 }));
 
-/** Gets an access level based on the resource name. */
 export interface GetAccessPoliciesAccessLevelsRequest {
   /** Required. Resource name for the Access Level. Format: `accessPolicies/{policy_id}/accessLevels/{access_level_id}` */
   name: string;
@@ -1272,13 +1271,13 @@ export const GetAccessPoliciesAccessLevelsResponse = AccessLevel;
 
 export type GetAccessPoliciesAccessLevelsError = CommonErrors;
 
+/** Gets an access level based on the resource name. */
 export const getAccessPoliciesAccessLevels: API.OperationMethod<GetAccessPoliciesAccessLevelsRequest, GetAccessPoliciesAccessLevelsResponse, GetAccessPoliciesAccessLevelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccessPoliciesAccessLevelsRequest,
   output: GetAccessPoliciesAccessLevelsResponse,
   errors: [],
 }));
 
-/** Creates an access level. The long-running operation from this RPC has a successful status after the access level propagates to long-lasting storage. If access levels contain errors, an error response is returned for the first error encountered. */
 export interface CreateAccessPoliciesAccessLevelsRequest {
   /** Required. Resource name for the access policy which owns this Access Level. Format: `accessPolicies/{policy_id}` */
   parent: string;
@@ -1299,13 +1298,13 @@ export const CreateAccessPoliciesAccessLevelsResponse = Operation;
 
 export type CreateAccessPoliciesAccessLevelsError = CommonErrors;
 
+/** Creates an access level. The long-running operation from this RPC has a successful status after the access level propagates to long-lasting storage. If access levels contain errors, an error response is returned for the first error encountered. */
 export const createAccessPoliciesAccessLevels: API.OperationMethod<CreateAccessPoliciesAccessLevelsRequest, CreateAccessPoliciesAccessLevelsResponse, CreateAccessPoliciesAccessLevelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccessPoliciesAccessLevelsRequest,
   output: CreateAccessPoliciesAccessLevelsResponse,
   errors: [],
 }));
 
-/** Updates an access level. The long-running operation from this RPC has a successful status after the changes to the access level propagate to long-lasting storage. If access levels contain errors, an error response is returned for the first error encountered. */
 export interface PatchAccessPoliciesAccessLevelsRequest {
   /** Identifier. Resource name for the `AccessLevel`. Format: `accessPolicies/{access_policy}/accessLevels/{access_level}`. The `access_level` component must begin with a letter, followed by alphanumeric characters or `_`. Its maximum length is 50 characters. After you create an `AccessLevel`, you cannot change its `name`. */
   name: string;
@@ -1329,13 +1328,13 @@ export const PatchAccessPoliciesAccessLevelsResponse = Operation;
 
 export type PatchAccessPoliciesAccessLevelsError = CommonErrors;
 
+/** Updates an access level. The long-running operation from this RPC has a successful status after the changes to the access level propagate to long-lasting storage. If access levels contain errors, an error response is returned for the first error encountered. */
 export const patchAccessPoliciesAccessLevels: API.OperationMethod<PatchAccessPoliciesAccessLevelsRequest, PatchAccessPoliciesAccessLevelsResponse, PatchAccessPoliciesAccessLevelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAccessPoliciesAccessLevelsRequest,
   output: PatchAccessPoliciesAccessLevelsResponse,
   errors: [],
 }));
 
-/** Deletes an access level based on the resource name. The long-running operation from this RPC has a successful status after the access level has been removed from long-lasting storage. */
 export interface DeleteAccessPoliciesAccessLevelsRequest {
   /** Required. Resource name for the Access Level. Format: `accessPolicies/{policy_id}/accessLevels/{access_level_id}` */
   name: string;
@@ -1353,13 +1352,13 @@ export const DeleteAccessPoliciesAccessLevelsResponse = Operation;
 
 export type DeleteAccessPoliciesAccessLevelsError = CommonErrors;
 
+/** Deletes an access level based on the resource name. The long-running operation from this RPC has a successful status after the access level has been removed from long-lasting storage. */
 export const deleteAccessPoliciesAccessLevels: API.OperationMethod<DeleteAccessPoliciesAccessLevelsRequest, DeleteAccessPoliciesAccessLevelsResponse, DeleteAccessPoliciesAccessLevelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccessPoliciesAccessLevelsRequest,
   output: DeleteAccessPoliciesAccessLevelsResponse,
   errors: [],
 }));
 
-/** Replaces all existing access levels in an access policy with the access levels provided. This is done atomically. The long-running operation from this RPC has a successful status after all replacements propagate to long-lasting storage. If the replacement contains errors, an error response is returned for the first error encountered. Upon error, the replacement is cancelled, and existing access levels are not affected. The Operation.response field contains ReplaceAccessLevelsResponse. Removing access levels contained in existing service perimeters result in an error. */
 export interface ReplaceAllAccessPoliciesAccessLevelsRequest {
   /** Required. Resource name for the access policy which owns these Access Levels. Format: `accessPolicies/{policy_id}` */
   parent: string;
@@ -1380,13 +1379,13 @@ export const ReplaceAllAccessPoliciesAccessLevelsResponse = Operation;
 
 export type ReplaceAllAccessPoliciesAccessLevelsError = CommonErrors;
 
+/** Replaces all existing access levels in an access policy with the access levels provided. This is done atomically. The long-running operation from this RPC has a successful status after all replacements propagate to long-lasting storage. If the replacement contains errors, an error response is returned for the first error encountered. Upon error, the replacement is cancelled, and existing access levels are not affected. The Operation.response field contains ReplaceAccessLevelsResponse. Removing access levels contained in existing service perimeters result in an error. */
 export const replaceAllAccessPoliciesAccessLevels: API.OperationMethod<ReplaceAllAccessPoliciesAccessLevelsRequest, ReplaceAllAccessPoliciesAccessLevelsResponse, ReplaceAllAccessPoliciesAccessLevelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReplaceAllAccessPoliciesAccessLevelsRequest,
   output: ReplaceAllAccessPoliciesAccessLevelsResponse,
   errors: [],
 }));
 
-/** Returns the IAM permissions that the caller has on the specified Access Context Manager resource. The resource can be an AccessPolicy, AccessLevel, or ServicePerimeter. This method does not support other resources. */
 export interface TestIamPermissionsAccessPoliciesAccessLevelsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1407,13 +1406,13 @@ export const TestIamPermissionsAccessPoliciesAccessLevelsResponse = TestIamPermi
 
 export type TestIamPermissionsAccessPoliciesAccessLevelsError = CommonErrors;
 
+/** Returns the IAM permissions that the caller has on the specified Access Context Manager resource. The resource can be an AccessPolicy, AccessLevel, or ServicePerimeter. This method does not support other resources. */
 export const testIamPermissionsAccessPoliciesAccessLevels: API.OperationMethod<TestIamPermissionsAccessPoliciesAccessLevelsRequest, TestIamPermissionsAccessPoliciesAccessLevelsResponse, TestIamPermissionsAccessPoliciesAccessLevelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsAccessPoliciesAccessLevelsRequest,
   output: TestIamPermissionsAccessPoliciesAccessLevelsResponse,
   errors: [],
 }));
 
-/** Lists all service perimeters for an access policy. */
 export interface ListAccessPoliciesServicePerimetersRequest {
   /** Required. Resource name for the access policy to list Service Perimeters from. Format: `accessPolicies/{policy_id}` */
   parent: string;
@@ -1437,7 +1436,8 @@ export const ListAccessPoliciesServicePerimetersResponse = ListServicePerimeters
 
 export type ListAccessPoliciesServicePerimetersError = CommonErrors;
 
-export const listAccessPoliciesServicePerimeters = API.makePaginated(() => ({
+/** Lists all service perimeters for an access policy. */
+export const listAccessPoliciesServicePerimeters: API.PaginatedOperationMethod<ListAccessPoliciesServicePerimetersRequest, ListAccessPoliciesServicePerimetersResponse, ListAccessPoliciesServicePerimetersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccessPoliciesServicePerimetersRequest,
   output: ListAccessPoliciesServicePerimetersResponse,
   errors: [],
@@ -1447,7 +1447,6 @@ export const listAccessPoliciesServicePerimeters = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a service perimeter based on the resource name. */
 export interface GetAccessPoliciesServicePerimetersRequest {
   /** Required. Resource name for the Service Perimeter. Format: `accessPolicies/{policy_id}/servicePerimeters/{service_perimeters_id}` */
   name: string;
@@ -1465,13 +1464,13 @@ export const GetAccessPoliciesServicePerimetersResponse = ServicePerimeter;
 
 export type GetAccessPoliciesServicePerimetersError = CommonErrors;
 
+/** Gets a service perimeter based on the resource name. */
 export const getAccessPoliciesServicePerimeters: API.OperationMethod<GetAccessPoliciesServicePerimetersRequest, GetAccessPoliciesServicePerimetersResponse, GetAccessPoliciesServicePerimetersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccessPoliciesServicePerimetersRequest,
   output: GetAccessPoliciesServicePerimetersResponse,
   errors: [],
 }));
 
-/** Creates a service perimeter. The long-running operation from this RPC has a successful status after the service perimeter propagates to long-lasting storage. If a service perimeter contains errors, an error response is returned for the first error encountered. */
 export interface CreateAccessPoliciesServicePerimetersRequest {
   /** Required. Resource name for the access policy which owns this Service Perimeter. Format: `accessPolicies/{policy_id}` */
   parent: string;
@@ -1492,13 +1491,13 @@ export const CreateAccessPoliciesServicePerimetersResponse = Operation;
 
 export type CreateAccessPoliciesServicePerimetersError = CommonErrors;
 
+/** Creates a service perimeter. The long-running operation from this RPC has a successful status after the service perimeter propagates to long-lasting storage. If a service perimeter contains errors, an error response is returned for the first error encountered. */
 export const createAccessPoliciesServicePerimeters: API.OperationMethod<CreateAccessPoliciesServicePerimetersRequest, CreateAccessPoliciesServicePerimetersResponse, CreateAccessPoliciesServicePerimetersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccessPoliciesServicePerimetersRequest,
   output: CreateAccessPoliciesServicePerimetersResponse,
   errors: [],
 }));
 
-/** Updates a service perimeter. The long-running operation from this RPC has a successful status after the service perimeter propagates to long-lasting storage. If a service perimeter contains errors, an error response is returned for the first error encountered. */
 export interface PatchAccessPoliciesServicePerimetersRequest {
   /** Identifier. Resource name for the `ServicePerimeter`. Format: `accessPolicies/{access_policy}/servicePerimeters/{service_perimeter}`. The `service_perimeter` component must begin with a letter, followed by alphanumeric characters or `_`. After you create a `ServicePerimeter`, you cannot change its `name`. */
   name: string;
@@ -1522,13 +1521,13 @@ export const PatchAccessPoliciesServicePerimetersResponse = Operation;
 
 export type PatchAccessPoliciesServicePerimetersError = CommonErrors;
 
+/** Updates a service perimeter. The long-running operation from this RPC has a successful status after the service perimeter propagates to long-lasting storage. If a service perimeter contains errors, an error response is returned for the first error encountered. */
 export const patchAccessPoliciesServicePerimeters: API.OperationMethod<PatchAccessPoliciesServicePerimetersRequest, PatchAccessPoliciesServicePerimetersResponse, PatchAccessPoliciesServicePerimetersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAccessPoliciesServicePerimetersRequest,
   output: PatchAccessPoliciesServicePerimetersResponse,
   errors: [],
 }));
 
-/** Deletes a service perimeter based on the resource name. The long-running operation from this RPC has a successful status after the service perimeter is removed from long-lasting storage. */
 export interface DeleteAccessPoliciesServicePerimetersRequest {
   /** Required. Resource name for the Service Perimeter. Format: `accessPolicies/{policy_id}/servicePerimeters/{service_perimeter_id}` */
   name: string;
@@ -1546,13 +1545,13 @@ export const DeleteAccessPoliciesServicePerimetersResponse = Operation;
 
 export type DeleteAccessPoliciesServicePerimetersError = CommonErrors;
 
+/** Deletes a service perimeter based on the resource name. The long-running operation from this RPC has a successful status after the service perimeter is removed from long-lasting storage. */
 export const deleteAccessPoliciesServicePerimeters: API.OperationMethod<DeleteAccessPoliciesServicePerimetersRequest, DeleteAccessPoliciesServicePerimetersResponse, DeleteAccessPoliciesServicePerimetersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccessPoliciesServicePerimetersRequest,
   output: DeleteAccessPoliciesServicePerimetersResponse,
   errors: [],
 }));
 
-/** Replace all existing service perimeters in an access policy with the service perimeters provided. This is done atomically. The long-running operation from this RPC has a successful status after all replacements propagate to long-lasting storage. Replacements containing errors result in an error response for the first error encountered. Upon an error, replacement are cancelled and existing service perimeters are not affected. The Operation.response field contains ReplaceServicePerimetersResponse. */
 export interface ReplaceAllAccessPoliciesServicePerimetersRequest {
   /** Required. Resource name for the access policy which owns these Service Perimeters. Format: `accessPolicies/{policy_id}` */
   parent: string;
@@ -1573,13 +1572,13 @@ export const ReplaceAllAccessPoliciesServicePerimetersResponse = Operation;
 
 export type ReplaceAllAccessPoliciesServicePerimetersError = CommonErrors;
 
+/** Replace all existing service perimeters in an access policy with the service perimeters provided. This is done atomically. The long-running operation from this RPC has a successful status after all replacements propagate to long-lasting storage. Replacements containing errors result in an error response for the first error encountered. Upon an error, replacement are cancelled and existing service perimeters are not affected. The Operation.response field contains ReplaceServicePerimetersResponse. */
 export const replaceAllAccessPoliciesServicePerimeters: API.OperationMethod<ReplaceAllAccessPoliciesServicePerimetersRequest, ReplaceAllAccessPoliciesServicePerimetersResponse, ReplaceAllAccessPoliciesServicePerimetersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReplaceAllAccessPoliciesServicePerimetersRequest,
   output: ReplaceAllAccessPoliciesServicePerimetersResponse,
   errors: [],
 }));
 
-/** Commits the dry-run specification for all the service perimeters in an access policy. A commit operation on a service perimeter involves copying its `spec` field to the `status` field of the service perimeter. Only service perimeters with `use_explicit_dry_run_spec` field set to true are affected by a commit operation. The long-running operation from this RPC has a successful status after the dry-run specifications for all the service perimeters have been committed. If a commit fails, it causes the long-running operation to return an error response and the entire commit operation is cancelled. When successful, the Operation.response field contains CommitServicePerimetersResponse. The `dry_run` and the `spec` fields are cleared after a successful commit operation. */
 export interface CommitAccessPoliciesServicePerimetersRequest {
   /** Required. Resource name for the parent Access Policy which owns all Service Perimeters in scope for the commit operation. Format: `accessPolicies/{policy_id}` */
   parent: string;
@@ -1600,13 +1599,13 @@ export const CommitAccessPoliciesServicePerimetersResponse = Operation;
 
 export type CommitAccessPoliciesServicePerimetersError = CommonErrors;
 
+/** Commits the dry-run specification for all the service perimeters in an access policy. A commit operation on a service perimeter involves copying its `spec` field to the `status` field of the service perimeter. Only service perimeters with `use_explicit_dry_run_spec` field set to true are affected by a commit operation. The long-running operation from this RPC has a successful status after the dry-run specifications for all the service perimeters have been committed. If a commit fails, it causes the long-running operation to return an error response and the entire commit operation is cancelled. When successful, the Operation.response field contains CommitServicePerimetersResponse. The `dry_run` and the `spec` fields are cleared after a successful commit operation. */
 export const commitAccessPoliciesServicePerimeters: API.OperationMethod<CommitAccessPoliciesServicePerimetersRequest, CommitAccessPoliciesServicePerimetersResponse, CommitAccessPoliciesServicePerimetersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CommitAccessPoliciesServicePerimetersRequest,
   output: CommitAccessPoliciesServicePerimetersResponse,
   errors: [],
 }));
 
-/** Returns the IAM permissions that the caller has on the specified Access Context Manager resource. The resource can be an AccessPolicy, AccessLevel, or ServicePerimeter. This method does not support other resources. */
 export interface TestIamPermissionsAccessPoliciesServicePerimetersRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1627,13 +1626,13 @@ export const TestIamPermissionsAccessPoliciesServicePerimetersResponse = TestIam
 
 export type TestIamPermissionsAccessPoliciesServicePerimetersError = CommonErrors;
 
+/** Returns the IAM permissions that the caller has on the specified Access Context Manager resource. The resource can be an AccessPolicy, AccessLevel, or ServicePerimeter. This method does not support other resources. */
 export const testIamPermissionsAccessPoliciesServicePerimeters: API.OperationMethod<TestIamPermissionsAccessPoliciesServicePerimetersRequest, TestIamPermissionsAccessPoliciesServicePerimetersResponse, TestIamPermissionsAccessPoliciesServicePerimetersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsAccessPoliciesServicePerimetersRequest,
   output: TestIamPermissionsAccessPoliciesServicePerimetersResponse,
   errors: [],
 }));
 
-/** Lists all authorized orgs descs for an access policy. */
 export interface ListAccessPoliciesAuthorizedOrgsDescsRequest {
   /** Required. Resource name for the access policy to list Authorized Orgs Desc from. Format: `accessPolicies/{policy_id}` */
   parent: string;
@@ -1657,7 +1656,8 @@ export const ListAccessPoliciesAuthorizedOrgsDescsResponse = ListAuthorizedOrgsD
 
 export type ListAccessPoliciesAuthorizedOrgsDescsError = CommonErrors;
 
-export const listAccessPoliciesAuthorizedOrgsDescs = API.makePaginated(() => ({
+/** Lists all authorized orgs descs for an access policy. */
+export const listAccessPoliciesAuthorizedOrgsDescs: API.PaginatedOperationMethod<ListAccessPoliciesAuthorizedOrgsDescsRequest, ListAccessPoliciesAuthorizedOrgsDescsResponse, ListAccessPoliciesAuthorizedOrgsDescsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccessPoliciesAuthorizedOrgsDescsRequest,
   output: ListAccessPoliciesAuthorizedOrgsDescsResponse,
   errors: [],
@@ -1667,7 +1667,6 @@ export const listAccessPoliciesAuthorizedOrgsDescs = API.makePaginated(() => ({
   },
 }));
 
-/** Gets an authorized orgs desc based on the resource name. */
 export interface GetAccessPoliciesAuthorizedOrgsDescsRequest {
   /** Required. Resource name for the Authorized Orgs Desc. Format: `accessPolicies/{policy_id}/authorizedOrgsDescs/{authorized_orgs_descs_id}` */
   name: string;
@@ -1685,13 +1684,13 @@ export const GetAccessPoliciesAuthorizedOrgsDescsResponse = AuthorizedOrgsDesc;
 
 export type GetAccessPoliciesAuthorizedOrgsDescsError = CommonErrors;
 
+/** Gets an authorized orgs desc based on the resource name. */
 export const getAccessPoliciesAuthorizedOrgsDescs: API.OperationMethod<GetAccessPoliciesAuthorizedOrgsDescsRequest, GetAccessPoliciesAuthorizedOrgsDescsResponse, GetAccessPoliciesAuthorizedOrgsDescsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccessPoliciesAuthorizedOrgsDescsRequest,
   output: GetAccessPoliciesAuthorizedOrgsDescsResponse,
   errors: [],
 }));
 
-/** Creates an authorized orgs desc. The long-running operation from this RPC has a successful status after the authorized orgs desc propagates to long-lasting storage. If a authorized orgs desc contains errors, an error response is returned for the first error encountered. The name of this `AuthorizedOrgsDesc` will be assigned during creation. */
 export interface CreateAccessPoliciesAuthorizedOrgsDescsRequest {
   /** Required. Resource name for the access policy which owns this Authorized Orgs Desc. Format: `accessPolicies/{policy_id}` */
   parent: string;
@@ -1712,13 +1711,13 @@ export const CreateAccessPoliciesAuthorizedOrgsDescsResponse = Operation;
 
 export type CreateAccessPoliciesAuthorizedOrgsDescsError = CommonErrors;
 
+/** Creates an authorized orgs desc. The long-running operation from this RPC has a successful status after the authorized orgs desc propagates to long-lasting storage. If a authorized orgs desc contains errors, an error response is returned for the first error encountered. The name of this `AuthorizedOrgsDesc` will be assigned during creation. */
 export const createAccessPoliciesAuthorizedOrgsDescs: API.OperationMethod<CreateAccessPoliciesAuthorizedOrgsDescsRequest, CreateAccessPoliciesAuthorizedOrgsDescsResponse, CreateAccessPoliciesAuthorizedOrgsDescsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccessPoliciesAuthorizedOrgsDescsRequest,
   output: CreateAccessPoliciesAuthorizedOrgsDescsResponse,
   errors: [],
 }));
 
-/** Updates an authorized orgs desc. The long-running operation from this RPC has a successful status after the authorized orgs desc propagates to long-lasting storage. If a authorized orgs desc contains errors, an error response is returned for the first error encountered. Only the organization list in `AuthorizedOrgsDesc` can be updated. The name, authorization_type, asset_type and authorization_direction cannot be updated. */
 export interface PatchAccessPoliciesAuthorizedOrgsDescsRequest {
   /** Identifier. Resource name for the `AuthorizedOrgsDesc`. Format: `accessPolicies/{access_policy}/authorizedOrgsDescs/{authorized_orgs_desc}`. The `authorized_orgs_desc` component must begin with a letter, followed by alphanumeric characters or `_`. After you create an `AuthorizedOrgsDesc`, you cannot change its `name`. */
   name: string;
@@ -1742,13 +1741,13 @@ export const PatchAccessPoliciesAuthorizedOrgsDescsResponse = Operation;
 
 export type PatchAccessPoliciesAuthorizedOrgsDescsError = CommonErrors;
 
+/** Updates an authorized orgs desc. The long-running operation from this RPC has a successful status after the authorized orgs desc propagates to long-lasting storage. If a authorized orgs desc contains errors, an error response is returned for the first error encountered. Only the organization list in `AuthorizedOrgsDesc` can be updated. The name, authorization_type, asset_type and authorization_direction cannot be updated. */
 export const patchAccessPoliciesAuthorizedOrgsDescs: API.OperationMethod<PatchAccessPoliciesAuthorizedOrgsDescsRequest, PatchAccessPoliciesAuthorizedOrgsDescsResponse, PatchAccessPoliciesAuthorizedOrgsDescsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAccessPoliciesAuthorizedOrgsDescsRequest,
   output: PatchAccessPoliciesAuthorizedOrgsDescsResponse,
   errors: [],
 }));
 
-/** Deletes an authorized orgs desc based on the resource name. The long-running operation from this RPC has a successful status after the authorized orgs desc is removed from long-lasting storage. */
 export interface DeleteAccessPoliciesAuthorizedOrgsDescsRequest {
   /** Required. Resource name for the Authorized Orgs Desc. Format: `accessPolicies/{policy_id}/authorizedOrgsDesc/{authorized_orgs_desc_id}` */
   name: string;
@@ -1766,13 +1765,13 @@ export const DeleteAccessPoliciesAuthorizedOrgsDescsResponse = Operation;
 
 export type DeleteAccessPoliciesAuthorizedOrgsDescsError = CommonErrors;
 
+/** Deletes an authorized orgs desc based on the resource name. The long-running operation from this RPC has a successful status after the authorized orgs desc is removed from long-lasting storage. */
 export const deleteAccessPoliciesAuthorizedOrgsDescs: API.OperationMethod<DeleteAccessPoliciesAuthorizedOrgsDescsRequest, DeleteAccessPoliciesAuthorizedOrgsDescsResponse, DeleteAccessPoliciesAuthorizedOrgsDescsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccessPoliciesAuthorizedOrgsDescsRequest,
   output: DeleteAccessPoliciesAuthorizedOrgsDescsResponse,
   errors: [],
 }));
 
-/** Lists all VPC-SC supported services. */
 export interface ListServicesRequest {
   /** This flag specifies the maximum number of services to return per page. Default is 100. */
   pageSize?: number;
@@ -1793,7 +1792,8 @@ export const ListServicesResponse = ListSupportedServicesResponse;
 
 export type ListServicesError = CommonErrors;
 
-export const listServices = API.makePaginated(() => ({
+/** Lists all VPC-SC supported services. */
+export const listServices: API.PaginatedOperationMethod<ListServicesRequest, ListServicesResponse, ListServicesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListServicesRequest,
   output: ListServicesResponse,
   errors: [],
@@ -1803,7 +1803,6 @@ export const listServices = API.makePaginated(() => ({
   },
 }));
 
-/** Returns a VPC-SC supported service based on the service name. */
 export interface GetServicesRequest {
   /** The name of the service to get information about. The names must be in the same format as used in defining a service perimeter, for example, `storage.googleapis.com`. */
   name: string;
@@ -1821,13 +1820,13 @@ export const GetServicesResponse = SupportedService;
 
 export type GetServicesError = CommonErrors;
 
+/** Returns a VPC-SC supported service based on the service name. */
 export const getServices: API.OperationMethod<GetServicesRequest, GetServicesResponse, GetServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetServicesRequest,
   output: GetServicesResponse,
   errors: [],
 }));
 
-/** Lists all GcpUserAccessBindings for a Google Cloud organization. */
 export interface ListOrganizationsGcpUserAccessBindingsRequest {
   /** Required. Example: "organizations/256" */
   parent: string;
@@ -1851,7 +1850,8 @@ export const ListOrganizationsGcpUserAccessBindingsResponse = ListGcpUserAccessB
 
 export type ListOrganizationsGcpUserAccessBindingsError = CommonErrors;
 
-export const listOrganizationsGcpUserAccessBindings = API.makePaginated(() => ({
+/** Lists all GcpUserAccessBindings for a Google Cloud organization. */
+export const listOrganizationsGcpUserAccessBindings: API.PaginatedOperationMethod<ListOrganizationsGcpUserAccessBindingsRequest, ListOrganizationsGcpUserAccessBindingsResponse, ListOrganizationsGcpUserAccessBindingsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsGcpUserAccessBindingsRequest,
   output: ListOrganizationsGcpUserAccessBindingsResponse,
   errors: [],
@@ -1861,7 +1861,6 @@ export const listOrganizationsGcpUserAccessBindings = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the GcpUserAccessBinding with the given name. */
 export interface GetOrganizationsGcpUserAccessBindingsRequest {
   /** Required. Example: "organizations/256/gcpUserAccessBindings/b3-BhcX_Ud5N" */
   name: string;
@@ -1879,13 +1878,13 @@ export const GetOrganizationsGcpUserAccessBindingsResponse = GcpUserAccessBindin
 
 export type GetOrganizationsGcpUserAccessBindingsError = CommonErrors;
 
+/** Gets the GcpUserAccessBinding with the given name. */
 export const getOrganizationsGcpUserAccessBindings: API.OperationMethod<GetOrganizationsGcpUserAccessBindingsRequest, GetOrganizationsGcpUserAccessBindingsResponse, GetOrganizationsGcpUserAccessBindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsGcpUserAccessBindingsRequest,
   output: GetOrganizationsGcpUserAccessBindingsResponse,
   errors: [],
 }));
 
-/** Creates a GcpUserAccessBinding. If the client specifies a name, the server ignores it. Fails if a resource already exists with the same group_key. Completion of this long-running operation does not necessarily signify that the new binding is deployed onto all affected users, which may take more time. */
 export interface CreateOrganizationsGcpUserAccessBindingsRequest {
   /** Required. Example: "organizations/256" */
   parent: string;
@@ -1906,13 +1905,13 @@ export const CreateOrganizationsGcpUserAccessBindingsResponse = Operation;
 
 export type CreateOrganizationsGcpUserAccessBindingsError = CommonErrors;
 
+/** Creates a GcpUserAccessBinding. If the client specifies a name, the server ignores it. Fails if a resource already exists with the same group_key. Completion of this long-running operation does not necessarily signify that the new binding is deployed onto all affected users, which may take more time. */
 export const createOrganizationsGcpUserAccessBindings: API.OperationMethod<CreateOrganizationsGcpUserAccessBindingsRequest, CreateOrganizationsGcpUserAccessBindingsResponse, CreateOrganizationsGcpUserAccessBindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsGcpUserAccessBindingsRequest,
   output: CreateOrganizationsGcpUserAccessBindingsResponse,
   errors: [],
 }));
 
-/** Updates a GcpUserAccessBinding. Completion of this long-running operation does not necessarily signify that the changed binding is deployed onto all affected users, which may take more time. */
 export interface PatchOrganizationsGcpUserAccessBindingsRequest {
   /** Immutable. Assigned by the server during creation. The last segment has an arbitrary length and has only URI unreserved characters (as defined by [RFC 3986 Section 2.3](https://tools.ietf.org/html/rfc3986#section-2.3)). Should not be specified by the client during creation. Example: "organizations/256/gcpUserAccessBindings/b3-BhcX_Ud5N" */
   name: string;
@@ -1939,13 +1938,13 @@ export const PatchOrganizationsGcpUserAccessBindingsResponse = Operation;
 
 export type PatchOrganizationsGcpUserAccessBindingsError = CommonErrors;
 
+/** Updates a GcpUserAccessBinding. Completion of this long-running operation does not necessarily signify that the changed binding is deployed onto all affected users, which may take more time. */
 export const patchOrganizationsGcpUserAccessBindings: API.OperationMethod<PatchOrganizationsGcpUserAccessBindingsRequest, PatchOrganizationsGcpUserAccessBindingsResponse, PatchOrganizationsGcpUserAccessBindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsGcpUserAccessBindingsRequest,
   output: PatchOrganizationsGcpUserAccessBindingsResponse,
   errors: [],
 }));
 
-/** Deletes a GcpUserAccessBinding. Completion of this long-running operation does not necessarily signify that the binding deletion is deployed onto all affected users, which may take more time. */
 export interface DeleteOrganizationsGcpUserAccessBindingsRequest {
   /** Required. Example: "organizations/256/gcpUserAccessBindings/b3-BhcX_Ud5N" */
   name: string;
@@ -1963,13 +1962,13 @@ export const DeleteOrganizationsGcpUserAccessBindingsResponse = Operation;
 
 export type DeleteOrganizationsGcpUserAccessBindingsError = CommonErrors;
 
+/** Deletes a GcpUserAccessBinding. Completion of this long-running operation does not necessarily signify that the binding deletion is deployed onto all affected users, which may take more time. */
 export const deleteOrganizationsGcpUserAccessBindings: API.OperationMethod<DeleteOrganizationsGcpUserAccessBindingsRequest, DeleteOrganizationsGcpUserAccessBindingsResponse, DeleteOrganizationsGcpUserAccessBindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsGcpUserAccessBindingsRequest,
   output: DeleteOrganizationsGcpUserAccessBindingsResponse,
   errors: [],
 }));
 
-/** Lists all supported permissions in VPCSC Granular Controls. */
 export interface ListPermissionsRequest {
   /** Optional. This flag specifies the maximum number of services to return per page. Default is 100. */
   pageSize?: number;
@@ -1990,7 +1989,8 @@ export const ListPermissionsResponse = ListSupportedPermissionsResponse;
 
 export type ListPermissionsError = CommonErrors;
 
-export const listPermissions = API.makePaginated(() => ({
+/** Lists all supported permissions in VPCSC Granular Controls. */
+export const listPermissions: API.PaginatedOperationMethod<ListPermissionsRequest, ListPermissionsResponse, ListPermissionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPermissionsRequest,
   output: ListPermissionsResponse,
   errors: [],

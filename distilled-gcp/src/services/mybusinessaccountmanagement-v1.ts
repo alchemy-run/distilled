@@ -237,7 +237,6 @@ export const ListAccountsResponse: Schema.Schema<ListAccountsResponse> = Schema.
 // Operations
 // ==========================================================================
 
-/** Moves a location from an account that the user owns to another account that the same user administers. The user must be an owner of the account the location is currently associated with and must also be at least a manager of the destination account. */
 export interface TransferLocationsRequest {
   /** Required. The name of the location to transfer. `locations/{location_id}`. */
   name: string;
@@ -258,13 +257,13 @@ export const TransferLocationsResponse = Empty;
 
 export type TransferLocationsError = CommonErrors;
 
+/** Moves a location from an account that the user owns to another account that the same user administers. The user must be an owner of the account the location is currently associated with and must also be at least a manager of the destination account. */
 export const transferLocations: API.OperationMethod<TransferLocationsRequest, TransferLocationsResponse, TransferLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TransferLocationsRequest,
   output: TransferLocationsResponse,
   errors: [],
 }));
 
-/** Lists all of the admins for the specified location. */
 export interface ListLocationsAdminsRequest {
   /** Required. The name of the location to list admins of. `locations/{location_id}/admins`. */
   parent: string;
@@ -282,13 +281,13 @@ export const ListLocationsAdminsResponse = ListLocationAdminsResponse;
 
 export type ListLocationsAdminsError = CommonErrors;
 
+/** Lists all of the admins for the specified location. */
 export const listLocationsAdmins: API.OperationMethod<ListLocationsAdminsRequest, ListLocationsAdminsResponse, ListLocationsAdminsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListLocationsAdminsRequest,
   output: ListLocationsAdminsResponse,
   errors: [],
 }));
 
-/** Invites the specified user to become an administrator for the specified location. The invitee must accept the invitation in order to be granted access to the location. See AcceptInvitation to programmatically accept an invitation. */
 export interface CreateLocationsAdminsRequest {
   /** Required. The resource name of the location this admin is created for. `locations/{location_id}/admins`. */
   parent: string;
@@ -309,13 +308,13 @@ export const CreateLocationsAdminsResponse = Admin;
 
 export type CreateLocationsAdminsError = CommonErrors;
 
+/** Invites the specified user to become an administrator for the specified location. The invitee must accept the invitation in order to be granted access to the location. See AcceptInvitation to programmatically accept an invitation. */
 export const createLocationsAdmins: API.OperationMethod<CreateLocationsAdminsRequest, CreateLocationsAdminsResponse, CreateLocationsAdminsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateLocationsAdminsRequest,
   output: CreateLocationsAdminsResponse,
   errors: [],
 }));
 
-/** Removes the specified admin as a manager of the specified location. */
 export interface DeleteLocationsAdminsRequest {
   /** Required. The resource name of the admin to remove from the location. */
   name: string;
@@ -333,13 +332,13 @@ export const DeleteLocationsAdminsResponse = Empty;
 
 export type DeleteLocationsAdminsError = CommonErrors;
 
+/** Removes the specified admin as a manager of the specified location. */
 export const deleteLocationsAdmins: API.OperationMethod<DeleteLocationsAdminsRequest, DeleteLocationsAdminsResponse, DeleteLocationsAdminsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteLocationsAdminsRequest,
   output: DeleteLocationsAdminsResponse,
   errors: [],
 }));
 
-/** Updates the Admin for the specified location. Only the AdminRole of the Admin can be updated. */
 export interface PatchLocationsAdminsRequest {
   /** Immutable. The resource name. For account admins, this is in the form: `accounts/{account_id}/admins/{admin_id}` For location admins, this is in the form: `locations/{location_id}/admins/{admin_id}` This field will be ignored if set during admin creation. */
   name: string;
@@ -363,13 +362,13 @@ export const PatchLocationsAdminsResponse = Admin;
 
 export type PatchLocationsAdminsError = CommonErrors;
 
+/** Updates the Admin for the specified location. Only the AdminRole of the Admin can be updated. */
 export const patchLocationsAdmins: API.OperationMethod<PatchLocationsAdminsRequest, PatchLocationsAdminsResponse, PatchLocationsAdminsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchLocationsAdminsRequest,
   output: PatchLocationsAdminsResponse,
   errors: [],
 }));
 
-/** Lists all of the accounts for the authenticated user. This includes all accounts that the user owns, as well as any accounts for which the user has management rights. */
 export interface ListAccountsRequest {
   /** Optional. The resource name of the account for which the list of directly accessible accounts is to be retrieved. This only makes sense for Organizations and User Groups. If empty, will return `ListAccounts` for the authenticated user. `accounts/{account_id}`. */
   parentAccount?: string;
@@ -396,7 +395,8 @@ export const ListAccountsResponse_Op = ListAccountsResponse;
 
 export type ListAccountsError = CommonErrors;
 
-export const listAccounts = API.makePaginated(() => ({
+/** Lists all of the accounts for the authenticated user. This includes all accounts that the user owns, as well as any accounts for which the user has management rights. */
+export const listAccounts: API.PaginatedOperationMethod<ListAccountsRequest, ListAccountsResponse_Op, ListAccountsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsRequest,
   output: ListAccountsResponse_Op,
   errors: [],
@@ -406,7 +406,6 @@ export const listAccounts = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the specified account. Returns `NOT_FOUND` if the account does not exist or if the caller does not have access rights to it. */
 export interface GetAccountsRequest {
   /** Required. The name of the account to fetch. */
   name: string;
@@ -424,13 +423,13 @@ export const GetAccountsResponse = Account;
 
 export type GetAccountsError = CommonErrors;
 
+/** Gets the specified account. Returns `NOT_FOUND` if the account does not exist or if the caller does not have access rights to it. */
 export const getAccounts: API.OperationMethod<GetAccountsRequest, GetAccountsResponse, GetAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsRequest,
   output: GetAccountsResponse,
   errors: [],
 }));
 
-/** Creates an account with the specified name and type under the given parent. - Personal accounts and Organizations cannot be created. - User Groups cannot be created with a Personal account as primary owner. - Location Groups cannot be created with a primary owner of a Personal account if the Personal account is in an Organization. - Location Groups cannot own Location Groups. */
 export interface CreateAccountsRequest {
   /** Request body */
   body?: Account;
@@ -448,13 +447,13 @@ export const CreateAccountsResponse = Account;
 
 export type CreateAccountsError = CommonErrors;
 
+/** Creates an account with the specified name and type under the given parent. - Personal accounts and Organizations cannot be created. - User Groups cannot be created with a Personal account as primary owner. - Location Groups cannot be created with a primary owner of a Personal account if the Personal account is in an Organization. - Location Groups cannot own Location Groups. */
 export const createAccounts: API.OperationMethod<CreateAccountsRequest, CreateAccountsResponse, CreateAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsRequest,
   output: CreateAccountsResponse,
   errors: [],
 }));
 
-/** Updates the specified business account. Personal accounts cannot be updated using this method. */
 export interface PatchAccountsRequest {
   /** Immutable. The resource name, in the format `accounts/{account_id}`. */
   name: string;
@@ -481,13 +480,13 @@ export const PatchAccountsResponse = Account;
 
 export type PatchAccountsError = CommonErrors;
 
+/** Updates the specified business account. Personal accounts cannot be updated using this method. */
 export const patchAccounts: API.OperationMethod<PatchAccountsRequest, PatchAccountsResponse, PatchAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAccountsRequest,
   output: PatchAccountsResponse,
   errors: [],
 }));
 
-/** Accepts the specified invitation. */
 export interface AcceptAccountsInvitationsRequest {
   /** Required. The name of the invitation that is being accepted. `accounts/{account_id}/invitations/{invitation_id}` */
   name: string;
@@ -508,13 +507,13 @@ export const AcceptAccountsInvitationsResponse = Empty;
 
 export type AcceptAccountsInvitationsError = CommonErrors;
 
+/** Accepts the specified invitation. */
 export const acceptAccountsInvitations: API.OperationMethod<AcceptAccountsInvitationsRequest, AcceptAccountsInvitationsResponse, AcceptAccountsInvitationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AcceptAccountsInvitationsRequest,
   output: AcceptAccountsInvitationsResponse,
   errors: [],
 }));
 
-/** Declines the specified invitation. */
 export interface DeclineAccountsInvitationsRequest {
   /** Required. The name of the account invitation that is being declined. `accounts/{account_id}/invitations/{invitation_id}` */
   name: string;
@@ -535,13 +534,13 @@ export const DeclineAccountsInvitationsResponse = Empty;
 
 export type DeclineAccountsInvitationsError = CommonErrors;
 
+/** Declines the specified invitation. */
 export const declineAccountsInvitations: API.OperationMethod<DeclineAccountsInvitationsRequest, DeclineAccountsInvitationsResponse, DeclineAccountsInvitationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeclineAccountsInvitationsRequest,
   output: DeclineAccountsInvitationsResponse,
   errors: [],
 }));
 
-/** Lists pending invitations for the specified account. */
 export interface ListAccountsInvitationsRequest {
   /** Required. The name of the account from which the list of invitations is being retrieved. `accounts/{account_id}/invitations` */
   parent: string;
@@ -562,13 +561,13 @@ export const ListAccountsInvitationsResponse = ListInvitationsResponse;
 
 export type ListAccountsInvitationsError = CommonErrors;
 
+/** Lists pending invitations for the specified account. */
 export const listAccountsInvitations: API.OperationMethod<ListAccountsInvitationsRequest, ListAccountsInvitationsResponse, ListAccountsInvitationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListAccountsInvitationsRequest,
   output: ListAccountsInvitationsResponse,
   errors: [],
 }));
 
-/** Lists the admins for the specified account. */
 export interface ListAccountsAdminsRequest {
   /** Required. The name of the account from which to retrieve a list of admins. `accounts/{account_id}/admins`. */
   parent: string;
@@ -586,13 +585,13 @@ export const ListAccountsAdminsResponse = ListAccountAdminsResponse;
 
 export type ListAccountsAdminsError = CommonErrors;
 
+/** Lists the admins for the specified account. */
 export const listAccountsAdmins: API.OperationMethod<ListAccountsAdminsRequest, ListAccountsAdminsResponse, ListAccountsAdminsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListAccountsAdminsRequest,
   output: ListAccountsAdminsResponse,
   errors: [],
 }));
 
-/** Invites the specified user to become an administrator for the specified account. The invitee must accept the invitation in order to be granted access to the account. See AcceptInvitation to programmatically accept an invitation. */
 export interface CreateAccountsAdminsRequest {
   /** Required. The resource name of the account this admin is created for. `accounts/{account_id}`. */
   parent: string;
@@ -613,13 +612,13 @@ export const CreateAccountsAdminsResponse = Admin;
 
 export type CreateAccountsAdminsError = CommonErrors;
 
+/** Invites the specified user to become an administrator for the specified account. The invitee must accept the invitation in order to be granted access to the account. See AcceptInvitation to programmatically accept an invitation. */
 export const createAccountsAdmins: API.OperationMethod<CreateAccountsAdminsRequest, CreateAccountsAdminsResponse, CreateAccountsAdminsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsAdminsRequest,
   output: CreateAccountsAdminsResponse,
   errors: [],
 }));
 
-/** Removes the specified admin from the specified account. */
 export interface DeleteAccountsAdminsRequest {
   /** Required. The resource name of the admin to remove from the account. `accounts/{account_id}/admins/{admin_id}`. */
   name: string;
@@ -637,13 +636,13 @@ export const DeleteAccountsAdminsResponse = Empty;
 
 export type DeleteAccountsAdminsError = CommonErrors;
 
+/** Removes the specified admin from the specified account. */
 export const deleteAccountsAdmins: API.OperationMethod<DeleteAccountsAdminsRequest, DeleteAccountsAdminsResponse, DeleteAccountsAdminsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountsAdminsRequest,
   output: DeleteAccountsAdminsResponse,
   errors: [],
 }));
 
-/** Updates the Admin for the specified Account Admin. */
 export interface PatchAccountsAdminsRequest {
   /** Immutable. The resource name. For account admins, this is in the form: `accounts/{account_id}/admins/{admin_id}` For location admins, this is in the form: `locations/{location_id}/admins/{admin_id}` This field will be ignored if set during admin creation. */
   name: string;
@@ -667,6 +666,7 @@ export const PatchAccountsAdminsResponse = Admin;
 
 export type PatchAccountsAdminsError = CommonErrors;
 
+/** Updates the Admin for the specified Account Admin. */
 export const patchAccountsAdmins: API.OperationMethod<PatchAccountsAdminsRequest, PatchAccountsAdminsResponse, PatchAccountsAdminsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAccountsAdminsRequest,
   output: PatchAccountsAdminsResponse,

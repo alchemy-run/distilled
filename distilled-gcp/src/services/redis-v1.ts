@@ -1897,7 +1897,6 @@ export const GoogleCloudRedisV1LocationMetadata: Schema.Schema<GoogleCloudRedisV
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -1927,7 +1926,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -1937,7 +1937,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -1955,13 +1954,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Gets the details of regional certificate authority information for Redis cluster. */
 export interface GetSharedRegionalCertificateAuthorityProjectsLocationsRequest {
   /** Required. Regional certificate authority resource name using the form: `projects/{project_id}/locations/{location_id}/sharedRegionalCertificateAuthority` where `location_id` refers to a Google Cloud region. */
   name: string;
@@ -1979,13 +1978,13 @@ export const GetSharedRegionalCertificateAuthorityProjectsLocationsResponse = Sh
 
 export type GetSharedRegionalCertificateAuthorityProjectsLocationsError = CommonErrors;
 
+/** Gets the details of regional certificate authority information for Redis cluster. */
 export const getSharedRegionalCertificateAuthorityProjectsLocations: API.OperationMethod<GetSharedRegionalCertificateAuthorityProjectsLocationsRequest, GetSharedRegionalCertificateAuthorityProjectsLocationsResponse, GetSharedRegionalCertificateAuthorityProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSharedRegionalCertificateAuthorityProjectsLocationsRequest,
   output: GetSharedRegionalCertificateAuthorityProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -2015,7 +2014,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -2025,7 +2025,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -2043,13 +2042,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -2067,13 +2066,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -2091,13 +2090,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Lists all Redis clusters owned by a project in either the specified location (region) or all locations. The location should have the following format: * `projects/{project_id}/locations/{location_id}` If `location_id` is specified as `-` (wildcard), then all regions available to the project are queried, and the results are aggregated. */
 export interface ListProjectsLocationsClustersRequest {
   /** Required. The resource name of the cluster location using the form: `projects/{project_id}/locations/{location_id}` where `location_id` refers to a Google Cloud region. */
   parent: string;
@@ -2121,7 +2120,8 @@ export const ListProjectsLocationsClustersResponse = ListClustersResponse;
 
 export type ListProjectsLocationsClustersError = CommonErrors;
 
-export const listProjectsLocationsClusters = API.makePaginated(() => ({
+/** Lists all Redis clusters owned by a project in either the specified location (region) or all locations. The location should have the following format: * `projects/{project_id}/locations/{location_id}` If `location_id` is specified as `-` (wildcard), then all regions available to the project are queried, and the results are aggregated. */
+export const listProjectsLocationsClusters: API.PaginatedOperationMethod<ListProjectsLocationsClustersRequest, ListProjectsLocationsClustersResponse, ListProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsClustersRequest,
   output: ListProjectsLocationsClustersResponse,
   errors: [],
@@ -2131,7 +2131,6 @@ export const listProjectsLocationsClusters = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the details of a specific Redis cluster. */
 export interface GetProjectsLocationsClustersRequest {
   /** Required. Redis cluster resource name using the form: `projects/{project_id}/locations/{location_id}/clusters/{cluster_id}` where `location_id` refers to a Google Cloud region. */
   name: string;
@@ -2149,13 +2148,13 @@ export const GetProjectsLocationsClustersResponse = Cluster;
 
 export type GetProjectsLocationsClustersError = CommonErrors;
 
+/** Gets the details of a specific Redis cluster. */
 export const getProjectsLocationsClusters: API.OperationMethod<GetProjectsLocationsClustersRequest, GetProjectsLocationsClustersResponse, GetProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsClustersRequest,
   output: GetProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Updates the metadata and configuration of a specific Redis cluster. Completed longrunning.Operation will contain the new cluster object in the response field. The returned operation is automatically deleted after a few hours, so there is no need to call DeleteOperation. */
 export interface PatchProjectsLocationsClustersRequest {
   /** Required. Identifier. Unique name of the resource in this scope including project and location using the form: `projects/{project_id}/locations/{location_id}/clusters/{cluster_id}` */
   name: string;
@@ -2182,13 +2181,13 @@ export const PatchProjectsLocationsClustersResponse = Operation;
 
 export type PatchProjectsLocationsClustersError = CommonErrors;
 
+/** Updates the metadata and configuration of a specific Redis cluster. Completed longrunning.Operation will contain the new cluster object in the response field. The returned operation is automatically deleted after a few hours, so there is no need to call DeleteOperation. */
 export const patchProjectsLocationsClusters: API.OperationMethod<PatchProjectsLocationsClustersRequest, PatchProjectsLocationsClustersResponse, PatchProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsClustersRequest,
   output: PatchProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Deletes a specific Redis cluster. Cluster stops serving and data is deleted. */
 export interface DeleteProjectsLocationsClustersRequest {
   /** Required. Redis cluster resource name using the form: `projects/{project_id}/locations/{location_id}/clusters/{cluster_id}` where `location_id` refers to a Google Cloud region. */
   name: string;
@@ -2209,13 +2208,13 @@ export const DeleteProjectsLocationsClustersResponse = Operation;
 
 export type DeleteProjectsLocationsClustersError = CommonErrors;
 
+/** Deletes a specific Redis cluster. Cluster stops serving and data is deleted. */
 export const deleteProjectsLocationsClusters: API.OperationMethod<DeleteProjectsLocationsClustersRequest, DeleteProjectsLocationsClustersResponse, DeleteProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsClustersRequest,
   output: DeleteProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Creates a Redis cluster based on the specified properties. The creation is executed asynchronously and callers may check the returned operation to track its progress. Once the operation is completed the Redis cluster will be fully functional. The completed longrunning.Operation will contain the new cluster object in the response field. The returned operation is automatically deleted after a few hours, so there is no need to call DeleteOperation. */
 export interface CreateProjectsLocationsClustersRequest {
   /** Required. The resource name of the cluster location using the form: `projects/{project_id}/locations/{location_id}` where `location_id` refers to a Google Cloud region. */
   parent: string;
@@ -2242,13 +2241,13 @@ export const CreateProjectsLocationsClustersResponse = Operation;
 
 export type CreateProjectsLocationsClustersError = CommonErrors;
 
+/** Creates a Redis cluster based on the specified properties. The creation is executed asynchronously and callers may check the returned operation to track its progress. Once the operation is completed the Redis cluster will be fully functional. The completed longrunning.Operation will contain the new cluster object in the response field. The returned operation is automatically deleted after a few hours, so there is no need to call DeleteOperation. */
 export const createProjectsLocationsClusters: API.OperationMethod<CreateProjectsLocationsClustersRequest, CreateProjectsLocationsClustersResponse, CreateProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsClustersRequest,
   output: CreateProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Gets the details of certificate authority information for Redis cluster. */
 export interface GetCertificateAuthorityProjectsLocationsClustersRequest {
   /** Required. Redis cluster certificate authority resource name using the form: `projects/{project_id}/locations/{location_id}/clusters/{cluster_id}/certificateAuthority` where `location_id` refers to a Google Cloud region. */
   name: string;
@@ -2266,13 +2265,13 @@ export const GetCertificateAuthorityProjectsLocationsClustersResponse = Certific
 
 export type GetCertificateAuthorityProjectsLocationsClustersError = CommonErrors;
 
+/** Gets the details of certificate authority information for Redis cluster. */
 export const getCertificateAuthorityProjectsLocationsClusters: API.OperationMethod<GetCertificateAuthorityProjectsLocationsClustersRequest, GetCertificateAuthorityProjectsLocationsClustersResponse, GetCertificateAuthorityProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCertificateAuthorityProjectsLocationsClustersRequest,
   output: GetCertificateAuthorityProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Reschedules upcoming maintenance event. */
 export interface RescheduleClusterMaintenanceProjectsLocationsClustersRequest {
   /** Required. Redis Cluster instance resource name using the form: `projects/{project_id}/locations/{location_id}/clusters/{cluster_id}` where `location_id` refers to a Google Cloud region. */
   name: string;
@@ -2293,13 +2292,13 @@ export const RescheduleClusterMaintenanceProjectsLocationsClustersResponse = Ope
 
 export type RescheduleClusterMaintenanceProjectsLocationsClustersError = CommonErrors;
 
+/** Reschedules upcoming maintenance event. */
 export const rescheduleClusterMaintenanceProjectsLocationsClusters: API.OperationMethod<RescheduleClusterMaintenanceProjectsLocationsClustersRequest, RescheduleClusterMaintenanceProjectsLocationsClustersResponse, RescheduleClusterMaintenanceProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RescheduleClusterMaintenanceProjectsLocationsClustersRequest,
   output: RescheduleClusterMaintenanceProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Backup Redis Cluster. If this is the first time a backup is being created, a backup collection will be created at the backend, and this backup belongs to this collection. Both collection and backup will have a resource name. Backup will be executed for each shard. A replica (primary if nonHA) will be selected to perform the execution. Backup call will be rejected if there is an ongoing backup or update operation. Be aware that during preview, if the cluster's internal software version is too old, critical update will be performed before actual backup. Once the internal software version is updated to the minimum version required by the backup feature, subsequent backups will not require critical update. After preview, there will be no critical update needed for backup. */
 export interface BackupProjectsLocationsClustersRequest {
   /** Required. Redis cluster resource name using the form: `projects/{project_id}/locations/{location_id}/clusters/{cluster_id}` where `location_id` refers to a Google Cloud region. */
   name: string;
@@ -2320,13 +2319,13 @@ export const BackupProjectsLocationsClustersResponse = Operation;
 
 export type BackupProjectsLocationsClustersError = CommonErrors;
 
+/** Backup Redis Cluster. If this is the first time a backup is being created, a backup collection will be created at the backend, and this backup belongs to this collection. Both collection and backup will have a resource name. Backup will be executed for each shard. A replica (primary if nonHA) will be selected to perform the execution. Backup call will be rejected if there is an ongoing backup or update operation. Be aware that during preview, if the cluster's internal software version is too old, critical update will be performed before actual backup. Once the internal software version is updated to the minimum version required by the backup feature, subsequent backups will not require critical update. After preview, there will be no critical update needed for backup. */
 export const backupProjectsLocationsClusters: API.OperationMethod<BackupProjectsLocationsClustersRequest, BackupProjectsLocationsClustersResponse, BackupProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BackupProjectsLocationsClustersRequest,
   output: BackupProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Lists all backup collections owned by a consumer project in either the specified location (region) or all locations. If `location_id` is specified as `-` (wildcard), then all regions available to the project are queried, and the results are aggregated. */
 export interface ListProjectsLocationsBackupCollectionsRequest {
   /** Required. The resource name of the backupCollection location using the form: `projects/{project_id}/locations/{location_id}` where `location_id` refers to a Google Cloud region. */
   parent: string;
@@ -2350,7 +2349,8 @@ export const ListProjectsLocationsBackupCollectionsResponse = ListBackupCollecti
 
 export type ListProjectsLocationsBackupCollectionsError = CommonErrors;
 
-export const listProjectsLocationsBackupCollections = API.makePaginated(() => ({
+/** Lists all backup collections owned by a consumer project in either the specified location (region) or all locations. If `location_id` is specified as `-` (wildcard), then all regions available to the project are queried, and the results are aggregated. */
+export const listProjectsLocationsBackupCollections: API.PaginatedOperationMethod<ListProjectsLocationsBackupCollectionsRequest, ListProjectsLocationsBackupCollectionsResponse, ListProjectsLocationsBackupCollectionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBackupCollectionsRequest,
   output: ListProjectsLocationsBackupCollectionsResponse,
   errors: [],
@@ -2360,7 +2360,6 @@ export const listProjectsLocationsBackupCollections = API.makePaginated(() => ({
   },
 }));
 
-/** Get a backup collection. */
 export interface GetProjectsLocationsBackupCollectionsRequest {
   /** Required. Redis backupCollection resource name using the form: `projects/{project_id}/locations/{location_id}/backupCollections/{backup_collection_id}` where `location_id` refers to a Google Cloud region. */
   name: string;
@@ -2378,13 +2377,13 @@ export const GetProjectsLocationsBackupCollectionsResponse = BackupCollection;
 
 export type GetProjectsLocationsBackupCollectionsError = CommonErrors;
 
+/** Get a backup collection. */
 export const getProjectsLocationsBackupCollections: API.OperationMethod<GetProjectsLocationsBackupCollectionsRequest, GetProjectsLocationsBackupCollectionsResponse, GetProjectsLocationsBackupCollectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBackupCollectionsRequest,
   output: GetProjectsLocationsBackupCollectionsResponse,
   errors: [],
 }));
 
-/** Lists all backups owned by a backup collection. */
 export interface ListProjectsLocationsBackupCollectionsBackupsRequest {
   /** Required. The resource name of the backupCollection using the form: `projects/{project_id}/locations/{location_id}/backupCollections/{backup_collection_id}` */
   parent: string;
@@ -2408,7 +2407,8 @@ export const ListProjectsLocationsBackupCollectionsBackupsResponse = ListBackups
 
 export type ListProjectsLocationsBackupCollectionsBackupsError = CommonErrors;
 
-export const listProjectsLocationsBackupCollectionsBackups = API.makePaginated(() => ({
+/** Lists all backups owned by a backup collection. */
+export const listProjectsLocationsBackupCollectionsBackups: API.PaginatedOperationMethod<ListProjectsLocationsBackupCollectionsBackupsRequest, ListProjectsLocationsBackupCollectionsBackupsResponse, ListProjectsLocationsBackupCollectionsBackupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBackupCollectionsBackupsRequest,
   output: ListProjectsLocationsBackupCollectionsBackupsResponse,
   errors: [],
@@ -2418,7 +2418,6 @@ export const listProjectsLocationsBackupCollectionsBackups = API.makePaginated((
   },
 }));
 
-/** Gets the details of a specific backup. */
 export interface GetProjectsLocationsBackupCollectionsBackupsRequest {
   /** Required. Redis backup resource name using the form: `projects/{project_id}/locations/{location_id}/backupCollections/{backup_collection_id}/backups/{backup_id}` */
   name: string;
@@ -2436,13 +2435,13 @@ export const GetProjectsLocationsBackupCollectionsBackupsResponse = Backup;
 
 export type GetProjectsLocationsBackupCollectionsBackupsError = CommonErrors;
 
+/** Gets the details of a specific backup. */
 export const getProjectsLocationsBackupCollectionsBackups: API.OperationMethod<GetProjectsLocationsBackupCollectionsBackupsRequest, GetProjectsLocationsBackupCollectionsBackupsResponse, GetProjectsLocationsBackupCollectionsBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBackupCollectionsBackupsRequest,
   output: GetProjectsLocationsBackupCollectionsBackupsResponse,
   errors: [],
 }));
 
-/** Deletes a specific backup. */
 export interface DeleteProjectsLocationsBackupCollectionsBackupsRequest {
   /** Required. Redis backup resource name using the form: `projects/{project_id}/locations/{location_id}/backupCollections/{backup_collection_id}/backups/{backup_id}` */
   name: string;
@@ -2463,13 +2462,13 @@ export const DeleteProjectsLocationsBackupCollectionsBackupsResponse = Operation
 
 export type DeleteProjectsLocationsBackupCollectionsBackupsError = CommonErrors;
 
+/** Deletes a specific backup. */
 export const deleteProjectsLocationsBackupCollectionsBackups: API.OperationMethod<DeleteProjectsLocationsBackupCollectionsBackupsRequest, DeleteProjectsLocationsBackupCollectionsBackupsResponse, DeleteProjectsLocationsBackupCollectionsBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsBackupCollectionsBackupsRequest,
   output: DeleteProjectsLocationsBackupCollectionsBackupsResponse,
   errors: [],
 }));
 
-/** Exports a specific backup to a customer target Cloud Storage URI. */
 export interface ExportProjectsLocationsBackupCollectionsBackupsRequest {
   /** Required. Redis backup resource name using the form: `projects/{project_id}/locations/{location_id}/backupCollections/{backup_collection_id}/backups/{backup_id}` */
   name: string;
@@ -2490,13 +2489,13 @@ export const ExportProjectsLocationsBackupCollectionsBackupsResponse = Operation
 
 export type ExportProjectsLocationsBackupCollectionsBackupsError = CommonErrors;
 
+/** Exports a specific backup to a customer target Cloud Storage URI. */
 export const exportProjectsLocationsBackupCollectionsBackups: API.OperationMethod<ExportProjectsLocationsBackupCollectionsBackupsRequest, ExportProjectsLocationsBackupCollectionsBackupsResponse, ExportProjectsLocationsBackupCollectionsBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExportProjectsLocationsBackupCollectionsBackupsRequest,
   output: ExportProjectsLocationsBackupCollectionsBackupsResponse,
   errors: [],
 }));
 
-/** Lists all Redis instances owned by a project in either the specified location (region) or all locations. The location should have the following format: * `projects/{project_id}/locations/{location_id}` If `location_id` is specified as `-` (wildcard), then all regions available to the project are queried, and the results are aggregated. */
 export interface ListProjectsLocationsInstancesRequest {
   /** Required. The resource name of the instance location using the form: `projects/{project_id}/locations/{location_id}` where `location_id` refers to a GCP region. */
   parent: string;
@@ -2520,7 +2519,8 @@ export const ListProjectsLocationsInstancesResponse = ListInstancesResponse;
 
 export type ListProjectsLocationsInstancesError = CommonErrors;
 
-export const listProjectsLocationsInstances = API.makePaginated(() => ({
+/** Lists all Redis instances owned by a project in either the specified location (region) or all locations. The location should have the following format: * `projects/{project_id}/locations/{location_id}` If `location_id` is specified as `-` (wildcard), then all regions available to the project are queried, and the results are aggregated. */
+export const listProjectsLocationsInstances: API.PaginatedOperationMethod<ListProjectsLocationsInstancesRequest, ListProjectsLocationsInstancesResponse, ListProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsInstancesRequest,
   output: ListProjectsLocationsInstancesResponse,
   errors: [],
@@ -2530,7 +2530,6 @@ export const listProjectsLocationsInstances = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the details of a specific Redis instance. */
 export interface GetProjectsLocationsInstancesRequest {
   /** Required. Redis instance resource name using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` where `location_id` refers to a GCP region. */
   name: string;
@@ -2548,13 +2547,13 @@ export const GetProjectsLocationsInstancesResponse = Instance;
 
 export type GetProjectsLocationsInstancesError = CommonErrors;
 
+/** Gets the details of a specific Redis instance. */
 export const getProjectsLocationsInstances: API.OperationMethod<GetProjectsLocationsInstancesRequest, GetProjectsLocationsInstancesResponse, GetProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsInstancesRequest,
   output: GetProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Gets the AUTH string for a Redis instance. If AUTH is not enabled for the instance the response will be empty. This information is not included in the details returned to GetInstance. */
 export interface GetAuthStringProjectsLocationsInstancesRequest {
   /** Required. Redis instance resource name using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` where `location_id` refers to a GCP region. */
   name: string;
@@ -2572,13 +2571,13 @@ export const GetAuthStringProjectsLocationsInstancesResponse = InstanceAuthStrin
 
 export type GetAuthStringProjectsLocationsInstancesError = CommonErrors;
 
+/** Gets the AUTH string for a Redis instance. If AUTH is not enabled for the instance the response will be empty. This information is not included in the details returned to GetInstance. */
 export const getAuthStringProjectsLocationsInstances: API.OperationMethod<GetAuthStringProjectsLocationsInstancesRequest, GetAuthStringProjectsLocationsInstancesResponse, GetAuthStringProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAuthStringProjectsLocationsInstancesRequest,
   output: GetAuthStringProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Creates a Redis instance based on the specified tier and memory size. By default, the instance is accessible from the project's [default network](https://cloud.google.com/vpc/docs/vpc). The creation is executed asynchronously and callers may check the returned operation to track its progress. Once the operation is completed the Redis instance will be fully functional. Completed longrunning.Operation will contain the new instance object in the response field. The returned operation is automatically deleted after a few hours, so there is no need to call DeleteOperation. */
 export interface CreateProjectsLocationsInstancesRequest {
   /** Required. The resource name of the instance location using the form: `projects/{project_id}/locations/{location_id}` where `location_id` refers to a GCP region. */
   parent: string;
@@ -2602,13 +2601,13 @@ export const CreateProjectsLocationsInstancesResponse = Operation;
 
 export type CreateProjectsLocationsInstancesError = CommonErrors;
 
+/** Creates a Redis instance based on the specified tier and memory size. By default, the instance is accessible from the project's [default network](https://cloud.google.com/vpc/docs/vpc). The creation is executed asynchronously and callers may check the returned operation to track its progress. Once the operation is completed the Redis instance will be fully functional. Completed longrunning.Operation will contain the new instance object in the response field. The returned operation is automatically deleted after a few hours, so there is no need to call DeleteOperation. */
 export const createProjectsLocationsInstances: API.OperationMethod<CreateProjectsLocationsInstancesRequest, CreateProjectsLocationsInstancesResponse, CreateProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsInstancesRequest,
   output: CreateProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Updates the metadata and configuration of a specific Redis instance. Completed longrunning.Operation will contain the new instance object in the response field. The returned operation is automatically deleted after a few hours, so there is no need to call DeleteOperation. */
 export interface PatchProjectsLocationsInstancesRequest {
   /** Required. Unique name of the resource in this scope including project and location using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` Note: Redis instances are managed and addressed at regional level so location_id here refers to a GCP region; however, users may choose which specific zone (or collection of zones for cross-zone instances) an instance should be provisioned in. Refer to location_id and alternative_location_id fields for more details. */
   name: string;
@@ -2632,13 +2631,13 @@ export const PatchProjectsLocationsInstancesResponse = Operation;
 
 export type PatchProjectsLocationsInstancesError = CommonErrors;
 
+/** Updates the metadata and configuration of a specific Redis instance. Completed longrunning.Operation will contain the new instance object in the response field. The returned operation is automatically deleted after a few hours, so there is no need to call DeleteOperation. */
 export const patchProjectsLocationsInstances: API.OperationMethod<PatchProjectsLocationsInstancesRequest, PatchProjectsLocationsInstancesResponse, PatchProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsInstancesRequest,
   output: PatchProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Upgrades Redis instance to the newer Redis version specified in the request. */
 export interface UpgradeProjectsLocationsInstancesRequest {
   /** Required. Redis instance resource name using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` where `location_id` refers to a GCP region. */
   name: string;
@@ -2659,13 +2658,13 @@ export const UpgradeProjectsLocationsInstancesResponse = Operation;
 
 export type UpgradeProjectsLocationsInstancesError = CommonErrors;
 
+/** Upgrades Redis instance to the newer Redis version specified in the request. */
 export const upgradeProjectsLocationsInstances: API.OperationMethod<UpgradeProjectsLocationsInstancesRequest, UpgradeProjectsLocationsInstancesResponse, UpgradeProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpgradeProjectsLocationsInstancesRequest,
   output: UpgradeProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Import a Redis RDB snapshot file from Cloud Storage into a Redis instance. Redis may stop serving during this operation. Instance state will be IMPORTING for entire operation. When complete, the instance will contain only data from the imported file. The returned operation is automatically deleted after a few hours, so there is no need to call DeleteOperation. */
 export interface ImportProjectsLocationsInstancesRequest {
   /** Required. Redis instance resource name using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` where `location_id` refers to a GCP region. */
   name: string;
@@ -2686,13 +2685,13 @@ export const ImportProjectsLocationsInstancesResponse = Operation;
 
 export type ImportProjectsLocationsInstancesError = CommonErrors;
 
+/** Import a Redis RDB snapshot file from Cloud Storage into a Redis instance. Redis may stop serving during this operation. Instance state will be IMPORTING for entire operation. When complete, the instance will contain only data from the imported file. The returned operation is automatically deleted after a few hours, so there is no need to call DeleteOperation. */
 export const importProjectsLocationsInstances: API.OperationMethod<ImportProjectsLocationsInstancesRequest, ImportProjectsLocationsInstancesResponse, ImportProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportProjectsLocationsInstancesRequest,
   output: ImportProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Export Redis instance data into a Redis RDB format file in Cloud Storage. Redis will continue serving during this operation. The returned operation is automatically deleted after a few hours, so there is no need to call DeleteOperation. */
 export interface ExportProjectsLocationsInstancesRequest {
   /** Required. Redis instance resource name using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` where `location_id` refers to a GCP region. */
   name: string;
@@ -2713,13 +2712,13 @@ export const ExportProjectsLocationsInstancesResponse = Operation;
 
 export type ExportProjectsLocationsInstancesError = CommonErrors;
 
+/** Export Redis instance data into a Redis RDB format file in Cloud Storage. Redis will continue serving during this operation. The returned operation is automatically deleted after a few hours, so there is no need to call DeleteOperation. */
 export const exportProjectsLocationsInstances: API.OperationMethod<ExportProjectsLocationsInstancesRequest, ExportProjectsLocationsInstancesResponse, ExportProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExportProjectsLocationsInstancesRequest,
   output: ExportProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Initiates a failover of the primary node to current replica node for a specific STANDARD tier Cloud Memorystore for Redis instance. */
 export interface FailoverProjectsLocationsInstancesRequest {
   /** Required. Redis instance resource name using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` where `location_id` refers to a GCP region. */
   name: string;
@@ -2740,13 +2739,13 @@ export const FailoverProjectsLocationsInstancesResponse = Operation;
 
 export type FailoverProjectsLocationsInstancesError = CommonErrors;
 
+/** Initiates a failover of the primary node to current replica node for a specific STANDARD tier Cloud Memorystore for Redis instance. */
 export const failoverProjectsLocationsInstances: API.OperationMethod<FailoverProjectsLocationsInstancesRequest, FailoverProjectsLocationsInstancesResponse, FailoverProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FailoverProjectsLocationsInstancesRequest,
   output: FailoverProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Deletes a specific Redis instance. Instance stops serving and data is deleted. */
 export interface DeleteProjectsLocationsInstancesRequest {
   /** Required. Redis instance resource name using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` where `location_id` refers to a GCP region. */
   name: string;
@@ -2764,13 +2763,13 @@ export const DeleteProjectsLocationsInstancesResponse = Operation;
 
 export type DeleteProjectsLocationsInstancesError = CommonErrors;
 
+/** Deletes a specific Redis instance. Instance stops serving and data is deleted. */
 export const deleteProjectsLocationsInstances: API.OperationMethod<DeleteProjectsLocationsInstancesRequest, DeleteProjectsLocationsInstancesResponse, DeleteProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsInstancesRequest,
   output: DeleteProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Reschedule maintenance for a given instance in a given project and location. */
 export interface RescheduleMaintenanceProjectsLocationsInstancesRequest {
   /** Required. Redis instance resource name using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` where `location_id` refers to a GCP region. */
   name: string;
@@ -2791,6 +2790,7 @@ export const RescheduleMaintenanceProjectsLocationsInstancesResponse = Operation
 
 export type RescheduleMaintenanceProjectsLocationsInstancesError = CommonErrors;
 
+/** Reschedule maintenance for a given instance in a given project and location. */
 export const rescheduleMaintenanceProjectsLocationsInstances: API.OperationMethod<RescheduleMaintenanceProjectsLocationsInstancesRequest, RescheduleMaintenanceProjectsLocationsInstancesResponse, RescheduleMaintenanceProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RescheduleMaintenanceProjectsLocationsInstancesRequest,
   output: RescheduleMaintenanceProjectsLocationsInstancesResponse,

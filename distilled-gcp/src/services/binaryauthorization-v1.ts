@@ -720,7 +720,6 @@ export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsRespons
 // Operations
 // ==========================================================================
 
-/** A policy specifies the attestors that must attest to a container image, before the project is allowed to deploy that image. There is at most one policy per project. All image admission requests are permitted if a project has no policy. Gets the policy for this project. Returns a default policy if the project does not have one. */
 export interface GetPolicyProjectsRequest {
   /** Required. The resource name of the policy to retrieve, in the format `projects/* /policy`. */
   name: string;
@@ -738,13 +737,13 @@ export const GetPolicyProjectsResponse = Policy;
 
 export type GetPolicyProjectsError = CommonErrors;
 
+/** A policy specifies the attestors that must attest to a container image, before the project is allowed to deploy that image. There is at most one policy per project. All image admission requests are permitted if a project has no policy. Gets the policy for this project. Returns a default policy if the project does not have one. */
 export const getPolicyProjects: API.OperationMethod<GetPolicyProjectsRequest, GetPolicyProjectsResponse, GetPolicyProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPolicyProjectsRequest,
   output: GetPolicyProjectsResponse,
   errors: [],
 }));
 
-/** Creates or updates a project's policy, and returns a copy of the new policy. A policy is always updated as a whole, to avoid race conditions with concurrent policy enforcement (or management!) requests. Returns `NOT_FOUND` if the project does not exist, `INVALID_ARGUMENT` if the request is malformed. */
 export interface UpdatePolicyProjectsRequest {
   /** Output only. The resource name, in the format `projects/* /policy`. There is at most one policy per project. */
   name: string;
@@ -765,13 +764,13 @@ export const UpdatePolicyProjectsResponse = Policy;
 
 export type UpdatePolicyProjectsError = CommonErrors;
 
+/** Creates or updates a project's policy, and returns a copy of the new policy. A policy is always updated as a whole, to avoid race conditions with concurrent policy enforcement (or management!) requests. Returns `NOT_FOUND` if the project does not exist, `INVALID_ARGUMENT` if the request is malformed. */
 export const updatePolicyProjects: API.OperationMethod<UpdatePolicyProjectsRequest, UpdatePolicyProjectsResponse, UpdatePolicyProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdatePolicyProjectsRequest,
   output: UpdatePolicyProjectsResponse,
   errors: [],
 }));
 
-/** Evaluates a Kubernetes object versus a GKE platform policy. Returns `NOT_FOUND` if the policy doesn't exist, `INVALID_ARGUMENT` if the policy or request is malformed and `PERMISSION_DENIED` if the client does not have sufficient permissions. */
 export interface EvaluateProjectsPlatformsGkePoliciesRequest {
   /** Required. The name of the platform policy to evaluate in the format `projects/* /platforms/* /policies/*`. */
   name: string;
@@ -792,13 +791,13 @@ export const EvaluateProjectsPlatformsGkePoliciesResponse = EvaluateGkePolicyRes
 
 export type EvaluateProjectsPlatformsGkePoliciesError = CommonErrors;
 
+/** Evaluates a Kubernetes object versus a GKE platform policy. Returns `NOT_FOUND` if the policy doesn't exist, `INVALID_ARGUMENT` if the policy or request is malformed and `PERMISSION_DENIED` if the client does not have sufficient permissions. */
 export const evaluateProjectsPlatformsGkePolicies: API.OperationMethod<EvaluateProjectsPlatformsGkePoliciesRequest, EvaluateProjectsPlatformsGkePoliciesResponse, EvaluateProjectsPlatformsGkePoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EvaluateProjectsPlatformsGkePoliciesRequest,
   output: EvaluateProjectsPlatformsGkePoliciesResponse,
   errors: [],
 }));
 
-/** Creates a platform policy, and returns a copy of it. Returns `NOT_FOUND` if the project or platform doesn't exist, `INVALID_ARGUMENT` if the request is malformed, `ALREADY_EXISTS` if the policy already exists, and `INVALID_ARGUMENT` if the policy contains a platform-specific policy that does not match the platform value specified in the URL. */
 export interface CreateProjectsPlatformsPoliciesRequest {
   /** Required. The parent of this platform policy. */
   parent: string;
@@ -822,13 +821,13 @@ export const CreateProjectsPlatformsPoliciesResponse = PlatformPolicy;
 
 export type CreateProjectsPlatformsPoliciesError = CommonErrors;
 
+/** Creates a platform policy, and returns a copy of it. Returns `NOT_FOUND` if the project or platform doesn't exist, `INVALID_ARGUMENT` if the request is malformed, `ALREADY_EXISTS` if the policy already exists, and `INVALID_ARGUMENT` if the policy contains a platform-specific policy that does not match the platform value specified in the URL. */
 export const createProjectsPlatformsPolicies: API.OperationMethod<CreateProjectsPlatformsPoliciesRequest, CreateProjectsPlatformsPoliciesResponse, CreateProjectsPlatformsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsPlatformsPoliciesRequest,
   output: CreateProjectsPlatformsPoliciesResponse,
   errors: [],
 }));
 
-/** Gets a platform policy. Returns `NOT_FOUND` if the policy doesn't exist. */
 export interface GetProjectsPlatformsPoliciesRequest {
   /** Required. The name of the platform policy to retrieve in the format `projects/* /platforms/* /policies/*`. */
   name: string;
@@ -846,13 +845,13 @@ export const GetProjectsPlatformsPoliciesResponse = PlatformPolicy;
 
 export type GetProjectsPlatformsPoliciesError = CommonErrors;
 
+/** Gets a platform policy. Returns `NOT_FOUND` if the policy doesn't exist. */
 export const getProjectsPlatformsPolicies: API.OperationMethod<GetProjectsPlatformsPoliciesRequest, GetProjectsPlatformsPoliciesResponse, GetProjectsPlatformsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsPlatformsPoliciesRequest,
   output: GetProjectsPlatformsPoliciesResponse,
   errors: [],
 }));
 
-/** Replaces a platform policy. Returns `NOT_FOUND` if the policy doesn't exist. */
 export interface ReplacePlatformPolicyProjectsPlatformsPoliciesRequest {
   /** Output only. The relative resource name of the Binary Authorization platform policy, in the form of `projects/* /platforms/* /policies/*`. */
   name: string;
@@ -873,13 +872,13 @@ export const ReplacePlatformPolicyProjectsPlatformsPoliciesResponse = PlatformPo
 
 export type ReplacePlatformPolicyProjectsPlatformsPoliciesError = CommonErrors;
 
+/** Replaces a platform policy. Returns `NOT_FOUND` if the policy doesn't exist. */
 export const replacePlatformPolicyProjectsPlatformsPolicies: API.OperationMethod<ReplacePlatformPolicyProjectsPlatformsPoliciesRequest, ReplacePlatformPolicyProjectsPlatformsPoliciesResponse, ReplacePlatformPolicyProjectsPlatformsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReplacePlatformPolicyProjectsPlatformsPoliciesRequest,
   output: ReplacePlatformPolicyProjectsPlatformsPoliciesResponse,
   errors: [],
 }));
 
-/** Lists platform policies owned by a project in the specified platform. Returns `INVALID_ARGUMENT` if the project or the platform doesn't exist. */
 export interface ListProjectsPlatformsPoliciesRequest {
   /** Required. The resource name of the platform associated with the platform policies using the format `projects/* /platforms/*`. */
   parent: string;
@@ -903,7 +902,8 @@ export const ListProjectsPlatformsPoliciesResponse = ListPlatformPoliciesRespons
 
 export type ListProjectsPlatformsPoliciesError = CommonErrors;
 
-export const listProjectsPlatformsPolicies = API.makePaginated(() => ({
+/** Lists platform policies owned by a project in the specified platform. Returns `INVALID_ARGUMENT` if the project or the platform doesn't exist. */
+export const listProjectsPlatformsPolicies: API.PaginatedOperationMethod<ListProjectsPlatformsPoliciesRequest, ListProjectsPlatformsPoliciesResponse, ListProjectsPlatformsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsPlatformsPoliciesRequest,
   output: ListProjectsPlatformsPoliciesResponse,
   errors: [],
@@ -913,7 +913,6 @@ export const listProjectsPlatformsPolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a platform policy. Returns `NOT_FOUND` if the policy doesn't exist. */
 export interface DeleteProjectsPlatformsPoliciesRequest {
   /** Required. The name of the platform policy to delete, in the format `projects/* /platforms/* /policies/*`. */
   name: string;
@@ -934,13 +933,13 @@ export const DeleteProjectsPlatformsPoliciesResponse = Empty;
 
 export type DeleteProjectsPlatformsPoliciesError = CommonErrors;
 
+/** Deletes a platform policy. Returns `NOT_FOUND` if the policy doesn't exist. */
 export const deleteProjectsPlatformsPolicies: API.OperationMethod<DeleteProjectsPlatformsPoliciesRequest, DeleteProjectsPlatformsPoliciesResponse, DeleteProjectsPlatformsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsPlatformsPoliciesRequest,
   output: DeleteProjectsPlatformsPoliciesResponse,
   errors: [],
 }));
 
-/** Creates an attestor, and returns a copy of the new attestor. Returns `NOT_FOUND` if the project does not exist, `INVALID_ARGUMENT` if the request is malformed, `ALREADY_EXISTS` if the attestor already exists. */
 export interface CreateProjectsAttestorsRequest {
   /** Required. The parent of this attestor. */
   parent: string;
@@ -964,13 +963,13 @@ export const CreateProjectsAttestorsResponse = Attestor;
 
 export type CreateProjectsAttestorsError = CommonErrors;
 
+/** Creates an attestor, and returns a copy of the new attestor. Returns `NOT_FOUND` if the project does not exist, `INVALID_ARGUMENT` if the request is malformed, `ALREADY_EXISTS` if the attestor already exists. */
 export const createProjectsAttestors: API.OperationMethod<CreateProjectsAttestorsRequest, CreateProjectsAttestorsResponse, CreateProjectsAttestorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsAttestorsRequest,
   output: CreateProjectsAttestorsResponse,
   errors: [],
 }));
 
-/** Gets an attestor. Returns `NOT_FOUND` if the attestor does not exist. */
 export interface GetProjectsAttestorsRequest {
   /** Required. The name of the attestor to retrieve, in the format `projects/* /attestors/*`. */
   name: string;
@@ -988,13 +987,13 @@ export const GetProjectsAttestorsResponse = Attestor;
 
 export type GetProjectsAttestorsError = CommonErrors;
 
+/** Gets an attestor. Returns `NOT_FOUND` if the attestor does not exist. */
 export const getProjectsAttestors: API.OperationMethod<GetProjectsAttestorsRequest, GetProjectsAttestorsResponse, GetProjectsAttestorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsAttestorsRequest,
   output: GetProjectsAttestorsResponse,
   errors: [],
 }));
 
-/** Updates an attestor. Returns `NOT_FOUND` if the attestor does not exist. */
 export interface UpdateProjectsAttestorsRequest {
   /** Required. The resource name, in the format: `projects/* /attestors/*`. This field may not be updated. */
   name: string;
@@ -1015,13 +1014,13 @@ export const UpdateProjectsAttestorsResponse = Attestor;
 
 export type UpdateProjectsAttestorsError = CommonErrors;
 
+/** Updates an attestor. Returns `NOT_FOUND` if the attestor does not exist. */
 export const updateProjectsAttestors: API.OperationMethod<UpdateProjectsAttestorsRequest, UpdateProjectsAttestorsResponse, UpdateProjectsAttestorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateProjectsAttestorsRequest,
   output: UpdateProjectsAttestorsResponse,
   errors: [],
 }));
 
-/** Lists attestors. Returns `INVALID_ARGUMENT` if the project does not exist. */
 export interface ListProjectsAttestorsRequest {
   /** Required. The resource name of the project associated with the attestors, in the format `projects/*`. */
   parent: string;
@@ -1045,7 +1044,8 @@ export const ListProjectsAttestorsResponse = ListAttestorsResponse;
 
 export type ListProjectsAttestorsError = CommonErrors;
 
-export const listProjectsAttestors = API.makePaginated(() => ({
+/** Lists attestors. Returns `INVALID_ARGUMENT` if the project does not exist. */
+export const listProjectsAttestors: API.PaginatedOperationMethod<ListProjectsAttestorsRequest, ListProjectsAttestorsResponse, ListProjectsAttestorsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsAttestorsRequest,
   output: ListProjectsAttestorsResponse,
   errors: [],
@@ -1055,7 +1055,6 @@ export const listProjectsAttestors = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes an attestor. Returns `NOT_FOUND` if the attestor does not exist. */
 export interface DeleteProjectsAttestorsRequest {
   /** Required. The name of the attestors to delete, in the format `projects/* /attestors/*`. */
   name: string;
@@ -1073,13 +1072,13 @@ export const DeleteProjectsAttestorsResponse = Empty;
 
 export type DeleteProjectsAttestorsError = CommonErrors;
 
+/** Deletes an attestor. Returns `NOT_FOUND` if the attestor does not exist. */
 export const deleteProjectsAttestors: API.OperationMethod<DeleteProjectsAttestorsRequest, DeleteProjectsAttestorsResponse, DeleteProjectsAttestorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsAttestorsRequest,
   output: DeleteProjectsAttestorsResponse,
   errors: [],
 }));
 
-/** Returns whether the given `Attestation` for the given image URI was signed by the given `Attestor` */
 export interface ValidateAttestationOccurrenceProjectsAttestorsRequest {
   /** Required. The resource name of the Attestor of the occurrence, in the format `projects/* /attestors/*`. */
   attestor: string;
@@ -1100,13 +1099,13 @@ export const ValidateAttestationOccurrenceProjectsAttestorsResponse = ValidateAt
 
 export type ValidateAttestationOccurrenceProjectsAttestorsError = CommonErrors;
 
+/** Returns whether the given `Attestation` for the given image URI was signed by the given `Attestor` */
 export const validateAttestationOccurrenceProjectsAttestors: API.OperationMethod<ValidateAttestationOccurrenceProjectsAttestorsRequest, ValidateAttestationOccurrenceProjectsAttestorsResponse, ValidateAttestationOccurrenceProjectsAttestorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ValidateAttestationOccurrenceProjectsAttestorsRequest,
   output: ValidateAttestationOccurrenceProjectsAttestorsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsAttestorsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1127,13 +1126,13 @@ export const SetIamPolicyProjectsAttestorsResponse = IamPolicy;
 
 export type SetIamPolicyProjectsAttestorsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsAttestors: API.OperationMethod<SetIamPolicyProjectsAttestorsRequest, SetIamPolicyProjectsAttestorsResponse, SetIamPolicyProjectsAttestorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsAttestorsRequest,
   output: SetIamPolicyProjectsAttestorsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsAttestorsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1154,13 +1153,13 @@ export const GetIamPolicyProjectsAttestorsResponse = IamPolicy;
 
 export type GetIamPolicyProjectsAttestorsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsAttestors: API.OperationMethod<GetIamPolicyProjectsAttestorsRequest, GetIamPolicyProjectsAttestorsResponse, GetIamPolicyProjectsAttestorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsAttestorsRequest,
   output: GetIamPolicyProjectsAttestorsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsAttestorsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1181,13 +1180,13 @@ export const TestIamPermissionsProjectsAttestorsResponse = TestIamPermissionsRes
 
 export type TestIamPermissionsProjectsAttestorsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsAttestors: API.OperationMethod<TestIamPermissionsProjectsAttestorsRequest, TestIamPermissionsProjectsAttestorsResponse, TestIamPermissionsProjectsAttestorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsAttestorsRequest,
   output: TestIamPermissionsProjectsAttestorsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1208,13 +1207,13 @@ export const SetIamPolicyProjectsPolicyResponse = IamPolicy;
 
 export type SetIamPolicyProjectsPolicyError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsPolicy: API.OperationMethod<SetIamPolicyProjectsPolicyRequest, SetIamPolicyProjectsPolicyResponse, SetIamPolicyProjectsPolicyError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsPolicyRequest,
   output: SetIamPolicyProjectsPolicyResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1235,13 +1234,13 @@ export const GetIamPolicyProjectsPolicyResponse = IamPolicy;
 
 export type GetIamPolicyProjectsPolicyError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsPolicy: API.OperationMethod<GetIamPolicyProjectsPolicyRequest, GetIamPolicyProjectsPolicyResponse, GetIamPolicyProjectsPolicyError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsPolicyRequest,
   output: GetIamPolicyProjectsPolicyResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsPolicyRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1262,13 +1261,13 @@ export const TestIamPermissionsProjectsPolicyResponse = TestIamPermissionsRespon
 
 export type TestIamPermissionsProjectsPolicyError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsPolicy: API.OperationMethod<TestIamPermissionsProjectsPolicyRequest, TestIamPermissionsProjectsPolicyResponse, TestIamPermissionsProjectsPolicyError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsPolicyRequest,
   output: TestIamPermissionsProjectsPolicyResponse,
   errors: [],
 }));
 
-/** Gets the current system policy in the specified location. */
 export interface GetPolicySystempolicyRequest {
   /** Required. The resource name, in the format `locations/* /policy`. Note that the system policy is not associated with a project. */
   name: string;
@@ -1286,6 +1285,7 @@ export const GetPolicySystempolicyResponse = Policy;
 
 export type GetPolicySystempolicyError = CommonErrors;
 
+/** Gets the current system policy in the specified location. */
 export const getPolicySystempolicy: API.OperationMethod<GetPolicySystempolicyRequest, GetPolicySystempolicyResponse, GetPolicySystempolicyError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPolicySystempolicyRequest,
   output: GetPolicySystempolicyResponse,

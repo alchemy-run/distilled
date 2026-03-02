@@ -1543,7 +1543,6 @@ export const ResourceEvent: Schema.Schema<ResourceEvent> = Schema.suspend(() => 
 // Operations
 // ==========================================================================
 
-/** Gets information about an application. */
 export interface GetAppsRequest {
   /** Part of `name`. Required. Name of the Application resource to get. Example: apps/myapp. */
   appsId: string;
@@ -1564,13 +1563,13 @@ export const GetAppsResponse = Application;
 
 export type GetAppsError = CommonErrors;
 
+/** Gets information about an application. */
 export const getApps: API.OperationMethod<GetAppsRequest, GetAppsResponse, GetAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAppsRequest,
   output: GetAppsResponse,
   errors: [],
 }));
 
-/** Creates an App Engine application for a Google Cloud Platform project. Required fields: id - The ID of the target Cloud Platform project. location - The region (https://cloud.google.com/appengine/docs/locations) where you want the App Engine application located.For more information about App Engine applications, see Managing Projects, Applications, and Billing (https://cloud.google.com/appengine/docs/standard/python/console/). */
 export interface CreateAppsRequest {
   /** Request body */
   body?: Application;
@@ -1588,13 +1587,13 @@ export const CreateAppsResponse = Operation;
 
 export type CreateAppsError = CommonErrors;
 
+/** Creates an App Engine application for a Google Cloud Platform project. Required fields: id - The ID of the target Cloud Platform project. location - The region (https://cloud.google.com/appengine/docs/locations) where you want the App Engine application located.For more information about App Engine applications, see Managing Projects, Applications, and Billing (https://cloud.google.com/appengine/docs/standard/python/console/). */
 export const createApps: API.OperationMethod<CreateAppsRequest, CreateAppsResponse, CreateAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAppsRequest,
   output: CreateAppsResponse,
   errors: [],
 }));
 
-/** Updates the specified Application resource. You can update the following fields: auth_domain - Google authentication domain for controlling user access to the application. default_cookie_expiration - Cookie expiration policy for the application. iap - Identity-Aware Proxy properties for the application. */
 export interface PatchAppsRequest {
   /** Part of `name`. Required. Name of the Application resource to update. Example: apps/myapp. */
   appsId: string;
@@ -1618,13 +1617,13 @@ export const PatchAppsResponse = Operation;
 
 export type PatchAppsError = CommonErrors;
 
+/** Updates the specified Application resource. You can update the following fields: auth_domain - Google authentication domain for controlling user access to the application. default_cookie_expiration - Cookie expiration policy for the application. iap - Identity-Aware Proxy properties for the application. */
 export const patchApps: API.OperationMethod<PatchAppsRequest, PatchAppsResponse, PatchAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAppsRequest,
   output: PatchAppsResponse,
   errors: [],
 }));
 
-/** Recreates the required App Engine features for the specified App Engine application, for example a Cloud Storage bucket or App Engine service account. Use this method if you receive an error message about a missing feature, for example, Error retrieving the App Engine service account. If you have deleted your App Engine service account, this will not be able to recreate it. Instead, you should attempt to use the IAM undelete API if possible at https://cloud.google.com/iam/reference/rest/v1/projects.serviceAccounts/undelete?apix_params=%7B"name"%3A"projects%2F-%2FserviceAccounts%2Funique_id"%2C"resource"%3A%7B%7D%7D . If the deletion was recent, the numeric ID can be found in the Cloud Console Activity Log. */
 export interface RepairAppsRequest {
   /** Part of `name`. Required. Name of the application to repair. Example: apps/myapp */
   appsId: string;
@@ -1645,13 +1644,13 @@ export const RepairAppsResponse = Operation;
 
 export type RepairAppsError = CommonErrors;
 
+/** Recreates the required App Engine features for the specified App Engine application, for example a Cloud Storage bucket or App Engine service account. Use this method if you receive an error message about a missing feature, for example, Error retrieving the App Engine service account. If you have deleted your App Engine service account, this will not be able to recreate it. Instead, you should attempt to use the IAM undelete API if possible at https://cloud.google.com/iam/reference/rest/v1/projects.serviceAccounts/undelete?apix_params=%7B"name"%3A"projects%2F-%2FserviceAccounts%2Funique_id"%2C"resource"%3A%7B%7D%7D . If the deletion was recent, the numeric ID can be found in the Cloud Console Activity Log. */
 export const repairApps: API.OperationMethod<RepairAppsRequest, RepairAppsResponse, RepairAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RepairAppsRequest,
   output: RepairAppsResponse,
   errors: [],
 }));
 
-/** Lists all the available runtimes for the application. */
 export interface ListRuntimesAppsRequest {
   /** Part of `parent`. Required. Name of the parent Application resource. Example: apps/myapp. */
   appsId: string;
@@ -1672,13 +1671,13 @@ export const ListRuntimesAppsResponse = ListRuntimesResponse;
 
 export type ListRuntimesAppsError = CommonErrors;
 
+/** Lists all the available runtimes for the application. */
 export const listRuntimesApps: API.OperationMethod<ListRuntimesAppsRequest, ListRuntimesAppsResponse, ListRuntimesAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListRuntimesAppsRequest,
   output: ListRuntimesAppsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns UNIMPLEMENTED. */
 export interface ListAppsOperationsRequest {
   /** Part of `name`. The name of the operation's parent resource. */
   appsId: string;
@@ -1708,7 +1707,8 @@ export const ListAppsOperationsResponse = ListOperationsResponse;
 
 export type ListAppsOperationsError = CommonErrors;
 
-export const listAppsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns UNIMPLEMENTED. */
+export const listAppsOperations: API.PaginatedOperationMethod<ListAppsOperationsRequest, ListAppsOperationsResponse, ListAppsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAppsOperationsRequest,
   output: ListAppsOperationsResponse,
   errors: [],
@@ -1718,7 +1718,6 @@ export const listAppsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetAppsOperationsRequest {
   /** Part of `name`. The name of the operation resource. */
   appsId: string;
@@ -1739,13 +1738,13 @@ export const GetAppsOperationsResponse = Operation;
 
 export type GetAppsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getAppsOperations: API.OperationMethod<GetAppsOperationsRequest, GetAppsOperationsResponse, GetAppsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAppsOperationsRequest,
   output: GetAppsOperationsResponse,
   errors: [],
 }));
 
-/** Lists all the services in the application. */
 export interface ListAppsServicesRequest {
   /** Part of `parent`. Required. Name of the parent Application resource. Example: apps/myapp. */
   appsId: string;
@@ -1769,7 +1768,8 @@ export const ListAppsServicesResponse = ListServicesResponse;
 
 export type ListAppsServicesError = CommonErrors;
 
-export const listAppsServices = API.makePaginated(() => ({
+/** Lists all the services in the application. */
+export const listAppsServices: API.PaginatedOperationMethod<ListAppsServicesRequest, ListAppsServicesResponse, ListAppsServicesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAppsServicesRequest,
   output: ListAppsServicesResponse,
   errors: [],
@@ -1779,7 +1779,6 @@ export const listAppsServices = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the current configuration of the specified service. */
 export interface GetAppsServicesRequest {
   /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/services/default. */
   appsId: string;
@@ -1800,13 +1799,13 @@ export const GetAppsServicesResponse = Service;
 
 export type GetAppsServicesError = CommonErrors;
 
+/** Gets the current configuration of the specified service. */
 export const getAppsServices: API.OperationMethod<GetAppsServicesRequest, GetAppsServicesResponse, GetAppsServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAppsServicesRequest,
   output: GetAppsServicesResponse,
   errors: [],
 }));
 
-/** Updates the configuration of the specified service. */
 export interface PatchAppsServicesRequest {
   /** Part of `name`. Required. Name of the resource to update. Example: apps/myapp/services/default. */
   appsId: string;
@@ -1836,13 +1835,13 @@ export const PatchAppsServicesResponse = Operation;
 
 export type PatchAppsServicesError = CommonErrors;
 
+/** Updates the configuration of the specified service. */
 export const patchAppsServices: API.OperationMethod<PatchAppsServicesRequest, PatchAppsServicesResponse, PatchAppsServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAppsServicesRequest,
   output: PatchAppsServicesResponse,
   errors: [],
 }));
 
-/** Deletes the specified service and all enclosed versions. */
 export interface DeleteAppsServicesRequest {
   /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/services/default. */
   appsId: string;
@@ -1863,13 +1862,13 @@ export const DeleteAppsServicesResponse = Operation;
 
 export type DeleteAppsServicesError = CommonErrors;
 
+/** Deletes the specified service and all enclosed versions. */
 export const deleteAppsServices: API.OperationMethod<DeleteAppsServicesRequest, DeleteAppsServicesResponse, DeleteAppsServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAppsServicesRequest,
   output: DeleteAppsServicesResponse,
   errors: [],
 }));
 
-/** Lists the versions of a service. */
 export interface ListAppsServicesVersionsRequest {
   /** Part of `parent`. Required. Name of the parent Service resource. Example: apps/myapp/services/default. */
   appsId: string;
@@ -1899,7 +1898,8 @@ export const ListAppsServicesVersionsResponse = ListVersionsResponse;
 
 export type ListAppsServicesVersionsError = CommonErrors;
 
-export const listAppsServicesVersions = API.makePaginated(() => ({
+/** Lists the versions of a service. */
+export const listAppsServicesVersions: API.PaginatedOperationMethod<ListAppsServicesVersionsRequest, ListAppsServicesVersionsResponse, ListAppsServicesVersionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAppsServicesVersionsRequest,
   output: ListAppsServicesVersionsResponse,
   errors: [],
@@ -1909,7 +1909,6 @@ export const listAppsServicesVersions = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the specified Version resource. By default, only a BASIC_VIEW will be returned. Specify the FULL_VIEW parameter to get the full resource. */
 export interface GetAppsServicesVersionsRequest {
   /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/services/default/versions/v1. */
   appsId: string;
@@ -1936,13 +1935,13 @@ export const GetAppsServicesVersionsResponse = Version;
 
 export type GetAppsServicesVersionsError = CommonErrors;
 
+/** Gets the specified Version resource. By default, only a BASIC_VIEW will be returned. Specify the FULL_VIEW parameter to get the full resource. */
 export const getAppsServicesVersions: API.OperationMethod<GetAppsServicesVersionsRequest, GetAppsServicesVersionsResponse, GetAppsServicesVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAppsServicesVersionsRequest,
   output: GetAppsServicesVersionsResponse,
   errors: [],
 }));
 
-/** Deploys code and resource files to a new version. */
 export interface CreateAppsServicesVersionsRequest {
   /** Part of `parent`. Required. Name of the parent resource to create this version under. Example: apps/myapp/services/default. */
   appsId: string;
@@ -1966,13 +1965,13 @@ export const CreateAppsServicesVersionsResponse = Operation;
 
 export type CreateAppsServicesVersionsError = CommonErrors;
 
+/** Deploys code and resource files to a new version. */
 export const createAppsServicesVersions: API.OperationMethod<CreateAppsServicesVersionsRequest, CreateAppsServicesVersionsResponse, CreateAppsServicesVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAppsServicesVersionsRequest,
   output: CreateAppsServicesVersionsResponse,
   errors: [],
 }));
 
-/** Updates the specified Version resource. You can specify the following fields depending on the App Engine environment and type of scaling that the version resource uses:Standard environment instance_class (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.instance_class)automatic scaling in the standard environment: automatic_scaling.min_idle_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling) automatic_scaling.max_idle_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling) automaticScaling.standard_scheduler_settings.max_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#StandardSchedulerSettings) automaticScaling.standard_scheduler_settings.min_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#StandardSchedulerSettings) automaticScaling.standard_scheduler_settings.target_cpu_utilization (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#StandardSchedulerSettings) automaticScaling.standard_scheduler_settings.target_throughput_utilization (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#StandardSchedulerSettings)basic scaling or manual scaling in the standard environment: serving_status (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.serving_status) manual_scaling.instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#manualscaling)Flexible environment serving_status (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.serving_status)automatic scaling in the flexible environment: automatic_scaling.min_total_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling) automatic_scaling.max_total_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling) automatic_scaling.cool_down_period_sec (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling) automatic_scaling.cpu_utilization.target_utilization (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling)manual scaling in the flexible environment: manual_scaling.instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#manualscaling) */
 export interface PatchAppsServicesVersionsRequest {
   /** Part of `name`. Required. Name of the resource to update. Example: apps/myapp/services/default/versions/1. */
   appsId: string;
@@ -2002,13 +2001,13 @@ export const PatchAppsServicesVersionsResponse = Operation;
 
 export type PatchAppsServicesVersionsError = CommonErrors;
 
+/** Updates the specified Version resource. You can specify the following fields depending on the App Engine environment and type of scaling that the version resource uses:Standard environment instance_class (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.instance_class)automatic scaling in the standard environment: automatic_scaling.min_idle_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling) automatic_scaling.max_idle_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling) automaticScaling.standard_scheduler_settings.max_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#StandardSchedulerSettings) automaticScaling.standard_scheduler_settings.min_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#StandardSchedulerSettings) automaticScaling.standard_scheduler_settings.target_cpu_utilization (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#StandardSchedulerSettings) automaticScaling.standard_scheduler_settings.target_throughput_utilization (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#StandardSchedulerSettings)basic scaling or manual scaling in the standard environment: serving_status (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.serving_status) manual_scaling.instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#manualscaling)Flexible environment serving_status (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.serving_status)automatic scaling in the flexible environment: automatic_scaling.min_total_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling) automatic_scaling.max_total_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling) automatic_scaling.cool_down_period_sec (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling) automatic_scaling.cpu_utilization.target_utilization (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling)manual scaling in the flexible environment: manual_scaling.instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#manualscaling) */
 export const patchAppsServicesVersions: API.OperationMethod<PatchAppsServicesVersionsRequest, PatchAppsServicesVersionsResponse, PatchAppsServicesVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAppsServicesVersionsRequest,
   output: PatchAppsServicesVersionsResponse,
   errors: [],
 }));
 
-/** Deletes an existing Version resource. */
 export interface DeleteAppsServicesVersionsRequest {
   /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/services/default/versions/v1. */
   appsId: string;
@@ -2032,13 +2031,13 @@ export const DeleteAppsServicesVersionsResponse = Operation;
 
 export type DeleteAppsServicesVersionsError = CommonErrors;
 
+/** Deletes an existing Version resource. */
 export const deleteAppsServicesVersions: API.OperationMethod<DeleteAppsServicesVersionsRequest, DeleteAppsServicesVersionsResponse, DeleteAppsServicesVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAppsServicesVersionsRequest,
   output: DeleteAppsServicesVersionsResponse,
   errors: [],
 }));
 
-/** Lists the instances of a version.Tip: To aggregate details about instances over time, see the Stackdriver Monitoring API (https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.timeSeries/list). */
 export interface ListAppsServicesVersionsInstancesRequest {
   /** Part of `parent`. Required. Name of the parent Version resource. Example: apps/myapp/services/default/versions/v1. */
   appsId: string;
@@ -2068,7 +2067,8 @@ export const ListAppsServicesVersionsInstancesResponse = ListInstancesResponse;
 
 export type ListAppsServicesVersionsInstancesError = CommonErrors;
 
-export const listAppsServicesVersionsInstances = API.makePaginated(() => ({
+/** Lists the instances of a version.Tip: To aggregate details about instances over time, see the Stackdriver Monitoring API (https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.timeSeries/list). */
+export const listAppsServicesVersionsInstances: API.PaginatedOperationMethod<ListAppsServicesVersionsInstancesRequest, ListAppsServicesVersionsInstancesResponse, ListAppsServicesVersionsInstancesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAppsServicesVersionsInstancesRequest,
   output: ListAppsServicesVersionsInstancesResponse,
   errors: [],
@@ -2078,7 +2078,6 @@ export const listAppsServicesVersionsInstances = API.makePaginated(() => ({
   },
 }));
 
-/** Gets instance information. */
 export interface GetAppsServicesVersionsInstancesRequest {
   /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/services/default/versions/v1/instances/instance-1. */
   appsId: string;
@@ -2105,13 +2104,13 @@ export const GetAppsServicesVersionsInstancesResponse = Instance;
 
 export type GetAppsServicesVersionsInstancesError = CommonErrors;
 
+/** Gets instance information. */
 export const getAppsServicesVersionsInstances: API.OperationMethod<GetAppsServicesVersionsInstancesRequest, GetAppsServicesVersionsInstancesResponse, GetAppsServicesVersionsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAppsServicesVersionsInstancesRequest,
   output: GetAppsServicesVersionsInstancesResponse,
   errors: [],
 }));
 
-/** Stops a running instance.The instance might be automatically recreated based on the scaling settings of the version. For more information, see "How Instances are Managed" (standard environment (https://cloud.google.com/appengine/docs/standard/python/how-instances-are-managed) | flexible environment (https://cloud.google.com/appengine/docs/flexible/python/how-instances-are-managed)).To ensure that instances are not re-created and avoid getting billed, you can stop all instances within the target version by changing the serving status of the version to STOPPED with the apps.services.versions.patch (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions/patch) method. */
 export interface DeleteAppsServicesVersionsInstancesRequest {
   /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/services/default/versions/v1/instances/instance-1. */
   appsId: string;
@@ -2138,13 +2137,13 @@ export const DeleteAppsServicesVersionsInstancesResponse = Operation;
 
 export type DeleteAppsServicesVersionsInstancesError = CommonErrors;
 
+/** Stops a running instance.The instance might be automatically recreated based on the scaling settings of the version. For more information, see "How Instances are Managed" (standard environment (https://cloud.google.com/appengine/docs/standard/python/how-instances-are-managed) | flexible environment (https://cloud.google.com/appengine/docs/flexible/python/how-instances-are-managed)).To ensure that instances are not re-created and avoid getting billed, you can stop all instances within the target version by changing the serving status of the version to STOPPED with the apps.services.versions.patch (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions/patch) method. */
 export const deleteAppsServicesVersionsInstances: API.OperationMethod<DeleteAppsServicesVersionsInstancesRequest, DeleteAppsServicesVersionsInstancesResponse, DeleteAppsServicesVersionsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAppsServicesVersionsInstancesRequest,
   output: DeleteAppsServicesVersionsInstancesResponse,
   errors: [],
 }));
 
-/** Enables debugging on a VM instance. This allows you to use the SSH command to connect to the virtual machine where the instance lives. While in "debug mode", the instance continues to serve live traffic. You should delete the instance when you are done debugging and then allow the system to take over and determine if another instance should be started.Only applicable for instances in App Engine flexible environment. */
 export interface DebugAppsServicesVersionsInstancesRequest {
   /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/services/default/versions/v1/instances/instance-1. */
   appsId: string;
@@ -2174,13 +2173,13 @@ export const DebugAppsServicesVersionsInstancesResponse = Operation;
 
 export type DebugAppsServicesVersionsInstancesError = CommonErrors;
 
+/** Enables debugging on a VM instance. This allows you to use the SSH command to connect to the virtual machine where the instance lives. While in "debug mode", the instance continues to serve live traffic. You should delete the instance when you are done debugging and then allow the system to take over and determine if another instance should be started.Only applicable for instances in App Engine flexible environment. */
 export const debugAppsServicesVersionsInstances: API.OperationMethod<DebugAppsServicesVersionsInstancesRequest, DebugAppsServicesVersionsInstancesResponse, DebugAppsServicesVersionsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DebugAppsServicesVersionsInstancesRequest,
   output: DebugAppsServicesVersionsInstancesResponse,
   errors: [],
 }));
 
-/** Lists the firewall rules of an application. */
 export interface ListAppsFirewallIngressRulesRequest {
   /** Part of `parent`. Name of the Firewall collection to retrieve. Example: apps/myapp/firewall/ingressRules. */
   appsId: string;
@@ -2207,7 +2206,8 @@ export const ListAppsFirewallIngressRulesResponse = ListIngressRulesResponse;
 
 export type ListAppsFirewallIngressRulesError = CommonErrors;
 
-export const listAppsFirewallIngressRules = API.makePaginated(() => ({
+/** Lists the firewall rules of an application. */
+export const listAppsFirewallIngressRules: API.PaginatedOperationMethod<ListAppsFirewallIngressRulesRequest, ListAppsFirewallIngressRulesResponse, ListAppsFirewallIngressRulesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAppsFirewallIngressRulesRequest,
   output: ListAppsFirewallIngressRulesResponse,
   errors: [],
@@ -2217,7 +2217,6 @@ export const listAppsFirewallIngressRules = API.makePaginated(() => ({
   },
 }));
 
-/** Replaces the entire firewall ruleset in one bulk operation. This overrides and replaces the rules of an existing firewall with the new rules.If the final rule does not match traffic with the '*' wildcard IP range, then an "allow all" rule is explicitly added to the end of the list. */
 export interface BatchUpdateAppsFirewallIngressRulesRequest {
   /** Part of `name`. Name of the Firewall collection to set. Example: apps/myapp/firewall/ingressRules. */
   appsId: string;
@@ -2238,13 +2237,13 @@ export const BatchUpdateAppsFirewallIngressRulesResponse = BatchUpdateIngressRul
 
 export type BatchUpdateAppsFirewallIngressRulesError = CommonErrors;
 
+/** Replaces the entire firewall ruleset in one bulk operation. This overrides and replaces the rules of an existing firewall with the new rules.If the final rule does not match traffic with the '*' wildcard IP range, then an "allow all" rule is explicitly added to the end of the list. */
 export const batchUpdateAppsFirewallIngressRules: API.OperationMethod<BatchUpdateAppsFirewallIngressRulesRequest, BatchUpdateAppsFirewallIngressRulesResponse, BatchUpdateAppsFirewallIngressRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchUpdateAppsFirewallIngressRulesRequest,
   output: BatchUpdateAppsFirewallIngressRulesResponse,
   errors: [],
 }));
 
-/** Creates a firewall rule for the application. */
 export interface CreateAppsFirewallIngressRulesRequest {
   /** Part of `parent`. Required. Name of the parent Firewall collection in which to create a new rule. Example: apps/myapp/firewall/ingressRules. */
   appsId: string;
@@ -2265,13 +2264,13 @@ export const CreateAppsFirewallIngressRulesResponse = FirewallRule;
 
 export type CreateAppsFirewallIngressRulesError = CommonErrors;
 
+/** Creates a firewall rule for the application. */
 export const createAppsFirewallIngressRules: API.OperationMethod<CreateAppsFirewallIngressRulesRequest, CreateAppsFirewallIngressRulesResponse, CreateAppsFirewallIngressRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAppsFirewallIngressRulesRequest,
   output: CreateAppsFirewallIngressRulesResponse,
   errors: [],
 }));
 
-/** Gets the specified firewall rule. */
 export interface GetAppsFirewallIngressRulesRequest {
   /** Part of `name`. Name of the Firewall resource to retrieve. Example: apps/myapp/firewall/ingressRules/100. */
   appsId: string;
@@ -2292,13 +2291,13 @@ export const GetAppsFirewallIngressRulesResponse = FirewallRule;
 
 export type GetAppsFirewallIngressRulesError = CommonErrors;
 
+/** Gets the specified firewall rule. */
 export const getAppsFirewallIngressRules: API.OperationMethod<GetAppsFirewallIngressRulesRequest, GetAppsFirewallIngressRulesResponse, GetAppsFirewallIngressRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAppsFirewallIngressRulesRequest,
   output: GetAppsFirewallIngressRulesResponse,
   errors: [],
 }));
 
-/** Updates the specified firewall rule. */
 export interface PatchAppsFirewallIngressRulesRequest {
   /** Part of `name`. Name of the Firewall resource to update. Example: apps/myapp/firewall/ingressRules/100. */
   appsId: string;
@@ -2325,13 +2324,13 @@ export const PatchAppsFirewallIngressRulesResponse = FirewallRule;
 
 export type PatchAppsFirewallIngressRulesError = CommonErrors;
 
+/** Updates the specified firewall rule. */
 export const patchAppsFirewallIngressRules: API.OperationMethod<PatchAppsFirewallIngressRulesRequest, PatchAppsFirewallIngressRulesResponse, PatchAppsFirewallIngressRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAppsFirewallIngressRulesRequest,
   output: PatchAppsFirewallIngressRulesResponse,
   errors: [],
 }));
 
-/** Deletes the specified firewall rule. */
 export interface DeleteAppsFirewallIngressRulesRequest {
   /** Part of `name`. Name of the Firewall resource to delete. Example: apps/myapp/firewall/ingressRules/100. */
   appsId: string;
@@ -2352,13 +2351,13 @@ export const DeleteAppsFirewallIngressRulesResponse = Empty;
 
 export type DeleteAppsFirewallIngressRulesError = CommonErrors;
 
+/** Deletes the specified firewall rule. */
 export const deleteAppsFirewallIngressRules: API.OperationMethod<DeleteAppsFirewallIngressRulesRequest, DeleteAppsFirewallIngressRulesResponse, DeleteAppsFirewallIngressRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAppsFirewallIngressRulesRequest,
   output: DeleteAppsFirewallIngressRulesResponse,
   errors: [],
 }));
 
-/** Lists all domains the user is authorized to administer. */
 export interface ListAppsAuthorizedDomainsRequest {
   /** Part of `parent`. Required. Name of the parent Application resource. Example: apps/myapp. */
   appsId: string;
@@ -2382,7 +2381,8 @@ export const ListAppsAuthorizedDomainsResponse = ListAuthorizedDomainsResponse;
 
 export type ListAppsAuthorizedDomainsError = CommonErrors;
 
-export const listAppsAuthorizedDomains = API.makePaginated(() => ({
+/** Lists all domains the user is authorized to administer. */
+export const listAppsAuthorizedDomains: API.PaginatedOperationMethod<ListAppsAuthorizedDomainsRequest, ListAppsAuthorizedDomainsResponse, ListAppsAuthorizedDomainsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAppsAuthorizedDomainsRequest,
   output: ListAppsAuthorizedDomainsResponse,
   errors: [],
@@ -2392,7 +2392,6 @@ export const listAppsAuthorizedDomains = API.makePaginated(() => ({
   },
 }));
 
-/** Lists all SSL certificates the user is authorized to administer. */
 export interface ListAppsAuthorizedCertificatesRequest {
   /** Part of `parent`. Required. Name of the parent Application resource. Example: apps/myapp. */
   appsId: string;
@@ -2419,7 +2418,8 @@ export const ListAppsAuthorizedCertificatesResponse = ListAuthorizedCertificates
 
 export type ListAppsAuthorizedCertificatesError = CommonErrors;
 
-export const listAppsAuthorizedCertificates = API.makePaginated(() => ({
+/** Lists all SSL certificates the user is authorized to administer. */
+export const listAppsAuthorizedCertificates: API.PaginatedOperationMethod<ListAppsAuthorizedCertificatesRequest, ListAppsAuthorizedCertificatesResponse, ListAppsAuthorizedCertificatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAppsAuthorizedCertificatesRequest,
   output: ListAppsAuthorizedCertificatesResponse,
   errors: [],
@@ -2429,7 +2429,6 @@ export const listAppsAuthorizedCertificates = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the specified SSL certificate. */
 export interface GetAppsAuthorizedCertificatesRequest {
   /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/authorizedCertificates/12345. */
   appsId: string;
@@ -2453,13 +2452,13 @@ export const GetAppsAuthorizedCertificatesResponse = AuthorizedCertificate;
 
 export type GetAppsAuthorizedCertificatesError = CommonErrors;
 
+/** Gets the specified SSL certificate. */
 export const getAppsAuthorizedCertificates: API.OperationMethod<GetAppsAuthorizedCertificatesRequest, GetAppsAuthorizedCertificatesResponse, GetAppsAuthorizedCertificatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAppsAuthorizedCertificatesRequest,
   output: GetAppsAuthorizedCertificatesResponse,
   errors: [],
 }));
 
-/** Uploads the specified SSL certificate. */
 export interface CreateAppsAuthorizedCertificatesRequest {
   /** Part of `parent`. Required. Name of the parent Application resource. Example: apps/myapp. */
   appsId: string;
@@ -2480,13 +2479,13 @@ export const CreateAppsAuthorizedCertificatesResponse = AuthorizedCertificate;
 
 export type CreateAppsAuthorizedCertificatesError = CommonErrors;
 
+/** Uploads the specified SSL certificate. */
 export const createAppsAuthorizedCertificates: API.OperationMethod<CreateAppsAuthorizedCertificatesRequest, CreateAppsAuthorizedCertificatesResponse, CreateAppsAuthorizedCertificatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAppsAuthorizedCertificatesRequest,
   output: CreateAppsAuthorizedCertificatesResponse,
   errors: [],
 }));
 
-/** Updates the specified SSL certificate. To renew a certificate and maintain its existing domain mappings, update certificate_data with a new certificate. The new certificate must be applicable to the same domains as the original certificate. The certificate display_name may also be updated. */
 export interface PatchAppsAuthorizedCertificatesRequest {
   /** Part of `name`. Required. Name of the resource to update. Example: apps/myapp/authorizedCertificates/12345. */
   appsId: string;
@@ -2513,13 +2512,13 @@ export const PatchAppsAuthorizedCertificatesResponse = AuthorizedCertificate;
 
 export type PatchAppsAuthorizedCertificatesError = CommonErrors;
 
+/** Updates the specified SSL certificate. To renew a certificate and maintain its existing domain mappings, update certificate_data with a new certificate. The new certificate must be applicable to the same domains as the original certificate. The certificate display_name may also be updated. */
 export const patchAppsAuthorizedCertificates: API.OperationMethod<PatchAppsAuthorizedCertificatesRequest, PatchAppsAuthorizedCertificatesResponse, PatchAppsAuthorizedCertificatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAppsAuthorizedCertificatesRequest,
   output: PatchAppsAuthorizedCertificatesResponse,
   errors: [],
 }));
 
-/** Deletes the specified SSL certificate. */
 export interface DeleteAppsAuthorizedCertificatesRequest {
   /** Part of `name`. Required. Name of the resource to delete. Example: apps/myapp/authorizedCertificates/12345. */
   appsId: string;
@@ -2540,13 +2539,13 @@ export const DeleteAppsAuthorizedCertificatesResponse = Empty;
 
 export type DeleteAppsAuthorizedCertificatesError = CommonErrors;
 
+/** Deletes the specified SSL certificate. */
 export const deleteAppsAuthorizedCertificates: API.OperationMethod<DeleteAppsAuthorizedCertificatesRequest, DeleteAppsAuthorizedCertificatesResponse, DeleteAppsAuthorizedCertificatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAppsAuthorizedCertificatesRequest,
   output: DeleteAppsAuthorizedCertificatesResponse,
   errors: [],
 }));
 
-/** Lists the domain mappings on an application. */
 export interface ListAppsDomainMappingsRequest {
   /** Part of `parent`. Required. Name of the parent Application resource. Example: apps/myapp. */
   appsId: string;
@@ -2570,7 +2569,8 @@ export const ListAppsDomainMappingsResponse = ListDomainMappingsResponse;
 
 export type ListAppsDomainMappingsError = CommonErrors;
 
-export const listAppsDomainMappings = API.makePaginated(() => ({
+/** Lists the domain mappings on an application. */
+export const listAppsDomainMappings: API.PaginatedOperationMethod<ListAppsDomainMappingsRequest, ListAppsDomainMappingsResponse, ListAppsDomainMappingsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAppsDomainMappingsRequest,
   output: ListAppsDomainMappingsResponse,
   errors: [],
@@ -2580,7 +2580,6 @@ export const listAppsDomainMappings = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the specified domain mapping. */
 export interface GetAppsDomainMappingsRequest {
   /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/domainMappings/example.com. */
   appsId: string;
@@ -2601,13 +2600,13 @@ export const GetAppsDomainMappingsResponse = DomainMapping;
 
 export type GetAppsDomainMappingsError = CommonErrors;
 
+/** Gets the specified domain mapping. */
 export const getAppsDomainMappings: API.OperationMethod<GetAppsDomainMappingsRequest, GetAppsDomainMappingsResponse, GetAppsDomainMappingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAppsDomainMappingsRequest,
   output: GetAppsDomainMappingsResponse,
   errors: [],
 }));
 
-/** Maps a domain to an application. A user must be authorized to administer a domain in order to map it to an application. For a list of available authorized domains, see AuthorizedDomains.ListAuthorizedDomains. */
 export interface CreateAppsDomainMappingsRequest {
   /** Part of `parent`. Required. Name of the parent Application resource. Example: apps/myapp. */
   appsId: string;
@@ -2631,13 +2630,13 @@ export const CreateAppsDomainMappingsResponse = Operation;
 
 export type CreateAppsDomainMappingsError = CommonErrors;
 
+/** Maps a domain to an application. A user must be authorized to administer a domain in order to map it to an application. For a list of available authorized domains, see AuthorizedDomains.ListAuthorizedDomains. */
 export const createAppsDomainMappings: API.OperationMethod<CreateAppsDomainMappingsRequest, CreateAppsDomainMappingsResponse, CreateAppsDomainMappingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAppsDomainMappingsRequest,
   output: CreateAppsDomainMappingsResponse,
   errors: [],
 }));
 
-/** Updates the specified domain mapping. To map an SSL certificate to a domain mapping, update certificate_id to point to an AuthorizedCertificate resource. A user must be authorized to administer the associated domain in order to update a DomainMapping resource. */
 export interface PatchAppsDomainMappingsRequest {
   /** Part of `name`. Required. Name of the resource to update. Example: apps/myapp/domainMappings/example.com. */
   appsId: string;
@@ -2664,13 +2663,13 @@ export const PatchAppsDomainMappingsResponse = Operation;
 
 export type PatchAppsDomainMappingsError = CommonErrors;
 
+/** Updates the specified domain mapping. To map an SSL certificate to a domain mapping, update certificate_id to point to an AuthorizedCertificate resource. A user must be authorized to administer the associated domain in order to update a DomainMapping resource. */
 export const patchAppsDomainMappings: API.OperationMethod<PatchAppsDomainMappingsRequest, PatchAppsDomainMappingsResponse, PatchAppsDomainMappingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAppsDomainMappingsRequest,
   output: PatchAppsDomainMappingsResponse,
   errors: [],
 }));
 
-/** Deletes the specified domain mapping. A user must be authorized to administer the associated domain in order to delete a DomainMapping resource. */
 export interface DeleteAppsDomainMappingsRequest {
   /** Part of `name`. Required. Name of the resource to delete. Example: apps/myapp/domainMappings/example.com. */
   appsId: string;
@@ -2691,13 +2690,13 @@ export const DeleteAppsDomainMappingsResponse = Operation;
 
 export type DeleteAppsDomainMappingsError = CommonErrors;
 
+/** Deletes the specified domain mapping. A user must be authorized to administer the associated domain in order to delete a DomainMapping resource. */
 export const deleteAppsDomainMappings: API.OperationMethod<DeleteAppsDomainMappingsRequest, DeleteAppsDomainMappingsResponse, DeleteAppsDomainMappingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAppsDomainMappingsRequest,
   output: DeleteAppsDomainMappingsResponse,
   errors: [],
 }));
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: List all public locations: Use the path GET /v1/locations. List project-visible locations: Use the path GET /v1/projects/{project_id}/locations. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListAppsLocationsRequest {
   /** Part of `name`. The resource that owns the locations collection, if applicable. */
   appsId: string;
@@ -2727,7 +2726,8 @@ export const ListAppsLocationsResponse = ListLocationsResponse;
 
 export type ListAppsLocationsError = CommonErrors;
 
-export const listAppsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: List all public locations: Use the path GET /v1/locations. List project-visible locations: Use the path GET /v1/projects/{project_id}/locations. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listAppsLocations: API.PaginatedOperationMethod<ListAppsLocationsRequest, ListAppsLocationsResponse, ListAppsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAppsLocationsRequest,
   output: ListAppsLocationsResponse,
   errors: [],
@@ -2737,7 +2737,6 @@ export const listAppsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetAppsLocationsRequest {
   /** Part of `name`. Resource name for the location. */
   appsId: string;
@@ -2758,13 +2757,13 @@ export const GetAppsLocationsResponse = Location;
 
 export type GetAppsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getAppsLocations: API.OperationMethod<GetAppsLocationsRequest, GetAppsLocationsResponse, GetAppsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAppsLocationsRequest,
   output: GetAppsLocationsResponse,
   errors: [],
 }));
 
-/** Updates the specified Application resource. You can update the following fields: auth_domain - Google authentication domain for controlling user access to the application. default_cookie_expiration - Cookie expiration policy for the application. iap - Identity-Aware Proxy properties for the application. */
 export interface PatchProjectsLocationsApplicationsRequest {
   /** Part of `name`. Required. Name of the Application resource to update. Example: apps/myapp. */
   projectsId: string;
@@ -2794,13 +2793,13 @@ export const PatchProjectsLocationsApplicationsResponse = Operation;
 
 export type PatchProjectsLocationsApplicationsError = CommonErrors;
 
+/** Updates the specified Application resource. You can update the following fields: auth_domain - Google authentication domain for controlling user access to the application. default_cookie_expiration - Cookie expiration policy for the application. iap - Identity-Aware Proxy properties for the application. */
 export const patchProjectsLocationsApplications: API.OperationMethod<PatchProjectsLocationsApplicationsRequest, PatchProjectsLocationsApplicationsResponse, PatchProjectsLocationsApplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsApplicationsRequest,
   output: PatchProjectsLocationsApplicationsResponse,
   errors: [],
 }));
 
-/** Updates the configuration of the specified service. */
 export interface PatchProjectsLocationsApplicationsServicesRequest {
   /** Part of `name`. Required. Name of the resource to update. Example: apps/myapp/services/default. */
   projectsId: string;
@@ -2836,13 +2835,13 @@ export const PatchProjectsLocationsApplicationsServicesResponse = Operation;
 
 export type PatchProjectsLocationsApplicationsServicesError = CommonErrors;
 
+/** Updates the configuration of the specified service. */
 export const patchProjectsLocationsApplicationsServices: API.OperationMethod<PatchProjectsLocationsApplicationsServicesRequest, PatchProjectsLocationsApplicationsServicesResponse, PatchProjectsLocationsApplicationsServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsApplicationsServicesRequest,
   output: PatchProjectsLocationsApplicationsServicesResponse,
   errors: [],
 }));
 
-/** Deletes the specified service and all enclosed versions. */
 export interface DeleteProjectsLocationsApplicationsServicesRequest {
   /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/services/default. */
   projectsId: string;
@@ -2869,13 +2868,13 @@ export const DeleteProjectsLocationsApplicationsServicesResponse = Operation;
 
 export type DeleteProjectsLocationsApplicationsServicesError = CommonErrors;
 
+/** Deletes the specified service and all enclosed versions. */
 export const deleteProjectsLocationsApplicationsServices: API.OperationMethod<DeleteProjectsLocationsApplicationsServicesRequest, DeleteProjectsLocationsApplicationsServicesResponse, DeleteProjectsLocationsApplicationsServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsApplicationsServicesRequest,
   output: DeleteProjectsLocationsApplicationsServicesResponse,
   errors: [],
 }));
 
-/** Updates the specified Version resource. You can specify the following fields depending on the App Engine environment and type of scaling that the version resource uses:Standard environment instance_class (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.instance_class)automatic scaling in the standard environment: automatic_scaling.min_idle_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling) automatic_scaling.max_idle_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling) automaticScaling.standard_scheduler_settings.max_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#StandardSchedulerSettings) automaticScaling.standard_scheduler_settings.min_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#StandardSchedulerSettings) automaticScaling.standard_scheduler_settings.target_cpu_utilization (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#StandardSchedulerSettings) automaticScaling.standard_scheduler_settings.target_throughput_utilization (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#StandardSchedulerSettings)basic scaling or manual scaling in the standard environment: serving_status (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.serving_status) manual_scaling.instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#manualscaling)Flexible environment serving_status (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.serving_status)automatic scaling in the flexible environment: automatic_scaling.min_total_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling) automatic_scaling.max_total_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling) automatic_scaling.cool_down_period_sec (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling) automatic_scaling.cpu_utilization.target_utilization (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling)manual scaling in the flexible environment: manual_scaling.instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#manualscaling) */
 export interface PatchProjectsLocationsApplicationsServicesVersionsRequest {
   /** Part of `name`. Required. Name of the resource to update. Example: apps/myapp/services/default/versions/1. */
   projectsId: string;
@@ -2911,13 +2910,13 @@ export const PatchProjectsLocationsApplicationsServicesVersionsResponse = Operat
 
 export type PatchProjectsLocationsApplicationsServicesVersionsError = CommonErrors;
 
+/** Updates the specified Version resource. You can specify the following fields depending on the App Engine environment and type of scaling that the version resource uses:Standard environment instance_class (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.instance_class)automatic scaling in the standard environment: automatic_scaling.min_idle_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling) automatic_scaling.max_idle_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling) automaticScaling.standard_scheduler_settings.max_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#StandardSchedulerSettings) automaticScaling.standard_scheduler_settings.min_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#StandardSchedulerSettings) automaticScaling.standard_scheduler_settings.target_cpu_utilization (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#StandardSchedulerSettings) automaticScaling.standard_scheduler_settings.target_throughput_utilization (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#StandardSchedulerSettings)basic scaling or manual scaling in the standard environment: serving_status (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.serving_status) manual_scaling.instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#manualscaling)Flexible environment serving_status (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.serving_status)automatic scaling in the flexible environment: automatic_scaling.min_total_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling) automatic_scaling.max_total_instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling) automatic_scaling.cool_down_period_sec (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling) automatic_scaling.cpu_utilization.target_utilization (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#Version.FIELDS.automatic_scaling)manual scaling in the flexible environment: manual_scaling.instances (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions#manualscaling) */
 export const patchProjectsLocationsApplicationsServicesVersions: API.OperationMethod<PatchProjectsLocationsApplicationsServicesVersionsRequest, PatchProjectsLocationsApplicationsServicesVersionsResponse, PatchProjectsLocationsApplicationsServicesVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsApplicationsServicesVersionsRequest,
   output: PatchProjectsLocationsApplicationsServicesVersionsResponse,
   errors: [],
 }));
 
-/** Deletes an existing Version resource. */
 export interface DeleteProjectsLocationsApplicationsServicesVersionsRequest {
   /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/services/default/versions/v1. */
   projectsId: string;
@@ -2947,13 +2946,13 @@ export const DeleteProjectsLocationsApplicationsServicesVersionsResponse = Opera
 
 export type DeleteProjectsLocationsApplicationsServicesVersionsError = CommonErrors;
 
+/** Deletes an existing Version resource. */
 export const deleteProjectsLocationsApplicationsServicesVersions: API.OperationMethod<DeleteProjectsLocationsApplicationsServicesVersionsRequest, DeleteProjectsLocationsApplicationsServicesVersionsResponse, DeleteProjectsLocationsApplicationsServicesVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsApplicationsServicesVersionsRequest,
   output: DeleteProjectsLocationsApplicationsServicesVersionsResponse,
   errors: [],
 }));
 
-/** Stops a running instance.The instance might be automatically recreated based on the scaling settings of the version. For more information, see "How Instances are Managed" (standard environment (https://cloud.google.com/appengine/docs/standard/python/how-instances-are-managed) | flexible environment (https://cloud.google.com/appengine/docs/flexible/python/how-instances-are-managed)).To ensure that instances are not re-created and avoid getting billed, you can stop all instances within the target version by changing the serving status of the version to STOPPED with the apps.services.versions.patch (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions/patch) method. */
 export interface DeleteProjectsLocationsApplicationsServicesVersionsInstancesRequest {
   /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/services/default/versions/v1/instances/instance-1. */
   projectsId: string;
@@ -2986,13 +2985,13 @@ export const DeleteProjectsLocationsApplicationsServicesVersionsInstancesRespons
 
 export type DeleteProjectsLocationsApplicationsServicesVersionsInstancesError = CommonErrors;
 
+/** Stops a running instance.The instance might be automatically recreated based on the scaling settings of the version. For more information, see "How Instances are Managed" (standard environment (https://cloud.google.com/appengine/docs/standard/python/how-instances-are-managed) | flexible environment (https://cloud.google.com/appengine/docs/flexible/python/how-instances-are-managed)).To ensure that instances are not re-created and avoid getting billed, you can stop all instances within the target version by changing the serving status of the version to STOPPED with the apps.services.versions.patch (https://cloud.google.com/appengine/docs/admin-api/reference/rest/v1/apps.services.versions/patch) method. */
 export const deleteProjectsLocationsApplicationsServicesVersionsInstances: API.OperationMethod<DeleteProjectsLocationsApplicationsServicesVersionsInstancesRequest, DeleteProjectsLocationsApplicationsServicesVersionsInstancesResponse, DeleteProjectsLocationsApplicationsServicesVersionsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsApplicationsServicesVersionsInstancesRequest,
   output: DeleteProjectsLocationsApplicationsServicesVersionsInstancesResponse,
   errors: [],
 }));
 
-/** Enables debugging on a VM instance. This allows you to use the SSH command to connect to the virtual machine where the instance lives. While in "debug mode", the instance continues to serve live traffic. You should delete the instance when you are done debugging and then allow the system to take over and determine if another instance should be started.Only applicable for instances in App Engine flexible environment. */
 export interface DebugProjectsLocationsApplicationsServicesVersionsInstancesRequest {
   /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/services/default/versions/v1/instances/instance-1. */
   projectsId: string;
@@ -3028,13 +3027,13 @@ export const DebugProjectsLocationsApplicationsServicesVersionsInstancesResponse
 
 export type DebugProjectsLocationsApplicationsServicesVersionsInstancesError = CommonErrors;
 
+/** Enables debugging on a VM instance. This allows you to use the SSH command to connect to the virtual machine where the instance lives. While in "debug mode", the instance continues to serve live traffic. You should delete the instance when you are done debugging and then allow the system to take over and determine if another instance should be started.Only applicable for instances in App Engine flexible environment. */
 export const debugProjectsLocationsApplicationsServicesVersionsInstances: API.OperationMethod<DebugProjectsLocationsApplicationsServicesVersionsInstancesRequest, DebugProjectsLocationsApplicationsServicesVersionsInstancesResponse, DebugProjectsLocationsApplicationsServicesVersionsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DebugProjectsLocationsApplicationsServicesVersionsInstancesRequest,
   output: DebugProjectsLocationsApplicationsServicesVersionsInstancesResponse,
   errors: [],
 }));
 
-/** Lists all domains the user is authorized to administer. */
 export interface ListProjectsLocationsApplicationsAuthorizedDomainsRequest {
   /** Part of `parent`. Required. Name of the parent Application resource. Example: apps/myapp. */
   projectsId: string;
@@ -3064,7 +3063,8 @@ export const ListProjectsLocationsApplicationsAuthorizedDomainsResponse = ListAu
 
 export type ListProjectsLocationsApplicationsAuthorizedDomainsError = CommonErrors;
 
-export const listProjectsLocationsApplicationsAuthorizedDomains = API.makePaginated(() => ({
+/** Lists all domains the user is authorized to administer. */
+export const listProjectsLocationsApplicationsAuthorizedDomains: API.PaginatedOperationMethod<ListProjectsLocationsApplicationsAuthorizedDomainsRequest, ListProjectsLocationsApplicationsAuthorizedDomainsResponse, ListProjectsLocationsApplicationsAuthorizedDomainsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsApplicationsAuthorizedDomainsRequest,
   output: ListProjectsLocationsApplicationsAuthorizedDomainsResponse,
   errors: [],
@@ -3074,7 +3074,6 @@ export const listProjectsLocationsApplicationsAuthorizedDomains = API.makePagina
   },
 }));
 
-/** Lists all SSL certificates the user is authorized to administer. */
 export interface ListProjectsLocationsApplicationsAuthorizedCertificatesRequest {
   /** Part of `parent`. Required. Name of the parent Application resource. Example: apps/myapp. */
   projectsId: string;
@@ -3107,7 +3106,8 @@ export const ListProjectsLocationsApplicationsAuthorizedCertificatesResponse = L
 
 export type ListProjectsLocationsApplicationsAuthorizedCertificatesError = CommonErrors;
 
-export const listProjectsLocationsApplicationsAuthorizedCertificates = API.makePaginated(() => ({
+/** Lists all SSL certificates the user is authorized to administer. */
+export const listProjectsLocationsApplicationsAuthorizedCertificates: API.PaginatedOperationMethod<ListProjectsLocationsApplicationsAuthorizedCertificatesRequest, ListProjectsLocationsApplicationsAuthorizedCertificatesResponse, ListProjectsLocationsApplicationsAuthorizedCertificatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsApplicationsAuthorizedCertificatesRequest,
   output: ListProjectsLocationsApplicationsAuthorizedCertificatesResponse,
   errors: [],
@@ -3117,7 +3117,6 @@ export const listProjectsLocationsApplicationsAuthorizedCertificates = API.makeP
   },
 }));
 
-/** Gets the specified SSL certificate. */
 export interface GetProjectsLocationsApplicationsAuthorizedCertificatesRequest {
   /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/authorizedCertificates/12345. */
   projectsId: string;
@@ -3147,13 +3146,13 @@ export const GetProjectsLocationsApplicationsAuthorizedCertificatesResponse = Au
 
 export type GetProjectsLocationsApplicationsAuthorizedCertificatesError = CommonErrors;
 
+/** Gets the specified SSL certificate. */
 export const getProjectsLocationsApplicationsAuthorizedCertificates: API.OperationMethod<GetProjectsLocationsApplicationsAuthorizedCertificatesRequest, GetProjectsLocationsApplicationsAuthorizedCertificatesResponse, GetProjectsLocationsApplicationsAuthorizedCertificatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsApplicationsAuthorizedCertificatesRequest,
   output: GetProjectsLocationsApplicationsAuthorizedCertificatesResponse,
   errors: [],
 }));
 
-/** Uploads the specified SSL certificate. */
 export interface CreateProjectsLocationsApplicationsAuthorizedCertificatesRequest {
   /** Part of `parent`. Required. Name of the parent Application resource. Example: apps/myapp. */
   projectsId: string;
@@ -3180,13 +3179,13 @@ export const CreateProjectsLocationsApplicationsAuthorizedCertificatesResponse =
 
 export type CreateProjectsLocationsApplicationsAuthorizedCertificatesError = CommonErrors;
 
+/** Uploads the specified SSL certificate. */
 export const createProjectsLocationsApplicationsAuthorizedCertificates: API.OperationMethod<CreateProjectsLocationsApplicationsAuthorizedCertificatesRequest, CreateProjectsLocationsApplicationsAuthorizedCertificatesResponse, CreateProjectsLocationsApplicationsAuthorizedCertificatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsApplicationsAuthorizedCertificatesRequest,
   output: CreateProjectsLocationsApplicationsAuthorizedCertificatesResponse,
   errors: [],
 }));
 
-/** Updates the specified SSL certificate. To renew a certificate and maintain its existing domain mappings, update certificate_data with a new certificate. The new certificate must be applicable to the same domains as the original certificate. The certificate display_name may also be updated. */
 export interface PatchProjectsLocationsApplicationsAuthorizedCertificatesRequest {
   /** Part of `name`. Required. Name of the resource to update. Example: apps/myapp/authorizedCertificates/12345. */
   projectsId: string;
@@ -3219,13 +3218,13 @@ export const PatchProjectsLocationsApplicationsAuthorizedCertificatesResponse = 
 
 export type PatchProjectsLocationsApplicationsAuthorizedCertificatesError = CommonErrors;
 
+/** Updates the specified SSL certificate. To renew a certificate and maintain its existing domain mappings, update certificate_data with a new certificate. The new certificate must be applicable to the same domains as the original certificate. The certificate display_name may also be updated. */
 export const patchProjectsLocationsApplicationsAuthorizedCertificates: API.OperationMethod<PatchProjectsLocationsApplicationsAuthorizedCertificatesRequest, PatchProjectsLocationsApplicationsAuthorizedCertificatesResponse, PatchProjectsLocationsApplicationsAuthorizedCertificatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsApplicationsAuthorizedCertificatesRequest,
   output: PatchProjectsLocationsApplicationsAuthorizedCertificatesResponse,
   errors: [],
 }));
 
-/** Deletes the specified SSL certificate. */
 export interface DeleteProjectsLocationsApplicationsAuthorizedCertificatesRequest {
   /** Part of `name`. Required. Name of the resource to delete. Example: apps/myapp/authorizedCertificates/12345. */
   projectsId: string;
@@ -3252,13 +3251,13 @@ export const DeleteProjectsLocationsApplicationsAuthorizedCertificatesResponse =
 
 export type DeleteProjectsLocationsApplicationsAuthorizedCertificatesError = CommonErrors;
 
+/** Deletes the specified SSL certificate. */
 export const deleteProjectsLocationsApplicationsAuthorizedCertificates: API.OperationMethod<DeleteProjectsLocationsApplicationsAuthorizedCertificatesRequest, DeleteProjectsLocationsApplicationsAuthorizedCertificatesResponse, DeleteProjectsLocationsApplicationsAuthorizedCertificatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsApplicationsAuthorizedCertificatesRequest,
   output: DeleteProjectsLocationsApplicationsAuthorizedCertificatesResponse,
   errors: [],
 }));
 
-/** Lists the domain mappings on an application. */
 export interface ListProjectsLocationsApplicationsDomainMappingsRequest {
   /** Part of `parent`. Required. Name of the parent Application resource. Example: apps/myapp. */
   projectsId: string;
@@ -3288,7 +3287,8 @@ export const ListProjectsLocationsApplicationsDomainMappingsResponse = ListDomai
 
 export type ListProjectsLocationsApplicationsDomainMappingsError = CommonErrors;
 
-export const listProjectsLocationsApplicationsDomainMappings = API.makePaginated(() => ({
+/** Lists the domain mappings on an application. */
+export const listProjectsLocationsApplicationsDomainMappings: API.PaginatedOperationMethod<ListProjectsLocationsApplicationsDomainMappingsRequest, ListProjectsLocationsApplicationsDomainMappingsResponse, ListProjectsLocationsApplicationsDomainMappingsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsApplicationsDomainMappingsRequest,
   output: ListProjectsLocationsApplicationsDomainMappingsResponse,
   errors: [],
@@ -3298,7 +3298,6 @@ export const listProjectsLocationsApplicationsDomainMappings = API.makePaginated
   },
 }));
 
-/** Gets the specified domain mapping. */
 export interface GetProjectsLocationsApplicationsDomainMappingsRequest {
   /** Part of `name`. Required. Name of the resource requested. Example: apps/myapp/domainMappings/example.com. */
   projectsId: string;
@@ -3325,13 +3324,13 @@ export const GetProjectsLocationsApplicationsDomainMappingsResponse = DomainMapp
 
 export type GetProjectsLocationsApplicationsDomainMappingsError = CommonErrors;
 
+/** Gets the specified domain mapping. */
 export const getProjectsLocationsApplicationsDomainMappings: API.OperationMethod<GetProjectsLocationsApplicationsDomainMappingsRequest, GetProjectsLocationsApplicationsDomainMappingsResponse, GetProjectsLocationsApplicationsDomainMappingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsApplicationsDomainMappingsRequest,
   output: GetProjectsLocationsApplicationsDomainMappingsResponse,
   errors: [],
 }));
 
-/** Maps a domain to an application. A user must be authorized to administer a domain in order to map it to an application. For a list of available authorized domains, see AuthorizedDomains.ListAuthorizedDomains. */
 export interface CreateProjectsLocationsApplicationsDomainMappingsRequest {
   /** Part of `parent`. Required. Name of the parent Application resource. Example: apps/myapp. */
   projectsId: string;
@@ -3361,13 +3360,13 @@ export const CreateProjectsLocationsApplicationsDomainMappingsResponse = Operati
 
 export type CreateProjectsLocationsApplicationsDomainMappingsError = CommonErrors;
 
+/** Maps a domain to an application. A user must be authorized to administer a domain in order to map it to an application. For a list of available authorized domains, see AuthorizedDomains.ListAuthorizedDomains. */
 export const createProjectsLocationsApplicationsDomainMappings: API.OperationMethod<CreateProjectsLocationsApplicationsDomainMappingsRequest, CreateProjectsLocationsApplicationsDomainMappingsResponse, CreateProjectsLocationsApplicationsDomainMappingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsApplicationsDomainMappingsRequest,
   output: CreateProjectsLocationsApplicationsDomainMappingsResponse,
   errors: [],
 }));
 
-/** Updates the specified domain mapping. To map an SSL certificate to a domain mapping, update certificate_id to point to an AuthorizedCertificate resource. A user must be authorized to administer the associated domain in order to update a DomainMapping resource. */
 export interface PatchProjectsLocationsApplicationsDomainMappingsRequest {
   /** Part of `name`. Required. Name of the resource to update. Example: apps/myapp/domainMappings/example.com. */
   projectsId: string;
@@ -3400,13 +3399,13 @@ export const PatchProjectsLocationsApplicationsDomainMappingsResponse = Operatio
 
 export type PatchProjectsLocationsApplicationsDomainMappingsError = CommonErrors;
 
+/** Updates the specified domain mapping. To map an SSL certificate to a domain mapping, update certificate_id to point to an AuthorizedCertificate resource. A user must be authorized to administer the associated domain in order to update a DomainMapping resource. */
 export const patchProjectsLocationsApplicationsDomainMappings: API.OperationMethod<PatchProjectsLocationsApplicationsDomainMappingsRequest, PatchProjectsLocationsApplicationsDomainMappingsResponse, PatchProjectsLocationsApplicationsDomainMappingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsApplicationsDomainMappingsRequest,
   output: PatchProjectsLocationsApplicationsDomainMappingsResponse,
   errors: [],
 }));
 
-/** Deletes the specified domain mapping. A user must be authorized to administer the associated domain in order to delete a DomainMapping resource. */
 export interface DeleteProjectsLocationsApplicationsDomainMappingsRequest {
   /** Part of `name`. Required. Name of the resource to delete. Example: apps/myapp/domainMappings/example.com. */
   projectsId: string;
@@ -3433,6 +3432,7 @@ export const DeleteProjectsLocationsApplicationsDomainMappingsResponse = Operati
 
 export type DeleteProjectsLocationsApplicationsDomainMappingsError = CommonErrors;
 
+/** Deletes the specified domain mapping. A user must be authorized to administer the associated domain in order to delete a DomainMapping resource. */
 export const deleteProjectsLocationsApplicationsDomainMappings: API.OperationMethod<DeleteProjectsLocationsApplicationsDomainMappingsRequest, DeleteProjectsLocationsApplicationsDomainMappingsResponse, DeleteProjectsLocationsApplicationsDomainMappingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsApplicationsDomainMappingsRequest,
   output: DeleteProjectsLocationsApplicationsDomainMappingsResponse,

@@ -1198,7 +1198,6 @@ export const IdentitytoolkitRelyingpartyDeleteAccountRequest: Schema.Schema<Iden
 // Operations
 // ==========================================================================
 
-/** Verifies the assertion returned by the IdP. */
 export interface VerifyAssertionRelyingpartyRequest {
   /** Request body */
   body?: IdentitytoolkitRelyingpartyVerifyAssertionRequest;
@@ -1216,13 +1215,13 @@ export const VerifyAssertionRelyingpartyResponse = VerifyAssertionResponse;
 
 export type VerifyAssertionRelyingpartyError = CommonErrors;
 
+/** Verifies the assertion returned by the IdP. */
 export const verifyAssertionRelyingparty: API.OperationMethod<VerifyAssertionRelyingpartyRequest, VerifyAssertionRelyingpartyResponse, VerifyAssertionRelyingpartyError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: VerifyAssertionRelyingpartyRequest,
   output: VerifyAssertionRelyingpartyResponse,
   errors: [],
 }));
 
-/** Get token signing public key. */
 export interface GetPublicKeysRelyingpartyRequest {
 }
 
@@ -1237,13 +1236,13 @@ export const GetPublicKeysRelyingpartyResponse = IdentitytoolkitRelyingpartyGetP
 
 export type GetPublicKeysRelyingpartyError = CommonErrors;
 
+/** Get token signing public key. */
 export const getPublicKeysRelyingparty: API.OperationMethod<GetPublicKeysRelyingpartyRequest, GetPublicKeysRelyingpartyResponse, GetPublicKeysRelyingpartyError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPublicKeysRelyingpartyRequest,
   output: GetPublicKeysRelyingpartyResponse,
   errors: [],
 }));
 
-/** Sign out user. */
 export interface SignOutUserRelyingpartyRequest {
   /** Request body */
   body?: IdentitytoolkitRelyingpartySignOutUserRequest;
@@ -1261,13 +1260,13 @@ export const SignOutUserRelyingpartyResponse = IdentitytoolkitRelyingpartySignOu
 
 export type SignOutUserRelyingpartyError = CommonErrors;
 
+/** Sign out user. */
 export const signOutUserRelyingparty: API.OperationMethod<SignOutUserRelyingpartyRequest, SignOutUserRelyingpartyResponse, SignOutUserRelyingpartyError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SignOutUserRelyingpartyRequest,
   output: SignOutUserRelyingpartyResponse,
   errors: [],
 }));
 
-/** Set project configuration. */
 export interface SetProjectConfigRelyingpartyRequest {
   /** Request body */
   body?: IdentitytoolkitRelyingpartySetProjectConfigRequest;
@@ -1285,13 +1284,13 @@ export const SetProjectConfigRelyingpartyResponse = IdentitytoolkitRelyingpartyS
 
 export type SetProjectConfigRelyingpartyError = CommonErrors;
 
+/** Set project configuration. */
 export const setProjectConfigRelyingparty: API.OperationMethod<SetProjectConfigRelyingpartyRequest, SetProjectConfigRelyingpartyResponse, SetProjectConfigRelyingpartyError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetProjectConfigRelyingpartyRequest,
   output: SetProjectConfigRelyingpartyResponse,
   errors: [],
 }));
 
-/** Verifies ownership of a phone number and creates/updates the user account accordingly. */
 export interface VerifyPhoneNumberRelyingpartyRequest {
   /** Request body */
   body?: IdentitytoolkitRelyingpartyVerifyPhoneNumberRequest;
@@ -1309,13 +1308,13 @@ export const VerifyPhoneNumberRelyingpartyResponse = IdentitytoolkitRelyingparty
 
 export type VerifyPhoneNumberRelyingpartyError = CommonErrors;
 
+/** Verifies ownership of a phone number and creates/updates the user account accordingly. */
 export const verifyPhoneNumberRelyingparty: API.OperationMethod<VerifyPhoneNumberRelyingpartyRequest, VerifyPhoneNumberRelyingpartyResponse, VerifyPhoneNumberRelyingpartyError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: VerifyPhoneNumberRelyingpartyRequest,
   output: VerifyPhoneNumberRelyingpartyResponse,
   errors: [],
 }));
 
-/** Reset password for a user. */
 export interface ResetPasswordRelyingpartyRequest {
   /** Request body */
   body?: IdentitytoolkitRelyingpartyResetPasswordRequest;
@@ -1333,13 +1332,13 @@ export const ResetPasswordRelyingpartyResponse = ResetPasswordResponse;
 
 export type ResetPasswordRelyingpartyError = CommonErrors;
 
+/** Reset password for a user. */
 export const resetPasswordRelyingparty: API.OperationMethod<ResetPasswordRelyingpartyRequest, ResetPasswordRelyingpartyResponse, ResetPasswordRelyingpartyError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetPasswordRelyingpartyRequest,
   output: ResetPasswordRelyingpartyResponse,
   errors: [],
 }));
 
-/** Send SMS verification code. */
 export interface SendVerificationCodeRelyingpartyRequest {
   /** Request body */
   body?: IdentitytoolkitRelyingpartySendVerificationCodeRequest;
@@ -1357,13 +1356,13 @@ export const SendVerificationCodeRelyingpartyResponse = IdentitytoolkitRelyingpa
 
 export type SendVerificationCodeRelyingpartyError = CommonErrors;
 
+/** Send SMS verification code. */
 export const sendVerificationCodeRelyingparty: API.OperationMethod<SendVerificationCodeRelyingpartyRequest, SendVerificationCodeRelyingpartyResponse, SendVerificationCodeRelyingpartyError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SendVerificationCodeRelyingpartyRequest,
   output: SendVerificationCodeRelyingpartyResponse,
   errors: [],
 }));
 
-/** Get project configuration. */
 export interface GetProjectConfigRelyingpartyRequest {
   /** Delegated GCP project number of the request. */
   delegatedProjectNumber?: string;
@@ -1384,13 +1383,13 @@ export const GetProjectConfigRelyingpartyResponse = IdentitytoolkitRelyingpartyG
 
 export type GetProjectConfigRelyingpartyError = CommonErrors;
 
+/** Get project configuration. */
 export const getProjectConfigRelyingparty: API.OperationMethod<GetProjectConfigRelyingpartyRequest, GetProjectConfigRelyingpartyResponse, GetProjectConfigRelyingpartyError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectConfigRelyingpartyRequest,
   output: GetProjectConfigRelyingpartyResponse,
   errors: [],
 }));
 
-/** Get a code for user action confirmation. */
 export interface GetOobConfirmationCodeRelyingpartyRequest {
   /** Request body */
   body?: Relyingparty;
@@ -1408,13 +1407,13 @@ export const GetOobConfirmationCodeRelyingpartyResponse = GetOobConfirmationCode
 
 export type GetOobConfirmationCodeRelyingpartyError = CommonErrors;
 
+/** Get a code for user action confirmation. */
 export const getOobConfirmationCodeRelyingparty: API.OperationMethod<GetOobConfirmationCodeRelyingpartyRequest, GetOobConfirmationCodeRelyingpartyResponse, GetOobConfirmationCodeRelyingpartyError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOobConfirmationCodeRelyingpartyRequest,
   output: GetOobConfirmationCodeRelyingpartyResponse,
   errors: [],
 }));
 
-/** Creates the URI used by the IdP to authenticate the user. */
 export interface CreateAuthUriRelyingpartyRequest {
   /** Request body */
   body?: IdentitytoolkitRelyingpartyCreateAuthUriRequest;
@@ -1432,13 +1431,13 @@ export const CreateAuthUriRelyingpartyResponse = CreateAuthUriResponse;
 
 export type CreateAuthUriRelyingpartyError = CommonErrors;
 
+/** Creates the URI used by the IdP to authenticate the user. */
 export const createAuthUriRelyingparty: API.OperationMethod<CreateAuthUriRelyingpartyRequest, CreateAuthUriRelyingpartyResponse, CreateAuthUriRelyingpartyError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAuthUriRelyingpartyRequest,
   output: CreateAuthUriRelyingpartyResponse,
   errors: [],
 }));
 
-/** Delete user account. */
 export interface DeleteAccountRelyingpartyRequest {
   /** Request body */
   body?: IdentitytoolkitRelyingpartyDeleteAccountRequest;
@@ -1456,13 +1455,13 @@ export const DeleteAccountRelyingpartyResponse = DeleteAccountResponse;
 
 export type DeleteAccountRelyingpartyError = CommonErrors;
 
+/** Delete user account. */
 export const deleteAccountRelyingparty: API.OperationMethod<DeleteAccountRelyingpartyRequest, DeleteAccountRelyingpartyResponse, DeleteAccountRelyingpartyError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountRelyingpartyRequest,
   output: DeleteAccountRelyingpartyResponse,
   errors: [],
 }));
 
-/** Batch upload existing user accounts. */
 export interface UploadAccountRelyingpartyRequest {
   /** Request body */
   body?: IdentitytoolkitRelyingpartyUploadAccountRequest;
@@ -1480,13 +1479,13 @@ export const UploadAccountRelyingpartyResponse = UploadAccountResponse;
 
 export type UploadAccountRelyingpartyError = CommonErrors;
 
+/** Batch upload existing user accounts. */
 export const uploadAccountRelyingparty: API.OperationMethod<UploadAccountRelyingpartyRequest, UploadAccountRelyingpartyResponse, UploadAccountRelyingpartyError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadAccountRelyingpartyRequest,
   output: UploadAccountRelyingpartyResponse,
   errors: [],
 }));
 
-/** Batch download user accounts. */
 export interface DownloadAccountRelyingpartyRequest {
   /** Request body */
   body?: IdentitytoolkitRelyingpartyDownloadAccountRequest;
@@ -1504,13 +1503,13 @@ export const DownloadAccountRelyingpartyResponse = DownloadAccountResponse;
 
 export type DownloadAccountRelyingpartyError = CommonErrors;
 
+/** Batch download user accounts. */
 export const downloadAccountRelyingparty: API.OperationMethod<DownloadAccountRelyingpartyRequest, DownloadAccountRelyingpartyResponse, DownloadAccountRelyingpartyError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DownloadAccountRelyingpartyRequest,
   output: DownloadAccountRelyingpartyResponse,
   errors: [],
 }));
 
-/** Verifies the developer asserted ID token. */
 export interface VerifyCustomTokenRelyingpartyRequest {
   /** Request body */
   body?: IdentitytoolkitRelyingpartyVerifyCustomTokenRequest;
@@ -1528,13 +1527,13 @@ export const VerifyCustomTokenRelyingpartyResponse = VerifyCustomTokenResponse;
 
 export type VerifyCustomTokenRelyingpartyError = CommonErrors;
 
+/** Verifies the developer asserted ID token. */
 export const verifyCustomTokenRelyingparty: API.OperationMethod<VerifyCustomTokenRelyingpartyRequest, VerifyCustomTokenRelyingpartyResponse, VerifyCustomTokenRelyingpartyError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: VerifyCustomTokenRelyingpartyRequest,
   output: VerifyCustomTokenRelyingpartyResponse,
   errors: [],
 }));
 
-/** Verifies the user entered password. */
 export interface VerifyPasswordRelyingpartyRequest {
   /** Request body */
   body?: IdentitytoolkitRelyingpartyVerifyPasswordRequest;
@@ -1552,13 +1551,13 @@ export const VerifyPasswordRelyingpartyResponse = VerifyPasswordResponse;
 
 export type VerifyPasswordRelyingpartyError = CommonErrors;
 
+/** Verifies the user entered password. */
 export const verifyPasswordRelyingparty: API.OperationMethod<VerifyPasswordRelyingpartyRequest, VerifyPasswordRelyingpartyResponse, VerifyPasswordRelyingpartyError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: VerifyPasswordRelyingpartyRequest,
   output: VerifyPasswordRelyingpartyResponse,
   errors: [],
 }));
 
-/** Signup new user. */
 export interface SignupNewUserRelyingpartyRequest {
   /** Request body */
   body?: IdentitytoolkitRelyingpartySignupNewUserRequest;
@@ -1576,13 +1575,13 @@ export const SignupNewUserRelyingpartyResponse = SignupNewUserResponse;
 
 export type SignupNewUserRelyingpartyError = CommonErrors;
 
+/** Signup new user. */
 export const signupNewUserRelyingparty: API.OperationMethod<SignupNewUserRelyingpartyRequest, SignupNewUserRelyingpartyResponse, SignupNewUserRelyingpartyError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SignupNewUserRelyingpartyRequest,
   output: SignupNewUserRelyingpartyResponse,
   errors: [],
 }));
 
-/** Get recaptcha secure param. */
 export interface GetRecaptchaParamRelyingpartyRequest {
 }
 
@@ -1597,13 +1596,13 @@ export const GetRecaptchaParamRelyingpartyResponse = GetRecaptchaParamResponse;
 
 export type GetRecaptchaParamRelyingpartyError = CommonErrors;
 
+/** Get recaptcha secure param. */
 export const getRecaptchaParamRelyingparty: API.OperationMethod<GetRecaptchaParamRelyingpartyRequest, GetRecaptchaParamRelyingpartyResponse, GetRecaptchaParamRelyingpartyError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRecaptchaParamRelyingpartyRequest,
   output: GetRecaptchaParamRelyingpartyResponse,
   errors: [],
 }));
 
-/** Reset password for a user. */
 export interface EmailLinkSigninRelyingpartyRequest {
   /** Request body */
   body?: IdentitytoolkitRelyingpartyEmailLinkSigninRequest;
@@ -1621,13 +1620,13 @@ export const EmailLinkSigninRelyingpartyResponse = EmailLinkSigninResponse;
 
 export type EmailLinkSigninRelyingpartyError = CommonErrors;
 
+/** Reset password for a user. */
 export const emailLinkSigninRelyingparty: API.OperationMethod<EmailLinkSigninRelyingpartyRequest, EmailLinkSigninRelyingpartyResponse, EmailLinkSigninRelyingpartyError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EmailLinkSigninRelyingpartyRequest,
   output: EmailLinkSigninRelyingpartyResponse,
   errors: [],
 }));
 
-/** Returns the account info. */
 export interface GetAccountInfoRelyingpartyRequest {
   /** Request body */
   body?: IdentitytoolkitRelyingpartyGetAccountInfoRequest;
@@ -1645,13 +1644,13 @@ export const GetAccountInfoRelyingpartyResponse = GetAccountInfoResponse;
 
 export type GetAccountInfoRelyingpartyError = CommonErrors;
 
+/** Returns the account info. */
 export const getAccountInfoRelyingparty: API.OperationMethod<GetAccountInfoRelyingpartyRequest, GetAccountInfoRelyingpartyResponse, GetAccountInfoRelyingpartyError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountInfoRelyingpartyRequest,
   output: GetAccountInfoRelyingpartyResponse,
   errors: [],
 }));
 
-/** Set account info for a user. */
 export interface SetAccountInfoRelyingpartyRequest {
   /** Request body */
   body?: IdentitytoolkitRelyingpartySetAccountInfoRequest;
@@ -1669,6 +1668,7 @@ export const SetAccountInfoRelyingpartyResponse = SetAccountInfoResponse;
 
 export type SetAccountInfoRelyingpartyError = CommonErrors;
 
+/** Set account info for a user. */
 export const setAccountInfoRelyingparty: API.OperationMethod<SetAccountInfoRelyingpartyRequest, SetAccountInfoRelyingpartyResponse, SetAccountInfoRelyingpartyError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetAccountInfoRelyingpartyRequest,
   output: SetAccountInfoRelyingpartyResponse,

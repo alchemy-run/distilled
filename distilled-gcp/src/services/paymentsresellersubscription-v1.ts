@@ -753,7 +753,6 @@ export const GenerateUserSessionResponse: Schema.Schema<GenerateUserSessionRespo
 // Operations
 // ==========================================================================
 
-/** Used by partners to create a subscription for their customers. The created subscription is associated with the end user inferred from the end user credentials. This API must be authorized by the end user using OAuth. */
 export interface CreatePartnersSubscriptionsRequest {
   /** Required. The parent resource name, which is the identifier of the partner. It will have the format of "partners/{partner_id}". */
   parent: string;
@@ -777,13 +776,13 @@ export const CreatePartnersSubscriptionsResponse = Subscription;
 
 export type CreatePartnersSubscriptionsError = CommonErrors;
 
+/** Used by partners to create a subscription for their customers. The created subscription is associated with the end user inferred from the end user credentials. This API must be authorized by the end user using OAuth. */
 export const createPartnersSubscriptions: API.OperationMethod<CreatePartnersSubscriptionsRequest, CreatePartnersSubscriptionsResponse, CreatePartnersSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreatePartnersSubscriptionsRequest,
   output: CreatePartnersSubscriptionsResponse,
   errors: [],
 }));
 
-/** Used by partners to provision a subscription for their customers. This creates a subscription without associating it with the end user account. EntitleSubscription must be called separately using OAuth in order for the end user account to be associated with the subscription. It should be called directly by the partner using service accounts. */
 export interface ProvisionPartnersSubscriptionsRequest {
   /** Required. The parent resource name, which is the identifier of the partner. It will have the format of "partners/{partner_id}". */
   parent: string;
@@ -813,13 +812,13 @@ export const ProvisionPartnersSubscriptionsResponse = Subscription;
 
 export type ProvisionPartnersSubscriptionsError = CommonErrors;
 
+/** Used by partners to provision a subscription for their customers. This creates a subscription without associating it with the end user account. EntitleSubscription must be called separately using OAuth in order for the end user account to be associated with the subscription. It should be called directly by the partner using service accounts. */
 export const provisionPartnersSubscriptions: API.OperationMethod<ProvisionPartnersSubscriptionsRequest, ProvisionPartnersSubscriptionsResponse, ProvisionPartnersSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ProvisionPartnersSubscriptionsRequest,
   output: ProvisionPartnersSubscriptionsResponse,
   errors: [],
 }));
 
-/** Gets a subscription by id. It should be called directly by the partner using service accounts. */
 export interface GetPartnersSubscriptionsRequest {
   /** Required. The name of the subscription resource to retrieve. It will have the format of "partners/{partner_id}/subscriptions/{subscription_id}" */
   name: string;
@@ -837,13 +836,13 @@ export const GetPartnersSubscriptionsResponse = Subscription;
 
 export type GetPartnersSubscriptionsError = CommonErrors;
 
+/** Gets a subscription by id. It should be called directly by the partner using service accounts. */
 export const getPartnersSubscriptions: API.OperationMethod<GetPartnersSubscriptionsRequest, GetPartnersSubscriptionsResponse, GetPartnersSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPartnersSubscriptionsRequest,
   output: GetPartnersSubscriptionsResponse,
   errors: [],
 }));
 
-/** Entitles a previously provisioned subscription to the current end user. The end user identity is inferred from the authorized credential of the request. This API must be authorized by the end user using OAuth. */
 export interface EntitlePartnersSubscriptionsRequest {
   /** Required. The name of the subscription resource that is entitled to the current end user. It will have the format of "partners/{partner_id}/subscriptions/{subscription_id}" */
   name: string;
@@ -864,13 +863,13 @@ export const EntitlePartnersSubscriptionsResponse = EntitleSubscriptionResponse;
 
 export type EntitlePartnersSubscriptionsError = CommonErrors;
 
+/** Entitles a previously provisioned subscription to the current end user. The end user identity is inferred from the authorized credential of the request. This API must be authorized by the end user using OAuth. */
 export const entitlePartnersSubscriptions: API.OperationMethod<EntitlePartnersSubscriptionsRequest, EntitlePartnersSubscriptionsResponse, EntitlePartnersSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EntitlePartnersSubscriptionsRequest,
   output: EntitlePartnersSubscriptionsResponse,
   errors: [],
 }));
 
-/** [Opt-in only] Most partners should be on auto-extend by default. Extends a subscription service for their customers on an ongoing basis for the subscription to remain active and renewable. It should be called directly by the partner using service accounts. */
 export interface ExtendPartnersSubscriptionsRequest {
   /** Required. The name of the subscription resource to be extended. It will have the format of "partners/{partner_id}/subscriptions/{subscription_id}". */
   name: string;
@@ -891,13 +890,13 @@ export const ExtendPartnersSubscriptionsResponse = ExtendSubscriptionResponse;
 
 export type ExtendPartnersSubscriptionsError = CommonErrors;
 
+/** [Opt-in only] Most partners should be on auto-extend by default. Extends a subscription service for their customers on an ongoing basis for the subscription to remain active and renewable. It should be called directly by the partner using service accounts. */
 export const extendPartnersSubscriptions: API.OperationMethod<ExtendPartnersSubscriptionsRequest, ExtendPartnersSubscriptionsResponse, ExtendPartnersSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExtendPartnersSubscriptionsRequest,
   output: ExtendPartnersSubscriptionsResponse,
   errors: [],
 }));
 
-/** Cancels a subscription service either immediately or by the end of the current billing cycle for their customers. It should be called directly by the partner using service accounts. */
 export interface CancelPartnersSubscriptionsRequest {
   /** Required. The name of the subscription resource to be cancelled. It will have the format of "partners/{partner_id}/subscriptions/{subscription_id}" */
   name: string;
@@ -918,13 +917,13 @@ export const CancelPartnersSubscriptionsResponse = CancelSubscriptionResponse;
 
 export type CancelPartnersSubscriptionsError = CommonErrors;
 
+/** Cancels a subscription service either immediately or by the end of the current billing cycle for their customers. It should be called directly by the partner using service accounts. */
 export const cancelPartnersSubscriptions: API.OperationMethod<CancelPartnersSubscriptionsRequest, CancelPartnersSubscriptionsResponse, CancelPartnersSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelPartnersSubscriptionsRequest,
   output: CancelPartnersSubscriptionsResponse,
   errors: [],
 }));
 
-/** Currently, it is used by **Google One, Play Pass** partners. Revokes the pending cancellation of a subscription, which is currently in `STATE_CANCEL_AT_END_OF_CYCLE` state. If the subscription is already cancelled, the request will fail. It should be called directly by the partner using service accounts. */
 export interface UndoCancelPartnersSubscriptionsRequest {
   /** Required. The name of the subscription resource whose pending cancellation needs to be undone. It will have the format of "partners/{partner_id}/subscriptions/{subscription_id}" */
   name: string;
@@ -945,13 +944,13 @@ export const UndoCancelPartnersSubscriptionsResponse = UndoCancelSubscriptionRes
 
 export type UndoCancelPartnersSubscriptionsError = CommonErrors;
 
+/** Currently, it is used by **Google One, Play Pass** partners. Revokes the pending cancellation of a subscription, which is currently in `STATE_CANCEL_AT_END_OF_CYCLE` state. If the subscription is already cancelled, the request will fail. It should be called directly by the partner using service accounts. */
 export const undoCancelPartnersSubscriptions: API.OperationMethod<UndoCancelPartnersSubscriptionsRequest, UndoCancelPartnersSubscriptionsResponse, UndoCancelPartnersSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UndoCancelPartnersSubscriptionsRequest,
   output: UndoCancelPartnersSubscriptionsResponse,
   errors: [],
 }));
 
-/** Suspends a subscription. Contract terms may dictate if a prorated refund will be issued upon suspension. It should be called directly by the partner using service accounts. */
 export interface SuspendPartnersSubscriptionsRequest {
   /** Required. The name of the subscription resource to be suspended. It will have the format of "partners/{partner_id}/subscriptions/{subscription_id}" */
   name: string;
@@ -972,13 +971,13 @@ export const SuspendPartnersSubscriptionsResponse = SuspendSubscriptionResponse;
 
 export type SuspendPartnersSubscriptionsError = CommonErrors;
 
+/** Suspends a subscription. Contract terms may dictate if a prorated refund will be issued upon suspension. It should be called directly by the partner using service accounts. */
 export const suspendPartnersSubscriptions: API.OperationMethod<SuspendPartnersSubscriptionsRequest, SuspendPartnersSubscriptionsResponse, SuspendPartnersSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SuspendPartnersSubscriptionsRequest,
   output: SuspendPartnersSubscriptionsResponse,
   errors: [],
 }));
 
-/** Resumes a suspended subscription. The new billing cycle will start at the time of the request. It should be called directly by the partner using service accounts. */
 export interface ResumePartnersSubscriptionsRequest {
   /** Required. The name of the subscription resource to be resumed. It will have the format of "partners/{partner_id}/subscriptions/{subscription_id}" */
   name: string;
@@ -999,13 +998,13 @@ export const ResumePartnersSubscriptionsResponse = ResumeSubscriptionResponse;
 
 export type ResumePartnersSubscriptionsError = CommonErrors;
 
+/** Resumes a suspended subscription. The new billing cycle will start at the time of the request. It should be called directly by the partner using service accounts. */
 export const resumePartnersSubscriptions: API.OperationMethod<ResumePartnersSubscriptionsRequest, ResumePartnersSubscriptionsResponse, ResumePartnersSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResumePartnersSubscriptionsRequest,
   output: ResumePartnersSubscriptionsResponse,
   errors: [],
 }));
 
-/** Updates a line item of a subscription. It should be authenticated with a service account. */
 export interface PatchPartnersSubscriptionsLineItemsRequest {
   /** Identifier. Resource name of the line item. Format: partners/{partner}/subscriptions/{subscription}/lineItems/{lineItem} */
   name: string;
@@ -1029,13 +1028,13 @@ export const PatchPartnersSubscriptionsLineItemsResponse = SubscriptionLineItem;
 
 export type PatchPartnersSubscriptionsLineItemsError = CommonErrors;
 
+/** Updates a line item of a subscription. It should be authenticated with a service account. */
 export const patchPartnersSubscriptionsLineItems: API.OperationMethod<PatchPartnersSubscriptionsLineItemsRequest, PatchPartnersSubscriptionsLineItemsResponse, PatchPartnersSubscriptionsLineItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchPartnersSubscriptionsLineItemsRequest,
   output: PatchPartnersSubscriptionsLineItemsResponse,
   errors: [],
 }));
 
-/** Currently, it doesn't support **YouTube** products. Retrieves the products that can be resold by the partner. It should be authenticated with a service account. */
 export interface ListPartnersProductsRequest {
   /** Required. The parent, the partner that can resell. Format: partners/{partner} */
   parent: string;
@@ -1062,7 +1061,8 @@ export const ListPartnersProductsResponse = ListProductsResponse;
 
 export type ListPartnersProductsError = CommonErrors;
 
-export const listPartnersProducts = API.makePaginated(() => ({
+/** Currently, it doesn't support **YouTube** products. Retrieves the products that can be resold by the partner. It should be authenticated with a service account. */
+export const listPartnersProducts: API.PaginatedOperationMethod<ListPartnersProductsRequest, ListPartnersProductsResponse, ListPartnersProductsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPartnersProductsRequest,
   output: ListPartnersProductsResponse,
   errors: [],
@@ -1072,7 +1072,6 @@ export const listPartnersProducts = API.makePaginated(() => ({
   },
 }));
 
-/** Currently, it is only enabled for **YouTube**. Finds eligible promotions for the current user. The API requires user authorization via OAuth. The bare minimum oauth scope `openid` is sufficient, which will skip the consent screen. */
 export interface FindEligiblePartnersPromotionsRequest {
   /** Required. The parent, the partner that can resell. Format: partners/{partner} */
   parent: string;
@@ -1093,13 +1092,13 @@ export const FindEligiblePartnersPromotionsResponse = FindEligiblePromotionsResp
 
 export type FindEligiblePartnersPromotionsError = CommonErrors;
 
+/** Currently, it is only enabled for **YouTube**. Finds eligible promotions for the current user. The API requires user authorization via OAuth. The bare minimum oauth scope `openid` is sufficient, which will skip the consent screen. */
 export const findEligiblePartnersPromotions: API.OperationMethod<FindEligiblePartnersPromotionsRequest, FindEligiblePartnersPromotionsResponse, FindEligiblePartnersPromotionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FindEligiblePartnersPromotionsRequest,
   output: FindEligiblePartnersPromotionsResponse,
   errors: [],
 }));
 
-/** Currently, it doesn't support **YouTube** promotions. Retrieves the promotions, such as free trial, that can be used by the partner. It should be authenticated with a service account. */
 export interface ListPartnersPromotionsRequest {
   /** Required. The parent, the partner that can resell. Format: partners/{partner} */
   parent: string;
@@ -1126,7 +1125,8 @@ export const ListPartnersPromotionsResponse = ListPromotionsResponse;
 
 export type ListPartnersPromotionsError = CommonErrors;
 
-export const listPartnersPromotions = API.makePaginated(() => ({
+/** Currently, it doesn't support **YouTube** promotions. Retrieves the promotions, such as free trial, that can be used by the partner. It should be authenticated with a service account. */
+export const listPartnersPromotions: API.PaginatedOperationMethod<ListPartnersPromotionsRequest, ListPartnersPromotionsResponse, ListPartnersPromotionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPartnersPromotionsRequest,
   output: ListPartnersPromotionsResponse,
   errors: [],
@@ -1136,7 +1136,6 @@ export const listPartnersPromotions = API.makePaginated(() => ({
   },
 }));
 
-/** This API replaces user authorized OAuth consent based APIs (Create, Entitle). Issues a timed session token for the given user intent. You can use the session token to redirect the user to Google to finish the signup flow. You can re-generate new session token repeatedly for the same request if necessary, regardless of the previous tokens being expired or not. By default, the session token is valid for 1 hour. */
 export interface GeneratePartnersUserSessionsRequest {
   /** Required. The parent, the partner that can resell. Format: partners/{partner} */
   parent: string;
@@ -1157,6 +1156,7 @@ export const GeneratePartnersUserSessionsResponse = GenerateUserSessionResponse;
 
 export type GeneratePartnersUserSessionsError = CommonErrors;
 
+/** This API replaces user authorized OAuth consent based APIs (Create, Entitle). Issues a timed session token for the given user intent. You can use the session token to redirect the user to Google to finish the signup flow. You can re-generate new session token repeatedly for the same request if necessary, regardless of the previous tokens being expired or not. By default, the session token is valid for 1 hour. */
 export const generatePartnersUserSessions: API.OperationMethod<GeneratePartnersUserSessionsRequest, GeneratePartnersUserSessionsResponse, GeneratePartnersUserSessionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GeneratePartnersUserSessionsRequest,
   output: GeneratePartnersUserSessionsResponse,

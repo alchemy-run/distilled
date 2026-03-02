@@ -234,7 +234,6 @@ export const ReportPropertyUsageResponse: Schema.Schema<ReportPropertyUsageRespo
 // Operations
 // ==========================================================================
 
-/** Lookup for a single organization. */
 export interface GetOrganizationsRequest {
   /** Required. The name of the Organization to retrieve. Format: organizations/{org_id} */
   name: string;
@@ -252,13 +251,13 @@ export const GetOrganizationsResponse = Organization;
 
 export type GetOrganizationsError = CommonErrors;
 
+/** Lookup for a single organization. */
 export const getOrganizations: API.OperationMethod<GetOrganizationsRequest, GetOrganizationsResponse, GetOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsRequest,
   output: GetOrganizationsResponse,
   errors: [],
 }));
 
-/** Returns a list of organizations that the user has access to. */
 export interface ListOrganizationsRequest {
   /** Optional. The maximum number of organizations to return in one call. The service may return fewer than this value. If unspecified, at most 50 organizations will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
@@ -279,7 +278,8 @@ export const ListOrganizationsResponse_Op = ListOrganizationsResponse;
 
 export type ListOrganizationsError = CommonErrors;
 
-export const listOrganizations = API.makePaginated(() => ({
+/** Returns a list of organizations that the user has access to. */
+export const listOrganizations: API.PaginatedOperationMethod<ListOrganizationsRequest, ListOrganizationsResponse_Op, ListOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsRequest,
   output: ListOrganizationsResponse_Op,
   errors: [],
@@ -289,7 +289,6 @@ export const listOrganizations = API.makePaginated(() => ({
   },
 }));
 
-/** Returns a list of clients managed by the sales partner organization. User needs to be an OrgAdmin/BillingAdmin on the sales partner organization in order to view the end clients. */
 export interface FindSalesPartnerManagedClientsOrganizationsRequest {
   /** Required. The name of the sales partner organization. Format: organizations/{org_id} */
   organization: string;
@@ -310,13 +309,13 @@ export const FindSalesPartnerManagedClientsOrganizationsResponse = FindSalesPart
 
 export type FindSalesPartnerManagedClientsOrganizationsError = CommonErrors;
 
+/** Returns a list of clients managed by the sales partner organization. User needs to be an OrgAdmin/BillingAdmin on the sales partner organization in order to view the end clients. */
 export const findSalesPartnerManagedClientsOrganizations: API.OperationMethod<FindSalesPartnerManagedClientsOrganizationsRequest, FindSalesPartnerManagedClientsOrganizationsResponse, FindSalesPartnerManagedClientsOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FindSalesPartnerManagedClientsOrganizationsRequest,
   output: FindSalesPartnerManagedClientsOrganizationsResponse,
   errors: [],
 }));
 
-/** Get the usage and billing data for properties within the organization for the specified month. Per direct client org, user needs to be OrgAdmin/BillingAdmin on the organization in order to view the billing and usage data. Per sales partner client org, user needs to be OrgAdmin/BillingAdmin on the sales partner org in order to view the billing and usage data, or OrgAdmin/BillingAdmin on the sales partner client org in order to view the usage data only. */
 export interface ReportPropertyUsageOrganizationsRequest {
   /** Required. Specifies the organization whose property usage will be listed. Format: organizations/{org_id} */
   organization: string;
@@ -337,13 +336,13 @@ export const ReportPropertyUsageOrganizationsResponse = ReportPropertyUsageRespo
 
 export type ReportPropertyUsageOrganizationsError = CommonErrors;
 
+/** Get the usage and billing data for properties within the organization for the specified month. Per direct client org, user needs to be OrgAdmin/BillingAdmin on the organization in order to view the billing and usage data. Per sales partner client org, user needs to be OrgAdmin/BillingAdmin on the sales partner org in order to view the billing and usage data, or OrgAdmin/BillingAdmin on the sales partner client org in order to view the usage data only. */
 export const reportPropertyUsageOrganizations: API.OperationMethod<ReportPropertyUsageOrganizationsRequest, ReportPropertyUsageOrganizationsResponse, ReportPropertyUsageOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReportPropertyUsageOrganizationsRequest,
   output: ReportPropertyUsageOrganizationsResponse,
   errors: [],
 }));
 
-/** Lists the Google Analytics accounts link to the specified Google Marketing Platform organization. */
 export interface ListOrganizationsAnalyticsAccountLinksRequest {
   /** Required. The parent organization, which owns this collection of Analytics account links. Format: organizations/{org_id} */
   parent: string;
@@ -367,7 +366,8 @@ export const ListOrganizationsAnalyticsAccountLinksResponse = ListAnalyticsAccou
 
 export type ListOrganizationsAnalyticsAccountLinksError = CommonErrors;
 
-export const listOrganizationsAnalyticsAccountLinks = API.makePaginated(() => ({
+/** Lists the Google Analytics accounts link to the specified Google Marketing Platform organization. */
+export const listOrganizationsAnalyticsAccountLinks: API.PaginatedOperationMethod<ListOrganizationsAnalyticsAccountLinksRequest, ListOrganizationsAnalyticsAccountLinksResponse, ListOrganizationsAnalyticsAccountLinksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsAnalyticsAccountLinksRequest,
   output: ListOrganizationsAnalyticsAccountLinksResponse,
   errors: [],
@@ -377,7 +377,6 @@ export const listOrganizationsAnalyticsAccountLinks = API.makePaginated(() => ({
   },
 }));
 
-/** Creates the link between the Analytics account and the Google Marketing Platform organization. User needs to be an org user, and admin on the Analytics account to create the link. If the account is already linked to an organization, user needs to unlink the account from the current organization, then try link again. */
 export interface CreateOrganizationsAnalyticsAccountLinksRequest {
   /** Required. The parent resource where this Analytics account link will be created. Format: organizations/{org_id} */
   parent: string;
@@ -398,13 +397,13 @@ export const CreateOrganizationsAnalyticsAccountLinksResponse = AnalyticsAccount
 
 export type CreateOrganizationsAnalyticsAccountLinksError = CommonErrors;
 
+/** Creates the link between the Analytics account and the Google Marketing Platform organization. User needs to be an org user, and admin on the Analytics account to create the link. If the account is already linked to an organization, user needs to unlink the account from the current organization, then try link again. */
 export const createOrganizationsAnalyticsAccountLinks: API.OperationMethod<CreateOrganizationsAnalyticsAccountLinksRequest, CreateOrganizationsAnalyticsAccountLinksResponse, CreateOrganizationsAnalyticsAccountLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsAnalyticsAccountLinksRequest,
   output: CreateOrganizationsAnalyticsAccountLinksResponse,
   errors: [],
 }));
 
-/** Deletes the AnalyticsAccountLink, which detaches the Analytics account from the Google Marketing Platform organization. User needs to be an org user, and admin on the Analytics account in order to delete the link. */
 export interface DeleteOrganizationsAnalyticsAccountLinksRequest {
   /** Required. The name of the Analytics account link to delete. Format: organizations/{org_id}/analyticsAccountLinks/{analytics_account_link_id} */
   name: string;
@@ -422,13 +421,13 @@ export const DeleteOrganizationsAnalyticsAccountLinksResponse = Empty;
 
 export type DeleteOrganizationsAnalyticsAccountLinksError = CommonErrors;
 
+/** Deletes the AnalyticsAccountLink, which detaches the Analytics account from the Google Marketing Platform organization. User needs to be an org user, and admin on the Analytics account in order to delete the link. */
 export const deleteOrganizationsAnalyticsAccountLinks: API.OperationMethod<DeleteOrganizationsAnalyticsAccountLinksRequest, DeleteOrganizationsAnalyticsAccountLinksResponse, DeleteOrganizationsAnalyticsAccountLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsAnalyticsAccountLinksRequest,
   output: DeleteOrganizationsAnalyticsAccountLinksResponse,
   errors: [],
 }));
 
-/** Updates the service level for an Analytics property. */
 export interface SetPropertyServiceLevelOrganizationsAnalyticsAccountLinksRequest {
   /** Required. The parent AnalyticsAccountLink scope where this property is in. Format: organizations/{org_id}/analyticsAccountLinks/{analytics_account_link_id} */
   analyticsAccountLink: string;
@@ -449,6 +448,7 @@ export const SetPropertyServiceLevelOrganizationsAnalyticsAccountLinksResponse =
 
 export type SetPropertyServiceLevelOrganizationsAnalyticsAccountLinksError = CommonErrors;
 
+/** Updates the service level for an Analytics property. */
 export const setPropertyServiceLevelOrganizationsAnalyticsAccountLinks: API.OperationMethod<SetPropertyServiceLevelOrganizationsAnalyticsAccountLinksRequest, SetPropertyServiceLevelOrganizationsAnalyticsAccountLinksResponse, SetPropertyServiceLevelOrganizationsAnalyticsAccountLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetPropertyServiceLevelOrganizationsAnalyticsAccountLinksRequest,
   output: SetPropertyServiceLevelOrganizationsAnalyticsAccountLinksResponse,

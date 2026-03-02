@@ -1137,7 +1137,6 @@ export const RefineTextResponse: Schema.Schema<RefineTextResponse> = Schema.susp
 // Operations
 // ==========================================================================
 
-/** Translates input text and returns translated text. */
 export interface TranslateTextProjectsRequest {
   /** Required. Project or location to make a call. Must refer to a caller's project. Format: `projects/{project-number-or-id}` or `projects/{project-number-or-id}/locations/{location-id}`. For global calls, use `projects/{project-number-or-id}/locations/global` or `projects/{project-number-or-id}`. Non-global location is required for requests using AutoML models or custom glossaries. Models and glossaries must be within the same region (have same location-id), otherwise an INVALID_ARGUMENT (400) error is returned. */
   parent: string;
@@ -1158,13 +1157,13 @@ export const TranslateTextProjectsResponse = TranslateTextResponse;
 
 export type TranslateTextProjectsError = CommonErrors;
 
+/** Translates input text and returns translated text. */
 export const translateTextProjects: API.OperationMethod<TranslateTextProjectsRequest, TranslateTextProjectsResponse, TranslateTextProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TranslateTextProjectsRequest,
   output: TranslateTextProjectsResponse,
   errors: [],
 }));
 
-/** Romanize input text written in non-Latin scripts to Latin text. */
 export interface RomanizeTextProjectsRequest {
   /** Required. Project or location to make a call. Must refer to a caller's project. Format: `projects/{project-number-or-id}/locations/{location-id}` or `projects/{project-number-or-id}`. For global calls, use `projects/{project-number-or-id}/locations/global` or `projects/{project-number-or-id}`. */
   parent: string;
@@ -1185,13 +1184,13 @@ export const RomanizeTextProjectsResponse = RomanizeTextResponse;
 
 export type RomanizeTextProjectsError = CommonErrors;
 
+/** Romanize input text written in non-Latin scripts to Latin text. */
 export const romanizeTextProjects: API.OperationMethod<RomanizeTextProjectsRequest, RomanizeTextProjectsResponse, RomanizeTextProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RomanizeTextProjectsRequest,
   output: RomanizeTextProjectsResponse,
   errors: [],
 }));
 
-/** Detects the language of text within a request. */
 export interface DetectLanguageProjectsRequest {
   /** Required. Project or location to make a call. Must refer to a caller's project. Format: `projects/{project-number-or-id}/locations/{location-id}` or `projects/{project-number-or-id}`. For global calls, use `projects/{project-number-or-id}/locations/global` or `projects/{project-number-or-id}`. Only models within the same region (has same location-id) can be used. Otherwise an INVALID_ARGUMENT (400) error is returned. */
   parent: string;
@@ -1212,13 +1211,13 @@ export const DetectLanguageProjectsResponse = DetectLanguageResponse;
 
 export type DetectLanguageProjectsError = CommonErrors;
 
+/** Detects the language of text within a request. */
 export const detectLanguageProjects: API.OperationMethod<DetectLanguageProjectsRequest, DetectLanguageProjectsResponse, DetectLanguageProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DetectLanguageProjectsRequest,
   output: DetectLanguageProjectsResponse,
   errors: [],
 }));
 
-/** Returns a list of supported languages for translation. */
 export interface GetSupportedLanguagesProjectsRequest {
   /** Required. Project or location to make a call. Must refer to a caller's project. Format: `projects/{project-number-or-id}` or `projects/{project-number-or-id}/locations/{location-id}`. For global calls, use `projects/{project-number-or-id}/locations/global` or `projects/{project-number-or-id}`. Non-global location is required for AutoML models. Only models within the same region (have same location-id) can be used, otherwise an INVALID_ARGUMENT (400) error is returned. */
   parent: string;
@@ -1242,13 +1241,13 @@ export const GetSupportedLanguagesProjectsResponse = SupportedLanguages;
 
 export type GetSupportedLanguagesProjectsError = CommonErrors;
 
+/** Returns a list of supported languages for translation. */
 export const getSupportedLanguagesProjects: API.OperationMethod<GetSupportedLanguagesProjectsRequest, GetSupportedLanguagesProjectsResponse, GetSupportedLanguagesProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSupportedLanguagesProjectsRequest,
   output: GetSupportedLanguagesProjectsResponse,
   errors: [],
 }));
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -1278,7 +1277,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -1288,7 +1288,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -1306,13 +1305,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Translates input text and returns translated text. */
 export interface TranslateTextProjectsLocationsRequest {
   /** Required. Project or location to make a call. Must refer to a caller's project. Format: `projects/{project-number-or-id}` or `projects/{project-number-or-id}/locations/{location-id}`. For global calls, use `projects/{project-number-or-id}/locations/global` or `projects/{project-number-or-id}`. Non-global location is required for requests using AutoML models or custom glossaries. Models and glossaries must be within the same region (have same location-id), otherwise an INVALID_ARGUMENT (400) error is returned. */
   parent: string;
@@ -1333,13 +1332,13 @@ export const TranslateTextProjectsLocationsResponse = TranslateTextResponse;
 
 export type TranslateTextProjectsLocationsError = CommonErrors;
 
+/** Translates input text and returns translated text. */
 export const translateTextProjectsLocations: API.OperationMethod<TranslateTextProjectsLocationsRequest, TranslateTextProjectsLocationsResponse, TranslateTextProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TranslateTextProjectsLocationsRequest,
   output: TranslateTextProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Romanize input text written in non-Latin scripts to Latin text. */
 export interface RomanizeTextProjectsLocationsRequest {
   /** Required. Project or location to make a call. Must refer to a caller's project. Format: `projects/{project-number-or-id}/locations/{location-id}` or `projects/{project-number-or-id}`. For global calls, use `projects/{project-number-or-id}/locations/global` or `projects/{project-number-or-id}`. */
   parent: string;
@@ -1360,13 +1359,13 @@ export const RomanizeTextProjectsLocationsResponse = RomanizeTextResponse;
 
 export type RomanizeTextProjectsLocationsError = CommonErrors;
 
+/** Romanize input text written in non-Latin scripts to Latin text. */
 export const romanizeTextProjectsLocations: API.OperationMethod<RomanizeTextProjectsLocationsRequest, RomanizeTextProjectsLocationsResponse, RomanizeTextProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RomanizeTextProjectsLocationsRequest,
   output: RomanizeTextProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Detects the language of text within a request. */
 export interface DetectLanguageProjectsLocationsRequest {
   /** Required. Project or location to make a call. Must refer to a caller's project. Format: `projects/{project-number-or-id}/locations/{location-id}` or `projects/{project-number-or-id}`. For global calls, use `projects/{project-number-or-id}/locations/global` or `projects/{project-number-or-id}`. Only models within the same region (has same location-id) can be used. Otherwise an INVALID_ARGUMENT (400) error is returned. */
   parent: string;
@@ -1387,13 +1386,13 @@ export const DetectLanguageProjectsLocationsResponse = DetectLanguageResponse;
 
 export type DetectLanguageProjectsLocationsError = CommonErrors;
 
+/** Detects the language of text within a request. */
 export const detectLanguageProjectsLocations: API.OperationMethod<DetectLanguageProjectsLocationsRequest, DetectLanguageProjectsLocationsResponse, DetectLanguageProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DetectLanguageProjectsLocationsRequest,
   output: DetectLanguageProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Returns a list of supported languages for translation. */
 export interface GetSupportedLanguagesProjectsLocationsRequest {
   /** Required. Project or location to make a call. Must refer to a caller's project. Format: `projects/{project-number-or-id}` or `projects/{project-number-or-id}/locations/{location-id}`. For global calls, use `projects/{project-number-or-id}/locations/global` or `projects/{project-number-or-id}`. Non-global location is required for AutoML models. Only models within the same region (have same location-id) can be used, otherwise an INVALID_ARGUMENT (400) error is returned. */
   parent: string;
@@ -1417,13 +1416,13 @@ export const GetSupportedLanguagesProjectsLocationsResponse = SupportedLanguages
 
 export type GetSupportedLanguagesProjectsLocationsError = CommonErrors;
 
+/** Returns a list of supported languages for translation. */
 export const getSupportedLanguagesProjectsLocations: API.OperationMethod<GetSupportedLanguagesProjectsLocationsRequest, GetSupportedLanguagesProjectsLocationsResponse, GetSupportedLanguagesProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSupportedLanguagesProjectsLocationsRequest,
   output: GetSupportedLanguagesProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Translates documents in synchronous mode. */
 export interface TranslateDocumentProjectsLocationsRequest {
   /** Required. Location to make a regional call. Format: `projects/{project-number-or-id}/locations/{location-id}`. For global calls, use `projects/{project-number-or-id}/locations/global` or `projects/{project-number-or-id}`. Non-global location is required for requests using AutoML models or custom glossaries. Models and glossaries must be within the same region (have the same location-id), otherwise an INVALID_ARGUMENT (400) error is returned. */
   parent: string;
@@ -1444,13 +1443,13 @@ export const TranslateDocumentProjectsLocationsResponse = TranslateDocumentRespo
 
 export type TranslateDocumentProjectsLocationsError = CommonErrors;
 
+/** Translates documents in synchronous mode. */
 export const translateDocumentProjectsLocations: API.OperationMethod<TranslateDocumentProjectsLocationsRequest, TranslateDocumentProjectsLocationsResponse, TranslateDocumentProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TranslateDocumentProjectsLocationsRequest,
   output: TranslateDocumentProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Translates a large volume of text in asynchronous batch mode. This function provides real-time output as the inputs are being processed. If caller cancels a request, the partial results (for an input file, it's all or nothing) may still be available on the specified output location. This call returns immediately and you can use google.longrunning.Operation.name to poll the status of the call. */
 export interface BatchTranslateTextProjectsLocationsRequest {
   /** Required. Location to make a call. Must refer to a caller's project. Format: `projects/{project-number-or-id}/locations/{location-id}`. The `global` location is not supported for batch translation. Only AutoML Translation models or glossaries within the same region (have the same location-id) can be used, otherwise an INVALID_ARGUMENT (400) error is returned. */
   parent: string;
@@ -1471,13 +1470,13 @@ export const BatchTranslateTextProjectsLocationsResponse = Operation;
 
 export type BatchTranslateTextProjectsLocationsError = CommonErrors;
 
+/** Translates a large volume of text in asynchronous batch mode. This function provides real-time output as the inputs are being processed. If caller cancels a request, the partial results (for an input file, it's all or nothing) may still be available on the specified output location. This call returns immediately and you can use google.longrunning.Operation.name to poll the status of the call. */
 export const batchTranslateTextProjectsLocations: API.OperationMethod<BatchTranslateTextProjectsLocationsRequest, BatchTranslateTextProjectsLocationsResponse, BatchTranslateTextProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchTranslateTextProjectsLocationsRequest,
   output: BatchTranslateTextProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Translates a large volume of document in asynchronous batch mode. This function provides real-time output as the inputs are being processed. If caller cancels a request, the partial results (for an input file, it's all or nothing) may still be available on the specified output location. This call returns immediately and you can use google.longrunning.Operation.name to poll the status of the call. */
 export interface BatchTranslateDocumentProjectsLocationsRequest {
   /** Required. Location to make a regional call. Format: `projects/{project-number-or-id}/locations/{location-id}`. The `global` location is not supported for batch translation. Only AutoML Translation models or glossaries within the same region (have the same location-id) can be used, otherwise an INVALID_ARGUMENT (400) error is returned. */
   parent: string;
@@ -1498,13 +1497,13 @@ export const BatchTranslateDocumentProjectsLocationsResponse = Operation;
 
 export type BatchTranslateDocumentProjectsLocationsError = CommonErrors;
 
+/** Translates a large volume of document in asynchronous batch mode. This function provides real-time output as the inputs are being processed. If caller cancels a request, the partial results (for an input file, it's all or nothing) may still be available on the specified output location. This call returns immediately and you can use google.longrunning.Operation.name to poll the status of the call. */
 export const batchTranslateDocumentProjectsLocations: API.OperationMethod<BatchTranslateDocumentProjectsLocationsRequest, BatchTranslateDocumentProjectsLocationsResponse, BatchTranslateDocumentProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchTranslateDocumentProjectsLocationsRequest,
   output: BatchTranslateDocumentProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Translate text using Adaptive MT. */
 export interface AdaptiveMtTranslateProjectsLocationsRequest {
   /** Required. Location to make a regional call. Format: `projects/{project-number-or-id}/locations/{location-id}`. */
   parent: string;
@@ -1525,13 +1524,13 @@ export const AdaptiveMtTranslateProjectsLocationsResponse = AdaptiveMtTranslateR
 
 export type AdaptiveMtTranslateProjectsLocationsError = CommonErrors;
 
+/** Translate text using Adaptive MT. */
 export const adaptiveMtTranslateProjectsLocations: API.OperationMethod<AdaptiveMtTranslateProjectsLocationsRequest, AdaptiveMtTranslateProjectsLocationsResponse, AdaptiveMtTranslateProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AdaptiveMtTranslateProjectsLocationsRequest,
   output: AdaptiveMtTranslateProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Refines the input translated text to improve the quality. */
 export interface RefineTextProjectsLocationsRequest {
   /** Required. Project or location to make a call. Must refer to a caller's project. Format: `projects/{project-number-or-id}/locations/{location-id}`. For global calls, use `projects/{project-number-or-id}/locations/global` or `projects/{project-number-or-id}`. */
   parent: string;
@@ -1552,13 +1551,13 @@ export const RefineTextProjectsLocationsResponse = RefineTextResponse;
 
 export type RefineTextProjectsLocationsError = CommonErrors;
 
+/** Refines the input translated text to improve the quality. */
 export const refineTextProjectsLocations: API.OperationMethod<RefineTextProjectsLocationsRequest, RefineTextProjectsLocationsResponse, RefineTextProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RefineTextProjectsLocationsRequest,
   output: RefineTextProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -1588,7 +1587,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -1598,7 +1598,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1616,13 +1615,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -1640,13 +1639,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -1667,13 +1666,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Waits until the specified long-running operation is done or reaches at most a specified timeout, returning the latest state. If the operation is already done, the latest state is immediately returned. If the timeout specified is greater than the default HTTP/RPC timeout, the HTTP/RPC timeout is used. If the server does not support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Note that this method is on a best-effort basis. It may return the latest state before the specified timeout (including immediately), meaning even an immediate response is no guarantee that the operation is done. */
 export interface WaitProjectsLocationsOperationsRequest {
   /** The name of the operation resource to wait on. */
   name: string;
@@ -1694,13 +1693,13 @@ export const WaitProjectsLocationsOperationsResponse = Operation;
 
 export type WaitProjectsLocationsOperationsError = CommonErrors;
 
+/** Waits until the specified long-running operation is done or reaches at most a specified timeout, returning the latest state. If the operation is already done, the latest state is immediately returned. If the timeout specified is greater than the default HTTP/RPC timeout, the HTTP/RPC timeout is used. If the server does not support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Note that this method is on a best-effort basis. It may return the latest state before the specified timeout (including immediately), meaning even an immediate response is no guarantee that the operation is done. */
 export const waitProjectsLocationsOperations: API.OperationMethod<WaitProjectsLocationsOperationsRequest, WaitProjectsLocationsOperationsResponse, WaitProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WaitProjectsLocationsOperationsRequest,
   output: WaitProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Creates a glossary and returns the long-running operation. Returns NOT_FOUND, if the project doesn't exist. */
 export interface CreateProjectsLocationsGlossariesRequest {
   /** Required. The project name. */
   parent: string;
@@ -1721,13 +1720,13 @@ export const CreateProjectsLocationsGlossariesResponse = Operation;
 
 export type CreateProjectsLocationsGlossariesError = CommonErrors;
 
+/** Creates a glossary and returns the long-running operation. Returns NOT_FOUND, if the project doesn't exist. */
 export const createProjectsLocationsGlossaries: API.OperationMethod<CreateProjectsLocationsGlossariesRequest, CreateProjectsLocationsGlossariesResponse, CreateProjectsLocationsGlossariesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsGlossariesRequest,
   output: CreateProjectsLocationsGlossariesResponse,
   errors: [],
 }));
 
-/** Updates a glossary. A LRO is used since the update can be async if the glossary's entry file is updated. */
 export interface PatchProjectsLocationsGlossariesRequest {
   /** Identifier. The resource name of the glossary. Glossary names have the form `projects/{project-number-or-id}/locations/{location-id}/glossaries/{glossary-id}`. */
   name: string;
@@ -1751,13 +1750,13 @@ export const PatchProjectsLocationsGlossariesResponse = Operation;
 
 export type PatchProjectsLocationsGlossariesError = CommonErrors;
 
+/** Updates a glossary. A LRO is used since the update can be async if the glossary's entry file is updated. */
 export const patchProjectsLocationsGlossaries: API.OperationMethod<PatchProjectsLocationsGlossariesRequest, PatchProjectsLocationsGlossariesResponse, PatchProjectsLocationsGlossariesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsGlossariesRequest,
   output: PatchProjectsLocationsGlossariesResponse,
   errors: [],
 }));
 
-/** Lists glossaries in a project. Returns NOT_FOUND, if the project doesn't exist. */
 export interface ListProjectsLocationsGlossariesRequest {
   /** Required. The name of the project from which to list all of the glossaries. */
   parent: string;
@@ -1784,7 +1783,8 @@ export const ListProjectsLocationsGlossariesResponse = ListGlossariesResponse;
 
 export type ListProjectsLocationsGlossariesError = CommonErrors;
 
-export const listProjectsLocationsGlossaries = API.makePaginated(() => ({
+/** Lists glossaries in a project. Returns NOT_FOUND, if the project doesn't exist. */
+export const listProjectsLocationsGlossaries: API.PaginatedOperationMethod<ListProjectsLocationsGlossariesRequest, ListProjectsLocationsGlossariesResponse, ListProjectsLocationsGlossariesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsGlossariesRequest,
   output: ListProjectsLocationsGlossariesResponse,
   errors: [],
@@ -1794,7 +1794,6 @@ export const listProjectsLocationsGlossaries = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a glossary. Returns NOT_FOUND, if the glossary doesn't exist. */
 export interface GetProjectsLocationsGlossariesRequest {
   /** Required. The name of the glossary to retrieve. */
   name: string;
@@ -1812,13 +1811,13 @@ export const GetProjectsLocationsGlossariesResponse = Glossary;
 
 export type GetProjectsLocationsGlossariesError = CommonErrors;
 
+/** Gets a glossary. Returns NOT_FOUND, if the glossary doesn't exist. */
 export const getProjectsLocationsGlossaries: API.OperationMethod<GetProjectsLocationsGlossariesRequest, GetProjectsLocationsGlossariesResponse, GetProjectsLocationsGlossariesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsGlossariesRequest,
   output: GetProjectsLocationsGlossariesResponse,
   errors: [],
 }));
 
-/** Deletes a glossary, or cancels glossary construction if the glossary isn't created yet. Returns NOT_FOUND, if the glossary doesn't exist. */
 export interface DeleteProjectsLocationsGlossariesRequest {
   /** Required. The name of the glossary to delete. */
   name: string;
@@ -1836,13 +1835,13 @@ export const DeleteProjectsLocationsGlossariesResponse = Operation;
 
 export type DeleteProjectsLocationsGlossariesError = CommonErrors;
 
+/** Deletes a glossary, or cancels glossary construction if the glossary isn't created yet. Returns NOT_FOUND, if the glossary doesn't exist. */
 export const deleteProjectsLocationsGlossaries: API.OperationMethod<DeleteProjectsLocationsGlossariesRequest, DeleteProjectsLocationsGlossariesResponse, DeleteProjectsLocationsGlossariesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsGlossariesRequest,
   output: DeleteProjectsLocationsGlossariesResponse,
   errors: [],
 }));
 
-/** Gets a single glossary entry by the given id. */
 export interface GetProjectsLocationsGlossariesGlossaryEntriesRequest {
   /** Required. The resource name of the glossary entry to get */
   name: string;
@@ -1860,13 +1859,13 @@ export const GetProjectsLocationsGlossariesGlossaryEntriesResponse = GlossaryEnt
 
 export type GetProjectsLocationsGlossariesGlossaryEntriesError = CommonErrors;
 
+/** Gets a single glossary entry by the given id. */
 export const getProjectsLocationsGlossariesGlossaryEntries: API.OperationMethod<GetProjectsLocationsGlossariesGlossaryEntriesRequest, GetProjectsLocationsGlossariesGlossaryEntriesResponse, GetProjectsLocationsGlossariesGlossaryEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsGlossariesGlossaryEntriesRequest,
   output: GetProjectsLocationsGlossariesGlossaryEntriesResponse,
   errors: [],
 }));
 
-/** List the entries for the glossary. */
 export interface ListProjectsLocationsGlossariesGlossaryEntriesRequest {
   /** Required. The parent glossary resource name for listing the glossary's entries. */
   parent: string;
@@ -1890,7 +1889,8 @@ export const ListProjectsLocationsGlossariesGlossaryEntriesResponse = ListGlossa
 
 export type ListProjectsLocationsGlossariesGlossaryEntriesError = CommonErrors;
 
-export const listProjectsLocationsGlossariesGlossaryEntries = API.makePaginated(() => ({
+/** List the entries for the glossary. */
+export const listProjectsLocationsGlossariesGlossaryEntries: API.PaginatedOperationMethod<ListProjectsLocationsGlossariesGlossaryEntriesRequest, ListProjectsLocationsGlossariesGlossaryEntriesResponse, ListProjectsLocationsGlossariesGlossaryEntriesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsGlossariesGlossaryEntriesRequest,
   output: ListProjectsLocationsGlossariesGlossaryEntriesResponse,
   errors: [],
@@ -1900,7 +1900,6 @@ export const listProjectsLocationsGlossariesGlossaryEntries = API.makePaginated(
   },
 }));
 
-/** Creates a glossary entry. */
 export interface CreateProjectsLocationsGlossariesGlossaryEntriesRequest {
   /** Required. The resource name of the glossary to create the entry under. */
   parent: string;
@@ -1921,13 +1920,13 @@ export const CreateProjectsLocationsGlossariesGlossaryEntriesResponse = Glossary
 
 export type CreateProjectsLocationsGlossariesGlossaryEntriesError = CommonErrors;
 
+/** Creates a glossary entry. */
 export const createProjectsLocationsGlossariesGlossaryEntries: API.OperationMethod<CreateProjectsLocationsGlossariesGlossaryEntriesRequest, CreateProjectsLocationsGlossariesGlossaryEntriesResponse, CreateProjectsLocationsGlossariesGlossaryEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsGlossariesGlossaryEntriesRequest,
   output: CreateProjectsLocationsGlossariesGlossaryEntriesResponse,
   errors: [],
 }));
 
-/** Updates a glossary entry. */
 export interface PatchProjectsLocationsGlossariesGlossaryEntriesRequest {
   /** Identifier. The resource name of the entry. Format: `projects/* /locations/* /glossaries/* /glossaryEntries/*` */
   name: string;
@@ -1948,13 +1947,13 @@ export const PatchProjectsLocationsGlossariesGlossaryEntriesResponse = GlossaryE
 
 export type PatchProjectsLocationsGlossariesGlossaryEntriesError = CommonErrors;
 
+/** Updates a glossary entry. */
 export const patchProjectsLocationsGlossariesGlossaryEntries: API.OperationMethod<PatchProjectsLocationsGlossariesGlossaryEntriesRequest, PatchProjectsLocationsGlossariesGlossaryEntriesResponse, PatchProjectsLocationsGlossariesGlossaryEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsGlossariesGlossaryEntriesRequest,
   output: PatchProjectsLocationsGlossariesGlossaryEntriesResponse,
   errors: [],
 }));
 
-/** Deletes a single entry from the glossary */
 export interface DeleteProjectsLocationsGlossariesGlossaryEntriesRequest {
   /** Required. The resource name of the glossary entry to delete */
   name: string;
@@ -1972,13 +1971,13 @@ export const DeleteProjectsLocationsGlossariesGlossaryEntriesResponse = Empty;
 
 export type DeleteProjectsLocationsGlossariesGlossaryEntriesError = CommonErrors;
 
+/** Deletes a single entry from the glossary */
 export const deleteProjectsLocationsGlossariesGlossaryEntries: API.OperationMethod<DeleteProjectsLocationsGlossariesGlossaryEntriesRequest, DeleteProjectsLocationsGlossariesGlossaryEntriesResponse, DeleteProjectsLocationsGlossariesGlossaryEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsGlossariesGlossaryEntriesRequest,
   output: DeleteProjectsLocationsGlossariesGlossaryEntriesResponse,
   errors: [],
 }));
 
-/** Creates a Dataset. */
 export interface CreateProjectsLocationsDatasetsRequest {
   /** Required. The project name. */
   parent: string;
@@ -1999,13 +1998,13 @@ export const CreateProjectsLocationsDatasetsResponse = Operation;
 
 export type CreateProjectsLocationsDatasetsError = CommonErrors;
 
+/** Creates a Dataset. */
 export const createProjectsLocationsDatasets: API.OperationMethod<CreateProjectsLocationsDatasetsRequest, CreateProjectsLocationsDatasetsResponse, CreateProjectsLocationsDatasetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsDatasetsRequest,
   output: CreateProjectsLocationsDatasetsResponse,
   errors: [],
 }));
 
-/** Gets a Dataset. */
 export interface GetProjectsLocationsDatasetsRequest {
   /** Required. The resource name of the dataset to retrieve. */
   name: string;
@@ -2023,13 +2022,13 @@ export const GetProjectsLocationsDatasetsResponse = Dataset;
 
 export type GetProjectsLocationsDatasetsError = CommonErrors;
 
+/** Gets a Dataset. */
 export const getProjectsLocationsDatasets: API.OperationMethod<GetProjectsLocationsDatasetsRequest, GetProjectsLocationsDatasetsResponse, GetProjectsLocationsDatasetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDatasetsRequest,
   output: GetProjectsLocationsDatasetsResponse,
   errors: [],
 }));
 
-/** Lists datasets. */
 export interface ListProjectsLocationsDatasetsRequest {
   /** Required. Name of the parent project. In form of `projects/{project-number-or-id}/locations/{location-id}` */
   parent: string;
@@ -2053,7 +2052,8 @@ export const ListProjectsLocationsDatasetsResponse = ListDatasetsResponse;
 
 export type ListProjectsLocationsDatasetsError = CommonErrors;
 
-export const listProjectsLocationsDatasets = API.makePaginated(() => ({
+/** Lists datasets. */
+export const listProjectsLocationsDatasets: API.PaginatedOperationMethod<ListProjectsLocationsDatasetsRequest, ListProjectsLocationsDatasetsResponse, ListProjectsLocationsDatasetsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDatasetsRequest,
   output: ListProjectsLocationsDatasetsResponse,
   errors: [],
@@ -2063,7 +2063,6 @@ export const listProjectsLocationsDatasets = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a dataset and all of its contents. */
 export interface DeleteProjectsLocationsDatasetsRequest {
   /** Required. The name of the dataset to delete. */
   name: string;
@@ -2081,13 +2080,13 @@ export const DeleteProjectsLocationsDatasetsResponse = Operation;
 
 export type DeleteProjectsLocationsDatasetsError = CommonErrors;
 
+/** Deletes a dataset and all of its contents. */
 export const deleteProjectsLocationsDatasets: API.OperationMethod<DeleteProjectsLocationsDatasetsRequest, DeleteProjectsLocationsDatasetsResponse, DeleteProjectsLocationsDatasetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDatasetsRequest,
   output: DeleteProjectsLocationsDatasetsResponse,
   errors: [],
 }));
 
-/** Import sentence pairs into translation Dataset. */
 export interface ImportDataProjectsLocationsDatasetsRequest {
   /** Required. Name of the dataset. In form of `projects/{project-number-or-id}/locations/{location-id}/datasets/{dataset-id}` */
   dataset: string;
@@ -2108,13 +2107,13 @@ export const ImportDataProjectsLocationsDatasetsResponse = Operation;
 
 export type ImportDataProjectsLocationsDatasetsError = CommonErrors;
 
+/** Import sentence pairs into translation Dataset. */
 export const importDataProjectsLocationsDatasets: API.OperationMethod<ImportDataProjectsLocationsDatasetsRequest, ImportDataProjectsLocationsDatasetsResponse, ImportDataProjectsLocationsDatasetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportDataProjectsLocationsDatasetsRequest,
   output: ImportDataProjectsLocationsDatasetsResponse,
   errors: [],
 }));
 
-/** Exports dataset's data to the provided output location. */
 export interface ExportDataProjectsLocationsDatasetsRequest {
   /** Required. Name of the dataset. In form of `projects/{project-number-or-id}/locations/{location-id}/datasets/{dataset-id}` */
   dataset: string;
@@ -2135,13 +2134,13 @@ export const ExportDataProjectsLocationsDatasetsResponse = Operation;
 
 export type ExportDataProjectsLocationsDatasetsError = CommonErrors;
 
+/** Exports dataset's data to the provided output location. */
 export const exportDataProjectsLocationsDatasets: API.OperationMethod<ExportDataProjectsLocationsDatasetsRequest, ExportDataProjectsLocationsDatasetsResponse, ExportDataProjectsLocationsDatasetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExportDataProjectsLocationsDatasetsRequest,
   output: ExportDataProjectsLocationsDatasetsResponse,
   errors: [],
 }));
 
-/** Lists sentence pairs in the dataset. */
 export interface ListProjectsLocationsDatasetsExamplesRequest {
   /** Required. Name of the parent dataset. In form of `projects/{project-number-or-id}/locations/{location-id}/datasets/{dataset-id}` */
   parent: string;
@@ -2168,7 +2167,8 @@ export const ListProjectsLocationsDatasetsExamplesResponse = ListExamplesRespons
 
 export type ListProjectsLocationsDatasetsExamplesError = CommonErrors;
 
-export const listProjectsLocationsDatasetsExamples = API.makePaginated(() => ({
+/** Lists sentence pairs in the dataset. */
+export const listProjectsLocationsDatasetsExamples: API.PaginatedOperationMethod<ListProjectsLocationsDatasetsExamplesRequest, ListProjectsLocationsDatasetsExamplesResponse, ListProjectsLocationsDatasetsExamplesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDatasetsExamplesRequest,
   output: ListProjectsLocationsDatasetsExamplesResponse,
   errors: [],
@@ -2178,7 +2178,6 @@ export const listProjectsLocationsDatasetsExamples = API.makePaginated(() => ({
   },
 }));
 
-/** Creates an Adaptive MT dataset. */
 export interface CreateProjectsLocationsAdaptiveMtDatasetsRequest {
   /** Required. Name of the parent project. In form of `projects/{project-number-or-id}/locations/{location-id}` */
   parent: string;
@@ -2199,13 +2198,13 @@ export const CreateProjectsLocationsAdaptiveMtDatasetsResponse = AdaptiveMtDatas
 
 export type CreateProjectsLocationsAdaptiveMtDatasetsError = CommonErrors;
 
+/** Creates an Adaptive MT dataset. */
 export const createProjectsLocationsAdaptiveMtDatasets: API.OperationMethod<CreateProjectsLocationsAdaptiveMtDatasetsRequest, CreateProjectsLocationsAdaptiveMtDatasetsResponse, CreateProjectsLocationsAdaptiveMtDatasetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsAdaptiveMtDatasetsRequest,
   output: CreateProjectsLocationsAdaptiveMtDatasetsResponse,
   errors: [],
 }));
 
-/** Deletes an Adaptive MT dataset, including all its entries and associated metadata. */
 export interface DeleteProjectsLocationsAdaptiveMtDatasetsRequest {
   /** Required. Name of the dataset. In the form of `projects/{project-number-or-id}/locations/{location-id}/adaptiveMtDatasets/{adaptive-mt-dataset-id}` */
   name: string;
@@ -2223,13 +2222,13 @@ export const DeleteProjectsLocationsAdaptiveMtDatasetsResponse = Empty;
 
 export type DeleteProjectsLocationsAdaptiveMtDatasetsError = CommonErrors;
 
+/** Deletes an Adaptive MT dataset, including all its entries and associated metadata. */
 export const deleteProjectsLocationsAdaptiveMtDatasets: API.OperationMethod<DeleteProjectsLocationsAdaptiveMtDatasetsRequest, DeleteProjectsLocationsAdaptiveMtDatasetsResponse, DeleteProjectsLocationsAdaptiveMtDatasetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsAdaptiveMtDatasetsRequest,
   output: DeleteProjectsLocationsAdaptiveMtDatasetsResponse,
   errors: [],
 }));
 
-/** Gets the Adaptive MT dataset. */
 export interface GetProjectsLocationsAdaptiveMtDatasetsRequest {
   /** Required. Name of the dataset. In the form of `projects/{project-number-or-id}/locations/{location-id}/adaptiveMtDatasets/{adaptive-mt-dataset-id}` */
   name: string;
@@ -2247,13 +2246,13 @@ export const GetProjectsLocationsAdaptiveMtDatasetsResponse = AdaptiveMtDataset;
 
 export type GetProjectsLocationsAdaptiveMtDatasetsError = CommonErrors;
 
+/** Gets the Adaptive MT dataset. */
 export const getProjectsLocationsAdaptiveMtDatasets: API.OperationMethod<GetProjectsLocationsAdaptiveMtDatasetsRequest, GetProjectsLocationsAdaptiveMtDatasetsResponse, GetProjectsLocationsAdaptiveMtDatasetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAdaptiveMtDatasetsRequest,
   output: GetProjectsLocationsAdaptiveMtDatasetsResponse,
   errors: [],
 }));
 
-/** Lists all Adaptive MT datasets for which the caller has read permission. */
 export interface ListProjectsLocationsAdaptiveMtDatasetsRequest {
   /** Required. The resource name of the project from which to list the Adaptive MT datasets. `projects/{project-number-or-id}/locations/{location-id}` */
   parent: string;
@@ -2280,7 +2279,8 @@ export const ListProjectsLocationsAdaptiveMtDatasetsResponse = ListAdaptiveMtDat
 
 export type ListProjectsLocationsAdaptiveMtDatasetsError = CommonErrors;
 
-export const listProjectsLocationsAdaptiveMtDatasets = API.makePaginated(() => ({
+/** Lists all Adaptive MT datasets for which the caller has read permission. */
+export const listProjectsLocationsAdaptiveMtDatasets: API.PaginatedOperationMethod<ListProjectsLocationsAdaptiveMtDatasetsRequest, ListProjectsLocationsAdaptiveMtDatasetsResponse, ListProjectsLocationsAdaptiveMtDatasetsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAdaptiveMtDatasetsRequest,
   output: ListProjectsLocationsAdaptiveMtDatasetsResponse,
   errors: [],
@@ -2290,7 +2290,6 @@ export const listProjectsLocationsAdaptiveMtDatasets = API.makePaginated(() => (
   },
 }));
 
-/** Imports an AdaptiveMtFile and adds all of its sentences into the AdaptiveMtDataset. */
 export interface ImportAdaptiveMtFileProjectsLocationsAdaptiveMtDatasetsRequest {
   /** Required. The resource name of the file, in form of `projects/{project-number-or-id}/locations/{location_id}/adaptiveMtDatasets/{dataset}` */
   parent: string;
@@ -2311,13 +2310,13 @@ export const ImportAdaptiveMtFileProjectsLocationsAdaptiveMtDatasetsResponse = I
 
 export type ImportAdaptiveMtFileProjectsLocationsAdaptiveMtDatasetsError = CommonErrors;
 
+/** Imports an AdaptiveMtFile and adds all of its sentences into the AdaptiveMtDataset. */
 export const importAdaptiveMtFileProjectsLocationsAdaptiveMtDatasets: API.OperationMethod<ImportAdaptiveMtFileProjectsLocationsAdaptiveMtDatasetsRequest, ImportAdaptiveMtFileProjectsLocationsAdaptiveMtDatasetsResponse, ImportAdaptiveMtFileProjectsLocationsAdaptiveMtDatasetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportAdaptiveMtFileProjectsLocationsAdaptiveMtDatasetsRequest,
   output: ImportAdaptiveMtFileProjectsLocationsAdaptiveMtDatasetsResponse,
   errors: [],
 }));
 
-/** Gets and AdaptiveMtFile */
 export interface GetProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest {
   /** Required. The resource name of the file, in form of `projects/{project-number-or-id}/locations/{location_id}/adaptiveMtDatasets/{dataset}/adaptiveMtFiles/{file}` */
   name: string;
@@ -2335,13 +2334,13 @@ export const GetProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesResponse = Ada
 
 export type GetProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesError = CommonErrors;
 
+/** Gets and AdaptiveMtFile */
 export const getProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFiles: API.OperationMethod<GetProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest, GetProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesResponse, GetProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest,
   output: GetProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesResponse,
   errors: [],
 }));
 
-/** Deletes an AdaptiveMtFile along with its sentences. */
 export interface DeleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest {
   /** Required. The resource name of the file to delete, in form of `projects/{project-number-or-id}/locations/{location_id}/adaptiveMtDatasets/{dataset}/adaptiveMtFiles/{file}` */
   name: string;
@@ -2359,13 +2358,13 @@ export const DeleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesResponse = 
 
 export type DeleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesError = CommonErrors;
 
+/** Deletes an AdaptiveMtFile along with its sentences. */
 export const deleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFiles: API.OperationMethod<DeleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest, DeleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesResponse, DeleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest,
   output: DeleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesResponse,
   errors: [],
 }));
 
-/** Lists all AdaptiveMtFiles associated to an AdaptiveMtDataset. */
 export interface ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest {
   /** Required. The resource name of the dataset from which to list the Adaptive MT files. `projects/{project}/locations/{location}/adaptiveMtDatasets/{dataset}` */
   parent: string;
@@ -2389,7 +2388,8 @@ export const ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesResponse = Li
 
 export type ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesError = CommonErrors;
 
-export const listProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFiles = API.makePaginated(() => ({
+/** Lists all AdaptiveMtFiles associated to an AdaptiveMtDataset. */
+export const listProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFiles: API.PaginatedOperationMethod<ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest, ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesResponse, ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesRequest,
   output: ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesResponse,
   errors: [],
@@ -2399,7 +2399,6 @@ export const listProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFiles = API.makePa
   },
 }));
 
-/** Lists all AdaptiveMtSentences under a given file/dataset. */
 export interface ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentencesRequest {
   /** Required. The resource name of the Adaptive MT file from which to list the sentences. The following format lists all sentences under a file. `projects/{project}/locations/{location}/adaptiveMtDatasets/{dataset}/adaptiveMtFiles/{file}` The following format lists all sentences within a dataset. `projects/{project}/locations/{location}/adaptiveMtDatasets/{dataset}` */
   parent: string;
@@ -2422,7 +2421,8 @@ export const ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSen
 
 export type ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentencesError = CommonErrors;
 
-export const listProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentences = API.makePaginated(() => ({
+/** Lists all AdaptiveMtSentences under a given file/dataset. */
+export const listProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentences: API.PaginatedOperationMethod<ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentencesRequest, ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentencesResponse, ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentencesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentencesRequest,
   output: ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentencesResponse,
   errors: [],
@@ -2432,7 +2432,6 @@ export const listProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSen
   },
 }));
 
-/** Lists all AdaptiveMtSentences under a given file/dataset. */
 export interface ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentencesRequest {
   /** Required. The resource name of the Adaptive MT file from which to list the sentences. The following format lists all sentences under a file. `projects/{project}/locations/{location}/adaptiveMtDatasets/{dataset}/adaptiveMtFiles/{file}` The following format lists all sentences within a dataset. `projects/{project}/locations/{location}/adaptiveMtDatasets/{dataset}` */
   parent: string;
@@ -2455,7 +2454,8 @@ export const ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentencesResponse 
 
 export type ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentencesError = CommonErrors;
 
-export const listProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentences = API.makePaginated(() => ({
+/** Lists all AdaptiveMtSentences under a given file/dataset. */
+export const listProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentences: API.PaginatedOperationMethod<ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentencesRequest, ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentencesResponse, ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentencesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentencesRequest,
   output: ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentencesResponse,
   errors: [],
@@ -2465,7 +2465,6 @@ export const listProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentences = API.ma
   },
 }));
 
-/** Creates a Model. */
 export interface CreateProjectsLocationsModelsRequest {
   /** Required. The project name, in form of `projects/{project}/locations/{location}` */
   parent: string;
@@ -2486,13 +2485,13 @@ export const CreateProjectsLocationsModelsResponse = Operation;
 
 export type CreateProjectsLocationsModelsError = CommonErrors;
 
+/** Creates a Model. */
 export const createProjectsLocationsModels: API.OperationMethod<CreateProjectsLocationsModelsRequest, CreateProjectsLocationsModelsResponse, CreateProjectsLocationsModelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsModelsRequest,
   output: CreateProjectsLocationsModelsResponse,
   errors: [],
 }));
 
-/** Lists models. */
 export interface ListProjectsLocationsModelsRequest {
   /** Required. Name of the parent project. In form of `projects/{project-number-or-id}/locations/{location-id}` */
   parent: string;
@@ -2519,7 +2518,8 @@ export const ListProjectsLocationsModelsResponse = ListModelsResponse;
 
 export type ListProjectsLocationsModelsError = CommonErrors;
 
-export const listProjectsLocationsModels = API.makePaginated(() => ({
+/** Lists models. */
+export const listProjectsLocationsModels: API.PaginatedOperationMethod<ListProjectsLocationsModelsRequest, ListProjectsLocationsModelsResponse, ListProjectsLocationsModelsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsModelsRequest,
   output: ListProjectsLocationsModelsResponse,
   errors: [],
@@ -2529,7 +2529,6 @@ export const listProjectsLocationsModels = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a model. */
 export interface GetProjectsLocationsModelsRequest {
   /** Required. The resource name of the model to retrieve. */
   name: string;
@@ -2547,13 +2546,13 @@ export const GetProjectsLocationsModelsResponse = Model;
 
 export type GetProjectsLocationsModelsError = CommonErrors;
 
+/** Gets a model. */
 export const getProjectsLocationsModels: API.OperationMethod<GetProjectsLocationsModelsRequest, GetProjectsLocationsModelsResponse, GetProjectsLocationsModelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsModelsRequest,
   output: GetProjectsLocationsModelsResponse,
   errors: [],
 }));
 
-/** Deletes a model. */
 export interface DeleteProjectsLocationsModelsRequest {
   /** Required. The name of the model to delete. */
   name: string;
@@ -2571,6 +2570,7 @@ export const DeleteProjectsLocationsModelsResponse = Operation;
 
 export type DeleteProjectsLocationsModelsError = CommonErrors;
 
+/** Deletes a model. */
 export const deleteProjectsLocationsModels: API.OperationMethod<DeleteProjectsLocationsModelsRequest, DeleteProjectsLocationsModelsResponse, DeleteProjectsLocationsModelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsModelsRequest,
   output: DeleteProjectsLocationsModelsResponse,

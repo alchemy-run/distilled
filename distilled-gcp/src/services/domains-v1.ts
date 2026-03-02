@@ -943,7 +943,6 @@ export const ExportRegistrationRequest: Schema.Schema<ExportRegistrationRequest>
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number;
@@ -973,7 +972,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -983,7 +983,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -1001,13 +1000,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1025,13 +1024,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list page size. */
   pageSize?: number;
@@ -1061,7 +1060,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -1071,7 +1071,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Deprecated: For more information, see [Cloud Domains feature deprecation](https://cloud.google.com/domains/docs/deprecations/feature-deprecations) Exports a `Registration` resource, such that it is no longer managed by Cloud Domains. When an active domain is successfully exported, you can continue to use the domain in [Google Domains](https://domains.google/) until it expires. The calling user becomes the domain's sole owner in Google Domains, and permissions for the domain are subsequently managed there. The domain does not renew automatically unless the new owner sets up billing in Google Domains. */
 export interface ExportProjectsLocationsRegistrationsRequest {
   /** Required. The name of the `Registration` to export, in the format `projects/* /locations/* /registrations/*`. */
   name: string;
@@ -1092,13 +1091,13 @@ export const ExportProjectsLocationsRegistrationsResponse = Operation;
 
 export type ExportProjectsLocationsRegistrationsError = CommonErrors;
 
+/** Deprecated: For more information, see [Cloud Domains feature deprecation](https://cloud.google.com/domains/docs/deprecations/feature-deprecations) Exports a `Registration` resource, such that it is no longer managed by Cloud Domains. When an active domain is successfully exported, you can continue to use the domain in [Google Domains](https://domains.google/) until it expires. The calling user becomes the domain's sole owner in Google Domains, and permissions for the domain are subsequently managed there. The domain does not renew automatically unless the new owner sets up billing in Google Domains. */
 export const exportProjectsLocationsRegistrations: API.OperationMethod<ExportProjectsLocationsRegistrationsRequest, ExportProjectsLocationsRegistrationsResponse, ExportProjectsLocationsRegistrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExportProjectsLocationsRegistrationsRequest,
   output: ExportProjectsLocationsRegistrationsResponse,
   errors: [],
 }));
 
-/** Registers a new domain name and creates a corresponding `Registration` resource. Call `RetrieveRegisterParameters` first to check availability of the domain name and determine parameters like price that are needed to build a call to this method. A successful call creates a `Registration` resource in state `REGISTRATION_PENDING`, which resolves to `ACTIVE` within 1-2 minutes, indicating that the domain was successfully registered. If the resource ends up in state `REGISTRATION_FAILED`, it indicates that the domain was not registered successfully, and you can safely delete the resource and retry registration. */
 export interface RegisterProjectsLocationsRegistrationsRequest {
   /** Required. The parent resource of the `Registration`. Must be in the format `projects/* /locations/*`. */
   parent: string;
@@ -1119,13 +1118,13 @@ export const RegisterProjectsLocationsRegistrationsResponse = Operation;
 
 export type RegisterProjectsLocationsRegistrationsError = CommonErrors;
 
+/** Registers a new domain name and creates a corresponding `Registration` resource. Call `RetrieveRegisterParameters` first to check availability of the domain name and determine parameters like price that are needed to build a call to this method. A successful call creates a `Registration` resource in state `REGISTRATION_PENDING`, which resolves to `ACTIVE` within 1-2 minutes, indicating that the domain was successfully registered. If the resource ends up in state `REGISTRATION_FAILED`, it indicates that the domain was not registered successfully, and you can safely delete the resource and retry registration. */
 export const registerProjectsLocationsRegistrations: API.OperationMethod<RegisterProjectsLocationsRegistrationsRequest, RegisterProjectsLocationsRegistrationsResponse, RegisterProjectsLocationsRegistrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RegisterProjectsLocationsRegistrationsRequest,
   output: RegisterProjectsLocationsRegistrationsResponse,
   errors: [],
 }));
 
-/** Gets parameters needed to register a new domain name, including price and up-to-date availability. Use the returned values to call `RegisterDomain`. */
 export interface RetrieveRegisterParametersProjectsLocationsRegistrationsRequest {
   /** Required. The domain name. Unicode domain names must be expressed in Punycode format. */
   domainName?: string;
@@ -1146,13 +1145,13 @@ export const RetrieveRegisterParametersProjectsLocationsRegistrationsResponse = 
 
 export type RetrieveRegisterParametersProjectsLocationsRegistrationsError = CommonErrors;
 
+/** Gets parameters needed to register a new domain name, including price and up-to-date availability. Use the returned values to call `RegisterDomain`. */
 export const retrieveRegisterParametersProjectsLocationsRegistrations: API.OperationMethod<RetrieveRegisterParametersProjectsLocationsRegistrationsRequest, RetrieveRegisterParametersProjectsLocationsRegistrationsResponse, RetrieveRegisterParametersProjectsLocationsRegistrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RetrieveRegisterParametersProjectsLocationsRegistrationsRequest,
   output: RetrieveRegisterParametersProjectsLocationsRegistrationsResponse,
   errors: [],
 }));
 
-/** Updates select fields of a `Registration` resource, notably `labels`. To update other fields, use the appropriate custom update method: * To update management settings, see `ConfigureManagementSettings` * To update DNS configuration, see `ConfigureDnsSettings` * To update contact information, see `ConfigureContactSettings` */
 export interface PatchProjectsLocationsRegistrationsRequest {
   /** Output only. Name of the `Registration` resource, in the format `projects/* /locations/* /registrations/`. */
   name: string;
@@ -1176,13 +1175,13 @@ export const PatchProjectsLocationsRegistrationsResponse = Operation;
 
 export type PatchProjectsLocationsRegistrationsError = CommonErrors;
 
+/** Updates select fields of a `Registration` resource, notably `labels`. To update other fields, use the appropriate custom update method: * To update management settings, see `ConfigureManagementSettings` * To update DNS configuration, see `ConfigureDnsSettings` * To update contact information, see `ConfigureContactSettings` */
 export const patchProjectsLocationsRegistrations: API.OperationMethod<PatchProjectsLocationsRegistrationsRequest, PatchProjectsLocationsRegistrationsResponse, PatchProjectsLocationsRegistrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsRegistrationsRequest,
   output: PatchProjectsLocationsRegistrationsResponse,
   errors: [],
 }));
 
-/** Updates a `Registration`'s management settings. */
 export interface ConfigureManagementSettingsProjectsLocationsRegistrationsRequest {
   /** Required. The name of the `Registration` whose management settings are being updated, in the format `projects/* /locations/* /registrations/*`. */
   registration: string;
@@ -1203,13 +1202,13 @@ export const ConfigureManagementSettingsProjectsLocationsRegistrationsResponse =
 
 export type ConfigureManagementSettingsProjectsLocationsRegistrationsError = CommonErrors;
 
+/** Updates a `Registration`'s management settings. */
 export const configureManagementSettingsProjectsLocationsRegistrations: API.OperationMethod<ConfigureManagementSettingsProjectsLocationsRegistrationsRequest, ConfigureManagementSettingsProjectsLocationsRegistrationsResponse, ConfigureManagementSettingsProjectsLocationsRegistrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ConfigureManagementSettingsProjectsLocationsRegistrationsRequest,
   output: ConfigureManagementSettingsProjectsLocationsRegistrationsResponse,
   errors: [],
 }));
 
-/** Deprecated: For more information, see [Cloud Domains feature deprecation](https://cloud.google.com/domains/docs/deprecations/feature-deprecations) Imports a domain name from [Google Domains](https://domains.google/) for use in Cloud Domains. To transfer a domain from another registrar, use the `TransferDomain` method instead. Since individual users can own domains in Google Domains, the calling user must have ownership permission on the domain. */
 export interface ImportProjectsLocationsRegistrationsRequest {
   /** Required. The parent resource of the Registration. Must be in the format `projects/* /locations/*`. */
   parent: string;
@@ -1230,13 +1229,13 @@ export const ImportProjectsLocationsRegistrationsResponse = Operation;
 
 export type ImportProjectsLocationsRegistrationsError = CommonErrors;
 
+/** Deprecated: For more information, see [Cloud Domains feature deprecation](https://cloud.google.com/domains/docs/deprecations/feature-deprecations) Imports a domain name from [Google Domains](https://domains.google/) for use in Cloud Domains. To transfer a domain from another registrar, use the `TransferDomain` method instead. Since individual users can own domains in Google Domains, the calling user must have ownership permission on the domain. */
 export const importProjectsLocationsRegistrations: API.OperationMethod<ImportProjectsLocationsRegistrationsRequest, ImportProjectsLocationsRegistrationsResponse, ImportProjectsLocationsRegistrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportProjectsLocationsRegistrationsRequest,
   output: ImportProjectsLocationsRegistrationsResponse,
   errors: [],
 }));
 
-/** Renews a recently expired domain. This method can only be called on domains that expired in the previous 30 days. After the renewal, the new expiration time of the domain is one year after the old expiration time and you are charged a `yearly_price` for the renewal. */
 export interface RenewDomainProjectsLocationsRegistrationsRequest {
   /** Required. The name of the `Registration` whish is being renewed, in the format `projects/* /locations/* /registrations/*`. */
   registration: string;
@@ -1257,13 +1256,13 @@ export const RenewDomainProjectsLocationsRegistrationsResponse = Operation;
 
 export type RenewDomainProjectsLocationsRegistrationsError = CommonErrors;
 
+/** Renews a recently expired domain. This method can only be called on domains that expired in the previous 30 days. After the renewal, the new expiration time of the domain is one year after the old expiration time and you are charged a `yearly_price` for the renewal. */
 export const renewDomainProjectsLocationsRegistrations: API.OperationMethod<RenewDomainProjectsLocationsRegistrationsRequest, RenewDomainProjectsLocationsRegistrationsResponse, RenewDomainProjectsLocationsRegistrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RenewDomainProjectsLocationsRegistrationsRequest,
   output: RenewDomainProjectsLocationsRegistrationsResponse,
   errors: [],
 }));
 
-/** Lists the deprecated domain and email forwarding configurations you set up in the deprecated Google Domains UI. The configuration is present only for domains with the `google_domains_redirects_data_available` set to `true` in the `Registration`'s `dns_settings`. A forwarding configuration might not work correctly if required DNS records are not present in the domain's authoritative DNS Zone. */
 export interface RetrieveGoogleDomainsForwardingConfigProjectsLocationsRegistrationsRequest {
   /** Required. The name of the `Registration` whose Google Domains forwarding configuration details are being retrieved, in the format `projects/* /locations/* /registrations/*`. */
   registration: string;
@@ -1281,13 +1280,13 @@ export const RetrieveGoogleDomainsForwardingConfigProjectsLocationsRegistrations
 
 export type RetrieveGoogleDomainsForwardingConfigProjectsLocationsRegistrationsError = CommonErrors;
 
+/** Lists the deprecated domain and email forwarding configurations you set up in the deprecated Google Domains UI. The configuration is present only for domains with the `google_domains_redirects_data_available` set to `true` in the `Registration`'s `dns_settings`. A forwarding configuration might not work correctly if required DNS records are not present in the domain's authoritative DNS Zone. */
 export const retrieveGoogleDomainsForwardingConfigProjectsLocationsRegistrations: API.OperationMethod<RetrieveGoogleDomainsForwardingConfigProjectsLocationsRegistrationsRequest, RetrieveGoogleDomainsForwardingConfigProjectsLocationsRegistrationsResponse, RetrieveGoogleDomainsForwardingConfigProjectsLocationsRegistrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RetrieveGoogleDomainsForwardingConfigProjectsLocationsRegistrationsRequest,
   output: RetrieveGoogleDomainsForwardingConfigProjectsLocationsRegistrationsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsRegistrationsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1308,13 +1307,13 @@ export const TestIamPermissionsProjectsLocationsRegistrationsResponse = TestIamP
 
 export type TestIamPermissionsProjectsLocationsRegistrationsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsRegistrations: API.OperationMethod<TestIamPermissionsProjectsLocationsRegistrationsRequest, TestIamPermissionsProjectsLocationsRegistrationsResponse, TestIamPermissionsProjectsLocationsRegistrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsRegistrationsRequest,
   output: TestIamPermissionsProjectsLocationsRegistrationsResponse,
   errors: [],
 }));
 
-/** Searches for available domain names similar to the provided query. Availability results from this method are approximate; call `RetrieveRegisterParameters` on a domain before registering to confirm availability. */
 export interface SearchDomainsProjectsLocationsRegistrationsRequest {
   /** Required. The location. Must be in the format `projects/* /locations/*`. */
   location: string;
@@ -1335,13 +1334,13 @@ export const SearchDomainsProjectsLocationsRegistrationsResponse = SearchDomains
 
 export type SearchDomainsProjectsLocationsRegistrationsError = CommonErrors;
 
+/** Searches for available domain names similar to the provided query. Availability results from this method are approximate; call `RetrieveRegisterParameters` on a domain before registering to confirm availability. */
 export const searchDomainsProjectsLocationsRegistrations: API.OperationMethod<SearchDomainsProjectsLocationsRegistrationsRequest, SearchDomainsProjectsLocationsRegistrationsResponse, SearchDomainsProjectsLocationsRegistrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchDomainsProjectsLocationsRegistrationsRequest,
   output: SearchDomainsProjectsLocationsRegistrationsResponse,
   errors: [],
 }));
 
-/** Updates a `Registration`'s DNS settings. */
 export interface ConfigureDnsSettingsProjectsLocationsRegistrationsRequest {
   /** Required. The name of the `Registration` whose DNS settings are being updated, in the format `projects/* /locations/* /registrations/*`. */
   registration: string;
@@ -1362,13 +1361,13 @@ export const ConfigureDnsSettingsProjectsLocationsRegistrationsResponse = Operat
 
 export type ConfigureDnsSettingsProjectsLocationsRegistrationsError = CommonErrors;
 
+/** Updates a `Registration`'s DNS settings. */
 export const configureDnsSettingsProjectsLocationsRegistrations: API.OperationMethod<ConfigureDnsSettingsProjectsLocationsRegistrationsRequest, ConfigureDnsSettingsProjectsLocationsRegistrationsResponse, ConfigureDnsSettingsProjectsLocationsRegistrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ConfigureDnsSettingsProjectsLocationsRegistrationsRequest,
   output: ConfigureDnsSettingsProjectsLocationsRegistrationsResponse,
   errors: [],
 }));
 
-/** Deprecated: For more information, see [Cloud Domains feature deprecation](https://cloud.google.com/domains/docs/deprecations/feature-deprecations) Gets parameters needed to transfer a domain name from another registrar to Cloud Domains. For domains already managed by [Google Domains](https://domains.google/), use `ImportDomain` instead. Use the returned values to call `TransferDomain`. */
 export interface RetrieveTransferParametersProjectsLocationsRegistrationsRequest {
   /** Required. The location. Must be in the format `projects/* /locations/*`. */
   location: string;
@@ -1389,13 +1388,13 @@ export const RetrieveTransferParametersProjectsLocationsRegistrationsResponse = 
 
 export type RetrieveTransferParametersProjectsLocationsRegistrationsError = CommonErrors;
 
+/** Deprecated: For more information, see [Cloud Domains feature deprecation](https://cloud.google.com/domains/docs/deprecations/feature-deprecations) Gets parameters needed to transfer a domain name from another registrar to Cloud Domains. For domains already managed by [Google Domains](https://domains.google/), use `ImportDomain` instead. Use the returned values to call `TransferDomain`. */
 export const retrieveTransferParametersProjectsLocationsRegistrations: API.OperationMethod<RetrieveTransferParametersProjectsLocationsRegistrationsRequest, RetrieveTransferParametersProjectsLocationsRegistrationsResponse, RetrieveTransferParametersProjectsLocationsRegistrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RetrieveTransferParametersProjectsLocationsRegistrationsRequest,
   output: RetrieveTransferParametersProjectsLocationsRegistrationsResponse,
   errors: [],
 }));
 
-/** Gets the authorization code of the `Registration` for the purpose of transferring the domain to another registrar. You can call this method only after 60 days have elapsed since the initial domain registration. Domains that have the `REQUIRE_PUSH_TRANSFER` property in the list of `domain_properties` don't support authorization codes and must use the `InitiatePushTransfer` method to initiate the process to transfer the domain to a different registrar. */
 export interface RetrieveAuthorizationCodeProjectsLocationsRegistrationsRequest {
   /** Required. The name of the `Registration` whose authorization code is being retrieved, in the format `projects/* /locations/* /registrations/*`. */
   registration: string;
@@ -1413,13 +1412,13 @@ export const RetrieveAuthorizationCodeProjectsLocationsRegistrationsResponse = A
 
 export type RetrieveAuthorizationCodeProjectsLocationsRegistrationsError = CommonErrors;
 
+/** Gets the authorization code of the `Registration` for the purpose of transferring the domain to another registrar. You can call this method only after 60 days have elapsed since the initial domain registration. Domains that have the `REQUIRE_PUSH_TRANSFER` property in the list of `domain_properties` don't support authorization codes and must use the `InitiatePushTransfer` method to initiate the process to transfer the domain to a different registrar. */
 export const retrieveAuthorizationCodeProjectsLocationsRegistrations: API.OperationMethod<RetrieveAuthorizationCodeProjectsLocationsRegistrationsRequest, RetrieveAuthorizationCodeProjectsLocationsRegistrationsResponse, RetrieveAuthorizationCodeProjectsLocationsRegistrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RetrieveAuthorizationCodeProjectsLocationsRegistrationsRequest,
   output: RetrieveAuthorizationCodeProjectsLocationsRegistrationsResponse,
   errors: [],
 }));
 
-/** Deprecated: For more information, see [Cloud Domains feature deprecation](https://cloud.google.com/domains/docs/deprecations/feature-deprecations) Transfers a domain name from another registrar to Cloud Domains. For domains already managed by [Google Domains](https://domains.google/), use `ImportDomain` instead. Before calling this method, go to the domain's current registrar to unlock the domain for transfer and retrieve the domain's transfer authorization code. Then call `RetrieveTransferParameters` to confirm that the domain is unlocked and to get values needed to build a call to this method. A successful call creates a `Registration` resource in state `TRANSFER_PENDING`. It can take several days to complete the transfer process. The registrant can often speed up this process by approving the transfer through the current registrar, either by clicking a link in an email from the registrar or by visiting the registrar's website. A few minutes after transfer approval, the resource transitions to state `ACTIVE`, indicating that the transfer was successful. If the transfer is rejected or the request expires without being approved, the resource can end up in state `TRANSFER_FAILED`. If transfer fails, you can safely delete the resource and retry the transfer. */
 export interface TransferProjectsLocationsRegistrationsRequest {
   /** Required. The parent resource of the `Registration`. Must be in the format `projects/* /locations/*`. */
   parent: string;
@@ -1440,13 +1439,13 @@ export const TransferProjectsLocationsRegistrationsResponse = Operation;
 
 export type TransferProjectsLocationsRegistrationsError = CommonErrors;
 
+/** Deprecated: For more information, see [Cloud Domains feature deprecation](https://cloud.google.com/domains/docs/deprecations/feature-deprecations) Transfers a domain name from another registrar to Cloud Domains. For domains already managed by [Google Domains](https://domains.google/), use `ImportDomain` instead. Before calling this method, go to the domain's current registrar to unlock the domain for transfer and retrieve the domain's transfer authorization code. Then call `RetrieveTransferParameters` to confirm that the domain is unlocked and to get values needed to build a call to this method. A successful call creates a `Registration` resource in state `TRANSFER_PENDING`. It can take several days to complete the transfer process. The registrant can often speed up this process by approving the transfer through the current registrar, either by clicking a link in an email from the registrar or by visiting the registrar's website. A few minutes after transfer approval, the resource transitions to state `ACTIVE`, indicating that the transfer was successful. If the transfer is rejected or the request expires without being approved, the resource can end up in state `TRANSFER_FAILED`. If transfer fails, you can safely delete the resource and retry the transfer. */
 export const transferProjectsLocationsRegistrations: API.OperationMethod<TransferProjectsLocationsRegistrationsRequest, TransferProjectsLocationsRegistrationsResponse, TransferProjectsLocationsRegistrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TransferProjectsLocationsRegistrationsRequest,
   output: TransferProjectsLocationsRegistrationsResponse,
   errors: [],
 }));
 
-/** Resets the authorization code of the `Registration` to a new random string. You can call this method only after 60 days have elapsed since the initial domain registration. Domains that have the `REQUIRE_PUSH_TRANSFER` property in the list of `domain_properties` don't support authorization codes and must use the `InitiatePushTransfer` method to initiate the process to transfer the domain to a different registrar. */
 export interface ResetAuthorizationCodeProjectsLocationsRegistrationsRequest {
   /** Required. The name of the `Registration` whose authorization code is being reset, in the format `projects/* /locations/* /registrations/*`. */
   registration: string;
@@ -1467,13 +1466,13 @@ export const ResetAuthorizationCodeProjectsLocationsRegistrationsResponse = Auth
 
 export type ResetAuthorizationCodeProjectsLocationsRegistrationsError = CommonErrors;
 
+/** Resets the authorization code of the `Registration` to a new random string. You can call this method only after 60 days have elapsed since the initial domain registration. Domains that have the `REQUIRE_PUSH_TRANSFER` property in the list of `domain_properties` don't support authorization codes and must use the `InitiatePushTransfer` method to initiate the process to transfer the domain to a different registrar. */
 export const resetAuthorizationCodeProjectsLocationsRegistrations: API.OperationMethod<ResetAuthorizationCodeProjectsLocationsRegistrationsRequest, ResetAuthorizationCodeProjectsLocationsRegistrationsResponse, ResetAuthorizationCodeProjectsLocationsRegistrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetAuthorizationCodeProjectsLocationsRegistrationsRequest,
   output: ResetAuthorizationCodeProjectsLocationsRegistrationsResponse,
   errors: [],
 }));
 
-/** Updates a `Registration`'s contact settings. Some changes require confirmation by the domain's registrant contact . Caution: Please consider carefully any changes to contact privacy settings when changing from `REDACTED_CONTACT_DATA` to `PUBLIC_CONTACT_DATA.` There may be a delay in reflecting updates you make to registrant contact information such that any changes you make to contact privacy (including from `REDACTED_CONTACT_DATA` to `PUBLIC_CONTACT_DATA`) will be applied without delay but changes to registrant contact information may take a limited time to be publicized. This means that changes to contact privacy from `REDACTED_CONTACT_DATA` to `PUBLIC_CONTACT_DATA` may make the previous registrant contact data public until the modified registrant contact details are published. */
 export interface ConfigureContactSettingsProjectsLocationsRegistrationsRequest {
   /** Required. The name of the `Registration` whose contact settings are being updated, in the format `projects/* /locations/* /registrations/*`. */
   registration: string;
@@ -1494,13 +1493,13 @@ export const ConfigureContactSettingsProjectsLocationsRegistrationsResponse = Op
 
 export type ConfigureContactSettingsProjectsLocationsRegistrationsError = CommonErrors;
 
+/** Updates a `Registration`'s contact settings. Some changes require confirmation by the domain's registrant contact . Caution: Please consider carefully any changes to contact privacy settings when changing from `REDACTED_CONTACT_DATA` to `PUBLIC_CONTACT_DATA.` There may be a delay in reflecting updates you make to registrant contact information such that any changes you make to contact privacy (including from `REDACTED_CONTACT_DATA` to `PUBLIC_CONTACT_DATA`) will be applied without delay but changes to registrant contact information may take a limited time to be publicized. This means that changes to contact privacy from `REDACTED_CONTACT_DATA` to `PUBLIC_CONTACT_DATA` may make the previous registrant contact data public until the modified registrant contact details are published. */
 export const configureContactSettingsProjectsLocationsRegistrations: API.OperationMethod<ConfigureContactSettingsProjectsLocationsRegistrationsRequest, ConfigureContactSettingsProjectsLocationsRegistrationsResponse, ConfigureContactSettingsProjectsLocationsRegistrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ConfigureContactSettingsProjectsLocationsRegistrationsRequest,
   output: ConfigureContactSettingsProjectsLocationsRegistrationsResponse,
   errors: [],
 }));
 
-/** Lists the DNS records from the Google Domains DNS zone for domains that use the deprecated `google_domains_dns` in the `Registration`'s `dns_settings`. */
 export interface RetrieveGoogleDomainsDnsRecordsProjectsLocationsRegistrationsRequest {
   /** Optional. Maximum number of results to return. */
   pageSize?: number;
@@ -1524,7 +1523,8 @@ export const RetrieveGoogleDomainsDnsRecordsProjectsLocationsRegistrationsRespon
 
 export type RetrieveGoogleDomainsDnsRecordsProjectsLocationsRegistrationsError = CommonErrors;
 
-export const retrieveGoogleDomainsDnsRecordsProjectsLocationsRegistrations = API.makePaginated(() => ({
+/** Lists the DNS records from the Google Domains DNS zone for domains that use the deprecated `google_domains_dns` in the `Registration`'s `dns_settings`. */
+export const retrieveGoogleDomainsDnsRecordsProjectsLocationsRegistrations: API.PaginatedOperationMethod<RetrieveGoogleDomainsDnsRecordsProjectsLocationsRegistrationsRequest, RetrieveGoogleDomainsDnsRecordsProjectsLocationsRegistrationsResponse, RetrieveGoogleDomainsDnsRecordsProjectsLocationsRegistrationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: RetrieveGoogleDomainsDnsRecordsProjectsLocationsRegistrationsRequest,
   output: RetrieveGoogleDomainsDnsRecordsProjectsLocationsRegistrationsResponse,
   errors: [],
@@ -1534,7 +1534,6 @@ export const retrieveGoogleDomainsDnsRecordsProjectsLocationsRegistrations = API
   },
 }));
 
-/** Lists the `Registration` resources in a project. */
 export interface ListProjectsLocationsRegistrationsRequest {
   /** Filter expression to restrict the `Registration`s returned. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, a boolean, or an enum value. The comparison operator should be one of =, !=, >, <, >=, <=, or : for prefix or wildcard matches. For example, to filter to a specific domain name, use an expression like `domainName="example.com"`. You can also check for the existence of a field; for example, to find domains using custom DNS settings, use an expression like `dnsSettings.customDns:*`. You can also create compound filters by combining expressions with the `AND` and `OR` operators. For example, to find domains that are suspended or have specific issues flagged, use an expression like `(state=SUSPENDED) OR (issue:*)`. */
   filter?: string;
@@ -1561,7 +1560,8 @@ export const ListProjectsLocationsRegistrationsResponse = ListRegistrationsRespo
 
 export type ListProjectsLocationsRegistrationsError = CommonErrors;
 
-export const listProjectsLocationsRegistrations = API.makePaginated(() => ({
+/** Lists the `Registration` resources in a project. */
+export const listProjectsLocationsRegistrations: API.PaginatedOperationMethod<ListProjectsLocationsRegistrationsRequest, ListProjectsLocationsRegistrationsResponse, ListProjectsLocationsRegistrationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRegistrationsRequest,
   output: ListProjectsLocationsRegistrationsResponse,
   errors: [],
@@ -1571,7 +1571,6 @@ export const listProjectsLocationsRegistrations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsRegistrationsRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
@@ -1592,13 +1591,13 @@ export const GetIamPolicyProjectsLocationsRegistrationsResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsRegistrationsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsRegistrations: API.OperationMethod<GetIamPolicyProjectsLocationsRegistrationsRequest, GetIamPolicyProjectsLocationsRegistrationsResponse, GetIamPolicyProjectsLocationsRegistrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsRegistrationsRequest,
   output: GetIamPolicyProjectsLocationsRegistrationsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsRegistrationsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1619,13 +1618,13 @@ export const SetIamPolicyProjectsLocationsRegistrationsResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsRegistrationsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsRegistrations: API.OperationMethod<SetIamPolicyProjectsLocationsRegistrationsRequest, SetIamPolicyProjectsLocationsRegistrationsResponse, SetIamPolicyProjectsLocationsRegistrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsRegistrationsRequest,
   output: SetIamPolicyProjectsLocationsRegistrationsResponse,
   errors: [],
 }));
 
-/** Gets the details of a `Registration` resource. */
 export interface GetProjectsLocationsRegistrationsRequest {
   /** Required. The name of the `Registration` to get, in the format `projects/* /locations/* /registrations/*`. */
   name: string;
@@ -1643,13 +1642,13 @@ export const GetProjectsLocationsRegistrationsResponse = Registration;
 
 export type GetProjectsLocationsRegistrationsError = CommonErrors;
 
+/** Gets the details of a `Registration` resource. */
 export const getProjectsLocationsRegistrations: API.OperationMethod<GetProjectsLocationsRegistrationsRequest, GetProjectsLocationsRegistrationsResponse, GetProjectsLocationsRegistrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRegistrationsRequest,
   output: GetProjectsLocationsRegistrationsResponse,
   errors: [],
 }));
 
-/** Deprecated: For more information, see [Cloud Domains feature deprecation](https://cloud.google.com/domains/docs/deprecations/feature-deprecations) Lists domain names from [Google Domains](https://domains.google/) that can be imported to Cloud Domains using the `ImportDomain` method. Since individual users can own domains in Google Domains, the list of domains returned depends on the individual user making the call. Domains already managed by Cloud Domains are not returned. */
 export interface RetrieveImportableDomainsProjectsLocationsRegistrationsRequest {
   /** Maximum number of results to return. */
   pageSize?: number;
@@ -1673,7 +1672,8 @@ export const RetrieveImportableDomainsProjectsLocationsRegistrationsResponse = R
 
 export type RetrieveImportableDomainsProjectsLocationsRegistrationsError = CommonErrors;
 
-export const retrieveImportableDomainsProjectsLocationsRegistrations = API.makePaginated(() => ({
+/** Deprecated: For more information, see [Cloud Domains feature deprecation](https://cloud.google.com/domains/docs/deprecations/feature-deprecations) Lists domain names from [Google Domains](https://domains.google/) that can be imported to Cloud Domains using the `ImportDomain` method. Since individual users can own domains in Google Domains, the list of domains returned depends on the individual user making the call. Domains already managed by Cloud Domains are not returned. */
+export const retrieveImportableDomainsProjectsLocationsRegistrations: API.PaginatedOperationMethod<RetrieveImportableDomainsProjectsLocationsRegistrationsRequest, RetrieveImportableDomainsProjectsLocationsRegistrationsResponse, RetrieveImportableDomainsProjectsLocationsRegistrationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: RetrieveImportableDomainsProjectsLocationsRegistrationsRequest,
   output: RetrieveImportableDomainsProjectsLocationsRegistrationsResponse,
   errors: [],
@@ -1683,7 +1683,6 @@ export const retrieveImportableDomainsProjectsLocationsRegistrations = API.makeP
   },
 }));
 
-/** Initiates the `Push Transfer` process to transfer the domain to another registrar. The process might complete instantly or might require confirmation or additional work. Check the emails sent to the email address of the registrant. The process is aborted after a timeout if it's not completed. This method is only supported for domains that have the `REQUIRE_PUSH_TRANSFER` property in the list of `domain_properties`. The domain must also be unlocked before it can be transferred to a different registrar. For more information, see [Transfer a registered domain to another registrar](https://cloud.google.com/domains/docs/transfer-domain-to-another-registrar). */
 export interface InitiatePushTransferProjectsLocationsRegistrationsRequest {
   /** Required. The name of the `Registration` for which the push transfer is initiated, in the format `projects/* /locations/* /registrations/*`. */
   registration: string;
@@ -1704,13 +1703,13 @@ export const InitiatePushTransferProjectsLocationsRegistrationsResponse = Operat
 
 export type InitiatePushTransferProjectsLocationsRegistrationsError = CommonErrors;
 
+/** Initiates the `Push Transfer` process to transfer the domain to another registrar. The process might complete instantly or might require confirmation or additional work. Check the emails sent to the email address of the registrant. The process is aborted after a timeout if it's not completed. This method is only supported for domains that have the `REQUIRE_PUSH_TRANSFER` property in the list of `domain_properties`. The domain must also be unlocked before it can be transferred to a different registrar. For more information, see [Transfer a registered domain to another registrar](https://cloud.google.com/domains/docs/transfer-domain-to-another-registrar). */
 export const initiatePushTransferProjectsLocationsRegistrations: API.OperationMethod<InitiatePushTransferProjectsLocationsRegistrationsRequest, InitiatePushTransferProjectsLocationsRegistrationsResponse, InitiatePushTransferProjectsLocationsRegistrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InitiatePushTransferProjectsLocationsRegistrationsRequest,
   output: InitiatePushTransferProjectsLocationsRegistrationsResponse,
   errors: [],
 }));
 
-/** Deletes a `Registration` resource. This method works on any `Registration` resource using [Subscription or Commitment billing](/domains/pricing#billing-models), provided that the resource was created at least 1 day in the past. When an active registration is successfully deleted, you can continue to use the domain in [Google Domains](https://domains.google/) until it expires. The calling user becomes the domain's sole owner in Google Domains, and permissions for the domain are subsequently managed there. The domain does not renew automatically unless the new owner sets up billing in Google Domains. After January 2024 you will only be able to delete `Registration` resources when `state` is one of: `EXPORTED`, `EXPIRED`,`REGISTRATION_FAILED` or `TRANSFER_FAILED`. See [Cloud Domains feature deprecation](https://cloud.google.com/domains/docs/deprecations/feature-deprecations) for more details. */
 export interface DeleteProjectsLocationsRegistrationsRequest {
   /** Required. The name of the `Registration` to delete, in the format `projects/* /locations/* /registrations/*`. */
   name: string;
@@ -1728,6 +1727,7 @@ export const DeleteProjectsLocationsRegistrationsResponse = Operation;
 
 export type DeleteProjectsLocationsRegistrationsError = CommonErrors;
 
+/** Deletes a `Registration` resource. This method works on any `Registration` resource using [Subscription or Commitment billing](/domains/pricing#billing-models), provided that the resource was created at least 1 day in the past. When an active registration is successfully deleted, you can continue to use the domain in [Google Domains](https://domains.google/) until it expires. The calling user becomes the domain's sole owner in Google Domains, and permissions for the domain are subsequently managed there. The domain does not renew automatically unless the new owner sets up billing in Google Domains. After January 2024 you will only be able to delete `Registration` resources when `state` is one of: `EXPORTED`, `EXPIRED`,`REGISTRATION_FAILED` or `TRANSFER_FAILED`. See [Cloud Domains feature deprecation](https://cloud.google.com/domains/docs/deprecations/feature-deprecations) for more details. */
 export const deleteProjectsLocationsRegistrations: API.OperationMethod<DeleteProjectsLocationsRegistrationsRequest, DeleteProjectsLocationsRegistrationsResponse, DeleteProjectsLocationsRegistrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsRegistrationsRequest,
   output: DeleteProjectsLocationsRegistrationsResponse,

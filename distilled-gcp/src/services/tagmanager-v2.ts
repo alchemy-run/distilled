@@ -1566,7 +1566,6 @@ export const RevertTransformationResponse: Schema.Schema<RevertTransformationRes
 // Operations
 // ==========================================================================
 
-/** Lists all GTM Accounts that a user has access to. */
 export interface ListAccountsRequest {
   /** Also retrieve accounts associated with Google Tag when true. */
   includeGoogleTags?: boolean;
@@ -1587,7 +1586,8 @@ export const ListAccountsResponse_Op = ListAccountsResponse;
 
 export type ListAccountsError = CommonErrors;
 
-export const listAccounts = API.makePaginated(() => ({
+/** Lists all GTM Accounts that a user has access to. */
+export const listAccounts: API.PaginatedOperationMethod<ListAccountsRequest, ListAccountsResponse_Op, ListAccountsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsRequest,
   output: ListAccountsResponse_Op,
   errors: [],
@@ -1597,7 +1597,6 @@ export const listAccounts = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a GTM Account. */
 export interface GetAccountsRequest {
   /** GTM Account's API relative path. */
   path: string;
@@ -1615,13 +1614,13 @@ export const GetAccountsResponse = Account;
 
 export type GetAccountsError = CommonErrors;
 
+/** Gets a GTM Account. */
 export const getAccounts: API.OperationMethod<GetAccountsRequest, GetAccountsResponse, GetAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsRequest,
   output: GetAccountsResponse,
   errors: [],
 }));
 
-/** Updates a GTM Account. */
 export interface UpdateAccountsRequest {
   /** GTM Account's API relative path. */
   path: string;
@@ -1645,13 +1644,13 @@ export const UpdateAccountsResponse = Account;
 
 export type UpdateAccountsError = CommonErrors;
 
+/** Updates a GTM Account. */
 export const updateAccounts: API.OperationMethod<UpdateAccountsRequest, UpdateAccountsResponse, UpdateAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAccountsRequest,
   output: UpdateAccountsResponse,
   errors: [],
 }));
 
-/** Creates a user's Account & Container access. */
 export interface CreateAccountsUser_permissionsRequest {
   /** GTM Account's API relative path. */
   parent: string;
@@ -1672,13 +1671,13 @@ export const CreateAccountsUser_permissionsResponse = UserPermission;
 
 export type CreateAccountsUser_permissionsError = CommonErrors;
 
+/** Creates a user's Account & Container access. */
 export const createAccountsUser_permissions: API.OperationMethod<CreateAccountsUser_permissionsRequest, CreateAccountsUser_permissionsResponse, CreateAccountsUser_permissionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsUser_permissionsRequest,
   output: CreateAccountsUser_permissionsResponse,
   errors: [],
 }));
 
-/** List all users that have access to the account along with Account and Container user access granted to each of them. */
 export interface ListAccountsUser_permissionsRequest {
   /** GTM Account's API relative path. */
   parent: string;
@@ -1699,7 +1698,8 @@ export const ListAccountsUser_permissionsResponse = ListUserPermissionsResponse;
 
 export type ListAccountsUser_permissionsError = CommonErrors;
 
-export const listAccountsUser_permissions = API.makePaginated(() => ({
+/** List all users that have access to the account along with Account and Container user access granted to each of them. */
+export const listAccountsUser_permissions: API.PaginatedOperationMethod<ListAccountsUser_permissionsRequest, ListAccountsUser_permissionsResponse, ListAccountsUser_permissionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsUser_permissionsRequest,
   output: ListAccountsUser_permissionsResponse,
   errors: [],
@@ -1709,7 +1709,6 @@ export const listAccountsUser_permissions = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a user's Account & Container access. */
 export interface GetAccountsUser_permissionsRequest {
   /** GTM UserPermission's API relative path. */
   path: string;
@@ -1727,13 +1726,13 @@ export const GetAccountsUser_permissionsResponse = UserPermission;
 
 export type GetAccountsUser_permissionsError = CommonErrors;
 
+/** Gets a user's Account & Container access. */
 export const getAccountsUser_permissions: API.OperationMethod<GetAccountsUser_permissionsRequest, GetAccountsUser_permissionsResponse, GetAccountsUser_permissionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsUser_permissionsRequest,
   output: GetAccountsUser_permissionsResponse,
   errors: [],
 }));
 
-/** Updates a user's Account & Container access. */
 export interface UpdateAccountsUser_permissionsRequest {
   /** GTM UserPermission's API relative path. */
   path: string;
@@ -1754,13 +1753,13 @@ export const UpdateAccountsUser_permissionsResponse = UserPermission;
 
 export type UpdateAccountsUser_permissionsError = CommonErrors;
 
+/** Updates a user's Account & Container access. */
 export const updateAccountsUser_permissions: API.OperationMethod<UpdateAccountsUser_permissionsRequest, UpdateAccountsUser_permissionsResponse, UpdateAccountsUser_permissionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAccountsUser_permissionsRequest,
   output: UpdateAccountsUser_permissionsResponse,
   errors: [],
 }));
 
-/** Removes a user from the account, revoking access to it and all of its containers. */
 export interface DeleteAccountsUser_permissionsRequest {
   /** GTM UserPermission's API relative path. */
   path: string;
@@ -1778,13 +1777,13 @@ export const DeleteAccountsUser_permissionsResponse: Schema.Schema<DeleteAccount
 
 export type DeleteAccountsUser_permissionsError = CommonErrors;
 
+/** Removes a user from the account, revoking access to it and all of its containers. */
 export const deleteAccountsUser_permissions: API.OperationMethod<DeleteAccountsUser_permissionsRequest, DeleteAccountsUser_permissionsResponse, DeleteAccountsUser_permissionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountsUser_permissionsRequest,
   output: DeleteAccountsUser_permissionsResponse,
   errors: [],
 }));
 
-/** Creates a Container. */
 export interface CreateAccountsContainersRequest {
   /** GTM Account's API relative path. */
   parent: string;
@@ -1805,13 +1804,13 @@ export const CreateAccountsContainersResponse = Container;
 
 export type CreateAccountsContainersError = CommonErrors;
 
+/** Creates a Container. */
 export const createAccountsContainers: API.OperationMethod<CreateAccountsContainersRequest, CreateAccountsContainersResponse, CreateAccountsContainersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsContainersRequest,
   output: CreateAccountsContainersResponse,
   errors: [],
 }));
 
-/** Lists all Containers that belongs to a GTM Account. */
 export interface ListAccountsContainersRequest {
   /** GTM Account's API relative path. */
   parent: string;
@@ -1832,7 +1831,8 @@ export const ListAccountsContainersResponse = ListContainersResponse;
 
 export type ListAccountsContainersError = CommonErrors;
 
-export const listAccountsContainers = API.makePaginated(() => ({
+/** Lists all Containers that belongs to a GTM Account. */
+export const listAccountsContainers: API.PaginatedOperationMethod<ListAccountsContainersRequest, ListAccountsContainersResponse, ListAccountsContainersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsContainersRequest,
   output: ListAccountsContainersResponse,
   errors: [],
@@ -1842,7 +1842,6 @@ export const listAccountsContainers = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a Container. */
 export interface GetAccountsContainersRequest {
   /** GTM Container's API relative path. */
   path: string;
@@ -1860,13 +1859,13 @@ export const GetAccountsContainersResponse = Container;
 
 export type GetAccountsContainersError = CommonErrors;
 
+/** Gets a Container. */
 export const getAccountsContainers: API.OperationMethod<GetAccountsContainersRequest, GetAccountsContainersResponse, GetAccountsContainersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsContainersRequest,
   output: GetAccountsContainersResponse,
   errors: [],
 }));
 
-/** Gets the tagging snippet for a Container. */
 export interface SnippetAccountsContainersRequest {
   /** Container snippet's API relative path. */
   path: string;
@@ -1884,13 +1883,13 @@ export const SnippetAccountsContainersResponse = GetContainerSnippetResponse;
 
 export type SnippetAccountsContainersError = CommonErrors;
 
+/** Gets the tagging snippet for a Container. */
 export const snippetAccountsContainers: API.OperationMethod<SnippetAccountsContainersRequest, SnippetAccountsContainersResponse, SnippetAccountsContainersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SnippetAccountsContainersRequest,
   output: SnippetAccountsContainersResponse,
   errors: [],
 }));
 
-/** Looks up a Container by destination ID or tag ID. */
 export interface LookupAccountsContainersRequest {
   /** Destination ID linked to a GTM Container, e.g. AW-123456789. Only one of destination_id or tag_id should be set. */
   destinationId?: string;
@@ -1911,13 +1910,13 @@ export const LookupAccountsContainersResponse = Container;
 
 export type LookupAccountsContainersError = CommonErrors;
 
+/** Looks up a Container by destination ID or tag ID. */
 export const lookupAccountsContainers: API.OperationMethod<LookupAccountsContainersRequest, LookupAccountsContainersResponse, LookupAccountsContainersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LookupAccountsContainersRequest,
   output: LookupAccountsContainersResponse,
   errors: [],
 }));
 
-/** Updates a Container. */
 export interface UpdateAccountsContainersRequest {
   /** GTM Container's API relative path. */
   path: string;
@@ -1941,13 +1940,13 @@ export const UpdateAccountsContainersResponse = Container;
 
 export type UpdateAccountsContainersError = CommonErrors;
 
+/** Updates a Container. */
 export const updateAccountsContainers: API.OperationMethod<UpdateAccountsContainersRequest, UpdateAccountsContainersResponse, UpdateAccountsContainersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAccountsContainersRequest,
   output: UpdateAccountsContainersResponse,
   errors: [],
 }));
 
-/** Combines Containers. */
 export interface CombineAccountsContainersRequest {
   /** GTM Container's API relative path. */
   path: string;
@@ -1974,13 +1973,13 @@ export const CombineAccountsContainersResponse = Container;
 
 export type CombineAccountsContainersError = CommonErrors;
 
+/** Combines Containers. */
 export const combineAccountsContainers: API.OperationMethod<CombineAccountsContainersRequest, CombineAccountsContainersResponse, CombineAccountsContainersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CombineAccountsContainersRequest,
   output: CombineAccountsContainersResponse,
   errors: [],
 }));
 
-/** Move Tag ID out of a Container. */
 export interface Move_tag_idAccountsContainersRequest {
   /** GTM Container's API relative path. */
   path: string;
@@ -2016,13 +2015,13 @@ export const Move_tag_idAccountsContainersResponse = Container;
 
 export type Move_tag_idAccountsContainersError = CommonErrors;
 
+/** Move Tag ID out of a Container. */
 export const move_tag_idAccountsContainers: API.OperationMethod<Move_tag_idAccountsContainersRequest, Move_tag_idAccountsContainersResponse, Move_tag_idAccountsContainersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: Move_tag_idAccountsContainersRequest,
   output: Move_tag_idAccountsContainersResponse,
   errors: [],
 }));
 
-/** Deletes a Container. */
 export interface DeleteAccountsContainersRequest {
   /** GTM Container's API relative path. */
   path: string;
@@ -2040,13 +2039,13 @@ export const DeleteAccountsContainersResponse: Schema.Schema<DeleteAccountsConta
 
 export type DeleteAccountsContainersError = CommonErrors;
 
+/** Deletes a Container. */
 export const deleteAccountsContainers: API.OperationMethod<DeleteAccountsContainersRequest, DeleteAccountsContainersResponse, DeleteAccountsContainersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountsContainersRequest,
   output: DeleteAccountsContainersResponse,
   errors: [],
 }));
 
-/** Gets a Destination. */
 export interface GetAccountsContainersDestinationsRequest {
   /** Google Tag Destination's API relative path. */
   path: string;
@@ -2064,13 +2063,13 @@ export const GetAccountsContainersDestinationsResponse = Destination;
 
 export type GetAccountsContainersDestinationsError = CommonErrors;
 
+/** Gets a Destination. */
 export const getAccountsContainersDestinations: API.OperationMethod<GetAccountsContainersDestinationsRequest, GetAccountsContainersDestinationsResponse, GetAccountsContainersDestinationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsContainersDestinationsRequest,
   output: GetAccountsContainersDestinationsResponse,
   errors: [],
 }));
 
-/** Lists all Destinations linked to a GTM Container. */
 export interface ListAccountsContainersDestinationsRequest {
   /** GTM parent Container's API relative path. */
   parent: string;
@@ -2088,13 +2087,13 @@ export const ListAccountsContainersDestinationsResponse = ListDestinationsRespon
 
 export type ListAccountsContainersDestinationsError = CommonErrors;
 
+/** Lists all Destinations linked to a GTM Container. */
 export const listAccountsContainersDestinations: API.OperationMethod<ListAccountsContainersDestinationsRequest, ListAccountsContainersDestinationsResponse, ListAccountsContainersDestinationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListAccountsContainersDestinationsRequest,
   output: ListAccountsContainersDestinationsResponse,
   errors: [],
 }));
 
-/** Adds a Destination to this Container and removes it from the Container to which it is currently linked. */
 export interface LinkAccountsContainersDestinationsRequest {
   /** GTM parent Container's API relative path. */
   parent: string;
@@ -2118,13 +2117,13 @@ export const LinkAccountsContainersDestinationsResponse = Destination;
 
 export type LinkAccountsContainersDestinationsError = CommonErrors;
 
+/** Adds a Destination to this Container and removes it from the Container to which it is currently linked. */
 export const linkAccountsContainersDestinations: API.OperationMethod<LinkAccountsContainersDestinationsRequest, LinkAccountsContainersDestinationsResponse, LinkAccountsContainersDestinationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LinkAccountsContainersDestinationsRequest,
   output: LinkAccountsContainersDestinationsResponse,
   errors: [],
 }));
 
-/** Creates a Workspace. */
 export interface CreateAccountsContainersWorkspacesRequest {
   /** GTM parent Container's API relative path. */
   parent: string;
@@ -2145,13 +2144,13 @@ export const CreateAccountsContainersWorkspacesResponse = Workspace;
 
 export type CreateAccountsContainersWorkspacesError = CommonErrors;
 
+/** Creates a Workspace. */
 export const createAccountsContainersWorkspaces: API.OperationMethod<CreateAccountsContainersWorkspacesRequest, CreateAccountsContainersWorkspacesResponse, CreateAccountsContainersWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsContainersWorkspacesRequest,
   output: CreateAccountsContainersWorkspacesResponse,
   errors: [],
 }));
 
-/** Deletes a Workspace. */
 export interface DeleteAccountsContainersWorkspacesRequest {
   /** GTM Workspace's API relative path. */
   path: string;
@@ -2169,13 +2168,13 @@ export const DeleteAccountsContainersWorkspacesResponse: Schema.Schema<DeleteAcc
 
 export type DeleteAccountsContainersWorkspacesError = CommonErrors;
 
+/** Deletes a Workspace. */
 export const deleteAccountsContainersWorkspaces: API.OperationMethod<DeleteAccountsContainersWorkspacesRequest, DeleteAccountsContainersWorkspacesResponse, DeleteAccountsContainersWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountsContainersWorkspacesRequest,
   output: DeleteAccountsContainersWorkspacesResponse,
   errors: [],
 }));
 
-/** Gets a Workspace. */
 export interface GetAccountsContainersWorkspacesRequest {
   /** GTM Workspace's API relative path. */
   path: string;
@@ -2193,13 +2192,13 @@ export const GetAccountsContainersWorkspacesResponse = Workspace;
 
 export type GetAccountsContainersWorkspacesError = CommonErrors;
 
+/** Gets a Workspace. */
 export const getAccountsContainersWorkspaces: API.OperationMethod<GetAccountsContainersWorkspacesRequest, GetAccountsContainersWorkspacesResponse, GetAccountsContainersWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsContainersWorkspacesRequest,
   output: GetAccountsContainersWorkspacesResponse,
   errors: [],
 }));
 
-/** Updates a Workspace. */
 export interface UpdateAccountsContainersWorkspacesRequest {
   /** GTM Workspace's API relative path. */
   path: string;
@@ -2223,13 +2222,13 @@ export const UpdateAccountsContainersWorkspacesResponse = Workspace;
 
 export type UpdateAccountsContainersWorkspacesError = CommonErrors;
 
+/** Updates a Workspace. */
 export const updateAccountsContainersWorkspaces: API.OperationMethod<UpdateAccountsContainersWorkspacesRequest, UpdateAccountsContainersWorkspacesResponse, UpdateAccountsContainersWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAccountsContainersWorkspacesRequest,
   output: UpdateAccountsContainersWorkspacesResponse,
   errors: [],
 }));
 
-/** Lists all Workspaces that belong to a GTM Container. */
 export interface ListAccountsContainersWorkspacesRequest {
   /** GTM parent Container's API relative path. */
   parent: string;
@@ -2250,7 +2249,8 @@ export const ListAccountsContainersWorkspacesResponse = ListWorkspacesResponse;
 
 export type ListAccountsContainersWorkspacesError = CommonErrors;
 
-export const listAccountsContainersWorkspaces = API.makePaginated(() => ({
+/** Lists all Workspaces that belong to a GTM Container. */
+export const listAccountsContainersWorkspaces: API.PaginatedOperationMethod<ListAccountsContainersWorkspacesRequest, ListAccountsContainersWorkspacesResponse, ListAccountsContainersWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesRequest,
   output: ListAccountsContainersWorkspacesResponse,
   errors: [],
@@ -2260,7 +2260,6 @@ export const listAccountsContainersWorkspaces = API.makePaginated(() => ({
   },
 }));
 
-/** Syncs a workspace to the latest container version by updating all unmodified workspace entities and displaying conflicts for modified entities. */
 export interface SyncAccountsContainersWorkspacesRequest {
   /** GTM Workspace's API relative path. */
   path: string;
@@ -2278,13 +2277,13 @@ export const SyncAccountsContainersWorkspacesResponse = SyncWorkspaceResponse;
 
 export type SyncAccountsContainersWorkspacesError = CommonErrors;
 
+/** Syncs a workspace to the latest container version by updating all unmodified workspace entities and displaying conflicts for modified entities. */
 export const syncAccountsContainersWorkspaces: API.OperationMethod<SyncAccountsContainersWorkspacesRequest, SyncAccountsContainersWorkspacesResponse, SyncAccountsContainersWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SyncAccountsContainersWorkspacesRequest,
   output: SyncAccountsContainersWorkspacesResponse,
   errors: [],
 }));
 
-/** Finds conflicting and modified entities in the workspace. */
 export interface GetStatusAccountsContainersWorkspacesRequest {
   /** GTM Workspace's API relative path. */
   path: string;
@@ -2302,13 +2301,13 @@ export const GetStatusAccountsContainersWorkspacesResponse = GetWorkspaceStatusR
 
 export type GetStatusAccountsContainersWorkspacesError = CommonErrors;
 
+/** Finds conflicting and modified entities in the workspace. */
 export const getStatusAccountsContainersWorkspaces: API.OperationMethod<GetStatusAccountsContainersWorkspacesRequest, GetStatusAccountsContainersWorkspacesResponse, GetStatusAccountsContainersWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetStatusAccountsContainersWorkspacesRequest,
   output: GetStatusAccountsContainersWorkspacesResponse,
   errors: [],
 }));
 
-/** Applies multiple entity changes to a workspace in one call. When creating new entities, their entity IDs must be unique and in correct format. That is, they must start with "new_" and followed by number, e.g. "new_1", "new_2". Example body snippet to create myNewTag under myNewFolder is: ``` "changes": [ { "folder": { "folderId": "new_1", "name": "myNewFolder", ... }, "changeStatus": "added" }, { "tag": { "tagId": "new_2", "name": "myNewTag", "parentFolderId": "new_1", ... }, "changeStatus": "added" } ] ``` */
 export interface Bulk_updateAccountsContainersWorkspacesRequest {
   /** GTM Workspace's API relative path. */
   path: string;
@@ -2329,13 +2328,13 @@ export const Bulk_updateAccountsContainersWorkspacesResponse = BulkUpdateWorkspa
 
 export type Bulk_updateAccountsContainersWorkspacesError = CommonErrors;
 
+/** Applies multiple entity changes to a workspace in one call. When creating new entities, their entity IDs must be unique and in correct format. That is, they must start with "new_" and followed by number, e.g. "new_1", "new_2". Example body snippet to create myNewTag under myNewFolder is: ``` "changes": [ { "folder": { "folderId": "new_1", "name": "myNewFolder", ... }, "changeStatus": "added" }, { "tag": { "tagId": "new_2", "name": "myNewTag", "parentFolderId": "new_1", ... }, "changeStatus": "added" } ] ``` */
 export const bulk_updateAccountsContainersWorkspaces: API.OperationMethod<Bulk_updateAccountsContainersWorkspacesRequest, Bulk_updateAccountsContainersWorkspacesResponse, Bulk_updateAccountsContainersWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: Bulk_updateAccountsContainersWorkspacesRequest,
   output: Bulk_updateAccountsContainersWorkspacesResponse,
   errors: [],
 }));
 
-/** Resolves a merge conflict for a workspace entity by updating it to the resolved entity passed in the request. */
 export interface Resolve_conflictAccountsContainersWorkspacesRequest {
   /** GTM Workspace's API relative path. */
   path: string;
@@ -2359,13 +2358,13 @@ export const Resolve_conflictAccountsContainersWorkspacesResponse: Schema.Schema
 
 export type Resolve_conflictAccountsContainersWorkspacesError = CommonErrors;
 
+/** Resolves a merge conflict for a workspace entity by updating it to the resolved entity passed in the request. */
 export const resolve_conflictAccountsContainersWorkspaces: API.OperationMethod<Resolve_conflictAccountsContainersWorkspacesRequest, Resolve_conflictAccountsContainersWorkspacesResponse, Resolve_conflictAccountsContainersWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: Resolve_conflictAccountsContainersWorkspacesRequest,
   output: Resolve_conflictAccountsContainersWorkspacesResponse,
   errors: [],
 }));
 
-/** Quick previews a workspace by creating a fake container version from all entities in the provided workspace. */
 export interface Quick_previewAccountsContainersWorkspacesRequest {
   /** GTM Workspace's API relative path. */
   path: string;
@@ -2383,13 +2382,13 @@ export const Quick_previewAccountsContainersWorkspacesResponse = QuickPreviewRes
 
 export type Quick_previewAccountsContainersWorkspacesError = CommonErrors;
 
+/** Quick previews a workspace by creating a fake container version from all entities in the provided workspace. */
 export const quick_previewAccountsContainersWorkspaces: API.OperationMethod<Quick_previewAccountsContainersWorkspacesRequest, Quick_previewAccountsContainersWorkspacesResponse, Quick_previewAccountsContainersWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: Quick_previewAccountsContainersWorkspacesRequest,
   output: Quick_previewAccountsContainersWorkspacesResponse,
   errors: [],
 }));
 
-/** Creates a Container Version from the entities present in the workspace, deletes the workspace, and sets the base container version to the newly created version. */
 export interface Create_versionAccountsContainersWorkspacesRequest {
   /** GTM Workspace's API relative path. */
   path: string;
@@ -2410,13 +2409,13 @@ export const Create_versionAccountsContainersWorkspacesResponse = CreateContaine
 
 export type Create_versionAccountsContainersWorkspacesError = CommonErrors;
 
+/** Creates a Container Version from the entities present in the workspace, deletes the workspace, and sets the base container version to the newly created version. */
 export const create_versionAccountsContainersWorkspaces: API.OperationMethod<Create_versionAccountsContainersWorkspacesRequest, Create_versionAccountsContainersWorkspacesResponse, Create_versionAccountsContainersWorkspacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: Create_versionAccountsContainersWorkspacesRequest,
   output: Create_versionAccountsContainersWorkspacesResponse,
   errors: [],
 }));
 
-/** Creates a GTM Variable. */
 export interface CreateAccountsContainersWorkspacesVariablesRequest {
   /** GTM Workspace's API relative path. */
   parent: string;
@@ -2437,13 +2436,13 @@ export const CreateAccountsContainersWorkspacesVariablesResponse = Variable;
 
 export type CreateAccountsContainersWorkspacesVariablesError = CommonErrors;
 
+/** Creates a GTM Variable. */
 export const createAccountsContainersWorkspacesVariables: API.OperationMethod<CreateAccountsContainersWorkspacesVariablesRequest, CreateAccountsContainersWorkspacesVariablesResponse, CreateAccountsContainersWorkspacesVariablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsContainersWorkspacesVariablesRequest,
   output: CreateAccountsContainersWorkspacesVariablesResponse,
   errors: [],
 }));
 
-/** Lists all GTM Variables of a Container. */
 export interface ListAccountsContainersWorkspacesVariablesRequest {
   /** GTM Workspace's API relative path. */
   parent: string;
@@ -2464,7 +2463,8 @@ export const ListAccountsContainersWorkspacesVariablesResponse = ListVariablesRe
 
 export type ListAccountsContainersWorkspacesVariablesError = CommonErrors;
 
-export const listAccountsContainersWorkspacesVariables = API.makePaginated(() => ({
+/** Lists all GTM Variables of a Container. */
+export const listAccountsContainersWorkspacesVariables: API.PaginatedOperationMethod<ListAccountsContainersWorkspacesVariablesRequest, ListAccountsContainersWorkspacesVariablesResponse, ListAccountsContainersWorkspacesVariablesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesVariablesRequest,
   output: ListAccountsContainersWorkspacesVariablesResponse,
   errors: [],
@@ -2474,7 +2474,6 @@ export const listAccountsContainersWorkspacesVariables = API.makePaginated(() =>
   },
 }));
 
-/** Gets a GTM Variable. */
 export interface GetAccountsContainersWorkspacesVariablesRequest {
   /** GTM Variable's API relative path. */
   path: string;
@@ -2492,13 +2491,13 @@ export const GetAccountsContainersWorkspacesVariablesResponse = Variable;
 
 export type GetAccountsContainersWorkspacesVariablesError = CommonErrors;
 
+/** Gets a GTM Variable. */
 export const getAccountsContainersWorkspacesVariables: API.OperationMethod<GetAccountsContainersWorkspacesVariablesRequest, GetAccountsContainersWorkspacesVariablesResponse, GetAccountsContainersWorkspacesVariablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsContainersWorkspacesVariablesRequest,
   output: GetAccountsContainersWorkspacesVariablesResponse,
   errors: [],
 }));
 
-/** Updates a GTM Variable. */
 export interface UpdateAccountsContainersWorkspacesVariablesRequest {
   /** GTM Variable's API relative path. */
   path: string;
@@ -2522,13 +2521,13 @@ export const UpdateAccountsContainersWorkspacesVariablesResponse = Variable;
 
 export type UpdateAccountsContainersWorkspacesVariablesError = CommonErrors;
 
+/** Updates a GTM Variable. */
 export const updateAccountsContainersWorkspacesVariables: API.OperationMethod<UpdateAccountsContainersWorkspacesVariablesRequest, UpdateAccountsContainersWorkspacesVariablesResponse, UpdateAccountsContainersWorkspacesVariablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAccountsContainersWorkspacesVariablesRequest,
   output: UpdateAccountsContainersWorkspacesVariablesResponse,
   errors: [],
 }));
 
-/** Deletes a GTM Variable. */
 export interface DeleteAccountsContainersWorkspacesVariablesRequest {
   /** GTM Variable's API relative path. */
   path: string;
@@ -2546,13 +2545,13 @@ export const DeleteAccountsContainersWorkspacesVariablesResponse: Schema.Schema<
 
 export type DeleteAccountsContainersWorkspacesVariablesError = CommonErrors;
 
+/** Deletes a GTM Variable. */
 export const deleteAccountsContainersWorkspacesVariables: API.OperationMethod<DeleteAccountsContainersWorkspacesVariablesRequest, DeleteAccountsContainersWorkspacesVariablesResponse, DeleteAccountsContainersWorkspacesVariablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountsContainersWorkspacesVariablesRequest,
   output: DeleteAccountsContainersWorkspacesVariablesResponse,
   errors: [],
 }));
 
-/** Reverts changes to a GTM Variable in a GTM Workspace. */
 export interface RevertAccountsContainersWorkspacesVariablesRequest {
   /** GTM Variable's API relative path. */
   path: string;
@@ -2573,13 +2572,13 @@ export const RevertAccountsContainersWorkspacesVariablesResponse = RevertVariabl
 
 export type RevertAccountsContainersWorkspacesVariablesError = CommonErrors;
 
+/** Reverts changes to a GTM Variable in a GTM Workspace. */
 export const revertAccountsContainersWorkspacesVariables: API.OperationMethod<RevertAccountsContainersWorkspacesVariablesRequest, RevertAccountsContainersWorkspacesVariablesResponse, RevertAccountsContainersWorkspacesVariablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RevertAccountsContainersWorkspacesVariablesRequest,
   output: RevertAccountsContainersWorkspacesVariablesResponse,
   errors: [],
 }));
 
-/** Creates one or more GTM Built-In Variables. */
 export interface CreateAccountsContainersWorkspacesBuilt_in_variablesRequest {
   /** GTM Workspace's API relative path. */
   parent: string;
@@ -2600,13 +2599,13 @@ export const CreateAccountsContainersWorkspacesBuilt_in_variablesResponse = Crea
 
 export type CreateAccountsContainersWorkspacesBuilt_in_variablesError = CommonErrors;
 
+/** Creates one or more GTM Built-In Variables. */
 export const createAccountsContainersWorkspacesBuilt_in_variables: API.OperationMethod<CreateAccountsContainersWorkspacesBuilt_in_variablesRequest, CreateAccountsContainersWorkspacesBuilt_in_variablesResponse, CreateAccountsContainersWorkspacesBuilt_in_variablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsContainersWorkspacesBuilt_in_variablesRequest,
   output: CreateAccountsContainersWorkspacesBuilt_in_variablesResponse,
   errors: [],
 }));
 
-/** Deletes one or more GTM Built-In Variables. */
 export interface DeleteAccountsContainersWorkspacesBuilt_in_variablesRequest {
   /** GTM BuiltInVariable's API relative path. */
   path: string;
@@ -2627,13 +2626,13 @@ export const DeleteAccountsContainersWorkspacesBuilt_in_variablesResponse: Schem
 
 export type DeleteAccountsContainersWorkspacesBuilt_in_variablesError = CommonErrors;
 
+/** Deletes one or more GTM Built-In Variables. */
 export const deleteAccountsContainersWorkspacesBuilt_in_variables: API.OperationMethod<DeleteAccountsContainersWorkspacesBuilt_in_variablesRequest, DeleteAccountsContainersWorkspacesBuilt_in_variablesResponse, DeleteAccountsContainersWorkspacesBuilt_in_variablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountsContainersWorkspacesBuilt_in_variablesRequest,
   output: DeleteAccountsContainersWorkspacesBuilt_in_variablesResponse,
   errors: [],
 }));
 
-/** Lists all the enabled Built-In Variables of a GTM Container. */
 export interface ListAccountsContainersWorkspacesBuilt_in_variablesRequest {
   /** GTM Workspace's API relative path. */
   parent: string;
@@ -2654,7 +2653,8 @@ export const ListAccountsContainersWorkspacesBuilt_in_variablesResponse = ListEn
 
 export type ListAccountsContainersWorkspacesBuilt_in_variablesError = CommonErrors;
 
-export const listAccountsContainersWorkspacesBuilt_in_variables = API.makePaginated(() => ({
+/** Lists all the enabled Built-In Variables of a GTM Container. */
+export const listAccountsContainersWorkspacesBuilt_in_variables: API.PaginatedOperationMethod<ListAccountsContainersWorkspacesBuilt_in_variablesRequest, ListAccountsContainersWorkspacesBuilt_in_variablesResponse, ListAccountsContainersWorkspacesBuilt_in_variablesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesBuilt_in_variablesRequest,
   output: ListAccountsContainersWorkspacesBuilt_in_variablesResponse,
   errors: [],
@@ -2664,7 +2664,6 @@ export const listAccountsContainersWorkspacesBuilt_in_variables = API.makePagina
   },
 }));
 
-/** Reverts changes to a GTM Built-In Variables in a GTM Workspace. */
 export interface RevertAccountsContainersWorkspacesBuilt_in_variablesRequest {
   /** GTM BuiltInVariable's API relative path. */
   path: string;
@@ -2685,13 +2684,13 @@ export const RevertAccountsContainersWorkspacesBuilt_in_variablesResponse = Reve
 
 export type RevertAccountsContainersWorkspacesBuilt_in_variablesError = CommonErrors;
 
+/** Reverts changes to a GTM Built-In Variables in a GTM Workspace. */
 export const revertAccountsContainersWorkspacesBuilt_in_variables: API.OperationMethod<RevertAccountsContainersWorkspacesBuilt_in_variablesRequest, RevertAccountsContainersWorkspacesBuilt_in_variablesResponse, RevertAccountsContainersWorkspacesBuilt_in_variablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RevertAccountsContainersWorkspacesBuilt_in_variablesRequest,
   output: RevertAccountsContainersWorkspacesBuilt_in_variablesResponse,
   errors: [],
 }));
 
-/** Creates a GTM Trigger. */
 export interface CreateAccountsContainersWorkspacesTriggersRequest {
   /** GTM Workspace's API relative path. */
   parent: string;
@@ -2712,13 +2711,13 @@ export const CreateAccountsContainersWorkspacesTriggersResponse = Trigger;
 
 export type CreateAccountsContainersWorkspacesTriggersError = CommonErrors;
 
+/** Creates a GTM Trigger. */
 export const createAccountsContainersWorkspacesTriggers: API.OperationMethod<CreateAccountsContainersWorkspacesTriggersRequest, CreateAccountsContainersWorkspacesTriggersResponse, CreateAccountsContainersWorkspacesTriggersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsContainersWorkspacesTriggersRequest,
   output: CreateAccountsContainersWorkspacesTriggersResponse,
   errors: [],
 }));
 
-/** Lists all GTM Triggers of a Container. */
 export interface ListAccountsContainersWorkspacesTriggersRequest {
   /** GTM Workspace's API relative path. */
   parent: string;
@@ -2739,7 +2738,8 @@ export const ListAccountsContainersWorkspacesTriggersResponse = ListTriggersResp
 
 export type ListAccountsContainersWorkspacesTriggersError = CommonErrors;
 
-export const listAccountsContainersWorkspacesTriggers = API.makePaginated(() => ({
+/** Lists all GTM Triggers of a Container. */
+export const listAccountsContainersWorkspacesTriggers: API.PaginatedOperationMethod<ListAccountsContainersWorkspacesTriggersRequest, ListAccountsContainersWorkspacesTriggersResponse, ListAccountsContainersWorkspacesTriggersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesTriggersRequest,
   output: ListAccountsContainersWorkspacesTriggersResponse,
   errors: [],
@@ -2749,7 +2749,6 @@ export const listAccountsContainersWorkspacesTriggers = API.makePaginated(() => 
   },
 }));
 
-/** Gets a GTM Trigger. */
 export interface GetAccountsContainersWorkspacesTriggersRequest {
   /** GTM Trigger's API relative path. */
   path: string;
@@ -2767,13 +2766,13 @@ export const GetAccountsContainersWorkspacesTriggersResponse = Trigger;
 
 export type GetAccountsContainersWorkspacesTriggersError = CommonErrors;
 
+/** Gets a GTM Trigger. */
 export const getAccountsContainersWorkspacesTriggers: API.OperationMethod<GetAccountsContainersWorkspacesTriggersRequest, GetAccountsContainersWorkspacesTriggersResponse, GetAccountsContainersWorkspacesTriggersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsContainersWorkspacesTriggersRequest,
   output: GetAccountsContainersWorkspacesTriggersResponse,
   errors: [],
 }));
 
-/** Updates a GTM Trigger. */
 export interface UpdateAccountsContainersWorkspacesTriggersRequest {
   /** GTM Trigger's API relative path. */
   path: string;
@@ -2797,13 +2796,13 @@ export const UpdateAccountsContainersWorkspacesTriggersResponse = Trigger;
 
 export type UpdateAccountsContainersWorkspacesTriggersError = CommonErrors;
 
+/** Updates a GTM Trigger. */
 export const updateAccountsContainersWorkspacesTriggers: API.OperationMethod<UpdateAccountsContainersWorkspacesTriggersRequest, UpdateAccountsContainersWorkspacesTriggersResponse, UpdateAccountsContainersWorkspacesTriggersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAccountsContainersWorkspacesTriggersRequest,
   output: UpdateAccountsContainersWorkspacesTriggersResponse,
   errors: [],
 }));
 
-/** Deletes a GTM Trigger. */
 export interface DeleteAccountsContainersWorkspacesTriggersRequest {
   /** GTM Trigger's API relative path. */
   path: string;
@@ -2821,13 +2820,13 @@ export const DeleteAccountsContainersWorkspacesTriggersResponse: Schema.Schema<D
 
 export type DeleteAccountsContainersWorkspacesTriggersError = CommonErrors;
 
+/** Deletes a GTM Trigger. */
 export const deleteAccountsContainersWorkspacesTriggers: API.OperationMethod<DeleteAccountsContainersWorkspacesTriggersRequest, DeleteAccountsContainersWorkspacesTriggersResponse, DeleteAccountsContainersWorkspacesTriggersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountsContainersWorkspacesTriggersRequest,
   output: DeleteAccountsContainersWorkspacesTriggersResponse,
   errors: [],
 }));
 
-/** Reverts changes to a GTM Trigger in a GTM Workspace. */
 export interface RevertAccountsContainersWorkspacesTriggersRequest {
   /** GTM Trigger's API relative path. */
   path: string;
@@ -2848,13 +2847,13 @@ export const RevertAccountsContainersWorkspacesTriggersResponse = RevertTriggerR
 
 export type RevertAccountsContainersWorkspacesTriggersError = CommonErrors;
 
+/** Reverts changes to a GTM Trigger in a GTM Workspace. */
 export const revertAccountsContainersWorkspacesTriggers: API.OperationMethod<RevertAccountsContainersWorkspacesTriggersRequest, RevertAccountsContainersWorkspacesTriggersResponse, RevertAccountsContainersWorkspacesTriggersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RevertAccountsContainersWorkspacesTriggersRequest,
   output: RevertAccountsContainersWorkspacesTriggersResponse,
   errors: [],
 }));
 
-/** Creates a GTM Tag. */
 export interface CreateAccountsContainersWorkspacesTagsRequest {
   /** GTM Workspace's API relative path. */
   parent: string;
@@ -2875,13 +2874,13 @@ export const CreateAccountsContainersWorkspacesTagsResponse = Tag;
 
 export type CreateAccountsContainersWorkspacesTagsError = CommonErrors;
 
+/** Creates a GTM Tag. */
 export const createAccountsContainersWorkspacesTags: API.OperationMethod<CreateAccountsContainersWorkspacesTagsRequest, CreateAccountsContainersWorkspacesTagsResponse, CreateAccountsContainersWorkspacesTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsContainersWorkspacesTagsRequest,
   output: CreateAccountsContainersWorkspacesTagsResponse,
   errors: [],
 }));
 
-/** Lists all GTM Tags of a Container. */
 export interface ListAccountsContainersWorkspacesTagsRequest {
   /** GTM Workspace's API relative path. */
   parent: string;
@@ -2902,7 +2901,8 @@ export const ListAccountsContainersWorkspacesTagsResponse = ListTagsResponse;
 
 export type ListAccountsContainersWorkspacesTagsError = CommonErrors;
 
-export const listAccountsContainersWorkspacesTags = API.makePaginated(() => ({
+/** Lists all GTM Tags of a Container. */
+export const listAccountsContainersWorkspacesTags: API.PaginatedOperationMethod<ListAccountsContainersWorkspacesTagsRequest, ListAccountsContainersWorkspacesTagsResponse, ListAccountsContainersWorkspacesTagsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesTagsRequest,
   output: ListAccountsContainersWorkspacesTagsResponse,
   errors: [],
@@ -2912,7 +2912,6 @@ export const listAccountsContainersWorkspacesTags = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a GTM Tag. */
 export interface GetAccountsContainersWorkspacesTagsRequest {
   /** GTM Tag's API relative path. */
   path: string;
@@ -2930,13 +2929,13 @@ export const GetAccountsContainersWorkspacesTagsResponse = Tag;
 
 export type GetAccountsContainersWorkspacesTagsError = CommonErrors;
 
+/** Gets a GTM Tag. */
 export const getAccountsContainersWorkspacesTags: API.OperationMethod<GetAccountsContainersWorkspacesTagsRequest, GetAccountsContainersWorkspacesTagsResponse, GetAccountsContainersWorkspacesTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsContainersWorkspacesTagsRequest,
   output: GetAccountsContainersWorkspacesTagsResponse,
   errors: [],
 }));
 
-/** Updates a GTM Tag. */
 export interface UpdateAccountsContainersWorkspacesTagsRequest {
   /** GTM Tag's API relative path. */
   path: string;
@@ -2960,13 +2959,13 @@ export const UpdateAccountsContainersWorkspacesTagsResponse = Tag;
 
 export type UpdateAccountsContainersWorkspacesTagsError = CommonErrors;
 
+/** Updates a GTM Tag. */
 export const updateAccountsContainersWorkspacesTags: API.OperationMethod<UpdateAccountsContainersWorkspacesTagsRequest, UpdateAccountsContainersWorkspacesTagsResponse, UpdateAccountsContainersWorkspacesTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAccountsContainersWorkspacesTagsRequest,
   output: UpdateAccountsContainersWorkspacesTagsResponse,
   errors: [],
 }));
 
-/** Deletes a GTM Tag. */
 export interface DeleteAccountsContainersWorkspacesTagsRequest {
   /** GTM Tag's API relative path. */
   path: string;
@@ -2984,13 +2983,13 @@ export const DeleteAccountsContainersWorkspacesTagsResponse: Schema.Schema<Delet
 
 export type DeleteAccountsContainersWorkspacesTagsError = CommonErrors;
 
+/** Deletes a GTM Tag. */
 export const deleteAccountsContainersWorkspacesTags: API.OperationMethod<DeleteAccountsContainersWorkspacesTagsRequest, DeleteAccountsContainersWorkspacesTagsResponse, DeleteAccountsContainersWorkspacesTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountsContainersWorkspacesTagsRequest,
   output: DeleteAccountsContainersWorkspacesTagsResponse,
   errors: [],
 }));
 
-/** Reverts changes to a GTM Tag in a GTM Workspace. */
 export interface RevertAccountsContainersWorkspacesTagsRequest {
   /** GTM Tag's API relative path. */
   path: string;
@@ -3011,13 +3010,13 @@ export const RevertAccountsContainersWorkspacesTagsResponse = RevertTagResponse;
 
 export type RevertAccountsContainersWorkspacesTagsError = CommonErrors;
 
+/** Reverts changes to a GTM Tag in a GTM Workspace. */
 export const revertAccountsContainersWorkspacesTags: API.OperationMethod<RevertAccountsContainersWorkspacesTagsRequest, RevertAccountsContainersWorkspacesTagsResponse, RevertAccountsContainersWorkspacesTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RevertAccountsContainersWorkspacesTagsRequest,
   output: RevertAccountsContainersWorkspacesTagsResponse,
   errors: [],
 }));
 
-/** Creates a Google tag config. */
 export interface CreateAccountsContainersWorkspacesGtag_configRequest {
   /** Workspace's API relative path. */
   parent: string;
@@ -3038,13 +3037,13 @@ export const CreateAccountsContainersWorkspacesGtag_configResponse = GtagConfig;
 
 export type CreateAccountsContainersWorkspacesGtag_configError = CommonErrors;
 
+/** Creates a Google tag config. */
 export const createAccountsContainersWorkspacesGtag_config: API.OperationMethod<CreateAccountsContainersWorkspacesGtag_configRequest, CreateAccountsContainersWorkspacesGtag_configResponse, CreateAccountsContainersWorkspacesGtag_configError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsContainersWorkspacesGtag_configRequest,
   output: CreateAccountsContainersWorkspacesGtag_configResponse,
   errors: [],
 }));
 
-/** Lists all Google tag configs in a Container. */
 export interface ListAccountsContainersWorkspacesGtag_configRequest {
   /** Workspace's API relative path. */
   parent: string;
@@ -3065,7 +3064,8 @@ export const ListAccountsContainersWorkspacesGtag_configResponse = ListGtagConfi
 
 export type ListAccountsContainersWorkspacesGtag_configError = CommonErrors;
 
-export const listAccountsContainersWorkspacesGtag_config = API.makePaginated(() => ({
+/** Lists all Google tag configs in a Container. */
+export const listAccountsContainersWorkspacesGtag_config: API.PaginatedOperationMethod<ListAccountsContainersWorkspacesGtag_configRequest, ListAccountsContainersWorkspacesGtag_configResponse, ListAccountsContainersWorkspacesGtag_configError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesGtag_configRequest,
   output: ListAccountsContainersWorkspacesGtag_configResponse,
   errors: [],
@@ -3075,7 +3075,6 @@ export const listAccountsContainersWorkspacesGtag_config = API.makePaginated(() 
   },
 }));
 
-/** Gets a Google tag config. */
 export interface GetAccountsContainersWorkspacesGtag_configRequest {
   /** Google tag config's API relative path. */
   path: string;
@@ -3093,13 +3092,13 @@ export const GetAccountsContainersWorkspacesGtag_configResponse = GtagConfig;
 
 export type GetAccountsContainersWorkspacesGtag_configError = CommonErrors;
 
+/** Gets a Google tag config. */
 export const getAccountsContainersWorkspacesGtag_config: API.OperationMethod<GetAccountsContainersWorkspacesGtag_configRequest, GetAccountsContainersWorkspacesGtag_configResponse, GetAccountsContainersWorkspacesGtag_configError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsContainersWorkspacesGtag_configRequest,
   output: GetAccountsContainersWorkspacesGtag_configResponse,
   errors: [],
 }));
 
-/** Updates a Google tag config. */
 export interface UpdateAccountsContainersWorkspacesGtag_configRequest {
   /** Google tag config's API relative path. */
   path: string;
@@ -3123,13 +3122,13 @@ export const UpdateAccountsContainersWorkspacesGtag_configResponse = GtagConfig;
 
 export type UpdateAccountsContainersWorkspacesGtag_configError = CommonErrors;
 
+/** Updates a Google tag config. */
 export const updateAccountsContainersWorkspacesGtag_config: API.OperationMethod<UpdateAccountsContainersWorkspacesGtag_configRequest, UpdateAccountsContainersWorkspacesGtag_configResponse, UpdateAccountsContainersWorkspacesGtag_configError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAccountsContainersWorkspacesGtag_configRequest,
   output: UpdateAccountsContainersWorkspacesGtag_configResponse,
   errors: [],
 }));
 
-/** Deletes a Google tag config. */
 export interface DeleteAccountsContainersWorkspacesGtag_configRequest {
   /** Google tag config's API relative path. */
   path: string;
@@ -3147,13 +3146,13 @@ export const DeleteAccountsContainersWorkspacesGtag_configResponse: Schema.Schem
 
 export type DeleteAccountsContainersWorkspacesGtag_configError = CommonErrors;
 
+/** Deletes a Google tag config. */
 export const deleteAccountsContainersWorkspacesGtag_config: API.OperationMethod<DeleteAccountsContainersWorkspacesGtag_configRequest, DeleteAccountsContainersWorkspacesGtag_configResponse, DeleteAccountsContainersWorkspacesGtag_configError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountsContainersWorkspacesGtag_configRequest,
   output: DeleteAccountsContainersWorkspacesGtag_configResponse,
   errors: [],
 }));
 
-/** Creates a GTM Custom Template. */
 export interface CreateAccountsContainersWorkspacesTemplatesRequest {
   /** GTM Workspace's API relative path. */
   parent: string;
@@ -3174,13 +3173,13 @@ export const CreateAccountsContainersWorkspacesTemplatesResponse = CustomTemplat
 
 export type CreateAccountsContainersWorkspacesTemplatesError = CommonErrors;
 
+/** Creates a GTM Custom Template. */
 export const createAccountsContainersWorkspacesTemplates: API.OperationMethod<CreateAccountsContainersWorkspacesTemplatesRequest, CreateAccountsContainersWorkspacesTemplatesResponse, CreateAccountsContainersWorkspacesTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsContainersWorkspacesTemplatesRequest,
   output: CreateAccountsContainersWorkspacesTemplatesResponse,
   errors: [],
 }));
 
-/** Imports a GTM Custom Template from Gallery. */
 export interface Import_from_galleryAccountsContainersWorkspacesTemplatesRequest {
   /** GTM Workspace's API relative path. */
   parent: string;
@@ -3210,13 +3209,13 @@ export const Import_from_galleryAccountsContainersWorkspacesTemplatesResponse = 
 
 export type Import_from_galleryAccountsContainersWorkspacesTemplatesError = CommonErrors;
 
+/** Imports a GTM Custom Template from Gallery. */
 export const import_from_galleryAccountsContainersWorkspacesTemplates: API.OperationMethod<Import_from_galleryAccountsContainersWorkspacesTemplatesRequest, Import_from_galleryAccountsContainersWorkspacesTemplatesResponse, Import_from_galleryAccountsContainersWorkspacesTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: Import_from_galleryAccountsContainersWorkspacesTemplatesRequest,
   output: Import_from_galleryAccountsContainersWorkspacesTemplatesResponse,
   errors: [],
 }));
 
-/** Lists all GTM Templates of a GTM container workspace. */
 export interface ListAccountsContainersWorkspacesTemplatesRequest {
   /** GTM Workspace's API relative path. */
   parent: string;
@@ -3237,7 +3236,8 @@ export const ListAccountsContainersWorkspacesTemplatesResponse = ListTemplatesRe
 
 export type ListAccountsContainersWorkspacesTemplatesError = CommonErrors;
 
-export const listAccountsContainersWorkspacesTemplates = API.makePaginated(() => ({
+/** Lists all GTM Templates of a GTM container workspace. */
+export const listAccountsContainersWorkspacesTemplates: API.PaginatedOperationMethod<ListAccountsContainersWorkspacesTemplatesRequest, ListAccountsContainersWorkspacesTemplatesResponse, ListAccountsContainersWorkspacesTemplatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesTemplatesRequest,
   output: ListAccountsContainersWorkspacesTemplatesResponse,
   errors: [],
@@ -3247,7 +3247,6 @@ export const listAccountsContainersWorkspacesTemplates = API.makePaginated(() =>
   },
 }));
 
-/** Gets a GTM Template. */
 export interface GetAccountsContainersWorkspacesTemplatesRequest {
   /** GTM Custom Template's API relative path. */
   path: string;
@@ -3265,13 +3264,13 @@ export const GetAccountsContainersWorkspacesTemplatesResponse = CustomTemplate;
 
 export type GetAccountsContainersWorkspacesTemplatesError = CommonErrors;
 
+/** Gets a GTM Template. */
 export const getAccountsContainersWorkspacesTemplates: API.OperationMethod<GetAccountsContainersWorkspacesTemplatesRequest, GetAccountsContainersWorkspacesTemplatesResponse, GetAccountsContainersWorkspacesTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsContainersWorkspacesTemplatesRequest,
   output: GetAccountsContainersWorkspacesTemplatesResponse,
   errors: [],
 }));
 
-/** Updates a GTM Template. */
 export interface UpdateAccountsContainersWorkspacesTemplatesRequest {
   /** GTM Custom Template's API relative path. */
   path: string;
@@ -3295,13 +3294,13 @@ export const UpdateAccountsContainersWorkspacesTemplatesResponse = CustomTemplat
 
 export type UpdateAccountsContainersWorkspacesTemplatesError = CommonErrors;
 
+/** Updates a GTM Template. */
 export const updateAccountsContainersWorkspacesTemplates: API.OperationMethod<UpdateAccountsContainersWorkspacesTemplatesRequest, UpdateAccountsContainersWorkspacesTemplatesResponse, UpdateAccountsContainersWorkspacesTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAccountsContainersWorkspacesTemplatesRequest,
   output: UpdateAccountsContainersWorkspacesTemplatesResponse,
   errors: [],
 }));
 
-/** Deletes a GTM Template. */
 export interface DeleteAccountsContainersWorkspacesTemplatesRequest {
   /** GTM Custom Template's API relative path. */
   path: string;
@@ -3319,13 +3318,13 @@ export const DeleteAccountsContainersWorkspacesTemplatesResponse: Schema.Schema<
 
 export type DeleteAccountsContainersWorkspacesTemplatesError = CommonErrors;
 
+/** Deletes a GTM Template. */
 export const deleteAccountsContainersWorkspacesTemplates: API.OperationMethod<DeleteAccountsContainersWorkspacesTemplatesRequest, DeleteAccountsContainersWorkspacesTemplatesResponse, DeleteAccountsContainersWorkspacesTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountsContainersWorkspacesTemplatesRequest,
   output: DeleteAccountsContainersWorkspacesTemplatesResponse,
   errors: [],
 }));
 
-/** Reverts changes to a GTM Template in a GTM Workspace. */
 export interface RevertAccountsContainersWorkspacesTemplatesRequest {
   /** GTM Custom Template's API relative path. */
   path: string;
@@ -3346,13 +3345,13 @@ export const RevertAccountsContainersWorkspacesTemplatesResponse = RevertTemplat
 
 export type RevertAccountsContainersWorkspacesTemplatesError = CommonErrors;
 
+/** Reverts changes to a GTM Template in a GTM Workspace. */
 export const revertAccountsContainersWorkspacesTemplates: API.OperationMethod<RevertAccountsContainersWorkspacesTemplatesRequest, RevertAccountsContainersWorkspacesTemplatesResponse, RevertAccountsContainersWorkspacesTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RevertAccountsContainersWorkspacesTemplatesRequest,
   output: RevertAccountsContainersWorkspacesTemplatesResponse,
   errors: [],
 }));
 
-/** Creates a GTM Folder. */
 export interface CreateAccountsContainersWorkspacesFoldersRequest {
   /** GTM Workspace's API relative path. */
   parent: string;
@@ -3373,13 +3372,13 @@ export const CreateAccountsContainersWorkspacesFoldersResponse = Folder;
 
 export type CreateAccountsContainersWorkspacesFoldersError = CommonErrors;
 
+/** Creates a GTM Folder. */
 export const createAccountsContainersWorkspacesFolders: API.OperationMethod<CreateAccountsContainersWorkspacesFoldersRequest, CreateAccountsContainersWorkspacesFoldersResponse, CreateAccountsContainersWorkspacesFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsContainersWorkspacesFoldersRequest,
   output: CreateAccountsContainersWorkspacesFoldersResponse,
   errors: [],
 }));
 
-/** Lists all GTM Folders of a Container. */
 export interface ListAccountsContainersWorkspacesFoldersRequest {
   /** GTM Workspace's API relative path. */
   parent: string;
@@ -3400,7 +3399,8 @@ export const ListAccountsContainersWorkspacesFoldersResponse = ListFoldersRespon
 
 export type ListAccountsContainersWorkspacesFoldersError = CommonErrors;
 
-export const listAccountsContainersWorkspacesFolders = API.makePaginated(() => ({
+/** Lists all GTM Folders of a Container. */
+export const listAccountsContainersWorkspacesFolders: API.PaginatedOperationMethod<ListAccountsContainersWorkspacesFoldersRequest, ListAccountsContainersWorkspacesFoldersResponse, ListAccountsContainersWorkspacesFoldersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesFoldersRequest,
   output: ListAccountsContainersWorkspacesFoldersResponse,
   errors: [],
@@ -3410,7 +3410,6 @@ export const listAccountsContainersWorkspacesFolders = API.makePaginated(() => (
   },
 }));
 
-/** Gets a GTM Folder. */
 export interface GetAccountsContainersWorkspacesFoldersRequest {
   /** GTM Folder's API relative path. */
   path: string;
@@ -3428,13 +3427,13 @@ export const GetAccountsContainersWorkspacesFoldersResponse = Folder;
 
 export type GetAccountsContainersWorkspacesFoldersError = CommonErrors;
 
+/** Gets a GTM Folder. */
 export const getAccountsContainersWorkspacesFolders: API.OperationMethod<GetAccountsContainersWorkspacesFoldersRequest, GetAccountsContainersWorkspacesFoldersResponse, GetAccountsContainersWorkspacesFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsContainersWorkspacesFoldersRequest,
   output: GetAccountsContainersWorkspacesFoldersResponse,
   errors: [],
 }));
 
-/** List all entities in a GTM Folder. */
 export interface EntitiesAccountsContainersWorkspacesFoldersRequest {
   /** GTM Folder's API relative path. */
   path: string;
@@ -3455,7 +3454,8 @@ export const EntitiesAccountsContainersWorkspacesFoldersResponse = FolderEntitie
 
 export type EntitiesAccountsContainersWorkspacesFoldersError = CommonErrors;
 
-export const entitiesAccountsContainersWorkspacesFolders = API.makePaginated(() => ({
+/** List all entities in a GTM Folder. */
+export const entitiesAccountsContainersWorkspacesFolders: API.PaginatedOperationMethod<EntitiesAccountsContainersWorkspacesFoldersRequest, EntitiesAccountsContainersWorkspacesFoldersResponse, EntitiesAccountsContainersWorkspacesFoldersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: EntitiesAccountsContainersWorkspacesFoldersRequest,
   output: EntitiesAccountsContainersWorkspacesFoldersResponse,
   errors: [],
@@ -3465,7 +3465,6 @@ export const entitiesAccountsContainersWorkspacesFolders = API.makePaginated(() 
   },
 }));
 
-/** Updates a GTM Folder. */
 export interface UpdateAccountsContainersWorkspacesFoldersRequest {
   /** GTM Folder's API relative path. */
   path: string;
@@ -3489,13 +3488,13 @@ export const UpdateAccountsContainersWorkspacesFoldersResponse = Folder;
 
 export type UpdateAccountsContainersWorkspacesFoldersError = CommonErrors;
 
+/** Updates a GTM Folder. */
 export const updateAccountsContainersWorkspacesFolders: API.OperationMethod<UpdateAccountsContainersWorkspacesFoldersRequest, UpdateAccountsContainersWorkspacesFoldersResponse, UpdateAccountsContainersWorkspacesFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAccountsContainersWorkspacesFoldersRequest,
   output: UpdateAccountsContainersWorkspacesFoldersResponse,
   errors: [],
 }));
 
-/** Deletes a GTM Folder. */
 export interface DeleteAccountsContainersWorkspacesFoldersRequest {
   /** GTM Folder's API relative path. */
   path: string;
@@ -3513,13 +3512,13 @@ export const DeleteAccountsContainersWorkspacesFoldersResponse: Schema.Schema<De
 
 export type DeleteAccountsContainersWorkspacesFoldersError = CommonErrors;
 
+/** Deletes a GTM Folder. */
 export const deleteAccountsContainersWorkspacesFolders: API.OperationMethod<DeleteAccountsContainersWorkspacesFoldersRequest, DeleteAccountsContainersWorkspacesFoldersResponse, DeleteAccountsContainersWorkspacesFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountsContainersWorkspacesFoldersRequest,
   output: DeleteAccountsContainersWorkspacesFoldersResponse,
   errors: [],
 }));
 
-/** Moves entities to a GTM Folder. If {folder_id} in the request path equals 0, this will instead move entities out of the folder they currently belong to. */
 export interface Move_entities_to_folderAccountsContainersWorkspacesFoldersRequest {
   /** GTM Folder's API relative path. */
   path: string;
@@ -3549,13 +3548,13 @@ export const Move_entities_to_folderAccountsContainersWorkspacesFoldersResponse:
 
 export type Move_entities_to_folderAccountsContainersWorkspacesFoldersError = CommonErrors;
 
+/** Moves entities to a GTM Folder. If {folder_id} in the request path equals 0, this will instead move entities out of the folder they currently belong to. */
 export const move_entities_to_folderAccountsContainersWorkspacesFolders: API.OperationMethod<Move_entities_to_folderAccountsContainersWorkspacesFoldersRequest, Move_entities_to_folderAccountsContainersWorkspacesFoldersResponse, Move_entities_to_folderAccountsContainersWorkspacesFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: Move_entities_to_folderAccountsContainersWorkspacesFoldersRequest,
   output: Move_entities_to_folderAccountsContainersWorkspacesFoldersResponse,
   errors: [],
 }));
 
-/** Reverts changes to a GTM Folder in a GTM Workspace. */
 export interface RevertAccountsContainersWorkspacesFoldersRequest {
   /** GTM Folder's API relative path. */
   path: string;
@@ -3576,13 +3575,13 @@ export const RevertAccountsContainersWorkspacesFoldersResponse = RevertFolderRes
 
 export type RevertAccountsContainersWorkspacesFoldersError = CommonErrors;
 
+/** Reverts changes to a GTM Folder in a GTM Workspace. */
 export const revertAccountsContainersWorkspacesFolders: API.OperationMethod<RevertAccountsContainersWorkspacesFoldersRequest, RevertAccountsContainersWorkspacesFoldersResponse, RevertAccountsContainersWorkspacesFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RevertAccountsContainersWorkspacesFoldersRequest,
   output: RevertAccountsContainersWorkspacesFoldersResponse,
   errors: [],
 }));
 
-/** Creates a GTM Zone. */
 export interface CreateAccountsContainersWorkspacesZonesRequest {
   /** GTM Workspace's API relative path. */
   parent: string;
@@ -3603,13 +3602,13 @@ export const CreateAccountsContainersWorkspacesZonesResponse = Zone;
 
 export type CreateAccountsContainersWorkspacesZonesError = CommonErrors;
 
+/** Creates a GTM Zone. */
 export const createAccountsContainersWorkspacesZones: API.OperationMethod<CreateAccountsContainersWorkspacesZonesRequest, CreateAccountsContainersWorkspacesZonesResponse, CreateAccountsContainersWorkspacesZonesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsContainersWorkspacesZonesRequest,
   output: CreateAccountsContainersWorkspacesZonesResponse,
   errors: [],
 }));
 
-/** Lists all GTM Zones of a GTM container workspace. */
 export interface ListAccountsContainersWorkspacesZonesRequest {
   /** GTM Workspace's API relative path. */
   parent: string;
@@ -3630,7 +3629,8 @@ export const ListAccountsContainersWorkspacesZonesResponse = ListZonesResponse;
 
 export type ListAccountsContainersWorkspacesZonesError = CommonErrors;
 
-export const listAccountsContainersWorkspacesZones = API.makePaginated(() => ({
+/** Lists all GTM Zones of a GTM container workspace. */
+export const listAccountsContainersWorkspacesZones: API.PaginatedOperationMethod<ListAccountsContainersWorkspacesZonesRequest, ListAccountsContainersWorkspacesZonesResponse, ListAccountsContainersWorkspacesZonesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesZonesRequest,
   output: ListAccountsContainersWorkspacesZonesResponse,
   errors: [],
@@ -3640,7 +3640,6 @@ export const listAccountsContainersWorkspacesZones = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a GTM Zone. */
 export interface GetAccountsContainersWorkspacesZonesRequest {
   /** GTM Zone's API relative path. */
   path: string;
@@ -3658,13 +3657,13 @@ export const GetAccountsContainersWorkspacesZonesResponse = Zone;
 
 export type GetAccountsContainersWorkspacesZonesError = CommonErrors;
 
+/** Gets a GTM Zone. */
 export const getAccountsContainersWorkspacesZones: API.OperationMethod<GetAccountsContainersWorkspacesZonesRequest, GetAccountsContainersWorkspacesZonesResponse, GetAccountsContainersWorkspacesZonesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsContainersWorkspacesZonesRequest,
   output: GetAccountsContainersWorkspacesZonesResponse,
   errors: [],
 }));
 
-/** Updates a GTM Zone. */
 export interface UpdateAccountsContainersWorkspacesZonesRequest {
   /** GTM Zone's API relative path. */
   path: string;
@@ -3688,13 +3687,13 @@ export const UpdateAccountsContainersWorkspacesZonesResponse = Zone;
 
 export type UpdateAccountsContainersWorkspacesZonesError = CommonErrors;
 
+/** Updates a GTM Zone. */
 export const updateAccountsContainersWorkspacesZones: API.OperationMethod<UpdateAccountsContainersWorkspacesZonesRequest, UpdateAccountsContainersWorkspacesZonesResponse, UpdateAccountsContainersWorkspacesZonesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAccountsContainersWorkspacesZonesRequest,
   output: UpdateAccountsContainersWorkspacesZonesResponse,
   errors: [],
 }));
 
-/** Deletes a GTM Zone. */
 export interface DeleteAccountsContainersWorkspacesZonesRequest {
   /** GTM Zone's API relative path. */
   path: string;
@@ -3712,13 +3711,13 @@ export const DeleteAccountsContainersWorkspacesZonesResponse: Schema.Schema<Dele
 
 export type DeleteAccountsContainersWorkspacesZonesError = CommonErrors;
 
+/** Deletes a GTM Zone. */
 export const deleteAccountsContainersWorkspacesZones: API.OperationMethod<DeleteAccountsContainersWorkspacesZonesRequest, DeleteAccountsContainersWorkspacesZonesResponse, DeleteAccountsContainersWorkspacesZonesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountsContainersWorkspacesZonesRequest,
   output: DeleteAccountsContainersWorkspacesZonesResponse,
   errors: [],
 }));
 
-/** Reverts changes to a GTM Zone in a GTM Workspace. */
 export interface RevertAccountsContainersWorkspacesZonesRequest {
   /** GTM Zone's API relative path. */
   path: string;
@@ -3739,13 +3738,13 @@ export const RevertAccountsContainersWorkspacesZonesResponse = RevertZoneRespons
 
 export type RevertAccountsContainersWorkspacesZonesError = CommonErrors;
 
+/** Reverts changes to a GTM Zone in a GTM Workspace. */
 export const revertAccountsContainersWorkspacesZones: API.OperationMethod<RevertAccountsContainersWorkspacesZonesRequest, RevertAccountsContainersWorkspacesZonesResponse, RevertAccountsContainersWorkspacesZonesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RevertAccountsContainersWorkspacesZonesRequest,
   output: RevertAccountsContainersWorkspacesZonesResponse,
   errors: [],
 }));
 
-/** Creates a GTM Client. */
 export interface CreateAccountsContainersWorkspacesClientsRequest {
   /** GTM Workspace's API relative path. */
   parent: string;
@@ -3766,13 +3765,13 @@ export const CreateAccountsContainersWorkspacesClientsResponse = Client;
 
 export type CreateAccountsContainersWorkspacesClientsError = CommonErrors;
 
+/** Creates a GTM Client. */
 export const createAccountsContainersWorkspacesClients: API.OperationMethod<CreateAccountsContainersWorkspacesClientsRequest, CreateAccountsContainersWorkspacesClientsResponse, CreateAccountsContainersWorkspacesClientsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsContainersWorkspacesClientsRequest,
   output: CreateAccountsContainersWorkspacesClientsResponse,
   errors: [],
 }));
 
-/** Lists all GTM Clients of a GTM container workspace. */
 export interface ListAccountsContainersWorkspacesClientsRequest {
   /** GTM Workspace's API relative path. */
   parent: string;
@@ -3793,7 +3792,8 @@ export const ListAccountsContainersWorkspacesClientsResponse = ListClientsRespon
 
 export type ListAccountsContainersWorkspacesClientsError = CommonErrors;
 
-export const listAccountsContainersWorkspacesClients = API.makePaginated(() => ({
+/** Lists all GTM Clients of a GTM container workspace. */
+export const listAccountsContainersWorkspacesClients: API.PaginatedOperationMethod<ListAccountsContainersWorkspacesClientsRequest, ListAccountsContainersWorkspacesClientsResponse, ListAccountsContainersWorkspacesClientsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesClientsRequest,
   output: ListAccountsContainersWorkspacesClientsResponse,
   errors: [],
@@ -3803,7 +3803,6 @@ export const listAccountsContainersWorkspacesClients = API.makePaginated(() => (
   },
 }));
 
-/** Gets a GTM Client. */
 export interface GetAccountsContainersWorkspacesClientsRequest {
   /** GTM Client's API relative path. */
   path: string;
@@ -3821,13 +3820,13 @@ export const GetAccountsContainersWorkspacesClientsResponse = Client;
 
 export type GetAccountsContainersWorkspacesClientsError = CommonErrors;
 
+/** Gets a GTM Client. */
 export const getAccountsContainersWorkspacesClients: API.OperationMethod<GetAccountsContainersWorkspacesClientsRequest, GetAccountsContainersWorkspacesClientsResponse, GetAccountsContainersWorkspacesClientsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsContainersWorkspacesClientsRequest,
   output: GetAccountsContainersWorkspacesClientsResponse,
   errors: [],
 }));
 
-/** Updates a GTM Client. */
 export interface UpdateAccountsContainersWorkspacesClientsRequest {
   /** GTM Client's API relative path. */
   path: string;
@@ -3851,13 +3850,13 @@ export const UpdateAccountsContainersWorkspacesClientsResponse = Client;
 
 export type UpdateAccountsContainersWorkspacesClientsError = CommonErrors;
 
+/** Updates a GTM Client. */
 export const updateAccountsContainersWorkspacesClients: API.OperationMethod<UpdateAccountsContainersWorkspacesClientsRequest, UpdateAccountsContainersWorkspacesClientsResponse, UpdateAccountsContainersWorkspacesClientsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAccountsContainersWorkspacesClientsRequest,
   output: UpdateAccountsContainersWorkspacesClientsResponse,
   errors: [],
 }));
 
-/** Deletes a GTM Client. */
 export interface DeleteAccountsContainersWorkspacesClientsRequest {
   /** GTM Client's API relative path. */
   path: string;
@@ -3875,13 +3874,13 @@ export const DeleteAccountsContainersWorkspacesClientsResponse: Schema.Schema<De
 
 export type DeleteAccountsContainersWorkspacesClientsError = CommonErrors;
 
+/** Deletes a GTM Client. */
 export const deleteAccountsContainersWorkspacesClients: API.OperationMethod<DeleteAccountsContainersWorkspacesClientsRequest, DeleteAccountsContainersWorkspacesClientsResponse, DeleteAccountsContainersWorkspacesClientsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountsContainersWorkspacesClientsRequest,
   output: DeleteAccountsContainersWorkspacesClientsResponse,
   errors: [],
 }));
 
-/** Reverts changes to a GTM Client in a GTM Workspace. */
 export interface RevertAccountsContainersWorkspacesClientsRequest {
   /** GTM Client's API relative path. */
   path: string;
@@ -3902,13 +3901,13 @@ export const RevertAccountsContainersWorkspacesClientsResponse = RevertClientRes
 
 export type RevertAccountsContainersWorkspacesClientsError = CommonErrors;
 
+/** Reverts changes to a GTM Client in a GTM Workspace. */
 export const revertAccountsContainersWorkspacesClients: API.OperationMethod<RevertAccountsContainersWorkspacesClientsRequest, RevertAccountsContainersWorkspacesClientsResponse, RevertAccountsContainersWorkspacesClientsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RevertAccountsContainersWorkspacesClientsRequest,
   output: RevertAccountsContainersWorkspacesClientsResponse,
   errors: [],
 }));
 
-/** Creates a GTM Transformation. */
 export interface CreateAccountsContainersWorkspacesTransformationsRequest {
   /** GTM Workspace's API relative path. */
   parent: string;
@@ -3929,13 +3928,13 @@ export const CreateAccountsContainersWorkspacesTransformationsResponse = Transfo
 
 export type CreateAccountsContainersWorkspacesTransformationsError = CommonErrors;
 
+/** Creates a GTM Transformation. */
 export const createAccountsContainersWorkspacesTransformations: API.OperationMethod<CreateAccountsContainersWorkspacesTransformationsRequest, CreateAccountsContainersWorkspacesTransformationsResponse, CreateAccountsContainersWorkspacesTransformationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsContainersWorkspacesTransformationsRequest,
   output: CreateAccountsContainersWorkspacesTransformationsResponse,
   errors: [],
 }));
 
-/** Lists all GTM Transformations of a GTM container workspace. */
 export interface ListAccountsContainersWorkspacesTransformationsRequest {
   /** GTM Workspace's API relative path. */
   parent: string;
@@ -3956,7 +3955,8 @@ export const ListAccountsContainersWorkspacesTransformationsResponse = ListTrans
 
 export type ListAccountsContainersWorkspacesTransformationsError = CommonErrors;
 
-export const listAccountsContainersWorkspacesTransformations = API.makePaginated(() => ({
+/** Lists all GTM Transformations of a GTM container workspace. */
+export const listAccountsContainersWorkspacesTransformations: API.PaginatedOperationMethod<ListAccountsContainersWorkspacesTransformationsRequest, ListAccountsContainersWorkspacesTransformationsResponse, ListAccountsContainersWorkspacesTransformationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsContainersWorkspacesTransformationsRequest,
   output: ListAccountsContainersWorkspacesTransformationsResponse,
   errors: [],
@@ -3966,7 +3966,6 @@ export const listAccountsContainersWorkspacesTransformations = API.makePaginated
   },
 }));
 
-/** Gets a GTM Transformation. */
 export interface GetAccountsContainersWorkspacesTransformationsRequest {
   /** GTM Transformation's API relative path. */
   path: string;
@@ -3984,13 +3983,13 @@ export const GetAccountsContainersWorkspacesTransformationsResponse = Transforma
 
 export type GetAccountsContainersWorkspacesTransformationsError = CommonErrors;
 
+/** Gets a GTM Transformation. */
 export const getAccountsContainersWorkspacesTransformations: API.OperationMethod<GetAccountsContainersWorkspacesTransformationsRequest, GetAccountsContainersWorkspacesTransformationsResponse, GetAccountsContainersWorkspacesTransformationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsContainersWorkspacesTransformationsRequest,
   output: GetAccountsContainersWorkspacesTransformationsResponse,
   errors: [],
 }));
 
-/** Updates a GTM Transformation. */
 export interface UpdateAccountsContainersWorkspacesTransformationsRequest {
   /** GTM Transformation's API relative path. */
   path: string;
@@ -4014,13 +4013,13 @@ export const UpdateAccountsContainersWorkspacesTransformationsResponse = Transfo
 
 export type UpdateAccountsContainersWorkspacesTransformationsError = CommonErrors;
 
+/** Updates a GTM Transformation. */
 export const updateAccountsContainersWorkspacesTransformations: API.OperationMethod<UpdateAccountsContainersWorkspacesTransformationsRequest, UpdateAccountsContainersWorkspacesTransformationsResponse, UpdateAccountsContainersWorkspacesTransformationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAccountsContainersWorkspacesTransformationsRequest,
   output: UpdateAccountsContainersWorkspacesTransformationsResponse,
   errors: [],
 }));
 
-/** Deletes a GTM Transformation. */
 export interface DeleteAccountsContainersWorkspacesTransformationsRequest {
   /** GTM Transformation's API relative path. */
   path: string;
@@ -4038,13 +4037,13 @@ export const DeleteAccountsContainersWorkspacesTransformationsResponse: Schema.S
 
 export type DeleteAccountsContainersWorkspacesTransformationsError = CommonErrors;
 
+/** Deletes a GTM Transformation. */
 export const deleteAccountsContainersWorkspacesTransformations: API.OperationMethod<DeleteAccountsContainersWorkspacesTransformationsRequest, DeleteAccountsContainersWorkspacesTransformationsResponse, DeleteAccountsContainersWorkspacesTransformationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountsContainersWorkspacesTransformationsRequest,
   output: DeleteAccountsContainersWorkspacesTransformationsResponse,
   errors: [],
 }));
 
-/** Reverts changes to a GTM Transformation in a GTM Workspace. */
 export interface RevertAccountsContainersWorkspacesTransformationsRequest {
   /** GTM Transformation's API relative path. */
   path: string;
@@ -4065,13 +4064,13 @@ export const RevertAccountsContainersWorkspacesTransformationsResponse = RevertT
 
 export type RevertAccountsContainersWorkspacesTransformationsError = CommonErrors;
 
+/** Reverts changes to a GTM Transformation in a GTM Workspace. */
 export const revertAccountsContainersWorkspacesTransformations: API.OperationMethod<RevertAccountsContainersWorkspacesTransformationsRequest, RevertAccountsContainersWorkspacesTransformationsResponse, RevertAccountsContainersWorkspacesTransformationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RevertAccountsContainersWorkspacesTransformationsRequest,
   output: RevertAccountsContainersWorkspacesTransformationsResponse,
   errors: [],
 }));
 
-/** Gets a Container Version. */
 export interface GetAccountsContainersVersionsRequest {
   /** GTM ContainerVersion's API relative path. */
   path: string;
@@ -4092,13 +4091,13 @@ export const GetAccountsContainersVersionsResponse = ContainerVersion;
 
 export type GetAccountsContainersVersionsError = CommonErrors;
 
+/** Gets a Container Version. */
 export const getAccountsContainersVersions: API.OperationMethod<GetAccountsContainersVersionsRequest, GetAccountsContainersVersionsResponse, GetAccountsContainersVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsContainersVersionsRequest,
   output: GetAccountsContainersVersionsResponse,
   errors: [],
 }));
 
-/** Updates a Container Version. */
 export interface UpdateAccountsContainersVersionsRequest {
   /** GTM ContainerVersion's API relative path. */
   path: string;
@@ -4122,13 +4121,13 @@ export const UpdateAccountsContainersVersionsResponse = ContainerVersion;
 
 export type UpdateAccountsContainersVersionsError = CommonErrors;
 
+/** Updates a Container Version. */
 export const updateAccountsContainersVersions: API.OperationMethod<UpdateAccountsContainersVersionsRequest, UpdateAccountsContainersVersionsResponse, UpdateAccountsContainersVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAccountsContainersVersionsRequest,
   output: UpdateAccountsContainersVersionsResponse,
   errors: [],
 }));
 
-/** Deletes a Container Version. */
 export interface DeleteAccountsContainersVersionsRequest {
   /** GTM ContainerVersion's API relative path. */
   path: string;
@@ -4146,13 +4145,13 @@ export const DeleteAccountsContainersVersionsResponse: Schema.Schema<DeleteAccou
 
 export type DeleteAccountsContainersVersionsError = CommonErrors;
 
+/** Deletes a Container Version. */
 export const deleteAccountsContainersVersions: API.OperationMethod<DeleteAccountsContainersVersionsRequest, DeleteAccountsContainersVersionsResponse, DeleteAccountsContainersVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountsContainersVersionsRequest,
   output: DeleteAccountsContainersVersionsResponse,
   errors: [],
 }));
 
-/** Undeletes a Container Version. */
 export interface UndeleteAccountsContainersVersionsRequest {
   /** GTM ContainerVersion's API relative path. */
   path: string;
@@ -4170,13 +4169,13 @@ export const UndeleteAccountsContainersVersionsResponse = ContainerVersion;
 
 export type UndeleteAccountsContainersVersionsError = CommonErrors;
 
+/** Undeletes a Container Version. */
 export const undeleteAccountsContainersVersions: API.OperationMethod<UndeleteAccountsContainersVersionsRequest, UndeleteAccountsContainersVersionsResponse, UndeleteAccountsContainersVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UndeleteAccountsContainersVersionsRequest,
   output: UndeleteAccountsContainersVersionsResponse,
   errors: [],
 }));
 
-/** Publishes a Container Version. */
 export interface PublishAccountsContainersVersionsRequest {
   /** GTM ContainerVersion's API relative path. */
   path: string;
@@ -4197,13 +4196,13 @@ export const PublishAccountsContainersVersionsResponse = PublishContainerVersion
 
 export type PublishAccountsContainersVersionsError = CommonErrors;
 
+/** Publishes a Container Version. */
 export const publishAccountsContainersVersions: API.OperationMethod<PublishAccountsContainersVersionsRequest, PublishAccountsContainersVersionsResponse, PublishAccountsContainersVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PublishAccountsContainersVersionsRequest,
   output: PublishAccountsContainersVersionsResponse,
   errors: [],
 }));
 
-/** Sets the latest version used for synchronization of workspaces when detecting conflicts and errors. */
 export interface Set_latestAccountsContainersVersionsRequest {
   /** GTM ContainerVersion's API relative path. */
   path: string;
@@ -4221,13 +4220,13 @@ export const Set_latestAccountsContainersVersionsResponse = ContainerVersion;
 
 export type Set_latestAccountsContainersVersionsError = CommonErrors;
 
+/** Sets the latest version used for synchronization of workspaces when detecting conflicts and errors. */
 export const set_latestAccountsContainersVersions: API.OperationMethod<Set_latestAccountsContainersVersionsRequest, Set_latestAccountsContainersVersionsResponse, Set_latestAccountsContainersVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: Set_latestAccountsContainersVersionsRequest,
   output: Set_latestAccountsContainersVersionsResponse,
   errors: [],
 }));
 
-/** Gets the live (i.e. published) container version */
 export interface LiveAccountsContainersVersionsRequest {
   /** GTM Container's API relative path. */
   parent: string;
@@ -4245,13 +4244,13 @@ export const LiveAccountsContainersVersionsResponse = ContainerVersion;
 
 export type LiveAccountsContainersVersionsError = CommonErrors;
 
+/** Gets the live (i.e. published) container version */
 export const liveAccountsContainersVersions: API.OperationMethod<LiveAccountsContainersVersionsRequest, LiveAccountsContainersVersionsResponse, LiveAccountsContainersVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LiveAccountsContainersVersionsRequest,
   output: LiveAccountsContainersVersionsResponse,
   errors: [],
 }));
 
-/** Lists all Container Versions of a GTM Container. */
 export interface ListAccountsContainersVersion_headersRequest {
   /** GTM Container's API relative path. */
   parent: string;
@@ -4275,7 +4274,8 @@ export const ListAccountsContainersVersion_headersResponse = ListContainerVersio
 
 export type ListAccountsContainersVersion_headersError = CommonErrors;
 
-export const listAccountsContainersVersion_headers = API.makePaginated(() => ({
+/** Lists all Container Versions of a GTM Container. */
+export const listAccountsContainersVersion_headers: API.PaginatedOperationMethod<ListAccountsContainersVersion_headersRequest, ListAccountsContainersVersion_headersResponse, ListAccountsContainersVersion_headersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsContainersVersion_headersRequest,
   output: ListAccountsContainersVersion_headersResponse,
   errors: [],
@@ -4285,7 +4285,6 @@ export const listAccountsContainersVersion_headers = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest container version header */
 export interface LatestAccountsContainersVersion_headersRequest {
   /** GTM Container's API relative path. */
   parent: string;
@@ -4303,13 +4302,13 @@ export const LatestAccountsContainersVersion_headersResponse = ContainerVersionH
 
 export type LatestAccountsContainersVersion_headersError = CommonErrors;
 
+/** Gets the latest container version header */
 export const latestAccountsContainersVersion_headers: API.OperationMethod<LatestAccountsContainersVersion_headersRequest, LatestAccountsContainersVersion_headersResponse, LatestAccountsContainersVersion_headersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LatestAccountsContainersVersion_headersRequest,
   output: LatestAccountsContainersVersion_headersResponse,
   errors: [],
 }));
 
-/** Creates a GTM Environment. */
 export interface CreateAccountsContainersEnvironmentsRequest {
   /** GTM Container's API relative path. */
   parent: string;
@@ -4330,13 +4329,13 @@ export const CreateAccountsContainersEnvironmentsResponse = Environment;
 
 export type CreateAccountsContainersEnvironmentsError = CommonErrors;
 
+/** Creates a GTM Environment. */
 export const createAccountsContainersEnvironments: API.OperationMethod<CreateAccountsContainersEnvironmentsRequest, CreateAccountsContainersEnvironmentsResponse, CreateAccountsContainersEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsContainersEnvironmentsRequest,
   output: CreateAccountsContainersEnvironmentsResponse,
   errors: [],
 }));
 
-/** Lists all GTM Environments of a GTM Container. */
 export interface ListAccountsContainersEnvironmentsRequest {
   /** GTM Container's API relative path. */
   parent: string;
@@ -4357,7 +4356,8 @@ export const ListAccountsContainersEnvironmentsResponse = ListEnvironmentsRespon
 
 export type ListAccountsContainersEnvironmentsError = CommonErrors;
 
-export const listAccountsContainersEnvironments = API.makePaginated(() => ({
+/** Lists all GTM Environments of a GTM Container. */
+export const listAccountsContainersEnvironments: API.PaginatedOperationMethod<ListAccountsContainersEnvironmentsRequest, ListAccountsContainersEnvironmentsResponse, ListAccountsContainersEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsContainersEnvironmentsRequest,
   output: ListAccountsContainersEnvironmentsResponse,
   errors: [],
@@ -4367,7 +4367,6 @@ export const listAccountsContainersEnvironments = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a GTM Environment. */
 export interface GetAccountsContainersEnvironmentsRequest {
   /** GTM Environment's API relative path. */
   path: string;
@@ -4385,13 +4384,13 @@ export const GetAccountsContainersEnvironmentsResponse = Environment;
 
 export type GetAccountsContainersEnvironmentsError = CommonErrors;
 
+/** Gets a GTM Environment. */
 export const getAccountsContainersEnvironments: API.OperationMethod<GetAccountsContainersEnvironmentsRequest, GetAccountsContainersEnvironmentsResponse, GetAccountsContainersEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsContainersEnvironmentsRequest,
   output: GetAccountsContainersEnvironmentsResponse,
   errors: [],
 }));
 
-/** Updates a GTM Environment. */
 export interface UpdateAccountsContainersEnvironmentsRequest {
   /** GTM Environment's API relative path. */
   path: string;
@@ -4415,13 +4414,13 @@ export const UpdateAccountsContainersEnvironmentsResponse = Environment;
 
 export type UpdateAccountsContainersEnvironmentsError = CommonErrors;
 
+/** Updates a GTM Environment. */
 export const updateAccountsContainersEnvironments: API.OperationMethod<UpdateAccountsContainersEnvironmentsRequest, UpdateAccountsContainersEnvironmentsResponse, UpdateAccountsContainersEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAccountsContainersEnvironmentsRequest,
   output: UpdateAccountsContainersEnvironmentsResponse,
   errors: [],
 }));
 
-/** Deletes a GTM Environment. */
 export interface DeleteAccountsContainersEnvironmentsRequest {
   /** GTM Environment's API relative path. */
   path: string;
@@ -4439,13 +4438,13 @@ export const DeleteAccountsContainersEnvironmentsResponse: Schema.Schema<DeleteA
 
 export type DeleteAccountsContainersEnvironmentsError = CommonErrors;
 
+/** Deletes a GTM Environment. */
 export const deleteAccountsContainersEnvironments: API.OperationMethod<DeleteAccountsContainersEnvironmentsRequest, DeleteAccountsContainersEnvironmentsResponse, DeleteAccountsContainersEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountsContainersEnvironmentsRequest,
   output: DeleteAccountsContainersEnvironmentsResponse,
   errors: [],
 }));
 
-/** Re-generates the authorization code for a GTM Environment. */
 export interface ReauthorizeAccountsContainersEnvironmentsRequest {
   /** GTM Environment's API relative path. */
   path: string;
@@ -4466,6 +4465,7 @@ export const ReauthorizeAccountsContainersEnvironmentsResponse = Environment;
 
 export type ReauthorizeAccountsContainersEnvironmentsError = CommonErrors;
 
+/** Re-generates the authorization code for a GTM Environment. */
 export const reauthorizeAccountsContainersEnvironments: API.OperationMethod<ReauthorizeAccountsContainersEnvironmentsRequest, ReauthorizeAccountsContainersEnvironmentsResponse, ReauthorizeAccountsContainersEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReauthorizeAccountsContainersEnvironmentsRequest,
   output: ReauthorizeAccountsContainersEnvironmentsResponse,

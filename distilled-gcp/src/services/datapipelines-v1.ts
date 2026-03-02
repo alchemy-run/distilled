@@ -411,7 +411,6 @@ export const GoogleCloudDatapipelinesV1ListJobsResponse: Schema.Schema<GoogleClo
 // Operations
 // ==========================================================================
 
-/** Creates a pipeline. For a batch pipeline, you can pass scheduler information. Data Pipelines uses the scheduler information to create an internal scheduler that runs jobs periodically. If the internal scheduler is not configured, you can use RunPipeline to run jobs. */
 export interface CreateProjectsLocationsPipelinesRequest {
   /** Required. The location name. For example: `projects/PROJECT_ID/locations/LOCATION_ID`. */
   parent: string;
@@ -432,13 +431,13 @@ export const CreateProjectsLocationsPipelinesResponse = GoogleCloudDatapipelines
 
 export type CreateProjectsLocationsPipelinesError = CommonErrors;
 
+/** Creates a pipeline. For a batch pipeline, you can pass scheduler information. Data Pipelines uses the scheduler information to create an internal scheduler that runs jobs periodically. If the internal scheduler is not configured, you can use RunPipeline to run jobs. */
 export const createProjectsLocationsPipelines: API.OperationMethod<CreateProjectsLocationsPipelinesRequest, CreateProjectsLocationsPipelinesResponse, CreateProjectsLocationsPipelinesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsPipelinesRequest,
   output: CreateProjectsLocationsPipelinesResponse,
   errors: [],
 }));
 
-/** Updates a pipeline. If successful, the updated Pipeline is returned. Returns `NOT_FOUND` if the pipeline doesn't exist. If UpdatePipeline does not return successfully, you can retry the UpdatePipeline request until you receive a successful response. */
 export interface PatchProjectsLocationsPipelinesRequest {
   /** The pipeline name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/pipelines/PIPELINE_ID`. * `PROJECT_ID` can contain letters ([A-Za-z]), numbers ([0-9]), hyphens (-), colons (:), and periods (.). For more information, see [Identifying projects](https://cloud.google.com/resource-manager/docs/creating-managing-projects#identifying_projects). * `LOCATION_ID` is the canonical ID for the pipeline's location. The list of available locations can be obtained by calling `google.cloud.location.Locations.ListLocations`. Note that the Data Pipelines service is not available in all regions. It depends on Cloud Scheduler, an App Engine application, so it's only available in [App Engine regions](https://cloud.google.com/about/locations#region). * `PIPELINE_ID` is the ID of the pipeline. Must be unique for the selected project and location. */
   name: string;
@@ -462,13 +461,13 @@ export const PatchProjectsLocationsPipelinesResponse = GoogleCloudDatapipelinesV
 
 export type PatchProjectsLocationsPipelinesError = CommonErrors;
 
+/** Updates a pipeline. If successful, the updated Pipeline is returned. Returns `NOT_FOUND` if the pipeline doesn't exist. If UpdatePipeline does not return successfully, you can retry the UpdatePipeline request until you receive a successful response. */
 export const patchProjectsLocationsPipelines: API.OperationMethod<PatchProjectsLocationsPipelinesRequest, PatchProjectsLocationsPipelinesResponse, PatchProjectsLocationsPipelinesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsPipelinesRequest,
   output: PatchProjectsLocationsPipelinesResponse,
   errors: [],
 }));
 
-/** Deletes a pipeline. If a scheduler job is attached to the pipeline, it will be deleted. */
 export interface DeleteProjectsLocationsPipelinesRequest {
   /** Required. The pipeline name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/pipelines/PIPELINE_ID`. */
   name: string;
@@ -486,13 +485,13 @@ export const DeleteProjectsLocationsPipelinesResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsPipelinesError = CommonErrors;
 
+/** Deletes a pipeline. If a scheduler job is attached to the pipeline, it will be deleted. */
 export const deleteProjectsLocationsPipelines: API.OperationMethod<DeleteProjectsLocationsPipelinesRequest, DeleteProjectsLocationsPipelinesResponse, DeleteProjectsLocationsPipelinesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsPipelinesRequest,
   output: DeleteProjectsLocationsPipelinesResponse,
   errors: [],
 }));
 
-/** Lists pipelines. Returns a "FORBIDDEN" error if the caller doesn't have permission to access it. */
 export interface ListProjectsLocationsPipelinesRequest {
   /** Required. The location name. For example: `projects/PROJECT_ID/locations/LOCATION_ID`. */
   parent: string;
@@ -519,7 +518,8 @@ export const ListProjectsLocationsPipelinesResponse = GoogleCloudDatapipelinesV1
 
 export type ListProjectsLocationsPipelinesError = CommonErrors;
 
-export const listProjectsLocationsPipelines = API.makePaginated(() => ({
+/** Lists pipelines. Returns a "FORBIDDEN" error if the caller doesn't have permission to access it. */
+export const listProjectsLocationsPipelines: API.PaginatedOperationMethod<ListProjectsLocationsPipelinesRequest, ListProjectsLocationsPipelinesResponse, ListProjectsLocationsPipelinesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsPipelinesRequest,
   output: ListProjectsLocationsPipelinesResponse,
   errors: [],
@@ -529,7 +529,6 @@ export const listProjectsLocationsPipelines = API.makePaginated(() => ({
   },
 }));
 
-/** Looks up a single pipeline. Returns a "NOT_FOUND" error if no such pipeline exists. Returns a "FORBIDDEN" error if the caller doesn't have permission to access it. */
 export interface GetProjectsLocationsPipelinesRequest {
   /** Required. The pipeline name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/pipelines/PIPELINE_ID`. */
   name: string;
@@ -547,13 +546,13 @@ export const GetProjectsLocationsPipelinesResponse = GoogleCloudDatapipelinesV1P
 
 export type GetProjectsLocationsPipelinesError = CommonErrors;
 
+/** Looks up a single pipeline. Returns a "NOT_FOUND" error if no such pipeline exists. Returns a "FORBIDDEN" error if the caller doesn't have permission to access it. */
 export const getProjectsLocationsPipelines: API.OperationMethod<GetProjectsLocationsPipelinesRequest, GetProjectsLocationsPipelinesResponse, GetProjectsLocationsPipelinesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsPipelinesRequest,
   output: GetProjectsLocationsPipelinesResponse,
   errors: [],
 }));
 
-/** Freezes pipeline execution permanently. If there's a corresponding scheduler entry, it's deleted, and the pipeline state is changed to "ARCHIVED". However, pipeline metadata is retained. */
 export interface StopProjectsLocationsPipelinesRequest {
   /** Required. The pipeline name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/pipelines/PIPELINE_ID`. */
   name: string;
@@ -574,13 +573,13 @@ export const StopProjectsLocationsPipelinesResponse = GoogleCloudDatapipelinesV1
 
 export type StopProjectsLocationsPipelinesError = CommonErrors;
 
+/** Freezes pipeline execution permanently. If there's a corresponding scheduler entry, it's deleted, and the pipeline state is changed to "ARCHIVED". However, pipeline metadata is retained. */
 export const stopProjectsLocationsPipelines: API.OperationMethod<StopProjectsLocationsPipelinesRequest, StopProjectsLocationsPipelinesResponse, StopProjectsLocationsPipelinesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StopProjectsLocationsPipelinesRequest,
   output: StopProjectsLocationsPipelinesResponse,
   errors: [],
 }));
 
-/** Creates a job for the specified pipeline directly. You can use this method when the internal scheduler is not configured and you want to trigger the job directly or through an external system. Returns a "NOT_FOUND" error if the pipeline doesn't exist. Returns a "FORBIDDEN" error if the user doesn't have permission to access the pipeline or run jobs for the pipeline. */
 export interface RunProjectsLocationsPipelinesRequest {
   /** Required. The pipeline name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/pipelines/PIPELINE_ID`. */
   name: string;
@@ -601,13 +600,13 @@ export const RunProjectsLocationsPipelinesResponse = GoogleCloudDatapipelinesV1R
 
 export type RunProjectsLocationsPipelinesError = CommonErrors;
 
+/** Creates a job for the specified pipeline directly. You can use this method when the internal scheduler is not configured and you want to trigger the job directly or through an external system. Returns a "NOT_FOUND" error if the pipeline doesn't exist. Returns a "FORBIDDEN" error if the user doesn't have permission to access the pipeline or run jobs for the pipeline. */
 export const runProjectsLocationsPipelines: API.OperationMethod<RunProjectsLocationsPipelinesRequest, RunProjectsLocationsPipelinesResponse, RunProjectsLocationsPipelinesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RunProjectsLocationsPipelinesRequest,
   output: RunProjectsLocationsPipelinesResponse,
   errors: [],
 }));
 
-/** Lists jobs for a given pipeline. Throws a "FORBIDDEN" error if the caller doesn't have permission to access it. */
 export interface ListProjectsLocationsPipelinesJobsRequest {
   /** Required. The pipeline name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/pipelines/PIPELINE_ID`. */
   parent: string;
@@ -631,7 +630,8 @@ export const ListProjectsLocationsPipelinesJobsResponse = GoogleCloudDatapipelin
 
 export type ListProjectsLocationsPipelinesJobsError = CommonErrors;
 
-export const listProjectsLocationsPipelinesJobs = API.makePaginated(() => ({
+/** Lists jobs for a given pipeline. Throws a "FORBIDDEN" error if the caller doesn't have permission to access it. */
+export const listProjectsLocationsPipelinesJobs: API.PaginatedOperationMethod<ListProjectsLocationsPipelinesJobsRequest, ListProjectsLocationsPipelinesJobsResponse, ListProjectsLocationsPipelinesJobsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsPipelinesJobsRequest,
   output: ListProjectsLocationsPipelinesJobsResponse,
   errors: [],

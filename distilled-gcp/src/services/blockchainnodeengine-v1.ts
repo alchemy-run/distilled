@@ -291,7 +291,6 @@ export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspen
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -321,7 +320,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -331,7 +331,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -349,13 +348,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -382,7 +381,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -392,7 +392,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -410,13 +409,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -434,13 +433,13 @@ export const DeleteProjectsLocationsOperationsResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -461,13 +460,13 @@ export const CancelProjectsLocationsOperationsResponse = GoogleProtobufEmpty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Lists blockchain nodes in a given project and location. */
 export interface ListProjectsLocationsBlockchainNodesRequest {
   /** Required. Parent value for `ListNodesRequest`. */
   parent: string;
@@ -497,7 +496,8 @@ export const ListProjectsLocationsBlockchainNodesResponse = ListBlockchainNodesR
 
 export type ListProjectsLocationsBlockchainNodesError = CommonErrors;
 
-export const listProjectsLocationsBlockchainNodes = API.makePaginated(() => ({
+/** Lists blockchain nodes in a given project and location. */
+export const listProjectsLocationsBlockchainNodes: API.PaginatedOperationMethod<ListProjectsLocationsBlockchainNodesRequest, ListProjectsLocationsBlockchainNodesResponse, ListProjectsLocationsBlockchainNodesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBlockchainNodesRequest,
   output: ListProjectsLocationsBlockchainNodesResponse,
   errors: [],
@@ -507,7 +507,6 @@ export const listProjectsLocationsBlockchainNodes = API.makePaginated(() => ({
   },
 }));
 
-/** Gets details of a single blockchain node. */
 export interface GetProjectsLocationsBlockchainNodesRequest {
   /** Required. The fully qualified name of the blockchain node to fetch. e.g. `projects/my-project/locations/us-central1/blockchainNodes/my-node`. */
   name: string;
@@ -525,13 +524,13 @@ export const GetProjectsLocationsBlockchainNodesResponse = BlockchainNode;
 
 export type GetProjectsLocationsBlockchainNodesError = CommonErrors;
 
+/** Gets details of a single blockchain node. */
 export const getProjectsLocationsBlockchainNodes: API.OperationMethod<GetProjectsLocationsBlockchainNodesRequest, GetProjectsLocationsBlockchainNodesResponse, GetProjectsLocationsBlockchainNodesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBlockchainNodesRequest,
   output: GetProjectsLocationsBlockchainNodesResponse,
   errors: [],
 }));
 
-/** Creates a new blockchain node in a given project and location. */
 export interface CreateProjectsLocationsBlockchainNodesRequest {
   /** Required. Value for parent. */
   parent: string;
@@ -558,13 +557,13 @@ export const CreateProjectsLocationsBlockchainNodesResponse = Operation;
 
 export type CreateProjectsLocationsBlockchainNodesError = CommonErrors;
 
+/** Creates a new blockchain node in a given project and location. */
 export const createProjectsLocationsBlockchainNodes: API.OperationMethod<CreateProjectsLocationsBlockchainNodesRequest, CreateProjectsLocationsBlockchainNodesResponse, CreateProjectsLocationsBlockchainNodesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsBlockchainNodesRequest,
   output: CreateProjectsLocationsBlockchainNodesResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single blockchain node. */
 export interface PatchProjectsLocationsBlockchainNodesRequest {
   /** Output only. The fully qualified name of the blockchain node. e.g. `projects/my-project/locations/us-central1/blockchainNodes/my-node`. */
   name: string;
@@ -591,13 +590,13 @@ export const PatchProjectsLocationsBlockchainNodesResponse = Operation;
 
 export type PatchProjectsLocationsBlockchainNodesError = CommonErrors;
 
+/** Updates the parameters of a single blockchain node. */
 export const patchProjectsLocationsBlockchainNodes: API.OperationMethod<PatchProjectsLocationsBlockchainNodesRequest, PatchProjectsLocationsBlockchainNodesResponse, PatchProjectsLocationsBlockchainNodesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsBlockchainNodesRequest,
   output: PatchProjectsLocationsBlockchainNodesResponse,
   errors: [],
 }));
 
-/** Deletes a single blockchain node. */
 export interface DeleteProjectsLocationsBlockchainNodesRequest {
   /** Required. The fully qualified name of the blockchain node to delete. e.g. `projects/my-project/locations/us-central1/blockchainNodes/my-node`. */
   name: string;
@@ -618,6 +617,7 @@ export const DeleteProjectsLocationsBlockchainNodesResponse = Operation;
 
 export type DeleteProjectsLocationsBlockchainNodesError = CommonErrors;
 
+/** Deletes a single blockchain node. */
 export const deleteProjectsLocationsBlockchainNodes: API.OperationMethod<DeleteProjectsLocationsBlockchainNodesRequest, DeleteProjectsLocationsBlockchainNodesResponse, DeleteProjectsLocationsBlockchainNodesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsBlockchainNodesRequest,
   output: DeleteProjectsLocationsBlockchainNodesResponse,

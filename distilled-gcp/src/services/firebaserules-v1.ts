@@ -372,7 +372,6 @@ export const GetReleaseExecutableResponse: Schema.Schema<GetReleaseExecutableRes
 // Operations
 // ==========================================================================
 
-/** Test `Source` for syntactic and semantic correctness. Issues present, if any, will be returned to the caller with a description, severity, and source location. The test method may be executed with `Source` or a `Ruleset` name. Passing `Source` is useful for unit testing new rules. Passing a `Ruleset` name is useful for regression testing an existing rule. The following is an example of `Source` that permits users to upload images to a bucket bearing their user id and matching the correct metadata: _*Example*_ // Users are allowed to subscribe and unsubscribe to the blog. service firebase.storage { match /users/{userId}/images/{imageName} { allow write: if userId == request.auth.uid && (imageName.matches('*.png$') || imageName.matches('*.jpg$')) && resource.mimeType.matches('^image/') } } */
 export interface TestProjectsRequest {
   /** Required. Tests may either provide `source` or a `Ruleset` resource name. For tests against `source`, the resource name must refer to the project: Format: `projects/{project_id}` For tests against a `Ruleset`, this must be the `Ruleset` resource name: Format: `projects/{project_id}/rulesets/{ruleset_id}` */
   name: string;
@@ -393,13 +392,13 @@ export const TestProjectsResponse = TestRulesetResponse;
 
 export type TestProjectsError = CommonErrors;
 
+/** Test `Source` for syntactic and semantic correctness. Issues present, if any, will be returned to the caller with a description, severity, and source location. The test method may be executed with `Source` or a `Ruleset` name. Passing `Source` is useful for unit testing new rules. Passing a `Ruleset` name is useful for regression testing an existing rule. The following is an example of `Source` that permits users to upload images to a bucket bearing their user id and matching the correct metadata: _*Example*_ // Users are allowed to subscribe and unsubscribe to the blog. service firebase.storage { match /users/{userId}/images/{imageName} { allow write: if userId == request.auth.uid && (imageName.matches('*.png$') || imageName.matches('*.jpg$')) && resource.mimeType.matches('^image/') } } */
 export const testProjects: API.OperationMethod<TestProjectsRequest, TestProjectsResponse, TestProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestProjectsRequest,
   output: TestProjectsResponse,
   errors: [],
 }));
 
-/** Delete a `Ruleset` by resource name. If the `Ruleset` is referenced by a `Release` the operation will fail. */
 export interface DeleteProjectsRulesetsRequest {
   /** Required. Resource name for the ruleset to delete. Format: `projects/{project_id}/rulesets/{ruleset_id}` */
   name: string;
@@ -417,13 +416,13 @@ export const DeleteProjectsRulesetsResponse = Empty;
 
 export type DeleteProjectsRulesetsError = CommonErrors;
 
+/** Delete a `Ruleset` by resource name. If the `Ruleset` is referenced by a `Release` the operation will fail. */
 export const deleteProjectsRulesets: API.OperationMethod<DeleteProjectsRulesetsRequest, DeleteProjectsRulesetsResponse, DeleteProjectsRulesetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsRulesetsRequest,
   output: DeleteProjectsRulesetsResponse,
   errors: [],
 }));
 
-/** Get a `Ruleset` by name including the full `Source` contents. */
 export interface GetProjectsRulesetsRequest {
   /** Required. Resource name for the ruleset to get. Format: `projects/{project_id}/rulesets/{ruleset_id}` */
   name: string;
@@ -441,13 +440,13 @@ export const GetProjectsRulesetsResponse = Ruleset;
 
 export type GetProjectsRulesetsError = CommonErrors;
 
+/** Get a `Ruleset` by name including the full `Source` contents. */
 export const getProjectsRulesets: API.OperationMethod<GetProjectsRulesetsRequest, GetProjectsRulesetsResponse, GetProjectsRulesetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsRulesetsRequest,
   output: GetProjectsRulesetsResponse,
   errors: [],
 }));
 
-/** List `Ruleset` metadata only and optionally filter the results by `Ruleset` name. The full `Source` contents of a `Ruleset` may be retrieved with GetRuleset. */
 export interface ListProjectsRulesetsRequest {
   /** Optional. Next page token for loading the next batch of `Ruleset` instances. */
   pageToken?: string;
@@ -474,7 +473,8 @@ export const ListProjectsRulesetsResponse = ListRulesetsResponse;
 
 export type ListProjectsRulesetsError = CommonErrors;
 
-export const listProjectsRulesets = API.makePaginated(() => ({
+/** List `Ruleset` metadata only and optionally filter the results by `Ruleset` name. The full `Source` contents of a `Ruleset` may be retrieved with GetRuleset. */
+export const listProjectsRulesets: API.PaginatedOperationMethod<ListProjectsRulesetsRequest, ListProjectsRulesetsResponse, ListProjectsRulesetsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsRulesetsRequest,
   output: ListProjectsRulesetsResponse,
   errors: [],
@@ -484,7 +484,6 @@ export const listProjectsRulesets = API.makePaginated(() => ({
   },
 }));
 
-/** Create a `Ruleset` from `Source`. The `Ruleset` is given a unique generated name which is returned to the caller. `Source` containing syntactic or semantics errors will result in an error response indicating the first error encountered. For a detailed view of `Source` issues, use TestRuleset. */
 export interface CreateProjectsRulesetsRequest {
   /** Required. Resource name for Project which owns this `Ruleset`. Format: `projects/{project_id}` */
   name: string;
@@ -505,13 +504,13 @@ export const CreateProjectsRulesetsResponse = Ruleset;
 
 export type CreateProjectsRulesetsError = CommonErrors;
 
+/** Create a `Ruleset` from `Source`. The `Ruleset` is given a unique generated name which is returned to the caller. `Source` containing syntactic or semantics errors will result in an error response indicating the first error encountered. For a detailed view of `Source` issues, use TestRuleset. */
 export const createProjectsRulesets: API.OperationMethod<CreateProjectsRulesetsRequest, CreateProjectsRulesetsResponse, CreateProjectsRulesetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsRulesetsRequest,
   output: CreateProjectsRulesetsResponse,
   errors: [],
 }));
 
-/** Create a `Release`. Release names should reflect the developer's deployment practices. For example, the release name may include the environment name, application name, application version, or any other name meaningful to the developer. Once a `Release` refers to a `Ruleset`, the rules can be enforced by Firebase Rules-enabled services. More than one `Release` may be 'live' concurrently. Consider the following three `Release` names for `projects/foo` and the `Ruleset` to which they refer. Release Name -> Ruleset Name * projects/foo/releases/prod -> projects/foo/rulesets/uuid123 * projects/foo/releases/prod/beta -> projects/foo/rulesets/uuid123 * projects/foo/releases/prod/v23 -> projects/foo/rulesets/uuid456 The relationships reflect a `Ruleset` rollout in progress. The `prod` and `prod/beta` releases refer to the same `Ruleset`. However, `prod/v23` refers to a new `Ruleset`. The `Ruleset` reference for a `Release` may be updated using the UpdateRelease method. */
 export interface CreateProjectsReleasesRequest {
   /** Required. Resource name for the project which owns this `Release`. Format: `projects/{project_id}` */
   name: string;
@@ -532,13 +531,13 @@ export const CreateProjectsReleasesResponse = Release;
 
 export type CreateProjectsReleasesError = CommonErrors;
 
+/** Create a `Release`. Release names should reflect the developer's deployment practices. For example, the release name may include the environment name, application name, application version, or any other name meaningful to the developer. Once a `Release` refers to a `Ruleset`, the rules can be enforced by Firebase Rules-enabled services. More than one `Release` may be 'live' concurrently. Consider the following three `Release` names for `projects/foo` and the `Ruleset` to which they refer. Release Name -> Ruleset Name * projects/foo/releases/prod -> projects/foo/rulesets/uuid123 * projects/foo/releases/prod/beta -> projects/foo/rulesets/uuid123 * projects/foo/releases/prod/v23 -> projects/foo/rulesets/uuid456 The relationships reflect a `Ruleset` rollout in progress. The `prod` and `prod/beta` releases refer to the same `Ruleset`. However, `prod/v23` refers to a new `Ruleset`. The `Ruleset` reference for a `Release` may be updated using the UpdateRelease method. */
 export const createProjectsReleases: API.OperationMethod<CreateProjectsReleasesRequest, CreateProjectsReleasesResponse, CreateProjectsReleasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsReleasesRequest,
   output: CreateProjectsReleasesResponse,
   errors: [],
 }));
 
-/** List the `Release` values for a project. This list may optionally be filtered by `Release` name, `Ruleset` name, `TestSuite` name, or any combination thereof. */
 export interface ListProjectsReleasesRequest {
   /** Optional. Next page token for the next batch of `Release` instances. */
   pageToken?: string;
@@ -565,7 +564,8 @@ export const ListProjectsReleasesResponse = ListReleasesResponse;
 
 export type ListProjectsReleasesError = CommonErrors;
 
-export const listProjectsReleases = API.makePaginated(() => ({
+/** List the `Release` values for a project. This list may optionally be filtered by `Release` name, `Ruleset` name, `TestSuite` name, or any combination thereof. */
+export const listProjectsReleases: API.PaginatedOperationMethod<ListProjectsReleasesRequest, ListProjectsReleasesResponse, ListProjectsReleasesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsReleasesRequest,
   output: ListProjectsReleasesResponse,
   errors: [],
@@ -575,7 +575,6 @@ export const listProjectsReleases = API.makePaginated(() => ({
   },
 }));
 
-/** Delete a `Release` by resource name. */
 export interface DeleteProjectsReleasesRequest {
   /** Required. Resource name for the `Release` to delete. Format: `projects/{project_id}/releases/{release_id}` */
   name: string;
@@ -593,13 +592,13 @@ export const DeleteProjectsReleasesResponse = Empty;
 
 export type DeleteProjectsReleasesError = CommonErrors;
 
+/** Delete a `Release` by resource name. */
 export const deleteProjectsReleases: API.OperationMethod<DeleteProjectsReleasesRequest, DeleteProjectsReleasesResponse, DeleteProjectsReleasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsReleasesRequest,
   output: DeleteProjectsReleasesResponse,
   errors: [],
 }));
 
-/** Get a `Release` by name. */
 export interface GetProjectsReleasesRequest {
   /** Required. Resource name of the `Release`. Format: `projects/{project_id}/releases/{release_id}` */
   name: string;
@@ -617,13 +616,13 @@ export const GetProjectsReleasesResponse = Release;
 
 export type GetProjectsReleasesError = CommonErrors;
 
+/** Get a `Release` by name. */
 export const getProjectsReleases: API.OperationMethod<GetProjectsReleasesRequest, GetProjectsReleasesResponse, GetProjectsReleasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsReleasesRequest,
   output: GetProjectsReleasesResponse,
   errors: [],
 }));
 
-/** Update a `Release` via PATCH. Only updates to `ruleset_name` will be honored. `Release` rename is not supported. To create a `Release` use the CreateRelease method. */
 export interface PatchProjectsReleasesRequest {
   /** Required. Resource name for the project which owns this `Release`. Format: `projects/{project_id}` */
   name: string;
@@ -644,13 +643,13 @@ export const PatchProjectsReleasesResponse = Release;
 
 export type PatchProjectsReleasesError = CommonErrors;
 
+/** Update a `Release` via PATCH. Only updates to `ruleset_name` will be honored. `Release` rename is not supported. To create a `Release` use the CreateRelease method. */
 export const patchProjectsReleases: API.OperationMethod<PatchProjectsReleasesRequest, PatchProjectsReleasesResponse, PatchProjectsReleasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsReleasesRequest,
   output: PatchProjectsReleasesResponse,
   errors: [],
 }));
 
-/** Get the `Release` executable to use when enforcing rules. */
 export interface GetExecutableProjectsReleasesRequest {
   /** Required. Resource name of the `Release`. Format: `projects/{project_id}/releases/{release_id}` */
   name: string;
@@ -671,6 +670,7 @@ export const GetExecutableProjectsReleasesResponse = GetReleaseExecutableRespons
 
 export type GetExecutableProjectsReleasesError = CommonErrors;
 
+/** Get the `Release` executable to use when enforcing rules. */
 export const getExecutableProjectsReleases: API.OperationMethod<GetExecutableProjectsReleasesRequest, GetExecutableProjectsReleasesResponse, GetExecutableProjectsReleasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetExecutableProjectsReleasesRequest,
   output: GetExecutableProjectsReleasesResponse,

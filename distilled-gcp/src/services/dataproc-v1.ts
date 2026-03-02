@@ -4834,7 +4834,6 @@ export const ListSessionTemplatesResponse: Schema.Schema<ListSessionTemplatesRes
 // Operations
 // ==========================================================================
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsRegionsJobsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -4855,13 +4854,13 @@ export const GetIamPolicyProjectsRegionsJobsResponse = Policy;
 
 export type GetIamPolicyProjectsRegionsJobsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsRegionsJobs: API.OperationMethod<GetIamPolicyProjectsRegionsJobsRequest, GetIamPolicyProjectsRegionsJobsResponse, GetIamPolicyProjectsRegionsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsRegionsJobsRequest,
   output: GetIamPolicyProjectsRegionsJobsResponse,
   errors: [],
 }));
 
-/** Submits a job to a cluster. */
 export interface SubmitProjectsRegionsJobsRequest {
   /** Required. The ID of the Google Cloud Platform project that the job belongs to. */
   projectId: string;
@@ -4885,13 +4884,13 @@ export const SubmitProjectsRegionsJobsResponse = Job;
 
 export type SubmitProjectsRegionsJobsError = CommonErrors;
 
+/** Submits a job to a cluster. */
 export const submitProjectsRegionsJobs: API.OperationMethod<SubmitProjectsRegionsJobsRequest, SubmitProjectsRegionsJobsResponse, SubmitProjectsRegionsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SubmitProjectsRegionsJobsRequest,
   output: SubmitProjectsRegionsJobsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND, INVALID_ARGUMENT, and PERMISSION_DENIED errors. */
 export interface SetIamPolicyProjectsRegionsJobsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -4912,13 +4911,13 @@ export const SetIamPolicyProjectsRegionsJobsResponse = Policy;
 
 export type SetIamPolicyProjectsRegionsJobsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND, INVALID_ARGUMENT, and PERMISSION_DENIED errors. */
 export const setIamPolicyProjectsRegionsJobs: API.OperationMethod<SetIamPolicyProjectsRegionsJobsRequest, SetIamPolicyProjectsRegionsJobsResponse, SetIamPolicyProjectsRegionsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsRegionsJobsRequest,
   output: SetIamPolicyProjectsRegionsJobsResponse,
   errors: [],
 }));
 
-/** Submits job to a cluster. */
 export interface SubmitAsOperationProjectsRegionsJobsRequest {
   /** Required. The ID of the Google Cloud Platform project that the job belongs to. */
   projectId: string;
@@ -4942,13 +4941,13 @@ export const SubmitAsOperationProjectsRegionsJobsResponse = Operation;
 
 export type SubmitAsOperationProjectsRegionsJobsError = CommonErrors;
 
+/** Submits job to a cluster. */
 export const submitAsOperationProjectsRegionsJobs: API.OperationMethod<SubmitAsOperationProjectsRegionsJobsRequest, SubmitAsOperationProjectsRegionsJobsResponse, SubmitAsOperationProjectsRegionsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SubmitAsOperationProjectsRegionsJobsRequest,
   output: SubmitAsOperationProjectsRegionsJobsResponse,
   errors: [],
 }));
 
-/** Starts a job cancellation request. To access the job resource after cancellation, call regions/{region}/jobs.list (https://cloud.google.com/dataproc/docs/reference/rest/v1/projects.regions.jobs/list) or regions/{region}/jobs.get (https://cloud.google.com/dataproc/docs/reference/rest/v1/projects.regions.jobs/get). */
 export interface CancelProjectsRegionsJobsRequest {
   /** Required. The ID of the Google Cloud Platform project that the job belongs to. */
   projectId: string;
@@ -4975,13 +4974,13 @@ export const CancelProjectsRegionsJobsResponse = Job;
 
 export type CancelProjectsRegionsJobsError = CommonErrors;
 
+/** Starts a job cancellation request. To access the job resource after cancellation, call regions/{region}/jobs.list (https://cloud.google.com/dataproc/docs/reference/rest/v1/projects.regions.jobs/list) or regions/{region}/jobs.get (https://cloud.google.com/dataproc/docs/reference/rest/v1/projects.regions.jobs/get). */
 export const cancelProjectsRegionsJobs: API.OperationMethod<CancelProjectsRegionsJobsRequest, CancelProjectsRegionsJobsResponse, CancelProjectsRegionsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsRegionsJobsRequest,
   output: CancelProjectsRegionsJobsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsRegionsJobsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -5002,13 +5001,13 @@ export const TestIamPermissionsProjectsRegionsJobsResponse = TestIamPermissionsR
 
 export type TestIamPermissionsProjectsRegionsJobsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsRegionsJobs: API.OperationMethod<TestIamPermissionsProjectsRegionsJobsRequest, TestIamPermissionsProjectsRegionsJobsResponse, TestIamPermissionsProjectsRegionsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsRegionsJobsRequest,
   output: TestIamPermissionsProjectsRegionsJobsResponse,
   errors: [],
 }));
 
-/** Lists regions/{region}/jobs in a project. */
 export interface ListProjectsRegionsJobsRequest {
   /** Optional. Specifies enumerated categories of jobs to list. (default = match ALL jobs).If filter is provided, jobStateMatcher will be ignored. */
   jobStateMatcher?: "ALL" | "ACTIVE" | "NON_ACTIVE" | (string & {});
@@ -5044,7 +5043,8 @@ export const ListProjectsRegionsJobsResponse = ListJobsResponse;
 
 export type ListProjectsRegionsJobsError = CommonErrors;
 
-export const listProjectsRegionsJobs = API.makePaginated(() => ({
+/** Lists regions/{region}/jobs in a project. */
+export const listProjectsRegionsJobs: API.PaginatedOperationMethod<ListProjectsRegionsJobsRequest, ListProjectsRegionsJobsResponse, ListProjectsRegionsJobsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsRegionsJobsRequest,
   output: ListProjectsRegionsJobsResponse,
   errors: [],
@@ -5054,7 +5054,6 @@ export const listProjectsRegionsJobs = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the job from the project. If the job is active, the delete fails, and the response returns FAILED_PRECONDITION. */
 export interface DeleteProjectsRegionsJobsRequest {
   /** Required. The Dataproc region in which to handle the request. */
   region: string;
@@ -5078,13 +5077,13 @@ export const DeleteProjectsRegionsJobsResponse = Empty;
 
 export type DeleteProjectsRegionsJobsError = CommonErrors;
 
+/** Deletes the job from the project. If the job is active, the delete fails, and the response returns FAILED_PRECONDITION. */
 export const deleteProjectsRegionsJobs: API.OperationMethod<DeleteProjectsRegionsJobsRequest, DeleteProjectsRegionsJobsResponse, DeleteProjectsRegionsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsRegionsJobsRequest,
   output: DeleteProjectsRegionsJobsResponse,
   errors: [],
 }));
 
-/** Updates a job in a project. */
 export interface PatchProjectsRegionsJobsRequest {
   /** Required. The job ID. */
   jobId: string;
@@ -5114,13 +5113,13 @@ export const PatchProjectsRegionsJobsResponse = Job;
 
 export type PatchProjectsRegionsJobsError = CommonErrors;
 
+/** Updates a job in a project. */
 export const patchProjectsRegionsJobs: API.OperationMethod<PatchProjectsRegionsJobsRequest, PatchProjectsRegionsJobsResponse, PatchProjectsRegionsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsRegionsJobsRequest,
   output: PatchProjectsRegionsJobsResponse,
   errors: [],
 }));
 
-/** Gets the resource representation for a job in a project. */
 export interface GetProjectsRegionsJobsRequest {
   /** Required. The Dataproc region in which to handle the request. */
   region: string;
@@ -5144,13 +5143,13 @@ export const GetProjectsRegionsJobsResponse = Job;
 
 export type GetProjectsRegionsJobsError = CommonErrors;
 
+/** Gets the resource representation for a job in a project. */
 export const getProjectsRegionsJobs: API.OperationMethod<GetProjectsRegionsJobsRequest, GetProjectsRegionsJobsResponse, GetProjectsRegionsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsRegionsJobsRequest,
   output: GetProjectsRegionsJobsResponse,
   errors: [],
 }));
 
-/** Repairs a cluster. */
 export interface RepairProjectsRegionsClustersRequest {
   /** Required. The ID of the Google Cloud Platform project the cluster belongs to. */
   projectId: string;
@@ -5177,13 +5176,13 @@ export const RepairProjectsRegionsClustersResponse = Operation;
 
 export type RepairProjectsRegionsClustersError = CommonErrors;
 
+/** Repairs a cluster. */
 export const repairProjectsRegionsClusters: API.OperationMethod<RepairProjectsRegionsClustersRequest, RepairProjectsRegionsClustersResponse, RepairProjectsRegionsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RepairProjectsRegionsClustersRequest,
   output: RepairProjectsRegionsClustersResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsRegionsClustersRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -5204,13 +5203,13 @@ export const GetIamPolicyProjectsRegionsClustersResponse = Policy;
 
 export type GetIamPolicyProjectsRegionsClustersError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsRegionsClusters: API.OperationMethod<GetIamPolicyProjectsRegionsClustersRequest, GetIamPolicyProjectsRegionsClustersResponse, GetIamPolicyProjectsRegionsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsRegionsClustersRequest,
   output: GetIamPolicyProjectsRegionsClustersResponse,
   errors: [],
 }));
 
-/** Gets cluster diagnostic information. The returned Operation.metadata will be ClusterOperationMetadata (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#clusteroperationmetadata). After the operation completes, Operation.response contains DiagnoseClusterResults (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#diagnoseclusterresults). */
 export interface DiagnoseProjectsRegionsClustersRequest {
   /** Required. The cluster name. */
   clusterName: string;
@@ -5237,13 +5236,13 @@ export const DiagnoseProjectsRegionsClustersResponse = Operation;
 
 export type DiagnoseProjectsRegionsClustersError = CommonErrors;
 
+/** Gets cluster diagnostic information. The returned Operation.metadata will be ClusterOperationMetadata (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#clusteroperationmetadata). After the operation completes, Operation.response contains DiagnoseClusterResults (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#diagnoseclusterresults). */
 export const diagnoseProjectsRegionsClusters: API.OperationMethod<DiagnoseProjectsRegionsClustersRequest, DiagnoseProjectsRegionsClustersResponse, DiagnoseProjectsRegionsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DiagnoseProjectsRegionsClustersRequest,
   output: DiagnoseProjectsRegionsClustersResponse,
   errors: [],
 }));
 
-/** Creates a cluster in a project. The returned Operation.metadata will be ClusterOperationMetadata (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#clusteroperationmetadata). */
 export interface CreateProjectsRegionsClustersRequest {
   /** Required. The ID of the Google Cloud Platform project that the cluster belongs to. */
   projectId: string;
@@ -5273,13 +5272,13 @@ export const CreateProjectsRegionsClustersResponse = Operation;
 
 export type CreateProjectsRegionsClustersError = CommonErrors;
 
+/** Creates a cluster in a project. The returned Operation.metadata will be ClusterOperationMetadata (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#clusteroperationmetadata). */
 export const createProjectsRegionsClusters: API.OperationMethod<CreateProjectsRegionsClustersRequest, CreateProjectsRegionsClustersResponse, CreateProjectsRegionsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsRegionsClustersRequest,
   output: CreateProjectsRegionsClustersResponse,
   errors: [],
 }));
 
-/** Deletes a cluster in a project. The returned Operation.metadata will be ClusterOperationMetadata (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#clusteroperationmetadata). */
 export interface DeleteProjectsRegionsClustersRequest {
   /** Required. The cluster name. */
   clusterName: string;
@@ -5312,13 +5311,13 @@ export const DeleteProjectsRegionsClustersResponse = Operation;
 
 export type DeleteProjectsRegionsClustersError = CommonErrors;
 
+/** Deletes a cluster in a project. The returned Operation.metadata will be ClusterOperationMetadata (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#clusteroperationmetadata). */
 export const deleteProjectsRegionsClusters: API.OperationMethod<DeleteProjectsRegionsClustersRequest, DeleteProjectsRegionsClustersResponse, DeleteProjectsRegionsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsRegionsClustersRequest,
   output: DeleteProjectsRegionsClustersResponse,
   errors: [],
 }));
 
-/** Updates a cluster in a project. The returned Operation.metadata will be ClusterOperationMetadata (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#clusteroperationmetadata). The cluster must be in a RUNNING state or an error is returned. */
 export interface PatchProjectsRegionsClustersRequest {
   /** Required. The ID of the Google Cloud Platform project the cluster belongs to. */
   projectId: string;
@@ -5354,13 +5353,13 @@ export const PatchProjectsRegionsClustersResponse = Operation;
 
 export type PatchProjectsRegionsClustersError = CommonErrors;
 
+/** Updates a cluster in a project. The returned Operation.metadata will be ClusterOperationMetadata (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#clusteroperationmetadata). The cluster must be in a RUNNING state or an error is returned. */
 export const patchProjectsRegionsClusters: API.OperationMethod<PatchProjectsRegionsClustersRequest, PatchProjectsRegionsClustersResponse, PatchProjectsRegionsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsRegionsClustersRequest,
   output: PatchProjectsRegionsClustersResponse,
   errors: [],
 }));
 
-/** Gets the resource representation for a cluster in a project. */
 export interface GetProjectsRegionsClustersRequest {
   /** Required. The ID of the Google Cloud Platform project that the cluster belongs to. */
   projectId: string;
@@ -5384,13 +5383,13 @@ export const GetProjectsRegionsClustersResponse = Cluster;
 
 export type GetProjectsRegionsClustersError = CommonErrors;
 
+/** Gets the resource representation for a cluster in a project. */
 export const getProjectsRegionsClusters: API.OperationMethod<GetProjectsRegionsClustersRequest, GetProjectsRegionsClustersResponse, GetProjectsRegionsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsRegionsClustersRequest,
   output: GetProjectsRegionsClustersResponse,
   errors: [],
 }));
 
-/** Inject encrypted credentials into all of the VMs in a cluster.The target cluster must be a personal auth cluster assigned to the user who is issuing the RPC. */
 export interface InjectCredentialsProjectsRegionsClustersRequest {
   /** Required. The cluster, in the form clusters/. */
   cluster: string;
@@ -5417,13 +5416,13 @@ export const InjectCredentialsProjectsRegionsClustersResponse = Operation;
 
 export type InjectCredentialsProjectsRegionsClustersError = CommonErrors;
 
+/** Inject encrypted credentials into all of the VMs in a cluster.The target cluster must be a personal auth cluster assigned to the user who is issuing the RPC. */
 export const injectCredentialsProjectsRegionsClusters: API.OperationMethod<InjectCredentialsProjectsRegionsClustersRequest, InjectCredentialsProjectsRegionsClustersResponse, InjectCredentialsProjectsRegionsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InjectCredentialsProjectsRegionsClustersRequest,
   output: InjectCredentialsProjectsRegionsClustersResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND, INVALID_ARGUMENT, and PERMISSION_DENIED errors. */
 export interface SetIamPolicyProjectsRegionsClustersRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -5444,13 +5443,13 @@ export const SetIamPolicyProjectsRegionsClustersResponse = Policy;
 
 export type SetIamPolicyProjectsRegionsClustersError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND, INVALID_ARGUMENT, and PERMISSION_DENIED errors. */
 export const setIamPolicyProjectsRegionsClusters: API.OperationMethod<SetIamPolicyProjectsRegionsClustersRequest, SetIamPolicyProjectsRegionsClustersResponse, SetIamPolicyProjectsRegionsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsRegionsClustersRequest,
   output: SetIamPolicyProjectsRegionsClustersResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsRegionsClustersRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -5471,13 +5470,13 @@ export const TestIamPermissionsProjectsRegionsClustersResponse = TestIamPermissi
 
 export type TestIamPermissionsProjectsRegionsClustersError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsRegionsClusters: API.OperationMethod<TestIamPermissionsProjectsRegionsClustersRequest, TestIamPermissionsProjectsRegionsClustersResponse, TestIamPermissionsProjectsRegionsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsRegionsClustersRequest,
   output: TestIamPermissionsProjectsRegionsClustersResponse,
   errors: [],
 }));
 
-/** Lists all regions/{region}/clusters in a project alphabetically. */
 export interface ListProjectsRegionsClustersRequest {
   /** Required. The ID of the Google Cloud Platform project that the cluster belongs to. */
   projectId: string;
@@ -5507,7 +5506,8 @@ export const ListProjectsRegionsClustersResponse = ListClustersResponse;
 
 export type ListProjectsRegionsClustersError = CommonErrors;
 
-export const listProjectsRegionsClusters = API.makePaginated(() => ({
+/** Lists all regions/{region}/clusters in a project alphabetically. */
+export const listProjectsRegionsClusters: API.PaginatedOperationMethod<ListProjectsRegionsClustersRequest, ListProjectsRegionsClustersResponse, ListProjectsRegionsClustersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsRegionsClustersRequest,
   output: ListProjectsRegionsClustersResponse,
   errors: [],
@@ -5517,7 +5517,6 @@ export const listProjectsRegionsClusters = API.makePaginated(() => ({
   },
 }));
 
-/** Stops a cluster in a project. */
 export interface StopProjectsRegionsClustersRequest {
   /** Required. The cluster name. */
   clusterName: string;
@@ -5544,13 +5543,13 @@ export const StopProjectsRegionsClustersResponse = Operation;
 
 export type StopProjectsRegionsClustersError = CommonErrors;
 
+/** Stops a cluster in a project. */
 export const stopProjectsRegionsClusters: API.OperationMethod<StopProjectsRegionsClustersRequest, StopProjectsRegionsClustersResponse, StopProjectsRegionsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StopProjectsRegionsClustersRequest,
   output: StopProjectsRegionsClustersResponse,
   errors: [],
 }));
 
-/** Starts a cluster in a project. */
 export interface StartProjectsRegionsClustersRequest {
   /** Required. The cluster name. */
   clusterName: string;
@@ -5577,13 +5576,13 @@ export const StartProjectsRegionsClustersResponse = Operation;
 
 export type StartProjectsRegionsClustersError = CommonErrors;
 
+/** Starts a cluster in a project. */
 export const startProjectsRegionsClusters: API.OperationMethod<StartProjectsRegionsClustersRequest, StartProjectsRegionsClustersResponse, StartProjectsRegionsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StartProjectsRegionsClustersRequest,
   output: StartProjectsRegionsClustersResponse,
   errors: [],
 }));
 
-/** Resizes a node group in a cluster. The returned Operation.metadata is NodeGroupOperationMetadata (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#nodegroupoperationmetadata). */
 export interface ResizeProjectsRegionsClustersNodeGroupsRequest {
   /** Required. The name of the node group to resize. Format: projects/{project}/regions/{region}/clusters/{cluster}/nodeGroups/{nodeGroup} */
   name: string;
@@ -5604,13 +5603,13 @@ export const ResizeProjectsRegionsClustersNodeGroupsResponse = Operation;
 
 export type ResizeProjectsRegionsClustersNodeGroupsError = CommonErrors;
 
+/** Resizes a node group in a cluster. The returned Operation.metadata is NodeGroupOperationMetadata (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#nodegroupoperationmetadata). */
 export const resizeProjectsRegionsClustersNodeGroups: API.OperationMethod<ResizeProjectsRegionsClustersNodeGroupsRequest, ResizeProjectsRegionsClustersNodeGroupsResponse, ResizeProjectsRegionsClustersNodeGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResizeProjectsRegionsClustersNodeGroupsRequest,
   output: ResizeProjectsRegionsClustersNodeGroupsResponse,
   errors: [],
 }));
 
-/** Gets the resource representation for a node group in a cluster. */
 export interface GetProjectsRegionsClustersNodeGroupsRequest {
   /** Required. The name of the node group to retrieve. Format: projects/{project}/regions/{region}/clusters/{cluster}/nodeGroups/{nodeGroup} */
   name: string;
@@ -5628,13 +5627,13 @@ export const GetProjectsRegionsClustersNodeGroupsResponse = NodeGroup;
 
 export type GetProjectsRegionsClustersNodeGroupsError = CommonErrors;
 
+/** Gets the resource representation for a node group in a cluster. */
 export const getProjectsRegionsClustersNodeGroups: API.OperationMethod<GetProjectsRegionsClustersNodeGroupsRequest, GetProjectsRegionsClustersNodeGroupsResponse, GetProjectsRegionsClustersNodeGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsRegionsClustersNodeGroupsRequest,
   output: GetProjectsRegionsClustersNodeGroupsResponse,
   errors: [],
 }));
 
-/** Creates a node group in a cluster. The returned Operation.metadata is NodeGroupOperationMetadata (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#nodegroupoperationmetadata). */
 export interface CreateProjectsRegionsClustersNodeGroupsRequest {
   /** Optional. An optional node group ID. Generated if not specified.The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). Cannot begin or end with underscore or hyphen. Must consist of from 3 to 33 characters. */
   nodeGroupId?: string;
@@ -5664,13 +5663,13 @@ export const CreateProjectsRegionsClustersNodeGroupsResponse = Operation;
 
 export type CreateProjectsRegionsClustersNodeGroupsError = CommonErrors;
 
+/** Creates a node group in a cluster. The returned Operation.metadata is NodeGroupOperationMetadata (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#nodegroupoperationmetadata). */
 export const createProjectsRegionsClustersNodeGroups: API.OperationMethod<CreateProjectsRegionsClustersNodeGroupsRequest, CreateProjectsRegionsClustersNodeGroupsResponse, CreateProjectsRegionsClustersNodeGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsRegionsClustersNodeGroupsRequest,
   output: CreateProjectsRegionsClustersNodeGroupsResponse,
   errors: [],
 }));
 
-/** Repair nodes in a node group. */
 export interface RepairProjectsRegionsClustersNodeGroupsRequest {
   /** Required. The name of the node group to resize. Format: projects/{project}/regions/{region}/clusters/{cluster}/nodeGroups/{nodeGroup} */
   name: string;
@@ -5691,13 +5690,13 @@ export const RepairProjectsRegionsClustersNodeGroupsResponse = Operation;
 
 export type RepairProjectsRegionsClustersNodeGroupsError = CommonErrors;
 
+/** Repair nodes in a node group. */
 export const repairProjectsRegionsClustersNodeGroups: API.OperationMethod<RepairProjectsRegionsClustersNodeGroupsRequest, RepairProjectsRegionsClustersNodeGroupsResponse, RepairProjectsRegionsClustersNodeGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RepairProjectsRegionsClustersNodeGroupsRequest,
   output: RepairProjectsRegionsClustersNodeGroupsResponse,
   errors: [],
 }));
 
-/** Deletes an autoscaling policy. It is an error to delete an autoscaling policy that is in use by one or more clusters. */
 export interface DeleteProjectsRegionsAutoscalingPoliciesRequest {
   /** Required. The "resource name" of the autoscaling policy, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies.delete, the resource name of the policy has the following format: projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id} For projects.locations.autoscalingPolicies.delete, the resource name of the policy has the following format: projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id} */
   name: string;
@@ -5715,13 +5714,13 @@ export const DeleteProjectsRegionsAutoscalingPoliciesResponse = Empty;
 
 export type DeleteProjectsRegionsAutoscalingPoliciesError = CommonErrors;
 
+/** Deletes an autoscaling policy. It is an error to delete an autoscaling policy that is in use by one or more clusters. */
 export const deleteProjectsRegionsAutoscalingPolicies: API.OperationMethod<DeleteProjectsRegionsAutoscalingPoliciesRequest, DeleteProjectsRegionsAutoscalingPoliciesResponse, DeleteProjectsRegionsAutoscalingPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsRegionsAutoscalingPoliciesRequest,
   output: DeleteProjectsRegionsAutoscalingPoliciesResponse,
   errors: [],
 }));
 
-/** Updates (replaces) autoscaling policy.Disabled check for update_mask, because all updates will be full replacements. */
 export interface UpdateProjectsRegionsAutoscalingPoliciesRequest {
   /** Output only. The "resource name" of the autoscaling policy, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies, the resource name of the policy has the following format: projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id} For projects.locations.autoscalingPolicies, the resource name of the policy has the following format: projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id} */
   name: string;
@@ -5742,13 +5741,13 @@ export const UpdateProjectsRegionsAutoscalingPoliciesResponse = AutoscalingPolic
 
 export type UpdateProjectsRegionsAutoscalingPoliciesError = CommonErrors;
 
+/** Updates (replaces) autoscaling policy.Disabled check for update_mask, because all updates will be full replacements. */
 export const updateProjectsRegionsAutoscalingPolicies: API.OperationMethod<UpdateProjectsRegionsAutoscalingPoliciesRequest, UpdateProjectsRegionsAutoscalingPoliciesResponse, UpdateProjectsRegionsAutoscalingPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateProjectsRegionsAutoscalingPoliciesRequest,
   output: UpdateProjectsRegionsAutoscalingPoliciesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND, INVALID_ARGUMENT, and PERMISSION_DENIED errors. */
 export interface SetIamPolicyProjectsRegionsAutoscalingPoliciesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -5769,13 +5768,13 @@ export const SetIamPolicyProjectsRegionsAutoscalingPoliciesResponse = Policy;
 
 export type SetIamPolicyProjectsRegionsAutoscalingPoliciesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND, INVALID_ARGUMENT, and PERMISSION_DENIED errors. */
 export const setIamPolicyProjectsRegionsAutoscalingPolicies: API.OperationMethod<SetIamPolicyProjectsRegionsAutoscalingPoliciesRequest, SetIamPolicyProjectsRegionsAutoscalingPoliciesResponse, SetIamPolicyProjectsRegionsAutoscalingPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsRegionsAutoscalingPoliciesRequest,
   output: SetIamPolicyProjectsRegionsAutoscalingPoliciesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsRegionsAutoscalingPoliciesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -5796,13 +5795,13 @@ export const TestIamPermissionsProjectsRegionsAutoscalingPoliciesResponse = Test
 
 export type TestIamPermissionsProjectsRegionsAutoscalingPoliciesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsRegionsAutoscalingPolicies: API.OperationMethod<TestIamPermissionsProjectsRegionsAutoscalingPoliciesRequest, TestIamPermissionsProjectsRegionsAutoscalingPoliciesResponse, TestIamPermissionsProjectsRegionsAutoscalingPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsRegionsAutoscalingPoliciesRequest,
   output: TestIamPermissionsProjectsRegionsAutoscalingPoliciesResponse,
   errors: [],
 }));
 
-/** Lists autoscaling policies in the project. */
 export interface ListProjectsRegionsAutoscalingPoliciesRequest {
   /** Optional. The maximum number of results to return in each response. Must be less than or equal to 1000. Defaults to 100. */
   pageSize?: number;
@@ -5826,7 +5825,8 @@ export const ListProjectsRegionsAutoscalingPoliciesResponse = ListAutoscalingPol
 
 export type ListProjectsRegionsAutoscalingPoliciesError = CommonErrors;
 
-export const listProjectsRegionsAutoscalingPolicies = API.makePaginated(() => ({
+/** Lists autoscaling policies in the project. */
+export const listProjectsRegionsAutoscalingPolicies: API.PaginatedOperationMethod<ListProjectsRegionsAutoscalingPoliciesRequest, ListProjectsRegionsAutoscalingPoliciesResponse, ListProjectsRegionsAutoscalingPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsRegionsAutoscalingPoliciesRequest,
   output: ListProjectsRegionsAutoscalingPoliciesResponse,
   errors: [],
@@ -5836,7 +5836,6 @@ export const listProjectsRegionsAutoscalingPolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves autoscaling policy. */
 export interface GetProjectsRegionsAutoscalingPoliciesRequest {
   /** Required. The "resource name" of the autoscaling policy, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies.get, the resource name of the policy has the following format: projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id} For projects.locations.autoscalingPolicies.get, the resource name of the policy has the following format: projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id} */
   name: string;
@@ -5854,13 +5853,13 @@ export const GetProjectsRegionsAutoscalingPoliciesResponse = AutoscalingPolicy;
 
 export type GetProjectsRegionsAutoscalingPoliciesError = CommonErrors;
 
+/** Retrieves autoscaling policy. */
 export const getProjectsRegionsAutoscalingPolicies: API.OperationMethod<GetProjectsRegionsAutoscalingPoliciesRequest, GetProjectsRegionsAutoscalingPoliciesResponse, GetProjectsRegionsAutoscalingPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsRegionsAutoscalingPoliciesRequest,
   output: GetProjectsRegionsAutoscalingPoliciesResponse,
   errors: [],
 }));
 
-/** Creates new autoscaling policy. */
 export interface CreateProjectsRegionsAutoscalingPoliciesRequest {
   /** Required. The "resource name" of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies.create, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.autoscalingPolicies.create, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
   parent: string;
@@ -5881,13 +5880,13 @@ export const CreateProjectsRegionsAutoscalingPoliciesResponse = AutoscalingPolic
 
 export type CreateProjectsRegionsAutoscalingPoliciesError = CommonErrors;
 
+/** Creates new autoscaling policy. */
 export const createProjectsRegionsAutoscalingPolicies: API.OperationMethod<CreateProjectsRegionsAutoscalingPoliciesRequest, CreateProjectsRegionsAutoscalingPoliciesResponse, CreateProjectsRegionsAutoscalingPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsRegionsAutoscalingPoliciesRequest,
   output: CreateProjectsRegionsAutoscalingPoliciesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsRegionsAutoscalingPoliciesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -5908,13 +5907,13 @@ export const GetIamPolicyProjectsRegionsAutoscalingPoliciesResponse = Policy;
 
 export type GetIamPolicyProjectsRegionsAutoscalingPoliciesError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsRegionsAutoscalingPolicies: API.OperationMethod<GetIamPolicyProjectsRegionsAutoscalingPoliciesRequest, GetIamPolicyProjectsRegionsAutoscalingPoliciesResponse, GetIamPolicyProjectsRegionsAutoscalingPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsRegionsAutoscalingPoliciesRequest,
   output: GetIamPolicyProjectsRegionsAutoscalingPoliciesResponse,
   errors: [],
 }));
 
-/** Updates (replaces) workflow template. The updated template must contain version that matches the current server version. */
 export interface UpdateProjectsRegionsWorkflowTemplatesRequest {
   /** Output only. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} For projects.locations.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id} */
   name: string;
@@ -5935,13 +5934,13 @@ export const UpdateProjectsRegionsWorkflowTemplatesResponse = WorkflowTemplate;
 
 export type UpdateProjectsRegionsWorkflowTemplatesError = CommonErrors;
 
+/** Updates (replaces) workflow template. The updated template must contain version that matches the current server version. */
 export const updateProjectsRegionsWorkflowTemplates: API.OperationMethod<UpdateProjectsRegionsWorkflowTemplatesRequest, UpdateProjectsRegionsWorkflowTemplatesResponse, UpdateProjectsRegionsWorkflowTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateProjectsRegionsWorkflowTemplatesRequest,
   output: UpdateProjectsRegionsWorkflowTemplatesResponse,
   errors: [],
 }));
 
-/** Lists workflows that match the specified filter in the request. */
 export interface ListProjectsRegionsWorkflowTemplatesRequest {
   /** Required. The resource name of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates,list, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.workflowTemplates.list, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
   parent: string;
@@ -5965,7 +5964,8 @@ export const ListProjectsRegionsWorkflowTemplatesResponse = ListWorkflowTemplate
 
 export type ListProjectsRegionsWorkflowTemplatesError = CommonErrors;
 
-export const listProjectsRegionsWorkflowTemplates = API.makePaginated(() => ({
+/** Lists workflows that match the specified filter in the request. */
+export const listProjectsRegionsWorkflowTemplates: API.PaginatedOperationMethod<ListProjectsRegionsWorkflowTemplatesRequest, ListProjectsRegionsWorkflowTemplatesResponse, ListProjectsRegionsWorkflowTemplatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsRegionsWorkflowTemplatesRequest,
   output: ListProjectsRegionsWorkflowTemplatesResponse,
   errors: [],
@@ -5975,7 +5975,6 @@ export const listProjectsRegionsWorkflowTemplates = API.makePaginated(() => ({
   },
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND, INVALID_ARGUMENT, and PERMISSION_DENIED errors. */
 export interface SetIamPolicyProjectsRegionsWorkflowTemplatesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -5996,13 +5995,13 @@ export const SetIamPolicyProjectsRegionsWorkflowTemplatesResponse = Policy;
 
 export type SetIamPolicyProjectsRegionsWorkflowTemplatesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND, INVALID_ARGUMENT, and PERMISSION_DENIED errors. */
 export const setIamPolicyProjectsRegionsWorkflowTemplates: API.OperationMethod<SetIamPolicyProjectsRegionsWorkflowTemplatesRequest, SetIamPolicyProjectsRegionsWorkflowTemplatesResponse, SetIamPolicyProjectsRegionsWorkflowTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsRegionsWorkflowTemplatesRequest,
   output: SetIamPolicyProjectsRegionsWorkflowTemplatesResponse,
   errors: [],
 }));
 
-/** Instantiates a template and begins execution.The returned Operation can be used to track execution of workflow by polling operations.get. The Operation will complete when entire workflow is finished.The running workflow can be aborted via operations.cancel. This will cause any inflight jobs to be cancelled and workflow-owned clusters to be deleted.The Operation.metadata will be WorkflowMetadata (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#workflowmetadata). Also see Using WorkflowMetadata (https://cloud.google.com/dataproc/docs/concepts/workflows/debugging#using_workflowmetadata).On successful completion, Operation.response will be Empty. */
 export interface InstantiateProjectsRegionsWorkflowTemplatesRequest {
   /** Required. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates.instantiate, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} For projects.locations.workflowTemplates.instantiate, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id} */
   name: string;
@@ -6023,13 +6022,13 @@ export const InstantiateProjectsRegionsWorkflowTemplatesResponse = Operation;
 
 export type InstantiateProjectsRegionsWorkflowTemplatesError = CommonErrors;
 
+/** Instantiates a template and begins execution.The returned Operation can be used to track execution of workflow by polling operations.get. The Operation will complete when entire workflow is finished.The running workflow can be aborted via operations.cancel. This will cause any inflight jobs to be cancelled and workflow-owned clusters to be deleted.The Operation.metadata will be WorkflowMetadata (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#workflowmetadata). Also see Using WorkflowMetadata (https://cloud.google.com/dataproc/docs/concepts/workflows/debugging#using_workflowmetadata).On successful completion, Operation.response will be Empty. */
 export const instantiateProjectsRegionsWorkflowTemplates: API.OperationMethod<InstantiateProjectsRegionsWorkflowTemplatesRequest, InstantiateProjectsRegionsWorkflowTemplatesResponse, InstantiateProjectsRegionsWorkflowTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InstantiateProjectsRegionsWorkflowTemplatesRequest,
   output: InstantiateProjectsRegionsWorkflowTemplatesResponse,
   errors: [],
 }));
 
-/** Retrieves the latest workflow template.Can retrieve previously instantiated template by specifying optional version parameter. */
 export interface GetProjectsRegionsWorkflowTemplatesRequest {
   /** Optional. The version of workflow template to retrieve. Only previously instantiated versions can be retrieved.If unspecified, retrieves the current version. */
   version?: number;
@@ -6050,13 +6049,13 @@ export const GetProjectsRegionsWorkflowTemplatesResponse = WorkflowTemplate;
 
 export type GetProjectsRegionsWorkflowTemplatesError = CommonErrors;
 
+/** Retrieves the latest workflow template.Can retrieve previously instantiated template by specifying optional version parameter. */
 export const getProjectsRegionsWorkflowTemplates: API.OperationMethod<GetProjectsRegionsWorkflowTemplatesRequest, GetProjectsRegionsWorkflowTemplatesResponse, GetProjectsRegionsWorkflowTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsRegionsWorkflowTemplatesRequest,
   output: GetProjectsRegionsWorkflowTemplatesResponse,
   errors: [],
 }));
 
-/** Creates new workflow template. */
 export interface CreateProjectsRegionsWorkflowTemplatesRequest {
   /** Required. The resource name of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates.create, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.workflowTemplates.create, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
   parent: string;
@@ -6077,13 +6076,13 @@ export const CreateProjectsRegionsWorkflowTemplatesResponse = WorkflowTemplate;
 
 export type CreateProjectsRegionsWorkflowTemplatesError = CommonErrors;
 
+/** Creates new workflow template. */
 export const createProjectsRegionsWorkflowTemplates: API.OperationMethod<CreateProjectsRegionsWorkflowTemplatesRequest, CreateProjectsRegionsWorkflowTemplatesResponse, CreateProjectsRegionsWorkflowTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsRegionsWorkflowTemplatesRequest,
   output: CreateProjectsRegionsWorkflowTemplatesResponse,
   errors: [],
 }));
 
-/** Deletes a workflow template. It does not cancel in-progress workflows. */
 export interface DeleteProjectsRegionsWorkflowTemplatesRequest {
   /** Optional. The version of workflow template to delete. If specified, will only delete the template if the current server version matches specified version. */
   version?: number;
@@ -6104,13 +6103,13 @@ export const DeleteProjectsRegionsWorkflowTemplatesResponse = Empty;
 
 export type DeleteProjectsRegionsWorkflowTemplatesError = CommonErrors;
 
+/** Deletes a workflow template. It does not cancel in-progress workflows. */
 export const deleteProjectsRegionsWorkflowTemplates: API.OperationMethod<DeleteProjectsRegionsWorkflowTemplatesRequest, DeleteProjectsRegionsWorkflowTemplatesResponse, DeleteProjectsRegionsWorkflowTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsRegionsWorkflowTemplatesRequest,
   output: DeleteProjectsRegionsWorkflowTemplatesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsRegionsWorkflowTemplatesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -6131,13 +6130,13 @@ export const TestIamPermissionsProjectsRegionsWorkflowTemplatesResponse = TestIa
 
 export type TestIamPermissionsProjectsRegionsWorkflowTemplatesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsRegionsWorkflowTemplates: API.OperationMethod<TestIamPermissionsProjectsRegionsWorkflowTemplatesRequest, TestIamPermissionsProjectsRegionsWorkflowTemplatesResponse, TestIamPermissionsProjectsRegionsWorkflowTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsRegionsWorkflowTemplatesRequest,
   output: TestIamPermissionsProjectsRegionsWorkflowTemplatesResponse,
   errors: [],
 }));
 
-/** Instantiates a template and begins execution.This method is equivalent to executing the sequence CreateWorkflowTemplate, InstantiateWorkflowTemplate, DeleteWorkflowTemplate.The returned Operation can be used to track execution of workflow by polling operations.get. The Operation will complete when entire workflow is finished.The running workflow can be aborted via operations.cancel. This will cause any inflight jobs to be cancelled and workflow-owned clusters to be deleted.The Operation.metadata will be WorkflowMetadata (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#workflowmetadata). Also see Using WorkflowMetadata (https://cloud.google.com/dataproc/docs/concepts/workflows/debugging#using_workflowmetadata).On successful completion, Operation.response will be Empty. */
 export interface InstantiateInlineProjectsRegionsWorkflowTemplatesRequest {
   /** Optional. A tag that prevents multiple concurrent workflow instances with the same tag from running. This mitigates risk of concurrent instances started due to retries.It is recommended to always set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The tag must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string;
@@ -6161,13 +6160,13 @@ export const InstantiateInlineProjectsRegionsWorkflowTemplatesResponse = Operati
 
 export type InstantiateInlineProjectsRegionsWorkflowTemplatesError = CommonErrors;
 
+/** Instantiates a template and begins execution.This method is equivalent to executing the sequence CreateWorkflowTemplate, InstantiateWorkflowTemplate, DeleteWorkflowTemplate.The returned Operation can be used to track execution of workflow by polling operations.get. The Operation will complete when entire workflow is finished.The running workflow can be aborted via operations.cancel. This will cause any inflight jobs to be cancelled and workflow-owned clusters to be deleted.The Operation.metadata will be WorkflowMetadata (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#workflowmetadata). Also see Using WorkflowMetadata (https://cloud.google.com/dataproc/docs/concepts/workflows/debugging#using_workflowmetadata).On successful completion, Operation.response will be Empty. */
 export const instantiateInlineProjectsRegionsWorkflowTemplates: API.OperationMethod<InstantiateInlineProjectsRegionsWorkflowTemplatesRequest, InstantiateInlineProjectsRegionsWorkflowTemplatesResponse, InstantiateInlineProjectsRegionsWorkflowTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InstantiateInlineProjectsRegionsWorkflowTemplatesRequest,
   output: InstantiateInlineProjectsRegionsWorkflowTemplatesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsRegionsWorkflowTemplatesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -6188,13 +6187,13 @@ export const GetIamPolicyProjectsRegionsWorkflowTemplatesResponse = Policy;
 
 export type GetIamPolicyProjectsRegionsWorkflowTemplatesError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsRegionsWorkflowTemplates: API.OperationMethod<GetIamPolicyProjectsRegionsWorkflowTemplatesRequest, GetIamPolicyProjectsRegionsWorkflowTemplatesResponse, GetIamPolicyProjectsRegionsWorkflowTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsRegionsWorkflowTemplatesRequest,
   output: GetIamPolicyProjectsRegionsWorkflowTemplatesResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsRegionsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -6212,13 +6211,13 @@ export const GetProjectsRegionsOperationsResponse = Operation;
 
 export type GetProjectsRegionsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsRegionsOperations: API.OperationMethod<GetProjectsRegionsOperationsRequest, GetProjectsRegionsOperationsResponse, GetProjectsRegionsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsRegionsOperationsRequest,
   output: GetProjectsRegionsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns google.rpc.Code.UNIMPLEMENTED. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of 1, corresponding to Code.CANCELLED. */
 export interface CancelProjectsRegionsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -6236,13 +6235,13 @@ export const CancelProjectsRegionsOperationsResponse = Empty;
 
 export type CancelProjectsRegionsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns google.rpc.Code.UNIMPLEMENTED. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of 1, corresponding to Code.CANCELLED. */
 export const cancelProjectsRegionsOperations: API.OperationMethod<CancelProjectsRegionsOperationsRequest, CancelProjectsRegionsOperationsResponse, CancelProjectsRegionsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsRegionsOperationsRequest,
   output: CancelProjectsRegionsOperationsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsRegionsOperationsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -6263,13 +6262,13 @@ export const TestIamPermissionsProjectsRegionsOperationsResponse = TestIamPermis
 
 export type TestIamPermissionsProjectsRegionsOperationsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsRegionsOperations: API.OperationMethod<TestIamPermissionsProjectsRegionsOperationsRequest, TestIamPermissionsProjectsRegionsOperationsResponse, TestIamPermissionsProjectsRegionsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsRegionsOperationsRequest,
   output: TestIamPermissionsProjectsRegionsOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns UNIMPLEMENTED. */
 export interface ListProjectsRegionsOperationsRequest {
   /** The standard list page size. */
   pageSize?: number;
@@ -6299,7 +6298,8 @@ export const ListProjectsRegionsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsRegionsOperationsError = CommonErrors;
 
-export const listProjectsRegionsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns UNIMPLEMENTED. */
+export const listProjectsRegionsOperations: API.PaginatedOperationMethod<ListProjectsRegionsOperationsRequest, ListProjectsRegionsOperationsResponse, ListProjectsRegionsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsRegionsOperationsRequest,
   output: ListProjectsRegionsOperationsResponse,
   errors: [],
@@ -6309,7 +6309,6 @@ export const listProjectsRegionsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND, INVALID_ARGUMENT, and PERMISSION_DENIED errors. */
 export interface SetIamPolicyProjectsRegionsOperationsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -6330,13 +6329,13 @@ export const SetIamPolicyProjectsRegionsOperationsResponse = Policy;
 
 export type SetIamPolicyProjectsRegionsOperationsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND, INVALID_ARGUMENT, and PERMISSION_DENIED errors. */
 export const setIamPolicyProjectsRegionsOperations: API.OperationMethod<SetIamPolicyProjectsRegionsOperationsRequest, SetIamPolicyProjectsRegionsOperationsResponse, SetIamPolicyProjectsRegionsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsRegionsOperationsRequest,
   output: SetIamPolicyProjectsRegionsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns google.rpc.Code.UNIMPLEMENTED. */
 export interface DeleteProjectsRegionsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -6354,13 +6353,13 @@ export const DeleteProjectsRegionsOperationsResponse = Empty;
 
 export type DeleteProjectsRegionsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns google.rpc.Code.UNIMPLEMENTED. */
 export const deleteProjectsRegionsOperations: API.OperationMethod<DeleteProjectsRegionsOperationsRequest, DeleteProjectsRegionsOperationsResponse, DeleteProjectsRegionsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsRegionsOperationsRequest,
   output: DeleteProjectsRegionsOperationsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsRegionsOperationsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -6381,13 +6380,13 @@ export const GetIamPolicyProjectsRegionsOperationsResponse = Policy;
 
 export type GetIamPolicyProjectsRegionsOperationsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsRegionsOperations: API.OperationMethod<GetIamPolicyProjectsRegionsOperationsRequest, GetIamPolicyProjectsRegionsOperationsResponse, GetIamPolicyProjectsRegionsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsRegionsOperationsRequest,
   output: GetIamPolicyProjectsRegionsOperationsResponse,
   errors: [],
 }));
 
-/** Terminates the interactive session. */
 export interface TerminateProjectsLocationsSessionsRequest {
   /** Required. The name of the session resource to terminate. */
   name: string;
@@ -6408,13 +6407,13 @@ export const TerminateProjectsLocationsSessionsResponse = Operation;
 
 export type TerminateProjectsLocationsSessionsError = CommonErrors;
 
+/** Terminates the interactive session. */
 export const terminateProjectsLocationsSessions: API.OperationMethod<TerminateProjectsLocationsSessionsRequest, TerminateProjectsLocationsSessionsResponse, TerminateProjectsLocationsSessionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TerminateProjectsLocationsSessionsRequest,
   output: TerminateProjectsLocationsSessionsResponse,
   errors: [],
 }));
 
-/** Gets the resource representation for an interactive session. */
 export interface GetProjectsLocationsSessionsRequest {
   /** Required. The name of the session to retrieve. */
   name: string;
@@ -6432,13 +6431,13 @@ export const GetProjectsLocationsSessionsResponse = Session;
 
 export type GetProjectsLocationsSessionsError = CommonErrors;
 
+/** Gets the resource representation for an interactive session. */
 export const getProjectsLocationsSessions: API.OperationMethod<GetProjectsLocationsSessionsRequest, GetProjectsLocationsSessionsResponse, GetProjectsLocationsSessionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSessionsRequest,
   output: GetProjectsLocationsSessionsResponse,
   errors: [],
 }));
 
-/** Create an interactive session asynchronously. */
 export interface CreateProjectsLocationsSessionsRequest {
   /** Required. The parent resource where this session will be created. */
   parent: string;
@@ -6465,13 +6464,13 @@ export const CreateProjectsLocationsSessionsResponse = Operation;
 
 export type CreateProjectsLocationsSessionsError = CommonErrors;
 
+/** Create an interactive session asynchronously. */
 export const createProjectsLocationsSessions: API.OperationMethod<CreateProjectsLocationsSessionsRequest, CreateProjectsLocationsSessionsResponse, CreateProjectsLocationsSessionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsSessionsRequest,
   output: CreateProjectsLocationsSessionsResponse,
   errors: [],
 }));
 
-/** Lists interactive sessions. */
 export interface ListProjectsLocationsSessionsRequest {
   /** Optional. A filter for the sessions to return in the response.A filter is a logical expression constraining the values of various fields in each session resource. Filters are case sensitive, and may contain multiple clauses combined with logical operators (AND, OR). Supported fields are session_id, session_uuid, state, create_time, and labels.Example: state = ACTIVE and create_time < "2023-01-01T00:00:00Z" is a filter for sessions in an ACTIVE state that were created before 2023-01-01. state = ACTIVE and labels.environment=production is a filter for sessions in an ACTIVE state that have a production environment label.See https://google.aip.dev/assets/misc/ebnf-filtering.txt for a detailed description of the filter syntax and a list of supported comparators. */
   filter?: string;
@@ -6498,7 +6497,8 @@ export const ListProjectsLocationsSessionsResponse = ListSessionsResponse;
 
 export type ListProjectsLocationsSessionsError = CommonErrors;
 
-export const listProjectsLocationsSessions = API.makePaginated(() => ({
+/** Lists interactive sessions. */
+export const listProjectsLocationsSessions: API.PaginatedOperationMethod<ListProjectsLocationsSessionsRequest, ListProjectsLocationsSessionsResponse, ListProjectsLocationsSessionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsSessionsRequest,
   output: ListProjectsLocationsSessionsResponse,
   errors: [],
@@ -6508,7 +6508,6 @@ export const listProjectsLocationsSessions = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the interactive session resource. If the session is not in terminal state, it is terminated, and then deleted. */
 export interface DeleteProjectsLocationsSessionsRequest {
   /** Optional. A unique ID used to identify the request. If the service receives two DeleteSessionRequest (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#google.cloud.dataproc.v1.DeleteSessionRequest)s with the same ID, the second request is ignored.Recommendation: Set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The value must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string;
@@ -6529,13 +6528,13 @@ export const DeleteProjectsLocationsSessionsResponse = Operation;
 
 export type DeleteProjectsLocationsSessionsError = CommonErrors;
 
+/** Deletes the interactive session resource. If the session is not in terminal state, it is terminated, and then deleted. */
 export const deleteProjectsLocationsSessions: API.OperationMethod<DeleteProjectsLocationsSessionsRequest, DeleteProjectsLocationsSessionsResponse, DeleteProjectsLocationsSessionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsSessionsRequest,
   output: DeleteProjectsLocationsSessionsResponse,
   errors: [],
 }));
 
-/** Obtain data corresponding to stages for a Spark Application. */
 export interface SearchStagesProjectsLocationsSessionsSparkApplicationsRequest {
   /** Optional. The list of summary metrics fields to include. Empty list will default to skip all summary metrics fields. Example, if the response should include TaskQuantileMetrics, the request should have task_quantile_metrics in summary_metrics_mask field */
   summaryMetricsMask?: string;
@@ -6571,7 +6570,8 @@ export const SearchStagesProjectsLocationsSessionsSparkApplicationsResponse = Se
 
 export type SearchStagesProjectsLocationsSessionsSparkApplicationsError = CommonErrors;
 
-export const searchStagesProjectsLocationsSessionsSparkApplications = API.makePaginated(() => ({
+/** Obtain data corresponding to stages for a Spark Application. */
+export const searchStagesProjectsLocationsSessionsSparkApplications: API.PaginatedOperationMethod<SearchStagesProjectsLocationsSessionsSparkApplicationsRequest, SearchStagesProjectsLocationsSessionsSparkApplicationsResponse, SearchStagesProjectsLocationsSessionsSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchStagesProjectsLocationsSessionsSparkApplicationsRequest,
   output: SearchStagesProjectsLocationsSessionsSparkApplicationsResponse,
   errors: [],
@@ -6581,7 +6581,6 @@ export const searchStagesProjectsLocationsSessionsSparkApplications = API.makePa
   },
 }));
 
-/** Obtain data corresponding to a spark stage attempt for a Spark Application. */
 export interface AccessStageAttemptProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. Parent (Session) resource reference. */
   parent?: string;
@@ -6611,13 +6610,13 @@ export const AccessStageAttemptProjectsLocationsSessionsSparkApplicationsRespons
 
 export type AccessStageAttemptProjectsLocationsSessionsSparkApplicationsError = CommonErrors;
 
+/** Obtain data corresponding to a spark stage attempt for a Spark Application. */
 export const accessStageAttemptProjectsLocationsSessionsSparkApplications: API.OperationMethod<AccessStageAttemptProjectsLocationsSessionsSparkApplicationsRequest, AccessStageAttemptProjectsLocationsSessionsSparkApplicationsResponse, AccessStageAttemptProjectsLocationsSessionsSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AccessStageAttemptProjectsLocationsSessionsSparkApplicationsRequest,
   output: AccessStageAttemptProjectsLocationsSessionsSparkApplicationsResponse,
   errors: [],
 }));
 
-/** Obtain RDD operation graph for a Spark Application Stage. Limits the number of clusters returned as part of the graph to 10000. */
 export interface AccessStageRddGraphProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. Parent (Session) resource reference. */
   parent?: string;
@@ -6641,13 +6640,13 @@ export const AccessStageRddGraphProjectsLocationsSessionsSparkApplicationsRespon
 
 export type AccessStageRddGraphProjectsLocationsSessionsSparkApplicationsError = CommonErrors;
 
+/** Obtain RDD operation graph for a Spark Application Stage. Limits the number of clusters returned as part of the graph to 10000. */
 export const accessStageRddGraphProjectsLocationsSessionsSparkApplications: API.OperationMethod<AccessStageRddGraphProjectsLocationsSessionsSparkApplicationsRequest, AccessStageRddGraphProjectsLocationsSessionsSparkApplicationsResponse, AccessStageRddGraphProjectsLocationsSessionsSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AccessStageRddGraphProjectsLocationsSessionsSparkApplicationsRequest,
   output: AccessStageRddGraphProjectsLocationsSessionsSparkApplicationsResponse,
   errors: [],
 }));
 
-/** Obtain data corresponding to a spark stage attempts for a Spark Application. */
 export interface SearchStageAttemptsProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. Parent (Session) resource reference. */
   parent?: string;
@@ -6680,7 +6679,8 @@ export const SearchStageAttemptsProjectsLocationsSessionsSparkApplicationsRespon
 
 export type SearchStageAttemptsProjectsLocationsSessionsSparkApplicationsError = CommonErrors;
 
-export const searchStageAttemptsProjectsLocationsSessionsSparkApplications = API.makePaginated(() => ({
+/** Obtain data corresponding to a spark stage attempts for a Spark Application. */
+export const searchStageAttemptsProjectsLocationsSessionsSparkApplications: API.PaginatedOperationMethod<SearchStageAttemptsProjectsLocationsSessionsSparkApplicationsRequest, SearchStageAttemptsProjectsLocationsSessionsSparkApplicationsResponse, SearchStageAttemptsProjectsLocationsSessionsSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchStageAttemptsProjectsLocationsSessionsSparkApplicationsRequest,
   output: SearchStageAttemptsProjectsLocationsSessionsSparkApplicationsResponse,
   errors: [],
@@ -6690,7 +6690,6 @@ export const searchStageAttemptsProjectsLocationsSessionsSparkApplications = API
   },
 }));
 
-/** Obtain summary of Stages for a Spark Application */
 export interface SummarizeStagesProjectsLocationsSessionsSparkApplicationsRequest {
   /** Optional. List of Stage IDs to filter by if provided. */
   stageIds?: string[];
@@ -6714,13 +6713,13 @@ export const SummarizeStagesProjectsLocationsSessionsSparkApplicationsResponse =
 
 export type SummarizeStagesProjectsLocationsSessionsSparkApplicationsError = CommonErrors;
 
+/** Obtain summary of Stages for a Spark Application */
 export const summarizeStagesProjectsLocationsSessionsSparkApplications: API.OperationMethod<SummarizeStagesProjectsLocationsSessionsSparkApplicationsRequest, SummarizeStagesProjectsLocationsSessionsSparkApplicationsResponse, SummarizeStagesProjectsLocationsSessionsSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SummarizeStagesProjectsLocationsSessionsSparkApplicationsRequest,
   output: SummarizeStagesProjectsLocationsSessionsSparkApplicationsResponse,
   errors: [],
 }));
 
-/** Obtain summary of Tasks for a Spark Application Stage Attempt */
 export interface SummarizeStageAttemptTasksProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. Parent (Session) resource reference. */
   parent?: string;
@@ -6747,13 +6746,13 @@ export const SummarizeStageAttemptTasksProjectsLocationsSessionsSparkApplication
 
 export type SummarizeStageAttemptTasksProjectsLocationsSessionsSparkApplicationsError = CommonErrors;
 
+/** Obtain summary of Tasks for a Spark Application Stage Attempt */
 export const summarizeStageAttemptTasksProjectsLocationsSessionsSparkApplications: API.OperationMethod<SummarizeStageAttemptTasksProjectsLocationsSessionsSparkApplicationsRequest, SummarizeStageAttemptTasksProjectsLocationsSessionsSparkApplicationsResponse, SummarizeStageAttemptTasksProjectsLocationsSessionsSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SummarizeStageAttemptTasksProjectsLocationsSessionsSparkApplicationsRequest,
   output: SummarizeStageAttemptTasksProjectsLocationsSessionsSparkApplicationsResponse,
   errors: [],
 }));
 
-/** Obtain data corresponding to SQL Queries for a Spark Application. */
 export interface SearchSqlQueriesProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
@@ -6789,7 +6788,8 @@ export const SearchSqlQueriesProjectsLocationsSessionsSparkApplicationsResponse 
 
 export type SearchSqlQueriesProjectsLocationsSessionsSparkApplicationsError = CommonErrors;
 
-export const searchSqlQueriesProjectsLocationsSessionsSparkApplications = API.makePaginated(() => ({
+/** Obtain data corresponding to SQL Queries for a Spark Application. */
+export const searchSqlQueriesProjectsLocationsSessionsSparkApplications: API.PaginatedOperationMethod<SearchSqlQueriesProjectsLocationsSessionsSparkApplicationsRequest, SearchSqlQueriesProjectsLocationsSessionsSparkApplicationsResponse, SearchSqlQueriesProjectsLocationsSessionsSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchSqlQueriesProjectsLocationsSessionsSparkApplicationsRequest,
   output: SearchSqlQueriesProjectsLocationsSessionsSparkApplicationsResponse,
   errors: [],
@@ -6799,7 +6799,6 @@ export const searchSqlQueriesProjectsLocationsSessionsSparkApplications = API.ma
   },
 }));
 
-/** Obtain data corresponding to a spark job for a Spark Application. */
 export interface AccessJobProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. Job ID to fetch data for. */
   jobId?: string;
@@ -6823,13 +6822,13 @@ export const AccessJobProjectsLocationsSessionsSparkApplicationsResponse = Acces
 
 export type AccessJobProjectsLocationsSessionsSparkApplicationsError = CommonErrors;
 
+/** Obtain data corresponding to a spark job for a Spark Application. */
 export const accessJobProjectsLocationsSessionsSparkApplications: API.OperationMethod<AccessJobProjectsLocationsSessionsSparkApplicationsRequest, AccessJobProjectsLocationsSessionsSparkApplicationsResponse, AccessJobProjectsLocationsSessionsSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AccessJobProjectsLocationsSessionsSparkApplicationsRequest,
   output: AccessJobProjectsLocationsSessionsSparkApplicationsResponse,
   errors: [],
 }));
 
-/** Obtain Spark Plan Graph for a Spark Application SQL execution. Limits the number of clusters returned as part of the graph to 10000. */
 export interface AccessSqlPlanProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. Parent (Session) resource reference. */
   parent?: string;
@@ -6853,13 +6852,13 @@ export const AccessSqlPlanProjectsLocationsSessionsSparkApplicationsResponse = A
 
 export type AccessSqlPlanProjectsLocationsSessionsSparkApplicationsError = CommonErrors;
 
+/** Obtain Spark Plan Graph for a Spark Application SQL execution. Limits the number of clusters returned as part of the graph to 10000. */
 export const accessSqlPlanProjectsLocationsSessionsSparkApplications: API.OperationMethod<AccessSqlPlanProjectsLocationsSessionsSparkApplicationsRequest, AccessSqlPlanProjectsLocationsSessionsSparkApplicationsResponse, AccessSqlPlanProjectsLocationsSessionsSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AccessSqlPlanProjectsLocationsSessionsSparkApplicationsRequest,
   output: AccessSqlPlanProjectsLocationsSessionsSparkApplicationsResponse,
   errors: [],
 }));
 
-/** Obtain data corresponding to tasks for a spark stage attempt for a Spark Application. */
 export interface SearchStageAttemptTasksProjectsLocationsSessionsSparkApplicationsRequest {
   /** Optional. Maximum number of tasks to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
   pageSize?: number;
@@ -6898,7 +6897,8 @@ export const SearchStageAttemptTasksProjectsLocationsSessionsSparkApplicationsRe
 
 export type SearchStageAttemptTasksProjectsLocationsSessionsSparkApplicationsError = CommonErrors;
 
-export const searchStageAttemptTasksProjectsLocationsSessionsSparkApplications = API.makePaginated(() => ({
+/** Obtain data corresponding to tasks for a spark stage attempt for a Spark Application. */
+export const searchStageAttemptTasksProjectsLocationsSessionsSparkApplications: API.PaginatedOperationMethod<SearchStageAttemptTasksProjectsLocationsSessionsSparkApplicationsRequest, SearchStageAttemptTasksProjectsLocationsSessionsSparkApplicationsResponse, SearchStageAttemptTasksProjectsLocationsSessionsSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchStageAttemptTasksProjectsLocationsSessionsSparkApplicationsRequest,
   output: SearchStageAttemptTasksProjectsLocationsSessionsSparkApplicationsResponse,
   errors: [],
@@ -6908,7 +6908,6 @@ export const searchStageAttemptTasksProjectsLocationsSessionsSparkApplications =
   },
 }));
 
-/** Obtain data corresponding to a particular SQL Query for a Spark Application. */
 export interface AccessSqlQueryProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
@@ -6938,13 +6937,13 @@ export const AccessSqlQueryProjectsLocationsSessionsSparkApplicationsResponse = 
 
 export type AccessSqlQueryProjectsLocationsSessionsSparkApplicationsError = CommonErrors;
 
+/** Obtain data corresponding to a particular SQL Query for a Spark Application. */
 export const accessSqlQueryProjectsLocationsSessionsSparkApplications: API.OperationMethod<AccessSqlQueryProjectsLocationsSessionsSparkApplicationsRequest, AccessSqlQueryProjectsLocationsSessionsSparkApplicationsResponse, AccessSqlQueryProjectsLocationsSessionsSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AccessSqlQueryProjectsLocationsSessionsSparkApplicationsRequest,
   output: AccessSqlQueryProjectsLocationsSessionsSparkApplicationsResponse,
   errors: [],
 }));
 
-/** Obtain data corresponding to executors for a Spark Application. */
 export interface SearchExecutorsProjectsLocationsSessionsSparkApplicationsRequest {
   /** Optional. Filter to select whether active/ dead or all executors should be selected. */
   executorStatus?: "EXECUTOR_STATUS_UNSPECIFIED" | "EXECUTOR_STATUS_ACTIVE" | "EXECUTOR_STATUS_DEAD" | (string & {});
@@ -6974,7 +6973,8 @@ export const SearchExecutorsProjectsLocationsSessionsSparkApplicationsResponse =
 
 export type SearchExecutorsProjectsLocationsSessionsSparkApplicationsError = CommonErrors;
 
-export const searchExecutorsProjectsLocationsSessionsSparkApplications = API.makePaginated(() => ({
+/** Obtain data corresponding to executors for a Spark Application. */
+export const searchExecutorsProjectsLocationsSessionsSparkApplications: API.PaginatedOperationMethod<SearchExecutorsProjectsLocationsSessionsSparkApplicationsRequest, SearchExecutorsProjectsLocationsSessionsSparkApplicationsResponse, SearchExecutorsProjectsLocationsSessionsSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchExecutorsProjectsLocationsSessionsSparkApplicationsRequest,
   output: SearchExecutorsProjectsLocationsSessionsSparkApplicationsResponse,
   errors: [],
@@ -6984,7 +6984,6 @@ export const searchExecutorsProjectsLocationsSessionsSparkApplications = API.mak
   },
 }));
 
-/** Obtain high level information corresponding to a single Spark Application. */
 export interface AccessProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
@@ -7005,13 +7004,13 @@ export const AccessProjectsLocationsSessionsSparkApplicationsResponse = AccessSe
 
 export type AccessProjectsLocationsSessionsSparkApplicationsError = CommonErrors;
 
+/** Obtain high level information corresponding to a single Spark Application. */
 export const accessProjectsLocationsSessionsSparkApplications: API.OperationMethod<AccessProjectsLocationsSessionsSparkApplicationsRequest, AccessProjectsLocationsSessionsSparkApplicationsResponse, AccessProjectsLocationsSessionsSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AccessProjectsLocationsSessionsSparkApplicationsRequest,
   output: AccessProjectsLocationsSessionsSparkApplicationsResponse,
   errors: [],
 }));
 
-/** Obtain summary of Jobs for a Spark Application */
 export interface SummarizeJobsProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. Parent (Session) resource reference. */
   parent?: string;
@@ -7035,13 +7034,13 @@ export const SummarizeJobsProjectsLocationsSessionsSparkApplicationsResponse = S
 
 export type SummarizeJobsProjectsLocationsSessionsSparkApplicationsError = CommonErrors;
 
+/** Obtain summary of Jobs for a Spark Application */
 export const summarizeJobsProjectsLocationsSessionsSparkApplications: API.OperationMethod<SummarizeJobsProjectsLocationsSessionsSparkApplicationsRequest, SummarizeJobsProjectsLocationsSessionsSparkApplicationsResponse, SummarizeJobsProjectsLocationsSessionsSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SummarizeJobsProjectsLocationsSessionsSparkApplicationsRequest,
   output: SummarizeJobsProjectsLocationsSessionsSparkApplicationsResponse,
   errors: [],
 }));
 
-/** Obtain summary of Executor Summary for a Spark Application */
 export interface SummarizeExecutorsProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
@@ -7062,13 +7061,13 @@ export const SummarizeExecutorsProjectsLocationsSessionsSparkApplicationsRespons
 
 export type SummarizeExecutorsProjectsLocationsSessionsSparkApplicationsError = CommonErrors;
 
+/** Obtain summary of Executor Summary for a Spark Application */
 export const summarizeExecutorsProjectsLocationsSessionsSparkApplications: API.OperationMethod<SummarizeExecutorsProjectsLocationsSessionsSparkApplicationsRequest, SummarizeExecutorsProjectsLocationsSessionsSparkApplicationsResponse, SummarizeExecutorsProjectsLocationsSessionsSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SummarizeExecutorsProjectsLocationsSessionsSparkApplicationsRequest,
   output: SummarizeExecutorsProjectsLocationsSessionsSparkApplicationsResponse,
   errors: [],
 }));
 
-/** Obtain environment details for a Spark Application */
 export interface AccessEnvironmentInfoProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. The fully qualified name of the session to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
@@ -7089,13 +7088,13 @@ export const AccessEnvironmentInfoProjectsLocationsSessionsSparkApplicationsResp
 
 export type AccessEnvironmentInfoProjectsLocationsSessionsSparkApplicationsError = CommonErrors;
 
+/** Obtain environment details for a Spark Application */
 export const accessEnvironmentInfoProjectsLocationsSessionsSparkApplications: API.OperationMethod<AccessEnvironmentInfoProjectsLocationsSessionsSparkApplicationsRequest, AccessEnvironmentInfoProjectsLocationsSessionsSparkApplicationsResponse, AccessEnvironmentInfoProjectsLocationsSessionsSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AccessEnvironmentInfoProjectsLocationsSessionsSparkApplicationsRequest,
   output: AccessEnvironmentInfoProjectsLocationsSessionsSparkApplicationsResponse,
   errors: [],
 }));
 
-/** Obtain high level information and list of Spark Applications corresponding to a batch */
 export interface SearchProjectsLocationsSessionsSparkApplicationsRequest {
   /** Optional. Earliest start timestamp to list. */
   minTime?: string;
@@ -7134,7 +7133,8 @@ export const SearchProjectsLocationsSessionsSparkApplicationsResponse = SearchSe
 
 export type SearchProjectsLocationsSessionsSparkApplicationsError = CommonErrors;
 
-export const searchProjectsLocationsSessionsSparkApplications = API.makePaginated(() => ({
+/** Obtain high level information and list of Spark Applications corresponding to a batch */
+export const searchProjectsLocationsSessionsSparkApplications: API.PaginatedOperationMethod<SearchProjectsLocationsSessionsSparkApplicationsRequest, SearchProjectsLocationsSessionsSparkApplicationsResponse, SearchProjectsLocationsSessionsSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchProjectsLocationsSessionsSparkApplicationsRequest,
   output: SearchProjectsLocationsSessionsSparkApplicationsResponse,
   errors: [],
@@ -7144,7 +7144,6 @@ export const searchProjectsLocationsSessionsSparkApplications = API.makePaginate
   },
 }));
 
-/** Obtain executor summary with respect to a spark stage attempt. */
 export interface SearchExecutorStageSummaryProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. Stage Attempt ID */
   stageAttemptId?: number;
@@ -7177,7 +7176,8 @@ export const SearchExecutorStageSummaryProjectsLocationsSessionsSparkApplication
 
 export type SearchExecutorStageSummaryProjectsLocationsSessionsSparkApplicationsError = CommonErrors;
 
-export const searchExecutorStageSummaryProjectsLocationsSessionsSparkApplications = API.makePaginated(() => ({
+/** Obtain executor summary with respect to a spark stage attempt. */
+export const searchExecutorStageSummaryProjectsLocationsSessionsSparkApplications: API.PaginatedOperationMethod<SearchExecutorStageSummaryProjectsLocationsSessionsSparkApplicationsRequest, SearchExecutorStageSummaryProjectsLocationsSessionsSparkApplicationsResponse, SearchExecutorStageSummaryProjectsLocationsSessionsSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchExecutorStageSummaryProjectsLocationsSessionsSparkApplicationsRequest,
   output: SearchExecutorStageSummaryProjectsLocationsSessionsSparkApplicationsResponse,
   errors: [],
@@ -7187,7 +7187,6 @@ export const searchExecutorStageSummaryProjectsLocationsSessionsSparkApplication
   },
 }));
 
-/** Write wrapper objects from dataplane to spanner */
 export interface WriteProjectsLocationsSessionsSparkApplicationsRequest {
   /** Required. The fully qualified name of the spark application to write data about in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/sessions/SESSION_ID/sparkApplications/APPLICATION_ID" */
   name: string;
@@ -7208,13 +7207,13 @@ export const WriteProjectsLocationsSessionsSparkApplicationsResponse = WriteSess
 
 export type WriteProjectsLocationsSessionsSparkApplicationsError = CommonErrors;
 
+/** Write wrapper objects from dataplane to spanner */
 export const writeProjectsLocationsSessionsSparkApplications: API.OperationMethod<WriteProjectsLocationsSessionsSparkApplicationsRequest, WriteProjectsLocationsSessionsSparkApplicationsResponse, WriteProjectsLocationsSessionsSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WriteProjectsLocationsSessionsSparkApplicationsRequest,
   output: WriteProjectsLocationsSessionsSparkApplicationsResponse,
   errors: [],
 }));
 
-/** Obtain list of spark jobs corresponding to a Spark Application. */
 export interface SearchJobsProjectsLocationsSessionsSparkApplicationsRequest {
   /** Optional. List only jobs in the specific state. */
   jobStatus?: "JOB_EXECUTION_STATUS_UNSPECIFIED" | "JOB_EXECUTION_STATUS_RUNNING" | "JOB_EXECUTION_STATUS_SUCCEEDED" | "JOB_EXECUTION_STATUS_FAILED" | "JOB_EXECUTION_STATUS_UNKNOWN" | (string & {});
@@ -7247,7 +7246,8 @@ export const SearchJobsProjectsLocationsSessionsSparkApplicationsResponse = Sear
 
 export type SearchJobsProjectsLocationsSessionsSparkApplicationsError = CommonErrors;
 
-export const searchJobsProjectsLocationsSessionsSparkApplications = API.makePaginated(() => ({
+/** Obtain list of spark jobs corresponding to a Spark Application. */
+export const searchJobsProjectsLocationsSessionsSparkApplications: API.PaginatedOperationMethod<SearchJobsProjectsLocationsSessionsSparkApplicationsRequest, SearchJobsProjectsLocationsSessionsSparkApplicationsResponse, SearchJobsProjectsLocationsSessionsSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchJobsProjectsLocationsSessionsSparkApplicationsRequest,
   output: SearchJobsProjectsLocationsSessionsSparkApplicationsResponse,
   errors: [],
@@ -7257,7 +7257,6 @@ export const searchJobsProjectsLocationsSessionsSparkApplications = API.makePagi
   },
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns google.rpc.Code.UNIMPLEMENTED. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of 1, corresponding to Code.CANCELLED. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -7275,13 +7274,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns google.rpc.Code.UNIMPLEMENTED. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of 1, corresponding to Code.CANCELLED. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns google.rpc.Code.UNIMPLEMENTED. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -7299,13 +7298,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns google.rpc.Code.UNIMPLEMENTED. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -7323,13 +7322,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns UNIMPLEMENTED. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list filter. */
   filter?: string;
@@ -7359,7 +7358,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns UNIMPLEMENTED. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -7369,7 +7369,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Lists autoscaling policies in the project. */
 export interface ListProjectsLocationsAutoscalingPoliciesRequest {
   /** Required. The "resource name" of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies.list, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.autoscalingPolicies.list, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
   parent: string;
@@ -7393,7 +7392,8 @@ export const ListProjectsLocationsAutoscalingPoliciesResponse = ListAutoscalingP
 
 export type ListProjectsLocationsAutoscalingPoliciesError = CommonErrors;
 
-export const listProjectsLocationsAutoscalingPolicies = API.makePaginated(() => ({
+/** Lists autoscaling policies in the project. */
+export const listProjectsLocationsAutoscalingPolicies: API.PaginatedOperationMethod<ListProjectsLocationsAutoscalingPoliciesRequest, ListProjectsLocationsAutoscalingPoliciesResponse, ListProjectsLocationsAutoscalingPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAutoscalingPoliciesRequest,
   output: ListProjectsLocationsAutoscalingPoliciesResponse,
   errors: [],
@@ -7403,7 +7403,6 @@ export const listProjectsLocationsAutoscalingPolicies = API.makePaginated(() => 
   },
 }));
 
-/** Retrieves autoscaling policy. */
 export interface GetProjectsLocationsAutoscalingPoliciesRequest {
   /** Required. The "resource name" of the autoscaling policy, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies.get, the resource name of the policy has the following format: projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id} For projects.locations.autoscalingPolicies.get, the resource name of the policy has the following format: projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id} */
   name: string;
@@ -7421,13 +7420,13 @@ export const GetProjectsLocationsAutoscalingPoliciesResponse = AutoscalingPolicy
 
 export type GetProjectsLocationsAutoscalingPoliciesError = CommonErrors;
 
+/** Retrieves autoscaling policy. */
 export const getProjectsLocationsAutoscalingPolicies: API.OperationMethod<GetProjectsLocationsAutoscalingPoliciesRequest, GetProjectsLocationsAutoscalingPoliciesResponse, GetProjectsLocationsAutoscalingPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAutoscalingPoliciesRequest,
   output: GetProjectsLocationsAutoscalingPoliciesResponse,
   errors: [],
 }));
 
-/** Deletes an autoscaling policy. It is an error to delete an autoscaling policy that is in use by one or more clusters. */
 export interface DeleteProjectsLocationsAutoscalingPoliciesRequest {
   /** Required. The "resource name" of the autoscaling policy, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies.delete, the resource name of the policy has the following format: projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id} For projects.locations.autoscalingPolicies.delete, the resource name of the policy has the following format: projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id} */
   name: string;
@@ -7445,13 +7444,13 @@ export const DeleteProjectsLocationsAutoscalingPoliciesResponse = Empty;
 
 export type DeleteProjectsLocationsAutoscalingPoliciesError = CommonErrors;
 
+/** Deletes an autoscaling policy. It is an error to delete an autoscaling policy that is in use by one or more clusters. */
 export const deleteProjectsLocationsAutoscalingPolicies: API.OperationMethod<DeleteProjectsLocationsAutoscalingPoliciesRequest, DeleteProjectsLocationsAutoscalingPoliciesResponse, DeleteProjectsLocationsAutoscalingPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsAutoscalingPoliciesRequest,
   output: DeleteProjectsLocationsAutoscalingPoliciesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND, INVALID_ARGUMENT, and PERMISSION_DENIED errors. */
 export interface SetIamPolicyProjectsLocationsAutoscalingPoliciesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -7472,13 +7471,13 @@ export const SetIamPolicyProjectsLocationsAutoscalingPoliciesResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsAutoscalingPoliciesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND, INVALID_ARGUMENT, and PERMISSION_DENIED errors. */
 export const setIamPolicyProjectsLocationsAutoscalingPolicies: API.OperationMethod<SetIamPolicyProjectsLocationsAutoscalingPoliciesRequest, SetIamPolicyProjectsLocationsAutoscalingPoliciesResponse, SetIamPolicyProjectsLocationsAutoscalingPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsAutoscalingPoliciesRequest,
   output: SetIamPolicyProjectsLocationsAutoscalingPoliciesResponse,
   errors: [],
 }));
 
-/** Updates (replaces) autoscaling policy.Disabled check for update_mask, because all updates will be full replacements. */
 export interface UpdateProjectsLocationsAutoscalingPoliciesRequest {
   /** Output only. The "resource name" of the autoscaling policy, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies, the resource name of the policy has the following format: projects/{project_id}/regions/{region}/autoscalingPolicies/{policy_id} For projects.locations.autoscalingPolicies, the resource name of the policy has the following format: projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id} */
   name: string;
@@ -7499,13 +7498,13 @@ export const UpdateProjectsLocationsAutoscalingPoliciesResponse = AutoscalingPol
 
 export type UpdateProjectsLocationsAutoscalingPoliciesError = CommonErrors;
 
+/** Updates (replaces) autoscaling policy.Disabled check for update_mask, because all updates will be full replacements. */
 export const updateProjectsLocationsAutoscalingPolicies: API.OperationMethod<UpdateProjectsLocationsAutoscalingPoliciesRequest, UpdateProjectsLocationsAutoscalingPoliciesResponse, UpdateProjectsLocationsAutoscalingPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateProjectsLocationsAutoscalingPoliciesRequest,
   output: UpdateProjectsLocationsAutoscalingPoliciesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsAutoscalingPoliciesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -7526,13 +7525,13 @@ export const TestIamPermissionsProjectsLocationsAutoscalingPoliciesResponse = Te
 
 export type TestIamPermissionsProjectsLocationsAutoscalingPoliciesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsAutoscalingPolicies: API.OperationMethod<TestIamPermissionsProjectsLocationsAutoscalingPoliciesRequest, TestIamPermissionsProjectsLocationsAutoscalingPoliciesResponse, TestIamPermissionsProjectsLocationsAutoscalingPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsAutoscalingPoliciesRequest,
   output: TestIamPermissionsProjectsLocationsAutoscalingPoliciesResponse,
   errors: [],
 }));
 
-/** Creates new autoscaling policy. */
 export interface CreateProjectsLocationsAutoscalingPoliciesRequest {
   /** Required. The "resource name" of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.autoscalingPolicies.create, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.autoscalingPolicies.create, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
   parent: string;
@@ -7553,13 +7552,13 @@ export const CreateProjectsLocationsAutoscalingPoliciesResponse = AutoscalingPol
 
 export type CreateProjectsLocationsAutoscalingPoliciesError = CommonErrors;
 
+/** Creates new autoscaling policy. */
 export const createProjectsLocationsAutoscalingPolicies: API.OperationMethod<CreateProjectsLocationsAutoscalingPoliciesRequest, CreateProjectsLocationsAutoscalingPoliciesResponse, CreateProjectsLocationsAutoscalingPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsAutoscalingPoliciesRequest,
   output: CreateProjectsLocationsAutoscalingPoliciesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsAutoscalingPoliciesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -7580,13 +7579,13 @@ export const GetIamPolicyProjectsLocationsAutoscalingPoliciesResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsAutoscalingPoliciesError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsAutoscalingPolicies: API.OperationMethod<GetIamPolicyProjectsLocationsAutoscalingPoliciesRequest, GetIamPolicyProjectsLocationsAutoscalingPoliciesResponse, GetIamPolicyProjectsLocationsAutoscalingPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsAutoscalingPoliciesRequest,
   output: GetIamPolicyProjectsLocationsAutoscalingPoliciesResponse,
   errors: [],
 }));
 
-/** Gets the batch workload resource representation. */
 export interface GetProjectsLocationsBatchesRequest {
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID" */
   name: string;
@@ -7604,13 +7603,13 @@ export const GetProjectsLocationsBatchesResponse = Batch;
 
 export type GetProjectsLocationsBatchesError = CommonErrors;
 
+/** Gets the batch workload resource representation. */
 export const getProjectsLocationsBatches: API.OperationMethod<GetProjectsLocationsBatchesRequest, GetProjectsLocationsBatchesResponse, GetProjectsLocationsBatchesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBatchesRequest,
   output: GetProjectsLocationsBatchesResponse,
   errors: [],
 }));
 
-/** Deletes the batch workload resource. If the batch is not in a CANCELLED, SUCCEEDED or FAILED State, the delete operation fails and the response returns FAILED_PRECONDITION. */
 export interface DeleteProjectsLocationsBatchesRequest {
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID" */
   name: string;
@@ -7628,13 +7627,13 @@ export const DeleteProjectsLocationsBatchesResponse = Empty;
 
 export type DeleteProjectsLocationsBatchesError = CommonErrors;
 
+/** Deletes the batch workload resource. If the batch is not in a CANCELLED, SUCCEEDED or FAILED State, the delete operation fails and the response returns FAILED_PRECONDITION. */
 export const deleteProjectsLocationsBatches: API.OperationMethod<DeleteProjectsLocationsBatchesRequest, DeleteProjectsLocationsBatchesResponse, DeleteProjectsLocationsBatchesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsBatchesRequest,
   output: DeleteProjectsLocationsBatchesResponse,
   errors: [],
 }));
 
-/** Analyze a Batch for possible recommendations and insights. */
 export interface AnalyzeProjectsLocationsBatchesRequest {
   /** Required. The fully qualified name of the batch to analyze in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID" */
   name: string;
@@ -7655,13 +7654,13 @@ export const AnalyzeProjectsLocationsBatchesResponse = Operation;
 
 export type AnalyzeProjectsLocationsBatchesError = CommonErrors;
 
+/** Analyze a Batch for possible recommendations and insights. */
 export const analyzeProjectsLocationsBatches: API.OperationMethod<AnalyzeProjectsLocationsBatchesRequest, AnalyzeProjectsLocationsBatchesResponse, AnalyzeProjectsLocationsBatchesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AnalyzeProjectsLocationsBatchesRequest,
   output: AnalyzeProjectsLocationsBatchesResponse,
   errors: [],
 }));
 
-/** Creates a batch workload that executes asynchronously. */
 export interface CreateProjectsLocationsBatchesRequest {
   /** Optional. A unique ID used to identify the request. If the service receives two CreateBatchRequests with the same request_id, the second request is ignored and the operation that corresponds to the first Batch created and stored in the backend is returned.Recommendation: Set this value to a UUID (https://en.wikipedia.org/wiki/Universally_unique_identifier).The value must contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens (-). The maximum length is 40 characters. */
   requestId?: string;
@@ -7688,13 +7687,13 @@ export const CreateProjectsLocationsBatchesResponse = Operation;
 
 export type CreateProjectsLocationsBatchesError = CommonErrors;
 
+/** Creates a batch workload that executes asynchronously. */
 export const createProjectsLocationsBatches: API.OperationMethod<CreateProjectsLocationsBatchesRequest, CreateProjectsLocationsBatchesResponse, CreateProjectsLocationsBatchesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsBatchesRequest,
   output: CreateProjectsLocationsBatchesResponse,
   errors: [],
 }));
 
-/** Lists batch workloads. */
 export interface ListProjectsLocationsBatchesRequest {
   /** Optional. A filter for the batches to return in the response.A filter is a logical expression constraining the values of various fields in each batch resource. Filters are case sensitive, and may contain multiple clauses combined with logical operators (AND/OR). Supported fields are batch_id, batch_uuid, state, create_time, and labels.e.g. state = RUNNING and create_time < "2023-01-01T00:00:00Z" filters for batches in state RUNNING that were created before 2023-01-01. state = RUNNING and labels.environment=production filters for batches in state in a RUNNING state that have a production environment label.See https://google.aip.dev/assets/misc/ebnf-filtering.txt for a detailed description of the filter syntax and a list of supported comparisons. */
   filter?: string;
@@ -7724,7 +7723,8 @@ export const ListProjectsLocationsBatchesResponse = ListBatchesResponse;
 
 export type ListProjectsLocationsBatchesError = CommonErrors;
 
-export const listProjectsLocationsBatches = API.makePaginated(() => ({
+/** Lists batch workloads. */
+export const listProjectsLocationsBatches: API.PaginatedOperationMethod<ListProjectsLocationsBatchesRequest, ListProjectsLocationsBatchesResponse, ListProjectsLocationsBatchesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBatchesRequest,
   output: ListProjectsLocationsBatchesResponse,
   errors: [],
@@ -7734,7 +7734,6 @@ export const listProjectsLocationsBatches = API.makePaginated(() => ({
   },
 }));
 
-/** Obtain summary of Tasks for a Spark Application Stage Attempt */
 export interface SummarizeStageAttemptTasksProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. Stage Attempt ID */
   stageAttemptId?: number;
@@ -7761,13 +7760,13 @@ export const SummarizeStageAttemptTasksProjectsLocationsBatchesSparkApplications
 
 export type SummarizeStageAttemptTasksProjectsLocationsBatchesSparkApplicationsError = CommonErrors;
 
+/** Obtain summary of Tasks for a Spark Application Stage Attempt */
 export const summarizeStageAttemptTasksProjectsLocationsBatchesSparkApplications: API.OperationMethod<SummarizeStageAttemptTasksProjectsLocationsBatchesSparkApplicationsRequest, SummarizeStageAttemptTasksProjectsLocationsBatchesSparkApplicationsResponse, SummarizeStageAttemptTasksProjectsLocationsBatchesSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SummarizeStageAttemptTasksProjectsLocationsBatchesSparkApplicationsRequest,
   output: SummarizeStageAttemptTasksProjectsLocationsBatchesSparkApplicationsResponse,
   errors: [],
 }));
 
-/** Obtain RDD operation graph for a Spark Application Stage. Limits the number of clusters returned as part of the graph to 10000. */
 export interface AccessStageRddGraphProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. Stage ID */
   stageId?: string;
@@ -7791,13 +7790,13 @@ export const AccessStageRddGraphProjectsLocationsBatchesSparkApplicationsRespons
 
 export type AccessStageRddGraphProjectsLocationsBatchesSparkApplicationsError = CommonErrors;
 
+/** Obtain RDD operation graph for a Spark Application Stage. Limits the number of clusters returned as part of the graph to 10000. */
 export const accessStageRddGraphProjectsLocationsBatchesSparkApplications: API.OperationMethod<AccessStageRddGraphProjectsLocationsBatchesSparkApplicationsRequest, AccessStageRddGraphProjectsLocationsBatchesSparkApplicationsResponse, AccessStageRddGraphProjectsLocationsBatchesSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AccessStageRddGraphProjectsLocationsBatchesSparkApplicationsRequest,
   output: AccessStageRddGraphProjectsLocationsBatchesSparkApplicationsResponse,
   errors: [],
 }));
 
-/** Obtain data corresponding to a particular SQL Query for a Spark Application. */
 export interface AccessSqlQueryProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. Parent (Batch) resource reference. */
   parent?: string;
@@ -7827,13 +7826,13 @@ export const AccessSqlQueryProjectsLocationsBatchesSparkApplicationsResponse = A
 
 export type AccessSqlQueryProjectsLocationsBatchesSparkApplicationsError = CommonErrors;
 
+/** Obtain data corresponding to a particular SQL Query for a Spark Application. */
 export const accessSqlQueryProjectsLocationsBatchesSparkApplications: API.OperationMethod<AccessSqlQueryProjectsLocationsBatchesSparkApplicationsRequest, AccessSqlQueryProjectsLocationsBatchesSparkApplicationsResponse, AccessSqlQueryProjectsLocationsBatchesSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AccessSqlQueryProjectsLocationsBatchesSparkApplicationsRequest,
   output: AccessSqlQueryProjectsLocationsBatchesSparkApplicationsResponse,
   errors: [],
 }));
 
-/** Obtain high level information and list of Spark Applications corresponding to a batch */
 export interface SearchProjectsLocationsBatchesSparkApplicationsRequest {
   /** Optional. A page token received from a previous SearchSparkApplications call. Provide this token to retrieve the subsequent page. */
   pageToken?: string;
@@ -7872,7 +7871,8 @@ export const SearchProjectsLocationsBatchesSparkApplicationsResponse = SearchSpa
 
 export type SearchProjectsLocationsBatchesSparkApplicationsError = CommonErrors;
 
-export const searchProjectsLocationsBatchesSparkApplications = API.makePaginated(() => ({
+/** Obtain high level information and list of Spark Applications corresponding to a batch */
+export const searchProjectsLocationsBatchesSparkApplications: API.PaginatedOperationMethod<SearchProjectsLocationsBatchesSparkApplicationsRequest, SearchProjectsLocationsBatchesSparkApplicationsResponse, SearchProjectsLocationsBatchesSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchProjectsLocationsBatchesSparkApplicationsRequest,
   output: SearchProjectsLocationsBatchesSparkApplicationsResponse,
   errors: [],
@@ -7882,7 +7882,6 @@ export const searchProjectsLocationsBatchesSparkApplications = API.makePaginated
   },
 }));
 
-/** Obtain data corresponding to a spark stage attempt for a Spark Application. */
 export interface AccessStageAttemptProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. Stage Attempt ID */
   stageAttemptId?: number;
@@ -7912,13 +7911,13 @@ export const AccessStageAttemptProjectsLocationsBatchesSparkApplicationsResponse
 
 export type AccessStageAttemptProjectsLocationsBatchesSparkApplicationsError = CommonErrors;
 
+/** Obtain data corresponding to a spark stage attempt for a Spark Application. */
 export const accessStageAttemptProjectsLocationsBatchesSparkApplications: API.OperationMethod<AccessStageAttemptProjectsLocationsBatchesSparkApplicationsRequest, AccessStageAttemptProjectsLocationsBatchesSparkApplicationsResponse, AccessStageAttemptProjectsLocationsBatchesSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AccessStageAttemptProjectsLocationsBatchesSparkApplicationsRequest,
   output: AccessStageAttemptProjectsLocationsBatchesSparkApplicationsResponse,
   errors: [],
 }));
 
-/** Obtain data corresponding to SQL Queries for a Spark Application. */
 export interface SearchSqlQueriesProjectsLocationsBatchesSparkApplicationsRequest {
   /** Optional. A page token received from a previous SearchSparkApplicationSqlQueries call. Provide this token to retrieve the subsequent page. */
   pageToken?: string;
@@ -7951,7 +7950,8 @@ export const SearchSqlQueriesProjectsLocationsBatchesSparkApplicationsResponse =
 
 export type SearchSqlQueriesProjectsLocationsBatchesSparkApplicationsError = CommonErrors;
 
-export const searchSqlQueriesProjectsLocationsBatchesSparkApplications = API.makePaginated(() => ({
+/** Obtain data corresponding to SQL Queries for a Spark Application. */
+export const searchSqlQueriesProjectsLocationsBatchesSparkApplications: API.PaginatedOperationMethod<SearchSqlQueriesProjectsLocationsBatchesSparkApplicationsRequest, SearchSqlQueriesProjectsLocationsBatchesSparkApplicationsResponse, SearchSqlQueriesProjectsLocationsBatchesSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchSqlQueriesProjectsLocationsBatchesSparkApplicationsRequest,
   output: SearchSqlQueriesProjectsLocationsBatchesSparkApplicationsResponse,
   errors: [],
@@ -7961,7 +7961,6 @@ export const searchSqlQueriesProjectsLocationsBatchesSparkApplications = API.mak
   },
 }));
 
-/** Obtain summary of Jobs for a Spark Application */
 export interface SummarizeJobsProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
@@ -7982,13 +7981,13 @@ export const SummarizeJobsProjectsLocationsBatchesSparkApplicationsResponse = Su
 
 export type SummarizeJobsProjectsLocationsBatchesSparkApplicationsError = CommonErrors;
 
+/** Obtain summary of Jobs for a Spark Application */
 export const summarizeJobsProjectsLocationsBatchesSparkApplications: API.OperationMethod<SummarizeJobsProjectsLocationsBatchesSparkApplicationsRequest, SummarizeJobsProjectsLocationsBatchesSparkApplicationsResponse, SummarizeJobsProjectsLocationsBatchesSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SummarizeJobsProjectsLocationsBatchesSparkApplicationsRequest,
   output: SummarizeJobsProjectsLocationsBatchesSparkApplicationsResponse,
   errors: [],
 }));
 
-/** Obtain data corresponding to tasks for a spark stage attempt for a Spark Application. */
 export interface SearchStageAttemptTasksProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
@@ -8027,7 +8026,8 @@ export const SearchStageAttemptTasksProjectsLocationsBatchesSparkApplicationsRes
 
 export type SearchStageAttemptTasksProjectsLocationsBatchesSparkApplicationsError = CommonErrors;
 
-export const searchStageAttemptTasksProjectsLocationsBatchesSparkApplications = API.makePaginated(() => ({
+/** Obtain data corresponding to tasks for a spark stage attempt for a Spark Application. */
+export const searchStageAttemptTasksProjectsLocationsBatchesSparkApplications: API.PaginatedOperationMethod<SearchStageAttemptTasksProjectsLocationsBatchesSparkApplicationsRequest, SearchStageAttemptTasksProjectsLocationsBatchesSparkApplicationsResponse, SearchStageAttemptTasksProjectsLocationsBatchesSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchStageAttemptTasksProjectsLocationsBatchesSparkApplicationsRequest,
   output: SearchStageAttemptTasksProjectsLocationsBatchesSparkApplicationsResponse,
   errors: [],
@@ -8037,7 +8037,6 @@ export const searchStageAttemptTasksProjectsLocationsBatchesSparkApplications = 
   },
 }));
 
-/** Obtain Spark Plan Graph for a Spark Application SQL execution. Limits the number of clusters returned as part of the graph to 10000. */
 export interface AccessSqlPlanProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. Parent (Batch) resource reference. */
   parent?: string;
@@ -8061,13 +8060,13 @@ export const AccessSqlPlanProjectsLocationsBatchesSparkApplicationsResponse = Ac
 
 export type AccessSqlPlanProjectsLocationsBatchesSparkApplicationsError = CommonErrors;
 
+/** Obtain Spark Plan Graph for a Spark Application SQL execution. Limits the number of clusters returned as part of the graph to 10000. */
 export const accessSqlPlanProjectsLocationsBatchesSparkApplications: API.OperationMethod<AccessSqlPlanProjectsLocationsBatchesSparkApplicationsRequest, AccessSqlPlanProjectsLocationsBatchesSparkApplicationsResponse, AccessSqlPlanProjectsLocationsBatchesSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AccessSqlPlanProjectsLocationsBatchesSparkApplicationsRequest,
   output: AccessSqlPlanProjectsLocationsBatchesSparkApplicationsResponse,
   errors: [],
 }));
 
-/** Obtain executor summary with respect to a spark stage attempt. */
 export interface SearchExecutorStageSummaryProjectsLocationsBatchesSparkApplicationsRequest {
   /** Optional. A page token received from a previous AccessSparkApplicationExecutorsList call. Provide this token to retrieve the subsequent page. */
   pageToken?: string;
@@ -8100,7 +8099,8 @@ export const SearchExecutorStageSummaryProjectsLocationsBatchesSparkApplications
 
 export type SearchExecutorStageSummaryProjectsLocationsBatchesSparkApplicationsError = CommonErrors;
 
-export const searchExecutorStageSummaryProjectsLocationsBatchesSparkApplications = API.makePaginated(() => ({
+/** Obtain executor summary with respect to a spark stage attempt. */
+export const searchExecutorStageSummaryProjectsLocationsBatchesSparkApplications: API.PaginatedOperationMethod<SearchExecutorStageSummaryProjectsLocationsBatchesSparkApplicationsRequest, SearchExecutorStageSummaryProjectsLocationsBatchesSparkApplicationsResponse, SearchExecutorStageSummaryProjectsLocationsBatchesSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchExecutorStageSummaryProjectsLocationsBatchesSparkApplicationsRequest,
   output: SearchExecutorStageSummaryProjectsLocationsBatchesSparkApplicationsResponse,
   errors: [],
@@ -8110,7 +8110,6 @@ export const searchExecutorStageSummaryProjectsLocationsBatchesSparkApplications
   },
 }));
 
-/** Obtain data corresponding to executors for a Spark Application. */
 export interface SearchExecutorsProjectsLocationsBatchesSparkApplicationsRequest {
   /** Optional. A page token received from a previous AccessSparkApplicationExecutorsList call. Provide this token to retrieve the subsequent page. */
   pageToken?: string;
@@ -8140,7 +8139,8 @@ export const SearchExecutorsProjectsLocationsBatchesSparkApplicationsResponse = 
 
 export type SearchExecutorsProjectsLocationsBatchesSparkApplicationsError = CommonErrors;
 
-export const searchExecutorsProjectsLocationsBatchesSparkApplications = API.makePaginated(() => ({
+/** Obtain data corresponding to executors for a Spark Application. */
+export const searchExecutorsProjectsLocationsBatchesSparkApplications: API.PaginatedOperationMethod<SearchExecutorsProjectsLocationsBatchesSparkApplicationsRequest, SearchExecutorsProjectsLocationsBatchesSparkApplicationsResponse, SearchExecutorsProjectsLocationsBatchesSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchExecutorsProjectsLocationsBatchesSparkApplicationsRequest,
   output: SearchExecutorsProjectsLocationsBatchesSparkApplicationsResponse,
   errors: [],
@@ -8150,7 +8150,6 @@ export const searchExecutorsProjectsLocationsBatchesSparkApplications = API.make
   },
 }));
 
-/** Obtain list of spark jobs corresponding to a Spark Application. */
 export interface SearchJobsProjectsLocationsBatchesSparkApplicationsRequest {
   /** Optional. Maximum number of jobs to return in each response. The service may return fewer than this. The default page size is 10; the maximum page size is 100. */
   pageSize?: number;
@@ -8180,7 +8179,8 @@ export const SearchJobsProjectsLocationsBatchesSparkApplicationsResponse = Searc
 
 export type SearchJobsProjectsLocationsBatchesSparkApplicationsError = CommonErrors;
 
-export const searchJobsProjectsLocationsBatchesSparkApplications = API.makePaginated(() => ({
+/** Obtain list of spark jobs corresponding to a Spark Application. */
+export const searchJobsProjectsLocationsBatchesSparkApplications: API.PaginatedOperationMethod<SearchJobsProjectsLocationsBatchesSparkApplicationsRequest, SearchJobsProjectsLocationsBatchesSparkApplicationsResponse, SearchJobsProjectsLocationsBatchesSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchJobsProjectsLocationsBatchesSparkApplicationsRequest,
   output: SearchJobsProjectsLocationsBatchesSparkApplicationsResponse,
   errors: [],
@@ -8190,7 +8190,6 @@ export const searchJobsProjectsLocationsBatchesSparkApplications = API.makePagin
   },
 }));
 
-/** Write wrapper objects from dataplane to spanner */
 export interface WriteProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. The fully qualified name of the spark application to write data about in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
@@ -8211,13 +8210,13 @@ export const WriteProjectsLocationsBatchesSparkApplicationsResponse = WriteSpark
 
 export type WriteProjectsLocationsBatchesSparkApplicationsError = CommonErrors;
 
+/** Write wrapper objects from dataplane to spanner */
 export const writeProjectsLocationsBatchesSparkApplications: API.OperationMethod<WriteProjectsLocationsBatchesSparkApplicationsRequest, WriteProjectsLocationsBatchesSparkApplicationsResponse, WriteProjectsLocationsBatchesSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WriteProjectsLocationsBatchesSparkApplicationsRequest,
   output: WriteProjectsLocationsBatchesSparkApplicationsResponse,
   errors: [],
 }));
 
-/** Obtain summary of Executor Summary for a Spark Application */
 export interface SummarizeExecutorsProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. Parent (Batch) resource reference. */
   parent?: string;
@@ -8238,13 +8237,13 @@ export const SummarizeExecutorsProjectsLocationsBatchesSparkApplicationsResponse
 
 export type SummarizeExecutorsProjectsLocationsBatchesSparkApplicationsError = CommonErrors;
 
+/** Obtain summary of Executor Summary for a Spark Application */
 export const summarizeExecutorsProjectsLocationsBatchesSparkApplications: API.OperationMethod<SummarizeExecutorsProjectsLocationsBatchesSparkApplicationsRequest, SummarizeExecutorsProjectsLocationsBatchesSparkApplicationsResponse, SummarizeExecutorsProjectsLocationsBatchesSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SummarizeExecutorsProjectsLocationsBatchesSparkApplicationsRequest,
   output: SummarizeExecutorsProjectsLocationsBatchesSparkApplicationsResponse,
   errors: [],
 }));
 
-/** Obtain summary of Stages for a Spark Application */
 export interface SummarizeStagesProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
@@ -8265,13 +8264,13 @@ export const SummarizeStagesProjectsLocationsBatchesSparkApplicationsResponse = 
 
 export type SummarizeStagesProjectsLocationsBatchesSparkApplicationsError = CommonErrors;
 
+/** Obtain summary of Stages for a Spark Application */
 export const summarizeStagesProjectsLocationsBatchesSparkApplications: API.OperationMethod<SummarizeStagesProjectsLocationsBatchesSparkApplicationsRequest, SummarizeStagesProjectsLocationsBatchesSparkApplicationsResponse, SummarizeStagesProjectsLocationsBatchesSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SummarizeStagesProjectsLocationsBatchesSparkApplicationsRequest,
   output: SummarizeStagesProjectsLocationsBatchesSparkApplicationsResponse,
   errors: [],
 }));
 
-/** Obtain data corresponding to a spark job for a Spark Application. */
 export interface AccessJobProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. Job ID to fetch data for. */
   jobId?: string;
@@ -8295,13 +8294,13 @@ export const AccessJobProjectsLocationsBatchesSparkApplicationsResponse = Access
 
 export type AccessJobProjectsLocationsBatchesSparkApplicationsError = CommonErrors;
 
+/** Obtain data corresponding to a spark job for a Spark Application. */
 export const accessJobProjectsLocationsBatchesSparkApplications: API.OperationMethod<AccessJobProjectsLocationsBatchesSparkApplicationsRequest, AccessJobProjectsLocationsBatchesSparkApplicationsResponse, AccessJobProjectsLocationsBatchesSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AccessJobProjectsLocationsBatchesSparkApplicationsRequest,
   output: AccessJobProjectsLocationsBatchesSparkApplicationsResponse,
   errors: [],
 }));
 
-/** Obtain environment details for a Spark Application */
 export interface AccessEnvironmentInfoProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
@@ -8322,13 +8321,13 @@ export const AccessEnvironmentInfoProjectsLocationsBatchesSparkApplicationsRespo
 
 export type AccessEnvironmentInfoProjectsLocationsBatchesSparkApplicationsError = CommonErrors;
 
+/** Obtain environment details for a Spark Application */
 export const accessEnvironmentInfoProjectsLocationsBatchesSparkApplications: API.OperationMethod<AccessEnvironmentInfoProjectsLocationsBatchesSparkApplicationsRequest, AccessEnvironmentInfoProjectsLocationsBatchesSparkApplicationsResponse, AccessEnvironmentInfoProjectsLocationsBatchesSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AccessEnvironmentInfoProjectsLocationsBatchesSparkApplicationsRequest,
   output: AccessEnvironmentInfoProjectsLocationsBatchesSparkApplicationsResponse,
   errors: [],
 }));
 
-/** Obtain data corresponding to a spark stage attempts for a Spark Application. */
 export interface SearchStageAttemptsProjectsLocationsBatchesSparkApplicationsRequest {
   /** Optional. A page token received from a previous SearchSparkApplicationStageAttempts call. Provide this token to retrieve the subsequent page. */
   pageToken?: string;
@@ -8361,7 +8360,8 @@ export const SearchStageAttemptsProjectsLocationsBatchesSparkApplicationsRespons
 
 export type SearchStageAttemptsProjectsLocationsBatchesSparkApplicationsError = CommonErrors;
 
-export const searchStageAttemptsProjectsLocationsBatchesSparkApplications = API.makePaginated(() => ({
+/** Obtain data corresponding to a spark stage attempts for a Spark Application. */
+export const searchStageAttemptsProjectsLocationsBatchesSparkApplications: API.PaginatedOperationMethod<SearchStageAttemptsProjectsLocationsBatchesSparkApplicationsRequest, SearchStageAttemptsProjectsLocationsBatchesSparkApplicationsResponse, SearchStageAttemptsProjectsLocationsBatchesSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchStageAttemptsProjectsLocationsBatchesSparkApplicationsRequest,
   output: SearchStageAttemptsProjectsLocationsBatchesSparkApplicationsResponse,
   errors: [],
@@ -8371,7 +8371,6 @@ export const searchStageAttemptsProjectsLocationsBatchesSparkApplications = API.
   },
 }));
 
-/** Obtain high level information corresponding to a single Spark Application. */
 export interface AccessProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
@@ -8392,13 +8391,13 @@ export const AccessProjectsLocationsBatchesSparkApplicationsResponse = AccessSpa
 
 export type AccessProjectsLocationsBatchesSparkApplicationsError = CommonErrors;
 
+/** Obtain high level information corresponding to a single Spark Application. */
 export const accessProjectsLocationsBatchesSparkApplications: API.OperationMethod<AccessProjectsLocationsBatchesSparkApplicationsRequest, AccessProjectsLocationsBatchesSparkApplicationsResponse, AccessProjectsLocationsBatchesSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AccessProjectsLocationsBatchesSparkApplicationsRequest,
   output: AccessProjectsLocationsBatchesSparkApplicationsResponse,
   errors: [],
 }));
 
-/** Obtain data corresponding to stages for a Spark Application. */
 export interface SearchStagesProjectsLocationsBatchesSparkApplicationsRequest {
   /** Required. The fully qualified name of the batch to retrieve in the format "projects/PROJECT_ID/locations/DATAPROC_REGION/batches/BATCH_ID/sparkApplications/APPLICATION_ID" */
   name: string;
@@ -8431,7 +8430,8 @@ export const SearchStagesProjectsLocationsBatchesSparkApplicationsResponse = Sea
 
 export type SearchStagesProjectsLocationsBatchesSparkApplicationsError = CommonErrors;
 
-export const searchStagesProjectsLocationsBatchesSparkApplications = API.makePaginated(() => ({
+/** Obtain data corresponding to stages for a Spark Application. */
+export const searchStagesProjectsLocationsBatchesSparkApplications: API.PaginatedOperationMethod<SearchStagesProjectsLocationsBatchesSparkApplicationsRequest, SearchStagesProjectsLocationsBatchesSparkApplicationsResponse, SearchStagesProjectsLocationsBatchesSparkApplicationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchStagesProjectsLocationsBatchesSparkApplicationsRequest,
   output: SearchStagesProjectsLocationsBatchesSparkApplicationsResponse,
   errors: [],
@@ -8441,7 +8441,6 @@ export const searchStagesProjectsLocationsBatchesSparkApplications = API.makePag
   },
 }));
 
-/** Create a session template synchronously. */
 export interface CreateProjectsLocationsSessionTemplatesRequest {
   /** Required. The parent resource where this session template will be created. */
   parent: string;
@@ -8462,13 +8461,13 @@ export const CreateProjectsLocationsSessionTemplatesResponse = SessionTemplate;
 
 export type CreateProjectsLocationsSessionTemplatesError = CommonErrors;
 
+/** Create a session template synchronously. */
 export const createProjectsLocationsSessionTemplates: API.OperationMethod<CreateProjectsLocationsSessionTemplatesRequest, CreateProjectsLocationsSessionTemplatesResponse, CreateProjectsLocationsSessionTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsSessionTemplatesRequest,
   output: CreateProjectsLocationsSessionTemplatesResponse,
   errors: [],
 }));
 
-/** Updates the session template synchronously. */
 export interface PatchProjectsLocationsSessionTemplatesRequest {
   /** Required. Identifier. The resource name of the session template. */
   name: string;
@@ -8489,13 +8488,13 @@ export const PatchProjectsLocationsSessionTemplatesResponse = SessionTemplate;
 
 export type PatchProjectsLocationsSessionTemplatesError = CommonErrors;
 
+/** Updates the session template synchronously. */
 export const patchProjectsLocationsSessionTemplates: API.OperationMethod<PatchProjectsLocationsSessionTemplatesRequest, PatchProjectsLocationsSessionTemplatesResponse, PatchProjectsLocationsSessionTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsSessionTemplatesRequest,
   output: PatchProjectsLocationsSessionTemplatesResponse,
   errors: [],
 }));
 
-/** Lists session templates. */
 export interface ListProjectsLocationsSessionTemplatesRequest {
   /** Optional. The maximum number of sessions to return in each response. The service may return fewer than this value. */
   pageSize?: number;
@@ -8522,7 +8521,8 @@ export const ListProjectsLocationsSessionTemplatesResponse = ListSessionTemplate
 
 export type ListProjectsLocationsSessionTemplatesError = CommonErrors;
 
-export const listProjectsLocationsSessionTemplates = API.makePaginated(() => ({
+/** Lists session templates. */
+export const listProjectsLocationsSessionTemplates: API.PaginatedOperationMethod<ListProjectsLocationsSessionTemplatesRequest, ListProjectsLocationsSessionTemplatesResponse, ListProjectsLocationsSessionTemplatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsSessionTemplatesRequest,
   output: ListProjectsLocationsSessionTemplatesResponse,
   errors: [],
@@ -8532,7 +8532,6 @@ export const listProjectsLocationsSessionTemplates = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the resource representation for a session template. */
 export interface GetProjectsLocationsSessionTemplatesRequest {
   /** Required. The name of the session template to retrieve. */
   name: string;
@@ -8550,13 +8549,13 @@ export const GetProjectsLocationsSessionTemplatesResponse = SessionTemplate;
 
 export type GetProjectsLocationsSessionTemplatesError = CommonErrors;
 
+/** Gets the resource representation for a session template. */
 export const getProjectsLocationsSessionTemplates: API.OperationMethod<GetProjectsLocationsSessionTemplatesRequest, GetProjectsLocationsSessionTemplatesResponse, GetProjectsLocationsSessionTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSessionTemplatesRequest,
   output: GetProjectsLocationsSessionTemplatesResponse,
   errors: [],
 }));
 
-/** Deletes a session template. */
 export interface DeleteProjectsLocationsSessionTemplatesRequest {
   /** Required. The name of the session template resource to delete. */
   name: string;
@@ -8574,13 +8573,13 @@ export const DeleteProjectsLocationsSessionTemplatesResponse = Empty;
 
 export type DeleteProjectsLocationsSessionTemplatesError = CommonErrors;
 
+/** Deletes a session template. */
 export const deleteProjectsLocationsSessionTemplates: API.OperationMethod<DeleteProjectsLocationsSessionTemplatesRequest, DeleteProjectsLocationsSessionTemplatesResponse, DeleteProjectsLocationsSessionTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsSessionTemplatesRequest,
   output: DeleteProjectsLocationsSessionTemplatesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND, INVALID_ARGUMENT, and PERMISSION_DENIED errors. */
 export interface SetIamPolicyProjectsLocationsWorkflowTemplatesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -8601,13 +8600,13 @@ export const SetIamPolicyProjectsLocationsWorkflowTemplatesResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsWorkflowTemplatesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy.Can return NOT_FOUND, INVALID_ARGUMENT, and PERMISSION_DENIED errors. */
 export const setIamPolicyProjectsLocationsWorkflowTemplates: API.OperationMethod<SetIamPolicyProjectsLocationsWorkflowTemplatesRequest, SetIamPolicyProjectsLocationsWorkflowTemplatesResponse, SetIamPolicyProjectsLocationsWorkflowTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsWorkflowTemplatesRequest,
   output: SetIamPolicyProjectsLocationsWorkflowTemplatesResponse,
   errors: [],
 }));
 
-/** Updates (replaces) workflow template. The updated template must contain version that matches the current server version. */
 export interface UpdateProjectsLocationsWorkflowTemplatesRequest {
   /** Output only. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} For projects.locations.workflowTemplates, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id} */
   name: string;
@@ -8628,13 +8627,13 @@ export const UpdateProjectsLocationsWorkflowTemplatesResponse = WorkflowTemplate
 
 export type UpdateProjectsLocationsWorkflowTemplatesError = CommonErrors;
 
+/** Updates (replaces) workflow template. The updated template must contain version that matches the current server version. */
 export const updateProjectsLocationsWorkflowTemplates: API.OperationMethod<UpdateProjectsLocationsWorkflowTemplatesRequest, UpdateProjectsLocationsWorkflowTemplatesResponse, UpdateProjectsLocationsWorkflowTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateProjectsLocationsWorkflowTemplatesRequest,
   output: UpdateProjectsLocationsWorkflowTemplatesResponse,
   errors: [],
 }));
 
-/** Creates new workflow template. */
 export interface CreateProjectsLocationsWorkflowTemplatesRequest {
   /** Required. The resource name of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates.create, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.workflowTemplates.create, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
   parent: string;
@@ -8655,13 +8654,13 @@ export const CreateProjectsLocationsWorkflowTemplatesResponse = WorkflowTemplate
 
 export type CreateProjectsLocationsWorkflowTemplatesError = CommonErrors;
 
+/** Creates new workflow template. */
 export const createProjectsLocationsWorkflowTemplates: API.OperationMethod<CreateProjectsLocationsWorkflowTemplatesRequest, CreateProjectsLocationsWorkflowTemplatesResponse, CreateProjectsLocationsWorkflowTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsWorkflowTemplatesRequest,
   output: CreateProjectsLocationsWorkflowTemplatesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsWorkflowTemplatesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -8682,13 +8681,13 @@ export const GetIamPolicyProjectsLocationsWorkflowTemplatesResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsWorkflowTemplatesError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsWorkflowTemplates: API.OperationMethod<GetIamPolicyProjectsLocationsWorkflowTemplatesRequest, GetIamPolicyProjectsLocationsWorkflowTemplatesResponse, GetIamPolicyProjectsLocationsWorkflowTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsWorkflowTemplatesRequest,
   output: GetIamPolicyProjectsLocationsWorkflowTemplatesResponse,
   errors: [],
 }));
 
-/** Deletes a workflow template. It does not cancel in-progress workflows. */
 export interface DeleteProjectsLocationsWorkflowTemplatesRequest {
   /** Optional. The version of workflow template to delete. If specified, will only delete the template if the current server version matches specified version. */
   version?: number;
@@ -8709,13 +8708,13 @@ export const DeleteProjectsLocationsWorkflowTemplatesResponse = Empty;
 
 export type DeleteProjectsLocationsWorkflowTemplatesError = CommonErrors;
 
+/** Deletes a workflow template. It does not cancel in-progress workflows. */
 export const deleteProjectsLocationsWorkflowTemplates: API.OperationMethod<DeleteProjectsLocationsWorkflowTemplatesRequest, DeleteProjectsLocationsWorkflowTemplatesResponse, DeleteProjectsLocationsWorkflowTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsWorkflowTemplatesRequest,
   output: DeleteProjectsLocationsWorkflowTemplatesResponse,
   errors: [],
 }));
 
-/** Retrieves the latest workflow template.Can retrieve previously instantiated template by specifying optional version parameter. */
 export interface GetProjectsLocationsWorkflowTemplatesRequest {
   /** Optional. The version of workflow template to retrieve. Only previously instantiated versions can be retrieved.If unspecified, retrieves the current version. */
   version?: number;
@@ -8736,13 +8735,13 @@ export const GetProjectsLocationsWorkflowTemplatesResponse = WorkflowTemplate;
 
 export type GetProjectsLocationsWorkflowTemplatesError = CommonErrors;
 
+/** Retrieves the latest workflow template.Can retrieve previously instantiated template by specifying optional version parameter. */
 export const getProjectsLocationsWorkflowTemplates: API.OperationMethod<GetProjectsLocationsWorkflowTemplatesRequest, GetProjectsLocationsWorkflowTemplatesResponse, GetProjectsLocationsWorkflowTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsWorkflowTemplatesRequest,
   output: GetProjectsLocationsWorkflowTemplatesResponse,
   errors: [],
 }));
 
-/** Lists workflows that match the specified filter in the request. */
 export interface ListProjectsLocationsWorkflowTemplatesRequest {
   /** Optional. The page token, returned by a previous call, to request the next page of results. */
   pageToken?: string;
@@ -8766,7 +8765,8 @@ export const ListProjectsLocationsWorkflowTemplatesResponse = ListWorkflowTempla
 
 export type ListProjectsLocationsWorkflowTemplatesError = CommonErrors;
 
-export const listProjectsLocationsWorkflowTemplates = API.makePaginated(() => ({
+/** Lists workflows that match the specified filter in the request. */
+export const listProjectsLocationsWorkflowTemplates: API.PaginatedOperationMethod<ListProjectsLocationsWorkflowTemplatesRequest, ListProjectsLocationsWorkflowTemplatesResponse, ListProjectsLocationsWorkflowTemplatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsWorkflowTemplatesRequest,
   output: ListProjectsLocationsWorkflowTemplatesResponse,
   errors: [],
@@ -8776,7 +8776,6 @@ export const listProjectsLocationsWorkflowTemplates = API.makePaginated(() => ({
   },
 }));
 
-/** Instantiates a template and begins execution.This method is equivalent to executing the sequence CreateWorkflowTemplate, InstantiateWorkflowTemplate, DeleteWorkflowTemplate.The returned Operation can be used to track execution of workflow by polling operations.get. The Operation will complete when entire workflow is finished.The running workflow can be aborted via operations.cancel. This will cause any inflight jobs to be cancelled and workflow-owned clusters to be deleted.The Operation.metadata will be WorkflowMetadata (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#workflowmetadata). Also see Using WorkflowMetadata (https://cloud.google.com/dataproc/docs/concepts/workflows/debugging#using_workflowmetadata).On successful completion, Operation.response will be Empty. */
 export interface InstantiateInlineProjectsLocationsWorkflowTemplatesRequest {
   /** Required. The resource name of the region or location, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates,instantiateinline, the resource name of the region has the following format: projects/{project_id}/regions/{region} For projects.locations.workflowTemplates.instantiateinline, the resource name of the location has the following format: projects/{project_id}/locations/{location} */
   parent: string;
@@ -8800,13 +8799,13 @@ export const InstantiateInlineProjectsLocationsWorkflowTemplatesResponse = Opera
 
 export type InstantiateInlineProjectsLocationsWorkflowTemplatesError = CommonErrors;
 
+/** Instantiates a template and begins execution.This method is equivalent to executing the sequence CreateWorkflowTemplate, InstantiateWorkflowTemplate, DeleteWorkflowTemplate.The returned Operation can be used to track execution of workflow by polling operations.get. The Operation will complete when entire workflow is finished.The running workflow can be aborted via operations.cancel. This will cause any inflight jobs to be cancelled and workflow-owned clusters to be deleted.The Operation.metadata will be WorkflowMetadata (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#workflowmetadata). Also see Using WorkflowMetadata (https://cloud.google.com/dataproc/docs/concepts/workflows/debugging#using_workflowmetadata).On successful completion, Operation.response will be Empty. */
 export const instantiateInlineProjectsLocationsWorkflowTemplates: API.OperationMethod<InstantiateInlineProjectsLocationsWorkflowTemplatesRequest, InstantiateInlineProjectsLocationsWorkflowTemplatesResponse, InstantiateInlineProjectsLocationsWorkflowTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InstantiateInlineProjectsLocationsWorkflowTemplatesRequest,
   output: InstantiateInlineProjectsLocationsWorkflowTemplatesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsWorkflowTemplatesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See Resource names (https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -8827,13 +8826,13 @@ export const TestIamPermissionsProjectsLocationsWorkflowTemplatesResponse = Test
 
 export type TestIamPermissionsProjectsLocationsWorkflowTemplatesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a NOT_FOUND error.Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsWorkflowTemplates: API.OperationMethod<TestIamPermissionsProjectsLocationsWorkflowTemplatesRequest, TestIamPermissionsProjectsLocationsWorkflowTemplatesResponse, TestIamPermissionsProjectsLocationsWorkflowTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsWorkflowTemplatesRequest,
   output: TestIamPermissionsProjectsLocationsWorkflowTemplatesResponse,
   errors: [],
 }));
 
-/** Instantiates a template and begins execution.The returned Operation can be used to track execution of workflow by polling operations.get. The Operation will complete when entire workflow is finished.The running workflow can be aborted via operations.cancel. This will cause any inflight jobs to be cancelled and workflow-owned clusters to be deleted.The Operation.metadata will be WorkflowMetadata (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#workflowmetadata). Also see Using WorkflowMetadata (https://cloud.google.com/dataproc/docs/concepts/workflows/debugging#using_workflowmetadata).On successful completion, Operation.response will be Empty. */
 export interface InstantiateProjectsLocationsWorkflowTemplatesRequest {
   /** Required. The resource name of the workflow template, as described in https://cloud.google.com/apis/design/resource_names. For projects.regions.workflowTemplates.instantiate, the resource name of the template has the following format: projects/{project_id}/regions/{region}/workflowTemplates/{template_id} For projects.locations.workflowTemplates.instantiate, the resource name of the template has the following format: projects/{project_id}/locations/{location}/workflowTemplates/{template_id} */
   name: string;
@@ -8854,6 +8853,7 @@ export const InstantiateProjectsLocationsWorkflowTemplatesResponse = Operation;
 
 export type InstantiateProjectsLocationsWorkflowTemplatesError = CommonErrors;
 
+/** Instantiates a template and begins execution.The returned Operation can be used to track execution of workflow by polling operations.get. The Operation will complete when entire workflow is finished.The running workflow can be aborted via operations.cancel. This will cause any inflight jobs to be cancelled and workflow-owned clusters to be deleted.The Operation.metadata will be WorkflowMetadata (https://cloud.google.com/dataproc/docs/reference/rpc/google.cloud.dataproc.v1#workflowmetadata). Also see Using WorkflowMetadata (https://cloud.google.com/dataproc/docs/concepts/workflows/debugging#using_workflowmetadata).On successful completion, Operation.response will be Empty. */
 export const instantiateProjectsLocationsWorkflowTemplates: API.OperationMethod<InstantiateProjectsLocationsWorkflowTemplatesRequest, InstantiateProjectsLocationsWorkflowTemplatesResponse, InstantiateProjectsLocationsWorkflowTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InstantiateProjectsLocationsWorkflowTemplatesRequest,
   output: InstantiateProjectsLocationsWorkflowTemplatesResponse,

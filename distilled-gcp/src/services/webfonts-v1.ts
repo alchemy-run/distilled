@@ -108,7 +108,6 @@ export const WebfontList: Schema.Schema<WebfontList> = Schema.suspend(() => Sche
 // Operations
 // ==========================================================================
 
-/** Retrieves the list of fonts currently served by the Google Fonts Developer API. */
 export interface ListWebfontsRequest {
   /** Enables sorting of the list. */
   sort?: "SORT_UNDEFINED" | "ALPHA" | "DATE" | "POPULARITY" | "STYLE" | "TRENDING" | (string & {});
@@ -138,6 +137,7 @@ export const ListWebfontsResponse = WebfontList;
 
 export type ListWebfontsError = CommonErrors;
 
+/** Retrieves the list of fonts currently served by the Google Fonts Developer API. */
 export const listWebfonts: API.OperationMethod<ListWebfontsRequest, ListWebfontsResponse, ListWebfontsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListWebfontsRequest,
   output: ListWebfontsResponse,

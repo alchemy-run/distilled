@@ -2028,7 +2028,6 @@ export const GoogleFirestoreAdminV1CloneDatabaseMetadata: Schema.Schema<GoogleFi
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -2058,7 +2057,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -2068,7 +2068,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -2086,13 +2085,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Gets information about a backup. */
 export interface GetProjectsLocationsBackupsRequest {
   /** Required. Name of the backup to fetch. Format is `projects/{project}/locations/{location}/backups/{backup}`. */
   name: string;
@@ -2110,13 +2109,13 @@ export const GetProjectsLocationsBackupsResponse = GoogleFirestoreAdminV1Backup;
 
 export type GetProjectsLocationsBackupsError = CommonErrors;
 
+/** Gets information about a backup. */
 export const getProjectsLocationsBackups: API.OperationMethod<GetProjectsLocationsBackupsRequest, GetProjectsLocationsBackupsResponse, GetProjectsLocationsBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBackupsRequest,
   output: GetProjectsLocationsBackupsResponse,
   errors: [],
 }));
 
-/** Lists all the backups. */
 export interface ListProjectsLocationsBackupsRequest {
   /** Required. The location to list backups from. Format is `projects/{project}/locations/{location}`. Use `{location} = '-'` to list backups from all locations for the given project. This allows listing backups from a single location or from all locations. */
   parent: string;
@@ -2137,13 +2136,13 @@ export const ListProjectsLocationsBackupsResponse = GoogleFirestoreAdminV1ListBa
 
 export type ListProjectsLocationsBackupsError = CommonErrors;
 
+/** Lists all the backups. */
 export const listProjectsLocationsBackups: API.OperationMethod<ListProjectsLocationsBackupsRequest, ListProjectsLocationsBackupsResponse, ListProjectsLocationsBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsBackupsRequest,
   output: ListProjectsLocationsBackupsResponse,
   errors: [],
 }));
 
-/** Deletes a backup. */
 export interface DeleteProjectsLocationsBackupsRequest {
   /** Required. Name of the backup to delete. format is `projects/{project}/locations/{location}/backups/{backup}`. */
   name: string;
@@ -2161,13 +2160,13 @@ export const DeleteProjectsLocationsBackupsResponse = Empty;
 
 export type DeleteProjectsLocationsBackupsError = CommonErrors;
 
+/** Deletes a backup. */
 export const deleteProjectsLocationsBackups: API.OperationMethod<DeleteProjectsLocationsBackupsRequest, DeleteProjectsLocationsBackupsResponse, DeleteProjectsLocationsBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsBackupsRequest,
   output: DeleteProjectsLocationsBackupsResponse,
   errors: [],
 }));
 
-/** Exports a copy of all or a subset of documents from Google Cloud Firestore to another storage system, such as Google Cloud Storage. Recent updates to documents may not be reflected in the export. The export occurs in the background and its progress can be monitored and managed via the Operation resource that is created. The output of an export may only be used once the associated operation is done. If an export operation is cancelled before completion it may leave partial data behind in Google Cloud Storage. For more details on export behavior and output format, refer to: https://cloud.google.com/firestore/docs/manage-data/export-import */
 export interface ExportDocumentsProjectsDatabasesRequest {
   /** Required. Database to export. Should be of the form: `projects/{project_id}/databases/{database_id}`. */
   name: string;
@@ -2188,13 +2187,13 @@ export const ExportDocumentsProjectsDatabasesResponse = GoogleLongrunningOperati
 
 export type ExportDocumentsProjectsDatabasesError = CommonErrors;
 
+/** Exports a copy of all or a subset of documents from Google Cloud Firestore to another storage system, such as Google Cloud Storage. Recent updates to documents may not be reflected in the export. The export occurs in the background and its progress can be monitored and managed via the Operation resource that is created. The output of an export may only be used once the associated operation is done. If an export operation is cancelled before completion it may leave partial data behind in Google Cloud Storage. For more details on export behavior and output format, refer to: https://cloud.google.com/firestore/docs/manage-data/export-import */
 export const exportDocumentsProjectsDatabases: API.OperationMethod<ExportDocumentsProjectsDatabasesRequest, ExportDocumentsProjectsDatabasesResponse, ExportDocumentsProjectsDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExportDocumentsProjectsDatabasesRequest,
   output: ExportDocumentsProjectsDatabasesResponse,
   errors: [],
 }));
 
-/** Imports documents into Google Cloud Firestore. Existing documents with the same name are overwritten. The import occurs in the background and its progress can be monitored and managed via the Operation resource that is created. If an ImportDocuments operation is cancelled, it is possible that a subset of the data has already been imported to Cloud Firestore. */
 export interface ImportDocumentsProjectsDatabasesRequest {
   /** Required. Database to import into. Should be of the form: `projects/{project_id}/databases/{database_id}`. */
   name: string;
@@ -2215,13 +2214,13 @@ export const ImportDocumentsProjectsDatabasesResponse = GoogleLongrunningOperati
 
 export type ImportDocumentsProjectsDatabasesError = CommonErrors;
 
+/** Imports documents into Google Cloud Firestore. Existing documents with the same name are overwritten. The import occurs in the background and its progress can be monitored and managed via the Operation resource that is created. If an ImportDocuments operation is cancelled, it is possible that a subset of the data has already been imported to Cloud Firestore. */
 export const importDocumentsProjectsDatabases: API.OperationMethod<ImportDocumentsProjectsDatabasesRequest, ImportDocumentsProjectsDatabasesResponse, ImportDocumentsProjectsDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportDocumentsProjectsDatabasesRequest,
   output: ImportDocumentsProjectsDatabasesResponse,
   errors: [],
 }));
 
-/** Bulk deletes a subset of documents from Google Cloud Firestore. Documents created or updated after the underlying system starts to process the request will not be deleted. The bulk delete occurs in the background and its progress can be monitored and managed via the Operation resource that is created. For more details on bulk delete behavior, refer to: https://cloud.google.com/firestore/docs/manage-data/bulk-delete */
 export interface BulkDeleteDocumentsProjectsDatabasesRequest {
   /** Required. Database to operate. Should be of the form: `projects/{project_id}/databases/{database_id}`. */
   name: string;
@@ -2242,13 +2241,13 @@ export const BulkDeleteDocumentsProjectsDatabasesResponse = GoogleLongrunningOpe
 
 export type BulkDeleteDocumentsProjectsDatabasesError = CommonErrors;
 
+/** Bulk deletes a subset of documents from Google Cloud Firestore. Documents created or updated after the underlying system starts to process the request will not be deleted. The bulk delete occurs in the background and its progress can be monitored and managed via the Operation resource that is created. For more details on bulk delete behavior, refer to: https://cloud.google.com/firestore/docs/manage-data/bulk-delete */
 export const bulkDeleteDocumentsProjectsDatabases: API.OperationMethod<BulkDeleteDocumentsProjectsDatabasesRequest, BulkDeleteDocumentsProjectsDatabasesResponse, BulkDeleteDocumentsProjectsDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BulkDeleteDocumentsProjectsDatabasesRequest,
   output: BulkDeleteDocumentsProjectsDatabasesResponse,
   errors: [],
 }));
 
-/** Create a database. */
 export interface CreateProjectsDatabasesRequest {
   /** Required. A parent name of the form `projects/{project_id}` */
   parent: string;
@@ -2272,13 +2271,13 @@ export const CreateProjectsDatabasesResponse = GoogleLongrunningOperation;
 
 export type CreateProjectsDatabasesError = CommonErrors;
 
+/** Create a database. */
 export const createProjectsDatabases: API.OperationMethod<CreateProjectsDatabasesRequest, CreateProjectsDatabasesResponse, CreateProjectsDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsDatabasesRequest,
   output: CreateProjectsDatabasesResponse,
   errors: [],
 }));
 
-/** Gets information about a database. */
 export interface GetProjectsDatabasesRequest {
   /** Required. A name of the form `projects/{project_id}/databases/{database_id}` */
   name: string;
@@ -2296,13 +2295,13 @@ export const GetProjectsDatabasesResponse = GoogleFirestoreAdminV1Database;
 
 export type GetProjectsDatabasesError = CommonErrors;
 
+/** Gets information about a database. */
 export const getProjectsDatabases: API.OperationMethod<GetProjectsDatabasesRequest, GetProjectsDatabasesResponse, GetProjectsDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsDatabasesRequest,
   output: GetProjectsDatabasesResponse,
   errors: [],
 }));
 
-/** List all the databases in the project. */
 export interface ListProjectsDatabasesRequest {
   /** Required. A parent name of the form `projects/{project_id}` */
   parent: string;
@@ -2323,13 +2322,13 @@ export const ListProjectsDatabasesResponse = GoogleFirestoreAdminV1ListDatabases
 
 export type ListProjectsDatabasesError = CommonErrors;
 
+/** List all the databases in the project. */
 export const listProjectsDatabases: API.OperationMethod<ListProjectsDatabasesRequest, ListProjectsDatabasesResponse, ListProjectsDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsDatabasesRequest,
   output: ListProjectsDatabasesResponse,
   errors: [],
 }));
 
-/** Updates a database. */
 export interface PatchProjectsDatabasesRequest {
   /** The resource name of the Database. Format: `projects/{project}/databases/{database}` */
   name: string;
@@ -2353,13 +2352,13 @@ export const PatchProjectsDatabasesResponse = GoogleLongrunningOperation;
 
 export type PatchProjectsDatabasesError = CommonErrors;
 
+/** Updates a database. */
 export const patchProjectsDatabases: API.OperationMethod<PatchProjectsDatabasesRequest, PatchProjectsDatabasesResponse, PatchProjectsDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsDatabasesRequest,
   output: PatchProjectsDatabasesResponse,
   errors: [],
 }));
 
-/** Deletes a database. */
 export interface DeleteProjectsDatabasesRequest {
   /** Required. A name of the form `projects/{project_id}/databases/{database_id}` */
   name: string;
@@ -2380,13 +2379,13 @@ export const DeleteProjectsDatabasesResponse = GoogleLongrunningOperation;
 
 export type DeleteProjectsDatabasesError = CommonErrors;
 
+/** Deletes a database. */
 export const deleteProjectsDatabases: API.OperationMethod<DeleteProjectsDatabasesRequest, DeleteProjectsDatabasesResponse, DeleteProjectsDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsDatabasesRequest,
   output: DeleteProjectsDatabasesResponse,
   errors: [],
 }));
 
-/** Creates a new database by restoring from an existing backup. The new database must be in the same cloud region or multi-region location as the existing backup. This behaves similar to FirestoreAdmin.CreateDatabase except instead of creating a new empty database, a new database is created with the database type, index configuration, and documents from an existing backup. The long-running operation can be used to track the progress of the restore, with the Operation's metadata field type being the RestoreDatabaseMetadata. The response type is the Database if the restore was successful. The new database is not readable or writeable until the LRO has completed. */
 export interface RestoreProjectsDatabasesRequest {
   /** Required. The project to restore the database in. Format is `projects/{project_id}`. */
   parent: string;
@@ -2407,13 +2406,13 @@ export const RestoreProjectsDatabasesResponse = GoogleLongrunningOperation;
 
 export type RestoreProjectsDatabasesError = CommonErrors;
 
+/** Creates a new database by restoring from an existing backup. The new database must be in the same cloud region or multi-region location as the existing backup. This behaves similar to FirestoreAdmin.CreateDatabase except instead of creating a new empty database, a new database is created with the database type, index configuration, and documents from an existing backup. The long-running operation can be used to track the progress of the restore, with the Operation's metadata field type being the RestoreDatabaseMetadata. The response type is the Database if the restore was successful. The new database is not readable or writeable until the LRO has completed. */
 export const restoreProjectsDatabases: API.OperationMethod<RestoreProjectsDatabasesRequest, RestoreProjectsDatabasesResponse, RestoreProjectsDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RestoreProjectsDatabasesRequest,
   output: RestoreProjectsDatabasesResponse,
   errors: [],
 }));
 
-/** Creates a new database by cloning an existing one. The new database must be in the same cloud region or multi-region location as the existing database. This behaves similar to FirestoreAdmin.CreateDatabase except instead of creating a new empty database, a new database is created with the database type, index configuration, and documents from an existing database. The long-running operation can be used to track the progress of the clone, with the Operation's metadata field type being the CloneDatabaseMetadata. The response type is the Database if the clone was successful. The new database is not readable or writeable until the LRO has completed. */
 export interface CloneProjectsDatabasesRequest {
   /** Required. The project to clone the database in. Format is `projects/{project_id}`. */
   parent: string;
@@ -2434,13 +2433,13 @@ export const CloneProjectsDatabasesResponse = GoogleLongrunningOperation;
 
 export type CloneProjectsDatabasesError = CommonErrors;
 
+/** Creates a new database by cloning an existing one. The new database must be in the same cloud region or multi-region location as the existing database. This behaves similar to FirestoreAdmin.CreateDatabase except instead of creating a new empty database, a new database is created with the database type, index configuration, and documents from an existing database. The long-running operation can be used to track the progress of the clone, with the Operation's metadata field type being the CloneDatabaseMetadata. The response type is the Database if the clone was successful. The new database is not readable or writeable until the LRO has completed. */
 export const cloneProjectsDatabases: API.OperationMethod<CloneProjectsDatabasesRequest, CloneProjectsDatabasesResponse, CloneProjectsDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CloneProjectsDatabasesRequest,
   output: CloneProjectsDatabasesResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsDatabasesOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -2470,7 +2469,8 @@ export const ListProjectsDatabasesOperationsResponse = GoogleLongrunningListOper
 
 export type ListProjectsDatabasesOperationsError = CommonErrors;
 
-export const listProjectsDatabasesOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsDatabasesOperations: API.PaginatedOperationMethod<ListProjectsDatabasesOperationsRequest, ListProjectsDatabasesOperationsResponse, ListProjectsDatabasesOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsDatabasesOperationsRequest,
   output: ListProjectsDatabasesOperationsResponse,
   errors: [],
@@ -2480,7 +2480,6 @@ export const listProjectsDatabasesOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsDatabasesOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -2498,13 +2497,13 @@ export const GetProjectsDatabasesOperationsResponse = GoogleLongrunningOperation
 
 export type GetProjectsDatabasesOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsDatabasesOperations: API.OperationMethod<GetProjectsDatabasesOperationsRequest, GetProjectsDatabasesOperationsResponse, GetProjectsDatabasesOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsDatabasesOperationsRequest,
   output: GetProjectsDatabasesOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsDatabasesOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -2522,13 +2521,13 @@ export const DeleteProjectsDatabasesOperationsResponse = Empty;
 
 export type DeleteProjectsDatabasesOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsDatabasesOperations: API.OperationMethod<DeleteProjectsDatabasesOperationsRequest, DeleteProjectsDatabasesOperationsResponse, DeleteProjectsDatabasesOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsDatabasesOperationsRequest,
   output: DeleteProjectsDatabasesOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsDatabasesOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -2549,13 +2548,13 @@ export const CancelProjectsDatabasesOperationsResponse = Empty;
 
 export type CancelProjectsDatabasesOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsDatabasesOperations: API.OperationMethod<CancelProjectsDatabasesOperationsRequest, CancelProjectsDatabasesOperationsResponse, CancelProjectsDatabasesOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsDatabasesOperationsRequest,
   output: CancelProjectsDatabasesOperationsResponse,
   errors: [],
 }));
 
-/** Creates a composite index. This returns a google.longrunning.Operation which may be used to track the status of the creation. The metadata for the operation will be the type IndexOperationMetadata. */
 export interface CreateProjectsDatabasesCollectionGroupsIndexesRequest {
   /** Required. A parent name of the form `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}` */
   parent: string;
@@ -2576,13 +2575,13 @@ export const CreateProjectsDatabasesCollectionGroupsIndexesResponse = GoogleLong
 
 export type CreateProjectsDatabasesCollectionGroupsIndexesError = CommonErrors;
 
+/** Creates a composite index. This returns a google.longrunning.Operation which may be used to track the status of the creation. The metadata for the operation will be the type IndexOperationMetadata. */
 export const createProjectsDatabasesCollectionGroupsIndexes: API.OperationMethod<CreateProjectsDatabasesCollectionGroupsIndexesRequest, CreateProjectsDatabasesCollectionGroupsIndexesResponse, CreateProjectsDatabasesCollectionGroupsIndexesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsDatabasesCollectionGroupsIndexesRequest,
   output: CreateProjectsDatabasesCollectionGroupsIndexesResponse,
   errors: [],
 }));
 
-/** Lists composite indexes. */
 export interface ListProjectsDatabasesCollectionGroupsIndexesRequest {
   /** Required. A parent name of the form `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}` */
   parent: string;
@@ -2609,7 +2608,8 @@ export const ListProjectsDatabasesCollectionGroupsIndexesResponse = GoogleFirest
 
 export type ListProjectsDatabasesCollectionGroupsIndexesError = CommonErrors;
 
-export const listProjectsDatabasesCollectionGroupsIndexes = API.makePaginated(() => ({
+/** Lists composite indexes. */
+export const listProjectsDatabasesCollectionGroupsIndexes: API.PaginatedOperationMethod<ListProjectsDatabasesCollectionGroupsIndexesRequest, ListProjectsDatabasesCollectionGroupsIndexesResponse, ListProjectsDatabasesCollectionGroupsIndexesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsDatabasesCollectionGroupsIndexesRequest,
   output: ListProjectsDatabasesCollectionGroupsIndexesResponse,
   errors: [],
@@ -2619,7 +2619,6 @@ export const listProjectsDatabasesCollectionGroupsIndexes = API.makePaginated(()
   },
 }));
 
-/** Gets a composite index. */
 export interface GetProjectsDatabasesCollectionGroupsIndexesRequest {
   /** Required. A name of the form `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}/indexes/{index_id}` */
   name: string;
@@ -2637,13 +2636,13 @@ export const GetProjectsDatabasesCollectionGroupsIndexesResponse = GoogleFiresto
 
 export type GetProjectsDatabasesCollectionGroupsIndexesError = CommonErrors;
 
+/** Gets a composite index. */
 export const getProjectsDatabasesCollectionGroupsIndexes: API.OperationMethod<GetProjectsDatabasesCollectionGroupsIndexesRequest, GetProjectsDatabasesCollectionGroupsIndexesResponse, GetProjectsDatabasesCollectionGroupsIndexesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsDatabasesCollectionGroupsIndexesRequest,
   output: GetProjectsDatabasesCollectionGroupsIndexesResponse,
   errors: [],
 }));
 
-/** Deletes a composite index. */
 export interface DeleteProjectsDatabasesCollectionGroupsIndexesRequest {
   /** Required. A name of the form `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}/indexes/{index_id}` */
   name: string;
@@ -2661,13 +2660,13 @@ export const DeleteProjectsDatabasesCollectionGroupsIndexesResponse = Empty;
 
 export type DeleteProjectsDatabasesCollectionGroupsIndexesError = CommonErrors;
 
+/** Deletes a composite index. */
 export const deleteProjectsDatabasesCollectionGroupsIndexes: API.OperationMethod<DeleteProjectsDatabasesCollectionGroupsIndexesRequest, DeleteProjectsDatabasesCollectionGroupsIndexesResponse, DeleteProjectsDatabasesCollectionGroupsIndexesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsDatabasesCollectionGroupsIndexesRequest,
   output: DeleteProjectsDatabasesCollectionGroupsIndexesResponse,
   errors: [],
 }));
 
-/** Gets the metadata and configuration for a Field. */
 export interface GetProjectsDatabasesCollectionGroupsFieldsRequest {
   /** Required. A name of the form `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}/fields/{field_id}` */
   name: string;
@@ -2685,13 +2684,13 @@ export const GetProjectsDatabasesCollectionGroupsFieldsResponse = GoogleFirestor
 
 export type GetProjectsDatabasesCollectionGroupsFieldsError = CommonErrors;
 
+/** Gets the metadata and configuration for a Field. */
 export const getProjectsDatabasesCollectionGroupsFields: API.OperationMethod<GetProjectsDatabasesCollectionGroupsFieldsRequest, GetProjectsDatabasesCollectionGroupsFieldsResponse, GetProjectsDatabasesCollectionGroupsFieldsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsDatabasesCollectionGroupsFieldsRequest,
   output: GetProjectsDatabasesCollectionGroupsFieldsResponse,
   errors: [],
 }));
 
-/** Updates a field configuration. Currently, field updates apply only to single field index configuration. However, calls to FirestoreAdmin.UpdateField should provide a field mask to avoid changing any configuration that the caller isn't aware of. The field mask should be specified as: `{ paths: "index_config" }`. This call returns a google.longrunning.Operation which may be used to track the status of the field update. The metadata for the operation will be the type FieldOperationMetadata. To configure the default field settings for the database, use the special `Field` with resource name: `projects/{project_id}/databases/{database_id}/collectionGroups/__default__/fields/*`. */
 export interface PatchProjectsDatabasesCollectionGroupsFieldsRequest {
   /** Required. A field name of the form: `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}/fields/{field_path}` A field path can be a simple field name, e.g. `address` or a path to fields within `map_value` , e.g. `address.city`, or a special field path. The only valid special field is `*`, which represents any field. Field paths can be quoted using `` ` `` (backtick). The only character that must be escaped within a quoted field path is the backtick character itself, escaped using a backslash. Special characters in field paths that must be quoted include: `*`, `.`, `` ` `` (backtick), `[`, `]`, as well as any ascii symbolic characters. Examples: `` `address.city` `` represents a field named `address.city`, not the map key `city` in the field `address`. `` `*` `` represents a field named `*`, not any field. A special `Field` contains the default indexing settings for all fields. This field's resource name is: `projects/{project_id}/databases/{database_id}/collectionGroups/__default__/fields/*` Indexes defined on this `Field` will be applied to all fields which do not have their own `Field` index configuration. */
   name: string;
@@ -2715,13 +2714,13 @@ export const PatchProjectsDatabasesCollectionGroupsFieldsResponse = GoogleLongru
 
 export type PatchProjectsDatabasesCollectionGroupsFieldsError = CommonErrors;
 
+/** Updates a field configuration. Currently, field updates apply only to single field index configuration. However, calls to FirestoreAdmin.UpdateField should provide a field mask to avoid changing any configuration that the caller isn't aware of. The field mask should be specified as: `{ paths: "index_config" }`. This call returns a google.longrunning.Operation which may be used to track the status of the field update. The metadata for the operation will be the type FieldOperationMetadata. To configure the default field settings for the database, use the special `Field` with resource name: `projects/{project_id}/databases/{database_id}/collectionGroups/__default__/fields/*`. */
 export const patchProjectsDatabasesCollectionGroupsFields: API.OperationMethod<PatchProjectsDatabasesCollectionGroupsFieldsRequest, PatchProjectsDatabasesCollectionGroupsFieldsResponse, PatchProjectsDatabasesCollectionGroupsFieldsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsDatabasesCollectionGroupsFieldsRequest,
   output: PatchProjectsDatabasesCollectionGroupsFieldsResponse,
   errors: [],
 }));
 
-/** Lists the field configuration and metadata for this database. Currently, FirestoreAdmin.ListFields only supports listing fields that have been explicitly overridden. To issue this query, call FirestoreAdmin.ListFields with the filter set to `indexConfig.usesAncestorConfig:false` or `ttlConfig:*`. */
 export interface ListProjectsDatabasesCollectionGroupsFieldsRequest {
   /** Required. A parent name of the form `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}` */
   parent: string;
@@ -2748,7 +2747,8 @@ export const ListProjectsDatabasesCollectionGroupsFieldsResponse = GoogleFiresto
 
 export type ListProjectsDatabasesCollectionGroupsFieldsError = CommonErrors;
 
-export const listProjectsDatabasesCollectionGroupsFields = API.makePaginated(() => ({
+/** Lists the field configuration and metadata for this database. Currently, FirestoreAdmin.ListFields only supports listing fields that have been explicitly overridden. To issue this query, call FirestoreAdmin.ListFields with the filter set to `indexConfig.usesAncestorConfig:false` or `ttlConfig:*`. */
+export const listProjectsDatabasesCollectionGroupsFields: API.PaginatedOperationMethod<ListProjectsDatabasesCollectionGroupsFieldsRequest, ListProjectsDatabasesCollectionGroupsFieldsResponse, ListProjectsDatabasesCollectionGroupsFieldsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsDatabasesCollectionGroupsFieldsRequest,
   output: ListProjectsDatabasesCollectionGroupsFieldsResponse,
   errors: [],
@@ -2758,7 +2758,6 @@ export const listProjectsDatabasesCollectionGroupsFields = API.makePaginated(() 
   },
 }));
 
-/** Create a user creds. */
 export interface CreateProjectsDatabasesUserCredsRequest {
   /** Required. A parent name of the form `projects/{project_id}/databases/{database_id}` */
   parent: string;
@@ -2782,13 +2781,13 @@ export const CreateProjectsDatabasesUserCredsResponse = GoogleFirestoreAdminV1Us
 
 export type CreateProjectsDatabasesUserCredsError = CommonErrors;
 
+/** Create a user creds. */
 export const createProjectsDatabasesUserCreds: API.OperationMethod<CreateProjectsDatabasesUserCredsRequest, CreateProjectsDatabasesUserCredsResponse, CreateProjectsDatabasesUserCredsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsDatabasesUserCredsRequest,
   output: CreateProjectsDatabasesUserCredsResponse,
   errors: [],
 }));
 
-/** Gets a user creds resource. Note that the returned resource does not contain the secret value itself. */
 export interface GetProjectsDatabasesUserCredsRequest {
   /** Required. A name of the form `projects/{project_id}/databases/{database_id}/userCreds/{user_creds_id}` */
   name: string;
@@ -2806,13 +2805,13 @@ export const GetProjectsDatabasesUserCredsResponse = GoogleFirestoreAdminV1UserC
 
 export type GetProjectsDatabasesUserCredsError = CommonErrors;
 
+/** Gets a user creds resource. Note that the returned resource does not contain the secret value itself. */
 export const getProjectsDatabasesUserCreds: API.OperationMethod<GetProjectsDatabasesUserCredsRequest, GetProjectsDatabasesUserCredsResponse, GetProjectsDatabasesUserCredsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsDatabasesUserCredsRequest,
   output: GetProjectsDatabasesUserCredsResponse,
   errors: [],
 }));
 
-/** List all user creds in the database. Note that the returned resource does not contain the secret value itself. */
 export interface ListProjectsDatabasesUserCredsRequest {
   /** Required. A parent database name of the form `projects/{project_id}/databases/{database_id}` */
   parent: string;
@@ -2830,13 +2829,13 @@ export const ListProjectsDatabasesUserCredsResponse = GoogleFirestoreAdminV1List
 
 export type ListProjectsDatabasesUserCredsError = CommonErrors;
 
+/** List all user creds in the database. Note that the returned resource does not contain the secret value itself. */
 export const listProjectsDatabasesUserCreds: API.OperationMethod<ListProjectsDatabasesUserCredsRequest, ListProjectsDatabasesUserCredsResponse, ListProjectsDatabasesUserCredsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsDatabasesUserCredsRequest,
   output: ListProjectsDatabasesUserCredsResponse,
   errors: [],
 }));
 
-/** Enables a user creds. No-op if the user creds are already enabled. */
 export interface EnableProjectsDatabasesUserCredsRequest {
   /** Required. A name of the form `projects/{project_id}/databases/{database_id}/userCreds/{user_creds_id}` */
   name: string;
@@ -2857,13 +2856,13 @@ export const EnableProjectsDatabasesUserCredsResponse = GoogleFirestoreAdminV1Us
 
 export type EnableProjectsDatabasesUserCredsError = CommonErrors;
 
+/** Enables a user creds. No-op if the user creds are already enabled. */
 export const enableProjectsDatabasesUserCreds: API.OperationMethod<EnableProjectsDatabasesUserCredsRequest, EnableProjectsDatabasesUserCredsResponse, EnableProjectsDatabasesUserCredsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnableProjectsDatabasesUserCredsRequest,
   output: EnableProjectsDatabasesUserCredsResponse,
   errors: [],
 }));
 
-/** Disables a user creds. No-op if the user creds are already disabled. */
 export interface DisableProjectsDatabasesUserCredsRequest {
   /** Required. A name of the form `projects/{project_id}/databases/{database_id}/userCreds/{user_creds_id}` */
   name: string;
@@ -2884,13 +2883,13 @@ export const DisableProjectsDatabasesUserCredsResponse = GoogleFirestoreAdminV1U
 
 export type DisableProjectsDatabasesUserCredsError = CommonErrors;
 
+/** Disables a user creds. No-op if the user creds are already disabled. */
 export const disableProjectsDatabasesUserCreds: API.OperationMethod<DisableProjectsDatabasesUserCredsRequest, DisableProjectsDatabasesUserCredsResponse, DisableProjectsDatabasesUserCredsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DisableProjectsDatabasesUserCredsRequest,
   output: DisableProjectsDatabasesUserCredsResponse,
   errors: [],
 }));
 
-/** Resets the password of a user creds. */
 export interface ResetPasswordProjectsDatabasesUserCredsRequest {
   /** Required. A name of the form `projects/{project_id}/databases/{database_id}/userCreds/{user_creds_id}` */
   name: string;
@@ -2911,13 +2910,13 @@ export const ResetPasswordProjectsDatabasesUserCredsResponse = GoogleFirestoreAd
 
 export type ResetPasswordProjectsDatabasesUserCredsError = CommonErrors;
 
+/** Resets the password of a user creds. */
 export const resetPasswordProjectsDatabasesUserCreds: API.OperationMethod<ResetPasswordProjectsDatabasesUserCredsRequest, ResetPasswordProjectsDatabasesUserCredsResponse, ResetPasswordProjectsDatabasesUserCredsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetPasswordProjectsDatabasesUserCredsRequest,
   output: ResetPasswordProjectsDatabasesUserCredsResponse,
   errors: [],
 }));
 
-/** Deletes a user creds. */
 export interface DeleteProjectsDatabasesUserCredsRequest {
   /** Required. A name of the form `projects/{project_id}/databases/{database_id}/userCreds/{user_creds_id}` */
   name: string;
@@ -2935,13 +2934,13 @@ export const DeleteProjectsDatabasesUserCredsResponse = Empty;
 
 export type DeleteProjectsDatabasesUserCredsError = CommonErrors;
 
+/** Deletes a user creds. */
 export const deleteProjectsDatabasesUserCreds: API.OperationMethod<DeleteProjectsDatabasesUserCredsRequest, DeleteProjectsDatabasesUserCredsResponse, DeleteProjectsDatabasesUserCredsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsDatabasesUserCredsRequest,
   output: DeleteProjectsDatabasesUserCredsResponse,
   errors: [],
 }));
 
-/** Creates a backup schedule on a database. At most two backup schedules can be configured on a database, one daily backup schedule and one weekly backup schedule. */
 export interface CreateProjectsDatabasesBackupSchedulesRequest {
   /** Required. The parent database. Format `projects/{project}/databases/{database}` */
   parent: string;
@@ -2962,13 +2961,13 @@ export const CreateProjectsDatabasesBackupSchedulesResponse = GoogleFirestoreAdm
 
 export type CreateProjectsDatabasesBackupSchedulesError = CommonErrors;
 
+/** Creates a backup schedule on a database. At most two backup schedules can be configured on a database, one daily backup schedule and one weekly backup schedule. */
 export const createProjectsDatabasesBackupSchedules: API.OperationMethod<CreateProjectsDatabasesBackupSchedulesRequest, CreateProjectsDatabasesBackupSchedulesResponse, CreateProjectsDatabasesBackupSchedulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsDatabasesBackupSchedulesRequest,
   output: CreateProjectsDatabasesBackupSchedulesResponse,
   errors: [],
 }));
 
-/** Gets information about a backup schedule. */
 export interface GetProjectsDatabasesBackupSchedulesRequest {
   /** Required. The name of the backup schedule. Format `projects/{project}/databases/{database}/backupSchedules/{backup_schedule}` */
   name: string;
@@ -2986,13 +2985,13 @@ export const GetProjectsDatabasesBackupSchedulesResponse = GoogleFirestoreAdminV
 
 export type GetProjectsDatabasesBackupSchedulesError = CommonErrors;
 
+/** Gets information about a backup schedule. */
 export const getProjectsDatabasesBackupSchedules: API.OperationMethod<GetProjectsDatabasesBackupSchedulesRequest, GetProjectsDatabasesBackupSchedulesResponse, GetProjectsDatabasesBackupSchedulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsDatabasesBackupSchedulesRequest,
   output: GetProjectsDatabasesBackupSchedulesResponse,
   errors: [],
 }));
 
-/** List backup schedules. */
 export interface ListProjectsDatabasesBackupSchedulesRequest {
   /** Required. The parent database. Format is `projects/{project}/databases/{database}`. */
   parent: string;
@@ -3010,13 +3009,13 @@ export const ListProjectsDatabasesBackupSchedulesResponse = GoogleFirestoreAdmin
 
 export type ListProjectsDatabasesBackupSchedulesError = CommonErrors;
 
+/** List backup schedules. */
 export const listProjectsDatabasesBackupSchedules: API.OperationMethod<ListProjectsDatabasesBackupSchedulesRequest, ListProjectsDatabasesBackupSchedulesResponse, ListProjectsDatabasesBackupSchedulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsDatabasesBackupSchedulesRequest,
   output: ListProjectsDatabasesBackupSchedulesResponse,
   errors: [],
 }));
 
-/** Updates a backup schedule. */
 export interface PatchProjectsDatabasesBackupSchedulesRequest {
   /** Output only. The unique backup schedule identifier across all locations and databases for the given project. This will be auto-assigned. Format is `projects/{project}/databases/{database}/backupSchedules/{backup_schedule}` */
   name: string;
@@ -3040,13 +3039,13 @@ export const PatchProjectsDatabasesBackupSchedulesResponse = GoogleFirestoreAdmi
 
 export type PatchProjectsDatabasesBackupSchedulesError = CommonErrors;
 
+/** Updates a backup schedule. */
 export const patchProjectsDatabasesBackupSchedules: API.OperationMethod<PatchProjectsDatabasesBackupSchedulesRequest, PatchProjectsDatabasesBackupSchedulesResponse, PatchProjectsDatabasesBackupSchedulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsDatabasesBackupSchedulesRequest,
   output: PatchProjectsDatabasesBackupSchedulesResponse,
   errors: [],
 }));
 
-/** Deletes a backup schedule. */
 export interface DeleteProjectsDatabasesBackupSchedulesRequest {
   /** Required. The name of the backup schedule. Format `projects/{project}/databases/{database}/backupSchedules/{backup_schedule}` */
   name: string;
@@ -3064,13 +3063,13 @@ export const DeleteProjectsDatabasesBackupSchedulesResponse = Empty;
 
 export type DeleteProjectsDatabasesBackupSchedulesError = CommonErrors;
 
+/** Deletes a backup schedule. */
 export const deleteProjectsDatabasesBackupSchedules: API.OperationMethod<DeleteProjectsDatabasesBackupSchedulesRequest, DeleteProjectsDatabasesBackupSchedulesResponse, DeleteProjectsDatabasesBackupSchedulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsDatabasesBackupSchedulesRequest,
   output: DeleteProjectsDatabasesBackupSchedulesResponse,
   errors: [],
 }));
 
-/** Gets a single document. */
 export interface GetProjectsDatabasesDocumentsRequest {
   /** Required. The resource name of the Document to get. In the format: `projects/{project_id}/databases/{database_id}/documents/{document_path}`. */
   name: string;
@@ -3097,13 +3096,13 @@ export const GetProjectsDatabasesDocumentsResponse = Document;
 
 export type GetProjectsDatabasesDocumentsError = CommonErrors;
 
+/** Gets a single document. */
 export const getProjectsDatabasesDocuments: API.OperationMethod<GetProjectsDatabasesDocumentsRequest, GetProjectsDatabasesDocumentsResponse, GetProjectsDatabasesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsDatabasesDocumentsRequest,
   output: GetProjectsDatabasesDocumentsResponse,
   errors: [],
 }));
 
-/** Lists documents. */
 export interface ListProjectsDatabasesDocumentsRequest {
   /** Required. The parent resource name. In the format: `projects/{project_id}/databases/{database_id}/documents` or `projects/{project_id}/databases/{database_id}/documents/{document_path}`. For example: `projects/my-project/databases/my-database/documents` or `projects/my-project/databases/my-database/documents/chatrooms/my-chatroom` */
   parent: string;
@@ -3145,7 +3144,8 @@ export const ListProjectsDatabasesDocumentsResponse = ListDocumentsResponse;
 
 export type ListProjectsDatabasesDocumentsError = CommonErrors;
 
-export const listProjectsDatabasesDocuments = API.makePaginated(() => ({
+/** Lists documents. */
+export const listProjectsDatabasesDocuments: API.PaginatedOperationMethod<ListProjectsDatabasesDocumentsRequest, ListProjectsDatabasesDocumentsResponse, ListProjectsDatabasesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsDatabasesDocumentsRequest,
   output: ListProjectsDatabasesDocumentsResponse,
   errors: [],
@@ -3155,7 +3155,6 @@ export const listProjectsDatabasesDocuments = API.makePaginated(() => ({
   },
 }));
 
-/** Lists documents. */
 export interface ListDocumentsProjectsDatabasesDocumentsRequest {
   /** Required. The parent resource name. In the format: `projects/{project_id}/databases/{database_id}/documents` or `projects/{project_id}/databases/{database_id}/documents/{document_path}`. For example: `projects/my-project/databases/my-database/documents` or `projects/my-project/databases/my-database/documents/chatrooms/my-chatroom` */
   parent: string;
@@ -3197,7 +3196,8 @@ export const ListDocumentsProjectsDatabasesDocumentsResponse = ListDocumentsResp
 
 export type ListDocumentsProjectsDatabasesDocumentsError = CommonErrors;
 
-export const listDocumentsProjectsDatabasesDocuments = API.makePaginated(() => ({
+/** Lists documents. */
+export const listDocumentsProjectsDatabasesDocuments: API.PaginatedOperationMethod<ListDocumentsProjectsDatabasesDocumentsRequest, ListDocumentsProjectsDatabasesDocumentsResponse, ListDocumentsProjectsDatabasesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListDocumentsProjectsDatabasesDocumentsRequest,
   output: ListDocumentsProjectsDatabasesDocumentsResponse,
   errors: [],
@@ -3207,7 +3207,6 @@ export const listDocumentsProjectsDatabasesDocuments = API.makePaginated(() => (
   },
 }));
 
-/** Updates or inserts a document. */
 export interface PatchProjectsDatabasesDocumentsRequest {
   /** The resource name of the document, for example `projects/{project_id}/databases/{database_id}/documents/{document_path}`. */
   name: string;
@@ -3240,13 +3239,13 @@ export const PatchProjectsDatabasesDocumentsResponse = Document;
 
 export type PatchProjectsDatabasesDocumentsError = CommonErrors;
 
+/** Updates or inserts a document. */
 export const patchProjectsDatabasesDocuments: API.OperationMethod<PatchProjectsDatabasesDocumentsRequest, PatchProjectsDatabasesDocumentsResponse, PatchProjectsDatabasesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsDatabasesDocumentsRequest,
   output: PatchProjectsDatabasesDocumentsResponse,
   errors: [],
 }));
 
-/** Deletes a document. */
 export interface DeleteProjectsDatabasesDocumentsRequest {
   /** Required. The resource name of the Document to delete. In the format: `projects/{project_id}/databases/{database_id}/documents/{document_path}`. */
   name: string;
@@ -3270,13 +3269,13 @@ export const DeleteProjectsDatabasesDocumentsResponse = Empty;
 
 export type DeleteProjectsDatabasesDocumentsError = CommonErrors;
 
+/** Deletes a document. */
 export const deleteProjectsDatabasesDocuments: API.OperationMethod<DeleteProjectsDatabasesDocumentsRequest, DeleteProjectsDatabasesDocumentsResponse, DeleteProjectsDatabasesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsDatabasesDocumentsRequest,
   output: DeleteProjectsDatabasesDocumentsResponse,
   errors: [],
 }));
 
-/** Gets multiple documents. Documents returned by this method are not guaranteed to be returned in the same order that they were requested. */
 export interface BatchGetProjectsDatabasesDocumentsRequest {
   /** Required. The database name. In the format: `projects/{project_id}/databases/{database_id}`. */
   database: string;
@@ -3297,13 +3296,13 @@ export const BatchGetProjectsDatabasesDocumentsResponse = BatchGetDocumentsRespo
 
 export type BatchGetProjectsDatabasesDocumentsError = CommonErrors;
 
+/** Gets multiple documents. Documents returned by this method are not guaranteed to be returned in the same order that they were requested. */
 export const batchGetProjectsDatabasesDocuments: API.OperationMethod<BatchGetProjectsDatabasesDocumentsRequest, BatchGetProjectsDatabasesDocumentsResponse, BatchGetProjectsDatabasesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchGetProjectsDatabasesDocumentsRequest,
   output: BatchGetProjectsDatabasesDocumentsResponse,
   errors: [],
 }));
 
-/** Starts a new transaction. */
 export interface BeginTransactionProjectsDatabasesDocumentsRequest {
   /** Required. The database name. In the format: `projects/{project_id}/databases/{database_id}`. */
   database: string;
@@ -3324,13 +3323,13 @@ export const BeginTransactionProjectsDatabasesDocumentsResponse = BeginTransacti
 
 export type BeginTransactionProjectsDatabasesDocumentsError = CommonErrors;
 
+/** Starts a new transaction. */
 export const beginTransactionProjectsDatabasesDocuments: API.OperationMethod<BeginTransactionProjectsDatabasesDocumentsRequest, BeginTransactionProjectsDatabasesDocumentsResponse, BeginTransactionProjectsDatabasesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BeginTransactionProjectsDatabasesDocumentsRequest,
   output: BeginTransactionProjectsDatabasesDocumentsResponse,
   errors: [],
 }));
 
-/** Commits a transaction, while optionally updating documents. */
 export interface CommitProjectsDatabasesDocumentsRequest {
   /** Required. The database name. In the format: `projects/{project_id}/databases/{database_id}`. */
   database: string;
@@ -3351,13 +3350,13 @@ export const CommitProjectsDatabasesDocumentsResponse = CommitResponse;
 
 export type CommitProjectsDatabasesDocumentsError = CommonErrors;
 
+/** Commits a transaction, while optionally updating documents. */
 export const commitProjectsDatabasesDocuments: API.OperationMethod<CommitProjectsDatabasesDocumentsRequest, CommitProjectsDatabasesDocumentsResponse, CommitProjectsDatabasesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CommitProjectsDatabasesDocumentsRequest,
   output: CommitProjectsDatabasesDocumentsResponse,
   errors: [],
 }));
 
-/** Rolls back a transaction. */
 export interface RollbackProjectsDatabasesDocumentsRequest {
   /** Required. The database name. In the format: `projects/{project_id}/databases/{database_id}`. */
   database: string;
@@ -3378,13 +3377,13 @@ export const RollbackProjectsDatabasesDocumentsResponse = Empty;
 
 export type RollbackProjectsDatabasesDocumentsError = CommonErrors;
 
+/** Rolls back a transaction. */
 export const rollbackProjectsDatabasesDocuments: API.OperationMethod<RollbackProjectsDatabasesDocumentsRequest, RollbackProjectsDatabasesDocumentsResponse, RollbackProjectsDatabasesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RollbackProjectsDatabasesDocumentsRequest,
   output: RollbackProjectsDatabasesDocumentsResponse,
   errors: [],
 }));
 
-/** Runs a query. */
 export interface RunQueryProjectsDatabasesDocumentsRequest {
   /** Required. The parent resource name. In the format: `projects/{project_id}/databases/{database_id}/documents` or `projects/{project_id}/databases/{database_id}/documents/{document_path}`. For example: `projects/my-project/databases/my-database/documents` or `projects/my-project/databases/my-database/documents/chatrooms/my-chatroom` */
   parent: string;
@@ -3405,13 +3404,13 @@ export const RunQueryProjectsDatabasesDocumentsResponse = RunQueryResponse;
 
 export type RunQueryProjectsDatabasesDocumentsError = CommonErrors;
 
+/** Runs a query. */
 export const runQueryProjectsDatabasesDocuments: API.OperationMethod<RunQueryProjectsDatabasesDocumentsRequest, RunQueryProjectsDatabasesDocumentsResponse, RunQueryProjectsDatabasesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RunQueryProjectsDatabasesDocumentsRequest,
   output: RunQueryProjectsDatabasesDocumentsResponse,
   errors: [],
 }));
 
-/** Executes a pipeline query. */
 export interface ExecutePipelineProjectsDatabasesDocumentsRequest {
   /** Required. Database identifier, in the form `projects/{project}/databases/{database}`. */
   database: string;
@@ -3432,13 +3431,13 @@ export const ExecutePipelineProjectsDatabasesDocumentsResponse = ExecutePipeline
 
 export type ExecutePipelineProjectsDatabasesDocumentsError = CommonErrors;
 
+/** Executes a pipeline query. */
 export const executePipelineProjectsDatabasesDocuments: API.OperationMethod<ExecutePipelineProjectsDatabasesDocumentsRequest, ExecutePipelineProjectsDatabasesDocumentsResponse, ExecutePipelineProjectsDatabasesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExecutePipelineProjectsDatabasesDocumentsRequest,
   output: ExecutePipelineProjectsDatabasesDocumentsResponse,
   errors: [],
 }));
 
-/** Runs an aggregation query. Rather than producing Document results like Firestore.RunQuery, this API allows running an aggregation to produce a series of AggregationResult server-side. High-Level Example: ``` -- Return the number of documents in table given a filter. SELECT COUNT(*) FROM ( SELECT * FROM k where a = true ); ``` */
 export interface RunAggregationQueryProjectsDatabasesDocumentsRequest {
   /** Required. The parent resource name. In the format: `projects/{project_id}/databases/{database_id}/documents` or `projects/{project_id}/databases/{database_id}/documents/{document_path}`. For example: `projects/my-project/databases/my-database/documents` or `projects/my-project/databases/my-database/documents/chatrooms/my-chatroom` */
   parent: string;
@@ -3459,13 +3458,13 @@ export const RunAggregationQueryProjectsDatabasesDocumentsResponse = RunAggregat
 
 export type RunAggregationQueryProjectsDatabasesDocumentsError = CommonErrors;
 
+/** Runs an aggregation query. Rather than producing Document results like Firestore.RunQuery, this API allows running an aggregation to produce a series of AggregationResult server-side. High-Level Example: ``` -- Return the number of documents in table given a filter. SELECT COUNT(*) FROM ( SELECT * FROM k where a = true ); ``` */
 export const runAggregationQueryProjectsDatabasesDocuments: API.OperationMethod<RunAggregationQueryProjectsDatabasesDocumentsRequest, RunAggregationQueryProjectsDatabasesDocumentsResponse, RunAggregationQueryProjectsDatabasesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RunAggregationQueryProjectsDatabasesDocumentsRequest,
   output: RunAggregationQueryProjectsDatabasesDocumentsResponse,
   errors: [],
 }));
 
-/** Partitions a query by returning partition cursors that can be used to run the query in parallel. The returned partition cursors are split points that can be used by RunQuery as starting/end points for the query results. */
 export interface PartitionQueryProjectsDatabasesDocumentsRequest {
   /** Required. The parent resource name. In the format: `projects/{project_id}/databases/{database_id}/documents`. Document resource names are not supported; only database resource names can be specified. */
   parent: string;
@@ -3486,13 +3485,13 @@ export const PartitionQueryProjectsDatabasesDocumentsResponse = PartitionQueryRe
 
 export type PartitionQueryProjectsDatabasesDocumentsError = CommonErrors;
 
+/** Partitions a query by returning partition cursors that can be used to run the query in parallel. The returned partition cursors are split points that can be used by RunQuery as starting/end points for the query results. */
 export const partitionQueryProjectsDatabasesDocuments: API.OperationMethod<PartitionQueryProjectsDatabasesDocumentsRequest, PartitionQueryProjectsDatabasesDocumentsResponse, PartitionQueryProjectsDatabasesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PartitionQueryProjectsDatabasesDocumentsRequest,
   output: PartitionQueryProjectsDatabasesDocumentsResponse,
   errors: [],
 }));
 
-/** Streams batches of document updates and deletes, in order. This method is only available via gRPC or WebChannel (not REST). */
 export interface WriteProjectsDatabasesDocumentsRequest {
   /** Required. The database name. In the format: `projects/{project_id}/databases/{database_id}`. This is only required in the first message. */
   database: string;
@@ -3513,13 +3512,13 @@ export const WriteProjectsDatabasesDocumentsResponse = WriteResponse;
 
 export type WriteProjectsDatabasesDocumentsError = CommonErrors;
 
+/** Streams batches of document updates and deletes, in order. This method is only available via gRPC or WebChannel (not REST). */
 export const writeProjectsDatabasesDocuments: API.OperationMethod<WriteProjectsDatabasesDocumentsRequest, WriteProjectsDatabasesDocumentsResponse, WriteProjectsDatabasesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WriteProjectsDatabasesDocumentsRequest,
   output: WriteProjectsDatabasesDocumentsResponse,
   errors: [],
 }));
 
-/** Listens to changes. This method is only available via gRPC or WebChannel (not REST). */
 export interface ListenProjectsDatabasesDocumentsRequest {
   /** Required. The database name. In the format: `projects/{project_id}/databases/{database_id}`. */
   database: string;
@@ -3540,13 +3539,13 @@ export const ListenProjectsDatabasesDocumentsResponse = ListenResponse;
 
 export type ListenProjectsDatabasesDocumentsError = CommonErrors;
 
+/** Listens to changes. This method is only available via gRPC or WebChannel (not REST). */
 export const listenProjectsDatabasesDocuments: API.OperationMethod<ListenProjectsDatabasesDocumentsRequest, ListenProjectsDatabasesDocumentsResponse, ListenProjectsDatabasesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListenProjectsDatabasesDocumentsRequest,
   output: ListenProjectsDatabasesDocumentsResponse,
   errors: [],
 }));
 
-/** Lists all the collection IDs underneath a document. */
 export interface ListCollectionIdsProjectsDatabasesDocumentsRequest {
   /** Required. The parent document. In the format: `projects/{project_id}/databases/{database_id}/documents/{document_path}`. For example: `projects/my-project/databases/my-database/documents/chatrooms/my-chatroom` */
   parent: string;
@@ -3567,13 +3566,13 @@ export const ListCollectionIdsProjectsDatabasesDocumentsResponse = ListCollectio
 
 export type ListCollectionIdsProjectsDatabasesDocumentsError = CommonErrors;
 
+/** Lists all the collection IDs underneath a document. */
 export const listCollectionIdsProjectsDatabasesDocuments: API.OperationMethod<ListCollectionIdsProjectsDatabasesDocumentsRequest, ListCollectionIdsProjectsDatabasesDocumentsResponse, ListCollectionIdsProjectsDatabasesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListCollectionIdsProjectsDatabasesDocumentsRequest,
   output: ListCollectionIdsProjectsDatabasesDocumentsResponse,
   errors: [],
 }));
 
-/** Applies a batch of write operations. The BatchWrite method does not apply the write operations atomically and can apply them out of order. Method does not allow more than one write per document. Each write succeeds or fails independently. See the BatchWriteResponse for the success status of each write. If you require an atomically applied set of writes, use Commit instead. */
 export interface BatchWriteProjectsDatabasesDocumentsRequest {
   /** Required. The database name. In the format: `projects/{project_id}/databases/{database_id}`. */
   database: string;
@@ -3594,13 +3593,13 @@ export const BatchWriteProjectsDatabasesDocumentsResponse = BatchWriteResponse;
 
 export type BatchWriteProjectsDatabasesDocumentsError = CommonErrors;
 
+/** Applies a batch of write operations. The BatchWrite method does not apply the write operations atomically and can apply them out of order. Method does not allow more than one write per document. Each write succeeds or fails independently. See the BatchWriteResponse for the success status of each write. If you require an atomically applied set of writes, use Commit instead. */
 export const batchWriteProjectsDatabasesDocuments: API.OperationMethod<BatchWriteProjectsDatabasesDocumentsRequest, BatchWriteProjectsDatabasesDocumentsResponse, BatchWriteProjectsDatabasesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchWriteProjectsDatabasesDocumentsRequest,
   output: BatchWriteProjectsDatabasesDocumentsResponse,
   errors: [],
 }));
 
-/** Creates a new document. */
 export interface CreateDocumentProjectsDatabasesDocumentsRequest {
   /** Required. The parent resource. For example: `projects/{project_id}/databases/{database_id}/documents` or `projects/{project_id}/databases/{database_id}/documents/chatrooms/{chatroom_id}` */
   parent: string;
@@ -3630,6 +3629,7 @@ export const CreateDocumentProjectsDatabasesDocumentsResponse = Document;
 
 export type CreateDocumentProjectsDatabasesDocumentsError = CommonErrors;
 
+/** Creates a new document. */
 export const createDocumentProjectsDatabasesDocuments: API.OperationMethod<CreateDocumentProjectsDatabasesDocumentsRequest, CreateDocumentProjectsDatabasesDocumentsResponse, CreateDocumentProjectsDatabasesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateDocumentProjectsDatabasesDocumentsRequest,
   output: CreateDocumentProjectsDatabasesDocumentsResponse,

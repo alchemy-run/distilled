@@ -240,7 +240,6 @@ export const GetIamPolicyRequest: Schema.Schema<GetIamPolicyRequest> = Schema.su
 // Operations
 // ==========================================================================
 
-/** Creates a new data policy under a project with the given `data_policy_id` (used as the display name), and data policy type. */
 export interface CreateProjectsLocationsDataPoliciesRequest {
   /** Required. Resource name of the project that the data policy will belong to. The format is `projects/{project_number}/locations/{location_id}`. */
   parent: string;
@@ -261,13 +260,13 @@ export const CreateProjectsLocationsDataPoliciesResponse = DataPolicy;
 
 export type CreateProjectsLocationsDataPoliciesError = CommonErrors;
 
+/** Creates a new data policy under a project with the given `data_policy_id` (used as the display name), and data policy type. */
 export const createProjectsLocationsDataPolicies: API.OperationMethod<CreateProjectsLocationsDataPoliciesRequest, CreateProjectsLocationsDataPoliciesResponse, CreateProjectsLocationsDataPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsDataPoliciesRequest,
   output: CreateProjectsLocationsDataPoliciesResponse,
   errors: [],
 }));
 
-/** Returns the caller's permission on the specified data policy resource. */
 export interface TestIamPermissionsProjectsLocationsDataPoliciesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -288,13 +287,13 @@ export const TestIamPermissionsProjectsLocationsDataPoliciesResponse = TestIamPe
 
 export type TestIamPermissionsProjectsLocationsDataPoliciesError = CommonErrors;
 
+/** Returns the caller's permission on the specified data policy resource. */
 export const testIamPermissionsProjectsLocationsDataPolicies: API.OperationMethod<TestIamPermissionsProjectsLocationsDataPoliciesRequest, TestIamPermissionsProjectsLocationsDataPoliciesResponse, TestIamPermissionsProjectsLocationsDataPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsDataPoliciesRequest,
   output: TestIamPermissionsProjectsLocationsDataPoliciesResponse,
   errors: [],
 }));
 
-/** Gets the data policy specified by its resource name. */
 export interface GetProjectsLocationsDataPoliciesRequest {
   /** Required. Resource name of the requested data policy. Format is `projects/{project_number}/locations/{location_id}/dataPolicies/{id}`. */
   name: string;
@@ -312,13 +311,13 @@ export const GetProjectsLocationsDataPoliciesResponse = DataPolicy;
 
 export type GetProjectsLocationsDataPoliciesError = CommonErrors;
 
+/** Gets the data policy specified by its resource name. */
 export const getProjectsLocationsDataPolicies: API.OperationMethod<GetProjectsLocationsDataPoliciesRequest, GetProjectsLocationsDataPoliciesResponse, GetProjectsLocationsDataPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDataPoliciesRequest,
   output: GetProjectsLocationsDataPoliciesResponse,
   errors: [],
 }));
 
-/** Gets the IAM policy for the specified data policy. */
 export interface GetIamPolicyProjectsLocationsDataPoliciesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -339,13 +338,13 @@ export const GetIamPolicyProjectsLocationsDataPoliciesResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsDataPoliciesError = CommonErrors;
 
+/** Gets the IAM policy for the specified data policy. */
 export const getIamPolicyProjectsLocationsDataPolicies: API.OperationMethod<GetIamPolicyProjectsLocationsDataPoliciesRequest, GetIamPolicyProjectsLocationsDataPoliciesResponse, GetIamPolicyProjectsLocationsDataPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsDataPoliciesRequest,
   output: GetIamPolicyProjectsLocationsDataPoliciesResponse,
   errors: [],
 }));
 
-/** Sets the IAM policy for the specified data policy. */
 export interface SetIamPolicyProjectsLocationsDataPoliciesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -366,13 +365,13 @@ export const SetIamPolicyProjectsLocationsDataPoliciesResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsDataPoliciesError = CommonErrors;
 
+/** Sets the IAM policy for the specified data policy. */
 export const setIamPolicyProjectsLocationsDataPolicies: API.OperationMethod<SetIamPolicyProjectsLocationsDataPoliciesRequest, SetIamPolicyProjectsLocationsDataPoliciesResponse, SetIamPolicyProjectsLocationsDataPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsDataPoliciesRequest,
   output: SetIamPolicyProjectsLocationsDataPoliciesResponse,
   errors: [],
 }));
 
-/** Removes grantees from a data policy. The grantees will be removed from the existing grantees. If the request contains a grantee that does not exist, the grantee will be ignored. */
 export interface RemoveGranteesProjectsLocationsDataPoliciesRequest {
   /** Required. Resource name of this data policy, in the format of `projects/{project_number}/locations/{location_id}/dataPolicies/{data_policy_id}`. */
   dataPolicy: string;
@@ -393,13 +392,13 @@ export const RemoveGranteesProjectsLocationsDataPoliciesResponse = DataPolicy;
 
 export type RemoveGranteesProjectsLocationsDataPoliciesError = CommonErrors;
 
+/** Removes grantees from a data policy. The grantees will be removed from the existing grantees. If the request contains a grantee that does not exist, the grantee will be ignored. */
 export const removeGranteesProjectsLocationsDataPolicies: API.OperationMethod<RemoveGranteesProjectsLocationsDataPoliciesRequest, RemoveGranteesProjectsLocationsDataPoliciesResponse, RemoveGranteesProjectsLocationsDataPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveGranteesProjectsLocationsDataPoliciesRequest,
   output: RemoveGranteesProjectsLocationsDataPoliciesResponse,
   errors: [],
 }));
 
-/** Updates the metadata for an existing data policy. The target data policy can be specified by the resource name. */
 export interface PatchProjectsLocationsDataPoliciesRequest {
   /** Optional. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask If not set, defaults to all of the fields that are allowed to update. Updates to the `name` and `dataPolicyId` fields are not allowed. */
   updateMask?: string;
@@ -426,13 +425,13 @@ export const PatchProjectsLocationsDataPoliciesResponse = DataPolicy;
 
 export type PatchProjectsLocationsDataPoliciesError = CommonErrors;
 
+/** Updates the metadata for an existing data policy. The target data policy can be specified by the resource name. */
 export const patchProjectsLocationsDataPolicies: API.OperationMethod<PatchProjectsLocationsDataPoliciesRequest, PatchProjectsLocationsDataPoliciesResponse, PatchProjectsLocationsDataPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsDataPoliciesRequest,
   output: PatchProjectsLocationsDataPoliciesResponse,
   errors: [],
 }));
 
-/** Adds new grantees to a data policy. The new grantees will be added to the existing grantees. If the request contains a duplicate grantee, the grantee will be ignored. If the request contains a grantee that already exists, the grantee will be ignored. */
 export interface AddGranteesProjectsLocationsDataPoliciesRequest {
   /** Required. Resource name of this data policy, in the format of `projects/{project_number}/locations/{location_id}/dataPolicies/{data_policy_id}`. */
   dataPolicy: string;
@@ -453,13 +452,13 @@ export const AddGranteesProjectsLocationsDataPoliciesResponse = DataPolicy;
 
 export type AddGranteesProjectsLocationsDataPoliciesError = CommonErrors;
 
+/** Adds new grantees to a data policy. The new grantees will be added to the existing grantees. If the request contains a duplicate grantee, the grantee will be ignored. If the request contains a grantee that already exists, the grantee will be ignored. */
 export const addGranteesProjectsLocationsDataPolicies: API.OperationMethod<AddGranteesProjectsLocationsDataPoliciesRequest, AddGranteesProjectsLocationsDataPoliciesResponse, AddGranteesProjectsLocationsDataPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddGranteesProjectsLocationsDataPoliciesRequest,
   output: AddGranteesProjectsLocationsDataPoliciesResponse,
   errors: [],
 }));
 
-/** List all of the data policies in the specified parent project. */
 export interface ListProjectsLocationsDataPoliciesRequest {
   /** Optional. The `nextPageToken` value returned from a previous list request, if any. If not set, defaults to an empty string. */
   pageToken?: string;
@@ -486,7 +485,8 @@ export const ListProjectsLocationsDataPoliciesResponse = ListDataPoliciesRespons
 
 export type ListProjectsLocationsDataPoliciesError = CommonErrors;
 
-export const listProjectsLocationsDataPolicies = API.makePaginated(() => ({
+/** List all of the data policies in the specified parent project. */
+export const listProjectsLocationsDataPolicies: API.PaginatedOperationMethod<ListProjectsLocationsDataPoliciesRequest, ListProjectsLocationsDataPoliciesResponse, ListProjectsLocationsDataPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDataPoliciesRequest,
   output: ListProjectsLocationsDataPoliciesResponse,
   errors: [],
@@ -496,7 +496,6 @@ export const listProjectsLocationsDataPolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the data policy specified by its resource name. */
 export interface DeleteProjectsLocationsDataPoliciesRequest {
   /** Required. Resource name of the data policy to delete. Format is `projects/{project_number}/locations/{location_id}/dataPolicies/{id}`. */
   name: string;
@@ -514,6 +513,7 @@ export const DeleteProjectsLocationsDataPoliciesResponse = Empty;
 
 export type DeleteProjectsLocationsDataPoliciesError = CommonErrors;
 
+/** Deletes the data policy specified by its resource name. */
 export const deleteProjectsLocationsDataPolicies: API.OperationMethod<DeleteProjectsLocationsDataPoliciesRequest, DeleteProjectsLocationsDataPoliciesResponse, DeleteProjectsLocationsDataPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDataPoliciesRequest,
   output: DeleteProjectsLocationsDataPoliciesResponse,

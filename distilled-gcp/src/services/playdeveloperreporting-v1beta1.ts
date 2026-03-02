@@ -861,7 +861,6 @@ export const ApiservingMcpMcpToolDataHandlingProfile: Schema.Schema<ApiservingMc
 // Operations
 // ==========================================================================
 
-/** Lists anomalies in any of the datasets. */
 export interface ListAnomaliesRequest {
   /** Required. Parent app for which anomalies were detected. Format: apps/{app} */
   parent: string;
@@ -888,7 +887,8 @@ export const ListAnomaliesResponse = GooglePlayDeveloperReportingV1beta1ListAnom
 
 export type ListAnomaliesError = CommonErrors;
 
-export const listAnomalies = API.makePaginated(() => ({
+/** Lists anomalies in any of the datasets. */
+export const listAnomalies: API.PaginatedOperationMethod<ListAnomaliesRequest, ListAnomaliesResponse, ListAnomaliesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAnomaliesRequest,
   output: ListAnomaliesResponse,
   errors: [],
@@ -898,7 +898,6 @@ export const listAnomalies = API.makePaginated(() => ({
   },
 }));
 
-/** Describes the properties of the metric set. */
 export interface GetVitalsCrashrateRequest {
   /** Required. The resource name. Format: apps/{app}/crashRateMetricSet */
   name: string;
@@ -916,13 +915,13 @@ export const GetVitalsCrashrateResponse = GooglePlayDeveloperReportingV1beta1Cra
 
 export type GetVitalsCrashrateError = CommonErrors;
 
+/** Describes the properties of the metric set. */
 export const getVitalsCrashrate: API.OperationMethod<GetVitalsCrashrateRequest, GetVitalsCrashrateResponse, GetVitalsCrashrateError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetVitalsCrashrateRequest,
   output: GetVitalsCrashrateResponse,
   errors: [],
 }));
 
-/** Queries the metrics in the metric set. */
 export interface QueryVitalsCrashrateRequest {
   /** Required. The resource name. Format: apps/{app}/crashRateMetricSet */
   name: string;
@@ -943,13 +942,13 @@ export const QueryVitalsCrashrateResponse = GooglePlayDeveloperReportingV1beta1Q
 
 export type QueryVitalsCrashrateError = CommonErrors;
 
+/** Queries the metrics in the metric set. */
 export const queryVitalsCrashrate: API.OperationMethod<QueryVitalsCrashrateRequest, QueryVitalsCrashrateResponse, QueryVitalsCrashrateError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: QueryVitalsCrashrateRequest,
   output: QueryVitalsCrashrateResponse,
   errors: [],
 }));
 
-/** Describes the properties of the metric set. */
 export interface GetVitalsAnrrateRequest {
   /** Required. The resource name. Format: apps/{app}/anrRateMetricSet */
   name: string;
@@ -967,13 +966,13 @@ export const GetVitalsAnrrateResponse = GooglePlayDeveloperReportingV1beta1AnrRa
 
 export type GetVitalsAnrrateError = CommonErrors;
 
+/** Describes the properties of the metric set. */
 export const getVitalsAnrrate: API.OperationMethod<GetVitalsAnrrateRequest, GetVitalsAnrrateResponse, GetVitalsAnrrateError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetVitalsAnrrateRequest,
   output: GetVitalsAnrrateResponse,
   errors: [],
 }));
 
-/** Queries the metrics in the metric set. */
 export interface QueryVitalsAnrrateRequest {
   /** Required. The resource name. Format: apps/{app}/anrRateMetricSet */
   name: string;
@@ -994,13 +993,13 @@ export const QueryVitalsAnrrateResponse = GooglePlayDeveloperReportingV1beta1Que
 
 export type QueryVitalsAnrrateError = CommonErrors;
 
+/** Queries the metrics in the metric set. */
 export const queryVitalsAnrrate: API.OperationMethod<QueryVitalsAnrrateRequest, QueryVitalsAnrrateResponse, QueryVitalsAnrrateError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: QueryVitalsAnrrateRequest,
   output: QueryVitalsAnrrateResponse,
   errors: [],
 }));
 
-/** Describes the properties of the metric set. */
 export interface GetVitalsLmkrateRequest {
   /** Required. The resource name. Format: apps/{app}/lmkRateMetricSet */
   name: string;
@@ -1018,13 +1017,13 @@ export const GetVitalsLmkrateResponse = GooglePlayDeveloperReportingV1beta1LmkRa
 
 export type GetVitalsLmkrateError = CommonErrors;
 
+/** Describes the properties of the metric set. */
 export const getVitalsLmkrate: API.OperationMethod<GetVitalsLmkrateRequest, GetVitalsLmkrateResponse, GetVitalsLmkrateError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetVitalsLmkrateRequest,
   output: GetVitalsLmkrateResponse,
   errors: [],
 }));
 
-/** Queries the metrics in the metric set. */
 export interface QueryVitalsLmkrateRequest {
   /** Required. The resource name. Format: apps/{app}/lmkRateMetricSet */
   name: string;
@@ -1045,13 +1044,13 @@ export const QueryVitalsLmkrateResponse = GooglePlayDeveloperReportingV1beta1Que
 
 export type QueryVitalsLmkrateError = CommonErrors;
 
+/** Queries the metrics in the metric set. */
 export const queryVitalsLmkrate: API.OperationMethod<QueryVitalsLmkrateRequest, QueryVitalsLmkrateResponse, QueryVitalsLmkrateError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: QueryVitalsLmkrateRequest,
   output: QueryVitalsLmkrateResponse,
   errors: [],
 }));
 
-/** Describes the properties of the metric set. */
 export interface GetVitalsExcessivewakeuprateRequest {
   /** Required. The resource name. Format: apps/{app}/excessiveWakeupRateMetricSet */
   name: string;
@@ -1069,13 +1068,13 @@ export const GetVitalsExcessivewakeuprateResponse = GooglePlayDeveloperReporting
 
 export type GetVitalsExcessivewakeuprateError = CommonErrors;
 
+/** Describes the properties of the metric set. */
 export const getVitalsExcessivewakeuprate: API.OperationMethod<GetVitalsExcessivewakeuprateRequest, GetVitalsExcessivewakeuprateResponse, GetVitalsExcessivewakeuprateError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetVitalsExcessivewakeuprateRequest,
   output: GetVitalsExcessivewakeuprateResponse,
   errors: [],
 }));
 
-/** Queries the metrics in the metric set. */
 export interface QueryVitalsExcessivewakeuprateRequest {
   /** Required. The resource name. Format: apps/{app}/excessiveWakeupRateMetricSet */
   name: string;
@@ -1096,13 +1095,13 @@ export const QueryVitalsExcessivewakeuprateResponse = GooglePlayDeveloperReporti
 
 export type QueryVitalsExcessivewakeuprateError = CommonErrors;
 
+/** Queries the metrics in the metric set. */
 export const queryVitalsExcessivewakeuprate: API.OperationMethod<QueryVitalsExcessivewakeuprateRequest, QueryVitalsExcessivewakeuprateResponse, QueryVitalsExcessivewakeuprateError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: QueryVitalsExcessivewakeuprateRequest,
   output: QueryVitalsExcessivewakeuprateResponse,
   errors: [],
 }));
 
-/** Describes the properties of the metric set. */
 export interface GetVitalsStuckbackgroundwakelockrateRequest {
   /** Required. The resource name. Format: apps/{app}/stuckBackgroundWakelockRateMetricSet */
   name: string;
@@ -1120,13 +1119,13 @@ export const GetVitalsStuckbackgroundwakelockrateResponse = GooglePlayDeveloperR
 
 export type GetVitalsStuckbackgroundwakelockrateError = CommonErrors;
 
+/** Describes the properties of the metric set. */
 export const getVitalsStuckbackgroundwakelockrate: API.OperationMethod<GetVitalsStuckbackgroundwakelockrateRequest, GetVitalsStuckbackgroundwakelockrateResponse, GetVitalsStuckbackgroundwakelockrateError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetVitalsStuckbackgroundwakelockrateRequest,
   output: GetVitalsStuckbackgroundwakelockrateResponse,
   errors: [],
 }));
 
-/** Queries the metrics in the metric set. */
 export interface QueryVitalsStuckbackgroundwakelockrateRequest {
   /** Required. The resource name. Format: apps/{app}/stuckBackgroundWakelockRateMetricSet */
   name: string;
@@ -1147,13 +1146,13 @@ export const QueryVitalsStuckbackgroundwakelockrateResponse = GooglePlayDevelope
 
 export type QueryVitalsStuckbackgroundwakelockrateError = CommonErrors;
 
+/** Queries the metrics in the metric set. */
 export const queryVitalsStuckbackgroundwakelockrate: API.OperationMethod<QueryVitalsStuckbackgroundwakelockrateRequest, QueryVitalsStuckbackgroundwakelockrateResponse, QueryVitalsStuckbackgroundwakelockrateError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: QueryVitalsStuckbackgroundwakelockrateRequest,
   output: QueryVitalsStuckbackgroundwakelockrateResponse,
   errors: [],
 }));
 
-/** Describes the properties of the metric set. */
 export interface GetVitalsSlowstartrateRequest {
   /** Required. The resource name. Format: apps/{app}/slowStartRateMetricSet */
   name: string;
@@ -1171,13 +1170,13 @@ export const GetVitalsSlowstartrateResponse = GooglePlayDeveloperReportingV1beta
 
 export type GetVitalsSlowstartrateError = CommonErrors;
 
+/** Describes the properties of the metric set. */
 export const getVitalsSlowstartrate: API.OperationMethod<GetVitalsSlowstartrateRequest, GetVitalsSlowstartrateResponse, GetVitalsSlowstartrateError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetVitalsSlowstartrateRequest,
   output: GetVitalsSlowstartrateResponse,
   errors: [],
 }));
 
-/** Queries the metrics in the metric set. */
 export interface QueryVitalsSlowstartrateRequest {
   /** Required. The resource name. Format: apps/{app}/slowStartRateMetricSet */
   name: string;
@@ -1198,13 +1197,13 @@ export const QueryVitalsSlowstartrateResponse = GooglePlayDeveloperReportingV1be
 
 export type QueryVitalsSlowstartrateError = CommonErrors;
 
+/** Queries the metrics in the metric set. */
 export const queryVitalsSlowstartrate: API.OperationMethod<QueryVitalsSlowstartrateRequest, QueryVitalsSlowstartrateResponse, QueryVitalsSlowstartrateError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: QueryVitalsSlowstartrateRequest,
   output: QueryVitalsSlowstartrateResponse,
   errors: [],
 }));
 
-/** Describes the properties of the metric set. */
 export interface GetVitalsSlowrenderingrateRequest {
   /** Required. The resource name. Format: apps/{app}/slowRenderingRateMetricSet */
   name: string;
@@ -1222,13 +1221,13 @@ export const GetVitalsSlowrenderingrateResponse = GooglePlayDeveloperReportingV1
 
 export type GetVitalsSlowrenderingrateError = CommonErrors;
 
+/** Describes the properties of the metric set. */
 export const getVitalsSlowrenderingrate: API.OperationMethod<GetVitalsSlowrenderingrateRequest, GetVitalsSlowrenderingrateResponse, GetVitalsSlowrenderingrateError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetVitalsSlowrenderingrateRequest,
   output: GetVitalsSlowrenderingrateResponse,
   errors: [],
 }));
 
-/** Queries the metrics in the metric set. */
 export interface QueryVitalsSlowrenderingrateRequest {
   /** Required. The resource name. Format: apps/{app}/slowRenderingRateMetricSet */
   name: string;
@@ -1249,13 +1248,13 @@ export const QueryVitalsSlowrenderingrateResponse = GooglePlayDeveloperReporting
 
 export type QueryVitalsSlowrenderingrateError = CommonErrors;
 
+/** Queries the metrics in the metric set. */
 export const queryVitalsSlowrenderingrate: API.OperationMethod<QueryVitalsSlowrenderingrateRequest, QueryVitalsSlowrenderingrateResponse, QueryVitalsSlowrenderingrateError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: QueryVitalsSlowrenderingrateRequest,
   output: QueryVitalsSlowrenderingrateResponse,
   errors: [],
 }));
 
-/** Searches all error reports received for an app. */
 export interface SearchVitalsErrorsReportsRequest {
   /** Required. Parent resource of the reports, indicating the application for which they were received. Format: apps/{app} */
   parent: string;
@@ -1342,7 +1341,8 @@ export const SearchVitalsErrorsReportsResponse = GooglePlayDeveloperReportingV1b
 
 export type SearchVitalsErrorsReportsError = CommonErrors;
 
-export const searchVitalsErrorsReports = API.makePaginated(() => ({
+/** Searches all error reports received for an app. */
+export const searchVitalsErrorsReports: API.PaginatedOperationMethod<SearchVitalsErrorsReportsRequest, SearchVitalsErrorsReportsResponse, SearchVitalsErrorsReportsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchVitalsErrorsReportsRequest,
   output: SearchVitalsErrorsReportsResponse,
   errors: [],
@@ -1352,7 +1352,6 @@ export const searchVitalsErrorsReports = API.makePaginated(() => ({
   },
 }));
 
-/** Searches all error issues in which reports have been grouped. */
 export interface SearchVitalsErrorsIssuesRequest {
   /** Required. Parent resource of the error issues, indicating the application for which they were received. Format: apps/{app} */
   parent: string;
@@ -1445,7 +1444,8 @@ export const SearchVitalsErrorsIssuesResponse = GooglePlayDeveloperReportingV1be
 
 export type SearchVitalsErrorsIssuesError = CommonErrors;
 
-export const searchVitalsErrorsIssues = API.makePaginated(() => ({
+/** Searches all error issues in which reports have been grouped. */
+export const searchVitalsErrorsIssues: API.PaginatedOperationMethod<SearchVitalsErrorsIssuesRequest, SearchVitalsErrorsIssuesResponse, SearchVitalsErrorsIssuesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchVitalsErrorsIssuesRequest,
   output: SearchVitalsErrorsIssuesResponse,
   errors: [],
@@ -1455,7 +1455,6 @@ export const searchVitalsErrorsIssues = API.makePaginated(() => ({
   },
 }));
 
-/** Describes the properties of the metrics set. */
 export interface GetVitalsErrorsCountsRequest {
   /** Required. Name of the errors metric set. Format: apps/{app}/errorCountMetricSet */
   name: string;
@@ -1473,13 +1472,13 @@ export const GetVitalsErrorsCountsResponse = GooglePlayDeveloperReportingV1beta1
 
 export type GetVitalsErrorsCountsError = CommonErrors;
 
+/** Describes the properties of the metrics set. */
 export const getVitalsErrorsCounts: API.OperationMethod<GetVitalsErrorsCountsRequest, GetVitalsErrorsCountsResponse, GetVitalsErrorsCountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetVitalsErrorsCountsRequest,
   output: GetVitalsErrorsCountsResponse,
   errors: [],
 }));
 
-/** Queries the metrics in the metrics set. */
 export interface QueryVitalsErrorsCountsRequest {
   /** Required. The resource name. Format: apps/{app}/errorCountMetricSet */
   name: string;
@@ -1500,13 +1499,13 @@ export const QueryVitalsErrorsCountsResponse = GooglePlayDeveloperReportingV1bet
 
 export type QueryVitalsErrorsCountsError = CommonErrors;
 
+/** Queries the metrics in the metrics set. */
 export const queryVitalsErrorsCounts: API.OperationMethod<QueryVitalsErrorsCountsRequest, QueryVitalsErrorsCountsResponse, QueryVitalsErrorsCountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: QueryVitalsErrorsCountsRequest,
   output: QueryVitalsErrorsCountsResponse,
   errors: [],
 }));
 
-/** Describes filtering options for releases. */
 export interface FetchReleaseFilterOptionsAppsRequest {
   /** Required. Name of the resource, i.e. app the filtering options are for. Format: apps/{app} */
   name: string;
@@ -1524,13 +1523,13 @@ export const FetchReleaseFilterOptionsAppsResponse = GooglePlayDeveloperReportin
 
 export type FetchReleaseFilterOptionsAppsError = CommonErrors;
 
+/** Describes filtering options for releases. */
 export const fetchReleaseFilterOptionsApps: API.OperationMethod<FetchReleaseFilterOptionsAppsRequest, FetchReleaseFilterOptionsAppsResponse, FetchReleaseFilterOptionsAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FetchReleaseFilterOptionsAppsRequest,
   output: FetchReleaseFilterOptionsAppsResponse,
   errors: [],
 }));
 
-/** Searches for Apps accessible by the user. */
 export interface SearchAppsRequest {
   /** Optional. The maximum number of apps to return. The service may return fewer than this value. If unspecified, at most 50 apps will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
@@ -1551,7 +1550,8 @@ export const SearchAppsResponse = GooglePlayDeveloperReportingV1beta1SearchAcces
 
 export type SearchAppsError = CommonErrors;
 
-export const searchApps = API.makePaginated(() => ({
+/** Searches for Apps accessible by the user. */
+export const searchApps: API.PaginatedOperationMethod<SearchAppsRequest, SearchAppsResponse, SearchAppsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchAppsRequest,
   output: SearchAppsResponse,
   errors: [],

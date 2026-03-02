@@ -81,7 +81,6 @@ export const BatchGetAmpUrlsResponse: Schema.Schema<BatchGetAmpUrlsResponse> = S
 // Operations
 // ==========================================================================
 
-/** Returns AMP URL(s) and equivalent [AMP Cache URL(s)](/amp/cache/overview#amp-cache-url-format). */
 export interface BatchGetAmpUrlsRequest_Op {
   /** Request body */
   body?: BatchGetAmpUrlsRequest;
@@ -99,6 +98,7 @@ export const BatchGetAmpUrlsResponse_Op = BatchGetAmpUrlsResponse;
 
 export type BatchGetAmpUrlsError = CommonErrors;
 
+/** Returns AMP URL(s) and equivalent [AMP Cache URL(s)](/amp/cache/overview#amp-cache-url-format). */
 export const batchGetAmpUrls: API.OperationMethod<BatchGetAmpUrlsRequest_Op, BatchGetAmpUrlsResponse_Op, BatchGetAmpUrlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchGetAmpUrlsRequest_Op,
   output: BatchGetAmpUrlsResponse_Op,

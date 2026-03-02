@@ -642,7 +642,6 @@ export const ListProductCertificationsResponse: Schema.Schema<ListProductCertifi
 // Operations
 // ==========================================================================
 
-/** Lists all the products in a Manufacturer Center account. */
 export interface ListAccountsProductsRequest {
   /** Parent ID in the format `accounts/{account_id}`. `account_id` - The ID of the Manufacturer Center account. */
   parent: string;
@@ -669,7 +668,8 @@ export const ListAccountsProductsResponse = ListProductsResponse;
 
 export type ListAccountsProductsError = CommonErrors;
 
-export const listAccountsProducts = API.makePaginated(() => ({
+/** Lists all the products in a Manufacturer Center account. */
+export const listAccountsProducts: API.PaginatedOperationMethod<ListAccountsProductsRequest, ListAccountsProductsResponse, ListAccountsProductsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsProductsRequest,
   output: ListAccountsProductsResponse,
   errors: [],
@@ -679,7 +679,6 @@ export const listAccountsProducts = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the product from a Manufacturer Center account, including product issues. A recently updated product takes around 15 minutes to process. Changes are only visible after it has been processed. While some issues may be available once the product has been processed, other issues may take days to appear. */
 export interface GetAccountsProductsRequest {
   /** Parent ID in the format `accounts/{account_id}`. `account_id` - The ID of the Manufacturer Center account. */
   parent: string;
@@ -703,13 +702,13 @@ export const GetAccountsProductsResponse = Product;
 
 export type GetAccountsProductsError = CommonErrors;
 
+/** Gets the product from a Manufacturer Center account, including product issues. A recently updated product takes around 15 minutes to process. Changes are only visible after it has been processed. While some issues may be available once the product has been processed, other issues may take days to appear. */
 export const getAccountsProducts: API.OperationMethod<GetAccountsProductsRequest, GetAccountsProductsResponse, GetAccountsProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsProductsRequest,
   output: GetAccountsProductsResponse,
   errors: [],
 }));
 
-/** Inserts or updates the attributes of the product in a Manufacturer Center account. Creates a product with the provided attributes. If the product already exists, then all attributes are replaced with the new ones. The checks at upload time are minimal. All required attributes need to be present for a product to be valid. Issues may show up later after the API has accepted a new upload for a product and it is possible to overwrite an existing valid product with an invalid product. To detect this, you should retrieve the product and check it for issues once the new version is available. Uploaded attributes first need to be processed before they can be retrieved. Until then, new products will be unavailable, and retrieval of previously uploaded products will return the original state of the product. */
 export interface UpdateAccountsProductsRequest {
   /** Parent ID in the format `accounts/{account_id}`. `account_id` - The ID of the Manufacturer Center account. */
   parent: string;
@@ -733,13 +732,13 @@ export const UpdateAccountsProductsResponse = Empty;
 
 export type UpdateAccountsProductsError = CommonErrors;
 
+/** Inserts or updates the attributes of the product in a Manufacturer Center account. Creates a product with the provided attributes. If the product already exists, then all attributes are replaced with the new ones. The checks at upload time are minimal. All required attributes need to be present for a product to be valid. Issues may show up later after the API has accepted a new upload for a product and it is possible to overwrite an existing valid product with an invalid product. To detect this, you should retrieve the product and check it for issues once the new version is available. Uploaded attributes first need to be processed before they can be retrieved. Until then, new products will be unavailable, and retrieval of previously uploaded products will return the original state of the product. */
 export const updateAccountsProducts: API.OperationMethod<UpdateAccountsProductsRequest, UpdateAccountsProductsResponse, UpdateAccountsProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAccountsProductsRequest,
   output: UpdateAccountsProductsResponse,
   errors: [],
 }));
 
-/** Deletes the product from a Manufacturer Center account. */
 export interface DeleteAccountsProductsRequest {
   /** Parent ID in the format `accounts/{account_id}`. `account_id` - The ID of the Manufacturer Center account. */
   parent: string;
@@ -760,13 +759,13 @@ export const DeleteAccountsProductsResponse = Empty;
 
 export type DeleteAccountsProductsError = CommonErrors;
 
+/** Deletes the product from a Manufacturer Center account. */
 export const deleteAccountsProducts: API.OperationMethod<DeleteAccountsProductsRequest, DeleteAccountsProductsResponse, DeleteAccountsProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountsProductsRequest,
   output: DeleteAccountsProductsResponse,
   errors: [],
 }));
 
-/** Updates (or creates if allow_missing = true) a product certification which links certifications with products. This method can only be called by certification bodies. */
 export interface PatchAccountsLanguagesProductCertificationsRequest {
   /** Required. The unique name identifier of a product certification Format: accounts/{account}/languages/{language_code}/productCertifications/{id} Where `id` is a some unique identifier and `language_code` is a 2-letter ISO 639-1 code of a Shopping supported language according to https://support.google.com/merchants/answer/160637. */
   name: string;
@@ -790,13 +789,13 @@ export const PatchAccountsLanguagesProductCertificationsResponse = ProductCertif
 
 export type PatchAccountsLanguagesProductCertificationsError = CommonErrors;
 
+/** Updates (or creates if allow_missing = true) a product certification which links certifications with products. This method can only be called by certification bodies. */
 export const patchAccountsLanguagesProductCertifications: API.OperationMethod<PatchAccountsLanguagesProductCertificationsRequest, PatchAccountsLanguagesProductCertificationsResponse, PatchAccountsLanguagesProductCertificationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAccountsLanguagesProductCertificationsRequest,
   output: PatchAccountsLanguagesProductCertificationsResponse,
   errors: [],
 }));
 
-/** Lists product certifications from a specified certification body. This method can only be called by certification bodies. */
 export interface ListAccountsLanguagesProductCertificationsRequest {
   /** Required. The parent, which owns this collection of product certifications. Format: accounts/{account}/languages/{language_code} */
   parent: string;
@@ -820,7 +819,8 @@ export const ListAccountsLanguagesProductCertificationsResponse = ListProductCer
 
 export type ListAccountsLanguagesProductCertificationsError = CommonErrors;
 
-export const listAccountsLanguagesProductCertifications = API.makePaginated(() => ({
+/** Lists product certifications from a specified certification body. This method can only be called by certification bodies. */
+export const listAccountsLanguagesProductCertifications: API.PaginatedOperationMethod<ListAccountsLanguagesProductCertificationsRequest, ListAccountsLanguagesProductCertificationsResponse, ListAccountsLanguagesProductCertificationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsLanguagesProductCertificationsRequest,
   output: ListAccountsLanguagesProductCertificationsResponse,
   errors: [],
@@ -830,7 +830,6 @@ export const listAccountsLanguagesProductCertifications = API.makePaginated(() =
   },
 }));
 
-/** Gets a product certification by its name. This method can only be called by certification bodies. */
 export interface GetAccountsLanguagesProductCertificationsRequest {
   /** Required. The name of the product certification to get. Format: accounts/{account}/languages/{language_code}/productCertifications/{id} */
   name: string;
@@ -848,13 +847,13 @@ export const GetAccountsLanguagesProductCertificationsResponse = ProductCertific
 
 export type GetAccountsLanguagesProductCertificationsError = CommonErrors;
 
+/** Gets a product certification by its name. This method can only be called by certification bodies. */
 export const getAccountsLanguagesProductCertifications: API.OperationMethod<GetAccountsLanguagesProductCertificationsRequest, GetAccountsLanguagesProductCertificationsResponse, GetAccountsLanguagesProductCertificationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsLanguagesProductCertificationsRequest,
   output: GetAccountsLanguagesProductCertificationsResponse,
   errors: [],
 }));
 
-/** Deletes a product certification by its name. This method can only be called by certification bodies. */
 export interface DeleteAccountsLanguagesProductCertificationsRequest {
   /** Required. The name of the product certification to delete. Format: accounts/{account}/languages/{language_code}/productCertifications/{id} */
   name: string;
@@ -872,6 +871,7 @@ export const DeleteAccountsLanguagesProductCertificationsResponse = Empty;
 
 export type DeleteAccountsLanguagesProductCertificationsError = CommonErrors;
 
+/** Deletes a product certification by its name. This method can only be called by certification bodies. */
 export const deleteAccountsLanguagesProductCertifications: API.OperationMethod<DeleteAccountsLanguagesProductCertificationsRequest, DeleteAccountsLanguagesProductCertificationsResponse, DeleteAccountsLanguagesProductCertificationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountsLanguagesProductCertificationsRequest,
   output: DeleteAccountsLanguagesProductCertificationsResponse,

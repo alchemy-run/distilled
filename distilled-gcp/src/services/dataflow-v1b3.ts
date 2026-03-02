@@ -3648,7 +3648,6 @@ export const SendWorkerMessagesResponse: Schema.Schema<SendWorkerMessagesRespons
 // Operations
 // ==========================================================================
 
-/** Deletes a snapshot. */
 export interface DeleteSnapshotsProjectsRequest {
   /** The ID of the Cloud Platform project that the snapshot belongs to. */
   projectId: string;
@@ -3672,13 +3671,13 @@ export const DeleteSnapshotsProjectsResponse = DeleteSnapshotResponse;
 
 export type DeleteSnapshotsProjectsError = CommonErrors;
 
+/** Deletes a snapshot. */
 export const deleteSnapshotsProjects: API.OperationMethod<DeleteSnapshotsProjectsRequest, DeleteSnapshotsProjectsResponse, DeleteSnapshotsProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteSnapshotsProjectsRequest,
   output: DeleteSnapshotsProjectsResponse,
   errors: [],
 }));
 
-/** Send a worker_message to the service. */
 export interface WorkerMessagesProjectsRequest {
   /** The project to send the WorkerMessages to. */
   projectId: string;
@@ -3699,13 +3698,13 @@ export const WorkerMessagesProjectsResponse = SendWorkerMessagesResponse;
 
 export type WorkerMessagesProjectsError = CommonErrors;
 
+/** Send a worker_message to the service. */
 export const workerMessagesProjects: API.OperationMethod<WorkerMessagesProjectsRequest, WorkerMessagesProjectsResponse, WorkerMessagesProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WorkerMessagesProjectsRequest,
   output: WorkerMessagesProjectsResponse,
   errors: [],
 }));
 
-/** Gets information about a snapshot. */
 export interface GetProjectsSnapshotsRequest {
   /** The ID of the Cloud Platform project that the snapshot belongs to. */
   projectId: string;
@@ -3729,13 +3728,13 @@ export const GetProjectsSnapshotsResponse = Snapshot;
 
 export type GetProjectsSnapshotsError = CommonErrors;
 
+/** Gets information about a snapshot. */
 export const getProjectsSnapshots: API.OperationMethod<GetProjectsSnapshotsRequest, GetProjectsSnapshotsResponse, GetProjectsSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsSnapshotsRequest,
   output: GetProjectsSnapshotsResponse,
   errors: [],
 }));
 
-/** Lists snapshots. */
 export interface ListProjectsSnapshotsRequest {
   /** The project ID to list snapshots for. */
   projectId: string;
@@ -3759,13 +3758,13 @@ export const ListProjectsSnapshotsResponse = ListSnapshotsResponse;
 
 export type ListProjectsSnapshotsError = CommonErrors;
 
+/** Lists snapshots. */
 export const listProjectsSnapshots: API.OperationMethod<ListProjectsSnapshotsRequest, ListProjectsSnapshotsResponse, ListProjectsSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsSnapshotsRequest,
   output: ListProjectsSnapshotsResponse,
   errors: [],
 }));
 
-/** Creates a Dataflow job. To create a job, we recommend using `projects.locations.jobs.create` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.jobs.create` is not recommended, as your job will always start in `us-central1`. Do not enter confidential information when you supply string values using the API. */
 export interface CreateProjectsJobsRequest {
   /** The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
@@ -3795,13 +3794,13 @@ export const CreateProjectsJobsResponse = Job;
 
 export type CreateProjectsJobsError = CommonErrors;
 
+/** Creates a Dataflow job. To create a job, we recommend using `projects.locations.jobs.create` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.jobs.create` is not recommended, as your job will always start in `us-central1`. Do not enter confidential information when you supply string values using the API. */
 export const createProjectsJobs: API.OperationMethod<CreateProjectsJobsRequest, CreateProjectsJobsResponse, CreateProjectsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsJobsRequest,
   output: CreateProjectsJobsResponse,
   errors: [],
 }));
 
-/** Gets the state of the specified Cloud Dataflow job. To get the state of a job, we recommend using `projects.locations.jobs.get` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.jobs.get` is not recommended, as you can only get the state of jobs that are running in `us-central1`. */
 export interface GetProjectsJobsRequest {
   /** The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
@@ -3828,13 +3827,13 @@ export const GetProjectsJobsResponse = Job;
 
 export type GetProjectsJobsError = CommonErrors;
 
+/** Gets the state of the specified Cloud Dataflow job. To get the state of a job, we recommend using `projects.locations.jobs.get` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.jobs.get` is not recommended, as you can only get the state of jobs that are running in `us-central1`. */
 export const getProjectsJobs: API.OperationMethod<GetProjectsJobsRequest, GetProjectsJobsResponse, GetProjectsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsJobsRequest,
   output: GetProjectsJobsResponse,
   errors: [],
 }));
 
-/** Updates the state of an existing Cloud Dataflow job. To update the state of an existing job, we recommend using `projects.locations.jobs.update` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.jobs.update` is not recommended, as you can only update the state of jobs that are running in `us-central1`. */
 export interface UpdateProjectsJobsRequest {
   /** The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
@@ -3864,13 +3863,13 @@ export const UpdateProjectsJobsResponse = Job;
 
 export type UpdateProjectsJobsError = CommonErrors;
 
+/** Updates the state of an existing Cloud Dataflow job. To update the state of an existing job, we recommend using `projects.locations.jobs.update` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.jobs.update` is not recommended, as you can only update the state of jobs that are running in `us-central1`. */
 export const updateProjectsJobs: API.OperationMethod<UpdateProjectsJobsRequest, UpdateProjectsJobsResponse, UpdateProjectsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateProjectsJobsRequest,
   output: UpdateProjectsJobsResponse,
   errors: [],
 }));
 
-/** List the jobs of a project. To list the jobs of a project in a region, we recommend using `projects.locations.jobs.list` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). To list the all jobs across all regions, use `projects.jobs.aggregated`. Using `projects.jobs.list` is not recommended, because you can only get the list of jobs that are running in `us-central1`. `projects.locations.jobs.list` and `projects.jobs.list` support filtering the list of jobs by name. Filtering by name isn't supported by `projects.jobs.aggregated`. */
 export interface ListProjectsJobsRequest {
   /** The project which owns the jobs. */
   projectId: string;
@@ -3906,7 +3905,8 @@ export const ListProjectsJobsResponse = ListJobsResponse;
 
 export type ListProjectsJobsError = CommonErrors;
 
-export const listProjectsJobs = API.makePaginated(() => ({
+/** List the jobs of a project. To list the jobs of a project in a region, we recommend using `projects.locations.jobs.list` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). To list the all jobs across all regions, use `projects.jobs.aggregated`. Using `projects.jobs.list` is not recommended, because you can only get the list of jobs that are running in `us-central1`. `projects.locations.jobs.list` and `projects.jobs.list` support filtering the list of jobs by name. Filtering by name isn't supported by `projects.jobs.aggregated`. */
+export const listProjectsJobs: API.PaginatedOperationMethod<ListProjectsJobsRequest, ListProjectsJobsResponse, ListProjectsJobsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsJobsRequest,
   output: ListProjectsJobsResponse,
   errors: [],
@@ -3916,7 +3916,6 @@ export const listProjectsJobs = API.makePaginated(() => ({
   },
 }));
 
-/** List the jobs of a project across all regions. **Note:** This method doesn't support filtering the list of jobs by name. */
 export interface AggregatedProjectsJobsRequest {
   /** The project which owns the jobs. */
   projectId: string;
@@ -3952,7 +3951,8 @@ export const AggregatedProjectsJobsResponse = ListJobsResponse;
 
 export type AggregatedProjectsJobsError = CommonErrors;
 
-export const aggregatedProjectsJobs = API.makePaginated(() => ({
+/** List the jobs of a project across all regions. **Note:** This method doesn't support filtering the list of jobs by name. */
+export const aggregatedProjectsJobs: API.PaginatedOperationMethod<AggregatedProjectsJobsRequest, AggregatedProjectsJobsResponse, AggregatedProjectsJobsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AggregatedProjectsJobsRequest,
   output: AggregatedProjectsJobsResponse,
   errors: [],
@@ -3962,7 +3962,6 @@ export const aggregatedProjectsJobs = API.makePaginated(() => ({
   },
 }));
 
-/** Snapshot the state of a streaming job. */
 export interface SnapshotProjectsJobsRequest {
   /** The project which owns the job to be snapshotted. */
   projectId: string;
@@ -3986,13 +3985,13 @@ export const SnapshotProjectsJobsResponse = Snapshot;
 
 export type SnapshotProjectsJobsError = CommonErrors;
 
+/** Snapshot the state of a streaming job. */
 export const snapshotProjectsJobs: API.OperationMethod<SnapshotProjectsJobsRequest, SnapshotProjectsJobsResponse, SnapshotProjectsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SnapshotProjectsJobsRequest,
   output: SnapshotProjectsJobsResponse,
   errors: [],
 }));
 
-/** Request the job status. To request the status of a job, we recommend using `projects.locations.jobs.getMetrics` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.jobs.getMetrics` is not recommended, as you can only request the status of jobs that are running in `us-central1`. */
 export interface GetMetricsProjectsJobsRequest {
   /** A project id. */
   projectId: string;
@@ -4019,13 +4018,13 @@ export const GetMetricsProjectsJobsResponse = JobMetrics;
 
 export type GetMetricsProjectsJobsError = CommonErrors;
 
+/** Request the job status. To request the status of a job, we recommend using `projects.locations.jobs.getMetrics` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.jobs.getMetrics` is not recommended, as you can only request the status of jobs that are running in `us-central1`. */
 export const getMetricsProjectsJobs: API.OperationMethod<GetMetricsProjectsJobsRequest, GetMetricsProjectsJobsResponse, GetMetricsProjectsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetMetricsProjectsJobsRequest,
   output: GetMetricsProjectsJobsResponse,
   errors: [],
 }));
 
-/** Get encoded debug configuration for component. Not cacheable. */
 export interface GetConfigProjectsJobsDebugRequest {
   /** The project id. */
   projectId: string;
@@ -4049,13 +4048,13 @@ export const GetConfigProjectsJobsDebugResponse = GetDebugConfigResponse;
 
 export type GetConfigProjectsJobsDebugError = CommonErrors;
 
+/** Get encoded debug configuration for component. Not cacheable. */
 export const getConfigProjectsJobsDebug: API.OperationMethod<GetConfigProjectsJobsDebugRequest, GetConfigProjectsJobsDebugResponse, GetConfigProjectsJobsDebugError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetConfigProjectsJobsDebugRequest,
   output: GetConfigProjectsJobsDebugResponse,
   errors: [],
 }));
 
-/** Send encoded debug capture data for component. */
 export interface SendCaptureProjectsJobsDebugRequest {
   /** The project id. */
   projectId: string;
@@ -4079,13 +4078,13 @@ export const SendCaptureProjectsJobsDebugResponse = SendDebugCaptureResponse;
 
 export type SendCaptureProjectsJobsDebugError = CommonErrors;
 
+/** Send encoded debug capture data for component. */
 export const sendCaptureProjectsJobsDebug: API.OperationMethod<SendCaptureProjectsJobsDebugRequest, SendCaptureProjectsJobsDebugResponse, SendCaptureProjectsJobsDebugError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SendCaptureProjectsJobsDebugRequest,
   output: SendCaptureProjectsJobsDebugResponse,
   errors: [],
 }));
 
-/** Request the job status. To request the status of a job, we recommend using `projects.locations.jobs.messages.list` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.jobs.messages.list` is not recommended, as you can only request the status of jobs that are running in `us-central1`. */
 export interface ListProjectsJobsMessagesRequest {
   /** A project id. */
   projectId: string;
@@ -4124,7 +4123,8 @@ export const ListProjectsJobsMessagesResponse = ListJobMessagesResponse;
 
 export type ListProjectsJobsMessagesError = CommonErrors;
 
-export const listProjectsJobsMessages = API.makePaginated(() => ({
+/** Request the job status. To request the status of a job, we recommend using `projects.locations.jobs.messages.list` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.jobs.messages.list` is not recommended, as you can only request the status of jobs that are running in `us-central1`. */
+export const listProjectsJobsMessages: API.PaginatedOperationMethod<ListProjectsJobsMessagesRequest, ListProjectsJobsMessagesResponse, ListProjectsJobsMessagesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsJobsMessagesRequest,
   output: ListProjectsJobsMessagesResponse,
   errors: [],
@@ -4134,7 +4134,6 @@ export const listProjectsJobsMessages = API.makePaginated(() => ({
   },
 }));
 
-/** Reports the status of dataflow WorkItems leased by a worker. */
 export interface ReportStatusProjectsJobsWorkItemsRequest {
   /** The project which owns the WorkItem's job. */
   projectId: string;
@@ -4158,13 +4157,13 @@ export const ReportStatusProjectsJobsWorkItemsResponse = ReportWorkItemStatusRes
 
 export type ReportStatusProjectsJobsWorkItemsError = CommonErrors;
 
+/** Reports the status of dataflow WorkItems leased by a worker. */
 export const reportStatusProjectsJobsWorkItems: API.OperationMethod<ReportStatusProjectsJobsWorkItemsRequest, ReportStatusProjectsJobsWorkItemsResponse, ReportStatusProjectsJobsWorkItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReportStatusProjectsJobsWorkItemsRequest,
   output: ReportStatusProjectsJobsWorkItemsResponse,
   errors: [],
 }));
 
-/** Leases a dataflow WorkItem to run. */
 export interface LeaseProjectsJobsWorkItemsRequest {
   /** Identifies the project this worker belongs to. */
   projectId: string;
@@ -4188,13 +4187,13 @@ export const LeaseProjectsJobsWorkItemsResponse = LeaseWorkItemResponse;
 
 export type LeaseProjectsJobsWorkItemsError = CommonErrors;
 
+/** Leases a dataflow WorkItem to run. */
 export const leaseProjectsJobsWorkItems: API.OperationMethod<LeaseProjectsJobsWorkItemsRequest, LeaseProjectsJobsWorkItemsResponse, LeaseProjectsJobsWorkItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LeaseProjectsJobsWorkItemsRequest,
   output: LeaseProjectsJobsWorkItemsResponse,
   errors: [],
 }));
 
-/** Creates a Cloud Dataflow job from a template. Do not enter confidential information when you supply string values using the API. To create a job, we recommend using `projects.locations.templates.create` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.templates.create` is not recommended, because your job will always start in `us-central1`. */
 export interface CreateProjectsTemplatesRequest {
   /** Required. The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
@@ -4215,13 +4214,13 @@ export const CreateProjectsTemplatesResponse = Job;
 
 export type CreateProjectsTemplatesError = CommonErrors;
 
+/** Creates a Cloud Dataflow job from a template. Do not enter confidential information when you supply string values using the API. To create a job, we recommend using `projects.locations.templates.create` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.templates.create` is not recommended, because your job will always start in `us-central1`. */
 export const createProjectsTemplates: API.OperationMethod<CreateProjectsTemplatesRequest, CreateProjectsTemplatesResponse, CreateProjectsTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsTemplatesRequest,
   output: CreateProjectsTemplatesResponse,
   errors: [],
 }));
 
-/** Launches a template. To launch a template, we recommend using `projects.locations.templates.launch` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.templates.launch` is not recommended, because jobs launched from the template will always start in `us-central1`. */
 export interface LaunchProjectsTemplatesRequest {
   /** Required. The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
@@ -4257,13 +4256,13 @@ export const LaunchProjectsTemplatesResponse = LaunchTemplateResponse;
 
 export type LaunchProjectsTemplatesError = CommonErrors;
 
+/** Launches a template. To launch a template, we recommend using `projects.locations.templates.launch` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.templates.launch` is not recommended, because jobs launched from the template will always start in `us-central1`. */
 export const launchProjectsTemplates: API.OperationMethod<LaunchProjectsTemplatesRequest, LaunchProjectsTemplatesResponse, LaunchProjectsTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LaunchProjectsTemplatesRequest,
   output: LaunchProjectsTemplatesResponse,
   errors: [],
 }));
 
-/** Get the template associated with a template. To get the template, we recommend using `projects.locations.templates.get` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.templates.get` is not recommended, because only templates that are running in `us-central1` are retrieved. */
 export interface GetProjectsTemplatesRequest {
   /** Required. The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
@@ -4290,13 +4289,13 @@ export const GetProjectsTemplatesResponse = GetTemplateResponse;
 
 export type GetProjectsTemplatesError = CommonErrors;
 
+/** Get the template associated with a template. To get the template, we recommend using `projects.locations.templates.get` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.templates.get` is not recommended, because only templates that are running in `us-central1` are retrieved. */
 export const getProjectsTemplates: API.OperationMethod<GetProjectsTemplatesRequest, GetProjectsTemplatesResponse, GetProjectsTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsTemplatesRequest,
   output: GetProjectsTemplatesResponse,
   errors: [],
 }));
 
-/** Send a worker_message to the service. */
 export interface WorkerMessagesProjectsLocationsRequest {
   /** The project to send the WorkerMessages to. */
   projectId: string;
@@ -4320,13 +4319,13 @@ export const WorkerMessagesProjectsLocationsResponse = SendWorkerMessagesRespons
 
 export type WorkerMessagesProjectsLocationsError = CommonErrors;
 
+/** Send a worker_message to the service. */
 export const workerMessagesProjectsLocations: API.OperationMethod<WorkerMessagesProjectsLocationsRequest, WorkerMessagesProjectsLocationsResponse, WorkerMessagesProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WorkerMessagesProjectsLocationsRequest,
   output: WorkerMessagesProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Gets information about a snapshot. */
 export interface GetProjectsLocationsSnapshotsRequest {
   /** The ID of the Cloud Platform project that the snapshot belongs to. */
   projectId: string;
@@ -4350,13 +4349,13 @@ export const GetProjectsLocationsSnapshotsResponse = Snapshot;
 
 export type GetProjectsLocationsSnapshotsError = CommonErrors;
 
+/** Gets information about a snapshot. */
 export const getProjectsLocationsSnapshots: API.OperationMethod<GetProjectsLocationsSnapshotsRequest, GetProjectsLocationsSnapshotsResponse, GetProjectsLocationsSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSnapshotsRequest,
   output: GetProjectsLocationsSnapshotsResponse,
   errors: [],
 }));
 
-/** Deletes a snapshot. */
 export interface DeleteProjectsLocationsSnapshotsRequest {
   /** The ID of the Cloud Platform project that the snapshot belongs to. */
   projectId: string;
@@ -4380,13 +4379,13 @@ export const DeleteProjectsLocationsSnapshotsResponse = DeleteSnapshotResponse;
 
 export type DeleteProjectsLocationsSnapshotsError = CommonErrors;
 
+/** Deletes a snapshot. */
 export const deleteProjectsLocationsSnapshots: API.OperationMethod<DeleteProjectsLocationsSnapshotsRequest, DeleteProjectsLocationsSnapshotsResponse, DeleteProjectsLocationsSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsSnapshotsRequest,
   output: DeleteProjectsLocationsSnapshotsResponse,
   errors: [],
 }));
 
-/** Lists snapshots. */
 export interface ListProjectsLocationsSnapshotsRequest {
   /** The project ID to list snapshots for. */
   projectId: string;
@@ -4410,13 +4409,13 @@ export const ListProjectsLocationsSnapshotsResponse = ListSnapshotsResponse;
 
 export type ListProjectsLocationsSnapshotsError = CommonErrors;
 
+/** Lists snapshots. */
 export const listProjectsLocationsSnapshots: API.OperationMethod<ListProjectsLocationsSnapshotsRequest, ListProjectsLocationsSnapshotsResponse, ListProjectsLocationsSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsSnapshotsRequest,
   output: ListProjectsLocationsSnapshotsResponse,
   errors: [],
 }));
 
-/** Creates a Dataflow job. To create a job, we recommend using `projects.locations.jobs.create` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.jobs.create` is not recommended, as your job will always start in `us-central1`. Do not enter confidential information when you supply string values using the API. */
 export interface CreateProjectsLocationsJobsRequest {
   /** The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
@@ -4446,13 +4445,13 @@ export const CreateProjectsLocationsJobsResponse = Job;
 
 export type CreateProjectsLocationsJobsError = CommonErrors;
 
+/** Creates a Dataflow job. To create a job, we recommend using `projects.locations.jobs.create` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.jobs.create` is not recommended, as your job will always start in `us-central1`. Do not enter confidential information when you supply string values using the API. */
 export const createProjectsLocationsJobs: API.OperationMethod<CreateProjectsLocationsJobsRequest, CreateProjectsLocationsJobsResponse, CreateProjectsLocationsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsJobsRequest,
   output: CreateProjectsLocationsJobsResponse,
   errors: [],
 }));
 
-/** Gets the state of the specified Cloud Dataflow job. To get the state of a job, we recommend using `projects.locations.jobs.get` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.jobs.get` is not recommended, as you can only get the state of jobs that are running in `us-central1`. */
 export interface GetProjectsLocationsJobsRequest {
   /** The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
@@ -4479,13 +4478,13 @@ export const GetProjectsLocationsJobsResponse = Job;
 
 export type GetProjectsLocationsJobsError = CommonErrors;
 
+/** Gets the state of the specified Cloud Dataflow job. To get the state of a job, we recommend using `projects.locations.jobs.get` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.jobs.get` is not recommended, as you can only get the state of jobs that are running in `us-central1`. */
 export const getProjectsLocationsJobs: API.OperationMethod<GetProjectsLocationsJobsRequest, GetProjectsLocationsJobsResponse, GetProjectsLocationsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsJobsRequest,
   output: GetProjectsLocationsJobsResponse,
   errors: [],
 }));
 
-/** Updates the state of an existing Cloud Dataflow job. To update the state of an existing job, we recommend using `projects.locations.jobs.update` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.jobs.update` is not recommended, as you can only update the state of jobs that are running in `us-central1`. */
 export interface UpdateProjectsLocationsJobsRequest {
   /** The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
@@ -4515,13 +4514,13 @@ export const UpdateProjectsLocationsJobsResponse = Job;
 
 export type UpdateProjectsLocationsJobsError = CommonErrors;
 
+/** Updates the state of an existing Cloud Dataflow job. To update the state of an existing job, we recommend using `projects.locations.jobs.update` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.jobs.update` is not recommended, as you can only update the state of jobs that are running in `us-central1`. */
 export const updateProjectsLocationsJobs: API.OperationMethod<UpdateProjectsLocationsJobsRequest, UpdateProjectsLocationsJobsResponse, UpdateProjectsLocationsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateProjectsLocationsJobsRequest,
   output: UpdateProjectsLocationsJobsResponse,
   errors: [],
 }));
 
-/** List the jobs of a project. To list the jobs of a project in a region, we recommend using `projects.locations.jobs.list` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). To list the all jobs across all regions, use `projects.jobs.aggregated`. Using `projects.jobs.list` is not recommended, because you can only get the list of jobs that are running in `us-central1`. `projects.locations.jobs.list` and `projects.jobs.list` support filtering the list of jobs by name. Filtering by name isn't supported by `projects.jobs.aggregated`. */
 export interface ListProjectsLocationsJobsRequest {
   /** The project which owns the jobs. */
   projectId: string;
@@ -4557,7 +4556,8 @@ export const ListProjectsLocationsJobsResponse = ListJobsResponse;
 
 export type ListProjectsLocationsJobsError = CommonErrors;
 
-export const listProjectsLocationsJobs = API.makePaginated(() => ({
+/** List the jobs of a project. To list the jobs of a project in a region, we recommend using `projects.locations.jobs.list` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). To list the all jobs across all regions, use `projects.jobs.aggregated`. Using `projects.jobs.list` is not recommended, because you can only get the list of jobs that are running in `us-central1`. `projects.locations.jobs.list` and `projects.jobs.list` support filtering the list of jobs by name. Filtering by name isn't supported by `projects.jobs.aggregated`. */
+export const listProjectsLocationsJobs: API.PaginatedOperationMethod<ListProjectsLocationsJobsRequest, ListProjectsLocationsJobsResponse, ListProjectsLocationsJobsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsJobsRequest,
   output: ListProjectsLocationsJobsResponse,
   errors: [],
@@ -4567,7 +4567,6 @@ export const listProjectsLocationsJobs = API.makePaginated(() => ({
   },
 }));
 
-/** Snapshot the state of a streaming job. */
 export interface SnapshotProjectsLocationsJobsRequest {
   /** The project which owns the job to be snapshotted. */
   projectId: string;
@@ -4594,13 +4593,13 @@ export const SnapshotProjectsLocationsJobsResponse = Snapshot;
 
 export type SnapshotProjectsLocationsJobsError = CommonErrors;
 
+/** Snapshot the state of a streaming job. */
 export const snapshotProjectsLocationsJobs: API.OperationMethod<SnapshotProjectsLocationsJobsRequest, SnapshotProjectsLocationsJobsResponse, SnapshotProjectsLocationsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SnapshotProjectsLocationsJobsRequest,
   output: SnapshotProjectsLocationsJobsResponse,
   errors: [],
 }));
 
-/** Request the job status. To request the status of a job, we recommend using `projects.locations.jobs.getMetrics` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.jobs.getMetrics` is not recommended, as you can only request the status of jobs that are running in `us-central1`. */
 export interface GetMetricsProjectsLocationsJobsRequest {
   /** A project id. */
   projectId: string;
@@ -4627,13 +4626,13 @@ export const GetMetricsProjectsLocationsJobsResponse = JobMetrics;
 
 export type GetMetricsProjectsLocationsJobsError = CommonErrors;
 
+/** Request the job status. To request the status of a job, we recommend using `projects.locations.jobs.getMetrics` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.jobs.getMetrics` is not recommended, as you can only request the status of jobs that are running in `us-central1`. */
 export const getMetricsProjectsLocationsJobs: API.OperationMethod<GetMetricsProjectsLocationsJobsRequest, GetMetricsProjectsLocationsJobsResponse, GetMetricsProjectsLocationsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetMetricsProjectsLocationsJobsRequest,
   output: GetMetricsProjectsLocationsJobsResponse,
   errors: [],
 }));
 
-/** Request detailed information about the execution status of the job. EXPERIMENTAL. This API is subject to change or removal without notice. */
 export interface GetExecutionDetailsProjectsLocationsJobsRequest {
   /** A project id. */
   projectId: string;
@@ -4663,7 +4662,8 @@ export const GetExecutionDetailsProjectsLocationsJobsResponse = JobExecutionDeta
 
 export type GetExecutionDetailsProjectsLocationsJobsError = CommonErrors;
 
-export const getExecutionDetailsProjectsLocationsJobs = API.makePaginated(() => ({
+/** Request detailed information about the execution status of the job. EXPERIMENTAL. This API is subject to change or removal without notice. */
+export const getExecutionDetailsProjectsLocationsJobs: API.PaginatedOperationMethod<GetExecutionDetailsProjectsLocationsJobsRequest, GetExecutionDetailsProjectsLocationsJobsResponse, GetExecutionDetailsProjectsLocationsJobsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: GetExecutionDetailsProjectsLocationsJobsRequest,
   output: GetExecutionDetailsProjectsLocationsJobsResponse,
   errors: [],
@@ -4673,7 +4673,6 @@ export const getExecutionDetailsProjectsLocationsJobs = API.makePaginated(() => 
   },
 }));
 
-/** Get encoded debug configuration for component. Not cacheable. */
 export interface GetConfigProjectsLocationsJobsDebugRequest {
   /** The project id. */
   projectId: string;
@@ -4700,13 +4699,13 @@ export const GetConfigProjectsLocationsJobsDebugResponse = GetDebugConfigRespons
 
 export type GetConfigProjectsLocationsJobsDebugError = CommonErrors;
 
+/** Get encoded debug configuration for component. Not cacheable. */
 export const getConfigProjectsLocationsJobsDebug: API.OperationMethod<GetConfigProjectsLocationsJobsDebugRequest, GetConfigProjectsLocationsJobsDebugResponse, GetConfigProjectsLocationsJobsDebugError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetConfigProjectsLocationsJobsDebugRequest,
   output: GetConfigProjectsLocationsJobsDebugResponse,
   errors: [],
 }));
 
-/** Send encoded debug capture data for component. */
 export interface SendCaptureProjectsLocationsJobsDebugRequest {
   /** The project id. */
   projectId: string;
@@ -4733,13 +4732,13 @@ export const SendCaptureProjectsLocationsJobsDebugResponse = SendDebugCaptureRes
 
 export type SendCaptureProjectsLocationsJobsDebugError = CommonErrors;
 
+/** Send encoded debug capture data for component. */
 export const sendCaptureProjectsLocationsJobsDebug: API.OperationMethod<SendCaptureProjectsLocationsJobsDebugRequest, SendCaptureProjectsLocationsJobsDebugResponse, SendCaptureProjectsLocationsJobsDebugError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SendCaptureProjectsLocationsJobsDebugRequest,
   output: SendCaptureProjectsLocationsJobsDebugResponse,
   errors: [],
 }));
 
-/** Get worker stacktraces from debug capture. */
 export interface GetWorkerStacktracesProjectsLocationsJobsDebugRequest {
   /** The project id. */
   projectId: string;
@@ -4766,13 +4765,13 @@ export const GetWorkerStacktracesProjectsLocationsJobsDebugResponse = GetWorkerS
 
 export type GetWorkerStacktracesProjectsLocationsJobsDebugError = CommonErrors;
 
+/** Get worker stacktraces from debug capture. */
 export const getWorkerStacktracesProjectsLocationsJobsDebug: API.OperationMethod<GetWorkerStacktracesProjectsLocationsJobsDebugRequest, GetWorkerStacktracesProjectsLocationsJobsDebugResponse, GetWorkerStacktracesProjectsLocationsJobsDebugError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetWorkerStacktracesProjectsLocationsJobsDebugRequest,
   output: GetWorkerStacktracesProjectsLocationsJobsDebugResponse,
   errors: [],
 }));
 
-/** Lists snapshots. */
 export interface ListProjectsLocationsJobsSnapshotsRequest {
   /** The project ID to list snapshots for. */
   projectId: string;
@@ -4796,13 +4795,13 @@ export const ListProjectsLocationsJobsSnapshotsResponse = ListSnapshotsResponse;
 
 export type ListProjectsLocationsJobsSnapshotsError = CommonErrors;
 
+/** Lists snapshots. */
 export const listProjectsLocationsJobsSnapshots: API.OperationMethod<ListProjectsLocationsJobsSnapshotsRequest, ListProjectsLocationsJobsSnapshotsResponse, ListProjectsLocationsJobsSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsJobsSnapshotsRequest,
   output: ListProjectsLocationsJobsSnapshotsResponse,
   errors: [],
 }));
 
-/** Request the job status. To request the status of a job, we recommend using `projects.locations.jobs.messages.list` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.jobs.messages.list` is not recommended, as you can only request the status of jobs that are running in `us-central1`. */
 export interface ListProjectsLocationsJobsMessagesRequest {
   /** A project id. */
   projectId: string;
@@ -4841,7 +4840,8 @@ export const ListProjectsLocationsJobsMessagesResponse = ListJobMessagesResponse
 
 export type ListProjectsLocationsJobsMessagesError = CommonErrors;
 
-export const listProjectsLocationsJobsMessages = API.makePaginated(() => ({
+/** Request the job status. To request the status of a job, we recommend using `projects.locations.jobs.messages.list` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.jobs.messages.list` is not recommended, as you can only request the status of jobs that are running in `us-central1`. */
+export const listProjectsLocationsJobsMessages: API.PaginatedOperationMethod<ListProjectsLocationsJobsMessagesRequest, ListProjectsLocationsJobsMessagesResponse, ListProjectsLocationsJobsMessagesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsJobsMessagesRequest,
   output: ListProjectsLocationsJobsMessagesResponse,
   errors: [],
@@ -4851,7 +4851,6 @@ export const listProjectsLocationsJobsMessages = API.makePaginated(() => ({
   },
 }));
 
-/** Request detailed information about the execution status of a stage of the job. EXPERIMENTAL. This API is subject to change or removal without notice. */
 export interface GetExecutionDetailsProjectsLocationsJobsStagesRequest {
   /** A project id. */
   projectId: string;
@@ -4890,7 +4889,8 @@ export const GetExecutionDetailsProjectsLocationsJobsStagesResponse = StageExecu
 
 export type GetExecutionDetailsProjectsLocationsJobsStagesError = CommonErrors;
 
-export const getExecutionDetailsProjectsLocationsJobsStages = API.makePaginated(() => ({
+/** Request detailed information about the execution status of a stage of the job. EXPERIMENTAL. This API is subject to change or removal without notice. */
+export const getExecutionDetailsProjectsLocationsJobsStages: API.PaginatedOperationMethod<GetExecutionDetailsProjectsLocationsJobsStagesRequest, GetExecutionDetailsProjectsLocationsJobsStagesResponse, GetExecutionDetailsProjectsLocationsJobsStagesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: GetExecutionDetailsProjectsLocationsJobsStagesRequest,
   output: GetExecutionDetailsProjectsLocationsJobsStagesResponse,
   errors: [],
@@ -4900,7 +4900,6 @@ export const getExecutionDetailsProjectsLocationsJobsStages = API.makePaginated(
   },
 }));
 
-/** Reports the status of dataflow WorkItems leased by a worker. */
 export interface ReportStatusProjectsLocationsJobsWorkItemsRequest {
   /** The project which owns the WorkItem's job. */
   projectId: string;
@@ -4927,13 +4926,13 @@ export const ReportStatusProjectsLocationsJobsWorkItemsResponse = ReportWorkItem
 
 export type ReportStatusProjectsLocationsJobsWorkItemsError = CommonErrors;
 
+/** Reports the status of dataflow WorkItems leased by a worker. */
 export const reportStatusProjectsLocationsJobsWorkItems: API.OperationMethod<ReportStatusProjectsLocationsJobsWorkItemsRequest, ReportStatusProjectsLocationsJobsWorkItemsResponse, ReportStatusProjectsLocationsJobsWorkItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReportStatusProjectsLocationsJobsWorkItemsRequest,
   output: ReportStatusProjectsLocationsJobsWorkItemsResponse,
   errors: [],
 }));
 
-/** Leases a dataflow WorkItem to run. */
 export interface LeaseProjectsLocationsJobsWorkItemsRequest {
   /** Identifies the project this worker belongs to. */
   projectId: string;
@@ -4960,13 +4959,13 @@ export const LeaseProjectsLocationsJobsWorkItemsResponse = LeaseWorkItemResponse
 
 export type LeaseProjectsLocationsJobsWorkItemsError = CommonErrors;
 
+/** Leases a dataflow WorkItem to run. */
 export const leaseProjectsLocationsJobsWorkItems: API.OperationMethod<LeaseProjectsLocationsJobsWorkItemsRequest, LeaseProjectsLocationsJobsWorkItemsResponse, LeaseProjectsLocationsJobsWorkItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LeaseProjectsLocationsJobsWorkItemsRequest,
   output: LeaseProjectsLocationsJobsWorkItemsResponse,
   errors: [],
 }));
 
-/** Creates a Cloud Dataflow job from a template. Do not enter confidential information when you supply string values using the API. To create a job, we recommend using `projects.locations.templates.create` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.templates.create` is not recommended, because your job will always start in `us-central1`. */
 export interface CreateProjectsLocationsTemplatesRequest {
   /** Required. The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
@@ -4990,13 +4989,13 @@ export const CreateProjectsLocationsTemplatesResponse = Job;
 
 export type CreateProjectsLocationsTemplatesError = CommonErrors;
 
+/** Creates a Cloud Dataflow job from a template. Do not enter confidential information when you supply string values using the API. To create a job, we recommend using `projects.locations.templates.create` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.templates.create` is not recommended, because your job will always start in `us-central1`. */
 export const createProjectsLocationsTemplates: API.OperationMethod<CreateProjectsLocationsTemplatesRequest, CreateProjectsLocationsTemplatesResponse, CreateProjectsLocationsTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsTemplatesRequest,
   output: CreateProjectsLocationsTemplatesResponse,
   errors: [],
 }));
 
-/** Launches a template. To launch a template, we recommend using `projects.locations.templates.launch` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.templates.launch` is not recommended, because jobs launched from the template will always start in `us-central1`. */
 export interface LaunchProjectsLocationsTemplatesRequest {
   /** Required. The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
@@ -5032,13 +5031,13 @@ export const LaunchProjectsLocationsTemplatesResponse = LaunchTemplateResponse;
 
 export type LaunchProjectsLocationsTemplatesError = CommonErrors;
 
+/** Launches a template. To launch a template, we recommend using `projects.locations.templates.launch` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.templates.launch` is not recommended, because jobs launched from the template will always start in `us-central1`. */
 export const launchProjectsLocationsTemplates: API.OperationMethod<LaunchProjectsLocationsTemplatesRequest, LaunchProjectsLocationsTemplatesResponse, LaunchProjectsLocationsTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LaunchProjectsLocationsTemplatesRequest,
   output: LaunchProjectsLocationsTemplatesResponse,
   errors: [],
 }));
 
-/** Get the template associated with a template. To get the template, we recommend using `projects.locations.templates.get` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.templates.get` is not recommended, because only templates that are running in `us-central1` are retrieved. */
 export interface GetProjectsLocationsTemplatesRequest {
   /** Required. The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
@@ -5065,13 +5064,13 @@ export const GetProjectsLocationsTemplatesResponse = GetTemplateResponse;
 
 export type GetProjectsLocationsTemplatesError = CommonErrors;
 
+/** Get the template associated with a template. To get the template, we recommend using `projects.locations.templates.get` with a [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using `projects.templates.get` is not recommended, because only templates that are running in `us-central1` are retrieved. */
 export const getProjectsLocationsTemplates: API.OperationMethod<GetProjectsLocationsTemplatesRequest, GetProjectsLocationsTemplatesResponse, GetProjectsLocationsTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsTemplatesRequest,
   output: GetProjectsLocationsTemplatesResponse,
   errors: [],
 }));
 
-/** Launch a job with a FlexTemplate. */
 export interface LaunchProjectsLocationsFlexTemplatesRequest {
   /** Required. The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
@@ -5095,6 +5094,7 @@ export const LaunchProjectsLocationsFlexTemplatesResponse = LaunchFlexTemplateRe
 
 export type LaunchProjectsLocationsFlexTemplatesError = CommonErrors;
 
+/** Launch a job with a FlexTemplate. */
 export const launchProjectsLocationsFlexTemplates: API.OperationMethod<LaunchProjectsLocationsFlexTemplatesRequest, LaunchProjectsLocationsFlexTemplatesResponse, LaunchProjectsLocationsFlexTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LaunchProjectsLocationsFlexTemplatesRequest,
   output: LaunchProjectsLocationsFlexTemplatesResponse,

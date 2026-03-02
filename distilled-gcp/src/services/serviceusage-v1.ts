@@ -2160,7 +2160,6 @@ export const GetServiceIdentityMetadata: Schema.Schema<GetServiceIdentityMetadat
 // Operations
 // ==========================================================================
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -2181,13 +2180,13 @@ export const CancelOperationsResponse = Empty;
 
 export type CancelOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelOperations: API.OperationMethod<CancelOperationsRequest, CancelOperationsResponse, CancelOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelOperationsRequest,
   output: CancelOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -2205,13 +2204,13 @@ export const DeleteOperationsResponse = Empty;
 
 export type DeleteOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteOperations: API.OperationMethod<DeleteOperationsRequest, DeleteOperationsResponse, DeleteOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOperationsRequest,
   output: DeleteOperationsResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -2229,13 +2228,13 @@ export const GetOperationsResponse = Operation;
 
 export type GetOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOperations: API.OperationMethod<GetOperationsRequest, GetOperationsResponse, GetOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListOperationsRequest {
   /** The standard list filter. */
   filter?: string;
@@ -2265,7 +2264,8 @@ export const ListOperationsResponse_Op = ListOperationsResponse;
 
 export type ListOperationsError = CommonErrors;
 
-export const listOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listOperations: API.PaginatedOperationMethod<ListOperationsRequest, ListOperationsResponse_Op, ListOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOperationsRequest,
   output: ListOperationsResponse_Op,
   errors: [],
@@ -2275,7 +2275,6 @@ export const listOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the service configuration and enabled state for a given service. */
 export interface GetServicesRequest {
   /** Name of the consumer and service to get the `ConsumerState` for. An example name would be: `projects/123/services/serviceusage.googleapis.com` where `123` is the project number. */
   name: string;
@@ -2293,13 +2292,13 @@ export const GetServicesResponse = GoogleApiServiceusageV1Service;
 
 export type GetServicesError = CommonErrors;
 
+/** Returns the service configuration and enabled state for a given service. */
 export const getServices: API.OperationMethod<GetServicesRequest, GetServicesResponse, GetServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetServicesRequest,
   output: GetServicesResponse,
   errors: [],
 }));
 
-/** Enable a service so that it can be used with a project. */
 export interface EnableServicesRequest {
   /** Name of the consumer and service to enable the service on. The `EnableService` and `DisableService` methods currently only support projects. Enabling a service requires that the service is public or is shared with the user enabling the service. An example name would be: `projects/123/services/serviceusage.googleapis.com` where `123` is the project number. */
   name: string;
@@ -2320,13 +2319,13 @@ export const EnableServicesResponse = Operation;
 
 export type EnableServicesError = CommonErrors;
 
+/** Enable a service so that it can be used with a project. */
 export const enableServices: API.OperationMethod<EnableServicesRequest, EnableServicesResponse, EnableServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnableServicesRequest,
   output: EnableServicesResponse,
   errors: [],
 }));
 
-/** List all services available to the specified project, and the current state of those services with respect to the project. The list includes all public services, all services for which the calling user has the `servicemanagement.services.bind` permission, and all services that have already been enabled on the project. The list can be filtered to only include services in a specific state, for example to only include services enabled on the project. WARNING: If you need to query enabled services frequently or across an organization, you should use [Cloud Asset Inventory API](https://cloud.google.com/asset-inventory/docs/apis), which provides higher throughput and richer filtering capability. */
 export interface ListServicesRequest {
   /** Requested size of the next page of data. Requested page size cannot exceed 200. If not set, the default page size is 50. */
   pageSize?: number;
@@ -2353,7 +2352,8 @@ export const ListServicesResponse_Op = ListServicesResponse;
 
 export type ListServicesError = CommonErrors;
 
-export const listServices = API.makePaginated(() => ({
+/** List all services available to the specified project, and the current state of those services with respect to the project. The list includes all public services, all services for which the calling user has the `servicemanagement.services.bind` permission, and all services that have already been enabled on the project. The list can be filtered to only include services in a specific state, for example to only include services enabled on the project. WARNING: If you need to query enabled services frequently or across an organization, you should use [Cloud Asset Inventory API](https://cloud.google.com/asset-inventory/docs/apis), which provides higher throughput and richer filtering capability. */
+export const listServices: API.PaginatedOperationMethod<ListServicesRequest, ListServicesResponse_Op, ListServicesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListServicesRequest,
   output: ListServicesResponse_Op,
   errors: [],
@@ -2363,7 +2363,6 @@ export const listServices = API.makePaginated(() => ({
   },
 }));
 
-/** Enable multiple services on a project. The operation is atomic: if enabling any service fails, then the entire batch fails, and no state changes occur. To enable a single service, use the `EnableService` method instead. */
 export interface BatchEnableServicesRequest_Op {
   /** Parent to enable services on. An example name would be: `projects/123` where `123` is the project number. The `BatchEnableServices` method currently only supports projects. */
   parent: string;
@@ -2384,13 +2383,13 @@ export const BatchEnableServicesResponse_Op = Operation;
 
 export type BatchEnableServicesError = CommonErrors;
 
+/** Enable multiple services on a project. The operation is atomic: if enabling any service fails, then the entire batch fails, and no state changes occur. To enable a single service, use the `EnableService` method instead. */
 export const batchEnableServices: API.OperationMethod<BatchEnableServicesRequest_Op, BatchEnableServicesResponse_Op, BatchEnableServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchEnableServicesRequest_Op,
   output: BatchEnableServicesResponse_Op,
   errors: [],
 }));
 
-/** Disable a service so that it can no longer be used with a project. This prevents unintended usage that may cause unexpected billing charges or security leaks. It is not valid to call the disable method on a service that is not currently enabled. Callers will receive a `FAILED_PRECONDITION` status if the target service is not currently enabled. */
 export interface DisableServicesRequest {
   /** Name of the consumer and service to disable the service on. The enable and disable methods currently only support projects. An example name would be: `projects/123/services/serviceusage.googleapis.com` where `123` is the project number. */
   name: string;
@@ -2411,13 +2410,13 @@ export const DisableServicesResponse = Operation;
 
 export type DisableServicesError = CommonErrors;
 
+/** Disable a service so that it can no longer be used with a project. This prevents unintended usage that may cause unexpected billing charges or security leaks. It is not valid to call the disable method on a service that is not currently enabled. Callers will receive a `FAILED_PRECONDITION` status if the target service is not currently enabled. */
 export const disableServices: API.OperationMethod<DisableServicesRequest, DisableServicesResponse, DisableServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DisableServicesRequest,
   output: DisableServicesResponse,
   errors: [],
 }));
 
-/** Returns the service configurations and enabled states for a given list of services. */
 export interface BatchGetServicesRequest {
   /** Names of the services to retrieve. An example name would be: `projects/123/services/serviceusage.googleapis.com` where `123` is the project number. A single request can get a maximum of 30 services at a time. */
   names?: string[];
@@ -2438,6 +2437,7 @@ export const BatchGetServicesResponse_Op = BatchGetServicesResponse;
 
 export type BatchGetServicesError = CommonErrors;
 
+/** Returns the service configurations and enabled states for a given list of services. */
 export const batchGetServices: API.OperationMethod<BatchGetServicesRequest, BatchGetServicesResponse_Op, BatchGetServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchGetServicesRequest,
   output: BatchGetServicesResponse_Op,

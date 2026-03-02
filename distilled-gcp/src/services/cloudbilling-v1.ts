@@ -397,7 +397,6 @@ export const ListSkusResponse: Schema.Schema<ListSkusResponse> = Schema.suspend(
 // Operations
 // ==========================================================================
 
-/** Gets information about a billing account. The current authenticated user must be a [viewer of the billing account](https://cloud.google.com/billing/docs/how-to/billing-access). */
 export interface GetBillingAccountsRequest {
   /** Required. The resource name of the billing account to retrieve. For example, `billingAccounts/012345-567890-ABCDEF`. */
   name: string;
@@ -415,13 +414,13 @@ export const GetBillingAccountsResponse = BillingAccount;
 
 export type GetBillingAccountsError = CommonErrors;
 
+/** Gets information about a billing account. The current authenticated user must be a [viewer of the billing account](https://cloud.google.com/billing/docs/how-to/billing-access). */
 export const getBillingAccounts: API.OperationMethod<GetBillingAccountsRequest, GetBillingAccountsResponse, GetBillingAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBillingAccountsRequest,
   output: GetBillingAccountsResponse,
   errors: [],
 }));
 
-/** Lists the billing accounts that the current authenticated user has permission to [view](https://cloud.google.com/billing/docs/how-to/billing-access). */
 export interface ListBillingAccountsRequest {
   /** Requested page size. The maximum page size is 100; this is also the default. */
   pageSize?: number;
@@ -448,7 +447,8 @@ export const ListBillingAccountsResponse_Op = ListBillingAccountsResponse;
 
 export type ListBillingAccountsError = CommonErrors;
 
-export const listBillingAccounts = API.makePaginated(() => ({
+/** Lists the billing accounts that the current authenticated user has permission to [view](https://cloud.google.com/billing/docs/how-to/billing-access). */
+export const listBillingAccounts: API.PaginatedOperationMethod<ListBillingAccountsRequest, ListBillingAccountsResponse_Op, ListBillingAccountsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBillingAccountsRequest,
   output: ListBillingAccountsResponse_Op,
   errors: [],
@@ -458,7 +458,6 @@ export const listBillingAccounts = API.makePaginated(() => ({
   },
 }));
 
-/** Updates a billing account's fields. Currently the only field that can be edited is `display_name`. The current authenticated user must have the `billing.accounts.update` IAM permission, which is typically given to the [administrator](https://cloud.google.com/billing/docs/how-to/billing-access) of the billing account. */
 export interface PatchBillingAccountsRequest {
   /** Required. The name of the billing account resource to be updated. */
   name: string;
@@ -482,13 +481,13 @@ export const PatchBillingAccountsResponse = BillingAccount;
 
 export type PatchBillingAccountsError = CommonErrors;
 
+/** Updates a billing account's fields. Currently the only field that can be edited is `display_name`. The current authenticated user must have the `billing.accounts.update` IAM permission, which is typically given to the [administrator](https://cloud.google.com/billing/docs/how-to/billing-access) of the billing account. */
 export const patchBillingAccounts: API.OperationMethod<PatchBillingAccountsRequest, PatchBillingAccountsResponse, PatchBillingAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchBillingAccountsRequest,
   output: PatchBillingAccountsResponse,
   errors: [],
 }));
 
-/** This method creates [billing subaccounts](https://cloud.google.com/billing/docs/concepts#subaccounts). Google Cloud resellers should use the Channel Services APIs, [accounts.customers.create](https://cloud.google.com/channel/docs/reference/rest/v1/accounts.customers/create) and [accounts.customers.entitlements.create](https://cloud.google.com/channel/docs/reference/rest/v1/accounts.customers.entitlements/create). When creating a subaccount, the current authenticated user must have the `billing.accounts.update` IAM permission on the parent account, which is typically given to billing account [administrators](https://cloud.google.com/billing/docs/how-to/billing-access). This method will return an error if the parent account has not been provisioned for subaccounts. */
 export interface CreateBillingAccountsRequest {
   /** Optional. The parent to create a billing account from. Format: - `billingAccounts/{billing_account_id}`, for example, `billingAccounts/012345-567890-ABCDEF` */
   parent?: string;
@@ -509,13 +508,13 @@ export const CreateBillingAccountsResponse = BillingAccount;
 
 export type CreateBillingAccountsError = CommonErrors;
 
+/** This method creates [billing subaccounts](https://cloud.google.com/billing/docs/concepts#subaccounts). Google Cloud resellers should use the Channel Services APIs, [accounts.customers.create](https://cloud.google.com/channel/docs/reference/rest/v1/accounts.customers/create) and [accounts.customers.entitlements.create](https://cloud.google.com/channel/docs/reference/rest/v1/accounts.customers.entitlements/create). When creating a subaccount, the current authenticated user must have the `billing.accounts.update` IAM permission on the parent account, which is typically given to billing account [administrators](https://cloud.google.com/billing/docs/how-to/billing-access). This method will return an error if the parent account has not been provisioned for subaccounts. */
 export const createBillingAccounts: API.OperationMethod<CreateBillingAccountsRequest, CreateBillingAccountsResponse, CreateBillingAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateBillingAccountsRequest,
   output: CreateBillingAccountsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a billing account. The caller must have the `billing.accounts.getIamPolicy` permission on the account, which is often given to billing account [viewers](https://cloud.google.com/billing/docs/how-to/billing-access). */
 export interface GetIamPolicyBillingAccountsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -536,13 +535,13 @@ export const GetIamPolicyBillingAccountsResponse = Policy;
 
 export type GetIamPolicyBillingAccountsError = CommonErrors;
 
+/** Gets the access control policy for a billing account. The caller must have the `billing.accounts.getIamPolicy` permission on the account, which is often given to billing account [viewers](https://cloud.google.com/billing/docs/how-to/billing-access). */
 export const getIamPolicyBillingAccounts: API.OperationMethod<GetIamPolicyBillingAccountsRequest, GetIamPolicyBillingAccountsResponse, GetIamPolicyBillingAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyBillingAccountsRequest,
   output: GetIamPolicyBillingAccountsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy for a billing account. Replaces any existing policy. The caller must have the `billing.accounts.setIamPolicy` permission on the account, which is often given to billing account [administrators](https://cloud.google.com/billing/docs/how-to/billing-access). */
 export interface SetIamPolicyBillingAccountsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -563,13 +562,13 @@ export const SetIamPolicyBillingAccountsResponse = Policy;
 
 export type SetIamPolicyBillingAccountsError = CommonErrors;
 
+/** Sets the access control policy for a billing account. Replaces any existing policy. The caller must have the `billing.accounts.setIamPolicy` permission on the account, which is often given to billing account [administrators](https://cloud.google.com/billing/docs/how-to/billing-access). */
 export const setIamPolicyBillingAccounts: API.OperationMethod<SetIamPolicyBillingAccountsRequest, SetIamPolicyBillingAccountsResponse, SetIamPolicyBillingAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyBillingAccountsRequest,
   output: SetIamPolicyBillingAccountsResponse,
   errors: [],
 }));
 
-/** Tests the access control policy for a billing account. This method takes the resource and a set of permissions as input and returns the subset of the input permissions that the caller is allowed for that resource. */
 export interface TestIamPermissionsBillingAccountsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -590,13 +589,13 @@ export const TestIamPermissionsBillingAccountsResponse = TestIamPermissionsRespo
 
 export type TestIamPermissionsBillingAccountsError = CommonErrors;
 
+/** Tests the access control policy for a billing account. This method takes the resource and a set of permissions as input and returns the subset of the input permissions that the caller is allowed for that resource. */
 export const testIamPermissionsBillingAccounts: API.OperationMethod<TestIamPermissionsBillingAccountsRequest, TestIamPermissionsBillingAccountsResponse, TestIamPermissionsBillingAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsBillingAccountsRequest,
   output: TestIamPermissionsBillingAccountsResponse,
   errors: [],
 }));
 
-/** Changes which parent organization a billing account belongs to. */
 export interface MoveBillingAccountsRequest {
   /** Required. The resource name of the billing account to move. Must be of the form `billingAccounts/{billing_account_id}`. The specified billing account cannot be a subaccount, since a subaccount always belongs to the same organization as its parent account. */
   name: string;
@@ -617,13 +616,13 @@ export const MoveBillingAccountsResponse = BillingAccount;
 
 export type MoveBillingAccountsError = CommonErrors;
 
+/** Changes which parent organization a billing account belongs to. */
 export const moveBillingAccounts: API.OperationMethod<MoveBillingAccountsRequest, MoveBillingAccountsResponse, MoveBillingAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MoveBillingAccountsRequest,
   output: MoveBillingAccountsResponse,
   errors: [],
 }));
 
-/** Lists the billing accounts that the current authenticated user has permission to [view](https://cloud.google.com/billing/docs/how-to/billing-access). */
 export interface ListBillingAccountsSubAccountsRequest {
   /** Optional. The parent resource to list billing accounts from. Format: - `organizations/{organization_id}`, for example, `organizations/12345678` - `billingAccounts/{billing_account_id}`, for example, `billingAccounts/012345-567890-ABCDEF` */
   parent: string;
@@ -650,7 +649,8 @@ export const ListBillingAccountsSubAccountsResponse = ListBillingAccountsRespons
 
 export type ListBillingAccountsSubAccountsError = CommonErrors;
 
-export const listBillingAccountsSubAccounts = API.makePaginated(() => ({
+/** Lists the billing accounts that the current authenticated user has permission to [view](https://cloud.google.com/billing/docs/how-to/billing-access). */
+export const listBillingAccountsSubAccounts: API.PaginatedOperationMethod<ListBillingAccountsSubAccountsRequest, ListBillingAccountsSubAccountsResponse, ListBillingAccountsSubAccountsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBillingAccountsSubAccountsRequest,
   output: ListBillingAccountsSubAccountsResponse,
   errors: [],
@@ -660,7 +660,6 @@ export const listBillingAccountsSubAccounts = API.makePaginated(() => ({
   },
 }));
 
-/** This method creates [billing subaccounts](https://cloud.google.com/billing/docs/concepts#subaccounts). Google Cloud resellers should use the Channel Services APIs, [accounts.customers.create](https://cloud.google.com/channel/docs/reference/rest/v1/accounts.customers/create) and [accounts.customers.entitlements.create](https://cloud.google.com/channel/docs/reference/rest/v1/accounts.customers.entitlements/create). When creating a subaccount, the current authenticated user must have the `billing.accounts.update` IAM permission on the parent account, which is typically given to billing account [administrators](https://cloud.google.com/billing/docs/how-to/billing-access). This method will return an error if the parent account has not been provisioned for subaccounts. */
 export interface CreateBillingAccountsSubAccountsRequest {
   /** Optional. The parent to create a billing account from. Format: - `billingAccounts/{billing_account_id}`, for example, `billingAccounts/012345-567890-ABCDEF` */
   parent: string;
@@ -681,13 +680,13 @@ export const CreateBillingAccountsSubAccountsResponse = BillingAccount;
 
 export type CreateBillingAccountsSubAccountsError = CommonErrors;
 
+/** This method creates [billing subaccounts](https://cloud.google.com/billing/docs/concepts#subaccounts). Google Cloud resellers should use the Channel Services APIs, [accounts.customers.create](https://cloud.google.com/channel/docs/reference/rest/v1/accounts.customers/create) and [accounts.customers.entitlements.create](https://cloud.google.com/channel/docs/reference/rest/v1/accounts.customers.entitlements/create). When creating a subaccount, the current authenticated user must have the `billing.accounts.update` IAM permission on the parent account, which is typically given to billing account [administrators](https://cloud.google.com/billing/docs/how-to/billing-access). This method will return an error if the parent account has not been provisioned for subaccounts. */
 export const createBillingAccountsSubAccounts: API.OperationMethod<CreateBillingAccountsSubAccountsRequest, CreateBillingAccountsSubAccountsResponse, CreateBillingAccountsSubAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateBillingAccountsSubAccountsRequest,
   output: CreateBillingAccountsSubAccountsResponse,
   errors: [],
 }));
 
-/** Lists the projects associated with a billing account. The current authenticated user must have the `billing.resourceAssociations.list` IAM permission, which is often given to billing account [viewers](https://cloud.google.com/billing/docs/how-to/billing-access). */
 export interface ListBillingAccountsProjectsRequest {
   /** Required. The resource name of the billing account associated with the projects that you want to list. For example, `billingAccounts/012345-567890-ABCDEF`. */
   name: string;
@@ -711,7 +710,8 @@ export const ListBillingAccountsProjectsResponse = ListProjectBillingInfoRespons
 
 export type ListBillingAccountsProjectsError = CommonErrors;
 
-export const listBillingAccountsProjects = API.makePaginated(() => ({
+/** Lists the projects associated with a billing account. The current authenticated user must have the `billing.resourceAssociations.list` IAM permission, which is often given to billing account [viewers](https://cloud.google.com/billing/docs/how-to/billing-access). */
+export const listBillingAccountsProjects: API.PaginatedOperationMethod<ListBillingAccountsProjectsRequest, ListBillingAccountsProjectsResponse, ListBillingAccountsProjectsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBillingAccountsProjectsRequest,
   output: ListBillingAccountsProjectsResponse,
   errors: [],
@@ -721,7 +721,6 @@ export const listBillingAccountsProjects = API.makePaginated(() => ({
   },
 }));
 
-/** Lists the billing accounts that the current authenticated user has permission to [view](https://cloud.google.com/billing/docs/how-to/billing-access). */
 export interface ListOrganizationsBillingAccountsRequest {
   /** Optional. The parent resource to list billing accounts from. Format: - `organizations/{organization_id}`, for example, `organizations/12345678` - `billingAccounts/{billing_account_id}`, for example, `billingAccounts/012345-567890-ABCDEF` */
   parent: string;
@@ -748,7 +747,8 @@ export const ListOrganizationsBillingAccountsResponse = ListBillingAccountsRespo
 
 export type ListOrganizationsBillingAccountsError = CommonErrors;
 
-export const listOrganizationsBillingAccounts = API.makePaginated(() => ({
+/** Lists the billing accounts that the current authenticated user has permission to [view](https://cloud.google.com/billing/docs/how-to/billing-access). */
+export const listOrganizationsBillingAccounts: API.PaginatedOperationMethod<ListOrganizationsBillingAccountsRequest, ListOrganizationsBillingAccountsResponse, ListOrganizationsBillingAccountsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsBillingAccountsRequest,
   output: ListOrganizationsBillingAccountsResponse,
   errors: [],
@@ -758,7 +758,6 @@ export const listOrganizationsBillingAccounts = API.makePaginated(() => ({
   },
 }));
 
-/** This method creates [billing subaccounts](https://cloud.google.com/billing/docs/concepts#subaccounts). Google Cloud resellers should use the Channel Services APIs, [accounts.customers.create](https://cloud.google.com/channel/docs/reference/rest/v1/accounts.customers/create) and [accounts.customers.entitlements.create](https://cloud.google.com/channel/docs/reference/rest/v1/accounts.customers.entitlements/create). When creating a subaccount, the current authenticated user must have the `billing.accounts.update` IAM permission on the parent account, which is typically given to billing account [administrators](https://cloud.google.com/billing/docs/how-to/billing-access). This method will return an error if the parent account has not been provisioned for subaccounts. */
 export interface CreateOrganizationsBillingAccountsRequest {
   /** Optional. The parent to create a billing account from. Format: - `billingAccounts/{billing_account_id}`, for example, `billingAccounts/012345-567890-ABCDEF` */
   parent: string;
@@ -779,13 +778,13 @@ export const CreateOrganizationsBillingAccountsResponse = BillingAccount;
 
 export type CreateOrganizationsBillingAccountsError = CommonErrors;
 
+/** This method creates [billing subaccounts](https://cloud.google.com/billing/docs/concepts#subaccounts). Google Cloud resellers should use the Channel Services APIs, [accounts.customers.create](https://cloud.google.com/channel/docs/reference/rest/v1/accounts.customers/create) and [accounts.customers.entitlements.create](https://cloud.google.com/channel/docs/reference/rest/v1/accounts.customers.entitlements/create). When creating a subaccount, the current authenticated user must have the `billing.accounts.update` IAM permission on the parent account, which is typically given to billing account [administrators](https://cloud.google.com/billing/docs/how-to/billing-access). This method will return an error if the parent account has not been provisioned for subaccounts. */
 export const createOrganizationsBillingAccounts: API.OperationMethod<CreateOrganizationsBillingAccountsRequest, CreateOrganizationsBillingAccountsResponse, CreateOrganizationsBillingAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsBillingAccountsRequest,
   output: CreateOrganizationsBillingAccountsResponse,
   errors: [],
 }));
 
-/** Changes which parent organization a billing account belongs to. */
 export interface MoveOrganizationsBillingAccountsRequest {
   /** Required. The resource name of the Organization to move the billing account under. Must be of the form `organizations/{organization_id}`. */
   destinationParent: string;
@@ -806,13 +805,13 @@ export const MoveOrganizationsBillingAccountsResponse = BillingAccount;
 
 export type MoveOrganizationsBillingAccountsError = CommonErrors;
 
+/** Changes which parent organization a billing account belongs to. */
 export const moveOrganizationsBillingAccounts: API.OperationMethod<MoveOrganizationsBillingAccountsRequest, MoveOrganizationsBillingAccountsResponse, MoveOrganizationsBillingAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MoveOrganizationsBillingAccountsRequest,
   output: MoveOrganizationsBillingAccountsResponse,
   errors: [],
 }));
 
-/** Gets the billing information for a project. The current authenticated user must have the `resourcemanager.projects.get` permission for the project, which can be granted by assigning the [Project Viewer](https://cloud.google.com/iam/docs/understanding-roles#predefined_roles) role. */
 export interface GetBillingInfoProjectsRequest {
   /** Required. The resource name of the project for which billing information is retrieved. For example, `projects/tokyo-rain-123`. */
   name: string;
@@ -830,13 +829,13 @@ export const GetBillingInfoProjectsResponse = ProjectBillingInfo;
 
 export type GetBillingInfoProjectsError = CommonErrors;
 
+/** Gets the billing information for a project. The current authenticated user must have the `resourcemanager.projects.get` permission for the project, which can be granted by assigning the [Project Viewer](https://cloud.google.com/iam/docs/understanding-roles#predefined_roles) role. */
 export const getBillingInfoProjects: API.OperationMethod<GetBillingInfoProjectsRequest, GetBillingInfoProjectsResponse, GetBillingInfoProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBillingInfoProjectsRequest,
   output: GetBillingInfoProjectsResponse,
   errors: [],
 }));
 
-/** Sets or updates the billing account associated with a project. You specify the new billing account by setting the `billing_account_name` in the `ProjectBillingInfo` resource to the resource name of a billing account. Associating a project with an open billing account enables billing on the project and allows charges for resource usage. If the project already had a billing account, this method changes the billing account used for resource usage charges. *Note:* Incurred charges that have not yet been reported in the transaction history of the Google Cloud Console might be billed to the new billing account, even if the charge occurred before the new billing account was assigned to the project. The current authenticated user must have ownership privileges for both the [project](https://cloud.google.com/docs/permissions-overview#h.bgs0oxofvnoo ) and the [billing account](https://cloud.google.com/billing/docs/how-to/billing-access). You can disable billing on the project by setting the `billing_account_name` field to empty. This action disassociates the current billing account from the project. Any billable activity of your in-use services will stop, and your application could stop functioning as expected. Any unbilled charges to date will be billed to the previously associated account. The current authenticated user must be either an owner of the project or an owner of the billing account for the project. Note that associating a project with a *closed* billing account will have much the same effect as disabling billing on the project: any paid resources used by the project will be shut down. Thus, unless you wish to disable billing, you should always call this method with the name of an *open* billing account. */
 export interface UpdateBillingInfoProjectsRequest {
   /** Required. The resource name of the project associated with the billing information that you want to update. For example, `projects/tokyo-rain-123`. */
   name: string;
@@ -857,13 +856,13 @@ export const UpdateBillingInfoProjectsResponse = ProjectBillingInfo;
 
 export type UpdateBillingInfoProjectsError = CommonErrors;
 
+/** Sets or updates the billing account associated with a project. You specify the new billing account by setting the `billing_account_name` in the `ProjectBillingInfo` resource to the resource name of a billing account. Associating a project with an open billing account enables billing on the project and allows charges for resource usage. If the project already had a billing account, this method changes the billing account used for resource usage charges. *Note:* Incurred charges that have not yet been reported in the transaction history of the Google Cloud Console might be billed to the new billing account, even if the charge occurred before the new billing account was assigned to the project. The current authenticated user must have ownership privileges for both the [project](https://cloud.google.com/docs/permissions-overview#h.bgs0oxofvnoo ) and the [billing account](https://cloud.google.com/billing/docs/how-to/billing-access). You can disable billing on the project by setting the `billing_account_name` field to empty. This action disassociates the current billing account from the project. Any billable activity of your in-use services will stop, and your application could stop functioning as expected. Any unbilled charges to date will be billed to the previously associated account. The current authenticated user must be either an owner of the project or an owner of the billing account for the project. Note that associating a project with a *closed* billing account will have much the same effect as disabling billing on the project: any paid resources used by the project will be shut down. Thus, unless you wish to disable billing, you should always call this method with the name of an *open* billing account. */
 export const updateBillingInfoProjects: API.OperationMethod<UpdateBillingInfoProjectsRequest, UpdateBillingInfoProjectsResponse, UpdateBillingInfoProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateBillingInfoProjectsRequest,
   output: UpdateBillingInfoProjectsResponse,
   errors: [],
 }));
 
-/** Lists all public cloud services. */
 export interface ListServicesRequest {
   /** Requested page size. Defaults to 5000. */
   pageSize?: number;
@@ -884,7 +883,8 @@ export const ListServicesResponse_Op = ListServicesResponse;
 
 export type ListServicesError = CommonErrors;
 
-export const listServices = API.makePaginated(() => ({
+/** Lists all public cloud services. */
+export const listServices: API.PaginatedOperationMethod<ListServicesRequest, ListServicesResponse_Op, ListServicesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListServicesRequest,
   output: ListServicesResponse_Op,
   errors: [],
@@ -894,7 +894,6 @@ export const listServices = API.makePaginated(() => ({
   },
 }));
 
-/** Lists all publicly available SKUs for a given cloud service. */
 export interface ListServicesSkusRequest {
   /** Required. The name of the service. Example: "services/6F81-5844-456A" */
   parent: string;
@@ -927,7 +926,8 @@ export const ListServicesSkusResponse = ListSkusResponse;
 
 export type ListServicesSkusError = CommonErrors;
 
-export const listServicesSkus = API.makePaginated(() => ({
+/** Lists all publicly available SKUs for a given cloud service. */
+export const listServicesSkus: API.PaginatedOperationMethod<ListServicesSkusRequest, ListServicesSkusResponse, ListServicesSkusError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListServicesSkusRequest,
   output: ListServicesSkusResponse,
   errors: [],

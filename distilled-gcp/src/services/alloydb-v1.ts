@@ -2271,7 +2271,6 @@ export const ListClustersResponse: Schema.Schema<ListClustersResponse> = Schema.
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** Optional. Do not use this field. It is unsupported and is ignored unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: string[];
@@ -2301,7 +2300,8 @@ export const ListProjectsLocationsResponse = GoogleCloudLocationListLocationsRes
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -2311,7 +2311,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -2329,13 +2328,13 @@ export const GetProjectsLocationsResponse = GoogleCloudLocationLocation;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists SupportedDatabaseFlags for a given project and location. */
 export interface ListProjectsLocationsSupportedDatabaseFlagsRequest {
   /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
@@ -2362,7 +2361,8 @@ export const ListProjectsLocationsSupportedDatabaseFlagsResponse = ListSupported
 
 export type ListProjectsLocationsSupportedDatabaseFlagsError = CommonErrors;
 
-export const listProjectsLocationsSupportedDatabaseFlags = API.makePaginated(() => ({
+/** Lists SupportedDatabaseFlags for a given project and location. */
+export const listProjectsLocationsSupportedDatabaseFlags: API.PaginatedOperationMethod<ListProjectsLocationsSupportedDatabaseFlagsRequest, ListProjectsLocationsSupportedDatabaseFlagsResponse, ListProjectsLocationsSupportedDatabaseFlagsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsSupportedDatabaseFlagsRequest,
   output: ListProjectsLocationsSupportedDatabaseFlagsResponse,
   errors: [],
@@ -2372,7 +2372,6 @@ export const listProjectsLocationsSupportedDatabaseFlags = API.makePaginated(() 
   },
 }));
 
-/** Switches the roles of PRIMARY and SECONDARY clusters without any data loss. This promotes the SECONDARY cluster to PRIMARY and sets up the original PRIMARY cluster to replicate from this newly promoted cluster. */
 export interface SwitchoverProjectsLocationsClustersRequest {
   /** Required. The name of the resource. For the required format, see the comment on the Cluster.name field */
   name: string;
@@ -2393,13 +2392,13 @@ export const SwitchoverProjectsLocationsClustersResponse = Operation;
 
 export type SwitchoverProjectsLocationsClustersError = CommonErrors;
 
+/** Switches the roles of PRIMARY and SECONDARY clusters without any data loss. This promotes the SECONDARY cluster to PRIMARY and sets up the original PRIMARY cluster to replicate from this newly promoted cluster. */
 export const switchoverProjectsLocationsClusters: API.OperationMethod<SwitchoverProjectsLocationsClustersRequest, SwitchoverProjectsLocationsClustersResponse, SwitchoverProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SwitchoverProjectsLocationsClustersRequest,
   output: SwitchoverProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Imports data to the cluster. Imperative only. */
 export interface ImportProjectsLocationsClustersRequest {
   /** Required. The resource name of the cluster. */
   name: string;
@@ -2420,13 +2419,13 @@ export const ImportProjectsLocationsClustersResponse = Operation;
 
 export type ImportProjectsLocationsClustersError = CommonErrors;
 
+/** Imports data to the cluster. Imperative only. */
 export const importProjectsLocationsClusters: API.OperationMethod<ImportProjectsLocationsClustersRequest, ImportProjectsLocationsClustersResponse, ImportProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportProjectsLocationsClustersRequest,
   output: ImportProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Creates a new Cluster in a given project and location. */
 export interface CreateProjectsLocationsClustersRequest {
   /** Required. The location of the new cluster. For the required format, see the comment on the Cluster.name field. */
   parent: string;
@@ -2456,13 +2455,13 @@ export const CreateProjectsLocationsClustersResponse = Operation;
 
 export type CreateProjectsLocationsClustersError = CommonErrors;
 
+/** Creates a new Cluster in a given project and location. */
 export const createProjectsLocationsClusters: API.OperationMethod<CreateProjectsLocationsClustersRequest, CreateProjectsLocationsClustersResponse, CreateProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsClustersRequest,
   output: CreateProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Restores an AlloyDB cluster from a CloudSQL resource. */
 export interface RestoreFromCloudSQLProjectsLocationsClustersRequest {
   /** Required. The location of the new cluster. For the required format, see the comment on Cluster.name field. */
   parent: string;
@@ -2483,13 +2482,13 @@ export const RestoreFromCloudSQLProjectsLocationsClustersResponse = Operation;
 
 export type RestoreFromCloudSQLProjectsLocationsClustersError = CommonErrors;
 
+/** Restores an AlloyDB cluster from a CloudSQL resource. */
 export const restoreFromCloudSQLProjectsLocationsClusters: API.OperationMethod<RestoreFromCloudSQLProjectsLocationsClustersRequest, RestoreFromCloudSQLProjectsLocationsClustersResponse, RestoreFromCloudSQLProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RestoreFromCloudSQLProjectsLocationsClustersRequest,
   output: RestoreFromCloudSQLProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Deletes a single Cluster. */
 export interface DeleteProjectsLocationsClustersRequest {
   /** Optional. Whether to cascade delete child instances for given cluster. */
   force?: boolean;
@@ -2519,13 +2518,13 @@ export const DeleteProjectsLocationsClustersResponse = Operation;
 
 export type DeleteProjectsLocationsClustersError = CommonErrors;
 
+/** Deletes a single Cluster. */
 export const deleteProjectsLocationsClusters: API.OperationMethod<DeleteProjectsLocationsClustersRequest, DeleteProjectsLocationsClustersResponse, DeleteProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsClustersRequest,
   output: DeleteProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Gets details of a single Cluster. */
 export interface GetProjectsLocationsClustersRequest {
   /** Required. The name of the resource. For the required format, see the comment on the Cluster.name field. */
   name: string;
@@ -2546,13 +2545,13 @@ export const GetProjectsLocationsClustersResponse = Cluster;
 
 export type GetProjectsLocationsClustersError = CommonErrors;
 
+/** Gets details of a single Cluster. */
 export const getProjectsLocationsClusters: API.OperationMethod<GetProjectsLocationsClustersRequest, GetProjectsLocationsClustersResponse, GetProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsClustersRequest,
   output: GetProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Exports data from the cluster. Imperative only. */
 export interface ExportProjectsLocationsClustersRequest {
   /** Required. The resource name of the cluster. */
   name: string;
@@ -2573,13 +2572,13 @@ export const ExportProjectsLocationsClustersResponse = Operation;
 
 export type ExportProjectsLocationsClustersError = CommonErrors;
 
+/** Exports data from the cluster. Imperative only. */
 export const exportProjectsLocationsClusters: API.OperationMethod<ExportProjectsLocationsClustersRequest, ExportProjectsLocationsClustersResponse, ExportProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExportProjectsLocationsClustersRequest,
   output: ExportProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Creates a cluster of type SECONDARY in the given location using the primary cluster as the source. */
 export interface CreatesecondaryProjectsLocationsClustersRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -2609,13 +2608,13 @@ export const CreatesecondaryProjectsLocationsClustersResponse = Operation;
 
 export type CreatesecondaryProjectsLocationsClustersError = CommonErrors;
 
+/** Creates a cluster of type SECONDARY in the given location using the primary cluster as the source. */
 export const createsecondaryProjectsLocationsClusters: API.OperationMethod<CreatesecondaryProjectsLocationsClustersRequest, CreatesecondaryProjectsLocationsClustersResponse, CreatesecondaryProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreatesecondaryProjectsLocationsClustersRequest,
   output: CreatesecondaryProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Creates a new Cluster in a given project and location, with a volume restored from the provided source, either a backup ID or a point-in-time and a source cluster. */
 export interface RestoreProjectsLocationsClustersRequest {
   /** Required. The name of the parent resource. For the required format, see the comment on the Cluster.name field. */
   parent: string;
@@ -2636,13 +2635,13 @@ export const RestoreProjectsLocationsClustersResponse = Operation;
 
 export type RestoreProjectsLocationsClustersError = CommonErrors;
 
+/** Creates a new Cluster in a given project and location, with a volume restored from the provided source, either a backup ID or a point-in-time and a source cluster. */
 export const restoreProjectsLocationsClusters: API.OperationMethod<RestoreProjectsLocationsClustersRequest, RestoreProjectsLocationsClustersResponse, RestoreProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RestoreProjectsLocationsClustersRequest,
   output: RestoreProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Lists Clusters in a given project and location. */
 export interface ListProjectsLocationsClustersRequest {
   /** Required. The name of the parent resource. For the required format, see the comment on the Cluster.name field. Additionally, you can perform an aggregated list operation by specifying a value with the following format: * projects/{project}/locations/- */
   parent: string;
@@ -2672,7 +2671,8 @@ export const ListProjectsLocationsClustersResponse = ListClustersResponse;
 
 export type ListProjectsLocationsClustersError = CommonErrors;
 
-export const listProjectsLocationsClusters = API.makePaginated(() => ({
+/** Lists Clusters in a given project and location. */
+export const listProjectsLocationsClusters: API.PaginatedOperationMethod<ListProjectsLocationsClustersRequest, ListProjectsLocationsClustersResponse, ListProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsClustersRequest,
   output: ListProjectsLocationsClustersResponse,
   errors: [],
@@ -2682,7 +2682,6 @@ export const listProjectsLocationsClusters = API.makePaginated(() => ({
   },
 }));
 
-/** Upgrades a single Cluster. Imperative only. */
 export interface UpgradeProjectsLocationsClustersRequest {
   /** Required. The resource name of the cluster. */
   name: string;
@@ -2703,13 +2702,13 @@ export const UpgradeProjectsLocationsClustersResponse = Operation;
 
 export type UpgradeProjectsLocationsClustersError = CommonErrors;
 
+/** Upgrades a single Cluster. Imperative only. */
 export const upgradeProjectsLocationsClusters: API.OperationMethod<UpgradeProjectsLocationsClustersRequest, UpgradeProjectsLocationsClustersResponse, UpgradeProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpgradeProjectsLocationsClustersRequest,
   output: UpgradeProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Promotes a SECONDARY cluster. This turns down replication from the PRIMARY cluster and promotes a secondary cluster into its own standalone cluster. Imperative only. */
 export interface PromoteProjectsLocationsClustersRequest {
   /** Required. The name of the resource. For the required format, see the comment on the Cluster.name field */
   name: string;
@@ -2730,13 +2729,13 @@ export const PromoteProjectsLocationsClustersResponse = Operation;
 
 export type PromoteProjectsLocationsClustersError = CommonErrors;
 
+/** Promotes a SECONDARY cluster. This turns down replication from the PRIMARY cluster and promotes a secondary cluster into its own standalone cluster. Imperative only. */
 export const promoteProjectsLocationsClusters: API.OperationMethod<PromoteProjectsLocationsClustersRequest, PromoteProjectsLocationsClustersResponse, PromoteProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PromoteProjectsLocationsClustersRequest,
   output: PromoteProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single Cluster. */
 export interface PatchProjectsLocationsClustersRequest {
   /** Optional. If set to true, update succeeds even if cluster is not found. In that case, a new cluster is created and `update_mask` is ignored. */
   allowMissing?: boolean;
@@ -2769,13 +2768,13 @@ export const PatchProjectsLocationsClustersResponse = Operation;
 
 export type PatchProjectsLocationsClustersError = CommonErrors;
 
+/** Updates the parameters of a single Cluster. */
 export const patchProjectsLocationsClusters: API.OperationMethod<PatchProjectsLocationsClustersRequest, PatchProjectsLocationsClustersResponse, PatchProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsClustersRequest,
   output: PatchProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Creates a new User in a given project, location, and cluster. */
 export interface CreateProjectsLocationsClustersUsersRequest {
   /** Required. ID of the requesting object. */
   userId?: string;
@@ -2805,13 +2804,13 @@ export const CreateProjectsLocationsClustersUsersResponse = User;
 
 export type CreateProjectsLocationsClustersUsersError = CommonErrors;
 
+/** Creates a new User in a given project, location, and cluster. */
 export const createProjectsLocationsClustersUsers: API.OperationMethod<CreateProjectsLocationsClustersUsersRequest, CreateProjectsLocationsClustersUsersResponse, CreateProjectsLocationsClustersUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsClustersUsersRequest,
   output: CreateProjectsLocationsClustersUsersResponse,
   errors: [],
 }));
 
-/** Gets details of a single User. */
 export interface GetProjectsLocationsClustersUsersRequest {
   /** Required. The name of the resource. For the required format, see the comment on the User.name field. */
   name: string;
@@ -2829,13 +2828,13 @@ export const GetProjectsLocationsClustersUsersResponse = User;
 
 export type GetProjectsLocationsClustersUsersError = CommonErrors;
 
+/** Gets details of a single User. */
 export const getProjectsLocationsClustersUsers: API.OperationMethod<GetProjectsLocationsClustersUsersRequest, GetProjectsLocationsClustersUsersResponse, GetProjectsLocationsClustersUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsClustersUsersRequest,
   output: GetProjectsLocationsClustersUsersResponse,
   errors: [],
 }));
 
-/** Deletes a single User. */
 export interface DeleteProjectsLocationsClustersUsersRequest {
   /** Required. The name of the resource. For the required format, see the comment on the User.name field. */
   name: string;
@@ -2859,13 +2858,13 @@ export const DeleteProjectsLocationsClustersUsersResponse = Empty;
 
 export type DeleteProjectsLocationsClustersUsersError = CommonErrors;
 
+/** Deletes a single User. */
 export const deleteProjectsLocationsClustersUsers: API.OperationMethod<DeleteProjectsLocationsClustersUsersRequest, DeleteProjectsLocationsClustersUsersResponse, DeleteProjectsLocationsClustersUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsClustersUsersRequest,
   output: DeleteProjectsLocationsClustersUsersResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single User. */
 export interface PatchProjectsLocationsClustersUsersRequest {
   /** Optional. Field mask is used to specify the fields to be overwritten in the User resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
@@ -2898,13 +2897,13 @@ export const PatchProjectsLocationsClustersUsersResponse = User;
 
 export type PatchProjectsLocationsClustersUsersError = CommonErrors;
 
+/** Updates the parameters of a single User. */
 export const patchProjectsLocationsClustersUsers: API.OperationMethod<PatchProjectsLocationsClustersUsersRequest, PatchProjectsLocationsClustersUsersResponse, PatchProjectsLocationsClustersUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsClustersUsersRequest,
   output: PatchProjectsLocationsClustersUsersResponse,
   errors: [],
 }));
 
-/** Lists Users in a given project and location. */
 export interface ListProjectsLocationsClustersUsersRequest {
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string;
@@ -2934,7 +2933,8 @@ export const ListProjectsLocationsClustersUsersResponse = ListUsersResponse;
 
 export type ListProjectsLocationsClustersUsersError = CommonErrors;
 
-export const listProjectsLocationsClustersUsers = API.makePaginated(() => ({
+/** Lists Users in a given project and location. */
+export const listProjectsLocationsClustersUsers: API.PaginatedOperationMethod<ListProjectsLocationsClustersUsersRequest, ListProjectsLocationsClustersUsersResponse, ListProjectsLocationsClustersUsersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsClustersUsersRequest,
   output: ListProjectsLocationsClustersUsersResponse,
   errors: [],
@@ -2944,7 +2944,6 @@ export const listProjectsLocationsClustersUsers = API.makePaginated(() => ({
   },
 }));
 
-/** Gets details of a single Instance. */
 export interface GetProjectsLocationsClustersInstancesRequest {
   /** The view of the instance to return. */
   view?: "INSTANCE_VIEW_UNSPECIFIED" | "INSTANCE_VIEW_BASIC" | "INSTANCE_VIEW_FULL" | (string & {});
@@ -2965,13 +2964,13 @@ export const GetProjectsLocationsClustersInstancesResponse = Instance;
 
 export type GetProjectsLocationsClustersInstancesError = CommonErrors;
 
+/** Gets details of a single Instance. */
 export const getProjectsLocationsClustersInstances: API.OperationMethod<GetProjectsLocationsClustersInstancesRequest, GetProjectsLocationsClustersInstancesResponse, GetProjectsLocationsClustersInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsClustersInstancesRequest,
   output: GetProjectsLocationsClustersInstancesResponse,
   errors: [],
 }));
 
-/** Forces a Failover for a highly available instance. Failover promotes the HA standby instance as the new primary. Imperative only. */
 export interface FailoverProjectsLocationsClustersInstancesRequest {
   /** Required. The name of the resource. For the required format, see the comment on the Instance.name field. */
   name: string;
@@ -2992,13 +2991,13 @@ export const FailoverProjectsLocationsClustersInstancesResponse = Operation;
 
 export type FailoverProjectsLocationsClustersInstancesError = CommonErrors;
 
+/** Forces a Failover for a highly available instance. Failover promotes the HA standby instance as the new primary. Imperative only. */
 export const failoverProjectsLocationsClustersInstances: API.OperationMethod<FailoverProjectsLocationsClustersInstancesRequest, FailoverProjectsLocationsClustersInstancesResponse, FailoverProjectsLocationsClustersInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FailoverProjectsLocationsClustersInstancesRequest,
   output: FailoverProjectsLocationsClustersInstancesResponse,
   errors: [],
 }));
 
-/** Injects fault in an instance. Imperative only. */
 export interface InjectFaultProjectsLocationsClustersInstancesRequest {
   /** Required. The name of the resource. For the required format, see the comment on the Instance.name field. */
   name: string;
@@ -3019,13 +3018,13 @@ export const InjectFaultProjectsLocationsClustersInstancesResponse = Operation;
 
 export type InjectFaultProjectsLocationsClustersInstancesError = CommonErrors;
 
+/** Injects fault in an instance. Imperative only. */
 export const injectFaultProjectsLocationsClustersInstances: API.OperationMethod<InjectFaultProjectsLocationsClustersInstancesRequest, InjectFaultProjectsLocationsClustersInstancesResponse, InjectFaultProjectsLocationsClustersInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InjectFaultProjectsLocationsClustersInstancesRequest,
   output: InjectFaultProjectsLocationsClustersInstancesResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single Instance. */
 export interface PatchProjectsLocationsClustersInstancesRequest {
   /** Output only. The name of the instance resource with the format: * projects/{project}/locations/{region}/clusters/{cluster_id}/instances/{instance_id} where the cluster and instance ID segments should satisfy the regex expression `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`, e.g. 1-63 characters of lowercase letters, numbers, and dashes, starting with a letter, and ending with a letter or number. For more details see https://google.aip.dev/122. The prefix of the instance resource name is the name of the parent resource: * projects/{project}/locations/{region}/clusters/{cluster_id} */
   name: string;
@@ -3058,13 +3057,13 @@ export const PatchProjectsLocationsClustersInstancesResponse = Operation;
 
 export type PatchProjectsLocationsClustersInstancesError = CommonErrors;
 
+/** Updates the parameters of a single Instance. */
 export const patchProjectsLocationsClustersInstances: API.OperationMethod<PatchProjectsLocationsClustersInstancesRequest, PatchProjectsLocationsClustersInstancesResponse, PatchProjectsLocationsClustersInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsClustersInstancesRequest,
   output: PatchProjectsLocationsClustersInstancesResponse,
   errors: [],
 }));
 
-/** Restart an Instance in a cluster. Imperative only. */
 export interface RestartProjectsLocationsClustersInstancesRequest {
   /** Required. The name of the resource. For the required format, see the comment on the Instance.name field. */
   name: string;
@@ -3085,13 +3084,13 @@ export const RestartProjectsLocationsClustersInstancesResponse = Operation;
 
 export type RestartProjectsLocationsClustersInstancesError = CommonErrors;
 
+/** Restart an Instance in a cluster. Imperative only. */
 export const restartProjectsLocationsClustersInstances: API.OperationMethod<RestartProjectsLocationsClustersInstancesRequest, RestartProjectsLocationsClustersInstancesResponse, RestartProjectsLocationsClustersInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RestartProjectsLocationsClustersInstancesRequest,
   output: RestartProjectsLocationsClustersInstancesResponse,
   errors: [],
 }));
 
-/** Creates a new Instance in a given project and location. */
 export interface CreateProjectsLocationsClustersInstancesRequest {
   /** Required. ID of the requesting object. */
   instanceId?: string;
@@ -3121,13 +3120,13 @@ export const CreateProjectsLocationsClustersInstancesResponse = Operation;
 
 export type CreateProjectsLocationsClustersInstancesError = CommonErrors;
 
+/** Creates a new Instance in a given project and location. */
 export const createProjectsLocationsClustersInstances: API.OperationMethod<CreateProjectsLocationsClustersInstancesRequest, CreateProjectsLocationsClustersInstancesResponse, CreateProjectsLocationsClustersInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsClustersInstancesRequest,
   output: CreateProjectsLocationsClustersInstancesResponse,
   errors: [],
 }));
 
-/** Creates a new SECONDARY Instance in a given project and location. */
 export interface CreatesecondaryProjectsLocationsClustersInstancesRequest {
   /** Required. ID of the requesting object. */
   instanceId?: string;
@@ -3157,13 +3156,13 @@ export const CreatesecondaryProjectsLocationsClustersInstancesResponse = Operati
 
 export type CreatesecondaryProjectsLocationsClustersInstancesError = CommonErrors;
 
+/** Creates a new SECONDARY Instance in a given project and location. */
 export const createsecondaryProjectsLocationsClustersInstances: API.OperationMethod<CreatesecondaryProjectsLocationsClustersInstancesRequest, CreatesecondaryProjectsLocationsClustersInstancesResponse, CreatesecondaryProjectsLocationsClustersInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreatesecondaryProjectsLocationsClustersInstancesRequest,
   output: CreatesecondaryProjectsLocationsClustersInstancesResponse,
   errors: [],
 }));
 
-/** Get instance metadata used for a connection. */
 export interface GetConnectionInfoProjectsLocationsClustersInstancesRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -3184,13 +3183,13 @@ export const GetConnectionInfoProjectsLocationsClustersInstancesResponse = Conne
 
 export type GetConnectionInfoProjectsLocationsClustersInstancesError = CommonErrors;
 
+/** Get instance metadata used for a connection. */
 export const getConnectionInfoProjectsLocationsClustersInstances: API.OperationMethod<GetConnectionInfoProjectsLocationsClustersInstancesRequest, GetConnectionInfoProjectsLocationsClustersInstancesResponse, GetConnectionInfoProjectsLocationsClustersInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetConnectionInfoProjectsLocationsClustersInstancesRequest,
   output: GetConnectionInfoProjectsLocationsClustersInstancesResponse,
   errors: [],
 }));
 
-/** Lists Instances in a given project and location. */
 export interface ListProjectsLocationsClustersInstancesRequest {
   /** Required. The name of the parent resource. For the required format, see the comment on the Instance.name field. Additionally, you can perform an aggregated list operation by specifying a value with one of the following formats: * projects/{project}/locations/-/clusters/- * projects/{project}/locations/{region}/clusters/- */
   parent: string;
@@ -3220,7 +3219,8 @@ export const ListProjectsLocationsClustersInstancesResponse = ListInstancesRespo
 
 export type ListProjectsLocationsClustersInstancesError = CommonErrors;
 
-export const listProjectsLocationsClustersInstances = API.makePaginated(() => ({
+/** Lists Instances in a given project and location. */
+export const listProjectsLocationsClustersInstances: API.PaginatedOperationMethod<ListProjectsLocationsClustersInstancesRequest, ListProjectsLocationsClustersInstancesResponse, ListProjectsLocationsClustersInstancesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsClustersInstancesRequest,
   output: ListProjectsLocationsClustersInstancesResponse,
   errors: [],
@@ -3230,7 +3230,6 @@ export const listProjectsLocationsClustersInstances = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a single Instance. */
 export interface DeleteProjectsLocationsClustersInstancesRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server ignores the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -3257,13 +3256,13 @@ export const DeleteProjectsLocationsClustersInstancesResponse = Operation;
 
 export type DeleteProjectsLocationsClustersInstancesError = CommonErrors;
 
+/** Deletes a single Instance. */
 export const deleteProjectsLocationsClustersInstances: API.OperationMethod<DeleteProjectsLocationsClustersInstancesRequest, DeleteProjectsLocationsClustersInstancesResponse, DeleteProjectsLocationsClustersInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsClustersInstancesRequest,
   output: DeleteProjectsLocationsClustersInstancesResponse,
   errors: [],
 }));
 
-/** Gets details of a single Backup. */
 export interface GetProjectsLocationsBackupsRequest {
   /** Required. Name of the resource */
   name: string;
@@ -3284,13 +3283,13 @@ export const GetProjectsLocationsBackupsResponse = Backup;
 
 export type GetProjectsLocationsBackupsError = CommonErrors;
 
+/** Gets details of a single Backup. */
 export const getProjectsLocationsBackups: API.OperationMethod<GetProjectsLocationsBackupsRequest, GetProjectsLocationsBackupsResponse, GetProjectsLocationsBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsBackupsRequest,
   output: GetProjectsLocationsBackupsResponse,
   errors: [],
 }));
 
-/** Creates a new Backup in a given project and location. */
 export interface CreateProjectsLocationsBackupsRequest {
   /** Required. Value for parent. */
   parent: string;
@@ -3320,13 +3319,13 @@ export const CreateProjectsLocationsBackupsResponse = Operation;
 
 export type CreateProjectsLocationsBackupsError = CommonErrors;
 
+/** Creates a new Backup in a given project and location. */
 export const createProjectsLocationsBackups: API.OperationMethod<CreateProjectsLocationsBackupsRequest, CreateProjectsLocationsBackupsResponse, CreateProjectsLocationsBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsBackupsRequest,
   output: CreateProjectsLocationsBackupsResponse,
   errors: [],
 }));
 
-/** Lists Backups in a given project and location. */
 export interface ListProjectsLocationsBackupsRequest {
   /** Required. Parent value for ListBackupsRequest */
   parent: string;
@@ -3359,7 +3358,8 @@ export const ListProjectsLocationsBackupsResponse = ListBackupsResponse;
 
 export type ListProjectsLocationsBackupsError = CommonErrors;
 
-export const listProjectsLocationsBackups = API.makePaginated(() => ({
+/** Lists Backups in a given project and location. */
+export const listProjectsLocationsBackups: API.PaginatedOperationMethod<ListProjectsLocationsBackupsRequest, ListProjectsLocationsBackupsResponse, ListProjectsLocationsBackupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsBackupsRequest,
   output: ListProjectsLocationsBackupsResponse,
   errors: [],
@@ -3369,7 +3369,6 @@ export const listProjectsLocationsBackups = API.makePaginated(() => ({
   },
 }));
 
-/** Updates the parameters of a single Backup. */
 export interface PatchProjectsLocationsBackupsRequest {
   /** Optional. If set, the backend validates the request, but doesn't actually execute it. */
   validateOnly?: boolean;
@@ -3402,13 +3401,13 @@ export const PatchProjectsLocationsBackupsResponse = Operation;
 
 export type PatchProjectsLocationsBackupsError = CommonErrors;
 
+/** Updates the parameters of a single Backup. */
 export const patchProjectsLocationsBackups: API.OperationMethod<PatchProjectsLocationsBackupsRequest, PatchProjectsLocationsBackupsResponse, PatchProjectsLocationsBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsBackupsRequest,
   output: PatchProjectsLocationsBackupsResponse,
   errors: [],
 }));
 
-/** Deletes a single Backup. */
 export interface DeleteProjectsLocationsBackupsRequest {
   /** Optional. The current etag of the Backup. If an etag is provided and does not match the current etag of the Backup, deletion will be blocked and an ABORTED error will be returned. */
   etag?: string;
@@ -3435,13 +3434,13 @@ export const DeleteProjectsLocationsBackupsResponse = Operation;
 
 export type DeleteProjectsLocationsBackupsError = CommonErrors;
 
+/** Deletes a single Backup. */
 export const deleteProjectsLocationsBackups: API.OperationMethod<DeleteProjectsLocationsBackupsRequest, DeleteProjectsLocationsBackupsResponse, DeleteProjectsLocationsBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsBackupsRequest,
   output: DeleteProjectsLocationsBackupsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -3462,13 +3461,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -3486,13 +3485,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -3510,13 +3509,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list page size. */
   pageSize?: number;
@@ -3546,7 +3545,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],

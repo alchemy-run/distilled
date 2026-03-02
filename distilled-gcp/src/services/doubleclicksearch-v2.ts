@@ -372,7 +372,6 @@ export const SavedColumnList: Schema.Schema<SavedColumnList> = Schema.suspend(()
 // Operations
 // ==========================================================================
 
-/** Retrieves a list of conversions from a DoubleClick Search engine account. */
 export interface GetConversionRequest {
   /** Numeric ID of the agency. */
   agencyId: string;
@@ -423,13 +422,13 @@ export const GetConversionResponse = ConversionList;
 
 export type GetConversionError = CommonErrors;
 
+/** Retrieves a list of conversions from a DoubleClick Search engine account. */
 export const getConversion: API.OperationMethod<GetConversionRequest, GetConversionResponse, GetConversionError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetConversionRequest,
   output: GetConversionResponse,
   errors: [],
 }));
 
-/** Retrieves a list of conversions from a DoubleClick Search engine account. */
 export interface GetByCustomerIdConversionRequest {
   /** Customer ID of a client account in the new Search Ads 360 experience. */
   customerId: string;
@@ -480,13 +479,13 @@ export const GetByCustomerIdConversionResponse = ConversionList;
 
 export type GetByCustomerIdConversionError = CommonErrors;
 
+/** Retrieves a list of conversions from a DoubleClick Search engine account. */
 export const getByCustomerIdConversion: API.OperationMethod<GetByCustomerIdConversionRequest, GetByCustomerIdConversionResponse, GetByCustomerIdConversionError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetByCustomerIdConversionRequest,
   output: GetByCustomerIdConversionResponse,
   errors: [],
 }));
 
-/** Inserts a batch of new conversions into DoubleClick Search. */
 export interface InsertConversionRequest {
   /** Request body */
   body?: ConversionList;
@@ -504,13 +503,13 @@ export const InsertConversionResponse = ConversionList;
 
 export type InsertConversionError = CommonErrors;
 
+/** Inserts a batch of new conversions into DoubleClick Search. */
 export const insertConversion: API.OperationMethod<InsertConversionRequest, InsertConversionResponse, InsertConversionError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertConversionRequest,
   output: InsertConversionResponse,
   errors: [],
 }));
 
-/** Updates a batch of conversions in DoubleClick Search. */
 export interface UpdateConversionRequest {
   /** Request body */
   body?: ConversionList;
@@ -528,13 +527,13 @@ export const UpdateConversionResponse = ConversionList;
 
 export type UpdateConversionError = CommonErrors;
 
+/** Updates a batch of conversions in DoubleClick Search. */
 export const updateConversion: API.OperationMethod<UpdateConversionRequest, UpdateConversionResponse, UpdateConversionError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateConversionRequest,
   output: UpdateConversionResponse,
   errors: [],
 }));
 
-/** Updates the availabilities of a batch of floodlight activities in DoubleClick Search. */
 export interface UpdateAvailabilityConversionRequest {
   /** Request body */
   body?: UpdateAvailabilityRequest;
@@ -552,13 +551,13 @@ export const UpdateAvailabilityConversionResponse = UpdateAvailabilityResponse;
 
 export type UpdateAvailabilityConversionError = CommonErrors;
 
+/** Updates the availabilities of a batch of floodlight activities in DoubleClick Search. */
 export const updateAvailabilityConversion: API.OperationMethod<UpdateAvailabilityConversionRequest, UpdateAvailabilityConversionResponse, UpdateAvailabilityConversionError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAvailabilityConversionRequest,
   output: UpdateAvailabilityConversionResponse,
   errors: [],
 }));
 
-/** Generates and returns a report immediately. */
 export interface GenerateReportsRequest {
   /** Request body */
   body?: ReportRequest;
@@ -576,13 +575,13 @@ export const GenerateReportsResponse = Report;
 
 export type GenerateReportsError = CommonErrors;
 
+/** Generates and returns a report immediately. */
 export const generateReports: API.OperationMethod<GenerateReportsRequest, GenerateReportsResponse, GenerateReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateReportsRequest,
   output: GenerateReportsResponse,
   errors: [],
 }));
 
-/** Polls for the status of a report request. */
 export interface GetReportsRequest {
   /** ID of the report request being polled. */
   reportId: string;
@@ -600,13 +599,13 @@ export const GetReportsResponse = Report;
 
 export type GetReportsError = CommonErrors;
 
+/** Polls for the status of a report request. */
 export const getReports: API.OperationMethod<GetReportsRequest, GetReportsResponse, GetReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetReportsRequest,
   output: GetReportsResponse,
   errors: [],
 }));
 
-/** Downloads a report file encoded in UTF-8. */
 export interface GetFileReportsRequest {
   /** ID of the report. */
   reportId: string;
@@ -627,13 +626,13 @@ export const GetFileReportsResponse: Schema.Schema<GetFileReportsResponse> = Sch
 
 export type GetFileReportsError = CommonErrors;
 
+/** Downloads a report file encoded in UTF-8. */
 export const getFileReports: API.OperationMethod<GetFileReportsRequest, GetFileReportsResponse, GetFileReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFileReportsRequest,
   output: GetFileReportsResponse,
   errors: [],
 }));
 
-/** Downloads a csv file(encoded in UTF-8) that contains ID mappings between legacy SA360 and new SA360. The file includes all children entities of the given advertiser(e.g. engine accounts, campaigns, ad groups, etc.) that exist in both legacy SA360 and new SA360. */
 export interface GetIdMappingFileReportsRequest {
   /** Legacy SA360 agency ID. */
   agencyId: string;
@@ -654,13 +653,13 @@ export const GetIdMappingFileReportsResponse = IdMappingFile;
 
 export type GetIdMappingFileReportsError = CommonErrors;
 
+/** Downloads a csv file(encoded in UTF-8) that contains ID mappings between legacy SA360 and new SA360. The file includes all children entities of the given advertiser(e.g. engine accounts, campaigns, ad groups, etc.) that exist in both legacy SA360 and new SA360. */
 export const getIdMappingFileReports: API.OperationMethod<GetIdMappingFileReportsRequest, GetIdMappingFileReportsResponse, GetIdMappingFileReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIdMappingFileReportsRequest,
   output: GetIdMappingFileReportsResponse,
   errors: [],
 }));
 
-/** Inserts a report request into the reporting system. */
 export interface RequestReportsRequest {
   /** Request body */
   body?: ReportRequest;
@@ -678,13 +677,13 @@ export const RequestReportsResponse = Report;
 
 export type RequestReportsError = CommonErrors;
 
+/** Inserts a report request into the reporting system. */
 export const requestReports: API.OperationMethod<RequestReportsRequest, RequestReportsResponse, RequestReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RequestReportsRequest,
   output: RequestReportsResponse,
   errors: [],
 }));
 
-/** Retrieve the list of saved columns for a specified advertiser. */
 export interface ListSavedColumnsRequest {
   /** DS ID of the agency. */
   agencyId: string;
@@ -705,6 +704,7 @@ export const ListSavedColumnsResponse = SavedColumnList;
 
 export type ListSavedColumnsError = CommonErrors;
 
+/** Retrieve the list of saved columns for a specified advertiser. */
 export const listSavedColumns: API.OperationMethod<ListSavedColumnsRequest, ListSavedColumnsResponse, ListSavedColumnsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListSavedColumnsRequest,
   output: ListSavedColumnsResponse,

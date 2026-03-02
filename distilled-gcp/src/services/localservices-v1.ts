@@ -240,7 +240,6 @@ export const GoogleAdsHomeservicesLocalservicesV1SearchDetailedLeadReportsRespon
 // Operations
 // ==========================================================================
 
-/** Get account reports containing aggregate account data of all linked GLS accounts. Caller needs to provide their manager customer id and the associated auth credential that allows them read permissions on their linked accounts. */
 export interface SearchAccountReportsRequest {
   /** A query string for searching for account reports. Caller must provide a customer id of their MCC account with an associated Gaia Mint that allows read permission on their linked accounts. Search expressions are case insensitive. Example query: | Query | Description | |-------------------------|-----------------------------------------------| | manager_customer_id:123 | Get Account Report for Manager with id 123. | Required. */
   query?: string;
@@ -282,7 +281,8 @@ export const SearchAccountReportsResponse = GoogleAdsHomeservicesLocalservicesV1
 
 export type SearchAccountReportsError = CommonErrors;
 
-export const searchAccountReports = API.makePaginated(() => ({
+/** Get account reports containing aggregate account data of all linked GLS accounts. Caller needs to provide their manager customer id and the associated auth credential that allows them read permissions on their linked accounts. */
+export const searchAccountReports: API.PaginatedOperationMethod<SearchAccountReportsRequest, SearchAccountReportsResponse, SearchAccountReportsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchAccountReportsRequest,
   output: SearchAccountReportsResponse,
   errors: [],
@@ -292,7 +292,6 @@ export const searchAccountReports = API.makePaginated(() => ({
   },
 }));
 
-/** Get detailed lead reports containing leads that have been received by all linked GLS accounts. Caller needs to provide their manager customer id and the associated auth credential that allows them read permissions on their linked accounts. */
 export interface SearchDetailedLeadReportsRequest {
   /** A query string for searching for account reports. Caller must provide a customer id of their MCC account with an associated Gaia Mint that allows read permission on their linked accounts. Search expressions are case insensitive. Example query: | Query | Description | |-------------------------|-----------------------------------------------| | manager_customer_id:123 | Get Detailed Lead Report for Manager with id | | | 123. | Required. */
   query?: string;
@@ -334,7 +333,8 @@ export const SearchDetailedLeadReportsResponse = GoogleAdsHomeservicesLocalservi
 
 export type SearchDetailedLeadReportsError = CommonErrors;
 
-export const searchDetailedLeadReports = API.makePaginated(() => ({
+/** Get detailed lead reports containing leads that have been received by all linked GLS accounts. Caller needs to provide their manager customer id and the associated auth credential that allows them read permissions on their linked accounts. */
+export const searchDetailedLeadReports: API.PaginatedOperationMethod<SearchDetailedLeadReportsRequest, SearchDetailedLeadReportsResponse, SearchDetailedLeadReportsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchDetailedLeadReportsRequest,
   output: SearchDetailedLeadReportsResponse,
   errors: [],

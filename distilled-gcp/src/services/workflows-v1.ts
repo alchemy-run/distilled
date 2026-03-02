@@ -240,7 +240,6 @@ export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspen
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -270,7 +269,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -280,7 +280,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -298,13 +297,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -334,7 +333,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -344,7 +344,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -362,13 +361,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -386,13 +385,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Lists workflows in a given project and location. The default order is not specified. */
 export interface ListProjectsLocationsWorkflowsRequest {
   /** Required. Project and location from which the workflows should be listed. Format: projects/{project}/locations/{location} */
   parent: string;
@@ -422,7 +421,8 @@ export const ListProjectsLocationsWorkflowsResponse = ListWorkflowsResponse;
 
 export type ListProjectsLocationsWorkflowsError = CommonErrors;
 
-export const listProjectsLocationsWorkflows = API.makePaginated(() => ({
+/** Lists workflows in a given project and location. The default order is not specified. */
+export const listProjectsLocationsWorkflows: API.PaginatedOperationMethod<ListProjectsLocationsWorkflowsRequest, ListProjectsLocationsWorkflowsResponse, ListProjectsLocationsWorkflowsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsWorkflowsRequest,
   output: ListProjectsLocationsWorkflowsResponse,
   errors: [],
@@ -432,7 +432,6 @@ export const listProjectsLocationsWorkflows = API.makePaginated(() => ({
   },
 }));
 
-/** Gets details of a single workflow. */
 export interface GetProjectsLocationsWorkflowsRequest {
   /** Required. Name of the workflow for which information should be retrieved. Format: projects/{project}/locations/{location}/workflows/{workflow} */
   name: string;
@@ -453,13 +452,13 @@ export const GetProjectsLocationsWorkflowsResponse = Workflow;
 
 export type GetProjectsLocationsWorkflowsError = CommonErrors;
 
+/** Gets details of a single workflow. */
 export const getProjectsLocationsWorkflows: API.OperationMethod<GetProjectsLocationsWorkflowsRequest, GetProjectsLocationsWorkflowsResponse, GetProjectsLocationsWorkflowsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsWorkflowsRequest,
   output: GetProjectsLocationsWorkflowsResponse,
   errors: [],
 }));
 
-/** Creates a new workflow. If a workflow with the specified name already exists in the specified project and location, the long running operation returns a ALREADY_EXISTS error. */
 export interface CreateProjectsLocationsWorkflowsRequest {
   /** Required. Project and location in which the workflow should be created. Format: projects/{project}/locations/{location} */
   parent: string;
@@ -483,13 +482,13 @@ export const CreateProjectsLocationsWorkflowsResponse = Operation;
 
 export type CreateProjectsLocationsWorkflowsError = CommonErrors;
 
+/** Creates a new workflow. If a workflow with the specified name already exists in the specified project and location, the long running operation returns a ALREADY_EXISTS error. */
 export const createProjectsLocationsWorkflows: API.OperationMethod<CreateProjectsLocationsWorkflowsRequest, CreateProjectsLocationsWorkflowsResponse, CreateProjectsLocationsWorkflowsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsWorkflowsRequest,
   output: CreateProjectsLocationsWorkflowsResponse,
   errors: [],
 }));
 
-/** Deletes a workflow with the specified name. This method also cancels and deletes all running executions of the workflow. */
 export interface DeleteProjectsLocationsWorkflowsRequest {
   /** Required. Name of the workflow to be deleted. Format: projects/{project}/locations/{location}/workflows/{workflow} */
   name: string;
@@ -507,13 +506,13 @@ export const DeleteProjectsLocationsWorkflowsResponse = Operation;
 
 export type DeleteProjectsLocationsWorkflowsError = CommonErrors;
 
+/** Deletes a workflow with the specified name. This method also cancels and deletes all running executions of the workflow. */
 export const deleteProjectsLocationsWorkflows: API.OperationMethod<DeleteProjectsLocationsWorkflowsRequest, DeleteProjectsLocationsWorkflowsResponse, DeleteProjectsLocationsWorkflowsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsWorkflowsRequest,
   output: DeleteProjectsLocationsWorkflowsResponse,
   errors: [],
 }));
 
-/** Updates an existing workflow. Running this method has no impact on already running executions of the workflow. A new revision of the workflow might be created as a result of a successful update operation. In that case, the new revision is used in new workflow executions. */
 export interface PatchProjectsLocationsWorkflowsRequest {
   /** The resource name of the workflow. Format: projects/{project}/locations/{location}/workflows/{workflow}. This is a workflow-wide field and is not tied to a specific revision. */
   name: string;
@@ -537,13 +536,13 @@ export const PatchProjectsLocationsWorkflowsResponse = Operation;
 
 export type PatchProjectsLocationsWorkflowsError = CommonErrors;
 
+/** Updates an existing workflow. Running this method has no impact on already running executions of the workflow. A new revision of the workflow might be created as a result of a successful update operation. In that case, the new revision is used in new workflow executions. */
 export const patchProjectsLocationsWorkflows: API.OperationMethod<PatchProjectsLocationsWorkflowsRequest, PatchProjectsLocationsWorkflowsResponse, PatchProjectsLocationsWorkflowsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsWorkflowsRequest,
   output: PatchProjectsLocationsWorkflowsResponse,
   errors: [],
 }));
 
-/** Lists revisions for a given workflow. */
 export interface ListRevisionsProjectsLocationsWorkflowsRequest {
   /** Required. Workflow for which the revisions should be listed. Format: projects/{project}/locations/{location}/workflows/{workflow} */
   name: string;
@@ -567,7 +566,8 @@ export const ListRevisionsProjectsLocationsWorkflowsResponse = ListWorkflowRevis
 
 export type ListRevisionsProjectsLocationsWorkflowsError = CommonErrors;
 
-export const listRevisionsProjectsLocationsWorkflows = API.makePaginated(() => ({
+/** Lists revisions for a given workflow. */
+export const listRevisionsProjectsLocationsWorkflows: API.PaginatedOperationMethod<ListRevisionsProjectsLocationsWorkflowsRequest, ListRevisionsProjectsLocationsWorkflowsResponse, ListRevisionsProjectsLocationsWorkflowsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRevisionsProjectsLocationsWorkflowsRequest,
   output: ListRevisionsProjectsLocationsWorkflowsResponse,
   errors: [],

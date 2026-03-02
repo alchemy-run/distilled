@@ -2751,7 +2751,6 @@ export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspen
 // Operations
 // ==========================================================================
 
-/** Adds a new trusted Certificate Authority (CA) version for the specified instance. Required to prepare for a certificate rotation. If a CA version was previously added but never used in a certificate rotation, this operation replaces that version. There cannot be more than one CA version waiting to be rotated in. For instances that have enabled Certificate Authority Service (CAS) based server CA, use AddServerCertificate to add a new server certificate. */
 export interface AddServerCaInstancesRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -2772,13 +2771,13 @@ export const AddServerCaInstancesResponse = Operation;
 
 export type AddServerCaInstancesError = CommonErrors;
 
+/** Adds a new trusted Certificate Authority (CA) version for the specified instance. Required to prepare for a certificate rotation. If a CA version was previously added but never used in a certificate rotation, this operation replaces that version. There cannot be more than one CA version waiting to be rotated in. For instances that have enabled Certificate Authority Service (CAS) based server CA, use AddServerCertificate to add a new server certificate. */
 export const addServerCaInstances: API.OperationMethod<AddServerCaInstancesRequest, AddServerCaInstancesResponse, AddServerCaInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddServerCaInstancesRequest,
   output: AddServerCaInstancesResponse,
   errors: [],
 }));
 
-/** Add a new trusted server certificate version for the specified instance using Certificate Authority Service (CAS) server CA. Required to prepare for a certificate rotation. If a server certificate version was previously added but never used in a certificate rotation, this operation replaces that version. There cannot be more than one certificate version waiting to be rotated in. For instances not using CAS server CA, use AddServerCa instead. */
 export interface AddServerCertificateInstancesRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -2799,13 +2798,13 @@ export const AddServerCertificateInstancesResponse = Operation;
 
 export type AddServerCertificateInstancesError = CommonErrors;
 
+/** Add a new trusted server certificate version for the specified instance using Certificate Authority Service (CAS) server CA. Required to prepare for a certificate rotation. If a server certificate version was previously added but never used in a certificate rotation, this operation replaces that version. There cannot be more than one certificate version waiting to be rotated in. For instances not using CAS server CA, use AddServerCa instead. */
 export const addServerCertificateInstances: API.OperationMethod<AddServerCertificateInstancesRequest, AddServerCertificateInstancesResponse, AddServerCertificateInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddServerCertificateInstancesRequest,
   output: AddServerCertificateInstancesResponse,
   errors: [],
 }));
 
-/** Adds a new Entra ID certificate for the specified instance. If an Entra ID certificate was previously added but never used in a certificate rotation, this operation replaces that version. */
 export interface AddEntraIdCertificateInstancesRequest {
   /** Required. Project ID of the project that contains the instance. */
   project: string;
@@ -2826,13 +2825,13 @@ export const AddEntraIdCertificateInstancesResponse = Operation;
 
 export type AddEntraIdCertificateInstancesError = CommonErrors;
 
+/** Adds a new Entra ID certificate for the specified instance. If an Entra ID certificate was previously added but never used in a certificate rotation, this operation replaces that version. */
 export const addEntraIdCertificateInstances: API.OperationMethod<AddEntraIdCertificateInstancesRequest, AddEntraIdCertificateInstancesResponse, AddEntraIdCertificateInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddEntraIdCertificateInstancesRequest,
   output: AddEntraIdCertificateInstancesResponse,
   errors: [],
 }));
 
-/** Creates a Cloud SQL instance as a clone of the source instance. Using this operation might cause your instance to restart. */
 export interface CloneInstancesRequest {
   /** Required. Project ID of the source as well as the clone Cloud SQL instance. */
   project: string;
@@ -2856,13 +2855,13 @@ export const CloneInstancesResponse = Operation;
 
 export type CloneInstancesError = CommonErrors;
 
+/** Creates a Cloud SQL instance as a clone of the source instance. Using this operation might cause your instance to restart. */
 export const cloneInstances: API.OperationMethod<CloneInstancesRequest, CloneInstancesResponse, CloneInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CloneInstancesRequest,
   output: CloneInstancesResponse,
   errors: [],
 }));
 
-/** Deletes a Cloud SQL instance. */
 export interface DeleteInstancesRequest {
   /** Project ID of the project that contains the instance to be deleted. */
   project: string;
@@ -2895,13 +2894,13 @@ export const DeleteInstancesResponse = Operation;
 
 export type DeleteInstancesError = CommonErrors;
 
+/** Deletes a Cloud SQL instance. */
 export const deleteInstances: API.OperationMethod<DeleteInstancesRequest, DeleteInstancesResponse, DeleteInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteInstancesRequest,
   output: DeleteInstancesResponse,
   errors: [],
 }));
 
-/** Demotes the stand-alone instance to be a Cloud SQL read replica for an external database server. */
 export interface DemoteMasterInstancesRequest {
   /** ID of the project that contains the instance. */
   project: string;
@@ -2925,13 +2924,13 @@ export const DemoteMasterInstancesResponse = Operation;
 
 export type DemoteMasterInstancesError = CommonErrors;
 
+/** Demotes the stand-alone instance to be a Cloud SQL read replica for an external database server. */
 export const demoteMasterInstances: API.OperationMethod<DemoteMasterInstancesRequest, DemoteMasterInstancesResponse, DemoteMasterInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DemoteMasterInstancesRequest,
   output: DemoteMasterInstancesResponse,
   errors: [],
 }));
 
-/** Demotes an existing standalone instance to be a Cloud SQL read replica for an external database server. */
 export interface DemoteInstancesRequest {
   /** Required. ID of the project that contains the instance. */
   project: string;
@@ -2955,13 +2954,13 @@ export const DemoteInstancesResponse = Operation;
 
 export type DemoteInstancesError = CommonErrors;
 
+/** Demotes an existing standalone instance to be a Cloud SQL read replica for an external database server. */
 export const demoteInstances: API.OperationMethod<DemoteInstancesRequest, DemoteInstancesResponse, DemoteInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DemoteInstancesRequest,
   output: DemoteInstancesResponse,
   errors: [],
 }));
 
-/** Exports data from a Cloud SQL instance to a Cloud Storage bucket as a SQL dump or CSV file. */
 export interface ExportInstancesRequest {
   /** Project ID of the project that contains the instance to be exported. */
   project: string;
@@ -2985,13 +2984,13 @@ export const ExportInstancesResponse = Operation;
 
 export type ExportInstancesError = CommonErrors;
 
+/** Exports data from a Cloud SQL instance to a Cloud Storage bucket as a SQL dump or CSV file. */
 export const exportInstances: API.OperationMethod<ExportInstancesRequest, ExportInstancesResponse, ExportInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExportInstancesRequest,
   output: ExportInstancesResponse,
   errors: [],
 }));
 
-/** Initiates a manual failover of a high availability (HA) primary instance to a standby instance, which becomes the primary instance. Users are then rerouted to the new primary. For more information, see the [Overview of high availability](https://cloud.google.com/sql/docs/mysql/high-availability) page in the Cloud SQL documentation. If using Legacy HA (MySQL only), this causes the instance to failover to its failover replica instance. */
 export interface FailoverInstancesRequest {
   /** ID of the project that contains the read replica. */
   project: string;
@@ -3015,13 +3014,13 @@ export const FailoverInstancesResponse = Operation;
 
 export type FailoverInstancesError = CommonErrors;
 
+/** Initiates a manual failover of a high availability (HA) primary instance to a standby instance, which becomes the primary instance. Users are then rerouted to the new primary. For more information, see the [Overview of high availability](https://cloud.google.com/sql/docs/mysql/high-availability) page in the Cloud SQL documentation. If using Legacy HA (MySQL only), this causes the instance to failover to its failover replica instance. */
 export const failoverInstances: API.OperationMethod<FailoverInstancesRequest, FailoverInstancesResponse, FailoverInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FailoverInstancesRequest,
   output: FailoverInstancesResponse,
   errors: [],
 }));
 
-/** Reencrypt CMEK instance with latest key version. */
 export interface ReencryptInstancesRequest {
   /** ID of the project that contains the instance. */
   project: string;
@@ -3045,13 +3044,13 @@ export const ReencryptInstancesResponse = Operation;
 
 export type ReencryptInstancesError = CommonErrors;
 
+/** Reencrypt CMEK instance with latest key version. */
 export const reencryptInstances: API.OperationMethod<ReencryptInstancesRequest, ReencryptInstancesResponse, ReencryptInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReencryptInstancesRequest,
   output: ReencryptInstancesResponse,
   errors: [],
 }));
 
-/** Retrieves a resource containing information about a Cloud SQL instance. */
 export interface GetInstancesRequest {
   /** Required. Project ID of the project that contains the instance. */
   project: string;
@@ -3072,13 +3071,13 @@ export const GetInstancesResponse = DatabaseInstance;
 
 export type GetInstancesError = CommonErrors;
 
+/** Retrieves a resource containing information about a Cloud SQL instance. */
 export const getInstances: API.OperationMethod<GetInstancesRequest, GetInstancesResponse, GetInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetInstancesRequest,
   output: GetInstancesResponse,
   errors: [],
 }));
 
-/** Imports data into a Cloud SQL instance from a SQL dump or CSV file in Cloud Storage. */
 export interface ImportInstancesRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -3102,13 +3101,13 @@ export const ImportInstancesResponse = Operation;
 
 export type ImportInstancesError = CommonErrors;
 
+/** Imports data into a Cloud SQL instance from a SQL dump or CSV file in Cloud Storage. */
 export const importInstances: API.OperationMethod<ImportInstancesRequest, ImportInstancesResponse, ImportInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportInstancesRequest,
   output: ImportInstancesResponse,
   errors: [],
 }));
 
-/** Creates a new Cloud SQL instance. */
 export interface InsertInstancesRequest {
   /** Project ID of the project to which the newly created Cloud SQL instances should belong. */
   project: string;
@@ -3129,13 +3128,13 @@ export const InsertInstancesResponse = Operation;
 
 export type InsertInstancesError = CommonErrors;
 
+/** Creates a new Cloud SQL instance. */
 export const insertInstances: API.OperationMethod<InsertInstancesRequest, InsertInstancesResponse, InsertInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertInstancesRequest,
   output: InsertInstancesResponse,
   errors: [],
 }));
 
-/** Lists instances under a given project. */
 export interface ListInstancesRequest {
   /** Project ID of the project for which to list Cloud SQL instances. */
   project: string;
@@ -3162,7 +3161,8 @@ export const ListInstancesResponse = InstancesListResponse;
 
 export type ListInstancesError = CommonErrors;
 
-export const listInstances = API.makePaginated(() => ({
+/** Lists instances under a given project. */
+export const listInstances: API.PaginatedOperationMethod<ListInstancesRequest, ListInstancesResponse, ListInstancesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListInstancesRequest,
   output: ListInstancesResponse,
   errors: [],
@@ -3173,7 +3173,6 @@ export const listInstances = API.makePaginated(() => ({
   },
 }));
 
-/** Lists all of the trusted Certificate Authorities (CAs) for the specified instance. There can be up to three CAs listed: the CA that was used to sign the certificate that is currently in use, a CA that has been added but not yet used to sign a certificate, and a CA used to sign a certificate that has previously rotated out. */
 export interface ListServerCasInstancesRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -3194,13 +3193,13 @@ export const ListServerCasInstancesResponse = InstancesListServerCasResponse;
 
 export type ListServerCasInstancesError = CommonErrors;
 
+/** Lists all of the trusted Certificate Authorities (CAs) for the specified instance. There can be up to three CAs listed: the CA that was used to sign the certificate that is currently in use, a CA that has been added but not yet used to sign a certificate, and a CA used to sign a certificate that has previously rotated out. */
 export const listServerCasInstances: API.OperationMethod<ListServerCasInstancesRequest, ListServerCasInstancesResponse, ListServerCasInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListServerCasInstancesRequest,
   output: ListServerCasInstancesResponse,
   errors: [],
 }));
 
-/** Lists all versions of server certificates and certificate authorities (CAs) for the specified instance. There can be up to three sets of certs listed: the certificate that is currently in use, a future that has been added but not yet used to sign a certificate, and a certificate that has been rotated out. For instances not using Certificate Authority Service (CAS) server CA, use ListServerCas instead. */
 export interface ListServerCertificatesInstancesRequest {
   /** Required. Project ID of the project that contains the instance. */
   project: string;
@@ -3221,13 +3220,13 @@ export const ListServerCertificatesInstancesResponse = InstancesListServerCertif
 
 export type ListServerCertificatesInstancesError = CommonErrors;
 
+/** Lists all versions of server certificates and certificate authorities (CAs) for the specified instance. There can be up to three sets of certs listed: the certificate that is currently in use, a future that has been added but not yet used to sign a certificate, and a certificate that has been rotated out. For instances not using Certificate Authority Service (CAS) server CA, use ListServerCas instead. */
 export const ListServerCertificatesInstances: API.OperationMethod<ListServerCertificatesInstancesRequest, ListServerCertificatesInstancesResponse, ListServerCertificatesInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListServerCertificatesInstancesRequest,
   output: ListServerCertificatesInstancesResponse,
   errors: [],
 }));
 
-/** Lists all versions of EntraID certificates for the specified instance. There can be up to three sets of certificates listed: the certificate that is currently in use, a future that has been added but not yet used to sign a certificate, and a certificate that has been rotated out. */
 export interface ListEntraIdCertificatesInstancesRequest {
   /** Required. Project ID of the project that contains the instance. */
   project: string;
@@ -3248,13 +3247,13 @@ export const ListEntraIdCertificatesInstancesResponse = InstancesListEntraIdCert
 
 export type ListEntraIdCertificatesInstancesError = CommonErrors;
 
+/** Lists all versions of EntraID certificates for the specified instance. There can be up to three sets of certificates listed: the certificate that is currently in use, a future that has been added but not yet used to sign a certificate, and a certificate that has been rotated out. */
 export const ListEntraIdCertificatesInstances: API.OperationMethod<ListEntraIdCertificatesInstancesRequest, ListEntraIdCertificatesInstancesResponse, ListEntraIdCertificatesInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListEntraIdCertificatesInstancesRequest,
   output: ListEntraIdCertificatesInstancesResponse,
   errors: [],
 }));
 
-/** Partially updates settings of a Cloud SQL instance by merging the request with the current configuration. This method supports patch semantics. */
 export interface PatchInstancesRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -3278,13 +3277,13 @@ export const PatchInstancesResponse = Operation;
 
 export type PatchInstancesError = CommonErrors;
 
+/** Partially updates settings of a Cloud SQL instance by merging the request with the current configuration. This method supports patch semantics. */
 export const patchInstances: API.OperationMethod<PatchInstancesRequest, PatchInstancesResponse, PatchInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchInstancesRequest,
   output: PatchInstancesResponse,
   errors: [],
 }));
 
-/** Promotes the read replica instance to be an independent Cloud SQL primary instance. Using this operation might cause your instance to restart. */
 export interface PromoteReplicaInstancesRequest {
   /** ID of the project that contains the read replica. */
   project: string;
@@ -3308,13 +3307,13 @@ export const PromoteReplicaInstancesResponse = Operation;
 
 export type PromoteReplicaInstancesError = CommonErrors;
 
+/** Promotes the read replica instance to be an independent Cloud SQL primary instance. Using this operation might cause your instance to restart. */
 export const promoteReplicaInstances: API.OperationMethod<PromoteReplicaInstancesRequest, PromoteReplicaInstancesResponse, PromoteReplicaInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PromoteReplicaInstancesRequest,
   output: PromoteReplicaInstancesResponse,
   errors: [],
 }));
 
-/** Switches over from the primary instance to the DR replica instance. */
 export interface SwitchoverInstancesRequest {
   /** ID of the project that contains the replica. */
   project: string;
@@ -3338,13 +3337,13 @@ export const SwitchoverInstancesResponse = Operation;
 
 export type SwitchoverInstancesError = CommonErrors;
 
+/** Switches over from the primary instance to the DR replica instance. */
 export const switchoverInstances: API.OperationMethod<SwitchoverInstancesRequest, SwitchoverInstancesResponse, SwitchoverInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SwitchoverInstancesRequest,
   output: SwitchoverInstancesResponse,
   errors: [],
 }));
 
-/** Deletes all client certificates and generates a new server SSL certificate for the instance. */
 export interface ResetSslConfigInstancesRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -3368,13 +3367,13 @@ export const ResetSslConfigInstancesResponse = Operation;
 
 export type ResetSslConfigInstancesError = CommonErrors;
 
+/** Deletes all client certificates and generates a new server SSL certificate for the instance. */
 export const resetSslConfigInstances: API.OperationMethod<ResetSslConfigInstancesRequest, ResetSslConfigInstancesResponse, ResetSslConfigInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetSslConfigInstancesRequest,
   output: ResetSslConfigInstancesResponse,
   errors: [],
 }));
 
-/** Restarts a Cloud SQL instance. */
 export interface RestartInstancesRequest {
   /** Project ID of the project that contains the instance to be restarted. */
   project: string;
@@ -3395,13 +3394,13 @@ export const RestartInstancesResponse = Operation;
 
 export type RestartInstancesError = CommonErrors;
 
+/** Restarts a Cloud SQL instance. */
 export const restartInstances: API.OperationMethod<RestartInstancesRequest, RestartInstancesResponse, RestartInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RestartInstancesRequest,
   output: RestartInstancesResponse,
   errors: [],
 }));
 
-/** Restores a backup of a Cloud SQL instance. Using this operation might cause your instance to restart. */
 export interface RestoreBackupInstancesRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -3425,13 +3424,13 @@ export const RestoreBackupInstancesResponse = Operation;
 
 export type RestoreBackupInstancesError = CommonErrors;
 
+/** Restores a backup of a Cloud SQL instance. Using this operation might cause your instance to restart. */
 export const restoreBackupInstances: API.OperationMethod<RestoreBackupInstancesRequest, RestoreBackupInstancesResponse, RestoreBackupInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RestoreBackupInstancesRequest,
   output: RestoreBackupInstancesResponse,
   errors: [],
 }));
 
-/** Rotates the server certificate to one signed by the Certificate Authority (CA) version previously added with the addServerCA method. For instances that have enabled Certificate Authority Service (CAS) based server CA, use RotateServerCertificate to rotate the server certificate. */
 export interface RotateServerCaInstancesRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -3455,13 +3454,13 @@ export const RotateServerCaInstancesResponse = Operation;
 
 export type RotateServerCaInstancesError = CommonErrors;
 
+/** Rotates the server certificate to one signed by the Certificate Authority (CA) version previously added with the addServerCA method. For instances that have enabled Certificate Authority Service (CAS) based server CA, use RotateServerCertificate to rotate the server certificate. */
 export const rotateServerCaInstances: API.OperationMethod<RotateServerCaInstancesRequest, RotateServerCaInstancesResponse, RotateServerCaInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RotateServerCaInstancesRequest,
   output: RotateServerCaInstancesResponse,
   errors: [],
 }));
 
-/** Rotates the server certificate version to one previously added with the addServerCertificate method. For instances not using Certificate Authority Service (CAS) server CA, use RotateServerCa instead. */
 export interface RotateServerCertificateInstancesRequest {
   /** Required. Project ID of the project that contains the instance. */
   project: string;
@@ -3485,13 +3484,13 @@ export const RotateServerCertificateInstancesResponse = Operation;
 
 export type RotateServerCertificateInstancesError = CommonErrors;
 
+/** Rotates the server certificate version to one previously added with the addServerCertificate method. For instances not using Certificate Authority Service (CAS) server CA, use RotateServerCa instead. */
 export const RotateServerCertificateInstances: API.OperationMethod<RotateServerCertificateInstancesRequest, RotateServerCertificateInstancesResponse, RotateServerCertificateInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RotateServerCertificateInstancesRequest,
   output: RotateServerCertificateInstancesResponse,
   errors: [],
 }));
 
-/** Rotates the server certificate version to one previously added with the addEntraIdCertificate method. */
 export interface RotateEntraIdCertificateInstancesRequest {
   /** Required. Project ID of the project that contains the instance. */
   project: string;
@@ -3515,13 +3514,13 @@ export const RotateEntraIdCertificateInstancesResponse = Operation;
 
 export type RotateEntraIdCertificateInstancesError = CommonErrors;
 
+/** Rotates the server certificate version to one previously added with the addEntraIdCertificate method. */
 export const RotateEntraIdCertificateInstances: API.OperationMethod<RotateEntraIdCertificateInstancesRequest, RotateEntraIdCertificateInstancesResponse, RotateEntraIdCertificateInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RotateEntraIdCertificateInstancesRequest,
   output: RotateEntraIdCertificateInstancesResponse,
   errors: [],
 }));
 
-/** Starts the replication in the read replica instance. */
 export interface StartReplicaInstancesRequest {
   /** ID of the project that contains the read replica. */
   project: string;
@@ -3542,13 +3541,13 @@ export const StartReplicaInstancesResponse = Operation;
 
 export type StartReplicaInstancesError = CommonErrors;
 
+/** Starts the replication in the read replica instance. */
 export const startReplicaInstances: API.OperationMethod<StartReplicaInstancesRequest, StartReplicaInstancesResponse, StartReplicaInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StartReplicaInstancesRequest,
   output: StartReplicaInstancesResponse,
   errors: [],
 }));
 
-/** Stops the replication in the read replica instance. */
 export interface StopReplicaInstancesRequest {
   /** ID of the project that contains the read replica. */
   project: string;
@@ -3569,13 +3568,13 @@ export const StopReplicaInstancesResponse = Operation;
 
 export type StopReplicaInstancesError = CommonErrors;
 
+/** Stops the replication in the read replica instance. */
 export const stopReplicaInstances: API.OperationMethod<StopReplicaInstancesRequest, StopReplicaInstancesResponse, StopReplicaInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StopReplicaInstancesRequest,
   output: StopReplicaInstancesResponse,
   errors: [],
 }));
 
-/** Truncate MySQL general and slow query log tables MySQL only. */
 export interface TruncateLogInstancesRequest {
   /** Project ID of the Cloud SQL project. */
   project: string;
@@ -3599,13 +3598,13 @@ export const TruncateLogInstancesResponse = Operation;
 
 export type TruncateLogInstancesError = CommonErrors;
 
+/** Truncate MySQL general and slow query log tables MySQL only. */
 export const truncateLogInstances: API.OperationMethod<TruncateLogInstancesRequest, TruncateLogInstancesResponse, TruncateLogInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TruncateLogInstancesRequest,
   output: TruncateLogInstancesResponse,
   errors: [],
 }));
 
-/** Updates settings of a Cloud SQL instance. Using this operation might cause your instance to restart. */
 export interface UpdateInstancesRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -3629,13 +3628,13 @@ export const UpdateInstancesResponse = Operation;
 
 export type UpdateInstancesError = CommonErrors;
 
+/** Updates settings of a Cloud SQL instance. Using this operation might cause your instance to restart. */
 export const updateInstances: API.OperationMethod<UpdateInstancesRequest, UpdateInstancesResponse, UpdateInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateInstancesRequest,
   output: UpdateInstancesResponse,
   errors: [],
 }));
 
-/** Execute SQL statements. */
 export interface ExecuteSqlInstancesRequest {
   /** Required. Project ID of the project that contains the instance. */
   project: string;
@@ -3659,13 +3658,13 @@ export const ExecuteSqlInstancesResponse = SqlInstancesExecuteSqlResponse;
 
 export type ExecuteSqlInstancesError = CommonErrors;
 
+/** Execute SQL statements. */
 export const executeSqlInstances: API.OperationMethod<ExecuteSqlInstancesRequest, ExecuteSqlInstancesResponse, ExecuteSqlInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExecuteSqlInstancesRequest,
   output: ExecuteSqlInstancesResponse,
   errors: [],
 }));
 
-/** Acquire a lease for the setup of SQL Server Reporting Services (SSRS). */
 export interface AcquireSsrsLeaseInstancesRequest {
   /** Required. Project ID of the project that contains the instance (Example: project-id). */
   project: string;
@@ -3689,13 +3688,13 @@ export const AcquireSsrsLeaseInstancesResponse = SqlInstancesAcquireSsrsLeaseRes
 
 export type AcquireSsrsLeaseInstancesError = CommonErrors;
 
+/** Acquire a lease for the setup of SQL Server Reporting Services (SSRS). */
 export const acquireSsrsLeaseInstances: API.OperationMethod<AcquireSsrsLeaseInstancesRequest, AcquireSsrsLeaseInstancesResponse, AcquireSsrsLeaseInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AcquireSsrsLeaseInstancesRequest,
   output: AcquireSsrsLeaseInstancesResponse,
   errors: [],
 }));
 
-/** Release a lease for the setup of SQL Server Reporting Services (SSRS). */
 export interface ReleaseSsrsLeaseInstancesRequest {
   /** Required. The project ID that contains the instance. */
   project: string;
@@ -3716,13 +3715,13 @@ export const ReleaseSsrsLeaseInstancesResponse = SqlInstancesReleaseSsrsLeaseRes
 
 export type ReleaseSsrsLeaseInstancesError = CommonErrors;
 
+/** Release a lease for the setup of SQL Server Reporting Services (SSRS). */
 export const releaseSsrsLeaseInstances: API.OperationMethod<ReleaseSsrsLeaseInstancesRequest, ReleaseSsrsLeaseInstancesResponse, ReleaseSsrsLeaseInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReleaseSsrsLeaseInstancesRequest,
   output: ReleaseSsrsLeaseInstancesResponse,
   errors: [],
 }));
 
-/** Execute MVU Pre-checks */
 export interface PreCheckMajorVersionUpgradeInstancesRequest {
   /** Required. Project ID of the project that contains the instance. */
   project: string;
@@ -3746,13 +3745,13 @@ export const PreCheckMajorVersionUpgradeInstancesResponse = Operation;
 
 export type PreCheckMajorVersionUpgradeInstancesError = CommonErrors;
 
+/** Execute MVU Pre-checks */
 export const preCheckMajorVersionUpgradeInstances: API.OperationMethod<PreCheckMajorVersionUpgradeInstancesRequest, PreCheckMajorVersionUpgradeInstancesResponse, PreCheckMajorVersionUpgradeInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PreCheckMajorVersionUpgradeInstancesRequest,
   output: PreCheckMajorVersionUpgradeInstancesResponse,
   errors: [],
 }));
 
-/** Point in time restore for an instance managed by Google Cloud Backup and Disaster Recovery. */
 export interface PointInTimeRestoreInstancesRequest {
   /** Required. The parent resource where you created this instance. Format: projects/{project} */
   parent: string;
@@ -3773,13 +3772,13 @@ export const PointInTimeRestoreInstancesResponse = Operation;
 
 export type PointInTimeRestoreInstancesError = CommonErrors;
 
+/** Point in time restore for an instance managed by Google Cloud Backup and Disaster Recovery. */
 export const pointInTimeRestoreInstances: API.OperationMethod<PointInTimeRestoreInstancesRequest, PointInTimeRestoreInstancesResponse, PointInTimeRestoreInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PointInTimeRestoreInstancesRequest,
   output: PointInTimeRestoreInstancesResponse,
   errors: [],
 }));
 
-/** Generates a short-lived X509 certificate containing the provided public key and signed by a private key specific to the target instance. Users may use the certificate to authenticate as themselves when connecting to the database. */
 export interface CreateEphemeralSslCertsRequest {
   /** Project ID of the Cloud SQL project. */
   project: string;
@@ -3803,13 +3802,13 @@ export const CreateEphemeralSslCertsResponse = SslCert;
 
 export type CreateEphemeralSslCertsError = CommonErrors;
 
+/** Generates a short-lived X509 certificate containing the provided public key and signed by a private key specific to the target instance. Users may use the certificate to authenticate as themselves when connecting to the database. */
 export const createEphemeralSslCerts: API.OperationMethod<CreateEphemeralSslCertsRequest, CreateEphemeralSslCertsResponse, CreateEphemeralSslCertsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateEphemeralSslCertsRequest,
   output: CreateEphemeralSslCertsResponse,
   errors: [],
 }));
 
-/** Deletes the SSL certificate. For First Generation instances, the certificate remains valid until the instance is restarted. */
 export interface DeleteSslCertsRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -3833,13 +3832,13 @@ export const DeleteSslCertsResponse = Operation;
 
 export type DeleteSslCertsError = CommonErrors;
 
+/** Deletes the SSL certificate. For First Generation instances, the certificate remains valid until the instance is restarted. */
 export const deleteSslCerts: API.OperationMethod<DeleteSslCertsRequest, DeleteSslCertsResponse, DeleteSslCertsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteSslCertsRequest,
   output: DeleteSslCertsResponse,
   errors: [],
 }));
 
-/** Retrieves a particular SSL certificate. Does not include the private key (required for usage). The private key must be saved from the response to initial creation. */
 export interface GetSslCertsRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -3863,13 +3862,13 @@ export const GetSslCertsResponse = SslCert;
 
 export type GetSslCertsError = CommonErrors;
 
+/** Retrieves a particular SSL certificate. Does not include the private key (required for usage). The private key must be saved from the response to initial creation. */
 export const getSslCerts: API.OperationMethod<GetSslCertsRequest, GetSslCertsResponse, GetSslCertsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSslCertsRequest,
   output: GetSslCertsResponse,
   errors: [],
 }));
 
-/** Creates an SSL certificate and returns it along with the private key and server certificate authority. The new certificate will not be usable until the instance is restarted. */
 export interface InsertSslCertsRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -3893,13 +3892,13 @@ export const InsertSslCertsResponse = SslCertsInsertResponse;
 
 export type InsertSslCertsError = CommonErrors;
 
+/** Creates an SSL certificate and returns it along with the private key and server certificate authority. The new certificate will not be usable until the instance is restarted. */
 export const insertSslCerts: API.OperationMethod<InsertSslCertsRequest, InsertSslCertsResponse, InsertSslCertsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertSslCertsRequest,
   output: InsertSslCertsResponse,
   errors: [],
 }));
 
-/** Lists all of the current SSL certificates for the instance. */
 export interface ListSslCertsRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -3920,13 +3919,13 @@ export const ListSslCertsResponse = SslCertsListResponse;
 
 export type ListSslCertsError = CommonErrors;
 
+/** Lists all of the current SSL certificates for the instance. */
 export const listSslCerts: API.OperationMethod<ListSslCertsRequest, ListSslCertsResponse, ListSslCertsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListSslCertsRequest,
   output: ListSslCertsResponse,
   errors: [],
 }));
 
-/** Reschedules the maintenance on the given instance. */
 export interface RescheduleMaintenanceProjectsInstancesRequest {
   /** ID of the project that contains the instance. */
   project: string;
@@ -3950,13 +3949,13 @@ export const RescheduleMaintenanceProjectsInstancesResponse = Operation;
 
 export type RescheduleMaintenanceProjectsInstancesError = CommonErrors;
 
+/** Reschedules the maintenance on the given instance. */
 export const rescheduleMaintenanceProjectsInstances: API.OperationMethod<RescheduleMaintenanceProjectsInstancesRequest, RescheduleMaintenanceProjectsInstancesResponse, RescheduleMaintenanceProjectsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RescheduleMaintenanceProjectsInstancesRequest,
   output: RescheduleMaintenanceProjectsInstancesResponse,
   errors: [],
 }));
 
-/** Verify External primary instance external sync settings. */
 export interface VerifyExternalSyncSettingsProjectsInstancesRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -3980,13 +3979,13 @@ export const VerifyExternalSyncSettingsProjectsInstancesResponse = SqlInstancesV
 
 export type VerifyExternalSyncSettingsProjectsInstancesError = CommonErrors;
 
+/** Verify External primary instance external sync settings. */
 export const verifyExternalSyncSettingsProjectsInstances: API.OperationMethod<VerifyExternalSyncSettingsProjectsInstancesRequest, VerifyExternalSyncSettingsProjectsInstancesResponse, VerifyExternalSyncSettingsProjectsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: VerifyExternalSyncSettingsProjectsInstancesRequest,
   output: VerifyExternalSyncSettingsProjectsInstancesResponse,
   errors: [],
 }));
 
-/** Start External primary instance migration. */
 export interface StartExternalSyncProjectsInstancesRequest {
   /** ID of the project that contains the instance. */
   project: string;
@@ -4010,13 +4009,13 @@ export const StartExternalSyncProjectsInstancesResponse = Operation;
 
 export type StartExternalSyncProjectsInstancesError = CommonErrors;
 
+/** Start External primary instance migration. */
 export const startExternalSyncProjectsInstances: API.OperationMethod<StartExternalSyncProjectsInstancesRequest, StartExternalSyncProjectsInstancesResponse, StartExternalSyncProjectsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StartExternalSyncProjectsInstancesRequest,
   output: StartExternalSyncProjectsInstancesResponse,
   errors: [],
 }));
 
-/** Perform Disk Shrink on primary instance. */
 export interface PerformDiskShrinkProjectsInstancesRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -4040,13 +4039,13 @@ export const PerformDiskShrinkProjectsInstancesResponse = Operation;
 
 export type PerformDiskShrinkProjectsInstancesError = CommonErrors;
 
+/** Perform Disk Shrink on primary instance. */
 export const performDiskShrinkProjectsInstances: API.OperationMethod<PerformDiskShrinkProjectsInstancesRequest, PerformDiskShrinkProjectsInstancesResponse, PerformDiskShrinkProjectsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PerformDiskShrinkProjectsInstancesRequest,
   output: PerformDiskShrinkProjectsInstancesResponse,
   errors: [],
 }));
 
-/** Get Disk Shrink Config for a given instance. */
 export interface GetDiskShrinkConfigProjectsInstancesRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -4067,13 +4066,13 @@ export const GetDiskShrinkConfigProjectsInstancesResponse = SqlInstancesGetDiskS
 
 export type GetDiskShrinkConfigProjectsInstancesError = CommonErrors;
 
+/** Get Disk Shrink Config for a given instance. */
 export const getDiskShrinkConfigProjectsInstances: API.OperationMethod<GetDiskShrinkConfigProjectsInstancesRequest, GetDiskShrinkConfigProjectsInstancesResponse, GetDiskShrinkConfigProjectsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDiskShrinkConfigProjectsInstancesRequest,
   output: GetDiskShrinkConfigProjectsInstancesResponse,
   errors: [],
 }));
 
-/** Reset Replica Size to primary instance disk size. */
 export interface ResetReplicaSizeProjectsInstancesRequest {
   /** ID of the project that contains the read replica. */
   project: string;
@@ -4097,13 +4096,13 @@ export const ResetReplicaSizeProjectsInstancesResponse = Operation;
 
 export type ResetReplicaSizeProjectsInstancesError = CommonErrors;
 
+/** Reset Replica Size to primary instance disk size. */
 export const resetReplicaSizeProjectsInstances: API.OperationMethod<ResetReplicaSizeProjectsInstancesRequest, ResetReplicaSizeProjectsInstancesResponse, ResetReplicaSizeProjectsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetReplicaSizeProjectsInstancesRequest,
   output: ResetReplicaSizeProjectsInstancesResponse,
   errors: [],
 }));
 
-/** Get Latest Recovery Time for a given instance. */
 export interface GetLatestRecoveryTimeProjectsInstancesRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -4127,13 +4126,13 @@ export const GetLatestRecoveryTimeProjectsInstancesResponse = SqlInstancesGetLat
 
 export type GetLatestRecoveryTimeProjectsInstancesError = CommonErrors;
 
+/** Get Latest Recovery Time for a given instance. */
 export const getLatestRecoveryTimeProjectsInstances: API.OperationMethod<GetLatestRecoveryTimeProjectsInstancesRequest, GetLatestRecoveryTimeProjectsInstancesResponse, GetLatestRecoveryTimeProjectsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetLatestRecoveryTimeProjectsInstancesRequest,
   output: GetLatestRecoveryTimeProjectsInstancesResponse,
   errors: [],
 }));
 
-/** Deletes the backup taken by a backup run. */
 export interface DeleteBackupRunsRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -4157,13 +4156,13 @@ export const DeleteBackupRunsResponse = Operation;
 
 export type DeleteBackupRunsError = CommonErrors;
 
+/** Deletes the backup taken by a backup run. */
 export const deleteBackupRuns: API.OperationMethod<DeleteBackupRunsRequest, DeleteBackupRunsResponse, DeleteBackupRunsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteBackupRunsRequest,
   output: DeleteBackupRunsResponse,
   errors: [],
 }));
 
-/** Retrieves a resource containing information about a backup run. */
 export interface GetBackupRunsRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -4187,13 +4186,13 @@ export const GetBackupRunsResponse = BackupRun;
 
 export type GetBackupRunsError = CommonErrors;
 
+/** Retrieves a resource containing information about a backup run. */
 export const getBackupRuns: API.OperationMethod<GetBackupRunsRequest, GetBackupRunsResponse, GetBackupRunsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBackupRunsRequest,
   output: GetBackupRunsResponse,
   errors: [],
 }));
 
-/** Creates a new backup run on demand. */
 export interface InsertBackupRunsRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -4217,13 +4216,13 @@ export const InsertBackupRunsResponse = Operation;
 
 export type InsertBackupRunsError = CommonErrors;
 
+/** Creates a new backup run on demand. */
 export const insertBackupRuns: API.OperationMethod<InsertBackupRunsRequest, InsertBackupRunsResponse, InsertBackupRunsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertBackupRunsRequest,
   output: InsertBackupRunsResponse,
   errors: [],
 }));
 
-/** Lists all backup runs associated with the project or a given instance and configuration in the reverse chronological order of the backup initiation time. */
 export interface ListBackupRunsRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -4250,7 +4249,8 @@ export const ListBackupRunsResponse = BackupRunsListResponse;
 
 export type ListBackupRunsError = CommonErrors;
 
-export const listBackupRuns = API.makePaginated(() => ({
+/** Lists all backup runs associated with the project or a given instance and configuration in the reverse chronological order of the backup initiation time. */
+export const listBackupRuns: API.PaginatedOperationMethod<ListBackupRunsRequest, ListBackupRunsResponse, ListBackupRunsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBackupRunsRequest,
   output: ListBackupRunsResponse,
   errors: [],
@@ -4261,7 +4261,6 @@ export const listBackupRuns = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a backup for a Cloud SQL instance. This API can be used only to create on-demand backups. */
 export interface CreateBackupBackupsRequest {
   /** Required. The parent resource where this backup is created. Format: projects/{project} */
   parent: string;
@@ -4282,13 +4281,13 @@ export const CreateBackupBackupsResponse = Operation;
 
 export type CreateBackupBackupsError = CommonErrors;
 
+/** Creates a backup for a Cloud SQL instance. This API can be used only to create on-demand backups. */
 export const CreateBackupBackups: API.OperationMethod<CreateBackupBackupsRequest, CreateBackupBackupsResponse, CreateBackupBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateBackupBackupsRequest,
   output: CreateBackupBackupsResponse,
   errors: [],
 }));
 
-/** Retrieves a resource containing information about a backup. */
 export interface GetBackupBackupsRequest {
   /** Required. The name of the backup to retrieve. Format: projects/{project}/backups/{backup} */
   name: string;
@@ -4306,13 +4305,13 @@ export const GetBackupBackupsResponse = Backup;
 
 export type GetBackupBackupsError = CommonErrors;
 
+/** Retrieves a resource containing information about a backup. */
 export const GetBackupBackups: API.OperationMethod<GetBackupBackupsRequest, GetBackupBackupsResponse, GetBackupBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBackupBackupsRequest,
   output: GetBackupBackupsResponse,
   errors: [],
 }));
 
-/** Lists all backups associated with the project. */
 export interface ListBackupsBackupsRequest {
   /** Required. The parent that owns this collection of backups. Format: projects/{project} */
   parent: string;
@@ -4339,7 +4338,8 @@ export const ListBackupsBackupsResponse = ListBackupsResponse;
 
 export type ListBackupsBackupsError = CommonErrors;
 
-export const ListBackupsBackups = API.makePaginated(() => ({
+/** Lists all backups associated with the project. */
+export const ListBackupsBackups: API.PaginatedOperationMethod<ListBackupsBackupsRequest, ListBackupsBackupsResponse, ListBackupsBackupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBackupsBackupsRequest,
   output: ListBackupsBackupsResponse,
   errors: [],
@@ -4349,7 +4349,6 @@ export const ListBackupsBackups = API.makePaginated(() => ({
   },
 }));
 
-/** Updates the retention period and description of the backup. You can use this API to update final backups only. */
 export interface UpdateBackupBackupsRequest {
   /** Output only. The resource name of the backup. Format: projects/{project}/backups/{backup}. */
   name: string;
@@ -4373,13 +4372,13 @@ export const UpdateBackupBackupsResponse = Operation;
 
 export type UpdateBackupBackupsError = CommonErrors;
 
+/** Updates the retention period and description of the backup. You can use this API to update final backups only. */
 export const UpdateBackupBackups: API.OperationMethod<UpdateBackupBackupsRequest, UpdateBackupBackupsResponse, UpdateBackupBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateBackupBackupsRequest,
   output: UpdateBackupBackupsResponse,
   errors: [],
 }));
 
-/** Deletes the backup. */
 export interface DeleteBackupBackupsRequest {
   /** Required. The name of the backup to delete. Format: projects/{project}/backups/{backup} */
   name: string;
@@ -4397,13 +4396,13 @@ export const DeleteBackupBackupsResponse = Operation;
 
 export type DeleteBackupBackupsError = CommonErrors;
 
+/** Deletes the backup. */
 export const DeleteBackupBackups: API.OperationMethod<DeleteBackupBackupsRequest, DeleteBackupBackupsResponse, DeleteBackupBackupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteBackupBackupsRequest,
   output: DeleteBackupBackupsResponse,
   errors: [],
 }));
 
-/** Retrieves connect settings about a Cloud SQL instance. */
 export interface GetConnectRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -4427,13 +4426,13 @@ export const GetConnectResponse = ConnectSettings;
 
 export type GetConnectError = CommonErrors;
 
+/** Retrieves connect settings about a Cloud SQL instance. */
 export const getConnect: API.OperationMethod<GetConnectRequest, GetConnectResponse, GetConnectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetConnectRequest,
   output: GetConnectResponse,
   errors: [],
 }));
 
-/** Generates a short-lived X509 certificate containing the provided public key and signed by a private key specific to the target instance. Users may use the certificate to authenticate as themselves when connecting to the database. */
 export interface GenerateEphemeralCertConnectRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -4457,13 +4456,13 @@ export const GenerateEphemeralCertConnectResponse = GenerateEphemeralCertRespons
 
 export type GenerateEphemeralCertConnectError = CommonErrors;
 
+/** Generates a short-lived X509 certificate containing the provided public key and signed by a private key specific to the target instance. Users may use the certificate to authenticate as themselves when connecting to the database. */
 export const generateEphemeralCertConnect: API.OperationMethod<GenerateEphemeralCertConnectRequest, GenerateEphemeralCertConnectResponse, GenerateEphemeralCertConnectError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateEphemeralCertConnectRequest,
   output: GenerateEphemeralCertConnectResponse,
   errors: [],
 }));
 
-/** Deletes a database from a Cloud SQL instance. */
 export interface DeleteDatabasesRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -4487,13 +4486,13 @@ export const DeleteDatabasesResponse = Operation;
 
 export type DeleteDatabasesError = CommonErrors;
 
+/** Deletes a database from a Cloud SQL instance. */
 export const deleteDatabases: API.OperationMethod<DeleteDatabasesRequest, DeleteDatabasesResponse, DeleteDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteDatabasesRequest,
   output: DeleteDatabasesResponse,
   errors: [],
 }));
 
-/** Retrieves a resource containing information about a database inside a Cloud SQL instance. */
 export interface GetDatabasesRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -4517,13 +4516,13 @@ export const GetDatabasesResponse = Database;
 
 export type GetDatabasesError = CommonErrors;
 
+/** Retrieves a resource containing information about a database inside a Cloud SQL instance. */
 export const getDatabases: API.OperationMethod<GetDatabasesRequest, GetDatabasesResponse, GetDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDatabasesRequest,
   output: GetDatabasesResponse,
   errors: [],
 }));
 
-/** Inserts a resource containing information about a database inside a Cloud SQL instance. **Note:** You can't modify the default character set and collation. */
 export interface InsertDatabasesRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -4547,13 +4546,13 @@ export const InsertDatabasesResponse = Operation;
 
 export type InsertDatabasesError = CommonErrors;
 
+/** Inserts a resource containing information about a database inside a Cloud SQL instance. **Note:** You can't modify the default character set and collation. */
 export const insertDatabases: API.OperationMethod<InsertDatabasesRequest, InsertDatabasesResponse, InsertDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertDatabasesRequest,
   output: InsertDatabasesResponse,
   errors: [],
 }));
 
-/** Lists databases in the specified Cloud SQL instance. */
 export interface ListDatabasesRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -4574,13 +4573,13 @@ export const ListDatabasesResponse = DatabasesListResponse;
 
 export type ListDatabasesError = CommonErrors;
 
+/** Lists databases in the specified Cloud SQL instance. */
 export const listDatabases: API.OperationMethod<ListDatabasesRequest, ListDatabasesResponse, ListDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListDatabasesRequest,
   output: ListDatabasesResponse,
   errors: [],
 }));
 
-/** Partially updates a resource containing information about a database inside a Cloud SQL instance. This method supports patch semantics. */
 export interface PatchDatabasesRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -4607,13 +4606,13 @@ export const PatchDatabasesResponse = Operation;
 
 export type PatchDatabasesError = CommonErrors;
 
+/** Partially updates a resource containing information about a database inside a Cloud SQL instance. This method supports patch semantics. */
 export const patchDatabases: API.OperationMethod<PatchDatabasesRequest, PatchDatabasesResponse, PatchDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchDatabasesRequest,
   output: PatchDatabasesResponse,
   errors: [],
 }));
 
-/** Updates a resource containing information about a database inside a Cloud SQL instance. */
 export interface UpdateDatabasesRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -4640,13 +4639,13 @@ export const UpdateDatabasesResponse = Operation;
 
 export type UpdateDatabasesError = CommonErrors;
 
+/** Updates a resource containing information about a database inside a Cloud SQL instance. */
 export const updateDatabases: API.OperationMethod<UpdateDatabasesRequest, UpdateDatabasesResponse, UpdateDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateDatabasesRequest,
   output: UpdateDatabasesResponse,
   errors: [],
 }));
 
-/** Lists all available database flags for Cloud SQL instances. */
 export interface ListFlagsRequest {
   /** Database type and version you want to retrieve flags for. By default, this method returns flags for all database types and versions. */
   databaseVersion?: string;
@@ -4667,13 +4666,13 @@ export const ListFlagsResponse = FlagsListResponse;
 
 export type ListFlagsError = CommonErrors;
 
+/** Lists all available database flags for Cloud SQL instances. */
 export const listFlags: API.OperationMethod<ListFlagsRequest, ListFlagsResponse, ListFlagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListFlagsRequest,
   output: ListFlagsResponse,
   errors: [],
 }));
 
-/** Retrieves an instance operation that has been performed on an instance. */
 export interface GetOperationsRequest {
   /** Required. Project ID of the project that contains the instance. */
   project: string;
@@ -4694,13 +4693,13 @@ export const GetOperationsResponse = Operation;
 
 export type GetOperationsError = CommonErrors;
 
+/** Retrieves an instance operation that has been performed on an instance. */
 export const getOperations: API.OperationMethod<GetOperationsRequest, GetOperationsResponse, GetOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
 }));
 
-/** Lists all instance operations that have been performed on the given Cloud SQL instance in the reverse chronological order of the start time. */
 export interface ListOperationsRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -4727,7 +4726,8 @@ export const ListOperationsResponse = OperationsListResponse;
 
 export type ListOperationsError = CommonErrors;
 
-export const listOperations = API.makePaginated(() => ({
+/** Lists all instance operations that have been performed on the given Cloud SQL instance in the reverse chronological order of the start time. */
+export const listOperations: API.PaginatedOperationMethod<ListOperationsRequest, ListOperationsResponse, ListOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOperationsRequest,
   output: ListOperationsResponse,
   errors: [],
@@ -4738,7 +4738,6 @@ export const listOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Cancels an instance operation that has been performed on an instance. */
 export interface CancelOperationsRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -4759,13 +4758,13 @@ export const CancelOperationsResponse = Empty;
 
 export type CancelOperationsError = CommonErrors;
 
+/** Cancels an instance operation that has been performed on an instance. */
 export const cancelOperations: API.OperationMethod<CancelOperationsRequest, CancelOperationsResponse, CancelOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelOperationsRequest,
   output: CancelOperationsResponse,
   errors: [],
 }));
 
-/** Lists all available machine types (tiers) for Cloud SQL, for example, `db-custom-1-3840`. For more information, see https://cloud.google.com/sql/pricing. */
 export interface ListTiersRequest {
   /** Project ID of the project for which to list tiers. */
   project: string;
@@ -4783,13 +4782,13 @@ export const ListTiersResponse = TiersListResponse;
 
 export type ListTiersError = CommonErrors;
 
+/** Lists all available machine types (tiers) for Cloud SQL, for example, `db-custom-1-3840`. For more information, see https://cloud.google.com/sql/pricing. */
 export const listTiers: API.OperationMethod<ListTiersRequest, ListTiersResponse, ListTiersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListTiersRequest,
   output: ListTiersResponse,
   errors: [],
 }));
 
-/** Deletes a user from a Cloud SQL instance. */
 export interface DeleteUsersRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -4816,13 +4815,13 @@ export const DeleteUsersResponse = Operation;
 
 export type DeleteUsersError = CommonErrors;
 
+/** Deletes a user from a Cloud SQL instance. */
 export const deleteUsers: API.OperationMethod<DeleteUsersRequest, DeleteUsersResponse, DeleteUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteUsersRequest,
   output: DeleteUsersResponse,
   errors: [],
 }));
 
-/** Retrieves a resource containing information about a user. */
 export interface GetUsersRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -4849,13 +4848,13 @@ export const GetUsersResponse = User;
 
 export type GetUsersError = CommonErrors;
 
+/** Retrieves a resource containing information about a user. */
 export const getUsers: API.OperationMethod<GetUsersRequest, GetUsersResponse, GetUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetUsersRequest,
   output: GetUsersResponse,
   errors: [],
 }));
 
-/** Creates a new user in a Cloud SQL instance. */
 export interface InsertUsersRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -4879,13 +4878,13 @@ export const InsertUsersResponse = Operation;
 
 export type InsertUsersError = CommonErrors;
 
+/** Creates a new user in a Cloud SQL instance. */
 export const insertUsers: API.OperationMethod<InsertUsersRequest, InsertUsersResponse, InsertUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertUsersRequest,
   output: InsertUsersResponse,
   errors: [],
 }));
 
-/** Lists users in the specified Cloud SQL instance. */
 export interface ListUsersRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -4906,13 +4905,13 @@ export const ListUsersResponse = UsersListResponse;
 
 export type ListUsersError = CommonErrors;
 
+/** Lists users in the specified Cloud SQL instance. */
 export const listUsers: API.OperationMethod<ListUsersRequest, ListUsersResponse, ListUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListUsersRequest,
   output: ListUsersResponse,
   errors: [],
 }));
 
-/** Updates an existing user in a Cloud SQL instance. */
 export interface UpdateUsersRequest {
   /** Project ID of the project that contains the instance. */
   project: string;
@@ -4948,6 +4947,7 @@ export const UpdateUsersResponse = Operation;
 
 export type UpdateUsersError = CommonErrors;
 
+/** Updates an existing user in a Cloud SQL instance. */
 export const updateUsers: API.OperationMethod<UpdateUsersRequest, UpdateUsersResponse, UpdateUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateUsersRequest,
   output: UpdateUsersResponse,

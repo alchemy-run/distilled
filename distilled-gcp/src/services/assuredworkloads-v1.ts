@@ -714,7 +714,6 @@ export const GoogleCloudAssuredworkloadsV1ApplyWorkloadUpdateOperationMetadata: 
 // Operations
 // ==========================================================================
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListOrganizationsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -744,7 +743,8 @@ export const ListOrganizationsLocationsOperationsResponse = GoogleLongrunningLis
 
 export type ListOrganizationsLocationsOperationsError = CommonErrors;
 
-export const listOrganizationsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listOrganizationsLocationsOperations: API.PaginatedOperationMethod<ListOrganizationsLocationsOperationsRequest, ListOrganizationsLocationsOperationsResponse, ListOrganizationsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsOperationsRequest,
   output: ListOrganizationsLocationsOperationsResponse,
   errors: [],
@@ -754,7 +754,6 @@ export const listOrganizationsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetOrganizationsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -772,13 +771,13 @@ export const GetOrganizationsLocationsOperationsResponse = GoogleLongrunningOper
 
 export type GetOrganizationsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOrganizationsLocationsOperations: API.OperationMethod<GetOrganizationsLocationsOperationsRequest, GetOrganizationsLocationsOperationsResponse, GetOrganizationsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsOperationsRequest,
   output: GetOrganizationsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Creates Assured Workload. */
 export interface CreateOrganizationsLocationsWorkloadsRequest {
   /** Required. The resource name of the new Workload's parent. Must be of the form `organizations/{org_id}/locations/{location_id}`. */
   parent: string;
@@ -802,13 +801,13 @@ export const CreateOrganizationsLocationsWorkloadsResponse = GoogleLongrunningOp
 
 export type CreateOrganizationsLocationsWorkloadsError = CommonErrors;
 
+/** Creates Assured Workload. */
 export const createOrganizationsLocationsWorkloads: API.OperationMethod<CreateOrganizationsLocationsWorkloadsRequest, CreateOrganizationsLocationsWorkloadsResponse, CreateOrganizationsLocationsWorkloadsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsLocationsWorkloadsRequest,
   output: CreateOrganizationsLocationsWorkloadsResponse,
   errors: [],
 }));
 
-/** Updates an existing workload. Currently allows updating of workload display_name and labels. For force updates don't set etag field in the Workload. Only one update operation per workload can be in progress. */
 export interface PatchOrganizationsLocationsWorkloadsRequest {
   /** Optional. The resource name of the workload. Format: organizations/{organization}/locations/{location}/workloads/{workload} Read-only. */
   name: string;
@@ -832,13 +831,13 @@ export const PatchOrganizationsLocationsWorkloadsResponse = GoogleCloudAssuredwo
 
 export type PatchOrganizationsLocationsWorkloadsError = CommonErrors;
 
+/** Updates an existing workload. Currently allows updating of workload display_name and labels. For force updates don't set etag field in the Workload. Only one update operation per workload can be in progress. */
 export const patchOrganizationsLocationsWorkloads: API.OperationMethod<PatchOrganizationsLocationsWorkloadsRequest, PatchOrganizationsLocationsWorkloadsResponse, PatchOrganizationsLocationsWorkloadsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsLocationsWorkloadsRequest,
   output: PatchOrganizationsLocationsWorkloadsResponse,
   errors: [],
 }));
 
-/** Restrict the list of resources allowed in the Workload environment. The current list of allowed products can be found at https://cloud.google.com/assured-workloads/docs/supported-products In addition to assuredworkloads.workload.update permission, the user should also have orgpolicy.policy.set permission on the folder resource to use this functionality. */
 export interface RestrictAllowedResourcesOrganizationsLocationsWorkloadsRequest {
   /** Required. The resource name of the Workload. This is the workloads's relative path in the API, formatted as "organizations/{organization_id}/locations/{location_id}/workloads/{workload_id}". For example, "organizations/123/locations/us-east1/workloads/assured-workload-1". */
   name: string;
@@ -859,13 +858,13 @@ export const RestrictAllowedResourcesOrganizationsLocationsWorkloadsResponse = G
 
 export type RestrictAllowedResourcesOrganizationsLocationsWorkloadsError = CommonErrors;
 
+/** Restrict the list of resources allowed in the Workload environment. The current list of allowed products can be found at https://cloud.google.com/assured-workloads/docs/supported-products In addition to assuredworkloads.workload.update permission, the user should also have orgpolicy.policy.set permission on the folder resource to use this functionality. */
 export const restrictAllowedResourcesOrganizationsLocationsWorkloads: API.OperationMethod<RestrictAllowedResourcesOrganizationsLocationsWorkloadsRequest, RestrictAllowedResourcesOrganizationsLocationsWorkloadsResponse, RestrictAllowedResourcesOrganizationsLocationsWorkloadsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RestrictAllowedResourcesOrganizationsLocationsWorkloadsRequest,
   output: RestrictAllowedResourcesOrganizationsLocationsWorkloadsResponse,
   errors: [],
 }));
 
-/** Deletes the workload. Make sure that workload's direct children are already in a deleted state, otherwise the request will fail with a FAILED_PRECONDITION error. In addition to assuredworkloads.workload.delete permission, the user should also have orgpolicy.policy.set permission on the deleted folder to remove Assured Workloads OrgPolicies. */
 export interface DeleteOrganizationsLocationsWorkloadsRequest {
   /** Required. The `name` field is used to identify the workload. Format: organizations/{org_id}/locations/{location_id}/workloads/{workload_id} */
   name: string;
@@ -886,13 +885,13 @@ export const DeleteOrganizationsLocationsWorkloadsResponse = GoogleProtobufEmpty
 
 export type DeleteOrganizationsLocationsWorkloadsError = CommonErrors;
 
+/** Deletes the workload. Make sure that workload's direct children are already in a deleted state, otherwise the request will fail with a FAILED_PRECONDITION error. In addition to assuredworkloads.workload.delete permission, the user should also have orgpolicy.policy.set permission on the deleted folder to remove Assured Workloads OrgPolicies. */
 export const deleteOrganizationsLocationsWorkloads: API.OperationMethod<DeleteOrganizationsLocationsWorkloadsRequest, DeleteOrganizationsLocationsWorkloadsResponse, DeleteOrganizationsLocationsWorkloadsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsLocationsWorkloadsRequest,
   output: DeleteOrganizationsLocationsWorkloadsResponse,
   errors: [],
 }));
 
-/** Gets Assured Workload associated with a CRM Node */
 export interface GetOrganizationsLocationsWorkloadsRequest {
   /** Required. The resource name of the Workload to fetch. This is the workloads's relative path in the API, formatted as "organizations/{organization_id}/locations/{location_id}/workloads/{workload_id}". For example, "organizations/123/locations/us-east1/workloads/assured-workload-1". */
   name: string;
@@ -910,13 +909,13 @@ export const GetOrganizationsLocationsWorkloadsResponse = GoogleCloudAssuredwork
 
 export type GetOrganizationsLocationsWorkloadsError = CommonErrors;
 
+/** Gets Assured Workload associated with a CRM Node */
 export const getOrganizationsLocationsWorkloads: API.OperationMethod<GetOrganizationsLocationsWorkloadsRequest, GetOrganizationsLocationsWorkloadsResponse, GetOrganizationsLocationsWorkloadsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsWorkloadsRequest,
   output: GetOrganizationsLocationsWorkloadsResponse,
   errors: [],
 }));
 
-/** Analyzes a hypothetical move of a source resource to a target workload to surface compliance risks. The analysis is best effort and is not guaranteed to be exhaustive. */
 export interface AnalyzeWorkloadMoveOrganizationsLocationsWorkloadsRequest {
   /** Required. The resource ID of the folder-based destination workload. This workload is where the source resource will hypothetically be moved to. Specify the workload's relative resource name, formatted as: "organizations/{ORGANIZATION_ID}/locations/{LOCATION_ID}/workloads/{WORKLOAD_ID}" For example: "organizations/123/locations/us-east1/workloads/assured-workload-2" */
   target: string;
@@ -946,7 +945,8 @@ export const AnalyzeWorkloadMoveOrganizationsLocationsWorkloadsResponse = Google
 
 export type AnalyzeWorkloadMoveOrganizationsLocationsWorkloadsError = CommonErrors;
 
-export const analyzeWorkloadMoveOrganizationsLocationsWorkloads = API.makePaginated(() => ({
+/** Analyzes a hypothetical move of a source resource to a target workload to surface compliance risks. The analysis is best effort and is not guaranteed to be exhaustive. */
+export const analyzeWorkloadMoveOrganizationsLocationsWorkloads: API.PaginatedOperationMethod<AnalyzeWorkloadMoveOrganizationsLocationsWorkloadsRequest, AnalyzeWorkloadMoveOrganizationsLocationsWorkloadsResponse, AnalyzeWorkloadMoveOrganizationsLocationsWorkloadsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: AnalyzeWorkloadMoveOrganizationsLocationsWorkloadsRequest,
   output: AnalyzeWorkloadMoveOrganizationsLocationsWorkloadsResponse,
   errors: [],
@@ -956,7 +956,6 @@ export const analyzeWorkloadMoveOrganizationsLocationsWorkloads = API.makePagina
   },
 }));
 
-/** Lists Assured Workloads under a CRM Node. */
 export interface ListOrganizationsLocationsWorkloadsRequest {
   /** Required. Parent Resource to list workloads from. Must be of the form `organizations/{org_id}/locations/{location}`. */
   parent: string;
@@ -983,7 +982,8 @@ export const ListOrganizationsLocationsWorkloadsResponse = GoogleCloudAssuredwor
 
 export type ListOrganizationsLocationsWorkloadsError = CommonErrors;
 
-export const listOrganizationsLocationsWorkloads = API.makePaginated(() => ({
+/** Lists Assured Workloads under a CRM Node. */
+export const listOrganizationsLocationsWorkloads: API.PaginatedOperationMethod<ListOrganizationsLocationsWorkloadsRequest, ListOrganizationsLocationsWorkloadsResponse, ListOrganizationsLocationsWorkloadsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsWorkloadsRequest,
   output: ListOrganizationsLocationsWorkloadsResponse,
   errors: [],
@@ -993,7 +993,6 @@ export const listOrganizationsLocationsWorkloads = API.makePaginated(() => ({
   },
 }));
 
-/** Update the permissions settings for an existing partner workload. For force updates don't set etag field in the Workload. Only one update operation per workload can be in progress. */
 export interface MutatePartnerPermissionsOrganizationsLocationsWorkloadsRequest {
   /** Required. The `name` field is used to identify the workload. Format: organizations/{org_id}/locations/{location_id}/workloads/{workload_id} */
   name: string;
@@ -1014,13 +1013,13 @@ export const MutatePartnerPermissionsOrganizationsLocationsWorkloadsResponse = G
 
 export type MutatePartnerPermissionsOrganizationsLocationsWorkloadsError = CommonErrors;
 
+/** Update the permissions settings for an existing partner workload. For force updates don't set etag field in the Workload. Only one update operation per workload can be in progress. */
 export const mutatePartnerPermissionsOrganizationsLocationsWorkloads: API.OperationMethod<MutatePartnerPermissionsOrganizationsLocationsWorkloadsRequest, MutatePartnerPermissionsOrganizationsLocationsWorkloadsResponse, MutatePartnerPermissionsOrganizationsLocationsWorkloadsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MutatePartnerPermissionsOrganizationsLocationsWorkloadsRequest,
   output: MutatePartnerPermissionsOrganizationsLocationsWorkloadsResponse,
   errors: [],
 }));
 
-/** Enable resource violation monitoring for a workload. */
 export interface EnableResourceMonitoringOrganizationsLocationsWorkloadsRequest {
   /** Required. The `name` field is used to identify the workload. Format: organizations/{org_id}/locations/{location_id}/workloads/{workload_id} */
   name: string;
@@ -1038,13 +1037,13 @@ export const EnableResourceMonitoringOrganizationsLocationsWorkloadsResponse = G
 
 export type EnableResourceMonitoringOrganizationsLocationsWorkloadsError = CommonErrors;
 
+/** Enable resource violation monitoring for a workload. */
 export const enableResourceMonitoringOrganizationsLocationsWorkloads: API.OperationMethod<EnableResourceMonitoringOrganizationsLocationsWorkloadsRequest, EnableResourceMonitoringOrganizationsLocationsWorkloadsResponse, EnableResourceMonitoringOrganizationsLocationsWorkloadsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnableResourceMonitoringOrganizationsLocationsWorkloadsRequest,
   output: EnableResourceMonitoringOrganizationsLocationsWorkloadsResponse,
   errors: [],
 }));
 
-/** This endpoint enables Assured Workloads service to offer compliance updates for the folder based assured workload. It sets up an Assured Workloads Service Agent, having permissions to read compliance controls (for example: Org Policies) applied on the workload. The caller must have `resourcemanager.folders.getIamPolicy` and `resourcemanager.folders.setIamPolicy` permissions on the assured workload folder. */
 export interface EnableComplianceUpdatesOrganizationsLocationsWorkloadsRequest {
   /** Required. The `name` field is used to identify the workload. Format: organizations/{org_id}/locations/{location_id}/workloads/{workload_id} */
   name: string;
@@ -1062,13 +1061,13 @@ export const EnableComplianceUpdatesOrganizationsLocationsWorkloadsResponse = Go
 
 export type EnableComplianceUpdatesOrganizationsLocationsWorkloadsError = CommonErrors;
 
+/** This endpoint enables Assured Workloads service to offer compliance updates for the folder based assured workload. It sets up an Assured Workloads Service Agent, having permissions to read compliance controls (for example: Org Policies) applied on the workload. The caller must have `resourcemanager.folders.getIamPolicy` and `resourcemanager.folders.setIamPolicy` permissions on the assured workload folder. */
 export const enableComplianceUpdatesOrganizationsLocationsWorkloads: API.OperationMethod<EnableComplianceUpdatesOrganizationsLocationsWorkloadsRequest, EnableComplianceUpdatesOrganizationsLocationsWorkloadsResponse, EnableComplianceUpdatesOrganizationsLocationsWorkloadsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnableComplianceUpdatesOrganizationsLocationsWorkloadsRequest,
   output: EnableComplianceUpdatesOrganizationsLocationsWorkloadsResponse,
   errors: [],
 }));
 
-/** Lists the Violations in the AssuredWorkload Environment. Callers may also choose to read across multiple Workloads as per [AIP-159](https://google.aip.dev/159) by using '-' (the hyphen or dash character) as a wildcard character instead of workload-id in the parent. Format `organizations/{org_id}/locations/{location}/workloads/-` */
 export interface ListOrganizationsLocationsWorkloadsViolationsRequest {
   /** Required. The Workload name. Format `organizations/{org_id}/locations/{location}/workloads/{workload}`. */
   parent: string;
@@ -1101,7 +1100,8 @@ export const ListOrganizationsLocationsWorkloadsViolationsResponse = GoogleCloud
 
 export type ListOrganizationsLocationsWorkloadsViolationsError = CommonErrors;
 
-export const listOrganizationsLocationsWorkloadsViolations = API.makePaginated(() => ({
+/** Lists the Violations in the AssuredWorkload Environment. Callers may also choose to read across multiple Workloads as per [AIP-159](https://google.aip.dev/159) by using '-' (the hyphen or dash character) as a wildcard character instead of workload-id in the parent. Format `organizations/{org_id}/locations/{location}/workloads/-` */
+export const listOrganizationsLocationsWorkloadsViolations: API.PaginatedOperationMethod<ListOrganizationsLocationsWorkloadsViolationsRequest, ListOrganizationsLocationsWorkloadsViolationsResponse, ListOrganizationsLocationsWorkloadsViolationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsWorkloadsViolationsRequest,
   output: ListOrganizationsLocationsWorkloadsViolationsResponse,
   errors: [],
@@ -1111,7 +1111,6 @@ export const listOrganizationsLocationsWorkloadsViolations = API.makePaginated((
   },
 }));
 
-/** Retrieves Assured Workload Violation based on ID. */
 export interface GetOrganizationsLocationsWorkloadsViolationsRequest {
   /** Required. The resource name of the Violation to fetch (ie. Violation.name). Format: organizations/{organization}/locations/{location}/workloads/{workload}/violations/{violation} */
   name: string;
@@ -1129,13 +1128,13 @@ export const GetOrganizationsLocationsWorkloadsViolationsResponse = GoogleCloudA
 
 export type GetOrganizationsLocationsWorkloadsViolationsError = CommonErrors;
 
+/** Retrieves Assured Workload Violation based on ID. */
 export const getOrganizationsLocationsWorkloadsViolations: API.OperationMethod<GetOrganizationsLocationsWorkloadsViolationsRequest, GetOrganizationsLocationsWorkloadsViolationsResponse, GetOrganizationsLocationsWorkloadsViolationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsWorkloadsViolationsRequest,
   output: GetOrganizationsLocationsWorkloadsViolationsResponse,
   errors: [],
 }));
 
-/** Acknowledges an existing violation. By acknowledging a violation, users acknowledge the existence of a compliance violation in their workload and decide to ignore it due to a valid business justification. Acknowledgement is a permanent operation and it cannot be reverted. */
 export interface AcknowledgeOrganizationsLocationsWorkloadsViolationsRequest {
   /** Required. The resource name of the Violation to acknowledge. Format: organizations/{organization}/locations/{location}/workloads/{workload}/violations/{violation} */
   name: string;
@@ -1156,13 +1155,13 @@ export const AcknowledgeOrganizationsLocationsWorkloadsViolationsResponse = Goog
 
 export type AcknowledgeOrganizationsLocationsWorkloadsViolationsError = CommonErrors;
 
+/** Acknowledges an existing violation. By acknowledging a violation, users acknowledge the existence of a compliance violation in their workload and decide to ignore it due to a valid business justification. Acknowledgement is a permanent operation and it cannot be reverted. */
 export const acknowledgeOrganizationsLocationsWorkloadsViolations: API.OperationMethod<AcknowledgeOrganizationsLocationsWorkloadsViolationsRequest, AcknowledgeOrganizationsLocationsWorkloadsViolationsResponse, AcknowledgeOrganizationsLocationsWorkloadsViolationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AcknowledgeOrganizationsLocationsWorkloadsViolationsRequest,
   output: AcknowledgeOrganizationsLocationsWorkloadsViolationsResponse,
   errors: [],
 }));
 
-/** This endpoint lists all updates for the given workload. */
 export interface ListOrganizationsLocationsWorkloadsUpdatesRequest {
   /** Required. organizations/{org_id}/locations/{location_id}/workloads/{workload_id} */
   parent: string;
@@ -1186,7 +1185,8 @@ export const ListOrganizationsLocationsWorkloadsUpdatesResponse = GoogleCloudAss
 
 export type ListOrganizationsLocationsWorkloadsUpdatesError = CommonErrors;
 
-export const listOrganizationsLocationsWorkloadsUpdates = API.makePaginated(() => ({
+/** This endpoint lists all updates for the given workload. */
+export const listOrganizationsLocationsWorkloadsUpdates: API.PaginatedOperationMethod<ListOrganizationsLocationsWorkloadsUpdatesRequest, ListOrganizationsLocationsWorkloadsUpdatesResponse, ListOrganizationsLocationsWorkloadsUpdatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsWorkloadsUpdatesRequest,
   output: ListOrganizationsLocationsWorkloadsUpdatesResponse,
   errors: [],
@@ -1196,7 +1196,6 @@ export const listOrganizationsLocationsWorkloadsUpdates = API.makePaginated(() =
   },
 }));
 
-/** This endpoint creates a new operation to apply the given update. */
 export interface ApplyOrganizationsLocationsWorkloadsUpdatesRequest {
   /** Required. The resource name of the update. Format: organizations/{org_id}/locations/{location_id}/workloads/{workload_id}/updates/{update_id} */
   name: string;
@@ -1217,6 +1216,7 @@ export const ApplyOrganizationsLocationsWorkloadsUpdatesResponse = GoogleLongrun
 
 export type ApplyOrganizationsLocationsWorkloadsUpdatesError = CommonErrors;
 
+/** This endpoint creates a new operation to apply the given update. */
 export const applyOrganizationsLocationsWorkloadsUpdates: API.OperationMethod<ApplyOrganizationsLocationsWorkloadsUpdatesRequest, ApplyOrganizationsLocationsWorkloadsUpdatesResponse, ApplyOrganizationsLocationsWorkloadsUpdatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ApplyOrganizationsLocationsWorkloadsUpdatesRequest,
   output: ApplyOrganizationsLocationsWorkloadsUpdatesResponse,

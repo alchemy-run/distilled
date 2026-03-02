@@ -837,7 +837,6 @@ export const BooksVolumesRecommendedRateResponse: Schema.Schema<BooksVolumesReco
 // Operations
 // ==========================================================================
 
-/** Retrieves metadata for a specific bookshelf for the specified user. */
 export interface GetBookshelvesRequest {
   /** ID of user for whom to retrieve bookshelves. */
   userId: string;
@@ -861,13 +860,13 @@ export const GetBookshelvesResponse = Bookshelf;
 
 export type GetBookshelvesError = CommonErrors;
 
+/** Retrieves metadata for a specific bookshelf for the specified user. */
 export const getBookshelves: API.OperationMethod<GetBookshelvesRequest, GetBookshelvesResponse, GetBookshelvesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBookshelvesRequest,
   output: GetBookshelvesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of public bookshelves for the specified user. */
 export interface ListBookshelvesRequest {
   /** ID of user for whom to retrieve bookshelves. */
   userId: string;
@@ -888,13 +887,13 @@ export const ListBookshelvesResponse = Bookshelves;
 
 export type ListBookshelvesError = CommonErrors;
 
+/** Retrieves a list of public bookshelves for the specified user. */
 export const listBookshelves: API.OperationMethod<ListBookshelvesRequest, ListBookshelvesResponse, ListBookshelvesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListBookshelvesRequest,
   output: ListBookshelvesResponse,
   errors: [],
 }));
 
-/** Retrieves volumes in a specific bookshelf for the specified user. */
 export interface ListBookshelvesVolumesRequest {
   /** ID of user for whom to retrieve bookshelf volumes. */
   userId: string;
@@ -927,13 +926,13 @@ export const ListBookshelvesVolumesResponse = Volumes;
 
 export type ListBookshelvesVolumesError = CommonErrors;
 
+/** Retrieves volumes in a specific bookshelf for the specified user. */
 export const listBookshelvesVolumes: API.OperationMethod<ListBookshelvesVolumesRequest, ListBookshelvesVolumesResponse, ListBookshelvesVolumesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListBookshelvesVolumesRequest,
   output: ListBookshelvesVolumesResponse,
   errors: [],
 }));
 
-/** Add a user-upload volume and triggers processing. */
 export interface AddBookCloudloadingRequest {
   /** A drive document id. The upload_client_token must not be set. */
   drive_document_id?: string;
@@ -960,13 +959,13 @@ export const AddBookCloudloadingResponse = BooksCloudloadingResource;
 
 export type AddBookCloudloadingError = CommonErrors;
 
+/** Add a user-upload volume and triggers processing. */
 export const addBookCloudloading: API.OperationMethod<AddBookCloudloadingRequest, AddBookCloudloadingResponse, AddBookCloudloadingError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddBookCloudloadingRequest,
   output: AddBookCloudloadingResponse,
   errors: [],
 }));
 
-/** Remove the book and its contents */
 export interface DeleteBookCloudloadingRequest {
   /** The id of the book to be removed. */
   volumeId: string;
@@ -984,13 +983,13 @@ export const DeleteBookCloudloadingResponse = Empty;
 
 export type DeleteBookCloudloadingError = CommonErrors;
 
+/** Remove the book and its contents */
 export const deleteBookCloudloading: API.OperationMethod<DeleteBookCloudloadingRequest, DeleteBookCloudloadingResponse, DeleteBookCloudloadingError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteBookCloudloadingRequest,
   output: DeleteBookCloudloadingResponse,
   errors: [],
 }));
 
-/** Updates a user-upload volume. */
 export interface UpdateBookCloudloadingRequest {
   /** Request body */
   body?: BooksCloudloadingResource;
@@ -1008,13 +1007,13 @@ export const UpdateBookCloudloadingResponse = BooksCloudloadingResource;
 
 export type UpdateBookCloudloadingError = CommonErrors;
 
+/** Updates a user-upload volume. */
 export const updateBookCloudloading: API.OperationMethod<UpdateBookCloudloadingRequest, UpdateBookCloudloadingResponse, UpdateBookCloudloadingError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateBookCloudloadingRequest,
   output: UpdateBookCloudloadingResponse,
   errors: [],
 }));
 
-/** Returns a list of offline dictionary metadata available */
 export interface ListOfflineMetadataDictionaryRequest {
   /** The device/version ID from which to request the data. */
   cpksver: string;
@@ -1032,13 +1031,13 @@ export const ListOfflineMetadataDictionaryResponse = Metadata;
 
 export type ListOfflineMetadataDictionaryError = CommonErrors;
 
+/** Returns a list of offline dictionary metadata available */
 export const listOfflineMetadataDictionary: API.OperationMethod<ListOfflineMetadataDictionaryRequest, ListOfflineMetadataDictionaryResponse, ListOfflineMetadataDictionaryError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOfflineMetadataDictionaryRequest,
   output: ListOfflineMetadataDictionaryResponse,
   errors: [],
 }));
 
-/** Gets information regarding the family that the user is part of. */
 export interface GetFamilyInfoFamilysharingRequest {
   /** String to identify the originator of this request. */
   source?: string;
@@ -1056,13 +1055,13 @@ export const GetFamilyInfoFamilysharingResponse = FamilyInfo;
 
 export type GetFamilyInfoFamilysharingError = CommonErrors;
 
+/** Gets information regarding the family that the user is part of. */
 export const getFamilyInfoFamilysharing: API.OperationMethod<GetFamilyInfoFamilysharingRequest, GetFamilyInfoFamilysharingResponse, GetFamilyInfoFamilysharingError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFamilyInfoFamilysharingRequest,
   output: GetFamilyInfoFamilysharingResponse,
   errors: [],
 }));
 
-/** Initiates sharing of the content with the user's family. Empty response indicates success. */
 export interface ShareFamilysharingRequest {
   /** The docid to share. */
   docId?: string;
@@ -1086,13 +1085,13 @@ export const ShareFamilysharingResponse = Empty;
 
 export type ShareFamilysharingError = CommonErrors;
 
+/** Initiates sharing of the content with the user's family. Empty response indicates success. */
 export const shareFamilysharing: API.OperationMethod<ShareFamilysharingRequest, ShareFamilysharingResponse, ShareFamilysharingError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ShareFamilysharingRequest,
   output: ShareFamilysharingResponse,
   errors: [],
 }));
 
-/** Initiates revoking content that has already been shared with the user's family. Empty response indicates success. */
 export interface UnshareFamilysharingRequest {
   /** The docid to unshare. */
   docId?: string;
@@ -1116,13 +1115,13 @@ export const UnshareFamilysharingResponse = Empty;
 
 export type UnshareFamilysharingError = CommonErrors;
 
+/** Initiates revoking content that has already been shared with the user's family. Empty response indicates success. */
 export const unshareFamilysharing: API.OperationMethod<UnshareFamilysharingRequest, UnshareFamilysharingResponse, UnshareFamilysharingError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UnshareFamilysharingRequest,
   output: UnshareFamilysharingResponse,
   errors: [],
 }));
 
-/** Gets the layer summary for a volume. */
 export interface GetLayersRequest {
   /** The volume to retrieve layers for. */
   volumeId: string;
@@ -1149,13 +1148,13 @@ export const GetLayersResponse = Layersummary;
 
 export type GetLayersError = CommonErrors;
 
+/** Gets the layer summary for a volume. */
 export const getLayers: API.OperationMethod<GetLayersRequest, GetLayersResponse, GetLayersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetLayersRequest,
   output: GetLayersResponse,
   errors: [],
 }));
 
-/** List the layer summaries for a volume. */
 export interface ListLayersRequest {
   /** The volume to retrieve layers for. */
   volumeId: string;
@@ -1185,13 +1184,13 @@ export const ListLayersResponse = Layersummaries;
 
 export type ListLayersError = CommonErrors;
 
+/** List the layer summaries for a volume. */
 export const listLayers: API.OperationMethod<ListLayersRequest, ListLayersResponse, ListLayersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListLayersRequest,
   output: ListLayersResponse,
   errors: [],
 }));
 
-/** Gets the annotation data. */
 export interface GetLayersAnnotationDataRequest {
   /** The volume to retrieve annotations for. */
   volumeId: string;
@@ -1236,13 +1235,13 @@ export const GetLayersAnnotationDataResponse = DictionaryAnnotationdata;
 
 export type GetLayersAnnotationDataError = CommonErrors;
 
+/** Gets the annotation data. */
 export const getLayersAnnotationData: API.OperationMethod<GetLayersAnnotationDataRequest, GetLayersAnnotationDataResponse, GetLayersAnnotationDataError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetLayersAnnotationDataRequest,
   output: GetLayersAnnotationDataResponse,
   errors: [],
 }));
 
-/** Gets the annotation data for a volume and layer. */
 export interface ListLayersAnnotationDataRequest {
   /** The volume to retrieve annotation data for. */
   volumeId: string;
@@ -1296,7 +1295,8 @@ export const ListLayersAnnotationDataResponse = Annotationsdata;
 
 export type ListLayersAnnotationDataError = CommonErrors;
 
-export const listLayersAnnotationData = API.makePaginated(() => ({
+/** Gets the annotation data for a volume and layer. */
+export const listLayersAnnotationData: API.PaginatedOperationMethod<ListLayersAnnotationDataRequest, ListLayersAnnotationDataResponse, ListLayersAnnotationDataError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListLayersAnnotationDataRequest,
   output: ListLayersAnnotationDataResponse,
   errors: [],
@@ -1307,7 +1307,6 @@ export const listLayersAnnotationData = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the volume annotation. */
 export interface GetLayersVolumeAnnotationsRequest {
   /** The volume to retrieve annotations for. */
   volumeId: string;
@@ -1337,13 +1336,13 @@ export const GetLayersVolumeAnnotationsResponse = Volumeannotation;
 
 export type GetLayersVolumeAnnotationsError = CommonErrors;
 
+/** Gets the volume annotation. */
 export const getLayersVolumeAnnotations: API.OperationMethod<GetLayersVolumeAnnotationsRequest, GetLayersVolumeAnnotationsResponse, GetLayersVolumeAnnotationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetLayersVolumeAnnotationsRequest,
   output: GetLayersVolumeAnnotationsResponse,
   errors: [],
 }));
 
-/** Gets the volume annotations for a volume and layer. */
 export interface ListLayersVolumeAnnotationsRequest {
   /** The volume to retrieve annotations for. */
   volumeId: string;
@@ -1403,7 +1402,8 @@ export const ListLayersVolumeAnnotationsResponse = Volumeannotations;
 
 export type ListLayersVolumeAnnotationsError = CommonErrors;
 
-export const listLayersVolumeAnnotations = API.makePaginated(() => ({
+/** Gets the volume annotations for a volume and layer. */
+export const listLayersVolumeAnnotations: API.PaginatedOperationMethod<ListLayersVolumeAnnotationsRequest, ListLayersVolumeAnnotationsResponse, ListLayersVolumeAnnotationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListLayersVolumeAnnotationsRequest,
   output: ListLayersVolumeAnnotationsResponse,
   errors: [],
@@ -1414,7 +1414,6 @@ export const listLayersVolumeAnnotations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the current settings for the user. */
 export interface GetUserSettingsMyconfigRequest {
   /** Unused. Added only to workaround TEX mandatory request template requirement */
   country?: string;
@@ -1432,13 +1431,13 @@ export const GetUserSettingsMyconfigResponse = Usersettings;
 
 export type GetUserSettingsMyconfigError = CommonErrors;
 
+/** Gets the current settings for the user. */
 export const getUserSettingsMyconfig: API.OperationMethod<GetUserSettingsMyconfigRequest, GetUserSettingsMyconfigResponse, GetUserSettingsMyconfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetUserSettingsMyconfigRequest,
   output: GetUserSettingsMyconfigResponse,
   errors: [],
 }));
 
-/** Release downloaded content access restriction. */
 export interface ReleaseDownloadAccessMyconfigRequest {
   /** The device/version ID from which to release the restriction. */
   cpksver: string;
@@ -1465,13 +1464,13 @@ export const ReleaseDownloadAccessMyconfigResponse = DownloadAccesses;
 
 export type ReleaseDownloadAccessMyconfigError = CommonErrors;
 
+/** Release downloaded content access restriction. */
 export const releaseDownloadAccessMyconfig: API.OperationMethod<ReleaseDownloadAccessMyconfigRequest, ReleaseDownloadAccessMyconfigResponse, ReleaseDownloadAccessMyconfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReleaseDownloadAccessMyconfigRequest,
   output: ReleaseDownloadAccessMyconfigResponse,
   errors: [],
 }));
 
-/** Request concurrent and download access restrictions. */
 export interface RequestAccessMyconfigRequest {
   /** The device/version ID from which to request the restrictions. */
   cpksver: string;
@@ -1504,13 +1503,13 @@ export const RequestAccessMyconfigResponse = RequestAccessData;
 
 export type RequestAccessMyconfigError = CommonErrors;
 
+/** Request concurrent and download access restrictions. */
 export const requestAccessMyconfig: API.OperationMethod<RequestAccessMyconfigRequest, RequestAccessMyconfigResponse, RequestAccessMyconfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RequestAccessMyconfigRequest,
   output: RequestAccessMyconfigResponse,
   errors: [],
 }));
 
-/** Request downloaded content access for specified volumes on the My eBooks shelf. */
 export interface SyncVolumeLicensesMyconfigRequest {
   /** The device/version ID from which to release the restriction. */
   cpksver: string;
@@ -1549,13 +1548,13 @@ export const SyncVolumeLicensesMyconfigResponse = Volumes;
 
 export type SyncVolumeLicensesMyconfigError = CommonErrors;
 
+/** Request downloaded content access for specified volumes on the My eBooks shelf. */
 export const syncVolumeLicensesMyconfig: API.OperationMethod<SyncVolumeLicensesMyconfigRequest, SyncVolumeLicensesMyconfigResponse, SyncVolumeLicensesMyconfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SyncVolumeLicensesMyconfigRequest,
   output: SyncVolumeLicensesMyconfigResponse,
   errors: [],
 }));
 
-/** Sets the settings for the user. If a sub-object is specified, it will overwrite the existing sub-object stored in the server. Unspecified sub-objects will retain the existing value. */
 export interface UpdateUserSettingsMyconfigRequest {
   /** Request body */
   body?: Usersettings;
@@ -1573,13 +1572,13 @@ export const UpdateUserSettingsMyconfigResponse = Usersettings;
 
 export type UpdateUserSettingsMyconfigError = CommonErrors;
 
+/** Sets the settings for the user. If a sub-object is specified, it will overwrite the existing sub-object stored in the server. Unspecified sub-objects will retain the existing value. */
 export const updateUserSettingsMyconfig: API.OperationMethod<UpdateUserSettingsMyconfigRequest, UpdateUserSettingsMyconfigResponse, UpdateUserSettingsMyconfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateUserSettingsMyconfigRequest,
   output: UpdateUserSettingsMyconfigResponse,
   errors: [],
 }));
 
-/** Deletes an annotation. */
 export interface DeleteMylibraryAnnotationsRequest {
   /** The ID for the annotation to delete. */
   annotationId: string;
@@ -1600,13 +1599,13 @@ export const DeleteMylibraryAnnotationsResponse = Empty;
 
 export type DeleteMylibraryAnnotationsError = CommonErrors;
 
+/** Deletes an annotation. */
 export const deleteMylibraryAnnotations: API.OperationMethod<DeleteMylibraryAnnotationsRequest, DeleteMylibraryAnnotationsResponse, DeleteMylibraryAnnotationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteMylibraryAnnotationsRequest,
   output: DeleteMylibraryAnnotationsResponse,
   errors: [],
 }));
 
-/** Inserts a new annotation. */
 export interface InsertMylibraryAnnotationsRequest {
   /** The ID for the annotation to insert. */
   annotationId?: string;
@@ -1636,13 +1635,13 @@ export const InsertMylibraryAnnotationsResponse = Annotation;
 
 export type InsertMylibraryAnnotationsError = CommonErrors;
 
+/** Inserts a new annotation. */
 export const insertMylibraryAnnotations: API.OperationMethod<InsertMylibraryAnnotationsRequest, InsertMylibraryAnnotationsResponse, InsertMylibraryAnnotationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertMylibraryAnnotationsRequest,
   output: InsertMylibraryAnnotationsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of annotations, possibly filtered. */
 export interface ListMylibraryAnnotationsRequest {
   /** The content version for the requested volume. */
   contentVersion?: string;
@@ -1687,7 +1686,8 @@ export const ListMylibraryAnnotationsResponse = Annotations;
 
 export type ListMylibraryAnnotationsError = CommonErrors;
 
-export const listMylibraryAnnotations = API.makePaginated(() => ({
+/** Retrieves a list of annotations, possibly filtered. */
+export const listMylibraryAnnotations: API.PaginatedOperationMethod<ListMylibraryAnnotationsRequest, ListMylibraryAnnotationsResponse, ListMylibraryAnnotationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListMylibraryAnnotationsRequest,
   output: ListMylibraryAnnotationsResponse,
   errors: [],
@@ -1698,7 +1698,6 @@ export const listMylibraryAnnotations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the summary of specified layers. */
 export interface SummaryMylibraryAnnotationsRequest {
   /** Array of layer IDs to get the summary for. */
   layerIds: string[];
@@ -1722,13 +1721,13 @@ export const SummaryMylibraryAnnotationsResponse = AnnotationsSummary;
 
 export type SummaryMylibraryAnnotationsError = CommonErrors;
 
+/** Gets the summary of specified layers. */
 export const summaryMylibraryAnnotations: API.OperationMethod<SummaryMylibraryAnnotationsRequest, SummaryMylibraryAnnotationsResponse, SummaryMylibraryAnnotationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SummaryMylibraryAnnotationsRequest,
   output: SummaryMylibraryAnnotationsResponse,
   errors: [],
 }));
 
-/** Updates an existing annotation. */
 export interface UpdateMylibraryAnnotationsRequest {
   /** The ID for the annotation to update. */
   annotationId: string;
@@ -1752,13 +1751,13 @@ export const UpdateMylibraryAnnotationsResponse = Annotation;
 
 export type UpdateMylibraryAnnotationsError = CommonErrors;
 
+/** Updates an existing annotation. */
 export const updateMylibraryAnnotations: API.OperationMethod<UpdateMylibraryAnnotationsRequest, UpdateMylibraryAnnotationsResponse, UpdateMylibraryAnnotationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateMylibraryAnnotationsRequest,
   output: UpdateMylibraryAnnotationsResponse,
   errors: [],
 }));
 
-/** Adds a volume to a bookshelf. */
 export interface AddVolumeMylibraryBookshelvesRequest {
   /** ID of bookshelf to which to add a volume. */
   shelf: string;
@@ -1785,13 +1784,13 @@ export const AddVolumeMylibraryBookshelvesResponse = Empty;
 
 export type AddVolumeMylibraryBookshelvesError = CommonErrors;
 
+/** Adds a volume to a bookshelf. */
 export const addVolumeMylibraryBookshelves: API.OperationMethod<AddVolumeMylibraryBookshelvesRequest, AddVolumeMylibraryBookshelvesResponse, AddVolumeMylibraryBookshelvesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddVolumeMylibraryBookshelvesRequest,
   output: AddVolumeMylibraryBookshelvesResponse,
   errors: [],
 }));
 
-/** Clears all volumes from a bookshelf. */
 export interface ClearVolumesMylibraryBookshelvesRequest {
   /** ID of bookshelf from which to remove a volume. */
   shelf: string;
@@ -1812,13 +1811,13 @@ export const ClearVolumesMylibraryBookshelvesResponse = Empty;
 
 export type ClearVolumesMylibraryBookshelvesError = CommonErrors;
 
+/** Clears all volumes from a bookshelf. */
 export const clearVolumesMylibraryBookshelves: API.OperationMethod<ClearVolumesMylibraryBookshelvesRequest, ClearVolumesMylibraryBookshelvesResponse, ClearVolumesMylibraryBookshelvesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ClearVolumesMylibraryBookshelvesRequest,
   output: ClearVolumesMylibraryBookshelvesResponse,
   errors: [],
 }));
 
-/** Retrieves metadata for a specific bookshelf belonging to the authenticated user. */
 export interface GetMylibraryBookshelvesRequest {
   /** ID of bookshelf to retrieve. */
   shelf: string;
@@ -1839,13 +1838,13 @@ export const GetMylibraryBookshelvesResponse = Bookshelf;
 
 export type GetMylibraryBookshelvesError = CommonErrors;
 
+/** Retrieves metadata for a specific bookshelf belonging to the authenticated user. */
 export const getMylibraryBookshelves: API.OperationMethod<GetMylibraryBookshelvesRequest, GetMylibraryBookshelvesResponse, GetMylibraryBookshelvesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetMylibraryBookshelvesRequest,
   output: GetMylibraryBookshelvesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of bookshelves belonging to the authenticated user. */
 export interface ListMylibraryBookshelvesRequest {
   /** String to identify the originator of this request. */
   source?: string;
@@ -1863,13 +1862,13 @@ export const ListMylibraryBookshelvesResponse = Bookshelves;
 
 export type ListMylibraryBookshelvesError = CommonErrors;
 
+/** Retrieves a list of bookshelves belonging to the authenticated user. */
 export const listMylibraryBookshelves: API.OperationMethod<ListMylibraryBookshelvesRequest, ListMylibraryBookshelvesResponse, ListMylibraryBookshelvesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListMylibraryBookshelvesRequest,
   output: ListMylibraryBookshelvesResponse,
   errors: [],
 }));
 
-/** Moves a volume within a bookshelf. */
 export interface MoveVolumeMylibraryBookshelvesRequest {
   /** ID of bookshelf with the volume. */
   shelf: string;
@@ -1896,13 +1895,13 @@ export const MoveVolumeMylibraryBookshelvesResponse = Empty;
 
 export type MoveVolumeMylibraryBookshelvesError = CommonErrors;
 
+/** Moves a volume within a bookshelf. */
 export const moveVolumeMylibraryBookshelves: API.OperationMethod<MoveVolumeMylibraryBookshelvesRequest, MoveVolumeMylibraryBookshelvesResponse, MoveVolumeMylibraryBookshelvesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MoveVolumeMylibraryBookshelvesRequest,
   output: MoveVolumeMylibraryBookshelvesResponse,
   errors: [],
 }));
 
-/** Removes a volume from a bookshelf. */
 export interface RemoveVolumeMylibraryBookshelvesRequest {
   /** ID of bookshelf from which to remove a volume. */
   shelf: string;
@@ -1929,13 +1928,13 @@ export const RemoveVolumeMylibraryBookshelvesResponse = Empty;
 
 export type RemoveVolumeMylibraryBookshelvesError = CommonErrors;
 
+/** Removes a volume from a bookshelf. */
 export const removeVolumeMylibraryBookshelves: API.OperationMethod<RemoveVolumeMylibraryBookshelvesRequest, RemoveVolumeMylibraryBookshelvesResponse, RemoveVolumeMylibraryBookshelvesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveVolumeMylibraryBookshelvesRequest,
   output: RemoveVolumeMylibraryBookshelvesResponse,
   errors: [],
 }));
 
-/** Gets volume information for volumes on a bookshelf. */
 export interface ListMylibraryBookshelvesVolumesRequest {
   /** The bookshelf ID or name retrieve volumes for. */
   shelf: string;
@@ -1974,13 +1973,13 @@ export const ListMylibraryBookshelvesVolumesResponse = Volumes;
 
 export type ListMylibraryBookshelvesVolumesError = CommonErrors;
 
+/** Gets volume information for volumes on a bookshelf. */
 export const listMylibraryBookshelvesVolumes: API.OperationMethod<ListMylibraryBookshelvesVolumesRequest, ListMylibraryBookshelvesVolumesResponse, ListMylibraryBookshelvesVolumesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListMylibraryBookshelvesVolumesRequest,
   output: ListMylibraryBookshelvesVolumesResponse,
   errors: [],
 }));
 
-/** Retrieves my reading position information for a volume. */
 export interface GetMylibraryReadingpositionsRequest {
   /** ID of volume for which to retrieve a reading position. */
   volumeId: string;
@@ -2004,13 +2003,13 @@ export const GetMylibraryReadingpositionsResponse = ReadingPosition;
 
 export type GetMylibraryReadingpositionsError = CommonErrors;
 
+/** Retrieves my reading position information for a volume. */
 export const getMylibraryReadingpositions: API.OperationMethod<GetMylibraryReadingpositionsRequest, GetMylibraryReadingpositionsResponse, GetMylibraryReadingpositionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetMylibraryReadingpositionsRequest,
   output: GetMylibraryReadingpositionsResponse,
   errors: [],
 }));
 
-/** Sets my reading position information for a volume. */
 export interface SetPositionMylibraryReadingpositionsRequest {
   /** ID of volume for which to update the reading position. */
   volumeId: string;
@@ -2046,13 +2045,13 @@ export const SetPositionMylibraryReadingpositionsResponse = Empty;
 
 export type SetPositionMylibraryReadingpositionsError = CommonErrors;
 
+/** Sets my reading position information for a volume. */
 export const setPositionMylibraryReadingpositions: API.OperationMethod<SetPositionMylibraryReadingpositionsRequest, SetPositionMylibraryReadingpositionsResponse, SetPositionMylibraryReadingpositionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetPositionMylibraryReadingpositionsRequest,
   output: SetPositionMylibraryReadingpositionsResponse,
   errors: [],
 }));
 
-/** Returns notification details for a given notification id. */
 export interface GetNotificationRequest {
   /** ISO-639-1 language and ISO-3166-1 country code. Ex: 'en_US'. Used for generating notification title and body. */
   locale?: string;
@@ -2076,13 +2075,13 @@ export const GetNotificationResponse = Notification;
 
 export type GetNotificationError = CommonErrors;
 
+/** Returns notification details for a given notification id. */
 export const getNotification: API.OperationMethod<GetNotificationRequest, GetNotificationResponse, GetNotificationError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetNotificationRequest,
   output: GetNotificationResponse,
   errors: [],
 }));
 
-/** List categories for onboarding experience. */
 export interface ListCategoriesOnboardingRequest {
   /** ISO-639-1 language and ISO-3166-1 country code. Default is en-US if unset. */
   locale?: string;
@@ -2100,13 +2099,13 @@ export const ListCategoriesOnboardingResponse = Category;
 
 export type ListCategoriesOnboardingError = CommonErrors;
 
+/** List categories for onboarding experience. */
 export const listCategoriesOnboarding: API.OperationMethod<ListCategoriesOnboardingRequest, ListCategoriesOnboardingResponse, ListCategoriesOnboardingError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListCategoriesOnboardingRequest,
   output: ListCategoriesOnboardingResponse,
   errors: [],
 }));
 
-/** List available volumes under categories for onboarding experience. */
 export interface ListCategoryVolumesOnboardingRequest {
   /** List of category ids requested. */
   categoryId?: string[];
@@ -2136,7 +2135,8 @@ export const ListCategoryVolumesOnboardingResponse = Volume2;
 
 export type ListCategoryVolumesOnboardingError = CommonErrors;
 
-export const listCategoryVolumesOnboarding = API.makePaginated(() => ({
+/** List available volumes under categories for onboarding experience. */
+export const listCategoryVolumesOnboarding: API.PaginatedOperationMethod<ListCategoryVolumesOnboardingRequest, ListCategoryVolumesOnboardingResponse, ListCategoryVolumesOnboardingError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCategoryVolumesOnboardingRequest,
   output: ListCategoryVolumesOnboardingResponse,
   errors: [],
@@ -2147,7 +2147,6 @@ export const listCategoryVolumesOnboarding = API.makePaginated(() => ({
   },
 }));
 
-/** Returns a stream of personalized book clusters */
 export interface GetPersonalizedstreamRequest {
   /** ISO-639-1 language and ISO-3166-1 country code. Ex: 'en_US'. Used for generating recommendations. */
   locale?: string;
@@ -2171,13 +2170,13 @@ export const GetPersonalizedstreamResponse = Discoveryclusters;
 
 export type GetPersonalizedstreamError = CommonErrors;
 
+/** Returns a stream of personalized book clusters */
 export const getPersonalizedstream: API.OperationMethod<GetPersonalizedstreamRequest, GetPersonalizedstreamResponse, GetPersonalizedstreamError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPersonalizedstreamRequest,
   output: GetPersonalizedstreamResponse,
   errors: [],
 }));
 
-/** Accepts the promo offer. */
 export interface AcceptPromoofferRequest {
   /** device android_id */
   androidId?: string;
@@ -2215,13 +2214,13 @@ export const AcceptPromoofferResponse = Empty;
 
 export type AcceptPromoofferError = CommonErrors;
 
+/** Accepts the promo offer. */
 export const acceptPromooffer: API.OperationMethod<AcceptPromoofferRequest, AcceptPromoofferResponse, AcceptPromoofferError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AcceptPromoofferRequest,
   output: AcceptPromoofferResponse,
   errors: [],
 }));
 
-/** Marks the promo offer as dismissed. */
 export interface DismissPromoofferRequest {
   /** device android_id */
   androidId?: string;
@@ -2257,13 +2256,13 @@ export const DismissPromoofferResponse = Empty;
 
 export type DismissPromoofferError = CommonErrors;
 
+/** Marks the promo offer as dismissed. */
 export const dismissPromooffer: API.OperationMethod<DismissPromoofferRequest, DismissPromoofferResponse, DismissPromoofferError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DismissPromoofferRequest,
   output: DismissPromoofferResponse,
   errors: [],
 }));
 
-/** Returns a list of promo offers available to the user */
 export interface GetPromoofferRequest {
   /** device android_id */
   androidId?: string;
@@ -2296,13 +2295,13 @@ export const GetPromoofferResponse = Offers;
 
 export type GetPromoofferError = CommonErrors;
 
+/** Returns a list of promo offers available to the user */
 export const getPromooffer: API.OperationMethod<GetPromoofferRequest, GetPromoofferResponse, GetPromoofferError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPromoofferRequest,
   output: GetPromoofferResponse,
   errors: [],
 }));
 
-/** Returns Series metadata for the given series ids. */
 export interface GetSeriesRequest {
   /** String that identifies the series */
   series_id: string[];
@@ -2320,13 +2319,13 @@ export const GetSeriesResponse = Series;
 
 export type GetSeriesError = CommonErrors;
 
+/** Returns Series metadata for the given series ids. */
 export const getSeries: API.OperationMethod<GetSeriesRequest, GetSeriesResponse, GetSeriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSeriesRequest,
   output: GetSeriesResponse,
   errors: [],
 }));
 
-/** Returns Series membership data given the series id. */
 export interface GetSeriesMembershipRequest {
   /** Number of maximum results per page to be included in the response. */
   page_size?: number;
@@ -2350,13 +2349,13 @@ export const GetSeriesMembershipResponse = Seriesmembership;
 
 export type GetSeriesMembershipError = CommonErrors;
 
+/** Returns Series membership data given the series id. */
 export const getSeriesMembership: API.OperationMethod<GetSeriesMembershipRequest, GetSeriesMembershipResponse, GetSeriesMembershipError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSeriesMembershipRequest,
   output: GetSeriesMembershipResponse,
   errors: [],
 }));
 
-/** Gets volume information for a single volume. */
 export interface GetVolumesRequest {
   /** ID of volume to retrieve. */
   volumeId: string;
@@ -2391,13 +2390,13 @@ export const GetVolumesResponse = Volume;
 
 export type GetVolumesError = CommonErrors;
 
+/** Gets volume information for a single volume. */
 export const getVolumes: API.OperationMethod<GetVolumesRequest, GetVolumesResponse, GetVolumesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetVolumesRequest,
   output: GetVolumesResponse,
   errors: [],
 }));
 
-/** Performs a book search. */
 export interface ListVolumesRequest {
   /** Restrict to volumes by download availability. */
   download?: "DOWNLOAD_UNDEFINED" | "EPUB" | (string & {});
@@ -2454,13 +2453,13 @@ export const ListVolumesResponse = Volumes;
 
 export type ListVolumesError = CommonErrors;
 
+/** Performs a book search. */
 export const listVolumes: API.OperationMethod<ListVolumesRequest, ListVolumesResponse, ListVolumesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListVolumesRequest,
   output: ListVolumesResponse,
   errors: [],
 }));
 
-/** Return a list of associated books. */
 export interface ListVolumesAssociatedRequest {
   /** ID of the source volume. */
   volumeId: string;
@@ -2490,13 +2489,13 @@ export const ListVolumesAssociatedResponse = Volumes;
 
 export type ListVolumesAssociatedError = CommonErrors;
 
+/** Return a list of associated books. */
 export const listVolumesAssociated: API.OperationMethod<ListVolumesAssociatedRequest, ListVolumesAssociatedResponse, ListVolumesAssociatedError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListVolumesAssociatedRequest,
   output: ListVolumesAssociatedResponse,
   errors: [],
 }));
 
-/** Return a list of books in My Library. */
 export interface ListVolumesMybooksRequest {
   /** How the book was acquired */
   acquireMethod?: "ACQUIRE_METHOD_UNDEFINED" | "FAMILY_SHARED" | "PREORDERED" | "PREVIOUSLY_RENTED" | "PUBLIC_DOMAIN" | "PURCHASED" | "RENTED" | "SAMPLE" | "UPLOADED" | (string & {})[];
@@ -2532,13 +2531,13 @@ export const ListVolumesMybooksResponse = Volumes;
 
 export type ListVolumesMybooksError = CommonErrors;
 
+/** Return a list of books in My Library. */
 export const listVolumesMybooks: API.OperationMethod<ListVolumesMybooksRequest, ListVolumesMybooksResponse, ListVolumesMybooksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListVolumesMybooksRequest,
   output: ListVolumesMybooksResponse,
   errors: [],
 }));
 
-/** Return a list of recommended books for the current user. */
 export interface ListVolumesRecommendedRequest {
   /** ISO-639-1 language and ISO-3166-1 country code. Ex: 'en_US'. Used for generating recommendations. */
   locale?: string;
@@ -2562,13 +2561,13 @@ export const ListVolumesRecommendedResponse = Volumes;
 
 export type ListVolumesRecommendedError = CommonErrors;
 
+/** Return a list of recommended books for the current user. */
 export const listVolumesRecommended: API.OperationMethod<ListVolumesRecommendedRequest, ListVolumesRecommendedResponse, ListVolumesRecommendedError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListVolumesRecommendedRequest,
   output: ListVolumesRecommendedResponse,
   errors: [],
 }));
 
-/** Rate a recommended book for the current user. */
 export interface RateVolumesRecommendedRequest {
   /** ISO-639-1 language and ISO-3166-1 country code. Ex: 'en_US'. Used for generating recommendations. */
   locale?: string;
@@ -2595,13 +2594,13 @@ export const RateVolumesRecommendedResponse = BooksVolumesRecommendedRateRespons
 
 export type RateVolumesRecommendedError = CommonErrors;
 
+/** Rate a recommended book for the current user. */
 export const rateVolumesRecommended: API.OperationMethod<RateVolumesRecommendedRequest, RateVolumesRecommendedResponse, RateVolumesRecommendedError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RateVolumesRecommendedRequest,
   output: RateVolumesRecommendedResponse,
   errors: [],
 }));
 
-/** Return a list of books uploaded by the current user. */
 export interface ListVolumesUseruploadedRequest {
   /** ISO-639-1 language and ISO-3166-1 country code. Ex: 'en_US'. Used for generating recommendations. */
   locale?: string;
@@ -2634,6 +2633,7 @@ export const ListVolumesUseruploadedResponse = Volumes;
 
 export type ListVolumesUseruploadedError = CommonErrors;
 
+/** Return a list of books uploaded by the current user. */
 export const listVolumesUseruploaded: API.OperationMethod<ListVolumesUseruploadedRequest, ListVolumesUseruploadedResponse, ListVolumesUseruploadedError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListVolumesUseruploadedRequest,
   output: ListVolumesUseruploadedResponse,

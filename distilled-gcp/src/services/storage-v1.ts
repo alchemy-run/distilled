@@ -966,7 +966,6 @@ export const BulkRestoreObjectsRequest: Schema.Schema<BulkRestoreObjectsRequest>
 // Operations
 // ==========================================================================
 
-/** Creates an Anywhere Cache instance. */
 export interface InsertAnywhereCachesRequest {
   /** Name of the parent bucket. */
   bucket: string;
@@ -987,13 +986,13 @@ export const InsertAnywhereCachesResponse = GoogleLongrunningOperation;
 
 export type InsertAnywhereCachesError = CommonErrors;
 
+/** Creates an Anywhere Cache instance. */
 export const insertAnywhereCaches: API.OperationMethod<InsertAnywhereCachesRequest, InsertAnywhereCachesResponse, InsertAnywhereCachesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertAnywhereCachesRequest,
   output: InsertAnywhereCachesResponse,
   errors: [],
 }));
 
-/** Updates the config(ttl and admissionPolicy) of an Anywhere Cache instance. */
 export interface UpdateAnywhereCachesRequest {
   /** Name of the parent bucket. */
   bucket: string;
@@ -1017,13 +1016,13 @@ export const UpdateAnywhereCachesResponse = GoogleLongrunningOperation;
 
 export type UpdateAnywhereCachesError = CommonErrors;
 
+/** Updates the config(ttl and admissionPolicy) of an Anywhere Cache instance. */
 export const updateAnywhereCaches: API.OperationMethod<UpdateAnywhereCachesRequest, UpdateAnywhereCachesResponse, UpdateAnywhereCachesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAnywhereCachesRequest,
   output: UpdateAnywhereCachesResponse,
   errors: [],
 }));
 
-/** Returns the metadata of an Anywhere Cache instance. */
 export interface GetAnywhereCachesRequest {
   /** Name of the parent bucket. */
   bucket: string;
@@ -1044,13 +1043,13 @@ export const GetAnywhereCachesResponse = AnywhereCache;
 
 export type GetAnywhereCachesError = CommonErrors;
 
+/** Returns the metadata of an Anywhere Cache instance. */
 export const getAnywhereCaches: API.OperationMethod<GetAnywhereCachesRequest, GetAnywhereCachesResponse, GetAnywhereCachesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAnywhereCachesRequest,
   output: GetAnywhereCachesResponse,
   errors: [],
 }));
 
-/** Returns a list of Anywhere Cache instances of the bucket matching the criteria. */
 export interface ListAnywhereCachesRequest {
   /** Name of the parent bucket. */
   bucket: string;
@@ -1074,7 +1073,8 @@ export const ListAnywhereCachesResponse = AnywhereCaches;
 
 export type ListAnywhereCachesError = CommonErrors;
 
-export const listAnywhereCaches = API.makePaginated(() => ({
+/** Returns a list of Anywhere Cache instances of the bucket matching the criteria. */
+export const listAnywhereCaches: API.PaginatedOperationMethod<ListAnywhereCachesRequest, ListAnywhereCachesResponse, ListAnywhereCachesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAnywhereCachesRequest,
   output: ListAnywhereCachesResponse,
   errors: [],
@@ -1085,7 +1085,6 @@ export const listAnywhereCaches = API.makePaginated(() => ({
   },
 }));
 
-/** Pauses an Anywhere Cache instance. */
 export interface PauseAnywhereCachesRequest {
   /** Name of the parent bucket. */
   bucket: string;
@@ -1106,13 +1105,13 @@ export const PauseAnywhereCachesResponse = AnywhereCache;
 
 export type PauseAnywhereCachesError = CommonErrors;
 
+/** Pauses an Anywhere Cache instance. */
 export const pauseAnywhereCaches: API.OperationMethod<PauseAnywhereCachesRequest, PauseAnywhereCachesResponse, PauseAnywhereCachesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PauseAnywhereCachesRequest,
   output: PauseAnywhereCachesResponse,
   errors: [],
 }));
 
-/** Resumes a paused or disabled Anywhere Cache instance. */
 export interface ResumeAnywhereCachesRequest {
   /** Name of the parent bucket. */
   bucket: string;
@@ -1133,13 +1132,13 @@ export const ResumeAnywhereCachesResponse = AnywhereCache;
 
 export type ResumeAnywhereCachesError = CommonErrors;
 
+/** Resumes a paused or disabled Anywhere Cache instance. */
 export const resumeAnywhereCaches: API.OperationMethod<ResumeAnywhereCachesRequest, ResumeAnywhereCachesResponse, ResumeAnywhereCachesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResumeAnywhereCachesRequest,
   output: ResumeAnywhereCachesResponse,
   errors: [],
 }));
 
-/** Disables an Anywhere Cache instance. */
 export interface DisableAnywhereCachesRequest {
   /** Name of the parent bucket. */
   bucket: string;
@@ -1160,13 +1159,13 @@ export const DisableAnywhereCachesResponse = AnywhereCache;
 
 export type DisableAnywhereCachesError = CommonErrors;
 
+/** Disables an Anywhere Cache instance. */
 export const disableAnywhereCaches: API.OperationMethod<DisableAnywhereCachesRequest, DisableAnywhereCachesResponse, DisableAnywhereCachesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DisableAnywhereCachesRequest,
   output: DisableAnywhereCachesResponse,
   errors: [],
 }));
 
-/** Permanently deletes the ACL entry for the specified entity on the specified bucket. */
 export interface DeleteBucketAccessControlsRequest {
   /** Name of a bucket. */
   bucket: string;
@@ -1190,13 +1189,13 @@ export const DeleteBucketAccessControlsResponse: Schema.Schema<DeleteBucketAcces
 
 export type DeleteBucketAccessControlsError = CommonErrors;
 
+/** Permanently deletes the ACL entry for the specified entity on the specified bucket. */
 export const deleteBucketAccessControls: API.OperationMethod<DeleteBucketAccessControlsRequest, DeleteBucketAccessControlsResponse, DeleteBucketAccessControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteBucketAccessControlsRequest,
   output: DeleteBucketAccessControlsResponse,
   errors: [],
 }));
 
-/** Returns the ACL entry for the specified entity on the specified bucket. */
 export interface GetBucketAccessControlsRequest {
   /** Name of a bucket. */
   bucket: string;
@@ -1220,13 +1219,13 @@ export const GetBucketAccessControlsResponse = BucketAccessControl;
 
 export type GetBucketAccessControlsError = CommonErrors;
 
+/** Returns the ACL entry for the specified entity on the specified bucket. */
 export const getBucketAccessControls: API.OperationMethod<GetBucketAccessControlsRequest, GetBucketAccessControlsResponse, GetBucketAccessControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBucketAccessControlsRequest,
   output: GetBucketAccessControlsResponse,
   errors: [],
 }));
 
-/** Creates a new ACL entry on the specified bucket. */
 export interface InsertBucketAccessControlsRequest {
   /** Name of a bucket. */
   bucket: string;
@@ -1250,13 +1249,13 @@ export const InsertBucketAccessControlsResponse = BucketAccessControl;
 
 export type InsertBucketAccessControlsError = CommonErrors;
 
+/** Creates a new ACL entry on the specified bucket. */
 export const insertBucketAccessControls: API.OperationMethod<InsertBucketAccessControlsRequest, InsertBucketAccessControlsResponse, InsertBucketAccessControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertBucketAccessControlsRequest,
   output: InsertBucketAccessControlsResponse,
   errors: [],
 }));
 
-/** Retrieves ACL entries on the specified bucket. */
 export interface ListBucketAccessControlsRequest {
   /** Name of a bucket. */
   bucket: string;
@@ -1277,13 +1276,13 @@ export const ListBucketAccessControlsResponse = BucketAccessControls;
 
 export type ListBucketAccessControlsError = CommonErrors;
 
+/** Retrieves ACL entries on the specified bucket. */
 export const listBucketAccessControls: API.OperationMethod<ListBucketAccessControlsRequest, ListBucketAccessControlsResponse, ListBucketAccessControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListBucketAccessControlsRequest,
   output: ListBucketAccessControlsResponse,
   errors: [],
 }));
 
-/** Patches an ACL entry on the specified bucket. */
 export interface PatchBucketAccessControlsRequest {
   /** Name of a bucket. */
   bucket: string;
@@ -1310,13 +1309,13 @@ export const PatchBucketAccessControlsResponse = BucketAccessControl;
 
 export type PatchBucketAccessControlsError = CommonErrors;
 
+/** Patches an ACL entry on the specified bucket. */
 export const patchBucketAccessControls: API.OperationMethod<PatchBucketAccessControlsRequest, PatchBucketAccessControlsResponse, PatchBucketAccessControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchBucketAccessControlsRequest,
   output: PatchBucketAccessControlsResponse,
   errors: [],
 }));
 
-/** Updates an ACL entry on the specified bucket. */
 export interface UpdateBucketAccessControlsRequest {
   /** Name of a bucket. */
   bucket: string;
@@ -1343,13 +1342,13 @@ export const UpdateBucketAccessControlsResponse = BucketAccessControl;
 
 export type UpdateBucketAccessControlsError = CommonErrors;
 
+/** Updates an ACL entry on the specified bucket. */
 export const updateBucketAccessControls: API.OperationMethod<UpdateBucketAccessControlsRequest, UpdateBucketAccessControlsResponse, UpdateBucketAccessControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateBucketAccessControlsRequest,
   output: UpdateBucketAccessControlsResponse,
   errors: [],
 }));
 
-/** Deletes an empty bucket. Deletions are permanent unless soft delete is enabled on the bucket. */
 export interface DeleteBucketsRequest {
   /** Name of a bucket. */
   bucket: string;
@@ -1376,13 +1375,13 @@ export const DeleteBucketsResponse: Schema.Schema<DeleteBucketsResponse> = Schem
 
 export type DeleteBucketsError = CommonErrors;
 
+/** Deletes an empty bucket. Deletions are permanent unless soft delete is enabled on the bucket. */
 export const deleteBuckets: API.OperationMethod<DeleteBucketsRequest, DeleteBucketsResponse, DeleteBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteBucketsRequest,
   output: DeleteBucketsResponse,
   errors: [],
 }));
 
-/** Restores a soft-deleted bucket. */
 export interface RestoreBucketsRequest {
   /** Name of a bucket. */
   bucket: string;
@@ -1409,13 +1408,13 @@ export const RestoreBucketsResponse = Bucket;
 
 export type RestoreBucketsError = CommonErrors;
 
+/** Restores a soft-deleted bucket. */
 export const restoreBuckets: API.OperationMethod<RestoreBucketsRequest, RestoreBucketsResponse, RestoreBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RestoreBucketsRequest,
   output: RestoreBucketsResponse,
   errors: [],
 }));
 
-/** Initiates a long-running Relocate Bucket operation on the specified bucket. */
 export interface RelocateBucketsRequest {
   /** Name of the bucket to be moved. */
   bucket: string;
@@ -1436,13 +1435,13 @@ export const RelocateBucketsResponse = GoogleLongrunningOperation;
 
 export type RelocateBucketsError = CommonErrors;
 
+/** Initiates a long-running Relocate Bucket operation on the specified bucket. */
 export const relocateBuckets: API.OperationMethod<RelocateBucketsRequest, RelocateBucketsResponse, RelocateBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RelocateBucketsRequest,
   output: RelocateBucketsResponse,
   errors: [],
 }));
 
-/** Returns metadata for the specified bucket. */
 export interface GetBucketsRequest {
   /** Name of a bucket. */
   bucket: string;
@@ -1478,13 +1477,13 @@ export const GetBucketsResponse = Bucket;
 
 export type GetBucketsError = CommonErrors;
 
+/** Returns metadata for the specified bucket. */
 export const getBuckets: API.OperationMethod<GetBucketsRequest, GetBucketsResponse, GetBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBucketsRequest,
   output: GetBucketsResponse,
   errors: [],
 }));
 
-/** Returns an IAM policy for the specified bucket. */
 export interface GetIamPolicyBucketsRequest {
   /** Name of a bucket. */
   bucket: string;
@@ -1508,13 +1507,13 @@ export const GetIamPolicyBucketsResponse = Policy;
 
 export type GetIamPolicyBucketsError = CommonErrors;
 
+/** Returns an IAM policy for the specified bucket. */
 export const getIamPolicyBuckets: API.OperationMethod<GetIamPolicyBucketsRequest, GetIamPolicyBucketsResponse, GetIamPolicyBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyBucketsRequest,
   output: GetIamPolicyBucketsResponse,
   errors: [],
 }));
 
-/** Returns the storage layout configuration for the specified bucket. Note that this operation requires storage.objects.list permission. */
 export interface GetStorageLayoutBucketsRequest {
   /** Name of a bucket. */
   bucket: string;
@@ -1535,13 +1534,13 @@ export const GetStorageLayoutBucketsResponse = BucketStorageLayout;
 
 export type GetStorageLayoutBucketsError = CommonErrors;
 
+/** Returns the storage layout configuration for the specified bucket. Note that this operation requires storage.objects.list permission. */
 export const getStorageLayoutBuckets: API.OperationMethod<GetStorageLayoutBucketsRequest, GetStorageLayoutBucketsResponse, GetStorageLayoutBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetStorageLayoutBucketsRequest,
   output: GetStorageLayoutBucketsResponse,
   errors: [],
 }));
 
-/** Creates a new bucket. */
 export interface InsertBucketsRequest {
   /** Apply a predefined set of access controls to this bucket. */
   predefinedAcl?: "authenticatedRead" | "private" | "projectPrivate" | "publicRead" | "publicReadWrite" | (string & {});
@@ -1577,13 +1576,13 @@ export const InsertBucketsResponse = Bucket;
 
 export type InsertBucketsError = CommonErrors;
 
+/** Creates a new bucket. */
 export const insertBuckets: API.OperationMethod<InsertBucketsRequest, InsertBucketsResponse, InsertBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertBucketsRequest,
   output: InsertBucketsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of buckets for a given project. */
 export interface ListBucketsRequest {
   /** Maximum number of buckets to return in a single response. The service will use this parameter or 1,000 items, whichever is smaller. */
   maxResults?: number;
@@ -1622,7 +1621,8 @@ export const ListBucketsResponse = Buckets;
 
 export type ListBucketsError = CommonErrors;
 
-export const listBuckets = API.makePaginated(() => ({
+/** Retrieves a list of buckets for a given project. */
+export const listBuckets: API.PaginatedOperationMethod<ListBucketsRequest, ListBucketsResponse, ListBucketsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBucketsRequest,
   output: ListBucketsResponse,
   errors: [],
@@ -1633,7 +1633,6 @@ export const listBuckets = API.makePaginated(() => ({
   },
 }));
 
-/** Locks retention policy on a bucket. */
 export interface LockRetentionPolicyBucketsRequest {
   /** Name of a bucket. */
   bucket: string;
@@ -1657,13 +1656,13 @@ export const LockRetentionPolicyBucketsResponse = Bucket;
 
 export type LockRetentionPolicyBucketsError = CommonErrors;
 
+/** Locks retention policy on a bucket. */
 export const lockRetentionPolicyBuckets: API.OperationMethod<LockRetentionPolicyBucketsRequest, LockRetentionPolicyBucketsResponse, LockRetentionPolicyBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LockRetentionPolicyBucketsRequest,
   output: LockRetentionPolicyBucketsResponse,
   errors: [],
 }));
 
-/** Patches a bucket. Changes to the bucket will be readable immediately after writing, but configuration changes may take time to propagate. */
 export interface PatchBucketsRequest {
   /** Name of a bucket. */
   bucket: string;
@@ -1702,13 +1701,13 @@ export const PatchBucketsResponse = Bucket;
 
 export type PatchBucketsError = CommonErrors;
 
+/** Patches a bucket. Changes to the bucket will be readable immediately after writing, but configuration changes may take time to propagate. */
 export const patchBuckets: API.OperationMethod<PatchBucketsRequest, PatchBucketsResponse, PatchBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchBucketsRequest,
   output: PatchBucketsResponse,
   errors: [],
 }));
 
-/** Updates an IAM policy for the specified bucket. */
 export interface SetIamPolicyBucketsRequest {
   /** Name of a bucket. */
   bucket: string;
@@ -1732,13 +1731,13 @@ export const SetIamPolicyBucketsResponse = Policy;
 
 export type SetIamPolicyBucketsError = CommonErrors;
 
+/** Updates an IAM policy for the specified bucket. */
 export const setIamPolicyBuckets: API.OperationMethod<SetIamPolicyBucketsRequest, SetIamPolicyBucketsResponse, SetIamPolicyBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyBucketsRequest,
   output: SetIamPolicyBucketsResponse,
   errors: [],
 }));
 
-/** Tests a set of permissions on the given bucket to see which, if any, are held by the caller. */
 export interface TestIamPermissionsBucketsRequest {
   /** Name of a bucket. */
   bucket: string;
@@ -1762,13 +1761,13 @@ export const TestIamPermissionsBucketsResponse = TestIamPermissionsResponse;
 
 export type TestIamPermissionsBucketsError = CommonErrors;
 
+/** Tests a set of permissions on the given bucket to see which, if any, are held by the caller. */
 export const testIamPermissionsBuckets: API.OperationMethod<TestIamPermissionsBucketsRequest, TestIamPermissionsBucketsResponse, TestIamPermissionsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsBucketsRequest,
   output: TestIamPermissionsBucketsResponse,
   errors: [],
 }));
 
-/** Updates a bucket. Changes to the bucket will be readable immediately after writing, but configuration changes may take time to propagate. */
 export interface UpdateBucketsRequest {
   /** Name of a bucket. */
   bucket: string;
@@ -1807,13 +1806,13 @@ export const UpdateBucketsResponse = Bucket;
 
 export type UpdateBucketsError = CommonErrors;
 
+/** Updates a bucket. Changes to the bucket will be readable immediately after writing, but configuration changes may take time to propagate. */
 export const updateBuckets: API.OperationMethod<UpdateBucketsRequest, UpdateBucketsResponse, UpdateBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateBucketsRequest,
   output: UpdateBucketsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. */
 export interface CancelOperationsRequest {
   /** The parent bucket of the operation resource. */
   bucket: string;
@@ -1834,13 +1833,13 @@ export const CancelOperationsResponse: Schema.Schema<CancelOperationsResponse> =
 
 export type CancelOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. */
 export const cancelOperations: API.OperationMethod<CancelOperationsRequest, CancelOperationsResponse, CancelOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelOperationsRequest,
   output: CancelOperationsResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. */
 export interface GetOperationsRequest {
   /** The parent bucket of the operation resource. */
   bucket: string;
@@ -1861,13 +1860,13 @@ export const GetOperationsResponse = GoogleLongrunningOperation;
 
 export type GetOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. */
 export const getOperations: API.OperationMethod<GetOperationsRequest, GetOperationsResponse, GetOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous advancement of the relocate bucket operation in the case of required write downtime, to allow it to lock the bucket at the source location, and proceed with the bucket location swap. The server makes a best effort to advance the relocate bucket operation, but success is not guaranteed. */
 export interface AdvanceRelocateBucketOperationsRequest {
   /** Name of the bucket to advance the relocate for. */
   bucket: string;
@@ -1891,13 +1890,13 @@ export const AdvanceRelocateBucketOperationsResponse: Schema.Schema<AdvanceReloc
 
 export type AdvanceRelocateBucketOperationsError = CommonErrors;
 
+/** Starts asynchronous advancement of the relocate bucket operation in the case of required write downtime, to allow it to lock the bucket at the source location, and proceed with the bucket location swap. The server makes a best effort to advance the relocate bucket operation, but success is not guaranteed. */
 export const advanceRelocateBucketOperations: API.OperationMethod<AdvanceRelocateBucketOperationsRequest, AdvanceRelocateBucketOperationsResponse, AdvanceRelocateBucketOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AdvanceRelocateBucketOperationsRequest,
   output: AdvanceRelocateBucketOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. */
 export interface ListOperationsRequest {
   /** A filter to narrow down results to a preferred subset. The filtering language is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string;
@@ -1924,7 +1923,8 @@ export const ListOperationsResponse = GoogleLongrunningListOperationsResponse;
 
 export type ListOperationsError = CommonErrors;
 
-export const listOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. */
+export const listOperations: API.PaginatedOperationMethod<ListOperationsRequest, ListOperationsResponse, ListOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOperationsRequest,
   output: ListOperationsResponse,
   errors: [],
@@ -1934,7 +1934,6 @@ export const listOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Stop watching resources through this channel */
 export interface StopChannelsRequest {
   /** Request body */
   body?: Channel;
@@ -1952,13 +1951,13 @@ export const StopChannelsResponse: Schema.Schema<StopChannelsResponse> = Schema.
 
 export type StopChannelsError = CommonErrors;
 
+/** Stop watching resources through this channel */
 export const stopChannels: API.OperationMethod<StopChannelsRequest, StopChannelsResponse, StopChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StopChannelsRequest,
   output: StopChannelsResponse,
   errors: [],
 }));
 
-/** Permanently deletes the default object ACL entry for the specified entity on the specified bucket. */
 export interface DeleteDefaultObjectAccessControlsRequest {
   /** Name of a bucket. */
   bucket: string;
@@ -1982,13 +1981,13 @@ export const DeleteDefaultObjectAccessControlsResponse: Schema.Schema<DeleteDefa
 
 export type DeleteDefaultObjectAccessControlsError = CommonErrors;
 
+/** Permanently deletes the default object ACL entry for the specified entity on the specified bucket. */
 export const deleteDefaultObjectAccessControls: API.OperationMethod<DeleteDefaultObjectAccessControlsRequest, DeleteDefaultObjectAccessControlsResponse, DeleteDefaultObjectAccessControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteDefaultObjectAccessControlsRequest,
   output: DeleteDefaultObjectAccessControlsResponse,
   errors: [],
 }));
 
-/** Returns the default object ACL entry for the specified entity on the specified bucket. */
 export interface GetDefaultObjectAccessControlsRequest {
   /** Name of a bucket. */
   bucket: string;
@@ -2012,13 +2011,13 @@ export const GetDefaultObjectAccessControlsResponse = ObjectAccessControl;
 
 export type GetDefaultObjectAccessControlsError = CommonErrors;
 
+/** Returns the default object ACL entry for the specified entity on the specified bucket. */
 export const getDefaultObjectAccessControls: API.OperationMethod<GetDefaultObjectAccessControlsRequest, GetDefaultObjectAccessControlsResponse, GetDefaultObjectAccessControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDefaultObjectAccessControlsRequest,
   output: GetDefaultObjectAccessControlsResponse,
   errors: [],
 }));
 
-/** Creates a new default object ACL entry on the specified bucket. */
 export interface InsertDefaultObjectAccessControlsRequest {
   /** Name of a bucket. */
   bucket: string;
@@ -2042,13 +2041,13 @@ export const InsertDefaultObjectAccessControlsResponse = ObjectAccessControl;
 
 export type InsertDefaultObjectAccessControlsError = CommonErrors;
 
+/** Creates a new default object ACL entry on the specified bucket. */
 export const insertDefaultObjectAccessControls: API.OperationMethod<InsertDefaultObjectAccessControlsRequest, InsertDefaultObjectAccessControlsResponse, InsertDefaultObjectAccessControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertDefaultObjectAccessControlsRequest,
   output: InsertDefaultObjectAccessControlsResponse,
   errors: [],
 }));
 
-/** Retrieves default object ACL entries on the specified bucket. */
 export interface ListDefaultObjectAccessControlsRequest {
   /** Name of a bucket. */
   bucket: string;
@@ -2075,13 +2074,13 @@ export const ListDefaultObjectAccessControlsResponse = ObjectAccessControls;
 
 export type ListDefaultObjectAccessControlsError = CommonErrors;
 
+/** Retrieves default object ACL entries on the specified bucket. */
 export const listDefaultObjectAccessControls: API.OperationMethod<ListDefaultObjectAccessControlsRequest, ListDefaultObjectAccessControlsResponse, ListDefaultObjectAccessControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListDefaultObjectAccessControlsRequest,
   output: ListDefaultObjectAccessControlsResponse,
   errors: [],
 }));
 
-/** Patches a default object ACL entry on the specified bucket. */
 export interface PatchDefaultObjectAccessControlsRequest {
   /** Name of a bucket. */
   bucket: string;
@@ -2108,13 +2107,13 @@ export const PatchDefaultObjectAccessControlsResponse = ObjectAccessControl;
 
 export type PatchDefaultObjectAccessControlsError = CommonErrors;
 
+/** Patches a default object ACL entry on the specified bucket. */
 export const patchDefaultObjectAccessControls: API.OperationMethod<PatchDefaultObjectAccessControlsRequest, PatchDefaultObjectAccessControlsResponse, PatchDefaultObjectAccessControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchDefaultObjectAccessControlsRequest,
   output: PatchDefaultObjectAccessControlsResponse,
   errors: [],
 }));
 
-/** Updates a default object ACL entry on the specified bucket. */
 export interface UpdateDefaultObjectAccessControlsRequest {
   /** Name of a bucket. */
   bucket: string;
@@ -2141,13 +2140,13 @@ export const UpdateDefaultObjectAccessControlsResponse = ObjectAccessControl;
 
 export type UpdateDefaultObjectAccessControlsError = CommonErrors;
 
+/** Updates a default object ACL entry on the specified bucket. */
 export const updateDefaultObjectAccessControls: API.OperationMethod<UpdateDefaultObjectAccessControlsRequest, UpdateDefaultObjectAccessControlsResponse, UpdateDefaultObjectAccessControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateDefaultObjectAccessControlsRequest,
   output: UpdateDefaultObjectAccessControlsResponse,
   errors: [],
 }));
 
-/** Permanently deletes a folder. Only applicable to buckets with hierarchical namespace enabled. */
 export interface DeleteFoldersRequest {
   /** Name of the bucket in which the folder resides. */
   bucket: string;
@@ -2174,13 +2173,13 @@ export const DeleteFoldersResponse: Schema.Schema<DeleteFoldersResponse> = Schem
 
 export type DeleteFoldersError = CommonErrors;
 
+/** Permanently deletes a folder. Only applicable to buckets with hierarchical namespace enabled. */
 export const deleteFolders: API.OperationMethod<DeleteFoldersRequest, DeleteFoldersResponse, DeleteFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteFoldersRequest,
   output: DeleteFoldersResponse,
   errors: [],
 }));
 
-/** Deletes a folder recursively. Only applicable to buckets with hierarchical namespace enabled. */
 export interface DeleteRecursiveFoldersRequest {
   /** Name of the bucket in which the folder resides. */
   bucket: string;
@@ -2207,13 +2206,13 @@ export const DeleteRecursiveFoldersResponse = GoogleLongrunningOperation;
 
 export type DeleteRecursiveFoldersError = CommonErrors;
 
+/** Deletes a folder recursively. Only applicable to buckets with hierarchical namespace enabled. */
 export const deleteRecursiveFolders: API.OperationMethod<DeleteRecursiveFoldersRequest, DeleteRecursiveFoldersResponse, DeleteRecursiveFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRecursiveFoldersRequest,
   output: DeleteRecursiveFoldersResponse,
   errors: [],
 }));
 
-/** Returns metadata for the specified folder. Only applicable to buckets with hierarchical namespace enabled. */
 export interface GetFoldersRequest {
   /** Name of the bucket in which the folder resides. */
   bucket: string;
@@ -2240,13 +2239,13 @@ export const GetFoldersResponse = Folder;
 
 export type GetFoldersError = CommonErrors;
 
+/** Returns metadata for the specified folder. Only applicable to buckets with hierarchical namespace enabled. */
 export const getFolders: API.OperationMethod<GetFoldersRequest, GetFoldersResponse, GetFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersRequest,
   output: GetFoldersResponse,
   errors: [],
 }));
 
-/** Creates a new folder. Only applicable to buckets with hierarchical namespace enabled. */
 export interface InsertFoldersRequest {
   /** Name of the bucket in which the folder resides. */
   bucket: string;
@@ -2270,13 +2269,13 @@ export const InsertFoldersResponse = Folder;
 
 export type InsertFoldersError = CommonErrors;
 
+/** Creates a new folder. Only applicable to buckets with hierarchical namespace enabled. */
 export const insertFolders: API.OperationMethod<InsertFoldersRequest, InsertFoldersResponse, InsertFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertFoldersRequest,
   output: InsertFoldersResponse,
   errors: [],
 }));
 
-/** Retrieves a list of folders matching the criteria. Only applicable to buckets with hierarchical namespace enabled. */
 export interface ListFoldersRequest {
   /** Name of the bucket in which to look for folders. */
   bucket: string;
@@ -2312,7 +2311,8 @@ export const ListFoldersResponse = Folders;
 
 export type ListFoldersError = CommonErrors;
 
-export const listFolders = API.makePaginated(() => ({
+/** Retrieves a list of folders matching the criteria. Only applicable to buckets with hierarchical namespace enabled. */
+export const listFolders: API.PaginatedOperationMethod<ListFoldersRequest, ListFoldersResponse, ListFoldersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersRequest,
   output: ListFoldersResponse,
   errors: [],
@@ -2323,7 +2323,6 @@ export const listFolders = API.makePaginated(() => ({
   },
 }));
 
-/** Renames a source folder to a destination folder. Only applicable to buckets with hierarchical namespace enabled. */
 export interface RenameFoldersRequest {
   /** Name of the bucket in which the folders are in. */
   bucket: string;
@@ -2353,13 +2352,13 @@ export const RenameFoldersResponse = GoogleLongrunningOperation;
 
 export type RenameFoldersError = CommonErrors;
 
+/** Renames a source folder to a destination folder. Only applicable to buckets with hierarchical namespace enabled. */
 export const renameFolders: API.OperationMethod<RenameFoldersRequest, RenameFoldersResponse, RenameFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RenameFoldersRequest,
   output: RenameFoldersResponse,
   errors: [],
 }));
 
-/** Permanently deletes a managed folder. */
 export interface DeleteManagedFoldersRequest {
   /** Name of the bucket containing the managed folder. */
   bucket: string;
@@ -2389,13 +2388,13 @@ export const DeleteManagedFoldersResponse: Schema.Schema<DeleteManagedFoldersRes
 
 export type DeleteManagedFoldersError = CommonErrors;
 
+/** Permanently deletes a managed folder. */
 export const deleteManagedFolders: API.OperationMethod<DeleteManagedFoldersRequest, DeleteManagedFoldersResponse, DeleteManagedFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteManagedFoldersRequest,
   output: DeleteManagedFoldersResponse,
   errors: [],
 }));
 
-/** Returns metadata of the specified managed folder. */
 export interface GetManagedFoldersRequest {
   /** Name of the bucket containing the managed folder. */
   bucket: string;
@@ -2422,13 +2421,13 @@ export const GetManagedFoldersResponse = ManagedFolder;
 
 export type GetManagedFoldersError = CommonErrors;
 
+/** Returns metadata of the specified managed folder. */
 export const getManagedFolders: API.OperationMethod<GetManagedFoldersRequest, GetManagedFoldersResponse, GetManagedFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetManagedFoldersRequest,
   output: GetManagedFoldersResponse,
   errors: [],
 }));
 
-/** Returns an IAM policy for the specified managed folder. */
 export interface GetIamPolicyManagedFoldersRequest {
   /** Name of the bucket containing the managed folder. */
   bucket: string;
@@ -2455,13 +2454,13 @@ export const GetIamPolicyManagedFoldersResponse = Policy;
 
 export type GetIamPolicyManagedFoldersError = CommonErrors;
 
+/** Returns an IAM policy for the specified managed folder. */
 export const getIamPolicyManagedFolders: API.OperationMethod<GetIamPolicyManagedFoldersRequest, GetIamPolicyManagedFoldersResponse, GetIamPolicyManagedFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyManagedFoldersRequest,
   output: GetIamPolicyManagedFoldersResponse,
   errors: [],
 }));
 
-/** Creates a new managed folder. */
 export interface InsertManagedFoldersRequest {
   /** Name of the bucket containing the managed folder. */
   bucket: string;
@@ -2482,13 +2481,13 @@ export const InsertManagedFoldersResponse = ManagedFolder;
 
 export type InsertManagedFoldersError = CommonErrors;
 
+/** Creates a new managed folder. */
 export const insertManagedFolders: API.OperationMethod<InsertManagedFoldersRequest, InsertManagedFoldersResponse, InsertManagedFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertManagedFoldersRequest,
   output: InsertManagedFoldersResponse,
   errors: [],
 }));
 
-/** Lists managed folders in the given bucket. */
 export interface ListManagedFoldersRequest {
   /** Name of the bucket containing the managed folder. */
   bucket: string;
@@ -2515,7 +2514,8 @@ export const ListManagedFoldersResponse = ManagedFolders;
 
 export type ListManagedFoldersError = CommonErrors;
 
-export const listManagedFolders = API.makePaginated(() => ({
+/** Lists managed folders in the given bucket. */
+export const listManagedFolders: API.PaginatedOperationMethod<ListManagedFoldersRequest, ListManagedFoldersResponse, ListManagedFoldersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListManagedFoldersRequest,
   output: ListManagedFoldersResponse,
   errors: [],
@@ -2526,7 +2526,6 @@ export const listManagedFolders = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an IAM policy for the specified managed folder. */
 export interface SetIamPolicyManagedFoldersRequest {
   /** Name of the bucket containing the managed folder. */
   bucket: string;
@@ -2553,13 +2552,13 @@ export const SetIamPolicyManagedFoldersResponse = Policy;
 
 export type SetIamPolicyManagedFoldersError = CommonErrors;
 
+/** Updates an IAM policy for the specified managed folder. */
 export const setIamPolicyManagedFolders: API.OperationMethod<SetIamPolicyManagedFoldersRequest, SetIamPolicyManagedFoldersResponse, SetIamPolicyManagedFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyManagedFoldersRequest,
   output: SetIamPolicyManagedFoldersResponse,
   errors: [],
 }));
 
-/** Tests a set of permissions on the given managed folder to see which, if any, are held by the caller. */
 export interface TestIamPermissionsManagedFoldersRequest {
   /** Name of the bucket containing the managed folder. */
   bucket: string;
@@ -2586,13 +2585,13 @@ export const TestIamPermissionsManagedFoldersResponse = TestIamPermissionsRespon
 
 export type TestIamPermissionsManagedFoldersError = CommonErrors;
 
+/** Tests a set of permissions on the given managed folder to see which, if any, are held by the caller. */
 export const testIamPermissionsManagedFolders: API.OperationMethod<TestIamPermissionsManagedFoldersRequest, TestIamPermissionsManagedFoldersResponse, TestIamPermissionsManagedFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsManagedFoldersRequest,
   output: TestIamPermissionsManagedFoldersResponse,
   errors: [],
 }));
 
-/** Permanently deletes a notification subscription. */
 export interface DeleteNotificationsRequest {
   /** The parent bucket of the notification. */
   bucket: string;
@@ -2616,13 +2615,13 @@ export const DeleteNotificationsResponse: Schema.Schema<DeleteNotificationsRespo
 
 export type DeleteNotificationsError = CommonErrors;
 
+/** Permanently deletes a notification subscription. */
 export const deleteNotifications: API.OperationMethod<DeleteNotificationsRequest, DeleteNotificationsResponse, DeleteNotificationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteNotificationsRequest,
   output: DeleteNotificationsResponse,
   errors: [],
 }));
 
-/** View a notification configuration. */
 export interface GetNotificationsRequest {
   /** The parent bucket of the notification. */
   bucket: string;
@@ -2646,13 +2645,13 @@ export const GetNotificationsResponse = Notification;
 
 export type GetNotificationsError = CommonErrors;
 
+/** View a notification configuration. */
 export const getNotifications: API.OperationMethod<GetNotificationsRequest, GetNotificationsResponse, GetNotificationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetNotificationsRequest,
   output: GetNotificationsResponse,
   errors: [],
 }));
 
-/** Creates a notification subscription for a given bucket. */
 export interface InsertNotificationsRequest {
   /** The parent bucket of the notification. */
   bucket: string;
@@ -2676,13 +2675,13 @@ export const InsertNotificationsResponse = Notification;
 
 export type InsertNotificationsError = CommonErrors;
 
+/** Creates a notification subscription for a given bucket. */
 export const insertNotifications: API.OperationMethod<InsertNotificationsRequest, InsertNotificationsResponse, InsertNotificationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertNotificationsRequest,
   output: InsertNotificationsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of notification subscriptions for a given bucket. */
 export interface ListNotificationsRequest {
   /** Name of a Google Cloud Storage bucket. */
   bucket: string;
@@ -2703,13 +2702,13 @@ export const ListNotificationsResponse = Notifications;
 
 export type ListNotificationsError = CommonErrors;
 
+/** Retrieves a list of notification subscriptions for a given bucket. */
 export const listNotifications: API.OperationMethod<ListNotificationsRequest, ListNotificationsResponse, ListNotificationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListNotificationsRequest,
   output: ListNotificationsResponse,
   errors: [],
 }));
 
-/** Permanently deletes the ACL entry for the specified entity on the specified object. */
 export interface DeleteObjectAccessControlsRequest {
   /** Name of a bucket. */
   bucket: string;
@@ -2739,13 +2738,13 @@ export const DeleteObjectAccessControlsResponse: Schema.Schema<DeleteObjectAcces
 
 export type DeleteObjectAccessControlsError = CommonErrors;
 
+/** Permanently deletes the ACL entry for the specified entity on the specified object. */
 export const deleteObjectAccessControls: API.OperationMethod<DeleteObjectAccessControlsRequest, DeleteObjectAccessControlsResponse, DeleteObjectAccessControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteObjectAccessControlsRequest,
   output: DeleteObjectAccessControlsResponse,
   errors: [],
 }));
 
-/** Returns the ACL entry for the specified entity on the specified object. */
 export interface GetObjectAccessControlsRequest {
   /** Name of a bucket. */
   bucket: string;
@@ -2775,13 +2774,13 @@ export const GetObjectAccessControlsResponse = ObjectAccessControl;
 
 export type GetObjectAccessControlsError = CommonErrors;
 
+/** Returns the ACL entry for the specified entity on the specified object. */
 export const getObjectAccessControls: API.OperationMethod<GetObjectAccessControlsRequest, GetObjectAccessControlsResponse, GetObjectAccessControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetObjectAccessControlsRequest,
   output: GetObjectAccessControlsResponse,
   errors: [],
 }));
 
-/** Creates a new ACL entry on the specified object. */
 export interface InsertObjectAccessControlsRequest {
   /** Name of a bucket. */
   bucket: string;
@@ -2811,13 +2810,13 @@ export const InsertObjectAccessControlsResponse = ObjectAccessControl;
 
 export type InsertObjectAccessControlsError = CommonErrors;
 
+/** Creates a new ACL entry on the specified object. */
 export const insertObjectAccessControls: API.OperationMethod<InsertObjectAccessControlsRequest, InsertObjectAccessControlsResponse, InsertObjectAccessControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertObjectAccessControlsRequest,
   output: InsertObjectAccessControlsResponse,
   errors: [],
 }));
 
-/** Retrieves ACL entries on the specified object. */
 export interface ListObjectAccessControlsRequest {
   /** Name of a bucket. */
   bucket: string;
@@ -2844,13 +2843,13 @@ export const ListObjectAccessControlsResponse = ObjectAccessControls;
 
 export type ListObjectAccessControlsError = CommonErrors;
 
+/** Retrieves ACL entries on the specified object. */
 export const listObjectAccessControls: API.OperationMethod<ListObjectAccessControlsRequest, ListObjectAccessControlsResponse, ListObjectAccessControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListObjectAccessControlsRequest,
   output: ListObjectAccessControlsResponse,
   errors: [],
 }));
 
-/** Patches an ACL entry on the specified object. */
 export interface PatchObjectAccessControlsRequest {
   /** Name of a bucket. */
   bucket: string;
@@ -2883,13 +2882,13 @@ export const PatchObjectAccessControlsResponse = ObjectAccessControl;
 
 export type PatchObjectAccessControlsError = CommonErrors;
 
+/** Patches an ACL entry on the specified object. */
 export const patchObjectAccessControls: API.OperationMethod<PatchObjectAccessControlsRequest, PatchObjectAccessControlsResponse, PatchObjectAccessControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchObjectAccessControlsRequest,
   output: PatchObjectAccessControlsResponse,
   errors: [],
 }));
 
-/** Updates an ACL entry on the specified object. */
 export interface UpdateObjectAccessControlsRequest {
   /** Name of a bucket. */
   bucket: string;
@@ -2922,13 +2921,13 @@ export const UpdateObjectAccessControlsResponse = ObjectAccessControl;
 
 export type UpdateObjectAccessControlsError = CommonErrors;
 
+/** Updates an ACL entry on the specified object. */
 export const updateObjectAccessControls: API.OperationMethod<UpdateObjectAccessControlsRequest, UpdateObjectAccessControlsResponse, UpdateObjectAccessControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateObjectAccessControlsRequest,
   output: UpdateObjectAccessControlsResponse,
   errors: [],
 }));
 
-/** Concatenates a list of existing objects into a new object in the same bucket. */
 export interface ComposeObjectsRequest {
   /** Name of the bucket containing the source objects. The destination object is stored in this bucket. */
   destinationBucket: string;
@@ -2970,13 +2969,13 @@ export const ComposeObjectsResponse = Storage_Object;
 
 export type ComposeObjectsError = CommonErrors;
 
+/** Concatenates a list of existing objects into a new object in the same bucket. */
 export const composeObjects: API.OperationMethod<ComposeObjectsRequest, ComposeObjectsResponse, ComposeObjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ComposeObjectsRequest,
   output: ComposeObjectsResponse,
   errors: [],
 }));
 
-/** Copies a source object to a destination object. Optionally overrides metadata. */
 export interface CopyObjectsRequest {
   /** Name of the bucket in which to store the new object. Overrides the provided object metadata's bucket value, if any.For information about how to URL encode object names to be path safe, see [Encoding URI Path Parts](https://cloud.google.com/storage/docs/request-endpoints#encoding). */
   destinationBucket: string;
@@ -3045,13 +3044,13 @@ export const CopyObjectsResponse = Storage_Object;
 
 export type CopyObjectsError = CommonErrors;
 
+/** Copies a source object to a destination object. Optionally overrides metadata. */
 export const copyObjects: API.OperationMethod<CopyObjectsRequest, CopyObjectsResponse, CopyObjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CopyObjectsRequest,
   output: CopyObjectsResponse,
   errors: [],
 }));
 
-/** Deletes an object and its metadata. Deletions are permanent if versioning is not enabled for the bucket, or if the generation parameter is used. */
 export interface DeleteObjectsRequest {
   /** Name of the bucket in which the object resides. */
   bucket: string;
@@ -3090,13 +3089,13 @@ export const DeleteObjectsResponse: Schema.Schema<DeleteObjectsResponse> = Schem
 
 export type DeleteObjectsError = CommonErrors;
 
+/** Deletes an object and its metadata. Deletions are permanent if versioning is not enabled for the bucket, or if the generation parameter is used. */
 export const deleteObjects: API.OperationMethod<DeleteObjectsRequest, DeleteObjectsResponse, DeleteObjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteObjectsRequest,
   output: DeleteObjectsResponse,
   errors: [],
 }));
 
-/** Retrieves an object or its metadata. */
 export interface GetObjectsRequest {
   /** Name of the bucket in which the object resides. */
   bucket: string;
@@ -3144,13 +3143,13 @@ export const GetObjectsResponse = Storage_Object;
 
 export type GetObjectsError = CommonErrors;
 
+/** Retrieves an object or its metadata. */
 export const getObjects: API.OperationMethod<GetObjectsRequest, GetObjectsResponse, GetObjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetObjectsRequest,
   output: GetObjectsResponse,
   errors: [],
 }));
 
-/** Returns an IAM policy for the specified object. */
 export interface GetIamPolicyObjectsRequest {
   /** Name of the bucket in which the object resides. */
   bucket: string;
@@ -3177,13 +3176,13 @@ export const GetIamPolicyObjectsResponse = Policy;
 
 export type GetIamPolicyObjectsError = CommonErrors;
 
+/** Returns an IAM policy for the specified object. */
 export const getIamPolicyObjects: API.OperationMethod<GetIamPolicyObjectsRequest, GetIamPolicyObjectsResponse, GetIamPolicyObjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyObjectsRequest,
   output: GetIamPolicyObjectsResponse,
   errors: [],
 }));
 
-/** Stores a new object and metadata. */
 export interface InsertObjectsRequest {
   /** Name of the bucket in which to store the new object. Overrides the provided object metadata's bucket value, if any. */
   bucket: string;
@@ -3234,13 +3233,13 @@ export const InsertObjectsResponse = Storage_Object;
 
 export type InsertObjectsError = CommonErrors;
 
+/** Stores a new object and metadata. */
 export const insertObjects: API.OperationMethod<InsertObjectsRequest, InsertObjectsResponse, InsertObjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertObjectsRequest,
   output: InsertObjectsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of objects matching the criteria. */
 export interface ListObjectsRequest {
   /** Name of the bucket in which to look for objects. */
   bucket: string;
@@ -3300,7 +3299,8 @@ export const ListObjectsResponse = Objects;
 
 export type ListObjectsError = CommonErrors;
 
-export const listObjects = API.makePaginated(() => ({
+/** Retrieves a list of objects matching the criteria. */
+export const listObjects: API.PaginatedOperationMethod<ListObjectsRequest, ListObjectsResponse, ListObjectsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListObjectsRequest,
   output: ListObjectsResponse,
   errors: [],
@@ -3311,7 +3311,6 @@ export const listObjects = API.makePaginated(() => ({
   },
 }));
 
-/** Patches an object's metadata. */
 export interface PatchObjectsRequest {
   /** Name of the bucket in which the object resides. */
   bucket: string;
@@ -3362,13 +3361,13 @@ export const PatchObjectsResponse = Storage_Object;
 
 export type PatchObjectsError = CommonErrors;
 
+/** Patches an object's metadata. */
 export const patchObjects: API.OperationMethod<PatchObjectsRequest, PatchObjectsResponse, PatchObjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchObjectsRequest,
   output: PatchObjectsResponse,
   errors: [],
 }));
 
-/** Rewrites a source object to a destination object. Optionally overrides metadata. */
 export interface RewriteObjectsRequest {
   /** Name of the bucket in which to store the new object. Overrides the provided object metadata's bucket value, if any. */
   destinationBucket: string;
@@ -3446,13 +3445,13 @@ export const RewriteObjectsResponse = RewriteResponse;
 
 export type RewriteObjectsError = CommonErrors;
 
+/** Rewrites a source object to a destination object. Optionally overrides metadata. */
 export const rewriteObjects: API.OperationMethod<RewriteObjectsRequest, RewriteObjectsResponse, RewriteObjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RewriteObjectsRequest,
   output: RewriteObjectsResponse,
   errors: [],
 }));
 
-/** Moves the source object to the destination object in the same bucket. */
 export interface MoveObjectsRequest {
   /** Name of the bucket in which the object resides. */
   bucket: string;
@@ -3506,13 +3505,13 @@ export const MoveObjectsResponse = Storage_Object;
 
 export type MoveObjectsError = CommonErrors;
 
+/** Moves the source object to the destination object in the same bucket. */
 export const moveObjects: API.OperationMethod<MoveObjectsRequest, MoveObjectsResponse, MoveObjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MoveObjectsRequest,
   output: MoveObjectsResponse,
   errors: [],
 }));
 
-/** Updates an IAM policy for the specified object. */
 export interface SetIamPolicyObjectsRequest {
   /** Name of the bucket in which the object resides. */
   bucket: string;
@@ -3542,13 +3541,13 @@ export const SetIamPolicyObjectsResponse = Policy;
 
 export type SetIamPolicyObjectsError = CommonErrors;
 
+/** Updates an IAM policy for the specified object. */
 export const setIamPolicyObjects: API.OperationMethod<SetIamPolicyObjectsRequest, SetIamPolicyObjectsResponse, SetIamPolicyObjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyObjectsRequest,
   output: SetIamPolicyObjectsResponse,
   errors: [],
 }));
 
-/** Tests a set of permissions on the given object to see which, if any, are held by the caller. */
 export interface TestIamPermissionsObjectsRequest {
   /** Name of the bucket in which the object resides. */
   bucket: string;
@@ -3578,13 +3577,13 @@ export const TestIamPermissionsObjectsResponse = TestIamPermissionsResponse;
 
 export type TestIamPermissionsObjectsError = CommonErrors;
 
+/** Tests a set of permissions on the given object to see which, if any, are held by the caller. */
 export const testIamPermissionsObjects: API.OperationMethod<TestIamPermissionsObjectsRequest, TestIamPermissionsObjectsResponse, TestIamPermissionsObjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsObjectsRequest,
   output: TestIamPermissionsObjectsResponse,
   errors: [],
 }));
 
-/** Updates an object's metadata. */
 export interface UpdateObjectsRequest {
   /** Name of the bucket in which the object resides. */
   bucket: string;
@@ -3635,13 +3634,13 @@ export const UpdateObjectsResponse = Storage_Object;
 
 export type UpdateObjectsError = CommonErrors;
 
+/** Updates an object's metadata. */
 export const updateObjects: API.OperationMethod<UpdateObjectsRequest, UpdateObjectsResponse, UpdateObjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateObjectsRequest,
   output: UpdateObjectsResponse,
   errors: [],
 }));
 
-/** Watch for changes on all objects in a bucket. */
 export interface WatchAllObjectsRequest {
   /** Name of the bucket in which to look for objects. */
   bucket: string;
@@ -3692,13 +3691,13 @@ export const WatchAllObjectsResponse = Channel;
 
 export type WatchAllObjectsError = CommonErrors;
 
+/** Watch for changes on all objects in a bucket. */
 export const watchAllObjects: API.OperationMethod<WatchAllObjectsRequest, WatchAllObjectsResponse, WatchAllObjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WatchAllObjectsRequest,
   output: WatchAllObjectsResponse,
   errors: [],
 }));
 
-/** Restores a soft-deleted object. */
 export interface RestoreObjectsRequest {
   /** Name of the bucket in which the object resides. */
   bucket: string;
@@ -3746,13 +3745,13 @@ export const RestoreObjectsResponse = Storage_Object;
 
 export type RestoreObjectsError = CommonErrors;
 
+/** Restores a soft-deleted object. */
 export const restoreObjects: API.OperationMethod<RestoreObjectsRequest, RestoreObjectsResponse, RestoreObjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RestoreObjectsRequest,
   output: RestoreObjectsResponse,
   errors: [],
 }));
 
-/** Initiates a long-running bulk restore operation on the specified bucket. */
 export interface BulkRestoreObjectsRequest_Op {
   /** Name of the bucket in which the object resides. */
   bucket: string;
@@ -3773,13 +3772,13 @@ export const BulkRestoreObjectsResponse = GoogleLongrunningOperation;
 
 export type BulkRestoreObjectsError = CommonErrors;
 
+/** Initiates a long-running bulk restore operation on the specified bucket. */
 export const bulkRestoreObjects: API.OperationMethod<BulkRestoreObjectsRequest_Op, BulkRestoreObjectsResponse, BulkRestoreObjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BulkRestoreObjectsRequest_Op,
   output: BulkRestoreObjectsResponse,
   errors: [],
 }));
 
-/** Creates a new HMAC key for the specified service account. */
 export interface CreateProjectsHmacKeysRequest {
   /** Project ID owning the service account. */
   projectId: string;
@@ -3803,13 +3802,13 @@ export const CreateProjectsHmacKeysResponse = HmacKey;
 
 export type CreateProjectsHmacKeysError = CommonErrors;
 
+/** Creates a new HMAC key for the specified service account. */
 export const createProjectsHmacKeys: API.OperationMethod<CreateProjectsHmacKeysRequest, CreateProjectsHmacKeysResponse, CreateProjectsHmacKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsHmacKeysRequest,
   output: CreateProjectsHmacKeysResponse,
   errors: [],
 }));
 
-/** Deletes an HMAC key. */
 export interface DeleteProjectsHmacKeysRequest {
   /** Name of the HMAC key to be deleted. */
   accessId: string;
@@ -3833,13 +3832,13 @@ export const DeleteProjectsHmacKeysResponse: Schema.Schema<DeleteProjectsHmacKey
 
 export type DeleteProjectsHmacKeysError = CommonErrors;
 
+/** Deletes an HMAC key. */
 export const deleteProjectsHmacKeys: API.OperationMethod<DeleteProjectsHmacKeysRequest, DeleteProjectsHmacKeysResponse, DeleteProjectsHmacKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsHmacKeysRequest,
   output: DeleteProjectsHmacKeysResponse,
   errors: [],
 }));
 
-/** Retrieves an HMAC key's metadata */
 export interface GetProjectsHmacKeysRequest {
   /** Name of the HMAC key. */
   accessId: string;
@@ -3863,13 +3862,13 @@ export const GetProjectsHmacKeysResponse = HmacKeyMetadata;
 
 export type GetProjectsHmacKeysError = CommonErrors;
 
+/** Retrieves an HMAC key's metadata */
 export const getProjectsHmacKeys: API.OperationMethod<GetProjectsHmacKeysRequest, GetProjectsHmacKeysResponse, GetProjectsHmacKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsHmacKeysRequest,
   output: GetProjectsHmacKeysResponse,
   errors: [],
 }));
 
-/** Retrieves a list of HMAC keys matching the criteria. */
 export interface ListProjectsHmacKeysRequest {
   /** Maximum number of items to return in a single page of responses. The service uses this parameter or 250 items, whichever is smaller. The max number of items per page will also be limited by the number of distinct service accounts in the response. If the number of service accounts in a single response is too high, the page will truncated and a next page token will be returned. */
   maxResults?: number;
@@ -3902,7 +3901,8 @@ export const ListProjectsHmacKeysResponse = HmacKeysMetadata;
 
 export type ListProjectsHmacKeysError = CommonErrors;
 
-export const listProjectsHmacKeys = API.makePaginated(() => ({
+/** Retrieves a list of HMAC keys matching the criteria. */
+export const listProjectsHmacKeys: API.PaginatedOperationMethod<ListProjectsHmacKeysRequest, ListProjectsHmacKeysResponse, ListProjectsHmacKeysError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsHmacKeysRequest,
   output: ListProjectsHmacKeysResponse,
   errors: [],
@@ -3913,7 +3913,6 @@ export const listProjectsHmacKeys = API.makePaginated(() => ({
   },
 }));
 
-/** Updates the state of an HMAC key. See the [HMAC Key resource descriptor](https://cloud.google.com/storage/docs/json_api/v1/projects/hmacKeys/update#request-body) for valid states. */
 export interface UpdateProjectsHmacKeysRequest {
   /** Name of the HMAC key being updated. */
   accessId: string;
@@ -3940,13 +3939,13 @@ export const UpdateProjectsHmacKeysResponse = HmacKeyMetadata;
 
 export type UpdateProjectsHmacKeysError = CommonErrors;
 
+/** Updates the state of an HMAC key. See the [HMAC Key resource descriptor](https://cloud.google.com/storage/docs/json_api/v1/projects/hmacKeys/update#request-body) for valid states. */
 export const updateProjectsHmacKeys: API.OperationMethod<UpdateProjectsHmacKeysRequest, UpdateProjectsHmacKeysResponse, UpdateProjectsHmacKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateProjectsHmacKeysRequest,
   output: UpdateProjectsHmacKeysResponse,
   errors: [],
 }));
 
-/** Get the email address of this project's Google Cloud Storage service account. */
 export interface GetProjectsServiceAccountRequest {
   /** Project ID */
   projectId: string;
@@ -3967,6 +3966,7 @@ export const GetProjectsServiceAccountResponse = ServiceAccount;
 
 export type GetProjectsServiceAccountError = CommonErrors;
 
+/** Get the email address of this project's Google Cloud Storage service account. */
 export const getProjectsServiceAccount: API.OperationMethod<GetProjectsServiceAccountRequest, GetProjectsServiceAccountResponse, GetProjectsServiceAccountError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsServiceAccountRequest,
   output: GetProjectsServiceAccountResponse,

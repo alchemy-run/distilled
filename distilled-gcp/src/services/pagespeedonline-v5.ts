@@ -597,7 +597,6 @@ export const PagespeedApiPagespeedResponseV5: Schema.Schema<PagespeedApiPagespee
 // Operations
 // ==========================================================================
 
-/** Runs PageSpeed analysis on the page at the specified URL, and returns PageSpeed scores, a list of suggestions to make that page faster, and other information. */
 export interface RunpagespeedPagespeedapiRequest {
   /** A Lighthouse category to run; if none are given, only Performance category will be run */
   category?: "CATEGORY_UNSPECIFIED" | "ACCESSIBILITY" | "BEST_PRACTICES" | "PERFORMANCE" | "PWA" | "SEO" | (string & {})[];
@@ -633,6 +632,7 @@ export const RunpagespeedPagespeedapiResponse = PagespeedApiPagespeedResponseV5;
 
 export type RunpagespeedPagespeedapiError = CommonErrors;
 
+/** Runs PageSpeed analysis on the page at the specified URL, and returns PageSpeed scores, a list of suggestions to make that page faster, and other information. */
 export const runpagespeedPagespeedapi: API.OperationMethod<RunpagespeedPagespeedapiRequest, RunpagespeedPagespeedapiResponse, RunpagespeedPagespeedapiError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RunpagespeedPagespeedapiRequest,
   output: RunpagespeedPagespeedapiResponse,

@@ -768,12 +768,7 @@ function generateOperation(
       !["alt", "fields", "key", "oauth_token", "prettyPrint", "quotaUser", "userIp", "uploadType", "upload_protocol", "$.xgafv", "callback", "access_token"].includes(name),
   );
 
-  // Description comment
-  if (op.description) {
-    lines.push(`/** ${cleanDescription(op.description)} */`);
-  }
-
-  // Generate request interface
+  // Generate request interface (description goes on the operation, not the interface)
   lines.push(`export interface ${inputName} {`);
   for (const [paramName, param] of opParams) {
     const tsType = paramTypeToTs(param);
@@ -854,8 +849,17 @@ function generateOperation(
       ? `[${errorTags.map(safeIdentifier).join(", ")}]`
       : "[]";
 
+  const errorTypeName = `${capitalize(fnName)}Error`;
+
+  // Add JSDoc description on the operation function
+  if (op.description) {
+    lines.push(`/** ${cleanDescription(op.description)} */`);
+  }
+
   if (isPaginated) {
-    lines.push(`export const ${fnName} = API.makePaginated(() => ({`);
+    lines.push(
+      `export const ${fnName}: API.PaginatedOperationMethod<${inputName}, ${outputName}, ${errorTypeName}, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({`,
+    );
     lines.push(`  input: ${inputName},`);
     lines.push(`  output: ${outputName},`);
     lines.push(`  errors: ${errorArrayExpr},`);
@@ -869,7 +873,7 @@ function generateOperation(
     lines.push(`}));`);
   } else {
     lines.push(
-      `export const ${fnName}: API.OperationMethod<${inputName}, ${outputName}, ${capitalize(fnName)}Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({`,
+      `export const ${fnName}: API.OperationMethod<${inputName}, ${outputName}, ${errorTypeName}, GCPAuth | HttpClient.HttpClient> = API.make(() => ({`,
     );
     lines.push(`  input: ${inputName},`);
     lines.push(`  output: ${outputName},`);

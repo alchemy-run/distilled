@@ -558,7 +558,6 @@ export const ListUrlChannelsResponse: Schema.Schema<ListUrlChannelsResponse> = S
 // Operations
 // ==========================================================================
 
-/** Gets information about the selected AdSense account. */
 export interface GetAccountsRequest {
   /** Required. Account to get information about. Format: accounts/{account} */
   name: string;
@@ -576,13 +575,13 @@ export const GetAccountsResponse = Account;
 
 export type GetAccountsError = CommonErrors;
 
+/** Gets information about the selected AdSense account. */
 export const getAccounts: API.OperationMethod<GetAccountsRequest, GetAccountsResponse, GetAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsRequest,
   output: GetAccountsResponse,
   errors: [],
 }));
 
-/** Lists all accounts available to this user. */
 export interface ListAccountsRequest {
   /** The maximum number of accounts to include in the response, used for paging. If unspecified, at most 10000 accounts will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
   pageSize?: number;
@@ -603,7 +602,8 @@ export const ListAccountsResponse_Op = ListAccountsResponse;
 
 export type ListAccountsError = CommonErrors;
 
-export const listAccounts = API.makePaginated(() => ({
+/** Lists all accounts available to this user. */
+export const listAccounts: API.PaginatedOperationMethod<ListAccountsRequest, ListAccountsResponse_Op, ListAccountsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsRequest,
   output: ListAccountsResponse_Op,
   errors: [],
@@ -613,7 +613,6 @@ export const listAccounts = API.makePaginated(() => ({
   },
 }));
 
-/** Lists all accounts directly managed by the given AdSense account. */
 export interface ListChildAccountsAccountsRequest {
   /** Required. The parent account, which owns the child accounts. Format: accounts/{account} */
   parent: string;
@@ -637,7 +636,8 @@ export const ListChildAccountsAccountsResponse = ListChildAccountsResponse;
 
 export type ListChildAccountsAccountsError = CommonErrors;
 
-export const listChildAccountsAccounts = API.makePaginated(() => ({
+/** Lists all accounts directly managed by the given AdSense account. */
+export const listChildAccountsAccounts: API.PaginatedOperationMethod<ListChildAccountsAccountsRequest, ListChildAccountsAccountsResponse, ListChildAccountsAccountsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListChildAccountsAccountsRequest,
   output: ListChildAccountsAccountsResponse,
   errors: [],
@@ -647,7 +647,6 @@ export const listChildAccountsAccounts = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the ad blocking recovery tag of an account. */
 export interface GetAdBlockingRecoveryTagAccountsRequest {
   /** Required. The name of the account to get the tag for. Format: accounts/{account} */
   name: string;
@@ -665,13 +664,13 @@ export const GetAdBlockingRecoveryTagAccountsResponse = AdBlockingRecoveryTag;
 
 export type GetAdBlockingRecoveryTagAccountsError = CommonErrors;
 
+/** Gets the ad blocking recovery tag of an account. */
 export const getAdBlockingRecoveryTagAccounts: API.OperationMethod<GetAdBlockingRecoveryTagAccountsRequest, GetAdBlockingRecoveryTagAccountsResponse, GetAdBlockingRecoveryTagAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAdBlockingRecoveryTagAccountsRequest,
   output: GetAdBlockingRecoveryTagAccountsResponse,
   errors: [],
 }));
 
-/** Lists all the ad clients available in an account. */
 export interface ListAccountsAdclientsRequest {
   /** Required. The account which owns the collection of ad clients. Format: accounts/{account} */
   parent: string;
@@ -695,7 +694,8 @@ export const ListAccountsAdclientsResponse = ListAdClientsResponse;
 
 export type ListAccountsAdclientsError = CommonErrors;
 
-export const listAccountsAdclients = API.makePaginated(() => ({
+/** Lists all the ad clients available in an account. */
+export const listAccountsAdclients: API.PaginatedOperationMethod<ListAccountsAdclientsRequest, ListAccountsAdclientsResponse, ListAccountsAdclientsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsAdclientsRequest,
   output: ListAccountsAdclientsResponse,
   errors: [],
@@ -705,7 +705,6 @@ export const listAccountsAdclients = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the ad client from the given resource name. */
 export interface GetAccountsAdclientsRequest {
   /** Required. The name of the ad client to retrieve. Format: accounts/{account}/adclients/{adclient} */
   name: string;
@@ -723,13 +722,13 @@ export const GetAccountsAdclientsResponse = AdClient;
 
 export type GetAccountsAdclientsError = CommonErrors;
 
+/** Gets the ad client from the given resource name. */
 export const getAccountsAdclients: API.OperationMethod<GetAccountsAdclientsRequest, GetAccountsAdclientsResponse, GetAccountsAdclientsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsAdclientsRequest,
   output: GetAccountsAdclientsResponse,
   errors: [],
 }));
 
-/** Gets the AdSense code for a given ad client. This returns what was previously known as the 'auto ad code'. This is only supported for ad clients with a product_code of AFC. For more information, see [About the AdSense code](https://support.google.com/adsense/answer/9274634). */
 export interface GetAdcodeAccountsAdclientsRequest {
   /** Required. Name of the ad client for which to get the adcode. Format: accounts/{account}/adclients/{adclient} */
   name: string;
@@ -747,13 +746,13 @@ export const GetAdcodeAccountsAdclientsResponse = AdClientAdCode;
 
 export type GetAdcodeAccountsAdclientsError = CommonErrors;
 
+/** Gets the AdSense code for a given ad client. This returns what was previously known as the 'auto ad code'. This is only supported for ad clients with a product_code of AFC. For more information, see [About the AdSense code](https://support.google.com/adsense/answer/9274634). */
 export const getAdcodeAccountsAdclients: API.OperationMethod<GetAdcodeAccountsAdclientsRequest, GetAdcodeAccountsAdclientsResponse, GetAdcodeAccountsAdclientsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAdcodeAccountsAdclientsRequest,
   output: GetAdcodeAccountsAdclientsResponse,
   errors: [],
 }));
 
-/** Gets an ad unit from a specified account and ad client. */
 export interface GetAccountsAdclientsAdunitsRequest {
   /** Required. AdUnit to get information about. Format: accounts/{account}/adclients/{adclient}/adunits/{adunit} */
   name: string;
@@ -771,13 +770,13 @@ export const GetAccountsAdclientsAdunitsResponse = AdUnit;
 
 export type GetAccountsAdclientsAdunitsError = CommonErrors;
 
+/** Gets an ad unit from a specified account and ad client. */
 export const getAccountsAdclientsAdunits: API.OperationMethod<GetAccountsAdclientsAdunitsRequest, GetAccountsAdclientsAdunitsResponse, GetAccountsAdclientsAdunitsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsAdclientsAdunitsRequest,
   output: GetAccountsAdclientsAdunitsResponse,
   errors: [],
 }));
 
-/** Lists all ad units under a specified account and ad client. */
 export interface ListAccountsAdclientsAdunitsRequest {
   /** Required. The ad client which owns the collection of ad units. Format: accounts/{account}/adclients/{adclient} */
   parent: string;
@@ -801,7 +800,8 @@ export const ListAccountsAdclientsAdunitsResponse = ListAdUnitsResponse;
 
 export type ListAccountsAdclientsAdunitsError = CommonErrors;
 
-export const listAccountsAdclientsAdunits = API.makePaginated(() => ({
+/** Lists all ad units under a specified account and ad client. */
+export const listAccountsAdclientsAdunits: API.PaginatedOperationMethod<ListAccountsAdclientsAdunitsRequest, ListAccountsAdclientsAdunitsResponse, ListAccountsAdclientsAdunitsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsAdclientsAdunitsRequest,
   output: ListAccountsAdclientsAdunitsResponse,
   errors: [],
@@ -811,7 +811,6 @@ export const listAccountsAdclientsAdunits = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the ad unit code for a given ad unit. For more information, see [About the AdSense code](https://support.google.com/adsense/answer/9274634) and [Where to place the ad code in your HTML](https://support.google.com/adsense/answer/9190028). */
 export interface GetAdcodeAccountsAdclientsAdunitsRequest {
   /** Required. Name of the adunit for which to get the adcode. Format: accounts/{account}/adclients/{adclient}/adunits/{adunit} */
   name: string;
@@ -829,13 +828,13 @@ export const GetAdcodeAccountsAdclientsAdunitsResponse = AdUnitAdCode;
 
 export type GetAdcodeAccountsAdclientsAdunitsError = CommonErrors;
 
+/** Gets the ad unit code for a given ad unit. For more information, see [About the AdSense code](https://support.google.com/adsense/answer/9274634) and [Where to place the ad code in your HTML](https://support.google.com/adsense/answer/9190028). */
 export const getAdcodeAccountsAdclientsAdunits: API.OperationMethod<GetAdcodeAccountsAdclientsAdunitsRequest, GetAdcodeAccountsAdclientsAdunitsResponse, GetAdcodeAccountsAdclientsAdunitsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAdcodeAccountsAdclientsAdunitsRequest,
   output: GetAdcodeAccountsAdclientsAdunitsResponse,
   errors: [],
 }));
 
-/** Creates an ad unit. This method can be called only by a restricted set of projects, which are usually owned by [AdSense for Platforms](https://developers.google.com/adsense/platforms/) publishers. Contact your account manager if you need to use this method. Note that ad units can only be created for ad clients with an "AFC" product code. For more info see the [AdClient resource](/adsense/management/reference/rest/v2/accounts.adclients). For now, this method can only be used to create `DISPLAY` ad units. See: https://support.google.com/adsense/answer/9183566 */
 export interface CreateAccountsAdclientsAdunitsRequest {
   /** Required. Ad client to create an ad unit under. Format: accounts/{account}/adclients/{adclient} */
   parent: string;
@@ -856,13 +855,13 @@ export const CreateAccountsAdclientsAdunitsResponse = AdUnit;
 
 export type CreateAccountsAdclientsAdunitsError = CommonErrors;
 
+/** Creates an ad unit. This method can be called only by a restricted set of projects, which are usually owned by [AdSense for Platforms](https://developers.google.com/adsense/platforms/) publishers. Contact your account manager if you need to use this method. Note that ad units can only be created for ad clients with an "AFC" product code. For more info see the [AdClient resource](/adsense/management/reference/rest/v2/accounts.adclients). For now, this method can only be used to create `DISPLAY` ad units. See: https://support.google.com/adsense/answer/9183566 */
 export const createAccountsAdclientsAdunits: API.OperationMethod<CreateAccountsAdclientsAdunitsRequest, CreateAccountsAdclientsAdunitsResponse, CreateAccountsAdclientsAdunitsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsAdclientsAdunitsRequest,
   output: CreateAccountsAdclientsAdunitsResponse,
   errors: [],
 }));
 
-/** Updates an ad unit. This method can be called only by a restricted set of projects, which are usually owned by [AdSense for Platforms](https://developers.google.com/adsense/platforms/) publishers. Contact your account manager if you need to use this method. For now, this method can only be used to update `DISPLAY` ad units. See: https://support.google.com/adsense/answer/9183566 */
 export interface PatchAccountsAdclientsAdunitsRequest {
   /** Output only. Resource name of the ad unit. Format: accounts/{account}/adclients/{adclient}/adunits/{adunit} */
   name: string;
@@ -886,13 +885,13 @@ export const PatchAccountsAdclientsAdunitsResponse = AdUnit;
 
 export type PatchAccountsAdclientsAdunitsError = CommonErrors;
 
+/** Updates an ad unit. This method can be called only by a restricted set of projects, which are usually owned by [AdSense for Platforms](https://developers.google.com/adsense/platforms/) publishers. Contact your account manager if you need to use this method. For now, this method can only be used to update `DISPLAY` ad units. See: https://support.google.com/adsense/answer/9183566 */
 export const patchAccountsAdclientsAdunits: API.OperationMethod<PatchAccountsAdclientsAdunitsRequest, PatchAccountsAdclientsAdunitsResponse, PatchAccountsAdclientsAdunitsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAccountsAdclientsAdunitsRequest,
   output: PatchAccountsAdclientsAdunitsResponse,
   errors: [],
 }));
 
-/** Lists all the custom channels available for an ad unit. */
 export interface ListLinkedCustomChannelsAccountsAdclientsAdunitsRequest {
   /** Required. The ad unit which owns the collection of custom channels. Format: accounts/{account}/adclients/{adclient}/adunits/{adunit} */
   parent: string;
@@ -916,7 +915,8 @@ export const ListLinkedCustomChannelsAccountsAdclientsAdunitsResponse = ListLink
 
 export type ListLinkedCustomChannelsAccountsAdclientsAdunitsError = CommonErrors;
 
-export const listLinkedCustomChannelsAccountsAdclientsAdunits = API.makePaginated(() => ({
+/** Lists all the custom channels available for an ad unit. */
+export const listLinkedCustomChannelsAccountsAdclientsAdunits: API.PaginatedOperationMethod<ListLinkedCustomChannelsAccountsAdclientsAdunitsRequest, ListLinkedCustomChannelsAccountsAdclientsAdunitsResponse, ListLinkedCustomChannelsAccountsAdclientsAdunitsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListLinkedCustomChannelsAccountsAdclientsAdunitsRequest,
   output: ListLinkedCustomChannelsAccountsAdclientsAdunitsResponse,
   errors: [],
@@ -926,7 +926,6 @@ export const listLinkedCustomChannelsAccountsAdclientsAdunits = API.makePaginate
   },
 }));
 
-/** Lists all the ad units available for a custom channel. */
 export interface ListLinkedAdUnitsAccountsAdclientsCustomchannelsRequest {
   /** Required. The custom channel which owns the collection of ad units. Format: accounts/{account}/adclients/{adclient}/customchannels/{customchannel} */
   parent: string;
@@ -950,7 +949,8 @@ export const ListLinkedAdUnitsAccountsAdclientsCustomchannelsResponse = ListLink
 
 export type ListLinkedAdUnitsAccountsAdclientsCustomchannelsError = CommonErrors;
 
-export const listLinkedAdUnitsAccountsAdclientsCustomchannels = API.makePaginated(() => ({
+/** Lists all the ad units available for a custom channel. */
+export const listLinkedAdUnitsAccountsAdclientsCustomchannels: API.PaginatedOperationMethod<ListLinkedAdUnitsAccountsAdclientsCustomchannelsRequest, ListLinkedAdUnitsAccountsAdclientsCustomchannelsResponse, ListLinkedAdUnitsAccountsAdclientsCustomchannelsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListLinkedAdUnitsAccountsAdclientsCustomchannelsRequest,
   output: ListLinkedAdUnitsAccountsAdclientsCustomchannelsResponse,
   errors: [],
@@ -960,7 +960,6 @@ export const listLinkedAdUnitsAccountsAdclientsCustomchannels = API.makePaginate
   },
 }));
 
-/** Gets information about the selected custom channel. */
 export interface GetAccountsAdclientsCustomchannelsRequest {
   /** Required. Name of the custom channel. Format: accounts/{account}/adclients/{adclient}/customchannels/{customchannel} */
   name: string;
@@ -978,13 +977,13 @@ export const GetAccountsAdclientsCustomchannelsResponse = CustomChannel;
 
 export type GetAccountsAdclientsCustomchannelsError = CommonErrors;
 
+/** Gets information about the selected custom channel. */
 export const getAccountsAdclientsCustomchannels: API.OperationMethod<GetAccountsAdclientsCustomchannelsRequest, GetAccountsAdclientsCustomchannelsResponse, GetAccountsAdclientsCustomchannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsAdclientsCustomchannelsRequest,
   output: GetAccountsAdclientsCustomchannelsResponse,
   errors: [],
 }));
 
-/** Lists all the custom channels available in an ad client. */
 export interface ListAccountsAdclientsCustomchannelsRequest {
   /** Required. The ad client which owns the collection of custom channels. Format: accounts/{account}/adclients/{adclient} */
   parent: string;
@@ -1008,7 +1007,8 @@ export const ListAccountsAdclientsCustomchannelsResponse = ListCustomChannelsRes
 
 export type ListAccountsAdclientsCustomchannelsError = CommonErrors;
 
-export const listAccountsAdclientsCustomchannels = API.makePaginated(() => ({
+/** Lists all the custom channels available in an ad client. */
+export const listAccountsAdclientsCustomchannels: API.PaginatedOperationMethod<ListAccountsAdclientsCustomchannelsRequest, ListAccountsAdclientsCustomchannelsResponse, ListAccountsAdclientsCustomchannelsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsAdclientsCustomchannelsRequest,
   output: ListAccountsAdclientsCustomchannelsResponse,
   errors: [],
@@ -1018,7 +1018,6 @@ export const listAccountsAdclientsCustomchannels = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a custom channel. This method can be called only by a restricted set of projects, which are usually owned by [AdSense for Platforms](https://developers.google.com/adsense/platforms/) publishers. Contact your account manager if you need to use this method. */
 export interface CreateAccountsAdclientsCustomchannelsRequest {
   /** Required. The ad client to create a custom channel under. Format: accounts/{account}/adclients/{adclient} */
   parent: string;
@@ -1039,13 +1038,13 @@ export const CreateAccountsAdclientsCustomchannelsResponse = CustomChannel;
 
 export type CreateAccountsAdclientsCustomchannelsError = CommonErrors;
 
+/** Creates a custom channel. This method can be called only by a restricted set of projects, which are usually owned by [AdSense for Platforms](https://developers.google.com/adsense/platforms/) publishers. Contact your account manager if you need to use this method. */
 export const createAccountsAdclientsCustomchannels: API.OperationMethod<CreateAccountsAdclientsCustomchannelsRequest, CreateAccountsAdclientsCustomchannelsResponse, CreateAccountsAdclientsCustomchannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsAdclientsCustomchannelsRequest,
   output: CreateAccountsAdclientsCustomchannelsResponse,
   errors: [],
 }));
 
-/** Updates a custom channel. This method can be called only by a restricted set of projects, which are usually owned by [AdSense for Platforms](https://developers.google.com/adsense/platforms/) publishers. Contact your account manager if you need to use this method. */
 export interface PatchAccountsAdclientsCustomchannelsRequest {
   /** Output only. Resource name of the custom channel. Format: accounts/{account}/adclients/{adclient}/customchannels/{customchannel} */
   name: string;
@@ -1069,13 +1068,13 @@ export const PatchAccountsAdclientsCustomchannelsResponse = CustomChannel;
 
 export type PatchAccountsAdclientsCustomchannelsError = CommonErrors;
 
+/** Updates a custom channel. This method can be called only by a restricted set of projects, which are usually owned by [AdSense for Platforms](https://developers.google.com/adsense/platforms/) publishers. Contact your account manager if you need to use this method. */
 export const patchAccountsAdclientsCustomchannels: API.OperationMethod<PatchAccountsAdclientsCustomchannelsRequest, PatchAccountsAdclientsCustomchannelsResponse, PatchAccountsAdclientsCustomchannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAccountsAdclientsCustomchannelsRequest,
   output: PatchAccountsAdclientsCustomchannelsResponse,
   errors: [],
 }));
 
-/** Deletes a custom channel. This method can be called only by a restricted set of projects, which are usually owned by [AdSense for Platforms](https://developers.google.com/adsense/platforms/) publishers. Contact your account manager if you need to use this method. */
 export interface DeleteAccountsAdclientsCustomchannelsRequest {
   /** Required. Name of the custom channel to delete. Format: accounts/{account}/adclients/{adclient}/customchannels/{customchannel} */
   name: string;
@@ -1093,13 +1092,13 @@ export const DeleteAccountsAdclientsCustomchannelsResponse = Empty;
 
 export type DeleteAccountsAdclientsCustomchannelsError = CommonErrors;
 
+/** Deletes a custom channel. This method can be called only by a restricted set of projects, which are usually owned by [AdSense for Platforms](https://developers.google.com/adsense/platforms/) publishers. Contact your account manager if you need to use this method. */
 export const deleteAccountsAdclientsCustomchannels: API.OperationMethod<DeleteAccountsAdclientsCustomchannelsRequest, DeleteAccountsAdclientsCustomchannelsResponse, DeleteAccountsAdclientsCustomchannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountsAdclientsCustomchannelsRequest,
   output: DeleteAccountsAdclientsCustomchannelsResponse,
   errors: [],
 }));
 
-/** Gets information about the selected url channel. */
 export interface GetAccountsAdclientsUrlchannelsRequest {
   /** Required. The name of the url channel to retrieve. Format: accounts/{account}/adclients/{adclient}/urlchannels/{urlchannel} */
   name: string;
@@ -1117,13 +1116,13 @@ export const GetAccountsAdclientsUrlchannelsResponse = UrlChannel;
 
 export type GetAccountsAdclientsUrlchannelsError = CommonErrors;
 
+/** Gets information about the selected url channel. */
 export const getAccountsAdclientsUrlchannels: API.OperationMethod<GetAccountsAdclientsUrlchannelsRequest, GetAccountsAdclientsUrlchannelsResponse, GetAccountsAdclientsUrlchannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsAdclientsUrlchannelsRequest,
   output: GetAccountsAdclientsUrlchannelsResponse,
   errors: [],
 }));
 
-/** Lists active url channels. */
 export interface ListAccountsAdclientsUrlchannelsRequest {
   /** Required. The ad client which owns the collection of url channels. Format: accounts/{account}/adclients/{adclient} */
   parent: string;
@@ -1147,7 +1146,8 @@ export const ListAccountsAdclientsUrlchannelsResponse = ListUrlChannelsResponse;
 
 export type ListAccountsAdclientsUrlchannelsError = CommonErrors;
 
-export const listAccountsAdclientsUrlchannels = API.makePaginated(() => ({
+/** Lists active url channels. */
+export const listAccountsAdclientsUrlchannels: API.PaginatedOperationMethod<ListAccountsAdclientsUrlchannelsRequest, ListAccountsAdclientsUrlchannelsResponse, ListAccountsAdclientsUrlchannelsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsAdclientsUrlchannelsRequest,
   output: ListAccountsAdclientsUrlchannelsResponse,
   errors: [],
@@ -1157,7 +1157,6 @@ export const listAccountsAdclientsUrlchannels = API.makePaginated(() => ({
   },
 }));
 
-/** Lists all the alerts available in an account. */
 export interface ListAccountsAlertsRequest {
   /** Required. The account which owns the collection of alerts. Format: accounts/{account} */
   parent: string;
@@ -1178,13 +1177,13 @@ export const ListAccountsAlertsResponse = ListAlertsResponse;
 
 export type ListAccountsAlertsError = CommonErrors;
 
+/** Lists all the alerts available in an account. */
 export const listAccountsAlerts: API.OperationMethod<ListAccountsAlertsRequest, ListAccountsAlertsResponse, ListAccountsAlertsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListAccountsAlertsRequest,
   output: ListAccountsAlertsResponse,
   errors: [],
 }));
 
-/** Lists all the payments available for an account. */
 export interface ListAccountsPaymentsRequest {
   /** Required. The account which owns the collection of payments. Format: accounts/{account} */
   parent: string;
@@ -1202,13 +1201,13 @@ export const ListAccountsPaymentsResponse = ListPaymentsResponse;
 
 export type ListAccountsPaymentsError = CommonErrors;
 
+/** Lists all the payments available for an account. */
 export const listAccountsPayments: API.OperationMethod<ListAccountsPaymentsRequest, ListAccountsPaymentsResponse, ListAccountsPaymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListAccountsPaymentsRequest,
   output: ListAccountsPaymentsResponse,
   errors: [],
 }));
 
-/** Gets information about the selected policy issue. */
 export interface GetAccountsPolicyIssuesRequest {
   /** Required. Name of the policy issue. Format: accounts/{account}/policyIssues/{policy_issue} */
   name: string;
@@ -1226,13 +1225,13 @@ export const GetAccountsPolicyIssuesResponse = PolicyIssue;
 
 export type GetAccountsPolicyIssuesError = CommonErrors;
 
+/** Gets information about the selected policy issue. */
 export const getAccountsPolicyIssues: API.OperationMethod<GetAccountsPolicyIssuesRequest, GetAccountsPolicyIssuesResponse, GetAccountsPolicyIssuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsPolicyIssuesRequest,
   output: GetAccountsPolicyIssuesResponse,
   errors: [],
 }));
 
-/** Lists all the policy issues where the specified account is involved, both directly and through any AFP child accounts. */
 export interface ListAccountsPolicyIssuesRequest {
   /** Required. The account for which policy issues are being retrieved. Format: accounts/{account} */
   parent: string;
@@ -1256,7 +1255,8 @@ export const ListAccountsPolicyIssuesResponse = ListPolicyIssuesResponse;
 
 export type ListAccountsPolicyIssuesError = CommonErrors;
 
-export const listAccountsPolicyIssues = API.makePaginated(() => ({
+/** Lists all the policy issues where the specified account is involved, both directly and through any AFP child accounts. */
+export const listAccountsPolicyIssues: API.PaginatedOperationMethod<ListAccountsPolicyIssuesRequest, ListAccountsPolicyIssuesResponse, ListAccountsPolicyIssuesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsPolicyIssuesRequest,
   output: ListAccountsPolicyIssuesResponse,
   errors: [],
@@ -1266,7 +1266,6 @@ export const listAccountsPolicyIssues = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the saved report from the given resource name. */
 export interface GetSavedAccountsReportsRequest {
   /** Required. The name of the saved report to retrieve. Format: accounts/{account}/reports/{report} */
   name: string;
@@ -1284,13 +1283,13 @@ export const GetSavedAccountsReportsResponse = SavedReport;
 
 export type GetSavedAccountsReportsError = CommonErrors;
 
+/** Gets the saved report from the given resource name. */
 export const getSavedAccountsReports: API.OperationMethod<GetSavedAccountsReportsRequest, GetSavedAccountsReportsResponse, GetSavedAccountsReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSavedAccountsReportsRequest,
   output: GetSavedAccountsReportsResponse,
   errors: [],
 }));
 
-/** Generates an ad hoc report. */
 export interface GenerateAccountsReportsRequest {
   /** Required. The account which owns the collection of reports. Format: accounts/{account} */
   account: string;
@@ -1353,13 +1352,13 @@ export const GenerateAccountsReportsResponse = ReportResult;
 
 export type GenerateAccountsReportsError = CommonErrors;
 
+/** Generates an ad hoc report. */
 export const generateAccountsReports: API.OperationMethod<GenerateAccountsReportsRequest, GenerateAccountsReportsResponse, GenerateAccountsReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateAccountsReportsRequest,
   output: GenerateAccountsReportsResponse,
   errors: [],
 }));
 
-/** Generates a csv formatted ad hoc report. */
 export interface GenerateCsvAccountsReportsRequest {
   /** Required. The account which owns the collection of reports. Format: accounts/{account} */
   account: string;
@@ -1422,13 +1421,13 @@ export const GenerateCsvAccountsReportsResponse = HttpBody;
 
 export type GenerateCsvAccountsReportsError = CommonErrors;
 
+/** Generates a csv formatted ad hoc report. */
 export const generateCsvAccountsReports: API.OperationMethod<GenerateCsvAccountsReportsRequest, GenerateCsvAccountsReportsResponse, GenerateCsvAccountsReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateCsvAccountsReportsRequest,
   output: GenerateCsvAccountsReportsResponse,
   errors: [],
 }));
 
-/** Generates a saved report. */
 export interface GenerateAccountsReportsSavedRequest {
   /** Required. Name of the saved report. Format: accounts/{account}/reports/{report} */
   name: string;
@@ -1476,13 +1475,13 @@ export const GenerateAccountsReportsSavedResponse = ReportResult;
 
 export type GenerateAccountsReportsSavedError = CommonErrors;
 
+/** Generates a saved report. */
 export const generateAccountsReportsSaved: API.OperationMethod<GenerateAccountsReportsSavedRequest, GenerateAccountsReportsSavedResponse, GenerateAccountsReportsSavedError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateAccountsReportsSavedRequest,
   output: GenerateAccountsReportsSavedResponse,
   errors: [],
 }));
 
-/** Generates a csv formatted saved report. */
 export interface GenerateCsvAccountsReportsSavedRequest {
   /** Required. Name of the saved report. Format: accounts/{account}/reports/{report} */
   name: string;
@@ -1530,13 +1529,13 @@ export const GenerateCsvAccountsReportsSavedResponse = HttpBody;
 
 export type GenerateCsvAccountsReportsSavedError = CommonErrors;
 
+/** Generates a csv formatted saved report. */
 export const generateCsvAccountsReportsSaved: API.OperationMethod<GenerateCsvAccountsReportsSavedRequest, GenerateCsvAccountsReportsSavedResponse, GenerateCsvAccountsReportsSavedError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateCsvAccountsReportsSavedRequest,
   output: GenerateCsvAccountsReportsSavedResponse,
   errors: [],
 }));
 
-/** Lists saved reports. */
 export interface ListAccountsReportsSavedRequest {
   /** Required. The account which owns the collection of reports. Format: accounts/{account} */
   parent: string;
@@ -1560,7 +1559,8 @@ export const ListAccountsReportsSavedResponse = ListSavedReportsResponse;
 
 export type ListAccountsReportsSavedError = CommonErrors;
 
-export const listAccountsReportsSaved = API.makePaginated(() => ({
+/** Lists saved reports. */
+export const listAccountsReportsSaved: API.PaginatedOperationMethod<ListAccountsReportsSavedRequest, ListAccountsReportsSavedResponse, ListAccountsReportsSavedError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsReportsSavedRequest,
   output: ListAccountsReportsSavedResponse,
   errors: [],
@@ -1570,7 +1570,6 @@ export const listAccountsReportsSaved = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about the selected site. */
 export interface GetAccountsSitesRequest {
   /** Required. Name of the site. Format: accounts/{account}/sites/{site} */
   name: string;
@@ -1588,13 +1587,13 @@ export const GetAccountsSitesResponse = Site;
 
 export type GetAccountsSitesError = CommonErrors;
 
+/** Gets information about the selected site. */
 export const getAccountsSites: API.OperationMethod<GetAccountsSitesRequest, GetAccountsSitesResponse, GetAccountsSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsSitesRequest,
   output: GetAccountsSitesResponse,
   errors: [],
 }));
 
-/** Lists all the sites available in an account. */
 export interface ListAccountsSitesRequest {
   /** Required. The account which owns the collection of sites. Format: accounts/{account} */
   parent: string;
@@ -1618,7 +1617,8 @@ export const ListAccountsSitesResponse = ListSitesResponse;
 
 export type ListAccountsSitesError = CommonErrors;
 
-export const listAccountsSites = API.makePaginated(() => ({
+/** Lists all the sites available in an account. */
+export const listAccountsSites: API.PaginatedOperationMethod<ListAccountsSitesRequest, ListAccountsSitesResponse, ListAccountsSitesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsSitesRequest,
   output: ListAccountsSitesResponse,
   errors: [],

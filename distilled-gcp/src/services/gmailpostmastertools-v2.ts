@@ -348,7 +348,6 @@ export const DomainComplianceStatus: Schema.Schema<DomainComplianceStatus> = Sch
 // Operations
 // ==========================================================================
 
-/** Retrieves detailed information about a domain registered by you. Returns NOT_FOUND if the domain is not registered by you. Domain represents the metadata of a domain that has been registered within the system and linked to a user. */
 export interface GetDomainsRequest {
   /** Required. The resource name of the domain. Format: `domains/{domain_name}`, where domain_name is the fully qualified domain name (i.e., mymail.mydomain.com). */
   name: string;
@@ -366,13 +365,13 @@ export const GetDomainsResponse = Domain;
 
 export type GetDomainsError = CommonErrors;
 
+/** Retrieves detailed information about a domain registered by you. Returns NOT_FOUND if the domain is not registered by you. Domain represents the metadata of a domain that has been registered within the system and linked to a user. */
 export const getDomains: API.OperationMethod<GetDomainsRequest, GetDomainsResponse, GetDomainsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDomainsRequest,
   output: GetDomainsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of all domains registered by you, along with their corresponding metadata. The order of domains in the response is unspecified and non-deterministic. Newly registered domains will not necessarily be added to the end of this list. */
 export interface ListDomainsRequest {
   /** Optional. Requested page size. Server may return fewer domains than requested. If unspecified, the default value for this field is 10. The maximum value for this field is 200. */
   pageSize?: number;
@@ -393,7 +392,8 @@ export const ListDomainsResponse_Op = ListDomainsResponse;
 
 export type ListDomainsError = CommonErrors;
 
-export const listDomains = API.makePaginated(() => ({
+/** Retrieves a list of all domains registered by you, along with their corresponding metadata. The order of domains in the response is unspecified and non-deterministic. Newly registered domains will not necessarily be added to the end of this list. */
+export const listDomains: API.PaginatedOperationMethod<ListDomainsRequest, ListDomainsResponse_Op, ListDomainsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListDomainsRequest,
   output: ListDomainsResponse_Op,
   errors: [],
@@ -403,7 +403,6 @@ export const listDomains = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves the compliance status for a given domain. Returns PERMISSION_DENIED if you don't have permission to access compliance status for the domain. */
 export interface GetComplianceStatusDomainsRequest {
   /** Required. The resource name of the domain's compliance status to retrieve. Format: `domains/{domain_id}/complianceStatus`. */
   name: string;
@@ -421,13 +420,13 @@ export const GetComplianceStatusDomainsResponse = DomainComplianceStatus;
 
 export type GetComplianceStatusDomainsError = CommonErrors;
 
+/** Retrieves the compliance status for a given domain. Returns PERMISSION_DENIED if you don't have permission to access compliance status for the domain. */
 export const getComplianceStatusDomains: API.OperationMethod<GetComplianceStatusDomainsRequest, GetComplianceStatusDomainsResponse, GetComplianceStatusDomainsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetComplianceStatusDomainsRequest,
   output: GetComplianceStatusDomainsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of domain statistics for a given domain and time period. Returns statistics only for dates where data is available. Returns PERMISSION_DENIED if you don't have permission to access DomainStats for the domain. */
 export interface QueryDomainsDomainStatsRequest {
   /** Required. The parent resource name where the stats are queried. Format: domains/{domain} */
   parent: string;
@@ -448,13 +447,13 @@ export const QueryDomainsDomainStatsResponse = QueryDomainStatsResponse;
 
 export type QueryDomainsDomainStatsError = CommonErrors;
 
+/** Retrieves a list of domain statistics for a given domain and time period. Returns statistics only for dates where data is available. Returns PERMISSION_DENIED if you don't have permission to access DomainStats for the domain. */
 export const queryDomainsDomainStats: API.OperationMethod<QueryDomainsDomainStatsRequest, QueryDomainsDomainStatsResponse, QueryDomainsDomainStatsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: QueryDomainsDomainStatsRequest,
   output: QueryDomainsDomainStatsResponse,
   errors: [],
 }));
 
-/** Executes a batch of QueryDomainStats requests for multiple domains. Returns PERMISSION_DENIED if you don't have permission to access DomainStats for any of the requested domains. */
 export interface BatchQueryDomainStatsRequest_Op {
   /** Request body */
   body?: BatchQueryDomainStatsRequest;
@@ -472,6 +471,7 @@ export const BatchQueryDomainStatsResponse_Op = BatchQueryDomainStatsResponse;
 
 export type BatchQueryDomainStatsError = CommonErrors;
 
+/** Executes a batch of QueryDomainStats requests for multiple domains. Returns PERMISSION_DENIED if you don't have permission to access DomainStats for any of the requested domains. */
 export const batchQueryDomainStats: API.OperationMethod<BatchQueryDomainStatsRequest_Op, BatchQueryDomainStatsResponse_Op, BatchQueryDomainStatsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchQueryDomainStatsRequest_Op,
   output: BatchQueryDomainStatsResponse_Op,

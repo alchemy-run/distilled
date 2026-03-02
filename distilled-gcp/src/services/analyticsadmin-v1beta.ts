@@ -1053,7 +1053,6 @@ export const GoogleAnalyticsAdminV1betaRunAccessReportResponse: Schema.Schema<Go
 // Operations
 // ==========================================================================
 
-/** Lookup for a single Account. */
 export interface GetAccountsRequest {
   /** Required. The name of the account to lookup. Format: accounts/{account} Example: "accounts/100" */
   name: string;
@@ -1071,13 +1070,13 @@ export const GetAccountsResponse = GoogleAnalyticsAdminV1betaAccount;
 
 export type GetAccountsError = CommonErrors;
 
+/** Lookup for a single Account. */
 export const getAccounts: API.OperationMethod<GetAccountsRequest, GetAccountsResponse, GetAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsRequest,
   output: GetAccountsResponse,
   errors: [],
 }));
 
-/** Returns all accounts accessible by the caller. Note that these accounts might not currently have GA properties. Soft-deleted (ie: "trashed") accounts are excluded by default. Returns an empty list if no relevant accounts are found. */
 export interface ListAccountsRequest {
   /** The maximum number of resources to return. The service may return fewer than this value, even if there are additional pages. If unspecified, at most 50 resources will be returned. The maximum value is 200; (higher values will be coerced to the maximum) */
   pageSize?: number;
@@ -1101,7 +1100,8 @@ export const ListAccountsResponse = GoogleAnalyticsAdminV1betaListAccountsRespon
 
 export type ListAccountsError = CommonErrors;
 
-export const listAccounts = API.makePaginated(() => ({
+/** Returns all accounts accessible by the caller. Note that these accounts might not currently have GA properties. Soft-deleted (ie: "trashed") accounts are excluded by default. Returns an empty list if no relevant accounts are found. */
+export const listAccounts: API.PaginatedOperationMethod<ListAccountsRequest, ListAccountsResponse, ListAccountsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsRequest,
   output: ListAccountsResponse,
   errors: [],
@@ -1111,7 +1111,6 @@ export const listAccounts = API.makePaginated(() => ({
   },
 }));
 
-/** Marks target Account as soft-deleted (ie: "trashed") and returns it. This API does not have a method to restore soft-deleted accounts. However, they can be restored using the Trash Can UI. If the accounts are not restored before the expiration time, the account and all child resources (eg: Properties, GoogleAdsLinks, Streams, AccessBindings) will be permanently purged. https://support.google.com/analytics/answer/6154772 Returns an error if the target is not found. */
 export interface DeleteAccountsRequest {
   /** Required. The name of the Account to soft-delete. Format: accounts/{account} Example: "accounts/100" */
   name: string;
@@ -1129,13 +1128,13 @@ export const DeleteAccountsResponse = GoogleProtobufEmpty;
 
 export type DeleteAccountsError = CommonErrors;
 
+/** Marks target Account as soft-deleted (ie: "trashed") and returns it. This API does not have a method to restore soft-deleted accounts. However, they can be restored using the Trash Can UI. If the accounts are not restored before the expiration time, the account and all child resources (eg: Properties, GoogleAdsLinks, Streams, AccessBindings) will be permanently purged. https://support.google.com/analytics/answer/6154772 Returns an error if the target is not found. */
 export const deleteAccounts: API.OperationMethod<DeleteAccountsRequest, DeleteAccountsResponse, DeleteAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountsRequest,
   output: DeleteAccountsResponse,
   errors: [],
 }));
 
-/** Updates an account. */
 export interface PatchAccountsRequest {
   /** Output only. Resource name of this account. Format: accounts/{account} Example: "accounts/100" */
   name: string;
@@ -1159,13 +1158,13 @@ export const PatchAccountsResponse = GoogleAnalyticsAdminV1betaAccount;
 
 export type PatchAccountsError = CommonErrors;
 
+/** Updates an account. */
 export const patchAccounts: API.OperationMethod<PatchAccountsRequest, PatchAccountsResponse, PatchAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAccountsRequest,
   output: PatchAccountsResponse,
   errors: [],
 }));
 
-/** Requests a ticket for creating an account. */
 export interface ProvisionAccountTicketAccountsRequest {
   /** Request body */
   body?: GoogleAnalyticsAdminV1betaProvisionAccountTicketRequest;
@@ -1183,13 +1182,13 @@ export const ProvisionAccountTicketAccountsResponse = GoogleAnalyticsAdminV1beta
 
 export type ProvisionAccountTicketAccountsError = CommonErrors;
 
+/** Requests a ticket for creating an account. */
 export const provisionAccountTicketAccounts: API.OperationMethod<ProvisionAccountTicketAccountsRequest, ProvisionAccountTicketAccountsResponse, ProvisionAccountTicketAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ProvisionAccountTicketAccountsRequest,
   output: ProvisionAccountTicketAccountsResponse,
   errors: [],
 }));
 
-/** Get data sharing settings on an account. Data sharing settings are singletons. */
 export interface GetDataSharingSettingsAccountsRequest {
   /** Required. The name of the settings to lookup. Format: accounts/{account}/dataSharingSettings Example: `accounts/1000/dataSharingSettings` */
   name: string;
@@ -1207,13 +1206,13 @@ export const GetDataSharingSettingsAccountsResponse = GoogleAnalyticsAdminV1beta
 
 export type GetDataSharingSettingsAccountsError = CommonErrors;
 
+/** Get data sharing settings on an account. Data sharing settings are singletons. */
 export const getDataSharingSettingsAccounts: API.OperationMethod<GetDataSharingSettingsAccountsRequest, GetDataSharingSettingsAccountsResponse, GetDataSharingSettingsAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDataSharingSettingsAccountsRequest,
   output: GetDataSharingSettingsAccountsResponse,
   errors: [],
 }));
 
-/** Searches through all changes to an account or its children given the specified set of filters. Only returns the subset of changes supported by the API. The UI may return additional changes. */
 export interface SearchChangeHistoryEventsAccountsRequest {
   /** Required. The account resource for which to return change history resources. Format: accounts/{account} Example: `accounts/100` */
   account: string;
@@ -1234,13 +1233,13 @@ export const SearchChangeHistoryEventsAccountsResponse = GoogleAnalyticsAdminV1b
 
 export type SearchChangeHistoryEventsAccountsError = CommonErrors;
 
+/** Searches through all changes to an account or its children given the specified set of filters. Only returns the subset of changes supported by the API. The UI may return additional changes. */
 export const searchChangeHistoryEventsAccounts: API.OperationMethod<SearchChangeHistoryEventsAccountsRequest, SearchChangeHistoryEventsAccountsResponse, SearchChangeHistoryEventsAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchChangeHistoryEventsAccountsRequest,
   output: SearchChangeHistoryEventsAccountsResponse,
   errors: [],
 }));
 
-/** Returns a customized report of data access records. The report provides records of each time a user reads Google Analytics reporting data. Access records are retained for up to 2 years. Data Access Reports can be requested for a property. Reports may be requested for any property, but dimensions that aren't related to quota can only be requested on Google Analytics 360 properties. This method is only available to Administrators. These data access records include GA UI Reporting, GA UI Explorations, GA Data API, and other products like Firebase & Admob that can retrieve data from Google Analytics through a linkage. These records don't include property configuration changes like adding a stream or changing a property's time zone. For configuration change history, see [searchChangeHistoryEvents](https://developers.google.com/analytics/devguides/config/admin/v1/rest/v1alpha/accounts/searchChangeHistoryEvents). To give your feedback on this API, complete the [Google Analytics Access Reports feedback](https://docs.google.com/forms/d/e/1FAIpQLSdmEBUrMzAEdiEKk5TV5dEHvDUZDRlgWYdQdAeSdtR4hVjEhw/viewform) form. */
 export interface RunAccessReportAccountsRequest {
   /** The Data Access Report supports requesting at the property level or account level. If requested at the account level, Data Access Reports include all access for all properties under that account. To request at the property level, entity should be for example 'properties/123' if "123" is your Google Analytics property ID. To request at the account level, entity should be for example 'accounts/1234' if "1234" is your Google Analytics Account ID. */
   entity: string;
@@ -1261,13 +1260,13 @@ export const RunAccessReportAccountsResponse = GoogleAnalyticsAdminV1betaRunAcce
 
 export type RunAccessReportAccountsError = CommonErrors;
 
+/** Returns a customized report of data access records. The report provides records of each time a user reads Google Analytics reporting data. Access records are retained for up to 2 years. Data Access Reports can be requested for a property. Reports may be requested for any property, but dimensions that aren't related to quota can only be requested on Google Analytics 360 properties. This method is only available to Administrators. These data access records include GA UI Reporting, GA UI Explorations, GA Data API, and other products like Firebase & Admob that can retrieve data from Google Analytics through a linkage. These records don't include property configuration changes like adding a stream or changing a property's time zone. For configuration change history, see [searchChangeHistoryEvents](https://developers.google.com/analytics/devguides/config/admin/v1/rest/v1alpha/accounts/searchChangeHistoryEvents). To give your feedback on this API, complete the [Google Analytics Access Reports feedback](https://docs.google.com/forms/d/e/1FAIpQLSdmEBUrMzAEdiEKk5TV5dEHvDUZDRlgWYdQdAeSdtR4hVjEhw/viewform) form. */
 export const runAccessReportAccounts: API.OperationMethod<RunAccessReportAccountsRequest, RunAccessReportAccountsResponse, RunAccessReportAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RunAccessReportAccountsRequest,
   output: RunAccessReportAccountsResponse,
   errors: [],
 }));
 
-/** Returns summaries of all accounts accessible by the caller. */
 export interface ListAccountSummariesRequest {
   /** The maximum number of AccountSummary resources to return. The service may return fewer than this value, even if there are additional pages. If unspecified, at most 50 resources will be returned. The maximum value is 200; (higher values will be coerced to the maximum) */
   pageSize?: number;
@@ -1288,7 +1287,8 @@ export const ListAccountSummariesResponse = GoogleAnalyticsAdminV1betaListAccoun
 
 export type ListAccountSummariesError = CommonErrors;
 
-export const listAccountSummaries = API.makePaginated(() => ({
+/** Returns summaries of all accounts accessible by the caller. */
+export const listAccountSummaries: API.PaginatedOperationMethod<ListAccountSummariesRequest, ListAccountSummariesResponse, ListAccountSummariesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountSummariesRequest,
   output: ListAccountSummariesResponse,
   errors: [],
@@ -1298,7 +1298,6 @@ export const listAccountSummaries = API.makePaginated(() => ({
   },
 }));
 
-/** Lookup for a single GA Property. */
 export interface GetPropertiesRequest {
   /** Required. The name of the property to lookup. Format: properties/{property_id} Example: "properties/1000" */
   name: string;
@@ -1316,13 +1315,13 @@ export const GetPropertiesResponse = GoogleAnalyticsAdminV1betaProperty;
 
 export type GetPropertiesError = CommonErrors;
 
+/** Lookup for a single GA Property. */
 export const getProperties: API.OperationMethod<GetPropertiesRequest, GetPropertiesResponse, GetPropertiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPropertiesRequest,
   output: GetPropertiesResponse,
   errors: [],
 }));
 
-/** Returns child Properties under the specified parent Account. Properties will be excluded if the caller does not have access. Soft-deleted (ie: "trashed") properties are excluded by default. Returns an empty list if no relevant properties are found. */
 export interface ListPropertiesRequest {
   /** Required. An expression for filtering the results of the request. Fields eligible for filtering are: `parent:`(The resource name of the parent account/property) or `ancestor:`(The resource name of the parent account) or `firebase_project:`(The id or number of the linked firebase project). Some examples of filters: ``` | Filter | Description | |-----------------------------|-------------------------------------------| | parent:accounts/123 | The account with account id: 123. | | parent:properties/123 | The property with property id: 123. | | ancestor:accounts/123 | The account with account id: 123. | | firebase_project:project-id | The firebase project with id: project-id. | | firebase_project:123 | The firebase project with number: 123. | ``` */
   filter?: string;
@@ -1349,7 +1348,8 @@ export const ListPropertiesResponse = GoogleAnalyticsAdminV1betaListPropertiesRe
 
 export type ListPropertiesError = CommonErrors;
 
-export const listProperties = API.makePaginated(() => ({
+/** Returns child Properties under the specified parent Account. Properties will be excluded if the caller does not have access. Soft-deleted (ie: "trashed") properties are excluded by default. Returns an empty list if no relevant properties are found. */
+export const listProperties: API.PaginatedOperationMethod<ListPropertiesRequest, ListPropertiesResponse, ListPropertiesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPropertiesRequest,
   output: ListPropertiesResponse,
   errors: [],
@@ -1359,7 +1359,6 @@ export const listProperties = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a Google Analytics property with the specified location and attributes. */
 export interface CreatePropertiesRequest {
   /** Request body */
   body?: GoogleAnalyticsAdminV1betaProperty;
@@ -1377,13 +1376,13 @@ export const CreatePropertiesResponse = GoogleAnalyticsAdminV1betaProperty;
 
 export type CreatePropertiesError = CommonErrors;
 
+/** Creates a Google Analytics property with the specified location and attributes. */
 export const createProperties: API.OperationMethod<CreatePropertiesRequest, CreatePropertiesResponse, CreatePropertiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreatePropertiesRequest,
   output: CreatePropertiesResponse,
   errors: [],
 }));
 
-/** Marks target Property as soft-deleted (ie: "trashed") and returns it. This API does not have a method to restore soft-deleted properties. However, they can be restored using the Trash Can UI. If the properties are not restored before the expiration time, the Property and all child resources (eg: GoogleAdsLinks, Streams, AccessBindings) will be permanently purged. https://support.google.com/analytics/answer/6154772 Returns an error if the target is not found. */
 export interface DeletePropertiesRequest {
   /** Required. The name of the Property to soft-delete. Format: properties/{property_id} Example: "properties/1000" */
   name: string;
@@ -1401,13 +1400,13 @@ export const DeletePropertiesResponse = GoogleAnalyticsAdminV1betaProperty;
 
 export type DeletePropertiesError = CommonErrors;
 
+/** Marks target Property as soft-deleted (ie: "trashed") and returns it. This API does not have a method to restore soft-deleted properties. However, they can be restored using the Trash Can UI. If the properties are not restored before the expiration time, the Property and all child resources (eg: GoogleAdsLinks, Streams, AccessBindings) will be permanently purged. https://support.google.com/analytics/answer/6154772 Returns an error if the target is not found. */
 export const deleteProperties: API.OperationMethod<DeletePropertiesRequest, DeletePropertiesResponse, DeletePropertiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeletePropertiesRequest,
   output: DeletePropertiesResponse,
   errors: [],
 }));
 
-/** Updates a property. */
 export interface PatchPropertiesRequest {
   /** Output only. Resource name of this property. Format: properties/{property_id} Example: "properties/1000" */
   name: string;
@@ -1431,13 +1430,13 @@ export const PatchPropertiesResponse = GoogleAnalyticsAdminV1betaProperty;
 
 export type PatchPropertiesError = CommonErrors;
 
+/** Updates a property. */
 export const patchProperties: API.OperationMethod<PatchPropertiesRequest, PatchPropertiesResponse, PatchPropertiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchPropertiesRequest,
   output: PatchPropertiesResponse,
   errors: [],
 }));
 
-/** Acknowledges the terms of user data collection for the specified property. This acknowledgement must be completed (either in the Google Analytics UI or through this API) before MeasurementProtocolSecret resources may be created. */
 export interface AcknowledgeUserDataCollectionPropertiesRequest {
   /** Required. The property for which to acknowledge user data collection. */
   property: string;
@@ -1458,13 +1457,13 @@ export const AcknowledgeUserDataCollectionPropertiesResponse = GoogleAnalyticsAd
 
 export type AcknowledgeUserDataCollectionPropertiesError = CommonErrors;
 
+/** Acknowledges the terms of user data collection for the specified property. This acknowledgement must be completed (either in the Google Analytics UI or through this API) before MeasurementProtocolSecret resources may be created. */
 export const acknowledgeUserDataCollectionProperties: API.OperationMethod<AcknowledgeUserDataCollectionPropertiesRequest, AcknowledgeUserDataCollectionPropertiesResponse, AcknowledgeUserDataCollectionPropertiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AcknowledgeUserDataCollectionPropertiesRequest,
   output: AcknowledgeUserDataCollectionPropertiesResponse,
   errors: [],
 }));
 
-/** Returns the singleton data retention settings for this property. */
 export interface GetDataRetentionSettingsPropertiesRequest {
   /** Required. The name of the settings to lookup. Format: properties/{property}/dataRetentionSettings Example: "properties/1000/dataRetentionSettings" */
   name: string;
@@ -1482,13 +1481,13 @@ export const GetDataRetentionSettingsPropertiesResponse = GoogleAnalyticsAdminV1
 
 export type GetDataRetentionSettingsPropertiesError = CommonErrors;
 
+/** Returns the singleton data retention settings for this property. */
 export const getDataRetentionSettingsProperties: API.OperationMethod<GetDataRetentionSettingsPropertiesRequest, GetDataRetentionSettingsPropertiesResponse, GetDataRetentionSettingsPropertiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDataRetentionSettingsPropertiesRequest,
   output: GetDataRetentionSettingsPropertiesResponse,
   errors: [],
 }));
 
-/** Updates the singleton data retention settings for this property. */
 export interface UpdateDataRetentionSettingsPropertiesRequest {
   /** Output only. Resource name for this DataRetentionSetting resource. Format: properties/{property}/dataRetentionSettings */
   name: string;
@@ -1512,13 +1511,13 @@ export const UpdateDataRetentionSettingsPropertiesResponse = GoogleAnalyticsAdmi
 
 export type UpdateDataRetentionSettingsPropertiesError = CommonErrors;
 
+/** Updates the singleton data retention settings for this property. */
 export const updateDataRetentionSettingsProperties: API.OperationMethod<UpdateDataRetentionSettingsPropertiesRequest, UpdateDataRetentionSettingsPropertiesResponse, UpdateDataRetentionSettingsPropertiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateDataRetentionSettingsPropertiesRequest,
   output: UpdateDataRetentionSettingsPropertiesResponse,
   errors: [],
 }));
 
-/** Returns a customized report of data access records. The report provides records of each time a user reads Google Analytics reporting data. Access records are retained for up to 2 years. Data Access Reports can be requested for a property. Reports may be requested for any property, but dimensions that aren't related to quota can only be requested on Google Analytics 360 properties. This method is only available to Administrators. These data access records include GA UI Reporting, GA UI Explorations, GA Data API, and other products like Firebase & Admob that can retrieve data from Google Analytics through a linkage. These records don't include property configuration changes like adding a stream or changing a property's time zone. For configuration change history, see [searchChangeHistoryEvents](https://developers.google.com/analytics/devguides/config/admin/v1/rest/v1alpha/accounts/searchChangeHistoryEvents). To give your feedback on this API, complete the [Google Analytics Access Reports feedback](https://docs.google.com/forms/d/e/1FAIpQLSdmEBUrMzAEdiEKk5TV5dEHvDUZDRlgWYdQdAeSdtR4hVjEhw/viewform) form. */
 export interface RunAccessReportPropertiesRequest {
   /** The Data Access Report supports requesting at the property level or account level. If requested at the account level, Data Access Reports include all access for all properties under that account. To request at the property level, entity should be for example 'properties/123' if "123" is your Google Analytics property ID. To request at the account level, entity should be for example 'accounts/1234' if "1234" is your Google Analytics Account ID. */
   entity: string;
@@ -1539,13 +1538,13 @@ export const RunAccessReportPropertiesResponse = GoogleAnalyticsAdminV1betaRunAc
 
 export type RunAccessReportPropertiesError = CommonErrors;
 
+/** Returns a customized report of data access records. The report provides records of each time a user reads Google Analytics reporting data. Access records are retained for up to 2 years. Data Access Reports can be requested for a property. Reports may be requested for any property, but dimensions that aren't related to quota can only be requested on Google Analytics 360 properties. This method is only available to Administrators. These data access records include GA UI Reporting, GA UI Explorations, GA Data API, and other products like Firebase & Admob that can retrieve data from Google Analytics through a linkage. These records don't include property configuration changes like adding a stream or changing a property's time zone. For configuration change history, see [searchChangeHistoryEvents](https://developers.google.com/analytics/devguides/config/admin/v1/rest/v1alpha/accounts/searchChangeHistoryEvents). To give your feedback on this API, complete the [Google Analytics Access Reports feedback](https://docs.google.com/forms/d/e/1FAIpQLSdmEBUrMzAEdiEKk5TV5dEHvDUZDRlgWYdQdAeSdtR4hVjEhw/viewform) form. */
 export const runAccessReportProperties: API.OperationMethod<RunAccessReportPropertiesRequest, RunAccessReportPropertiesResponse, RunAccessReportPropertiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RunAccessReportPropertiesRequest,
   output: RunAccessReportPropertiesResponse,
   errors: [],
 }));
 
-/** Creates a FirebaseLink. Properties can have at most one FirebaseLink. */
 export interface CreatePropertiesFirebaseLinksRequest {
   /** Required. Format: properties/{property_id} Example: `properties/1234` */
   parent: string;
@@ -1566,13 +1565,13 @@ export const CreatePropertiesFirebaseLinksResponse = GoogleAnalyticsAdminV1betaF
 
 export type CreatePropertiesFirebaseLinksError = CommonErrors;
 
+/** Creates a FirebaseLink. Properties can have at most one FirebaseLink. */
 export const createPropertiesFirebaseLinks: API.OperationMethod<CreatePropertiesFirebaseLinksRequest, CreatePropertiesFirebaseLinksResponse, CreatePropertiesFirebaseLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreatePropertiesFirebaseLinksRequest,
   output: CreatePropertiesFirebaseLinksResponse,
   errors: [],
 }));
 
-/** Deletes a FirebaseLink on a property */
 export interface DeletePropertiesFirebaseLinksRequest {
   /** Required. Format: properties/{property_id}/firebaseLinks/{firebase_link_id} Example: `properties/1234/firebaseLinks/5678` */
   name: string;
@@ -1590,13 +1589,13 @@ export const DeletePropertiesFirebaseLinksResponse = GoogleProtobufEmpty;
 
 export type DeletePropertiesFirebaseLinksError = CommonErrors;
 
+/** Deletes a FirebaseLink on a property */
 export const deletePropertiesFirebaseLinks: API.OperationMethod<DeletePropertiesFirebaseLinksRequest, DeletePropertiesFirebaseLinksResponse, DeletePropertiesFirebaseLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeletePropertiesFirebaseLinksRequest,
   output: DeletePropertiesFirebaseLinksResponse,
   errors: [],
 }));
 
-/** Lists FirebaseLinks on a property. Properties can have at most one FirebaseLink. */
 export interface ListPropertiesFirebaseLinksRequest {
   /** Required. Format: properties/{property_id} Example: `properties/1234` */
   parent: string;
@@ -1620,7 +1619,8 @@ export const ListPropertiesFirebaseLinksResponse = GoogleAnalyticsAdminV1betaLis
 
 export type ListPropertiesFirebaseLinksError = CommonErrors;
 
-export const listPropertiesFirebaseLinks = API.makePaginated(() => ({
+/** Lists FirebaseLinks on a property. Properties can have at most one FirebaseLink. */
+export const listPropertiesFirebaseLinks: API.PaginatedOperationMethod<ListPropertiesFirebaseLinksRequest, ListPropertiesFirebaseLinksResponse, ListPropertiesFirebaseLinksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPropertiesFirebaseLinksRequest,
   output: ListPropertiesFirebaseLinksResponse,
   errors: [],
@@ -1630,7 +1630,6 @@ export const listPropertiesFirebaseLinks = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a GoogleAdsLink. */
 export interface CreatePropertiesGoogleAdsLinksRequest {
   /** Required. Example format: properties/1234 */
   parent: string;
@@ -1651,13 +1650,13 @@ export const CreatePropertiesGoogleAdsLinksResponse = GoogleAnalyticsAdminV1beta
 
 export type CreatePropertiesGoogleAdsLinksError = CommonErrors;
 
+/** Creates a GoogleAdsLink. */
 export const createPropertiesGoogleAdsLinks: API.OperationMethod<CreatePropertiesGoogleAdsLinksRequest, CreatePropertiesGoogleAdsLinksResponse, CreatePropertiesGoogleAdsLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreatePropertiesGoogleAdsLinksRequest,
   output: CreatePropertiesGoogleAdsLinksResponse,
   errors: [],
 }));
 
-/** Updates a GoogleAdsLink on a property */
 export interface PatchPropertiesGoogleAdsLinksRequest {
   /** Output only. Format: properties/{propertyId}/googleAdsLinks/{googleAdsLinkId} Note: googleAdsLinkId is not the Google Ads customer ID. */
   name: string;
@@ -1681,13 +1680,13 @@ export const PatchPropertiesGoogleAdsLinksResponse = GoogleAnalyticsAdminV1betaG
 
 export type PatchPropertiesGoogleAdsLinksError = CommonErrors;
 
+/** Updates a GoogleAdsLink on a property */
 export const patchPropertiesGoogleAdsLinks: API.OperationMethod<PatchPropertiesGoogleAdsLinksRequest, PatchPropertiesGoogleAdsLinksResponse, PatchPropertiesGoogleAdsLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchPropertiesGoogleAdsLinksRequest,
   output: PatchPropertiesGoogleAdsLinksResponse,
   errors: [],
 }));
 
-/** Deletes a GoogleAdsLink on a property */
 export interface DeletePropertiesGoogleAdsLinksRequest {
   /** Required. Example format: properties/1234/googleAdsLinks/5678 */
   name: string;
@@ -1705,13 +1704,13 @@ export const DeletePropertiesGoogleAdsLinksResponse = GoogleProtobufEmpty;
 
 export type DeletePropertiesGoogleAdsLinksError = CommonErrors;
 
+/** Deletes a GoogleAdsLink on a property */
 export const deletePropertiesGoogleAdsLinks: API.OperationMethod<DeletePropertiesGoogleAdsLinksRequest, DeletePropertiesGoogleAdsLinksResponse, DeletePropertiesGoogleAdsLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeletePropertiesGoogleAdsLinksRequest,
   output: DeletePropertiesGoogleAdsLinksResponse,
   errors: [],
 }));
 
-/** Lists GoogleAdsLinks on a property. */
 export interface ListPropertiesGoogleAdsLinksRequest {
   /** Required. Example format: properties/1234 */
   parent: string;
@@ -1735,7 +1734,8 @@ export const ListPropertiesGoogleAdsLinksResponse = GoogleAnalyticsAdminV1betaLi
 
 export type ListPropertiesGoogleAdsLinksError = CommonErrors;
 
-export const listPropertiesGoogleAdsLinks = API.makePaginated(() => ({
+/** Lists GoogleAdsLinks on a property. */
+export const listPropertiesGoogleAdsLinks: API.PaginatedOperationMethod<ListPropertiesGoogleAdsLinksRequest, ListPropertiesGoogleAdsLinksResponse, ListPropertiesGoogleAdsLinksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPropertiesGoogleAdsLinksRequest,
   output: ListPropertiesGoogleAdsLinksResponse,
   errors: [],
@@ -1745,7 +1745,6 @@ export const listPropertiesGoogleAdsLinks = API.makePaginated(() => ({
   },
 }));
 
-/** Deprecated: Use `CreateKeyEvent` instead. Creates a conversion event with the specified attributes. */
 export interface CreatePropertiesConversionEventsRequest {
   /** Required. The resource name of the parent property where this conversion event will be created. Format: properties/123 */
   parent: string;
@@ -1766,13 +1765,13 @@ export const CreatePropertiesConversionEventsResponse = GoogleAnalyticsAdminV1be
 
 export type CreatePropertiesConversionEventsError = CommonErrors;
 
+/** Deprecated: Use `CreateKeyEvent` instead. Creates a conversion event with the specified attributes. */
 export const createPropertiesConversionEvents: API.OperationMethod<CreatePropertiesConversionEventsRequest, CreatePropertiesConversionEventsResponse, CreatePropertiesConversionEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreatePropertiesConversionEventsRequest,
   output: CreatePropertiesConversionEventsResponse,
   errors: [],
 }));
 
-/** Deprecated: Use `UpdateKeyEvent` instead. Updates a conversion event with the specified attributes. */
 export interface PatchPropertiesConversionEventsRequest {
   /** Output only. Resource name of this conversion event. Format: properties/{property}/conversionEvents/{conversion_event} */
   name: string;
@@ -1796,13 +1795,13 @@ export const PatchPropertiesConversionEventsResponse = GoogleAnalyticsAdminV1bet
 
 export type PatchPropertiesConversionEventsError = CommonErrors;
 
+/** Deprecated: Use `UpdateKeyEvent` instead. Updates a conversion event with the specified attributes. */
 export const patchPropertiesConversionEvents: API.OperationMethod<PatchPropertiesConversionEventsRequest, PatchPropertiesConversionEventsResponse, PatchPropertiesConversionEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchPropertiesConversionEventsRequest,
   output: PatchPropertiesConversionEventsResponse,
   errors: [],
 }));
 
-/** Deprecated: Use `GetKeyEvent` instead. Retrieve a single conversion event. */
 export interface GetPropertiesConversionEventsRequest {
   /** Required. The resource name of the conversion event to retrieve. Format: properties/{property}/conversionEvents/{conversion_event} Example: "properties/123/conversionEvents/456" */
   name: string;
@@ -1820,13 +1819,13 @@ export const GetPropertiesConversionEventsResponse = GoogleAnalyticsAdminV1betaC
 
 export type GetPropertiesConversionEventsError = CommonErrors;
 
+/** Deprecated: Use `GetKeyEvent` instead. Retrieve a single conversion event. */
 export const getPropertiesConversionEvents: API.OperationMethod<GetPropertiesConversionEventsRequest, GetPropertiesConversionEventsResponse, GetPropertiesConversionEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPropertiesConversionEventsRequest,
   output: GetPropertiesConversionEventsResponse,
   errors: [],
 }));
 
-/** Deprecated: Use `DeleteKeyEvent` instead. Deletes a conversion event in a property. */
 export interface DeletePropertiesConversionEventsRequest {
   /** Required. The resource name of the conversion event to delete. Format: properties/{property}/conversionEvents/{conversion_event} Example: "properties/123/conversionEvents/456" */
   name: string;
@@ -1844,13 +1843,13 @@ export const DeletePropertiesConversionEventsResponse = GoogleProtobufEmpty;
 
 export type DeletePropertiesConversionEventsError = CommonErrors;
 
+/** Deprecated: Use `DeleteKeyEvent` instead. Deletes a conversion event in a property. */
 export const deletePropertiesConversionEvents: API.OperationMethod<DeletePropertiesConversionEventsRequest, DeletePropertiesConversionEventsResponse, DeletePropertiesConversionEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeletePropertiesConversionEventsRequest,
   output: DeletePropertiesConversionEventsResponse,
   errors: [],
 }));
 
-/** Deprecated: Use `ListKeyEvents` instead. Returns a list of conversion events in the specified parent property. Returns an empty list if no conversion events are found. */
 export interface ListPropertiesConversionEventsRequest {
   /** Required. The resource name of the parent property. Example: 'properties/123' */
   parent: string;
@@ -1874,7 +1873,8 @@ export const ListPropertiesConversionEventsResponse = GoogleAnalyticsAdminV1beta
 
 export type ListPropertiesConversionEventsError = CommonErrors;
 
-export const listPropertiesConversionEvents = API.makePaginated(() => ({
+/** Deprecated: Use `ListKeyEvents` instead. Returns a list of conversion events in the specified parent property. Returns an empty list if no conversion events are found. */
+export const listPropertiesConversionEvents: API.PaginatedOperationMethod<ListPropertiesConversionEventsRequest, ListPropertiesConversionEventsResponse, ListPropertiesConversionEventsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPropertiesConversionEventsRequest,
   output: ListPropertiesConversionEventsResponse,
   errors: [],
@@ -1884,7 +1884,6 @@ export const listPropertiesConversionEvents = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a Key Event. */
 export interface CreatePropertiesKeyEventsRequest {
   /** Required. The resource name of the parent property where this Key Event will be created. Format: properties/123 */
   parent: string;
@@ -1905,13 +1904,13 @@ export const CreatePropertiesKeyEventsResponse = GoogleAnalyticsAdminV1betaKeyEv
 
 export type CreatePropertiesKeyEventsError = CommonErrors;
 
+/** Creates a Key Event. */
 export const createPropertiesKeyEvents: API.OperationMethod<CreatePropertiesKeyEventsRequest, CreatePropertiesKeyEventsResponse, CreatePropertiesKeyEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreatePropertiesKeyEventsRequest,
   output: CreatePropertiesKeyEventsResponse,
   errors: [],
 }));
 
-/** Updates a Key Event. */
 export interface PatchPropertiesKeyEventsRequest {
   /** Output only. Resource name of this key event. Format: properties/{property}/keyEvents/{key_event} */
   name: string;
@@ -1935,13 +1934,13 @@ export const PatchPropertiesKeyEventsResponse = GoogleAnalyticsAdminV1betaKeyEve
 
 export type PatchPropertiesKeyEventsError = CommonErrors;
 
+/** Updates a Key Event. */
 export const patchPropertiesKeyEvents: API.OperationMethod<PatchPropertiesKeyEventsRequest, PatchPropertiesKeyEventsResponse, PatchPropertiesKeyEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchPropertiesKeyEventsRequest,
   output: PatchPropertiesKeyEventsResponse,
   errors: [],
 }));
 
-/** Retrieve a single Key Event. */
 export interface GetPropertiesKeyEventsRequest {
   /** Required. The resource name of the Key Event to retrieve. Format: properties/{property}/keyEvents/{key_event} Example: "properties/123/keyEvents/456" */
   name: string;
@@ -1959,13 +1958,13 @@ export const GetPropertiesKeyEventsResponse = GoogleAnalyticsAdminV1betaKeyEvent
 
 export type GetPropertiesKeyEventsError = CommonErrors;
 
+/** Retrieve a single Key Event. */
 export const getPropertiesKeyEvents: API.OperationMethod<GetPropertiesKeyEventsRequest, GetPropertiesKeyEventsResponse, GetPropertiesKeyEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPropertiesKeyEventsRequest,
   output: GetPropertiesKeyEventsResponse,
   errors: [],
 }));
 
-/** Deletes a Key Event. */
 export interface DeletePropertiesKeyEventsRequest {
   /** Required. The resource name of the Key Event to delete. Format: properties/{property}/keyEvents/{key_event} Example: "properties/123/keyEvents/456" */
   name: string;
@@ -1983,13 +1982,13 @@ export const DeletePropertiesKeyEventsResponse = GoogleProtobufEmpty;
 
 export type DeletePropertiesKeyEventsError = CommonErrors;
 
+/** Deletes a Key Event. */
 export const deletePropertiesKeyEvents: API.OperationMethod<DeletePropertiesKeyEventsRequest, DeletePropertiesKeyEventsResponse, DeletePropertiesKeyEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeletePropertiesKeyEventsRequest,
   output: DeletePropertiesKeyEventsResponse,
   errors: [],
 }));
 
-/** Returns a list of Key Events in the specified parent property. Returns an empty list if no Key Events are found. */
 export interface ListPropertiesKeyEventsRequest {
   /** Required. The resource name of the parent property. Example: 'properties/123' */
   parent: string;
@@ -2013,7 +2012,8 @@ export const ListPropertiesKeyEventsResponse = GoogleAnalyticsAdminV1betaListKey
 
 export type ListPropertiesKeyEventsError = CommonErrors;
 
-export const listPropertiesKeyEvents = API.makePaginated(() => ({
+/** Returns a list of Key Events in the specified parent property. Returns an empty list if no Key Events are found. */
+export const listPropertiesKeyEvents: API.PaginatedOperationMethod<ListPropertiesKeyEventsRequest, ListPropertiesKeyEventsResponse, ListPropertiesKeyEventsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPropertiesKeyEventsRequest,
   output: ListPropertiesKeyEventsResponse,
   errors: [],
@@ -2023,7 +2023,6 @@ export const listPropertiesKeyEvents = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a CustomDimension. */
 export interface CreatePropertiesCustomDimensionsRequest {
   /** Required. Example format: properties/1234 */
   parent: string;
@@ -2044,13 +2043,13 @@ export const CreatePropertiesCustomDimensionsResponse = GoogleAnalyticsAdminV1be
 
 export type CreatePropertiesCustomDimensionsError = CommonErrors;
 
+/** Creates a CustomDimension. */
 export const createPropertiesCustomDimensions: API.OperationMethod<CreatePropertiesCustomDimensionsRequest, CreatePropertiesCustomDimensionsResponse, CreatePropertiesCustomDimensionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreatePropertiesCustomDimensionsRequest,
   output: CreatePropertiesCustomDimensionsResponse,
   errors: [],
 }));
 
-/** Updates a CustomDimension on a property. */
 export interface PatchPropertiesCustomDimensionsRequest {
   /** Output only. Resource name for this CustomDimension resource. Format: properties/{property}/customDimensions/{customDimension} */
   name: string;
@@ -2074,13 +2073,13 @@ export const PatchPropertiesCustomDimensionsResponse = GoogleAnalyticsAdminV1bet
 
 export type PatchPropertiesCustomDimensionsError = CommonErrors;
 
+/** Updates a CustomDimension on a property. */
 export const patchPropertiesCustomDimensions: API.OperationMethod<PatchPropertiesCustomDimensionsRequest, PatchPropertiesCustomDimensionsResponse, PatchPropertiesCustomDimensionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchPropertiesCustomDimensionsRequest,
   output: PatchPropertiesCustomDimensionsResponse,
   errors: [],
 }));
 
-/** Lists CustomDimensions on a property. */
 export interface ListPropertiesCustomDimensionsRequest {
   /** Required. Example format: properties/1234 */
   parent: string;
@@ -2104,7 +2103,8 @@ export const ListPropertiesCustomDimensionsResponse = GoogleAnalyticsAdminV1beta
 
 export type ListPropertiesCustomDimensionsError = CommonErrors;
 
-export const listPropertiesCustomDimensions = API.makePaginated(() => ({
+/** Lists CustomDimensions on a property. */
+export const listPropertiesCustomDimensions: API.PaginatedOperationMethod<ListPropertiesCustomDimensionsRequest, ListPropertiesCustomDimensionsResponse, ListPropertiesCustomDimensionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPropertiesCustomDimensionsRequest,
   output: ListPropertiesCustomDimensionsResponse,
   errors: [],
@@ -2114,7 +2114,6 @@ export const listPropertiesCustomDimensions = API.makePaginated(() => ({
   },
 }));
 
-/** Archives a CustomDimension on a property. */
 export interface ArchivePropertiesCustomDimensionsRequest {
   /** Required. The name of the CustomDimension to archive. Example format: properties/1234/customDimensions/5678 */
   name: string;
@@ -2135,13 +2134,13 @@ export const ArchivePropertiesCustomDimensionsResponse = GoogleProtobufEmpty;
 
 export type ArchivePropertiesCustomDimensionsError = CommonErrors;
 
+/** Archives a CustomDimension on a property. */
 export const archivePropertiesCustomDimensions: API.OperationMethod<ArchivePropertiesCustomDimensionsRequest, ArchivePropertiesCustomDimensionsResponse, ArchivePropertiesCustomDimensionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ArchivePropertiesCustomDimensionsRequest,
   output: ArchivePropertiesCustomDimensionsResponse,
   errors: [],
 }));
 
-/** Lookup for a single CustomDimension. */
 export interface GetPropertiesCustomDimensionsRequest {
   /** Required. The name of the CustomDimension to get. Example format: properties/1234/customDimensions/5678 */
   name: string;
@@ -2159,13 +2158,13 @@ export const GetPropertiesCustomDimensionsResponse = GoogleAnalyticsAdminV1betaC
 
 export type GetPropertiesCustomDimensionsError = CommonErrors;
 
+/** Lookup for a single CustomDimension. */
 export const getPropertiesCustomDimensions: API.OperationMethod<GetPropertiesCustomDimensionsRequest, GetPropertiesCustomDimensionsResponse, GetPropertiesCustomDimensionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPropertiesCustomDimensionsRequest,
   output: GetPropertiesCustomDimensionsResponse,
   errors: [],
 }));
 
-/** Creates a CustomMetric. */
 export interface CreatePropertiesCustomMetricsRequest {
   /** Required. Example format: properties/1234 */
   parent: string;
@@ -2186,13 +2185,13 @@ export const CreatePropertiesCustomMetricsResponse = GoogleAnalyticsAdminV1betaC
 
 export type CreatePropertiesCustomMetricsError = CommonErrors;
 
+/** Creates a CustomMetric. */
 export const createPropertiesCustomMetrics: API.OperationMethod<CreatePropertiesCustomMetricsRequest, CreatePropertiesCustomMetricsResponse, CreatePropertiesCustomMetricsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreatePropertiesCustomMetricsRequest,
   output: CreatePropertiesCustomMetricsResponse,
   errors: [],
 }));
 
-/** Updates a CustomMetric on a property. */
 export interface PatchPropertiesCustomMetricsRequest {
   /** Output only. Resource name for this CustomMetric resource. Format: properties/{property}/customMetrics/{customMetric} */
   name: string;
@@ -2216,13 +2215,13 @@ export const PatchPropertiesCustomMetricsResponse = GoogleAnalyticsAdminV1betaCu
 
 export type PatchPropertiesCustomMetricsError = CommonErrors;
 
+/** Updates a CustomMetric on a property. */
 export const patchPropertiesCustomMetrics: API.OperationMethod<PatchPropertiesCustomMetricsRequest, PatchPropertiesCustomMetricsResponse, PatchPropertiesCustomMetricsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchPropertiesCustomMetricsRequest,
   output: PatchPropertiesCustomMetricsResponse,
   errors: [],
 }));
 
-/** Lists CustomMetrics on a property. */
 export interface ListPropertiesCustomMetricsRequest {
   /** Required. Example format: properties/1234 */
   parent: string;
@@ -2246,7 +2245,8 @@ export const ListPropertiesCustomMetricsResponse = GoogleAnalyticsAdminV1betaLis
 
 export type ListPropertiesCustomMetricsError = CommonErrors;
 
-export const listPropertiesCustomMetrics = API.makePaginated(() => ({
+/** Lists CustomMetrics on a property. */
+export const listPropertiesCustomMetrics: API.PaginatedOperationMethod<ListPropertiesCustomMetricsRequest, ListPropertiesCustomMetricsResponse, ListPropertiesCustomMetricsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPropertiesCustomMetricsRequest,
   output: ListPropertiesCustomMetricsResponse,
   errors: [],
@@ -2256,7 +2256,6 @@ export const listPropertiesCustomMetrics = API.makePaginated(() => ({
   },
 }));
 
-/** Archives a CustomMetric on a property. */
 export interface ArchivePropertiesCustomMetricsRequest {
   /** Required. The name of the CustomMetric to archive. Example format: properties/1234/customMetrics/5678 */
   name: string;
@@ -2277,13 +2276,13 @@ export const ArchivePropertiesCustomMetricsResponse = GoogleProtobufEmpty;
 
 export type ArchivePropertiesCustomMetricsError = CommonErrors;
 
+/** Archives a CustomMetric on a property. */
 export const archivePropertiesCustomMetrics: API.OperationMethod<ArchivePropertiesCustomMetricsRequest, ArchivePropertiesCustomMetricsResponse, ArchivePropertiesCustomMetricsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ArchivePropertiesCustomMetricsRequest,
   output: ArchivePropertiesCustomMetricsResponse,
   errors: [],
 }));
 
-/** Lookup for a single CustomMetric. */
 export interface GetPropertiesCustomMetricsRequest {
   /** Required. The name of the CustomMetric to get. Example format: properties/1234/customMetrics/5678 */
   name: string;
@@ -2301,13 +2300,13 @@ export const GetPropertiesCustomMetricsResponse = GoogleAnalyticsAdminV1betaCust
 
 export type GetPropertiesCustomMetricsError = CommonErrors;
 
+/** Lookup for a single CustomMetric. */
 export const getPropertiesCustomMetrics: API.OperationMethod<GetPropertiesCustomMetricsRequest, GetPropertiesCustomMetricsResponse, GetPropertiesCustomMetricsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPropertiesCustomMetricsRequest,
   output: GetPropertiesCustomMetricsResponse,
   errors: [],
 }));
 
-/** Creates a DataStream. */
 export interface CreatePropertiesDataStreamsRequest {
   /** Required. Example format: properties/1234 */
   parent: string;
@@ -2328,13 +2327,13 @@ export const CreatePropertiesDataStreamsResponse = GoogleAnalyticsAdminV1betaDat
 
 export type CreatePropertiesDataStreamsError = CommonErrors;
 
+/** Creates a DataStream. */
 export const createPropertiesDataStreams: API.OperationMethod<CreatePropertiesDataStreamsRequest, CreatePropertiesDataStreamsResponse, CreatePropertiesDataStreamsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreatePropertiesDataStreamsRequest,
   output: CreatePropertiesDataStreamsResponse,
   errors: [],
 }));
 
-/** Deletes a DataStream on a property. */
 export interface DeletePropertiesDataStreamsRequest {
   /** Required. The name of the DataStream to delete. Example format: properties/1234/dataStreams/5678 */
   name: string;
@@ -2352,13 +2351,13 @@ export const DeletePropertiesDataStreamsResponse = GoogleProtobufEmpty;
 
 export type DeletePropertiesDataStreamsError = CommonErrors;
 
+/** Deletes a DataStream on a property. */
 export const deletePropertiesDataStreams: API.OperationMethod<DeletePropertiesDataStreamsRequest, DeletePropertiesDataStreamsResponse, DeletePropertiesDataStreamsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeletePropertiesDataStreamsRequest,
   output: DeletePropertiesDataStreamsResponse,
   errors: [],
 }));
 
-/** Updates a DataStream on a property. */
 export interface PatchPropertiesDataStreamsRequest {
   /** Output only. Resource name of this Data Stream. Format: properties/{property_id}/dataStreams/{stream_id} Example: "properties/1000/dataStreams/2000" */
   name: string;
@@ -2382,13 +2381,13 @@ export const PatchPropertiesDataStreamsResponse = GoogleAnalyticsAdminV1betaData
 
 export type PatchPropertiesDataStreamsError = CommonErrors;
 
+/** Updates a DataStream on a property. */
 export const patchPropertiesDataStreams: API.OperationMethod<PatchPropertiesDataStreamsRequest, PatchPropertiesDataStreamsResponse, PatchPropertiesDataStreamsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchPropertiesDataStreamsRequest,
   output: PatchPropertiesDataStreamsResponse,
   errors: [],
 }));
 
-/** Lists DataStreams on a property. */
 export interface ListPropertiesDataStreamsRequest {
   /** Required. Example format: properties/1234 */
   parent: string;
@@ -2412,7 +2411,8 @@ export const ListPropertiesDataStreamsResponse = GoogleAnalyticsAdminV1betaListD
 
 export type ListPropertiesDataStreamsError = CommonErrors;
 
-export const listPropertiesDataStreams = API.makePaginated(() => ({
+/** Lists DataStreams on a property. */
+export const listPropertiesDataStreams: API.PaginatedOperationMethod<ListPropertiesDataStreamsRequest, ListPropertiesDataStreamsResponse, ListPropertiesDataStreamsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPropertiesDataStreamsRequest,
   output: ListPropertiesDataStreamsResponse,
   errors: [],
@@ -2422,7 +2422,6 @@ export const listPropertiesDataStreams = API.makePaginated(() => ({
   },
 }));
 
-/** Lookup for a single DataStream. */
 export interface GetPropertiesDataStreamsRequest {
   /** Required. The name of the DataStream to get. Example format: properties/1234/dataStreams/5678 */
   name: string;
@@ -2440,13 +2439,13 @@ export const GetPropertiesDataStreamsResponse = GoogleAnalyticsAdminV1betaDataSt
 
 export type GetPropertiesDataStreamsError = CommonErrors;
 
+/** Lookup for a single DataStream. */
 export const getPropertiesDataStreams: API.OperationMethod<GetPropertiesDataStreamsRequest, GetPropertiesDataStreamsResponse, GetPropertiesDataStreamsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPropertiesDataStreamsRequest,
   output: GetPropertiesDataStreamsResponse,
   errors: [],
 }));
 
-/** Lookup for a single MeasurementProtocolSecret. */
 export interface GetPropertiesDataStreamsMeasurementProtocolSecretsRequest {
   /** Required. The name of the measurement protocol secret to lookup. Format: properties/{property}/dataStreams/{dataStream}/measurementProtocolSecrets/{measurementProtocolSecret} */
   name: string;
@@ -2464,13 +2463,13 @@ export const GetPropertiesDataStreamsMeasurementProtocolSecretsResponse = Google
 
 export type GetPropertiesDataStreamsMeasurementProtocolSecretsError = CommonErrors;
 
+/** Lookup for a single MeasurementProtocolSecret. */
 export const getPropertiesDataStreamsMeasurementProtocolSecrets: API.OperationMethod<GetPropertiesDataStreamsMeasurementProtocolSecretsRequest, GetPropertiesDataStreamsMeasurementProtocolSecretsResponse, GetPropertiesDataStreamsMeasurementProtocolSecretsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPropertiesDataStreamsMeasurementProtocolSecretsRequest,
   output: GetPropertiesDataStreamsMeasurementProtocolSecretsResponse,
   errors: [],
 }));
 
-/** Returns child MeasurementProtocolSecrets under the specified parent Property. */
 export interface ListPropertiesDataStreamsMeasurementProtocolSecretsRequest {
   /** Required. The resource name of the parent stream. Format: properties/{property}/dataStreams/{dataStream}/measurementProtocolSecrets */
   parent: string;
@@ -2494,7 +2493,8 @@ export const ListPropertiesDataStreamsMeasurementProtocolSecretsResponse = Googl
 
 export type ListPropertiesDataStreamsMeasurementProtocolSecretsError = CommonErrors;
 
-export const listPropertiesDataStreamsMeasurementProtocolSecrets = API.makePaginated(() => ({
+/** Returns child MeasurementProtocolSecrets under the specified parent Property. */
+export const listPropertiesDataStreamsMeasurementProtocolSecrets: API.PaginatedOperationMethod<ListPropertiesDataStreamsMeasurementProtocolSecretsRequest, ListPropertiesDataStreamsMeasurementProtocolSecretsResponse, ListPropertiesDataStreamsMeasurementProtocolSecretsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPropertiesDataStreamsMeasurementProtocolSecretsRequest,
   output: ListPropertiesDataStreamsMeasurementProtocolSecretsResponse,
   errors: [],
@@ -2504,7 +2504,6 @@ export const listPropertiesDataStreamsMeasurementProtocolSecrets = API.makePagin
   },
 }));
 
-/** Creates a measurement protocol secret. */
 export interface CreatePropertiesDataStreamsMeasurementProtocolSecretsRequest {
   /** Required. The parent resource where this secret will be created. Format: properties/{property}/dataStreams/{dataStream} */
   parent: string;
@@ -2525,13 +2524,13 @@ export const CreatePropertiesDataStreamsMeasurementProtocolSecretsResponse = Goo
 
 export type CreatePropertiesDataStreamsMeasurementProtocolSecretsError = CommonErrors;
 
+/** Creates a measurement protocol secret. */
 export const createPropertiesDataStreamsMeasurementProtocolSecrets: API.OperationMethod<CreatePropertiesDataStreamsMeasurementProtocolSecretsRequest, CreatePropertiesDataStreamsMeasurementProtocolSecretsResponse, CreatePropertiesDataStreamsMeasurementProtocolSecretsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreatePropertiesDataStreamsMeasurementProtocolSecretsRequest,
   output: CreatePropertiesDataStreamsMeasurementProtocolSecretsResponse,
   errors: [],
 }));
 
-/** Deletes target MeasurementProtocolSecret. */
 export interface DeletePropertiesDataStreamsMeasurementProtocolSecretsRequest {
   /** Required. The name of the MeasurementProtocolSecret to delete. Format: properties/{property}/dataStreams/{dataStream}/measurementProtocolSecrets/{measurementProtocolSecret} */
   name: string;
@@ -2549,13 +2548,13 @@ export const DeletePropertiesDataStreamsMeasurementProtocolSecretsResponse = Goo
 
 export type DeletePropertiesDataStreamsMeasurementProtocolSecretsError = CommonErrors;
 
+/** Deletes target MeasurementProtocolSecret. */
 export const deletePropertiesDataStreamsMeasurementProtocolSecrets: API.OperationMethod<DeletePropertiesDataStreamsMeasurementProtocolSecretsRequest, DeletePropertiesDataStreamsMeasurementProtocolSecretsResponse, DeletePropertiesDataStreamsMeasurementProtocolSecretsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeletePropertiesDataStreamsMeasurementProtocolSecretsRequest,
   output: DeletePropertiesDataStreamsMeasurementProtocolSecretsResponse,
   errors: [],
 }));
 
-/** Updates a measurement protocol secret. */
 export interface PatchPropertiesDataStreamsMeasurementProtocolSecretsRequest {
   /** Output only. Resource name of this secret. This secret may be a child of any type of stream. Format: properties/{property}/dataStreams/{dataStream}/measurementProtocolSecrets/{measurementProtocolSecret} */
   name: string;
@@ -2579,6 +2578,7 @@ export const PatchPropertiesDataStreamsMeasurementProtocolSecretsResponse = Goog
 
 export type PatchPropertiesDataStreamsMeasurementProtocolSecretsError = CommonErrors;
 
+/** Updates a measurement protocol secret. */
 export const patchPropertiesDataStreamsMeasurementProtocolSecrets: API.OperationMethod<PatchPropertiesDataStreamsMeasurementProtocolSecretsRequest, PatchPropertiesDataStreamsMeasurementProtocolSecretsResponse, PatchPropertiesDataStreamsMeasurementProtocolSecretsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchPropertiesDataStreamsMeasurementProtocolSecretsRequest,
   output: PatchPropertiesDataStreamsMeasurementProtocolSecretsResponse,

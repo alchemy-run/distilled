@@ -4166,7 +4166,6 @@ export const InvideoBranding: Schema.Schema<InvideoBranding> = Schema.suspend(()
 // Operations
 // ==========================================================================
 
-/** Inserts a new resource into this collection. */
 export interface InsertAbuseReportsRequest {
   /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. */
   part: string[];
@@ -4187,13 +4186,13 @@ export const InsertAbuseReportsResponse = AbuseReport;
 
 export type InsertAbuseReportsError = CommonErrors;
 
+/** Inserts a new resource into this collection. */
 export const insertAbuseReports: API.OperationMethod<InsertAbuseReportsRequest, InsertAbuseReportsResponse, InsertAbuseReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertAbuseReportsRequest,
   output: InsertAbuseReportsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of resources, possibly filtered. */
 export interface ListActivitiesRequest {
   channelId?: string;
   home?: boolean;
@@ -4229,7 +4228,8 @@ export const ListActivitiesResponse = ActivityListResponse;
 
 export type ListActivitiesError = CommonErrors;
 
-export const listActivities = API.makePaginated(() => ({
+/** Retrieves a list of resources, possibly filtered. */
+export const listActivities: API.PaginatedOperationMethod<ListActivitiesRequest, ListActivitiesResponse, ListActivitiesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListActivitiesRequest,
   output: ListActivitiesResponse,
   errors: [],
@@ -4240,7 +4240,6 @@ export const listActivities = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves a list of resources, possibly filtered. */
 export interface ListCaptionsRequest {
   /** Returns the captions with the given IDs for Stubby or Apiary. */
   id?: string[];
@@ -4270,13 +4269,13 @@ export const ListCaptionsResponse = CaptionListResponse;
 
 export type ListCaptionsError = CommonErrors;
 
+/** Retrieves a list of resources, possibly filtered. */
 export const listCaptions: API.OperationMethod<ListCaptionsRequest, ListCaptionsResponse, ListCaptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListCaptionsRequest,
   output: ListCaptionsResponse,
   errors: [],
 }));
 
-/** Inserts a new resource into this collection. */
 export interface InsertCaptionsRequest {
   /** Extra parameter to allow automatically syncing the uploaded caption/transcript with the audio. */
   sync?: boolean;
@@ -4306,13 +4305,13 @@ export const InsertCaptionsResponse = Caption;
 
 export type InsertCaptionsError = CommonErrors;
 
+/** Inserts a new resource into this collection. */
 export const insertCaptions: API.OperationMethod<InsertCaptionsRequest, InsertCaptionsResponse, InsertCaptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertCaptionsRequest,
   output: InsertCaptionsResponse,
   errors: [],
 }));
 
-/** Updates an existing resource. */
 export interface UpdateCaptionsRequest {
   /** Extra parameter to allow automatically syncing the uploaded caption/transcript with the audio. */
   sync?: boolean;
@@ -4342,13 +4341,13 @@ export const UpdateCaptionsResponse = Caption;
 
 export type UpdateCaptionsError = CommonErrors;
 
+/** Updates an existing resource. */
 export const updateCaptions: API.OperationMethod<UpdateCaptionsRequest, UpdateCaptionsResponse, UpdateCaptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateCaptionsRequest,
   output: UpdateCaptionsResponse,
   errors: [],
 }));
 
-/** Deletes a resource. */
 export interface DeleteCaptionsRequest {
   id: string;
   /** ID of the Google+ Page for the channel that the request is be on behalf of */
@@ -4371,13 +4370,13 @@ export const DeleteCaptionsResponse: Schema.Schema<DeleteCaptionsResponse> = Sch
 
 export type DeleteCaptionsError = CommonErrors;
 
+/** Deletes a resource. */
 export const deleteCaptions: API.OperationMethod<DeleteCaptionsRequest, DeleteCaptionsResponse, DeleteCaptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteCaptionsRequest,
   output: DeleteCaptionsResponse,
   errors: [],
 }));
 
-/** Downloads a caption track. */
 export interface DownloadCaptionsRequest {
   /** The ID of the caption track to download, required for One Platform. */
   id: string;
@@ -4407,13 +4406,13 @@ export const DownloadCaptionsResponse: Schema.Schema<DownloadCaptionsResponse> =
 
 export type DownloadCaptionsError = CommonErrors;
 
+/** Downloads a caption track. */
 export const downloadCaptions: API.OperationMethod<DownloadCaptionsRequest, DownloadCaptionsResponse, DownloadCaptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DownloadCaptionsRequest,
   output: DownloadCaptionsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of resources, possibly filtered. */
 export interface ListChannelsRequest {
   /** Return the ids of channels owned by the authenticated user. */
   mine?: boolean;
@@ -4464,7 +4463,8 @@ export const ListChannelsResponse = ChannelListResponse;
 
 export type ListChannelsError = CommonErrors;
 
-export const listChannels = API.makePaginated(() => ({
+/** Retrieves a list of resources, possibly filtered. */
+export const listChannels: API.PaginatedOperationMethod<ListChannelsRequest, ListChannelsResponse, ListChannelsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListChannelsRequest,
   output: ListChannelsResponse,
   errors: [],
@@ -4475,7 +4475,6 @@ export const listChannels = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing resource. */
 export interface UpdateChannelsRequest {
   /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. The API currently only allows the parameter value to be set to either brandingSettings or invideoPromotion. (You cannot update both of those parts with a single request.) Note that this method overrides the existing values for all of the mutable properties that are contained in any parts that the parameter value specifies. */
   part: string[];
@@ -4499,13 +4498,13 @@ export const UpdateChannelsResponse = Channel;
 
 export type UpdateChannelsError = CommonErrors;
 
+/** Updates an existing resource. */
 export const updateChannels: API.OperationMethod<UpdateChannelsRequest, UpdateChannelsResponse, UpdateChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateChannelsRequest,
   output: UpdateChannelsResponse,
   errors: [],
 }));
 
-/** Inserts a new resource into this collection. */
 export interface InsertChannelBannersRequest {
   /** Unused, channel_id is currently derived from the security context of the requestor. */
   channelId?: string;
@@ -4532,13 +4531,13 @@ export const InsertChannelBannersResponse = ChannelBannerResource;
 
 export type InsertChannelBannersError = CommonErrors;
 
+/** Inserts a new resource into this collection. */
 export const insertChannelBanners: API.OperationMethod<InsertChannelBannersRequest, InsertChannelBannersResponse, InsertChannelBannersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertChannelBannersRequest,
   output: InsertChannelBannersResponse,
   errors: [],
 }));
 
-/** Retrieves a list of resources, possibly filtered. */
 export interface ListChannelSectionsRequest {
   /** Return the ChannelSections with the given IDs for Stubby or Apiary. */
   id?: string[];
@@ -4571,13 +4570,13 @@ export const ListChannelSectionsResponse = ChannelSectionListResponse;
 
 export type ListChannelSectionsError = CommonErrors;
 
+/** Retrieves a list of resources, possibly filtered. */
 export const listChannelSections: API.OperationMethod<ListChannelSectionsRequest, ListChannelSectionsResponse, ListChannelSectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListChannelSectionsRequest,
   output: ListChannelSectionsResponse,
   errors: [],
 }));
 
-/** Inserts a new resource into this collection. */
 export interface InsertChannelSectionsRequest {
   /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. The part names that you can include in the parameter value are snippet and contentDetails. */
   part: string[];
@@ -4604,13 +4603,13 @@ export const InsertChannelSectionsResponse = ChannelSection;
 
 export type InsertChannelSectionsError = CommonErrors;
 
+/** Inserts a new resource into this collection. */
 export const insertChannelSections: API.OperationMethod<InsertChannelSectionsRequest, InsertChannelSectionsResponse, InsertChannelSectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertChannelSectionsRequest,
   output: InsertChannelSectionsResponse,
   errors: [],
 }));
 
-/** Updates an existing resource. */
 export interface UpdateChannelSectionsRequest {
   /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. The part names that you can include in the parameter value are snippet and contentDetails. */
   part: string[];
@@ -4634,13 +4633,13 @@ export const UpdateChannelSectionsResponse = ChannelSection;
 
 export type UpdateChannelSectionsError = CommonErrors;
 
+/** Updates an existing resource. */
 export const updateChannelSections: API.OperationMethod<UpdateChannelSectionsRequest, UpdateChannelSectionsResponse, UpdateChannelSectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateChannelSectionsRequest,
   output: UpdateChannelSectionsResponse,
   errors: [],
 }));
 
-/** Deletes a resource. */
 export interface DeleteChannelSectionsRequest {
   id: string;
   /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
@@ -4660,13 +4659,13 @@ export const DeleteChannelSectionsResponse: Schema.Schema<DeleteChannelSectionsR
 
 export type DeleteChannelSectionsError = CommonErrors;
 
+/** Deletes a resource. */
 export const deleteChannelSections: API.OperationMethod<DeleteChannelSectionsRequest, DeleteChannelSectionsResponse, DeleteChannelSectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteChannelSectionsRequest,
   output: DeleteChannelSectionsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of resources, possibly filtered. */
 export interface ListCommentsRequest {
   /** Returns the comments with the given IDs for One Platform. */
   id?: string[];
@@ -4699,7 +4698,8 @@ export const ListCommentsResponse = CommentListResponse;
 
 export type ListCommentsError = CommonErrors;
 
-export const listComments = API.makePaginated(() => ({
+/** Retrieves a list of resources, possibly filtered. */
+export const listComments: API.PaginatedOperationMethod<ListCommentsRequest, ListCommentsResponse, ListCommentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCommentsRequest,
   output: ListCommentsResponse,
   errors: [],
@@ -4710,7 +4710,6 @@ export const listComments = API.makePaginated(() => ({
   },
 }));
 
-/** Inserts a new resource into this collection. */
 export interface InsertCommentsRequest {
   /** The *part* parameter identifies the properties that the API response will include. Set the parameter value to snippet. The snippet part has a quota cost of 2 units. */
   part: string[];
@@ -4731,13 +4730,13 @@ export const InsertCommentsResponse = Comment;
 
 export type InsertCommentsError = CommonErrors;
 
+/** Inserts a new resource into this collection. */
 export const insertComments: API.OperationMethod<InsertCommentsRequest, InsertCommentsResponse, InsertCommentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertCommentsRequest,
   output: InsertCommentsResponse,
   errors: [],
 }));
 
-/** Updates an existing resource. */
 export interface UpdateCommentsRequest {
   /** The *part* parameter identifies the properties that the API response will include. You must at least include the snippet part in the parameter value since that part contains all of the properties that the API request can update. */
   part: string[];
@@ -4758,13 +4757,13 @@ export const UpdateCommentsResponse = Comment;
 
 export type UpdateCommentsError = CommonErrors;
 
+/** Updates an existing resource. */
 export const updateComments: API.OperationMethod<UpdateCommentsRequest, UpdateCommentsResponse, UpdateCommentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateCommentsRequest,
   output: UpdateCommentsResponse,
   errors: [],
 }));
 
-/** Deletes a resource. */
 export interface DeleteCommentsRequest {
   id: string;
 }
@@ -4781,13 +4780,13 @@ export const DeleteCommentsResponse: Schema.Schema<DeleteCommentsResponse> = Sch
 
 export type DeleteCommentsError = CommonErrors;
 
+/** Deletes a resource. */
 export const deleteComments: API.OperationMethod<DeleteCommentsRequest, DeleteCommentsResponse, DeleteCommentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteCommentsRequest,
   output: DeleteCommentsResponse,
   errors: [],
 }));
 
-/** Sets the moderation status of one or more comments. */
 export interface SetModerationStatusCommentsRequest {
   /** Modifies the moderation status of the comments with the given IDs */
   id: string[];
@@ -4811,13 +4810,13 @@ export const SetModerationStatusCommentsResponse: Schema.Schema<SetModerationSta
 
 export type SetModerationStatusCommentsError = CommonErrors;
 
+/** Sets the moderation status of one or more comments. */
 export const setModerationStatusComments: API.OperationMethod<SetModerationStatusCommentsRequest, SetModerationStatusCommentsResponse, SetModerationStatusCommentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetModerationStatusCommentsRequest,
   output: SetModerationStatusCommentsResponse,
   errors: [],
 }));
 
-/** Expresses the caller's opinion that one or more comments should be flagged as spam. */
 export interface MarkAsSpamCommentsRequest {
   /** Flags the comments with the given IDs as spam in the caller's opinion. */
   id: string[];
@@ -4835,13 +4834,13 @@ export const MarkAsSpamCommentsResponse: Schema.Schema<MarkAsSpamCommentsRespons
 
 export type MarkAsSpamCommentsError = CommonErrors;
 
+/** Expresses the caller's opinion that one or more comments should be flagged as spam. */
 export const markAsSpamComments: API.OperationMethod<MarkAsSpamCommentsRequest, MarkAsSpamCommentsResponse, MarkAsSpamCommentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MarkAsSpamCommentsRequest,
   output: MarkAsSpamCommentsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of resources, possibly filtered. */
 export interface ListCommentThreadsRequest {
   /** Returns the comment threads with the given IDs for Stubby or Apiary. */
   id?: string[];
@@ -4891,7 +4890,8 @@ export const ListCommentThreadsResponse = CommentThreadListResponse;
 
 export type ListCommentThreadsError = CommonErrors;
 
-export const listCommentThreads = API.makePaginated(() => ({
+/** Retrieves a list of resources, possibly filtered. */
+export const listCommentThreads: API.PaginatedOperationMethod<ListCommentThreadsRequest, ListCommentThreadsResponse, ListCommentThreadsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCommentThreadsRequest,
   output: ListCommentThreadsResponse,
   errors: [],
@@ -4902,7 +4902,6 @@ export const listCommentThreads = API.makePaginated(() => ({
   },
 }));
 
-/** Inserts a new resource into this collection. */
 export interface InsertCommentThreadsRequest {
   /** The *part* parameter identifies the properties that the API response will include. Set the parameter value to snippet. The snippet part has a quota cost of 2 units. */
   part: string[];
@@ -4923,13 +4922,13 @@ export const InsertCommentThreadsResponse = CommentThread;
 
 export type InsertCommentThreadsError = CommonErrors;
 
+/** Inserts a new resource into this collection. */
 export const insertCommentThreads: API.OperationMethod<InsertCommentThreadsRequest, InsertCommentThreadsResponse, InsertCommentThreadsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertCommentThreadsRequest,
   output: InsertCommentThreadsResponse,
   errors: [],
 }));
 
-/** Updates an existing resource. */
 export interface UpdateCommentThreadsYoutubeV3Request {
   /** The *part* parameter specifies a comma-separated list of commentThread resource properties that the API response will include. You must at least include the snippet part in the parameter value since that part contains all of the properties that the API request can update. */
   part?: string[];
@@ -4950,13 +4949,13 @@ export const UpdateCommentThreadsYoutubeV3Response = CommentThread;
 
 export type UpdateCommentThreadsYoutubeV3Error = CommonErrors;
 
+/** Updates an existing resource. */
 export const updateCommentThreadsYoutubeV3: API.OperationMethod<UpdateCommentThreadsYoutubeV3Request, UpdateCommentThreadsYoutubeV3Response, UpdateCommentThreadsYoutubeV3Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateCommentThreadsYoutubeV3Request,
   output: UpdateCommentThreadsYoutubeV3Response,
   errors: [],
 }));
 
-/** Allows a user to load live chat through a server-streamed RPC. */
 export interface StreamYoutubeV3LiveChatMessagesRequest {
   /** The id of the live chat for which comments should be returned. */
   liveChatId?: string;
@@ -4989,7 +4988,8 @@ export const StreamYoutubeV3LiveChatMessagesResponse = LiveChatMessageListRespon
 
 export type StreamYoutubeV3LiveChatMessagesError = CommonErrors;
 
-export const streamYoutubeV3LiveChatMessages = API.makePaginated(() => ({
+/** Allows a user to load live chat through a server-streamed RPC. */
+export const streamYoutubeV3LiveChatMessages: API.PaginatedOperationMethod<StreamYoutubeV3LiveChatMessagesRequest, StreamYoutubeV3LiveChatMessagesResponse, StreamYoutubeV3LiveChatMessagesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: StreamYoutubeV3LiveChatMessagesRequest,
   output: StreamYoutubeV3LiveChatMessagesResponse,
   errors: [],
@@ -5000,7 +5000,6 @@ export const streamYoutubeV3LiveChatMessages = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves a list of resources, possibly filtered. */
 export interface ListI18nLanguagesRequest {
   hl?: string;
   /** The *part* parameter specifies the i18nLanguage resource properties that the API response will include. Set the parameter value to snippet. */
@@ -5020,13 +5019,13 @@ export const ListI18nLanguagesResponse = I18nLanguageListResponse;
 
 export type ListI18nLanguagesError = CommonErrors;
 
+/** Retrieves a list of resources, possibly filtered. */
 export const listI18nLanguages: API.OperationMethod<ListI18nLanguagesRequest, ListI18nLanguagesResponse, ListI18nLanguagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListI18nLanguagesRequest,
   output: ListI18nLanguagesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of resources, possibly filtered. */
 export interface ListI18nRegionsRequest {
   hl?: string;
   /** The *part* parameter specifies the i18nRegion resource properties that the API response will include. Set the parameter value to snippet. */
@@ -5046,13 +5045,13 @@ export const ListI18nRegionsResponse = I18nRegionListResponse;
 
 export type ListI18nRegionsError = CommonErrors;
 
+/** Retrieves a list of resources, possibly filtered. */
 export const listI18nRegions: API.OperationMethod<ListI18nRegionsRequest, ListI18nRegionsResponse, ListI18nRegionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListI18nRegionsRequest,
   output: ListI18nRegionsResponse,
   errors: [],
 }));
 
-/** Retrieve the list of broadcasts associated with the given channel. */
 export interface ListLiveBroadcastsRequest {
   /** Return broadcasts with a certain status, e.g. active broadcasts. */
   broadcastStatus?: "broadcastStatusFilterUnspecified" | "all" | "active" | "upcoming" | "completed" | (string & {});
@@ -5093,7 +5092,8 @@ export const ListLiveBroadcastsResponse = LiveBroadcastListResponse;
 
 export type ListLiveBroadcastsError = CommonErrors;
 
-export const listLiveBroadcasts = API.makePaginated(() => ({
+/** Retrieve the list of broadcasts associated with the given channel. */
+export const listLiveBroadcasts: API.PaginatedOperationMethod<ListLiveBroadcastsRequest, ListLiveBroadcastsResponse, ListLiveBroadcastsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListLiveBroadcastsRequest,
   output: ListLiveBroadcastsResponse,
   errors: [],
@@ -5104,7 +5104,6 @@ export const listLiveBroadcasts = API.makePaginated(() => ({
   },
 }));
 
-/** Inserts a new stream for the authenticated user. */
 export interface InsertLiveBroadcastsRequest {
   /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. The part properties that you can include in the parameter value are id, snippet, contentDetails, and status. */
   part: string[];
@@ -5131,13 +5130,13 @@ export const InsertLiveBroadcastsResponse = LiveBroadcast;
 
 export type InsertLiveBroadcastsError = CommonErrors;
 
+/** Inserts a new stream for the authenticated user. */
 export const insertLiveBroadcasts: API.OperationMethod<InsertLiveBroadcastsRequest, InsertLiveBroadcastsResponse, InsertLiveBroadcastsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertLiveBroadcastsRequest,
   output: InsertLiveBroadcastsResponse,
   errors: [],
 }));
 
-/** Updates an existing broadcast for the authenticated user. */
 export interface UpdateLiveBroadcastsRequest {
   /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. The part properties that you can include in the parameter value are id, snippet, contentDetails, and status. Note that this method will override the existing values for all of the mutable properties that are contained in any parts that the parameter value specifies. For example, a broadcast's privacy status is defined in the status part. As such, if your request is updating a private or unlisted broadcast, and the request's part parameter value includes the status part, the broadcast's privacy setting will be updated to whatever value the request body specifies. If the request body does not specify a value, the existing privacy setting will be removed and the broadcast will revert to the default privacy setting. */
   part: string[];
@@ -5164,13 +5163,13 @@ export const UpdateLiveBroadcastsResponse = LiveBroadcast;
 
 export type UpdateLiveBroadcastsError = CommonErrors;
 
+/** Updates an existing broadcast for the authenticated user. */
 export const updateLiveBroadcasts: API.OperationMethod<UpdateLiveBroadcastsRequest, UpdateLiveBroadcastsResponse, UpdateLiveBroadcastsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateLiveBroadcastsRequest,
   output: UpdateLiveBroadcastsResponse,
   errors: [],
 }));
 
-/** Delete a given broadcast. */
 export interface DeleteLiveBroadcastsRequest {
   /** Broadcast to delete. */
   id: string;
@@ -5194,13 +5193,13 @@ export const DeleteLiveBroadcastsResponse: Schema.Schema<DeleteLiveBroadcastsRes
 
 export type DeleteLiveBroadcastsError = CommonErrors;
 
+/** Delete a given broadcast. */
 export const deleteLiveBroadcasts: API.OperationMethod<DeleteLiveBroadcastsRequest, DeleteLiveBroadcastsResponse, DeleteLiveBroadcastsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteLiveBroadcastsRequest,
   output: DeleteLiveBroadcastsResponse,
   errors: [],
 }));
 
-/** Bind a broadcast to a stream. */
 export interface BindLiveBroadcastsRequest {
   /** Broadcast to bind to the stream */
   id: string;
@@ -5230,13 +5229,13 @@ export const BindLiveBroadcastsResponse = LiveBroadcast;
 
 export type BindLiveBroadcastsError = CommonErrors;
 
+/** Bind a broadcast to a stream. */
 export const bindLiveBroadcasts: API.OperationMethod<BindLiveBroadcastsRequest, BindLiveBroadcastsResponse, BindLiveBroadcastsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BindLiveBroadcastsRequest,
   output: BindLiveBroadcastsResponse,
   errors: [],
 }));
 
-/** Transition a broadcast to a given status. */
 export interface TransitionLiveBroadcastsRequest {
   /** Broadcast to transition. */
   id: string;
@@ -5266,13 +5265,13 @@ export const TransitionLiveBroadcastsResponse = LiveBroadcast;
 
 export type TransitionLiveBroadcastsError = CommonErrors;
 
+/** Transition a broadcast to a given status. */
 export const transitionLiveBroadcasts: API.OperationMethod<TransitionLiveBroadcastsRequest, TransitionLiveBroadcastsResponse, TransitionLiveBroadcastsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TransitionLiveBroadcastsRequest,
   output: TransitionLiveBroadcastsResponse,
   errors: [],
 }));
 
-/** Insert cuepoints in a broadcast */
 export interface InsertCuepointLiveBroadcastsRequest {
   /** Broadcast to insert ads to, or equivalently `external_video_id` for internal use. */
   id?: string;
@@ -5302,13 +5301,13 @@ export const InsertCuepointLiveBroadcastsResponse = Cuepoint;
 
 export type InsertCuepointLiveBroadcastsError = CommonErrors;
 
+/** Insert cuepoints in a broadcast */
 export const insertCuepointLiveBroadcasts: API.OperationMethod<InsertCuepointLiveBroadcastsRequest, InsertCuepointLiveBroadcastsResponse, InsertCuepointLiveBroadcastsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertCuepointLiveBroadcastsRequest,
   output: InsertCuepointLiveBroadcastsResponse,
   errors: [],
 }));
 
-/** Inserts a new resource into this collection. */
 export interface InsertLiveChatBansRequest {
   /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response returns. Set the parameter value to snippet. */
   part: string[];
@@ -5329,13 +5328,13 @@ export const InsertLiveChatBansResponse = LiveChatBan;
 
 export type InsertLiveChatBansError = CommonErrors;
 
+/** Inserts a new resource into this collection. */
 export const insertLiveChatBans: API.OperationMethod<InsertLiveChatBansRequest, InsertLiveChatBansResponse, InsertLiveChatBansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertLiveChatBansRequest,
   output: InsertLiveChatBansResponse,
   errors: [],
 }));
 
-/** Deletes a chat ban. */
 export interface DeleteLiveChatBansRequest {
   id: string;
 }
@@ -5352,13 +5351,13 @@ export const DeleteLiveChatBansResponse: Schema.Schema<DeleteLiveChatBansRespons
 
 export type DeleteLiveChatBansError = CommonErrors;
 
+/** Deletes a chat ban. */
 export const deleteLiveChatBans: API.OperationMethod<DeleteLiveChatBansRequest, DeleteLiveChatBansResponse, DeleteLiveChatBansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteLiveChatBansRequest,
   output: DeleteLiveChatBansResponse,
   errors: [],
 }));
 
-/** Retrieves a list of resources, possibly filtered. */
 export interface ListLiveChatMessagesRequest {
   /** The id of the live chat for which comments should be returned. */
   liveChatId: string;
@@ -5391,7 +5390,8 @@ export const ListLiveChatMessagesResponse = LiveChatMessageListResponse;
 
 export type ListLiveChatMessagesError = CommonErrors;
 
-export const listLiveChatMessages = API.makePaginated(() => ({
+/** Retrieves a list of resources, possibly filtered. */
+export const listLiveChatMessages: API.PaginatedOperationMethod<ListLiveChatMessagesRequest, ListLiveChatMessagesResponse, ListLiveChatMessagesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListLiveChatMessagesRequest,
   output: ListLiveChatMessagesResponse,
   errors: [],
@@ -5402,7 +5402,6 @@ export const listLiveChatMessages = API.makePaginated(() => ({
   },
 }));
 
-/** Inserts a new resource into this collection. */
 export interface InsertLiveChatMessagesRequest {
   /** The *part* parameter serves two purposes. It identifies the properties that the write operation will set as well as the properties that the API response will include. Set the parameter value to snippet. */
   part: string[];
@@ -5423,13 +5422,13 @@ export const InsertLiveChatMessagesResponse = LiveChatMessage;
 
 export type InsertLiveChatMessagesError = CommonErrors;
 
+/** Inserts a new resource into this collection. */
 export const insertLiveChatMessages: API.OperationMethod<InsertLiveChatMessagesRequest, InsertLiveChatMessagesResponse, InsertLiveChatMessagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertLiveChatMessagesRequest,
   output: InsertLiveChatMessagesResponse,
   errors: [],
 }));
 
-/** Deletes a chat message. */
 export interface DeleteLiveChatMessagesRequest {
   id: string;
 }
@@ -5446,13 +5445,13 @@ export const DeleteLiveChatMessagesResponse: Schema.Schema<DeleteLiveChatMessage
 
 export type DeleteLiveChatMessagesError = CommonErrors;
 
+/** Deletes a chat message. */
 export const deleteLiveChatMessages: API.OperationMethod<DeleteLiveChatMessagesRequest, DeleteLiveChatMessagesResponse, DeleteLiveChatMessagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteLiveChatMessagesRequest,
   output: DeleteLiveChatMessagesResponse,
   errors: [],
 }));
 
-/** Transition a durable chat event. */
 export interface TransitionLiveChatMessagesRequest {
   /** The ID that uniquely identify the chat message event to transition. */
   id?: string;
@@ -5473,13 +5472,13 @@ export const TransitionLiveChatMessagesResponse = LiveChatMessage;
 
 export type TransitionLiveChatMessagesError = CommonErrors;
 
+/** Transition a durable chat event. */
 export const transitionLiveChatMessages: API.OperationMethod<TransitionLiveChatMessagesRequest, TransitionLiveChatMessagesResponse, TransitionLiveChatMessagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TransitionLiveChatMessagesRequest,
   output: TransitionLiveChatMessagesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of resources, possibly filtered. */
 export interface ListLiveChatModeratorsRequest {
   /** The id of the live chat for which moderators should be returned. */
   liveChatId: string;
@@ -5506,7 +5505,8 @@ export const ListLiveChatModeratorsResponse = LiveChatModeratorListResponse;
 
 export type ListLiveChatModeratorsError = CommonErrors;
 
-export const listLiveChatModerators = API.makePaginated(() => ({
+/** Retrieves a list of resources, possibly filtered. */
+export const listLiveChatModerators: API.PaginatedOperationMethod<ListLiveChatModeratorsRequest, ListLiveChatModeratorsResponse, ListLiveChatModeratorsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListLiveChatModeratorsRequest,
   output: ListLiveChatModeratorsResponse,
   errors: [],
@@ -5517,7 +5517,6 @@ export const listLiveChatModerators = API.makePaginated(() => ({
   },
 }));
 
-/** Inserts a new resource into this collection. */
 export interface InsertLiveChatModeratorsRequest {
   /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response returns. Set the parameter value to snippet. */
   part: string[];
@@ -5538,13 +5537,13 @@ export const InsertLiveChatModeratorsResponse = LiveChatModerator;
 
 export type InsertLiveChatModeratorsError = CommonErrors;
 
+/** Inserts a new resource into this collection. */
 export const insertLiveChatModerators: API.OperationMethod<InsertLiveChatModeratorsRequest, InsertLiveChatModeratorsResponse, InsertLiveChatModeratorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertLiveChatModeratorsRequest,
   output: InsertLiveChatModeratorsResponse,
   errors: [],
 }));
 
-/** Deletes a chat moderator. */
 export interface DeleteLiveChatModeratorsRequest {
   id: string;
 }
@@ -5561,13 +5560,13 @@ export const DeleteLiveChatModeratorsResponse: Schema.Schema<DeleteLiveChatModer
 
 export type DeleteLiveChatModeratorsError = CommonErrors;
 
+/** Deletes a chat moderator. */
 export const deleteLiveChatModerators: API.OperationMethod<DeleteLiveChatModeratorsRequest, DeleteLiveChatModeratorsResponse, DeleteLiveChatModeratorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteLiveChatModeratorsRequest,
   output: DeleteLiveChatModeratorsResponse,
   errors: [],
 }));
 
-/** Retrieve the list of streams associated with the given channel. -- */
 export interface ListLiveStreamsRequest {
   /** Return LiveStreams with the given ids from Stubby or Apiary. */
   id?: string[];
@@ -5602,7 +5601,8 @@ export const ListLiveStreamsResponse = LiveStreamListResponse;
 
 export type ListLiveStreamsError = CommonErrors;
 
-export const listLiveStreams = API.makePaginated(() => ({
+/** Retrieve the list of streams associated with the given channel. -- */
+export const listLiveStreams: API.PaginatedOperationMethod<ListLiveStreamsRequest, ListLiveStreamsResponse, ListLiveStreamsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListLiveStreamsRequest,
   output: ListLiveStreamsResponse,
   errors: [],
@@ -5613,7 +5613,6 @@ export const listLiveStreams = API.makePaginated(() => ({
   },
 }));
 
-/** Inserts a new stream for the authenticated user. */
 export interface InsertLiveStreamsRequest {
   /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. The part properties that you can include in the parameter value are id, snippet, cdn, content_details, and status. */
   part: string[];
@@ -5640,13 +5639,13 @@ export const InsertLiveStreamsResponse = LiveStream;
 
 export type InsertLiveStreamsError = CommonErrors;
 
+/** Inserts a new stream for the authenticated user. */
 export const insertLiveStreams: API.OperationMethod<InsertLiveStreamsRequest, InsertLiveStreamsResponse, InsertLiveStreamsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertLiveStreamsRequest,
   output: InsertLiveStreamsResponse,
   errors: [],
 }));
 
-/** Updates an existing stream for the authenticated user. */
 export interface UpdateLiveStreamsRequest {
   /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. The part properties that you can include in the parameter value are id, snippet, cdn, and status. Note that this method will override the existing values for all of the mutable properties that are contained in any parts that the parameter value specifies. If the request body does not specify a value for a mutable property, the existing value for that property will be removed. */
   part: string[];
@@ -5673,13 +5672,13 @@ export const UpdateLiveStreamsResponse = LiveStream;
 
 export type UpdateLiveStreamsError = CommonErrors;
 
+/** Updates an existing stream for the authenticated user. */
 export const updateLiveStreams: API.OperationMethod<UpdateLiveStreamsRequest, UpdateLiveStreamsResponse, UpdateLiveStreamsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateLiveStreamsRequest,
   output: UpdateLiveStreamsResponse,
   errors: [],
 }));
 
-/** Deletes an existing stream for the authenticated user. */
 export interface DeleteLiveStreamsRequest {
   id: string;
   /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
@@ -5702,13 +5701,13 @@ export const DeleteLiveStreamsResponse: Schema.Schema<DeleteLiveStreamsResponse>
 
 export type DeleteLiveStreamsError = CommonErrors;
 
+/** Deletes an existing stream for the authenticated user. */
 export const deleteLiveStreams: API.OperationMethod<DeleteLiveStreamsRequest, DeleteLiveStreamsResponse, DeleteLiveStreamsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteLiveStreamsRequest,
   output: DeleteLiveStreamsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of members that match the request criteria for a channel. */
 export interface ListMembersRequest {
   /** Parameter that specifies which channel members to return. */
   mode?: "listMembersModeUnknown" | "updates" | "all_current" | (string & {});
@@ -5741,7 +5740,8 @@ export const ListMembersResponse = MemberListResponse;
 
 export type ListMembersError = CommonErrors;
 
-export const listMembers = API.makePaginated(() => ({
+/** Retrieves a list of members that match the request criteria for a channel. */
+export const listMembers: API.PaginatedOperationMethod<ListMembersRequest, ListMembersResponse, ListMembersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListMembersRequest,
   output: ListMembersResponse,
   errors: [],
@@ -5752,7 +5752,6 @@ export const listMembers = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves a list of all pricing levels offered by a creator to the fans. */
 export interface ListMembershipsLevelsRequest {
   /** The *part* parameter specifies the membershipsLevel resource parts that the API response will include. Supported values are id and snippet. */
   part: string[];
@@ -5770,13 +5769,13 @@ export const ListMembershipsLevelsResponse = MembershipsLevelListResponse;
 
 export type ListMembershipsLevelsError = CommonErrors;
 
+/** Retrieves a list of all pricing levels offered by a creator to the fans. */
 export const listMembershipsLevels: API.OperationMethod<ListMembershipsLevelsRequest, ListMembershipsLevelsResponse, ListMembershipsLevelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListMembershipsLevelsRequest,
   output: ListMembershipsLevelsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of resources, possibly filtered. */
 export interface ListPlaylistsRequest {
   /** Return the playlists with the given IDs for Stubby or Apiary. */
   id?: string[];
@@ -5818,7 +5817,8 @@ export const ListPlaylistsResponse = PlaylistListResponse;
 
 export type ListPlaylistsError = CommonErrors;
 
-export const listPlaylists = API.makePaginated(() => ({
+/** Retrieves a list of resources, possibly filtered. */
+export const listPlaylists: API.PaginatedOperationMethod<ListPlaylistsRequest, ListPlaylistsResponse, ListPlaylistsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPlaylistsRequest,
   output: ListPlaylistsResponse,
   errors: [],
@@ -5829,7 +5829,6 @@ export const listPlaylists = API.makePaginated(() => ({
   },
 }));
 
-/** Inserts a new resource into this collection. */
 export interface InsertPlaylistsRequest {
   /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. */
   part: string[];
@@ -5856,13 +5855,13 @@ export const InsertPlaylistsResponse = Playlist;
 
 export type InsertPlaylistsError = CommonErrors;
 
+/** Inserts a new resource into this collection. */
 export const insertPlaylists: API.OperationMethod<InsertPlaylistsRequest, InsertPlaylistsResponse, InsertPlaylistsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertPlaylistsRequest,
   output: InsertPlaylistsResponse,
   errors: [],
 }));
 
-/** Updates an existing resource. */
 export interface UpdatePlaylistsRequest {
   /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. Note that this method will override the existing values for mutable properties that are contained in any parts that the request body specifies. For example, a playlist's description is contained in the snippet part, which must be included in the request body. If the request does not specify a value for the snippet.description property, the playlist's existing description will be deleted. */
   part: string[];
@@ -5886,13 +5885,13 @@ export const UpdatePlaylistsResponse = Playlist;
 
 export type UpdatePlaylistsError = CommonErrors;
 
+/** Updates an existing resource. */
 export const updatePlaylists: API.OperationMethod<UpdatePlaylistsRequest, UpdatePlaylistsResponse, UpdatePlaylistsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdatePlaylistsRequest,
   output: UpdatePlaylistsResponse,
   errors: [],
 }));
 
-/** Deletes a resource. */
 export interface DeletePlaylistsRequest {
   id: string;
   /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
@@ -5912,13 +5911,13 @@ export const DeletePlaylistsResponse: Schema.Schema<DeletePlaylistsResponse> = S
 
 export type DeletePlaylistsError = CommonErrors;
 
+/** Deletes a resource. */
 export const deletePlaylists: API.OperationMethod<DeletePlaylistsRequest, DeletePlaylistsResponse, DeletePlaylistsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeletePlaylistsRequest,
   output: DeletePlaylistsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of resources, possibly filtered. */
 export interface ListPlaylistItemsRequest {
   id?: string[];
   /** Return the playlist items within the given playlist. */
@@ -5953,7 +5952,8 @@ export const ListPlaylistItemsResponse = PlaylistItemListResponse;
 
 export type ListPlaylistItemsError = CommonErrors;
 
-export const listPlaylistItems = API.makePaginated(() => ({
+/** Retrieves a list of resources, possibly filtered. */
+export const listPlaylistItems: API.PaginatedOperationMethod<ListPlaylistItemsRequest, ListPlaylistItemsResponse, ListPlaylistItemsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPlaylistItemsRequest,
   output: ListPlaylistItemsResponse,
   errors: [],
@@ -5964,7 +5964,6 @@ export const listPlaylistItems = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a resource. */
 export interface DeletePlaylistItemsRequest {
   id: string;
   /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
@@ -5984,13 +5983,13 @@ export const DeletePlaylistItemsResponse: Schema.Schema<DeletePlaylistItemsRespo
 
 export type DeletePlaylistItemsError = CommonErrors;
 
+/** Deletes a resource. */
 export const deletePlaylistItems: API.OperationMethod<DeletePlaylistItemsRequest, DeletePlaylistItemsResponse, DeletePlaylistItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeletePlaylistItemsRequest,
   output: DeletePlaylistItemsResponse,
   errors: [],
 }));
 
-/** Inserts a new resource into this collection. */
 export interface InsertPlaylistItemsRequest {
   /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. */
   part: string[];
@@ -6014,13 +6013,13 @@ export const InsertPlaylistItemsResponse = PlaylistItem;
 
 export type InsertPlaylistItemsError = CommonErrors;
 
+/** Inserts a new resource into this collection. */
 export const insertPlaylistItems: API.OperationMethod<InsertPlaylistItemsRequest, InsertPlaylistItemsResponse, InsertPlaylistItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertPlaylistItemsRequest,
   output: InsertPlaylistItemsResponse,
   errors: [],
 }));
 
-/** Updates an existing resource. */
 export interface UpdatePlaylistItemsRequest {
   /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. Note that this method will override the existing values for all of the mutable properties that are contained in any parts that the parameter value specifies. For example, a playlist item can specify a start time and end time, which identify the times portion of the video that should play when users watch the video in the playlist. If your request is updating a playlist item that sets these values, and the request's part parameter value includes the contentDetails part, the playlist item's start and end times will be updated to whatever value the request body specifies. If the request body does not specify values, the existing start and end times will be removed and replaced with the default settings. */
   part: string[];
@@ -6044,13 +6043,13 @@ export const UpdatePlaylistItemsResponse = PlaylistItem;
 
 export type UpdatePlaylistItemsError = CommonErrors;
 
+/** Updates an existing resource. */
 export const updatePlaylistItems: API.OperationMethod<UpdatePlaylistItemsRequest, UpdatePlaylistItemsResponse, UpdatePlaylistItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdatePlaylistItemsRequest,
   output: UpdatePlaylistItemsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of resources, possibly filtered. */
 export interface ListPlaylistImagesRequest {
   /** Return PlaylistImages for this playlist id. */
   parent?: string;
@@ -6083,7 +6082,8 @@ export const ListPlaylistImagesResponse = PlaylistImageListResponse;
 
 export type ListPlaylistImagesError = CommonErrors;
 
-export const listPlaylistImages = API.makePaginated(() => ({
+/** Retrieves a list of resources, possibly filtered. */
+export const listPlaylistImages: API.PaginatedOperationMethod<ListPlaylistImagesRequest, ListPlaylistImagesResponse, ListPlaylistImagesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPlaylistImagesRequest,
   output: ListPlaylistImagesResponse,
   errors: [],
@@ -6094,7 +6094,6 @@ export const listPlaylistImages = API.makePaginated(() => ({
   },
 }));
 
-/** Inserts a new resource into this collection. */
 export interface InsertPlaylistImagesRequest {
   /** The *part* parameter specifies the properties that the API response will include. */
   part?: string[];
@@ -6121,13 +6120,13 @@ export const InsertPlaylistImagesResponse = PlaylistImage;
 
 export type InsertPlaylistImagesError = CommonErrors;
 
+/** Inserts a new resource into this collection. */
 export const insertPlaylistImages: API.OperationMethod<InsertPlaylistImagesRequest, InsertPlaylistImagesResponse, InsertPlaylistImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertPlaylistImagesRequest,
   output: InsertPlaylistImagesResponse,
   errors: [],
 }));
 
-/** Updates an existing resource. */
 export interface UpdatePlaylistImagesRequest {
   /** The *part* parameter specifies the properties that the API response will include. */
   part?: string[];
@@ -6151,13 +6150,13 @@ export const UpdatePlaylistImagesResponse = PlaylistImage;
 
 export type UpdatePlaylistImagesError = CommonErrors;
 
+/** Updates an existing resource. */
 export const updatePlaylistImages: API.OperationMethod<UpdatePlaylistImagesRequest, UpdatePlaylistImagesResponse, UpdatePlaylistImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdatePlaylistImagesRequest,
   output: UpdatePlaylistImagesResponse,
   errors: [],
 }));
 
-/** Deletes a resource. */
 export interface DeletePlaylistImagesRequest {
   /** Id to identify this image. This is returned from by the List method. */
   id?: string;
@@ -6178,13 +6177,13 @@ export const DeletePlaylistImagesResponse: Schema.Schema<DeletePlaylistImagesRes
 
 export type DeletePlaylistImagesError = CommonErrors;
 
+/** Deletes a resource. */
 export const deletePlaylistImages: API.OperationMethod<DeletePlaylistImagesRequest, DeletePlaylistImagesResponse, DeletePlaylistImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeletePlaylistImagesRequest,
   output: DeletePlaylistImagesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of search resources */
 export interface ListSearchRequest {
   /** Textual search terms to match. */
   q?: string;
@@ -6291,7 +6290,8 @@ export const ListSearchResponse = SearchListResponse;
 
 export type ListSearchError = CommonErrors;
 
-export const listSearch = API.makePaginated(() => ({
+/** Retrieves a list of search resources */
+export const listSearch: API.PaginatedOperationMethod<ListSearchRequest, ListSearchResponse, ListSearchError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListSearchRequest,
   output: ListSearchResponse,
   errors: [],
@@ -6302,7 +6302,6 @@ export const listSearch = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves a list of resources, possibly filtered. */
 export interface ListSubscriptionsRequest {
   /** Return the subscriptions with the given IDs for Stubby or Apiary. */
   id?: string[];
@@ -6352,7 +6351,8 @@ export const ListSubscriptionsResponse = SubscriptionListResponse;
 
 export type ListSubscriptionsError = CommonErrors;
 
-export const listSubscriptions = API.makePaginated(() => ({
+/** Retrieves a list of resources, possibly filtered. */
+export const listSubscriptions: API.PaginatedOperationMethod<ListSubscriptionsRequest, ListSubscriptionsResponse, ListSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListSubscriptionsRequest,
   output: ListSubscriptionsResponse,
   errors: [],
@@ -6363,7 +6363,6 @@ export const listSubscriptions = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a resource. */
 export interface DeleteSubscriptionsRequest {
   id: string;
 }
@@ -6380,13 +6379,13 @@ export const DeleteSubscriptionsResponse: Schema.Schema<DeleteSubscriptionsRespo
 
 export type DeleteSubscriptionsError = CommonErrors;
 
+/** Deletes a resource. */
 export const deleteSubscriptions: API.OperationMethod<DeleteSubscriptionsRequest, DeleteSubscriptionsResponse, DeleteSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteSubscriptionsRequest,
   output: DeleteSubscriptionsResponse,
   errors: [],
 }));
 
-/** Inserts a new resource into this collection. */
 export interface InsertSubscriptionsRequest {
   /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. */
   part: string[];
@@ -6407,13 +6406,13 @@ export const InsertSubscriptionsResponse = Subscription;
 
 export type InsertSubscriptionsError = CommonErrors;
 
+/** Inserts a new resource into this collection. */
 export const insertSubscriptions: API.OperationMethod<InsertSubscriptionsRequest, InsertSubscriptionsResponse, InsertSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertSubscriptionsRequest,
   output: InsertSubscriptionsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of resources, possibly filtered. */
 export interface ListSuperChatEventsRequest {
   /** Return rendered funding amounts in specified language. */
   hl?: string;
@@ -6440,7 +6439,8 @@ export const ListSuperChatEventsResponse = SuperChatEventListResponse;
 
 export type ListSuperChatEventsError = CommonErrors;
 
-export const listSuperChatEvents = API.makePaginated(() => ({
+/** Retrieves a list of resources, possibly filtered. */
+export const listSuperChatEvents: API.PaginatedOperationMethod<ListSuperChatEventsRequest, ListSuperChatEventsResponse, ListSuperChatEventsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListSuperChatEventsRequest,
   output: ListSuperChatEventsResponse,
   errors: [],
@@ -6451,7 +6451,6 @@ export const listSuperChatEvents = API.makePaginated(() => ({
   },
 }));
 
-/** POST method. */
 export interface InsertTestsRequest {
   part: string[];
   externalChannelId?: string;
@@ -6473,13 +6472,13 @@ export const InsertTestsResponse = TestItem;
 
 export type InsertTestsError = CommonErrors;
 
+/** POST method. */
 export const insertTests: API.OperationMethod<InsertTestsRequest, InsertTestsResponse, InsertTestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertTestsRequest,
   output: InsertTestsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of resources, possibly filtered. */
 export interface ListThirdPartyLinksRequest {
   /** Get a third party link with the given linking token. */
   linkingToken?: string;
@@ -6506,13 +6505,13 @@ export const ListThirdPartyLinksResponse = ThirdPartyLinkListResponse;
 
 export type ListThirdPartyLinksError = CommonErrors;
 
+/** Retrieves a list of resources, possibly filtered. */
 export const listThirdPartyLinks: API.OperationMethod<ListThirdPartyLinksRequest, ListThirdPartyLinksResponse, ListThirdPartyLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListThirdPartyLinksRequest,
   output: ListThirdPartyLinksResponse,
   errors: [],
 }));
 
-/** Inserts a new resource into this collection. */
 export interface InsertThirdPartyLinksRequest {
   /** Channel ID to which changes should be applied, for delegation. */
   externalChannelId?: string;
@@ -6536,13 +6535,13 @@ export const InsertThirdPartyLinksResponse = ThirdPartyLink;
 
 export type InsertThirdPartyLinksError = CommonErrors;
 
+/** Inserts a new resource into this collection. */
 export const insertThirdPartyLinks: API.OperationMethod<InsertThirdPartyLinksRequest, InsertThirdPartyLinksResponse, InsertThirdPartyLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertThirdPartyLinksRequest,
   output: InsertThirdPartyLinksResponse,
   errors: [],
 }));
 
-/** Updates an existing resource. */
 export interface UpdateThirdPartyLinksRequest {
   /** Channel ID to which changes should be applied, for delegation. */
   externalChannelId?: string;
@@ -6566,13 +6565,13 @@ export const UpdateThirdPartyLinksResponse = ThirdPartyLink;
 
 export type UpdateThirdPartyLinksError = CommonErrors;
 
+/** Updates an existing resource. */
 export const updateThirdPartyLinks: API.OperationMethod<UpdateThirdPartyLinksRequest, UpdateThirdPartyLinksResponse, UpdateThirdPartyLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateThirdPartyLinksRequest,
   output: UpdateThirdPartyLinksResponse,
   errors: [],
 }));
 
-/** Deletes a resource. */
 export interface DeleteThirdPartyLinksRequest {
   /** Delete the partner links with the given linking token. */
   linkingToken: string;
@@ -6599,13 +6598,13 @@ export const DeleteThirdPartyLinksResponse: Schema.Schema<DeleteThirdPartyLinksR
 
 export type DeleteThirdPartyLinksError = CommonErrors;
 
+/** Deletes a resource. */
 export const deleteThirdPartyLinks: API.OperationMethod<DeleteThirdPartyLinksRequest, DeleteThirdPartyLinksResponse, DeleteThirdPartyLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteThirdPartyLinksRequest,
   output: DeleteThirdPartyLinksResponse,
   errors: [],
 }));
 
-/** As this is not an insert in a strict sense (it supports uploading/setting of a thumbnail for multiple videos, which doesn't result in creation of a single resource), I use a custom verb here. */
 export interface SetThumbnailsRequest {
   /** Returns the Thumbnail with the given video IDs for Stubby or Apiary. */
   videoId: string;
@@ -6626,13 +6625,13 @@ export const SetThumbnailsResponse = ThumbnailSetResponse;
 
 export type SetThumbnailsError = CommonErrors;
 
+/** As this is not an insert in a strict sense (it supports uploading/setting of a thumbnail for multiple videos, which doesn't result in creation of a single resource), I use a custom verb here. */
 export const setThumbnails: API.OperationMethod<SetThumbnailsRequest, SetThumbnailsResponse, SetThumbnailsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetThumbnailsRequest,
   output: SetThumbnailsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of resources, possibly filtered. */
 export interface ListVideosRequest {
   /** Return videos with the given ids. */
   id?: string[];
@@ -6684,7 +6683,8 @@ export const ListVideosResponse = VideoListResponse;
 
 export type ListVideosError = CommonErrors;
 
-export const listVideos = API.makePaginated(() => ({
+/** Retrieves a list of resources, possibly filtered. */
+export const listVideos: API.PaginatedOperationMethod<ListVideosRequest, ListVideosResponse, ListVideosError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListVideosRequest,
   output: ListVideosResponse,
   errors: [],
@@ -6695,7 +6695,6 @@ export const listVideos = API.makePaginated(() => ({
   },
 }));
 
-/** Inserts a new resource into this collection. */
 export interface InsertVideosRequest {
   /** Should auto-levels be applied to the upload. */
   autoLevels?: boolean;
@@ -6731,13 +6730,13 @@ export const InsertVideosResponse = Video;
 
 export type InsertVideosError = CommonErrors;
 
+/** Inserts a new resource into this collection. */
 export const insertVideos: API.OperationMethod<InsertVideosRequest, InsertVideosResponse, InsertVideosError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertVideosRequest,
   output: InsertVideosResponse,
   errors: [],
 }));
 
-/** Updates an existing resource. */
 export interface UpdateVideosRequest {
   /** The *part* parameter serves two purposes in this operation. It identifies the properties that the write operation will set as well as the properties that the API response will include. Note that this method will override the existing values for all of the mutable properties that are contained in any parts that the parameter value specifies. For example, a video's privacy setting is contained in the status part. As such, if your request is updating a private video, and the request's part parameter value includes the status part, the video's privacy setting will be updated to whatever value the request body specifies. If the request body does not specify a value, the existing privacy setting will be removed and the video will revert to the default privacy setting. In addition, not all parts contain properties that can be set when inserting or updating a video. For example, the statistics object encapsulates statistics that YouTube calculates for a video and does not contain values that you can set or modify. If the parameter value specifies a part that does not contain mutable values, that part will still be included in the API response. */
   part: string[];
@@ -6761,13 +6760,13 @@ export const UpdateVideosResponse = Video;
 
 export type UpdateVideosError = CommonErrors;
 
+/** Updates an existing resource. */
 export const updateVideos: API.OperationMethod<UpdateVideosRequest, UpdateVideosResponse, UpdateVideosError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateVideosRequest,
   output: UpdateVideosResponse,
   errors: [],
 }));
 
-/** Deletes a resource. */
 export interface DeleteVideosRequest {
   id: string;
   /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The actual CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
@@ -6787,13 +6786,13 @@ export const DeleteVideosResponse: Schema.Schema<DeleteVideosResponse> = Schema.
 
 export type DeleteVideosError = CommonErrors;
 
+/** Deletes a resource. */
 export const deleteVideos: API.OperationMethod<DeleteVideosRequest, DeleteVideosResponse, DeleteVideosError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteVideosRequest,
   output: DeleteVideosResponse,
   errors: [],
 }));
 
-/** Report abuse for a video. */
 export interface ReportAbuseVideosRequest {
   /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
   onBehalfOfContentOwner?: string;
@@ -6814,13 +6813,13 @@ export const ReportAbuseVideosResponse: Schema.Schema<ReportAbuseVideosResponse>
 
 export type ReportAbuseVideosError = CommonErrors;
 
+/** Report abuse for a video. */
 export const reportAbuseVideos: API.OperationMethod<ReportAbuseVideosRequest, ReportAbuseVideosResponse, ReportAbuseVideosError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReportAbuseVideosRequest,
   output: ReportAbuseVideosResponse,
   errors: [],
 }));
 
-/** Adds a like or dislike rating to a video or removes a rating from a video. */
 export interface RateVideosRequest {
   id: string;
   rating: "none" | "like" | "dislike" | (string & {});
@@ -6839,13 +6838,13 @@ export const RateVideosResponse: Schema.Schema<RateVideosResponse> = Schema.Stru
 
 export type RateVideosError = CommonErrors;
 
+/** Adds a like or dislike rating to a video or removes a rating from a video. */
 export const rateVideos: API.OperationMethod<RateVideosRequest, RateVideosResponse, RateVideosError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RateVideosRequest,
   output: RateVideosResponse,
   errors: [],
 }));
 
-/** Retrieves the ratings that the authorized user gave to a list of specified videos. */
 export interface GetRatingVideosRequest {
   id: string[];
   /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
@@ -6865,13 +6864,13 @@ export const GetRatingVideosResponse = VideoGetRatingResponse;
 
 export type GetRatingVideosError = CommonErrors;
 
+/** Retrieves the ratings that the authorized user gave to a list of specified videos. */
 export const getRatingVideos: API.OperationMethod<GetRatingVideosRequest, GetRatingVideosResponse, GetRatingVideosError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRatingVideosRequest,
   output: GetRatingVideosResponse,
   errors: [],
 }));
 
-/** Retrieves a list of resources, possibly filtered. */
 export interface ListVideoAbuseReportReasonsRequest {
   hl?: string;
   /** The *part* parameter specifies the videoCategory resource parts that the API response will include. Supported values are id and snippet. */
@@ -6891,13 +6890,13 @@ export const ListVideoAbuseReportReasonsResponse = VideoAbuseReportReasonListRes
 
 export type ListVideoAbuseReportReasonsError = CommonErrors;
 
+/** Retrieves a list of resources, possibly filtered. */
 export const listVideoAbuseReportReasons: API.OperationMethod<ListVideoAbuseReportReasonsRequest, ListVideoAbuseReportReasonsResponse, ListVideoAbuseReportReasonsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListVideoAbuseReportReasonsRequest,
   output: ListVideoAbuseReportReasonsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of resources, possibly filtered. */
 export interface ListVideoCategoriesRequest {
   /** Returns the video categories with the given IDs for Stubby or Apiary. */
   id?: string[];
@@ -6922,13 +6921,13 @@ export const ListVideoCategoriesResponse = VideoCategoryListResponse;
 
 export type ListVideoCategoriesError = CommonErrors;
 
+/** Retrieves a list of resources, possibly filtered. */
 export const listVideoCategories: API.OperationMethod<ListVideoCategoriesRequest, ListVideoCategoriesResponse, ListVideoCategoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListVideoCategoriesRequest,
   output: ListVideoCategoriesResponse,
   errors: [],
 }));
 
-/** Returns the trainability status of a video. */
 export interface GetVideoTrainabilityRequest {
   /** The ID of the video to retrieve. */
   id?: string;
@@ -6946,13 +6945,13 @@ export const GetVideoTrainabilityResponse = VideoTrainability;
 
 export type GetVideoTrainabilityError = CommonErrors;
 
+/** Returns the trainability status of a video. */
 export const getVideoTrainability: API.OperationMethod<GetVideoTrainabilityRequest, GetVideoTrainabilityResponse, GetVideoTrainabilityError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetVideoTrainabilityRequest,
   output: GetVideoTrainabilityResponse,
   errors: [],
 }));
 
-/** Allows upload of watermark image and setting it for a channel. */
 export interface SetWatermarksRequest {
   channelId: string;
   /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
@@ -6975,13 +6974,13 @@ export const SetWatermarksResponse: Schema.Schema<SetWatermarksResponse> = Schem
 
 export type SetWatermarksError = CommonErrors;
 
+/** Allows upload of watermark image and setting it for a channel. */
 export const setWatermarks: API.OperationMethod<SetWatermarksRequest, SetWatermarksResponse, SetWatermarksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetWatermarksRequest,
   output: SetWatermarksResponse,
   errors: [],
 }));
 
-/** Allows removal of channel watermark. */
 export interface UnsetWatermarksRequest {
   channelId: string;
   /** *Note:* This parameter is intended exclusively for YouTube content partners. The *onBehalfOfContentOwner* parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The CMS account that the user authenticates with must be linked to the specified YouTube content owner. */
@@ -7001,6 +7000,7 @@ export const UnsetWatermarksResponse: Schema.Schema<UnsetWatermarksResponse> = S
 
 export type UnsetWatermarksError = CommonErrors;
 
+/** Allows removal of channel watermark. */
 export const unsetWatermarks: API.OperationMethod<UnsetWatermarksRequest, UnsetWatermarksResponse, UnsetWatermarksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UnsetWatermarksRequest,
   output: UnsetWatermarksResponse,

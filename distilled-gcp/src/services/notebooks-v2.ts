@@ -828,7 +828,6 @@ export const StartInstanceRequest: Schema.Schema<StartInstanceRequest> = Schema.
 // Operations
 // ==========================================================================
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -846,13 +845,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string;
@@ -882,7 +881,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -892,7 +892,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Lists instances in a given project and location. */
 export interface ListProjectsLocationsInstancesRequest {
   /** Required. The parent of the instance. Formats: - `projects/{project_id}/locations/{location}` to list instances in a specific zone. - `projects/{project_id}/locations/-` to list instances in all locations. */
   parent: string;
@@ -922,7 +921,8 @@ export const ListProjectsLocationsInstancesResponse = ListInstancesResponse;
 
 export type ListProjectsLocationsInstancesError = CommonErrors;
 
-export const listProjectsLocationsInstances = API.makePaginated(() => ({
+/** Lists instances in a given project and location. */
+export const listProjectsLocationsInstances: API.PaginatedOperationMethod<ListProjectsLocationsInstancesRequest, ListProjectsLocationsInstancesResponse, ListProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsInstancesRequest,
   output: ListProjectsLocationsInstancesResponse,
   errors: [],
@@ -932,7 +932,6 @@ export const listProjectsLocationsInstances = API.makePaginated(() => ({
   },
 }));
 
-/** Resets a notebook instance. */
 export interface ResetProjectsLocationsInstancesRequest {
   /** Required. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
   name: string;
@@ -953,13 +952,13 @@ export const ResetProjectsLocationsInstancesResponse = Operation;
 
 export type ResetProjectsLocationsInstancesError = CommonErrors;
 
+/** Resets a notebook instance. */
 export const resetProjectsLocationsInstances: API.OperationMethod<ResetProjectsLocationsInstancesRequest, ResetProjectsLocationsInstancesResponse, ResetProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetProjectsLocationsInstancesRequest,
   output: ResetProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Allows notebook instances to upgrade themselves. Do not use this method directly. */
 export interface UpgradeSystemProjectsLocationsInstancesRequest {
   /** Required. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
   name: string;
@@ -980,13 +979,13 @@ export const UpgradeSystemProjectsLocationsInstancesResponse = Operation;
 
 export type UpgradeSystemProjectsLocationsInstancesError = CommonErrors;
 
+/** Allows notebook instances to upgrade themselves. Do not use this method directly. */
 export const upgradeSystemProjectsLocationsInstances: API.OperationMethod<UpgradeSystemProjectsLocationsInstancesRequest, UpgradeSystemProjectsLocationsInstancesResponse, UpgradeSystemProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpgradeSystemProjectsLocationsInstancesRequest,
   output: UpgradeSystemProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsInstancesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1007,13 +1006,13 @@ export const SetIamPolicyProjectsLocationsInstancesResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsInstancesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsInstances: API.OperationMethod<SetIamPolicyProjectsLocationsInstancesRequest, SetIamPolicyProjectsLocationsInstancesResponse, SetIamPolicyProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsInstancesRequest,
   output: SetIamPolicyProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Resize a notebook instance disk to a higher capacity. */
 export interface ResizeDiskProjectsLocationsInstancesRequest {
   /** Required. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
   notebookInstance: string;
@@ -1034,13 +1033,13 @@ export const ResizeDiskProjectsLocationsInstancesResponse = Operation;
 
 export type ResizeDiskProjectsLocationsInstancesError = CommonErrors;
 
+/** Resize a notebook instance disk to a higher capacity. */
 export const resizeDiskProjectsLocationsInstances: API.OperationMethod<ResizeDiskProjectsLocationsInstancesRequest, ResizeDiskProjectsLocationsInstancesResponse, ResizeDiskProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResizeDiskProjectsLocationsInstancesRequest,
   output: ResizeDiskProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Creates a Diagnostic File and runs Diagnostic Tool given an Instance. */
 export interface DiagnoseProjectsLocationsInstancesRequest {
   /** Required. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
   name: string;
@@ -1061,13 +1060,13 @@ export const DiagnoseProjectsLocationsInstancesResponse = Operation;
 
 export type DiagnoseProjectsLocationsInstancesError = CommonErrors;
 
+/** Creates a Diagnostic File and runs Diagnostic Tool given an Instance. */
 export const diagnoseProjectsLocationsInstances: API.OperationMethod<DiagnoseProjectsLocationsInstancesRequest, DiagnoseProjectsLocationsInstancesResponse, DiagnoseProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DiagnoseProjectsLocationsInstancesRequest,
   output: DiagnoseProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** RestoreInstance restores an Instance from a BackupSource. */
 export interface RestoreProjectsLocationsInstancesRequest {
   /** Required. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
   name: string;
@@ -1088,13 +1087,13 @@ export const RestoreProjectsLocationsInstancesResponse = Operation;
 
 export type RestoreProjectsLocationsInstancesError = CommonErrors;
 
+/** RestoreInstance restores an Instance from a BackupSource. */
 export const restoreProjectsLocationsInstances: API.OperationMethod<RestoreProjectsLocationsInstancesRequest, RestoreProjectsLocationsInstancesResponse, RestoreProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RestoreProjectsLocationsInstancesRequest,
   output: RestoreProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsInstancesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1115,13 +1114,13 @@ export const GetIamPolicyProjectsLocationsInstancesResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsInstancesError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsInstances: API.OperationMethod<GetIamPolicyProjectsLocationsInstancesRequest, GetIamPolicyProjectsLocationsInstancesResponse, GetIamPolicyProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsInstancesRequest,
   output: GetIamPolicyProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Upgrades a notebook instance to the latest version. */
 export interface UpgradeProjectsLocationsInstancesRequest {
   /** Required. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
   name: string;
@@ -1142,13 +1141,13 @@ export const UpgradeProjectsLocationsInstancesResponse = Operation;
 
 export type UpgradeProjectsLocationsInstancesError = CommonErrors;
 
+/** Upgrades a notebook instance to the latest version. */
 export const upgradeProjectsLocationsInstances: API.OperationMethod<UpgradeProjectsLocationsInstancesRequest, UpgradeProjectsLocationsInstancesResponse, UpgradeProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpgradeProjectsLocationsInstancesRequest,
   output: UpgradeProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsInstancesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1169,13 +1168,13 @@ export const TestIamPermissionsProjectsLocationsInstancesResponse = TestIamPermi
 
 export type TestIamPermissionsProjectsLocationsInstancesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsInstances: API.OperationMethod<TestIamPermissionsProjectsLocationsInstancesRequest, TestIamPermissionsProjectsLocationsInstancesResponse, TestIamPermissionsProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsInstancesRequest,
   output: TestIamPermissionsProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Initiated by Cloud Console for Oauth consent flow for Workbench Instances. Do not use this method directly. Design doc: go/wbi-euc:auth-dd */
 export interface CheckAuthorizationProjectsLocationsInstancesRequest {
   /** Required. The name of the Notebook Instance resource. Format: `projects/{project}/locations/{location}/instances/{instance}` */
   name: string;
@@ -1196,13 +1195,13 @@ export const CheckAuthorizationProjectsLocationsInstancesResponse = CheckAuthori
 
 export type CheckAuthorizationProjectsLocationsInstancesError = CommonErrors;
 
+/** Initiated by Cloud Console for Oauth consent flow for Workbench Instances. Do not use this method directly. Design doc: go/wbi-euc:auth-dd */
 export const checkAuthorizationProjectsLocationsInstances: API.OperationMethod<CheckAuthorizationProjectsLocationsInstancesRequest, CheckAuthorizationProjectsLocationsInstancesResponse, CheckAuthorizationProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CheckAuthorizationProjectsLocationsInstancesRequest,
   output: CheckAuthorizationProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** UpdateInstance updates an Instance. */
 export interface PatchProjectsLocationsInstancesRequest {
   /** Output only. Identifier. The name of this notebook instance. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
   name: string;
@@ -1229,13 +1228,13 @@ export const PatchProjectsLocationsInstancesResponse = Operation;
 
 export type PatchProjectsLocationsInstancesError = CommonErrors;
 
+/** UpdateInstance updates an Instance. */
 export const patchProjectsLocationsInstances: API.OperationMethod<PatchProjectsLocationsInstancesRequest, PatchProjectsLocationsInstancesResponse, PatchProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsInstancesRequest,
   output: PatchProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Gets details of a single Instance. */
 export interface GetProjectsLocationsInstancesRequest {
   /** Required. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
   name: string;
@@ -1253,13 +1252,13 @@ export const GetProjectsLocationsInstancesResponse = Instance;
 
 export type GetProjectsLocationsInstancesError = CommonErrors;
 
+/** Gets details of a single Instance. */
 export const getProjectsLocationsInstances: API.OperationMethod<GetProjectsLocationsInstancesRequest, GetProjectsLocationsInstancesResponse, GetProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsInstancesRequest,
   output: GetProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Stops a notebook instance. */
 export interface StopProjectsLocationsInstancesRequest {
   /** Required. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
   name: string;
@@ -1280,13 +1279,13 @@ export const StopProjectsLocationsInstancesResponse = Operation;
 
 export type StopProjectsLocationsInstancesError = CommonErrors;
 
+/** Stops a notebook instance. */
 export const stopProjectsLocationsInstances: API.OperationMethod<StopProjectsLocationsInstancesRequest, StopProjectsLocationsInstancesResponse, StopProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StopProjectsLocationsInstancesRequest,
   output: StopProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Creates a new Instance in a given project and location. */
 export interface CreateProjectsLocationsInstancesRequest {
   /** Required. User-defined unique ID of this instance. */
   instanceId?: string;
@@ -1313,13 +1312,13 @@ export const CreateProjectsLocationsInstancesResponse = Operation;
 
 export type CreateProjectsLocationsInstancesError = CommonErrors;
 
+/** Creates a new Instance in a given project and location. */
 export const createProjectsLocationsInstances: API.OperationMethod<CreateProjectsLocationsInstancesRequest, CreateProjectsLocationsInstancesResponse, CreateProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsInstancesRequest,
   output: CreateProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Allows notebook instances to report their latest instance information to the Notebooks API server. The server will merge the reported information to the instance metadata store. Do not use this method directly. */
 export interface ReportInfoSystemProjectsLocationsInstancesRequest {
   /** Required. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
   name: string;
@@ -1340,13 +1339,13 @@ export const ReportInfoSystemProjectsLocationsInstancesResponse = Operation;
 
 export type ReportInfoSystemProjectsLocationsInstancesError = CommonErrors;
 
+/** Allows notebook instances to report their latest instance information to the Notebooks API server. The server will merge the reported information to the instance metadata store. Do not use this method directly. */
 export const reportInfoSystemProjectsLocationsInstances: API.OperationMethod<ReportInfoSystemProjectsLocationsInstancesRequest, ReportInfoSystemProjectsLocationsInstancesResponse, ReportInfoSystemProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReportInfoSystemProjectsLocationsInstancesRequest,
   output: ReportInfoSystemProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Checks whether a notebook instance is upgradable. */
 export interface CheckUpgradabilityProjectsLocationsInstancesRequest {
   /** Required. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
   notebookInstance: string;
@@ -1364,13 +1363,13 @@ export const CheckUpgradabilityProjectsLocationsInstancesResponse = CheckInstanc
 
 export type CheckUpgradabilityProjectsLocationsInstancesError = CommonErrors;
 
+/** Checks whether a notebook instance is upgradable. */
 export const checkUpgradabilityProjectsLocationsInstances: API.OperationMethod<CheckUpgradabilityProjectsLocationsInstancesRequest, CheckUpgradabilityProjectsLocationsInstancesResponse, CheckUpgradabilityProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CheckUpgradabilityProjectsLocationsInstancesRequest,
   output: CheckUpgradabilityProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Rollbacks a notebook instance to the previous version. */
 export interface RollbackProjectsLocationsInstancesRequest {
   /** Required. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
   name: string;
@@ -1391,13 +1390,13 @@ export const RollbackProjectsLocationsInstancesResponse = Operation;
 
 export type RollbackProjectsLocationsInstancesError = CommonErrors;
 
+/** Rollbacks a notebook instance to the previous version. */
 export const rollbackProjectsLocationsInstances: API.OperationMethod<RollbackProjectsLocationsInstancesRequest, RollbackProjectsLocationsInstancesResponse, RollbackProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RollbackProjectsLocationsInstancesRequest,
   output: RollbackProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Called by VM to return an EUC for the instance owner. Do not use this method directly. Design doc: go/wbi-euc:dd */
 export interface GenerateAccessTokenProjectsLocationsInstancesRequest {
   /** Required. Format: `projects/{project}/locations/{location}/instances/{instance_id}` */
   name: string;
@@ -1418,13 +1417,13 @@ export const GenerateAccessTokenProjectsLocationsInstancesResponse = GenerateAcc
 
 export type GenerateAccessTokenProjectsLocationsInstancesError = CommonErrors;
 
+/** Called by VM to return an EUC for the instance owner. Do not use this method directly. Design doc: go/wbi-euc:dd */
 export const generateAccessTokenProjectsLocationsInstances: API.OperationMethod<GenerateAccessTokenProjectsLocationsInstancesRequest, GenerateAccessTokenProjectsLocationsInstancesResponse, GenerateAccessTokenProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateAccessTokenProjectsLocationsInstancesRequest,
   output: GenerateAccessTokenProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Starts a notebook instance. */
 export interface StartProjectsLocationsInstancesRequest {
   /** Required. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
   name: string;
@@ -1445,13 +1444,13 @@ export const StartProjectsLocationsInstancesResponse = Operation;
 
 export type StartProjectsLocationsInstancesError = CommonErrors;
 
+/** Starts a notebook instance. */
 export const startProjectsLocationsInstances: API.OperationMethod<StartProjectsLocationsInstancesRequest, StartProjectsLocationsInstancesResponse, StartProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StartProjectsLocationsInstancesRequest,
   output: StartProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Returns various configuration parameters. */
 export interface GetConfigProjectsLocationsInstancesRequest {
   /** Required. Format: `projects/{project_id}/locations/{location}` */
   name: string;
@@ -1469,13 +1468,13 @@ export const GetConfigProjectsLocationsInstancesResponse = Config;
 
 export type GetConfigProjectsLocationsInstancesError = CommonErrors;
 
+/** Returns various configuration parameters. */
 export const getConfigProjectsLocationsInstances: API.OperationMethod<GetConfigProjectsLocationsInstancesRequest, GetConfigProjectsLocationsInstancesResponse, GetConfigProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetConfigProjectsLocationsInstancesRequest,
   output: GetConfigProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Deletes a single Instance. */
 export interface DeleteProjectsLocationsInstancesRequest {
   /** Required. Format: `projects/{project_id}/locations/{location}/instances/{instance_id}` */
   name: string;
@@ -1496,13 +1495,13 @@ export const DeleteProjectsLocationsInstancesResponse = Operation;
 
 export type DeleteProjectsLocationsInstancesError = CommonErrors;
 
+/** Deletes a single Instance. */
 export const deleteProjectsLocationsInstances: API.OperationMethod<DeleteProjectsLocationsInstancesRequest, DeleteProjectsLocationsInstancesResponse, DeleteProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsInstancesRequest,
   output: DeleteProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1520,13 +1519,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list page size. */
   pageSize?: number;
@@ -1556,7 +1555,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -1566,7 +1566,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -1587,13 +1586,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -1611,6 +1610,7 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,

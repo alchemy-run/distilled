@@ -183,7 +183,6 @@ export const GoogleIdentityStsV1betaOptions: Schema.Schema<GoogleIdentityStsV1be
 // Operations
 // ==========================================================================
 
-/** Exchanges a credential for a Google OAuth 2.0 access token. The token asserts an external identity within an identity pool, or it applies a Credential Access Boundary to a Google access token. Note that workforce pools do not support Credential Access Boundaries. When you call this method, do not send the `Authorization` HTTP header in the request. This method does not require the `Authorization` header, and using the header can cause the request to fail. */
 export interface TokenV1Request {
   /** Request body */
   body?: GoogleIdentityStsV1ExchangeTokenRequest;
@@ -201,6 +200,7 @@ export const TokenV1Response = GoogleIdentityStsV1ExchangeTokenResponse;
 
 export type TokenV1Error = CommonErrors;
 
+/** Exchanges a credential for a Google OAuth 2.0 access token. The token asserts an external identity within an identity pool, or it applies a Credential Access Boundary to a Google access token. Note that workforce pools do not support Credential Access Boundaries. When you call this method, do not send the `Authorization` HTTP header in the request. This method does not require the `Authorization` header, and using the header can cause the request to fail. */
 export const tokenV1: API.OperationMethod<TokenV1Request, TokenV1Response, TokenV1Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TokenV1Request,
   output: TokenV1Response,

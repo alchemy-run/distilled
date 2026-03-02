@@ -66,7 +66,6 @@ export const PublishUrlNotificationResponse: Schema.Schema<PublishUrlNotificatio
 // Operations
 // ==========================================================================
 
-/** Gets metadata about a Web Document. This method can _only_ be used to query URLs that were previously seen in successful Indexing API notifications. Includes the latest `UrlNotification` received via this API. */
 export interface GetMetadataUrlNotificationsRequest {
   /** URL that is being queried. */
   url?: string;
@@ -84,13 +83,13 @@ export const GetMetadataUrlNotificationsResponse = UrlNotificationMetadata;
 
 export type GetMetadataUrlNotificationsError = CommonErrors;
 
+/** Gets metadata about a Web Document. This method can _only_ be used to query URLs that were previously seen in successful Indexing API notifications. Includes the latest `UrlNotification` received via this API. */
 export const getMetadataUrlNotifications: API.OperationMethod<GetMetadataUrlNotificationsRequest, GetMetadataUrlNotificationsResponse, GetMetadataUrlNotificationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetMetadataUrlNotificationsRequest,
   output: GetMetadataUrlNotificationsResponse,
   errors: [],
 }));
 
-/** Notifies that a URL has been updated or deleted. */
 export interface PublishUrlNotificationsRequest {
   /** Request body */
   body?: UrlNotification;
@@ -108,6 +107,7 @@ export const PublishUrlNotificationsResponse = PublishUrlNotificationResponse;
 
 export type PublishUrlNotificationsError = CommonErrors;
 
+/** Notifies that a URL has been updated or deleted. */
 export const publishUrlNotifications: API.OperationMethod<PublishUrlNotificationsRequest, PublishUrlNotificationsResponse, PublishUrlNotificationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PublishUrlNotificationsRequest,
   output: PublishUrlNotificationsResponse,

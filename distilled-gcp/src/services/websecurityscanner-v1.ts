@@ -488,7 +488,6 @@ export const StartScanRunRequest: Schema.Schema<StartScanRunRequest> = Schema.su
 // Operations
 // ==========================================================================
 
-/** Lists ScanConfigs under a given project. */
 export interface ListProjectsScanConfigsRequest {
   /** A token identifying a page of results to be returned. This should be a `next_page_token` value returned from a previous List request. If unspecified, the first page of results is returned. */
   pageToken?: string;
@@ -512,7 +511,8 @@ export const ListProjectsScanConfigsResponse = ListScanConfigsResponse;
 
 export type ListProjectsScanConfigsError = CommonErrors;
 
-export const listProjectsScanConfigs = API.makePaginated(() => ({
+/** Lists ScanConfigs under a given project. */
+export const listProjectsScanConfigs: API.PaginatedOperationMethod<ListProjectsScanConfigsRequest, ListProjectsScanConfigsResponse, ListProjectsScanConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsScanConfigsRequest,
   output: ListProjectsScanConfigsResponse,
   errors: [],
@@ -522,7 +522,6 @@ export const listProjectsScanConfigs = API.makePaginated(() => ({
   },
 }));
 
-/** Start a ScanRun according to the given ScanConfig. */
 export interface StartProjectsScanConfigsRequest {
   /** Required. The resource name of the ScanConfig to be used. The name follows the format of 'projects/{projectId}/scanConfigs/{scanConfigId}'. */
   name: string;
@@ -543,13 +542,13 @@ export const StartProjectsScanConfigsResponse = ScanRun;
 
 export type StartProjectsScanConfigsError = CommonErrors;
 
+/** Start a ScanRun according to the given ScanConfig. */
 export const startProjectsScanConfigs: API.OperationMethod<StartProjectsScanConfigsRequest, StartProjectsScanConfigsResponse, StartProjectsScanConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StartProjectsScanConfigsRequest,
   output: StartProjectsScanConfigsResponse,
   errors: [],
 }));
 
-/** Updates a ScanConfig. This method support partial update of a ScanConfig. */
 export interface PatchProjectsScanConfigsRequest {
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string;
@@ -573,13 +572,13 @@ export const PatchProjectsScanConfigsResponse = ScanConfig;
 
 export type PatchProjectsScanConfigsError = CommonErrors;
 
+/** Updates a ScanConfig. This method support partial update of a ScanConfig. */
 export const patchProjectsScanConfigs: API.OperationMethod<PatchProjectsScanConfigsRequest, PatchProjectsScanConfigsResponse, PatchProjectsScanConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsScanConfigsRequest,
   output: PatchProjectsScanConfigsResponse,
   errors: [],
 }));
 
-/** Deletes an existing ScanConfig and its child resources. */
 export interface DeleteProjectsScanConfigsRequest {
   /** Required. The resource name of the ScanConfig to be deleted. The name follows the format of 'projects/{projectId}/scanConfigs/{scanConfigId}'. */
   name: string;
@@ -597,13 +596,13 @@ export const DeleteProjectsScanConfigsResponse = Empty;
 
 export type DeleteProjectsScanConfigsError = CommonErrors;
 
+/** Deletes an existing ScanConfig and its child resources. */
 export const deleteProjectsScanConfigs: API.OperationMethod<DeleteProjectsScanConfigsRequest, DeleteProjectsScanConfigsResponse, DeleteProjectsScanConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsScanConfigsRequest,
   output: DeleteProjectsScanConfigsResponse,
   errors: [],
 }));
 
-/** Gets a ScanConfig. */
 export interface GetProjectsScanConfigsRequest {
   /** Required. The resource name of the ScanConfig to be returned. The name follows the format of 'projects/{projectId}/scanConfigs/{scanConfigId}'. */
   name: string;
@@ -621,13 +620,13 @@ export const GetProjectsScanConfigsResponse = ScanConfig;
 
 export type GetProjectsScanConfigsError = CommonErrors;
 
+/** Gets a ScanConfig. */
 export const getProjectsScanConfigs: API.OperationMethod<GetProjectsScanConfigsRequest, GetProjectsScanConfigsResponse, GetProjectsScanConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsScanConfigsRequest,
   output: GetProjectsScanConfigsResponse,
   errors: [],
 }));
 
-/** Creates a new ScanConfig. */
 export interface CreateProjectsScanConfigsRequest {
   /** Required. The parent resource name where the scan is created, which should be a project resource name in the format 'projects/{projectId}'. */
   parent: string;
@@ -648,13 +647,13 @@ export const CreateProjectsScanConfigsResponse = ScanConfig;
 
 export type CreateProjectsScanConfigsError = CommonErrors;
 
+/** Creates a new ScanConfig. */
 export const createProjectsScanConfigs: API.OperationMethod<CreateProjectsScanConfigsRequest, CreateProjectsScanConfigsResponse, CreateProjectsScanConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsScanConfigsRequest,
   output: CreateProjectsScanConfigsResponse,
   errors: [],
 }));
 
-/** Lists ScanRuns under a given ScanConfig, in descending order of ScanRun stop time. */
 export interface ListProjectsScanConfigsScanRunsRequest {
   /** A token identifying a page of results to be returned. This should be a `next_page_token` value returned from a previous List request. If unspecified, the first page of results is returned. */
   pageToken?: string;
@@ -678,7 +677,8 @@ export const ListProjectsScanConfigsScanRunsResponse = ListScanRunsResponse;
 
 export type ListProjectsScanConfigsScanRunsError = CommonErrors;
 
-export const listProjectsScanConfigsScanRuns = API.makePaginated(() => ({
+/** Lists ScanRuns under a given ScanConfig, in descending order of ScanRun stop time. */
+export const listProjectsScanConfigsScanRuns: API.PaginatedOperationMethod<ListProjectsScanConfigsScanRunsRequest, ListProjectsScanConfigsScanRunsResponse, ListProjectsScanConfigsScanRunsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsScanConfigsScanRunsRequest,
   output: ListProjectsScanConfigsScanRunsResponse,
   errors: [],
@@ -688,7 +688,6 @@ export const listProjectsScanConfigsScanRuns = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a ScanRun. */
 export interface GetProjectsScanConfigsScanRunsRequest {
   /** Required. The resource name of the ScanRun to be returned. The name follows the format of 'projects/{projectId}/scanConfigs/{scanConfigId}/scanRuns/{scanRunId}'. */
   name: string;
@@ -706,13 +705,13 @@ export const GetProjectsScanConfigsScanRunsResponse = ScanRun;
 
 export type GetProjectsScanConfigsScanRunsError = CommonErrors;
 
+/** Gets a ScanRun. */
 export const getProjectsScanConfigsScanRuns: API.OperationMethod<GetProjectsScanConfigsScanRunsRequest, GetProjectsScanConfigsScanRunsResponse, GetProjectsScanConfigsScanRunsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsScanConfigsScanRunsRequest,
   output: GetProjectsScanConfigsScanRunsResponse,
   errors: [],
 }));
 
-/** Stops a ScanRun. The stopped ScanRun is returned. */
 export interface StopProjectsScanConfigsScanRunsRequest {
   /** Required. The resource name of the ScanRun to be stopped. The name follows the format of 'projects/{projectId}/scanConfigs/{scanConfigId}/scanRuns/{scanRunId}'. */
   name: string;
@@ -733,13 +732,13 @@ export const StopProjectsScanConfigsScanRunsResponse = ScanRun;
 
 export type StopProjectsScanConfigsScanRunsError = CommonErrors;
 
+/** Stops a ScanRun. The stopped ScanRun is returned. */
 export const stopProjectsScanConfigsScanRuns: API.OperationMethod<StopProjectsScanConfigsScanRunsRequest, StopProjectsScanConfigsScanRunsResponse, StopProjectsScanConfigsScanRunsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StopProjectsScanConfigsScanRunsRequest,
   output: StopProjectsScanConfigsScanRunsResponse,
   errors: [],
 }));
 
-/** List CrawledUrls under a given ScanRun. */
 export interface ListProjectsScanConfigsScanRunsCrawledUrlsRequest {
   /** Required. The parent resource name, which should be a scan run resource name in the format 'projects/{projectId}/scanConfigs/{scanConfigId}/scanRuns/{scanRunId}'. */
   parent: string;
@@ -763,7 +762,8 @@ export const ListProjectsScanConfigsScanRunsCrawledUrlsResponse = ListCrawledUrl
 
 export type ListProjectsScanConfigsScanRunsCrawledUrlsError = CommonErrors;
 
-export const listProjectsScanConfigsScanRunsCrawledUrls = API.makePaginated(() => ({
+/** List CrawledUrls under a given ScanRun. */
+export const listProjectsScanConfigsScanRunsCrawledUrls: API.PaginatedOperationMethod<ListProjectsScanConfigsScanRunsCrawledUrlsRequest, ListProjectsScanConfigsScanRunsCrawledUrlsResponse, ListProjectsScanConfigsScanRunsCrawledUrlsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsScanConfigsScanRunsCrawledUrlsRequest,
   output: ListProjectsScanConfigsScanRunsCrawledUrlsResponse,
   errors: [],
@@ -773,7 +773,6 @@ export const listProjectsScanConfigsScanRunsCrawledUrls = API.makePaginated(() =
   },
 }));
 
-/** List all FindingTypeStats under a given ScanRun. */
 export interface ListProjectsScanConfigsScanRunsFindingTypeStatsRequest {
   /** Required. The parent resource name, which should be a scan run resource name in the format 'projects/{projectId}/scanConfigs/{scanConfigId}/scanRuns/{scanRunId}'. */
   parent: string;
@@ -791,13 +790,13 @@ export const ListProjectsScanConfigsScanRunsFindingTypeStatsResponse = ListFindi
 
 export type ListProjectsScanConfigsScanRunsFindingTypeStatsError = CommonErrors;
 
+/** List all FindingTypeStats under a given ScanRun. */
 export const listProjectsScanConfigsScanRunsFindingTypeStats: API.OperationMethod<ListProjectsScanConfigsScanRunsFindingTypeStatsRequest, ListProjectsScanConfigsScanRunsFindingTypeStatsResponse, ListProjectsScanConfigsScanRunsFindingTypeStatsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsScanConfigsScanRunsFindingTypeStatsRequest,
   output: ListProjectsScanConfigsScanRunsFindingTypeStatsResponse,
   errors: [],
 }));
 
-/** List Findings under a given ScanRun. */
 export interface ListProjectsScanConfigsScanRunsFindingsRequest {
   /** Required. The parent resource name, which should be a scan run resource name in the format 'projects/{projectId}/scanConfigs/{scanConfigId}/scanRuns/{scanRunId}'. */
   parent: string;
@@ -824,7 +823,8 @@ export const ListProjectsScanConfigsScanRunsFindingsResponse = ListFindingsRespo
 
 export type ListProjectsScanConfigsScanRunsFindingsError = CommonErrors;
 
-export const listProjectsScanConfigsScanRunsFindings = API.makePaginated(() => ({
+/** List Findings under a given ScanRun. */
+export const listProjectsScanConfigsScanRunsFindings: API.PaginatedOperationMethod<ListProjectsScanConfigsScanRunsFindingsRequest, ListProjectsScanConfigsScanRunsFindingsResponse, ListProjectsScanConfigsScanRunsFindingsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsScanConfigsScanRunsFindingsRequest,
   output: ListProjectsScanConfigsScanRunsFindingsResponse,
   errors: [],
@@ -834,7 +834,6 @@ export const listProjectsScanConfigsScanRunsFindings = API.makePaginated(() => (
   },
 }));
 
-/** Gets a Finding. */
 export interface GetProjectsScanConfigsScanRunsFindingsRequest {
   /** Required. The resource name of the Finding to be returned. The name follows the format of 'projects/{projectId}/scanConfigs/{scanConfigId}/scanRuns/{scanRunId}/findings/{findingId}'. */
   name: string;
@@ -852,6 +851,7 @@ export const GetProjectsScanConfigsScanRunsFindingsResponse = Finding;
 
 export type GetProjectsScanConfigsScanRunsFindingsError = CommonErrors;
 
+/** Gets a Finding. */
 export const getProjectsScanConfigsScanRunsFindings: API.OperationMethod<GetProjectsScanConfigsScanRunsFindingsRequest, GetProjectsScanConfigsScanRunsFindingsResponse, GetProjectsScanConfigsScanRunsFindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsScanConfigsScanRunsFindingsRequest,
   output: GetProjectsScanConfigsScanRunsFindingsResponse,

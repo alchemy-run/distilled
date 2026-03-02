@@ -869,7 +869,6 @@ export const Settings: Schema.Schema<Settings> = Schema.suspend(() => Schema.Str
 // Operations
 // ==========================================================================
 
-/** Deletes an access control rule. */
 export interface DeleteAclRequest {
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
@@ -890,13 +889,13 @@ export const DeleteAclResponse: Schema.Schema<DeleteAclResponse> = Schema.Struct
 
 export type DeleteAclError = CommonErrors;
 
+/** Deletes an access control rule. */
 export const deleteAcl: API.OperationMethod<DeleteAclRequest, DeleteAclResponse, DeleteAclError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAclRequest,
   output: DeleteAclResponse,
   errors: [],
 }));
 
-/** Returns an access control rule. */
 export interface GetAclRequest {
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
@@ -917,13 +916,13 @@ export const GetAclResponse = AclRule;
 
 export type GetAclError = CommonErrors;
 
+/** Returns an access control rule. */
 export const getAcl: API.OperationMethod<GetAclRequest, GetAclResponse, GetAclError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAclRequest,
   output: GetAclResponse,
   errors: [],
 }));
 
-/** Creates an access control rule. */
 export interface InsertAclRequest {
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
@@ -947,13 +946,13 @@ export const InsertAclResponse = AclRule;
 
 export type InsertAclError = CommonErrors;
 
+/** Creates an access control rule. */
 export const insertAcl: API.OperationMethod<InsertAclRequest, InsertAclResponse, InsertAclError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertAclRequest,
   output: InsertAclResponse,
   errors: [],
 }));
 
-/** Returns the rules in the access control list for the calendar. */
 export interface ListAclRequest {
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
@@ -983,7 +982,8 @@ export const ListAclResponse = Acl;
 
 export type ListAclError = CommonErrors;
 
-export const listAcl = API.makePaginated(() => ({
+/** Returns the rules in the access control list for the calendar. */
+export const listAcl: API.PaginatedOperationMethod<ListAclRequest, ListAclResponse, ListAclError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAclRequest,
   output: ListAclResponse,
   errors: [],
@@ -994,7 +994,6 @@ export const listAcl = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an access control rule. This method supports patch semantics. */
 export interface PatchAclRequest {
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
@@ -1021,13 +1020,13 @@ export const PatchAclResponse = AclRule;
 
 export type PatchAclError = CommonErrors;
 
+/** Updates an access control rule. This method supports patch semantics. */
 export const patchAcl: API.OperationMethod<PatchAclRequest, PatchAclResponse, PatchAclError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAclRequest,
   output: PatchAclResponse,
   errors: [],
 }));
 
-/** Updates an access control rule. */
 export interface UpdateAclRequest {
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
@@ -1054,13 +1053,13 @@ export const UpdateAclResponse = AclRule;
 
 export type UpdateAclError = CommonErrors;
 
+/** Updates an access control rule. */
 export const updateAcl: API.OperationMethod<UpdateAclRequest, UpdateAclResponse, UpdateAclError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAclRequest,
   output: UpdateAclResponse,
   errors: [],
 }));
 
-/** Watch for changes to ACL resources. */
 export interface WatchAclRequest {
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
@@ -1093,13 +1092,13 @@ export const WatchAclResponse = Channel;
 
 export type WatchAclError = CommonErrors;
 
+/** Watch for changes to ACL resources. */
 export const watchAcl: API.OperationMethod<WatchAclRequest, WatchAclResponse, WatchAclError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WatchAclRequest,
   output: WatchAclResponse,
   errors: [],
 }));
 
-/** Removes a calendar from the user's calendar list. */
 export interface DeleteCalendarListRequest {
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
@@ -1117,13 +1116,13 @@ export const DeleteCalendarListResponse: Schema.Schema<DeleteCalendarListRespons
 
 export type DeleteCalendarListError = CommonErrors;
 
+/** Removes a calendar from the user's calendar list. */
 export const deleteCalendarList: API.OperationMethod<DeleteCalendarListRequest, DeleteCalendarListResponse, DeleteCalendarListError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteCalendarListRequest,
   output: DeleteCalendarListResponse,
   errors: [],
 }));
 
-/** Returns a calendar from the user's calendar list. */
 export interface GetCalendarListRequest {
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
@@ -1141,13 +1140,13 @@ export const GetCalendarListResponse = CalendarListEntry;
 
 export type GetCalendarListError = CommonErrors;
 
+/** Returns a calendar from the user's calendar list. */
 export const getCalendarList: API.OperationMethod<GetCalendarListRequest, GetCalendarListResponse, GetCalendarListError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCalendarListRequest,
   output: GetCalendarListResponse,
   errors: [],
 }));
 
-/** Inserts an existing calendar into the user's calendar list. */
 export interface InsertCalendarListRequest {
   /** Whether to use the foregroundColor and backgroundColor fields to write the calendar colors (RGB). If this feature is used, the index-based colorId field will be set to the best matching option automatically. Optional. The default is False. */
   colorRgbFormat?: boolean;
@@ -1168,13 +1167,13 @@ export const InsertCalendarListResponse = CalendarListEntry;
 
 export type InsertCalendarListError = CommonErrors;
 
+/** Inserts an existing calendar into the user's calendar list. */
 export const insertCalendarList: API.OperationMethod<InsertCalendarListRequest, InsertCalendarListResponse, InsertCalendarListError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertCalendarListRequest,
   output: InsertCalendarListResponse,
   errors: [],
 }));
 
-/** Returns the calendars on the user's calendar list. */
 export interface ListCalendarListRequest {
   /** Maximum number of entries returned on one result page. By default the value is 100 entries. The page size can never be larger than 250 entries. Optional. */
   maxResults?: number;
@@ -1207,7 +1206,8 @@ export const ListCalendarListResponse = CalendarList;
 
 export type ListCalendarListError = CommonErrors;
 
-export const listCalendarList = API.makePaginated(() => ({
+/** Returns the calendars on the user's calendar list. */
+export const listCalendarList: API.PaginatedOperationMethod<ListCalendarListRequest, ListCalendarListResponse, ListCalendarListError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCalendarListRequest,
   output: ListCalendarListResponse,
   errors: [],
@@ -1218,7 +1218,6 @@ export const listCalendarList = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing calendar on the user's calendar list. This method supports patch semantics. */
 export interface PatchCalendarListRequest {
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
@@ -1242,13 +1241,13 @@ export const PatchCalendarListResponse = CalendarListEntry;
 
 export type PatchCalendarListError = CommonErrors;
 
+/** Updates an existing calendar on the user's calendar list. This method supports patch semantics. */
 export const patchCalendarList: API.OperationMethod<PatchCalendarListRequest, PatchCalendarListResponse, PatchCalendarListError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchCalendarListRequest,
   output: PatchCalendarListResponse,
   errors: [],
 }));
 
-/** Updates an existing calendar on the user's calendar list. */
 export interface UpdateCalendarListRequest {
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
@@ -1272,13 +1271,13 @@ export const UpdateCalendarListResponse = CalendarListEntry;
 
 export type UpdateCalendarListError = CommonErrors;
 
+/** Updates an existing calendar on the user's calendar list. */
 export const updateCalendarList: API.OperationMethod<UpdateCalendarListRequest, UpdateCalendarListResponse, UpdateCalendarListError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateCalendarListRequest,
   output: UpdateCalendarListResponse,
   errors: [],
 }));
 
-/** Watch for changes to CalendarList resources. */
 export interface WatchCalendarListRequest {
   /** Maximum number of entries returned on one result page. By default the value is 100 entries. The page size can never be larger than 250 entries. Optional. */
   maxResults?: number;
@@ -1314,13 +1313,13 @@ export const WatchCalendarListResponse = Channel;
 
 export type WatchCalendarListError = CommonErrors;
 
+/** Watch for changes to CalendarList resources. */
 export const watchCalendarList: API.OperationMethod<WatchCalendarListRequest, WatchCalendarListResponse, WatchCalendarListError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WatchCalendarListRequest,
   output: WatchCalendarListResponse,
   errors: [],
 }));
 
-/** Clears a primary calendar. This operation deletes all events associated with the primary calendar of an account. */
 export interface ClearCalendarsRequest {
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
@@ -1338,13 +1337,13 @@ export const ClearCalendarsResponse: Schema.Schema<ClearCalendarsResponse> = Sch
 
 export type ClearCalendarsError = CommonErrors;
 
+/** Clears a primary calendar. This operation deletes all events associated with the primary calendar of an account. */
 export const clearCalendars: API.OperationMethod<ClearCalendarsRequest, ClearCalendarsResponse, ClearCalendarsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ClearCalendarsRequest,
   output: ClearCalendarsResponse,
   errors: [],
 }));
 
-/** Deletes a secondary calendar. Use calendars.clear for clearing all events on primary calendars. */
 export interface DeleteCalendarsRequest {
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
@@ -1362,13 +1361,13 @@ export const DeleteCalendarsResponse: Schema.Schema<DeleteCalendarsResponse> = S
 
 export type DeleteCalendarsError = CommonErrors;
 
+/** Deletes a secondary calendar. Use calendars.clear for clearing all events on primary calendars. */
 export const deleteCalendars: API.OperationMethod<DeleteCalendarsRequest, DeleteCalendarsResponse, DeleteCalendarsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteCalendarsRequest,
   output: DeleteCalendarsResponse,
   errors: [],
 }));
 
-/** Returns metadata for a calendar. */
 export interface GetCalendarsRequest {
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
@@ -1386,13 +1385,13 @@ export const GetCalendarsResponse = Calendar;
 
 export type GetCalendarsError = CommonErrors;
 
+/** Returns metadata for a calendar. */
 export const getCalendars: API.OperationMethod<GetCalendarsRequest, GetCalendarsResponse, GetCalendarsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCalendarsRequest,
   output: GetCalendarsResponse,
   errors: [],
 }));
 
-/** Creates a secondary calendar. The authenticated user for the request is made the data owner of the new calendar. Note: We recommend to authenticate as the intended data owner of the calendar. You can use domain-wide delegation of authority to allow applications to act on behalf of a specific user. Don't use a service account for authentication. If you use a service account for authentication, the service account is the data owner, which can lead to unexpected behavior. For example, if a service account is the data owner, data ownership cannot be transferred. */
 export interface InsertCalendarsRequest {
   /** Request body */
   body?: Calendar;
@@ -1410,13 +1409,13 @@ export const InsertCalendarsResponse = Calendar;
 
 export type InsertCalendarsError = CommonErrors;
 
+/** Creates a secondary calendar. The authenticated user for the request is made the data owner of the new calendar. Note: We recommend to authenticate as the intended data owner of the calendar. You can use domain-wide delegation of authority to allow applications to act on behalf of a specific user. Don't use a service account for authentication. If you use a service account for authentication, the service account is the data owner, which can lead to unexpected behavior. For example, if a service account is the data owner, data ownership cannot be transferred. */
 export const insertCalendars: API.OperationMethod<InsertCalendarsRequest, InsertCalendarsResponse, InsertCalendarsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertCalendarsRequest,
   output: InsertCalendarsResponse,
   errors: [],
 }));
 
-/** Updates metadata for a calendar. This method supports patch semantics. */
 export interface PatchCalendarsRequest {
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
@@ -1437,13 +1436,13 @@ export const PatchCalendarsResponse = Calendar;
 
 export type PatchCalendarsError = CommonErrors;
 
+/** Updates metadata for a calendar. This method supports patch semantics. */
 export const patchCalendars: API.OperationMethod<PatchCalendarsRequest, PatchCalendarsResponse, PatchCalendarsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchCalendarsRequest,
   output: PatchCalendarsResponse,
   errors: [],
 }));
 
-/** Updates metadata for a calendar. */
 export interface UpdateCalendarsRequest {
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
@@ -1464,13 +1463,13 @@ export const UpdateCalendarsResponse = Calendar;
 
 export type UpdateCalendarsError = CommonErrors;
 
+/** Updates metadata for a calendar. */
 export const updateCalendars: API.OperationMethod<UpdateCalendarsRequest, UpdateCalendarsResponse, UpdateCalendarsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateCalendarsRequest,
   output: UpdateCalendarsResponse,
   errors: [],
 }));
 
-/** Stop watching resources through this channel */
 export interface StopChannelsRequest {
   /** Request body */
   body?: Channel;
@@ -1488,13 +1487,13 @@ export const StopChannelsResponse: Schema.Schema<StopChannelsResponse> = Schema.
 
 export type StopChannelsError = CommonErrors;
 
+/** Stop watching resources through this channel */
 export const stopChannels: API.OperationMethod<StopChannelsRequest, StopChannelsResponse, StopChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StopChannelsRequest,
   output: StopChannelsResponse,
   errors: [],
 }));
 
-/** Returns the color definitions for calendars and events. */
 export interface GetColorsRequest {
 }
 
@@ -1509,13 +1508,13 @@ export const GetColorsResponse = Colors;
 
 export type GetColorsError = CommonErrors;
 
+/** Returns the color definitions for calendars and events. */
 export const getColors: API.OperationMethod<GetColorsRequest, GetColorsResponse, GetColorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetColorsRequest,
   output: GetColorsResponse,
   errors: [],
 }));
 
-/** Deletes an event. */
 export interface DeleteEventsRequest {
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
@@ -1542,13 +1541,13 @@ export const DeleteEventsResponse: Schema.Schema<DeleteEventsResponse> = Schema.
 
 export type DeleteEventsError = CommonErrors;
 
+/** Deletes an event. */
 export const deleteEvents: API.OperationMethod<DeleteEventsRequest, DeleteEventsResponse, DeleteEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteEventsRequest,
   output: DeleteEventsResponse,
   errors: [],
 }));
 
-/** Returns an event based on its Google Calendar ID. To retrieve an event using its iCalendar ID, call the events.list method using the iCalUID parameter. */
 export interface GetEventsRequest {
   /** Deprecated and ignored. A value will always be returned in the email field for the organizer, creator and attendees, even if no real email address is available (i.e. a generated, non-working value will be provided). */
   alwaysIncludeEmail?: boolean;
@@ -1578,13 +1577,13 @@ export const GetEventsResponse = Event;
 
 export type GetEventsError = CommonErrors;
 
+/** Returns an event based on its Google Calendar ID. To retrieve an event using its iCalendar ID, call the events.list method using the iCalUID parameter. */
 export const getEvents: API.OperationMethod<GetEventsRequest, GetEventsResponse, GetEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEventsRequest,
   output: GetEventsResponse,
   errors: [],
 }));
 
-/** Imports an event. This operation is used to add a private copy of an existing event to a calendar. Only events with an eventType of default may be imported. Deprecated behavior: If a non-default event is imported, its type will be changed to default and any event-type-specific properties it may have will be dropped. */
 export interface ImportEventsRequest {
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
@@ -1611,13 +1610,13 @@ export const ImportEventsResponse = Event;
 
 export type ImportEventsError = CommonErrors;
 
+/** Imports an event. This operation is used to add a private copy of an existing event to a calendar. Only events with an eventType of default may be imported. Deprecated behavior: If a non-default event is imported, its type will be changed to default and any event-type-specific properties it may have will be dropped. */
 export const importEvents: API.OperationMethod<ImportEventsRequest, ImportEventsResponse, ImportEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportEventsRequest,
   output: ImportEventsResponse,
   errors: [],
 }));
 
-/** Creates an event. */
 export interface InsertEventsRequest {
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
@@ -1653,13 +1652,13 @@ export const InsertEventsResponse = Event;
 
 export type InsertEventsError = CommonErrors;
 
+/** Creates an event. */
 export const insertEvents: API.OperationMethod<InsertEventsRequest, InsertEventsResponse, InsertEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertEventsRequest,
   output: InsertEventsResponse,
   errors: [],
 }));
 
-/** Returns instances of the specified recurring event. */
 export interface InstancesEventsRequest {
   /** Deprecated and ignored. A value will always be returned in the email field for the organizer, creator and attendees, even if no real email address is available (i.e. a generated, non-working value will be provided). */
   alwaysIncludeEmail?: boolean;
@@ -1707,7 +1706,8 @@ export const InstancesEventsResponse = Events;
 
 export type InstancesEventsError = CommonErrors;
 
-export const instancesEvents = API.makePaginated(() => ({
+/** Returns instances of the specified recurring event. */
+export const instancesEvents: API.PaginatedOperationMethod<InstancesEventsRequest, InstancesEventsResponse, InstancesEventsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: InstancesEventsRequest,
   output: InstancesEventsResponse,
   errors: [],
@@ -1718,7 +1718,6 @@ export const instancesEvents = API.makePaginated(() => ({
   },
 }));
 
-/** Returns events on the specified calendar. */
 export interface ListEventsRequest {
   /** Deprecated and ignored. */
   alwaysIncludeEmail?: boolean;
@@ -1790,7 +1789,8 @@ export const ListEventsResponse = Events;
 
 export type ListEventsError = CommonErrors;
 
-export const listEvents = API.makePaginated(() => ({
+/** Returns events on the specified calendar. */
+export const listEvents: API.PaginatedOperationMethod<ListEventsRequest, ListEventsResponse, ListEventsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListEventsRequest,
   output: ListEventsResponse,
   errors: [],
@@ -1801,7 +1801,6 @@ export const listEvents = API.makePaginated(() => ({
   },
 }));
 
-/** Moves an event to another calendar, i.e. changes an event's organizer. Note that only default events can be moved; birthday, focusTime, fromGmail, outOfOffice and workingLocation events cannot be moved. */
 export interface MoveEventsRequest {
   /** Calendar identifier of the source calendar where the event currently is on. */
   calendarId: string;
@@ -1831,13 +1830,13 @@ export const MoveEventsResponse = Event;
 
 export type MoveEventsError = CommonErrors;
 
+/** Moves an event to another calendar, i.e. changes an event's organizer. Note that only default events can be moved; birthday, focusTime, fromGmail, outOfOffice and workingLocation events cannot be moved. */
 export const moveEvents: API.OperationMethod<MoveEventsRequest, MoveEventsResponse, MoveEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MoveEventsRequest,
   output: MoveEventsResponse,
   errors: [],
 }));
 
-/** Updates an event. This method supports patch semantics. */
 export interface PatchEventsRequest {
   /** Deprecated and ignored. A value will always be returned in the email field for the organizer, creator and attendees, even if no real email address is available (i.e. a generated, non-working value will be provided). */
   alwaysIncludeEmail?: boolean;
@@ -1879,13 +1878,13 @@ export const PatchEventsResponse = Event;
 
 export type PatchEventsError = CommonErrors;
 
+/** Updates an event. This method supports patch semantics. */
 export const patchEvents: API.OperationMethod<PatchEventsRequest, PatchEventsResponse, PatchEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchEventsRequest,
   output: PatchEventsResponse,
   errors: [],
 }));
 
-/** Creates an event based on a simple text string. */
 export interface QuickAddEventsRequest {
   /** Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the "primary" keyword. */
   calendarId: string;
@@ -1912,13 +1911,13 @@ export const QuickAddEventsResponse = Event;
 
 export type QuickAddEventsError = CommonErrors;
 
+/** Creates an event based on a simple text string. */
 export const quickAddEvents: API.OperationMethod<QuickAddEventsRequest, QuickAddEventsResponse, QuickAddEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: QuickAddEventsRequest,
   output: QuickAddEventsResponse,
   errors: [],
 }));
 
-/** Updates an event. */
 export interface UpdateEventsRequest {
   /** Deprecated and ignored. A value will always be returned in the email field for the organizer, creator and attendees, even if no real email address is available (i.e. a generated, non-working value will be provided). */
   alwaysIncludeEmail?: boolean;
@@ -1960,13 +1959,13 @@ export const UpdateEventsResponse = Event;
 
 export type UpdateEventsError = CommonErrors;
 
+/** Updates an event. */
 export const updateEvents: API.OperationMethod<UpdateEventsRequest, UpdateEventsResponse, UpdateEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateEventsRequest,
   output: UpdateEventsResponse,
   errors: [],
 }));
 
-/** Watch for changes to Events resources. */
 export interface WatchEventsRequest {
   /** Deprecated and ignored. */
   alwaysIncludeEmail?: boolean;
@@ -2041,13 +2040,13 @@ export const WatchEventsResponse = Channel;
 
 export type WatchEventsError = CommonErrors;
 
+/** Watch for changes to Events resources. */
 export const watchEvents: API.OperationMethod<WatchEventsRequest, WatchEventsResponse, WatchEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WatchEventsRequest,
   output: WatchEventsResponse,
   errors: [],
 }));
 
-/** Returns free/busy information for a set of calendars. */
 export interface QueryFreebusyRequest {
   /** Request body */
   body?: FreeBusyRequest;
@@ -2065,13 +2064,13 @@ export const QueryFreebusyResponse = FreeBusyResponse;
 
 export type QueryFreebusyError = CommonErrors;
 
+/** Returns free/busy information for a set of calendars. */
 export const queryFreebusy: API.OperationMethod<QueryFreebusyRequest, QueryFreebusyResponse, QueryFreebusyError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: QueryFreebusyRequest,
   output: QueryFreebusyResponse,
   errors: [],
 }));
 
-/** Returns a single user setting. */
 export interface GetSettingsRequest {
   /** The id of the user setting. */
   setting: string;
@@ -2089,13 +2088,13 @@ export const GetSettingsResponse = Setting;
 
 export type GetSettingsError = CommonErrors;
 
+/** Returns a single user setting. */
 export const getSettings: API.OperationMethod<GetSettingsRequest, GetSettingsResponse, GetSettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSettingsRequest,
   output: GetSettingsResponse,
   errors: [],
 }));
 
-/** Returns all user settings for the authenticated user. */
 export interface ListSettingsRequest {
   /** Maximum number of entries returned on one result page. By default the value is 100 entries. The page size can never be larger than 250 entries. Optional. */
   maxResults?: number;
@@ -2119,7 +2118,8 @@ export const ListSettingsResponse = Settings;
 
 export type ListSettingsError = CommonErrors;
 
-export const listSettings = API.makePaginated(() => ({
+/** Returns all user settings for the authenticated user. */
+export const listSettings: API.PaginatedOperationMethod<ListSettingsRequest, ListSettingsResponse, ListSettingsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListSettingsRequest,
   output: ListSettingsResponse,
   errors: [],
@@ -2130,7 +2130,6 @@ export const listSettings = API.makePaginated(() => ({
   },
 }));
 
-/** Watch for changes to Settings resources. */
 export interface WatchSettingsRequest {
   /** Maximum number of entries returned on one result page. By default the value is 100 entries. The page size can never be larger than 250 entries. Optional. */
   maxResults?: number;
@@ -2157,6 +2156,7 @@ export const WatchSettingsResponse = Channel;
 
 export type WatchSettingsError = CommonErrors;
 
+/** Watch for changes to Settings resources. */
 export const watchSettings: API.OperationMethod<WatchSettingsRequest, WatchSettingsResponse, WatchSettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WatchSettingsRequest,
   output: WatchSettingsResponse,

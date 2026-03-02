@@ -1314,7 +1314,6 @@ export const Status: Schema.Schema<Status> = Schema.suspend(() => Schema.Struct(
 // Operations
 // ==========================================================================
 
-/** Uploads a list of AudienceMember resources to the provided Destination. */
 export interface IngestAudienceMembersRequest_Op {
   /** Request body */
   body?: IngestAudienceMembersRequest;
@@ -1332,13 +1331,13 @@ export const IngestAudienceMembersResponse_Op = IngestAudienceMembersResponse;
 
 export type IngestAudienceMembersError = CommonErrors;
 
+/** Uploads a list of AudienceMember resources to the provided Destination. */
 export const ingestAudienceMembers: API.OperationMethod<IngestAudienceMembersRequest_Op, IngestAudienceMembersResponse_Op, IngestAudienceMembersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: IngestAudienceMembersRequest_Op,
   output: IngestAudienceMembersResponse_Op,
   errors: [],
 }));
 
-/** Removes a list of AudienceMember resources from the provided Destination. */
 export interface RemoveAudienceMembersRequest_Op {
   /** Request body */
   body?: RemoveAudienceMembersRequest;
@@ -1356,13 +1355,13 @@ export const RemoveAudienceMembersResponse_Op = RemoveAudienceMembersResponse;
 
 export type RemoveAudienceMembersError = CommonErrors;
 
+/** Removes a list of AudienceMember resources from the provided Destination. */
 export const removeAudienceMembers: API.OperationMethod<RemoveAudienceMembersRequest_Op, RemoveAudienceMembersResponse_Op, RemoveAudienceMembersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveAudienceMembersRequest_Op,
   output: RemoveAudienceMembersResponse_Op,
   errors: [],
 }));
 
-/** Uploads a list of Event resources from the provided Destination. */
 export interface IngestEventsRequest_Op {
   /** Request body */
   body?: IngestEventsRequest;
@@ -1380,13 +1379,13 @@ export const IngestEventsResponse_Op = IngestEventsResponse;
 
 export type IngestEventsError = CommonErrors;
 
+/** Uploads a list of Event resources from the provided Destination. */
 export const ingestEvents: API.OperationMethod<IngestEventsRequest_Op, IngestEventsResponse_Op, IngestEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: IngestEventsRequest_Op,
   output: IngestEventsResponse_Op,
   errors: [],
 }));
 
-/** Gets the status of a request given request id. */
 export interface RetrieveRequestStatusRequest {
   /** Required. Required. The request ID of the Data Manager API request. */
   requestId?: string;
@@ -1404,13 +1403,13 @@ export const RetrieveRequestStatusResponse_Op = RetrieveRequestStatusResponse;
 
 export type RetrieveRequestStatusError = CommonErrors;
 
+/** Gets the status of a request given request id. */
 export const retrieveRequestStatus: API.OperationMethod<RetrieveRequestStatusRequest, RetrieveRequestStatusResponse_Op, RetrieveRequestStatusError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RetrieveRequestStatusRequest,
   output: RetrieveRequestStatusResponse_Op,
   errors: [],
 }));
 
-/** Retrieves marketing data insights for a given user list. This feature is only available to data partners. Authorization Headers: This method supports the following optional headers to define how the API authorizes access for the request: * `login-account`: (Optional) The resource name of the account where the Google Account of the credentials is a user. If not set, defaults to the account of the request. Format: `accountTypes/{loginAccountType}/accounts/{loginAccountId}` * `linked-account`: (Optional) The resource name of the account with an established product link to the `login-account`. Format: `accountTypes/{linkedAccountType}/accounts/{linkedAccountId}` */
 export interface RetrieveAccountTypesAccountsInsightsRequest {
   /** Required. The parent account that owns the user list. Format: `accountTypes/{account_type}/accounts/{account}` */
   parent: string;
@@ -1431,13 +1430,13 @@ export const RetrieveAccountTypesAccountsInsightsResponse = RetrieveInsightsResp
 
 export type RetrieveAccountTypesAccountsInsightsError = CommonErrors;
 
+/** Retrieves marketing data insights for a given user list. This feature is only available to data partners. Authorization Headers: This method supports the following optional headers to define how the API authorizes access for the request: * `login-account`: (Optional) The resource name of the account where the Google Account of the credentials is a user. If not set, defaults to the account of the request. Format: `accountTypes/{loginAccountType}/accounts/{loginAccountId}` * `linked-account`: (Optional) The resource name of the account with an established product link to the `login-account`. Format: `accountTypes/{linkedAccountType}/accounts/{linkedAccountId}` */
 export const retrieveAccountTypesAccountsInsights: API.OperationMethod<RetrieveAccountTypesAccountsInsightsRequest, RetrieveAccountTypesAccountsInsightsResponse, RetrieveAccountTypesAccountsInsightsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RetrieveAccountTypesAccountsInsightsRequest,
   output: RetrieveAccountTypesAccountsInsightsResponse,
   errors: [],
 }));
 
-/** Creates a partner link for the given account. Authorization Headers: This method supports the following optional headers to define how the API authorizes access for the request: * `login-account`: (Optional) The resource name of the account where the Google Account of the credentials is a user. If not set, defaults to the account of the request. Format: `accountTypes/{loginAccountType}/accounts/{loginAccountId}` * `linked-account`: (Optional) The resource name of the account with an established product link to the `login-account`. Format: `accountTypes/{linkedAccountType}/accounts/{linkedAccountId}` */
 export interface CreateAccountTypesAccountsPartnerLinksRequest {
   /** Required. The parent, which owns this collection of partner links. Format: accountTypes/{account_type}/accounts/{account} */
   parent: string;
@@ -1458,13 +1457,13 @@ export const CreateAccountTypesAccountsPartnerLinksResponse = PartnerLink;
 
 export type CreateAccountTypesAccountsPartnerLinksError = CommonErrors;
 
+/** Creates a partner link for the given account. Authorization Headers: This method supports the following optional headers to define how the API authorizes access for the request: * `login-account`: (Optional) The resource name of the account where the Google Account of the credentials is a user. If not set, defaults to the account of the request. Format: `accountTypes/{loginAccountType}/accounts/{loginAccountId}` * `linked-account`: (Optional) The resource name of the account with an established product link to the `login-account`. Format: `accountTypes/{linkedAccountType}/accounts/{linkedAccountId}` */
 export const createAccountTypesAccountsPartnerLinks: API.OperationMethod<CreateAccountTypesAccountsPartnerLinksRequest, CreateAccountTypesAccountsPartnerLinksResponse, CreateAccountTypesAccountsPartnerLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountTypesAccountsPartnerLinksRequest,
   output: CreateAccountTypesAccountsPartnerLinksResponse,
   errors: [],
 }));
 
-/** Deletes a partner link for the given account. Authorization Headers: This method supports the following optional headers to define how the API authorizes access for the request: * `login-account`: (Optional) The resource name of the account where the Google Account of the credentials is a user. If not set, defaults to the account of the request. Format: `accountTypes/{loginAccountType}/accounts/{loginAccountId}` * `linked-account`: (Optional) The resource name of the account with an established product link to the `login-account`. Format: `accountTypes/{linkedAccountType}/accounts/{linkedAccountId}` */
 export interface DeleteAccountTypesAccountsPartnerLinksRequest {
   /** Required. The resource name of the partner link to delete. Format: accountTypes/{account_type}/accounts/{account}/partnerLinks/{partner_link} */
   name: string;
@@ -1482,13 +1481,13 @@ export const DeleteAccountTypesAccountsPartnerLinksResponse = Empty;
 
 export type DeleteAccountTypesAccountsPartnerLinksError = CommonErrors;
 
+/** Deletes a partner link for the given account. Authorization Headers: This method supports the following optional headers to define how the API authorizes access for the request: * `login-account`: (Optional) The resource name of the account where the Google Account of the credentials is a user. If not set, defaults to the account of the request. Format: `accountTypes/{loginAccountType}/accounts/{loginAccountId}` * `linked-account`: (Optional) The resource name of the account with an established product link to the `login-account`. Format: `accountTypes/{linkedAccountType}/accounts/{linkedAccountId}` */
 export const deleteAccountTypesAccountsPartnerLinks: API.OperationMethod<DeleteAccountTypesAccountsPartnerLinksRequest, DeleteAccountTypesAccountsPartnerLinksResponse, DeleteAccountTypesAccountsPartnerLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountTypesAccountsPartnerLinksRequest,
   output: DeleteAccountTypesAccountsPartnerLinksResponse,
   errors: [],
 }));
 
-/** Searches for all partner links to and from a given account. Authorization Headers: This method supports the following optional headers to define how the API authorizes access for the request: * `login-account`: (Optional) The resource name of the account where the Google Account of the credentials is a user. If not set, defaults to the account of the request. Format: `accountTypes/{loginAccountType}/accounts/{loginAccountId}` * `linked-account`: (Optional) The resource name of the account with an established product link to the `login-account`. Format: `accountTypes/{linkedAccountType}/accounts/{linkedAccountId}` */
 export interface SearchAccountTypesAccountsPartnerLinksRequest {
   /** Required. Account to search for partner links. If no `filter` is specified, all partner links where this account is either the `owning_account` or `partner_account` are returned. Format: `accountTypes/{account_type}/accounts/{account}` */
   parent: string;
@@ -1515,7 +1514,8 @@ export const SearchAccountTypesAccountsPartnerLinksResponse = SearchPartnerLinks
 
 export type SearchAccountTypesAccountsPartnerLinksError = CommonErrors;
 
-export const searchAccountTypesAccountsPartnerLinks = API.makePaginated(() => ({
+/** Searches for all partner links to and from a given account. Authorization Headers: This method supports the following optional headers to define how the API authorizes access for the request: * `login-account`: (Optional) The resource name of the account where the Google Account of the credentials is a user. If not set, defaults to the account of the request. Format: `accountTypes/{loginAccountType}/accounts/{loginAccountId}` * `linked-account`: (Optional) The resource name of the account with an established product link to the `login-account`. Format: `accountTypes/{linkedAccountType}/accounts/{linkedAccountId}` */
+export const searchAccountTypesAccountsPartnerLinks: API.PaginatedOperationMethod<SearchAccountTypesAccountsPartnerLinksRequest, SearchAccountTypesAccountsPartnerLinksResponse, SearchAccountTypesAccountsPartnerLinksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchAccountTypesAccountsPartnerLinksRequest,
   output: SearchAccountTypesAccountsPartnerLinksResponse,
   errors: [],
@@ -1525,7 +1525,6 @@ export const searchAccountTypesAccountsPartnerLinks = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a user list direct license. This feature is only available to data partners. */
 export interface CreateAccountTypesAccountsUserListDirectLicensesRequest {
   /** Required. The account that owns the user list being licensed. Should be in the format accountTypes/{ACCOUNT_TYPE}/accounts/{ACCOUNT_ID} */
   parent: string;
@@ -1546,13 +1545,13 @@ export const CreateAccountTypesAccountsUserListDirectLicensesResponse = UserList
 
 export type CreateAccountTypesAccountsUserListDirectLicensesError = CommonErrors;
 
+/** Creates a user list direct license. This feature is only available to data partners. */
 export const createAccountTypesAccountsUserListDirectLicenses: API.OperationMethod<CreateAccountTypesAccountsUserListDirectLicensesRequest, CreateAccountTypesAccountsUserListDirectLicensesResponse, CreateAccountTypesAccountsUserListDirectLicensesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountTypesAccountsUserListDirectLicensesRequest,
   output: CreateAccountTypesAccountsUserListDirectLicensesResponse,
   errors: [],
 }));
 
-/** Retrieves a user list direct license. This feature is only available to data partners. */
 export interface GetAccountTypesAccountsUserListDirectLicensesRequest {
   /** Required. The resource name of the user list direct license. */
   name: string;
@@ -1570,13 +1569,13 @@ export const GetAccountTypesAccountsUserListDirectLicensesResponse = UserListDir
 
 export type GetAccountTypesAccountsUserListDirectLicensesError = CommonErrors;
 
+/** Retrieves a user list direct license. This feature is only available to data partners. */
 export const getAccountTypesAccountsUserListDirectLicenses: API.OperationMethod<GetAccountTypesAccountsUserListDirectLicensesRequest, GetAccountTypesAccountsUserListDirectLicensesResponse, GetAccountTypesAccountsUserListDirectLicensesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountTypesAccountsUserListDirectLicensesRequest,
   output: GetAccountTypesAccountsUserListDirectLicensesResponse,
   errors: [],
 }));
 
-/** Updates a user list direct license. This feature is only available to data partners. */
 export interface PatchAccountTypesAccountsUserListDirectLicensesRequest {
   /** Identifier. The resource name of the user list direct license. */
   name: string;
@@ -1600,13 +1599,13 @@ export const PatchAccountTypesAccountsUserListDirectLicensesResponse = UserListD
 
 export type PatchAccountTypesAccountsUserListDirectLicensesError = CommonErrors;
 
+/** Updates a user list direct license. This feature is only available to data partners. */
 export const patchAccountTypesAccountsUserListDirectLicenses: API.OperationMethod<PatchAccountTypesAccountsUserListDirectLicensesRequest, PatchAccountTypesAccountsUserListDirectLicensesResponse, PatchAccountTypesAccountsUserListDirectLicensesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAccountTypesAccountsUserListDirectLicensesRequest,
   output: PatchAccountTypesAccountsUserListDirectLicensesResponse,
   errors: [],
 }));
 
-/** Lists all user list direct licenses owned by the parent account. This feature is only available to data partners. */
 export interface ListAccountTypesAccountsUserListDirectLicensesRequest {
   /** Required. The account whose licenses are being queried. Should be in the format accountTypes/{ACCOUNT_TYPE}/accounts/{ACCOUNT_ID} */
   parent: string;
@@ -1633,7 +1632,8 @@ export const ListAccountTypesAccountsUserListDirectLicensesResponse = ListUserLi
 
 export type ListAccountTypesAccountsUserListDirectLicensesError = CommonErrors;
 
-export const listAccountTypesAccountsUserListDirectLicenses = API.makePaginated(() => ({
+/** Lists all user list direct licenses owned by the parent account. This feature is only available to data partners. */
+export const listAccountTypesAccountsUserListDirectLicenses: API.PaginatedOperationMethod<ListAccountTypesAccountsUserListDirectLicensesRequest, ListAccountTypesAccountsUserListDirectLicensesResponse, ListAccountTypesAccountsUserListDirectLicensesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountTypesAccountsUserListDirectLicensesRequest,
   output: ListAccountTypesAccountsUserListDirectLicensesResponse,
   errors: [],
@@ -1643,7 +1643,6 @@ export const listAccountTypesAccountsUserListDirectLicenses = API.makePaginated(
   },
 }));
 
-/** Creates a user list global license. This feature is only available to data partners. */
 export interface CreateAccountTypesAccountsUserListGlobalLicensesRequest {
   /** Required. The account that owns the user list being licensed. Should be in the format accountTypes/{ACCOUNT_TYPE}/accounts/{ACCOUNT_ID} */
   parent: string;
@@ -1664,13 +1663,13 @@ export const CreateAccountTypesAccountsUserListGlobalLicensesResponse = UserList
 
 export type CreateAccountTypesAccountsUserListGlobalLicensesError = CommonErrors;
 
+/** Creates a user list global license. This feature is only available to data partners. */
 export const createAccountTypesAccountsUserListGlobalLicenses: API.OperationMethod<CreateAccountTypesAccountsUserListGlobalLicensesRequest, CreateAccountTypesAccountsUserListGlobalLicensesResponse, CreateAccountTypesAccountsUserListGlobalLicensesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountTypesAccountsUserListGlobalLicensesRequest,
   output: CreateAccountTypesAccountsUserListGlobalLicensesResponse,
   errors: [],
 }));
 
-/** Updates a user list global license. This feature is only available to data partners. */
 export interface PatchAccountTypesAccountsUserListGlobalLicensesRequest {
   /** Identifier. The resource name of the user list global license. */
   name: string;
@@ -1694,13 +1693,13 @@ export const PatchAccountTypesAccountsUserListGlobalLicensesResponse = UserListG
 
 export type PatchAccountTypesAccountsUserListGlobalLicensesError = CommonErrors;
 
+/** Updates a user list global license. This feature is only available to data partners. */
 export const patchAccountTypesAccountsUserListGlobalLicenses: API.OperationMethod<PatchAccountTypesAccountsUserListGlobalLicensesRequest, PatchAccountTypesAccountsUserListGlobalLicensesResponse, PatchAccountTypesAccountsUserListGlobalLicensesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAccountTypesAccountsUserListGlobalLicensesRequest,
   output: PatchAccountTypesAccountsUserListGlobalLicensesResponse,
   errors: [],
 }));
 
-/** Retrieves a user list global license. This feature is only available to data partners. */
 export interface GetAccountTypesAccountsUserListGlobalLicensesRequest {
   /** Required. The resource name of the user list global license. */
   name: string;
@@ -1718,13 +1717,13 @@ export const GetAccountTypesAccountsUserListGlobalLicensesResponse = UserListGlo
 
 export type GetAccountTypesAccountsUserListGlobalLicensesError = CommonErrors;
 
+/** Retrieves a user list global license. This feature is only available to data partners. */
 export const getAccountTypesAccountsUserListGlobalLicenses: API.OperationMethod<GetAccountTypesAccountsUserListGlobalLicensesRequest, GetAccountTypesAccountsUserListGlobalLicensesResponse, GetAccountTypesAccountsUserListGlobalLicensesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountTypesAccountsUserListGlobalLicensesRequest,
   output: GetAccountTypesAccountsUserListGlobalLicensesResponse,
   errors: [],
 }));
 
-/** Lists all user list global licenses owned by the parent account. This feature is only available to data partners. */
 export interface ListAccountTypesAccountsUserListGlobalLicensesRequest {
   /** Required. The account whose licenses are being queried. Should be in the format accountTypes/{ACCOUNT_TYPE}/accounts/{ACCOUNT_ID} */
   parent: string;
@@ -1751,7 +1750,8 @@ export const ListAccountTypesAccountsUserListGlobalLicensesResponse = ListUserLi
 
 export type ListAccountTypesAccountsUserListGlobalLicensesError = CommonErrors;
 
-export const listAccountTypesAccountsUserListGlobalLicenses = API.makePaginated(() => ({
+/** Lists all user list global licenses owned by the parent account. This feature is only available to data partners. */
+export const listAccountTypesAccountsUserListGlobalLicenses: API.PaginatedOperationMethod<ListAccountTypesAccountsUserListGlobalLicensesRequest, ListAccountTypesAccountsUserListGlobalLicensesResponse, ListAccountTypesAccountsUserListGlobalLicensesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountTypesAccountsUserListGlobalLicensesRequest,
   output: ListAccountTypesAccountsUserListGlobalLicensesResponse,
   errors: [],
@@ -1761,7 +1761,6 @@ export const listAccountTypesAccountsUserListGlobalLicenses = API.makePaginated(
   },
 }));
 
-/** Lists all customer info for a user list global license. This feature is only available to data partners. */
 export interface ListAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicenseCustomerInfosRequest {
   /** Required. The global license whose customer info are being queried. Should be in the format `accountTypes/{ACCOUNT_TYPE}/accounts/{ACCOUNT_ID}/userListGlobalLicenses/{USER_LIST_GLOBAL_LICENSE_ID}`. To list all global license customer info under an account, replace the user list global license id with a '-' (for example, `accountTypes/DATA_PARTNER/accounts/123/userListGlobalLicenses/-`) */
   parent: string;
@@ -1788,7 +1787,8 @@ export const ListAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicense
 
 export type ListAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicenseCustomerInfosError = CommonErrors;
 
-export const listAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicenseCustomerInfos = API.makePaginated(() => ({
+/** Lists all customer info for a user list global license. This feature is only available to data partners. */
+export const listAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicenseCustomerInfos: API.PaginatedOperationMethod<ListAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicenseCustomerInfosRequest, ListAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicenseCustomerInfosResponse, ListAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicenseCustomerInfosError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicenseCustomerInfosRequest,
   output: ListAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicenseCustomerInfosResponse,
   errors: [],
@@ -1798,7 +1798,6 @@ export const listAccountTypesAccountsUserListGlobalLicensesUserListGlobalLicense
   },
 }));
 
-/** Gets a UserList. Authorization Headers: This method supports the following optional headers to define how the API authorizes access for the request: * `login-account`: (Optional) The resource name of the account where the Google Account of the credentials is a user. If not set, defaults to the account of the request. Format: `accountTypes/{loginAccountType}/accounts/{loginAccountId}` * `linked-account`: (Optional) The resource name of the account with an established product link to the `login-account`. Format: `accountTypes/{linkedAccountType}/accounts/{linkedAccountId}` */
 export interface GetAccountTypesAccountsUserListsRequest {
   /** Required. The resource name of the UserList to retrieve. Format: accountTypes/{account_type}/accounts/{account}/userLists/{user_list} */
   name: string;
@@ -1816,13 +1815,13 @@ export const GetAccountTypesAccountsUserListsResponse = UserList;
 
 export type GetAccountTypesAccountsUserListsError = CommonErrors;
 
+/** Gets a UserList. Authorization Headers: This method supports the following optional headers to define how the API authorizes access for the request: * `login-account`: (Optional) The resource name of the account where the Google Account of the credentials is a user. If not set, defaults to the account of the request. Format: `accountTypes/{loginAccountType}/accounts/{loginAccountId}` * `linked-account`: (Optional) The resource name of the account with an established product link to the `login-account`. Format: `accountTypes/{linkedAccountType}/accounts/{linkedAccountId}` */
 export const getAccountTypesAccountsUserLists: API.OperationMethod<GetAccountTypesAccountsUserListsRequest, GetAccountTypesAccountsUserListsResponse, GetAccountTypesAccountsUserListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountTypesAccountsUserListsRequest,
   output: GetAccountTypesAccountsUserListsResponse,
   errors: [],
 }));
 
-/** Lists UserLists. Authorization Headers: This method supports the following optional headers to define how the API authorizes access for the request: * `login-account`: (Optional) The resource name of the account where the Google Account of the credentials is a user. If not set, defaults to the account of the request. Format: `accountTypes/{loginAccountType}/accounts/{loginAccountId}` * `linked-account`: (Optional) The resource name of the account with an established product link to the `login-account`. Format: `accountTypes/{linkedAccountType}/accounts/{linkedAccountId}` */
 export interface ListAccountTypesAccountsUserListsRequest {
   /** Required. The parent account which owns this collection of user lists. Format: accountTypes/{account_type}/accounts/{account} */
   parent: string;
@@ -1849,7 +1848,8 @@ export const ListAccountTypesAccountsUserListsResponse = ListUserListsResponse;
 
 export type ListAccountTypesAccountsUserListsError = CommonErrors;
 
-export const listAccountTypesAccountsUserLists = API.makePaginated(() => ({
+/** Lists UserLists. Authorization Headers: This method supports the following optional headers to define how the API authorizes access for the request: * `login-account`: (Optional) The resource name of the account where the Google Account of the credentials is a user. If not set, defaults to the account of the request. Format: `accountTypes/{loginAccountType}/accounts/{loginAccountId}` * `linked-account`: (Optional) The resource name of the account with an established product link to the `login-account`. Format: `accountTypes/{linkedAccountType}/accounts/{linkedAccountId}` */
+export const listAccountTypesAccountsUserLists: API.PaginatedOperationMethod<ListAccountTypesAccountsUserListsRequest, ListAccountTypesAccountsUserListsResponse, ListAccountTypesAccountsUserListsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountTypesAccountsUserListsRequest,
   output: ListAccountTypesAccountsUserListsResponse,
   errors: [],
@@ -1859,7 +1859,6 @@ export const listAccountTypesAccountsUserLists = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a UserList. Authorization Headers: This method supports the following optional headers to define how the API authorizes access for the request: * `login-account`: (Optional) The resource name of the account where the Google Account of the credentials is a user. If not set, defaults to the account of the request. Format: `accountTypes/{loginAccountType}/accounts/{loginAccountId}` * `linked-account`: (Optional) The resource name of the account with an established product link to the `login-account`. Format: `accountTypes/{linkedAccountType}/accounts/{linkedAccountId}` */
 export interface CreateAccountTypesAccountsUserListsRequest {
   /** Required. The parent account where this user list will be created. Format: accountTypes/{account_type}/accounts/{account} */
   parent: string;
@@ -1883,13 +1882,13 @@ export const CreateAccountTypesAccountsUserListsResponse = UserList;
 
 export type CreateAccountTypesAccountsUserListsError = CommonErrors;
 
+/** Creates a UserList. Authorization Headers: This method supports the following optional headers to define how the API authorizes access for the request: * `login-account`: (Optional) The resource name of the account where the Google Account of the credentials is a user. If not set, defaults to the account of the request. Format: `accountTypes/{loginAccountType}/accounts/{loginAccountId}` * `linked-account`: (Optional) The resource name of the account with an established product link to the `login-account`. Format: `accountTypes/{linkedAccountType}/accounts/{linkedAccountId}` */
 export const createAccountTypesAccountsUserLists: API.OperationMethod<CreateAccountTypesAccountsUserListsRequest, CreateAccountTypesAccountsUserListsResponse, CreateAccountTypesAccountsUserListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountTypesAccountsUserListsRequest,
   output: CreateAccountTypesAccountsUserListsResponse,
   errors: [],
 }));
 
-/** Updates a UserList. Authorization Headers: This method supports the following optional headers to define how the API authorizes access for the request: * `login-account`: (Optional) The resource name of the account where the Google Account of the credentials is a user. If not set, defaults to the account of the request. Format: `accountTypes/{loginAccountType}/accounts/{loginAccountId}` * `linked-account`: (Optional) The resource name of the account with an established product link to the `login-account`. Format: `accountTypes/{linkedAccountType}/accounts/{linkedAccountId}` */
 export interface PatchAccountTypesAccountsUserListsRequest {
   /** Identifier. The resource name of the user list. Format: accountTypes/{account_type}/accounts/{account}/userLists/{user_list} */
   name: string;
@@ -1916,13 +1915,13 @@ export const PatchAccountTypesAccountsUserListsResponse = UserList;
 
 export type PatchAccountTypesAccountsUserListsError = CommonErrors;
 
+/** Updates a UserList. Authorization Headers: This method supports the following optional headers to define how the API authorizes access for the request: * `login-account`: (Optional) The resource name of the account where the Google Account of the credentials is a user. If not set, defaults to the account of the request. Format: `accountTypes/{loginAccountType}/accounts/{loginAccountId}` * `linked-account`: (Optional) The resource name of the account with an established product link to the `login-account`. Format: `accountTypes/{linkedAccountType}/accounts/{linkedAccountId}` */
 export const patchAccountTypesAccountsUserLists: API.OperationMethod<PatchAccountTypesAccountsUserListsRequest, PatchAccountTypesAccountsUserListsResponse, PatchAccountTypesAccountsUserListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAccountTypesAccountsUserListsRequest,
   output: PatchAccountTypesAccountsUserListsResponse,
   errors: [],
 }));
 
-/** Deletes a UserList. Authorization Headers: This method supports the following optional headers to define how the API authorizes access for the request: * `login-account`: (Optional) The resource name of the account where the Google Account of the credentials is a user. If not set, defaults to the account of the request. Format: `accountTypes/{loginAccountType}/accounts/{loginAccountId}` * `linked-account`: (Optional) The resource name of the account with an established product link to the `login-account`. Format: `accountTypes/{linkedAccountType}/accounts/{linkedAccountId}` */
 export interface DeleteAccountTypesAccountsUserListsRequest {
   /** Required. The name of the user list to delete. Format: accountTypes/{account_type}/accounts/{account}/userLists/{user_list} */
   name: string;
@@ -1943,6 +1942,7 @@ export const DeleteAccountTypesAccountsUserListsResponse = Empty;
 
 export type DeleteAccountTypesAccountsUserListsError = CommonErrors;
 
+/** Deletes a UserList. Authorization Headers: This method supports the following optional headers to define how the API authorizes access for the request: * `login-account`: (Optional) The resource name of the account where the Google Account of the credentials is a user. If not set, defaults to the account of the request. Format: `accountTypes/{loginAccountType}/accounts/{loginAccountId}` * `linked-account`: (Optional) The resource name of the account with an established product link to the `login-account`. Format: `accountTypes/{linkedAccountType}/accounts/{linkedAccountId}` */
 export const deleteAccountTypesAccountsUserLists: API.OperationMethod<DeleteAccountTypesAccountsUserListsRequest, DeleteAccountTypesAccountsUserListsResponse, DeleteAccountTypesAccountsUserListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountTypesAccountsUserListsRequest,
   output: DeleteAccountTypesAccountsUserListsResponse,

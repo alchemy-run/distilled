@@ -477,7 +477,6 @@ export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest>
 // Operations
 // ==========================================================================
 
-/** Returns a list of connections in the given project. */
 export interface ListProjectsLocationsConnectionsRequest {
   /** Required. Parent resource name. Must be in the form: `projects/{project_id}/locations/{location_id}` */
   parent: string;
@@ -501,7 +500,8 @@ export const ListProjectsLocationsConnectionsResponse = ListConnectionsResponse;
 
 export type ListProjectsLocationsConnectionsError = CommonErrors;
 
-export const listProjectsLocationsConnections = API.makePaginated(() => ({
+/** Returns a list of connections in the given project. */
+export const listProjectsLocationsConnections: API.PaginatedOperationMethod<ListProjectsLocationsConnectionsRequest, ListProjectsLocationsConnectionsResponse, ListProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsConnectionsRequest,
   output: ListProjectsLocationsConnectionsResponse,
   errors: [],
@@ -511,7 +511,6 @@ export const listProjectsLocationsConnections = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes connection and associated credential. */
 export interface DeleteProjectsLocationsConnectionsRequest {
   /** Required. Name of the deleted connection, for example: `projects/{project_id}/locations/{location_id}/connections/{connection_id}` */
   name: string;
@@ -529,13 +528,13 @@ export const DeleteProjectsLocationsConnectionsResponse = Empty;
 
 export type DeleteProjectsLocationsConnectionsError = CommonErrors;
 
+/** Deletes connection and associated credential. */
 export const deleteProjectsLocationsConnections: API.OperationMethod<DeleteProjectsLocationsConnectionsRequest, DeleteProjectsLocationsConnectionsResponse, DeleteProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsConnectionsRequest,
   output: DeleteProjectsLocationsConnectionsResponse,
   errors: [],
 }));
 
-/** Updates the specified connection. For security reasons, also resets credential if connection properties are in the update field mask. */
 export interface PatchProjectsLocationsConnectionsRequest {
   /** Required. Update mask for the connection fields to be updated. */
   updateMask?: string;
@@ -559,13 +558,13 @@ export const PatchProjectsLocationsConnectionsResponse = Connection;
 
 export type PatchProjectsLocationsConnectionsError = CommonErrors;
 
+/** Updates the specified connection. For security reasons, also resets credential if connection properties are in the update field mask. */
 export const patchProjectsLocationsConnections: API.OperationMethod<PatchProjectsLocationsConnectionsRequest, PatchProjectsLocationsConnectionsResponse, PatchProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsConnectionsRequest,
   output: PatchProjectsLocationsConnectionsResponse,
   errors: [],
 }));
 
-/** Returns specified connection. */
 export interface GetProjectsLocationsConnectionsRequest {
   /** Required. Name of the requested connection, for example: `projects/{project_id}/locations/{location_id}/connections/{connection_id}` */
   name: string;
@@ -583,13 +582,13 @@ export const GetProjectsLocationsConnectionsResponse = Connection;
 
 export type GetProjectsLocationsConnectionsError = CommonErrors;
 
+/** Returns specified connection. */
 export const getProjectsLocationsConnections: API.OperationMethod<GetProjectsLocationsConnectionsRequest, GetProjectsLocationsConnectionsResponse, GetProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsConnectionsRequest,
   output: GetProjectsLocationsConnectionsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsConnectionsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -610,13 +609,13 @@ export const GetIamPolicyProjectsLocationsConnectionsResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsConnectionsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsConnections: API.OperationMethod<GetIamPolicyProjectsLocationsConnectionsRequest, GetIamPolicyProjectsLocationsConnectionsResponse, GetIamPolicyProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsConnectionsRequest,
   output: GetIamPolicyProjectsLocationsConnectionsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsConnectionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -637,13 +636,13 @@ export const TestIamPermissionsProjectsLocationsConnectionsResponse = TestIamPer
 
 export type TestIamPermissionsProjectsLocationsConnectionsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsConnections: API.OperationMethod<TestIamPermissionsProjectsLocationsConnectionsRequest, TestIamPermissionsProjectsLocationsConnectionsResponse, TestIamPermissionsProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsConnectionsRequest,
   output: TestIamPermissionsProjectsLocationsConnectionsResponse,
   errors: [],
 }));
 
-/** Creates a new connection. */
 export interface CreateProjectsLocationsConnectionsRequest {
   /** Required. Parent resource name. Must be in the format `projects/{project_id}/locations/{location_id}` */
   parent: string;
@@ -667,13 +666,13 @@ export const CreateProjectsLocationsConnectionsResponse = Connection;
 
 export type CreateProjectsLocationsConnectionsError = CommonErrors;
 
+/** Creates a new connection. */
 export const createProjectsLocationsConnections: API.OperationMethod<CreateProjectsLocationsConnectionsRequest, CreateProjectsLocationsConnectionsResponse, CreateProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsConnectionsRequest,
   output: CreateProjectsLocationsConnectionsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsConnectionsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -694,6 +693,7 @@ export const SetIamPolicyProjectsLocationsConnectionsResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsConnectionsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsConnections: API.OperationMethod<SetIamPolicyProjectsLocationsConnectionsRequest, SetIamPolicyProjectsLocationsConnectionsResponse, SetIamPolicyProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsConnectionsRequest,
   output: SetIamPolicyProjectsLocationsConnectionsResponse,

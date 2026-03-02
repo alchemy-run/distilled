@@ -615,7 +615,6 @@ export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspen
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -645,7 +644,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -655,7 +655,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -673,13 +672,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -709,7 +708,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -719,7 +719,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -737,13 +736,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -761,13 +760,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -788,13 +787,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Execute any GraphQL query and mutation against the Firebase Data Connect's generated GraphQL schema. Grants full read and write access to the connected data sources. Note: Use introspection query to explore the generated GraphQL schema. */
 export interface ExecuteGraphqlProjectsLocationsServicesRequest {
   /** Required. The relative resource name of Firebase Data Connect service, in the format: ``` projects/{project}/locations/{location}/services/{service} ``` */
   name: string;
@@ -815,13 +814,13 @@ export const ExecuteGraphqlProjectsLocationsServicesResponse = GraphqlResponse;
 
 export type ExecuteGraphqlProjectsLocationsServicesError = CommonErrors;
 
+/** Execute any GraphQL query and mutation against the Firebase Data Connect's generated GraphQL schema. Grants full read and write access to the connected data sources. Note: Use introspection query to explore the generated GraphQL schema. */
 export const executeGraphqlProjectsLocationsServices: API.OperationMethod<ExecuteGraphqlProjectsLocationsServicesRequest, ExecuteGraphqlProjectsLocationsServicesResponse, ExecuteGraphqlProjectsLocationsServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExecuteGraphqlProjectsLocationsServicesRequest,
   output: ExecuteGraphqlProjectsLocationsServicesResponse,
   errors: [],
 }));
 
-/** Execute any GraphQL query against the Firebase Data Connect's generated GraphQL schema. Grants full read to the connected data sources. `ExecuteGraphqlRead` is identical to `ExecuteGraphql` except it only accepts read-only query. */
 export interface ExecuteGraphqlReadProjectsLocationsServicesRequest {
   /** Required. The relative resource name of Firebase Data Connect service, in the format: ``` projects/{project}/locations/{location}/services/{service} ``` */
   name: string;
@@ -842,13 +841,13 @@ export const ExecuteGraphqlReadProjectsLocationsServicesResponse = GraphqlRespon
 
 export type ExecuteGraphqlReadProjectsLocationsServicesError = CommonErrors;
 
+/** Execute any GraphQL query against the Firebase Data Connect's generated GraphQL schema. Grants full read to the connected data sources. `ExecuteGraphqlRead` is identical to `ExecuteGraphql` except it only accepts read-only query. */
 export const executeGraphqlReadProjectsLocationsServices: API.OperationMethod<ExecuteGraphqlReadProjectsLocationsServicesRequest, ExecuteGraphqlReadProjectsLocationsServicesResponse, ExecuteGraphqlReadProjectsLocationsServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExecuteGraphqlReadProjectsLocationsServicesRequest,
   output: ExecuteGraphqlReadProjectsLocationsServicesResponse,
   errors: [],
 }));
 
-/** Execute introspection query against the Firebase Data Connect's generated GraphQL schema. GraphQL introspection query provides metadata such as what tables the schema have, what queries and mutations can be performed on the schema, and so on. Read more at https://graphql.org/learn/introspection. IntrospectGraphql can read schema metadata but cannot read rows from Cloud SQL instance, which can be done via ExecuteGraphqlRead. */
 export interface IntrospectGraphqlProjectsLocationsServicesRequest {
   /** Required. The relative resource name of Firebase Data Connect service, in the format: ``` projects/{project}/locations/{location}/services/{service} ``` */
   name: string;
@@ -869,13 +868,13 @@ export const IntrospectGraphqlProjectsLocationsServicesResponse = GraphqlRespons
 
 export type IntrospectGraphqlProjectsLocationsServicesError = CommonErrors;
 
+/** Execute introspection query against the Firebase Data Connect's generated GraphQL schema. GraphQL introspection query provides metadata such as what tables the schema have, what queries and mutations can be performed on the schema, and so on. Read more at https://graphql.org/learn/introspection. IntrospectGraphql can read schema metadata but cannot read rows from Cloud SQL instance, which can be done via ExecuteGraphqlRead. */
 export const introspectGraphqlProjectsLocationsServices: API.OperationMethod<IntrospectGraphqlProjectsLocationsServicesRequest, IntrospectGraphqlProjectsLocationsServicesResponse, IntrospectGraphqlProjectsLocationsServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: IntrospectGraphqlProjectsLocationsServicesRequest,
   output: IntrospectGraphqlProjectsLocationsServicesResponse,
   errors: [],
 }));
 
-/** Lists Services in a given project and location. */
 export interface ListProjectsLocationsServicesRequest {
   /** Required. Value of parent. */
   parent: string;
@@ -905,7 +904,8 @@ export const ListProjectsLocationsServicesResponse = ListServicesResponse;
 
 export type ListProjectsLocationsServicesError = CommonErrors;
 
-export const listProjectsLocationsServices = API.makePaginated(() => ({
+/** Lists Services in a given project and location. */
+export const listProjectsLocationsServices: API.PaginatedOperationMethod<ListProjectsLocationsServicesRequest, ListProjectsLocationsServicesResponse, ListProjectsLocationsServicesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsServicesRequest,
   output: ListProjectsLocationsServicesResponse,
   errors: [],
@@ -915,7 +915,6 @@ export const listProjectsLocationsServices = API.makePaginated(() => ({
   },
 }));
 
-/** Gets details of a single Service. */
 export interface GetProjectsLocationsServicesRequest {
   /** Required. The name of the service to retrieve, in the format: ``` projects/{project}/locations/{location}/services/{service} ``` */
   name: string;
@@ -933,13 +932,13 @@ export const GetProjectsLocationsServicesResponse = Service;
 
 export type GetProjectsLocationsServicesError = CommonErrors;
 
+/** Gets details of a single Service. */
 export const getProjectsLocationsServices: API.OperationMethod<GetProjectsLocationsServicesRequest, GetProjectsLocationsServicesResponse, GetProjectsLocationsServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsServicesRequest,
   output: GetProjectsLocationsServicesResponse,
   errors: [],
 }));
 
-/** Creates a new Service in a given project and location. */
 export interface CreateProjectsLocationsServicesRequest {
   /** Required. Value of parent. */
   parent: string;
@@ -969,13 +968,13 @@ export const CreateProjectsLocationsServicesResponse = Operation;
 
 export type CreateProjectsLocationsServicesError = CommonErrors;
 
+/** Creates a new Service in a given project and location. */
 export const createProjectsLocationsServices: API.OperationMethod<CreateProjectsLocationsServicesRequest, CreateProjectsLocationsServicesResponse, CreateProjectsLocationsServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsServicesRequest,
   output: CreateProjectsLocationsServicesResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single Service. */
 export interface PatchProjectsLocationsServicesRequest {
   /** Identifier. The relative resource name of the Firebase Data Connect service, in the format: ``` projects/{project}/locations/{location}/services/{service} ``` Note that the service ID is specific to Firebase Data Connect and does not correspond to any of the instance IDs of the underlying data source connections. */
   name: string;
@@ -1008,13 +1007,13 @@ export const PatchProjectsLocationsServicesResponse = Operation;
 
 export type PatchProjectsLocationsServicesError = CommonErrors;
 
+/** Updates the parameters of a single Service. */
 export const patchProjectsLocationsServices: API.OperationMethod<PatchProjectsLocationsServicesRequest, PatchProjectsLocationsServicesResponse, PatchProjectsLocationsServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsServicesRequest,
   output: PatchProjectsLocationsServicesResponse,
   errors: [],
 }));
 
-/** Deletes a single Service. */
 export interface DeleteProjectsLocationsServicesRequest {
   /** Required. The name of the service to delete, in the format: ``` projects/{project}/locations/{location}/services/{service} ``` */
   name: string;
@@ -1047,13 +1046,13 @@ export const DeleteProjectsLocationsServicesResponse = Operation;
 
 export type DeleteProjectsLocationsServicesError = CommonErrors;
 
+/** Deletes a single Service. */
 export const deleteProjectsLocationsServices: API.OperationMethod<DeleteProjectsLocationsServicesRequest, DeleteProjectsLocationsServicesResponse, DeleteProjectsLocationsServicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsServicesRequest,
   output: DeleteProjectsLocationsServicesResponse,
   errors: [],
 }));
 
-/** Execute a predefined query in a Connector. */
 export interface ExecuteQueryProjectsLocationsServicesConnectorsRequest {
   /** Required. The resource name of the connector to find the predefined query, in the format: ``` projects/{project}/locations/{location}/services/{service}/connectors/{connector} ``` */
   name: string;
@@ -1074,13 +1073,13 @@ export const ExecuteQueryProjectsLocationsServicesConnectorsResponse = ExecuteQu
 
 export type ExecuteQueryProjectsLocationsServicesConnectorsError = CommonErrors;
 
+/** Execute a predefined query in a Connector. */
 export const executeQueryProjectsLocationsServicesConnectors: API.OperationMethod<ExecuteQueryProjectsLocationsServicesConnectorsRequest, ExecuteQueryProjectsLocationsServicesConnectorsResponse, ExecuteQueryProjectsLocationsServicesConnectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExecuteQueryProjectsLocationsServicesConnectorsRequest,
   output: ExecuteQueryProjectsLocationsServicesConnectorsResponse,
   errors: [],
 }));
 
-/** Execute a predefined mutation in a Connector. */
 export interface ExecuteMutationProjectsLocationsServicesConnectorsRequest {
   /** Required. The resource name of the connector to find the predefined mutation, in the format: ``` projects/{project}/locations/{location}/services/{service}/connectors/{connector} ``` */
   name: string;
@@ -1101,13 +1100,13 @@ export const ExecuteMutationProjectsLocationsServicesConnectorsResponse = Execut
 
 export type ExecuteMutationProjectsLocationsServicesConnectorsError = CommonErrors;
 
+/** Execute a predefined mutation in a Connector. */
 export const executeMutationProjectsLocationsServicesConnectors: API.OperationMethod<ExecuteMutationProjectsLocationsServicesConnectorsRequest, ExecuteMutationProjectsLocationsServicesConnectorsResponse, ExecuteMutationProjectsLocationsServicesConnectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExecuteMutationProjectsLocationsServicesConnectorsRequest,
   output: ExecuteMutationProjectsLocationsServicesConnectorsResponse,
   errors: [],
 }));
 
-/** Impersonate a query defined on a Firebase Data Connect connector. It grants the admin SDK access to queries defined in the given connector. The caller can choose to impersonate a particular Firebase Auth user, or skip @auth completely. */
 export interface ImpersonateQueryProjectsLocationsServicesConnectorsRequest {
   /** Required. The resource name of the connector to find the predefined query/mutation, in the format: ``` projects/{project}/locations/{location}/services/{service}/connectors/{connector} ``` */
   name: string;
@@ -1128,13 +1127,13 @@ export const ImpersonateQueryProjectsLocationsServicesConnectorsResponse = Graph
 
 export type ImpersonateQueryProjectsLocationsServicesConnectorsError = CommonErrors;
 
+/** Impersonate a query defined on a Firebase Data Connect connector. It grants the admin SDK access to queries defined in the given connector. The caller can choose to impersonate a particular Firebase Auth user, or skip @auth completely. */
 export const impersonateQueryProjectsLocationsServicesConnectors: API.OperationMethod<ImpersonateQueryProjectsLocationsServicesConnectorsRequest, ImpersonateQueryProjectsLocationsServicesConnectorsResponse, ImpersonateQueryProjectsLocationsServicesConnectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImpersonateQueryProjectsLocationsServicesConnectorsRequest,
   output: ImpersonateQueryProjectsLocationsServicesConnectorsResponse,
   errors: [],
 }));
 
-/** Impersonate a mutation defined on a Firebase Data Connect connector. It grants the admin SDK access to mutations defined in the given connector. The caller can choose to impersonate a particular Firebase Auth user, or skip @auth completely. */
 export interface ImpersonateMutationProjectsLocationsServicesConnectorsRequest {
   /** Required. The resource name of the connector to find the predefined query/mutation, in the format: ``` projects/{project}/locations/{location}/services/{service}/connectors/{connector} ``` */
   name: string;
@@ -1155,13 +1154,13 @@ export const ImpersonateMutationProjectsLocationsServicesConnectorsResponse = Gr
 
 export type ImpersonateMutationProjectsLocationsServicesConnectorsError = CommonErrors;
 
+/** Impersonate a mutation defined on a Firebase Data Connect connector. It grants the admin SDK access to mutations defined in the given connector. The caller can choose to impersonate a particular Firebase Auth user, or skip @auth completely. */
 export const impersonateMutationProjectsLocationsServicesConnectors: API.OperationMethod<ImpersonateMutationProjectsLocationsServicesConnectorsRequest, ImpersonateMutationProjectsLocationsServicesConnectorsResponse, ImpersonateMutationProjectsLocationsServicesConnectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImpersonateMutationProjectsLocationsServicesConnectorsRequest,
   output: ImpersonateMutationProjectsLocationsServicesConnectorsResponse,
   errors: [],
 }));
 
-/** Lists Connectors in a given project and location. */
 export interface ListProjectsLocationsServicesConnectorsRequest {
   /** Required. Value of parent. */
   parent: string;
@@ -1191,7 +1190,8 @@ export const ListProjectsLocationsServicesConnectorsResponse = ListConnectorsRes
 
 export type ListProjectsLocationsServicesConnectorsError = CommonErrors;
 
-export const listProjectsLocationsServicesConnectors = API.makePaginated(() => ({
+/** Lists Connectors in a given project and location. */
+export const listProjectsLocationsServicesConnectors: API.PaginatedOperationMethod<ListProjectsLocationsServicesConnectorsRequest, ListProjectsLocationsServicesConnectorsResponse, ListProjectsLocationsServicesConnectorsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsServicesConnectorsRequest,
   output: ListProjectsLocationsServicesConnectorsResponse,
   errors: [],
@@ -1201,7 +1201,6 @@ export const listProjectsLocationsServicesConnectors = API.makePaginated(() => (
   },
 }));
 
-/** Gets details of a single Connector. */
 export interface GetProjectsLocationsServicesConnectorsRequest {
   /** Required. The name of the connector to retrieve, in the format: ``` projects/{project}/locations/{location}/services/{service}/connectors/{connector} ``` */
   name: string;
@@ -1219,13 +1218,13 @@ export const GetProjectsLocationsServicesConnectorsResponse = Connector;
 
 export type GetProjectsLocationsServicesConnectorsError = CommonErrors;
 
+/** Gets details of a single Connector. */
 export const getProjectsLocationsServicesConnectors: API.OperationMethod<GetProjectsLocationsServicesConnectorsRequest, GetProjectsLocationsServicesConnectorsResponse, GetProjectsLocationsServicesConnectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsServicesConnectorsRequest,
   output: GetProjectsLocationsServicesConnectorsResponse,
   errors: [],
 }));
 
-/** Creates a new Connector in a given project and location. The operations are validated against and must be compatible with the active schema. If the operations and schema are not compatible or if the schema is not present, this will result in an error. */
 export interface CreateProjectsLocationsServicesConnectorsRequest {
   /** Required. Value for parent. */
   parent: string;
@@ -1255,13 +1254,13 @@ export const CreateProjectsLocationsServicesConnectorsResponse = Operation;
 
 export type CreateProjectsLocationsServicesConnectorsError = CommonErrors;
 
+/** Creates a new Connector in a given project and location. The operations are validated against and must be compatible with the active schema. If the operations and schema are not compatible or if the schema is not present, this will result in an error. */
 export const createProjectsLocationsServicesConnectors: API.OperationMethod<CreateProjectsLocationsServicesConnectorsRequest, CreateProjectsLocationsServicesConnectorsResponse, CreateProjectsLocationsServicesConnectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsServicesConnectorsRequest,
   output: CreateProjectsLocationsServicesConnectorsResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single Connector, and creates a new ConnectorRevision with the updated Connector. The operations are validated against and must be compatible with the live schema. If the operations and schema are not compatible or if the schema is not present, this will result in an error. */
 export interface PatchProjectsLocationsServicesConnectorsRequest {
   /** Identifier. The relative resource name of the connector, in the format: ``` projects/{project}/locations/{location}/services/{service}/connectors/{connector} ``` */
   name: string;
@@ -1294,13 +1293,13 @@ export const PatchProjectsLocationsServicesConnectorsResponse = Operation;
 
 export type PatchProjectsLocationsServicesConnectorsError = CommonErrors;
 
+/** Updates the parameters of a single Connector, and creates a new ConnectorRevision with the updated Connector. The operations are validated against and must be compatible with the live schema. If the operations and schema are not compatible or if the schema is not present, this will result in an error. */
 export const patchProjectsLocationsServicesConnectors: API.OperationMethod<PatchProjectsLocationsServicesConnectorsRequest, PatchProjectsLocationsServicesConnectorsResponse, PatchProjectsLocationsServicesConnectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsServicesConnectorsRequest,
   output: PatchProjectsLocationsServicesConnectorsResponse,
   errors: [],
 }));
 
-/** Deletes a single Connector. */
 export interface DeleteProjectsLocationsServicesConnectorsRequest {
   /** Required. The name of the connector to delete, in the format: ``` projects/{project}/locations/{location}/services/{service}/connectors/{connector} ``` */
   name: string;
@@ -1333,13 +1332,13 @@ export const DeleteProjectsLocationsServicesConnectorsResponse = Operation;
 
 export type DeleteProjectsLocationsServicesConnectorsError = CommonErrors;
 
+/** Deletes a single Connector. */
 export const deleteProjectsLocationsServicesConnectors: API.OperationMethod<DeleteProjectsLocationsServicesConnectorsRequest, DeleteProjectsLocationsServicesConnectorsResponse, DeleteProjectsLocationsServicesConnectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsServicesConnectorsRequest,
   output: DeleteProjectsLocationsServicesConnectorsResponse,
   errors: [],
 }));
 
-/** Gets details of a single Schema. */
 export interface GetProjectsLocationsServicesSchemasRequest {
   /** Required. The name of the schema to retrieve, in the format: ``` projects/{project}/locations/{location}/services/{service}/schemas/{schema} ``` */
   name: string;
@@ -1357,13 +1356,13 @@ export const GetProjectsLocationsServicesSchemasResponse = Firebasedataconnect_S
 
 export type GetProjectsLocationsServicesSchemasError = CommonErrors;
 
+/** Gets details of a single Schema. */
 export const getProjectsLocationsServicesSchemas: API.OperationMethod<GetProjectsLocationsServicesSchemasRequest, GetProjectsLocationsServicesSchemasResponse, GetProjectsLocationsServicesSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsServicesSchemasRequest,
   output: GetProjectsLocationsServicesSchemasResponse,
   errors: [],
 }));
 
-/** Lists Schemas in a given project and location. */
 export interface ListProjectsLocationsServicesSchemasRequest {
   /** Required. Value of parent. */
   parent: string;
@@ -1393,7 +1392,8 @@ export const ListProjectsLocationsServicesSchemasResponse = ListSchemasResponse;
 
 export type ListProjectsLocationsServicesSchemasError = CommonErrors;
 
-export const listProjectsLocationsServicesSchemas = API.makePaginated(() => ({
+/** Lists Schemas in a given project and location. */
+export const listProjectsLocationsServicesSchemas: API.PaginatedOperationMethod<ListProjectsLocationsServicesSchemasRequest, ListProjectsLocationsServicesSchemasResponse, ListProjectsLocationsServicesSchemasError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsServicesSchemasRequest,
   output: ListProjectsLocationsServicesSchemasResponse,
   errors: [],
@@ -1403,7 +1403,6 @@ export const listProjectsLocationsServicesSchemas = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new Schema in a given project and location. Only creation of `schemas/main` is supported and calling create with any other schema ID will result in an error. */
 export interface CreateProjectsLocationsServicesSchemasRequest {
   /** Required. Value for parent. */
   parent: string;
@@ -1433,13 +1432,13 @@ export const CreateProjectsLocationsServicesSchemasResponse = Operation;
 
 export type CreateProjectsLocationsServicesSchemasError = CommonErrors;
 
+/** Creates a new Schema in a given project and location. Only creation of `schemas/main` is supported and calling create with any other schema ID will result in an error. */
 export const createProjectsLocationsServicesSchemas: API.OperationMethod<CreateProjectsLocationsServicesSchemasRequest, CreateProjectsLocationsServicesSchemasResponse, CreateProjectsLocationsServicesSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsServicesSchemasRequest,
   output: CreateProjectsLocationsServicesSchemasResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single Schema, and creates a new SchemaRevision with the updated Schema. */
 export interface PatchProjectsLocationsServicesSchemasRequest {
   /** Identifier. The relative resource name of the schema, in the format: ``` projects/{project}/locations/{location}/services/{service}/schemas/{schema} ``` Right now, the only supported schema is "main". */
   name: string;
@@ -1472,13 +1471,13 @@ export const PatchProjectsLocationsServicesSchemasResponse = Operation;
 
 export type PatchProjectsLocationsServicesSchemasError = CommonErrors;
 
+/** Updates the parameters of a single Schema, and creates a new SchemaRevision with the updated Schema. */
 export const patchProjectsLocationsServicesSchemas: API.OperationMethod<PatchProjectsLocationsServicesSchemasRequest, PatchProjectsLocationsServicesSchemasResponse, PatchProjectsLocationsServicesSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsServicesSchemasRequest,
   output: PatchProjectsLocationsServicesSchemasResponse,
   errors: [],
 }));
 
-/** Deletes a single Schema. Because the schema and connectors must be compatible at all times, if this is called while any connectors are active, this will result in an error. */
 export interface DeleteProjectsLocationsServicesSchemasRequest {
   /** Required. The name of the schema to delete, in the format: ``` projects/{project}/locations/{location}/services/{service}/schemas/{schema} ``` */
   name: string;
@@ -1511,6 +1510,7 @@ export const DeleteProjectsLocationsServicesSchemasResponse = Operation;
 
 export type DeleteProjectsLocationsServicesSchemasError = CommonErrors;
 
+/** Deletes a single Schema. Because the schema and connectors must be compatible at all times, if this is called while any connectors are active, this will result in an error. */
 export const deleteProjectsLocationsServicesSchemas: API.OperationMethod<DeleteProjectsLocationsServicesSchemasRequest, DeleteProjectsLocationsServicesSchemasResponse, DeleteProjectsLocationsServicesSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsServicesSchemasRequest,
   output: DeleteProjectsLocationsServicesSchemasResponse,

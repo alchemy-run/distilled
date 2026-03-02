@@ -381,7 +381,6 @@ export const CloudControl2SharedOperationsReconciliationOperationMetadata: Schem
 // Operations
 // ==========================================================================
 
-/** Retrieves the policies of the specified kind that are attached to a resource. The response lists only policy metadata. In particular, policy rules are omitted. */
 export interface ListPoliciesPoliciesRequest {
   /** Required. The resource that the policy is attached to, along with the kind of policy to list. Format: `policies/{attachment_point}/denypolicies` The attachment point is identified by its URL-encoded full resource name, which means that the forward-slash character, `/`, must be written as `%2F`. For example, `policies/cloudresourcemanager.googleapis.com%2Fprojects%2Fmy-project/denypolicies`. For organizations and folders, use the numeric ID in the full resource name. For projects, you can use the alphanumeric or the numeric ID. */
   parent: string;
@@ -405,7 +404,8 @@ export const ListPoliciesPoliciesResponse = GoogleIamV2ListPoliciesResponse;
 
 export type ListPoliciesPoliciesError = CommonErrors;
 
-export const listPoliciesPolicies = API.makePaginated(() => ({
+/** Retrieves the policies of the specified kind that are attached to a resource. The response lists only policy metadata. In particular, policy rules are omitted. */
+export const listPoliciesPolicies: API.PaginatedOperationMethod<ListPoliciesPoliciesRequest, ListPoliciesPoliciesResponse, ListPoliciesPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPoliciesPoliciesRequest,
   output: ListPoliciesPoliciesResponse,
   errors: [],
@@ -415,7 +415,6 @@ export const listPoliciesPolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a policy. */
 export interface GetPoliciesRequest {
   /** Required. The resource name of the policy to retrieve. Format: `policies/{attachment_point}/denypolicies/{policy_id}` Use the URL-encoded full resource name, which means that the forward-slash character, `/`, must be written as `%2F`. For example, `policies/cloudresourcemanager.googleapis.com%2Fprojects%2Fmy-project/denypolicies/my-policy`. For organizations and folders, use the numeric ID in the full resource name. For projects, you can use the alphanumeric or the numeric ID. */
   name: string;
@@ -433,13 +432,13 @@ export const GetPoliciesResponse = GoogleIamV2Policy;
 
 export type GetPoliciesError = CommonErrors;
 
+/** Gets a policy. */
 export const getPolicies: API.OperationMethod<GetPoliciesRequest, GetPoliciesResponse, GetPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPoliciesRequest,
   output: GetPoliciesResponse,
   errors: [],
 }));
 
-/** Creates a policy. */
 export interface CreatePolicyPoliciesRequest {
   /** Required. The resource that the policy is attached to, along with the kind of policy to create. Format: `policies/{attachment_point}/denypolicies` The attachment point is identified by its URL-encoded full resource name, which means that the forward-slash character, `/`, must be written as `%2F`. For example, `policies/cloudresourcemanager.googleapis.com%2Fprojects%2Fmy-project/denypolicies`. For organizations and folders, use the numeric ID in the full resource name. For projects, you can use the alphanumeric or the numeric ID. */
   parent: string;
@@ -463,13 +462,13 @@ export const CreatePolicyPoliciesResponse = GoogleLongrunningOperation;
 
 export type CreatePolicyPoliciesError = CommonErrors;
 
+/** Creates a policy. */
 export const createPolicyPolicies: API.OperationMethod<CreatePolicyPoliciesRequest, CreatePolicyPoliciesResponse, CreatePolicyPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreatePolicyPoliciesRequest,
   output: CreatePolicyPoliciesResponse,
   errors: [],
 }));
 
-/** Updates the specified policy. You can update only the rules and the display name for the policy. To update a policy, you should use a read-modify-write loop: 1. Use GetPolicy to read the current version of the policy. 2. Modify the policy as needed. 3. Use `UpdatePolicy` to write the updated policy. This pattern helps prevent conflicts between concurrent updates. */
 export interface UpdatePoliciesRequest {
   /** Immutable. The resource name of the `Policy`, which must be unique. Format: `policies/{attachment_point}/denypolicies/{policy_id}` The attachment point is identified by its URL-encoded full resource name, which means that the forward-slash character, `/`, must be written as `%2F`. For example, `policies/cloudresourcemanager.googleapis.com%2Fprojects%2Fmy-project/denypolicies/my-deny-policy`. For organizations and folders, use the numeric ID in the full resource name. For projects, requests can use the alphanumeric or the numeric ID. Responses always contain the numeric ID. */
   name: string;
@@ -490,13 +489,13 @@ export const UpdatePoliciesResponse = GoogleLongrunningOperation;
 
 export type UpdatePoliciesError = CommonErrors;
 
+/** Updates the specified policy. You can update only the rules and the display name for the policy. To update a policy, you should use a read-modify-write loop: 1. Use GetPolicy to read the current version of the policy. 2. Modify the policy as needed. 3. Use `UpdatePolicy` to write the updated policy. This pattern helps prevent conflicts between concurrent updates. */
 export const updatePolicies: API.OperationMethod<UpdatePoliciesRequest, UpdatePoliciesResponse, UpdatePoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdatePoliciesRequest,
   output: UpdatePoliciesResponse,
   errors: [],
 }));
 
-/** Deletes a policy. This action is permanent. */
 export interface DeletePoliciesRequest {
   /** Required. The resource name of the policy to delete. Format: `policies/{attachment_point}/denypolicies/{policy_id}` Use the URL-encoded full resource name, which means that the forward-slash character, `/`, must be written as `%2F`. For example, `policies/cloudresourcemanager.googleapis.com%2Fprojects%2Fmy-project/denypolicies/my-policy`. For organizations and folders, use the numeric ID in the full resource name. For projects, you can use the alphanumeric or the numeric ID. */
   name: string;
@@ -517,13 +516,13 @@ export const DeletePoliciesResponse = GoogleLongrunningOperation;
 
 export type DeletePoliciesError = CommonErrors;
 
+/** Deletes a policy. This action is permanent. */
 export const deletePolicies: API.OperationMethod<DeletePoliciesRequest, DeletePoliciesResponse, DeletePoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeletePoliciesRequest,
   output: DeletePoliciesResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetPoliciesOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -541,6 +540,7 @@ export const GetPoliciesOperationsResponse = GoogleLongrunningOperation;
 
 export type GetPoliciesOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getPoliciesOperations: API.OperationMethod<GetPoliciesOperationsRequest, GetPoliciesOperationsResponse, GetPoliciesOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPoliciesOperationsRequest,
   output: GetPoliciesOperationsResponse,

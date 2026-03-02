@@ -14555,7 +14555,6 @@ export const GoogleCloudDiscoveryengineV1AclConfig: Schema.Schema<GoogleCloudDis
 // Operations
 // ==========================================================================
 
-/** Provisions the project resource. During the process, related systems will get prepared and initialized. Caller must read the [Terms for data use](https://cloud.google.com/retail/data-use-terms), and optionally specify in request to provide consent to that service terms. */
 export interface ProvisionProjectsRequest {
   /** Required. Full resource name of a Project, such as `projects/{project_id_or_number}`. */
   name: string;
@@ -14576,13 +14575,13 @@ export const ProvisionProjectsResponse = GoogleLongrunningOperation;
 
 export type ProvisionProjectsError = CommonErrors;
 
+/** Provisions the project resource. During the process, related systems will get prepared and initialized. Caller must read the [Terms for data use](https://cloud.google.com/retail/data-use-terms), and optionally specify in request to provide consent to that service terms. */
 export const provisionProjects: API.OperationMethod<ProvisionProjectsRequest, ProvisionProjectsResponse, ProvisionProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ProvisionProjectsRequest,
   output: ProvisionProjectsResponse,
   errors: [],
 }));
 
-/** Provisions a CMEK key for use in a location of a customer's project. This method will also conduct location validation on the provided cmekConfig to make sure the key is valid and can be used in the selected location. */
 export interface UpdateCmekConfigProjectsLocationsRequest {
   /** Required. The name of the CmekConfig of the form `projects/{project}/locations/{location}/cmekConfig` or `projects/{project}/locations/{location}/cmekConfigs/{cmek_config}`. */
   name: string;
@@ -14606,13 +14605,13 @@ export const UpdateCmekConfigProjectsLocationsResponse = GoogleLongrunningOperat
 
 export type UpdateCmekConfigProjectsLocationsError = CommonErrors;
 
+/** Provisions a CMEK key for use in a location of a customer's project. This method will also conduct location validation on the provided cmekConfig to make sure the key is valid and can be used in the selected location. */
 export const updateCmekConfigProjectsLocations: API.OperationMethod<UpdateCmekConfigProjectsLocationsRequest, UpdateCmekConfigProjectsLocationsResponse, UpdateCmekConfigProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateCmekConfigProjectsLocationsRequest,
   output: UpdateCmekConfigProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Creates a Collection and sets up the DataConnector for it. To stop a DataConnector after setup, use the CollectionService.DeleteCollection method. */
 export interface SetUpDataConnectorV2ProjectsLocationsRequest {
   /** Required. The parent of Collection, in the format of `projects/{project}/locations/{location}`. */
   parent: string;
@@ -14639,13 +14638,13 @@ export const SetUpDataConnectorV2ProjectsLocationsResponse = GoogleLongrunningOp
 
 export type SetUpDataConnectorV2ProjectsLocationsError = CommonErrors;
 
+/** Creates a Collection and sets up the DataConnector for it. To stop a DataConnector after setup, use the CollectionService.DeleteCollection method. */
 export const setUpDataConnectorV2ProjectsLocations: API.OperationMethod<SetUpDataConnectorV2ProjectsLocationsRequest, SetUpDataConnectorV2ProjectsLocationsResponse, SetUpDataConnectorV2ProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetUpDataConnectorV2ProjectsLocationsRequest,
   output: SetUpDataConnectorV2ProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Gets the CmekConfig. */
 export interface GetCmekConfigProjectsLocationsRequest {
   /** Required. Resource name of CmekConfig, such as `projects/* /locations/* /cmekConfig` or `projects/* /locations/* /cmekConfigs/*`. If the caller does not have permission to access the CmekConfig, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. */
   name: string;
@@ -14663,13 +14662,13 @@ export const GetCmekConfigProjectsLocationsResponse = GoogleCloudDiscoveryengine
 
 export type GetCmekConfigProjectsLocationsError = CommonErrors;
 
+/** Gets the CmekConfig. */
 export const getCmekConfigProjectsLocations: API.OperationMethod<GetCmekConfigProjectsLocationsRequest, GetCmekConfigProjectsLocationsResponse, GetCmekConfigProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCmekConfigProjectsLocationsRequest,
   output: GetCmekConfigProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Gets the AclConfig. */
 export interface GetAclConfigProjectsLocationsRequest {
   /** Required. Resource name of AclConfig, such as `projects/* /locations/* /aclConfig`. If the caller does not have permission to access the AclConfig, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. */
   name: string;
@@ -14687,13 +14686,13 @@ export const GetAclConfigProjectsLocationsResponse = GoogleCloudDiscoveryengineV
 
 export type GetAclConfigProjectsLocationsError = CommonErrors;
 
+/** Gets the AclConfig. */
 export const getAclConfigProjectsLocations: API.OperationMethod<GetAclConfigProjectsLocationsRequest, GetAclConfigProjectsLocationsResponse, GetAclConfigProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAclConfigProjectsLocationsRequest,
   output: GetAclConfigProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Default ACL configuration for use in a location of a customer's project. Updates will only reflect to new data stores. Existing data stores will still use the old value. */
 export interface UpdateAclConfigProjectsLocationsRequest {
   /** Immutable. The full resource name of the acl configuration. Format: `projects/{project}/locations/{location}/aclConfig`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
@@ -14714,13 +14713,13 @@ export const UpdateAclConfigProjectsLocationsResponse = GoogleCloudDiscoveryengi
 
 export type UpdateAclConfigProjectsLocationsError = CommonErrors;
 
+/** Default ACL configuration for use in a location of a customer's project. Updates will only reflect to new data stores. Existing data stores will still use the old value. */
 export const updateAclConfigProjectsLocations: API.OperationMethod<UpdateAclConfigProjectsLocationsRequest, UpdateAclConfigProjectsLocationsResponse, UpdateAclConfigProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAclConfigProjectsLocationsRequest,
   output: UpdateAclConfigProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Creates a Collection and sets up the DataConnector for it. To stop a DataConnector after setup, use the CollectionService.DeleteCollection method. */
 export interface SetUpDataConnectorProjectsLocationsRequest {
   /** Required. The parent of Collection, in the format of `projects/{project}/locations/{location}`. */
   parent: string;
@@ -14741,13 +14740,13 @@ export const SetUpDataConnectorProjectsLocationsResponse = GoogleLongrunningOper
 
 export type SetUpDataConnectorProjectsLocationsError = CommonErrors;
 
+/** Creates a Collection and sets up the DataConnector for it. To stop a DataConnector after setup, use the CollectionService.DeleteCollection method. */
 export const setUpDataConnectorProjectsLocations: API.OperationMethod<SetUpDataConnectorProjectsLocationsRequest, SetUpDataConnectorProjectsLocationsResponse, SetUpDataConnectorProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetUpDataConnectorProjectsLocationsRequest,
   output: SetUpDataConnectorProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Ranks a list of text records based on the given input query. */
 export interface RankProjectsLocationsRankingConfigsRequest {
   /** Required. The resource name of the rank service config, such as `projects/{project_num}/locations/{location}/rankingConfigs/default_ranking_config`. */
   rankingConfig: string;
@@ -14768,13 +14767,13 @@ export const RankProjectsLocationsRankingConfigsResponse = GoogleCloudDiscoverye
 
 export type RankProjectsLocationsRankingConfigsError = CommonErrors;
 
+/** Ranks a list of text records based on the given input query. */
 export const rankProjectsLocationsRankingConfigs: API.OperationMethod<RankProjectsLocationsRankingConfigsRequest, RankProjectsLocationsRankingConfigsResponse, RankProjectsLocationsRankingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RankProjectsLocationsRankingConfigsRequest,
   output: RankProjectsLocationsRankingConfigsResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -14792,13 +14791,13 @@ export const GetProjectsLocationsOperationsResponse = GoogleLongrunningOperation
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list filter. */
   filter?: string;
@@ -14828,7 +14827,8 @@ export const ListProjectsLocationsOperationsResponse = GoogleLongrunningListOper
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -14838,7 +14838,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a LicenseConfig This method should only be used for creating NotebookLm licenses or Gemini Enterprise free trial licenses. */
 export interface CreateProjectsLocationsLicenseConfigsRequest {
   /** Optional. The ID to use for the LicenseConfig, which will become the final component of the LicenseConfig's resource name. We are using the tier (product edition) name as the license config id such as `search` or `search_and_assistant`. */
   licenseConfigId?: string;
@@ -14862,13 +14861,13 @@ export const CreateProjectsLocationsLicenseConfigsResponse = GoogleCloudDiscover
 
 export type CreateProjectsLocationsLicenseConfigsError = CommonErrors;
 
+/** Creates a LicenseConfig This method should only be used for creating NotebookLm licenses or Gemini Enterprise free trial licenses. */
 export const createProjectsLocationsLicenseConfigs: API.OperationMethod<CreateProjectsLocationsLicenseConfigsRequest, CreateProjectsLocationsLicenseConfigsResponse, CreateProjectsLocationsLicenseConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsLicenseConfigsRequest,
   output: CreateProjectsLocationsLicenseConfigsResponse,
   errors: [],
 }));
 
-/** Gets a LicenseConfig. */
 export interface GetProjectsLocationsLicenseConfigsRequest {
   /** Required. Full resource name of LicenseConfig, such as `projects/{project}/locations/{location}/licenseConfigs/*`. If the caller does not have permission to access the LicenseConfig, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested LicenseConfig does not exist, a NOT_FOUND error is returned. */
   name: string;
@@ -14886,13 +14885,13 @@ export const GetProjectsLocationsLicenseConfigsResponse = GoogleCloudDiscoveryen
 
 export type GetProjectsLocationsLicenseConfigsError = CommonErrors;
 
+/** Gets a LicenseConfig. */
 export const getProjectsLocationsLicenseConfigs: API.OperationMethod<GetProjectsLocationsLicenseConfigsRequest, GetProjectsLocationsLicenseConfigsResponse, GetProjectsLocationsLicenseConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsLicenseConfigsRequest,
   output: GetProjectsLocationsLicenseConfigsResponse,
   errors: [],
 }));
 
-/** Updates the LicenseConfig */
 export interface PatchProjectsLocationsLicenseConfigsRequest {
   /** Immutable. Identifier. The fully qualified resource name of the license config. Format: `projects/{project}/locations/{location}/licenseConfigs/{license_config}` */
   name: string;
@@ -14916,13 +14915,13 @@ export const PatchProjectsLocationsLicenseConfigsResponse = GoogleCloudDiscovery
 
 export type PatchProjectsLocationsLicenseConfigsError = CommonErrors;
 
+/** Updates the LicenseConfig */
 export const patchProjectsLocationsLicenseConfigs: API.OperationMethod<PatchProjectsLocationsLicenseConfigsRequest, PatchProjectsLocationsLicenseConfigsResponse, PatchProjectsLocationsLicenseConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsLicenseConfigsRequest,
   output: PatchProjectsLocationsLicenseConfigsResponse,
   errors: [],
 }));
 
-/** Gets the DataConnector. DataConnector is a singleton resource for each Collection. */
 export interface GetDataConnectorProjectsLocationsCollectionsRequest {
   /** Required. Full resource name of DataConnector, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataConnector`. If the caller does not have permission to access the DataConnector, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataConnector does not exist, a NOT_FOUND error is returned. */
   name: string;
@@ -14940,13 +14939,13 @@ export const GetDataConnectorProjectsLocationsCollectionsResponse = GoogleCloudD
 
 export type GetDataConnectorProjectsLocationsCollectionsError = CommonErrors;
 
+/** Gets the DataConnector. DataConnector is a singleton resource for each Collection. */
 export const getDataConnectorProjectsLocationsCollections: API.OperationMethod<GetDataConnectorProjectsLocationsCollectionsRequest, GetDataConnectorProjectsLocationsCollectionsResponse, GetDataConnectorProjectsLocationsCollectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDataConnectorProjectsLocationsCollectionsRequest,
   output: GetDataConnectorProjectsLocationsCollectionsResponse,
   errors: [],
 }));
 
-/** Updates a DataConnector. */
 export interface UpdateDataConnectorProjectsLocationsCollectionsRequest {
   /** Output only. The full resource name of the Data Connector. Format: `projects/* /locations/* /collections/* /dataConnector`. */
   name: string;
@@ -14970,13 +14969,13 @@ export const UpdateDataConnectorProjectsLocationsCollectionsResponse = GoogleClo
 
 export type UpdateDataConnectorProjectsLocationsCollectionsError = CommonErrors;
 
+/** Updates a DataConnector. */
 export const updateDataConnectorProjectsLocationsCollections: API.OperationMethod<UpdateDataConnectorProjectsLocationsCollectionsRequest, UpdateDataConnectorProjectsLocationsCollectionsResponse, UpdateDataConnectorProjectsLocationsCollectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateDataConnectorProjectsLocationsCollectionsRequest,
   output: UpdateDataConnectorProjectsLocationsCollectionsResponse,
   errors: [],
 }));
 
-/** Deletes a Collection. */
 export interface DeleteProjectsLocationsCollectionsRequest {
   /** Required. The full resource name of the Collection, in the format of `projects/{project}/locations/{location}/collections/{collection}`. */
   name: string;
@@ -14994,13 +14993,13 @@ export const DeleteProjectsLocationsCollectionsResponse = GoogleLongrunningOpera
 
 export type DeleteProjectsLocationsCollectionsError = CommonErrors;
 
+/** Deletes a Collection. */
 export const deleteProjectsLocationsCollections: API.OperationMethod<DeleteProjectsLocationsCollectionsRequest, DeleteProjectsLocationsCollectionsResponse, DeleteProjectsLocationsCollectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCollectionsRequest,
   output: DeleteProjectsLocationsCollectionsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsCollectionsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -15030,7 +15029,8 @@ export const ListProjectsLocationsCollectionsOperationsResponse = GoogleLongrunn
 
 export type ListProjectsLocationsCollectionsOperationsError = CommonErrors;
 
-export const listProjectsLocationsCollectionsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsCollectionsOperations: API.PaginatedOperationMethod<ListProjectsLocationsCollectionsOperationsRequest, ListProjectsLocationsCollectionsOperationsResponse, ListProjectsLocationsCollectionsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsOperationsRequest,
   output: ListProjectsLocationsCollectionsOperationsResponse,
   errors: [],
@@ -15040,7 +15040,6 @@ export const listProjectsLocationsCollectionsOperations = API.makePaginated(() =
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsCollectionsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -15058,13 +15057,13 @@ export const GetProjectsLocationsCollectionsOperationsResponse = GoogleLongrunni
 
 export type GetProjectsLocationsCollectionsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsCollectionsOperations: API.OperationMethod<GetProjectsLocationsCollectionsOperationsRequest, GetProjectsLocationsCollectionsOperationsResponse, GetProjectsLocationsCollectionsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCollectionsOperationsRequest,
   output: GetProjectsLocationsCollectionsOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsCollectionsDataConnectorOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -15094,7 +15093,8 @@ export const ListProjectsLocationsCollectionsDataConnectorOperationsResponse = G
 
 export type ListProjectsLocationsCollectionsDataConnectorOperationsError = CommonErrors;
 
-export const listProjectsLocationsCollectionsDataConnectorOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsCollectionsDataConnectorOperations: API.PaginatedOperationMethod<ListProjectsLocationsCollectionsDataConnectorOperationsRequest, ListProjectsLocationsCollectionsDataConnectorOperationsResponse, ListProjectsLocationsCollectionsDataConnectorOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsDataConnectorOperationsRequest,
   output: ListProjectsLocationsCollectionsDataConnectorOperationsResponse,
   errors: [],
@@ -15104,7 +15104,6 @@ export const listProjectsLocationsCollectionsDataConnectorOperations = API.makeP
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsCollectionsDataConnectorOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -15122,13 +15121,13 @@ export const GetProjectsLocationsCollectionsDataConnectorOperationsResponse = Go
 
 export type GetProjectsLocationsCollectionsDataConnectorOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsCollectionsDataConnectorOperations: API.OperationMethod<GetProjectsLocationsCollectionsDataConnectorOperationsRequest, GetProjectsLocationsCollectionsDataConnectorOperationsResponse, GetProjectsLocationsCollectionsDataConnectorOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCollectionsDataConnectorOperationsRequest,
   output: GetProjectsLocationsCollectionsDataConnectorOperationsResponse,
   errors: [],
 }));
 
-/** Gets the SiteSearchEngine. */
 export interface GetSiteSearchEngineProjectsLocationsCollectionsDataStoresRequest {
   /** Required. Resource name of SiteSearchEngine, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine`. If the caller does not have permission to access the [SiteSearchEngine], regardless of whether or not it exists, a PERMISSION_DENIED error is returned. */
   name: string;
@@ -15146,13 +15145,13 @@ export const GetSiteSearchEngineProjectsLocationsCollectionsDataStoresResponse =
 
 export type GetSiteSearchEngineProjectsLocationsCollectionsDataStoresError = CommonErrors;
 
+/** Gets the SiteSearchEngine. */
 export const getSiteSearchEngineProjectsLocationsCollectionsDataStores: API.OperationMethod<GetSiteSearchEngineProjectsLocationsCollectionsDataStoresRequest, GetSiteSearchEngineProjectsLocationsCollectionsDataStoresResponse, GetSiteSearchEngineProjectsLocationsCollectionsDataStoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSiteSearchEngineProjectsLocationsCollectionsDataStoresRequest,
   output: GetSiteSearchEngineProjectsLocationsCollectionsDataStoresResponse,
   errors: [],
 }));
 
-/** Completes the specified user input with keyword suggestions. */
 export interface CompleteQueryProjectsLocationsCollectionsDataStoresRequest {
   /** Specifies the autocomplete data model. This overrides any model specified in the Configuration > Autocomplete section of the Cloud console. Currently supported values: * `document` - Using suggestions generated from user-imported documents. * `search-history` - Using suggestions generated from the past history of SearchService.Search API calls. Do not use it when there is no traffic for Search API. * `user-event` - Using suggestions generated from user-imported search events. * `document-completable` - Using suggestions taken directly from user-imported document fields marked as completable. Default values: * `document` is the default model for regular dataStores. * `search-history` is the default model for site search dataStores. */
   queryModel?: string;
@@ -15182,13 +15181,13 @@ export const CompleteQueryProjectsLocationsCollectionsDataStoresResponse = Googl
 
 export type CompleteQueryProjectsLocationsCollectionsDataStoresError = CommonErrors;
 
+/** Completes the specified user input with keyword suggestions. */
 export const completeQueryProjectsLocationsCollectionsDataStores: API.OperationMethod<CompleteQueryProjectsLocationsCollectionsDataStoresRequest, CompleteQueryProjectsLocationsCollectionsDataStoresResponse, CompleteQueryProjectsLocationsCollectionsDataStoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CompleteQueryProjectsLocationsCollectionsDataStoresRequest,
   output: CompleteQueryProjectsLocationsCollectionsDataStoresResponse,
   errors: [],
 }));
 
-/** Trains a custom model. */
 export interface TrainCustomModelProjectsLocationsCollectionsDataStoresRequest {
   /** Required. The resource name of the Data Store, such as `projects/* /locations/global/collections/default_collection/dataStores/default_data_store`. This field is used to identify the data store where to train the models. */
   dataStore: string;
@@ -15209,13 +15208,13 @@ export const TrainCustomModelProjectsLocationsCollectionsDataStoresResponse = Go
 
 export type TrainCustomModelProjectsLocationsCollectionsDataStoresError = CommonErrors;
 
+/** Trains a custom model. */
 export const trainCustomModelProjectsLocationsCollectionsDataStores: API.OperationMethod<TrainCustomModelProjectsLocationsCollectionsDataStoresRequest, TrainCustomModelProjectsLocationsCollectionsDataStoresResponse, TrainCustomModelProjectsLocationsCollectionsDataStoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TrainCustomModelProjectsLocationsCollectionsDataStoresRequest,
   output: TrainCustomModelProjectsLocationsCollectionsDataStoresResponse,
   errors: [],
 }));
 
-/** Updates a DataStore */
 export interface PatchProjectsLocationsCollectionsDataStoresRequest {
   /** Immutable. Identifier. The full resource name of the data store. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
@@ -15239,13 +15238,13 @@ export const PatchProjectsLocationsCollectionsDataStoresResponse = GoogleCloudDi
 
 export type PatchProjectsLocationsCollectionsDataStoresError = CommonErrors;
 
+/** Updates a DataStore */
 export const patchProjectsLocationsCollectionsDataStores: API.OperationMethod<PatchProjectsLocationsCollectionsDataStoresRequest, PatchProjectsLocationsCollectionsDataStoresResponse, PatchProjectsLocationsCollectionsDataStoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCollectionsDataStoresRequest,
   output: PatchProjectsLocationsCollectionsDataStoresResponse,
   errors: [],
 }));
 
-/** Lists all the DataStores associated with the project. */
 export interface ListProjectsLocationsCollectionsDataStoresRequest {
   /** Maximum number of DataStores to return. If unspecified, defaults to 10. The maximum allowed value is 50. Values above 50 will be coerced to 50. If this field is negative, an INVALID_ARGUMENT is returned. */
   pageSize?: number;
@@ -15272,7 +15271,8 @@ export const ListProjectsLocationsCollectionsDataStoresResponse = GoogleCloudDis
 
 export type ListProjectsLocationsCollectionsDataStoresError = CommonErrors;
 
-export const listProjectsLocationsCollectionsDataStores = API.makePaginated(() => ({
+/** Lists all the DataStores associated with the project. */
+export const listProjectsLocationsCollectionsDataStores: API.PaginatedOperationMethod<ListProjectsLocationsCollectionsDataStoresRequest, ListProjectsLocationsCollectionsDataStoresResponse, ListProjectsLocationsCollectionsDataStoresError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsDataStoresRequest,
   output: ListProjectsLocationsCollectionsDataStoresResponse,
   errors: [],
@@ -15282,7 +15282,6 @@ export const listProjectsLocationsCollectionsDataStores = API.makePaginated(() =
   },
 }));
 
-/** Deletes a DataStore. */
 export interface DeleteProjectsLocationsCollectionsDataStoresRequest {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to delete the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the DataStore to delete does not exist, a NOT_FOUND error is returned. */
   name: string;
@@ -15300,13 +15299,13 @@ export const DeleteProjectsLocationsCollectionsDataStoresResponse = GoogleLongru
 
 export type DeleteProjectsLocationsCollectionsDataStoresError = CommonErrors;
 
+/** Deletes a DataStore. */
 export const deleteProjectsLocationsCollectionsDataStores: API.OperationMethod<DeleteProjectsLocationsCollectionsDataStoresRequest, DeleteProjectsLocationsCollectionsDataStoresResponse, DeleteProjectsLocationsCollectionsDataStoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCollectionsDataStoresRequest,
   output: DeleteProjectsLocationsCollectionsDataStoresResponse,
   errors: [],
 }));
 
-/** Gets a DataStore. */
 export interface GetProjectsLocationsCollectionsDataStoresRequest {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. */
   name: string;
@@ -15324,13 +15323,13 @@ export const GetProjectsLocationsCollectionsDataStoresResponse = GoogleCloudDisc
 
 export type GetProjectsLocationsCollectionsDataStoresError = CommonErrors;
 
+/** Gets a DataStore. */
 export const getProjectsLocationsCollectionsDataStores: API.OperationMethod<GetProjectsLocationsCollectionsDataStoresRequest, GetProjectsLocationsCollectionsDataStoresResponse, GetProjectsLocationsCollectionsDataStoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCollectionsDataStoresRequest,
   output: GetProjectsLocationsCollectionsDataStoresResponse,
   errors: [],
 }));
 
-/** Creates a DataStore. DataStore is for storing Documents. To serve these documents for Search, or Recommendation use case, an Engine needs to be created separately. */
 export interface CreateProjectsLocationsCollectionsDataStoresRequest {
   /** DataStore without CMEK protections. If a default CmekConfig is set for the project, setting this field will override the default CmekConfig as well. */
   disableCmek?: boolean;
@@ -15366,13 +15365,13 @@ export const CreateProjectsLocationsCollectionsDataStoresResponse = GoogleLongru
 
 export type CreateProjectsLocationsCollectionsDataStoresError = CommonErrors;
 
+/** Creates a DataStore. DataStore is for storing Documents. To serve these documents for Search, or Recommendation use case, an Engine needs to be created separately. */
 export const createProjectsLocationsCollectionsDataStores: API.OperationMethod<CreateProjectsLocationsCollectionsDataStoresRequest, CreateProjectsLocationsCollectionsDataStoresResponse, CreateProjectsLocationsCollectionsDataStoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCollectionsDataStoresRequest,
   output: CreateProjectsLocationsCollectionsDataStoresResponse,
   errors: [],
 }));
 
-/** Deletes a Session. If the Session to delete does not exist, a NOT_FOUND error is returned. */
 export interface DeleteProjectsLocationsCollectionsDataStoresSessionsRequest {
   /** Required. The resource name of the Session to delete. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/sessions/{session_id}` */
   name: string;
@@ -15390,13 +15389,13 @@ export const DeleteProjectsLocationsCollectionsDataStoresSessionsResponse = Goog
 
 export type DeleteProjectsLocationsCollectionsDataStoresSessionsError = CommonErrors;
 
+/** Deletes a Session. If the Session to delete does not exist, a NOT_FOUND error is returned. */
 export const deleteProjectsLocationsCollectionsDataStoresSessions: API.OperationMethod<DeleteProjectsLocationsCollectionsDataStoresSessionsRequest, DeleteProjectsLocationsCollectionsDataStoresSessionsResponse, DeleteProjectsLocationsCollectionsDataStoresSessionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCollectionsDataStoresSessionsRequest,
   output: DeleteProjectsLocationsCollectionsDataStoresSessionsResponse,
   errors: [],
 }));
 
-/** Lists all Sessions by their parent DataStore. */
 export interface ListProjectsLocationsCollectionsDataStoresSessionsRequest {
   /** Maximum number of results to return. If unspecified, defaults to 50. Max allowed value is 1000. */
   pageSize?: number;
@@ -15426,7 +15425,8 @@ export const ListProjectsLocationsCollectionsDataStoresSessionsResponse = Google
 
 export type ListProjectsLocationsCollectionsDataStoresSessionsError = CommonErrors;
 
-export const listProjectsLocationsCollectionsDataStoresSessions = API.makePaginated(() => ({
+/** Lists all Sessions by their parent DataStore. */
+export const listProjectsLocationsCollectionsDataStoresSessions: API.PaginatedOperationMethod<ListProjectsLocationsCollectionsDataStoresSessionsRequest, ListProjectsLocationsCollectionsDataStoresSessionsResponse, ListProjectsLocationsCollectionsDataStoresSessionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsDataStoresSessionsRequest,
   output: ListProjectsLocationsCollectionsDataStoresSessionsResponse,
   errors: [],
@@ -15436,7 +15436,6 @@ export const listProjectsLocationsCollectionsDataStoresSessions = API.makePagina
   },
 }));
 
-/** Updates a Session. Session action type cannot be changed. If the Session to update does not exist, a NOT_FOUND error is returned. */
 export interface PatchProjectsLocationsCollectionsDataStoresSessionsRequest {
   /** Indicates which fields in the provided Session to update. The following are NOT supported: * Session.name If not set or empty, all supported fields are updated. */
   updateMask?: string;
@@ -15460,13 +15459,13 @@ export const PatchProjectsLocationsCollectionsDataStoresSessionsResponse = Googl
 
 export type PatchProjectsLocationsCollectionsDataStoresSessionsError = CommonErrors;
 
+/** Updates a Session. Session action type cannot be changed. If the Session to update does not exist, a NOT_FOUND error is returned. */
 export const patchProjectsLocationsCollectionsDataStoresSessions: API.OperationMethod<PatchProjectsLocationsCollectionsDataStoresSessionsRequest, PatchProjectsLocationsCollectionsDataStoresSessionsResponse, PatchProjectsLocationsCollectionsDataStoresSessionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCollectionsDataStoresSessionsRequest,
   output: PatchProjectsLocationsCollectionsDataStoresSessionsResponse,
   errors: [],
 }));
 
-/** Creates a Session. If the Session to create already exists, an ALREADY_EXISTS error is returned. */
 export interface CreateProjectsLocationsCollectionsDataStoresSessionsRequest {
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
@@ -15487,13 +15486,13 @@ export const CreateProjectsLocationsCollectionsDataStoresSessionsResponse = Goog
 
 export type CreateProjectsLocationsCollectionsDataStoresSessionsError = CommonErrors;
 
+/** Creates a Session. If the Session to create already exists, an ALREADY_EXISTS error is returned. */
 export const createProjectsLocationsCollectionsDataStoresSessions: API.OperationMethod<CreateProjectsLocationsCollectionsDataStoresSessionsRequest, CreateProjectsLocationsCollectionsDataStoresSessionsResponse, CreateProjectsLocationsCollectionsDataStoresSessionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCollectionsDataStoresSessionsRequest,
   output: CreateProjectsLocationsCollectionsDataStoresSessionsResponse,
   errors: [],
 }));
 
-/** Gets a Session. */
 export interface GetProjectsLocationsCollectionsDataStoresSessionsRequest {
   /** Required. The resource name of the Session to get. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/sessions/{session_id}` */
   name: string;
@@ -15514,13 +15513,13 @@ export const GetProjectsLocationsCollectionsDataStoresSessionsResponse = GoogleC
 
 export type GetProjectsLocationsCollectionsDataStoresSessionsError = CommonErrors;
 
+/** Gets a Session. */
 export const getProjectsLocationsCollectionsDataStoresSessions: API.OperationMethod<GetProjectsLocationsCollectionsDataStoresSessionsRequest, GetProjectsLocationsCollectionsDataStoresSessionsResponse, GetProjectsLocationsCollectionsDataStoresSessionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCollectionsDataStoresSessionsRequest,
   output: GetProjectsLocationsCollectionsDataStoresSessionsResponse,
   errors: [],
 }));
 
-/** Gets a Answer. */
 export interface GetProjectsLocationsCollectionsDataStoresSessionsAnswersRequest {
   /** Required. The resource name of the Answer to get. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine_id}/sessions/{session_id}/answers/{answer_id}` */
   name: string;
@@ -15538,13 +15537,13 @@ export const GetProjectsLocationsCollectionsDataStoresSessionsAnswersResponse = 
 
 export type GetProjectsLocationsCollectionsDataStoresSessionsAnswersError = CommonErrors;
 
+/** Gets a Answer. */
 export const getProjectsLocationsCollectionsDataStoresSessionsAnswers: API.OperationMethod<GetProjectsLocationsCollectionsDataStoresSessionsAnswersRequest, GetProjectsLocationsCollectionsDataStoresSessionsAnswersResponse, GetProjectsLocationsCollectionsDataStoresSessionsAnswersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCollectionsDataStoresSessionsAnswersRequest,
   output: GetProjectsLocationsCollectionsDataStoresSessionsAnswersResponse,
   errors: [],
 }));
 
-/** Imports all SuggestionDenyListEntry for a DataStore. */
 export interface ImportProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesRequest {
   /** Required. The parent data store resource name for which to import denylist entries. Follows pattern projects/* /locations/* /collections/* /dataStores/*. */
   parent: string;
@@ -15565,13 +15564,13 @@ export const ImportProjectsLocationsCollectionsDataStoresSuggestionDenyListEntri
 
 export type ImportProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesError = CommonErrors;
 
+/** Imports all SuggestionDenyListEntry for a DataStore. */
 export const importProjectsLocationsCollectionsDataStoresSuggestionDenyListEntries: API.OperationMethod<ImportProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesRequest, ImportProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesResponse, ImportProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesRequest,
   output: ImportProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesResponse,
   errors: [],
 }));
 
-/** Permanently deletes all SuggestionDenyListEntry for a DataStore. */
 export interface PurgeProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesRequest {
   /** Required. The parent data store resource name for which to import denylist entries. Follows pattern projects/* /locations/* /collections/* /dataStores/*. */
   parent: string;
@@ -15592,13 +15591,13 @@ export const PurgeProjectsLocationsCollectionsDataStoresSuggestionDenyListEntrie
 
 export type PurgeProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesError = CommonErrors;
 
+/** Permanently deletes all SuggestionDenyListEntry for a DataStore. */
 export const purgeProjectsLocationsCollectionsDataStoresSuggestionDenyListEntries: API.OperationMethod<PurgeProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesRequest, PurgeProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesResponse, PurgeProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PurgeProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesRequest,
   output: PurgeProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesResponse,
   errors: [],
 }));
 
-/** Gets a list of all the custom models. */
 export interface ListProjectsLocationsCollectionsDataStoresCustomModelsRequest {
   /** Required. The resource name of the parent Data Store, such as `projects/* /locations/global/collections/default_collection/dataStores/default_data_store`. This field is used to identify the data store where to fetch the models from. */
   dataStore: string;
@@ -15616,13 +15615,13 @@ export const ListProjectsLocationsCollectionsDataStoresCustomModelsResponse = Go
 
 export type ListProjectsLocationsCollectionsDataStoresCustomModelsError = CommonErrors;
 
+/** Gets a list of all the custom models. */
 export const listProjectsLocationsCollectionsDataStoresCustomModels: API.OperationMethod<ListProjectsLocationsCollectionsDataStoresCustomModelsRequest, ListProjectsLocationsCollectionsDataStoresCustomModelsResponse, ListProjectsLocationsCollectionsDataStoresCustomModelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsCollectionsDataStoresCustomModelsRequest,
   output: ListProjectsLocationsCollectionsDataStoresCustomModelsResponse,
   errors: [],
 }));
 
-/** Permanently deletes all CompletionSuggestions for a DataStore. */
 export interface PurgeProjectsLocationsCollectionsDataStoresCompletionSuggestionsRequest {
   /** Required. The parent data store resource name for which to purge completion suggestions. Follows pattern projects/* /locations/* /collections/* /dataStores/*. */
   parent: string;
@@ -15643,13 +15642,13 @@ export const PurgeProjectsLocationsCollectionsDataStoresCompletionSuggestionsRes
 
 export type PurgeProjectsLocationsCollectionsDataStoresCompletionSuggestionsError = CommonErrors;
 
+/** Permanently deletes all CompletionSuggestions for a DataStore. */
 export const purgeProjectsLocationsCollectionsDataStoresCompletionSuggestions: API.OperationMethod<PurgeProjectsLocationsCollectionsDataStoresCompletionSuggestionsRequest, PurgeProjectsLocationsCollectionsDataStoresCompletionSuggestionsResponse, PurgeProjectsLocationsCollectionsDataStoresCompletionSuggestionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PurgeProjectsLocationsCollectionsDataStoresCompletionSuggestionsRequest,
   output: PurgeProjectsLocationsCollectionsDataStoresCompletionSuggestionsResponse,
   errors: [],
 }));
 
-/** Imports CompletionSuggestions for a DataStore. */
 export interface ImportProjectsLocationsCollectionsDataStoresCompletionSuggestionsRequest {
   /** Required. The parent data store resource name for which to import customer autocomplete suggestions. Follows pattern `projects/* /locations/* /collections/* /dataStores/*` */
   parent: string;
@@ -15670,13 +15669,13 @@ export const ImportProjectsLocationsCollectionsDataStoresCompletionSuggestionsRe
 
 export type ImportProjectsLocationsCollectionsDataStoresCompletionSuggestionsError = CommonErrors;
 
+/** Imports CompletionSuggestions for a DataStore. */
 export const importProjectsLocationsCollectionsDataStoresCompletionSuggestions: API.OperationMethod<ImportProjectsLocationsCollectionsDataStoresCompletionSuggestionsRequest, ImportProjectsLocationsCollectionsDataStoresCompletionSuggestionsResponse, ImportProjectsLocationsCollectionsDataStoresCompletionSuggestionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportProjectsLocationsCollectionsDataStoresCompletionSuggestionsRequest,
   output: ImportProjectsLocationsCollectionsDataStoresCompletionSuggestionsResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsCollectionsDataStoresModelsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -15694,13 +15693,13 @@ export const GetProjectsLocationsCollectionsDataStoresModelsOperationsResponse =
 
 export type GetProjectsLocationsCollectionsDataStoresModelsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsCollectionsDataStoresModelsOperations: API.OperationMethod<GetProjectsLocationsCollectionsDataStoresModelsOperationsRequest, GetProjectsLocationsCollectionsDataStoresModelsOperationsResponse, GetProjectsLocationsCollectionsDataStoresModelsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCollectionsDataStoresModelsOperationsRequest,
   output: GetProjectsLocationsCollectionsDataStoresModelsOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsCollectionsDataStoresModelsOperationsRequest {
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
@@ -15730,7 +15729,8 @@ export const ListProjectsLocationsCollectionsDataStoresModelsOperationsResponse 
 
 export type ListProjectsLocationsCollectionsDataStoresModelsOperationsError = CommonErrors;
 
-export const listProjectsLocationsCollectionsDataStoresModelsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsCollectionsDataStoresModelsOperations: API.PaginatedOperationMethod<ListProjectsLocationsCollectionsDataStoresModelsOperationsRequest, ListProjectsLocationsCollectionsDataStoresModelsOperationsResponse, ListProjectsLocationsCollectionsDataStoresModelsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsDataStoresModelsOperationsRequest,
   output: ListProjectsLocationsCollectionsDataStoresModelsOperationsResponse,
   errors: [],
@@ -15740,7 +15740,6 @@ export const listProjectsLocationsCollectionsDataStoresModelsOperations = API.ma
   },
 }));
 
-/** Creates a Control. By default 1000 controls are allowed for a data store. A request can be submitted to adjust this limit. If the Control to create already exists, an ALREADY_EXISTS error is returned. */
 export interface CreateProjectsLocationsCollectionsDataStoresControlsRequest {
   /** Required. The ID to use for the Control, which will become the final component of the Control's resource name. This value must be within 1-63 characters. Valid characters are /a-z-_/. */
   controlId?: string;
@@ -15764,13 +15763,13 @@ export const CreateProjectsLocationsCollectionsDataStoresControlsResponse = Goog
 
 export type CreateProjectsLocationsCollectionsDataStoresControlsError = CommonErrors;
 
+/** Creates a Control. By default 1000 controls are allowed for a data store. A request can be submitted to adjust this limit. If the Control to create already exists, an ALREADY_EXISTS error is returned. */
 export const createProjectsLocationsCollectionsDataStoresControls: API.OperationMethod<CreateProjectsLocationsCollectionsDataStoresControlsRequest, CreateProjectsLocationsCollectionsDataStoresControlsResponse, CreateProjectsLocationsCollectionsDataStoresControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCollectionsDataStoresControlsRequest,
   output: CreateProjectsLocationsCollectionsDataStoresControlsResponse,
   errors: [],
 }));
 
-/** Updates a Control. Control action type cannot be changed. If the Control to update does not exist, a NOT_FOUND error is returned. */
 export interface PatchProjectsLocationsCollectionsDataStoresControlsRequest {
   /** Immutable. Fully qualified name `projects/* /locations/global/dataStore/* /controls/*` */
   name: string;
@@ -15794,13 +15793,13 @@ export const PatchProjectsLocationsCollectionsDataStoresControlsResponse = Googl
 
 export type PatchProjectsLocationsCollectionsDataStoresControlsError = CommonErrors;
 
+/** Updates a Control. Control action type cannot be changed. If the Control to update does not exist, a NOT_FOUND error is returned. */
 export const patchProjectsLocationsCollectionsDataStoresControls: API.OperationMethod<PatchProjectsLocationsCollectionsDataStoresControlsRequest, PatchProjectsLocationsCollectionsDataStoresControlsResponse, PatchProjectsLocationsCollectionsDataStoresControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCollectionsDataStoresControlsRequest,
   output: PatchProjectsLocationsCollectionsDataStoresControlsResponse,
   errors: [],
 }));
 
-/** Deletes a Control. If the Control to delete does not exist, a NOT_FOUND error is returned. */
 export interface DeleteProjectsLocationsCollectionsDataStoresControlsRequest {
   /** Required. The resource name of the Control to delete. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}/controls/{control_id}` */
   name: string;
@@ -15818,13 +15817,13 @@ export const DeleteProjectsLocationsCollectionsDataStoresControlsResponse = Goog
 
 export type DeleteProjectsLocationsCollectionsDataStoresControlsError = CommonErrors;
 
+/** Deletes a Control. If the Control to delete does not exist, a NOT_FOUND error is returned. */
 export const deleteProjectsLocationsCollectionsDataStoresControls: API.OperationMethod<DeleteProjectsLocationsCollectionsDataStoresControlsRequest, DeleteProjectsLocationsCollectionsDataStoresControlsResponse, DeleteProjectsLocationsCollectionsDataStoresControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCollectionsDataStoresControlsRequest,
   output: DeleteProjectsLocationsCollectionsDataStoresControlsResponse,
   errors: [],
 }));
 
-/** Gets a Control. */
 export interface GetProjectsLocationsCollectionsDataStoresControlsRequest {
   /** Required. The resource name of the Control to get. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}/controls/{control_id}` */
   name: string;
@@ -15842,13 +15841,13 @@ export const GetProjectsLocationsCollectionsDataStoresControlsResponse = GoogleC
 
 export type GetProjectsLocationsCollectionsDataStoresControlsError = CommonErrors;
 
+/** Gets a Control. */
 export const getProjectsLocationsCollectionsDataStoresControls: API.OperationMethod<GetProjectsLocationsCollectionsDataStoresControlsRequest, GetProjectsLocationsCollectionsDataStoresControlsResponse, GetProjectsLocationsCollectionsDataStoresControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCollectionsDataStoresControlsRequest,
   output: GetProjectsLocationsCollectionsDataStoresControlsResponse,
   errors: [],
 }));
 
-/** Lists all Controls by their parent DataStore. */
 export interface ListProjectsLocationsCollectionsDataStoresControlsRequest {
   /** Optional. A filter to apply on the list results. Supported features: * List all the products under the parent branch if filter is unset. Currently this field is unsupported. */
   filter?: string;
@@ -15875,7 +15874,8 @@ export const ListProjectsLocationsCollectionsDataStoresControlsResponse = Google
 
 export type ListProjectsLocationsCollectionsDataStoresControlsError = CommonErrors;
 
-export const listProjectsLocationsCollectionsDataStoresControls = API.makePaginated(() => ({
+/** Lists all Controls by their parent DataStore. */
+export const listProjectsLocationsCollectionsDataStoresControls: API.PaginatedOperationMethod<ListProjectsLocationsCollectionsDataStoresControlsRequest, ListProjectsLocationsCollectionsDataStoresControlsResponse, ListProjectsLocationsCollectionsDataStoresControlsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsDataStoresControlsRequest,
   output: ListProjectsLocationsCollectionsDataStoresControlsResponse,
   errors: [],
@@ -15885,7 +15885,6 @@ export const listProjectsLocationsCollectionsDataStoresControls = API.makePagina
   },
 }));
 
-/** Gets a Conversation. */
 export interface GetProjectsLocationsCollectionsDataStoresConversationsRequest {
   /** Required. The resource name of the Conversation to get. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/{conversation_id}` */
   name: string;
@@ -15903,13 +15902,13 @@ export const GetProjectsLocationsCollectionsDataStoresConversationsResponse = Go
 
 export type GetProjectsLocationsCollectionsDataStoresConversationsError = CommonErrors;
 
+/** Gets a Conversation. */
 export const getProjectsLocationsCollectionsDataStoresConversations: API.OperationMethod<GetProjectsLocationsCollectionsDataStoresConversationsRequest, GetProjectsLocationsCollectionsDataStoresConversationsResponse, GetProjectsLocationsCollectionsDataStoresConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCollectionsDataStoresConversationsRequest,
   output: GetProjectsLocationsCollectionsDataStoresConversationsResponse,
   errors: [],
 }));
 
-/** Lists all Conversations by their parent DataStore. */
 export interface ListProjectsLocationsCollectionsDataStoresConversationsRequest {
   /** A page token, received from a previous `ListConversations` call. Provide this to retrieve the subsequent page. */
   pageToken?: string;
@@ -15939,7 +15938,8 @@ export const ListProjectsLocationsCollectionsDataStoresConversationsResponse = G
 
 export type ListProjectsLocationsCollectionsDataStoresConversationsError = CommonErrors;
 
-export const listProjectsLocationsCollectionsDataStoresConversations = API.makePaginated(() => ({
+/** Lists all Conversations by their parent DataStore. */
+export const listProjectsLocationsCollectionsDataStoresConversations: API.PaginatedOperationMethod<ListProjectsLocationsCollectionsDataStoresConversationsRequest, ListProjectsLocationsCollectionsDataStoresConversationsResponse, ListProjectsLocationsCollectionsDataStoresConversationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsDataStoresConversationsRequest,
   output: ListProjectsLocationsCollectionsDataStoresConversationsResponse,
   errors: [],
@@ -15949,7 +15949,6 @@ export const listProjectsLocationsCollectionsDataStoresConversations = API.makeP
   },
 }));
 
-/** Updates a Conversation. Conversation action type cannot be changed. If the Conversation to update does not exist, a NOT_FOUND error is returned. */
 export interface PatchProjectsLocationsCollectionsDataStoresConversationsRequest {
   /** Indicates which fields in the provided Conversation to update. The following are NOT supported: * Conversation.name If not set or empty, all supported fields are updated. */
   updateMask?: string;
@@ -15973,13 +15972,13 @@ export const PatchProjectsLocationsCollectionsDataStoresConversationsResponse = 
 
 export type PatchProjectsLocationsCollectionsDataStoresConversationsError = CommonErrors;
 
+/** Updates a Conversation. Conversation action type cannot be changed. If the Conversation to update does not exist, a NOT_FOUND error is returned. */
 export const patchProjectsLocationsCollectionsDataStoresConversations: API.OperationMethod<PatchProjectsLocationsCollectionsDataStoresConversationsRequest, PatchProjectsLocationsCollectionsDataStoresConversationsResponse, PatchProjectsLocationsCollectionsDataStoresConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCollectionsDataStoresConversationsRequest,
   output: PatchProjectsLocationsCollectionsDataStoresConversationsResponse,
   errors: [],
 }));
 
-/** Creates a Conversation. If the Conversation to create already exists, an ALREADY_EXISTS error is returned. */
 export interface CreateProjectsLocationsCollectionsDataStoresConversationsRequest {
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
@@ -16000,13 +15999,13 @@ export const CreateProjectsLocationsCollectionsDataStoresConversationsResponse =
 
 export type CreateProjectsLocationsCollectionsDataStoresConversationsError = CommonErrors;
 
+/** Creates a Conversation. If the Conversation to create already exists, an ALREADY_EXISTS error is returned. */
 export const createProjectsLocationsCollectionsDataStoresConversations: API.OperationMethod<CreateProjectsLocationsCollectionsDataStoresConversationsRequest, CreateProjectsLocationsCollectionsDataStoresConversationsResponse, CreateProjectsLocationsCollectionsDataStoresConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCollectionsDataStoresConversationsRequest,
   output: CreateProjectsLocationsCollectionsDataStoresConversationsResponse,
   errors: [],
 }));
 
-/** Converses a conversation. */
 export interface ConverseProjectsLocationsCollectionsDataStoresConversationsRequest {
   /** Required. The resource name of the Conversation to get. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/{conversation_id}`. Use `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/-` to activate auto session mode, which automatically creates a new conversation inside a ConverseConversation session. */
   name: string;
@@ -16027,13 +16026,13 @@ export const ConverseProjectsLocationsCollectionsDataStoresConversationsResponse
 
 export type ConverseProjectsLocationsCollectionsDataStoresConversationsError = CommonErrors;
 
+/** Converses a conversation. */
 export const converseProjectsLocationsCollectionsDataStoresConversations: API.OperationMethod<ConverseProjectsLocationsCollectionsDataStoresConversationsRequest, ConverseProjectsLocationsCollectionsDataStoresConversationsResponse, ConverseProjectsLocationsCollectionsDataStoresConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ConverseProjectsLocationsCollectionsDataStoresConversationsRequest,
   output: ConverseProjectsLocationsCollectionsDataStoresConversationsResponse,
   errors: [],
 }));
 
-/** Deletes a Conversation. If the Conversation to delete does not exist, a NOT_FOUND error is returned. */
 export interface DeleteProjectsLocationsCollectionsDataStoresConversationsRequest {
   /** Required. The resource name of the Conversation to delete. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/{conversation_id}` */
   name: string;
@@ -16051,13 +16050,13 @@ export const DeleteProjectsLocationsCollectionsDataStoresConversationsResponse =
 
 export type DeleteProjectsLocationsCollectionsDataStoresConversationsError = CommonErrors;
 
+/** Deletes a Conversation. If the Conversation to delete does not exist, a NOT_FOUND error is returned. */
 export const deleteProjectsLocationsCollectionsDataStoresConversations: API.OperationMethod<DeleteProjectsLocationsCollectionsDataStoresConversationsRequest, DeleteProjectsLocationsCollectionsDataStoresConversationsResponse, DeleteProjectsLocationsCollectionsDataStoresConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCollectionsDataStoresConversationsRequest,
   output: DeleteProjectsLocationsCollectionsDataStoresConversationsResponse,
   errors: [],
 }));
 
-/** Lists all ServingConfigs linked to this dataStore. */
 export interface ListProjectsLocationsCollectionsDataStoresServingConfigsRequest {
   /** Required. Full resource name of the parent resource. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
   parent: string;
@@ -16081,7 +16080,8 @@ export const ListProjectsLocationsCollectionsDataStoresServingConfigsResponse = 
 
 export type ListProjectsLocationsCollectionsDataStoresServingConfigsError = CommonErrors;
 
-export const listProjectsLocationsCollectionsDataStoresServingConfigs = API.makePaginated(() => ({
+/** Lists all ServingConfigs linked to this dataStore. */
+export const listProjectsLocationsCollectionsDataStoresServingConfigs: API.PaginatedOperationMethod<ListProjectsLocationsCollectionsDataStoresServingConfigsRequest, ListProjectsLocationsCollectionsDataStoresServingConfigsResponse, ListProjectsLocationsCollectionsDataStoresServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsDataStoresServingConfigsRequest,
   output: ListProjectsLocationsCollectionsDataStoresServingConfigsResponse,
   errors: [],
@@ -16091,7 +16091,6 @@ export const listProjectsLocationsCollectionsDataStoresServingConfigs = API.make
   },
 }));
 
-/** Makes a recommendation, which requires a contextual user event. */
 export interface RecommendProjectsLocationsCollectionsDataStoresServingConfigsRequest {
   /** Required. Full resource name of a ServingConfig: `projects/* /locations/global/collections/* /engines/* /servingConfigs/*`, or `projects/* /locations/global/collections/* /dataStores/* /servingConfigs/*` One default serving config is created along with your recommendation engine creation. The engine ID is used as the ID of the default serving config. For example, for Engine `projects/* /locations/global/collections/* /engines/my-engine`, you can use `projects/* /locations/global/collections/* /engines/my-engine/servingConfigs/my-engine` for your RecommendationService.Recommend requests. */
   servingConfig: string;
@@ -16112,13 +16111,13 @@ export const RecommendProjectsLocationsCollectionsDataStoresServingConfigsRespon
 
 export type RecommendProjectsLocationsCollectionsDataStoresServingConfigsError = CommonErrors;
 
+/** Makes a recommendation, which requires a contextual user event. */
 export const recommendProjectsLocationsCollectionsDataStoresServingConfigs: API.OperationMethod<RecommendProjectsLocationsCollectionsDataStoresServingConfigsRequest, RecommendProjectsLocationsCollectionsDataStoresServingConfigsResponse, RecommendProjectsLocationsCollectionsDataStoresServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RecommendProjectsLocationsCollectionsDataStoresServingConfigsRequest,
   output: RecommendProjectsLocationsCollectionsDataStoresServingConfigsResponse,
   errors: [],
 }));
 
-/** Answer query method (streaming). It takes one AnswerQueryRequest and returns multiple AnswerQueryResponse messages in a stream. */
 export interface StreamAnswerProjectsLocationsCollectionsDataStoresServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/* /locations/global/collections/default_collection/engines/* /servingConfigs/default_serving_config`, or `projects/* /locations/global/collections/default_collection/dataStores/* /servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
@@ -16139,13 +16138,13 @@ export const StreamAnswerProjectsLocationsCollectionsDataStoresServingConfigsRes
 
 export type StreamAnswerProjectsLocationsCollectionsDataStoresServingConfigsError = CommonErrors;
 
+/** Answer query method (streaming). It takes one AnswerQueryRequest and returns multiple AnswerQueryResponse messages in a stream. */
 export const streamAnswerProjectsLocationsCollectionsDataStoresServingConfigs: API.OperationMethod<StreamAnswerProjectsLocationsCollectionsDataStoresServingConfigsRequest, StreamAnswerProjectsLocationsCollectionsDataStoresServingConfigsResponse, StreamAnswerProjectsLocationsCollectionsDataStoresServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StreamAnswerProjectsLocationsCollectionsDataStoresServingConfigsRequest,
   output: StreamAnswerProjectsLocationsCollectionsDataStoresServingConfigsResponse,
   errors: [],
 }));
 
-/** Gets a ServingConfig. Returns a NotFound error if the ServingConfig does not exist. */
 export interface GetProjectsLocationsCollectionsDataStoresServingConfigsRequest {
   /** Required. The resource name of the ServingConfig to get. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/servingConfigs/{serving_config_id}` */
   name: string;
@@ -16163,13 +16162,13 @@ export const GetProjectsLocationsCollectionsDataStoresServingConfigsResponse = G
 
 export type GetProjectsLocationsCollectionsDataStoresServingConfigsError = CommonErrors;
 
+/** Gets a ServingConfig. Returns a NotFound error if the ServingConfig does not exist. */
 export const getProjectsLocationsCollectionsDataStoresServingConfigs: API.OperationMethod<GetProjectsLocationsCollectionsDataStoresServingConfigsRequest, GetProjectsLocationsCollectionsDataStoresServingConfigsResponse, GetProjectsLocationsCollectionsDataStoresServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCollectionsDataStoresServingConfigsRequest,
   output: GetProjectsLocationsCollectionsDataStoresServingConfigsResponse,
   errors: [],
 }));
 
-/** Answer query method. */
 export interface AnswerProjectsLocationsCollectionsDataStoresServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/* /locations/global/collections/default_collection/engines/* /servingConfigs/default_serving_config`, or `projects/* /locations/global/collections/default_collection/dataStores/* /servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
@@ -16190,13 +16189,13 @@ export const AnswerProjectsLocationsCollectionsDataStoresServingConfigsResponse 
 
 export type AnswerProjectsLocationsCollectionsDataStoresServingConfigsError = CommonErrors;
 
+/** Answer query method. */
 export const answerProjectsLocationsCollectionsDataStoresServingConfigs: API.OperationMethod<AnswerProjectsLocationsCollectionsDataStoresServingConfigsRequest, AnswerProjectsLocationsCollectionsDataStoresServingConfigsResponse, AnswerProjectsLocationsCollectionsDataStoresServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AnswerProjectsLocationsCollectionsDataStoresServingConfigsRequest,
   output: AnswerProjectsLocationsCollectionsDataStoresServingConfigsResponse,
   errors: [],
 }));
 
-/** Performs a search. Similar to the SearchService.Search method, but a lite version that allows API key for authentication, where OAuth and IAM checks are not required. Only public website search is supported by this method. If data stores and engines not associated with public website search are specified, a `FAILED_PRECONDITION` error is returned. This method can be used for easy onboarding without having to implement an authentication backend. However, it is strongly recommended to use SearchService.Search instead with required OAuth and IAM checks to provide better data security. */
 export interface SearchLiteProjectsLocationsCollectionsDataStoresServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/* /locations/global/collections/default_collection/engines/* /servingConfigs/default_serving_config`, or `projects/* /locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
@@ -16217,13 +16216,13 @@ export const SearchLiteProjectsLocationsCollectionsDataStoresServingConfigsRespo
 
 export type SearchLiteProjectsLocationsCollectionsDataStoresServingConfigsError = CommonErrors;
 
+/** Performs a search. Similar to the SearchService.Search method, but a lite version that allows API key for authentication, where OAuth and IAM checks are not required. Only public website search is supported by this method. If data stores and engines not associated with public website search are specified, a `FAILED_PRECONDITION` error is returned. This method can be used for easy onboarding without having to implement an authentication backend. However, it is strongly recommended to use SearchService.Search instead with required OAuth and IAM checks to provide better data security. */
 export const searchLiteProjectsLocationsCollectionsDataStoresServingConfigs: API.OperationMethod<SearchLiteProjectsLocationsCollectionsDataStoresServingConfigsRequest, SearchLiteProjectsLocationsCollectionsDataStoresServingConfigsResponse, SearchLiteProjectsLocationsCollectionsDataStoresServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchLiteProjectsLocationsCollectionsDataStoresServingConfigsRequest,
   output: SearchLiteProjectsLocationsCollectionsDataStoresServingConfigsResponse,
   errors: [],
 }));
 
-/** Performs a search. */
 export interface SearchProjectsLocationsCollectionsDataStoresServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/* /locations/global/collections/default_collection/engines/* /servingConfigs/default_serving_config`, or `projects/* /locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
@@ -16244,13 +16243,13 @@ export const SearchProjectsLocationsCollectionsDataStoresServingConfigsResponse 
 
 export type SearchProjectsLocationsCollectionsDataStoresServingConfigsError = CommonErrors;
 
+/** Performs a search. */
 export const searchProjectsLocationsCollectionsDataStoresServingConfigs: API.OperationMethod<SearchProjectsLocationsCollectionsDataStoresServingConfigsRequest, SearchProjectsLocationsCollectionsDataStoresServingConfigsResponse, SearchProjectsLocationsCollectionsDataStoresServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchProjectsLocationsCollectionsDataStoresServingConfigsRequest,
   output: SearchProjectsLocationsCollectionsDataStoresServingConfigsResponse,
   errors: [],
 }));
 
-/** Deletes a ServingConfig. Returns a NOT_FOUND error if the ServingConfig does not exist. */
 export interface DeleteProjectsLocationsCollectionsDataStoresServingConfigsRequest {
   /** Required. The resource name of the ServingConfig to delete. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/servingConfigs/{serving_config_id}` */
   name: string;
@@ -16268,13 +16267,13 @@ export const DeleteProjectsLocationsCollectionsDataStoresServingConfigsResponse 
 
 export type DeleteProjectsLocationsCollectionsDataStoresServingConfigsError = CommonErrors;
 
+/** Deletes a ServingConfig. Returns a NOT_FOUND error if the ServingConfig does not exist. */
 export const deleteProjectsLocationsCollectionsDataStoresServingConfigs: API.OperationMethod<DeleteProjectsLocationsCollectionsDataStoresServingConfigsRequest, DeleteProjectsLocationsCollectionsDataStoresServingConfigsResponse, DeleteProjectsLocationsCollectionsDataStoresServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCollectionsDataStoresServingConfigsRequest,
   output: DeleteProjectsLocationsCollectionsDataStoresServingConfigsResponse,
   errors: [],
 }));
 
-/** Updates a ServingConfig. Returns a NOT_FOUND error if the ServingConfig does not exist. */
 export interface PatchProjectsLocationsCollectionsDataStoresServingConfigsRequest {
   /** Indicates which fields in the provided ServingConfig to update. The following are NOT supported: * ServingConfig.name If not set, all supported fields are updated. */
   updateMask?: string;
@@ -16298,13 +16297,13 @@ export const PatchProjectsLocationsCollectionsDataStoresServingConfigsResponse =
 
 export type PatchProjectsLocationsCollectionsDataStoresServingConfigsError = CommonErrors;
 
+/** Updates a ServingConfig. Returns a NOT_FOUND error if the ServingConfig does not exist. */
 export const patchProjectsLocationsCollectionsDataStoresServingConfigs: API.OperationMethod<PatchProjectsLocationsCollectionsDataStoresServingConfigsRequest, PatchProjectsLocationsCollectionsDataStoresServingConfigsResponse, PatchProjectsLocationsCollectionsDataStoresServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCollectionsDataStoresServingConfigsRequest,
   output: PatchProjectsLocationsCollectionsDataStoresServingConfigsResponse,
   errors: [],
 }));
 
-/** Creates a ServingConfig. Note: The Google Cloud console works only with the default serving config. Additional ServingConfigs can be created and managed only via the API. A maximum of 100 ServingConfigs are allowed in an Engine, otherwise a RESOURCE_EXHAUSTED error is returned. */
 export interface CreateProjectsLocationsCollectionsDataStoresServingConfigsRequest {
   /** Required. Full resource name of parent. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
   parent: string;
@@ -16328,13 +16327,13 @@ export const CreateProjectsLocationsCollectionsDataStoresServingConfigsResponse 
 
 export type CreateProjectsLocationsCollectionsDataStoresServingConfigsError = CommonErrors;
 
+/** Creates a ServingConfig. Note: The Google Cloud console works only with the default serving config. Additional ServingConfigs can be created and managed only via the API. A maximum of 100 ServingConfigs are allowed in an Engine, otherwise a RESOURCE_EXHAUSTED error is returned. */
 export const createProjectsLocationsCollectionsDataStoresServingConfigs: API.OperationMethod<CreateProjectsLocationsCollectionsDataStoresServingConfigsRequest, CreateProjectsLocationsCollectionsDataStoresServingConfigsResponse, CreateProjectsLocationsCollectionsDataStoresServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCollectionsDataStoresServingConfigsRequest,
   output: CreateProjectsLocationsCollectionsDataStoresServingConfigsResponse,
   errors: [],
 }));
 
-/** Bulk import of user events. Request processing might be synchronous. Events that already exist are skipped. Use this method for backfilling historical user events. Operation.response is of type ImportResponse. Note that it is possible for a subset of the items to be successfully inserted. Operation.metadata is of type ImportMetadata. */
 export interface ImportProjectsLocationsCollectionsDataStoresUserEventsRequest {
   /** Required. Parent DataStore resource name, of the form `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}` */
   parent: string;
@@ -16355,13 +16354,13 @@ export const ImportProjectsLocationsCollectionsDataStoresUserEventsResponse = Go
 
 export type ImportProjectsLocationsCollectionsDataStoresUserEventsError = CommonErrors;
 
+/** Bulk import of user events. Request processing might be synchronous. Events that already exist are skipped. Use this method for backfilling historical user events. Operation.response is of type ImportResponse. Note that it is possible for a subset of the items to be successfully inserted. Operation.metadata is of type ImportMetadata. */
 export const importProjectsLocationsCollectionsDataStoresUserEvents: API.OperationMethod<ImportProjectsLocationsCollectionsDataStoresUserEventsRequest, ImportProjectsLocationsCollectionsDataStoresUserEventsResponse, ImportProjectsLocationsCollectionsDataStoresUserEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportProjectsLocationsCollectionsDataStoresUserEventsRequest,
   output: ImportProjectsLocationsCollectionsDataStoresUserEventsResponse,
   errors: [],
 }));
 
-/** Deletes permanently all user events specified by the filter provided. Depending on the number of events specified by the filter, this operation could take hours or days to complete. To test a filter, use the list command first. */
 export interface PurgeProjectsLocationsCollectionsDataStoresUserEventsRequest {
   /** Required. The resource name of the catalog under which the events are created. The format is `projects/{project}/locations/global/collections/{collection}/dataStores/{dataStore}`. */
   parent: string;
@@ -16382,13 +16381,13 @@ export const PurgeProjectsLocationsCollectionsDataStoresUserEventsResponse = Goo
 
 export type PurgeProjectsLocationsCollectionsDataStoresUserEventsError = CommonErrors;
 
+/** Deletes permanently all user events specified by the filter provided. Depending on the number of events specified by the filter, this operation could take hours or days to complete. To test a filter, use the list command first. */
 export const purgeProjectsLocationsCollectionsDataStoresUserEvents: API.OperationMethod<PurgeProjectsLocationsCollectionsDataStoresUserEventsRequest, PurgeProjectsLocationsCollectionsDataStoresUserEventsResponse, PurgeProjectsLocationsCollectionsDataStoresUserEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PurgeProjectsLocationsCollectionsDataStoresUserEventsRequest,
   output: PurgeProjectsLocationsCollectionsDataStoresUserEventsResponse,
   errors: [],
 }));
 
-/** Writes a single user event. */
 export interface WriteProjectsLocationsCollectionsDataStoresUserEventsRequest {
   /** If set to true, the user event is written asynchronously after validation, and the API responds without waiting for the write. */
   writeAsync?: boolean;
@@ -16412,13 +16411,13 @@ export const WriteProjectsLocationsCollectionsDataStoresUserEventsResponse = Goo
 
 export type WriteProjectsLocationsCollectionsDataStoresUserEventsError = CommonErrors;
 
+/** Writes a single user event. */
 export const writeProjectsLocationsCollectionsDataStoresUserEvents: API.OperationMethod<WriteProjectsLocationsCollectionsDataStoresUserEventsRequest, WriteProjectsLocationsCollectionsDataStoresUserEventsResponse, WriteProjectsLocationsCollectionsDataStoresUserEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WriteProjectsLocationsCollectionsDataStoresUserEventsRequest,
   output: WriteProjectsLocationsCollectionsDataStoresUserEventsResponse,
   errors: [],
 }));
 
-/** Writes a single user event from the browser. This uses a GET request to due to browser restriction of POST-ing to a third-party domain. This method is used only by the Discovery Engine API JavaScript pixel and Google Tag Manager. Users should not call this method directly. */
 export interface CollectProjectsLocationsCollectionsDataStoresUserEventsRequest {
   /** The URL including cgi-parameters but excluding the hash fragment with a length limit of 5,000 characters. This is often more useful than the referer URL, because many browsers only send the domain for third-party requests. */
   uri?: string;
@@ -16445,13 +16444,13 @@ export const CollectProjectsLocationsCollectionsDataStoresUserEventsResponse = G
 
 export type CollectProjectsLocationsCollectionsDataStoresUserEventsError = CommonErrors;
 
+/** Writes a single user event from the browser. This uses a GET request to due to browser restriction of POST-ing to a third-party domain. This method is used only by the Discovery Engine API JavaScript pixel and Google Tag Manager. Users should not call this method directly. */
 export const collectProjectsLocationsCollectionsDataStoresUserEvents: API.OperationMethod<CollectProjectsLocationsCollectionsDataStoresUserEventsRequest, CollectProjectsLocationsCollectionsDataStoresUserEventsResponse, CollectProjectsLocationsCollectionsDataStoresUserEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CollectProjectsLocationsCollectionsDataStoresUserEventsRequest,
   output: CollectProjectsLocationsCollectionsDataStoresUserEventsResponse,
   errors: [],
 }));
 
-/** Gets index freshness metadata for Documents. Supported for website search only. */
 export interface BatchGetDocumentsMetadataProjectsLocationsCollectionsDataStoresBranchesRequest {
   /** Required. The FHIR resources to match by. Format: projects/{project}/locations/{location}/datasets/{dataset}/fhirStores/{fhir_store}/fhir/{resource_type}/{fhir_resource_id} */
   "matcher.fhirMatcher.fhirResources"?: string[];
@@ -16475,13 +16474,13 @@ export const BatchGetDocumentsMetadataProjectsLocationsCollectionsDataStoresBran
 
 export type BatchGetDocumentsMetadataProjectsLocationsCollectionsDataStoresBranchesError = CommonErrors;
 
+/** Gets index freshness metadata for Documents. Supported for website search only. */
 export const batchGetDocumentsMetadataProjectsLocationsCollectionsDataStoresBranches: API.OperationMethod<BatchGetDocumentsMetadataProjectsLocationsCollectionsDataStoresBranchesRequest, BatchGetDocumentsMetadataProjectsLocationsCollectionsDataStoresBranchesResponse, BatchGetDocumentsMetadataProjectsLocationsCollectionsDataStoresBranchesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchGetDocumentsMetadataProjectsLocationsCollectionsDataStoresBranchesRequest,
   output: BatchGetDocumentsMetadataProjectsLocationsCollectionsDataStoresBranchesResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsCollectionsDataStoresBranchesOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -16502,13 +16501,13 @@ export const CancelProjectsLocationsCollectionsDataStoresBranchesOperationsRespo
 
 export type CancelProjectsLocationsCollectionsDataStoresBranchesOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsCollectionsDataStoresBranchesOperations: API.OperationMethod<CancelProjectsLocationsCollectionsDataStoresBranchesOperationsRequest, CancelProjectsLocationsCollectionsDataStoresBranchesOperationsResponse, CancelProjectsLocationsCollectionsDataStoresBranchesOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsCollectionsDataStoresBranchesOperationsRequest,
   output: CancelProjectsLocationsCollectionsDataStoresBranchesOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsCollectionsDataStoresBranchesOperationsRequest {
   /** The standard list filter. */
   filter?: string;
@@ -16538,7 +16537,8 @@ export const ListProjectsLocationsCollectionsDataStoresBranchesOperationsRespons
 
 export type ListProjectsLocationsCollectionsDataStoresBranchesOperationsError = CommonErrors;
 
-export const listProjectsLocationsCollectionsDataStoresBranchesOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsCollectionsDataStoresBranchesOperations: API.PaginatedOperationMethod<ListProjectsLocationsCollectionsDataStoresBranchesOperationsRequest, ListProjectsLocationsCollectionsDataStoresBranchesOperationsResponse, ListProjectsLocationsCollectionsDataStoresBranchesOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsDataStoresBranchesOperationsRequest,
   output: ListProjectsLocationsCollectionsDataStoresBranchesOperationsResponse,
   errors: [],
@@ -16548,7 +16548,6 @@ export const listProjectsLocationsCollectionsDataStoresBranchesOperations = API.
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsCollectionsDataStoresBranchesOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -16566,13 +16565,13 @@ export const GetProjectsLocationsCollectionsDataStoresBranchesOperationsResponse
 
 export type GetProjectsLocationsCollectionsDataStoresBranchesOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsCollectionsDataStoresBranchesOperations: API.OperationMethod<GetProjectsLocationsCollectionsDataStoresBranchesOperationsRequest, GetProjectsLocationsCollectionsDataStoresBranchesOperationsResponse, GetProjectsLocationsCollectionsDataStoresBranchesOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCollectionsDataStoresBranchesOperationsRequest,
   output: GetProjectsLocationsCollectionsDataStoresBranchesOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a Document. */
 export interface DeleteProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest {
   /** Required. Full resource name of Document, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}/documents/{document}`. If the caller does not have permission to delete the Document, regardless of whether or not it exists, a `PERMISSION_DENIED` error is returned. If the Document to delete does not exist, a `NOT_FOUND` error is returned. */
   name: string;
@@ -16590,13 +16589,13 @@ export const DeleteProjectsLocationsCollectionsDataStoresBranchesDocumentsRespon
 
 export type DeleteProjectsLocationsCollectionsDataStoresBranchesDocumentsError = CommonErrors;
 
+/** Deletes a Document. */
 export const deleteProjectsLocationsCollectionsDataStoresBranchesDocuments: API.OperationMethod<DeleteProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest, DeleteProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse, DeleteProjectsLocationsCollectionsDataStoresBranchesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest,
   output: DeleteProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse,
   errors: [],
 }));
 
-/** Gets a Document. */
 export interface GetProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest {
   /** Required. Full resource name of Document, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}/documents/{document}`. If the caller does not have permission to access the Document, regardless of whether or not it exists, a `PERMISSION_DENIED` error is returned. If the requested Document does not exist, a `NOT_FOUND` error is returned. */
   name: string;
@@ -16614,13 +16613,13 @@ export const GetProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse 
 
 export type GetProjectsLocationsCollectionsDataStoresBranchesDocumentsError = CommonErrors;
 
+/** Gets a Document. */
 export const getProjectsLocationsCollectionsDataStoresBranchesDocuments: API.OperationMethod<GetProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest, GetProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse, GetProjectsLocationsCollectionsDataStoresBranchesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest,
   output: GetProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse,
   errors: [],
 }));
 
-/** Creates a Document. */
 export interface CreateProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. */
   parent: string;
@@ -16644,13 +16643,13 @@ export const CreateProjectsLocationsCollectionsDataStoresBranchesDocumentsRespon
 
 export type CreateProjectsLocationsCollectionsDataStoresBranchesDocumentsError = CommonErrors;
 
+/** Creates a Document. */
 export const createProjectsLocationsCollectionsDataStoresBranchesDocuments: API.OperationMethod<CreateProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest, CreateProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse, CreateProjectsLocationsCollectionsDataStoresBranchesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest,
   output: CreateProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse,
   errors: [],
 }));
 
-/** Gets a list of Documents. */
 export interface ListProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest {
   /** A page token ListDocumentsResponse.next_page_token, received from a previous DocumentService.ListDocuments call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to DocumentService.ListDocuments must match the call that provided the page token. Otherwise, an `INVALID_ARGUMENT` error is returned. */
   pageToken?: string;
@@ -16674,7 +16673,8 @@ export const ListProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse
 
 export type ListProjectsLocationsCollectionsDataStoresBranchesDocumentsError = CommonErrors;
 
-export const listProjectsLocationsCollectionsDataStoresBranchesDocuments = API.makePaginated(() => ({
+/** Gets a list of Documents. */
+export const listProjectsLocationsCollectionsDataStoresBranchesDocuments: API.PaginatedOperationMethod<ListProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest, ListProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse, ListProjectsLocationsCollectionsDataStoresBranchesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest,
   output: ListProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse,
   errors: [],
@@ -16684,7 +16684,6 @@ export const listProjectsLocationsCollectionsDataStoresBranchesDocuments = API.m
   },
 }));
 
-/** Updates a Document. */
 export interface PatchProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest {
   /** If set to `true` and the Document is not found, a new Document is be created. */
   allowMissing?: boolean;
@@ -16711,13 +16710,13 @@ export const PatchProjectsLocationsCollectionsDataStoresBranchesDocumentsRespons
 
 export type PatchProjectsLocationsCollectionsDataStoresBranchesDocumentsError = CommonErrors;
 
+/** Updates a Document. */
 export const patchProjectsLocationsCollectionsDataStoresBranchesDocuments: API.OperationMethod<PatchProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest, PatchProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse, PatchProjectsLocationsCollectionsDataStoresBranchesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest,
   output: PatchProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse,
   errors: [],
 }));
 
-/** Permanently deletes all selected Documents in a branch. This process is asynchronous. Depending on the number of Documents to be deleted, this operation can take hours to complete. Before the delete operation completes, some Documents might still be returned by DocumentService.GetDocument or DocumentService.ListDocuments. To get a list of the Documents to be deleted, set PurgeDocumentsRequest.force to false. */
 export interface PurgeProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. */
   parent: string;
@@ -16738,13 +16737,13 @@ export const PurgeProjectsLocationsCollectionsDataStoresBranchesDocumentsRespons
 
 export type PurgeProjectsLocationsCollectionsDataStoresBranchesDocumentsError = CommonErrors;
 
+/** Permanently deletes all selected Documents in a branch. This process is asynchronous. Depending on the number of Documents to be deleted, this operation can take hours to complete. Before the delete operation completes, some Documents might still be returned by DocumentService.GetDocument or DocumentService.ListDocuments. To get a list of the Documents to be deleted, set PurgeDocumentsRequest.force to false. */
 export const purgeProjectsLocationsCollectionsDataStoresBranchesDocuments: API.OperationMethod<PurgeProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest, PurgeProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse, PurgeProjectsLocationsCollectionsDataStoresBranchesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PurgeProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest,
   output: PurgeProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse,
   errors: [],
 }));
 
-/** Bulk import of multiple Documents. Request processing may be synchronous. Non-existing items are created. Note: It is possible for a subset of the Documents to be successfully updated. */
 export interface ImportProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest {
   /** Required. The parent branch resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. Requires create/update permission. */
   parent: string;
@@ -16765,13 +16764,13 @@ export const ImportProjectsLocationsCollectionsDataStoresBranchesDocumentsRespon
 
 export type ImportProjectsLocationsCollectionsDataStoresBranchesDocumentsError = CommonErrors;
 
+/** Bulk import of multiple Documents. Request processing may be synchronous. Non-existing items are created. Note: It is possible for a subset of the Documents to be successfully updated. */
 export const importProjectsLocationsCollectionsDataStoresBranchesDocuments: API.OperationMethod<ImportProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest, ImportProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse, ImportProjectsLocationsCollectionsDataStoresBranchesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportProjectsLocationsCollectionsDataStoresBranchesDocumentsRequest,
   output: ImportProjectsLocationsCollectionsDataStoresBranchesDocumentsResponse,
   errors: [],
 }));
 
-/** Request on-demand recrawl for a list of URIs. */
 export interface RecrawlUrisProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest {
   /** Required. Full resource name of the SiteSearchEngine, such as `projects/* /locations/* /collections/* /dataStores/* /siteSearchEngine`. */
   siteSearchEngine: string;
@@ -16792,13 +16791,13 @@ export const RecrawlUrisProjectsLocationsCollectionsDataStoresSiteSearchEngineRe
 
 export type RecrawlUrisProjectsLocationsCollectionsDataStoresSiteSearchEngineError = CommonErrors;
 
+/** Request on-demand recrawl for a list of URIs. */
 export const recrawlUrisProjectsLocationsCollectionsDataStoresSiteSearchEngine: API.OperationMethod<RecrawlUrisProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest, RecrawlUrisProjectsLocationsCollectionsDataStoresSiteSearchEngineResponse, RecrawlUrisProjectsLocationsCollectionsDataStoresSiteSearchEngineError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RecrawlUrisProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest,
   output: RecrawlUrisProjectsLocationsCollectionsDataStoresSiteSearchEngineResponse,
   errors: [],
 }));
 
-/** Verify target sites' ownership and validity. This API sends all the target sites under site search engine for verification. */
 export interface BatchVerifyTargetSitesProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest {
   /** Required. The parent resource shared by all TargetSites being verified. `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine`. */
   parent: string;
@@ -16819,13 +16818,13 @@ export const BatchVerifyTargetSitesProjectsLocationsCollectionsDataStoresSiteSea
 
 export type BatchVerifyTargetSitesProjectsLocationsCollectionsDataStoresSiteSearchEngineError = CommonErrors;
 
+/** Verify target sites' ownership and validity. This API sends all the target sites under site search engine for verification. */
 export const batchVerifyTargetSitesProjectsLocationsCollectionsDataStoresSiteSearchEngine: API.OperationMethod<BatchVerifyTargetSitesProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest, BatchVerifyTargetSitesProjectsLocationsCollectionsDataStoresSiteSearchEngineResponse, BatchVerifyTargetSitesProjectsLocationsCollectionsDataStoresSiteSearchEngineError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchVerifyTargetSitesProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest,
   output: BatchVerifyTargetSitesProjectsLocationsCollectionsDataStoresSiteSearchEngineResponse,
   errors: [],
 }));
 
-/** Upgrade from basic site search to advanced site search. */
 export interface EnableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest {
   /** Required. Full resource name of the SiteSearchEngine, such as `projects/{project}/locations/{location}/dataStores/{data_store_id}/siteSearchEngine`. */
   siteSearchEngine: string;
@@ -16846,13 +16845,13 @@ export const EnableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteS
 
 export type EnableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngineError = CommonErrors;
 
+/** Upgrade from basic site search to advanced site search. */
 export const enableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngine: API.OperationMethod<EnableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest, EnableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngineResponse, EnableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngineError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest,
   output: EnableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngineResponse,
   errors: [],
 }));
 
-/** Downgrade from advanced site search to basic site search. */
 export interface DisableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest {
   /** Required. Full resource name of the SiteSearchEngine, such as `projects/{project}/locations/{location}/dataStores/{data_store_id}/siteSearchEngine`. */
   siteSearchEngine: string;
@@ -16873,13 +16872,13 @@ export const DisableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSite
 
 export type DisableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngineError = CommonErrors;
 
+/** Downgrade from advanced site search to basic site search. */
 export const disableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngine: API.OperationMethod<DisableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest, DisableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngineResponse, DisableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngineError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DisableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest,
   output: DisableAdvancedSiteSearchProjectsLocationsCollectionsDataStoresSiteSearchEngineResponse,
   errors: [],
 }));
 
-/** Returns list of target sites with its domain verification status. This method can only be called under data store with BASIC_SITE_SEARCH state at the moment. */
 export interface FetchDomainVerificationStatusProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest {
   /** A page token, received from a previous `FetchDomainVerificationStatus` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `FetchDomainVerificationStatus` must match the call that provided the page token. */
   pageToken?: string;
@@ -16903,7 +16902,8 @@ export const FetchDomainVerificationStatusProjectsLocationsCollectionsDataStores
 
 export type FetchDomainVerificationStatusProjectsLocationsCollectionsDataStoresSiteSearchEngineError = CommonErrors;
 
-export const fetchDomainVerificationStatusProjectsLocationsCollectionsDataStoresSiteSearchEngine = API.makePaginated(() => ({
+/** Returns list of target sites with its domain verification status. This method can only be called under data store with BASIC_SITE_SEARCH state at the moment. */
+export const fetchDomainVerificationStatusProjectsLocationsCollectionsDataStoresSiteSearchEngine: API.PaginatedOperationMethod<FetchDomainVerificationStatusProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest, FetchDomainVerificationStatusProjectsLocationsCollectionsDataStoresSiteSearchEngineResponse, FetchDomainVerificationStatusProjectsLocationsCollectionsDataStoresSiteSearchEngineError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: FetchDomainVerificationStatusProjectsLocationsCollectionsDataStoresSiteSearchEngineRequest,
   output: FetchDomainVerificationStatusProjectsLocationsCollectionsDataStoresSiteSearchEngineResponse,
   errors: [],
@@ -16913,7 +16913,6 @@ export const fetchDomainVerificationStatusProjectsLocationsCollectionsDataStores
   },
 }));
 
-/** Gets a TargetSite. */
 export interface GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest {
   /** Required. Full resource name of TargetSite, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine/targetSites/{target_site}`. If the caller does not have permission to access the TargetSite, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested TargetSite does not exist, a NOT_FOUND error is returned. */
   name: string;
@@ -16931,13 +16930,13 @@ export const GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSite
 
 export type GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesError = CommonErrors;
 
+/** Gets a TargetSite. */
 export const getProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSites: API.OperationMethod<GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest, GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesResponse, GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest,
   output: GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesResponse,
   errors: [],
 }));
 
-/** Deletes a TargetSite. */
 export interface DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest {
   /** Required. Full resource name of TargetSite, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine/targetSites/{target_site}`. If the caller does not have permission to access the TargetSite, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested TargetSite does not exist, a NOT_FOUND error is returned. */
   name: string;
@@ -16955,13 +16954,13 @@ export const DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetS
 
 export type DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesError = CommonErrors;
 
+/** Deletes a TargetSite. */
 export const deleteProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSites: API.OperationMethod<DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest, DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesResponse, DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest,
   output: DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesResponse,
   errors: [],
 }));
 
-/** Creates a TargetSite. */
 export interface CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest {
   /** Required. Parent resource name of TargetSite, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine`. */
   parent: string;
@@ -16982,13 +16981,13 @@ export const CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetS
 
 export type CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesError = CommonErrors;
 
+/** Creates a TargetSite. */
 export const createProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSites: API.OperationMethod<CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest, CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesResponse, CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest,
   output: CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesResponse,
   errors: [],
 }));
 
-/** Creates TargetSite in a batch. */
 export interface BatchCreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest {
   /** Required. The parent resource shared by all TargetSites being created. `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine`. The parent field in the CreateBookRequest messages must either be empty or match this field. */
   parent: string;
@@ -17009,13 +17008,13 @@ export const BatchCreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTa
 
 export type BatchCreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesError = CommonErrors;
 
+/** Creates TargetSite in a batch. */
 export const batchCreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSites: API.OperationMethod<BatchCreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest, BatchCreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesResponse, BatchCreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchCreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest,
   output: BatchCreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesResponse,
   errors: [],
 }));
 
-/** Updates a TargetSite. */
 export interface PatchProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest {
   /** Output only. The fully qualified resource name of the target site. `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine/targetSites/{target_site}` The `target_site_id` is system-generated. */
   name: string;
@@ -17036,13 +17035,13 @@ export const PatchProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSi
 
 export type PatchProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesError = CommonErrors;
 
+/** Updates a TargetSite. */
 export const patchProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSites: API.OperationMethod<PatchProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest, PatchProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesResponse, PatchProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest,
   output: PatchProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesResponse,
   errors: [],
 }));
 
-/** Gets a list of TargetSites. */
 export interface ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest {
   /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. The maximum value is 1000; values above 1000 will be coerced to 1000. If this field is negative, an INVALID_ARGUMENT error is returned. */
   pageSize?: number;
@@ -17066,7 +17065,8 @@ export const ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSit
 
 export type ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesError = CommonErrors;
 
-export const listProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSites = API.makePaginated(() => ({
+/** Gets a list of TargetSites. */
+export const listProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSites: API.PaginatedOperationMethod<ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest, ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesResponse, ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesRequest,
   output: ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesResponse,
   errors: [],
@@ -17076,7 +17076,6 @@ export const listProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSit
   },
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsRequest {
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
@@ -17106,7 +17105,8 @@ export const ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSit
 
 export type ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsError = CommonErrors;
 
-export const listProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperations: API.PaginatedOperationMethod<ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsRequest, ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsResponse, ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsRequest,
   output: ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsResponse,
   errors: [],
@@ -17116,7 +17116,6 @@ export const listProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSit
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -17134,13 +17133,13 @@ export const GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSite
 
 export type GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperations: API.OperationMethod<GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsRequest, GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsResponse, GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsRequest,
   output: GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsRequest {
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
@@ -17170,7 +17169,8 @@ export const ListProjectsLocationsCollectionsDataStoresSiteSearchEngineOperation
 
 export type ListProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsError = CommonErrors;
 
-export const listProjectsLocationsCollectionsDataStoresSiteSearchEngineOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsCollectionsDataStoresSiteSearchEngineOperations: API.PaginatedOperationMethod<ListProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsRequest, ListProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsResponse, ListProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsRequest,
   output: ListProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsResponse,
   errors: [],
@@ -17180,7 +17180,6 @@ export const listProjectsLocationsCollectionsDataStoresSiteSearchEngineOperation
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -17198,13 +17197,13 @@ export const GetProjectsLocationsCollectionsDataStoresSiteSearchEngineOperations
 
 export type GetProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsCollectionsDataStoresSiteSearchEngineOperations: API.OperationMethod<GetProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsRequest, GetProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsResponse, GetProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsRequest,
   output: GetProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsResponse,
   errors: [],
 }));
 
-/** Creates a Sitemap. */
 export interface CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsRequest {
   /** Required. Parent resource name of the SiteSearchEngine, such as `projects/* /locations/* /collections/* /dataStores/* /siteSearchEngine`. */
   parent: string;
@@ -17225,13 +17224,13 @@ export const CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemap
 
 export type CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsError = CommonErrors;
 
+/** Creates a Sitemap. */
 export const createProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemaps: API.OperationMethod<CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsRequest, CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsResponse, CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsRequest,
   output: CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsResponse,
   errors: [],
 }));
 
-/** Fetch Sitemaps in a DataStore. */
 export interface FetchProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsRequest {
   /** Required. Parent resource name of the SiteSearchEngine, such as `projects/* /locations/* /collections/* /dataStores/* /siteSearchEngine`. */
   parent: string;
@@ -17252,13 +17251,13 @@ export const FetchProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemaps
 
 export type FetchProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsError = CommonErrors;
 
+/** Fetch Sitemaps in a DataStore. */
 export const fetchProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemaps: API.OperationMethod<FetchProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsRequest, FetchProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsResponse, FetchProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FetchProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsRequest,
   output: FetchProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsResponse,
   errors: [],
 }));
 
-/** Deletes a Sitemap. */
 export interface DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsRequest {
   /** Required. Full resource name of Sitemap, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine/sitemaps/{sitemap}`. If the caller does not have permission to access the Sitemap, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested Sitemap does not exist, a NOT_FOUND error is returned. */
   name: string;
@@ -17276,13 +17275,13 @@ export const DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemap
 
 export type DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsError = CommonErrors;
 
+/** Deletes a Sitemap. */
 export const deleteProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemaps: API.OperationMethod<DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsRequest, DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsResponse, DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsRequest,
   output: DeleteProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemapsResponse,
   errors: [],
 }));
 
-/** Update a WidgetConfig. */
 export interface PatchProjectsLocationsCollectionsDataStoresWidgetConfigsRequest {
   /** Indicates which fields in the provided WidgetConfig to update. The following are the only supported fields: * WidgetConfig.enable_autocomplete If not set, all supported fields are updated. */
   updateMask?: string;
@@ -17306,13 +17305,13 @@ export const PatchProjectsLocationsCollectionsDataStoresWidgetConfigsResponse = 
 
 export type PatchProjectsLocationsCollectionsDataStoresWidgetConfigsError = CommonErrors;
 
+/** Update a WidgetConfig. */
 export const patchProjectsLocationsCollectionsDataStoresWidgetConfigs: API.OperationMethod<PatchProjectsLocationsCollectionsDataStoresWidgetConfigsRequest, PatchProjectsLocationsCollectionsDataStoresWidgetConfigsResponse, PatchProjectsLocationsCollectionsDataStoresWidgetConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCollectionsDataStoresWidgetConfigsRequest,
   output: PatchProjectsLocationsCollectionsDataStoresWidgetConfigsResponse,
   errors: [],
 }));
 
-/** Gets a WidgetConfig. */
 export interface GetProjectsLocationsCollectionsDataStoresWidgetConfigsRequest {
   /** Optional. Whether it's acceptable to load the widget config from cache. If set to true, recent changes on widget configs may take a few minutes to reflect on the end user's view. It's recommended to set to true for maturely developed widgets, as it improves widget performance. Set to false to see changes reflected in prod right away, if your widget is under development. */
   acceptCache?: boolean;
@@ -17336,13 +17335,13 @@ export const GetProjectsLocationsCollectionsDataStoresWidgetConfigsResponse = Go
 
 export type GetProjectsLocationsCollectionsDataStoresWidgetConfigsError = CommonErrors;
 
+/** Gets a WidgetConfig. */
 export const getProjectsLocationsCollectionsDataStoresWidgetConfigs: API.OperationMethod<GetProjectsLocationsCollectionsDataStoresWidgetConfigsRequest, GetProjectsLocationsCollectionsDataStoresWidgetConfigsResponse, GetProjectsLocationsCollectionsDataStoresWidgetConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCollectionsDataStoresWidgetConfigsRequest,
   output: GetProjectsLocationsCollectionsDataStoresWidgetConfigsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsCollectionsDataStoresOperationsRequest {
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
@@ -17372,7 +17371,8 @@ export const ListProjectsLocationsCollectionsDataStoresOperationsResponse = Goog
 
 export type ListProjectsLocationsCollectionsDataStoresOperationsError = CommonErrors;
 
-export const listProjectsLocationsCollectionsDataStoresOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsCollectionsDataStoresOperations: API.PaginatedOperationMethod<ListProjectsLocationsCollectionsDataStoresOperationsRequest, ListProjectsLocationsCollectionsDataStoresOperationsResponse, ListProjectsLocationsCollectionsDataStoresOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsDataStoresOperationsRequest,
   output: ListProjectsLocationsCollectionsDataStoresOperationsResponse,
   errors: [],
@@ -17382,7 +17382,6 @@ export const listProjectsLocationsCollectionsDataStoresOperations = API.makePagi
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsCollectionsDataStoresOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -17400,13 +17399,13 @@ export const GetProjectsLocationsCollectionsDataStoresOperationsResponse = Googl
 
 export type GetProjectsLocationsCollectionsDataStoresOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsCollectionsDataStoresOperations: API.OperationMethod<GetProjectsLocationsCollectionsDataStoresOperationsRequest, GetProjectsLocationsCollectionsDataStoresOperationsResponse, GetProjectsLocationsCollectionsDataStoresOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCollectionsDataStoresOperationsRequest,
   output: GetProjectsLocationsCollectionsDataStoresOperationsResponse,
   errors: [],
 }));
 
-/** Creates a Schema. */
 export interface CreateProjectsLocationsCollectionsDataStoresSchemasRequest {
   /** Required. The parent data store resource name, in the format of `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}`. */
   parent: string;
@@ -17430,13 +17429,13 @@ export const CreateProjectsLocationsCollectionsDataStoresSchemasResponse = Googl
 
 export type CreateProjectsLocationsCollectionsDataStoresSchemasError = CommonErrors;
 
+/** Creates a Schema. */
 export const createProjectsLocationsCollectionsDataStoresSchemas: API.OperationMethod<CreateProjectsLocationsCollectionsDataStoresSchemasRequest, CreateProjectsLocationsCollectionsDataStoresSchemasResponse, CreateProjectsLocationsCollectionsDataStoresSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCollectionsDataStoresSchemasRequest,
   output: CreateProjectsLocationsCollectionsDataStoresSchemasResponse,
   errors: [],
 }));
 
-/** Updates a Schema. */
 export interface PatchProjectsLocationsCollectionsDataStoresSchemasRequest {
   /** Immutable. The full resource name of the schema, in the format of `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/schemas/{schema}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
@@ -17460,13 +17459,13 @@ export const PatchProjectsLocationsCollectionsDataStoresSchemasResponse = Google
 
 export type PatchProjectsLocationsCollectionsDataStoresSchemasError = CommonErrors;
 
+/** Updates a Schema. */
 export const patchProjectsLocationsCollectionsDataStoresSchemas: API.OperationMethod<PatchProjectsLocationsCollectionsDataStoresSchemasRequest, PatchProjectsLocationsCollectionsDataStoresSchemasResponse, PatchProjectsLocationsCollectionsDataStoresSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCollectionsDataStoresSchemasRequest,
   output: PatchProjectsLocationsCollectionsDataStoresSchemasResponse,
   errors: [],
 }));
 
-/** Gets a Schema. */
 export interface GetProjectsLocationsCollectionsDataStoresSchemasRequest {
   /** Required. The full resource name of the schema, in the format of `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/schemas/{schema}`. */
   name: string;
@@ -17484,13 +17483,13 @@ export const GetProjectsLocationsCollectionsDataStoresSchemasResponse = GoogleCl
 
 export type GetProjectsLocationsCollectionsDataStoresSchemasError = CommonErrors;
 
+/** Gets a Schema. */
 export const getProjectsLocationsCollectionsDataStoresSchemas: API.OperationMethod<GetProjectsLocationsCollectionsDataStoresSchemasRequest, GetProjectsLocationsCollectionsDataStoresSchemasResponse, GetProjectsLocationsCollectionsDataStoresSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCollectionsDataStoresSchemasRequest,
   output: GetProjectsLocationsCollectionsDataStoresSchemasResponse,
   errors: [],
 }));
 
-/** Gets a list of Schemas. */
 export interface ListProjectsLocationsCollectionsDataStoresSchemasRequest {
   /** Required. The parent data store resource name, in the format of `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}`. */
   parent: string;
@@ -17514,7 +17513,8 @@ export const ListProjectsLocationsCollectionsDataStoresSchemasResponse = GoogleC
 
 export type ListProjectsLocationsCollectionsDataStoresSchemasError = CommonErrors;
 
-export const listProjectsLocationsCollectionsDataStoresSchemas = API.makePaginated(() => ({
+/** Gets a list of Schemas. */
+export const listProjectsLocationsCollectionsDataStoresSchemas: API.PaginatedOperationMethod<ListProjectsLocationsCollectionsDataStoresSchemasRequest, ListProjectsLocationsCollectionsDataStoresSchemasResponse, ListProjectsLocationsCollectionsDataStoresSchemasError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsDataStoresSchemasRequest,
   output: ListProjectsLocationsCollectionsDataStoresSchemasResponse,
   errors: [],
@@ -17524,7 +17524,6 @@ export const listProjectsLocationsCollectionsDataStoresSchemas = API.makePaginat
   },
 }));
 
-/** Deletes a Schema. */
 export interface DeleteProjectsLocationsCollectionsDataStoresSchemasRequest {
   /** Required. The full resource name of the schema, in the format of `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/schemas/{schema}`. */
   name: string;
@@ -17542,13 +17541,13 @@ export const DeleteProjectsLocationsCollectionsDataStoresSchemasResponse = Googl
 
 export type DeleteProjectsLocationsCollectionsDataStoresSchemasError = CommonErrors;
 
+/** Deletes a Schema. */
 export const deleteProjectsLocationsCollectionsDataStoresSchemas: API.OperationMethod<DeleteProjectsLocationsCollectionsDataStoresSchemasRequest, DeleteProjectsLocationsCollectionsDataStoresSchemasResponse, DeleteProjectsLocationsCollectionsDataStoresSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCollectionsDataStoresSchemasRequest,
   output: DeleteProjectsLocationsCollectionsDataStoresSchemasResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsCollectionsDataStoresSchemasOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -17566,13 +17565,13 @@ export const GetProjectsLocationsCollectionsDataStoresSchemasOperationsResponse 
 
 export type GetProjectsLocationsCollectionsDataStoresSchemasOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsCollectionsDataStoresSchemasOperations: API.OperationMethod<GetProjectsLocationsCollectionsDataStoresSchemasOperationsRequest, GetProjectsLocationsCollectionsDataStoresSchemasOperationsResponse, GetProjectsLocationsCollectionsDataStoresSchemasOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCollectionsDataStoresSchemasOperationsRequest,
   output: GetProjectsLocationsCollectionsDataStoresSchemasOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsCollectionsDataStoresSchemasOperationsRequest {
   /** The standard list page token. */
   pageToken?: string;
@@ -17602,7 +17601,8 @@ export const ListProjectsLocationsCollectionsDataStoresSchemasOperationsResponse
 
 export type ListProjectsLocationsCollectionsDataStoresSchemasOperationsError = CommonErrors;
 
-export const listProjectsLocationsCollectionsDataStoresSchemasOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsCollectionsDataStoresSchemasOperations: API.PaginatedOperationMethod<ListProjectsLocationsCollectionsDataStoresSchemasOperationsRequest, ListProjectsLocationsCollectionsDataStoresSchemasOperationsResponse, ListProjectsLocationsCollectionsDataStoresSchemasOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsDataStoresSchemasOperationsRequest,
   output: ListProjectsLocationsCollectionsDataStoresSchemasOperationsResponse,
   errors: [],
@@ -17612,7 +17612,6 @@ export const listProjectsLocationsCollectionsDataStoresSchemasOperations = API.m
   },
 }));
 
-/** Completes the user input with advanced keyword suggestions. */
 export interface CompleteQueryProjectsLocationsCollectionsDataStoresCompletionConfigRequest {
   /** Required. The completion_config of the parent dataStore or engine resource name for which the completion is performed, such as `projects/* /locations/global/collections/default_collection/dataStores/* /completionConfig` `projects/* /locations/global/collections/default_collection/engines/* /completionConfig`. */
   completionConfig: string;
@@ -17633,13 +17632,13 @@ export const CompleteQueryProjectsLocationsCollectionsDataStoresCompletionConfig
 
 export type CompleteQueryProjectsLocationsCollectionsDataStoresCompletionConfigError = CommonErrors;
 
+/** Completes the user input with advanced keyword suggestions. */
 export const completeQueryProjectsLocationsCollectionsDataStoresCompletionConfig: API.OperationMethod<CompleteQueryProjectsLocationsCollectionsDataStoresCompletionConfigRequest, CompleteQueryProjectsLocationsCollectionsDataStoresCompletionConfigResponse, CompleteQueryProjectsLocationsCollectionsDataStoresCompletionConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CompleteQueryProjectsLocationsCollectionsDataStoresCompletionConfigRequest,
   output: CompleteQueryProjectsLocationsCollectionsDataStoresCompletionConfigResponse,
   errors: [],
 }));
 
-/** Lists all the Engines associated with the project. */
 export interface ListProjectsLocationsCollectionsEnginesRequest {
   /** Optional. Not supported. */
   pageToken?: string;
@@ -17666,7 +17665,8 @@ export const ListProjectsLocationsCollectionsEnginesResponse = GoogleCloudDiscov
 
 export type ListProjectsLocationsCollectionsEnginesError = CommonErrors;
 
-export const listProjectsLocationsCollectionsEngines = API.makePaginated(() => ({
+/** Lists all the Engines associated with the project. */
+export const listProjectsLocationsCollectionsEngines: API.PaginatedOperationMethod<ListProjectsLocationsCollectionsEnginesRequest, ListProjectsLocationsCollectionsEnginesResponse, ListProjectsLocationsCollectionsEnginesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsEnginesRequest,
   output: ListProjectsLocationsCollectionsEnginesResponse,
   errors: [],
@@ -17676,7 +17676,6 @@ export const listProjectsLocationsCollectionsEngines = API.makePaginated(() => (
   },
 }));
 
-/** Gets an Engine. */
 export interface GetProjectsLocationsCollectionsEnginesRequest {
   /** Required. Full resource name of Engine, such as `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}`. */
   name: string;
@@ -17694,13 +17693,13 @@ export const GetProjectsLocationsCollectionsEnginesResponse = GoogleCloudDiscove
 
 export type GetProjectsLocationsCollectionsEnginesError = CommonErrors;
 
+/** Gets an Engine. */
 export const getProjectsLocationsCollectionsEngines: API.OperationMethod<GetProjectsLocationsCollectionsEnginesRequest, GetProjectsLocationsCollectionsEnginesResponse, GetProjectsLocationsCollectionsEnginesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCollectionsEnginesRequest,
   output: GetProjectsLocationsCollectionsEnginesResponse,
   errors: [],
 }));
 
-/** Creates an Engine. */
 export interface CreateProjectsLocationsCollectionsEnginesRequest {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}`. */
   parent: string;
@@ -17724,13 +17723,13 @@ export const CreateProjectsLocationsCollectionsEnginesResponse = GoogleLongrunni
 
 export type CreateProjectsLocationsCollectionsEnginesError = CommonErrors;
 
+/** Creates an Engine. */
 export const createProjectsLocationsCollectionsEngines: API.OperationMethod<CreateProjectsLocationsCollectionsEnginesRequest, CreateProjectsLocationsCollectionsEnginesResponse, CreateProjectsLocationsCollectionsEnginesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCollectionsEnginesRequest,
   output: CreateProjectsLocationsCollectionsEnginesResponse,
   errors: [],
 }));
 
-/** Sets the IAM access control policy for an Engine. A `NOT_FOUND` error is returned if the resource does not exist. **Important:** When setting a policy directly on an Engine resource, the only recommended roles in the bindings are: `roles/discoveryengine.user` and `roles/discoveryengine.agentspaceUser`. Attempting to grant any other role will result in a warning in logging. */
 export interface SetIamPolicyProjectsLocationsCollectionsEnginesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -17751,13 +17750,13 @@ export const SetIamPolicyProjectsLocationsCollectionsEnginesResponse = GoogleIam
 
 export type SetIamPolicyProjectsLocationsCollectionsEnginesError = CommonErrors;
 
+/** Sets the IAM access control policy for an Engine. A `NOT_FOUND` error is returned if the resource does not exist. **Important:** When setting a policy directly on an Engine resource, the only recommended roles in the bindings are: `roles/discoveryengine.user` and `roles/discoveryengine.agentspaceUser`. Attempting to grant any other role will result in a warning in logging. */
 export const setIamPolicyProjectsLocationsCollectionsEngines: API.OperationMethod<SetIamPolicyProjectsLocationsCollectionsEnginesRequest, SetIamPolicyProjectsLocationsCollectionsEnginesResponse, SetIamPolicyProjectsLocationsCollectionsEnginesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsCollectionsEnginesRequest,
   output: SetIamPolicyProjectsLocationsCollectionsEnginesResponse,
   errors: [],
 }));
 
-/** Updates an Engine */
 export interface PatchProjectsLocationsCollectionsEnginesRequest {
   /** Indicates which fields in the provided Engine to update. If an unsupported or unknown field is provided, an INVALID_ARGUMENT error is returned. */
   updateMask?: string;
@@ -17781,13 +17780,13 @@ export const PatchProjectsLocationsCollectionsEnginesResponse = GoogleCloudDisco
 
 export type PatchProjectsLocationsCollectionsEnginesError = CommonErrors;
 
+/** Updates an Engine */
 export const patchProjectsLocationsCollectionsEngines: API.OperationMethod<PatchProjectsLocationsCollectionsEnginesRequest, PatchProjectsLocationsCollectionsEnginesResponse, PatchProjectsLocationsCollectionsEnginesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCollectionsEnginesRequest,
   output: PatchProjectsLocationsCollectionsEnginesResponse,
   errors: [],
 }));
 
-/** Gets the IAM access control policy for an Engine. A `NOT_FOUND` error is returned if the resource does not exist. An empty policy is returned if the resource exists but does not have a policy set on it. */
 export interface GetIamPolicyProjectsLocationsCollectionsEnginesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -17808,13 +17807,13 @@ export const GetIamPolicyProjectsLocationsCollectionsEnginesResponse = GoogleIam
 
 export type GetIamPolicyProjectsLocationsCollectionsEnginesError = CommonErrors;
 
+/** Gets the IAM access control policy for an Engine. A `NOT_FOUND` error is returned if the resource does not exist. An empty policy is returned if the resource exists but does not have a policy set on it. */
 export const getIamPolicyProjectsLocationsCollectionsEngines: API.OperationMethod<GetIamPolicyProjectsLocationsCollectionsEnginesRequest, GetIamPolicyProjectsLocationsCollectionsEnginesResponse, GetIamPolicyProjectsLocationsCollectionsEnginesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsCollectionsEnginesRequest,
   output: GetIamPolicyProjectsLocationsCollectionsEnginesResponse,
   errors: [],
 }));
 
-/** Deletes an Engine. */
 export interface DeleteProjectsLocationsCollectionsEnginesRequest {
   /** Required. Full resource name of Engine, such as `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}`. If the caller does not have permission to delete the Engine, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the Engine to delete does not exist, a NOT_FOUND error is returned. */
   name: string;
@@ -17832,13 +17831,13 @@ export const DeleteProjectsLocationsCollectionsEnginesResponse = GoogleLongrunni
 
 export type DeleteProjectsLocationsCollectionsEnginesError = CommonErrors;
 
+/** Deletes an Engine. */
 export const deleteProjectsLocationsCollectionsEngines: API.OperationMethod<DeleteProjectsLocationsCollectionsEnginesRequest, DeleteProjectsLocationsCollectionsEnginesResponse, DeleteProjectsLocationsCollectionsEnginesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCollectionsEnginesRequest,
   output: DeleteProjectsLocationsCollectionsEnginesResponse,
   errors: [],
 }));
 
-/** Gets a WidgetConfig. */
 export interface GetProjectsLocationsCollectionsEnginesWidgetConfigsRequest {
   /** Required. Full WidgetConfig resource name. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}/widgetConfigs/{widget_config_id}` */
   name: string;
@@ -17862,13 +17861,13 @@ export const GetProjectsLocationsCollectionsEnginesWidgetConfigsResponse = Googl
 
 export type GetProjectsLocationsCollectionsEnginesWidgetConfigsError = CommonErrors;
 
+/** Gets a WidgetConfig. */
 export const getProjectsLocationsCollectionsEnginesWidgetConfigs: API.OperationMethod<GetProjectsLocationsCollectionsEnginesWidgetConfigsRequest, GetProjectsLocationsCollectionsEnginesWidgetConfigsResponse, GetProjectsLocationsCollectionsEnginesWidgetConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCollectionsEnginesWidgetConfigsRequest,
   output: GetProjectsLocationsCollectionsEnginesWidgetConfigsResponse,
   errors: [],
 }));
 
-/** Update a WidgetConfig. */
 export interface PatchProjectsLocationsCollectionsEnginesWidgetConfigsRequest {
   /** Indicates which fields in the provided WidgetConfig to update. The following are the only supported fields: * WidgetConfig.enable_autocomplete If not set, all supported fields are updated. */
   updateMask?: string;
@@ -17892,13 +17891,13 @@ export const PatchProjectsLocationsCollectionsEnginesWidgetConfigsResponse = Goo
 
 export type PatchProjectsLocationsCollectionsEnginesWidgetConfigsError = CommonErrors;
 
+/** Update a WidgetConfig. */
 export const patchProjectsLocationsCollectionsEnginesWidgetConfigs: API.OperationMethod<PatchProjectsLocationsCollectionsEnginesWidgetConfigsRequest, PatchProjectsLocationsCollectionsEnginesWidgetConfigsResponse, PatchProjectsLocationsCollectionsEnginesWidgetConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCollectionsEnginesWidgetConfigsRequest,
   output: PatchProjectsLocationsCollectionsEnginesWidgetConfigsResponse,
   errors: [],
 }));
 
-/** Updates a Control. Control action type cannot be changed. If the Control to update does not exist, a NOT_FOUND error is returned. */
 export interface PatchProjectsLocationsCollectionsEnginesControlsRequest {
   /** Optional. Indicates which fields in the provided Control to update. The following are NOT supported: * Control.name * Control.solution_type If not set or empty, all supported fields are updated. */
   updateMask?: string;
@@ -17922,13 +17921,13 @@ export const PatchProjectsLocationsCollectionsEnginesControlsResponse = GoogleCl
 
 export type PatchProjectsLocationsCollectionsEnginesControlsError = CommonErrors;
 
+/** Updates a Control. Control action type cannot be changed. If the Control to update does not exist, a NOT_FOUND error is returned. */
 export const patchProjectsLocationsCollectionsEnginesControls: API.OperationMethod<PatchProjectsLocationsCollectionsEnginesControlsRequest, PatchProjectsLocationsCollectionsEnginesControlsResponse, PatchProjectsLocationsCollectionsEnginesControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCollectionsEnginesControlsRequest,
   output: PatchProjectsLocationsCollectionsEnginesControlsResponse,
   errors: [],
 }));
 
-/** Gets a Control. */
 export interface GetProjectsLocationsCollectionsEnginesControlsRequest {
   /** Required. The resource name of the Control to get. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}/controls/{control_id}` */
   name: string;
@@ -17946,13 +17945,13 @@ export const GetProjectsLocationsCollectionsEnginesControlsResponse = GoogleClou
 
 export type GetProjectsLocationsCollectionsEnginesControlsError = CommonErrors;
 
+/** Gets a Control. */
 export const getProjectsLocationsCollectionsEnginesControls: API.OperationMethod<GetProjectsLocationsCollectionsEnginesControlsRequest, GetProjectsLocationsCollectionsEnginesControlsResponse, GetProjectsLocationsCollectionsEnginesControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCollectionsEnginesControlsRequest,
   output: GetProjectsLocationsCollectionsEnginesControlsResponse,
   errors: [],
 }));
 
-/** Creates a Control. By default 1000 controls are allowed for a data store. A request can be submitted to adjust this limit. If the Control to create already exists, an ALREADY_EXISTS error is returned. */
 export interface CreateProjectsLocationsCollectionsEnginesControlsRequest {
   /** Required. The ID to use for the Control, which will become the final component of the Control's resource name. This value must be within 1-63 characters. Valid characters are /a-z-_/. */
   controlId?: string;
@@ -17976,13 +17975,13 @@ export const CreateProjectsLocationsCollectionsEnginesControlsResponse = GoogleC
 
 export type CreateProjectsLocationsCollectionsEnginesControlsError = CommonErrors;
 
+/** Creates a Control. By default 1000 controls are allowed for a data store. A request can be submitted to adjust this limit. If the Control to create already exists, an ALREADY_EXISTS error is returned. */
 export const createProjectsLocationsCollectionsEnginesControls: API.OperationMethod<CreateProjectsLocationsCollectionsEnginesControlsRequest, CreateProjectsLocationsCollectionsEnginesControlsResponse, CreateProjectsLocationsCollectionsEnginesControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCollectionsEnginesControlsRequest,
   output: CreateProjectsLocationsCollectionsEnginesControlsResponse,
   errors: [],
 }));
 
-/** Deletes a Control. If the Control to delete does not exist, a NOT_FOUND error is returned. */
 export interface DeleteProjectsLocationsCollectionsEnginesControlsRequest {
   /** Required. The resource name of the Control to delete. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}/controls/{control_id}` */
   name: string;
@@ -18000,13 +17999,13 @@ export const DeleteProjectsLocationsCollectionsEnginesControlsResponse = GoogleP
 
 export type DeleteProjectsLocationsCollectionsEnginesControlsError = CommonErrors;
 
+/** Deletes a Control. If the Control to delete does not exist, a NOT_FOUND error is returned. */
 export const deleteProjectsLocationsCollectionsEnginesControls: API.OperationMethod<DeleteProjectsLocationsCollectionsEnginesControlsRequest, DeleteProjectsLocationsCollectionsEnginesControlsResponse, DeleteProjectsLocationsCollectionsEnginesControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCollectionsEnginesControlsRequest,
   output: DeleteProjectsLocationsCollectionsEnginesControlsResponse,
   errors: [],
 }));
 
-/** Lists all Controls by their parent DataStore. */
 export interface ListProjectsLocationsCollectionsEnginesControlsRequest {
   /** Optional. Maximum number of results to return. If unspecified, defaults to 50. Max allowed value is 1000. */
   pageSize?: number;
@@ -18033,7 +18032,8 @@ export const ListProjectsLocationsCollectionsEnginesControlsResponse = GoogleClo
 
 export type ListProjectsLocationsCollectionsEnginesControlsError = CommonErrors;
 
-export const listProjectsLocationsCollectionsEnginesControls = API.makePaginated(() => ({
+/** Lists all Controls by their parent DataStore. */
+export const listProjectsLocationsCollectionsEnginesControls: API.PaginatedOperationMethod<ListProjectsLocationsCollectionsEnginesControlsRequest, ListProjectsLocationsCollectionsEnginesControlsResponse, ListProjectsLocationsCollectionsEnginesControlsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsEnginesControlsRequest,
   output: ListProjectsLocationsCollectionsEnginesControlsResponse,
   errors: [],
@@ -18043,7 +18043,6 @@ export const listProjectsLocationsCollectionsEnginesControls = API.makePaginated
   },
 }));
 
-/** Completes the user input with advanced keyword suggestions. */
 export interface CompleteQueryProjectsLocationsCollectionsEnginesCompletionConfigRequest {
   /** Required. The completion_config of the parent dataStore or engine resource name for which the completion is performed, such as `projects/* /locations/global/collections/default_collection/dataStores/* /completionConfig` `projects/* /locations/global/collections/default_collection/engines/* /completionConfig`. */
   completionConfig: string;
@@ -18064,13 +18063,13 @@ export const CompleteQueryProjectsLocationsCollectionsEnginesCompletionConfigRes
 
 export type CompleteQueryProjectsLocationsCollectionsEnginesCompletionConfigError = CommonErrors;
 
+/** Completes the user input with advanced keyword suggestions. */
 export const completeQueryProjectsLocationsCollectionsEnginesCompletionConfig: API.OperationMethod<CompleteQueryProjectsLocationsCollectionsEnginesCompletionConfigRequest, CompleteQueryProjectsLocationsCollectionsEnginesCompletionConfigResponse, CompleteQueryProjectsLocationsCollectionsEnginesCompletionConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CompleteQueryProjectsLocationsCollectionsEnginesCompletionConfigRequest,
   output: CompleteQueryProjectsLocationsCollectionsEnginesCompletionConfigResponse,
   errors: [],
 }));
 
-/** Updates an Assistant */
 export interface PatchProjectsLocationsCollectionsEnginesAssistantsRequest {
   /** The list of fields to update. */
   updateMask?: string;
@@ -18094,13 +18093,13 @@ export const PatchProjectsLocationsCollectionsEnginesAssistantsResponse = Google
 
 export type PatchProjectsLocationsCollectionsEnginesAssistantsError = CommonErrors;
 
+/** Updates an Assistant */
 export const patchProjectsLocationsCollectionsEnginesAssistants: API.OperationMethod<PatchProjectsLocationsCollectionsEnginesAssistantsRequest, PatchProjectsLocationsCollectionsEnginesAssistantsResponse, PatchProjectsLocationsCollectionsEnginesAssistantsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCollectionsEnginesAssistantsRequest,
   output: PatchProjectsLocationsCollectionsEnginesAssistantsResponse,
   errors: [],
 }));
 
-/** Deletes an Assistant. */
 export interface DeleteProjectsLocationsCollectionsEnginesAssistantsRequest {
   /** Required. Resource name of Assistant. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}` If the caller does not have permission to delete the Assistant, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the Assistant to delete does not exist, a NOT_FOUND error is returned. */
   name: string;
@@ -18118,13 +18117,13 @@ export const DeleteProjectsLocationsCollectionsEnginesAssistantsResponse = Googl
 
 export type DeleteProjectsLocationsCollectionsEnginesAssistantsError = CommonErrors;
 
+/** Deletes an Assistant. */
 export const deleteProjectsLocationsCollectionsEnginesAssistants: API.OperationMethod<DeleteProjectsLocationsCollectionsEnginesAssistantsRequest, DeleteProjectsLocationsCollectionsEnginesAssistantsResponse, DeleteProjectsLocationsCollectionsEnginesAssistantsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCollectionsEnginesAssistantsRequest,
   output: DeleteProjectsLocationsCollectionsEnginesAssistantsResponse,
   errors: [],
 }));
 
-/** Creates an Assistant. */
 export interface CreateProjectsLocationsCollectionsEnginesAssistantsRequest {
   /** Required. The ID to use for the Assistant, which will become the final component of the Assistant's resource name. This field must conform to [RFC-1034](https://tools.ietf.org/html/rfc1034) with a length limit of 63 characters. */
   assistantId?: string;
@@ -18148,13 +18147,13 @@ export const CreateProjectsLocationsCollectionsEnginesAssistantsResponse = Googl
 
 export type CreateProjectsLocationsCollectionsEnginesAssistantsError = CommonErrors;
 
+/** Creates an Assistant. */
 export const createProjectsLocationsCollectionsEnginesAssistants: API.OperationMethod<CreateProjectsLocationsCollectionsEnginesAssistantsRequest, CreateProjectsLocationsCollectionsEnginesAssistantsResponse, CreateProjectsLocationsCollectionsEnginesAssistantsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCollectionsEnginesAssistantsRequest,
   output: CreateProjectsLocationsCollectionsEnginesAssistantsResponse,
   errors: [],
 }));
 
-/** Gets an Assistant. */
 export interface GetProjectsLocationsCollectionsEnginesAssistantsRequest {
   /** Required. Resource name of Assistant. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}` */
   name: string;
@@ -18172,13 +18171,13 @@ export const GetProjectsLocationsCollectionsEnginesAssistantsResponse = GoogleCl
 
 export type GetProjectsLocationsCollectionsEnginesAssistantsError = CommonErrors;
 
+/** Gets an Assistant. */
 export const getProjectsLocationsCollectionsEnginesAssistants: API.OperationMethod<GetProjectsLocationsCollectionsEnginesAssistantsRequest, GetProjectsLocationsCollectionsEnginesAssistantsResponse, GetProjectsLocationsCollectionsEnginesAssistantsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCollectionsEnginesAssistantsRequest,
   output: GetProjectsLocationsCollectionsEnginesAssistantsResponse,
   errors: [],
 }));
 
-/** Assists the user with a query in a streaming fashion. */
 export interface StreamAssistProjectsLocationsCollectionsEnginesAssistantsRequest {
   /** Required. The resource name of the Assistant. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}` */
   name: string;
@@ -18199,13 +18198,13 @@ export const StreamAssistProjectsLocationsCollectionsEnginesAssistantsResponse =
 
 export type StreamAssistProjectsLocationsCollectionsEnginesAssistantsError = CommonErrors;
 
+/** Assists the user with a query in a streaming fashion. */
 export const streamAssistProjectsLocationsCollectionsEnginesAssistants: API.OperationMethod<StreamAssistProjectsLocationsCollectionsEnginesAssistantsRequest, StreamAssistProjectsLocationsCollectionsEnginesAssistantsResponse, StreamAssistProjectsLocationsCollectionsEnginesAssistantsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StreamAssistProjectsLocationsCollectionsEnginesAssistantsRequest,
   output: StreamAssistProjectsLocationsCollectionsEnginesAssistantsResponse,
   errors: [],
 }));
 
-/** Lists all Assistants under an Engine. */
 export interface ListProjectsLocationsCollectionsEnginesAssistantsRequest {
   /** A page token ListAssistantsResponse.next_page_token, received from a previous AssistantService.ListAssistants call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to ListAssistants must match the call that provided the page token. */
   pageToken?: string;
@@ -18229,7 +18228,8 @@ export const ListProjectsLocationsCollectionsEnginesAssistantsResponse = GoogleC
 
 export type ListProjectsLocationsCollectionsEnginesAssistantsError = CommonErrors;
 
-export const listProjectsLocationsCollectionsEnginesAssistants = API.makePaginated(() => ({
+/** Lists all Assistants under an Engine. */
+export const listProjectsLocationsCollectionsEnginesAssistants: API.PaginatedOperationMethod<ListProjectsLocationsCollectionsEnginesAssistantsRequest, ListProjectsLocationsCollectionsEnginesAssistantsResponse, ListProjectsLocationsCollectionsEnginesAssistantsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsEnginesAssistantsRequest,
   output: ListProjectsLocationsCollectionsEnginesAssistantsResponse,
   errors: [],
@@ -18239,7 +18239,6 @@ export const listProjectsLocationsCollectionsEnginesAssistants = API.makePaginat
   },
 }));
 
-/** GetAgentCard returns the agent card for the agent. */
 export interface GetCardProjectsLocationsCollectionsEnginesAssistantsAgentsRequest {
   /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
   tenant: string;
@@ -18257,13 +18256,13 @@ export const GetCardProjectsLocationsCollectionsEnginesAssistantsAgentsResponse 
 
 export type GetCardProjectsLocationsCollectionsEnginesAssistantsAgentsError = CommonErrors;
 
+/** GetAgentCard returns the agent card for the agent. */
 export const getCardProjectsLocationsCollectionsEnginesAssistantsAgents: API.OperationMethod<GetCardProjectsLocationsCollectionsEnginesAssistantsAgentsRequest, GetCardProjectsLocationsCollectionsEnginesAssistantsAgentsResponse, GetCardProjectsLocationsCollectionsEnginesAssistantsAgentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCardProjectsLocationsCollectionsEnginesAssistantsAgentsRequest,
   output: GetCardProjectsLocationsCollectionsEnginesAssistantsAgentsResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsCollectionsEnginesAssistantsAgentsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -18281,13 +18280,13 @@ export const GetProjectsLocationsCollectionsEnginesAssistantsAgentsOperationsRes
 
 export type GetProjectsLocationsCollectionsEnginesAssistantsAgentsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsCollectionsEnginesAssistantsAgentsOperations: API.OperationMethod<GetProjectsLocationsCollectionsEnginesAssistantsAgentsOperationsRequest, GetProjectsLocationsCollectionsEnginesAssistantsAgentsOperationsResponse, GetProjectsLocationsCollectionsEnginesAssistantsAgentsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCollectionsEnginesAssistantsAgentsOperationsRequest,
   output: GetProjectsLocationsCollectionsEnginesAssistantsAgentsOperationsResponse,
   errors: [],
 }));
 
-/** SendStreamingMessage is a streaming call that will return a stream of task update events until the Task is in an interrupted or terminal state. */
 export interface StreamProjectsLocationsCollectionsEnginesAssistantsAgentsMessageRequest {
   /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
   tenant: string;
@@ -18308,13 +18307,13 @@ export const StreamProjectsLocationsCollectionsEnginesAssistantsAgentsMessageRes
 
 export type StreamProjectsLocationsCollectionsEnginesAssistantsAgentsMessageError = CommonErrors;
 
+/** SendStreamingMessage is a streaming call that will return a stream of task update events until the Task is in an interrupted or terminal state. */
 export const streamProjectsLocationsCollectionsEnginesAssistantsAgentsMessage: API.OperationMethod<StreamProjectsLocationsCollectionsEnginesAssistantsAgentsMessageRequest, StreamProjectsLocationsCollectionsEnginesAssistantsAgentsMessageResponse, StreamProjectsLocationsCollectionsEnginesAssistantsAgentsMessageError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StreamProjectsLocationsCollectionsEnginesAssistantsAgentsMessageRequest,
   output: StreamProjectsLocationsCollectionsEnginesAssistantsAgentsMessageResponse,
   errors: [],
 }));
 
-/** Send a message to the agent. This is a blocking call that will return the task once it is completed, or a LRO if requested. */
 export interface SendProjectsLocationsCollectionsEnginesAssistantsAgentsMessageRequest {
   /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
   tenant: string;
@@ -18335,13 +18334,13 @@ export const SendProjectsLocationsCollectionsEnginesAssistantsAgentsMessageRespo
 
 export type SendProjectsLocationsCollectionsEnginesAssistantsAgentsMessageError = CommonErrors;
 
+/** Send a message to the agent. This is a blocking call that will return the task once it is completed, or a LRO if requested. */
 export const sendProjectsLocationsCollectionsEnginesAssistantsAgentsMessage: API.OperationMethod<SendProjectsLocationsCollectionsEnginesAssistantsAgentsMessageRequest, SendProjectsLocationsCollectionsEnginesAssistantsAgentsMessageResponse, SendProjectsLocationsCollectionsEnginesAssistantsAgentsMessageError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SendProjectsLocationsCollectionsEnginesAssistantsAgentsMessageRequest,
   output: SendProjectsLocationsCollectionsEnginesAssistantsAgentsMessageResponse,
   errors: [],
 }));
 
-/** Get the current state of a task from the agent. */
 export interface GetProjectsLocationsCollectionsEnginesAssistantsAgentsTasksRequest {
   /** Required. The resource name of the task. Format: tasks/{task_id} */
   name: string;
@@ -18365,13 +18364,13 @@ export const GetProjectsLocationsCollectionsEnginesAssistantsAgentsTasksResponse
 
 export type GetProjectsLocationsCollectionsEnginesAssistantsAgentsTasksError = CommonErrors;
 
+/** Get the current state of a task from the agent. */
 export const getProjectsLocationsCollectionsEnginesAssistantsAgentsTasks: API.OperationMethod<GetProjectsLocationsCollectionsEnginesAssistantsAgentsTasksRequest, GetProjectsLocationsCollectionsEnginesAssistantsAgentsTasksResponse, GetProjectsLocationsCollectionsEnginesAssistantsAgentsTasksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCollectionsEnginesAssistantsAgentsTasksRequest,
   output: GetProjectsLocationsCollectionsEnginesAssistantsAgentsTasksResponse,
   errors: [],
 }));
 
-/** Cancel a task from the agent. If supported one should expect no more task updates for the task. */
 export interface CancelProjectsLocationsCollectionsEnginesAssistantsAgentsTasksRequest {
   /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
   tenant: string;
@@ -18395,13 +18394,13 @@ export const CancelProjectsLocationsCollectionsEnginesAssistantsAgentsTasksRespo
 
 export type CancelProjectsLocationsCollectionsEnginesAssistantsAgentsTasksError = CommonErrors;
 
+/** Cancel a task from the agent. If supported one should expect no more task updates for the task. */
 export const cancelProjectsLocationsCollectionsEnginesAssistantsAgentsTasks: API.OperationMethod<CancelProjectsLocationsCollectionsEnginesAssistantsAgentsTasksRequest, CancelProjectsLocationsCollectionsEnginesAssistantsAgentsTasksResponse, CancelProjectsLocationsCollectionsEnginesAssistantsAgentsTasksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsCollectionsEnginesAssistantsAgentsTasksRequest,
   output: CancelProjectsLocationsCollectionsEnginesAssistantsAgentsTasksResponse,
   errors: [],
 }));
 
-/** TaskSubscription is a streaming call that will return a stream of task update events. This attaches the stream to an existing in process task. If the task is complete the stream will return the completed task (like GetTask) and close the stream. */
 export interface SubscribeProjectsLocationsCollectionsEnginesAssistantsAgentsTasksRequest {
   /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
   tenant: string;
@@ -18422,13 +18421,13 @@ export const SubscribeProjectsLocationsCollectionsEnginesAssistantsAgentsTasksRe
 
 export type SubscribeProjectsLocationsCollectionsEnginesAssistantsAgentsTasksError = CommonErrors;
 
+/** TaskSubscription is a streaming call that will return a stream of task update events. This attaches the stream to an existing in process task. If the task is complete the stream will return the completed task (like GetTask) and close the stream. */
 export const subscribeProjectsLocationsCollectionsEnginesAssistantsAgentsTasks: API.OperationMethod<SubscribeProjectsLocationsCollectionsEnginesAssistantsAgentsTasksRequest, SubscribeProjectsLocationsCollectionsEnginesAssistantsAgentsTasksResponse, SubscribeProjectsLocationsCollectionsEnginesAssistantsAgentsTasksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SubscribeProjectsLocationsCollectionsEnginesAssistantsAgentsTasksRequest,
   output: SubscribeProjectsLocationsCollectionsEnginesAssistantsAgentsTasksResponse,
   errors: [],
 }));
 
-/** Get a list of push notifications configured for a task. */
 export interface ListProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigsRequest {
   /** A page token received from a previous ListTaskPushNotificationConfigRequest call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListTaskPushNotificationConfigRequest` must match the call that provided the page token. */
   pageToken?: string;
@@ -18455,7 +18454,8 @@ export const ListProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNot
 
 export type ListProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigsError = CommonErrors;
 
-export const listProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigs = API.makePaginated(() => ({
+/** Get a list of push notifications configured for a task. */
+export const listProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigs: API.PaginatedOperationMethod<ListProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigsRequest, ListProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigsResponse, ListProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigsRequest,
   output: ListProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigsResponse,
   errors: [],
@@ -18465,7 +18465,6 @@ export const listProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNot
   },
 }));
 
-/** Delete a push notification config for a task. */
 export interface DeleteProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigsRequest {
   /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
   tenant: string;
@@ -18486,13 +18485,13 @@ export const DeleteProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushN
 
 export type DeleteProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigsError = CommonErrors;
 
+/** Delete a push notification config for a task. */
 export const deleteProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigs: API.OperationMethod<DeleteProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigsRequest, DeleteProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigsResponse, DeleteProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigsRequest,
   output: DeleteProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigsResponse,
   errors: [],
 }));
 
-/** Set a push notification config for a task. */
 export interface CreateProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigsRequest {
   /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
   tenant: string;
@@ -18519,13 +18518,13 @@ export const CreateProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushN
 
 export type CreateProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigsError = CommonErrors;
 
+/** Set a push notification config for a task. */
 export const createProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigs: API.OperationMethod<CreateProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigsRequest, CreateProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigsResponse, CreateProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigsRequest,
   output: CreateProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigsResponse,
   errors: [],
 }));
 
-/** Get a push notification config for a task. */
 export interface GetProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigsRequest {
   /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
   tenant: string;
@@ -18546,13 +18545,13 @@ export const GetProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNoti
 
 export type GetProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigsError = CommonErrors;
 
+/** Get a push notification config for a task. */
 export const getProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigs: API.OperationMethod<GetProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigsRequest, GetProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigsResponse, GetProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigsRequest,
   output: GetProjectsLocationsCollectionsEnginesAssistantsAgentsTasksPushNotificationConfigsResponse,
   errors: [],
 }));
 
-/** Creates a Session. If the Session to create already exists, an ALREADY_EXISTS error is returned. */
 export interface CreateProjectsLocationsCollectionsEnginesSessionsRequest {
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
@@ -18573,13 +18572,13 @@ export const CreateProjectsLocationsCollectionsEnginesSessionsResponse = GoogleC
 
 export type CreateProjectsLocationsCollectionsEnginesSessionsError = CommonErrors;
 
+/** Creates a Session. If the Session to create already exists, an ALREADY_EXISTS error is returned. */
 export const createProjectsLocationsCollectionsEnginesSessions: API.OperationMethod<CreateProjectsLocationsCollectionsEnginesSessionsRequest, CreateProjectsLocationsCollectionsEnginesSessionsResponse, CreateProjectsLocationsCollectionsEnginesSessionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCollectionsEnginesSessionsRequest,
   output: CreateProjectsLocationsCollectionsEnginesSessionsResponse,
   errors: [],
 }));
 
-/** Gets a Session. */
 export interface GetProjectsLocationsCollectionsEnginesSessionsRequest {
   /** Required. The resource name of the Session to get. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/sessions/{session_id}` */
   name: string;
@@ -18600,13 +18599,13 @@ export const GetProjectsLocationsCollectionsEnginesSessionsResponse = GoogleClou
 
 export type GetProjectsLocationsCollectionsEnginesSessionsError = CommonErrors;
 
+/** Gets a Session. */
 export const getProjectsLocationsCollectionsEnginesSessions: API.OperationMethod<GetProjectsLocationsCollectionsEnginesSessionsRequest, GetProjectsLocationsCollectionsEnginesSessionsResponse, GetProjectsLocationsCollectionsEnginesSessionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCollectionsEnginesSessionsRequest,
   output: GetProjectsLocationsCollectionsEnginesSessionsResponse,
   errors: [],
 }));
 
-/** Deletes a Session. If the Session to delete does not exist, a NOT_FOUND error is returned. */
 export interface DeleteProjectsLocationsCollectionsEnginesSessionsRequest {
   /** Required. The resource name of the Session to delete. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/sessions/{session_id}` */
   name: string;
@@ -18624,13 +18623,13 @@ export const DeleteProjectsLocationsCollectionsEnginesSessionsResponse = GoogleP
 
 export type DeleteProjectsLocationsCollectionsEnginesSessionsError = CommonErrors;
 
+/** Deletes a Session. If the Session to delete does not exist, a NOT_FOUND error is returned. */
 export const deleteProjectsLocationsCollectionsEnginesSessions: API.OperationMethod<DeleteProjectsLocationsCollectionsEnginesSessionsRequest, DeleteProjectsLocationsCollectionsEnginesSessionsResponse, DeleteProjectsLocationsCollectionsEnginesSessionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCollectionsEnginesSessionsRequest,
   output: DeleteProjectsLocationsCollectionsEnginesSessionsResponse,
   errors: [],
 }));
 
-/** Updates a Session. Session action type cannot be changed. If the Session to update does not exist, a NOT_FOUND error is returned. */
 export interface PatchProjectsLocationsCollectionsEnginesSessionsRequest {
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/engines/{engine}/sessions/*` */
   name: string;
@@ -18654,13 +18653,13 @@ export const PatchProjectsLocationsCollectionsEnginesSessionsResponse = GoogleCl
 
 export type PatchProjectsLocationsCollectionsEnginesSessionsError = CommonErrors;
 
+/** Updates a Session. Session action type cannot be changed. If the Session to update does not exist, a NOT_FOUND error is returned. */
 export const patchProjectsLocationsCollectionsEnginesSessions: API.OperationMethod<PatchProjectsLocationsCollectionsEnginesSessionsRequest, PatchProjectsLocationsCollectionsEnginesSessionsResponse, PatchProjectsLocationsCollectionsEnginesSessionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCollectionsEnginesSessionsRequest,
   output: PatchProjectsLocationsCollectionsEnginesSessionsResponse,
   errors: [],
 }));
 
-/** Lists all Sessions by their parent DataStore. */
 export interface ListProjectsLocationsCollectionsEnginesSessionsRequest {
   /** A comma-separated list of fields to filter by, in EBNF grammar. The supported fields are: * `user_pseudo_id` * `state` * `display_name` * `starred` * `is_pinned` * `labels` * `create_time` * `update_time` * `collaborative_project` Examples: * `user_pseudo_id = some_id` * `display_name = "some_name"` * `starred = true` * `is_pinned=true AND (NOT labels:hidden)` * `create_time > "1970-01-01T12:00:00Z"` * `collaborative_project = "projects/123/locations/global/collections/default_collection/engines/" "default_engine/collaborative_projects/cp1"` */
   filter?: string;
@@ -18690,7 +18689,8 @@ export const ListProjectsLocationsCollectionsEnginesSessionsResponse = GoogleClo
 
 export type ListProjectsLocationsCollectionsEnginesSessionsError = CommonErrors;
 
-export const listProjectsLocationsCollectionsEnginesSessions = API.makePaginated(() => ({
+/** Lists all Sessions by their parent DataStore. */
+export const listProjectsLocationsCollectionsEnginesSessions: API.PaginatedOperationMethod<ListProjectsLocationsCollectionsEnginesSessionsRequest, ListProjectsLocationsCollectionsEnginesSessionsResponse, ListProjectsLocationsCollectionsEnginesSessionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsEnginesSessionsRequest,
   output: ListProjectsLocationsCollectionsEnginesSessionsResponse,
   errors: [],
@@ -18700,7 +18700,6 @@ export const listProjectsLocationsCollectionsEnginesSessions = API.makePaginated
   },
 }));
 
-/** Gets a Answer. */
 export interface GetProjectsLocationsCollectionsEnginesSessionsAnswersRequest {
   /** Required. The resource name of the Answer to get. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine_id}/sessions/{session_id}/answers/{answer_id}` */
   name: string;
@@ -18718,13 +18717,13 @@ export const GetProjectsLocationsCollectionsEnginesSessionsAnswersResponse = Goo
 
 export type GetProjectsLocationsCollectionsEnginesSessionsAnswersError = CommonErrors;
 
+/** Gets a Answer. */
 export const getProjectsLocationsCollectionsEnginesSessionsAnswers: API.OperationMethod<GetProjectsLocationsCollectionsEnginesSessionsAnswersRequest, GetProjectsLocationsCollectionsEnginesSessionsAnswersResponse, GetProjectsLocationsCollectionsEnginesSessionsAnswersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCollectionsEnginesSessionsAnswersRequest,
   output: GetProjectsLocationsCollectionsEnginesSessionsAnswersResponse,
   errors: [],
 }));
 
-/** Lists all ServingConfigs linked to this dataStore. */
 export interface ListProjectsLocationsCollectionsEnginesServingConfigsRequest {
   /** Required. Full resource name of the parent resource. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}` */
   parent: string;
@@ -18748,7 +18747,8 @@ export const ListProjectsLocationsCollectionsEnginesServingConfigsResponse = Goo
 
 export type ListProjectsLocationsCollectionsEnginesServingConfigsError = CommonErrors;
 
-export const listProjectsLocationsCollectionsEnginesServingConfigs = API.makePaginated(() => ({
+/** Lists all ServingConfigs linked to this dataStore. */
+export const listProjectsLocationsCollectionsEnginesServingConfigs: API.PaginatedOperationMethod<ListProjectsLocationsCollectionsEnginesServingConfigsRequest, ListProjectsLocationsCollectionsEnginesServingConfigsResponse, ListProjectsLocationsCollectionsEnginesServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsEnginesServingConfigsRequest,
   output: ListProjectsLocationsCollectionsEnginesServingConfigsResponse,
   errors: [],
@@ -18758,7 +18758,6 @@ export const listProjectsLocationsCollectionsEnginesServingConfigs = API.makePag
   },
 }));
 
-/** Makes a recommendation, which requires a contextual user event. */
 export interface RecommendProjectsLocationsCollectionsEnginesServingConfigsRequest {
   /** Required. Full resource name of a ServingConfig: `projects/* /locations/global/collections/* /engines/* /servingConfigs/*`, or `projects/* /locations/global/collections/* /dataStores/* /servingConfigs/*` One default serving config is created along with your recommendation engine creation. The engine ID is used as the ID of the default serving config. For example, for Engine `projects/* /locations/global/collections/* /engines/my-engine`, you can use `projects/* /locations/global/collections/* /engines/my-engine/servingConfigs/my-engine` for your RecommendationService.Recommend requests. */
   servingConfig: string;
@@ -18779,13 +18778,13 @@ export const RecommendProjectsLocationsCollectionsEnginesServingConfigsResponse 
 
 export type RecommendProjectsLocationsCollectionsEnginesServingConfigsError = CommonErrors;
 
+/** Makes a recommendation, which requires a contextual user event. */
 export const recommendProjectsLocationsCollectionsEnginesServingConfigs: API.OperationMethod<RecommendProjectsLocationsCollectionsEnginesServingConfigsRequest, RecommendProjectsLocationsCollectionsEnginesServingConfigsResponse, RecommendProjectsLocationsCollectionsEnginesServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RecommendProjectsLocationsCollectionsEnginesServingConfigsRequest,
   output: RecommendProjectsLocationsCollectionsEnginesServingConfigsResponse,
   errors: [],
 }));
 
-/** Creates a ServingConfig. Note: The Google Cloud console works only with the default serving config. Additional ServingConfigs can be created and managed only via the API. A maximum of 100 ServingConfigs are allowed in an Engine, otherwise a RESOURCE_EXHAUSTED error is returned. */
 export interface CreateProjectsLocationsCollectionsEnginesServingConfigsRequest {
   /** Required. The ID to use for the ServingConfig, which will become the final component of the ServingConfig's resource name. This value should be 4-63 characters, and valid characters are /a-zA-Z0-9+/. */
   servingConfigId?: string;
@@ -18809,13 +18808,13 @@ export const CreateProjectsLocationsCollectionsEnginesServingConfigsResponse = G
 
 export type CreateProjectsLocationsCollectionsEnginesServingConfigsError = CommonErrors;
 
+/** Creates a ServingConfig. Note: The Google Cloud console works only with the default serving config. Additional ServingConfigs can be created and managed only via the API. A maximum of 100 ServingConfigs are allowed in an Engine, otherwise a RESOURCE_EXHAUSTED error is returned. */
 export const createProjectsLocationsCollectionsEnginesServingConfigs: API.OperationMethod<CreateProjectsLocationsCollectionsEnginesServingConfigsRequest, CreateProjectsLocationsCollectionsEnginesServingConfigsResponse, CreateProjectsLocationsCollectionsEnginesServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCollectionsEnginesServingConfigsRequest,
   output: CreateProjectsLocationsCollectionsEnginesServingConfigsResponse,
   errors: [],
 }));
 
-/** Gets a ServingConfig. Returns a NotFound error if the ServingConfig does not exist. */
 export interface GetProjectsLocationsCollectionsEnginesServingConfigsRequest {
   /** Required. The resource name of the ServingConfig to get. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/servingConfigs/{serving_config_id}` */
   name: string;
@@ -18833,13 +18832,13 @@ export const GetProjectsLocationsCollectionsEnginesServingConfigsResponse = Goog
 
 export type GetProjectsLocationsCollectionsEnginesServingConfigsError = CommonErrors;
 
+/** Gets a ServingConfig. Returns a NotFound error if the ServingConfig does not exist. */
 export const getProjectsLocationsCollectionsEnginesServingConfigs: API.OperationMethod<GetProjectsLocationsCollectionsEnginesServingConfigsRequest, GetProjectsLocationsCollectionsEnginesServingConfigsResponse, GetProjectsLocationsCollectionsEnginesServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCollectionsEnginesServingConfigsRequest,
   output: GetProjectsLocationsCollectionsEnginesServingConfigsResponse,
   errors: [],
 }));
 
-/** Performs a search. Similar to the SearchService.Search method, but a lite version that allows API key for authentication, where OAuth and IAM checks are not required. Only public website search is supported by this method. If data stores and engines not associated with public website search are specified, a `FAILED_PRECONDITION` error is returned. This method can be used for easy onboarding without having to implement an authentication backend. However, it is strongly recommended to use SearchService.Search instead with required OAuth and IAM checks to provide better data security. */
 export interface SearchLiteProjectsLocationsCollectionsEnginesServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/* /locations/global/collections/default_collection/engines/* /servingConfigs/default_serving_config`, or `projects/* /locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
@@ -18860,13 +18859,13 @@ export const SearchLiteProjectsLocationsCollectionsEnginesServingConfigsResponse
 
 export type SearchLiteProjectsLocationsCollectionsEnginesServingConfigsError = CommonErrors;
 
+/** Performs a search. Similar to the SearchService.Search method, but a lite version that allows API key for authentication, where OAuth and IAM checks are not required. Only public website search is supported by this method. If data stores and engines not associated with public website search are specified, a `FAILED_PRECONDITION` error is returned. This method can be used for easy onboarding without having to implement an authentication backend. However, it is strongly recommended to use SearchService.Search instead with required OAuth and IAM checks to provide better data security. */
 export const searchLiteProjectsLocationsCollectionsEnginesServingConfigs: API.OperationMethod<SearchLiteProjectsLocationsCollectionsEnginesServingConfigsRequest, SearchLiteProjectsLocationsCollectionsEnginesServingConfigsResponse, SearchLiteProjectsLocationsCollectionsEnginesServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchLiteProjectsLocationsCollectionsEnginesServingConfigsRequest,
   output: SearchLiteProjectsLocationsCollectionsEnginesServingConfigsResponse,
   errors: [],
 }));
 
-/** Updates a ServingConfig. Returns a NOT_FOUND error if the ServingConfig does not exist. */
 export interface PatchProjectsLocationsCollectionsEnginesServingConfigsRequest {
   /** Immutable. Fully qualified name `projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/servingConfigs/{serving_config_id}` */
   name: string;
@@ -18890,13 +18889,13 @@ export const PatchProjectsLocationsCollectionsEnginesServingConfigsResponse = Go
 
 export type PatchProjectsLocationsCollectionsEnginesServingConfigsError = CommonErrors;
 
+/** Updates a ServingConfig. Returns a NOT_FOUND error if the ServingConfig does not exist. */
 export const patchProjectsLocationsCollectionsEnginesServingConfigs: API.OperationMethod<PatchProjectsLocationsCollectionsEnginesServingConfigsRequest, PatchProjectsLocationsCollectionsEnginesServingConfigsResponse, PatchProjectsLocationsCollectionsEnginesServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCollectionsEnginesServingConfigsRequest,
   output: PatchProjectsLocationsCollectionsEnginesServingConfigsResponse,
   errors: [],
 }));
 
-/** Answer query method. */
 export interface AnswerProjectsLocationsCollectionsEnginesServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/* /locations/global/collections/default_collection/engines/* /servingConfigs/default_serving_config`, or `projects/* /locations/global/collections/default_collection/dataStores/* /servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
@@ -18917,13 +18916,13 @@ export const AnswerProjectsLocationsCollectionsEnginesServingConfigsResponse = G
 
 export type AnswerProjectsLocationsCollectionsEnginesServingConfigsError = CommonErrors;
 
+/** Answer query method. */
 export const answerProjectsLocationsCollectionsEnginesServingConfigs: API.OperationMethod<AnswerProjectsLocationsCollectionsEnginesServingConfigsRequest, AnswerProjectsLocationsCollectionsEnginesServingConfigsResponse, AnswerProjectsLocationsCollectionsEnginesServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AnswerProjectsLocationsCollectionsEnginesServingConfigsRequest,
   output: AnswerProjectsLocationsCollectionsEnginesServingConfigsResponse,
   errors: [],
 }));
 
-/** Performs a search. */
 export interface SearchProjectsLocationsCollectionsEnginesServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/* /locations/global/collections/default_collection/engines/* /servingConfigs/default_serving_config`, or `projects/* /locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
@@ -18944,13 +18943,13 @@ export const SearchProjectsLocationsCollectionsEnginesServingConfigsResponse = G
 
 export type SearchProjectsLocationsCollectionsEnginesServingConfigsError = CommonErrors;
 
+/** Performs a search. */
 export const searchProjectsLocationsCollectionsEnginesServingConfigs: API.OperationMethod<SearchProjectsLocationsCollectionsEnginesServingConfigsRequest, SearchProjectsLocationsCollectionsEnginesServingConfigsResponse, SearchProjectsLocationsCollectionsEnginesServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchProjectsLocationsCollectionsEnginesServingConfigsRequest,
   output: SearchProjectsLocationsCollectionsEnginesServingConfigsResponse,
   errors: [],
 }));
 
-/** Answer query method (streaming). It takes one AnswerQueryRequest and returns multiple AnswerQueryResponse messages in a stream. */
 export interface StreamAnswerProjectsLocationsCollectionsEnginesServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/* /locations/global/collections/default_collection/engines/* /servingConfigs/default_serving_config`, or `projects/* /locations/global/collections/default_collection/dataStores/* /servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
@@ -18971,13 +18970,13 @@ export const StreamAnswerProjectsLocationsCollectionsEnginesServingConfigsRespon
 
 export type StreamAnswerProjectsLocationsCollectionsEnginesServingConfigsError = CommonErrors;
 
+/** Answer query method (streaming). It takes one AnswerQueryRequest and returns multiple AnswerQueryResponse messages in a stream. */
 export const streamAnswerProjectsLocationsCollectionsEnginesServingConfigs: API.OperationMethod<StreamAnswerProjectsLocationsCollectionsEnginesServingConfigsRequest, StreamAnswerProjectsLocationsCollectionsEnginesServingConfigsResponse, StreamAnswerProjectsLocationsCollectionsEnginesServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StreamAnswerProjectsLocationsCollectionsEnginesServingConfigsRequest,
   output: StreamAnswerProjectsLocationsCollectionsEnginesServingConfigsResponse,
   errors: [],
 }));
 
-/** Deletes a ServingConfig. Returns a NOT_FOUND error if the ServingConfig does not exist. */
 export interface DeleteProjectsLocationsCollectionsEnginesServingConfigsRequest {
   /** Required. The resource name of the ServingConfig to delete. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/servingConfigs/{serving_config_id}` */
   name: string;
@@ -18995,13 +18994,13 @@ export const DeleteProjectsLocationsCollectionsEnginesServingConfigsResponse = G
 
 export type DeleteProjectsLocationsCollectionsEnginesServingConfigsError = CommonErrors;
 
+/** Deletes a ServingConfig. Returns a NOT_FOUND error if the ServingConfig does not exist. */
 export const deleteProjectsLocationsCollectionsEnginesServingConfigs: API.OperationMethod<DeleteProjectsLocationsCollectionsEnginesServingConfigsRequest, DeleteProjectsLocationsCollectionsEnginesServingConfigsResponse, DeleteProjectsLocationsCollectionsEnginesServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCollectionsEnginesServingConfigsRequest,
   output: DeleteProjectsLocationsCollectionsEnginesServingConfigsResponse,
   errors: [],
 }));
 
-/** Lists all Conversations by their parent DataStore. */
 export interface ListProjectsLocationsCollectionsEnginesConversationsRequest {
   /** Required. The data store resource name. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
@@ -19031,7 +19030,8 @@ export const ListProjectsLocationsCollectionsEnginesConversationsResponse = Goog
 
 export type ListProjectsLocationsCollectionsEnginesConversationsError = CommonErrors;
 
-export const listProjectsLocationsCollectionsEnginesConversations = API.makePaginated(() => ({
+/** Lists all Conversations by their parent DataStore. */
+export const listProjectsLocationsCollectionsEnginesConversations: API.PaginatedOperationMethod<ListProjectsLocationsCollectionsEnginesConversationsRequest, ListProjectsLocationsCollectionsEnginesConversationsResponse, ListProjectsLocationsCollectionsEnginesConversationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsEnginesConversationsRequest,
   output: ListProjectsLocationsCollectionsEnginesConversationsResponse,
   errors: [],
@@ -19041,7 +19041,6 @@ export const listProjectsLocationsCollectionsEnginesConversations = API.makePagi
   },
 }));
 
-/** Creates a Conversation. If the Conversation to create already exists, an ALREADY_EXISTS error is returned. */
 export interface CreateProjectsLocationsCollectionsEnginesConversationsRequest {
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
@@ -19062,13 +19061,13 @@ export const CreateProjectsLocationsCollectionsEnginesConversationsResponse = Go
 
 export type CreateProjectsLocationsCollectionsEnginesConversationsError = CommonErrors;
 
+/** Creates a Conversation. If the Conversation to create already exists, an ALREADY_EXISTS error is returned. */
 export const createProjectsLocationsCollectionsEnginesConversations: API.OperationMethod<CreateProjectsLocationsCollectionsEnginesConversationsRequest, CreateProjectsLocationsCollectionsEnginesConversationsResponse, CreateProjectsLocationsCollectionsEnginesConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCollectionsEnginesConversationsRequest,
   output: CreateProjectsLocationsCollectionsEnginesConversationsResponse,
   errors: [],
 }));
 
-/** Converses a conversation. */
 export interface ConverseProjectsLocationsCollectionsEnginesConversationsRequest {
   /** Required. The resource name of the Conversation to get. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/{conversation_id}`. Use `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/-` to activate auto session mode, which automatically creates a new conversation inside a ConverseConversation session. */
   name: string;
@@ -19089,13 +19088,13 @@ export const ConverseProjectsLocationsCollectionsEnginesConversationsResponse = 
 
 export type ConverseProjectsLocationsCollectionsEnginesConversationsError = CommonErrors;
 
+/** Converses a conversation. */
 export const converseProjectsLocationsCollectionsEnginesConversations: API.OperationMethod<ConverseProjectsLocationsCollectionsEnginesConversationsRequest, ConverseProjectsLocationsCollectionsEnginesConversationsResponse, ConverseProjectsLocationsCollectionsEnginesConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ConverseProjectsLocationsCollectionsEnginesConversationsRequest,
   output: ConverseProjectsLocationsCollectionsEnginesConversationsResponse,
   errors: [],
 }));
 
-/** Updates a Conversation. Conversation action type cannot be changed. If the Conversation to update does not exist, a NOT_FOUND error is returned. */
 export interface PatchProjectsLocationsCollectionsEnginesConversationsRequest {
   /** Indicates which fields in the provided Conversation to update. The following are NOT supported: * Conversation.name If not set or empty, all supported fields are updated. */
   updateMask?: string;
@@ -19119,13 +19118,13 @@ export const PatchProjectsLocationsCollectionsEnginesConversationsResponse = Goo
 
 export type PatchProjectsLocationsCollectionsEnginesConversationsError = CommonErrors;
 
+/** Updates a Conversation. Conversation action type cannot be changed. If the Conversation to update does not exist, a NOT_FOUND error is returned. */
 export const patchProjectsLocationsCollectionsEnginesConversations: API.OperationMethod<PatchProjectsLocationsCollectionsEnginesConversationsRequest, PatchProjectsLocationsCollectionsEnginesConversationsResponse, PatchProjectsLocationsCollectionsEnginesConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCollectionsEnginesConversationsRequest,
   output: PatchProjectsLocationsCollectionsEnginesConversationsResponse,
   errors: [],
 }));
 
-/** Gets a Conversation. */
 export interface GetProjectsLocationsCollectionsEnginesConversationsRequest {
   /** Required. The resource name of the Conversation to get. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/{conversation_id}` */
   name: string;
@@ -19143,13 +19142,13 @@ export const GetProjectsLocationsCollectionsEnginesConversationsResponse = Googl
 
 export type GetProjectsLocationsCollectionsEnginesConversationsError = CommonErrors;
 
+/** Gets a Conversation. */
 export const getProjectsLocationsCollectionsEnginesConversations: API.OperationMethod<GetProjectsLocationsCollectionsEnginesConversationsRequest, GetProjectsLocationsCollectionsEnginesConversationsResponse, GetProjectsLocationsCollectionsEnginesConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCollectionsEnginesConversationsRequest,
   output: GetProjectsLocationsCollectionsEnginesConversationsResponse,
   errors: [],
 }));
 
-/** Deletes a Conversation. If the Conversation to delete does not exist, a NOT_FOUND error is returned. */
 export interface DeleteProjectsLocationsCollectionsEnginesConversationsRequest {
   /** Required. The resource name of the Conversation to delete. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/{conversation_id}` */
   name: string;
@@ -19167,13 +19166,13 @@ export const DeleteProjectsLocationsCollectionsEnginesConversationsResponse = Go
 
 export type DeleteProjectsLocationsCollectionsEnginesConversationsError = CommonErrors;
 
+/** Deletes a Conversation. If the Conversation to delete does not exist, a NOT_FOUND error is returned. */
 export const deleteProjectsLocationsCollectionsEnginesConversations: API.OperationMethod<DeleteProjectsLocationsCollectionsEnginesConversationsRequest, DeleteProjectsLocationsCollectionsEnginesConversationsResponse, DeleteProjectsLocationsCollectionsEnginesConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCollectionsEnginesConversationsRequest,
   output: DeleteProjectsLocationsCollectionsEnginesConversationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsCollectionsEnginesOperationsRequest {
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
@@ -19203,7 +19202,8 @@ export const ListProjectsLocationsCollectionsEnginesOperationsResponse = GoogleL
 
 export type ListProjectsLocationsCollectionsEnginesOperationsError = CommonErrors;
 
-export const listProjectsLocationsCollectionsEnginesOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsCollectionsEnginesOperations: API.PaginatedOperationMethod<ListProjectsLocationsCollectionsEnginesOperationsRequest, ListProjectsLocationsCollectionsEnginesOperationsResponse, ListProjectsLocationsCollectionsEnginesOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCollectionsEnginesOperationsRequest,
   output: ListProjectsLocationsCollectionsEnginesOperationsResponse,
   errors: [],
@@ -19213,7 +19213,6 @@ export const listProjectsLocationsCollectionsEnginesOperations = API.makePaginat
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsCollectionsEnginesOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -19231,13 +19230,13 @@ export const GetProjectsLocationsCollectionsEnginesOperationsResponse = GoogleLo
 
 export type GetProjectsLocationsCollectionsEnginesOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsCollectionsEnginesOperations: API.OperationMethod<GetProjectsLocationsCollectionsEnginesOperationsRequest, GetProjectsLocationsCollectionsEnginesOperationsResponse, GetProjectsLocationsCollectionsEnginesOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCollectionsEnginesOperationsRequest,
   output: GetProjectsLocationsCollectionsEnginesOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsCollectionsEnginesOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -19258,13 +19257,13 @@ export const CancelProjectsLocationsCollectionsEnginesOperationsResponse = Googl
 
 export type CancelProjectsLocationsCollectionsEnginesOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsCollectionsEnginesOperations: API.OperationMethod<CancelProjectsLocationsCollectionsEnginesOperationsRequest, CancelProjectsLocationsCollectionsEnginesOperationsResponse, CancelProjectsLocationsCollectionsEnginesOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsCollectionsEnginesOperationsRequest,
   output: CancelProjectsLocationsCollectionsEnginesOperationsResponse,
   errors: [],
 }));
 
-/** Updates the User Store. */
 export interface PatchProjectsLocationsUserStoresRequest {
   /** Optional. The list of fields to update. */
   updateMask?: string;
@@ -19288,13 +19287,13 @@ export const PatchProjectsLocationsUserStoresResponse = GoogleCloudDiscoveryengi
 
 export type PatchProjectsLocationsUserStoresError = CommonErrors;
 
+/** Updates the User Store. */
 export const patchProjectsLocationsUserStores: API.OperationMethod<PatchProjectsLocationsUserStoresRequest, PatchProjectsLocationsUserStoresResponse, PatchProjectsLocationsUserStoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsUserStoresRequest,
   output: PatchProjectsLocationsUserStoresResponse,
   errors: [],
 }));
 
-/** Gets the User Store. */
 export interface GetProjectsLocationsUserStoresRequest {
   /** Required. The name of the User Store to get. Format: `projects/{project}/locations/{location}/userStores/{user_store_id}` */
   name: string;
@@ -19312,13 +19311,13 @@ export const GetProjectsLocationsUserStoresResponse = GoogleCloudDiscoveryengine
 
 export type GetProjectsLocationsUserStoresError = CommonErrors;
 
+/** Gets the User Store. */
 export const getProjectsLocationsUserStores: API.OperationMethod<GetProjectsLocationsUserStoresRequest, GetProjectsLocationsUserStoresResponse, GetProjectsLocationsUserStoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsUserStoresRequest,
   output: GetProjectsLocationsUserStoresResponse,
   errors: [],
 }));
 
-/** Deletes the User Store. */
 export interface DeleteProjectsLocationsUserStoresRequest {
   /** Required. The name of the User Store to delete. Format: `projects/{project}/locations/{location}/userStores/{user_store_id}` */
   name: string;
@@ -19336,13 +19335,13 @@ export const DeleteProjectsLocationsUserStoresResponse = GoogleLongrunningOperat
 
 export type DeleteProjectsLocationsUserStoresError = CommonErrors;
 
+/** Deletes the User Store. */
 export const deleteProjectsLocationsUserStores: API.OperationMethod<DeleteProjectsLocationsUserStoresRequest, DeleteProjectsLocationsUserStoresResponse, DeleteProjectsLocationsUserStoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsUserStoresRequest,
   output: DeleteProjectsLocationsUserStoresResponse,
   errors: [],
 }));
 
-/** Creates a new User Store. */
 export interface CreateProjectsLocationsUserStoresRequest {
   /** Required. The parent collection resource name, such as `projects/{project}/locations/{location}`. */
   parent: string;
@@ -19366,13 +19365,13 @@ export const CreateProjectsLocationsUserStoresResponse = GoogleCloudDiscoveryeng
 
 export type CreateProjectsLocationsUserStoresError = CommonErrors;
 
+/** Creates a new User Store. */
 export const createProjectsLocationsUserStores: API.OperationMethod<CreateProjectsLocationsUserStoresRequest, CreateProjectsLocationsUserStoresResponse, CreateProjectsLocationsUserStoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsUserStoresRequest,
   output: CreateProjectsLocationsUserStoresResponse,
   errors: [],
 }));
 
-/** Updates the User License. This method is used for batch assign/unassign licenses to users. */
 export interface BatchUpdateUserLicensesProjectsLocationsUserStoresRequest {
   /** Required. The parent UserStore resource name, format: `projects/{project}/locations/{location}/userStores/{user_store_id}`. */
   parent: string;
@@ -19393,13 +19392,13 @@ export const BatchUpdateUserLicensesProjectsLocationsUserStoresResponse = Google
 
 export type BatchUpdateUserLicensesProjectsLocationsUserStoresError = CommonErrors;
 
+/** Updates the User License. This method is used for batch assign/unassign licenses to users. */
 export const batchUpdateUserLicensesProjectsLocationsUserStores: API.OperationMethod<BatchUpdateUserLicensesProjectsLocationsUserStoresRequest, BatchUpdateUserLicensesProjectsLocationsUserStoresResponse, BatchUpdateUserLicensesProjectsLocationsUserStoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchUpdateUserLicensesProjectsLocationsUserStoresRequest,
   output: BatchUpdateUserLicensesProjectsLocationsUserStoresResponse,
   errors: [],
 }));
 
-/** Lists the User Licenses. */
 export interface ListProjectsLocationsUserStoresUserLicensesRequest {
   /** Optional. The order in which the UserLicenses are listed. The value must be a comma-separated list of fields. Default sorting order is ascending. To specify descending order for a field, append a " desc" suffix. Redundant space characters in the syntax are insignificant. Supported fields: * `license_assignment_state` * `user_principal` * `user_profile` * `last_login_date` * `update_time` If not set, the default ordering is by `user_principal`. Examples: * `user_principal desc` to order by `user_principal` in descending order. * `license_assignment_state` to order by `license_assignment_state` in ascending order. * `last_login_date desc` to order by `last_login_date` in descending order. * `update_time desc` to order by `update_time` in descending order. * `last_login_date desc, user_principal` to order by `last_login_date` in descending order and then by `user_principal` in ascending order. */
   orderBy?: string;
@@ -19426,7 +19425,8 @@ export const ListProjectsLocationsUserStoresUserLicensesResponse = GoogleCloudDi
 
 export type ListProjectsLocationsUserStoresUserLicensesError = CommonErrors;
 
-export const listProjectsLocationsUserStoresUserLicenses = API.makePaginated(() => ({
+/** Lists the User Licenses. */
+export const listProjectsLocationsUserStoresUserLicenses: API.PaginatedOperationMethod<ListProjectsLocationsUserStoresUserLicensesRequest, ListProjectsLocationsUserStoresUserLicensesResponse, ListProjectsLocationsUserStoresUserLicensesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsUserStoresUserLicensesRequest,
   output: ListProjectsLocationsUserStoresUserLicensesResponse,
   errors: [],
@@ -19436,7 +19436,6 @@ export const listProjectsLocationsUserStoresUserLicenses = API.makePaginated(() 
   },
 }));
 
-/** Lists all the LicenseConfigUsageStatss associated with the project. */
 export interface ListProjectsLocationsUserStoresLicenseConfigsUsageStatsRequest {
   /** Required. The parent branch resource name, such as `projects/{project}/locations/{location}/userStores/{user_store_id}`. */
   parent: string;
@@ -19454,13 +19453,13 @@ export const ListProjectsLocationsUserStoresLicenseConfigsUsageStatsResponse = G
 
 export type ListProjectsLocationsUserStoresLicenseConfigsUsageStatsError = CommonErrors;
 
+/** Lists all the LicenseConfigUsageStatss associated with the project. */
 export const listProjectsLocationsUserStoresLicenseConfigsUsageStats: API.OperationMethod<ListProjectsLocationsUserStoresLicenseConfigsUsageStatsRequest, ListProjectsLocationsUserStoresLicenseConfigsUsageStatsResponse, ListProjectsLocationsUserStoresLicenseConfigsUsageStatsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsUserStoresLicenseConfigsUsageStatsRequest,
   output: ListProjectsLocationsUserStoresLicenseConfigsUsageStatsResponse,
   errors: [],
 }));
 
-/** Lists all the DataStores associated with the project. */
 export interface ListProjectsLocationsDataStoresRequest {
   /** A page token ListDataStoresResponse.next_page_token, received from a previous DataStoreService.ListDataStores call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to DataStoreService.ListDataStores must match the call that provided the page token. Otherwise, an INVALID_ARGUMENT error is returned. */
   pageToken?: string;
@@ -19487,7 +19486,8 @@ export const ListProjectsLocationsDataStoresResponse = GoogleCloudDiscoveryengin
 
 export type ListProjectsLocationsDataStoresError = CommonErrors;
 
-export const listProjectsLocationsDataStores = API.makePaginated(() => ({
+/** Lists all the DataStores associated with the project. */
+export const listProjectsLocationsDataStores: API.PaginatedOperationMethod<ListProjectsLocationsDataStoresRequest, ListProjectsLocationsDataStoresResponse, ListProjectsLocationsDataStoresError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDataStoresRequest,
   output: ListProjectsLocationsDataStoresResponse,
   errors: [],
@@ -19497,7 +19497,6 @@ export const listProjectsLocationsDataStores = API.makePaginated(() => ({
   },
 }));
 
-/** Completes the specified user input with keyword suggestions. */
 export interface CompleteQueryProjectsLocationsDataStoresRequest {
   /** Optional. A unique identifier for tracking visitors. For example, this could be implemented with an HTTP cookie, which should be able to uniquely identify a visitor on a single device. This unique identifier should not change if the visitor logs in or out of the website. This field should NOT have a fixed value such as `unknown_visitor`. This should be the same identifier as UserEvent.user_pseudo_id and SearchRequest.user_pseudo_id. The field must be a UTF-8 encoded string with a length limit of 128 characters. Otherwise, an `INVALID_ARGUMENT` error is returned. */
   userPseudoId?: string;
@@ -19527,13 +19526,13 @@ export const CompleteQueryProjectsLocationsDataStoresResponse = GoogleCloudDisco
 
 export type CompleteQueryProjectsLocationsDataStoresError = CommonErrors;
 
+/** Completes the specified user input with keyword suggestions. */
 export const completeQueryProjectsLocationsDataStores: API.OperationMethod<CompleteQueryProjectsLocationsDataStoresRequest, CompleteQueryProjectsLocationsDataStoresResponse, CompleteQueryProjectsLocationsDataStoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CompleteQueryProjectsLocationsDataStoresRequest,
   output: CompleteQueryProjectsLocationsDataStoresResponse,
   errors: [],
 }));
 
-/** Deletes a DataStore. */
 export interface DeleteProjectsLocationsDataStoresRequest {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to delete the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the DataStore to delete does not exist, a NOT_FOUND error is returned. */
   name: string;
@@ -19551,13 +19550,13 @@ export const DeleteProjectsLocationsDataStoresResponse = GoogleLongrunningOperat
 
 export type DeleteProjectsLocationsDataStoresError = CommonErrors;
 
+/** Deletes a DataStore. */
 export const deleteProjectsLocationsDataStores: API.OperationMethod<DeleteProjectsLocationsDataStoresRequest, DeleteProjectsLocationsDataStoresResponse, DeleteProjectsLocationsDataStoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDataStoresRequest,
   output: DeleteProjectsLocationsDataStoresResponse,
   errors: [],
 }));
 
-/** Gets the SiteSearchEngine. */
 export interface GetSiteSearchEngineProjectsLocationsDataStoresRequest {
   /** Required. Resource name of SiteSearchEngine, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine`. If the caller does not have permission to access the [SiteSearchEngine], regardless of whether or not it exists, a PERMISSION_DENIED error is returned. */
   name: string;
@@ -19575,13 +19574,13 @@ export const GetSiteSearchEngineProjectsLocationsDataStoresResponse = GoogleClou
 
 export type GetSiteSearchEngineProjectsLocationsDataStoresError = CommonErrors;
 
+/** Gets the SiteSearchEngine. */
 export const getSiteSearchEngineProjectsLocationsDataStores: API.OperationMethod<GetSiteSearchEngineProjectsLocationsDataStoresRequest, GetSiteSearchEngineProjectsLocationsDataStoresResponse, GetSiteSearchEngineProjectsLocationsDataStoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSiteSearchEngineProjectsLocationsDataStoresRequest,
   output: GetSiteSearchEngineProjectsLocationsDataStoresResponse,
   errors: [],
 }));
 
-/** Gets a DataStore. */
 export interface GetProjectsLocationsDataStoresRequest {
   /** Required. Full resource name of DataStore, such as `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. If the caller does not have permission to access the DataStore, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested DataStore does not exist, a NOT_FOUND error is returned. */
   name: string;
@@ -19599,13 +19598,13 @@ export const GetProjectsLocationsDataStoresResponse = GoogleCloudDiscoveryengine
 
 export type GetProjectsLocationsDataStoresError = CommonErrors;
 
+/** Gets a DataStore. */
 export const getProjectsLocationsDataStores: API.OperationMethod<GetProjectsLocationsDataStoresRequest, GetProjectsLocationsDataStoresResponse, GetProjectsLocationsDataStoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDataStoresRequest,
   output: GetProjectsLocationsDataStoresResponse,
   errors: [],
 }));
 
-/** Creates a DataStore. DataStore is for storing Documents. To serve these documents for Search, or Recommendation use case, an Engine needs to be created separately. */
 export interface CreateProjectsLocationsDataStoresRequest {
   /** DataStore without CMEK protections. If a default CmekConfig is set for the project, setting this field will override the default CmekConfig as well. */
   disableCmek?: boolean;
@@ -19641,13 +19640,13 @@ export const CreateProjectsLocationsDataStoresResponse = GoogleLongrunningOperat
 
 export type CreateProjectsLocationsDataStoresError = CommonErrors;
 
+/** Creates a DataStore. DataStore is for storing Documents. To serve these documents for Search, or Recommendation use case, an Engine needs to be created separately. */
 export const createProjectsLocationsDataStores: API.OperationMethod<CreateProjectsLocationsDataStoresRequest, CreateProjectsLocationsDataStoresResponse, CreateProjectsLocationsDataStoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsDataStoresRequest,
   output: CreateProjectsLocationsDataStoresResponse,
   errors: [],
 }));
 
-/** Updates a DataStore */
 export interface PatchProjectsLocationsDataStoresRequest {
   /** Immutable. Identifier. The full resource name of the data store. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
@@ -19671,13 +19670,13 @@ export const PatchProjectsLocationsDataStoresResponse = GoogleCloudDiscoveryengi
 
 export type PatchProjectsLocationsDataStoresError = CommonErrors;
 
+/** Updates a DataStore */
 export const patchProjectsLocationsDataStores: API.OperationMethod<PatchProjectsLocationsDataStoresRequest, PatchProjectsLocationsDataStoresResponse, PatchProjectsLocationsDataStoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsDataStoresRequest,
   output: PatchProjectsLocationsDataStoresResponse,
   errors: [],
 }));
 
-/** Deletes a Schema. */
 export interface DeleteProjectsLocationsDataStoresSchemasRequest {
   /** Required. The full resource name of the schema, in the format of `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/schemas/{schema}`. */
   name: string;
@@ -19695,13 +19694,13 @@ export const DeleteProjectsLocationsDataStoresSchemasResponse = GoogleLongrunnin
 
 export type DeleteProjectsLocationsDataStoresSchemasError = CommonErrors;
 
+/** Deletes a Schema. */
 export const deleteProjectsLocationsDataStoresSchemas: API.OperationMethod<DeleteProjectsLocationsDataStoresSchemasRequest, DeleteProjectsLocationsDataStoresSchemasResponse, DeleteProjectsLocationsDataStoresSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDataStoresSchemasRequest,
   output: DeleteProjectsLocationsDataStoresSchemasResponse,
   errors: [],
 }));
 
-/** Gets a list of Schemas. */
 export interface ListProjectsLocationsDataStoresSchemasRequest {
   /** A page token, received from a previous SchemaService.ListSchemas call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to SchemaService.ListSchemas must match the call that provided the page token. */
   pageToken?: string;
@@ -19725,7 +19724,8 @@ export const ListProjectsLocationsDataStoresSchemasResponse = GoogleCloudDiscove
 
 export type ListProjectsLocationsDataStoresSchemasError = CommonErrors;
 
-export const listProjectsLocationsDataStoresSchemas = API.makePaginated(() => ({
+/** Gets a list of Schemas. */
+export const listProjectsLocationsDataStoresSchemas: API.PaginatedOperationMethod<ListProjectsLocationsDataStoresSchemasRequest, ListProjectsLocationsDataStoresSchemasResponse, ListProjectsLocationsDataStoresSchemasError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDataStoresSchemasRequest,
   output: ListProjectsLocationsDataStoresSchemasResponse,
   errors: [],
@@ -19735,7 +19735,6 @@ export const listProjectsLocationsDataStoresSchemas = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a Schema. */
 export interface CreateProjectsLocationsDataStoresSchemasRequest {
   /** Required. The parent data store resource name, in the format of `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}`. */
   parent: string;
@@ -19759,13 +19758,13 @@ export const CreateProjectsLocationsDataStoresSchemasResponse = GoogleLongrunnin
 
 export type CreateProjectsLocationsDataStoresSchemasError = CommonErrors;
 
+/** Creates a Schema. */
 export const createProjectsLocationsDataStoresSchemas: API.OperationMethod<CreateProjectsLocationsDataStoresSchemasRequest, CreateProjectsLocationsDataStoresSchemasResponse, CreateProjectsLocationsDataStoresSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsDataStoresSchemasRequest,
   output: CreateProjectsLocationsDataStoresSchemasResponse,
   errors: [],
 }));
 
-/** Updates a Schema. */
 export interface PatchProjectsLocationsDataStoresSchemasRequest {
   /** If set to true, and the Schema is not found, a new Schema is created. In this situation, `update_mask` is ignored. */
   allowMissing?: boolean;
@@ -19789,13 +19788,13 @@ export const PatchProjectsLocationsDataStoresSchemasResponse = GoogleLongrunning
 
 export type PatchProjectsLocationsDataStoresSchemasError = CommonErrors;
 
+/** Updates a Schema. */
 export const patchProjectsLocationsDataStoresSchemas: API.OperationMethod<PatchProjectsLocationsDataStoresSchemasRequest, PatchProjectsLocationsDataStoresSchemasResponse, PatchProjectsLocationsDataStoresSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsDataStoresSchemasRequest,
   output: PatchProjectsLocationsDataStoresSchemasResponse,
   errors: [],
 }));
 
-/** Gets a Schema. */
 export interface GetProjectsLocationsDataStoresSchemasRequest {
   /** Required. The full resource name of the schema, in the format of `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/schemas/{schema}`. */
   name: string;
@@ -19813,13 +19812,13 @@ export const GetProjectsLocationsDataStoresSchemasResponse = GoogleCloudDiscover
 
 export type GetProjectsLocationsDataStoresSchemasError = CommonErrors;
 
+/** Gets a Schema. */
 export const getProjectsLocationsDataStoresSchemas: API.OperationMethod<GetProjectsLocationsDataStoresSchemasRequest, GetProjectsLocationsDataStoresSchemasResponse, GetProjectsLocationsDataStoresSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDataStoresSchemasRequest,
   output: GetProjectsLocationsDataStoresSchemasResponse,
   errors: [],
 }));
 
-/** Downgrade from advanced site search to basic site search. */
 export interface DisableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineRequest {
   /** Required. Full resource name of the SiteSearchEngine, such as `projects/{project}/locations/{location}/dataStores/{data_store_id}/siteSearchEngine`. */
   siteSearchEngine: string;
@@ -19840,13 +19839,13 @@ export const DisableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngin
 
 export type DisableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineError = CommonErrors;
 
+/** Downgrade from advanced site search to basic site search. */
 export const disableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngine: API.OperationMethod<DisableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineRequest, DisableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineResponse, DisableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DisableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineRequest,
   output: DisableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineResponse,
   errors: [],
 }));
 
-/** Upgrade from basic site search to advanced site search. */
 export interface EnableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineRequest {
   /** Required. Full resource name of the SiteSearchEngine, such as `projects/{project}/locations/{location}/dataStores/{data_store_id}/siteSearchEngine`. */
   siteSearchEngine: string;
@@ -19867,13 +19866,13 @@ export const EnableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngine
 
 export type EnableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineError = CommonErrors;
 
+/** Upgrade from basic site search to advanced site search. */
 export const enableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngine: API.OperationMethod<EnableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineRequest, EnableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineResponse, EnableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineRequest,
   output: EnableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngineResponse,
   errors: [],
 }));
 
-/** Request on-demand recrawl for a list of URIs. */
 export interface RecrawlUrisProjectsLocationsDataStoresSiteSearchEngineRequest {
   /** Required. Full resource name of the SiteSearchEngine, such as `projects/* /locations/* /collections/* /dataStores/* /siteSearchEngine`. */
   siteSearchEngine: string;
@@ -19894,13 +19893,13 @@ export const RecrawlUrisProjectsLocationsDataStoresSiteSearchEngineResponse = Go
 
 export type RecrawlUrisProjectsLocationsDataStoresSiteSearchEngineError = CommonErrors;
 
+/** Request on-demand recrawl for a list of URIs. */
 export const recrawlUrisProjectsLocationsDataStoresSiteSearchEngine: API.OperationMethod<RecrawlUrisProjectsLocationsDataStoresSiteSearchEngineRequest, RecrawlUrisProjectsLocationsDataStoresSiteSearchEngineResponse, RecrawlUrisProjectsLocationsDataStoresSiteSearchEngineError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RecrawlUrisProjectsLocationsDataStoresSiteSearchEngineRequest,
   output: RecrawlUrisProjectsLocationsDataStoresSiteSearchEngineResponse,
   errors: [],
 }));
 
-/** Deletes a Sitemap. */
 export interface DeleteProjectsLocationsDataStoresSiteSearchEngineSitemapsRequest {
   /** Required. Full resource name of Sitemap, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine/sitemaps/{sitemap}`. If the caller does not have permission to access the Sitemap, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested Sitemap does not exist, a NOT_FOUND error is returned. */
   name: string;
@@ -19918,13 +19917,13 @@ export const DeleteProjectsLocationsDataStoresSiteSearchEngineSitemapsResponse =
 
 export type DeleteProjectsLocationsDataStoresSiteSearchEngineSitemapsError = CommonErrors;
 
+/** Deletes a Sitemap. */
 export const deleteProjectsLocationsDataStoresSiteSearchEngineSitemaps: API.OperationMethod<DeleteProjectsLocationsDataStoresSiteSearchEngineSitemapsRequest, DeleteProjectsLocationsDataStoresSiteSearchEngineSitemapsResponse, DeleteProjectsLocationsDataStoresSiteSearchEngineSitemapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDataStoresSiteSearchEngineSitemapsRequest,
   output: DeleteProjectsLocationsDataStoresSiteSearchEngineSitemapsResponse,
   errors: [],
 }));
 
-/** Fetch Sitemaps in a DataStore. */
 export interface FetchProjectsLocationsDataStoresSiteSearchEngineSitemapsRequest {
   /** The Sitemap uris. */
   "matcher.urisMatcher.uris"?: string[];
@@ -19945,13 +19944,13 @@ export const FetchProjectsLocationsDataStoresSiteSearchEngineSitemapsResponse = 
 
 export type FetchProjectsLocationsDataStoresSiteSearchEngineSitemapsError = CommonErrors;
 
+/** Fetch Sitemaps in a DataStore. */
 export const fetchProjectsLocationsDataStoresSiteSearchEngineSitemaps: API.OperationMethod<FetchProjectsLocationsDataStoresSiteSearchEngineSitemapsRequest, FetchProjectsLocationsDataStoresSiteSearchEngineSitemapsResponse, FetchProjectsLocationsDataStoresSiteSearchEngineSitemapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FetchProjectsLocationsDataStoresSiteSearchEngineSitemapsRequest,
   output: FetchProjectsLocationsDataStoresSiteSearchEngineSitemapsResponse,
   errors: [],
 }));
 
-/** Creates a Sitemap. */
 export interface CreateProjectsLocationsDataStoresSiteSearchEngineSitemapsRequest {
   /** Required. Parent resource name of the SiteSearchEngine, such as `projects/* /locations/* /collections/* /dataStores/* /siteSearchEngine`. */
   parent: string;
@@ -19972,13 +19971,13 @@ export const CreateProjectsLocationsDataStoresSiteSearchEngineSitemapsResponse =
 
 export type CreateProjectsLocationsDataStoresSiteSearchEngineSitemapsError = CommonErrors;
 
+/** Creates a Sitemap. */
 export const createProjectsLocationsDataStoresSiteSearchEngineSitemaps: API.OperationMethod<CreateProjectsLocationsDataStoresSiteSearchEngineSitemapsRequest, CreateProjectsLocationsDataStoresSiteSearchEngineSitemapsResponse, CreateProjectsLocationsDataStoresSiteSearchEngineSitemapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsDataStoresSiteSearchEngineSitemapsRequest,
   output: CreateProjectsLocationsDataStoresSiteSearchEngineSitemapsResponse,
   errors: [],
 }));
 
-/** Updates a TargetSite. */
 export interface PatchProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest {
   /** Output only. The fully qualified resource name of the target site. `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine/targetSites/{target_site}` The `target_site_id` is system-generated. */
   name: string;
@@ -19999,13 +19998,13 @@ export const PatchProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse
 
 export type PatchProjectsLocationsDataStoresSiteSearchEngineTargetSitesError = CommonErrors;
 
+/** Updates a TargetSite. */
 export const patchProjectsLocationsDataStoresSiteSearchEngineTargetSites: API.OperationMethod<PatchProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest, PatchProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse, PatchProjectsLocationsDataStoresSiteSearchEngineTargetSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest,
   output: PatchProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse,
   errors: [],
 }));
 
-/** Gets a TargetSite. */
 export interface GetProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest {
   /** Required. Full resource name of TargetSite, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine/targetSites/{target_site}`. If the caller does not have permission to access the TargetSite, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested TargetSite does not exist, a NOT_FOUND error is returned. */
   name: string;
@@ -20023,13 +20022,13 @@ export const GetProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse =
 
 export type GetProjectsLocationsDataStoresSiteSearchEngineTargetSitesError = CommonErrors;
 
+/** Gets a TargetSite. */
 export const getProjectsLocationsDataStoresSiteSearchEngineTargetSites: API.OperationMethod<GetProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest, GetProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse, GetProjectsLocationsDataStoresSiteSearchEngineTargetSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest,
   output: GetProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse,
   errors: [],
 }));
 
-/** Creates TargetSite in a batch. */
 export interface BatchCreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest {
   /** Required. The parent resource shared by all TargetSites being created. `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine`. The parent field in the CreateBookRequest messages must either be empty or match this field. */
   parent: string;
@@ -20050,13 +20049,13 @@ export const BatchCreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesRe
 
 export type BatchCreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesError = CommonErrors;
 
+/** Creates TargetSite in a batch. */
 export const batchCreateProjectsLocationsDataStoresSiteSearchEngineTargetSites: API.OperationMethod<BatchCreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest, BatchCreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse, BatchCreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchCreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest,
   output: BatchCreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse,
   errors: [],
 }));
 
-/** Deletes a TargetSite. */
 export interface DeleteProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest {
   /** Required. Full resource name of TargetSite, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine/targetSites/{target_site}`. If the caller does not have permission to access the TargetSite, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested TargetSite does not exist, a NOT_FOUND error is returned. */
   name: string;
@@ -20074,13 +20073,13 @@ export const DeleteProjectsLocationsDataStoresSiteSearchEngineTargetSitesRespons
 
 export type DeleteProjectsLocationsDataStoresSiteSearchEngineTargetSitesError = CommonErrors;
 
+/** Deletes a TargetSite. */
 export const deleteProjectsLocationsDataStoresSiteSearchEngineTargetSites: API.OperationMethod<DeleteProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest, DeleteProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse, DeleteProjectsLocationsDataStoresSiteSearchEngineTargetSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest,
   output: DeleteProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse,
   errors: [],
 }));
 
-/** Creates a TargetSite. */
 export interface CreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest {
   /** Required. Parent resource name of TargetSite, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/siteSearchEngine`. */
   parent: string;
@@ -20101,13 +20100,13 @@ export const CreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesRespons
 
 export type CreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesError = CommonErrors;
 
+/** Creates a TargetSite. */
 export const createProjectsLocationsDataStoresSiteSearchEngineTargetSites: API.OperationMethod<CreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest, CreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse, CreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest,
   output: CreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse,
   errors: [],
 }));
 
-/** Gets a list of TargetSites. */
 export interface ListProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest {
   /** A page token, received from a previous `ListTargetSites` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListTargetSites` must match the call that provided the page token. */
   pageToken?: string;
@@ -20131,7 +20130,8 @@ export const ListProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse 
 
 export type ListProjectsLocationsDataStoresSiteSearchEngineTargetSitesError = CommonErrors;
 
-export const listProjectsLocationsDataStoresSiteSearchEngineTargetSites = API.makePaginated(() => ({
+/** Gets a list of TargetSites. */
+export const listProjectsLocationsDataStoresSiteSearchEngineTargetSites: API.PaginatedOperationMethod<ListProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest, ListProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse, ListProjectsLocationsDataStoresSiteSearchEngineTargetSitesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDataStoresSiteSearchEngineTargetSitesRequest,
   output: ListProjectsLocationsDataStoresSiteSearchEngineTargetSitesResponse,
   errors: [],
@@ -20141,7 +20141,6 @@ export const listProjectsLocationsDataStoresSiteSearchEngineTargetSites = API.ma
   },
 }));
 
-/** Imports CompletionSuggestions for a DataStore. */
 export interface ImportProjectsLocationsDataStoresCompletionSuggestionsRequest {
   /** Required. The parent data store resource name for which to import customer autocomplete suggestions. Follows pattern `projects/* /locations/* /collections/* /dataStores/*` */
   parent: string;
@@ -20162,13 +20161,13 @@ export const ImportProjectsLocationsDataStoresCompletionSuggestionsResponse = Go
 
 export type ImportProjectsLocationsDataStoresCompletionSuggestionsError = CommonErrors;
 
+/** Imports CompletionSuggestions for a DataStore. */
 export const importProjectsLocationsDataStoresCompletionSuggestions: API.OperationMethod<ImportProjectsLocationsDataStoresCompletionSuggestionsRequest, ImportProjectsLocationsDataStoresCompletionSuggestionsResponse, ImportProjectsLocationsDataStoresCompletionSuggestionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportProjectsLocationsDataStoresCompletionSuggestionsRequest,
   output: ImportProjectsLocationsDataStoresCompletionSuggestionsResponse,
   errors: [],
 }));
 
-/** Permanently deletes all CompletionSuggestions for a DataStore. */
 export interface PurgeProjectsLocationsDataStoresCompletionSuggestionsRequest {
   /** Required. The parent data store resource name for which to purge completion suggestions. Follows pattern projects/* /locations/* /collections/* /dataStores/*. */
   parent: string;
@@ -20189,13 +20188,13 @@ export const PurgeProjectsLocationsDataStoresCompletionSuggestionsResponse = Goo
 
 export type PurgeProjectsLocationsDataStoresCompletionSuggestionsError = CommonErrors;
 
+/** Permanently deletes all CompletionSuggestions for a DataStore. */
 export const purgeProjectsLocationsDataStoresCompletionSuggestions: API.OperationMethod<PurgeProjectsLocationsDataStoresCompletionSuggestionsRequest, PurgeProjectsLocationsDataStoresCompletionSuggestionsResponse, PurgeProjectsLocationsDataStoresCompletionSuggestionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PurgeProjectsLocationsDataStoresCompletionSuggestionsRequest,
   output: PurgeProjectsLocationsDataStoresCompletionSuggestionsResponse,
   errors: [],
 }));
 
-/** Lists all Sessions by their parent DataStore. */
 export interface ListProjectsLocationsDataStoresSessionsRequest {
   /** A comma-separated list of fields to filter by, in EBNF grammar. The supported fields are: * `user_pseudo_id` * `state` * `display_name` * `starred` * `is_pinned` * `labels` * `create_time` * `update_time` * `collaborative_project` Examples: * `user_pseudo_id = some_id` * `display_name = "some_name"` * `starred = true` * `is_pinned=true AND (NOT labels:hidden)` * `create_time > "1970-01-01T12:00:00Z"` * `collaborative_project = "projects/123/locations/global/collections/default_collection/engines/" "default_engine/collaborative_projects/cp1"` */
   filter?: string;
@@ -20225,7 +20224,8 @@ export const ListProjectsLocationsDataStoresSessionsResponse = GoogleCloudDiscov
 
 export type ListProjectsLocationsDataStoresSessionsError = CommonErrors;
 
-export const listProjectsLocationsDataStoresSessions = API.makePaginated(() => ({
+/** Lists all Sessions by their parent DataStore. */
+export const listProjectsLocationsDataStoresSessions: API.PaginatedOperationMethod<ListProjectsLocationsDataStoresSessionsRequest, ListProjectsLocationsDataStoresSessionsResponse, ListProjectsLocationsDataStoresSessionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDataStoresSessionsRequest,
   output: ListProjectsLocationsDataStoresSessionsResponse,
   errors: [],
@@ -20235,7 +20235,6 @@ export const listProjectsLocationsDataStoresSessions = API.makePaginated(() => (
   },
 }));
 
-/** Updates a Session. Session action type cannot be changed. If the Session to update does not exist, a NOT_FOUND error is returned. */
 export interface PatchProjectsLocationsDataStoresSessionsRequest {
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/engines/{engine}/sessions/*` */
   name: string;
@@ -20259,13 +20258,13 @@ export const PatchProjectsLocationsDataStoresSessionsResponse = GoogleCloudDisco
 
 export type PatchProjectsLocationsDataStoresSessionsError = CommonErrors;
 
+/** Updates a Session. Session action type cannot be changed. If the Session to update does not exist, a NOT_FOUND error is returned. */
 export const patchProjectsLocationsDataStoresSessions: API.OperationMethod<PatchProjectsLocationsDataStoresSessionsRequest, PatchProjectsLocationsDataStoresSessionsResponse, PatchProjectsLocationsDataStoresSessionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsDataStoresSessionsRequest,
   output: PatchProjectsLocationsDataStoresSessionsResponse,
   errors: [],
 }));
 
-/** Deletes a Session. If the Session to delete does not exist, a NOT_FOUND error is returned. */
 export interface DeleteProjectsLocationsDataStoresSessionsRequest {
   /** Required. The resource name of the Session to delete. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/sessions/{session_id}` */
   name: string;
@@ -20283,13 +20282,13 @@ export const DeleteProjectsLocationsDataStoresSessionsResponse = GoogleProtobufE
 
 export type DeleteProjectsLocationsDataStoresSessionsError = CommonErrors;
 
+/** Deletes a Session. If the Session to delete does not exist, a NOT_FOUND error is returned. */
 export const deleteProjectsLocationsDataStoresSessions: API.OperationMethod<DeleteProjectsLocationsDataStoresSessionsRequest, DeleteProjectsLocationsDataStoresSessionsResponse, DeleteProjectsLocationsDataStoresSessionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDataStoresSessionsRequest,
   output: DeleteProjectsLocationsDataStoresSessionsResponse,
   errors: [],
 }));
 
-/** Gets a Session. */
 export interface GetProjectsLocationsDataStoresSessionsRequest {
   /** Optional. If set to true, the full session including all answer details will be returned. */
   includeAnswerDetails?: boolean;
@@ -20310,13 +20309,13 @@ export const GetProjectsLocationsDataStoresSessionsResponse = GoogleCloudDiscove
 
 export type GetProjectsLocationsDataStoresSessionsError = CommonErrors;
 
+/** Gets a Session. */
 export const getProjectsLocationsDataStoresSessions: API.OperationMethod<GetProjectsLocationsDataStoresSessionsRequest, GetProjectsLocationsDataStoresSessionsResponse, GetProjectsLocationsDataStoresSessionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDataStoresSessionsRequest,
   output: GetProjectsLocationsDataStoresSessionsResponse,
   errors: [],
 }));
 
-/** Creates a Session. If the Session to create already exists, an ALREADY_EXISTS error is returned. */
 export interface CreateProjectsLocationsDataStoresSessionsRequest {
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
@@ -20337,13 +20336,13 @@ export const CreateProjectsLocationsDataStoresSessionsResponse = GoogleCloudDisc
 
 export type CreateProjectsLocationsDataStoresSessionsError = CommonErrors;
 
+/** Creates a Session. If the Session to create already exists, an ALREADY_EXISTS error is returned. */
 export const createProjectsLocationsDataStoresSessions: API.OperationMethod<CreateProjectsLocationsDataStoresSessionsRequest, CreateProjectsLocationsDataStoresSessionsResponse, CreateProjectsLocationsDataStoresSessionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsDataStoresSessionsRequest,
   output: CreateProjectsLocationsDataStoresSessionsResponse,
   errors: [],
 }));
 
-/** Gets a Answer. */
 export interface GetProjectsLocationsDataStoresSessionsAnswersRequest {
   /** Required. The resource name of the Answer to get. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine_id}/sessions/{session_id}/answers/{answer_id}` */
   name: string;
@@ -20361,13 +20360,13 @@ export const GetProjectsLocationsDataStoresSessionsAnswersResponse = GoogleCloud
 
 export type GetProjectsLocationsDataStoresSessionsAnswersError = CommonErrors;
 
+/** Gets a Answer. */
 export const getProjectsLocationsDataStoresSessionsAnswers: API.OperationMethod<GetProjectsLocationsDataStoresSessionsAnswersRequest, GetProjectsLocationsDataStoresSessionsAnswersResponse, GetProjectsLocationsDataStoresSessionsAnswersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDataStoresSessionsAnswersRequest,
   output: GetProjectsLocationsDataStoresSessionsAnswersResponse,
   errors: [],
 }));
 
-/** Completes the user input with advanced keyword suggestions. */
 export interface CompleteQueryProjectsLocationsDataStoresCompletionConfigRequest {
   /** Required. The completion_config of the parent dataStore or engine resource name for which the completion is performed, such as `projects/* /locations/global/collections/default_collection/dataStores/* /completionConfig` `projects/* /locations/global/collections/default_collection/engines/* /completionConfig`. */
   completionConfig: string;
@@ -20388,13 +20387,13 @@ export const CompleteQueryProjectsLocationsDataStoresCompletionConfigResponse = 
 
 export type CompleteQueryProjectsLocationsDataStoresCompletionConfigError = CommonErrors;
 
+/** Completes the user input with advanced keyword suggestions. */
 export const completeQueryProjectsLocationsDataStoresCompletionConfig: API.OperationMethod<CompleteQueryProjectsLocationsDataStoresCompletionConfigRequest, CompleteQueryProjectsLocationsDataStoresCompletionConfigResponse, CompleteQueryProjectsLocationsDataStoresCompletionConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CompleteQueryProjectsLocationsDataStoresCompletionConfigRequest,
   output: CompleteQueryProjectsLocationsDataStoresCompletionConfigResponse,
   errors: [],
 }));
 
-/** Converses a conversation. */
 export interface ConverseProjectsLocationsDataStoresConversationsRequest {
   /** Required. The resource name of the Conversation to get. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/{conversation_id}`. Use `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/-` to activate auto session mode, which automatically creates a new conversation inside a ConverseConversation session. */
   name: string;
@@ -20415,13 +20414,13 @@ export const ConverseProjectsLocationsDataStoresConversationsResponse = GoogleCl
 
 export type ConverseProjectsLocationsDataStoresConversationsError = CommonErrors;
 
+/** Converses a conversation. */
 export const converseProjectsLocationsDataStoresConversations: API.OperationMethod<ConverseProjectsLocationsDataStoresConversationsRequest, ConverseProjectsLocationsDataStoresConversationsResponse, ConverseProjectsLocationsDataStoresConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ConverseProjectsLocationsDataStoresConversationsRequest,
   output: ConverseProjectsLocationsDataStoresConversationsResponse,
   errors: [],
 }));
 
-/** Lists all Conversations by their parent DataStore. */
 export interface ListProjectsLocationsDataStoresConversationsRequest {
   /** Required. The data store resource name. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
@@ -20451,7 +20450,8 @@ export const ListProjectsLocationsDataStoresConversationsResponse = GoogleCloudD
 
 export type ListProjectsLocationsDataStoresConversationsError = CommonErrors;
 
-export const listProjectsLocationsDataStoresConversations = API.makePaginated(() => ({
+/** Lists all Conversations by their parent DataStore. */
+export const listProjectsLocationsDataStoresConversations: API.PaginatedOperationMethod<ListProjectsLocationsDataStoresConversationsRequest, ListProjectsLocationsDataStoresConversationsResponse, ListProjectsLocationsDataStoresConversationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDataStoresConversationsRequest,
   output: ListProjectsLocationsDataStoresConversationsResponse,
   errors: [],
@@ -20461,7 +20461,6 @@ export const listProjectsLocationsDataStoresConversations = API.makePaginated(()
   },
 }));
 
-/** Deletes a Conversation. If the Conversation to delete does not exist, a NOT_FOUND error is returned. */
 export interface DeleteProjectsLocationsDataStoresConversationsRequest {
   /** Required. The resource name of the Conversation to delete. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/{conversation_id}` */
   name: string;
@@ -20479,13 +20478,13 @@ export const DeleteProjectsLocationsDataStoresConversationsResponse = GoogleProt
 
 export type DeleteProjectsLocationsDataStoresConversationsError = CommonErrors;
 
+/** Deletes a Conversation. If the Conversation to delete does not exist, a NOT_FOUND error is returned. */
 export const deleteProjectsLocationsDataStoresConversations: API.OperationMethod<DeleteProjectsLocationsDataStoresConversationsRequest, DeleteProjectsLocationsDataStoresConversationsResponse, DeleteProjectsLocationsDataStoresConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDataStoresConversationsRequest,
   output: DeleteProjectsLocationsDataStoresConversationsResponse,
   errors: [],
 }));
 
-/** Gets a Conversation. */
 export interface GetProjectsLocationsDataStoresConversationsRequest {
   /** Required. The resource name of the Conversation to get. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}/conversations/{conversation_id}` */
   name: string;
@@ -20503,13 +20502,13 @@ export const GetProjectsLocationsDataStoresConversationsResponse = GoogleCloudDi
 
 export type GetProjectsLocationsDataStoresConversationsError = CommonErrors;
 
+/** Gets a Conversation. */
 export const getProjectsLocationsDataStoresConversations: API.OperationMethod<GetProjectsLocationsDataStoresConversationsRequest, GetProjectsLocationsDataStoresConversationsResponse, GetProjectsLocationsDataStoresConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDataStoresConversationsRequest,
   output: GetProjectsLocationsDataStoresConversationsResponse,
   errors: [],
 }));
 
-/** Updates a Conversation. Conversation action type cannot be changed. If the Conversation to update does not exist, a NOT_FOUND error is returned. */
 export interface PatchProjectsLocationsDataStoresConversationsRequest {
   /** Immutable. Fully qualified name `projects/{project}/locations/global/collections/{collection}/dataStore/* /conversations/*` or `projects/{project}/locations/global/collections/{collection}/engines/* /conversations/*`. */
   name: string;
@@ -20533,13 +20532,13 @@ export const PatchProjectsLocationsDataStoresConversationsResponse = GoogleCloud
 
 export type PatchProjectsLocationsDataStoresConversationsError = CommonErrors;
 
+/** Updates a Conversation. Conversation action type cannot be changed. If the Conversation to update does not exist, a NOT_FOUND error is returned. */
 export const patchProjectsLocationsDataStoresConversations: API.OperationMethod<PatchProjectsLocationsDataStoresConversationsRequest, PatchProjectsLocationsDataStoresConversationsResponse, PatchProjectsLocationsDataStoresConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsDataStoresConversationsRequest,
   output: PatchProjectsLocationsDataStoresConversationsResponse,
   errors: [],
 }));
 
-/** Creates a Conversation. If the Conversation to create already exists, an ALREADY_EXISTS error is returned. */
 export interface CreateProjectsLocationsDataStoresConversationsRequest {
   /** Required. Full resource name of parent data store. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store_id}` */
   parent: string;
@@ -20560,13 +20559,13 @@ export const CreateProjectsLocationsDataStoresConversationsResponse = GoogleClou
 
 export type CreateProjectsLocationsDataStoresConversationsError = CommonErrors;
 
+/** Creates a Conversation. If the Conversation to create already exists, an ALREADY_EXISTS error is returned. */
 export const createProjectsLocationsDataStoresConversations: API.OperationMethod<CreateProjectsLocationsDataStoresConversationsRequest, CreateProjectsLocationsDataStoresConversationsResponse, CreateProjectsLocationsDataStoresConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsDataStoresConversationsRequest,
   output: CreateProjectsLocationsDataStoresConversationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsDataStoresOperationsRequest {
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
@@ -20596,7 +20595,8 @@ export const ListProjectsLocationsDataStoresOperationsResponse = GoogleLongrunni
 
 export type ListProjectsLocationsDataStoresOperationsError = CommonErrors;
 
-export const listProjectsLocationsDataStoresOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsDataStoresOperations: API.PaginatedOperationMethod<ListProjectsLocationsDataStoresOperationsRequest, ListProjectsLocationsDataStoresOperationsResponse, ListProjectsLocationsDataStoresOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDataStoresOperationsRequest,
   output: ListProjectsLocationsDataStoresOperationsResponse,
   errors: [],
@@ -20606,7 +20606,6 @@ export const listProjectsLocationsDataStoresOperations = API.makePaginated(() =>
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsDataStoresOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -20624,13 +20623,13 @@ export const GetProjectsLocationsDataStoresOperationsResponse = GoogleLongrunnin
 
 export type GetProjectsLocationsDataStoresOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsDataStoresOperations: API.OperationMethod<GetProjectsLocationsDataStoresOperationsRequest, GetProjectsLocationsDataStoresOperationsResponse, GetProjectsLocationsDataStoresOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDataStoresOperationsRequest,
   output: GetProjectsLocationsDataStoresOperationsResponse,
   errors: [],
 }));
 
-/** Lists all Controls by their parent DataStore. */
 export interface ListProjectsLocationsDataStoresControlsRequest {
   /** Optional. Maximum number of results to return. If unspecified, defaults to 50. Max allowed value is 1000. */
   pageSize?: number;
@@ -20657,7 +20656,8 @@ export const ListProjectsLocationsDataStoresControlsResponse = GoogleCloudDiscov
 
 export type ListProjectsLocationsDataStoresControlsError = CommonErrors;
 
-export const listProjectsLocationsDataStoresControls = API.makePaginated(() => ({
+/** Lists all Controls by their parent DataStore. */
+export const listProjectsLocationsDataStoresControls: API.PaginatedOperationMethod<ListProjectsLocationsDataStoresControlsRequest, ListProjectsLocationsDataStoresControlsResponse, ListProjectsLocationsDataStoresControlsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDataStoresControlsRequest,
   output: ListProjectsLocationsDataStoresControlsResponse,
   errors: [],
@@ -20667,7 +20667,6 @@ export const listProjectsLocationsDataStoresControls = API.makePaginated(() => (
   },
 }));
 
-/** Gets a Control. */
 export interface GetProjectsLocationsDataStoresControlsRequest {
   /** Required. The resource name of the Control to get. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}/controls/{control_id}` */
   name: string;
@@ -20685,13 +20684,13 @@ export const GetProjectsLocationsDataStoresControlsResponse = GoogleCloudDiscove
 
 export type GetProjectsLocationsDataStoresControlsError = CommonErrors;
 
+/** Gets a Control. */
 export const getProjectsLocationsDataStoresControls: API.OperationMethod<GetProjectsLocationsDataStoresControlsRequest, GetProjectsLocationsDataStoresControlsResponse, GetProjectsLocationsDataStoresControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDataStoresControlsRequest,
   output: GetProjectsLocationsDataStoresControlsResponse,
   errors: [],
 }));
 
-/** Updates a Control. Control action type cannot be changed. If the Control to update does not exist, a NOT_FOUND error is returned. */
 export interface PatchProjectsLocationsDataStoresControlsRequest {
   /** Immutable. Fully qualified name `projects/* /locations/global/dataStore/* /controls/*` */
   name: string;
@@ -20715,13 +20714,13 @@ export const PatchProjectsLocationsDataStoresControlsResponse = GoogleCloudDisco
 
 export type PatchProjectsLocationsDataStoresControlsError = CommonErrors;
 
+/** Updates a Control. Control action type cannot be changed. If the Control to update does not exist, a NOT_FOUND error is returned. */
 export const patchProjectsLocationsDataStoresControls: API.OperationMethod<PatchProjectsLocationsDataStoresControlsRequest, PatchProjectsLocationsDataStoresControlsResponse, PatchProjectsLocationsDataStoresControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsDataStoresControlsRequest,
   output: PatchProjectsLocationsDataStoresControlsResponse,
   errors: [],
 }));
 
-/** Creates a Control. By default 1000 controls are allowed for a data store. A request can be submitted to adjust this limit. If the Control to create already exists, an ALREADY_EXISTS error is returned. */
 export interface CreateProjectsLocationsDataStoresControlsRequest {
   /** Required. The ID to use for the Control, which will become the final component of the Control's resource name. This value must be within 1-63 characters. Valid characters are /a-z-_/. */
   controlId?: string;
@@ -20745,13 +20744,13 @@ export const CreateProjectsLocationsDataStoresControlsResponse = GoogleCloudDisc
 
 export type CreateProjectsLocationsDataStoresControlsError = CommonErrors;
 
+/** Creates a Control. By default 1000 controls are allowed for a data store. A request can be submitted to adjust this limit. If the Control to create already exists, an ALREADY_EXISTS error is returned. */
 export const createProjectsLocationsDataStoresControls: API.OperationMethod<CreateProjectsLocationsDataStoresControlsRequest, CreateProjectsLocationsDataStoresControlsResponse, CreateProjectsLocationsDataStoresControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsDataStoresControlsRequest,
   output: CreateProjectsLocationsDataStoresControlsResponse,
   errors: [],
 }));
 
-/** Deletes a Control. If the Control to delete does not exist, a NOT_FOUND error is returned. */
 export interface DeleteProjectsLocationsDataStoresControlsRequest {
   /** Required. The resource name of the Control to delete. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}/controls/{control_id}` */
   name: string;
@@ -20769,13 +20768,13 @@ export const DeleteProjectsLocationsDataStoresControlsResponse = GoogleProtobufE
 
 export type DeleteProjectsLocationsDataStoresControlsError = CommonErrors;
 
+/** Deletes a Control. If the Control to delete does not exist, a NOT_FOUND error is returned. */
 export const deleteProjectsLocationsDataStoresControls: API.OperationMethod<DeleteProjectsLocationsDataStoresControlsRequest, DeleteProjectsLocationsDataStoresControlsResponse, DeleteProjectsLocationsDataStoresControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDataStoresControlsRequest,
   output: DeleteProjectsLocationsDataStoresControlsResponse,
   errors: [],
 }));
 
-/** Answer query method. */
 export interface AnswerProjectsLocationsDataStoresServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/* /locations/global/collections/default_collection/engines/* /servingConfigs/default_serving_config`, or `projects/* /locations/global/collections/default_collection/dataStores/* /servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
@@ -20796,13 +20795,13 @@ export const AnswerProjectsLocationsDataStoresServingConfigsResponse = GoogleClo
 
 export type AnswerProjectsLocationsDataStoresServingConfigsError = CommonErrors;
 
+/** Answer query method. */
 export const answerProjectsLocationsDataStoresServingConfigs: API.OperationMethod<AnswerProjectsLocationsDataStoresServingConfigsRequest, AnswerProjectsLocationsDataStoresServingConfigsResponse, AnswerProjectsLocationsDataStoresServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AnswerProjectsLocationsDataStoresServingConfigsRequest,
   output: AnswerProjectsLocationsDataStoresServingConfigsResponse,
   errors: [],
 }));
 
-/** Performs a search. */
 export interface SearchProjectsLocationsDataStoresServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/* /locations/global/collections/default_collection/engines/* /servingConfigs/default_serving_config`, or `projects/* /locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
@@ -20823,13 +20822,13 @@ export const SearchProjectsLocationsDataStoresServingConfigsResponse = GoogleClo
 
 export type SearchProjectsLocationsDataStoresServingConfigsError = CommonErrors;
 
+/** Performs a search. */
 export const searchProjectsLocationsDataStoresServingConfigs: API.OperationMethod<SearchProjectsLocationsDataStoresServingConfigsRequest, SearchProjectsLocationsDataStoresServingConfigsResponse, SearchProjectsLocationsDataStoresServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchProjectsLocationsDataStoresServingConfigsRequest,
   output: SearchProjectsLocationsDataStoresServingConfigsResponse,
   errors: [],
 }));
 
-/** Performs a search. Similar to the SearchService.Search method, but a lite version that allows API key for authentication, where OAuth and IAM checks are not required. Only public website search is supported by this method. If data stores and engines not associated with public website search are specified, a `FAILED_PRECONDITION` error is returned. This method can be used for easy onboarding without having to implement an authentication backend. However, it is strongly recommended to use SearchService.Search instead with required OAuth and IAM checks to provide better data security. */
 export interface SearchLiteProjectsLocationsDataStoresServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/* /locations/global/collections/default_collection/engines/* /servingConfigs/default_serving_config`, or `projects/* /locations/global/collections/default_collection/dataStores/default_data_store/servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
@@ -20850,13 +20849,13 @@ export const SearchLiteProjectsLocationsDataStoresServingConfigsResponse = Googl
 
 export type SearchLiteProjectsLocationsDataStoresServingConfigsError = CommonErrors;
 
+/** Performs a search. Similar to the SearchService.Search method, but a lite version that allows API key for authentication, where OAuth and IAM checks are not required. Only public website search is supported by this method. If data stores and engines not associated with public website search are specified, a `FAILED_PRECONDITION` error is returned. This method can be used for easy onboarding without having to implement an authentication backend. However, it is strongly recommended to use SearchService.Search instead with required OAuth and IAM checks to provide better data security. */
 export const searchLiteProjectsLocationsDataStoresServingConfigs: API.OperationMethod<SearchLiteProjectsLocationsDataStoresServingConfigsRequest, SearchLiteProjectsLocationsDataStoresServingConfigsResponse, SearchLiteProjectsLocationsDataStoresServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchLiteProjectsLocationsDataStoresServingConfigsRequest,
   output: SearchLiteProjectsLocationsDataStoresServingConfigsResponse,
   errors: [],
 }));
 
-/** Lists all ServingConfigs linked to this dataStore. */
 export interface ListProjectsLocationsDataStoresServingConfigsRequest {
   /** Optional. Maximum number of results to return. If unspecified, defaults to 100. If a value greater than 100 is provided, at most 100 results are returned. */
   pageSize?: number;
@@ -20880,7 +20879,8 @@ export const ListProjectsLocationsDataStoresServingConfigsResponse = GoogleCloud
 
 export type ListProjectsLocationsDataStoresServingConfigsError = CommonErrors;
 
-export const listProjectsLocationsDataStoresServingConfigs = API.makePaginated(() => ({
+/** Lists all ServingConfigs linked to this dataStore. */
+export const listProjectsLocationsDataStoresServingConfigs: API.PaginatedOperationMethod<ListProjectsLocationsDataStoresServingConfigsRequest, ListProjectsLocationsDataStoresServingConfigsResponse, ListProjectsLocationsDataStoresServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDataStoresServingConfigsRequest,
   output: ListProjectsLocationsDataStoresServingConfigsResponse,
   errors: [],
@@ -20890,7 +20890,6 @@ export const listProjectsLocationsDataStoresServingConfigs = API.makePaginated((
   },
 }));
 
-/** Deletes a ServingConfig. Returns a NOT_FOUND error if the ServingConfig does not exist. */
 export interface DeleteProjectsLocationsDataStoresServingConfigsRequest {
   /** Required. The resource name of the ServingConfig to delete. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/servingConfigs/{serving_config_id}` */
   name: string;
@@ -20908,13 +20907,13 @@ export const DeleteProjectsLocationsDataStoresServingConfigsResponse = GooglePro
 
 export type DeleteProjectsLocationsDataStoresServingConfigsError = CommonErrors;
 
+/** Deletes a ServingConfig. Returns a NOT_FOUND error if the ServingConfig does not exist. */
 export const deleteProjectsLocationsDataStoresServingConfigs: API.OperationMethod<DeleteProjectsLocationsDataStoresServingConfigsRequest, DeleteProjectsLocationsDataStoresServingConfigsResponse, DeleteProjectsLocationsDataStoresServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDataStoresServingConfigsRequest,
   output: DeleteProjectsLocationsDataStoresServingConfigsResponse,
   errors: [],
 }));
 
-/** Answer query method (streaming). It takes one AnswerQueryRequest and returns multiple AnswerQueryResponse messages in a stream. */
 export interface StreamAnswerProjectsLocationsDataStoresServingConfigsRequest {
   /** Required. The resource name of the Search serving config, such as `projects/* /locations/global/collections/default_collection/engines/* /servingConfigs/default_serving_config`, or `projects/* /locations/global/collections/default_collection/dataStores/* /servingConfigs/default_serving_config`. This field is used to identify the serving configuration name, set of models used to make the search. */
   servingConfig: string;
@@ -20935,13 +20934,13 @@ export const StreamAnswerProjectsLocationsDataStoresServingConfigsResponse = Goo
 
 export type StreamAnswerProjectsLocationsDataStoresServingConfigsError = CommonErrors;
 
+/** Answer query method (streaming). It takes one AnswerQueryRequest and returns multiple AnswerQueryResponse messages in a stream. */
 export const streamAnswerProjectsLocationsDataStoresServingConfigs: API.OperationMethod<StreamAnswerProjectsLocationsDataStoresServingConfigsRequest, StreamAnswerProjectsLocationsDataStoresServingConfigsResponse, StreamAnswerProjectsLocationsDataStoresServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StreamAnswerProjectsLocationsDataStoresServingConfigsRequest,
   output: StreamAnswerProjectsLocationsDataStoresServingConfigsResponse,
   errors: [],
 }));
 
-/** Creates a ServingConfig. Note: The Google Cloud console works only with the default serving config. Additional ServingConfigs can be created and managed only via the API. A maximum of 100 ServingConfigs are allowed in an Engine, otherwise a RESOURCE_EXHAUSTED error is returned. */
 export interface CreateProjectsLocationsDataStoresServingConfigsRequest {
   /** Required. The ID to use for the ServingConfig, which will become the final component of the ServingConfig's resource name. This value should be 4-63 characters, and valid characters are /a-zA-Z0-9+/. */
   servingConfigId?: string;
@@ -20965,13 +20964,13 @@ export const CreateProjectsLocationsDataStoresServingConfigsResponse = GoogleClo
 
 export type CreateProjectsLocationsDataStoresServingConfigsError = CommonErrors;
 
+/** Creates a ServingConfig. Note: The Google Cloud console works only with the default serving config. Additional ServingConfigs can be created and managed only via the API. A maximum of 100 ServingConfigs are allowed in an Engine, otherwise a RESOURCE_EXHAUSTED error is returned. */
 export const createProjectsLocationsDataStoresServingConfigs: API.OperationMethod<CreateProjectsLocationsDataStoresServingConfigsRequest, CreateProjectsLocationsDataStoresServingConfigsResponse, CreateProjectsLocationsDataStoresServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsDataStoresServingConfigsRequest,
   output: CreateProjectsLocationsDataStoresServingConfigsResponse,
   errors: [],
 }));
 
-/** Makes a recommendation, which requires a contextual user event. */
 export interface RecommendProjectsLocationsDataStoresServingConfigsRequest {
   /** Required. Full resource name of a ServingConfig: `projects/* /locations/global/collections/* /engines/* /servingConfigs/*`, or `projects/* /locations/global/collections/* /dataStores/* /servingConfigs/*` One default serving config is created along with your recommendation engine creation. The engine ID is used as the ID of the default serving config. For example, for Engine `projects/* /locations/global/collections/* /engines/my-engine`, you can use `projects/* /locations/global/collections/* /engines/my-engine/servingConfigs/my-engine` for your RecommendationService.Recommend requests. */
   servingConfig: string;
@@ -20992,13 +20991,13 @@ export const RecommendProjectsLocationsDataStoresServingConfigsResponse = Google
 
 export type RecommendProjectsLocationsDataStoresServingConfigsError = CommonErrors;
 
+/** Makes a recommendation, which requires a contextual user event. */
 export const recommendProjectsLocationsDataStoresServingConfigs: API.OperationMethod<RecommendProjectsLocationsDataStoresServingConfigsRequest, RecommendProjectsLocationsDataStoresServingConfigsResponse, RecommendProjectsLocationsDataStoresServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RecommendProjectsLocationsDataStoresServingConfigsRequest,
   output: RecommendProjectsLocationsDataStoresServingConfigsResponse,
   errors: [],
 }));
 
-/** Gets a ServingConfig. Returns a NotFound error if the ServingConfig does not exist. */
 export interface GetProjectsLocationsDataStoresServingConfigsRequest {
   /** Required. The resource name of the ServingConfig to get. Format: `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/servingConfigs/{serving_config_id}` */
   name: string;
@@ -21016,13 +21015,13 @@ export const GetProjectsLocationsDataStoresServingConfigsResponse = GoogleCloudD
 
 export type GetProjectsLocationsDataStoresServingConfigsError = CommonErrors;
 
+/** Gets a ServingConfig. Returns a NotFound error if the ServingConfig does not exist. */
 export const getProjectsLocationsDataStoresServingConfigs: API.OperationMethod<GetProjectsLocationsDataStoresServingConfigsRequest, GetProjectsLocationsDataStoresServingConfigsResponse, GetProjectsLocationsDataStoresServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDataStoresServingConfigsRequest,
   output: GetProjectsLocationsDataStoresServingConfigsResponse,
   errors: [],
 }));
 
-/** Updates a ServingConfig. Returns a NOT_FOUND error if the ServingConfig does not exist. */
 export interface PatchProjectsLocationsDataStoresServingConfigsRequest {
   /** Indicates which fields in the provided ServingConfig to update. The following are NOT supported: * ServingConfig.name If not set, all supported fields are updated. */
   updateMask?: string;
@@ -21046,13 +21045,13 @@ export const PatchProjectsLocationsDataStoresServingConfigsResponse = GoogleClou
 
 export type PatchProjectsLocationsDataStoresServingConfigsError = CommonErrors;
 
+/** Updates a ServingConfig. Returns a NOT_FOUND error if the ServingConfig does not exist. */
 export const patchProjectsLocationsDataStoresServingConfigs: API.OperationMethod<PatchProjectsLocationsDataStoresServingConfigsRequest, PatchProjectsLocationsDataStoresServingConfigsResponse, PatchProjectsLocationsDataStoresServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsDataStoresServingConfigsRequest,
   output: PatchProjectsLocationsDataStoresServingConfigsResponse,
   errors: [],
 }));
 
-/** Gets a WidgetConfig. */
 export interface GetProjectsLocationsDataStoresWidgetConfigsRequest {
   /** Optional. Whether it's acceptable to load the widget config from cache. If set to true, recent changes on widget configs may take a few minutes to reflect on the end user's view. It's recommended to set to true for maturely developed widgets, as it improves widget performance. Set to false to see changes reflected in prod right away, if your widget is under development. */
   acceptCache?: boolean;
@@ -21076,13 +21075,13 @@ export const GetProjectsLocationsDataStoresWidgetConfigsResponse = GoogleCloudDi
 
 export type GetProjectsLocationsDataStoresWidgetConfigsError = CommonErrors;
 
+/** Gets a WidgetConfig. */
 export const getProjectsLocationsDataStoresWidgetConfigs: API.OperationMethod<GetProjectsLocationsDataStoresWidgetConfigsRequest, GetProjectsLocationsDataStoresWidgetConfigsResponse, GetProjectsLocationsDataStoresWidgetConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDataStoresWidgetConfigsRequest,
   output: GetProjectsLocationsDataStoresWidgetConfigsResponse,
   errors: [],
 }));
 
-/** Update a WidgetConfig. */
 export interface PatchProjectsLocationsDataStoresWidgetConfigsRequest {
   /** Immutable. The full resource name of the widget config. Format: `projects/{project}/locations/{location}/collections/{collection_id}/dataStores/{data_store_id}/widgetConfigs/{widget_config_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
@@ -21106,13 +21105,13 @@ export const PatchProjectsLocationsDataStoresWidgetConfigsResponse = GoogleCloud
 
 export type PatchProjectsLocationsDataStoresWidgetConfigsError = CommonErrors;
 
+/** Update a WidgetConfig. */
 export const patchProjectsLocationsDataStoresWidgetConfigs: API.OperationMethod<PatchProjectsLocationsDataStoresWidgetConfigsRequest, PatchProjectsLocationsDataStoresWidgetConfigsResponse, PatchProjectsLocationsDataStoresWidgetConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsDataStoresWidgetConfigsRequest,
   output: PatchProjectsLocationsDataStoresWidgetConfigsResponse,
   errors: [],
 }));
 
-/** Deletes permanently all user events specified by the filter provided. Depending on the number of events specified by the filter, this operation could take hours or days to complete. To test a filter, use the list command first. */
 export interface PurgeProjectsLocationsDataStoresUserEventsRequest {
   /** Required. The resource name of the catalog under which the events are created. The format is `projects/{project}/locations/global/collections/{collection}/dataStores/{dataStore}`. */
   parent: string;
@@ -21133,13 +21132,13 @@ export const PurgeProjectsLocationsDataStoresUserEventsResponse = GoogleLongrunn
 
 export type PurgeProjectsLocationsDataStoresUserEventsError = CommonErrors;
 
+/** Deletes permanently all user events specified by the filter provided. Depending on the number of events specified by the filter, this operation could take hours or days to complete. To test a filter, use the list command first. */
 export const purgeProjectsLocationsDataStoresUserEvents: API.OperationMethod<PurgeProjectsLocationsDataStoresUserEventsRequest, PurgeProjectsLocationsDataStoresUserEventsResponse, PurgeProjectsLocationsDataStoresUserEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PurgeProjectsLocationsDataStoresUserEventsRequest,
   output: PurgeProjectsLocationsDataStoresUserEventsResponse,
   errors: [],
 }));
 
-/** Writes a single user event from the browser. This uses a GET request to due to browser restriction of POST-ing to a third-party domain. This method is used only by the Discovery Engine API JavaScript pixel and Google Tag Manager. Users should not call this method directly. */
 export interface CollectProjectsLocationsDataStoresUserEventsRequest {
   /** Required. URL encoded UserEvent proto with a length limit of 2,000,000 characters. */
   userEvent?: string;
@@ -21166,13 +21165,13 @@ export const CollectProjectsLocationsDataStoresUserEventsResponse = GoogleApiHtt
 
 export type CollectProjectsLocationsDataStoresUserEventsError = CommonErrors;
 
+/** Writes a single user event from the browser. This uses a GET request to due to browser restriction of POST-ing to a third-party domain. This method is used only by the Discovery Engine API JavaScript pixel and Google Tag Manager. Users should not call this method directly. */
 export const collectProjectsLocationsDataStoresUserEvents: API.OperationMethod<CollectProjectsLocationsDataStoresUserEventsRequest, CollectProjectsLocationsDataStoresUserEventsResponse, CollectProjectsLocationsDataStoresUserEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CollectProjectsLocationsDataStoresUserEventsRequest,
   output: CollectProjectsLocationsDataStoresUserEventsResponse,
   errors: [],
 }));
 
-/** Writes a single user event. */
 export interface WriteProjectsLocationsDataStoresUserEventsRequest {
   /** Required. The parent resource name. If the write user event action is applied in DataStore level, the format is: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}`. If the write user event action is applied in Location level, for example, the event with Document across multiple DataStore, the format is: `projects/{project}/locations/{location}`. */
   parent: string;
@@ -21196,13 +21195,13 @@ export const WriteProjectsLocationsDataStoresUserEventsResponse = GoogleCloudDis
 
 export type WriteProjectsLocationsDataStoresUserEventsError = CommonErrors;
 
+/** Writes a single user event. */
 export const writeProjectsLocationsDataStoresUserEvents: API.OperationMethod<WriteProjectsLocationsDataStoresUserEventsRequest, WriteProjectsLocationsDataStoresUserEventsResponse, WriteProjectsLocationsDataStoresUserEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WriteProjectsLocationsDataStoresUserEventsRequest,
   output: WriteProjectsLocationsDataStoresUserEventsResponse,
   errors: [],
 }));
 
-/** Bulk import of user events. Request processing might be synchronous. Events that already exist are skipped. Use this method for backfilling historical user events. Operation.response is of type ImportResponse. Note that it is possible for a subset of the items to be successfully inserted. Operation.metadata is of type ImportMetadata. */
 export interface ImportProjectsLocationsDataStoresUserEventsRequest {
   /** Required. Parent DataStore resource name, of the form `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}` */
   parent: string;
@@ -21223,13 +21222,13 @@ export const ImportProjectsLocationsDataStoresUserEventsResponse = GoogleLongrun
 
 export type ImportProjectsLocationsDataStoresUserEventsError = CommonErrors;
 
+/** Bulk import of user events. Request processing might be synchronous. Events that already exist are skipped. Use this method for backfilling historical user events. Operation.response is of type ImportResponse. Note that it is possible for a subset of the items to be successfully inserted. Operation.metadata is of type ImportMetadata. */
 export const importProjectsLocationsDataStoresUserEvents: API.OperationMethod<ImportProjectsLocationsDataStoresUserEventsRequest, ImportProjectsLocationsDataStoresUserEventsResponse, ImportProjectsLocationsDataStoresUserEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportProjectsLocationsDataStoresUserEventsRequest,
   output: ImportProjectsLocationsDataStoresUserEventsResponse,
   errors: [],
 }));
 
-/** Imports all SuggestionDenyListEntry for a DataStore. */
 export interface ImportProjectsLocationsDataStoresSuggestionDenyListEntriesRequest {
   /** Required. The parent data store resource name for which to import denylist entries. Follows pattern projects/* /locations/* /collections/* /dataStores/*. */
   parent: string;
@@ -21250,13 +21249,13 @@ export const ImportProjectsLocationsDataStoresSuggestionDenyListEntriesResponse 
 
 export type ImportProjectsLocationsDataStoresSuggestionDenyListEntriesError = CommonErrors;
 
+/** Imports all SuggestionDenyListEntry for a DataStore. */
 export const importProjectsLocationsDataStoresSuggestionDenyListEntries: API.OperationMethod<ImportProjectsLocationsDataStoresSuggestionDenyListEntriesRequest, ImportProjectsLocationsDataStoresSuggestionDenyListEntriesResponse, ImportProjectsLocationsDataStoresSuggestionDenyListEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportProjectsLocationsDataStoresSuggestionDenyListEntriesRequest,
   output: ImportProjectsLocationsDataStoresSuggestionDenyListEntriesResponse,
   errors: [],
 }));
 
-/** Permanently deletes all SuggestionDenyListEntry for a DataStore. */
 export interface PurgeProjectsLocationsDataStoresSuggestionDenyListEntriesRequest {
   /** Required. The parent data store resource name for which to import denylist entries. Follows pattern projects/* /locations/* /collections/* /dataStores/*. */
   parent: string;
@@ -21277,13 +21276,13 @@ export const PurgeProjectsLocationsDataStoresSuggestionDenyListEntriesResponse =
 
 export type PurgeProjectsLocationsDataStoresSuggestionDenyListEntriesError = CommonErrors;
 
+/** Permanently deletes all SuggestionDenyListEntry for a DataStore. */
 export const purgeProjectsLocationsDataStoresSuggestionDenyListEntries: API.OperationMethod<PurgeProjectsLocationsDataStoresSuggestionDenyListEntriesRequest, PurgeProjectsLocationsDataStoresSuggestionDenyListEntriesResponse, PurgeProjectsLocationsDataStoresSuggestionDenyListEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PurgeProjectsLocationsDataStoresSuggestionDenyListEntriesRequest,
   output: PurgeProjectsLocationsDataStoresSuggestionDenyListEntriesResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsDataStoresModelsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -21301,13 +21300,13 @@ export const GetProjectsLocationsDataStoresModelsOperationsResponse = GoogleLong
 
 export type GetProjectsLocationsDataStoresModelsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsDataStoresModelsOperations: API.OperationMethod<GetProjectsLocationsDataStoresModelsOperationsRequest, GetProjectsLocationsDataStoresModelsOperationsResponse, GetProjectsLocationsDataStoresModelsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDataStoresModelsOperationsRequest,
   output: GetProjectsLocationsDataStoresModelsOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsDataStoresModelsOperationsRequest {
   /** The standard list filter. */
   filter?: string;
@@ -21337,7 +21336,8 @@ export const ListProjectsLocationsDataStoresModelsOperationsResponse = GoogleLon
 
 export type ListProjectsLocationsDataStoresModelsOperationsError = CommonErrors;
 
-export const listProjectsLocationsDataStoresModelsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsDataStoresModelsOperations: API.PaginatedOperationMethod<ListProjectsLocationsDataStoresModelsOperationsRequest, ListProjectsLocationsDataStoresModelsOperationsResponse, ListProjectsLocationsDataStoresModelsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDataStoresModelsOperationsRequest,
   output: ListProjectsLocationsDataStoresModelsOperationsResponse,
   errors: [],
@@ -21347,7 +21347,6 @@ export const listProjectsLocationsDataStoresModelsOperations = API.makePaginated
   },
 }));
 
-/** Gets index freshness metadata for Documents. Supported for website search only. */
 export interface BatchGetDocumentsMetadataProjectsLocationsDataStoresBranchesRequest {
   /** Required. The FHIR resources to match by. Format: projects/{project}/locations/{location}/datasets/{dataset}/fhirStores/{fhir_store}/fhir/{resource_type}/{fhir_resource_id} */
   "matcher.fhirMatcher.fhirResources"?: string[];
@@ -21371,13 +21370,13 @@ export const BatchGetDocumentsMetadataProjectsLocationsDataStoresBranchesRespons
 
 export type BatchGetDocumentsMetadataProjectsLocationsDataStoresBranchesError = CommonErrors;
 
+/** Gets index freshness metadata for Documents. Supported for website search only. */
 export const batchGetDocumentsMetadataProjectsLocationsDataStoresBranches: API.OperationMethod<BatchGetDocumentsMetadataProjectsLocationsDataStoresBranchesRequest, BatchGetDocumentsMetadataProjectsLocationsDataStoresBranchesResponse, BatchGetDocumentsMetadataProjectsLocationsDataStoresBranchesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchGetDocumentsMetadataProjectsLocationsDataStoresBranchesRequest,
   output: BatchGetDocumentsMetadataProjectsLocationsDataStoresBranchesResponse,
   errors: [],
 }));
 
-/** Bulk import of multiple Documents. Request processing may be synchronous. Non-existing items are created. Note: It is possible for a subset of the Documents to be successfully updated. */
 export interface ImportProjectsLocationsDataStoresBranchesDocumentsRequest {
   /** Required. The parent branch resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. Requires create/update permission. */
   parent: string;
@@ -21398,13 +21397,13 @@ export const ImportProjectsLocationsDataStoresBranchesDocumentsResponse = Google
 
 export type ImportProjectsLocationsDataStoresBranchesDocumentsError = CommonErrors;
 
+/** Bulk import of multiple Documents. Request processing may be synchronous. Non-existing items are created. Note: It is possible for a subset of the Documents to be successfully updated. */
 export const importProjectsLocationsDataStoresBranchesDocuments: API.OperationMethod<ImportProjectsLocationsDataStoresBranchesDocumentsRequest, ImportProjectsLocationsDataStoresBranchesDocumentsResponse, ImportProjectsLocationsDataStoresBranchesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportProjectsLocationsDataStoresBranchesDocumentsRequest,
   output: ImportProjectsLocationsDataStoresBranchesDocumentsResponse,
   errors: [],
 }));
 
-/** Deletes a Document. */
 export interface DeleteProjectsLocationsDataStoresBranchesDocumentsRequest {
   /** Required. Full resource name of Document, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}/documents/{document}`. If the caller does not have permission to delete the Document, regardless of whether or not it exists, a `PERMISSION_DENIED` error is returned. If the Document to delete does not exist, a `NOT_FOUND` error is returned. */
   name: string;
@@ -21422,13 +21421,13 @@ export const DeleteProjectsLocationsDataStoresBranchesDocumentsResponse = Google
 
 export type DeleteProjectsLocationsDataStoresBranchesDocumentsError = CommonErrors;
 
+/** Deletes a Document. */
 export const deleteProjectsLocationsDataStoresBranchesDocuments: API.OperationMethod<DeleteProjectsLocationsDataStoresBranchesDocumentsRequest, DeleteProjectsLocationsDataStoresBranchesDocumentsResponse, DeleteProjectsLocationsDataStoresBranchesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDataStoresBranchesDocumentsRequest,
   output: DeleteProjectsLocationsDataStoresBranchesDocumentsResponse,
   errors: [],
 }));
 
-/** Updates a Document. */
 export interface PatchProjectsLocationsDataStoresBranchesDocumentsRequest {
   /** Immutable. The full resource name of the document. Format: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}/documents/{document_id}`. This field must be a UTF-8 encoded string with a length limit of 1024 characters. */
   name: string;
@@ -21455,13 +21454,13 @@ export const PatchProjectsLocationsDataStoresBranchesDocumentsResponse = GoogleC
 
 export type PatchProjectsLocationsDataStoresBranchesDocumentsError = CommonErrors;
 
+/** Updates a Document. */
 export const patchProjectsLocationsDataStoresBranchesDocuments: API.OperationMethod<PatchProjectsLocationsDataStoresBranchesDocumentsRequest, PatchProjectsLocationsDataStoresBranchesDocumentsResponse, PatchProjectsLocationsDataStoresBranchesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsDataStoresBranchesDocumentsRequest,
   output: PatchProjectsLocationsDataStoresBranchesDocumentsResponse,
   errors: [],
 }));
 
-/** Permanently deletes all selected Documents in a branch. This process is asynchronous. Depending on the number of Documents to be deleted, this operation can take hours to complete. Before the delete operation completes, some Documents might still be returned by DocumentService.GetDocument or DocumentService.ListDocuments. To get a list of the Documents to be deleted, set PurgeDocumentsRequest.force to false. */
 export interface PurgeProjectsLocationsDataStoresBranchesDocumentsRequest {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. */
   parent: string;
@@ -21482,13 +21481,13 @@ export const PurgeProjectsLocationsDataStoresBranchesDocumentsResponse = GoogleL
 
 export type PurgeProjectsLocationsDataStoresBranchesDocumentsError = CommonErrors;
 
+/** Permanently deletes all selected Documents in a branch. This process is asynchronous. Depending on the number of Documents to be deleted, this operation can take hours to complete. Before the delete operation completes, some Documents might still be returned by DocumentService.GetDocument or DocumentService.ListDocuments. To get a list of the Documents to be deleted, set PurgeDocumentsRequest.force to false. */
 export const purgeProjectsLocationsDataStoresBranchesDocuments: API.OperationMethod<PurgeProjectsLocationsDataStoresBranchesDocumentsRequest, PurgeProjectsLocationsDataStoresBranchesDocumentsResponse, PurgeProjectsLocationsDataStoresBranchesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PurgeProjectsLocationsDataStoresBranchesDocumentsRequest,
   output: PurgeProjectsLocationsDataStoresBranchesDocumentsResponse,
   errors: [],
 }));
 
-/** Creates a Document. */
 export interface CreateProjectsLocationsDataStoresBranchesDocumentsRequest {
   /** Required. The parent resource name, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}`. */
   parent: string;
@@ -21512,13 +21511,13 @@ export const CreateProjectsLocationsDataStoresBranchesDocumentsResponse = Google
 
 export type CreateProjectsLocationsDataStoresBranchesDocumentsError = CommonErrors;
 
+/** Creates a Document. */
 export const createProjectsLocationsDataStoresBranchesDocuments: API.OperationMethod<CreateProjectsLocationsDataStoresBranchesDocumentsRequest, CreateProjectsLocationsDataStoresBranchesDocumentsResponse, CreateProjectsLocationsDataStoresBranchesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsDataStoresBranchesDocumentsRequest,
   output: CreateProjectsLocationsDataStoresBranchesDocumentsResponse,
   errors: [],
 }));
 
-/** Gets a list of Documents. */
 export interface ListProjectsLocationsDataStoresBranchesDocumentsRequest {
   /** A page token ListDocumentsResponse.next_page_token, received from a previous DocumentService.ListDocuments call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to DocumentService.ListDocuments must match the call that provided the page token. Otherwise, an `INVALID_ARGUMENT` error is returned. */
   pageToken?: string;
@@ -21542,7 +21541,8 @@ export const ListProjectsLocationsDataStoresBranchesDocumentsResponse = GoogleCl
 
 export type ListProjectsLocationsDataStoresBranchesDocumentsError = CommonErrors;
 
-export const listProjectsLocationsDataStoresBranchesDocuments = API.makePaginated(() => ({
+/** Gets a list of Documents. */
+export const listProjectsLocationsDataStoresBranchesDocuments: API.PaginatedOperationMethod<ListProjectsLocationsDataStoresBranchesDocumentsRequest, ListProjectsLocationsDataStoresBranchesDocumentsResponse, ListProjectsLocationsDataStoresBranchesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDataStoresBranchesDocumentsRequest,
   output: ListProjectsLocationsDataStoresBranchesDocumentsResponse,
   errors: [],
@@ -21552,7 +21552,6 @@ export const listProjectsLocationsDataStoresBranchesDocuments = API.makePaginate
   },
 }));
 
-/** Gets a Document. */
 export interface GetProjectsLocationsDataStoresBranchesDocumentsRequest {
   /** Required. Full resource name of Document, such as `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}/branches/{branch}/documents/{document}`. If the caller does not have permission to access the Document, regardless of whether or not it exists, a `PERMISSION_DENIED` error is returned. If the requested Document does not exist, a `NOT_FOUND` error is returned. */
   name: string;
@@ -21570,13 +21569,13 @@ export const GetProjectsLocationsDataStoresBranchesDocumentsResponse = GoogleClo
 
 export type GetProjectsLocationsDataStoresBranchesDocumentsError = CommonErrors;
 
+/** Gets a Document. */
 export const getProjectsLocationsDataStoresBranchesDocuments: API.OperationMethod<GetProjectsLocationsDataStoresBranchesDocumentsRequest, GetProjectsLocationsDataStoresBranchesDocumentsResponse, GetProjectsLocationsDataStoresBranchesDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDataStoresBranchesDocumentsRequest,
   output: GetProjectsLocationsDataStoresBranchesDocumentsResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsDataStoresBranchesOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -21594,13 +21593,13 @@ export const GetProjectsLocationsDataStoresBranchesOperationsResponse = GoogleLo
 
 export type GetProjectsLocationsDataStoresBranchesOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsDataStoresBranchesOperations: API.OperationMethod<GetProjectsLocationsDataStoresBranchesOperationsRequest, GetProjectsLocationsDataStoresBranchesOperationsResponse, GetProjectsLocationsDataStoresBranchesOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDataStoresBranchesOperationsRequest,
   output: GetProjectsLocationsDataStoresBranchesOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsDataStoresBranchesOperationsRequest {
   /** The standard list page size. */
   pageSize?: number;
@@ -21630,7 +21629,8 @@ export const ListProjectsLocationsDataStoresBranchesOperationsResponse = GoogleL
 
 export type ListProjectsLocationsDataStoresBranchesOperationsError = CommonErrors;
 
-export const listProjectsLocationsDataStoresBranchesOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsDataStoresBranchesOperations: API.PaginatedOperationMethod<ListProjectsLocationsDataStoresBranchesOperationsRequest, ListProjectsLocationsDataStoresBranchesOperationsResponse, ListProjectsLocationsDataStoresBranchesOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDataStoresBranchesOperationsRequest,
   output: ListProjectsLocationsDataStoresBranchesOperationsResponse,
   errors: [],
@@ -21640,7 +21640,6 @@ export const listProjectsLocationsDataStoresBranchesOperations = API.makePaginat
   },
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsDataStoresBranchesOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -21661,13 +21660,13 @@ export const CancelProjectsLocationsDataStoresBranchesOperationsResponse = Googl
 
 export type CancelProjectsLocationsDataStoresBranchesOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsDataStoresBranchesOperations: API.OperationMethod<CancelProjectsLocationsDataStoresBranchesOperationsRequest, CancelProjectsLocationsDataStoresBranchesOperationsResponse, CancelProjectsLocationsDataStoresBranchesOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsDataStoresBranchesOperationsRequest,
   output: CancelProjectsLocationsDataStoresBranchesOperationsResponse,
   errors: [],
 }));
 
-/** Performs a grounding check. */
 export interface CheckProjectsLocationsGroundingConfigsRequest {
   /** Required. The resource name of the grounding config, such as `projects/* /locations/global/groundingConfigs/default_grounding_config`. */
   groundingConfig: string;
@@ -21688,13 +21687,13 @@ export const CheckProjectsLocationsGroundingConfigsResponse = GoogleCloudDiscove
 
 export type CheckProjectsLocationsGroundingConfigsError = CommonErrors;
 
+/** Performs a grounding check. */
 export const checkProjectsLocationsGroundingConfigs: API.OperationMethod<CheckProjectsLocationsGroundingConfigsRequest, CheckProjectsLocationsGroundingConfigsResponse, CheckProjectsLocationsGroundingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CheckProjectsLocationsGroundingConfigsRequest,
   output: CheckProjectsLocationsGroundingConfigsResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsPodcastsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -21712,13 +21711,13 @@ export const GetProjectsLocationsPodcastsOperationsResponse = GoogleLongrunningO
 
 export type GetProjectsLocationsPodcastsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsPodcastsOperations: API.OperationMethod<GetProjectsLocationsPodcastsOperationsRequest, GetProjectsLocationsPodcastsOperationsResponse, GetProjectsLocationsPodcastsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsPodcastsOperationsRequest,
   output: GetProjectsLocationsPodcastsOperationsResponse,
   errors: [],
 }));
 
-/** Gets the CmekConfig. */
 export interface GetProjectsLocationsCmekConfigsRequest {
   /** Required. Resource name of CmekConfig, such as `projects/* /locations/* /cmekConfig` or `projects/* /locations/* /cmekConfigs/*`. If the caller does not have permission to access the CmekConfig, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. */
   name: string;
@@ -21736,13 +21735,13 @@ export const GetProjectsLocationsCmekConfigsResponse = GoogleCloudDiscoveryengin
 
 export type GetProjectsLocationsCmekConfigsError = CommonErrors;
 
+/** Gets the CmekConfig. */
 export const getProjectsLocationsCmekConfigs: API.OperationMethod<GetProjectsLocationsCmekConfigsRequest, GetProjectsLocationsCmekConfigsResponse, GetProjectsLocationsCmekConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCmekConfigsRequest,
   output: GetProjectsLocationsCmekConfigsResponse,
   errors: [],
 }));
 
-/** Lists all the CmekConfigs with the project. */
 export interface ListProjectsLocationsCmekConfigsRequest {
   /** Required. The parent location resource name, such as `projects/{project}/locations/{location}`. If the caller does not have permission to list CmekConfigs under this location, regardless of whether or not a CmekConfig exists, a PERMISSION_DENIED error is returned. */
   parent: string;
@@ -21760,13 +21759,13 @@ export const ListProjectsLocationsCmekConfigsResponse = GoogleCloudDiscoveryengi
 
 export type ListProjectsLocationsCmekConfigsError = CommonErrors;
 
+/** Lists all the CmekConfigs with the project. */
 export const listProjectsLocationsCmekConfigs: API.OperationMethod<ListProjectsLocationsCmekConfigsRequest, ListProjectsLocationsCmekConfigsResponse, ListProjectsLocationsCmekConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsCmekConfigsRequest,
   output: ListProjectsLocationsCmekConfigsResponse,
   errors: [],
 }));
 
-/** De-provisions a CmekConfig. */
 export interface DeleteProjectsLocationsCmekConfigsRequest {
   /** Required. The resource name of the CmekConfig to delete, such as `projects/{project}/locations/{location}/cmekConfigs/{cmek_config}`. */
   name: string;
@@ -21784,13 +21783,13 @@ export const DeleteProjectsLocationsCmekConfigsResponse = GoogleLongrunningOpera
 
 export type DeleteProjectsLocationsCmekConfigsError = CommonErrors;
 
+/** De-provisions a CmekConfig. */
 export const deleteProjectsLocationsCmekConfigs: API.OperationMethod<DeleteProjectsLocationsCmekConfigsRequest, DeleteProjectsLocationsCmekConfigsResponse, DeleteProjectsLocationsCmekConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCmekConfigsRequest,
   output: DeleteProjectsLocationsCmekConfigsResponse,
   errors: [],
 }));
 
-/** Provisions a CMEK key for use in a location of a customer's project. This method will also conduct location validation on the provided cmekConfig to make sure the key is valid and can be used in the selected location. */
 export interface PatchProjectsLocationsCmekConfigsRequest {
   /** Required. The name of the CmekConfig of the form `projects/{project}/locations/{location}/cmekConfig` or `projects/{project}/locations/{location}/cmekConfigs/{cmek_config}`. */
   name: string;
@@ -21814,13 +21813,13 @@ export const PatchProjectsLocationsCmekConfigsResponse = GoogleLongrunningOperat
 
 export type PatchProjectsLocationsCmekConfigsError = CommonErrors;
 
+/** Provisions a CMEK key for use in a location of a customer's project. This method will also conduct location validation on the provided cmekConfig to make sure the key is valid and can be used in the selected location. */
 export const patchProjectsLocationsCmekConfigs: API.OperationMethod<PatchProjectsLocationsCmekConfigsRequest, PatchProjectsLocationsCmekConfigsResponse, PatchProjectsLocationsCmekConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCmekConfigsRequest,
   output: PatchProjectsLocationsCmekConfigsResponse,
   errors: [],
 }));
 
-/** Imports a list of Identity Mapping Entries to an Identity Mapping Store. */
 export interface ImportIdentityMappingsProjectsLocationsIdentityMappingStoresRequest {
   /** Required. The name of the Identity Mapping Store to import Identity Mapping Entries to. Format: `projects/{project}/locations/{location}/identityMappingStores/{identityMappingStore}` */
   identityMappingStore: string;
@@ -21841,13 +21840,13 @@ export const ImportIdentityMappingsProjectsLocationsIdentityMappingStoresRespons
 
 export type ImportIdentityMappingsProjectsLocationsIdentityMappingStoresError = CommonErrors;
 
+/** Imports a list of Identity Mapping Entries to an Identity Mapping Store. */
 export const importIdentityMappingsProjectsLocationsIdentityMappingStores: API.OperationMethod<ImportIdentityMappingsProjectsLocationsIdentityMappingStoresRequest, ImportIdentityMappingsProjectsLocationsIdentityMappingStoresResponse, ImportIdentityMappingsProjectsLocationsIdentityMappingStoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportIdentityMappingsProjectsLocationsIdentityMappingStoresRequest,
   output: ImportIdentityMappingsProjectsLocationsIdentityMappingStoresResponse,
   errors: [],
 }));
 
-/** Purges specified or all Identity Mapping Entries from an Identity Mapping Store. */
 export interface PurgeIdentityMappingsProjectsLocationsIdentityMappingStoresRequest {
   /** Required. The name of the Identity Mapping Store to purge Identity Mapping Entries from. Format: `projects/{project}/locations/{location}/identityMappingStores/{identityMappingStore}` */
   identityMappingStore: string;
@@ -21868,13 +21867,13 @@ export const PurgeIdentityMappingsProjectsLocationsIdentityMappingStoresResponse
 
 export type PurgeIdentityMappingsProjectsLocationsIdentityMappingStoresError = CommonErrors;
 
+/** Purges specified or all Identity Mapping Entries from an Identity Mapping Store. */
 export const purgeIdentityMappingsProjectsLocationsIdentityMappingStores: API.OperationMethod<PurgeIdentityMappingsProjectsLocationsIdentityMappingStoresRequest, PurgeIdentityMappingsProjectsLocationsIdentityMappingStoresResponse, PurgeIdentityMappingsProjectsLocationsIdentityMappingStoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PurgeIdentityMappingsProjectsLocationsIdentityMappingStoresRequest,
   output: PurgeIdentityMappingsProjectsLocationsIdentityMappingStoresResponse,
   errors: [],
 }));
 
-/** Lists all Identity Mapping Stores. */
 export interface ListProjectsLocationsIdentityMappingStoresRequest {
   /** Maximum number of IdentityMappingStores to return. If unspecified, defaults to 100. The maximum allowed value is 1000. Values above 1000 will be coerced to 1000. */
   pageSize?: number;
@@ -21898,7 +21897,8 @@ export const ListProjectsLocationsIdentityMappingStoresResponse = GoogleCloudDis
 
 export type ListProjectsLocationsIdentityMappingStoresError = CommonErrors;
 
-export const listProjectsLocationsIdentityMappingStores = API.makePaginated(() => ({
+/** Lists all Identity Mapping Stores. */
+export const listProjectsLocationsIdentityMappingStores: API.PaginatedOperationMethod<ListProjectsLocationsIdentityMappingStoresRequest, ListProjectsLocationsIdentityMappingStoresResponse, ListProjectsLocationsIdentityMappingStoresError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsIdentityMappingStoresRequest,
   output: ListProjectsLocationsIdentityMappingStoresResponse,
   errors: [],
@@ -21908,7 +21908,6 @@ export const listProjectsLocationsIdentityMappingStores = API.makePaginated(() =
   },
 }));
 
-/** Deletes the Identity Mapping Store. */
 export interface DeleteProjectsLocationsIdentityMappingStoresRequest {
   /** Required. The name of the Identity Mapping Store to delete. Format: `projects/{project}/locations/{location}/identityMappingStores/{identityMappingStore}` */
   name: string;
@@ -21926,13 +21925,13 @@ export const DeleteProjectsLocationsIdentityMappingStoresResponse = GoogleLongru
 
 export type DeleteProjectsLocationsIdentityMappingStoresError = CommonErrors;
 
+/** Deletes the Identity Mapping Store. */
 export const deleteProjectsLocationsIdentityMappingStores: API.OperationMethod<DeleteProjectsLocationsIdentityMappingStoresRequest, DeleteProjectsLocationsIdentityMappingStoresResponse, DeleteProjectsLocationsIdentityMappingStoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsIdentityMappingStoresRequest,
   output: DeleteProjectsLocationsIdentityMappingStoresResponse,
   errors: [],
 }));
 
-/** Lists Identity Mappings in an Identity Mapping Store. */
 export interface ListIdentityMappingsProjectsLocationsIdentityMappingStoresRequest {
   /** A page token, received from a previous `ListIdentityMappings` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListIdentityMappings` must match the call that provided the page token. */
   pageToken?: string;
@@ -21956,7 +21955,8 @@ export const ListIdentityMappingsProjectsLocationsIdentityMappingStoresResponse 
 
 export type ListIdentityMappingsProjectsLocationsIdentityMappingStoresError = CommonErrors;
 
-export const listIdentityMappingsProjectsLocationsIdentityMappingStores = API.makePaginated(() => ({
+/** Lists Identity Mappings in an Identity Mapping Store. */
+export const listIdentityMappingsProjectsLocationsIdentityMappingStores: API.PaginatedOperationMethod<ListIdentityMappingsProjectsLocationsIdentityMappingStoresRequest, ListIdentityMappingsProjectsLocationsIdentityMappingStoresResponse, ListIdentityMappingsProjectsLocationsIdentityMappingStoresError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListIdentityMappingsProjectsLocationsIdentityMappingStoresRequest,
   output: ListIdentityMappingsProjectsLocationsIdentityMappingStoresResponse,
   errors: [],
@@ -21966,7 +21966,6 @@ export const listIdentityMappingsProjectsLocationsIdentityMappingStores = API.ma
   },
 }));
 
-/** Gets the Identity Mapping Store. */
 export interface GetProjectsLocationsIdentityMappingStoresRequest {
   /** Required. The name of the Identity Mapping Store to get. Format: `projects/{project}/locations/{location}/identityMappingStores/{identityMappingStore}` */
   name: string;
@@ -21984,13 +21983,13 @@ export const GetProjectsLocationsIdentityMappingStoresResponse = GoogleCloudDisc
 
 export type GetProjectsLocationsIdentityMappingStoresError = CommonErrors;
 
+/** Gets the Identity Mapping Store. */
 export const getProjectsLocationsIdentityMappingStores: API.OperationMethod<GetProjectsLocationsIdentityMappingStoresRequest, GetProjectsLocationsIdentityMappingStoresResponse, GetProjectsLocationsIdentityMappingStoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsIdentityMappingStoresRequest,
   output: GetProjectsLocationsIdentityMappingStoresResponse,
   errors: [],
 }));
 
-/** Creates a new Identity Mapping Store. */
 export interface CreateProjectsLocationsIdentityMappingStoresRequest {
   /** Resource name of the CmekConfig to use for protecting this Identity Mapping Store. */
   cmekConfigName?: string;
@@ -22020,13 +22019,13 @@ export const CreateProjectsLocationsIdentityMappingStoresResponse = GoogleCloudD
 
 export type CreateProjectsLocationsIdentityMappingStoresError = CommonErrors;
 
+/** Creates a new Identity Mapping Store. */
 export const createProjectsLocationsIdentityMappingStores: API.OperationMethod<CreateProjectsLocationsIdentityMappingStoresRequest, CreateProjectsLocationsIdentityMappingStoresResponse, CreateProjectsLocationsIdentityMappingStoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsIdentityMappingStoresRequest,
   output: CreateProjectsLocationsIdentityMappingStoresResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsIdentityMappingStoresOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -22044,13 +22043,13 @@ export const GetProjectsLocationsIdentityMappingStoresOperationsResponse = Googl
 
 export type GetProjectsLocationsIdentityMappingStoresOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsIdentityMappingStoresOperations: API.OperationMethod<GetProjectsLocationsIdentityMappingStoresOperationsRequest, GetProjectsLocationsIdentityMappingStoresOperationsResponse, GetProjectsLocationsIdentityMappingStoresOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsIdentityMappingStoresOperationsRequest,
   output: GetProjectsLocationsIdentityMappingStoresOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsIdentityMappingStoresOperationsRequest {
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
@@ -22080,7 +22079,8 @@ export const ListProjectsLocationsIdentityMappingStoresOperationsResponse = Goog
 
 export type ListProjectsLocationsIdentityMappingStoresOperationsError = CommonErrors;
 
-export const listProjectsLocationsIdentityMappingStoresOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsIdentityMappingStoresOperations: API.PaginatedOperationMethod<ListProjectsLocationsIdentityMappingStoresOperationsRequest, ListProjectsLocationsIdentityMappingStoresOperationsResponse, ListProjectsLocationsIdentityMappingStoresOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsIdentityMappingStoresOperationsRequest,
   output: ListProjectsLocationsIdentityMappingStoresOperationsResponse,
   errors: [],
@@ -22090,7 +22090,6 @@ export const listProjectsLocationsIdentityMappingStoresOperations = API.makePagi
   },
 }));
 
-/** Writes a single user event from the browser. This uses a GET request to due to browser restriction of POST-ing to a third-party domain. This method is used only by the Discovery Engine API JavaScript pixel and Google Tag Manager. Users should not call this method directly. */
 export interface CollectProjectsLocationsUserEventsRequest {
   /** Required. URL encoded UserEvent proto with a length limit of 2,000,000 characters. */
   userEvent?: string;
@@ -22117,13 +22116,13 @@ export const CollectProjectsLocationsUserEventsResponse = GoogleApiHttpBody;
 
 export type CollectProjectsLocationsUserEventsError = CommonErrors;
 
+/** Writes a single user event from the browser. This uses a GET request to due to browser restriction of POST-ing to a third-party domain. This method is used only by the Discovery Engine API JavaScript pixel and Google Tag Manager. Users should not call this method directly. */
 export const collectProjectsLocationsUserEvents: API.OperationMethod<CollectProjectsLocationsUserEventsRequest, CollectProjectsLocationsUserEventsResponse, CollectProjectsLocationsUserEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CollectProjectsLocationsUserEventsRequest,
   output: CollectProjectsLocationsUserEventsResponse,
   errors: [],
 }));
 
-/** Writes a single user event. */
 export interface WriteProjectsLocationsUserEventsRequest {
   /** Required. The parent resource name. If the write user event action is applied in DataStore level, the format is: `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}`. If the write user event action is applied in Location level, for example, the event with Document across multiple DataStore, the format is: `projects/{project}/locations/{location}`. */
   parent: string;
@@ -22147,13 +22146,13 @@ export const WriteProjectsLocationsUserEventsResponse = GoogleCloudDiscoveryengi
 
 export type WriteProjectsLocationsUserEventsError = CommonErrors;
 
+/** Writes a single user event. */
 export const writeProjectsLocationsUserEvents: API.OperationMethod<WriteProjectsLocationsUserEventsRequest, WriteProjectsLocationsUserEventsResponse, WriteProjectsLocationsUserEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WriteProjectsLocationsUserEventsRequest,
   output: WriteProjectsLocationsUserEventsResponse,
   errors: [],
 }));
 
-/** Bulk import of user events. Request processing might be synchronous. Events that already exist are skipped. Use this method for backfilling historical user events. Operation.response is of type ImportResponse. Note that it is possible for a subset of the items to be successfully inserted. Operation.metadata is of type ImportMetadata. */
 export interface ImportProjectsLocationsUserEventsRequest {
   /** Required. Parent DataStore resource name, of the form `projects/{project}/locations/{location}/collections/{collection}/dataStores/{data_store}` */
   parent: string;
@@ -22174,13 +22173,13 @@ export const ImportProjectsLocationsUserEventsResponse = GoogleLongrunningOperat
 
 export type ImportProjectsLocationsUserEventsError = CommonErrors;
 
+/** Bulk import of user events. Request processing might be synchronous. Events that already exist are skipped. Use this method for backfilling historical user events. Operation.response is of type ImportResponse. Note that it is possible for a subset of the items to be successfully inserted. Operation.metadata is of type ImportMetadata. */
 export const importProjectsLocationsUserEvents: API.OperationMethod<ImportProjectsLocationsUserEventsRequest, ImportProjectsLocationsUserEventsResponse, ImportProjectsLocationsUserEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportProjectsLocationsUserEventsRequest,
   output: ImportProjectsLocationsUserEventsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -22201,13 +22200,13 @@ export const CancelProjectsOperationsResponse = GoogleProtobufEmpty;
 
 export type CancelProjectsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsOperations: API.OperationMethod<CancelProjectsOperationsRequest, CancelProjectsOperationsResponse, CancelProjectsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsOperationsRequest,
   output: CancelProjectsOperationsResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -22225,13 +22224,13 @@ export const GetProjectsOperationsResponse = GoogleLongrunningOperation;
 
 export type GetProjectsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsOperations: API.OperationMethod<GetProjectsOperationsRequest, GetProjectsOperationsResponse, GetProjectsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsOperationsRequest,
   output: GetProjectsOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsOperationsRequest {
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
@@ -22261,7 +22260,8 @@ export const ListProjectsOperationsResponse = GoogleLongrunningListOperationsRes
 
 export type ListProjectsOperationsError = CommonErrors;
 
-export const listProjectsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsOperations: API.PaginatedOperationMethod<ListProjectsOperationsRequest, ListProjectsOperationsResponse, ListProjectsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsOperationsRequest,
   output: ListProjectsOperationsResponse,
   errors: [],

@@ -999,7 +999,6 @@ export const GetRemarketingTagResponse: Schema.Schema<GetRemarketingTagResponse>
 // Operations
 // ==========================================================================
 
-/** Gets a bidder account by its name. */
 export interface GetBiddersRequest {
   /** Required. Name of the bidder to get. Format: `bidders/{bidderAccountId}` */
   name: string;
@@ -1017,13 +1016,13 @@ export const GetBiddersResponse = Bidder;
 
 export type GetBiddersError = CommonErrors;
 
+/** Gets a bidder account by its name. */
 export const getBidders: API.OperationMethod<GetBiddersRequest, GetBiddersResponse, GetBiddersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBiddersRequest,
   output: GetBiddersResponse,
   errors: [],
 }));
 
-/** Lists all the bidder accounts that belong to the caller. */
 export interface ListBiddersRequest {
   /** The maximum number of bidders to return. If unspecified, at most 100 bidders will be returned. The maximum value is 500; values above 500 will be coerced to 500. */
   pageSize?: number;
@@ -1044,7 +1043,8 @@ export const ListBiddersResponse_Op = ListBiddersResponse;
 
 export type ListBiddersError = CommonErrors;
 
-export const listBidders = API.makePaginated(() => ({
+/** Lists all the bidder accounts that belong to the caller. */
+export const listBidders: API.PaginatedOperationMethod<ListBiddersRequest, ListBiddersResponse_Op, ListBiddersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBiddersRequest,
   output: ListBiddersResponse_Op,
   errors: [],
@@ -1054,7 +1054,6 @@ export const listBidders = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a bidder endpoint by its name. */
 export interface GetBiddersEndpointsRequest {
   /** Required. Name of the bidder endpoint to get. Format: `bidders/{bidderAccountId}/endpoints/{endpointId}` */
   name: string;
@@ -1072,13 +1071,13 @@ export const GetBiddersEndpointsResponse = Endpoint;
 
 export type GetBiddersEndpointsError = CommonErrors;
 
+/** Gets a bidder endpoint by its name. */
 export const getBiddersEndpoints: API.OperationMethod<GetBiddersEndpointsRequest, GetBiddersEndpointsResponse, GetBiddersEndpointsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBiddersEndpointsRequest,
   output: GetBiddersEndpointsResponse,
   errors: [],
 }));
 
-/** Lists all the bidder's endpoints. */
 export interface ListBiddersEndpointsRequest {
   /** Required. Name of the bidder whose endpoints will be listed. Format: `bidders/{bidderAccountId}` */
   parent: string;
@@ -1102,7 +1101,8 @@ export const ListBiddersEndpointsResponse = ListEndpointsResponse;
 
 export type ListBiddersEndpointsError = CommonErrors;
 
-export const listBiddersEndpoints = API.makePaginated(() => ({
+/** Lists all the bidder's endpoints. */
+export const listBiddersEndpoints: API.PaginatedOperationMethod<ListBiddersEndpointsRequest, ListBiddersEndpointsResponse, ListBiddersEndpointsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBiddersEndpointsRequest,
   output: ListBiddersEndpointsResponse,
   errors: [],
@@ -1112,7 +1112,6 @@ export const listBiddersEndpoints = API.makePaginated(() => ({
   },
 }));
 
-/** Updates a bidder's endpoint. */
 export interface PatchBiddersEndpointsRequest {
   /** Output only. Name of the endpoint resource that must follow the pattern `bidders/{bidderAccountId}/endpoints/{endpointId}`, where {bidderAccountId} is the account ID of the bidder who operates this endpoint, and {endpointId} is a unique ID assigned by the server. */
   name: string;
@@ -1136,13 +1135,13 @@ export const PatchBiddersEndpointsResponse = Endpoint;
 
 export type PatchBiddersEndpointsError = CommonErrors;
 
+/** Updates a bidder's endpoint. */
 export const patchBiddersEndpoints: API.OperationMethod<PatchBiddersEndpointsRequest, PatchBiddersEndpointsResponse, PatchBiddersEndpointsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchBiddersEndpointsRequest,
   output: PatchBiddersEndpointsResponse,
   errors: [],
 }));
 
-/** Lists creatives as they are at the time of the initial request. This call may take multiple hours to complete. For large, paginated requests, this method returns a snapshot of creatives at the time of request for the first page. `lastStatusUpdate` and `creativeServingDecision` may be outdated for creatives on sequential pages. We recommend [Google Cloud Pub/Sub](//cloud.google.com/pubsub/docs/overview) to view the latest status. */
 export interface ListBiddersCreativesRequest {
   /** Required. Name of the parent buyer that owns the creatives. The pattern for this resource is either `buyers/{buyerAccountId}` or `bidders/{bidderAccountId}`. For `buyers/{buyerAccountId}`, the `buyerAccountId` can be one of the following: 1. The ID of the buyer that is accessing their own creatives. 2. The ID of the child seat buyer under a bidder account. So for listing creatives pertaining to the child seat buyer (`456`) under bidder account (`123`), you would use the pattern: `buyers/456`. 3. The ID of the bidder itself. So for listing creatives pertaining to bidder (`123`), you would use `buyers/123`. If you want to access all creatives pertaining to both the bidder and all of its child seat accounts, you would use `bidders/{bidderAccountId}`, for example, for all creatives pertaining to bidder (`123`), use `bidders/123`. */
   parent: string;
@@ -1172,7 +1171,8 @@ export const ListBiddersCreativesResponse = ListCreativesResponse;
 
 export type ListBiddersCreativesError = CommonErrors;
 
-export const listBiddersCreatives = API.makePaginated(() => ({
+/** Lists creatives as they are at the time of the initial request. This call may take multiple hours to complete. For large, paginated requests, this method returns a snapshot of creatives at the time of request for the first page. `lastStatusUpdate` and `creativeServingDecision` may be outdated for creatives on sequential pages. We recommend [Google Cloud Pub/Sub](//cloud.google.com/pubsub/docs/overview) to view the latest status. */
+export const listBiddersCreatives: API.PaginatedOperationMethod<ListBiddersCreativesRequest, ListBiddersCreativesResponse, ListBiddersCreativesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBiddersCreativesRequest,
   output: ListBiddersCreativesResponse,
   errors: [],
@@ -1182,7 +1182,6 @@ export const listBiddersCreatives = API.makePaginated(() => ({
   },
 }));
 
-/** Watches all creatives pertaining to a bidder. It is sufficient to invoke this endpoint once per bidder. A Pub/Sub topic will be created and notifications will be pushed to the topic when any of the bidder's creatives change status. All of the bidder's service accounts will have access to read from the topic. Subsequent invocations of this method will return the existing Pub/Sub configuration. */
 export interface WatchBiddersCreativesRequest {
   /** Required. To watch all creatives pertaining to the bidder and all its child seat accounts, the bidder must follow the pattern `bidders/{bidderAccountId}`. */
   parent: string;
@@ -1203,13 +1202,13 @@ export const WatchBiddersCreativesResponse = WatchCreativesResponse;
 
 export type WatchBiddersCreativesError = CommonErrors;
 
+/** Watches all creatives pertaining to a bidder. It is sufficient to invoke this endpoint once per bidder. A Pub/Sub topic will be created and notifications will be pushed to the topic when any of the bidder's creatives change status. All of the bidder's service accounts will have access to read from the topic. Subsequent invocations of this method will return the existing Pub/Sub configuration. */
 export const watchBiddersCreatives: API.OperationMethod<WatchBiddersCreativesRequest, WatchBiddersCreativesResponse, WatchBiddersCreativesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WatchBiddersCreativesRequest,
   output: WatchBiddersCreativesResponse,
   errors: [],
 }));
 
-/** Lists all pretargeting configurations for a single bidder. */
 export interface ListBiddersPretargetingConfigsRequest {
   /** Required. Name of the bidder whose pretargeting configurations will be listed. Format: bidders/{bidderAccountId} */
   parent: string;
@@ -1233,7 +1232,8 @@ export const ListBiddersPretargetingConfigsResponse = ListPretargetingConfigsRes
 
 export type ListBiddersPretargetingConfigsError = CommonErrors;
 
-export const listBiddersPretargetingConfigs = API.makePaginated(() => ({
+/** Lists all pretargeting configurations for a single bidder. */
+export const listBiddersPretargetingConfigs: API.PaginatedOperationMethod<ListBiddersPretargetingConfigsRequest, ListBiddersPretargetingConfigsResponse, ListBiddersPretargetingConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBiddersPretargetingConfigsRequest,
   output: ListBiddersPretargetingConfigsResponse,
   errors: [],
@@ -1243,7 +1243,6 @@ export const listBiddersPretargetingConfigs = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a pretargeting configuration. */
 export interface GetBiddersPretargetingConfigsRequest {
   /** Required. Name of the pretargeting configuration to get. Format: bidders/{bidderAccountId}/pretargetingConfigs/{configId} */
   name: string;
@@ -1261,13 +1260,13 @@ export const GetBiddersPretargetingConfigsResponse = PretargetingConfig;
 
 export type GetBiddersPretargetingConfigsError = CommonErrors;
 
+/** Gets a pretargeting configuration. */
 export const getBiddersPretargetingConfigs: API.OperationMethod<GetBiddersPretargetingConfigsRequest, GetBiddersPretargetingConfigsResponse, GetBiddersPretargetingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBiddersPretargetingConfigsRequest,
   output: GetBiddersPretargetingConfigsResponse,
   errors: [],
 }));
 
-/** Creates a pretargeting configuration. A pretargeting configuration's state (PretargetingConfig.state) is active upon creation, and it will start to affect traffic shortly after. A bidder may create a maximum of 10 pretargeting configurations. Attempts to exceed this maximum results in a 400 bad request error. */
 export interface CreateBiddersPretargetingConfigsRequest {
   /** Required. Name of the bidder to create the pretargeting configuration for. Format: bidders/{bidderAccountId} */
   parent: string;
@@ -1288,13 +1287,13 @@ export const CreateBiddersPretargetingConfigsResponse = PretargetingConfig;
 
 export type CreateBiddersPretargetingConfigsError = CommonErrors;
 
+/** Creates a pretargeting configuration. A pretargeting configuration's state (PretargetingConfig.state) is active upon creation, and it will start to affect traffic shortly after. A bidder may create a maximum of 10 pretargeting configurations. Attempts to exceed this maximum results in a 400 bad request error. */
 export const createBiddersPretargetingConfigs: API.OperationMethod<CreateBiddersPretargetingConfigsRequest, CreateBiddersPretargetingConfigsResponse, CreateBiddersPretargetingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateBiddersPretargetingConfigsRequest,
   output: CreateBiddersPretargetingConfigsResponse,
   errors: [],
 }));
 
-/** Updates a pretargeting configuration. */
 export interface PatchBiddersPretargetingConfigsRequest {
   /** Output only. Name of the pretargeting configuration that must follow the pattern `bidders/{bidder_account_id}/pretargetingConfigs/{config_id}` */
   name: string;
@@ -1318,13 +1317,13 @@ export const PatchBiddersPretargetingConfigsResponse = PretargetingConfig;
 
 export type PatchBiddersPretargetingConfigsError = CommonErrors;
 
+/** Updates a pretargeting configuration. */
 export const patchBiddersPretargetingConfigs: API.OperationMethod<PatchBiddersPretargetingConfigsRequest, PatchBiddersPretargetingConfigsResponse, PatchBiddersPretargetingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchBiddersPretargetingConfigsRequest,
   output: PatchBiddersPretargetingConfigsResponse,
   errors: [],
 }));
 
-/** Deletes a pretargeting configuration. */
 export interface DeleteBiddersPretargetingConfigsRequest {
   /** Required. The name of the pretargeting configuration to delete. Format: bidders/{bidderAccountId}/pretargetingConfig/{configId} */
   name: string;
@@ -1342,13 +1341,13 @@ export const DeleteBiddersPretargetingConfigsResponse = Empty;
 
 export type DeleteBiddersPretargetingConfigsError = CommonErrors;
 
+/** Deletes a pretargeting configuration. */
 export const deleteBiddersPretargetingConfigs: API.OperationMethod<DeleteBiddersPretargetingConfigsRequest, DeleteBiddersPretargetingConfigsResponse, DeleteBiddersPretargetingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteBiddersPretargetingConfigsRequest,
   output: DeleteBiddersPretargetingConfigsResponse,
   errors: [],
 }));
 
-/** Activates a pretargeting configuration. */
 export interface ActivateBiddersPretargetingConfigsRequest {
   /** Required. The name of the pretargeting configuration. Format: bidders/{bidderAccountId}/pretargetingConfig/{configId} */
   name: string;
@@ -1369,13 +1368,13 @@ export const ActivateBiddersPretargetingConfigsResponse = PretargetingConfig;
 
 export type ActivateBiddersPretargetingConfigsError = CommonErrors;
 
+/** Activates a pretargeting configuration. */
 export const activateBiddersPretargetingConfigs: API.OperationMethod<ActivateBiddersPretargetingConfigsRequest, ActivateBiddersPretargetingConfigsResponse, ActivateBiddersPretargetingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ActivateBiddersPretargetingConfigsRequest,
   output: ActivateBiddersPretargetingConfigsResponse,
   errors: [],
 }));
 
-/** Suspends a pretargeting configuration. */
 export interface SuspendBiddersPretargetingConfigsRequest {
   /** Required. The name of the pretargeting configuration. Format: bidders/{bidderAccountId}/pretargetingConfig/{configId} */
   name: string;
@@ -1396,13 +1395,13 @@ export const SuspendBiddersPretargetingConfigsResponse = PretargetingConfig;
 
 export type SuspendBiddersPretargetingConfigsError = CommonErrors;
 
+/** Suspends a pretargeting configuration. */
 export const suspendBiddersPretargetingConfigs: API.OperationMethod<SuspendBiddersPretargetingConfigsRequest, SuspendBiddersPretargetingConfigsResponse, SuspendBiddersPretargetingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SuspendBiddersPretargetingConfigsRequest,
   output: SuspendBiddersPretargetingConfigsResponse,
   errors: [],
 }));
 
-/** Adds targeted sites to the pretargeting configuration. */
 export interface AddTargetedSitesBiddersPretargetingConfigsRequest {
   /** Required. The name of the pretargeting configuration. Format: bidders/{bidderAccountId}/pretargetingConfig/{configId} */
   pretargetingConfig: string;
@@ -1423,13 +1422,13 @@ export const AddTargetedSitesBiddersPretargetingConfigsResponse = PretargetingCo
 
 export type AddTargetedSitesBiddersPretargetingConfigsError = CommonErrors;
 
+/** Adds targeted sites to the pretargeting configuration. */
 export const addTargetedSitesBiddersPretargetingConfigs: API.OperationMethod<AddTargetedSitesBiddersPretargetingConfigsRequest, AddTargetedSitesBiddersPretargetingConfigsResponse, AddTargetedSitesBiddersPretargetingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddTargetedSitesBiddersPretargetingConfigsRequest,
   output: AddTargetedSitesBiddersPretargetingConfigsResponse,
   errors: [],
 }));
 
-/** Removes targeted sites from the pretargeting configuration. */
 export interface RemoveTargetedSitesBiddersPretargetingConfigsRequest {
   /** Required. The name of the pretargeting configuration. Format: bidders/{bidderAccountId}/pretargetingConfig/{configId} */
   pretargetingConfig: string;
@@ -1450,13 +1449,13 @@ export const RemoveTargetedSitesBiddersPretargetingConfigsResponse = Pretargetin
 
 export type RemoveTargetedSitesBiddersPretargetingConfigsError = CommonErrors;
 
+/** Removes targeted sites from the pretargeting configuration. */
 export const removeTargetedSitesBiddersPretargetingConfigs: API.OperationMethod<RemoveTargetedSitesBiddersPretargetingConfigsRequest, RemoveTargetedSitesBiddersPretargetingConfigsResponse, RemoveTargetedSitesBiddersPretargetingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveTargetedSitesBiddersPretargetingConfigsRequest,
   output: RemoveTargetedSitesBiddersPretargetingConfigsResponse,
   errors: [],
 }));
 
-/** Adds targeted apps to the pretargeting configuration. */
 export interface AddTargetedAppsBiddersPretargetingConfigsRequest {
   /** Required. The name of the pretargeting configuration. Format: bidders/{bidderAccountId}/pretargetingConfig/{configId} */
   pretargetingConfig: string;
@@ -1477,13 +1476,13 @@ export const AddTargetedAppsBiddersPretargetingConfigsResponse = PretargetingCon
 
 export type AddTargetedAppsBiddersPretargetingConfigsError = CommonErrors;
 
+/** Adds targeted apps to the pretargeting configuration. */
 export const addTargetedAppsBiddersPretargetingConfigs: API.OperationMethod<AddTargetedAppsBiddersPretargetingConfigsRequest, AddTargetedAppsBiddersPretargetingConfigsResponse, AddTargetedAppsBiddersPretargetingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddTargetedAppsBiddersPretargetingConfigsRequest,
   output: AddTargetedAppsBiddersPretargetingConfigsResponse,
   errors: [],
 }));
 
-/** Removes targeted apps from the pretargeting configuration. */
 export interface RemoveTargetedAppsBiddersPretargetingConfigsRequest {
   /** Required. The name of the pretargeting configuration. Format: bidders/{bidderAccountId}/pretargetingConfig/{configId} */
   pretargetingConfig: string;
@@ -1504,13 +1503,13 @@ export const RemoveTargetedAppsBiddersPretargetingConfigsResponse = Pretargeting
 
 export type RemoveTargetedAppsBiddersPretargetingConfigsError = CommonErrors;
 
+/** Removes targeted apps from the pretargeting configuration. */
 export const removeTargetedAppsBiddersPretargetingConfigs: API.OperationMethod<RemoveTargetedAppsBiddersPretargetingConfigsRequest, RemoveTargetedAppsBiddersPretargetingConfigsResponse, RemoveTargetedAppsBiddersPretargetingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveTargetedAppsBiddersPretargetingConfigsRequest,
   output: RemoveTargetedAppsBiddersPretargetingConfigsResponse,
   errors: [],
 }));
 
-/** Adds targeted publishers to the pretargeting config. */
 export interface AddTargetedPublishersBiddersPretargetingConfigsRequest {
   /** Required. The name of the pretargeting configuration. Format: bidders/{bidderAccountId}/pretargetingConfig/{configId} */
   pretargetingConfig: string;
@@ -1531,13 +1530,13 @@ export const AddTargetedPublishersBiddersPretargetingConfigsResponse = Pretarget
 
 export type AddTargetedPublishersBiddersPretargetingConfigsError = CommonErrors;
 
+/** Adds targeted publishers to the pretargeting config. */
 export const addTargetedPublishersBiddersPretargetingConfigs: API.OperationMethod<AddTargetedPublishersBiddersPretargetingConfigsRequest, AddTargetedPublishersBiddersPretargetingConfigsResponse, AddTargetedPublishersBiddersPretargetingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddTargetedPublishersBiddersPretargetingConfigsRequest,
   output: AddTargetedPublishersBiddersPretargetingConfigsResponse,
   errors: [],
 }));
 
-/** Removes targeted publishers from the pretargeting config. */
 export interface RemoveTargetedPublishersBiddersPretargetingConfigsRequest {
   /** Required. The name of the pretargeting configuration. Format: bidders/{bidderAccountId}/pretargetingConfig/{configId} */
   pretargetingConfig: string;
@@ -1558,13 +1557,13 @@ export const RemoveTargetedPublishersBiddersPretargetingConfigsResponse = Pretar
 
 export type RemoveTargetedPublishersBiddersPretargetingConfigsError = CommonErrors;
 
+/** Removes targeted publishers from the pretargeting config. */
 export const removeTargetedPublishersBiddersPretargetingConfigs: API.OperationMethod<RemoveTargetedPublishersBiddersPretargetingConfigsRequest, RemoveTargetedPublishersBiddersPretargetingConfigsResponse, RemoveTargetedPublishersBiddersPretargetingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveTargetedPublishersBiddersPretargetingConfigsRequest,
   output: RemoveTargetedPublishersBiddersPretargetingConfigsResponse,
   errors: [],
 }));
 
-/** Lists publisher connections for a given bidder. */
 export interface ListBiddersPublisherConnectionsRequest {
   /** Required. Name of the bidder for which publishers have initiated connections. The pattern for this resource is `bidders/{bidder}` where `{bidder}` represents the account ID of the bidder. */
   parent: string;
@@ -1594,7 +1593,8 @@ export const ListBiddersPublisherConnectionsResponse = ListPublisherConnectionsR
 
 export type ListBiddersPublisherConnectionsError = CommonErrors;
 
-export const listBiddersPublisherConnections = API.makePaginated(() => ({
+/** Lists publisher connections for a given bidder. */
+export const listBiddersPublisherConnections: API.PaginatedOperationMethod<ListBiddersPublisherConnectionsRequest, ListBiddersPublisherConnectionsResponse, ListBiddersPublisherConnectionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBiddersPublisherConnectionsRequest,
   output: ListBiddersPublisherConnectionsResponse,
   errors: [],
@@ -1604,7 +1604,6 @@ export const listBiddersPublisherConnections = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a publisher connection. */
 export interface GetBiddersPublisherConnectionsRequest {
   /** Required. Name of the publisher whose connection information is to be retrieved. In the pattern `bidders/{bidder}/publisherConnections/{publisher}` where `{bidder}` is the account ID of the bidder, and `{publisher}` is the ads.txt/app-ads.txt publisher ID. See publisherConnection.name. */
   name: string;
@@ -1622,13 +1621,13 @@ export const GetBiddersPublisherConnectionsResponse = PublisherConnection;
 
 export type GetBiddersPublisherConnectionsError = CommonErrors;
 
+/** Gets a publisher connection. */
 export const getBiddersPublisherConnections: API.OperationMethod<GetBiddersPublisherConnectionsRequest, GetBiddersPublisherConnectionsResponse, GetBiddersPublisherConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBiddersPublisherConnectionsRequest,
   output: GetBiddersPublisherConnectionsResponse,
   errors: [],
 }));
 
-/** Batch approves multiple publisher connections. */
 export interface BatchApproveBiddersPublisherConnectionsRequest {
   /** Required. The bidder for whom publisher connections will be approved. Format: `bidders/{bidder}` where `{bidder}` is the account ID of the bidder. */
   parent: string;
@@ -1649,13 +1648,13 @@ export const BatchApproveBiddersPublisherConnectionsResponse = BatchApprovePubli
 
 export type BatchApproveBiddersPublisherConnectionsError = CommonErrors;
 
+/** Batch approves multiple publisher connections. */
 export const batchApproveBiddersPublisherConnections: API.OperationMethod<BatchApproveBiddersPublisherConnectionsRequest, BatchApproveBiddersPublisherConnectionsResponse, BatchApproveBiddersPublisherConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchApproveBiddersPublisherConnectionsRequest,
   output: BatchApproveBiddersPublisherConnectionsResponse,
   errors: [],
 }));
 
-/** Batch rejects multiple publisher connections. */
 export interface BatchRejectBiddersPublisherConnectionsRequest {
   /** Required. The bidder for whom publisher connections will be rejected. Format: `bidders/{bidder}` where `{bidder}` is the account ID of the bidder. */
   parent: string;
@@ -1676,13 +1675,13 @@ export const BatchRejectBiddersPublisherConnectionsResponse = BatchRejectPublish
 
 export type BatchRejectBiddersPublisherConnectionsError = CommonErrors;
 
+/** Batch rejects multiple publisher connections. */
 export const batchRejectBiddersPublisherConnections: API.OperationMethod<BatchRejectBiddersPublisherConnectionsRequest, BatchRejectBiddersPublisherConnectionsResponse, BatchRejectBiddersPublisherConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchRejectBiddersPublisherConnectionsRequest,
   output: BatchRejectBiddersPublisherConnectionsResponse,
   errors: [],
 }));
 
-/** Gets a buyer account by its name. */
 export interface GetBuyersRequest {
   /** Required. Name of the buyer to get. Format: `buyers/{buyerId}` */
   name: string;
@@ -1700,13 +1699,13 @@ export const GetBuyersResponse = Buyer;
 
 export type GetBuyersError = CommonErrors;
 
+/** Gets a buyer account by its name. */
 export const getBuyers: API.OperationMethod<GetBuyersRequest, GetBuyersResponse, GetBuyersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBuyersRequest,
   output: GetBuyersResponse,
   errors: [],
 }));
 
-/** Lists all buyer account information the calling buyer user or service account is permissioned to manage. */
 export interface ListBuyersRequest {
   /** The maximum number of buyers to return. If unspecified, at most 100 buyers will be returned. The maximum value is 500; values above 500 will be coerced to 500. */
   pageSize?: number;
@@ -1727,7 +1726,8 @@ export const ListBuyersResponse_Op = ListBuyersResponse;
 
 export type ListBuyersError = CommonErrors;
 
-export const listBuyers = API.makePaginated(() => ({
+/** Lists all buyer account information the calling buyer user or service account is permissioned to manage. */
+export const listBuyers: API.PaginatedOperationMethod<ListBuyersRequest, ListBuyersResponse_Op, ListBuyersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBuyersRequest,
   output: ListBuyersResponse_Op,
   errors: [],
@@ -1737,7 +1737,6 @@ export const listBuyers = API.makePaginated(() => ({
   },
 }));
 
-/** This has been sunset as of October 2023, and will return an error response if called. For more information, see the release notes: https://developers.google.com/authorized-buyers/apis/relnotes#real-time-bidding-api Gets remarketing tag for a buyer. A remarketing tag is a piece of JavaScript code that can be placed on a web page. When a user visits a page containing a remarketing tag, Google adds the user to a user list. */
 export interface GetRemarketingTagBuyersRequest {
   /** Required. To fetch the remarketing tag for an account, the name must follow the pattern `buyers/{accountId}`, where `{accountId}` represents the ID of the buyer that owns the remarketing tag. For a bidder accessing the remarketing tag on behalf of a child seat buyer, `{accountId}` should represent the ID of the child seat buyer. To fetch the remarketing tag for a specific user list, the name must follow the pattern `buyers/{accountId}/userLists/{userListId}`. See UserList.name. */
   name: string;
@@ -1755,13 +1754,13 @@ export const GetRemarketingTagBuyersResponse = GetRemarketingTagResponse;
 
 export type GetRemarketingTagBuyersError = CommonErrors;
 
+/** This has been sunset as of October 2023, and will return an error response if called. For more information, see the release notes: https://developers.google.com/authorized-buyers/apis/relnotes#real-time-bidding-api Gets remarketing tag for a buyer. A remarketing tag is a piece of JavaScript code that can be placed on a web page. When a user visits a page containing a remarketing tag, Google adds the user to a user list. */
 export const getRemarketingTagBuyers: API.OperationMethod<GetRemarketingTagBuyersRequest, GetRemarketingTagBuyersResponse, GetRemarketingTagBuyersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRemarketingTagBuyersRequest,
   output: GetRemarketingTagBuyersResponse,
   errors: [],
 }));
 
-/** Lists creatives as they are at the time of the initial request. This call may take multiple hours to complete. For large, paginated requests, this method returns a snapshot of creatives at the time of request for the first page. `lastStatusUpdate` and `creativeServingDecision` may be outdated for creatives on sequential pages. We recommend [Google Cloud Pub/Sub](//cloud.google.com/pubsub/docs/overview) to view the latest status. */
 export interface ListBuyersCreativesRequest {
   /** Required. Name of the parent buyer that owns the creatives. The pattern for this resource is either `buyers/{buyerAccountId}` or `bidders/{bidderAccountId}`. For `buyers/{buyerAccountId}`, the `buyerAccountId` can be one of the following: 1. The ID of the buyer that is accessing their own creatives. 2. The ID of the child seat buyer under a bidder account. So for listing creatives pertaining to the child seat buyer (`456`) under bidder account (`123`), you would use the pattern: `buyers/456`. 3. The ID of the bidder itself. So for listing creatives pertaining to bidder (`123`), you would use `buyers/123`. If you want to access all creatives pertaining to both the bidder and all of its child seat accounts, you would use `bidders/{bidderAccountId}`, for example, for all creatives pertaining to bidder (`123`), use `bidders/123`. */
   parent: string;
@@ -1791,7 +1790,8 @@ export const ListBuyersCreativesResponse = ListCreativesResponse;
 
 export type ListBuyersCreativesError = CommonErrors;
 
-export const listBuyersCreatives = API.makePaginated(() => ({
+/** Lists creatives as they are at the time of the initial request. This call may take multiple hours to complete. For large, paginated requests, this method returns a snapshot of creatives at the time of request for the first page. `lastStatusUpdate` and `creativeServingDecision` may be outdated for creatives on sequential pages. We recommend [Google Cloud Pub/Sub](//cloud.google.com/pubsub/docs/overview) to view the latest status. */
+export const listBuyersCreatives: API.PaginatedOperationMethod<ListBuyersCreativesRequest, ListBuyersCreativesResponse, ListBuyersCreativesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBuyersCreativesRequest,
   output: ListBuyersCreativesResponse,
   errors: [],
@@ -1801,7 +1801,6 @@ export const listBuyersCreatives = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a creative. */
 export interface GetBuyersCreativesRequest {
   /** Required. Name of the creative to retrieve. See creative.name. */
   name: string;
@@ -1822,13 +1821,13 @@ export const GetBuyersCreativesResponse = Creative;
 
 export type GetBuyersCreativesError = CommonErrors;
 
+/** Gets a creative. */
 export const getBuyersCreatives: API.OperationMethod<GetBuyersCreativesRequest, GetBuyersCreativesResponse, GetBuyersCreativesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBuyersCreativesRequest,
   output: GetBuyersCreativesResponse,
   errors: [],
 }));
 
-/** Creates a creative. */
 export interface CreateBuyersCreativesRequest {
   /** Required. The name of the parent buyer that the new creative belongs to that must follow the pattern `buyers/{buyerAccountId}`, where `{buyerAccountId}` represents the account ID of the buyer who owns a creative. For a bidder accessing creatives on behalf of a child seat buyer, `{buyerAccountId}` should represent the account ID of the child seat buyer. */
   parent: string;
@@ -1849,13 +1848,13 @@ export const CreateBuyersCreativesResponse = Creative;
 
 export type CreateBuyersCreativesError = CommonErrors;
 
+/** Creates a creative. */
 export const createBuyersCreatives: API.OperationMethod<CreateBuyersCreativesRequest, CreateBuyersCreativesResponse, CreateBuyersCreativesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateBuyersCreativesRequest,
   output: CreateBuyersCreativesResponse,
   errors: [],
 }));
 
-/** Updates a creative. */
 export interface PatchBuyersCreativesRequest {
   /** Output only. Name of the creative. Follows the pattern `buyers/{buyer}/creatives/{creative}`, where `{buyer}` represents the account ID of the buyer who owns the creative, and `{creative}` is the buyer-specific creative ID that references this creative in the bid response. */
   name: string;
@@ -1879,13 +1878,13 @@ export const PatchBuyersCreativesResponse = Creative;
 
 export type PatchBuyersCreativesError = CommonErrors;
 
+/** Updates a creative. */
 export const patchBuyersCreatives: API.OperationMethod<PatchBuyersCreativesRequest, PatchBuyersCreativesResponse, PatchBuyersCreativesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchBuyersCreativesRequest,
   output: PatchBuyersCreativesResponse,
   errors: [],
 }));
 
-/** Gets a user list by its name. */
 export interface GetBuyersUserListsRequest {
   /** Required. The name of the user list to be retrieved. See UserList.name. */
   name: string;
@@ -1903,13 +1902,13 @@ export const GetBuyersUserListsResponse = UserList;
 
 export type GetBuyersUserListsError = CommonErrors;
 
+/** Gets a user list by its name. */
 export const getBuyersUserLists: API.OperationMethod<GetBuyersUserListsRequest, GetBuyersUserListsResponse, GetBuyersUserListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBuyersUserListsRequest,
   output: GetBuyersUserListsResponse,
   errors: [],
 }));
 
-/** Lists the user lists visible to the current user. */
 export interface ListBuyersUserListsRequest {
   /** Required. The name of the parent buyer for the user lists to be returned that must follow the pattern `buyers/{buyerAccountId}`, where `{buyerAccountId}` represents the account ID of the buyer who owns user lists. For a bidder accessing user lists on behalf of a child seat buyer , `{buyerAccountId}` should represent the account ID of the child seat buyer. */
   parent: string;
@@ -1933,7 +1932,8 @@ export const ListBuyersUserListsResponse = ListUserListsResponse;
 
 export type ListBuyersUserListsError = CommonErrors;
 
-export const listBuyersUserLists = API.makePaginated(() => ({
+/** Lists the user lists visible to the current user. */
+export const listBuyersUserLists: API.PaginatedOperationMethod<ListBuyersUserListsRequest, ListBuyersUserListsResponse, ListBuyersUserListsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBuyersUserListsRequest,
   output: ListBuyersUserListsResponse,
   errors: [],
@@ -1943,7 +1943,6 @@ export const listBuyersUserLists = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new user list. */
 export interface CreateBuyersUserListsRequest {
   /** Required. The name of the parent buyer of the user list to be retrieved, which must follow the pattern `buyers/{buyerAccountId}`, where `{buyerAccountId}` represents the account ID of the buyer who owns the user list. For a bidder accessing user lists on behalf of a child seat buyer, `{buyerAccountId}` should represent the account ID of the child seat buyer. */
   parent: string;
@@ -1964,13 +1963,13 @@ export const CreateBuyersUserListsResponse = UserList;
 
 export type CreateBuyersUserListsError = CommonErrors;
 
+/** Creates a new user list. */
 export const createBuyersUserLists: API.OperationMethod<CreateBuyersUserListsRequest, CreateBuyersUserListsResponse, CreateBuyersUserListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateBuyersUserListsRequest,
   output: CreateBuyersUserListsResponse,
   errors: [],
 }));
 
-/** Updates the given user list. Only user lists with URLRestrictions can be updated. */
 export interface UpdateBuyersUserListsRequest {
   /** Output only. Name of the user list that must follow the pattern `buyers/{buyer}/userLists/{user_list}`, where `{buyer}` represents the account ID of the buyer who owns the user list. For a bidder accessing user lists on behalf of a child seat buyer, `{buyer}` represents the account ID of the child seat buyer. `{user_list}` is an int64 identifier assigned by Google to uniquely identify a user list. */
   name: string;
@@ -1991,13 +1990,13 @@ export const UpdateBuyersUserListsResponse = UserList;
 
 export type UpdateBuyersUserListsError = CommonErrors;
 
+/** Updates the given user list. Only user lists with URLRestrictions can be updated. */
 export const updateBuyersUserLists: API.OperationMethod<UpdateBuyersUserListsRequest, UpdateBuyersUserListsResponse, UpdateBuyersUserListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateBuyersUserListsRequest,
   output: UpdateBuyersUserListsResponse,
   errors: [],
 }));
 
-/** Changes the status of a user list to OPEN. This allows new users to be added to the user list. */
 export interface OpenBuyersUserListsRequest {
   /** Required. The name of the user list to open. See UserList.name */
   name: string;
@@ -2018,13 +2017,13 @@ export const OpenBuyersUserListsResponse = UserList;
 
 export type OpenBuyersUserListsError = CommonErrors;
 
+/** Changes the status of a user list to OPEN. This allows new users to be added to the user list. */
 export const openBuyersUserLists: API.OperationMethod<OpenBuyersUserListsRequest, OpenBuyersUserListsResponse, OpenBuyersUserListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: OpenBuyersUserListsRequest,
   output: OpenBuyersUserListsResponse,
   errors: [],
 }));
 
-/** Changes the status of a user list to CLOSED. This prevents new users from being added to the user list. */
 export interface CloseBuyersUserListsRequest {
   /** Required. The name of the user list to close. See UserList.name */
   name: string;
@@ -2045,13 +2044,13 @@ export const CloseBuyersUserListsResponse = UserList;
 
 export type CloseBuyersUserListsError = CommonErrors;
 
+/** Changes the status of a user list to CLOSED. This prevents new users from being added to the user list. */
 export const closeBuyersUserLists: API.OperationMethod<CloseBuyersUserListsRequest, CloseBuyersUserListsResponse, CloseBuyersUserListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CloseBuyersUserListsRequest,
   output: CloseBuyersUserListsResponse,
   errors: [],
 }));
 
-/** This has been sunset as of October 2023, and will return an error response if called. For more information, see the release notes: https://developers.google.com/authorized-buyers/apis/relnotes#real-time-bidding-api Gets remarketing tag for a buyer. A remarketing tag is a piece of JavaScript code that can be placed on a web page. When a user visits a page containing a remarketing tag, Google adds the user to a user list. */
 export interface GetRemarketingTagBuyersUserListsRequest {
   /** Required. To fetch the remarketing tag for an account, the name must follow the pattern `buyers/{accountId}`, where `{accountId}` represents the ID of the buyer that owns the remarketing tag. For a bidder accessing the remarketing tag on behalf of a child seat buyer, `{accountId}` should represent the ID of the child seat buyer. To fetch the remarketing tag for a specific user list, the name must follow the pattern `buyers/{accountId}/userLists/{userListId}`. See UserList.name. */
   name: string;
@@ -2069,6 +2068,7 @@ export const GetRemarketingTagBuyersUserListsResponse = GetRemarketingTagRespons
 
 export type GetRemarketingTagBuyersUserListsError = CommonErrors;
 
+/** This has been sunset as of October 2023, and will return an error response if called. For more information, see the release notes: https://developers.google.com/authorized-buyers/apis/relnotes#real-time-bidding-api Gets remarketing tag for a buyer. A remarketing tag is a piece of JavaScript code that can be placed on a web page. When a user visits a page containing a remarketing tag, Google adds the user to a user list. */
 export const getRemarketingTagBuyersUserLists: API.OperationMethod<GetRemarketingTagBuyersUserListsRequest, GetRemarketingTagBuyersUserListsResponse, GetRemarketingTagBuyersUserListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRemarketingTagBuyersUserListsRequest,
   output: GetRemarketingTagBuyersUserListsResponse,

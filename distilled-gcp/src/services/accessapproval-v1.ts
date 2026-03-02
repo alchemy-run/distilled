@@ -288,7 +288,6 @@ export const ApproveApprovalRequestMessage: Schema.Schema<ApproveApprovalRequest
 // Operations
 // ==========================================================================
 
-/** Updates the settings associated with a project, folder, or organization. Settings to update are determined by the value of field_mask. */
 export interface UpdateAccessApprovalSettingsOrganizationsRequest {
   /** The resource name of the settings. Format is one of: * "projects/{project}/accessApprovalSettings" * "folders/{folder}/accessApprovalSettings" * "organizations/{organization}/accessApprovalSettings" */
   name: string;
@@ -312,13 +311,13 @@ export const UpdateAccessApprovalSettingsOrganizationsResponse = AccessApprovalS
 
 export type UpdateAccessApprovalSettingsOrganizationsError = CommonErrors;
 
+/** Updates the settings associated with a project, folder, or organization. Settings to update are determined by the value of field_mask. */
 export const updateAccessApprovalSettingsOrganizations: API.OperationMethod<UpdateAccessApprovalSettingsOrganizationsRequest, UpdateAccessApprovalSettingsOrganizationsResponse, UpdateAccessApprovalSettingsOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAccessApprovalSettingsOrganizationsRequest,
   output: UpdateAccessApprovalSettingsOrganizationsResponse,
   errors: [],
 }));
 
-/** Gets the Access Approval settings associated with a project, folder, or organization. */
 export interface GetAccessApprovalSettingsOrganizationsRequest {
   /** The name of the AccessApprovalSettings to retrieve. Format: "{projects|folders|organizations}/{id}/accessApprovalSettings" */
   name: string;
@@ -336,13 +335,13 @@ export const GetAccessApprovalSettingsOrganizationsResponse = AccessApprovalSett
 
 export type GetAccessApprovalSettingsOrganizationsError = CommonErrors;
 
+/** Gets the Access Approval settings associated with a project, folder, or organization. */
 export const getAccessApprovalSettingsOrganizations: API.OperationMethod<GetAccessApprovalSettingsOrganizationsRequest, GetAccessApprovalSettingsOrganizationsResponse, GetAccessApprovalSettingsOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccessApprovalSettingsOrganizationsRequest,
   output: GetAccessApprovalSettingsOrganizationsResponse,
   errors: [],
 }));
 
-/** Deletes the settings associated with a project, folder, or organization. This will have the effect of disabling Access Approval for the resource. Access Approval may remain active based on parent resource settings. To confirm the effective settings, call GetAccessApprovalSettings and verify effective setting is disabled. */
 export interface DeleteAccessApprovalSettingsOrganizationsRequest {
   /** Name of the AccessApprovalSettings to delete. */
   name: string;
@@ -360,13 +359,13 @@ export const DeleteAccessApprovalSettingsOrganizationsResponse = Empty;
 
 export type DeleteAccessApprovalSettingsOrganizationsError = CommonErrors;
 
+/** Deletes the settings associated with a project, folder, or organization. This will have the effect of disabling Access Approval for the resource. Access Approval may remain active based on parent resource settings. To confirm the effective settings, call GetAccessApprovalSettings and verify effective setting is disabled. */
 export const deleteAccessApprovalSettingsOrganizations: API.OperationMethod<DeleteAccessApprovalSettingsOrganizationsRequest, DeleteAccessApprovalSettingsOrganizationsResponse, DeleteAccessApprovalSettingsOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccessApprovalSettingsOrganizationsRequest,
   output: DeleteAccessApprovalSettingsOrganizationsResponse,
   errors: [],
 }));
 
-/** Retrieves the service account that is used by Access Approval to access KMS keys for signing approved approval requests. */
 export interface GetServiceAccountOrganizationsRequest {
   /** Name of the AccessApprovalServiceAccount to retrieve. */
   name: string;
@@ -384,13 +383,13 @@ export const GetServiceAccountOrganizationsResponse = AccessApprovalServiceAccou
 
 export type GetServiceAccountOrganizationsError = CommonErrors;
 
+/** Retrieves the service account that is used by Access Approval to access KMS keys for signing approved approval requests. */
 export const getServiceAccountOrganizations: API.OperationMethod<GetServiceAccountOrganizationsRequest, GetServiceAccountOrganizationsResponse, GetServiceAccountOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetServiceAccountOrganizationsRequest,
   output: GetServiceAccountOrganizationsResponse,
   errors: [],
 }));
 
-/** Invalidates an existing ApprovalRequest. Returns the updated ApprovalRequest. NOTE: This action revokes Google access based on this approval request. If the resource has other active approvals, access will remain granted. Returns FAILED_PRECONDITION if the request exists but is not in an approved state. */
 export interface InvalidateOrganizationsApprovalRequestsRequest {
   /** Name of the ApprovalRequest to invalidate. */
   name: string;
@@ -411,13 +410,13 @@ export const InvalidateOrganizationsApprovalRequestsResponse = ApprovalRequest;
 
 export type InvalidateOrganizationsApprovalRequestsError = CommonErrors;
 
+/** Invalidates an existing ApprovalRequest. Returns the updated ApprovalRequest. NOTE: This action revokes Google access based on this approval request. If the resource has other active approvals, access will remain granted. Returns FAILED_PRECONDITION if the request exists but is not in an approved state. */
 export const invalidateOrganizationsApprovalRequests: API.OperationMethod<InvalidateOrganizationsApprovalRequestsRequest, InvalidateOrganizationsApprovalRequestsResponse, InvalidateOrganizationsApprovalRequestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InvalidateOrganizationsApprovalRequestsRequest,
   output: InvalidateOrganizationsApprovalRequestsResponse,
   errors: [],
 }));
 
-/** Dismisses a request. Returns the updated ApprovalRequest. NOTE: When a request is dismissed, it is considered ignored. Dismissing a request does not prevent access granted by other Access Approval requests. Returns NOT_FOUND if the request does not exist. Returns FAILED_PRECONDITION if the request exists but is not in a pending state. */
 export interface DismissOrganizationsApprovalRequestsRequest {
   /** Name of the ApprovalRequest to dismiss. */
   name: string;
@@ -438,13 +437,13 @@ export const DismissOrganizationsApprovalRequestsResponse = ApprovalRequest;
 
 export type DismissOrganizationsApprovalRequestsError = CommonErrors;
 
+/** Dismisses a request. Returns the updated ApprovalRequest. NOTE: When a request is dismissed, it is considered ignored. Dismissing a request does not prevent access granted by other Access Approval requests. Returns NOT_FOUND if the request does not exist. Returns FAILED_PRECONDITION if the request exists but is not in a pending state. */
 export const dismissOrganizationsApprovalRequests: API.OperationMethod<DismissOrganizationsApprovalRequestsRequest, DismissOrganizationsApprovalRequestsResponse, DismissOrganizationsApprovalRequestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DismissOrganizationsApprovalRequestsRequest,
   output: DismissOrganizationsApprovalRequestsResponse,
   errors: [],
 }));
 
-/** Lists approval requests associated with a project, folder, or organization. Approval requests can be filtered by state (pending, active, dismissed). The order is reverse chronological. */
 export interface ListOrganizationsApprovalRequestsRequest {
   /** Requested page size. */
   pageSize?: number;
@@ -471,7 +470,8 @@ export const ListOrganizationsApprovalRequestsResponse = ListApprovalRequestsRes
 
 export type ListOrganizationsApprovalRequestsError = CommonErrors;
 
-export const listOrganizationsApprovalRequests = API.makePaginated(() => ({
+/** Lists approval requests associated with a project, folder, or organization. Approval requests can be filtered by state (pending, active, dismissed). The order is reverse chronological. */
+export const listOrganizationsApprovalRequests: API.PaginatedOperationMethod<ListOrganizationsApprovalRequestsRequest, ListOrganizationsApprovalRequestsResponse, ListOrganizationsApprovalRequestsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsApprovalRequestsRequest,
   output: ListOrganizationsApprovalRequestsResponse,
   errors: [],
@@ -481,7 +481,6 @@ export const listOrganizationsApprovalRequests = API.makePaginated(() => ({
   },
 }));
 
-/** Approves a request and returns the updated ApprovalRequest. Returns NOT_FOUND if the request does not exist. Returns FAILED_PRECONDITION if the request exists but is not in a pending state. */
 export interface ApproveOrganizationsApprovalRequestsRequest {
   /** Name of the approval request to approve. */
   name: string;
@@ -502,13 +501,13 @@ export const ApproveOrganizationsApprovalRequestsResponse = ApprovalRequest;
 
 export type ApproveOrganizationsApprovalRequestsError = CommonErrors;
 
+/** Approves a request and returns the updated ApprovalRequest. Returns NOT_FOUND if the request does not exist. Returns FAILED_PRECONDITION if the request exists but is not in a pending state. */
 export const approveOrganizationsApprovalRequests: API.OperationMethod<ApproveOrganizationsApprovalRequestsRequest, ApproveOrganizationsApprovalRequestsResponse, ApproveOrganizationsApprovalRequestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ApproveOrganizationsApprovalRequestsRequest,
   output: ApproveOrganizationsApprovalRequestsResponse,
   errors: [],
 }));
 
-/** Gets an approval request. Returns NOT_FOUND if the request does not exist. */
 export interface GetOrganizationsApprovalRequestsRequest {
   /** The name of the approval request to retrieve. Format: "{projects|folders|organizations}/{id}/approvalRequests/{approval_request}" */
   name: string;
@@ -526,13 +525,13 @@ export const GetOrganizationsApprovalRequestsResponse = ApprovalRequest;
 
 export type GetOrganizationsApprovalRequestsError = CommonErrors;
 
+/** Gets an approval request. Returns NOT_FOUND if the request does not exist. */
 export const getOrganizationsApprovalRequests: API.OperationMethod<GetOrganizationsApprovalRequestsRequest, GetOrganizationsApprovalRequestsResponse, GetOrganizationsApprovalRequestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsApprovalRequestsRequest,
   output: GetOrganizationsApprovalRequestsResponse,
   errors: [],
 }));
 
-/** Updates the settings associated with a project, folder, or organization. Settings to update are determined by the value of field_mask. */
 export interface UpdateAccessApprovalSettingsProjectsRequest {
   /** The resource name of the settings. Format is one of: * "projects/{project}/accessApprovalSettings" * "folders/{folder}/accessApprovalSettings" * "organizations/{organization}/accessApprovalSettings" */
   name: string;
@@ -556,13 +555,13 @@ export const UpdateAccessApprovalSettingsProjectsResponse = AccessApprovalSettin
 
 export type UpdateAccessApprovalSettingsProjectsError = CommonErrors;
 
+/** Updates the settings associated with a project, folder, or organization. Settings to update are determined by the value of field_mask. */
 export const updateAccessApprovalSettingsProjects: API.OperationMethod<UpdateAccessApprovalSettingsProjectsRequest, UpdateAccessApprovalSettingsProjectsResponse, UpdateAccessApprovalSettingsProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAccessApprovalSettingsProjectsRequest,
   output: UpdateAccessApprovalSettingsProjectsResponse,
   errors: [],
 }));
 
-/** Retrieves the service account that is used by Access Approval to access KMS keys for signing approved approval requests. */
 export interface GetServiceAccountProjectsRequest {
   /** Name of the AccessApprovalServiceAccount to retrieve. */
   name: string;
@@ -580,13 +579,13 @@ export const GetServiceAccountProjectsResponse = AccessApprovalServiceAccount;
 
 export type GetServiceAccountProjectsError = CommonErrors;
 
+/** Retrieves the service account that is used by Access Approval to access KMS keys for signing approved approval requests. */
 export const getServiceAccountProjects: API.OperationMethod<GetServiceAccountProjectsRequest, GetServiceAccountProjectsResponse, GetServiceAccountProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetServiceAccountProjectsRequest,
   output: GetServiceAccountProjectsResponse,
   errors: [],
 }));
 
-/** Deletes the settings associated with a project, folder, or organization. This will have the effect of disabling Access Approval for the resource. Access Approval may remain active based on parent resource settings. To confirm the effective settings, call GetAccessApprovalSettings and verify effective setting is disabled. */
 export interface DeleteAccessApprovalSettingsProjectsRequest {
   /** Name of the AccessApprovalSettings to delete. */
   name: string;
@@ -604,13 +603,13 @@ export const DeleteAccessApprovalSettingsProjectsResponse = Empty;
 
 export type DeleteAccessApprovalSettingsProjectsError = CommonErrors;
 
+/** Deletes the settings associated with a project, folder, or organization. This will have the effect of disabling Access Approval for the resource. Access Approval may remain active based on parent resource settings. To confirm the effective settings, call GetAccessApprovalSettings and verify effective setting is disabled. */
 export const deleteAccessApprovalSettingsProjects: API.OperationMethod<DeleteAccessApprovalSettingsProjectsRequest, DeleteAccessApprovalSettingsProjectsResponse, DeleteAccessApprovalSettingsProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccessApprovalSettingsProjectsRequest,
   output: DeleteAccessApprovalSettingsProjectsResponse,
   errors: [],
 }));
 
-/** Gets the Access Approval settings associated with a project, folder, or organization. */
 export interface GetAccessApprovalSettingsProjectsRequest {
   /** The name of the AccessApprovalSettings to retrieve. Format: "{projects|folders|organizations}/{id}/accessApprovalSettings" */
   name: string;
@@ -628,13 +627,13 @@ export const GetAccessApprovalSettingsProjectsResponse = AccessApprovalSettings;
 
 export type GetAccessApprovalSettingsProjectsError = CommonErrors;
 
+/** Gets the Access Approval settings associated with a project, folder, or organization. */
 export const getAccessApprovalSettingsProjects: API.OperationMethod<GetAccessApprovalSettingsProjectsRequest, GetAccessApprovalSettingsProjectsResponse, GetAccessApprovalSettingsProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccessApprovalSettingsProjectsRequest,
   output: GetAccessApprovalSettingsProjectsResponse,
   errors: [],
 }));
 
-/** Dismisses a request. Returns the updated ApprovalRequest. NOTE: When a request is dismissed, it is considered ignored. Dismissing a request does not prevent access granted by other Access Approval requests. Returns NOT_FOUND if the request does not exist. Returns FAILED_PRECONDITION if the request exists but is not in a pending state. */
 export interface DismissProjectsApprovalRequestsRequest {
   /** Name of the ApprovalRequest to dismiss. */
   name: string;
@@ -655,13 +654,13 @@ export const DismissProjectsApprovalRequestsResponse = ApprovalRequest;
 
 export type DismissProjectsApprovalRequestsError = CommonErrors;
 
+/** Dismisses a request. Returns the updated ApprovalRequest. NOTE: When a request is dismissed, it is considered ignored. Dismissing a request does not prevent access granted by other Access Approval requests. Returns NOT_FOUND if the request does not exist. Returns FAILED_PRECONDITION if the request exists but is not in a pending state. */
 export const dismissProjectsApprovalRequests: API.OperationMethod<DismissProjectsApprovalRequestsRequest, DismissProjectsApprovalRequestsResponse, DismissProjectsApprovalRequestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DismissProjectsApprovalRequestsRequest,
   output: DismissProjectsApprovalRequestsResponse,
   errors: [],
 }));
 
-/** Gets an approval request. Returns NOT_FOUND if the request does not exist. */
 export interface GetProjectsApprovalRequestsRequest {
   /** The name of the approval request to retrieve. Format: "{projects|folders|organizations}/{id}/approvalRequests/{approval_request}" */
   name: string;
@@ -679,13 +678,13 @@ export const GetProjectsApprovalRequestsResponse = ApprovalRequest;
 
 export type GetProjectsApprovalRequestsError = CommonErrors;
 
+/** Gets an approval request. Returns NOT_FOUND if the request does not exist. */
 export const getProjectsApprovalRequests: API.OperationMethod<GetProjectsApprovalRequestsRequest, GetProjectsApprovalRequestsResponse, GetProjectsApprovalRequestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsApprovalRequestsRequest,
   output: GetProjectsApprovalRequestsResponse,
   errors: [],
 }));
 
-/** Invalidates an existing ApprovalRequest. Returns the updated ApprovalRequest. NOTE: This action revokes Google access based on this approval request. If the resource has other active approvals, access will remain granted. Returns FAILED_PRECONDITION if the request exists but is not in an approved state. */
 export interface InvalidateProjectsApprovalRequestsRequest {
   /** Name of the ApprovalRequest to invalidate. */
   name: string;
@@ -706,13 +705,13 @@ export const InvalidateProjectsApprovalRequestsResponse = ApprovalRequest;
 
 export type InvalidateProjectsApprovalRequestsError = CommonErrors;
 
+/** Invalidates an existing ApprovalRequest. Returns the updated ApprovalRequest. NOTE: This action revokes Google access based on this approval request. If the resource has other active approvals, access will remain granted. Returns FAILED_PRECONDITION if the request exists but is not in an approved state. */
 export const invalidateProjectsApprovalRequests: API.OperationMethod<InvalidateProjectsApprovalRequestsRequest, InvalidateProjectsApprovalRequestsResponse, InvalidateProjectsApprovalRequestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InvalidateProjectsApprovalRequestsRequest,
   output: InvalidateProjectsApprovalRequestsResponse,
   errors: [],
 }));
 
-/** Approves a request and returns the updated ApprovalRequest. Returns NOT_FOUND if the request does not exist. Returns FAILED_PRECONDITION if the request exists but is not in a pending state. */
 export interface ApproveProjectsApprovalRequestsRequest {
   /** Name of the approval request to approve. */
   name: string;
@@ -733,13 +732,13 @@ export const ApproveProjectsApprovalRequestsResponse = ApprovalRequest;
 
 export type ApproveProjectsApprovalRequestsError = CommonErrors;
 
+/** Approves a request and returns the updated ApprovalRequest. Returns NOT_FOUND if the request does not exist. Returns FAILED_PRECONDITION if the request exists but is not in a pending state. */
 export const approveProjectsApprovalRequests: API.OperationMethod<ApproveProjectsApprovalRequestsRequest, ApproveProjectsApprovalRequestsResponse, ApproveProjectsApprovalRequestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ApproveProjectsApprovalRequestsRequest,
   output: ApproveProjectsApprovalRequestsResponse,
   errors: [],
 }));
 
-/** Lists approval requests associated with a project, folder, or organization. Approval requests can be filtered by state (pending, active, dismissed). The order is reverse chronological. */
 export interface ListProjectsApprovalRequestsRequest {
   /** The parent resource. This may be "projects/{project}", "folders/{folder}", or "organizations/{organization}". */
   parent: string;
@@ -766,7 +765,8 @@ export const ListProjectsApprovalRequestsResponse = ListApprovalRequestsResponse
 
 export type ListProjectsApprovalRequestsError = CommonErrors;
 
-export const listProjectsApprovalRequests = API.makePaginated(() => ({
+/** Lists approval requests associated with a project, folder, or organization. Approval requests can be filtered by state (pending, active, dismissed). The order is reverse chronological. */
+export const listProjectsApprovalRequests: API.PaginatedOperationMethod<ListProjectsApprovalRequestsRequest, ListProjectsApprovalRequestsResponse, ListProjectsApprovalRequestsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsApprovalRequestsRequest,
   output: ListProjectsApprovalRequestsResponse,
   errors: [],
@@ -776,7 +776,6 @@ export const listProjectsApprovalRequests = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the settings associated with a project, folder, or organization. This will have the effect of disabling Access Approval for the resource. Access Approval may remain active based on parent resource settings. To confirm the effective settings, call GetAccessApprovalSettings and verify effective setting is disabled. */
 export interface DeleteAccessApprovalSettingsFoldersRequest {
   /** Name of the AccessApprovalSettings to delete. */
   name: string;
@@ -794,13 +793,13 @@ export const DeleteAccessApprovalSettingsFoldersResponse = Empty;
 
 export type DeleteAccessApprovalSettingsFoldersError = CommonErrors;
 
+/** Deletes the settings associated with a project, folder, or organization. This will have the effect of disabling Access Approval for the resource. Access Approval may remain active based on parent resource settings. To confirm the effective settings, call GetAccessApprovalSettings and verify effective setting is disabled. */
 export const deleteAccessApprovalSettingsFolders: API.OperationMethod<DeleteAccessApprovalSettingsFoldersRequest, DeleteAccessApprovalSettingsFoldersResponse, DeleteAccessApprovalSettingsFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccessApprovalSettingsFoldersRequest,
   output: DeleteAccessApprovalSettingsFoldersResponse,
   errors: [],
 }));
 
-/** Gets the Access Approval settings associated with a project, folder, or organization. */
 export interface GetAccessApprovalSettingsFoldersRequest {
   /** The name of the AccessApprovalSettings to retrieve. Format: "{projects|folders|organizations}/{id}/accessApprovalSettings" */
   name: string;
@@ -818,13 +817,13 @@ export const GetAccessApprovalSettingsFoldersResponse = AccessApprovalSettings;
 
 export type GetAccessApprovalSettingsFoldersError = CommonErrors;
 
+/** Gets the Access Approval settings associated with a project, folder, or organization. */
 export const getAccessApprovalSettingsFolders: API.OperationMethod<GetAccessApprovalSettingsFoldersRequest, GetAccessApprovalSettingsFoldersResponse, GetAccessApprovalSettingsFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccessApprovalSettingsFoldersRequest,
   output: GetAccessApprovalSettingsFoldersResponse,
   errors: [],
 }));
 
-/** Updates the settings associated with a project, folder, or organization. Settings to update are determined by the value of field_mask. */
 export interface UpdateAccessApprovalSettingsFoldersRequest {
   /** The resource name of the settings. Format is one of: * "projects/{project}/accessApprovalSettings" * "folders/{folder}/accessApprovalSettings" * "organizations/{organization}/accessApprovalSettings" */
   name: string;
@@ -848,13 +847,13 @@ export const UpdateAccessApprovalSettingsFoldersResponse = AccessApprovalSetting
 
 export type UpdateAccessApprovalSettingsFoldersError = CommonErrors;
 
+/** Updates the settings associated with a project, folder, or organization. Settings to update are determined by the value of field_mask. */
 export const updateAccessApprovalSettingsFolders: API.OperationMethod<UpdateAccessApprovalSettingsFoldersRequest, UpdateAccessApprovalSettingsFoldersResponse, UpdateAccessApprovalSettingsFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAccessApprovalSettingsFoldersRequest,
   output: UpdateAccessApprovalSettingsFoldersResponse,
   errors: [],
 }));
 
-/** Retrieves the service account that is used by Access Approval to access KMS keys for signing approved approval requests. */
 export interface GetServiceAccountFoldersRequest {
   /** Name of the AccessApprovalServiceAccount to retrieve. */
   name: string;
@@ -872,13 +871,13 @@ export const GetServiceAccountFoldersResponse = AccessApprovalServiceAccount;
 
 export type GetServiceAccountFoldersError = CommonErrors;
 
+/** Retrieves the service account that is used by Access Approval to access KMS keys for signing approved approval requests. */
 export const getServiceAccountFolders: API.OperationMethod<GetServiceAccountFoldersRequest, GetServiceAccountFoldersResponse, GetServiceAccountFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetServiceAccountFoldersRequest,
   output: GetServiceAccountFoldersResponse,
   errors: [],
 }));
 
-/** Approves a request and returns the updated ApprovalRequest. Returns NOT_FOUND if the request does not exist. Returns FAILED_PRECONDITION if the request exists but is not in a pending state. */
 export interface ApproveFoldersApprovalRequestsRequest {
   /** Name of the approval request to approve. */
   name: string;
@@ -899,13 +898,13 @@ export const ApproveFoldersApprovalRequestsResponse = ApprovalRequest;
 
 export type ApproveFoldersApprovalRequestsError = CommonErrors;
 
+/** Approves a request and returns the updated ApprovalRequest. Returns NOT_FOUND if the request does not exist. Returns FAILED_PRECONDITION if the request exists but is not in a pending state. */
 export const approveFoldersApprovalRequests: API.OperationMethod<ApproveFoldersApprovalRequestsRequest, ApproveFoldersApprovalRequestsResponse, ApproveFoldersApprovalRequestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ApproveFoldersApprovalRequestsRequest,
   output: ApproveFoldersApprovalRequestsResponse,
   errors: [],
 }));
 
-/** Gets an approval request. Returns NOT_FOUND if the request does not exist. */
 export interface GetFoldersApprovalRequestsRequest {
   /** The name of the approval request to retrieve. Format: "{projects|folders|organizations}/{id}/approvalRequests/{approval_request}" */
   name: string;
@@ -923,13 +922,13 @@ export const GetFoldersApprovalRequestsResponse = ApprovalRequest;
 
 export type GetFoldersApprovalRequestsError = CommonErrors;
 
+/** Gets an approval request. Returns NOT_FOUND if the request does not exist. */
 export const getFoldersApprovalRequests: API.OperationMethod<GetFoldersApprovalRequestsRequest, GetFoldersApprovalRequestsResponse, GetFoldersApprovalRequestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersApprovalRequestsRequest,
   output: GetFoldersApprovalRequestsResponse,
   errors: [],
 }));
 
-/** Invalidates an existing ApprovalRequest. Returns the updated ApprovalRequest. NOTE: This action revokes Google access based on this approval request. If the resource has other active approvals, access will remain granted. Returns FAILED_PRECONDITION if the request exists but is not in an approved state. */
 export interface InvalidateFoldersApprovalRequestsRequest {
   /** Name of the ApprovalRequest to invalidate. */
   name: string;
@@ -950,13 +949,13 @@ export const InvalidateFoldersApprovalRequestsResponse = ApprovalRequest;
 
 export type InvalidateFoldersApprovalRequestsError = CommonErrors;
 
+/** Invalidates an existing ApprovalRequest. Returns the updated ApprovalRequest. NOTE: This action revokes Google access based on this approval request. If the resource has other active approvals, access will remain granted. Returns FAILED_PRECONDITION if the request exists but is not in an approved state. */
 export const invalidateFoldersApprovalRequests: API.OperationMethod<InvalidateFoldersApprovalRequestsRequest, InvalidateFoldersApprovalRequestsResponse, InvalidateFoldersApprovalRequestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InvalidateFoldersApprovalRequestsRequest,
   output: InvalidateFoldersApprovalRequestsResponse,
   errors: [],
 }));
 
-/** Dismisses a request. Returns the updated ApprovalRequest. NOTE: When a request is dismissed, it is considered ignored. Dismissing a request does not prevent access granted by other Access Approval requests. Returns NOT_FOUND if the request does not exist. Returns FAILED_PRECONDITION if the request exists but is not in a pending state. */
 export interface DismissFoldersApprovalRequestsRequest {
   /** Name of the ApprovalRequest to dismiss. */
   name: string;
@@ -977,13 +976,13 @@ export const DismissFoldersApprovalRequestsResponse = ApprovalRequest;
 
 export type DismissFoldersApprovalRequestsError = CommonErrors;
 
+/** Dismisses a request. Returns the updated ApprovalRequest. NOTE: When a request is dismissed, it is considered ignored. Dismissing a request does not prevent access granted by other Access Approval requests. Returns NOT_FOUND if the request does not exist. Returns FAILED_PRECONDITION if the request exists but is not in a pending state. */
 export const dismissFoldersApprovalRequests: API.OperationMethod<DismissFoldersApprovalRequestsRequest, DismissFoldersApprovalRequestsResponse, DismissFoldersApprovalRequestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DismissFoldersApprovalRequestsRequest,
   output: DismissFoldersApprovalRequestsResponse,
   errors: [],
 }));
 
-/** Lists approval requests associated with a project, folder, or organization. Approval requests can be filtered by state (pending, active, dismissed). The order is reverse chronological. */
 export interface ListFoldersApprovalRequestsRequest {
   /** Requested page size. */
   pageSize?: number;
@@ -1010,7 +1009,8 @@ export const ListFoldersApprovalRequestsResponse = ListApprovalRequestsResponse;
 
 export type ListFoldersApprovalRequestsError = CommonErrors;
 
-export const listFoldersApprovalRequests = API.makePaginated(() => ({
+/** Lists approval requests associated with a project, folder, or organization. Approval requests can be filtered by state (pending, active, dismissed). The order is reverse chronological. */
+export const listFoldersApprovalRequests: API.PaginatedOperationMethod<ListFoldersApprovalRequestsRequest, ListFoldersApprovalRequestsResponse, ListFoldersApprovalRequestsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersApprovalRequestsRequest,
   output: ListFoldersApprovalRequestsResponse,
   errors: [],

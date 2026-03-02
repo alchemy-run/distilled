@@ -4738,7 +4738,6 @@ export const GoogleCloudDocumentaiUiv1beta3SampleDocumentsMetadata: Schema.Schem
 // Operations
 // ==========================================================================
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -4756,13 +4755,13 @@ export const GetProjectsOperationsResponse = GoogleLongrunningOperation;
 
 export type GetProjectsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsOperations: API.OperationMethod<GetProjectsOperationsRequest, GetProjectsOperationsResponse, GetProjectsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsOperationsRequest,
   output: GetProjectsOperationsResponse,
   errors: [],
 }));
 
-/** Fetches processor types. Note that we don't use ListProcessorTypes here, because it isn't paginated. */
 export interface FetchProcessorTypesProjectsLocationsRequest {
   /** Required. The location of processor types to list. Format: `projects/{project}/locations/{location}`. */
   parent: string;
@@ -4780,13 +4779,13 @@ export const FetchProcessorTypesProjectsLocationsResponse = GoogleCloudDocumenta
 
 export type FetchProcessorTypesProjectsLocationsError = CommonErrors;
 
+/** Fetches processor types. Note that we don't use ListProcessorTypes here, because it isn't paginated. */
 export const fetchProcessorTypesProjectsLocations: API.OperationMethod<FetchProcessorTypesProjectsLocationsRequest, FetchProcessorTypesProjectsLocationsResponse, FetchProcessorTypesProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FetchProcessorTypesProjectsLocationsRequest,
   output: FetchProcessorTypesProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -4816,7 +4815,8 @@ export const ListProjectsLocationsResponse = GoogleCloudLocationListLocationsRes
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -4826,7 +4826,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -4844,13 +4843,13 @@ export const GetProjectsLocationsResponse = GoogleCloudLocationLocation;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -4880,7 +4879,8 @@ export const ListProjectsLocationsOperationsResponse = GoogleLongrunningListOper
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -4890,7 +4890,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -4908,13 +4907,13 @@ export const GetProjectsLocationsOperationsResponse = GoogleLongrunningOperation
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -4932,13 +4931,13 @@ export const CancelProjectsLocationsOperationsResponse = GoogleProtobufEmpty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Processes a single document. */
 export interface ProcessProjectsLocationsProcessorsRequest {
   /** Required. The resource name of the Processor or ProcessorVersion to use for processing. If a Processor is specified, the server will use its default version. Format: `projects/{project}/locations/{location}/processors/{processor}`, or `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{processorVersion}` */
   name: string;
@@ -4959,13 +4958,13 @@ export const ProcessProjectsLocationsProcessorsResponse = GoogleCloudDocumentaiV
 
 export type ProcessProjectsLocationsProcessorsError = CommonErrors;
 
+/** Processes a single document. */
 export const processProjectsLocationsProcessors: API.OperationMethod<ProcessProjectsLocationsProcessorsRequest, ProcessProjectsLocationsProcessorsResponse, ProcessProjectsLocationsProcessorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ProcessProjectsLocationsProcessorsRequest,
   output: ProcessProjectsLocationsProcessorsResponse,
   errors: [],
 }));
 
-/** LRO endpoint to batch process many documents. The output is written to Cloud Storage as JSON in the [Document] format. */
 export interface BatchProcessProjectsLocationsProcessorsRequest {
   /** Required. The resource name of Processor or ProcessorVersion. Format: `projects/{project}/locations/{location}/processors/{processor}`, or `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{processorVersion}` */
   name: string;
@@ -4986,13 +4985,13 @@ export const BatchProcessProjectsLocationsProcessorsResponse = GoogleLongrunning
 
 export type BatchProcessProjectsLocationsProcessorsError = CommonErrors;
 
+/** LRO endpoint to batch process many documents. The output is written to Cloud Storage as JSON in the [Document] format. */
 export const batchProcessProjectsLocationsProcessors: API.OperationMethod<BatchProcessProjectsLocationsProcessorsRequest, BatchProcessProjectsLocationsProcessorsResponse, BatchProcessProjectsLocationsProcessorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchProcessProjectsLocationsProcessorsRequest,
   output: BatchProcessProjectsLocationsProcessorsResponse,
   errors: [],
 }));
 
-/** Lists all processors which belong to this project. */
 export interface ListProjectsLocationsProcessorsRequest {
   /** Required. The parent (project and location) which owns this collection of Processors. Format: `projects/{project}/locations/{location}` */
   parent: string;
@@ -5016,7 +5015,8 @@ export const ListProjectsLocationsProcessorsResponse = GoogleCloudDocumentaiV1Li
 
 export type ListProjectsLocationsProcessorsError = CommonErrors;
 
-export const listProjectsLocationsProcessors = API.makePaginated(() => ({
+/** Lists all processors which belong to this project. */
+export const listProjectsLocationsProcessors: API.PaginatedOperationMethod<ListProjectsLocationsProcessorsRequest, ListProjectsLocationsProcessorsResponse, ListProjectsLocationsProcessorsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsProcessorsRequest,
   output: ListProjectsLocationsProcessorsResponse,
   errors: [],
@@ -5026,7 +5026,6 @@ export const listProjectsLocationsProcessors = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a processor detail. */
 export interface GetProjectsLocationsProcessorsRequest {
   /** Required. The processor resource name. */
   name: string;
@@ -5044,13 +5043,13 @@ export const GetProjectsLocationsProcessorsResponse = GoogleCloudDocumentaiV1Pro
 
 export type GetProjectsLocationsProcessorsError = CommonErrors;
 
+/** Gets a processor detail. */
 export const getProjectsLocationsProcessors: API.OperationMethod<GetProjectsLocationsProcessorsRequest, GetProjectsLocationsProcessorsResponse, GetProjectsLocationsProcessorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsProcessorsRequest,
   output: GetProjectsLocationsProcessorsResponse,
   errors: [],
 }));
 
-/** Creates a processor from the ProcessorType provided. The processor will be at `ENABLED` state by default after its creation. Note that this method requires the `documentai.processors.create` permission on the project, which is highly privileged. A user or service account with this permission can create new processors that can interact with any gcs bucket in your project. */
 export interface CreateProjectsLocationsProcessorsRequest {
   /** Required. The parent (project and location) under which to create the processor. Format: `projects/{project}/locations/{location}` */
   parent: string;
@@ -5071,13 +5070,13 @@ export const CreateProjectsLocationsProcessorsResponse = GoogleCloudDocumentaiV1
 
 export type CreateProjectsLocationsProcessorsError = CommonErrors;
 
+/** Creates a processor from the ProcessorType provided. The processor will be at `ENABLED` state by default after its creation. Note that this method requires the `documentai.processors.create` permission on the project, which is highly privileged. A user or service account with this permission can create new processors that can interact with any gcs bucket in your project. */
 export const createProjectsLocationsProcessors: API.OperationMethod<CreateProjectsLocationsProcessorsRequest, CreateProjectsLocationsProcessorsResponse, CreateProjectsLocationsProcessorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsProcessorsRequest,
   output: CreateProjectsLocationsProcessorsResponse,
   errors: [],
 }));
 
-/** Deletes the processor, unloads all deployed model artifacts if it was enabled and then deletes all artifacts associated with this processor. */
 export interface DeleteProjectsLocationsProcessorsRequest {
   /** Required. The processor resource name to be deleted. */
   name: string;
@@ -5095,13 +5094,13 @@ export const DeleteProjectsLocationsProcessorsResponse = GoogleLongrunningOperat
 
 export type DeleteProjectsLocationsProcessorsError = CommonErrors;
 
+/** Deletes the processor, unloads all deployed model artifacts if it was enabled and then deletes all artifacts associated with this processor. */
 export const deleteProjectsLocationsProcessors: API.OperationMethod<DeleteProjectsLocationsProcessorsRequest, DeleteProjectsLocationsProcessorsResponse, DeleteProjectsLocationsProcessorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsProcessorsRequest,
   output: DeleteProjectsLocationsProcessorsResponse,
   errors: [],
 }));
 
-/** Enables a processor */
 export interface EnableProjectsLocationsProcessorsRequest {
   /** Required. The processor resource name to be enabled. */
   name: string;
@@ -5122,13 +5121,13 @@ export const EnableProjectsLocationsProcessorsResponse = GoogleLongrunningOperat
 
 export type EnableProjectsLocationsProcessorsError = CommonErrors;
 
+/** Enables a processor */
 export const enableProjectsLocationsProcessors: API.OperationMethod<EnableProjectsLocationsProcessorsRequest, EnableProjectsLocationsProcessorsResponse, EnableProjectsLocationsProcessorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnableProjectsLocationsProcessorsRequest,
   output: EnableProjectsLocationsProcessorsResponse,
   errors: [],
 }));
 
-/** Disables a processor */
 export interface DisableProjectsLocationsProcessorsRequest {
   /** Required. The processor resource name to be disabled. */
   name: string;
@@ -5149,13 +5148,13 @@ export const DisableProjectsLocationsProcessorsResponse = GoogleLongrunningOpera
 
 export type DisableProjectsLocationsProcessorsError = CommonErrors;
 
+/** Disables a processor */
 export const disableProjectsLocationsProcessors: API.OperationMethod<DisableProjectsLocationsProcessorsRequest, DisableProjectsLocationsProcessorsResponse, DisableProjectsLocationsProcessorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DisableProjectsLocationsProcessorsRequest,
   output: DisableProjectsLocationsProcessorsResponse,
   errors: [],
 }));
 
-/** Set the default (active) version of a Processor that will be used in ProcessDocument and BatchProcessDocuments. */
 export interface SetDefaultProcessorVersionProjectsLocationsProcessorsRequest {
   /** Required. The resource name of the Processor to change default version. */
   processor: string;
@@ -5176,13 +5175,13 @@ export const SetDefaultProcessorVersionProjectsLocationsProcessorsResponse = Goo
 
 export type SetDefaultProcessorVersionProjectsLocationsProcessorsError = CommonErrors;
 
+/** Set the default (active) version of a Processor that will be used in ProcessDocument and BatchProcessDocuments. */
 export const setDefaultProcessorVersionProjectsLocationsProcessors: API.OperationMethod<SetDefaultProcessorVersionProjectsLocationsProcessorsRequest, SetDefaultProcessorVersionProjectsLocationsProcessorsResponse, SetDefaultProcessorVersionProjectsLocationsProcessorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetDefaultProcessorVersionProjectsLocationsProcessorsRequest,
   output: SetDefaultProcessorVersionProjectsLocationsProcessorsResponse,
   errors: [],
 }));
 
-/** Processes a single document. */
 export interface ProcessProjectsLocationsProcessorsProcessorVersionsRequest {
   /** Required. The resource name of the Processor or ProcessorVersion to use for processing. If a Processor is specified, the server will use its default version. Format: `projects/{project}/locations/{location}/processors/{processor}`, or `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{processorVersion}` */
   name: string;
@@ -5203,13 +5202,13 @@ export const ProcessProjectsLocationsProcessorsProcessorVersionsResponse = Googl
 
 export type ProcessProjectsLocationsProcessorsProcessorVersionsError = CommonErrors;
 
+/** Processes a single document. */
 export const processProjectsLocationsProcessorsProcessorVersions: API.OperationMethod<ProcessProjectsLocationsProcessorsProcessorVersionsRequest, ProcessProjectsLocationsProcessorsProcessorVersionsResponse, ProcessProjectsLocationsProcessorsProcessorVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ProcessProjectsLocationsProcessorsProcessorVersionsRequest,
   output: ProcessProjectsLocationsProcessorsProcessorVersionsResponse,
   errors: [],
 }));
 
-/** LRO endpoint to batch process many documents. The output is written to Cloud Storage as JSON in the [Document] format. */
 export interface BatchProcessProjectsLocationsProcessorsProcessorVersionsRequest {
   /** Required. The resource name of Processor or ProcessorVersion. Format: `projects/{project}/locations/{location}/processors/{processor}`, or `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{processorVersion}` */
   name: string;
@@ -5230,13 +5229,13 @@ export const BatchProcessProjectsLocationsProcessorsProcessorVersionsResponse = 
 
 export type BatchProcessProjectsLocationsProcessorsProcessorVersionsError = CommonErrors;
 
+/** LRO endpoint to batch process many documents. The output is written to Cloud Storage as JSON in the [Document] format. */
 export const batchProcessProjectsLocationsProcessorsProcessorVersions: API.OperationMethod<BatchProcessProjectsLocationsProcessorsProcessorVersionsRequest, BatchProcessProjectsLocationsProcessorsProcessorVersionsResponse, BatchProcessProjectsLocationsProcessorsProcessorVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchProcessProjectsLocationsProcessorsProcessorVersionsRequest,
   output: BatchProcessProjectsLocationsProcessorsProcessorVersionsResponse,
   errors: [],
 }));
 
-/** Trains a new processor version. Operation metadata is returned as TrainProcessorVersionMetadata. */
 export interface TrainProjectsLocationsProcessorsProcessorVersionsRequest {
   /** Required. The parent (project, location and processor) to create the new version for. Format: `projects/{project}/locations/{location}/processors/{processor}`. */
   parent: string;
@@ -5257,13 +5256,13 @@ export const TrainProjectsLocationsProcessorsProcessorVersionsResponse = GoogleL
 
 export type TrainProjectsLocationsProcessorsProcessorVersionsError = CommonErrors;
 
+/** Trains a new processor version. Operation metadata is returned as TrainProcessorVersionMetadata. */
 export const trainProjectsLocationsProcessorsProcessorVersions: API.OperationMethod<TrainProjectsLocationsProcessorsProcessorVersionsRequest, TrainProjectsLocationsProcessorsProcessorVersionsResponse, TrainProjectsLocationsProcessorsProcessorVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TrainProjectsLocationsProcessorsProcessorVersionsRequest,
   output: TrainProjectsLocationsProcessorsProcessorVersionsResponse,
   errors: [],
 }));
 
-/** Gets a processor version detail. */
 export interface GetProjectsLocationsProcessorsProcessorVersionsRequest {
   /** Required. The processor resource name. */
   name: string;
@@ -5281,13 +5280,13 @@ export const GetProjectsLocationsProcessorsProcessorVersionsResponse = GoogleClo
 
 export type GetProjectsLocationsProcessorsProcessorVersionsError = CommonErrors;
 
+/** Gets a processor version detail. */
 export const getProjectsLocationsProcessorsProcessorVersions: API.OperationMethod<GetProjectsLocationsProcessorsProcessorVersionsRequest, GetProjectsLocationsProcessorsProcessorVersionsResponse, GetProjectsLocationsProcessorsProcessorVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsProcessorsProcessorVersionsRequest,
   output: GetProjectsLocationsProcessorsProcessorVersionsResponse,
   errors: [],
 }));
 
-/** Lists all versions of a processor. */
 export interface ListProjectsLocationsProcessorsProcessorVersionsRequest {
   /** Required. The parent (project, location and processor) to list all versions. Format: `projects/{project}/locations/{location}/processors/{processor}` */
   parent: string;
@@ -5311,7 +5310,8 @@ export const ListProjectsLocationsProcessorsProcessorVersionsResponse = GoogleCl
 
 export type ListProjectsLocationsProcessorsProcessorVersionsError = CommonErrors;
 
-export const listProjectsLocationsProcessorsProcessorVersions = API.makePaginated(() => ({
+/** Lists all versions of a processor. */
+export const listProjectsLocationsProcessorsProcessorVersions: API.PaginatedOperationMethod<ListProjectsLocationsProcessorsProcessorVersionsRequest, ListProjectsLocationsProcessorsProcessorVersionsResponse, ListProjectsLocationsProcessorsProcessorVersionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsProcessorsProcessorVersionsRequest,
   output: ListProjectsLocationsProcessorsProcessorVersionsResponse,
   errors: [],
@@ -5321,7 +5321,6 @@ export const listProjectsLocationsProcessorsProcessorVersions = API.makePaginate
   },
 }));
 
-/** Deletes the processor version, all artifacts under the processor version will be deleted. */
 export interface DeleteProjectsLocationsProcessorsProcessorVersionsRequest {
   /** Required. The processor version resource name to be deleted. */
   name: string;
@@ -5339,13 +5338,13 @@ export const DeleteProjectsLocationsProcessorsProcessorVersionsResponse = Google
 
 export type DeleteProjectsLocationsProcessorsProcessorVersionsError = CommonErrors;
 
+/** Deletes the processor version, all artifacts under the processor version will be deleted. */
 export const deleteProjectsLocationsProcessorsProcessorVersions: API.OperationMethod<DeleteProjectsLocationsProcessorsProcessorVersionsRequest, DeleteProjectsLocationsProcessorsProcessorVersionsResponse, DeleteProjectsLocationsProcessorsProcessorVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsProcessorsProcessorVersionsRequest,
   output: DeleteProjectsLocationsProcessorsProcessorVersionsResponse,
   errors: [],
 }));
 
-/** Deploys the processor version. */
 export interface DeployProjectsLocationsProcessorsProcessorVersionsRequest {
   /** Required. The processor version resource name to be deployed. */
   name: string;
@@ -5366,13 +5365,13 @@ export const DeployProjectsLocationsProcessorsProcessorVersionsResponse = Google
 
 export type DeployProjectsLocationsProcessorsProcessorVersionsError = CommonErrors;
 
+/** Deploys the processor version. */
 export const deployProjectsLocationsProcessorsProcessorVersions: API.OperationMethod<DeployProjectsLocationsProcessorsProcessorVersionsRequest, DeployProjectsLocationsProcessorsProcessorVersionsResponse, DeployProjectsLocationsProcessorsProcessorVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeployProjectsLocationsProcessorsProcessorVersionsRequest,
   output: DeployProjectsLocationsProcessorsProcessorVersionsResponse,
   errors: [],
 }));
 
-/** Undeploys the processor version. */
 export interface UndeployProjectsLocationsProcessorsProcessorVersionsRequest {
   /** Required. The processor version resource name to be undeployed. */
   name: string;
@@ -5393,13 +5392,13 @@ export const UndeployProjectsLocationsProcessorsProcessorVersionsResponse = Goog
 
 export type UndeployProjectsLocationsProcessorsProcessorVersionsError = CommonErrors;
 
+/** Undeploys the processor version. */
 export const undeployProjectsLocationsProcessorsProcessorVersions: API.OperationMethod<UndeployProjectsLocationsProcessorsProcessorVersionsRequest, UndeployProjectsLocationsProcessorsProcessorVersionsResponse, UndeployProjectsLocationsProcessorsProcessorVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UndeployProjectsLocationsProcessorsProcessorVersionsRequest,
   output: UndeployProjectsLocationsProcessorsProcessorVersionsResponse,
   errors: [],
 }));
 
-/** Evaluates a ProcessorVersion against annotated documents, producing an Evaluation. */
 export interface EvaluateProcessorVersionProjectsLocationsProcessorsProcessorVersionsRequest {
   /** Required. The resource name of the ProcessorVersion to evaluate. `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{processorVersion}` */
   processorVersion: string;
@@ -5420,13 +5419,13 @@ export const EvaluateProcessorVersionProjectsLocationsProcessorsProcessorVersion
 
 export type EvaluateProcessorVersionProjectsLocationsProcessorsProcessorVersionsError = CommonErrors;
 
+/** Evaluates a ProcessorVersion against annotated documents, producing an Evaluation. */
 export const evaluateProcessorVersionProjectsLocationsProcessorsProcessorVersions: API.OperationMethod<EvaluateProcessorVersionProjectsLocationsProcessorsProcessorVersionsRequest, EvaluateProcessorVersionProjectsLocationsProcessorsProcessorVersionsResponse, EvaluateProcessorVersionProjectsLocationsProcessorsProcessorVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EvaluateProcessorVersionProjectsLocationsProcessorsProcessorVersionsRequest,
   output: EvaluateProcessorVersionProjectsLocationsProcessorsProcessorVersionsResponse,
   errors: [],
 }));
 
-/** Retrieves a specific evaluation. */
 export interface GetProjectsLocationsProcessorsProcessorVersionsEvaluationsRequest {
   /** Required. The resource name of the Evaluation to get. `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{processorVersion}/evaluations/{evaluation}` */
   name: string;
@@ -5444,13 +5443,13 @@ export const GetProjectsLocationsProcessorsProcessorVersionsEvaluationsResponse 
 
 export type GetProjectsLocationsProcessorsProcessorVersionsEvaluationsError = CommonErrors;
 
+/** Retrieves a specific evaluation. */
 export const getProjectsLocationsProcessorsProcessorVersionsEvaluations: API.OperationMethod<GetProjectsLocationsProcessorsProcessorVersionsEvaluationsRequest, GetProjectsLocationsProcessorsProcessorVersionsEvaluationsResponse, GetProjectsLocationsProcessorsProcessorVersionsEvaluationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsProcessorsProcessorVersionsEvaluationsRequest,
   output: GetProjectsLocationsProcessorsProcessorVersionsEvaluationsResponse,
   errors: [],
 }));
 
-/** Retrieves a set of evaluations for a given processor version. */
 export interface ListProjectsLocationsProcessorsProcessorVersionsEvaluationsRequest {
   /** Required. The resource name of the ProcessorVersion to list evaluations for. `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{processorVersion}` */
   parent: string;
@@ -5474,7 +5473,8 @@ export const ListProjectsLocationsProcessorsProcessorVersionsEvaluationsResponse
 
 export type ListProjectsLocationsProcessorsProcessorVersionsEvaluationsError = CommonErrors;
 
-export const listProjectsLocationsProcessorsProcessorVersionsEvaluations = API.makePaginated(() => ({
+/** Retrieves a set of evaluations for a given processor version. */
+export const listProjectsLocationsProcessorsProcessorVersionsEvaluations: API.PaginatedOperationMethod<ListProjectsLocationsProcessorsProcessorVersionsEvaluationsRequest, ListProjectsLocationsProcessorsProcessorVersionsEvaluationsResponse, ListProjectsLocationsProcessorsProcessorVersionsEvaluationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsProcessorsProcessorVersionsEvaluationsRequest,
   output: ListProjectsLocationsProcessorsProcessorVersionsEvaluationsResponse,
   errors: [],
@@ -5484,7 +5484,6 @@ export const listProjectsLocationsProcessorsProcessorVersionsEvaluations = API.m
   },
 }));
 
-/** Send a document for Human Review. The input document should be processed by the specified processor. */
 export interface ReviewDocumentProjectsLocationsProcessorsHumanReviewConfigRequest {
   /** Required. The resource name of the HumanReviewConfig that the document will be reviewed with. */
   humanReviewConfig: string;
@@ -5505,13 +5504,13 @@ export const ReviewDocumentProjectsLocationsProcessorsHumanReviewConfigResponse 
 
 export type ReviewDocumentProjectsLocationsProcessorsHumanReviewConfigError = CommonErrors;
 
+/** Send a document for Human Review. The input document should be processed by the specified processor. */
 export const reviewDocumentProjectsLocationsProcessorsHumanReviewConfig: API.OperationMethod<ReviewDocumentProjectsLocationsProcessorsHumanReviewConfigRequest, ReviewDocumentProjectsLocationsProcessorsHumanReviewConfigResponse, ReviewDocumentProjectsLocationsProcessorsHumanReviewConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReviewDocumentProjectsLocationsProcessorsHumanReviewConfigRequest,
   output: ReviewDocumentProjectsLocationsProcessorsHumanReviewConfigResponse,
   errors: [],
 }));
 
-/** Lists the processor types that exist. */
 export interface ListProjectsLocationsProcessorTypesRequest {
   /** Required. The location of processor types to list. Format: `projects/{project}/locations/{location}`. */
   parent: string;
@@ -5535,7 +5534,8 @@ export const ListProjectsLocationsProcessorTypesResponse = GoogleCloudDocumentai
 
 export type ListProjectsLocationsProcessorTypesError = CommonErrors;
 
-export const listProjectsLocationsProcessorTypes = API.makePaginated(() => ({
+/** Lists the processor types that exist. */
+export const listProjectsLocationsProcessorTypes: API.PaginatedOperationMethod<ListProjectsLocationsProcessorTypesRequest, ListProjectsLocationsProcessorTypesResponse, ListProjectsLocationsProcessorTypesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsProcessorTypesRequest,
   output: ListProjectsLocationsProcessorTypesResponse,
   errors: [],
@@ -5545,7 +5545,6 @@ export const listProjectsLocationsProcessorTypes = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a processor type detail. */
 export interface GetProjectsLocationsProcessorTypesRequest {
   /** Required. The processor type resource name. */
   name: string;
@@ -5563,13 +5562,13 @@ export const GetProjectsLocationsProcessorTypesResponse = GoogleCloudDocumentaiV
 
 export type GetProjectsLocationsProcessorTypesError = CommonErrors;
 
+/** Gets a processor type detail. */
 export const getProjectsLocationsProcessorTypes: API.OperationMethod<GetProjectsLocationsProcessorTypesRequest, GetProjectsLocationsProcessorTypesResponse, GetProjectsLocationsProcessorTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsProcessorTypesRequest,
   output: GetProjectsLocationsProcessorTypesResponse,
   errors: [],
 }));
 
-/** Creates a schema. */
 export interface CreateProjectsLocationsSchemasRequest {
   /** Required. The parent (project and location) under which to create the Schema. Format: `projects/{project}/locations/{location}` */
   parent: string;
@@ -5590,13 +5589,13 @@ export const CreateProjectsLocationsSchemasResponse = GoogleCloudDocumentaiV1Nex
 
 export type CreateProjectsLocationsSchemasError = CommonErrors;
 
+/** Creates a schema. */
 export const createProjectsLocationsSchemas: API.OperationMethod<CreateProjectsLocationsSchemasRequest, CreateProjectsLocationsSchemasResponse, CreateProjectsLocationsSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsSchemasRequest,
   output: CreateProjectsLocationsSchemasResponse,
   errors: [],
 }));
 
-/** Updates a schema. Editable fields are: - `display_name` - `labels` */
 export interface PatchProjectsLocationsSchemasRequest {
   /** Identifier. The resource name of the Schema. Format: `projects/{project}/locations/{location}/schemas/{schema}` */
   name: string;
@@ -5620,13 +5619,13 @@ export const PatchProjectsLocationsSchemasResponse = GoogleCloudDocumentaiV1Next
 
 export type PatchProjectsLocationsSchemasError = CommonErrors;
 
+/** Updates a schema. Editable fields are: - `display_name` - `labels` */
 export const patchProjectsLocationsSchemas: API.OperationMethod<PatchProjectsLocationsSchemasRequest, PatchProjectsLocationsSchemasResponse, PatchProjectsLocationsSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsSchemasRequest,
   output: PatchProjectsLocationsSchemasResponse,
   errors: [],
 }));
 
-/** Deletes a schema. */
 export interface DeleteProjectsLocationsSchemasRequest {
   /** Required. The name of the Schema to be deleted. Format: `projects/{project}/locations/{location}/schemas/{schema}` */
   name: string;
@@ -5647,13 +5646,13 @@ export const DeleteProjectsLocationsSchemasResponse = GoogleLongrunningOperation
 
 export type DeleteProjectsLocationsSchemasError = CommonErrors;
 
+/** Deletes a schema. */
 export const deleteProjectsLocationsSchemas: API.OperationMethod<DeleteProjectsLocationsSchemasRequest, DeleteProjectsLocationsSchemasResponse, DeleteProjectsLocationsSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsSchemasRequest,
   output: DeleteProjectsLocationsSchemasResponse,
   errors: [],
 }));
 
-/** Lists Schemas. */
 export interface ListProjectsLocationsSchemasRequest {
   /** Required. Format: `projects/{project}/locations/{location}` */
   parent: string;
@@ -5677,7 +5676,8 @@ export const ListProjectsLocationsSchemasResponse = GoogleCloudDocumentaiV1ListS
 
 export type ListProjectsLocationsSchemasError = CommonErrors;
 
-export const listProjectsLocationsSchemas = API.makePaginated(() => ({
+/** Lists Schemas. */
+export const listProjectsLocationsSchemas: API.PaginatedOperationMethod<ListProjectsLocationsSchemasRequest, ListProjectsLocationsSchemasResponse, ListProjectsLocationsSchemasError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsSchemasRequest,
   output: ListProjectsLocationsSchemasResponse,
   errors: [],
@@ -5687,7 +5687,6 @@ export const listProjectsLocationsSchemas = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a schema. */
 export interface GetProjectsLocationsSchemasRequest {
   /** Required. The name of the Schema to get. Format: `projects/{project}/locations/{location}/schemas/{schema}` */
   name: string;
@@ -5705,13 +5704,13 @@ export const GetProjectsLocationsSchemasResponse = GoogleCloudDocumentaiV1NextSc
 
 export type GetProjectsLocationsSchemasError = CommonErrors;
 
+/** Gets a schema. */
 export const getProjectsLocationsSchemas: API.OperationMethod<GetProjectsLocationsSchemasRequest, GetProjectsLocationsSchemasResponse, GetProjectsLocationsSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSchemasRequest,
   output: GetProjectsLocationsSchemasResponse,
   errors: [],
 }));
 
-/** Creates a schema version. */
 export interface CreateProjectsLocationsSchemasSchemaVersionsRequest {
   /** Required. The parent (project and location) under which to create the SchemaVersion. Format: `projects/{project}/locations/{location}/schemas/{schema}` */
   parent: string;
@@ -5732,13 +5731,13 @@ export const CreateProjectsLocationsSchemasSchemaVersionsResponse = GoogleCloudD
 
 export type CreateProjectsLocationsSchemasSchemaVersionsError = CommonErrors;
 
+/** Creates a schema version. */
 export const createProjectsLocationsSchemasSchemaVersions: API.OperationMethod<CreateProjectsLocationsSchemasSchemaVersionsRequest, CreateProjectsLocationsSchemasSchemaVersionsResponse, CreateProjectsLocationsSchemasSchemaVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsSchemasSchemaVersionsRequest,
   output: CreateProjectsLocationsSchemasSchemaVersionsResponse,
   errors: [],
 }));
 
-/** Updates a schema version. Editable fields are: - `display_name` - `labels` */
 export interface PatchProjectsLocationsSchemasSchemaVersionsRequest {
   /** Identifier. The resource name of the SchemaVersion. Format: `projects/{project}/locations/{location}/schemas/{schema}/schemaVersions/{schema_version}` */
   name: string;
@@ -5762,13 +5761,13 @@ export const PatchProjectsLocationsSchemasSchemaVersionsResponse = GoogleCloudDo
 
 export type PatchProjectsLocationsSchemasSchemaVersionsError = CommonErrors;
 
+/** Updates a schema version. Editable fields are: - `display_name` - `labels` */
 export const patchProjectsLocationsSchemasSchemaVersions: API.OperationMethod<PatchProjectsLocationsSchemasSchemaVersionsRequest, PatchProjectsLocationsSchemasSchemaVersionsResponse, PatchProjectsLocationsSchemasSchemaVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsSchemasSchemaVersionsRequest,
   output: PatchProjectsLocationsSchemasSchemaVersionsResponse,
   errors: [],
 }));
 
-/** Generates a schema version. */
 export interface GenerateProjectsLocationsSchemasSchemaVersionsRequest {
   /** Required. The parent (project, location and schema) under which to generate the SchemaVersion. Format: `projects/{project}/locations/{location}/schemas/{schema}` */
   parent: string;
@@ -5789,13 +5788,13 @@ export const GenerateProjectsLocationsSchemasSchemaVersionsResponse = GoogleClou
 
 export type GenerateProjectsLocationsSchemasSchemaVersionsError = CommonErrors;
 
+/** Generates a schema version. */
 export const generateProjectsLocationsSchemasSchemaVersions: API.OperationMethod<GenerateProjectsLocationsSchemasSchemaVersionsRequest, GenerateProjectsLocationsSchemasSchemaVersionsResponse, GenerateProjectsLocationsSchemasSchemaVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateProjectsLocationsSchemasSchemaVersionsRequest,
   output: GenerateProjectsLocationsSchemasSchemaVersionsResponse,
   errors: [],
 }));
 
-/** Deletes a schema version. */
 export interface DeleteProjectsLocationsSchemasSchemaVersionsRequest {
   /** Required. The name of the SchemaVersion to delete. Format: `projects/{project}/locations/{location}/schemas/{schema}/schemaVersions/{schema_version}` */
   name: string;
@@ -5813,13 +5812,13 @@ export const DeleteProjectsLocationsSchemasSchemaVersionsResponse = GoogleLongru
 
 export type DeleteProjectsLocationsSchemasSchemaVersionsError = CommonErrors;
 
+/** Deletes a schema version. */
 export const deleteProjectsLocationsSchemasSchemaVersions: API.OperationMethod<DeleteProjectsLocationsSchemasSchemaVersionsRequest, DeleteProjectsLocationsSchemasSchemaVersionsResponse, DeleteProjectsLocationsSchemasSchemaVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsSchemasSchemaVersionsRequest,
   output: DeleteProjectsLocationsSchemasSchemaVersionsResponse,
   errors: [],
 }));
 
-/** Lists SchemaVersions. */
 export interface ListProjectsLocationsSchemasSchemaVersionsRequest {
   /** Required. Format: `projects/{project}/locations/{location}/schemas/{schema}` */
   parent: string;
@@ -5843,7 +5842,8 @@ export const ListProjectsLocationsSchemasSchemaVersionsResponse = GoogleCloudDoc
 
 export type ListProjectsLocationsSchemasSchemaVersionsError = CommonErrors;
 
-export const listProjectsLocationsSchemasSchemaVersions = API.makePaginated(() => ({
+/** Lists SchemaVersions. */
+export const listProjectsLocationsSchemasSchemaVersions: API.PaginatedOperationMethod<ListProjectsLocationsSchemasSchemaVersionsRequest, ListProjectsLocationsSchemasSchemaVersionsResponse, ListProjectsLocationsSchemasSchemaVersionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsSchemasSchemaVersionsRequest,
   output: ListProjectsLocationsSchemasSchemaVersionsResponse,
   errors: [],
@@ -5853,7 +5853,6 @@ export const listProjectsLocationsSchemasSchemaVersions = API.makePaginated(() =
   },
 }));
 
-/** Gets a schema version. */
 export interface GetProjectsLocationsSchemasSchemaVersionsRequest {
   /** Required. The name of the SchemaVersion to get. Format: `projects/{project}/locations/{location}/schemas/{schema}/schemaVersions/{schema_version}` */
   name: string;
@@ -5871,13 +5870,13 @@ export const GetProjectsLocationsSchemasSchemaVersionsResponse = GoogleCloudDocu
 
 export type GetProjectsLocationsSchemasSchemaVersionsError = CommonErrors;
 
+/** Gets a schema version. */
 export const getProjectsLocationsSchemasSchemaVersions: API.OperationMethod<GetProjectsLocationsSchemasSchemaVersionsRequest, GetProjectsLocationsSchemasSchemaVersionsResponse, GetProjectsLocationsSchemasSchemaVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSchemasSchemaVersionsRequest,
   output: GetProjectsLocationsSchemasSchemaVersionsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -5895,6 +5894,7 @@ export const DeleteOperationsResponse = GoogleProtobufEmpty;
 
 export type DeleteOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteOperations: API.OperationMethod<DeleteOperationsRequest, DeleteOperationsResponse, DeleteOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOperationsRequest,
   output: DeleteOperationsResponse,

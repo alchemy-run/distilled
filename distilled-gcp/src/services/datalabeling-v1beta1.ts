@@ -2819,7 +2819,6 @@ export const GoogleCloudDatalabelingV1beta1LabelOperationMetadata: Schema.Schema
 // Operations
 // ==========================================================================
 
-/** Deletes an instruction object by resource name. */
 export interface DeleteProjectsInstructionsRequest {
   /** Required. Instruction resource name, format: projects/{project_id}/instructions/{instruction_id} */
   name: string;
@@ -2837,13 +2836,13 @@ export const DeleteProjectsInstructionsResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsInstructionsError = CommonErrors;
 
+/** Deletes an instruction object by resource name. */
 export const deleteProjectsInstructions: API.OperationMethod<DeleteProjectsInstructionsRequest, DeleteProjectsInstructionsResponse, DeleteProjectsInstructionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsInstructionsRequest,
   output: DeleteProjectsInstructionsResponse,
   errors: [],
 }));
 
-/** Lists instructions for a project. Pagination is supported. */
 export interface ListProjectsInstructionsRequest {
   /** Optional. A token identifying a page of results for the server to return. Typically obtained by ListInstructionsResponse.next_page_token of the previous [DataLabelingService.ListInstructions] call. Return first page if empty. */
   pageToken?: string;
@@ -2870,7 +2869,8 @@ export const ListProjectsInstructionsResponse = GoogleCloudDatalabelingV1beta1Li
 
 export type ListProjectsInstructionsError = CommonErrors;
 
-export const listProjectsInstructions = API.makePaginated(() => ({
+/** Lists instructions for a project. Pagination is supported. */
+export const listProjectsInstructions: API.PaginatedOperationMethod<ListProjectsInstructionsRequest, ListProjectsInstructionsResponse, ListProjectsInstructionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsInstructionsRequest,
   output: ListProjectsInstructionsResponse,
   errors: [],
@@ -2880,7 +2880,6 @@ export const listProjectsInstructions = API.makePaginated(() => ({
   },
 }));
 
-/** Creates an instruction for how data should be labeled. */
 export interface CreateProjectsInstructionsRequest {
   /** Required. Instruction resource parent, format: projects/{project_id} */
   parent: string;
@@ -2901,13 +2900,13 @@ export const CreateProjectsInstructionsResponse = GoogleLongrunningOperation;
 
 export type CreateProjectsInstructionsError = CommonErrors;
 
+/** Creates an instruction for how data should be labeled. */
 export const createProjectsInstructions: API.OperationMethod<CreateProjectsInstructionsRequest, CreateProjectsInstructionsResponse, CreateProjectsInstructionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsInstructionsRequest,
   output: CreateProjectsInstructionsResponse,
   errors: [],
 }));
 
-/** Gets an instruction by resource name. */
 export interface GetProjectsInstructionsRequest {
   /** Required. Instruction resource name, format: projects/{project_id}/instructions/{instruction_id} */
   name: string;
@@ -2925,13 +2924,13 @@ export const GetProjectsInstructionsResponse = GoogleCloudDatalabelingV1beta1Ins
 
 export type GetProjectsInstructionsError = CommonErrors;
 
+/** Gets an instruction by resource name. */
 export const getProjectsInstructions: API.OperationMethod<GetProjectsInstructionsRequest, GetProjectsInstructionsResponse, GetProjectsInstructionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsInstructionsRequest,
   output: GetProjectsInstructionsResponse,
   errors: [],
 }));
 
-/** Searches evaluations within a project. */
 export interface SearchProjectsEvaluationsRequest {
   /** Required. Evaluation search parent (project ID). Format: "projects/ {project_id}" */
   parent: string;
@@ -2958,7 +2957,8 @@ export const SearchProjectsEvaluationsResponse = GoogleCloudDatalabelingV1beta1S
 
 export type SearchProjectsEvaluationsError = CommonErrors;
 
-export const searchProjectsEvaluations = API.makePaginated(() => ({
+/** Searches evaluations within a project. */
+export const searchProjectsEvaluations: API.PaginatedOperationMethod<SearchProjectsEvaluationsRequest, SearchProjectsEvaluationsResponse, SearchProjectsEvaluationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchProjectsEvaluationsRequest,
   output: SearchProjectsEvaluationsResponse,
   errors: [],
@@ -2968,7 +2968,6 @@ export const searchProjectsEvaluations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets dataset by resource name. */
 export interface GetProjectsDatasetsRequest {
   /** Required. Dataset resource name, format: projects/{project_id}/datasets/{dataset_id} */
   name: string;
@@ -2986,13 +2985,13 @@ export const GetProjectsDatasetsResponse = GoogleCloudDatalabelingV1beta1Dataset
 
 export type GetProjectsDatasetsError = CommonErrors;
 
+/** Gets dataset by resource name. */
 export const getProjectsDatasets: API.OperationMethod<GetProjectsDatasetsRequest, GetProjectsDatasetsResponse, GetProjectsDatasetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsDatasetsRequest,
   output: GetProjectsDatasetsResponse,
   errors: [],
 }));
 
-/** Exports data and annotations from dataset. */
 export interface ExportDataProjectsDatasetsRequest {
   /** Required. Dataset resource name, format: projects/{project_id}/datasets/{dataset_id} */
   name: string;
@@ -3013,13 +3012,13 @@ export const ExportDataProjectsDatasetsResponse = GoogleLongrunningOperation;
 
 export type ExportDataProjectsDatasetsError = CommonErrors;
 
+/** Exports data and annotations from dataset. */
 export const exportDataProjectsDatasets: API.OperationMethod<ExportDataProjectsDatasetsRequest, ExportDataProjectsDatasetsResponse, ExportDataProjectsDatasetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExportDataProjectsDatasetsRequest,
   output: ExportDataProjectsDatasetsResponse,
   errors: [],
 }));
 
-/** Imports data into dataset based on source locations defined in request. It can be called multiple times for the same dataset. Each dataset can only have one long running operation running on it. For example, no labeling task (also long running operation) can be started while importing is still ongoing. Vice versa. */
 export interface ImportDataProjectsDatasetsRequest {
   /** Required. Dataset resource name, format: projects/{project_id}/datasets/{dataset_id} */
   name: string;
@@ -3040,13 +3039,13 @@ export const ImportDataProjectsDatasetsResponse = GoogleLongrunningOperation;
 
 export type ImportDataProjectsDatasetsError = CommonErrors;
 
+/** Imports data into dataset based on source locations defined in request. It can be called multiple times for the same dataset. Each dataset can only have one long running operation running on it. For example, no labeling task (also long running operation) can be started while importing is still ongoing. Vice versa. */
 export const importDataProjectsDatasets: API.OperationMethod<ImportDataProjectsDatasetsRequest, ImportDataProjectsDatasetsResponse, ImportDataProjectsDatasetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportDataProjectsDatasetsRequest,
   output: ImportDataProjectsDatasetsResponse,
   errors: [],
 }));
 
-/** Lists datasets under a project. Pagination is supported. */
 export interface ListProjectsDatasetsRequest {
   /** Required. Dataset resource parent, format: projects/{project_id} */
   parent: string;
@@ -3073,7 +3072,8 @@ export const ListProjectsDatasetsResponse = GoogleCloudDatalabelingV1beta1ListDa
 
 export type ListProjectsDatasetsError = CommonErrors;
 
-export const listProjectsDatasets = API.makePaginated(() => ({
+/** Lists datasets under a project. Pagination is supported. */
+export const listProjectsDatasets: API.PaginatedOperationMethod<ListProjectsDatasetsRequest, ListProjectsDatasetsResponse, ListProjectsDatasetsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsDatasetsRequest,
   output: ListProjectsDatasetsResponse,
   errors: [],
@@ -3083,7 +3083,6 @@ export const listProjectsDatasets = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a dataset by resource name. */
 export interface DeleteProjectsDatasetsRequest {
   /** Required. Dataset resource name, format: projects/{project_id}/datasets/{dataset_id} */
   name: string;
@@ -3101,13 +3100,13 @@ export const DeleteProjectsDatasetsResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsDatasetsError = CommonErrors;
 
+/** Deletes a dataset by resource name. */
 export const deleteProjectsDatasets: API.OperationMethod<DeleteProjectsDatasetsRequest, DeleteProjectsDatasetsResponse, DeleteProjectsDatasetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsDatasetsRequest,
   output: DeleteProjectsDatasetsResponse,
   errors: [],
 }));
 
-/** Creates dataset. If success return a Dataset resource. */
 export interface CreateProjectsDatasetsRequest {
   /** Required. Dataset resource parent, format: projects/{project_id} */
   parent: string;
@@ -3128,13 +3127,13 @@ export const CreateProjectsDatasetsResponse = GoogleCloudDatalabelingV1beta1Data
 
 export type CreateProjectsDatasetsError = CommonErrors;
 
+/** Creates dataset. If success return a Dataset resource. */
 export const createProjectsDatasets: API.OperationMethod<CreateProjectsDatasetsRequest, CreateProjectsDatasetsResponse, CreateProjectsDatasetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsDatasetsRequest,
   output: CreateProjectsDatasetsResponse,
   errors: [],
 }));
 
-/** Starts a labeling task for text. The type of text labeling task is configured by feature in the request. */
 export interface LabelProjectsDatasetsTextRequest {
   /** Required. Name of the data set to request labeling task, format: projects/{project_id}/datasets/{dataset_id} */
   parent: string;
@@ -3155,13 +3154,13 @@ export const LabelProjectsDatasetsTextResponse = GoogleLongrunningOperation;
 
 export type LabelProjectsDatasetsTextError = CommonErrors;
 
+/** Starts a labeling task for text. The type of text labeling task is configured by feature in the request. */
 export const labelProjectsDatasetsText: API.OperationMethod<LabelProjectsDatasetsTextRequest, LabelProjectsDatasetsTextResponse, LabelProjectsDatasetsTextError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LabelProjectsDatasetsTextRequest,
   output: LabelProjectsDatasetsTextResponse,
   errors: [],
 }));
 
-/** Gets a data item in a dataset by resource name. This API can be called after data are imported into dataset. */
 export interface GetProjectsDatasetsDataItemsRequest {
   /** Required. The name of the data item to get, format: projects/{project_id}/datasets/{dataset_id}/dataItems/{data_item_id} */
   name: string;
@@ -3179,13 +3178,13 @@ export const GetProjectsDatasetsDataItemsResponse = GoogleCloudDatalabelingV1bet
 
 export type GetProjectsDatasetsDataItemsError = CommonErrors;
 
+/** Gets a data item in a dataset by resource name. This API can be called after data are imported into dataset. */
 export const getProjectsDatasetsDataItems: API.OperationMethod<GetProjectsDatasetsDataItemsRequest, GetProjectsDatasetsDataItemsResponse, GetProjectsDatasetsDataItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsDatasetsDataItemsRequest,
   output: GetProjectsDatasetsDataItemsResponse,
   errors: [],
 }));
 
-/** Lists data items in a dataset. This API can be called after data are imported into dataset. Pagination is supported. */
 export interface ListProjectsDatasetsDataItemsRequest {
   /** Optional. A token identifying a page of results for the server to return. Typically obtained by ListDataItemsResponse.next_page_token of the previous [DataLabelingService.ListDataItems] call. Return first page if empty. */
   pageToken?: string;
@@ -3212,7 +3211,8 @@ export const ListProjectsDatasetsDataItemsResponse = GoogleCloudDatalabelingV1be
 
 export type ListProjectsDatasetsDataItemsError = CommonErrors;
 
-export const listProjectsDatasetsDataItems = API.makePaginated(() => ({
+/** Lists data items in a dataset. This API can be called after data are imported into dataset. Pagination is supported. */
+export const listProjectsDatasetsDataItems: API.PaginatedOperationMethod<ListProjectsDatasetsDataItemsRequest, ListProjectsDatasetsDataItemsResponse, ListProjectsDatasetsDataItemsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsDatasetsDataItemsRequest,
   output: ListProjectsDatasetsDataItemsResponse,
   errors: [],
@@ -3222,7 +3222,6 @@ export const listProjectsDatasetsDataItems = API.makePaginated(() => ({
   },
 }));
 
-/** Gets an evaluation by resource name (to search, use projects.evaluations.search). */
 export interface GetProjectsDatasetsEvaluationsRequest {
   /** Required. Name of the evaluation. Format: "projects/{project_id}/datasets/ {dataset_id}/evaluations/{evaluation_id}' */
   name: string;
@@ -3240,13 +3239,13 @@ export const GetProjectsDatasetsEvaluationsResponse = GoogleCloudDatalabelingV1b
 
 export type GetProjectsDatasetsEvaluationsError = CommonErrors;
 
+/** Gets an evaluation by resource name (to search, use projects.evaluations.search). */
 export const getProjectsDatasetsEvaluations: API.OperationMethod<GetProjectsDatasetsEvaluationsRequest, GetProjectsDatasetsEvaluationsResponse, GetProjectsDatasetsEvaluationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsDatasetsEvaluationsRequest,
   output: GetProjectsDatasetsEvaluationsResponse,
   errors: [],
 }));
 
-/** Searches example comparisons from an evaluation. The return format is a list of example comparisons that show ground truth and prediction(s) for a single input. Search by providing an evaluation ID. */
 export interface SearchProjectsDatasetsEvaluationsExampleComparisonsRequest {
   /** Required. Name of the Evaluation resource to search for example comparisons from. Format: "projects/{project_id}/datasets/{dataset_id}/evaluations/ {evaluation_id}" */
   parent: string;
@@ -3267,13 +3266,13 @@ export const SearchProjectsDatasetsEvaluationsExampleComparisonsResponse = Googl
 
 export type SearchProjectsDatasetsEvaluationsExampleComparisonsError = CommonErrors;
 
+/** Searches example comparisons from an evaluation. The return format is a list of example comparisons that show ground truth and prediction(s) for a single input. Search by providing an evaluation ID. */
 export const searchProjectsDatasetsEvaluationsExampleComparisons: API.OperationMethod<SearchProjectsDatasetsEvaluationsExampleComparisonsRequest, SearchProjectsDatasetsEvaluationsExampleComparisonsResponse, SearchProjectsDatasetsEvaluationsExampleComparisonsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchProjectsDatasetsEvaluationsExampleComparisonsRequest,
   output: SearchProjectsDatasetsEvaluationsExampleComparisonsResponse,
   errors: [],
 }));
 
-/** Starts a labeling task for video. The type of video labeling task is configured by feature in the request. */
 export interface LabelProjectsDatasetsVideoRequest {
   /** Required. Name of the dataset to request labeling task, format: projects/{project_id}/datasets/{dataset_id} */
   parent: string;
@@ -3294,13 +3293,13 @@ export const LabelProjectsDatasetsVideoResponse = GoogleLongrunningOperation;
 
 export type LabelProjectsDatasetsVideoError = CommonErrors;
 
+/** Starts a labeling task for video. The type of video labeling task is configured by feature in the request. */
 export const labelProjectsDatasetsVideo: API.OperationMethod<LabelProjectsDatasetsVideoRequest, LabelProjectsDatasetsVideoResponse, LabelProjectsDatasetsVideoError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LabelProjectsDatasetsVideoRequest,
   output: LabelProjectsDatasetsVideoResponse,
   errors: [],
 }));
 
-/** Starts a labeling task for image. The type of image labeling task is configured by feature in the request. */
 export interface LabelProjectsDatasetsImageRequest {
   /** Required. Name of the dataset to request labeling task, format: projects/{project_id}/datasets/{dataset_id} */
   parent: string;
@@ -3321,13 +3320,13 @@ export const LabelProjectsDatasetsImageResponse = GoogleLongrunningOperation;
 
 export type LabelProjectsDatasetsImageError = CommonErrors;
 
+/** Starts a labeling task for image. The type of image labeling task is configured by feature in the request. */
 export const labelProjectsDatasetsImage: API.OperationMethod<LabelProjectsDatasetsImageRequest, LabelProjectsDatasetsImageResponse, LabelProjectsDatasetsImageError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LabelProjectsDatasetsImageRequest,
   output: LabelProjectsDatasetsImageResponse,
   errors: [],
 }));
 
-/** Deletes an annotated dataset by resource name. */
 export interface DeleteProjectsDatasetsAnnotatedDatasetsRequest {
   /** Required. Name of the annotated dataset to delete, format: projects/{project_id}/datasets/{dataset_id}/annotatedDatasets/ {annotated_dataset_id} */
   name: string;
@@ -3345,13 +3344,13 @@ export const DeleteProjectsDatasetsAnnotatedDatasetsResponse = GoogleProtobufEmp
 
 export type DeleteProjectsDatasetsAnnotatedDatasetsError = CommonErrors;
 
+/** Deletes an annotated dataset by resource name. */
 export const deleteProjectsDatasetsAnnotatedDatasets: API.OperationMethod<DeleteProjectsDatasetsAnnotatedDatasetsRequest, DeleteProjectsDatasetsAnnotatedDatasetsResponse, DeleteProjectsDatasetsAnnotatedDatasetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsDatasetsAnnotatedDatasetsRequest,
   output: DeleteProjectsDatasetsAnnotatedDatasetsResponse,
   errors: [],
 }));
 
-/** Gets an annotated dataset by resource name. */
 export interface GetProjectsDatasetsAnnotatedDatasetsRequest {
   /** Required. Name of the annotated dataset to get, format: projects/{project_id}/datasets/{dataset_id}/annotatedDatasets/ {annotated_dataset_id} */
   name: string;
@@ -3369,13 +3368,13 @@ export const GetProjectsDatasetsAnnotatedDatasetsResponse = GoogleCloudDatalabel
 
 export type GetProjectsDatasetsAnnotatedDatasetsError = CommonErrors;
 
+/** Gets an annotated dataset by resource name. */
 export const getProjectsDatasetsAnnotatedDatasets: API.OperationMethod<GetProjectsDatasetsAnnotatedDatasetsRequest, GetProjectsDatasetsAnnotatedDatasetsResponse, GetProjectsDatasetsAnnotatedDatasetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsDatasetsAnnotatedDatasetsRequest,
   output: GetProjectsDatasetsAnnotatedDatasetsResponse,
   errors: [],
 }));
 
-/** Lists annotated datasets for a dataset. Pagination is supported. */
 export interface ListProjectsDatasetsAnnotatedDatasetsRequest {
   /** Required. Name of the dataset to list annotated datasets, format: projects/{project_id}/datasets/{dataset_id} */
   parent: string;
@@ -3402,7 +3401,8 @@ export const ListProjectsDatasetsAnnotatedDatasetsResponse = GoogleCloudDatalabe
 
 export type ListProjectsDatasetsAnnotatedDatasetsError = CommonErrors;
 
-export const listProjectsDatasetsAnnotatedDatasets = API.makePaginated(() => ({
+/** Lists annotated datasets for a dataset. Pagination is supported. */
+export const listProjectsDatasetsAnnotatedDatasets: API.PaginatedOperationMethod<ListProjectsDatasetsAnnotatedDatasetsRequest, ListProjectsDatasetsAnnotatedDatasetsResponse, ListProjectsDatasetsAnnotatedDatasetsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsDatasetsAnnotatedDatasetsRequest,
   output: ListProjectsDatasetsAnnotatedDatasetsResponse,
   errors: [],
@@ -3412,7 +3412,6 @@ export const listProjectsDatasetsAnnotatedDatasets = API.makePaginated(() => ({
   },
 }));
 
-/** Delete a FeedbackThread. */
 export interface DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest {
   /** Required. Name of the FeedbackThread that is going to be deleted. Format: 'projects/{project_id}/datasets/{dataset_id}/annotatedDatasets/{annotated_dataset_id}/feedbackThreads/{feedback_thread_id}'. */
   name: string;
@@ -3430,13 +3429,13 @@ export const DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse = Go
 
 export type DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsError = CommonErrors;
 
+/** Delete a FeedbackThread. */
 export const deleteProjectsDatasetsAnnotatedDatasetsFeedbackThreads: API.OperationMethod<DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest, DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse, DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest,
   output: DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse,
   errors: [],
 }));
 
-/** Get a FeedbackThread object. */
 export interface GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest {
   /** Required. Name of the feedback. Format: 'projects/{project_id}/datasets/{dataset_id}/annotatedDatasets/{annotated_dataset_id}/feedbackThreads/{feedback_thread_id}'. */
   name: string;
@@ -3454,13 +3453,13 @@ export const GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse = Googl
 
 export type GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsError = CommonErrors;
 
+/** Get a FeedbackThread object. */
 export const getProjectsDatasetsAnnotatedDatasetsFeedbackThreads: API.OperationMethod<GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest, GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse, GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest,
   output: GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse,
   errors: [],
 }));
 
-/** List FeedbackThreads with pagination. */
 export interface ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest {
   /** Required. FeedbackThread resource parent. Format: "projects/{project_id}/datasets/{dataset_id}/annotatedDatasets/{annotated_dataset_id}" */
   parent: string;
@@ -3484,7 +3483,8 @@ export const ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse = Goog
 
 export type ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsError = CommonErrors;
 
-export const listProjectsDatasetsAnnotatedDatasetsFeedbackThreads = API.makePaginated(() => ({
+/** List FeedbackThreads with pagination. */
+export const listProjectsDatasetsAnnotatedDatasetsFeedbackThreads: API.PaginatedOperationMethod<ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest, ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse, ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsRequest,
   output: ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsResponse,
   errors: [],
@@ -3494,7 +3494,6 @@ export const listProjectsDatasetsAnnotatedDatasetsFeedbackThreads = API.makePagi
   },
 }));
 
-/** Delete a FeedbackMessage. */
 export interface DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest {
   /** Required. Name of the FeedbackMessage that is going to be deleted. Format: 'projects/{project_id}/datasets/{dataset_id}/annotatedDatasets/{annotated_dataset_id}/feedbackThreads/{feedback_thread_id}/feedbackMessages/{feedback_message_id}'. */
   name: string;
@@ -3512,13 +3511,13 @@ export const DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessa
 
 export type DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError = CommonErrors;
 
+/** Delete a FeedbackMessage. */
 export const deleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessages: API.OperationMethod<DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest, DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse, DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest,
   output: DeleteProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse,
   errors: [],
 }));
 
-/** Create a FeedbackMessage object. */
 export interface CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest {
   /** Required. FeedbackMessage resource parent, format: projects/{project_id}/datasets/{dataset_id}/annotatedDatasets/{annotated_dataset_id}/feedbackThreads/{feedback_thread_id}. */
   parent: string;
@@ -3539,13 +3538,13 @@ export const CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessa
 
 export type CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError = CommonErrors;
 
+/** Create a FeedbackMessage object. */
 export const createProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessages: API.OperationMethod<CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest, CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse, CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest,
   output: CreateProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse,
   errors: [],
 }));
 
-/** List FeedbackMessages with pagination. */
 export interface ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest {
   /** Optional. Requested page size. Server may return fewer results than requested. Default value is 100. */
   pageSize?: number;
@@ -3569,7 +3568,8 @@ export const ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessage
 
 export type ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError = CommonErrors;
 
-export const listProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessages = API.makePaginated(() => ({
+/** List FeedbackMessages with pagination. */
+export const listProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessages: API.PaginatedOperationMethod<ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest, ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse, ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest,
   output: ListProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse,
   errors: [],
@@ -3579,7 +3579,6 @@ export const listProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessage
   },
 }));
 
-/** Get a FeedbackMessage object. */
 export interface GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest {
   /** Required. Name of the feedback. Format: 'projects/{project_id}/datasets/{dataset_id}/annotatedDatasets/{annotated_dataset_id}/feedbackThreads/{feedback_thread_id}/feedbackMessages/{feedback_message_id}'. */
   name: string;
@@ -3597,13 +3596,13 @@ export const GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessages
 
 export type GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError = CommonErrors;
 
+/** Get a FeedbackMessage object. */
 export const getProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessages: API.OperationMethod<GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest, GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse, GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesRequest,
   output: GetProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessagesResponse,
   errors: [],
 }));
 
-/** Gets an example by resource name, including both data and annotation. */
 export interface GetProjectsDatasetsAnnotatedDatasetsExamplesRequest {
   /** Required. Name of example, format: projects/{project_id}/datasets/{dataset_id}/annotatedDatasets/ {annotated_dataset_id}/examples/{example_id} */
   name: string;
@@ -3624,13 +3623,13 @@ export const GetProjectsDatasetsAnnotatedDatasetsExamplesResponse = GoogleCloudD
 
 export type GetProjectsDatasetsAnnotatedDatasetsExamplesError = CommonErrors;
 
+/** Gets an example by resource name, including both data and annotation. */
 export const getProjectsDatasetsAnnotatedDatasetsExamples: API.OperationMethod<GetProjectsDatasetsAnnotatedDatasetsExamplesRequest, GetProjectsDatasetsAnnotatedDatasetsExamplesResponse, GetProjectsDatasetsAnnotatedDatasetsExamplesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsDatasetsAnnotatedDatasetsExamplesRequest,
   output: GetProjectsDatasetsAnnotatedDatasetsExamplesResponse,
   errors: [],
 }));
 
-/** Lists examples in an annotated dataset. Pagination is supported. */
 export interface ListProjectsDatasetsAnnotatedDatasetsExamplesRequest {
   /** Optional. Requested page size. Server may return fewer results than requested. Default value is 100. */
   pageSize?: number;
@@ -3657,7 +3656,8 @@ export const ListProjectsDatasetsAnnotatedDatasetsExamplesResponse = GoogleCloud
 
 export type ListProjectsDatasetsAnnotatedDatasetsExamplesError = CommonErrors;
 
-export const listProjectsDatasetsAnnotatedDatasetsExamples = API.makePaginated(() => ({
+/** Lists examples in an annotated dataset. Pagination is supported. */
+export const listProjectsDatasetsAnnotatedDatasetsExamples: API.PaginatedOperationMethod<ListProjectsDatasetsAnnotatedDatasetsExamplesRequest, ListProjectsDatasetsAnnotatedDatasetsExamplesResponse, ListProjectsDatasetsAnnotatedDatasetsExamplesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsDatasetsAnnotatedDatasetsExamplesRequest,
   output: ListProjectsDatasetsAnnotatedDatasetsExamplesResponse,
   errors: [],
@@ -3667,7 +3667,6 @@ export const listProjectsDatasetsAnnotatedDatasetsExamples = API.makePaginated((
   },
 }));
 
-/** Gets a data item in a dataset by resource name. This API can be called after data are imported into dataset. */
 export interface GetProjectsDatasetsAnnotatedDatasetsDataItemsRequest {
   /** Required. The name of the data item to get, format: projects/{project_id}/datasets/{dataset_id}/dataItems/{data_item_id} */
   name: string;
@@ -3685,13 +3684,13 @@ export const GetProjectsDatasetsAnnotatedDatasetsDataItemsResponse = GoogleCloud
 
 export type GetProjectsDatasetsAnnotatedDatasetsDataItemsError = CommonErrors;
 
+/** Gets a data item in a dataset by resource name. This API can be called after data are imported into dataset. */
 export const getProjectsDatasetsAnnotatedDatasetsDataItems: API.OperationMethod<GetProjectsDatasetsAnnotatedDatasetsDataItemsRequest, GetProjectsDatasetsAnnotatedDatasetsDataItemsResponse, GetProjectsDatasetsAnnotatedDatasetsDataItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsDatasetsAnnotatedDatasetsDataItemsRequest,
   output: GetProjectsDatasetsAnnotatedDatasetsDataItemsResponse,
   errors: [],
 }));
 
-/** Lists data items in a dataset. This API can be called after data are imported into dataset. Pagination is supported. */
 export interface ListProjectsDatasetsAnnotatedDatasetsDataItemsRequest {
   /** Optional. A token identifying a page of results for the server to return. Typically obtained by ListDataItemsResponse.next_page_token of the previous [DataLabelingService.ListDataItems] call. Return first page if empty. */
   pageToken?: string;
@@ -3718,7 +3717,8 @@ export const ListProjectsDatasetsAnnotatedDatasetsDataItemsResponse = GoogleClou
 
 export type ListProjectsDatasetsAnnotatedDatasetsDataItemsError = CommonErrors;
 
-export const listProjectsDatasetsAnnotatedDatasetsDataItems = API.makePaginated(() => ({
+/** Lists data items in a dataset. This API can be called after data are imported into dataset. Pagination is supported. */
+export const listProjectsDatasetsAnnotatedDatasetsDataItems: API.PaginatedOperationMethod<ListProjectsDatasetsAnnotatedDatasetsDataItemsRequest, ListProjectsDatasetsAnnotatedDatasetsDataItemsResponse, ListProjectsDatasetsAnnotatedDatasetsDataItemsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsDatasetsAnnotatedDatasetsDataItemsRequest,
   output: ListProjectsDatasetsAnnotatedDatasetsDataItemsResponse,
   errors: [],
@@ -3728,7 +3728,6 @@ export const listProjectsDatasetsAnnotatedDatasetsDataItems = API.makePaginated(
   },
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -3746,13 +3745,13 @@ export const DeleteProjectsOperationsResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsOperations: API.OperationMethod<DeleteProjectsOperationsRequest, DeleteProjectsOperationsResponse, DeleteProjectsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsOperationsRequest,
   output: DeleteProjectsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -3770,13 +3769,13 @@ export const CancelProjectsOperationsResponse = GoogleProtobufEmpty;
 
 export type CancelProjectsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsOperations: API.OperationMethod<CancelProjectsOperationsRequest, CancelProjectsOperationsResponse, CancelProjectsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsOperationsRequest,
   output: CancelProjectsOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsOperationsRequest {
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
@@ -3806,7 +3805,8 @@ export const ListProjectsOperationsResponse = GoogleLongrunningListOperationsRes
 
 export type ListProjectsOperationsError = CommonErrors;
 
-export const listProjectsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsOperations: API.PaginatedOperationMethod<ListProjectsOperationsRequest, ListProjectsOperationsResponse, ListProjectsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsOperationsRequest,
   output: ListProjectsOperationsResponse,
   errors: [],
@@ -3816,7 +3816,6 @@ export const listProjectsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -3834,13 +3833,13 @@ export const GetProjectsOperationsResponse = GoogleLongrunningOperation;
 
 export type GetProjectsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsOperations: API.OperationMethod<GetProjectsOperationsRequest, GetProjectsOperationsResponse, GetProjectsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsOperationsRequest,
   output: GetProjectsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes an annotation spec set by resource name. */
 export interface DeleteProjectsAnnotationSpecSetsRequest {
   /** Required. AnnotationSpec resource name, format: `projects/{project_id}/annotationSpecSets/{annotation_spec_set_id}`. */
   name: string;
@@ -3858,13 +3857,13 @@ export const DeleteProjectsAnnotationSpecSetsResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsAnnotationSpecSetsError = CommonErrors;
 
+/** Deletes an annotation spec set by resource name. */
 export const deleteProjectsAnnotationSpecSets: API.OperationMethod<DeleteProjectsAnnotationSpecSetsRequest, DeleteProjectsAnnotationSpecSetsResponse, DeleteProjectsAnnotationSpecSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsAnnotationSpecSetsRequest,
   output: DeleteProjectsAnnotationSpecSetsResponse,
   errors: [],
 }));
 
-/** Creates an annotation spec set by providing a set of labels. */
 export interface CreateProjectsAnnotationSpecSetsRequest {
   /** Required. AnnotationSpecSet resource parent, format: projects/{project_id} */
   parent: string;
@@ -3885,13 +3884,13 @@ export const CreateProjectsAnnotationSpecSetsResponse = GoogleCloudDatalabelingV
 
 export type CreateProjectsAnnotationSpecSetsError = CommonErrors;
 
+/** Creates an annotation spec set by providing a set of labels. */
 export const createProjectsAnnotationSpecSets: API.OperationMethod<CreateProjectsAnnotationSpecSetsRequest, CreateProjectsAnnotationSpecSetsResponse, CreateProjectsAnnotationSpecSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsAnnotationSpecSetsRequest,
   output: CreateProjectsAnnotationSpecSetsResponse,
   errors: [],
 }));
 
-/** Lists annotation spec sets for a project. Pagination is supported. */
 export interface ListProjectsAnnotationSpecSetsRequest {
   /** Required. Parent of AnnotationSpecSet resource, format: projects/{project_id} */
   parent: string;
@@ -3918,7 +3917,8 @@ export const ListProjectsAnnotationSpecSetsResponse = GoogleCloudDatalabelingV1b
 
 export type ListProjectsAnnotationSpecSetsError = CommonErrors;
 
-export const listProjectsAnnotationSpecSets = API.makePaginated(() => ({
+/** Lists annotation spec sets for a project. Pagination is supported. */
+export const listProjectsAnnotationSpecSets: API.PaginatedOperationMethod<ListProjectsAnnotationSpecSetsRequest, ListProjectsAnnotationSpecSetsResponse, ListProjectsAnnotationSpecSetsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsAnnotationSpecSetsRequest,
   output: ListProjectsAnnotationSpecSetsResponse,
   errors: [],
@@ -3928,7 +3928,6 @@ export const listProjectsAnnotationSpecSets = API.makePaginated(() => ({
   },
 }));
 
-/** Gets an annotation spec set by resource name. */
 export interface GetProjectsAnnotationSpecSetsRequest {
   /** Required. AnnotationSpecSet resource name, format: projects/{project_id}/annotationSpecSets/{annotation_spec_set_id} */
   name: string;
@@ -3946,13 +3945,13 @@ export const GetProjectsAnnotationSpecSetsResponse = GoogleCloudDatalabelingV1be
 
 export type GetProjectsAnnotationSpecSetsError = CommonErrors;
 
+/** Gets an annotation spec set by resource name. */
 export const getProjectsAnnotationSpecSets: API.OperationMethod<GetProjectsAnnotationSpecSetsRequest, GetProjectsAnnotationSpecSetsResponse, GetProjectsAnnotationSpecSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsAnnotationSpecSetsRequest,
   output: GetProjectsAnnotationSpecSetsResponse,
   errors: [],
 }));
 
-/** Lists all evaluation jobs within a project with possible filters. Pagination is supported. */
 export interface ListProjectsEvaluationJobsRequest {
   /** Optional. A token identifying a page of results for the server to return. Typically obtained by the nextPageToken in the response to the previous request. The request returns the first page if this is empty. */
   pageToken?: string;
@@ -3979,7 +3978,8 @@ export const ListProjectsEvaluationJobsResponse = GoogleCloudDatalabelingV1beta1
 
 export type ListProjectsEvaluationJobsError = CommonErrors;
 
-export const listProjectsEvaluationJobs = API.makePaginated(() => ({
+/** Lists all evaluation jobs within a project with possible filters. Pagination is supported. */
+export const listProjectsEvaluationJobs: API.PaginatedOperationMethod<ListProjectsEvaluationJobsRequest, ListProjectsEvaluationJobsResponse, ListProjectsEvaluationJobsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsEvaluationJobsRequest,
   output: ListProjectsEvaluationJobsResponse,
   errors: [],
@@ -3989,7 +3989,6 @@ export const listProjectsEvaluationJobs = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an evaluation job. You can only update certain fields of the job's EvaluationJobConfig: `humanAnnotationConfig.instruction`, `exampleCount`, and `exampleSamplePercentage`. If you want to change any other aspect of the evaluation job, you must delete the job and create a new one. */
 export interface PatchProjectsEvaluationJobsRequest {
   /** Optional. Mask for which fields to update. You can only provide the following fields: * `evaluationJobConfig.humanAnnotationConfig.instruction` * `evaluationJobConfig.exampleCount` * `evaluationJobConfig.exampleSamplePercentage` You can provide more than one of these fields by separating them with commas. */
   updateMask?: string;
@@ -4013,13 +4012,13 @@ export const PatchProjectsEvaluationJobsResponse = GoogleCloudDatalabelingV1beta
 
 export type PatchProjectsEvaluationJobsError = CommonErrors;
 
+/** Updates an evaluation job. You can only update certain fields of the job's EvaluationJobConfig: `humanAnnotationConfig.instruction`, `exampleCount`, and `exampleSamplePercentage`. If you want to change any other aspect of the evaluation job, you must delete the job and create a new one. */
 export const patchProjectsEvaluationJobs: API.OperationMethod<PatchProjectsEvaluationJobsRequest, PatchProjectsEvaluationJobsResponse, PatchProjectsEvaluationJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsEvaluationJobsRequest,
   output: PatchProjectsEvaluationJobsResponse,
   errors: [],
 }));
 
-/** Creates an evaluation job. */
 export interface CreateProjectsEvaluationJobsRequest {
   /** Required. Evaluation job resource parent. Format: "projects/{project_id}" */
   parent: string;
@@ -4040,13 +4039,13 @@ export const CreateProjectsEvaluationJobsResponse = GoogleCloudDatalabelingV1bet
 
 export type CreateProjectsEvaluationJobsError = CommonErrors;
 
+/** Creates an evaluation job. */
 export const createProjectsEvaluationJobs: API.OperationMethod<CreateProjectsEvaluationJobsRequest, CreateProjectsEvaluationJobsResponse, CreateProjectsEvaluationJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsEvaluationJobsRequest,
   output: CreateProjectsEvaluationJobsResponse,
   errors: [],
 }));
 
-/** Resumes a paused evaluation job. A deleted evaluation job can't be resumed. Resuming a running or scheduled evaluation job is a no-op. */
 export interface ResumeProjectsEvaluationJobsRequest {
   /** Required. Name of the evaluation job that is going to be resumed. Format: "projects/{project_id}/evaluationJobs/{evaluation_job_id}" */
   name: string;
@@ -4067,13 +4066,13 @@ export const ResumeProjectsEvaluationJobsResponse = GoogleProtobufEmpty;
 
 export type ResumeProjectsEvaluationJobsError = CommonErrors;
 
+/** Resumes a paused evaluation job. A deleted evaluation job can't be resumed. Resuming a running or scheduled evaluation job is a no-op. */
 export const resumeProjectsEvaluationJobs: API.OperationMethod<ResumeProjectsEvaluationJobsRequest, ResumeProjectsEvaluationJobsResponse, ResumeProjectsEvaluationJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResumeProjectsEvaluationJobsRequest,
   output: ResumeProjectsEvaluationJobsResponse,
   errors: [],
 }));
 
-/** Pauses an evaluation job. Pausing an evaluation job that is already in a `PAUSED` state is a no-op. */
 export interface PauseProjectsEvaluationJobsRequest {
   /** Required. Name of the evaluation job that is going to be paused. Format: "projects/{project_id}/evaluationJobs/{evaluation_job_id}" */
   name: string;
@@ -4094,13 +4093,13 @@ export const PauseProjectsEvaluationJobsResponse = GoogleProtobufEmpty;
 
 export type PauseProjectsEvaluationJobsError = CommonErrors;
 
+/** Pauses an evaluation job. Pausing an evaluation job that is already in a `PAUSED` state is a no-op. */
 export const pauseProjectsEvaluationJobs: API.OperationMethod<PauseProjectsEvaluationJobsRequest, PauseProjectsEvaluationJobsResponse, PauseProjectsEvaluationJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PauseProjectsEvaluationJobsRequest,
   output: PauseProjectsEvaluationJobsResponse,
   errors: [],
 }));
 
-/** Gets an evaluation job by resource name. */
 export interface GetProjectsEvaluationJobsRequest {
   /** Required. Name of the evaluation job. Format: "projects/{project_id} /evaluationJobs/{evaluation_job_id}" */
   name: string;
@@ -4118,13 +4117,13 @@ export const GetProjectsEvaluationJobsResponse = GoogleCloudDatalabelingV1beta1E
 
 export type GetProjectsEvaluationJobsError = CommonErrors;
 
+/** Gets an evaluation job by resource name. */
 export const getProjectsEvaluationJobs: API.OperationMethod<GetProjectsEvaluationJobsRequest, GetProjectsEvaluationJobsResponse, GetProjectsEvaluationJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsEvaluationJobsRequest,
   output: GetProjectsEvaluationJobsResponse,
   errors: [],
 }));
 
-/** Stops and deletes an evaluation job. */
 export interface DeleteProjectsEvaluationJobsRequest {
   /** Required. Name of the evaluation job that is going to be deleted. Format: "projects/{project_id}/evaluationJobs/{evaluation_job_id}" */
   name: string;
@@ -4142,6 +4141,7 @@ export const DeleteProjectsEvaluationJobsResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsEvaluationJobsError = CommonErrors;
 
+/** Stops and deletes an evaluation job. */
 export const deleteProjectsEvaluationJobs: API.OperationMethod<DeleteProjectsEvaluationJobsRequest, DeleteProjectsEvaluationJobsResponse, DeleteProjectsEvaluationJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsEvaluationJobsRequest,
   output: DeleteProjectsEvaluationJobsResponse,

@@ -1059,7 +1059,6 @@ export const ListPublisherProfilesResponse: Schema.Schema<ListPublisherProfilesR
 // Operations
 // ==========================================================================
 
-/** Gets an auction package given its name. */
 export interface GetBuyersAuctionPackagesRequest {
   /** Required. Name of auction package to get. Format: `buyers/{accountId}/auctionPackages/{auctionPackageId}` */
   name: string;
@@ -1077,13 +1076,13 @@ export const GetBuyersAuctionPackagesResponse = AuctionPackage;
 
 export type GetBuyersAuctionPackagesError = CommonErrors;
 
+/** Gets an auction package given its name. */
 export const getBuyersAuctionPackages: API.OperationMethod<GetBuyersAuctionPackagesRequest, GetBuyersAuctionPackagesResponse, GetBuyersAuctionPackagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBuyersAuctionPackagesRequest,
   output: GetBuyersAuctionPackagesResponse,
   errors: [],
 }));
 
-/** List the auction packages. Buyers can use the URL path "/v1/buyers/{accountId}/auctionPackages" to list auction packages for the current buyer and its clients. Bidders can use the URL path "/v1/bidders/{accountId}/auctionPackages" to list auction packages for the bidder, its media planners, its buyers, and all their clients. */
 export interface ListBuyersAuctionPackagesRequest {
   /** Required. Name of the parent buyer that can access the auction package. Format: `buyers/{accountId}`. When used with a bidder account, the auction packages that the bidder, its media planners, its buyers and clients are subscribed to will be listed, in the format `bidders/{accountId}`. */
   parent: string;
@@ -1113,7 +1112,8 @@ export const ListBuyersAuctionPackagesResponse = ListAuctionPackagesResponse;
 
 export type ListBuyersAuctionPackagesError = CommonErrors;
 
-export const listBuyersAuctionPackages = API.makePaginated(() => ({
+/** List the auction packages. Buyers can use the URL path "/v1/buyers/{accountId}/auctionPackages" to list auction packages for the current buyer and its clients. Bidders can use the URL path "/v1/bidders/{accountId}/auctionPackages" to list auction packages for the bidder, its media planners, its buyers, and all their clients. */
+export const listBuyersAuctionPackages: API.PaginatedOperationMethod<ListBuyersAuctionPackagesRequest, ListBuyersAuctionPackagesResponse, ListBuyersAuctionPackagesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBuyersAuctionPackagesRequest,
   output: ListBuyersAuctionPackagesResponse,
   errors: [],
@@ -1123,7 +1123,6 @@ export const listBuyersAuctionPackages = API.makePaginated(() => ({
   },
 }));
 
-/** Subscribe to the auction package for the specified buyer. Once subscribed, the bidder will receive a call out for inventory matching the auction package targeting criteria with the auction package deal ID and the specified buyer. */
 export interface SubscribeBuyersAuctionPackagesRequest {
   /** Required. Name of the auction package. Format: `buyers/{accountId}/auctionPackages/{auctionPackageId}` */
   name: string;
@@ -1144,13 +1143,13 @@ export const SubscribeBuyersAuctionPackagesResponse = AuctionPackage;
 
 export type SubscribeBuyersAuctionPackagesError = CommonErrors;
 
+/** Subscribe to the auction package for the specified buyer. Once subscribed, the bidder will receive a call out for inventory matching the auction package targeting criteria with the auction package deal ID and the specified buyer. */
 export const subscribeBuyersAuctionPackages: API.OperationMethod<SubscribeBuyersAuctionPackagesRequest, SubscribeBuyersAuctionPackagesResponse, SubscribeBuyersAuctionPackagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SubscribeBuyersAuctionPackagesRequest,
   output: SubscribeBuyersAuctionPackagesResponse,
   errors: [],
 }));
 
-/** Unsubscribe from the auction package for the specified buyer. Once unsubscribed, the bidder will no longer receive a call out for the auction package deal ID and the specified buyer. */
 export interface UnsubscribeBuyersAuctionPackagesRequest {
   /** Required. Name of the auction package. Format: `buyers/{accountId}/auctionPackages/{auctionPackageId}` */
   name: string;
@@ -1171,13 +1170,13 @@ export const UnsubscribeBuyersAuctionPackagesResponse = AuctionPackage;
 
 export type UnsubscribeBuyersAuctionPackagesError = CommonErrors;
 
+/** Unsubscribe from the auction package for the specified buyer. Once unsubscribed, the bidder will no longer receive a call out for the auction package deal ID and the specified buyer. */
 export const unsubscribeBuyersAuctionPackages: API.OperationMethod<UnsubscribeBuyersAuctionPackagesRequest, UnsubscribeBuyersAuctionPackagesResponse, UnsubscribeBuyersAuctionPackagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UnsubscribeBuyersAuctionPackagesRequest,
   output: UnsubscribeBuyersAuctionPackagesResponse,
   errors: [],
 }));
 
-/** Subscribe the specified clients of the buyer to the auction package. If a client in the list does not belong to the buyer, an error response will be returned, and all of the following clients in the list will not be subscribed. Subscribing an already subscribed client will have no effect. */
 export interface SubscribeClientsBuyersAuctionPackagesRequest {
   /** Required. Name of the auction package. Format: `buyers/{accountId}/auctionPackages/{auctionPackageId}` */
   auctionPackage: string;
@@ -1198,13 +1197,13 @@ export const SubscribeClientsBuyersAuctionPackagesResponse = AuctionPackage;
 
 export type SubscribeClientsBuyersAuctionPackagesError = CommonErrors;
 
+/** Subscribe the specified clients of the buyer to the auction package. If a client in the list does not belong to the buyer, an error response will be returned, and all of the following clients in the list will not be subscribed. Subscribing an already subscribed client will have no effect. */
 export const subscribeClientsBuyersAuctionPackages: API.OperationMethod<SubscribeClientsBuyersAuctionPackagesRequest, SubscribeClientsBuyersAuctionPackagesResponse, SubscribeClientsBuyersAuctionPackagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SubscribeClientsBuyersAuctionPackagesRequest,
   output: SubscribeClientsBuyersAuctionPackagesResponse,
   errors: [],
 }));
 
-/** Unsubscribe from the auction package for the specified clients of the buyer. Unsubscribing a client that is not subscribed will have no effect. */
 export interface UnsubscribeClientsBuyersAuctionPackagesRequest {
   /** Required. Name of the auction package. Format: `buyers/{accountId}/auctionPackages/{auctionPackageId}` */
   auctionPackage: string;
@@ -1225,13 +1224,13 @@ export const UnsubscribeClientsBuyersAuctionPackagesResponse = AuctionPackage;
 
 export type UnsubscribeClientsBuyersAuctionPackagesError = CommonErrors;
 
+/** Unsubscribe from the auction package for the specified clients of the buyer. Unsubscribing a client that is not subscribed will have no effect. */
 export const unsubscribeClientsBuyersAuctionPackages: API.OperationMethod<UnsubscribeClientsBuyersAuctionPackagesRequest, UnsubscribeClientsBuyersAuctionPackagesResponse, UnsubscribeClientsBuyersAuctionPackagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UnsubscribeClientsBuyersAuctionPackagesRequest,
   output: UnsubscribeClientsBuyersAuctionPackagesResponse,
   errors: [],
 }));
 
-/** Gets a client with a given resource name. */
 export interface GetBuyersClientsRequest {
   /** Required. Format: `buyers/{accountId}/clients/{clientAccountId}` */
   name: string;
@@ -1249,13 +1248,13 @@ export const GetBuyersClientsResponse = Client;
 
 export type GetBuyersClientsError = CommonErrors;
 
+/** Gets a client with a given resource name. */
 export const getBuyersClients: API.OperationMethod<GetBuyersClientsRequest, GetBuyersClientsResponse, GetBuyersClientsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBuyersClientsRequest,
   output: GetBuyersClientsResponse,
   errors: [],
 }));
 
-/** Lists all the clients for the current buyer. */
 export interface ListBuyersClientsRequest {
   /** Required. The name of the buyer. Format: `buyers/{accountId}` */
   parent: string;
@@ -1282,7 +1281,8 @@ export const ListBuyersClientsResponse = ListClientsResponse;
 
 export type ListBuyersClientsError = CommonErrors;
 
-export const listBuyersClients = API.makePaginated(() => ({
+/** Lists all the clients for the current buyer. */
+export const listBuyersClients: API.PaginatedOperationMethod<ListBuyersClientsRequest, ListBuyersClientsResponse, ListBuyersClientsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBuyersClientsRequest,
   output: ListBuyersClientsResponse,
   errors: [],
@@ -1292,7 +1292,6 @@ export const listBuyersClients = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new client. */
 export interface CreateBuyersClientsRequest {
   /** Required. The name of the buyer. Format: `buyers/{accountId}` */
   parent: string;
@@ -1313,13 +1312,13 @@ export const CreateBuyersClientsResponse = Client;
 
 export type CreateBuyersClientsError = CommonErrors;
 
+/** Creates a new client. */
 export const createBuyersClients: API.OperationMethod<CreateBuyersClientsRequest, CreateBuyersClientsResponse, CreateBuyersClientsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateBuyersClientsRequest,
   output: CreateBuyersClientsResponse,
   errors: [],
 }));
 
-/** Updates an existing client. */
 export interface PatchBuyersClientsRequest {
   /** Output only. The resource name of the client. Format: `buyers/{accountId}/clients/{clientAccountId}` */
   name: string;
@@ -1343,13 +1342,13 @@ export const PatchBuyersClientsResponse = Client;
 
 export type PatchBuyersClientsError = CommonErrors;
 
+/** Updates an existing client. */
 export const patchBuyersClients: API.OperationMethod<PatchBuyersClientsRequest, PatchBuyersClientsResponse, PatchBuyersClientsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchBuyersClientsRequest,
   output: PatchBuyersClientsResponse,
   errors: [],
 }));
 
-/** Activates an existing client. The state of the client will be updated to "ACTIVE". This method has no effect if the client is already in "ACTIVE" state. */
 export interface ActivateBuyersClientsRequest {
   /** Required. Format: `buyers/{buyerAccountId}/clients/{clientAccountId}` */
   name: string;
@@ -1370,13 +1369,13 @@ export const ActivateBuyersClientsResponse = Client;
 
 export type ActivateBuyersClientsError = CommonErrors;
 
+/** Activates an existing client. The state of the client will be updated to "ACTIVE". This method has no effect if the client is already in "ACTIVE" state. */
 export const activateBuyersClients: API.OperationMethod<ActivateBuyersClientsRequest, ActivateBuyersClientsResponse, ActivateBuyersClientsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ActivateBuyersClientsRequest,
   output: ActivateBuyersClientsResponse,
   errors: [],
 }));
 
-/** Deactivates an existing client. The state of the client will be updated to "INACTIVE". This method has no effect if the client is already in "INACTIVE" state. */
 export interface DeactivateBuyersClientsRequest {
   /** Required. Format: `buyers/{buyerAccountId}/clients/{clientAccountId}` */
   name: string;
@@ -1397,13 +1396,13 @@ export const DeactivateBuyersClientsResponse = Client;
 
 export type DeactivateBuyersClientsError = CommonErrors;
 
+/** Deactivates an existing client. The state of the client will be updated to "INACTIVE". This method has no effect if the client is already in "INACTIVE" state. */
 export const deactivateBuyersClients: API.OperationMethod<DeactivateBuyersClientsRequest, DeactivateBuyersClientsResponse, DeactivateBuyersClientsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeactivateBuyersClientsRequest,
   output: DeactivateBuyersClientsResponse,
   errors: [],
 }));
 
-/** Retrieves an existing client user. */
 export interface GetBuyersClientsUsersRequest {
   /** Required. Format: `buyers/{buyerAccountId}/clients/{clientAccountId}/clientUsers/{userId}` */
   name: string;
@@ -1421,13 +1420,13 @@ export const GetBuyersClientsUsersResponse = ClientUser;
 
 export type GetBuyersClientsUsersError = CommonErrors;
 
+/** Retrieves an existing client user. */
 export const getBuyersClientsUsers: API.OperationMethod<GetBuyersClientsUsersRequest, GetBuyersClientsUsersResponse, GetBuyersClientsUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBuyersClientsUsersRequest,
   output: GetBuyersClientsUsersResponse,
   errors: [],
 }));
 
-/** Lists all client users for a specified client. */
 export interface ListBuyersClientsUsersRequest {
   /** Required. The name of the client. Format: `buyers/{buyerAccountId}/clients/{clientAccountId}` */
   parent: string;
@@ -1451,7 +1450,8 @@ export const ListBuyersClientsUsersResponse = ListClientUsersResponse;
 
 export type ListBuyersClientsUsersError = CommonErrors;
 
-export const listBuyersClientsUsers = API.makePaginated(() => ({
+/** Lists all client users for a specified client. */
+export const listBuyersClientsUsers: API.PaginatedOperationMethod<ListBuyersClientsUsersRequest, ListBuyersClientsUsersResponse, ListBuyersClientsUsersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBuyersClientsUsersRequest,
   output: ListBuyersClientsUsersResponse,
   errors: [],
@@ -1461,7 +1461,6 @@ export const listBuyersClientsUsers = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new client user in "INVITED" state. An email invitation will be sent to the new user, once accepted the user will become active. */
 export interface CreateBuyersClientsUsersRequest {
   /** Required. The name of the client. Format: `buyers/{accountId}/clients/{clientAccountId}` */
   parent: string;
@@ -1482,13 +1481,13 @@ export const CreateBuyersClientsUsersResponse = ClientUser;
 
 export type CreateBuyersClientsUsersError = CommonErrors;
 
+/** Creates a new client user in "INVITED" state. An email invitation will be sent to the new user, once accepted the user will become active. */
 export const createBuyersClientsUsers: API.OperationMethod<CreateBuyersClientsUsersRequest, CreateBuyersClientsUsersResponse, CreateBuyersClientsUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateBuyersClientsUsersRequest,
   output: CreateBuyersClientsUsersResponse,
   errors: [],
 }));
 
-/** Deletes an existing client user. The client user will lose access to the Authorized Buyers UI. Note that if a client user is deleted, the user's access to the UI can't be restored unless a new client user is created and activated. */
 export interface DeleteBuyersClientsUsersRequest {
   /** Required. Format: `buyers/{buyerAccountId}/clients/{clientAccountId}/clientUsers/{userId}` */
   name: string;
@@ -1506,13 +1505,13 @@ export const DeleteBuyersClientsUsersResponse = Empty;
 
 export type DeleteBuyersClientsUsersError = CommonErrors;
 
+/** Deletes an existing client user. The client user will lose access to the Authorized Buyers UI. Note that if a client user is deleted, the user's access to the UI can't be restored unless a new client user is created and activated. */
 export const deleteBuyersClientsUsers: API.OperationMethod<DeleteBuyersClientsUsersRequest, DeleteBuyersClientsUsersResponse, DeleteBuyersClientsUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteBuyersClientsUsersRequest,
   output: DeleteBuyersClientsUsersResponse,
   errors: [],
 }));
 
-/** Activates an existing client user. The state of the client user will be updated from "INACTIVE" to "ACTIVE". This method has no effect if the client user is already in "ACTIVE" state. An error will be returned if the client user to activate is still in "INVITED" state. */
 export interface ActivateBuyersClientsUsersRequest {
   /** Required. Format: `buyers/{buyerAccountId}/clients/{clientAccountId}/clientUsers/{userId}` */
   name: string;
@@ -1533,13 +1532,13 @@ export const ActivateBuyersClientsUsersResponse = ClientUser;
 
 export type ActivateBuyersClientsUsersError = CommonErrors;
 
+/** Activates an existing client user. The state of the client user will be updated from "INACTIVE" to "ACTIVE". This method has no effect if the client user is already in "ACTIVE" state. An error will be returned if the client user to activate is still in "INVITED" state. */
 export const activateBuyersClientsUsers: API.OperationMethod<ActivateBuyersClientsUsersRequest, ActivateBuyersClientsUsersResponse, ActivateBuyersClientsUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ActivateBuyersClientsUsersRequest,
   output: ActivateBuyersClientsUsersResponse,
   errors: [],
 }));
 
-/** Deactivates an existing client user. The state of the client user will be updated from "ACTIVE" to "INACTIVE". This method has no effect if the client user is already in "INACTIVE" state. An error will be returned if the client user to deactivate is still in "INVITED" state. */
 export interface DeactivateBuyersClientsUsersRequest {
   /** Required. Format: `buyers/{buyerAccountId}/clients/{clientAccountId}/clientUsers/{userId}` */
   name: string;
@@ -1560,13 +1559,13 @@ export const DeactivateBuyersClientsUsersResponse = ClientUser;
 
 export type DeactivateBuyersClientsUsersError = CommonErrors;
 
+/** Deactivates an existing client user. The state of the client user will be updated from "ACTIVE" to "INACTIVE". This method has no effect if the client user is already in "INACTIVE" state. An error will be returned if the client user to deactivate is still in "INVITED" state. */
 export const deactivateBuyersClientsUsers: API.OperationMethod<DeactivateBuyersClientsUsersRequest, DeactivateBuyersClientsUsersResponse, DeactivateBuyersClientsUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeactivateBuyersClientsUsersRequest,
   output: DeactivateBuyersClientsUsersResponse,
   errors: [],
 }));
 
-/** Gets a finalized deal given its name. */
 export interface GetBuyersFinalizedDealsRequest {
   /** Required. Format: `buyers/{accountId}/finalizedDeals/{dealId}` */
   name: string;
@@ -1584,13 +1583,13 @@ export const GetBuyersFinalizedDealsResponse = FinalizedDeal;
 
 export type GetBuyersFinalizedDealsError = CommonErrors;
 
+/** Gets a finalized deal given its name. */
 export const getBuyersFinalizedDeals: API.OperationMethod<GetBuyersFinalizedDealsRequest, GetBuyersFinalizedDealsResponse, GetBuyersFinalizedDealsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBuyersFinalizedDealsRequest,
   output: GetBuyersFinalizedDealsResponse,
   errors: [],
 }));
 
-/** Lists finalized deals. Use the URL path "/v1/buyers/{accountId}/finalizedDeals" to list finalized deals for the current buyer and its clients. Bidders can use the URL path "/v1/bidders/{accountId}/finalizedDeals" to list finalized deals for the bidder, its buyers and all their clients. */
 export interface ListBuyersFinalizedDealsRequest {
   /** Required. The buyer to list the finalized deals for, in the format: `buyers/{accountId}`. When used to list finalized deals for a bidder, its buyers and clients, in the format `bidders/{accountId}`. */
   parent: string;
@@ -1620,7 +1619,8 @@ export const ListBuyersFinalizedDealsResponse = ListFinalizedDealsResponse;
 
 export type ListBuyersFinalizedDealsError = CommonErrors;
 
-export const listBuyersFinalizedDeals = API.makePaginated(() => ({
+/** Lists finalized deals. Use the URL path "/v1/buyers/{accountId}/finalizedDeals" to list finalized deals for the current buyer and its clients. Bidders can use the URL path "/v1/bidders/{accountId}/finalizedDeals" to list finalized deals for the bidder, its buyers and all their clients. */
+export const listBuyersFinalizedDeals: API.PaginatedOperationMethod<ListBuyersFinalizedDealsRequest, ListBuyersFinalizedDealsResponse, ListBuyersFinalizedDealsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBuyersFinalizedDealsRequest,
   output: ListBuyersFinalizedDealsResponse,
   errors: [],
@@ -1630,7 +1630,6 @@ export const listBuyersFinalizedDeals = API.makePaginated(() => ({
   },
 }));
 
-/** Pauses serving of the given finalized deal. This call only pauses the serving status, and does not affect other fields of the finalized deal. Calling this method for an already paused deal has no effect. This method only applies to programmatic guaranteed deals and preferred deals. */
 export interface PauseBuyersFinalizedDealsRequest {
   /** Required. Format: `buyers/{accountId}/finalizedDeals/{dealId}` */
   name: string;
@@ -1651,13 +1650,13 @@ export const PauseBuyersFinalizedDealsResponse = FinalizedDeal;
 
 export type PauseBuyersFinalizedDealsError = CommonErrors;
 
+/** Pauses serving of the given finalized deal. This call only pauses the serving status, and does not affect other fields of the finalized deal. Calling this method for an already paused deal has no effect. This method only applies to programmatic guaranteed deals and preferred deals. */
 export const pauseBuyersFinalizedDeals: API.OperationMethod<PauseBuyersFinalizedDealsRequest, PauseBuyersFinalizedDealsResponse, PauseBuyersFinalizedDealsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PauseBuyersFinalizedDealsRequest,
   output: PauseBuyersFinalizedDealsResponse,
   errors: [],
 }));
 
-/** Resumes serving of the given finalized deal. Calling this method for an running deal has no effect. If a deal is initially paused by the seller, calling this method will not resume serving of the deal until the seller also resumes the deal. This method only applies to programmatic guaranteed deals and preferred deals. */
 export interface ResumeBuyersFinalizedDealsRequest {
   /** Required. Format: `buyers/{accountId}/finalizedDeals/{dealId}` */
   name: string;
@@ -1678,13 +1677,13 @@ export const ResumeBuyersFinalizedDealsResponse = FinalizedDeal;
 
 export type ResumeBuyersFinalizedDealsError = CommonErrors;
 
+/** Resumes serving of the given finalized deal. Calling this method for an running deal has no effect. If a deal is initially paused by the seller, calling this method will not resume serving of the deal until the seller also resumes the deal. This method only applies to programmatic guaranteed deals and preferred deals. */
 export const resumeBuyersFinalizedDeals: API.OperationMethod<ResumeBuyersFinalizedDealsRequest, ResumeBuyersFinalizedDealsResponse, ResumeBuyersFinalizedDealsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResumeBuyersFinalizedDealsRequest,
   output: ResumeBuyersFinalizedDealsResponse,
   errors: [],
 }));
 
-/** Add creative to be used in the bidding process for a finalized deal. For programmatic guaranteed deals, it's recommended that you associate at least one approved creative with the deal before calling SetReadyToServe, to help reduce the number of bid responses filtered because they don't contain approved creatives. Creatives successfully added to a deal can be found in the Realtime-bidding Creatives API creative.deal_ids. This method only applies to programmatic guaranteed deals. Maximum number of 1000 creatives can be added to a finalized deal. */
 export interface AddCreativeBuyersFinalizedDealsRequest {
   /** Required. Name of the finalized deal in the format of: `buyers/{accountId}/finalizedDeals/{dealId}` */
   deal: string;
@@ -1705,13 +1704,13 @@ export const AddCreativeBuyersFinalizedDealsResponse = FinalizedDeal;
 
 export type AddCreativeBuyersFinalizedDealsError = CommonErrors;
 
+/** Add creative to be used in the bidding process for a finalized deal. For programmatic guaranteed deals, it's recommended that you associate at least one approved creative with the deal before calling SetReadyToServe, to help reduce the number of bid responses filtered because they don't contain approved creatives. Creatives successfully added to a deal can be found in the Realtime-bidding Creatives API creative.deal_ids. This method only applies to programmatic guaranteed deals. Maximum number of 1000 creatives can be added to a finalized deal. */
 export const addCreativeBuyersFinalizedDeals: API.OperationMethod<AddCreativeBuyersFinalizedDealsRequest, AddCreativeBuyersFinalizedDealsResponse, AddCreativeBuyersFinalizedDealsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddCreativeBuyersFinalizedDealsRequest,
   output: AddCreativeBuyersFinalizedDealsResponse,
   errors: [],
 }));
 
-/** Sets the given finalized deal as ready to serve. By default, deals are set as ready to serve as soon as they're finalized. If you want to opt out of the default behavior, and manually indicate that deals are ready to serve, ask your Technical Account Manager to add you to the allowlist. If you choose to use this method, finalized deals belonging to the bidder and its child seats don't start serving until after you call `setReadyToServe`, and after the deals become active. For example, you can use this method to delay receiving bid requests until your creative is ready. In addition, bidders can use the URL path "/v1/bidders/{accountId}/finalizedDeals/{dealId}" to set ready to serve for the finalized deals belong to itself, its child seats and all their clients. This method only applies to programmatic guaranteed deals. */
 export interface SetReadyToServeBuyersFinalizedDealsRequest {
   /** Required. Format: `buyers/{accountId}/finalizedDeals/{dealId}` or `bidders/{accountId}/finalizedDeals/{dealId}` */
   deal: string;
@@ -1732,13 +1731,13 @@ export const SetReadyToServeBuyersFinalizedDealsResponse = FinalizedDeal;
 
 export type SetReadyToServeBuyersFinalizedDealsError = CommonErrors;
 
+/** Sets the given finalized deal as ready to serve. By default, deals are set as ready to serve as soon as they're finalized. If you want to opt out of the default behavior, and manually indicate that deals are ready to serve, ask your Technical Account Manager to add you to the allowlist. If you choose to use this method, finalized deals belonging to the bidder and its child seats don't start serving until after you call `setReadyToServe`, and after the deals become active. For example, you can use this method to delay receiving bid requests until your creative is ready. In addition, bidders can use the URL path "/v1/bidders/{accountId}/finalizedDeals/{dealId}" to set ready to serve for the finalized deals belong to itself, its child seats and all their clients. This method only applies to programmatic guaranteed deals. */
 export const setReadyToServeBuyersFinalizedDeals: API.OperationMethod<SetReadyToServeBuyersFinalizedDealsRequest, SetReadyToServeBuyersFinalizedDealsResponse, SetReadyToServeBuyersFinalizedDealsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetReadyToServeBuyersFinalizedDealsRequest,
   output: SetReadyToServeBuyersFinalizedDealsResponse,
   errors: [],
 }));
 
-/** Gets a proposal using its resource name. The proposal is returned at the latest revision. */
 export interface GetBuyersProposalsRequest {
   /** Required. Name of the proposal. Format: `buyers/{accountId}/proposals/{proposalId}` */
   name: string;
@@ -1756,13 +1755,13 @@ export const GetBuyersProposalsResponse = Proposal;
 
 export type GetBuyersProposalsError = CommonErrors;
 
+/** Gets a proposal using its resource name. The proposal is returned at the latest revision. */
 export const getBuyersProposals: API.OperationMethod<GetBuyersProposalsRequest, GetBuyersProposalsResponse, GetBuyersProposalsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBuyersProposalsRequest,
   output: GetBuyersProposalsResponse,
   errors: [],
 }));
 
-/** Updates the proposal at the given revision number. If the revision number in the request is behind the latest one kept in the server, an error message will be returned. See FieldMask for how to use FieldMask. Only fields specified in the UpdateProposalRequest.update_mask will be updated; Fields noted as 'Immutable' or 'Output only' yet specified in the UpdateProposalRequest.update_mask will be ignored and left unchanged. Updating a private auction proposal is only allowed for buyer private data, all other fields are immutable. */
 export interface PatchBuyersProposalsRequest {
   /** Immutable. The name of the proposal serving as a unique identifier. Format: buyers/{accountId}/proposals/{proposalId} */
   name: string;
@@ -1786,13 +1785,13 @@ export const PatchBuyersProposalsResponse = Proposal;
 
 export type PatchBuyersProposalsError = CommonErrors;
 
+/** Updates the proposal at the given revision number. If the revision number in the request is behind the latest one kept in the server, an error message will be returned. See FieldMask for how to use FieldMask. Only fields specified in the UpdateProposalRequest.update_mask will be updated; Fields noted as 'Immutable' or 'Output only' yet specified in the UpdateProposalRequest.update_mask will be ignored and left unchanged. Updating a private auction proposal is only allowed for buyer private data, all other fields are immutable. */
 export const patchBuyersProposals: API.OperationMethod<PatchBuyersProposalsRequest, PatchBuyersProposalsResponse, PatchBuyersProposalsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchBuyersProposalsRequest,
   output: PatchBuyersProposalsResponse,
   errors: [],
 }));
 
-/** Lists proposals. A filter expression using [Cloud API list filtering syntax](https://developers.google.com/authorized-buyers/apis/guides/list-filters) may be specified to filter the results. */
 export interface ListBuyersProposalsRequest {
   /** Required. Parent that owns the collection of proposals Format: `buyers/{accountId}` */
   parent: string;
@@ -1819,7 +1818,8 @@ export const ListBuyersProposalsResponse = ListProposalsResponse;
 
 export type ListBuyersProposalsError = CommonErrors;
 
-export const listBuyersProposals = API.makePaginated(() => ({
+/** Lists proposals. A filter expression using [Cloud API list filtering syntax](https://developers.google.com/authorized-buyers/apis/guides/list-filters) may be specified to filter the results. */
+export const listBuyersProposals: API.PaginatedOperationMethod<ListBuyersProposalsRequest, ListBuyersProposalsResponse, ListBuyersProposalsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBuyersProposalsRequest,
   output: ListBuyersProposalsResponse,
   errors: [],
@@ -1829,7 +1829,6 @@ export const listBuyersProposals = API.makePaginated(() => ({
   },
 }));
 
-/** Cancels an ongoing negotiation on a proposal. This does not cancel or end serving for the deals if the proposal has been finalized. If the proposal has not been finalized before, calling this method will set the Proposal.state to `TERMINATED` and increment the Proposal.proposal_revision. If the proposal has been finalized before and is under renegotiation now, calling this method will reset the Proposal.state to `FINALIZED` and increment the Proposal.proposal_revision. This method does not support private auction proposals whose Proposal.deal_type is 'PRIVATE_AUCTION'. */
 export interface CancelNegotiationBuyersProposalsRequest {
   /** Name of the proposal. Format: `buyers/{accountId}/proposals/{proposalId}` */
   proposal: string;
@@ -1850,13 +1849,13 @@ export const CancelNegotiationBuyersProposalsResponse = Proposal;
 
 export type CancelNegotiationBuyersProposalsError = CommonErrors;
 
+/** Cancels an ongoing negotiation on a proposal. This does not cancel or end serving for the deals if the proposal has been finalized. If the proposal has not been finalized before, calling this method will set the Proposal.state to `TERMINATED` and increment the Proposal.proposal_revision. If the proposal has been finalized before and is under renegotiation now, calling this method will reset the Proposal.state to `FINALIZED` and increment the Proposal.proposal_revision. This method does not support private auction proposals whose Proposal.deal_type is 'PRIVATE_AUCTION'. */
 export const cancelNegotiationBuyersProposals: API.OperationMethod<CancelNegotiationBuyersProposalsRequest, CancelNegotiationBuyersProposalsResponse, CancelNegotiationBuyersProposalsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelNegotiationBuyersProposalsRequest,
   output: CancelNegotiationBuyersProposalsResponse,
   errors: [],
 }));
 
-/** Accepts the proposal at the given revision number. If the revision number in the request is behind the latest from the server, an error message will be returned. This call updates the Proposal.state from `BUYER_ACCEPTANCE_REQUESTED` to `FINALIZED`; it has no side effect if the Proposal.state is already `FINALIZED` and throws exception if the Proposal.state is not either `BUYER_ACCEPTANCE_REQUESTED` or `FINALIZED`. Accepting a proposal means the buyer understands and accepts the Proposal.terms_and_conditions proposed by the seller. */
 export interface AcceptBuyersProposalsRequest {
   /** Name of the proposal. Format: `buyers/{accountId}/proposals/{proposalId}` */
   name: string;
@@ -1877,13 +1876,13 @@ export const AcceptBuyersProposalsResponse = Proposal;
 
 export type AcceptBuyersProposalsError = CommonErrors;
 
+/** Accepts the proposal at the given revision number. If the revision number in the request is behind the latest from the server, an error message will be returned. This call updates the Proposal.state from `BUYER_ACCEPTANCE_REQUESTED` to `FINALIZED`; it has no side effect if the Proposal.state is already `FINALIZED` and throws exception if the Proposal.state is not either `BUYER_ACCEPTANCE_REQUESTED` or `FINALIZED`. Accepting a proposal means the buyer understands and accepts the Proposal.terms_and_conditions proposed by the seller. */
 export const acceptBuyersProposals: API.OperationMethod<AcceptBuyersProposalsRequest, AcceptBuyersProposalsResponse, AcceptBuyersProposalsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AcceptBuyersProposalsRequest,
   output: AcceptBuyersProposalsResponse,
   errors: [],
 }));
 
-/** Creates a note for this proposal and sends to the seller. This method is not supported for proposals with DealType set to 'PRIVATE_AUCTION'. */
 export interface AddNoteBuyersProposalsRequest {
   /** Name of the proposal. Format: `buyers/{accountId}/proposals/{proposalId}` */
   proposal: string;
@@ -1904,13 +1903,13 @@ export const AddNoteBuyersProposalsResponse = Proposal;
 
 export type AddNoteBuyersProposalsError = CommonErrors;
 
+/** Creates a note for this proposal and sends to the seller. This method is not supported for proposals with DealType set to 'PRIVATE_AUCTION'. */
 export const addNoteBuyersProposals: API.OperationMethod<AddNoteBuyersProposalsRequest, AddNoteBuyersProposalsResponse, AddNoteBuyersProposalsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddNoteBuyersProposalsRequest,
   output: AddNoteBuyersProposalsResponse,
   errors: [],
 }));
 
-/** Sends a request for proposal (RFP) to a publisher to initiate the negotiation regarding certain inventory. In the RFP, buyers can specify the deal type, deal terms, start and end dates, targeting, and a message to the publisher. Once the RFP is sent, a proposal in `SELLER_REVIEW_REQUESTED` state will be created and returned in the response. The publisher may review your request and respond with detailed deals in the proposal. */
 export interface SendRfpBuyersProposalsRequest {
   /** Required. The current buyer who is sending the RFP in the format: `buyers/{accountId}`. */
   buyer: string;
@@ -1931,13 +1930,13 @@ export const SendRfpBuyersProposalsResponse = Proposal;
 
 export type SendRfpBuyersProposalsError = CommonErrors;
 
+/** Sends a request for proposal (RFP) to a publisher to initiate the negotiation regarding certain inventory. In the RFP, buyers can specify the deal type, deal terms, start and end dates, targeting, and a message to the publisher. Once the RFP is sent, a proposal in `SELLER_REVIEW_REQUESTED` state will be created and returned in the response. The publisher may review your request and respond with detailed deals in the proposal. */
 export const sendRfpBuyersProposals: API.OperationMethod<SendRfpBuyersProposalsRequest, SendRfpBuyersProposalsResponse, SendRfpBuyersProposalsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SendRfpBuyersProposalsRequest,
   output: SendRfpBuyersProposalsResponse,
   errors: [],
 }));
 
-/** Gets a deal given its name. The deal is returned at its head revision. */
 export interface GetBuyersProposalsDealsRequest {
   /** Required. Format: buyers/{accountId}/proposals/{proposalId}/deals/{dealId} */
   name: string;
@@ -1955,13 +1954,13 @@ export const GetBuyersProposalsDealsResponse = Deal;
 
 export type GetBuyersProposalsDealsError = CommonErrors;
 
+/** Gets a deal given its name. The deal is returned at its head revision. */
 export const getBuyersProposalsDeals: API.OperationMethod<GetBuyersProposalsDealsRequest, GetBuyersProposalsDealsResponse, GetBuyersProposalsDealsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBuyersProposalsDealsRequest,
   output: GetBuyersProposalsDealsResponse,
   errors: [],
 }));
 
-/** Updates the given deal at the buyer known revision number. If the server revision has advanced since the passed-in proposal.proposal_revision an ABORTED error message will be returned. The revision number is incremented by the server whenever the proposal or its constituent deals are updated. Note: The revision number is kept at a proposal level. The buyer of the API is expected to keep track of the revision number after the last update operation and send it in as part of the next update request. This way, if there are further changes on the server (for example, seller making new updates), then the server can detect conflicts and reject the proposed changes. */
 export interface PatchBuyersProposalsDealsRequest {
   /** Immutable. The unique identifier of the deal. Auto-generated by the server when a deal is created. Format: buyers/{accountId}/proposals/{proposalId}/deals/{dealId} */
   name: string;
@@ -1985,13 +1984,13 @@ export const PatchBuyersProposalsDealsResponse = Deal;
 
 export type PatchBuyersProposalsDealsError = CommonErrors;
 
+/** Updates the given deal at the buyer known revision number. If the server revision has advanced since the passed-in proposal.proposal_revision an ABORTED error message will be returned. The revision number is incremented by the server whenever the proposal or its constituent deals are updated. Note: The revision number is kept at a proposal level. The buyer of the API is expected to keep track of the revision number after the last update operation and send it in as part of the next update request. This way, if there are further changes on the server (for example, seller making new updates), then the server can detect conflicts and reject the proposed changes. */
 export const patchBuyersProposalsDeals: API.OperationMethod<PatchBuyersProposalsDealsRequest, PatchBuyersProposalsDealsResponse, PatchBuyersProposalsDealsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchBuyersProposalsDealsRequest,
   output: PatchBuyersProposalsDealsResponse,
   errors: [],
 }));
 
-/** Batch updates multiple deals in the same proposal. */
 export interface BatchUpdateBuyersProposalsDealsRequest {
   /** Required. The name of the proposal containing the deals to batch update. Format: buyers/{accountId}/proposals/{proposalId} */
   parent: string;
@@ -2012,13 +2011,13 @@ export const BatchUpdateBuyersProposalsDealsResponse = BatchUpdateDealsResponse;
 
 export type BatchUpdateBuyersProposalsDealsError = CommonErrors;
 
+/** Batch updates multiple deals in the same proposal. */
 export const batchUpdateBuyersProposalsDeals: API.OperationMethod<BatchUpdateBuyersProposalsDealsRequest, BatchUpdateBuyersProposalsDealsResponse, BatchUpdateBuyersProposalsDealsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchUpdateBuyersProposalsDealsRequest,
   output: BatchUpdateBuyersProposalsDealsResponse,
   errors: [],
 }));
 
-/** Lists all deals in a proposal. To retrieve only the finalized revision deals regardless if a deal is being renegotiated, see the FinalizedDeals resource. */
 export interface ListBuyersProposalsDealsRequest {
   /** Required. The name of the proposal containing the deals to retrieve. Format: buyers/{accountId}/proposals/{proposalId} */
   parent: string;
@@ -2042,7 +2041,8 @@ export const ListBuyersProposalsDealsResponse = ListDealsResponse;
 
 export type ListBuyersProposalsDealsError = CommonErrors;
 
-export const listBuyersProposalsDeals = API.makePaginated(() => ({
+/** Lists all deals in a proposal. To retrieve only the finalized revision deals regardless if a deal is being renegotiated, see the FinalizedDeals resource. */
+export const listBuyersProposalsDeals: API.PaginatedOperationMethod<ListBuyersProposalsDealsRequest, ListBuyersProposalsDealsResponse, ListBuyersProposalsDealsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBuyersProposalsDealsRequest,
   output: ListBuyersProposalsDealsResponse,
   errors: [],
@@ -2052,7 +2052,6 @@ export const listBuyersProposalsDeals = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the requested publisher profile by name. */
 export interface GetBuyersPublisherProfilesRequest {
   /** Required. Name of the publisher profile. Format: `buyers/{buyerId}/publisherProfiles/{publisherProfileId}` */
   name: string;
@@ -2070,13 +2069,13 @@ export const GetBuyersPublisherProfilesResponse = PublisherProfile;
 
 export type GetBuyersPublisherProfilesError = CommonErrors;
 
+/** Gets the requested publisher profile by name. */
 export const getBuyersPublisherProfiles: API.OperationMethod<GetBuyersPublisherProfilesRequest, GetBuyersPublisherProfilesResponse, GetBuyersPublisherProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBuyersPublisherProfilesRequest,
   output: GetBuyersPublisherProfilesResponse,
   errors: [],
 }));
 
-/** Lists publisher profiles. The returned publisher profiles aren't in any defined order. The order of the results might change. A new publisher profile can appear in any place in the list of returned results. */
 export interface ListBuyersPublisherProfilesRequest {
   /** Required. Parent that owns the collection of publisher profiles Format: `buyers/{buyerId}` */
   parent: string;
@@ -2103,7 +2102,8 @@ export const ListBuyersPublisherProfilesResponse = ListPublisherProfilesResponse
 
 export type ListBuyersPublisherProfilesError = CommonErrors;
 
-export const listBuyersPublisherProfiles = API.makePaginated(() => ({
+/** Lists publisher profiles. The returned publisher profiles aren't in any defined order. The order of the results might change. A new publisher profile can appear in any place in the list of returned results. */
+export const listBuyersPublisherProfiles: API.PaginatedOperationMethod<ListBuyersPublisherProfilesRequest, ListBuyersPublisherProfilesResponse, ListBuyersPublisherProfilesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBuyersPublisherProfilesRequest,
   output: ListBuyersPublisherProfilesResponse,
   errors: [],
@@ -2113,7 +2113,6 @@ export const listBuyersPublisherProfiles = API.makePaginated(() => ({
   },
 }));
 
-/** List the auction packages. Buyers can use the URL path "/v1/buyers/{accountId}/auctionPackages" to list auction packages for the current buyer and its clients. Bidders can use the URL path "/v1/bidders/{accountId}/auctionPackages" to list auction packages for the bidder, its media planners, its buyers, and all their clients. */
 export interface ListBiddersAuctionPackagesRequest {
   /** Required. Name of the parent buyer that can access the auction package. Format: `buyers/{accountId}`. When used with a bidder account, the auction packages that the bidder, its media planners, its buyers and clients are subscribed to will be listed, in the format `bidders/{accountId}`. */
   parent: string;
@@ -2143,7 +2142,8 @@ export const ListBiddersAuctionPackagesResponse = ListAuctionPackagesResponse;
 
 export type ListBiddersAuctionPackagesError = CommonErrors;
 
-export const listBiddersAuctionPackages = API.makePaginated(() => ({
+/** List the auction packages. Buyers can use the URL path "/v1/buyers/{accountId}/auctionPackages" to list auction packages for the current buyer and its clients. Bidders can use the URL path "/v1/bidders/{accountId}/auctionPackages" to list auction packages for the bidder, its media planners, its buyers, and all their clients. */
+export const listBiddersAuctionPackages: API.PaginatedOperationMethod<ListBiddersAuctionPackagesRequest, ListBiddersAuctionPackagesResponse, ListBiddersAuctionPackagesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBiddersAuctionPackagesRequest,
   output: ListBiddersAuctionPackagesResponse,
   errors: [],
@@ -2153,7 +2153,6 @@ export const listBiddersAuctionPackages = API.makePaginated(() => ({
   },
 }));
 
-/** Lists finalized deals. Use the URL path "/v1/buyers/{accountId}/finalizedDeals" to list finalized deals for the current buyer and its clients. Bidders can use the URL path "/v1/bidders/{accountId}/finalizedDeals" to list finalized deals for the bidder, its buyers and all their clients. */
 export interface ListBiddersFinalizedDealsRequest {
   /** Required. The buyer to list the finalized deals for, in the format: `buyers/{accountId}`. When used to list finalized deals for a bidder, its buyers and clients, in the format `bidders/{accountId}`. */
   parent: string;
@@ -2183,7 +2182,8 @@ export const ListBiddersFinalizedDealsResponse = ListFinalizedDealsResponse;
 
 export type ListBiddersFinalizedDealsError = CommonErrors;
 
-export const listBiddersFinalizedDeals = API.makePaginated(() => ({
+/** Lists finalized deals. Use the URL path "/v1/buyers/{accountId}/finalizedDeals" to list finalized deals for the current buyer and its clients. Bidders can use the URL path "/v1/bidders/{accountId}/finalizedDeals" to list finalized deals for the bidder, its buyers and all their clients. */
+export const listBiddersFinalizedDeals: API.PaginatedOperationMethod<ListBiddersFinalizedDealsRequest, ListBiddersFinalizedDealsResponse, ListBiddersFinalizedDealsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBiddersFinalizedDealsRequest,
   output: ListBiddersFinalizedDealsResponse,
   errors: [],
@@ -2193,7 +2193,6 @@ export const listBiddersFinalizedDeals = API.makePaginated(() => ({
   },
 }));
 
-/** Sets the given finalized deal as ready to serve. By default, deals are set as ready to serve as soon as they're finalized. If you want to opt out of the default behavior, and manually indicate that deals are ready to serve, ask your Technical Account Manager to add you to the allowlist. If you choose to use this method, finalized deals belonging to the bidder and its child seats don't start serving until after you call `setReadyToServe`, and after the deals become active. For example, you can use this method to delay receiving bid requests until your creative is ready. In addition, bidders can use the URL path "/v1/bidders/{accountId}/finalizedDeals/{dealId}" to set ready to serve for the finalized deals belong to itself, its child seats and all their clients. This method only applies to programmatic guaranteed deals. */
 export interface SetReadyToServeBiddersFinalizedDealsRequest {
   /** Required. Format: `buyers/{accountId}/finalizedDeals/{dealId}` or `bidders/{accountId}/finalizedDeals/{dealId}` */
   deal: string;
@@ -2214,6 +2213,7 @@ export const SetReadyToServeBiddersFinalizedDealsResponse = FinalizedDeal;
 
 export type SetReadyToServeBiddersFinalizedDealsError = CommonErrors;
 
+/** Sets the given finalized deal as ready to serve. By default, deals are set as ready to serve as soon as they're finalized. If you want to opt out of the default behavior, and manually indicate that deals are ready to serve, ask your Technical Account Manager to add you to the allowlist. If you choose to use this method, finalized deals belonging to the bidder and its child seats don't start serving until after you call `setReadyToServe`, and after the deals become active. For example, you can use this method to delay receiving bid requests until your creative is ready. In addition, bidders can use the URL path "/v1/bidders/{accountId}/finalizedDeals/{dealId}" to set ready to serve for the finalized deals belong to itself, its child seats and all their clients. This method only applies to programmatic guaranteed deals. */
 export const setReadyToServeBiddersFinalizedDeals: API.OperationMethod<SetReadyToServeBiddersFinalizedDealsRequest, SetReadyToServeBiddersFinalizedDealsResponse, SetReadyToServeBiddersFinalizedDealsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetReadyToServeBiddersFinalizedDealsRequest,
   output: SetReadyToServeBiddersFinalizedDealsResponse,

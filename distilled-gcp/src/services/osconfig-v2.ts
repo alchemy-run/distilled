@@ -909,7 +909,6 @@ export const StatusProto: Schema.Schema<StatusProto> = Schema.suspend(() => Sche
 // Operations
 // ==========================================================================
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -939,7 +938,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -949,7 +949,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -967,13 +966,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -991,13 +990,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -1018,13 +1017,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Creates a new policy orchestrator under the given project resource. `name` field of the given orchestrator are ignored and instead replaced by a product of `parent` and `policy_orchestrator_id`. Orchestrator state field might be only set to `ACTIVE`, `STOPPED` or omitted (in which case, the created resource will be in `ACTIVE` state anyway). */
 export interface CreateProjectsLocationsGlobalPolicyOrchestratorsRequest {
   /** Required. The parent resource name in the form of: * `organizations/{organization_id}/locations/global` * `folders/{folder_id}/locations/global` * `projects/{project_id_or_number}/locations/global` */
   parent: string;
@@ -1051,13 +1050,13 @@ export const CreateProjectsLocationsGlobalPolicyOrchestratorsResponse = Operatio
 
 export type CreateProjectsLocationsGlobalPolicyOrchestratorsError = CommonErrors;
 
+/** Creates a new policy orchestrator under the given project resource. `name` field of the given orchestrator are ignored and instead replaced by a product of `parent` and `policy_orchestrator_id`. Orchestrator state field might be only set to `ACTIVE`, `STOPPED` or omitted (in which case, the created resource will be in `ACTIVE` state anyway). */
 export const createProjectsLocationsGlobalPolicyOrchestrators: API.OperationMethod<CreateProjectsLocationsGlobalPolicyOrchestratorsRequest, CreateProjectsLocationsGlobalPolicyOrchestratorsResponse, CreateProjectsLocationsGlobalPolicyOrchestratorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsGlobalPolicyOrchestratorsRequest,
   output: CreateProjectsLocationsGlobalPolicyOrchestratorsResponse,
   errors: [],
 }));
 
-/** Lists the policy orchestrators under the given parent project resource. */
 export interface ListProjectsLocationsGlobalPolicyOrchestratorsRequest {
   /** Required. The parent resource name. */
   parent: string;
@@ -1087,7 +1086,8 @@ export const ListProjectsLocationsGlobalPolicyOrchestratorsResponse = GoogleClou
 
 export type ListProjectsLocationsGlobalPolicyOrchestratorsError = CommonErrors;
 
-export const listProjectsLocationsGlobalPolicyOrchestrators = API.makePaginated(() => ({
+/** Lists the policy orchestrators under the given parent project resource. */
+export const listProjectsLocationsGlobalPolicyOrchestrators: API.PaginatedOperationMethod<ListProjectsLocationsGlobalPolicyOrchestratorsRequest, ListProjectsLocationsGlobalPolicyOrchestratorsResponse, ListProjectsLocationsGlobalPolicyOrchestratorsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsGlobalPolicyOrchestratorsRequest,
   output: ListProjectsLocationsGlobalPolicyOrchestratorsResponse,
   errors: [],
@@ -1097,7 +1097,6 @@ export const listProjectsLocationsGlobalPolicyOrchestrators = API.makePaginated(
   },
 }));
 
-/** Retrieves an existing policy orchestrator, parented by a project. */
 export interface GetProjectsLocationsGlobalPolicyOrchestratorsRequest {
   /** Required. The resource name. */
   name: string;
@@ -1115,13 +1114,13 @@ export const GetProjectsLocationsGlobalPolicyOrchestratorsResponse = GoogleCloud
 
 export type GetProjectsLocationsGlobalPolicyOrchestratorsError = CommonErrors;
 
+/** Retrieves an existing policy orchestrator, parented by a project. */
 export const getProjectsLocationsGlobalPolicyOrchestrators: API.OperationMethod<GetProjectsLocationsGlobalPolicyOrchestratorsRequest, GetProjectsLocationsGlobalPolicyOrchestratorsResponse, GetProjectsLocationsGlobalPolicyOrchestratorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsGlobalPolicyOrchestratorsRequest,
   output: GetProjectsLocationsGlobalPolicyOrchestratorsResponse,
   errors: [],
 }));
 
-/** Updates an existing policy orchestrator, parented by a project. */
 export interface PatchProjectsLocationsGlobalPolicyOrchestratorsRequest {
   /** Immutable. Identifier. In form of * `organizations/{organization_id}/locations/global/policyOrchestrators/{orchestrator_id}` * `folders/{folder_id}/locations/global/policyOrchestrators/{orchestrator_id}` * `projects/{project_id_or_number}/locations/global/policyOrchestrators/{orchestrator_id}` */
   name: string;
@@ -1145,13 +1144,13 @@ export const PatchProjectsLocationsGlobalPolicyOrchestratorsResponse = Operation
 
 export type PatchProjectsLocationsGlobalPolicyOrchestratorsError = CommonErrors;
 
+/** Updates an existing policy orchestrator, parented by a project. */
 export const patchProjectsLocationsGlobalPolicyOrchestrators: API.OperationMethod<PatchProjectsLocationsGlobalPolicyOrchestratorsRequest, PatchProjectsLocationsGlobalPolicyOrchestratorsResponse, PatchProjectsLocationsGlobalPolicyOrchestratorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsGlobalPolicyOrchestratorsRequest,
   output: PatchProjectsLocationsGlobalPolicyOrchestratorsResponse,
   errors: [],
 }));
 
-/** Deletes an existing policy orchestrator resource, parented by a project. */
 export interface DeleteProjectsLocationsGlobalPolicyOrchestratorsRequest {
   /** Required. Name of the resource to be deleted. */
   name: string;
@@ -1175,13 +1174,13 @@ export const DeleteProjectsLocationsGlobalPolicyOrchestratorsResponse = Operatio
 
 export type DeleteProjectsLocationsGlobalPolicyOrchestratorsError = CommonErrors;
 
+/** Deletes an existing policy orchestrator resource, parented by a project. */
 export const deleteProjectsLocationsGlobalPolicyOrchestrators: API.OperationMethod<DeleteProjectsLocationsGlobalPolicyOrchestratorsRequest, DeleteProjectsLocationsGlobalPolicyOrchestratorsResponse, DeleteProjectsLocationsGlobalPolicyOrchestratorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsGlobalPolicyOrchestratorsRequest,
   output: DeleteProjectsLocationsGlobalPolicyOrchestratorsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListFoldersLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -1211,7 +1210,8 @@ export const ListFoldersLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListFoldersLocationsOperationsError = CommonErrors;
 
-export const listFoldersLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listFoldersLocationsOperations: API.PaginatedOperationMethod<ListFoldersLocationsOperationsRequest, ListFoldersLocationsOperationsResponse, ListFoldersLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersLocationsOperationsRequest,
   output: ListFoldersLocationsOperationsResponse,
   errors: [],
@@ -1221,7 +1221,6 @@ export const listFoldersLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetFoldersLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1239,13 +1238,13 @@ export const GetFoldersLocationsOperationsResponse = Operation;
 
 export type GetFoldersLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getFoldersLocationsOperations: API.OperationMethod<GetFoldersLocationsOperationsRequest, GetFoldersLocationsOperationsResponse, GetFoldersLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersLocationsOperationsRequest,
   output: GetFoldersLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteFoldersLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -1263,13 +1262,13 @@ export const DeleteFoldersLocationsOperationsResponse = Empty;
 
 export type DeleteFoldersLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteFoldersLocationsOperations: API.OperationMethod<DeleteFoldersLocationsOperationsRequest, DeleteFoldersLocationsOperationsResponse, DeleteFoldersLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteFoldersLocationsOperationsRequest,
   output: DeleteFoldersLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelFoldersLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -1290,13 +1289,13 @@ export const CancelFoldersLocationsOperationsResponse = Empty;
 
 export type CancelFoldersLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelFoldersLocationsOperations: API.OperationMethod<CancelFoldersLocationsOperationsRequest, CancelFoldersLocationsOperationsResponse, CancelFoldersLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelFoldersLocationsOperationsRequest,
   output: CancelFoldersLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Creates a new policy orchestrator under the given folder resource. `name` field of the given orchestrator are ignored and instead replaced by a product of `parent` and `policy_orchestrator_id`. Orchestrator state field might be only set to `ACTIVE`, `STOPPED` or omitted (in which case, the created resource will be in `ACTIVE` state anyway). */
 export interface CreateFoldersLocationsGlobalPolicyOrchestratorsRequest {
   /** Required. The parent resource name in the form of: * `organizations/{organization_id}/locations/global` * `folders/{folder_id}/locations/global` * `projects/{project_id_or_number}/locations/global` */
   parent: string;
@@ -1323,13 +1322,13 @@ export const CreateFoldersLocationsGlobalPolicyOrchestratorsResponse = Operation
 
 export type CreateFoldersLocationsGlobalPolicyOrchestratorsError = CommonErrors;
 
+/** Creates a new policy orchestrator under the given folder resource. `name` field of the given orchestrator are ignored and instead replaced by a product of `parent` and `policy_orchestrator_id`. Orchestrator state field might be only set to `ACTIVE`, `STOPPED` or omitted (in which case, the created resource will be in `ACTIVE` state anyway). */
 export const createFoldersLocationsGlobalPolicyOrchestrators: API.OperationMethod<CreateFoldersLocationsGlobalPolicyOrchestratorsRequest, CreateFoldersLocationsGlobalPolicyOrchestratorsResponse, CreateFoldersLocationsGlobalPolicyOrchestratorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateFoldersLocationsGlobalPolicyOrchestratorsRequest,
   output: CreateFoldersLocationsGlobalPolicyOrchestratorsResponse,
   errors: [],
 }));
 
-/** Lists the policy orchestrators under the given parent folder resource. */
 export interface ListFoldersLocationsGlobalPolicyOrchestratorsRequest {
   /** Required. The parent resource name. */
   parent: string;
@@ -1359,7 +1358,8 @@ export const ListFoldersLocationsGlobalPolicyOrchestratorsResponse = GoogleCloud
 
 export type ListFoldersLocationsGlobalPolicyOrchestratorsError = CommonErrors;
 
-export const listFoldersLocationsGlobalPolicyOrchestrators = API.makePaginated(() => ({
+/** Lists the policy orchestrators under the given parent folder resource. */
+export const listFoldersLocationsGlobalPolicyOrchestrators: API.PaginatedOperationMethod<ListFoldersLocationsGlobalPolicyOrchestratorsRequest, ListFoldersLocationsGlobalPolicyOrchestratorsResponse, ListFoldersLocationsGlobalPolicyOrchestratorsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersLocationsGlobalPolicyOrchestratorsRequest,
   output: ListFoldersLocationsGlobalPolicyOrchestratorsResponse,
   errors: [],
@@ -1369,7 +1369,6 @@ export const listFoldersLocationsGlobalPolicyOrchestrators = API.makePaginated((
   },
 }));
 
-/** Retrieves an existing policy orchestrator, parented by a folder. */
 export interface GetFoldersLocationsGlobalPolicyOrchestratorsRequest {
   /** Required. The resource name. */
   name: string;
@@ -1387,13 +1386,13 @@ export const GetFoldersLocationsGlobalPolicyOrchestratorsResponse = GoogleCloudO
 
 export type GetFoldersLocationsGlobalPolicyOrchestratorsError = CommonErrors;
 
+/** Retrieves an existing policy orchestrator, parented by a folder. */
 export const getFoldersLocationsGlobalPolicyOrchestrators: API.OperationMethod<GetFoldersLocationsGlobalPolicyOrchestratorsRequest, GetFoldersLocationsGlobalPolicyOrchestratorsResponse, GetFoldersLocationsGlobalPolicyOrchestratorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersLocationsGlobalPolicyOrchestratorsRequest,
   output: GetFoldersLocationsGlobalPolicyOrchestratorsResponse,
   errors: [],
 }));
 
-/** Updates an existing policy orchestrator, parented by a folder. */
 export interface PatchFoldersLocationsGlobalPolicyOrchestratorsRequest {
   /** Immutable. Identifier. In form of * `organizations/{organization_id}/locations/global/policyOrchestrators/{orchestrator_id}` * `folders/{folder_id}/locations/global/policyOrchestrators/{orchestrator_id}` * `projects/{project_id_or_number}/locations/global/policyOrchestrators/{orchestrator_id}` */
   name: string;
@@ -1417,13 +1416,13 @@ export const PatchFoldersLocationsGlobalPolicyOrchestratorsResponse = Operation;
 
 export type PatchFoldersLocationsGlobalPolicyOrchestratorsError = CommonErrors;
 
+/** Updates an existing policy orchestrator, parented by a folder. */
 export const patchFoldersLocationsGlobalPolicyOrchestrators: API.OperationMethod<PatchFoldersLocationsGlobalPolicyOrchestratorsRequest, PatchFoldersLocationsGlobalPolicyOrchestratorsResponse, PatchFoldersLocationsGlobalPolicyOrchestratorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchFoldersLocationsGlobalPolicyOrchestratorsRequest,
   output: PatchFoldersLocationsGlobalPolicyOrchestratorsResponse,
   errors: [],
 }));
 
-/** Deletes an existing policy orchestrator resource, parented by a folder. */
 export interface DeleteFoldersLocationsGlobalPolicyOrchestratorsRequest {
   /** Required. Name of the resource to be deleted. */
   name: string;
@@ -1447,13 +1446,13 @@ export const DeleteFoldersLocationsGlobalPolicyOrchestratorsResponse = Operation
 
 export type DeleteFoldersLocationsGlobalPolicyOrchestratorsError = CommonErrors;
 
+/** Deletes an existing policy orchestrator resource, parented by a folder. */
 export const deleteFoldersLocationsGlobalPolicyOrchestrators: API.OperationMethod<DeleteFoldersLocationsGlobalPolicyOrchestratorsRequest, DeleteFoldersLocationsGlobalPolicyOrchestratorsResponse, DeleteFoldersLocationsGlobalPolicyOrchestratorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteFoldersLocationsGlobalPolicyOrchestratorsRequest,
   output: DeleteFoldersLocationsGlobalPolicyOrchestratorsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListOrganizationsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -1483,7 +1482,8 @@ export const ListOrganizationsLocationsOperationsResponse = ListOperationsRespon
 
 export type ListOrganizationsLocationsOperationsError = CommonErrors;
 
-export const listOrganizationsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listOrganizationsLocationsOperations: API.PaginatedOperationMethod<ListOrganizationsLocationsOperationsRequest, ListOrganizationsLocationsOperationsResponse, ListOrganizationsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsOperationsRequest,
   output: ListOrganizationsLocationsOperationsResponse,
   errors: [],
@@ -1493,7 +1493,6 @@ export const listOrganizationsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetOrganizationsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1511,13 +1510,13 @@ export const GetOrganizationsLocationsOperationsResponse = Operation;
 
 export type GetOrganizationsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOrganizationsLocationsOperations: API.OperationMethod<GetOrganizationsLocationsOperationsRequest, GetOrganizationsLocationsOperationsResponse, GetOrganizationsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsOperationsRequest,
   output: GetOrganizationsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteOrganizationsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -1535,13 +1534,13 @@ export const DeleteOrganizationsLocationsOperationsResponse = Empty;
 
 export type DeleteOrganizationsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteOrganizationsLocationsOperations: API.OperationMethod<DeleteOrganizationsLocationsOperationsRequest, DeleteOrganizationsLocationsOperationsResponse, DeleteOrganizationsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsLocationsOperationsRequest,
   output: DeleteOrganizationsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelOrganizationsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -1562,13 +1561,13 @@ export const CancelOrganizationsLocationsOperationsResponse = Empty;
 
 export type CancelOrganizationsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelOrganizationsLocationsOperations: API.OperationMethod<CancelOrganizationsLocationsOperationsRequest, CancelOrganizationsLocationsOperationsResponse, CancelOrganizationsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelOrganizationsLocationsOperationsRequest,
   output: CancelOrganizationsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Creates a new policy orchestrator under the given organizations resource. `name` field of the given orchestrator are ignored and instead replaced by a product of `parent` and `policy_orchestrator_id`. Orchestrator state field might be only set to `ACTIVE`, `STOPPED` or omitted (in which case, the created resource will be in `ACTIVE` state anyway). */
 export interface CreateOrganizationsLocationsGlobalPolicyOrchestratorsRequest {
   /** Required. The parent resource name in the form of: * `organizations/{organization_id}/locations/global` * `folders/{folder_id}/locations/global` * `projects/{project_id_or_number}/locations/global` */
   parent: string;
@@ -1595,13 +1594,13 @@ export const CreateOrganizationsLocationsGlobalPolicyOrchestratorsResponse = Ope
 
 export type CreateOrganizationsLocationsGlobalPolicyOrchestratorsError = CommonErrors;
 
+/** Creates a new policy orchestrator under the given organizations resource. `name` field of the given orchestrator are ignored and instead replaced by a product of `parent` and `policy_orchestrator_id`. Orchestrator state field might be only set to `ACTIVE`, `STOPPED` or omitted (in which case, the created resource will be in `ACTIVE` state anyway). */
 export const createOrganizationsLocationsGlobalPolicyOrchestrators: API.OperationMethod<CreateOrganizationsLocationsGlobalPolicyOrchestratorsRequest, CreateOrganizationsLocationsGlobalPolicyOrchestratorsResponse, CreateOrganizationsLocationsGlobalPolicyOrchestratorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsLocationsGlobalPolicyOrchestratorsRequest,
   output: CreateOrganizationsLocationsGlobalPolicyOrchestratorsResponse,
   errors: [],
 }));
 
-/** Lists the policy orchestrators under the given parent organization resource. */
 export interface ListOrganizationsLocationsGlobalPolicyOrchestratorsRequest {
   /** Required. The parent resource name. */
   parent: string;
@@ -1631,7 +1630,8 @@ export const ListOrganizationsLocationsGlobalPolicyOrchestratorsResponse = Googl
 
 export type ListOrganizationsLocationsGlobalPolicyOrchestratorsError = CommonErrors;
 
-export const listOrganizationsLocationsGlobalPolicyOrchestrators = API.makePaginated(() => ({
+/** Lists the policy orchestrators under the given parent organization resource. */
+export const listOrganizationsLocationsGlobalPolicyOrchestrators: API.PaginatedOperationMethod<ListOrganizationsLocationsGlobalPolicyOrchestratorsRequest, ListOrganizationsLocationsGlobalPolicyOrchestratorsResponse, ListOrganizationsLocationsGlobalPolicyOrchestratorsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsGlobalPolicyOrchestratorsRequest,
   output: ListOrganizationsLocationsGlobalPolicyOrchestratorsResponse,
   errors: [],
@@ -1641,7 +1641,6 @@ export const listOrganizationsLocationsGlobalPolicyOrchestrators = API.makePagin
   },
 }));
 
-/** Retrieves an existing policy orchestrator, parented by an organization. */
 export interface GetOrganizationsLocationsGlobalPolicyOrchestratorsRequest {
   /** Required. The resource name. */
   name: string;
@@ -1659,13 +1658,13 @@ export const GetOrganizationsLocationsGlobalPolicyOrchestratorsResponse = Google
 
 export type GetOrganizationsLocationsGlobalPolicyOrchestratorsError = CommonErrors;
 
+/** Retrieves an existing policy orchestrator, parented by an organization. */
 export const getOrganizationsLocationsGlobalPolicyOrchestrators: API.OperationMethod<GetOrganizationsLocationsGlobalPolicyOrchestratorsRequest, GetOrganizationsLocationsGlobalPolicyOrchestratorsResponse, GetOrganizationsLocationsGlobalPolicyOrchestratorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsGlobalPolicyOrchestratorsRequest,
   output: GetOrganizationsLocationsGlobalPolicyOrchestratorsResponse,
   errors: [],
 }));
 
-/** Updates an existing policy orchestrator, parented by an organization. */
 export interface PatchOrganizationsLocationsGlobalPolicyOrchestratorsRequest {
   /** Immutable. Identifier. In form of * `organizations/{organization_id}/locations/global/policyOrchestrators/{orchestrator_id}` * `folders/{folder_id}/locations/global/policyOrchestrators/{orchestrator_id}` * `projects/{project_id_or_number}/locations/global/policyOrchestrators/{orchestrator_id}` */
   name: string;
@@ -1689,13 +1688,13 @@ export const PatchOrganizationsLocationsGlobalPolicyOrchestratorsResponse = Oper
 
 export type PatchOrganizationsLocationsGlobalPolicyOrchestratorsError = CommonErrors;
 
+/** Updates an existing policy orchestrator, parented by an organization. */
 export const patchOrganizationsLocationsGlobalPolicyOrchestrators: API.OperationMethod<PatchOrganizationsLocationsGlobalPolicyOrchestratorsRequest, PatchOrganizationsLocationsGlobalPolicyOrchestratorsResponse, PatchOrganizationsLocationsGlobalPolicyOrchestratorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsLocationsGlobalPolicyOrchestratorsRequest,
   output: PatchOrganizationsLocationsGlobalPolicyOrchestratorsResponse,
   errors: [],
 }));
 
-/** Deletes an existing policy orchestrator resource, parented by an organization. */
 export interface DeleteOrganizationsLocationsGlobalPolicyOrchestratorsRequest {
   /** Required. Name of the resource to be deleted. */
   name: string;
@@ -1719,6 +1718,7 @@ export const DeleteOrganizationsLocationsGlobalPolicyOrchestratorsResponse = Ope
 
 export type DeleteOrganizationsLocationsGlobalPolicyOrchestratorsError = CommonErrors;
 
+/** Deletes an existing policy orchestrator resource, parented by an organization. */
 export const deleteOrganizationsLocationsGlobalPolicyOrchestrators: API.OperationMethod<DeleteOrganizationsLocationsGlobalPolicyOrchestratorsRequest, DeleteOrganizationsLocationsGlobalPolicyOrchestratorsResponse, DeleteOrganizationsLocationsGlobalPolicyOrchestratorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsLocationsGlobalPolicyOrchestratorsRequest,
   output: DeleteOrganizationsLocationsGlobalPolicyOrchestratorsResponse,

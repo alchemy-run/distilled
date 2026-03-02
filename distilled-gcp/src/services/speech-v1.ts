@@ -600,7 +600,6 @@ export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> = Sch
 // Operations
 // ==========================================================================
 
-/** Create a custom class. */
 export interface CreateProjectsLocationsCustomClassesRequest {
   /** Required. The parent resource where this custom class will be created. Format: `projects/{project}/locations/{location}/customClasses` Speech-to-Text supports three locations: `global`, `us` (US North America), and `eu` (Europe). If you are calling the `speech.googleapis.com` endpoint, use the `global` location. To specify a region, use a [regional endpoint](https://cloud.google.com/speech-to-text/docs/endpoints) with matching `us` or `eu` location value. */
   parent: string;
@@ -621,13 +620,13 @@ export const CreateProjectsLocationsCustomClassesResponse = CustomClass;
 
 export type CreateProjectsLocationsCustomClassesError = CommonErrors;
 
+/** Create a custom class. */
 export const createProjectsLocationsCustomClasses: API.OperationMethod<CreateProjectsLocationsCustomClassesRequest, CreateProjectsLocationsCustomClassesResponse, CreateProjectsLocationsCustomClassesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCustomClassesRequest,
   output: CreateProjectsLocationsCustomClassesResponse,
   errors: [],
 }));
 
-/** Update a custom class. */
 export interface PatchProjectsLocationsCustomClassesRequest {
   /** The list of fields to be updated. */
   updateMask?: string;
@@ -651,13 +650,13 @@ export const PatchProjectsLocationsCustomClassesResponse = CustomClass;
 
 export type PatchProjectsLocationsCustomClassesError = CommonErrors;
 
+/** Update a custom class. */
 export const patchProjectsLocationsCustomClasses: API.OperationMethod<PatchProjectsLocationsCustomClassesRequest, PatchProjectsLocationsCustomClassesResponse, PatchProjectsLocationsCustomClassesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCustomClassesRequest,
   output: PatchProjectsLocationsCustomClassesResponse,
   errors: [],
 }));
 
-/** List custom classes. */
 export interface ListProjectsLocationsCustomClassesRequest {
   /** Required. The parent, which owns this collection of custom classes. Format: `projects/{project}/locations/{location}/customClasses` Speech-to-Text supports three locations: `global`, `us` (US North America), and `eu` (Europe). If you are calling the `speech.googleapis.com` endpoint, use the `global` location. To specify a region, use a [regional endpoint](https://cloud.google.com/speech-to-text/docs/endpoints) with matching `us` or `eu` location value. */
   parent: string;
@@ -681,7 +680,8 @@ export const ListProjectsLocationsCustomClassesResponse = ListCustomClassesRespo
 
 export type ListProjectsLocationsCustomClassesError = CommonErrors;
 
-export const listProjectsLocationsCustomClasses = API.makePaginated(() => ({
+/** List custom classes. */
+export const listProjectsLocationsCustomClasses: API.PaginatedOperationMethod<ListProjectsLocationsCustomClassesRequest, ListProjectsLocationsCustomClassesResponse, ListProjectsLocationsCustomClassesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCustomClassesRequest,
   output: ListProjectsLocationsCustomClassesResponse,
   errors: [],
@@ -691,7 +691,6 @@ export const listProjectsLocationsCustomClasses = API.makePaginated(() => ({
   },
 }));
 
-/** Delete a custom class. */
 export interface DeleteProjectsLocationsCustomClassesRequest {
   /** Required. The name of the custom class to delete. Format: `projects/{project}/locations/{location}/customClasses/{custom_class}` Speech-to-Text supports three locations: `global`, `us` (US North America), and `eu` (Europe). If you are calling the `speech.googleapis.com` endpoint, use the `global` location. To specify a region, use a [regional endpoint](https://cloud.google.com/speech-to-text/docs/endpoints) with matching `us` or `eu` location value. */
   name: string;
@@ -709,13 +708,13 @@ export const DeleteProjectsLocationsCustomClassesResponse = Empty;
 
 export type DeleteProjectsLocationsCustomClassesError = CommonErrors;
 
+/** Delete a custom class. */
 export const deleteProjectsLocationsCustomClasses: API.OperationMethod<DeleteProjectsLocationsCustomClassesRequest, DeleteProjectsLocationsCustomClassesResponse, DeleteProjectsLocationsCustomClassesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCustomClassesRequest,
   output: DeleteProjectsLocationsCustomClassesResponse,
   errors: [],
 }));
 
-/** Get a custom class. */
 export interface GetProjectsLocationsCustomClassesRequest {
   /** Required. The name of the custom class to retrieve. Format: `projects/{project}/locations/{location}/customClasses/{custom_class}` */
   name: string;
@@ -733,13 +732,13 @@ export const GetProjectsLocationsCustomClassesResponse = CustomClass;
 
 export type GetProjectsLocationsCustomClassesError = CommonErrors;
 
+/** Get a custom class. */
 export const getProjectsLocationsCustomClasses: API.OperationMethod<GetProjectsLocationsCustomClassesRequest, GetProjectsLocationsCustomClassesResponse, GetProjectsLocationsCustomClassesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCustomClassesRequest,
   output: GetProjectsLocationsCustomClassesResponse,
   errors: [],
 }));
 
-/** Delete a phrase set. */
 export interface DeleteProjectsLocationsPhraseSetsRequest {
   /** Required. The name of the phrase set to delete. Format: `projects/{project}/locations/{location}/phraseSets/{phrase_set}` */
   name: string;
@@ -757,13 +756,13 @@ export const DeleteProjectsLocationsPhraseSetsResponse = Empty;
 
 export type DeleteProjectsLocationsPhraseSetsError = CommonErrors;
 
+/** Delete a phrase set. */
 export const deleteProjectsLocationsPhraseSets: API.OperationMethod<DeleteProjectsLocationsPhraseSetsRequest, DeleteProjectsLocationsPhraseSetsResponse, DeleteProjectsLocationsPhraseSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsPhraseSetsRequest,
   output: DeleteProjectsLocationsPhraseSetsResponse,
   errors: [],
 }));
 
-/** Create a set of phrase hints. Each item in the set can be a single word or a multi-word phrase. The items in the PhraseSet are favored by the recognition model when you send a call that includes the PhraseSet. */
 export interface CreateProjectsLocationsPhraseSetsRequest {
   /** Required. The parent resource where this phrase set will be created. Format: `projects/{project}/locations/{location}` Speech-to-Text supports three locations: `global`, `us` (US North America), and `eu` (Europe). If you are calling the `speech.googleapis.com` endpoint, use the `global` location. To specify a region, use a [regional endpoint](https://cloud.google.com/speech-to-text/docs/endpoints) with matching `us` or `eu` location value. */
   parent: string;
@@ -784,13 +783,13 @@ export const CreateProjectsLocationsPhraseSetsResponse = PhraseSet;
 
 export type CreateProjectsLocationsPhraseSetsError = CommonErrors;
 
+/** Create a set of phrase hints. Each item in the set can be a single word or a multi-word phrase. The items in the PhraseSet are favored by the recognition model when you send a call that includes the PhraseSet. */
 export const createProjectsLocationsPhraseSets: API.OperationMethod<CreateProjectsLocationsPhraseSetsRequest, CreateProjectsLocationsPhraseSetsResponse, CreateProjectsLocationsPhraseSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsPhraseSetsRequest,
   output: CreateProjectsLocationsPhraseSetsResponse,
   errors: [],
 }));
 
-/** Get a phrase set. */
 export interface GetProjectsLocationsPhraseSetsRequest {
   /** Required. The name of the phrase set to retrieve. Format: `projects/{project}/locations/{location}/phraseSets/{phrase_set}` Speech-to-Text supports three locations: `global`, `us` (US North America), and `eu` (Europe). If you are calling the `speech.googleapis.com` endpoint, use the `global` location. To specify a region, use a [regional endpoint](https://cloud.google.com/speech-to-text/docs/endpoints) with matching `us` or `eu` location value. */
   name: string;
@@ -808,13 +807,13 @@ export const GetProjectsLocationsPhraseSetsResponse = PhraseSet;
 
 export type GetProjectsLocationsPhraseSetsError = CommonErrors;
 
+/** Get a phrase set. */
 export const getProjectsLocationsPhraseSets: API.OperationMethod<GetProjectsLocationsPhraseSetsRequest, GetProjectsLocationsPhraseSetsResponse, GetProjectsLocationsPhraseSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsPhraseSetsRequest,
   output: GetProjectsLocationsPhraseSetsResponse,
   errors: [],
 }));
 
-/** List phrase sets. */
 export interface ListProjectsLocationsPhraseSetsRequest {
   /** A page token, received from a previous `ListPhraseSet` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPhraseSet` must match the call that provided the page token. */
   pageToken?: string;
@@ -838,7 +837,8 @@ export const ListProjectsLocationsPhraseSetsResponse = ListPhraseSetResponse;
 
 export type ListProjectsLocationsPhraseSetsError = CommonErrors;
 
-export const listProjectsLocationsPhraseSets = API.makePaginated(() => ({
+/** List phrase sets. */
+export const listProjectsLocationsPhraseSets: API.PaginatedOperationMethod<ListProjectsLocationsPhraseSetsRequest, ListProjectsLocationsPhraseSetsResponse, ListProjectsLocationsPhraseSetsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsPhraseSetsRequest,
   output: ListProjectsLocationsPhraseSetsResponse,
   errors: [],
@@ -848,7 +848,6 @@ export const listProjectsLocationsPhraseSets = API.makePaginated(() => ({
   },
 }));
 
-/** Update a phrase set. */
 export interface PatchProjectsLocationsPhraseSetsRequest {
   /** The resource name of the phrase set. */
   name: string;
@@ -872,13 +871,13 @@ export const PatchProjectsLocationsPhraseSetsResponse = PhraseSet;
 
 export type PatchProjectsLocationsPhraseSetsError = CommonErrors;
 
+/** Update a phrase set. */
 export const patchProjectsLocationsPhraseSets: API.OperationMethod<PatchProjectsLocationsPhraseSetsRequest, PatchProjectsLocationsPhraseSetsResponse, PatchProjectsLocationsPhraseSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsPhraseSetsRequest,
   output: PatchProjectsLocationsPhraseSetsResponse,
   errors: [],
 }));
 
-/** Performs asynchronous speech recognition: receive results via the google.longrunning.Operations interface. Returns either an `Operation.error` or an `Operation.response` which contains a `LongRunningRecognizeResponse` message. For more information on asynchronous speech recognition, see the [how-to](https://cloud.google.com/speech-to-text/docs/async-recognize). */
 export interface LongrunningrecognizeSpeechRequest {
   /** Request body */
   body?: LongRunningRecognizeRequest;
@@ -896,13 +895,13 @@ export const LongrunningrecognizeSpeechResponse = Operation;
 
 export type LongrunningrecognizeSpeechError = CommonErrors;
 
+/** Performs asynchronous speech recognition: receive results via the google.longrunning.Operations interface. Returns either an `Operation.error` or an `Operation.response` which contains a `LongRunningRecognizeResponse` message. For more information on asynchronous speech recognition, see the [how-to](https://cloud.google.com/speech-to-text/docs/async-recognize). */
 export const longrunningrecognizeSpeech: API.OperationMethod<LongrunningrecognizeSpeechRequest, LongrunningrecognizeSpeechResponse, LongrunningrecognizeSpeechError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LongrunningrecognizeSpeechRequest,
   output: LongrunningrecognizeSpeechResponse,
   errors: [],
 }));
 
-/** Performs synchronous speech recognition: receive results after all audio has been sent and processed. */
 export interface RecognizeSpeechRequest {
   /** Request body */
   body?: RecognizeRequest;
@@ -920,13 +919,13 @@ export const RecognizeSpeechResponse = RecognizeResponse;
 
 export type RecognizeSpeechError = CommonErrors;
 
+/** Performs synchronous speech recognition: receive results after all audio has been sent and processed. */
 export const recognizeSpeech: API.OperationMethod<RecognizeSpeechRequest, RecognizeSpeechResponse, RecognizeSpeechError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RecognizeSpeechRequest,
   output: RecognizeSpeechResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListOperationsRequest {
   /** The standard list page size. */
   pageSize?: number;
@@ -956,7 +955,8 @@ export const ListOperationsResponse_Op = ListOperationsResponse;
 
 export type ListOperationsError = CommonErrors;
 
-export const listOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listOperations: API.PaginatedOperationMethod<ListOperationsRequest, ListOperationsResponse_Op, ListOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOperationsRequest,
   output: ListOperationsResponse_Op,
   errors: [],
@@ -966,7 +966,6 @@ export const listOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -984,6 +983,7 @@ export const GetOperationsResponse = Operation;
 
 export type GetOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOperations: API.OperationMethod<GetOperationsRequest, GetOperationsResponse, GetOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,

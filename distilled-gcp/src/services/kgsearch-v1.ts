@@ -42,7 +42,6 @@ export const SearchResponse: Schema.Schema<SearchResponse> = Schema.suspend(() =
 // Operations
 // ==========================================================================
 
-/** Searches Knowledge Graph for entities that match the constraints. A list of matched entities will be returned in response, which will be in JSON-LD format and compatible with http://schema.org */
 export interface SearchEntitiesRequest {
   /** The literal query string for search. */
   query?: string;
@@ -78,6 +77,7 @@ export const SearchEntitiesResponse = SearchResponse;
 
 export type SearchEntitiesError = CommonErrors;
 
+/** Searches Knowledge Graph for entities that match the constraints. A list of matched entities will be returned in response, which will be in JSON-LD format and compatible with http://schema.org */
 export const searchEntities: API.OperationMethod<SearchEntitiesRequest, SearchEntitiesResponse, SearchEntitiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchEntitiesRequest,
   output: SearchEntitiesResponse,

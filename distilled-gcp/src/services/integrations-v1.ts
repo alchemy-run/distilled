@@ -5409,7 +5409,6 @@ export const GoogleCloudIntegrationsV1alphaResolveSuspensionResponse: Schema.Sch
 // Operations
 // ==========================================================================
 
-/** Receives the auth code and auth config id to combine that with the client id and secret to retrieve access tokens from the token endpoint. Returns either a success or error message when it's done. */
 export interface GenerateTokenCallbackRequest {
   /** The auth config id for the given request */
   state?: string;
@@ -5439,13 +5438,13 @@ export const GenerateTokenCallbackResponse = GoogleCloudIntegrationsV1alphaGener
 
 export type GenerateTokenCallbackError = CommonErrors;
 
+/** Receives the auth code and auth config id to combine that with the client id and secret to retrieve access tokens from the token endpoint. Returns either a success or error message when it's done. */
 export const generateTokenCallback: API.OperationMethod<GenerateTokenCallbackRequest, GenerateTokenCallbackResponse, GenerateTokenCallbackError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateTokenCallbackRequest,
   output: GenerateTokenCallbackResponse,
   errors: [],
 }));
 
-/** Gets the metadata info for the requested client */
 export interface GetClientmetadataProjectsRequest {
   /** Required. Required: The ID of the GCP Project to be provisioned. */
   parent: string;
@@ -5463,13 +5462,13 @@ export const GetClientmetadataProjectsResponse = GoogleCloudIntegrationsV1alphaG
 
 export type GetClientmetadataProjectsError = CommonErrors;
 
+/** Gets the metadata info for the requested client */
 export const getClientmetadataProjects: API.OperationMethod<GetClientmetadataProjectsRequest, GetClientmetadataProjectsResponse, GetClientmetadataProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetClientmetadataProjectsRequest,
   output: GetClientmetadataProjectsResponse,
   errors: [],
 }));
 
-/** Gets the client configuration for the given project and location resource name */
 export interface GetClientsProjectsLocationsRequest {
   /** Required. Required: The ID of the GCP Project to be provisioned. */
   parent: string;
@@ -5487,13 +5486,13 @@ export const GetClientsProjectsLocationsResponse = GoogleCloudIntegrationsV1alph
 
 export type GetClientsProjectsLocationsError = CommonErrors;
 
+/** Gets the client configuration for the given project and location resource name */
 export const getClientsProjectsLocations: API.OperationMethod<GetClientsProjectsLocationsRequest, GetClientsProjectsLocationsResponse, GetClientsProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetClientsProjectsLocationsRequest,
   output: GetClientsProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Generate OpenAPI spec for the requested integrations and api triggers */
 export interface GenerateOpenApiSpecProjectsLocationsRequest {
   /** Required. Project and location from which the integrations should be fetched. Format: projects/{project}/location/{location} */
   name: string;
@@ -5514,13 +5513,13 @@ export const GenerateOpenApiSpecProjectsLocationsResponse = GoogleCloudIntegrati
 
 export type GenerateOpenApiSpecProjectsLocationsError = CommonErrors;
 
+/** Generate OpenAPI spec for the requested integrations and api triggers */
 export const generateOpenApiSpecProjectsLocations: API.OperationMethod<GenerateOpenApiSpecProjectsLocationsRequest, GenerateOpenApiSpecProjectsLocationsResponse, GenerateOpenApiSpecProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateOpenApiSpecProjectsLocationsRequest,
   output: GenerateOpenApiSpecProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists the available entities and actions associated with a Connection. */
 export interface GetConnectionSchemaMetadataProjectsLocationsConnectionsRequest {
   /** Required. ConnectionSchemaMetadata name. Format: projects/{project}/locations/{location}/connections/{connection}/connectionSchemaMetadata */
   name: string;
@@ -5538,13 +5537,13 @@ export const GetConnectionSchemaMetadataProjectsLocationsConnectionsResponse = G
 
 export type GetConnectionSchemaMetadataProjectsLocationsConnectionsError = CommonErrors;
 
+/** Lists the available entities and actions associated with a Connection. */
 export const getConnectionSchemaMetadataProjectsLocationsConnections: API.OperationMethod<GetConnectionSchemaMetadataProjectsLocationsConnectionsRequest, GetConnectionSchemaMetadataProjectsLocationsConnectionsResponse, GetConnectionSchemaMetadataProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetConnectionSchemaMetadataProjectsLocationsConnectionsRequest,
   output: GetConnectionSchemaMetadataProjectsLocationsConnectionsResponse,
   errors: [],
 }));
 
-/** Lists Connections in a given project and location. */
 export interface ListProjectsLocationsConnectionsRequest {
   /** Page token. */
   pageToken?: string;
@@ -5574,7 +5573,8 @@ export const ListProjectsLocationsConnectionsResponse = GoogleCloudIntegrationsV
 
 export type ListProjectsLocationsConnectionsError = CommonErrors;
 
-export const listProjectsLocationsConnections = API.makePaginated(() => ({
+/** Lists Connections in a given project and location. */
+export const listProjectsLocationsConnections: API.PaginatedOperationMethod<ListProjectsLocationsConnectionsRequest, ListProjectsLocationsConnectionsResponse, ListProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsConnectionsRequest,
   output: ListProjectsLocationsConnectionsResponse,
   errors: [],
@@ -5584,7 +5584,6 @@ export const listProjectsLocationsConnections = API.makePaginated(() => ({
   },
 }));
 
-/** Lists the JSON schemas for the properties of runtime entities, filtered by entity name. */
 export interface ListProjectsLocationsConnectionsRuntimeEntitySchemasRequest {
   /** Filter. Only the entity field with literal equality operator is supported. */
   filter?: string;
@@ -5611,7 +5610,8 @@ export const ListProjectsLocationsConnectionsRuntimeEntitySchemasResponse = Goog
 
 export type ListProjectsLocationsConnectionsRuntimeEntitySchemasError = CommonErrors;
 
-export const listProjectsLocationsConnectionsRuntimeEntitySchemas = API.makePaginated(() => ({
+/** Lists the JSON schemas for the properties of runtime entities, filtered by entity name. */
+export const listProjectsLocationsConnectionsRuntimeEntitySchemas: API.PaginatedOperationMethod<ListProjectsLocationsConnectionsRuntimeEntitySchemasRequest, ListProjectsLocationsConnectionsRuntimeEntitySchemasResponse, ListProjectsLocationsConnectionsRuntimeEntitySchemasError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsConnectionsRuntimeEntitySchemasRequest,
   output: ListProjectsLocationsConnectionsRuntimeEntitySchemasResponse,
   errors: [],
@@ -5621,7 +5621,6 @@ export const listProjectsLocationsConnectionsRuntimeEntitySchemas = API.makePagi
   },
 }));
 
-/** Lists the JSON schemas for the inputs and outputs of actions, filtered by action name. */
 export interface ListProjectsLocationsConnectionsRuntimeActionSchemasRequest {
   /** Filter. Only the action field with literal equality operator is supported. */
   filter?: string;
@@ -5648,7 +5647,8 @@ export const ListProjectsLocationsConnectionsRuntimeActionSchemasResponse = Goog
 
 export type ListProjectsLocationsConnectionsRuntimeActionSchemasError = CommonErrors;
 
-export const listProjectsLocationsConnectionsRuntimeActionSchemas = API.makePaginated(() => ({
+/** Lists the JSON schemas for the inputs and outputs of actions, filtered by action name. */
+export const listProjectsLocationsConnectionsRuntimeActionSchemas: API.PaginatedOperationMethod<ListProjectsLocationsConnectionsRuntimeActionSchemasRequest, ListProjectsLocationsConnectionsRuntimeActionSchemasResponse, ListProjectsLocationsConnectionsRuntimeActionSchemasError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsConnectionsRuntimeActionSchemasRequest,
   output: ListProjectsLocationsConnectionsRuntimeActionSchemasResponse,
   errors: [],
@@ -5658,7 +5658,6 @@ export const listProjectsLocationsConnectionsRuntimeActionSchemas = API.makePagi
   },
 }));
 
-/** Schedules an integration for execution by passing the trigger id and the scheduled time in the request body. */
 export interface ScheduleProjectsLocationsProductsIntegrationsRequest {
   /** The integration resource name. */
   name: string;
@@ -5679,13 +5678,13 @@ export const ScheduleProjectsLocationsProductsIntegrationsResponse = GoogleCloud
 
 export type ScheduleProjectsLocationsProductsIntegrationsError = CommonErrors;
 
+/** Schedules an integration for execution by passing the trigger id and the scheduled time in the request body. */
 export const scheduleProjectsLocationsProductsIntegrations: API.OperationMethod<ScheduleProjectsLocationsProductsIntegrationsRequest, ScheduleProjectsLocationsProductsIntegrationsResponse, ScheduleProjectsLocationsProductsIntegrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ScheduleProjectsLocationsProductsIntegrationsRequest,
   output: ScheduleProjectsLocationsProductsIntegrationsResponse,
   errors: [],
 }));
 
-/** Executes integrations synchronously by passing the trigger id in the request body. The request is not returned until the requested executions are either fulfilled or experienced an error. If the integration name is not specified (passing `-`), all of the associated integration under the given trigger_id will be executed. Otherwise only the specified integration for the given `trigger_id` is executed. This is helpful for execution the integration from UI. */
 export interface ExecuteProjectsLocationsProductsIntegrationsRequest {
   /** Required. The integration resource name. */
   name: string;
@@ -5706,13 +5705,13 @@ export const ExecuteProjectsLocationsProductsIntegrationsResponse = GoogleCloudI
 
 export type ExecuteProjectsLocationsProductsIntegrationsError = CommonErrors;
 
+/** Executes integrations synchronously by passing the trigger id in the request body. The request is not returned until the requested executions are either fulfilled or experienced an error. If the integration name is not specified (passing `-`), all of the associated integration under the given trigger_id will be executed. Otherwise only the specified integration for the given `trigger_id` is executed. This is helpful for execution the integration from UI. */
 export const executeProjectsLocationsProductsIntegrations: API.OperationMethod<ExecuteProjectsLocationsProductsIntegrationsRequest, ExecuteProjectsLocationsProductsIntegrationsResponse, ExecuteProjectsLocationsProductsIntegrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExecuteProjectsLocationsProductsIntegrationsRequest,
   output: ExecuteProjectsLocationsProductsIntegrationsResponse,
   errors: [],
 }));
 
-/** Execute the integration in draft state */
 export interface TestProjectsLocationsProductsIntegrationsRequest {
   /** Output only. Auto-generated primary key. */
   name: string;
@@ -5733,13 +5732,13 @@ export const TestProjectsLocationsProductsIntegrationsResponse = GoogleCloudInte
 
 export type TestProjectsLocationsProductsIntegrationsError = CommonErrors;
 
+/** Execute the integration in draft state */
 export const testProjectsLocationsProductsIntegrations: API.OperationMethod<TestProjectsLocationsProductsIntegrationsRequest, TestProjectsLocationsProductsIntegrationsResponse, TestProjectsLocationsProductsIntegrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestProjectsLocationsProductsIntegrationsRequest,
   output: TestProjectsLocationsProductsIntegrationsResponse,
   errors: [],
 }));
 
-/** Returns the list of all integrations in the specified project. */
 export interface ListProjectsLocationsProductsIntegrationsRequest {
   /** Filter on fields of IntegrationVersion. Fields can be compared with literal values by use of ":" (containment), "=" (equality), ">" (greater), "<" (less than), >=" (greater than or equal to), "<=" (less than or equal to), and "!=" (inequality) operators. Negation, conjunction, and disjunction are written using NOT, AND, and OR keywords. For example, organization_id=\"1\" AND state=ACTIVE AND description:"test". Filtering cannot be performed on repeated fields like `task_config`. */
   filter?: string;
@@ -5769,7 +5768,8 @@ export const ListProjectsLocationsProductsIntegrationsResponse = GoogleCloudInte
 
 export type ListProjectsLocationsProductsIntegrationsError = CommonErrors;
 
-export const listProjectsLocationsProductsIntegrations = API.makePaginated(() => ({
+/** Returns the list of all integrations in the specified project. */
+export const listProjectsLocationsProductsIntegrations: API.PaginatedOperationMethod<ListProjectsLocationsProductsIntegrationsRequest, ListProjectsLocationsProductsIntegrationsResponse, ListProjectsLocationsProductsIntegrationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsProductsIntegrationsRequest,
   output: ListProjectsLocationsProductsIntegrationsResponse,
   errors: [],
@@ -5779,7 +5779,6 @@ export const listProjectsLocationsProductsIntegrations = API.makePaginated(() =>
   },
 }));
 
-/** Update a integration with a draft version in the specified project. */
 export interface PatchProjectsLocationsProductsIntegrationsVersionsRequest {
   /** Field mask specifying the fields in the above integration that have been modified and need to be updated. */
   updateMask?: string;
@@ -5803,13 +5802,13 @@ export const PatchProjectsLocationsProductsIntegrationsVersionsResponse = Google
 
 export type PatchProjectsLocationsProductsIntegrationsVersionsError = CommonErrors;
 
+/** Update a integration with a draft version in the specified project. */
 export const patchProjectsLocationsProductsIntegrationsVersions: API.OperationMethod<PatchProjectsLocationsProductsIntegrationsVersionsRequest, PatchProjectsLocationsProductsIntegrationsVersionsResponse, PatchProjectsLocationsProductsIntegrationsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsProductsIntegrationsVersionsRequest,
   output: PatchProjectsLocationsProductsIntegrationsVersionsResponse,
   errors: [],
 }));
 
-/** Soft-deletes the integration. Changes the status of the integration to ARCHIVED. If the integration being ARCHIVED is tagged as "HEAD", the tag is removed from this snapshot and set to the previous non-ARCHIVED snapshot. The PUBLISH_REQUESTED, DUE_FOR_DELETION tags are removed too. This RPC throws an exception if the version being deleted is DRAFT, and if the `locked_by` user is not the same as the user performing the Delete. Audit fields updated include last_modified_timestamp, last_modified_by. Any existing lock is released when Deleting a integration. Currently, there is no undelete mechanism. */
 export interface DeleteProjectsLocationsProductsIntegrationsVersionsRequest {
   /** Required. The version to delete. Format: projects/{project}/locations/{location}/integrations/{integration}/versions/{version} */
   name: string;
@@ -5827,13 +5826,13 @@ export const DeleteProjectsLocationsProductsIntegrationsVersionsResponse = Googl
 
 export type DeleteProjectsLocationsProductsIntegrationsVersionsError = CommonErrors;
 
+/** Soft-deletes the integration. Changes the status of the integration to ARCHIVED. If the integration being ARCHIVED is tagged as "HEAD", the tag is removed from this snapshot and set to the previous non-ARCHIVED snapshot. The PUBLISH_REQUESTED, DUE_FOR_DELETION tags are removed too. This RPC throws an exception if the version being deleted is DRAFT, and if the `locked_by` user is not the same as the user performing the Delete. Audit fields updated include last_modified_timestamp, last_modified_by. Any existing lock is released when Deleting a integration. Currently, there is no undelete mechanism. */
 export const deleteProjectsLocationsProductsIntegrationsVersions: API.OperationMethod<DeleteProjectsLocationsProductsIntegrationsVersionsRequest, DeleteProjectsLocationsProductsIntegrationsVersionsResponse, DeleteProjectsLocationsProductsIntegrationsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsProductsIntegrationsVersionsRequest,
   output: DeleteProjectsLocationsProductsIntegrationsVersionsResponse,
   errors: [],
 }));
 
-/** Get a integration in the specified project. */
 export interface GetProjectsLocationsProductsIntegrationsVersionsRequest {
   /** Required. The version to retrieve. Format: projects/{project}/locations/{location}/integrations/{integration}/versions/{version} */
   name: string;
@@ -5851,13 +5850,13 @@ export const GetProjectsLocationsProductsIntegrationsVersionsResponse = GoogleCl
 
 export type GetProjectsLocationsProductsIntegrationsVersionsError = CommonErrors;
 
+/** Get a integration in the specified project. */
 export const getProjectsLocationsProductsIntegrationsVersions: API.OperationMethod<GetProjectsLocationsProductsIntegrationsVersionsRequest, GetProjectsLocationsProductsIntegrationsVersionsResponse, GetProjectsLocationsProductsIntegrationsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsProductsIntegrationsVersionsRequest,
   output: GetProjectsLocationsProductsIntegrationsVersionsResponse,
   errors: [],
 }));
 
-/** Downloads an integration. Retrieves the `IntegrationVersion` for a given `integration_id` and returns the response as a string. */
 export interface DownloadProjectsLocationsProductsIntegrationsVersionsRequest {
   /** File format for download request. */
   fileFormat?: "FILE_FORMAT_UNSPECIFIED" | "JSON" | "YAML" | (string & {});
@@ -5881,13 +5880,13 @@ export const DownloadProjectsLocationsProductsIntegrationsVersionsResponse = Goo
 
 export type DownloadProjectsLocationsProductsIntegrationsVersionsError = CommonErrors;
 
+/** Downloads an integration. Retrieves the `IntegrationVersion` for a given `integration_id` and returns the response as a string. */
 export const downloadProjectsLocationsProductsIntegrationsVersions: API.OperationMethod<DownloadProjectsLocationsProductsIntegrationsVersionsRequest, DownloadProjectsLocationsProductsIntegrationsVersionsResponse, DownloadProjectsLocationsProductsIntegrationsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DownloadProjectsLocationsProductsIntegrationsVersionsRequest,
   output: DownloadProjectsLocationsProductsIntegrationsVersionsResponse,
   errors: [],
 }));
 
-/** Returns the list of all integration versions in the specified project. */
 export interface ListProjectsLocationsProductsIntegrationsVersionsRequest {
   /** Filter on fields of IntegrationVersion. Fields can be compared with literal values by use of ":" (containment), "=" (equality), ">" (greater), "<" (less than), >=" (greater than or equal to), "<=" (less than or equal to), and "!=" (inequality) operators. Negation, conjunction, and disjunction are written using NOT, AND, and OR keywords. For example, organization_id=\"1\" AND state=ACTIVE AND description:"test". Filtering cannot be performed on repeated fields like `task_config`. */
   filter?: string;
@@ -5920,7 +5919,8 @@ export const ListProjectsLocationsProductsIntegrationsVersionsResponse = GoogleC
 
 export type ListProjectsLocationsProductsIntegrationsVersionsError = CommonErrors;
 
-export const listProjectsLocationsProductsIntegrationsVersions = API.makePaginated(() => ({
+/** Returns the list of all integration versions in the specified project. */
+export const listProjectsLocationsProductsIntegrationsVersions: API.PaginatedOperationMethod<ListProjectsLocationsProductsIntegrationsVersionsRequest, ListProjectsLocationsProductsIntegrationsVersionsResponse, ListProjectsLocationsProductsIntegrationsVersionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsProductsIntegrationsVersionsRequest,
   output: ListProjectsLocationsProductsIntegrationsVersionsResponse,
   errors: [],
@@ -5930,7 +5930,6 @@ export const listProjectsLocationsProductsIntegrationsVersions = API.makePaginat
   },
 }));
 
-/** Clears the `locked_by` and `locked_at_timestamp`in the DRAFT version of this integration. It then performs the same action as the CreateDraftIntegrationVersion (i.e., copies the DRAFT version of the integration as a SNAPSHOT and then creates a new DRAFT version with the `locked_by` set to the `user_taking_over` and the `locked_at_timestamp` set to the current timestamp). Both the `locked_by` and `user_taking_over` are notified via email about the takeover. This RPC throws an exception if the integration is not in DRAFT status or if the `locked_by` and `locked_at_timestamp` fields are not set.The TakeoverEdit lock is treated the same as an edit of the integration, and hence shares ACLs with edit. Audit fields updated include last_modified_timestamp, last_modified_by. */
 export interface TakeoverEditLockProjectsLocationsProductsIntegrationsVersionsRequest {
   /** Required. The version to take over edit lock. Format: projects/{project}/locations/{location}/integrations/{integration}/versions/{version} */
   integrationVersion: string;
@@ -5951,13 +5950,13 @@ export const TakeoverEditLockProjectsLocationsProductsIntegrationsVersionsRespon
 
 export type TakeoverEditLockProjectsLocationsProductsIntegrationsVersionsError = CommonErrors;
 
+/** Clears the `locked_by` and `locked_at_timestamp`in the DRAFT version of this integration. It then performs the same action as the CreateDraftIntegrationVersion (i.e., copies the DRAFT version of the integration as a SNAPSHOT and then creates a new DRAFT version with the `locked_by` set to the `user_taking_over` and the `locked_at_timestamp` set to the current timestamp). Both the `locked_by` and `user_taking_over` are notified via email about the takeover. This RPC throws an exception if the integration is not in DRAFT status or if the `locked_by` and `locked_at_timestamp` fields are not set.The TakeoverEdit lock is treated the same as an edit of the integration, and hence shares ACLs with edit. Audit fields updated include last_modified_timestamp, last_modified_by. */
 export const takeoverEditLockProjectsLocationsProductsIntegrationsVersions: API.OperationMethod<TakeoverEditLockProjectsLocationsProductsIntegrationsVersionsRequest, TakeoverEditLockProjectsLocationsProductsIntegrationsVersionsResponse, TakeoverEditLockProjectsLocationsProductsIntegrationsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TakeoverEditLockProjectsLocationsProductsIntegrationsVersionsRequest,
   output: TakeoverEditLockProjectsLocationsProductsIntegrationsVersionsResponse,
   errors: [],
 }));
 
-/** Create a integration with a draft version in the specified project. */
 export interface CreateProjectsLocationsProductsIntegrationsVersionsRequest {
   /** Set this flag to true, if draft version is to be created for a brand new integration. False, if the request is for an existing integration. For backward compatibility reasons, even if this flag is set to `false` and no existing integration is found, a new draft integration will still be created. */
   newIntegration?: boolean;
@@ -5984,13 +5983,13 @@ export const CreateProjectsLocationsProductsIntegrationsVersionsResponse = Googl
 
 export type CreateProjectsLocationsProductsIntegrationsVersionsError = CommonErrors;
 
+/** Create a integration with a draft version in the specified project. */
 export const createProjectsLocationsProductsIntegrationsVersions: API.OperationMethod<CreateProjectsLocationsProductsIntegrationsVersionsRequest, CreateProjectsLocationsProductsIntegrationsVersionsResponse, CreateProjectsLocationsProductsIntegrationsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsProductsIntegrationsVersionsRequest,
   output: CreateProjectsLocationsProductsIntegrationsVersionsResponse,
   errors: [],
 }));
 
-/** This RPC throws an exception if the integration is in ARCHIVED or ACTIVE state. This RPC throws an exception if the version being published is DRAFT, and if the `locked_by` user is not the same as the user performing the Publish. Audit fields updated include last_published_timestamp, last_published_by, last_modified_timestamp, last_modified_by. Any existing lock is on this integration is released. */
 export interface PublishProjectsLocationsProductsIntegrationsVersionsRequest {
   /** Required. The version to publish. Format: projects/{project}/locations/{location}/integrations/{integration}/versions/{version} */
   name: string;
@@ -6011,13 +6010,13 @@ export const PublishProjectsLocationsProductsIntegrationsVersionsResponse = Goog
 
 export type PublishProjectsLocationsProductsIntegrationsVersionsError = CommonErrors;
 
+/** This RPC throws an exception if the integration is in ARCHIVED or ACTIVE state. This RPC throws an exception if the version being published is DRAFT, and if the `locked_by` user is not the same as the user performing the Publish. Audit fields updated include last_published_timestamp, last_published_by, last_modified_timestamp, last_modified_by. Any existing lock is on this integration is released. */
 export const publishProjectsLocationsProductsIntegrationsVersions: API.OperationMethod<PublishProjectsLocationsProductsIntegrationsVersionsRequest, PublishProjectsLocationsProductsIntegrationsVersionsResponse, PublishProjectsLocationsProductsIntegrationsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PublishProjectsLocationsProductsIntegrationsVersionsRequest,
   output: PublishProjectsLocationsProductsIntegrationsVersionsResponse,
   errors: [],
 }));
 
-/** Uploads an integration. The content can be a previously downloaded integration. Performs the same function as CreateDraftIntegrationVersion, but accepts input in a string format, which holds the complete representation of the IntegrationVersion content. */
 export interface UploadProjectsLocationsProductsIntegrationsVersionsRequest {
   /** Required. The version to upload. Format: projects/{project}/locations/{location}/integrations/{integration} */
   parent: string;
@@ -6038,13 +6037,13 @@ export const UploadProjectsLocationsProductsIntegrationsVersionsResponse = Googl
 
 export type UploadProjectsLocationsProductsIntegrationsVersionsError = CommonErrors;
 
+/** Uploads an integration. The content can be a previously downloaded integration. Performs the same function as CreateDraftIntegrationVersion, but accepts input in a string format, which holds the complete representation of the IntegrationVersion content. */
 export const uploadProjectsLocationsProductsIntegrationsVersions: API.OperationMethod<UploadProjectsLocationsProductsIntegrationsVersionsRequest, UploadProjectsLocationsProductsIntegrationsVersionsResponse, UploadProjectsLocationsProductsIntegrationsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadProjectsLocationsProductsIntegrationsVersionsRequest,
   output: UploadProjectsLocationsProductsIntegrationsVersionsResponse,
   errors: [],
 }));
 
-/** Sets the status of the ACTIVE integration to SNAPSHOT with a new tag "PREVIOUSLY_PUBLISHED" after validating it. The "HEAD" and "PUBLISH_REQUESTED" tags do not change. This RPC throws an exception if the version being snapshot is not ACTIVE. Audit fields added include action, action_by, action_timestamp. */
 export interface UnpublishProjectsLocationsProductsIntegrationsVersionsRequest {
   /** Required. The version to deactivate. Format: projects/{project}/locations/{location}/integrations/{integration}/versions/{version} */
   name: string;
@@ -6065,13 +6064,13 @@ export const UnpublishProjectsLocationsProductsIntegrationsVersionsResponse = Go
 
 export type UnpublishProjectsLocationsProductsIntegrationsVersionsError = CommonErrors;
 
+/** Sets the status of the ACTIVE integration to SNAPSHOT with a new tag "PREVIOUSLY_PUBLISHED" after validating it. The "HEAD" and "PUBLISH_REQUESTED" tags do not change. This RPC throws an exception if the version being snapshot is not ACTIVE. Audit fields added include action, action_by, action_timestamp. */
 export const unpublishProjectsLocationsProductsIntegrationsVersions: API.OperationMethod<UnpublishProjectsLocationsProductsIntegrationsVersionsRequest, UnpublishProjectsLocationsProductsIntegrationsVersionsResponse, UnpublishProjectsLocationsProductsIntegrationsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UnpublishProjectsLocationsProductsIntegrationsVersionsRequest,
   output: UnpublishProjectsLocationsProductsIntegrationsVersionsResponse,
   errors: [],
 }));
 
-/** Download the execution. */
 export interface DownloadProjectsLocationsProductsIntegrationsExecutionsRequest {
   /** Required. The execution resource name. Format: projects/{gcp_project_id}/locations/{location}/products/{product}/integrations/{integration_id}/executions/{execution_id} */
   name: string;
@@ -6089,13 +6088,13 @@ export const DownloadProjectsLocationsProductsIntegrationsExecutionsResponse = G
 
 export type DownloadProjectsLocationsProductsIntegrationsExecutionsError = CommonErrors;
 
+/** Download the execution. */
 export const downloadProjectsLocationsProductsIntegrationsExecutions: API.OperationMethod<DownloadProjectsLocationsProductsIntegrationsExecutionsRequest, DownloadProjectsLocationsProductsIntegrationsExecutionsResponse, DownloadProjectsLocationsProductsIntegrationsExecutionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DownloadProjectsLocationsProductsIntegrationsExecutionsRequest,
   output: DownloadProjectsLocationsProductsIntegrationsExecutionsResponse,
   errors: [],
 }));
 
-/** Get an execution in the specified project. */
 export interface GetProjectsLocationsProductsIntegrationsExecutionsRequest {
   /** Required. The execution resource name. Format: projects/{gcp_project_id}/locations/{location}/products/{product}/integrations/{integration_id}/executions/{execution_id} */
   name: string;
@@ -6113,13 +6112,13 @@ export const GetProjectsLocationsProductsIntegrationsExecutionsResponse = Google
 
 export type GetProjectsLocationsProductsIntegrationsExecutionsError = CommonErrors;
 
+/** Get an execution in the specified project. */
 export const getProjectsLocationsProductsIntegrationsExecutions: API.OperationMethod<GetProjectsLocationsProductsIntegrationsExecutionsRequest, GetProjectsLocationsProductsIntegrationsExecutionsResponse, GetProjectsLocationsProductsIntegrationsExecutionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsProductsIntegrationsExecutionsRequest,
   output: GetProjectsLocationsProductsIntegrationsExecutionsResponse,
   errors: [],
 }));
 
-/** Lists the results of all the integration executions. The response includes the same information as the [execution log](https://cloud.google.com/application-integration/docs/viewing-logs) in the Integration UI. */
 export interface ListProjectsLocationsProductsIntegrationsExecutionsRequest {
   /** Param type. */
   "filterParams.parameterType"?: string;
@@ -6197,7 +6196,8 @@ export const ListProjectsLocationsProductsIntegrationsExecutionsResponse = Googl
 
 export type ListProjectsLocationsProductsIntegrationsExecutionsError = CommonErrors;
 
-export const listProjectsLocationsProductsIntegrationsExecutions = API.makePaginated(() => ({
+/** Lists the results of all the integration executions. The response includes the same information as the [execution log](https://cloud.google.com/application-integration/docs/viewing-logs) in the Integration UI. */
+export const listProjectsLocationsProductsIntegrationsExecutions: API.PaginatedOperationMethod<ListProjectsLocationsProductsIntegrationsExecutionsRequest, ListProjectsLocationsProductsIntegrationsExecutionsResponse, ListProjectsLocationsProductsIntegrationsExecutionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsProductsIntegrationsExecutionsRequest,
   output: ListProjectsLocationsProductsIntegrationsExecutionsResponse,
   errors: [],
@@ -6207,7 +6207,6 @@ export const listProjectsLocationsProductsIntegrationsExecutions = API.makePagin
   },
 }));
 
-/** * Lifts suspension for the Suspension task. Fetch corresponding suspension with provided suspension Id, resolve suspension, and set up suspension result for the Suspension Task. */
 export interface LiftProjectsLocationsProductsIntegrationsExecutionsSuspensionsRequest {
   /** Required. The resource that the suspension belongs to. "projects/{project}/locations/{location}/products/{product}/integrations/{integration}/executions/{execution}/suspensions/{suspenion}" format. */
   name: string;
@@ -6228,13 +6227,13 @@ export const LiftProjectsLocationsProductsIntegrationsExecutionsSuspensionsRespo
 
 export type LiftProjectsLocationsProductsIntegrationsExecutionsSuspensionsError = CommonErrors;
 
+/** * Lifts suspension for the Suspension task. Fetch corresponding suspension with provided suspension Id, resolve suspension, and set up suspension result for the Suspension Task. */
 export const liftProjectsLocationsProductsIntegrationsExecutionsSuspensions: API.OperationMethod<LiftProjectsLocationsProductsIntegrationsExecutionsSuspensionsRequest, LiftProjectsLocationsProductsIntegrationsExecutionsSuspensionsResponse, LiftProjectsLocationsProductsIntegrationsExecutionsSuspensionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LiftProjectsLocationsProductsIntegrationsExecutionsSuspensionsRequest,
   output: LiftProjectsLocationsProductsIntegrationsExecutionsSuspensionsResponse,
   errors: [],
 }));
 
-/** * Resolves (lifts/rejects) any number of suspensions. If the integration is already running, only the status of the suspension is updated. Otherwise, the suspended integration will begin execution again. */
 export interface ResolveProjectsLocationsProductsIntegrationsExecutionsSuspensionsRequest {
   /** Required. projects/{gcp_project_id}/locations/{location}/products/{product}/integrations/{integration_name}/executions/{execution_name}/suspensions/{suspension_id} */
   name: string;
@@ -6255,13 +6254,13 @@ export const ResolveProjectsLocationsProductsIntegrationsExecutionsSuspensionsRe
 
 export type ResolveProjectsLocationsProductsIntegrationsExecutionsSuspensionsError = CommonErrors;
 
+/** * Resolves (lifts/rejects) any number of suspensions. If the integration is already running, only the status of the suspension is updated. Otherwise, the suspended integration will begin execution again. */
 export const resolveProjectsLocationsProductsIntegrationsExecutionsSuspensions: API.OperationMethod<ResolveProjectsLocationsProductsIntegrationsExecutionsSuspensionsRequest, ResolveProjectsLocationsProductsIntegrationsExecutionsSuspensionsResponse, ResolveProjectsLocationsProductsIntegrationsExecutionsSuspensionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResolveProjectsLocationsProductsIntegrationsExecutionsSuspensionsRequest,
   output: ResolveProjectsLocationsProductsIntegrationsExecutionsSuspensionsResponse,
   errors: [],
 }));
 
-/** * Lists suspensions associated with a specific execution. Only those with permissions to resolve the relevant suspensions will be able to view them. */
 export interface ListProjectsLocationsProductsIntegrationsExecutionsSuspensionsRequest {
   /** Standard filter field. */
   filter?: string;
@@ -6291,7 +6290,8 @@ export const ListProjectsLocationsProductsIntegrationsExecutionsSuspensionsRespo
 
 export type ListProjectsLocationsProductsIntegrationsExecutionsSuspensionsError = CommonErrors;
 
-export const listProjectsLocationsProductsIntegrationsExecutionsSuspensions = API.makePaginated(() => ({
+/** * Lists suspensions associated with a specific execution. Only those with permissions to resolve the relevant suspensions will be able to view them. */
+export const listProjectsLocationsProductsIntegrationsExecutionsSuspensions: API.PaginatedOperationMethod<ListProjectsLocationsProductsIntegrationsExecutionsSuspensionsRequest, ListProjectsLocationsProductsIntegrationsExecutionsSuspensionsResponse, ListProjectsLocationsProductsIntegrationsExecutionsSuspensionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsProductsIntegrationsExecutionsSuspensionsRequest,
   output: ListProjectsLocationsProductsIntegrationsExecutionsSuspensionsResponse,
   errors: [],
@@ -6301,7 +6301,6 @@ export const listProjectsLocationsProductsIntegrationsExecutionsSuspensions = AP
   },
 }));
 
-/** Lists all sfdc instances that match the filter. Restrict to sfdc instances belonging to the current client only. */
 export interface ListProjectsLocationsProductsSfdcInstancesRequest {
   /** Required. The client, which owns this collection of SfdcInstances. */
   parent: string;
@@ -6331,7 +6330,8 @@ export const ListProjectsLocationsProductsSfdcInstancesResponse = GoogleCloudInt
 
 export type ListProjectsLocationsProductsSfdcInstancesError = CommonErrors;
 
-export const listProjectsLocationsProductsSfdcInstances = API.makePaginated(() => ({
+/** Lists all sfdc instances that match the filter. Restrict to sfdc instances belonging to the current client only. */
+export const listProjectsLocationsProductsSfdcInstances: API.PaginatedOperationMethod<ListProjectsLocationsProductsSfdcInstancesRequest, ListProjectsLocationsProductsSfdcInstancesResponse, ListProjectsLocationsProductsSfdcInstancesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsProductsSfdcInstancesRequest,
   output: ListProjectsLocationsProductsSfdcInstancesResponse,
   errors: [],
@@ -6341,7 +6341,6 @@ export const listProjectsLocationsProductsSfdcInstances = API.makePaginated(() =
   },
 }));
 
-/** Creates an sfdc instance record. Store the sfdc instance in Spanner. Returns the sfdc instance. */
 export interface CreateProjectsLocationsProductsSfdcInstancesRequest {
   /** Required. "projects/{project}/locations/{location}" format. */
   parent: string;
@@ -6362,13 +6361,13 @@ export const CreateProjectsLocationsProductsSfdcInstancesResponse = GoogleCloudI
 
 export type CreateProjectsLocationsProductsSfdcInstancesError = CommonErrors;
 
+/** Creates an sfdc instance record. Store the sfdc instance in Spanner. Returns the sfdc instance. */
 export const createProjectsLocationsProductsSfdcInstances: API.OperationMethod<CreateProjectsLocationsProductsSfdcInstancesRequest, CreateProjectsLocationsProductsSfdcInstancesResponse, CreateProjectsLocationsProductsSfdcInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsProductsSfdcInstancesRequest,
   output: CreateProjectsLocationsProductsSfdcInstancesResponse,
   errors: [],
 }));
 
-/** Updates an sfdc instance. Updates the sfdc instance in spanner. Returns the sfdc instance. */
 export interface PatchProjectsLocationsProductsSfdcInstancesRequest {
   /** Field mask specifying the fields in the above SfdcInstance that have been modified and need to be updated. */
   updateMask?: string;
@@ -6392,13 +6391,13 @@ export const PatchProjectsLocationsProductsSfdcInstancesResponse = GoogleCloudIn
 
 export type PatchProjectsLocationsProductsSfdcInstancesError = CommonErrors;
 
+/** Updates an sfdc instance. Updates the sfdc instance in spanner. Returns the sfdc instance. */
 export const patchProjectsLocationsProductsSfdcInstances: API.OperationMethod<PatchProjectsLocationsProductsSfdcInstancesRequest, PatchProjectsLocationsProductsSfdcInstancesResponse, PatchProjectsLocationsProductsSfdcInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsProductsSfdcInstancesRequest,
   output: PatchProjectsLocationsProductsSfdcInstancesResponse,
   errors: [],
 }));
 
-/** Deletes an sfdc instance. */
 export interface DeleteProjectsLocationsProductsSfdcInstancesRequest {
   /** Required. The name that is associated with the SfdcInstance. */
   name: string;
@@ -6416,13 +6415,13 @@ export const DeleteProjectsLocationsProductsSfdcInstancesResponse = GoogleProtob
 
 export type DeleteProjectsLocationsProductsSfdcInstancesError = CommonErrors;
 
+/** Deletes an sfdc instance. */
 export const deleteProjectsLocationsProductsSfdcInstances: API.OperationMethod<DeleteProjectsLocationsProductsSfdcInstancesRequest, DeleteProjectsLocationsProductsSfdcInstancesResponse, DeleteProjectsLocationsProductsSfdcInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsProductsSfdcInstancesRequest,
   output: DeleteProjectsLocationsProductsSfdcInstancesResponse,
   errors: [],
 }));
 
-/** Gets an sfdc instance. If the instance doesn't exist, Code.NOT_FOUND exception will be thrown. */
 export interface GetProjectsLocationsProductsSfdcInstancesRequest {
   /** Required. The name that is associated with the SfdcInstance. */
   name: string;
@@ -6440,13 +6439,13 @@ export const GetProjectsLocationsProductsSfdcInstancesResponse = GoogleCloudInte
 
 export type GetProjectsLocationsProductsSfdcInstancesError = CommonErrors;
 
+/** Gets an sfdc instance. If the instance doesn't exist, Code.NOT_FOUND exception will be thrown. */
 export const getProjectsLocationsProductsSfdcInstances: API.OperationMethod<GetProjectsLocationsProductsSfdcInstancesRequest, GetProjectsLocationsProductsSfdcInstancesResponse, GetProjectsLocationsProductsSfdcInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsProductsSfdcInstancesRequest,
   output: GetProjectsLocationsProductsSfdcInstancesResponse,
   errors: [],
 }));
 
-/** Gets an sfdc channel. If the channel doesn't exist, Code.NOT_FOUND exception will be thrown. */
 export interface GetProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest {
   /** Required. The name that is associated with the SfdcChannel. */
   name: string;
@@ -6464,13 +6463,13 @@ export const GetProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse = Goo
 
 export type GetProjectsLocationsProductsSfdcInstancesSfdcChannelsError = CommonErrors;
 
+/** Gets an sfdc channel. If the channel doesn't exist, Code.NOT_FOUND exception will be thrown. */
 export const getProjectsLocationsProductsSfdcInstancesSfdcChannels: API.OperationMethod<GetProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest, GetProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse, GetProjectsLocationsProductsSfdcInstancesSfdcChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest,
   output: GetProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse,
   errors: [],
 }));
 
-/** Lists all sfdc channels that match the filter. Restrict to sfdc channels belonging to the current client only. */
 export interface ListProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest {
   /** The size of entries in the response. If unspecified, defaults to 100. */
   pageSize?: number;
@@ -6500,7 +6499,8 @@ export const ListProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse = Go
 
 export type ListProjectsLocationsProductsSfdcInstancesSfdcChannelsError = CommonErrors;
 
-export const listProjectsLocationsProductsSfdcInstancesSfdcChannels = API.makePaginated(() => ({
+/** Lists all sfdc channels that match the filter. Restrict to sfdc channels belonging to the current client only. */
+export const listProjectsLocationsProductsSfdcInstancesSfdcChannels: API.PaginatedOperationMethod<ListProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest, ListProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse, ListProjectsLocationsProductsSfdcInstancesSfdcChannelsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest,
   output: ListProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse,
   errors: [],
@@ -6510,7 +6510,6 @@ export const listProjectsLocationsProductsSfdcInstancesSfdcChannels = API.makePa
   },
 }));
 
-/** Deletes an sfdc channel. */
 export interface DeleteProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest {
   /** Required. The name that is associated with the SfdcChannel. */
   name: string;
@@ -6528,13 +6527,13 @@ export const DeleteProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse = 
 
 export type DeleteProjectsLocationsProductsSfdcInstancesSfdcChannelsError = CommonErrors;
 
+/** Deletes an sfdc channel. */
 export const deleteProjectsLocationsProductsSfdcInstancesSfdcChannels: API.OperationMethod<DeleteProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest, DeleteProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse, DeleteProjectsLocationsProductsSfdcInstancesSfdcChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest,
   output: DeleteProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse,
   errors: [],
 }));
 
-/** Creates an sfdc channel record. Store the sfdc channel in Spanner. Returns the sfdc channel. */
 export interface CreateProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest {
   /** Required. "projects/{project}/locations/{location}" format. */
   parent: string;
@@ -6555,13 +6554,13 @@ export const CreateProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse = 
 
 export type CreateProjectsLocationsProductsSfdcInstancesSfdcChannelsError = CommonErrors;
 
+/** Creates an sfdc channel record. Store the sfdc channel in Spanner. Returns the sfdc channel. */
 export const createProjectsLocationsProductsSfdcInstancesSfdcChannels: API.OperationMethod<CreateProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest, CreateProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse, CreateProjectsLocationsProductsSfdcInstancesSfdcChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest,
   output: CreateProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse,
   errors: [],
 }));
 
-/** Updates an sfdc channel. Updates the sfdc channel in spanner. Returns the sfdc channel. */
 export interface PatchProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest {
   /** Field mask specifying the fields in the above SfdcChannel that have been modified and need to be updated. */
   updateMask?: string;
@@ -6585,13 +6584,13 @@ export const PatchProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse = G
 
 export type PatchProjectsLocationsProductsSfdcInstancesSfdcChannelsError = CommonErrors;
 
+/** Updates an sfdc channel. Updates the sfdc channel in spanner. Returns the sfdc channel. */
 export const patchProjectsLocationsProductsSfdcInstancesSfdcChannels: API.OperationMethod<PatchProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest, PatchProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse, PatchProjectsLocationsProductsSfdcInstancesSfdcChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsProductsSfdcInstancesSfdcChannelsRequest,
   output: PatchProjectsLocationsProductsSfdcInstancesSfdcChannelsResponse,
   errors: [],
 }));
 
-/** Updates an auth config. If credential is updated, fetch the encrypted auth config from Spanner, decrypt with Cloud KMS key, update the credential fields, re-encrypt with Cloud KMS key and update the Spanner record. For other fields, directly update the Spanner record. Returns the encrypted auth config. */
 export interface PatchProjectsLocationsProductsAuthConfigsRequest {
   /** Field mask specifying the fields in the above AuthConfig that have been modified and need to be updated. */
   updateMask?: string;
@@ -6624,13 +6623,13 @@ export const PatchProjectsLocationsProductsAuthConfigsResponse = GoogleCloudInte
 
 export type PatchProjectsLocationsProductsAuthConfigsError = CommonErrors;
 
+/** Updates an auth config. If credential is updated, fetch the encrypted auth config from Spanner, decrypt with Cloud KMS key, update the credential fields, re-encrypt with Cloud KMS key and update the Spanner record. For other fields, directly update the Spanner record. Returns the encrypted auth config. */
 export const patchProjectsLocationsProductsAuthConfigs: API.OperationMethod<PatchProjectsLocationsProductsAuthConfigsRequest, PatchProjectsLocationsProductsAuthConfigsResponse, PatchProjectsLocationsProductsAuthConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsProductsAuthConfigsRequest,
   output: PatchProjectsLocationsProductsAuthConfigsResponse,
   errors: [],
 }));
 
-/** Gets a complete auth config. If the auth config doesn't exist, Code.NOT_FOUND exception will be thrown. Returns the decrypted auth config. */
 export interface GetProjectsLocationsProductsAuthConfigsRequest {
   /** Required. The name that is associated with the AuthConfig. */
   name: string;
@@ -6648,13 +6647,13 @@ export const GetProjectsLocationsProductsAuthConfigsResponse = GoogleCloudIntegr
 
 export type GetProjectsLocationsProductsAuthConfigsError = CommonErrors;
 
+/** Gets a complete auth config. If the auth config doesn't exist, Code.NOT_FOUND exception will be thrown. Returns the decrypted auth config. */
 export const getProjectsLocationsProductsAuthConfigs: API.OperationMethod<GetProjectsLocationsProductsAuthConfigsRequest, GetProjectsLocationsProductsAuthConfigsResponse, GetProjectsLocationsProductsAuthConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsProductsAuthConfigsRequest,
   output: GetProjectsLocationsProductsAuthConfigsResponse,
   errors: [],
 }));
 
-/** Lists all auth configs that match the filter. Restrict to auth configs belong to the current client only. */
 export interface ListProjectsLocationsProductsAuthConfigsRequest {
   /** The mask which specifies fields that need to be returned in the AuthConfig's response. */
   readMask?: string;
@@ -6684,7 +6683,8 @@ export const ListProjectsLocationsProductsAuthConfigsResponse = GoogleCloudInteg
 
 export type ListProjectsLocationsProductsAuthConfigsError = CommonErrors;
 
-export const listProjectsLocationsProductsAuthConfigs = API.makePaginated(() => ({
+/** Lists all auth configs that match the filter. Restrict to auth configs belong to the current client only. */
+export const listProjectsLocationsProductsAuthConfigs: API.PaginatedOperationMethod<ListProjectsLocationsProductsAuthConfigsRequest, ListProjectsLocationsProductsAuthConfigsResponse, ListProjectsLocationsProductsAuthConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsProductsAuthConfigsRequest,
   output: ListProjectsLocationsProductsAuthConfigsResponse,
   errors: [],
@@ -6694,7 +6694,6 @@ export const listProjectsLocationsProductsAuthConfigs = API.makePaginated(() => 
   },
 }));
 
-/** Creates an auth config record. Fetch corresponding credentials for specific auth types, e.g. access token for OAuth 2.0, JWT token for JWT. Encrypt the auth config with Cloud KMS and store the encrypted credentials in Spanner. Returns the encrypted auth config. */
 export interface CreateProjectsLocationsProductsAuthConfigsRequest {
   /** Required. "projects/{project}/locations/{location}" format. */
   parent: string;
@@ -6724,13 +6723,13 @@ export const CreateProjectsLocationsProductsAuthConfigsResponse = GoogleCloudInt
 
 export type CreateProjectsLocationsProductsAuthConfigsError = CommonErrors;
 
+/** Creates an auth config record. Fetch corresponding credentials for specific auth types, e.g. access token for OAuth 2.0, JWT token for JWT. Encrypt the auth config with Cloud KMS and store the encrypted credentials in Spanner. Returns the encrypted auth config. */
 export const createProjectsLocationsProductsAuthConfigs: API.OperationMethod<CreateProjectsLocationsProductsAuthConfigsRequest, CreateProjectsLocationsProductsAuthConfigsResponse, CreateProjectsLocationsProductsAuthConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsProductsAuthConfigsRequest,
   output: CreateProjectsLocationsProductsAuthConfigsResponse,
   errors: [],
 }));
 
-/** Deletes an auth config. */
 export interface DeleteProjectsLocationsProductsAuthConfigsRequest {
   /** Required. The name that is associated with the AuthConfig. */
   name: string;
@@ -6748,13 +6747,13 @@ export const DeleteProjectsLocationsProductsAuthConfigsResponse = GoogleProtobuf
 
 export type DeleteProjectsLocationsProductsAuthConfigsError = CommonErrors;
 
+/** Deletes an auth config. */
 export const deleteProjectsLocationsProductsAuthConfigs: API.OperationMethod<DeleteProjectsLocationsProductsAuthConfigsRequest, DeleteProjectsLocationsProductsAuthConfigsResponse, DeleteProjectsLocationsProductsAuthConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsProductsAuthConfigsRequest,
   output: DeleteProjectsLocationsProductsAuthConfigsResponse,
   errors: [],
 }));
 
-/** Creates a cloud function project. */
 export interface CreateProjectsLocationsProductsCloudFunctionsRequest {
   /** Required. The project that the executed integration belongs to. */
   parent: string;
@@ -6775,13 +6774,13 @@ export const CreateProjectsLocationsProductsCloudFunctionsResponse = GoogleCloud
 
 export type CreateProjectsLocationsProductsCloudFunctionsError = CommonErrors;
 
+/** Creates a cloud function project. */
 export const createProjectsLocationsProductsCloudFunctions: API.OperationMethod<CreateProjectsLocationsProductsCloudFunctionsRequest, CreateProjectsLocationsProductsCloudFunctionsResponse, CreateProjectsLocationsProductsCloudFunctionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsProductsCloudFunctionsRequest,
   output: CreateProjectsLocationsProductsCloudFunctionsResponse,
   errors: [],
 }));
 
-/** List all the certificates that match the filter. Restrict to certificate of current client only. */
 export interface ListProjectsLocationsProductsCertificatesRequest {
   /** The size of entries in the response. If unspecified, defaults to 100. */
   pageSize?: number;
@@ -6811,7 +6810,8 @@ export const ListProjectsLocationsProductsCertificatesResponse = GoogleCloudInte
 
 export type ListProjectsLocationsProductsCertificatesError = CommonErrors;
 
-export const listProjectsLocationsProductsCertificates = API.makePaginated(() => ({
+/** List all the certificates that match the filter. Restrict to certificate of current client only. */
+export const listProjectsLocationsProductsCertificates: API.PaginatedOperationMethod<ListProjectsLocationsProductsCertificatesRequest, ListProjectsLocationsProductsCertificatesResponse, ListProjectsLocationsProductsCertificatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsProductsCertificatesRequest,
   output: ListProjectsLocationsProductsCertificatesResponse,
   errors: [],
@@ -6821,7 +6821,6 @@ export const listProjectsLocationsProductsCertificates = API.makePaginated(() =>
   },
 }));
 
-/** Get a certificates in the specified project. */
 export interface GetProjectsLocationsProductsCertificatesRequest {
   /** Required. The certificate to retrieve. Format: projects/{project}/locations/{location}/certificates/{certificate} */
   name: string;
@@ -6839,13 +6838,13 @@ export const GetProjectsLocationsProductsCertificatesResponse = GoogleCloudInteg
 
 export type GetProjectsLocationsProductsCertificatesError = CommonErrors;
 
+/** Get a certificates in the specified project. */
 export const getProjectsLocationsProductsCertificates: API.OperationMethod<GetProjectsLocationsProductsCertificatesRequest, GetProjectsLocationsProductsCertificatesResponse, GetProjectsLocationsProductsCertificatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsProductsCertificatesRequest,
   output: GetProjectsLocationsProductsCertificatesResponse,
   errors: [],
 }));
 
-/** Updates the certificate by id. If new certificate file is updated, it will register with the trawler service, re-encrypt with cloud KMS and update the Spanner record. Other fields will directly update the Spanner record. Returns the Certificate. */
 export interface PatchProjectsLocationsProductsCertificatesRequest {
   /** Output only. Auto generated primary key */
   name: string;
@@ -6869,13 +6868,13 @@ export const PatchProjectsLocationsProductsCertificatesResponse = GoogleCloudInt
 
 export type PatchProjectsLocationsProductsCertificatesError = CommonErrors;
 
+/** Updates the certificate by id. If new certificate file is updated, it will register with the trawler service, re-encrypt with cloud KMS and update the Spanner record. Other fields will directly update the Spanner record. Returns the Certificate. */
 export const patchProjectsLocationsProductsCertificates: API.OperationMethod<PatchProjectsLocationsProductsCertificatesRequest, PatchProjectsLocationsProductsCertificatesResponse, PatchProjectsLocationsProductsCertificatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsProductsCertificatesRequest,
   output: PatchProjectsLocationsProductsCertificatesResponse,
   errors: [],
 }));
 
-/** Creates a new certificate. The certificate will be registered to the trawler service and will be encrypted using cloud KMS and stored in Spanner Returns the certificate. */
 export interface CreateProjectsLocationsProductsCertificatesRequest {
   /** Required. "projects/{project}/locations/{location}" format. */
   parent: string;
@@ -6896,13 +6895,13 @@ export const CreateProjectsLocationsProductsCertificatesResponse = GoogleCloudIn
 
 export type CreateProjectsLocationsProductsCertificatesError = CommonErrors;
 
+/** Creates a new certificate. The certificate will be registered to the trawler service and will be encrypted using cloud KMS and stored in Spanner Returns the certificate. */
 export const createProjectsLocationsProductsCertificates: API.OperationMethod<CreateProjectsLocationsProductsCertificatesRequest, CreateProjectsLocationsProductsCertificatesResponse, CreateProjectsLocationsProductsCertificatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsProductsCertificatesRequest,
   output: CreateProjectsLocationsProductsCertificatesResponse,
   errors: [],
 }));
 
-/** Delete a certificate */
 export interface DeleteProjectsLocationsProductsCertificatesRequest {
   /** Required. The name that is associated with the Certificate. */
   name: string;
@@ -6920,13 +6919,13 @@ export const DeleteProjectsLocationsProductsCertificatesResponse = GoogleProtobu
 
 export type DeleteProjectsLocationsProductsCertificatesError = CommonErrors;
 
+/** Delete a certificate */
 export const deleteProjectsLocationsProductsCertificates: API.OperationMethod<DeleteProjectsLocationsProductsCertificatesRequest, DeleteProjectsLocationsProductsCertificatesResponse, DeleteProjectsLocationsProductsCertificatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsProductsCertificatesRequest,
   output: DeleteProjectsLocationsProductsCertificatesResponse,
   errors: [],
 }));
 
-/** Links a existing Apps Script project. */
 export interface LinkProjectsLocationsAppsScriptProjectsRequest {
   /** Required. The project that the executed integration belongs to. */
   parent: string;
@@ -6947,13 +6946,13 @@ export const LinkProjectsLocationsAppsScriptProjectsResponse = GoogleCloudIntegr
 
 export type LinkProjectsLocationsAppsScriptProjectsError = CommonErrors;
 
+/** Links a existing Apps Script project. */
 export const linkProjectsLocationsAppsScriptProjects: API.OperationMethod<LinkProjectsLocationsAppsScriptProjectsRequest, LinkProjectsLocationsAppsScriptProjectsResponse, LinkProjectsLocationsAppsScriptProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LinkProjectsLocationsAppsScriptProjectsRequest,
   output: LinkProjectsLocationsAppsScriptProjectsResponse,
   errors: [],
 }));
 
-/** Creates an Apps Script project. */
 export interface CreateProjectsLocationsAppsScriptProjectsRequest {
   /** Required. The project that the executed integration belongs to. */
   parent: string;
@@ -6974,13 +6973,13 @@ export const CreateProjectsLocationsAppsScriptProjectsResponse = GoogleCloudInte
 
 export type CreateProjectsLocationsAppsScriptProjectsError = CommonErrors;
 
+/** Creates an Apps Script project. */
 export const createProjectsLocationsAppsScriptProjects: API.OperationMethod<CreateProjectsLocationsAppsScriptProjectsRequest, CreateProjectsLocationsAppsScriptProjectsResponse, CreateProjectsLocationsAppsScriptProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsAppsScriptProjectsRequest,
   output: CreateProjectsLocationsAppsScriptProjectsResponse,
   errors: [],
 }));
 
-/** Updates the certificate by id. If new certificate file is updated, it will register with the trawler service, re-encrypt with cloud KMS and update the Spanner record. Other fields will directly update the Spanner record. Returns the Certificate. */
 export interface PatchProjectsLocationsCertificatesRequest {
   /** Output only. Auto generated primary key */
   name: string;
@@ -7004,13 +7003,13 @@ export const PatchProjectsLocationsCertificatesResponse = GoogleCloudIntegration
 
 export type PatchProjectsLocationsCertificatesError = CommonErrors;
 
+/** Updates the certificate by id. If new certificate file is updated, it will register with the trawler service, re-encrypt with cloud KMS and update the Spanner record. Other fields will directly update the Spanner record. Returns the Certificate. */
 export const patchProjectsLocationsCertificates: API.OperationMethod<PatchProjectsLocationsCertificatesRequest, PatchProjectsLocationsCertificatesResponse, PatchProjectsLocationsCertificatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCertificatesRequest,
   output: PatchProjectsLocationsCertificatesResponse,
   errors: [],
 }));
 
-/** List all the certificates that match the filter. Restrict to certificate of current client only. */
 export interface ListProjectsLocationsCertificatesRequest {
   /** The mask which specifies fields that need to be returned in the Certificate's response. */
   readMask?: string;
@@ -7040,7 +7039,8 @@ export const ListProjectsLocationsCertificatesResponse = GoogleCloudIntegrations
 
 export type ListProjectsLocationsCertificatesError = CommonErrors;
 
-export const listProjectsLocationsCertificates = API.makePaginated(() => ({
+/** List all the certificates that match the filter. Restrict to certificate of current client only. */
+export const listProjectsLocationsCertificates: API.PaginatedOperationMethod<ListProjectsLocationsCertificatesRequest, ListProjectsLocationsCertificatesResponse, ListProjectsLocationsCertificatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCertificatesRequest,
   output: ListProjectsLocationsCertificatesResponse,
   errors: [],
@@ -7050,7 +7050,6 @@ export const listProjectsLocationsCertificates = API.makePaginated(() => ({
   },
 }));
 
-/** Get a certificates in the specified project. */
 export interface GetProjectsLocationsCertificatesRequest {
   /** Required. The certificate to retrieve. Format: projects/{project}/locations/{location}/certificates/{certificate} */
   name: string;
@@ -7068,13 +7067,13 @@ export const GetProjectsLocationsCertificatesResponse = GoogleCloudIntegrationsV
 
 export type GetProjectsLocationsCertificatesError = CommonErrors;
 
+/** Get a certificates in the specified project. */
 export const getProjectsLocationsCertificates: API.OperationMethod<GetProjectsLocationsCertificatesRequest, GetProjectsLocationsCertificatesResponse, GetProjectsLocationsCertificatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCertificatesRequest,
   output: GetProjectsLocationsCertificatesResponse,
   errors: [],
 }));
 
-/** Delete a certificate */
 export interface DeleteProjectsLocationsCertificatesRequest {
   /** Required. The name that is associated with the Certificate. */
   name: string;
@@ -7092,13 +7091,13 @@ export const DeleteProjectsLocationsCertificatesResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsCertificatesError = CommonErrors;
 
+/** Delete a certificate */
 export const deleteProjectsLocationsCertificates: API.OperationMethod<DeleteProjectsLocationsCertificatesRequest, DeleteProjectsLocationsCertificatesResponse, DeleteProjectsLocationsCertificatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCertificatesRequest,
   output: DeleteProjectsLocationsCertificatesResponse,
   errors: [],
 }));
 
-/** Creates a new certificate. The certificate will be registered to the trawler service and will be encrypted using cloud KMS and stored in Spanner Returns the certificate. */
 export interface CreateProjectsLocationsCertificatesRequest {
   /** Required. "projects/{project}/locations/{location}" format. */
   parent: string;
@@ -7119,13 +7118,13 @@ export const CreateProjectsLocationsCertificatesResponse = GoogleCloudIntegratio
 
 export type CreateProjectsLocationsCertificatesError = CommonErrors;
 
+/** Creates a new certificate. The certificate will be registered to the trawler service and will be encrypted using cloud KMS and stored in Spanner Returns the certificate. */
 export const createProjectsLocationsCertificates: API.OperationMethod<CreateProjectsLocationsCertificatesRequest, CreateProjectsLocationsCertificatesResponse, CreateProjectsLocationsCertificatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCertificatesRequest,
   output: CreateProjectsLocationsCertificatesResponse,
   errors: [],
 }));
 
-/** Downloads a template. Retrieves the `Template` and returns the response as a string. */
 export interface DownloadProjectsLocationsTemplatesRequest {
   /** Required. File format for download request. */
   fileFormat?: "FILE_FORMAT_UNSPECIFIED" | "JSON" | "YAML" | (string & {});
@@ -7146,13 +7145,13 @@ export const DownloadProjectsLocationsTemplatesResponse = GoogleCloudIntegration
 
 export type DownloadProjectsLocationsTemplatesError = CommonErrors;
 
+/** Downloads a template. Retrieves the `Template` and returns the response as a string. */
 export const downloadProjectsLocationsTemplates: API.OperationMethod<DownloadProjectsLocationsTemplatesRequest, DownloadProjectsLocationsTemplatesResponse, DownloadProjectsLocationsTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DownloadProjectsLocationsTemplatesRequest,
   output: DownloadProjectsLocationsTemplatesResponse,
   errors: [],
 }));
 
-/** Use the template to create integration. This api would keep track of usage_count and last_used_time. PERMISSION_DENIED would be thrown if template is not accessible by client. */
 export interface UseProjectsLocationsTemplatesRequest {
   /** Required. The name that is associated with the Template. */
   name: string;
@@ -7173,13 +7172,13 @@ export const UseProjectsLocationsTemplatesResponse = GoogleCloudIntegrationsV1al
 
 export type UseProjectsLocationsTemplatesError = CommonErrors;
 
+/** Use the template to create integration. This api would keep track of usage_count and last_used_time. PERMISSION_DENIED would be thrown if template is not accessible by client. */
 export const useProjectsLocationsTemplates: API.OperationMethod<UseProjectsLocationsTemplatesRequest, UseProjectsLocationsTemplatesResponse, UseProjectsLocationsTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UseProjectsLocationsTemplatesRequest,
   output: UseProjectsLocationsTemplatesResponse,
   errors: [],
 }));
 
-/** Get a template in the specified project. */
 export interface GetProjectsLocationsTemplatesRequest {
   /** Required. The template to retrieve. Format: projects/{project}/locations/{location}/templates/{template} */
   name: string;
@@ -7197,13 +7196,13 @@ export const GetProjectsLocationsTemplatesResponse = GoogleCloudIntegrationsV1al
 
 export type GetProjectsLocationsTemplatesError = CommonErrors;
 
+/** Get a template in the specified project. */
 export const getProjectsLocationsTemplates: API.OperationMethod<GetProjectsLocationsTemplatesRequest, GetProjectsLocationsTemplatesResponse, GetProjectsLocationsTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsTemplatesRequest,
   output: GetProjectsLocationsTemplatesResponse,
   errors: [],
 }));
 
-/** Deletes a template */
 export interface DeleteProjectsLocationsTemplatesRequest {
   /** Required. The name that is associated with the Template. */
   name: string;
@@ -7221,13 +7220,13 @@ export const DeleteProjectsLocationsTemplatesResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsTemplatesError = CommonErrors;
 
+/** Deletes a template */
 export const deleteProjectsLocationsTemplates: API.OperationMethod<DeleteProjectsLocationsTemplatesRequest, DeleteProjectsLocationsTemplatesResponse, DeleteProjectsLocationsTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsTemplatesRequest,
   output: DeleteProjectsLocationsTemplatesResponse,
   errors: [],
 }));
 
-/** Uploads a template. The content can be a previously downloaded template. Performs the same function as CreateTemplate, but accepts input in a string format, which holds the complete representation of the Template content. */
 export interface UploadProjectsLocationsTemplatesRequest {
   /** Required. The template to upload. Format: projects/{project}/locations/{location} */
   parent: string;
@@ -7248,13 +7247,13 @@ export const UploadProjectsLocationsTemplatesResponse = GoogleCloudIntegrationsV
 
 export type UploadProjectsLocationsTemplatesError = CommonErrors;
 
+/** Uploads a template. The content can be a previously downloaded template. Performs the same function as CreateTemplate, but accepts input in a string format, which holds the complete representation of the Template content. */
 export const uploadProjectsLocationsTemplates: API.OperationMethod<UploadProjectsLocationsTemplatesRequest, UploadProjectsLocationsTemplatesResponse, UploadProjectsLocationsTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadProjectsLocationsTemplatesRequest,
   output: UploadProjectsLocationsTemplatesResponse,
   errors: [],
 }));
 
-/** Unshare a template from given clients. Owner of the template can unshare template with clients. Shared client can only unshare the template from itself. PERMISSION_DENIED would be thrown if request is not from owner or for unsharing itself. */
 export interface UnshareProjectsLocationsTemplatesRequest {
   /** Required. The name that is associated with the Template. */
   name: string;
@@ -7275,13 +7274,13 @@ export const UnshareProjectsLocationsTemplatesResponse = GoogleProtobufEmpty;
 
 export type UnshareProjectsLocationsTemplatesError = CommonErrors;
 
+/** Unshare a template from given clients. Owner of the template can unshare template with clients. Shared client can only unshare the template from itself. PERMISSION_DENIED would be thrown if request is not from owner or for unsharing itself. */
 export const unshareProjectsLocationsTemplates: API.OperationMethod<UnshareProjectsLocationsTemplatesRequest, UnshareProjectsLocationsTemplatesResponse, UnshareProjectsLocationsTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UnshareProjectsLocationsTemplatesRequest,
   output: UnshareProjectsLocationsTemplatesResponse,
   errors: [],
 }));
 
-/** Share a template with other clients. Only the template owner can share the templates with other projects. PERMISSION_DENIED would be thrown if the request is not from the owner. */
 export interface ShareProjectsLocationsTemplatesRequest {
   /** Required. The name that is associated with the Template. */
   name: string;
@@ -7302,13 +7301,13 @@ export const ShareProjectsLocationsTemplatesResponse = GoogleProtobufEmpty;
 
 export type ShareProjectsLocationsTemplatesError = CommonErrors;
 
+/** Share a template with other clients. Only the template owner can share the templates with other projects. PERMISSION_DENIED would be thrown if the request is not from the owner. */
 export const shareProjectsLocationsTemplates: API.OperationMethod<ShareProjectsLocationsTemplatesRequest, ShareProjectsLocationsTemplatesResponse, ShareProjectsLocationsTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ShareProjectsLocationsTemplatesRequest,
   output: ShareProjectsLocationsTemplatesResponse,
   errors: [],
 }));
 
-/** Search templates based on user query and filters. This api would query the templates and return a list of templates based on the user filter. */
 export interface SearchProjectsLocationsTemplatesRequest {
   /** Optional. The size of the response entries. If unspecified, defaults to 100. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
@@ -7347,7 +7346,8 @@ export const SearchProjectsLocationsTemplatesResponse = GoogleCloudIntegrationsV
 
 export type SearchProjectsLocationsTemplatesError = CommonErrors;
 
-export const searchProjectsLocationsTemplates = API.makePaginated(() => ({
+/** Search templates based on user query and filters. This api would query the templates and return a list of templates based on the user filter. */
+export const searchProjectsLocationsTemplates: API.PaginatedOperationMethod<SearchProjectsLocationsTemplatesRequest, SearchProjectsLocationsTemplatesResponse, SearchProjectsLocationsTemplatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchProjectsLocationsTemplatesRequest,
   output: SearchProjectsLocationsTemplatesResponse,
   errors: [],
@@ -7357,7 +7357,6 @@ export const searchProjectsLocationsTemplates = API.makePaginated(() => ({
   },
 }));
 
-/** Updates the template by given id. */
 export interface PatchProjectsLocationsTemplatesRequest {
   /** Required. Field mask specifying the fields in the above template that have been modified and must be updated. */
   updateMask?: string;
@@ -7381,13 +7380,13 @@ export const PatchProjectsLocationsTemplatesResponse = GoogleCloudIntegrationsV1
 
 export type PatchProjectsLocationsTemplatesError = CommonErrors;
 
+/** Updates the template by given id. */
 export const patchProjectsLocationsTemplates: API.OperationMethod<PatchProjectsLocationsTemplatesRequest, PatchProjectsLocationsTemplatesResponse, PatchProjectsLocationsTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsTemplatesRequest,
   output: PatchProjectsLocationsTemplatesResponse,
   errors: [],
 }));
 
-/** Import the template to an existing integration. This api would keep track of usage_count and last_used_time. PERMISSION_DENIED would be thrown if template is not accessible by client. */
 export interface ImportProjectsLocationsTemplatesRequest {
   /** Required. The name that is associated with the Template. */
   name: string;
@@ -7408,13 +7407,13 @@ export const ImportProjectsLocationsTemplatesResponse = GoogleCloudIntegrationsV
 
 export type ImportProjectsLocationsTemplatesError = CommonErrors;
 
+/** Import the template to an existing integration. This api would keep track of usage_count and last_used_time. PERMISSION_DENIED would be thrown if template is not accessible by client. */
 export const importProjectsLocationsTemplates: API.OperationMethod<ImportProjectsLocationsTemplatesRequest, ImportProjectsLocationsTemplatesResponse, ImportProjectsLocationsTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportProjectsLocationsTemplatesRequest,
   output: ImportProjectsLocationsTemplatesResponse,
   errors: [],
 }));
 
-/** Lists all templates matching the filter. */
 export interface ListProjectsLocationsTemplatesRequest {
   /** Optional. The size of the response entries. If unspecified, defaults to 100. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
@@ -7447,7 +7446,8 @@ export const ListProjectsLocationsTemplatesResponse = GoogleCloudIntegrationsV1a
 
 export type ListProjectsLocationsTemplatesError = CommonErrors;
 
-export const listProjectsLocationsTemplates = API.makePaginated(() => ({
+/** Lists all templates matching the filter. */
+export const listProjectsLocationsTemplates: API.PaginatedOperationMethod<ListProjectsLocationsTemplatesRequest, ListProjectsLocationsTemplatesResponse, ListProjectsLocationsTemplatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsTemplatesRequest,
   output: ListProjectsLocationsTemplatesResponse,
   errors: [],
@@ -7457,7 +7457,6 @@ export const listProjectsLocationsTemplates = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new template */
 export interface CreateProjectsLocationsTemplatesRequest {
   /** Required. "projects/{project}/locations/{location}" format. */
   parent: string;
@@ -7478,13 +7477,13 @@ export const CreateProjectsLocationsTemplatesResponse = GoogleCloudIntegrationsV
 
 export type CreateProjectsLocationsTemplatesError = CommonErrors;
 
+/** Creates a new template */
 export const createProjectsLocationsTemplates: API.OperationMethod<CreateProjectsLocationsTemplatesRequest, CreateProjectsLocationsTemplatesResponse, CreateProjectsLocationsTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsTemplatesRequest,
   output: CreateProjectsLocationsTemplatesResponse,
   errors: [],
 }));
 
-/** Enable/Disable http call for provisioned client */
 export interface ToggleHttpProjectsLocationsClientsRequest {
   /** Required. Required: The ID of the GCP Project to be provisioned. */
   parent: string;
@@ -7505,13 +7504,13 @@ export const ToggleHttpProjectsLocationsClientsResponse = GoogleProtobufEmpty;
 
 export type ToggleHttpProjectsLocationsClientsError = CommonErrors;
 
+/** Enable/Disable http call for provisioned client */
 export const toggleHttpProjectsLocationsClients: API.OperationMethod<ToggleHttpProjectsLocationsClientsRequest, ToggleHttpProjectsLocationsClientsResponse, ToggleHttpProjectsLocationsClientsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ToggleHttpProjectsLocationsClientsRequest,
   output: ToggleHttpProjectsLocationsClientsResponse,
   errors: [],
 }));
 
-/** Perform the provisioning steps to enable a user GCP project to use IP. If GCP project already registered on IP end via Apigee Integration, provisioning will fail. */
 export interface ProvisionProjectsLocationsClientsRequest {
   /** Required. Required: The ID of the GCP Project to be provisioned. */
   parent: string;
@@ -7532,13 +7531,13 @@ export const ProvisionProjectsLocationsClientsResponse = GoogleProtobufEmpty;
 
 export type ProvisionProjectsLocationsClientsError = CommonErrors;
 
+/** Perform the provisioning steps to enable a user GCP project to use IP. If GCP project already registered on IP end via Apigee Integration, provisioning will fail. */
 export const provisionProjectsLocationsClients: API.OperationMethod<ProvisionProjectsLocationsClientsRequest, ProvisionProjectsLocationsClientsResponse, ProvisionProjectsLocationsClientsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ProvisionProjectsLocationsClientsRequest,
   output: ProvisionProjectsLocationsClientsResponse,
   errors: [],
 }));
 
-/** Update client from GMEK to CMEK */
 export interface SwitchProjectsLocationsClientsRequest {
   /** Required. Required: The ID of the GCP Project to be provisioned. */
   parent: string;
@@ -7559,13 +7558,13 @@ export const SwitchProjectsLocationsClientsResponse = GoogleProtobufEmpty;
 
 export type SwitchProjectsLocationsClientsError = CommonErrors;
 
+/** Update client from GMEK to CMEK */
 export const switchProjectsLocationsClients: API.OperationMethod<SwitchProjectsLocationsClientsRequest, SwitchProjectsLocationsClientsResponse, SwitchProjectsLocationsClientsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SwitchProjectsLocationsClientsRequest,
   output: SwitchProjectsLocationsClientsResponse,
   errors: [],
 }));
 
-/** Update variable masking for provisioned client */
 export interface SwitchVariableMaskingProjectsLocationsClientsRequest {
   /** Required. Required: The ID of the GCP Project to be provisioned. */
   parent: string;
@@ -7586,13 +7585,13 @@ export const SwitchVariableMaskingProjectsLocationsClientsResponse = GoogleProto
 
 export type SwitchVariableMaskingProjectsLocationsClientsError = CommonErrors;
 
+/** Update variable masking for provisioned client */
 export const switchVariableMaskingProjectsLocationsClients: API.OperationMethod<SwitchVariableMaskingProjectsLocationsClientsRequest, SwitchVariableMaskingProjectsLocationsClientsResponse, SwitchVariableMaskingProjectsLocationsClientsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SwitchVariableMaskingProjectsLocationsClientsRequest,
   output: SwitchVariableMaskingProjectsLocationsClientsResponse,
   errors: [],
 }));
 
-/** Updates the client customer configuration for the given project and location resource name */
 export interface ChangeConfigProjectsLocationsClientsRequest {
   /** Required. Required: Format - projects/{project}/locations/{location} */
   parent: string;
@@ -7613,13 +7612,13 @@ export const ChangeConfigProjectsLocationsClientsResponse = GoogleCloudIntegrati
 
 export type ChangeConfigProjectsLocationsClientsError = CommonErrors;
 
+/** Updates the client customer configuration for the given project and location resource name */
 export const changeConfigProjectsLocationsClients: API.OperationMethod<ChangeConfigProjectsLocationsClientsRequest, ChangeConfigProjectsLocationsClientsResponse, ChangeConfigProjectsLocationsClientsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ChangeConfigProjectsLocationsClientsRequest,
   output: ChangeConfigProjectsLocationsClientsResponse,
   errors: [],
 }));
 
-/** Perform post provisioning steps after client is provisioned. */
 export interface ProvisionClientPostProcessorProjectsLocationsClientsRequest {
   /** Required. Required: The ID of the GCP Project to be provisioned. */
   parent: string;
@@ -7640,13 +7639,13 @@ export const ProvisionClientPostProcessorProjectsLocationsClientsResponse = Goog
 
 export type ProvisionClientPostProcessorProjectsLocationsClientsError = CommonErrors;
 
+/** Perform post provisioning steps after client is provisioned. */
 export const provisionClientPostProcessorProjectsLocationsClients: API.OperationMethod<ProvisionClientPostProcessorProjectsLocationsClientsRequest, ProvisionClientPostProcessorProjectsLocationsClientsResponse, ProvisionClientPostProcessorProjectsLocationsClientsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ProvisionClientPostProcessorProjectsLocationsClientsRequest,
   output: ProvisionClientPostProcessorProjectsLocationsClientsResponse,
   errors: [],
 }));
 
-/** Perform the deprovisioning steps to disable a user GCP project to use IP and purge all related data in a wipeout-compliant way. */
 export interface DeprovisionProjectsLocationsClientsRequest {
   /** Required. Required: The ID of the GCP Project to be deprovisioned. */
   parent: string;
@@ -7667,13 +7666,13 @@ export const DeprovisionProjectsLocationsClientsResponse = GoogleProtobufEmpty;
 
 export type DeprovisionProjectsLocationsClientsError = CommonErrors;
 
+/** Perform the deprovisioning steps to disable a user GCP project to use IP and purge all related data in a wipeout-compliant way. */
 export const deprovisionProjectsLocationsClients: API.OperationMethod<DeprovisionProjectsLocationsClientsRequest, DeprovisionProjectsLocationsClientsResponse, DeprovisionProjectsLocationsClientsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeprovisionProjectsLocationsClientsRequest,
   output: DeprovisionProjectsLocationsClientsResponse,
   errors: [],
 }));
 
-/** Update run-as service account for provisioned client */
 export interface ReplaceProjectsLocationsClientsRequest {
   /** Required. Required: The ID of the GCP Project to be provisioned. */
   parent: string;
@@ -7694,13 +7693,13 @@ export const ReplaceProjectsLocationsClientsResponse = GoogleProtobufEmpty;
 
 export type ReplaceProjectsLocationsClientsError = CommonErrors;
 
+/** Update run-as service account for provisioned client */
 export const replaceProjectsLocationsClients: API.OperationMethod<ReplaceProjectsLocationsClientsRequest, ReplaceProjectsLocationsClientsResponse, ReplaceProjectsLocationsClientsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReplaceProjectsLocationsClientsRequest,
   output: ReplaceProjectsLocationsClientsResponse,
   errors: [],
 }));
 
-/** Execute the integration in draft state */
 export interface TestProjectsLocationsIntegrationsRequest {
   /** Output only. Auto-generated primary key. */
   name: string;
@@ -7721,13 +7720,13 @@ export const TestProjectsLocationsIntegrationsResponse = GoogleCloudIntegrations
 
 export type TestProjectsLocationsIntegrationsError = CommonErrors;
 
+/** Execute the integration in draft state */
 export const testProjectsLocationsIntegrations: API.OperationMethod<TestProjectsLocationsIntegrationsRequest, TestProjectsLocationsIntegrationsResponse, TestProjectsLocationsIntegrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestProjectsLocationsIntegrationsRequest,
   output: TestProjectsLocationsIntegrationsResponse,
   errors: [],
 }));
 
-/** Schedules an integration for execution by passing the trigger id and the scheduled time in the request body. */
 export interface ScheduleProjectsLocationsIntegrationsRequest {
   /** The integration resource name. */
   name: string;
@@ -7748,13 +7747,13 @@ export const ScheduleProjectsLocationsIntegrationsResponse = GoogleCloudIntegrat
 
 export type ScheduleProjectsLocationsIntegrationsError = CommonErrors;
 
+/** Schedules an integration for execution by passing the trigger id and the scheduled time in the request body. */
 export const scheduleProjectsLocationsIntegrations: API.OperationMethod<ScheduleProjectsLocationsIntegrationsRequest, ScheduleProjectsLocationsIntegrationsResponse, ScheduleProjectsLocationsIntegrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ScheduleProjectsLocationsIntegrationsRequest,
   output: ScheduleProjectsLocationsIntegrationsResponse,
   errors: [],
 }));
 
-/** Delete the selected integration and all versions inside */
 export interface DeleteProjectsLocationsIntegrationsRequest {
   /** Required. The location resource of the request. */
   name: string;
@@ -7772,13 +7771,13 @@ export const DeleteProjectsLocationsIntegrationsResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsIntegrationsError = CommonErrors;
 
+/** Delete the selected integration and all versions inside */
 export const deleteProjectsLocationsIntegrations: API.OperationMethod<DeleteProjectsLocationsIntegrationsRequest, DeleteProjectsLocationsIntegrationsResponse, DeleteProjectsLocationsIntegrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsIntegrationsRequest,
   output: DeleteProjectsLocationsIntegrationsResponse,
   errors: [],
 }));
 
-/** Returns the list of all integrations in the specified project. */
 export interface ListProjectsLocationsIntegrationsRequest {
   /** The page token for the resquest. */
   pageToken?: string;
@@ -7808,7 +7807,8 @@ export const ListProjectsLocationsIntegrationsResponse = GoogleCloudIntegrations
 
 export type ListProjectsLocationsIntegrationsError = CommonErrors;
 
-export const listProjectsLocationsIntegrations = API.makePaginated(() => ({
+/** Returns the list of all integrations in the specified project. */
+export const listProjectsLocationsIntegrations: API.PaginatedOperationMethod<ListProjectsLocationsIntegrationsRequest, ListProjectsLocationsIntegrationsResponse, ListProjectsLocationsIntegrationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsIntegrationsRequest,
   output: ListProjectsLocationsIntegrationsResponse,
   errors: [],
@@ -7818,7 +7818,6 @@ export const listProjectsLocationsIntegrations = API.makePaginated(() => ({
   },
 }));
 
-/** Searches and returns the list of integrations in the specified project. */
 export interface SearchProjectsLocationsIntegrationsRequest {
   /** Optional. The maximum number of results to return. The service may return fewer than this value. If unspecified, at most 10 results will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
   pageSize?: number;
@@ -7851,7 +7850,8 @@ export const SearchProjectsLocationsIntegrationsResponse = GoogleCloudIntegratio
 
 export type SearchProjectsLocationsIntegrationsError = CommonErrors;
 
-export const searchProjectsLocationsIntegrations = API.makePaginated(() => ({
+/** Searches and returns the list of integrations in the specified project. */
+export const searchProjectsLocationsIntegrations: API.PaginatedOperationMethod<SearchProjectsLocationsIntegrationsRequest, SearchProjectsLocationsIntegrationsResponse, SearchProjectsLocationsIntegrationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchProjectsLocationsIntegrationsRequest,
   output: SearchProjectsLocationsIntegrationsResponse,
   errors: [],
@@ -7861,7 +7861,6 @@ export const searchProjectsLocationsIntegrations = API.makePaginated(() => ({
   },
 }));
 
-/** Executes integrations synchronously by passing the trigger id in the request body. The request is not returned until the requested executions are either fulfilled or experienced an error. If the integration name is not specified (passing `-`), all of the associated integration under the given trigger_id will be executed. Otherwise only the specified integration for the given `trigger_id` is executed. This is helpful for execution the integration from UI. */
 export interface ExecuteProjectsLocationsIntegrationsRequest {
   /** Required. The integration resource name. */
   name: string;
@@ -7882,13 +7881,13 @@ export const ExecuteProjectsLocationsIntegrationsResponse = GoogleCloudIntegrati
 
 export type ExecuteProjectsLocationsIntegrationsError = CommonErrors;
 
+/** Executes integrations synchronously by passing the trigger id in the request body. The request is not returned until the requested executions are either fulfilled or experienced an error. If the integration name is not specified (passing `-`), all of the associated integration under the given trigger_id will be executed. Otherwise only the specified integration for the given `trigger_id` is executed. This is helpful for execution the integration from UI. */
 export const executeProjectsLocationsIntegrations: API.OperationMethod<ExecuteProjectsLocationsIntegrationsRequest, ExecuteProjectsLocationsIntegrationsResponse, ExecuteProjectsLocationsIntegrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExecuteProjectsLocationsIntegrationsRequest,
   output: ExecuteProjectsLocationsIntegrationsResponse,
   errors: [],
 }));
 
-/** Executes an integration on receiving events from Integration Connector triggers, Eventarc or CPS Trigger. Input data to integration is received in body in json format */
 export interface ExecuteEventProjectsLocationsIntegrationsRequest {
   /** Required. Id of the integration trigger config. The trigger_id is in the format: `integration_connector_trigger/projects/{gcp_project_id}/location/{location}/connections/{connection_name}/subscriptions/{subscription_name}`. */
   triggerId?: string;
@@ -7909,13 +7908,13 @@ export const ExecuteEventProjectsLocationsIntegrationsResponse = GoogleCloudInte
 
 export type ExecuteEventProjectsLocationsIntegrationsError = CommonErrors;
 
+/** Executes an integration on receiving events from Integration Connector triggers, Eventarc or CPS Trigger. Input data to integration is received in body in json format */
 export const executeEventProjectsLocationsIntegrations: API.OperationMethod<ExecuteEventProjectsLocationsIntegrationsRequest, ExecuteEventProjectsLocationsIntegrationsResponse, ExecuteEventProjectsLocationsIntegrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExecuteEventProjectsLocationsIntegrationsRequest,
   output: ExecuteEventProjectsLocationsIntegrationsResponse,
   errors: [],
 }));
 
-/** This RPC throws an exception if the integration is in ARCHIVED or ACTIVE state. This RPC throws an exception if the version being published is DRAFT, and if the `locked_by` user is not the same as the user performing the Publish. Audit fields updated include last_published_timestamp, last_published_by, last_modified_timestamp, last_modified_by. Any existing lock is on this integration is released. */
 export interface PublishProjectsLocationsIntegrationsVersionsRequest {
   /** Required. The version to publish. Format: projects/{project}/locations/{location}/integrations/{integration}/versions/{version} */
   name: string;
@@ -7936,13 +7935,13 @@ export const PublishProjectsLocationsIntegrationsVersionsResponse = GoogleCloudI
 
 export type PublishProjectsLocationsIntegrationsVersionsError = CommonErrors;
 
+/** This RPC throws an exception if the integration is in ARCHIVED or ACTIVE state. This RPC throws an exception if the version being published is DRAFT, and if the `locked_by` user is not the same as the user performing the Publish. Audit fields updated include last_published_timestamp, last_published_by, last_modified_timestamp, last_modified_by. Any existing lock is on this integration is released. */
 export const publishProjectsLocationsIntegrationsVersions: API.OperationMethod<PublishProjectsLocationsIntegrationsVersionsRequest, PublishProjectsLocationsIntegrationsVersionsResponse, PublishProjectsLocationsIntegrationsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PublishProjectsLocationsIntegrationsVersionsRequest,
   output: PublishProjectsLocationsIntegrationsVersionsResponse,
   errors: [],
 }));
 
-/** Returns the list of all integration versions in the specified project. */
 export interface ListProjectsLocationsIntegrationsVersionsRequest {
   /** The field mask which specifies the particular data to be returned. */
   fieldMask?: string;
@@ -7975,7 +7974,8 @@ export const ListProjectsLocationsIntegrationsVersionsResponse = GoogleCloudInte
 
 export type ListProjectsLocationsIntegrationsVersionsError = CommonErrors;
 
-export const listProjectsLocationsIntegrationsVersions = API.makePaginated(() => ({
+/** Returns the list of all integration versions in the specified project. */
+export const listProjectsLocationsIntegrationsVersions: API.PaginatedOperationMethod<ListProjectsLocationsIntegrationsVersionsRequest, ListProjectsLocationsIntegrationsVersionsResponse, ListProjectsLocationsIntegrationsVersionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsIntegrationsVersionsRequest,
   output: ListProjectsLocationsIntegrationsVersionsResponse,
   errors: [],
@@ -7985,7 +7985,6 @@ export const listProjectsLocationsIntegrationsVersions = API.makePaginated(() =>
   },
 }));
 
-/** Uploads an integration. The content can be a previously downloaded integration. Performs the same function as CreateDraftIntegrationVersion, but accepts input in a string format, which holds the complete representation of the IntegrationVersion content. */
 export interface UploadProjectsLocationsIntegrationsVersionsRequest {
   /** Required. The version to upload. Format: projects/{project}/locations/{location}/integrations/{integration} */
   parent: string;
@@ -8006,13 +8005,13 @@ export const UploadProjectsLocationsIntegrationsVersionsResponse = GoogleCloudIn
 
 export type UploadProjectsLocationsIntegrationsVersionsError = CommonErrors;
 
+/** Uploads an integration. The content can be a previously downloaded integration. Performs the same function as CreateDraftIntegrationVersion, but accepts input in a string format, which holds the complete representation of the IntegrationVersion content. */
 export const uploadProjectsLocationsIntegrationsVersions: API.OperationMethod<UploadProjectsLocationsIntegrationsVersionsRequest, UploadProjectsLocationsIntegrationsVersionsResponse, UploadProjectsLocationsIntegrationsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadProjectsLocationsIntegrationsVersionsRequest,
   output: UploadProjectsLocationsIntegrationsVersionsResponse,
   errors: [],
 }));
 
-/** Update a integration with a draft version in the specified project. */
 export interface PatchProjectsLocationsIntegrationsVersionsRequest {
   /** Field mask specifying the fields in the above integration that have been modified and need to be updated. */
   updateMask?: string;
@@ -8036,13 +8035,13 @@ export const PatchProjectsLocationsIntegrationsVersionsResponse = GoogleCloudInt
 
 export type PatchProjectsLocationsIntegrationsVersionsError = CommonErrors;
 
+/** Update a integration with a draft version in the specified project. */
 export const patchProjectsLocationsIntegrationsVersions: API.OperationMethod<PatchProjectsLocationsIntegrationsVersionsRequest, PatchProjectsLocationsIntegrationsVersionsResponse, PatchProjectsLocationsIntegrationsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsIntegrationsVersionsRequest,
   output: PatchProjectsLocationsIntegrationsVersionsResponse,
   errors: [],
 }));
 
-/** Downloads an Integration version package like IntegrationVersion,Integration Config etc. Retrieves the IntegrationVersion package for a given `integration_id` and returns the response as a JSON. */
 export interface DownloadJsonPackageProjectsLocationsIntegrationsVersionsRequest {
   /** Required. Integration version name Format: projects/{project}/locations/{location}/integrations/{integration}/versions/{version} */
   name: string;
@@ -8063,13 +8062,13 @@ export const DownloadJsonPackageProjectsLocationsIntegrationsVersionsResponse = 
 
 export type DownloadJsonPackageProjectsLocationsIntegrationsVersionsError = CommonErrors;
 
+/** Downloads an Integration version package like IntegrationVersion,Integration Config etc. Retrieves the IntegrationVersion package for a given `integration_id` and returns the response as a JSON. */
 export const downloadJsonPackageProjectsLocationsIntegrationsVersions: API.OperationMethod<DownloadJsonPackageProjectsLocationsIntegrationsVersionsRequest, DownloadJsonPackageProjectsLocationsIntegrationsVersionsResponse, DownloadJsonPackageProjectsLocationsIntegrationsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DownloadJsonPackageProjectsLocationsIntegrationsVersionsRequest,
   output: DownloadJsonPackageProjectsLocationsIntegrationsVersionsResponse,
   errors: [],
 }));
 
-/** Soft-deletes the integration. Changes the status of the integration to ARCHIVED. If the integration being ARCHIVED is tagged as "HEAD", the tag is removed from this snapshot and set to the previous non-ARCHIVED snapshot. The PUBLISH_REQUESTED, DUE_FOR_DELETION tags are removed too. This RPC throws an exception if the version being deleted is DRAFT, and if the `locked_by` user is not the same as the user performing the Delete. Audit fields updated include last_modified_timestamp, last_modified_by. Any existing lock is released when Deleting a integration. Currently, there is no undelete mechanism. */
 export interface DeleteProjectsLocationsIntegrationsVersionsRequest {
   /** Required. The version to delete. Format: projects/{project}/locations/{location}/integrations/{integration}/versions/{version} */
   name: string;
@@ -8087,13 +8086,13 @@ export const DeleteProjectsLocationsIntegrationsVersionsResponse = GoogleProtobu
 
 export type DeleteProjectsLocationsIntegrationsVersionsError = CommonErrors;
 
+/** Soft-deletes the integration. Changes the status of the integration to ARCHIVED. If the integration being ARCHIVED is tagged as "HEAD", the tag is removed from this snapshot and set to the previous non-ARCHIVED snapshot. The PUBLISH_REQUESTED, DUE_FOR_DELETION tags are removed too. This RPC throws an exception if the version being deleted is DRAFT, and if the `locked_by` user is not the same as the user performing the Delete. Audit fields updated include last_modified_timestamp, last_modified_by. Any existing lock is released when Deleting a integration. Currently, there is no undelete mechanism. */
 export const deleteProjectsLocationsIntegrationsVersions: API.OperationMethod<DeleteProjectsLocationsIntegrationsVersionsRequest, DeleteProjectsLocationsIntegrationsVersionsResponse, DeleteProjectsLocationsIntegrationsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsIntegrationsVersionsRequest,
   output: DeleteProjectsLocationsIntegrationsVersionsResponse,
   errors: [],
 }));
 
-/** Get a integration in the specified project. */
 export interface GetProjectsLocationsIntegrationsVersionsRequest {
   /** Required. The version to retrieve. Format: projects/{project}/locations/{location}/integrations/{integration}/versions/{version} */
   name: string;
@@ -8111,13 +8110,13 @@ export const GetProjectsLocationsIntegrationsVersionsResponse = GoogleCloudInteg
 
 export type GetProjectsLocationsIntegrationsVersionsError = CommonErrors;
 
+/** Get a integration in the specified project. */
 export const getProjectsLocationsIntegrationsVersions: API.OperationMethod<GetProjectsLocationsIntegrationsVersionsRequest, GetProjectsLocationsIntegrationsVersionsResponse, GetProjectsLocationsIntegrationsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsIntegrationsVersionsRequest,
   output: GetProjectsLocationsIntegrationsVersionsResponse,
   errors: [],
 }));
 
-/** Downloads an integration. Retrieves the `IntegrationVersion` for a given `integration_id` and returns the response as a string. */
 export interface DownloadProjectsLocationsIntegrationsVersionsRequest {
   /** Required. The version to download. Format: projects/{project}/locations/{location}/integrations/{integration}/versions/{version} */
   name: string;
@@ -8141,13 +8140,13 @@ export const DownloadProjectsLocationsIntegrationsVersionsResponse = GoogleCloud
 
 export type DownloadProjectsLocationsIntegrationsVersionsError = CommonErrors;
 
+/** Downloads an integration. Retrieves the `IntegrationVersion` for a given `integration_id` and returns the response as a string. */
 export const downloadProjectsLocationsIntegrationsVersions: API.OperationMethod<DownloadProjectsLocationsIntegrationsVersionsRequest, DownloadProjectsLocationsIntegrationsVersionsResponse, DownloadProjectsLocationsIntegrationsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DownloadProjectsLocationsIntegrationsVersionsRequest,
   output: DownloadProjectsLocationsIntegrationsVersionsResponse,
   errors: [],
 }));
 
-/** Execute the integration in draft state */
 export interface TestProjectsLocationsIntegrationsVersionsRequest {
   /** Output only. Auto-generated primary key. */
   name: string;
@@ -8168,13 +8167,13 @@ export const TestProjectsLocationsIntegrationsVersionsResponse = GoogleCloudInte
 
 export type TestProjectsLocationsIntegrationsVersionsError = CommonErrors;
 
+/** Execute the integration in draft state */
 export const testProjectsLocationsIntegrationsVersions: API.OperationMethod<TestProjectsLocationsIntegrationsVersionsRequest, TestProjectsLocationsIntegrationsVersionsResponse, TestProjectsLocationsIntegrationsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestProjectsLocationsIntegrationsVersionsRequest,
   output: TestProjectsLocationsIntegrationsVersionsResponse,
   errors: [],
 }));
 
-/** Create a integration with a draft version in the specified project. */
 export interface CreateProjectsLocationsIntegrationsVersionsRequest {
   /** Required. The parent resource where this version will be created. Format: projects/{project}/locations/{location}/integrations/{integration} */
   parent: string;
@@ -8201,13 +8200,13 @@ export const CreateProjectsLocationsIntegrationsVersionsResponse = GoogleCloudIn
 
 export type CreateProjectsLocationsIntegrationsVersionsError = CommonErrors;
 
+/** Create a integration with a draft version in the specified project. */
 export const createProjectsLocationsIntegrationsVersions: API.OperationMethod<CreateProjectsLocationsIntegrationsVersionsRequest, CreateProjectsLocationsIntegrationsVersionsResponse, CreateProjectsLocationsIntegrationsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsIntegrationsVersionsRequest,
   output: CreateProjectsLocationsIntegrationsVersionsResponse,
   errors: [],
 }));
 
-/** Sets the status of the ACTIVE integration to SNAPSHOT with a new tag "PREVIOUSLY_PUBLISHED" after validating it. The "HEAD" and "PUBLISH_REQUESTED" tags do not change. This RPC throws an exception if the version being snapshot is not ACTIVE. Audit fields added include action, action_by, action_timestamp. */
 export interface UnpublishProjectsLocationsIntegrationsVersionsRequest {
   /** Required. The version to deactivate. Format: projects/{project}/locations/{location}/integrations/{integration}/versions/{version} */
   name: string;
@@ -8228,13 +8227,13 @@ export const UnpublishProjectsLocationsIntegrationsVersionsResponse = GoogleProt
 
 export type UnpublishProjectsLocationsIntegrationsVersionsError = CommonErrors;
 
+/** Sets the status of the ACTIVE integration to SNAPSHOT with a new tag "PREVIOUSLY_PUBLISHED" after validating it. The "HEAD" and "PUBLISH_REQUESTED" tags do not change. This RPC throws an exception if the version being snapshot is not ACTIVE. Audit fields added include action, action_by, action_timestamp. */
 export const unpublishProjectsLocationsIntegrationsVersions: API.OperationMethod<UnpublishProjectsLocationsIntegrationsVersionsRequest, UnpublishProjectsLocationsIntegrationsVersionsResponse, UnpublishProjectsLocationsIntegrationsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UnpublishProjectsLocationsIntegrationsVersionsRequest,
   output: UnpublishProjectsLocationsIntegrationsVersionsResponse,
   errors: [],
 }));
 
-/** Lists all the test cases that satisfy the filters. */
 export interface ListProjectsLocationsIntegrationsVersionsTestCasesRequest {
   /** Optional. The maximum number of test cases to return. The service may return fewer than this value. If unspecified, at most 100 test cases will be returned. */
   pageSize?: number;
@@ -8267,7 +8266,8 @@ export const ListProjectsLocationsIntegrationsVersionsTestCasesResponse = Google
 
 export type ListProjectsLocationsIntegrationsVersionsTestCasesError = CommonErrors;
 
-export const listProjectsLocationsIntegrationsVersionsTestCases = API.makePaginated(() => ({
+/** Lists all the test cases that satisfy the filters. */
+export const listProjectsLocationsIntegrationsVersionsTestCases: API.PaginatedOperationMethod<ListProjectsLocationsIntegrationsVersionsTestCasesRequest, ListProjectsLocationsIntegrationsVersionsTestCasesResponse, ListProjectsLocationsIntegrationsVersionsTestCasesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsIntegrationsVersionsTestCasesRequest,
   output: ListProjectsLocationsIntegrationsVersionsTestCasesResponse,
   errors: [],
@@ -8277,7 +8277,6 @@ export const listProjectsLocationsIntegrationsVersionsTestCases = API.makePagina
   },
 }));
 
-/** Get a test case */
 export interface GetProjectsLocationsIntegrationsVersionsTestCasesRequest {
   /** Required. The ID of the test case to retrieve */
   name: string;
@@ -8295,13 +8294,13 @@ export const GetProjectsLocationsIntegrationsVersionsTestCasesResponse = GoogleC
 
 export type GetProjectsLocationsIntegrationsVersionsTestCasesError = CommonErrors;
 
+/** Get a test case */
 export const getProjectsLocationsIntegrationsVersionsTestCases: API.OperationMethod<GetProjectsLocationsIntegrationsVersionsTestCasesRequest, GetProjectsLocationsIntegrationsVersionsTestCasesResponse, GetProjectsLocationsIntegrationsVersionsTestCasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsIntegrationsVersionsTestCasesRequest,
   output: GetProjectsLocationsIntegrationsVersionsTestCasesResponse,
   errors: [],
 }));
 
-/** Updates a test case */
 export interface PatchProjectsLocationsIntegrationsVersionsTestCasesRequest {
   /** Optional. Field mask specifying the fields in the above integration that have been modified and need to be updated. */
   updateMask?: string;
@@ -8325,13 +8324,13 @@ export const PatchProjectsLocationsIntegrationsVersionsTestCasesResponse = Googl
 
 export type PatchProjectsLocationsIntegrationsVersionsTestCasesError = CommonErrors;
 
+/** Updates a test case */
 export const patchProjectsLocationsIntegrationsVersionsTestCases: API.OperationMethod<PatchProjectsLocationsIntegrationsVersionsTestCasesRequest, PatchProjectsLocationsIntegrationsVersionsTestCasesResponse, PatchProjectsLocationsIntegrationsVersionsTestCasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsIntegrationsVersionsTestCasesRequest,
   output: PatchProjectsLocationsIntegrationsVersionsTestCasesResponse,
   errors: [],
 }));
 
-/** Executes functional test */
 export interface ExecuteTestProjectsLocationsIntegrationsVersionsTestCasesRequest {
   /** Required. Test case resource name */
   testCaseName: string;
@@ -8352,13 +8351,13 @@ export const ExecuteTestProjectsLocationsIntegrationsVersionsTestCasesResponse =
 
 export type ExecuteTestProjectsLocationsIntegrationsVersionsTestCasesError = CommonErrors;
 
+/** Executes functional test */
 export const executeTestProjectsLocationsIntegrationsVersionsTestCases: API.OperationMethod<ExecuteTestProjectsLocationsIntegrationsVersionsTestCasesRequest, ExecuteTestProjectsLocationsIntegrationsVersionsTestCasesResponse, ExecuteTestProjectsLocationsIntegrationsVersionsTestCasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExecuteTestProjectsLocationsIntegrationsVersionsTestCasesRequest,
   output: ExecuteTestProjectsLocationsIntegrationsVersionsTestCasesResponse,
   errors: [],
 }));
 
-/** Deletes a test case */
 export interface DeleteProjectsLocationsIntegrationsVersionsTestCasesRequest {
   /** Required. ID for the test case to be deleted */
   name: string;
@@ -8376,13 +8375,13 @@ export const DeleteProjectsLocationsIntegrationsVersionsTestCasesResponse = Goog
 
 export type DeleteProjectsLocationsIntegrationsVersionsTestCasesError = CommonErrors;
 
+/** Deletes a test case */
 export const deleteProjectsLocationsIntegrationsVersionsTestCases: API.OperationMethod<DeleteProjectsLocationsIntegrationsVersionsTestCasesRequest, DeleteProjectsLocationsIntegrationsVersionsTestCasesResponse, DeleteProjectsLocationsIntegrationsVersionsTestCasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsIntegrationsVersionsTestCasesRequest,
   output: DeleteProjectsLocationsIntegrationsVersionsTestCasesResponse,
   errors: [],
 }));
 
-/** Downloads a test case. Retrieves the `TestCase` for a given `test_case_id` and returns the response as a string. */
 export interface DownloadProjectsLocationsIntegrationsVersionsTestCasesRequest {
   /** File format for download request. */
   fileFormat?: "FILE_FORMAT_UNSPECIFIED" | "JSON" | "YAML" | (string & {});
@@ -8403,13 +8402,13 @@ export const DownloadProjectsLocationsIntegrationsVersionsTestCasesResponse = Go
 
 export type DownloadProjectsLocationsIntegrationsVersionsTestCasesError = CommonErrors;
 
+/** Downloads a test case. Retrieves the `TestCase` for a given `test_case_id` and returns the response as a string. */
 export const downloadProjectsLocationsIntegrationsVersionsTestCases: API.OperationMethod<DownloadProjectsLocationsIntegrationsVersionsTestCasesRequest, DownloadProjectsLocationsIntegrationsVersionsTestCasesResponse, DownloadProjectsLocationsIntegrationsVersionsTestCasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DownloadProjectsLocationsIntegrationsVersionsTestCasesRequest,
   output: DownloadProjectsLocationsIntegrationsVersionsTestCasesResponse,
   errors: [],
 }));
 
-/** Creates a new test case */
 export interface CreateProjectsLocationsIntegrationsVersionsTestCasesRequest {
   /** Required. Required */
   testCaseId?: string;
@@ -8433,13 +8432,13 @@ export const CreateProjectsLocationsIntegrationsVersionsTestCasesResponse = Goog
 
 export type CreateProjectsLocationsIntegrationsVersionsTestCasesError = CommonErrors;
 
+/** Creates a new test case */
 export const createProjectsLocationsIntegrationsVersionsTestCases: API.OperationMethod<CreateProjectsLocationsIntegrationsVersionsTestCasesRequest, CreateProjectsLocationsIntegrationsVersionsTestCasesResponse, CreateProjectsLocationsIntegrationsVersionsTestCasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsIntegrationsVersionsTestCasesRequest,
   output: CreateProjectsLocationsIntegrationsVersionsTestCasesResponse,
   errors: [],
 }));
 
-/** Uploads a test case. The content can be a previously downloaded test case. Performs the same function as CreateTestCase, but accepts input in a string format, which holds the complete representation of the TestCase content. */
 export interface UploadProjectsLocationsIntegrationsVersionsTestCasesRequest {
   /** Required. The test case to upload. Format: projects/{project}/locations/{location}/integrations/{integration}/versions/{integration_version} */
   parent: string;
@@ -8460,13 +8459,13 @@ export const UploadProjectsLocationsIntegrationsVersionsTestCasesResponse = Goog
 
 export type UploadProjectsLocationsIntegrationsVersionsTestCasesError = CommonErrors;
 
+/** Uploads a test case. The content can be a previously downloaded test case. Performs the same function as CreateTestCase, but accepts input in a string format, which holds the complete representation of the TestCase content. */
 export const uploadProjectsLocationsIntegrationsVersionsTestCases: API.OperationMethod<UploadProjectsLocationsIntegrationsVersionsTestCasesRequest, UploadProjectsLocationsIntegrationsVersionsTestCasesResponse, UploadProjectsLocationsIntegrationsVersionsTestCasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadProjectsLocationsIntegrationsVersionsTestCasesRequest,
   output: UploadProjectsLocationsIntegrationsVersionsTestCasesResponse,
   errors: [],
 }));
 
-/** Executes all test cases in an integration version. */
 export interface ExecuteProjectsLocationsIntegrationsVersionsTestCasesRequest {
   /** Required. The parent resource whose test cases are executed. Format: projects/{project}/locations/{location}/integrations/{integration}/versions/{integration_version} */
   parent: string;
@@ -8487,13 +8486,13 @@ export const ExecuteProjectsLocationsIntegrationsVersionsTestCasesResponse = Goo
 
 export type ExecuteProjectsLocationsIntegrationsVersionsTestCasesError = CommonErrors;
 
+/** Executes all test cases in an integration version. */
 export const executeProjectsLocationsIntegrationsVersionsTestCases: API.OperationMethod<ExecuteProjectsLocationsIntegrationsVersionsTestCasesRequest, ExecuteProjectsLocationsIntegrationsVersionsTestCasesResponse, ExecuteProjectsLocationsIntegrationsVersionsTestCasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExecuteProjectsLocationsIntegrationsVersionsTestCasesRequest,
   output: ExecuteProjectsLocationsIntegrationsVersionsTestCasesResponse,
   errors: [],
 }));
 
-/** Clear the lock fields and assign them to current user */
 export interface TakeoverEditLockProjectsLocationsIntegrationsVersionsTestCasesRequest {
   /** Required. The ID of test case to takeover edit lock. Format: projects/{project}/locations/{location}/integrations/{integration}/versions/{integration_version}/testCases/{test_case_id} */
   name: string;
@@ -8514,13 +8513,13 @@ export const TakeoverEditLockProjectsLocationsIntegrationsVersionsTestCasesRespo
 
 export type TakeoverEditLockProjectsLocationsIntegrationsVersionsTestCasesError = CommonErrors;
 
+/** Clear the lock fields and assign them to current user */
 export const takeoverEditLockProjectsLocationsIntegrationsVersionsTestCases: API.OperationMethod<TakeoverEditLockProjectsLocationsIntegrationsVersionsTestCasesRequest, TakeoverEditLockProjectsLocationsIntegrationsVersionsTestCasesResponse, TakeoverEditLockProjectsLocationsIntegrationsVersionsTestCasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TakeoverEditLockProjectsLocationsIntegrationsVersionsTestCasesRequest,
   output: TakeoverEditLockProjectsLocationsIntegrationsVersionsTestCasesResponse,
   errors: [],
 }));
 
-/** Lists the results of all the integration executions. The response includes the same information as the [execution log](https://cloud.google.com/application-integration/docs/viewing-logs) in the Integration UI. */
 export interface ListProjectsLocationsIntegrationsExecutionsRequest {
   /** List of possible event statuses. */
   "filterParams.eventStatuses"?: string[];
@@ -8598,7 +8597,8 @@ export const ListProjectsLocationsIntegrationsExecutionsResponse = GoogleCloudIn
 
 export type ListProjectsLocationsIntegrationsExecutionsError = CommonErrors;
 
-export const listProjectsLocationsIntegrationsExecutions = API.makePaginated(() => ({
+/** Lists the results of all the integration executions. The response includes the same information as the [execution log](https://cloud.google.com/application-integration/docs/viewing-logs) in the Integration UI. */
+export const listProjectsLocationsIntegrationsExecutions: API.PaginatedOperationMethod<ListProjectsLocationsIntegrationsExecutionsRequest, ListProjectsLocationsIntegrationsExecutionsResponse, ListProjectsLocationsIntegrationsExecutionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsIntegrationsExecutionsRequest,
   output: ListProjectsLocationsIntegrationsExecutionsResponse,
   errors: [],
@@ -8608,7 +8608,6 @@ export const listProjectsLocationsIntegrationsExecutions = API.makePaginated(() 
   },
 }));
 
-/** Cancellation of an execution and associated sub-executions. This will not cancel an IN_PROCESS or completed(SUCCESSFUL, FAILED or CANCELLED) executions. */
 export interface CancelProjectsLocationsIntegrationsExecutionsRequest {
   /** Required. The execution resource name. Format: projects/{gcp_project_id}/locations/{location}/products/{product}/integrations/{integration_id}/executions/{execution_id} */
   name: string;
@@ -8629,13 +8628,13 @@ export const CancelProjectsLocationsIntegrationsExecutionsResponse = GoogleCloud
 
 export type CancelProjectsLocationsIntegrationsExecutionsError = CommonErrors;
 
+/** Cancellation of an execution and associated sub-executions. This will not cancel an IN_PROCESS or completed(SUCCESSFUL, FAILED or CANCELLED) executions. */
 export const cancelProjectsLocationsIntegrationsExecutions: API.OperationMethod<CancelProjectsLocationsIntegrationsExecutionsRequest, CancelProjectsLocationsIntegrationsExecutionsResponse, CancelProjectsLocationsIntegrationsExecutionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsIntegrationsExecutionsRequest,
   output: CancelProjectsLocationsIntegrationsExecutionsResponse,
   errors: [],
 }));
 
-/** Get an execution in the specified project. */
 export interface GetProjectsLocationsIntegrationsExecutionsRequest {
   /** Required. The execution resource name. Format: projects/{gcp_project_id}/locations/{location}/products/{product}/integrations/{integration_id}/executions/{execution_id} */
   name: string;
@@ -8653,13 +8652,13 @@ export const GetProjectsLocationsIntegrationsExecutionsResponse = GoogleCloudInt
 
 export type GetProjectsLocationsIntegrationsExecutionsError = CommonErrors;
 
+/** Get an execution in the specified project. */
 export const getProjectsLocationsIntegrationsExecutions: API.OperationMethod<GetProjectsLocationsIntegrationsExecutionsRequest, GetProjectsLocationsIntegrationsExecutionsResponse, GetProjectsLocationsIntegrationsExecutionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsIntegrationsExecutionsRequest,
   output: GetProjectsLocationsIntegrationsExecutionsResponse,
   errors: [],
 }));
 
-/** Download the execution. */
 export interface DownloadProjectsLocationsIntegrationsExecutionsRequest {
   /** Required. The execution resource name. Format: projects/{gcp_project_id}/locations/{location}/products/{product}/integrations/{integration_id}/executions/{execution_id} */
   name: string;
@@ -8677,13 +8676,13 @@ export const DownloadProjectsLocationsIntegrationsExecutionsResponse = GoogleClo
 
 export type DownloadProjectsLocationsIntegrationsExecutionsError = CommonErrors;
 
+/** Download the execution. */
 export const downloadProjectsLocationsIntegrationsExecutions: API.OperationMethod<DownloadProjectsLocationsIntegrationsExecutionsRequest, DownloadProjectsLocationsIntegrationsExecutionsResponse, DownloadProjectsLocationsIntegrationsExecutionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DownloadProjectsLocationsIntegrationsExecutionsRequest,
   output: DownloadProjectsLocationsIntegrationsExecutionsResponse,
   errors: [],
 }));
 
-/** Re-execute an existing execution, with same request parameters and execution strategy. */
 export interface ReplayProjectsLocationsIntegrationsExecutionsRequest {
   /** Required. Next ID: 6 The execution resource name. Format: projects/{gcp_project_id}/locations/{location}/integrations/{integration}/executions/{execution_id} */
   name: string;
@@ -8704,13 +8703,13 @@ export const ReplayProjectsLocationsIntegrationsExecutionsResponse = GoogleCloud
 
 export type ReplayProjectsLocationsIntegrationsExecutionsError = CommonErrors;
 
+/** Re-execute an existing execution, with same request parameters and execution strategy. */
 export const replayProjectsLocationsIntegrationsExecutions: API.OperationMethod<ReplayProjectsLocationsIntegrationsExecutionsRequest, ReplayProjectsLocationsIntegrationsExecutionsResponse, ReplayProjectsLocationsIntegrationsExecutionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReplayProjectsLocationsIntegrationsExecutionsRequest,
   output: ReplayProjectsLocationsIntegrationsExecutionsResponse,
   errors: [],
 }));
 
-/** * Resolves (lifts/rejects) any number of suspensions. If the integration is already running, only the status of the suspension is updated. Otherwise, the suspended integration will begin execution again. */
 export interface ResolveProjectsLocationsIntegrationsExecutionsSuspensionsRequest {
   /** Required. projects/{gcp_project_id}/locations/{location}/products/{product}/integrations/{integration_name}/executions/{execution_name}/suspensions/{suspension_id} */
   name: string;
@@ -8731,13 +8730,13 @@ export const ResolveProjectsLocationsIntegrationsExecutionsSuspensionsResponse =
 
 export type ResolveProjectsLocationsIntegrationsExecutionsSuspensionsError = CommonErrors;
 
+/** * Resolves (lifts/rejects) any number of suspensions. If the integration is already running, only the status of the suspension is updated. Otherwise, the suspended integration will begin execution again. */
 export const resolveProjectsLocationsIntegrationsExecutionsSuspensions: API.OperationMethod<ResolveProjectsLocationsIntegrationsExecutionsSuspensionsRequest, ResolveProjectsLocationsIntegrationsExecutionsSuspensionsResponse, ResolveProjectsLocationsIntegrationsExecutionsSuspensionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResolveProjectsLocationsIntegrationsExecutionsSuspensionsRequest,
   output: ResolveProjectsLocationsIntegrationsExecutionsSuspensionsResponse,
   errors: [],
 }));
 
-/** * Lifts suspension for the Suspension task. Fetch corresponding suspension with provided suspension Id, resolve suspension, and set up suspension result for the Suspension Task. */
 export interface LiftProjectsLocationsIntegrationsExecutionsSuspensionsRequest {
   /** Required. The resource that the suspension belongs to. "projects/{project}/locations/{location}/products/{product}/integrations/{integration}/executions/{execution}/suspensions/{suspenion}" format. */
   name: string;
@@ -8758,13 +8757,13 @@ export const LiftProjectsLocationsIntegrationsExecutionsSuspensionsResponse = Go
 
 export type LiftProjectsLocationsIntegrationsExecutionsSuspensionsError = CommonErrors;
 
+/** * Lifts suspension for the Suspension task. Fetch corresponding suspension with provided suspension Id, resolve suspension, and set up suspension result for the Suspension Task. */
 export const liftProjectsLocationsIntegrationsExecutionsSuspensions: API.OperationMethod<LiftProjectsLocationsIntegrationsExecutionsSuspensionsRequest, LiftProjectsLocationsIntegrationsExecutionsSuspensionsResponse, LiftProjectsLocationsIntegrationsExecutionsSuspensionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LiftProjectsLocationsIntegrationsExecutionsSuspensionsRequest,
   output: LiftProjectsLocationsIntegrationsExecutionsSuspensionsResponse,
   errors: [],
 }));
 
-/** * Lists suspensions associated with a specific execution. Only those with permissions to resolve the relevant suspensions will be able to view them. */
 export interface ListProjectsLocationsIntegrationsExecutionsSuspensionsRequest {
   /** Required. projects/{gcp_project_id}/locations/{location}/products/{product}/integrations/{integration_name}/executions/{execution_name} */
   parent: string;
@@ -8794,7 +8793,8 @@ export const ListProjectsLocationsIntegrationsExecutionsSuspensionsResponse = Go
 
 export type ListProjectsLocationsIntegrationsExecutionsSuspensionsError = CommonErrors;
 
-export const listProjectsLocationsIntegrationsExecutionsSuspensions = API.makePaginated(() => ({
+/** * Lists suspensions associated with a specific execution. Only those with permissions to resolve the relevant suspensions will be able to view them. */
+export const listProjectsLocationsIntegrationsExecutionsSuspensions: API.PaginatedOperationMethod<ListProjectsLocationsIntegrationsExecutionsSuspensionsRequest, ListProjectsLocationsIntegrationsExecutionsSuspensionsResponse, ListProjectsLocationsIntegrationsExecutionsSuspensionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsIntegrationsExecutionsSuspensionsRequest,
   output: ListProjectsLocationsIntegrationsExecutionsSuspensionsResponse,
   errors: [],
@@ -8804,7 +8804,6 @@ export const listProjectsLocationsIntegrationsExecutionsSuspensions = API.makePa
   },
 }));
 
-/** Lists all auth configs that match the filter. Restrict to auth configs belong to the current client only. */
 export interface ListProjectsLocationsAuthConfigsRequest {
   /** The size of entries in the response. If unspecified, defaults to 100. */
   pageSize?: number;
@@ -8834,7 +8833,8 @@ export const ListProjectsLocationsAuthConfigsResponse = GoogleCloudIntegrationsV
 
 export type ListProjectsLocationsAuthConfigsError = CommonErrors;
 
-export const listProjectsLocationsAuthConfigs = API.makePaginated(() => ({
+/** Lists all auth configs that match the filter. Restrict to auth configs belong to the current client only. */
+export const listProjectsLocationsAuthConfigs: API.PaginatedOperationMethod<ListProjectsLocationsAuthConfigsRequest, ListProjectsLocationsAuthConfigsResponse, ListProjectsLocationsAuthConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAuthConfigsRequest,
   output: ListProjectsLocationsAuthConfigsResponse,
   errors: [],
@@ -8844,7 +8844,6 @@ export const listProjectsLocationsAuthConfigs = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a complete auth config. If the auth config doesn't exist, Code.NOT_FOUND exception will be thrown. Returns the decrypted auth config. */
 export interface GetProjectsLocationsAuthConfigsRequest {
   /** Required. The name that is associated with the AuthConfig. */
   name: string;
@@ -8862,13 +8861,13 @@ export const GetProjectsLocationsAuthConfigsResponse = GoogleCloudIntegrationsV1
 
 export type GetProjectsLocationsAuthConfigsError = CommonErrors;
 
+/** Gets a complete auth config. If the auth config doesn't exist, Code.NOT_FOUND exception will be thrown. Returns the decrypted auth config. */
 export const getProjectsLocationsAuthConfigs: API.OperationMethod<GetProjectsLocationsAuthConfigsRequest, GetProjectsLocationsAuthConfigsResponse, GetProjectsLocationsAuthConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAuthConfigsRequest,
   output: GetProjectsLocationsAuthConfigsResponse,
   errors: [],
 }));
 
-/** Deletes an auth config. */
 export interface DeleteProjectsLocationsAuthConfigsRequest {
   /** Required. The name that is associated with the AuthConfig. */
   name: string;
@@ -8886,13 +8885,13 @@ export const DeleteProjectsLocationsAuthConfigsResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsAuthConfigsError = CommonErrors;
 
+/** Deletes an auth config. */
 export const deleteProjectsLocationsAuthConfigs: API.OperationMethod<DeleteProjectsLocationsAuthConfigsRequest, DeleteProjectsLocationsAuthConfigsResponse, DeleteProjectsLocationsAuthConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsAuthConfigsRequest,
   output: DeleteProjectsLocationsAuthConfigsResponse,
   errors: [],
 }));
 
-/** Creates an auth config record. Fetch corresponding credentials for specific auth types, e.g. access token for OAuth 2.0, JWT token for JWT. Encrypt the auth config with Cloud KMS and store the encrypted credentials in Spanner. Returns the encrypted auth config. */
 export interface CreateProjectsLocationsAuthConfigsRequest {
   /** The ssl certificate encoded in PEM format. This string must include the begin header and end footer lines. For example, -----BEGIN CERTIFICATE----- MIICTTCCAbagAwIBAgIJAPT0tSKNxan/MA0GCSqGSIb3DQEBCwUAMCoxFzAVBgNV BAoTDkdvb2dsZSBURVNUSU5HMQ8wDQYDVQQDEwZ0ZXN0Q0EwHhcNMTUwMTAxMDAw MDAwWhcNMjUwMTAxMDAwMDAwWjAuMRcwFQYDVQQKEw5Hb29nbGUgVEVTVElORzET MBEGA1UEAwwKam9lQGJhbmFuYTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA vDYFgMgxi5W488d9J7UpCInl0NXmZQpJDEHE4hvkaRlH7pnC71H0DLt0/3zATRP1 JzY2+eqBmbGl4/sgZKYv8UrLnNyQNUTsNx1iZAfPUflf5FwgVsai8BM0pUciq1NB xD429VFcrGZNucvFLh72RuRFIKH8WUpiK/iZNFkWhZ0CAwEAAaN3MHUwDgYDVR0P AQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMB Af8EAjAAMBkGA1UdDgQSBBCVgnFBCWgL/iwCqnGrhTPQMBsGA1UdIwQUMBKAEKey Um2o4k2WiEVA0ldQvNYwDQYJKoZIhvcNAQELBQADgYEAYK986R4E3L1v+Q6esBtW JrUwA9UmJRSQr0N5w3o9XzarU37/bkjOP0Fw0k/A6Vv1n3vlciYfBFaBIam1qRHr 5dMsYf4CZS6w50r7hyzqyrwDoyNxkLnd2PdcHT/sym1QmflsjEs7pejtnohO6N2H wQW6M0H7Zt8claGRla4fKkg= -----END CERTIFICATE----- */
   "clientCertificate.sslCertificate"?: string;
@@ -8922,13 +8921,13 @@ export const CreateProjectsLocationsAuthConfigsResponse = GoogleCloudIntegration
 
 export type CreateProjectsLocationsAuthConfigsError = CommonErrors;
 
+/** Creates an auth config record. Fetch corresponding credentials for specific auth types, e.g. access token for OAuth 2.0, JWT token for JWT. Encrypt the auth config with Cloud KMS and store the encrypted credentials in Spanner. Returns the encrypted auth config. */
 export const createProjectsLocationsAuthConfigs: API.OperationMethod<CreateProjectsLocationsAuthConfigsRequest, CreateProjectsLocationsAuthConfigsResponse, CreateProjectsLocationsAuthConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsAuthConfigsRequest,
   output: CreateProjectsLocationsAuthConfigsResponse,
   errors: [],
 }));
 
-/** Updates an auth config. If credential is updated, fetch the encrypted auth config from Spanner, decrypt with Cloud KMS key, update the credential fields, re-encrypt with Cloud KMS key and update the Spanner record. For other fields, directly update the Spanner record. Returns the encrypted auth config. */
 export interface PatchProjectsLocationsAuthConfigsRequest {
   /** The ssl certificate encoded in PEM format. This string must include the begin header and end footer lines. For example, -----BEGIN CERTIFICATE----- MIICTTCCAbagAwIBAgIJAPT0tSKNxan/MA0GCSqGSIb3DQEBCwUAMCoxFzAVBgNV BAoTDkdvb2dsZSBURVNUSU5HMQ8wDQYDVQQDEwZ0ZXN0Q0EwHhcNMTUwMTAxMDAw MDAwWhcNMjUwMTAxMDAwMDAwWjAuMRcwFQYDVQQKEw5Hb29nbGUgVEVTVElORzET MBEGA1UEAwwKam9lQGJhbmFuYTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA vDYFgMgxi5W488d9J7UpCInl0NXmZQpJDEHE4hvkaRlH7pnC71H0DLt0/3zATRP1 JzY2+eqBmbGl4/sgZKYv8UrLnNyQNUTsNx1iZAfPUflf5FwgVsai8BM0pUciq1NB xD429VFcrGZNucvFLh72RuRFIKH8WUpiK/iZNFkWhZ0CAwEAAaN3MHUwDgYDVR0P AQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAMBgNVHRMB Af8EAjAAMBkGA1UdDgQSBBCVgnFBCWgL/iwCqnGrhTPQMBsGA1UdIwQUMBKAEKey Um2o4k2WiEVA0ldQvNYwDQYJKoZIhvcNAQELBQADgYEAYK986R4E3L1v+Q6esBtW JrUwA9UmJRSQr0N5w3o9XzarU37/bkjOP0Fw0k/A6Vv1n3vlciYfBFaBIam1qRHr 5dMsYf4CZS6w50r7hyzqyrwDoyNxkLnd2PdcHT/sym1QmflsjEs7pejtnohO6N2H wQW6M0H7Zt8claGRla4fKkg= -----END CERTIFICATE----- */
   "clientCertificate.sslCertificate"?: string;
@@ -8961,13 +8960,13 @@ export const PatchProjectsLocationsAuthConfigsResponse = GoogleCloudIntegrations
 
 export type PatchProjectsLocationsAuthConfigsError = CommonErrors;
 
+/** Updates an auth config. If credential is updated, fetch the encrypted auth config from Spanner, decrypt with Cloud KMS key, update the credential fields, re-encrypt with Cloud KMS key and update the Spanner record. For other fields, directly update the Spanner record. Returns the encrypted auth config. */
 export const patchProjectsLocationsAuthConfigs: API.OperationMethod<PatchProjectsLocationsAuthConfigsRequest, PatchProjectsLocationsAuthConfigsResponse, PatchProjectsLocationsAuthConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsAuthConfigsRequest,
   output: PatchProjectsLocationsAuthConfigsResponse,
   errors: [],
 }));
 
-/** Gets an sfdc instance. If the instance doesn't exist, Code.NOT_FOUND exception will be thrown. */
 export interface GetProjectsLocationsSfdcInstancesRequest {
   /** Required. The name that is associated with the SfdcInstance. */
   name: string;
@@ -8985,13 +8984,13 @@ export const GetProjectsLocationsSfdcInstancesResponse = GoogleCloudIntegrations
 
 export type GetProjectsLocationsSfdcInstancesError = CommonErrors;
 
+/** Gets an sfdc instance. If the instance doesn't exist, Code.NOT_FOUND exception will be thrown. */
 export const getProjectsLocationsSfdcInstances: API.OperationMethod<GetProjectsLocationsSfdcInstancesRequest, GetProjectsLocationsSfdcInstancesResponse, GetProjectsLocationsSfdcInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSfdcInstancesRequest,
   output: GetProjectsLocationsSfdcInstancesResponse,
   errors: [],
 }));
 
-/** Creates an sfdc instance record. Store the sfdc instance in Spanner. Returns the sfdc instance. */
 export interface CreateProjectsLocationsSfdcInstancesRequest {
   /** Required. "projects/{project}/locations/{location}" format. */
   parent: string;
@@ -9012,13 +9011,13 @@ export const CreateProjectsLocationsSfdcInstancesResponse = GoogleCloudIntegrati
 
 export type CreateProjectsLocationsSfdcInstancesError = CommonErrors;
 
+/** Creates an sfdc instance record. Store the sfdc instance in Spanner. Returns the sfdc instance. */
 export const createProjectsLocationsSfdcInstances: API.OperationMethod<CreateProjectsLocationsSfdcInstancesRequest, CreateProjectsLocationsSfdcInstancesResponse, CreateProjectsLocationsSfdcInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsSfdcInstancesRequest,
   output: CreateProjectsLocationsSfdcInstancesResponse,
   errors: [],
 }));
 
-/** Updates an sfdc instance. Updates the sfdc instance in spanner. Returns the sfdc instance. */
 export interface PatchProjectsLocationsSfdcInstancesRequest {
   /** Field mask specifying the fields in the above SfdcInstance that have been modified and need to be updated. */
   updateMask?: string;
@@ -9042,13 +9041,13 @@ export const PatchProjectsLocationsSfdcInstancesResponse = GoogleCloudIntegratio
 
 export type PatchProjectsLocationsSfdcInstancesError = CommonErrors;
 
+/** Updates an sfdc instance. Updates the sfdc instance in spanner. Returns the sfdc instance. */
 export const patchProjectsLocationsSfdcInstances: API.OperationMethod<PatchProjectsLocationsSfdcInstancesRequest, PatchProjectsLocationsSfdcInstancesResponse, PatchProjectsLocationsSfdcInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsSfdcInstancesRequest,
   output: PatchProjectsLocationsSfdcInstancesResponse,
   errors: [],
 }));
 
-/** Lists all sfdc instances that match the filter. Restrict to sfdc instances belonging to the current client only. */
 export interface ListProjectsLocationsSfdcInstancesRequest {
   /** The mask which specifies fields that need to be returned in the SfdcInstance's response. */
   readMask?: string;
@@ -9078,7 +9077,8 @@ export const ListProjectsLocationsSfdcInstancesResponse = GoogleCloudIntegration
 
 export type ListProjectsLocationsSfdcInstancesError = CommonErrors;
 
-export const listProjectsLocationsSfdcInstances = API.makePaginated(() => ({
+/** Lists all sfdc instances that match the filter. Restrict to sfdc instances belonging to the current client only. */
+export const listProjectsLocationsSfdcInstances: API.PaginatedOperationMethod<ListProjectsLocationsSfdcInstancesRequest, ListProjectsLocationsSfdcInstancesResponse, ListProjectsLocationsSfdcInstancesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsSfdcInstancesRequest,
   output: ListProjectsLocationsSfdcInstancesResponse,
   errors: [],
@@ -9088,7 +9088,6 @@ export const listProjectsLocationsSfdcInstances = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes an sfdc instance. */
 export interface DeleteProjectsLocationsSfdcInstancesRequest {
   /** Required. The name that is associated with the SfdcInstance. */
   name: string;
@@ -9106,13 +9105,13 @@ export const DeleteProjectsLocationsSfdcInstancesResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsSfdcInstancesError = CommonErrors;
 
+/** Deletes an sfdc instance. */
 export const deleteProjectsLocationsSfdcInstances: API.OperationMethod<DeleteProjectsLocationsSfdcInstancesRequest, DeleteProjectsLocationsSfdcInstancesResponse, DeleteProjectsLocationsSfdcInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsSfdcInstancesRequest,
   output: DeleteProjectsLocationsSfdcInstancesResponse,
   errors: [],
 }));
 
-/** Lists all sfdc channels that match the filter. Restrict to sfdc channels belonging to the current client only. */
 export interface ListProjectsLocationsSfdcInstancesSfdcChannelsRequest {
   /** The size of entries in the response. If unspecified, defaults to 100. */
   pageSize?: number;
@@ -9142,7 +9141,8 @@ export const ListProjectsLocationsSfdcInstancesSfdcChannelsResponse = GoogleClou
 
 export type ListProjectsLocationsSfdcInstancesSfdcChannelsError = CommonErrors;
 
-export const listProjectsLocationsSfdcInstancesSfdcChannels = API.makePaginated(() => ({
+/** Lists all sfdc channels that match the filter. Restrict to sfdc channels belonging to the current client only. */
+export const listProjectsLocationsSfdcInstancesSfdcChannels: API.PaginatedOperationMethod<ListProjectsLocationsSfdcInstancesSfdcChannelsRequest, ListProjectsLocationsSfdcInstancesSfdcChannelsResponse, ListProjectsLocationsSfdcInstancesSfdcChannelsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsSfdcInstancesSfdcChannelsRequest,
   output: ListProjectsLocationsSfdcInstancesSfdcChannelsResponse,
   errors: [],
@@ -9152,7 +9152,6 @@ export const listProjectsLocationsSfdcInstancesSfdcChannels = API.makePaginated(
   },
 }));
 
-/** Gets an sfdc channel. If the channel doesn't exist, Code.NOT_FOUND exception will be thrown. */
 export interface GetProjectsLocationsSfdcInstancesSfdcChannelsRequest {
   /** Required. The name that is associated with the SfdcChannel. */
   name: string;
@@ -9170,13 +9169,13 @@ export const GetProjectsLocationsSfdcInstancesSfdcChannelsResponse = GoogleCloud
 
 export type GetProjectsLocationsSfdcInstancesSfdcChannelsError = CommonErrors;
 
+/** Gets an sfdc channel. If the channel doesn't exist, Code.NOT_FOUND exception will be thrown. */
 export const getProjectsLocationsSfdcInstancesSfdcChannels: API.OperationMethod<GetProjectsLocationsSfdcInstancesSfdcChannelsRequest, GetProjectsLocationsSfdcInstancesSfdcChannelsResponse, GetProjectsLocationsSfdcInstancesSfdcChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSfdcInstancesSfdcChannelsRequest,
   output: GetProjectsLocationsSfdcInstancesSfdcChannelsResponse,
   errors: [],
 }));
 
-/** Creates an sfdc channel record. Store the sfdc channel in Spanner. Returns the sfdc channel. */
 export interface CreateProjectsLocationsSfdcInstancesSfdcChannelsRequest {
   /** Required. "projects/{project}/locations/{location}" format. */
   parent: string;
@@ -9197,13 +9196,13 @@ export const CreateProjectsLocationsSfdcInstancesSfdcChannelsResponse = GoogleCl
 
 export type CreateProjectsLocationsSfdcInstancesSfdcChannelsError = CommonErrors;
 
+/** Creates an sfdc channel record. Store the sfdc channel in Spanner. Returns the sfdc channel. */
 export const createProjectsLocationsSfdcInstancesSfdcChannels: API.OperationMethod<CreateProjectsLocationsSfdcInstancesSfdcChannelsRequest, CreateProjectsLocationsSfdcInstancesSfdcChannelsResponse, CreateProjectsLocationsSfdcInstancesSfdcChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsSfdcInstancesSfdcChannelsRequest,
   output: CreateProjectsLocationsSfdcInstancesSfdcChannelsResponse,
   errors: [],
 }));
 
-/** Updates an sfdc channel. Updates the sfdc channel in spanner. Returns the sfdc channel. */
 export interface PatchProjectsLocationsSfdcInstancesSfdcChannelsRequest {
   /** Resource name of the SFDC channel projects/{project}/locations/{location}/sfdcInstances/{sfdc_instance}/sfdcChannels/{sfdc_channel}. */
   name: string;
@@ -9227,13 +9226,13 @@ export const PatchProjectsLocationsSfdcInstancesSfdcChannelsResponse = GoogleClo
 
 export type PatchProjectsLocationsSfdcInstancesSfdcChannelsError = CommonErrors;
 
+/** Updates an sfdc channel. Updates the sfdc channel in spanner. Returns the sfdc channel. */
 export const patchProjectsLocationsSfdcInstancesSfdcChannels: API.OperationMethod<PatchProjectsLocationsSfdcInstancesSfdcChannelsRequest, PatchProjectsLocationsSfdcInstancesSfdcChannelsResponse, PatchProjectsLocationsSfdcInstancesSfdcChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsSfdcInstancesSfdcChannelsRequest,
   output: PatchProjectsLocationsSfdcInstancesSfdcChannelsResponse,
   errors: [],
 }));
 
-/** Deletes an sfdc channel. */
 export interface DeleteProjectsLocationsSfdcInstancesSfdcChannelsRequest {
   /** Required. The name that is associated with the SfdcChannel. */
   name: string;
@@ -9251,13 +9250,13 @@ export const DeleteProjectsLocationsSfdcInstancesSfdcChannelsResponse = GooglePr
 
 export type DeleteProjectsLocationsSfdcInstancesSfdcChannelsError = CommonErrors;
 
+/** Deletes an sfdc channel. */
 export const deleteProjectsLocationsSfdcInstancesSfdcChannels: API.OperationMethod<DeleteProjectsLocationsSfdcInstancesSfdcChannelsRequest, DeleteProjectsLocationsSfdcInstancesSfdcChannelsResponse, DeleteProjectsLocationsSfdcInstancesSfdcChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsSfdcInstancesSfdcChannelsRequest,
   output: DeleteProjectsLocationsSfdcInstancesSfdcChannelsResponse,
   errors: [],
 }));
 
-/** Creates a cloud function project. */
 export interface CreateProjectsLocationsCloudFunctionsRequest {
   /** Required. The project that the executed integration belongs to. */
   parent: string;
@@ -9278,13 +9277,13 @@ export const CreateProjectsLocationsCloudFunctionsResponse = GoogleCloudIntegrat
 
 export type CreateProjectsLocationsCloudFunctionsError = CommonErrors;
 
+/** Creates a cloud function project. */
 export const createProjectsLocationsCloudFunctions: API.OperationMethod<CreateProjectsLocationsCloudFunctionsRequest, CreateProjectsLocationsCloudFunctionsResponse, CreateProjectsLocationsCloudFunctionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCloudFunctionsRequest,
   output: CreateProjectsLocationsCloudFunctionsResponse,
   errors: [],
 }));
 
-/** Enumerates the regions for which Connector Platform is provisioned. */
 export interface EnumerateConnectorPlatformRegionsRequest {
 }
 
@@ -9299,6 +9298,7 @@ export const EnumerateConnectorPlatformRegionsResponse = GoogleCloudIntegrations
 
 export type EnumerateConnectorPlatformRegionsError = CommonErrors;
 
+/** Enumerates the regions for which Connector Platform is provisioned. */
 export const enumerateConnectorPlatformRegions: API.OperationMethod<EnumerateConnectorPlatformRegionsRequest, EnumerateConnectorPlatformRegionsResponse, EnumerateConnectorPlatformRegionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnumerateConnectorPlatformRegionsRequest,
   output: EnumerateConnectorPlatformRegionsResponse,

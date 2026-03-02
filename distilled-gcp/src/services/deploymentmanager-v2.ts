@@ -732,7 +732,6 @@ export const TypesListResponse: Schema.Schema<TypesListResponse> = Schema.suspen
 // Operations
 // ==========================================================================
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export interface SetIamPolicyDeploymentsRequest {
   /** Project ID for this request. */
   project: string;
@@ -756,13 +755,13 @@ export const SetIamPolicyDeploymentsResponse = Policy;
 
 export type SetIamPolicyDeploymentsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. */
 export const setIamPolicyDeployments: API.OperationMethod<SetIamPolicyDeploymentsRequest, SetIamPolicyDeploymentsResponse, SetIamPolicyDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyDeploymentsRequest,
   output: SetIamPolicyDeploymentsResponse,
   errors: [],
 }));
 
-/** Patches a deployment and all of the resources described by the deployment manifest. */
 export interface PatchDeploymentsRequest {
   /** Sets the policy to use for deleting resources. */
   deletePolicy?: "DELETE" | "ABANDON" | (string & {});
@@ -797,13 +796,13 @@ export const PatchDeploymentsResponse = Operation;
 
 export type PatchDeploymentsError = CommonErrors;
 
+/** Patches a deployment and all of the resources described by the deployment manifest. */
 export const patchDeployments: API.OperationMethod<PatchDeploymentsRequest, PatchDeploymentsResponse, PatchDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchDeploymentsRequest,
   output: PatchDeploymentsResponse,
   errors: [],
 }));
 
-/** Cancels and removes the preview currently associated with the deployment. */
 export interface CancelPreviewDeploymentsRequest {
   /** The project ID for this request. */
   project: string;
@@ -827,13 +826,13 @@ export const CancelPreviewDeploymentsResponse = Operation;
 
 export type CancelPreviewDeploymentsError = CommonErrors;
 
+/** Cancels and removes the preview currently associated with the deployment. */
 export const cancelPreviewDeployments: API.OperationMethod<CancelPreviewDeploymentsRequest, CancelPreviewDeploymentsResponse, CancelPreviewDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelPreviewDeploymentsRequest,
   output: CancelPreviewDeploymentsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. */
 export interface TestIamPermissionsDeploymentsRequest {
   "header.bypassBillingFilter"?: boolean;
   /** Project ID for this request. */
@@ -859,13 +858,13 @@ export const TestIamPermissionsDeploymentsResponse = TestPermissionsResponse;
 
 export type TestIamPermissionsDeploymentsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. */
 export const testIamPermissionsDeployments: API.OperationMethod<TestIamPermissionsDeploymentsRequest, TestIamPermissionsDeploymentsResponse, TestIamPermissionsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsDeploymentsRequest,
   output: TestIamPermissionsDeploymentsResponse,
   errors: [],
 }));
 
-/** Updates a deployment and all of the resources described by the deployment manifest. */
 export interface UpdateDeploymentsRequest {
   "header.bypassBillingFilter"?: boolean;
   /** The name of the deployment for this request. */
@@ -900,13 +899,13 @@ export const UpdateDeploymentsResponse = Operation;
 
 export type UpdateDeploymentsError = CommonErrors;
 
+/** Updates a deployment and all of the resources described by the deployment manifest. */
 export const updateDeployments: API.OperationMethod<UpdateDeploymentsRequest, UpdateDeploymentsResponse, UpdateDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateDeploymentsRequest,
   output: UpdateDeploymentsResponse,
   errors: [],
 }));
 
-/** Deletes a deployment and all of the resources in the deployment. */
 export interface DeleteDeploymentsRequest {
   /** The project ID for this request. */
   project: string;
@@ -932,13 +931,13 @@ export const DeleteDeploymentsResponse = Operation;
 
 export type DeleteDeploymentsError = CommonErrors;
 
+/** Deletes a deployment and all of the resources in the deployment. */
 export const deleteDeployments: API.OperationMethod<DeleteDeploymentsRequest, DeleteDeploymentsResponse, DeleteDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteDeploymentsRequest,
   output: DeleteDeploymentsResponse,
   errors: [],
 }));
 
-/** Stops an ongoing operation. This does not roll back any work that has already been completed, but prevents any new work from being started. */
 export interface StopDeploymentsRequest {
   /** The name of the deployment for this request. */
   deployment: string;
@@ -962,13 +961,13 @@ export const StopDeploymentsResponse = Operation;
 
 export type StopDeploymentsError = CommonErrors;
 
+/** Stops an ongoing operation. This does not roll back any work that has already been completed, but prevents any new work from being started. */
 export const stopDeployments: API.OperationMethod<StopDeploymentsRequest, StopDeploymentsResponse, StopDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StopDeploymentsRequest,
   output: StopDeploymentsResponse,
   errors: [],
 }));
 
-/** Lists all deployments for a given project. */
 export interface ListDeploymentsRequest {
   /** Sorts list results by a certain order. By default, results are returned in alphanumerical order based on the resource name. You can also sort results in descending order based on the creation timestamp using `orderBy="creationTimestamp desc"`. This sorts results based on the `creationTimestamp` field in reverse chronological order (newest result first). Use this to sort resources like operations so that the newest operation is returned first. Currently, only sorting by `name` or `creationTimestamp desc` is supported. */
   orderBy?: string;
@@ -998,7 +997,8 @@ export const ListDeploymentsResponse = DeploymentsListResponse;
 
 export type ListDeploymentsError = CommonErrors;
 
-export const listDeployments = API.makePaginated(() => ({
+/** Lists all deployments for a given project. */
+export const listDeployments: API.PaginatedOperationMethod<ListDeploymentsRequest, ListDeploymentsResponse, ListDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListDeploymentsRequest,
   output: ListDeploymentsResponse,
   errors: [],
@@ -1008,7 +1008,6 @@ export const listDeployments = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a specific deployment. */
 export interface GetDeploymentsRequest {
   "header.bypassBillingFilter"?: boolean;
   /** The project ID for this request. */
@@ -1031,13 +1030,13 @@ export const GetDeploymentsResponse = Deployment;
 
 export type GetDeploymentsError = CommonErrors;
 
+/** Gets information about a specific deployment. */
 export const getDeployments: API.OperationMethod<GetDeploymentsRequest, GetDeploymentsResponse, GetDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDeploymentsRequest,
   output: GetDeploymentsResponse,
   errors: [],
 }));
 
-/** Creates a deployment and all of the resources described by the deployment manifest. */
 export interface InsertDeploymentsRequest {
   /** Sets the policy to use for creating new resources. */
   createPolicy?: "CREATE_OR_ACQUIRE" | "ACQUIRE" | (string & {});
@@ -1066,13 +1065,13 @@ export const InsertDeploymentsResponse = Operation;
 
 export type InsertDeploymentsError = CommonErrors;
 
+/** Creates a deployment and all of the resources described by the deployment manifest. */
 export const insertDeployments: API.OperationMethod<InsertDeploymentsRequest, InsertDeploymentsResponse, InsertDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertDeploymentsRequest,
   output: InsertDeploymentsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export interface GetIamPolicyDeploymentsRequest {
   "header.bypassBillingFilter"?: boolean;
   /** Requested IAM Policy version. */
@@ -1098,13 +1097,13 @@ export const GetIamPolicyDeploymentsResponse = Policy;
 
 export type GetIamPolicyDeploymentsError = CommonErrors;
 
+/** Gets the access control policy for a resource. May be empty if no such policy or resource exists. */
 export const getIamPolicyDeployments: API.OperationMethod<GetIamPolicyDeploymentsRequest, GetIamPolicyDeploymentsResponse, GetIamPolicyDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyDeploymentsRequest,
   output: GetIamPolicyDeploymentsResponse,
   errors: [],
 }));
 
-/** Gets information about a single resource. */
 export interface GetResourcesRequest {
   "header.bypassBillingFilter"?: boolean;
   /** The name of the resource for this request. */
@@ -1130,13 +1129,13 @@ export const GetResourcesResponse = Resource;
 
 export type GetResourcesError = CommonErrors;
 
+/** Gets information about a single resource. */
 export const getResources: API.OperationMethod<GetResourcesRequest, GetResourcesResponse, GetResourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetResourcesRequest,
   output: GetResourcesResponse,
   errors: [],
 }));
 
-/** Lists all resources in a given deployment. */
 export interface ListResourcesRequest {
   /** The project ID for this request. */
   project: string;
@@ -1169,7 +1168,8 @@ export const ListResourcesResponse = ResourcesListResponse;
 
 export type ListResourcesError = CommonErrors;
 
-export const listResources = API.makePaginated(() => ({
+/** Lists all resources in a given deployment. */
+export const listResources: API.PaginatedOperationMethod<ListResourcesRequest, ListResourcesResponse, ListResourcesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListResourcesRequest,
   output: ListResourcesResponse,
   errors: [],
@@ -1179,7 +1179,6 @@ export const listResources = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a specific manifest. */
 export interface GetManifestsRequest {
   /** The name of the deployment for this request. */
   deployment: string;
@@ -1205,13 +1204,13 @@ export const GetManifestsResponse = Manifest;
 
 export type GetManifestsError = CommonErrors;
 
+/** Gets information about a specific manifest. */
 export const getManifests: API.OperationMethod<GetManifestsRequest, GetManifestsResponse, GetManifestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetManifestsRequest,
   output: GetManifestsResponse,
   errors: [],
 }));
 
-/** Lists all manifests for a given deployment. */
 export interface ListManifestsRequest {
   /** The maximum number of results per page that should be returned. If the number of available results is larger than `maxResults`, Compute Engine returns a `nextPageToken` that can be used to get the next page of results in subsequent list requests. Acceptable values are `0` to `500`, inclusive. (Default: `500`) */
   maxResults?: number;
@@ -1244,7 +1243,8 @@ export const ListManifestsResponse = ManifestsListResponse;
 
 export type ListManifestsError = CommonErrors;
 
-export const listManifests = API.makePaginated(() => ({
+/** Lists all manifests for a given deployment. */
+export const listManifests: API.PaginatedOperationMethod<ListManifestsRequest, ListManifestsResponse, ListManifestsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListManifestsRequest,
   output: ListManifestsResponse,
   errors: [],
@@ -1254,7 +1254,6 @@ export const listManifests = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a specific operation. */
 export interface GetOperationsRequest {
   /** The project ID for this request. */
   project: string;
@@ -1277,13 +1276,13 @@ export const GetOperationsResponse = Operation;
 
 export type GetOperationsError = CommonErrors;
 
+/** Gets information about a specific operation. */
 export const getOperations: API.OperationMethod<GetOperationsRequest, GetOperationsResponse, GetOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
 }));
 
-/** Lists all operations for a project. */
 export interface ListOperationsRequest {
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string;
@@ -1313,7 +1312,8 @@ export const ListOperationsResponse = OperationsListResponse;
 
 export type ListOperationsError = CommonErrors;
 
-export const listOperations = API.makePaginated(() => ({
+/** Lists all operations for a project. */
+export const listOperations: API.PaginatedOperationMethod<ListOperationsRequest, ListOperationsResponse, ListOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOperationsRequest,
   output: ListOperationsResponse,
   errors: [],
@@ -1323,7 +1323,6 @@ export const listOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Lists all resource types for Deployment Manager. */
 export interface ListTypesRequest {
   /** Specifies a page token to use. Set `pageToken` to the `nextPageToken` returned by a previous list request to get the next page of results. */
   pageToken?: string;
@@ -1353,7 +1352,8 @@ export const ListTypesResponse = TypesListResponse;
 
 export type ListTypesError = CommonErrors;
 
-export const listTypes = API.makePaginated(() => ({
+/** Lists all resource types for Deployment Manager. */
+export const listTypes: API.PaginatedOperationMethod<ListTypesRequest, ListTypesResponse, ListTypesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListTypesRequest,
   output: ListTypesResponse,
   errors: [],

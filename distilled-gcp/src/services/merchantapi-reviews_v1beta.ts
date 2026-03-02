@@ -450,7 +450,6 @@ export const ProductStatusChangeMessage: Schema.Schema<ProductStatusChangeMessag
 // Operations
 // ==========================================================================
 
-/** Gets a merchant review. */
 export interface GetAccountsMerchantReviewsRequest {
   /** Required. The ID of the merchant review. Format: accounts/{account}/merchantReviews/{merchantReview} */
   name: string;
@@ -468,13 +467,13 @@ export const GetAccountsMerchantReviewsResponse = MerchantReview;
 
 export type GetAccountsMerchantReviewsError = CommonErrors;
 
+/** Gets a merchant review. */
 export const getAccountsMerchantReviews: API.OperationMethod<GetAccountsMerchantReviewsRequest, GetAccountsMerchantReviewsResponse, GetAccountsMerchantReviewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsMerchantReviewsRequest,
   output: GetAccountsMerchantReviewsResponse,
   errors: [],
 }));
 
-/** Lists merchant reviews. */
 export interface ListAccountsMerchantReviewsRequest {
   /** Required. The account to list merchant reviews for. Format: accounts/{account} */
   parent: string;
@@ -498,7 +497,8 @@ export const ListAccountsMerchantReviewsResponse = ListMerchantReviewsResponse;
 
 export type ListAccountsMerchantReviewsError = CommonErrors;
 
-export const listAccountsMerchantReviews = API.makePaginated(() => ({
+/** Lists merchant reviews. */
+export const listAccountsMerchantReviews: API.PaginatedOperationMethod<ListAccountsMerchantReviewsRequest, ListAccountsMerchantReviewsResponse, ListAccountsMerchantReviewsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsMerchantReviewsRequest,
   output: ListAccountsMerchantReviewsResponse,
   errors: [],
@@ -508,7 +508,6 @@ export const listAccountsMerchantReviews = API.makePaginated(() => ({
   },
 }));
 
-/** Inserts a review for your Merchant Center account. If the review already exists, then the review is replaced with the new instance. */
 export interface InsertAccountsMerchantReviewsRequest {
   /** Required. The account where the merchant review will be inserted. Format: accounts/{account} */
   parent: string;
@@ -532,13 +531,13 @@ export const InsertAccountsMerchantReviewsResponse = MerchantReview;
 
 export type InsertAccountsMerchantReviewsError = CommonErrors;
 
+/** Inserts a review for your Merchant Center account. If the review already exists, then the review is replaced with the new instance. */
 export const insertAccountsMerchantReviews: API.OperationMethod<InsertAccountsMerchantReviewsRequest, InsertAccountsMerchantReviewsResponse, InsertAccountsMerchantReviewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertAccountsMerchantReviewsRequest,
   output: InsertAccountsMerchantReviewsResponse,
   errors: [],
 }));
 
-/** Deletes merchant review. */
 export interface DeleteAccountsMerchantReviewsRequest {
   /** Required. The ID of the merchant review. Format: accounts/{account}/merchantReviews/{merchantReview} */
   name: string;
@@ -556,13 +555,13 @@ export const DeleteAccountsMerchantReviewsResponse = Empty;
 
 export type DeleteAccountsMerchantReviewsError = CommonErrors;
 
+/** Deletes merchant review. */
 export const deleteAccountsMerchantReviews: API.OperationMethod<DeleteAccountsMerchantReviewsRequest, DeleteAccountsMerchantReviewsResponse, DeleteAccountsMerchantReviewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountsMerchantReviewsRequest,
   output: DeleteAccountsMerchantReviewsResponse,
   errors: [],
 }));
 
-/** Gets a product review. */
 export interface GetAccountsProductReviewsRequest {
   /** Required. The ID of the merchant review. Format: accounts/{account}/productReviews/{productReview} */
   name: string;
@@ -580,13 +579,13 @@ export const GetAccountsProductReviewsResponse = ProductReview;
 
 export type GetAccountsProductReviewsError = CommonErrors;
 
+/** Gets a product review. */
 export const getAccountsProductReviews: API.OperationMethod<GetAccountsProductReviewsRequest, GetAccountsProductReviewsResponse, GetAccountsProductReviewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsProductReviewsRequest,
   output: GetAccountsProductReviewsResponse,
   errors: [],
 }));
 
-/** Lists product reviews. */
 export interface ListAccountsProductReviewsRequest {
   /** Required. The account to list product reviews for. Format: accounts/{account} */
   parent: string;
@@ -610,7 +609,8 @@ export const ListAccountsProductReviewsResponse = ListProductReviewsResponse;
 
 export type ListAccountsProductReviewsError = CommonErrors;
 
-export const listAccountsProductReviews = API.makePaginated(() => ({
+/** Lists product reviews. */
+export const listAccountsProductReviews: API.PaginatedOperationMethod<ListAccountsProductReviewsRequest, ListAccountsProductReviewsResponse, ListAccountsProductReviewsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsProductReviewsRequest,
   output: ListAccountsProductReviewsResponse,
   errors: [],
@@ -620,7 +620,6 @@ export const listAccountsProductReviews = API.makePaginated(() => ({
   },
 }));
 
-/** Inserts a product review. */
 export interface InsertAccountsProductReviewsRequest {
   /** Required. The account where the product review will be inserted. Format: accounts/{account} */
   parent: string;
@@ -644,13 +643,13 @@ export const InsertAccountsProductReviewsResponse = ProductReview;
 
 export type InsertAccountsProductReviewsError = CommonErrors;
 
+/** Inserts a product review. */
 export const insertAccountsProductReviews: API.OperationMethod<InsertAccountsProductReviewsRequest, InsertAccountsProductReviewsResponse, InsertAccountsProductReviewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertAccountsProductReviewsRequest,
   output: InsertAccountsProductReviewsResponse,
   errors: [],
 }));
 
-/** Deletes a product review. */
 export interface DeleteAccountsProductReviewsRequest {
   /** Required. The ID of the Product review. Format: accounts/{account}/productReviews/{productReview} */
   name: string;
@@ -668,6 +667,7 @@ export const DeleteAccountsProductReviewsResponse = Empty;
 
 export type DeleteAccountsProductReviewsError = CommonErrors;
 
+/** Deletes a product review. */
 export const deleteAccountsProductReviews: API.OperationMethod<DeleteAccountsProductReviewsRequest, DeleteAccountsProductReviewsResponse, DeleteAccountsProductReviewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountsProductReviewsRequest,
   output: DeleteAccountsProductReviewsResponse,

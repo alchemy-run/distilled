@@ -3041,7 +3041,6 @@ export const GoogleCloudContentwarehouseV1ProjectStatus: Schema.Schema<GoogleClo
 // Operations
 // ==========================================================================
 
-/** Gets the access control policy for a resource. Returns NOT_FOUND error if the resource does not exist. Returns an empty policy if the resource exists but does not have a policy set. */
 export interface FetchAclProjectsRequest {
   /** Required. REQUIRED: The resource for which the policy is being requested. Format for document: projects/{project_number}/locations/{location}/documents/{document_id}. Format for collection: projects/{project_number}/locations/{location}/collections/{collection_id}. Format for project: projects/{project_number}. */
   resource: string;
@@ -3062,13 +3061,13 @@ export const FetchAclProjectsResponse = GoogleCloudContentwarehouseV1FetchAclRes
 
 export type FetchAclProjectsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns NOT_FOUND error if the resource does not exist. Returns an empty policy if the resource exists but does not have a policy set. */
 export const fetchAclProjects: API.OperationMethod<FetchAclProjectsRequest, FetchAclProjectsResponse, FetchAclProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FetchAclProjectsRequest,
   output: FetchAclProjectsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy for a resource. Replaces any existing policy. */
 export interface SetAclProjectsRequest {
   /** Required. REQUIRED: The resource for which the policy is being requested. Format for document: projects/{project_number}/locations/{location}/documents/{document_id}. Format for collection: projects/{project_number}/locations/{location}/collections/{collection_id}. Format for project: projects/{project_number}. */
   resource: string;
@@ -3089,13 +3088,13 @@ export const SetAclProjectsResponse = GoogleCloudContentwarehouseV1SetAclRespons
 
 export type SetAclProjectsError = CommonErrors;
 
+/** Sets the access control policy for a resource. Replaces any existing policy. */
 export const setAclProjects: API.OperationMethod<SetAclProjectsRequest, SetAclProjectsResponse, SetAclProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetAclProjectsRequest,
   output: SetAclProjectsResponse,
   errors: [],
 }));
 
-/** Provisions resources for given tenant project. Returns a long running operation. */
 export interface InitializeProjectsLocationsRequest {
   /** Required. The location to be initialized Format: projects/{project_number}/locations/{location}. */
   location: string;
@@ -3116,13 +3115,13 @@ export const InitializeProjectsLocationsResponse = GoogleLongrunningOperation;
 
 export type InitializeProjectsLocationsError = CommonErrors;
 
+/** Provisions resources for given tenant project. Returns a long running operation. */
 export const initializeProjectsLocations: API.OperationMethod<InitializeProjectsLocationsRequest, InitializeProjectsLocationsResponse, InitializeProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InitializeProjectsLocationsRequest,
   output: InitializeProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Get the project status. */
 export interface GetStatusProjectsLocationsRequest {
   /** Required. The location to be queried Format: projects/{project_number}/locations/{location}. */
   location: string;
@@ -3140,13 +3139,13 @@ export const GetStatusProjectsLocationsResponse = GoogleCloudContentwarehouseV1P
 
 export type GetStatusProjectsLocationsError = CommonErrors;
 
+/** Get the project status. */
 export const getStatusProjectsLocations: API.OperationMethod<GetStatusProjectsLocationsRequest, GetStatusProjectsLocationsResponse, GetStatusProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetStatusProjectsLocationsRequest,
   output: GetStatusProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Run a predefined pipeline. */
 export interface RunPipelineProjectsLocationsRequest {
   /** Required. The resource name which owns the resources of the pipeline. Format: projects/{project_number}/locations/{location}. */
   name: string;
@@ -3167,13 +3166,13 @@ export const RunPipelineProjectsLocationsResponse = GoogleLongrunningOperation;
 
 export type RunPipelineProjectsLocationsError = CommonErrors;
 
+/** Run a predefined pipeline. */
 export const runPipelineProjectsLocations: API.OperationMethod<RunPipelineProjectsLocationsRequest, RunPipelineProjectsLocationsResponse, RunPipelineProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RunPipelineProjectsLocationsRequest,
   output: RunPipelineProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Remove the existing SynonymSet for the context and replaces it with a new one. Throws a NOT_FOUND exception if the SynonymSet is not found. */
 export interface PatchProjectsLocationsSynonymSetsRequest {
   /** Required. The name of the synonymSet to update Format: projects/{project_number}/locations/{location}/synonymSets/{context}. */
   name: string;
@@ -3194,13 +3193,13 @@ export const PatchProjectsLocationsSynonymSetsResponse = GoogleCloudContentwareh
 
 export type PatchProjectsLocationsSynonymSetsError = CommonErrors;
 
+/** Remove the existing SynonymSet for the context and replaces it with a new one. Throws a NOT_FOUND exception if the SynonymSet is not found. */
 export const patchProjectsLocationsSynonymSets: API.OperationMethod<PatchProjectsLocationsSynonymSetsRequest, PatchProjectsLocationsSynonymSetsResponse, PatchProjectsLocationsSynonymSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsSynonymSetsRequest,
   output: PatchProjectsLocationsSynonymSetsResponse,
   errors: [],
 }));
 
-/** Returns all SynonymSets (for all contexts) for the specified location. */
 export interface ListProjectsLocationsSynonymSetsRequest {
   /** Required. The parent name. Format: projects/{project_number}/locations/{location}. */
   parent: string;
@@ -3224,7 +3223,8 @@ export const ListProjectsLocationsSynonymSetsResponse = GoogleCloudContentwareho
 
 export type ListProjectsLocationsSynonymSetsError = CommonErrors;
 
-export const listProjectsLocationsSynonymSets = API.makePaginated(() => ({
+/** Returns all SynonymSets (for all contexts) for the specified location. */
+export const listProjectsLocationsSynonymSets: API.PaginatedOperationMethod<ListProjectsLocationsSynonymSetsRequest, ListProjectsLocationsSynonymSetsResponse, ListProjectsLocationsSynonymSetsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsSynonymSetsRequest,
   output: ListProjectsLocationsSynonymSetsResponse,
   errors: [],
@@ -3234,7 +3234,6 @@ export const listProjectsLocationsSynonymSets = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a SynonymSet for a given context. Throws a NOT_FOUND exception if the SynonymSet is not found. */
 export interface DeleteProjectsLocationsSynonymSetsRequest {
   /** Required. The name of the synonymSet to delete Format: projects/{project_number}/locations/{location}/synonymSets/{context}. */
   name: string;
@@ -3252,13 +3251,13 @@ export const DeleteProjectsLocationsSynonymSetsResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsSynonymSetsError = CommonErrors;
 
+/** Deletes a SynonymSet for a given context. Throws a NOT_FOUND exception if the SynonymSet is not found. */
 export const deleteProjectsLocationsSynonymSets: API.OperationMethod<DeleteProjectsLocationsSynonymSetsRequest, DeleteProjectsLocationsSynonymSetsResponse, DeleteProjectsLocationsSynonymSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsSynonymSetsRequest,
   output: DeleteProjectsLocationsSynonymSetsResponse,
   errors: [],
 }));
 
-/** Creates a SynonymSet for a single context. Throws an ALREADY_EXISTS exception if a synonymset already exists for the context. */
 export interface CreateProjectsLocationsSynonymSetsRequest {
   /** Required. The parent name. Format: projects/{project_number}/locations/{location}. */
   parent: string;
@@ -3279,13 +3278,13 @@ export const CreateProjectsLocationsSynonymSetsResponse = GoogleCloudContentware
 
 export type CreateProjectsLocationsSynonymSetsError = CommonErrors;
 
+/** Creates a SynonymSet for a single context. Throws an ALREADY_EXISTS exception if a synonymset already exists for the context. */
 export const createProjectsLocationsSynonymSets: API.OperationMethod<CreateProjectsLocationsSynonymSetsRequest, CreateProjectsLocationsSynonymSetsResponse, CreateProjectsLocationsSynonymSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsSynonymSetsRequest,
   output: CreateProjectsLocationsSynonymSetsResponse,
   errors: [],
 }));
 
-/** Gets a SynonymSet for a particular context. Throws a NOT_FOUND exception if the Synonymset does not exist */
 export interface GetProjectsLocationsSynonymSetsRequest {
   /** Required. The name of the synonymSet to retrieve Format: projects/{project_number}/locations/{location}/synonymSets/{context}. */
   name: string;
@@ -3303,13 +3302,13 @@ export const GetProjectsLocationsSynonymSetsResponse = GoogleCloudContentwarehou
 
 export type GetProjectsLocationsSynonymSetsError = CommonErrors;
 
+/** Gets a SynonymSet for a particular context. Throws a NOT_FOUND exception if the Synonymset does not exist */
 export const getProjectsLocationsSynonymSets: API.OperationMethod<GetProjectsLocationsSynonymSetsRequest, GetProjectsLocationsSynonymSetsResponse, GetProjectsLocationsSynonymSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSynonymSetsRequest,
   output: GetProjectsLocationsSynonymSetsResponse,
   errors: [],
 }));
 
-/** Gets a document. Returns NOT_FOUND if the document does not exist. */
 export interface GetProjectsLocationsDocumentsRequest {
   /** Required. The name of the document to retrieve. Format: projects/{project_number}/locations/{location}/documents/{document_id} or projects/{project_number}/locations/{location}/documents/referenceId/{reference_id}. */
   name: string;
@@ -3330,13 +3329,13 @@ export const GetProjectsLocationsDocumentsResponse = GoogleCloudContentwarehouse
 
 export type GetProjectsLocationsDocumentsError = CommonErrors;
 
+/** Gets a document. Returns NOT_FOUND if the document does not exist. */
 export const getProjectsLocationsDocuments: API.OperationMethod<GetProjectsLocationsDocumentsRequest, GetProjectsLocationsDocumentsResponse, GetProjectsLocationsDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDocumentsRequest,
   output: GetProjectsLocationsDocumentsResponse,
   errors: [],
 }));
 
-/** Return all source document-links from the document. */
 export interface LinkedSourcesProjectsLocationsDocumentsRequest {
   /** Required. The name of the document, for which all source links are returned. Format: projects/{project_number}/locations/{location}/documents/{source_document_id}. */
   parent: string;
@@ -3357,13 +3356,13 @@ export const LinkedSourcesProjectsLocationsDocumentsResponse = GoogleCloudConten
 
 export type LinkedSourcesProjectsLocationsDocumentsError = CommonErrors;
 
+/** Return all source document-links from the document. */
 export const linkedSourcesProjectsLocationsDocuments: API.OperationMethod<LinkedSourcesProjectsLocationsDocumentsRequest, LinkedSourcesProjectsLocationsDocumentsResponse, LinkedSourcesProjectsLocationsDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LinkedSourcesProjectsLocationsDocumentsRequest,
   output: LinkedSourcesProjectsLocationsDocumentsResponse,
   errors: [],
 }));
 
-/** Deletes a document. Returns NOT_FOUND if the document does not exist. */
 export interface DeleteProjectsLocationsDocumentsRequest {
   /** Required. The name of the document to delete. Format: projects/{project_number}/locations/{location}/documents/{document_id} or projects/{project_number}/locations/{location}/documents/referenceId/{reference_id}. */
   name: string;
@@ -3384,13 +3383,13 @@ export const DeleteProjectsLocationsDocumentsResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsDocumentsError = CommonErrors;
 
+/** Deletes a document. Returns NOT_FOUND if the document does not exist. */
 export const deleteProjectsLocationsDocuments: API.OperationMethod<DeleteProjectsLocationsDocumentsRequest, DeleteProjectsLocationsDocumentsResponse, DeleteProjectsLocationsDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDocumentsRequest,
   output: DeleteProjectsLocationsDocumentsResponse,
   errors: [],
 }));
 
-/** Updates a document. Returns INVALID_ARGUMENT if the name of the document is non-empty and does not equal the existing name. */
 export interface PatchProjectsLocationsDocumentsRequest {
   /** Required. The name of the document to update. Format: projects/{project_number}/locations/{location}/documents/{document_id} or projects/{project_number}/locations/{location}/documents/referenceId/{reference_id}. */
   name: string;
@@ -3411,13 +3410,13 @@ export const PatchProjectsLocationsDocumentsResponse = GoogleCloudContentwarehou
 
 export type PatchProjectsLocationsDocumentsError = CommonErrors;
 
+/** Updates a document. Returns INVALID_ARGUMENT if the name of the document is non-empty and does not equal the existing name. */
 export const patchProjectsLocationsDocuments: API.OperationMethod<PatchProjectsLocationsDocumentsRequest, PatchProjectsLocationsDocumentsResponse, PatchProjectsLocationsDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsDocumentsRequest,
   output: PatchProjectsLocationsDocumentsResponse,
   errors: [],
 }));
 
-/** Creates a document. */
 export interface CreateProjectsLocationsDocumentsRequest {
   /** Required. The parent name. Format: projects/{project_number}/locations/{location}. */
   parent: string;
@@ -3438,13 +3437,13 @@ export const CreateProjectsLocationsDocumentsResponse = GoogleCloudContentwareho
 
 export type CreateProjectsLocationsDocumentsError = CommonErrors;
 
+/** Creates a document. */
 export const createProjectsLocationsDocuments: API.OperationMethod<CreateProjectsLocationsDocumentsRequest, CreateProjectsLocationsDocumentsResponse, CreateProjectsLocationsDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsDocumentsRequest,
   output: CreateProjectsLocationsDocumentsResponse,
   errors: [],
 }));
 
-/** Return all target document-links from the document. */
 export interface LinkedTargetsProjectsLocationsDocumentsRequest {
   /** Required. The name of the document, for which all target links are returned. Format: projects/{project_number}/locations/{location}/documents/{target_document_id}. */
   parent: string;
@@ -3465,13 +3464,13 @@ export const LinkedTargetsProjectsLocationsDocumentsResponse = GoogleCloudConten
 
 export type LinkedTargetsProjectsLocationsDocumentsError = CommonErrors;
 
+/** Return all target document-links from the document. */
 export const linkedTargetsProjectsLocationsDocuments: API.OperationMethod<LinkedTargetsProjectsLocationsDocumentsRequest, LinkedTargetsProjectsLocationsDocumentsResponse, LinkedTargetsProjectsLocationsDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LinkedTargetsProjectsLocationsDocumentsRequest,
   output: LinkedTargetsProjectsLocationsDocumentsResponse,
   errors: [],
 }));
 
-/** Searches for documents using provided SearchDocumentsRequest. This call only returns documents that the caller has permission to search against. */
 export interface SearchProjectsLocationsDocumentsRequest {
   /** Required. The parent, which owns this collection of documents. Format: projects/{project_number}/locations/{location}. */
   parent: string;
@@ -3492,13 +3491,13 @@ export const SearchProjectsLocationsDocumentsResponse = GoogleCloudContentwareho
 
 export type SearchProjectsLocationsDocumentsError = CommonErrors;
 
+/** Searches for documents using provided SearchDocumentsRequest. This call only returns documents that the caller has permission to search against. */
 export const searchProjectsLocationsDocuments: API.OperationMethod<SearchProjectsLocationsDocumentsRequest, SearchProjectsLocationsDocumentsResponse, SearchProjectsLocationsDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchProjectsLocationsDocumentsRequest,
   output: SearchProjectsLocationsDocumentsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns NOT_FOUND error if the resource does not exist. Returns an empty policy if the resource exists but does not have a policy set. */
 export interface FetchAclProjectsLocationsDocumentsRequest {
   /** Required. REQUIRED: The resource for which the policy is being requested. Format for document: projects/{project_number}/locations/{location}/documents/{document_id}. Format for collection: projects/{project_number}/locations/{location}/collections/{collection_id}. Format for project: projects/{project_number}. */
   resource: string;
@@ -3519,13 +3518,13 @@ export const FetchAclProjectsLocationsDocumentsResponse = GoogleCloudContentware
 
 export type FetchAclProjectsLocationsDocumentsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns NOT_FOUND error if the resource does not exist. Returns an empty policy if the resource exists but does not have a policy set. */
 export const fetchAclProjectsLocationsDocuments: API.OperationMethod<FetchAclProjectsLocationsDocumentsRequest, FetchAclProjectsLocationsDocumentsResponse, FetchAclProjectsLocationsDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FetchAclProjectsLocationsDocumentsRequest,
   output: FetchAclProjectsLocationsDocumentsResponse,
   errors: [],
 }));
 
-/** Lock the document so the document cannot be updated by other users. */
 export interface LockProjectsLocationsDocumentsRequest {
   /** Required. The name of the document to lock. Format: projects/{project_number}/locations/{location}/documents/{document}. */
   name: string;
@@ -3546,13 +3545,13 @@ export const LockProjectsLocationsDocumentsResponse = GoogleCloudContentwarehous
 
 export type LockProjectsLocationsDocumentsError = CommonErrors;
 
+/** Lock the document so the document cannot be updated by other users. */
 export const lockProjectsLocationsDocuments: API.OperationMethod<LockProjectsLocationsDocumentsRequest, LockProjectsLocationsDocumentsResponse, LockProjectsLocationsDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LockProjectsLocationsDocumentsRequest,
   output: LockProjectsLocationsDocumentsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy for a resource. Replaces any existing policy. */
 export interface SetAclProjectsLocationsDocumentsRequest {
   /** Required. REQUIRED: The resource for which the policy is being requested. Format for document: projects/{project_number}/locations/{location}/documents/{document_id}. Format for collection: projects/{project_number}/locations/{location}/collections/{collection_id}. Format for project: projects/{project_number}. */
   resource: string;
@@ -3573,13 +3572,13 @@ export const SetAclProjectsLocationsDocumentsResponse = GoogleCloudContentwareho
 
 export type SetAclProjectsLocationsDocumentsError = CommonErrors;
 
+/** Sets the access control policy for a resource. Replaces any existing policy. */
 export const setAclProjectsLocationsDocuments: API.OperationMethod<SetAclProjectsLocationsDocumentsRequest, SetAclProjectsLocationsDocumentsResponse, SetAclProjectsLocationsDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetAclProjectsLocationsDocumentsRequest,
   output: SetAclProjectsLocationsDocumentsResponse,
   errors: [],
 }));
 
-/** Deletes a document. Returns NOT_FOUND if the document does not exist. */
 export interface DeleteProjectsLocationsDocumentsReferenceIdRequest {
   /** Required. The name of the document to delete. Format: projects/{project_number}/locations/{location}/documents/{document_id} or projects/{project_number}/locations/{location}/documents/referenceId/{reference_id}. */
   name: string;
@@ -3600,13 +3599,13 @@ export const DeleteProjectsLocationsDocumentsReferenceIdResponse = GoogleProtobu
 
 export type DeleteProjectsLocationsDocumentsReferenceIdError = CommonErrors;
 
+/** Deletes a document. Returns NOT_FOUND if the document does not exist. */
 export const deleteProjectsLocationsDocumentsReferenceId: API.OperationMethod<DeleteProjectsLocationsDocumentsReferenceIdRequest, DeleteProjectsLocationsDocumentsReferenceIdResponse, DeleteProjectsLocationsDocumentsReferenceIdError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDocumentsReferenceIdRequest,
   output: DeleteProjectsLocationsDocumentsReferenceIdResponse,
   errors: [],
 }));
 
-/** Updates a document. Returns INVALID_ARGUMENT if the name of the document is non-empty and does not equal the existing name. */
 export interface PatchProjectsLocationsDocumentsReferenceIdRequest {
   /** Required. The name of the document to update. Format: projects/{project_number}/locations/{location}/documents/{document_id} or projects/{project_number}/locations/{location}/documents/referenceId/{reference_id}. */
   name: string;
@@ -3627,13 +3626,13 @@ export const PatchProjectsLocationsDocumentsReferenceIdResponse = GoogleCloudCon
 
 export type PatchProjectsLocationsDocumentsReferenceIdError = CommonErrors;
 
+/** Updates a document. Returns INVALID_ARGUMENT if the name of the document is non-empty and does not equal the existing name. */
 export const patchProjectsLocationsDocumentsReferenceId: API.OperationMethod<PatchProjectsLocationsDocumentsReferenceIdRequest, PatchProjectsLocationsDocumentsReferenceIdResponse, PatchProjectsLocationsDocumentsReferenceIdError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsDocumentsReferenceIdRequest,
   output: PatchProjectsLocationsDocumentsReferenceIdResponse,
   errors: [],
 }));
 
-/** Gets a document. Returns NOT_FOUND if the document does not exist. */
 export interface GetProjectsLocationsDocumentsReferenceIdRequest {
   /** Required. The name of the document to retrieve. Format: projects/{project_number}/locations/{location}/documents/{document_id} or projects/{project_number}/locations/{location}/documents/referenceId/{reference_id}. */
   name: string;
@@ -3654,13 +3653,13 @@ export const GetProjectsLocationsDocumentsReferenceIdResponse = GoogleCloudConte
 
 export type GetProjectsLocationsDocumentsReferenceIdError = CommonErrors;
 
+/** Gets a document. Returns NOT_FOUND if the document does not exist. */
 export const getProjectsLocationsDocumentsReferenceId: API.OperationMethod<GetProjectsLocationsDocumentsReferenceIdRequest, GetProjectsLocationsDocumentsReferenceIdResponse, GetProjectsLocationsDocumentsReferenceIdError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDocumentsReferenceIdRequest,
   output: GetProjectsLocationsDocumentsReferenceIdResponse,
   errors: [],
 }));
 
-/** Create a link between a source document and a target document. */
 export interface CreateProjectsLocationsDocumentsDocumentLinksRequest {
   /** Required. Parent of the document-link to be created. parent of document-link should be a document. Format: projects/{project_number}/locations/{location}/documents/{source_document_id}. */
   parent: string;
@@ -3681,13 +3680,13 @@ export const CreateProjectsLocationsDocumentsDocumentLinksResponse = GoogleCloud
 
 export type CreateProjectsLocationsDocumentsDocumentLinksError = CommonErrors;
 
+/** Create a link between a source document and a target document. */
 export const createProjectsLocationsDocumentsDocumentLinks: API.OperationMethod<CreateProjectsLocationsDocumentsDocumentLinksRequest, CreateProjectsLocationsDocumentsDocumentLinksResponse, CreateProjectsLocationsDocumentsDocumentLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsDocumentsDocumentLinksRequest,
   output: CreateProjectsLocationsDocumentsDocumentLinksResponse,
   errors: [],
 }));
 
-/** Remove the link between the source and target documents. */
 export interface DeleteProjectsLocationsDocumentsDocumentLinksRequest {
   /** Required. The name of the document-link to be deleted. Format: projects/{project_number}/locations/{location}/documents/{source_document_id}/documentLinks/{document_link_id}. */
   name: string;
@@ -3708,13 +3707,13 @@ export const DeleteProjectsLocationsDocumentsDocumentLinksResponse = GoogleProto
 
 export type DeleteProjectsLocationsDocumentsDocumentLinksError = CommonErrors;
 
+/** Remove the link between the source and target documents. */
 export const deleteProjectsLocationsDocumentsDocumentLinks: API.OperationMethod<DeleteProjectsLocationsDocumentsDocumentLinksRequest, DeleteProjectsLocationsDocumentsDocumentLinksResponse, DeleteProjectsLocationsDocumentsDocumentLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDocumentsDocumentLinksRequest,
   output: DeleteProjectsLocationsDocumentsDocumentLinksResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -3732,13 +3731,13 @@ export const GetProjectsLocationsOperationsResponse = GoogleLongrunningOperation
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Creates a ruleset. */
 export interface CreateProjectsLocationsRuleSetsRequest {
   /** Required. The parent name. Format: projects/{project_number}/locations/{location}. */
   parent: string;
@@ -3759,13 +3758,13 @@ export const CreateProjectsLocationsRuleSetsResponse = GoogleCloudContentwarehou
 
 export type CreateProjectsLocationsRuleSetsError = CommonErrors;
 
+/** Creates a ruleset. */
 export const createProjectsLocationsRuleSets: API.OperationMethod<CreateProjectsLocationsRuleSetsRequest, CreateProjectsLocationsRuleSetsResponse, CreateProjectsLocationsRuleSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsRuleSetsRequest,
   output: CreateProjectsLocationsRuleSetsResponse,
   errors: [],
 }));
 
-/** Updates a ruleset. Returns INVALID_ARGUMENT if the name of the ruleset is non-empty and does not equal the existing name. */
 export interface PatchProjectsLocationsRuleSetsRequest {
   /** Required. The name of the rule set to update. Format: projects/{project_number}/locations/{location}/ruleSets/{rule_set_id}. */
   name: string;
@@ -3786,13 +3785,13 @@ export const PatchProjectsLocationsRuleSetsResponse = GoogleCloudContentwarehous
 
 export type PatchProjectsLocationsRuleSetsError = CommonErrors;
 
+/** Updates a ruleset. Returns INVALID_ARGUMENT if the name of the ruleset is non-empty and does not equal the existing name. */
 export const patchProjectsLocationsRuleSets: API.OperationMethod<PatchProjectsLocationsRuleSetsRequest, PatchProjectsLocationsRuleSetsResponse, PatchProjectsLocationsRuleSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsRuleSetsRequest,
   output: PatchProjectsLocationsRuleSetsResponse,
   errors: [],
 }));
 
-/** Lists rulesets. */
 export interface ListProjectsLocationsRuleSetsRequest {
   /** A page token, received from a previous `ListRuleSets` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListRuleSets` must match the call that provided the page token. */
   pageToken?: string;
@@ -3816,7 +3815,8 @@ export const ListProjectsLocationsRuleSetsResponse = GoogleCloudContentwarehouse
 
 export type ListProjectsLocationsRuleSetsError = CommonErrors;
 
-export const listProjectsLocationsRuleSets = API.makePaginated(() => ({
+/** Lists rulesets. */
+export const listProjectsLocationsRuleSets: API.PaginatedOperationMethod<ListProjectsLocationsRuleSetsRequest, ListProjectsLocationsRuleSetsResponse, ListProjectsLocationsRuleSetsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRuleSetsRequest,
   output: ListProjectsLocationsRuleSetsResponse,
   errors: [],
@@ -3826,7 +3826,6 @@ export const listProjectsLocationsRuleSets = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a ruleset. Returns NOT_FOUND if the document does not exist. */
 export interface DeleteProjectsLocationsRuleSetsRequest {
   /** Required. The name of the rule set to delete. Format: projects/{project_number}/locations/{location}/ruleSets/{rule_set_id}. */
   name: string;
@@ -3844,13 +3843,13 @@ export const DeleteProjectsLocationsRuleSetsResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsRuleSetsError = CommonErrors;
 
+/** Deletes a ruleset. Returns NOT_FOUND if the document does not exist. */
 export const deleteProjectsLocationsRuleSets: API.OperationMethod<DeleteProjectsLocationsRuleSetsRequest, DeleteProjectsLocationsRuleSetsResponse, DeleteProjectsLocationsRuleSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsRuleSetsRequest,
   output: DeleteProjectsLocationsRuleSetsResponse,
   errors: [],
 }));
 
-/** Gets a ruleset. Returns NOT_FOUND if the ruleset does not exist. */
 export interface GetProjectsLocationsRuleSetsRequest {
   /** Required. The name of the rule set to retrieve. Format: projects/{project_number}/locations/{location}/ruleSets/{rule_set_id}. */
   name: string;
@@ -3868,13 +3867,13 @@ export const GetProjectsLocationsRuleSetsResponse = GoogleCloudContentwarehouseV
 
 export type GetProjectsLocationsRuleSetsError = CommonErrors;
 
+/** Gets a ruleset. Returns NOT_FOUND if the ruleset does not exist. */
 export const getProjectsLocationsRuleSets: API.OperationMethod<GetProjectsLocationsRuleSetsRequest, GetProjectsLocationsRuleSetsResponse, GetProjectsLocationsRuleSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRuleSetsRequest,
   output: GetProjectsLocationsRuleSetsResponse,
   errors: [],
 }));
 
-/** Lists document schemas. */
 export interface ListProjectsLocationsDocumentSchemasRequest {
   /** A page token, received from a previous `ListDocumentSchemas` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDocumentSchemas` must match the call that provided the page token. */
   pageToken?: string;
@@ -3898,7 +3897,8 @@ export const ListProjectsLocationsDocumentSchemasResponse = GoogleCloudContentwa
 
 export type ListProjectsLocationsDocumentSchemasError = CommonErrors;
 
-export const listProjectsLocationsDocumentSchemas = API.makePaginated(() => ({
+/** Lists document schemas. */
+export const listProjectsLocationsDocumentSchemas: API.PaginatedOperationMethod<ListProjectsLocationsDocumentSchemasRequest, ListProjectsLocationsDocumentSchemasResponse, ListProjectsLocationsDocumentSchemasError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDocumentSchemasRequest,
   output: ListProjectsLocationsDocumentSchemasResponse,
   errors: [],
@@ -3908,7 +3908,6 @@ export const listProjectsLocationsDocumentSchemas = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a document schema. Returns NOT_FOUND if the document schema does not exist. */
 export interface GetProjectsLocationsDocumentSchemasRequest {
   /** Required. The name of the document schema to retrieve. */
   name: string;
@@ -3926,13 +3925,13 @@ export const GetProjectsLocationsDocumentSchemasResponse = GoogleCloudContentwar
 
 export type GetProjectsLocationsDocumentSchemasError = CommonErrors;
 
+/** Gets a document schema. Returns NOT_FOUND if the document schema does not exist. */
 export const getProjectsLocationsDocumentSchemas: API.OperationMethod<GetProjectsLocationsDocumentSchemasRequest, GetProjectsLocationsDocumentSchemasResponse, GetProjectsLocationsDocumentSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDocumentSchemasRequest,
   output: GetProjectsLocationsDocumentSchemasResponse,
   errors: [],
 }));
 
-/** Creates a document schema. */
 export interface CreateProjectsLocationsDocumentSchemasRequest {
   /** Required. The parent name. */
   parent: string;
@@ -3953,13 +3952,13 @@ export const CreateProjectsLocationsDocumentSchemasResponse = GoogleCloudContent
 
 export type CreateProjectsLocationsDocumentSchemasError = CommonErrors;
 
+/** Creates a document schema. */
 export const createProjectsLocationsDocumentSchemas: API.OperationMethod<CreateProjectsLocationsDocumentSchemasRequest, CreateProjectsLocationsDocumentSchemasResponse, CreateProjectsLocationsDocumentSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsDocumentSchemasRequest,
   output: CreateProjectsLocationsDocumentSchemasResponse,
   errors: [],
 }));
 
-/** Updates a Document Schema. Returns INVALID_ARGUMENT if the name of the Document Schema is non-empty and does not equal the existing name. Supports only appending new properties, adding new ENUM possible values, and updating the EnumTypeOptions.validation_check_disabled flag for ENUM possible values. Updating existing properties will result into INVALID_ARGUMENT. */
 export interface PatchProjectsLocationsDocumentSchemasRequest {
   /** Required. The name of the document schema to update. Format: projects/{project_number}/locations/{location}/documentSchemas/{document_schema_id}. */
   name: string;
@@ -3980,13 +3979,13 @@ export const PatchProjectsLocationsDocumentSchemasResponse = GoogleCloudContentw
 
 export type PatchProjectsLocationsDocumentSchemasError = CommonErrors;
 
+/** Updates a Document Schema. Returns INVALID_ARGUMENT if the name of the Document Schema is non-empty and does not equal the existing name. Supports only appending new properties, adding new ENUM possible values, and updating the EnumTypeOptions.validation_check_disabled flag for ENUM possible values. Updating existing properties will result into INVALID_ARGUMENT. */
 export const patchProjectsLocationsDocumentSchemas: API.OperationMethod<PatchProjectsLocationsDocumentSchemasRequest, PatchProjectsLocationsDocumentSchemasResponse, PatchProjectsLocationsDocumentSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsDocumentSchemasRequest,
   output: PatchProjectsLocationsDocumentSchemasResponse,
   errors: [],
 }));
 
-/** Deletes a document schema. Returns NOT_FOUND if the document schema does not exist. Returns BAD_REQUEST if the document schema has documents depending on it. */
 export interface DeleteProjectsLocationsDocumentSchemasRequest {
   /** Required. The name of the document schema to delete. */
   name: string;
@@ -4004,6 +4003,7 @@ export const DeleteProjectsLocationsDocumentSchemasResponse = GoogleProtobufEmpt
 
 export type DeleteProjectsLocationsDocumentSchemasError = CommonErrors;
 
+/** Deletes a document schema. Returns NOT_FOUND if the document schema does not exist. Returns BAD_REQUEST if the document schema has documents depending on it. */
 export const deleteProjectsLocationsDocumentSchemas: API.OperationMethod<DeleteProjectsLocationsDocumentSchemasRequest, DeleteProjectsLocationsDocumentSchemasResponse, DeleteProjectsLocationsDocumentSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDocumentSchemasRequest,
   output: DeleteProjectsLocationsDocumentSchemasResponse,

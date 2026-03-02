@@ -1447,7 +1447,6 @@ export const GoogleCloudMlV1__PredictRequest: Schema.Schema<GoogleCloudMlV1__Pre
 // Operations
 // ==========================================================================
 
-/** Performs online prediction on the data in the request. {% dynamic include "/ai-platform/includes/___predict-request" %} */
 export interface PredictProjectsRequest {
   /** Required. The resource name of a model or a version. Authorization: requires the `predict` permission on the specified resource. */
   name: string;
@@ -1468,13 +1467,13 @@ export const PredictProjectsResponse = GoogleApi__HttpBody;
 
 export type PredictProjectsError = CommonErrors;
 
+/** Performs online prediction on the data in the request. {% dynamic include "/ai-platform/includes/___predict-request" %} */
 export const predictProjects: API.OperationMethod<PredictProjectsRequest, PredictProjectsResponse, PredictProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PredictProjectsRequest,
   output: PredictProjectsResponse,
   errors: [],
 }));
 
-/** Get the service account information associated with your project. You need this information in order to grant the service account permissions for the Google Cloud Storage location where you put your model training code for training the model with Google Cloud Machine Learning. */
 export interface GetConfigProjectsRequest {
   /** Required. The project name. */
   name: string;
@@ -1492,13 +1491,13 @@ export const GetConfigProjectsResponse = GoogleCloudMlV1__GetConfigResponse;
 
 export type GetConfigProjectsError = CommonErrors;
 
+/** Get the service account information associated with your project. You need this information in order to grant the service account permissions for the Google Cloud Storage location where you put your model training code for training the model with Google Cloud Machine Learning. */
 export const getConfigProjects: API.OperationMethod<GetConfigProjectsRequest, GetConfigProjectsResponse, GetConfigProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetConfigProjectsRequest,
   output: GetConfigProjectsResponse,
   errors: [],
 }));
 
-/** Performs explanation on the data in the request. {% dynamic include "/ai-platform/includes/___explain-request" %} */
 export interface ExplainProjectsRequest {
   /** Required. The resource name of a model or a version. Authorization: requires the `predict` permission on the specified resource. */
   name: string;
@@ -1519,13 +1518,13 @@ export const ExplainProjectsResponse = GoogleApi__HttpBody;
 
 export type ExplainProjectsError = CommonErrors;
 
+/** Performs explanation on the data in the request. {% dynamic include "/ai-platform/includes/___explain-request" %} */
 export const explainProjects: API.OperationMethod<ExplainProjectsRequest, ExplainProjectsResponse, ExplainProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExplainProjectsRequest,
   output: ExplainProjectsResponse,
   errors: [],
 }));
 
-/** Get the complete list of CMLE capabilities in a location, along with their location-specific properties. */
 export interface GetProjectsLocationsRequest {
   /** Required. The name of the location. */
   name: string;
@@ -1543,13 +1542,13 @@ export const GetProjectsLocationsResponse = GoogleCloudMlV1__Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Get the complete list of CMLE capabilities in a location, along with their location-specific properties. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** List all locations that provides at least one type of CMLE capability. */
 export interface ListProjectsLocationsRequest {
   /** Optional. The number of locations to retrieve per "page" of results. If there are more remaining results than this number, the response message will contain a valid value in the `next_page_token` field. The default value is 20, and the maximum page size is 100. */
   pageSize?: number;
@@ -1573,7 +1572,8 @@ export const ListProjectsLocationsResponse = GoogleCloudMlV1__ListLocationsRespo
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** List all locations that provides at least one type of CMLE capability. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -1583,7 +1583,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a study. */
 export interface GetProjectsLocationsStudiesRequest {
   /** Required. The study name. */
   name: string;
@@ -1601,13 +1600,13 @@ export const GetProjectsLocationsStudiesResponse = GoogleCloudMlV1__Study;
 
 export type GetProjectsLocationsStudiesError = CommonErrors;
 
+/** Gets a study. */
 export const getProjectsLocationsStudies: API.OperationMethod<GetProjectsLocationsStudiesRequest, GetProjectsLocationsStudiesResponse, GetProjectsLocationsStudiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsStudiesRequest,
   output: GetProjectsLocationsStudiesResponse,
   errors: [],
 }));
 
-/** Deletes a study. */
 export interface DeleteProjectsLocationsStudiesRequest {
   /** Required. The study name. */
   name: string;
@@ -1625,13 +1624,13 @@ export const DeleteProjectsLocationsStudiesResponse = GoogleProtobuf__Empty;
 
 export type DeleteProjectsLocationsStudiesError = CommonErrors;
 
+/** Deletes a study. */
 export const deleteProjectsLocationsStudies: API.OperationMethod<DeleteProjectsLocationsStudiesRequest, DeleteProjectsLocationsStudiesResponse, DeleteProjectsLocationsStudiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsStudiesRequest,
   output: DeleteProjectsLocationsStudiesResponse,
   errors: [],
 }));
 
-/** Lists all the studies in a region for an associated project. */
 export interface ListProjectsLocationsStudiesRequest {
   /** Required. The project and location that the study belongs to. Format: projects/{project}/locations/{location} */
   parent: string;
@@ -1649,13 +1648,13 @@ export const ListProjectsLocationsStudiesResponse = GoogleCloudMlV1__ListStudies
 
 export type ListProjectsLocationsStudiesError = CommonErrors;
 
+/** Lists all the studies in a region for an associated project. */
 export const listProjectsLocationsStudies: API.OperationMethod<ListProjectsLocationsStudiesRequest, ListProjectsLocationsStudiesResponse, ListProjectsLocationsStudiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsStudiesRequest,
   output: ListProjectsLocationsStudiesResponse,
   errors: [],
 }));
 
-/** Creates a study. */
 export interface CreateProjectsLocationsStudiesRequest {
   /** Required. The project and location that the study belongs to. Format: projects/{project}/locations/{location} */
   parent: string;
@@ -1679,13 +1678,13 @@ export const CreateProjectsLocationsStudiesResponse = GoogleCloudMlV1__Study;
 
 export type CreateProjectsLocationsStudiesError = CommonErrors;
 
+/** Creates a study. */
 export const createProjectsLocationsStudies: API.OperationMethod<CreateProjectsLocationsStudiesRequest, CreateProjectsLocationsStudiesResponse, CreateProjectsLocationsStudiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsStudiesRequest,
   output: CreateProjectsLocationsStudiesResponse,
   errors: [],
 }));
 
-/** Adds a user provided trial to a study. */
 export interface CreateProjectsLocationsStudiesTrialsRequest {
   /** Required. The name of the study that the trial belongs to. */
   parent: string;
@@ -1706,13 +1705,13 @@ export const CreateProjectsLocationsStudiesTrialsResponse = GoogleCloudMlV1__Tri
 
 export type CreateProjectsLocationsStudiesTrialsError = CommonErrors;
 
+/** Adds a user provided trial to a study. */
 export const createProjectsLocationsStudiesTrials: API.OperationMethod<CreateProjectsLocationsStudiesTrialsRequest, CreateProjectsLocationsStudiesTrialsResponse, CreateProjectsLocationsStudiesTrialsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsStudiesTrialsRequest,
   output: CreateProjectsLocationsStudiesTrialsResponse,
   errors: [],
 }));
 
-/** Lists the pareto-optimal trials for multi-objective study or the optimal trials for single-objective study. The definition of pareto-optimal can be checked in wiki page. https://en.wikipedia.org/wiki/Pareto_efficiency */
 export interface ListOptimalTrialsProjectsLocationsStudiesTrialsRequest {
   /** Required. The name of the study that the pareto-optimal trial belongs to. */
   parent: string;
@@ -1733,13 +1732,13 @@ export const ListOptimalTrialsProjectsLocationsStudiesTrialsResponse = GoogleClo
 
 export type ListOptimalTrialsProjectsLocationsStudiesTrialsError = CommonErrors;
 
+/** Lists the pareto-optimal trials for multi-objective study or the optimal trials for single-objective study. The definition of pareto-optimal can be checked in wiki page. https://en.wikipedia.org/wiki/Pareto_efficiency */
 export const listOptimalTrialsProjectsLocationsStudiesTrials: API.OperationMethod<ListOptimalTrialsProjectsLocationsStudiesTrialsRequest, ListOptimalTrialsProjectsLocationsStudiesTrialsResponse, ListOptimalTrialsProjectsLocationsStudiesTrialsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOptimalTrialsProjectsLocationsStudiesTrialsRequest,
   output: ListOptimalTrialsProjectsLocationsStudiesTrialsResponse,
   errors: [],
 }));
 
-/** Stops a trial. */
 export interface StopProjectsLocationsStudiesTrialsRequest {
   /** Required. The trial name. */
   name: string;
@@ -1760,13 +1759,13 @@ export const StopProjectsLocationsStudiesTrialsResponse = GoogleCloudMlV1__Trial
 
 export type StopProjectsLocationsStudiesTrialsError = CommonErrors;
 
+/** Stops a trial. */
 export const stopProjectsLocationsStudiesTrials: API.OperationMethod<StopProjectsLocationsStudiesTrialsRequest, StopProjectsLocationsStudiesTrialsResponse, StopProjectsLocationsStudiesTrialsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StopProjectsLocationsStudiesTrialsRequest,
   output: StopProjectsLocationsStudiesTrialsResponse,
   errors: [],
 }));
 
-/** Lists the trials associated with a study. */
 export interface ListProjectsLocationsStudiesTrialsRequest {
   /** Required. The name of the study that the trial belongs to. */
   parent: string;
@@ -1784,13 +1783,13 @@ export const ListProjectsLocationsStudiesTrialsResponse = GoogleCloudMlV1__ListT
 
 export type ListProjectsLocationsStudiesTrialsError = CommonErrors;
 
+/** Lists the trials associated with a study. */
 export const listProjectsLocationsStudiesTrials: API.OperationMethod<ListProjectsLocationsStudiesTrialsRequest, ListProjectsLocationsStudiesTrialsResponse, ListProjectsLocationsStudiesTrialsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsStudiesTrialsRequest,
   output: ListProjectsLocationsStudiesTrialsResponse,
   errors: [],
 }));
 
-/** Checks whether a trial should stop or not. Returns a long-running operation. When the operation is successful, it will contain a CheckTrialEarlyStoppingStateResponse. */
 export interface CheckEarlyStoppingStateProjectsLocationsStudiesTrialsRequest {
   /** Required. The trial name. */
   name: string;
@@ -1811,13 +1810,13 @@ export const CheckEarlyStoppingStateProjectsLocationsStudiesTrialsResponse = Goo
 
 export type CheckEarlyStoppingStateProjectsLocationsStudiesTrialsError = CommonErrors;
 
+/** Checks whether a trial should stop or not. Returns a long-running operation. When the operation is successful, it will contain a CheckTrialEarlyStoppingStateResponse. */
 export const checkEarlyStoppingStateProjectsLocationsStudiesTrials: API.OperationMethod<CheckEarlyStoppingStateProjectsLocationsStudiesTrialsRequest, CheckEarlyStoppingStateProjectsLocationsStudiesTrialsResponse, CheckEarlyStoppingStateProjectsLocationsStudiesTrialsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CheckEarlyStoppingStateProjectsLocationsStudiesTrialsRequest,
   output: CheckEarlyStoppingStateProjectsLocationsStudiesTrialsResponse,
   errors: [],
 }));
 
-/** Gets a trial. */
 export interface GetProjectsLocationsStudiesTrialsRequest {
   /** Required. The trial name. */
   name: string;
@@ -1835,13 +1834,13 @@ export const GetProjectsLocationsStudiesTrialsResponse = GoogleCloudMlV1__Trial;
 
 export type GetProjectsLocationsStudiesTrialsError = CommonErrors;
 
+/** Gets a trial. */
 export const getProjectsLocationsStudiesTrials: API.OperationMethod<GetProjectsLocationsStudiesTrialsRequest, GetProjectsLocationsStudiesTrialsResponse, GetProjectsLocationsStudiesTrialsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsStudiesTrialsRequest,
   output: GetProjectsLocationsStudiesTrialsResponse,
   errors: [],
 }));
 
-/** Adds one or more trials to a study, with parameter values suggested by AI Platform Vizier. Returns a long-running operation associated with the generation of trial suggestions. When this long-running operation succeeds, it will contain a SuggestTrialsResponse. */
 export interface SuggestProjectsLocationsStudiesTrialsRequest {
   /** Required. The name of the study that the trial belongs to. */
   parent: string;
@@ -1862,13 +1861,13 @@ export const SuggestProjectsLocationsStudiesTrialsResponse = GoogleLongrunning__
 
 export type SuggestProjectsLocationsStudiesTrialsError = CommonErrors;
 
+/** Adds one or more trials to a study, with parameter values suggested by AI Platform Vizier. Returns a long-running operation associated with the generation of trial suggestions. When this long-running operation succeeds, it will contain a SuggestTrialsResponse. */
 export const suggestProjectsLocationsStudiesTrials: API.OperationMethod<SuggestProjectsLocationsStudiesTrialsRequest, SuggestProjectsLocationsStudiesTrialsResponse, SuggestProjectsLocationsStudiesTrialsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SuggestProjectsLocationsStudiesTrialsRequest,
   output: SuggestProjectsLocationsStudiesTrialsResponse,
   errors: [],
 }));
 
-/** Deletes a trial. */
 export interface DeleteProjectsLocationsStudiesTrialsRequest {
   /** Required. The trial name. */
   name: string;
@@ -1886,13 +1885,13 @@ export const DeleteProjectsLocationsStudiesTrialsResponse = GoogleProtobuf__Empt
 
 export type DeleteProjectsLocationsStudiesTrialsError = CommonErrors;
 
+/** Deletes a trial. */
 export const deleteProjectsLocationsStudiesTrials: API.OperationMethod<DeleteProjectsLocationsStudiesTrialsRequest, DeleteProjectsLocationsStudiesTrialsResponse, DeleteProjectsLocationsStudiesTrialsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsStudiesTrialsRequest,
   output: DeleteProjectsLocationsStudiesTrialsResponse,
   errors: [],
 }));
 
-/** Adds a measurement of the objective metrics to a trial. This measurement is assumed to have been taken before the trial is complete. */
 export interface AddMeasurementProjectsLocationsStudiesTrialsRequest {
   /** Required. The trial name. */
   name: string;
@@ -1913,13 +1912,13 @@ export const AddMeasurementProjectsLocationsStudiesTrialsResponse = GoogleCloudM
 
 export type AddMeasurementProjectsLocationsStudiesTrialsError = CommonErrors;
 
+/** Adds a measurement of the objective metrics to a trial. This measurement is assumed to have been taken before the trial is complete. */
 export const addMeasurementProjectsLocationsStudiesTrials: API.OperationMethod<AddMeasurementProjectsLocationsStudiesTrialsRequest, AddMeasurementProjectsLocationsStudiesTrialsResponse, AddMeasurementProjectsLocationsStudiesTrialsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddMeasurementProjectsLocationsStudiesTrialsRequest,
   output: AddMeasurementProjectsLocationsStudiesTrialsResponse,
   errors: [],
 }));
 
-/** Marks a trial as complete. */
 export interface CompleteProjectsLocationsStudiesTrialsRequest {
   /** Required. The trial name.metat */
   name: string;
@@ -1940,13 +1939,13 @@ export const CompleteProjectsLocationsStudiesTrialsResponse = GoogleCloudMlV1__T
 
 export type CompleteProjectsLocationsStudiesTrialsError = CommonErrors;
 
+/** Marks a trial as complete. */
 export const completeProjectsLocationsStudiesTrials: API.OperationMethod<CompleteProjectsLocationsStudiesTrialsRequest, CompleteProjectsLocationsStudiesTrialsResponse, CompleteProjectsLocationsStudiesTrialsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CompleteProjectsLocationsStudiesTrialsRequest,
   output: CompleteProjectsLocationsStudiesTrialsResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1964,13 +1963,13 @@ export const GetProjectsLocationsOperationsResponse = GoogleLongrunning__Operati
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -1988,13 +1987,13 @@ export const CancelProjectsLocationsOperationsResponse = GoogleProtobuf__Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsOperationsRequest {
   /** The standard list page size. */
   pageSize?: number;
@@ -2024,7 +2023,8 @@ export const ListProjectsOperationsResponse = GoogleLongrunning__ListOperationsR
 
 export type ListProjectsOperationsError = CommonErrors;
 
-export const listProjectsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsOperations: API.PaginatedOperationMethod<ListProjectsOperationsRequest, ListProjectsOperationsResponse, ListProjectsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsOperationsRequest,
   output: ListProjectsOperationsResponse,
   errors: [],
@@ -2034,7 +2034,6 @@ export const listProjectsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -2052,13 +2051,13 @@ export const GetProjectsOperationsResponse = GoogleLongrunning__Operation;
 
 export type GetProjectsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsOperations: API.OperationMethod<GetProjectsOperationsRequest, GetProjectsOperationsResponse, GetProjectsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsOperationsRequest,
   output: GetProjectsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -2076,13 +2075,13 @@ export const CancelProjectsOperationsResponse = GoogleProtobuf__Empty;
 
 export type CancelProjectsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsOperations: API.OperationMethod<CancelProjectsOperationsRequest, CancelProjectsOperationsResponse, CancelProjectsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsOperationsRequest,
   output: CancelProjectsOperationsResponse,
   errors: [],
 }));
 
-/** Lists the jobs in the project. If there are no jobs that match the request parameters, the list request returns an empty response body: {}. */
 export interface ListProjectsJobsRequest {
   /** Optional. A page token to request the next page of results. You get the token from the `next_page_token` field of the response from the previous call. */
   pageToken?: string;
@@ -2109,7 +2108,8 @@ export const ListProjectsJobsResponse = GoogleCloudMlV1__ListJobsResponse;
 
 export type ListProjectsJobsError = CommonErrors;
 
-export const listProjectsJobs = API.makePaginated(() => ({
+/** Lists the jobs in the project. If there are no jobs that match the request parameters, the list request returns an empty response body: {}. */
+export const listProjectsJobs: API.PaginatedOperationMethod<ListProjectsJobsRequest, ListProjectsJobsResponse, ListProjectsJobsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsJobsRequest,
   output: ListProjectsJobsResponse,
   errors: [],
@@ -2119,7 +2119,6 @@ export const listProjectsJobs = API.makePaginated(() => ({
   },
 }));
 
-/** Describes a job. */
 export interface GetProjectsJobsRequest {
   /** Required. The name of the job to get the description of. */
   name: string;
@@ -2137,13 +2136,13 @@ export const GetProjectsJobsResponse = GoogleCloudMlV1__Job;
 
 export type GetProjectsJobsError = CommonErrors;
 
+/** Describes a job. */
 export const getProjectsJobs: API.OperationMethod<GetProjectsJobsRequest, GetProjectsJobsResponse, GetProjectsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsJobsRequest,
   output: GetProjectsJobsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsJobsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2164,13 +2163,13 @@ export const GetIamPolicyProjectsJobsResponse = GoogleIamV1__Policy;
 
 export type GetIamPolicyProjectsJobsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsJobs: API.OperationMethod<GetIamPolicyProjectsJobsRequest, GetIamPolicyProjectsJobsResponse, GetIamPolicyProjectsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsJobsRequest,
   output: GetIamPolicyProjectsJobsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsJobsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2191,13 +2190,13 @@ export const SetIamPolicyProjectsJobsResponse = GoogleIamV1__Policy;
 
 export type SetIamPolicyProjectsJobsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsJobs: API.OperationMethod<SetIamPolicyProjectsJobsRequest, SetIamPolicyProjectsJobsResponse, SetIamPolicyProjectsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsJobsRequest,
   output: SetIamPolicyProjectsJobsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsJobsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2218,13 +2217,13 @@ export const TestIamPermissionsProjectsJobsResponse = GoogleIamV1__TestIamPermis
 
 export type TestIamPermissionsProjectsJobsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsJobs: API.OperationMethod<TestIamPermissionsProjectsJobsRequest, TestIamPermissionsProjectsJobsResponse, TestIamPermissionsProjectsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsJobsRequest,
   output: TestIamPermissionsProjectsJobsResponse,
   errors: [],
 }));
 
-/** Cancels a running job. */
 export interface CancelProjectsJobsRequest {
   /** Required. The name of the job to cancel. */
   name: string;
@@ -2245,13 +2244,13 @@ export const CancelProjectsJobsResponse = GoogleProtobuf__Empty;
 
 export type CancelProjectsJobsError = CommonErrors;
 
+/** Cancels a running job. */
 export const cancelProjectsJobs: API.OperationMethod<CancelProjectsJobsRequest, CancelProjectsJobsResponse, CancelProjectsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsJobsRequest,
   output: CancelProjectsJobsResponse,
   errors: [],
 }));
 
-/** Creates a training or a batch prediction job. */
 export interface CreateProjectsJobsRequest {
   /** Required. The project name. */
   parent: string;
@@ -2272,13 +2271,13 @@ export const CreateProjectsJobsResponse = GoogleCloudMlV1__Job;
 
 export type CreateProjectsJobsError = CommonErrors;
 
+/** Creates a training or a batch prediction job. */
 export const createProjectsJobs: API.OperationMethod<CreateProjectsJobsRequest, CreateProjectsJobsResponse, CreateProjectsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsJobsRequest,
   output: CreateProjectsJobsResponse,
   errors: [],
 }));
 
-/** Updates a specific job resource. Currently the only supported fields to update are `labels`. */
 export interface PatchProjectsJobsRequest {
   /** Required. The job name. */
   name: string;
@@ -2302,13 +2301,13 @@ export const PatchProjectsJobsResponse = GoogleCloudMlV1__Job;
 
 export type PatchProjectsJobsError = CommonErrors;
 
+/** Updates a specific job resource. Currently the only supported fields to update are `labels`. */
 export const patchProjectsJobs: API.OperationMethod<PatchProjectsJobsRequest, PatchProjectsJobsResponse, PatchProjectsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsJobsRequest,
   output: PatchProjectsJobsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsModelsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2329,13 +2328,13 @@ export const TestIamPermissionsProjectsModelsResponse = GoogleIamV1__TestIamPerm
 
 export type TestIamPermissionsProjectsModelsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsModels: API.OperationMethod<TestIamPermissionsProjectsModelsRequest, TestIamPermissionsProjectsModelsResponse, TestIamPermissionsProjectsModelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsModelsRequest,
   output: TestIamPermissionsProjectsModelsResponse,
   errors: [],
 }));
 
-/** Creates a model which will later contain one or more versions. You must add at least one version before you can request predictions from the model. Add versions by calling projects.models.versions.create. */
 export interface CreateProjectsModelsRequest {
   /** Required. The project name. */
   parent: string;
@@ -2356,13 +2355,13 @@ export const CreateProjectsModelsResponse = GoogleCloudMlV1__Model;
 
 export type CreateProjectsModelsError = CommonErrors;
 
+/** Creates a model which will later contain one or more versions. You must add at least one version before you can request predictions from the model. Add versions by calling projects.models.versions.create. */
 export const createProjectsModels: API.OperationMethod<CreateProjectsModelsRequest, CreateProjectsModelsResponse, CreateProjectsModelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsModelsRequest,
   output: CreateProjectsModelsResponse,
   errors: [],
 }));
 
-/** Updates a specific model resource. Currently the only supported fields to update are `description` and `default_version.name`. */
 export interface PatchProjectsModelsRequest {
   /** Required. Specifies the path, relative to `Model`, of the field to update. For example, to change the description of a model to "foo" and set its default version to "version_1", the `update_mask` parameter would be specified as `description`, `default_version.name`, and the `PATCH` request body would specify the new value, as follows: { "description": "foo", "defaultVersion": { "name":"version_1" } } Currently the supported update masks are `description` and `default_version.name`. */
   updateMask?: string;
@@ -2386,13 +2385,13 @@ export const PatchProjectsModelsResponse = GoogleLongrunning__Operation;
 
 export type PatchProjectsModelsError = CommonErrors;
 
+/** Updates a specific model resource. Currently the only supported fields to update are `description` and `default_version.name`. */
 export const patchProjectsModels: API.OperationMethod<PatchProjectsModelsRequest, PatchProjectsModelsResponse, PatchProjectsModelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsModelsRequest,
   output: PatchProjectsModelsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsModelsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2413,13 +2412,13 @@ export const SetIamPolicyProjectsModelsResponse = GoogleIamV1__Policy;
 
 export type SetIamPolicyProjectsModelsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsModels: API.OperationMethod<SetIamPolicyProjectsModelsRequest, SetIamPolicyProjectsModelsResponse, SetIamPolicyProjectsModelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsModelsRequest,
   output: SetIamPolicyProjectsModelsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsModelsRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
@@ -2440,13 +2439,13 @@ export const GetIamPolicyProjectsModelsResponse = GoogleIamV1__Policy;
 
 export type GetIamPolicyProjectsModelsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsModels: API.OperationMethod<GetIamPolicyProjectsModelsRequest, GetIamPolicyProjectsModelsResponse, GetIamPolicyProjectsModelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsModelsRequest,
   output: GetIamPolicyProjectsModelsResponse,
   errors: [],
 }));
 
-/** Deletes a model. You can only delete a model if there are no versions in it. You can delete versions by calling projects.models.versions.delete. */
 export interface DeleteProjectsModelsRequest {
   /** Required. The name of the model. */
   name: string;
@@ -2464,13 +2463,13 @@ export const DeleteProjectsModelsResponse = GoogleLongrunning__Operation;
 
 export type DeleteProjectsModelsError = CommonErrors;
 
+/** Deletes a model. You can only delete a model if there are no versions in it. You can delete versions by calling projects.models.versions.delete. */
 export const deleteProjectsModels: API.OperationMethod<DeleteProjectsModelsRequest, DeleteProjectsModelsResponse, DeleteProjectsModelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsModelsRequest,
   output: DeleteProjectsModelsResponse,
   errors: [],
 }));
 
-/** Gets information about a model, including its name, the description (if set), and the default version (if at least one version of the model has been deployed). */
 export interface GetProjectsModelsRequest {
   /** Required. The name of the model. */
   name: string;
@@ -2488,13 +2487,13 @@ export const GetProjectsModelsResponse = GoogleCloudMlV1__Model;
 
 export type GetProjectsModelsError = CommonErrors;
 
+/** Gets information about a model, including its name, the description (if set), and the default version (if at least one version of the model has been deployed). */
 export const getProjectsModels: API.OperationMethod<GetProjectsModelsRequest, GetProjectsModelsResponse, GetProjectsModelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsModelsRequest,
   output: GetProjectsModelsResponse,
   errors: [],
 }));
 
-/** Lists the models in a project. Each project can contain multiple models, and each model can have multiple versions. If there are no models that match the request parameters, the list request returns an empty response body: {}. */
 export interface ListProjectsModelsRequest {
   /** Optional. Specifies the subset of models to retrieve. */
   filter?: string;
@@ -2521,7 +2520,8 @@ export const ListProjectsModelsResponse = GoogleCloudMlV1__ListModelsResponse;
 
 export type ListProjectsModelsError = CommonErrors;
 
-export const listProjectsModels = API.makePaginated(() => ({
+/** Lists the models in a project. Each project can contain multiple models, and each model can have multiple versions. If there are no models that match the request parameters, the list request returns an empty response body: {}. */
+export const listProjectsModels: API.PaginatedOperationMethod<ListProjectsModelsRequest, ListProjectsModelsResponse, ListProjectsModelsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsModelsRequest,
   output: ListProjectsModelsResponse,
   errors: [],
@@ -2531,7 +2531,6 @@ export const listProjectsModels = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a model version. Each model can have multiple versions deployed and in use at any given time. Use this method to remove a single version. Note: You cannot delete the version that is set as the default version of the model unless it is the only remaining version. */
 export interface DeleteProjectsModelsVersionsRequest {
   /** Required. The name of the version. You can get the names of all the versions of a model by calling projects.models.versions.list. */
   name: string;
@@ -2549,13 +2548,13 @@ export const DeleteProjectsModelsVersionsResponse = GoogleLongrunning__Operation
 
 export type DeleteProjectsModelsVersionsError = CommonErrors;
 
+/** Deletes a model version. Each model can have multiple versions deployed and in use at any given time. Use this method to remove a single version. Note: You cannot delete the version that is set as the default version of the model unless it is the only remaining version. */
 export const deleteProjectsModelsVersions: API.OperationMethod<DeleteProjectsModelsVersionsRequest, DeleteProjectsModelsVersionsResponse, DeleteProjectsModelsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsModelsVersionsRequest,
   output: DeleteProjectsModelsVersionsResponse,
   errors: [],
 }));
 
-/** Creates a new version of a model from a trained TensorFlow model. If the version created in the cloud by this call is the first deployed version of the specified model, it will be made the default version of the model. When you add a version to a model that already has one or more versions, the default version does not automatically change. If you want a new version to be the default, you must call projects.models.versions.setDefault. */
 export interface CreateProjectsModelsVersionsRequest {
   /** Required. The name of the model. */
   parent: string;
@@ -2576,13 +2575,13 @@ export const CreateProjectsModelsVersionsResponse = GoogleLongrunning__Operation
 
 export type CreateProjectsModelsVersionsError = CommonErrors;
 
+/** Creates a new version of a model from a trained TensorFlow model. If the version created in the cloud by this call is the first deployed version of the specified model, it will be made the default version of the model. When you add a version to a model that already has one or more versions, the default version does not automatically change. If you want a new version to be the default, you must call projects.models.versions.setDefault. */
 export const createProjectsModelsVersions: API.OperationMethod<CreateProjectsModelsVersionsRequest, CreateProjectsModelsVersionsResponse, CreateProjectsModelsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsModelsVersionsRequest,
   output: CreateProjectsModelsVersionsResponse,
   errors: [],
 }));
 
-/** Updates the specified Version resource. Currently the only update-able fields are `description`, `requestLoggingConfig`, `autoScaling.minNodes`, and `manualScaling.nodes`. */
 export interface PatchProjectsModelsVersionsRequest {
   /** Required. The name of the model. */
   name: string;
@@ -2606,13 +2605,13 @@ export const PatchProjectsModelsVersionsResponse = GoogleLongrunning__Operation;
 
 export type PatchProjectsModelsVersionsError = CommonErrors;
 
+/** Updates the specified Version resource. Currently the only update-able fields are `description`, `requestLoggingConfig`, `autoScaling.minNodes`, and `manualScaling.nodes`. */
 export const patchProjectsModelsVersions: API.OperationMethod<PatchProjectsModelsVersionsRequest, PatchProjectsModelsVersionsResponse, PatchProjectsModelsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsModelsVersionsRequest,
   output: PatchProjectsModelsVersionsResponse,
   errors: [],
 }));
 
-/** Gets information about a model version. Models can have multiple versions. You can call projects.models.versions.list to get the same information that this method returns for all of the versions of a model. */
 export interface GetProjectsModelsVersionsRequest {
   /** Required. The name of the version. */
   name: string;
@@ -2630,13 +2629,13 @@ export const GetProjectsModelsVersionsResponse = GoogleCloudMlV1__Version;
 
 export type GetProjectsModelsVersionsError = CommonErrors;
 
+/** Gets information about a model version. Models can have multiple versions. You can call projects.models.versions.list to get the same information that this method returns for all of the versions of a model. */
 export const getProjectsModelsVersions: API.OperationMethod<GetProjectsModelsVersionsRequest, GetProjectsModelsVersionsResponse, GetProjectsModelsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsModelsVersionsRequest,
   output: GetProjectsModelsVersionsResponse,
   errors: [],
 }));
 
-/** Designates a version to be the default for the model. The default version is used for prediction requests made against the model that don't specify a version. The first version to be created for a model is automatically set as the default. You must make any subsequent changes to the default version setting manually using this method. */
 export interface SetDefaultProjectsModelsVersionsRequest {
   /** Required. The name of the version to make the default for the model. You can get the names of all the versions of a model by calling projects.models.versions.list. */
   name: string;
@@ -2657,13 +2656,13 @@ export const SetDefaultProjectsModelsVersionsResponse = GoogleCloudMlV1__Version
 
 export type SetDefaultProjectsModelsVersionsError = CommonErrors;
 
+/** Designates a version to be the default for the model. The default version is used for prediction requests made against the model that don't specify a version. The first version to be created for a model is automatically set as the default. You must make any subsequent changes to the default version setting manually using this method. */
 export const setDefaultProjectsModelsVersions: API.OperationMethod<SetDefaultProjectsModelsVersionsRequest, SetDefaultProjectsModelsVersionsResponse, SetDefaultProjectsModelsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetDefaultProjectsModelsVersionsRequest,
   output: SetDefaultProjectsModelsVersionsResponse,
   errors: [],
 }));
 
-/** Gets basic information about all the versions of a model. If you expect that a model has many versions, or if you need to handle only a limited number of results at a time, you can request that the list be retrieved in batches (called pages). If there are no versions that match the request parameters, the list request returns an empty response body: {}. */
 export interface ListProjectsModelsVersionsRequest {
   /** Optional. Specifies the subset of versions to retrieve. */
   filter?: string;
@@ -2690,7 +2689,8 @@ export const ListProjectsModelsVersionsResponse = GoogleCloudMlV1__ListVersionsR
 
 export type ListProjectsModelsVersionsError = CommonErrors;
 
-export const listProjectsModelsVersions = API.makePaginated(() => ({
+/** Gets basic information about all the versions of a model. If you expect that a model has many versions, or if you need to handle only a limited number of results at a time, you can request that the list be retrieved in batches (called pages). If there are no versions that match the request parameters, the list request returns an empty response body: {}. */
+export const listProjectsModelsVersions: API.PaginatedOperationMethod<ListProjectsModelsVersionsRequest, ListProjectsModelsVersionsResponse, ListProjectsModelsVersionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsModelsVersionsRequest,
   output: ListProjectsModelsVersionsResponse,
   errors: [],

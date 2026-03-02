@@ -2901,7 +2901,6 @@ export const ListToolsetsResponse: Schema.Schema<ListToolsetsResponse> = Schema.
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string;
@@ -2931,7 +2930,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -2941,7 +2941,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -2959,13 +2958,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
@@ -2995,7 +2994,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -3005,7 +3005,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -3023,13 +3022,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -3050,13 +3049,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -3074,13 +3073,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Creates a new app in the given project and location. */
 export interface CreateProjectsLocationsAppsRequest {
   /** Required. The resource name of the location to create an app in. */
   parent: string;
@@ -3104,13 +3103,13 @@ export const CreateProjectsLocationsAppsResponse = Operation;
 
 export type CreateProjectsLocationsAppsError = CommonErrors;
 
+/** Creates a new app in the given project and location. */
 export const createProjectsLocationsApps: API.OperationMethod<CreateProjectsLocationsAppsRequest, CreateProjectsLocationsAppsResponse, CreateProjectsLocationsAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsAppsRequest,
   output: CreateProjectsLocationsAppsResponse,
   errors: [],
 }));
 
-/** Executes the given tool with the given arguments. */
 export interface ExecuteToolProjectsLocationsAppsRequest {
   /** Required. The resource name of the app which the tool/toolset belongs to. Format: `projects/{project}/locations/{location}/apps/{app}` */
   parent: string;
@@ -3131,13 +3130,13 @@ export const ExecuteToolProjectsLocationsAppsResponse = ExecuteToolResponse;
 
 export type ExecuteToolProjectsLocationsAppsError = CommonErrors;
 
+/** Executes the given tool with the given arguments. */
 export const executeToolProjectsLocationsApps: API.OperationMethod<ExecuteToolProjectsLocationsAppsRequest, ExecuteToolProjectsLocationsAppsResponse, ExecuteToolProjectsLocationsAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExecuteToolProjectsLocationsAppsRequest,
   output: ExecuteToolProjectsLocationsAppsResponse,
   errors: [],
 }));
 
-/** Updates the specified app. */
 export interface PatchProjectsLocationsAppsRequest {
   /** Identifier. The unique identifier of the app. Format: `projects/{project}/locations/{location}/apps/{app}` */
   name: string;
@@ -3161,13 +3160,13 @@ export const PatchProjectsLocationsAppsResponse = App;
 
 export type PatchProjectsLocationsAppsError = CommonErrors;
 
+/** Updates the specified app. */
 export const patchProjectsLocationsApps: API.OperationMethod<PatchProjectsLocationsAppsRequest, PatchProjectsLocationsAppsResponse, PatchProjectsLocationsAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsAppsRequest,
   output: PatchProjectsLocationsAppsResponse,
   errors: [],
 }));
 
-/** Gets details of the specified app. */
 export interface GetProjectsLocationsAppsRequest {
   /** Required. The resource name of the app to retrieve. */
   name: string;
@@ -3185,13 +3184,13 @@ export const GetProjectsLocationsAppsResponse = App;
 
 export type GetProjectsLocationsAppsError = CommonErrors;
 
+/** Gets details of the specified app. */
 export const getProjectsLocationsApps: API.OperationMethod<GetProjectsLocationsAppsRequest, GetProjectsLocationsAppsResponse, GetProjectsLocationsAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAppsRequest,
   output: GetProjectsLocationsAppsResponse,
   errors: [],
 }));
 
-/** Retrieve the schema of the given tool. The schema is computed on the fly for the given instance of the tool. */
 export interface RetrieveToolSchemaProjectsLocationsAppsRequest {
   /** Required. The resource name of the app which the tool/toolset belongs to. Format: `projects/{project}/locations/{location}/apps/{app}` */
   parent: string;
@@ -3212,13 +3211,13 @@ export const RetrieveToolSchemaProjectsLocationsAppsResponse = RetrieveToolSchem
 
 export type RetrieveToolSchemaProjectsLocationsAppsError = CommonErrors;
 
+/** Retrieve the schema of the given tool. The schema is computed on the fly for the given instance of the tool. */
 export const retrieveToolSchemaProjectsLocationsApps: API.OperationMethod<RetrieveToolSchemaProjectsLocationsAppsRequest, RetrieveToolSchemaProjectsLocationsAppsResponse, RetrieveToolSchemaProjectsLocationsAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RetrieveToolSchemaProjectsLocationsAppsRequest,
   output: RetrieveToolSchemaProjectsLocationsAppsResponse,
   errors: [],
 }));
 
-/** Deletes the specified app. */
 export interface DeleteProjectsLocationsAppsRequest {
   /** Optional. The current etag of the app. If an etag is not provided, the deletion will overwrite any concurrent changes. If an etag is provided and does not match the current etag of the app, deletion will be blocked and an ABORTED error will be returned. */
   etag?: string;
@@ -3239,13 +3238,13 @@ export const DeleteProjectsLocationsAppsResponse = Operation;
 
 export type DeleteProjectsLocationsAppsError = CommonErrors;
 
+/** Deletes the specified app. */
 export const deleteProjectsLocationsApps: API.OperationMethod<DeleteProjectsLocationsAppsRequest, DeleteProjectsLocationsAppsResponse, DeleteProjectsLocationsAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsAppsRequest,
   output: DeleteProjectsLocationsAppsResponse,
   errors: [],
 }));
 
-/** Imports the specified app. */
 export interface ImportAppProjectsLocationsAppsRequest {
   /** Required. The parent resource name with the location of the app to import. */
   parent: string;
@@ -3266,13 +3265,13 @@ export const ImportAppProjectsLocationsAppsResponse = Operation;
 
 export type ImportAppProjectsLocationsAppsError = CommonErrors;
 
+/** Imports the specified app. */
 export const importAppProjectsLocationsApps: API.OperationMethod<ImportAppProjectsLocationsAppsRequest, ImportAppProjectsLocationsAppsResponse, ImportAppProjectsLocationsAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportAppProjectsLocationsAppsRequest,
   output: ImportAppProjectsLocationsAppsResponse,
   errors: [],
 }));
 
-/** Exports the specified app. */
 export interface ExportAppProjectsLocationsAppsRequest {
   /** Required. The resource name of the app to export. */
   name: string;
@@ -3293,13 +3292,13 @@ export const ExportAppProjectsLocationsAppsResponse = Operation;
 
 export type ExportAppProjectsLocationsAppsError = CommonErrors;
 
+/** Exports the specified app. */
 export const exportAppProjectsLocationsApps: API.OperationMethod<ExportAppProjectsLocationsAppsRequest, ExportAppProjectsLocationsAppsResponse, ExportAppProjectsLocationsAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExportAppProjectsLocationsAppsRequest,
   output: ExportAppProjectsLocationsAppsResponse,
   errors: [],
 }));
 
-/** Lists apps in the given project and location. */
 export interface ListProjectsLocationsAppsRequest {
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
@@ -3329,7 +3328,8 @@ export const ListProjectsLocationsAppsResponse = ListAppsResponse;
 
 export type ListProjectsLocationsAppsError = CommonErrors;
 
-export const listProjectsLocationsApps = API.makePaginated(() => ({
+/** Lists apps in the given project and location. */
+export const listProjectsLocationsApps: API.PaginatedOperationMethod<ListProjectsLocationsAppsRequest, ListProjectsLocationsAppsResponse, ListProjectsLocationsAppsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAppsRequest,
   output: ListProjectsLocationsAppsResponse,
   errors: [],
@@ -3339,7 +3339,6 @@ export const listProjectsLocationsApps = API.makePaginated(() => ({
   },
 }));
 
-/** Initiates a single turn interaction with the CES agent within a session. */
 export interface RunSessionProjectsLocationsAppsSessionsRequest {
   /** Required. The unique identifier of the session. Format: `projects/{project}/locations/{location}/apps/{app}/sessions/{session}` */
   session: string;
@@ -3360,13 +3359,13 @@ export const RunSessionProjectsLocationsAppsSessionsResponse = RunSessionRespons
 
 export type RunSessionProjectsLocationsAppsSessionsError = CommonErrors;
 
+/** Initiates a single turn interaction with the CES agent within a session. */
 export const runSessionProjectsLocationsAppsSessions: API.OperationMethod<RunSessionProjectsLocationsAppsSessionsRequest, RunSessionProjectsLocationsAppsSessionsResponse, RunSessionProjectsLocationsAppsSessionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RunSessionProjectsLocationsAppsSessionsRequest,
   output: RunSessionProjectsLocationsAppsSessionsResponse,
   errors: [],
 }));
 
-/** Generates a session scoped token for chat widget to authenticate with Session APIs. */
 export interface GenerateChatTokenProjectsLocationsAppsSessionsRequest {
   /** Required. The session name to generate the chat token for. Format: projects/{project}/locations/{location}/apps/{app}/sessions/{session} */
   name: string;
@@ -3387,13 +3386,13 @@ export const GenerateChatTokenProjectsLocationsAppsSessionsResponse = GenerateCh
 
 export type GenerateChatTokenProjectsLocationsAppsSessionsError = CommonErrors;
 
+/** Generates a session scoped token for chat widget to authenticate with Session APIs. */
 export const generateChatTokenProjectsLocationsAppsSessions: API.OperationMethod<GenerateChatTokenProjectsLocationsAppsSessionsRequest, GenerateChatTokenProjectsLocationsAppsSessionsResponse, GenerateChatTokenProjectsLocationsAppsSessionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateChatTokenProjectsLocationsAppsSessionsRequest,
   output: GenerateChatTokenProjectsLocationsAppsSessionsResponse,
   errors: [],
 }));
 
-/** Lists the changelogs of the specified app. */
 export interface ListProjectsLocationsAppsChangelogsRequest {
   /** Optional. The next_page_token value returned from a previous list AgentService.ListChangelogs call. */
   pageToken?: string;
@@ -3423,7 +3422,8 @@ export const ListProjectsLocationsAppsChangelogsResponse = ListChangelogsRespons
 
 export type ListProjectsLocationsAppsChangelogsError = CommonErrors;
 
-export const listProjectsLocationsAppsChangelogs = API.makePaginated(() => ({
+/** Lists the changelogs of the specified app. */
+export const listProjectsLocationsAppsChangelogs: API.PaginatedOperationMethod<ListProjectsLocationsAppsChangelogsRequest, ListProjectsLocationsAppsChangelogsResponse, ListProjectsLocationsAppsChangelogsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAppsChangelogsRequest,
   output: ListProjectsLocationsAppsChangelogsResponse,
   errors: [],
@@ -3433,7 +3433,6 @@ export const listProjectsLocationsAppsChangelogs = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the specified changelog. */
 export interface GetProjectsLocationsAppsChangelogsRequest {
   /** Required. The resource name of the changelog to retrieve. */
   name: string;
@@ -3451,13 +3450,13 @@ export const GetProjectsLocationsAppsChangelogsResponse = Changelog;
 
 export type GetProjectsLocationsAppsChangelogsError = CommonErrors;
 
+/** Gets the specified changelog. */
 export const getProjectsLocationsAppsChangelogs: API.OperationMethod<GetProjectsLocationsAppsChangelogsRequest, GetProjectsLocationsAppsChangelogsResponse, GetProjectsLocationsAppsChangelogsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAppsChangelogsRequest,
   output: GetProjectsLocationsAppsChangelogsResponse,
   errors: [],
 }));
 
-/** Restores the specified app version. This will create a new app version from the current draft app and overwrite the current draft with the specified app version. */
 export interface RestoreProjectsLocationsAppsVersionsRequest {
   /** Required. The resource name of the app version to restore. */
   name: string;
@@ -3478,13 +3477,13 @@ export const RestoreProjectsLocationsAppsVersionsResponse = Operation;
 
 export type RestoreProjectsLocationsAppsVersionsError = CommonErrors;
 
+/** Restores the specified app version. This will create a new app version from the current draft app and overwrite the current draft with the specified app version. */
 export const restoreProjectsLocationsAppsVersions: API.OperationMethod<RestoreProjectsLocationsAppsVersionsRequest, RestoreProjectsLocationsAppsVersionsResponse, RestoreProjectsLocationsAppsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RestoreProjectsLocationsAppsVersionsRequest,
   output: RestoreProjectsLocationsAppsVersionsResponse,
   errors: [],
 }));
 
-/** Creates a new app version in the given app. */
 export interface CreateProjectsLocationsAppsVersionsRequest {
   /** Optional. The ID to use for the app version, which will become the final component of the app version's resource name. If not provided, a unique ID will be automatically assigned for the app version. */
   appVersionId?: string;
@@ -3508,13 +3507,13 @@ export const CreateProjectsLocationsAppsVersionsResponse = AppVersion;
 
 export type CreateProjectsLocationsAppsVersionsError = CommonErrors;
 
+/** Creates a new app version in the given app. */
 export const createProjectsLocationsAppsVersions: API.OperationMethod<CreateProjectsLocationsAppsVersionsRequest, CreateProjectsLocationsAppsVersionsResponse, CreateProjectsLocationsAppsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsAppsVersionsRequest,
   output: CreateProjectsLocationsAppsVersionsResponse,
   errors: [],
 }));
 
-/** Gets details of the specified app version. */
 export interface GetProjectsLocationsAppsVersionsRequest {
   /** Required. The resource name of the app version to retrieve. */
   name: string;
@@ -3532,13 +3531,13 @@ export const GetProjectsLocationsAppsVersionsResponse = AppVersion;
 
 export type GetProjectsLocationsAppsVersionsError = CommonErrors;
 
+/** Gets details of the specified app version. */
 export const getProjectsLocationsAppsVersions: API.OperationMethod<GetProjectsLocationsAppsVersionsRequest, GetProjectsLocationsAppsVersionsResponse, GetProjectsLocationsAppsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAppsVersionsRequest,
   output: GetProjectsLocationsAppsVersionsResponse,
   errors: [],
 }));
 
-/** Deletes the specified app version. */
 export interface DeleteProjectsLocationsAppsVersionsRequest {
   /** Required. The resource name of the app version to delete. */
   name: string;
@@ -3559,13 +3558,13 @@ export const DeleteProjectsLocationsAppsVersionsResponse = Empty;
 
 export type DeleteProjectsLocationsAppsVersionsError = CommonErrors;
 
+/** Deletes the specified app version. */
 export const deleteProjectsLocationsAppsVersions: API.OperationMethod<DeleteProjectsLocationsAppsVersionsRequest, DeleteProjectsLocationsAppsVersionsResponse, DeleteProjectsLocationsAppsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsAppsVersionsRequest,
   output: DeleteProjectsLocationsAppsVersionsResponse,
   errors: [],
 }));
 
-/** Lists all app versions in the given app. */
 export interface ListProjectsLocationsAppsVersionsRequest {
   /** Optional. Field to sort by. Only "name" and "create_time" is supported. See https://google.aip.dev/132#ordering for more details. */
   orderBy?: string;
@@ -3595,7 +3594,8 @@ export const ListProjectsLocationsAppsVersionsResponse = ListAppVersionsResponse
 
 export type ListProjectsLocationsAppsVersionsError = CommonErrors;
 
-export const listProjectsLocationsAppsVersions = API.makePaginated(() => ({
+/** Lists all app versions in the given app. */
+export const listProjectsLocationsAppsVersions: API.PaginatedOperationMethod<ListProjectsLocationsAppsVersionsRequest, ListProjectsLocationsAppsVersionsResponse, ListProjectsLocationsAppsVersionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAppsVersionsRequest,
   output: ListProjectsLocationsAppsVersionsResponse,
   errors: [],
@@ -3605,7 +3605,6 @@ export const listProjectsLocationsAppsVersions = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new example in the given app. */
 export interface CreateProjectsLocationsAppsExamplesRequest {
   /** Required. The resource name of the app to create an example in. */
   parent: string;
@@ -3629,13 +3628,13 @@ export const CreateProjectsLocationsAppsExamplesResponse = Example;
 
 export type CreateProjectsLocationsAppsExamplesError = CommonErrors;
 
+/** Creates a new example in the given app. */
 export const createProjectsLocationsAppsExamples: API.OperationMethod<CreateProjectsLocationsAppsExamplesRequest, CreateProjectsLocationsAppsExamplesResponse, CreateProjectsLocationsAppsExamplesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsAppsExamplesRequest,
   output: CreateProjectsLocationsAppsExamplesResponse,
   errors: [],
 }));
 
-/** Gets details of the specified example. */
 export interface GetProjectsLocationsAppsExamplesRequest {
   /** Required. The resource name of the example to retrieve. */
   name: string;
@@ -3653,13 +3652,13 @@ export const GetProjectsLocationsAppsExamplesResponse = Example;
 
 export type GetProjectsLocationsAppsExamplesError = CommonErrors;
 
+/** Gets details of the specified example. */
 export const getProjectsLocationsAppsExamples: API.OperationMethod<GetProjectsLocationsAppsExamplesRequest, GetProjectsLocationsAppsExamplesResponse, GetProjectsLocationsAppsExamplesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAppsExamplesRequest,
   output: GetProjectsLocationsAppsExamplesResponse,
   errors: [],
 }));
 
-/** Updates the specified example. */
 export interface PatchProjectsLocationsAppsExamplesRequest {
   /** Identifier. The unique identifier of the example. Format: `projects/{project}/locations/{location}/apps/{app}/examples/{example}` */
   name: string;
@@ -3683,13 +3682,13 @@ export const PatchProjectsLocationsAppsExamplesResponse = Example;
 
 export type PatchProjectsLocationsAppsExamplesError = CommonErrors;
 
+/** Updates the specified example. */
 export const patchProjectsLocationsAppsExamples: API.OperationMethod<PatchProjectsLocationsAppsExamplesRequest, PatchProjectsLocationsAppsExamplesResponse, PatchProjectsLocationsAppsExamplesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsAppsExamplesRequest,
   output: PatchProjectsLocationsAppsExamplesResponse,
   errors: [],
 }));
 
-/** Deletes the specified example. */
 export interface DeleteProjectsLocationsAppsExamplesRequest {
   /** Optional. The current etag of the example. If an etag is not provided, the deletion will overwrite any concurrent changes. If an etag is provided and does not match the current etag of the example, deletion will be blocked and an ABORTED error will be returned. */
   etag?: string;
@@ -3710,13 +3709,13 @@ export const DeleteProjectsLocationsAppsExamplesResponse = Empty;
 
 export type DeleteProjectsLocationsAppsExamplesError = CommonErrors;
 
+/** Deletes the specified example. */
 export const deleteProjectsLocationsAppsExamples: API.OperationMethod<DeleteProjectsLocationsAppsExamplesRequest, DeleteProjectsLocationsAppsExamplesResponse, DeleteProjectsLocationsAppsExamplesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsAppsExamplesRequest,
   output: DeleteProjectsLocationsAppsExamplesResponse,
   errors: [],
 }));
 
-/** Lists examples in the given app. */
 export interface ListProjectsLocationsAppsExamplesRequest {
   /** Optional. The next_page_token value returned from a previous list AgentService.ListExamples call. */
   pageToken?: string;
@@ -3746,7 +3745,8 @@ export const ListProjectsLocationsAppsExamplesResponse = ListExamplesResponse;
 
 export type ListProjectsLocationsAppsExamplesError = CommonErrors;
 
-export const listProjectsLocationsAppsExamples = API.makePaginated(() => ({
+/** Lists examples in the given app. */
+export const listProjectsLocationsAppsExamples: API.PaginatedOperationMethod<ListProjectsLocationsAppsExamplesRequest, ListProjectsLocationsAppsExamplesResponse, ListProjectsLocationsAppsExamplesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAppsExamplesRequest,
   output: ListProjectsLocationsAppsExamplesResponse,
   errors: [],
@@ -3756,7 +3756,6 @@ export const listProjectsLocationsAppsExamples = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the specified conversation. */
 export interface DeleteProjectsLocationsAppsConversationsRequest {
   /** Required. The resource name of the conversation to delete. */
   name: string;
@@ -3777,13 +3776,13 @@ export const DeleteProjectsLocationsAppsConversationsResponse = Empty;
 
 export type DeleteProjectsLocationsAppsConversationsError = CommonErrors;
 
+/** Deletes the specified conversation. */
 export const deleteProjectsLocationsAppsConversations: API.OperationMethod<DeleteProjectsLocationsAppsConversationsRequest, DeleteProjectsLocationsAppsConversationsResponse, DeleteProjectsLocationsAppsConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsAppsConversationsRequest,
   output: DeleteProjectsLocationsAppsConversationsResponse,
   errors: [],
 }));
 
-/** Gets details of the specified conversation. */
 export interface GetProjectsLocationsAppsConversationsRequest {
   /** Required. The resource name of the conversation to retrieve. */
   name: string;
@@ -3804,13 +3803,13 @@ export const GetProjectsLocationsAppsConversationsResponse = Conversation;
 
 export type GetProjectsLocationsAppsConversationsError = CommonErrors;
 
+/** Gets details of the specified conversation. */
 export const getProjectsLocationsAppsConversations: API.OperationMethod<GetProjectsLocationsAppsConversationsRequest, GetProjectsLocationsAppsConversationsResponse, GetProjectsLocationsAppsConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAppsConversationsRequest,
   output: GetProjectsLocationsAppsConversationsResponse,
   errors: [],
 }));
 
-/** Batch deletes the specified conversations. */
 export interface BatchDeleteProjectsLocationsAppsConversationsRequest {
   /** Required. The resource name of the app to delete conversations from. Format: `projects/{project}/locations/{location}/apps/{app}` */
   parent: string;
@@ -3831,13 +3830,13 @@ export const BatchDeleteProjectsLocationsAppsConversationsResponse = Operation;
 
 export type BatchDeleteProjectsLocationsAppsConversationsError = CommonErrors;
 
+/** Batch deletes the specified conversations. */
 export const batchDeleteProjectsLocationsAppsConversations: API.OperationMethod<BatchDeleteProjectsLocationsAppsConversationsRequest, BatchDeleteProjectsLocationsAppsConversationsResponse, BatchDeleteProjectsLocationsAppsConversationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchDeleteProjectsLocationsAppsConversationsRequest,
   output: BatchDeleteProjectsLocationsAppsConversationsResponse,
   errors: [],
 }));
 
-/** Lists conversations in the given app. */
 export interface ListProjectsLocationsAppsConversationsRequest {
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
@@ -3870,7 +3869,8 @@ export const ListProjectsLocationsAppsConversationsResponse = ListConversationsR
 
 export type ListProjectsLocationsAppsConversationsError = CommonErrors;
 
-export const listProjectsLocationsAppsConversations = API.makePaginated(() => ({
+/** Lists conversations in the given app. */
+export const listProjectsLocationsAppsConversations: API.PaginatedOperationMethod<ListProjectsLocationsAppsConversationsRequest, ListProjectsLocationsAppsConversationsResponse, ListProjectsLocationsAppsConversationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAppsConversationsRequest,
   output: ListProjectsLocationsAppsConversationsResponse,
   errors: [],
@@ -3880,7 +3880,6 @@ export const listProjectsLocationsAppsConversations = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new agent in the given app. */
 export interface CreateProjectsLocationsAppsAgentsRequest {
   /** Optional. The ID to use for the agent, which will become the final component of the agent's resource name. If not provided, a unique ID will be automatically assigned for the agent. */
   agentId?: string;
@@ -3904,13 +3903,13 @@ export const CreateProjectsLocationsAppsAgentsResponse = Agent;
 
 export type CreateProjectsLocationsAppsAgentsError = CommonErrors;
 
+/** Creates a new agent in the given app. */
 export const createProjectsLocationsAppsAgents: API.OperationMethod<CreateProjectsLocationsAppsAgentsRequest, CreateProjectsLocationsAppsAgentsResponse, CreateProjectsLocationsAppsAgentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsAppsAgentsRequest,
   output: CreateProjectsLocationsAppsAgentsResponse,
   errors: [],
 }));
 
-/** Gets details of the specified agent. */
 export interface GetProjectsLocationsAppsAgentsRequest {
   /** Required. The resource name of the agent to retrieve. */
   name: string;
@@ -3928,13 +3927,13 @@ export const GetProjectsLocationsAppsAgentsResponse = Agent;
 
 export type GetProjectsLocationsAppsAgentsError = CommonErrors;
 
+/** Gets details of the specified agent. */
 export const getProjectsLocationsAppsAgents: API.OperationMethod<GetProjectsLocationsAppsAgentsRequest, GetProjectsLocationsAppsAgentsResponse, GetProjectsLocationsAppsAgentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAppsAgentsRequest,
   output: GetProjectsLocationsAppsAgentsResponse,
   errors: [],
 }));
 
-/** Lists agents in the given app. */
 export interface ListProjectsLocationsAppsAgentsRequest {
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number;
@@ -3964,7 +3963,8 @@ export const ListProjectsLocationsAppsAgentsResponse = ListAgentsResponse;
 
 export type ListProjectsLocationsAppsAgentsError = CommonErrors;
 
-export const listProjectsLocationsAppsAgents = API.makePaginated(() => ({
+/** Lists agents in the given app. */
+export const listProjectsLocationsAppsAgents: API.PaginatedOperationMethod<ListProjectsLocationsAppsAgentsRequest, ListProjectsLocationsAppsAgentsResponse, ListProjectsLocationsAppsAgentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAppsAgentsRequest,
   output: ListProjectsLocationsAppsAgentsResponse,
   errors: [],
@@ -3974,7 +3974,6 @@ export const listProjectsLocationsAppsAgents = API.makePaginated(() => ({
   },
 }));
 
-/** Updates the specified agent. */
 export interface PatchProjectsLocationsAppsAgentsRequest {
   /** Identifier. The unique identifier of the agent. Format: `projects/{project}/locations/{location}/apps/{app}/agents/{agent}` */
   name: string;
@@ -3998,13 +3997,13 @@ export const PatchProjectsLocationsAppsAgentsResponse = Agent;
 
 export type PatchProjectsLocationsAppsAgentsError = CommonErrors;
 
+/** Updates the specified agent. */
 export const patchProjectsLocationsAppsAgents: API.OperationMethod<PatchProjectsLocationsAppsAgentsRequest, PatchProjectsLocationsAppsAgentsResponse, PatchProjectsLocationsAppsAgentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsAppsAgentsRequest,
   output: PatchProjectsLocationsAppsAgentsResponse,
   errors: [],
 }));
 
-/** Deletes the specified agent. */
 export interface DeleteProjectsLocationsAppsAgentsRequest {
   /** Optional. Indicates whether to forcefully delete the agent, even if it is still referenced by other app/agents/examples. * If `force = false`, the deletion fails if other agents/examples reference it. * If `force = true`, delete the agent and remove it from all referencing apps/agents/examples. */
   force?: boolean;
@@ -4028,13 +4027,13 @@ export const DeleteProjectsLocationsAppsAgentsResponse = Empty;
 
 export type DeleteProjectsLocationsAppsAgentsError = CommonErrors;
 
+/** Deletes the specified agent. */
 export const deleteProjectsLocationsAppsAgents: API.OperationMethod<DeleteProjectsLocationsAppsAgentsRequest, DeleteProjectsLocationsAppsAgentsResponse, DeleteProjectsLocationsAppsAgentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsAppsAgentsRequest,
   output: DeleteProjectsLocationsAppsAgentsResponse,
   errors: [],
 }));
 
-/** Updates the specified deployment. */
 export interface PatchProjectsLocationsAppsDeploymentsRequest {
   /** Optional. The list of fields to update. */
   updateMask?: string;
@@ -4058,13 +4057,13 @@ export const PatchProjectsLocationsAppsDeploymentsResponse = Deployment;
 
 export type PatchProjectsLocationsAppsDeploymentsError = CommonErrors;
 
+/** Updates the specified deployment. */
 export const patchProjectsLocationsAppsDeployments: API.OperationMethod<PatchProjectsLocationsAppsDeploymentsRequest, PatchProjectsLocationsAppsDeploymentsResponse, PatchProjectsLocationsAppsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsAppsDeploymentsRequest,
   output: PatchProjectsLocationsAppsDeploymentsResponse,
   errors: [],
 }));
 
-/** Lists deployments in the given app. */
 export interface ListProjectsLocationsAppsDeploymentsRequest {
   /** Optional. A page token, received from a previous `ListDeployments` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDeployments` must match the call that provided the page token. */
   pageToken?: string;
@@ -4091,7 +4090,8 @@ export const ListProjectsLocationsAppsDeploymentsResponse = ListDeploymentsRespo
 
 export type ListProjectsLocationsAppsDeploymentsError = CommonErrors;
 
-export const listProjectsLocationsAppsDeployments = API.makePaginated(() => ({
+/** Lists deployments in the given app. */
+export const listProjectsLocationsAppsDeployments: API.PaginatedOperationMethod<ListProjectsLocationsAppsDeploymentsRequest, ListProjectsLocationsAppsDeploymentsResponse, ListProjectsLocationsAppsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAppsDeploymentsRequest,
   output: ListProjectsLocationsAppsDeploymentsResponse,
   errors: [],
@@ -4101,7 +4101,6 @@ export const listProjectsLocationsAppsDeployments = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new deployment in the given app. */
 export interface CreateProjectsLocationsAppsDeploymentsRequest {
   /** Required. The parent app. Format: `projects/{project}/locations/{location}/apps/{app}` */
   parent: string;
@@ -4125,13 +4124,13 @@ export const CreateProjectsLocationsAppsDeploymentsResponse = Deployment;
 
 export type CreateProjectsLocationsAppsDeploymentsError = CommonErrors;
 
+/** Creates a new deployment in the given app. */
 export const createProjectsLocationsAppsDeployments: API.OperationMethod<CreateProjectsLocationsAppsDeploymentsRequest, CreateProjectsLocationsAppsDeploymentsResponse, CreateProjectsLocationsAppsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsAppsDeploymentsRequest,
   output: CreateProjectsLocationsAppsDeploymentsResponse,
   errors: [],
 }));
 
-/** Gets details of the specified deployment. */
 export interface GetProjectsLocationsAppsDeploymentsRequest {
   /** Required. The name of the deployment. Format: `projects/{project}/locations/{location}/apps/{app}/deployments/{deployment}` */
   name: string;
@@ -4149,13 +4148,13 @@ export const GetProjectsLocationsAppsDeploymentsResponse = Deployment;
 
 export type GetProjectsLocationsAppsDeploymentsError = CommonErrors;
 
+/** Gets details of the specified deployment. */
 export const getProjectsLocationsAppsDeployments: API.OperationMethod<GetProjectsLocationsAppsDeploymentsRequest, GetProjectsLocationsAppsDeploymentsResponse, GetProjectsLocationsAppsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAppsDeploymentsRequest,
   output: GetProjectsLocationsAppsDeploymentsResponse,
   errors: [],
 }));
 
-/** Deletes the specified deployment. */
 export interface DeleteProjectsLocationsAppsDeploymentsRequest {
   /** Required. The name of the deployment to delete. Format: `projects/{project}/locations/{location}/apps/{app}/deployments/{deployment}` */
   name: string;
@@ -4176,13 +4175,13 @@ export const DeleteProjectsLocationsAppsDeploymentsResponse = Empty;
 
 export type DeleteProjectsLocationsAppsDeploymentsError = CommonErrors;
 
+/** Deletes the specified deployment. */
 export const deleteProjectsLocationsAppsDeployments: API.OperationMethod<DeleteProjectsLocationsAppsDeploymentsRequest, DeleteProjectsLocationsAppsDeploymentsResponse, DeleteProjectsLocationsAppsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsAppsDeploymentsRequest,
   output: DeleteProjectsLocationsAppsDeploymentsResponse,
   errors: [],
 }));
 
-/** Creates a new guardrail in the given app. */
 export interface CreateProjectsLocationsAppsGuardrailsRequest {
   /** Required. The resource name of the app to create a guardrail in. */
   parent: string;
@@ -4206,13 +4205,13 @@ export const CreateProjectsLocationsAppsGuardrailsResponse = Guardrail;
 
 export type CreateProjectsLocationsAppsGuardrailsError = CommonErrors;
 
+/** Creates a new guardrail in the given app. */
 export const createProjectsLocationsAppsGuardrails: API.OperationMethod<CreateProjectsLocationsAppsGuardrailsRequest, CreateProjectsLocationsAppsGuardrailsResponse, CreateProjectsLocationsAppsGuardrailsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsAppsGuardrailsRequest,
   output: CreateProjectsLocationsAppsGuardrailsResponse,
   errors: [],
 }));
 
-/** Gets details of the specified guardrail. */
 export interface GetProjectsLocationsAppsGuardrailsRequest {
   /** Required. The resource name of the guardrail to retrieve. */
   name: string;
@@ -4230,13 +4229,13 @@ export const GetProjectsLocationsAppsGuardrailsResponse = Guardrail;
 
 export type GetProjectsLocationsAppsGuardrailsError = CommonErrors;
 
+/** Gets details of the specified guardrail. */
 export const getProjectsLocationsAppsGuardrails: API.OperationMethod<GetProjectsLocationsAppsGuardrailsRequest, GetProjectsLocationsAppsGuardrailsResponse, GetProjectsLocationsAppsGuardrailsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAppsGuardrailsRequest,
   output: GetProjectsLocationsAppsGuardrailsResponse,
   errors: [],
 }));
 
-/** Updates the specified guardrail. */
 export interface PatchProjectsLocationsAppsGuardrailsRequest {
   /** Identifier. The unique identifier of the guardrail. Format: `projects/{project}/locations/{location}/apps/{app}/guardrails/{guardrail}` */
   name: string;
@@ -4260,13 +4259,13 @@ export const PatchProjectsLocationsAppsGuardrailsResponse = Guardrail;
 
 export type PatchProjectsLocationsAppsGuardrailsError = CommonErrors;
 
+/** Updates the specified guardrail. */
 export const patchProjectsLocationsAppsGuardrails: API.OperationMethod<PatchProjectsLocationsAppsGuardrailsRequest, PatchProjectsLocationsAppsGuardrailsResponse, PatchProjectsLocationsAppsGuardrailsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsAppsGuardrailsRequest,
   output: PatchProjectsLocationsAppsGuardrailsResponse,
   errors: [],
 }));
 
-/** Lists guardrails in the given app. */
 export interface ListProjectsLocationsAppsGuardrailsRequest {
   /** Required. The resource name of the app to list guardrails from. */
   parent: string;
@@ -4296,7 +4295,8 @@ export const ListProjectsLocationsAppsGuardrailsResponse = ListGuardrailsRespons
 
 export type ListProjectsLocationsAppsGuardrailsError = CommonErrors;
 
-export const listProjectsLocationsAppsGuardrails = API.makePaginated(() => ({
+/** Lists guardrails in the given app. */
+export const listProjectsLocationsAppsGuardrails: API.PaginatedOperationMethod<ListProjectsLocationsAppsGuardrailsRequest, ListProjectsLocationsAppsGuardrailsResponse, ListProjectsLocationsAppsGuardrailsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAppsGuardrailsRequest,
   output: ListProjectsLocationsAppsGuardrailsResponse,
   errors: [],
@@ -4306,7 +4306,6 @@ export const listProjectsLocationsAppsGuardrails = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the specified guardrail. */
 export interface DeleteProjectsLocationsAppsGuardrailsRequest {
   /** Optional. Indicates whether to forcefully delete the guardrail, even if it is still referenced by app/agents. * If `force = false`, the deletion fails if any apps/agents still reference the guardrail. * If `force = true`, all existing references from apps/agents will be removed and the guardrail will be deleted. */
   force?: boolean;
@@ -4330,13 +4329,13 @@ export const DeleteProjectsLocationsAppsGuardrailsResponse = Empty;
 
 export type DeleteProjectsLocationsAppsGuardrailsError = CommonErrors;
 
+/** Deletes the specified guardrail. */
 export const deleteProjectsLocationsAppsGuardrails: API.OperationMethod<DeleteProjectsLocationsAppsGuardrailsRequest, DeleteProjectsLocationsAppsGuardrailsResponse, DeleteProjectsLocationsAppsGuardrailsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsAppsGuardrailsRequest,
   output: DeleteProjectsLocationsAppsGuardrailsResponse,
   errors: [],
 }));
 
-/** Updates the specified tool. */
 export interface PatchProjectsLocationsAppsToolsRequest {
   /** Optional. Field mask is used to control which fields get updated. If the mask is not present, all fields will be updated. */
   updateMask?: string;
@@ -4360,13 +4359,13 @@ export const PatchProjectsLocationsAppsToolsResponse = Tool;
 
 export type PatchProjectsLocationsAppsToolsError = CommonErrors;
 
+/** Updates the specified tool. */
 export const patchProjectsLocationsAppsTools: API.OperationMethod<PatchProjectsLocationsAppsToolsRequest, PatchProjectsLocationsAppsToolsResponse, PatchProjectsLocationsAppsToolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsAppsToolsRequest,
   output: PatchProjectsLocationsAppsToolsResponse,
   errors: [],
 }));
 
-/** Lists tools in the given app. */
 export interface ListProjectsLocationsAppsToolsRequest {
   /** Required. The resource name of the app to list tools from. */
   parent: string;
@@ -4396,7 +4395,8 @@ export const ListProjectsLocationsAppsToolsResponse = ListToolsResponse;
 
 export type ListProjectsLocationsAppsToolsError = CommonErrors;
 
-export const listProjectsLocationsAppsTools = API.makePaginated(() => ({
+/** Lists tools in the given app. */
+export const listProjectsLocationsAppsTools: API.PaginatedOperationMethod<ListProjectsLocationsAppsToolsRequest, ListProjectsLocationsAppsToolsResponse, ListProjectsLocationsAppsToolsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAppsToolsRequest,
   output: ListProjectsLocationsAppsToolsResponse,
   errors: [],
@@ -4406,7 +4406,6 @@ export const listProjectsLocationsAppsTools = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the specified tool. */
 export interface DeleteProjectsLocationsAppsToolsRequest {
   /** Required. The resource name of the tool to delete. */
   name: string;
@@ -4430,13 +4429,13 @@ export const DeleteProjectsLocationsAppsToolsResponse = Empty;
 
 export type DeleteProjectsLocationsAppsToolsError = CommonErrors;
 
+/** Deletes the specified tool. */
 export const deleteProjectsLocationsAppsTools: API.OperationMethod<DeleteProjectsLocationsAppsToolsRequest, DeleteProjectsLocationsAppsToolsResponse, DeleteProjectsLocationsAppsToolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsAppsToolsRequest,
   output: DeleteProjectsLocationsAppsToolsResponse,
   errors: [],
 }));
 
-/** Gets details of the specified tool. */
 export interface GetProjectsLocationsAppsToolsRequest {
   /** Required. The resource name of the tool to retrieve. */
   name: string;
@@ -4454,13 +4453,13 @@ export const GetProjectsLocationsAppsToolsResponse = Tool;
 
 export type GetProjectsLocationsAppsToolsError = CommonErrors;
 
+/** Gets details of the specified tool. */
 export const getProjectsLocationsAppsTools: API.OperationMethod<GetProjectsLocationsAppsToolsRequest, GetProjectsLocationsAppsToolsResponse, GetProjectsLocationsAppsToolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAppsToolsRequest,
   output: GetProjectsLocationsAppsToolsResponse,
   errors: [],
 }));
 
-/** Creates a new tool in the given app. */
 export interface CreateProjectsLocationsAppsToolsRequest {
   /** Optional. The ID to use for the tool, which will become the final component of the tool's resource name. If not provided, a unique ID will be automatically assigned for the tool. */
   toolId?: string;
@@ -4484,13 +4483,13 @@ export const CreateProjectsLocationsAppsToolsResponse = Tool;
 
 export type CreateProjectsLocationsAppsToolsError = CommonErrors;
 
+/** Creates a new tool in the given app. */
 export const createProjectsLocationsAppsTools: API.OperationMethod<CreateProjectsLocationsAppsToolsRequest, CreateProjectsLocationsAppsToolsResponse, CreateProjectsLocationsAppsToolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsAppsToolsRequest,
   output: CreateProjectsLocationsAppsToolsResponse,
   errors: [],
 }));
 
-/** Deletes the specified toolset. */
 export interface DeleteProjectsLocationsAppsToolsetsRequest {
   /** Optional. Indicates whether to forcefully delete the toolset, even if it is still referenced by app/agents. * If `force = false`, the deletion fails if any agents still reference the toolset. * If `force = true`, all existing references from agents will be removed and the toolset will be deleted. */
   force?: boolean;
@@ -4514,13 +4513,13 @@ export const DeleteProjectsLocationsAppsToolsetsResponse = Empty;
 
 export type DeleteProjectsLocationsAppsToolsetsError = CommonErrors;
 
+/** Deletes the specified toolset. */
 export const deleteProjectsLocationsAppsToolsets: API.OperationMethod<DeleteProjectsLocationsAppsToolsetsRequest, DeleteProjectsLocationsAppsToolsetsResponse, DeleteProjectsLocationsAppsToolsetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsAppsToolsetsRequest,
   output: DeleteProjectsLocationsAppsToolsetsResponse,
   errors: [],
 }));
 
-/** Retrieve the list of tools included in the specified toolset. */
 export interface RetrieveToolsProjectsLocationsAppsToolsetsRequest {
   /** Required. The name of the toolset to retrieve the tools for. Format: `projects/{project}/locations/{location}/apps/{app}/toolsets/{toolset}` */
   toolset: string;
@@ -4541,13 +4540,13 @@ export const RetrieveToolsProjectsLocationsAppsToolsetsResponse = RetrieveToolsR
 
 export type RetrieveToolsProjectsLocationsAppsToolsetsError = CommonErrors;
 
+/** Retrieve the list of tools included in the specified toolset. */
 export const retrieveToolsProjectsLocationsAppsToolsets: API.OperationMethod<RetrieveToolsProjectsLocationsAppsToolsetsRequest, RetrieveToolsProjectsLocationsAppsToolsetsResponse, RetrieveToolsProjectsLocationsAppsToolsetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RetrieveToolsProjectsLocationsAppsToolsetsRequest,
   output: RetrieveToolsProjectsLocationsAppsToolsetsResponse,
   errors: [],
 }));
 
-/** Lists toolsets in the given app. */
 export interface ListProjectsLocationsAppsToolsetsRequest {
   /** Optional. Filter to be applied when listing the toolsets. See https://google.aip.dev/160 for more details. */
   filter?: string;
@@ -4577,7 +4576,8 @@ export const ListProjectsLocationsAppsToolsetsResponse = ListToolsetsResponse;
 
 export type ListProjectsLocationsAppsToolsetsError = CommonErrors;
 
-export const listProjectsLocationsAppsToolsets = API.makePaginated(() => ({
+/** Lists toolsets in the given app. */
+export const listProjectsLocationsAppsToolsets: API.PaginatedOperationMethod<ListProjectsLocationsAppsToolsetsRequest, ListProjectsLocationsAppsToolsetsResponse, ListProjectsLocationsAppsToolsetsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAppsToolsetsRequest,
   output: ListProjectsLocationsAppsToolsetsResponse,
   errors: [],
@@ -4587,7 +4587,6 @@ export const listProjectsLocationsAppsToolsets = API.makePaginated(() => ({
   },
 }));
 
-/** Gets details of the specified toolset. */
 export interface GetProjectsLocationsAppsToolsetsRequest {
   /** Required. The resource name of the toolset to retrieve. */
   name: string;
@@ -4605,13 +4604,13 @@ export const GetProjectsLocationsAppsToolsetsResponse = Toolset;
 
 export type GetProjectsLocationsAppsToolsetsError = CommonErrors;
 
+/** Gets details of the specified toolset. */
 export const getProjectsLocationsAppsToolsets: API.OperationMethod<GetProjectsLocationsAppsToolsetsRequest, GetProjectsLocationsAppsToolsetsResponse, GetProjectsLocationsAppsToolsetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAppsToolsetsRequest,
   output: GetProjectsLocationsAppsToolsetsResponse,
   errors: [],
 }));
 
-/** Creates a new toolset in the given app. */
 export interface CreateProjectsLocationsAppsToolsetsRequest {
   /** Optional. The ID to use for the toolset, which will become the final component of the toolset's resource name. If not provided, a unique ID will be automatically assigned for the toolset. */
   toolsetId?: string;
@@ -4635,13 +4634,13 @@ export const CreateProjectsLocationsAppsToolsetsResponse = Toolset;
 
 export type CreateProjectsLocationsAppsToolsetsError = CommonErrors;
 
+/** Creates a new toolset in the given app. */
 export const createProjectsLocationsAppsToolsets: API.OperationMethod<CreateProjectsLocationsAppsToolsetsRequest, CreateProjectsLocationsAppsToolsetsResponse, CreateProjectsLocationsAppsToolsetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsAppsToolsetsRequest,
   output: CreateProjectsLocationsAppsToolsetsResponse,
   errors: [],
 }));
 
-/** Updates the specified toolset. */
 export interface PatchProjectsLocationsAppsToolsetsRequest {
   /** Identifier. The unique identifier of the toolset. Format: `projects/{project}/locations/{location}/apps/{app}/toolsets/{toolset}` */
   name: string;
@@ -4665,6 +4664,7 @@ export const PatchProjectsLocationsAppsToolsetsResponse = Toolset;
 
 export type PatchProjectsLocationsAppsToolsetsError = CommonErrors;
 
+/** Updates the specified toolset. */
 export const patchProjectsLocationsAppsToolsets: API.OperationMethod<PatchProjectsLocationsAppsToolsetsRequest, PatchProjectsLocationsAppsToolsetsResponse, PatchProjectsLocationsAppsToolsetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsAppsToolsetsRequest,
   output: PatchProjectsLocationsAppsToolsetsResponse,

@@ -3900,7 +3900,6 @@ export const GoogleCloudRetailV2betaTuneModelResponse: Schema.Schema<GoogleCloud
 // Operations
 // ==========================================================================
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -3930,7 +3929,8 @@ export const ListProjectsLocationsOperationsResponse = GoogleLongrunningListOper
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -3940,7 +3940,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -3958,13 +3957,13 @@ export const GetProjectsLocationsOperationsResponse = GoogleLongrunningOperation
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Exports analytics metrics. `Operation.response` is of type `ExportAnalyticsMetricsResponse`. `Operation.metadata` is of type `ExportMetadata`. */
 export interface ExportAnalyticsMetricsProjectsLocationsCatalogsRequest {
   /** Required. Full resource name of the parent catalog. Expected format: `projects/* /locations/* /catalogs/*` */
   catalog: string;
@@ -3985,13 +3984,13 @@ export const ExportAnalyticsMetricsProjectsLocationsCatalogsResponse = GoogleLon
 
 export type ExportAnalyticsMetricsProjectsLocationsCatalogsError = CommonErrors;
 
+/** Exports analytics metrics. `Operation.response` is of type `ExportAnalyticsMetricsResponse`. `Operation.metadata` is of type `ExportMetadata`. */
 export const exportAnalyticsMetricsProjectsLocationsCatalogs: API.OperationMethod<ExportAnalyticsMetricsProjectsLocationsCatalogsRequest, ExportAnalyticsMetricsProjectsLocationsCatalogsResponse, ExportAnalyticsMetricsProjectsLocationsCatalogsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExportAnalyticsMetricsProjectsLocationsCatalogsRequest,
   output: ExportAnalyticsMetricsProjectsLocationsCatalogsResponse,
   errors: [],
 }));
 
-/** Lists all the Catalogs associated with the project. */
 export interface ListProjectsLocationsCatalogsRequest {
   /** Required. The account resource name with an associated location. If the caller does not have permission to list Catalogs under this location, regardless of whether or not this location exists, a PERMISSION_DENIED error is returned. */
   parent: string;
@@ -4015,7 +4014,8 @@ export const ListProjectsLocationsCatalogsResponse = GoogleCloudRetailV2ListCata
 
 export type ListProjectsLocationsCatalogsError = CommonErrors;
 
-export const listProjectsLocationsCatalogs = API.makePaginated(() => ({
+/** Lists all the Catalogs associated with the project. */
+export const listProjectsLocationsCatalogs: API.PaginatedOperationMethod<ListProjectsLocationsCatalogsRequest, ListProjectsLocationsCatalogsResponse, ListProjectsLocationsCatalogsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCatalogsRequest,
   output: ListProjectsLocationsCatalogsResponse,
   errors: [],
@@ -4025,7 +4025,6 @@ export const listProjectsLocationsCatalogs = API.makePaginated(() => ({
   },
 }));
 
-/** Updates the Catalogs. */
 export interface PatchProjectsLocationsCatalogsRequest {
   /** Required. Immutable. The fully qualified resource name of the catalog. */
   name: string;
@@ -4049,13 +4048,13 @@ export const PatchProjectsLocationsCatalogsResponse = GoogleCloudRetailV2Catalog
 
 export type PatchProjectsLocationsCatalogsError = CommonErrors;
 
+/** Updates the Catalogs. */
 export const patchProjectsLocationsCatalogs: API.OperationMethod<PatchProjectsLocationsCatalogsRequest, PatchProjectsLocationsCatalogsResponse, PatchProjectsLocationsCatalogsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCatalogsRequest,
   output: PatchProjectsLocationsCatalogsResponse,
   errors: [],
 }));
 
-/** Set a specified branch id as default branch. API methods such as SearchService.Search, ProductService.GetProduct, ProductService.ListProducts will treat requests using "default_branch" to the actual branch id set as default. For example, if `projects/* /locations/* /catalogs/* /branches/1` is set as default, setting SearchRequest.branch to `projects/* /locations/* /catalogs/* /branches/default_branch` is equivalent to setting SearchRequest.branch to `projects/* /locations/* /catalogs/* /branches/1`. Using multiple branches can be useful when developers would like to have a staging branch to test and verify for future usage. When it becomes ready, developers switch on the staging branch using this API while keeping using `projects/* /locations/* /catalogs/* /branches/default_branch` as SearchRequest.branch to route the traffic to this staging branch. CAUTION: If you have live predict/search traffic, switching the default branch could potentially cause outages if the ID space of the new branch is very different from the old one. More specifically: * PredictionService will only return product IDs from branch {newBranch}. * SearchService will only return product IDs from branch {newBranch} (if branch is not explicitly set). * UserEventService will only join events with products from branch {newBranch}. */
 export interface SetDefaultBranchProjectsLocationsCatalogsRequest {
   /** Full resource name of the catalog, such as `projects/* /locations/global/catalogs/default_catalog`. */
   catalog: string;
@@ -4076,13 +4075,13 @@ export const SetDefaultBranchProjectsLocationsCatalogsResponse = GoogleProtobufE
 
 export type SetDefaultBranchProjectsLocationsCatalogsError = CommonErrors;
 
+/** Set a specified branch id as default branch. API methods such as SearchService.Search, ProductService.GetProduct, ProductService.ListProducts will treat requests using "default_branch" to the actual branch id set as default. For example, if `projects/* /locations/* /catalogs/* /branches/1` is set as default, setting SearchRequest.branch to `projects/* /locations/* /catalogs/* /branches/default_branch` is equivalent to setting SearchRequest.branch to `projects/* /locations/* /catalogs/* /branches/1`. Using multiple branches can be useful when developers would like to have a staging branch to test and verify for future usage. When it becomes ready, developers switch on the staging branch using this API while keeping using `projects/* /locations/* /catalogs/* /branches/default_branch` as SearchRequest.branch to route the traffic to this staging branch. CAUTION: If you have live predict/search traffic, switching the default branch could potentially cause outages if the ID space of the new branch is very different from the old one. More specifically: * PredictionService will only return product IDs from branch {newBranch}. * SearchService will only return product IDs from branch {newBranch} (if branch is not explicitly set). * UserEventService will only join events with products from branch {newBranch}. */
 export const setDefaultBranchProjectsLocationsCatalogs: API.OperationMethod<SetDefaultBranchProjectsLocationsCatalogsRequest, SetDefaultBranchProjectsLocationsCatalogsResponse, SetDefaultBranchProjectsLocationsCatalogsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetDefaultBranchProjectsLocationsCatalogsRequest,
   output: SetDefaultBranchProjectsLocationsCatalogsResponse,
   errors: [],
 }));
 
-/** Get which branch is currently default branch set by CatalogService.SetDefaultBranch method under a specified parent catalog. */
 export interface GetDefaultBranchProjectsLocationsCatalogsRequest {
   /** The parent catalog resource name, such as `projects/* /locations/global/catalogs/default_catalog`. */
   catalog: string;
@@ -4100,13 +4099,13 @@ export const GetDefaultBranchProjectsLocationsCatalogsResponse = GoogleCloudReta
 
 export type GetDefaultBranchProjectsLocationsCatalogsError = CommonErrors;
 
+/** Get which branch is currently default branch set by CatalogService.SetDefaultBranch method under a specified parent catalog. */
 export const getDefaultBranchProjectsLocationsCatalogs: API.OperationMethod<GetDefaultBranchProjectsLocationsCatalogsRequest, GetDefaultBranchProjectsLocationsCatalogsResponse, GetDefaultBranchProjectsLocationsCatalogsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDefaultBranchProjectsLocationsCatalogsRequest,
   output: GetDefaultBranchProjectsLocationsCatalogsResponse,
   errors: [],
 }));
 
-/** Gets a CompletionConfig. */
 export interface GetCompletionConfigProjectsLocationsCatalogsRequest {
   /** Required. Full CompletionConfig resource name. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/completionConfig` */
   name: string;
@@ -4124,13 +4123,13 @@ export const GetCompletionConfigProjectsLocationsCatalogsResponse = GoogleCloudR
 
 export type GetCompletionConfigProjectsLocationsCatalogsError = CommonErrors;
 
+/** Gets a CompletionConfig. */
 export const getCompletionConfigProjectsLocationsCatalogs: API.OperationMethod<GetCompletionConfigProjectsLocationsCatalogsRequest, GetCompletionConfigProjectsLocationsCatalogsResponse, GetCompletionConfigProjectsLocationsCatalogsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCompletionConfigProjectsLocationsCatalogsRequest,
   output: GetCompletionConfigProjectsLocationsCatalogsResponse,
   errors: [],
 }));
 
-/** Updates the CompletionConfigs. */
 export interface UpdateCompletionConfigProjectsLocationsCatalogsRequest {
   /** Required. Immutable. Fully qualified name `projects/* /locations/* /catalogs/* /completionConfig` */
   name: string;
@@ -4154,13 +4153,13 @@ export const UpdateCompletionConfigProjectsLocationsCatalogsResponse = GoogleClo
 
 export type UpdateCompletionConfigProjectsLocationsCatalogsError = CommonErrors;
 
+/** Updates the CompletionConfigs. */
 export const updateCompletionConfigProjectsLocationsCatalogs: API.OperationMethod<UpdateCompletionConfigProjectsLocationsCatalogsRequest, UpdateCompletionConfigProjectsLocationsCatalogsResponse, UpdateCompletionConfigProjectsLocationsCatalogsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateCompletionConfigProjectsLocationsCatalogsRequest,
   output: UpdateCompletionConfigProjectsLocationsCatalogsResponse,
   errors: [],
 }));
 
-/** Gets an AttributesConfig. */
 export interface GetAttributesConfigProjectsLocationsCatalogsRequest {
   /** Required. Full AttributesConfig resource name. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/attributesConfig` */
   name: string;
@@ -4178,13 +4177,13 @@ export const GetAttributesConfigProjectsLocationsCatalogsResponse = GoogleCloudR
 
 export type GetAttributesConfigProjectsLocationsCatalogsError = CommonErrors;
 
+/** Gets an AttributesConfig. */
 export const getAttributesConfigProjectsLocationsCatalogs: API.OperationMethod<GetAttributesConfigProjectsLocationsCatalogsRequest, GetAttributesConfigProjectsLocationsCatalogsResponse, GetAttributesConfigProjectsLocationsCatalogsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAttributesConfigProjectsLocationsCatalogsRequest,
   output: GetAttributesConfigProjectsLocationsCatalogsResponse,
   errors: [],
 }));
 
-/** Updates the AttributesConfig. The catalog attributes in the request will be updated in the catalog, or inserted if they do not exist. Existing catalog attributes not included in the request will remain unchanged. Attributes that are assigned to products, but do not exist at the catalog level, are always included in the response. The product attribute is assigned default values for missing catalog attribute fields, e.g., searchable and dynamic facetable options. */
 export interface UpdateAttributesConfigProjectsLocationsCatalogsRequest {
   /** Required. Immutable. The fully qualified resource name of the attribute config. Format: `projects/* /locations/* /catalogs/* /attributesConfig` */
   name: string;
@@ -4208,13 +4207,13 @@ export const UpdateAttributesConfigProjectsLocationsCatalogsResponse = GoogleClo
 
 export type UpdateAttributesConfigProjectsLocationsCatalogsError = CommonErrors;
 
+/** Updates the AttributesConfig. The catalog attributes in the request will be updated in the catalog, or inserted if they do not exist. Existing catalog attributes not included in the request will remain unchanged. Attributes that are assigned to products, but do not exist at the catalog level, are always included in the response. The product attribute is assigned default values for missing catalog attribute fields, e.g., searchable and dynamic facetable options. */
 export const updateAttributesConfigProjectsLocationsCatalogs: API.OperationMethod<UpdateAttributesConfigProjectsLocationsCatalogsRequest, UpdateAttributesConfigProjectsLocationsCatalogsResponse, UpdateAttributesConfigProjectsLocationsCatalogsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAttributesConfigProjectsLocationsCatalogsRequest,
   output: UpdateAttributesConfigProjectsLocationsCatalogsResponse,
   errors: [],
 }));
 
-/** Completes the specified prefix with keyword suggestions. This feature is only available for users who have Retail Search enabled. Enable Retail Search on Cloud Console before using this feature. */
 export interface CompleteQueryProjectsLocationsCatalogsRequest {
   /** Required. Catalog for which the completion is performed. Full resource name of catalog, such as `projects/* /locations/global/catalogs/default_catalog`. */
   catalog: string;
@@ -4256,13 +4255,13 @@ export const CompleteQueryProjectsLocationsCatalogsResponse = GoogleCloudRetailV
 
 export type CompleteQueryProjectsLocationsCatalogsError = CommonErrors;
 
+/** Completes the specified prefix with keyword suggestions. This feature is only available for users who have Retail Search enabled. Enable Retail Search on Cloud Console before using this feature. */
 export const completeQueryProjectsLocationsCatalogs: API.OperationMethod<CompleteQueryProjectsLocationsCatalogsRequest, CompleteQueryProjectsLocationsCatalogsResponse, CompleteQueryProjectsLocationsCatalogsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CompleteQueryProjectsLocationsCatalogsRequest,
   output: CompleteQueryProjectsLocationsCatalogsResponse,
   errors: [],
 }));
 
-/** Manages overal generative question feature state -- enables toggling feature on and off. */
 export interface UpdateGenerativeQuestionFeatureProjectsLocationsCatalogsRequest {
   /** Required. Resource name of the affected catalog. Format: projects/{project}/locations/{location}/catalogs/{catalog} */
   catalog: string;
@@ -4286,13 +4285,13 @@ export const UpdateGenerativeQuestionFeatureProjectsLocationsCatalogsResponse = 
 
 export type UpdateGenerativeQuestionFeatureProjectsLocationsCatalogsError = CommonErrors;
 
+/** Manages overal generative question feature state -- enables toggling feature on and off. */
 export const updateGenerativeQuestionFeatureProjectsLocationsCatalogs: API.OperationMethod<UpdateGenerativeQuestionFeatureProjectsLocationsCatalogsRequest, UpdateGenerativeQuestionFeatureProjectsLocationsCatalogsResponse, UpdateGenerativeQuestionFeatureProjectsLocationsCatalogsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateGenerativeQuestionFeatureProjectsLocationsCatalogsRequest,
   output: UpdateGenerativeQuestionFeatureProjectsLocationsCatalogsResponse,
   errors: [],
 }));
 
-/** Manages overal generative question feature state -- enables toggling feature on and off. */
 export interface GetGenerativeQuestionFeatureProjectsLocationsCatalogsRequest {
   /** Required. Resource name of the parent catalog. Format: projects/{project}/locations/{location}/catalogs/{catalog} */
   catalog: string;
@@ -4310,13 +4309,13 @@ export const GetGenerativeQuestionFeatureProjectsLocationsCatalogsResponse = Goo
 
 export type GetGenerativeQuestionFeatureProjectsLocationsCatalogsError = CommonErrors;
 
+/** Manages overal generative question feature state -- enables toggling feature on and off. */
 export const getGenerativeQuestionFeatureProjectsLocationsCatalogs: API.OperationMethod<GetGenerativeQuestionFeatureProjectsLocationsCatalogsRequest, GetGenerativeQuestionFeatureProjectsLocationsCatalogsResponse, GetGenerativeQuestionFeatureProjectsLocationsCatalogsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetGenerativeQuestionFeatureProjectsLocationsCatalogsRequest,
   output: GetGenerativeQuestionFeatureProjectsLocationsCatalogsResponse,
   errors: [],
 }));
 
-/** Allows management of individual questions. */
 export interface UpdateGenerativeQuestionProjectsLocationsCatalogsRequest {
   /** Required. Resource name of the catalog. Format: projects/{project}/locations/{location}/catalogs/{catalog} */
   catalog: string;
@@ -4340,13 +4339,13 @@ export const UpdateGenerativeQuestionProjectsLocationsCatalogsResponse = GoogleC
 
 export type UpdateGenerativeQuestionProjectsLocationsCatalogsError = CommonErrors;
 
+/** Allows management of individual questions. */
 export const updateGenerativeQuestionProjectsLocationsCatalogs: API.OperationMethod<UpdateGenerativeQuestionProjectsLocationsCatalogsRequest, UpdateGenerativeQuestionProjectsLocationsCatalogsResponse, UpdateGenerativeQuestionProjectsLocationsCatalogsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateGenerativeQuestionProjectsLocationsCatalogsRequest,
   output: UpdateGenerativeQuestionProjectsLocationsCatalogsResponse,
   errors: [],
 }));
 
-/** Returns the conversational search customization config for a given catalog. */
 export interface GetConversationalSearchCustomizationConfigProjectsLocationsCatalogsRequest {
   /** Required. Resource name of the parent catalog. Format: projects/{project}/locations/{location}/catalogs/{catalog} */
   name: string;
@@ -4364,13 +4363,13 @@ export const GetConversationalSearchCustomizationConfigProjectsLocationsCatalogs
 
 export type GetConversationalSearchCustomizationConfigProjectsLocationsCatalogsError = CommonErrors;
 
+/** Returns the conversational search customization config for a given catalog. */
 export const getConversationalSearchCustomizationConfigProjectsLocationsCatalogs: API.OperationMethod<GetConversationalSearchCustomizationConfigProjectsLocationsCatalogsRequest, GetConversationalSearchCustomizationConfigProjectsLocationsCatalogsResponse, GetConversationalSearchCustomizationConfigProjectsLocationsCatalogsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetConversationalSearchCustomizationConfigProjectsLocationsCatalogsRequest,
   output: GetConversationalSearchCustomizationConfigProjectsLocationsCatalogsResponse,
   errors: [],
 }));
 
-/** Updates the conversational search customization config for a given catalog. */
 export interface UpdateConversationalSearchCustomizationConfigProjectsLocationsCatalogsRequest {
   /** Required. Resource name of the catalog. Format: projects/{project}/locations/{location}/catalogs/{catalog} */
   catalog: string;
@@ -4394,13 +4393,13 @@ export const UpdateConversationalSearchCustomizationConfigProjectsLocationsCatal
 
 export type UpdateConversationalSearchCustomizationConfigProjectsLocationsCatalogsError = CommonErrors;
 
+/** Updates the conversational search customization config for a given catalog. */
 export const updateConversationalSearchCustomizationConfigProjectsLocationsCatalogs: API.OperationMethod<UpdateConversationalSearchCustomizationConfigProjectsLocationsCatalogsRequest, UpdateConversationalSearchCustomizationConfigProjectsLocationsCatalogsResponse, UpdateConversationalSearchCustomizationConfigProjectsLocationsCatalogsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateConversationalSearchCustomizationConfigProjectsLocationsCatalogsRequest,
   output: UpdateConversationalSearchCustomizationConfigProjectsLocationsCatalogsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsCatalogsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -4430,7 +4429,8 @@ export const ListProjectsLocationsCatalogsOperationsResponse = GoogleLongrunning
 
 export type ListProjectsLocationsCatalogsOperationsError = CommonErrors;
 
-export const listProjectsLocationsCatalogsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsCatalogsOperations: API.PaginatedOperationMethod<ListProjectsLocationsCatalogsOperationsRequest, ListProjectsLocationsCatalogsOperationsResponse, ListProjectsLocationsCatalogsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCatalogsOperationsRequest,
   output: ListProjectsLocationsCatalogsOperationsResponse,
   errors: [],
@@ -4440,7 +4440,6 @@ export const listProjectsLocationsCatalogsOperations = API.makePaginated(() => (
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsCatalogsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -4458,13 +4457,13 @@ export const GetProjectsLocationsCatalogsOperationsResponse = GoogleLongrunningO
 
 export type GetProjectsLocationsCatalogsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsCatalogsOperations: API.OperationMethod<GetProjectsLocationsCatalogsOperationsRequest, GetProjectsLocationsCatalogsOperationsResponse, GetProjectsLocationsCatalogsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCatalogsOperationsRequest,
   output: GetProjectsLocationsCatalogsOperationsResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsCatalogsBranchesOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -4482,13 +4481,13 @@ export const GetProjectsLocationsCatalogsBranchesOperationsResponse = GoogleLong
 
 export type GetProjectsLocationsCatalogsBranchesOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsCatalogsBranchesOperations: API.OperationMethod<GetProjectsLocationsCatalogsBranchesOperationsRequest, GetProjectsLocationsCatalogsBranchesOperationsResponse, GetProjectsLocationsCatalogsBranchesOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCatalogsBranchesOperationsRequest,
   output: GetProjectsLocationsCatalogsBranchesOperationsResponse,
   errors: [],
 }));
 
-/** Creates a Product. */
 export interface CreateProjectsLocationsCatalogsBranchesProductsRequest {
   /** Required. The parent catalog resource name, such as `projects/* /locations/global/catalogs/default_catalog/branches/default_branch`. */
   parent: string;
@@ -4512,13 +4511,13 @@ export const CreateProjectsLocationsCatalogsBranchesProductsResponse = GoogleClo
 
 export type CreateProjectsLocationsCatalogsBranchesProductsError = CommonErrors;
 
+/** Creates a Product. */
 export const createProjectsLocationsCatalogsBranchesProducts: API.OperationMethod<CreateProjectsLocationsCatalogsBranchesProductsRequest, CreateProjectsLocationsCatalogsBranchesProductsResponse, CreateProjectsLocationsCatalogsBranchesProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCatalogsBranchesProductsRequest,
   output: CreateProjectsLocationsCatalogsBranchesProductsResponse,
   errors: [],
 }));
 
-/** Gets a Product. */
 export interface GetProjectsLocationsCatalogsBranchesProductsRequest {
   /** Required. Full resource name of Product, such as `projects/* /locations/global/catalogs/default_catalog/branches/default_branch/products/some_product_id`. If the caller does not have permission to access the Product, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the requested Product does not exist, a NOT_FOUND error is returned. */
   name: string;
@@ -4536,13 +4535,13 @@ export const GetProjectsLocationsCatalogsBranchesProductsResponse = GoogleCloudR
 
 export type GetProjectsLocationsCatalogsBranchesProductsError = CommonErrors;
 
+/** Gets a Product. */
 export const getProjectsLocationsCatalogsBranchesProducts: API.OperationMethod<GetProjectsLocationsCatalogsBranchesProductsRequest, GetProjectsLocationsCatalogsBranchesProductsResponse, GetProjectsLocationsCatalogsBranchesProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCatalogsBranchesProductsRequest,
   output: GetProjectsLocationsCatalogsBranchesProductsResponse,
   errors: [],
 }));
 
-/** Gets a list of Products. */
 export interface ListProjectsLocationsCatalogsBranchesProductsRequest {
   /** Required. The parent branch resource name, such as `projects/* /locations/global/catalogs/default_catalog/branches/0`. Use `default_branch` as the branch ID, to list products under the default branch. If the caller does not have permission to list Products under this branch, regardless of whether or not this branch exists, a PERMISSION_DENIED error is returned. */
   parent: string;
@@ -4572,7 +4571,8 @@ export const ListProjectsLocationsCatalogsBranchesProductsResponse = GoogleCloud
 
 export type ListProjectsLocationsCatalogsBranchesProductsError = CommonErrors;
 
-export const listProjectsLocationsCatalogsBranchesProducts = API.makePaginated(() => ({
+/** Gets a list of Products. */
+export const listProjectsLocationsCatalogsBranchesProducts: API.PaginatedOperationMethod<ListProjectsLocationsCatalogsBranchesProductsRequest, ListProjectsLocationsCatalogsBranchesProductsResponse, ListProjectsLocationsCatalogsBranchesProductsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCatalogsBranchesProductsRequest,
   output: ListProjectsLocationsCatalogsBranchesProductsResponse,
   errors: [],
@@ -4582,7 +4582,6 @@ export const listProjectsLocationsCatalogsBranchesProducts = API.makePaginated((
   },
 }));
 
-/** Updates a Product. */
 export interface PatchProjectsLocationsCatalogsBranchesProductsRequest {
   /** Immutable. Full resource name of the product, such as `projects/* /locations/global/catalogs/default_catalog/branches/default_branch/products/product_id`. */
   name: string;
@@ -4609,13 +4608,13 @@ export const PatchProjectsLocationsCatalogsBranchesProductsResponse = GoogleClou
 
 export type PatchProjectsLocationsCatalogsBranchesProductsError = CommonErrors;
 
+/** Updates a Product. */
 export const patchProjectsLocationsCatalogsBranchesProducts: API.OperationMethod<PatchProjectsLocationsCatalogsBranchesProductsRequest, PatchProjectsLocationsCatalogsBranchesProductsResponse, PatchProjectsLocationsCatalogsBranchesProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCatalogsBranchesProductsRequest,
   output: PatchProjectsLocationsCatalogsBranchesProductsResponse,
   errors: [],
 }));
 
-/** Deletes a Product. */
 export interface DeleteProjectsLocationsCatalogsBranchesProductsRequest {
   /** Required. Full resource name of Product, such as `projects/* /locations/global/catalogs/default_catalog/branches/default_branch/products/some_product_id`. If the caller does not have permission to delete the Product, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. If the Product to delete does not exist, a NOT_FOUND error is returned. The Product to delete can neither be a Product.Type.COLLECTION Product member nor a Product.Type.PRIMARY Product with more than one variants. Otherwise, an INVALID_ARGUMENT error is returned. All inventory information for the named Product will be deleted. */
   name: string;
@@ -4633,13 +4632,13 @@ export const DeleteProjectsLocationsCatalogsBranchesProductsResponse = GooglePro
 
 export type DeleteProjectsLocationsCatalogsBranchesProductsError = CommonErrors;
 
+/** Deletes a Product. */
 export const deleteProjectsLocationsCatalogsBranchesProducts: API.OperationMethod<DeleteProjectsLocationsCatalogsBranchesProductsRequest, DeleteProjectsLocationsCatalogsBranchesProductsResponse, DeleteProjectsLocationsCatalogsBranchesProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCatalogsBranchesProductsRequest,
   output: DeleteProjectsLocationsCatalogsBranchesProductsResponse,
   errors: [],
 }));
 
-/** Permanently deletes all selected Products under a branch. This process is asynchronous. If the request is valid, the removal will be enqueued and processed offline. Depending on the number of Products, this operation could take hours to complete. Before the operation completes, some Products may still be returned by ProductService.GetProduct or ProductService.ListProducts. Depending on the number of Products, this operation could take hours to complete. To get a sample of Products that would be deleted, set PurgeProductsRequest.force to false. */
 export interface PurgeProjectsLocationsCatalogsBranchesProductsRequest {
   /** Required. The resource name of the branch under which the products are created. The format is `projects/${projectId}/locations/global/catalogs/${catalogId}/branches/${branchId}` */
   parent: string;
@@ -4660,13 +4659,13 @@ export const PurgeProjectsLocationsCatalogsBranchesProductsResponse = GoogleLong
 
 export type PurgeProjectsLocationsCatalogsBranchesProductsError = CommonErrors;
 
+/** Permanently deletes all selected Products under a branch. This process is asynchronous. If the request is valid, the removal will be enqueued and processed offline. Depending on the number of Products, this operation could take hours to complete. Before the operation completes, some Products may still be returned by ProductService.GetProduct or ProductService.ListProducts. Depending on the number of Products, this operation could take hours to complete. To get a sample of Products that would be deleted, set PurgeProductsRequest.force to false. */
 export const purgeProjectsLocationsCatalogsBranchesProducts: API.OperationMethod<PurgeProjectsLocationsCatalogsBranchesProductsRequest, PurgeProjectsLocationsCatalogsBranchesProductsResponse, PurgeProjectsLocationsCatalogsBranchesProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PurgeProjectsLocationsCatalogsBranchesProductsRequest,
   output: PurgeProjectsLocationsCatalogsBranchesProductsResponse,
   errors: [],
 }));
 
-/** Bulk import of multiple Products. Request processing may be synchronous. Non-existing items are created. Note that it is possible for a subset of the Products to be successfully updated. */
 export interface ImportProjectsLocationsCatalogsBranchesProductsRequest {
   /** Required. `projects/1234/locations/global/catalogs/default_catalog/branches/default_branch` If no updateMask is specified, requires products.create permission. If updateMask is specified, requires products.update permission. */
   parent: string;
@@ -4687,13 +4686,13 @@ export const ImportProjectsLocationsCatalogsBranchesProductsResponse = GoogleLon
 
 export type ImportProjectsLocationsCatalogsBranchesProductsError = CommonErrors;
 
+/** Bulk import of multiple Products. Request processing may be synchronous. Non-existing items are created. Note that it is possible for a subset of the Products to be successfully updated. */
 export const importProjectsLocationsCatalogsBranchesProducts: API.OperationMethod<ImportProjectsLocationsCatalogsBranchesProductsRequest, ImportProjectsLocationsCatalogsBranchesProductsResponse, ImportProjectsLocationsCatalogsBranchesProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportProjectsLocationsCatalogsBranchesProductsRequest,
   output: ImportProjectsLocationsCatalogsBranchesProductsResponse,
   errors: [],
 }));
 
-/** Updates inventory information for a Product while respecting the last update timestamps of each inventory field. This process is asynchronous and does not require the Product to exist before updating fulfillment information. If the request is valid, the update is enqueued and processed downstream. As a consequence, when a response is returned, updates are not immediately manifested in the Product queried by ProductService.GetProduct or ProductService.ListProducts. When inventory is updated with ProductService.CreateProduct and ProductService.UpdateProduct, the specified inventory field value(s) overwrite any existing value(s) while ignoring the last update time for this field. Furthermore, the last update times for the specified inventory fields are overwritten by the times of the ProductService.CreateProduct or ProductService.UpdateProduct request. If no inventory fields are set in CreateProductRequest.product, then any pre-existing inventory information for this product is used. If no inventory fields are set in SetInventoryRequest.set_mask, then any existing inventory information is preserved. Pre-existing inventory information can only be updated with ProductService.SetInventory, ProductService.AddFulfillmentPlaces, and ProductService.RemoveFulfillmentPlaces. The returned Operations is obsolete after one day, and the GetOperation API returns `NOT_FOUND` afterwards. If conflicting updates are issued, the Operations associated with the stale updates are not marked as done until they are obsolete. */
 export interface SetInventoryProjectsLocationsCatalogsBranchesProductsRequest {
   /** Immutable. Full resource name of the product, such as `projects/* /locations/global/catalogs/default_catalog/branches/default_branch/products/product_id`. */
   name: string;
@@ -4714,13 +4713,13 @@ export const SetInventoryProjectsLocationsCatalogsBranchesProductsResponse = Goo
 
 export type SetInventoryProjectsLocationsCatalogsBranchesProductsError = CommonErrors;
 
+/** Updates inventory information for a Product while respecting the last update timestamps of each inventory field. This process is asynchronous and does not require the Product to exist before updating fulfillment information. If the request is valid, the update is enqueued and processed downstream. As a consequence, when a response is returned, updates are not immediately manifested in the Product queried by ProductService.GetProduct or ProductService.ListProducts. When inventory is updated with ProductService.CreateProduct and ProductService.UpdateProduct, the specified inventory field value(s) overwrite any existing value(s) while ignoring the last update time for this field. Furthermore, the last update times for the specified inventory fields are overwritten by the times of the ProductService.CreateProduct or ProductService.UpdateProduct request. If no inventory fields are set in CreateProductRequest.product, then any pre-existing inventory information for this product is used. If no inventory fields are set in SetInventoryRequest.set_mask, then any existing inventory information is preserved. Pre-existing inventory information can only be updated with ProductService.SetInventory, ProductService.AddFulfillmentPlaces, and ProductService.RemoveFulfillmentPlaces. The returned Operations is obsolete after one day, and the GetOperation API returns `NOT_FOUND` afterwards. If conflicting updates are issued, the Operations associated with the stale updates are not marked as done until they are obsolete. */
 export const setInventoryProjectsLocationsCatalogsBranchesProducts: API.OperationMethod<SetInventoryProjectsLocationsCatalogsBranchesProductsRequest, SetInventoryProjectsLocationsCatalogsBranchesProductsResponse, SetInventoryProjectsLocationsCatalogsBranchesProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetInventoryProjectsLocationsCatalogsBranchesProductsRequest,
   output: SetInventoryProjectsLocationsCatalogsBranchesProductsResponse,
   errors: [],
 }));
 
-/** We recommend that you use the ProductService.AddLocalInventories method instead of the ProductService.AddFulfillmentPlaces method. ProductService.AddLocalInventories achieves the same results but provides more fine-grained control over ingesting local inventory data. Incrementally adds place IDs to Product.fulfillment_info.place_ids. This process is asynchronous and does not require the Product to exist before updating fulfillment information. If the request is valid, the update will be enqueued and processed downstream. As a consequence, when a response is returned, the added place IDs are not immediately manifested in the Product queried by ProductService.GetProduct or ProductService.ListProducts. The returned Operations will be obsolete after 1 day, and GetOperation API will return NOT_FOUND afterwards. If conflicting updates are issued, the Operations associated with the stale updates will not be marked as done until being obsolete. */
 export interface AddFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsRequest {
   /** Required. Full resource name of Product, such as `projects/* /locations/global/catalogs/default_catalog/branches/default_branch/products/some_product_id`. If the caller does not have permission to access the Product, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. */
   product: string;
@@ -4741,13 +4740,13 @@ export const AddFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsRespon
 
 export type AddFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsError = CommonErrors;
 
+/** We recommend that you use the ProductService.AddLocalInventories method instead of the ProductService.AddFulfillmentPlaces method. ProductService.AddLocalInventories achieves the same results but provides more fine-grained control over ingesting local inventory data. Incrementally adds place IDs to Product.fulfillment_info.place_ids. This process is asynchronous and does not require the Product to exist before updating fulfillment information. If the request is valid, the update will be enqueued and processed downstream. As a consequence, when a response is returned, the added place IDs are not immediately manifested in the Product queried by ProductService.GetProduct or ProductService.ListProducts. The returned Operations will be obsolete after 1 day, and GetOperation API will return NOT_FOUND afterwards. If conflicting updates are issued, the Operations associated with the stale updates will not be marked as done until being obsolete. */
 export const addFulfillmentPlacesProjectsLocationsCatalogsBranchesProducts: API.OperationMethod<AddFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsRequest, AddFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsResponse, AddFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsRequest,
   output: AddFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsResponse,
   errors: [],
 }));
 
-/** We recommend that you use the ProductService.RemoveLocalInventories method instead of the ProductService.RemoveFulfillmentPlaces method. ProductService.RemoveLocalInventories achieves the same results but provides more fine-grained control over ingesting local inventory data. Incrementally removes place IDs from a Product.fulfillment_info.place_ids. This process is asynchronous and does not require the Product to exist before updating fulfillment information. If the request is valid, the update will be enqueued and processed downstream. As a consequence, when a response is returned, the removed place IDs are not immediately manifested in the Product queried by ProductService.GetProduct or ProductService.ListProducts. The returned Operations will be obsolete after 1 day, and GetOperation API will return NOT_FOUND afterwards. If conflicting updates are issued, the Operations associated with the stale updates will not be marked as done until being obsolete. */
 export interface RemoveFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsRequest {
   /** Required. Full resource name of Product, such as `projects/* /locations/global/catalogs/default_catalog/branches/default_branch/products/some_product_id`. If the caller does not have permission to access the Product, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. */
   product: string;
@@ -4768,13 +4767,13 @@ export const RemoveFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsRes
 
 export type RemoveFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsError = CommonErrors;
 
+/** We recommend that you use the ProductService.RemoveLocalInventories method instead of the ProductService.RemoveFulfillmentPlaces method. ProductService.RemoveLocalInventories achieves the same results but provides more fine-grained control over ingesting local inventory data. Incrementally removes place IDs from a Product.fulfillment_info.place_ids. This process is asynchronous and does not require the Product to exist before updating fulfillment information. If the request is valid, the update will be enqueued and processed downstream. As a consequence, when a response is returned, the removed place IDs are not immediately manifested in the Product queried by ProductService.GetProduct or ProductService.ListProducts. The returned Operations will be obsolete after 1 day, and GetOperation API will return NOT_FOUND afterwards. If conflicting updates are issued, the Operations associated with the stale updates will not be marked as done until being obsolete. */
 export const removeFulfillmentPlacesProjectsLocationsCatalogsBranchesProducts: API.OperationMethod<RemoveFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsRequest, RemoveFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsResponse, RemoveFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsRequest,
   output: RemoveFulfillmentPlacesProjectsLocationsCatalogsBranchesProductsResponse,
   errors: [],
 }));
 
-/** Updates local inventory information for a Product at a list of places, while respecting the last update timestamps of each inventory field. This process is asynchronous and does not require the Product to exist before updating inventory information. If the request is valid, the update will be enqueued and processed downstream. As a consequence, when a response is returned, updates are not immediately manifested in the Product queried by ProductService.GetProduct or ProductService.ListProducts. Local inventory information can only be modified using this method. ProductService.CreateProduct and ProductService.UpdateProduct has no effect on local inventories. The returned Operations will be obsolete after 1 day, and GetOperation API will return NOT_FOUND afterwards. If conflicting updates are issued, the Operations associated with the stale updates will not be marked as done until being obsolete. */
 export interface AddLocalInventoriesProjectsLocationsCatalogsBranchesProductsRequest {
   /** Required. Full resource name of Product, such as `projects/* /locations/global/catalogs/default_catalog/branches/default_branch/products/some_product_id`. If the caller does not have permission to access the Product, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. */
   product: string;
@@ -4795,13 +4794,13 @@ export const AddLocalInventoriesProjectsLocationsCatalogsBranchesProductsRespons
 
 export type AddLocalInventoriesProjectsLocationsCatalogsBranchesProductsError = CommonErrors;
 
+/** Updates local inventory information for a Product at a list of places, while respecting the last update timestamps of each inventory field. This process is asynchronous and does not require the Product to exist before updating inventory information. If the request is valid, the update will be enqueued and processed downstream. As a consequence, when a response is returned, updates are not immediately manifested in the Product queried by ProductService.GetProduct or ProductService.ListProducts. Local inventory information can only be modified using this method. ProductService.CreateProduct and ProductService.UpdateProduct has no effect on local inventories. The returned Operations will be obsolete after 1 day, and GetOperation API will return NOT_FOUND afterwards. If conflicting updates are issued, the Operations associated with the stale updates will not be marked as done until being obsolete. */
 export const addLocalInventoriesProjectsLocationsCatalogsBranchesProducts: API.OperationMethod<AddLocalInventoriesProjectsLocationsCatalogsBranchesProductsRequest, AddLocalInventoriesProjectsLocationsCatalogsBranchesProductsResponse, AddLocalInventoriesProjectsLocationsCatalogsBranchesProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddLocalInventoriesProjectsLocationsCatalogsBranchesProductsRequest,
   output: AddLocalInventoriesProjectsLocationsCatalogsBranchesProductsResponse,
   errors: [],
 }));
 
-/** Remove local inventory information for a Product at a list of places at a removal timestamp. This process is asynchronous. If the request is valid, the removal will be enqueued and processed downstream. As a consequence, when a response is returned, removals are not immediately manifested in the Product queried by ProductService.GetProduct or ProductService.ListProducts. Local inventory information can only be removed using this method. ProductService.CreateProduct and ProductService.UpdateProduct has no effect on local inventories. The returned Operations will be obsolete after 1 day, and GetOperation API will return NOT_FOUND afterwards. If conflicting updates are issued, the Operations associated with the stale updates will not be marked as done until being obsolete. */
 export interface RemoveLocalInventoriesProjectsLocationsCatalogsBranchesProductsRequest {
   /** Required. Full resource name of Product, such as `projects/* /locations/global/catalogs/default_catalog/branches/default_branch/products/some_product_id`. If the caller does not have permission to access the Product, regardless of whether or not it exists, a PERMISSION_DENIED error is returned. */
   product: string;
@@ -4822,13 +4821,13 @@ export const RemoveLocalInventoriesProjectsLocationsCatalogsBranchesProductsResp
 
 export type RemoveLocalInventoriesProjectsLocationsCatalogsBranchesProductsError = CommonErrors;
 
+/** Remove local inventory information for a Product at a list of places at a removal timestamp. This process is asynchronous. If the request is valid, the removal will be enqueued and processed downstream. As a consequence, when a response is returned, removals are not immediately manifested in the Product queried by ProductService.GetProduct or ProductService.ListProducts. Local inventory information can only be removed using this method. ProductService.CreateProduct and ProductService.UpdateProduct has no effect on local inventories. The returned Operations will be obsolete after 1 day, and GetOperation API will return NOT_FOUND afterwards. If conflicting updates are issued, the Operations associated with the stale updates will not be marked as done until being obsolete. */
 export const removeLocalInventoriesProjectsLocationsCatalogsBranchesProducts: API.OperationMethod<RemoveLocalInventoriesProjectsLocationsCatalogsBranchesProductsRequest, RemoveLocalInventoriesProjectsLocationsCatalogsBranchesProductsResponse, RemoveLocalInventoriesProjectsLocationsCatalogsBranchesProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveLocalInventoriesProjectsLocationsCatalogsBranchesProductsRequest,
   output: RemoveLocalInventoriesProjectsLocationsCatalogsBranchesProductsResponse,
   errors: [],
 }));
 
-/** Adds the specified CatalogAttribute to the AttributesConfig. If the CatalogAttribute to add already exists, an ALREADY_EXISTS error is returned. */
 export interface AddCatalogAttributeProjectsLocationsCatalogsAttributesConfigRequest {
   /** Required. Full AttributesConfig resource name. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/attributesConfig` */
   attributesConfig: string;
@@ -4849,13 +4848,13 @@ export const AddCatalogAttributeProjectsLocationsCatalogsAttributesConfigRespons
 
 export type AddCatalogAttributeProjectsLocationsCatalogsAttributesConfigError = CommonErrors;
 
+/** Adds the specified CatalogAttribute to the AttributesConfig. If the CatalogAttribute to add already exists, an ALREADY_EXISTS error is returned. */
 export const addCatalogAttributeProjectsLocationsCatalogsAttributesConfig: API.OperationMethod<AddCatalogAttributeProjectsLocationsCatalogsAttributesConfigRequest, AddCatalogAttributeProjectsLocationsCatalogsAttributesConfigResponse, AddCatalogAttributeProjectsLocationsCatalogsAttributesConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddCatalogAttributeProjectsLocationsCatalogsAttributesConfigRequest,
   output: AddCatalogAttributeProjectsLocationsCatalogsAttributesConfigResponse,
   errors: [],
 }));
 
-/** Removes the specified CatalogAttribute from the AttributesConfig. If the CatalogAttribute to remove does not exist, a NOT_FOUND error is returned. */
 export interface RemoveCatalogAttributeProjectsLocationsCatalogsAttributesConfigRequest {
   /** Required. Full AttributesConfig resource name. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/attributesConfig` */
   attributesConfig: string;
@@ -4876,13 +4875,13 @@ export const RemoveCatalogAttributeProjectsLocationsCatalogsAttributesConfigResp
 
 export type RemoveCatalogAttributeProjectsLocationsCatalogsAttributesConfigError = CommonErrors;
 
+/** Removes the specified CatalogAttribute from the AttributesConfig. If the CatalogAttribute to remove does not exist, a NOT_FOUND error is returned. */
 export const removeCatalogAttributeProjectsLocationsCatalogsAttributesConfig: API.OperationMethod<RemoveCatalogAttributeProjectsLocationsCatalogsAttributesConfigRequest, RemoveCatalogAttributeProjectsLocationsCatalogsAttributesConfigResponse, RemoveCatalogAttributeProjectsLocationsCatalogsAttributesConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveCatalogAttributeProjectsLocationsCatalogsAttributesConfigRequest,
   output: RemoveCatalogAttributeProjectsLocationsCatalogsAttributesConfigResponse,
   errors: [],
 }));
 
-/** Replaces the specified CatalogAttribute in the AttributesConfig by updating the catalog attribute with the same CatalogAttribute.key. If the CatalogAttribute to replace does not exist, a NOT_FOUND error is returned. */
 export interface ReplaceCatalogAttributeProjectsLocationsCatalogsAttributesConfigRequest {
   /** Required. Full AttributesConfig resource name. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/attributesConfig` */
   attributesConfig: string;
@@ -4903,13 +4902,13 @@ export const ReplaceCatalogAttributeProjectsLocationsCatalogsAttributesConfigRes
 
 export type ReplaceCatalogAttributeProjectsLocationsCatalogsAttributesConfigError = CommonErrors;
 
+/** Replaces the specified CatalogAttribute in the AttributesConfig by updating the catalog attribute with the same CatalogAttribute.key. If the CatalogAttribute to replace does not exist, a NOT_FOUND error is returned. */
 export const replaceCatalogAttributeProjectsLocationsCatalogsAttributesConfig: API.OperationMethod<ReplaceCatalogAttributeProjectsLocationsCatalogsAttributesConfigRequest, ReplaceCatalogAttributeProjectsLocationsCatalogsAttributesConfigResponse, ReplaceCatalogAttributeProjectsLocationsCatalogsAttributesConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReplaceCatalogAttributeProjectsLocationsCatalogsAttributesConfigRequest,
   output: ReplaceCatalogAttributeProjectsLocationsCatalogsAttributesConfigResponse,
   errors: [],
 }));
 
-/** Performs a search. This feature is only available for users who have Retail Search enabled. Enable Retail Search on Cloud Console before using this feature. */
 export interface SearchProjectsLocationsCatalogsPlacementsRequest {
   /** Required. The resource name of the Retail Search serving config, such as `projects/* /locations/global/catalogs/default_catalog/servingConfigs/default_serving_config` or the name of the legacy placement resource, such as `projects/* /locations/global/catalogs/default_catalog/placements/default_search`. This field is used to identify the serving config name and the set of models that are used to make the search. */
   placement: string;
@@ -4930,13 +4929,13 @@ export const SearchProjectsLocationsCatalogsPlacementsResponse = GoogleCloudReta
 
 export type SearchProjectsLocationsCatalogsPlacementsError = CommonErrors;
 
+/** Performs a search. This feature is only available for users who have Retail Search enabled. Enable Retail Search on Cloud Console before using this feature. */
 export const searchProjectsLocationsCatalogsPlacements: API.OperationMethod<SearchProjectsLocationsCatalogsPlacementsRequest, SearchProjectsLocationsCatalogsPlacementsResponse, SearchProjectsLocationsCatalogsPlacementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchProjectsLocationsCatalogsPlacementsRequest,
   output: SearchProjectsLocationsCatalogsPlacementsResponse,
   errors: [],
 }));
 
-/** Performs a conversational search. This feature is only available for users who have Conversational Search enabled. */
 export interface ConversationalSearchProjectsLocationsCatalogsPlacementsRequest {
   /** Required. The resource name of the search engine placement, such as `projects/* /locations/global/catalogs/default_catalog/placements/default_search` or `projects/* /locations/global/catalogs/default_catalog/servingConfigs/default_serving_config` This field is used to identify the serving config name and the set of models that will be used to make the search. */
   placement: string;
@@ -4957,13 +4956,13 @@ export const ConversationalSearchProjectsLocationsCatalogsPlacementsResponse = G
 
 export type ConversationalSearchProjectsLocationsCatalogsPlacementsError = CommonErrors;
 
+/** Performs a conversational search. This feature is only available for users who have Conversational Search enabled. */
 export const conversationalSearchProjectsLocationsCatalogsPlacements: API.OperationMethod<ConversationalSearchProjectsLocationsCatalogsPlacementsRequest, ConversationalSearchProjectsLocationsCatalogsPlacementsResponse, ConversationalSearchProjectsLocationsCatalogsPlacementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ConversationalSearchProjectsLocationsCatalogsPlacementsRequest,
   output: ConversationalSearchProjectsLocationsCatalogsPlacementsResponse,
   errors: [],
 }));
 
-/** Makes a recommendation prediction. */
 export interface PredictProjectsLocationsCatalogsPlacementsRequest {
   /** Required. Full resource name of the format: `{placement=projects/* /locations/global/catalogs/default_catalog/servingConfigs/*}` or `{placement=projects/* /locations/global/catalogs/default_catalog/placements/*}`. We recommend using the `servingConfigs` resource. `placements` is a legacy resource. The ID of the Recommendations AI serving config or placement. Before you can request predictions from your model, you must create at least one serving config or placement for it. For more information, see [Manage serving configs] (https://cloud.google.com/retail/docs/manage-configs). The full list of available serving configs can be seen at https://console.cloud.google.com/ai/retail/catalogs/default_catalog/configs */
   placement: string;
@@ -4984,13 +4983,13 @@ export const PredictProjectsLocationsCatalogsPlacementsResponse = GoogleCloudRet
 
 export type PredictProjectsLocationsCatalogsPlacementsError = CommonErrors;
 
+/** Makes a recommendation prediction. */
 export const predictProjectsLocationsCatalogsPlacements: API.OperationMethod<PredictProjectsLocationsCatalogsPlacementsRequest, PredictProjectsLocationsCatalogsPlacementsResponse, PredictProjectsLocationsCatalogsPlacementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PredictProjectsLocationsCatalogsPlacementsRequest,
   output: PredictProjectsLocationsCatalogsPlacementsResponse,
   errors: [],
 }));
 
-/** Performs a search. This feature is only available for users who have Retail Search enabled. Enable Retail Search on Cloud Console before using this feature. */
 export interface SearchProjectsLocationsCatalogsServingConfigsRequest {
   /** Required. The resource name of the Retail Search serving config, such as `projects/* /locations/global/catalogs/default_catalog/servingConfigs/default_serving_config` or the name of the legacy placement resource, such as `projects/* /locations/global/catalogs/default_catalog/placements/default_search`. This field is used to identify the serving config name and the set of models that are used to make the search. */
   placement: string;
@@ -5011,13 +5010,13 @@ export const SearchProjectsLocationsCatalogsServingConfigsResponse = GoogleCloud
 
 export type SearchProjectsLocationsCatalogsServingConfigsError = CommonErrors;
 
+/** Performs a search. This feature is only available for users who have Retail Search enabled. Enable Retail Search on Cloud Console before using this feature. */
 export const searchProjectsLocationsCatalogsServingConfigs: API.OperationMethod<SearchProjectsLocationsCatalogsServingConfigsRequest, SearchProjectsLocationsCatalogsServingConfigsResponse, SearchProjectsLocationsCatalogsServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchProjectsLocationsCatalogsServingConfigsRequest,
   output: SearchProjectsLocationsCatalogsServingConfigsResponse,
   errors: [],
 }));
 
-/** Performs a conversational search. This feature is only available for users who have Conversational Search enabled. */
 export interface ConversationalSearchProjectsLocationsCatalogsServingConfigsRequest {
   /** Required. The resource name of the search engine placement, such as `projects/* /locations/global/catalogs/default_catalog/placements/default_search` or `projects/* /locations/global/catalogs/default_catalog/servingConfigs/default_serving_config` This field is used to identify the serving config name and the set of models that will be used to make the search. */
   placement: string;
@@ -5038,13 +5037,13 @@ export const ConversationalSearchProjectsLocationsCatalogsServingConfigsResponse
 
 export type ConversationalSearchProjectsLocationsCatalogsServingConfigsError = CommonErrors;
 
+/** Performs a conversational search. This feature is only available for users who have Conversational Search enabled. */
 export const conversationalSearchProjectsLocationsCatalogsServingConfigs: API.OperationMethod<ConversationalSearchProjectsLocationsCatalogsServingConfigsRequest, ConversationalSearchProjectsLocationsCatalogsServingConfigsResponse, ConversationalSearchProjectsLocationsCatalogsServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ConversationalSearchProjectsLocationsCatalogsServingConfigsRequest,
   output: ConversationalSearchProjectsLocationsCatalogsServingConfigsResponse,
   errors: [],
 }));
 
-/** Makes a recommendation prediction. */
 export interface PredictProjectsLocationsCatalogsServingConfigsRequest {
   /** Required. Full resource name of the format: `{placement=projects/* /locations/global/catalogs/default_catalog/servingConfigs/*}` or `{placement=projects/* /locations/global/catalogs/default_catalog/placements/*}`. We recommend using the `servingConfigs` resource. `placements` is a legacy resource. The ID of the Recommendations AI serving config or placement. Before you can request predictions from your model, you must create at least one serving config or placement for it. For more information, see [Manage serving configs] (https://cloud.google.com/retail/docs/manage-configs). The full list of available serving configs can be seen at https://console.cloud.google.com/ai/retail/catalogs/default_catalog/configs */
   placement: string;
@@ -5065,13 +5064,13 @@ export const PredictProjectsLocationsCatalogsServingConfigsResponse = GoogleClou
 
 export type PredictProjectsLocationsCatalogsServingConfigsError = CommonErrors;
 
+/** Makes a recommendation prediction. */
 export const predictProjectsLocationsCatalogsServingConfigs: API.OperationMethod<PredictProjectsLocationsCatalogsServingConfigsRequest, PredictProjectsLocationsCatalogsServingConfigsResponse, PredictProjectsLocationsCatalogsServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PredictProjectsLocationsCatalogsServingConfigsRequest,
   output: PredictProjectsLocationsCatalogsServingConfigsResponse,
   errors: [],
 }));
 
-/** Creates a ServingConfig. A maximum of 100 ServingConfigs are allowed in a Catalog, otherwise a FAILED_PRECONDITION error is returned. */
 export interface CreateProjectsLocationsCatalogsServingConfigsRequest {
   /** Required. Full resource name of parent. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}` */
   parent: string;
@@ -5095,13 +5094,13 @@ export const CreateProjectsLocationsCatalogsServingConfigsResponse = GoogleCloud
 
 export type CreateProjectsLocationsCatalogsServingConfigsError = CommonErrors;
 
+/** Creates a ServingConfig. A maximum of 100 ServingConfigs are allowed in a Catalog, otherwise a FAILED_PRECONDITION error is returned. */
 export const createProjectsLocationsCatalogsServingConfigs: API.OperationMethod<CreateProjectsLocationsCatalogsServingConfigsRequest, CreateProjectsLocationsCatalogsServingConfigsResponse, CreateProjectsLocationsCatalogsServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCatalogsServingConfigsRequest,
   output: CreateProjectsLocationsCatalogsServingConfigsResponse,
   errors: [],
 }));
 
-/** Deletes a ServingConfig. Returns a NotFound error if the ServingConfig does not exist. */
 export interface DeleteProjectsLocationsCatalogsServingConfigsRequest {
   /** Required. The resource name of the ServingConfig to delete. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/servingConfigs/{serving_config_id}` */
   name: string;
@@ -5119,13 +5118,13 @@ export const DeleteProjectsLocationsCatalogsServingConfigsResponse = GoogleProto
 
 export type DeleteProjectsLocationsCatalogsServingConfigsError = CommonErrors;
 
+/** Deletes a ServingConfig. Returns a NotFound error if the ServingConfig does not exist. */
 export const deleteProjectsLocationsCatalogsServingConfigs: API.OperationMethod<DeleteProjectsLocationsCatalogsServingConfigsRequest, DeleteProjectsLocationsCatalogsServingConfigsResponse, DeleteProjectsLocationsCatalogsServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCatalogsServingConfigsRequest,
   output: DeleteProjectsLocationsCatalogsServingConfigsResponse,
   errors: [],
 }));
 
-/** Updates a ServingConfig. */
 export interface PatchProjectsLocationsCatalogsServingConfigsRequest {
   /** Immutable. Fully qualified name `projects/* /locations/global/catalogs/* /servingConfig/*` */
   name: string;
@@ -5149,13 +5148,13 @@ export const PatchProjectsLocationsCatalogsServingConfigsResponse = GoogleCloudR
 
 export type PatchProjectsLocationsCatalogsServingConfigsError = CommonErrors;
 
+/** Updates a ServingConfig. */
 export const patchProjectsLocationsCatalogsServingConfigs: API.OperationMethod<PatchProjectsLocationsCatalogsServingConfigsRequest, PatchProjectsLocationsCatalogsServingConfigsResponse, PatchProjectsLocationsCatalogsServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCatalogsServingConfigsRequest,
   output: PatchProjectsLocationsCatalogsServingConfigsResponse,
   errors: [],
 }));
 
-/** Gets a ServingConfig. Returns a NotFound error if the ServingConfig does not exist. */
 export interface GetProjectsLocationsCatalogsServingConfigsRequest {
   /** Required. The resource name of the ServingConfig to get. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/servingConfigs/{serving_config_id}` */
   name: string;
@@ -5173,13 +5172,13 @@ export const GetProjectsLocationsCatalogsServingConfigsResponse = GoogleCloudRet
 
 export type GetProjectsLocationsCatalogsServingConfigsError = CommonErrors;
 
+/** Gets a ServingConfig. Returns a NotFound error if the ServingConfig does not exist. */
 export const getProjectsLocationsCatalogsServingConfigs: API.OperationMethod<GetProjectsLocationsCatalogsServingConfigsRequest, GetProjectsLocationsCatalogsServingConfigsResponse, GetProjectsLocationsCatalogsServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCatalogsServingConfigsRequest,
   output: GetProjectsLocationsCatalogsServingConfigsResponse,
   errors: [],
 }));
 
-/** Lists all ServingConfigs linked to this catalog. */
 export interface ListProjectsLocationsCatalogsServingConfigsRequest {
   /** Required. The catalog resource name. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}` */
   parent: string;
@@ -5203,7 +5202,8 @@ export const ListProjectsLocationsCatalogsServingConfigsResponse = GoogleCloudRe
 
 export type ListProjectsLocationsCatalogsServingConfigsError = CommonErrors;
 
-export const listProjectsLocationsCatalogsServingConfigs = API.makePaginated(() => ({
+/** Lists all ServingConfigs linked to this catalog. */
+export const listProjectsLocationsCatalogsServingConfigs: API.PaginatedOperationMethod<ListProjectsLocationsCatalogsServingConfigsRequest, ListProjectsLocationsCatalogsServingConfigsResponse, ListProjectsLocationsCatalogsServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCatalogsServingConfigsRequest,
   output: ListProjectsLocationsCatalogsServingConfigsResponse,
   errors: [],
@@ -5213,7 +5213,6 @@ export const listProjectsLocationsCatalogsServingConfigs = API.makePaginated(() 
   },
 }));
 
-/** Enables a Control on the specified ServingConfig. The control is added in the last position of the list of controls it belongs to (e.g. if it's a facet spec control it will be applied in the last position of servingConfig.facetSpecIds) Returns a ALREADY_EXISTS error if the control has already been applied. Returns a FAILED_PRECONDITION error if the addition could exceed maximum number of control allowed for that type of control. */
 export interface AddControlProjectsLocationsCatalogsServingConfigsRequest {
   /** Required. The source ServingConfig resource name . Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/servingConfigs/{serving_config_id}` */
   servingConfig: string;
@@ -5234,13 +5233,13 @@ export const AddControlProjectsLocationsCatalogsServingConfigsResponse = GoogleC
 
 export type AddControlProjectsLocationsCatalogsServingConfigsError = CommonErrors;
 
+/** Enables a Control on the specified ServingConfig. The control is added in the last position of the list of controls it belongs to (e.g. if it's a facet spec control it will be applied in the last position of servingConfig.facetSpecIds) Returns a ALREADY_EXISTS error if the control has already been applied. Returns a FAILED_PRECONDITION error if the addition could exceed maximum number of control allowed for that type of control. */
 export const addControlProjectsLocationsCatalogsServingConfigs: API.OperationMethod<AddControlProjectsLocationsCatalogsServingConfigsRequest, AddControlProjectsLocationsCatalogsServingConfigsResponse, AddControlProjectsLocationsCatalogsServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddControlProjectsLocationsCatalogsServingConfigsRequest,
   output: AddControlProjectsLocationsCatalogsServingConfigsResponse,
   errors: [],
 }));
 
-/** Disables a Control on the specified ServingConfig. The control is removed from the ServingConfig. Returns a NOT_FOUND error if the Control is not enabled for the ServingConfig. */
 export interface RemoveControlProjectsLocationsCatalogsServingConfigsRequest {
   /** Required. The source ServingConfig resource name . Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/servingConfigs/{serving_config_id}` */
   servingConfig: string;
@@ -5261,13 +5260,13 @@ export const RemoveControlProjectsLocationsCatalogsServingConfigsResponse = Goog
 
 export type RemoveControlProjectsLocationsCatalogsServingConfigsError = CommonErrors;
 
+/** Disables a Control on the specified ServingConfig. The control is removed from the ServingConfig. Returns a NOT_FOUND error if the Control is not enabled for the ServingConfig. */
 export const removeControlProjectsLocationsCatalogsServingConfigs: API.OperationMethod<RemoveControlProjectsLocationsCatalogsServingConfigsRequest, RemoveControlProjectsLocationsCatalogsServingConfigsResponse, RemoveControlProjectsLocationsCatalogsServingConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveControlProjectsLocationsCatalogsServingConfigsRequest,
   output: RemoveControlProjectsLocationsCatalogsServingConfigsResponse,
   errors: [],
 }));
 
-/** Bulk import of processed completion dataset. Request processing is asynchronous. Partial updating is not supported. The operation is successfully finished only after the imported suggestions are indexed successfully and ready for serving. The process takes hours. This feature is only available for users who have Retail Search enabled. Enable Retail Search on Cloud Console before using this feature. */
 export interface ImportProjectsLocationsCatalogsCompletionDataRequest {
   /** Required. The catalog which the suggestions dataset belongs to. Format: `projects/1234/locations/global/catalogs/default_catalog`. */
   parent: string;
@@ -5288,13 +5287,13 @@ export const ImportProjectsLocationsCatalogsCompletionDataResponse = GoogleLongr
 
 export type ImportProjectsLocationsCatalogsCompletionDataError = CommonErrors;
 
+/** Bulk import of processed completion dataset. Request processing is asynchronous. Partial updating is not supported. The operation is successfully finished only after the imported suggestions are indexed successfully and ready for serving. The process takes hours. This feature is only available for users who have Retail Search enabled. Enable Retail Search on Cloud Console before using this feature. */
 export const importProjectsLocationsCatalogsCompletionData: API.OperationMethod<ImportProjectsLocationsCatalogsCompletionDataRequest, ImportProjectsLocationsCatalogsCompletionDataResponse, ImportProjectsLocationsCatalogsCompletionDataError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportProjectsLocationsCatalogsCompletionDataRequest,
   output: ImportProjectsLocationsCatalogsCompletionDataResponse,
   errors: [],
 }));
 
-/** Creates a Control. If the Control to create already exists, an ALREADY_EXISTS error is returned. */
 export interface CreateProjectsLocationsCatalogsControlsRequest {
   /** Required. Full resource name of parent catalog. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}` */
   parent: string;
@@ -5318,13 +5317,13 @@ export const CreateProjectsLocationsCatalogsControlsResponse = GoogleCloudRetail
 
 export type CreateProjectsLocationsCatalogsControlsError = CommonErrors;
 
+/** Creates a Control. If the Control to create already exists, an ALREADY_EXISTS error is returned. */
 export const createProjectsLocationsCatalogsControls: API.OperationMethod<CreateProjectsLocationsCatalogsControlsRequest, CreateProjectsLocationsCatalogsControlsResponse, CreateProjectsLocationsCatalogsControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCatalogsControlsRequest,
   output: CreateProjectsLocationsCatalogsControlsResponse,
   errors: [],
 }));
 
-/** Deletes a Control. If the Control to delete does not exist, a NOT_FOUND error is returned. */
 export interface DeleteProjectsLocationsCatalogsControlsRequest {
   /** Required. The resource name of the Control to delete. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/controls/{control_id}` */
   name: string;
@@ -5342,13 +5341,13 @@ export const DeleteProjectsLocationsCatalogsControlsResponse = GoogleProtobufEmp
 
 export type DeleteProjectsLocationsCatalogsControlsError = CommonErrors;
 
+/** Deletes a Control. If the Control to delete does not exist, a NOT_FOUND error is returned. */
 export const deleteProjectsLocationsCatalogsControls: API.OperationMethod<DeleteProjectsLocationsCatalogsControlsRequest, DeleteProjectsLocationsCatalogsControlsResponse, DeleteProjectsLocationsCatalogsControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCatalogsControlsRequest,
   output: DeleteProjectsLocationsCatalogsControlsResponse,
   errors: [],
 }));
 
-/** Updates a Control. Control cannot be set to a different oneof field, if so an INVALID_ARGUMENT is returned. If the Control to update does not exist, a NOT_FOUND error is returned. */
 export interface PatchProjectsLocationsCatalogsControlsRequest {
   /** Immutable. Fully qualified name `projects/* /locations/global/catalogs/* /controls/*` */
   name: string;
@@ -5372,13 +5371,13 @@ export const PatchProjectsLocationsCatalogsControlsResponse = GoogleCloudRetailV
 
 export type PatchProjectsLocationsCatalogsControlsError = CommonErrors;
 
+/** Updates a Control. Control cannot be set to a different oneof field, if so an INVALID_ARGUMENT is returned. If the Control to update does not exist, a NOT_FOUND error is returned. */
 export const patchProjectsLocationsCatalogsControls: API.OperationMethod<PatchProjectsLocationsCatalogsControlsRequest, PatchProjectsLocationsCatalogsControlsResponse, PatchProjectsLocationsCatalogsControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCatalogsControlsRequest,
   output: PatchProjectsLocationsCatalogsControlsResponse,
   errors: [],
 }));
 
-/** Gets a Control. */
 export interface GetProjectsLocationsCatalogsControlsRequest {
   /** Required. The resource name of the Control to get. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/controls/{control_id}` */
   name: string;
@@ -5396,13 +5395,13 @@ export const GetProjectsLocationsCatalogsControlsResponse = GoogleCloudRetailV2C
 
 export type GetProjectsLocationsCatalogsControlsError = CommonErrors;
 
+/** Gets a Control. */
 export const getProjectsLocationsCatalogsControls: API.OperationMethod<GetProjectsLocationsCatalogsControlsRequest, GetProjectsLocationsCatalogsControlsResponse, GetProjectsLocationsCatalogsControlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCatalogsControlsRequest,
   output: GetProjectsLocationsCatalogsControlsResponse,
   errors: [],
 }));
 
-/** Lists all Controls by their parent Catalog. */
 export interface ListProjectsLocationsCatalogsControlsRequest {
   /** Required. The catalog resource name. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}` */
   parent: string;
@@ -5429,7 +5428,8 @@ export const ListProjectsLocationsCatalogsControlsResponse = GoogleCloudRetailV2
 
 export type ListProjectsLocationsCatalogsControlsError = CommonErrors;
 
-export const listProjectsLocationsCatalogsControls = API.makePaginated(() => ({
+/** Lists all Controls by their parent Catalog. */
+export const listProjectsLocationsCatalogsControls: API.PaginatedOperationMethod<ListProjectsLocationsCatalogsControlsRequest, ListProjectsLocationsCatalogsControlsResponse, ListProjectsLocationsCatalogsControlsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCatalogsControlsRequest,
   output: ListProjectsLocationsCatalogsControlsResponse,
   errors: [],
@@ -5439,7 +5439,6 @@ export const listProjectsLocationsCatalogsControls = API.makePaginated(() => ({
   },
 }));
 
-/** Returns all questions for a given catalog. */
 export interface ListProjectsLocationsCatalogsGenerativeQuestionsRequest {
   /** Required. Resource name of the parent catalog. Format: projects/{project}/locations/{location}/catalogs/{catalog} */
   parent: string;
@@ -5457,13 +5456,13 @@ export const ListProjectsLocationsCatalogsGenerativeQuestionsResponse = GoogleCl
 
 export type ListProjectsLocationsCatalogsGenerativeQuestionsError = CommonErrors;
 
+/** Returns all questions for a given catalog. */
 export const listProjectsLocationsCatalogsGenerativeQuestions: API.OperationMethod<ListProjectsLocationsCatalogsGenerativeQuestionsRequest, ListProjectsLocationsCatalogsGenerativeQuestionsResponse, ListProjectsLocationsCatalogsGenerativeQuestionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsCatalogsGenerativeQuestionsRequest,
   output: ListProjectsLocationsCatalogsGenerativeQuestionsResponse,
   errors: [],
 }));
 
-/** Allows management of multiple questions. */
 export interface BatchUpdateProjectsLocationsCatalogsGenerativeQuestionRequest {
   /** Optional. Resource name of the parent catalog. Format: projects/{project}/locations/{location}/catalogs/{catalog} */
   parent: string;
@@ -5484,13 +5483,13 @@ export const BatchUpdateProjectsLocationsCatalogsGenerativeQuestionResponse = Go
 
 export type BatchUpdateProjectsLocationsCatalogsGenerativeQuestionError = CommonErrors;
 
+/** Allows management of multiple questions. */
 export const batchUpdateProjectsLocationsCatalogsGenerativeQuestion: API.OperationMethod<BatchUpdateProjectsLocationsCatalogsGenerativeQuestionRequest, BatchUpdateProjectsLocationsCatalogsGenerativeQuestionResponse, BatchUpdateProjectsLocationsCatalogsGenerativeQuestionError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchUpdateProjectsLocationsCatalogsGenerativeQuestionRequest,
   output: BatchUpdateProjectsLocationsCatalogsGenerativeQuestionResponse,
   errors: [],
 }));
 
-/** Creates a new model. */
 export interface CreateProjectsLocationsCatalogsModelsRequest {
   /** Required. The parent resource under which to create the model. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}` */
   parent: string;
@@ -5514,13 +5513,13 @@ export const CreateProjectsLocationsCatalogsModelsResponse = GoogleLongrunningOp
 
 export type CreateProjectsLocationsCatalogsModelsError = CommonErrors;
 
+/** Creates a new model. */
 export const createProjectsLocationsCatalogsModels: API.OperationMethod<CreateProjectsLocationsCatalogsModelsRequest, CreateProjectsLocationsCatalogsModelsResponse, CreateProjectsLocationsCatalogsModelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCatalogsModelsRequest,
   output: CreateProjectsLocationsCatalogsModelsResponse,
   errors: [],
 }));
 
-/** Gets a model. */
 export interface GetProjectsLocationsCatalogsModelsRequest {
   /** Required. The resource name of the Model to get. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog}/models/{model_id}` */
   name: string;
@@ -5538,13 +5537,13 @@ export const GetProjectsLocationsCatalogsModelsResponse = GoogleCloudRetailV2Mod
 
 export type GetProjectsLocationsCatalogsModelsError = CommonErrors;
 
+/** Gets a model. */
 export const getProjectsLocationsCatalogsModels: API.OperationMethod<GetProjectsLocationsCatalogsModelsRequest, GetProjectsLocationsCatalogsModelsResponse, GetProjectsLocationsCatalogsModelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCatalogsModelsRequest,
   output: GetProjectsLocationsCatalogsModelsResponse,
   errors: [],
 }));
 
-/** Pauses the training of an existing model. */
 export interface PauseProjectsLocationsCatalogsModelsRequest {
   /** Required. The name of the model to pause. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/models/{model_id}` */
   name: string;
@@ -5565,13 +5564,13 @@ export const PauseProjectsLocationsCatalogsModelsResponse = GoogleCloudRetailV2M
 
 export type PauseProjectsLocationsCatalogsModelsError = CommonErrors;
 
+/** Pauses the training of an existing model. */
 export const pauseProjectsLocationsCatalogsModels: API.OperationMethod<PauseProjectsLocationsCatalogsModelsRequest, PauseProjectsLocationsCatalogsModelsResponse, PauseProjectsLocationsCatalogsModelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PauseProjectsLocationsCatalogsModelsRequest,
   output: PauseProjectsLocationsCatalogsModelsResponse,
   errors: [],
 }));
 
-/** Resumes the training of an existing model. */
 export interface ResumeProjectsLocationsCatalogsModelsRequest {
   /** Required. The name of the model to resume. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/models/{model_id}` */
   name: string;
@@ -5592,13 +5591,13 @@ export const ResumeProjectsLocationsCatalogsModelsResponse = GoogleCloudRetailV2
 
 export type ResumeProjectsLocationsCatalogsModelsError = CommonErrors;
 
+/** Resumes the training of an existing model. */
 export const resumeProjectsLocationsCatalogsModels: API.OperationMethod<ResumeProjectsLocationsCatalogsModelsRequest, ResumeProjectsLocationsCatalogsModelsResponse, ResumeProjectsLocationsCatalogsModelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResumeProjectsLocationsCatalogsModelsRequest,
   output: ResumeProjectsLocationsCatalogsModelsResponse,
   errors: [],
 }));
 
-/** Deletes an existing model. */
 export interface DeleteProjectsLocationsCatalogsModelsRequest {
   /** Required. The resource name of the Model to delete. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/models/{model_id}` */
   name: string;
@@ -5616,13 +5615,13 @@ export const DeleteProjectsLocationsCatalogsModelsResponse = GoogleProtobufEmpty
 
 export type DeleteProjectsLocationsCatalogsModelsError = CommonErrors;
 
+/** Deletes an existing model. */
 export const deleteProjectsLocationsCatalogsModels: API.OperationMethod<DeleteProjectsLocationsCatalogsModelsRequest, DeleteProjectsLocationsCatalogsModelsResponse, DeleteProjectsLocationsCatalogsModelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCatalogsModelsRequest,
   output: DeleteProjectsLocationsCatalogsModelsResponse,
   errors: [],
 }));
 
-/** Lists all the models linked to this event store. */
 export interface ListProjectsLocationsCatalogsModelsRequest {
   /** Required. The parent for which to list models. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}` */
   parent: string;
@@ -5646,7 +5645,8 @@ export const ListProjectsLocationsCatalogsModelsResponse = GoogleCloudRetailV2Li
 
 export type ListProjectsLocationsCatalogsModelsError = CommonErrors;
 
-export const listProjectsLocationsCatalogsModels = API.makePaginated(() => ({
+/** Lists all the models linked to this event store. */
+export const listProjectsLocationsCatalogsModels: API.PaginatedOperationMethod<ListProjectsLocationsCatalogsModelsRequest, ListProjectsLocationsCatalogsModelsResponse, ListProjectsLocationsCatalogsModelsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCatalogsModelsRequest,
   output: ListProjectsLocationsCatalogsModelsResponse,
   errors: [],
@@ -5656,7 +5656,6 @@ export const listProjectsLocationsCatalogsModels = API.makePaginated(() => ({
   },
 }));
 
-/** Update of model metadata. Only fields that currently can be updated are: `filtering_option` and `periodic_tuning_state`. If other values are provided, this API method ignores them. */
 export interface PatchProjectsLocationsCatalogsModelsRequest {
   /** Required. The fully qualified resource name of the model. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/models/{model_id}` catalog_id has char limit of 50. recommendation_model_id has char limit of 40. */
   name: string;
@@ -5680,13 +5679,13 @@ export const PatchProjectsLocationsCatalogsModelsResponse = GoogleCloudRetailV2M
 
 export type PatchProjectsLocationsCatalogsModelsError = CommonErrors;
 
+/** Update of model metadata. Only fields that currently can be updated are: `filtering_option` and `periodic_tuning_state`. If other values are provided, this API method ignores them. */
 export const patchProjectsLocationsCatalogsModels: API.OperationMethod<PatchProjectsLocationsCatalogsModelsRequest, PatchProjectsLocationsCatalogsModelsResponse, PatchProjectsLocationsCatalogsModelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCatalogsModelsRequest,
   output: PatchProjectsLocationsCatalogsModelsResponse,
   errors: [],
 }));
 
-/** Tunes an existing model. */
 export interface TuneProjectsLocationsCatalogsModelsRequest {
   /** Required. The resource name of the model to tune. Format: `projects/{project_number}/locations/{location_id}/catalogs/{catalog_id}/models/{model_id}` */
   name: string;
@@ -5707,13 +5706,13 @@ export const TuneProjectsLocationsCatalogsModelsResponse = GoogleLongrunningOper
 
 export type TuneProjectsLocationsCatalogsModelsError = CommonErrors;
 
+/** Tunes an existing model. */
 export const tuneProjectsLocationsCatalogsModels: API.OperationMethod<TuneProjectsLocationsCatalogsModelsRequest, TuneProjectsLocationsCatalogsModelsResponse, TuneProjectsLocationsCatalogsModelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TuneProjectsLocationsCatalogsModelsRequest,
   output: TuneProjectsLocationsCatalogsModelsResponse,
   errors: [],
 }));
 
-/** Writes a single user event. */
 export interface WriteProjectsLocationsCatalogsUserEventsRequest {
   /** Required. The parent catalog resource name, such as `projects/1234/locations/global/catalogs/default_catalog`. */
   parent: string;
@@ -5737,13 +5736,13 @@ export const WriteProjectsLocationsCatalogsUserEventsResponse = GoogleCloudRetai
 
 export type WriteProjectsLocationsCatalogsUserEventsError = CommonErrors;
 
+/** Writes a single user event. */
 export const writeProjectsLocationsCatalogsUserEvents: API.OperationMethod<WriteProjectsLocationsCatalogsUserEventsRequest, WriteProjectsLocationsCatalogsUserEventsResponse, WriteProjectsLocationsCatalogsUserEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WriteProjectsLocationsCatalogsUserEventsRequest,
   output: WriteProjectsLocationsCatalogsUserEventsResponse,
   errors: [],
 }));
 
-/** Writes a single user event from the browser. For larger user event payload over 16 KB, the POST method should be used instead, otherwise a 400 Bad Request error is returned. This method is used only by the Retail API JavaScript pixel and Google Tag Manager. Users should not call this method directly. */
 export interface CollectProjectsLocationsCatalogsUserEventsRequest {
   /** Required. The parent catalog name, such as `projects/1234/locations/global/catalogs/default_catalog`. */
   parent: string;
@@ -5764,13 +5763,13 @@ export const CollectProjectsLocationsCatalogsUserEventsResponse = GoogleApiHttpB
 
 export type CollectProjectsLocationsCatalogsUserEventsError = CommonErrors;
 
+/** Writes a single user event from the browser. For larger user event payload over 16 KB, the POST method should be used instead, otherwise a 400 Bad Request error is returned. This method is used only by the Retail API JavaScript pixel and Google Tag Manager. Users should not call this method directly. */
 export const collectProjectsLocationsCatalogsUserEvents: API.OperationMethod<CollectProjectsLocationsCatalogsUserEventsRequest, CollectProjectsLocationsCatalogsUserEventsResponse, CollectProjectsLocationsCatalogsUserEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CollectProjectsLocationsCatalogsUserEventsRequest,
   output: CollectProjectsLocationsCatalogsUserEventsResponse,
   errors: [],
 }));
 
-/** Deletes permanently all user events specified by the filter provided. Depending on the number of events specified by the filter, this operation could take hours or days to complete. To test a filter, use the list command first. */
 export interface PurgeProjectsLocationsCatalogsUserEventsRequest {
   /** Required. The resource name of the catalog under which the events are created. The format is `projects/${projectId}/locations/global/catalogs/${catalogId}` */
   parent: string;
@@ -5791,13 +5790,13 @@ export const PurgeProjectsLocationsCatalogsUserEventsResponse = GoogleLongrunnin
 
 export type PurgeProjectsLocationsCatalogsUserEventsError = CommonErrors;
 
+/** Deletes permanently all user events specified by the filter provided. Depending on the number of events specified by the filter, this operation could take hours or days to complete. To test a filter, use the list command first. */
 export const purgeProjectsLocationsCatalogsUserEvents: API.OperationMethod<PurgeProjectsLocationsCatalogsUserEventsRequest, PurgeProjectsLocationsCatalogsUserEventsResponse, PurgeProjectsLocationsCatalogsUserEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PurgeProjectsLocationsCatalogsUserEventsRequest,
   output: PurgeProjectsLocationsCatalogsUserEventsResponse,
   errors: [],
 }));
 
-/** Bulk import of User events. Request processing might be synchronous. Events that already exist are skipped. Use this method for backfilling historical user events. `Operation.response` is of type `ImportResponse`. Note that it is possible for a subset of the items to be successfully inserted. `Operation.metadata` is of type `ImportMetadata`. */
 export interface ImportProjectsLocationsCatalogsUserEventsRequest {
   /** Required. `projects/1234/locations/global/catalogs/default_catalog` */
   parent: string;
@@ -5818,13 +5817,13 @@ export const ImportProjectsLocationsCatalogsUserEventsResponse = GoogleLongrunni
 
 export type ImportProjectsLocationsCatalogsUserEventsError = CommonErrors;
 
+/** Bulk import of User events. Request processing might be synchronous. Events that already exist are skipped. Use this method for backfilling historical user events. `Operation.response` is of type `ImportResponse`. Note that it is possible for a subset of the items to be successfully inserted. `Operation.metadata` is of type `ImportMetadata`. */
 export const importProjectsLocationsCatalogsUserEvents: API.OperationMethod<ImportProjectsLocationsCatalogsUserEventsRequest, ImportProjectsLocationsCatalogsUserEventsResponse, ImportProjectsLocationsCatalogsUserEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportProjectsLocationsCatalogsUserEventsRequest,
   output: ImportProjectsLocationsCatalogsUserEventsResponse,
   errors: [],
 }));
 
-/** Starts a user-event rejoin operation with latest product catalog. Events are not annotated with detailed product information for products that are missing from the catalog when the user event is ingested. These events are stored as unjoined events with limited usage on training and serving. You can use this method to start a join operation on specified events with the latest version of product catalog. You can also use this method to correct events joined with the wrong product catalog. A rejoin operation can take hours or days to complete. */
 export interface RejoinProjectsLocationsCatalogsUserEventsRequest {
   /** Required. The parent catalog resource name, such as `projects/1234/locations/global/catalogs/default_catalog`. */
   parent: string;
@@ -5845,13 +5844,13 @@ export const RejoinProjectsLocationsCatalogsUserEventsResponse = GoogleLongrunni
 
 export type RejoinProjectsLocationsCatalogsUserEventsError = CommonErrors;
 
+/** Starts a user-event rejoin operation with latest product catalog. Events are not annotated with detailed product information for products that are missing from the catalog when the user event is ingested. These events are stored as unjoined events with limited usage on training and serving. You can use this method to start a join operation on specified events with the latest version of product catalog. You can also use this method to correct events joined with the wrong product catalog. A rejoin operation can take hours or days to complete. */
 export const rejoinProjectsLocationsCatalogsUserEvents: API.OperationMethod<RejoinProjectsLocationsCatalogsUserEventsRequest, RejoinProjectsLocationsCatalogsUserEventsResponse, RejoinProjectsLocationsCatalogsUserEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RejoinProjectsLocationsCatalogsUserEventsRequest,
   output: RejoinProjectsLocationsCatalogsUserEventsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -5881,7 +5880,8 @@ export const ListProjectsOperationsResponse = GoogleLongrunningListOperationsRes
 
 export type ListProjectsOperationsError = CommonErrors;
 
-export const listProjectsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsOperations: API.PaginatedOperationMethod<ListProjectsOperationsRequest, ListProjectsOperationsResponse, ListProjectsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsOperationsRequest,
   output: ListProjectsOperationsResponse,
   errors: [],
@@ -5891,7 +5891,6 @@ export const listProjectsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -5909,6 +5908,7 @@ export const GetProjectsOperationsResponse = GoogleLongrunningOperation;
 
 export type GetProjectsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsOperations: API.OperationMethod<GetProjectsOperationsRequest, GetProjectsOperationsResponse, GetProjectsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsOperationsRequest,
   output: GetProjectsOperationsResponse,

@@ -555,7 +555,6 @@ export const ListTransferLogsResponse: Schema.Schema<ListTransferLogsResponse> =
 // Operations
 // ==========================================================================
 
-/** Enroll data sources in a user project. This allows users to create transfer configurations for these data sources. They will also appear in the ListDataSources RPC and as such, will appear in the [BigQuery UI](https://console.cloud.google.com/bigquery), and the documents can be found in the public guide for [BigQuery Web UI](https://cloud.google.com/bigquery/bigquery-web-ui) and [Data Transfer Service](https://cloud.google.com/bigquery/docs/working-with-transfers). */
 export interface EnrollDataSourcesProjectsRequest {
   /** Required. The name of the project resource in the form: `projects/{project_id}` */
   name: string;
@@ -576,13 +575,13 @@ export const EnrollDataSourcesProjectsResponse = Empty;
 
 export type EnrollDataSourcesProjectsError = CommonErrors;
 
+/** Enroll data sources in a user project. This allows users to create transfer configurations for these data sources. They will also appear in the ListDataSources RPC and as such, will appear in the [BigQuery UI](https://console.cloud.google.com/bigquery), and the documents can be found in the public guide for [BigQuery Web UI](https://cloud.google.com/bigquery/bigquery-web-ui) and [Data Transfer Service](https://cloud.google.com/bigquery/docs/working-with-transfers). */
 export const enrollDataSourcesProjects: API.OperationMethod<EnrollDataSourcesProjectsRequest, EnrollDataSourcesProjectsResponse, EnrollDataSourcesProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnrollDataSourcesProjectsRequest,
   output: EnrollDataSourcesProjectsResponse,
   errors: [],
 }));
 
-/** Unenroll data sources in a user project. This allows users to remove transfer configurations for these data sources. They will no longer appear in the ListDataSources RPC and will also no longer appear in the [BigQuery UI](https://console.cloud.google.com/bigquery). Data transfers configurations of unenrolled data sources will not be scheduled. */
 export interface UnenrollDataSourcesProjectsLocationsRequest {
   /** Required. The name of the project resource in the form: `projects/{project_id}` */
   name: string;
@@ -603,13 +602,13 @@ export const UnenrollDataSourcesProjectsLocationsResponse = Empty;
 
 export type UnenrollDataSourcesProjectsLocationsError = CommonErrors;
 
+/** Unenroll data sources in a user project. This allows users to remove transfer configurations for these data sources. They will no longer appear in the ListDataSources RPC and will also no longer appear in the [BigQuery UI](https://console.cloud.google.com/bigquery). Data transfers configurations of unenrolled data sources will not be scheduled. */
 export const unenrollDataSourcesProjectsLocations: API.OperationMethod<UnenrollDataSourcesProjectsLocationsRequest, UnenrollDataSourcesProjectsLocationsResponse, UnenrollDataSourcesProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UnenrollDataSourcesProjectsLocationsRequest,
   output: UnenrollDataSourcesProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number;
@@ -639,7 +638,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -649,7 +649,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -667,13 +666,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Enroll data sources in a user project. This allows users to create transfer configurations for these data sources. They will also appear in the ListDataSources RPC and as such, will appear in the [BigQuery UI](https://console.cloud.google.com/bigquery), and the documents can be found in the public guide for [BigQuery Web UI](https://cloud.google.com/bigquery/bigquery-web-ui) and [Data Transfer Service](https://cloud.google.com/bigquery/docs/working-with-transfers). */
 export interface EnrollDataSourcesProjectsLocationsRequest {
   /** Required. The name of the project resource in the form: `projects/{project_id}` */
   name: string;
@@ -694,13 +693,13 @@ export const EnrollDataSourcesProjectsLocationsResponse = Empty;
 
 export type EnrollDataSourcesProjectsLocationsError = CommonErrors;
 
+/** Enroll data sources in a user project. This allows users to create transfer configurations for these data sources. They will also appear in the ListDataSources RPC and as such, will appear in the [BigQuery UI](https://console.cloud.google.com/bigquery), and the documents can be found in the public guide for [BigQuery Web UI](https://cloud.google.com/bigquery/bigquery-web-ui) and [Data Transfer Service](https://cloud.google.com/bigquery/docs/working-with-transfers). */
 export const enrollDataSourcesProjectsLocations: API.OperationMethod<EnrollDataSourcesProjectsLocationsRequest, EnrollDataSourcesProjectsLocationsResponse, EnrollDataSourcesProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnrollDataSourcesProjectsLocationsRequest,
   output: EnrollDataSourcesProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists supported data sources and returns their settings. */
 export interface ListProjectsLocationsDataSourcesRequest {
   /** Pagination token, which can be used to request a specific page of `ListDataSourcesRequest` list results. For multiple-page results, `ListDataSourcesResponse` outputs a `next_page` token, which can be used as the `page_token` value to request the next page of list results. */
   pageToken?: string;
@@ -724,7 +723,8 @@ export const ListProjectsLocationsDataSourcesResponse = ListDataSourcesResponse;
 
 export type ListProjectsLocationsDataSourcesError = CommonErrors;
 
-export const listProjectsLocationsDataSources = API.makePaginated(() => ({
+/** Lists supported data sources and returns their settings. */
+export const listProjectsLocationsDataSources: API.PaginatedOperationMethod<ListProjectsLocationsDataSourcesRequest, ListProjectsLocationsDataSourcesResponse, ListProjectsLocationsDataSourcesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDataSourcesRequest,
   output: ListProjectsLocationsDataSourcesResponse,
   errors: [],
@@ -734,7 +734,6 @@ export const listProjectsLocationsDataSources = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves a supported data source and returns its settings. */
 export interface GetProjectsLocationsDataSourcesRequest {
   /** Required. The name of the resource requested. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/dataSources/{data_source_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/dataSources/{data_source_id}` */
   name: string;
@@ -752,13 +751,13 @@ export const GetProjectsLocationsDataSourcesResponse = DataSource;
 
 export type GetProjectsLocationsDataSourcesError = CommonErrors;
 
+/** Retrieves a supported data source and returns its settings. */
 export const getProjectsLocationsDataSources: API.OperationMethod<GetProjectsLocationsDataSourcesRequest, GetProjectsLocationsDataSourcesResponse, GetProjectsLocationsDataSourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDataSourcesRequest,
   output: GetProjectsLocationsDataSourcesResponse,
   errors: [],
 }));
 
-/** Returns true if valid credentials exist for the given data source and requesting user. */
 export interface CheckValidCredsProjectsLocationsDataSourcesRequest {
   /** Required. The name of the data source. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/dataSources/{data_source_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/dataSources/{data_source_id}` */
   name: string;
@@ -779,13 +778,13 @@ export const CheckValidCredsProjectsLocationsDataSourcesResponse = CheckValidCre
 
 export type CheckValidCredsProjectsLocationsDataSourcesError = CommonErrors;
 
+/** Returns true if valid credentials exist for the given data source and requesting user. */
 export const checkValidCredsProjectsLocationsDataSources: API.OperationMethod<CheckValidCredsProjectsLocationsDataSourcesRequest, CheckValidCredsProjectsLocationsDataSourcesResponse, CheckValidCredsProjectsLocationsDataSourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CheckValidCredsProjectsLocationsDataSourcesRequest,
   output: CheckValidCredsProjectsLocationsDataSourcesResponse,
   errors: [],
 }));
 
-/** Creates a new data transfer configuration. */
 export interface CreateProjectsLocationsTransferConfigsRequest {
   /** Optional version info. This parameter replaces `authorization_code` which is no longer used in any data sources. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' *or* new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain version info, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=version_info&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to create the transfer config. */
   versionInfo?: string;
@@ -815,13 +814,13 @@ export const CreateProjectsLocationsTransferConfigsResponse = TransferConfig;
 
 export type CreateProjectsLocationsTransferConfigsError = CommonErrors;
 
+/** Creates a new data transfer configuration. */
 export const createProjectsLocationsTransferConfigs: API.OperationMethod<CreateProjectsLocationsTransferConfigsRequest, CreateProjectsLocationsTransferConfigsResponse, CreateProjectsLocationsTransferConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsTransferConfigsRequest,
   output: CreateProjectsLocationsTransferConfigsResponse,
   errors: [],
 }));
 
-/** Returns information about a data transfer config. */
 export interface GetProjectsLocationsTransferConfigsRequest {
   /** Required. The name of the resource requested. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
   name: string;
@@ -839,13 +838,13 @@ export const GetProjectsLocationsTransferConfigsResponse = TransferConfig;
 
 export type GetProjectsLocationsTransferConfigsError = CommonErrors;
 
+/** Returns information about a data transfer config. */
 export const getProjectsLocationsTransferConfigs: API.OperationMethod<GetProjectsLocationsTransferConfigsRequest, GetProjectsLocationsTransferConfigsResponse, GetProjectsLocationsTransferConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsTransferConfigsRequest,
   output: GetProjectsLocationsTransferConfigsResponse,
   errors: [],
 }));
 
-/** Manually initiates transfer runs. You can schedule these runs in two ways: 1. For a specific point in time using the 'requested_run_time' parameter. 2. For a period between 'start_time' (inclusive) and 'end_time' (exclusive). If scheduling a single run, it is set to execute immediately (schedule_time equals the current time). When scheduling multiple runs within a time range, the first run starts now, and subsequent runs are delayed by 15 seconds each. */
 export interface StartManualRunsProjectsLocationsTransferConfigsRequest {
   /** Required. Transfer configuration name. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
   parent: string;
@@ -866,13 +865,13 @@ export const StartManualRunsProjectsLocationsTransferConfigsResponse = StartManu
 
 export type StartManualRunsProjectsLocationsTransferConfigsError = CommonErrors;
 
+/** Manually initiates transfer runs. You can schedule these runs in two ways: 1. For a specific point in time using the 'requested_run_time' parameter. 2. For a period between 'start_time' (inclusive) and 'end_time' (exclusive). If scheduling a single run, it is set to execute immediately (schedule_time equals the current time). When scheduling multiple runs within a time range, the first run starts now, and subsequent runs are delayed by 15 seconds each. */
 export const startManualRunsProjectsLocationsTransferConfigs: API.OperationMethod<StartManualRunsProjectsLocationsTransferConfigsRequest, StartManualRunsProjectsLocationsTransferConfigsResponse, StartManualRunsProjectsLocationsTransferConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StartManualRunsProjectsLocationsTransferConfigsRequest,
   output: StartManualRunsProjectsLocationsTransferConfigsResponse,
   errors: [],
 }));
 
-/** Deletes a data transfer configuration, including any associated transfer runs and logs. */
 export interface DeleteProjectsLocationsTransferConfigsRequest {
   /** Required. The name of the resource to delete. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
   name: string;
@@ -890,13 +889,13 @@ export const DeleteProjectsLocationsTransferConfigsResponse = Empty;
 
 export type DeleteProjectsLocationsTransferConfigsError = CommonErrors;
 
+/** Deletes a data transfer configuration, including any associated transfer runs and logs. */
 export const deleteProjectsLocationsTransferConfigs: API.OperationMethod<DeleteProjectsLocationsTransferConfigsRequest, DeleteProjectsLocationsTransferConfigsResponse, DeleteProjectsLocationsTransferConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsTransferConfigsRequest,
   output: DeleteProjectsLocationsTransferConfigsResponse,
   errors: [],
 }));
 
-/** Updates a data transfer configuration. All fields must be set, even if they are not updated. */
 export interface PatchProjectsLocationsTransferConfigsRequest {
   /** Optional version info. This parameter replaces `authorization_code` which is no longer used in any data sources. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' *or* new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain version info, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=version_info&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to update the transfer config. */
   versionInfo?: string;
@@ -929,13 +928,13 @@ export const PatchProjectsLocationsTransferConfigsResponse = TransferConfig;
 
 export type PatchProjectsLocationsTransferConfigsError = CommonErrors;
 
+/** Updates a data transfer configuration. All fields must be set, even if they are not updated. */
 export const patchProjectsLocationsTransferConfigs: API.OperationMethod<PatchProjectsLocationsTransferConfigsRequest, PatchProjectsLocationsTransferConfigsResponse, PatchProjectsLocationsTransferConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsTransferConfigsRequest,
   output: PatchProjectsLocationsTransferConfigsResponse,
   errors: [],
 }));
 
-/** Returns information about all transfer configs owned by a project in the specified location. */
 export interface ListProjectsLocationsTransferConfigsRequest {
   /** Page size. The default page size is the maximum value of 1000 results. */
   pageSize?: number;
@@ -962,7 +961,8 @@ export const ListProjectsLocationsTransferConfigsResponse = ListTransferConfigsR
 
 export type ListProjectsLocationsTransferConfigsError = CommonErrors;
 
-export const listProjectsLocationsTransferConfigs = API.makePaginated(() => ({
+/** Returns information about all transfer configs owned by a project in the specified location. */
+export const listProjectsLocationsTransferConfigs: API.PaginatedOperationMethod<ListProjectsLocationsTransferConfigsRequest, ListProjectsLocationsTransferConfigsResponse, ListProjectsLocationsTransferConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsTransferConfigsRequest,
   output: ListProjectsLocationsTransferConfigsResponse,
   errors: [],
@@ -972,7 +972,6 @@ export const listProjectsLocationsTransferConfigs = API.makePaginated(() => ({
   },
 }));
 
-/** Creates transfer runs for a time range [start_time, end_time]. For each date - or whatever granularity the data source supports - in the range, one transfer run is created. Note that runs are created per UTC time in the time range. DEPRECATED: use StartManualTransferRuns instead. */
 export interface ScheduleRunsProjectsLocationsTransferConfigsRequest {
   /** Required. Transfer configuration name. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
   parent: string;
@@ -993,13 +992,13 @@ export const ScheduleRunsProjectsLocationsTransferConfigsResponse = ScheduleTran
 
 export type ScheduleRunsProjectsLocationsTransferConfigsError = CommonErrors;
 
+/** Creates transfer runs for a time range [start_time, end_time]. For each date - or whatever granularity the data source supports - in the range, one transfer run is created. Note that runs are created per UTC time in the time range. DEPRECATED: use StartManualTransferRuns instead. */
 export const scheduleRunsProjectsLocationsTransferConfigs: API.OperationMethod<ScheduleRunsProjectsLocationsTransferConfigsRequest, ScheduleRunsProjectsLocationsTransferConfigsResponse, ScheduleRunsProjectsLocationsTransferConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ScheduleRunsProjectsLocationsTransferConfigsRequest,
   output: ScheduleRunsProjectsLocationsTransferConfigsResponse,
   errors: [],
 }));
 
-/** Returns information about running and completed transfer runs. */
 export interface ListProjectsLocationsTransferConfigsRunsRequest {
   /** Pagination token, which can be used to request a specific page of `ListTransferRunsRequest` list results. For multiple-page results, `ListTransferRunsResponse` outputs a `next_page` token, which can be used as the `page_token` value to request the next page of list results. */
   pageToken?: string;
@@ -1029,7 +1028,8 @@ export const ListProjectsLocationsTransferConfigsRunsResponse = ListTransferRuns
 
 export type ListProjectsLocationsTransferConfigsRunsError = CommonErrors;
 
-export const listProjectsLocationsTransferConfigsRuns = API.makePaginated(() => ({
+/** Returns information about running and completed transfer runs. */
+export const listProjectsLocationsTransferConfigsRuns: API.PaginatedOperationMethod<ListProjectsLocationsTransferConfigsRunsRequest, ListProjectsLocationsTransferConfigsRunsResponse, ListProjectsLocationsTransferConfigsRunsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsTransferConfigsRunsRequest,
   output: ListProjectsLocationsTransferConfigsRunsResponse,
   errors: [],
@@ -1039,7 +1039,6 @@ export const listProjectsLocationsTransferConfigsRuns = API.makePaginated(() => 
   },
 }));
 
-/** Returns information about the particular transfer run. */
 export interface GetProjectsLocationsTransferConfigsRunsRequest {
   /** Required. The name of the resource requested. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}/runs/{run_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}/runs/{run_id}` */
   name: string;
@@ -1057,13 +1056,13 @@ export const GetProjectsLocationsTransferConfigsRunsResponse = TransferRun;
 
 export type GetProjectsLocationsTransferConfigsRunsError = CommonErrors;
 
+/** Returns information about the particular transfer run. */
 export const getProjectsLocationsTransferConfigsRuns: API.OperationMethod<GetProjectsLocationsTransferConfigsRunsRequest, GetProjectsLocationsTransferConfigsRunsResponse, GetProjectsLocationsTransferConfigsRunsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsTransferConfigsRunsRequest,
   output: GetProjectsLocationsTransferConfigsRunsResponse,
   errors: [],
 }));
 
-/** Deletes the specified transfer run. */
 export interface DeleteProjectsLocationsTransferConfigsRunsRequest {
   /** Required. The name of the resource requested. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}/runs/{run_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}/runs/{run_id}` */
   name: string;
@@ -1081,13 +1080,13 @@ export const DeleteProjectsLocationsTransferConfigsRunsResponse = Empty;
 
 export type DeleteProjectsLocationsTransferConfigsRunsError = CommonErrors;
 
+/** Deletes the specified transfer run. */
 export const deleteProjectsLocationsTransferConfigsRuns: API.OperationMethod<DeleteProjectsLocationsTransferConfigsRunsRequest, DeleteProjectsLocationsTransferConfigsRunsResponse, DeleteProjectsLocationsTransferConfigsRunsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsTransferConfigsRunsRequest,
   output: DeleteProjectsLocationsTransferConfigsRunsResponse,
   errors: [],
 }));
 
-/** Returns log messages for the transfer run. */
 export interface ListProjectsLocationsTransferConfigsRunsTransferLogsRequest {
   /** Page size. The default page size is the maximum value of 1000 results. */
   pageSize?: number;
@@ -1114,7 +1113,8 @@ export const ListProjectsLocationsTransferConfigsRunsTransferLogsResponse = List
 
 export type ListProjectsLocationsTransferConfigsRunsTransferLogsError = CommonErrors;
 
-export const listProjectsLocationsTransferConfigsRunsTransferLogs = API.makePaginated(() => ({
+/** Returns log messages for the transfer run. */
+export const listProjectsLocationsTransferConfigsRunsTransferLogs: API.PaginatedOperationMethod<ListProjectsLocationsTransferConfigsRunsTransferLogsRequest, ListProjectsLocationsTransferConfigsRunsTransferLogsResponse, ListProjectsLocationsTransferConfigsRunsTransferLogsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsTransferConfigsRunsTransferLogsRequest,
   output: ListProjectsLocationsTransferConfigsRunsTransferLogsResponse,
   errors: [],
@@ -1124,7 +1124,6 @@ export const listProjectsLocationsTransferConfigsRunsTransferLogs = API.makePagi
   },
 }));
 
-/** Deletes a data transfer configuration, including any associated transfer runs and logs. */
 export interface DeleteProjectsTransferConfigsRequest {
   /** Required. The name of the resource to delete. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
   name: string;
@@ -1142,13 +1141,13 @@ export const DeleteProjectsTransferConfigsResponse = Empty;
 
 export type DeleteProjectsTransferConfigsError = CommonErrors;
 
+/** Deletes a data transfer configuration, including any associated transfer runs and logs. */
 export const deleteProjectsTransferConfigs: API.OperationMethod<DeleteProjectsTransferConfigsRequest, DeleteProjectsTransferConfigsResponse, DeleteProjectsTransferConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsTransferConfigsRequest,
   output: DeleteProjectsTransferConfigsResponse,
   errors: [],
 }));
 
-/** Manually initiates transfer runs. You can schedule these runs in two ways: 1. For a specific point in time using the 'requested_run_time' parameter. 2. For a period between 'start_time' (inclusive) and 'end_time' (exclusive). If scheduling a single run, it is set to execute immediately (schedule_time equals the current time). When scheduling multiple runs within a time range, the first run starts now, and subsequent runs are delayed by 15 seconds each. */
 export interface StartManualRunsProjectsTransferConfigsRequest {
   /** Required. Transfer configuration name. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
   parent: string;
@@ -1169,13 +1168,13 @@ export const StartManualRunsProjectsTransferConfigsResponse = StartManualTransfe
 
 export type StartManualRunsProjectsTransferConfigsError = CommonErrors;
 
+/** Manually initiates transfer runs. You can schedule these runs in two ways: 1. For a specific point in time using the 'requested_run_time' parameter. 2. For a period between 'start_time' (inclusive) and 'end_time' (exclusive). If scheduling a single run, it is set to execute immediately (schedule_time equals the current time). When scheduling multiple runs within a time range, the first run starts now, and subsequent runs are delayed by 15 seconds each. */
 export const startManualRunsProjectsTransferConfigs: API.OperationMethod<StartManualRunsProjectsTransferConfigsRequest, StartManualRunsProjectsTransferConfigsResponse, StartManualRunsProjectsTransferConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StartManualRunsProjectsTransferConfigsRequest,
   output: StartManualRunsProjectsTransferConfigsResponse,
   errors: [],
 }));
 
-/** Updates a data transfer configuration. All fields must be set, even if they are not updated. */
 export interface PatchProjectsTransferConfigsRequest {
   /** Optional service account email. If this field is set, the transfer config will be created with this service account's credentials. It requires that the requesting user calling this API has permissions to act as this service account. Note that not all data sources support service account credentials when creating a transfer config. For the latest list of data sources, read about [using service accounts](https://cloud.google.com/bigquery-transfer/docs/use-service-accounts). */
   serviceAccountName?: string;
@@ -1208,13 +1207,13 @@ export const PatchProjectsTransferConfigsResponse = TransferConfig;
 
 export type PatchProjectsTransferConfigsError = CommonErrors;
 
+/** Updates a data transfer configuration. All fields must be set, even if they are not updated. */
 export const patchProjectsTransferConfigs: API.OperationMethod<PatchProjectsTransferConfigsRequest, PatchProjectsTransferConfigsResponse, PatchProjectsTransferConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsTransferConfigsRequest,
   output: PatchProjectsTransferConfigsResponse,
   errors: [],
 }));
 
-/** Returns information about a data transfer config. */
 export interface GetProjectsTransferConfigsRequest {
   /** Required. The name of the resource requested. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
   name: string;
@@ -1232,13 +1231,13 @@ export const GetProjectsTransferConfigsResponse = TransferConfig;
 
 export type GetProjectsTransferConfigsError = CommonErrors;
 
+/** Returns information about a data transfer config. */
 export const getProjectsTransferConfigs: API.OperationMethod<GetProjectsTransferConfigsRequest, GetProjectsTransferConfigsResponse, GetProjectsTransferConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsTransferConfigsRequest,
   output: GetProjectsTransferConfigsResponse,
   errors: [],
 }));
 
-/** Creates a new data transfer configuration. */
 export interface CreateProjectsTransferConfigsRequest {
   /** Optional version info. This parameter replaces `authorization_code` which is no longer used in any data sources. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' *or* new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain version info, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=version_info&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to create the transfer config. */
   versionInfo?: string;
@@ -1268,13 +1267,13 @@ export const CreateProjectsTransferConfigsResponse = TransferConfig;
 
 export type CreateProjectsTransferConfigsError = CommonErrors;
 
+/** Creates a new data transfer configuration. */
 export const createProjectsTransferConfigs: API.OperationMethod<CreateProjectsTransferConfigsRequest, CreateProjectsTransferConfigsResponse, CreateProjectsTransferConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsTransferConfigsRequest,
   output: CreateProjectsTransferConfigsResponse,
   errors: [],
 }));
 
-/** Returns information about all transfer configs owned by a project in the specified location. */
 export interface ListProjectsTransferConfigsRequest {
   /** Pagination token, which can be used to request a specific page of `ListTransfersRequest` list results. For multiple-page results, `ListTransfersResponse` outputs a `next_page` token, which can be used as the `page_token` value to request the next page of list results. */
   pageToken?: string;
@@ -1301,7 +1300,8 @@ export const ListProjectsTransferConfigsResponse = ListTransferConfigsResponse;
 
 export type ListProjectsTransferConfigsError = CommonErrors;
 
-export const listProjectsTransferConfigs = API.makePaginated(() => ({
+/** Returns information about all transfer configs owned by a project in the specified location. */
+export const listProjectsTransferConfigs: API.PaginatedOperationMethod<ListProjectsTransferConfigsRequest, ListProjectsTransferConfigsResponse, ListProjectsTransferConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsTransferConfigsRequest,
   output: ListProjectsTransferConfigsResponse,
   errors: [],
@@ -1311,7 +1311,6 @@ export const listProjectsTransferConfigs = API.makePaginated(() => ({
   },
 }));
 
-/** Creates transfer runs for a time range [start_time, end_time]. For each date - or whatever granularity the data source supports - in the range, one transfer run is created. Note that runs are created per UTC time in the time range. DEPRECATED: use StartManualTransferRuns instead. */
 export interface ScheduleRunsProjectsTransferConfigsRequest {
   /** Required. Transfer configuration name. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}` */
   parent: string;
@@ -1332,13 +1331,13 @@ export const ScheduleRunsProjectsTransferConfigsResponse = ScheduleTransferRunsR
 
 export type ScheduleRunsProjectsTransferConfigsError = CommonErrors;
 
+/** Creates transfer runs for a time range [start_time, end_time]. For each date - or whatever granularity the data source supports - in the range, one transfer run is created. Note that runs are created per UTC time in the time range. DEPRECATED: use StartManualTransferRuns instead. */
 export const scheduleRunsProjectsTransferConfigs: API.OperationMethod<ScheduleRunsProjectsTransferConfigsRequest, ScheduleRunsProjectsTransferConfigsResponse, ScheduleRunsProjectsTransferConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ScheduleRunsProjectsTransferConfigsRequest,
   output: ScheduleRunsProjectsTransferConfigsResponse,
   errors: [],
 }));
 
-/** Returns information about the particular transfer run. */
 export interface GetProjectsTransferConfigsRunsRequest {
   /** Required. The name of the resource requested. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}/runs/{run_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}/runs/{run_id}` */
   name: string;
@@ -1356,13 +1355,13 @@ export const GetProjectsTransferConfigsRunsResponse = TransferRun;
 
 export type GetProjectsTransferConfigsRunsError = CommonErrors;
 
+/** Returns information about the particular transfer run. */
 export const getProjectsTransferConfigsRuns: API.OperationMethod<GetProjectsTransferConfigsRunsRequest, GetProjectsTransferConfigsRunsResponse, GetProjectsTransferConfigsRunsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsTransferConfigsRunsRequest,
   output: GetProjectsTransferConfigsRunsResponse,
   errors: [],
 }));
 
-/** Deletes the specified transfer run. */
 export interface DeleteProjectsTransferConfigsRunsRequest {
   /** Required. The name of the resource requested. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/transferConfigs/{config_id}/runs/{run_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/transferConfigs/{config_id}/runs/{run_id}` */
   name: string;
@@ -1380,13 +1379,13 @@ export const DeleteProjectsTransferConfigsRunsResponse = Empty;
 
 export type DeleteProjectsTransferConfigsRunsError = CommonErrors;
 
+/** Deletes the specified transfer run. */
 export const deleteProjectsTransferConfigsRuns: API.OperationMethod<DeleteProjectsTransferConfigsRunsRequest, DeleteProjectsTransferConfigsRunsResponse, DeleteProjectsTransferConfigsRunsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsTransferConfigsRunsRequest,
   output: DeleteProjectsTransferConfigsRunsResponse,
   errors: [],
 }));
 
-/** Returns information about running and completed transfer runs. */
 export interface ListProjectsTransferConfigsRunsRequest {
   /** Indicates how run attempts are to be pulled. */
   runAttempt?: "RUN_ATTEMPT_UNSPECIFIED" | "LATEST" | (string & {});
@@ -1416,7 +1415,8 @@ export const ListProjectsTransferConfigsRunsResponse = ListTransferRunsResponse;
 
 export type ListProjectsTransferConfigsRunsError = CommonErrors;
 
-export const listProjectsTransferConfigsRuns = API.makePaginated(() => ({
+/** Returns information about running and completed transfer runs. */
+export const listProjectsTransferConfigsRuns: API.PaginatedOperationMethod<ListProjectsTransferConfigsRunsRequest, ListProjectsTransferConfigsRunsResponse, ListProjectsTransferConfigsRunsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsTransferConfigsRunsRequest,
   output: ListProjectsTransferConfigsRunsResponse,
   errors: [],
@@ -1426,7 +1426,6 @@ export const listProjectsTransferConfigsRuns = API.makePaginated(() => ({
   },
 }));
 
-/** Returns log messages for the transfer run. */
 export interface ListProjectsTransferConfigsRunsTransferLogsRequest {
   /** Page size. The default page size is the maximum value of 1000 results. */
   pageSize?: number;
@@ -1453,7 +1452,8 @@ export const ListProjectsTransferConfigsRunsTransferLogsResponse = ListTransferL
 
 export type ListProjectsTransferConfigsRunsTransferLogsError = CommonErrors;
 
-export const listProjectsTransferConfigsRunsTransferLogs = API.makePaginated(() => ({
+/** Returns log messages for the transfer run. */
+export const listProjectsTransferConfigsRunsTransferLogs: API.PaginatedOperationMethod<ListProjectsTransferConfigsRunsTransferLogsRequest, ListProjectsTransferConfigsRunsTransferLogsResponse, ListProjectsTransferConfigsRunsTransferLogsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsTransferConfigsRunsTransferLogsRequest,
   output: ListProjectsTransferConfigsRunsTransferLogsResponse,
   errors: [],
@@ -1463,7 +1463,6 @@ export const listProjectsTransferConfigsRunsTransferLogs = API.makePaginated(() 
   },
 }));
 
-/** Retrieves a supported data source and returns its settings. */
 export interface GetProjectsDataSourcesRequest {
   /** Required. The name of the resource requested. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/dataSources/{data_source_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/dataSources/{data_source_id}` */
   name: string;
@@ -1481,13 +1480,13 @@ export const GetProjectsDataSourcesResponse = DataSource;
 
 export type GetProjectsDataSourcesError = CommonErrors;
 
+/** Retrieves a supported data source and returns its settings. */
 export const getProjectsDataSources: API.OperationMethod<GetProjectsDataSourcesRequest, GetProjectsDataSourcesResponse, GetProjectsDataSourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsDataSourcesRequest,
   output: GetProjectsDataSourcesResponse,
   errors: [],
 }));
 
-/** Lists supported data sources and returns their settings. */
 export interface ListProjectsDataSourcesRequest {
   /** Page size. The default page size is the maximum value of 1000 results. */
   pageSize?: number;
@@ -1511,7 +1510,8 @@ export const ListProjectsDataSourcesResponse = ListDataSourcesResponse;
 
 export type ListProjectsDataSourcesError = CommonErrors;
 
-export const listProjectsDataSources = API.makePaginated(() => ({
+/** Lists supported data sources and returns their settings. */
+export const listProjectsDataSources: API.PaginatedOperationMethod<ListProjectsDataSourcesRequest, ListProjectsDataSourcesResponse, ListProjectsDataSourcesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsDataSourcesRequest,
   output: ListProjectsDataSourcesResponse,
   errors: [],
@@ -1521,7 +1521,6 @@ export const listProjectsDataSources = API.makePaginated(() => ({
   },
 }));
 
-/** Returns true if valid credentials exist for the given data source and requesting user. */
 export interface CheckValidCredsProjectsDataSourcesRequest {
   /** Required. The name of the data source. If you are using the regionless method, the location must be `US` and the name should be in the following form: * `projects/{project_id}/dataSources/{data_source_id}` If you are using the regionalized method, the name should be in the following form: * `projects/{project_id}/locations/{location_id}/dataSources/{data_source_id}` */
   name: string;
@@ -1542,6 +1541,7 @@ export const CheckValidCredsProjectsDataSourcesResponse = CheckValidCredsRespons
 
 export type CheckValidCredsProjectsDataSourcesError = CommonErrors;
 
+/** Returns true if valid credentials exist for the given data source and requesting user. */
 export const checkValidCredsProjectsDataSources: API.OperationMethod<CheckValidCredsProjectsDataSourcesRequest, CheckValidCredsProjectsDataSourcesResponse, CheckValidCredsProjectsDataSourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CheckValidCredsProjectsDataSourcesRequest,
   output: CheckValidCredsProjectsDataSourcesResponse,

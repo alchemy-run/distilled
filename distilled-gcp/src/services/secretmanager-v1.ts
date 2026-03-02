@@ -528,7 +528,6 @@ export const AddSecretVersionRequest: Schema.Schema<AddSecretVersionRequest> = S
 // Operations
 // ==========================================================================
 
-/** Creates a new SecretVersion containing secret data and attaches it to an existing Secret. */
 export interface AddVersionProjectsSecretsRequest {
   /** Required. The resource name of the Secret to associate with the SecretVersion in the format `projects/* /secrets/*` or `projects/* /locations/* /secrets/*`. */
   parent: string;
@@ -549,13 +548,13 @@ export const AddVersionProjectsSecretsResponse = SecretVersion;
 
 export type AddVersionProjectsSecretsError = CommonErrors;
 
+/** Creates a new SecretVersion containing secret data and attaches it to an existing Secret. */
 export const addVersionProjectsSecrets: API.OperationMethod<AddVersionProjectsSecretsRequest, AddVersionProjectsSecretsResponse, AddVersionProjectsSecretsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddVersionProjectsSecretsRequest,
   output: AddVersionProjectsSecretsResponse,
   errors: [],
 }));
 
-/** Deletes a Secret. */
 export interface DeleteProjectsSecretsRequest {
   /** Optional. Etag of the Secret. The request succeeds if it matches the etag of the currently stored secret object. If the etag is omitted, the request succeeds. */
   etag?: string;
@@ -576,13 +575,13 @@ export const DeleteProjectsSecretsResponse = Empty;
 
 export type DeleteProjectsSecretsError = CommonErrors;
 
+/** Deletes a Secret. */
 export const deleteProjectsSecrets: API.OperationMethod<DeleteProjectsSecretsRequest, DeleteProjectsSecretsResponse, DeleteProjectsSecretsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsSecretsRequest,
   output: DeleteProjectsSecretsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has for the specified secret. If the secret does not exist, this call returns an empty set of permissions, not a NOT_FOUND error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsSecretsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -603,13 +602,13 @@ export const TestIamPermissionsProjectsSecretsResponse = TestIamPermissionsRespo
 
 export type TestIamPermissionsProjectsSecretsError = CommonErrors;
 
+/** Returns permissions that a caller has for the specified secret. If the secret does not exist, this call returns an empty set of permissions, not a NOT_FOUND error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsSecrets: API.OperationMethod<TestIamPermissionsProjectsSecretsRequest, TestIamPermissionsProjectsSecretsResponse, TestIamPermissionsProjectsSecretsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsSecretsRequest,
   output: TestIamPermissionsProjectsSecretsResponse,
   errors: [],
 }));
 
-/** Creates a new Secret containing no SecretVersions. */
 export interface CreateProjectsSecretsRequest {
   /** Required. The resource name of the project to associate with the Secret, in the format `projects/*` or `projects/* /locations/*`. */
   parent: string;
@@ -633,13 +632,13 @@ export const CreateProjectsSecretsResponse = Secret;
 
 export type CreateProjectsSecretsError = CommonErrors;
 
+/** Creates a new Secret containing no SecretVersions. */
 export const createProjectsSecrets: API.OperationMethod<CreateProjectsSecretsRequest, CreateProjectsSecretsResponse, CreateProjectsSecretsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsSecretsRequest,
   output: CreateProjectsSecretsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified secret. Replaces any existing policy. Permissions on SecretVersions are enforced according to the policy set on the associated Secret. */
 export interface SetIamPolicyProjectsSecretsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -660,13 +659,13 @@ export const SetIamPolicyProjectsSecretsResponse = Policy;
 
 export type SetIamPolicyProjectsSecretsError = CommonErrors;
 
+/** Sets the access control policy on the specified secret. Replaces any existing policy. Permissions on SecretVersions are enforced according to the policy set on the associated Secret. */
 export const setIamPolicyProjectsSecrets: API.OperationMethod<SetIamPolicyProjectsSecretsRequest, SetIamPolicyProjectsSecretsResponse, SetIamPolicyProjectsSecretsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsSecretsRequest,
   output: SetIamPolicyProjectsSecretsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a secret. Returns empty policy if the secret exists and does not have a policy set. */
 export interface GetIamPolicyProjectsSecretsRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
@@ -687,13 +686,13 @@ export const GetIamPolicyProjectsSecretsResponse = Policy;
 
 export type GetIamPolicyProjectsSecretsError = CommonErrors;
 
+/** Gets the access control policy for a secret. Returns empty policy if the secret exists and does not have a policy set. */
 export const getIamPolicyProjectsSecrets: API.OperationMethod<GetIamPolicyProjectsSecretsRequest, GetIamPolicyProjectsSecretsResponse, GetIamPolicyProjectsSecretsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsSecretsRequest,
   output: GetIamPolicyProjectsSecretsResponse,
   errors: [],
 }));
 
-/** Lists Secrets. */
 export interface ListProjectsSecretsRequest {
   /** Required. The resource name of the project associated with the Secrets, in the format `projects/*` or `projects/* /locations/*` */
   parent: string;
@@ -720,7 +719,8 @@ export const ListProjectsSecretsResponse = ListSecretsResponse;
 
 export type ListProjectsSecretsError = CommonErrors;
 
-export const listProjectsSecrets = API.makePaginated(() => ({
+/** Lists Secrets. */
+export const listProjectsSecrets: API.PaginatedOperationMethod<ListProjectsSecretsRequest, ListProjectsSecretsResponse, ListProjectsSecretsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsSecretsRequest,
   output: ListProjectsSecretsResponse,
   errors: [],
@@ -730,7 +730,6 @@ export const listProjectsSecrets = API.makePaginated(() => ({
   },
 }));
 
-/** Updates metadata of an existing Secret. */
 export interface PatchProjectsSecretsRequest {
   /** Required. Specifies the fields to be updated. */
   updateMask?: string;
@@ -754,13 +753,13 @@ export const PatchProjectsSecretsResponse = Secret;
 
 export type PatchProjectsSecretsError = CommonErrors;
 
+/** Updates metadata of an existing Secret. */
 export const patchProjectsSecrets: API.OperationMethod<PatchProjectsSecretsRequest, PatchProjectsSecretsResponse, PatchProjectsSecretsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsSecretsRequest,
   output: PatchProjectsSecretsResponse,
   errors: [],
 }));
 
-/** Gets metadata for a given Secret. */
 export interface GetProjectsSecretsRequest {
   /** Required. The resource name of the Secret, in the format `projects/* /secrets/*` or `projects/* /locations/* /secrets/*`. */
   name: string;
@@ -778,13 +777,13 @@ export const GetProjectsSecretsResponse = Secret;
 
 export type GetProjectsSecretsError = CommonErrors;
 
+/** Gets metadata for a given Secret. */
 export const getProjectsSecrets: API.OperationMethod<GetProjectsSecretsRequest, GetProjectsSecretsResponse, GetProjectsSecretsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsSecretsRequest,
   output: GetProjectsSecretsResponse,
   errors: [],
 }));
 
-/** Gets metadata for a SecretVersion. `projects/* /secrets/* /versions/latest` is an alias to the most recently created SecretVersion. */
 export interface GetProjectsSecretsVersionsRequest {
   /** Required. The resource name of the SecretVersion in the format `projects/* /secrets/* /versions/*` or `projects/* /locations/* /secrets/* /versions/*`. `projects/* /secrets/* /versions/latest` or `projects/* /locations/* /secrets/* /versions/latest` is an alias to the most recently created SecretVersion. */
   name: string;
@@ -802,13 +801,13 @@ export const GetProjectsSecretsVersionsResponse = SecretVersion;
 
 export type GetProjectsSecretsVersionsError = CommonErrors;
 
+/** Gets metadata for a SecretVersion. `projects/* /secrets/* /versions/latest` is an alias to the most recently created SecretVersion. */
 export const getProjectsSecretsVersions: API.OperationMethod<GetProjectsSecretsVersionsRequest, GetProjectsSecretsVersionsResponse, GetProjectsSecretsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsSecretsVersionsRequest,
   output: GetProjectsSecretsVersionsResponse,
   errors: [],
 }));
 
-/** Accesses a SecretVersion. This call returns the secret data. `projects/* /secrets/* /versions/latest` is an alias to the most recently created SecretVersion. */
 export interface AccessProjectsSecretsVersionsRequest {
   /** Required. The resource name of the SecretVersion in the format `projects/* /secrets/* /versions/*` or `projects/* /locations/* /secrets/* /versions/*`. `projects/* /secrets/* /versions/latest` or `projects/* /locations/* /secrets/* /versions/latest` is an alias to the most recently created SecretVersion. */
   name: string;
@@ -826,13 +825,13 @@ export const AccessProjectsSecretsVersionsResponse = AccessSecretVersionResponse
 
 export type AccessProjectsSecretsVersionsError = CommonErrors;
 
+/** Accesses a SecretVersion. This call returns the secret data. `projects/* /secrets/* /versions/latest` is an alias to the most recently created SecretVersion. */
 export const accessProjectsSecretsVersions: API.OperationMethod<AccessProjectsSecretsVersionsRequest, AccessProjectsSecretsVersionsResponse, AccessProjectsSecretsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AccessProjectsSecretsVersionsRequest,
   output: AccessProjectsSecretsVersionsResponse,
   errors: [],
 }));
 
-/** Disables a SecretVersion. Sets the state of the SecretVersion to DISABLED. */
 export interface DisableProjectsSecretsVersionsRequest {
   /** Required. The resource name of the SecretVersion to disable in the format `projects/* /secrets/* /versions/*` or `projects/* /locations/* /secrets/* /versions/*`. */
   name: string;
@@ -853,13 +852,13 @@ export const DisableProjectsSecretsVersionsResponse = SecretVersion;
 
 export type DisableProjectsSecretsVersionsError = CommonErrors;
 
+/** Disables a SecretVersion. Sets the state of the SecretVersion to DISABLED. */
 export const disableProjectsSecretsVersions: API.OperationMethod<DisableProjectsSecretsVersionsRequest, DisableProjectsSecretsVersionsResponse, DisableProjectsSecretsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DisableProjectsSecretsVersionsRequest,
   output: DisableProjectsSecretsVersionsResponse,
   errors: [],
 }));
 
-/** Destroys a SecretVersion. Sets the state of the SecretVersion to DESTROYED and irrevocably destroys the secret data. */
 export interface DestroyProjectsSecretsVersionsRequest {
   /** Required. The resource name of the SecretVersion to destroy in the format `projects/* /secrets/* /versions/*` or `projects/* /locations/* /secrets/* /versions/*`. */
   name: string;
@@ -880,13 +879,13 @@ export const DestroyProjectsSecretsVersionsResponse = SecretVersion;
 
 export type DestroyProjectsSecretsVersionsError = CommonErrors;
 
+/** Destroys a SecretVersion. Sets the state of the SecretVersion to DESTROYED and irrevocably destroys the secret data. */
 export const destroyProjectsSecretsVersions: API.OperationMethod<DestroyProjectsSecretsVersionsRequest, DestroyProjectsSecretsVersionsResponse, DestroyProjectsSecretsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DestroyProjectsSecretsVersionsRequest,
   output: DestroyProjectsSecretsVersionsResponse,
   errors: [],
 }));
 
-/** Lists SecretVersions. This call does not return secret data. */
 export interface ListProjectsSecretsVersionsRequest {
   /** Optional. Filter string, adhering to the rules in [List-operation filtering](https://cloud.google.com/secret-manager/docs/filtering). List only secret versions matching the filter. If filter is empty, all secret versions are listed. */
   filter?: string;
@@ -913,7 +912,8 @@ export const ListProjectsSecretsVersionsResponse = ListSecretVersionsResponse;
 
 export type ListProjectsSecretsVersionsError = CommonErrors;
 
-export const listProjectsSecretsVersions = API.makePaginated(() => ({
+/** Lists SecretVersions. This call does not return secret data. */
+export const listProjectsSecretsVersions: API.PaginatedOperationMethod<ListProjectsSecretsVersionsRequest, ListProjectsSecretsVersionsResponse, ListProjectsSecretsVersionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsSecretsVersionsRequest,
   output: ListProjectsSecretsVersionsResponse,
   errors: [],
@@ -923,7 +923,6 @@ export const listProjectsSecretsVersions = API.makePaginated(() => ({
   },
 }));
 
-/** Enables a SecretVersion. Sets the state of the SecretVersion to ENABLED. */
 export interface EnableProjectsSecretsVersionsRequest {
   /** Required. The resource name of the SecretVersion to enable in the format `projects/* /secrets/* /versions/*` or `projects/* /locations/* /secrets/* /versions/*`. */
   name: string;
@@ -944,13 +943,13 @@ export const EnableProjectsSecretsVersionsResponse = SecretVersion;
 
 export type EnableProjectsSecretsVersionsError = CommonErrors;
 
+/** Enables a SecretVersion. Sets the state of the SecretVersion to ENABLED. */
 export const enableProjectsSecretsVersions: API.OperationMethod<EnableProjectsSecretsVersionsRequest, EnableProjectsSecretsVersionsResponse, EnableProjectsSecretsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnableProjectsSecretsVersionsRequest,
   output: EnableProjectsSecretsVersionsResponse,
   errors: [],
 }));
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string;
@@ -980,7 +979,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -990,7 +990,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -1008,13 +1007,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Updates metadata of an existing Secret. */
 export interface PatchProjectsLocationsSecretsRequest {
   /** Output only. The resource name of the Secret in the format `projects/* /secrets/*`. */
   name: string;
@@ -1038,13 +1037,13 @@ export const PatchProjectsLocationsSecretsResponse = Secret;
 
 export type PatchProjectsLocationsSecretsError = CommonErrors;
 
+/** Updates metadata of an existing Secret. */
 export const patchProjectsLocationsSecrets: API.OperationMethod<PatchProjectsLocationsSecretsRequest, PatchProjectsLocationsSecretsResponse, PatchProjectsLocationsSecretsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsSecretsRequest,
   output: PatchProjectsLocationsSecretsResponse,
   errors: [],
 }));
 
-/** Deletes a Secret. */
 export interface DeleteProjectsLocationsSecretsRequest {
   /** Required. The resource name of the Secret to delete in the format `projects/* /secrets/*`. */
   name: string;
@@ -1065,13 +1064,13 @@ export const DeleteProjectsLocationsSecretsResponse = Empty;
 
 export type DeleteProjectsLocationsSecretsError = CommonErrors;
 
+/** Deletes a Secret. */
 export const deleteProjectsLocationsSecrets: API.OperationMethod<DeleteProjectsLocationsSecretsRequest, DeleteProjectsLocationsSecretsResponse, DeleteProjectsLocationsSecretsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsSecretsRequest,
   output: DeleteProjectsLocationsSecretsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has for the specified secret. If the secret does not exist, this call returns an empty set of permissions, not a NOT_FOUND error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsSecretsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1092,13 +1091,13 @@ export const TestIamPermissionsProjectsLocationsSecretsResponse = TestIamPermiss
 
 export type TestIamPermissionsProjectsLocationsSecretsError = CommonErrors;
 
+/** Returns permissions that a caller has for the specified secret. If the secret does not exist, this call returns an empty set of permissions, not a NOT_FOUND error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsSecrets: API.OperationMethod<TestIamPermissionsProjectsLocationsSecretsRequest, TestIamPermissionsProjectsLocationsSecretsResponse, TestIamPermissionsProjectsLocationsSecretsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsSecretsRequest,
   output: TestIamPermissionsProjectsLocationsSecretsResponse,
   errors: [],
 }));
 
-/** Lists Secrets. */
 export interface ListProjectsLocationsSecretsRequest {
   /** Optional. Pagination token, returned earlier via ListSecretsResponse.next_page_token. */
   pageToken?: string;
@@ -1125,7 +1124,8 @@ export const ListProjectsLocationsSecretsResponse = ListSecretsResponse;
 
 export type ListProjectsLocationsSecretsError = CommonErrors;
 
-export const listProjectsLocationsSecrets = API.makePaginated(() => ({
+/** Lists Secrets. */
+export const listProjectsLocationsSecrets: API.PaginatedOperationMethod<ListProjectsLocationsSecretsRequest, ListProjectsLocationsSecretsResponse, ListProjectsLocationsSecretsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsSecretsRequest,
   output: ListProjectsLocationsSecretsResponse,
   errors: [],
@@ -1135,7 +1135,6 @@ export const listProjectsLocationsSecrets = API.makePaginated(() => ({
   },
 }));
 
-/** Sets the access control policy on the specified secret. Replaces any existing policy. Permissions on SecretVersions are enforced according to the policy set on the associated Secret. */
 export interface SetIamPolicyProjectsLocationsSecretsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1156,13 +1155,13 @@ export const SetIamPolicyProjectsLocationsSecretsResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsSecretsError = CommonErrors;
 
+/** Sets the access control policy on the specified secret. Replaces any existing policy. Permissions on SecretVersions are enforced according to the policy set on the associated Secret. */
 export const setIamPolicyProjectsLocationsSecrets: API.OperationMethod<SetIamPolicyProjectsLocationsSecretsRequest, SetIamPolicyProjectsLocationsSecretsResponse, SetIamPolicyProjectsLocationsSecretsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsSecretsRequest,
   output: SetIamPolicyProjectsLocationsSecretsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a secret. Returns empty policy if the secret exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsSecretsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1183,13 +1182,13 @@ export const GetIamPolicyProjectsLocationsSecretsResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsSecretsError = CommonErrors;
 
+/** Gets the access control policy for a secret. Returns empty policy if the secret exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsSecrets: API.OperationMethod<GetIamPolicyProjectsLocationsSecretsRequest, GetIamPolicyProjectsLocationsSecretsResponse, GetIamPolicyProjectsLocationsSecretsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsSecretsRequest,
   output: GetIamPolicyProjectsLocationsSecretsResponse,
   errors: [],
 }));
 
-/** Creates a new Secret containing no SecretVersions. */
 export interface CreateProjectsLocationsSecretsRequest {
   /** Required. The resource name of the project to associate with the Secret, in the format `projects/*` or `projects/* /locations/*`. */
   parent: string;
@@ -1213,13 +1212,13 @@ export const CreateProjectsLocationsSecretsResponse = Secret;
 
 export type CreateProjectsLocationsSecretsError = CommonErrors;
 
+/** Creates a new Secret containing no SecretVersions. */
 export const createProjectsLocationsSecrets: API.OperationMethod<CreateProjectsLocationsSecretsRequest, CreateProjectsLocationsSecretsResponse, CreateProjectsLocationsSecretsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsSecretsRequest,
   output: CreateProjectsLocationsSecretsResponse,
   errors: [],
 }));
 
-/** Creates a new SecretVersion containing secret data and attaches it to an existing Secret. */
 export interface AddVersionProjectsLocationsSecretsRequest {
   /** Required. The resource name of the Secret to associate with the SecretVersion in the format `projects/* /secrets/*` or `projects/* /locations/* /secrets/*`. */
   parent: string;
@@ -1240,13 +1239,13 @@ export const AddVersionProjectsLocationsSecretsResponse = SecretVersion;
 
 export type AddVersionProjectsLocationsSecretsError = CommonErrors;
 
+/** Creates a new SecretVersion containing secret data and attaches it to an existing Secret. */
 export const addVersionProjectsLocationsSecrets: API.OperationMethod<AddVersionProjectsLocationsSecretsRequest, AddVersionProjectsLocationsSecretsResponse, AddVersionProjectsLocationsSecretsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddVersionProjectsLocationsSecretsRequest,
   output: AddVersionProjectsLocationsSecretsResponse,
   errors: [],
 }));
 
-/** Gets metadata for a given Secret. */
 export interface GetProjectsLocationsSecretsRequest {
   /** Required. The resource name of the Secret, in the format `projects/* /secrets/*` or `projects/* /locations/* /secrets/*`. */
   name: string;
@@ -1264,13 +1263,13 @@ export const GetProjectsLocationsSecretsResponse = Secret;
 
 export type GetProjectsLocationsSecretsError = CommonErrors;
 
+/** Gets metadata for a given Secret. */
 export const getProjectsLocationsSecrets: API.OperationMethod<GetProjectsLocationsSecretsRequest, GetProjectsLocationsSecretsResponse, GetProjectsLocationsSecretsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSecretsRequest,
   output: GetProjectsLocationsSecretsResponse,
   errors: [],
 }));
 
-/** Disables a SecretVersion. Sets the state of the SecretVersion to DISABLED. */
 export interface DisableProjectsLocationsSecretsVersionsRequest {
   /** Required. The resource name of the SecretVersion to disable in the format `projects/* /secrets/* /versions/*` or `projects/* /locations/* /secrets/* /versions/*`. */
   name: string;
@@ -1291,13 +1290,13 @@ export const DisableProjectsLocationsSecretsVersionsResponse = SecretVersion;
 
 export type DisableProjectsLocationsSecretsVersionsError = CommonErrors;
 
+/** Disables a SecretVersion. Sets the state of the SecretVersion to DISABLED. */
 export const disableProjectsLocationsSecretsVersions: API.OperationMethod<DisableProjectsLocationsSecretsVersionsRequest, DisableProjectsLocationsSecretsVersionsResponse, DisableProjectsLocationsSecretsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DisableProjectsLocationsSecretsVersionsRequest,
   output: DisableProjectsLocationsSecretsVersionsResponse,
   errors: [],
 }));
 
-/** Enables a SecretVersion. Sets the state of the SecretVersion to ENABLED. */
 export interface EnableProjectsLocationsSecretsVersionsRequest {
   /** Required. The resource name of the SecretVersion to enable in the format `projects/* /secrets/* /versions/*` or `projects/* /locations/* /secrets/* /versions/*`. */
   name: string;
@@ -1318,13 +1317,13 @@ export const EnableProjectsLocationsSecretsVersionsResponse = SecretVersion;
 
 export type EnableProjectsLocationsSecretsVersionsError = CommonErrors;
 
+/** Enables a SecretVersion. Sets the state of the SecretVersion to ENABLED. */
 export const enableProjectsLocationsSecretsVersions: API.OperationMethod<EnableProjectsLocationsSecretsVersionsRequest, EnableProjectsLocationsSecretsVersionsResponse, EnableProjectsLocationsSecretsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnableProjectsLocationsSecretsVersionsRequest,
   output: EnableProjectsLocationsSecretsVersionsResponse,
   errors: [],
 }));
 
-/** Accesses a SecretVersion. This call returns the secret data. `projects/* /secrets/* /versions/latest` is an alias to the most recently created SecretVersion. */
 export interface AccessProjectsLocationsSecretsVersionsRequest {
   /** Required. The resource name of the SecretVersion in the format `projects/* /secrets/* /versions/*` or `projects/* /locations/* /secrets/* /versions/*`. `projects/* /secrets/* /versions/latest` or `projects/* /locations/* /secrets/* /versions/latest` is an alias to the most recently created SecretVersion. */
   name: string;
@@ -1342,13 +1341,13 @@ export const AccessProjectsLocationsSecretsVersionsResponse = AccessSecretVersio
 
 export type AccessProjectsLocationsSecretsVersionsError = CommonErrors;
 
+/** Accesses a SecretVersion. This call returns the secret data. `projects/* /secrets/* /versions/latest` is an alias to the most recently created SecretVersion. */
 export const accessProjectsLocationsSecretsVersions: API.OperationMethod<AccessProjectsLocationsSecretsVersionsRequest, AccessProjectsLocationsSecretsVersionsResponse, AccessProjectsLocationsSecretsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AccessProjectsLocationsSecretsVersionsRequest,
   output: AccessProjectsLocationsSecretsVersionsResponse,
   errors: [],
 }));
 
-/** Gets metadata for a SecretVersion. `projects/* /secrets/* /versions/latest` is an alias to the most recently created SecretVersion. */
 export interface GetProjectsLocationsSecretsVersionsRequest {
   /** Required. The resource name of the SecretVersion in the format `projects/* /secrets/* /versions/*` or `projects/* /locations/* /secrets/* /versions/*`. `projects/* /secrets/* /versions/latest` or `projects/* /locations/* /secrets/* /versions/latest` is an alias to the most recently created SecretVersion. */
   name: string;
@@ -1366,13 +1365,13 @@ export const GetProjectsLocationsSecretsVersionsResponse = SecretVersion;
 
 export type GetProjectsLocationsSecretsVersionsError = CommonErrors;
 
+/** Gets metadata for a SecretVersion. `projects/* /secrets/* /versions/latest` is an alias to the most recently created SecretVersion. */
 export const getProjectsLocationsSecretsVersions: API.OperationMethod<GetProjectsLocationsSecretsVersionsRequest, GetProjectsLocationsSecretsVersionsResponse, GetProjectsLocationsSecretsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSecretsVersionsRequest,
   output: GetProjectsLocationsSecretsVersionsResponse,
   errors: [],
 }));
 
-/** Destroys a SecretVersion. Sets the state of the SecretVersion to DESTROYED and irrevocably destroys the secret data. */
 export interface DestroyProjectsLocationsSecretsVersionsRequest {
   /** Required. The resource name of the SecretVersion to destroy in the format `projects/* /secrets/* /versions/*` or `projects/* /locations/* /secrets/* /versions/*`. */
   name: string;
@@ -1393,13 +1392,13 @@ export const DestroyProjectsLocationsSecretsVersionsResponse = SecretVersion;
 
 export type DestroyProjectsLocationsSecretsVersionsError = CommonErrors;
 
+/** Destroys a SecretVersion. Sets the state of the SecretVersion to DESTROYED and irrevocably destroys the secret data. */
 export const destroyProjectsLocationsSecretsVersions: API.OperationMethod<DestroyProjectsLocationsSecretsVersionsRequest, DestroyProjectsLocationsSecretsVersionsResponse, DestroyProjectsLocationsSecretsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DestroyProjectsLocationsSecretsVersionsRequest,
   output: DestroyProjectsLocationsSecretsVersionsResponse,
   errors: [],
 }));
 
-/** Lists SecretVersions. This call does not return secret data. */
 export interface ListProjectsLocationsSecretsVersionsRequest {
   /** Optional. Pagination token, returned earlier via ListSecretVersionsResponse.next_page_token][]. */
   pageToken?: string;
@@ -1426,7 +1425,8 @@ export const ListProjectsLocationsSecretsVersionsResponse = ListSecretVersionsRe
 
 export type ListProjectsLocationsSecretsVersionsError = CommonErrors;
 
-export const listProjectsLocationsSecretsVersions = API.makePaginated(() => ({
+/** Lists SecretVersions. This call does not return secret data. */
+export const listProjectsLocationsSecretsVersions: API.PaginatedOperationMethod<ListProjectsLocationsSecretsVersionsRequest, ListProjectsLocationsSecretsVersionsResponse, ListProjectsLocationsSecretsVersionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsSecretsVersionsRequest,
   output: ListProjectsLocationsSecretsVersionsResponse,
   errors: [],

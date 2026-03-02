@@ -1176,7 +1176,6 @@ export const VaultAcceleratedDeletion: Schema.Schema<VaultAcceleratedDeletion> =
 // Operations
 // ==========================================================================
 
-/** Lists the alerts. */
 export interface ListAlertsRequest {
   /** Optional. The unique identifier of the Google Workspace account of the customer the alerts are associated with. The `customer_id` must have the initial "C" stripped (for example, `046psxkn`). Inferred from the caller identity if not provided. [Find your customer ID](https://support.google.com/cloudidentity/answer/10070793). */
   customerId?: string;
@@ -1206,7 +1205,8 @@ export const ListAlertsResponse_Op = ListAlertsResponse;
 
 export type ListAlertsError = CommonErrors;
 
-export const listAlerts = API.makePaginated(() => ({
+/** Lists the alerts. */
+export const listAlerts: API.PaginatedOperationMethod<ListAlertsRequest, ListAlertsResponse_Op, ListAlertsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAlertsRequest,
   output: ListAlertsResponse_Op,
   errors: [],
@@ -1216,7 +1216,6 @@ export const listAlerts = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the specified alert. Attempting to get a nonexistent alert returns `NOT_FOUND` error. */
 export interface GetAlertsRequest {
   /** Required. The identifier of the alert to retrieve. */
   alertId: string;
@@ -1237,13 +1236,13 @@ export const GetAlertsResponse = Alert;
 
 export type GetAlertsError = CommonErrors;
 
+/** Gets the specified alert. Attempting to get a nonexistent alert returns `NOT_FOUND` error. */
 export const getAlerts: API.OperationMethod<GetAlertsRequest, GetAlertsResponse, GetAlertsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAlertsRequest,
   output: GetAlertsResponse,
   errors: [],
 }));
 
-/** Marks the specified alert for deletion. An alert that has been marked for deletion is removed from Alert Center after 30 days. Marking an alert for deletion has no effect on an alert which has already been marked for deletion. Attempting to mark a nonexistent alert for deletion results in a `NOT_FOUND` error. */
 export interface DeleteAlertsRequest {
   /** Required. The identifier of the alert to delete. */
   alertId: string;
@@ -1264,13 +1263,13 @@ export const DeleteAlertsResponse = Empty;
 
 export type DeleteAlertsError = CommonErrors;
 
+/** Marks the specified alert for deletion. An alert that has been marked for deletion is removed from Alert Center after 30 days. Marking an alert for deletion has no effect on an alert which has already been marked for deletion. Attempting to mark a nonexistent alert for deletion results in a `NOT_FOUND` error. */
 export const deleteAlerts: API.OperationMethod<DeleteAlertsRequest, DeleteAlertsResponse, DeleteAlertsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAlertsRequest,
   output: DeleteAlertsResponse,
   errors: [],
 }));
 
-/** Restores, or "undeletes", an alert that was marked for deletion within the past 30 days. Attempting to undelete an alert which was marked for deletion over 30 days ago (which has been removed from the Alert Center database) or a nonexistent alert returns a `NOT_FOUND` error. Attempting to undelete an alert which has not been marked for deletion has no effect. */
 export interface UndeleteAlertsRequest {
   /** Required. The identifier of the alert to undelete. */
   alertId: string;
@@ -1291,13 +1290,13 @@ export const UndeleteAlertsResponse = Alert;
 
 export type UndeleteAlertsError = CommonErrors;
 
+/** Restores, or "undeletes", an alert that was marked for deletion within the past 30 days. Attempting to undelete an alert which was marked for deletion over 30 days ago (which has been removed from the Alert Center database) or a nonexistent alert returns a `NOT_FOUND` error. Attempting to undelete an alert which has not been marked for deletion has no effect. */
 export const undeleteAlerts: API.OperationMethod<UndeleteAlertsRequest, UndeleteAlertsResponse, UndeleteAlertsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UndeleteAlertsRequest,
   output: UndeleteAlertsResponse,
   errors: [],
 }));
 
-/** Returns the metadata of an alert. Attempting to get metadata for a non-existent alert returns `NOT_FOUND` error. */
 export interface GetMetadataAlertsRequest {
   /** Required. The identifier of the alert this metadata belongs to. */
   alertId: string;
@@ -1318,13 +1317,13 @@ export const GetMetadataAlertsResponse = AlertMetadata;
 
 export type GetMetadataAlertsError = CommonErrors;
 
+/** Returns the metadata of an alert. Attempting to get metadata for a non-existent alert returns `NOT_FOUND` error. */
 export const getMetadataAlerts: API.OperationMethod<GetMetadataAlertsRequest, GetMetadataAlertsResponse, GetMetadataAlertsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetMetadataAlertsRequest,
   output: GetMetadataAlertsResponse,
   errors: [],
 }));
 
-/** Performs batch delete operation on alerts. */
 export interface BatchDeleteAlertsRequest_Op {
   /** Request body */
   body?: BatchDeleteAlertsRequest;
@@ -1342,13 +1341,13 @@ export const BatchDeleteAlertsResponse_Op = BatchDeleteAlertsResponse;
 
 export type BatchDeleteAlertsError = CommonErrors;
 
+/** Performs batch delete operation on alerts. */
 export const batchDeleteAlerts: API.OperationMethod<BatchDeleteAlertsRequest_Op, BatchDeleteAlertsResponse_Op, BatchDeleteAlertsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchDeleteAlertsRequest_Op,
   output: BatchDeleteAlertsResponse_Op,
   errors: [],
 }));
 
-/** Performs batch undelete operation on alerts. */
 export interface BatchUndeleteAlertsRequest_Op {
   /** Request body */
   body?: BatchUndeleteAlertsRequest;
@@ -1366,13 +1365,13 @@ export const BatchUndeleteAlertsResponse_Op = BatchUndeleteAlertsResponse;
 
 export type BatchUndeleteAlertsError = CommonErrors;
 
+/** Performs batch undelete operation on alerts. */
 export const batchUndeleteAlerts: API.OperationMethod<BatchUndeleteAlertsRequest_Op, BatchUndeleteAlertsResponse_Op, BatchUndeleteAlertsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchUndeleteAlertsRequest_Op,
   output: BatchUndeleteAlertsResponse_Op,
   errors: [],
 }));
 
-/** Creates new feedback for an alert. Attempting to create a feedback for a non-existent alert returns `NOT_FOUND` error. Attempting to create a feedback for an alert that is marked for deletion returns `FAILED_PRECONDITION' error. */
 export interface CreateAlertsFeedbackRequest {
   /** Required. The identifier of the alert this feedback belongs to. */
   alertId: string;
@@ -1396,13 +1395,13 @@ export const CreateAlertsFeedbackResponse = AlertFeedback;
 
 export type CreateAlertsFeedbackError = CommonErrors;
 
+/** Creates new feedback for an alert. Attempting to create a feedback for a non-existent alert returns `NOT_FOUND` error. Attempting to create a feedback for an alert that is marked for deletion returns `FAILED_PRECONDITION' error. */
 export const createAlertsFeedback: API.OperationMethod<CreateAlertsFeedbackRequest, CreateAlertsFeedbackResponse, CreateAlertsFeedbackError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAlertsFeedbackRequest,
   output: CreateAlertsFeedbackResponse,
   errors: [],
 }));
 
-/** Lists all the feedback for an alert. Attempting to list feedbacks for a non-existent alert returns `NOT_FOUND` error. */
 export interface ListAlertsFeedbackRequest {
   /** Required. The alert identifier. The "-" wildcard could be used to represent all alerts. */
   alertId: string;
@@ -1426,13 +1425,13 @@ export const ListAlertsFeedbackResponse = ListAlertFeedbackResponse;
 
 export type ListAlertsFeedbackError = CommonErrors;
 
+/** Lists all the feedback for an alert. Attempting to list feedbacks for a non-existent alert returns `NOT_FOUND` error. */
 export const listAlertsFeedback: API.OperationMethod<ListAlertsFeedbackRequest, ListAlertsFeedbackResponse, ListAlertsFeedbackError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListAlertsFeedbackRequest,
   output: ListAlertsFeedbackResponse,
   errors: [],
 }));
 
-/** Returns customer-level settings. */
 export interface GetSettingsV1beta1Request {
   /** Optional. The unique identifier of the Google Workspace account of the customer the alert settings are associated with. The `customer_id` must/ have the initial "C" stripped (for example, `046psxkn`). Inferred from the caller identity if not provided. [Find your customer ID](https://support.google.com/cloudidentity/answer/10070793). */
   customerId?: string;
@@ -1450,13 +1449,13 @@ export const GetSettingsV1beta1Response = Settings;
 
 export type GetSettingsV1beta1Error = CommonErrors;
 
+/** Returns customer-level settings. */
 export const getSettingsV1beta1: API.OperationMethod<GetSettingsV1beta1Request, GetSettingsV1beta1Response, GetSettingsV1beta1Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSettingsV1beta1Request,
   output: GetSettingsV1beta1Response,
   errors: [],
 }));
 
-/** Updates the customer-level settings. */
 export interface UpdateSettingsV1beta1Request {
   /** Optional. The unique identifier of the Google Workspace account of the customer the alert settings are associated with. The `customer_id` must have the initial "C" stripped (for example, `046psxkn`). Inferred from the caller identity if not provided. [Find your customer ID](https://support.google.com/cloudidentity/answer/10070793). */
   customerId?: string;
@@ -1477,6 +1476,7 @@ export const UpdateSettingsV1beta1Response = Settings;
 
 export type UpdateSettingsV1beta1Error = CommonErrors;
 
+/** Updates the customer-level settings. */
 export const updateSettingsV1beta1: API.OperationMethod<UpdateSettingsV1beta1Request, UpdateSettingsV1beta1Response, UpdateSettingsV1beta1Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateSettingsV1beta1Request,
   output: UpdateSettingsV1beta1Response,

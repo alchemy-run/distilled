@@ -1107,7 +1107,6 @@ export const RefreshSubscriptionRequest: Schema.Schema<RefreshSubscriptionReques
 // Operations
 // ==========================================================================
 
-/** Lists all subscriptions in a given project and location. */
 export interface ListProjectsLocationsSubscriptionsRequest {
   /** Required. The parent resource path of the subscription. e.g. projects/myproject/locations/us */
   parent: string;
@@ -1134,7 +1133,8 @@ export const ListProjectsLocationsSubscriptionsResponse = ListSubscriptionsRespo
 
 export type ListProjectsLocationsSubscriptionsError = CommonErrors;
 
-export const listProjectsLocationsSubscriptions = API.makePaginated(() => ({
+/** Lists all subscriptions in a given project and location. */
+export const listProjectsLocationsSubscriptions: API.PaginatedOperationMethod<ListProjectsLocationsSubscriptionsRequest, ListProjectsLocationsSubscriptionsResponse, ListProjectsLocationsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsSubscriptionsRequest,
   output: ListProjectsLocationsSubscriptionsResponse,
   errors: [],
@@ -1144,7 +1144,6 @@ export const listProjectsLocationsSubscriptions = API.makePaginated(() => ({
   },
 }));
 
-/** Revokes a given subscription. */
 export interface RevokeProjectsLocationsSubscriptionsRequest {
   /** Required. Resource name of the subscription to revoke. e.g. projects/123/locations/us/subscriptions/456 */
   name: string;
@@ -1165,13 +1164,13 @@ export const RevokeProjectsLocationsSubscriptionsResponse = RevokeSubscriptionRe
 
 export type RevokeProjectsLocationsSubscriptionsError = CommonErrors;
 
+/** Revokes a given subscription. */
 export const revokeProjectsLocationsSubscriptions: API.OperationMethod<RevokeProjectsLocationsSubscriptionsRequest, RevokeProjectsLocationsSubscriptionsResponse, RevokeProjectsLocationsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RevokeProjectsLocationsSubscriptionsRequest,
   output: RevokeProjectsLocationsSubscriptionsResponse,
   errors: [],
 }));
 
-/** Gets the IAM policy. */
 export interface GetIamPolicyProjectsLocationsSubscriptionsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1192,13 +1191,13 @@ export const GetIamPolicyProjectsLocationsSubscriptionsResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsSubscriptionsError = CommonErrors;
 
+/** Gets the IAM policy. */
 export const getIamPolicyProjectsLocationsSubscriptions: API.OperationMethod<GetIamPolicyProjectsLocationsSubscriptionsRequest, GetIamPolicyProjectsLocationsSubscriptionsResponse, GetIamPolicyProjectsLocationsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsSubscriptionsRequest,
   output: GetIamPolicyProjectsLocationsSubscriptionsResponse,
   errors: [],
 }));
 
-/** Sets the IAM policy. */
 export interface SetIamPolicyProjectsLocationsSubscriptionsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1219,13 +1218,13 @@ export const SetIamPolicyProjectsLocationsSubscriptionsResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsSubscriptionsError = CommonErrors;
 
+/** Sets the IAM policy. */
 export const setIamPolicyProjectsLocationsSubscriptions: API.OperationMethod<SetIamPolicyProjectsLocationsSubscriptionsRequest, SetIamPolicyProjectsLocationsSubscriptionsResponse, SetIamPolicyProjectsLocationsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsSubscriptionsRequest,
   output: SetIamPolicyProjectsLocationsSubscriptionsResponse,
   errors: [],
 }));
 
-/** Gets the details of a Subscription. */
 export interface GetProjectsLocationsSubscriptionsRequest {
   /** Required. Resource name of the subscription. e.g. projects/123/locations/us/subscriptions/456 */
   name: string;
@@ -1243,13 +1242,13 @@ export const GetProjectsLocationsSubscriptionsResponse = Subscription;
 
 export type GetProjectsLocationsSubscriptionsError = CommonErrors;
 
+/** Gets the details of a Subscription. */
 export const getProjectsLocationsSubscriptions: API.OperationMethod<GetProjectsLocationsSubscriptionsRequest, GetProjectsLocationsSubscriptionsResponse, GetProjectsLocationsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSubscriptionsRequest,
   output: GetProjectsLocationsSubscriptionsResponse,
   errors: [],
 }));
 
-/** Refreshes a Subscription to a Data Exchange. A Data Exchange can become stale when a publisher adds or removes data. This is a long-running operation as it may create many linked datasets. */
 export interface RefreshProjectsLocationsSubscriptionsRequest {
   /** Required. Resource name of the Subscription to refresh. e.g. `projects/subscriberproject/locations/us/subscriptions/123` */
   name: string;
@@ -1270,13 +1269,13 @@ export const RefreshProjectsLocationsSubscriptionsResponse = Operation;
 
 export type RefreshProjectsLocationsSubscriptionsError = CommonErrors;
 
+/** Refreshes a Subscription to a Data Exchange. A Data Exchange can become stale when a publisher adds or removes data. This is a long-running operation as it may create many linked datasets. */
 export const refreshProjectsLocationsSubscriptions: API.OperationMethod<RefreshProjectsLocationsSubscriptionsRequest, RefreshProjectsLocationsSubscriptionsResponse, RefreshProjectsLocationsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RefreshProjectsLocationsSubscriptionsRequest,
   output: RefreshProjectsLocationsSubscriptionsResponse,
   errors: [],
 }));
 
-/** Deletes a subscription. */
 export interface DeleteProjectsLocationsSubscriptionsRequest {
   /** Required. Resource name of the subscription to delete. e.g. projects/123/locations/us/subscriptions/456 */
   name: string;
@@ -1294,13 +1293,13 @@ export const DeleteProjectsLocationsSubscriptionsResponse = Operation;
 
 export type DeleteProjectsLocationsSubscriptionsError = CommonErrors;
 
+/** Deletes a subscription. */
 export const deleteProjectsLocationsSubscriptions: API.OperationMethod<DeleteProjectsLocationsSubscriptionsRequest, DeleteProjectsLocationsSubscriptionsResponse, DeleteProjectsLocationsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsSubscriptionsRequest,
   output: DeleteProjectsLocationsSubscriptionsResponse,
   errors: [],
 }));
 
-/** Gets the details of a data exchange. */
 export interface GetProjectsLocationsDataExchangesRequest {
   /** Required. The resource name of the data exchange. e.g. `projects/myproject/locations/us/dataExchanges/123`. */
   name: string;
@@ -1318,13 +1317,13 @@ export const GetProjectsLocationsDataExchangesResponse = DataExchange;
 
 export type GetProjectsLocationsDataExchangesError = CommonErrors;
 
+/** Gets the details of a data exchange. */
 export const getProjectsLocationsDataExchanges: API.OperationMethod<GetProjectsLocationsDataExchangesRequest, GetProjectsLocationsDataExchangesResponse, GetProjectsLocationsDataExchangesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDataExchangesRequest,
   output: GetProjectsLocationsDataExchangesResponse,
   errors: [],
 }));
 
-/** Lists all subscriptions on a given Data Exchange or Listing. */
 export interface ListSubscriptionsProjectsLocationsDataExchangesRequest {
   /** Required. Resource name of the requested target. This resource may be either a Listing or a DataExchange. e.g. projects/123/locations/us/dataExchanges/456 OR e.g. projects/123/locations/us/dataExchanges/456/listings/789 */
   resource: string;
@@ -1351,7 +1350,8 @@ export const ListSubscriptionsProjectsLocationsDataExchangesResponse = ListShare
 
 export type ListSubscriptionsProjectsLocationsDataExchangesError = CommonErrors;
 
-export const listSubscriptionsProjectsLocationsDataExchanges = API.makePaginated(() => ({
+/** Lists all subscriptions on a given Data Exchange or Listing. */
+export const listSubscriptionsProjectsLocationsDataExchanges: API.PaginatedOperationMethod<ListSubscriptionsProjectsLocationsDataExchangesRequest, ListSubscriptionsProjectsLocationsDataExchangesResponse, ListSubscriptionsProjectsLocationsDataExchangesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListSubscriptionsProjectsLocationsDataExchangesRequest,
   output: ListSubscriptionsProjectsLocationsDataExchangesResponse,
   errors: [],
@@ -1361,7 +1361,6 @@ export const listSubscriptionsProjectsLocationsDataExchanges = API.makePaginated
   },
 }));
 
-/** Sets the IAM policy. */
 export interface SetIamPolicyProjectsLocationsDataExchangesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1382,13 +1381,13 @@ export const SetIamPolicyProjectsLocationsDataExchangesResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsDataExchangesError = CommonErrors;
 
+/** Sets the IAM policy. */
 export const setIamPolicyProjectsLocationsDataExchanges: API.OperationMethod<SetIamPolicyProjectsLocationsDataExchangesRequest, SetIamPolicyProjectsLocationsDataExchangesResponse, SetIamPolicyProjectsLocationsDataExchangesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsDataExchangesRequest,
   output: SetIamPolicyProjectsLocationsDataExchangesResponse,
   errors: [],
 }));
 
-/** Lists all data exchanges in a given project and location. */
 export interface ListProjectsLocationsDataExchangesRequest {
   /** The maximum number of results to return in a single response page. Leverage the page tokens to iterate through the entire collection. */
   pageSize?: number;
@@ -1412,7 +1411,8 @@ export const ListProjectsLocationsDataExchangesResponse = ListDataExchangesRespo
 
 export type ListProjectsLocationsDataExchangesError = CommonErrors;
 
-export const listProjectsLocationsDataExchanges = API.makePaginated(() => ({
+/** Lists all data exchanges in a given project and location. */
+export const listProjectsLocationsDataExchanges: API.PaginatedOperationMethod<ListProjectsLocationsDataExchangesRequest, ListProjectsLocationsDataExchangesResponse, ListProjectsLocationsDataExchangesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDataExchangesRequest,
   output: ListProjectsLocationsDataExchangesResponse,
   errors: [],
@@ -1422,7 +1422,6 @@ export const listProjectsLocationsDataExchanges = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the permissions that a caller has. */
 export interface TestIamPermissionsProjectsLocationsDataExchangesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1443,13 +1442,13 @@ export const TestIamPermissionsProjectsLocationsDataExchangesResponse = TestIamP
 
 export type TestIamPermissionsProjectsLocationsDataExchangesError = CommonErrors;
 
+/** Returns the permissions that a caller has. */
 export const testIamPermissionsProjectsLocationsDataExchanges: API.OperationMethod<TestIamPermissionsProjectsLocationsDataExchangesRequest, TestIamPermissionsProjectsLocationsDataExchangesResponse, TestIamPermissionsProjectsLocationsDataExchangesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsDataExchangesRequest,
   output: TestIamPermissionsProjectsLocationsDataExchangesResponse,
   errors: [],
 }));
 
-/** Creates a Subscription to a Data Clean Room. This is a long-running operation as it will create one or more linked datasets. Throws a Bad Request error if the Data Exchange does not contain any listings. */
 export interface SubscribeProjectsLocationsDataExchangesRequest {
   /** Required. Resource name of the Data Exchange. e.g. `projects/publisherproject/locations/us/dataExchanges/123` */
   name: string;
@@ -1470,13 +1469,13 @@ export const SubscribeProjectsLocationsDataExchangesResponse = Operation;
 
 export type SubscribeProjectsLocationsDataExchangesError = CommonErrors;
 
+/** Creates a Subscription to a Data Clean Room. This is a long-running operation as it will create one or more linked datasets. Throws a Bad Request error if the Data Exchange does not contain any listings. */
 export const subscribeProjectsLocationsDataExchanges: API.OperationMethod<SubscribeProjectsLocationsDataExchangesRequest, SubscribeProjectsLocationsDataExchangesResponse, SubscribeProjectsLocationsDataExchangesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SubscribeProjectsLocationsDataExchangesRequest,
   output: SubscribeProjectsLocationsDataExchangesResponse,
   errors: [],
 }));
 
-/** Gets the IAM policy. */
 export interface GetIamPolicyProjectsLocationsDataExchangesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1497,13 +1496,13 @@ export const GetIamPolicyProjectsLocationsDataExchangesResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsDataExchangesError = CommonErrors;
 
+/** Gets the IAM policy. */
 export const getIamPolicyProjectsLocationsDataExchanges: API.OperationMethod<GetIamPolicyProjectsLocationsDataExchangesRequest, GetIamPolicyProjectsLocationsDataExchangesResponse, GetIamPolicyProjectsLocationsDataExchangesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsDataExchangesRequest,
   output: GetIamPolicyProjectsLocationsDataExchangesResponse,
   errors: [],
 }));
 
-/** Updates an existing data exchange. */
 export interface PatchProjectsLocationsDataExchangesRequest {
   /** Required. Field mask specifies the fields to update in the data exchange resource. The fields specified in the `updateMask` are relative to the resource and are not a full request. */
   updateMask?: string;
@@ -1527,13 +1526,13 @@ export const PatchProjectsLocationsDataExchangesResponse = DataExchange;
 
 export type PatchProjectsLocationsDataExchangesError = CommonErrors;
 
+/** Updates an existing data exchange. */
 export const patchProjectsLocationsDataExchanges: API.OperationMethod<PatchProjectsLocationsDataExchangesRequest, PatchProjectsLocationsDataExchangesResponse, PatchProjectsLocationsDataExchangesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsDataExchangesRequest,
   output: PatchProjectsLocationsDataExchangesResponse,
   errors: [],
 }));
 
-/** Deletes an existing data exchange. */
 export interface DeleteProjectsLocationsDataExchangesRequest {
   /** Required. The full name of the data exchange resource that you want to delete. For example, `projects/myproject/locations/us/dataExchanges/123`. */
   name: string;
@@ -1551,13 +1550,13 @@ export const DeleteProjectsLocationsDataExchangesResponse = Empty;
 
 export type DeleteProjectsLocationsDataExchangesError = CommonErrors;
 
+/** Deletes an existing data exchange. */
 export const deleteProjectsLocationsDataExchanges: API.OperationMethod<DeleteProjectsLocationsDataExchangesRequest, DeleteProjectsLocationsDataExchangesResponse, DeleteProjectsLocationsDataExchangesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDataExchangesRequest,
   output: DeleteProjectsLocationsDataExchangesResponse,
   errors: [],
 }));
 
-/** Creates a new data exchange. */
 export interface CreateProjectsLocationsDataExchangesRequest {
   /** Required. The ID of the data exchange. Must contain only Unicode letters, numbers (0-9), underscores (_). Max length: 100 bytes. */
   dataExchangeId?: string;
@@ -1581,13 +1580,13 @@ export const CreateProjectsLocationsDataExchangesResponse = DataExchange;
 
 export type CreateProjectsLocationsDataExchangesError = CommonErrors;
 
+/** Creates a new data exchange. */
 export const createProjectsLocationsDataExchanges: API.OperationMethod<CreateProjectsLocationsDataExchangesRequest, CreateProjectsLocationsDataExchangesResponse, CreateProjectsLocationsDataExchangesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsDataExchangesRequest,
   output: CreateProjectsLocationsDataExchangesResponse,
   errors: [],
 }));
 
-/** Returns the permissions that a caller has. */
 export interface TestIamPermissionsProjectsLocationsDataExchangesListingsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1608,13 +1607,13 @@ export const TestIamPermissionsProjectsLocationsDataExchangesListingsResponse = 
 
 export type TestIamPermissionsProjectsLocationsDataExchangesListingsError = CommonErrors;
 
+/** Returns the permissions that a caller has. */
 export const testIamPermissionsProjectsLocationsDataExchangesListings: API.OperationMethod<TestIamPermissionsProjectsLocationsDataExchangesListingsRequest, TestIamPermissionsProjectsLocationsDataExchangesListingsResponse, TestIamPermissionsProjectsLocationsDataExchangesListingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsDataExchangesListingsRequest,
   output: TestIamPermissionsProjectsLocationsDataExchangesListingsResponse,
   errors: [],
 }));
 
-/** Updates an existing listing. */
 export interface PatchProjectsLocationsDataExchangesListingsRequest {
   /** Required. Field mask specifies the fields to update in the listing resource. The fields specified in the `updateMask` are relative to the resource and are not a full request. */
   updateMask?: string;
@@ -1638,13 +1637,13 @@ export const PatchProjectsLocationsDataExchangesListingsResponse = Listing;
 
 export type PatchProjectsLocationsDataExchangesListingsError = CommonErrors;
 
+/** Updates an existing listing. */
 export const patchProjectsLocationsDataExchangesListings: API.OperationMethod<PatchProjectsLocationsDataExchangesListingsRequest, PatchProjectsLocationsDataExchangesListingsResponse, PatchProjectsLocationsDataExchangesListingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsDataExchangesListingsRequest,
   output: PatchProjectsLocationsDataExchangesListingsResponse,
   errors: [],
 }));
 
-/** Lists all subscriptions on a given Data Exchange or Listing. */
 export interface ListSubscriptionsProjectsLocationsDataExchangesListingsRequest {
   /** Page token, returned by a previous call. */
   pageToken?: string;
@@ -1671,7 +1670,8 @@ export const ListSubscriptionsProjectsLocationsDataExchangesListingsResponse = L
 
 export type ListSubscriptionsProjectsLocationsDataExchangesListingsError = CommonErrors;
 
-export const listSubscriptionsProjectsLocationsDataExchangesListings = API.makePaginated(() => ({
+/** Lists all subscriptions on a given Data Exchange or Listing. */
+export const listSubscriptionsProjectsLocationsDataExchangesListings: API.PaginatedOperationMethod<ListSubscriptionsProjectsLocationsDataExchangesListingsRequest, ListSubscriptionsProjectsLocationsDataExchangesListingsResponse, ListSubscriptionsProjectsLocationsDataExchangesListingsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListSubscriptionsProjectsLocationsDataExchangesListingsRequest,
   output: ListSubscriptionsProjectsLocationsDataExchangesListingsResponse,
   errors: [],
@@ -1681,7 +1681,6 @@ export const listSubscriptionsProjectsLocationsDataExchangesListings = API.makeP
   },
 }));
 
-/** Deletes a listing. */
 export interface DeleteProjectsLocationsDataExchangesListingsRequest {
   /** Optional. If the listing is commercial then this field must be set to true, otherwise a failure is thrown. This acts as a safety guard to avoid deleting commercial listings accidentally. */
   deleteCommercial?: boolean;
@@ -1702,13 +1701,13 @@ export const DeleteProjectsLocationsDataExchangesListingsResponse = Empty;
 
 export type DeleteProjectsLocationsDataExchangesListingsError = CommonErrors;
 
+/** Deletes a listing. */
 export const deleteProjectsLocationsDataExchangesListings: API.OperationMethod<DeleteProjectsLocationsDataExchangesListingsRequest, DeleteProjectsLocationsDataExchangesListingsResponse, DeleteProjectsLocationsDataExchangesListingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDataExchangesListingsRequest,
   output: DeleteProjectsLocationsDataExchangesListingsResponse,
   errors: [],
 }));
 
-/** Lists all listings in a given project and location. */
 export interface ListProjectsLocationsDataExchangesListingsRequest {
   /** The maximum number of results to return in a single response page. Leverage the page tokens to iterate through the entire collection. */
   pageSize?: number;
@@ -1732,7 +1731,8 @@ export const ListProjectsLocationsDataExchangesListingsResponse = ListListingsRe
 
 export type ListProjectsLocationsDataExchangesListingsError = CommonErrors;
 
-export const listProjectsLocationsDataExchangesListings = API.makePaginated(() => ({
+/** Lists all listings in a given project and location. */
+export const listProjectsLocationsDataExchangesListings: API.PaginatedOperationMethod<ListProjectsLocationsDataExchangesListingsRequest, ListProjectsLocationsDataExchangesListingsResponse, ListProjectsLocationsDataExchangesListingsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDataExchangesListingsRequest,
   output: ListProjectsLocationsDataExchangesListingsResponse,
   errors: [],
@@ -1742,7 +1742,6 @@ export const listProjectsLocationsDataExchangesListings = API.makePaginated(() =
   },
 }));
 
-/** Subscribes to a listing. Currently, with Analytics Hub, you can create listings that reference only BigQuery datasets. Upon subscription to a listing for a BigQuery dataset, Analytics Hub creates a linked dataset in the subscriber's project. */
 export interface SubscribeProjectsLocationsDataExchangesListingsRequest {
   /** Required. Resource name of the listing that you want to subscribe to. e.g. `projects/myproject/locations/us/dataExchanges/123/listings/456`. */
   name: string;
@@ -1763,13 +1762,13 @@ export const SubscribeProjectsLocationsDataExchangesListingsResponse = Subscribe
 
 export type SubscribeProjectsLocationsDataExchangesListingsError = CommonErrors;
 
+/** Subscribes to a listing. Currently, with Analytics Hub, you can create listings that reference only BigQuery datasets. Upon subscription to a listing for a BigQuery dataset, Analytics Hub creates a linked dataset in the subscriber's project. */
 export const subscribeProjectsLocationsDataExchangesListings: API.OperationMethod<SubscribeProjectsLocationsDataExchangesListingsRequest, SubscribeProjectsLocationsDataExchangesListingsResponse, SubscribeProjectsLocationsDataExchangesListingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SubscribeProjectsLocationsDataExchangesListingsRequest,
   output: SubscribeProjectsLocationsDataExchangesListingsResponse,
   errors: [],
 }));
 
-/** Gets the IAM policy. */
 export interface GetIamPolicyProjectsLocationsDataExchangesListingsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1790,13 +1789,13 @@ export const GetIamPolicyProjectsLocationsDataExchangesListingsResponse = Policy
 
 export type GetIamPolicyProjectsLocationsDataExchangesListingsError = CommonErrors;
 
+/** Gets the IAM policy. */
 export const getIamPolicyProjectsLocationsDataExchangesListings: API.OperationMethod<GetIamPolicyProjectsLocationsDataExchangesListingsRequest, GetIamPolicyProjectsLocationsDataExchangesListingsResponse, GetIamPolicyProjectsLocationsDataExchangesListingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsDataExchangesListingsRequest,
   output: GetIamPolicyProjectsLocationsDataExchangesListingsResponse,
   errors: [],
 }));
 
-/** Gets the details of a listing. */
 export interface GetProjectsLocationsDataExchangesListingsRequest {
   /** Required. The resource name of the listing. e.g. `projects/myproject/locations/us/dataExchanges/123/listings/456`. */
   name: string;
@@ -1814,13 +1813,13 @@ export const GetProjectsLocationsDataExchangesListingsResponse = Listing;
 
 export type GetProjectsLocationsDataExchangesListingsError = CommonErrors;
 
+/** Gets the details of a listing. */
 export const getProjectsLocationsDataExchangesListings: API.OperationMethod<GetProjectsLocationsDataExchangesListingsRequest, GetProjectsLocationsDataExchangesListingsResponse, GetProjectsLocationsDataExchangesListingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDataExchangesListingsRequest,
   output: GetProjectsLocationsDataExchangesListingsResponse,
   errors: [],
 }));
 
-/** Sets the IAM policy. */
 export interface SetIamPolicyProjectsLocationsDataExchangesListingsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1841,13 +1840,13 @@ export const SetIamPolicyProjectsLocationsDataExchangesListingsResponse = Policy
 
 export type SetIamPolicyProjectsLocationsDataExchangesListingsError = CommonErrors;
 
+/** Sets the IAM policy. */
 export const setIamPolicyProjectsLocationsDataExchangesListings: API.OperationMethod<SetIamPolicyProjectsLocationsDataExchangesListingsRequest, SetIamPolicyProjectsLocationsDataExchangesListingsResponse, SetIamPolicyProjectsLocationsDataExchangesListingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsDataExchangesListingsRequest,
   output: SetIamPolicyProjectsLocationsDataExchangesListingsResponse,
   errors: [],
 }));
 
-/** Creates a new listing. */
 export interface CreateProjectsLocationsDataExchangesListingsRequest {
   /** Required. The ID of the listing to create. Must contain only Unicode letters, numbers (0-9), underscores (_). Max length: 100 bytes. */
   listingId?: string;
@@ -1871,13 +1870,13 @@ export const CreateProjectsLocationsDataExchangesListingsResponse = Listing;
 
 export type CreateProjectsLocationsDataExchangesListingsError = CommonErrors;
 
+/** Creates a new listing. */
 export const createProjectsLocationsDataExchangesListings: API.OperationMethod<CreateProjectsLocationsDataExchangesListingsRequest, CreateProjectsLocationsDataExchangesListingsResponse, CreateProjectsLocationsDataExchangesListingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsDataExchangesListingsRequest,
   output: CreateProjectsLocationsDataExchangesListingsResponse,
   errors: [],
 }));
 
-/** Gets a QueryTemplate */
 export interface GetProjectsLocationsDataExchangesQueryTemplatesRequest {
   /** Required. The parent resource path of the QueryTemplate. e.g. `projects/myproject/locations/us/dataExchanges/123/queryTemplates/myqueryTemplate`. */
   name: string;
@@ -1895,13 +1894,13 @@ export const GetProjectsLocationsDataExchangesQueryTemplatesResponse = QueryTemp
 
 export type GetProjectsLocationsDataExchangesQueryTemplatesError = CommonErrors;
 
+/** Gets a QueryTemplate */
 export const getProjectsLocationsDataExchangesQueryTemplates: API.OperationMethod<GetProjectsLocationsDataExchangesQueryTemplatesRequest, GetProjectsLocationsDataExchangesQueryTemplatesResponse, GetProjectsLocationsDataExchangesQueryTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDataExchangesQueryTemplatesRequest,
   output: GetProjectsLocationsDataExchangesQueryTemplatesResponse,
   errors: [],
 }));
 
-/** Deletes a query template. */
 export interface DeleteProjectsLocationsDataExchangesQueryTemplatesRequest {
   /** Required. The resource path of the QueryTemplate. e.g. `projects/myproject/locations/us/dataExchanges/123/queryTemplates/myqueryTemplate`. */
   name: string;
@@ -1919,13 +1918,13 @@ export const DeleteProjectsLocationsDataExchangesQueryTemplatesResponse = Empty;
 
 export type DeleteProjectsLocationsDataExchangesQueryTemplatesError = CommonErrors;
 
+/** Deletes a query template. */
 export const deleteProjectsLocationsDataExchangesQueryTemplates: API.OperationMethod<DeleteProjectsLocationsDataExchangesQueryTemplatesRequest, DeleteProjectsLocationsDataExchangesQueryTemplatesResponse, DeleteProjectsLocationsDataExchangesQueryTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDataExchangesQueryTemplatesRequest,
   output: DeleteProjectsLocationsDataExchangesQueryTemplatesResponse,
   errors: [],
 }));
 
-/** Lists all QueryTemplates in a given project and location. */
 export interface ListProjectsLocationsDataExchangesQueryTemplatesRequest {
   /** Optional. The maximum number of results to return in a single response page. Leverage the page tokens to iterate through the entire collection. */
   pageSize?: number;
@@ -1949,7 +1948,8 @@ export const ListProjectsLocationsDataExchangesQueryTemplatesResponse = ListQuer
 
 export type ListProjectsLocationsDataExchangesQueryTemplatesError = CommonErrors;
 
-export const listProjectsLocationsDataExchangesQueryTemplates = API.makePaginated(() => ({
+/** Lists all QueryTemplates in a given project and location. */
+export const listProjectsLocationsDataExchangesQueryTemplates: API.PaginatedOperationMethod<ListProjectsLocationsDataExchangesQueryTemplatesRequest, ListProjectsLocationsDataExchangesQueryTemplatesResponse, ListProjectsLocationsDataExchangesQueryTemplatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDataExchangesQueryTemplatesRequest,
   output: ListProjectsLocationsDataExchangesQueryTemplatesResponse,
   errors: [],
@@ -1959,7 +1959,6 @@ export const listProjectsLocationsDataExchangesQueryTemplates = API.makePaginate
   },
 }));
 
-/** Creates a new QueryTemplate */
 export interface CreateProjectsLocationsDataExchangesQueryTemplatesRequest {
   /** Required. The parent resource path of the QueryTemplate. e.g. `projects/myproject/locations/us/dataExchanges/123/queryTemplates/myQueryTemplate`. */
   parent: string;
@@ -1983,13 +1982,13 @@ export const CreateProjectsLocationsDataExchangesQueryTemplatesResponse = QueryT
 
 export type CreateProjectsLocationsDataExchangesQueryTemplatesError = CommonErrors;
 
+/** Creates a new QueryTemplate */
 export const createProjectsLocationsDataExchangesQueryTemplates: API.OperationMethod<CreateProjectsLocationsDataExchangesQueryTemplatesRequest, CreateProjectsLocationsDataExchangesQueryTemplatesResponse, CreateProjectsLocationsDataExchangesQueryTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsDataExchangesQueryTemplatesRequest,
   output: CreateProjectsLocationsDataExchangesQueryTemplatesResponse,
   errors: [],
 }));
 
-/** Submits a query template for approval. */
 export interface SubmitProjectsLocationsDataExchangesQueryTemplatesRequest {
   /** Required. The resource path of the QueryTemplate. e.g. `projects/myproject/locations/us/dataExchanges/123/queryTemplates/myqueryTemplate`. */
   name: string;
@@ -2010,13 +2009,13 @@ export const SubmitProjectsLocationsDataExchangesQueryTemplatesResponse = QueryT
 
 export type SubmitProjectsLocationsDataExchangesQueryTemplatesError = CommonErrors;
 
+/** Submits a query template for approval. */
 export const submitProjectsLocationsDataExchangesQueryTemplates: API.OperationMethod<SubmitProjectsLocationsDataExchangesQueryTemplatesRequest, SubmitProjectsLocationsDataExchangesQueryTemplatesResponse, SubmitProjectsLocationsDataExchangesQueryTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SubmitProjectsLocationsDataExchangesQueryTemplatesRequest,
   output: SubmitProjectsLocationsDataExchangesQueryTemplatesResponse,
   errors: [],
 }));
 
-/** Approves a query template. */
 export interface ApproveProjectsLocationsDataExchangesQueryTemplatesRequest {
   /** Required. The resource path of the QueryTemplate. e.g. `projects/myproject/locations/us/dataExchanges/123/queryTemplates/myqueryTemplate`. */
   name: string;
@@ -2037,13 +2036,13 @@ export const ApproveProjectsLocationsDataExchangesQueryTemplatesResponse = Query
 
 export type ApproveProjectsLocationsDataExchangesQueryTemplatesError = CommonErrors;
 
+/** Approves a query template. */
 export const approveProjectsLocationsDataExchangesQueryTemplates: API.OperationMethod<ApproveProjectsLocationsDataExchangesQueryTemplatesRequest, ApproveProjectsLocationsDataExchangesQueryTemplatesResponse, ApproveProjectsLocationsDataExchangesQueryTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ApproveProjectsLocationsDataExchangesQueryTemplatesRequest,
   output: ApproveProjectsLocationsDataExchangesQueryTemplatesResponse,
   errors: [],
 }));
 
-/** Updates an existing QueryTemplate */
 export interface PatchProjectsLocationsDataExchangesQueryTemplatesRequest {
   /** Optional. Field mask specifies the fields to update in the query template resource. The fields specified in the `updateMask` are relative to the resource and are not a full request. */
   updateMask?: string;
@@ -2067,13 +2066,13 @@ export const PatchProjectsLocationsDataExchangesQueryTemplatesResponse = QueryTe
 
 export type PatchProjectsLocationsDataExchangesQueryTemplatesError = CommonErrors;
 
+/** Updates an existing QueryTemplate */
 export const patchProjectsLocationsDataExchangesQueryTemplates: API.OperationMethod<PatchProjectsLocationsDataExchangesQueryTemplatesRequest, PatchProjectsLocationsDataExchangesQueryTemplatesResponse, PatchProjectsLocationsDataExchangesQueryTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsDataExchangesQueryTemplatesRequest,
   output: PatchProjectsLocationsDataExchangesQueryTemplatesResponse,
   errors: [],
 }));
 
-/** Lists all data exchanges from projects in a given organization and location. */
 export interface ListOrganizationsLocationsDataExchangesRequest {
   /** The maximum number of results to return in a single response page. Leverage the page tokens to iterate through the entire collection. */
   pageSize?: number;
@@ -2097,7 +2096,8 @@ export const ListOrganizationsLocationsDataExchangesResponse = ListOrgDataExchan
 
 export type ListOrganizationsLocationsDataExchangesError = CommonErrors;
 
-export const listOrganizationsLocationsDataExchanges = API.makePaginated(() => ({
+/** Lists all data exchanges from projects in a given organization and location. */
+export const listOrganizationsLocationsDataExchanges: API.PaginatedOperationMethod<ListOrganizationsLocationsDataExchangesRequest, ListOrganizationsLocationsDataExchangesResponse, ListOrganizationsLocationsDataExchangesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsDataExchangesRequest,
   output: ListOrganizationsLocationsDataExchangesResponse,
   errors: [],

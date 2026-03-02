@@ -1104,7 +1104,6 @@ export const ResponsePolicyRulesUpdateResponse: Schema.Schema<ResponsePolicyRule
 // Operations
 // ==========================================================================
 
-/** Enumerates ResourceRecordSets that you have created but not yet deleted. */
 export interface ListResourceRecordSetsRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -1140,7 +1139,8 @@ export const ListResourceRecordSetsResponse = ResourceRecordSetsListResponse;
 
 export type ListResourceRecordSetsError = CommonErrors;
 
-export const listResourceRecordSets = API.makePaginated(() => ({
+/** Enumerates ResourceRecordSets that you have created but not yet deleted. */
+export const listResourceRecordSets: API.PaginatedOperationMethod<ListResourceRecordSetsRequest, ListResourceRecordSetsResponse, ListResourceRecordSetsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListResourceRecordSetsRequest,
   output: ListResourceRecordSetsResponse,
   errors: [],
@@ -1150,7 +1150,6 @@ export const listResourceRecordSets = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new ResourceRecordSet. */
 export interface CreateResourceRecordSetsRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -1177,13 +1176,13 @@ export const CreateResourceRecordSetsResponse = ResourceRecordSet;
 
 export type CreateResourceRecordSetsError = CommonErrors;
 
+/** Creates a new ResourceRecordSet. */
 export const createResourceRecordSets: API.OperationMethod<CreateResourceRecordSetsRequest, CreateResourceRecordSetsResponse, CreateResourceRecordSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateResourceRecordSetsRequest,
   output: CreateResourceRecordSetsResponse,
   errors: [],
 }));
 
-/** Fetches the representation of an existing ResourceRecordSet. */
 export interface GetResourceRecordSetsRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -1213,13 +1212,13 @@ export const GetResourceRecordSetsResponse = ResourceRecordSet;
 
 export type GetResourceRecordSetsError = CommonErrors;
 
+/** Fetches the representation of an existing ResourceRecordSet. */
 export const getResourceRecordSets: API.OperationMethod<GetResourceRecordSetsRequest, GetResourceRecordSetsResponse, GetResourceRecordSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetResourceRecordSetsRequest,
   output: GetResourceRecordSetsResponse,
   errors: [],
 }));
 
-/** Deletes a previously created ResourceRecordSet. */
 export interface DeleteResourceRecordSetsRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -1249,13 +1248,13 @@ export const DeleteResourceRecordSetsResponse = ResourceRecordSetsDeleteResponse
 
 export type DeleteResourceRecordSetsError = CommonErrors;
 
+/** Deletes a previously created ResourceRecordSet. */
 export const deleteResourceRecordSets: API.OperationMethod<DeleteResourceRecordSetsRequest, DeleteResourceRecordSetsResponse, DeleteResourceRecordSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteResourceRecordSetsRequest,
   output: DeleteResourceRecordSetsResponse,
   errors: [],
 }));
 
-/** Applies a partial update to an existing ResourceRecordSet. */
 export interface PatchResourceRecordSetsRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -1288,13 +1287,13 @@ export const PatchResourceRecordSetsResponse = ResourceRecordSet;
 
 export type PatchResourceRecordSetsError = CommonErrors;
 
+/** Applies a partial update to an existing ResourceRecordSet. */
 export const patchResourceRecordSets: API.OperationMethod<PatchResourceRecordSetsRequest, PatchResourceRecordSetsResponse, PatchResourceRecordSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchResourceRecordSetsRequest,
   output: PatchResourceRecordSetsResponse,
   errors: [],
 }));
 
-/** Atomically updates the ResourceRecordSet collection. */
 export interface CreateChangesRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -1321,13 +1320,13 @@ export const CreateChangesResponse = Change;
 
 export type CreateChangesError = CommonErrors;
 
+/** Atomically updates the ResourceRecordSet collection. */
 export const createChanges: API.OperationMethod<CreateChangesRequest, CreateChangesResponse, CreateChangesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateChangesRequest,
   output: CreateChangesResponse,
   errors: [],
 }));
 
-/** Fetches the representation of an existing Change. */
 export interface GetChangesRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -1354,13 +1353,13 @@ export const GetChangesResponse = Change;
 
 export type GetChangesError = CommonErrors;
 
+/** Fetches the representation of an existing Change. */
 export const getChanges: API.OperationMethod<GetChangesRequest, GetChangesResponse, GetChangesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetChangesRequest,
   output: GetChangesResponse,
   errors: [],
 }));
 
-/** Enumerates Changes to a ResourceRecordSet collection. */
 export interface ListChangesRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -1393,7 +1392,8 @@ export const ListChangesResponse = ChangesListResponse;
 
 export type ListChangesError = CommonErrors;
 
-export const listChanges = API.makePaginated(() => ({
+/** Enumerates Changes to a ResourceRecordSet collection. */
+export const listChanges: API.PaginatedOperationMethod<ListChangesRequest, ListChangesResponse, ListChangesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListChangesRequest,
   output: ListChangesResponse,
   errors: [],
@@ -1403,7 +1403,6 @@ export const listChanges = API.makePaginated(() => ({
   },
 }));
 
-/** Fetches the representation of an existing DnsKey. */
 export interface GetDnsKeysRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -1433,13 +1432,13 @@ export const GetDnsKeysResponse = DnsKey;
 
 export type GetDnsKeysError = CommonErrors;
 
+/** Fetches the representation of an existing DnsKey. */
 export const getDnsKeys: API.OperationMethod<GetDnsKeysRequest, GetDnsKeysResponse, GetDnsKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDnsKeysRequest,
   output: GetDnsKeysResponse,
   errors: [],
 }));
 
-/** Enumerates DnsKeys to a ResourceRecordSet collection. */
 export interface ListDnsKeysRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -1469,7 +1468,8 @@ export const ListDnsKeysResponse = DnsKeysListResponse;
 
 export type ListDnsKeysError = CommonErrors;
 
-export const listDnsKeys = API.makePaginated(() => ({
+/** Enumerates DnsKeys to a ResourceRecordSet collection. */
+export const listDnsKeys: API.PaginatedOperationMethod<ListDnsKeysRequest, ListDnsKeysResponse, ListDnsKeysError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListDnsKeysRequest,
   output: ListDnsKeysResponse,
   errors: [],
@@ -1479,7 +1479,6 @@ export const listDnsKeys = API.makePaginated(() => ({
   },
 }));
 
-/** Fetches the representation of an existing Project. */
 export interface GetProjectsRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -1500,13 +1499,13 @@ export const GetProjectsResponse = Project;
 
 export type GetProjectsError = CommonErrors;
 
+/** Fetches the representation of an existing Project. */
 export const getProjects: API.OperationMethod<GetProjectsRequest, GetProjectsResponse, GetProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsRequest,
   output: GetProjectsResponse,
   errors: [],
 }));
 
-/** Fetches the representation of an existing Operation. */
 export interface GetManagedZoneOperationsRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -1533,13 +1532,13 @@ export const GetManagedZoneOperationsResponse = Operation;
 
 export type GetManagedZoneOperationsError = CommonErrors;
 
+/** Fetches the representation of an existing Operation. */
 export const getManagedZoneOperations: API.OperationMethod<GetManagedZoneOperationsRequest, GetManagedZoneOperationsResponse, GetManagedZoneOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetManagedZoneOperationsRequest,
   output: GetManagedZoneOperationsResponse,
   errors: [],
 }));
 
-/** Enumerates Operations for the given ManagedZone. */
 export interface ListManagedZoneOperationsRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -1569,7 +1568,8 @@ export const ListManagedZoneOperationsResponse = ManagedZoneOperationsListRespon
 
 export type ListManagedZoneOperationsError = CommonErrors;
 
-export const listManagedZoneOperations = API.makePaginated(() => ({
+/** Enumerates Operations for the given ManagedZone. */
+export const listManagedZoneOperations: API.PaginatedOperationMethod<ListManagedZoneOperationsRequest, ListManagedZoneOperationsResponse, ListManagedZoneOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListManagedZoneOperationsRequest,
   output: ListManagedZoneOperationsResponse,
   errors: [],
@@ -1579,7 +1579,6 @@ export const listManagedZoneOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new ManagedZone. */
 export interface CreateManagedZonesRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -1603,13 +1602,13 @@ export const CreateManagedZonesResponse = ManagedZone;
 
 export type CreateManagedZonesError = CommonErrors;
 
+/** Creates a new ManagedZone. */
 export const createManagedZones: API.OperationMethod<CreateManagedZonesRequest, CreateManagedZonesResponse, CreateManagedZonesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateManagedZonesRequest,
   output: CreateManagedZonesResponse,
   errors: [],
 }));
 
-/** Fetches the representation of an existing ManagedZone. */
 export interface GetManagedZonesRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -1633,13 +1632,13 @@ export const GetManagedZonesResponse = ManagedZone;
 
 export type GetManagedZonesError = CommonErrors;
 
+/** Fetches the representation of an existing ManagedZone. */
 export const getManagedZones: API.OperationMethod<GetManagedZonesRequest, GetManagedZonesResponse, GetManagedZonesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetManagedZonesRequest,
   output: GetManagedZonesResponse,
   errors: [],
 }));
 
-/** Enumerates ManagedZones that have been created but not yet deleted. */
 export interface ListManagedZonesRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -1666,7 +1665,8 @@ export const ListManagedZonesResponse = ManagedZonesListResponse;
 
 export type ListManagedZonesError = CommonErrors;
 
-export const listManagedZones = API.makePaginated(() => ({
+/** Enumerates ManagedZones that have been created but not yet deleted. */
+export const listManagedZones: API.PaginatedOperationMethod<ListManagedZonesRequest, ListManagedZonesResponse, ListManagedZonesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListManagedZonesRequest,
   output: ListManagedZonesResponse,
   errors: [],
@@ -1676,7 +1676,6 @@ export const listManagedZones = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a previously created ManagedZone. */
 export interface DeleteManagedZonesRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -1700,13 +1699,13 @@ export const DeleteManagedZonesResponse: Schema.Schema<DeleteManagedZonesRespons
 
 export type DeleteManagedZonesError = CommonErrors;
 
+/** Deletes a previously created ManagedZone. */
 export const deleteManagedZones: API.OperationMethod<DeleteManagedZonesRequest, DeleteManagedZonesResponse, DeleteManagedZonesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteManagedZonesRequest,
   output: DeleteManagedZonesResponse,
   errors: [],
 }));
 
-/** Applies a partial update to an existing ManagedZone. */
 export interface PatchManagedZonesRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -1733,13 +1732,13 @@ export const PatchManagedZonesResponse = Operation;
 
 export type PatchManagedZonesError = CommonErrors;
 
+/** Applies a partial update to an existing ManagedZone. */
 export const patchManagedZones: API.OperationMethod<PatchManagedZonesRequest, PatchManagedZonesResponse, PatchManagedZonesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchManagedZonesRequest,
   output: PatchManagedZonesResponse,
   errors: [],
 }));
 
-/** Updates an existing ManagedZone. */
 export interface UpdateManagedZonesRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -1766,13 +1765,13 @@ export const UpdateManagedZonesResponse = Operation;
 
 export type UpdateManagedZonesError = CommonErrors;
 
+/** Updates an existing ManagedZone. */
 export const updateManagedZones: API.OperationMethod<UpdateManagedZonesRequest, UpdateManagedZonesResponse, UpdateManagedZonesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateManagedZonesRequest,
   output: UpdateManagedZonesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyManagedZonesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1793,13 +1792,13 @@ export const SetIamPolicyManagedZonesResponse = GoogleIamV1Policy;
 
 export type SetIamPolicyManagedZonesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyManagedZones: API.OperationMethod<SetIamPolicyManagedZonesRequest, SetIamPolicyManagedZonesResponse, SetIamPolicyManagedZonesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyManagedZonesRequest,
   output: SetIamPolicyManagedZonesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyManagedZonesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1820,13 +1819,13 @@ export const GetIamPolicyManagedZonesResponse = GoogleIamV1Policy;
 
 export type GetIamPolicyManagedZonesError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyManagedZones: API.OperationMethod<GetIamPolicyManagedZonesRequest, GetIamPolicyManagedZonesResponse, GetIamPolicyManagedZonesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyManagedZonesRequest,
   output: GetIamPolicyManagedZonesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this returns an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsManagedZonesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1847,13 +1846,13 @@ export const TestIamPermissionsManagedZonesResponse = GoogleIamV1TestIamPermissi
 
 export type TestIamPermissionsManagedZonesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this returns an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsManagedZones: API.OperationMethod<TestIamPermissionsManagedZonesRequest, TestIamPermissionsManagedZonesResponse, TestIamPermissionsManagedZonesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsManagedZonesRequest,
   output: TestIamPermissionsManagedZonesResponse,
   errors: [],
 }));
 
-/** Creates a new policy. */
 export interface CreatePoliciesRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -1877,13 +1876,13 @@ export const CreatePoliciesResponse = Policy;
 
 export type CreatePoliciesError = CommonErrors;
 
+/** Creates a new policy. */
 export const createPolicies: API.OperationMethod<CreatePoliciesRequest, CreatePoliciesResponse, CreatePoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreatePoliciesRequest,
   output: CreatePoliciesResponse,
   errors: [],
 }));
 
-/** Fetches the representation of an existing policy. */
 export interface GetPoliciesRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -1907,13 +1906,13 @@ export const GetPoliciesResponse = Policy;
 
 export type GetPoliciesError = CommonErrors;
 
+/** Fetches the representation of an existing policy. */
 export const getPolicies: API.OperationMethod<GetPoliciesRequest, GetPoliciesResponse, GetPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPoliciesRequest,
   output: GetPoliciesResponse,
   errors: [],
 }));
 
-/** Enumerates all policies associated with a project. */
 export interface ListPoliciesRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -1937,7 +1936,8 @@ export const ListPoliciesResponse = PoliciesListResponse;
 
 export type ListPoliciesError = CommonErrors;
 
-export const listPolicies = API.makePaginated(() => ({
+/** Enumerates all policies associated with a project. */
+export const listPolicies: API.PaginatedOperationMethod<ListPoliciesRequest, ListPoliciesResponse, ListPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPoliciesRequest,
   output: ListPoliciesResponse,
   errors: [],
@@ -1947,7 +1947,6 @@ export const listPolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a previously created policy. Fails if the policy is still being referenced by a network. */
 export interface DeletePoliciesRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -1971,13 +1970,13 @@ export const DeletePoliciesResponse: Schema.Schema<DeletePoliciesResponse> = Sch
 
 export type DeletePoliciesError = CommonErrors;
 
+/** Deletes a previously created policy. Fails if the policy is still being referenced by a network. */
 export const deletePolicies: API.OperationMethod<DeletePoliciesRequest, DeletePoliciesResponse, DeletePoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeletePoliciesRequest,
   output: DeletePoliciesResponse,
   errors: [],
 }));
 
-/** Applies a partial update to an existing policy. */
 export interface PatchPoliciesRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -2004,13 +2003,13 @@ export const PatchPoliciesResponse = PoliciesPatchResponse;
 
 export type PatchPoliciesError = CommonErrors;
 
+/** Applies a partial update to an existing policy. */
 export const patchPolicies: API.OperationMethod<PatchPoliciesRequest, PatchPoliciesResponse, PatchPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchPoliciesRequest,
   output: PatchPoliciesResponse,
   errors: [],
 }));
 
-/** Updates an existing policy. */
 export interface UpdatePoliciesRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -2037,13 +2036,13 @@ export const UpdatePoliciesResponse = PoliciesUpdateResponse;
 
 export type UpdatePoliciesError = CommonErrors;
 
+/** Updates an existing policy. */
 export const updatePolicies: API.OperationMethod<UpdatePoliciesRequest, UpdatePoliciesResponse, UpdatePoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdatePoliciesRequest,
   output: UpdatePoliciesResponse,
   errors: [],
 }));
 
-/** Creates a new Response Policy */
 export interface CreateResponsePoliciesRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -2067,13 +2066,13 @@ export const CreateResponsePoliciesResponse = ResponsePolicy;
 
 export type CreateResponsePoliciesError = CommonErrors;
 
+/** Creates a new Response Policy */
 export const createResponsePolicies: API.OperationMethod<CreateResponsePoliciesRequest, CreateResponsePoliciesResponse, CreateResponsePoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateResponsePoliciesRequest,
   output: CreateResponsePoliciesResponse,
   errors: [],
 }));
 
-/** Fetches the representation of an existing Response Policy. */
 export interface GetResponsePoliciesRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -2097,13 +2096,13 @@ export const GetResponsePoliciesResponse = ResponsePolicy;
 
 export type GetResponsePoliciesError = CommonErrors;
 
+/** Fetches the representation of an existing Response Policy. */
 export const getResponsePolicies: API.OperationMethod<GetResponsePoliciesRequest, GetResponsePoliciesResponse, GetResponsePoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetResponsePoliciesRequest,
   output: GetResponsePoliciesResponse,
   errors: [],
 }));
 
-/** Enumerates all Response Policies associated with a project. */
 export interface ListResponsePoliciesRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -2127,7 +2126,8 @@ export const ListResponsePoliciesResponse = ResponsePoliciesListResponse;
 
 export type ListResponsePoliciesError = CommonErrors;
 
-export const listResponsePolicies = API.makePaginated(() => ({
+/** Enumerates all Response Policies associated with a project. */
+export const listResponsePolicies: API.PaginatedOperationMethod<ListResponsePoliciesRequest, ListResponsePoliciesResponse, ListResponsePoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListResponsePoliciesRequest,
   output: ListResponsePoliciesResponse,
   errors: [],
@@ -2137,7 +2137,6 @@ export const listResponsePolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a previously created Response Policy. Fails if the response policy is non-empty or still being referenced by a network. */
 export interface DeleteResponsePoliciesRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -2161,13 +2160,13 @@ export const DeleteResponsePoliciesResponse: Schema.Schema<DeleteResponsePolicie
 
 export type DeleteResponsePoliciesError = CommonErrors;
 
+/** Deletes a previously created Response Policy. Fails if the response policy is non-empty or still being referenced by a network. */
 export const deleteResponsePolicies: API.OperationMethod<DeleteResponsePoliciesRequest, DeleteResponsePoliciesResponse, DeleteResponsePoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteResponsePoliciesRequest,
   output: DeleteResponsePoliciesResponse,
   errors: [],
 }));
 
-/** Applies a partial update to an existing Response Policy. */
 export interface PatchResponsePoliciesRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -2194,13 +2193,13 @@ export const PatchResponsePoliciesResponse = ResponsePoliciesPatchResponse;
 
 export type PatchResponsePoliciesError = CommonErrors;
 
+/** Applies a partial update to an existing Response Policy. */
 export const patchResponsePolicies: API.OperationMethod<PatchResponsePoliciesRequest, PatchResponsePoliciesResponse, PatchResponsePoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchResponsePoliciesRequest,
   output: PatchResponsePoliciesResponse,
   errors: [],
 }));
 
-/** Updates an existing Response Policy. */
 export interface UpdateResponsePoliciesRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -2227,13 +2226,13 @@ export const UpdateResponsePoliciesResponse = ResponsePoliciesUpdateResponse;
 
 export type UpdateResponsePoliciesError = CommonErrors;
 
+/** Updates an existing Response Policy. */
 export const updateResponsePolicies: API.OperationMethod<UpdateResponsePoliciesRequest, UpdateResponsePoliciesResponse, UpdateResponsePoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateResponsePoliciesRequest,
   output: UpdateResponsePoliciesResponse,
   errors: [],
 }));
 
-/** Creates a new Response Policy Rule. */
 export interface CreateResponsePolicyRulesRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -2260,13 +2259,13 @@ export const CreateResponsePolicyRulesResponse = ResponsePolicyRule;
 
 export type CreateResponsePolicyRulesError = CommonErrors;
 
+/** Creates a new Response Policy Rule. */
 export const createResponsePolicyRules: API.OperationMethod<CreateResponsePolicyRulesRequest, CreateResponsePolicyRulesResponse, CreateResponsePolicyRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateResponsePolicyRulesRequest,
   output: CreateResponsePolicyRulesResponse,
   errors: [],
 }));
 
-/** Fetches the representation of an existing Response Policy Rule. */
 export interface GetResponsePolicyRulesRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -2293,13 +2292,13 @@ export const GetResponsePolicyRulesResponse = ResponsePolicyRule;
 
 export type GetResponsePolicyRulesError = CommonErrors;
 
+/** Fetches the representation of an existing Response Policy Rule. */
 export const getResponsePolicyRules: API.OperationMethod<GetResponsePolicyRulesRequest, GetResponsePolicyRulesResponse, GetResponsePolicyRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetResponsePolicyRulesRequest,
   output: GetResponsePolicyRulesResponse,
   errors: [],
 }));
 
-/** Deletes a previously created Response Policy Rule. */
 export interface DeleteResponsePolicyRulesRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -2326,13 +2325,13 @@ export const DeleteResponsePolicyRulesResponse: Schema.Schema<DeleteResponsePoli
 
 export type DeleteResponsePolicyRulesError = CommonErrors;
 
+/** Deletes a previously created Response Policy Rule. */
 export const deleteResponsePolicyRules: API.OperationMethod<DeleteResponsePolicyRulesRequest, DeleteResponsePolicyRulesResponse, DeleteResponsePolicyRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteResponsePolicyRulesRequest,
   output: DeleteResponsePolicyRulesResponse,
   errors: [],
 }));
 
-/** Enumerates all Response Policy Rules associated with a project. */
 export interface ListResponsePolicyRulesRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -2359,7 +2358,8 @@ export const ListResponsePolicyRulesResponse = ResponsePolicyRulesListResponse;
 
 export type ListResponsePolicyRulesError = CommonErrors;
 
-export const listResponsePolicyRules = API.makePaginated(() => ({
+/** Enumerates all Response Policy Rules associated with a project. */
+export const listResponsePolicyRules: API.PaginatedOperationMethod<ListResponsePolicyRulesRequest, ListResponsePolicyRulesResponse, ListResponsePolicyRulesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListResponsePolicyRulesRequest,
   output: ListResponsePolicyRulesResponse,
   errors: [],
@@ -2369,7 +2369,6 @@ export const listResponsePolicyRules = API.makePaginated(() => ({
   },
 }));
 
-/** Applies a partial update to an existing Response Policy Rule. */
 export interface PatchResponsePolicyRulesRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -2399,13 +2398,13 @@ export const PatchResponsePolicyRulesResponse = ResponsePolicyRulesPatchResponse
 
 export type PatchResponsePolicyRulesError = CommonErrors;
 
+/** Applies a partial update to an existing Response Policy Rule. */
 export const patchResponsePolicyRules: API.OperationMethod<PatchResponsePolicyRulesRequest, PatchResponsePolicyRulesResponse, PatchResponsePolicyRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchResponsePolicyRulesRequest,
   output: PatchResponsePolicyRulesResponse,
   errors: [],
 }));
 
-/** Updates an existing Response Policy Rule. */
 export interface UpdateResponsePolicyRulesRequest {
   /** Identifies the project addressed by this request. */
   project: string;
@@ -2435,6 +2434,7 @@ export const UpdateResponsePolicyRulesResponse = ResponsePolicyRulesUpdateRespon
 
 export type UpdateResponsePolicyRulesError = CommonErrors;
 
+/** Updates an existing Response Policy Rule. */
 export const updateResponsePolicyRules: API.OperationMethod<UpdateResponsePolicyRulesRequest, UpdateResponsePolicyRulesResponse, UpdateResponsePolicyRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateResponsePolicyRulesRequest,
   output: UpdateResponsePolicyRulesResponse,

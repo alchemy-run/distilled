@@ -444,7 +444,6 @@ export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
 // Operations
 // ==========================================================================
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -462,13 +461,13 @@ export const GetOperationsResponse = Operation;
 
 export type GetOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOperations: API.OperationMethod<GetOperationsRequest, GetOperationsResponse, GetOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
 }));
 
-/** Creates a Google Workspace subscription. To learn how to use this method, see [Create a Google Workspace subscription](https://developers.google.com/workspace/events/guides/create-subscription). For a subscription on a [Chat target resource](https://developers.google.com/workspace/events/guides/events-chat), you can create a subscription as: - A Chat app by specifying an authorization scope that begins with `chat.app` and getting one-time administrator approval ([Developer Preview](https://developers.google.com/workspace/preview)). To learn more, see [Authorize as a Chat app with administrator approval](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app). - A user by specifying an authorization scope that doesn't include `app` in its name. To learn more, see [Authorize as a Chat user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user). */
 export interface CreateSubscriptionsRequest {
   /** Optional. If set to `true`, validates and previews the request, but doesn't create the subscription. */
   validateOnly?: boolean;
@@ -489,13 +488,13 @@ export const CreateSubscriptionsResponse = Operation;
 
 export type CreateSubscriptionsError = CommonErrors;
 
+/** Creates a Google Workspace subscription. To learn how to use this method, see [Create a Google Workspace subscription](https://developers.google.com/workspace/events/guides/create-subscription). For a subscription on a [Chat target resource](https://developers.google.com/workspace/events/guides/events-chat), you can create a subscription as: - A Chat app by specifying an authorization scope that begins with `chat.app` and getting one-time administrator approval ([Developer Preview](https://developers.google.com/workspace/preview)). To learn more, see [Authorize as a Chat app with administrator approval](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app). - A user by specifying an authorization scope that doesn't include `app` in its name. To learn more, see [Authorize as a Chat user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user). */
 export const createSubscriptions: API.OperationMethod<CreateSubscriptionsRequest, CreateSubscriptionsResponse, CreateSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateSubscriptionsRequest,
   output: CreateSubscriptionsResponse,
   errors: [],
 }));
 
-/** Deletes a Google Workspace subscription. To learn how to use this method, see [Delete a Google Workspace subscription](https://developers.google.com/workspace/events/guides/delete-subscription). */
 export interface DeleteSubscriptionsRequest {
   /** Required. Resource name of the subscription to delete. Format: `subscriptions/{subscription}` */
   name: string;
@@ -522,13 +521,13 @@ export const DeleteSubscriptionsResponse = Operation;
 
 export type DeleteSubscriptionsError = CommonErrors;
 
+/** Deletes a Google Workspace subscription. To learn how to use this method, see [Delete a Google Workspace subscription](https://developers.google.com/workspace/events/guides/delete-subscription). */
 export const deleteSubscriptions: API.OperationMethod<DeleteSubscriptionsRequest, DeleteSubscriptionsResponse, DeleteSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteSubscriptionsRequest,
   output: DeleteSubscriptionsResponse,
   errors: [],
 }));
 
-/** Gets details about a Google Workspace subscription. To learn how to use this method, see [Get details about a Google Workspace subscription](https://developers.google.com/workspace/events/guides/get-subscription). */
 export interface GetSubscriptionsRequest {
   /** Required. Resource name of the subscription. Format: `subscriptions/{subscription}` */
   name: string;
@@ -546,13 +545,13 @@ export const GetSubscriptionsResponse = Subscription;
 
 export type GetSubscriptionsError = CommonErrors;
 
+/** Gets details about a Google Workspace subscription. To learn how to use this method, see [Get details about a Google Workspace subscription](https://developers.google.com/workspace/events/guides/get-subscription). */
 export const getSubscriptions: API.OperationMethod<GetSubscriptionsRequest, GetSubscriptionsResponse, GetSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSubscriptionsRequest,
   output: GetSubscriptionsResponse,
   errors: [],
 }));
 
-/** Lists Google Workspace subscriptions. To learn how to use this method, see [List Google Workspace subscriptions](https://developers.google.com/workspace/events/guides/list-subscriptions). */
 export interface ListSubscriptionsRequest {
   /** Optional. The maximum number of subscriptions to return. The service might return fewer than this value. If unspecified or set to `0`, up to 50 subscriptions are returned. The maximum value is 100. If you specify a value more than 100, the system only returns 100 subscriptions. */
   pageSize?: number;
@@ -576,7 +575,8 @@ export const ListSubscriptionsResponse_Op = ListSubscriptionsResponse;
 
 export type ListSubscriptionsError = CommonErrors;
 
-export const listSubscriptions = API.makePaginated(() => ({
+/** Lists Google Workspace subscriptions. To learn how to use this method, see [List Google Workspace subscriptions](https://developers.google.com/workspace/events/guides/list-subscriptions). */
+export const listSubscriptions: API.PaginatedOperationMethod<ListSubscriptionsRequest, ListSubscriptionsResponse_Op, ListSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListSubscriptionsRequest,
   output: ListSubscriptionsResponse_Op,
   errors: [],
@@ -586,7 +586,6 @@ export const listSubscriptions = API.makePaginated(() => ({
   },
 }));
 
-/** Updates or renews a Google Workspace subscription. To learn how to use this method, see [Update or renew a Google Workspace subscription](https://developers.google.com/workspace/events/guides/update-subscription). For a subscription on a [Chat target resource](https://developers.google.com/workspace/events/guides/events-chat), you can update a subscription as: - A Chat app by specifying an authorization scope that begins with `chat.app` andgetting one-time administrator approval ([Developer Preview](https://developers.google.com/workspace/preview)). To learn more, see [Authorize as a Chat app with administrator approval](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app). - A user by specifying an authorization scope that doesn't include `app` in its name. To learn more, see [Authorize as a Chat user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user). */
 export interface PatchSubscriptionsRequest {
   /** Identifier. Resource name of the subscription. Format: `subscriptions/{subscription}` */
   name: string;
@@ -613,13 +612,13 @@ export const PatchSubscriptionsResponse = Operation;
 
 export type PatchSubscriptionsError = CommonErrors;
 
+/** Updates or renews a Google Workspace subscription. To learn how to use this method, see [Update or renew a Google Workspace subscription](https://developers.google.com/workspace/events/guides/update-subscription). For a subscription on a [Chat target resource](https://developers.google.com/workspace/events/guides/events-chat), you can update a subscription as: - A Chat app by specifying an authorization scope that begins with `chat.app` andgetting one-time administrator approval ([Developer Preview](https://developers.google.com/workspace/preview)). To learn more, see [Authorize as a Chat app with administrator approval](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app). - A user by specifying an authorization scope that doesn't include `app` in its name. To learn more, see [Authorize as a Chat user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user). */
 export const patchSubscriptions: API.OperationMethod<PatchSubscriptionsRequest, PatchSubscriptionsResponse, PatchSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchSubscriptionsRequest,
   output: PatchSubscriptionsResponse,
   errors: [],
 }));
 
-/** Reactivates a suspended Google Workspace subscription. This method resets your subscription's `State` field to `ACTIVE`. Before you use this method, you must fix the error that suspended the subscription. This method will ignore or reject any subscription that isn't currently in a suspended state. To learn how to use this method, see [Reactivate a Google Workspace subscription](https://developers.google.com/workspace/events/guides/reactivate-subscription). For a subscription on a [Chat target resource](https://developers.google.com/workspace/events/guides/events-chat), you can reactivate a subscription as: - A Chat app by specifying an authorization scope that begins with `chat.app` andgetting one-time administrator approval ([Developer Preview](https://developers.google.com/workspace/preview)). To learn more, see [Authorize as a Chat app with administrator approval](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app). - A user by specifying an authorization scope that doesn't include `app` in its name. To learn more, see [Authorize as a Chat user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user). */
 export interface ReactivateSubscriptionsRequest {
   /** Required. Resource name of the subscription. Format: `subscriptions/{subscription}` */
   name: string;
@@ -640,13 +639,13 @@ export const ReactivateSubscriptionsResponse = Operation;
 
 export type ReactivateSubscriptionsError = CommonErrors;
 
+/** Reactivates a suspended Google Workspace subscription. This method resets your subscription's `State` field to `ACTIVE`. Before you use this method, you must fix the error that suspended the subscription. This method will ignore or reject any subscription that isn't currently in a suspended state. To learn how to use this method, see [Reactivate a Google Workspace subscription](https://developers.google.com/workspace/events/guides/reactivate-subscription). For a subscription on a [Chat target resource](https://developers.google.com/workspace/events/guides/events-chat), you can reactivate a subscription as: - A Chat app by specifying an authorization scope that begins with `chat.app` andgetting one-time administrator approval ([Developer Preview](https://developers.google.com/workspace/preview)). To learn more, see [Authorize as a Chat app with administrator approval](https://developers.google.com/workspace/chat/authenticate-authorize-chat-app). - A user by specifying an authorization scope that doesn't include `app` in its name. To learn more, see [Authorize as a Chat user](https://developers.google.com/workspace/chat/authenticate-authorize-chat-user). */
 export const reactivateSubscriptions: API.OperationMethod<ReactivateSubscriptionsRequest, ReactivateSubscriptionsResponse, ReactivateSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReactivateSubscriptionsRequest,
   output: ReactivateSubscriptionsResponse,
   errors: [],
 }));
 
-/** SendStreamingMessage is a streaming call that will return a stream of task update events until the Task is in an interrupted or terminal state. */
 export interface StreamMessageRequest {
   /** Request body */
   body?: SendMessageRequest;
@@ -664,13 +663,13 @@ export const StreamMessageResponse = StreamResponse;
 
 export type StreamMessageError = CommonErrors;
 
+/** SendStreamingMessage is a streaming call that will return a stream of task update events until the Task is in an interrupted or terminal state. */
 export const streamMessage: API.OperationMethod<StreamMessageRequest, StreamMessageResponse, StreamMessageError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StreamMessageRequest,
   output: StreamMessageResponse,
   errors: [],
 }));
 
-/** Get the current state of a task from the agent. */
 export interface GetTasksRequest {
   /** Required. The resource name of the task. Format: tasks/{task_id} */
   name: string;
@@ -694,13 +693,13 @@ export const GetTasksResponse = Task;
 
 export type GetTasksError = CommonErrors;
 
+/** Get the current state of a task from the agent. */
 export const getTasks: API.OperationMethod<GetTasksRequest, GetTasksResponse, GetTasksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetTasksRequest,
   output: GetTasksResponse,
   errors: [],
 }));
 
-/** Cancel a task from the agent. If supported one should expect no more task updates for the task. */
 export interface CancelTasksRequest {
   /** The resource name of the task to cancel. Format: tasks/{task_id} */
   name: string;
@@ -721,13 +720,13 @@ export const CancelTasksResponse = Task;
 
 export type CancelTasksError = CommonErrors;
 
+/** Cancel a task from the agent. If supported one should expect no more task updates for the task. */
 export const cancelTasks: API.OperationMethod<CancelTasksRequest, CancelTasksResponse, CancelTasksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelTasksRequest,
   output: CancelTasksResponse,
   errors: [],
 }));
 
-/** TaskSubscription is a streaming call that will return a stream of task update events. This attaches the stream to an existing in process task. If the task is complete the stream will return the completed task (like GetTask) and close the stream. */
 export interface SubscribeTasksRequest {
   /** The resource name of the task to subscribe to. Format: tasks/{task_id} */
   name: string;
@@ -748,13 +747,13 @@ export const SubscribeTasksResponse = StreamResponse;
 
 export type SubscribeTasksError = CommonErrors;
 
+/** TaskSubscription is a streaming call that will return a stream of task update events. This attaches the stream to an existing in process task. If the task is complete the stream will return the completed task (like GetTask) and close the stream. */
 export const subscribeTasks: API.OperationMethod<SubscribeTasksRequest, SubscribeTasksResponse, SubscribeTasksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SubscribeTasksRequest,
   output: SubscribeTasksResponse,
   errors: [],
 }));
 
-/** Set a push notification config for a task. */
 export interface CreateTasksPushNotificationConfigsRequest {
   /** Required. The parent task resource for this config. Format: tasks/{task_id} */
   parent: string;
@@ -781,13 +780,13 @@ export const CreateTasksPushNotificationConfigsResponse = TaskPushNotificationCo
 
 export type CreateTasksPushNotificationConfigsError = CommonErrors;
 
+/** Set a push notification config for a task. */
 export const createTasksPushNotificationConfigs: API.OperationMethod<CreateTasksPushNotificationConfigsRequest, CreateTasksPushNotificationConfigsResponse, CreateTasksPushNotificationConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateTasksPushNotificationConfigsRequest,
   output: CreateTasksPushNotificationConfigsResponse,
   errors: [],
 }));
 
-/** Get a push notification config for a task. */
 export interface GetTasksPushNotificationConfigsRequest {
   /** The resource name of the config to retrieve. Format: tasks/{task_id}/pushNotificationConfigs/{config_id} */
   name: string;
@@ -808,13 +807,13 @@ export const GetTasksPushNotificationConfigsResponse = TaskPushNotificationConfi
 
 export type GetTasksPushNotificationConfigsError = CommonErrors;
 
+/** Get a push notification config for a task. */
 export const getTasksPushNotificationConfigs: API.OperationMethod<GetTasksPushNotificationConfigsRequest, GetTasksPushNotificationConfigsResponse, GetTasksPushNotificationConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetTasksPushNotificationConfigsRequest,
   output: GetTasksPushNotificationConfigsResponse,
   errors: [],
 }));
 
-/** Get a list of push notifications configured for a task. */
 export interface ListTasksPushNotificationConfigsRequest {
   /** The parent task resource. Format: tasks/{task_id} */
   parent: string;
@@ -841,7 +840,8 @@ export const ListTasksPushNotificationConfigsResponse = ListTaskPushNotification
 
 export type ListTasksPushNotificationConfigsError = CommonErrors;
 
-export const listTasksPushNotificationConfigs = API.makePaginated(() => ({
+/** Get a list of push notifications configured for a task. */
+export const listTasksPushNotificationConfigs: API.PaginatedOperationMethod<ListTasksPushNotificationConfigsRequest, ListTasksPushNotificationConfigsResponse, ListTasksPushNotificationConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListTasksPushNotificationConfigsRequest,
   output: ListTasksPushNotificationConfigsResponse,
   errors: [],
@@ -851,7 +851,6 @@ export const listTasksPushNotificationConfigs = API.makePaginated(() => ({
   },
 }));
 
-/** Delete a push notification config for a task. */
 export interface DeleteTasksPushNotificationConfigsRequest {
   /** The resource name of the config to delete. Format: tasks/{task_id}/pushNotificationConfigs/{config_id} */
   name: string;
@@ -872,6 +871,7 @@ export const DeleteTasksPushNotificationConfigsResponse = Empty;
 
 export type DeleteTasksPushNotificationConfigsError = CommonErrors;
 
+/** Delete a push notification config for a task. */
 export const deleteTasksPushNotificationConfigs: API.OperationMethod<DeleteTasksPushNotificationConfigsRequest, DeleteTasksPushNotificationConfigsResponse, DeleteTasksPushNotificationConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteTasksPushNotificationConfigsRequest,
   output: DeleteTasksPushNotificationConfigsResponse,

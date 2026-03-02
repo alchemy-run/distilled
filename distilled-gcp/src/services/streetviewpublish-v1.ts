@@ -480,7 +480,6 @@ export const ListPhotoSequencesResponse: Schema.Schema<ListPhotoSequencesRespons
 // Operations
 // ==========================================================================
 
-/** Creates an upload session to start uploading photo bytes. The method uses the upload URL of the returned UploadRef to upload the bytes for the Photo. In addition to the photo requirements shown in https://support.google.com/maps/answer/7012050?ref_topic=6275604, the photo must meet the following requirements: * Photo Sphere XMP metadata must be included in the photo metadata. See https://developers.google.com/streetview/spherical-metadata for the required fields. * The pixel size of the photo must meet the size requirements listed in https://support.google.com/maps/answer/7012050?ref_topic=6275604, and the photo must be a full 360 horizontally. After the upload completes, the method uses UploadRef with CreatePhoto to create the Photo object entry. */
 export interface StartUploadPhotoRequest {
   /** Request body */
   body?: Empty;
@@ -498,13 +497,13 @@ export const StartUploadPhotoResponse = UploadRef;
 
 export type StartUploadPhotoError = CommonErrors;
 
+/** Creates an upload session to start uploading photo bytes. The method uses the upload URL of the returned UploadRef to upload the bytes for the Photo. In addition to the photo requirements shown in https://support.google.com/maps/answer/7012050?ref_topic=6275604, the photo must meet the following requirements: * Photo Sphere XMP metadata must be included in the photo metadata. See https://developers.google.com/streetview/spherical-metadata for the required fields. * The pixel size of the photo must meet the size requirements listed in https://support.google.com/maps/answer/7012050?ref_topic=6275604, and the photo must be a full 360 horizontally. After the upload completes, the method uses UploadRef with CreatePhoto to create the Photo object entry. */
 export const startUploadPhoto: API.OperationMethod<StartUploadPhotoRequest, StartUploadPhotoResponse, StartUploadPhotoError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StartUploadPhotoRequest,
   output: StartUploadPhotoResponse,
   errors: [],
 }));
 
-/** After the client finishes uploading the photo with the returned UploadRef, CreatePhoto publishes the uploaded Photo to Street View on Google Maps. Currently, the only way to set heading, pitch, and roll in CreatePhoto is through the [Photo Sphere XMP metadata](https://developers.google.com/streetview/spherical-metadata) in the photo bytes. CreatePhoto ignores the `pose.heading`, `pose.pitch`, `pose.roll`, `pose.altitude`, and `pose.level` fields in Pose. This method returns the following error codes: * google.rpc.Code.INVALID_ARGUMENT if the request is malformed or if the uploaded photo is not a 360 photo. * google.rpc.Code.NOT_FOUND if the upload reference does not exist. * google.rpc.Code.RESOURCE_EXHAUSTED if the account has reached the storage limit. */
 export interface CreatePhotoRequest {
   /** Request body */
   body?: Photo;
@@ -522,13 +521,13 @@ export const CreatePhotoResponse = Photo;
 
 export type CreatePhotoError = CommonErrors;
 
+/** After the client finishes uploading the photo with the returned UploadRef, CreatePhoto publishes the uploaded Photo to Street View on Google Maps. Currently, the only way to set heading, pitch, and roll in CreatePhoto is through the [Photo Sphere XMP metadata](https://developers.google.com/streetview/spherical-metadata) in the photo bytes. CreatePhoto ignores the `pose.heading`, `pose.pitch`, `pose.roll`, `pose.altitude`, and `pose.level` fields in Pose. This method returns the following error codes: * google.rpc.Code.INVALID_ARGUMENT if the request is malformed or if the uploaded photo is not a 360 photo. * google.rpc.Code.NOT_FOUND if the upload reference does not exist. * google.rpc.Code.RESOURCE_EXHAUSTED if the account has reached the storage limit. */
 export const createPhoto: API.OperationMethod<CreatePhotoRequest, CreatePhotoResponse, CreatePhotoError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreatePhotoRequest,
   output: CreatePhotoResponse,
   errors: [],
 }));
 
-/** Gets the metadata of the specified Photo. This method returns the following error codes: * google.rpc.Code.PERMISSION_DENIED if the requesting user did not create the requested Photo. * google.rpc.Code.NOT_FOUND if the requested Photo does not exist. * google.rpc.Code.UNAVAILABLE if the requested Photo is still being indexed. */
 export interface GetPhotoRequest {
   /** Required. ID of the Photo. */
   photoId: string;
@@ -552,13 +551,13 @@ export const GetPhotoResponse = Photo;
 
 export type GetPhotoError = CommonErrors;
 
+/** Gets the metadata of the specified Photo. This method returns the following error codes: * google.rpc.Code.PERMISSION_DENIED if the requesting user did not create the requested Photo. * google.rpc.Code.NOT_FOUND if the requested Photo does not exist. * google.rpc.Code.UNAVAILABLE if the requested Photo is still being indexed. */
 export const getPhoto: API.OperationMethod<GetPhotoRequest, GetPhotoResponse, GetPhotoError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPhotoRequest,
   output: GetPhotoResponse,
   errors: [],
 }));
 
-/** Updates the metadata of a Photo, such as pose, place association, connections, etc. Changing the pixels of a photo is not supported. Only the fields specified in the updateMask field are used. If `updateMask` is not present, the update applies to all fields. This method returns the following error codes: * google.rpc.Code.PERMISSION_DENIED if the requesting user did not create the requested photo. * google.rpc.Code.INVALID_ARGUMENT if the request is malformed. * google.rpc.Code.NOT_FOUND if the requested photo does not exist. * google.rpc.Code.UNAVAILABLE if the requested Photo is still being indexed. */
 export interface UpdatePhotoRequest_Op {
   /** A unique identifier for a photo. */
   id: string;
@@ -582,13 +581,13 @@ export const UpdatePhotoResponse = Photo;
 
 export type UpdatePhotoError = CommonErrors;
 
+/** Updates the metadata of a Photo, such as pose, place association, connections, etc. Changing the pixels of a photo is not supported. Only the fields specified in the updateMask field are used. If `updateMask` is not present, the update applies to all fields. This method returns the following error codes: * google.rpc.Code.PERMISSION_DENIED if the requesting user did not create the requested photo. * google.rpc.Code.INVALID_ARGUMENT if the request is malformed. * google.rpc.Code.NOT_FOUND if the requested photo does not exist. * google.rpc.Code.UNAVAILABLE if the requested Photo is still being indexed. */
 export const updatePhoto: API.OperationMethod<UpdatePhotoRequest_Op, UpdatePhotoResponse, UpdatePhotoError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdatePhotoRequest_Op,
   output: UpdatePhotoResponse,
   errors: [],
 }));
 
-/** Deletes a Photo and its metadata. This method returns the following error codes: * google.rpc.Code.PERMISSION_DENIED if the requesting user did not create the requested photo. * google.rpc.Code.NOT_FOUND if the photo ID does not exist. */
 export interface DeletePhotoRequest {
   /** Required. ID of the Photo. */
   photoId: string;
@@ -606,13 +605,13 @@ export const DeletePhotoResponse = Empty;
 
 export type DeletePhotoError = CommonErrors;
 
+/** Deletes a Photo and its metadata. This method returns the following error codes: * google.rpc.Code.PERMISSION_DENIED if the requesting user did not create the requested photo. * google.rpc.Code.NOT_FOUND if the photo ID does not exist. */
 export const deletePhoto: API.OperationMethod<DeletePhotoRequest, DeletePhotoResponse, DeletePhotoError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeletePhotoRequest,
   output: DeletePhotoResponse,
   errors: [],
 }));
 
-/** Gets the metadata of the specified Photo batch. Note that if BatchGetPhotos fails, either critical fields are missing or there is an authentication error. Even if BatchGetPhotos succeeds, individual photos in the batch may have failures. These failures are specified in each PhotoResponse.status in BatchGetPhotosResponse.results. See GetPhoto for specific failures that can occur per photo. */
 export interface BatchGetPhotosRequest {
   /** Required. IDs of the Photos. For HTTP GET requests, the URL query parameter should be `photoIds=&photoIds=&...`. */
   photoIds?: string[];
@@ -636,13 +635,13 @@ export const BatchGetPhotosResponse_Op = BatchGetPhotosResponse;
 
 export type BatchGetPhotosError = CommonErrors;
 
+/** Gets the metadata of the specified Photo batch. Note that if BatchGetPhotos fails, either critical fields are missing or there is an authentication error. Even if BatchGetPhotos succeeds, individual photos in the batch may have failures. These failures are specified in each PhotoResponse.status in BatchGetPhotosResponse.results. See GetPhoto for specific failures that can occur per photo. */
 export const batchGetPhotos: API.OperationMethod<BatchGetPhotosRequest, BatchGetPhotosResponse_Op, BatchGetPhotosError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchGetPhotosRequest,
   output: BatchGetPhotosResponse_Op,
   errors: [],
 }));
 
-/** Lists all the Photos that belong to the user. > Note: Recently created photos that are still being indexed are not returned in the response. */
 export interface ListPhotosRequest {
   /** Required. Specifies if a download URL for the photos bytes should be returned in the Photos response. */
   view?: "BASIC" | "INCLUDE_DOWNLOAD_URL" | (string & {});
@@ -672,7 +671,8 @@ export const ListPhotosResponse_Op = ListPhotosResponse;
 
 export type ListPhotosError = CommonErrors;
 
-export const listPhotos = API.makePaginated(() => ({
+/** Lists all the Photos that belong to the user. > Note: Recently created photos that are still being indexed are not returned in the response. */
+export const listPhotos: API.PaginatedOperationMethod<ListPhotosRequest, ListPhotosResponse_Op, ListPhotosError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPhotosRequest,
   output: ListPhotosResponse_Op,
   errors: [],
@@ -682,7 +682,6 @@ export const listPhotos = API.makePaginated(() => ({
   },
 }));
 
-/** Updates the metadata of Photos, such as pose, place association, connections, etc. Changing the pixels of photos is not supported. Note that if BatchUpdatePhotos fails, either critical fields are missing or there is an authentication error. Even if BatchUpdatePhotos succeeds, individual photos in the batch may have failures. These failures are specified in each PhotoResponse.status in BatchUpdatePhotosResponse.results. See UpdatePhoto for specific failures that can occur per photo. Only the fields specified in updateMask field are used. If `updateMask` is not present, the update applies to all fields. The number of UpdatePhotoRequest messages in a BatchUpdatePhotosRequest must not exceed 20. > Note: To update Pose.altitude, Pose.latLngPair has to be filled as well. Otherwise, the request will fail. */
 export interface BatchUpdatePhotosRequest_Op {
   /** Request body */
   body?: BatchUpdatePhotosRequest;
@@ -700,13 +699,13 @@ export const BatchUpdatePhotosResponse_Op = BatchUpdatePhotosResponse;
 
 export type BatchUpdatePhotosError = CommonErrors;
 
+/** Updates the metadata of Photos, such as pose, place association, connections, etc. Changing the pixels of photos is not supported. Note that if BatchUpdatePhotos fails, either critical fields are missing or there is an authentication error. Even if BatchUpdatePhotos succeeds, individual photos in the batch may have failures. These failures are specified in each PhotoResponse.status in BatchUpdatePhotosResponse.results. See UpdatePhoto for specific failures that can occur per photo. Only the fields specified in updateMask field are used. If `updateMask` is not present, the update applies to all fields. The number of UpdatePhotoRequest messages in a BatchUpdatePhotosRequest must not exceed 20. > Note: To update Pose.altitude, Pose.latLngPair has to be filled as well. Otherwise, the request will fail. */
 export const batchUpdatePhotos: API.OperationMethod<BatchUpdatePhotosRequest_Op, BatchUpdatePhotosResponse_Op, BatchUpdatePhotosError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchUpdatePhotosRequest_Op,
   output: BatchUpdatePhotosResponse_Op,
   errors: [],
 }));
 
-/** Deletes a list of Photos and their metadata. Note that if BatchDeletePhotos fails, either critical fields are missing or there is an authentication error. Even if BatchDeletePhotos succeeds, individual photos in the batch may have failures. These failures are specified in each PhotoResponse.status in BatchDeletePhotosResponse.results. See DeletePhoto for specific failures that can occur per photo. */
 export interface BatchDeletePhotosRequest_Op {
   /** Request body */
   body?: BatchDeletePhotosRequest;
@@ -724,13 +723,13 @@ export const BatchDeletePhotosResponse_Op = BatchDeletePhotosResponse;
 
 export type BatchDeletePhotosError = CommonErrors;
 
+/** Deletes a list of Photos and their metadata. Note that if BatchDeletePhotos fails, either critical fields are missing or there is an authentication error. Even if BatchDeletePhotos succeeds, individual photos in the batch may have failures. These failures are specified in each PhotoResponse.status in BatchDeletePhotosResponse.results. See DeletePhoto for specific failures that can occur per photo. */
 export const batchDeletePhotos: API.OperationMethod<BatchDeletePhotosRequest_Op, BatchDeletePhotosResponse_Op, BatchDeletePhotosError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchDeletePhotosRequest_Op,
   output: BatchDeletePhotosResponse_Op,
   errors: [],
 }));
 
-/** Creates an upload session to start uploading photo sequence data. The upload URL of the returned UploadRef is used to upload the data for the `photoSequence`. After the upload is complete, the UploadRef is used with CreatePhotoSequence to create the PhotoSequence object entry. */
 export interface StartUploadPhotoSequenceRequest {
   /** Request body */
   body?: Empty;
@@ -748,13 +747,13 @@ export const StartUploadPhotoSequenceResponse = UploadRef;
 
 export type StartUploadPhotoSequenceError = CommonErrors;
 
+/** Creates an upload session to start uploading photo sequence data. The upload URL of the returned UploadRef is used to upload the data for the `photoSequence`. After the upload is complete, the UploadRef is used with CreatePhotoSequence to create the PhotoSequence object entry. */
 export const startUploadPhotoSequence: API.OperationMethod<StartUploadPhotoSequenceRequest, StartUploadPhotoSequenceResponse, StartUploadPhotoSequenceError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StartUploadPhotoSequenceRequest,
   output: StartUploadPhotoSequenceResponse,
   errors: [],
 }));
 
-/** After the client finishes uploading the PhotoSequence with the returned UploadRef, CreatePhotoSequence extracts a sequence of 360 photos from a video or Extensible Device Metadata (XDM, http://www.xdm.org/) to be published to Street View on Google Maps. `CreatePhotoSequence` returns an Operation, with the PhotoSequence Id set in the `Operation.name` field. This method returns the following error codes: * google.rpc.Code.INVALID_ARGUMENT if the request is malformed. * google.rpc.Code.NOT_FOUND if the upload reference does not exist. */
 export interface CreatePhotoSequenceRequest {
   /** Required. The input form of PhotoSequence. */
   inputType?: "INPUT_TYPE_UNSPECIFIED" | "VIDEO" | "XDM" | (string & {});
@@ -775,13 +774,13 @@ export const CreatePhotoSequenceResponse = Operation;
 
 export type CreatePhotoSequenceError = CommonErrors;
 
+/** After the client finishes uploading the PhotoSequence with the returned UploadRef, CreatePhotoSequence extracts a sequence of 360 photos from a video or Extensible Device Metadata (XDM, http://www.xdm.org/) to be published to Street View on Google Maps. `CreatePhotoSequence` returns an Operation, with the PhotoSequence Id set in the `Operation.name` field. This method returns the following error codes: * google.rpc.Code.INVALID_ARGUMENT if the request is malformed. * google.rpc.Code.NOT_FOUND if the upload reference does not exist. */
 export const createPhotoSequence: API.OperationMethod<CreatePhotoSequenceRequest, CreatePhotoSequenceResponse, CreatePhotoSequenceError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreatePhotoSequenceRequest,
   output: CreatePhotoSequenceResponse,
   errors: [],
 }));
 
-/** Gets the metadata of the specified PhotoSequence via the Operation interface. This method returns the following three types of responses: * `Operation.done` = false, if the processing of PhotoSequence is not finished yet. * `Operation.done` = true and `Operation.error` is populated, if there was an error in processing. * `Operation.done` = true and `Operation.response` is poulated, which contains a PhotoSequence message. This method returns the following error codes: * google.rpc.Code.PERMISSION_DENIED if the requesting user did not create the requested PhotoSequence. * google.rpc.Code.NOT_FOUND if the requested PhotoSequence does not exist. */
 export interface GetPhotoSequenceRequest {
   /** Required. ID of the photo sequence. */
   sequenceId: string;
@@ -805,13 +804,13 @@ export const GetPhotoSequenceResponse = Operation;
 
 export type GetPhotoSequenceError = CommonErrors;
 
+/** Gets the metadata of the specified PhotoSequence via the Operation interface. This method returns the following three types of responses: * `Operation.done` = false, if the processing of PhotoSequence is not finished yet. * `Operation.done` = true and `Operation.error` is populated, if there was an error in processing. * `Operation.done` = true and `Operation.response` is poulated, which contains a PhotoSequence message. This method returns the following error codes: * google.rpc.Code.PERMISSION_DENIED if the requesting user did not create the requested PhotoSequence. * google.rpc.Code.NOT_FOUND if the requested PhotoSequence does not exist. */
 export const getPhotoSequence: API.OperationMethod<GetPhotoSequenceRequest, GetPhotoSequenceResponse, GetPhotoSequenceError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPhotoSequenceRequest,
   output: GetPhotoSequenceResponse,
   errors: [],
 }));
 
-/** Deletes a PhotoSequence and its metadata. This method returns the following error codes: * google.rpc.Code.PERMISSION_DENIED if the requesting user did not create the requested photo sequence. * google.rpc.Code.NOT_FOUND if the photo sequence ID does not exist. * google.rpc.Code.FAILED_PRECONDITION if the photo sequence ID is not yet finished processing. */
 export interface DeletePhotoSequenceRequest {
   /** Required. ID of the PhotoSequence. */
   sequenceId: string;
@@ -829,13 +828,13 @@ export const DeletePhotoSequenceResponse = Empty;
 
 export type DeletePhotoSequenceError = CommonErrors;
 
+/** Deletes a PhotoSequence and its metadata. This method returns the following error codes: * google.rpc.Code.PERMISSION_DENIED if the requesting user did not create the requested photo sequence. * google.rpc.Code.NOT_FOUND if the photo sequence ID does not exist. * google.rpc.Code.FAILED_PRECONDITION if the photo sequence ID is not yet finished processing. */
 export const deletePhotoSequence: API.OperationMethod<DeletePhotoSequenceRequest, DeletePhotoSequenceResponse, DeletePhotoSequenceError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeletePhotoSequenceRequest,
   output: DeletePhotoSequenceResponse,
   errors: [],
 }));
 
-/** Lists all the PhotoSequences that belong to the user, in descending CreatePhotoSequence timestamp order. */
 export interface ListPhotoSequencesRequest {
   /** Optional. The maximum number of photo sequences to return. `pageSize` must be non-negative. If `pageSize` is zero or is not provided, the default page size of 100 is used. The number of photo sequences returned in the response may be less than `pageSize` if the number of matches is less than `pageSize`. This is currently unimplemented but is in process. */
   pageSize?: number;
@@ -859,7 +858,8 @@ export const ListPhotoSequencesResponse_Op = ListPhotoSequencesResponse;
 
 export type ListPhotoSequencesError = CommonErrors;
 
-export const listPhotoSequences = API.makePaginated(() => ({
+/** Lists all the PhotoSequences that belong to the user, in descending CreatePhotoSequence timestamp order. */
+export const listPhotoSequences: API.PaginatedOperationMethod<ListPhotoSequencesRequest, ListPhotoSequencesResponse_Op, ListPhotoSequencesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPhotoSequencesRequest,
   output: ListPhotoSequencesResponse_Op,
   errors: [],

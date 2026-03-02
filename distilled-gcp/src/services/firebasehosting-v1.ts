@@ -213,7 +213,6 @@ export const CustomDomainMetadata: Schema.Schema<CustomDomainMetadata> = Schema.
 // Operations
 // ==========================================================================
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -243,7 +242,8 @@ export const ListOperationsResponse_Op = ListOperationsResponse;
 
 export type ListOperationsError = CommonErrors;
 
-export const listOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listOperations: API.PaginatedOperationMethod<ListOperationsRequest, ListOperationsResponse_Op, ListOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOperationsRequest,
   output: ListOperationsResponse_Op,
   errors: [],
@@ -253,7 +253,6 @@ export const listOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -271,13 +270,13 @@ export const DeleteOperationsResponse = Empty;
 
 export type DeleteOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteOperations: API.OperationMethod<DeleteOperationsRequest, DeleteOperationsResponse, DeleteOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOperationsRequest,
   output: DeleteOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -298,13 +297,13 @@ export const CancelOperationsResponse = Empty;
 
 export type CancelOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelOperations: API.OperationMethod<CancelOperationsRequest, CancelOperationsResponse, CancelOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelOperationsRequest,
   output: CancelOperationsResponse,
   errors: [],
 }));
 
-/** DeleteOperation is a part of the google.longrunning.Operations interface, but is not implemented for CustomDomain resources. */
 export interface DeleteProjectsSitesCustomDomainsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -322,13 +321,13 @@ export const DeleteProjectsSitesCustomDomainsOperationsResponse = Empty;
 
 export type DeleteProjectsSitesCustomDomainsOperationsError = CommonErrors;
 
+/** DeleteOperation is a part of the google.longrunning.Operations interface, but is not implemented for CustomDomain resources. */
 export const deleteProjectsSitesCustomDomainsOperations: API.OperationMethod<DeleteProjectsSitesCustomDomainsOperationsRequest, DeleteProjectsSitesCustomDomainsOperationsResponse, DeleteProjectsSitesCustomDomainsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsSitesCustomDomainsOperationsRequest,
   output: DeleteProjectsSitesCustomDomainsOperationsResponse,
   errors: [],
 }));
 
-/** CancelOperation is a part of the google.longrunning.Operations interface, but is not implemented for CustomDomain resources. */
 export interface CancelProjectsSitesCustomDomainsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -349,6 +348,7 @@ export const CancelProjectsSitesCustomDomainsOperationsResponse = Empty;
 
 export type CancelProjectsSitesCustomDomainsOperationsError = CommonErrors;
 
+/** CancelOperation is a part of the google.longrunning.Operations interface, but is not implemented for CustomDomain resources. */
 export const cancelProjectsSitesCustomDomainsOperations: API.OperationMethod<CancelProjectsSitesCustomDomainsOperationsRequest, CancelProjectsSitesCustomDomainsOperationsResponse, CancelProjectsSitesCustomDomainsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsSitesCustomDomainsOperationsRequest,
   output: CancelProjectsSitesCustomDomainsOperationsResponse,

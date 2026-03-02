@@ -312,7 +312,6 @@ export const GoogleCloudOrgpolicyV2ListCustomConstraintsResponse: Schema.Schema<
 // Operations
 // ==========================================================================
 
-/** Lists constraints that could be applied on the specified resource. */
 export interface ListProjectsConstraintsRequest {
   /** Required. The Google Cloud resource that parents the constraint. Must be in one of the following forms: * `projects/{project_number}` * `projects/{project_id}` * `folders/{folder_id}` * `organizations/{organization_id}` */
   parent: string;
@@ -336,7 +335,8 @@ export const ListProjectsConstraintsResponse = GoogleCloudOrgpolicyV2ListConstra
 
 export type ListProjectsConstraintsError = CommonErrors;
 
-export const listProjectsConstraints = API.makePaginated(() => ({
+/** Lists constraints that could be applied on the specified resource. */
+export const listProjectsConstraints: API.PaginatedOperationMethod<ListProjectsConstraintsRequest, ListProjectsConstraintsResponse, ListProjectsConstraintsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsConstraintsRequest,
   output: ListProjectsConstraintsResponse,
   errors: [],
@@ -346,7 +346,6 @@ export const listProjectsConstraints = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves all of the policies that exist on a particular resource. */
 export interface ListProjectsPoliciesRequest {
   /** Required. The target Google Cloud resource that parents the set of constraints and policies that will be returned from this call. Must be in one of the following forms: * `projects/{project_number}` * `projects/{project_id}` * `folders/{folder_id}` * `organizations/{organization_id}` */
   parent: string;
@@ -370,7 +369,8 @@ export const ListProjectsPoliciesResponse = GoogleCloudOrgpolicyV2ListPoliciesRe
 
 export type ListProjectsPoliciesError = CommonErrors;
 
-export const listProjectsPolicies = API.makePaginated(() => ({
+/** Retrieves all of the policies that exist on a particular resource. */
+export const listProjectsPolicies: API.PaginatedOperationMethod<ListProjectsPoliciesRequest, ListProjectsPoliciesResponse, ListProjectsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsPoliciesRequest,
   output: ListProjectsPoliciesResponse,
   errors: [],
@@ -380,7 +380,6 @@ export const listProjectsPolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a policy on a resource. If no policy is set on the resource, `NOT_FOUND` is returned. The `etag` value can be used with `UpdatePolicy()` to update a policy during read-modify-write. */
 export interface GetProjectsPoliciesRequest {
   /** Required. Resource name of the policy. See Policy for naming requirements. */
   name: string;
@@ -398,13 +397,13 @@ export const GetProjectsPoliciesResponse = GoogleCloudOrgpolicyV2Policy;
 
 export type GetProjectsPoliciesError = CommonErrors;
 
+/** Gets a policy on a resource. If no policy is set on the resource, `NOT_FOUND` is returned. The `etag` value can be used with `UpdatePolicy()` to update a policy during read-modify-write. */
 export const getProjectsPolicies: API.OperationMethod<GetProjectsPoliciesRequest, GetProjectsPoliciesResponse, GetProjectsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsPoliciesRequest,
   output: GetProjectsPoliciesResponse,
   errors: [],
 }));
 
-/** Gets the effective policy on a resource. This is the result of merging policies in the resource hierarchy and evaluating conditions. The returned policy will not have an `etag` or `condition` set because it is an evaluated policy across multiple resources. Subtrees of Resource Manager resource hierarchy with 'under:' prefix will not be expanded. */
 export interface GetEffectivePolicyProjectsPoliciesRequest {
   /** Required. The effective policy to compute. See Policy for naming requirements. */
   name: string;
@@ -422,13 +421,13 @@ export const GetEffectivePolicyProjectsPoliciesResponse = GoogleCloudOrgpolicyV2
 
 export type GetEffectivePolicyProjectsPoliciesError = CommonErrors;
 
+/** Gets the effective policy on a resource. This is the result of merging policies in the resource hierarchy and evaluating conditions. The returned policy will not have an `etag` or `condition` set because it is an evaluated policy across multiple resources. Subtrees of Resource Manager resource hierarchy with 'under:' prefix will not be expanded. */
 export const getEffectivePolicyProjectsPolicies: API.OperationMethod<GetEffectivePolicyProjectsPoliciesRequest, GetEffectivePolicyProjectsPoliciesResponse, GetEffectivePolicyProjectsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEffectivePolicyProjectsPoliciesRequest,
   output: GetEffectivePolicyProjectsPoliciesResponse,
   errors: [],
 }));
 
-/** Creates a policy. Returns a `google.rpc.Status` with `google.rpc.Code.NOT_FOUND` if the constraint does not exist. Returns a `google.rpc.Status` with `google.rpc.Code.ALREADY_EXISTS` if the policy already exists on the given Google Cloud resource. */
 export interface CreateProjectsPoliciesRequest {
   /** Required. The Google Cloud resource that will parent the new policy. Must be in one of the following forms: * `projects/{project_number}` * `projects/{project_id}` * `folders/{folder_id}` * `organizations/{organization_id}` */
   parent: string;
@@ -449,13 +448,13 @@ export const CreateProjectsPoliciesResponse = GoogleCloudOrgpolicyV2Policy;
 
 export type CreateProjectsPoliciesError = CommonErrors;
 
+/** Creates a policy. Returns a `google.rpc.Status` with `google.rpc.Code.NOT_FOUND` if the constraint does not exist. Returns a `google.rpc.Status` with `google.rpc.Code.ALREADY_EXISTS` if the policy already exists on the given Google Cloud resource. */
 export const createProjectsPolicies: API.OperationMethod<CreateProjectsPoliciesRequest, CreateProjectsPoliciesResponse, CreateProjectsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsPoliciesRequest,
   output: CreateProjectsPoliciesResponse,
   errors: [],
 }));
 
-/** Updates a policy. Returns a `google.rpc.Status` with `google.rpc.Code.NOT_FOUND` if the constraint or the policy do not exist. Returns a `google.rpc.Status` with `google.rpc.Code.ABORTED` if the etag supplied in the request does not match the persisted etag of the policy Note: the supplied policy will perform a full overwrite of all fields. */
 export interface PatchProjectsPoliciesRequest {
   /** Immutable. The resource name of the policy. Must be one of the following forms, where `constraint_name` is the name of the constraint which this policy configures: * `projects/{project_number}/policies/{constraint_name}` * `folders/{folder_id}/policies/{constraint_name}` * `organizations/{organization_id}/policies/{constraint_name}` For example, `projects/123/policies/compute.disableSerialPortAccess`. Note: `projects/{project_id}/policies/{constraint_name}` is also an acceptable name for API requests, but responses will return the name using the equivalent project number. */
   name: string;
@@ -479,13 +478,13 @@ export const PatchProjectsPoliciesResponse = GoogleCloudOrgpolicyV2Policy;
 
 export type PatchProjectsPoliciesError = CommonErrors;
 
+/** Updates a policy. Returns a `google.rpc.Status` with `google.rpc.Code.NOT_FOUND` if the constraint or the policy do not exist. Returns a `google.rpc.Status` with `google.rpc.Code.ABORTED` if the etag supplied in the request does not match the persisted etag of the policy Note: the supplied policy will perform a full overwrite of all fields. */
 export const patchProjectsPolicies: API.OperationMethod<PatchProjectsPoliciesRequest, PatchProjectsPoliciesResponse, PatchProjectsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsPoliciesRequest,
   output: PatchProjectsPoliciesResponse,
   errors: [],
 }));
 
-/** Deletes a policy. Returns a `google.rpc.Status` with `google.rpc.Code.NOT_FOUND` if the constraint or organization policy does not exist. */
 export interface DeleteProjectsPoliciesRequest {
   /** Required. Name of the policy to delete. See the policy entry for naming rules. */
   name: string;
@@ -506,13 +505,13 @@ export const DeleteProjectsPoliciesResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsPoliciesError = CommonErrors;
 
+/** Deletes a policy. Returns a `google.rpc.Status` with `google.rpc.Code.NOT_FOUND` if the constraint or organization policy does not exist. */
 export const deleteProjectsPolicies: API.OperationMethod<DeleteProjectsPoliciesRequest, DeleteProjectsPoliciesResponse, DeleteProjectsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsPoliciesRequest,
   output: DeleteProjectsPoliciesResponse,
   errors: [],
 }));
 
-/** Lists constraints that could be applied on the specified resource. */
 export interface ListFoldersConstraintsRequest {
   /** Required. The Google Cloud resource that parents the constraint. Must be in one of the following forms: * `projects/{project_number}` * `projects/{project_id}` * `folders/{folder_id}` * `organizations/{organization_id}` */
   parent: string;
@@ -536,7 +535,8 @@ export const ListFoldersConstraintsResponse = GoogleCloudOrgpolicyV2ListConstrai
 
 export type ListFoldersConstraintsError = CommonErrors;
 
-export const listFoldersConstraints = API.makePaginated(() => ({
+/** Lists constraints that could be applied on the specified resource. */
+export const listFoldersConstraints: API.PaginatedOperationMethod<ListFoldersConstraintsRequest, ListFoldersConstraintsResponse, ListFoldersConstraintsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersConstraintsRequest,
   output: ListFoldersConstraintsResponse,
   errors: [],
@@ -546,7 +546,6 @@ export const listFoldersConstraints = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves all of the policies that exist on a particular resource. */
 export interface ListFoldersPoliciesRequest {
   /** Required. The target Google Cloud resource that parents the set of constraints and policies that will be returned from this call. Must be in one of the following forms: * `projects/{project_number}` * `projects/{project_id}` * `folders/{folder_id}` * `organizations/{organization_id}` */
   parent: string;
@@ -570,7 +569,8 @@ export const ListFoldersPoliciesResponse = GoogleCloudOrgpolicyV2ListPoliciesRes
 
 export type ListFoldersPoliciesError = CommonErrors;
 
-export const listFoldersPolicies = API.makePaginated(() => ({
+/** Retrieves all of the policies that exist on a particular resource. */
+export const listFoldersPolicies: API.PaginatedOperationMethod<ListFoldersPoliciesRequest, ListFoldersPoliciesResponse, ListFoldersPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersPoliciesRequest,
   output: ListFoldersPoliciesResponse,
   errors: [],
@@ -580,7 +580,6 @@ export const listFoldersPolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a policy on a resource. If no policy is set on the resource, `NOT_FOUND` is returned. The `etag` value can be used with `UpdatePolicy()` to update a policy during read-modify-write. */
 export interface GetFoldersPoliciesRequest {
   /** Required. Resource name of the policy. See Policy for naming requirements. */
   name: string;
@@ -598,13 +597,13 @@ export const GetFoldersPoliciesResponse = GoogleCloudOrgpolicyV2Policy;
 
 export type GetFoldersPoliciesError = CommonErrors;
 
+/** Gets a policy on a resource. If no policy is set on the resource, `NOT_FOUND` is returned. The `etag` value can be used with `UpdatePolicy()` to update a policy during read-modify-write. */
 export const getFoldersPolicies: API.OperationMethod<GetFoldersPoliciesRequest, GetFoldersPoliciesResponse, GetFoldersPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersPoliciesRequest,
   output: GetFoldersPoliciesResponse,
   errors: [],
 }));
 
-/** Gets the effective policy on a resource. This is the result of merging policies in the resource hierarchy and evaluating conditions. The returned policy will not have an `etag` or `condition` set because it is an evaluated policy across multiple resources. Subtrees of Resource Manager resource hierarchy with 'under:' prefix will not be expanded. */
 export interface GetEffectivePolicyFoldersPoliciesRequest {
   /** Required. The effective policy to compute. See Policy for naming requirements. */
   name: string;
@@ -622,13 +621,13 @@ export const GetEffectivePolicyFoldersPoliciesResponse = GoogleCloudOrgpolicyV2P
 
 export type GetEffectivePolicyFoldersPoliciesError = CommonErrors;
 
+/** Gets the effective policy on a resource. This is the result of merging policies in the resource hierarchy and evaluating conditions. The returned policy will not have an `etag` or `condition` set because it is an evaluated policy across multiple resources. Subtrees of Resource Manager resource hierarchy with 'under:' prefix will not be expanded. */
 export const getEffectivePolicyFoldersPolicies: API.OperationMethod<GetEffectivePolicyFoldersPoliciesRequest, GetEffectivePolicyFoldersPoliciesResponse, GetEffectivePolicyFoldersPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEffectivePolicyFoldersPoliciesRequest,
   output: GetEffectivePolicyFoldersPoliciesResponse,
   errors: [],
 }));
 
-/** Creates a policy. Returns a `google.rpc.Status` with `google.rpc.Code.NOT_FOUND` if the constraint does not exist. Returns a `google.rpc.Status` with `google.rpc.Code.ALREADY_EXISTS` if the policy already exists on the given Google Cloud resource. */
 export interface CreateFoldersPoliciesRequest {
   /** Required. The Google Cloud resource that will parent the new policy. Must be in one of the following forms: * `projects/{project_number}` * `projects/{project_id}` * `folders/{folder_id}` * `organizations/{organization_id}` */
   parent: string;
@@ -649,13 +648,13 @@ export const CreateFoldersPoliciesResponse = GoogleCloudOrgpolicyV2Policy;
 
 export type CreateFoldersPoliciesError = CommonErrors;
 
+/** Creates a policy. Returns a `google.rpc.Status` with `google.rpc.Code.NOT_FOUND` if the constraint does not exist. Returns a `google.rpc.Status` with `google.rpc.Code.ALREADY_EXISTS` if the policy already exists on the given Google Cloud resource. */
 export const createFoldersPolicies: API.OperationMethod<CreateFoldersPoliciesRequest, CreateFoldersPoliciesResponse, CreateFoldersPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateFoldersPoliciesRequest,
   output: CreateFoldersPoliciesResponse,
   errors: [],
 }));
 
-/** Updates a policy. Returns a `google.rpc.Status` with `google.rpc.Code.NOT_FOUND` if the constraint or the policy do not exist. Returns a `google.rpc.Status` with `google.rpc.Code.ABORTED` if the etag supplied in the request does not match the persisted etag of the policy Note: the supplied policy will perform a full overwrite of all fields. */
 export interface PatchFoldersPoliciesRequest {
   /** Immutable. The resource name of the policy. Must be one of the following forms, where `constraint_name` is the name of the constraint which this policy configures: * `projects/{project_number}/policies/{constraint_name}` * `folders/{folder_id}/policies/{constraint_name}` * `organizations/{organization_id}/policies/{constraint_name}` For example, `projects/123/policies/compute.disableSerialPortAccess`. Note: `projects/{project_id}/policies/{constraint_name}` is also an acceptable name for API requests, but responses will return the name using the equivalent project number. */
   name: string;
@@ -679,13 +678,13 @@ export const PatchFoldersPoliciesResponse = GoogleCloudOrgpolicyV2Policy;
 
 export type PatchFoldersPoliciesError = CommonErrors;
 
+/** Updates a policy. Returns a `google.rpc.Status` with `google.rpc.Code.NOT_FOUND` if the constraint or the policy do not exist. Returns a `google.rpc.Status` with `google.rpc.Code.ABORTED` if the etag supplied in the request does not match the persisted etag of the policy Note: the supplied policy will perform a full overwrite of all fields. */
 export const patchFoldersPolicies: API.OperationMethod<PatchFoldersPoliciesRequest, PatchFoldersPoliciesResponse, PatchFoldersPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchFoldersPoliciesRequest,
   output: PatchFoldersPoliciesResponse,
   errors: [],
 }));
 
-/** Deletes a policy. Returns a `google.rpc.Status` with `google.rpc.Code.NOT_FOUND` if the constraint or organization policy does not exist. */
 export interface DeleteFoldersPoliciesRequest {
   /** Required. Name of the policy to delete. See the policy entry for naming rules. */
   name: string;
@@ -706,13 +705,13 @@ export const DeleteFoldersPoliciesResponse = GoogleProtobufEmpty;
 
 export type DeleteFoldersPoliciesError = CommonErrors;
 
+/** Deletes a policy. Returns a `google.rpc.Status` with `google.rpc.Code.NOT_FOUND` if the constraint or organization policy does not exist. */
 export const deleteFoldersPolicies: API.OperationMethod<DeleteFoldersPoliciesRequest, DeleteFoldersPoliciesResponse, DeleteFoldersPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteFoldersPoliciesRequest,
   output: DeleteFoldersPoliciesResponse,
   errors: [],
 }));
 
-/** Lists constraints that could be applied on the specified resource. */
 export interface ListOrganizationsConstraintsRequest {
   /** Required. The Google Cloud resource that parents the constraint. Must be in one of the following forms: * `projects/{project_number}` * `projects/{project_id}` * `folders/{folder_id}` * `organizations/{organization_id}` */
   parent: string;
@@ -736,7 +735,8 @@ export const ListOrganizationsConstraintsResponse = GoogleCloudOrgpolicyV2ListCo
 
 export type ListOrganizationsConstraintsError = CommonErrors;
 
-export const listOrganizationsConstraints = API.makePaginated(() => ({
+/** Lists constraints that could be applied on the specified resource. */
+export const listOrganizationsConstraints: API.PaginatedOperationMethod<ListOrganizationsConstraintsRequest, ListOrganizationsConstraintsResponse, ListOrganizationsConstraintsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsConstraintsRequest,
   output: ListOrganizationsConstraintsResponse,
   errors: [],
@@ -746,7 +746,6 @@ export const listOrganizationsConstraints = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves all of the policies that exist on a particular resource. */
 export interface ListOrganizationsPoliciesRequest {
   /** Required. The target Google Cloud resource that parents the set of constraints and policies that will be returned from this call. Must be in one of the following forms: * `projects/{project_number}` * `projects/{project_id}` * `folders/{folder_id}` * `organizations/{organization_id}` */
   parent: string;
@@ -770,7 +769,8 @@ export const ListOrganizationsPoliciesResponse = GoogleCloudOrgpolicyV2ListPolic
 
 export type ListOrganizationsPoliciesError = CommonErrors;
 
-export const listOrganizationsPolicies = API.makePaginated(() => ({
+/** Retrieves all of the policies that exist on a particular resource. */
+export const listOrganizationsPolicies: API.PaginatedOperationMethod<ListOrganizationsPoliciesRequest, ListOrganizationsPoliciesResponse, ListOrganizationsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsPoliciesRequest,
   output: ListOrganizationsPoliciesResponse,
   errors: [],
@@ -780,7 +780,6 @@ export const listOrganizationsPolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a policy on a resource. If no policy is set on the resource, `NOT_FOUND` is returned. The `etag` value can be used with `UpdatePolicy()` to update a policy during read-modify-write. */
 export interface GetOrganizationsPoliciesRequest {
   /** Required. Resource name of the policy. See Policy for naming requirements. */
   name: string;
@@ -798,13 +797,13 @@ export const GetOrganizationsPoliciesResponse = GoogleCloudOrgpolicyV2Policy;
 
 export type GetOrganizationsPoliciesError = CommonErrors;
 
+/** Gets a policy on a resource. If no policy is set on the resource, `NOT_FOUND` is returned. The `etag` value can be used with `UpdatePolicy()` to update a policy during read-modify-write. */
 export const getOrganizationsPolicies: API.OperationMethod<GetOrganizationsPoliciesRequest, GetOrganizationsPoliciesResponse, GetOrganizationsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsPoliciesRequest,
   output: GetOrganizationsPoliciesResponse,
   errors: [],
 }));
 
-/** Gets the effective policy on a resource. This is the result of merging policies in the resource hierarchy and evaluating conditions. The returned policy will not have an `etag` or `condition` set because it is an evaluated policy across multiple resources. Subtrees of Resource Manager resource hierarchy with 'under:' prefix will not be expanded. */
 export interface GetEffectivePolicyOrganizationsPoliciesRequest {
   /** Required. The effective policy to compute. See Policy for naming requirements. */
   name: string;
@@ -822,13 +821,13 @@ export const GetEffectivePolicyOrganizationsPoliciesResponse = GoogleCloudOrgpol
 
 export type GetEffectivePolicyOrganizationsPoliciesError = CommonErrors;
 
+/** Gets the effective policy on a resource. This is the result of merging policies in the resource hierarchy and evaluating conditions. The returned policy will not have an `etag` or `condition` set because it is an evaluated policy across multiple resources. Subtrees of Resource Manager resource hierarchy with 'under:' prefix will not be expanded. */
 export const getEffectivePolicyOrganizationsPolicies: API.OperationMethod<GetEffectivePolicyOrganizationsPoliciesRequest, GetEffectivePolicyOrganizationsPoliciesResponse, GetEffectivePolicyOrganizationsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEffectivePolicyOrganizationsPoliciesRequest,
   output: GetEffectivePolicyOrganizationsPoliciesResponse,
   errors: [],
 }));
 
-/** Creates a policy. Returns a `google.rpc.Status` with `google.rpc.Code.NOT_FOUND` if the constraint does not exist. Returns a `google.rpc.Status` with `google.rpc.Code.ALREADY_EXISTS` if the policy already exists on the given Google Cloud resource. */
 export interface CreateOrganizationsPoliciesRequest {
   /** Required. The Google Cloud resource that will parent the new policy. Must be in one of the following forms: * `projects/{project_number}` * `projects/{project_id}` * `folders/{folder_id}` * `organizations/{organization_id}` */
   parent: string;
@@ -849,13 +848,13 @@ export const CreateOrganizationsPoliciesResponse = GoogleCloudOrgpolicyV2Policy;
 
 export type CreateOrganizationsPoliciesError = CommonErrors;
 
+/** Creates a policy. Returns a `google.rpc.Status` with `google.rpc.Code.NOT_FOUND` if the constraint does not exist. Returns a `google.rpc.Status` with `google.rpc.Code.ALREADY_EXISTS` if the policy already exists on the given Google Cloud resource. */
 export const createOrganizationsPolicies: API.OperationMethod<CreateOrganizationsPoliciesRequest, CreateOrganizationsPoliciesResponse, CreateOrganizationsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsPoliciesRequest,
   output: CreateOrganizationsPoliciesResponse,
   errors: [],
 }));
 
-/** Updates a policy. Returns a `google.rpc.Status` with `google.rpc.Code.NOT_FOUND` if the constraint or the policy do not exist. Returns a `google.rpc.Status` with `google.rpc.Code.ABORTED` if the etag supplied in the request does not match the persisted etag of the policy Note: the supplied policy will perform a full overwrite of all fields. */
 export interface PatchOrganizationsPoliciesRequest {
   /** Immutable. The resource name of the policy. Must be one of the following forms, where `constraint_name` is the name of the constraint which this policy configures: * `projects/{project_number}/policies/{constraint_name}` * `folders/{folder_id}/policies/{constraint_name}` * `organizations/{organization_id}/policies/{constraint_name}` For example, `projects/123/policies/compute.disableSerialPortAccess`. Note: `projects/{project_id}/policies/{constraint_name}` is also an acceptable name for API requests, but responses will return the name using the equivalent project number. */
   name: string;
@@ -879,13 +878,13 @@ export const PatchOrganizationsPoliciesResponse = GoogleCloudOrgpolicyV2Policy;
 
 export type PatchOrganizationsPoliciesError = CommonErrors;
 
+/** Updates a policy. Returns a `google.rpc.Status` with `google.rpc.Code.NOT_FOUND` if the constraint or the policy do not exist. Returns a `google.rpc.Status` with `google.rpc.Code.ABORTED` if the etag supplied in the request does not match the persisted etag of the policy Note: the supplied policy will perform a full overwrite of all fields. */
 export const patchOrganizationsPolicies: API.OperationMethod<PatchOrganizationsPoliciesRequest, PatchOrganizationsPoliciesResponse, PatchOrganizationsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsPoliciesRequest,
   output: PatchOrganizationsPoliciesResponse,
   errors: [],
 }));
 
-/** Deletes a policy. Returns a `google.rpc.Status` with `google.rpc.Code.NOT_FOUND` if the constraint or organization policy does not exist. */
 export interface DeleteOrganizationsPoliciesRequest {
   /** Required. Name of the policy to delete. See the policy entry for naming rules. */
   name: string;
@@ -906,13 +905,13 @@ export const DeleteOrganizationsPoliciesResponse = GoogleProtobufEmpty;
 
 export type DeleteOrganizationsPoliciesError = CommonErrors;
 
+/** Deletes a policy. Returns a `google.rpc.Status` with `google.rpc.Code.NOT_FOUND` if the constraint or organization policy does not exist. */
 export const deleteOrganizationsPolicies: API.OperationMethod<DeleteOrganizationsPoliciesRequest, DeleteOrganizationsPoliciesResponse, DeleteOrganizationsPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsPoliciesRequest,
   output: DeleteOrganizationsPoliciesResponse,
   errors: [],
 }));
 
-/** Creates a custom constraint. Returns a `google.rpc.Status` with `google.rpc.Code.NOT_FOUND` if the organization does not exist. Returns a `google.rpc.Status` with `google.rpc.Code.ALREADY_EXISTS` if the constraint already exists on the given organization. */
 export interface CreateOrganizationsCustomConstraintsRequest {
   /** Required. Must be in the following form: * `organizations/{organization_id}` */
   parent: string;
@@ -933,13 +932,13 @@ export const CreateOrganizationsCustomConstraintsResponse = GoogleCloudOrgpolicy
 
 export type CreateOrganizationsCustomConstraintsError = CommonErrors;
 
+/** Creates a custom constraint. Returns a `google.rpc.Status` with `google.rpc.Code.NOT_FOUND` if the organization does not exist. Returns a `google.rpc.Status` with `google.rpc.Code.ALREADY_EXISTS` if the constraint already exists on the given organization. */
 export const createOrganizationsCustomConstraints: API.OperationMethod<CreateOrganizationsCustomConstraintsRequest, CreateOrganizationsCustomConstraintsResponse, CreateOrganizationsCustomConstraintsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsCustomConstraintsRequest,
   output: CreateOrganizationsCustomConstraintsResponse,
   errors: [],
 }));
 
-/** Updates a custom constraint. Returns a `google.rpc.Status` with `google.rpc.Code.NOT_FOUND` if the constraint does not exist. Note: the supplied policy will perform a full overwrite of all fields. */
 export interface PatchOrganizationsCustomConstraintsRequest {
   /** Immutable. Name of the constraint. This is unique within the organization. Format of the name should be * `organizations/{organization_id}/customConstraints/{custom_constraint_id}` Example: `organizations/123/customConstraints/custom.createOnlyE2TypeVms` The max length is 70 characters and the minimum length is 1. Note that the prefix `organizations/{organization_id}/customConstraints/` is not counted. */
   name: string;
@@ -960,13 +959,13 @@ export const PatchOrganizationsCustomConstraintsResponse = GoogleCloudOrgpolicyV
 
 export type PatchOrganizationsCustomConstraintsError = CommonErrors;
 
+/** Updates a custom constraint. Returns a `google.rpc.Status` with `google.rpc.Code.NOT_FOUND` if the constraint does not exist. Note: the supplied policy will perform a full overwrite of all fields. */
 export const patchOrganizationsCustomConstraints: API.OperationMethod<PatchOrganizationsCustomConstraintsRequest, PatchOrganizationsCustomConstraintsResponse, PatchOrganizationsCustomConstraintsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsCustomConstraintsRequest,
   output: PatchOrganizationsCustomConstraintsResponse,
   errors: [],
 }));
 
-/** Gets a custom or managed constraint. Returns a `google.rpc.Status` with `google.rpc.Code.NOT_FOUND` if the custom or managed constraint does not exist. */
 export interface GetOrganizationsCustomConstraintsRequest {
   /** Required. Resource name of the custom or managed constraint. See the custom constraint entry for naming requirements. */
   name: string;
@@ -984,13 +983,13 @@ export const GetOrganizationsCustomConstraintsResponse = GoogleCloudOrgpolicyV2C
 
 export type GetOrganizationsCustomConstraintsError = CommonErrors;
 
+/** Gets a custom or managed constraint. Returns a `google.rpc.Status` with `google.rpc.Code.NOT_FOUND` if the custom or managed constraint does not exist. */
 export const getOrganizationsCustomConstraints: API.OperationMethod<GetOrganizationsCustomConstraintsRequest, GetOrganizationsCustomConstraintsResponse, GetOrganizationsCustomConstraintsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsCustomConstraintsRequest,
   output: GetOrganizationsCustomConstraintsResponse,
   errors: [],
 }));
 
-/** Retrieves all of the custom constraints that exist on a particular organization resource. */
 export interface ListOrganizationsCustomConstraintsRequest {
   /** Required. The target Google Cloud resource that parents the set of custom constraints that will be returned from this call. Must be in one of the following forms: * `organizations/{organization_id}` */
   parent: string;
@@ -1014,7 +1013,8 @@ export const ListOrganizationsCustomConstraintsResponse = GoogleCloudOrgpolicyV2
 
 export type ListOrganizationsCustomConstraintsError = CommonErrors;
 
-export const listOrganizationsCustomConstraints = API.makePaginated(() => ({
+/** Retrieves all of the custom constraints that exist on a particular organization resource. */
+export const listOrganizationsCustomConstraints: API.PaginatedOperationMethod<ListOrganizationsCustomConstraintsRequest, ListOrganizationsCustomConstraintsResponse, ListOrganizationsCustomConstraintsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsCustomConstraintsRequest,
   output: ListOrganizationsCustomConstraintsResponse,
   errors: [],
@@ -1024,7 +1024,6 @@ export const listOrganizationsCustomConstraints = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a custom constraint. Returns a `google.rpc.Status` with `google.rpc.Code.NOT_FOUND` if the constraint does not exist. */
 export interface DeleteOrganizationsCustomConstraintsRequest {
   /** Required. Name of the custom constraint to delete. See the custom constraint entry for naming rules. */
   name: string;
@@ -1042,6 +1041,7 @@ export const DeleteOrganizationsCustomConstraintsResponse = GoogleProtobufEmpty;
 
 export type DeleteOrganizationsCustomConstraintsError = CommonErrors;
 
+/** Deletes a custom constraint. Returns a `google.rpc.Status` with `google.rpc.Code.NOT_FOUND` if the constraint does not exist. */
 export const deleteOrganizationsCustomConstraints: API.OperationMethod<DeleteOrganizationsCustomConstraintsRequest, DeleteOrganizationsCustomConstraintsResponse, DeleteOrganizationsCustomConstraintsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsCustomConstraintsRequest,
   output: DeleteOrganizationsCustomConstraintsResponse,

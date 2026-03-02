@@ -171,7 +171,6 @@ export const SetPublishedDeployPercentageResponse: Schema.Schema<SetPublishedDep
 // Operations
 // ==========================================================================
 
-/** Submit the item to be published in the store. The item will be submitted for review unless `skip_review` is set to true, or the item is staged from a previous submission with `publish_type` set to `STAGED_PUBLISH`. */
 export interface PublishPublishersItemsRequest {
   /** Required. Name of the item in the form `publishers/{publisherId}/items/{itemId}` */
   name: string;
@@ -192,13 +191,13 @@ export const PublishPublishersItemsResponse = PublishItemResponse;
 
 export type PublishPublishersItemsError = CommonErrors;
 
+/** Submit the item to be published in the store. The item will be submitted for review unless `skip_review` is set to true, or the item is staged from a previous submission with `publish_type` set to `STAGED_PUBLISH`. */
 export const publishPublishersItems: API.OperationMethod<PublishPublishersItemsRequest, PublishPublishersItemsResponse, PublishPublishersItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PublishPublishersItemsRequest,
   output: PublishPublishersItemsResponse,
   errors: [],
 }));
 
-/** Fetch the status of an item. */
 export interface FetchStatusPublishersItemsRequest {
   /** Required. Name of the item to retrieve the status of in the form `publishers/{publisherId}/items/{itemId}` */
   name: string;
@@ -216,13 +215,13 @@ export const FetchStatusPublishersItemsResponse = FetchItemStatusResponse;
 
 export type FetchStatusPublishersItemsError = CommonErrors;
 
+/** Fetch the status of an item. */
 export const fetchStatusPublishersItems: API.OperationMethod<FetchStatusPublishersItemsRequest, FetchStatusPublishersItemsResponse, FetchStatusPublishersItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FetchStatusPublishersItemsRequest,
   output: FetchStatusPublishersItemsResponse,
   errors: [],
 }));
 
-/** Cancel the current active submission of an item if present. This can be used to cancel the review of a pending submission. */
 export interface CancelSubmissionPublishersItemsRequest {
   /** Required. Name of the item to cancel the submission of in the form `publishers/{publisherId}/items/{itemId}` */
   name: string;
@@ -243,13 +242,13 @@ export const CancelSubmissionPublishersItemsResponse = CancelSubmissionResponse;
 
 export type CancelSubmissionPublishersItemsError = CommonErrors;
 
+/** Cancel the current active submission of an item if present. This can be used to cancel the review of a pending submission. */
 export const cancelSubmissionPublishersItems: API.OperationMethod<CancelSubmissionPublishersItemsRequest, CancelSubmissionPublishersItemsResponse, CancelSubmissionPublishersItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelSubmissionPublishersItemsRequest,
   output: CancelSubmissionPublishersItemsResponse,
   errors: [],
 }));
 
-/** Set a higher target deploy percentage for the item's published revision. This will be updated without the item being submitted for review. This is only available to items with over 10,000 seven-day active users. */
 export interface SetPublishedDeployPercentagePublishersItemsRequest {
   /** Required. Name of the item to update the published revision of in the form `publishers/{publisherId}/items/{itemId}` */
   name: string;
@@ -270,13 +269,13 @@ export const SetPublishedDeployPercentagePublishersItemsResponse = SetPublishedD
 
 export type SetPublishedDeployPercentagePublishersItemsError = CommonErrors;
 
+/** Set a higher target deploy percentage for the item's published revision. This will be updated without the item being submitted for review. This is only available to items with over 10,000 seven-day active users. */
 export const setPublishedDeployPercentagePublishersItems: API.OperationMethod<SetPublishedDeployPercentagePublishersItemsRequest, SetPublishedDeployPercentagePublishersItemsResponse, SetPublishedDeployPercentagePublishersItemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetPublishedDeployPercentagePublishersItemsRequest,
   output: SetPublishedDeployPercentagePublishersItemsResponse,
   errors: [],
 }));
 
-/** Upload a new package to an existing item. */
 export interface UploadMediaRequest {
   /** Required. Name of the item to upload the new package to in the form `publishers/{publisherId}/items/{itemId}` */
   name: string;
@@ -297,6 +296,7 @@ export const UploadMediaResponse = UploadItemPackageResponse;
 
 export type UploadMediaError = CommonErrors;
 
+/** Upload a new package to an existing item. */
 export const uploadMedia: API.OperationMethod<UploadMediaRequest, UploadMediaResponse, UploadMediaError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadMediaRequest,
   output: UploadMediaResponse,

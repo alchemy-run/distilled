@@ -990,7 +990,6 @@ export const UnresolvePullRequestCommentsResponse: Schema.Schema<UnresolvePullRe
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -1020,7 +1019,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -1030,7 +1030,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -1048,13 +1047,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsInstancesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1075,13 +1074,13 @@ export const SetIamPolicyProjectsLocationsInstancesResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsInstancesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsInstances: API.OperationMethod<SetIamPolicyProjectsLocationsInstancesRequest, SetIamPolicyProjectsLocationsInstancesResponse, SetIamPolicyProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsInstancesRequest,
   output: SetIamPolicyProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsInstancesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1102,13 +1101,13 @@ export const GetIamPolicyProjectsLocationsInstancesResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsInstancesError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsInstances: API.OperationMethod<GetIamPolicyProjectsLocationsInstancesRequest, GetIamPolicyProjectsLocationsInstancesResponse, GetIamPolicyProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsInstancesRequest,
   output: GetIamPolicyProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsInstancesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1129,13 +1128,13 @@ export const TestIamPermissionsProjectsLocationsInstancesResponse = TestIamPermi
 
 export type TestIamPermissionsProjectsLocationsInstancesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsInstances: API.OperationMethod<TestIamPermissionsProjectsLocationsInstancesRequest, TestIamPermissionsProjectsLocationsInstancesResponse, TestIamPermissionsProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsInstancesRequest,
   output: TestIamPermissionsProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Lists Instances in a given project and location. */
 export interface ListProjectsLocationsInstancesRequest {
   /** Required. Parent value for ListInstancesRequest. */
   parent: string;
@@ -1165,7 +1164,8 @@ export const ListProjectsLocationsInstancesResponse = ListInstancesResponse;
 
 export type ListProjectsLocationsInstancesError = CommonErrors;
 
-export const listProjectsLocationsInstances = API.makePaginated(() => ({
+/** Lists Instances in a given project and location. */
+export const listProjectsLocationsInstances: API.PaginatedOperationMethod<ListProjectsLocationsInstancesRequest, ListProjectsLocationsInstancesResponse, ListProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsInstancesRequest,
   output: ListProjectsLocationsInstancesResponse,
   errors: [],
@@ -1175,7 +1175,6 @@ export const listProjectsLocationsInstances = API.makePaginated(() => ({
   },
 }));
 
-/** Gets details of a single instance. */
 export interface GetProjectsLocationsInstancesRequest {
   /** Required. Name of the resource. */
   name: string;
@@ -1193,13 +1192,13 @@ export const GetProjectsLocationsInstancesResponse = Instance;
 
 export type GetProjectsLocationsInstancesError = CommonErrors;
 
+/** Gets details of a single instance. */
 export const getProjectsLocationsInstances: API.OperationMethod<GetProjectsLocationsInstancesRequest, GetProjectsLocationsInstancesResponse, GetProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsInstancesRequest,
   output: GetProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Creates a new instance in a given project and location. */
 export interface CreateProjectsLocationsInstancesRequest {
   /** Required. Value for parent. */
   parent: string;
@@ -1226,13 +1225,13 @@ export const CreateProjectsLocationsInstancesResponse = Operation;
 
 export type CreateProjectsLocationsInstancesError = CommonErrors;
 
+/** Creates a new instance in a given project and location. */
 export const createProjectsLocationsInstances: API.OperationMethod<CreateProjectsLocationsInstancesRequest, CreateProjectsLocationsInstancesResponse, CreateProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsInstancesRequest,
   output: CreateProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Deletes a single instance. */
 export interface DeleteProjectsLocationsInstancesRequest {
   /** Required. Name of the resource. */
   name: string;
@@ -1256,13 +1255,13 @@ export const DeleteProjectsLocationsInstancesResponse = Operation;
 
 export type DeleteProjectsLocationsInstancesError = CommonErrors;
 
+/** Deletes a single instance. */
 export const deleteProjectsLocationsInstances: API.OperationMethod<DeleteProjectsLocationsInstancesRequest, DeleteProjectsLocationsInstancesResponse, DeleteProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsInstancesRequest,
   output: DeleteProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -1292,7 +1291,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -1302,7 +1302,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1320,13 +1319,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -1344,13 +1343,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -1371,13 +1370,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Lists Repositories in a given project and location. The instance field is required in the query parameter for requests using the securesourcemanager.googleapis.com endpoint. */
 export interface ListProjectsLocationsRepositoriesRequest {
   /** Required. Parent value for ListRepositoriesRequest. */
   parent: string;
@@ -1407,7 +1406,8 @@ export const ListProjectsLocationsRepositoriesResponse = ListRepositoriesRespons
 
 export type ListProjectsLocationsRepositoriesError = CommonErrors;
 
-export const listProjectsLocationsRepositories = API.makePaginated(() => ({
+/** Lists Repositories in a given project and location. The instance field is required in the query parameter for requests using the securesourcemanager.googleapis.com endpoint. */
+export const listProjectsLocationsRepositories: API.PaginatedOperationMethod<ListProjectsLocationsRepositoriesRequest, ListProjectsLocationsRepositoriesResponse, ListProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRepositoriesRequest,
   output: ListProjectsLocationsRepositoriesResponse,
   errors: [],
@@ -1417,7 +1417,6 @@ export const listProjectsLocationsRepositories = API.makePaginated(() => ({
   },
 }));
 
-/** Gets metadata of a repository. */
 export interface GetProjectsLocationsRepositoriesRequest {
   /** Required. Name of the repository to retrieve. The format is `projects/{project_number}/locations/{location_id}/repositories/{repository_id}`. */
   name: string;
@@ -1435,13 +1434,13 @@ export const GetProjectsLocationsRepositoriesResponse = Repository;
 
 export type GetProjectsLocationsRepositoriesError = CommonErrors;
 
+/** Gets metadata of a repository. */
 export const getProjectsLocationsRepositories: API.OperationMethod<GetProjectsLocationsRepositoriesRequest, GetProjectsLocationsRepositoriesResponse, GetProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRepositoriesRequest,
   output: GetProjectsLocationsRepositoriesResponse,
   errors: [],
 }));
 
-/** Creates a new repository in a given project and location. The Repository.Instance field is required in the request body for requests using the securesourcemanager.googleapis.com endpoint. */
 export interface CreateProjectsLocationsRepositoriesRequest {
   /** Required. The project in which to create the repository. Values are of the form `projects/{project_number}/locations/{location_id}` */
   parent: string;
@@ -1465,13 +1464,13 @@ export const CreateProjectsLocationsRepositoriesResponse = Operation;
 
 export type CreateProjectsLocationsRepositoriesError = CommonErrors;
 
+/** Creates a new repository in a given project and location. The Repository.Instance field is required in the request body for requests using the securesourcemanager.googleapis.com endpoint. */
 export const createProjectsLocationsRepositories: API.OperationMethod<CreateProjectsLocationsRepositoriesRequest, CreateProjectsLocationsRepositoriesResponse, CreateProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsRepositoriesRequest,
   output: CreateProjectsLocationsRepositoriesResponse,
   errors: [],
 }));
 
-/** Updates the metadata of a repository. */
 export interface PatchProjectsLocationsRepositoriesRequest {
   /** Identifier. A unique identifier for a repository. The name should be of the format: `projects/{project}/locations/{location_id}/repositories/{repository_id}` */
   name: string;
@@ -1498,13 +1497,13 @@ export const PatchProjectsLocationsRepositoriesResponse = Operation;
 
 export type PatchProjectsLocationsRepositoriesError = CommonErrors;
 
+/** Updates the metadata of a repository. */
 export const patchProjectsLocationsRepositories: API.OperationMethod<PatchProjectsLocationsRepositoriesRequest, PatchProjectsLocationsRepositoriesResponse, PatchProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsRepositoriesRequest,
   output: PatchProjectsLocationsRepositoriesResponse,
   errors: [],
 }));
 
-/** Deletes a Repository. */
 export interface DeleteProjectsLocationsRepositoriesRequest {
   /** Required. Name of the repository to delete. The format is `projects/{project_number}/locations/{location_id}/repositories/{repository_id}`. */
   name: string;
@@ -1525,13 +1524,13 @@ export const DeleteProjectsLocationsRepositoriesResponse = Operation;
 
 export type DeleteProjectsLocationsRepositoriesError = CommonErrors;
 
+/** Deletes a Repository. */
 export const deleteProjectsLocationsRepositories: API.OperationMethod<DeleteProjectsLocationsRepositoriesRequest, DeleteProjectsLocationsRepositoriesResponse, DeleteProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsRepositoriesRequest,
   output: DeleteProjectsLocationsRepositoriesResponse,
   errors: [],
 }));
 
-/** Get IAM policy for a repository. */
 export interface GetIamPolicyProjectsLocationsRepositoriesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1552,13 +1551,13 @@ export const GetIamPolicyProjectsLocationsRepositoriesResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsRepositoriesError = CommonErrors;
 
+/** Get IAM policy for a repository. */
 export const getIamPolicyProjectsLocationsRepositories: API.OperationMethod<GetIamPolicyProjectsLocationsRepositoriesRequest, GetIamPolicyProjectsLocationsRepositoriesResponse, GetIamPolicyProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsRepositoriesRequest,
   output: GetIamPolicyProjectsLocationsRepositoriesResponse,
   errors: [],
 }));
 
-/** Set IAM policy on a repository. */
 export interface SetIamPolicyProjectsLocationsRepositoriesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1579,13 +1578,13 @@ export const SetIamPolicyProjectsLocationsRepositoriesResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsRepositoriesError = CommonErrors;
 
+/** Set IAM policy on a repository. */
 export const setIamPolicyProjectsLocationsRepositories: API.OperationMethod<SetIamPolicyProjectsLocationsRepositoriesRequest, SetIamPolicyProjectsLocationsRepositoriesResponse, SetIamPolicyProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsRepositoriesRequest,
   output: SetIamPolicyProjectsLocationsRepositoriesResponse,
   errors: [],
 }));
 
-/** Test IAM permissions on a repository. IAM permission checks are not required on this method. */
 export interface TestIamPermissionsProjectsLocationsRepositoriesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1606,13 +1605,13 @@ export const TestIamPermissionsProjectsLocationsRepositoriesResponse = TestIamPe
 
 export type TestIamPermissionsProjectsLocationsRepositoriesError = CommonErrors;
 
+/** Test IAM permissions on a repository. IAM permission checks are not required on this method. */
 export const testIamPermissionsProjectsLocationsRepositories: API.OperationMethod<TestIamPermissionsProjectsLocationsRepositoriesRequest, TestIamPermissionsProjectsLocationsRepositoriesResponse, TestIamPermissionsProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsRepositoriesRequest,
   output: TestIamPermissionsProjectsLocationsRepositoriesResponse,
   errors: [],
 }));
 
-/** Fetches a tree from a repository. */
 export interface FetchTreeProjectsLocationsRepositoriesRequest {
   /** Required. The format is `projects/{project_number}/locations/{location_id}/repositories/{repository_id}`. Specifies the repository to fetch the tree from. */
   repository: string;
@@ -1642,7 +1641,8 @@ export const FetchTreeProjectsLocationsRepositoriesResponse = FetchTreeResponse;
 
 export type FetchTreeProjectsLocationsRepositoriesError = CommonErrors;
 
-export const fetchTreeProjectsLocationsRepositories = API.makePaginated(() => ({
+/** Fetches a tree from a repository. */
+export const fetchTreeProjectsLocationsRepositories: API.PaginatedOperationMethod<FetchTreeProjectsLocationsRepositoriesRequest, FetchTreeProjectsLocationsRepositoriesResponse, FetchTreeProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: FetchTreeProjectsLocationsRepositoriesRequest,
   output: FetchTreeProjectsLocationsRepositoriesResponse,
   errors: [],
@@ -1652,7 +1652,6 @@ export const fetchTreeProjectsLocationsRepositories = API.makePaginated(() => ({
   },
 }));
 
-/** Fetches a blob from a repository. */
 export interface FetchBlobProjectsLocationsRepositoriesRequest {
   /** Required. The format is `projects/{project_number}/locations/{location_id}/repositories/{repository_id}`. Specifies the repository containing the blob. */
   repository: string;
@@ -1673,13 +1672,13 @@ export const FetchBlobProjectsLocationsRepositoriesResponse = FetchBlobResponse;
 
 export type FetchBlobProjectsLocationsRepositoriesError = CommonErrors;
 
+/** Fetches a blob from a repository. */
 export const fetchBlobProjectsLocationsRepositories: API.OperationMethod<FetchBlobProjectsLocationsRepositoriesRequest, FetchBlobProjectsLocationsRepositoriesResponse, FetchBlobProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FetchBlobProjectsLocationsRepositoriesRequest,
   output: FetchBlobProjectsLocationsRepositoriesResponse,
   errors: [],
 }));
 
-/** Lists hooks in a given repository. */
 export interface ListProjectsLocationsRepositoriesHooksRequest {
   /** Required. Parent value for ListHooksRequest. */
   parent: string;
@@ -1703,7 +1702,8 @@ export const ListProjectsLocationsRepositoriesHooksResponse = ListHooksResponse;
 
 export type ListProjectsLocationsRepositoriesHooksError = CommonErrors;
 
-export const listProjectsLocationsRepositoriesHooks = API.makePaginated(() => ({
+/** Lists hooks in a given repository. */
+export const listProjectsLocationsRepositoriesHooks: API.PaginatedOperationMethod<ListProjectsLocationsRepositoriesHooksRequest, ListProjectsLocationsRepositoriesHooksResponse, ListProjectsLocationsRepositoriesHooksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRepositoriesHooksRequest,
   output: ListProjectsLocationsRepositoriesHooksResponse,
   errors: [],
@@ -1713,7 +1713,6 @@ export const listProjectsLocationsRepositoriesHooks = API.makePaginated(() => ({
   },
 }));
 
-/** Gets metadata of a hook. */
 export interface GetProjectsLocationsRepositoriesHooksRequest {
   /** Required. Name of the hook to retrieve. The format is `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/hooks/{hook_id}`. */
   name: string;
@@ -1731,13 +1730,13 @@ export const GetProjectsLocationsRepositoriesHooksResponse = Hook;
 
 export type GetProjectsLocationsRepositoriesHooksError = CommonErrors;
 
+/** Gets metadata of a hook. */
 export const getProjectsLocationsRepositoriesHooks: API.OperationMethod<GetProjectsLocationsRepositoriesHooksRequest, GetProjectsLocationsRepositoriesHooksResponse, GetProjectsLocationsRepositoriesHooksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRepositoriesHooksRequest,
   output: GetProjectsLocationsRepositoriesHooksResponse,
   errors: [],
 }));
 
-/** Creates a new hook in a given repository. */
 export interface CreateProjectsLocationsRepositoriesHooksRequest {
   /** Required. The repository in which to create the hook. Values are of the form `projects/{project_number}/locations/{location_id}/repositories/{repository_id}` */
   parent: string;
@@ -1761,13 +1760,13 @@ export const CreateProjectsLocationsRepositoriesHooksResponse = Operation;
 
 export type CreateProjectsLocationsRepositoriesHooksError = CommonErrors;
 
+/** Creates a new hook in a given repository. */
 export const createProjectsLocationsRepositoriesHooks: API.OperationMethod<CreateProjectsLocationsRepositoriesHooksRequest, CreateProjectsLocationsRepositoriesHooksResponse, CreateProjectsLocationsRepositoriesHooksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsRepositoriesHooksRequest,
   output: CreateProjectsLocationsRepositoriesHooksResponse,
   errors: [],
 }));
 
-/** Updates the metadata of a hook. */
 export interface PatchProjectsLocationsRepositoriesHooksRequest {
   /** Identifier. A unique identifier for a Hook. The name should be of the format: `projects/{project}/locations/{location_id}/repositories/{repository_id}/hooks/{hook_id}` */
   name: string;
@@ -1791,13 +1790,13 @@ export const PatchProjectsLocationsRepositoriesHooksResponse = Operation;
 
 export type PatchProjectsLocationsRepositoriesHooksError = CommonErrors;
 
+/** Updates the metadata of a hook. */
 export const patchProjectsLocationsRepositoriesHooks: API.OperationMethod<PatchProjectsLocationsRepositoriesHooksRequest, PatchProjectsLocationsRepositoriesHooksResponse, PatchProjectsLocationsRepositoriesHooksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsRepositoriesHooksRequest,
   output: PatchProjectsLocationsRepositoriesHooksResponse,
   errors: [],
 }));
 
-/** Deletes a Hook. */
 export interface DeleteProjectsLocationsRepositoriesHooksRequest {
   /** Required. Name of the hook to delete. The format is `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/hooks/{hook_id}`. */
   name: string;
@@ -1815,13 +1814,13 @@ export const DeleteProjectsLocationsRepositoriesHooksResponse = Operation;
 
 export type DeleteProjectsLocationsRepositoriesHooksError = CommonErrors;
 
+/** Deletes a Hook. */
 export const deleteProjectsLocationsRepositoriesHooks: API.OperationMethod<DeleteProjectsLocationsRepositoriesHooksRequest, DeleteProjectsLocationsRepositoriesHooksResponse, DeleteProjectsLocationsRepositoriesHooksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsRepositoriesHooksRequest,
   output: DeleteProjectsLocationsRepositoriesHooksResponse,
   errors: [],
 }));
 
-/** CreateBranchRule creates a branch rule in a given repository. */
 export interface CreateProjectsLocationsRepositoriesBranchRulesRequest {
   parent: string;
   branchRuleId?: string;
@@ -1843,13 +1842,13 @@ export const CreateProjectsLocationsRepositoriesBranchRulesResponse = Operation;
 
 export type CreateProjectsLocationsRepositoriesBranchRulesError = CommonErrors;
 
+/** CreateBranchRule creates a branch rule in a given repository. */
 export const createProjectsLocationsRepositoriesBranchRules: API.OperationMethod<CreateProjectsLocationsRepositoriesBranchRulesRequest, CreateProjectsLocationsRepositoriesBranchRulesResponse, CreateProjectsLocationsRepositoriesBranchRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsRepositoriesBranchRulesRequest,
   output: CreateProjectsLocationsRepositoriesBranchRulesResponse,
   errors: [],
 }));
 
-/** ListBranchRules lists branch rules in a given repository. */
 export interface ListProjectsLocationsRepositoriesBranchRulesRequest {
   parent: string;
   /** Optional. Requested page size. If unspecified, a default size of 30 will be used. The maximum value is 100; values above 100 will be coerced to 100. */
@@ -1872,7 +1871,8 @@ export const ListProjectsLocationsRepositoriesBranchRulesResponse = ListBranchRu
 
 export type ListProjectsLocationsRepositoriesBranchRulesError = CommonErrors;
 
-export const listProjectsLocationsRepositoriesBranchRules = API.makePaginated(() => ({
+/** ListBranchRules lists branch rules in a given repository. */
+export const listProjectsLocationsRepositoriesBranchRules: API.PaginatedOperationMethod<ListProjectsLocationsRepositoriesBranchRulesRequest, ListProjectsLocationsRepositoriesBranchRulesResponse, ListProjectsLocationsRepositoriesBranchRulesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRepositoriesBranchRulesRequest,
   output: ListProjectsLocationsRepositoriesBranchRulesResponse,
   errors: [],
@@ -1882,7 +1882,6 @@ export const listProjectsLocationsRepositoriesBranchRules = API.makePaginated(()
   },
 }));
 
-/** GetBranchRule gets a branch rule. */
 export interface GetProjectsLocationsRepositoriesBranchRulesRequest {
   /** Required. Name of the repository to retrieve. The format is `projects/{project}/locations/{location}/repositories/{repository}/branchRules/{branch_rule}`. */
   name: string;
@@ -1900,13 +1899,13 @@ export const GetProjectsLocationsRepositoriesBranchRulesResponse = BranchRule;
 
 export type GetProjectsLocationsRepositoriesBranchRulesError = CommonErrors;
 
+/** GetBranchRule gets a branch rule. */
 export const getProjectsLocationsRepositoriesBranchRules: API.OperationMethod<GetProjectsLocationsRepositoriesBranchRulesRequest, GetProjectsLocationsRepositoriesBranchRulesResponse, GetProjectsLocationsRepositoriesBranchRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRepositoriesBranchRulesRequest,
   output: GetProjectsLocationsRepositoriesBranchRulesResponse,
   errors: [],
 }));
 
-/** UpdateBranchRule updates a branch rule. */
 export interface PatchProjectsLocationsRepositoriesBranchRulesRequest {
   /** Identifier. A unique identifier for a BranchRule. The name should be of the format: `projects/{project}/locations/{location}/repositories/{repository}/branchRules/{branch_rule}` */
   name: string;
@@ -1933,13 +1932,13 @@ export const PatchProjectsLocationsRepositoriesBranchRulesResponse = Operation;
 
 export type PatchProjectsLocationsRepositoriesBranchRulesError = CommonErrors;
 
+/** UpdateBranchRule updates a branch rule. */
 export const patchProjectsLocationsRepositoriesBranchRules: API.OperationMethod<PatchProjectsLocationsRepositoriesBranchRulesRequest, PatchProjectsLocationsRepositoriesBranchRulesResponse, PatchProjectsLocationsRepositoriesBranchRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsRepositoriesBranchRulesRequest,
   output: PatchProjectsLocationsRepositoriesBranchRulesResponse,
   errors: [],
 }));
 
-/** DeleteBranchRule deletes a branch rule. */
 export interface DeleteProjectsLocationsRepositoriesBranchRulesRequest {
   name: string;
   /** Optional. If set to true, and the branch rule is not found, the request will succeed but no action will be taken on the server. */
@@ -1959,13 +1958,13 @@ export const DeleteProjectsLocationsRepositoriesBranchRulesResponse = Operation;
 
 export type DeleteProjectsLocationsRepositoriesBranchRulesError = CommonErrors;
 
+/** DeleteBranchRule deletes a branch rule. */
 export const deleteProjectsLocationsRepositoriesBranchRules: API.OperationMethod<DeleteProjectsLocationsRepositoriesBranchRulesRequest, DeleteProjectsLocationsRepositoriesBranchRulesResponse, DeleteProjectsLocationsRepositoriesBranchRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsRepositoriesBranchRulesRequest,
   output: DeleteProjectsLocationsRepositoriesBranchRulesResponse,
   errors: [],
 }));
 
-/** Creates a pull request. */
 export interface CreateProjectsLocationsRepositoriesPullRequestsRequest {
   /** Required. The repository that the pull request is created from. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}` */
   parent: string;
@@ -1986,13 +1985,13 @@ export const CreateProjectsLocationsRepositoriesPullRequestsResponse = Operation
 
 export type CreateProjectsLocationsRepositoriesPullRequestsError = CommonErrors;
 
+/** Creates a pull request. */
 export const createProjectsLocationsRepositoriesPullRequests: API.OperationMethod<CreateProjectsLocationsRepositoriesPullRequestsRequest, CreateProjectsLocationsRepositoriesPullRequestsResponse, CreateProjectsLocationsRepositoriesPullRequestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsRepositoriesPullRequestsRequest,
   output: CreateProjectsLocationsRepositoriesPullRequestsResponse,
   errors: [],
 }));
 
-/** Gets a pull request. */
 export interface GetProjectsLocationsRepositoriesPullRequestsRequest {
   /** Required. Name of the pull request to retrieve. The format is `projects/{project}/locations/{location}/repositories/{repository}/pullRequests/{pull_request}`. */
   name: string;
@@ -2010,13 +2009,13 @@ export const GetProjectsLocationsRepositoriesPullRequestsResponse = PullRequest;
 
 export type GetProjectsLocationsRepositoriesPullRequestsError = CommonErrors;
 
+/** Gets a pull request. */
 export const getProjectsLocationsRepositoriesPullRequests: API.OperationMethod<GetProjectsLocationsRepositoriesPullRequestsRequest, GetProjectsLocationsRepositoriesPullRequestsResponse, GetProjectsLocationsRepositoriesPullRequestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRepositoriesPullRequestsRequest,
   output: GetProjectsLocationsRepositoriesPullRequestsResponse,
   errors: [],
 }));
 
-/** Lists pull requests in a repository. */
 export interface ListProjectsLocationsRepositoriesPullRequestsRequest {
   /** Required. The repository in which to list pull requests. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}` */
   parent: string;
@@ -2040,7 +2039,8 @@ export const ListProjectsLocationsRepositoriesPullRequestsResponse = ListPullReq
 
 export type ListProjectsLocationsRepositoriesPullRequestsError = CommonErrors;
 
-export const listProjectsLocationsRepositoriesPullRequests = API.makePaginated(() => ({
+/** Lists pull requests in a repository. */
+export const listProjectsLocationsRepositoriesPullRequests: API.PaginatedOperationMethod<ListProjectsLocationsRepositoriesPullRequestsRequest, ListProjectsLocationsRepositoriesPullRequestsResponse, ListProjectsLocationsRepositoriesPullRequestsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRepositoriesPullRequestsRequest,
   output: ListProjectsLocationsRepositoriesPullRequestsResponse,
   errors: [],
@@ -2050,7 +2050,6 @@ export const listProjectsLocationsRepositoriesPullRequests = API.makePaginated((
   },
 }));
 
-/** Updates a pull request. */
 export interface PatchProjectsLocationsRepositoriesPullRequestsRequest {
   /** Output only. Identifier. A unique identifier for a PullRequest. The number appended at the end is generated by the server. Format: `projects/{project}/locations/{location}/repositories/{repository}/pullRequests/{pull_request_id}` */
   name: string;
@@ -2074,13 +2073,13 @@ export const PatchProjectsLocationsRepositoriesPullRequestsResponse = Operation;
 
 export type PatchProjectsLocationsRepositoriesPullRequestsError = CommonErrors;
 
+/** Updates a pull request. */
 export const patchProjectsLocationsRepositoriesPullRequests: API.OperationMethod<PatchProjectsLocationsRepositoriesPullRequestsRequest, PatchProjectsLocationsRepositoriesPullRequestsResponse, PatchProjectsLocationsRepositoriesPullRequestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsRepositoriesPullRequestsRequest,
   output: PatchProjectsLocationsRepositoriesPullRequestsResponse,
   errors: [],
 }));
 
-/** Merges a pull request. */
 export interface MergeProjectsLocationsRepositoriesPullRequestsRequest {
   /** Required. The pull request to merge. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/pullRequests/{pull_request_id}` */
   name: string;
@@ -2101,13 +2100,13 @@ export const MergeProjectsLocationsRepositoriesPullRequestsResponse = Operation;
 
 export type MergeProjectsLocationsRepositoriesPullRequestsError = CommonErrors;
 
+/** Merges a pull request. */
 export const mergeProjectsLocationsRepositoriesPullRequests: API.OperationMethod<MergeProjectsLocationsRepositoriesPullRequestsRequest, MergeProjectsLocationsRepositoriesPullRequestsResponse, MergeProjectsLocationsRepositoriesPullRequestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MergeProjectsLocationsRepositoriesPullRequestsRequest,
   output: MergeProjectsLocationsRepositoriesPullRequestsResponse,
   errors: [],
 }));
 
-/** Opens a pull request. */
 export interface OpenProjectsLocationsRepositoriesPullRequestsRequest {
   /** Required. The pull request to open. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/pullRequests/{pull_request_id}` */
   name: string;
@@ -2128,13 +2127,13 @@ export const OpenProjectsLocationsRepositoriesPullRequestsResponse = Operation;
 
 export type OpenProjectsLocationsRepositoriesPullRequestsError = CommonErrors;
 
+/** Opens a pull request. */
 export const openProjectsLocationsRepositoriesPullRequests: API.OperationMethod<OpenProjectsLocationsRepositoriesPullRequestsRequest, OpenProjectsLocationsRepositoriesPullRequestsResponse, OpenProjectsLocationsRepositoriesPullRequestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: OpenProjectsLocationsRepositoriesPullRequestsRequest,
   output: OpenProjectsLocationsRepositoriesPullRequestsResponse,
   errors: [],
 }));
 
-/** Closes a pull request without merging. */
 export interface CloseProjectsLocationsRepositoriesPullRequestsRequest {
   /** Required. The pull request to close. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/pullRequests/{pull_request_id}` */
   name: string;
@@ -2155,13 +2154,13 @@ export const CloseProjectsLocationsRepositoriesPullRequestsResponse = Operation;
 
 export type CloseProjectsLocationsRepositoriesPullRequestsError = CommonErrors;
 
+/** Closes a pull request without merging. */
 export const closeProjectsLocationsRepositoriesPullRequests: API.OperationMethod<CloseProjectsLocationsRepositoriesPullRequestsRequest, CloseProjectsLocationsRepositoriesPullRequestsResponse, CloseProjectsLocationsRepositoriesPullRequestsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CloseProjectsLocationsRepositoriesPullRequestsRequest,
   output: CloseProjectsLocationsRepositoriesPullRequestsResponse,
   errors: [],
 }));
 
-/** Lists a pull request's file diffs. */
 export interface ListFileDiffsProjectsLocationsRepositoriesPullRequestsRequest {
   /** Required. The pull request to list file diffs for. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/pullRequests/{pull_request_id}` */
   name: string;
@@ -2185,7 +2184,8 @@ export const ListFileDiffsProjectsLocationsRepositoriesPullRequestsResponse = Li
 
 export type ListFileDiffsProjectsLocationsRepositoriesPullRequestsError = CommonErrors;
 
-export const listFileDiffsProjectsLocationsRepositoriesPullRequests = API.makePaginated(() => ({
+/** Lists a pull request's file diffs. */
+export const listFileDiffsProjectsLocationsRepositoriesPullRequests: API.PaginatedOperationMethod<ListFileDiffsProjectsLocationsRepositoriesPullRequestsRequest, ListFileDiffsProjectsLocationsRepositoriesPullRequestsResponse, ListFileDiffsProjectsLocationsRepositoriesPullRequestsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFileDiffsProjectsLocationsRepositoriesPullRequestsRequest,
   output: ListFileDiffsProjectsLocationsRepositoriesPullRequestsResponse,
   errors: [],
@@ -2195,7 +2195,6 @@ export const listFileDiffsProjectsLocationsRepositoriesPullRequests = API.makePa
   },
 }));
 
-/** Gets a pull request comment. */
 export interface GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest {
   /** Required. Name of the pull request comment to retrieve. The format is `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/pullRequests/{pull_request_id}/pullRequestComments/{comment_id}`. */
   name: string;
@@ -2213,13 +2212,13 @@ export const GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResp
 
 export type GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError = CommonErrors;
 
+/** Gets a pull request comment. */
 export const getProjectsLocationsRepositoriesPullRequestsPullRequestComments: API.OperationMethod<GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest, GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse, GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest,
   output: GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
   errors: [],
 }));
 
-/** Lists pull request comments. */
 export interface ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest {
   /** Required. The pull request in which to list pull request comments. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/pullRequests/{pull_request_id}` */
   parent: string;
@@ -2243,7 +2242,8 @@ export const ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRes
 
 export type ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError = CommonErrors;
 
-export const listProjectsLocationsRepositoriesPullRequestsPullRequestComments = API.makePaginated(() => ({
+/** Lists pull request comments. */
+export const listProjectsLocationsRepositoriesPullRequestsPullRequestComments: API.PaginatedOperationMethod<ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest, ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse, ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest,
   output: ListProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
   errors: [],
@@ -2253,7 +2253,6 @@ export const listProjectsLocationsRepositoriesPullRequestsPullRequestComments = 
   },
 }));
 
-/** Creates a pull request comment. This function is used to create a single PullRequestComment of type Comment, or a single PullRequestComment of type Code that's replying to another PullRequestComment of type Code. Use BatchCreatePullRequestComments to create multiple PullRequestComments for code reviews. */
 export interface CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest {
   /** Required. The pull request in which to create the pull request comment. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/pullRequests/{pull_request_id}` */
   parent: string;
@@ -2274,13 +2273,13 @@ export const CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsR
 
 export type CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError = CommonErrors;
 
+/** Creates a pull request comment. This function is used to create a single PullRequestComment of type Comment, or a single PullRequestComment of type Code that's replying to another PullRequestComment of type Code. Use BatchCreatePullRequestComments to create multiple PullRequestComments for code reviews. */
 export const createProjectsLocationsRepositoriesPullRequestsPullRequestComments: API.OperationMethod<CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest, CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse, CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest,
   output: CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
   errors: [],
 }));
 
-/** Updates a pull request comment. */
 export interface PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest {
   /** Identifier. Unique identifier for the pull request comment. The comment id is generated by the server. Format: `projects/{project}/locations/{location}/repositories/{repository}/pullRequests/{pull_request}/pullRequestComments/{comment_id}` */
   name: string;
@@ -2304,13 +2303,13 @@ export const PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRe
 
 export type PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError = CommonErrors;
 
+/** Updates a pull request comment. */
 export const patchProjectsLocationsRepositoriesPullRequestsPullRequestComments: API.OperationMethod<PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest, PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse, PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest,
   output: PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
   errors: [],
 }));
 
-/** Deletes a pull request comment. */
 export interface DeleteProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest {
   /** Required. Name of the pull request comment to delete. The format is `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/pullRequests/{pull_request_id}/pullRequestComments/{comment_id}`. */
   name: string;
@@ -2328,13 +2327,13 @@ export const DeleteProjectsLocationsRepositoriesPullRequestsPullRequestCommentsR
 
 export type DeleteProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError = CommonErrors;
 
+/** Deletes a pull request comment. */
 export const deleteProjectsLocationsRepositoriesPullRequestsPullRequestComments: API.OperationMethod<DeleteProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest, DeleteProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse, DeleteProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest,
   output: DeleteProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
   errors: [],
 }));
 
-/** Batch creates pull request comments. This function is used to create multiple PullRequestComments for code review. There needs to be exactly one PullRequestComment of type Review, and at most 100 PullRequestComments of type Code per request. The Position of the code comments must be unique within the request. */
 export interface BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest {
   /** Required. The pull request in which to create the pull request comments. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/pullRequests/{pull_request_id}` */
   parent: string;
@@ -2355,13 +2354,13 @@ export const BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestComm
 
 export type BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError = CommonErrors;
 
+/** Batch creates pull request comments. This function is used to create multiple PullRequestComments for code review. There needs to be exactly one PullRequestComment of type Review, and at most 100 PullRequestComments of type Code per request. The Position of the code comments must be unique within the request. */
 export const batchCreateProjectsLocationsRepositoriesPullRequestsPullRequestComments: API.OperationMethod<BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest, BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse, BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest,
   output: BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
   errors: [],
 }));
 
-/** Resolves pull request comments. A list of PullRequestComment names must be provided. The PullRequestComment names must be in the same conversation thread. If auto_fill is set, all comments in the conversation thread will be resolved. */
 export interface ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest {
   /** Required. The pull request in which to resolve the pull request comments. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/pullRequests/{pull_request_id}` */
   parent: string;
@@ -2382,13 +2381,13 @@ export const ResolveProjectsLocationsRepositoriesPullRequestsPullRequestComments
 
 export type ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError = CommonErrors;
 
+/** Resolves pull request comments. A list of PullRequestComment names must be provided. The PullRequestComment names must be in the same conversation thread. If auto_fill is set, all comments in the conversation thread will be resolved. */
 export const resolveProjectsLocationsRepositoriesPullRequestsPullRequestComments: API.OperationMethod<ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest, ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse, ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest,
   output: ResolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
   errors: [],
 }));
 
-/** Unresolves pull request comments. A list of PullRequestComment names must be provided. The PullRequestComment names must be in the same conversation thread. If auto_fill is set, all comments in the conversation thread will be unresolved. */
 export interface UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest {
   /** Required. The pull request in which to resolve the pull request comments. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/pullRequests/{pull_request_id}` */
   parent: string;
@@ -2409,13 +2408,13 @@ export const UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommen
 
 export type UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError = CommonErrors;
 
+/** Unresolves pull request comments. A list of PullRequestComment names must be provided. The PullRequestComment names must be in the same conversation thread. If auto_fill is set, all comments in the conversation thread will be unresolved. */
 export const unresolveProjectsLocationsRepositoriesPullRequestsPullRequestComments: API.OperationMethod<UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest, UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse, UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsRequest,
   output: UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommentsResponse,
   errors: [],
 }));
 
-/** Creates an issue. */
 export interface CreateProjectsLocationsRepositoriesIssuesRequest {
   /** Required. The repository in which to create the issue. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}` */
   parent: string;
@@ -2436,13 +2435,13 @@ export const CreateProjectsLocationsRepositoriesIssuesResponse = Operation;
 
 export type CreateProjectsLocationsRepositoriesIssuesError = CommonErrors;
 
+/** Creates an issue. */
 export const createProjectsLocationsRepositoriesIssues: API.OperationMethod<CreateProjectsLocationsRepositoriesIssuesRequest, CreateProjectsLocationsRepositoriesIssuesResponse, CreateProjectsLocationsRepositoriesIssuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsRepositoriesIssuesRequest,
   output: CreateProjectsLocationsRepositoriesIssuesResponse,
   errors: [],
 }));
 
-/** Gets an issue. */
 export interface GetProjectsLocationsRepositoriesIssuesRequest {
   /** Required. Name of the issue to retrieve. The format is `projects/{project}/locations/{location}/repositories/{repository}/issues/{issue_id}`. */
   name: string;
@@ -2460,13 +2459,13 @@ export const GetProjectsLocationsRepositoriesIssuesResponse = Issue;
 
 export type GetProjectsLocationsRepositoriesIssuesError = CommonErrors;
 
+/** Gets an issue. */
 export const getProjectsLocationsRepositoriesIssues: API.OperationMethod<GetProjectsLocationsRepositoriesIssuesRequest, GetProjectsLocationsRepositoriesIssuesResponse, GetProjectsLocationsRepositoriesIssuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRepositoriesIssuesRequest,
   output: GetProjectsLocationsRepositoriesIssuesResponse,
   errors: [],
 }));
 
-/** Lists issues in a repository. */
 export interface ListProjectsLocationsRepositoriesIssuesRequest {
   /** Required. The repository in which to list issues. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}` */
   parent: string;
@@ -2493,7 +2492,8 @@ export const ListProjectsLocationsRepositoriesIssuesResponse = ListIssuesRespons
 
 export type ListProjectsLocationsRepositoriesIssuesError = CommonErrors;
 
-export const listProjectsLocationsRepositoriesIssues = API.makePaginated(() => ({
+/** Lists issues in a repository. */
+export const listProjectsLocationsRepositoriesIssues: API.PaginatedOperationMethod<ListProjectsLocationsRepositoriesIssuesRequest, ListProjectsLocationsRepositoriesIssuesResponse, ListProjectsLocationsRepositoriesIssuesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRepositoriesIssuesRequest,
   output: ListProjectsLocationsRepositoriesIssuesResponse,
   errors: [],
@@ -2503,7 +2503,6 @@ export const listProjectsLocationsRepositoriesIssues = API.makePaginated(() => (
   },
 }));
 
-/** Updates a issue. */
 export interface PatchProjectsLocationsRepositoriesIssuesRequest {
   /** Identifier. Unique identifier for an issue. The issue id is generated by the server. Format: `projects/{project}/locations/{location}/repositories/{repository}/issues/{issue_id}` */
   name: string;
@@ -2527,13 +2526,13 @@ export const PatchProjectsLocationsRepositoriesIssuesResponse = Operation;
 
 export type PatchProjectsLocationsRepositoriesIssuesError = CommonErrors;
 
+/** Updates a issue. */
 export const patchProjectsLocationsRepositoriesIssues: API.OperationMethod<PatchProjectsLocationsRepositoriesIssuesRequest, PatchProjectsLocationsRepositoriesIssuesResponse, PatchProjectsLocationsRepositoriesIssuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsRepositoriesIssuesRequest,
   output: PatchProjectsLocationsRepositoriesIssuesResponse,
   errors: [],
 }));
 
-/** Deletes an issue. */
 export interface DeleteProjectsLocationsRepositoriesIssuesRequest {
   /** Required. Name of the issue to delete. The format is `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/issues/{issue_id}`. */
   name: string;
@@ -2554,13 +2553,13 @@ export const DeleteProjectsLocationsRepositoriesIssuesResponse = Operation;
 
 export type DeleteProjectsLocationsRepositoriesIssuesError = CommonErrors;
 
+/** Deletes an issue. */
 export const deleteProjectsLocationsRepositoriesIssues: API.OperationMethod<DeleteProjectsLocationsRepositoriesIssuesRequest, DeleteProjectsLocationsRepositoriesIssuesResponse, DeleteProjectsLocationsRepositoriesIssuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsRepositoriesIssuesRequest,
   output: DeleteProjectsLocationsRepositoriesIssuesResponse,
   errors: [],
 }));
 
-/** Opens an issue. */
 export interface OpenProjectsLocationsRepositoriesIssuesRequest {
   /** Required. Name of the issue to open. The format is `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/issues/{issue_id}`. */
   name: string;
@@ -2581,13 +2580,13 @@ export const OpenProjectsLocationsRepositoriesIssuesResponse = Operation;
 
 export type OpenProjectsLocationsRepositoriesIssuesError = CommonErrors;
 
+/** Opens an issue. */
 export const openProjectsLocationsRepositoriesIssues: API.OperationMethod<OpenProjectsLocationsRepositoriesIssuesRequest, OpenProjectsLocationsRepositoriesIssuesResponse, OpenProjectsLocationsRepositoriesIssuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: OpenProjectsLocationsRepositoriesIssuesRequest,
   output: OpenProjectsLocationsRepositoriesIssuesResponse,
   errors: [],
 }));
 
-/** Closes an issue. */
 export interface CloseProjectsLocationsRepositoriesIssuesRequest {
   /** Required. Name of the issue to close. The format is `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/issues/{issue_id}`. */
   name: string;
@@ -2608,13 +2607,13 @@ export const CloseProjectsLocationsRepositoriesIssuesResponse = Operation;
 
 export type CloseProjectsLocationsRepositoriesIssuesError = CommonErrors;
 
+/** Closes an issue. */
 export const closeProjectsLocationsRepositoriesIssues: API.OperationMethod<CloseProjectsLocationsRepositoriesIssuesRequest, CloseProjectsLocationsRepositoriesIssuesResponse, CloseProjectsLocationsRepositoriesIssuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CloseProjectsLocationsRepositoriesIssuesRequest,
   output: CloseProjectsLocationsRepositoriesIssuesResponse,
   errors: [],
 }));
 
-/** Creates an issue comment. */
 export interface CreateProjectsLocationsRepositoriesIssuesIssueCommentsRequest {
   /** Required. The issue in which to create the issue comment. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/issues/{issue_id}` */
   parent: string;
@@ -2635,13 +2634,13 @@ export const CreateProjectsLocationsRepositoriesIssuesIssueCommentsResponse = Op
 
 export type CreateProjectsLocationsRepositoriesIssuesIssueCommentsError = CommonErrors;
 
+/** Creates an issue comment. */
 export const createProjectsLocationsRepositoriesIssuesIssueComments: API.OperationMethod<CreateProjectsLocationsRepositoriesIssuesIssueCommentsRequest, CreateProjectsLocationsRepositoriesIssuesIssueCommentsResponse, CreateProjectsLocationsRepositoriesIssuesIssueCommentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsRepositoriesIssuesIssueCommentsRequest,
   output: CreateProjectsLocationsRepositoriesIssuesIssueCommentsResponse,
   errors: [],
 }));
 
-/** Gets an issue comment. */
 export interface GetProjectsLocationsRepositoriesIssuesIssueCommentsRequest {
   /** Required. Name of the issue comment to retrieve. The format is `projects/{project}/locations/{location}/repositories/{repository}/issues/{issue_id}/issueComments/{comment_id}`. */
   name: string;
@@ -2659,13 +2658,13 @@ export const GetProjectsLocationsRepositoriesIssuesIssueCommentsResponse = Issue
 
 export type GetProjectsLocationsRepositoriesIssuesIssueCommentsError = CommonErrors;
 
+/** Gets an issue comment. */
 export const getProjectsLocationsRepositoriesIssuesIssueComments: API.OperationMethod<GetProjectsLocationsRepositoriesIssuesIssueCommentsRequest, GetProjectsLocationsRepositoriesIssuesIssueCommentsResponse, GetProjectsLocationsRepositoriesIssuesIssueCommentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRepositoriesIssuesIssueCommentsRequest,
   output: GetProjectsLocationsRepositoriesIssuesIssueCommentsResponse,
   errors: [],
 }));
 
-/** Lists comments in an issue. */
 export interface ListProjectsLocationsRepositoriesIssuesIssueCommentsRequest {
   /** Required. The issue in which to list the comments. Format: `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/issues/{issue_id}` */
   parent: string;
@@ -2689,7 +2688,8 @@ export const ListProjectsLocationsRepositoriesIssuesIssueCommentsResponse = List
 
 export type ListProjectsLocationsRepositoriesIssuesIssueCommentsError = CommonErrors;
 
-export const listProjectsLocationsRepositoriesIssuesIssueComments = API.makePaginated(() => ({
+/** Lists comments in an issue. */
+export const listProjectsLocationsRepositoriesIssuesIssueComments: API.PaginatedOperationMethod<ListProjectsLocationsRepositoriesIssuesIssueCommentsRequest, ListProjectsLocationsRepositoriesIssuesIssueCommentsResponse, ListProjectsLocationsRepositoriesIssuesIssueCommentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRepositoriesIssuesIssueCommentsRequest,
   output: ListProjectsLocationsRepositoriesIssuesIssueCommentsResponse,
   errors: [],
@@ -2699,7 +2699,6 @@ export const listProjectsLocationsRepositoriesIssuesIssueComments = API.makePagi
   },
 }));
 
-/** Updates an issue comment. */
 export interface PatchProjectsLocationsRepositoriesIssuesIssueCommentsRequest {
   /** Identifier. Unique identifier for an issue comment. The comment id is generated by the server. Format: `projects/{project}/locations/{location}/repositories/{repository}/issues/{issue}/issueComments/{comment_id}` */
   name: string;
@@ -2723,13 +2722,13 @@ export const PatchProjectsLocationsRepositoriesIssuesIssueCommentsResponse = Ope
 
 export type PatchProjectsLocationsRepositoriesIssuesIssueCommentsError = CommonErrors;
 
+/** Updates an issue comment. */
 export const patchProjectsLocationsRepositoriesIssuesIssueComments: API.OperationMethod<PatchProjectsLocationsRepositoriesIssuesIssueCommentsRequest, PatchProjectsLocationsRepositoriesIssuesIssueCommentsResponse, PatchProjectsLocationsRepositoriesIssuesIssueCommentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsRepositoriesIssuesIssueCommentsRequest,
   output: PatchProjectsLocationsRepositoriesIssuesIssueCommentsResponse,
   errors: [],
 }));
 
-/** Deletes an issue comment. */
 export interface DeleteProjectsLocationsRepositoriesIssuesIssueCommentsRequest {
   /** Required. Name of the issue comment to delete. The format is `projects/{project_number}/locations/{location_id}/repositories/{repository_id}/issues/{issue_id}/issueComments/{comment_id}`. */
   name: string;
@@ -2747,6 +2746,7 @@ export const DeleteProjectsLocationsRepositoriesIssuesIssueCommentsResponse = Op
 
 export type DeleteProjectsLocationsRepositoriesIssuesIssueCommentsError = CommonErrors;
 
+/** Deletes an issue comment. */
 export const deleteProjectsLocationsRepositoriesIssuesIssueComments: API.OperationMethod<DeleteProjectsLocationsRepositoriesIssuesIssueCommentsRequest, DeleteProjectsLocationsRepositoriesIssuesIssueCommentsResponse, DeleteProjectsLocationsRepositoriesIssuesIssueCommentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsRepositoriesIssuesIssueCommentsRequest,
   output: DeleteProjectsLocationsRepositoriesIssuesIssueCommentsResponse,

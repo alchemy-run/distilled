@@ -435,7 +435,6 @@ export const PostUserInfosList: Schema.Schema<PostUserInfosList> = Schema.suspen
 // Operations
 // ==========================================================================
 
-/** Marks a comment as not spam by blog id, post id and comment id. */
 export interface ApproveCommentsRequest {
   blogId: string;
   postId: string;
@@ -456,13 +455,13 @@ export const ApproveCommentsResponse = Comment;
 
 export type ApproveCommentsError = CommonErrors;
 
+/** Marks a comment as not spam by blog id, post id and comment id. */
 export const approveComments: API.OperationMethod<ApproveCommentsRequest, ApproveCommentsResponse, ApproveCommentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ApproveCommentsRequest,
   output: ApproveCommentsResponse,
   errors: [],
 }));
 
-/** Deletes a comment by blog id, post id and comment id. */
 export interface DeleteCommentsRequest {
   blogId: string;
   postId: string;
@@ -483,13 +482,13 @@ export const DeleteCommentsResponse: Schema.Schema<DeleteCommentsResponse> = Sch
 
 export type DeleteCommentsError = CommonErrors;
 
+/** Deletes a comment by blog id, post id and comment id. */
 export const deleteComments: API.OperationMethod<DeleteCommentsRequest, DeleteCommentsResponse, DeleteCommentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteCommentsRequest,
   output: DeleteCommentsResponse,
   errors: [],
 }));
 
-/** Gets a comment by id. */
 export interface GetCommentsRequest {
   blogId: string;
   postId: string;
@@ -512,13 +511,13 @@ export const GetCommentsResponse = Comment;
 
 export type GetCommentsError = CommonErrors;
 
+/** Gets a comment by id. */
 export const getComments: API.OperationMethod<GetCommentsRequest, GetCommentsResponse, GetCommentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCommentsRequest,
   output: GetCommentsResponse,
   errors: [],
 }));
 
-/** Lists comments. */
 export interface ListCommentsRequest {
   blogId: string;
   postId: string;
@@ -551,7 +550,8 @@ export const ListCommentsResponse = CommentList;
 
 export type ListCommentsError = CommonErrors;
 
-export const listComments = API.makePaginated(() => ({
+/** Lists comments. */
+export const listComments: API.PaginatedOperationMethod<ListCommentsRequest, ListCommentsResponse, ListCommentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCommentsRequest,
   output: ListCommentsResponse,
   errors: [],
@@ -562,7 +562,6 @@ export const listComments = API.makePaginated(() => ({
   },
 }));
 
-/** Lists comments by blog. */
 export interface ListByBlogCommentsRequest {
   blogId: string;
   startDate?: string;
@@ -591,7 +590,8 @@ export const ListByBlogCommentsResponse = CommentList;
 
 export type ListByBlogCommentsError = CommonErrors;
 
-export const listByBlogComments = API.makePaginated(() => ({
+/** Lists comments by blog. */
+export const listByBlogComments: API.PaginatedOperationMethod<ListByBlogCommentsRequest, ListByBlogCommentsResponse, ListByBlogCommentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListByBlogCommentsRequest,
   output: ListByBlogCommentsResponse,
   errors: [],
@@ -602,7 +602,6 @@ export const listByBlogComments = API.makePaginated(() => ({
   },
 }));
 
-/** Marks a comment as spam by blog id, post id and comment id. */
 export interface MarkAsSpamCommentsRequest {
   blogId: string;
   postId: string;
@@ -623,13 +622,13 @@ export const MarkAsSpamCommentsResponse = Comment;
 
 export type MarkAsSpamCommentsError = CommonErrors;
 
+/** Marks a comment as spam by blog id, post id and comment id. */
 export const markAsSpamComments: API.OperationMethod<MarkAsSpamCommentsRequest, MarkAsSpamCommentsResponse, MarkAsSpamCommentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MarkAsSpamCommentsRequest,
   output: MarkAsSpamCommentsResponse,
   errors: [],
 }));
 
-/** Removes the content of a comment by blog id, post id and comment id. */
 export interface RemoveContentCommentsRequest {
   blogId: string;
   postId: string;
@@ -650,13 +649,13 @@ export const RemoveContentCommentsResponse = Comment;
 
 export type RemoveContentCommentsError = CommonErrors;
 
+/** Removes the content of a comment by blog id, post id and comment id. */
 export const removeContentComments: API.OperationMethod<RemoveContentCommentsRequest, RemoveContentCommentsResponse, RemoveContentCommentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveContentCommentsRequest,
   output: RemoveContentCommentsResponse,
   errors: [],
 }));
 
-/** Deletes a page by blog id and page id. */
 export interface DeletePagesRequest {
   blogId: string;
   pageId: string;
@@ -678,13 +677,13 @@ export const DeletePagesResponse: Schema.Schema<DeletePagesResponse> = Schema.St
 
 export type DeletePagesError = CommonErrors;
 
+/** Deletes a page by blog id and page id. */
 export const deletePages: API.OperationMethod<DeletePagesRequest, DeletePagesResponse, DeletePagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeletePagesRequest,
   output: DeletePagesResponse,
   errors: [],
 }));
 
-/** Gets a page by blog id and page id. */
 export interface GetPagesRequest {
   blogId: string;
   pageId: string;
@@ -705,13 +704,13 @@ export const GetPagesResponse = Page;
 
 export type GetPagesError = CommonErrors;
 
+/** Gets a page by blog id and page id. */
 export const getPages: API.OperationMethod<GetPagesRequest, GetPagesResponse, GetPagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPagesRequest,
   output: GetPagesResponse,
   errors: [],
 }));
 
-/** Inserts a page. */
 export interface InsertPagesRequest {
   blogId: string;
   isDraft?: boolean;
@@ -733,13 +732,13 @@ export const InsertPagesResponse = Page;
 
 export type InsertPagesError = CommonErrors;
 
+/** Inserts a page. */
 export const insertPages: API.OperationMethod<InsertPagesRequest, InsertPagesResponse, InsertPagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertPagesRequest,
   output: InsertPagesResponse,
   errors: [],
 }));
 
-/** Lists pages. */
 export interface ListPagesRequest {
   blogId: string;
   fetchBodies?: boolean;
@@ -766,7 +765,8 @@ export const ListPagesResponse = PageList;
 
 export type ListPagesError = CommonErrors;
 
-export const listPages = API.makePaginated(() => ({
+/** Lists pages. */
+export const listPages: API.PaginatedOperationMethod<ListPagesRequest, ListPagesResponse, ListPagesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPagesRequest,
   output: ListPagesResponse,
   errors: [],
@@ -777,7 +777,6 @@ export const listPages = API.makePaginated(() => ({
   },
 }));
 
-/** Patches a page. */
 export interface PatchPagesRequest {
   blogId: string;
   pageId: string;
@@ -803,13 +802,13 @@ export const PatchPagesResponse = Page;
 
 export type PatchPagesError = CommonErrors;
 
+/** Patches a page. */
 export const patchPages: API.OperationMethod<PatchPagesRequest, PatchPagesResponse, PatchPagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchPagesRequest,
   output: PatchPagesResponse,
   errors: [],
 }));
 
-/** Publishes a page. */
 export interface PublishPagesRequest {
   blogId: string;
   pageId: string;
@@ -828,13 +827,13 @@ export const PublishPagesResponse = Page;
 
 export type PublishPagesError = CommonErrors;
 
+/** Publishes a page. */
 export const publishPages: API.OperationMethod<PublishPagesRequest, PublishPagesResponse, PublishPagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PublishPagesRequest,
   output: PublishPagesResponse,
   errors: [],
 }));
 
-/** Reverts a published or scheduled page to draft state. */
 export interface RevertPagesRequest {
   blogId: string;
   pageId: string;
@@ -853,13 +852,13 @@ export const RevertPagesResponse = Page;
 
 export type RevertPagesError = CommonErrors;
 
+/** Reverts a published or scheduled page to draft state. */
 export const revertPages: API.OperationMethod<RevertPagesRequest, RevertPagesResponse, RevertPagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RevertPagesRequest,
   output: RevertPagesResponse,
   errors: [],
 }));
 
-/** Updates a page by blog id and page id. */
 export interface UpdatePagesRequest {
   blogId: string;
   pageId: string;
@@ -885,13 +884,13 @@ export const UpdatePagesResponse = Page;
 
 export type UpdatePagesError = CommonErrors;
 
+/** Updates a page by blog id and page id. */
 export const updatePages: API.OperationMethod<UpdatePagesRequest, UpdatePagesResponse, UpdatePagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdatePagesRequest,
   output: UpdatePagesResponse,
   errors: [],
 }));
 
-/** Deletes a post by blog id and post id. */
 export interface DeletePostsRequest {
   blogId: string;
   postId: string;
@@ -913,13 +912,13 @@ export const DeletePostsResponse: Schema.Schema<DeletePostsResponse> = Schema.St
 
 export type DeletePostsError = CommonErrors;
 
+/** Deletes a post by blog id and post id. */
 export const deletePosts: API.OperationMethod<DeletePostsRequest, DeletePostsResponse, DeletePostsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeletePostsRequest,
   output: DeletePostsResponse,
   errors: [],
 }));
 
-/** Gets a post by blog id and post id */
 export interface GetPostsRequest {
   blogId: string;
   postId: string;
@@ -946,13 +945,13 @@ export const GetPostsResponse = Post;
 
 export type GetPostsError = CommonErrors;
 
+/** Gets a post by blog id and post id */
 export const getPosts: API.OperationMethod<GetPostsRequest, GetPostsResponse, GetPostsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPostsRequest,
   output: GetPostsResponse,
   errors: [],
 }));
 
-/** Gets a post by path. */
 export interface GetByPathPostsRequest {
   blogId: string;
   path: string;
@@ -975,13 +974,13 @@ export const GetByPathPostsResponse = Post;
 
 export type GetByPathPostsError = CommonErrors;
 
+/** Gets a post by path. */
 export const getByPathPosts: API.OperationMethod<GetByPathPostsRequest, GetByPathPostsResponse, GetByPathPostsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetByPathPostsRequest,
   output: GetByPathPostsResponse,
   errors: [],
 }));
 
-/** Inserts a post. */
 export interface InsertPostsRequest {
   blogId: string;
   fetchBody?: boolean;
@@ -1007,13 +1006,13 @@ export const InsertPostsResponse = Post;
 
 export type InsertPostsError = CommonErrors;
 
+/** Inserts a post. */
 export const insertPosts: API.OperationMethod<InsertPostsRequest, InsertPostsResponse, InsertPostsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertPostsRequest,
   output: InsertPostsResponse,
   errors: [],
 }));
 
-/** Lists posts. */
 export interface ListPostsRequest {
   blogId: string;
   endDate?: string;
@@ -1053,7 +1052,8 @@ export const ListPostsResponse = PostList;
 
 export type ListPostsError = CommonErrors;
 
-export const listPosts = API.makePaginated(() => ({
+/** Lists posts. */
+export const listPosts: API.PaginatedOperationMethod<ListPostsRequest, ListPostsResponse, ListPostsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPostsRequest,
   output: ListPostsResponse,
   errors: [],
@@ -1064,7 +1064,6 @@ export const listPosts = API.makePaginated(() => ({
   },
 }));
 
-/** Patches a post. */
 export interface PatchPostsRequest {
   blogId: string;
   postId: string;
@@ -1096,13 +1095,13 @@ export const PatchPostsResponse = Post;
 
 export type PatchPostsError = CommonErrors;
 
+/** Patches a post. */
 export const patchPosts: API.OperationMethod<PatchPostsRequest, PatchPostsResponse, PatchPostsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchPostsRequest,
   output: PatchPostsResponse,
   errors: [],
 }));
 
-/** Publishes a post. */
 export interface PublishPostsRequest {
   blogId: string;
   postId: string;
@@ -1123,13 +1122,13 @@ export const PublishPostsResponse = Post;
 
 export type PublishPostsError = CommonErrors;
 
+/** Publishes a post. */
 export const publishPosts: API.OperationMethod<PublishPostsRequest, PublishPostsResponse, PublishPostsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PublishPostsRequest,
   output: PublishPostsResponse,
   errors: [],
 }));
 
-/** Reverts a published or scheduled post to draft state. */
 export interface RevertPostsRequest {
   blogId: string;
   postId: string;
@@ -1148,13 +1147,13 @@ export const RevertPostsResponse = Post;
 
 export type RevertPostsError = CommonErrors;
 
+/** Reverts a published or scheduled post to draft state. */
 export const revertPosts: API.OperationMethod<RevertPostsRequest, RevertPostsResponse, RevertPostsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RevertPostsRequest,
   output: RevertPostsResponse,
   errors: [],
 }));
 
-/** Searches for posts matching given query terms in the specified blog. */
 export interface SearchPostsRequest {
   blogId: string;
   q: string;
@@ -1177,13 +1176,13 @@ export const SearchPostsResponse = PostList;
 
 export type SearchPostsError = CommonErrors;
 
+/** Searches for posts matching given query terms in the specified blog. */
 export const searchPosts: API.OperationMethod<SearchPostsRequest, SearchPostsResponse, SearchPostsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchPostsRequest,
   output: SearchPostsResponse,
   errors: [],
 }));
 
-/** Updates a post by blog id and post id. */
 export interface UpdatePostsRequest {
   blogId: string;
   postId: string;
@@ -1215,13 +1214,13 @@ export const UpdatePostsResponse = Post;
 
 export type UpdatePostsError = CommonErrors;
 
+/** Updates a post by blog id and post id. */
 export const updatePosts: API.OperationMethod<UpdatePostsRequest, UpdatePostsResponse, UpdatePostsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdatePostsRequest,
   output: UpdatePostsResponse,
   errors: [],
 }));
 
-/** Gets a blog by id. */
 export interface GetBlogsRequest {
   blogId: string;
   maxPosts?: number;
@@ -1242,13 +1241,13 @@ export const GetBlogsResponse = Blog;
 
 export type GetBlogsError = CommonErrors;
 
+/** Gets a blog by id. */
 export const getBlogs: API.OperationMethod<GetBlogsRequest, GetBlogsResponse, GetBlogsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBlogsRequest,
   output: GetBlogsResponse,
   errors: [],
 }));
 
-/** Gets a blog by url. */
 export interface GetByUrlBlogsRequest {
   url: string;
   view?: "VIEW_TYPE_UNSPECIFIED" | "READER" | "AUTHOR" | "ADMIN" | (string & {});
@@ -1267,13 +1266,13 @@ export const GetByUrlBlogsResponse = Blog;
 
 export type GetByUrlBlogsError = CommonErrors;
 
+/** Gets a blog by url. */
 export const getByUrlBlogs: API.OperationMethod<GetByUrlBlogsRequest, GetByUrlBlogsResponse, GetByUrlBlogsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetByUrlBlogsRequest,
   output: GetByUrlBlogsResponse,
   errors: [],
 }));
 
-/** Lists blogs by user. */
 export interface ListByUserBlogsRequest {
   userId: string;
   fetchUserInfo?: boolean;
@@ -1299,13 +1298,13 @@ export const ListByUserBlogsResponse = BlogList;
 
 export type ListByUserBlogsError = CommonErrors;
 
+/** Lists blogs by user. */
 export const listByUserBlogs: API.OperationMethod<ListByUserBlogsRequest, ListByUserBlogsResponse, ListByUserBlogsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListByUserBlogsRequest,
   output: ListByUserBlogsResponse,
   errors: [],
 }));
 
-/** Gets one blog and user info pair by blog id and user id. */
 export interface GetBlogUserInfosRequest {
   userId: string;
   blogId: string;
@@ -1326,13 +1325,13 @@ export const GetBlogUserInfosResponse = BlogUserInfo;
 
 export type GetBlogUserInfosError = CommonErrors;
 
+/** Gets one blog and user info pair by blog id and user id. */
 export const getBlogUserInfos: API.OperationMethod<GetBlogUserInfosRequest, GetBlogUserInfosResponse, GetBlogUserInfosError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBlogUserInfosRequest,
   output: GetBlogUserInfosResponse,
   errors: [],
 }));
 
-/** Gets page views by blog id. */
 export interface GetPageViewsRequest {
   blogId: string;
   range?: "all" | "30DAYS" | "7DAYS" | (string & {})[];
@@ -1351,13 +1350,13 @@ export const GetPageViewsResponse = Pageviews;
 
 export type GetPageViewsError = CommonErrors;
 
+/** Gets page views by blog id. */
 export const getPageViews: API.OperationMethod<GetPageViewsRequest, GetPageViewsResponse, GetPageViewsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPageViewsRequest,
   output: GetPageViewsResponse,
   errors: [],
 }));
 
-/** Gets one post and user info pair, by post_id and user_id. */
 export interface GetPostUserInfosRequest {
   userId: string;
   blogId: string;
@@ -1380,13 +1379,13 @@ export const GetPostUserInfosResponse = PostUserInfo;
 
 export type GetPostUserInfosError = CommonErrors;
 
+/** Gets one post and user info pair, by post_id and user_id. */
 export const getPostUserInfos: API.OperationMethod<GetPostUserInfosRequest, GetPostUserInfosResponse, GetPostUserInfosError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPostUserInfosRequest,
   output: GetPostUserInfosResponse,
   errors: [],
 }));
 
-/** Lists post and user info pairs. */
 export interface ListPostUserInfosRequest {
   userId: string;
   blogId: string;
@@ -1423,7 +1422,8 @@ export const ListPostUserInfosResponse = PostUserInfosList;
 
 export type ListPostUserInfosError = CommonErrors;
 
-export const listPostUserInfos = API.makePaginated(() => ({
+/** Lists post and user info pairs. */
+export const listPostUserInfos: API.PaginatedOperationMethod<ListPostUserInfosRequest, ListPostUserInfosResponse, ListPostUserInfosError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPostUserInfosRequest,
   output: ListPostUserInfosResponse,
   errors: [],
@@ -1434,7 +1434,6 @@ export const listPostUserInfos = API.makePaginated(() => ({
   },
 }));
 
-/** Gets one user by user_id. */
 export interface GetUsersRequest {
   userId: string;
 }
@@ -1451,6 +1450,7 @@ export const GetUsersResponse = User;
 
 export type GetUsersError = CommonErrors;
 
+/** Gets one user by user_id. */
 export const getUsers: API.OperationMethod<GetUsersRequest, GetUsersResponse, GetUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetUsersRequest,
   output: GetUsersResponse,

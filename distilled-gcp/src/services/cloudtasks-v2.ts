@@ -585,7 +585,6 @@ export const BufferTaskResponse: Schema.Schema<BufferTaskResponse> = Schema.susp
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -615,7 +614,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -625,7 +625,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -643,13 +642,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Creates or Updates a CMEK config. Updates the Customer Managed Encryption Key assotiated with the Cloud Tasks location (Creates if the key does not already exist). All new tasks created in the location will be encrypted at-rest with the KMS-key provided in the config. */
 export interface UpdateCmekConfigProjectsLocationsRequest {
   /** Output only. The config resource name which includes the project and location and must end in 'cmekConfig', in the format projects/PROJECT_ID/locations/LOCATION_ID/cmekConfig` */
   name: string;
@@ -673,13 +672,13 @@ export const UpdateCmekConfigProjectsLocationsResponse = CmekConfig;
 
 export type UpdateCmekConfigProjectsLocationsError = CommonErrors;
 
+/** Creates or Updates a CMEK config. Updates the Customer Managed Encryption Key assotiated with the Cloud Tasks location (Creates if the key does not already exist). All new tasks created in the location will be encrypted at-rest with the KMS-key provided in the config. */
 export const updateCmekConfigProjectsLocations: API.OperationMethod<UpdateCmekConfigProjectsLocationsRequest, UpdateCmekConfigProjectsLocationsResponse, UpdateCmekConfigProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateCmekConfigProjectsLocationsRequest,
   output: UpdateCmekConfigProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Gets the CMEK config. Gets the Customer Managed Encryption Key configured with the Cloud Tasks lcoation. By default there is no kms_key configured. */
 export interface GetCmekConfigProjectsLocationsRequest {
   /** Required. The config. For example: projects/PROJECT_ID/locations/LOCATION_ID/CmekConfig` */
   name: string;
@@ -697,13 +696,13 @@ export const GetCmekConfigProjectsLocationsResponse = CmekConfig;
 
 export type GetCmekConfigProjectsLocationsError = CommonErrors;
 
+/** Gets the CMEK config. Gets the Customer Managed Encryption Key configured with the Cloud Tasks lcoation. By default there is no kms_key configured. */
 export const getCmekConfigProjectsLocations: API.OperationMethod<GetCmekConfigProjectsLocationsRequest, GetCmekConfigProjectsLocationsResponse, GetCmekConfigProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCmekConfigProjectsLocationsRequest,
   output: GetCmekConfigProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists queues. Queues are returned in lexicographical order. */
 export interface ListProjectsLocationsQueuesRequest {
   /** Required. The location name. For example: `projects/PROJECT_ID/locations/LOCATION_ID` */
   parent: string;
@@ -730,7 +729,8 @@ export const ListProjectsLocationsQueuesResponse = ListQueuesResponse;
 
 export type ListProjectsLocationsQueuesError = CommonErrors;
 
-export const listProjectsLocationsQueues = API.makePaginated(() => ({
+/** Lists queues. Queues are returned in lexicographical order. */
+export const listProjectsLocationsQueues: API.PaginatedOperationMethod<ListProjectsLocationsQueuesRequest, ListProjectsLocationsQueuesResponse, ListProjectsLocationsQueuesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsQueuesRequest,
   output: ListProjectsLocationsQueuesResponse,
   errors: [],
@@ -740,7 +740,6 @@ export const listProjectsLocationsQueues = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a queue. */
 export interface GetProjectsLocationsQueuesRequest {
   /** Required. The resource name of the queue. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` */
   name: string;
@@ -758,13 +757,13 @@ export const GetProjectsLocationsQueuesResponse = Queue;
 
 export type GetProjectsLocationsQueuesError = CommonErrors;
 
+/** Gets a queue. */
 export const getProjectsLocationsQueues: API.OperationMethod<GetProjectsLocationsQueuesRequest, GetProjectsLocationsQueuesResponse, GetProjectsLocationsQueuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsQueuesRequest,
   output: GetProjectsLocationsQueuesResponse,
   errors: [],
 }));
 
-/** Creates a queue. Queues created with this method allow tasks to live for a maximum of 31 days. After a task is 31 days old, the task will be deleted regardless of whether it was dispatched or not. WARNING: Using this method may have unintended side effects if you are using an App Engine `queue.yaml` or `queue.xml` file to manage your queues. Read [Overview of Queue Management and queue.yaml](https://cloud.google.com/tasks/docs/queue-yaml) before using this method. */
 export interface CreateProjectsLocationsQueuesRequest {
   /** Required. The location name in which the queue will be created. For example: `projects/PROJECT_ID/locations/LOCATION_ID` The list of allowed locations can be obtained by calling Cloud Tasks' implementation of ListLocations. */
   parent: string;
@@ -785,13 +784,13 @@ export const CreateProjectsLocationsQueuesResponse = Queue;
 
 export type CreateProjectsLocationsQueuesError = CommonErrors;
 
+/** Creates a queue. Queues created with this method allow tasks to live for a maximum of 31 days. After a task is 31 days old, the task will be deleted regardless of whether it was dispatched or not. WARNING: Using this method may have unintended side effects if you are using an App Engine `queue.yaml` or `queue.xml` file to manage your queues. Read [Overview of Queue Management and queue.yaml](https://cloud.google.com/tasks/docs/queue-yaml) before using this method. */
 export const createProjectsLocationsQueues: API.OperationMethod<CreateProjectsLocationsQueuesRequest, CreateProjectsLocationsQueuesResponse, CreateProjectsLocationsQueuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsQueuesRequest,
   output: CreateProjectsLocationsQueuesResponse,
   errors: [],
 }));
 
-/** Updates a queue. This method creates the queue if it does not exist and updates the queue if it does exist. Queues created with this method allow tasks to live for a maximum of 31 days. After a task is 31 days old, the task will be deleted regardless of whether it was dispatched or not. WARNING: Using this method may have unintended side effects if you are using an App Engine `queue.yaml` or `queue.xml` file to manage your queues. Read [Overview of Queue Management and queue.yaml](https://cloud.google.com/tasks/docs/queue-yaml) before using this method. */
 export interface PatchProjectsLocationsQueuesRequest {
   /** Caller-specified and required in CreateQueue, after which it becomes output only. The queue name. The queue name must have the following format: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` * `PROJECT_ID` can contain letters ([A-Za-z]), numbers ([0-9]), hyphens (-), colons (:), or periods (.). For more information, see [Identifying projects](https://cloud.google.com/resource-manager/docs/creating-managing-projects#identifying_projects) * `LOCATION_ID` is the canonical ID for the queue's location. The list of available locations can be obtained by calling ListLocations. For more information, see https://cloud.google.com/about/locations/. * `QUEUE_ID` can contain letters ([A-Za-z]), numbers ([0-9]), or hyphens (-). The maximum length is 100 characters. */
   name: string;
@@ -815,13 +814,13 @@ export const PatchProjectsLocationsQueuesResponse = Queue;
 
 export type PatchProjectsLocationsQueuesError = CommonErrors;
 
+/** Updates a queue. This method creates the queue if it does not exist and updates the queue if it does exist. Queues created with this method allow tasks to live for a maximum of 31 days. After a task is 31 days old, the task will be deleted regardless of whether it was dispatched or not. WARNING: Using this method may have unintended side effects if you are using an App Engine `queue.yaml` or `queue.xml` file to manage your queues. Read [Overview of Queue Management and queue.yaml](https://cloud.google.com/tasks/docs/queue-yaml) before using this method. */
 export const patchProjectsLocationsQueues: API.OperationMethod<PatchProjectsLocationsQueuesRequest, PatchProjectsLocationsQueuesResponse, PatchProjectsLocationsQueuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsQueuesRequest,
   output: PatchProjectsLocationsQueuesResponse,
   errors: [],
 }));
 
-/** Deletes a queue. This command will delete the queue even if it has tasks in it. Note: If you delete a queue, you may be prevented from creating a new queue with the same name as the deleted queue for a tombstone window of up to 3 days. During this window, the CreateQueue operation may appear to recreate the queue, but this can be misleading. If you attempt to create a queue with the same name as one that is in the tombstone window, run GetQueue to confirm that the queue creation was successful. If GetQueue returns 200 response code, your queue was successfully created with the name of the previously deleted queue. Otherwise, your queue did not successfully recreate. WARNING: Using this method may have unintended side effects if you are using an App Engine `queue.yaml` or `queue.xml` file to manage your queues. Read [Overview of Queue Management and queue.yaml](https://cloud.google.com/tasks/docs/queue-yaml) before using this method. */
 export interface DeleteProjectsLocationsQueuesRequest {
   /** Required. The queue name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` */
   name: string;
@@ -839,13 +838,13 @@ export const DeleteProjectsLocationsQueuesResponse = Empty;
 
 export type DeleteProjectsLocationsQueuesError = CommonErrors;
 
+/** Deletes a queue. This command will delete the queue even if it has tasks in it. Note: If you delete a queue, you may be prevented from creating a new queue with the same name as the deleted queue for a tombstone window of up to 3 days. During this window, the CreateQueue operation may appear to recreate the queue, but this can be misleading. If you attempt to create a queue with the same name as one that is in the tombstone window, run GetQueue to confirm that the queue creation was successful. If GetQueue returns 200 response code, your queue was successfully created with the name of the previously deleted queue. Otherwise, your queue did not successfully recreate. WARNING: Using this method may have unintended side effects if you are using an App Engine `queue.yaml` or `queue.xml` file to manage your queues. Read [Overview of Queue Management and queue.yaml](https://cloud.google.com/tasks/docs/queue-yaml) before using this method. */
 export const deleteProjectsLocationsQueues: API.OperationMethod<DeleteProjectsLocationsQueuesRequest, DeleteProjectsLocationsQueuesResponse, DeleteProjectsLocationsQueuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsQueuesRequest,
   output: DeleteProjectsLocationsQueuesResponse,
   errors: [],
 }));
 
-/** Purges a queue by deleting all of its tasks. All tasks created before this method is called are permanently deleted. Purge operations can take up to one minute to take effect. Tasks might be dispatched before the purge takes effect. A purge is irreversible. */
 export interface PurgeProjectsLocationsQueuesRequest {
   /** Required. The queue name. For example: `projects/PROJECT_ID/location/LOCATION_ID/queues/QUEUE_ID` */
   name: string;
@@ -866,13 +865,13 @@ export const PurgeProjectsLocationsQueuesResponse = Queue;
 
 export type PurgeProjectsLocationsQueuesError = CommonErrors;
 
+/** Purges a queue by deleting all of its tasks. All tasks created before this method is called are permanently deleted. Purge operations can take up to one minute to take effect. Tasks might be dispatched before the purge takes effect. A purge is irreversible. */
 export const purgeProjectsLocationsQueues: API.OperationMethod<PurgeProjectsLocationsQueuesRequest, PurgeProjectsLocationsQueuesResponse, PurgeProjectsLocationsQueuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PurgeProjectsLocationsQueuesRequest,
   output: PurgeProjectsLocationsQueuesResponse,
   errors: [],
 }));
 
-/** Pauses the queue. If a queue is paused then the system will stop dispatching tasks until the queue is resumed via ResumeQueue. Tasks can still be added when the queue is paused. A queue is paused if its state is PAUSED. */
 export interface PauseProjectsLocationsQueuesRequest {
   /** Required. The queue name. For example: `projects/PROJECT_ID/location/LOCATION_ID/queues/QUEUE_ID` */
   name: string;
@@ -893,13 +892,13 @@ export const PauseProjectsLocationsQueuesResponse = Queue;
 
 export type PauseProjectsLocationsQueuesError = CommonErrors;
 
+/** Pauses the queue. If a queue is paused then the system will stop dispatching tasks until the queue is resumed via ResumeQueue. Tasks can still be added when the queue is paused. A queue is paused if its state is PAUSED. */
 export const pauseProjectsLocationsQueues: API.OperationMethod<PauseProjectsLocationsQueuesRequest, PauseProjectsLocationsQueuesResponse, PauseProjectsLocationsQueuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PauseProjectsLocationsQueuesRequest,
   output: PauseProjectsLocationsQueuesResponse,
   errors: [],
 }));
 
-/** Resume a queue. This method resumes a queue after it has been PAUSED or DISABLED. The state of a queue is stored in the queue's state; after calling this method it will be set to RUNNING. WARNING: Resuming many high-QPS queues at the same time can lead to target overloading. If you are resuming high-QPS queues, follow the 500/50/5 pattern described in [Managing Cloud Tasks Scaling Risks](https://cloud.google.com/tasks/docs/manage-cloud-task-scaling). */
 export interface ResumeProjectsLocationsQueuesRequest {
   /** Required. The queue name. For example: `projects/PROJECT_ID/location/LOCATION_ID/queues/QUEUE_ID` */
   name: string;
@@ -920,13 +919,13 @@ export const ResumeProjectsLocationsQueuesResponse = Queue;
 
 export type ResumeProjectsLocationsQueuesError = CommonErrors;
 
+/** Resume a queue. This method resumes a queue after it has been PAUSED or DISABLED. The state of a queue is stored in the queue's state; after calling this method it will be set to RUNNING. WARNING: Resuming many high-QPS queues at the same time can lead to target overloading. If you are resuming high-QPS queues, follow the 500/50/5 pattern described in [Managing Cloud Tasks Scaling Risks](https://cloud.google.com/tasks/docs/manage-cloud-task-scaling). */
 export const resumeProjectsLocationsQueues: API.OperationMethod<ResumeProjectsLocationsQueuesRequest, ResumeProjectsLocationsQueuesResponse, ResumeProjectsLocationsQueuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResumeProjectsLocationsQueuesRequest,
   output: ResumeProjectsLocationsQueuesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a Queue. Returns an empty policy if the resource exists and does not have a policy set. Authorization requires the following [Google IAM](https://cloud.google.com/iam) permission on the specified resource parent: * `cloudtasks.queues.getIamPolicy` */
 export interface GetIamPolicyProjectsLocationsQueuesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -947,13 +946,13 @@ export const GetIamPolicyProjectsLocationsQueuesResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsQueuesError = CommonErrors;
 
+/** Gets the access control policy for a Queue. Returns an empty policy if the resource exists and does not have a policy set. Authorization requires the following [Google IAM](https://cloud.google.com/iam) permission on the specified resource parent: * `cloudtasks.queues.getIamPolicy` */
 export const getIamPolicyProjectsLocationsQueues: API.OperationMethod<GetIamPolicyProjectsLocationsQueuesRequest, GetIamPolicyProjectsLocationsQueuesResponse, GetIamPolicyProjectsLocationsQueuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsQueuesRequest,
   output: GetIamPolicyProjectsLocationsQueuesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy for a Queue. Replaces any existing policy. Note: The Cloud Console does not check queue-level IAM permissions yet. Project-level permissions are required to use the Cloud Console. Authorization requires the following [Google IAM](https://cloud.google.com/iam) permission on the specified resource parent: * `cloudtasks.queues.setIamPolicy` */
 export interface SetIamPolicyProjectsLocationsQueuesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -974,13 +973,13 @@ export const SetIamPolicyProjectsLocationsQueuesResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsQueuesError = CommonErrors;
 
+/** Sets the access control policy for a Queue. Replaces any existing policy. Note: The Cloud Console does not check queue-level IAM permissions yet. Project-level permissions are required to use the Cloud Console. Authorization requires the following [Google IAM](https://cloud.google.com/iam) permission on the specified resource parent: * `cloudtasks.queues.setIamPolicy` */
 export const setIamPolicyProjectsLocationsQueues: API.OperationMethod<SetIamPolicyProjectsLocationsQueuesRequest, SetIamPolicyProjectsLocationsQueuesResponse, SetIamPolicyProjectsLocationsQueuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsQueuesRequest,
   output: SetIamPolicyProjectsLocationsQueuesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on a Queue. If the resource does not exist, this will return an empty set of permissions, not a NOT_FOUND error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsQueuesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1001,13 +1000,13 @@ export const TestIamPermissionsProjectsLocationsQueuesResponse = TestIamPermissi
 
 export type TestIamPermissionsProjectsLocationsQueuesError = CommonErrors;
 
+/** Returns permissions that a caller has on a Queue. If the resource does not exist, this will return an empty set of permissions, not a NOT_FOUND error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsQueues: API.OperationMethod<TestIamPermissionsProjectsLocationsQueuesRequest, TestIamPermissionsProjectsLocationsQueuesResponse, TestIamPermissionsProjectsLocationsQueuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsQueuesRequest,
   output: TestIamPermissionsProjectsLocationsQueuesResponse,
   errors: [],
 }));
 
-/** Lists the tasks in a queue. By default, only the BASIC view is retrieved due to performance considerations; response_view controls the subset of information which is returned. The tasks may be returned in any order. The ordering may change at any time. */
 export interface ListProjectsLocationsQueuesTasksRequest {
   /** Required. The queue name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` */
   parent: string;
@@ -1034,7 +1033,8 @@ export const ListProjectsLocationsQueuesTasksResponse = ListTasksResponse;
 
 export type ListProjectsLocationsQueuesTasksError = CommonErrors;
 
-export const listProjectsLocationsQueuesTasks = API.makePaginated(() => ({
+/** Lists the tasks in a queue. By default, only the BASIC view is retrieved due to performance considerations; response_view controls the subset of information which is returned. The tasks may be returned in any order. The ordering may change at any time. */
+export const listProjectsLocationsQueuesTasks: API.PaginatedOperationMethod<ListProjectsLocationsQueuesTasksRequest, ListProjectsLocationsQueuesTasksResponse, ListProjectsLocationsQueuesTasksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsQueuesTasksRequest,
   output: ListProjectsLocationsQueuesTasksResponse,
   errors: [],
@@ -1044,7 +1044,6 @@ export const listProjectsLocationsQueuesTasks = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a task. After a task is successfully executed or has exhausted its retry attempts, the task is deleted. A `GetTask` request for a deleted task returns a `NOT_FOUND` error. */
 export interface GetProjectsLocationsQueuesTasksRequest {
   /** Required. The task name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks/TASK_ID` */
   name: string;
@@ -1065,13 +1064,13 @@ export const GetProjectsLocationsQueuesTasksResponse = Task;
 
 export type GetProjectsLocationsQueuesTasksError = CommonErrors;
 
+/** Gets a task. After a task is successfully executed or has exhausted its retry attempts, the task is deleted. A `GetTask` request for a deleted task returns a `NOT_FOUND` error. */
 export const getProjectsLocationsQueuesTasks: API.OperationMethod<GetProjectsLocationsQueuesTasksRequest, GetProjectsLocationsQueuesTasksResponse, GetProjectsLocationsQueuesTasksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsQueuesTasksRequest,
   output: GetProjectsLocationsQueuesTasksResponse,
   errors: [],
 }));
 
-/** Creates a task and adds it to a queue. Tasks cannot be updated after creation; there is no UpdateTask command. * The maximum task size is 100KB. */
 export interface CreateProjectsLocationsQueuesTasksRequest {
   /** Required. The queue name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` The queue must already exist. */
   parent: string;
@@ -1092,13 +1091,13 @@ export const CreateProjectsLocationsQueuesTasksResponse = Task;
 
 export type CreateProjectsLocationsQueuesTasksError = CommonErrors;
 
+/** Creates a task and adds it to a queue. Tasks cannot be updated after creation; there is no UpdateTask command. * The maximum task size is 100KB. */
 export const createProjectsLocationsQueuesTasks: API.OperationMethod<CreateProjectsLocationsQueuesTasksRequest, CreateProjectsLocationsQueuesTasksResponse, CreateProjectsLocationsQueuesTasksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsQueuesTasksRequest,
   output: CreateProjectsLocationsQueuesTasksResponse,
   errors: [],
 }));
 
-/** Deletes a task. A task can be deleted if it is scheduled or dispatched. A task cannot be deleted if it has executed successfully or permanently failed. */
 export interface DeleteProjectsLocationsQueuesTasksRequest {
   /** Required. The task name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks/TASK_ID` */
   name: string;
@@ -1116,13 +1115,13 @@ export const DeleteProjectsLocationsQueuesTasksResponse = Empty;
 
 export type DeleteProjectsLocationsQueuesTasksError = CommonErrors;
 
+/** Deletes a task. A task can be deleted if it is scheduled or dispatched. A task cannot be deleted if it has executed successfully or permanently failed. */
 export const deleteProjectsLocationsQueuesTasks: API.OperationMethod<DeleteProjectsLocationsQueuesTasksRequest, DeleteProjectsLocationsQueuesTasksResponse, DeleteProjectsLocationsQueuesTasksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsQueuesTasksRequest,
   output: DeleteProjectsLocationsQueuesTasksResponse,
   errors: [],
 }));
 
-/** Forces a task to run now. When this method is called, Cloud Tasks will dispatch the task, even if the task is already running, the queue has reached its RateLimits or is PAUSED. This command is meant to be used for manual debugging. For example, RunTask can be used to retry a failed task after a fix has been made or to manually force a task to be dispatched now. If Cloud Tasks receives a successful response from the task's target, then the task will be deleted; otherwise the task's schedule_time will be reset to the time that RunTask was called plus the retry delay specified in the queue's RetryConfig. RunTask returns NOT_FOUND when it is called on a task that has already succeeded or permanently failed. */
 export interface RunProjectsLocationsQueuesTasksRequest {
   /** Required. The task name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks/TASK_ID` */
   name: string;
@@ -1143,13 +1142,13 @@ export const RunProjectsLocationsQueuesTasksResponse = Task;
 
 export type RunProjectsLocationsQueuesTasksError = CommonErrors;
 
+/** Forces a task to run now. When this method is called, Cloud Tasks will dispatch the task, even if the task is already running, the queue has reached its RateLimits or is PAUSED. This command is meant to be used for manual debugging. For example, RunTask can be used to retry a failed task after a fix has been made or to manually force a task to be dispatched now. If Cloud Tasks receives a successful response from the task's target, then the task will be deleted; otherwise the task's schedule_time will be reset to the time that RunTask was called plus the retry delay specified in the queue's RetryConfig. RunTask returns NOT_FOUND when it is called on a task that has already succeeded or permanently failed. */
 export const runProjectsLocationsQueuesTasks: API.OperationMethod<RunProjectsLocationsQueuesTasksRequest, RunProjectsLocationsQueuesTasksResponse, RunProjectsLocationsQueuesTasksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RunProjectsLocationsQueuesTasksRequest,
   output: RunProjectsLocationsQueuesTasksResponse,
   errors: [],
 }));
 
-/** Creates and buffers a new task without the need to explicitly define a Task message. The queue must have HTTP target. To create the task with a custom ID, use the following format and set TASK_ID to your desired ID: projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks/TASK_ID:buffer To create the task with an automatically generated ID, use the following format: projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks:buffer. */
 export interface BufferProjectsLocationsQueuesTasksRequest {
   /** Required. The parent queue name. For example: projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` The queue must already exist. */
   queue: string;
@@ -1173,6 +1172,7 @@ export const BufferProjectsLocationsQueuesTasksResponse = BufferTaskResponse;
 
 export type BufferProjectsLocationsQueuesTasksError = CommonErrors;
 
+/** Creates and buffers a new task without the need to explicitly define a Task message. The queue must have HTTP target. To create the task with a custom ID, use the following format and set TASK_ID to your desired ID: projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks/TASK_ID:buffer To create the task with an automatically generated ID, use the following format: projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks:buffer. */
 export const bufferProjectsLocationsQueuesTasks: API.OperationMethod<BufferProjectsLocationsQueuesTasksRequest, BufferProjectsLocationsQueuesTasksResponse, BufferProjectsLocationsQueuesTasksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BufferProjectsLocationsQueuesTasksRequest,
   output: BufferProjectsLocationsQueuesTasksResponse,

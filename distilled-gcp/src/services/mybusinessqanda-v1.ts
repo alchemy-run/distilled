@@ -141,7 +141,6 @@ export const UpsertAnswerRequest: Schema.Schema<UpsertAnswerRequest> = Schema.su
 // Operations
 // ==========================================================================
 
-/** Returns the paginated list of questions and some of its answers for a specified location. This operation is only valid if the specified location is verified. */
 export interface ListLocationsQuestionsRequest {
   /** Required. The name of the location to fetch questions for. */
   parent: string;
@@ -174,7 +173,8 @@ export const ListLocationsQuestionsResponse = ListQuestionsResponse;
 
 export type ListLocationsQuestionsError = CommonErrors;
 
-export const listLocationsQuestions = API.makePaginated(() => ({
+/** Returns the paginated list of questions and some of its answers for a specified location. This operation is only valid if the specified location is verified. */
+export const listLocationsQuestions: API.PaginatedOperationMethod<ListLocationsQuestionsRequest, ListLocationsQuestionsResponse, ListLocationsQuestionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListLocationsQuestionsRequest,
   output: ListLocationsQuestionsResponse,
   errors: [],
@@ -184,7 +184,6 @@ export const listLocationsQuestions = API.makePaginated(() => ({
   },
 }));
 
-/** Adds a question for the specified location. */
 export interface CreateLocationsQuestionsRequest {
   /** Required. The name of the location to write a question for. */
   parent: string;
@@ -205,13 +204,13 @@ export const CreateLocationsQuestionsResponse = Question;
 
 export type CreateLocationsQuestionsError = CommonErrors;
 
+/** Adds a question for the specified location. */
 export const createLocationsQuestions: API.OperationMethod<CreateLocationsQuestionsRequest, CreateLocationsQuestionsResponse, CreateLocationsQuestionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateLocationsQuestionsRequest,
   output: CreateLocationsQuestionsResponse,
   errors: [],
 }));
 
-/** Updates a specific question written by the current user. */
 export interface PatchLocationsQuestionsRequest {
   /** Immutable. The unique name for the question. locations/* /questions/* This field will be ignored if set during question creation. */
   name: string;
@@ -235,13 +234,13 @@ export const PatchLocationsQuestionsResponse = Question;
 
 export type PatchLocationsQuestionsError = CommonErrors;
 
+/** Updates a specific question written by the current user. */
 export const patchLocationsQuestions: API.OperationMethod<PatchLocationsQuestionsRequest, PatchLocationsQuestionsResponse, PatchLocationsQuestionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchLocationsQuestionsRequest,
   output: PatchLocationsQuestionsResponse,
   errors: [],
 }));
 
-/** Deletes a specific question written by the current user. */
 export interface DeleteLocationsQuestionsRequest {
   /** Required. The name of the question to delete. */
   name: string;
@@ -259,13 +258,13 @@ export const DeleteLocationsQuestionsResponse = Empty;
 
 export type DeleteLocationsQuestionsError = CommonErrors;
 
+/** Deletes a specific question written by the current user. */
 export const deleteLocationsQuestions: API.OperationMethod<DeleteLocationsQuestionsRequest, DeleteLocationsQuestionsResponse, DeleteLocationsQuestionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteLocationsQuestionsRequest,
   output: DeleteLocationsQuestionsResponse,
   errors: [],
 }));
 
-/** Returns the paginated list of answers for a specified question. */
 export interface ListLocationsQuestionsAnswersRequest {
   /** Required. The name of the question to fetch answers for. */
   parent: string;
@@ -292,7 +291,8 @@ export const ListLocationsQuestionsAnswersResponse = ListAnswersResponse;
 
 export type ListLocationsQuestionsAnswersError = CommonErrors;
 
-export const listLocationsQuestionsAnswers = API.makePaginated(() => ({
+/** Returns the paginated list of answers for a specified question. */
+export const listLocationsQuestionsAnswers: API.PaginatedOperationMethod<ListLocationsQuestionsAnswersRequest, ListLocationsQuestionsAnswersResponse, ListLocationsQuestionsAnswersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListLocationsQuestionsAnswersRequest,
   output: ListLocationsQuestionsAnswersResponse,
   errors: [],
@@ -302,7 +302,6 @@ export const listLocationsQuestionsAnswers = API.makePaginated(() => ({
   },
 }));
 
-/** Creates an answer or updates the existing answer written by the user for the specified question. A user can only create one answer per question. */
 export interface UpsertLocationsQuestionsAnswersRequest {
   /** Required. The name of the question to write an answer for. */
   parent: string;
@@ -323,13 +322,13 @@ export const UpsertLocationsQuestionsAnswersResponse = Answer;
 
 export type UpsertLocationsQuestionsAnswersError = CommonErrors;
 
+/** Creates an answer or updates the existing answer written by the user for the specified question. A user can only create one answer per question. */
 export const upsertLocationsQuestionsAnswers: API.OperationMethod<UpsertLocationsQuestionsAnswersRequest, UpsertLocationsQuestionsAnswersResponse, UpsertLocationsQuestionsAnswersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpsertLocationsQuestionsAnswersRequest,
   output: UpsertLocationsQuestionsAnswersResponse,
   errors: [],
 }));
 
-/** Deletes the answer written by the current user to a question. */
 export interface DeleteLocationsQuestionsAnswersRequest {
   /** Required. The name of the question to delete an answer for. */
   name: string;
@@ -347,6 +346,7 @@ export const DeleteLocationsQuestionsAnswersResponse = Empty;
 
 export type DeleteLocationsQuestionsAnswersError = CommonErrors;
 
+/** Deletes the answer written by the current user to a question. */
 export const deleteLocationsQuestionsAnswers: API.OperationMethod<DeleteLocationsQuestionsAnswersRequest, DeleteLocationsQuestionsAnswersResponse, DeleteLocationsQuestionsAnswersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteLocationsQuestionsAnswersRequest,
   output: DeleteLocationsQuestionsAnswersResponse,

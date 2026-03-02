@@ -309,7 +309,6 @@ export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsRespons
 // Operations
 // ==========================================================================
 
-/** Sets the IAM policy for the specified catalog. */
 export interface SetIamPolicyProjectsCatalogsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -330,13 +329,13 @@ export const SetIamPolicyProjectsCatalogsResponse = Policy;
 
 export type SetIamPolicyProjectsCatalogsError = CommonErrors;
 
+/** Sets the IAM policy for the specified catalog. */
 export const setIamPolicyProjectsCatalogs: API.OperationMethod<SetIamPolicyProjectsCatalogsRequest, SetIamPolicyProjectsCatalogsResponse, SetIamPolicyProjectsCatalogsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsCatalogsRequest,
   output: SetIamPolicyProjectsCatalogsResponse,
   errors: [],
 }));
 
-/** Gets the IAM policy for the specified Catalog. */
 export interface GetIamPolicyProjectsCatalogsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -357,13 +356,13 @@ export const GetIamPolicyProjectsCatalogsResponse = Policy;
 
 export type GetIamPolicyProjectsCatalogsError = CommonErrors;
 
+/** Gets the IAM policy for the specified Catalog. */
 export const getIamPolicyProjectsCatalogs: API.OperationMethod<GetIamPolicyProjectsCatalogsRequest, GetIamPolicyProjectsCatalogsResponse, GetIamPolicyProjectsCatalogsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsCatalogsRequest,
   output: GetIamPolicyProjectsCatalogsResponse,
   errors: [],
 }));
 
-/** Tests the IAM permissions for the specified catalog. */
 export interface TestIamPermissionsProjectsCatalogsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -384,13 +383,13 @@ export const TestIamPermissionsProjectsCatalogsResponse = TestIamPermissionsResp
 
 export type TestIamPermissionsProjectsCatalogsError = CommonErrors;
 
+/** Tests the IAM permissions for the specified catalog. */
 export const testIamPermissionsProjectsCatalogs: API.OperationMethod<TestIamPermissionsProjectsCatalogsRequest, TestIamPermissionsProjectsCatalogsResponse, TestIamPermissionsProjectsCatalogsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsCatalogsRequest,
   output: TestIamPermissionsProjectsCatalogsResponse,
   errors: [],
 }));
 
-/** Gets the IAM policy for the specified Catalog. */
 export interface GetIamPolicyProjectsCatalogsNamespacesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -411,13 +410,13 @@ export const GetIamPolicyProjectsCatalogsNamespacesResponse = Policy;
 
 export type GetIamPolicyProjectsCatalogsNamespacesError = CommonErrors;
 
+/** Gets the IAM policy for the specified Catalog. */
 export const getIamPolicyProjectsCatalogsNamespaces: API.OperationMethod<GetIamPolicyProjectsCatalogsNamespacesRequest, GetIamPolicyProjectsCatalogsNamespacesResponse, GetIamPolicyProjectsCatalogsNamespacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsCatalogsNamespacesRequest,
   output: GetIamPolicyProjectsCatalogsNamespacesResponse,
   errors: [],
 }));
 
-/** Sets the IAM policy for the specified catalog. */
 export interface SetIamPolicyProjectsCatalogsNamespacesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -438,13 +437,13 @@ export const SetIamPolicyProjectsCatalogsNamespacesResponse = Policy;
 
 export type SetIamPolicyProjectsCatalogsNamespacesError = CommonErrors;
 
+/** Sets the IAM policy for the specified catalog. */
 export const setIamPolicyProjectsCatalogsNamespaces: API.OperationMethod<SetIamPolicyProjectsCatalogsNamespacesRequest, SetIamPolicyProjectsCatalogsNamespacesResponse, SetIamPolicyProjectsCatalogsNamespacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsCatalogsNamespacesRequest,
   output: SetIamPolicyProjectsCatalogsNamespacesResponse,
   errors: [],
 }));
 
-/** Tests the IAM permissions for the specified namespace. */
 export interface TestIamPermissionsProjectsCatalogsNamespacesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -465,13 +464,13 @@ export const TestIamPermissionsProjectsCatalogsNamespacesResponse = TestIamPermi
 
 export type TestIamPermissionsProjectsCatalogsNamespacesError = CommonErrors;
 
+/** Tests the IAM permissions for the specified namespace. */
 export const testIamPermissionsProjectsCatalogsNamespaces: API.OperationMethod<TestIamPermissionsProjectsCatalogsNamespacesRequest, TestIamPermissionsProjectsCatalogsNamespacesResponse, TestIamPermissionsProjectsCatalogsNamespacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsCatalogsNamespacesRequest,
   output: TestIamPermissionsProjectsCatalogsNamespacesResponse,
   errors: [],
 }));
 
-/** Gets the IAM policy for the specified Catalog. */
 export interface GetIamPolicyProjectsCatalogsNamespacesTablesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -492,13 +491,13 @@ export const GetIamPolicyProjectsCatalogsNamespacesTablesResponse = Policy;
 
 export type GetIamPolicyProjectsCatalogsNamespacesTablesError = CommonErrors;
 
+/** Gets the IAM policy for the specified Catalog. */
 export const getIamPolicyProjectsCatalogsNamespacesTables: API.OperationMethod<GetIamPolicyProjectsCatalogsNamespacesTablesRequest, GetIamPolicyProjectsCatalogsNamespacesTablesResponse, GetIamPolicyProjectsCatalogsNamespacesTablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsCatalogsNamespacesTablesRequest,
   output: GetIamPolicyProjectsCatalogsNamespacesTablesResponse,
   errors: [],
 }));
 
-/** Tests the IAM permissions for the specified table. */
 export interface TestIamPermissionsProjectsCatalogsNamespacesTablesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -519,13 +518,13 @@ export const TestIamPermissionsProjectsCatalogsNamespacesTablesResponse = TestIa
 
 export type TestIamPermissionsProjectsCatalogsNamespacesTablesError = CommonErrors;
 
+/** Tests the IAM permissions for the specified table. */
 export const testIamPermissionsProjectsCatalogsNamespacesTables: API.OperationMethod<TestIamPermissionsProjectsCatalogsNamespacesTablesRequest, TestIamPermissionsProjectsCatalogsNamespacesTablesResponse, TestIamPermissionsProjectsCatalogsNamespacesTablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsCatalogsNamespacesTablesRequest,
   output: TestIamPermissionsProjectsCatalogsNamespacesTablesResponse,
   errors: [],
 }));
 
-/** Sets the IAM policy for the specified catalog. */
 export interface SetIamPolicyProjectsCatalogsNamespacesTablesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -546,13 +545,13 @@ export const SetIamPolicyProjectsCatalogsNamespacesTablesResponse = Policy;
 
 export type SetIamPolicyProjectsCatalogsNamespacesTablesError = CommonErrors;
 
+/** Sets the IAM policy for the specified catalog. */
 export const setIamPolicyProjectsCatalogsNamespacesTables: API.OperationMethod<SetIamPolicyProjectsCatalogsNamespacesTablesRequest, SetIamPolicyProjectsCatalogsNamespacesTablesResponse, SetIamPolicyProjectsCatalogsNamespacesTablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsCatalogsNamespacesTablesRequest,
   output: SetIamPolicyProjectsCatalogsNamespacesTablesResponse,
   errors: [],
 }));
 
-/** Creates a new catalog. */
 export interface CreateProjectsLocationsCatalogsRequest {
   /** Required. The parent resource where this catalog will be created. Format: projects/{project_id_or_number}/locations/{location_id} */
   parent: string;
@@ -576,13 +575,13 @@ export const CreateProjectsLocationsCatalogsResponse = Catalog;
 
 export type CreateProjectsLocationsCatalogsError = CommonErrors;
 
+/** Creates a new catalog. */
 export const createProjectsLocationsCatalogs: API.OperationMethod<CreateProjectsLocationsCatalogsRequest, CreateProjectsLocationsCatalogsResponse, CreateProjectsLocationsCatalogsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCatalogsRequest,
   output: CreateProjectsLocationsCatalogsResponse,
   errors: [],
 }));
 
-/** Gets the catalog specified by the resource name. */
 export interface GetProjectsLocationsCatalogsRequest {
   /** Required. The name of the catalog to retrieve. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id} */
   name: string;
@@ -600,13 +599,13 @@ export const GetProjectsLocationsCatalogsResponse = Catalog;
 
 export type GetProjectsLocationsCatalogsError = CommonErrors;
 
+/** Gets the catalog specified by the resource name. */
 export const getProjectsLocationsCatalogs: API.OperationMethod<GetProjectsLocationsCatalogsRequest, GetProjectsLocationsCatalogsResponse, GetProjectsLocationsCatalogsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCatalogsRequest,
   output: GetProjectsLocationsCatalogsResponse,
   errors: [],
 }));
 
-/** Deletes an existing catalog specified by the catalog ID. */
 export interface DeleteProjectsLocationsCatalogsRequest {
   /** Required. The name of the catalog to delete. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id} */
   name: string;
@@ -624,13 +623,13 @@ export const DeleteProjectsLocationsCatalogsResponse = Catalog;
 
 export type DeleteProjectsLocationsCatalogsError = CommonErrors;
 
+/** Deletes an existing catalog specified by the catalog ID. */
 export const deleteProjectsLocationsCatalogs: API.OperationMethod<DeleteProjectsLocationsCatalogsRequest, DeleteProjectsLocationsCatalogsResponse, DeleteProjectsLocationsCatalogsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCatalogsRequest,
   output: DeleteProjectsLocationsCatalogsResponse,
   errors: [],
 }));
 
-/** List all catalogs in a specified project. */
 export interface ListProjectsLocationsCatalogsRequest {
   /** A page token, received from a previous `ListCatalogs` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListCatalogs` must match the call that provided the page token. */
   pageToken?: string;
@@ -654,7 +653,8 @@ export const ListProjectsLocationsCatalogsResponse = ListCatalogsResponse;
 
 export type ListProjectsLocationsCatalogsError = CommonErrors;
 
-export const listProjectsLocationsCatalogs = API.makePaginated(() => ({
+/** List all catalogs in a specified project. */
+export const listProjectsLocationsCatalogs: API.PaginatedOperationMethod<ListProjectsLocationsCatalogsRequest, ListProjectsLocationsCatalogsResponse, ListProjectsLocationsCatalogsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCatalogsRequest,
   output: ListProjectsLocationsCatalogsResponse,
   errors: [],
@@ -664,7 +664,6 @@ export const listProjectsLocationsCatalogs = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing database specified by the database ID. */
 export interface PatchProjectsLocationsCatalogsDatabasesRequest {
   /** The list of fields to update. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask If not set, defaults to all of the fields that are allowed to update. */
   updateMask?: string;
@@ -688,13 +687,13 @@ export const PatchProjectsLocationsCatalogsDatabasesResponse = Database;
 
 export type PatchProjectsLocationsCatalogsDatabasesError = CommonErrors;
 
+/** Updates an existing database specified by the database ID. */
 export const patchProjectsLocationsCatalogsDatabases: API.OperationMethod<PatchProjectsLocationsCatalogsDatabasesRequest, PatchProjectsLocationsCatalogsDatabasesResponse, PatchProjectsLocationsCatalogsDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCatalogsDatabasesRequest,
   output: PatchProjectsLocationsCatalogsDatabasesResponse,
   errors: [],
 }));
 
-/** Deletes an existing database specified by the database ID. */
 export interface DeleteProjectsLocationsCatalogsDatabasesRequest {
   /** Required. The name of the database to delete. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id}/databases/{database_id} */
   name: string;
@@ -712,13 +711,13 @@ export const DeleteProjectsLocationsCatalogsDatabasesResponse = Database;
 
 export type DeleteProjectsLocationsCatalogsDatabasesError = CommonErrors;
 
+/** Deletes an existing database specified by the database ID. */
 export const deleteProjectsLocationsCatalogsDatabases: API.OperationMethod<DeleteProjectsLocationsCatalogsDatabasesRequest, DeleteProjectsLocationsCatalogsDatabasesResponse, DeleteProjectsLocationsCatalogsDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCatalogsDatabasesRequest,
   output: DeleteProjectsLocationsCatalogsDatabasesResponse,
   errors: [],
 }));
 
-/** Gets the database specified by the resource name. */
 export interface GetProjectsLocationsCatalogsDatabasesRequest {
   /** Required. The name of the database to retrieve. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id}/databases/{database_id} */
   name: string;
@@ -736,13 +735,13 @@ export const GetProjectsLocationsCatalogsDatabasesResponse = Database;
 
 export type GetProjectsLocationsCatalogsDatabasesError = CommonErrors;
 
+/** Gets the database specified by the resource name. */
 export const getProjectsLocationsCatalogsDatabases: API.OperationMethod<GetProjectsLocationsCatalogsDatabasesRequest, GetProjectsLocationsCatalogsDatabasesResponse, GetProjectsLocationsCatalogsDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCatalogsDatabasesRequest,
   output: GetProjectsLocationsCatalogsDatabasesResponse,
   errors: [],
 }));
 
-/** Creates a new database. */
 export interface CreateProjectsLocationsCatalogsDatabasesRequest {
   /** Required. The ID to use for the database, which will become the final component of the database's resource name. */
   databaseId?: string;
@@ -766,13 +765,13 @@ export const CreateProjectsLocationsCatalogsDatabasesResponse = Database;
 
 export type CreateProjectsLocationsCatalogsDatabasesError = CommonErrors;
 
+/** Creates a new database. */
 export const createProjectsLocationsCatalogsDatabases: API.OperationMethod<CreateProjectsLocationsCatalogsDatabasesRequest, CreateProjectsLocationsCatalogsDatabasesResponse, CreateProjectsLocationsCatalogsDatabasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCatalogsDatabasesRequest,
   output: CreateProjectsLocationsCatalogsDatabasesResponse,
   errors: [],
 }));
 
-/** List all databases in a specified catalog. */
 export interface ListProjectsLocationsCatalogsDatabasesRequest {
   /** A page token, received from a previous `ListDatabases` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDatabases` must match the call that provided the page token. */
   pageToken?: string;
@@ -796,7 +795,8 @@ export const ListProjectsLocationsCatalogsDatabasesResponse = ListDatabasesRespo
 
 export type ListProjectsLocationsCatalogsDatabasesError = CommonErrors;
 
-export const listProjectsLocationsCatalogsDatabases = API.makePaginated(() => ({
+/** List all databases in a specified catalog. */
+export const listProjectsLocationsCatalogsDatabases: API.PaginatedOperationMethod<ListProjectsLocationsCatalogsDatabasesRequest, ListProjectsLocationsCatalogsDatabasesResponse, ListProjectsLocationsCatalogsDatabasesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCatalogsDatabasesRequest,
   output: ListProjectsLocationsCatalogsDatabasesResponse,
   errors: [],
@@ -806,7 +806,6 @@ export const listProjectsLocationsCatalogsDatabases = API.makePaginated(() => ({
   },
 }));
 
-/** Renames an existing table specified by the table ID. */
 export interface RenameProjectsLocationsCatalogsDatabasesTablesRequest {
   /** Required. The table's `name` field is used to identify the table to rename. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id}/databases/{database_id}/tables/{table_id} */
   name: string;
@@ -827,13 +826,13 @@ export const RenameProjectsLocationsCatalogsDatabasesTablesResponse = Table;
 
 export type RenameProjectsLocationsCatalogsDatabasesTablesError = CommonErrors;
 
+/** Renames an existing table specified by the table ID. */
 export const renameProjectsLocationsCatalogsDatabasesTables: API.OperationMethod<RenameProjectsLocationsCatalogsDatabasesTablesRequest, RenameProjectsLocationsCatalogsDatabasesTablesResponse, RenameProjectsLocationsCatalogsDatabasesTablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RenameProjectsLocationsCatalogsDatabasesTablesRequest,
   output: RenameProjectsLocationsCatalogsDatabasesTablesResponse,
   errors: [],
 }));
 
-/** Gets the table specified by the resource name. */
 export interface GetProjectsLocationsCatalogsDatabasesTablesRequest {
   /** Required. The name of the table to retrieve. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id}/databases/{database_id}/tables/{table_id} */
   name: string;
@@ -851,13 +850,13 @@ export const GetProjectsLocationsCatalogsDatabasesTablesResponse = Table;
 
 export type GetProjectsLocationsCatalogsDatabasesTablesError = CommonErrors;
 
+/** Gets the table specified by the resource name. */
 export const getProjectsLocationsCatalogsDatabasesTables: API.OperationMethod<GetProjectsLocationsCatalogsDatabasesTablesRequest, GetProjectsLocationsCatalogsDatabasesTablesResponse, GetProjectsLocationsCatalogsDatabasesTablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCatalogsDatabasesTablesRequest,
   output: GetProjectsLocationsCatalogsDatabasesTablesResponse,
   errors: [],
 }));
 
-/** Updates an existing table specified by the table ID. */
 export interface PatchProjectsLocationsCatalogsDatabasesTablesRequest {
   /** Output only. The resource name. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id}/databases/{database_id}/tables/{table_id} */
   name: string;
@@ -881,13 +880,13 @@ export const PatchProjectsLocationsCatalogsDatabasesTablesResponse = Table;
 
 export type PatchProjectsLocationsCatalogsDatabasesTablesError = CommonErrors;
 
+/** Updates an existing table specified by the table ID. */
 export const patchProjectsLocationsCatalogsDatabasesTables: API.OperationMethod<PatchProjectsLocationsCatalogsDatabasesTablesRequest, PatchProjectsLocationsCatalogsDatabasesTablesResponse, PatchProjectsLocationsCatalogsDatabasesTablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCatalogsDatabasesTablesRequest,
   output: PatchProjectsLocationsCatalogsDatabasesTablesResponse,
   errors: [],
 }));
 
-/** Creates a new table. */
 export interface CreateProjectsLocationsCatalogsDatabasesTablesRequest {
   /** Required. The ID to use for the table, which will become the final component of the table's resource name. */
   tableId?: string;
@@ -911,13 +910,13 @@ export const CreateProjectsLocationsCatalogsDatabasesTablesResponse = Table;
 
 export type CreateProjectsLocationsCatalogsDatabasesTablesError = CommonErrors;
 
+/** Creates a new table. */
 export const createProjectsLocationsCatalogsDatabasesTables: API.OperationMethod<CreateProjectsLocationsCatalogsDatabasesTablesRequest, CreateProjectsLocationsCatalogsDatabasesTablesResponse, CreateProjectsLocationsCatalogsDatabasesTablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCatalogsDatabasesTablesRequest,
   output: CreateProjectsLocationsCatalogsDatabasesTablesResponse,
   errors: [],
 }));
 
-/** Deletes an existing table specified by the table ID. */
 export interface DeleteProjectsLocationsCatalogsDatabasesTablesRequest {
   /** Required. The name of the table to delete. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id}/databases/{database_id}/tables/{table_id} */
   name: string;
@@ -935,13 +934,13 @@ export const DeleteProjectsLocationsCatalogsDatabasesTablesResponse = Table;
 
 export type DeleteProjectsLocationsCatalogsDatabasesTablesError = CommonErrors;
 
+/** Deletes an existing table specified by the table ID. */
 export const deleteProjectsLocationsCatalogsDatabasesTables: API.OperationMethod<DeleteProjectsLocationsCatalogsDatabasesTablesRequest, DeleteProjectsLocationsCatalogsDatabasesTablesResponse, DeleteProjectsLocationsCatalogsDatabasesTablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCatalogsDatabasesTablesRequest,
   output: DeleteProjectsLocationsCatalogsDatabasesTablesResponse,
   errors: [],
 }));
 
-/** List all tables in a specified database. */
 export interface ListProjectsLocationsCatalogsDatabasesTablesRequest {
   /** Required. The parent, which owns this collection of tables. Format: projects/{project_id_or_number}/locations/{location_id}/catalogs/{catalog_id}/databases/{database_id} */
   parent: string;
@@ -968,7 +967,8 @@ export const ListProjectsLocationsCatalogsDatabasesTablesResponse = ListTablesRe
 
 export type ListProjectsLocationsCatalogsDatabasesTablesError = CommonErrors;
 
-export const listProjectsLocationsCatalogsDatabasesTables = API.makePaginated(() => ({
+/** List all tables in a specified database. */
+export const listProjectsLocationsCatalogsDatabasesTables: API.PaginatedOperationMethod<ListProjectsLocationsCatalogsDatabasesTablesRequest, ListProjectsLocationsCatalogsDatabasesTablesResponse, ListProjectsLocationsCatalogsDatabasesTablesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCatalogsDatabasesTablesRequest,
   output: ListProjectsLocationsCatalogsDatabasesTablesResponse,
   errors: [],

@@ -462,7 +462,6 @@ export const GoogleCloudRecommenderV1MarkRecommendationFailedRequest: Schema.Sch
 // Operations
 // ==========================================================================
 
-/** Gets the requested Recommender Config. There is only one instance of the config for each Recommender. */
 export interface GetConfigOrganizationsLocationsRecommendersRequest {
   /** Required. Name of the Recommendation Config to get. Acceptable formats: * `projects/[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/config` * `projects/[PROJECT_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/config` * `organizations/[ORGANIZATION_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/config` * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/config` */
   name: string;
@@ -480,13 +479,13 @@ export const GetConfigOrganizationsLocationsRecommendersResponse = GoogleCloudRe
 
 export type GetConfigOrganizationsLocationsRecommendersError = CommonErrors;
 
+/** Gets the requested Recommender Config. There is only one instance of the config for each Recommender. */
 export const getConfigOrganizationsLocationsRecommenders: API.OperationMethod<GetConfigOrganizationsLocationsRecommendersRequest, GetConfigOrganizationsLocationsRecommendersResponse, GetConfigOrganizationsLocationsRecommendersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetConfigOrganizationsLocationsRecommendersRequest,
   output: GetConfigOrganizationsLocationsRecommendersResponse,
   errors: [],
 }));
 
-/** Updates a Recommender Config. This will create a new revision of the config. */
 export interface UpdateConfigOrganizationsLocationsRecommendersRequest {
   /** The list of fields to be updated. */
   updateMask?: string;
@@ -513,13 +512,13 @@ export const UpdateConfigOrganizationsLocationsRecommendersResponse = GoogleClou
 
 export type UpdateConfigOrganizationsLocationsRecommendersError = CommonErrors;
 
+/** Updates a Recommender Config. This will create a new revision of the config. */
 export const updateConfigOrganizationsLocationsRecommenders: API.OperationMethod<UpdateConfigOrganizationsLocationsRecommendersRequest, UpdateConfigOrganizationsLocationsRecommendersResponse, UpdateConfigOrganizationsLocationsRecommendersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateConfigOrganizationsLocationsRecommendersRequest,
   output: UpdateConfigOrganizationsLocationsRecommendersResponse,
   errors: [],
 }));
 
-/** Marks the Recommendation State as Claimed. Users can use this method to indicate to the Recommender API that they are starting to apply the recommendation themselves. This stops the recommendation content from being updated. Associated insights are frozen and placed in the ACCEPTED state. MarkRecommendationClaimed can be applied to recommendations in CLAIMED, SUCCEEDED, FAILED, or ACTIVE state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export interface MarkClaimedOrganizationsLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
@@ -540,13 +539,13 @@ export const MarkClaimedOrganizationsLocationsRecommendersRecommendationsRespons
 
 export type MarkClaimedOrganizationsLocationsRecommendersRecommendationsError = CommonErrors;
 
+/** Marks the Recommendation State as Claimed. Users can use this method to indicate to the Recommender API that they are starting to apply the recommendation themselves. This stops the recommendation content from being updated. Associated insights are frozen and placed in the ACCEPTED state. MarkRecommendationClaimed can be applied to recommendations in CLAIMED, SUCCEEDED, FAILED, or ACTIVE state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export const markClaimedOrganizationsLocationsRecommendersRecommendations: API.OperationMethod<MarkClaimedOrganizationsLocationsRecommendersRecommendationsRequest, MarkClaimedOrganizationsLocationsRecommendersRecommendationsResponse, MarkClaimedOrganizationsLocationsRecommendersRecommendationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MarkClaimedOrganizationsLocationsRecommendersRecommendationsRequest,
   output: MarkClaimedOrganizationsLocationsRecommendersRecommendationsResponse,
   errors: [],
 }));
 
-/** Marks the Recommendation State as Failed. Users can use this method to indicate to the Recommender API that they have applied the recommendation themselves, and the operation failed. This stops the recommendation content from being updated. Associated insights are frozen and placed in the ACCEPTED state. MarkRecommendationFailed can be applied to recommendations in ACTIVE, CLAIMED, SUCCEEDED, or FAILED state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export interface MarkFailedOrganizationsLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
@@ -567,13 +566,13 @@ export const MarkFailedOrganizationsLocationsRecommendersRecommendationsResponse
 
 export type MarkFailedOrganizationsLocationsRecommendersRecommendationsError = CommonErrors;
 
+/** Marks the Recommendation State as Failed. Users can use this method to indicate to the Recommender API that they have applied the recommendation themselves, and the operation failed. This stops the recommendation content from being updated. Associated insights are frozen and placed in the ACCEPTED state. MarkRecommendationFailed can be applied to recommendations in ACTIVE, CLAIMED, SUCCEEDED, or FAILED state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export const markFailedOrganizationsLocationsRecommendersRecommendations: API.OperationMethod<MarkFailedOrganizationsLocationsRecommendersRecommendationsRequest, MarkFailedOrganizationsLocationsRecommendersRecommendationsResponse, MarkFailedOrganizationsLocationsRecommendersRecommendationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MarkFailedOrganizationsLocationsRecommendersRecommendationsRequest,
   output: MarkFailedOrganizationsLocationsRecommendersRecommendationsResponse,
   errors: [],
 }));
 
-/** Mark the Recommendation State as Dismissed. Users can use this method to indicate to the Recommender API that an ACTIVE recommendation has to be marked back as DISMISSED. MarkRecommendationDismissed can be applied to recommendations in ACTIVE state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export interface MarkDismissedOrganizationsLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
@@ -594,13 +593,13 @@ export const MarkDismissedOrganizationsLocationsRecommendersRecommendationsRespo
 
 export type MarkDismissedOrganizationsLocationsRecommendersRecommendationsError = CommonErrors;
 
+/** Mark the Recommendation State as Dismissed. Users can use this method to indicate to the Recommender API that an ACTIVE recommendation has to be marked back as DISMISSED. MarkRecommendationDismissed can be applied to recommendations in ACTIVE state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export const markDismissedOrganizationsLocationsRecommendersRecommendations: API.OperationMethod<MarkDismissedOrganizationsLocationsRecommendersRecommendationsRequest, MarkDismissedOrganizationsLocationsRecommendersRecommendationsResponse, MarkDismissedOrganizationsLocationsRecommendersRecommendationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MarkDismissedOrganizationsLocationsRecommendersRecommendationsRequest,
   output: MarkDismissedOrganizationsLocationsRecommendersRecommendationsResponse,
   errors: [],
 }));
 
-/** Lists recommendations for the specified Cloud Resource. Requires the recommender.*.list IAM permission for the specified recommender. */
 export interface ListOrganizationsLocationsRecommendersRecommendationsRequest {
   /** Required. The container resource on which to execute the request. Acceptable formats: * `projects/[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` * `projects/[PROJECT_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` * `folders/[FOLDER_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` * `organizations/[ORGANIZATION_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` LOCATION here refers to GCP Locations: https://cloud.google.com/about/locations/ RECOMMENDER_ID refers to supported recommenders: https://cloud.google.com/recommender/docs/recommenders. */
   parent: string;
@@ -627,7 +626,8 @@ export const ListOrganizationsLocationsRecommendersRecommendationsResponse = Goo
 
 export type ListOrganizationsLocationsRecommendersRecommendationsError = CommonErrors;
 
-export const listOrganizationsLocationsRecommendersRecommendations = API.makePaginated(() => ({
+/** Lists recommendations for the specified Cloud Resource. Requires the recommender.*.list IAM permission for the specified recommender. */
+export const listOrganizationsLocationsRecommendersRecommendations: API.PaginatedOperationMethod<ListOrganizationsLocationsRecommendersRecommendationsRequest, ListOrganizationsLocationsRecommendersRecommendationsResponse, ListOrganizationsLocationsRecommendersRecommendationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsRecommendersRecommendationsRequest,
   output: ListOrganizationsLocationsRecommendersRecommendationsResponse,
   errors: [],
@@ -637,7 +637,6 @@ export const listOrganizationsLocationsRecommendersRecommendations = API.makePag
   },
 }));
 
-/** Marks the Recommendation State as Succeeded. Users can use this method to indicate to the Recommender API that they have applied the recommendation themselves, and the operation was successful. This stops the recommendation content from being updated. Associated insights are frozen and placed in the ACCEPTED state. MarkRecommendationSucceeded can be applied to recommendations in ACTIVE, CLAIMED, SUCCEEDED, or FAILED state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export interface MarkSucceededOrganizationsLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
@@ -658,13 +657,13 @@ export const MarkSucceededOrganizationsLocationsRecommendersRecommendationsRespo
 
 export type MarkSucceededOrganizationsLocationsRecommendersRecommendationsError = CommonErrors;
 
+/** Marks the Recommendation State as Succeeded. Users can use this method to indicate to the Recommender API that they have applied the recommendation themselves, and the operation was successful. This stops the recommendation content from being updated. Associated insights are frozen and placed in the ACCEPTED state. MarkRecommendationSucceeded can be applied to recommendations in ACTIVE, CLAIMED, SUCCEEDED, or FAILED state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export const markSucceededOrganizationsLocationsRecommendersRecommendations: API.OperationMethod<MarkSucceededOrganizationsLocationsRecommendersRecommendationsRequest, MarkSucceededOrganizationsLocationsRecommendersRecommendationsResponse, MarkSucceededOrganizationsLocationsRecommendersRecommendationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MarkSucceededOrganizationsLocationsRecommendersRecommendationsRequest,
   output: MarkSucceededOrganizationsLocationsRecommendersRecommendationsResponse,
   errors: [],
 }));
 
-/** Gets the requested recommendation. Requires the recommender.*.get IAM permission for the specified recommender. */
 export interface GetOrganizationsLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
@@ -682,13 +681,13 @@ export const GetOrganizationsLocationsRecommendersRecommendationsResponse = Goog
 
 export type GetOrganizationsLocationsRecommendersRecommendationsError = CommonErrors;
 
+/** Gets the requested recommendation. Requires the recommender.*.get IAM permission for the specified recommender. */
 export const getOrganizationsLocationsRecommendersRecommendations: API.OperationMethod<GetOrganizationsLocationsRecommendersRecommendationsRequest, GetOrganizationsLocationsRecommendersRecommendationsResponse, GetOrganizationsLocationsRecommendersRecommendationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsRecommendersRecommendationsRequest,
   output: GetOrganizationsLocationsRecommendersRecommendationsResponse,
   errors: [],
 }));
 
-/** Updates an InsightTypeConfig change. This will create a new revision of the config. */
 export interface UpdateConfigOrganizationsLocationsInsightTypesRequest {
   /** The list of fields to be updated. */
   updateMask?: string;
@@ -715,13 +714,13 @@ export const UpdateConfigOrganizationsLocationsInsightTypesResponse = GoogleClou
 
 export type UpdateConfigOrganizationsLocationsInsightTypesError = CommonErrors;
 
+/** Updates an InsightTypeConfig change. This will create a new revision of the config. */
 export const updateConfigOrganizationsLocationsInsightTypes: API.OperationMethod<UpdateConfigOrganizationsLocationsInsightTypesRequest, UpdateConfigOrganizationsLocationsInsightTypesResponse, UpdateConfigOrganizationsLocationsInsightTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateConfigOrganizationsLocationsInsightTypesRequest,
   output: UpdateConfigOrganizationsLocationsInsightTypesResponse,
   errors: [],
 }));
 
-/** Gets the requested InsightTypeConfig. There is only one instance of the config for each InsightType. */
 export interface GetConfigOrganizationsLocationsInsightTypesRequest {
   /** Required. Name of the InsightTypeConfig to get. Acceptable formats: * `projects/[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config` * `projects/[PROJECT_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config` * `organizations/[ORGANIZATION_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config` * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config` */
   name: string;
@@ -739,13 +738,13 @@ export const GetConfigOrganizationsLocationsInsightTypesResponse = GoogleCloudRe
 
 export type GetConfigOrganizationsLocationsInsightTypesError = CommonErrors;
 
+/** Gets the requested InsightTypeConfig. There is only one instance of the config for each InsightType. */
 export const getConfigOrganizationsLocationsInsightTypes: API.OperationMethod<GetConfigOrganizationsLocationsInsightTypesRequest, GetConfigOrganizationsLocationsInsightTypesResponse, GetConfigOrganizationsLocationsInsightTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetConfigOrganizationsLocationsInsightTypesRequest,
   output: GetConfigOrganizationsLocationsInsightTypesResponse,
   errors: [],
 }));
 
-/** Marks the Insight State as Accepted. Users can use this method to indicate to the Recommender API that they have applied some action based on the insight. This stops the insight content from being updated. MarkInsightAccepted can be applied to insights in ACTIVE state. Requires the recommender.*.update IAM permission for the specified insight. */
 export interface MarkAcceptedOrganizationsLocationsInsightTypesInsightsRequest {
   /** Required. Name of the insight. */
   name: string;
@@ -766,13 +765,13 @@ export const MarkAcceptedOrganizationsLocationsInsightTypesInsightsResponse = Go
 
 export type MarkAcceptedOrganizationsLocationsInsightTypesInsightsError = CommonErrors;
 
+/** Marks the Insight State as Accepted. Users can use this method to indicate to the Recommender API that they have applied some action based on the insight. This stops the insight content from being updated. MarkInsightAccepted can be applied to insights in ACTIVE state. Requires the recommender.*.update IAM permission for the specified insight. */
 export const markAcceptedOrganizationsLocationsInsightTypesInsights: API.OperationMethod<MarkAcceptedOrganizationsLocationsInsightTypesInsightsRequest, MarkAcceptedOrganizationsLocationsInsightTypesInsightsResponse, MarkAcceptedOrganizationsLocationsInsightTypesInsightsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MarkAcceptedOrganizationsLocationsInsightTypesInsightsRequest,
   output: MarkAcceptedOrganizationsLocationsInsightTypesInsightsResponse,
   errors: [],
 }));
 
-/** Lists insights for the specified Cloud Resource. Requires the recommender.*.list IAM permission for the specified insight type. */
 export interface ListOrganizationsLocationsInsightTypesInsightsRequest {
   /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. If not specified, the server will determine the number of results to return. */
   pageSize?: number;
@@ -799,7 +798,8 @@ export const ListOrganizationsLocationsInsightTypesInsightsResponse = GoogleClou
 
 export type ListOrganizationsLocationsInsightTypesInsightsError = CommonErrors;
 
-export const listOrganizationsLocationsInsightTypesInsights = API.makePaginated(() => ({
+/** Lists insights for the specified Cloud Resource. Requires the recommender.*.list IAM permission for the specified insight type. */
+export const listOrganizationsLocationsInsightTypesInsights: API.PaginatedOperationMethod<ListOrganizationsLocationsInsightTypesInsightsRequest, ListOrganizationsLocationsInsightTypesInsightsResponse, ListOrganizationsLocationsInsightTypesInsightsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsInsightTypesInsightsRequest,
   output: ListOrganizationsLocationsInsightTypesInsightsResponse,
   errors: [],
@@ -809,7 +809,6 @@ export const listOrganizationsLocationsInsightTypesInsights = API.makePaginated(
   },
 }));
 
-/** Gets the requested insight. Requires the recommender.*.get IAM permission for the specified insight type. */
 export interface GetOrganizationsLocationsInsightTypesInsightsRequest {
   /** Required. Name of the insight. */
   name: string;
@@ -827,13 +826,13 @@ export const GetOrganizationsLocationsInsightTypesInsightsResponse = GoogleCloud
 
 export type GetOrganizationsLocationsInsightTypesInsightsError = CommonErrors;
 
+/** Gets the requested insight. Requires the recommender.*.get IAM permission for the specified insight type. */
 export const getOrganizationsLocationsInsightTypesInsights: API.OperationMethod<GetOrganizationsLocationsInsightTypesInsightsRequest, GetOrganizationsLocationsInsightTypesInsightsResponse, GetOrganizationsLocationsInsightTypesInsightsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsInsightTypesInsightsRequest,
   output: GetOrganizationsLocationsInsightTypesInsightsResponse,
   errors: [],
 }));
 
-/** Gets the requested recommendation. Requires the recommender.*.get IAM permission for the specified recommender. */
 export interface GetFoldersLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
@@ -851,13 +850,13 @@ export const GetFoldersLocationsRecommendersRecommendationsResponse = GoogleClou
 
 export type GetFoldersLocationsRecommendersRecommendationsError = CommonErrors;
 
+/** Gets the requested recommendation. Requires the recommender.*.get IAM permission for the specified recommender. */
 export const getFoldersLocationsRecommendersRecommendations: API.OperationMethod<GetFoldersLocationsRecommendersRecommendationsRequest, GetFoldersLocationsRecommendersRecommendationsResponse, GetFoldersLocationsRecommendersRecommendationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersLocationsRecommendersRecommendationsRequest,
   output: GetFoldersLocationsRecommendersRecommendationsResponse,
   errors: [],
 }));
 
-/** Mark the Recommendation State as Dismissed. Users can use this method to indicate to the Recommender API that an ACTIVE recommendation has to be marked back as DISMISSED. MarkRecommendationDismissed can be applied to recommendations in ACTIVE state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export interface MarkDismissedFoldersLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
@@ -878,13 +877,13 @@ export const MarkDismissedFoldersLocationsRecommendersRecommendationsResponse = 
 
 export type MarkDismissedFoldersLocationsRecommendersRecommendationsError = CommonErrors;
 
+/** Mark the Recommendation State as Dismissed. Users can use this method to indicate to the Recommender API that an ACTIVE recommendation has to be marked back as DISMISSED. MarkRecommendationDismissed can be applied to recommendations in ACTIVE state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export const markDismissedFoldersLocationsRecommendersRecommendations: API.OperationMethod<MarkDismissedFoldersLocationsRecommendersRecommendationsRequest, MarkDismissedFoldersLocationsRecommendersRecommendationsResponse, MarkDismissedFoldersLocationsRecommendersRecommendationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MarkDismissedFoldersLocationsRecommendersRecommendationsRequest,
   output: MarkDismissedFoldersLocationsRecommendersRecommendationsResponse,
   errors: [],
 }));
 
-/** Marks the Recommendation State as Claimed. Users can use this method to indicate to the Recommender API that they are starting to apply the recommendation themselves. This stops the recommendation content from being updated. Associated insights are frozen and placed in the ACCEPTED state. MarkRecommendationClaimed can be applied to recommendations in CLAIMED, SUCCEEDED, FAILED, or ACTIVE state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export interface MarkClaimedFoldersLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
@@ -905,13 +904,13 @@ export const MarkClaimedFoldersLocationsRecommendersRecommendationsResponse = Go
 
 export type MarkClaimedFoldersLocationsRecommendersRecommendationsError = CommonErrors;
 
+/** Marks the Recommendation State as Claimed. Users can use this method to indicate to the Recommender API that they are starting to apply the recommendation themselves. This stops the recommendation content from being updated. Associated insights are frozen and placed in the ACCEPTED state. MarkRecommendationClaimed can be applied to recommendations in CLAIMED, SUCCEEDED, FAILED, or ACTIVE state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export const markClaimedFoldersLocationsRecommendersRecommendations: API.OperationMethod<MarkClaimedFoldersLocationsRecommendersRecommendationsRequest, MarkClaimedFoldersLocationsRecommendersRecommendationsResponse, MarkClaimedFoldersLocationsRecommendersRecommendationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MarkClaimedFoldersLocationsRecommendersRecommendationsRequest,
   output: MarkClaimedFoldersLocationsRecommendersRecommendationsResponse,
   errors: [],
 }));
 
-/** Marks the Recommendation State as Succeeded. Users can use this method to indicate to the Recommender API that they have applied the recommendation themselves, and the operation was successful. This stops the recommendation content from being updated. Associated insights are frozen and placed in the ACCEPTED state. MarkRecommendationSucceeded can be applied to recommendations in ACTIVE, CLAIMED, SUCCEEDED, or FAILED state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export interface MarkSucceededFoldersLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
@@ -932,13 +931,13 @@ export const MarkSucceededFoldersLocationsRecommendersRecommendationsResponse = 
 
 export type MarkSucceededFoldersLocationsRecommendersRecommendationsError = CommonErrors;
 
+/** Marks the Recommendation State as Succeeded. Users can use this method to indicate to the Recommender API that they have applied the recommendation themselves, and the operation was successful. This stops the recommendation content from being updated. Associated insights are frozen and placed in the ACCEPTED state. MarkRecommendationSucceeded can be applied to recommendations in ACTIVE, CLAIMED, SUCCEEDED, or FAILED state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export const markSucceededFoldersLocationsRecommendersRecommendations: API.OperationMethod<MarkSucceededFoldersLocationsRecommendersRecommendationsRequest, MarkSucceededFoldersLocationsRecommendersRecommendationsResponse, MarkSucceededFoldersLocationsRecommendersRecommendationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MarkSucceededFoldersLocationsRecommendersRecommendationsRequest,
   output: MarkSucceededFoldersLocationsRecommendersRecommendationsResponse,
   errors: [],
 }));
 
-/** Lists recommendations for the specified Cloud Resource. Requires the recommender.*.list IAM permission for the specified recommender. */
 export interface ListFoldersLocationsRecommendersRecommendationsRequest {
   /** Required. The container resource on which to execute the request. Acceptable formats: * `projects/[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` * `projects/[PROJECT_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` * `folders/[FOLDER_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` * `organizations/[ORGANIZATION_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` LOCATION here refers to GCP Locations: https://cloud.google.com/about/locations/ RECOMMENDER_ID refers to supported recommenders: https://cloud.google.com/recommender/docs/recommenders. */
   parent: string;
@@ -965,7 +964,8 @@ export const ListFoldersLocationsRecommendersRecommendationsResponse = GoogleClo
 
 export type ListFoldersLocationsRecommendersRecommendationsError = CommonErrors;
 
-export const listFoldersLocationsRecommendersRecommendations = API.makePaginated(() => ({
+/** Lists recommendations for the specified Cloud Resource. Requires the recommender.*.list IAM permission for the specified recommender. */
+export const listFoldersLocationsRecommendersRecommendations: API.PaginatedOperationMethod<ListFoldersLocationsRecommendersRecommendationsRequest, ListFoldersLocationsRecommendersRecommendationsResponse, ListFoldersLocationsRecommendersRecommendationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersLocationsRecommendersRecommendationsRequest,
   output: ListFoldersLocationsRecommendersRecommendationsResponse,
   errors: [],
@@ -975,7 +975,6 @@ export const listFoldersLocationsRecommendersRecommendations = API.makePaginated
   },
 }));
 
-/** Marks the Recommendation State as Failed. Users can use this method to indicate to the Recommender API that they have applied the recommendation themselves, and the operation failed. This stops the recommendation content from being updated. Associated insights are frozen and placed in the ACCEPTED state. MarkRecommendationFailed can be applied to recommendations in ACTIVE, CLAIMED, SUCCEEDED, or FAILED state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export interface MarkFailedFoldersLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
@@ -996,13 +995,13 @@ export const MarkFailedFoldersLocationsRecommendersRecommendationsResponse = Goo
 
 export type MarkFailedFoldersLocationsRecommendersRecommendationsError = CommonErrors;
 
+/** Marks the Recommendation State as Failed. Users can use this method to indicate to the Recommender API that they have applied the recommendation themselves, and the operation failed. This stops the recommendation content from being updated. Associated insights are frozen and placed in the ACCEPTED state. MarkRecommendationFailed can be applied to recommendations in ACTIVE, CLAIMED, SUCCEEDED, or FAILED state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export const markFailedFoldersLocationsRecommendersRecommendations: API.OperationMethod<MarkFailedFoldersLocationsRecommendersRecommendationsRequest, MarkFailedFoldersLocationsRecommendersRecommendationsResponse, MarkFailedFoldersLocationsRecommendersRecommendationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MarkFailedFoldersLocationsRecommendersRecommendationsRequest,
   output: MarkFailedFoldersLocationsRecommendersRecommendationsResponse,
   errors: [],
 }));
 
-/** Lists insights for the specified Cloud Resource. Requires the recommender.*.list IAM permission for the specified insight type. */
 export interface ListFoldersLocationsInsightTypesInsightsRequest {
   /** Required. The container resource on which to execute the request. Acceptable formats: * `projects/[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]` * `projects/[PROJECT_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]` * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]` * `folders/[FOLDER_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]` * `organizations/[ORGANIZATION_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]` LOCATION here refers to GCP Locations: https://cloud.google.com/about/locations/ INSIGHT_TYPE_ID refers to supported insight types: https://cloud.google.com/recommender/docs/insights/insight-types. */
   parent: string;
@@ -1029,7 +1028,8 @@ export const ListFoldersLocationsInsightTypesInsightsResponse = GoogleCloudRecom
 
 export type ListFoldersLocationsInsightTypesInsightsError = CommonErrors;
 
-export const listFoldersLocationsInsightTypesInsights = API.makePaginated(() => ({
+/** Lists insights for the specified Cloud Resource. Requires the recommender.*.list IAM permission for the specified insight type. */
+export const listFoldersLocationsInsightTypesInsights: API.PaginatedOperationMethod<ListFoldersLocationsInsightTypesInsightsRequest, ListFoldersLocationsInsightTypesInsightsResponse, ListFoldersLocationsInsightTypesInsightsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersLocationsInsightTypesInsightsRequest,
   output: ListFoldersLocationsInsightTypesInsightsResponse,
   errors: [],
@@ -1039,7 +1039,6 @@ export const listFoldersLocationsInsightTypesInsights = API.makePaginated(() => 
   },
 }));
 
-/** Marks the Insight State as Accepted. Users can use this method to indicate to the Recommender API that they have applied some action based on the insight. This stops the insight content from being updated. MarkInsightAccepted can be applied to insights in ACTIVE state. Requires the recommender.*.update IAM permission for the specified insight. */
 export interface MarkAcceptedFoldersLocationsInsightTypesInsightsRequest {
   /** Required. Name of the insight. */
   name: string;
@@ -1060,13 +1059,13 @@ export const MarkAcceptedFoldersLocationsInsightTypesInsightsResponse = GoogleCl
 
 export type MarkAcceptedFoldersLocationsInsightTypesInsightsError = CommonErrors;
 
+/** Marks the Insight State as Accepted. Users can use this method to indicate to the Recommender API that they have applied some action based on the insight. This stops the insight content from being updated. MarkInsightAccepted can be applied to insights in ACTIVE state. Requires the recommender.*.update IAM permission for the specified insight. */
 export const markAcceptedFoldersLocationsInsightTypesInsights: API.OperationMethod<MarkAcceptedFoldersLocationsInsightTypesInsightsRequest, MarkAcceptedFoldersLocationsInsightTypesInsightsResponse, MarkAcceptedFoldersLocationsInsightTypesInsightsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MarkAcceptedFoldersLocationsInsightTypesInsightsRequest,
   output: MarkAcceptedFoldersLocationsInsightTypesInsightsResponse,
   errors: [],
 }));
 
-/** Gets the requested insight. Requires the recommender.*.get IAM permission for the specified insight type. */
 export interface GetFoldersLocationsInsightTypesInsightsRequest {
   /** Required. Name of the insight. */
   name: string;
@@ -1084,13 +1083,13 @@ export const GetFoldersLocationsInsightTypesInsightsResponse = GoogleCloudRecomm
 
 export type GetFoldersLocationsInsightTypesInsightsError = CommonErrors;
 
+/** Gets the requested insight. Requires the recommender.*.get IAM permission for the specified insight type. */
 export const getFoldersLocationsInsightTypesInsights: API.OperationMethod<GetFoldersLocationsInsightTypesInsightsRequest, GetFoldersLocationsInsightTypesInsightsResponse, GetFoldersLocationsInsightTypesInsightsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersLocationsInsightTypesInsightsRequest,
   output: GetFoldersLocationsInsightTypesInsightsResponse,
   errors: [],
 }));
 
-/** Gets the requested Recommender Config. There is only one instance of the config for each Recommender. */
 export interface GetConfigProjectsLocationsRecommendersRequest {
   /** Required. Name of the Recommendation Config to get. Acceptable formats: * `projects/[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/config` * `projects/[PROJECT_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/config` * `organizations/[ORGANIZATION_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/config` * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/config` */
   name: string;
@@ -1108,13 +1107,13 @@ export const GetConfigProjectsLocationsRecommendersResponse = GoogleCloudRecomme
 
 export type GetConfigProjectsLocationsRecommendersError = CommonErrors;
 
+/** Gets the requested Recommender Config. There is only one instance of the config for each Recommender. */
 export const getConfigProjectsLocationsRecommenders: API.OperationMethod<GetConfigProjectsLocationsRecommendersRequest, GetConfigProjectsLocationsRecommendersResponse, GetConfigProjectsLocationsRecommendersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetConfigProjectsLocationsRecommendersRequest,
   output: GetConfigProjectsLocationsRecommendersResponse,
   errors: [],
 }));
 
-/** Updates a Recommender Config. This will create a new revision of the config. */
 export interface UpdateConfigProjectsLocationsRecommendersRequest {
   /** The list of fields to be updated. */
   updateMask?: string;
@@ -1141,13 +1140,13 @@ export const UpdateConfigProjectsLocationsRecommendersResponse = GoogleCloudReco
 
 export type UpdateConfigProjectsLocationsRecommendersError = CommonErrors;
 
+/** Updates a Recommender Config. This will create a new revision of the config. */
 export const updateConfigProjectsLocationsRecommenders: API.OperationMethod<UpdateConfigProjectsLocationsRecommendersRequest, UpdateConfigProjectsLocationsRecommendersResponse, UpdateConfigProjectsLocationsRecommendersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateConfigProjectsLocationsRecommendersRequest,
   output: UpdateConfigProjectsLocationsRecommendersResponse,
   errors: [],
 }));
 
-/** Marks the Recommendation State as Succeeded. Users can use this method to indicate to the Recommender API that they have applied the recommendation themselves, and the operation was successful. This stops the recommendation content from being updated. Associated insights are frozen and placed in the ACCEPTED state. MarkRecommendationSucceeded can be applied to recommendations in ACTIVE, CLAIMED, SUCCEEDED, or FAILED state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export interface MarkSucceededProjectsLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
@@ -1168,13 +1167,13 @@ export const MarkSucceededProjectsLocationsRecommendersRecommendationsResponse =
 
 export type MarkSucceededProjectsLocationsRecommendersRecommendationsError = CommonErrors;
 
+/** Marks the Recommendation State as Succeeded. Users can use this method to indicate to the Recommender API that they have applied the recommendation themselves, and the operation was successful. This stops the recommendation content from being updated. Associated insights are frozen and placed in the ACCEPTED state. MarkRecommendationSucceeded can be applied to recommendations in ACTIVE, CLAIMED, SUCCEEDED, or FAILED state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export const markSucceededProjectsLocationsRecommendersRecommendations: API.OperationMethod<MarkSucceededProjectsLocationsRecommendersRecommendationsRequest, MarkSucceededProjectsLocationsRecommendersRecommendationsResponse, MarkSucceededProjectsLocationsRecommendersRecommendationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MarkSucceededProjectsLocationsRecommendersRecommendationsRequest,
   output: MarkSucceededProjectsLocationsRecommendersRecommendationsResponse,
   errors: [],
 }));
 
-/** Mark the Recommendation State as Dismissed. Users can use this method to indicate to the Recommender API that an ACTIVE recommendation has to be marked back as DISMISSED. MarkRecommendationDismissed can be applied to recommendations in ACTIVE state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export interface MarkDismissedProjectsLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
@@ -1195,13 +1194,13 @@ export const MarkDismissedProjectsLocationsRecommendersRecommendationsResponse =
 
 export type MarkDismissedProjectsLocationsRecommendersRecommendationsError = CommonErrors;
 
+/** Mark the Recommendation State as Dismissed. Users can use this method to indicate to the Recommender API that an ACTIVE recommendation has to be marked back as DISMISSED. MarkRecommendationDismissed can be applied to recommendations in ACTIVE state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export const markDismissedProjectsLocationsRecommendersRecommendations: API.OperationMethod<MarkDismissedProjectsLocationsRecommendersRecommendationsRequest, MarkDismissedProjectsLocationsRecommendersRecommendationsResponse, MarkDismissedProjectsLocationsRecommendersRecommendationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MarkDismissedProjectsLocationsRecommendersRecommendationsRequest,
   output: MarkDismissedProjectsLocationsRecommendersRecommendationsResponse,
   errors: [],
 }));
 
-/** Gets the requested recommendation. Requires the recommender.*.get IAM permission for the specified recommender. */
 export interface GetProjectsLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
@@ -1219,13 +1218,13 @@ export const GetProjectsLocationsRecommendersRecommendationsResponse = GoogleClo
 
 export type GetProjectsLocationsRecommendersRecommendationsError = CommonErrors;
 
+/** Gets the requested recommendation. Requires the recommender.*.get IAM permission for the specified recommender. */
 export const getProjectsLocationsRecommendersRecommendations: API.OperationMethod<GetProjectsLocationsRecommendersRecommendationsRequest, GetProjectsLocationsRecommendersRecommendationsResponse, GetProjectsLocationsRecommendersRecommendationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRecommendersRecommendationsRequest,
   output: GetProjectsLocationsRecommendersRecommendationsResponse,
   errors: [],
 }));
 
-/** Marks the Recommendation State as Claimed. Users can use this method to indicate to the Recommender API that they are starting to apply the recommendation themselves. This stops the recommendation content from being updated. Associated insights are frozen and placed in the ACCEPTED state. MarkRecommendationClaimed can be applied to recommendations in CLAIMED, SUCCEEDED, FAILED, or ACTIVE state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export interface MarkClaimedProjectsLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
@@ -1246,13 +1245,13 @@ export const MarkClaimedProjectsLocationsRecommendersRecommendationsResponse = G
 
 export type MarkClaimedProjectsLocationsRecommendersRecommendationsError = CommonErrors;
 
+/** Marks the Recommendation State as Claimed. Users can use this method to indicate to the Recommender API that they are starting to apply the recommendation themselves. This stops the recommendation content from being updated. Associated insights are frozen and placed in the ACCEPTED state. MarkRecommendationClaimed can be applied to recommendations in CLAIMED, SUCCEEDED, FAILED, or ACTIVE state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export const markClaimedProjectsLocationsRecommendersRecommendations: API.OperationMethod<MarkClaimedProjectsLocationsRecommendersRecommendationsRequest, MarkClaimedProjectsLocationsRecommendersRecommendationsResponse, MarkClaimedProjectsLocationsRecommendersRecommendationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MarkClaimedProjectsLocationsRecommendersRecommendationsRequest,
   output: MarkClaimedProjectsLocationsRecommendersRecommendationsResponse,
   errors: [],
 }));
 
-/** Marks the Recommendation State as Failed. Users can use this method to indicate to the Recommender API that they have applied the recommendation themselves, and the operation failed. This stops the recommendation content from being updated. Associated insights are frozen and placed in the ACCEPTED state. MarkRecommendationFailed can be applied to recommendations in ACTIVE, CLAIMED, SUCCEEDED, or FAILED state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export interface MarkFailedProjectsLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
@@ -1273,13 +1272,13 @@ export const MarkFailedProjectsLocationsRecommendersRecommendationsResponse = Go
 
 export type MarkFailedProjectsLocationsRecommendersRecommendationsError = CommonErrors;
 
+/** Marks the Recommendation State as Failed. Users can use this method to indicate to the Recommender API that they have applied the recommendation themselves, and the operation failed. This stops the recommendation content from being updated. Associated insights are frozen and placed in the ACCEPTED state. MarkRecommendationFailed can be applied to recommendations in ACTIVE, CLAIMED, SUCCEEDED, or FAILED state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export const markFailedProjectsLocationsRecommendersRecommendations: API.OperationMethod<MarkFailedProjectsLocationsRecommendersRecommendationsRequest, MarkFailedProjectsLocationsRecommendersRecommendationsResponse, MarkFailedProjectsLocationsRecommendersRecommendationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MarkFailedProjectsLocationsRecommendersRecommendationsRequest,
   output: MarkFailedProjectsLocationsRecommendersRecommendationsResponse,
   errors: [],
 }));
 
-/** Lists recommendations for the specified Cloud Resource. Requires the recommender.*.list IAM permission for the specified recommender. */
 export interface ListProjectsLocationsRecommendersRecommendationsRequest {
   /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. If not specified, the server will determine the number of results to return. */
   pageSize?: number;
@@ -1306,7 +1305,8 @@ export const ListProjectsLocationsRecommendersRecommendationsResponse = GoogleCl
 
 export type ListProjectsLocationsRecommendersRecommendationsError = CommonErrors;
 
-export const listProjectsLocationsRecommendersRecommendations = API.makePaginated(() => ({
+/** Lists recommendations for the specified Cloud Resource. Requires the recommender.*.list IAM permission for the specified recommender. */
+export const listProjectsLocationsRecommendersRecommendations: API.PaginatedOperationMethod<ListProjectsLocationsRecommendersRecommendationsRequest, ListProjectsLocationsRecommendersRecommendationsResponse, ListProjectsLocationsRecommendersRecommendationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRecommendersRecommendationsRequest,
   output: ListProjectsLocationsRecommendersRecommendationsResponse,
   errors: [],
@@ -1316,7 +1316,6 @@ export const listProjectsLocationsRecommendersRecommendations = API.makePaginate
   },
 }));
 
-/** Gets the requested InsightTypeConfig. There is only one instance of the config for each InsightType. */
 export interface GetConfigProjectsLocationsInsightTypesRequest {
   /** Required. Name of the InsightTypeConfig to get. Acceptable formats: * `projects/[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config` * `projects/[PROJECT_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config` * `organizations/[ORGANIZATION_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config` * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config` */
   name: string;
@@ -1334,13 +1333,13 @@ export const GetConfigProjectsLocationsInsightTypesResponse = GoogleCloudRecomme
 
 export type GetConfigProjectsLocationsInsightTypesError = CommonErrors;
 
+/** Gets the requested InsightTypeConfig. There is only one instance of the config for each InsightType. */
 export const getConfigProjectsLocationsInsightTypes: API.OperationMethod<GetConfigProjectsLocationsInsightTypesRequest, GetConfigProjectsLocationsInsightTypesResponse, GetConfigProjectsLocationsInsightTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetConfigProjectsLocationsInsightTypesRequest,
   output: GetConfigProjectsLocationsInsightTypesResponse,
   errors: [],
 }));
 
-/** Updates an InsightTypeConfig change. This will create a new revision of the config. */
 export interface UpdateConfigProjectsLocationsInsightTypesRequest {
   /** Identifier. Name of insight type config. Eg, projects/[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config */
   name: string;
@@ -1367,13 +1366,13 @@ export const UpdateConfigProjectsLocationsInsightTypesResponse = GoogleCloudReco
 
 export type UpdateConfigProjectsLocationsInsightTypesError = CommonErrors;
 
+/** Updates an InsightTypeConfig change. This will create a new revision of the config. */
 export const updateConfigProjectsLocationsInsightTypes: API.OperationMethod<UpdateConfigProjectsLocationsInsightTypesRequest, UpdateConfigProjectsLocationsInsightTypesResponse, UpdateConfigProjectsLocationsInsightTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateConfigProjectsLocationsInsightTypesRequest,
   output: UpdateConfigProjectsLocationsInsightTypesResponse,
   errors: [],
 }));
 
-/** Lists insights for the specified Cloud Resource. Requires the recommender.*.list IAM permission for the specified insight type. */
 export interface ListProjectsLocationsInsightTypesInsightsRequest {
   /** Optional. If present, retrieves the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters must be identical to those in the previous call. */
   pageToken?: string;
@@ -1400,7 +1399,8 @@ export const ListProjectsLocationsInsightTypesInsightsResponse = GoogleCloudReco
 
 export type ListProjectsLocationsInsightTypesInsightsError = CommonErrors;
 
-export const listProjectsLocationsInsightTypesInsights = API.makePaginated(() => ({
+/** Lists insights for the specified Cloud Resource. Requires the recommender.*.list IAM permission for the specified insight type. */
+export const listProjectsLocationsInsightTypesInsights: API.PaginatedOperationMethod<ListProjectsLocationsInsightTypesInsightsRequest, ListProjectsLocationsInsightTypesInsightsResponse, ListProjectsLocationsInsightTypesInsightsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsInsightTypesInsightsRequest,
   output: ListProjectsLocationsInsightTypesInsightsResponse,
   errors: [],
@@ -1410,7 +1410,6 @@ export const listProjectsLocationsInsightTypesInsights = API.makePaginated(() =>
   },
 }));
 
-/** Marks the Insight State as Accepted. Users can use this method to indicate to the Recommender API that they have applied some action based on the insight. This stops the insight content from being updated. MarkInsightAccepted can be applied to insights in ACTIVE state. Requires the recommender.*.update IAM permission for the specified insight. */
 export interface MarkAcceptedProjectsLocationsInsightTypesInsightsRequest {
   /** Required. Name of the insight. */
   name: string;
@@ -1431,13 +1430,13 @@ export const MarkAcceptedProjectsLocationsInsightTypesInsightsResponse = GoogleC
 
 export type MarkAcceptedProjectsLocationsInsightTypesInsightsError = CommonErrors;
 
+/** Marks the Insight State as Accepted. Users can use this method to indicate to the Recommender API that they have applied some action based on the insight. This stops the insight content from being updated. MarkInsightAccepted can be applied to insights in ACTIVE state. Requires the recommender.*.update IAM permission for the specified insight. */
 export const markAcceptedProjectsLocationsInsightTypesInsights: API.OperationMethod<MarkAcceptedProjectsLocationsInsightTypesInsightsRequest, MarkAcceptedProjectsLocationsInsightTypesInsightsResponse, MarkAcceptedProjectsLocationsInsightTypesInsightsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MarkAcceptedProjectsLocationsInsightTypesInsightsRequest,
   output: MarkAcceptedProjectsLocationsInsightTypesInsightsResponse,
   errors: [],
 }));
 
-/** Gets the requested insight. Requires the recommender.*.get IAM permission for the specified insight type. */
 export interface GetProjectsLocationsInsightTypesInsightsRequest {
   /** Required. Name of the insight. */
   name: string;
@@ -1455,13 +1454,13 @@ export const GetProjectsLocationsInsightTypesInsightsResponse = GoogleCloudRecom
 
 export type GetProjectsLocationsInsightTypesInsightsError = CommonErrors;
 
+/** Gets the requested insight. Requires the recommender.*.get IAM permission for the specified insight type. */
 export const getProjectsLocationsInsightTypesInsights: API.OperationMethod<GetProjectsLocationsInsightTypesInsightsRequest, GetProjectsLocationsInsightTypesInsightsResponse, GetProjectsLocationsInsightTypesInsightsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsInsightTypesInsightsRequest,
   output: GetProjectsLocationsInsightTypesInsightsResponse,
   errors: [],
 }));
 
-/** Gets the requested InsightTypeConfig. There is only one instance of the config for each InsightType. */
 export interface GetConfigBillingAccountsLocationsInsightTypesRequest {
   /** Required. Name of the InsightTypeConfig to get. Acceptable formats: * `projects/[PROJECT_NUMBER]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config` * `projects/[PROJECT_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config` * `organizations/[ORGANIZATION_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config` * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION]/insightTypes/[INSIGHT_TYPE_ID]/config` */
   name: string;
@@ -1479,13 +1478,13 @@ export const GetConfigBillingAccountsLocationsInsightTypesResponse = GoogleCloud
 
 export type GetConfigBillingAccountsLocationsInsightTypesError = CommonErrors;
 
+/** Gets the requested InsightTypeConfig. There is only one instance of the config for each InsightType. */
 export const getConfigBillingAccountsLocationsInsightTypes: API.OperationMethod<GetConfigBillingAccountsLocationsInsightTypesRequest, GetConfigBillingAccountsLocationsInsightTypesResponse, GetConfigBillingAccountsLocationsInsightTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetConfigBillingAccountsLocationsInsightTypesRequest,
   output: GetConfigBillingAccountsLocationsInsightTypesResponse,
   errors: [],
 }));
 
-/** Updates an InsightTypeConfig change. This will create a new revision of the config. */
 export interface UpdateConfigBillingAccountsLocationsInsightTypesRequest {
   /** If true, validate the request and preview the change, but do not actually update it. */
   validateOnly?: boolean;
@@ -1512,13 +1511,13 @@ export const UpdateConfigBillingAccountsLocationsInsightTypesResponse = GoogleCl
 
 export type UpdateConfigBillingAccountsLocationsInsightTypesError = CommonErrors;
 
+/** Updates an InsightTypeConfig change. This will create a new revision of the config. */
 export const updateConfigBillingAccountsLocationsInsightTypes: API.OperationMethod<UpdateConfigBillingAccountsLocationsInsightTypesRequest, UpdateConfigBillingAccountsLocationsInsightTypesResponse, UpdateConfigBillingAccountsLocationsInsightTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateConfigBillingAccountsLocationsInsightTypesRequest,
   output: UpdateConfigBillingAccountsLocationsInsightTypesResponse,
   errors: [],
 }));
 
-/** Marks the Insight State as Accepted. Users can use this method to indicate to the Recommender API that they have applied some action based on the insight. This stops the insight content from being updated. MarkInsightAccepted can be applied to insights in ACTIVE state. Requires the recommender.*.update IAM permission for the specified insight. */
 export interface MarkAcceptedBillingAccountsLocationsInsightTypesInsightsRequest {
   /** Required. Name of the insight. */
   name: string;
@@ -1539,13 +1538,13 @@ export const MarkAcceptedBillingAccountsLocationsInsightTypesInsightsResponse = 
 
 export type MarkAcceptedBillingAccountsLocationsInsightTypesInsightsError = CommonErrors;
 
+/** Marks the Insight State as Accepted. Users can use this method to indicate to the Recommender API that they have applied some action based on the insight. This stops the insight content from being updated. MarkInsightAccepted can be applied to insights in ACTIVE state. Requires the recommender.*.update IAM permission for the specified insight. */
 export const markAcceptedBillingAccountsLocationsInsightTypesInsights: API.OperationMethod<MarkAcceptedBillingAccountsLocationsInsightTypesInsightsRequest, MarkAcceptedBillingAccountsLocationsInsightTypesInsightsResponse, MarkAcceptedBillingAccountsLocationsInsightTypesInsightsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MarkAcceptedBillingAccountsLocationsInsightTypesInsightsRequest,
   output: MarkAcceptedBillingAccountsLocationsInsightTypesInsightsResponse,
   errors: [],
 }));
 
-/** Gets the requested insight. Requires the recommender.*.get IAM permission for the specified insight type. */
 export interface GetBillingAccountsLocationsInsightTypesInsightsRequest {
   /** Required. Name of the insight. */
   name: string;
@@ -1563,13 +1562,13 @@ export const GetBillingAccountsLocationsInsightTypesInsightsResponse = GoogleClo
 
 export type GetBillingAccountsLocationsInsightTypesInsightsError = CommonErrors;
 
+/** Gets the requested insight. Requires the recommender.*.get IAM permission for the specified insight type. */
 export const getBillingAccountsLocationsInsightTypesInsights: API.OperationMethod<GetBillingAccountsLocationsInsightTypesInsightsRequest, GetBillingAccountsLocationsInsightTypesInsightsResponse, GetBillingAccountsLocationsInsightTypesInsightsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBillingAccountsLocationsInsightTypesInsightsRequest,
   output: GetBillingAccountsLocationsInsightTypesInsightsResponse,
   errors: [],
 }));
 
-/** Lists insights for the specified Cloud Resource. Requires the recommender.*.list IAM permission for the specified insight type. */
 export interface ListBillingAccountsLocationsInsightTypesInsightsRequest {
   /** Optional. Filter expression to restrict the insights returned. Supported filter fields: * `stateInfo.state` * `insightSubtype` * `severity` * `targetResources` Examples: * `stateInfo.state = ACTIVE OR stateInfo.state = DISMISSED` * `insightSubtype = PERMISSIONS_USAGE` * `severity = CRITICAL OR severity = HIGH` * `targetResources : //compute.googleapis.com/projects/1234/zones/us-central1-a/instances/instance-1` * `stateInfo.state = ACTIVE AND (severity = CRITICAL OR severity = HIGH)` The max allowed filter length is 500 characters. (These expressions are based on the filter language described at https://google.aip.dev/160) */
   filter?: string;
@@ -1596,7 +1595,8 @@ export const ListBillingAccountsLocationsInsightTypesInsightsResponse = GoogleCl
 
 export type ListBillingAccountsLocationsInsightTypesInsightsError = CommonErrors;
 
-export const listBillingAccountsLocationsInsightTypesInsights = API.makePaginated(() => ({
+/** Lists insights for the specified Cloud Resource. Requires the recommender.*.list IAM permission for the specified insight type. */
+export const listBillingAccountsLocationsInsightTypesInsights: API.PaginatedOperationMethod<ListBillingAccountsLocationsInsightTypesInsightsRequest, ListBillingAccountsLocationsInsightTypesInsightsResponse, ListBillingAccountsLocationsInsightTypesInsightsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBillingAccountsLocationsInsightTypesInsightsRequest,
   output: ListBillingAccountsLocationsInsightTypesInsightsResponse,
   errors: [],
@@ -1606,7 +1606,6 @@ export const listBillingAccountsLocationsInsightTypesInsights = API.makePaginate
   },
 }));
 
-/** Updates a Recommender Config. This will create a new revision of the config. */
 export interface UpdateConfigBillingAccountsLocationsRecommendersRequest {
   /** Identifier. Name of recommender config. Eg, projects/[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/config */
   name: string;
@@ -1633,13 +1632,13 @@ export const UpdateConfigBillingAccountsLocationsRecommendersResponse = GoogleCl
 
 export type UpdateConfigBillingAccountsLocationsRecommendersError = CommonErrors;
 
+/** Updates a Recommender Config. This will create a new revision of the config. */
 export const updateConfigBillingAccountsLocationsRecommenders: API.OperationMethod<UpdateConfigBillingAccountsLocationsRecommendersRequest, UpdateConfigBillingAccountsLocationsRecommendersResponse, UpdateConfigBillingAccountsLocationsRecommendersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateConfigBillingAccountsLocationsRecommendersRequest,
   output: UpdateConfigBillingAccountsLocationsRecommendersResponse,
   errors: [],
 }));
 
-/** Gets the requested Recommender Config. There is only one instance of the config for each Recommender. */
 export interface GetConfigBillingAccountsLocationsRecommendersRequest {
   /** Required. Name of the Recommendation Config to get. Acceptable formats: * `projects/[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/config` * `projects/[PROJECT_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/config` * `organizations/[ORGANIZATION_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/config` * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/config` */
   name: string;
@@ -1657,13 +1656,13 @@ export const GetConfigBillingAccountsLocationsRecommendersResponse = GoogleCloud
 
 export type GetConfigBillingAccountsLocationsRecommendersError = CommonErrors;
 
+/** Gets the requested Recommender Config. There is only one instance of the config for each Recommender. */
 export const getConfigBillingAccountsLocationsRecommenders: API.OperationMethod<GetConfigBillingAccountsLocationsRecommendersRequest, GetConfigBillingAccountsLocationsRecommendersResponse, GetConfigBillingAccountsLocationsRecommendersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetConfigBillingAccountsLocationsRecommendersRequest,
   output: GetConfigBillingAccountsLocationsRecommendersResponse,
   errors: [],
 }));
 
-/** Gets the requested recommendation. Requires the recommender.*.get IAM permission for the specified recommender. */
 export interface GetBillingAccountsLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
@@ -1681,13 +1680,13 @@ export const GetBillingAccountsLocationsRecommendersRecommendationsResponse = Go
 
 export type GetBillingAccountsLocationsRecommendersRecommendationsError = CommonErrors;
 
+/** Gets the requested recommendation. Requires the recommender.*.get IAM permission for the specified recommender. */
 export const getBillingAccountsLocationsRecommendersRecommendations: API.OperationMethod<GetBillingAccountsLocationsRecommendersRecommendationsRequest, GetBillingAccountsLocationsRecommendersRecommendationsResponse, GetBillingAccountsLocationsRecommendersRecommendationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBillingAccountsLocationsRecommendersRecommendationsRequest,
   output: GetBillingAccountsLocationsRecommendersRecommendationsResponse,
   errors: [],
 }));
 
-/** Mark the Recommendation State as Dismissed. Users can use this method to indicate to the Recommender API that an ACTIVE recommendation has to be marked back as DISMISSED. MarkRecommendationDismissed can be applied to recommendations in ACTIVE state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export interface MarkDismissedBillingAccountsLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
@@ -1708,13 +1707,13 @@ export const MarkDismissedBillingAccountsLocationsRecommendersRecommendationsRes
 
 export type MarkDismissedBillingAccountsLocationsRecommendersRecommendationsError = CommonErrors;
 
+/** Mark the Recommendation State as Dismissed. Users can use this method to indicate to the Recommender API that an ACTIVE recommendation has to be marked back as DISMISSED. MarkRecommendationDismissed can be applied to recommendations in ACTIVE state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export const markDismissedBillingAccountsLocationsRecommendersRecommendations: API.OperationMethod<MarkDismissedBillingAccountsLocationsRecommendersRecommendationsRequest, MarkDismissedBillingAccountsLocationsRecommendersRecommendationsResponse, MarkDismissedBillingAccountsLocationsRecommendersRecommendationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MarkDismissedBillingAccountsLocationsRecommendersRecommendationsRequest,
   output: MarkDismissedBillingAccountsLocationsRecommendersRecommendationsResponse,
   errors: [],
 }));
 
-/** Lists recommendations for the specified Cloud Resource. Requires the recommender.*.list IAM permission for the specified recommender. */
 export interface ListBillingAccountsLocationsRecommendersRecommendationsRequest {
   /** Required. The container resource on which to execute the request. Acceptable formats: * `projects/[PROJECT_NUMBER]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` * `projects/[PROJECT_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` * `billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` * `folders/[FOLDER_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` * `organizations/[ORGANIZATION_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]` LOCATION here refers to GCP Locations: https://cloud.google.com/about/locations/ RECOMMENDER_ID refers to supported recommenders: https://cloud.google.com/recommender/docs/recommenders. */
   parent: string;
@@ -1741,7 +1740,8 @@ export const ListBillingAccountsLocationsRecommendersRecommendationsResponse = G
 
 export type ListBillingAccountsLocationsRecommendersRecommendationsError = CommonErrors;
 
-export const listBillingAccountsLocationsRecommendersRecommendations = API.makePaginated(() => ({
+/** Lists recommendations for the specified Cloud Resource. Requires the recommender.*.list IAM permission for the specified recommender. */
+export const listBillingAccountsLocationsRecommendersRecommendations: API.PaginatedOperationMethod<ListBillingAccountsLocationsRecommendersRecommendationsRequest, ListBillingAccountsLocationsRecommendersRecommendationsResponse, ListBillingAccountsLocationsRecommendersRecommendationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBillingAccountsLocationsRecommendersRecommendationsRequest,
   output: ListBillingAccountsLocationsRecommendersRecommendationsResponse,
   errors: [],
@@ -1751,7 +1751,6 @@ export const listBillingAccountsLocationsRecommendersRecommendations = API.makeP
   },
 }));
 
-/** Marks the Recommendation State as Claimed. Users can use this method to indicate to the Recommender API that they are starting to apply the recommendation themselves. This stops the recommendation content from being updated. Associated insights are frozen and placed in the ACCEPTED state. MarkRecommendationClaimed can be applied to recommendations in CLAIMED, SUCCEEDED, FAILED, or ACTIVE state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export interface MarkClaimedBillingAccountsLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
@@ -1772,13 +1771,13 @@ export const MarkClaimedBillingAccountsLocationsRecommendersRecommendationsRespo
 
 export type MarkClaimedBillingAccountsLocationsRecommendersRecommendationsError = CommonErrors;
 
+/** Marks the Recommendation State as Claimed. Users can use this method to indicate to the Recommender API that they are starting to apply the recommendation themselves. This stops the recommendation content from being updated. Associated insights are frozen and placed in the ACCEPTED state. MarkRecommendationClaimed can be applied to recommendations in CLAIMED, SUCCEEDED, FAILED, or ACTIVE state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export const markClaimedBillingAccountsLocationsRecommendersRecommendations: API.OperationMethod<MarkClaimedBillingAccountsLocationsRecommendersRecommendationsRequest, MarkClaimedBillingAccountsLocationsRecommendersRecommendationsResponse, MarkClaimedBillingAccountsLocationsRecommendersRecommendationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MarkClaimedBillingAccountsLocationsRecommendersRecommendationsRequest,
   output: MarkClaimedBillingAccountsLocationsRecommendersRecommendationsResponse,
   errors: [],
 }));
 
-/** Marks the Recommendation State as Succeeded. Users can use this method to indicate to the Recommender API that they have applied the recommendation themselves, and the operation was successful. This stops the recommendation content from being updated. Associated insights are frozen and placed in the ACCEPTED state. MarkRecommendationSucceeded can be applied to recommendations in ACTIVE, CLAIMED, SUCCEEDED, or FAILED state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export interface MarkSucceededBillingAccountsLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
@@ -1799,13 +1798,13 @@ export const MarkSucceededBillingAccountsLocationsRecommendersRecommendationsRes
 
 export type MarkSucceededBillingAccountsLocationsRecommendersRecommendationsError = CommonErrors;
 
+/** Marks the Recommendation State as Succeeded. Users can use this method to indicate to the Recommender API that they have applied the recommendation themselves, and the operation was successful. This stops the recommendation content from being updated. Associated insights are frozen and placed in the ACCEPTED state. MarkRecommendationSucceeded can be applied to recommendations in ACTIVE, CLAIMED, SUCCEEDED, or FAILED state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export const markSucceededBillingAccountsLocationsRecommendersRecommendations: API.OperationMethod<MarkSucceededBillingAccountsLocationsRecommendersRecommendationsRequest, MarkSucceededBillingAccountsLocationsRecommendersRecommendationsResponse, MarkSucceededBillingAccountsLocationsRecommendersRecommendationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MarkSucceededBillingAccountsLocationsRecommendersRecommendationsRequest,
   output: MarkSucceededBillingAccountsLocationsRecommendersRecommendationsResponse,
   errors: [],
 }));
 
-/** Marks the Recommendation State as Failed. Users can use this method to indicate to the Recommender API that they have applied the recommendation themselves, and the operation failed. This stops the recommendation content from being updated. Associated insights are frozen and placed in the ACCEPTED state. MarkRecommendationFailed can be applied to recommendations in ACTIVE, CLAIMED, SUCCEEDED, or FAILED state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export interface MarkFailedBillingAccountsLocationsRecommendersRecommendationsRequest {
   /** Required. Name of the recommendation. */
   name: string;
@@ -1826,6 +1825,7 @@ export const MarkFailedBillingAccountsLocationsRecommendersRecommendationsRespon
 
 export type MarkFailedBillingAccountsLocationsRecommendersRecommendationsError = CommonErrors;
 
+/** Marks the Recommendation State as Failed. Users can use this method to indicate to the Recommender API that they have applied the recommendation themselves, and the operation failed. This stops the recommendation content from being updated. Associated insights are frozen and placed in the ACCEPTED state. MarkRecommendationFailed can be applied to recommendations in ACTIVE, CLAIMED, SUCCEEDED, or FAILED state. Requires the recommender.*.update IAM permission for the specified recommender. */
 export const markFailedBillingAccountsLocationsRecommendersRecommendations: API.OperationMethod<MarkFailedBillingAccountsLocationsRecommendersRecommendationsRequest, MarkFailedBillingAccountsLocationsRecommendersRecommendationsResponse, MarkFailedBillingAccountsLocationsRecommendersRecommendationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MarkFailedBillingAccountsLocationsRecommendersRecommendationsRequest,
   output: MarkFailedBillingAccountsLocationsRecommendersRecommendationsResponse,

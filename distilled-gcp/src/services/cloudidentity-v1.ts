@@ -1566,7 +1566,6 @@ export const UpdateInboundSsoAssignmentOperationMetadata: Schema.Schema<UpdateIn
 // Operations
 // ==========================================================================
 
-/** Creates a device. Only company-owned device may be created. **Note**: This method is available only to customers who have one of the following SKUs: Enterprise Standard, Enterprise Plus, Enterprise for Education, and Cloud Identity Premium */
 export interface CreateDevicesRequest {
   /** Optional. [Resource name](https://cloud.google.com/apis/design/resource_names) of the customer. If you're using this API for your own organization, use `customers/my_customer` If you're using this API to manage another organization, use `customers/{customer}`, where customer is the customer to whom the device belongs. */
   customer?: string;
@@ -1587,13 +1586,13 @@ export const CreateDevicesResponse = Operation;
 
 export type CreateDevicesError = CommonErrors;
 
+/** Creates a device. Only company-owned device may be created. **Note**: This method is available only to customers who have one of the following SKUs: Enterprise Standard, Enterprise Plus, Enterprise for Education, and Cloud Identity Premium */
 export const createDevices: API.OperationMethod<CreateDevicesRequest, CreateDevicesResponse, CreateDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateDevicesRequest,
   output: CreateDevicesResponse,
   errors: [],
 }));
 
-/** Retrieves the specified device. */
 export interface GetDevicesRequest {
   /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in the format: `devices/{device}`, where device is the unique ID assigned to the Device. */
   name: string;
@@ -1614,13 +1613,13 @@ export const GetDevicesResponse = GoogleAppsCloudidentityDevicesV1Device;
 
 export type GetDevicesError = CommonErrors;
 
+/** Retrieves the specified device. */
 export const getDevices: API.OperationMethod<GetDevicesRequest, GetDevicesResponse, GetDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDevicesRequest,
   output: GetDevicesResponse,
   errors: [],
 }));
 
-/** Lists/Searches devices. */
 export interface ListDevicesRequest {
   /** Optional. [Resource name](https://cloud.google.com/apis/design/resource_names) of the customer in the format: `customers/{customer}`, where customer is the customer to whom the device belongs. If you're using this API for your own organization, use `customers/my_customer`. If you're using this API to manage another organization, use `customers/{customer}`, where customer is the customer to whom the device belongs. */
   customer?: string;
@@ -1653,7 +1652,8 @@ export const ListDevicesResponse = GoogleAppsCloudidentityDevicesV1ListDevicesRe
 
 export type ListDevicesError = CommonErrors;
 
-export const listDevices = API.makePaginated(() => ({
+/** Lists/Searches devices. */
+export const listDevices: API.PaginatedOperationMethod<ListDevicesRequest, ListDevicesResponse, ListDevicesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListDevicesRequest,
   output: ListDevicesResponse,
   errors: [],
@@ -1663,7 +1663,6 @@ export const listDevices = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the specified device. */
 export interface DeleteDevicesRequest {
   /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in format: `devices/{device}`, where device is the unique ID assigned to the Device. */
   name: string;
@@ -1684,13 +1683,13 @@ export const DeleteDevicesResponse = Operation;
 
 export type DeleteDevicesError = CommonErrors;
 
+/** Deletes the specified device. */
 export const deleteDevices: API.OperationMethod<DeleteDevicesRequest, DeleteDevicesResponse, DeleteDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteDevicesRequest,
   output: DeleteDevicesResponse,
   errors: [],
 }));
 
-/** Wipes all data on the specified device. */
 export interface WipeDevicesRequest {
   /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in format: `devices/{device}/deviceUsers/{device_user}`, where device is the unique ID assigned to the Device, and device_user is the unique ID assigned to the User. */
   name: string;
@@ -1711,13 +1710,13 @@ export const WipeDevicesResponse = Operation;
 
 export type WipeDevicesError = CommonErrors;
 
+/** Wipes all data on the specified device. */
 export const wipeDevices: API.OperationMethod<WipeDevicesRequest, WipeDevicesResponse, WipeDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WipeDevicesRequest,
   output: WipeDevicesResponse,
   errors: [],
 }));
 
-/** Cancels an unfinished device wipe. This operation can be used to cancel device wipe in the gap between the wipe operation returning success and the device being wiped. This operation is possible when the device is in a "pending wipe" state. The device enters the "pending wipe" state when a wipe device command is issued, but has not yet been sent to the device. The cancel wipe will fail if the wipe command has already been issued to the device. */
 export interface CancelWipeDevicesRequest {
   /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in format: `devices/{device}`, where device is the unique ID assigned to the Device. */
   name: string;
@@ -1738,13 +1737,13 @@ export const CancelWipeDevicesResponse = Operation;
 
 export type CancelWipeDevicesError = CommonErrors;
 
+/** Cancels an unfinished device wipe. This operation can be used to cancel device wipe in the gap between the wipe operation returning success and the device being wiped. This operation is possible when the device is in a "pending wipe" state. The device enters the "pending wipe" state when a wipe device command is issued, but has not yet been sent to the device. The cancel wipe will fail if the wipe command has already been issued to the device. */
 export const cancelWipeDevices: API.OperationMethod<CancelWipeDevicesRequest, CancelWipeDevicesResponse, CancelWipeDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelWipeDevicesRequest,
   output: CancelWipeDevicesResponse,
   errors: [],
 }));
 
-/** Retrieves the specified DeviceUser */
 export interface GetDevicesDeviceUsersRequest {
   /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in format: `devices/{device}/deviceUsers/{device_user}`, where device is the unique ID assigned to the Device, and device_user is the unique ID assigned to the User. */
   name: string;
@@ -1765,13 +1764,13 @@ export const GetDevicesDeviceUsersResponse = GoogleAppsCloudidentityDevicesV1Dev
 
 export type GetDevicesDeviceUsersError = CommonErrors;
 
+/** Retrieves the specified DeviceUser */
 export const getDevicesDeviceUsers: API.OperationMethod<GetDevicesDeviceUsersRequest, GetDevicesDeviceUsersResponse, GetDevicesDeviceUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDevicesDeviceUsersRequest,
   output: GetDevicesDeviceUsersResponse,
   errors: [],
 }));
 
-/** Lists/Searches DeviceUsers. */
 export interface ListDevicesDeviceUsersRequest {
   /** Required. To list all DeviceUsers, set this to "devices/-". To list all DeviceUsers owned by a device, set this to the resource name of the device. Format: devices/{device} */
   parent: string;
@@ -1804,7 +1803,8 @@ export const ListDevicesDeviceUsersResponse = GoogleAppsCloudidentityDevicesV1Li
 
 export type ListDevicesDeviceUsersError = CommonErrors;
 
-export const listDevicesDeviceUsers = API.makePaginated(() => ({
+/** Lists/Searches DeviceUsers. */
+export const listDevicesDeviceUsers: API.PaginatedOperationMethod<ListDevicesDeviceUsersRequest, ListDevicesDeviceUsersResponse, ListDevicesDeviceUsersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListDevicesDeviceUsersRequest,
   output: ListDevicesDeviceUsersResponse,
   errors: [],
@@ -1814,7 +1814,6 @@ export const listDevicesDeviceUsers = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the specified DeviceUser. This also revokes the user's access to device data. */
 export interface DeleteDevicesDeviceUsersRequest {
   /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in format: `devices/{device}/deviceUsers/{device_user}`, where device is the unique ID assigned to the Device, and device_user is the unique ID assigned to the User. */
   name: string;
@@ -1835,13 +1834,13 @@ export const DeleteDevicesDeviceUsersResponse = Operation;
 
 export type DeleteDevicesDeviceUsersError = CommonErrors;
 
+/** Deletes the specified DeviceUser. This also revokes the user's access to device data. */
 export const deleteDevicesDeviceUsers: API.OperationMethod<DeleteDevicesDeviceUsersRequest, DeleteDevicesDeviceUsersResponse, DeleteDevicesDeviceUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteDevicesDeviceUsersRequest,
   output: DeleteDevicesDeviceUsersResponse,
   errors: [],
 }));
 
-/** Looks up resource names of the DeviceUsers associated with the caller's credentials, as well as the properties provided in the request. This method must be called with end-user credentials with the scope: https://www.googleapis.com/auth/cloud-identity.devices.lookup If multiple properties are provided, only DeviceUsers having all of these properties are considered as matches - i.e. the query behaves like an AND. Different platforms require different amounts of information from the caller to ensure that the DeviceUser is uniquely identified. - iOS: If either the `partner` or `ios_device_id` field is provided, then both fields are required. - Android: Specifying the `android_id` field is required. - Desktop: Specifying the `raw_resource_id` field is required. */
 export interface LookupDevicesDeviceUsersRequest {
   /** Must be set to "devices/-/deviceUsers" to search across all DeviceUser belonging to the user. */
   parent: string;
@@ -1880,7 +1879,8 @@ export const LookupDevicesDeviceUsersResponse = GoogleAppsCloudidentityDevicesV1
 
 export type LookupDevicesDeviceUsersError = CommonErrors;
 
-export const lookupDevicesDeviceUsers = API.makePaginated(() => ({
+/** Looks up resource names of the DeviceUsers associated with the caller's credentials, as well as the properties provided in the request. This method must be called with end-user credentials with the scope: https://www.googleapis.com/auth/cloud-identity.devices.lookup If multiple properties are provided, only DeviceUsers having all of these properties are considered as matches - i.e. the query behaves like an AND. Different platforms require different amounts of information from the caller to ensure that the DeviceUser is uniquely identified. - iOS: If either the `partner` or `ios_device_id` field is provided, then both fields are required. - Android: Specifying the `android_id` field is required. - Desktop: Specifying the `raw_resource_id` field is required. */
+export const lookupDevicesDeviceUsers: API.PaginatedOperationMethod<LookupDevicesDeviceUsersRequest, LookupDevicesDeviceUsersResponse, LookupDevicesDeviceUsersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: LookupDevicesDeviceUsersRequest,
   output: LookupDevicesDeviceUsersResponse,
   errors: [],
@@ -1890,7 +1890,6 @@ export const lookupDevicesDeviceUsers = API.makePaginated(() => ({
   },
 }));
 
-/** Approves device to access user data. */
 export interface ApproveDevicesDeviceUsersRequest {
   /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in format: `devices/{device}/deviceUsers/{device_user}`, where device is the unique ID assigned to the Device, and device_user is the unique ID assigned to the User. */
   name: string;
@@ -1911,13 +1910,13 @@ export const ApproveDevicesDeviceUsersResponse = Operation;
 
 export type ApproveDevicesDeviceUsersError = CommonErrors;
 
+/** Approves device to access user data. */
 export const approveDevicesDeviceUsers: API.OperationMethod<ApproveDevicesDeviceUsersRequest, ApproveDevicesDeviceUsersResponse, ApproveDevicesDeviceUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ApproveDevicesDeviceUsersRequest,
   output: ApproveDevicesDeviceUsersResponse,
   errors: [],
 }));
 
-/** Blocks device from accessing user data */
 export interface BlockDevicesDeviceUsersRequest {
   /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in format: `devices/{device}/deviceUsers/{device_user}`, where device is the unique ID assigned to the Device, and device_user is the unique ID assigned to the User. */
   name: string;
@@ -1938,13 +1937,13 @@ export const BlockDevicesDeviceUsersResponse = Operation;
 
 export type BlockDevicesDeviceUsersError = CommonErrors;
 
+/** Blocks device from accessing user data */
 export const blockDevicesDeviceUsers: API.OperationMethod<BlockDevicesDeviceUsersRequest, BlockDevicesDeviceUsersResponse, BlockDevicesDeviceUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BlockDevicesDeviceUsersRequest,
   output: BlockDevicesDeviceUsersResponse,
   errors: [],
 }));
 
-/** Wipes the user's account on a device. Other data on the device that is not associated with the user's work account is not affected. For example, if a Gmail app is installed on a device that is used for personal and work purposes, and the user is logged in to the Gmail app with their personal account as well as their work account, wiping the "deviceUser" by their work administrator will not affect their personal account within Gmail or other apps such as Photos. */
 export interface WipeDevicesDeviceUsersRequest {
   /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in format: `devices/{device}/deviceUsers/{device_user}`, where device is the unique ID assigned to the Device, and device_user is the unique ID assigned to the User. */
   name: string;
@@ -1965,13 +1964,13 @@ export const WipeDevicesDeviceUsersResponse = Operation;
 
 export type WipeDevicesDeviceUsersError = CommonErrors;
 
+/** Wipes the user's account on a device. Other data on the device that is not associated with the user's work account is not affected. For example, if a Gmail app is installed on a device that is used for personal and work purposes, and the user is logged in to the Gmail app with their personal account as well as their work account, wiping the "deviceUser" by their work administrator will not affect their personal account within Gmail or other apps such as Photos. */
 export const wipeDevicesDeviceUsers: API.OperationMethod<WipeDevicesDeviceUsersRequest, WipeDevicesDeviceUsersResponse, WipeDevicesDeviceUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WipeDevicesDeviceUsersRequest,
   output: WipeDevicesDeviceUsersResponse,
   errors: [],
 }));
 
-/** Cancels an unfinished user account wipe. This operation can be used to cancel device wipe in the gap between the wipe operation returning success and the device being wiped. */
 export interface CancelWipeDevicesDeviceUsersRequest {
   /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Device in format: `devices/{device}/deviceUsers/{device_user}`, where device is the unique ID assigned to the Device, and device_user is the unique ID assigned to the User. */
   name: string;
@@ -1992,13 +1991,13 @@ export const CancelWipeDevicesDeviceUsersResponse = Operation;
 
 export type CancelWipeDevicesDeviceUsersError = CommonErrors;
 
+/** Cancels an unfinished user account wipe. This operation can be used to cancel device wipe in the gap between the wipe operation returning success and the device being wiped. */
 export const cancelWipeDevicesDeviceUsers: API.OperationMethod<CancelWipeDevicesDeviceUsersRequest, CancelWipeDevicesDeviceUsersResponse, CancelWipeDevicesDeviceUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelWipeDevicesDeviceUsersRequest,
   output: CancelWipeDevicesDeviceUsersResponse,
   errors: [],
 }));
 
-/** Gets the client state for the device user */
 export interface GetDevicesDeviceUsersClientStatesRequest {
   /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the ClientState in format: `devices/{device}/deviceUsers/{device_user}/clientStates/{partner}`, where `device` is the unique ID assigned to the Device, `device_user` is the unique ID assigned to the User and `partner` identifies the partner storing the data. To get the client state for devices belonging to your own organization, the `partnerId` is in the format: `customerId-*anystring*`. Where the `customerId` is your organization's customer ID and `anystring` is any suffix. This suffix is used in setting up Custom Access Levels in Context-Aware Access. You may use `my_customer` instead of the customer ID for devices managed by your own organization. You may specify `-` in place of the `{device}`, so the ClientState resource name can be: `devices/-/deviceUsers/{device_user_resource}/clientStates/{partner}`. */
   name: string;
@@ -2019,13 +2018,13 @@ export const GetDevicesDeviceUsersClientStatesResponse = GoogleAppsCloudidentity
 
 export type GetDevicesDeviceUsersClientStatesError = CommonErrors;
 
+/** Gets the client state for the device user */
 export const getDevicesDeviceUsersClientStates: API.OperationMethod<GetDevicesDeviceUsersClientStatesRequest, GetDevicesDeviceUsersClientStatesResponse, GetDevicesDeviceUsersClientStatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDevicesDeviceUsersClientStatesRequest,
   output: GetDevicesDeviceUsersClientStatesResponse,
   errors: [],
 }));
 
-/** Lists the client states for the given search query. */
 export interface ListDevicesDeviceUsersClientStatesRequest {
   /** Required. To list all ClientStates, set this to "devices/-/deviceUsers/-". To list all ClientStates owned by a DeviceUser, set this to the resource name of the DeviceUser. Format: devices/{device}/deviceUsers/{deviceUser} */
   parent: string;
@@ -2055,7 +2054,8 @@ export const ListDevicesDeviceUsersClientStatesResponse = GoogleAppsCloudidentit
 
 export type ListDevicesDeviceUsersClientStatesError = CommonErrors;
 
-export const listDevicesDeviceUsersClientStates = API.makePaginated(() => ({
+/** Lists the client states for the given search query. */
+export const listDevicesDeviceUsersClientStates: API.PaginatedOperationMethod<ListDevicesDeviceUsersClientStatesRequest, ListDevicesDeviceUsersClientStatesResponse, ListDevicesDeviceUsersClientStatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListDevicesDeviceUsersClientStatesRequest,
   output: ListDevicesDeviceUsersClientStatesResponse,
   errors: [],
@@ -2065,7 +2065,6 @@ export const listDevicesDeviceUsersClientStates = API.makePaginated(() => ({
   },
 }));
 
-/** Updates the client state for the device user **Note**: This method is available only to customers who have one of the following SKUs: Enterprise Standard, Enterprise Plus, Enterprise for Education, and Cloud Identity Premium */
 export interface PatchDevicesDeviceUsersClientStatesRequest {
   /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the ClientState in format: `devices/{device}/deviceUsers/{device_user}/clientState/{partner}`, where partner corresponds to the partner storing the data. For partners belonging to the "BeyondCorp Alliance", this is the partner ID specified to you by Google. For all other callers, this is a string of the form: `{customer}-suffix`, where `customer` is your customer ID. The *suffix* is any string the caller specifies. This string will be displayed verbatim in the administration console. This suffix is used in setting up Custom Access Levels in Context-Aware Access. Your organization's customer ID can be obtained from the URL: `GET https://www.googleapis.com/admin/directory/v1/customers/my_customer` The `id` field in the response contains the customer ID starting with the letter 'C'. The customer ID to be used in this API is the string after the letter 'C' (not including 'C') */
   name: string;
@@ -2092,13 +2091,13 @@ export const PatchDevicesDeviceUsersClientStatesResponse = Operation;
 
 export type PatchDevicesDeviceUsersClientStatesError = CommonErrors;
 
+/** Updates the client state for the device user **Note**: This method is available only to customers who have one of the following SKUs: Enterprise Standard, Enterprise Plus, Enterprise for Education, and Cloud Identity Premium */
 export const patchDevicesDeviceUsersClientStates: API.OperationMethod<PatchDevicesDeviceUsersClientStatesRequest, PatchDevicesDeviceUsersClientStatesResponse, PatchDevicesDeviceUsersClientStatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchDevicesDeviceUsersClientStatesRequest,
   output: PatchDevicesDeviceUsersClientStatesResponse,
   errors: [],
 }));
 
-/** Creates a Group. */
 export interface CreateGroupsRequest {
   /** Optional. The initial configuration option for the `Group`. */
   initialGroupConfig?: "INITIAL_GROUP_CONFIG_UNSPECIFIED" | "WITH_INITIAL_OWNER" | "EMPTY" | (string & {});
@@ -2119,13 +2118,13 @@ export const CreateGroupsResponse = Operation;
 
 export type CreateGroupsError = CommonErrors;
 
+/** Creates a Group. */
 export const createGroups: API.OperationMethod<CreateGroupsRequest, CreateGroupsResponse, CreateGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateGroupsRequest,
   output: CreateGroupsResponse,
   errors: [],
 }));
 
-/** Retrieves a `Group`. */
 export interface GetGroupsRequest {
   /** Required. The [resource name](https://cloud.google.com/apis/design/resource_names) of the `Group` to retrieve. Must be of the form `groups/{group}`. */
   name: string;
@@ -2143,13 +2142,13 @@ export const GetGroupsResponse = Group;
 
 export type GetGroupsError = CommonErrors;
 
+/** Retrieves a `Group`. */
 export const getGroups: API.OperationMethod<GetGroupsRequest, GetGroupsResponse, GetGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetGroupsRequest,
   output: GetGroupsResponse,
   errors: [],
 }));
 
-/** Get Security Settings */
 export interface GetSecuritySettingsGroupsRequest {
   /** Required. The security settings to retrieve. Format: `groups/{group_id}/securitySettings` */
   name: string;
@@ -2170,13 +2169,13 @@ export const GetSecuritySettingsGroupsResponse = SecuritySettings;
 
 export type GetSecuritySettingsGroupsError = CommonErrors;
 
+/** Get Security Settings */
 export const getSecuritySettingsGroups: API.OperationMethod<GetSecuritySettingsGroupsRequest, GetSecuritySettingsGroupsResponse, GetSecuritySettingsGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSecuritySettingsGroupsRequest,
   output: GetSecuritySettingsGroupsResponse,
   errors: [],
 }));
 
-/** Updates a `Group`. */
 export interface PatchGroupsRequest {
   /** Output only. The [resource name](https://cloud.google.com/apis/design/resource_names) of the `Group`. Shall be of the form `groups/{group}`. */
   name: string;
@@ -2200,13 +2199,13 @@ export const PatchGroupsResponse = Operation;
 
 export type PatchGroupsError = CommonErrors;
 
+/** Updates a `Group`. */
 export const patchGroups: API.OperationMethod<PatchGroupsRequest, PatchGroupsResponse, PatchGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchGroupsRequest,
   output: PatchGroupsResponse,
   errors: [],
 }));
 
-/** Update Security Settings */
 export interface UpdateSecuritySettingsGroupsRequest {
   /** Output only. The resource name of the security settings. Shall be of the form `groups/{group_id}/securitySettings`. */
   name: string;
@@ -2230,13 +2229,13 @@ export const UpdateSecuritySettingsGroupsResponse = Operation;
 
 export type UpdateSecuritySettingsGroupsError = CommonErrors;
 
+/** Update Security Settings */
 export const updateSecuritySettingsGroups: API.OperationMethod<UpdateSecuritySettingsGroupsRequest, UpdateSecuritySettingsGroupsResponse, UpdateSecuritySettingsGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateSecuritySettingsGroupsRequest,
   output: UpdateSecuritySettingsGroupsResponse,
   errors: [],
 }));
 
-/** Deletes a `Group`. */
 export interface DeleteGroupsRequest {
   /** Required. The [resource name](https://cloud.google.com/apis/design/resource_names) of the `Group` to retrieve. Must be of the form `groups/{group}`. */
   name: string;
@@ -2254,13 +2253,13 @@ export const DeleteGroupsResponse = Operation;
 
 export type DeleteGroupsError = CommonErrors;
 
+/** Deletes a `Group`. */
 export const deleteGroups: API.OperationMethod<DeleteGroupsRequest, DeleteGroupsResponse, DeleteGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteGroupsRequest,
   output: DeleteGroupsResponse,
   errors: [],
 }));
 
-/** Looks up the [resource name](https://cloud.google.com/apis/design/resource_names) of a `Group` by its `EntityKey`. */
 export interface LookupGroupsRequest {
   /** The ID of the entity. For Google-managed entities, the `id` should be the email address of an existing group or user. Email addresses need to adhere to [name guidelines for users and groups](https://support.google.com/a/answer/9193374). For external-identity-mapped entities, the `id` must be a string conforming to the Identity Source's requirements. Must be unique within a `namespace`. */
   "groupKey.id"?: string;
@@ -2281,13 +2280,13 @@ export const LookupGroupsResponse = LookupGroupNameResponse;
 
 export type LookupGroupsError = CommonErrors;
 
+/** Looks up the [resource name](https://cloud.google.com/apis/design/resource_names) of a `Group` by its `EntityKey`. */
 export const lookupGroups: API.OperationMethod<LookupGroupsRequest, LookupGroupsResponse, LookupGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LookupGroupsRequest,
   output: LookupGroupsResponse,
   errors: [],
 }));
 
-/** Searches for `Group` resources matching a specified query. */
 export interface SearchGroupsRequest {
   /** Required. The search query. * Must be specified in [Common Expression Language](https://opensource.google/projects/cel). * Must contain equality operators on the parent, e.g. `parent == 'customers/{customer_id}'`. The `customer_id` must begin with "C" (for example, 'C046psxkn'). [Find your customer ID.] (https://support.google.com/cloudidentity/answer/10070793) * Can contain optional inclusion operators on `labels` such as `'cloudidentity.googleapis.com/groups.discussion_forum' in labels`). * Can contain an optional equality operator on `domain_name`. e.g. `domain_name == 'examplepetstore.com'` * Can contain optional `startsWith/contains/equality` operators on `group_key`, e.g. `group_key.startsWith('dev')`, `group_key.contains('dev'), group_key == 'dev@examplepetstore.com'` * Can contain optional `startsWith/contains/equality` operators on `display_name`, such as `display_name.startsWith('dev')` , `display_name.contains('dev')`, `display_name == 'dev'` */
   query?: string;
@@ -2314,7 +2313,8 @@ export const SearchGroupsResponse_Op = SearchGroupsResponse;
 
 export type SearchGroupsError = CommonErrors;
 
-export const searchGroups = API.makePaginated(() => ({
+/** Searches for `Group` resources matching a specified query. */
+export const searchGroups: API.PaginatedOperationMethod<SearchGroupsRequest, SearchGroupsResponse_Op, SearchGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchGroupsRequest,
   output: SearchGroupsResponse_Op,
   errors: [],
@@ -2324,7 +2324,6 @@ export const searchGroups = API.makePaginated(() => ({
   },
 }));
 
-/** Lists the `Group` resources under a customer or namespace. */
 export interface ListGroupsRequest {
   /** Required. The parent resource under which to list all `Group` resources. Must be of the form `identitysources/{identity_source}` for external- identity-mapped groups or `customers/{customer_id}` for Google Groups. The `customer_id` must begin with "C" (for example, 'C046psxkn'). [Find your customer ID.] (https://support.google.com/cloudidentity/answer/10070793) */
   parent?: string;
@@ -2351,7 +2350,8 @@ export const ListGroupsResponse_Op = ListGroupsResponse;
 
 export type ListGroupsError = CommonErrors;
 
-export const listGroups = API.makePaginated(() => ({
+/** Lists the `Group` resources under a customer or namespace. */
+export const listGroups: API.PaginatedOperationMethod<ListGroupsRequest, ListGroupsResponse_Op, ListGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListGroupsRequest,
   output: ListGroupsResponse_Op,
   errors: [],
@@ -2361,7 +2361,6 @@ export const listGroups = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a `Membership`. */
 export interface CreateGroupsMembershipsRequest {
   /** Required. The parent `Group` resource under which to create the `Membership`. Must be of the form `groups/{group}`. */
   parent: string;
@@ -2382,13 +2381,13 @@ export const CreateGroupsMembershipsResponse = Operation;
 
 export type CreateGroupsMembershipsError = CommonErrors;
 
+/** Creates a `Membership`. */
 export const createGroupsMemberships: API.OperationMethod<CreateGroupsMembershipsRequest, CreateGroupsMembershipsResponse, CreateGroupsMembershipsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateGroupsMembershipsRequest,
   output: CreateGroupsMembershipsResponse,
   errors: [],
 }));
 
-/** Retrieves a `Membership`. */
 export interface GetGroupsMembershipsRequest {
   /** Required. The [resource name](https://cloud.google.com/apis/design/resource_names) of the `Membership` to retrieve. Must be of the form `groups/{group}/memberships/{membership}`. */
   name: string;
@@ -2406,13 +2405,13 @@ export const GetGroupsMembershipsResponse = Membership;
 
 export type GetGroupsMembershipsError = CommonErrors;
 
+/** Retrieves a `Membership`. */
 export const getGroupsMemberships: API.OperationMethod<GetGroupsMembershipsRequest, GetGroupsMembershipsResponse, GetGroupsMembershipsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetGroupsMembershipsRequest,
   output: GetGroupsMembershipsResponse,
   errors: [],
 }));
 
-/** Deletes a `Membership`. */
 export interface DeleteGroupsMembershipsRequest {
   /** Required. The [resource name](https://cloud.google.com/apis/design/resource_names) of the `Membership` to delete. Must be of the form `groups/{group}/memberships/{membership}` */
   name: string;
@@ -2430,13 +2429,13 @@ export const DeleteGroupsMembershipsResponse = Operation;
 
 export type DeleteGroupsMembershipsError = CommonErrors;
 
+/** Deletes a `Membership`. */
 export const deleteGroupsMemberships: API.OperationMethod<DeleteGroupsMembershipsRequest, DeleteGroupsMembershipsResponse, DeleteGroupsMembershipsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteGroupsMembershipsRequest,
   output: DeleteGroupsMembershipsResponse,
   errors: [],
 }));
 
-/** Looks up the [resource name](https://cloud.google.com/apis/design/resource_names) of a `Membership` by its `EntityKey`. */
 export interface LookupGroupsMembershipsRequest {
   /** Required. The parent `Group` resource under which to lookup the `Membership` name. Must be of the form `groups/{group}`. */
   parent: string;
@@ -2460,13 +2459,13 @@ export const LookupGroupsMembershipsResponse = LookupMembershipNameResponse;
 
 export type LookupGroupsMembershipsError = CommonErrors;
 
+/** Looks up the [resource name](https://cloud.google.com/apis/design/resource_names) of a `Membership` by its `EntityKey`. */
 export const lookupGroupsMemberships: API.OperationMethod<LookupGroupsMembershipsRequest, LookupGroupsMembershipsResponse, LookupGroupsMembershipsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LookupGroupsMembershipsRequest,
   output: LookupGroupsMembershipsResponse,
   errors: [],
 }));
 
-/** Lists the `Membership`s within a `Group`. */
 export interface ListGroupsMembershipsRequest {
   /** Required. The parent `Group` resource under which to lookup the `Membership` name. Must be of the form `groups/{group}`. */
   parent: string;
@@ -2493,7 +2492,8 @@ export const ListGroupsMembershipsResponse = ListMembershipsResponse;
 
 export type ListGroupsMembershipsError = CommonErrors;
 
-export const listGroupsMemberships = API.makePaginated(() => ({
+/** Lists the `Membership`s within a `Group`. */
+export const listGroupsMemberships: API.PaginatedOperationMethod<ListGroupsMembershipsRequest, ListGroupsMembershipsResponse, ListGroupsMembershipsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListGroupsMembershipsRequest,
   output: ListGroupsMembershipsResponse,
   errors: [],
@@ -2503,7 +2503,6 @@ export const listGroupsMemberships = API.makePaginated(() => ({
   },
 }));
 
-/** Modifies the `MembershipRole`s of a `Membership`. */
 export interface ModifyMembershipRolesGroupsMembershipsRequest {
   /** Required. The [resource name](https://cloud.google.com/apis/design/resource_names) of the `Membership` whose roles are to be modified. Must be of the form `groups/{group}/memberships/{membership}`. */
   name: string;
@@ -2524,13 +2523,13 @@ export const ModifyMembershipRolesGroupsMembershipsResponse = ModifyMembershipRo
 
 export type ModifyMembershipRolesGroupsMembershipsError = CommonErrors;
 
+/** Modifies the `MembershipRole`s of a `Membership`. */
 export const modifyMembershipRolesGroupsMemberships: API.OperationMethod<ModifyMembershipRolesGroupsMembershipsRequest, ModifyMembershipRolesGroupsMembershipsResponse, ModifyMembershipRolesGroupsMembershipsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ModifyMembershipRolesGroupsMembershipsRequest,
   output: ModifyMembershipRolesGroupsMembershipsResponse,
   errors: [],
 }));
 
-/** Search transitive memberships of a group. **Note:** This feature is only available to Google Workspace Enterprise Standard, Enterprise Plus, and Enterprise for Education; and Cloud Identity Premium accounts. If the account of the group is not one of these, a 403 (PERMISSION_DENIED) HTTP status code will be returned. A transitive membership is any direct or indirect membership of a group. Actor must have view permissions to all transitive memberships. */
 export interface SearchTransitiveMembershipsGroupsMembershipsRequest {
   /** [Resource name](https://cloud.google.com/apis/design/resource_names) of the group to search transitive memberships in. Format: `groups/{group}`, where `group` is the unique ID assigned to the Group. */
   parent: string;
@@ -2554,7 +2553,8 @@ export const SearchTransitiveMembershipsGroupsMembershipsResponse = SearchTransi
 
 export type SearchTransitiveMembershipsGroupsMembershipsError = CommonErrors;
 
-export const searchTransitiveMembershipsGroupsMemberships = API.makePaginated(() => ({
+/** Search transitive memberships of a group. **Note:** This feature is only available to Google Workspace Enterprise Standard, Enterprise Plus, and Enterprise for Education; and Cloud Identity Premium accounts. If the account of the group is not one of these, a 403 (PERMISSION_DENIED) HTTP status code will be returned. A transitive membership is any direct or indirect membership of a group. Actor must have view permissions to all transitive memberships. */
+export const searchTransitiveMembershipsGroupsMemberships: API.PaginatedOperationMethod<SearchTransitiveMembershipsGroupsMembershipsRequest, SearchTransitiveMembershipsGroupsMembershipsResponse, SearchTransitiveMembershipsGroupsMembershipsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchTransitiveMembershipsGroupsMembershipsRequest,
   output: SearchTransitiveMembershipsGroupsMembershipsResponse,
   errors: [],
@@ -2564,7 +2564,6 @@ export const searchTransitiveMembershipsGroupsMemberships = API.makePaginated(()
   },
 }));
 
-/** Search transitive groups of a member. **Note:** This feature is only available to Google Workspace Enterprise Standard, Enterprise Plus, and Enterprise for Education; and Cloud Identity Premium accounts. If the account of the member is not one of these, a 403 (PERMISSION_DENIED) HTTP status code will be returned. A transitive group is any group that has a direct or indirect membership to the member. Actor must have view permissions all transitive groups. */
 export interface SearchTransitiveGroupsGroupsMembershipsRequest {
   /** [Resource name](https://cloud.google.com/apis/design/resource_names) of the group to search transitive memberships in. Format: `groups/{group}`, where `group` is always '-' as this API will search across all groups for a given member. */
   parent: string;
@@ -2591,7 +2590,8 @@ export const SearchTransitiveGroupsGroupsMembershipsResponse = SearchTransitiveG
 
 export type SearchTransitiveGroupsGroupsMembershipsError = CommonErrors;
 
-export const searchTransitiveGroupsGroupsMemberships = API.makePaginated(() => ({
+/** Search transitive groups of a member. **Note:** This feature is only available to Google Workspace Enterprise Standard, Enterprise Plus, and Enterprise for Education; and Cloud Identity Premium accounts. If the account of the member is not one of these, a 403 (PERMISSION_DENIED) HTTP status code will be returned. A transitive group is any group that has a direct or indirect membership to the member. Actor must have view permissions all transitive groups. */
+export const searchTransitiveGroupsGroupsMemberships: API.PaginatedOperationMethod<SearchTransitiveGroupsGroupsMembershipsRequest, SearchTransitiveGroupsGroupsMembershipsResponse, SearchTransitiveGroupsGroupsMembershipsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchTransitiveGroupsGroupsMembershipsRequest,
   output: SearchTransitiveGroupsGroupsMembershipsResponse,
   errors: [],
@@ -2601,7 +2601,6 @@ export const searchTransitiveGroupsGroupsMemberships = API.makePaginated(() => (
   },
 }));
 
-/** Check a potential member for membership in a group. **Note:** This feature is only available to Google Workspace Enterprise Standard, Enterprise Plus, and Enterprise for Education; and Cloud Identity Premium accounts. If the account of the member is not one of these, a 403 (PERMISSION_DENIED) HTTP status code will be returned. A member has membership to a group as long as there is a single viewable transitive membership between the group and the member. The actor must have view permissions to at least one transitive membership between the member and group. */
 export interface CheckTransitiveMembershipGroupsMembershipsRequest {
   /** [Resource name](https://cloud.google.com/apis/design/resource_names) of the group to check the transitive membership in. Format: `groups/{group}`, where `group` is the unique id assigned to the Group to which the Membership belongs to. */
   parent: string;
@@ -2622,13 +2621,13 @@ export const CheckTransitiveMembershipGroupsMembershipsResponse = CheckTransitiv
 
 export type CheckTransitiveMembershipGroupsMembershipsError = CommonErrors;
 
+/** Check a potential member for membership in a group. **Note:** This feature is only available to Google Workspace Enterprise Standard, Enterprise Plus, and Enterprise for Education; and Cloud Identity Premium accounts. If the account of the member is not one of these, a 403 (PERMISSION_DENIED) HTTP status code will be returned. A member has membership to a group as long as there is a single viewable transitive membership between the group and the member. The actor must have view permissions to at least one transitive membership between the member and group. */
 export const checkTransitiveMembershipGroupsMemberships: API.OperationMethod<CheckTransitiveMembershipGroupsMembershipsRequest, CheckTransitiveMembershipGroupsMembershipsResponse, CheckTransitiveMembershipGroupsMembershipsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CheckTransitiveMembershipGroupsMembershipsRequest,
   output: CheckTransitiveMembershipGroupsMembershipsResponse,
   errors: [],
 }));
 
-/** Get a membership graph of just a member or both a member and a group. **Note:** This feature is only available to Google Workspace Enterprise Standard, Enterprise Plus, and Enterprise for Education; and Cloud Identity Premium accounts. If the account of the member is not one of these, a 403 (PERMISSION_DENIED) HTTP status code will be returned. Given a member, the response will contain all membership paths from the member. Given both a group and a member, the response will contain all membership paths between the group and the member. */
 export interface GetMembershipGraphGroupsMembershipsRequest {
   /** Required. [Resource name](https://cloud.google.com/apis/design/resource_names) of the group to search transitive memberships in. Format: `groups/{group}`, where `group` is the unique ID assigned to the Group to which the Membership belongs to. group can be a wildcard collection id "-". When a group is specified, the membership graph will be constrained to paths between the member (defined in the query) and the parent. If a wildcard collection is provided, all membership paths connected to the member will be returned. */
   parent: string;
@@ -2649,13 +2648,13 @@ export const GetMembershipGraphGroupsMembershipsResponse = Operation;
 
 export type GetMembershipGraphGroupsMembershipsError = CommonErrors;
 
+/** Get a membership graph of just a member or both a member and a group. **Note:** This feature is only available to Google Workspace Enterprise Standard, Enterprise Plus, and Enterprise for Education; and Cloud Identity Premium accounts. If the account of the member is not one of these, a 403 (PERMISSION_DENIED) HTTP status code will be returned. Given a member, the response will contain all membership paths from the member. Given both a group and a member, the response will contain all membership paths between the group and the member. */
 export const getMembershipGraphGroupsMemberships: API.OperationMethod<GetMembershipGraphGroupsMembershipsRequest, GetMembershipGraphGroupsMembershipsResponse, GetMembershipGraphGroupsMembershipsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetMembershipGraphGroupsMembershipsRequest,
   output: GetMembershipGraphGroupsMembershipsResponse,
   errors: [],
 }));
 
-/** Searches direct groups of a member. */
 export interface SearchDirectGroupsGroupsMembershipsRequest {
   /** [Resource name](https://cloud.google.com/apis/design/resource_names) of the group to search transitive memberships in. Format: groups/{group_id}, where group_id is always '-' as this API will search across all groups for a given member. */
   parent: string;
@@ -2685,7 +2684,8 @@ export const SearchDirectGroupsGroupsMembershipsResponse = SearchDirectGroupsRes
 
 export type SearchDirectGroupsGroupsMembershipsError = CommonErrors;
 
-export const searchDirectGroupsGroupsMemberships = API.makePaginated(() => ({
+/** Searches direct groups of a member. */
+export const searchDirectGroupsGroupsMemberships: API.PaginatedOperationMethod<SearchDirectGroupsGroupsMembershipsRequest, SearchDirectGroupsGroupsMembershipsResponse, SearchDirectGroupsGroupsMembershipsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchDirectGroupsGroupsMembershipsRequest,
   output: SearchDirectGroupsGroupsMembershipsResponse,
   errors: [],
@@ -2695,7 +2695,6 @@ export const searchDirectGroupsGroupsMemberships = API.makePaginated(() => ({
   },
 }));
 
-/** Creates an InboundSamlSsoProfile for a customer. When the target customer has enabled [Multi-party approval for sensitive actions](https://support.google.com/a/answer/13790448), the `Operation` in the response will have `"done": false`, it will not have a response, and the metadata will have `"state": "awaiting-multi-party-approval"`. */
 export interface CreateInboundSamlSsoProfilesRequest {
   /** Request body */
   body?: InboundSamlSsoProfile;
@@ -2713,13 +2712,13 @@ export const CreateInboundSamlSsoProfilesResponse = Operation;
 
 export type CreateInboundSamlSsoProfilesError = CommonErrors;
 
+/** Creates an InboundSamlSsoProfile for a customer. When the target customer has enabled [Multi-party approval for sensitive actions](https://support.google.com/a/answer/13790448), the `Operation` in the response will have `"done": false`, it will not have a response, and the metadata will have `"state": "awaiting-multi-party-approval"`. */
 export const createInboundSamlSsoProfiles: API.OperationMethod<CreateInboundSamlSsoProfilesRequest, CreateInboundSamlSsoProfilesResponse, CreateInboundSamlSsoProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateInboundSamlSsoProfilesRequest,
   output: CreateInboundSamlSsoProfilesResponse,
   errors: [],
 }));
 
-/** Updates an InboundSamlSsoProfile. When the target customer has enabled [Multi-party approval for sensitive actions](https://support.google.com/a/answer/13790448), the `Operation` in the response will have `"done": false`, it will not have a response, and the metadata will have `"state": "awaiting-multi-party-approval"`. */
 export interface PatchInboundSamlSsoProfilesRequest {
   /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the SAML SSO profile. */
   name: string;
@@ -2743,13 +2742,13 @@ export const PatchInboundSamlSsoProfilesResponse = Operation;
 
 export type PatchInboundSamlSsoProfilesError = CommonErrors;
 
+/** Updates an InboundSamlSsoProfile. When the target customer has enabled [Multi-party approval for sensitive actions](https://support.google.com/a/answer/13790448), the `Operation` in the response will have `"done": false`, it will not have a response, and the metadata will have `"state": "awaiting-multi-party-approval"`. */
 export const patchInboundSamlSsoProfiles: API.OperationMethod<PatchInboundSamlSsoProfilesRequest, PatchInboundSamlSsoProfilesResponse, PatchInboundSamlSsoProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchInboundSamlSsoProfilesRequest,
   output: PatchInboundSamlSsoProfilesResponse,
   errors: [],
 }));
 
-/** Deletes an InboundSamlSsoProfile. */
 export interface DeleteInboundSamlSsoProfilesRequest {
   /** Required. The [resource name](https://cloud.google.com/apis/design/resource_names) of the InboundSamlSsoProfile to delete. Format: `inboundSamlSsoProfiles/{sso_profile_id}` */
   name: string;
@@ -2767,13 +2766,13 @@ export const DeleteInboundSamlSsoProfilesResponse = Operation;
 
 export type DeleteInboundSamlSsoProfilesError = CommonErrors;
 
+/** Deletes an InboundSamlSsoProfile. */
 export const deleteInboundSamlSsoProfiles: API.OperationMethod<DeleteInboundSamlSsoProfilesRequest, DeleteInboundSamlSsoProfilesResponse, DeleteInboundSamlSsoProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteInboundSamlSsoProfilesRequest,
   output: DeleteInboundSamlSsoProfilesResponse,
   errors: [],
 }));
 
-/** Gets an InboundSamlSsoProfile. */
 export interface GetInboundSamlSsoProfilesRequest {
   /** Required. The [resource name](https://cloud.google.com/apis/design/resource_names) of the InboundSamlSsoProfile to get. Format: `inboundSamlSsoProfiles/{sso_profile_id}` */
   name: string;
@@ -2791,13 +2790,13 @@ export const GetInboundSamlSsoProfilesResponse = InboundSamlSsoProfile;
 
 export type GetInboundSamlSsoProfilesError = CommonErrors;
 
+/** Gets an InboundSamlSsoProfile. */
 export const getInboundSamlSsoProfiles: API.OperationMethod<GetInboundSamlSsoProfilesRequest, GetInboundSamlSsoProfilesResponse, GetInboundSamlSsoProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetInboundSamlSsoProfilesRequest,
   output: GetInboundSamlSsoProfilesResponse,
   errors: [],
 }));
 
-/** Lists InboundSamlSsoProfiles for a customer. */
 export interface ListInboundSamlSsoProfilesRequest {
   /** A [Common Expression Language](https://github.com/google/cel-spec) expression to filter the results. The only supported filter is filtering by customer. For example: `customer=="customers/C0123abc"`. Omitting the filter or specifying a filter of `customer=="customers/my_customer"` will return the profiles for the customer that the caller (authenticated user) belongs to. */
   filter?: string;
@@ -2821,7 +2820,8 @@ export const ListInboundSamlSsoProfilesResponse_Op = ListInboundSamlSsoProfilesR
 
 export type ListInboundSamlSsoProfilesError = CommonErrors;
 
-export const listInboundSamlSsoProfiles = API.makePaginated(() => ({
+/** Lists InboundSamlSsoProfiles for a customer. */
+export const listInboundSamlSsoProfiles: API.PaginatedOperationMethod<ListInboundSamlSsoProfilesRequest, ListInboundSamlSsoProfilesResponse_Op, ListInboundSamlSsoProfilesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListInboundSamlSsoProfilesRequest,
   output: ListInboundSamlSsoProfilesResponse_Op,
   errors: [],
@@ -2831,7 +2831,6 @@ export const listInboundSamlSsoProfiles = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes an IdpCredential. */
 export interface DeleteInboundSamlSsoProfilesIdpCredentialsRequest {
   /** Required. The [resource name](https://cloud.google.com/apis/design/resource_names) of the IdpCredential to delete. Format: `inboundSamlSsoProfiles/{sso_profile_id}/idpCredentials/{idp_credential_id}` */
   name: string;
@@ -2849,13 +2848,13 @@ export const DeleteInboundSamlSsoProfilesIdpCredentialsResponse = Operation;
 
 export type DeleteInboundSamlSsoProfilesIdpCredentialsError = CommonErrors;
 
+/** Deletes an IdpCredential. */
 export const deleteInboundSamlSsoProfilesIdpCredentials: API.OperationMethod<DeleteInboundSamlSsoProfilesIdpCredentialsRequest, DeleteInboundSamlSsoProfilesIdpCredentialsResponse, DeleteInboundSamlSsoProfilesIdpCredentialsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteInboundSamlSsoProfilesIdpCredentialsRequest,
   output: DeleteInboundSamlSsoProfilesIdpCredentialsResponse,
   errors: [],
 }));
 
-/** Gets an IdpCredential. */
 export interface GetInboundSamlSsoProfilesIdpCredentialsRequest {
   /** Required. The [resource name](https://cloud.google.com/apis/design/resource_names) of the IdpCredential to retrieve. Format: `inboundSamlSsoProfiles/{sso_profile_id}/idpCredentials/{idp_credential_id}` */
   name: string;
@@ -2873,13 +2872,13 @@ export const GetInboundSamlSsoProfilesIdpCredentialsResponse = IdpCredential;
 
 export type GetInboundSamlSsoProfilesIdpCredentialsError = CommonErrors;
 
+/** Gets an IdpCredential. */
 export const getInboundSamlSsoProfilesIdpCredentials: API.OperationMethod<GetInboundSamlSsoProfilesIdpCredentialsRequest, GetInboundSamlSsoProfilesIdpCredentialsResponse, GetInboundSamlSsoProfilesIdpCredentialsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetInboundSamlSsoProfilesIdpCredentialsRequest,
   output: GetInboundSamlSsoProfilesIdpCredentialsResponse,
   errors: [],
 }));
 
-/** Returns a list of IdpCredentials in an InboundSamlSsoProfile. */
 export interface ListInboundSamlSsoProfilesIdpCredentialsRequest {
   /** Required. The parent, which owns this collection of `IdpCredential`s. Format: `inboundSamlSsoProfiles/{sso_profile_id}` */
   parent: string;
@@ -2903,7 +2902,8 @@ export const ListInboundSamlSsoProfilesIdpCredentialsResponse = ListIdpCredentia
 
 export type ListInboundSamlSsoProfilesIdpCredentialsError = CommonErrors;
 
-export const listInboundSamlSsoProfilesIdpCredentials = API.makePaginated(() => ({
+/** Returns a list of IdpCredentials in an InboundSamlSsoProfile. */
+export const listInboundSamlSsoProfilesIdpCredentials: API.PaginatedOperationMethod<ListInboundSamlSsoProfilesIdpCredentialsRequest, ListInboundSamlSsoProfilesIdpCredentialsResponse, ListInboundSamlSsoProfilesIdpCredentialsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListInboundSamlSsoProfilesIdpCredentialsRequest,
   output: ListInboundSamlSsoProfilesIdpCredentialsResponse,
   errors: [],
@@ -2913,7 +2913,6 @@ export const listInboundSamlSsoProfilesIdpCredentials = API.makePaginated(() => 
   },
 }));
 
-/** Adds an IdpCredential. Up to 2 credentials are allowed. When the target customer has enabled [Multi-party approval for sensitive actions](https://support.google.com/a/answer/13790448), the `Operation` in the response will have `"done": false`, it will not have a response, and the metadata will have `"state": "awaiting-multi-party-approval"`. */
 export interface AddInboundSamlSsoProfilesIdpCredentialsRequest {
   /** Required. The InboundSamlSsoProfile that owns the IdpCredential. Format: `inboundSamlSsoProfiles/{sso_profile_id}` */
   parent: string;
@@ -2934,13 +2933,13 @@ export const AddInboundSamlSsoProfilesIdpCredentialsResponse = Operation;
 
 export type AddInboundSamlSsoProfilesIdpCredentialsError = CommonErrors;
 
+/** Adds an IdpCredential. Up to 2 credentials are allowed. When the target customer has enabled [Multi-party approval for sensitive actions](https://support.google.com/a/answer/13790448), the `Operation` in the response will have `"done": false`, it will not have a response, and the metadata will have `"state": "awaiting-multi-party-approval"`. */
 export const addInboundSamlSsoProfilesIdpCredentials: API.OperationMethod<AddInboundSamlSsoProfilesIdpCredentialsRequest, AddInboundSamlSsoProfilesIdpCredentialsResponse, AddInboundSamlSsoProfilesIdpCredentialsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddInboundSamlSsoProfilesIdpCredentialsRequest,
   output: AddInboundSamlSsoProfilesIdpCredentialsResponse,
   errors: [],
 }));
 
-/** Creates an InboundOidcSsoProfile for a customer. When the target customer has enabled [Multi-party approval for sensitive actions](https://support.google.com/a/answer/13790448), the `Operation` in the response will have `"done": false`, it will not have a response, and the metadata will have `"state": "awaiting-multi-party-approval"`. */
 export interface CreateInboundOidcSsoProfilesRequest {
   /** Request body */
   body?: InboundOidcSsoProfile;
@@ -2958,13 +2957,13 @@ export const CreateInboundOidcSsoProfilesResponse = Operation;
 
 export type CreateInboundOidcSsoProfilesError = CommonErrors;
 
+/** Creates an InboundOidcSsoProfile for a customer. When the target customer has enabled [Multi-party approval for sensitive actions](https://support.google.com/a/answer/13790448), the `Operation` in the response will have `"done": false`, it will not have a response, and the metadata will have `"state": "awaiting-multi-party-approval"`. */
 export const createInboundOidcSsoProfiles: API.OperationMethod<CreateInboundOidcSsoProfilesRequest, CreateInboundOidcSsoProfilesResponse, CreateInboundOidcSsoProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateInboundOidcSsoProfilesRequest,
   output: CreateInboundOidcSsoProfilesResponse,
   errors: [],
 }));
 
-/** Updates an InboundOidcSsoProfile. When the target customer has enabled [Multi-party approval for sensitive actions](https://support.google.com/a/answer/13790448), the `Operation` in the response will have `"done": false`, it will not have a response, and the metadata will have `"state": "awaiting-multi-party-approval"`. */
 export interface PatchInboundOidcSsoProfilesRequest {
   /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the OIDC SSO profile. */
   name: string;
@@ -2988,13 +2987,13 @@ export const PatchInboundOidcSsoProfilesResponse = Operation;
 
 export type PatchInboundOidcSsoProfilesError = CommonErrors;
 
+/** Updates an InboundOidcSsoProfile. When the target customer has enabled [Multi-party approval for sensitive actions](https://support.google.com/a/answer/13790448), the `Operation` in the response will have `"done": false`, it will not have a response, and the metadata will have `"state": "awaiting-multi-party-approval"`. */
 export const patchInboundOidcSsoProfiles: API.OperationMethod<PatchInboundOidcSsoProfilesRequest, PatchInboundOidcSsoProfilesResponse, PatchInboundOidcSsoProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchInboundOidcSsoProfilesRequest,
   output: PatchInboundOidcSsoProfilesResponse,
   errors: [],
 }));
 
-/** Deletes an InboundOidcSsoProfile. */
 export interface DeleteInboundOidcSsoProfilesRequest {
   /** Required. The [resource name](https://cloud.google.com/apis/design/resource_names) of the InboundOidcSsoProfile to delete. Format: `inboundOidcSsoProfiles/{sso_profile_id}` */
   name: string;
@@ -3012,13 +3011,13 @@ export const DeleteInboundOidcSsoProfilesResponse = Operation;
 
 export type DeleteInboundOidcSsoProfilesError = CommonErrors;
 
+/** Deletes an InboundOidcSsoProfile. */
 export const deleteInboundOidcSsoProfiles: API.OperationMethod<DeleteInboundOidcSsoProfilesRequest, DeleteInboundOidcSsoProfilesResponse, DeleteInboundOidcSsoProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteInboundOidcSsoProfilesRequest,
   output: DeleteInboundOidcSsoProfilesResponse,
   errors: [],
 }));
 
-/** Gets an InboundOidcSsoProfile. */
 export interface GetInboundOidcSsoProfilesRequest {
   /** Required. The [resource name](https://cloud.google.com/apis/design/resource_names) of the InboundOidcSsoProfile to get. Format: `inboundOidcSsoProfiles/{sso_profile_id}` */
   name: string;
@@ -3036,13 +3035,13 @@ export const GetInboundOidcSsoProfilesResponse = InboundOidcSsoProfile;
 
 export type GetInboundOidcSsoProfilesError = CommonErrors;
 
+/** Gets an InboundOidcSsoProfile. */
 export const getInboundOidcSsoProfiles: API.OperationMethod<GetInboundOidcSsoProfilesRequest, GetInboundOidcSsoProfilesResponse, GetInboundOidcSsoProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetInboundOidcSsoProfilesRequest,
   output: GetInboundOidcSsoProfilesResponse,
   errors: [],
 }));
 
-/** Lists InboundOidcSsoProfile objects for a Google enterprise customer. */
 export interface ListInboundOidcSsoProfilesRequest {
   /** A [Common Expression Language](https://github.com/google/cel-spec) expression to filter the results. The only supported filter is filtering by customer. For example: `customer=="customers/C0123abc"`. Omitting the filter or specifying a filter of `customer=="customers/my_customer"` will return the profiles for the customer that the caller (authenticated user) belongs to. Specifying a filter of `customer==""` will return the global shared OIDC profiles. */
   filter?: string;
@@ -3066,7 +3065,8 @@ export const ListInboundOidcSsoProfilesResponse_Op = ListInboundOidcSsoProfilesR
 
 export type ListInboundOidcSsoProfilesError = CommonErrors;
 
-export const listInboundOidcSsoProfiles = API.makePaginated(() => ({
+/** Lists InboundOidcSsoProfile objects for a Google enterprise customer. */
+export const listInboundOidcSsoProfiles: API.PaginatedOperationMethod<ListInboundOidcSsoProfilesRequest, ListInboundOidcSsoProfilesResponse_Op, ListInboundOidcSsoProfilesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListInboundOidcSsoProfilesRequest,
   output: ListInboundOidcSsoProfilesResponse_Op,
   errors: [],
@@ -3076,7 +3076,6 @@ export const listInboundOidcSsoProfiles = API.makePaginated(() => ({
   },
 }));
 
-/** Gets an InboundSsoAssignment. */
 export interface GetInboundSsoAssignmentsRequest {
   /** Required. The [resource name](https://cloud.google.com/apis/design/resource_names) of the InboundSsoAssignment to fetch. Format: `inboundSsoAssignments/{assignment}` */
   name: string;
@@ -3094,13 +3093,13 @@ export const GetInboundSsoAssignmentsResponse = InboundSsoAssignment;
 
 export type GetInboundSsoAssignmentsError = CommonErrors;
 
+/** Gets an InboundSsoAssignment. */
 export const getInboundSsoAssignments: API.OperationMethod<GetInboundSsoAssignmentsRequest, GetInboundSsoAssignmentsResponse, GetInboundSsoAssignmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetInboundSsoAssignmentsRequest,
   output: GetInboundSsoAssignmentsResponse,
   errors: [],
 }));
 
-/** Creates an InboundSsoAssignment for users and devices in a `Customer` under a given `Group` or `OrgUnit`. */
 export interface CreateInboundSsoAssignmentsRequest {
   /** Request body */
   body?: InboundSsoAssignment;
@@ -3118,13 +3117,13 @@ export const CreateInboundSsoAssignmentsResponse = Operation;
 
 export type CreateInboundSsoAssignmentsError = CommonErrors;
 
+/** Creates an InboundSsoAssignment for users and devices in a `Customer` under a given `Group` or `OrgUnit`. */
 export const createInboundSsoAssignments: API.OperationMethod<CreateInboundSsoAssignmentsRequest, CreateInboundSsoAssignmentsResponse, CreateInboundSsoAssignmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateInboundSsoAssignmentsRequest,
   output: CreateInboundSsoAssignmentsResponse,
   errors: [],
 }));
 
-/** Updates an InboundSsoAssignment. The body of this request is the `inbound_sso_assignment` field and the `update_mask` is relative to that. For example: a PATCH to `/v1/inboundSsoAssignments/0abcdefg1234567&update_mask=rank` with a body of `{ "rank": 1 }` moves that (presumably group-targeted) SSO assignment to the highest priority and shifts any other group-targeted assignments down in priority. */
 export interface PatchInboundSsoAssignmentsRequest {
   /** Output only. [Resource name](https://cloud.google.com/apis/design/resource_names) of the Inbound SSO Assignment. */
   name: string;
@@ -3148,13 +3147,13 @@ export const PatchInboundSsoAssignmentsResponse = Operation;
 
 export type PatchInboundSsoAssignmentsError = CommonErrors;
 
+/** Updates an InboundSsoAssignment. The body of this request is the `inbound_sso_assignment` field and the `update_mask` is relative to that. For example: a PATCH to `/v1/inboundSsoAssignments/0abcdefg1234567&update_mask=rank` with a body of `{ "rank": 1 }` moves that (presumably group-targeted) SSO assignment to the highest priority and shifts any other group-targeted assignments down in priority. */
 export const patchInboundSsoAssignments: API.OperationMethod<PatchInboundSsoAssignmentsRequest, PatchInboundSsoAssignmentsResponse, PatchInboundSsoAssignmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchInboundSsoAssignmentsRequest,
   output: PatchInboundSsoAssignmentsResponse,
   errors: [],
 }));
 
-/** Deletes an InboundSsoAssignment. To disable SSO, Create (or Update) an assignment that has `sso_mode` == `SSO_OFF`. */
 export interface DeleteInboundSsoAssignmentsRequest {
   /** Required. The [resource name](https://cloud.google.com/apis/design/resource_names) of the InboundSsoAssignment to delete. Format: `inboundSsoAssignments/{assignment}` */
   name: string;
@@ -3172,13 +3171,13 @@ export const DeleteInboundSsoAssignmentsResponse = Operation;
 
 export type DeleteInboundSsoAssignmentsError = CommonErrors;
 
+/** Deletes an InboundSsoAssignment. To disable SSO, Create (or Update) an assignment that has `sso_mode` == `SSO_OFF`. */
 export const deleteInboundSsoAssignments: API.OperationMethod<DeleteInboundSsoAssignmentsRequest, DeleteInboundSsoAssignmentsResponse, DeleteInboundSsoAssignmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteInboundSsoAssignmentsRequest,
   output: DeleteInboundSsoAssignmentsResponse,
   errors: [],
 }));
 
-/** Lists the InboundSsoAssignments for a `Customer`. */
 export interface ListInboundSsoAssignmentsRequest {
   /** A CEL expression to filter the results. The only supported filter is filtering by customer. For example: `customer==customers/C0123abc`. Omitting the filter or specifying a filter of `customer==customers/my_customer` will return the assignments for the customer that the caller (authenticated user) belongs to. */
   filter?: string;
@@ -3202,7 +3201,8 @@ export const ListInboundSsoAssignmentsResponse_Op = ListInboundSsoAssignmentsRes
 
 export type ListInboundSsoAssignmentsError = CommonErrors;
 
-export const listInboundSsoAssignments = API.makePaginated(() => ({
+/** Lists the InboundSsoAssignments for a `Customer`. */
+export const listInboundSsoAssignments: API.PaginatedOperationMethod<ListInboundSsoAssignmentsRequest, ListInboundSsoAssignmentsResponse_Op, ListInboundSsoAssignmentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListInboundSsoAssignmentsRequest,
   output: ListInboundSsoAssignmentsResponse_Op,
   errors: [],
@@ -3212,7 +3212,6 @@ export const listInboundSsoAssignments = API.makePaginated(() => ({
   },
 }));
 
-/** Get a policy. */
 export interface GetPoliciesRequest {
   /** Required. The name of the policy to retrieve. Format: `policies/{policy}`. */
   name: string;
@@ -3230,13 +3229,13 @@ export const GetPoliciesResponse = Policy;
 
 export type GetPoliciesError = CommonErrors;
 
+/** Get a policy. */
 export const getPolicies: API.OperationMethod<GetPoliciesRequest, GetPoliciesResponse, GetPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPoliciesRequest,
   output: GetPoliciesResponse,
   errors: [],
 }));
 
-/** List policies. */
 export interface ListPoliciesRequest {
   /** Optional. The maximum number of results to return. The service can return fewer than this number. If omitted or set to 0, the default is 50 results per page. The maximum allowed value is 100. `page_size` values greater than 100 default to 100. */
   pageSize?: number;
@@ -3260,7 +3259,8 @@ export const ListPoliciesResponse_Op = ListPoliciesResponse;
 
 export type ListPoliciesError = CommonErrors;
 
-export const listPolicies = API.makePaginated(() => ({
+/** List policies. */
+export const listPolicies: API.PaginatedOperationMethod<ListPoliciesRequest, ListPoliciesResponse_Op, ListPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPoliciesRequest,
   output: ListPoliciesResponse_Op,
   errors: [],
@@ -3270,7 +3270,6 @@ export const listPolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves a UserInvitation resource. **Note:** New consumer accounts with the customer's verified domain created within the previous 48 hours will not appear in the result. This delay also applies to newly-verified domains. */
 export interface GetCustomersUserinvitationsRequest {
   /** Required. `UserInvitation` name in the format `customers/{customer}/userinvitations/{user_email_address}` */
   name: string;
@@ -3288,13 +3287,13 @@ export const GetCustomersUserinvitationsResponse = UserInvitation;
 
 export type GetCustomersUserinvitationsError = CommonErrors;
 
+/** Retrieves a UserInvitation resource. **Note:** New consumer accounts with the customer's verified domain created within the previous 48 hours will not appear in the result. This delay also applies to newly-verified domains. */
 export const getCustomersUserinvitations: API.OperationMethod<GetCustomersUserinvitationsRequest, GetCustomersUserinvitationsResponse, GetCustomersUserinvitationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCustomersUserinvitationsRequest,
   output: GetCustomersUserinvitationsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of UserInvitation resources. **Note:** New consumer accounts with the customer's verified domain created within the previous 48 hours will not appear in the result. This delay also applies to newly-verified domains. */
 export interface ListCustomersUserinvitationsRequest {
   /** Required. The customer ID of the Google Workspace or Cloud Identity account the UserInvitation resources are associated with. */
   parent: string;
@@ -3324,7 +3323,8 @@ export const ListCustomersUserinvitationsResponse = ListUserInvitationsResponse;
 
 export type ListCustomersUserinvitationsError = CommonErrors;
 
-export const listCustomersUserinvitations = API.makePaginated(() => ({
+/** Retrieves a list of UserInvitation resources. **Note:** New consumer accounts with the customer's verified domain created within the previous 48 hours will not appear in the result. This delay also applies to newly-verified domains. */
+export const listCustomersUserinvitations: API.PaginatedOperationMethod<ListCustomersUserinvitationsRequest, ListCustomersUserinvitationsResponse, ListCustomersUserinvitationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCustomersUserinvitationsRequest,
   output: ListCustomersUserinvitationsResponse,
   errors: [],
@@ -3334,7 +3334,6 @@ export const listCustomersUserinvitations = API.makePaginated(() => ({
   },
 }));
 
-/** Sends a UserInvitation to email. If the `UserInvitation` does not exist for this request and it is a valid request, the request creates a `UserInvitation`. **Note:** The `get` and `list` methods have a 48-hour delay where newly-created consumer accounts will not appear in the results. You can still send a `UserInvitation` to those accounts if you know the unmanaged email address and IsInvitableUser==True. */
 export interface SendCustomersUserinvitationsRequest {
   /** Required. `UserInvitation` name in the format `customers/{customer}/userinvitations/{user_email_address}` */
   name: string;
@@ -3355,13 +3354,13 @@ export const SendCustomersUserinvitationsResponse = Operation;
 
 export type SendCustomersUserinvitationsError = CommonErrors;
 
+/** Sends a UserInvitation to email. If the `UserInvitation` does not exist for this request and it is a valid request, the request creates a `UserInvitation`. **Note:** The `get` and `list` methods have a 48-hour delay where newly-created consumer accounts will not appear in the results. You can still send a `UserInvitation` to those accounts if you know the unmanaged email address and IsInvitableUser==True. */
 export const sendCustomersUserinvitations: API.OperationMethod<SendCustomersUserinvitationsRequest, SendCustomersUserinvitationsResponse, SendCustomersUserinvitationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SendCustomersUserinvitationsRequest,
   output: SendCustomersUserinvitationsResponse,
   errors: [],
 }));
 
-/** Cancels a UserInvitation that was already sent. */
 export interface CancelCustomersUserinvitationsRequest {
   /** Required. `UserInvitation` name in the format `customers/{customer}/userinvitations/{user_email_address}` */
   name: string;
@@ -3382,13 +3381,13 @@ export const CancelCustomersUserinvitationsResponse = Operation;
 
 export type CancelCustomersUserinvitationsError = CommonErrors;
 
+/** Cancels a UserInvitation that was already sent. */
 export const cancelCustomersUserinvitations: API.OperationMethod<CancelCustomersUserinvitationsRequest, CancelCustomersUserinvitationsResponse, CancelCustomersUserinvitationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelCustomersUserinvitationsRequest,
   output: CancelCustomersUserinvitationsResponse,
   errors: [],
 }));
 
-/** Verifies whether a user account is eligible to receive a UserInvitation (is an unmanaged account). Eligibility is based on the following criteria: * the email address is a consumer account and it's the primary email address of the account, and * the domain of the email address matches an existing verified Google Workspace or Cloud Identity domain If both conditions are met, the user is eligible. **Note:** This method is not supported for Workspace Essentials customers. */
 export interface IsInvitableUserCustomersUserinvitationsRequest {
   /** Required. `UserInvitation` name in the format `customers/{customer}/userinvitations/{user_email_address}` */
   name: string;
@@ -3406,6 +3405,7 @@ export const IsInvitableUserCustomersUserinvitationsResponse = IsInvitableUserRe
 
 export type IsInvitableUserCustomersUserinvitationsError = CommonErrors;
 
+/** Verifies whether a user account is eligible to receive a UserInvitation (is an unmanaged account). Eligibility is based on the following criteria: * the email address is a consumer account and it's the primary email address of the account, and * the domain of the email address matches an existing verified Google Workspace or Cloud Identity domain If both conditions are met, the user is eligible. **Note:** This method is not supported for Workspace Essentials customers. */
 export const isInvitableUserCustomersUserinvitations: API.OperationMethod<IsInvitableUserCustomersUserinvitationsRequest, IsInvitableUserCustomersUserinvitationsResponse, IsInvitableUserCustomersUserinvitationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: IsInvitableUserCustomersUserinvitationsRequest,
   output: IsInvitableUserCustomersUserinvitationsResponse,

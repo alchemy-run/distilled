@@ -519,7 +519,6 @@ export const ResetIdentityAwareProxyClientSecretRequest: Schema.Schema<ResetIden
 // Operations
 // ==========================================================================
 
-/** Sets the access control policy for an Identity-Aware Proxy protected resource. Replaces any existing policy. More information about managing access via IAP can be found at: https://cloud.google.com/iap/docs/managing-access#managing_access_via_the_api */
 export interface SetIamPolicyV1Request {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -540,13 +539,13 @@ export const SetIamPolicyV1Response = Policy;
 
 export type SetIamPolicyV1Error = CommonErrors;
 
+/** Sets the access control policy for an Identity-Aware Proxy protected resource. Replaces any existing policy. More information about managing access via IAP can be found at: https://cloud.google.com/iap/docs/managing-access#managing_access_via_the_api */
 export const setIamPolicyV1: API.OperationMethod<SetIamPolicyV1Request, SetIamPolicyV1Response, SetIamPolicyV1Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyV1Request,
   output: SetIamPolicyV1Response,
   errors: [],
 }));
 
-/** Gets the access control policy for an Identity-Aware Proxy protected resource. More information about managing access via IAP can be found at: https://cloud.google.com/iap/docs/managing-access#managing_access_via_the_api */
 export interface GetIamPolicyV1Request {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -567,13 +566,13 @@ export const GetIamPolicyV1Response = Policy;
 
 export type GetIamPolicyV1Error = CommonErrors;
 
+/** Gets the access control policy for an Identity-Aware Proxy protected resource. More information about managing access via IAP can be found at: https://cloud.google.com/iap/docs/managing-access#managing_access_via_the_api */
 export const getIamPolicyV1: API.OperationMethod<GetIamPolicyV1Request, GetIamPolicyV1Response, GetIamPolicyV1Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyV1Request,
   output: GetIamPolicyV1Response,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the Identity-Aware Proxy protected resource. More information about managing access via IAP can be found at: https://cloud.google.com/iap/docs/managing-access#managing_access_via_the_api */
 export interface TestIamPermissionsV1Request {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -594,13 +593,13 @@ export const TestIamPermissionsV1Response = TestIamPermissionsResponse;
 
 export type TestIamPermissionsV1Error = CommonErrors;
 
+/** Returns permissions that a caller has on the Identity-Aware Proxy protected resource. More information about managing access via IAP can be found at: https://cloud.google.com/iap/docs/managing-access#managing_access_via_the_api */
 export const testIamPermissionsV1: API.OperationMethod<TestIamPermissionsV1Request, TestIamPermissionsV1Response, TestIamPermissionsV1Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsV1Request,
   output: TestIamPermissionsV1Response,
   errors: [],
 }));
 
-/** Gets the IAP settings on a particular IAP protected resource. */
 export interface GetIapSettingsV1Request {
   /** Required. The resource name for which to retrieve the settings. Authorization: Requires the `getSettings` permission for the associated resource. */
   name: string;
@@ -618,13 +617,13 @@ export const GetIapSettingsV1Response = IapSettings;
 
 export type GetIapSettingsV1Error = CommonErrors;
 
+/** Gets the IAP settings on a particular IAP protected resource. */
 export const getIapSettingsV1: API.OperationMethod<GetIapSettingsV1Request, GetIapSettingsV1Response, GetIapSettingsV1Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIapSettingsV1Request,
   output: GetIapSettingsV1Response,
   errors: [],
 }));
 
-/** Updates the IAP settings on a particular IAP protected resource. It replaces all fields unless the `update_mask` is set. */
 export interface UpdateIapSettingsV1Request {
   /** Required. The resource name of the IAP protected resource. */
   name: string;
@@ -648,13 +647,13 @@ export const UpdateIapSettingsV1Response = IapSettings;
 
 export type UpdateIapSettingsV1Error = CommonErrors;
 
+/** Updates the IAP settings on a particular IAP protected resource. It replaces all fields unless the `update_mask` is set. */
 export const updateIapSettingsV1: API.OperationMethod<UpdateIapSettingsV1Request, UpdateIapSettingsV1Response, UpdateIapSettingsV1Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateIapSettingsV1Request,
   output: UpdateIapSettingsV1Response,
   errors: [],
 }));
 
-/** Validates that a given CEL expression conforms to IAP restrictions. */
 export interface ValidateAttributeExpressionV1Request {
   /** Required. The resource name of the IAP protected resource. */
   name: string;
@@ -675,13 +674,13 @@ export const ValidateAttributeExpressionV1Response = ValidateIapAttributeExpress
 
 export type ValidateAttributeExpressionV1Error = CommonErrors;
 
+/** Validates that a given CEL expression conforms to IAP restrictions. */
 export const validateAttributeExpressionV1: API.OperationMethod<ValidateAttributeExpressionV1Request, ValidateAttributeExpressionV1Response, ValidateAttributeExpressionV1Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ValidateAttributeExpressionV1Request,
   output: ValidateAttributeExpressionV1Response,
   errors: [],
 }));
 
-/** Lists the existing TunnelDestGroups. To group across all locations, use a `-` as the location ID. For example: `/v1/projects/123/iap_tunnel/locations/-/destGroups` */
 export interface ListProjectsIap_tunnelLocationsDestGroupsRequest {
   /** Required. Google Cloud Project ID and location. In the following format: `projects/{project_number/id}/iap_tunnel/locations/{location}`. A `-` can be used for the location to group across all locations. */
   parent: string;
@@ -705,7 +704,8 @@ export const ListProjectsIap_tunnelLocationsDestGroupsResponse = ListTunnelDestG
 
 export type ListProjectsIap_tunnelLocationsDestGroupsError = CommonErrors;
 
-export const listProjectsIap_tunnelLocationsDestGroups = API.makePaginated(() => ({
+/** Lists the existing TunnelDestGroups. To group across all locations, use a `-` as the location ID. For example: `/v1/projects/123/iap_tunnel/locations/-/destGroups` */
+export const listProjectsIap_tunnelLocationsDestGroups: API.PaginatedOperationMethod<ListProjectsIap_tunnelLocationsDestGroupsRequest, ListProjectsIap_tunnelLocationsDestGroupsResponse, ListProjectsIap_tunnelLocationsDestGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsIap_tunnelLocationsDestGroupsRequest,
   output: ListProjectsIap_tunnelLocationsDestGroupsResponse,
   errors: [],
@@ -715,7 +715,6 @@ export const listProjectsIap_tunnelLocationsDestGroups = API.makePaginated(() =>
   },
 }));
 
-/** Creates a new TunnelDestGroup. */
 export interface CreateProjectsIap_tunnelLocationsDestGroupsRequest {
   /** Required. Google Cloud Project ID and location. In the following format: `projects/{project_number/id}/iap_tunnel/locations/{location}`. */
   parent: string;
@@ -739,13 +738,13 @@ export const CreateProjectsIap_tunnelLocationsDestGroupsResponse = TunnelDestGro
 
 export type CreateProjectsIap_tunnelLocationsDestGroupsError = CommonErrors;
 
+/** Creates a new TunnelDestGroup. */
 export const createProjectsIap_tunnelLocationsDestGroups: API.OperationMethod<CreateProjectsIap_tunnelLocationsDestGroupsRequest, CreateProjectsIap_tunnelLocationsDestGroupsResponse, CreateProjectsIap_tunnelLocationsDestGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsIap_tunnelLocationsDestGroupsRequest,
   output: CreateProjectsIap_tunnelLocationsDestGroupsResponse,
   errors: [],
 }));
 
-/** Retrieves an existing TunnelDestGroup. */
 export interface GetProjectsIap_tunnelLocationsDestGroupsRequest {
   /** Required. Name of the TunnelDestGroup to be fetched. In the following format: `projects/{project_number/id}/iap_tunnel/locations/{location}/destGroups/{dest_group}`. */
   name: string;
@@ -763,13 +762,13 @@ export const GetProjectsIap_tunnelLocationsDestGroupsResponse = TunnelDestGroup;
 
 export type GetProjectsIap_tunnelLocationsDestGroupsError = CommonErrors;
 
+/** Retrieves an existing TunnelDestGroup. */
 export const getProjectsIap_tunnelLocationsDestGroups: API.OperationMethod<GetProjectsIap_tunnelLocationsDestGroupsRequest, GetProjectsIap_tunnelLocationsDestGroupsResponse, GetProjectsIap_tunnelLocationsDestGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsIap_tunnelLocationsDestGroupsRequest,
   output: GetProjectsIap_tunnelLocationsDestGroupsResponse,
   errors: [],
 }));
 
-/** Deletes a TunnelDestGroup. */
 export interface DeleteProjectsIap_tunnelLocationsDestGroupsRequest {
   /** Required. Name of the TunnelDestGroup to delete. In the following format: `projects/{project_number/id}/iap_tunnel/locations/{location}/destGroups/{dest_group}`. */
   name: string;
@@ -787,13 +786,13 @@ export const DeleteProjectsIap_tunnelLocationsDestGroupsResponse = Empty;
 
 export type DeleteProjectsIap_tunnelLocationsDestGroupsError = CommonErrors;
 
+/** Deletes a TunnelDestGroup. */
 export const deleteProjectsIap_tunnelLocationsDestGroups: API.OperationMethod<DeleteProjectsIap_tunnelLocationsDestGroupsRequest, DeleteProjectsIap_tunnelLocationsDestGroupsResponse, DeleteProjectsIap_tunnelLocationsDestGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsIap_tunnelLocationsDestGroupsRequest,
   output: DeleteProjectsIap_tunnelLocationsDestGroupsResponse,
   errors: [],
 }));
 
-/** Updates a TunnelDestGroup. */
 export interface PatchProjectsIap_tunnelLocationsDestGroupsRequest {
   /** Identifier. Identifier for the TunnelDestGroup. Must be unique within the project and contain only lower case letters (a-z) and dashes (-). */
   name: string;
@@ -817,13 +816,13 @@ export const PatchProjectsIap_tunnelLocationsDestGroupsResponse = TunnelDestGrou
 
 export type PatchProjectsIap_tunnelLocationsDestGroupsError = CommonErrors;
 
+/** Updates a TunnelDestGroup. */
 export const patchProjectsIap_tunnelLocationsDestGroups: API.OperationMethod<PatchProjectsIap_tunnelLocationsDestGroupsRequest, PatchProjectsIap_tunnelLocationsDestGroupsResponse, PatchProjectsIap_tunnelLocationsDestGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsIap_tunnelLocationsDestGroupsRequest,
   output: PatchProjectsIap_tunnelLocationsDestGroupsResponse,
   errors: [],
 }));
 
-/** Lists the existing brands for the project. */
 export interface ListProjectsBrandsRequest {
   /** Required. GCP Project number/id. In the following format: projects/{project_number/id}. */
   parent: string;
@@ -841,13 +840,13 @@ export const ListProjectsBrandsResponse = ListBrandsResponse;
 
 export type ListProjectsBrandsError = CommonErrors;
 
+/** Lists the existing brands for the project. */
 export const listProjectsBrands: API.OperationMethod<ListProjectsBrandsRequest, ListProjectsBrandsResponse, ListProjectsBrandsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsBrandsRequest,
   output: ListProjectsBrandsResponse,
   errors: [],
 }));
 
-/** Constructs a new OAuth brand for the project if one does not exist. The created brand is "internal only", meaning that OAuth clients created under it only accept requests from users who belong to the same Google Workspace organization as the project. The brand is created in an un-reviewed status. NOTE: The "internal only" status can be manually changed in the Google Cloud Console. Requires that a brand does not already exist for the project, and that the specified support email is owned by the caller. */
 export interface CreateProjectsBrandsRequest {
   /** Required. GCP Project number/id under which the brand is to be created. In the following format: projects/{project_number/id}. */
   parent: string;
@@ -868,13 +867,13 @@ export const CreateProjectsBrandsResponse = Brand;
 
 export type CreateProjectsBrandsError = CommonErrors;
 
+/** Constructs a new OAuth brand for the project if one does not exist. The created brand is "internal only", meaning that OAuth clients created under it only accept requests from users who belong to the same Google Workspace organization as the project. The brand is created in an un-reviewed status. NOTE: The "internal only" status can be manually changed in the Google Cloud Console. Requires that a brand does not already exist for the project, and that the specified support email is owned by the caller. */
 export const createProjectsBrands: API.OperationMethod<CreateProjectsBrandsRequest, CreateProjectsBrandsResponse, CreateProjectsBrandsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsBrandsRequest,
   output: CreateProjectsBrandsResponse,
   errors: [],
 }));
 
-/** Retrieves the OAuth brand of the project. */
 export interface GetProjectsBrandsRequest {
   /** Required. Name of the brand to be fetched. In the following format: projects/{project_number/id}/brands/{brand}. */
   name: string;
@@ -892,13 +891,13 @@ export const GetProjectsBrandsResponse = Brand;
 
 export type GetProjectsBrandsError = CommonErrors;
 
+/** Retrieves the OAuth brand of the project. */
 export const getProjectsBrands: API.OperationMethod<GetProjectsBrandsRequest, GetProjectsBrandsResponse, GetProjectsBrandsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsBrandsRequest,
   output: GetProjectsBrandsResponse,
   errors: [],
 }));
 
-/** Creates an Identity Aware Proxy (IAP) OAuth client. The client is owned by IAP. Requires that the brand for the project exists and that it is set for internal-only use. */
 export interface CreateProjectsBrandsIdentityAwareProxyClientsRequest {
   /** Required. Path to create the client in. In the following format: projects/{project_number/id}/brands/{brand}. The project must belong to a G Suite account. */
   parent: string;
@@ -919,13 +918,13 @@ export const CreateProjectsBrandsIdentityAwareProxyClientsResponse = IdentityAwa
 
 export type CreateProjectsBrandsIdentityAwareProxyClientsError = CommonErrors;
 
+/** Creates an Identity Aware Proxy (IAP) OAuth client. The client is owned by IAP. Requires that the brand for the project exists and that it is set for internal-only use. */
 export const createProjectsBrandsIdentityAwareProxyClients: API.OperationMethod<CreateProjectsBrandsIdentityAwareProxyClientsRequest, CreateProjectsBrandsIdentityAwareProxyClientsResponse, CreateProjectsBrandsIdentityAwareProxyClientsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsBrandsIdentityAwareProxyClientsRequest,
   output: CreateProjectsBrandsIdentityAwareProxyClientsResponse,
   errors: [],
 }));
 
-/** Lists the existing clients for the brand. */
 export interface ListProjectsBrandsIdentityAwareProxyClientsRequest {
   /** Required. Full brand path. In the following format: projects/{project_number/id}/brands/{brand}. */
   parent: string;
@@ -949,7 +948,8 @@ export const ListProjectsBrandsIdentityAwareProxyClientsResponse = ListIdentityA
 
 export type ListProjectsBrandsIdentityAwareProxyClientsError = CommonErrors;
 
-export const listProjectsBrandsIdentityAwareProxyClients = API.makePaginated(() => ({
+/** Lists the existing clients for the brand. */
+export const listProjectsBrandsIdentityAwareProxyClients: API.PaginatedOperationMethod<ListProjectsBrandsIdentityAwareProxyClientsRequest, ListProjectsBrandsIdentityAwareProxyClientsResponse, ListProjectsBrandsIdentityAwareProxyClientsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsBrandsIdentityAwareProxyClientsRequest,
   output: ListProjectsBrandsIdentityAwareProxyClientsResponse,
   errors: [],
@@ -959,7 +959,6 @@ export const listProjectsBrandsIdentityAwareProxyClients = API.makePaginated(() 
   },
 }));
 
-/** Retrieves an Identity Aware Proxy (IAP) OAuth client. Requires that the client is owned by IAP. */
 export interface GetProjectsBrandsIdentityAwareProxyClientsRequest {
   /** Required. Name of the Identity Aware Proxy client to be fetched. In the following format: projects/{project_number/id}/brands/{brand}/identityAwareProxyClients/{client_id}. */
   name: string;
@@ -977,13 +976,13 @@ export const GetProjectsBrandsIdentityAwareProxyClientsResponse = IdentityAwareP
 
 export type GetProjectsBrandsIdentityAwareProxyClientsError = CommonErrors;
 
+/** Retrieves an Identity Aware Proxy (IAP) OAuth client. Requires that the client is owned by IAP. */
 export const getProjectsBrandsIdentityAwareProxyClients: API.OperationMethod<GetProjectsBrandsIdentityAwareProxyClientsRequest, GetProjectsBrandsIdentityAwareProxyClientsResponse, GetProjectsBrandsIdentityAwareProxyClientsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsBrandsIdentityAwareProxyClientsRequest,
   output: GetProjectsBrandsIdentityAwareProxyClientsResponse,
   errors: [],
 }));
 
-/** Resets an Identity Aware Proxy (IAP) OAuth client secret. Useful if the secret was compromised. Requires that the client is owned by IAP. */
 export interface ResetSecretProjectsBrandsIdentityAwareProxyClientsRequest {
   /** Required. Name of the Identity Aware Proxy client to that will have its secret reset. In the following format: projects/{project_number/id}/brands/{brand}/identityAwareProxyClients/{client_id}. */
   name: string;
@@ -1004,13 +1003,13 @@ export const ResetSecretProjectsBrandsIdentityAwareProxyClientsResponse = Identi
 
 export type ResetSecretProjectsBrandsIdentityAwareProxyClientsError = CommonErrors;
 
+/** Resets an Identity Aware Proxy (IAP) OAuth client secret. Useful if the secret was compromised. Requires that the client is owned by IAP. */
 export const resetSecretProjectsBrandsIdentityAwareProxyClients: API.OperationMethod<ResetSecretProjectsBrandsIdentityAwareProxyClientsRequest, ResetSecretProjectsBrandsIdentityAwareProxyClientsResponse, ResetSecretProjectsBrandsIdentityAwareProxyClientsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetSecretProjectsBrandsIdentityAwareProxyClientsRequest,
   output: ResetSecretProjectsBrandsIdentityAwareProxyClientsResponse,
   errors: [],
 }));
 
-/** Deletes an Identity Aware Proxy (IAP) OAuth client. Useful for removing obsolete clients, managing the number of clients in a given project, and cleaning up after tests. Requires that the client is owned by IAP. */
 export interface DeleteProjectsBrandsIdentityAwareProxyClientsRequest {
   /** Required. Name of the Identity Aware Proxy client to be deleted. In the following format: projects/{project_number/id}/brands/{brand}/identityAwareProxyClients/{client_id}. */
   name: string;
@@ -1028,6 +1027,7 @@ export const DeleteProjectsBrandsIdentityAwareProxyClientsResponse = Empty;
 
 export type DeleteProjectsBrandsIdentityAwareProxyClientsError = CommonErrors;
 
+/** Deletes an Identity Aware Proxy (IAP) OAuth client. Useful for removing obsolete clients, managing the number of clients in a given project, and cleaning up after tests. Requires that the client is owned by IAP. */
 export const deleteProjectsBrandsIdentityAwareProxyClients: API.OperationMethod<DeleteProjectsBrandsIdentityAwareProxyClientsRequest, DeleteProjectsBrandsIdentityAwareProxyClientsResponse, DeleteProjectsBrandsIdentityAwareProxyClientsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsBrandsIdentityAwareProxyClientsRequest,
   output: DeleteProjectsBrandsIdentityAwareProxyClientsResponse,

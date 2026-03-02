@@ -8241,7 +8241,7 @@ export const ListProjectsLocationsResponse = GoogleCloudLocationListLocationsRes
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -8318,7 +8318,7 @@ export const ListProjectsLocationsSecuritySettingsResponse = GoogleCloudDialogfl
 
 export type ListProjectsLocationsSecuritySettingsError = CommonErrors;
 
-export const listProjectsLocationsSecuritySettings = API.makePaginated(() => ({
+export const listProjectsLocationsSecuritySettings: API.PaginatedOperationMethod<ListProjectsLocationsSecuritySettingsRequest, ListProjectsLocationsSecuritySettingsResponse, ListProjectsLocationsSecuritySettingsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsSecuritySettingsRequest,
   output: ListProjectsLocationsSecuritySettingsResponse,
   errors: [],
@@ -8593,7 +8593,7 @@ export const ListProjectsLocationsAgentsResponse = GoogleCloudDialogflowCxV3List
 
 export type ListProjectsLocationsAgentsError = CommonErrors;
 
-export const listProjectsLocationsAgents = API.makePaginated(() => ({
+export const listProjectsLocationsAgents: API.PaginatedOperationMethod<ListProjectsLocationsAgentsRequest, ListProjectsLocationsAgentsResponse, ListProjectsLocationsAgentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAgentsRequest,
   output: ListProjectsLocationsAgentsResponse,
   errors: [],
@@ -8747,7 +8747,7 @@ export const ListProjectsLocationsAgentsEnvironmentsResponse = GoogleCloudDialog
 
 export type ListProjectsLocationsAgentsEnvironmentsError = CommonErrors;
 
-export const listProjectsLocationsAgentsEnvironments = API.makePaginated(() => ({
+export const listProjectsLocationsAgentsEnvironments: API.PaginatedOperationMethod<ListProjectsLocationsAgentsEnvironmentsRequest, ListProjectsLocationsAgentsEnvironmentsResponse, ListProjectsLocationsAgentsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAgentsEnvironmentsRequest,
   output: ListProjectsLocationsAgentsEnvironmentsResponse,
   errors: [],
@@ -8871,7 +8871,7 @@ export const LookupEnvironmentHistoryProjectsLocationsAgentsEnvironmentsResponse
 
 export type LookupEnvironmentHistoryProjectsLocationsAgentsEnvironmentsError = CommonErrors;
 
-export const lookupEnvironmentHistoryProjectsLocationsAgentsEnvironments = API.makePaginated(() => ({
+export const lookupEnvironmentHistoryProjectsLocationsAgentsEnvironments: API.PaginatedOperationMethod<LookupEnvironmentHistoryProjectsLocationsAgentsEnvironmentsRequest, LookupEnvironmentHistoryProjectsLocationsAgentsEnvironmentsResponse, LookupEnvironmentHistoryProjectsLocationsAgentsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: LookupEnvironmentHistoryProjectsLocationsAgentsEnvironmentsRequest,
   output: LookupEnvironmentHistoryProjectsLocationsAgentsEnvironmentsResponse,
   errors: [],
@@ -8901,7 +8901,7 @@ export const ListProjectsLocationsAgentsEnvironmentsDeploymentsResponse = Google
 
 export type ListProjectsLocationsAgentsEnvironmentsDeploymentsError = CommonErrors;
 
-export const listProjectsLocationsAgentsEnvironmentsDeployments = API.makePaginated(() => ({
+export const listProjectsLocationsAgentsEnvironmentsDeployments: API.PaginatedOperationMethod<ListProjectsLocationsAgentsEnvironmentsDeploymentsRequest, ListProjectsLocationsAgentsEnvironmentsDeploymentsResponse, ListProjectsLocationsAgentsEnvironmentsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAgentsEnvironmentsDeploymentsRequest,
   output: ListProjectsLocationsAgentsEnvironmentsDeploymentsResponse,
   errors: [],
@@ -8953,7 +8953,7 @@ export const ListProjectsLocationsAgentsEnvironmentsContinuousTestResultsRespons
 
 export type ListProjectsLocationsAgentsEnvironmentsContinuousTestResultsError = CommonErrors;
 
-export const listProjectsLocationsAgentsEnvironmentsContinuousTestResults = API.makePaginated(() => ({
+export const listProjectsLocationsAgentsEnvironmentsContinuousTestResults: API.PaginatedOperationMethod<ListProjectsLocationsAgentsEnvironmentsContinuousTestResultsRequest, ListProjectsLocationsAgentsEnvironmentsContinuousTestResultsResponse, ListProjectsLocationsAgentsEnvironmentsContinuousTestResultsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAgentsEnvironmentsContinuousTestResultsRequest,
   output: ListProjectsLocationsAgentsEnvironmentsContinuousTestResultsResponse,
   errors: [],
@@ -9132,7 +9132,7 @@ export const ListProjectsLocationsAgentsEnvironmentsSessionsEntityTypesResponse 
 
 export type ListProjectsLocationsAgentsEnvironmentsSessionsEntityTypesError = CommonErrors;
 
-export const listProjectsLocationsAgentsEnvironmentsSessionsEntityTypes = API.makePaginated(() => ({
+export const listProjectsLocationsAgentsEnvironmentsSessionsEntityTypes: API.PaginatedOperationMethod<ListProjectsLocationsAgentsEnvironmentsSessionsEntityTypesRequest, ListProjectsLocationsAgentsEnvironmentsSessionsEntityTypesResponse, ListProjectsLocationsAgentsEnvironmentsSessionsEntityTypesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAgentsEnvironmentsSessionsEntityTypesRequest,
   output: ListProjectsLocationsAgentsEnvironmentsSessionsEntityTypesResponse,
   errors: [],
@@ -9209,7 +9209,7 @@ export const ListProjectsLocationsAgentsEnvironmentsExperimentsResponse = Google
 
 export type ListProjectsLocationsAgentsEnvironmentsExperimentsError = CommonErrors;
 
-export const listProjectsLocationsAgentsEnvironmentsExperiments = API.makePaginated(() => ({
+export const listProjectsLocationsAgentsEnvironmentsExperiments: API.PaginatedOperationMethod<ListProjectsLocationsAgentsEnvironmentsExperimentsRequest, ListProjectsLocationsAgentsEnvironmentsExperimentsResponse, ListProjectsLocationsAgentsEnvironmentsExperimentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAgentsEnvironmentsExperimentsRequest,
   output: ListProjectsLocationsAgentsEnvironmentsExperimentsResponse,
   errors: [],
@@ -9459,7 +9459,7 @@ export const ListProjectsLocationsAgentsToolsResponse = GoogleCloudDialogflowCxV
 
 export type ListProjectsLocationsAgentsToolsError = CommonErrors;
 
-export const listProjectsLocationsAgentsTools = API.makePaginated(() => ({
+export const listProjectsLocationsAgentsTools: API.PaginatedOperationMethod<ListProjectsLocationsAgentsToolsRequest, ListProjectsLocationsAgentsToolsResponse, ListProjectsLocationsAgentsToolsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAgentsToolsRequest,
   output: ListProjectsLocationsAgentsToolsResponse,
   errors: [],
@@ -9562,7 +9562,7 @@ export const ListProjectsLocationsAgentsToolsVersionsResponse = GoogleCloudDialo
 
 export type ListProjectsLocationsAgentsToolsVersionsError = CommonErrors;
 
-export const listProjectsLocationsAgentsToolsVersions = API.makePaginated(() => ({
+export const listProjectsLocationsAgentsToolsVersions: API.PaginatedOperationMethod<ListProjectsLocationsAgentsToolsVersionsRequest, ListProjectsLocationsAgentsToolsVersionsResponse, ListProjectsLocationsAgentsToolsVersionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAgentsToolsVersionsRequest,
   output: ListProjectsLocationsAgentsToolsVersionsResponse,
   errors: [],
@@ -9690,7 +9690,7 @@ export const ListProjectsLocationsAgentsEntityTypesResponse = GoogleCloudDialogf
 
 export type ListProjectsLocationsAgentsEntityTypesError = CommonErrors;
 
-export const listProjectsLocationsAgentsEntityTypes = API.makePaginated(() => ({
+export const listProjectsLocationsAgentsEntityTypes: API.PaginatedOperationMethod<ListProjectsLocationsAgentsEntityTypesRequest, ListProjectsLocationsAgentsEntityTypesResponse, ListProjectsLocationsAgentsEntityTypesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAgentsEntityTypesRequest,
   output: ListProjectsLocationsAgentsEntityTypesResponse,
   errors: [],
@@ -9825,7 +9825,7 @@ export const ListProjectsLocationsAgentsPlaybooksResponse = GoogleCloudDialogflo
 
 export type ListProjectsLocationsAgentsPlaybooksError = CommonErrors;
 
-export const listProjectsLocationsAgentsPlaybooks = API.makePaginated(() => ({
+export const listProjectsLocationsAgentsPlaybooks: API.PaginatedOperationMethod<ListProjectsLocationsAgentsPlaybooksRequest, ListProjectsLocationsAgentsPlaybooksResponse, ListProjectsLocationsAgentsPlaybooksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAgentsPlaybooksRequest,
   output: ListProjectsLocationsAgentsPlaybooksResponse,
   errors: [],
@@ -10052,7 +10052,7 @@ export const ListProjectsLocationsAgentsPlaybooksExamplesResponse = GoogleCloudD
 
 export type ListProjectsLocationsAgentsPlaybooksExamplesError = CommonErrors;
 
-export const listProjectsLocationsAgentsPlaybooksExamples = API.makePaginated(() => ({
+export const listProjectsLocationsAgentsPlaybooksExamples: API.PaginatedOperationMethod<ListProjectsLocationsAgentsPlaybooksExamplesRequest, ListProjectsLocationsAgentsPlaybooksExamplesResponse, ListProjectsLocationsAgentsPlaybooksExamplesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAgentsPlaybooksExamplesRequest,
   output: ListProjectsLocationsAgentsPlaybooksExamplesResponse,
   errors: [],
@@ -10129,7 +10129,7 @@ export const ListProjectsLocationsAgentsPlaybooksVersionsResponse = GoogleCloudD
 
 export type ListProjectsLocationsAgentsPlaybooksVersionsError = CommonErrors;
 
-export const listProjectsLocationsAgentsPlaybooksVersions = API.makePaginated(() => ({
+export const listProjectsLocationsAgentsPlaybooksVersions: API.PaginatedOperationMethod<ListProjectsLocationsAgentsPlaybooksVersionsRequest, ListProjectsLocationsAgentsPlaybooksVersionsResponse, ListProjectsLocationsAgentsPlaybooksVersionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAgentsPlaybooksVersionsRequest,
   output: ListProjectsLocationsAgentsPlaybooksVersionsResponse,
   errors: [],
@@ -10335,7 +10335,7 @@ export const ListProjectsLocationsAgentsTransitionRouteGroupsResponse = GoogleCl
 
 export type ListProjectsLocationsAgentsTransitionRouteGroupsError = CommonErrors;
 
-export const listProjectsLocationsAgentsTransitionRouteGroups = API.makePaginated(() => ({
+export const listProjectsLocationsAgentsTransitionRouteGroups: API.PaginatedOperationMethod<ListProjectsLocationsAgentsTransitionRouteGroupsRequest, ListProjectsLocationsAgentsTransitionRouteGroupsResponse, ListProjectsLocationsAgentsTransitionRouteGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAgentsTransitionRouteGroupsRequest,
   output: ListProjectsLocationsAgentsTransitionRouteGroupsResponse,
   errors: [],
@@ -10447,7 +10447,7 @@ export const ListProjectsLocationsAgentsGeneratorsResponse = GoogleCloudDialogfl
 
 export type ListProjectsLocationsAgentsGeneratorsError = CommonErrors;
 
-export const listProjectsLocationsAgentsGenerators = API.makePaginated(() => ({
+export const listProjectsLocationsAgentsGenerators: API.PaginatedOperationMethod<ListProjectsLocationsAgentsGeneratorsRequest, ListProjectsLocationsAgentsGeneratorsResponse, ListProjectsLocationsAgentsGeneratorsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAgentsGeneratorsRequest,
   output: ListProjectsLocationsAgentsGeneratorsResponse,
   errors: [],
@@ -10629,7 +10629,7 @@ export const ListProjectsLocationsAgentsIntentsResponse = GoogleCloudDialogflowC
 
 export type ListProjectsLocationsAgentsIntentsError = CommonErrors;
 
-export const listProjectsLocationsAgentsIntents = API.makePaginated(() => ({
+export const listProjectsLocationsAgentsIntents: API.PaginatedOperationMethod<ListProjectsLocationsAgentsIntentsRequest, ListProjectsLocationsAgentsIntentsResponse, ListProjectsLocationsAgentsIntentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAgentsIntentsRequest,
   output: ListProjectsLocationsAgentsIntentsResponse,
   errors: [],
@@ -10763,7 +10763,7 @@ export const ListProjectsLocationsAgentsFlowsResponse = GoogleCloudDialogflowCxV
 
 export type ListProjectsLocationsAgentsFlowsError = CommonErrors;
 
-export const listProjectsLocationsAgentsFlows = API.makePaginated(() => ({
+export const listProjectsLocationsAgentsFlows: API.PaginatedOperationMethod<ListProjectsLocationsAgentsFlowsRequest, ListProjectsLocationsAgentsFlowsResponse, ListProjectsLocationsAgentsFlowsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAgentsFlowsRequest,
   output: ListProjectsLocationsAgentsFlowsResponse,
   errors: [],
@@ -10998,7 +10998,7 @@ export const ListProjectsLocationsAgentsFlowsVersionsResponse = GoogleCloudDialo
 
 export type ListProjectsLocationsAgentsFlowsVersionsError = CommonErrors;
 
-export const listProjectsLocationsAgentsFlowsVersions = API.makePaginated(() => ({
+export const listProjectsLocationsAgentsFlowsVersions: API.PaginatedOperationMethod<ListProjectsLocationsAgentsFlowsVersionsRequest, ListProjectsLocationsAgentsFlowsVersionsResponse, ListProjectsLocationsAgentsFlowsVersionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAgentsFlowsVersionsRequest,
   output: ListProjectsLocationsAgentsFlowsVersionsResponse,
   errors: [],
@@ -11173,7 +11173,7 @@ export const ListProjectsLocationsAgentsFlowsPagesResponse = GoogleCloudDialogfl
 
 export type ListProjectsLocationsAgentsFlowsPagesError = CommonErrors;
 
-export const listProjectsLocationsAgentsFlowsPages = API.makePaginated(() => ({
+export const listProjectsLocationsAgentsFlowsPages: API.PaginatedOperationMethod<ListProjectsLocationsAgentsFlowsPagesRequest, ListProjectsLocationsAgentsFlowsPagesResponse, ListProjectsLocationsAgentsFlowsPagesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAgentsFlowsPagesRequest,
   output: ListProjectsLocationsAgentsFlowsPagesResponse,
   errors: [],
@@ -11285,7 +11285,7 @@ export const ListProjectsLocationsAgentsFlowsTransitionRouteGroupsResponse = Goo
 
 export type ListProjectsLocationsAgentsFlowsTransitionRouteGroupsError = CommonErrors;
 
-export const listProjectsLocationsAgentsFlowsTransitionRouteGroups = API.makePaginated(() => ({
+export const listProjectsLocationsAgentsFlowsTransitionRouteGroups: API.PaginatedOperationMethod<ListProjectsLocationsAgentsFlowsTransitionRouteGroupsRequest, ListProjectsLocationsAgentsFlowsTransitionRouteGroupsResponse, ListProjectsLocationsAgentsFlowsTransitionRouteGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAgentsFlowsTransitionRouteGroupsRequest,
   output: ListProjectsLocationsAgentsFlowsTransitionRouteGroupsResponse,
   errors: [],
@@ -11444,7 +11444,7 @@ export const ListProjectsLocationsAgentsWebhooksResponse = GoogleCloudDialogflow
 
 export type ListProjectsLocationsAgentsWebhooksError = CommonErrors;
 
-export const listProjectsLocationsAgentsWebhooks = API.makePaginated(() => ({
+export const listProjectsLocationsAgentsWebhooks: API.PaginatedOperationMethod<ListProjectsLocationsAgentsWebhooksRequest, ListProjectsLocationsAgentsWebhooksResponse, ListProjectsLocationsAgentsWebhooksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAgentsWebhooksRequest,
   output: ListProjectsLocationsAgentsWebhooksResponse,
   errors: [],
@@ -11672,7 +11672,7 @@ export const ListProjectsLocationsAgentsSessionsEntityTypesResponse = GoogleClou
 
 export type ListProjectsLocationsAgentsSessionsEntityTypesError = CommonErrors;
 
-export const listProjectsLocationsAgentsSessionsEntityTypes = API.makePaginated(() => ({
+export const listProjectsLocationsAgentsSessionsEntityTypes: API.PaginatedOperationMethod<ListProjectsLocationsAgentsSessionsEntityTypesRequest, ListProjectsLocationsAgentsSessionsEntityTypesResponse, ListProjectsLocationsAgentsSessionsEntityTypesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAgentsSessionsEntityTypesRequest,
   output: ListProjectsLocationsAgentsSessionsEntityTypesResponse,
   errors: [],
@@ -12023,7 +12023,7 @@ export const ListProjectsLocationsAgentsTestCasesResponse = GoogleCloudDialogflo
 
 export type ListProjectsLocationsAgentsTestCasesError = CommonErrors;
 
-export const listProjectsLocationsAgentsTestCases = API.makePaginated(() => ({
+export const listProjectsLocationsAgentsTestCases: API.PaginatedOperationMethod<ListProjectsLocationsAgentsTestCasesRequest, ListProjectsLocationsAgentsTestCasesResponse, ListProjectsLocationsAgentsTestCasesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAgentsTestCasesRequest,
   output: ListProjectsLocationsAgentsTestCasesResponse,
   errors: [],
@@ -12077,7 +12077,7 @@ export const ListProjectsLocationsAgentsTestCasesResultsResponse = GoogleCloudDi
 
 export type ListProjectsLocationsAgentsTestCasesResultsError = CommonErrors;
 
-export const listProjectsLocationsAgentsTestCasesResults = API.makePaginated(() => ({
+export const listProjectsLocationsAgentsTestCasesResults: API.PaginatedOperationMethod<ListProjectsLocationsAgentsTestCasesResultsRequest, ListProjectsLocationsAgentsTestCasesResultsResponse, ListProjectsLocationsAgentsTestCasesResultsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAgentsTestCasesResultsRequest,
   output: ListProjectsLocationsAgentsTestCasesResultsResponse,
   errors: [],
@@ -12109,7 +12109,7 @@ export const ListProjectsLocationsAgentsChangelogsResponse = GoogleCloudDialogfl
 
 export type ListProjectsLocationsAgentsChangelogsError = CommonErrors;
 
-export const listProjectsLocationsAgentsChangelogs = API.makePaginated(() => ({
+export const listProjectsLocationsAgentsChangelogs: API.PaginatedOperationMethod<ListProjectsLocationsAgentsChangelogsRequest, ListProjectsLocationsAgentsChangelogsResponse, ListProjectsLocationsAgentsChangelogsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAgentsChangelogsRequest,
   output: ListProjectsLocationsAgentsChangelogsResponse,
   errors: [],
@@ -12165,7 +12165,7 @@ export const ListProjectsLocationsOperationsResponse = GoogleLongrunningListOper
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -12243,7 +12243,7 @@ export const ListProjectsOperationsResponse = GoogleLongrunningListOperationsRes
 
 export type ListProjectsOperationsError = CommonErrors;
 
-export const listProjectsOperations = API.makePaginated(() => ({
+export const listProjectsOperations: API.PaginatedOperationMethod<ListProjectsOperationsRequest, ListProjectsOperationsResponse, ListProjectsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsOperationsRequest,
   output: ListProjectsOperationsResponse,
   errors: [],

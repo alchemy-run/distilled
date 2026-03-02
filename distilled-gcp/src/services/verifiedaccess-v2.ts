@@ -225,7 +225,6 @@ export const VerifyChallengeResponseResult: Schema.Schema<VerifyChallengeRespons
 // Operations
 // ==========================================================================
 
-/** Generates a new challenge. */
 export interface GenerateChallengeRequest {
   /** Request body */
   body?: Empty;
@@ -243,13 +242,13 @@ export const GenerateChallengeResponse = Challenge;
 
 export type GenerateChallengeError = CommonErrors;
 
+/** Generates a new challenge. */
 export const generateChallenge: API.OperationMethod<GenerateChallengeRequest, GenerateChallengeResponse, GenerateChallengeError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateChallengeRequest,
   output: GenerateChallengeResponse,
   errors: [],
 }));
 
-/** Verifies the challenge response. */
 export interface VerifyChallengeRequest {
   /** Request body */
   body?: VerifyChallengeResponseRequest;
@@ -267,6 +266,7 @@ export const VerifyChallengeResponse = VerifyChallengeResponseResult;
 
 export type VerifyChallengeError = CommonErrors;
 
+/** Verifies the challenge response. */
 export const verifyChallenge: API.OperationMethod<VerifyChallengeRequest, VerifyChallengeResponse, VerifyChallengeError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: VerifyChallengeRequest,
   output: VerifyChallengeResponse,

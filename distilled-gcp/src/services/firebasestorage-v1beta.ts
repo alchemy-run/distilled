@@ -84,7 +84,6 @@ export const RemoveFirebaseRequest: Schema.Schema<RemoveFirebaseRequest> = Schem
 // Operations
 // ==========================================================================
 
-/** Gets the default bucket. */
 export interface GetDefaultBucketProjectsRequest {
   /** Required. The name of the default bucket to retrieve, `projects/{project_id_or_number}/defaultBucket`. */
   name: string;
@@ -102,13 +101,13 @@ export const GetDefaultBucketProjectsResponse = DefaultBucket;
 
 export type GetDefaultBucketProjectsError = CommonErrors;
 
+/** Gets the default bucket. */
 export const getDefaultBucketProjects: API.OperationMethod<GetDefaultBucketProjectsRequest, GetDefaultBucketProjectsResponse, GetDefaultBucketProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDefaultBucketProjectsRequest,
   output: GetDefaultBucketProjectsResponse,
   errors: [],
 }));
 
-/** Unlinks and deletes the default bucket. */
 export interface DeleteDefaultBucketProjectsRequest {
   /** Required. The name of the default bucket to delete, `projects/{project_id_or_number}/defaultBucket`. */
   name: string;
@@ -126,13 +125,13 @@ export const DeleteDefaultBucketProjectsResponse = Empty;
 
 export type DeleteDefaultBucketProjectsError = CommonErrors;
 
+/** Unlinks and deletes the default bucket. */
 export const deleteDefaultBucketProjects: API.OperationMethod<DeleteDefaultBucketProjectsRequest, DeleteDefaultBucketProjectsResponse, DeleteDefaultBucketProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteDefaultBucketProjectsRequest,
   output: DeleteDefaultBucketProjectsResponse,
   errors: [],
 }));
 
-/** Gets a single linked storage bucket. */
 export interface GetProjectsBucketsRequest {
   /** Required. Resource name of the bucket, mirrors the ID of the underlying Google Cloud Storage bucket, `projects/{project_id_or_number}/buckets/{bucket_id}`. */
   name: string;
@@ -150,13 +149,13 @@ export const GetProjectsBucketsResponse = Bucket;
 
 export type GetProjectsBucketsError = CommonErrors;
 
+/** Gets a single linked storage bucket. */
 export const getProjectsBuckets: API.OperationMethod<GetProjectsBucketsRequest, GetProjectsBucketsResponse, GetProjectsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsBucketsRequest,
   output: GetProjectsBucketsResponse,
   errors: [],
 }));
 
-/** Lists the linked storage buckets for a project. */
 export interface ListProjectsBucketsRequest {
   /** Required. Resource name of the parent Firebase project, `projects/{project_id_or_number}`. */
   parent: string;
@@ -180,7 +179,8 @@ export const ListProjectsBucketsResponse = ListBucketsResponse;
 
 export type ListProjectsBucketsError = CommonErrors;
 
-export const listProjectsBuckets = API.makePaginated(() => ({
+/** Lists the linked storage buckets for a project. */
+export const listProjectsBuckets: API.PaginatedOperationMethod<ListProjectsBucketsRequest, ListProjectsBucketsResponse, ListProjectsBucketsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsBucketsRequest,
   output: ListProjectsBucketsResponse,
   errors: [],
@@ -190,7 +190,6 @@ export const listProjectsBuckets = API.makePaginated(() => ({
   },
 }));
 
-/** Links a Google Cloud Storage bucket to a Firebase project. */
 export interface AddFirebaseProjectsBucketsRequest {
   /** Required. Resource name of the bucket, mirrors the ID of the underlying Google Cloud Storage bucket, `projects/{project_id_or_number}/buckets/{bucket_id}`. */
   bucket: string;
@@ -211,13 +210,13 @@ export const AddFirebaseProjectsBucketsResponse = Bucket;
 
 export type AddFirebaseProjectsBucketsError = CommonErrors;
 
+/** Links a Google Cloud Storage bucket to a Firebase project. */
 export const addFirebaseProjectsBuckets: API.OperationMethod<AddFirebaseProjectsBucketsRequest, AddFirebaseProjectsBucketsResponse, AddFirebaseProjectsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddFirebaseProjectsBucketsRequest,
   output: AddFirebaseProjectsBucketsResponse,
   errors: [],
 }));
 
-/** Unlinks a linked Google Cloud Storage bucket from a Firebase project. */
 export interface RemoveFirebaseProjectsBucketsRequest {
   /** Required. Resource name of the bucket, mirrors the ID of the underlying Google Cloud Storage bucket, `projects/{project_id_or_number}/buckets/{bucket_id}`. */
   bucket: string;
@@ -238,13 +237,13 @@ export const RemoveFirebaseProjectsBucketsResponse = Empty;
 
 export type RemoveFirebaseProjectsBucketsError = CommonErrors;
 
+/** Unlinks a linked Google Cloud Storage bucket from a Firebase project. */
 export const removeFirebaseProjectsBuckets: API.OperationMethod<RemoveFirebaseProjectsBucketsRequest, RemoveFirebaseProjectsBucketsResponse, RemoveFirebaseProjectsBucketsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveFirebaseProjectsBucketsRequest,
   output: RemoveFirebaseProjectsBucketsResponse,
   errors: [],
 }));
 
-/** Creates a Spark tier-eligible Cloud Storage bucket and links it to your Firebase project. If the default bucket already exists, this method will re-link it to your Firebase project. See https://firebase.google.com/pricing for pricing details. */
 export interface CreateProjectsDefaultBucketRequest {
   /** Required. The parent resource where the default bucket will be created, `projects/{project_id_or_number}`. */
   parent: string;
@@ -265,6 +264,7 @@ export const CreateProjectsDefaultBucketResponse = DefaultBucket;
 
 export type CreateProjectsDefaultBucketError = CommonErrors;
 
+/** Creates a Spark tier-eligible Cloud Storage bucket and links it to your Firebase project. If the default bucket already exists, this method will re-link it to your Firebase project. See https://firebase.google.com/pricing for pricing details. */
 export const createProjectsDefaultBucket: API.OperationMethod<CreateProjectsDefaultBucketRequest, CreateProjectsDefaultBucketResponse, CreateProjectsDefaultBucketError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsDefaultBucketRequest,
   output: CreateProjectsDefaultBucketResponse,

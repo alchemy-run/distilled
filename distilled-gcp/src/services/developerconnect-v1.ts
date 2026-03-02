@@ -1125,7 +1125,6 @@ export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspen
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -1155,7 +1154,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -1165,7 +1165,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -1183,13 +1182,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -1219,7 +1218,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -1229,7 +1229,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1247,13 +1246,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -1271,13 +1270,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -1298,13 +1297,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Lists Connections in a given project and location. */
 export interface ListProjectsLocationsConnectionsRequest {
   /** Required. Parent value for ListConnectionsRequest */
   parent: string;
@@ -1334,7 +1333,8 @@ export const ListProjectsLocationsConnectionsResponse = ListConnectionsResponse;
 
 export type ListProjectsLocationsConnectionsError = CommonErrors;
 
-export const listProjectsLocationsConnections = API.makePaginated(() => ({
+/** Lists Connections in a given project and location. */
+export const listProjectsLocationsConnections: API.PaginatedOperationMethod<ListProjectsLocationsConnectionsRequest, ListProjectsLocationsConnectionsResponse, ListProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsConnectionsRequest,
   output: ListProjectsLocationsConnectionsResponse,
   errors: [],
@@ -1344,7 +1344,6 @@ export const listProjectsLocationsConnections = API.makePaginated(() => ({
   },
 }));
 
-/** Gets details of a single Connection. */
 export interface GetProjectsLocationsConnectionsRequest {
   /** Required. Name of the resource */
   name: string;
@@ -1362,13 +1361,13 @@ export const GetProjectsLocationsConnectionsResponse = Connection;
 
 export type GetProjectsLocationsConnectionsError = CommonErrors;
 
+/** Gets details of a single Connection. */
 export const getProjectsLocationsConnections: API.OperationMethod<GetProjectsLocationsConnectionsRequest, GetProjectsLocationsConnectionsResponse, GetProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsConnectionsRequest,
   output: GetProjectsLocationsConnectionsResponse,
   errors: [],
 }));
 
-/** Creates a new Connection in a given project and location. */
 export interface CreateProjectsLocationsConnectionsRequest {
   /** Required. Value for parent. */
   parent: string;
@@ -1398,13 +1397,13 @@ export const CreateProjectsLocationsConnectionsResponse = Operation;
 
 export type CreateProjectsLocationsConnectionsError = CommonErrors;
 
+/** Creates a new Connection in a given project and location. */
 export const createProjectsLocationsConnections: API.OperationMethod<CreateProjectsLocationsConnectionsRequest, CreateProjectsLocationsConnectionsResponse, CreateProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsConnectionsRequest,
   output: CreateProjectsLocationsConnectionsResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single Connection. */
 export interface PatchProjectsLocationsConnectionsRequest {
   /** Identifier. The resource name of the connection, in the format `projects/{project}/locations/{location}/connections/{connection_id}`. */
   name: string;
@@ -1437,13 +1436,13 @@ export const PatchProjectsLocationsConnectionsResponse = Operation;
 
 export type PatchProjectsLocationsConnectionsError = CommonErrors;
 
+/** Updates the parameters of a single Connection. */
 export const patchProjectsLocationsConnections: API.OperationMethod<PatchProjectsLocationsConnectionsRequest, PatchProjectsLocationsConnectionsResponse, PatchProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsConnectionsRequest,
   output: PatchProjectsLocationsConnectionsResponse,
   errors: [],
 }));
 
-/** Deletes a single Connection. */
 export interface DeleteProjectsLocationsConnectionsRequest {
   /** Required. Name of the resource */
   name: string;
@@ -1470,13 +1469,13 @@ export const DeleteProjectsLocationsConnectionsResponse = Operation;
 
 export type DeleteProjectsLocationsConnectionsError = CommonErrors;
 
+/** Deletes a single Connection. */
 export const deleteProjectsLocationsConnections: API.OperationMethod<DeleteProjectsLocationsConnectionsRequest, DeleteProjectsLocationsConnectionsResponse, DeleteProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsConnectionsRequest,
   output: DeleteProjectsLocationsConnectionsResponse,
   errors: [],
 }));
 
-/** FetchLinkableGitRepositories returns a list of git repositories from an SCM that are available to be added to a Connection. */
 export interface FetchLinkableGitRepositoriesProjectsLocationsConnectionsRequest {
   /** Required. The name of the Connection. Format: `projects/* /locations/* /connections/*`. */
   connection: string;
@@ -1500,7 +1499,8 @@ export const FetchLinkableGitRepositoriesProjectsLocationsConnectionsResponse = 
 
 export type FetchLinkableGitRepositoriesProjectsLocationsConnectionsError = CommonErrors;
 
-export const fetchLinkableGitRepositoriesProjectsLocationsConnections = API.makePaginated(() => ({
+/** FetchLinkableGitRepositories returns a list of git repositories from an SCM that are available to be added to a Connection. */
+export const fetchLinkableGitRepositoriesProjectsLocationsConnections: API.PaginatedOperationMethod<FetchLinkableGitRepositoriesProjectsLocationsConnectionsRequest, FetchLinkableGitRepositoriesProjectsLocationsConnectionsResponse, FetchLinkableGitRepositoriesProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: FetchLinkableGitRepositoriesProjectsLocationsConnectionsRequest,
   output: FetchLinkableGitRepositoriesProjectsLocationsConnectionsResponse,
   errors: [],
@@ -1510,7 +1510,6 @@ export const fetchLinkableGitRepositoriesProjectsLocationsConnections = API.make
   },
 }));
 
-/** FetchGitHubInstallations returns the list of GitHub Installations that are available to be added to a Connection. For github.com, only installations accessible to the authorizer token are returned. For GitHub Enterprise, all installations are returned. */
 export interface FetchGitHubInstallationsProjectsLocationsConnectionsRequest {
   /** Required. The resource name of the connection in the format `projects/* /locations/* /connections/*`. */
   connection: string;
@@ -1528,13 +1527,13 @@ export const FetchGitHubInstallationsProjectsLocationsConnectionsResponse = Fetc
 
 export type FetchGitHubInstallationsProjectsLocationsConnectionsError = CommonErrors;
 
+/** FetchGitHubInstallations returns the list of GitHub Installations that are available to be added to a Connection. For github.com, only installations accessible to the authorizer token are returned. For GitHub Enterprise, all installations are returned. */
 export const fetchGitHubInstallationsProjectsLocationsConnections: API.OperationMethod<FetchGitHubInstallationsProjectsLocationsConnectionsRequest, FetchGitHubInstallationsProjectsLocationsConnectionsResponse, FetchGitHubInstallationsProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FetchGitHubInstallationsProjectsLocationsConnectionsRequest,
   output: FetchGitHubInstallationsProjectsLocationsConnectionsResponse,
   errors: [],
 }));
 
-/** ProcessGitHubEnterpriseWebhook is called by the external GitHub Enterprise instances for notifying events. */
 export interface ProcessGitHubEnterpriseWebhookProjectsLocationsConnectionsRequest {
   /** Required. Project and location where the webhook will be received. Format: `projects/* /locations/*`. */
   parent: string;
@@ -1555,13 +1554,13 @@ export const ProcessGitHubEnterpriseWebhookProjectsLocationsConnectionsResponse 
 
 export type ProcessGitHubEnterpriseWebhookProjectsLocationsConnectionsError = CommonErrors;
 
+/** ProcessGitHubEnterpriseWebhook is called by the external GitHub Enterprise instances for notifying events. */
 export const processGitHubEnterpriseWebhookProjectsLocationsConnections: API.OperationMethod<ProcessGitHubEnterpriseWebhookProjectsLocationsConnectionsRequest, ProcessGitHubEnterpriseWebhookProjectsLocationsConnectionsResponse, ProcessGitHubEnterpriseWebhookProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ProcessGitHubEnterpriseWebhookProjectsLocationsConnectionsRequest,
   output: ProcessGitHubEnterpriseWebhookProjectsLocationsConnectionsResponse,
   errors: [],
 }));
 
-/** Creates a GitRepositoryLink. Upon linking a Git Repository, Developer Connect will configure the Git Repository to send webhook events to Developer Connect. Connections that use Firebase GitHub Application will have events forwarded to the Firebase service. Connections that use Gemini Code Assist will have events forwarded to Gemini Code Assist service. All other Connections will have events forwarded to Cloud Build. */
 export interface CreateProjectsLocationsConnectionsGitRepositoryLinksRequest {
   /** Required. Value for parent. */
   parent: string;
@@ -1591,13 +1590,13 @@ export const CreateProjectsLocationsConnectionsGitRepositoryLinksResponse = Oper
 
 export type CreateProjectsLocationsConnectionsGitRepositoryLinksError = CommonErrors;
 
+/** Creates a GitRepositoryLink. Upon linking a Git Repository, Developer Connect will configure the Git Repository to send webhook events to Developer Connect. Connections that use Firebase GitHub Application will have events forwarded to the Firebase service. Connections that use Gemini Code Assist will have events forwarded to Gemini Code Assist service. All other Connections will have events forwarded to Cloud Build. */
 export const createProjectsLocationsConnectionsGitRepositoryLinks: API.OperationMethod<CreateProjectsLocationsConnectionsGitRepositoryLinksRequest, CreateProjectsLocationsConnectionsGitRepositoryLinksResponse, CreateProjectsLocationsConnectionsGitRepositoryLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsConnectionsGitRepositoryLinksRequest,
   output: CreateProjectsLocationsConnectionsGitRepositoryLinksResponse,
   errors: [],
 }));
 
-/** Deletes a single GitRepositoryLink. */
 export interface DeleteProjectsLocationsConnectionsGitRepositoryLinksRequest {
   /** Required. Name of the resource */
   name: string;
@@ -1624,13 +1623,13 @@ export const DeleteProjectsLocationsConnectionsGitRepositoryLinksResponse = Oper
 
 export type DeleteProjectsLocationsConnectionsGitRepositoryLinksError = CommonErrors;
 
+/** Deletes a single GitRepositoryLink. */
 export const deleteProjectsLocationsConnectionsGitRepositoryLinks: API.OperationMethod<DeleteProjectsLocationsConnectionsGitRepositoryLinksRequest, DeleteProjectsLocationsConnectionsGitRepositoryLinksResponse, DeleteProjectsLocationsConnectionsGitRepositoryLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsConnectionsGitRepositoryLinksRequest,
   output: DeleteProjectsLocationsConnectionsGitRepositoryLinksResponse,
   errors: [],
 }));
 
-/** Lists GitRepositoryLinks in a given project, location, and connection. */
 export interface ListProjectsLocationsConnectionsGitRepositoryLinksRequest {
   /** Required. Parent value for ListGitRepositoryLinksRequest */
   parent: string;
@@ -1660,7 +1659,8 @@ export const ListProjectsLocationsConnectionsGitRepositoryLinksResponse = ListGi
 
 export type ListProjectsLocationsConnectionsGitRepositoryLinksError = CommonErrors;
 
-export const listProjectsLocationsConnectionsGitRepositoryLinks = API.makePaginated(() => ({
+/** Lists GitRepositoryLinks in a given project, location, and connection. */
+export const listProjectsLocationsConnectionsGitRepositoryLinks: API.PaginatedOperationMethod<ListProjectsLocationsConnectionsGitRepositoryLinksRequest, ListProjectsLocationsConnectionsGitRepositoryLinksResponse, ListProjectsLocationsConnectionsGitRepositoryLinksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsConnectionsGitRepositoryLinksRequest,
   output: ListProjectsLocationsConnectionsGitRepositoryLinksResponse,
   errors: [],
@@ -1670,7 +1670,6 @@ export const listProjectsLocationsConnectionsGitRepositoryLinks = API.makePagina
   },
 }));
 
-/** Gets details of a single GitRepositoryLink. */
 export interface GetProjectsLocationsConnectionsGitRepositoryLinksRequest {
   /** Required. Name of the resource */
   name: string;
@@ -1688,13 +1687,13 @@ export const GetProjectsLocationsConnectionsGitRepositoryLinksResponse = GitRepo
 
 export type GetProjectsLocationsConnectionsGitRepositoryLinksError = CommonErrors;
 
+/** Gets details of a single GitRepositoryLink. */
 export const getProjectsLocationsConnectionsGitRepositoryLinks: API.OperationMethod<GetProjectsLocationsConnectionsGitRepositoryLinksRequest, GetProjectsLocationsConnectionsGitRepositoryLinksResponse, GetProjectsLocationsConnectionsGitRepositoryLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsConnectionsGitRepositoryLinksRequest,
   output: GetProjectsLocationsConnectionsGitRepositoryLinksResponse,
   errors: [],
 }));
 
-/** Fetches read/write token of a given gitRepositoryLink. */
 export interface FetchReadWriteTokenProjectsLocationsConnectionsGitRepositoryLinksRequest {
   /** Required. The resource name of the gitRepositoryLink in the format `projects/* /locations/* /connections/* /gitRepositoryLinks/*`. */
   gitRepositoryLink: string;
@@ -1715,13 +1714,13 @@ export const FetchReadWriteTokenProjectsLocationsConnectionsGitRepositoryLinksRe
 
 export type FetchReadWriteTokenProjectsLocationsConnectionsGitRepositoryLinksError = CommonErrors;
 
+/** Fetches read/write token of a given gitRepositoryLink. */
 export const fetchReadWriteTokenProjectsLocationsConnectionsGitRepositoryLinks: API.OperationMethod<FetchReadWriteTokenProjectsLocationsConnectionsGitRepositoryLinksRequest, FetchReadWriteTokenProjectsLocationsConnectionsGitRepositoryLinksResponse, FetchReadWriteTokenProjectsLocationsConnectionsGitRepositoryLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FetchReadWriteTokenProjectsLocationsConnectionsGitRepositoryLinksRequest,
   output: FetchReadWriteTokenProjectsLocationsConnectionsGitRepositoryLinksResponse,
   errors: [],
 }));
 
-/** Fetches read token of a given gitRepositoryLink. */
 export interface FetchReadTokenProjectsLocationsConnectionsGitRepositoryLinksRequest {
   /** Required. The resource name of the gitRepositoryLink in the format `projects/* /locations/* /connections/* /gitRepositoryLinks/*`. */
   gitRepositoryLink: string;
@@ -1742,13 +1741,13 @@ export const FetchReadTokenProjectsLocationsConnectionsGitRepositoryLinksRespons
 
 export type FetchReadTokenProjectsLocationsConnectionsGitRepositoryLinksError = CommonErrors;
 
+/** Fetches read token of a given gitRepositoryLink. */
 export const fetchReadTokenProjectsLocationsConnectionsGitRepositoryLinks: API.OperationMethod<FetchReadTokenProjectsLocationsConnectionsGitRepositoryLinksRequest, FetchReadTokenProjectsLocationsConnectionsGitRepositoryLinksResponse, FetchReadTokenProjectsLocationsConnectionsGitRepositoryLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FetchReadTokenProjectsLocationsConnectionsGitRepositoryLinksRequest,
   output: FetchReadTokenProjectsLocationsConnectionsGitRepositoryLinksResponse,
   errors: [],
 }));
 
-/** Fetch the list of branches or tags for a given repository. */
 export interface FetchGitRefsProjectsLocationsConnectionsGitRepositoryLinksRequest {
   /** Required. The resource name of GitRepositoryLink in the format `projects/* /locations/* /connections/* /gitRepositoryLinks/*`. */
   gitRepositoryLink: string;
@@ -1775,7 +1774,8 @@ export const FetchGitRefsProjectsLocationsConnectionsGitRepositoryLinksResponse 
 
 export type FetchGitRefsProjectsLocationsConnectionsGitRepositoryLinksError = CommonErrors;
 
-export const fetchGitRefsProjectsLocationsConnectionsGitRepositoryLinks = API.makePaginated(() => ({
+/** Fetch the list of branches or tags for a given repository. */
+export const fetchGitRefsProjectsLocationsConnectionsGitRepositoryLinks: API.PaginatedOperationMethod<FetchGitRefsProjectsLocationsConnectionsGitRepositoryLinksRequest, FetchGitRefsProjectsLocationsConnectionsGitRepositoryLinksResponse, FetchGitRefsProjectsLocationsConnectionsGitRepositoryLinksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: FetchGitRefsProjectsLocationsConnectionsGitRepositoryLinksRequest,
   output: FetchGitRefsProjectsLocationsConnectionsGitRepositoryLinksResponse,
   errors: [],
@@ -1785,7 +1785,6 @@ export const fetchGitRefsProjectsLocationsConnectionsGitRepositoryLinks = API.ma
   },
 }));
 
-/** ProcessGitLabEnterpriseWebhook is called by the external GitLab Enterprise instances for notifying events. */
 export interface ProcessGitLabEnterpriseWebhookProjectsLocationsConnectionsGitRepositoryLinksRequest {
   /** Required. The GitRepositoryLink resource where the webhook will be received. Format: `projects/* /locations/* /connections/* /gitRepositoryLinks/*`. */
   name: string;
@@ -1806,13 +1805,13 @@ export const ProcessGitLabEnterpriseWebhookProjectsLocationsConnectionsGitReposi
 
 export type ProcessGitLabEnterpriseWebhookProjectsLocationsConnectionsGitRepositoryLinksError = CommonErrors;
 
+/** ProcessGitLabEnterpriseWebhook is called by the external GitLab Enterprise instances for notifying events. */
 export const processGitLabEnterpriseWebhookProjectsLocationsConnectionsGitRepositoryLinks: API.OperationMethod<ProcessGitLabEnterpriseWebhookProjectsLocationsConnectionsGitRepositoryLinksRequest, ProcessGitLabEnterpriseWebhookProjectsLocationsConnectionsGitRepositoryLinksResponse, ProcessGitLabEnterpriseWebhookProjectsLocationsConnectionsGitRepositoryLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ProcessGitLabEnterpriseWebhookProjectsLocationsConnectionsGitRepositoryLinksRequest,
   output: ProcessGitLabEnterpriseWebhookProjectsLocationsConnectionsGitRepositoryLinksResponse,
   errors: [],
 }));
 
-/** ProcessGitLabWebhook is called by the GitLab.com for notifying events. */
 export interface ProcessGitLabWebhookProjectsLocationsConnectionsGitRepositoryLinksRequest {
   /** Required. The GitRepositoryLink resource where the webhook will be received. Format: `projects/* /locations/* /connections/* /gitRepositoryLinks/*`. */
   name: string;
@@ -1833,13 +1832,13 @@ export const ProcessGitLabWebhookProjectsLocationsConnectionsGitRepositoryLinksR
 
 export type ProcessGitLabWebhookProjectsLocationsConnectionsGitRepositoryLinksError = CommonErrors;
 
+/** ProcessGitLabWebhook is called by the GitLab.com for notifying events. */
 export const processGitLabWebhookProjectsLocationsConnectionsGitRepositoryLinks: API.OperationMethod<ProcessGitLabWebhookProjectsLocationsConnectionsGitRepositoryLinksRequest, ProcessGitLabWebhookProjectsLocationsConnectionsGitRepositoryLinksResponse, ProcessGitLabWebhookProjectsLocationsConnectionsGitRepositoryLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ProcessGitLabWebhookProjectsLocationsConnectionsGitRepositoryLinksRequest,
   output: ProcessGitLabWebhookProjectsLocationsConnectionsGitRepositoryLinksResponse,
   errors: [],
 }));
 
-/** ProcessBitbucketDataCenterWebhook is called by the external Bitbucket Data Center instances for notifying events. */
 export interface ProcessBitbucketDataCenterWebhookProjectsLocationsConnectionsGitRepositoryLinksRequest {
   /** Required. The GitRepositoryLink where the webhook will be received. Format: `projects/* /locations/* /connections/* /gitRepositoryLinks/*`. */
   name: string;
@@ -1860,13 +1859,13 @@ export const ProcessBitbucketDataCenterWebhookProjectsLocationsConnectionsGitRep
 
 export type ProcessBitbucketDataCenterWebhookProjectsLocationsConnectionsGitRepositoryLinksError = CommonErrors;
 
+/** ProcessBitbucketDataCenterWebhook is called by the external Bitbucket Data Center instances for notifying events. */
 export const processBitbucketDataCenterWebhookProjectsLocationsConnectionsGitRepositoryLinks: API.OperationMethod<ProcessBitbucketDataCenterWebhookProjectsLocationsConnectionsGitRepositoryLinksRequest, ProcessBitbucketDataCenterWebhookProjectsLocationsConnectionsGitRepositoryLinksResponse, ProcessBitbucketDataCenterWebhookProjectsLocationsConnectionsGitRepositoryLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ProcessBitbucketDataCenterWebhookProjectsLocationsConnectionsGitRepositoryLinksRequest,
   output: ProcessBitbucketDataCenterWebhookProjectsLocationsConnectionsGitRepositoryLinksResponse,
   errors: [],
 }));
 
-/** ProcessBitbucketCloudWebhook is called by the external Bitbucket Cloud instances for notifying events. */
 export interface ProcessBitbucketCloudWebhookProjectsLocationsConnectionsGitRepositoryLinksRequest {
   /** Required. The GitRepositoryLink where the webhook will be received. Format: `projects/* /locations/* /connections/* /gitRepositoryLinks/*`. */
   name: string;
@@ -1887,13 +1886,13 @@ export const ProcessBitbucketCloudWebhookProjectsLocationsConnectionsGitReposito
 
 export type ProcessBitbucketCloudWebhookProjectsLocationsConnectionsGitRepositoryLinksError = CommonErrors;
 
+/** ProcessBitbucketCloudWebhook is called by the external Bitbucket Cloud instances for notifying events. */
 export const processBitbucketCloudWebhookProjectsLocationsConnectionsGitRepositoryLinks: API.OperationMethod<ProcessBitbucketCloudWebhookProjectsLocationsConnectionsGitRepositoryLinksRequest, ProcessBitbucketCloudWebhookProjectsLocationsConnectionsGitRepositoryLinksResponse, ProcessBitbucketCloudWebhookProjectsLocationsConnectionsGitRepositoryLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ProcessBitbucketCloudWebhookProjectsLocationsConnectionsGitRepositoryLinksRequest,
   output: ProcessBitbucketCloudWebhookProjectsLocationsConnectionsGitRepositoryLinksResponse,
   errors: [],
 }));
 
-/** Lists AccountConnectors in a given project and location. */
 export interface ListProjectsLocationsAccountConnectorsRequest {
   /** Required. Parent value for ListAccountConnectorsRequest */
   parent: string;
@@ -1923,7 +1922,8 @@ export const ListProjectsLocationsAccountConnectorsResponse = ListAccountConnect
 
 export type ListProjectsLocationsAccountConnectorsError = CommonErrors;
 
-export const listProjectsLocationsAccountConnectors = API.makePaginated(() => ({
+/** Lists AccountConnectors in a given project and location. */
+export const listProjectsLocationsAccountConnectors: API.PaginatedOperationMethod<ListProjectsLocationsAccountConnectorsRequest, ListProjectsLocationsAccountConnectorsResponse, ListProjectsLocationsAccountConnectorsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAccountConnectorsRequest,
   output: ListProjectsLocationsAccountConnectorsResponse,
   errors: [],
@@ -1933,7 +1933,6 @@ export const listProjectsLocationsAccountConnectors = API.makePaginated(() => ({
   },
 }));
 
-/** Gets details of a single AccountConnector. */
 export interface GetProjectsLocationsAccountConnectorsRequest {
   /** Required. Name of the resource */
   name: string;
@@ -1951,13 +1950,13 @@ export const GetProjectsLocationsAccountConnectorsResponse = AccountConnector;
 
 export type GetProjectsLocationsAccountConnectorsError = CommonErrors;
 
+/** Gets details of a single AccountConnector. */
 export const getProjectsLocationsAccountConnectors: API.OperationMethod<GetProjectsLocationsAccountConnectorsRequest, GetProjectsLocationsAccountConnectorsResponse, GetProjectsLocationsAccountConnectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAccountConnectorsRequest,
   output: GetProjectsLocationsAccountConnectorsResponse,
   errors: [],
 }));
 
-/** Creates a new AccountConnector in a given project and location. */
 export interface CreateProjectsLocationsAccountConnectorsRequest {
   /** Required. Location resource name as the account_connector’s parent. */
   parent: string;
@@ -1987,13 +1986,13 @@ export const CreateProjectsLocationsAccountConnectorsResponse = Operation;
 
 export type CreateProjectsLocationsAccountConnectorsError = CommonErrors;
 
+/** Creates a new AccountConnector in a given project and location. */
 export const createProjectsLocationsAccountConnectors: API.OperationMethod<CreateProjectsLocationsAccountConnectorsRequest, CreateProjectsLocationsAccountConnectorsResponse, CreateProjectsLocationsAccountConnectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsAccountConnectorsRequest,
   output: CreateProjectsLocationsAccountConnectorsResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single AccountConnector. */
 export interface PatchProjectsLocationsAccountConnectorsRequest {
   /** Identifier. The resource name of the accountConnector, in the format `projects/{project}/locations/{location}/accountConnectors/{account_connector_id}`. */
   name: string;
@@ -2026,13 +2025,13 @@ export const PatchProjectsLocationsAccountConnectorsResponse = Operation;
 
 export type PatchProjectsLocationsAccountConnectorsError = CommonErrors;
 
+/** Updates the parameters of a single AccountConnector. */
 export const patchProjectsLocationsAccountConnectors: API.OperationMethod<PatchProjectsLocationsAccountConnectorsRequest, PatchProjectsLocationsAccountConnectorsResponse, PatchProjectsLocationsAccountConnectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsAccountConnectorsRequest,
   output: PatchProjectsLocationsAccountConnectorsResponse,
   errors: [],
 }));
 
-/** Deletes a single AccountConnector. */
 export interface DeleteProjectsLocationsAccountConnectorsRequest {
   /** Required. Name of the resource */
   name: string;
@@ -2062,13 +2061,13 @@ export const DeleteProjectsLocationsAccountConnectorsResponse = Operation;
 
 export type DeleteProjectsLocationsAccountConnectorsError = CommonErrors;
 
+/** Deletes a single AccountConnector. */
 export const deleteProjectsLocationsAccountConnectors: API.OperationMethod<DeleteProjectsLocationsAccountConnectorsRequest, DeleteProjectsLocationsAccountConnectorsResponse, DeleteProjectsLocationsAccountConnectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsAccountConnectorsRequest,
   output: DeleteProjectsLocationsAccountConnectorsResponse,
   errors: [],
 }));
 
-/** Fetches OAuth access token based on end user credentials. */
 export interface FetchAccessTokenProjectsLocationsAccountConnectorsUsersRequest {
   /** Required. The resource name of the AccountConnector in the format `projects/* /locations/* /accountConnectors/*`. */
   accountConnector: string;
@@ -2089,13 +2088,13 @@ export const FetchAccessTokenProjectsLocationsAccountConnectorsUsersResponse = F
 
 export type FetchAccessTokenProjectsLocationsAccountConnectorsUsersError = CommonErrors;
 
+/** Fetches OAuth access token based on end user credentials. */
 export const fetchAccessTokenProjectsLocationsAccountConnectorsUsers: API.OperationMethod<FetchAccessTokenProjectsLocationsAccountConnectorsUsersRequest, FetchAccessTokenProjectsLocationsAccountConnectorsUsersResponse, FetchAccessTokenProjectsLocationsAccountConnectorsUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FetchAccessTokenProjectsLocationsAccountConnectorsUsersRequest,
   output: FetchAccessTokenProjectsLocationsAccountConnectorsUsersResponse,
   errors: [],
 }));
 
-/** Lists Users in a given project, location, and account_connector. */
 export interface ListProjectsLocationsAccountConnectorsUsersRequest {
   /** Required. Parent value for ListUsersRequest */
   parent: string;
@@ -2125,7 +2124,8 @@ export const ListProjectsLocationsAccountConnectorsUsersResponse = ListUsersResp
 
 export type ListProjectsLocationsAccountConnectorsUsersError = CommonErrors;
 
-export const listProjectsLocationsAccountConnectorsUsers = API.makePaginated(() => ({
+/** Lists Users in a given project, location, and account_connector. */
+export const listProjectsLocationsAccountConnectorsUsers: API.PaginatedOperationMethod<ListProjectsLocationsAccountConnectorsUsersRequest, ListProjectsLocationsAccountConnectorsUsersResponse, ListProjectsLocationsAccountConnectorsUsersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAccountConnectorsUsersRequest,
   output: ListProjectsLocationsAccountConnectorsUsersResponse,
   errors: [],
@@ -2135,7 +2135,6 @@ export const listProjectsLocationsAccountConnectorsUsers = API.makePaginated(() 
   },
 }));
 
-/** Deletes a single User. */
 export interface DeleteProjectsLocationsAccountConnectorsUsersRequest {
   /** Required. Name of the resource */
   name: string;
@@ -2162,13 +2161,13 @@ export const DeleteProjectsLocationsAccountConnectorsUsersResponse = Operation;
 
 export type DeleteProjectsLocationsAccountConnectorsUsersError = CommonErrors;
 
+/** Deletes a single User. */
 export const deleteProjectsLocationsAccountConnectorsUsers: API.OperationMethod<DeleteProjectsLocationsAccountConnectorsUsersRequest, DeleteProjectsLocationsAccountConnectorsUsersResponse, DeleteProjectsLocationsAccountConnectorsUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsAccountConnectorsUsersRequest,
   output: DeleteProjectsLocationsAccountConnectorsUsersResponse,
   errors: [],
 }));
 
-/** Fetch the User based on the user credentials. */
 export interface FetchSelfProjectsLocationsAccountConnectorsUsersRequest {
   /** Required. Name of the AccountConnector resource */
   name: string;
@@ -2186,13 +2185,13 @@ export const FetchSelfProjectsLocationsAccountConnectorsUsersResponse = User;
 
 export type FetchSelfProjectsLocationsAccountConnectorsUsersError = CommonErrors;
 
+/** Fetch the User based on the user credentials. */
 export const fetchSelfProjectsLocationsAccountConnectorsUsers: API.OperationMethod<FetchSelfProjectsLocationsAccountConnectorsUsersRequest, FetchSelfProjectsLocationsAccountConnectorsUsersResponse, FetchSelfProjectsLocationsAccountConnectorsUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FetchSelfProjectsLocationsAccountConnectorsUsersRequest,
   output: FetchSelfProjectsLocationsAccountConnectorsUsersResponse,
   errors: [],
 }));
 
-/** Delete the User based on the user credentials. */
 export interface DeleteSelfProjectsLocationsAccountConnectorsUsersRequest {
   /** Required. Name of the AccountConnector resource */
   name: string;
@@ -2210,13 +2209,13 @@ export const DeleteSelfProjectsLocationsAccountConnectorsUsersResponse = Operati
 
 export type DeleteSelfProjectsLocationsAccountConnectorsUsersError = CommonErrors;
 
+/** Delete the User based on the user credentials. */
 export const deleteSelfProjectsLocationsAccountConnectorsUsers: API.OperationMethod<DeleteSelfProjectsLocationsAccountConnectorsUsersRequest, DeleteSelfProjectsLocationsAccountConnectorsUsersResponse, DeleteSelfProjectsLocationsAccountConnectorsUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteSelfProjectsLocationsAccountConnectorsUsersRequest,
   output: DeleteSelfProjectsLocationsAccountConnectorsUsersResponse,
   errors: [],
 }));
 
-/** Starts OAuth flow for an account connector. */
 export interface StartOAuthFlowProjectsLocationsAccountConnectorsUsersRequest {
   /** Required. The resource name of the AccountConnector in the format `projects/* /locations/* /accountConnectors/*`. */
   accountConnector: string;
@@ -2234,13 +2233,13 @@ export const StartOAuthFlowProjectsLocationsAccountConnectorsUsersResponse = Sta
 
 export type StartOAuthFlowProjectsLocationsAccountConnectorsUsersError = CommonErrors;
 
+/** Starts OAuth flow for an account connector. */
 export const startOAuthFlowProjectsLocationsAccountConnectorsUsers: API.OperationMethod<StartOAuthFlowProjectsLocationsAccountConnectorsUsersRequest, StartOAuthFlowProjectsLocationsAccountConnectorsUsersResponse, StartOAuthFlowProjectsLocationsAccountConnectorsUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StartOAuthFlowProjectsLocationsAccountConnectorsUsersRequest,
   output: StartOAuthFlowProjectsLocationsAccountConnectorsUsersResponse,
   errors: [],
 }));
 
-/** Finishes OAuth flow for an account connector. */
 export interface FinishOAuthFlowProjectsLocationsAccountConnectorsUsersRequest {
   /** Required. The resource name of the AccountConnector in the format `projects/* /locations/* /accountConnectors/*`. */
   accountConnector: string;
@@ -2273,13 +2272,13 @@ export const FinishOAuthFlowProjectsLocationsAccountConnectorsUsersResponse = Fi
 
 export type FinishOAuthFlowProjectsLocationsAccountConnectorsUsersError = CommonErrors;
 
+/** Finishes OAuth flow for an account connector. */
 export const finishOAuthFlowProjectsLocationsAccountConnectorsUsers: API.OperationMethod<FinishOAuthFlowProjectsLocationsAccountConnectorsUsersRequest, FinishOAuthFlowProjectsLocationsAccountConnectorsUsersResponse, FinishOAuthFlowProjectsLocationsAccountConnectorsUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FinishOAuthFlowProjectsLocationsAccountConnectorsUsersRequest,
   output: FinishOAuthFlowProjectsLocationsAccountConnectorsUsersResponse,
   errors: [],
 }));
 
-/** Lists InsightsConfigs in a given project and location. */
 export interface ListProjectsLocationsInsightsConfigsRequest {
   /** Required. Parent value for ListInsightsConfigsRequest. */
   parent: string;
@@ -2309,7 +2308,8 @@ export const ListProjectsLocationsInsightsConfigsResponse = ListInsightsConfigsR
 
 export type ListProjectsLocationsInsightsConfigsError = CommonErrors;
 
-export const listProjectsLocationsInsightsConfigs = API.makePaginated(() => ({
+/** Lists InsightsConfigs in a given project and location. */
+export const listProjectsLocationsInsightsConfigs: API.PaginatedOperationMethod<ListProjectsLocationsInsightsConfigsRequest, ListProjectsLocationsInsightsConfigsResponse, ListProjectsLocationsInsightsConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsInsightsConfigsRequest,
   output: ListProjectsLocationsInsightsConfigsResponse,
   errors: [],
@@ -2319,7 +2319,6 @@ export const listProjectsLocationsInsightsConfigs = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new InsightsConfig in a given project and location. */
 export interface CreateProjectsLocationsInsightsConfigsRequest {
   /** Required. Value for parent. */
   parent: string;
@@ -2346,13 +2345,13 @@ export const CreateProjectsLocationsInsightsConfigsResponse = Operation;
 
 export type CreateProjectsLocationsInsightsConfigsError = CommonErrors;
 
+/** Creates a new InsightsConfig in a given project and location. */
 export const createProjectsLocationsInsightsConfigs: API.OperationMethod<CreateProjectsLocationsInsightsConfigsRequest, CreateProjectsLocationsInsightsConfigsResponse, CreateProjectsLocationsInsightsConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsInsightsConfigsRequest,
   output: CreateProjectsLocationsInsightsConfigsResponse,
   errors: [],
 }));
 
-/** Gets details of a single Insight. */
 export interface GetProjectsLocationsInsightsConfigsRequest {
   /** Required. Name of the resource. */
   name: string;
@@ -2370,13 +2369,13 @@ export const GetProjectsLocationsInsightsConfigsResponse = InsightsConfig;
 
 export type GetProjectsLocationsInsightsConfigsError = CommonErrors;
 
+/** Gets details of a single Insight. */
 export const getProjectsLocationsInsightsConfigs: API.OperationMethod<GetProjectsLocationsInsightsConfigsRequest, GetProjectsLocationsInsightsConfigsResponse, GetProjectsLocationsInsightsConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsInsightsConfigsRequest,
   output: GetProjectsLocationsInsightsConfigsResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single InsightsConfig. */
 export interface PatchProjectsLocationsInsightsConfigsRequest {
   /** Identifier. The name of the InsightsConfig. Format: projects/{project}/locations/{location}/insightsConfigs/{insightsConfig} */
   name: string;
@@ -2406,13 +2405,13 @@ export const PatchProjectsLocationsInsightsConfigsResponse = Operation;
 
 export type PatchProjectsLocationsInsightsConfigsError = CommonErrors;
 
+/** Updates the parameters of a single InsightsConfig. */
 export const patchProjectsLocationsInsightsConfigs: API.OperationMethod<PatchProjectsLocationsInsightsConfigsRequest, PatchProjectsLocationsInsightsConfigsResponse, PatchProjectsLocationsInsightsConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsInsightsConfigsRequest,
   output: PatchProjectsLocationsInsightsConfigsResponse,
   errors: [],
 }));
 
-/** Deletes a single Insight. */
 export interface DeleteProjectsLocationsInsightsConfigsRequest {
   /** Required. Value for parent. */
   name: string;
@@ -2439,13 +2438,13 @@ export const DeleteProjectsLocationsInsightsConfigsResponse = Operation;
 
 export type DeleteProjectsLocationsInsightsConfigsError = CommonErrors;
 
+/** Deletes a single Insight. */
 export const deleteProjectsLocationsInsightsConfigs: API.OperationMethod<DeleteProjectsLocationsInsightsConfigsRequest, DeleteProjectsLocationsInsightsConfigsResponse, DeleteProjectsLocationsInsightsConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsInsightsConfigsRequest,
   output: DeleteProjectsLocationsInsightsConfigsResponse,
   errors: [],
 }));
 
-/** Gets a single Deployment Event. */
 export interface GetProjectsLocationsInsightsConfigsDeploymentEventsRequest {
   /** Required. The name of the deployment event to retrieve. Format: projects/{project}/locations/{location}/insightsConfigs/{insights_config}/deploymentEvents/{uuid} */
   name: string;
@@ -2463,13 +2462,13 @@ export const GetProjectsLocationsInsightsConfigsDeploymentEventsResponse = Deplo
 
 export type GetProjectsLocationsInsightsConfigsDeploymentEventsError = CommonErrors;
 
+/** Gets a single Deployment Event. */
 export const getProjectsLocationsInsightsConfigsDeploymentEvents: API.OperationMethod<GetProjectsLocationsInsightsConfigsDeploymentEventsRequest, GetProjectsLocationsInsightsConfigsDeploymentEventsResponse, GetProjectsLocationsInsightsConfigsDeploymentEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsInsightsConfigsDeploymentEventsRequest,
   output: GetProjectsLocationsInsightsConfigsDeploymentEventsResponse,
   errors: [],
 }));
 
-/** Lists Deployment Events in a given insights config. */
 export interface ListProjectsLocationsInsightsConfigsDeploymentEventsRequest {
   /** Required. The parent insights config that owns this collection of deployment events. Format: projects/{project}/locations/{location}/insightsConfigs/{insights_config} */
   parent: string;
@@ -2496,7 +2495,8 @@ export const ListProjectsLocationsInsightsConfigsDeploymentEventsResponse = List
 
 export type ListProjectsLocationsInsightsConfigsDeploymentEventsError = CommonErrors;
 
-export const listProjectsLocationsInsightsConfigsDeploymentEvents = API.makePaginated(() => ({
+/** Lists Deployment Events in a given insights config. */
+export const listProjectsLocationsInsightsConfigsDeploymentEvents: API.PaginatedOperationMethod<ListProjectsLocationsInsightsConfigsDeploymentEventsRequest, ListProjectsLocationsInsightsConfigsDeploymentEventsResponse, ListProjectsLocationsInsightsConfigsDeploymentEventsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsInsightsConfigsDeploymentEventsRequest,
   output: ListProjectsLocationsInsightsConfigsDeploymentEventsResponse,
   errors: [],

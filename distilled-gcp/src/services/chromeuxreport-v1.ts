@@ -282,7 +282,6 @@ export const QueryHistoryResponse: Schema.Schema<QueryHistoryResponse> = Schema.
 // Operations
 // ==========================================================================
 
-/** Queries the Chrome User Experience for a single `record` for a given site. Returns a `record` that contains one or more `metrics` corresponding to performance data about the requested site. */
 export interface QueryRecordRecordsRequest {
   /** Request body */
   body?: QueryRequest;
@@ -300,13 +299,13 @@ export const QueryRecordRecordsResponse = QueryResponse;
 
 export type QueryRecordRecordsError = CommonErrors;
 
+/** Queries the Chrome User Experience for a single `record` for a given site. Returns a `record` that contains one or more `metrics` corresponding to performance data about the requested site. */
 export const queryRecordRecords: API.OperationMethod<QueryRecordRecordsRequest, QueryRecordRecordsResponse, QueryRecordRecordsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: QueryRecordRecordsRequest,
   output: QueryRecordRecordsResponse,
   errors: [],
 }));
 
-/** Queries the Chrome User Experience Report for a timeseries `history record` for a given site. Returns a `history record` that contains one or more `metric timeseries` corresponding to performance data about the requested site. */
 export interface QueryHistoryRecordRecordsRequest {
   /** Request body */
   body?: QueryHistoryRequest;
@@ -324,6 +323,7 @@ export const QueryHistoryRecordRecordsResponse = QueryHistoryResponse;
 
 export type QueryHistoryRecordRecordsError = CommonErrors;
 
+/** Queries the Chrome User Experience Report for a timeseries `history record` for a given site. Returns a `history record` that contains one or more `metric timeseries` corresponding to performance data about the requested site. */
 export const queryHistoryRecordRecords: API.OperationMethod<QueryHistoryRecordRecordsRequest, QueryHistoryRecordRecordsResponse, QueryHistoryRecordRecordsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: QueryHistoryRecordRecordsRequest,
   output: QueryHistoryRecordRecordsResponse,

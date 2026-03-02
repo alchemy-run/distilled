@@ -63,7 +63,6 @@ export const ViolatingSitesResponse: Schema.Schema<ViolatingSitesResponse> = Sch
 // Operations
 // ==========================================================================
 
-/** Gets a site's Abusive Experience Report summary. */
 export interface GetSitesRequest {
   /** Required. The name of the site whose summary to get, e.g. `sites/http%3A%2F%2Fwww.google.com%2F`. Format: `sites/{site}` */
   name: string;
@@ -81,13 +80,13 @@ export const GetSitesResponse = SiteSummaryResponse;
 
 export type GetSitesError = CommonErrors;
 
+/** Gets a site's Abusive Experience Report summary. */
 export const getSites: API.OperationMethod<GetSitesRequest, GetSitesResponse, GetSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSitesRequest,
   output: GetSitesResponse,
   errors: [],
 }));
 
-/** Lists sites that are failing in the Abusive Experience Report. */
 export interface ListViolatingSitesRequest {
 }
 
@@ -102,6 +101,7 @@ export const ListViolatingSitesResponse = ViolatingSitesResponse;
 
 export type ListViolatingSitesError = CommonErrors;
 
+/** Lists sites that are failing in the Abusive Experience Report. */
 export const listViolatingSites: API.OperationMethod<ListViolatingSitesRequest, ListViolatingSitesResponse, ListViolatingSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListViolatingSitesRequest,
   output: ListViolatingSitesResponse,

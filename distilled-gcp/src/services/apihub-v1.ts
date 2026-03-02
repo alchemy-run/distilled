@@ -2403,7 +2403,6 @@ export const GoogleCloudApihubV1OperationMetadata: Schema.Schema<GoogleCloudApih
 // Operations
 // ==========================================================================
 
-/** Search across API-Hub resources. */
 export interface SearchResourcesProjectsLocationsRequest {
   /** Required. The resource name of the location which will be of the type `projects/{project_id}/locations/{location_id}`. This field is used to identify the instance of API-Hub in which resources should be searched. */
   location: string;
@@ -2424,13 +2423,13 @@ export const SearchResourcesProjectsLocationsResponse = GoogleCloudApihubV1Searc
 
 export type SearchResourcesProjectsLocationsError = CommonErrors;
 
+/** Search across API-Hub resources. */
 export const searchResourcesProjectsLocations: API.OperationMethod<SearchResourcesProjectsLocationsRequest, SearchResourcesProjectsLocationsResponse, SearchResourcesProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchResourcesProjectsLocationsRequest,
   output: SearchResourcesProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Retrieve API views. */
 export interface RetrieveApiViewsProjectsLocationsRequest {
   /** Required. The parent resource name. Format: `projects/{project}/locations/{location}`. */
   parent: string;
@@ -2460,7 +2459,8 @@ export const RetrieveApiViewsProjectsLocationsResponse = GoogleCloudApihubV1Retr
 
 export type RetrieveApiViewsProjectsLocationsError = CommonErrors;
 
-export const retrieveApiViewsProjectsLocations = API.makePaginated(() => ({
+/** Retrieve API views. */
+export const retrieveApiViewsProjectsLocations: API.PaginatedOperationMethod<RetrieveApiViewsProjectsLocationsRequest, RetrieveApiViewsProjectsLocationsResponse, RetrieveApiViewsProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: RetrieveApiViewsProjectsLocationsRequest,
   output: RetrieveApiViewsProjectsLocationsResponse,
   errors: [],
@@ -2470,7 +2470,6 @@ export const retrieveApiViewsProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Collect API data from a source and push it to Hub's collect layer. */
 export interface CollectApiDataProjectsLocationsRequest {
   /** Required. The regional location of the API hub instance and its resources. Format: `projects/{project}/locations/{location}` */
   location: string;
@@ -2491,13 +2490,13 @@ export const CollectApiDataProjectsLocationsResponse = GoogleLongrunningOperatio
 
 export type CollectApiDataProjectsLocationsError = CommonErrors;
 
+/** Collect API data from a source and push it to Hub's collect layer. */
 export const collectApiDataProjectsLocations: API.OperationMethod<CollectApiDataProjectsLocationsRequest, CollectApiDataProjectsLocationsResponse, CollectApiDataProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CollectApiDataProjectsLocationsRequest,
   output: CollectApiDataProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Look up a runtime project attachment. This API can be called in the context of any project. */
 export interface LookupRuntimeProjectAttachmentProjectsLocationsRequest {
   /** Required. Runtime project ID to look up runtime project attachment for. Lookup happens across all regions. Expected format: `projects/{project}/locations/{location}`. */
   name: string;
@@ -2515,13 +2514,13 @@ export const LookupRuntimeProjectAttachmentProjectsLocationsResponse = GoogleClo
 
 export type LookupRuntimeProjectAttachmentProjectsLocationsError = CommonErrors;
 
+/** Look up a runtime project attachment. This API can be called in the context of any project. */
 export const lookupRuntimeProjectAttachmentProjectsLocations: API.OperationMethod<LookupRuntimeProjectAttachmentProjectsLocationsRequest, LookupRuntimeProjectAttachmentProjectsLocationsResponse, LookupRuntimeProjectAttachmentProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LookupRuntimeProjectAttachmentProjectsLocationsRequest,
   output: LookupRuntimeProjectAttachmentProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -2551,7 +2550,8 @@ export const ListProjectsLocationsResponse = GoogleCloudLocationListLocationsRes
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -2561,7 +2561,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -2579,13 +2578,13 @@ export const GetProjectsLocationsResponse = GoogleCloudLocationLocation;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -2615,7 +2614,8 @@ export const ListProjectsLocationsOperationsResponse = GoogleLongrunningListOper
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -2625,7 +2625,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -2643,13 +2642,13 @@ export const GetProjectsLocationsOperationsResponse = GoogleLongrunningOperation
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -2667,13 +2666,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -2694,13 +2693,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Get an addon. */
 export interface GetProjectsLocationsAddonsRequest {
   /** Required. The name of the addon to get. Format: `projects/{project}/locations/{location}/addons/{addon}`. */
   name: string;
@@ -2718,13 +2717,13 @@ export const GetProjectsLocationsAddonsResponse = GoogleCloudApihubV1Addon;
 
 export type GetProjectsLocationsAddonsError = CommonErrors;
 
+/** Get an addon. */
 export const getProjectsLocationsAddons: API.OperationMethod<GetProjectsLocationsAddonsRequest, GetProjectsLocationsAddonsResponse, GetProjectsLocationsAddonsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAddonsRequest,
   output: GetProjectsLocationsAddonsResponse,
   errors: [],
 }));
 
-/** Manage addon config. This RPC is used for managing the config of the addon. Calling this RPC moves the addon into an updating state until the long-running operation succeeds. */
 export interface ManageConfigProjectsLocationsAddonsRequest {
   /** Required. The name of the addon for which the config is to be managed. Format: `projects/{project}/locations/{location}/addons/{addon}`. */
   name: string;
@@ -2745,13 +2744,13 @@ export const ManageConfigProjectsLocationsAddonsResponse = GoogleLongrunningOper
 
 export type ManageConfigProjectsLocationsAddonsError = CommonErrors;
 
+/** Manage addon config. This RPC is used for managing the config of the addon. Calling this RPC moves the addon into an updating state until the long-running operation succeeds. */
 export const manageConfigProjectsLocationsAddons: API.OperationMethod<ManageConfigProjectsLocationsAddonsRequest, ManageConfigProjectsLocationsAddonsResponse, ManageConfigProjectsLocationsAddonsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ManageConfigProjectsLocationsAddonsRequest,
   output: ManageConfigProjectsLocationsAddonsResponse,
   errors: [],
 }));
 
-/** List addons. */
 export interface ListProjectsLocationsAddonsRequest {
   /** Required. The parent resource where this addon will be created. Format: `projects/{project}/locations/{location}`. */
   parent: string;
@@ -2778,7 +2777,8 @@ export const ListProjectsLocationsAddonsResponse = GoogleCloudApihubV1ListAddons
 
 export type ListProjectsLocationsAddonsError = CommonErrors;
 
-export const listProjectsLocationsAddons = API.makePaginated(() => ({
+/** List addons. */
+export const listProjectsLocationsAddons: API.PaginatedOperationMethod<ListProjectsLocationsAddonsRequest, ListProjectsLocationsAddonsResponse, ListProjectsLocationsAddonsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAddonsRequest,
   output: ListProjectsLocationsAddonsResponse,
   errors: [],
@@ -2788,7 +2788,6 @@ export const listProjectsLocationsAddons = API.makePaginated(() => ({
   },
 }));
 
-/** Get an API Hub plugin. */
 export interface GetProjectsLocationsPluginsRequest {
   /** Required. The name of the plugin to retrieve. Format: `projects/{project}/locations/{location}/plugins/{plugin}`. */
   name: string;
@@ -2806,13 +2805,13 @@ export const GetProjectsLocationsPluginsResponse = GoogleCloudApihubV1Plugin;
 
 export type GetProjectsLocationsPluginsError = CommonErrors;
 
+/** Get an API Hub plugin. */
 export const getProjectsLocationsPlugins: API.OperationMethod<GetProjectsLocationsPluginsRequest, GetProjectsLocationsPluginsResponse, GetProjectsLocationsPluginsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsPluginsRequest,
   output: GetProjectsLocationsPluginsResponse,
   errors: [],
 }));
 
-/** Enables a plugin. The `state` of the plugin after enabling is `ENABLED` */
 export interface EnableProjectsLocationsPluginsRequest {
   /** Required. The name of the plugin to enable. Format: `projects/{project}/locations/{location}/plugins/{plugin}`. */
   name: string;
@@ -2833,13 +2832,13 @@ export const EnableProjectsLocationsPluginsResponse = GoogleCloudApihubV1Plugin;
 
 export type EnableProjectsLocationsPluginsError = CommonErrors;
 
+/** Enables a plugin. The `state` of the plugin after enabling is `ENABLED` */
 export const enableProjectsLocationsPlugins: API.OperationMethod<EnableProjectsLocationsPluginsRequest, EnableProjectsLocationsPluginsResponse, EnableProjectsLocationsPluginsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnableProjectsLocationsPluginsRequest,
   output: EnableProjectsLocationsPluginsResponse,
   errors: [],
 }));
 
-/** Disables a plugin. The `state` of the plugin after disabling is `DISABLED` */
 export interface DisableProjectsLocationsPluginsRequest {
   /** Required. The name of the plugin to disable. Format: `projects/{project}/locations/{location}/plugins/{plugin}`. */
   name: string;
@@ -2860,13 +2859,13 @@ export const DisableProjectsLocationsPluginsResponse = GoogleCloudApihubV1Plugin
 
 export type DisableProjectsLocationsPluginsError = CommonErrors;
 
+/** Disables a plugin. The `state` of the plugin after disabling is `DISABLED` */
 export const disableProjectsLocationsPlugins: API.OperationMethod<DisableProjectsLocationsPluginsRequest, DisableProjectsLocationsPluginsResponse, DisableProjectsLocationsPluginsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DisableProjectsLocationsPluginsRequest,
   output: DisableProjectsLocationsPluginsResponse,
   errors: [],
 }));
 
-/** Create an API Hub plugin resource in the API hub. Once a plugin is created, it can be used to create plugin instances. */
 export interface CreateProjectsLocationsPluginsRequest {
   /** Required. The parent resource where this plugin will be created. Format: `projects/{project}/locations/{location}`. */
   parent: string;
@@ -2890,13 +2889,13 @@ export const CreateProjectsLocationsPluginsResponse = GoogleCloudApihubV1Plugin;
 
 export type CreateProjectsLocationsPluginsError = CommonErrors;
 
+/** Create an API Hub plugin resource in the API hub. Once a plugin is created, it can be used to create plugin instances. */
 export const createProjectsLocationsPlugins: API.OperationMethod<CreateProjectsLocationsPluginsRequest, CreateProjectsLocationsPluginsResponse, CreateProjectsLocationsPluginsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsPluginsRequest,
   output: CreateProjectsLocationsPluginsResponse,
   errors: [],
 }));
 
-/** List all the plugins in a given project and location. */
 export interface ListProjectsLocationsPluginsRequest {
   /** Required. The parent resource where this plugin will be created. Format: `projects/{project}/locations/{location}`. */
   parent: string;
@@ -2923,7 +2922,8 @@ export const ListProjectsLocationsPluginsResponse = GoogleCloudApihubV1ListPlugi
 
 export type ListProjectsLocationsPluginsError = CommonErrors;
 
-export const listProjectsLocationsPlugins = API.makePaginated(() => ({
+/** List all the plugins in a given project and location. */
+export const listProjectsLocationsPlugins: API.PaginatedOperationMethod<ListProjectsLocationsPluginsRequest, ListProjectsLocationsPluginsResponse, ListProjectsLocationsPluginsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsPluginsRequest,
   output: ListProjectsLocationsPluginsResponse,
   errors: [],
@@ -2933,7 +2933,6 @@ export const listProjectsLocationsPlugins = API.makePaginated(() => ({
   },
 }));
 
-/** Delete a Plugin in API hub. Note, only user owned plugins can be deleted via this method. */
 export interface DeleteProjectsLocationsPluginsRequest {
   /** Required. The name of the Plugin resource to delete. Format: `projects/{project}/locations/{location}/plugins/{plugin}` */
   name: string;
@@ -2951,13 +2950,13 @@ export const DeleteProjectsLocationsPluginsResponse = GoogleLongrunningOperation
 
 export type DeleteProjectsLocationsPluginsError = CommonErrors;
 
+/** Delete a Plugin in API hub. Note, only user owned plugins can be deleted via this method. */
 export const deleteProjectsLocationsPlugins: API.OperationMethod<DeleteProjectsLocationsPluginsRequest, DeleteProjectsLocationsPluginsResponse, DeleteProjectsLocationsPluginsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsPluginsRequest,
   output: DeleteProjectsLocationsPluginsResponse,
   errors: [],
 }));
 
-/** Get the style guide being used for linting. */
 export interface GetStyleGuideProjectsLocationsPluginsRequest {
   /** Required. The name of the spec to retrieve. Format: `projects/{project}/locations/{location}/plugins/{plugin}/styleGuide`. */
   name: string;
@@ -2975,13 +2974,13 @@ export const GetStyleGuideProjectsLocationsPluginsResponse = GoogleCloudApihubV1
 
 export type GetStyleGuideProjectsLocationsPluginsError = CommonErrors;
 
+/** Get the style guide being used for linting. */
 export const getStyleGuideProjectsLocationsPlugins: API.OperationMethod<GetStyleGuideProjectsLocationsPluginsRequest, GetStyleGuideProjectsLocationsPluginsResponse, GetStyleGuideProjectsLocationsPluginsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetStyleGuideProjectsLocationsPluginsRequest,
   output: GetStyleGuideProjectsLocationsPluginsResponse,
   errors: [],
 }));
 
-/** Update the styleGuide to be used for liniting in by API hub. */
 export interface UpdateStyleGuideProjectsLocationsPluginsRequest {
   /** Identifier. The name of the style guide. Format: `projects/{project}/locations/{location}/plugins/{plugin}/styleGuide` */
   name: string;
@@ -3005,13 +3004,13 @@ export const UpdateStyleGuideProjectsLocationsPluginsResponse = GoogleCloudApihu
 
 export type UpdateStyleGuideProjectsLocationsPluginsError = CommonErrors;
 
+/** Update the styleGuide to be used for liniting in by API hub. */
 export const updateStyleGuideProjectsLocationsPlugins: API.OperationMethod<UpdateStyleGuideProjectsLocationsPluginsRequest, UpdateStyleGuideProjectsLocationsPluginsResponse, UpdateStyleGuideProjectsLocationsPluginsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateStyleGuideProjectsLocationsPluginsRequest,
   output: UpdateStyleGuideProjectsLocationsPluginsResponse,
   errors: [],
 }));
 
-/** Creates a Plugin instance in the API hub. */
 export interface CreateProjectsLocationsPluginsInstancesRequest {
   /** Required. The parent of the plugin instance resource. Format: `projects/{project}/locations/{location}/plugins/{plugin}` */
   parent: string;
@@ -3035,13 +3034,13 @@ export const CreateProjectsLocationsPluginsInstancesResponse = GoogleLongrunning
 
 export type CreateProjectsLocationsPluginsInstancesError = CommonErrors;
 
+/** Creates a Plugin instance in the API hub. */
 export const createProjectsLocationsPluginsInstances: API.OperationMethod<CreateProjectsLocationsPluginsInstancesRequest, CreateProjectsLocationsPluginsInstancesResponse, CreateProjectsLocationsPluginsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsPluginsInstancesRequest,
   output: CreateProjectsLocationsPluginsInstancesResponse,
   errors: [],
 }));
 
-/** Executes a plugin instance in the API hub. */
 export interface ExecuteActionProjectsLocationsPluginsInstancesRequest {
   /** Required. The name of the plugin instance to execute. Format: `projects/{project}/locations/{location}/plugins/{plugin}/instances/{instance}` */
   name: string;
@@ -3062,13 +3061,13 @@ export const ExecuteActionProjectsLocationsPluginsInstancesResponse = GoogleLong
 
 export type ExecuteActionProjectsLocationsPluginsInstancesError = CommonErrors;
 
+/** Executes a plugin instance in the API hub. */
 export const executeActionProjectsLocationsPluginsInstances: API.OperationMethod<ExecuteActionProjectsLocationsPluginsInstancesRequest, ExecuteActionProjectsLocationsPluginsInstancesResponse, ExecuteActionProjectsLocationsPluginsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExecuteActionProjectsLocationsPluginsInstancesRequest,
   output: ExecuteActionProjectsLocationsPluginsInstancesResponse,
   errors: [],
 }));
 
-/** Get an API Hub plugin instance. */
 export interface GetProjectsLocationsPluginsInstancesRequest {
   /** Required. The name of the plugin instance to retrieve. Format: `projects/{project}/locations/{location}/plugins/{plugin}/instances/{instance}` */
   name: string;
@@ -3086,13 +3085,13 @@ export const GetProjectsLocationsPluginsInstancesResponse = GoogleCloudApihubV1P
 
 export type GetProjectsLocationsPluginsInstancesError = CommonErrors;
 
+/** Get an API Hub plugin instance. */
 export const getProjectsLocationsPluginsInstances: API.OperationMethod<GetProjectsLocationsPluginsInstancesRequest, GetProjectsLocationsPluginsInstancesResponse, GetProjectsLocationsPluginsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsPluginsInstancesRequest,
   output: GetProjectsLocationsPluginsInstancesResponse,
   errors: [],
 }));
 
-/** List all the plugins in a given project and location. `-` can be used as wildcard value for {plugin_id} */
 export interface ListProjectsLocationsPluginsInstancesRequest {
   /** Required. The parent resource where this plugin will be created. Format: `projects/{project}/locations/{location}/plugins/{plugin}`. To list plugin instances for multiple plugins, use the - character instead of the plugin ID. */
   parent: string;
@@ -3119,7 +3118,8 @@ export const ListProjectsLocationsPluginsInstancesResponse = GoogleCloudApihubV1
 
 export type ListProjectsLocationsPluginsInstancesError = CommonErrors;
 
-export const listProjectsLocationsPluginsInstances = API.makePaginated(() => ({
+/** List all the plugins in a given project and location. `-` can be used as wildcard value for {plugin_id} */
+export const listProjectsLocationsPluginsInstances: API.PaginatedOperationMethod<ListProjectsLocationsPluginsInstancesRequest, ListProjectsLocationsPluginsInstancesResponse, ListProjectsLocationsPluginsInstancesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsPluginsInstancesRequest,
   output: ListProjectsLocationsPluginsInstancesResponse,
   errors: [],
@@ -3129,7 +3129,6 @@ export const listProjectsLocationsPluginsInstances = API.makePaginated(() => ({
   },
 }));
 
-/** Enables a plugin instance in the API hub. */
 export interface EnableActionProjectsLocationsPluginsInstancesRequest {
   /** Required. The name of the plugin instance to enable. Format: `projects/{project}/locations/{location}/plugins/{plugin}/instances/{instance}` */
   name: string;
@@ -3150,13 +3149,13 @@ export const EnableActionProjectsLocationsPluginsInstancesResponse = GoogleLongr
 
 export type EnableActionProjectsLocationsPluginsInstancesError = CommonErrors;
 
+/** Enables a plugin instance in the API hub. */
 export const enableActionProjectsLocationsPluginsInstances: API.OperationMethod<EnableActionProjectsLocationsPluginsInstancesRequest, EnableActionProjectsLocationsPluginsInstancesResponse, EnableActionProjectsLocationsPluginsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnableActionProjectsLocationsPluginsInstancesRequest,
   output: EnableActionProjectsLocationsPluginsInstancesResponse,
   errors: [],
 }));
 
-/** Disables a plugin instance in the API hub. */
 export interface DisableActionProjectsLocationsPluginsInstancesRequest {
   /** Required. The name of the plugin instance to disable. Format: `projects/{project}/locations/{location}/plugins/{plugin}/instances/{instance}` */
   name: string;
@@ -3177,13 +3176,13 @@ export const DisableActionProjectsLocationsPluginsInstancesResponse = GoogleLong
 
 export type DisableActionProjectsLocationsPluginsInstancesError = CommonErrors;
 
+/** Disables a plugin instance in the API hub. */
 export const disableActionProjectsLocationsPluginsInstances: API.OperationMethod<DisableActionProjectsLocationsPluginsInstancesRequest, DisableActionProjectsLocationsPluginsInstancesResponse, DisableActionProjectsLocationsPluginsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DisableActionProjectsLocationsPluginsInstancesRequest,
   output: DisableActionProjectsLocationsPluginsInstancesResponse,
   errors: [],
 }));
 
-/** Updates a plugin instance in the API hub. The following fields in the plugin_instance can be updated currently: * display_name * schedule_cron_expression The update_mask should be used to specify the fields being updated. To update the auth_config and additional_config of the plugin instance, use the ApplyPluginInstanceConfig method. */
 export interface PatchProjectsLocationsPluginsInstancesRequest {
   /** Identifier. The unique name of the plugin instance resource. Format: `projects/{project}/locations/{location}/plugins/{plugin}/instances/{instance}` */
   name: string;
@@ -3207,13 +3206,13 @@ export const PatchProjectsLocationsPluginsInstancesResponse = GoogleCloudApihubV
 
 export type PatchProjectsLocationsPluginsInstancesError = CommonErrors;
 
+/** Updates a plugin instance in the API hub. The following fields in the plugin_instance can be updated currently: * display_name * schedule_cron_expression The update_mask should be used to specify the fields being updated. To update the auth_config and additional_config of the plugin instance, use the ApplyPluginInstanceConfig method. */
 export const patchProjectsLocationsPluginsInstances: API.OperationMethod<PatchProjectsLocationsPluginsInstancesRequest, PatchProjectsLocationsPluginsInstancesResponse, PatchProjectsLocationsPluginsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsPluginsInstancesRequest,
   output: PatchProjectsLocationsPluginsInstancesResponse,
   errors: [],
 }));
 
-/** Deletes a plugin instance in the API hub. */
 export interface DeleteProjectsLocationsPluginsInstancesRequest {
   /** Required. The name of the plugin instance to delete. Format: `projects/{project}/locations/{location}/plugins/{plugin}/instances/{instance}`. */
   name: string;
@@ -3231,13 +3230,13 @@ export const DeleteProjectsLocationsPluginsInstancesResponse = GoogleLongrunning
 
 export type DeleteProjectsLocationsPluginsInstancesError = CommonErrors;
 
+/** Deletes a plugin instance in the API hub. */
 export const deleteProjectsLocationsPluginsInstances: API.OperationMethod<DeleteProjectsLocationsPluginsInstancesRequest, DeleteProjectsLocationsPluginsInstancesResponse, DeleteProjectsLocationsPluginsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsPluginsInstancesRequest,
   output: DeleteProjectsLocationsPluginsInstancesResponse,
   errors: [],
 }));
 
-/** Manages data for a given plugin instance. */
 export interface ManageSourceDataProjectsLocationsPluginsInstancesRequest {
   /** Required. The name of the plugin instance for which data needs to be managed. Format: `projects/{project}/locations/{location}/plugins/{plugin}/instances/{instance}` */
   name: string;
@@ -3258,13 +3257,13 @@ export const ManageSourceDataProjectsLocationsPluginsInstancesResponse = GoogleC
 
 export type ManageSourceDataProjectsLocationsPluginsInstancesError = CommonErrors;
 
+/** Manages data for a given plugin instance. */
 export const manageSourceDataProjectsLocationsPluginsInstances: API.OperationMethod<ManageSourceDataProjectsLocationsPluginsInstancesRequest, ManageSourceDataProjectsLocationsPluginsInstancesResponse, ManageSourceDataProjectsLocationsPluginsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ManageSourceDataProjectsLocationsPluginsInstancesRequest,
   output: ManageSourceDataProjectsLocationsPluginsInstancesResponse,
   errors: [],
 }));
 
-/** Get the contents of the style guide. */
 export interface GetContentsProjectsLocationsPluginsStyleGuideRequest {
   /** Required. The name of the StyleGuide whose contents need to be retrieved. There is exactly one style guide resource per project per location. The expected format is `projects/{project}/locations/{location}/plugins/{plugin}/styleGuide`. */
   name: string;
@@ -3282,13 +3281,13 @@ export const GetContentsProjectsLocationsPluginsStyleGuideResponse = GoogleCloud
 
 export type GetContentsProjectsLocationsPluginsStyleGuideError = CommonErrors;
 
+/** Get the contents of the style guide. */
 export const getContentsProjectsLocationsPluginsStyleGuide: API.OperationMethod<GetContentsProjectsLocationsPluginsStyleGuideRequest, GetContentsProjectsLocationsPluginsStyleGuideResponse, GetContentsProjectsLocationsPluginsStyleGuideError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetContentsProjectsLocationsPluginsStyleGuideRequest,
   output: GetContentsProjectsLocationsPluginsStyleGuideResponse,
   errors: [],
 }));
 
-/** Create an API resource in the API hub. Once an API resource is created, versions can be added to it. */
 export interface CreateProjectsLocationsApisRequest {
   /** Required. The parent resource for the API resource. Format: `projects/{project}/locations/{location}` */
   parent: string;
@@ -3312,13 +3311,13 @@ export const CreateProjectsLocationsApisResponse = GoogleCloudApihubV1Api;
 
 export type CreateProjectsLocationsApisError = CommonErrors;
 
+/** Create an API resource in the API hub. Once an API resource is created, versions can be added to it. */
 export const createProjectsLocationsApis: API.OperationMethod<CreateProjectsLocationsApisRequest, CreateProjectsLocationsApisResponse, CreateProjectsLocationsApisError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsApisRequest,
   output: CreateProjectsLocationsApisResponse,
   errors: [],
 }));
 
-/** Get API resource details including the API versions contained in it. */
 export interface GetProjectsLocationsApisRequest {
   /** Required. The name of the API resource to retrieve. Format: `projects/{project}/locations/{location}/apis/{api}` */
   name: string;
@@ -3336,13 +3335,13 @@ export const GetProjectsLocationsApisResponse = GoogleCloudApihubV1Api;
 
 export type GetProjectsLocationsApisError = CommonErrors;
 
+/** Get API resource details including the API versions contained in it. */
 export const getProjectsLocationsApis: API.OperationMethod<GetProjectsLocationsApisRequest, GetProjectsLocationsApisResponse, GetProjectsLocationsApisError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsApisRequest,
   output: GetProjectsLocationsApisResponse,
   errors: [],
 }));
 
-/** List API resources in the API hub. */
 export interface ListProjectsLocationsApisRequest {
   /** Required. The parent, which owns this collection of API resources. Format: `projects/{project}/locations/{location}` */
   parent: string;
@@ -3369,7 +3368,8 @@ export const ListProjectsLocationsApisResponse = GoogleCloudApihubV1ListApisResp
 
 export type ListProjectsLocationsApisError = CommonErrors;
 
-export const listProjectsLocationsApis = API.makePaginated(() => ({
+/** List API resources in the API hub. */
+export const listProjectsLocationsApis: API.PaginatedOperationMethod<ListProjectsLocationsApisRequest, ListProjectsLocationsApisResponse, ListProjectsLocationsApisError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsApisRequest,
   output: ListProjectsLocationsApisResponse,
   errors: [],
@@ -3379,7 +3379,6 @@ export const listProjectsLocationsApis = API.makePaginated(() => ({
   },
 }));
 
-/** Update an API resource in the API hub. The following fields in the API can be updated: * display_name * description * owner * documentation * target_user * team * business_unit * maturity_level * api_style * attributes * fingerprint The update_mask should be used to specify the fields being updated. Updating the owner field requires complete owner message and updates both owner and email fields. */
 export interface PatchProjectsLocationsApisRequest {
   /** Identifier. The name of the API resource in the API Hub. Format: `projects/{project}/locations/{location}/apis/{api}` */
   name: string;
@@ -3403,13 +3402,13 @@ export const PatchProjectsLocationsApisResponse = GoogleCloudApihubV1Api;
 
 export type PatchProjectsLocationsApisError = CommonErrors;
 
+/** Update an API resource in the API hub. The following fields in the API can be updated: * display_name * description * owner * documentation * target_user * team * business_unit * maturity_level * api_style * attributes * fingerprint The update_mask should be used to specify the fields being updated. Updating the owner field requires complete owner message and updates both owner and email fields. */
 export const patchProjectsLocationsApis: API.OperationMethod<PatchProjectsLocationsApisRequest, PatchProjectsLocationsApisResponse, PatchProjectsLocationsApisError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsApisRequest,
   output: PatchProjectsLocationsApisResponse,
   errors: [],
 }));
 
-/** Delete an API resource in the API hub. API can only be deleted if all underlying versions are deleted. */
 export interface DeleteProjectsLocationsApisRequest {
   /** Required. The name of the API resource to delete. Format: `projects/{project}/locations/{location}/apis/{api}` */
   name: string;
@@ -3430,13 +3429,13 @@ export const DeleteProjectsLocationsApisResponse = Empty;
 
 export type DeleteProjectsLocationsApisError = CommonErrors;
 
+/** Delete an API resource in the API hub. API can only be deleted if all underlying versions are deleted. */
 export const deleteProjectsLocationsApis: API.OperationMethod<DeleteProjectsLocationsApisRequest, DeleteProjectsLocationsApisResponse, DeleteProjectsLocationsApisError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsApisRequest,
   output: DeleteProjectsLocationsApisResponse,
   errors: [],
 }));
 
-/** Create an API version for an API resource in the API hub. */
 export interface CreateProjectsLocationsApisVersionsRequest {
   /** Required. The parent resource for API version. Format: `projects/{project}/locations/{location}/apis/{api}` */
   parent: string;
@@ -3460,13 +3459,13 @@ export const CreateProjectsLocationsApisVersionsResponse = GoogleCloudApihubV1Ve
 
 export type CreateProjectsLocationsApisVersionsError = CommonErrors;
 
+/** Create an API version for an API resource in the API hub. */
 export const createProjectsLocationsApisVersions: API.OperationMethod<CreateProjectsLocationsApisVersionsRequest, CreateProjectsLocationsApisVersionsResponse, CreateProjectsLocationsApisVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsApisVersionsRequest,
   output: CreateProjectsLocationsApisVersionsResponse,
   errors: [],
 }));
 
-/** Get details about the API version of an API resource. This will include information about the specs and operations present in the API version as well as the deployments linked to it. */
 export interface GetProjectsLocationsApisVersionsRequest {
   /** Required. The name of the API version to retrieve. Format: `projects/{project}/locations/{location}/apis/{api}/versions/{version}` */
   name: string;
@@ -3484,13 +3483,13 @@ export const GetProjectsLocationsApisVersionsResponse = GoogleCloudApihubV1Versi
 
 export type GetProjectsLocationsApisVersionsError = CommonErrors;
 
+/** Get details about the API version of an API resource. This will include information about the specs and operations present in the API version as well as the deployments linked to it. */
 export const getProjectsLocationsApisVersions: API.OperationMethod<GetProjectsLocationsApisVersionsRequest, GetProjectsLocationsApisVersionsResponse, GetProjectsLocationsApisVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsApisVersionsRequest,
   output: GetProjectsLocationsApisVersionsResponse,
   errors: [],
 }));
 
-/** List API versions of an API resource in the API hub. */
 export interface ListProjectsLocationsApisVersionsRequest {
   /** Required. The parent which owns this collection of API versions i.e., the API resource Format: `projects/{project}/locations/{location}/apis/{api}` */
   parent: string;
@@ -3517,7 +3516,8 @@ export const ListProjectsLocationsApisVersionsResponse = GoogleCloudApihubV1List
 
 export type ListProjectsLocationsApisVersionsError = CommonErrors;
 
-export const listProjectsLocationsApisVersions = API.makePaginated(() => ({
+/** List API versions of an API resource in the API hub. */
+export const listProjectsLocationsApisVersions: API.PaginatedOperationMethod<ListProjectsLocationsApisVersionsRequest, ListProjectsLocationsApisVersionsResponse, ListProjectsLocationsApisVersionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsApisVersionsRequest,
   output: ListProjectsLocationsApisVersionsResponse,
   errors: [],
@@ -3527,7 +3527,6 @@ export const listProjectsLocationsApisVersions = API.makePaginated(() => ({
   },
 }));
 
-/** Update API version. The following fields in the version can be updated currently: * display_name * description * documentation * deployments * lifecycle * compliance * accreditation * attributes The update_mask should be used to specify the fields being updated. */
 export interface PatchProjectsLocationsApisVersionsRequest {
   /** Identifier. The name of the version. Format: `projects/{project}/locations/{location}/apis/{api}/versions/{version}` */
   name: string;
@@ -3551,13 +3550,13 @@ export const PatchProjectsLocationsApisVersionsResponse = GoogleCloudApihubV1Ver
 
 export type PatchProjectsLocationsApisVersionsError = CommonErrors;
 
+/** Update API version. The following fields in the version can be updated currently: * display_name * description * documentation * deployments * lifecycle * compliance * accreditation * attributes The update_mask should be used to specify the fields being updated. */
 export const patchProjectsLocationsApisVersions: API.OperationMethod<PatchProjectsLocationsApisVersionsRequest, PatchProjectsLocationsApisVersionsResponse, PatchProjectsLocationsApisVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsApisVersionsRequest,
   output: PatchProjectsLocationsApisVersionsResponse,
   errors: [],
 }));
 
-/** Delete an API version. Version can only be deleted if all underlying specs, operations, definitions and linked deployments are deleted. */
 export interface DeleteProjectsLocationsApisVersionsRequest {
   /** Required. The name of the version to delete. Format: `projects/{project}/locations/{location}/apis/{api}/versions/{version}` */
   name: string;
@@ -3578,13 +3577,13 @@ export const DeleteProjectsLocationsApisVersionsResponse = Empty;
 
 export type DeleteProjectsLocationsApisVersionsError = CommonErrors;
 
+/** Delete an API version. Version can only be deleted if all underlying specs, operations, definitions and linked deployments are deleted. */
 export const deleteProjectsLocationsApisVersions: API.OperationMethod<DeleteProjectsLocationsApisVersionsRequest, DeleteProjectsLocationsApisVersionsResponse, DeleteProjectsLocationsApisVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsApisVersionsRequest,
   output: DeleteProjectsLocationsApisVersionsResponse,
   errors: [],
 }));
 
-/** Add a spec to an API version in the API hub. Multiple specs can be added to an API version. Note, while adding a spec, at least one of `contents` or `source_uri` must be provided. If `contents` is provided, then `spec_type` must also be provided. On adding a spec with contents to the version, the operations present in it will be added to the version.Note that the file contents in the spec should be of the same type as defined in the `projects/{project}/locations/{location}/attributes/system-spec-type` attribute associated with spec resource. Note that specs of various types can be uploaded, however parsing of details is supported for OpenAPI spec currently. In order to access the information parsed from the spec, use the GetSpec method. In order to access the raw contents for a particular spec, use the GetSpecContents method. In order to access the operations parsed from the spec, use the ListAPIOperations method. */
 export interface CreateProjectsLocationsApisVersionsSpecsRequest {
   /** Required. The parent resource for Spec. Format: `projects/{project}/locations/{location}/apis/{api}/versions/{version}` */
   parent: string;
@@ -3608,13 +3607,13 @@ export const CreateProjectsLocationsApisVersionsSpecsResponse = GoogleCloudApihu
 
 export type CreateProjectsLocationsApisVersionsSpecsError = CommonErrors;
 
+/** Add a spec to an API version in the API hub. Multiple specs can be added to an API version. Note, while adding a spec, at least one of `contents` or `source_uri` must be provided. If `contents` is provided, then `spec_type` must also be provided. On adding a spec with contents to the version, the operations present in it will be added to the version.Note that the file contents in the spec should be of the same type as defined in the `projects/{project}/locations/{location}/attributes/system-spec-type` attribute associated with spec resource. Note that specs of various types can be uploaded, however parsing of details is supported for OpenAPI spec currently. In order to access the information parsed from the spec, use the GetSpec method. In order to access the raw contents for a particular spec, use the GetSpecContents method. In order to access the operations parsed from the spec, use the ListAPIOperations method. */
 export const createProjectsLocationsApisVersionsSpecs: API.OperationMethod<CreateProjectsLocationsApisVersionsSpecsRequest, CreateProjectsLocationsApisVersionsSpecsResponse, CreateProjectsLocationsApisVersionsSpecsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsApisVersionsSpecsRequest,
   output: CreateProjectsLocationsApisVersionsSpecsResponse,
   errors: [],
 }));
 
-/** Get details about the information parsed from a spec. Note that this method does not return the raw spec contents. Use GetSpecContents method to retrieve the same. */
 export interface GetProjectsLocationsApisVersionsSpecsRequest {
   /** Required. The name of the spec to retrieve. Format: `projects/{project}/locations/{location}/apis/{api}/versions/{version}/specs/{spec}` */
   name: string;
@@ -3632,13 +3631,13 @@ export const GetProjectsLocationsApisVersionsSpecsResponse = GoogleCloudApihubV1
 
 export type GetProjectsLocationsApisVersionsSpecsError = CommonErrors;
 
+/** Get details about the information parsed from a spec. Note that this method does not return the raw spec contents. Use GetSpecContents method to retrieve the same. */
 export const getProjectsLocationsApisVersionsSpecs: API.OperationMethod<GetProjectsLocationsApisVersionsSpecsRequest, GetProjectsLocationsApisVersionsSpecsResponse, GetProjectsLocationsApisVersionsSpecsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsApisVersionsSpecsRequest,
   output: GetProjectsLocationsApisVersionsSpecsResponse,
   errors: [],
 }));
 
-/** Get spec contents. */
 export interface GetContentsProjectsLocationsApisVersionsSpecsRequest {
   /** Required. The name of the spec whose contents need to be retrieved. Format: `projects/{project}/locations/{location}/apis/{api}/versions/{version}/specs/{spec}` */
   name: string;
@@ -3656,13 +3655,13 @@ export const GetContentsProjectsLocationsApisVersionsSpecsResponse = GoogleCloud
 
 export type GetContentsProjectsLocationsApisVersionsSpecsError = CommonErrors;
 
+/** Get spec contents. */
 export const getContentsProjectsLocationsApisVersionsSpecs: API.OperationMethod<GetContentsProjectsLocationsApisVersionsSpecsRequest, GetContentsProjectsLocationsApisVersionsSpecsResponse, GetContentsProjectsLocationsApisVersionsSpecsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetContentsProjectsLocationsApisVersionsSpecsRequest,
   output: GetContentsProjectsLocationsApisVersionsSpecsResponse,
   errors: [],
 }));
 
-/** Fetch additional spec content. */
 export interface FetchAdditionalSpecContentProjectsLocationsApisVersionsSpecsRequest {
   /** Required. The name of the spec whose contents need to be retrieved. Format: `projects/{project}/locations/{location}/apis/{api}/versions/{version}/specs/{spec}` */
   name: string;
@@ -3683,13 +3682,13 @@ export const FetchAdditionalSpecContentProjectsLocationsApisVersionsSpecsRespons
 
 export type FetchAdditionalSpecContentProjectsLocationsApisVersionsSpecsError = CommonErrors;
 
+/** Fetch additional spec content. */
 export const fetchAdditionalSpecContentProjectsLocationsApisVersionsSpecs: API.OperationMethod<FetchAdditionalSpecContentProjectsLocationsApisVersionsSpecsRequest, FetchAdditionalSpecContentProjectsLocationsApisVersionsSpecsResponse, FetchAdditionalSpecContentProjectsLocationsApisVersionsSpecsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FetchAdditionalSpecContentProjectsLocationsApisVersionsSpecsRequest,
   output: FetchAdditionalSpecContentProjectsLocationsApisVersionsSpecsResponse,
   errors: [],
 }));
 
-/** List specs corresponding to a particular API resource. */
 export interface ListProjectsLocationsApisVersionsSpecsRequest {
   /** Required. The parent, which owns this collection of specs. Format: `projects/{project}/locations/{location}/apis/{api}/versions/{version}` */
   parent: string;
@@ -3716,7 +3715,8 @@ export const ListProjectsLocationsApisVersionsSpecsResponse = GoogleCloudApihubV
 
 export type ListProjectsLocationsApisVersionsSpecsError = CommonErrors;
 
-export const listProjectsLocationsApisVersionsSpecs = API.makePaginated(() => ({
+/** List specs corresponding to a particular API resource. */
+export const listProjectsLocationsApisVersionsSpecs: API.PaginatedOperationMethod<ListProjectsLocationsApisVersionsSpecsRequest, ListProjectsLocationsApisVersionsSpecsResponse, ListProjectsLocationsApisVersionsSpecsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsApisVersionsSpecsRequest,
   output: ListProjectsLocationsApisVersionsSpecsResponse,
   errors: [],
@@ -3726,7 +3726,6 @@ export const listProjectsLocationsApisVersionsSpecs = API.makePaginated(() => ({
   },
 }));
 
-/** Update spec. The following fields in the spec can be updated: * display_name * source_uri * lint_response * attributes * contents * spec_type In case of an OAS spec, updating spec contents can lead to: 1. Creation, deletion and update of operations. 2. Creation, deletion and update of definitions. 3. Update of other info parsed out from the new spec. In case of contents or source_uri being present in update mask, spec_type must also be present. Also, spec_type can not be present in update mask if contents or source_uri is not present. The update_mask should be used to specify the fields being updated. */
 export interface PatchProjectsLocationsApisVersionsSpecsRequest {
   /** Identifier. The name of the spec. Format: `projects/{project}/locations/{location}/apis/{api}/versions/{version}/specs/{spec}` */
   name: string;
@@ -3750,13 +3749,13 @@ export const PatchProjectsLocationsApisVersionsSpecsResponse = GoogleCloudApihub
 
 export type PatchProjectsLocationsApisVersionsSpecsError = CommonErrors;
 
+/** Update spec. The following fields in the spec can be updated: * display_name * source_uri * lint_response * attributes * contents * spec_type In case of an OAS spec, updating spec contents can lead to: 1. Creation, deletion and update of operations. 2. Creation, deletion and update of definitions. 3. Update of other info parsed out from the new spec. In case of contents or source_uri being present in update mask, spec_type must also be present. Also, spec_type can not be present in update mask if contents or source_uri is not present. The update_mask should be used to specify the fields being updated. */
 export const patchProjectsLocationsApisVersionsSpecs: API.OperationMethod<PatchProjectsLocationsApisVersionsSpecsRequest, PatchProjectsLocationsApisVersionsSpecsResponse, PatchProjectsLocationsApisVersionsSpecsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsApisVersionsSpecsRequest,
   output: PatchProjectsLocationsApisVersionsSpecsResponse,
   errors: [],
 }));
 
-/** Delete a spec. Deleting a spec will also delete the associated operations from the version. */
 export interface DeleteProjectsLocationsApisVersionsSpecsRequest {
   /** Required. The name of the spec to delete. Format: `projects/{project}/locations/{location}/apis/{api}/versions/{version}/specs/{spec}` */
   name: string;
@@ -3774,13 +3773,13 @@ export const DeleteProjectsLocationsApisVersionsSpecsResponse = Empty;
 
 export type DeleteProjectsLocationsApisVersionsSpecsError = CommonErrors;
 
+/** Delete a spec. Deleting a spec will also delete the associated operations from the version. */
 export const deleteProjectsLocationsApisVersionsSpecs: API.OperationMethod<DeleteProjectsLocationsApisVersionsSpecsRequest, DeleteProjectsLocationsApisVersionsSpecsResponse, DeleteProjectsLocationsApisVersionsSpecsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsApisVersionsSpecsRequest,
   output: DeleteProjectsLocationsApisVersionsSpecsResponse,
   errors: [],
 }));
 
-/** Lints the requested spec and updates the corresponding API Spec with the lint response. This lint response will be available in all subsequent Get and List Spec calls to Core service. */
 export interface LintProjectsLocationsApisVersionsSpecsRequest {
   /** Required. The name of the spec to be linted. Format: `projects/{project}/locations/{location}/apis/{api}/versions/{version}/specs/{spec}` */
   name: string;
@@ -3801,13 +3800,13 @@ export const LintProjectsLocationsApisVersionsSpecsResponse = Empty;
 
 export type LintProjectsLocationsApisVersionsSpecsError = CommonErrors;
 
+/** Lints the requested spec and updates the corresponding API Spec with the lint response. This lint response will be available in all subsequent Get and List Spec calls to Core service. */
 export const lintProjectsLocationsApisVersionsSpecs: API.OperationMethod<LintProjectsLocationsApisVersionsSpecsRequest, LintProjectsLocationsApisVersionsSpecsResponse, LintProjectsLocationsApisVersionsSpecsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LintProjectsLocationsApisVersionsSpecsRequest,
   output: LintProjectsLocationsApisVersionsSpecsResponse,
   errors: [],
 }));
 
-/** Create an apiOperation in an API version. An apiOperation can be created only if the version has no apiOperations which were created by parsing a spec. */
 export interface CreateProjectsLocationsApisVersionsOperationsRequest {
   /** Required. The parent resource for the operation resource. Format: `projects/{project}/locations/{location}/apis/{api}/versions/{version}` */
   parent: string;
@@ -3831,13 +3830,13 @@ export const CreateProjectsLocationsApisVersionsOperationsResponse = GoogleCloud
 
 export type CreateProjectsLocationsApisVersionsOperationsError = CommonErrors;
 
+/** Create an apiOperation in an API version. An apiOperation can be created only if the version has no apiOperations which were created by parsing a spec. */
 export const createProjectsLocationsApisVersionsOperations: API.OperationMethod<CreateProjectsLocationsApisVersionsOperationsRequest, CreateProjectsLocationsApisVersionsOperationsResponse, CreateProjectsLocationsApisVersionsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsApisVersionsOperationsRequest,
   output: CreateProjectsLocationsApisVersionsOperationsResponse,
   errors: [],
 }));
 
-/** Get details about a particular operation in API version. */
 export interface GetProjectsLocationsApisVersionsOperationsRequest {
   /** Required. The name of the operation to retrieve. Format: `projects/{project}/locations/{location}/apis/{api}/versions/{version}/operations/{operation}` */
   name: string;
@@ -3855,13 +3854,13 @@ export const GetProjectsLocationsApisVersionsOperationsResponse = GoogleCloudApi
 
 export type GetProjectsLocationsApisVersionsOperationsError = CommonErrors;
 
+/** Get details about a particular operation in API version. */
 export const getProjectsLocationsApisVersionsOperations: API.OperationMethod<GetProjectsLocationsApisVersionsOperationsRequest, GetProjectsLocationsApisVersionsOperationsResponse, GetProjectsLocationsApisVersionsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsApisVersionsOperationsRequest,
   output: GetProjectsLocationsApisVersionsOperationsResponse,
   errors: [],
 }));
 
-/** List operations in an API version. */
 export interface ListProjectsLocationsApisVersionsOperationsRequest {
   /** Required. The parent which owns this collection of operations i.e., the API version. Format: `projects/{project}/locations/{location}/apis/{api}/versions/{version}` */
   parent: string;
@@ -3888,7 +3887,8 @@ export const ListProjectsLocationsApisVersionsOperationsResponse = GoogleCloudAp
 
 export type ListProjectsLocationsApisVersionsOperationsError = CommonErrors;
 
-export const listProjectsLocationsApisVersionsOperations = API.makePaginated(() => ({
+/** List operations in an API version. */
+export const listProjectsLocationsApisVersionsOperations: API.PaginatedOperationMethod<ListProjectsLocationsApisVersionsOperationsRequest, ListProjectsLocationsApisVersionsOperationsResponse, ListProjectsLocationsApisVersionsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsApisVersionsOperationsRequest,
   output: ListProjectsLocationsApisVersionsOperationsResponse,
   errors: [],
@@ -3898,7 +3898,6 @@ export const listProjectsLocationsApisVersionsOperations = API.makePaginated(() 
   },
 }));
 
-/** Update an operation in an API version. The following fields in the ApiOperation resource can be updated: * details.description * details.documentation * details.http_operation.path * details.http_operation.method * details.deprecated * attributes * details.mcp_tool.title * details.mcp_tool.description * details.mcp_tool.input_schema * details.mcp_tool.output_schema * details.input_schema * details.output_schema * details.mcp_tool.annotations.title * details.mcp_tool.annotations.read_only_hint * details.mcp_tool.annotations.destructive_hint * details.mcp_tool.annotations.idempotent_hint * details.mcp_tool.annotations.open_world_hint * details.mcp_tool.annotations.additional_hints The update_mask should be used to specify the fields being updated. An operation can be updated only if the operation was created via CreateApiOperation API. If the operation was created by parsing the spec, then it can be edited by updating the spec. */
 export interface PatchProjectsLocationsApisVersionsOperationsRequest {
   /** Identifier. The name of the operation. Format: `projects/{project}/locations/{location}/apis/{api}/versions/{version}/operations/{operation}` */
   name: string;
@@ -3922,13 +3921,13 @@ export const PatchProjectsLocationsApisVersionsOperationsResponse = GoogleCloudA
 
 export type PatchProjectsLocationsApisVersionsOperationsError = CommonErrors;
 
+/** Update an operation in an API version. The following fields in the ApiOperation resource can be updated: * details.description * details.documentation * details.http_operation.path * details.http_operation.method * details.deprecated * attributes * details.mcp_tool.title * details.mcp_tool.description * details.mcp_tool.input_schema * details.mcp_tool.output_schema * details.input_schema * details.output_schema * details.mcp_tool.annotations.title * details.mcp_tool.annotations.read_only_hint * details.mcp_tool.annotations.destructive_hint * details.mcp_tool.annotations.idempotent_hint * details.mcp_tool.annotations.open_world_hint * details.mcp_tool.annotations.additional_hints The update_mask should be used to specify the fields being updated. An operation can be updated only if the operation was created via CreateApiOperation API. If the operation was created by parsing the spec, then it can be edited by updating the spec. */
 export const patchProjectsLocationsApisVersionsOperations: API.OperationMethod<PatchProjectsLocationsApisVersionsOperationsRequest, PatchProjectsLocationsApisVersionsOperationsResponse, PatchProjectsLocationsApisVersionsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsApisVersionsOperationsRequest,
   output: PatchProjectsLocationsApisVersionsOperationsResponse,
   errors: [],
 }));
 
-/** Delete an operation in an API version and we can delete only the operations created via create API. If the operation was created by parsing the spec, then it can be deleted by editing or deleting the spec. */
 export interface DeleteProjectsLocationsApisVersionsOperationsRequest {
   /** Required. The name of the operation resource to delete. Format: `projects/{project}/locations/{location}/apis/{api}/versions/{version}/operations/{operation}` */
   name: string;
@@ -3946,13 +3945,13 @@ export const DeleteProjectsLocationsApisVersionsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsApisVersionsOperationsError = CommonErrors;
 
+/** Delete an operation in an API version and we can delete only the operations created via create API. If the operation was created by parsing the spec, then it can be deleted by editing or deleting the spec. */
 export const deleteProjectsLocationsApisVersionsOperations: API.OperationMethod<DeleteProjectsLocationsApisVersionsOperationsRequest, DeleteProjectsLocationsApisVersionsOperationsResponse, DeleteProjectsLocationsApisVersionsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsApisVersionsOperationsRequest,
   output: DeleteProjectsLocationsApisVersionsOperationsResponse,
   errors: [],
 }));
 
-/** Get details about a definition in an API version. */
 export interface GetProjectsLocationsApisVersionsDefinitionsRequest {
   /** Required. The name of the definition to retrieve. Format: `projects/{project}/locations/{location}/apis/{api}/versions/{version}/definitions/{definition}` */
   name: string;
@@ -3970,13 +3969,13 @@ export const GetProjectsLocationsApisVersionsDefinitionsResponse = GoogleCloudAp
 
 export type GetProjectsLocationsApisVersionsDefinitionsError = CommonErrors;
 
+/** Get details about a definition in an API version. */
 export const getProjectsLocationsApisVersionsDefinitions: API.OperationMethod<GetProjectsLocationsApisVersionsDefinitionsRequest, GetProjectsLocationsApisVersionsDefinitionsResponse, GetProjectsLocationsApisVersionsDefinitionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsApisVersionsDefinitionsRequest,
   output: GetProjectsLocationsApisVersionsDefinitionsResponse,
   errors: [],
 }));
 
-/** Create a deployment resource in the API hub. Once a deployment resource is created, it can be associated with API versions. */
 export interface CreateProjectsLocationsDeploymentsRequest {
   /** Required. The parent resource for the deployment resource. Format: `projects/{project}/locations/{location}` */
   parent: string;
@@ -4000,13 +3999,13 @@ export const CreateProjectsLocationsDeploymentsResponse = GoogleCloudApihubV1Dep
 
 export type CreateProjectsLocationsDeploymentsError = CommonErrors;
 
+/** Create a deployment resource in the API hub. Once a deployment resource is created, it can be associated with API versions. */
 export const createProjectsLocationsDeployments: API.OperationMethod<CreateProjectsLocationsDeploymentsRequest, CreateProjectsLocationsDeploymentsResponse, CreateProjectsLocationsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsDeploymentsRequest,
   output: CreateProjectsLocationsDeploymentsResponse,
   errors: [],
 }));
 
-/** Get details about a deployment and the API versions linked to it. */
 export interface GetProjectsLocationsDeploymentsRequest {
   /** Required. The name of the deployment resource to retrieve. Format: `projects/{project}/locations/{location}/deployments/{deployment}` */
   name: string;
@@ -4024,13 +4023,13 @@ export const GetProjectsLocationsDeploymentsResponse = GoogleCloudApihubV1Deploy
 
 export type GetProjectsLocationsDeploymentsError = CommonErrors;
 
+/** Get details about a deployment and the API versions linked to it. */
 export const getProjectsLocationsDeployments: API.OperationMethod<GetProjectsLocationsDeploymentsRequest, GetProjectsLocationsDeploymentsResponse, GetProjectsLocationsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDeploymentsRequest,
   output: GetProjectsLocationsDeploymentsResponse,
   errors: [],
 }));
 
-/** List deployment resources in the API hub. */
 export interface ListProjectsLocationsDeploymentsRequest {
   /** Required. The parent, which owns this collection of deployment resources. Format: `projects/{project}/locations/{location}` */
   parent: string;
@@ -4057,7 +4056,8 @@ export const ListProjectsLocationsDeploymentsResponse = GoogleCloudApihubV1ListD
 
 export type ListProjectsLocationsDeploymentsError = CommonErrors;
 
-export const listProjectsLocationsDeployments = API.makePaginated(() => ({
+/** List deployment resources in the API hub. */
+export const listProjectsLocationsDeployments: API.PaginatedOperationMethod<ListProjectsLocationsDeploymentsRequest, ListProjectsLocationsDeploymentsResponse, ListProjectsLocationsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDeploymentsRequest,
   output: ListProjectsLocationsDeploymentsResponse,
   errors: [],
@@ -4067,7 +4067,6 @@ export const listProjectsLocationsDeployments = API.makePaginated(() => ({
   },
 }));
 
-/** Update a deployment resource in the API hub. The following fields in the deployment resource can be updated: * display_name * description * documentation * deployment_type * resource_uri * endpoints * slo * environment * attributes * source_project * source_environment * management_url * source_uri The update_mask should be used to specify the fields being updated. */
 export interface PatchProjectsLocationsDeploymentsRequest {
   /** Identifier. The name of the deployment. Format: `projects/{project}/locations/{location}/deployments/{deployment}` */
   name: string;
@@ -4091,13 +4090,13 @@ export const PatchProjectsLocationsDeploymentsResponse = GoogleCloudApihubV1Depl
 
 export type PatchProjectsLocationsDeploymentsError = CommonErrors;
 
+/** Update a deployment resource in the API hub. The following fields in the deployment resource can be updated: * display_name * description * documentation * deployment_type * resource_uri * endpoints * slo * environment * attributes * source_project * source_environment * management_url * source_uri The update_mask should be used to specify the fields being updated. */
 export const patchProjectsLocationsDeployments: API.OperationMethod<PatchProjectsLocationsDeploymentsRequest, PatchProjectsLocationsDeploymentsResponse, PatchProjectsLocationsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsDeploymentsRequest,
   output: PatchProjectsLocationsDeploymentsResponse,
   errors: [],
 }));
 
-/** Delete a deployment resource in the API hub. */
 export interface DeleteProjectsLocationsDeploymentsRequest {
   /** Required. The name of the deployment resource to delete. Format: `projects/{project}/locations/{location}/deployments/{deployment}` */
   name: string;
@@ -4115,13 +4114,13 @@ export const DeleteProjectsLocationsDeploymentsResponse = Empty;
 
 export type DeleteProjectsLocationsDeploymentsError = CommonErrors;
 
+/** Delete a deployment resource in the API hub. */
 export const deleteProjectsLocationsDeployments: API.OperationMethod<DeleteProjectsLocationsDeploymentsRequest, DeleteProjectsLocationsDeploymentsResponse, DeleteProjectsLocationsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDeploymentsRequest,
   output: DeleteProjectsLocationsDeploymentsResponse,
   errors: [],
 }));
 
-/** Create a user defined attribute. Certain pre defined attributes are already created by the API hub. These attributes will have type as `SYSTEM_DEFINED` and can be listed via ListAttributes method. Allowed values for the same can be updated via UpdateAttribute method. */
 export interface CreateProjectsLocationsAttributesRequest {
   /** Required. The parent resource for Attribute. Format: `projects/{project}/locations/{location}` */
   parent: string;
@@ -4145,13 +4144,13 @@ export const CreateProjectsLocationsAttributesResponse = GoogleCloudApihubV1Attr
 
 export type CreateProjectsLocationsAttributesError = CommonErrors;
 
+/** Create a user defined attribute. Certain pre defined attributes are already created by the API hub. These attributes will have type as `SYSTEM_DEFINED` and can be listed via ListAttributes method. Allowed values for the same can be updated via UpdateAttribute method. */
 export const createProjectsLocationsAttributes: API.OperationMethod<CreateProjectsLocationsAttributesRequest, CreateProjectsLocationsAttributesResponse, CreateProjectsLocationsAttributesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsAttributesRequest,
   output: CreateProjectsLocationsAttributesResponse,
   errors: [],
 }));
 
-/** Get details about the attribute. */
 export interface GetProjectsLocationsAttributesRequest {
   /** Required. The name of the attribute to retrieve. Format: `projects/{project}/locations/{location}/attributes/{attribute}` */
   name: string;
@@ -4169,13 +4168,13 @@ export const GetProjectsLocationsAttributesResponse = GoogleCloudApihubV1Attribu
 
 export type GetProjectsLocationsAttributesError = CommonErrors;
 
+/** Get details about the attribute. */
 export const getProjectsLocationsAttributes: API.OperationMethod<GetProjectsLocationsAttributesRequest, GetProjectsLocationsAttributesResponse, GetProjectsLocationsAttributesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAttributesRequest,
   output: GetProjectsLocationsAttributesResponse,
   errors: [],
 }));
 
-/** Update the attribute. The following fields in the Attribute resource can be updated: * display_name The display name can be updated for user defined attributes only. * description The description can be updated for user defined attributes only. * allowed_values To update the list of allowed values, clients need to use the fetched list of allowed values and add or remove values to or from the same list. The mutable allowed values can be updated for both user defined and System defined attributes. The immutable allowed values cannot be updated or deleted. The updated list of allowed values cannot be empty. If an allowed value that is already used by some resource's attribute is deleted, then the association between the resource and the attribute value will also be deleted. * cardinality The cardinality can be updated for user defined attributes only. Cardinality can only be increased during an update. The update_mask should be used to specify the fields being updated. */
 export interface PatchProjectsLocationsAttributesRequest {
   /** Identifier. The name of the attribute in the API Hub. Format: `projects/{project}/locations/{location}/attributes/{attribute}` */
   name: string;
@@ -4199,13 +4198,13 @@ export const PatchProjectsLocationsAttributesResponse = GoogleCloudApihubV1Attri
 
 export type PatchProjectsLocationsAttributesError = CommonErrors;
 
+/** Update the attribute. The following fields in the Attribute resource can be updated: * display_name The display name can be updated for user defined attributes only. * description The description can be updated for user defined attributes only. * allowed_values To update the list of allowed values, clients need to use the fetched list of allowed values and add or remove values to or from the same list. The mutable allowed values can be updated for both user defined and System defined attributes. The immutable allowed values cannot be updated or deleted. The updated list of allowed values cannot be empty. If an allowed value that is already used by some resource's attribute is deleted, then the association between the resource and the attribute value will also be deleted. * cardinality The cardinality can be updated for user defined attributes only. Cardinality can only be increased during an update. The update_mask should be used to specify the fields being updated. */
 export const patchProjectsLocationsAttributes: API.OperationMethod<PatchProjectsLocationsAttributesRequest, PatchProjectsLocationsAttributesResponse, PatchProjectsLocationsAttributesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsAttributesRequest,
   output: PatchProjectsLocationsAttributesResponse,
   errors: [],
 }));
 
-/** Delete an attribute. Note: System defined attributes cannot be deleted. All associations of the attribute being deleted with any API hub resource will also get deleted. */
 export interface DeleteProjectsLocationsAttributesRequest {
   /** Required. The name of the attribute to delete. Format: `projects/{project}/locations/{location}/attributes/{attribute}` */
   name: string;
@@ -4223,13 +4222,13 @@ export const DeleteProjectsLocationsAttributesResponse = Empty;
 
 export type DeleteProjectsLocationsAttributesError = CommonErrors;
 
+/** Delete an attribute. Note: System defined attributes cannot be deleted. All associations of the attribute being deleted with any API hub resource will also get deleted. */
 export const deleteProjectsLocationsAttributes: API.OperationMethod<DeleteProjectsLocationsAttributesRequest, DeleteProjectsLocationsAttributesResponse, DeleteProjectsLocationsAttributesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsAttributesRequest,
   output: DeleteProjectsLocationsAttributesResponse,
   errors: [],
 }));
 
-/** List all attributes. */
 export interface ListProjectsLocationsAttributesRequest {
   /** Required. The parent resource for Attribute. Format: `projects/{project}/locations/{location}` */
   parent: string;
@@ -4256,7 +4255,8 @@ export const ListProjectsLocationsAttributesResponse = GoogleCloudApihubV1ListAt
 
 export type ListProjectsLocationsAttributesError = CommonErrors;
 
-export const listProjectsLocationsAttributes = API.makePaginated(() => ({
+/** List all attributes. */
+export const listProjectsLocationsAttributes: API.PaginatedOperationMethod<ListProjectsLocationsAttributesRequest, ListProjectsLocationsAttributesResponse, ListProjectsLocationsAttributesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAttributesRequest,
   output: ListProjectsLocationsAttributesResponse,
   errors: [],
@@ -4266,7 +4266,6 @@ export const listProjectsLocationsAttributes = API.makePaginated(() => ({
   },
 }));
 
-/** Create an External API resource in the API hub. */
 export interface CreateProjectsLocationsExternalApisRequest {
   /** Required. The parent resource for the External API resource. Format: `projects/{project}/locations/{location}` */
   parent: string;
@@ -4290,13 +4289,13 @@ export const CreateProjectsLocationsExternalApisResponse = GoogleCloudApihubV1Ex
 
 export type CreateProjectsLocationsExternalApisError = CommonErrors;
 
+/** Create an External API resource in the API hub. */
 export const createProjectsLocationsExternalApis: API.OperationMethod<CreateProjectsLocationsExternalApisRequest, CreateProjectsLocationsExternalApisResponse, CreateProjectsLocationsExternalApisError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsExternalApisRequest,
   output: CreateProjectsLocationsExternalApisResponse,
   errors: [],
 }));
 
-/** Get details about an External API resource in the API hub. */
 export interface GetProjectsLocationsExternalApisRequest {
   /** Required. The name of the External API resource to retrieve. Format: `projects/{project}/locations/{location}/externalApis/{externalApi}` */
   name: string;
@@ -4314,13 +4313,13 @@ export const GetProjectsLocationsExternalApisResponse = GoogleCloudApihubV1Exter
 
 export type GetProjectsLocationsExternalApisError = CommonErrors;
 
+/** Get details about an External API resource in the API hub. */
 export const getProjectsLocationsExternalApis: API.OperationMethod<GetProjectsLocationsExternalApisRequest, GetProjectsLocationsExternalApisResponse, GetProjectsLocationsExternalApisError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsExternalApisRequest,
   output: GetProjectsLocationsExternalApisResponse,
   errors: [],
 }));
 
-/** Update an External API resource in the API hub. The following fields can be updated: * display_name * description * documentation * endpoints * paths The update_mask should be used to specify the fields being updated. */
 export interface PatchProjectsLocationsExternalApisRequest {
   /** Identifier. Format: `projects/{project}/locations/{location}/externalApi/{externalApi}`. */
   name: string;
@@ -4344,13 +4343,13 @@ export const PatchProjectsLocationsExternalApisResponse = GoogleCloudApihubV1Ext
 
 export type PatchProjectsLocationsExternalApisError = CommonErrors;
 
+/** Update an External API resource in the API hub. The following fields can be updated: * display_name * description * documentation * endpoints * paths The update_mask should be used to specify the fields being updated. */
 export const patchProjectsLocationsExternalApis: API.OperationMethod<PatchProjectsLocationsExternalApisRequest, PatchProjectsLocationsExternalApisResponse, PatchProjectsLocationsExternalApisError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsExternalApisRequest,
   output: PatchProjectsLocationsExternalApisResponse,
   errors: [],
 }));
 
-/** Delete an External API resource in the API hub. */
 export interface DeleteProjectsLocationsExternalApisRequest {
   /** Required. The name of the External API resource to delete. Format: `projects/{project}/locations/{location}/externalApis/{externalApi}` */
   name: string;
@@ -4368,13 +4367,13 @@ export const DeleteProjectsLocationsExternalApisResponse = Empty;
 
 export type DeleteProjectsLocationsExternalApisError = CommonErrors;
 
+/** Delete an External API resource in the API hub. */
 export const deleteProjectsLocationsExternalApis: API.OperationMethod<DeleteProjectsLocationsExternalApisRequest, DeleteProjectsLocationsExternalApisResponse, DeleteProjectsLocationsExternalApisError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsExternalApisRequest,
   output: DeleteProjectsLocationsExternalApisResponse,
   errors: [],
 }));
 
-/** List External API resources in the API hub. */
 export interface ListProjectsLocationsExternalApisRequest {
   /** Required. The parent, which owns this collection of External API resources. Format: `projects/{project}/locations/{location}` */
   parent: string;
@@ -4398,7 +4397,8 @@ export const ListProjectsLocationsExternalApisResponse = GoogleCloudApihubV1List
 
 export type ListProjectsLocationsExternalApisError = CommonErrors;
 
-export const listProjectsLocationsExternalApis = API.makePaginated(() => ({
+/** List External API resources in the API hub. */
+export const listProjectsLocationsExternalApis: API.PaginatedOperationMethod<ListProjectsLocationsExternalApisRequest, ListProjectsLocationsExternalApisResponse, ListProjectsLocationsExternalApisError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsExternalApisRequest,
   output: ListProjectsLocationsExternalApisResponse,
   errors: [],
@@ -4408,7 +4408,6 @@ export const listProjectsLocationsExternalApis = API.makePaginated(() => ({
   },
 }));
 
-/** Create a dependency between two entities in the API hub. */
 export interface CreateProjectsLocationsDependenciesRequest {
   /** Required. The parent resource for the dependency resource. Format: `projects/{project}/locations/{location}` */
   parent: string;
@@ -4432,13 +4431,13 @@ export const CreateProjectsLocationsDependenciesResponse = GoogleCloudApihubV1De
 
 export type CreateProjectsLocationsDependenciesError = CommonErrors;
 
+/** Create a dependency between two entities in the API hub. */
 export const createProjectsLocationsDependencies: API.OperationMethod<CreateProjectsLocationsDependenciesRequest, CreateProjectsLocationsDependenciesResponse, CreateProjectsLocationsDependenciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsDependenciesRequest,
   output: CreateProjectsLocationsDependenciesResponse,
   errors: [],
 }));
 
-/** Get details about a dependency resource in the API hub. */
 export interface GetProjectsLocationsDependenciesRequest {
   /** Required. The name of the dependency resource to retrieve. Format: `projects/{project}/locations/{location}/dependencies/{dependency}` */
   name: string;
@@ -4456,13 +4455,13 @@ export const GetProjectsLocationsDependenciesResponse = GoogleCloudApihubV1Depen
 
 export type GetProjectsLocationsDependenciesError = CommonErrors;
 
+/** Get details about a dependency resource in the API hub. */
 export const getProjectsLocationsDependencies: API.OperationMethod<GetProjectsLocationsDependenciesRequest, GetProjectsLocationsDependenciesResponse, GetProjectsLocationsDependenciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDependenciesRequest,
   output: GetProjectsLocationsDependenciesResponse,
   errors: [],
 }));
 
-/** Update a dependency based on the update_mask provided in the request. The following fields in the dependency can be updated: * description */
 export interface PatchProjectsLocationsDependenciesRequest {
   /** Identifier. The name of the dependency in the API Hub. Format: `projects/{project}/locations/{location}/dependencies/{dependency}` */
   name: string;
@@ -4486,13 +4485,13 @@ export const PatchProjectsLocationsDependenciesResponse = GoogleCloudApihubV1Dep
 
 export type PatchProjectsLocationsDependenciesError = CommonErrors;
 
+/** Update a dependency based on the update_mask provided in the request. The following fields in the dependency can be updated: * description */
 export const patchProjectsLocationsDependencies: API.OperationMethod<PatchProjectsLocationsDependenciesRequest, PatchProjectsLocationsDependenciesResponse, PatchProjectsLocationsDependenciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsDependenciesRequest,
   output: PatchProjectsLocationsDependenciesResponse,
   errors: [],
 }));
 
-/** Delete the dependency resource. */
 export interface DeleteProjectsLocationsDependenciesRequest {
   /** Required. The name of the dependency resource to delete. Format: `projects/{project}/locations/{location}/dependencies/{dependency}` */
   name: string;
@@ -4510,13 +4509,13 @@ export const DeleteProjectsLocationsDependenciesResponse = Empty;
 
 export type DeleteProjectsLocationsDependenciesError = CommonErrors;
 
+/** Delete the dependency resource. */
 export const deleteProjectsLocationsDependencies: API.OperationMethod<DeleteProjectsLocationsDependenciesRequest, DeleteProjectsLocationsDependenciesResponse, DeleteProjectsLocationsDependenciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDependenciesRequest,
   output: DeleteProjectsLocationsDependenciesResponse,
   errors: [],
 }));
 
-/** List dependencies based on the provided filter and pagination parameters. */
 export interface ListProjectsLocationsDependenciesRequest {
   /** Required. The parent which owns this collection of dependency resources. Format: `projects/{project}/locations/{location}` */
   parent: string;
@@ -4543,7 +4542,8 @@ export const ListProjectsLocationsDependenciesResponse = GoogleCloudApihubV1List
 
 export type ListProjectsLocationsDependenciesError = CommonErrors;
 
-export const listProjectsLocationsDependencies = API.makePaginated(() => ({
+/** List dependencies based on the provided filter and pagination parameters. */
+export const listProjectsLocationsDependencies: API.PaginatedOperationMethod<ListProjectsLocationsDependenciesRequest, ListProjectsLocationsDependenciesResponse, ListProjectsLocationsDependenciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDependenciesRequest,
   output: ListProjectsLocationsDependenciesResponse,
   errors: [],
@@ -4553,7 +4553,6 @@ export const listProjectsLocationsDependencies = API.makePaginated(() => ({
   },
 }));
 
-/** Create a curation resource in the API hub. Once a curation resource is created, plugin instances can start using it. */
 export interface CreateProjectsLocationsCurationsRequest {
   /** Required. The parent resource for the curation resource. Format: `projects/{project}/locations/{location}` */
   parent: string;
@@ -4577,13 +4576,13 @@ export const CreateProjectsLocationsCurationsResponse = GoogleCloudApihubV1Curat
 
 export type CreateProjectsLocationsCurationsError = CommonErrors;
 
+/** Create a curation resource in the API hub. Once a curation resource is created, plugin instances can start using it. */
 export const createProjectsLocationsCurations: API.OperationMethod<CreateProjectsLocationsCurationsRequest, CreateProjectsLocationsCurationsResponse, CreateProjectsLocationsCurationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCurationsRequest,
   output: CreateProjectsLocationsCurationsResponse,
   errors: [],
 }));
 
-/** Get curation resource details. */
 export interface GetProjectsLocationsCurationsRequest {
   /** Required. The name of the curation resource to retrieve. Format: `projects/{project}/locations/{location}/curations/{curation}` */
   name: string;
@@ -4601,13 +4600,13 @@ export const GetProjectsLocationsCurationsResponse = GoogleCloudApihubV1Curation
 
 export type GetProjectsLocationsCurationsError = CommonErrors;
 
+/** Get curation resource details. */
 export const getProjectsLocationsCurations: API.OperationMethod<GetProjectsLocationsCurationsRequest, GetProjectsLocationsCurationsResponse, GetProjectsLocationsCurationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCurationsRequest,
   output: GetProjectsLocationsCurationsResponse,
   errors: [],
 }));
 
-/** List curation resources in the API hub. */
 export interface ListProjectsLocationsCurationsRequest {
   /** Required. The parent, which owns this collection of curation resources. Format: `projects/{project}/locations/{location}` */
   parent: string;
@@ -4634,7 +4633,8 @@ export const ListProjectsLocationsCurationsResponse = GoogleCloudApihubV1ListCur
 
 export type ListProjectsLocationsCurationsError = CommonErrors;
 
-export const listProjectsLocationsCurations = API.makePaginated(() => ({
+/** List curation resources in the API hub. */
+export const listProjectsLocationsCurations: API.PaginatedOperationMethod<ListProjectsLocationsCurationsRequest, ListProjectsLocationsCurationsResponse, ListProjectsLocationsCurationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCurationsRequest,
   output: ListProjectsLocationsCurationsResponse,
   errors: [],
@@ -4644,7 +4644,6 @@ export const listProjectsLocationsCurations = API.makePaginated(() => ({
   },
 }));
 
-/** Update a curation resource in the API hub. The following fields in the curation can be updated: * display_name * description The update_mask should be used to specify the fields being updated. */
 export interface PatchProjectsLocationsCurationsRequest {
   /** Identifier. The name of the curation. Format: `projects/{project}/locations/{location}/curations/{curation}` */
   name: string;
@@ -4668,13 +4667,13 @@ export const PatchProjectsLocationsCurationsResponse = GoogleCloudApihubV1Curati
 
 export type PatchProjectsLocationsCurationsError = CommonErrors;
 
+/** Update a curation resource in the API hub. The following fields in the curation can be updated: * display_name * description The update_mask should be used to specify the fields being updated. */
 export const patchProjectsLocationsCurations: API.OperationMethod<PatchProjectsLocationsCurationsRequest, PatchProjectsLocationsCurationsResponse, PatchProjectsLocationsCurationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCurationsRequest,
   output: PatchProjectsLocationsCurationsResponse,
   errors: [],
 }));
 
-/** Delete a curation resource in the API hub. A curation can only be deleted if it's not being used by any plugin instance. */
 export interface DeleteProjectsLocationsCurationsRequest {
   /** Required. The name of the curation resource to delete. Format: `projects/{project}/locations/{location}/curations/{curation}` */
   name: string;
@@ -4692,13 +4691,13 @@ export const DeleteProjectsLocationsCurationsResponse = Empty;
 
 export type DeleteProjectsLocationsCurationsError = CommonErrors;
 
+/** Delete a curation resource in the API hub. A curation can only be deleted if it's not being used by any plugin instance. */
 export const deleteProjectsLocationsCurations: API.OperationMethod<DeleteProjectsLocationsCurationsRequest, DeleteProjectsLocationsCurationsResponse, DeleteProjectsLocationsCurationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCurationsRequest,
   output: DeleteProjectsLocationsCurationsResponse,
   errors: [],
 }));
 
-/** Lists all the DiscoveredAPIObservations in a given project and location. */
 export interface ListProjectsLocationsDiscoveredApiObservationsRequest {
   /** Required. The parent, which owns this collection of ApiObservations. Format: projects/{project}/locations/{location} */
   parent: string;
@@ -4722,7 +4721,8 @@ export const ListProjectsLocationsDiscoveredApiObservationsResponse = GoogleClou
 
 export type ListProjectsLocationsDiscoveredApiObservationsError = CommonErrors;
 
-export const listProjectsLocationsDiscoveredApiObservations = API.makePaginated(() => ({
+/** Lists all the DiscoveredAPIObservations in a given project and location. */
+export const listProjectsLocationsDiscoveredApiObservations: API.PaginatedOperationMethod<ListProjectsLocationsDiscoveredApiObservationsRequest, ListProjectsLocationsDiscoveredApiObservationsResponse, ListProjectsLocationsDiscoveredApiObservationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDiscoveredApiObservationsRequest,
   output: ListProjectsLocationsDiscoveredApiObservationsResponse,
   errors: [],
@@ -4732,7 +4732,6 @@ export const listProjectsLocationsDiscoveredApiObservations = API.makePaginated(
   },
 }));
 
-/** Gets a DiscoveredAPIObservation in a given project, location and ApiObservation. */
 export interface GetProjectsLocationsDiscoveredApiObservationsRequest {
   /** Required. The name of the DiscoveredApiObservation to retrieve. Format: projects/{project}/locations/{location}/discoveredApiObservations/{discovered_api_observation} */
   name: string;
@@ -4750,13 +4749,13 @@ export const GetProjectsLocationsDiscoveredApiObservationsResponse = GoogleCloud
 
 export type GetProjectsLocationsDiscoveredApiObservationsError = CommonErrors;
 
+/** Gets a DiscoveredAPIObservation in a given project, location and ApiObservation. */
 export const getProjectsLocationsDiscoveredApiObservations: API.OperationMethod<GetProjectsLocationsDiscoveredApiObservationsRequest, GetProjectsLocationsDiscoveredApiObservationsResponse, GetProjectsLocationsDiscoveredApiObservationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDiscoveredApiObservationsRequest,
   output: GetProjectsLocationsDiscoveredApiObservationsResponse,
   errors: [],
 }));
 
-/** Lists all the DiscoveredAPIOperations in a given project, location and ApiObservation. */
 export interface ListProjectsLocationsDiscoveredApiObservationsDiscoveredApiOperationsRequest {
   /** Required. The parent, which owns this collection of DiscoveredApiOperations. Format: projects/{project}/locations/{location}/discoveredApiObservations/{discovered_api_observation} */
   parent: string;
@@ -4780,7 +4779,8 @@ export const ListProjectsLocationsDiscoveredApiObservationsDiscoveredApiOperatio
 
 export type ListProjectsLocationsDiscoveredApiObservationsDiscoveredApiOperationsError = CommonErrors;
 
-export const listProjectsLocationsDiscoveredApiObservationsDiscoveredApiOperations = API.makePaginated(() => ({
+/** Lists all the DiscoveredAPIOperations in a given project, location and ApiObservation. */
+export const listProjectsLocationsDiscoveredApiObservationsDiscoveredApiOperations: API.PaginatedOperationMethod<ListProjectsLocationsDiscoveredApiObservationsDiscoveredApiOperationsRequest, ListProjectsLocationsDiscoveredApiObservationsDiscoveredApiOperationsResponse, ListProjectsLocationsDiscoveredApiObservationsDiscoveredApiOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDiscoveredApiObservationsDiscoveredApiOperationsRequest,
   output: ListProjectsLocationsDiscoveredApiObservationsDiscoveredApiOperationsResponse,
   errors: [],
@@ -4790,7 +4790,6 @@ export const listProjectsLocationsDiscoveredApiObservationsDiscoveredApiOperatio
   },
 }));
 
-/** Gets a DiscoveredAPIOperation in a given project, location, ApiObservation and ApiOperation. */
 export interface GetProjectsLocationsDiscoveredApiObservationsDiscoveredApiOperationsRequest {
   /** Required. The name of the DiscoveredApiOperation to retrieve. Format: projects/{project}/locations/{location}/discoveredApiObservations/{discovered_api_observation}/discoveredApiOperations/{discovered_api_operation} */
   name: string;
@@ -4808,13 +4807,13 @@ export const GetProjectsLocationsDiscoveredApiObservationsDiscoveredApiOperation
 
 export type GetProjectsLocationsDiscoveredApiObservationsDiscoveredApiOperationsError = CommonErrors;
 
+/** Gets a DiscoveredAPIOperation in a given project, location, ApiObservation and ApiOperation. */
 export const getProjectsLocationsDiscoveredApiObservationsDiscoveredApiOperations: API.OperationMethod<GetProjectsLocationsDiscoveredApiObservationsDiscoveredApiOperationsRequest, GetProjectsLocationsDiscoveredApiObservationsDiscoveredApiOperationsResponse, GetProjectsLocationsDiscoveredApiObservationsDiscoveredApiOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDiscoveredApiObservationsDiscoveredApiOperationsRequest,
   output: GetProjectsLocationsDiscoveredApiObservationsDiscoveredApiOperationsResponse,
   errors: [],
 }));
 
-/** Create a host project registration. A Google cloud project can be registered as a host project if it is not attached as a runtime project to another host project. A project can be registered as a host project only once. Subsequent register calls for the same project will fail. */
 export interface CreateProjectsLocationsHostProjectRegistrationsRequest {
   /** Required. The parent resource for the host project. Format: `projects/{project}/locations/{location}` */
   parent: string;
@@ -4838,13 +4837,13 @@ export const CreateProjectsLocationsHostProjectRegistrationsResponse = GoogleClo
 
 export type CreateProjectsLocationsHostProjectRegistrationsError = CommonErrors;
 
+/** Create a host project registration. A Google cloud project can be registered as a host project if it is not attached as a runtime project to another host project. A project can be registered as a host project only once. Subsequent register calls for the same project will fail. */
 export const createProjectsLocationsHostProjectRegistrations: API.OperationMethod<CreateProjectsLocationsHostProjectRegistrationsRequest, CreateProjectsLocationsHostProjectRegistrationsResponse, CreateProjectsLocationsHostProjectRegistrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsHostProjectRegistrationsRequest,
   output: CreateProjectsLocationsHostProjectRegistrationsResponse,
   errors: [],
 }));
 
-/** Get a host project registration. */
 export interface GetProjectsLocationsHostProjectRegistrationsRequest {
   /** Required. Host project registration resource name. projects/{project}/locations/{location}/hostProjectRegistrations/{host_project_registration_id} */
   name: string;
@@ -4862,13 +4861,13 @@ export const GetProjectsLocationsHostProjectRegistrationsResponse = GoogleCloudA
 
 export type GetProjectsLocationsHostProjectRegistrationsError = CommonErrors;
 
+/** Get a host project registration. */
 export const getProjectsLocationsHostProjectRegistrations: API.OperationMethod<GetProjectsLocationsHostProjectRegistrationsRequest, GetProjectsLocationsHostProjectRegistrationsResponse, GetProjectsLocationsHostProjectRegistrationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsHostProjectRegistrationsRequest,
   output: GetProjectsLocationsHostProjectRegistrationsResponse,
   errors: [],
 }));
 
-/** Lists host project registrations. */
 export interface ListProjectsLocationsHostProjectRegistrationsRequest {
   /** Required. The parent, which owns this collection of host projects. Format: `projects/* /locations/*` */
   parent: string;
@@ -4898,7 +4897,8 @@ export const ListProjectsLocationsHostProjectRegistrationsResponse = GoogleCloud
 
 export type ListProjectsLocationsHostProjectRegistrationsError = CommonErrors;
 
-export const listProjectsLocationsHostProjectRegistrations = API.makePaginated(() => ({
+/** Lists host project registrations. */
+export const listProjectsLocationsHostProjectRegistrations: API.PaginatedOperationMethod<ListProjectsLocationsHostProjectRegistrationsRequest, ListProjectsLocationsHostProjectRegistrationsResponse, ListProjectsLocationsHostProjectRegistrationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsHostProjectRegistrationsRequest,
   output: ListProjectsLocationsHostProjectRegistrationsResponse,
   errors: [],
@@ -4908,7 +4908,6 @@ export const listProjectsLocationsHostProjectRegistrations = API.makePaginated((
   },
 }));
 
-/** Provisions instance resources for the API Hub. */
 export interface CreateProjectsLocationsApiHubInstancesRequest {
   /** Required. The parent resource for the Api Hub instance resource. Format: `projects/{project}/locations/{location}` */
   parent: string;
@@ -4932,13 +4931,13 @@ export const CreateProjectsLocationsApiHubInstancesResponse = GoogleLongrunningO
 
 export type CreateProjectsLocationsApiHubInstancesError = CommonErrors;
 
+/** Provisions instance resources for the API Hub. */
 export const createProjectsLocationsApiHubInstances: API.OperationMethod<CreateProjectsLocationsApiHubInstancesRequest, CreateProjectsLocationsApiHubInstancesResponse, CreateProjectsLocationsApiHubInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsApiHubInstancesRequest,
   output: CreateProjectsLocationsApiHubInstancesResponse,
   errors: [],
 }));
 
-/** Deletes the API hub instance. Deleting the API hub instance will also result in the removal of all associated runtime project attachments and the host project registration. */
 export interface DeleteProjectsLocationsApiHubInstancesRequest {
   /** Required. The name of the Api Hub instance to delete. Format: `projects/{project}/locations/{location}/apiHubInstances/{apiHubInstance}`. */
   name: string;
@@ -4956,13 +4955,13 @@ export const DeleteProjectsLocationsApiHubInstancesResponse = GoogleLongrunningO
 
 export type DeleteProjectsLocationsApiHubInstancesError = CommonErrors;
 
+/** Deletes the API hub instance. Deleting the API hub instance will also result in the removal of all associated runtime project attachments and the host project registration. */
 export const deleteProjectsLocationsApiHubInstances: API.OperationMethod<DeleteProjectsLocationsApiHubInstancesRequest, DeleteProjectsLocationsApiHubInstancesResponse, DeleteProjectsLocationsApiHubInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsApiHubInstancesRequest,
   output: DeleteProjectsLocationsApiHubInstancesResponse,
   errors: [],
 }));
 
-/** Gets details of a single API Hub instance. */
 export interface GetProjectsLocationsApiHubInstancesRequest {
   /** Required. The name of the Api Hub instance to retrieve. Format: `projects/{project}/locations/{location}/apiHubInstances/{apiHubInstance}`. */
   name: string;
@@ -4980,13 +4979,13 @@ export const GetProjectsLocationsApiHubInstancesResponse = GoogleCloudApihubV1Ap
 
 export type GetProjectsLocationsApiHubInstancesError = CommonErrors;
 
+/** Gets details of a single API Hub instance. */
 export const getProjectsLocationsApiHubInstances: API.OperationMethod<GetProjectsLocationsApiHubInstancesRequest, GetProjectsLocationsApiHubInstancesResponse, GetProjectsLocationsApiHubInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsApiHubInstancesRequest,
   output: GetProjectsLocationsApiHubInstancesResponse,
   errors: [],
 }));
 
-/** Looks up an Api Hub instance in a given Google Cloud project. There will always be only one Api Hub instance for a Google Cloud project across all locations. */
 export interface LookupProjectsLocationsApiHubInstancesRequest {
   /** Required. There will always be only one Api Hub instance for a Google Cloud project across all locations. The parent resource for the Api Hub instance resource. Format: `projects/{project}/locations/{location}` */
   parent: string;
@@ -5004,13 +5003,13 @@ export const LookupProjectsLocationsApiHubInstancesResponse = GoogleCloudApihubV
 
 export type LookupProjectsLocationsApiHubInstancesError = CommonErrors;
 
+/** Looks up an Api Hub instance in a given Google Cloud project. There will always be only one Api Hub instance for a Google Cloud project across all locations. */
 export const lookupProjectsLocationsApiHubInstances: API.OperationMethod<LookupProjectsLocationsApiHubInstancesRequest, LookupProjectsLocationsApiHubInstancesResponse, LookupProjectsLocationsApiHubInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LookupProjectsLocationsApiHubInstancesRequest,
   output: LookupProjectsLocationsApiHubInstancesResponse,
   errors: [],
 }));
 
-/** Attaches a runtime project to the host project. */
 export interface CreateProjectsLocationsRuntimeProjectAttachmentsRequest {
   /** Required. The parent resource for the Runtime Project Attachment. Format: `projects/{project}/locations/{location}` */
   parent: string;
@@ -5034,13 +5033,13 @@ export const CreateProjectsLocationsRuntimeProjectAttachmentsResponse = GoogleCl
 
 export type CreateProjectsLocationsRuntimeProjectAttachmentsError = CommonErrors;
 
+/** Attaches a runtime project to the host project. */
 export const createProjectsLocationsRuntimeProjectAttachments: API.OperationMethod<CreateProjectsLocationsRuntimeProjectAttachmentsRequest, CreateProjectsLocationsRuntimeProjectAttachmentsResponse, CreateProjectsLocationsRuntimeProjectAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsRuntimeProjectAttachmentsRequest,
   output: CreateProjectsLocationsRuntimeProjectAttachmentsResponse,
   errors: [],
 }));
 
-/** Gets a runtime project attachment. */
 export interface GetProjectsLocationsRuntimeProjectAttachmentsRequest {
   /** Required. The name of the API resource to retrieve. Format: `projects/{project}/locations/{location}/runtimeProjectAttachments/{runtime_project_attachment}` */
   name: string;
@@ -5058,13 +5057,13 @@ export const GetProjectsLocationsRuntimeProjectAttachmentsResponse = GoogleCloud
 
 export type GetProjectsLocationsRuntimeProjectAttachmentsError = CommonErrors;
 
+/** Gets a runtime project attachment. */
 export const getProjectsLocationsRuntimeProjectAttachments: API.OperationMethod<GetProjectsLocationsRuntimeProjectAttachmentsRequest, GetProjectsLocationsRuntimeProjectAttachmentsResponse, GetProjectsLocationsRuntimeProjectAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRuntimeProjectAttachmentsRequest,
   output: GetProjectsLocationsRuntimeProjectAttachmentsResponse,
   errors: [],
 }));
 
-/** List runtime projects attached to the host project. */
 export interface ListProjectsLocationsRuntimeProjectAttachmentsRequest {
   /** Required. The parent, which owns this collection of runtime project attachments. Format: `projects/{project}/locations/{location}` */
   parent: string;
@@ -5094,7 +5093,8 @@ export const ListProjectsLocationsRuntimeProjectAttachmentsResponse = GoogleClou
 
 export type ListProjectsLocationsRuntimeProjectAttachmentsError = CommonErrors;
 
-export const listProjectsLocationsRuntimeProjectAttachments = API.makePaginated(() => ({
+/** List runtime projects attached to the host project. */
+export const listProjectsLocationsRuntimeProjectAttachments: API.PaginatedOperationMethod<ListProjectsLocationsRuntimeProjectAttachmentsRequest, ListProjectsLocationsRuntimeProjectAttachmentsResponse, ListProjectsLocationsRuntimeProjectAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRuntimeProjectAttachmentsRequest,
   output: ListProjectsLocationsRuntimeProjectAttachmentsResponse,
   errors: [],
@@ -5104,7 +5104,6 @@ export const listProjectsLocationsRuntimeProjectAttachments = API.makePaginated(
   },
 }));
 
-/** Delete a runtime project attachment in the API Hub. This call will detach the runtime project from the host project. */
 export interface DeleteProjectsLocationsRuntimeProjectAttachmentsRequest {
   /** Required. The name of the Runtime Project Attachment to delete. Format: `projects/{project}/locations/{location}/runtimeProjectAttachments/{runtime_project_attachment}` */
   name: string;
@@ -5122,6 +5121,7 @@ export const DeleteProjectsLocationsRuntimeProjectAttachmentsResponse = Empty;
 
 export type DeleteProjectsLocationsRuntimeProjectAttachmentsError = CommonErrors;
 
+/** Delete a runtime project attachment in the API Hub. This call will detach the runtime project from the host project. */
 export const deleteProjectsLocationsRuntimeProjectAttachments: API.OperationMethod<DeleteProjectsLocationsRuntimeProjectAttachmentsRequest, DeleteProjectsLocationsRuntimeProjectAttachmentsResponse, DeleteProjectsLocationsRuntimeProjectAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsRuntimeProjectAttachmentsRequest,
   output: DeleteProjectsLocationsRuntimeProjectAttachmentsResponse,

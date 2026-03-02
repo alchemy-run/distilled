@@ -42,7 +42,6 @@ export const ExternalAccountKey: Schema.Schema<ExternalAccountKey> = Schema.susp
 // Operations
 // ==========================================================================
 
-/** Creates a new ExternalAccountKey bound to the project. */
 export interface CreateProjectsLocationsExternalAccountKeysRequest {
   /** Required. The parent resource where this external_account_key will be created. Format: projects/[project_id]/locations/[location]. At present only the "global" location is supported. */
   parent: string;
@@ -63,6 +62,7 @@ export const CreateProjectsLocationsExternalAccountKeysResponse = ExternalAccoun
 
 export type CreateProjectsLocationsExternalAccountKeysError = CommonErrors;
 
+/** Creates a new ExternalAccountKey bound to the project. */
 export const createProjectsLocationsExternalAccountKeys: API.OperationMethod<CreateProjectsLocationsExternalAccountKeysRequest, CreateProjectsLocationsExternalAccountKeysResponse, CreateProjectsLocationsExternalAccountKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsExternalAccountKeysRequest,
   output: CreateProjectsLocationsExternalAccountKeysResponse,

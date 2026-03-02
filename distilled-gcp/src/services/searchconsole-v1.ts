@@ -491,7 +491,6 @@ export const SitesListResponse: Schema.Schema<SitesListResponse> = Schema.suspen
 // Operations
 // ==========================================================================
 
-/** Index inspection. */
 export interface InspectUrlInspectionIndexRequest {
   /** Request body */
   body?: InspectUrlIndexRequest;
@@ -509,13 +508,13 @@ export const InspectUrlInspectionIndexResponse = InspectUrlIndexResponse;
 
 export type InspectUrlInspectionIndexError = CommonErrors;
 
+/** Index inspection. */
 export const inspectUrlInspectionIndex: API.OperationMethod<InspectUrlInspectionIndexRequest, InspectUrlInspectionIndexResponse, InspectUrlInspectionIndexError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InspectUrlInspectionIndexRequest,
   output: InspectUrlInspectionIndexResponse,
   errors: [],
 }));
 
-/** Query your data with filters and parameters that you define. Returns zero or more rows grouped by the row keys that you define. You must define a date range of one or more days. When date is one of the group by values, any days without data are omitted from the result list. If you need to know which days have data, issue a broad date range query grouped by date for any metric, and see which day rows are returned. */
 export interface QuerySearchanalyticsRequest {
   /** The site's URL, including protocol. For example: `http://www.example.com/`. */
   siteUrl: string;
@@ -536,13 +535,13 @@ export const QuerySearchanalyticsResponse = SearchAnalyticsQueryResponse;
 
 export type QuerySearchanalyticsError = CommonErrors;
 
+/** Query your data with filters and parameters that you define. Returns zero or more rows grouped by the row keys that you define. You must define a date range of one or more days. When date is one of the group by values, any days without data are omitted from the result list. If you need to know which days have data, issue a broad date range query grouped by date for any metric, and see which day rows are returned. */
 export const querySearchanalytics: API.OperationMethod<QuerySearchanalyticsRequest, QuerySearchanalyticsResponse, QuerySearchanalyticsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: QuerySearchanalyticsRequest,
   output: QuerySearchanalyticsResponse,
   errors: [],
 }));
 
-/** Runs Mobile-Friendly Test for a given URL. */
 export interface RunUrlTestingToolsMobileFriendlyTestRequest {
   /** Request body */
   body?: RunMobileFriendlyTestRequest;
@@ -560,13 +559,13 @@ export const RunUrlTestingToolsMobileFriendlyTestResponse = RunMobileFriendlyTes
 
 export type RunUrlTestingToolsMobileFriendlyTestError = CommonErrors;
 
+/** Runs Mobile-Friendly Test for a given URL. */
 export const runUrlTestingToolsMobileFriendlyTest: API.OperationMethod<RunUrlTestingToolsMobileFriendlyTestRequest, RunUrlTestingToolsMobileFriendlyTestResponse, RunUrlTestingToolsMobileFriendlyTestError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RunUrlTestingToolsMobileFriendlyTestRequest,
   output: RunUrlTestingToolsMobileFriendlyTestResponse,
   errors: [],
 }));
 
-/** Deletes a sitemap from the Sitemaps report. Does not stop Google from crawling this sitemap or the URLs that were previously crawled in the deleted sitemap. */
 export interface DeleteSitemapsRequest {
   /** The site's URL, including protocol. For example: `http://www.example.com/`. */
   siteUrl: string;
@@ -587,13 +586,13 @@ export const DeleteSitemapsResponse: Schema.Schema<DeleteSitemapsResponse> = Sch
 
 export type DeleteSitemapsError = CommonErrors;
 
+/** Deletes a sitemap from the Sitemaps report. Does not stop Google from crawling this sitemap or the URLs that were previously crawled in the deleted sitemap. */
 export const deleteSitemaps: API.OperationMethod<DeleteSitemapsRequest, DeleteSitemapsResponse, DeleteSitemapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteSitemapsRequest,
   output: DeleteSitemapsResponse,
   errors: [],
 }));
 
-/** Retrieves information about a specific sitemap. */
 export interface GetSitemapsRequest {
   /** The site's URL, including protocol. For example: `http://www.example.com/`. */
   siteUrl: string;
@@ -614,13 +613,13 @@ export const GetSitemapsResponse = WmxSitemap;
 
 export type GetSitemapsError = CommonErrors;
 
+/** Retrieves information about a specific sitemap. */
 export const getSitemaps: API.OperationMethod<GetSitemapsRequest, GetSitemapsResponse, GetSitemapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSitemapsRequest,
   output: GetSitemapsResponse,
   errors: [],
 }));
 
-/** Lists the [sitemaps-entries](/webmaster-tools/v3/sitemaps) submitted for this site, or included in the sitemap index file (if `sitemapIndex` is specified in the request). */
 export interface ListSitemapsRequest {
   /** The site's URL, including protocol. For example: `http://www.example.com/`. */
   siteUrl: string;
@@ -641,13 +640,13 @@ export const ListSitemapsResponse = SitemapsListResponse;
 
 export type ListSitemapsError = CommonErrors;
 
+/** Lists the [sitemaps-entries](/webmaster-tools/v3/sitemaps) submitted for this site, or included in the sitemap index file (if `sitemapIndex` is specified in the request). */
 export const listSitemaps: API.OperationMethod<ListSitemapsRequest, ListSitemapsResponse, ListSitemapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListSitemapsRequest,
   output: ListSitemapsResponse,
   errors: [],
 }));
 
-/** Submits a sitemap for a site. */
 export interface SubmitSitemapsRequest {
   /** The site's URL, including protocol. For example: `http://www.example.com/`. */
   siteUrl: string;
@@ -668,13 +667,13 @@ export const SubmitSitemapsResponse: Schema.Schema<SubmitSitemapsResponse> = Sch
 
 export type SubmitSitemapsError = CommonErrors;
 
+/** Submits a sitemap for a site. */
 export const submitSitemaps: API.OperationMethod<SubmitSitemapsRequest, SubmitSitemapsResponse, SubmitSitemapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SubmitSitemapsRequest,
   output: SubmitSitemapsResponse,
   errors: [],
 }));
 
-/** Removes a site from the set of the user's Search Console sites. */
 export interface DeleteSitesRequest {
   /** The URI of the property as defined in Search Console. **Examples:** `http://www.example.com/` or `sc-domain:example.com`. */
   siteUrl: string;
@@ -692,13 +691,13 @@ export const DeleteSitesResponse: Schema.Schema<DeleteSitesResponse> = Schema.St
 
 export type DeleteSitesError = CommonErrors;
 
+/** Removes a site from the set of the user's Search Console sites. */
 export const deleteSites: API.OperationMethod<DeleteSitesRequest, DeleteSitesResponse, DeleteSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteSitesRequest,
   output: DeleteSitesResponse,
   errors: [],
 }));
 
-/** Retrieves information about specific site. */
 export interface GetSitesRequest {
   /** The URI of the property as defined in Search Console. **Examples:** `http://www.example.com/` or `sc-domain:example.com`. */
   siteUrl: string;
@@ -716,13 +715,13 @@ export const GetSitesResponse = WmxSite;
 
 export type GetSitesError = CommonErrors;
 
+/** Retrieves information about specific site. */
 export const getSites: API.OperationMethod<GetSitesRequest, GetSitesResponse, GetSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSitesRequest,
   output: GetSitesResponse,
   errors: [],
 }));
 
-/** Lists the user's Search Console sites. */
 export interface ListSitesRequest {
 }
 
@@ -737,13 +736,13 @@ export const ListSitesResponse = SitesListResponse;
 
 export type ListSitesError = CommonErrors;
 
+/** Lists the user's Search Console sites. */
 export const listSites: API.OperationMethod<ListSitesRequest, ListSitesResponse, ListSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListSitesRequest,
   output: ListSitesResponse,
   errors: [],
 }));
 
-/** Adds a site to the set of the user's sites in Search Console. */
 export interface AddSitesRequest {
   /** The URL of the site to add. */
   siteUrl: string;
@@ -761,6 +760,7 @@ export const AddSitesResponse: Schema.Schema<AddSitesResponse> = Schema.Struct({
 
 export type AddSitesError = CommonErrors;
 
+/** Adds a site to the set of the user's sites in Search Console. */
 export const addSites: API.OperationMethod<AddSitesRequest, AddSitesResponse, AddSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddSitesRequest,
   output: AddSitesResponse,

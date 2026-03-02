@@ -502,7 +502,6 @@ export const CivicinfoApiprotosV2DivisionByAddressResponse: Schema.Schema<Civici
 // Operations
 // ==========================================================================
 
-/** Searches for political divisions by their natural name or OCD ID. */
 export interface SearchDivisionsRequest {
   /** The search query. Queries can cover any parts of a OCD ID or a human readable division name. All words given in the query are treated as required patterns. In addition to that, most query operators of the Apache Lucene library are supported. See http://lucene.apache.org/core/2_9_4/queryparsersyntax.html */
   query?: string;
@@ -520,13 +519,13 @@ export const SearchDivisionsResponse = CivicinfoApiprotosV2DivisionSearchRespons
 
 export type SearchDivisionsError = CommonErrors;
 
+/** Searches for political divisions by their natural name or OCD ID. */
 export const searchDivisions: API.OperationMethod<SearchDivisionsRequest, SearchDivisionsResponse, SearchDivisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchDivisionsRequest,
   output: SearchDivisionsResponse,
   errors: [],
 }));
 
-/** Lookup OCDIDs and names for divisions related to an address. */
 export interface QueryDivisionByAddressDivisionsRequest {
   address?: string;
 }
@@ -543,13 +542,13 @@ export const QueryDivisionByAddressDivisionsResponse = CivicinfoApiprotosV2Divis
 
 export type QueryDivisionByAddressDivisionsError = CommonErrors;
 
+/** Lookup OCDIDs and names for divisions related to an address. */
 export const queryDivisionByAddressDivisions: API.OperationMethod<QueryDivisionByAddressDivisionsRequest, QueryDivisionByAddressDivisionsResponse, QueryDivisionByAddressDivisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: QueryDivisionByAddressDivisionsRequest,
   output: QueryDivisionByAddressDivisionsResponse,
   errors: [],
 }));
 
-/** Looks up information relevant to a voter based on the voter's registered address. */
 export interface VoterInfoQueryElectionsRequest {
   /** If set to true, the query will return the success code and include any partial information when it is unable to determine a matching address or unable to determine the election for electionId=0 queries. */
   returnAllAvailableData?: boolean;
@@ -579,13 +578,13 @@ export const VoterInfoQueryElectionsResponse = CivicinfoApiprotosV2VoterInfoResp
 
 export type VoterInfoQueryElectionsError = CommonErrors;
 
+/** Looks up information relevant to a voter based on the voter's registered address. */
 export const voterInfoQueryElections: API.OperationMethod<VoterInfoQueryElectionsRequest, VoterInfoQueryElectionsResponse, VoterInfoQueryElectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: VoterInfoQueryElectionsRequest,
   output: VoterInfoQueryElectionsResponse,
   errors: [],
 }));
 
-/** List of available elections to query. */
 export interface ElectionQueryElectionsRequest {
   /** Whether to include data that has not been allowlisted yet */
   productionDataOnly?: boolean;
@@ -603,6 +602,7 @@ export const ElectionQueryElectionsResponse = CivicinfoApiprotosV2ElectionsQuery
 
 export type ElectionQueryElectionsError = CommonErrors;
 
+/** List of available elections to query. */
 export const electionQueryElections: API.OperationMethod<ElectionQueryElectionsRequest, ElectionQueryElectionsResponse, ElectionQueryElectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ElectionQueryElectionsRequest,
   output: ElectionQueryElectionsResponse,

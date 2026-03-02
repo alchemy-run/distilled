@@ -1868,7 +1868,6 @@ export const Webproperties: Schema.Schema<Webproperties> = Schema.suspend(() => 
 // Operations
 // ==========================================================================
 
-/** Returns Analytics data for a view (profile). */
 export interface GetDataGaRequest {
   /** A comma-separated list of Analytics dimensions. E.g., 'ga:browser,ga:city'. */
   dimensions?: string;
@@ -1922,13 +1921,13 @@ export const GetDataGaResponse = GaData;
 
 export type GetDataGaError = CommonErrors;
 
+/** Returns Analytics data for a view (profile). */
 export const getDataGa: API.OperationMethod<GetDataGaRequest, GetDataGaResponse, GetDataGaError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDataGaRequest,
   output: GetDataGaResponse,
   errors: [],
 }));
 
-/** Returns Analytics Multi-Channel Funnels data for a view (profile). */
 export interface GetDataMcfRequest {
   /** A comma-separated list of Multi-Channel Funnels dimensions. E.g., 'mcf:source,mcf:medium'. */
   dimensions?: string;
@@ -1973,13 +1972,13 @@ export const GetDataMcfResponse = McfData;
 
 export type GetDataMcfError = CommonErrors;
 
+/** Returns Analytics Multi-Channel Funnels data for a view (profile). */
 export const getDataMcf: API.OperationMethod<GetDataMcfRequest, GetDataMcfResponse, GetDataMcfError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDataMcfRequest,
   output: GetDataMcfResponse,
   errors: [],
 }));
 
-/** Returns real time data for a view (profile). */
 export interface GetDataRealtimeRequest {
   /** A comma-separated list of real time dimensions. E.g., 'rt:medium,rt:city'. */
   dimensions?: string;
@@ -2012,13 +2011,13 @@ export const GetDataRealtimeResponse = RealtimeData;
 
 export type GetDataRealtimeError = CommonErrors;
 
+/** Returns real time data for a view (profile). */
 export const getDataRealtime: API.OperationMethod<GetDataRealtimeRequest, GetDataRealtimeResponse, GetDataRealtimeError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDataRealtimeRequest,
   output: GetDataRealtimeResponse,
   errors: [],
 }));
 
-/** Lists account summaries (lightweight tree comprised of accounts/properties/profiles) to which the user has access. */
 export interface ListManagementAccountSummariesRequest {
   /** The maximum number of account summaries to include in this response, where the largest acceptable value is 1000. */
   "max-results"?: number;
@@ -2039,13 +2038,13 @@ export const ListManagementAccountSummariesResponse = AccountSummaries;
 
 export type ListManagementAccountSummariesError = CommonErrors;
 
+/** Lists account summaries (lightweight tree comprised of accounts/properties/profiles) to which the user has access. */
 export const listManagementAccountSummaries: API.OperationMethod<ListManagementAccountSummariesRequest, ListManagementAccountSummariesResponse, ListManagementAccountSummariesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListManagementAccountSummariesRequest,
   output: ListManagementAccountSummariesResponse,
   errors: [],
 }));
 
-/** Removes a user from the given account. */
 export interface DeleteManagementAccountUserLinksRequest {
   /** Account ID to delete the user link for. */
   accountId: string;
@@ -2066,13 +2065,13 @@ export const DeleteManagementAccountUserLinksResponse: Schema.Schema<DeleteManag
 
 export type DeleteManagementAccountUserLinksError = CommonErrors;
 
+/** Removes a user from the given account. */
 export const deleteManagementAccountUserLinks: API.OperationMethod<DeleteManagementAccountUserLinksRequest, DeleteManagementAccountUserLinksResponse, DeleteManagementAccountUserLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteManagementAccountUserLinksRequest,
   output: DeleteManagementAccountUserLinksResponse,
   errors: [],
 }));
 
-/** Adds a new user to the given account. */
 export interface InsertManagementAccountUserLinksRequest {
   /** Account ID to create the user link for. */
   accountId: string;
@@ -2093,13 +2092,13 @@ export const InsertManagementAccountUserLinksResponse = EntityUserLink;
 
 export type InsertManagementAccountUserLinksError = CommonErrors;
 
+/** Adds a new user to the given account. */
 export const insertManagementAccountUserLinks: API.OperationMethod<InsertManagementAccountUserLinksRequest, InsertManagementAccountUserLinksResponse, InsertManagementAccountUserLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertManagementAccountUserLinksRequest,
   output: InsertManagementAccountUserLinksResponse,
   errors: [],
 }));
 
-/** Lists account-user links for a given account. */
 export interface ListManagementAccountUserLinksRequest {
   /** Account ID to retrieve the user links for. */
   accountId: string;
@@ -2123,13 +2122,13 @@ export const ListManagementAccountUserLinksResponse = EntityUserLinks;
 
 export type ListManagementAccountUserLinksError = CommonErrors;
 
+/** Lists account-user links for a given account. */
 export const listManagementAccountUserLinks: API.OperationMethod<ListManagementAccountUserLinksRequest, ListManagementAccountUserLinksResponse, ListManagementAccountUserLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListManagementAccountUserLinksRequest,
   output: ListManagementAccountUserLinksResponse,
   errors: [],
 }));
 
-/** Updates permissions for an existing user on the given account. */
 export interface UpdateManagementAccountUserLinksRequest {
   /** Account ID to update the account-user link for. */
   accountId: string;
@@ -2153,13 +2152,13 @@ export const UpdateManagementAccountUserLinksResponse = EntityUserLink;
 
 export type UpdateManagementAccountUserLinksError = CommonErrors;
 
+/** Updates permissions for an existing user on the given account. */
 export const updateManagementAccountUserLinks: API.OperationMethod<UpdateManagementAccountUserLinksRequest, UpdateManagementAccountUserLinksResponse, UpdateManagementAccountUserLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateManagementAccountUserLinksRequest,
   output: UpdateManagementAccountUserLinksResponse,
   errors: [],
 }));
 
-/** Lists all accounts to which the user has access. */
 export interface ListManagementAccountsRequest {
   /** The maximum number of accounts to include in this response. */
   "max-results"?: number;
@@ -2180,13 +2179,13 @@ export const ListManagementAccountsResponse = Accounts;
 
 export type ListManagementAccountsError = CommonErrors;
 
+/** Lists all accounts to which the user has access. */
 export const listManagementAccounts: API.OperationMethod<ListManagementAccountsRequest, ListManagementAccountsResponse, ListManagementAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListManagementAccountsRequest,
   output: ListManagementAccountsResponse,
   errors: [],
 }));
 
-/** Hashes the given Client ID. */
 export interface HashClientIdManagementClientIdRequest {
   /** Request body */
   body?: HashClientIdRequest;
@@ -2204,13 +2203,13 @@ export const HashClientIdManagementClientIdResponse = HashClientIdResponse;
 
 export type HashClientIdManagementClientIdError = CommonErrors;
 
+/** Hashes the given Client ID. */
 export const hashClientIdManagementClientId: API.OperationMethod<HashClientIdManagementClientIdRequest, HashClientIdManagementClientIdResponse, HashClientIdManagementClientIdError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: HashClientIdManagementClientIdRequest,
   output: HashClientIdManagementClientIdResponse,
   errors: [],
 }));
 
-/** List custom data sources to which the user has access. */
 export interface ListManagementCustomDataSourcesRequest {
   /** Account Id for the custom data sources to retrieve. */
   accountId: string;
@@ -2237,13 +2236,13 @@ export const ListManagementCustomDataSourcesResponse = CustomDataSources;
 
 export type ListManagementCustomDataSourcesError = CommonErrors;
 
+/** List custom data sources to which the user has access. */
 export const listManagementCustomDataSources: API.OperationMethod<ListManagementCustomDataSourcesRequest, ListManagementCustomDataSourcesResponse, ListManagementCustomDataSourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListManagementCustomDataSourcesRequest,
   output: ListManagementCustomDataSourcesResponse,
   errors: [],
 }));
 
-/** Get a custom dimension to which the user has access. */
 export interface GetManagementCustomDimensionsRequest {
   /** Account ID for the custom dimension to retrieve. */
   accountId: string;
@@ -2267,13 +2266,13 @@ export const GetManagementCustomDimensionsResponse = CustomDimension;
 
 export type GetManagementCustomDimensionsError = CommonErrors;
 
+/** Get a custom dimension to which the user has access. */
 export const getManagementCustomDimensions: API.OperationMethod<GetManagementCustomDimensionsRequest, GetManagementCustomDimensionsResponse, GetManagementCustomDimensionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetManagementCustomDimensionsRequest,
   output: GetManagementCustomDimensionsResponse,
   errors: [],
 }));
 
-/** Create a new custom dimension. */
 export interface InsertManagementCustomDimensionsRequest {
   /** Account ID for the custom dimension to create. */
   accountId: string;
@@ -2297,13 +2296,13 @@ export const InsertManagementCustomDimensionsResponse = CustomDimension;
 
 export type InsertManagementCustomDimensionsError = CommonErrors;
 
+/** Create a new custom dimension. */
 export const insertManagementCustomDimensions: API.OperationMethod<InsertManagementCustomDimensionsRequest, InsertManagementCustomDimensionsResponse, InsertManagementCustomDimensionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertManagementCustomDimensionsRequest,
   output: InsertManagementCustomDimensionsResponse,
   errors: [],
 }));
 
-/** Lists custom dimensions to which the user has access. */
 export interface ListManagementCustomDimensionsRequest {
   /** Account ID for the custom dimensions to retrieve. */
   accountId: string;
@@ -2330,13 +2329,13 @@ export const ListManagementCustomDimensionsResponse = CustomDimensions;
 
 export type ListManagementCustomDimensionsError = CommonErrors;
 
+/** Lists custom dimensions to which the user has access. */
 export const listManagementCustomDimensions: API.OperationMethod<ListManagementCustomDimensionsRequest, ListManagementCustomDimensionsResponse, ListManagementCustomDimensionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListManagementCustomDimensionsRequest,
   output: ListManagementCustomDimensionsResponse,
   errors: [],
 }));
 
-/** Updates an existing custom dimension. This method supports patch semantics. */
 export interface PatchManagementCustomDimensionsRequest {
   /** Account ID for the custom dimension to update. */
   accountId: string;
@@ -2366,13 +2365,13 @@ export const PatchManagementCustomDimensionsResponse = CustomDimension;
 
 export type PatchManagementCustomDimensionsError = CommonErrors;
 
+/** Updates an existing custom dimension. This method supports patch semantics. */
 export const patchManagementCustomDimensions: API.OperationMethod<PatchManagementCustomDimensionsRequest, PatchManagementCustomDimensionsResponse, PatchManagementCustomDimensionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchManagementCustomDimensionsRequest,
   output: PatchManagementCustomDimensionsResponse,
   errors: [],
 }));
 
-/** Updates an existing custom dimension. */
 export interface UpdateManagementCustomDimensionsRequest {
   /** Account ID for the custom dimension to update. */
   accountId: string;
@@ -2402,13 +2401,13 @@ export const UpdateManagementCustomDimensionsResponse = CustomDimension;
 
 export type UpdateManagementCustomDimensionsError = CommonErrors;
 
+/** Updates an existing custom dimension. */
 export const updateManagementCustomDimensions: API.OperationMethod<UpdateManagementCustomDimensionsRequest, UpdateManagementCustomDimensionsResponse, UpdateManagementCustomDimensionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateManagementCustomDimensionsRequest,
   output: UpdateManagementCustomDimensionsResponse,
   errors: [],
 }));
 
-/** Get a custom metric to which the user has access. */
 export interface GetManagementCustomMetricsRequest {
   /** Account ID for the custom metric to retrieve. */
   accountId: string;
@@ -2432,13 +2431,13 @@ export const GetManagementCustomMetricsResponse = CustomMetric;
 
 export type GetManagementCustomMetricsError = CommonErrors;
 
+/** Get a custom metric to which the user has access. */
 export const getManagementCustomMetrics: API.OperationMethod<GetManagementCustomMetricsRequest, GetManagementCustomMetricsResponse, GetManagementCustomMetricsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetManagementCustomMetricsRequest,
   output: GetManagementCustomMetricsResponse,
   errors: [],
 }));
 
-/** Create a new custom metric. */
 export interface InsertManagementCustomMetricsRequest {
   /** Account ID for the custom metric to create. */
   accountId: string;
@@ -2462,13 +2461,13 @@ export const InsertManagementCustomMetricsResponse = CustomMetric;
 
 export type InsertManagementCustomMetricsError = CommonErrors;
 
+/** Create a new custom metric. */
 export const insertManagementCustomMetrics: API.OperationMethod<InsertManagementCustomMetricsRequest, InsertManagementCustomMetricsResponse, InsertManagementCustomMetricsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertManagementCustomMetricsRequest,
   output: InsertManagementCustomMetricsResponse,
   errors: [],
 }));
 
-/** Lists custom metrics to which the user has access. */
 export interface ListManagementCustomMetricsRequest {
   /** Account ID for the custom metrics to retrieve. */
   accountId: string;
@@ -2495,13 +2494,13 @@ export const ListManagementCustomMetricsResponse = CustomMetrics;
 
 export type ListManagementCustomMetricsError = CommonErrors;
 
+/** Lists custom metrics to which the user has access. */
 export const listManagementCustomMetrics: API.OperationMethod<ListManagementCustomMetricsRequest, ListManagementCustomMetricsResponse, ListManagementCustomMetricsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListManagementCustomMetricsRequest,
   output: ListManagementCustomMetricsResponse,
   errors: [],
 }));
 
-/** Updates an existing custom metric. This method supports patch semantics. */
 export interface PatchManagementCustomMetricsRequest {
   /** Account ID for the custom metric to update. */
   accountId: string;
@@ -2531,13 +2530,13 @@ export const PatchManagementCustomMetricsResponse = CustomMetric;
 
 export type PatchManagementCustomMetricsError = CommonErrors;
 
+/** Updates an existing custom metric. This method supports patch semantics. */
 export const patchManagementCustomMetrics: API.OperationMethod<PatchManagementCustomMetricsRequest, PatchManagementCustomMetricsResponse, PatchManagementCustomMetricsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchManagementCustomMetricsRequest,
   output: PatchManagementCustomMetricsResponse,
   errors: [],
 }));
 
-/** Updates an existing custom metric. */
 export interface UpdateManagementCustomMetricsRequest {
   /** Account ID for the custom metric to update. */
   accountId: string;
@@ -2567,13 +2566,13 @@ export const UpdateManagementCustomMetricsResponse = CustomMetric;
 
 export type UpdateManagementCustomMetricsError = CommonErrors;
 
+/** Updates an existing custom metric. */
 export const updateManagementCustomMetrics: API.OperationMethod<UpdateManagementCustomMetricsRequest, UpdateManagementCustomMetricsResponse, UpdateManagementCustomMetricsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateManagementCustomMetricsRequest,
   output: UpdateManagementCustomMetricsResponse,
   errors: [],
 }));
 
-/** Delete an experiment. */
 export interface DeleteManagementExperimentsRequest {
   /** Account ID to which the experiment belongs */
   accountId: string;
@@ -2600,13 +2599,13 @@ export const DeleteManagementExperimentsResponse: Schema.Schema<DeleteManagement
 
 export type DeleteManagementExperimentsError = CommonErrors;
 
+/** Delete an experiment. */
 export const deleteManagementExperiments: API.OperationMethod<DeleteManagementExperimentsRequest, DeleteManagementExperimentsResponse, DeleteManagementExperimentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteManagementExperimentsRequest,
   output: DeleteManagementExperimentsResponse,
   errors: [],
 }));
 
-/** Returns an experiment to which the user has access. */
 export interface GetManagementExperimentsRequest {
   /** Account ID to retrieve the experiment for. */
   accountId: string;
@@ -2633,13 +2632,13 @@ export const GetManagementExperimentsResponse = Experiment;
 
 export type GetManagementExperimentsError = CommonErrors;
 
+/** Returns an experiment to which the user has access. */
 export const getManagementExperiments: API.OperationMethod<GetManagementExperimentsRequest, GetManagementExperimentsResponse, GetManagementExperimentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetManagementExperimentsRequest,
   output: GetManagementExperimentsResponse,
   errors: [],
 }));
 
-/** Create a new experiment. */
 export interface InsertManagementExperimentsRequest {
   /** Account ID to create the experiment for. */
   accountId: string;
@@ -2666,13 +2665,13 @@ export const InsertManagementExperimentsResponse = Experiment;
 
 export type InsertManagementExperimentsError = CommonErrors;
 
+/** Create a new experiment. */
 export const insertManagementExperiments: API.OperationMethod<InsertManagementExperimentsRequest, InsertManagementExperimentsResponse, InsertManagementExperimentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertManagementExperimentsRequest,
   output: InsertManagementExperimentsResponse,
   errors: [],
 }));
 
-/** Lists experiments to which the user has access. */
 export interface ListManagementExperimentsRequest {
   /** Account ID to retrieve experiments for. */
   accountId: string;
@@ -2702,13 +2701,13 @@ export const ListManagementExperimentsResponse = Experiments;
 
 export type ListManagementExperimentsError = CommonErrors;
 
+/** Lists experiments to which the user has access. */
 export const listManagementExperiments: API.OperationMethod<ListManagementExperimentsRequest, ListManagementExperimentsResponse, ListManagementExperimentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListManagementExperimentsRequest,
   output: ListManagementExperimentsResponse,
   errors: [],
 }));
 
-/** Update an existing experiment. This method supports patch semantics. */
 export interface PatchManagementExperimentsRequest {
   /** Account ID of the experiment to update. */
   accountId: string;
@@ -2738,13 +2737,13 @@ export const PatchManagementExperimentsResponse = Experiment;
 
 export type PatchManagementExperimentsError = CommonErrors;
 
+/** Update an existing experiment. This method supports patch semantics. */
 export const patchManagementExperiments: API.OperationMethod<PatchManagementExperimentsRequest, PatchManagementExperimentsResponse, PatchManagementExperimentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchManagementExperimentsRequest,
   output: PatchManagementExperimentsResponse,
   errors: [],
 }));
 
-/** Update an existing experiment. */
 export interface UpdateManagementExperimentsRequest {
   /** Account ID of the experiment to update. */
   accountId: string;
@@ -2774,13 +2773,13 @@ export const UpdateManagementExperimentsResponse = Experiment;
 
 export type UpdateManagementExperimentsError = CommonErrors;
 
+/** Update an existing experiment. */
 export const updateManagementExperiments: API.OperationMethod<UpdateManagementExperimentsRequest, UpdateManagementExperimentsResponse, UpdateManagementExperimentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateManagementExperimentsRequest,
   output: UpdateManagementExperimentsResponse,
   errors: [],
 }));
 
-/** Delete a filter. */
 export interface DeleteManagementFiltersRequest {
   /** Account ID to delete the filter for. */
   accountId: string;
@@ -2801,13 +2800,13 @@ export const DeleteManagementFiltersResponse = Filter;
 
 export type DeleteManagementFiltersError = CommonErrors;
 
+/** Delete a filter. */
 export const deleteManagementFilters: API.OperationMethod<DeleteManagementFiltersRequest, DeleteManagementFiltersResponse, DeleteManagementFiltersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteManagementFiltersRequest,
   output: DeleteManagementFiltersResponse,
   errors: [],
 }));
 
-/** Returns filters to which the user has access. */
 export interface GetManagementFiltersRequest {
   /** Account ID to retrieve filters for. */
   accountId: string;
@@ -2828,13 +2827,13 @@ export const GetManagementFiltersResponse = Filter;
 
 export type GetManagementFiltersError = CommonErrors;
 
+/** Returns filters to which the user has access. */
 export const getManagementFilters: API.OperationMethod<GetManagementFiltersRequest, GetManagementFiltersResponse, GetManagementFiltersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetManagementFiltersRequest,
   output: GetManagementFiltersResponse,
   errors: [],
 }));
 
-/** Create a new filter. */
 export interface InsertManagementFiltersRequest {
   /** Account ID to create filter for. */
   accountId: string;
@@ -2855,13 +2854,13 @@ export const InsertManagementFiltersResponse = Filter;
 
 export type InsertManagementFiltersError = CommonErrors;
 
+/** Create a new filter. */
 export const insertManagementFilters: API.OperationMethod<InsertManagementFiltersRequest, InsertManagementFiltersResponse, InsertManagementFiltersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertManagementFiltersRequest,
   output: InsertManagementFiltersResponse,
   errors: [],
 }));
 
-/** Lists all filters for an account */
 export interface ListManagementFiltersRequest {
   /** Account ID to retrieve filters for. */
   accountId: string;
@@ -2885,13 +2884,13 @@ export const ListManagementFiltersResponse = Filters;
 
 export type ListManagementFiltersError = CommonErrors;
 
+/** Lists all filters for an account */
 export const listManagementFilters: API.OperationMethod<ListManagementFiltersRequest, ListManagementFiltersResponse, ListManagementFiltersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListManagementFiltersRequest,
   output: ListManagementFiltersResponse,
   errors: [],
 }));
 
-/** Updates an existing filter. This method supports patch semantics. */
 export interface PatchManagementFiltersRequest {
   /** Account ID to which the filter belongs. */
   accountId: string;
@@ -2915,13 +2914,13 @@ export const PatchManagementFiltersResponse = Filter;
 
 export type PatchManagementFiltersError = CommonErrors;
 
+/** Updates an existing filter. This method supports patch semantics. */
 export const patchManagementFilters: API.OperationMethod<PatchManagementFiltersRequest, PatchManagementFiltersResponse, PatchManagementFiltersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchManagementFiltersRequest,
   output: PatchManagementFiltersResponse,
   errors: [],
 }));
 
-/** Updates an existing filter. */
 export interface UpdateManagementFiltersRequest {
   /** Account ID to which the filter belongs. */
   accountId: string;
@@ -2945,13 +2944,13 @@ export const UpdateManagementFiltersResponse = Filter;
 
 export type UpdateManagementFiltersError = CommonErrors;
 
+/** Updates an existing filter. */
 export const updateManagementFilters: API.OperationMethod<UpdateManagementFiltersRequest, UpdateManagementFiltersResponse, UpdateManagementFiltersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateManagementFiltersRequest,
   output: UpdateManagementFiltersResponse,
   errors: [],
 }));
 
-/** Gets a goal to which the user has access. */
 export interface GetManagementGoalsRequest {
   /** Account ID to retrieve the goal for. */
   accountId: string;
@@ -2978,13 +2977,13 @@ export const GetManagementGoalsResponse = Goal;
 
 export type GetManagementGoalsError = CommonErrors;
 
+/** Gets a goal to which the user has access. */
 export const getManagementGoals: API.OperationMethod<GetManagementGoalsRequest, GetManagementGoalsResponse, GetManagementGoalsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetManagementGoalsRequest,
   output: GetManagementGoalsResponse,
   errors: [],
 }));
 
-/** Create a new goal. */
 export interface InsertManagementGoalsRequest {
   /** Account ID to create the goal for. */
   accountId: string;
@@ -3011,13 +3010,13 @@ export const InsertManagementGoalsResponse = Goal;
 
 export type InsertManagementGoalsError = CommonErrors;
 
+/** Create a new goal. */
 export const insertManagementGoals: API.OperationMethod<InsertManagementGoalsRequest, InsertManagementGoalsResponse, InsertManagementGoalsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertManagementGoalsRequest,
   output: InsertManagementGoalsResponse,
   errors: [],
 }));
 
-/** Lists goals to which the user has access. */
 export interface ListManagementGoalsRequest {
   /** Account ID to retrieve goals for. Can either be a specific account ID or '~all', which refers to all the accounts that user has access to. */
   accountId: string;
@@ -3047,13 +3046,13 @@ export const ListManagementGoalsResponse = Goals;
 
 export type ListManagementGoalsError = CommonErrors;
 
+/** Lists goals to which the user has access. */
 export const listManagementGoals: API.OperationMethod<ListManagementGoalsRequest, ListManagementGoalsResponse, ListManagementGoalsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListManagementGoalsRequest,
   output: ListManagementGoalsResponse,
   errors: [],
 }));
 
-/** Updates an existing goal. This method supports patch semantics. */
 export interface PatchManagementGoalsRequest {
   /** Account ID to update the goal. */
   accountId: string;
@@ -3083,13 +3082,13 @@ export const PatchManagementGoalsResponse = Goal;
 
 export type PatchManagementGoalsError = CommonErrors;
 
+/** Updates an existing goal. This method supports patch semantics. */
 export const patchManagementGoals: API.OperationMethod<PatchManagementGoalsRequest, PatchManagementGoalsResponse, PatchManagementGoalsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchManagementGoalsRequest,
   output: PatchManagementGoalsResponse,
   errors: [],
 }));
 
-/** Updates an existing goal. */
 export interface UpdateManagementGoalsRequest {
   /** Account ID to update the goal. */
   accountId: string;
@@ -3119,13 +3118,13 @@ export const UpdateManagementGoalsResponse = Goal;
 
 export type UpdateManagementGoalsError = CommonErrors;
 
+/** Updates an existing goal. */
 export const updateManagementGoals: API.OperationMethod<UpdateManagementGoalsRequest, UpdateManagementGoalsResponse, UpdateManagementGoalsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateManagementGoalsRequest,
   output: UpdateManagementGoalsResponse,
   errors: [],
 }));
 
-/** Delete a profile filter link. */
 export interface DeleteManagementProfileFilterLinksRequest {
   /** Account ID to which the profile filter link belongs. */
   accountId: string;
@@ -3152,13 +3151,13 @@ export const DeleteManagementProfileFilterLinksResponse: Schema.Schema<DeleteMan
 
 export type DeleteManagementProfileFilterLinksError = CommonErrors;
 
+/** Delete a profile filter link. */
 export const deleteManagementProfileFilterLinks: API.OperationMethod<DeleteManagementProfileFilterLinksRequest, DeleteManagementProfileFilterLinksResponse, DeleteManagementProfileFilterLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteManagementProfileFilterLinksRequest,
   output: DeleteManagementProfileFilterLinksResponse,
   errors: [],
 }));
 
-/** Returns a single profile filter link. */
 export interface GetManagementProfileFilterLinksRequest {
   /** Account ID to retrieve profile filter link for. */
   accountId: string;
@@ -3185,13 +3184,13 @@ export const GetManagementProfileFilterLinksResponse = ProfileFilterLink;
 
 export type GetManagementProfileFilterLinksError = CommonErrors;
 
+/** Returns a single profile filter link. */
 export const getManagementProfileFilterLinks: API.OperationMethod<GetManagementProfileFilterLinksRequest, GetManagementProfileFilterLinksResponse, GetManagementProfileFilterLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetManagementProfileFilterLinksRequest,
   output: GetManagementProfileFilterLinksResponse,
   errors: [],
 }));
 
-/** Create a new profile filter link. */
 export interface InsertManagementProfileFilterLinksRequest {
   /** Account ID to create profile filter link for. */
   accountId: string;
@@ -3218,13 +3217,13 @@ export const InsertManagementProfileFilterLinksResponse = ProfileFilterLink;
 
 export type InsertManagementProfileFilterLinksError = CommonErrors;
 
+/** Create a new profile filter link. */
 export const insertManagementProfileFilterLinks: API.OperationMethod<InsertManagementProfileFilterLinksRequest, InsertManagementProfileFilterLinksResponse, InsertManagementProfileFilterLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertManagementProfileFilterLinksRequest,
   output: InsertManagementProfileFilterLinksResponse,
   errors: [],
 }));
 
-/** Lists all profile filter links for a profile. */
 export interface ListManagementProfileFilterLinksRequest {
   /** Account ID to retrieve profile filter links for. */
   accountId: string;
@@ -3254,13 +3253,13 @@ export const ListManagementProfileFilterLinksResponse = ProfileFilterLinks;
 
 export type ListManagementProfileFilterLinksError = CommonErrors;
 
+/** Lists all profile filter links for a profile. */
 export const listManagementProfileFilterLinks: API.OperationMethod<ListManagementProfileFilterLinksRequest, ListManagementProfileFilterLinksResponse, ListManagementProfileFilterLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListManagementProfileFilterLinksRequest,
   output: ListManagementProfileFilterLinksResponse,
   errors: [],
 }));
 
-/** Update an existing profile filter link. This method supports patch semantics. */
 export interface PatchManagementProfileFilterLinksRequest {
   /** Account ID to which profile filter link belongs. */
   accountId: string;
@@ -3290,13 +3289,13 @@ export const PatchManagementProfileFilterLinksResponse = ProfileFilterLink;
 
 export type PatchManagementProfileFilterLinksError = CommonErrors;
 
+/** Update an existing profile filter link. This method supports patch semantics. */
 export const patchManagementProfileFilterLinks: API.OperationMethod<PatchManagementProfileFilterLinksRequest, PatchManagementProfileFilterLinksResponse, PatchManagementProfileFilterLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchManagementProfileFilterLinksRequest,
   output: PatchManagementProfileFilterLinksResponse,
   errors: [],
 }));
 
-/** Update an existing profile filter link. */
 export interface UpdateManagementProfileFilterLinksRequest {
   /** Account ID to which profile filter link belongs. */
   accountId: string;
@@ -3326,13 +3325,13 @@ export const UpdateManagementProfileFilterLinksResponse = ProfileFilterLink;
 
 export type UpdateManagementProfileFilterLinksError = CommonErrors;
 
+/** Update an existing profile filter link. */
 export const updateManagementProfileFilterLinks: API.OperationMethod<UpdateManagementProfileFilterLinksRequest, UpdateManagementProfileFilterLinksResponse, UpdateManagementProfileFilterLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateManagementProfileFilterLinksRequest,
   output: UpdateManagementProfileFilterLinksResponse,
   errors: [],
 }));
 
-/** Removes a user from the given view (profile). */
 export interface DeleteManagementProfileUserLinksRequest {
   /** Account ID to delete the user link for. */
   accountId: string;
@@ -3359,13 +3358,13 @@ export const DeleteManagementProfileUserLinksResponse: Schema.Schema<DeleteManag
 
 export type DeleteManagementProfileUserLinksError = CommonErrors;
 
+/** Removes a user from the given view (profile). */
 export const deleteManagementProfileUserLinks: API.OperationMethod<DeleteManagementProfileUserLinksRequest, DeleteManagementProfileUserLinksResponse, DeleteManagementProfileUserLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteManagementProfileUserLinksRequest,
   output: DeleteManagementProfileUserLinksResponse,
   errors: [],
 }));
 
-/** Adds a new user to the given view (profile). */
 export interface InsertManagementProfileUserLinksRequest {
   /** Account ID to create the user link for. */
   accountId: string;
@@ -3392,13 +3391,13 @@ export const InsertManagementProfileUserLinksResponse = EntityUserLink;
 
 export type InsertManagementProfileUserLinksError = CommonErrors;
 
+/** Adds a new user to the given view (profile). */
 export const insertManagementProfileUserLinks: API.OperationMethod<InsertManagementProfileUserLinksRequest, InsertManagementProfileUserLinksResponse, InsertManagementProfileUserLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertManagementProfileUserLinksRequest,
   output: InsertManagementProfileUserLinksResponse,
   errors: [],
 }));
 
-/** Lists profile-user links for a given view (profile). */
 export interface ListManagementProfileUserLinksRequest {
   /** Account ID which the given view (profile) belongs to. */
   accountId: string;
@@ -3428,13 +3427,13 @@ export const ListManagementProfileUserLinksResponse = EntityUserLinks;
 
 export type ListManagementProfileUserLinksError = CommonErrors;
 
+/** Lists profile-user links for a given view (profile). */
 export const listManagementProfileUserLinks: API.OperationMethod<ListManagementProfileUserLinksRequest, ListManagementProfileUserLinksResponse, ListManagementProfileUserLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListManagementProfileUserLinksRequest,
   output: ListManagementProfileUserLinksResponse,
   errors: [],
 }));
 
-/** Updates permissions for an existing user on the given view (profile). */
 export interface UpdateManagementProfileUserLinksRequest {
   /** Account ID to update the user link for. */
   accountId: string;
@@ -3464,13 +3463,13 @@ export const UpdateManagementProfileUserLinksResponse = EntityUserLink;
 
 export type UpdateManagementProfileUserLinksError = CommonErrors;
 
+/** Updates permissions for an existing user on the given view (profile). */
 export const updateManagementProfileUserLinks: API.OperationMethod<UpdateManagementProfileUserLinksRequest, UpdateManagementProfileUserLinksResponse, UpdateManagementProfileUserLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateManagementProfileUserLinksRequest,
   output: UpdateManagementProfileUserLinksResponse,
   errors: [],
 }));
 
-/** Deletes a view (profile). */
 export interface DeleteManagementProfilesRequest {
   /** Account ID to delete the view (profile) for. */
   accountId: string;
@@ -3494,13 +3493,13 @@ export const DeleteManagementProfilesResponse: Schema.Schema<DeleteManagementPro
 
 export type DeleteManagementProfilesError = CommonErrors;
 
+/** Deletes a view (profile). */
 export const deleteManagementProfiles: API.OperationMethod<DeleteManagementProfilesRequest, DeleteManagementProfilesResponse, DeleteManagementProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteManagementProfilesRequest,
   output: DeleteManagementProfilesResponse,
   errors: [],
 }));
 
-/** Gets a view (profile) to which the user has access. */
 export interface GetManagementProfilesRequest {
   /** Account ID to retrieve the view (profile) for. */
   accountId: string;
@@ -3524,13 +3523,13 @@ export const GetManagementProfilesResponse = Profile;
 
 export type GetManagementProfilesError = CommonErrors;
 
+/** Gets a view (profile) to which the user has access. */
 export const getManagementProfiles: API.OperationMethod<GetManagementProfilesRequest, GetManagementProfilesResponse, GetManagementProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetManagementProfilesRequest,
   output: GetManagementProfilesResponse,
   errors: [],
 }));
 
-/** Create a new view (profile). */
 export interface InsertManagementProfilesRequest {
   /** Account ID to create the view (profile) for. */
   accountId: string;
@@ -3554,13 +3553,13 @@ export const InsertManagementProfilesResponse = Profile;
 
 export type InsertManagementProfilesError = CommonErrors;
 
+/** Create a new view (profile). */
 export const insertManagementProfiles: API.OperationMethod<InsertManagementProfilesRequest, InsertManagementProfilesResponse, InsertManagementProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertManagementProfilesRequest,
   output: InsertManagementProfilesResponse,
   errors: [],
 }));
 
-/** Lists views (profiles) to which the user has access. */
 export interface ListManagementProfilesRequest {
   /** Account ID for the view (profiles) to retrieve. Can either be a specific account ID or '~all', which refers to all the accounts to which the user has access. */
   accountId: string;
@@ -3587,13 +3586,13 @@ export const ListManagementProfilesResponse = Profiles;
 
 export type ListManagementProfilesError = CommonErrors;
 
+/** Lists views (profiles) to which the user has access. */
 export const listManagementProfiles: API.OperationMethod<ListManagementProfilesRequest, ListManagementProfilesResponse, ListManagementProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListManagementProfilesRequest,
   output: ListManagementProfilesResponse,
   errors: [],
 }));
 
-/** Updates an existing view (profile). This method supports patch semantics. */
 export interface PatchManagementProfilesRequest {
   /** Account ID to which the view (profile) belongs */
   accountId: string;
@@ -3620,13 +3619,13 @@ export const PatchManagementProfilesResponse = Profile;
 
 export type PatchManagementProfilesError = CommonErrors;
 
+/** Updates an existing view (profile). This method supports patch semantics. */
 export const patchManagementProfiles: API.OperationMethod<PatchManagementProfilesRequest, PatchManagementProfilesResponse, PatchManagementProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchManagementProfilesRequest,
   output: PatchManagementProfilesResponse,
   errors: [],
 }));
 
-/** Updates an existing view (profile). */
 export interface UpdateManagementProfilesRequest {
   /** Account ID to which the view (profile) belongs */
   accountId: string;
@@ -3653,13 +3652,13 @@ export const UpdateManagementProfilesResponse = Profile;
 
 export type UpdateManagementProfilesError = CommonErrors;
 
+/** Updates an existing view (profile). */
 export const updateManagementProfiles: API.OperationMethod<UpdateManagementProfilesRequest, UpdateManagementProfilesResponse, UpdateManagementProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateManagementProfilesRequest,
   output: UpdateManagementProfilesResponse,
   errors: [],
 }));
 
-/** Delete a remarketing audience. */
 export interface DeleteManagementRemarketingAudienceRequest {
   /** Account ID to which the remarketing audience belongs. */
   accountId: string;
@@ -3683,13 +3682,13 @@ export const DeleteManagementRemarketingAudienceResponse: Schema.Schema<DeleteMa
 
 export type DeleteManagementRemarketingAudienceError = CommonErrors;
 
+/** Delete a remarketing audience. */
 export const deleteManagementRemarketingAudience: API.OperationMethod<DeleteManagementRemarketingAudienceRequest, DeleteManagementRemarketingAudienceResponse, DeleteManagementRemarketingAudienceError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteManagementRemarketingAudienceRequest,
   output: DeleteManagementRemarketingAudienceResponse,
   errors: [],
 }));
 
-/** Gets a remarketing audience to which the user has access. */
 export interface GetManagementRemarketingAudienceRequest {
   /** The account ID of the remarketing audience to retrieve. */
   accountId: string;
@@ -3713,13 +3712,13 @@ export const GetManagementRemarketingAudienceResponse = RemarketingAudience;
 
 export type GetManagementRemarketingAudienceError = CommonErrors;
 
+/** Gets a remarketing audience to which the user has access. */
 export const getManagementRemarketingAudience: API.OperationMethod<GetManagementRemarketingAudienceRequest, GetManagementRemarketingAudienceResponse, GetManagementRemarketingAudienceError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetManagementRemarketingAudienceRequest,
   output: GetManagementRemarketingAudienceResponse,
   errors: [],
 }));
 
-/** Creates a new remarketing audience. */
 export interface InsertManagementRemarketingAudienceRequest {
   /** The account ID for which to create the remarketing audience. */
   accountId: string;
@@ -3743,13 +3742,13 @@ export const InsertManagementRemarketingAudienceResponse = RemarketingAudience;
 
 export type InsertManagementRemarketingAudienceError = CommonErrors;
 
+/** Creates a new remarketing audience. */
 export const insertManagementRemarketingAudience: API.OperationMethod<InsertManagementRemarketingAudienceRequest, InsertManagementRemarketingAudienceResponse, InsertManagementRemarketingAudienceError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertManagementRemarketingAudienceRequest,
   output: InsertManagementRemarketingAudienceResponse,
   errors: [],
 }));
 
-/** Lists remarketing audiences to which the user has access. */
 export interface ListManagementRemarketingAudienceRequest {
   /** The account ID of the remarketing audiences to retrieve. */
   accountId: string;
@@ -3778,13 +3777,13 @@ export const ListManagementRemarketingAudienceResponse = RemarketingAudiences;
 
 export type ListManagementRemarketingAudienceError = CommonErrors;
 
+/** Lists remarketing audiences to which the user has access. */
 export const listManagementRemarketingAudience: API.OperationMethod<ListManagementRemarketingAudienceRequest, ListManagementRemarketingAudienceResponse, ListManagementRemarketingAudienceError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListManagementRemarketingAudienceRequest,
   output: ListManagementRemarketingAudienceResponse,
   errors: [],
 }));
 
-/** Updates an existing remarketing audience. This method supports patch semantics. */
 export interface PatchManagementRemarketingAudienceRequest {
   /** The account ID of the remarketing audience to update. */
   accountId: string;
@@ -3811,13 +3810,13 @@ export const PatchManagementRemarketingAudienceResponse = RemarketingAudience;
 
 export type PatchManagementRemarketingAudienceError = CommonErrors;
 
+/** Updates an existing remarketing audience. This method supports patch semantics. */
 export const patchManagementRemarketingAudience: API.OperationMethod<PatchManagementRemarketingAudienceRequest, PatchManagementRemarketingAudienceResponse, PatchManagementRemarketingAudienceError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchManagementRemarketingAudienceRequest,
   output: PatchManagementRemarketingAudienceResponse,
   errors: [],
 }));
 
-/** Updates an existing remarketing audience. */
 export interface UpdateManagementRemarketingAudienceRequest {
   /** The account ID of the remarketing audience to update. */
   accountId: string;
@@ -3844,13 +3843,13 @@ export const UpdateManagementRemarketingAudienceResponse = RemarketingAudience;
 
 export type UpdateManagementRemarketingAudienceError = CommonErrors;
 
+/** Updates an existing remarketing audience. */
 export const updateManagementRemarketingAudience: API.OperationMethod<UpdateManagementRemarketingAudienceRequest, UpdateManagementRemarketingAudienceResponse, UpdateManagementRemarketingAudienceError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateManagementRemarketingAudienceRequest,
   output: UpdateManagementRemarketingAudienceResponse,
   errors: [],
 }));
 
-/** Lists segments to which the user has access. */
 export interface ListManagementSegmentsRequest {
   /** The maximum number of segments to include in this response. */
   "max-results"?: number;
@@ -3871,13 +3870,13 @@ export const ListManagementSegmentsResponse = Segments;
 
 export type ListManagementSegmentsError = CommonErrors;
 
+/** Lists segments to which the user has access. */
 export const listManagementSegments: API.OperationMethod<ListManagementSegmentsRequest, ListManagementSegmentsResponse, ListManagementSegmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListManagementSegmentsRequest,
   output: ListManagementSegmentsResponse,
   errors: [],
 }));
 
-/** Deletes an unsampled report. */
 export interface DeleteManagementUnsampledReportsRequest {
   /** Account ID to delete the unsampled report for. */
   accountId: string;
@@ -3904,13 +3903,13 @@ export const DeleteManagementUnsampledReportsResponse: Schema.Schema<DeleteManag
 
 export type DeleteManagementUnsampledReportsError = CommonErrors;
 
+/** Deletes an unsampled report. */
 export const deleteManagementUnsampledReports: API.OperationMethod<DeleteManagementUnsampledReportsRequest, DeleteManagementUnsampledReportsResponse, DeleteManagementUnsampledReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteManagementUnsampledReportsRequest,
   output: DeleteManagementUnsampledReportsResponse,
   errors: [],
 }));
 
-/** Returns a single unsampled report. */
 export interface GetManagementUnsampledReportsRequest {
   /** Account ID to retrieve unsampled report for. */
   accountId: string;
@@ -3937,13 +3936,13 @@ export const GetManagementUnsampledReportsResponse = UnsampledReport;
 
 export type GetManagementUnsampledReportsError = CommonErrors;
 
+/** Returns a single unsampled report. */
 export const getManagementUnsampledReports: API.OperationMethod<GetManagementUnsampledReportsRequest, GetManagementUnsampledReportsResponse, GetManagementUnsampledReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetManagementUnsampledReportsRequest,
   output: GetManagementUnsampledReportsResponse,
   errors: [],
 }));
 
-/** Create a new unsampled report. */
 export interface InsertManagementUnsampledReportsRequest {
   /** Account ID to create the unsampled report for. */
   accountId: string;
@@ -3970,13 +3969,13 @@ export const InsertManagementUnsampledReportsResponse = UnsampledReport;
 
 export type InsertManagementUnsampledReportsError = CommonErrors;
 
+/** Create a new unsampled report. */
 export const insertManagementUnsampledReports: API.OperationMethod<InsertManagementUnsampledReportsRequest, InsertManagementUnsampledReportsResponse, InsertManagementUnsampledReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertManagementUnsampledReportsRequest,
   output: InsertManagementUnsampledReportsResponse,
   errors: [],
 }));
 
-/** Lists unsampled reports to which the user has access. */
 export interface ListManagementUnsampledReportsRequest {
   /** Account ID to retrieve unsampled reports for. Must be a specific account ID, ~all is not supported. */
   accountId: string;
@@ -4006,13 +4005,13 @@ export const ListManagementUnsampledReportsResponse = UnsampledReports;
 
 export type ListManagementUnsampledReportsError = CommonErrors;
 
+/** Lists unsampled reports to which the user has access. */
 export const listManagementUnsampledReports: API.OperationMethod<ListManagementUnsampledReportsRequest, ListManagementUnsampledReportsResponse, ListManagementUnsampledReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListManagementUnsampledReportsRequest,
   output: ListManagementUnsampledReportsResponse,
   errors: [],
 }));
 
-/** Delete data associated with a previous upload. */
 export interface DeleteUploadDataManagementUploadsRequest {
   /** Account Id for the uploads to be deleted. */
   accountId: string;
@@ -4039,13 +4038,13 @@ export const DeleteUploadDataManagementUploadsResponse: Schema.Schema<DeleteUplo
 
 export type DeleteUploadDataManagementUploadsError = CommonErrors;
 
+/** Delete data associated with a previous upload. */
 export const deleteUploadDataManagementUploads: API.OperationMethod<DeleteUploadDataManagementUploadsRequest, DeleteUploadDataManagementUploadsResponse, DeleteUploadDataManagementUploadsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteUploadDataManagementUploadsRequest,
   output: DeleteUploadDataManagementUploadsResponse,
   errors: [],
 }));
 
-/** List uploads to which the user has access. */
 export interface GetManagementUploadsRequest {
   /** Account Id for the upload to retrieve. */
   accountId: string;
@@ -4072,13 +4071,13 @@ export const GetManagementUploadsResponse = Upload;
 
 export type GetManagementUploadsError = CommonErrors;
 
+/** List uploads to which the user has access. */
 export const getManagementUploads: API.OperationMethod<GetManagementUploadsRequest, GetManagementUploadsResponse, GetManagementUploadsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetManagementUploadsRequest,
   output: GetManagementUploadsResponse,
   errors: [],
 }));
 
-/** List uploads to which the user has access. */
 export interface ListManagementUploadsRequest {
   /** Account Id for the uploads to retrieve. */
   accountId: string;
@@ -4108,13 +4107,13 @@ export const ListManagementUploadsResponse = Uploads;
 
 export type ListManagementUploadsError = CommonErrors;
 
+/** List uploads to which the user has access. */
 export const listManagementUploads: API.OperationMethod<ListManagementUploadsRequest, ListManagementUploadsResponse, ListManagementUploadsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListManagementUploadsRequest,
   output: ListManagementUploadsResponse,
   errors: [],
 }));
 
-/** Upload data for a custom data source. */
 export interface UploadDataManagementUploadsRequest {
   /** Account Id associated with the upload. */
   accountId: string;
@@ -4138,13 +4137,13 @@ export const UploadDataManagementUploadsResponse = Upload;
 
 export type UploadDataManagementUploadsError = CommonErrors;
 
+/** Upload data for a custom data source. */
 export const uploadDataManagementUploads: API.OperationMethod<UploadDataManagementUploadsRequest, UploadDataManagementUploadsResponse, UploadDataManagementUploadsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadDataManagementUploadsRequest,
   output: UploadDataManagementUploadsResponse,
   errors: [],
 }));
 
-/** Deletes a web property-Google Ads link. */
 export interface DeleteManagementWebPropertyAdWordsLinksRequest {
   /** ID of the account which the given web property belongs to. */
   accountId: string;
@@ -4168,13 +4167,13 @@ export const DeleteManagementWebPropertyAdWordsLinksResponse: Schema.Schema<Dele
 
 export type DeleteManagementWebPropertyAdWordsLinksError = CommonErrors;
 
+/** Deletes a web property-Google Ads link. */
 export const deleteManagementWebPropertyAdWordsLinks: API.OperationMethod<DeleteManagementWebPropertyAdWordsLinksRequest, DeleteManagementWebPropertyAdWordsLinksResponse, DeleteManagementWebPropertyAdWordsLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteManagementWebPropertyAdWordsLinksRequest,
   output: DeleteManagementWebPropertyAdWordsLinksResponse,
   errors: [],
 }));
 
-/** Returns a web property-Google Ads link to which the user has access. */
 export interface GetManagementWebPropertyAdWordsLinksRequest {
   /** ID of the account which the given web property belongs to. */
   accountId: string;
@@ -4198,13 +4197,13 @@ export const GetManagementWebPropertyAdWordsLinksResponse = EntityAdWordsLink;
 
 export type GetManagementWebPropertyAdWordsLinksError = CommonErrors;
 
+/** Returns a web property-Google Ads link to which the user has access. */
 export const getManagementWebPropertyAdWordsLinks: API.OperationMethod<GetManagementWebPropertyAdWordsLinksRequest, GetManagementWebPropertyAdWordsLinksResponse, GetManagementWebPropertyAdWordsLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetManagementWebPropertyAdWordsLinksRequest,
   output: GetManagementWebPropertyAdWordsLinksResponse,
   errors: [],
 }));
 
-/** Creates a webProperty-Google Ads link. */
 export interface InsertManagementWebPropertyAdWordsLinksRequest {
   /** ID of the Google Analytics account to create the link for. */
   accountId: string;
@@ -4228,13 +4227,13 @@ export const InsertManagementWebPropertyAdWordsLinksResponse = EntityAdWordsLink
 
 export type InsertManagementWebPropertyAdWordsLinksError = CommonErrors;
 
+/** Creates a webProperty-Google Ads link. */
 export const insertManagementWebPropertyAdWordsLinks: API.OperationMethod<InsertManagementWebPropertyAdWordsLinksRequest, InsertManagementWebPropertyAdWordsLinksResponse, InsertManagementWebPropertyAdWordsLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertManagementWebPropertyAdWordsLinksRequest,
   output: InsertManagementWebPropertyAdWordsLinksResponse,
   errors: [],
 }));
 
-/** Lists webProperty-Google Ads links for a given web property. */
 export interface ListManagementWebPropertyAdWordsLinksRequest {
   /** ID of the account which the given web property belongs to. */
   accountId: string;
@@ -4261,13 +4260,13 @@ export const ListManagementWebPropertyAdWordsLinksResponse = EntityAdWordsLinks;
 
 export type ListManagementWebPropertyAdWordsLinksError = CommonErrors;
 
+/** Lists webProperty-Google Ads links for a given web property. */
 export const listManagementWebPropertyAdWordsLinks: API.OperationMethod<ListManagementWebPropertyAdWordsLinksRequest, ListManagementWebPropertyAdWordsLinksResponse, ListManagementWebPropertyAdWordsLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListManagementWebPropertyAdWordsLinksRequest,
   output: ListManagementWebPropertyAdWordsLinksResponse,
   errors: [],
 }));
 
-/** Updates an existing webProperty-Google Ads link. This method supports patch semantics. */
 export interface PatchManagementWebPropertyAdWordsLinksRequest {
   /** ID of the account which the given web property belongs to. */
   accountId: string;
@@ -4294,13 +4293,13 @@ export const PatchManagementWebPropertyAdWordsLinksResponse = EntityAdWordsLink;
 
 export type PatchManagementWebPropertyAdWordsLinksError = CommonErrors;
 
+/** Updates an existing webProperty-Google Ads link. This method supports patch semantics. */
 export const patchManagementWebPropertyAdWordsLinks: API.OperationMethod<PatchManagementWebPropertyAdWordsLinksRequest, PatchManagementWebPropertyAdWordsLinksResponse, PatchManagementWebPropertyAdWordsLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchManagementWebPropertyAdWordsLinksRequest,
   output: PatchManagementWebPropertyAdWordsLinksResponse,
   errors: [],
 }));
 
-/** Updates an existing webProperty-Google Ads link. */
 export interface UpdateManagementWebPropertyAdWordsLinksRequest {
   /** ID of the account which the given web property belongs to. */
   accountId: string;
@@ -4327,13 +4326,13 @@ export const UpdateManagementWebPropertyAdWordsLinksResponse = EntityAdWordsLink
 
 export type UpdateManagementWebPropertyAdWordsLinksError = CommonErrors;
 
+/** Updates an existing webProperty-Google Ads link. */
 export const updateManagementWebPropertyAdWordsLinks: API.OperationMethod<UpdateManagementWebPropertyAdWordsLinksRequest, UpdateManagementWebPropertyAdWordsLinksResponse, UpdateManagementWebPropertyAdWordsLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateManagementWebPropertyAdWordsLinksRequest,
   output: UpdateManagementWebPropertyAdWordsLinksResponse,
   errors: [],
 }));
 
-/** Gets a web property to which the user has access. */
 export interface GetManagementWebpropertiesRequest {
   /** Account ID to retrieve the web property for. */
   accountId: string;
@@ -4354,13 +4353,13 @@ export const GetManagementWebpropertiesResponse = Webproperty;
 
 export type GetManagementWebpropertiesError = CommonErrors;
 
+/** Gets a web property to which the user has access. */
 export const getManagementWebproperties: API.OperationMethod<GetManagementWebpropertiesRequest, GetManagementWebpropertiesResponse, GetManagementWebpropertiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetManagementWebpropertiesRequest,
   output: GetManagementWebpropertiesResponse,
   errors: [],
 }));
 
-/** Create a new property if the account has fewer than 20 properties. Web properties are visible in the Google Analytics interface only if they have at least one profile. */
 export interface InsertManagementWebpropertiesRequest {
   /** Account ID to create the web property for. */
   accountId: string;
@@ -4381,13 +4380,13 @@ export const InsertManagementWebpropertiesResponse = Webproperty;
 
 export type InsertManagementWebpropertiesError = CommonErrors;
 
+/** Create a new property if the account has fewer than 20 properties. Web properties are visible in the Google Analytics interface only if they have at least one profile. */
 export const insertManagementWebproperties: API.OperationMethod<InsertManagementWebpropertiesRequest, InsertManagementWebpropertiesResponse, InsertManagementWebpropertiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertManagementWebpropertiesRequest,
   output: InsertManagementWebpropertiesResponse,
   errors: [],
 }));
 
-/** Lists web properties to which the user has access. */
 export interface ListManagementWebpropertiesRequest {
   /** Account ID to retrieve web properties for. Can either be a specific account ID or '~all', which refers to all the accounts that user has access to. */
   accountId: string;
@@ -4411,13 +4410,13 @@ export const ListManagementWebpropertiesResponse = Webproperties;
 
 export type ListManagementWebpropertiesError = CommonErrors;
 
+/** Lists web properties to which the user has access. */
 export const listManagementWebproperties: API.OperationMethod<ListManagementWebpropertiesRequest, ListManagementWebpropertiesResponse, ListManagementWebpropertiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListManagementWebpropertiesRequest,
   output: ListManagementWebpropertiesResponse,
   errors: [],
 }));
 
-/** Updates an existing web property. This method supports patch semantics. */
 export interface PatchManagementWebpropertiesRequest {
   /** Account ID to which the web property belongs */
   accountId: string;
@@ -4441,13 +4440,13 @@ export const PatchManagementWebpropertiesResponse = Webproperty;
 
 export type PatchManagementWebpropertiesError = CommonErrors;
 
+/** Updates an existing web property. This method supports patch semantics. */
 export const patchManagementWebproperties: API.OperationMethod<PatchManagementWebpropertiesRequest, PatchManagementWebpropertiesResponse, PatchManagementWebpropertiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchManagementWebpropertiesRequest,
   output: PatchManagementWebpropertiesResponse,
   errors: [],
 }));
 
-/** Updates an existing web property. */
 export interface UpdateManagementWebpropertiesRequest {
   /** Account ID to which the web property belongs */
   accountId: string;
@@ -4471,13 +4470,13 @@ export const UpdateManagementWebpropertiesResponse = Webproperty;
 
 export type UpdateManagementWebpropertiesError = CommonErrors;
 
+/** Updates an existing web property. */
 export const updateManagementWebproperties: API.OperationMethod<UpdateManagementWebpropertiesRequest, UpdateManagementWebpropertiesResponse, UpdateManagementWebpropertiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateManagementWebpropertiesRequest,
   output: UpdateManagementWebpropertiesResponse,
   errors: [],
 }));
 
-/** Removes a user from the given web property. */
 export interface DeleteManagementWebpropertyUserLinksRequest {
   /** Account ID to delete the user link for. */
   accountId: string;
@@ -4501,13 +4500,13 @@ export const DeleteManagementWebpropertyUserLinksResponse: Schema.Schema<DeleteM
 
 export type DeleteManagementWebpropertyUserLinksError = CommonErrors;
 
+/** Removes a user from the given web property. */
 export const deleteManagementWebpropertyUserLinks: API.OperationMethod<DeleteManagementWebpropertyUserLinksRequest, DeleteManagementWebpropertyUserLinksResponse, DeleteManagementWebpropertyUserLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteManagementWebpropertyUserLinksRequest,
   output: DeleteManagementWebpropertyUserLinksResponse,
   errors: [],
 }));
 
-/** Adds a new user to the given web property. */
 export interface InsertManagementWebpropertyUserLinksRequest {
   /** Account ID to create the user link for. */
   accountId: string;
@@ -4531,13 +4530,13 @@ export const InsertManagementWebpropertyUserLinksResponse = EntityUserLink;
 
 export type InsertManagementWebpropertyUserLinksError = CommonErrors;
 
+/** Adds a new user to the given web property. */
 export const insertManagementWebpropertyUserLinks: API.OperationMethod<InsertManagementWebpropertyUserLinksRequest, InsertManagementWebpropertyUserLinksResponse, InsertManagementWebpropertyUserLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertManagementWebpropertyUserLinksRequest,
   output: InsertManagementWebpropertyUserLinksResponse,
   errors: [],
 }));
 
-/** Lists webProperty-user links for a given web property. */
 export interface ListManagementWebpropertyUserLinksRequest {
   /** Account ID which the given web property belongs to. */
   accountId: string;
@@ -4564,13 +4563,13 @@ export const ListManagementWebpropertyUserLinksResponse = EntityUserLinks;
 
 export type ListManagementWebpropertyUserLinksError = CommonErrors;
 
+/** Lists webProperty-user links for a given web property. */
 export const listManagementWebpropertyUserLinks: API.OperationMethod<ListManagementWebpropertyUserLinksRequest, ListManagementWebpropertyUserLinksResponse, ListManagementWebpropertyUserLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListManagementWebpropertyUserLinksRequest,
   output: ListManagementWebpropertyUserLinksResponse,
   errors: [],
 }));
 
-/** Updates permissions for an existing user on the given web property. */
 export interface UpdateManagementWebpropertyUserLinksRequest {
   /** Account ID to update the account-user link for. */
   accountId: string;
@@ -4597,13 +4596,13 @@ export const UpdateManagementWebpropertyUserLinksResponse = EntityUserLink;
 
 export type UpdateManagementWebpropertyUserLinksError = CommonErrors;
 
+/** Updates permissions for an existing user on the given web property. */
 export const updateManagementWebpropertyUserLinks: API.OperationMethod<UpdateManagementWebpropertyUserLinksRequest, UpdateManagementWebpropertyUserLinksResponse, UpdateManagementWebpropertyUserLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateManagementWebpropertyUserLinksRequest,
   output: UpdateManagementWebpropertyUserLinksResponse,
   errors: [],
 }));
 
-/** Lists all columns for a report type */
 export interface ListMetadataColumnsRequest {
   /** Report type. Allowed Values: 'ga'. Where 'ga' corresponds to the Core Reporting API */
   reportType: string;
@@ -4621,13 +4620,13 @@ export const ListMetadataColumnsResponse = Columns;
 
 export type ListMetadataColumnsError = CommonErrors;
 
+/** Lists all columns for a report type */
 export const listMetadataColumns: API.OperationMethod<ListMetadataColumnsRequest, ListMetadataColumnsResponse, ListMetadataColumnsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListMetadataColumnsRequest,
   output: ListMetadataColumnsResponse,
   errors: [],
 }));
 
-/** Creates an account ticket. */
 export interface CreateAccountTicketProvisioningRequest {
   /** Request body */
   body?: AccountTicket;
@@ -4645,13 +4644,13 @@ export const CreateAccountTicketProvisioningResponse = AccountTicket;
 
 export type CreateAccountTicketProvisioningError = CommonErrors;
 
+/** Creates an account ticket. */
 export const createAccountTicketProvisioning: API.OperationMethod<CreateAccountTicketProvisioningRequest, CreateAccountTicketProvisioningResponse, CreateAccountTicketProvisioningError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountTicketProvisioningRequest,
   output: CreateAccountTicketProvisioningResponse,
   errors: [],
 }));
 
-/** Provision account. */
 export interface CreateAccountTreeProvisioningRequest {
   /** Request body */
   body?: AccountTreeRequest;
@@ -4669,13 +4668,13 @@ export const CreateAccountTreeProvisioningResponse = AccountTreeResponse;
 
 export type CreateAccountTreeProvisioningError = CommonErrors;
 
+/** Provision account. */
 export const createAccountTreeProvisioning: API.OperationMethod<CreateAccountTreeProvisioningRequest, CreateAccountTreeProvisioningResponse, CreateAccountTreeProvisioningError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountTreeProvisioningRequest,
   output: CreateAccountTreeProvisioningResponse,
   errors: [],
 }));
 
-/** Insert or update a user deletion requests. */
 export interface UpsertUserDeletionUserDeletionRequestRequest {
   /** Request body */
   body?: UserDeletionRequest;
@@ -4693,6 +4692,7 @@ export const UpsertUserDeletionUserDeletionRequestResponse = UserDeletionRequest
 
 export type UpsertUserDeletionUserDeletionRequestError = CommonErrors;
 
+/** Insert or update a user deletion requests. */
 export const upsertUserDeletionUserDeletionRequest: API.OperationMethod<UpsertUserDeletionUserDeletionRequestRequest, UpsertUserDeletionUserDeletionRequestResponse, UpsertUserDeletionUserDeletionRequestError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpsertUserDeletionUserDeletionRequestRequest,
   output: UpsertUserDeletionUserDeletionRequestResponse,

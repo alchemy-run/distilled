@@ -609,7 +609,6 @@ export const TagApiSpecRevisionRequest: Schema.Schema<TagApiSpecRevisionRequest>
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. */
 export interface ListProjectsLocationsRequest {
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string;
@@ -636,7 +635,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -646,7 +646,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -664,13 +663,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsRuntimeRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -691,13 +690,13 @@ export const SetIamPolicyProjectsLocationsRuntimeResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsRuntimeError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsRuntime: API.OperationMethod<SetIamPolicyProjectsLocationsRuntimeRequest, SetIamPolicyProjectsLocationsRuntimeResponse, SetIamPolicyProjectsLocationsRuntimeError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsRuntimeRequest,
   output: SetIamPolicyProjectsLocationsRuntimeResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsRuntimeRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
@@ -718,13 +717,13 @@ export const GetIamPolicyProjectsLocationsRuntimeResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsRuntimeError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsRuntime: API.OperationMethod<GetIamPolicyProjectsLocationsRuntimeRequest, GetIamPolicyProjectsLocationsRuntimeResponse, GetIamPolicyProjectsLocationsRuntimeError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsRuntimeRequest,
   output: GetIamPolicyProjectsLocationsRuntimeResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsRuntimeRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -745,13 +744,13 @@ export const TestIamPermissionsProjectsLocationsRuntimeResponse = TestIamPermiss
 
 export type TestIamPermissionsProjectsLocationsRuntimeError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsRuntime: API.OperationMethod<TestIamPermissionsProjectsLocationsRuntimeRequest, TestIamPermissionsProjectsLocationsRuntimeResponse, TestIamPermissionsProjectsLocationsRuntimeError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsRuntimeRequest,
   output: TestIamPermissionsProjectsLocationsRuntimeResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsDocumentsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -772,13 +771,13 @@ export const TestIamPermissionsProjectsLocationsDocumentsResponse = TestIamPermi
 
 export type TestIamPermissionsProjectsLocationsDocumentsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsDocuments: API.OperationMethod<TestIamPermissionsProjectsLocationsDocumentsRequest, TestIamPermissionsProjectsLocationsDocumentsResponse, TestIamPermissionsProjectsLocationsDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsDocumentsRequest,
   output: TestIamPermissionsProjectsLocationsDocumentsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsDocumentsRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
@@ -799,13 +798,13 @@ export const GetIamPolicyProjectsLocationsDocumentsResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsDocumentsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsDocuments: API.OperationMethod<GetIamPolicyProjectsLocationsDocumentsRequest, GetIamPolicyProjectsLocationsDocumentsResponse, GetIamPolicyProjectsLocationsDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsDocumentsRequest,
   output: GetIamPolicyProjectsLocationsDocumentsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsDocumentsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -826,13 +825,13 @@ export const SetIamPolicyProjectsLocationsDocumentsResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsDocumentsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsDocuments: API.OperationMethod<SetIamPolicyProjectsLocationsDocumentsRequest, SetIamPolicyProjectsLocationsDocumentsResponse, SetIamPolicyProjectsLocationsDocumentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsDocumentsRequest,
   output: SetIamPolicyProjectsLocationsDocumentsResponse,
   errors: [],
 }));
 
-/** Used to modify a specified API. */
 export interface PatchProjectsLocationsApisRequest {
   /** If set to true, and the API is not found, a new API will be created. In this situation, `update_mask` is ignored. */
   allowMissing?: boolean;
@@ -859,13 +858,13 @@ export const PatchProjectsLocationsApisResponse = Api;
 
 export type PatchProjectsLocationsApisError = CommonErrors;
 
+/** Used to modify a specified API. */
 export const patchProjectsLocationsApis: API.OperationMethod<PatchProjectsLocationsApisRequest, PatchProjectsLocationsApisResponse, PatchProjectsLocationsApisError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsApisRequest,
   output: PatchProjectsLocationsApisResponse,
   errors: [],
 }));
 
-/** Removes a specified API and all of the resources that it owns. */
 export interface DeleteProjectsLocationsApisRequest {
   /** Required. The name of the API to delete. Format: `projects/* /locations/* /apis/*` */
   name: string;
@@ -886,13 +885,13 @@ export const DeleteProjectsLocationsApisResponse = Empty;
 
 export type DeleteProjectsLocationsApisError = CommonErrors;
 
+/** Removes a specified API and all of the resources that it owns. */
 export const deleteProjectsLocationsApis: API.OperationMethod<DeleteProjectsLocationsApisRequest, DeleteProjectsLocationsApisResponse, DeleteProjectsLocationsApisError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsApisRequest,
   output: DeleteProjectsLocationsApisResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsApisRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -913,13 +912,13 @@ export const TestIamPermissionsProjectsLocationsApisResponse = TestIamPermission
 
 export type TestIamPermissionsProjectsLocationsApisError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsApis: API.OperationMethod<TestIamPermissionsProjectsLocationsApisRequest, TestIamPermissionsProjectsLocationsApisResponse, TestIamPermissionsProjectsLocationsApisError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsApisRequest,
   output: TestIamPermissionsProjectsLocationsApisResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsApisRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -940,13 +939,13 @@ export const SetIamPolicyProjectsLocationsApisResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsApisError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsApis: API.OperationMethod<SetIamPolicyProjectsLocationsApisRequest, SetIamPolicyProjectsLocationsApisResponse, SetIamPolicyProjectsLocationsApisError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsApisRequest,
   output: SetIamPolicyProjectsLocationsApisResponse,
   errors: [],
 }));
 
-/** Returns a specified API. */
 export interface GetProjectsLocationsApisRequest {
   /** Required. The name of the API to retrieve. Format: `projects/* /locations/* /apis/*` */
   name: string;
@@ -964,13 +963,13 @@ export const GetProjectsLocationsApisResponse = Api;
 
 export type GetProjectsLocationsApisError = CommonErrors;
 
+/** Returns a specified API. */
 export const getProjectsLocationsApis: API.OperationMethod<GetProjectsLocationsApisRequest, GetProjectsLocationsApisResponse, GetProjectsLocationsApisError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsApisRequest,
   output: GetProjectsLocationsApisResponse,
   errors: [],
 }));
 
-/** Creates a specified API. */
 export interface CreateProjectsLocationsApisRequest {
   /** Required. The ID to use for the API, which will become the final component of the API's resource name. This value should be 4-63 characters, and valid characters are /a-z-/. Following AIP-162, IDs must not have the form of a UUID. */
   apiId?: string;
@@ -994,13 +993,13 @@ export const CreateProjectsLocationsApisResponse = Api;
 
 export type CreateProjectsLocationsApisError = CommonErrors;
 
+/** Creates a specified API. */
 export const createProjectsLocationsApis: API.OperationMethod<CreateProjectsLocationsApisRequest, CreateProjectsLocationsApisResponse, CreateProjectsLocationsApisError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsApisRequest,
   output: CreateProjectsLocationsApisResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsApisRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
@@ -1021,13 +1020,13 @@ export const GetIamPolicyProjectsLocationsApisResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsApisError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsApis: API.OperationMethod<GetIamPolicyProjectsLocationsApisRequest, GetIamPolicyProjectsLocationsApisResponse, GetIamPolicyProjectsLocationsApisError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsApisRequest,
   output: GetIamPolicyProjectsLocationsApisResponse,
   errors: [],
 }));
 
-/** Returns matching APIs. */
 export interface ListProjectsLocationsApisRequest {
   /** A comma-separated list of fields, e.g. "foo,bar" Fields can be sorted in descending order using the "desc" identifier, e.g. "foo desc,bar" */
   orderBy?: string;
@@ -1057,7 +1056,8 @@ export const ListProjectsLocationsApisResponse = ListApisResponse;
 
 export type ListProjectsLocationsApisError = CommonErrors;
 
-export const listProjectsLocationsApis = API.makePaginated(() => ({
+/** Returns matching APIs. */
+export const listProjectsLocationsApis: API.PaginatedOperationMethod<ListProjectsLocationsApisRequest, ListProjectsLocationsApisResponse, ListProjectsLocationsApisError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsApisRequest,
   output: ListProjectsLocationsApisResponse,
   errors: [],
@@ -1067,7 +1067,6 @@ export const listProjectsLocationsApis = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a specified artifact. */
 export interface CreateProjectsLocationsApisArtifactsRequest {
   /** Required. The parent, which owns this collection of artifacts. Format: `{parent}` */
   parent: string;
@@ -1091,13 +1090,13 @@ export const CreateProjectsLocationsApisArtifactsResponse = Artifact;
 
 export type CreateProjectsLocationsApisArtifactsError = CommonErrors;
 
+/** Creates a specified artifact. */
 export const createProjectsLocationsApisArtifacts: API.OperationMethod<CreateProjectsLocationsApisArtifactsRequest, CreateProjectsLocationsApisArtifactsResponse, CreateProjectsLocationsApisArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsApisArtifactsRequest,
   output: CreateProjectsLocationsApisArtifactsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsApisArtifactsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1118,13 +1117,13 @@ export const SetIamPolicyProjectsLocationsApisArtifactsResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsApisArtifactsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsApisArtifacts: API.OperationMethod<SetIamPolicyProjectsLocationsApisArtifactsRequest, SetIamPolicyProjectsLocationsApisArtifactsResponse, SetIamPolicyProjectsLocationsApisArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsApisArtifactsRequest,
   output: SetIamPolicyProjectsLocationsApisArtifactsResponse,
   errors: [],
 }));
 
-/** Returns the contents of a specified artifact. If artifacts are stored with GZip compression, the default behavior is to return the artifact uncompressed (the mime_type response field indicates the exact format returned). */
 export interface GetContentsProjectsLocationsApisArtifactsRequest {
   /** Required. The name of the artifact whose contents should be retrieved. Format: `{parent}/artifacts/*` */
   name: string;
@@ -1142,13 +1141,13 @@ export const GetContentsProjectsLocationsApisArtifactsResponse = HttpBody;
 
 export type GetContentsProjectsLocationsApisArtifactsError = CommonErrors;
 
+/** Returns the contents of a specified artifact. If artifacts are stored with GZip compression, the default behavior is to return the artifact uncompressed (the mime_type response field indicates the exact format returned). */
 export const getContentsProjectsLocationsApisArtifacts: API.OperationMethod<GetContentsProjectsLocationsApisArtifactsRequest, GetContentsProjectsLocationsApisArtifactsResponse, GetContentsProjectsLocationsApisArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetContentsProjectsLocationsApisArtifactsRequest,
   output: GetContentsProjectsLocationsApisArtifactsResponse,
   errors: [],
 }));
 
-/** Returns matching artifacts. */
 export interface ListProjectsLocationsApisArtifactsRequest {
   /** A page token, received from a previous `ListArtifacts` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListArtifacts` must match the call that provided the page token. */
   pageToken?: string;
@@ -1178,7 +1177,8 @@ export const ListProjectsLocationsApisArtifactsResponse = ListArtifactsResponse;
 
 export type ListProjectsLocationsApisArtifactsError = CommonErrors;
 
-export const listProjectsLocationsApisArtifacts = API.makePaginated(() => ({
+/** Returns matching artifacts. */
+export const listProjectsLocationsApisArtifacts: API.PaginatedOperationMethod<ListProjectsLocationsApisArtifactsRequest, ListProjectsLocationsApisArtifactsResponse, ListProjectsLocationsApisArtifactsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsApisArtifactsRequest,
   output: ListProjectsLocationsApisArtifactsResponse,
   errors: [],
@@ -1188,7 +1188,6 @@ export const listProjectsLocationsApisArtifacts = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsApisArtifactsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1209,13 +1208,13 @@ export const GetIamPolicyProjectsLocationsApisArtifactsResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsApisArtifactsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsApisArtifacts: API.OperationMethod<GetIamPolicyProjectsLocationsApisArtifactsRequest, GetIamPolicyProjectsLocationsApisArtifactsResponse, GetIamPolicyProjectsLocationsApisArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsApisArtifactsRequest,
   output: GetIamPolicyProjectsLocationsApisArtifactsResponse,
   errors: [],
 }));
 
-/** Returns a specified artifact. */
 export interface GetProjectsLocationsApisArtifactsRequest {
   /** Required. The name of the artifact to retrieve. Format: `{parent}/artifacts/*` */
   name: string;
@@ -1233,13 +1232,13 @@ export const GetProjectsLocationsApisArtifactsResponse = Artifact;
 
 export type GetProjectsLocationsApisArtifactsError = CommonErrors;
 
+/** Returns a specified artifact. */
 export const getProjectsLocationsApisArtifacts: API.OperationMethod<GetProjectsLocationsApisArtifactsRequest, GetProjectsLocationsApisArtifactsResponse, GetProjectsLocationsApisArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsApisArtifactsRequest,
   output: GetProjectsLocationsApisArtifactsResponse,
   errors: [],
 }));
 
-/** Used to replace a specified artifact. */
 export interface ReplaceArtifactProjectsLocationsApisArtifactsRequest {
   /** Resource name. */
   name: string;
@@ -1260,13 +1259,13 @@ export const ReplaceArtifactProjectsLocationsApisArtifactsResponse = Artifact;
 
 export type ReplaceArtifactProjectsLocationsApisArtifactsError = CommonErrors;
 
+/** Used to replace a specified artifact. */
 export const replaceArtifactProjectsLocationsApisArtifacts: API.OperationMethod<ReplaceArtifactProjectsLocationsApisArtifactsRequest, ReplaceArtifactProjectsLocationsApisArtifactsResponse, ReplaceArtifactProjectsLocationsApisArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReplaceArtifactProjectsLocationsApisArtifactsRequest,
   output: ReplaceArtifactProjectsLocationsApisArtifactsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsApisArtifactsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1287,13 +1286,13 @@ export const TestIamPermissionsProjectsLocationsApisArtifactsResponse = TestIamP
 
 export type TestIamPermissionsProjectsLocationsApisArtifactsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsApisArtifacts: API.OperationMethod<TestIamPermissionsProjectsLocationsApisArtifactsRequest, TestIamPermissionsProjectsLocationsApisArtifactsResponse, TestIamPermissionsProjectsLocationsApisArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsApisArtifactsRequest,
   output: TestIamPermissionsProjectsLocationsApisArtifactsResponse,
   errors: [],
 }));
 
-/** Removes a specified artifact. */
 export interface DeleteProjectsLocationsApisArtifactsRequest {
   /** Required. The name of the artifact to delete. Format: `{parent}/artifacts/*` */
   name: string;
@@ -1311,13 +1310,13 @@ export const DeleteProjectsLocationsApisArtifactsResponse = Empty;
 
 export type DeleteProjectsLocationsApisArtifactsError = CommonErrors;
 
+/** Removes a specified artifact. */
 export const deleteProjectsLocationsApisArtifacts: API.OperationMethod<DeleteProjectsLocationsApisArtifactsRequest, DeleteProjectsLocationsApisArtifactsResponse, DeleteProjectsLocationsApisArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsApisArtifactsRequest,
   output: DeleteProjectsLocationsApisArtifactsResponse,
   errors: [],
 }));
 
-/** Returns a specified deployment. */
 export interface GetProjectsLocationsApisDeploymentsRequest {
   /** Required. The name of the deployment to retrieve. Format: `projects/* /locations/* /apis/* /deployments/*` */
   name: string;
@@ -1335,13 +1334,13 @@ export const GetProjectsLocationsApisDeploymentsResponse = ApiDeployment;
 
 export type GetProjectsLocationsApisDeploymentsError = CommonErrors;
 
+/** Returns a specified deployment. */
 export const getProjectsLocationsApisDeployments: API.OperationMethod<GetProjectsLocationsApisDeploymentsRequest, GetProjectsLocationsApisDeploymentsResponse, GetProjectsLocationsApisDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsApisDeploymentsRequest,
   output: GetProjectsLocationsApisDeploymentsResponse,
   errors: [],
 }));
 
-/** Adds a tag to a specified revision of a deployment. */
 export interface TagRevisionProjectsLocationsApisDeploymentsRequest {
   /** Required. The name of the deployment to be tagged, including the revision ID is optional. If a revision is not specified, it will tag the latest revision. */
   name: string;
@@ -1362,13 +1361,13 @@ export const TagRevisionProjectsLocationsApisDeploymentsResponse = ApiDeployment
 
 export type TagRevisionProjectsLocationsApisDeploymentsError = CommonErrors;
 
+/** Adds a tag to a specified revision of a deployment. */
 export const tagRevisionProjectsLocationsApisDeployments: API.OperationMethod<TagRevisionProjectsLocationsApisDeploymentsRequest, TagRevisionProjectsLocationsApisDeploymentsResponse, TagRevisionProjectsLocationsApisDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TagRevisionProjectsLocationsApisDeploymentsRequest,
   output: TagRevisionProjectsLocationsApisDeploymentsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsApisDeploymentsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1389,13 +1388,13 @@ export const SetIamPolicyProjectsLocationsApisDeploymentsResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsApisDeploymentsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsApisDeployments: API.OperationMethod<SetIamPolicyProjectsLocationsApisDeploymentsRequest, SetIamPolicyProjectsLocationsApisDeploymentsResponse, SetIamPolicyProjectsLocationsApisDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsApisDeploymentsRequest,
   output: SetIamPolicyProjectsLocationsApisDeploymentsResponse,
   errors: [],
 }));
 
-/** Used to modify a specified deployment. */
 export interface PatchProjectsLocationsApisDeploymentsRequest {
   /** If set to true, and the deployment is not found, a new deployment will be created. In this situation, `update_mask` is ignored. */
   allowMissing?: boolean;
@@ -1422,13 +1421,13 @@ export const PatchProjectsLocationsApisDeploymentsResponse = ApiDeployment;
 
 export type PatchProjectsLocationsApisDeploymentsError = CommonErrors;
 
+/** Used to modify a specified deployment. */
 export const patchProjectsLocationsApisDeployments: API.OperationMethod<PatchProjectsLocationsApisDeploymentsRequest, PatchProjectsLocationsApisDeploymentsResponse, PatchProjectsLocationsApisDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsApisDeploymentsRequest,
   output: PatchProjectsLocationsApisDeploymentsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsApisDeploymentsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1449,13 +1448,13 @@ export const TestIamPermissionsProjectsLocationsApisDeploymentsResponse = TestIa
 
 export type TestIamPermissionsProjectsLocationsApisDeploymentsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsApisDeployments: API.OperationMethod<TestIamPermissionsProjectsLocationsApisDeploymentsRequest, TestIamPermissionsProjectsLocationsApisDeploymentsResponse, TestIamPermissionsProjectsLocationsApisDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsApisDeploymentsRequest,
   output: TestIamPermissionsProjectsLocationsApisDeploymentsResponse,
   errors: [],
 }));
 
-/** Sets the current revision to a specified prior revision. Note that this creates a new revision with a new revision ID. */
 export interface RollbackProjectsLocationsApisDeploymentsRequest {
   /** Required. The deployment being rolled back. */
   name: string;
@@ -1476,13 +1475,13 @@ export const RollbackProjectsLocationsApisDeploymentsResponse = ApiDeployment;
 
 export type RollbackProjectsLocationsApisDeploymentsError = CommonErrors;
 
+/** Sets the current revision to a specified prior revision. Note that this creates a new revision with a new revision ID. */
 export const rollbackProjectsLocationsApisDeployments: API.OperationMethod<RollbackProjectsLocationsApisDeploymentsRequest, RollbackProjectsLocationsApisDeploymentsResponse, RollbackProjectsLocationsApisDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RollbackProjectsLocationsApisDeploymentsRequest,
   output: RollbackProjectsLocationsApisDeploymentsResponse,
   errors: [],
 }));
 
-/** Deletes a revision of a deployment. */
 export interface DeleteRevisionProjectsLocationsApisDeploymentsRequest {
   /** Required. The name of the deployment revision to be deleted, with a revision ID explicitly included. Example: `projects/sample/locations/global/apis/petstore/deployments/prod@c7cfa2a8` */
   name: string;
@@ -1500,13 +1499,13 @@ export const DeleteRevisionProjectsLocationsApisDeploymentsResponse = ApiDeploym
 
 export type DeleteRevisionProjectsLocationsApisDeploymentsError = CommonErrors;
 
+/** Deletes a revision of a deployment. */
 export const deleteRevisionProjectsLocationsApisDeployments: API.OperationMethod<DeleteRevisionProjectsLocationsApisDeploymentsRequest, DeleteRevisionProjectsLocationsApisDeploymentsResponse, DeleteRevisionProjectsLocationsApisDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRevisionProjectsLocationsApisDeploymentsRequest,
   output: DeleteRevisionProjectsLocationsApisDeploymentsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsApisDeploymentsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1527,13 +1526,13 @@ export const GetIamPolicyProjectsLocationsApisDeploymentsResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsApisDeploymentsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsApisDeployments: API.OperationMethod<GetIamPolicyProjectsLocationsApisDeploymentsRequest, GetIamPolicyProjectsLocationsApisDeploymentsResponse, GetIamPolicyProjectsLocationsApisDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsApisDeploymentsRequest,
   output: GetIamPolicyProjectsLocationsApisDeploymentsResponse,
   errors: [],
 }));
 
-/** Returns matching deployments. */
 export interface ListProjectsLocationsApisDeploymentsRequest {
   /** An expression that can be used to filter the list. Filters use the Common Expression Language and can refer to all message fields. */
   filter?: string;
@@ -1563,7 +1562,8 @@ export const ListProjectsLocationsApisDeploymentsResponse = ListApiDeploymentsRe
 
 export type ListProjectsLocationsApisDeploymentsError = CommonErrors;
 
-export const listProjectsLocationsApisDeployments = API.makePaginated(() => ({
+/** Returns matching deployments. */
+export const listProjectsLocationsApisDeployments: API.PaginatedOperationMethod<ListProjectsLocationsApisDeploymentsRequest, ListProjectsLocationsApisDeploymentsResponse, ListProjectsLocationsApisDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsApisDeploymentsRequest,
   output: ListProjectsLocationsApisDeploymentsResponse,
   errors: [],
@@ -1573,7 +1573,6 @@ export const listProjectsLocationsApisDeployments = API.makePaginated(() => ({
   },
 }));
 
-/** Removes a specified deployment, all revisions, and all child resources (e.g., artifacts). */
 export interface DeleteProjectsLocationsApisDeploymentsRequest {
   /** If set to true, any child resources will also be deleted. (Otherwise, the request will only work if there are no child resources.) */
   force?: boolean;
@@ -1594,13 +1593,13 @@ export const DeleteProjectsLocationsApisDeploymentsResponse = Empty;
 
 export type DeleteProjectsLocationsApisDeploymentsError = CommonErrors;
 
+/** Removes a specified deployment, all revisions, and all child resources (e.g., artifacts). */
 export const deleteProjectsLocationsApisDeployments: API.OperationMethod<DeleteProjectsLocationsApisDeploymentsRequest, DeleteProjectsLocationsApisDeploymentsResponse, DeleteProjectsLocationsApisDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsApisDeploymentsRequest,
   output: DeleteProjectsLocationsApisDeploymentsResponse,
   errors: [],
 }));
 
-/** Creates a specified deployment. */
 export interface CreateProjectsLocationsApisDeploymentsRequest {
   /** Required. The ID to use for the deployment, which will become the final component of the deployment's resource name. This value should be 4-63 characters, and valid characters are /a-z-/. Following AIP-162, IDs must not have the form of a UUID. */
   apiDeploymentId?: string;
@@ -1624,13 +1623,13 @@ export const CreateProjectsLocationsApisDeploymentsResponse = ApiDeployment;
 
 export type CreateProjectsLocationsApisDeploymentsError = CommonErrors;
 
+/** Creates a specified deployment. */
 export const createProjectsLocationsApisDeployments: API.OperationMethod<CreateProjectsLocationsApisDeploymentsRequest, CreateProjectsLocationsApisDeploymentsResponse, CreateProjectsLocationsApisDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsApisDeploymentsRequest,
   output: CreateProjectsLocationsApisDeploymentsResponse,
   errors: [],
 }));
 
-/** Lists all revisions of a deployment. Revisions are returned in descending order of revision creation time. */
 export interface ListRevisionsProjectsLocationsApisDeploymentsRequest {
   /** The page token, received from a previous ListApiDeploymentRevisions call. Provide this to retrieve the subsequent page. */
   pageToken?: string;
@@ -1657,7 +1656,8 @@ export const ListRevisionsProjectsLocationsApisDeploymentsResponse = ListApiDepl
 
 export type ListRevisionsProjectsLocationsApisDeploymentsError = CommonErrors;
 
-export const listRevisionsProjectsLocationsApisDeployments = API.makePaginated(() => ({
+/** Lists all revisions of a deployment. Revisions are returned in descending order of revision creation time. */
+export const listRevisionsProjectsLocationsApisDeployments: API.PaginatedOperationMethod<ListRevisionsProjectsLocationsApisDeploymentsRequest, ListRevisionsProjectsLocationsApisDeploymentsResponse, ListRevisionsProjectsLocationsApisDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRevisionsProjectsLocationsApisDeploymentsRequest,
   output: ListRevisionsProjectsLocationsApisDeploymentsResponse,
   errors: [],
@@ -1667,7 +1667,6 @@ export const listRevisionsProjectsLocationsApisDeployments = API.makePaginated((
   },
 }));
 
-/** Returns a specified artifact. */
 export interface GetProjectsLocationsApisDeploymentsArtifactsRequest {
   /** Required. The name of the artifact to retrieve. Format: `{parent}/artifacts/*` */
   name: string;
@@ -1685,13 +1684,13 @@ export const GetProjectsLocationsApisDeploymentsArtifactsResponse = Artifact;
 
 export type GetProjectsLocationsApisDeploymentsArtifactsError = CommonErrors;
 
+/** Returns a specified artifact. */
 export const getProjectsLocationsApisDeploymentsArtifacts: API.OperationMethod<GetProjectsLocationsApisDeploymentsArtifactsRequest, GetProjectsLocationsApisDeploymentsArtifactsResponse, GetProjectsLocationsApisDeploymentsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsApisDeploymentsArtifactsRequest,
   output: GetProjectsLocationsApisDeploymentsArtifactsResponse,
   errors: [],
 }));
 
-/** Returns matching artifacts. */
 export interface ListProjectsLocationsApisDeploymentsArtifactsRequest {
   /** Required. The parent, which owns this collection of artifacts. Format: `{parent}` */
   parent: string;
@@ -1721,7 +1720,8 @@ export const ListProjectsLocationsApisDeploymentsArtifactsResponse = ListArtifac
 
 export type ListProjectsLocationsApisDeploymentsArtifactsError = CommonErrors;
 
-export const listProjectsLocationsApisDeploymentsArtifacts = API.makePaginated(() => ({
+/** Returns matching artifacts. */
+export const listProjectsLocationsApisDeploymentsArtifacts: API.PaginatedOperationMethod<ListProjectsLocationsApisDeploymentsArtifactsRequest, ListProjectsLocationsApisDeploymentsArtifactsResponse, ListProjectsLocationsApisDeploymentsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsApisDeploymentsArtifactsRequest,
   output: ListProjectsLocationsApisDeploymentsArtifactsResponse,
   errors: [],
@@ -1731,7 +1731,6 @@ export const listProjectsLocationsApisDeploymentsArtifacts = API.makePaginated((
   },
 }));
 
-/** Returns the contents of a specified artifact. If artifacts are stored with GZip compression, the default behavior is to return the artifact uncompressed (the mime_type response field indicates the exact format returned). */
 export interface GetContentsProjectsLocationsApisDeploymentsArtifactsRequest {
   /** Required. The name of the artifact whose contents should be retrieved. Format: `{parent}/artifacts/*` */
   name: string;
@@ -1749,13 +1748,13 @@ export const GetContentsProjectsLocationsApisDeploymentsArtifactsResponse = Http
 
 export type GetContentsProjectsLocationsApisDeploymentsArtifactsError = CommonErrors;
 
+/** Returns the contents of a specified artifact. If artifacts are stored with GZip compression, the default behavior is to return the artifact uncompressed (the mime_type response field indicates the exact format returned). */
 export const getContentsProjectsLocationsApisDeploymentsArtifacts: API.OperationMethod<GetContentsProjectsLocationsApisDeploymentsArtifactsRequest, GetContentsProjectsLocationsApisDeploymentsArtifactsResponse, GetContentsProjectsLocationsApisDeploymentsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetContentsProjectsLocationsApisDeploymentsArtifactsRequest,
   output: GetContentsProjectsLocationsApisDeploymentsArtifactsResponse,
   errors: [],
 }));
 
-/** Creates a specified artifact. */
 export interface CreateProjectsLocationsApisDeploymentsArtifactsRequest {
   /** Required. The ID to use for the artifact, which will become the final component of the artifact's resource name. This value should be 4-63 characters, and valid characters are /a-z-/. Following AIP-162, IDs must not have the form of a UUID. */
   artifactId?: string;
@@ -1779,13 +1778,13 @@ export const CreateProjectsLocationsApisDeploymentsArtifactsResponse = Artifact;
 
 export type CreateProjectsLocationsApisDeploymentsArtifactsError = CommonErrors;
 
+/** Creates a specified artifact. */
 export const createProjectsLocationsApisDeploymentsArtifacts: API.OperationMethod<CreateProjectsLocationsApisDeploymentsArtifactsRequest, CreateProjectsLocationsApisDeploymentsArtifactsResponse, CreateProjectsLocationsApisDeploymentsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsApisDeploymentsArtifactsRequest,
   output: CreateProjectsLocationsApisDeploymentsArtifactsResponse,
   errors: [],
 }));
 
-/** Removes a specified artifact. */
 export interface DeleteProjectsLocationsApisDeploymentsArtifactsRequest {
   /** Required. The name of the artifact to delete. Format: `{parent}/artifacts/*` */
   name: string;
@@ -1803,13 +1802,13 @@ export const DeleteProjectsLocationsApisDeploymentsArtifactsResponse = Empty;
 
 export type DeleteProjectsLocationsApisDeploymentsArtifactsError = CommonErrors;
 
+/** Removes a specified artifact. */
 export const deleteProjectsLocationsApisDeploymentsArtifacts: API.OperationMethod<DeleteProjectsLocationsApisDeploymentsArtifactsRequest, DeleteProjectsLocationsApisDeploymentsArtifactsResponse, DeleteProjectsLocationsApisDeploymentsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsApisDeploymentsArtifactsRequest,
   output: DeleteProjectsLocationsApisDeploymentsArtifactsResponse,
   errors: [],
 }));
 
-/** Used to replace a specified artifact. */
 export interface ReplaceArtifactProjectsLocationsApisDeploymentsArtifactsRequest {
   /** Resource name. */
   name: string;
@@ -1830,13 +1829,13 @@ export const ReplaceArtifactProjectsLocationsApisDeploymentsArtifactsResponse = 
 
 export type ReplaceArtifactProjectsLocationsApisDeploymentsArtifactsError = CommonErrors;
 
+/** Used to replace a specified artifact. */
 export const replaceArtifactProjectsLocationsApisDeploymentsArtifacts: API.OperationMethod<ReplaceArtifactProjectsLocationsApisDeploymentsArtifactsRequest, ReplaceArtifactProjectsLocationsApisDeploymentsArtifactsResponse, ReplaceArtifactProjectsLocationsApisDeploymentsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReplaceArtifactProjectsLocationsApisDeploymentsArtifactsRequest,
   output: ReplaceArtifactProjectsLocationsApisDeploymentsArtifactsResponse,
   errors: [],
 }));
 
-/** Returns a specified version. */
 export interface GetProjectsLocationsApisVersionsRequest {
   /** Required. The name of the version to retrieve. Format: `projects/* /locations/* /apis/* /versions/*` */
   name: string;
@@ -1854,13 +1853,13 @@ export const GetProjectsLocationsApisVersionsResponse = ApiVersion;
 
 export type GetProjectsLocationsApisVersionsError = CommonErrors;
 
+/** Returns a specified version. */
 export const getProjectsLocationsApisVersions: API.OperationMethod<GetProjectsLocationsApisVersionsRequest, GetProjectsLocationsApisVersionsResponse, GetProjectsLocationsApisVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsApisVersionsRequest,
   output: GetProjectsLocationsApisVersionsResponse,
   errors: [],
 }));
 
-/** Used to modify a specified version. */
 export interface PatchProjectsLocationsApisVersionsRequest {
   /** Resource name. */
   name: string;
@@ -1887,13 +1886,13 @@ export const PatchProjectsLocationsApisVersionsResponse = ApiVersion;
 
 export type PatchProjectsLocationsApisVersionsError = CommonErrors;
 
+/** Used to modify a specified version. */
 export const patchProjectsLocationsApisVersions: API.OperationMethod<PatchProjectsLocationsApisVersionsRequest, PatchProjectsLocationsApisVersionsResponse, PatchProjectsLocationsApisVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsApisVersionsRequest,
   output: PatchProjectsLocationsApisVersionsResponse,
   errors: [],
 }));
 
-/** Returns matching versions. */
 export interface ListProjectsLocationsApisVersionsRequest {
   /** Required. The parent, which owns this collection of versions. Format: `projects/* /locations/* /apis/*` */
   parent: string;
@@ -1923,7 +1922,8 @@ export const ListProjectsLocationsApisVersionsResponse = ListApiVersionsResponse
 
 export type ListProjectsLocationsApisVersionsError = CommonErrors;
 
-export const listProjectsLocationsApisVersions = API.makePaginated(() => ({
+/** Returns matching versions. */
+export const listProjectsLocationsApisVersions: API.PaginatedOperationMethod<ListProjectsLocationsApisVersionsRequest, ListProjectsLocationsApisVersionsResponse, ListProjectsLocationsApisVersionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsApisVersionsRequest,
   output: ListProjectsLocationsApisVersionsResponse,
   errors: [],
@@ -1933,7 +1933,6 @@ export const listProjectsLocationsApisVersions = API.makePaginated(() => ({
   },
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsApisVersionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1954,13 +1953,13 @@ export const TestIamPermissionsProjectsLocationsApisVersionsResponse = TestIamPe
 
 export type TestIamPermissionsProjectsLocationsApisVersionsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsApisVersions: API.OperationMethod<TestIamPermissionsProjectsLocationsApisVersionsRequest, TestIamPermissionsProjectsLocationsApisVersionsResponse, TestIamPermissionsProjectsLocationsApisVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsApisVersionsRequest,
   output: TestIamPermissionsProjectsLocationsApisVersionsResponse,
   errors: [],
 }));
 
-/** Removes a specified version and all of the resources that it owns. */
 export interface DeleteProjectsLocationsApisVersionsRequest {
   /** If set to true, any child resources will also be deleted. (Otherwise, the request will only work if there are no child resources.) */
   force?: boolean;
@@ -1981,13 +1980,13 @@ export const DeleteProjectsLocationsApisVersionsResponse = Empty;
 
 export type DeleteProjectsLocationsApisVersionsError = CommonErrors;
 
+/** Removes a specified version and all of the resources that it owns. */
 export const deleteProjectsLocationsApisVersions: API.OperationMethod<DeleteProjectsLocationsApisVersionsRequest, DeleteProjectsLocationsApisVersionsResponse, DeleteProjectsLocationsApisVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsApisVersionsRequest,
   output: DeleteProjectsLocationsApisVersionsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsApisVersionsRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
@@ -2008,13 +2007,13 @@ export const GetIamPolicyProjectsLocationsApisVersionsResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsApisVersionsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsApisVersions: API.OperationMethod<GetIamPolicyProjectsLocationsApisVersionsRequest, GetIamPolicyProjectsLocationsApisVersionsResponse, GetIamPolicyProjectsLocationsApisVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsApisVersionsRequest,
   output: GetIamPolicyProjectsLocationsApisVersionsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsApisVersionsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2035,13 +2034,13 @@ export const SetIamPolicyProjectsLocationsApisVersionsResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsApisVersionsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsApisVersions: API.OperationMethod<SetIamPolicyProjectsLocationsApisVersionsRequest, SetIamPolicyProjectsLocationsApisVersionsResponse, SetIamPolicyProjectsLocationsApisVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsApisVersionsRequest,
   output: SetIamPolicyProjectsLocationsApisVersionsResponse,
   errors: [],
 }));
 
-/** Creates a specified version. */
 export interface CreateProjectsLocationsApisVersionsRequest {
   /** Required. The parent, which owns this collection of versions. Format: `projects/* /locations/* /apis/*` */
   parent: string;
@@ -2065,13 +2064,13 @@ export const CreateProjectsLocationsApisVersionsResponse = ApiVersion;
 
 export type CreateProjectsLocationsApisVersionsError = CommonErrors;
 
+/** Creates a specified version. */
 export const createProjectsLocationsApisVersions: API.OperationMethod<CreateProjectsLocationsApisVersionsRequest, CreateProjectsLocationsApisVersionsResponse, CreateProjectsLocationsApisVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsApisVersionsRequest,
   output: CreateProjectsLocationsApisVersionsResponse,
   errors: [],
 }));
 
-/** Returns the contents of a specified artifact. If artifacts are stored with GZip compression, the default behavior is to return the artifact uncompressed (the mime_type response field indicates the exact format returned). */
 export interface GetContentsProjectsLocationsApisVersionsArtifactsRequest {
   /** Required. The name of the artifact whose contents should be retrieved. Format: `{parent}/artifacts/*` */
   name: string;
@@ -2089,13 +2088,13 @@ export const GetContentsProjectsLocationsApisVersionsArtifactsResponse = HttpBod
 
 export type GetContentsProjectsLocationsApisVersionsArtifactsError = CommonErrors;
 
+/** Returns the contents of a specified artifact. If artifacts are stored with GZip compression, the default behavior is to return the artifact uncompressed (the mime_type response field indicates the exact format returned). */
 export const getContentsProjectsLocationsApisVersionsArtifacts: API.OperationMethod<GetContentsProjectsLocationsApisVersionsArtifactsRequest, GetContentsProjectsLocationsApisVersionsArtifactsResponse, GetContentsProjectsLocationsApisVersionsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetContentsProjectsLocationsApisVersionsArtifactsRequest,
   output: GetContentsProjectsLocationsApisVersionsArtifactsResponse,
   errors: [],
 }));
 
-/** Creates a specified artifact. */
 export interface CreateProjectsLocationsApisVersionsArtifactsRequest {
   /** Required. The ID to use for the artifact, which will become the final component of the artifact's resource name. This value should be 4-63 characters, and valid characters are /a-z-/. Following AIP-162, IDs must not have the form of a UUID. */
   artifactId?: string;
@@ -2119,13 +2118,13 @@ export const CreateProjectsLocationsApisVersionsArtifactsResponse = Artifact;
 
 export type CreateProjectsLocationsApisVersionsArtifactsError = CommonErrors;
 
+/** Creates a specified artifact. */
 export const createProjectsLocationsApisVersionsArtifacts: API.OperationMethod<CreateProjectsLocationsApisVersionsArtifactsRequest, CreateProjectsLocationsApisVersionsArtifactsResponse, CreateProjectsLocationsApisVersionsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsApisVersionsArtifactsRequest,
   output: CreateProjectsLocationsApisVersionsArtifactsResponse,
   errors: [],
 }));
 
-/** Returns matching artifacts. */
 export interface ListProjectsLocationsApisVersionsArtifactsRequest {
   /** A page token, received from a previous `ListArtifacts` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListArtifacts` must match the call that provided the page token. */
   pageToken?: string;
@@ -2155,7 +2154,8 @@ export const ListProjectsLocationsApisVersionsArtifactsResponse = ListArtifactsR
 
 export type ListProjectsLocationsApisVersionsArtifactsError = CommonErrors;
 
-export const listProjectsLocationsApisVersionsArtifacts = API.makePaginated(() => ({
+/** Returns matching artifacts. */
+export const listProjectsLocationsApisVersionsArtifacts: API.PaginatedOperationMethod<ListProjectsLocationsApisVersionsArtifactsRequest, ListProjectsLocationsApisVersionsArtifactsResponse, ListProjectsLocationsApisVersionsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsApisVersionsArtifactsRequest,
   output: ListProjectsLocationsApisVersionsArtifactsResponse,
   errors: [],
@@ -2165,7 +2165,6 @@ export const listProjectsLocationsApisVersionsArtifacts = API.makePaginated(() =
   },
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsApisVersionsArtifactsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2186,13 +2185,13 @@ export const GetIamPolicyProjectsLocationsApisVersionsArtifactsResponse = Policy
 
 export type GetIamPolicyProjectsLocationsApisVersionsArtifactsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsApisVersionsArtifacts: API.OperationMethod<GetIamPolicyProjectsLocationsApisVersionsArtifactsRequest, GetIamPolicyProjectsLocationsApisVersionsArtifactsResponse, GetIamPolicyProjectsLocationsApisVersionsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsApisVersionsArtifactsRequest,
   output: GetIamPolicyProjectsLocationsApisVersionsArtifactsResponse,
   errors: [],
 }));
 
-/** Removes a specified artifact. */
 export interface DeleteProjectsLocationsApisVersionsArtifactsRequest {
   /** Required. The name of the artifact to delete. Format: `{parent}/artifacts/*` */
   name: string;
@@ -2210,13 +2209,13 @@ export const DeleteProjectsLocationsApisVersionsArtifactsResponse = Empty;
 
 export type DeleteProjectsLocationsApisVersionsArtifactsError = CommonErrors;
 
+/** Removes a specified artifact. */
 export const deleteProjectsLocationsApisVersionsArtifacts: API.OperationMethod<DeleteProjectsLocationsApisVersionsArtifactsRequest, DeleteProjectsLocationsApisVersionsArtifactsResponse, DeleteProjectsLocationsApisVersionsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsApisVersionsArtifactsRequest,
   output: DeleteProjectsLocationsApisVersionsArtifactsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsApisVersionsArtifactsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2237,13 +2236,13 @@ export const SetIamPolicyProjectsLocationsApisVersionsArtifactsResponse = Policy
 
 export type SetIamPolicyProjectsLocationsApisVersionsArtifactsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsApisVersionsArtifacts: API.OperationMethod<SetIamPolicyProjectsLocationsApisVersionsArtifactsRequest, SetIamPolicyProjectsLocationsApisVersionsArtifactsResponse, SetIamPolicyProjectsLocationsApisVersionsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsApisVersionsArtifactsRequest,
   output: SetIamPolicyProjectsLocationsApisVersionsArtifactsResponse,
   errors: [],
 }));
 
-/** Used to replace a specified artifact. */
 export interface ReplaceArtifactProjectsLocationsApisVersionsArtifactsRequest {
   /** Resource name. */
   name: string;
@@ -2264,13 +2263,13 @@ export const ReplaceArtifactProjectsLocationsApisVersionsArtifactsResponse = Art
 
 export type ReplaceArtifactProjectsLocationsApisVersionsArtifactsError = CommonErrors;
 
+/** Used to replace a specified artifact. */
 export const replaceArtifactProjectsLocationsApisVersionsArtifacts: API.OperationMethod<ReplaceArtifactProjectsLocationsApisVersionsArtifactsRequest, ReplaceArtifactProjectsLocationsApisVersionsArtifactsResponse, ReplaceArtifactProjectsLocationsApisVersionsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReplaceArtifactProjectsLocationsApisVersionsArtifactsRequest,
   output: ReplaceArtifactProjectsLocationsApisVersionsArtifactsResponse,
   errors: [],
 }));
 
-/** Returns a specified artifact. */
 export interface GetProjectsLocationsApisVersionsArtifactsRequest {
   /** Required. The name of the artifact to retrieve. Format: `{parent}/artifacts/*` */
   name: string;
@@ -2288,13 +2287,13 @@ export const GetProjectsLocationsApisVersionsArtifactsResponse = Artifact;
 
 export type GetProjectsLocationsApisVersionsArtifactsError = CommonErrors;
 
+/** Returns a specified artifact. */
 export const getProjectsLocationsApisVersionsArtifacts: API.OperationMethod<GetProjectsLocationsApisVersionsArtifactsRequest, GetProjectsLocationsApisVersionsArtifactsResponse, GetProjectsLocationsApisVersionsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsApisVersionsArtifactsRequest,
   output: GetProjectsLocationsApisVersionsArtifactsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsApisVersionsArtifactsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2315,13 +2314,13 @@ export const TestIamPermissionsProjectsLocationsApisVersionsArtifactsResponse = 
 
 export type TestIamPermissionsProjectsLocationsApisVersionsArtifactsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsApisVersionsArtifacts: API.OperationMethod<TestIamPermissionsProjectsLocationsApisVersionsArtifactsRequest, TestIamPermissionsProjectsLocationsApisVersionsArtifactsResponse, TestIamPermissionsProjectsLocationsApisVersionsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsApisVersionsArtifactsRequest,
   output: TestIamPermissionsProjectsLocationsApisVersionsArtifactsResponse,
   errors: [],
 }));
 
-/** Lists all revisions of a spec. Revisions are returned in descending order of revision creation time. */
 export interface ListRevisionsProjectsLocationsApisVersionsSpecsRequest {
   /** Required. The name of the spec to list revisions for. */
   name: string;
@@ -2348,7 +2347,8 @@ export const ListRevisionsProjectsLocationsApisVersionsSpecsResponse = ListApiSp
 
 export type ListRevisionsProjectsLocationsApisVersionsSpecsError = CommonErrors;
 
-export const listRevisionsProjectsLocationsApisVersionsSpecs = API.makePaginated(() => ({
+/** Lists all revisions of a spec. Revisions are returned in descending order of revision creation time. */
+export const listRevisionsProjectsLocationsApisVersionsSpecs: API.PaginatedOperationMethod<ListRevisionsProjectsLocationsApisVersionsSpecsRequest, ListRevisionsProjectsLocationsApisVersionsSpecsResponse, ListRevisionsProjectsLocationsApisVersionsSpecsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRevisionsProjectsLocationsApisVersionsSpecsRequest,
   output: ListRevisionsProjectsLocationsApisVersionsSpecsResponse,
   errors: [],
@@ -2358,7 +2358,6 @@ export const listRevisionsProjectsLocationsApisVersionsSpecs = API.makePaginated
   },
 }));
 
-/** Used to modify a specified spec. */
 export interface PatchProjectsLocationsApisVersionsSpecsRequest {
   /** If set to true, and the spec is not found, a new spec will be created. In this situation, `update_mask` is ignored. */
   allowMissing?: boolean;
@@ -2385,13 +2384,13 @@ export const PatchProjectsLocationsApisVersionsSpecsResponse = ApiSpec;
 
 export type PatchProjectsLocationsApisVersionsSpecsError = CommonErrors;
 
+/** Used to modify a specified spec. */
 export const patchProjectsLocationsApisVersionsSpecs: API.OperationMethod<PatchProjectsLocationsApisVersionsSpecsRequest, PatchProjectsLocationsApisVersionsSpecsResponse, PatchProjectsLocationsApisVersionsSpecsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsApisVersionsSpecsRequest,
   output: PatchProjectsLocationsApisVersionsSpecsResponse,
   errors: [],
 }));
 
-/** Deletes a revision of a spec. */
 export interface DeleteRevisionProjectsLocationsApisVersionsSpecsRequest {
   /** Required. The name of the spec revision to be deleted, with a revision ID explicitly included. Example: `projects/sample/locations/global/apis/petstore/versions/1.0.0/specs/openapi.yaml@c7cfa2a8` */
   name: string;
@@ -2409,13 +2408,13 @@ export const DeleteRevisionProjectsLocationsApisVersionsSpecsResponse = ApiSpec;
 
 export type DeleteRevisionProjectsLocationsApisVersionsSpecsError = CommonErrors;
 
+/** Deletes a revision of a spec. */
 export const deleteRevisionProjectsLocationsApisVersionsSpecs: API.OperationMethod<DeleteRevisionProjectsLocationsApisVersionsSpecsRequest, DeleteRevisionProjectsLocationsApisVersionsSpecsResponse, DeleteRevisionProjectsLocationsApisVersionsSpecsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRevisionProjectsLocationsApisVersionsSpecsRequest,
   output: DeleteRevisionProjectsLocationsApisVersionsSpecsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsApisVersionsSpecsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2436,13 +2435,13 @@ export const SetIamPolicyProjectsLocationsApisVersionsSpecsResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsApisVersionsSpecsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsApisVersionsSpecs: API.OperationMethod<SetIamPolicyProjectsLocationsApisVersionsSpecsRequest, SetIamPolicyProjectsLocationsApisVersionsSpecsResponse, SetIamPolicyProjectsLocationsApisVersionsSpecsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsApisVersionsSpecsRequest,
   output: SetIamPolicyProjectsLocationsApisVersionsSpecsResponse,
   errors: [],
 }));
 
-/** Removes a specified spec, all revisions, and all child resources (e.g., artifacts). */
 export interface DeleteProjectsLocationsApisVersionsSpecsRequest {
   /** Required. The name of the spec to delete. Format: `projects/* /locations/* /apis/* /versions/* /specs/*` */
   name: string;
@@ -2463,13 +2462,13 @@ export const DeleteProjectsLocationsApisVersionsSpecsResponse = Empty;
 
 export type DeleteProjectsLocationsApisVersionsSpecsError = CommonErrors;
 
+/** Removes a specified spec, all revisions, and all child resources (e.g., artifacts). */
 export const deleteProjectsLocationsApisVersionsSpecs: API.OperationMethod<DeleteProjectsLocationsApisVersionsSpecsRequest, DeleteProjectsLocationsApisVersionsSpecsResponse, DeleteProjectsLocationsApisVersionsSpecsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsApisVersionsSpecsRequest,
   output: DeleteProjectsLocationsApisVersionsSpecsResponse,
   errors: [],
 }));
 
-/** Returns a specified spec. */
 export interface GetProjectsLocationsApisVersionsSpecsRequest {
   /** Required. The name of the spec to retrieve. Format: `projects/* /locations/* /apis/* /versions/* /specs/*` */
   name: string;
@@ -2487,13 +2486,13 @@ export const GetProjectsLocationsApisVersionsSpecsResponse = ApiSpec;
 
 export type GetProjectsLocationsApisVersionsSpecsError = CommonErrors;
 
+/** Returns a specified spec. */
 export const getProjectsLocationsApisVersionsSpecs: API.OperationMethod<GetProjectsLocationsApisVersionsSpecsRequest, GetProjectsLocationsApisVersionsSpecsResponse, GetProjectsLocationsApisVersionsSpecsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsApisVersionsSpecsRequest,
   output: GetProjectsLocationsApisVersionsSpecsResponse,
   errors: [],
 }));
 
-/** Creates a specified spec. */
 export interface CreateProjectsLocationsApisVersionsSpecsRequest {
   /** Required. The parent, which owns this collection of specs. Format: `projects/* /locations/* /apis/* /versions/*` */
   parent: string;
@@ -2517,13 +2516,13 @@ export const CreateProjectsLocationsApisVersionsSpecsResponse = ApiSpec;
 
 export type CreateProjectsLocationsApisVersionsSpecsError = CommonErrors;
 
+/** Creates a specified spec. */
 export const createProjectsLocationsApisVersionsSpecs: API.OperationMethod<CreateProjectsLocationsApisVersionsSpecsRequest, CreateProjectsLocationsApisVersionsSpecsResponse, CreateProjectsLocationsApisVersionsSpecsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsApisVersionsSpecsRequest,
   output: CreateProjectsLocationsApisVersionsSpecsResponse,
   errors: [],
 }));
 
-/** Returns matching specs. */
 export interface ListProjectsLocationsApisVersionsSpecsRequest {
   /** A comma-separated list of fields, e.g. "foo,bar" Fields can be sorted in descending order using the "desc" identifier, e.g. "foo desc,bar" */
   orderBy?: string;
@@ -2553,7 +2552,8 @@ export const ListProjectsLocationsApisVersionsSpecsResponse = ListApiSpecsRespon
 
 export type ListProjectsLocationsApisVersionsSpecsError = CommonErrors;
 
-export const listProjectsLocationsApisVersionsSpecs = API.makePaginated(() => ({
+/** Returns matching specs. */
+export const listProjectsLocationsApisVersionsSpecs: API.PaginatedOperationMethod<ListProjectsLocationsApisVersionsSpecsRequest, ListProjectsLocationsApisVersionsSpecsResponse, ListProjectsLocationsApisVersionsSpecsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsApisVersionsSpecsRequest,
   output: ListProjectsLocationsApisVersionsSpecsResponse,
   errors: [],
@@ -2563,7 +2563,6 @@ export const listProjectsLocationsApisVersionsSpecs = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsApisVersionsSpecsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2584,13 +2583,13 @@ export const GetIamPolicyProjectsLocationsApisVersionsSpecsResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsApisVersionsSpecsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsApisVersionsSpecs: API.OperationMethod<GetIamPolicyProjectsLocationsApisVersionsSpecsRequest, GetIamPolicyProjectsLocationsApisVersionsSpecsResponse, GetIamPolicyProjectsLocationsApisVersionsSpecsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsApisVersionsSpecsRequest,
   output: GetIamPolicyProjectsLocationsApisVersionsSpecsResponse,
   errors: [],
 }));
 
-/** Adds a tag to a specified revision of a spec. */
 export interface TagRevisionProjectsLocationsApisVersionsSpecsRequest {
   /** Required. The name of the spec to be tagged, including the revision ID is optional. If a revision is not specified, it will tag the latest revision. */
   name: string;
@@ -2611,13 +2610,13 @@ export const TagRevisionProjectsLocationsApisVersionsSpecsResponse = ApiSpec;
 
 export type TagRevisionProjectsLocationsApisVersionsSpecsError = CommonErrors;
 
+/** Adds a tag to a specified revision of a spec. */
 export const tagRevisionProjectsLocationsApisVersionsSpecs: API.OperationMethod<TagRevisionProjectsLocationsApisVersionsSpecsRequest, TagRevisionProjectsLocationsApisVersionsSpecsResponse, TagRevisionProjectsLocationsApisVersionsSpecsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TagRevisionProjectsLocationsApisVersionsSpecsRequest,
   output: TagRevisionProjectsLocationsApisVersionsSpecsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsApisVersionsSpecsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2638,13 +2637,13 @@ export const TestIamPermissionsProjectsLocationsApisVersionsSpecsResponse = Test
 
 export type TestIamPermissionsProjectsLocationsApisVersionsSpecsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsApisVersionsSpecs: API.OperationMethod<TestIamPermissionsProjectsLocationsApisVersionsSpecsRequest, TestIamPermissionsProjectsLocationsApisVersionsSpecsResponse, TestIamPermissionsProjectsLocationsApisVersionsSpecsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsApisVersionsSpecsRequest,
   output: TestIamPermissionsProjectsLocationsApisVersionsSpecsResponse,
   errors: [],
 }));
 
-/** Sets the current revision to a specified prior revision. Note that this creates a new revision with a new revision ID. */
 export interface RollbackProjectsLocationsApisVersionsSpecsRequest {
   /** Required. The spec being rolled back. */
   name: string;
@@ -2665,13 +2664,13 @@ export const RollbackProjectsLocationsApisVersionsSpecsResponse = ApiSpec;
 
 export type RollbackProjectsLocationsApisVersionsSpecsError = CommonErrors;
 
+/** Sets the current revision to a specified prior revision. Note that this creates a new revision with a new revision ID. */
 export const rollbackProjectsLocationsApisVersionsSpecs: API.OperationMethod<RollbackProjectsLocationsApisVersionsSpecsRequest, RollbackProjectsLocationsApisVersionsSpecsResponse, RollbackProjectsLocationsApisVersionsSpecsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RollbackProjectsLocationsApisVersionsSpecsRequest,
   output: RollbackProjectsLocationsApisVersionsSpecsResponse,
   errors: [],
 }));
 
-/** Returns the contents of a specified spec. If specs are stored with GZip compression, the default behavior is to return the spec uncompressed (the mime_type response field indicates the exact format returned). */
 export interface GetContentsProjectsLocationsApisVersionsSpecsRequest {
   /** Required. The name of the spec whose contents should be retrieved. Format: `projects/* /locations/* /apis/* /versions/* /specs/*` */
   name: string;
@@ -2689,13 +2688,13 @@ export const GetContentsProjectsLocationsApisVersionsSpecsResponse = HttpBody;
 
 export type GetContentsProjectsLocationsApisVersionsSpecsError = CommonErrors;
 
+/** Returns the contents of a specified spec. If specs are stored with GZip compression, the default behavior is to return the spec uncompressed (the mime_type response field indicates the exact format returned). */
 export const getContentsProjectsLocationsApisVersionsSpecs: API.OperationMethod<GetContentsProjectsLocationsApisVersionsSpecsRequest, GetContentsProjectsLocationsApisVersionsSpecsResponse, GetContentsProjectsLocationsApisVersionsSpecsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetContentsProjectsLocationsApisVersionsSpecsRequest,
   output: GetContentsProjectsLocationsApisVersionsSpecsResponse,
   errors: [],
 }));
 
-/** Returns a specified artifact. */
 export interface GetProjectsLocationsApisVersionsSpecsArtifactsRequest {
   /** Required. The name of the artifact to retrieve. Format: `{parent}/artifacts/*` */
   name: string;
@@ -2713,13 +2712,13 @@ export const GetProjectsLocationsApisVersionsSpecsArtifactsResponse = Artifact;
 
 export type GetProjectsLocationsApisVersionsSpecsArtifactsError = CommonErrors;
 
+/** Returns a specified artifact. */
 export const getProjectsLocationsApisVersionsSpecsArtifacts: API.OperationMethod<GetProjectsLocationsApisVersionsSpecsArtifactsRequest, GetProjectsLocationsApisVersionsSpecsArtifactsResponse, GetProjectsLocationsApisVersionsSpecsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsApisVersionsSpecsArtifactsRequest,
   output: GetProjectsLocationsApisVersionsSpecsArtifactsResponse,
   errors: [],
 }));
 
-/** Creates a specified artifact. */
 export interface CreateProjectsLocationsApisVersionsSpecsArtifactsRequest {
   /** Required. The parent, which owns this collection of artifacts. Format: `{parent}` */
   parent: string;
@@ -2743,13 +2742,13 @@ export const CreateProjectsLocationsApisVersionsSpecsArtifactsResponse = Artifac
 
 export type CreateProjectsLocationsApisVersionsSpecsArtifactsError = CommonErrors;
 
+/** Creates a specified artifact. */
 export const createProjectsLocationsApisVersionsSpecsArtifacts: API.OperationMethod<CreateProjectsLocationsApisVersionsSpecsArtifactsRequest, CreateProjectsLocationsApisVersionsSpecsArtifactsResponse, CreateProjectsLocationsApisVersionsSpecsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsApisVersionsSpecsArtifactsRequest,
   output: CreateProjectsLocationsApisVersionsSpecsArtifactsResponse,
   errors: [],
 }));
 
-/** Returns the contents of a specified artifact. If artifacts are stored with GZip compression, the default behavior is to return the artifact uncompressed (the mime_type response field indicates the exact format returned). */
 export interface GetContentsProjectsLocationsApisVersionsSpecsArtifactsRequest {
   /** Required. The name of the artifact whose contents should be retrieved. Format: `{parent}/artifacts/*` */
   name: string;
@@ -2767,13 +2766,13 @@ export const GetContentsProjectsLocationsApisVersionsSpecsArtifactsResponse = Ht
 
 export type GetContentsProjectsLocationsApisVersionsSpecsArtifactsError = CommonErrors;
 
+/** Returns the contents of a specified artifact. If artifacts are stored with GZip compression, the default behavior is to return the artifact uncompressed (the mime_type response field indicates the exact format returned). */
 export const getContentsProjectsLocationsApisVersionsSpecsArtifacts: API.OperationMethod<GetContentsProjectsLocationsApisVersionsSpecsArtifactsRequest, GetContentsProjectsLocationsApisVersionsSpecsArtifactsResponse, GetContentsProjectsLocationsApisVersionsSpecsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetContentsProjectsLocationsApisVersionsSpecsArtifactsRequest,
   output: GetContentsProjectsLocationsApisVersionsSpecsArtifactsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsApisVersionsSpecsArtifactsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2794,13 +2793,13 @@ export const SetIamPolicyProjectsLocationsApisVersionsSpecsArtifactsResponse = P
 
 export type SetIamPolicyProjectsLocationsApisVersionsSpecsArtifactsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsApisVersionsSpecsArtifacts: API.OperationMethod<SetIamPolicyProjectsLocationsApisVersionsSpecsArtifactsRequest, SetIamPolicyProjectsLocationsApisVersionsSpecsArtifactsResponse, SetIamPolicyProjectsLocationsApisVersionsSpecsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsApisVersionsSpecsArtifactsRequest,
   output: SetIamPolicyProjectsLocationsApisVersionsSpecsArtifactsResponse,
   errors: [],
 }));
 
-/** Removes a specified artifact. */
 export interface DeleteProjectsLocationsApisVersionsSpecsArtifactsRequest {
   /** Required. The name of the artifact to delete. Format: `{parent}/artifacts/*` */
   name: string;
@@ -2818,13 +2817,13 @@ export const DeleteProjectsLocationsApisVersionsSpecsArtifactsResponse = Empty;
 
 export type DeleteProjectsLocationsApisVersionsSpecsArtifactsError = CommonErrors;
 
+/** Removes a specified artifact. */
 export const deleteProjectsLocationsApisVersionsSpecsArtifacts: API.OperationMethod<DeleteProjectsLocationsApisVersionsSpecsArtifactsRequest, DeleteProjectsLocationsApisVersionsSpecsArtifactsResponse, DeleteProjectsLocationsApisVersionsSpecsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsApisVersionsSpecsArtifactsRequest,
   output: DeleteProjectsLocationsApisVersionsSpecsArtifactsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsApisVersionsSpecsArtifactsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2845,13 +2844,13 @@ export const TestIamPermissionsProjectsLocationsApisVersionsSpecsArtifactsRespon
 
 export type TestIamPermissionsProjectsLocationsApisVersionsSpecsArtifactsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsApisVersionsSpecsArtifacts: API.OperationMethod<TestIamPermissionsProjectsLocationsApisVersionsSpecsArtifactsRequest, TestIamPermissionsProjectsLocationsApisVersionsSpecsArtifactsResponse, TestIamPermissionsProjectsLocationsApisVersionsSpecsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsApisVersionsSpecsArtifactsRequest,
   output: TestIamPermissionsProjectsLocationsApisVersionsSpecsArtifactsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsApisVersionsSpecsArtifactsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2872,13 +2871,13 @@ export const GetIamPolicyProjectsLocationsApisVersionsSpecsArtifactsResponse = P
 
 export type GetIamPolicyProjectsLocationsApisVersionsSpecsArtifactsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsApisVersionsSpecsArtifacts: API.OperationMethod<GetIamPolicyProjectsLocationsApisVersionsSpecsArtifactsRequest, GetIamPolicyProjectsLocationsApisVersionsSpecsArtifactsResponse, GetIamPolicyProjectsLocationsApisVersionsSpecsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsApisVersionsSpecsArtifactsRequest,
   output: GetIamPolicyProjectsLocationsApisVersionsSpecsArtifactsResponse,
   errors: [],
 }));
 
-/** Used to replace a specified artifact. */
 export interface ReplaceArtifactProjectsLocationsApisVersionsSpecsArtifactsRequest {
   /** Resource name. */
   name: string;
@@ -2899,13 +2898,13 @@ export const ReplaceArtifactProjectsLocationsApisVersionsSpecsArtifactsResponse 
 
 export type ReplaceArtifactProjectsLocationsApisVersionsSpecsArtifactsError = CommonErrors;
 
+/** Used to replace a specified artifact. */
 export const replaceArtifactProjectsLocationsApisVersionsSpecsArtifacts: API.OperationMethod<ReplaceArtifactProjectsLocationsApisVersionsSpecsArtifactsRequest, ReplaceArtifactProjectsLocationsApisVersionsSpecsArtifactsResponse, ReplaceArtifactProjectsLocationsApisVersionsSpecsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReplaceArtifactProjectsLocationsApisVersionsSpecsArtifactsRequest,
   output: ReplaceArtifactProjectsLocationsApisVersionsSpecsArtifactsResponse,
   errors: [],
 }));
 
-/** Returns matching artifacts. */
 export interface ListProjectsLocationsApisVersionsSpecsArtifactsRequest {
   /** Required. The parent, which owns this collection of artifacts. Format: `{parent}` */
   parent: string;
@@ -2935,7 +2934,8 @@ export const ListProjectsLocationsApisVersionsSpecsArtifactsResponse = ListArtif
 
 export type ListProjectsLocationsApisVersionsSpecsArtifactsError = CommonErrors;
 
-export const listProjectsLocationsApisVersionsSpecsArtifacts = API.makePaginated(() => ({
+/** Returns matching artifacts. */
+export const listProjectsLocationsApisVersionsSpecsArtifacts: API.PaginatedOperationMethod<ListProjectsLocationsApisVersionsSpecsArtifactsRequest, ListProjectsLocationsApisVersionsSpecsArtifactsResponse, ListProjectsLocationsApisVersionsSpecsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsApisVersionsSpecsArtifactsRequest,
   output: ListProjectsLocationsApisVersionsSpecsArtifactsResponse,
   errors: [],
@@ -2945,7 +2945,6 @@ export const listProjectsLocationsApisVersionsSpecsArtifacts = API.makePaginated
   },
 }));
 
-/** Creates a specified artifact. */
 export interface CreateProjectsLocationsArtifactsRequest {
   /** Required. The ID to use for the artifact, which will become the final component of the artifact's resource name. This value should be 4-63 characters, and valid characters are /a-z-/. Following AIP-162, IDs must not have the form of a UUID. */
   artifactId?: string;
@@ -2969,13 +2968,13 @@ export const CreateProjectsLocationsArtifactsResponse = Artifact;
 
 export type CreateProjectsLocationsArtifactsError = CommonErrors;
 
+/** Creates a specified artifact. */
 export const createProjectsLocationsArtifacts: API.OperationMethod<CreateProjectsLocationsArtifactsRequest, CreateProjectsLocationsArtifactsResponse, CreateProjectsLocationsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsArtifactsRequest,
   output: CreateProjectsLocationsArtifactsResponse,
   errors: [],
 }));
 
-/** Removes a specified artifact. */
 export interface DeleteProjectsLocationsArtifactsRequest {
   /** Required. The name of the artifact to delete. Format: `{parent}/artifacts/*` */
   name: string;
@@ -2993,13 +2992,13 @@ export const DeleteProjectsLocationsArtifactsResponse = Empty;
 
 export type DeleteProjectsLocationsArtifactsError = CommonErrors;
 
+/** Removes a specified artifact. */
 export const deleteProjectsLocationsArtifacts: API.OperationMethod<DeleteProjectsLocationsArtifactsRequest, DeleteProjectsLocationsArtifactsResponse, DeleteProjectsLocationsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsArtifactsRequest,
   output: DeleteProjectsLocationsArtifactsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsArtifactsRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
@@ -3020,13 +3019,13 @@ export const GetIamPolicyProjectsLocationsArtifactsResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsArtifactsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsArtifacts: API.OperationMethod<GetIamPolicyProjectsLocationsArtifactsRequest, GetIamPolicyProjectsLocationsArtifactsResponse, GetIamPolicyProjectsLocationsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsArtifactsRequest,
   output: GetIamPolicyProjectsLocationsArtifactsResponse,
   errors: [],
 }));
 
-/** Returns the contents of a specified artifact. If artifacts are stored with GZip compression, the default behavior is to return the artifact uncompressed (the mime_type response field indicates the exact format returned). */
 export interface GetContentsProjectsLocationsArtifactsRequest {
   /** Required. The name of the artifact whose contents should be retrieved. Format: `{parent}/artifacts/*` */
   name: string;
@@ -3044,13 +3043,13 @@ export const GetContentsProjectsLocationsArtifactsResponse = HttpBody;
 
 export type GetContentsProjectsLocationsArtifactsError = CommonErrors;
 
+/** Returns the contents of a specified artifact. If artifacts are stored with GZip compression, the default behavior is to return the artifact uncompressed (the mime_type response field indicates the exact format returned). */
 export const getContentsProjectsLocationsArtifacts: API.OperationMethod<GetContentsProjectsLocationsArtifactsRequest, GetContentsProjectsLocationsArtifactsResponse, GetContentsProjectsLocationsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetContentsProjectsLocationsArtifactsRequest,
   output: GetContentsProjectsLocationsArtifactsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsArtifactsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3071,13 +3070,13 @@ export const SetIamPolicyProjectsLocationsArtifactsResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsArtifactsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsArtifacts: API.OperationMethod<SetIamPolicyProjectsLocationsArtifactsRequest, SetIamPolicyProjectsLocationsArtifactsResponse, SetIamPolicyProjectsLocationsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsArtifactsRequest,
   output: SetIamPolicyProjectsLocationsArtifactsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsArtifactsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3098,13 +3097,13 @@ export const TestIamPermissionsProjectsLocationsArtifactsResponse = TestIamPermi
 
 export type TestIamPermissionsProjectsLocationsArtifactsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsArtifacts: API.OperationMethod<TestIamPermissionsProjectsLocationsArtifactsRequest, TestIamPermissionsProjectsLocationsArtifactsResponse, TestIamPermissionsProjectsLocationsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsArtifactsRequest,
   output: TestIamPermissionsProjectsLocationsArtifactsResponse,
   errors: [],
 }));
 
-/** Used to replace a specified artifact. */
 export interface ReplaceArtifactProjectsLocationsArtifactsRequest {
   /** Resource name. */
   name: string;
@@ -3125,13 +3124,13 @@ export const ReplaceArtifactProjectsLocationsArtifactsResponse = Artifact;
 
 export type ReplaceArtifactProjectsLocationsArtifactsError = CommonErrors;
 
+/** Used to replace a specified artifact. */
 export const replaceArtifactProjectsLocationsArtifacts: API.OperationMethod<ReplaceArtifactProjectsLocationsArtifactsRequest, ReplaceArtifactProjectsLocationsArtifactsResponse, ReplaceArtifactProjectsLocationsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReplaceArtifactProjectsLocationsArtifactsRequest,
   output: ReplaceArtifactProjectsLocationsArtifactsResponse,
   errors: [],
 }));
 
-/** Returns a specified artifact. */
 export interface GetProjectsLocationsArtifactsRequest {
   /** Required. The name of the artifact to retrieve. Format: `{parent}/artifacts/*` */
   name: string;
@@ -3149,13 +3148,13 @@ export const GetProjectsLocationsArtifactsResponse = Artifact;
 
 export type GetProjectsLocationsArtifactsError = CommonErrors;
 
+/** Returns a specified artifact. */
 export const getProjectsLocationsArtifacts: API.OperationMethod<GetProjectsLocationsArtifactsRequest, GetProjectsLocationsArtifactsResponse, GetProjectsLocationsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsArtifactsRequest,
   output: GetProjectsLocationsArtifactsResponse,
   errors: [],
 }));
 
-/** Returns matching artifacts. */
 export interface ListProjectsLocationsArtifactsRequest {
   /** An expression that can be used to filter the list. Filters use the Common Expression Language and can refer to all message fields except contents. */
   filter?: string;
@@ -3185,7 +3184,8 @@ export const ListProjectsLocationsArtifactsResponse = ListArtifactsResponse;
 
 export type ListProjectsLocationsArtifactsError = CommonErrors;
 
-export const listProjectsLocationsArtifacts = API.makePaginated(() => ({
+/** Returns matching artifacts. */
+export const listProjectsLocationsArtifacts: API.PaginatedOperationMethod<ListProjectsLocationsArtifactsRequest, ListProjectsLocationsArtifactsResponse, ListProjectsLocationsArtifactsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsArtifactsRequest,
   output: ListProjectsLocationsArtifactsResponse,
   errors: [],
@@ -3195,7 +3195,6 @@ export const listProjectsLocationsArtifacts = API.makePaginated(() => ({
   },
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsInstancesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3216,13 +3215,13 @@ export const SetIamPolicyProjectsLocationsInstancesResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsInstancesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsInstances: API.OperationMethod<SetIamPolicyProjectsLocationsInstancesRequest, SetIamPolicyProjectsLocationsInstancesResponse, SetIamPolicyProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsInstancesRequest,
   output: SetIamPolicyProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Gets details of a single Instance. */
 export interface GetProjectsLocationsInstancesRequest {
   /** Required. The name of the Instance to retrieve. Format: `projects/* /locations/* /instances/*`. */
   name: string;
@@ -3240,13 +3239,13 @@ export const GetProjectsLocationsInstancesResponse = Instance;
 
 export type GetProjectsLocationsInstancesError = CommonErrors;
 
+/** Gets details of a single Instance. */
 export const getProjectsLocationsInstances: API.OperationMethod<GetProjectsLocationsInstancesRequest, GetProjectsLocationsInstancesResponse, GetProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsInstancesRequest,
   output: GetProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Deletes the Registry instance. */
 export interface DeleteProjectsLocationsInstancesRequest {
   /** Required. The name of the Instance to delete. Format: `projects/* /locations/* /instances/*`. */
   name: string;
@@ -3264,13 +3263,13 @@ export const DeleteProjectsLocationsInstancesResponse = Operation;
 
 export type DeleteProjectsLocationsInstancesError = CommonErrors;
 
+/** Deletes the Registry instance. */
 export const deleteProjectsLocationsInstances: API.OperationMethod<DeleteProjectsLocationsInstancesRequest, DeleteProjectsLocationsInstancesResponse, DeleteProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsInstancesRequest,
   output: DeleteProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsInstancesRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
@@ -3291,13 +3290,13 @@ export const GetIamPolicyProjectsLocationsInstancesResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsInstancesError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsInstances: API.OperationMethod<GetIamPolicyProjectsLocationsInstancesRequest, GetIamPolicyProjectsLocationsInstancesResponse, GetIamPolicyProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsInstancesRequest,
   output: GetIamPolicyProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsInstancesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3318,13 +3317,13 @@ export const TestIamPermissionsProjectsLocationsInstancesResponse = TestIamPermi
 
 export type TestIamPermissionsProjectsLocationsInstancesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsInstances: API.OperationMethod<TestIamPermissionsProjectsLocationsInstancesRequest, TestIamPermissionsProjectsLocationsInstancesResponse, TestIamPermissionsProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsInstancesRequest,
   output: TestIamPermissionsProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Provisions instance resources for the Registry. */
 export interface CreateProjectsLocationsInstancesRequest {
   /** Required. Parent resource of the Instance, of the form: `projects/* /locations/*` */
   parent: string;
@@ -3348,13 +3347,13 @@ export const CreateProjectsLocationsInstancesResponse = Operation;
 
 export type CreateProjectsLocationsInstancesError = CommonErrors;
 
+/** Provisions instance resources for the Registry. */
 export const createProjectsLocationsInstances: API.OperationMethod<CreateProjectsLocationsInstancesRequest, CreateProjectsLocationsInstancesResponse, CreateProjectsLocationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsInstancesRequest,
   output: CreateProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -3372,13 +3371,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list page size. */
   pageSize?: number;
@@ -3405,7 +3404,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -3415,7 +3415,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of 1, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -3436,13 +3435,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of 1, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -3460,6 +3459,7 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,

@@ -438,7 +438,6 @@ export const ListAdUnitsResponse: Schema.Schema<ListAdUnitsResponse> = Schema.su
 // Operations
 // ==========================================================================
 
-/** Gets information about the specified AdMob publisher account. */
 export interface GetAccountsRequest {
   /** Resource name of the publisher account to retrieve. Example: accounts/pub-9876543210987654 */
   name: string;
@@ -456,13 +455,13 @@ export const GetAccountsResponse = PublisherAccount;
 
 export type GetAccountsError = CommonErrors;
 
+/** Gets information about the specified AdMob publisher account. */
 export const getAccounts: API.OperationMethod<GetAccountsRequest, GetAccountsResponse, GetAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsRequest,
   output: GetAccountsResponse,
   errors: [],
 }));
 
-/** Lists the AdMob publisher account that was most recently signed in to from the AdMob UI. For more information, see https://support.google.com/admob/answer/10243672. */
 export interface ListAccountsRequest {
   /** Maximum number of accounts to return. */
   pageSize?: number;
@@ -483,7 +482,8 @@ export const ListAccountsResponse = ListPublisherAccountsResponse;
 
 export type ListAccountsError = CommonErrors;
 
-export const listAccounts = API.makePaginated(() => ({
+/** Lists the AdMob publisher account that was most recently signed in to from the AdMob UI. For more information, see https://support.google.com/admob/answer/10243672. */
+export const listAccounts: API.PaginatedOperationMethod<ListAccountsRequest, ListAccountsResponse, ListAccountsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsRequest,
   output: ListAccountsResponse,
   errors: [],
@@ -493,7 +493,6 @@ export const listAccounts = API.makePaginated(() => ({
   },
 }));
 
-/** Generates an AdMob Network report based on the provided report specification. Returns result of a server-side streaming RPC. The result is returned in a sequence of responses. */
 export interface GenerateAccountsNetworkReportRequest {
   /** Resource name of the account to generate the report for. Example: accounts/pub-9876543210987654 */
   parent: string;
@@ -514,13 +513,13 @@ export const GenerateAccountsNetworkReportResponse = GenerateNetworkReportRespon
 
 export type GenerateAccountsNetworkReportError = CommonErrors;
 
+/** Generates an AdMob Network report based on the provided report specification. Returns result of a server-side streaming RPC. The result is returned in a sequence of responses. */
 export const generateAccountsNetworkReport: API.OperationMethod<GenerateAccountsNetworkReportRequest, GenerateAccountsNetworkReportResponse, GenerateAccountsNetworkReportError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateAccountsNetworkReportRequest,
   output: GenerateAccountsNetworkReportResponse,
   errors: [],
 }));
 
-/** Generates an AdMob Mediation report based on the provided report specification. Returns result of a server-side streaming RPC. The result is returned in a sequence of responses. */
 export interface GenerateAccountsMediationReportRequest {
   /** Resource name of the account to generate the report for. Example: accounts/pub-9876543210987654 */
   parent: string;
@@ -541,13 +540,13 @@ export const GenerateAccountsMediationReportResponse = GenerateMediationReportRe
 
 export type GenerateAccountsMediationReportError = CommonErrors;
 
+/** Generates an AdMob Mediation report based on the provided report specification. Returns result of a server-side streaming RPC. The result is returned in a sequence of responses. */
 export const generateAccountsMediationReport: API.OperationMethod<GenerateAccountsMediationReportRequest, GenerateAccountsMediationReportResponse, GenerateAccountsMediationReportError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateAccountsMediationReportRequest,
   output: GenerateAccountsMediationReportResponse,
   errors: [],
 }));
 
-/** List the apps under the specified AdMob account. */
 export interface ListAccountsAppsRequest {
   /** Required. Resource name of the account to list apps for. Example: accounts/pub-9876543210987654 */
   parent: string;
@@ -571,7 +570,8 @@ export const ListAccountsAppsResponse = ListAppsResponse;
 
 export type ListAccountsAppsError = CommonErrors;
 
-export const listAccountsApps = API.makePaginated(() => ({
+/** List the apps under the specified AdMob account. */
+export const listAccountsApps: API.PaginatedOperationMethod<ListAccountsAppsRequest, ListAccountsAppsResponse, ListAccountsAppsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsAppsRequest,
   output: ListAccountsAppsResponse,
   errors: [],
@@ -581,7 +581,6 @@ export const listAccountsApps = API.makePaginated(() => ({
   },
 }));
 
-/** List the ad units under the specified AdMob account. */
 export interface ListAccountsAdUnitsRequest {
   /** Required. Resource name of the account to list ad units for. Example: accounts/pub-9876543210987654 */
   parent: string;
@@ -605,7 +604,8 @@ export const ListAccountsAdUnitsResponse = ListAdUnitsResponse;
 
 export type ListAccountsAdUnitsError = CommonErrors;
 
-export const listAccountsAdUnits = API.makePaginated(() => ({
+/** List the ad units under the specified AdMob account. */
+export const listAccountsAdUnits: API.PaginatedOperationMethod<ListAccountsAdUnitsRequest, ListAccountsAdUnitsResponse, ListAccountsAdUnitsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsAdUnitsRequest,
   output: ListAccountsAdUnitsResponse,
   errors: [],

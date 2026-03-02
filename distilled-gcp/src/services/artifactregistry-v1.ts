@@ -1556,7 +1556,6 @@ export const ProjectSettings: Schema.Schema<ProjectSettings> = Schema.suspend(()
 // Operations
 // ==========================================================================
 
-/** Retrieves the Settings for the Project. */
 export interface GetProjectSettingsProjectsRequest {
   /** Required. The name of the projectSettings resource. */
   name: string;
@@ -1574,13 +1573,13 @@ export const GetProjectSettingsProjectsResponse = ProjectSettings;
 
 export type GetProjectSettingsProjectsError = CommonErrors;
 
+/** Retrieves the Settings for the Project. */
 export const getProjectSettingsProjects: API.OperationMethod<GetProjectSettingsProjectsRequest, GetProjectSettingsProjectsResponse, GetProjectSettingsProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectSettingsProjectsRequest,
   output: GetProjectSettingsProjectsResponse,
   errors: [],
 }));
 
-/** Updates the Settings for the Project. */
 export interface UpdateProjectSettingsProjectsRequest {
   /** The name of the project's settings. Always of the form: projects/{project-id}/projectSettings In update request: never set In response: always set */
   name: string;
@@ -1604,13 +1603,13 @@ export const UpdateProjectSettingsProjectsResponse = ProjectSettings;
 
 export type UpdateProjectSettingsProjectsError = CommonErrors;
 
+/** Updates the Settings for the Project. */
 export const updateProjectSettingsProjects: API.OperationMethod<UpdateProjectSettingsProjectsRequest, UpdateProjectSettingsProjectsResponse, UpdateProjectSettingsProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateProjectSettingsProjectsRequest,
   output: UpdateProjectSettingsProjectsResponse,
   errors: [],
 }));
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string;
@@ -1640,7 +1639,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -1650,7 +1650,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -1668,13 +1667,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Retrieves the VPCSC Config for the Project. */
 export interface GetVpcscConfigProjectsLocationsRequest {
   /** Required. The name of the VPCSCConfig resource. */
   name: string;
@@ -1692,13 +1691,13 @@ export const GetVpcscConfigProjectsLocationsResponse = VPCSCConfig;
 
 export type GetVpcscConfigProjectsLocationsError = CommonErrors;
 
+/** Retrieves the VPCSC Config for the Project. */
 export const getVpcscConfigProjectsLocations: API.OperationMethod<GetVpcscConfigProjectsLocationsRequest, GetVpcscConfigProjectsLocationsResponse, GetVpcscConfigProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetVpcscConfigProjectsLocationsRequest,
   output: GetVpcscConfigProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Updates the VPCSC Config for the Project. */
 export interface UpdateVpcscConfigProjectsLocationsRequest {
   /** The name of the project's VPC SC Config. Always of the form: projects/{projectID}/locations/{location}/vpcscConfig In update request: never set In response: always set */
   name: string;
@@ -1722,13 +1721,13 @@ export const UpdateVpcscConfigProjectsLocationsResponse = VPCSCConfig;
 
 export type UpdateVpcscConfigProjectsLocationsError = CommonErrors;
 
+/** Updates the VPCSC Config for the Project. */
 export const updateVpcscConfigProjectsLocations: API.OperationMethod<UpdateVpcscConfigProjectsLocationsRequest, UpdateVpcscConfigProjectsLocationsResponse, UpdateVpcscConfigProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateVpcscConfigProjectsLocationsRequest,
   output: UpdateVpcscConfigProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1746,13 +1745,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Updates the IAM policy for a given resource. */
 export interface SetIamPolicyProjectsLocationsRepositoriesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1773,13 +1772,13 @@ export const SetIamPolicyProjectsLocationsRepositoriesResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsRepositoriesError = CommonErrors;
 
+/** Updates the IAM policy for a given resource. */
 export const setIamPolicyProjectsLocationsRepositories: API.OperationMethod<SetIamPolicyProjectsLocationsRepositoriesRequest, SetIamPolicyProjectsLocationsRepositoriesResponse, SetIamPolicyProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsRepositoriesRequest,
   output: SetIamPolicyProjectsLocationsRepositoriesResponse,
   errors: [],
 }));
 
-/** Exports an artifact to a Cloud Storage bucket. */
 export interface ExportArtifactProjectsLocationsRepositoriesRequest {
   /** Required. The repository of the artifact to export. Format: projects/{project}/locations/{location}/repositories/{repository} */
   repository: string;
@@ -1800,13 +1799,13 @@ export const ExportArtifactProjectsLocationsRepositoriesResponse = Operation;
 
 export type ExportArtifactProjectsLocationsRepositoriesError = CommonErrors;
 
+/** Exports an artifact to a Cloud Storage bucket. */
 export const exportArtifactProjectsLocationsRepositories: API.OperationMethod<ExportArtifactProjectsLocationsRepositoriesRequest, ExportArtifactProjectsLocationsRepositoriesResponse, ExportArtifactProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExportArtifactProjectsLocationsRepositoriesRequest,
   output: ExportArtifactProjectsLocationsRepositoriesResponse,
   errors: [],
 }));
 
-/** Creates a repository. The returned Operation will finish once the repository has been created. Its response will be the created Repository. */
 export interface CreateProjectsLocationsRepositoriesRequest {
   /** Required. The name of the parent resource where the repository will be created. */
   parent: string;
@@ -1830,13 +1829,13 @@ export const CreateProjectsLocationsRepositoriesResponse = Operation;
 
 export type CreateProjectsLocationsRepositoriesError = CommonErrors;
 
+/** Creates a repository. The returned Operation will finish once the repository has been created. Its response will be the created Repository. */
 export const createProjectsLocationsRepositories: API.OperationMethod<CreateProjectsLocationsRepositoriesRequest, CreateProjectsLocationsRepositoriesResponse, CreateProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsRepositoriesRequest,
   output: CreateProjectsLocationsRepositoriesResponse,
   errors: [],
 }));
 
-/** Deletes a repository and all of its contents. The returned Operation will finish once the repository has been deleted. It will not have any Operation metadata and will return a google.protobuf.Empty response. */
 export interface DeleteProjectsLocationsRepositoriesRequest {
   /** Required. The name of the repository to delete. */
   name: string;
@@ -1854,13 +1853,13 @@ export const DeleteProjectsLocationsRepositoriesResponse = Operation;
 
 export type DeleteProjectsLocationsRepositoriesError = CommonErrors;
 
+/** Deletes a repository and all of its contents. The returned Operation will finish once the repository has been deleted. It will not have any Operation metadata and will return a google.protobuf.Empty response. */
 export const deleteProjectsLocationsRepositories: API.OperationMethod<DeleteProjectsLocationsRepositoriesRequest, DeleteProjectsLocationsRepositoriesResponse, DeleteProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsRepositoriesRequest,
   output: DeleteProjectsLocationsRepositoriesResponse,
   errors: [],
 }));
 
-/** Gets the IAM policy for a given resource. */
 export interface GetIamPolicyProjectsLocationsRepositoriesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1881,13 +1880,13 @@ export const GetIamPolicyProjectsLocationsRepositoriesResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsRepositoriesError = CommonErrors;
 
+/** Gets the IAM policy for a given resource. */
 export const getIamPolicyProjectsLocationsRepositories: API.OperationMethod<GetIamPolicyProjectsLocationsRepositoriesRequest, GetIamPolicyProjectsLocationsRepositoriesResponse, GetIamPolicyProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsRepositoriesRequest,
   output: GetIamPolicyProjectsLocationsRepositoriesResponse,
   errors: [],
 }));
 
-/** Tests if the caller has a list of permissions on a resource. */
 export interface TestIamPermissionsProjectsLocationsRepositoriesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1908,13 +1907,13 @@ export const TestIamPermissionsProjectsLocationsRepositoriesResponse = TestIamPe
 
 export type TestIamPermissionsProjectsLocationsRepositoriesError = CommonErrors;
 
+/** Tests if the caller has a list of permissions on a resource. */
 export const testIamPermissionsProjectsLocationsRepositories: API.OperationMethod<TestIamPermissionsProjectsLocationsRepositoriesRequest, TestIamPermissionsProjectsLocationsRepositoriesResponse, TestIamPermissionsProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsRepositoriesRequest,
   output: TestIamPermissionsProjectsLocationsRepositoriesResponse,
   errors: [],
 }));
 
-/** Gets a repository. */
 export interface GetProjectsLocationsRepositoriesRequest {
   /** Required. The name of the repository to retrieve. */
   name: string;
@@ -1932,13 +1931,13 @@ export const GetProjectsLocationsRepositoriesResponse = Repository;
 
 export type GetProjectsLocationsRepositoriesError = CommonErrors;
 
+/** Gets a repository. */
 export const getProjectsLocationsRepositories: API.OperationMethod<GetProjectsLocationsRepositoriesRequest, GetProjectsLocationsRepositoriesResponse, GetProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRepositoriesRequest,
   output: GetProjectsLocationsRepositoriesResponse,
   errors: [],
 }));
 
-/** Lists repositories. */
 export interface ListProjectsLocationsRepositoriesRequest {
   /** The maximum number of repositories to return. Maximum page size is 1,000. */
   pageSize?: number;
@@ -1968,7 +1967,8 @@ export const ListProjectsLocationsRepositoriesResponse = ListRepositoriesRespons
 
 export type ListProjectsLocationsRepositoriesError = CommonErrors;
 
-export const listProjectsLocationsRepositories = API.makePaginated(() => ({
+/** Lists repositories. */
+export const listProjectsLocationsRepositories: API.PaginatedOperationMethod<ListProjectsLocationsRepositoriesRequest, ListProjectsLocationsRepositoriesResponse, ListProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRepositoriesRequest,
   output: ListProjectsLocationsRepositoriesResponse,
   errors: [],
@@ -1978,7 +1978,6 @@ export const listProjectsLocationsRepositories = API.makePaginated(() => ({
   },
 }));
 
-/** Updates a repository. */
 export interface PatchProjectsLocationsRepositoriesRequest {
   /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string;
@@ -2002,13 +2001,13 @@ export const PatchProjectsLocationsRepositoriesResponse = Repository;
 
 export type PatchProjectsLocationsRepositoriesError = CommonErrors;
 
+/** Updates a repository. */
 export const patchProjectsLocationsRepositories: API.OperationMethod<PatchProjectsLocationsRepositoriesRequest, PatchProjectsLocationsRepositoriesResponse, PatchProjectsLocationsRepositoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsRepositoriesRequest,
   output: PatchProjectsLocationsRepositoriesResponse,
   errors: [],
 }));
 
-/** Imports Yum (RPM) artifacts. The returned Operation will complete once the resources are imported. Package, Version, and File resources are created based on the imported artifacts. Imported artifacts that conflict with existing resources are ignored. */
 export interface ImportProjectsLocationsRepositoriesYumArtifactsRequest {
   /** The name of the parent resource where the artifacts will be imported. */
   parent: string;
@@ -2029,13 +2028,13 @@ export const ImportProjectsLocationsRepositoriesYumArtifactsResponse = Operation
 
 export type ImportProjectsLocationsRepositoriesYumArtifactsError = CommonErrors;
 
+/** Imports Yum (RPM) artifacts. The returned Operation will complete once the resources are imported. Package, Version, and File resources are created based on the imported artifacts. Imported artifacts that conflict with existing resources are ignored. */
 export const importProjectsLocationsRepositoriesYumArtifacts: API.OperationMethod<ImportProjectsLocationsRepositoriesYumArtifactsRequest, ImportProjectsLocationsRepositoriesYumArtifactsResponse, ImportProjectsLocationsRepositoriesYumArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportProjectsLocationsRepositoriesYumArtifactsRequest,
   output: ImportProjectsLocationsRepositoriesYumArtifactsResponse,
   errors: [],
 }));
 
-/** Directly uploads a Yum artifact. The returned Operation will complete once the resources are uploaded. Package, Version, and File resources are created based on the imported artifact. Imported artifacts that conflict with existing resources are ignored. */
 export interface UploadProjectsLocationsRepositoriesYumArtifactsRequest {
   /** The name of the parent resource where the artifacts will be uploaded. */
   parent: string;
@@ -2056,13 +2055,13 @@ export const UploadProjectsLocationsRepositoriesYumArtifactsResponse = UploadYum
 
 export type UploadProjectsLocationsRepositoriesYumArtifactsError = CommonErrors;
 
+/** Directly uploads a Yum artifact. The returned Operation will complete once the resources are uploaded. Package, Version, and File resources are created based on the imported artifact. Imported artifacts that conflict with existing resources are ignored. */
 export const uploadProjectsLocationsRepositoriesYumArtifacts: API.OperationMethod<UploadProjectsLocationsRepositoriesYumArtifactsRequest, UploadProjectsLocationsRepositoriesYumArtifactsResponse, UploadProjectsLocationsRepositoriesYumArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadProjectsLocationsRepositoriesYumArtifactsRequest,
   output: UploadProjectsLocationsRepositoriesYumArtifactsResponse,
   errors: [],
 }));
 
-/** Lists npm packages. */
 export interface ListProjectsLocationsRepositoriesNpmPackagesRequest {
   /** Required. The name of the parent resource whose npm packages will be listed. */
   parent: string;
@@ -2086,7 +2085,8 @@ export const ListProjectsLocationsRepositoriesNpmPackagesResponse = ListNpmPacka
 
 export type ListProjectsLocationsRepositoriesNpmPackagesError = CommonErrors;
 
-export const listProjectsLocationsRepositoriesNpmPackages = API.makePaginated(() => ({
+/** Lists npm packages. */
+export const listProjectsLocationsRepositoriesNpmPackages: API.PaginatedOperationMethod<ListProjectsLocationsRepositoriesNpmPackagesRequest, ListProjectsLocationsRepositoriesNpmPackagesResponse, ListProjectsLocationsRepositoriesNpmPackagesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRepositoriesNpmPackagesRequest,
   output: ListProjectsLocationsRepositoriesNpmPackagesResponse,
   errors: [],
@@ -2096,7 +2096,6 @@ export const listProjectsLocationsRepositoriesNpmPackages = API.makePaginated(()
   },
 }));
 
-/** Gets a npm package. */
 export interface GetProjectsLocationsRepositoriesNpmPackagesRequest {
   /** Required. The name of the npm package. */
   name: string;
@@ -2114,13 +2113,13 @@ export const GetProjectsLocationsRepositoriesNpmPackagesResponse = NpmPackage;
 
 export type GetProjectsLocationsRepositoriesNpmPackagesError = CommonErrors;
 
+/** Gets a npm package. */
 export const getProjectsLocationsRepositoriesNpmPackages: API.OperationMethod<GetProjectsLocationsRepositoriesNpmPackagesRequest, GetProjectsLocationsRepositoriesNpmPackagesResponse, GetProjectsLocationsRepositoriesNpmPackagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRepositoriesNpmPackagesRequest,
   output: GetProjectsLocationsRepositoriesNpmPackagesResponse,
   errors: [],
 }));
 
-/** Directly uploads a file to a repository. The returned Operation will complete once the resources are uploaded. */
 export interface UploadProjectsLocationsRepositoriesFilesRequest {
   /** Required. The resource name of the repository where the file will be uploaded. */
   parent: string;
@@ -2141,13 +2140,13 @@ export const UploadProjectsLocationsRepositoriesFilesResponse = UploadFileMediaR
 
 export type UploadProjectsLocationsRepositoriesFilesError = CommonErrors;
 
+/** Directly uploads a file to a repository. The returned Operation will complete once the resources are uploaded. */
 export const uploadProjectsLocationsRepositoriesFiles: API.OperationMethod<UploadProjectsLocationsRepositoriesFilesRequest, UploadProjectsLocationsRepositoriesFilesResponse, UploadProjectsLocationsRepositoriesFilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadProjectsLocationsRepositoriesFilesRequest,
   output: UploadProjectsLocationsRepositoriesFilesResponse,
   errors: [],
 }));
 
-/** Gets a file. */
 export interface GetProjectsLocationsRepositoriesFilesRequest {
   /** Required. The name of the file to retrieve. */
   name: string;
@@ -2165,13 +2164,13 @@ export const GetProjectsLocationsRepositoriesFilesResponse = GoogleDevtoolsArtif
 
 export type GetProjectsLocationsRepositoriesFilesError = CommonErrors;
 
+/** Gets a file. */
 export const getProjectsLocationsRepositoriesFiles: API.OperationMethod<GetProjectsLocationsRepositoriesFilesRequest, GetProjectsLocationsRepositoriesFilesResponse, GetProjectsLocationsRepositoriesFilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRepositoriesFilesRequest,
   output: GetProjectsLocationsRepositoriesFilesResponse,
   errors: [],
 }));
 
-/** Deletes a file and all of its content. It is only allowed on generic repositories. The returned operation will complete once the file has been deleted. */
 export interface DeleteProjectsLocationsRepositoriesFilesRequest {
   /** Required. The name of the file to delete. */
   name: string;
@@ -2189,13 +2188,13 @@ export const DeleteProjectsLocationsRepositoriesFilesResponse = Operation;
 
 export type DeleteProjectsLocationsRepositoriesFilesError = CommonErrors;
 
+/** Deletes a file and all of its content. It is only allowed on generic repositories. The returned operation will complete once the file has been deleted. */
 export const deleteProjectsLocationsRepositoriesFiles: API.OperationMethod<DeleteProjectsLocationsRepositoriesFilesRequest, DeleteProjectsLocationsRepositoriesFilesResponse, DeleteProjectsLocationsRepositoriesFilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsRepositoriesFilesRequest,
   output: DeleteProjectsLocationsRepositoriesFilesResponse,
   errors: [],
 }));
 
-/** Updates a file. */
 export interface PatchProjectsLocationsRepositoriesFilesRequest {
   /** The name of the file, for example: `projects/p1/locations/us-central1/repositories/repo1/files/a%2Fb%2Fc.txt`. If the file ID part contains slashes, they are escaped. */
   name: string;
@@ -2219,13 +2218,13 @@ export const PatchProjectsLocationsRepositoriesFilesResponse = GoogleDevtoolsArt
 
 export type PatchProjectsLocationsRepositoriesFilesError = CommonErrors;
 
+/** Updates a file. */
 export const patchProjectsLocationsRepositoriesFiles: API.OperationMethod<PatchProjectsLocationsRepositoriesFilesRequest, PatchProjectsLocationsRepositoriesFilesResponse, PatchProjectsLocationsRepositoriesFilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsRepositoriesFilesRequest,
   output: PatchProjectsLocationsRepositoriesFilesResponse,
   errors: [],
 }));
 
-/** Download a file. */
 export interface DownloadProjectsLocationsRepositoriesFilesRequest {
   /** Required. The name of the file to download. */
   name: string;
@@ -2243,13 +2242,13 @@ export const DownloadProjectsLocationsRepositoriesFilesResponse = DownloadFileRe
 
 export type DownloadProjectsLocationsRepositoriesFilesError = CommonErrors;
 
+/** Download a file. */
 export const downloadProjectsLocationsRepositoriesFiles: API.OperationMethod<DownloadProjectsLocationsRepositoriesFilesRequest, DownloadProjectsLocationsRepositoriesFilesResponse, DownloadProjectsLocationsRepositoriesFilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DownloadProjectsLocationsRepositoriesFilesRequest,
   output: DownloadProjectsLocationsRepositoriesFilesResponse,
   errors: [],
 }));
 
-/** Lists files. */
 export interface ListProjectsLocationsRepositoriesFilesRequest {
   /** Required. The name of the repository whose files will be listed. For example: "projects/p1/locations/us-central1/repositories/repo1 */
   parent: string;
@@ -2279,7 +2278,8 @@ export const ListProjectsLocationsRepositoriesFilesResponse = ListFilesResponse;
 
 export type ListProjectsLocationsRepositoriesFilesError = CommonErrors;
 
-export const listProjectsLocationsRepositoriesFiles = API.makePaginated(() => ({
+/** Lists files. */
+export const listProjectsLocationsRepositoriesFiles: API.PaginatedOperationMethod<ListProjectsLocationsRepositoriesFilesRequest, ListProjectsLocationsRepositoriesFilesResponse, ListProjectsLocationsRepositoriesFilesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRepositoriesFilesRequest,
   output: ListProjectsLocationsRepositoriesFilesResponse,
   errors: [],
@@ -2289,7 +2289,6 @@ export const listProjectsLocationsRepositoriesFiles = API.makePaginated(() => ({
   },
 }));
 
-/** Directly uploads a KFP artifact. The returned Operation will complete once the resource is uploaded. Package, Version, and File resources will be created based on the uploaded artifact. Uploaded artifacts that conflict with existing resources will be overwritten. */
 export interface UploadProjectsLocationsRepositoriesKfpArtifactsRequest {
   /** The resource name of the repository where the KFP artifact will be uploaded. */
   parent: string;
@@ -2310,13 +2309,13 @@ export const UploadProjectsLocationsRepositoriesKfpArtifactsResponse = UploadKfp
 
 export type UploadProjectsLocationsRepositoriesKfpArtifactsError = CommonErrors;
 
+/** Directly uploads a KFP artifact. The returned Operation will complete once the resource is uploaded. Package, Version, and File resources will be created based on the uploaded artifact. Uploaded artifacts that conflict with existing resources will be overwritten. */
 export const uploadProjectsLocationsRepositoriesKfpArtifacts: API.OperationMethod<UploadProjectsLocationsRepositoriesKfpArtifactsRequest, UploadProjectsLocationsRepositoriesKfpArtifactsResponse, UploadProjectsLocationsRepositoriesKfpArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadProjectsLocationsRepositoriesKfpArtifactsRequest,
   output: UploadProjectsLocationsRepositoriesKfpArtifactsResponse,
   errors: [],
 }));
 
-/** Directly uploads an Apt artifact. The returned Operation will complete once the resources are uploaded. Package, Version, and File resources are created based on the imported artifact. Imported artifacts that conflict with existing resources are ignored. */
 export interface UploadProjectsLocationsRepositoriesAptArtifactsRequest {
   /** The name of the parent resource where the artifacts will be uploaded. */
   parent: string;
@@ -2337,13 +2336,13 @@ export const UploadProjectsLocationsRepositoriesAptArtifactsResponse = UploadApt
 
 export type UploadProjectsLocationsRepositoriesAptArtifactsError = CommonErrors;
 
+/** Directly uploads an Apt artifact. The returned Operation will complete once the resources are uploaded. Package, Version, and File resources are created based on the imported artifact. Imported artifacts that conflict with existing resources are ignored. */
 export const uploadProjectsLocationsRepositoriesAptArtifacts: API.OperationMethod<UploadProjectsLocationsRepositoriesAptArtifactsRequest, UploadProjectsLocationsRepositoriesAptArtifactsResponse, UploadProjectsLocationsRepositoriesAptArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadProjectsLocationsRepositoriesAptArtifactsRequest,
   output: UploadProjectsLocationsRepositoriesAptArtifactsResponse,
   errors: [],
 }));
 
-/** Imports Apt artifacts. The returned Operation will complete once the resources are imported. Package, Version, and File resources are created based on the imported artifacts. Imported artifacts that conflict with existing resources are ignored. */
 export interface ImportProjectsLocationsRepositoriesAptArtifactsRequest {
   /** The name of the parent resource where the artifacts will be imported. */
   parent: string;
@@ -2364,13 +2363,13 @@ export const ImportProjectsLocationsRepositoriesAptArtifactsResponse = Operation
 
 export type ImportProjectsLocationsRepositoriesAptArtifactsError = CommonErrors;
 
+/** Imports Apt artifacts. The returned Operation will complete once the resources are imported. Package, Version, and File resources are created based on the imported artifacts. Imported artifacts that conflict with existing resources are ignored. */
 export const importProjectsLocationsRepositoriesAptArtifacts: API.OperationMethod<ImportProjectsLocationsRepositoriesAptArtifactsRequest, ImportProjectsLocationsRepositoriesAptArtifactsResponse, ImportProjectsLocationsRepositoriesAptArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportProjectsLocationsRepositoriesAptArtifactsRequest,
   output: ImportProjectsLocationsRepositoriesAptArtifactsResponse,
   errors: [],
 }));
 
-/** Gets an attachment. */
 export interface GetProjectsLocationsRepositoriesAttachmentsRequest {
   /** Required. The name of the attachment to retrieve. */
   name: string;
@@ -2388,13 +2387,13 @@ export const GetProjectsLocationsRepositoriesAttachmentsResponse = Attachment;
 
 export type GetProjectsLocationsRepositoriesAttachmentsError = CommonErrors;
 
+/** Gets an attachment. */
 export const getProjectsLocationsRepositoriesAttachments: API.OperationMethod<GetProjectsLocationsRepositoriesAttachmentsRequest, GetProjectsLocationsRepositoriesAttachmentsResponse, GetProjectsLocationsRepositoriesAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRepositoriesAttachmentsRequest,
   output: GetProjectsLocationsRepositoriesAttachmentsResponse,
   errors: [],
 }));
 
-/** Creates an attachment. The returned Operation will finish once the attachment has been created. Its response will be the created attachment. */
 export interface CreateProjectsLocationsRepositoriesAttachmentsRequest {
   /** Required. The name of the parent resource where the attachment will be created. */
   parent: string;
@@ -2418,13 +2417,13 @@ export const CreateProjectsLocationsRepositoriesAttachmentsResponse = Operation;
 
 export type CreateProjectsLocationsRepositoriesAttachmentsError = CommonErrors;
 
+/** Creates an attachment. The returned Operation will finish once the attachment has been created. Its response will be the created attachment. */
 export const createProjectsLocationsRepositoriesAttachments: API.OperationMethod<CreateProjectsLocationsRepositoriesAttachmentsRequest, CreateProjectsLocationsRepositoriesAttachmentsResponse, CreateProjectsLocationsRepositoriesAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsRepositoriesAttachmentsRequest,
   output: CreateProjectsLocationsRepositoriesAttachmentsResponse,
   errors: [],
 }));
 
-/** Lists attachments. */
 export interface ListProjectsLocationsRepositoriesAttachmentsRequest {
   /** Optional. An expression for filtering the results of the request. Filter rules are case insensitive. The fields eligible for filtering are: * `target` * `type` * `attachment_namespace` */
   filter?: string;
@@ -2451,7 +2450,8 @@ export const ListProjectsLocationsRepositoriesAttachmentsResponse = ListAttachme
 
 export type ListProjectsLocationsRepositoriesAttachmentsError = CommonErrors;
 
-export const listProjectsLocationsRepositoriesAttachments = API.makePaginated(() => ({
+/** Lists attachments. */
+export const listProjectsLocationsRepositoriesAttachments: API.PaginatedOperationMethod<ListProjectsLocationsRepositoriesAttachmentsRequest, ListProjectsLocationsRepositoriesAttachmentsResponse, ListProjectsLocationsRepositoriesAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRepositoriesAttachmentsRequest,
   output: ListProjectsLocationsRepositoriesAttachmentsResponse,
   errors: [],
@@ -2461,7 +2461,6 @@ export const listProjectsLocationsRepositoriesAttachments = API.makePaginated(()
   },
 }));
 
-/** Deletes an attachment. The returned Operation will finish once the attachments has been deleted. It will not have any Operation metadata and will return a `google.protobuf.Empty` response. */
 export interface DeleteProjectsLocationsRepositoriesAttachmentsRequest {
   /** Required. The name of the attachment to delete. */
   name: string;
@@ -2479,13 +2478,13 @@ export const DeleteProjectsLocationsRepositoriesAttachmentsResponse = Operation;
 
 export type DeleteProjectsLocationsRepositoriesAttachmentsError = CommonErrors;
 
+/** Deletes an attachment. The returned Operation will finish once the attachments has been deleted. It will not have any Operation metadata and will return a `google.protobuf.Empty` response. */
 export const deleteProjectsLocationsRepositoriesAttachments: API.OperationMethod<DeleteProjectsLocationsRepositoriesAttachmentsRequest, DeleteProjectsLocationsRepositoriesAttachmentsResponse, DeleteProjectsLocationsRepositoriesAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsRepositoriesAttachmentsRequest,
   output: DeleteProjectsLocationsRepositoriesAttachmentsResponse,
   errors: [],
 }));
 
-/** Gets a python package. */
 export interface GetProjectsLocationsRepositoriesPythonPackagesRequest {
   /** Required. The name of the python package. */
   name: string;
@@ -2503,13 +2502,13 @@ export const GetProjectsLocationsRepositoriesPythonPackagesResponse = PythonPack
 
 export type GetProjectsLocationsRepositoriesPythonPackagesError = CommonErrors;
 
+/** Gets a python package. */
 export const getProjectsLocationsRepositoriesPythonPackages: API.OperationMethod<GetProjectsLocationsRepositoriesPythonPackagesRequest, GetProjectsLocationsRepositoriesPythonPackagesResponse, GetProjectsLocationsRepositoriesPythonPackagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRepositoriesPythonPackagesRequest,
   output: GetProjectsLocationsRepositoriesPythonPackagesResponse,
   errors: [],
 }));
 
-/** Lists python packages. */
 export interface ListProjectsLocationsRepositoriesPythonPackagesRequest {
   /** The maximum number of artifacts to return. Maximum page size is 1,000. */
   pageSize?: number;
@@ -2533,7 +2532,8 @@ export const ListProjectsLocationsRepositoriesPythonPackagesResponse = ListPytho
 
 export type ListProjectsLocationsRepositoriesPythonPackagesError = CommonErrors;
 
-export const listProjectsLocationsRepositoriesPythonPackages = API.makePaginated(() => ({
+/** Lists python packages. */
+export const listProjectsLocationsRepositoriesPythonPackages: API.PaginatedOperationMethod<ListProjectsLocationsRepositoriesPythonPackagesRequest, ListProjectsLocationsRepositoriesPythonPackagesResponse, ListProjectsLocationsRepositoriesPythonPackagesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRepositoriesPythonPackagesRequest,
   output: ListProjectsLocationsRepositoriesPythonPackagesResponse,
   errors: [],
@@ -2543,7 +2543,6 @@ export const listProjectsLocationsRepositoriesPythonPackages = API.makePaginated
   },
 }));
 
-/** Directly uploads a Go module. The returned Operation will complete once the Go module is uploaded. Package, Version, and File resources are created based on the uploaded Go module. */
 export interface UploadProjectsLocationsRepositoriesGoModulesRequest {
   /** The resource name of the repository where the Go module will be uploaded. */
   parent: string;
@@ -2564,13 +2563,13 @@ export const UploadProjectsLocationsRepositoriesGoModulesResponse = UploadGoModu
 
 export type UploadProjectsLocationsRepositoriesGoModulesError = CommonErrors;
 
+/** Directly uploads a Go module. The returned Operation will complete once the Go module is uploaded. Package, Version, and File resources are created based on the uploaded Go module. */
 export const uploadProjectsLocationsRepositoriesGoModules: API.OperationMethod<UploadProjectsLocationsRepositoriesGoModulesRequest, UploadProjectsLocationsRepositoriesGoModulesResponse, UploadProjectsLocationsRepositoriesGoModulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadProjectsLocationsRepositoriesGoModulesRequest,
   output: UploadProjectsLocationsRepositoriesGoModulesResponse,
   errors: [],
 }));
 
-/** Lists docker images. */
 export interface ListProjectsLocationsRepositoriesDockerImagesRequest {
   /** The field to order the results by. */
   orderBy?: string;
@@ -2597,7 +2596,8 @@ export const ListProjectsLocationsRepositoriesDockerImagesResponse = ListDockerI
 
 export type ListProjectsLocationsRepositoriesDockerImagesError = CommonErrors;
 
-export const listProjectsLocationsRepositoriesDockerImages = API.makePaginated(() => ({
+/** Lists docker images. */
+export const listProjectsLocationsRepositoriesDockerImages: API.PaginatedOperationMethod<ListProjectsLocationsRepositoriesDockerImagesRequest, ListProjectsLocationsRepositoriesDockerImagesResponse, ListProjectsLocationsRepositoriesDockerImagesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRepositoriesDockerImagesRequest,
   output: ListProjectsLocationsRepositoriesDockerImagesResponse,
   errors: [],
@@ -2607,7 +2607,6 @@ export const listProjectsLocationsRepositoriesDockerImages = API.makePaginated((
   },
 }));
 
-/** Gets a docker image. */
 export interface GetProjectsLocationsRepositoriesDockerImagesRequest {
   /** Required. The name of the docker images. */
   name: string;
@@ -2625,13 +2624,13 @@ export const GetProjectsLocationsRepositoriesDockerImagesResponse = DockerImage;
 
 export type GetProjectsLocationsRepositoriesDockerImagesError = CommonErrors;
 
+/** Gets a docker image. */
 export const getProjectsLocationsRepositoriesDockerImages: API.OperationMethod<GetProjectsLocationsRepositoriesDockerImagesRequest, GetProjectsLocationsRepositoriesDockerImagesResponse, GetProjectsLocationsRepositoriesDockerImagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRepositoriesDockerImagesRequest,
   output: GetProjectsLocationsRepositoriesDockerImagesResponse,
   errors: [],
 }));
 
-/** Gets a rule. */
 export interface GetProjectsLocationsRepositoriesRulesRequest {
   /** Required. The name of the rule to retrieve. */
   name: string;
@@ -2649,13 +2648,13 @@ export const GetProjectsLocationsRepositoriesRulesResponse = GoogleDevtoolsArtif
 
 export type GetProjectsLocationsRepositoriesRulesError = CommonErrors;
 
+/** Gets a rule. */
 export const getProjectsLocationsRepositoriesRules: API.OperationMethod<GetProjectsLocationsRepositoriesRulesRequest, GetProjectsLocationsRepositoriesRulesResponse, GetProjectsLocationsRepositoriesRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRepositoriesRulesRequest,
   output: GetProjectsLocationsRepositoriesRulesResponse,
   errors: [],
 }));
 
-/** Creates a rule. */
 export interface CreateProjectsLocationsRepositoriesRulesRequest {
   /** The rule id to use for this repository. */
   ruleId?: string;
@@ -2679,13 +2678,13 @@ export const CreateProjectsLocationsRepositoriesRulesResponse = GoogleDevtoolsAr
 
 export type CreateProjectsLocationsRepositoriesRulesError = CommonErrors;
 
+/** Creates a rule. */
 export const createProjectsLocationsRepositoriesRules: API.OperationMethod<CreateProjectsLocationsRepositoriesRulesRequest, CreateProjectsLocationsRepositoriesRulesResponse, CreateProjectsLocationsRepositoriesRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsRepositoriesRulesRequest,
   output: CreateProjectsLocationsRepositoriesRulesResponse,
   errors: [],
 }));
 
-/** Updates a rule. */
 export interface PatchProjectsLocationsRepositoriesRulesRequest {
   /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string;
@@ -2709,13 +2708,13 @@ export const PatchProjectsLocationsRepositoriesRulesResponse = GoogleDevtoolsArt
 
 export type PatchProjectsLocationsRepositoriesRulesError = CommonErrors;
 
+/** Updates a rule. */
 export const patchProjectsLocationsRepositoriesRules: API.OperationMethod<PatchProjectsLocationsRepositoriesRulesRequest, PatchProjectsLocationsRepositoriesRulesResponse, PatchProjectsLocationsRepositoriesRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsRepositoriesRulesRequest,
   output: PatchProjectsLocationsRepositoriesRulesResponse,
   errors: [],
 }));
 
-/** Deletes a rule. */
 export interface DeleteProjectsLocationsRepositoriesRulesRequest {
   /** Required. The name of the rule to delete. */
   name: string;
@@ -2733,13 +2732,13 @@ export const DeleteProjectsLocationsRepositoriesRulesResponse = Empty;
 
 export type DeleteProjectsLocationsRepositoriesRulesError = CommonErrors;
 
+/** Deletes a rule. */
 export const deleteProjectsLocationsRepositoriesRules: API.OperationMethod<DeleteProjectsLocationsRepositoriesRulesRequest, DeleteProjectsLocationsRepositoriesRulesResponse, DeleteProjectsLocationsRepositoriesRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsRepositoriesRulesRequest,
   output: DeleteProjectsLocationsRepositoriesRulesResponse,
   errors: [],
 }));
 
-/** Lists rules. */
 export interface ListProjectsLocationsRepositoriesRulesRequest {
   /** Required. The name of the parent repository whose rules will be listed. For example: `projects/p1/locations/us-central1/repositories/repo1`. */
   parent: string;
@@ -2763,7 +2762,8 @@ export const ListProjectsLocationsRepositoriesRulesResponse = ListRulesResponse;
 
 export type ListProjectsLocationsRepositoriesRulesError = CommonErrors;
 
-export const listProjectsLocationsRepositoriesRules = API.makePaginated(() => ({
+/** Lists rules. */
+export const listProjectsLocationsRepositoriesRules: API.PaginatedOperationMethod<ListProjectsLocationsRepositoriesRulesRequest, ListProjectsLocationsRepositoriesRulesResponse, ListProjectsLocationsRepositoriesRulesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRepositoriesRulesRequest,
   output: ListProjectsLocationsRepositoriesRulesResponse,
   errors: [],
@@ -2773,7 +2773,6 @@ export const listProjectsLocationsRepositoriesRules = API.makePaginated(() => ({
   },
 }));
 
-/** Directly uploads a Generic artifact. The returned operation will complete once the resources are uploaded. Package, version, and file resources are created based on the uploaded artifact. Uploaded artifacts that conflict with existing resources will raise an `ALREADY_EXISTS` error. */
 export interface UploadProjectsLocationsRepositoriesGenericArtifactsRequest {
   /** The resource name of the repository where the generic artifact will be uploaded. */
   parent: string;
@@ -2794,13 +2793,13 @@ export const UploadProjectsLocationsRepositoriesGenericArtifactsResponse = Uploa
 
 export type UploadProjectsLocationsRepositoriesGenericArtifactsError = CommonErrors;
 
+/** Directly uploads a Generic artifact. The returned operation will complete once the resources are uploaded. Package, version, and file resources are created based on the uploaded artifact. Uploaded artifacts that conflict with existing resources will raise an `ALREADY_EXISTS` error. */
 export const uploadProjectsLocationsRepositoriesGenericArtifacts: API.OperationMethod<UploadProjectsLocationsRepositoriesGenericArtifactsRequest, UploadProjectsLocationsRepositoriesGenericArtifactsResponse, UploadProjectsLocationsRepositoriesGenericArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadProjectsLocationsRepositoriesGenericArtifactsRequest,
   output: UploadProjectsLocationsRepositoriesGenericArtifactsResponse,
   errors: [],
 }));
 
-/** Imports GooGet artifacts. The returned Operation will complete once the resources are imported. Package, Version, and File resources are created based on the imported artifacts. Imported artifacts that conflict with existing resources are ignored. */
 export interface ImportProjectsLocationsRepositoriesGoogetArtifactsRequest {
   /** The name of the parent resource where the artifacts will be imported. */
   parent: string;
@@ -2821,13 +2820,13 @@ export const ImportProjectsLocationsRepositoriesGoogetArtifactsResponse = Operat
 
 export type ImportProjectsLocationsRepositoriesGoogetArtifactsError = CommonErrors;
 
+/** Imports GooGet artifacts. The returned Operation will complete once the resources are imported. Package, Version, and File resources are created based on the imported artifacts. Imported artifacts that conflict with existing resources are ignored. */
 export const importProjectsLocationsRepositoriesGoogetArtifacts: API.OperationMethod<ImportProjectsLocationsRepositoriesGoogetArtifactsRequest, ImportProjectsLocationsRepositoriesGoogetArtifactsResponse, ImportProjectsLocationsRepositoriesGoogetArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportProjectsLocationsRepositoriesGoogetArtifactsRequest,
   output: ImportProjectsLocationsRepositoriesGoogetArtifactsResponse,
   errors: [],
 }));
 
-/** Directly uploads a GooGet artifact. The returned Operation will complete once the resources are uploaded. Package, Version, and File resources are created based on the imported artifact. Imported artifacts that conflict with existing resources are ignored. */
 export interface UploadProjectsLocationsRepositoriesGoogetArtifactsRequest {
   /** The name of the parent resource where the artifacts will be uploaded. */
   parent: string;
@@ -2848,13 +2847,13 @@ export const UploadProjectsLocationsRepositoriesGoogetArtifactsResponse = Upload
 
 export type UploadProjectsLocationsRepositoriesGoogetArtifactsError = CommonErrors;
 
+/** Directly uploads a GooGet artifact. The returned Operation will complete once the resources are uploaded. Package, Version, and File resources are created based on the imported artifact. Imported artifacts that conflict with existing resources are ignored. */
 export const uploadProjectsLocationsRepositoriesGoogetArtifacts: API.OperationMethod<UploadProjectsLocationsRepositoriesGoogetArtifactsRequest, UploadProjectsLocationsRepositoriesGoogetArtifactsResponse, UploadProjectsLocationsRepositoriesGoogetArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadProjectsLocationsRepositoriesGoogetArtifactsRequest,
   output: UploadProjectsLocationsRepositoriesGoogetArtifactsResponse,
   errors: [],
 }));
 
-/** Lists packages. */
 export interface ListProjectsLocationsRepositoriesPackagesRequest {
   /** The next_page_token value returned from a previous list request, if any. */
   pageToken?: string;
@@ -2884,7 +2883,8 @@ export const ListProjectsLocationsRepositoriesPackagesResponse = ListPackagesRes
 
 export type ListProjectsLocationsRepositoriesPackagesError = CommonErrors;
 
-export const listProjectsLocationsRepositoriesPackages = API.makePaginated(() => ({
+/** Lists packages. */
+export const listProjectsLocationsRepositoriesPackages: API.PaginatedOperationMethod<ListProjectsLocationsRepositoriesPackagesRequest, ListProjectsLocationsRepositoriesPackagesResponse, ListProjectsLocationsRepositoriesPackagesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRepositoriesPackagesRequest,
   output: ListProjectsLocationsRepositoriesPackagesResponse,
   errors: [],
@@ -2894,7 +2894,6 @@ export const listProjectsLocationsRepositoriesPackages = API.makePaginated(() =>
   },
 }));
 
-/** Updates a package. */
 export interface PatchProjectsLocationsRepositoriesPackagesRequest {
   /** The name of the package, for example: `projects/p1/locations/us-central1/repositories/repo1/packages/pkg1`. If the package ID part contains slashes, the slashes are escaped. */
   name: string;
@@ -2918,13 +2917,13 @@ export const PatchProjectsLocationsRepositoriesPackagesResponse = Package;
 
 export type PatchProjectsLocationsRepositoriesPackagesError = CommonErrors;
 
+/** Updates a package. */
 export const patchProjectsLocationsRepositoriesPackages: API.OperationMethod<PatchProjectsLocationsRepositoriesPackagesRequest, PatchProjectsLocationsRepositoriesPackagesResponse, PatchProjectsLocationsRepositoriesPackagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsRepositoriesPackagesRequest,
   output: PatchProjectsLocationsRepositoriesPackagesResponse,
   errors: [],
 }));
 
-/** Gets a package. */
 export interface GetProjectsLocationsRepositoriesPackagesRequest {
   /** Required. The name of the package to retrieve. */
   name: string;
@@ -2942,13 +2941,13 @@ export const GetProjectsLocationsRepositoriesPackagesResponse = Package;
 
 export type GetProjectsLocationsRepositoriesPackagesError = CommonErrors;
 
+/** Gets a package. */
 export const getProjectsLocationsRepositoriesPackages: API.OperationMethod<GetProjectsLocationsRepositoriesPackagesRequest, GetProjectsLocationsRepositoriesPackagesResponse, GetProjectsLocationsRepositoriesPackagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRepositoriesPackagesRequest,
   output: GetProjectsLocationsRepositoriesPackagesResponse,
   errors: [],
 }));
 
-/** Deletes a package and all of its versions and tags. The returned operation will complete once the package has been deleted. */
 export interface DeleteProjectsLocationsRepositoriesPackagesRequest {
   /** Required. The name of the package to delete. */
   name: string;
@@ -2966,13 +2965,13 @@ export const DeleteProjectsLocationsRepositoriesPackagesResponse = Operation;
 
 export type DeleteProjectsLocationsRepositoriesPackagesError = CommonErrors;
 
+/** Deletes a package and all of its versions and tags. The returned operation will complete once the package has been deleted. */
 export const deleteProjectsLocationsRepositoriesPackages: API.OperationMethod<DeleteProjectsLocationsRepositoriesPackagesRequest, DeleteProjectsLocationsRepositoriesPackagesResponse, DeleteProjectsLocationsRepositoriesPackagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsRepositoriesPackagesRequest,
   output: DeleteProjectsLocationsRepositoriesPackagesResponse,
   errors: [],
 }));
 
-/** Updates a tag. */
 export interface PatchProjectsLocationsRepositoriesPackagesTagsRequest {
   /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string;
@@ -2996,13 +2995,13 @@ export const PatchProjectsLocationsRepositoriesPackagesTagsResponse = Tag;
 
 export type PatchProjectsLocationsRepositoriesPackagesTagsError = CommonErrors;
 
+/** Updates a tag. */
 export const patchProjectsLocationsRepositoriesPackagesTags: API.OperationMethod<PatchProjectsLocationsRepositoriesPackagesTagsRequest, PatchProjectsLocationsRepositoriesPackagesTagsResponse, PatchProjectsLocationsRepositoriesPackagesTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsRepositoriesPackagesTagsRequest,
   output: PatchProjectsLocationsRepositoriesPackagesTagsResponse,
   errors: [],
 }));
 
-/** Lists tags. */
 export interface ListProjectsLocationsRepositoriesPackagesTagsRequest {
   /** The maximum number of tags to return. Maximum page size is 1,000. */
   pageSize?: number;
@@ -3029,7 +3028,8 @@ export const ListProjectsLocationsRepositoriesPackagesTagsResponse = ListTagsRes
 
 export type ListProjectsLocationsRepositoriesPackagesTagsError = CommonErrors;
 
-export const listProjectsLocationsRepositoriesPackagesTags = API.makePaginated(() => ({
+/** Lists tags. */
+export const listProjectsLocationsRepositoriesPackagesTags: API.PaginatedOperationMethod<ListProjectsLocationsRepositoriesPackagesTagsRequest, ListProjectsLocationsRepositoriesPackagesTagsResponse, ListProjectsLocationsRepositoriesPackagesTagsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRepositoriesPackagesTagsRequest,
   output: ListProjectsLocationsRepositoriesPackagesTagsResponse,
   errors: [],
@@ -3039,7 +3039,6 @@ export const listProjectsLocationsRepositoriesPackagesTags = API.makePaginated((
   },
 }));
 
-/** Gets a tag. */
 export interface GetProjectsLocationsRepositoriesPackagesTagsRequest {
   /** The name of the tag to retrieve. */
   name: string;
@@ -3057,13 +3056,13 @@ export const GetProjectsLocationsRepositoriesPackagesTagsResponse = Tag;
 
 export type GetProjectsLocationsRepositoriesPackagesTagsError = CommonErrors;
 
+/** Gets a tag. */
 export const getProjectsLocationsRepositoriesPackagesTags: API.OperationMethod<GetProjectsLocationsRepositoriesPackagesTagsRequest, GetProjectsLocationsRepositoriesPackagesTagsResponse, GetProjectsLocationsRepositoriesPackagesTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRepositoriesPackagesTagsRequest,
   output: GetProjectsLocationsRepositoriesPackagesTagsResponse,
   errors: [],
 }));
 
-/** Deletes a tag. */
 export interface DeleteProjectsLocationsRepositoriesPackagesTagsRequest {
   /** The name of the tag to delete. */
   name: string;
@@ -3081,13 +3080,13 @@ export const DeleteProjectsLocationsRepositoriesPackagesTagsResponse = Empty;
 
 export type DeleteProjectsLocationsRepositoriesPackagesTagsError = CommonErrors;
 
+/** Deletes a tag. */
 export const deleteProjectsLocationsRepositoriesPackagesTags: API.OperationMethod<DeleteProjectsLocationsRepositoriesPackagesTagsRequest, DeleteProjectsLocationsRepositoriesPackagesTagsResponse, DeleteProjectsLocationsRepositoriesPackagesTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsRepositoriesPackagesTagsRequest,
   output: DeleteProjectsLocationsRepositoriesPackagesTagsResponse,
   errors: [],
 }));
 
-/** Creates a tag. */
 export interface CreateProjectsLocationsRepositoriesPackagesTagsRequest {
   /** The tag id to use for this repository. */
   tagId?: string;
@@ -3111,13 +3110,13 @@ export const CreateProjectsLocationsRepositoriesPackagesTagsResponse = Tag;
 
 export type CreateProjectsLocationsRepositoriesPackagesTagsError = CommonErrors;
 
+/** Creates a tag. */
 export const createProjectsLocationsRepositoriesPackagesTags: API.OperationMethod<CreateProjectsLocationsRepositoriesPackagesTagsRequest, CreateProjectsLocationsRepositoriesPackagesTagsResponse, CreateProjectsLocationsRepositoriesPackagesTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsRepositoriesPackagesTagsRequest,
   output: CreateProjectsLocationsRepositoriesPackagesTagsResponse,
   errors: [],
 }));
 
-/** Deletes multiple versions across a repository. The returned operation will complete once the versions have been deleted. */
 export interface BatchDeleteProjectsLocationsRepositoriesPackagesVersionsRequest {
   /** The name of the repository holding all requested versions. */
   parent: string;
@@ -3138,13 +3137,13 @@ export const BatchDeleteProjectsLocationsRepositoriesPackagesVersionsResponse = 
 
 export type BatchDeleteProjectsLocationsRepositoriesPackagesVersionsError = CommonErrors;
 
+/** Deletes multiple versions across a repository. The returned operation will complete once the versions have been deleted. */
 export const batchDeleteProjectsLocationsRepositoriesPackagesVersions: API.OperationMethod<BatchDeleteProjectsLocationsRepositoriesPackagesVersionsRequest, BatchDeleteProjectsLocationsRepositoriesPackagesVersionsResponse, BatchDeleteProjectsLocationsRepositoriesPackagesVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchDeleteProjectsLocationsRepositoriesPackagesVersionsRequest,
   output: BatchDeleteProjectsLocationsRepositoriesPackagesVersionsResponse,
   errors: [],
 }));
 
-/** Lists versions. */
 export interface ListProjectsLocationsRepositoriesPackagesVersionsRequest {
   /** The maximum number of versions to return. Maximum page size is 1,000. */
   pageSize?: number;
@@ -3177,7 +3176,8 @@ export const ListProjectsLocationsRepositoriesPackagesVersionsResponse = ListVer
 
 export type ListProjectsLocationsRepositoriesPackagesVersionsError = CommonErrors;
 
-export const listProjectsLocationsRepositoriesPackagesVersions = API.makePaginated(() => ({
+/** Lists versions. */
+export const listProjectsLocationsRepositoriesPackagesVersions: API.PaginatedOperationMethod<ListProjectsLocationsRepositoriesPackagesVersionsRequest, ListProjectsLocationsRepositoriesPackagesVersionsResponse, ListProjectsLocationsRepositoriesPackagesVersionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRepositoriesPackagesVersionsRequest,
   output: ListProjectsLocationsRepositoriesPackagesVersionsResponse,
   errors: [],
@@ -3187,7 +3187,6 @@ export const listProjectsLocationsRepositoriesPackagesVersions = API.makePaginat
   },
 }));
 
-/** Deletes a version and all of its content. The returned operation will complete once the version has been deleted. */
 export interface DeleteProjectsLocationsRepositoriesPackagesVersionsRequest {
   /** By default, a version that is tagged may not be deleted. If force=true, the version and any tags pointing to the version are deleted. */
   force?: boolean;
@@ -3208,13 +3207,13 @@ export const DeleteProjectsLocationsRepositoriesPackagesVersionsResponse = Opera
 
 export type DeleteProjectsLocationsRepositoriesPackagesVersionsError = CommonErrors;
 
+/** Deletes a version and all of its content. The returned operation will complete once the version has been deleted. */
 export const deleteProjectsLocationsRepositoriesPackagesVersions: API.OperationMethod<DeleteProjectsLocationsRepositoriesPackagesVersionsRequest, DeleteProjectsLocationsRepositoriesPackagesVersionsResponse, DeleteProjectsLocationsRepositoriesPackagesVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsRepositoriesPackagesVersionsRequest,
   output: DeleteProjectsLocationsRepositoriesPackagesVersionsResponse,
   errors: [],
 }));
 
-/** Updates a version. */
 export interface PatchProjectsLocationsRepositoriesPackagesVersionsRequest {
   /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string;
@@ -3238,13 +3237,13 @@ export const PatchProjectsLocationsRepositoriesPackagesVersionsResponse = Versio
 
 export type PatchProjectsLocationsRepositoriesPackagesVersionsError = CommonErrors;
 
+/** Updates a version. */
 export const patchProjectsLocationsRepositoriesPackagesVersions: API.OperationMethod<PatchProjectsLocationsRepositoriesPackagesVersionsRequest, PatchProjectsLocationsRepositoriesPackagesVersionsResponse, PatchProjectsLocationsRepositoriesPackagesVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsRepositoriesPackagesVersionsRequest,
   output: PatchProjectsLocationsRepositoriesPackagesVersionsResponse,
   errors: [],
 }));
 
-/** Gets a version */
 export interface GetProjectsLocationsRepositoriesPackagesVersionsRequest {
   /** The view that should be returned in the response. */
   view?: "VERSION_VIEW_UNSPECIFIED" | "BASIC" | "FULL" | (string & {});
@@ -3265,13 +3264,13 @@ export const GetProjectsLocationsRepositoriesPackagesVersionsResponse = Version;
 
 export type GetProjectsLocationsRepositoriesPackagesVersionsError = CommonErrors;
 
+/** Gets a version */
 export const getProjectsLocationsRepositoriesPackagesVersions: API.OperationMethod<GetProjectsLocationsRepositoriesPackagesVersionsRequest, GetProjectsLocationsRepositoriesPackagesVersionsResponse, GetProjectsLocationsRepositoriesPackagesVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRepositoriesPackagesVersionsRequest,
   output: GetProjectsLocationsRepositoriesPackagesVersionsResponse,
   errors: [],
 }));
 
-/** Gets a maven artifact. */
 export interface GetProjectsLocationsRepositoriesMavenArtifactsRequest {
   /** Required. The name of the maven artifact. */
   name: string;
@@ -3289,13 +3288,13 @@ export const GetProjectsLocationsRepositoriesMavenArtifactsResponse = MavenArtif
 
 export type GetProjectsLocationsRepositoriesMavenArtifactsError = CommonErrors;
 
+/** Gets a maven artifact. */
 export const getProjectsLocationsRepositoriesMavenArtifacts: API.OperationMethod<GetProjectsLocationsRepositoriesMavenArtifactsRequest, GetProjectsLocationsRepositoriesMavenArtifactsResponse, GetProjectsLocationsRepositoriesMavenArtifactsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRepositoriesMavenArtifactsRequest,
   output: GetProjectsLocationsRepositoriesMavenArtifactsResponse,
   errors: [],
 }));
 
-/** Lists maven artifacts. */
 export interface ListProjectsLocationsRepositoriesMavenArtifactsRequest {
   /** The maximum number of artifacts to return. Maximum page size is 1,000. */
   pageSize?: number;
@@ -3319,7 +3318,8 @@ export const ListProjectsLocationsRepositoriesMavenArtifactsResponse = ListMaven
 
 export type ListProjectsLocationsRepositoriesMavenArtifactsError = CommonErrors;
 
-export const listProjectsLocationsRepositoriesMavenArtifacts = API.makePaginated(() => ({
+/** Lists maven artifacts. */
+export const listProjectsLocationsRepositoriesMavenArtifacts: API.PaginatedOperationMethod<ListProjectsLocationsRepositoriesMavenArtifactsRequest, ListProjectsLocationsRepositoriesMavenArtifactsResponse, ListProjectsLocationsRepositoriesMavenArtifactsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRepositoriesMavenArtifactsRequest,
   output: ListProjectsLocationsRepositoriesMavenArtifactsResponse,
   errors: [],

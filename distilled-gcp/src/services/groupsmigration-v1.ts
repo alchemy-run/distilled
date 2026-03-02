@@ -39,7 +39,6 @@ export const Groups: Schema.Schema<Groups> = Schema.suspend(() => Schema.Struct(
 // Operations
 // ==========================================================================
 
-/** Inserts a new mail into the archive of the Google group. */
 export interface InsertArchiveRequest {
   /** The group ID */
   groupId: string;
@@ -57,6 +56,7 @@ export const InsertArchiveResponse = Groups;
 
 export type InsertArchiveError = CommonErrors;
 
+/** Inserts a new mail into the archive of the Google group. */
 export const insertArchive: API.OperationMethod<InsertArchiveRequest, InsertArchiveResponse, InsertArchiveError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertArchiveRequest,
   output: InsertArchiveResponse,

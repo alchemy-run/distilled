@@ -501,7 +501,6 @@ export const GetIosReopenAttributionResponse: Schema.Schema<GetIosReopenAttribut
 // Operations
 // ==========================================================================
 
-/** Creates a managed short Dynamic Link given either a valid long Dynamic Link or details such as Dynamic Link domain, Android and iOS app information. The created short Dynamic Link will not expire. This differs from CreateShortDynamicLink in the following ways: - The request will also contain a name for the link (non unique name for the front end). - The response must be authenticated with an auth token (generated with the admin service account). - The link will appear in the FDL list of links in the console front end. The Dynamic Link domain in the request must be owned by requester's Firebase project. */
 export interface CreateManagedShortLinksRequest {
   /** Request body */
   body?: CreateManagedShortLinkRequest;
@@ -519,13 +518,13 @@ export const CreateManagedShortLinksResponse = CreateManagedShortLinkResponse;
 
 export type CreateManagedShortLinksError = CommonErrors;
 
+/** Creates a managed short Dynamic Link given either a valid long Dynamic Link or details such as Dynamic Link domain, Android and iOS app information. The created short Dynamic Link will not expire. This differs from CreateShortDynamicLink in the following ways: - The request will also contain a name for the link (non unique name for the front end). - The response must be authenticated with an auth token (generated with the admin service account). - The link will appear in the FDL list of links in the console front end. The Dynamic Link domain in the request must be owned by requester's Firebase project. */
 export const createManagedShortLinks: API.OperationMethod<CreateManagedShortLinksRequest, CreateManagedShortLinksResponse, CreateManagedShortLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateManagedShortLinksRequest,
   output: CreateManagedShortLinksResponse,
   errors: [],
 }));
 
-/** Creates a short Dynamic Link given either a valid long Dynamic Link or details such as Dynamic Link domain, Android and iOS app information. The created short Dynamic Link will not expire. Repeated calls with the same long Dynamic Link or Dynamic Link information will produce the same short Dynamic Link. The Dynamic Link domain in the request must be owned by requester's Firebase project. */
 export interface CreateShortLinksRequest {
   /** Request body */
   body?: CreateShortDynamicLinkRequest;
@@ -543,13 +542,13 @@ export const CreateShortLinksResponse = CreateShortDynamicLinkResponse;
 
 export type CreateShortLinksError = CommonErrors;
 
+/** Creates a short Dynamic Link given either a valid long Dynamic Link or details such as Dynamic Link domain, Android and iOS app information. The created short Dynamic Link will not expire. Repeated calls with the same long Dynamic Link or Dynamic Link information will produce the same short Dynamic Link. The Dynamic Link domain in the request must be owned by requester's Firebase project. */
 export const createShortLinks: API.OperationMethod<CreateShortLinksRequest, CreateShortLinksResponse, CreateShortLinksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateShortLinksRequest,
   output: CreateShortLinksResponse,
   errors: [],
 }));
 
-/** Fetches analytics stats of a short Dynamic Link for a given duration. Metrics include number of clicks, redirects, installs, app first opens, and app reopens. */
 export interface GetLinkStatsV1Request {
   /** Dynamic Link URL. e.g. https://abcd.app.goo.gl/wxyz */
   dynamicLink: string;
@@ -573,13 +572,13 @@ export const GetLinkStatsV1Response = DynamicLinkStats;
 
 export type GetLinkStatsV1Error = CommonErrors;
 
+/** Fetches analytics stats of a short Dynamic Link for a given duration. Metrics include number of clicks, redirects, installs, app first opens, and app reopens. */
 export const getLinkStatsV1: API.OperationMethod<GetLinkStatsV1Request, GetLinkStatsV1Response, GetLinkStatsV1Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetLinkStatsV1Request,
   output: GetLinkStatsV1Response,
   errors: [],
 }));
 
-/** Get iOS strong/weak-match info for post-install attribution. */
 export interface InstallAttributionV1Request {
   /** Request body */
   body?: GetIosPostInstallAttributionRequest;
@@ -597,13 +596,13 @@ export const InstallAttributionV1Response = GetIosPostInstallAttributionResponse
 
 export type InstallAttributionV1Error = CommonErrors;
 
+/** Get iOS strong/weak-match info for post-install attribution. */
 export const installAttributionV1: API.OperationMethod<InstallAttributionV1Request, InstallAttributionV1Response, InstallAttributionV1Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InstallAttributionV1Request,
   output: InstallAttributionV1Response,
   errors: [],
 }));
 
-/** Get iOS reopen attribution for app universal link open deeplinking. */
 export interface ReopenAttributionV1Request {
   /** Request body */
   body?: GetIosReopenAttributionRequest;
@@ -621,6 +620,7 @@ export const ReopenAttributionV1Response = GetIosReopenAttributionResponse;
 
 export type ReopenAttributionV1Error = CommonErrors;
 
+/** Get iOS reopen attribution for app universal link open deeplinking. */
 export const reopenAttributionV1: API.OperationMethod<ReopenAttributionV1Request, ReopenAttributionV1Response, ReopenAttributionV1Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReopenAttributionV1Request,
   output: ReopenAttributionV1Response,

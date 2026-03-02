@@ -233,7 +233,6 @@ export const ScoresResetMultipleForAllRequest: Schema.Schema<ScoresResetMultiple
 // Operations
 // ==========================================================================
 
-/** Get the list of players hidden from the given application. This method is only available to user accounts for your developer console. */
 export interface ListHiddenApplicationsRequest {
   /** The application ID from the Google Play developer console. */
   applicationId: string;
@@ -257,7 +256,8 @@ export const ListHiddenApplicationsResponse = HiddenPlayerList;
 
 export type ListHiddenApplicationsError = CommonErrors;
 
-export const listHiddenApplications = API.makePaginated(() => ({
+/** Get the list of players hidden from the given application. This method is only available to user accounts for your developer console. */
+export const listHiddenApplications: API.PaginatedOperationMethod<ListHiddenApplicationsRequest, ListHiddenApplicationsResponse, ListHiddenApplicationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListHiddenApplicationsRequest,
   output: ListHiddenApplicationsResponse,
   errors: [],
@@ -268,7 +268,6 @@ export const listHiddenApplications = API.makePaginated(() => ({
   },
 }));
 
-/** Unhide the given player's leaderboard scores from the given application. This method is only available to user accounts for your developer console. */
 export interface UnhidePlayersRequest {
   /** The application ID from the Google Play developer console. */
   applicationId: string;
@@ -289,13 +288,13 @@ export const UnhidePlayersResponse: Schema.Schema<UnhidePlayersResponse> = Schem
 
 export type UnhidePlayersError = CommonErrors;
 
+/** Unhide the given player's leaderboard scores from the given application. This method is only available to user accounts for your developer console. */
 export const unhidePlayers: API.OperationMethod<UnhidePlayersRequest, UnhidePlayersResponse, UnhidePlayersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UnhidePlayersRequest,
   output: UnhidePlayersResponse,
   errors: [],
 }));
 
-/** Hide the given player's leaderboard scores from the given application. This method is only available to user accounts for your developer console. */
 export interface HidePlayersRequest {
   /** A player ID. A value of `me` may be used in place of the authenticated player's ID. */
   playerId: string;
@@ -316,13 +315,13 @@ export const HidePlayersResponse: Schema.Schema<HidePlayersResponse> = Schema.St
 
 export type HidePlayersError = CommonErrors;
 
+/** Hide the given player's leaderboard scores from the given application. This method is only available to user accounts for your developer console. */
 export const hidePlayers: API.OperationMethod<HidePlayersRequest, HidePlayersResponse, HidePlayersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: HidePlayersRequest,
   output: HidePlayersResponse,
   errors: [],
 }));
 
-/** Resets all draft achievements for all players. This method is only available to user accounts for your developer console. */
 export interface ResetAllForAllPlayersAchievementsRequest {
 }
 
@@ -337,13 +336,13 @@ export const ResetAllForAllPlayersAchievementsResponse: Schema.Schema<ResetAllFo
 
 export type ResetAllForAllPlayersAchievementsError = CommonErrors;
 
+/** Resets all draft achievements for all players. This method is only available to user accounts for your developer console. */
 export const resetAllForAllPlayersAchievements: API.OperationMethod<ResetAllForAllPlayersAchievementsRequest, ResetAllForAllPlayersAchievementsResponse, ResetAllForAllPlayersAchievementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetAllForAllPlayersAchievementsRequest,
   output: ResetAllForAllPlayersAchievementsResponse,
   errors: [],
 }));
 
-/** Resets all achievements for the currently authenticated player for your application. This method is only accessible to whitelisted tester accounts for your application. */
 export interface ResetAllAchievementsRequest {
 }
 
@@ -358,13 +357,13 @@ export const ResetAllAchievementsResponse = AchievementResetAllResponse;
 
 export type ResetAllAchievementsError = CommonErrors;
 
+/** Resets all achievements for the currently authenticated player for your application. This method is only accessible to whitelisted tester accounts for your application. */
 export const resetAllAchievements: API.OperationMethod<ResetAllAchievementsRequest, ResetAllAchievementsResponse, ResetAllAchievementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetAllAchievementsRequest,
   output: ResetAllAchievementsResponse,
   errors: [],
 }));
 
-/** Resets achievements with the given IDs for all players. This method is only available to user accounts for your developer console. Only draft achievements may be reset. */
 export interface ResetMultipleForAllPlayersAchievementsRequest {
   /** Request body */
   body?: AchievementResetMultipleForAllRequest;
@@ -382,13 +381,13 @@ export const ResetMultipleForAllPlayersAchievementsResponse: Schema.Schema<Reset
 
 export type ResetMultipleForAllPlayersAchievementsError = CommonErrors;
 
+/** Resets achievements with the given IDs for all players. This method is only available to user accounts for your developer console. Only draft achievements may be reset. */
 export const resetMultipleForAllPlayersAchievements: API.OperationMethod<ResetMultipleForAllPlayersAchievementsRequest, ResetMultipleForAllPlayersAchievementsResponse, ResetMultipleForAllPlayersAchievementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetMultipleForAllPlayersAchievementsRequest,
   output: ResetMultipleForAllPlayersAchievementsResponse,
   errors: [],
 }));
 
-/** Resets the achievement with the given ID for all players. This method is only available to user accounts for your developer console. Only draft achievements can be reset. */
 export interface ResetForAllPlayersAchievementsRequest {
   /** The ID of the achievement used by this method. */
   achievementId: string;
@@ -406,13 +405,13 @@ export const ResetForAllPlayersAchievementsResponse: Schema.Schema<ResetForAllPl
 
 export type ResetForAllPlayersAchievementsError = CommonErrors;
 
+/** Resets the achievement with the given ID for all players. This method is only available to user accounts for your developer console. Only draft achievements can be reset. */
 export const resetForAllPlayersAchievements: API.OperationMethod<ResetForAllPlayersAchievementsRequest, ResetForAllPlayersAchievementsResponse, ResetForAllPlayersAchievementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetForAllPlayersAchievementsRequest,
   output: ResetForAllPlayersAchievementsResponse,
   errors: [],
 }));
 
-/** Resets the achievement with the given ID for the currently authenticated player. This method is only accessible to whitelisted tester accounts for your application. */
 export interface ResetAchievementsRequest {
   /** The ID of the achievement used by this method. */
   achievementId: string;
@@ -430,13 +429,13 @@ export const ResetAchievementsResponse = AchievementResetResponse;
 
 export type ResetAchievementsError = CommonErrors;
 
+/** Resets the achievement with the given ID for the currently authenticated player. This method is only accessible to whitelisted tester accounts for your application. */
 export const resetAchievements: API.OperationMethod<ResetAchievementsRequest, ResetAchievementsResponse, ResetAchievementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetAchievementsRequest,
   output: ResetAchievementsResponse,
   errors: [],
 }));
 
-/** Resets all player progress on all events for the currently authenticated player. This method is only accessible to whitelisted tester accounts for your application. */
 export interface ResetAllEventsRequest {
 }
 
@@ -451,13 +450,13 @@ export const ResetAllEventsResponse: Schema.Schema<ResetAllEventsResponse> = Sch
 
 export type ResetAllEventsError = CommonErrors;
 
+/** Resets all player progress on all events for the currently authenticated player. This method is only accessible to whitelisted tester accounts for your application. */
 export const resetAllEvents: API.OperationMethod<ResetAllEventsRequest, ResetAllEventsResponse, ResetAllEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetAllEventsRequest,
   output: ResetAllEventsResponse,
   errors: [],
 }));
 
-/** Resets the event with the given ID for all players. This method is only available to user accounts for your developer console. Only draft events can be reset. */
 export interface ResetForAllPlayersEventsRequest {
   /** The ID of the event. */
   eventId: string;
@@ -475,13 +474,13 @@ export const ResetForAllPlayersEventsResponse: Schema.Schema<ResetForAllPlayersE
 
 export type ResetForAllPlayersEventsError = CommonErrors;
 
+/** Resets the event with the given ID for all players. This method is only available to user accounts for your developer console. Only draft events can be reset. */
 export const resetForAllPlayersEvents: API.OperationMethod<ResetForAllPlayersEventsRequest, ResetForAllPlayersEventsResponse, ResetForAllPlayersEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetForAllPlayersEventsRequest,
   output: ResetForAllPlayersEventsResponse,
   errors: [],
 }));
 
-/** Resets all draft events for all players. This method is only available to user accounts for your developer console. */
 export interface ResetAllForAllPlayersEventsRequest {
 }
 
@@ -496,13 +495,13 @@ export const ResetAllForAllPlayersEventsResponse: Schema.Schema<ResetAllForAllPl
 
 export type ResetAllForAllPlayersEventsError = CommonErrors;
 
+/** Resets all draft events for all players. This method is only available to user accounts for your developer console. */
 export const resetAllForAllPlayersEvents: API.OperationMethod<ResetAllForAllPlayersEventsRequest, ResetAllForAllPlayersEventsResponse, ResetAllForAllPlayersEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetAllForAllPlayersEventsRequest,
   output: ResetAllForAllPlayersEventsResponse,
   errors: [],
 }));
 
-/** Resets events with the given IDs for all players. This method is only available to user accounts for your developer console. Only draft events may be reset. */
 export interface ResetMultipleForAllPlayersEventsRequest {
   /** Request body */
   body?: EventsResetMultipleForAllRequest;
@@ -520,13 +519,13 @@ export const ResetMultipleForAllPlayersEventsResponse: Schema.Schema<ResetMultip
 
 export type ResetMultipleForAllPlayersEventsError = CommonErrors;
 
+/** Resets events with the given IDs for all players. This method is only available to user accounts for your developer console. Only draft events may be reset. */
 export const resetMultipleForAllPlayersEvents: API.OperationMethod<ResetMultipleForAllPlayersEventsRequest, ResetMultipleForAllPlayersEventsResponse, ResetMultipleForAllPlayersEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetMultipleForAllPlayersEventsRequest,
   output: ResetMultipleForAllPlayersEventsResponse,
   errors: [],
 }));
 
-/** Resets all player progress on the event with the given ID for the currently authenticated player. This method is only accessible to whitelisted tester accounts for your application. */
 export interface ResetEventsRequest {
   /** The ID of the event. */
   eventId: string;
@@ -544,13 +543,13 @@ export const ResetEventsResponse: Schema.Schema<ResetEventsResponse> = Schema.St
 
 export type ResetEventsError = CommonErrors;
 
+/** Resets all player progress on the event with the given ID for the currently authenticated player. This method is only accessible to whitelisted tester accounts for your application. */
 export const resetEvents: API.OperationMethod<ResetEventsRequest, ResetEventsResponse, ResetEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetEventsRequest,
   output: ResetEventsResponse,
   errors: [],
 }));
 
-/** Resets scores for the leaderboard with the given ID for the currently authenticated player. This method is only accessible to whitelisted tester accounts for your application. */
 export interface ResetScoresRequest {
   /** The ID of the leaderboard. */
   leaderboardId: string;
@@ -568,13 +567,13 @@ export const ResetScoresResponse = PlayerScoreResetResponse;
 
 export type ResetScoresError = CommonErrors;
 
+/** Resets scores for the leaderboard with the given ID for the currently authenticated player. This method is only accessible to whitelisted tester accounts for your application. */
 export const resetScores: API.OperationMethod<ResetScoresRequest, ResetScoresResponse, ResetScoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetScoresRequest,
   output: ResetScoresResponse,
   errors: [],
 }));
 
-/** Resets scores for the leaderboards with the given IDs for all players. This method is only available to user accounts for your developer console. Only draft leaderboards may be reset. */
 export interface ResetMultipleForAllPlayersScoresRequest {
   /** Request body */
   body?: ScoresResetMultipleForAllRequest;
@@ -592,13 +591,13 @@ export const ResetMultipleForAllPlayersScoresResponse: Schema.Schema<ResetMultip
 
 export type ResetMultipleForAllPlayersScoresError = CommonErrors;
 
+/** Resets scores for the leaderboards with the given IDs for all players. This method is only available to user accounts for your developer console. Only draft leaderboards may be reset. */
 export const resetMultipleForAllPlayersScores: API.OperationMethod<ResetMultipleForAllPlayersScoresRequest, ResetMultipleForAllPlayersScoresResponse, ResetMultipleForAllPlayersScoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetMultipleForAllPlayersScoresRequest,
   output: ResetMultipleForAllPlayersScoresResponse,
   errors: [],
 }));
 
-/** Resets scores for the leaderboard with the given ID for all players. This method is only available to user accounts for your developer console. Only draft leaderboards can be reset. */
 export interface ResetForAllPlayersScoresRequest {
   /** The ID of the leaderboard. */
   leaderboardId: string;
@@ -616,13 +615,13 @@ export const ResetForAllPlayersScoresResponse: Schema.Schema<ResetForAllPlayersS
 
 export type ResetForAllPlayersScoresError = CommonErrors;
 
+/** Resets scores for the leaderboard with the given ID for all players. This method is only available to user accounts for your developer console. Only draft leaderboards can be reset. */
 export const resetForAllPlayersScores: API.OperationMethod<ResetForAllPlayersScoresRequest, ResetForAllPlayersScoresResponse, ResetForAllPlayersScoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetForAllPlayersScoresRequest,
   output: ResetForAllPlayersScoresResponse,
   errors: [],
 }));
 
-/** Resets all scores for all leaderboards for the currently authenticated players. This method is only accessible to whitelisted tester accounts for your application. */
 export interface ResetAllScoresRequest {
 }
 
@@ -637,13 +636,13 @@ export const ResetAllScoresResponse = PlayerScoreResetAllResponse;
 
 export type ResetAllScoresError = CommonErrors;
 
+/** Resets all scores for all leaderboards for the currently authenticated players. This method is only accessible to whitelisted tester accounts for your application. */
 export const resetAllScores: API.OperationMethod<ResetAllScoresRequest, ResetAllScoresResponse, ResetAllScoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetAllScoresRequest,
   output: ResetAllScoresResponse,
   errors: [],
 }));
 
-/** Resets scores for all draft leaderboards for all players. This method is only available to user accounts for your developer console. */
 export interface ResetAllForAllPlayersScoresRequest {
 }
 
@@ -658,6 +657,7 @@ export const ResetAllForAllPlayersScoresResponse: Schema.Schema<ResetAllForAllPl
 
 export type ResetAllForAllPlayersScoresError = CommonErrors;
 
+/** Resets scores for all draft leaderboards for all players. This method is only available to user accounts for your developer console. */
 export const resetAllForAllPlayersScores: API.OperationMethod<ResetAllForAllPlayersScoresRequest, ResetAllForAllPlayersScoresResponse, ResetAllForAllPlayersScoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetAllForAllPlayersScoresRequest,
   output: ResetAllForAllPlayersScoresResponse,

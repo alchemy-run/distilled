@@ -96,7 +96,6 @@ export const CreateProfileRequest: Schema.Schema<CreateProfileRequest> = Schema.
 // Operations
 // ==========================================================================
 
-/** UpdateProfile updates the profile bytes and labels on the profile resource created in the online mode. Updating the bytes for profiles created in the offline mode is currently not supported: the profile content must be provided at the time of the profile creation. _Direct use of this API is discouraged, please use a [supported profiler agent](https://cloud.google.com/profiler/docs/about-profiler#profiling_agent) instead for profile collection._ */
 export interface PatchProjectsProfilesRequest {
   /** Output only. Opaque, server-assigned, unique ID for this profile. */
   name: string;
@@ -120,13 +119,13 @@ export const PatchProjectsProfilesResponse = Profile;
 
 export type PatchProjectsProfilesError = CommonErrors;
 
+/** UpdateProfile updates the profile bytes and labels on the profile resource created in the online mode. Updating the bytes for profiles created in the offline mode is currently not supported: the profile content must be provided at the time of the profile creation. _Direct use of this API is discouraged, please use a [supported profiler agent](https://cloud.google.com/profiler/docs/about-profiler#profiling_agent) instead for profile collection._ */
 export const patchProjectsProfiles: API.OperationMethod<PatchProjectsProfilesRequest, PatchProjectsProfilesResponse, PatchProjectsProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsProfilesRequest,
   output: PatchProjectsProfilesResponse,
   errors: [],
 }));
 
-/** CreateProfile creates a new profile resource in the online mode. _Direct use of this API is discouraged, please use a [supported profiler agent](https://cloud.google.com/profiler/docs/about-profiler#profiling_agent) instead for profile collection._ The server ensures that the new profiles are created at a constant rate per deployment, so the creation request may hang for some time until the next profile session is available. The request may fail with ABORTED error if the creation is not available within ~1m, the response will indicate the duration of the backoff the client should take before attempting creating a profile again. The backoff duration is returned in google.rpc.RetryInfo extension on the response status. To a gRPC client, the extension will be return as a binary-serialized proto in the trailing metadata item named "google.rpc.retryinfo-bin". */
 export interface CreateProjectsProfilesRequest {
   /** Parent project to create the profile in. */
   parent: string;
@@ -147,13 +146,13 @@ export const CreateProjectsProfilesResponse = Profile;
 
 export type CreateProjectsProfilesError = CommonErrors;
 
+/** CreateProfile creates a new profile resource in the online mode. _Direct use of this API is discouraged, please use a [supported profiler agent](https://cloud.google.com/profiler/docs/about-profiler#profiling_agent) instead for profile collection._ The server ensures that the new profiles are created at a constant rate per deployment, so the creation request may hang for some time until the next profile session is available. The request may fail with ABORTED error if the creation is not available within ~1m, the response will indicate the duration of the backoff the client should take before attempting creating a profile again. The backoff duration is returned in google.rpc.RetryInfo extension on the response status. To a gRPC client, the extension will be return as a binary-serialized proto in the trailing metadata item named "google.rpc.retryinfo-bin". */
 export const createProjectsProfiles: API.OperationMethod<CreateProjectsProfilesRequest, CreateProjectsProfilesResponse, CreateProjectsProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsProfilesRequest,
   output: CreateProjectsProfilesResponse,
   errors: [],
 }));
 
-/** Lists profiles which have been collected so far and for which the caller has permission to view. */
 export interface ListProjectsProfilesRequest {
   /** Optional. The token to continue pagination and get profiles from a particular page. When paginating, all other parameters provided to `ListProfiles` must match the call that provided the page token. */
   pageToken?: string;
@@ -177,7 +176,8 @@ export const ListProjectsProfilesResponse = ListProfilesResponse;
 
 export type ListProjectsProfilesError = CommonErrors;
 
-export const listProjectsProfiles = API.makePaginated(() => ({
+/** Lists profiles which have been collected so far and for which the caller has permission to view. */
+export const listProjectsProfiles: API.PaginatedOperationMethod<ListProjectsProfilesRequest, ListProjectsProfilesResponse, ListProjectsProfilesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsProfilesRequest,
   output: ListProjectsProfilesResponse,
   errors: [],
@@ -187,7 +187,6 @@ export const listProjectsProfiles = API.makePaginated(() => ({
   },
 }));
 
-/** CreateOfflineProfile creates a new profile resource in the offline mode. The client provides the profile to create along with the profile bytes, the server records it. _Direct use of this API is discouraged, please use a [supported profiler agent](https://cloud.google.com/profiler/docs/about-profiler#profiling_agent) instead for profile collection._ */
 export interface CreateOfflineProjectsProfilesRequest {
   /** Parent project to create the profile in. */
   parent: string;
@@ -208,6 +207,7 @@ export const CreateOfflineProjectsProfilesResponse = Profile;
 
 export type CreateOfflineProjectsProfilesError = CommonErrors;
 
+/** CreateOfflineProfile creates a new profile resource in the offline mode. The client provides the profile to create along with the profile bytes, the server records it. _Direct use of this API is discouraged, please use a [supported profiler agent](https://cloud.google.com/profiler/docs/about-profiler#profiling_agent) instead for profile collection._ */
 export const createOfflineProjectsProfiles: API.OperationMethod<CreateOfflineProjectsProfilesRequest, CreateOfflineProjectsProfilesResponse, CreateOfflineProjectsProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOfflineProjectsProfilesRequest,
   output: CreateOfflineProjectsProfilesResponse,

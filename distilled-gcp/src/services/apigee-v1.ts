@@ -6036,7 +6036,6 @@ export const GoogleCloudApigeeV1AppGroupMonetizationConfig: Schema.Schema<Google
 // Operations
 // ==========================================================================
 
-/** Delete an Apigee organization. For organizations with BillingType EVALUATION, an immediate deletion is performed. For paid organizations (Subscription or Pay-as-you-go), a soft-deletion is performed. The organization can be restored within the soft-deletion period, which is specified using the `retention` field in the request or by filing a support ticket with Apigee. During the data retention period specified in the request, the Apigee organization cannot be recreated in the same Google Cloud project. **IMPORTANT: The default data retention setting for this operation is 7 days. To permanently delete the organization in 24 hours, set the retention parameter to `MINIMUM`.** */
 export interface DeleteOrganizationsRequest {
   /** Required. Name of the organization. Use the following structure in your request: `organizations/{org}` */
   name: string;
@@ -6057,13 +6056,13 @@ export const DeleteOrganizationsResponse = GoogleLongrunningOperation;
 
 export type DeleteOrganizationsError = CommonErrors;
 
+/** Delete an Apigee organization. For organizations with BillingType EVALUATION, an immediate deletion is performed. For paid organizations (Subscription or Pay-as-you-go), a soft-deletion is performed. The organization can be restored within the soft-deletion period, which is specified using the `retention` field in the request or by filing a support ticket with Apigee. During the data retention period specified in the request, the Apigee organization cannot be recreated in the same Google Cloud project. **IMPORTANT: The default data retention setting for this operation is 7 days. To permanently delete the organization in 24 hours, set the retention parameter to `MINIMUM`.** */
 export const deleteOrganizations: API.OperationMethod<DeleteOrganizationsRequest, DeleteOrganizationsResponse, DeleteOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsRequest,
   output: DeleteOrganizationsResponse,
   errors: [],
 }));
 
-/** Gets the deployed ingress configuration for an organization. */
 export interface GetDeployedIngressConfigOrganizationsRequest {
   /** When set to FULL, additional details about the specific deployments receiving traffic will be included in the IngressConfig response's RoutingRules. */
   view?: "INGRESS_CONFIG_VIEW_UNSPECIFIED" | "BASIC" | "FULL" | (string & {});
@@ -6084,13 +6083,13 @@ export const GetDeployedIngressConfigOrganizationsResponse = GoogleCloudApigeeV1
 
 export type GetDeployedIngressConfigOrganizationsError = CommonErrors;
 
+/** Gets the deployed ingress configuration for an organization. */
 export const getDeployedIngressConfigOrganizations: API.OperationMethod<GetDeployedIngressConfigOrganizationsRequest, GetDeployedIngressConfigOrganizationsResponse, GetDeployedIngressConfigOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDeployedIngressConfigOrganizationsRequest,
   output: GetDeployedIngressConfigOrganizationsResponse,
   errors: [],
 }));
 
-/** Sets the permissions required to allow the Synchronizer to download environment data from the control plane. You must call this API to enable proper functioning of hybrid. Pass the ETag when calling `setSyncAuthorization` to ensure that you are updating the correct version. To get an ETag, call [getSyncAuthorization](getSyncAuthorization). If you don't pass the ETag in the call to `setSyncAuthorization`, then the existing authorization is overwritten indiscriminately. For more information, see [Configure the Synchronizer](https://cloud.google.com/apigee/docs/hybrid/latest/synchronizer-access). **Note**: Available to Apigee hybrid only. */
 export interface SetSyncAuthorizationOrganizationsRequest {
   /** Required. Name of the Apigee organization. Use the following structure in your request: `organizations/{org}` */
   name: string;
@@ -6111,13 +6110,13 @@ export const SetSyncAuthorizationOrganizationsResponse = GoogleCloudApigeeV1Sync
 
 export type SetSyncAuthorizationOrganizationsError = CommonErrors;
 
+/** Sets the permissions required to allow the Synchronizer to download environment data from the control plane. You must call this API to enable proper functioning of hybrid. Pass the ETag when calling `setSyncAuthorization` to ensure that you are updating the correct version. To get an ETag, call [getSyncAuthorization](getSyncAuthorization). If you don't pass the ETag in the call to `setSyncAuthorization`, then the existing authorization is overwritten indiscriminately. For more information, see [Configure the Synchronizer](https://cloud.google.com/apigee/docs/hybrid/latest/synchronizer-access). **Note**: Available to Apigee hybrid only. */
 export const setSyncAuthorizationOrganizations: API.OperationMethod<SetSyncAuthorizationOrganizationsRequest, SetSyncAuthorizationOrganizationsResponse, SetSyncAuthorizationOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetSyncAuthorizationOrganizationsRequest,
   output: SetSyncAuthorizationOrganizationsResponse,
   errors: [],
 }));
 
-/** Get runtime config for an organization. */
 export interface GetRuntimeConfigOrganizationsRequest {
   /** Required. Name of the runtime config for the organization in the following format: 'organizations/{org}/runtimeConfig'. */
   name: string;
@@ -6135,13 +6134,13 @@ export const GetRuntimeConfigOrganizationsResponse = GoogleCloudApigeeV1RuntimeC
 
 export type GetRuntimeConfigOrganizationsError = CommonErrors;
 
+/** Get runtime config for an organization. */
 export const getRuntimeConfigOrganizations: API.OperationMethod<GetRuntimeConfigOrganizationsRequest, GetRuntimeConfigOrganizationsResponse, GetRuntimeConfigOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRuntimeConfigOrganizationsRequest,
   output: GetRuntimeConfigOrganizationsResponse,
   errors: [],
 }));
 
-/** Gets the profile for an Apigee organization. See [Understanding organizations](https://cloud.google.com/apigee/docs/api-platform/fundamentals/organization-structure). */
 export interface GetOrganizationsRequest {
   /** Required. Apigee organization name in the following format: `organizations/{org}` */
   name: string;
@@ -6159,13 +6158,13 @@ export const GetOrganizationsResponse = GoogleCloudApigeeV1Organization;
 
 export type GetOrganizationsError = CommonErrors;
 
+/** Gets the profile for an Apigee organization. See [Understanding organizations](https://cloud.google.com/apigee/docs/api-platform/fundamentals/organization-structure). */
 export const getOrganizations: API.OperationMethod<GetOrganizationsRequest, GetOrganizationsResponse, GetOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsRequest,
   output: GetOrganizationsResponse,
   errors: [],
 }));
 
-/** UpdateSecuritySettings updates the current security settings for API Security. */
 export interface UpdateSecuritySettingsOrganizationsRequest {
   /** Identifier. Full resource name is always `organizations/{org}/securitySettings`. */
   name: string;
@@ -6189,13 +6188,13 @@ export const UpdateSecuritySettingsOrganizationsResponse = GoogleCloudApigeeV1Se
 
 export type UpdateSecuritySettingsOrganizationsError = CommonErrors;
 
+/** UpdateSecuritySettings updates the current security settings for API Security. */
 export const updateSecuritySettingsOrganizations: API.OperationMethod<UpdateSecuritySettingsOrganizationsRequest, UpdateSecuritySettingsOrganizationsResponse, UpdateSecuritySettingsOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateSecuritySettingsOrganizationsRequest,
   output: UpdateSecuritySettingsOrganizationsResponse,
   errors: [],
 }));
 
-/** GetSecuritySettings gets the security settings for API Security. */
 export interface GetSecuritySettingsOrganizationsRequest {
   /** Required. The name of the SecuritySettings to retrieve. This will always be: 'organizations/{org}/securitySettings'. */
   name: string;
@@ -6213,13 +6212,13 @@ export const GetSecuritySettingsOrganizationsResponse = GoogleCloudApigeeV1Secur
 
 export type GetSecuritySettingsOrganizationsError = CommonErrors;
 
+/** GetSecuritySettings gets the security settings for API Security. */
 export const getSecuritySettingsOrganizations: API.OperationMethod<GetSecuritySettingsOrganizationsRequest, GetSecuritySettingsOrganizationsResponse, GetSecuritySettingsOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSecuritySettingsOrganizationsRequest,
   output: GetSecuritySettingsOrganizationsResponse,
   errors: [],
 }));
 
-/** Configures the add-ons for the Apigee organization. The existing add-on configuration will be fully replaced. */
 export interface SetAddonsOrganizationsRequest {
   /** Required. Name of the organization. Use the following structure in your request: `organizations/{org}` */
   org: string;
@@ -6240,13 +6239,13 @@ export const SetAddonsOrganizationsResponse = GoogleLongrunningOperation;
 
 export type SetAddonsOrganizationsError = CommonErrors;
 
+/** Configures the add-ons for the Apigee organization. The existing add-on configuration will be fully replaced. */
 export const setAddonsOrganizations: API.OperationMethod<SetAddonsOrganizationsRequest, SetAddonsOrganizationsResponse, SetAddonsOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetAddonsOrganizationsRequest,
   output: SetAddonsOrganizationsResponse,
   errors: [],
 }));
 
-/** Gets the project ID and region for an Apigee organization. */
 export interface GetProjectMappingOrganizationsRequest {
   /** Required. Apigee organization name in the following format: `organizations/{org}` */
   name: string;
@@ -6264,13 +6263,13 @@ export const GetProjectMappingOrganizationsResponse = GoogleCloudApigeeV1Organiz
 
 export type GetProjectMappingOrganizationsError = CommonErrors;
 
+/** Gets the project ID and region for an Apigee organization. */
 export const getProjectMappingOrganizations: API.OperationMethod<GetProjectMappingOrganizationsRequest, GetProjectMappingOrganizationsResponse, GetProjectMappingOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectMappingOrganizationsRequest,
   output: GetProjectMappingOrganizationsResponse,
   errors: [],
 }));
 
-/** Updates the properties for an Apigee organization. No other fields in the organization profile will be updated. */
 export interface UpdateOrganizationsRequest {
   /** Required. Apigee organization name in the following format: `organizations/{org}` */
   name: string;
@@ -6291,13 +6290,13 @@ export const UpdateOrganizationsResponse = GoogleCloudApigeeV1Organization;
 
 export type UpdateOrganizationsError = CommonErrors;
 
+/** Updates the properties for an Apigee organization. No other fields in the organization profile will be updated. */
 export const updateOrganizations: API.OperationMethod<UpdateOrganizationsRequest, UpdateOrganizationsResponse, UpdateOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateOrganizationsRequest,
   output: UpdateOrganizationsResponse,
   errors: [],
 }));
 
-/** Lists the service accounts with the permissions required to allow the Synchronizer to download environment data from the control plane. An ETag is returned in the response to `getSyncAuthorization`. Pass that ETag when calling [setSyncAuthorization](setSyncAuthorization) to ensure that you are updating the correct version. If you don't pass the ETag in the call to `setSyncAuthorization`, then the existing authorization is overwritten indiscriminately. For more information, see [Configure the Synchronizer](https://cloud.google.com/apigee/docs/hybrid/latest/synchronizer-access). **Note**: Available to Apigee hybrid only. */
 export interface GetSyncAuthorizationOrganizationsRequest {
   /** Required. Name of the Apigee organization. Use the following structure in your request: `organizations/{org}` */
   name: string;
@@ -6318,13 +6317,13 @@ export const GetSyncAuthorizationOrganizationsResponse = GoogleCloudApigeeV1Sync
 
 export type GetSyncAuthorizationOrganizationsError = CommonErrors;
 
+/** Lists the service accounts with the permissions required to allow the Synchronizer to download environment data from the control plane. An ETag is returned in the response to `getSyncAuthorization`. Pass that ETag when calling [setSyncAuthorization](setSyncAuthorization) to ensure that you are updating the correct version. If you don't pass the ETag in the call to `setSyncAuthorization`, then the existing authorization is overwritten indiscriminately. For more information, see [Configure the Synchronizer](https://cloud.google.com/apigee/docs/hybrid/latest/synchronizer-access). **Note**: Available to Apigee hybrid only. */
 export const getSyncAuthorizationOrganizations: API.OperationMethod<GetSyncAuthorizationOrganizationsRequest, GetSyncAuthorizationOrganizationsResponse, GetSyncAuthorizationOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSyncAuthorizationOrganizationsRequest,
   output: GetSyncAuthorizationOrganizationsResponse,
   errors: [],
 }));
 
-/** Updates the permissions required to allow Apigee runtime-plane components access to the control plane. Currently, the permissions required are to: 1. Allow runtime components to publish analytics data to the control plane. **Note**: Available to Apigee hybrid only. */
 export interface UpdateControlPlaneAccessOrganizationsRequest {
   /** Identifier. The resource name of the ControlPlaneAccess. Format: "organizations/{org}/controlPlaneAccess" */
   name: string;
@@ -6348,13 +6347,13 @@ export const UpdateControlPlaneAccessOrganizationsResponse = GoogleLongrunningOp
 
 export type UpdateControlPlaneAccessOrganizationsError = CommonErrors;
 
+/** Updates the permissions required to allow Apigee runtime-plane components access to the control plane. Currently, the permissions required are to: 1. Allow runtime components to publish analytics data to the control plane. **Note**: Available to Apigee hybrid only. */
 export const updateControlPlaneAccessOrganizations: API.OperationMethod<UpdateControlPlaneAccessOrganizationsRequest, UpdateControlPlaneAccessOrganizationsResponse, UpdateControlPlaneAccessOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateControlPlaneAccessOrganizationsRequest,
   output: UpdateControlPlaneAccessOrganizationsResponse,
   errors: [],
 }));
 
-/** Lists the service accounts allowed to access Apigee control plane directly for limited functionality. **Note**: Available to Apigee hybrid only. */
 export interface GetControlPlaneAccessOrganizationsRequest {
   /** Required. Resource name of the Control Plane Access. Use the following structure in your request: `organizations/{org}/controlPlaneAccess` */
   name: string;
@@ -6372,13 +6371,13 @@ export const GetControlPlaneAccessOrganizationsResponse = GoogleCloudApigeeV1Con
 
 export type GetControlPlaneAccessOrganizationsError = CommonErrors;
 
+/** Lists the service accounts allowed to access Apigee control plane directly for limited functionality. **Note**: Available to Apigee hybrid only. */
 export const getControlPlaneAccessOrganizations: API.OperationMethod<GetControlPlaneAccessOrganizationsRequest, GetControlPlaneAccessOrganizationsResponse, GetControlPlaneAccessOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetControlPlaneAccessOrganizationsRequest,
   output: GetControlPlaneAccessOrganizationsResponse,
   errors: [],
 }));
 
-/** Lists the Apigee organizations and associated Google Cloud projects that you have permission to access. See [Understanding organizations](https://cloud.google.com/apigee/docs/api-platform/fundamentals/organization-structure). */
 export interface ListOrganizationsRequest {
   /** Required. Use the following structure in your request: `organizations` */
   parent: string;
@@ -6396,13 +6395,13 @@ export const ListOrganizationsResponse = GoogleCloudApigeeV1ListOrganizationsRes
 
 export type ListOrganizationsError = CommonErrors;
 
+/** Lists the Apigee organizations and associated Google Cloud projects that you have permission to access. See [Understanding organizations](https://cloud.google.com/apigee/docs/api-platform/fundamentals/organization-structure). */
 export const listOrganizations: API.OperationMethod<ListOrganizationsRequest, ListOrganizationsResponse, ListOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOrganizationsRequest,
   output: ListOrganizationsResponse,
   errors: [],
 }));
 
-/** Creates an Apigee organization. See [Create an Apigee organization](https://cloud.google.com/apigee/docs/api-platform/get-started/create-org). */
 export interface CreateOrganizationsRequest {
   /** Required. Name of the Google Cloud project in which to associate the Apigee organization. Pass the information as a query parameter using the following structure in your request: `projects/` */
   parent?: string;
@@ -6423,13 +6422,13 @@ export const CreateOrganizationsResponse = GoogleLongrunningOperation;
 
 export type CreateOrganizationsError = CommonErrors;
 
+/** Creates an Apigee organization. See [Create an Apigee organization](https://cloud.google.com/apigee/docs/api-platform/get-started/create-org). */
 export const createOrganizations: API.OperationMethod<CreateOrganizationsRequest, CreateOrganizationsResponse, CreateOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsRequest,
   output: CreateOrganizationsResponse,
   errors: [],
 }));
 
-/** CreateSecurityProfile create a new custom security profile. */
 export interface CreateOrganizationsSecurityProfilesRequest {
   /** Required. Name of organization. Format: organizations/{org} */
   parent: string;
@@ -6453,13 +6452,13 @@ export const CreateOrganizationsSecurityProfilesResponse = GoogleCloudApigeeV1Se
 
 export type CreateOrganizationsSecurityProfilesError = CommonErrors;
 
+/** CreateSecurityProfile create a new custom security profile. */
 export const createOrganizationsSecurityProfiles: API.OperationMethod<CreateOrganizationsSecurityProfilesRequest, CreateOrganizationsSecurityProfilesResponse, CreateOrganizationsSecurityProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsSecurityProfilesRequest,
   output: CreateOrganizationsSecurityProfilesResponse,
   errors: [],
 }));
 
-/** UpdateSecurityProfile update the metadata of security profile. */
 export interface PatchOrganizationsSecurityProfilesRequest {
   /** Immutable. Name of the security profile resource. Format: organizations/{org}/securityProfiles/{profile} */
   name: string;
@@ -6483,13 +6482,13 @@ export const PatchOrganizationsSecurityProfilesResponse = GoogleCloudApigeeV1Sec
 
 export type PatchOrganizationsSecurityProfilesError = CommonErrors;
 
+/** UpdateSecurityProfile update the metadata of security profile. */
 export const patchOrganizationsSecurityProfiles: API.OperationMethod<PatchOrganizationsSecurityProfilesRequest, PatchOrganizationsSecurityProfilesResponse, PatchOrganizationsSecurityProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsSecurityProfilesRequest,
   output: PatchOrganizationsSecurityProfilesResponse,
   errors: [],
 }));
 
-/** GetSecurityProfile gets the specified security profile. Returns NOT_FOUND if security profile is not present for the specified organization. */
 export interface GetOrganizationsSecurityProfilesRequest {
   /** Required. Security profile in the following format: `organizations/{org}/securityProfiles/{profile}'. Profile may optionally contain revision ID. If revision ID is not provided, the response will contain latest revision by default. Example: organizations/testOrg/securityProfiles/testProfile@5 */
   name: string;
@@ -6507,13 +6506,13 @@ export const GetOrganizationsSecurityProfilesResponse = GoogleCloudApigeeV1Secur
 
 export type GetOrganizationsSecurityProfilesError = CommonErrors;
 
+/** GetSecurityProfile gets the specified security profile. Returns NOT_FOUND if security profile is not present for the specified organization. */
 export const getOrganizationsSecurityProfiles: API.OperationMethod<GetOrganizationsSecurityProfilesRequest, GetOrganizationsSecurityProfilesResponse, GetOrganizationsSecurityProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsSecurityProfilesRequest,
   output: GetOrganizationsSecurityProfilesResponse,
   errors: [],
 }));
 
-/** ListSecurityProfiles lists all the security profiles associated with the org including attached and unattached profiles. */
 export interface ListOrganizationsSecurityProfilesRequest {
   /** The maximum number of profiles to return. The service may return fewer than this value. If unspecified, at most 50 profiles will be returned. */
   pageSize?: number;
@@ -6537,7 +6536,8 @@ export const ListOrganizationsSecurityProfilesResponse = GoogleCloudApigeeV1List
 
 export type ListOrganizationsSecurityProfilesError = CommonErrors;
 
-export const listOrganizationsSecurityProfiles = API.makePaginated(() => ({
+/** ListSecurityProfiles lists all the security profiles associated with the org including attached and unattached profiles. */
+export const listOrganizationsSecurityProfiles: API.PaginatedOperationMethod<ListOrganizationsSecurityProfilesRequest, ListOrganizationsSecurityProfilesResponse, ListOrganizationsSecurityProfilesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsSecurityProfilesRequest,
   output: ListOrganizationsSecurityProfilesResponse,
   errors: [],
@@ -6547,7 +6547,6 @@ export const listOrganizationsSecurityProfiles = API.makePaginated(() => ({
   },
 }));
 
-/** DeleteSecurityProfile delete a profile with all its revisions. */
 export interface DeleteOrganizationsSecurityProfilesRequest {
   /** Required. Name of profile. Format: organizations/{org}/securityProfiles/{profile} */
   name: string;
@@ -6565,13 +6564,13 @@ export const DeleteOrganizationsSecurityProfilesResponse = GoogleProtobufEmpty;
 
 export type DeleteOrganizationsSecurityProfilesError = CommonErrors;
 
+/** DeleteSecurityProfile delete a profile with all its revisions. */
 export const deleteOrganizationsSecurityProfiles: API.OperationMethod<DeleteOrganizationsSecurityProfilesRequest, DeleteOrganizationsSecurityProfilesResponse, DeleteOrganizationsSecurityProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsSecurityProfilesRequest,
   output: DeleteOrganizationsSecurityProfilesResponse,
   errors: [],
 }));
 
-/** ListSecurityProfileRevisions lists all the revisions of the security profile. */
 export interface ListRevisionsOrganizationsSecurityProfilesRequest {
   /** Required. For a specific profile, list all the revisions. Format: `organizations/{org}/securityProfiles/{profile}` */
   name: string;
@@ -6595,7 +6594,8 @@ export const ListRevisionsOrganizationsSecurityProfilesResponse = GoogleCloudApi
 
 export type ListRevisionsOrganizationsSecurityProfilesError = CommonErrors;
 
-export const listRevisionsOrganizationsSecurityProfiles = API.makePaginated(() => ({
+/** ListSecurityProfileRevisions lists all the revisions of the security profile. */
+export const listRevisionsOrganizationsSecurityProfiles: API.PaginatedOperationMethod<ListRevisionsOrganizationsSecurityProfilesRequest, ListRevisionsOrganizationsSecurityProfilesResponse, ListRevisionsOrganizationsSecurityProfilesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRevisionsOrganizationsSecurityProfilesRequest,
   output: ListRevisionsOrganizationsSecurityProfilesResponse,
   errors: [],
@@ -6605,7 +6605,6 @@ export const listRevisionsOrganizationsSecurityProfiles = API.makePaginated(() =
   },
 }));
 
-/** ComputeEnvironmentScores calculates scores for requested time range for the specified security profile and environment. */
 export interface ComputeEnvironmentScoresOrganizationsSecurityProfilesEnvironmentsRequest {
   /** Required. Name of organization and environment and profile id for which score needs to be computed. Format: organizations/{org}/securityProfiles/{profile}/environments/{env} */
   profileEnvironment: string;
@@ -6626,13 +6625,13 @@ export const ComputeEnvironmentScoresOrganizationsSecurityProfilesEnvironmentsRe
 
 export type ComputeEnvironmentScoresOrganizationsSecurityProfilesEnvironmentsError = CommonErrors;
 
+/** ComputeEnvironmentScores calculates scores for requested time range for the specified security profile and environment. */
 export const computeEnvironmentScoresOrganizationsSecurityProfilesEnvironments: API.OperationMethod<ComputeEnvironmentScoresOrganizationsSecurityProfilesEnvironmentsRequest, ComputeEnvironmentScoresOrganizationsSecurityProfilesEnvironmentsResponse, ComputeEnvironmentScoresOrganizationsSecurityProfilesEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ComputeEnvironmentScoresOrganizationsSecurityProfilesEnvironmentsRequest,
   output: ComputeEnvironmentScoresOrganizationsSecurityProfilesEnvironmentsResponse,
   errors: [],
 }));
 
-/** CreateSecurityProfileEnvironmentAssociation creates profile environment association i.e. attaches environment to security profile. */
 export interface CreateOrganizationsSecurityProfilesEnvironmentsRequest {
   /** Required. Name of organization and security profile ID. Format: organizations/{org}/securityProfiles/{profile} */
   parent: string;
@@ -6653,13 +6652,13 @@ export const CreateOrganizationsSecurityProfilesEnvironmentsResponse = GoogleClo
 
 export type CreateOrganizationsSecurityProfilesEnvironmentsError = CommonErrors;
 
+/** CreateSecurityProfileEnvironmentAssociation creates profile environment association i.e. attaches environment to security profile. */
 export const createOrganizationsSecurityProfilesEnvironments: API.OperationMethod<CreateOrganizationsSecurityProfilesEnvironmentsRequest, CreateOrganizationsSecurityProfilesEnvironmentsResponse, CreateOrganizationsSecurityProfilesEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsSecurityProfilesEnvironmentsRequest,
   output: CreateOrganizationsSecurityProfilesEnvironmentsResponse,
   errors: [],
 }));
 
-/** DeleteSecurityProfileEnvironmentAssociation removes profile environment association i.e. detaches environment from security profile. */
 export interface DeleteOrganizationsSecurityProfilesEnvironmentsRequest {
   /** Required. The name of the environment attachment to delete. Format: organizations/{org}/securityProfiles/{profile}/environments/{env} */
   name: string;
@@ -6677,13 +6676,13 @@ export const DeleteOrganizationsSecurityProfilesEnvironmentsResponse = GooglePro
 
 export type DeleteOrganizationsSecurityProfilesEnvironmentsError = CommonErrors;
 
+/** DeleteSecurityProfileEnvironmentAssociation removes profile environment association i.e. detaches environment from security profile. */
 export const deleteOrganizationsSecurityProfilesEnvironments: API.OperationMethod<DeleteOrganizationsSecurityProfilesEnvironmentsRequest, DeleteOrganizationsSecurityProfilesEnvironmentsResponse, DeleteOrganizationsSecurityProfilesEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsSecurityProfilesEnvironmentsRequest,
   output: DeleteOrganizationsSecurityProfilesEnvironmentsResponse,
   errors: [],
 }));
 
-/** Compute RAV2 security scores for a set of resources. */
 export interface BatchComputeOrganizationsSecurityAssessmentResultsRequest {
   /** Required. Name of the organization for which the score needs to be computed in the following format: `organizations/{org}/securityAssessmentResults` */
   name: string;
@@ -6704,6 +6703,7 @@ export const BatchComputeOrganizationsSecurityAssessmentResultsResponse = Google
 
 export type BatchComputeOrganizationsSecurityAssessmentResultsError = CommonErrors;
 
+/** Compute RAV2 security scores for a set of resources. */
 export const batchComputeOrganizationsSecurityAssessmentResults: API.OperationMethod<BatchComputeOrganizationsSecurityAssessmentResultsRequest, BatchComputeOrganizationsSecurityAssessmentResultsResponse, BatchComputeOrganizationsSecurityAssessmentResultsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchComputeOrganizationsSecurityAssessmentResultsRequest,
   output: BatchComputeOrganizationsSecurityAssessmentResultsResponse,
@@ -6733,7 +6733,6 @@ export const getResultViewOrganizationsHostQueries: API.OperationMethod<GetResul
   errors: [],
 }));
 
-/** Get status of a query submitted at host level. If the query is still in progress, the `state` is set to "running" After the query has completed successfully, `state` is set to "completed" */
 export interface GetOrganizationsHostQueriesRequest {
   /** Required. Name of the asynchronous query to get. Must be of the form `organizations/{org}/queries/{queryId}`. */
   name: string;
@@ -6751,13 +6750,13 @@ export const GetOrganizationsHostQueriesResponse = GoogleCloudApigeeV1AsyncQuery
 
 export type GetOrganizationsHostQueriesError = CommonErrors;
 
+/** Get status of a query submitted at host level. If the query is still in progress, the `state` is set to "running" After the query has completed successfully, `state` is set to "completed" */
 export const getOrganizationsHostQueries: API.OperationMethod<GetOrganizationsHostQueriesRequest, GetOrganizationsHostQueriesResponse, GetOrganizationsHostQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsHostQueriesRequest,
   output: GetOrganizationsHostQueriesResponse,
   errors: [],
 }));
 
-/** Submit a query at host level to be processed in the background. If the submission of the query succeeds, the API returns a 201 status and an ID that refer to the query. In addition to the HTTP status 201, the `state` of "enqueued" means that the request succeeded. */
 export interface CreateOrganizationsHostQueriesRequest {
   /** Required. The parent resource name. Must be of the form `organizations/{org}`. */
   parent: string;
@@ -6778,13 +6777,13 @@ export const CreateOrganizationsHostQueriesResponse = GoogleCloudApigeeV1AsyncQu
 
 export type CreateOrganizationsHostQueriesError = CommonErrors;
 
+/** Submit a query at host level to be processed in the background. If the submission of the query succeeds, the API returns a 201 status and an ID that refer to the query. In addition to the HTTP status 201, the `state` of "enqueued" means that the request succeeded. */
 export const createOrganizationsHostQueries: API.OperationMethod<CreateOrganizationsHostQueriesRequest, CreateOrganizationsHostQueriesResponse, CreateOrganizationsHostQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsHostQueriesRequest,
   output: CreateOrganizationsHostQueriesResponse,
   errors: [],
 }));
 
-/** After the query is completed, use this API to retrieve the results. If the request succeeds, and there is a non-zero result set, the result is downloaded to the client as a zipped JSON file. The name of the downloaded file will be: OfflineQueryResult-.zip Example: `OfflineQueryResult-9cfc0d85-0f30-46d6-ae6f-318d0cb961bd.zip` */
 export interface GetResultOrganizationsHostQueriesRequest {
   /** Required. Name of the asynchronous query result to get. Must be of the form `organizations/{org}/queries/{queryId}/result`. */
   name: string;
@@ -6802,13 +6801,13 @@ export const GetResultOrganizationsHostQueriesResponse = GoogleApiHttpBody;
 
 export type GetResultOrganizationsHostQueriesError = CommonErrors;
 
+/** After the query is completed, use this API to retrieve the results. If the request succeeds, and there is a non-zero result set, the result is downloaded to the client as a zipped JSON file. The name of the downloaded file will be: OfflineQueryResult-.zip Example: `OfflineQueryResult-9cfc0d85-0f30-46d6-ae6f-318d0cb961bd.zip` */
 export const getResultOrganizationsHostQueries: API.OperationMethod<GetResultOrganizationsHostQueriesRequest, GetResultOrganizationsHostQueriesResponse, GetResultOrganizationsHostQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetResultOrganizationsHostQueriesRequest,
   output: GetResultOrganizationsHostQueriesResponse,
   errors: [],
 }));
 
-/** Return a list of Asynchronous Queries at host level. */
 export interface ListOrganizationsHostQueriesRequest {
   /** Filter response list by asynchronous query status. */
   status?: string;
@@ -6847,13 +6846,13 @@ export const ListOrganizationsHostQueriesResponse = GoogleCloudApigeeV1ListAsync
 
 export type ListOrganizationsHostQueriesError = CommonErrors;
 
+/** Return a list of Asynchronous Queries at host level. */
 export const listOrganizationsHostQueries: API.OperationMethod<ListOrganizationsHostQueriesRequest, ListOrganizationsHostQueriesResponse, ListOrganizationsHostQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOrganizationsHostQueriesRequest,
   output: ListOrganizationsHostQueriesResponse,
   errors: [],
 }));
 
-/** Lists the names of all API proxies in an organization. The names returned correspond to the names defined in the configuration files for each API proxy. If the resource has the `space` attribute set, the response may not return all resources. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
 export interface ListOrganizationsApisRequest {
   /** Required. Name of the organization in the following format: `organizations/{org}` If the resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   parent: string;
@@ -6880,13 +6879,13 @@ export const ListOrganizationsApisResponse = GoogleCloudApigeeV1ListApiProxiesRe
 
 export type ListOrganizationsApisError = CommonErrors;
 
+/** Lists the names of all API proxies in an organization. The names returned correspond to the names defined in the configuration files for each API proxy. If the resource has the `space` attribute set, the response may not return all resources. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
 export const listOrganizationsApis: API.OperationMethod<ListOrganizationsApisRequest, ListOrganizationsApisResponse, ListOrganizationsApisError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOrganizationsApisRequest,
   output: ListOrganizationsApisResponse,
   errors: [],
 }));
 
-/** Deletes an API proxy and all associated endpoints, policies, resources, and revisions. The API proxy must be undeployed before you can delete it. */
 export interface DeleteOrganizationsApisRequest {
   /** Required. Name of the API proxy in the following format: `organizations/{org}/apis/{api}` If the API Proxy resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -6904,13 +6903,13 @@ export const DeleteOrganizationsApisResponse = GoogleCloudApigeeV1ApiProxy;
 
 export type DeleteOrganizationsApisError = CommonErrors;
 
+/** Deletes an API proxy and all associated endpoints, policies, resources, and revisions. The API proxy must be undeployed before you can delete it. */
 export const deleteOrganizationsApis: API.OperationMethod<DeleteOrganizationsApisRequest, DeleteOrganizationsApisResponse, DeleteOrganizationsApisError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsApisRequest,
   output: DeleteOrganizationsApisResponse,
   errors: [],
 }));
 
-/** Creates an API proxy. The API proxy created will not be accessible at runtime until it is deployed to an environment. Create a new API proxy by setting the `name` query parameter to the name of the API proxy. Import an API proxy configuration bundle stored in zip format on your local machine to your organization by doing the following: * Set the `name` query parameter to the name of the API proxy. * Set the `action` query parameter to `import`. * Set the `Content-Type` header to `multipart/form-data`. * Pass as a file the name of API proxy configuration bundle stored in zip format on your local machine using the `file` form field. **Note**: To validate the API proxy configuration bundle only without importing it, set the `action` query parameter to `validate`. When importing an API proxy configuration bundle, if the API proxy does not exist, it will be created. If the API proxy exists, then a new revision is created. Invalid API proxy configurations are rejected, and a list of validation errors is returned to the client. */
 export interface CreateOrganizationsApisRequest {
   /** Ignored. All uploads are validated regardless of the value of this field. Maintained for compatibility with Apigee Edge API. */
   validate?: boolean;
@@ -6943,13 +6942,13 @@ export const CreateOrganizationsApisResponse = GoogleCloudApigeeV1ApiProxyRevisi
 
 export type CreateOrganizationsApisError = CommonErrors;
 
+/** Creates an API proxy. The API proxy created will not be accessible at runtime until it is deployed to an environment. Create a new API proxy by setting the `name` query parameter to the name of the API proxy. Import an API proxy configuration bundle stored in zip format on your local machine to your organization by doing the following: * Set the `name` query parameter to the name of the API proxy. * Set the `action` query parameter to `import`. * Set the `Content-Type` header to `multipart/form-data`. * Pass as a file the name of API proxy configuration bundle stored in zip format on your local machine using the `file` form field. **Note**: To validate the API proxy configuration bundle only without importing it, set the `action` query parameter to `validate`. When importing an API proxy configuration bundle, if the API proxy does not exist, it will be created. If the API proxy exists, then a new revision is created. Invalid API proxy configurations are rejected, and a list of validation errors is returned to the client. */
 export const createOrganizationsApis: API.OperationMethod<CreateOrganizationsApisRequest, CreateOrganizationsApisResponse, CreateOrganizationsApisError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsApisRequest,
   output: CreateOrganizationsApisResponse,
   errors: [],
 }));
 
-/** Updates an existing API proxy. */
 export interface PatchOrganizationsApisRequest {
   /** Required. API proxy to update in the following format: `organizations/{org}/apis/{api}` If the resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -6973,13 +6972,13 @@ export const PatchOrganizationsApisResponse = GoogleCloudApigeeV1ApiProxy;
 
 export type PatchOrganizationsApisError = CommonErrors;
 
+/** Updates an existing API proxy. */
 export const patchOrganizationsApis: API.OperationMethod<PatchOrganizationsApisRequest, PatchOrganizationsApisResponse, PatchOrganizationsApisError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsApisRequest,
   output: PatchOrganizationsApisResponse,
   errors: [],
 }));
 
-/** Moves an API proxy to a different space. */
 export interface MoveOrganizationsApisRequest {
   /** Required. API proxy to move in the following format: `organizations/{org}/apis/{api}` */
   name: string;
@@ -7000,13 +6999,13 @@ export const MoveOrganizationsApisResponse = GoogleCloudApigeeV1ApiProxy;
 
 export type MoveOrganizationsApisError = CommonErrors;
 
+/** Moves an API proxy to a different space. */
 export const moveOrganizationsApis: API.OperationMethod<MoveOrganizationsApisRequest, MoveOrganizationsApisResponse, MoveOrganizationsApisError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MoveOrganizationsApisRequest,
   output: MoveOrganizationsApisResponse,
   errors: [],
 }));
 
-/** Gets an API proxy including a list of existing revisions. */
 export interface GetOrganizationsApisRequest {
   /** Required. Name of the API proxy in the following format: `organizations/{org}/apis/{api}` If the API Proxy resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -7024,13 +7023,13 @@ export const GetOrganizationsApisResponse = GoogleCloudApigeeV1ApiProxy;
 
 export type GetOrganizationsApisError = CommonErrors;
 
+/** Gets an API proxy including a list of existing revisions. */
 export const getOrganizationsApis: API.OperationMethod<GetOrganizationsApisRequest, GetOrganizationsApisResponse, GetOrganizationsApisError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsApisRequest,
   output: GetOrganizationsApisResponse,
   errors: [],
 }));
 
-/** Updates an existing API proxy revision by uploading the API proxy configuration bundle as a zip file from your local machine. You can update only API proxy revisions that have never been deployed. After deployment, an API proxy revision becomes immutable, even if it is undeployed. Set the `Content-Type` header to either `multipart/form-data` or `application/octet-stream`. */
 export interface UpdateApiProxyRevisionOrganizationsApisRevisionsRequest {
   /** Required. API proxy revision to update in the following format: `organizations/{org}/apis/{api}/revisions/{rev}` If the API Proxy resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -7054,13 +7053,13 @@ export const UpdateApiProxyRevisionOrganizationsApisRevisionsResponse = GoogleCl
 
 export type UpdateApiProxyRevisionOrganizationsApisRevisionsError = CommonErrors;
 
+/** Updates an existing API proxy revision by uploading the API proxy configuration bundle as a zip file from your local machine. You can update only API proxy revisions that have never been deployed. After deployment, an API proxy revision becomes immutable, even if it is undeployed. Set the `Content-Type` header to either `multipart/form-data` or `application/octet-stream`. */
 export const updateApiProxyRevisionOrganizationsApisRevisions: API.OperationMethod<UpdateApiProxyRevisionOrganizationsApisRevisionsRequest, UpdateApiProxyRevisionOrganizationsApisRevisionsResponse, UpdateApiProxyRevisionOrganizationsApisRevisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateApiProxyRevisionOrganizationsApisRevisionsRequest,
   output: UpdateApiProxyRevisionOrganizationsApisRevisionsResponse,
   errors: [],
 }));
 
-/** Gets an API proxy revision. To download the API proxy configuration bundle for the specified revision as a zip file, set the `format` query parameter to `bundle`. If you are using curl, specify `-o filename.zip` to save the output to a file; otherwise, it displays to `stdout`. Then, develop the API proxy configuration locally and upload the updated API proxy configuration revision, as described in [updateApiProxyRevision](updateApiProxyRevision). */
 export interface GetOrganizationsApisRevisionsRequest {
   /** Format used when downloading the API proxy configuration revision. Set to `bundle` to download the API proxy configuration revision as a zip file. */
   format?: string;
@@ -7081,13 +7080,13 @@ export const GetOrganizationsApisRevisionsResponse = GoogleApiHttpBody;
 
 export type GetOrganizationsApisRevisionsError = CommonErrors;
 
+/** Gets an API proxy revision. To download the API proxy configuration bundle for the specified revision as a zip file, set the `format` query parameter to `bundle`. If you are using curl, specify `-o filename.zip` to save the output to a file; otherwise, it displays to `stdout`. Then, develop the API proxy configuration locally and upload the updated API proxy configuration revision, as described in [updateApiProxyRevision](updateApiProxyRevision). */
 export const getOrganizationsApisRevisions: API.OperationMethod<GetOrganizationsApisRevisionsRequest, GetOrganizationsApisRevisionsResponse, GetOrganizationsApisRevisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsApisRevisionsRequest,
   output: GetOrganizationsApisRevisionsResponse,
   errors: [],
 }));
 
-/** Deletes an API proxy revision and all policies, resources, endpoints, and revisions associated with it. The API proxy revision must be undeployed before you can delete it. */
 export interface DeleteOrganizationsApisRevisionsRequest {
   /** Required. API proxy revision in the following format: `organizations/{org}/apis/{api}/revisions/{rev}` If the API Proxy resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -7105,13 +7104,13 @@ export const DeleteOrganizationsApisRevisionsResponse = GoogleCloudApigeeV1ApiPr
 
 export type DeleteOrganizationsApisRevisionsError = CommonErrors;
 
+/** Deletes an API proxy revision and all policies, resources, endpoints, and revisions associated with it. The API proxy revision must be undeployed before you can delete it. */
 export const deleteOrganizationsApisRevisions: API.OperationMethod<DeleteOrganizationsApisRevisionsRequest, DeleteOrganizationsApisRevisionsResponse, DeleteOrganizationsApisRevisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsApisRevisionsRequest,
   output: DeleteOrganizationsApisRevisionsResponse,
   errors: [],
 }));
 
-/** Lists all deployments of an API proxy revision. */
 export interface ListOrganizationsApisRevisionsDeploymentsRequest {
   /** Required. Name of the API proxy revision for which to return deployment information in the following format: `organizations/{org}/apis/{api}/revisions/{rev}`. If the API proxy resource has the `space` attribute set, IAM permissions are checked differently . To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   parent: string;
@@ -7129,13 +7128,13 @@ export const ListOrganizationsApisRevisionsDeploymentsResponse = GoogleCloudApig
 
 export type ListOrganizationsApisRevisionsDeploymentsError = CommonErrors;
 
+/** Lists all deployments of an API proxy revision. */
 export const listOrganizationsApisRevisionsDeployments: API.OperationMethod<ListOrganizationsApisRevisionsDeploymentsRequest, ListOrganizationsApisRevisionsDeploymentsResponse, ListOrganizationsApisRevisionsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOrganizationsApisRevisionsDeploymentsRequest,
   output: ListOrganizationsApisRevisionsDeploymentsResponse,
   errors: [],
 }));
 
-/** Lists all deployments of an API proxy. */
 export interface ListOrganizationsApisDeploymentsRequest {
   /** Required. Name of the API proxy for which to return deployment information in the following format: `organizations/{org}/apis/{api}` If the API proxy resource has the `space` attribute set, IAM permissions are checked differently . To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   parent: string;
@@ -7153,13 +7152,13 @@ export const ListOrganizationsApisDeploymentsResponse = GoogleCloudApigeeV1ListD
 
 export type ListOrganizationsApisDeploymentsError = CommonErrors;
 
+/** Lists all deployments of an API proxy. */
 export const listOrganizationsApisDeployments: API.OperationMethod<ListOrganizationsApisDeploymentsRequest, ListOrganizationsApisDeploymentsResponse, ListOrganizationsApisDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOrganizationsApisDeploymentsRequest,
   output: ListOrganizationsApisDeploymentsResponse,
   errors: [],
 }));
 
-/** Get the key value map scoped to an organization, environment, or API proxy. */
 export interface GetOrganizationsApisKeyvaluemapsRequest {
   /** Required. Scope as indicated by the URI in which to fetch the key value map. Use **one** of the following structures in your request: * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`. * `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`. If the KeyValueMap is under an API Proxy resource that has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -7177,13 +7176,13 @@ export const GetOrganizationsApisKeyvaluemapsResponse = GoogleCloudApigeeV1KeyVa
 
 export type GetOrganizationsApisKeyvaluemapsError = CommonErrors;
 
+/** Get the key value map scoped to an organization, environment, or API proxy. */
 export const getOrganizationsApisKeyvaluemaps: API.OperationMethod<GetOrganizationsApisKeyvaluemapsRequest, GetOrganizationsApisKeyvaluemapsResponse, GetOrganizationsApisKeyvaluemapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsApisKeyvaluemapsRequest,
   output: GetOrganizationsApisKeyvaluemapsResponse,
   errors: [],
 }));
 
-/** Deletes a key value map from an API proxy. */
 export interface DeleteOrganizationsApisKeyvaluemapsRequest {
   /** Required. Name of the key value map. Use the following structure in your request: `organizations/{org}/apis/{api}/keyvaluemaps/{keyvaluemap}` If the API Proxy resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -7201,13 +7200,13 @@ export const DeleteOrganizationsApisKeyvaluemapsResponse = GoogleCloudApigeeV1Ke
 
 export type DeleteOrganizationsApisKeyvaluemapsError = CommonErrors;
 
+/** Deletes a key value map from an API proxy. */
 export const deleteOrganizationsApisKeyvaluemaps: API.OperationMethod<DeleteOrganizationsApisKeyvaluemapsRequest, DeleteOrganizationsApisKeyvaluemapsResponse, DeleteOrganizationsApisKeyvaluemapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsApisKeyvaluemapsRequest,
   output: DeleteOrganizationsApisKeyvaluemapsResponse,
   errors: [],
 }));
 
-/** Update the key value map scoped to an organization, environment, or API proxy. */
 export interface UpdateOrganizationsApisKeyvaluemapsRequest {
   /** Required. Scope as indicated by the URI in which to fetch the key value map. Use **one** of the following structures in your request: * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`. * `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`. If the KeyValueMap is under an API Proxy resource that has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -7228,13 +7227,13 @@ export const UpdateOrganizationsApisKeyvaluemapsResponse = GoogleCloudApigeeV1Ke
 
 export type UpdateOrganizationsApisKeyvaluemapsError = CommonErrors;
 
+/** Update the key value map scoped to an organization, environment, or API proxy. */
 export const updateOrganizationsApisKeyvaluemaps: API.OperationMethod<UpdateOrganizationsApisKeyvaluemapsRequest, UpdateOrganizationsApisKeyvaluemapsResponse, UpdateOrganizationsApisKeyvaluemapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateOrganizationsApisKeyvaluemapsRequest,
   output: UpdateOrganizationsApisKeyvaluemapsResponse,
   errors: [],
 }));
 
-/** Creates a key value map in an API proxy. */
 export interface CreateOrganizationsApisKeyvaluemapsRequest {
   /** Required. Name of the environment in which to create the key value map. Use the following structure in your request: `organizations/{org}/apis/{api}` If the API Proxy resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   parent: string;
@@ -7255,13 +7254,13 @@ export const CreateOrganizationsApisKeyvaluemapsResponse = GoogleCloudApigeeV1Ke
 
 export type CreateOrganizationsApisKeyvaluemapsError = CommonErrors;
 
+/** Creates a key value map in an API proxy. */
 export const createOrganizationsApisKeyvaluemaps: API.OperationMethod<CreateOrganizationsApisKeyvaluemapsRequest, CreateOrganizationsApisKeyvaluemapsResponse, CreateOrganizationsApisKeyvaluemapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsApisKeyvaluemapsRequest,
   output: CreateOrganizationsApisKeyvaluemapsResponse,
   errors: [],
 }));
 
-/** Creates key value entries in a key value map scoped to an organization, environment, or API proxy. **Note**: Supported for Apigee hybrid 1.8.x and higher. */
 export interface CreateOrganizationsApisKeyvaluemapsEntriesRequest {
   /** Required. Scope as indicated by the URI in which to create the key value map entry. Use **one** of the following structures in your request: * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`. * `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`. If the KeyValueMap is under an API Proxy resource that has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   parent: string;
@@ -7282,13 +7281,13 @@ export const CreateOrganizationsApisKeyvaluemapsEntriesResponse = GoogleCloudApi
 
 export type CreateOrganizationsApisKeyvaluemapsEntriesError = CommonErrors;
 
+/** Creates key value entries in a key value map scoped to an organization, environment, or API proxy. **Note**: Supported for Apigee hybrid 1.8.x and higher. */
 export const createOrganizationsApisKeyvaluemapsEntries: API.OperationMethod<CreateOrganizationsApisKeyvaluemapsEntriesRequest, CreateOrganizationsApisKeyvaluemapsEntriesResponse, CreateOrganizationsApisKeyvaluemapsEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsApisKeyvaluemapsEntriesRequest,
   output: CreateOrganizationsApisKeyvaluemapsEntriesResponse,
   errors: [],
 }));
 
-/** Get the key value entry value for a key value map scoped to an organization, environment, or API proxy. **Note**: Supported for Apigee hybrid 1.8.x and higher. */
 export interface GetOrganizationsApisKeyvaluemapsEntriesRequest {
   /** Required. Scope as indicated by the URI in which to fetch the key value map entry/value. Use **one** of the following structures in your request: * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}/entries/{entry}`. * `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}/entries/{entry}` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}/entries/{entry}`. If the KeyValueMap is under an API Proxy resource that has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -7306,13 +7305,13 @@ export const GetOrganizationsApisKeyvaluemapsEntriesResponse = GoogleCloudApigee
 
 export type GetOrganizationsApisKeyvaluemapsEntriesError = CommonErrors;
 
+/** Get the key value entry value for a key value map scoped to an organization, environment, or API proxy. **Note**: Supported for Apigee hybrid 1.8.x and higher. */
 export const getOrganizationsApisKeyvaluemapsEntries: API.OperationMethod<GetOrganizationsApisKeyvaluemapsEntriesRequest, GetOrganizationsApisKeyvaluemapsEntriesResponse, GetOrganizationsApisKeyvaluemapsEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsApisKeyvaluemapsEntriesRequest,
   output: GetOrganizationsApisKeyvaluemapsEntriesResponse,
   errors: [],
 }));
 
-/** Update key value entry scoped to an organization, environment, or API proxy for an existing key. */
 export interface UpdateOrganizationsApisKeyvaluemapsEntriesRequest {
   /** Required. Scope as indicated by the URI in which to create the key value map entry. Use **one** of the following structures in your request: * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`. * `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`. If the KeyValueMap is under an API Proxy resource that has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -7333,13 +7332,13 @@ export const UpdateOrganizationsApisKeyvaluemapsEntriesResponse = GoogleCloudApi
 
 export type UpdateOrganizationsApisKeyvaluemapsEntriesError = CommonErrors;
 
+/** Update key value entry scoped to an organization, environment, or API proxy for an existing key. */
 export const updateOrganizationsApisKeyvaluemapsEntries: API.OperationMethod<UpdateOrganizationsApisKeyvaluemapsEntriesRequest, UpdateOrganizationsApisKeyvaluemapsEntriesResponse, UpdateOrganizationsApisKeyvaluemapsEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateOrganizationsApisKeyvaluemapsEntriesRequest,
   output: UpdateOrganizationsApisKeyvaluemapsEntriesResponse,
   errors: [],
 }));
 
-/** Lists key value entries for key values maps scoped to an organization, environment, or API proxy. **Note**: Supported for Apigee hybrid 1.8.x and higher. */
 export interface ListOrganizationsApisKeyvaluemapsEntriesRequest {
   /** Optional. Maximum number of key value entries to return. If unspecified, at most 100 entries will be returned. */
   pageSize?: number;
@@ -7363,7 +7362,8 @@ export const ListOrganizationsApisKeyvaluemapsEntriesResponse = GoogleCloudApige
 
 export type ListOrganizationsApisKeyvaluemapsEntriesError = CommonErrors;
 
-export const listOrganizationsApisKeyvaluemapsEntries = API.makePaginated(() => ({
+/** Lists key value entries for key values maps scoped to an organization, environment, or API proxy. **Note**: Supported for Apigee hybrid 1.8.x and higher. */
+export const listOrganizationsApisKeyvaluemapsEntries: API.PaginatedOperationMethod<ListOrganizationsApisKeyvaluemapsEntriesRequest, ListOrganizationsApisKeyvaluemapsEntriesResponse, ListOrganizationsApisKeyvaluemapsEntriesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsApisKeyvaluemapsEntriesRequest,
   output: ListOrganizationsApisKeyvaluemapsEntriesResponse,
   errors: [],
@@ -7373,7 +7373,6 @@ export const listOrganizationsApisKeyvaluemapsEntries = API.makePaginated(() => 
   },
 }));
 
-/** Deletes a key value entry from a key value map scoped to an organization, environment, or API proxy. **Notes:** * After you delete the key value entry, the policy consuming the entry will continue to function with its cached values for a few minutes. This is expected behavior. * Supported for Apigee hybrid 1.8.x and higher. */
 export interface DeleteOrganizationsApisKeyvaluemapsEntriesRequest {
   /** Required. Scope as indicated by the URI in which to delete the key value map entry. Use **one** of the following structures in your request: * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}/entries/{entry}`. * `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}/entries/{entry}` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}/entries/{entry}`. If the KeyValueMap is under an API Proxy resource that has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -7391,13 +7390,13 @@ export const DeleteOrganizationsApisKeyvaluemapsEntriesResponse = GoogleCloudApi
 
 export type DeleteOrganizationsApisKeyvaluemapsEntriesError = CommonErrors;
 
+/** Deletes a key value entry from a key value map scoped to an organization, environment, or API proxy. **Notes:** * After you delete the key value entry, the policy consuming the entry will continue to function with its cached values for a few minutes. This is expected behavior. * Supported for Apigee hybrid 1.8.x and higher. */
 export const deleteOrganizationsApisKeyvaluemapsEntries: API.OperationMethod<DeleteOrganizationsApisKeyvaluemapsEntriesRequest, DeleteOrganizationsApisKeyvaluemapsEntriesResponse, DeleteOrganizationsApisKeyvaluemapsEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsApisKeyvaluemapsEntriesRequest,
   output: DeleteOrganizationsApisKeyvaluemapsEntriesResponse,
   errors: [],
 }));
 
-/** Lists debug sessions that are currently active in the given API Proxy. */
 export interface ListOrganizationsApisDebugsessionsRequest {
   /** Required. The name of the API Proxy for which to list debug sessions. Must be of the form: `organizations/{organization}/apis/{api}`. */
   parent: string;
@@ -7421,7 +7420,8 @@ export const ListOrganizationsApisDebugsessionsResponse = GoogleCloudApigeeV1Lis
 
 export type ListOrganizationsApisDebugsessionsError = CommonErrors;
 
-export const listOrganizationsApisDebugsessions = API.makePaginated(() => ({
+/** Lists debug sessions that are currently active in the given API Proxy. */
+export const listOrganizationsApisDebugsessions: API.PaginatedOperationMethod<ListOrganizationsApisDebugsessionsRequest, ListOrganizationsApisDebugsessionsResponse, ListOrganizationsApisDebugsessionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsApisDebugsessionsRequest,
   output: ListOrganizationsApisDebugsessionsResponse,
   errors: [],
@@ -7431,7 +7431,6 @@ export const listOrganizationsApisDebugsessions = API.makePaginated(() => ({
   },
 }));
 
-/** Creates an environment in an organization. */
 export interface CreateOrganizationsEnvironmentsRequest {
   /** Required. Name of the organization in which the environment will be created. Use the following structure in your request: `organizations/{org}` */
   parent: string;
@@ -7455,13 +7454,13 @@ export const CreateOrganizationsEnvironmentsResponse = GoogleLongrunningOperatio
 
 export type CreateOrganizationsEnvironmentsError = CommonErrors;
 
+/** Creates an environment in an organization. */
 export const createOrganizationsEnvironments: API.OperationMethod<CreateOrganizationsEnvironmentsRequest, CreateOrganizationsEnvironmentsResponse, CreateOrganizationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsEnvironmentsRequest,
   output: CreateOrganizationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** Updates properties for an Apigee environment with patch semantics using a field mask. **Note:** Not supported for Apigee hybrid. */
 export interface ModifyEnvironmentOrganizationsEnvironmentsRequest {
   /** Required. Name of the environment. Use the following structure in your request: `organizations/{org}/environments/{environment}`. */
   name: string;
@@ -7485,13 +7484,13 @@ export const ModifyEnvironmentOrganizationsEnvironmentsResponse = GoogleLongrunn
 
 export type ModifyEnvironmentOrganizationsEnvironmentsError = CommonErrors;
 
+/** Updates properties for an Apigee environment with patch semantics using a field mask. **Note:** Not supported for Apigee hybrid. */
 export const modifyEnvironmentOrganizationsEnvironments: API.OperationMethod<ModifyEnvironmentOrganizationsEnvironmentsRequest, ModifyEnvironmentOrganizationsEnvironmentsResponse, ModifyEnvironmentOrganizationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ModifyEnvironmentOrganizationsEnvironmentsRequest,
   output: ModifyEnvironmentOrganizationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** Updates an existing environment. When updating properties, you must pass all existing properties to the API, even if they are not being changed. If you omit properties from the payload, the properties are removed. To get the current list of properties for the environment, use the [Get Environment API](get). **Note**: Both `PUT` and `POST` methods are supported for updating an existing environment. */
 export interface UpdateEnvironmentOrganizationsEnvironmentsRequest {
   /** Required. Name of the environment. Use the following structure in your request: `organizations/{org}/environments/{env}` */
   name: string;
@@ -7512,13 +7511,13 @@ export const UpdateEnvironmentOrganizationsEnvironmentsResponse = GoogleCloudApi
 
 export type UpdateEnvironmentOrganizationsEnvironmentsError = CommonErrors;
 
+/** Updates an existing environment. When updating properties, you must pass all existing properties to the API, even if they are not being changed. If you omit properties from the payload, the properties are removed. To get the current list of properties for the environment, use the [Get Environment API](get). **Note**: Both `PUT` and `POST` methods are supported for updating an existing environment. */
 export const updateEnvironmentOrganizationsEnvironments: API.OperationMethod<UpdateEnvironmentOrganizationsEnvironmentsRequest, UpdateEnvironmentOrganizationsEnvironmentsResponse, UpdateEnvironmentOrganizationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateEnvironmentOrganizationsEnvironmentsRequest,
   output: UpdateEnvironmentOrganizationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** Updates the debug mask singleton resource for an environment. */
 export interface UpdateDebugmaskOrganizationsEnvironmentsRequest {
   /** Boolean flag that specifies whether to replace existing values in the debug mask when doing an update. Set to true to replace existing values. The default behavior is to append the values (false). */
   replaceRepeatedFields?: boolean;
@@ -7545,13 +7544,13 @@ export const UpdateDebugmaskOrganizationsEnvironmentsResponse = GoogleCloudApige
 
 export type UpdateDebugmaskOrganizationsEnvironmentsError = CommonErrors;
 
+/** Updates the debug mask singleton resource for an environment. */
 export const updateDebugmaskOrganizationsEnvironments: API.OperationMethod<UpdateDebugmaskOrganizationsEnvironmentsRequest, UpdateDebugmaskOrganizationsEnvironmentsResponse, UpdateDebugmaskOrganizationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateDebugmaskOrganizationsEnvironmentsRequest,
   output: UpdateDebugmaskOrganizationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** Tests the permissions of a user on an environment, and returns a subset of permissions that the user has on the environment. If the environment does not exist, an empty permission set is returned (a NOT_FOUND error is not returned). */
 export interface TestIamPermissionsOrganizationsEnvironmentsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -7572,13 +7571,13 @@ export const TestIamPermissionsOrganizationsEnvironmentsResponse = GoogleIamV1Te
 
 export type TestIamPermissionsOrganizationsEnvironmentsError = CommonErrors;
 
+/** Tests the permissions of a user on an environment, and returns a subset of permissions that the user has on the environment. If the environment does not exist, an empty permission set is returned (a NOT_FOUND error is not returned). */
 export const testIamPermissionsOrganizationsEnvironments: API.OperationMethod<TestIamPermissionsOrganizationsEnvironmentsRequest, TestIamPermissionsOrganizationsEnvironmentsResponse, TestIamPermissionsOrganizationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsOrganizationsEnvironmentsRequest,
   output: TestIamPermissionsOrganizationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** Gets the deployed configuration for an environment. */
 export interface GetDeployedConfigOrganizationsEnvironmentsRequest {
   /** Required. Name of the environment deployed configuration resource. Use the following structure in your request: `organizations/{org}/environments/{env}/deployedConfig` */
   name: string;
@@ -7596,13 +7595,13 @@ export const GetDeployedConfigOrganizationsEnvironmentsResponse = GoogleCloudApi
 
 export type GetDeployedConfigOrganizationsEnvironmentsError = CommonErrors;
 
+/** Gets the deployed configuration for an environment. */
 export const getDeployedConfigOrganizationsEnvironments: API.OperationMethod<GetDeployedConfigOrganizationsEnvironmentsRequest, GetDeployedConfigOrganizationsEnvironmentsResponse, GetDeployedConfigOrganizationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDeployedConfigOrganizationsEnvironmentsRequest,
   output: GetDeployedConfigOrganizationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** Updates the trace configurations in an environment. Note that the repeated fields have replace semantics when included in the field mask and that they will be overwritten by the value of the fields in the request body. */
 export interface UpdateTraceConfigOrganizationsEnvironmentsRequest {
   /** Required. Name of the trace configuration. Use the following structure in your request: "organizations/* /environments/* /traceConfig". */
   name: string;
@@ -7626,13 +7625,13 @@ export const UpdateTraceConfigOrganizationsEnvironmentsResponse = GoogleCloudApi
 
 export type UpdateTraceConfigOrganizationsEnvironmentsError = CommonErrors;
 
+/** Updates the trace configurations in an environment. Note that the repeated fields have replace semantics when included in the field mask and that they will be overwritten by the value of the fields in the request body. */
 export const updateTraceConfigOrganizationsEnvironments: API.OperationMethod<UpdateTraceConfigOrganizationsEnvironmentsRequest, UpdateTraceConfigOrganizationsEnvironmentsResponse, UpdateTraceConfigOrganizationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateTraceConfigOrganizationsEnvironmentsRequest,
   output: UpdateTraceConfigOrganizationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** Gets the add-ons config of an environment. */
 export interface GetAddonsConfigOrganizationsEnvironmentsRequest {
   /** Required. Name of the add-ons config. Must be in the format of `/organizations/{org}/environments/{env}/addonsConfig` */
   name: string;
@@ -7650,13 +7649,13 @@ export const GetAddonsConfigOrganizationsEnvironmentsResponse = GoogleCloudApige
 
 export type GetAddonsConfigOrganizationsEnvironmentsError = CommonErrors;
 
+/** Gets the add-ons config of an environment. */
 export const getAddonsConfigOrganizationsEnvironments: API.OperationMethod<GetAddonsConfigOrganizationsEnvironmentsRequest, GetAddonsConfigOrganizationsEnvironmentsResponse, GetAddonsConfigOrganizationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAddonsConfigOrganizationsEnvironmentsRequest,
   output: GetAddonsConfigOrganizationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** GetSecurityActionConfig returns the current SecurityActions configuration. */
 export interface GetSecurityActionsConfigOrganizationsEnvironmentsRequest {
   /** Required. The name of the SecurityActionsConfig to retrieve. This will always be: `organizations/{org}/environments/{env}/security_actions_config` */
   name: string;
@@ -7674,13 +7673,13 @@ export const GetSecurityActionsConfigOrganizationsEnvironmentsResponse = GoogleC
 
 export type GetSecurityActionsConfigOrganizationsEnvironmentsError = CommonErrors;
 
+/** GetSecurityActionConfig returns the current SecurityActions configuration. */
 export const getSecurityActionsConfigOrganizationsEnvironments: API.OperationMethod<GetSecurityActionsConfigOrganizationsEnvironmentsRequest, GetSecurityActionsConfigOrganizationsEnvironmentsResponse, GetSecurityActionsConfigOrganizationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSecurityActionsConfigOrganizationsEnvironmentsRequest,
   output: GetSecurityActionsConfigOrganizationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** Creates a subscription for the environment's Pub/Sub topic. The server will assign a random name for this subscription. The "name" and "push_config" must *not* be specified. */
 export interface SubscribeOrganizationsEnvironmentsRequest {
   /** Required. Name of the environment. Use the following structure in your request: `organizations/{org}/environments/{env}` */
   parent: string;
@@ -7698,13 +7697,13 @@ export const SubscribeOrganizationsEnvironmentsResponse = GoogleCloudApigeeV1Sub
 
 export type SubscribeOrganizationsEnvironmentsError = CommonErrors;
 
+/** Creates a subscription for the environment's Pub/Sub topic. The server will assign a random name for this subscription. The "name" and "push_config" must *not* be specified. */
 export const subscribeOrganizationsEnvironments: API.OperationMethod<SubscribeOrganizationsEnvironmentsRequest, SubscribeOrganizationsEnvironmentsResponse, SubscribeOrganizationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SubscribeOrganizationsEnvironmentsRequest,
   output: SubscribeOrganizationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** Get distributed trace configuration in an environment. */
 export interface GetTraceConfigOrganizationsEnvironmentsRequest {
   /** Required. Name of the trace configuration. Use the following structure in your request: "organizations/* /environments/* /traceConfig". */
   name: string;
@@ -7722,13 +7721,13 @@ export const GetTraceConfigOrganizationsEnvironmentsResponse = GoogleCloudApigee
 
 export type GetTraceConfigOrganizationsEnvironmentsError = CommonErrors;
 
+/** Get distributed trace configuration in an environment. */
 export const getTraceConfigOrganizationsEnvironments: API.OperationMethod<GetTraceConfigOrganizationsEnvironmentsRequest, GetTraceConfigOrganizationsEnvironmentsResponse, GetTraceConfigOrganizationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetTraceConfigOrganizationsEnvironmentsRequest,
   output: GetTraceConfigOrganizationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** Updates an existing environment. When updating properties, you must pass all existing properties to the API, even if they are not being changed. If you omit properties from the payload, the properties are removed. To get the current list of properties for the environment, use the [Get Environment API](get). **Note**: Both `PUT` and `POST` methods are supported for updating an existing environment. */
 export interface UpdateOrganizationsEnvironmentsRequest {
   /** Required. Name of the environment. Use the following structure in your request: `organizations/{org}/environments/{env}` */
   name: string;
@@ -7749,13 +7748,13 @@ export const UpdateOrganizationsEnvironmentsResponse = GoogleCloudApigeeV1Enviro
 
 export type UpdateOrganizationsEnvironmentsError = CommonErrors;
 
+/** Updates an existing environment. When updating properties, you must pass all existing properties to the API, even if they are not being changed. If you omit properties from the payload, the properties are removed. To get the current list of properties for the environment, use the [Get Environment API](get). **Note**: Both `PUT` and `POST` methods are supported for updating an existing environment. */
 export const updateOrganizationsEnvironments: API.OperationMethod<UpdateOrganizationsEnvironmentsRequest, UpdateOrganizationsEnvironmentsResponse, UpdateOrganizationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateOrganizationsEnvironmentsRequest,
   output: UpdateOrganizationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** Gets the API Security runtime configuration for an environment. This named ApiSecurityRuntimeConfig to prevent conflicts with ApiSecurityConfig from addon config. */
 export interface GetApiSecurityRuntimeConfigOrganizationsEnvironmentsRequest {
   /** Required. Name of the environment API Security Runtime configuration resource. Use the following structure in your request: `organizations/{org}/environments/{env}/apiSecurityRuntimeConfig` */
   name: string;
@@ -7773,13 +7772,13 @@ export const GetApiSecurityRuntimeConfigOrganizationsEnvironmentsResponse = Goog
 
 export type GetApiSecurityRuntimeConfigOrganizationsEnvironmentsError = CommonErrors;
 
+/** Gets the API Security runtime configuration for an environment. This named ApiSecurityRuntimeConfig to prevent conflicts with ApiSecurityConfig from addon config. */
 export const getApiSecurityRuntimeConfigOrganizationsEnvironments: API.OperationMethod<GetApiSecurityRuntimeConfigOrganizationsEnvironmentsRequest, GetApiSecurityRuntimeConfigOrganizationsEnvironmentsResponse, GetApiSecurityRuntimeConfigOrganizationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetApiSecurityRuntimeConfigOrganizationsEnvironmentsRequest,
   output: GetApiSecurityRuntimeConfigOrganizationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** Sets the IAM policy on an environment, if the policy already exists it will be replaced. For more information, see [Manage users, roles, and permissions using the API](https://cloud.google.com/apigee/docs/api-platform/system-administration/manage-users-roles). You must have the `apigee.environments.setIamPolicy` permission to call this API. */
 export interface SetIamPolicyOrganizationsEnvironmentsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -7800,13 +7799,13 @@ export const SetIamPolicyOrganizationsEnvironmentsResponse = GoogleIamV1Policy;
 
 export type SetIamPolicyOrganizationsEnvironmentsError = CommonErrors;
 
+/** Sets the IAM policy on an environment, if the policy already exists it will be replaced. For more information, see [Manage users, roles, and permissions using the API](https://cloud.google.com/apigee/docs/api-platform/system-administration/manage-users-roles). You must have the `apigee.environments.setIamPolicy` permission to call this API. */
 export const setIamPolicyOrganizationsEnvironments: API.OperationMethod<SetIamPolicyOrganizationsEnvironmentsRequest, SetIamPolicyOrganizationsEnvironmentsResponse, SetIamPolicyOrganizationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyOrganizationsEnvironmentsRequest,
   output: SetIamPolicyOrganizationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** Gets environment details. */
 export interface GetOrganizationsEnvironmentsRequest {
   /** Required. Name of the environment. Use the following structure in your request: `organizations/{org}/environments/{env}` */
   name: string;
@@ -7824,13 +7823,13 @@ export const GetOrganizationsEnvironmentsResponse = GoogleCloudApigeeV1Environme
 
 export type GetOrganizationsEnvironmentsError = CommonErrors;
 
+/** Gets environment details. */
 export const getOrganizationsEnvironments: API.OperationMethod<GetOrganizationsEnvironmentsRequest, GetOrganizationsEnvironmentsResponse, GetOrganizationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsEnvironmentsRequest,
   output: GetOrganizationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** Deletes a subscription for the environment's Pub/Sub topic. */
 export interface UnsubscribeOrganizationsEnvironmentsRequest {
   /** Required. Name of the environment. Use the following structure in your request: `organizations/{org}/environments/{env}` */
   parent: string;
@@ -7851,13 +7850,13 @@ export const UnsubscribeOrganizationsEnvironmentsResponse = GoogleProtobufEmpty;
 
 export type UnsubscribeOrganizationsEnvironmentsError = CommonErrors;
 
+/** Deletes a subscription for the environment's Pub/Sub topic. */
 export const unsubscribeOrganizationsEnvironments: API.OperationMethod<UnsubscribeOrganizationsEnvironmentsRequest, UnsubscribeOrganizationsEnvironmentsResponse, UnsubscribeOrganizationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UnsubscribeOrganizationsEnvironmentsRequest,
   output: UnsubscribeOrganizationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** UpdateSecurityActionConfig updates the current SecurityActions configuration. This method is used to enable/disable the feature at the environment level. */
 export interface UpdateSecurityActionsConfigOrganizationsEnvironmentsRequest {
   /** This is a singleton resource, the name will always be set by SecurityActions and any user input will be ignored. The name is always: `organizations/{org}/environments/{env}/security_actions_config` */
   name: string;
@@ -7881,13 +7880,13 @@ export const UpdateSecurityActionsConfigOrganizationsEnvironmentsResponse = Goog
 
 export type UpdateSecurityActionsConfigOrganizationsEnvironmentsError = CommonErrors;
 
+/** UpdateSecurityActionConfig updates the current SecurityActions configuration. This method is used to enable/disable the feature at the environment level. */
 export const updateSecurityActionsConfigOrganizationsEnvironments: API.OperationMethod<UpdateSecurityActionsConfigOrganizationsEnvironmentsRequest, UpdateSecurityActionsConfigOrganizationsEnvironmentsResponse, UpdateSecurityActionsConfigOrganizationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateSecurityActionsConfigOrganizationsEnvironmentsRequest,
   output: UpdateSecurityActionsConfigOrganizationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** Gets the debug mask singleton resource for an environment. */
 export interface GetDebugmaskOrganizationsEnvironmentsRequest {
   /** Required. Name of the debug mask. Use the following structure in your request: `organizations/{org}/environments/{env}/debugmask`. */
   name: string;
@@ -7905,13 +7904,13 @@ export const GetDebugmaskOrganizationsEnvironmentsResponse = GoogleCloudApigeeV1
 
 export type GetDebugmaskOrganizationsEnvironmentsError = CommonErrors;
 
+/** Gets the debug mask singleton resource for an environment. */
 export const getDebugmaskOrganizationsEnvironments: API.OperationMethod<GetDebugmaskOrganizationsEnvironmentsRequest, GetDebugmaskOrganizationsEnvironmentsResponse, GetDebugmaskOrganizationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDebugmaskOrganizationsEnvironmentsRequest,
   output: GetDebugmaskOrganizationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** Deletes an environment from an organization. **Warning: You must delete all key value maps and key value entries before you delete an environment.** Otherwise, if you re-create the environment the key value map entry operations will encounter encryption/decryption discrepancies. */
 export interface DeleteOrganizationsEnvironmentsRequest {
   /** Required. Name of the environment. Use the following structure in your request: `organizations/{org}/environments/{env}` */
   name: string;
@@ -7929,13 +7928,13 @@ export const DeleteOrganizationsEnvironmentsResponse = GoogleLongrunningOperatio
 
 export type DeleteOrganizationsEnvironmentsError = CommonErrors;
 
+/** Deletes an environment from an organization. **Warning: You must delete all key value maps and key value entries before you delete an environment.** Otherwise, if you re-create the environment the key value map entry operations will encounter encryption/decryption discrepancies. */
 export const deleteOrganizationsEnvironments: API.OperationMethod<DeleteOrganizationsEnvironmentsRequest, DeleteOrganizationsEnvironmentsResponse, DeleteOrganizationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsEnvironmentsRequest,
   output: DeleteOrganizationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** Gets the IAM policy on an environment. For more information, see [Manage users, roles, and permissions using the API](https://cloud.google.com/apigee/docs/api-platform/system-administration/manage-users-roles). You must have the `apigee.environments.getIamPolicy` permission to call this API. */
 export interface GetIamPolicyOrganizationsEnvironmentsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -7956,13 +7955,13 @@ export const GetIamPolicyOrganizationsEnvironmentsResponse = GoogleIamV1Policy;
 
 export type GetIamPolicyOrganizationsEnvironmentsError = CommonErrors;
 
+/** Gets the IAM policy on an environment. For more information, see [Manage users, roles, and permissions using the API](https://cloud.google.com/apigee/docs/api-platform/system-administration/manage-users-roles). You must have the `apigee.environments.getIamPolicy` permission to call this API. */
 export const getIamPolicyOrganizationsEnvironments: API.OperationMethod<GetIamPolicyOrganizationsEnvironmentsRequest, GetIamPolicyOrganizationsEnvironmentsResponse, GetIamPolicyOrganizationsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyOrganizationsEnvironmentsRequest,
   output: GetIamPolicyOrganizationsEnvironmentsResponse,
   errors: [],
 }));
 
-/** Creates a keystore or truststore. - Keystore: Contains certificates and their associated keys. - Truststore: Contains trusted certificates used to validate a server's certificate. These certificates are typically self-signed certificates or certificates that are not signed by a trusted CA. */
 export interface CreateOrganizationsEnvironmentsKeystoresRequest {
   /** Required. Name of the environment in which to create the keystore. Use the following format in your request: `organizations/{org}/environments/{env}` */
   parent: string;
@@ -7986,13 +7985,13 @@ export const CreateOrganizationsEnvironmentsKeystoresResponse = GoogleCloudApige
 
 export type CreateOrganizationsEnvironmentsKeystoresError = CommonErrors;
 
+/** Creates a keystore or truststore. - Keystore: Contains certificates and their associated keys. - Truststore: Contains trusted certificates used to validate a server's certificate. These certificates are typically self-signed certificates or certificates that are not signed by a trusted CA. */
 export const createOrganizationsEnvironmentsKeystores: API.OperationMethod<CreateOrganizationsEnvironmentsKeystoresRequest, CreateOrganizationsEnvironmentsKeystoresResponse, CreateOrganizationsEnvironmentsKeystoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsEnvironmentsKeystoresRequest,
   output: CreateOrganizationsEnvironmentsKeystoresResponse,
   errors: [],
 }));
 
-/** Deletes a keystore or truststore. */
 export interface DeleteOrganizationsEnvironmentsKeystoresRequest {
   /** Required. Name of the keystore. Use the following format in your request: `organizations/{org}/environments/{env}/keystores/{keystore}` */
   name: string;
@@ -8010,13 +8009,13 @@ export const DeleteOrganizationsEnvironmentsKeystoresResponse = GoogleCloudApige
 
 export type DeleteOrganizationsEnvironmentsKeystoresError = CommonErrors;
 
+/** Deletes a keystore or truststore. */
 export const deleteOrganizationsEnvironmentsKeystores: API.OperationMethod<DeleteOrganizationsEnvironmentsKeystoresRequest, DeleteOrganizationsEnvironmentsKeystoresResponse, DeleteOrganizationsEnvironmentsKeystoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsEnvironmentsKeystoresRequest,
   output: DeleteOrganizationsEnvironmentsKeystoresResponse,
   errors: [],
 }));
 
-/** Gets a keystore or truststore. */
 export interface GetOrganizationsEnvironmentsKeystoresRequest {
   /** Required. Name of the keystore. Use the following format in your request: `organizations/{org}/environments/{env}/keystores/{keystore}`. */
   name: string;
@@ -8034,13 +8033,13 @@ export const GetOrganizationsEnvironmentsKeystoresResponse = GoogleCloudApigeeV1
 
 export type GetOrganizationsEnvironmentsKeystoresError = CommonErrors;
 
+/** Gets a keystore or truststore. */
 export const getOrganizationsEnvironmentsKeystores: API.OperationMethod<GetOrganizationsEnvironmentsKeystoresRequest, GetOrganizationsEnvironmentsKeystoresResponse, GetOrganizationsEnvironmentsKeystoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsEnvironmentsKeystoresRequest,
   output: GetOrganizationsEnvironmentsKeystoresResponse,
   errors: [],
 }));
 
-/** Gets an alias. */
 export interface GetOrganizationsEnvironmentsKeystoresAliasesRequest {
   /** Required. Name of the alias. Use the following format in your request: `organizations/{org}/environments/{env}/keystores/{keystore}/aliases/{alias}`. */
   name: string;
@@ -8058,13 +8057,13 @@ export const GetOrganizationsEnvironmentsKeystoresAliasesResponse = GoogleCloudA
 
 export type GetOrganizationsEnvironmentsKeystoresAliasesError = CommonErrors;
 
+/** Gets an alias. */
 export const getOrganizationsEnvironmentsKeystoresAliases: API.OperationMethod<GetOrganizationsEnvironmentsKeystoresAliasesRequest, GetOrganizationsEnvironmentsKeystoresAliasesResponse, GetOrganizationsEnvironmentsKeystoresAliasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsEnvironmentsKeystoresAliasesRequest,
   output: GetOrganizationsEnvironmentsKeystoresAliasesResponse,
   errors: [],
 }));
 
-/** Creates an alias from a key/certificate pair. The structure of the request is controlled by the `format` query parameter: - `keycertfile` - Separate PEM-encoded key and certificate files are uploaded. Set `Content-Type: multipart/form-data` and include the `keyFile`, `certFile`, and `password` (if keys are encrypted) fields in the request body. If uploading to a truststore, omit `keyFile`. - `pkcs12` - A PKCS12 file is uploaded. Set `Content-Type: multipart/form-data`, provide the file in the `file` field, and include the `password` field if the file is encrypted in the request body. - `selfsignedcert` - A new private key and certificate are generated. Set `Content-Type: application/json` and include CertificateGenerationSpec in the request body. */
 export interface CreateOrganizationsEnvironmentsKeystoresAliasesRequest {
   /** Alias for the key/certificate pair. Values must match the regular expression `[\w\s-.]{1,255}`. This must be provided for all formats except `selfsignedcert`; self-signed certs may specify the alias in either this parameter or the JSON body. */
   alias?: string;
@@ -8100,13 +8099,13 @@ export const CreateOrganizationsEnvironmentsKeystoresAliasesResponse = GoogleClo
 
 export type CreateOrganizationsEnvironmentsKeystoresAliasesError = CommonErrors;
 
+/** Creates an alias from a key/certificate pair. The structure of the request is controlled by the `format` query parameter: - `keycertfile` - Separate PEM-encoded key and certificate files are uploaded. Set `Content-Type: multipart/form-data` and include the `keyFile`, `certFile`, and `password` (if keys are encrypted) fields in the request body. If uploading to a truststore, omit `keyFile`. - `pkcs12` - A PKCS12 file is uploaded. Set `Content-Type: multipart/form-data`, provide the file in the `file` field, and include the `password` field if the file is encrypted in the request body. - `selfsignedcert` - A new private key and certificate are generated. Set `Content-Type: application/json` and include CertificateGenerationSpec in the request body. */
 export const createOrganizationsEnvironmentsKeystoresAliases: API.OperationMethod<CreateOrganizationsEnvironmentsKeystoresAliasesRequest, CreateOrganizationsEnvironmentsKeystoresAliasesResponse, CreateOrganizationsEnvironmentsKeystoresAliasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsEnvironmentsKeystoresAliasesRequest,
   output: CreateOrganizationsEnvironmentsKeystoresAliasesResponse,
   errors: [],
 }));
 
-/** Generates a PKCS #10 Certificate Signing Request for the private key in an alias. */
 export interface CsrOrganizationsEnvironmentsKeystoresAliasesRequest {
   /** Required. Name of the alias. Use the following format in your request: `organizations/{org}/environments/{env}/keystores/{keystore}/aliases/{alias}`. */
   name: string;
@@ -8124,13 +8123,13 @@ export const CsrOrganizationsEnvironmentsKeystoresAliasesResponse = GoogleApiHtt
 
 export type CsrOrganizationsEnvironmentsKeystoresAliasesError = CommonErrors;
 
+/** Generates a PKCS #10 Certificate Signing Request for the private key in an alias. */
 export const csrOrganizationsEnvironmentsKeystoresAliases: API.OperationMethod<CsrOrganizationsEnvironmentsKeystoresAliasesRequest, CsrOrganizationsEnvironmentsKeystoresAliasesResponse, CsrOrganizationsEnvironmentsKeystoresAliasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CsrOrganizationsEnvironmentsKeystoresAliasesRequest,
   output: CsrOrganizationsEnvironmentsKeystoresAliasesResponse,
   errors: [],
 }));
 
-/** Deletes an alias. */
 export interface DeleteOrganizationsEnvironmentsKeystoresAliasesRequest {
   /** Required. Name of the alias. Use the following format in your request: `organizations/{org}/environments/{env}/keystores/{keystore}/aliases/{alias}`. */
   name: string;
@@ -8148,13 +8147,13 @@ export const DeleteOrganizationsEnvironmentsKeystoresAliasesResponse = GoogleClo
 
 export type DeleteOrganizationsEnvironmentsKeystoresAliasesError = CommonErrors;
 
+/** Deletes an alias. */
 export const deleteOrganizationsEnvironmentsKeystoresAliases: API.OperationMethod<DeleteOrganizationsEnvironmentsKeystoresAliasesRequest, DeleteOrganizationsEnvironmentsKeystoresAliasesResponse, DeleteOrganizationsEnvironmentsKeystoresAliasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsEnvironmentsKeystoresAliasesRequest,
   output: DeleteOrganizationsEnvironmentsKeystoresAliasesResponse,
   errors: [],
 }));
 
-/** Updates the certificate in an alias. The updated certificate must be in PEM- or DER-encoded X.509 format. */
 export interface UpdateOrganizationsEnvironmentsKeystoresAliasesRequest {
   /** Required. Flag that specifies whether to ignore expiry validation. If set to `true`, no expiry validation will be performed. */
   ignoreExpiryValidation?: boolean;
@@ -8181,13 +8180,13 @@ export const UpdateOrganizationsEnvironmentsKeystoresAliasesResponse = GoogleClo
 
 export type UpdateOrganizationsEnvironmentsKeystoresAliasesError = CommonErrors;
 
+/** Updates the certificate in an alias. The updated certificate must be in PEM- or DER-encoded X.509 format. */
 export const updateOrganizationsEnvironmentsKeystoresAliases: API.OperationMethod<UpdateOrganizationsEnvironmentsKeystoresAliasesRequest, UpdateOrganizationsEnvironmentsKeystoresAliasesResponse, UpdateOrganizationsEnvironmentsKeystoresAliasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateOrganizationsEnvironmentsKeystoresAliasesRequest,
   output: UpdateOrganizationsEnvironmentsKeystoresAliasesResponse,
   errors: [],
 }));
 
-/** Gets the certificate from an alias in PEM-encoded form. */
 export interface GetCertificateOrganizationsEnvironmentsKeystoresAliasesRequest {
   /** Required. Name of the alias. Use the following format in your request: `organizations/{org}/environments/{env}/keystores/{keystore}/aliases/{alias}`. */
   name: string;
@@ -8205,13 +8204,13 @@ export const GetCertificateOrganizationsEnvironmentsKeystoresAliasesResponse = G
 
 export type GetCertificateOrganizationsEnvironmentsKeystoresAliasesError = CommonErrors;
 
+/** Gets the certificate from an alias in PEM-encoded form. */
 export const getCertificateOrganizationsEnvironmentsKeystoresAliases: API.OperationMethod<GetCertificateOrganizationsEnvironmentsKeystoresAliasesRequest, GetCertificateOrganizationsEnvironmentsKeystoresAliasesResponse, GetCertificateOrganizationsEnvironmentsKeystoresAliasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCertificateOrganizationsEnvironmentsKeystoresAliasesRequest,
   output: GetCertificateOrganizationsEnvironmentsKeystoresAliasesResponse,
   errors: [],
 }));
 
-/** After the query is completed, use this API to retrieve the results as file. If the request succeeds, and there is a non-zero result set, the result is downloaded to the client as a zipped JSON file. The name of the downloaded file will be: OfflineQueryResult-.zip Example: `OfflineQueryResult-9cfc0d85-0f30-46d6-ae6f-318d0cb961bd.zip` */
 export interface GetResultOrganizationsEnvironmentsSecurityReportsRequest {
   /** Required. Name of the security report result to get. Must be of the form `organizations/{org}/environments/{env}/securityReports/{reportId}/result`. */
   name: string;
@@ -8229,13 +8228,13 @@ export const GetResultOrganizationsEnvironmentsSecurityReportsResponse = GoogleA
 
 export type GetResultOrganizationsEnvironmentsSecurityReportsError = CommonErrors;
 
+/** After the query is completed, use this API to retrieve the results as file. If the request succeeds, and there is a non-zero result set, the result is downloaded to the client as a zipped JSON file. The name of the downloaded file will be: OfflineQueryResult-.zip Example: `OfflineQueryResult-9cfc0d85-0f30-46d6-ae6f-318d0cb961bd.zip` */
 export const getResultOrganizationsEnvironmentsSecurityReports: API.OperationMethod<GetResultOrganizationsEnvironmentsSecurityReportsRequest, GetResultOrganizationsEnvironmentsSecurityReportsResponse, GetResultOrganizationsEnvironmentsSecurityReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetResultOrganizationsEnvironmentsSecurityReportsRequest,
   output: GetResultOrganizationsEnvironmentsSecurityReportsResponse,
   errors: [],
 }));
 
-/** Return a list of Security Reports */
 export interface ListOrganizationsEnvironmentsSecurityReportsRequest {
   /** Required. The parent resource name. Must be of the form `organizations/{org}/environments/{env}`. */
   parent: string;
@@ -8274,7 +8273,8 @@ export const ListOrganizationsEnvironmentsSecurityReportsResponse = GoogleCloudA
 
 export type ListOrganizationsEnvironmentsSecurityReportsError = CommonErrors;
 
-export const listOrganizationsEnvironmentsSecurityReports = API.makePaginated(() => ({
+/** Return a list of Security Reports */
+export const listOrganizationsEnvironmentsSecurityReports: API.PaginatedOperationMethod<ListOrganizationsEnvironmentsSecurityReportsRequest, ListOrganizationsEnvironmentsSecurityReportsResponse, ListOrganizationsEnvironmentsSecurityReportsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsEnvironmentsSecurityReportsRequest,
   output: ListOrganizationsEnvironmentsSecurityReportsResponse,
   errors: [],
@@ -8284,7 +8284,6 @@ export const listOrganizationsEnvironmentsSecurityReports = API.makePaginated(()
   },
 }));
 
-/** After the query is completed, use this API to view the query result when result size is small. */
 export interface GetResultViewOrganizationsEnvironmentsSecurityReportsRequest {
   /** Required. Name of the security report result view to get. Must be of the form `organizations/{org}/environments/{env}/securityReports/{reportId}/resultView`. */
   name: string;
@@ -8302,13 +8301,13 @@ export const GetResultViewOrganizationsEnvironmentsSecurityReportsResponse = Goo
 
 export type GetResultViewOrganizationsEnvironmentsSecurityReportsError = CommonErrors;
 
+/** After the query is completed, use this API to view the query result when result size is small. */
 export const getResultViewOrganizationsEnvironmentsSecurityReports: API.OperationMethod<GetResultViewOrganizationsEnvironmentsSecurityReportsRequest, GetResultViewOrganizationsEnvironmentsSecurityReportsResponse, GetResultViewOrganizationsEnvironmentsSecurityReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetResultViewOrganizationsEnvironmentsSecurityReportsRequest,
   output: GetResultViewOrganizationsEnvironmentsSecurityReportsResponse,
   errors: [],
 }));
 
-/** Get security report status If the query is still in progress, the `state` is set to "running" After the query has completed successfully, `state` is set to "completed" */
 export interface GetOrganizationsEnvironmentsSecurityReportsRequest {
   /** Required. Name of the security report to get. Must be of the form `organizations/{org}/environments/{env}/securityReports/{reportId}`. */
   name: string;
@@ -8326,13 +8325,13 @@ export const GetOrganizationsEnvironmentsSecurityReportsResponse = GoogleCloudAp
 
 export type GetOrganizationsEnvironmentsSecurityReportsError = CommonErrors;
 
+/** Get security report status If the query is still in progress, the `state` is set to "running" After the query has completed successfully, `state` is set to "completed" */
 export const getOrganizationsEnvironmentsSecurityReports: API.OperationMethod<GetOrganizationsEnvironmentsSecurityReportsRequest, GetOrganizationsEnvironmentsSecurityReportsResponse, GetOrganizationsEnvironmentsSecurityReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsEnvironmentsSecurityReportsRequest,
   output: GetOrganizationsEnvironmentsSecurityReportsResponse,
   errors: [],
 }));
 
-/** Submit a report request to be processed in the background. If the submission succeeds, the API returns a 200 status and an ID that refer to the report request. In addition to the HTTP status 200, the `state` of "enqueued" means that the request succeeded. */
 export interface CreateOrganizationsEnvironmentsSecurityReportsRequest {
   /** Required. The parent resource name. Must be of the form `organizations/{org}/environments/{env}`. */
   parent: string;
@@ -8353,13 +8352,13 @@ export const CreateOrganizationsEnvironmentsSecurityReportsResponse = GoogleClou
 
 export type CreateOrganizationsEnvironmentsSecurityReportsError = CommonErrors;
 
+/** Submit a report request to be processed in the background. If the submission succeeds, the API returns a 200 status and an ID that refer to the report request. In addition to the HTTP status 200, the `state` of "enqueued" means that the request succeeded. */
 export const createOrganizationsEnvironmentsSecurityReports: API.OperationMethod<CreateOrganizationsEnvironmentsSecurityReportsRequest, CreateOrganizationsEnvironmentsSecurityReportsResponse, CreateOrganizationsEnvironmentsSecurityReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsEnvironmentsSecurityReportsRequest,
   output: CreateOrganizationsEnvironmentsSecurityReportsResponse,
   errors: [],
 }));
 
-/** GetSecurityIncident gets the specified security incident. Returns NOT_FOUND if security incident is not present for the specified organization and environment. */
 export interface GetOrganizationsEnvironmentsSecurityIncidentsRequest {
   /** Required. Security incident in the following format: `organizations/{org}/environments/{environment}/securityIncidents/{incident}'. Example: organizations/testOrg/environments/testEnv/securityIncidents/1234-4567-890-111 */
   name: string;
@@ -8377,13 +8376,13 @@ export const GetOrganizationsEnvironmentsSecurityIncidentsResponse = GoogleCloud
 
 export type GetOrganizationsEnvironmentsSecurityIncidentsError = CommonErrors;
 
+/** GetSecurityIncident gets the specified security incident. Returns NOT_FOUND if security incident is not present for the specified organization and environment. */
 export const getOrganizationsEnvironmentsSecurityIncidents: API.OperationMethod<GetOrganizationsEnvironmentsSecurityIncidentsRequest, GetOrganizationsEnvironmentsSecurityIncidentsResponse, GetOrganizationsEnvironmentsSecurityIncidentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsEnvironmentsSecurityIncidentsRequest,
   output: GetOrganizationsEnvironmentsSecurityIncidentsResponse,
   errors: [],
 }));
 
-/** UpdateSecurityIncidents updates an existing security incident. */
 export interface PatchOrganizationsEnvironmentsSecurityIncidentsRequest {
   /** Immutable. Name of the security incident resource. Format: organizations/{org}/environments/{environment}/securityIncidents/{incident} Example: organizations/apigee-org/environments/dev/securityIncidents/1234-5678-9101-1111 */
   name: string;
@@ -8407,13 +8406,13 @@ export const PatchOrganizationsEnvironmentsSecurityIncidentsResponse = GoogleClo
 
 export type PatchOrganizationsEnvironmentsSecurityIncidentsError = CommonErrors;
 
+/** UpdateSecurityIncidents updates an existing security incident. */
 export const patchOrganizationsEnvironmentsSecurityIncidents: API.OperationMethod<PatchOrganizationsEnvironmentsSecurityIncidentsRequest, PatchOrganizationsEnvironmentsSecurityIncidentsResponse, PatchOrganizationsEnvironmentsSecurityIncidentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsEnvironmentsSecurityIncidentsRequest,
   output: PatchOrganizationsEnvironmentsSecurityIncidentsResponse,
   errors: [],
 }));
 
-/** ListSecurityIncidents lists all the security incident associated with the environment. */
 export interface ListOrganizationsEnvironmentsSecurityIncidentsRequest {
   /** Required. For a specific organization, list of all the security incidents. Format: `organizations/{org}/environments/{environment}` */
   parent: string;
@@ -8440,7 +8439,8 @@ export const ListOrganizationsEnvironmentsSecurityIncidentsResponse = GoogleClou
 
 export type ListOrganizationsEnvironmentsSecurityIncidentsError = CommonErrors;
 
-export const listOrganizationsEnvironmentsSecurityIncidents = API.makePaginated(() => ({
+/** ListSecurityIncidents lists all the security incident associated with the environment. */
+export const listOrganizationsEnvironmentsSecurityIncidents: API.PaginatedOperationMethod<ListOrganizationsEnvironmentsSecurityIncidentsRequest, ListOrganizationsEnvironmentsSecurityIncidentsResponse, ListOrganizationsEnvironmentsSecurityIncidentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsEnvironmentsSecurityIncidentsRequest,
   output: ListOrganizationsEnvironmentsSecurityIncidentsResponse,
   errors: [],
@@ -8450,7 +8450,6 @@ export const listOrganizationsEnvironmentsSecurityIncidents = API.makePaginated(
   },
 }));
 
-/** BatchUpdateSecurityIncident updates multiple existing security incidents. */
 export interface BatchUpdateOrganizationsEnvironmentsSecurityIncidentsRequest {
   /** Optional. The parent resource shared by all security incidents being updated. If this is set, the parent field in the UpdateSecurityIncidentRequest messages must either be empty or match this field. */
   parent: string;
@@ -8471,13 +8470,13 @@ export const BatchUpdateOrganizationsEnvironmentsSecurityIncidentsResponse = Goo
 
 export type BatchUpdateOrganizationsEnvironmentsSecurityIncidentsError = CommonErrors;
 
+/** BatchUpdateSecurityIncident updates multiple existing security incidents. */
 export const batchUpdateOrganizationsEnvironmentsSecurityIncidents: API.OperationMethod<BatchUpdateOrganizationsEnvironmentsSecurityIncidentsRequest, BatchUpdateOrganizationsEnvironmentsSecurityIncidentsResponse, BatchUpdateOrganizationsEnvironmentsSecurityIncidentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchUpdateOrganizationsEnvironmentsSecurityIncidentsRequest,
   output: BatchUpdateOrganizationsEnvironmentsSecurityIncidentsResponse,
   errors: [],
 }));
 
-/** Lists the ArchiveDeployments in the specified Environment. */
 export interface ListOrganizationsEnvironmentsArchiveDeploymentsRequest {
   /** Required. Name of the Environment for which to list Archive Deployments in the format: `organizations/{org}/environments/{env}`. */
   parent: string;
@@ -8504,7 +8503,8 @@ export const ListOrganizationsEnvironmentsArchiveDeploymentsResponse = GoogleClo
 
 export type ListOrganizationsEnvironmentsArchiveDeploymentsError = CommonErrors;
 
-export const listOrganizationsEnvironmentsArchiveDeployments = API.makePaginated(() => ({
+/** Lists the ArchiveDeployments in the specified Environment. */
+export const listOrganizationsEnvironmentsArchiveDeployments: API.PaginatedOperationMethod<ListOrganizationsEnvironmentsArchiveDeploymentsRequest, ListOrganizationsEnvironmentsArchiveDeploymentsResponse, ListOrganizationsEnvironmentsArchiveDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsEnvironmentsArchiveDeploymentsRequest,
   output: ListOrganizationsEnvironmentsArchiveDeploymentsResponse,
   errors: [],
@@ -8514,7 +8514,6 @@ export const listOrganizationsEnvironmentsArchiveDeployments = API.makePaginated
   },
 }));
 
-/** Generates a signed URL for downloading the original zip file used to create an Archive Deployment. The URL is only valid for a limited period and should be used within minutes after generation. Each call returns a new upload URL. */
 export interface GenerateDownloadUrlOrganizationsEnvironmentsArchiveDeploymentsRequest {
   /** Required. The name of the Archive Deployment you want to download. */
   name: string;
@@ -8535,13 +8534,13 @@ export const GenerateDownloadUrlOrganizationsEnvironmentsArchiveDeploymentsRespo
 
 export type GenerateDownloadUrlOrganizationsEnvironmentsArchiveDeploymentsError = CommonErrors;
 
+/** Generates a signed URL for downloading the original zip file used to create an Archive Deployment. The URL is only valid for a limited period and should be used within minutes after generation. Each call returns a new upload URL. */
 export const generateDownloadUrlOrganizationsEnvironmentsArchiveDeployments: API.OperationMethod<GenerateDownloadUrlOrganizationsEnvironmentsArchiveDeploymentsRequest, GenerateDownloadUrlOrganizationsEnvironmentsArchiveDeploymentsResponse, GenerateDownloadUrlOrganizationsEnvironmentsArchiveDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateDownloadUrlOrganizationsEnvironmentsArchiveDeploymentsRequest,
   output: GenerateDownloadUrlOrganizationsEnvironmentsArchiveDeploymentsResponse,
   errors: [],
 }));
 
-/** Deletes an archive deployment. */
 export interface DeleteOrganizationsEnvironmentsArchiveDeploymentsRequest {
   /** Required. Name of the Archive Deployment in the following format: `organizations/{org}/environments/{env}/archiveDeployments/{id}`. */
   name: string;
@@ -8559,13 +8558,13 @@ export const DeleteOrganizationsEnvironmentsArchiveDeploymentsResponse = GoogleP
 
 export type DeleteOrganizationsEnvironmentsArchiveDeploymentsError = CommonErrors;
 
+/** Deletes an archive deployment. */
 export const deleteOrganizationsEnvironmentsArchiveDeployments: API.OperationMethod<DeleteOrganizationsEnvironmentsArchiveDeploymentsRequest, DeleteOrganizationsEnvironmentsArchiveDeploymentsResponse, DeleteOrganizationsEnvironmentsArchiveDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsEnvironmentsArchiveDeploymentsRequest,
   output: DeleteOrganizationsEnvironmentsArchiveDeploymentsResponse,
   errors: [],
 }));
 
-/** Creates a new ArchiveDeployment. */
 export interface CreateOrganizationsEnvironmentsArchiveDeploymentsRequest {
   /** Required. The Environment this Archive Deployment will be created in. */
   parent: string;
@@ -8586,13 +8585,13 @@ export const CreateOrganizationsEnvironmentsArchiveDeploymentsResponse = GoogleL
 
 export type CreateOrganizationsEnvironmentsArchiveDeploymentsError = CommonErrors;
 
+/** Creates a new ArchiveDeployment. */
 export const createOrganizationsEnvironmentsArchiveDeployments: API.OperationMethod<CreateOrganizationsEnvironmentsArchiveDeploymentsRequest, CreateOrganizationsEnvironmentsArchiveDeploymentsResponse, CreateOrganizationsEnvironmentsArchiveDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsEnvironmentsArchiveDeploymentsRequest,
   output: CreateOrganizationsEnvironmentsArchiveDeploymentsResponse,
   errors: [],
 }));
 
-/** Gets the specified ArchiveDeployment. */
 export interface GetOrganizationsEnvironmentsArchiveDeploymentsRequest {
   /** Required. Name of the Archive Deployment in the following format: `organizations/{org}/environments/{env}/archiveDeployments/{id}`. */
   name: string;
@@ -8610,13 +8609,13 @@ export const GetOrganizationsEnvironmentsArchiveDeploymentsResponse = GoogleClou
 
 export type GetOrganizationsEnvironmentsArchiveDeploymentsError = CommonErrors;
 
+/** Gets the specified ArchiveDeployment. */
 export const getOrganizationsEnvironmentsArchiveDeployments: API.OperationMethod<GetOrganizationsEnvironmentsArchiveDeploymentsRequest, GetOrganizationsEnvironmentsArchiveDeploymentsResponse, GetOrganizationsEnvironmentsArchiveDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsEnvironmentsArchiveDeploymentsRequest,
   output: GetOrganizationsEnvironmentsArchiveDeploymentsResponse,
   errors: [],
 }));
 
-/** Generates a signed URL for uploading an Archive zip file to Google Cloud Storage. Once the upload is complete, the signed URL should be passed to CreateArchiveDeployment. When uploading to the generated signed URL, please follow these restrictions: * Source file type should be a zip file. * Source file size should not exceed 1GB limit. * No credentials should be attached - the signed URLs provide access to the target bucket using internal service identity; if credentials were attached, the identity from the credentials would be used, but that identity does not have permissions to upload files to the URL. When making a HTTP PUT request, these two headers need to be specified: * `content-type: application/zip` * `x-goog-content-length-range: 0,1073741824` And this header SHOULD NOT be specified: * `Authorization: Bearer YOUR_TOKEN` */
 export interface GenerateUploadUrlOrganizationsEnvironmentsArchiveDeploymentsRequest {
   /** Required. The organization and environment to upload to. */
   parent: string;
@@ -8637,13 +8636,13 @@ export const GenerateUploadUrlOrganizationsEnvironmentsArchiveDeploymentsRespons
 
 export type GenerateUploadUrlOrganizationsEnvironmentsArchiveDeploymentsError = CommonErrors;
 
+/** Generates a signed URL for uploading an Archive zip file to Google Cloud Storage. Once the upload is complete, the signed URL should be passed to CreateArchiveDeployment. When uploading to the generated signed URL, please follow these restrictions: * Source file type should be a zip file. * Source file size should not exceed 1GB limit. * No credentials should be attached - the signed URLs provide access to the target bucket using internal service identity; if credentials were attached, the identity from the credentials would be used, but that identity does not have permissions to upload files to the URL. When making a HTTP PUT request, these two headers need to be specified: * `content-type: application/zip` * `x-goog-content-length-range: 0,1073741824` And this header SHOULD NOT be specified: * `Authorization: Bearer YOUR_TOKEN` */
 export const generateUploadUrlOrganizationsEnvironmentsArchiveDeployments: API.OperationMethod<GenerateUploadUrlOrganizationsEnvironmentsArchiveDeploymentsRequest, GenerateUploadUrlOrganizationsEnvironmentsArchiveDeploymentsResponse, GenerateUploadUrlOrganizationsEnvironmentsArchiveDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateUploadUrlOrganizationsEnvironmentsArchiveDeploymentsRequest,
   output: GenerateUploadUrlOrganizationsEnvironmentsArchiveDeploymentsResponse,
   errors: [],
 }));
 
-/** Updates an existing ArchiveDeployment. Labels can modified but most of the other fields are not modifiable. */
 export interface PatchOrganizationsEnvironmentsArchiveDeploymentsRequest {
   /** Name of the Archive Deployment in the following format: `organizations/{org}/environments/{env}/archiveDeployments/{id}`. */
   name: string;
@@ -8667,13 +8666,13 @@ export const PatchOrganizationsEnvironmentsArchiveDeploymentsResponse = GoogleCl
 
 export type PatchOrganizationsEnvironmentsArchiveDeploymentsError = CommonErrors;
 
+/** Updates an existing ArchiveDeployment. Labels can modified but most of the other fields are not modifiable. */
 export const patchOrganizationsEnvironmentsArchiveDeployments: API.OperationMethod<PatchOrganizationsEnvironmentsArchiveDeploymentsRequest, PatchOrganizationsEnvironmentsArchiveDeploymentsResponse, PatchOrganizationsEnvironmentsArchiveDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsEnvironmentsArchiveDeploymentsRequest,
   output: PatchOrganizationsEnvironmentsArchiveDeploymentsResponse,
   errors: [],
 }));
 
-/** Similar to GetStats except that the response is less verbose. */
 export interface GetOrganizationsEnvironmentsOptimizedStatsRequest {
   /** Flag that specifies whether the sort order should be ascending or descending. Valid values include `DESC` and `ASC`. */
   sort?: string;
@@ -8736,13 +8735,13 @@ export const GetOrganizationsEnvironmentsOptimizedStatsResponse = GoogleCloudApi
 
 export type GetOrganizationsEnvironmentsOptimizedStatsError = CommonErrors;
 
+/** Similar to GetStats except that the response is less verbose. */
 export const getOrganizationsEnvironmentsOptimizedStats: API.OperationMethod<GetOrganizationsEnvironmentsOptimizedStatsRequest, GetOrganizationsEnvironmentsOptimizedStatsResponse, GetOrganizationsEnvironmentsOptimizedStatsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsEnvironmentsOptimizedStatsRequest,
   output: GetOrganizationsEnvironmentsOptimizedStatsResponse,
   errors: [],
 }));
 
-/** Attaches a shared flow to a flow hook. */
 export interface AttachSharedFlowToFlowHookOrganizationsEnvironmentsFlowhooksRequest {
   /** Required. Name of the flow hook to which the shared flow should be attached in the following format: `organizations/{org}/environments/{env}/flowhooks/{flowhook}` */
   name: string;
@@ -8763,13 +8762,13 @@ export const AttachSharedFlowToFlowHookOrganizationsEnvironmentsFlowhooksRespons
 
 export type AttachSharedFlowToFlowHookOrganizationsEnvironmentsFlowhooksError = CommonErrors;
 
+/** Attaches a shared flow to a flow hook. */
 export const attachSharedFlowToFlowHookOrganizationsEnvironmentsFlowhooks: API.OperationMethod<AttachSharedFlowToFlowHookOrganizationsEnvironmentsFlowhooksRequest, AttachSharedFlowToFlowHookOrganizationsEnvironmentsFlowhooksResponse, AttachSharedFlowToFlowHookOrganizationsEnvironmentsFlowhooksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AttachSharedFlowToFlowHookOrganizationsEnvironmentsFlowhooksRequest,
   output: AttachSharedFlowToFlowHookOrganizationsEnvironmentsFlowhooksResponse,
   errors: [],
 }));
 
-/** Detaches a shared flow from a flow hook. */
 export interface DetachSharedFlowFromFlowHookOrganizationsEnvironmentsFlowhooksRequest {
   /** Required. Name of the flow hook to detach in the following format: `organizations/{org}/environments/{env}/flowhooks/{flowhook}` */
   name: string;
@@ -8787,13 +8786,13 @@ export const DetachSharedFlowFromFlowHookOrganizationsEnvironmentsFlowhooksRespo
 
 export type DetachSharedFlowFromFlowHookOrganizationsEnvironmentsFlowhooksError = CommonErrors;
 
+/** Detaches a shared flow from a flow hook. */
 export const detachSharedFlowFromFlowHookOrganizationsEnvironmentsFlowhooks: API.OperationMethod<DetachSharedFlowFromFlowHookOrganizationsEnvironmentsFlowhooksRequest, DetachSharedFlowFromFlowHookOrganizationsEnvironmentsFlowhooksResponse, DetachSharedFlowFromFlowHookOrganizationsEnvironmentsFlowhooksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DetachSharedFlowFromFlowHookOrganizationsEnvironmentsFlowhooksRequest,
   output: DetachSharedFlowFromFlowHookOrganizationsEnvironmentsFlowhooksResponse,
   errors: [],
 }));
 
-/** Returns the name of the shared flow attached to the specified flow hook. If there's no shared flow attached to the flow hook, the API does not return an error; it simply does not return a name in the response. */
 export interface GetOrganizationsEnvironmentsFlowhooksRequest {
   /** Required. Name of the flow hook in the following format: `organizations/{org}/environments/{env}/flowhooks/{flowhook}` */
   name: string;
@@ -8811,13 +8810,13 @@ export const GetOrganizationsEnvironmentsFlowhooksResponse = GoogleCloudApigeeV1
 
 export type GetOrganizationsEnvironmentsFlowhooksError = CommonErrors;
 
+/** Returns the name of the shared flow attached to the specified flow hook. If there's no shared flow attached to the flow hook, the API does not return an error; it simply does not return a name in the response. */
 export const getOrganizationsEnvironmentsFlowhooks: API.OperationMethod<GetOrganizationsEnvironmentsFlowhooksRequest, GetOrganizationsEnvironmentsFlowhooksResponse, GetOrganizationsEnvironmentsFlowhooksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsEnvironmentsFlowhooksRequest,
   output: GetOrganizationsEnvironmentsFlowhooksResponse,
   errors: [],
 }));
 
-/** Retrieve metrics grouped by dimensions. The types of metrics you can retrieve include traffic, message counts, API call latency, response size, and cache hits and counts. Dimensions let you view metrics in meaningful groups. You can optionally pass dimensions as path parameters to the `stats` API. If dimensions are not specified, the metrics are computed on the entire set of data for the given time range. */
 export interface GetOrganizationsEnvironmentsStatsRequest {
   /** Routes the query to API Monitoring for the last hour. */
   sonar?: boolean;
@@ -8880,13 +8879,13 @@ export const GetOrganizationsEnvironmentsStatsResponse = GoogleCloudApigeeV1Stat
 
 export type GetOrganizationsEnvironmentsStatsError = CommonErrors;
 
+/** Retrieve metrics grouped by dimensions. The types of metrics you can retrieve include traffic, message counts, API call latency, response size, and cache hits and counts. Dimensions let you view metrics in meaningful groups. You can optionally pass dimensions as path parameters to the `stats` API. If dimensions are not specified, the metrics are computed on the entire set of data for the given time range. */
 export const getOrganizationsEnvironmentsStats: API.OperationMethod<GetOrganizationsEnvironmentsStatsRequest, GetOrganizationsEnvironmentsStatsResponse, GetOrganizationsEnvironmentsStatsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsEnvironmentsStatsRequest,
   output: GetOrganizationsEnvironmentsStatsResponse,
   errors: [],
 }));
 
-/** Creates a resource file. Specify the `Content-Type` as `application/octet-stream` or `multipart/form-data`. For more information about resource files, see [Resource files](https://cloud.google.com/apigee/docs/api-platform/develop/resource-files). */
 export interface CreateOrganizationsEnvironmentsResourcefilesRequest {
   /** Required. Name of the environment in which to create the resource file in the following format: `organizations/{org}/environments/{env}`. */
   parent: string;
@@ -8913,13 +8912,13 @@ export const CreateOrganizationsEnvironmentsResourcefilesResponse = GoogleCloudA
 
 export type CreateOrganizationsEnvironmentsResourcefilesError = CommonErrors;
 
+/** Creates a resource file. Specify the `Content-Type` as `application/octet-stream` or `multipart/form-data`. For more information about resource files, see [Resource files](https://cloud.google.com/apigee/docs/api-platform/develop/resource-files). */
 export const createOrganizationsEnvironmentsResourcefiles: API.OperationMethod<CreateOrganizationsEnvironmentsResourcefilesRequest, CreateOrganizationsEnvironmentsResourcefilesResponse, CreateOrganizationsEnvironmentsResourcefilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsEnvironmentsResourcefilesRequest,
   output: CreateOrganizationsEnvironmentsResourcefilesResponse,
   errors: [],
 }));
 
-/** Gets the contents of a resource file. For more information about resource files, see [Resource files](https://cloud.google.com/apigee/docs/api-platform/develop/resource-files). */
 export interface GetOrganizationsEnvironmentsResourcefilesRequest {
   /** Required. Name of the environment in the following format: `organizations/{org}/environments/{env}`. */
   parent: string;
@@ -8943,13 +8942,13 @@ export const GetOrganizationsEnvironmentsResourcefilesResponse = GoogleApiHttpBo
 
 export type GetOrganizationsEnvironmentsResourcefilesError = CommonErrors;
 
+/** Gets the contents of a resource file. For more information about resource files, see [Resource files](https://cloud.google.com/apigee/docs/api-platform/develop/resource-files). */
 export const getOrganizationsEnvironmentsResourcefiles: API.OperationMethod<GetOrganizationsEnvironmentsResourcefilesRequest, GetOrganizationsEnvironmentsResourcefilesResponse, GetOrganizationsEnvironmentsResourcefilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsEnvironmentsResourcefilesRequest,
   output: GetOrganizationsEnvironmentsResourcefilesResponse,
   errors: [],
 }));
 
-/** Updates a resource file. Specify the `Content-Type` as `application/octet-stream` or `multipart/form-data`. For more information about resource files, see [Resource files](https://cloud.google.com/apigee/docs/api-platform/develop/resource-files). */
 export interface UpdateOrganizationsEnvironmentsResourcefilesRequest {
   /** Required. Resource file type. {{ resource_file_type }} */
   type: string;
@@ -8976,13 +8975,13 @@ export const UpdateOrganizationsEnvironmentsResourcefilesResponse = GoogleCloudA
 
 export type UpdateOrganizationsEnvironmentsResourcefilesError = CommonErrors;
 
+/** Updates a resource file. Specify the `Content-Type` as `application/octet-stream` or `multipart/form-data`. For more information about resource files, see [Resource files](https://cloud.google.com/apigee/docs/api-platform/develop/resource-files). */
 export const updateOrganizationsEnvironmentsResourcefiles: API.OperationMethod<UpdateOrganizationsEnvironmentsResourcefilesRequest, UpdateOrganizationsEnvironmentsResourcefilesResponse, UpdateOrganizationsEnvironmentsResourcefilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateOrganizationsEnvironmentsResourcefilesRequest,
   output: UpdateOrganizationsEnvironmentsResourcefilesResponse,
   errors: [],
 }));
 
-/** Lists all resource files, optionally filtering by type. For more information about resource files, see [Resource files](https://cloud.google.com/apigee/docs/api-platform/develop/resource-files). */
 export interface ListOrganizationsEnvironmentsResourcefilesRequest {
   /** Optional. Type of resource files to list. {{ resource_file_type }} */
   type?: string;
@@ -9003,13 +9002,13 @@ export const ListOrganizationsEnvironmentsResourcefilesResponse = GoogleCloudApi
 
 export type ListOrganizationsEnvironmentsResourcefilesError = CommonErrors;
 
+/** Lists all resource files, optionally filtering by type. For more information about resource files, see [Resource files](https://cloud.google.com/apigee/docs/api-platform/develop/resource-files). */
 export const listOrganizationsEnvironmentsResourcefiles: API.OperationMethod<ListOrganizationsEnvironmentsResourcefilesRequest, ListOrganizationsEnvironmentsResourcefilesResponse, ListOrganizationsEnvironmentsResourcefilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOrganizationsEnvironmentsResourcefilesRequest,
   output: ListOrganizationsEnvironmentsResourcefilesResponse,
   errors: [],
 }));
 
-/** Lists all resource files, optionally filtering by type. For more information about resource files, see [Resource files](https://cloud.google.com/apigee/docs/api-platform/develop/resource-files). */
 export interface ListEnvironmentResourcesOrganizationsEnvironmentsResourcefilesRequest {
   /** Optional. Type of resource files to list. {{ resource_file_type }} */
   type: string;
@@ -9030,13 +9029,13 @@ export const ListEnvironmentResourcesOrganizationsEnvironmentsResourcefilesRespo
 
 export type ListEnvironmentResourcesOrganizationsEnvironmentsResourcefilesError = CommonErrors;
 
+/** Lists all resource files, optionally filtering by type. For more information about resource files, see [Resource files](https://cloud.google.com/apigee/docs/api-platform/develop/resource-files). */
 export const listEnvironmentResourcesOrganizationsEnvironmentsResourcefiles: API.OperationMethod<ListEnvironmentResourcesOrganizationsEnvironmentsResourcefilesRequest, ListEnvironmentResourcesOrganizationsEnvironmentsResourcefilesResponse, ListEnvironmentResourcesOrganizationsEnvironmentsResourcefilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListEnvironmentResourcesOrganizationsEnvironmentsResourcefilesRequest,
   output: ListEnvironmentResourcesOrganizationsEnvironmentsResourcefilesResponse,
   errors: [],
 }));
 
-/** Deletes a resource file. For more information about resource files, see [Resource files](https://cloud.google.com/apigee/docs/api-platform/develop/resource-files). */
 export interface DeleteOrganizationsEnvironmentsResourcefilesRequest {
   /** Required. Name of the environment in the following format: `organizations/{org}/environments/{env}`. */
   parent: string;
@@ -9060,13 +9059,13 @@ export const DeleteOrganizationsEnvironmentsResourcefilesResponse = GoogleCloudA
 
 export type DeleteOrganizationsEnvironmentsResourcefilesError = CommonErrors;
 
+/** Deletes a resource file. For more information about resource files, see [Resource files](https://cloud.google.com/apigee/docs/api-platform/develop/resource-files). */
 export const deleteOrganizationsEnvironmentsResourcefiles: API.OperationMethod<DeleteOrganizationsEnvironmentsResourcefilesRequest, DeleteOrganizationsEnvironmentsResourcefilesResponse, DeleteOrganizationsEnvironmentsResourcefilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsEnvironmentsResourcefilesRequest,
   output: DeleteOrganizationsEnvironmentsResourcefilesResponse,
   errors: [],
 }));
 
-/** Updates an add-on enablement status of an environment. */
 export interface SetAddonEnablementOrganizationsEnvironmentsAddonsConfigRequest {
   /** Required. Name of the add-ons config. Must be in the format of `/organizations/{org}/environments/{env}/addonsConfig` */
   name: string;
@@ -9087,13 +9086,13 @@ export const SetAddonEnablementOrganizationsEnvironmentsAddonsConfigResponse = G
 
 export type SetAddonEnablementOrganizationsEnvironmentsAddonsConfigError = CommonErrors;
 
+/** Updates an add-on enablement status of an environment. */
 export const setAddonEnablementOrganizationsEnvironmentsAddonsConfig: API.OperationMethod<SetAddonEnablementOrganizationsEnvironmentsAddonsConfigRequest, SetAddonEnablementOrganizationsEnvironmentsAddonsConfigResponse, SetAddonEnablementOrganizationsEnvironmentsAddonsConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetAddonEnablementOrganizationsEnvironmentsAddonsConfigRequest,
   output: SetAddonEnablementOrganizationsEnvironmentsAddonsConfigResponse,
   errors: [],
 }));
 
-/** Tests the permissions of a user on a deployment, and returns a subset of permissions that the user has on the deployment. If the deployment does not exist, an empty permission set is returned (a NOT_FOUND error is not returned). */
 export interface TestIamPermissionsOrganizationsEnvironmentsDeploymentsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -9114,13 +9113,13 @@ export const TestIamPermissionsOrganizationsEnvironmentsDeploymentsResponse = Go
 
 export type TestIamPermissionsOrganizationsEnvironmentsDeploymentsError = CommonErrors;
 
+/** Tests the permissions of a user on a deployment, and returns a subset of permissions that the user has on the deployment. If the deployment does not exist, an empty permission set is returned (a NOT_FOUND error is not returned). */
 export const testIamPermissionsOrganizationsEnvironmentsDeployments: API.OperationMethod<TestIamPermissionsOrganizationsEnvironmentsDeploymentsRequest, TestIamPermissionsOrganizationsEnvironmentsDeploymentsResponse, TestIamPermissionsOrganizationsEnvironmentsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsOrganizationsEnvironmentsDeploymentsRequest,
   output: TestIamPermissionsOrganizationsEnvironmentsDeploymentsResponse,
   errors: [],
 }));
 
-/** Gets the IAM policy on a deployment. For more information, see [Manage users, roles, and permissions using the API](https://cloud.google.com/apigee/docs/api-platform/system-administration/manage-users-roles). You must have the `apigee.deployments.getIamPolicy` permission to call this API. */
 export interface GetIamPolicyOrganizationsEnvironmentsDeploymentsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -9141,13 +9140,13 @@ export const GetIamPolicyOrganizationsEnvironmentsDeploymentsResponse = GoogleIa
 
 export type GetIamPolicyOrganizationsEnvironmentsDeploymentsError = CommonErrors;
 
+/** Gets the IAM policy on a deployment. For more information, see [Manage users, roles, and permissions using the API](https://cloud.google.com/apigee/docs/api-platform/system-administration/manage-users-roles). You must have the `apigee.deployments.getIamPolicy` permission to call this API. */
 export const getIamPolicyOrganizationsEnvironmentsDeployments: API.OperationMethod<GetIamPolicyOrganizationsEnvironmentsDeploymentsRequest, GetIamPolicyOrganizationsEnvironmentsDeploymentsResponse, GetIamPolicyOrganizationsEnvironmentsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyOrganizationsEnvironmentsDeploymentsRequest,
   output: GetIamPolicyOrganizationsEnvironmentsDeploymentsResponse,
   errors: [],
 }));
 
-/** Lists all deployments of API proxies or shared flows in an environment. */
 export interface ListOrganizationsEnvironmentsDeploymentsRequest {
   /** Optional. Flag that specifies whether to return shared flow or API proxy deployments. Set to `true` to return shared flow deployments; set to `false` to return API proxy deployments. Defaults to `false`. */
   sharedFlows?: boolean;
@@ -9168,13 +9167,13 @@ export const ListOrganizationsEnvironmentsDeploymentsResponse = GoogleCloudApige
 
 export type ListOrganizationsEnvironmentsDeploymentsError = CommonErrors;
 
+/** Lists all deployments of API proxies or shared flows in an environment. */
 export const listOrganizationsEnvironmentsDeployments: API.OperationMethod<ListOrganizationsEnvironmentsDeploymentsRequest, ListOrganizationsEnvironmentsDeploymentsResponse, ListOrganizationsEnvironmentsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOrganizationsEnvironmentsDeploymentsRequest,
   output: ListOrganizationsEnvironmentsDeploymentsResponse,
   errors: [],
 }));
 
-/** Gets a particular deployment of Api proxy or a shared flow in an environment */
 export interface GetOrganizationsEnvironmentsDeploymentsRequest {
   /** Required. Name of the api proxy or the shared flow deployment. Use the following structure in your request: `organizations/{org}/environments/{env}/deployments/{deployment}` */
   name: string;
@@ -9192,13 +9191,13 @@ export const GetOrganizationsEnvironmentsDeploymentsResponse = GoogleCloudApigee
 
 export type GetOrganizationsEnvironmentsDeploymentsError = CommonErrors;
 
+/** Gets a particular deployment of Api proxy or a shared flow in an environment */
 export const getOrganizationsEnvironmentsDeployments: API.OperationMethod<GetOrganizationsEnvironmentsDeploymentsRequest, GetOrganizationsEnvironmentsDeploymentsResponse, GetOrganizationsEnvironmentsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsEnvironmentsDeploymentsRequest,
   output: GetOrganizationsEnvironmentsDeploymentsResponse,
   errors: [],
 }));
 
-/** Sets the IAM policy on a deployment, if the policy already exists it will be replaced. For more information, see [Manage users, roles, and permissions using the API](https://cloud.google.com/apigee/docs/api-platform/system-administration/manage-users-roles). You must have the `apigee.deployments.setIamPolicy` permission to call this API. */
 export interface SetIamPolicyOrganizationsEnvironmentsDeploymentsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -9219,13 +9218,13 @@ export const SetIamPolicyOrganizationsEnvironmentsDeploymentsResponse = GoogleIa
 
 export type SetIamPolicyOrganizationsEnvironmentsDeploymentsError = CommonErrors;
 
+/** Sets the IAM policy on a deployment, if the policy already exists it will be replaced. For more information, see [Manage users, roles, and permissions using the API](https://cloud.google.com/apigee/docs/api-platform/system-administration/manage-users-roles). You must have the `apigee.deployments.setIamPolicy` permission to call this API. */
 export const setIamPolicyOrganizationsEnvironmentsDeployments: API.OperationMethod<SetIamPolicyOrganizationsEnvironmentsDeploymentsRequest, SetIamPolicyOrganizationsEnvironmentsDeploymentsResponse, SetIamPolicyOrganizationsEnvironmentsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyOrganizationsEnvironmentsDeploymentsRequest,
   output: SetIamPolicyOrganizationsEnvironmentsDeploymentsResponse,
   errors: [],
 }));
 
-/** Gets a list of metrics and dimensions that can be used to create analytics queries and reports. Each schema element contains the name of the field, its associated type, and a flag indicating whether it is a standard or custom field. */
 export interface GetSchemav2OrganizationsEnvironmentsAnalyticsAdminRequest {
   /** Required. Path to the schema. Use the following structure in your request: `organizations/{org}/environments/{env}/analytics/admin/schemav2`. */
   name: string;
@@ -9249,13 +9248,13 @@ export const GetSchemav2OrganizationsEnvironmentsAnalyticsAdminResponse = Google
 
 export type GetSchemav2OrganizationsEnvironmentsAnalyticsAdminError = CommonErrors;
 
+/** Gets a list of metrics and dimensions that can be used to create analytics queries and reports. Each schema element contains the name of the field, its associated type, and a flag indicating whether it is a standard or custom field. */
 export const getSchemav2OrganizationsEnvironmentsAnalyticsAdmin: API.OperationMethod<GetSchemav2OrganizationsEnvironmentsAnalyticsAdminRequest, GetSchemav2OrganizationsEnvironmentsAnalyticsAdminResponse, GetSchemav2OrganizationsEnvironmentsAnalyticsAdminError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSchemav2OrganizationsEnvironmentsAnalyticsAdminRequest,
   output: GetSchemav2OrganizationsEnvironmentsAnalyticsAdminResponse,
   errors: [],
 }));
 
-/** Submit a data export job to be processed in the background. If the request is successful, the API returns a 201 status, a URI that can be used to retrieve the status of the export job, and the `state` value of "enqueued". */
 export interface CreateOrganizationsEnvironmentsAnalyticsExportsRequest {
   /** Required. Names of the parent organization and environment. Must be of the form `organizations/{org}/environments/{env}`. */
   parent: string;
@@ -9276,13 +9275,13 @@ export const CreateOrganizationsEnvironmentsAnalyticsExportsResponse = GoogleClo
 
 export type CreateOrganizationsEnvironmentsAnalyticsExportsError = CommonErrors;
 
+/** Submit a data export job to be processed in the background. If the request is successful, the API returns a 201 status, a URI that can be used to retrieve the status of the export job, and the `state` value of "enqueued". */
 export const createOrganizationsEnvironmentsAnalyticsExports: API.OperationMethod<CreateOrganizationsEnvironmentsAnalyticsExportsRequest, CreateOrganizationsEnvironmentsAnalyticsExportsResponse, CreateOrganizationsEnvironmentsAnalyticsExportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsEnvironmentsAnalyticsExportsRequest,
   output: CreateOrganizationsEnvironmentsAnalyticsExportsResponse,
   errors: [],
 }));
 
-/** Lists the details and status of all analytics export jobs belonging to the parent organization and environment. */
 export interface ListOrganizationsEnvironmentsAnalyticsExportsRequest {
   /** Required. Names of the parent organization and environment. Must be of the form `organizations/{org}/environments/{env}`. */
   parent: string;
@@ -9300,13 +9299,13 @@ export const ListOrganizationsEnvironmentsAnalyticsExportsResponse = GoogleCloud
 
 export type ListOrganizationsEnvironmentsAnalyticsExportsError = CommonErrors;
 
+/** Lists the details and status of all analytics export jobs belonging to the parent organization and environment. */
 export const listOrganizationsEnvironmentsAnalyticsExports: API.OperationMethod<ListOrganizationsEnvironmentsAnalyticsExportsRequest, ListOrganizationsEnvironmentsAnalyticsExportsResponse, ListOrganizationsEnvironmentsAnalyticsExportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOrganizationsEnvironmentsAnalyticsExportsRequest,
   output: ListOrganizationsEnvironmentsAnalyticsExportsResponse,
   errors: [],
 }));
 
-/** Gets the details and status of an analytics export job. If the export job is still in progress, its `state` is set to "running". After the export job has completed successfully, its `state` is set to "completed". If the export job fails, its `state` is set to `failed`. */
 export interface GetOrganizationsEnvironmentsAnalyticsExportsRequest {
   /** Required. Resource name of the export to get. */
   name: string;
@@ -9324,13 +9323,13 @@ export const GetOrganizationsEnvironmentsAnalyticsExportsResponse = GoogleCloudA
 
 export type GetOrganizationsEnvironmentsAnalyticsExportsError = CommonErrors;
 
+/** Gets the details and status of an analytics export job. If the export job is still in progress, its `state` is set to "running". After the export job has completed successfully, its `state` is set to "completed". If the export job fails, its `state` is set to `failed`. */
 export const getOrganizationsEnvironmentsAnalyticsExports: API.OperationMethod<GetOrganizationsEnvironmentsAnalyticsExportsRequest, GetOrganizationsEnvironmentsAnalyticsExportsResponse, GetOrganizationsEnvironmentsAnalyticsExportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsEnvironmentsAnalyticsExportsRequest,
   output: GetOrganizationsEnvironmentsAnalyticsExportsResponse,
   errors: [],
 }));
 
-/** Undeploys an API proxy revision from an environment. For a request path `organizations/{org}/environments/{env}/apis/{api}/revisions/{rev}/deployments`, two permissions are required: * `apigee.deployments.delete` on the resource `organizations/{org}/environments/{env}` * `apigee.proxyrevisions.undeploy` on the resource `organizations/{org}/apis/{api}/revisions/{rev}` */
 export interface UndeployOrganizationsEnvironmentsApisRevisionsRequest {
   /** Required. Name of the API proxy revision deployment in the following format: `organizations/{org}/environments/{env}/apis/{api}/revisions/{rev}` If the API proxy resource has the `space` attribute set, IAM permissions are checked differently . To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -9351,13 +9350,13 @@ export const UndeployOrganizationsEnvironmentsApisRevisionsResponse = GoogleProt
 
 export type UndeployOrganizationsEnvironmentsApisRevisionsError = CommonErrors;
 
+/** Undeploys an API proxy revision from an environment. For a request path `organizations/{org}/environments/{env}/apis/{api}/revisions/{rev}/deployments`, two permissions are required: * `apigee.deployments.delete` on the resource `organizations/{org}/environments/{env}` * `apigee.proxyrevisions.undeploy` on the resource `organizations/{org}/apis/{api}/revisions/{rev}` */
 export const undeployOrganizationsEnvironmentsApisRevisions: API.OperationMethod<UndeployOrganizationsEnvironmentsApisRevisionsRequest, UndeployOrganizationsEnvironmentsApisRevisionsResponse, UndeployOrganizationsEnvironmentsApisRevisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UndeployOrganizationsEnvironmentsApisRevisionsRequest,
   output: UndeployOrganizationsEnvironmentsApisRevisionsResponse,
   errors: [],
 }));
 
-/** Deploys a revision of an API proxy. If another revision of the same API proxy revision is currently deployed, set the `override` parameter to `true` to have this revision replace the currently deployed revision. You cannot invoke an API proxy until it has been deployed to an environment. After you deploy an API proxy revision, you cannot edit it. To edit the API proxy, you must create and deploy a new revision. For a request path `organizations/{org}/environments/{env}/apis/{api}/revisions/{rev}/deployments`, two permissions are required: * `apigee.deployments.create` on the resource `organizations/{org}/environments/{env}` * `apigee.proxyrevisions.deploy` on the resource `organizations/{org}/apis/{api}/revisions/{rev}` All successful API proxy deployments to Apigee are [zero-downtime deployments](https://cloud.google.com/apigee/docs/api-platform/deploy/ui-deploy-overview#zero-downtime-deployment). Apigee hybrid validates the dependencies between shared flows and API proxies at deployment time. For example, if the Flow Callout policy in an API proxy references a shared flow that either doesn't exist or isn't deployed, the API proxy deployment fails. */
 export interface DeployOrganizationsEnvironmentsApisRevisionsRequest {
   /** Required. Name of the API proxy revision deployment in the following format: `organizations/{org}/environments/{env}/apis/{api}/revisions/{rev}` If the API proxy resource being deployed has the `space` attribute set, IAM permissions are checked differently . To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -9384,13 +9383,13 @@ export const DeployOrganizationsEnvironmentsApisRevisionsResponse = GoogleCloudA
 
 export type DeployOrganizationsEnvironmentsApisRevisionsError = CommonErrors;
 
+/** Deploys a revision of an API proxy. If another revision of the same API proxy revision is currently deployed, set the `override` parameter to `true` to have this revision replace the currently deployed revision. You cannot invoke an API proxy until it has been deployed to an environment. After you deploy an API proxy revision, you cannot edit it. To edit the API proxy, you must create and deploy a new revision. For a request path `organizations/{org}/environments/{env}/apis/{api}/revisions/{rev}/deployments`, two permissions are required: * `apigee.deployments.create` on the resource `organizations/{org}/environments/{env}` * `apigee.proxyrevisions.deploy` on the resource `organizations/{org}/apis/{api}/revisions/{rev}` All successful API proxy deployments to Apigee are [zero-downtime deployments](https://cloud.google.com/apigee/docs/api-platform/deploy/ui-deploy-overview#zero-downtime-deployment). Apigee hybrid validates the dependencies between shared flows and API proxies at deployment time. For example, if the Flow Callout policy in an API proxy references a shared flow that either doesn't exist or isn't deployed, the API proxy deployment fails. */
 export const deployOrganizationsEnvironmentsApisRevisions: API.OperationMethod<DeployOrganizationsEnvironmentsApisRevisionsRequest, DeployOrganizationsEnvironmentsApisRevisionsResponse, DeployOrganizationsEnvironmentsApisRevisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeployOrganizationsEnvironmentsApisRevisionsRequest,
   output: DeployOrganizationsEnvironmentsApisRevisionsResponse,
   errors: [],
 }));
 
-/** Gets the deployment of an API proxy revision and actual state reported by runtime pods. */
 export interface GetDeploymentsOrganizationsEnvironmentsApisRevisionsRequest {
   /** Required. Name representing an API proxy revision in an environment in the following format: `organizations/{org}/environments/{env}/apis/{api}/revisions/{rev}` If the API proxy resource has the `space` attribute set, IAM permissions are checked differently . To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -9408,13 +9407,13 @@ export const GetDeploymentsOrganizationsEnvironmentsApisRevisionsResponse = Goog
 
 export type GetDeploymentsOrganizationsEnvironmentsApisRevisionsError = CommonErrors;
 
+/** Gets the deployment of an API proxy revision and actual state reported by runtime pods. */
 export const getDeploymentsOrganizationsEnvironmentsApisRevisions: API.OperationMethod<GetDeploymentsOrganizationsEnvironmentsApisRevisionsRequest, GetDeploymentsOrganizationsEnvironmentsApisRevisionsResponse, GetDeploymentsOrganizationsEnvironmentsApisRevisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDeploymentsOrganizationsEnvironmentsApisRevisionsRequest,
   output: GetDeploymentsOrganizationsEnvironmentsApisRevisionsResponse,
   errors: [],
 }));
 
-/** Generates a report for a dry run analysis of an UndeployApiProxy request without committing the undeploy. In addition to the standard validations performed when removing deployments, additional analysis will be done to detect possible traffic routing changes that would result from this deployment being removed. Any potential routing conflicts or unsafe changes will be reported in the response. This routing analysis is not performed for a non-dry-run UndeployApiProxy request. For a request path `organizations/{org}/environments/{env}/apis/{api}/revisions/{rev}/deployments:generateUndeployChangeReport`, two permissions are required: * `apigee.deployments.delete` on the resource `organizations/{org}/environments/{env}` * `apigee.proxyrevisions.undeploy` on the resource `organizations/{org}/apis/{api}/revisions/{rev}` */
 export interface GenerateUndeployChangeReportOrganizationsEnvironmentsApisRevisionsDeploymentsRequest {
   /** Name of the API proxy revision deployment in the following format: `organizations/{org}/environments/{env}/apis/{api}/revisions/{rev}` */
   name: string;
@@ -9432,13 +9431,13 @@ export const GenerateUndeployChangeReportOrganizationsEnvironmentsApisRevisionsD
 
 export type GenerateUndeployChangeReportOrganizationsEnvironmentsApisRevisionsDeploymentsError = CommonErrors;
 
+/** Generates a report for a dry run analysis of an UndeployApiProxy request without committing the undeploy. In addition to the standard validations performed when removing deployments, additional analysis will be done to detect possible traffic routing changes that would result from this deployment being removed. Any potential routing conflicts or unsafe changes will be reported in the response. This routing analysis is not performed for a non-dry-run UndeployApiProxy request. For a request path `organizations/{org}/environments/{env}/apis/{api}/revisions/{rev}/deployments:generateUndeployChangeReport`, two permissions are required: * `apigee.deployments.delete` on the resource `organizations/{org}/environments/{env}` * `apigee.proxyrevisions.undeploy` on the resource `organizations/{org}/apis/{api}/revisions/{rev}` */
 export const generateUndeployChangeReportOrganizationsEnvironmentsApisRevisionsDeployments: API.OperationMethod<GenerateUndeployChangeReportOrganizationsEnvironmentsApisRevisionsDeploymentsRequest, GenerateUndeployChangeReportOrganizationsEnvironmentsApisRevisionsDeploymentsResponse, GenerateUndeployChangeReportOrganizationsEnvironmentsApisRevisionsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateUndeployChangeReportOrganizationsEnvironmentsApisRevisionsDeploymentsRequest,
   output: GenerateUndeployChangeReportOrganizationsEnvironmentsApisRevisionsDeploymentsResponse,
   errors: [],
 }));
 
-/** Generates a report for a dry run analysis of a DeployApiProxy request without committing the deployment. In addition to the standard validations performed when adding deployments, additional analysis will be done to detect possible traffic routing changes that would result from this deployment being created. Any potential routing conflicts or unsafe changes will be reported in the response. This routing analysis is not performed for a non-dry-run DeployApiProxy request. For a request path `organizations/{org}/environments/{env}/apis/{api}/revisions/{rev}/deployments:generateDeployChangeReport`, two permissions are required: * `apigee.deployments.create` on the resource `organizations/{org}/environments/{env}` * `apigee.proxyrevisions.deploy` on the resource `organizations/{org}/apis/{api}/revisions/{rev}` */
 export interface GenerateDeployChangeReportOrganizationsEnvironmentsApisRevisionsDeploymentsRequest {
   /** Flag that specifies whether to force the deployment of the new revision over the currently deployed revision by overriding conflict checks. */
   override?: boolean;
@@ -9459,13 +9458,13 @@ export const GenerateDeployChangeReportOrganizationsEnvironmentsApisRevisionsDep
 
 export type GenerateDeployChangeReportOrganizationsEnvironmentsApisRevisionsDeploymentsError = CommonErrors;
 
+/** Generates a report for a dry run analysis of a DeployApiProxy request without committing the deployment. In addition to the standard validations performed when adding deployments, additional analysis will be done to detect possible traffic routing changes that would result from this deployment being created. Any potential routing conflicts or unsafe changes will be reported in the response. This routing analysis is not performed for a non-dry-run DeployApiProxy request. For a request path `organizations/{org}/environments/{env}/apis/{api}/revisions/{rev}/deployments:generateDeployChangeReport`, two permissions are required: * `apigee.deployments.create` on the resource `organizations/{org}/environments/{env}` * `apigee.proxyrevisions.deploy` on the resource `organizations/{org}/apis/{api}/revisions/{rev}` */
 export const generateDeployChangeReportOrganizationsEnvironmentsApisRevisionsDeployments: API.OperationMethod<GenerateDeployChangeReportOrganizationsEnvironmentsApisRevisionsDeploymentsRequest, GenerateDeployChangeReportOrganizationsEnvironmentsApisRevisionsDeploymentsResponse, GenerateDeployChangeReportOrganizationsEnvironmentsApisRevisionsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateDeployChangeReportOrganizationsEnvironmentsApisRevisionsDeploymentsRequest,
   output: GenerateDeployChangeReportOrganizationsEnvironmentsApisRevisionsDeploymentsResponse,
   errors: [],
 }));
 
-/** Creates a debug session for a deployed API Proxy revision. */
 export interface CreateOrganizationsEnvironmentsApisRevisionsDebugsessionsRequest {
   /** Required. The resource name of the API Proxy revision deployment for which to create the DebugSession. Must be of the form `organizations/{organization}/environments/{environment}/apis/{api}/revisions/{revision}`. If the API proxy resource has the `space` attribute set, IAM permissions are checked differently . To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   parent: string;
@@ -9489,13 +9488,13 @@ export const CreateOrganizationsEnvironmentsApisRevisionsDebugsessionsResponse =
 
 export type CreateOrganizationsEnvironmentsApisRevisionsDebugsessionsError = CommonErrors;
 
+/** Creates a debug session for a deployed API Proxy revision. */
 export const createOrganizationsEnvironmentsApisRevisionsDebugsessions: API.OperationMethod<CreateOrganizationsEnvironmentsApisRevisionsDebugsessionsRequest, CreateOrganizationsEnvironmentsApisRevisionsDebugsessionsResponse, CreateOrganizationsEnvironmentsApisRevisionsDebugsessionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsEnvironmentsApisRevisionsDebugsessionsRequest,
   output: CreateOrganizationsEnvironmentsApisRevisionsDebugsessionsResponse,
   errors: [],
 }));
 
-/** Lists debug sessions that are currently active in the given API Proxy revision. */
 export interface ListOrganizationsEnvironmentsApisRevisionsDebugsessionsRequest {
   /** Required. The name of the API Proxy revision deployment for which to list debug sessions. Must be of the form: `organizations/{organization}/environments/{environment}/apis/{api}/revisions/{revision}`. If the API proxy resource has the `space` attribute set, IAM permissions are checked differently . To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   parent: string;
@@ -9519,7 +9518,8 @@ export const ListOrganizationsEnvironmentsApisRevisionsDebugsessionsResponse = G
 
 export type ListOrganizationsEnvironmentsApisRevisionsDebugsessionsError = CommonErrors;
 
-export const listOrganizationsEnvironmentsApisRevisionsDebugsessions = API.makePaginated(() => ({
+/** Lists debug sessions that are currently active in the given API Proxy revision. */
+export const listOrganizationsEnvironmentsApisRevisionsDebugsessions: API.PaginatedOperationMethod<ListOrganizationsEnvironmentsApisRevisionsDebugsessionsRequest, ListOrganizationsEnvironmentsApisRevisionsDebugsessionsResponse, ListOrganizationsEnvironmentsApisRevisionsDebugsessionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsEnvironmentsApisRevisionsDebugsessionsRequest,
   output: ListOrganizationsEnvironmentsApisRevisionsDebugsessionsResponse,
   errors: [],
@@ -9529,7 +9529,6 @@ export const listOrganizationsEnvironmentsApisRevisionsDebugsessions = API.makeP
   },
 }));
 
-/** Retrieves a debug session. */
 export interface GetOrganizationsEnvironmentsApisRevisionsDebugsessionsRequest {
   /** Required. The name of the debug session to retrieve. Must be of the form: `organizations/{organization}/environments/{environment}/apis/{api}/revisions/{revision}/debugsessions/{debug_session}`. If the API proxy resource has the `space` attribute set, IAM permissions are checked differently . To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -9547,13 +9546,13 @@ export const GetOrganizationsEnvironmentsApisRevisionsDebugsessionsResponse = Go
 
 export type GetOrganizationsEnvironmentsApisRevisionsDebugsessionsError = CommonErrors;
 
+/** Retrieves a debug session. */
 export const getOrganizationsEnvironmentsApisRevisionsDebugsessions: API.OperationMethod<GetOrganizationsEnvironmentsApisRevisionsDebugsessionsRequest, GetOrganizationsEnvironmentsApisRevisionsDebugsessionsResponse, GetOrganizationsEnvironmentsApisRevisionsDebugsessionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsEnvironmentsApisRevisionsDebugsessionsRequest,
   output: GetOrganizationsEnvironmentsApisRevisionsDebugsessionsResponse,
   errors: [],
 }));
 
-/** Deletes the data from a debug session. This does not cancel the debug session or prevent further data from being collected if the session is still active in runtime pods. */
 export interface DeleteDataOrganizationsEnvironmentsApisRevisionsDebugsessionsRequest {
   /** Required. The name of the debug session to delete. Must be of the form: `organizations/{organization}/environments/{environment}/apis/{api}/revisions/{revision}/debugsessions/{debugsession}`. If the API proxy resource has the `space` attribute set, IAM permissions are checked differently . To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -9571,13 +9570,13 @@ export const DeleteDataOrganizationsEnvironmentsApisRevisionsDebugsessionsRespon
 
 export type DeleteDataOrganizationsEnvironmentsApisRevisionsDebugsessionsError = CommonErrors;
 
+/** Deletes the data from a debug session. This does not cancel the debug session or prevent further data from being collected if the session is still active in runtime pods. */
 export const deleteDataOrganizationsEnvironmentsApisRevisionsDebugsessions: API.OperationMethod<DeleteDataOrganizationsEnvironmentsApisRevisionsDebugsessionsRequest, DeleteDataOrganizationsEnvironmentsApisRevisionsDebugsessionsResponse, DeleteDataOrganizationsEnvironmentsApisRevisionsDebugsessionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteDataOrganizationsEnvironmentsApisRevisionsDebugsessionsRequest,
   output: DeleteDataOrganizationsEnvironmentsApisRevisionsDebugsessionsResponse,
   errors: [],
 }));
 
-/** Gets the debug data from a transaction. */
 export interface GetOrganizationsEnvironmentsApisRevisionsDebugsessionsDataRequest {
   /** Required. The name of the debug session transaction. Must be of the form: `organizations/{organization}/environments/{environment}/apis/{api}/revisions/{revision}/debugsessions/{debug_session}/data/{transaction}`. If the API proxy resource has the `space` attribute set, IAM permissions are checked differently . To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -9595,13 +9594,13 @@ export const GetOrganizationsEnvironmentsApisRevisionsDebugsessionsDataResponse 
 
 export type GetOrganizationsEnvironmentsApisRevisionsDebugsessionsDataError = CommonErrors;
 
+/** Gets the debug data from a transaction. */
 export const getOrganizationsEnvironmentsApisRevisionsDebugsessionsData: API.OperationMethod<GetOrganizationsEnvironmentsApisRevisionsDebugsessionsDataRequest, GetOrganizationsEnvironmentsApisRevisionsDebugsessionsDataResponse, GetOrganizationsEnvironmentsApisRevisionsDebugsessionsDataError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsEnvironmentsApisRevisionsDebugsessionsDataRequest,
   output: GetOrganizationsEnvironmentsApisRevisionsDebugsessionsDataResponse,
   errors: [],
 }));
 
-/** Lists all deployments of an API proxy in an environment. */
 export interface ListOrganizationsEnvironmentsApisDeploymentsRequest {
   /** Required. Name representing an API proxy in an environment in the following format: `organizations/{org}/environments/{env}/apis/{api}` If the API proxy resource has the `space` attribute set, IAM permissions are checked differently . To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   parent: string;
@@ -9619,13 +9618,13 @@ export const ListOrganizationsEnvironmentsApisDeploymentsResponse = GoogleCloudA
 
 export type ListOrganizationsEnvironmentsApisDeploymentsError = CommonErrors;
 
+/** Lists all deployments of an API proxy in an environment. */
 export const listOrganizationsEnvironmentsApisDeployments: API.OperationMethod<ListOrganizationsEnvironmentsApisDeploymentsRequest, ListOrganizationsEnvironmentsApisDeploymentsResponse, ListOrganizationsEnvironmentsApisDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOrganizationsEnvironmentsApisDeploymentsRequest,
   output: ListOrganizationsEnvironmentsApisDeploymentsResponse,
   errors: [],
 }));
 
-/** Undeploys a shared flow revision from an environment. For a request path `organizations/{org}/environments/{env}/sharedflows/{sf}/revisions/{rev}/deployments`, two permissions are required: * `apigee.deployments.delete` on the resource `organizations/{org}/environments/{env}` * `apigee.sharedflowrevisions.undeploy` on the resource `organizations/{org}/sharedflows/{sf}/revisions/{rev}` */
 export interface UndeployOrganizationsEnvironmentsSharedflowsRevisionsRequest {
   /** Required. Name of the shared flow revision to undeploy in the following format: `organizations/{org}/environments/{env}/sharedflows/{sharedflow}/revisions/{rev}` If the shared flow resource has the `space` attribute set, IAM permissions are checked differently . To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -9643,13 +9642,13 @@ export const UndeployOrganizationsEnvironmentsSharedflowsRevisionsResponse = Goo
 
 export type UndeployOrganizationsEnvironmentsSharedflowsRevisionsError = CommonErrors;
 
+/** Undeploys a shared flow revision from an environment. For a request path `organizations/{org}/environments/{env}/sharedflows/{sf}/revisions/{rev}/deployments`, two permissions are required: * `apigee.deployments.delete` on the resource `organizations/{org}/environments/{env}` * `apigee.sharedflowrevisions.undeploy` on the resource `organizations/{org}/sharedflows/{sf}/revisions/{rev}` */
 export const undeployOrganizationsEnvironmentsSharedflowsRevisions: API.OperationMethod<UndeployOrganizationsEnvironmentsSharedflowsRevisionsRequest, UndeployOrganizationsEnvironmentsSharedflowsRevisionsResponse, UndeployOrganizationsEnvironmentsSharedflowsRevisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UndeployOrganizationsEnvironmentsSharedflowsRevisionsRequest,
   output: UndeployOrganizationsEnvironmentsSharedflowsRevisionsResponse,
   errors: [],
 }));
 
-/** Deploys a revision of a shared flow. If another revision of the same shared flow is currently deployed, set the `override` parameter to `true` to have this revision replace the currently deployed revision. You cannot use a shared flow until it has been deployed to an environment. For a request path `organizations/{org}/environments/{env}/sharedflows/{sf}/revisions/{rev}/deployments`, two permissions are required: * `apigee.deployments.create` on the resource `organizations/{org}/environments/{env}` * `apigee.sharedflowrevisions.deploy` on the resource `organizations/{org}/sharedflows/{sf}/revisions/{rev}` */
 export interface DeployOrganizationsEnvironmentsSharedflowsRevisionsRequest {
   /** Required. Name of the shared flow revision to deploy in the following format: `organizations/{org}/environments/{env}/sharedflows/{sharedflow}/revisions/{rev}` If the shared flow resource being deployed has the `space` attribute set, IAM permissions are checked differently . To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -9673,13 +9672,13 @@ export const DeployOrganizationsEnvironmentsSharedflowsRevisionsResponse = Googl
 
 export type DeployOrganizationsEnvironmentsSharedflowsRevisionsError = CommonErrors;
 
+/** Deploys a revision of a shared flow. If another revision of the same shared flow is currently deployed, set the `override` parameter to `true` to have this revision replace the currently deployed revision. You cannot use a shared flow until it has been deployed to an environment. For a request path `organizations/{org}/environments/{env}/sharedflows/{sf}/revisions/{rev}/deployments`, two permissions are required: * `apigee.deployments.create` on the resource `organizations/{org}/environments/{env}` * `apigee.sharedflowrevisions.deploy` on the resource `organizations/{org}/sharedflows/{sf}/revisions/{rev}` */
 export const deployOrganizationsEnvironmentsSharedflowsRevisions: API.OperationMethod<DeployOrganizationsEnvironmentsSharedflowsRevisionsRequest, DeployOrganizationsEnvironmentsSharedflowsRevisionsResponse, DeployOrganizationsEnvironmentsSharedflowsRevisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeployOrganizationsEnvironmentsSharedflowsRevisionsRequest,
   output: DeployOrganizationsEnvironmentsSharedflowsRevisionsResponse,
   errors: [],
 }));
 
-/** Gets the deployment of a shared flow revision and actual state reported by runtime pods. */
 export interface GetDeploymentsOrganizationsEnvironmentsSharedflowsRevisionsRequest {
   /** Required. Name representing a shared flow in an environment in the following format: `organizations/{org}/environments/{env}/sharedflows/{sharedflow}/revisions/{rev}` If the shared flow resource has the `space` attribute set, IAM permissions are checked differently . To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -9697,13 +9696,13 @@ export const GetDeploymentsOrganizationsEnvironmentsSharedflowsRevisionsResponse
 
 export type GetDeploymentsOrganizationsEnvironmentsSharedflowsRevisionsError = CommonErrors;
 
+/** Gets the deployment of a shared flow revision and actual state reported by runtime pods. */
 export const getDeploymentsOrganizationsEnvironmentsSharedflowsRevisions: API.OperationMethod<GetDeploymentsOrganizationsEnvironmentsSharedflowsRevisionsRequest, GetDeploymentsOrganizationsEnvironmentsSharedflowsRevisionsResponse, GetDeploymentsOrganizationsEnvironmentsSharedflowsRevisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDeploymentsOrganizationsEnvironmentsSharedflowsRevisionsRequest,
   output: GetDeploymentsOrganizationsEnvironmentsSharedflowsRevisionsResponse,
   errors: [],
 }));
 
-/** Lists all deployments of a shared flow in an environment. */
 export interface ListOrganizationsEnvironmentsSharedflowsDeploymentsRequest {
   /** Required. Name representing a shared flow in an environment in the following format: `organizations/{org}/environments/{env}/sharedflows/{sharedflow}` If the shared flow resource has the `space` attribute set, IAM permissions are checked differently . To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   parent: string;
@@ -9721,13 +9720,13 @@ export const ListOrganizationsEnvironmentsSharedflowsDeploymentsResponse = Googl
 
 export type ListOrganizationsEnvironmentsSharedflowsDeploymentsError = CommonErrors;
 
+/** Lists all deployments of a shared flow in an environment. */
 export const listOrganizationsEnvironmentsSharedflowsDeployments: API.OperationMethod<ListOrganizationsEnvironmentsSharedflowsDeploymentsRequest, ListOrganizationsEnvironmentsSharedflowsDeploymentsResponse, ListOrganizationsEnvironmentsSharedflowsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOrganizationsEnvironmentsSharedflowsDeploymentsRequest,
   output: ListOrganizationsEnvironmentsSharedflowsDeploymentsResponse,
   errors: [],
 }));
 
-/** Retrieve security statistics as tabular rows. */
 export interface QueryTabularStatsOrganizationsEnvironmentsSecurityStatsRequest {
   /** Required. Should be of the form organizations//environments/. */
   orgenv: string;
@@ -9748,13 +9747,13 @@ export const QueryTabularStatsOrganizationsEnvironmentsSecurityStatsResponse = G
 
 export type QueryTabularStatsOrganizationsEnvironmentsSecurityStatsError = CommonErrors;
 
+/** Retrieve security statistics as tabular rows. */
 export const queryTabularStatsOrganizationsEnvironmentsSecurityStats: API.OperationMethod<QueryTabularStatsOrganizationsEnvironmentsSecurityStatsRequest, QueryTabularStatsOrganizationsEnvironmentsSecurityStatsResponse, QueryTabularStatsOrganizationsEnvironmentsSecurityStatsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: QueryTabularStatsOrganizationsEnvironmentsSecurityStatsRequest,
   output: QueryTabularStatsOrganizationsEnvironmentsSecurityStatsResponse,
   errors: [],
 }));
 
-/** Retrieve security statistics as a collection of time series. */
 export interface QueryTimeSeriesStatsOrganizationsEnvironmentsSecurityStatsRequest {
   /** Required. Should be of the form organizations//environments/. */
   orgenv: string;
@@ -9775,13 +9774,13 @@ export const QueryTimeSeriesStatsOrganizationsEnvironmentsSecurityStatsResponse 
 
 export type QueryTimeSeriesStatsOrganizationsEnvironmentsSecurityStatsError = CommonErrors;
 
+/** Retrieve security statistics as a collection of time series. */
 export const queryTimeSeriesStatsOrganizationsEnvironmentsSecurityStats: API.OperationMethod<QueryTimeSeriesStatsOrganizationsEnvironmentsSecurityStatsRequest, QueryTimeSeriesStatsOrganizationsEnvironmentsSecurityStatsResponse, QueryTimeSeriesStatsOrganizationsEnvironmentsSecurityStatsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: QueryTimeSeriesStatsOrganizationsEnvironmentsSecurityStatsRequest,
   output: QueryTimeSeriesStatsOrganizationsEnvironmentsSecurityStatsResponse,
   errors: [],
 }));
 
-/** Lists all of the distributed trace configuration overrides in an environment. */
 export interface ListOrganizationsEnvironmentsTraceConfigOverridesRequest {
   /** Maximum number of trace configuration overrides to return. If not specified, the maximum number returned is 25. The maximum number cannot exceed 100. */
   pageSize?: number;
@@ -9805,7 +9804,8 @@ export const ListOrganizationsEnvironmentsTraceConfigOverridesResponse = GoogleC
 
 export type ListOrganizationsEnvironmentsTraceConfigOverridesError = CommonErrors;
 
-export const listOrganizationsEnvironmentsTraceConfigOverrides = API.makePaginated(() => ({
+/** Lists all of the distributed trace configuration overrides in an environment. */
+export const listOrganizationsEnvironmentsTraceConfigOverrides: API.PaginatedOperationMethod<ListOrganizationsEnvironmentsTraceConfigOverridesRequest, ListOrganizationsEnvironmentsTraceConfigOverridesResponse, ListOrganizationsEnvironmentsTraceConfigOverridesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsEnvironmentsTraceConfigOverridesRequest,
   output: ListOrganizationsEnvironmentsTraceConfigOverridesResponse,
   errors: [],
@@ -9815,7 +9815,6 @@ export const listOrganizationsEnvironmentsTraceConfigOverrides = API.makePaginat
   },
 }));
 
-/** Deletes a distributed trace configuration override. */
 export interface DeleteOrganizationsEnvironmentsTraceConfigOverridesRequest {
   /** Required. Name of the trace configuration override. Use the following structure in your request: "organizations/* /environments/* /traceConfig/overrides/*". */
   name: string;
@@ -9833,13 +9832,13 @@ export const DeleteOrganizationsEnvironmentsTraceConfigOverridesResponse = Googl
 
 export type DeleteOrganizationsEnvironmentsTraceConfigOverridesError = CommonErrors;
 
+/** Deletes a distributed trace configuration override. */
 export const deleteOrganizationsEnvironmentsTraceConfigOverrides: API.OperationMethod<DeleteOrganizationsEnvironmentsTraceConfigOverridesRequest, DeleteOrganizationsEnvironmentsTraceConfigOverridesResponse, DeleteOrganizationsEnvironmentsTraceConfigOverridesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsEnvironmentsTraceConfigOverridesRequest,
   output: DeleteOrganizationsEnvironmentsTraceConfigOverridesResponse,
   errors: [],
 }));
 
-/** Creates a trace configuration override. The response contains a system-generated UUID, that can be used to view, update, or delete the configuration override. Use the List API to view the existing trace configuration overrides. */
 export interface CreateOrganizationsEnvironmentsTraceConfigOverridesRequest {
   /** Required. Parent resource of the trace configuration override. Use the following structure in your request. "organizations/* /environments/* /traceConfig". */
   parent: string;
@@ -9860,13 +9859,13 @@ export const CreateOrganizationsEnvironmentsTraceConfigOverridesResponse = Googl
 
 export type CreateOrganizationsEnvironmentsTraceConfigOverridesError = CommonErrors;
 
+/** Creates a trace configuration override. The response contains a system-generated UUID, that can be used to view, update, or delete the configuration override. Use the List API to view the existing trace configuration overrides. */
 export const createOrganizationsEnvironmentsTraceConfigOverrides: API.OperationMethod<CreateOrganizationsEnvironmentsTraceConfigOverridesRequest, CreateOrganizationsEnvironmentsTraceConfigOverridesResponse, CreateOrganizationsEnvironmentsTraceConfigOverridesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsEnvironmentsTraceConfigOverridesRequest,
   output: CreateOrganizationsEnvironmentsTraceConfigOverridesResponse,
   errors: [],
 }));
 
-/** Gets a trace configuration override. */
 export interface GetOrganizationsEnvironmentsTraceConfigOverridesRequest {
   /** Required. Name of the trace configuration override. Use the following structure in your request: "organizations/* /environments/* /traceConfig/overrides/*". */
   name: string;
@@ -9884,13 +9883,13 @@ export const GetOrganizationsEnvironmentsTraceConfigOverridesResponse = GoogleCl
 
 export type GetOrganizationsEnvironmentsTraceConfigOverridesError = CommonErrors;
 
+/** Gets a trace configuration override. */
 export const getOrganizationsEnvironmentsTraceConfigOverrides: API.OperationMethod<GetOrganizationsEnvironmentsTraceConfigOverridesRequest, GetOrganizationsEnvironmentsTraceConfigOverridesResponse, GetOrganizationsEnvironmentsTraceConfigOverridesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsEnvironmentsTraceConfigOverridesRequest,
   output: GetOrganizationsEnvironmentsTraceConfigOverridesResponse,
   errors: [],
 }));
 
-/** Updates a distributed trace configuration override. Note that the repeated fields have replace semantics when included in the field mask and that they will be overwritten by the value of the fields in the request body. */
 export interface PatchOrganizationsEnvironmentsTraceConfigOverridesRequest {
   /** Required. Name of the trace configuration override. Use the following structure in your request: "organizations/* /environments/* /traceConfig/overrides/*". */
   name: string;
@@ -9914,13 +9913,13 @@ export const PatchOrganizationsEnvironmentsTraceConfigOverridesResponse = Google
 
 export type PatchOrganizationsEnvironmentsTraceConfigOverridesError = CommonErrors;
 
+/** Updates a distributed trace configuration override. Note that the repeated fields have replace semantics when included in the field mask and that they will be overwritten by the value of the fields in the request body. */
 export const patchOrganizationsEnvironmentsTraceConfigOverrides: API.OperationMethod<PatchOrganizationsEnvironmentsTraceConfigOverridesRequest, PatchOrganizationsEnvironmentsTraceConfigOverridesResponse, PatchOrganizationsEnvironmentsTraceConfigOverridesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsEnvironmentsTraceConfigOverridesRequest,
   output: PatchOrganizationsEnvironmentsTraceConfigOverridesResponse,
   errors: [],
 }));
 
-/** Delete a SecurityAction. */
 export interface DeleteOrganizationsEnvironmentsSecurityActionsRequest {
   /** Required. The name of the security action to delete. Format: `organizations/{org}/environment/{env}/securityActions/{security_action}` */
   name: string;
@@ -9938,13 +9937,13 @@ export const DeleteOrganizationsEnvironmentsSecurityActionsResponse = GoogleProt
 
 export type DeleteOrganizationsEnvironmentsSecurityActionsError = CommonErrors;
 
+/** Delete a SecurityAction. */
 export const deleteOrganizationsEnvironmentsSecurityActions: API.OperationMethod<DeleteOrganizationsEnvironmentsSecurityActionsRequest, DeleteOrganizationsEnvironmentsSecurityActionsResponse, DeleteOrganizationsEnvironmentsSecurityActionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsEnvironmentsSecurityActionsRequest,
   output: DeleteOrganizationsEnvironmentsSecurityActionsResponse,
   errors: [],
 }));
 
-/** Returns a list of SecurityActions. This returns both enabled and disabled actions. */
 export interface ListOrganizationsEnvironmentsSecurityActionsRequest {
   /** Required. The parent, which owns this collection of SecurityActions. Format: organizations/{org}/environments/{env} */
   parent: string;
@@ -9971,7 +9970,8 @@ export const ListOrganizationsEnvironmentsSecurityActionsResponse = GoogleCloudA
 
 export type ListOrganizationsEnvironmentsSecurityActionsError = CommonErrors;
 
-export const listOrganizationsEnvironmentsSecurityActions = API.makePaginated(() => ({
+/** Returns a list of SecurityActions. This returns both enabled and disabled actions. */
+export const listOrganizationsEnvironmentsSecurityActions: API.PaginatedOperationMethod<ListOrganizationsEnvironmentsSecurityActionsRequest, ListOrganizationsEnvironmentsSecurityActionsResponse, ListOrganizationsEnvironmentsSecurityActionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsEnvironmentsSecurityActionsRequest,
   output: ListOrganizationsEnvironmentsSecurityActionsResponse,
   errors: [],
@@ -9981,7 +9981,6 @@ export const listOrganizationsEnvironmentsSecurityActions = API.makePaginated(()
   },
 }));
 
-/** Enable a SecurityAction. The `state` of the SecurityAction after enabling is `ENABLED`. `EnableSecurityAction` can be called on SecurityActions in the state `DISABLED`; SecurityActions in a different state (including `ENABLED) return an error. */
 export interface EnableOrganizationsEnvironmentsSecurityActionsRequest {
   /** Required. The name of the SecurityAction to enable. Format: organizations/{org}/environments/{env}/securityActions/{security_action} */
   name: string;
@@ -10002,13 +10001,13 @@ export const EnableOrganizationsEnvironmentsSecurityActionsResponse = GoogleClou
 
 export type EnableOrganizationsEnvironmentsSecurityActionsError = CommonErrors;
 
+/** Enable a SecurityAction. The `state` of the SecurityAction after enabling is `ENABLED`. `EnableSecurityAction` can be called on SecurityActions in the state `DISABLED`; SecurityActions in a different state (including `ENABLED) return an error. */
 export const enableOrganizationsEnvironmentsSecurityActions: API.OperationMethod<EnableOrganizationsEnvironmentsSecurityActionsRequest, EnableOrganizationsEnvironmentsSecurityActionsResponse, EnableOrganizationsEnvironmentsSecurityActionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnableOrganizationsEnvironmentsSecurityActionsRequest,
   output: EnableOrganizationsEnvironmentsSecurityActionsResponse,
   errors: [],
 }));
 
-/** Disable a SecurityAction. The `state` of the SecurityAction after disabling is `DISABLED`. `DisableSecurityAction` can be called on SecurityActions in the state `ENABLED`; SecurityActions in a different state (including `DISABLED`) return an error. */
 export interface DisableOrganizationsEnvironmentsSecurityActionsRequest {
   /** Required. The name of the SecurityAction to disable. Format: organizations/{org}/environments/{env}/securityActions/{security_action} */
   name: string;
@@ -10029,13 +10028,13 @@ export const DisableOrganizationsEnvironmentsSecurityActionsResponse = GoogleClo
 
 export type DisableOrganizationsEnvironmentsSecurityActionsError = CommonErrors;
 
+/** Disable a SecurityAction. The `state` of the SecurityAction after disabling is `DISABLED`. `DisableSecurityAction` can be called on SecurityActions in the state `ENABLED`; SecurityActions in a different state (including `DISABLED`) return an error. */
 export const disableOrganizationsEnvironmentsSecurityActions: API.OperationMethod<DisableOrganizationsEnvironmentsSecurityActionsRequest, DisableOrganizationsEnvironmentsSecurityActionsResponse, DisableOrganizationsEnvironmentsSecurityActionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DisableOrganizationsEnvironmentsSecurityActionsRequest,
   output: DisableOrganizationsEnvironmentsSecurityActionsResponse,
   errors: [],
 }));
 
-/** Get a SecurityAction by name. */
 export interface GetOrganizationsEnvironmentsSecurityActionsRequest {
   /** Required. The fully qualified name of the SecurityAction to retrieve. Format: organizations/{org}/environments/{env}/securityActions/{security_action} */
   name: string;
@@ -10053,13 +10052,13 @@ export const GetOrganizationsEnvironmentsSecurityActionsResponse = GoogleCloudAp
 
 export type GetOrganizationsEnvironmentsSecurityActionsError = CommonErrors;
 
+/** Get a SecurityAction by name. */
 export const getOrganizationsEnvironmentsSecurityActions: API.OperationMethod<GetOrganizationsEnvironmentsSecurityActionsRequest, GetOrganizationsEnvironmentsSecurityActionsResponse, GetOrganizationsEnvironmentsSecurityActionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsEnvironmentsSecurityActionsRequest,
   output: GetOrganizationsEnvironmentsSecurityActionsResponse,
   errors: [],
 }));
 
-/** Update a SecurityAction. */
 export interface PatchOrganizationsEnvironmentsSecurityActionsRequest {
   /** Immutable. This field is ignored during creation as per AIP-133. Please set the `security_action_id` field in the CreateSecurityActionRequest when creating a new SecurityAction. Format: organizations/{org}/environments/{env}/securityActions/{security_action} */
   name: string;
@@ -10083,13 +10082,13 @@ export const PatchOrganizationsEnvironmentsSecurityActionsResponse = GoogleCloud
 
 export type PatchOrganizationsEnvironmentsSecurityActionsError = CommonErrors;
 
+/** Update a SecurityAction. */
 export const patchOrganizationsEnvironmentsSecurityActions: API.OperationMethod<PatchOrganizationsEnvironmentsSecurityActionsRequest, PatchOrganizationsEnvironmentsSecurityActionsResponse, PatchOrganizationsEnvironmentsSecurityActionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsEnvironmentsSecurityActionsRequest,
   output: PatchOrganizationsEnvironmentsSecurityActionsResponse,
   errors: [],
 }));
 
-/** CreateSecurityAction creates a SecurityAction. */
 export interface CreateOrganizationsEnvironmentsSecurityActionsRequest {
   /** Required. The organization and environment that this SecurityAction applies to. Format: organizations/{org}/environments/{env} */
   parent: string;
@@ -10113,13 +10112,13 @@ export const CreateOrganizationsEnvironmentsSecurityActionsResponse = GoogleClou
 
 export type CreateOrganizationsEnvironmentsSecurityActionsError = CommonErrors;
 
+/** CreateSecurityAction creates a SecurityAction. */
 export const createOrganizationsEnvironmentsSecurityActions: API.OperationMethod<CreateOrganizationsEnvironmentsSecurityActionsRequest, CreateOrganizationsEnvironmentsSecurityActionsResponse, CreateOrganizationsEnvironmentsSecurityActionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsEnvironmentsSecurityActionsRequest,
   output: CreateOrganizationsEnvironmentsSecurityActionsResponse,
   errors: [],
 }));
 
-/** Creates a Reference in the specified environment. */
 export interface CreateOrganizationsEnvironmentsReferencesRequest {
   /** Required. The parent environment name under which the Reference will be created. Must be of the form `organizations/{org}/environments/{env}`. */
   parent: string;
@@ -10140,13 +10139,13 @@ export const CreateOrganizationsEnvironmentsReferencesResponse = GoogleCloudApig
 
 export type CreateOrganizationsEnvironmentsReferencesError = CommonErrors;
 
+/** Creates a Reference in the specified environment. */
 export const createOrganizationsEnvironmentsReferences: API.OperationMethod<CreateOrganizationsEnvironmentsReferencesRequest, CreateOrganizationsEnvironmentsReferencesResponse, CreateOrganizationsEnvironmentsReferencesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsEnvironmentsReferencesRequest,
   output: CreateOrganizationsEnvironmentsReferencesResponse,
   errors: [],
 }));
 
-/** Updates an existing Reference. Note that this operation has PUT semantics; it will replace the entirety of the existing Reference with the resource in the request body. */
 export interface UpdateOrganizationsEnvironmentsReferencesRequest {
   /** Required. The name of the Reference to update. Must be of the form `organizations/{org}/environments/{env}/references/{ref}`. */
   name: string;
@@ -10167,13 +10166,13 @@ export const UpdateOrganizationsEnvironmentsReferencesResponse = GoogleCloudApig
 
 export type UpdateOrganizationsEnvironmentsReferencesError = CommonErrors;
 
+/** Updates an existing Reference. Note that this operation has PUT semantics; it will replace the entirety of the existing Reference with the resource in the request body. */
 export const updateOrganizationsEnvironmentsReferences: API.OperationMethod<UpdateOrganizationsEnvironmentsReferencesRequest, UpdateOrganizationsEnvironmentsReferencesResponse, UpdateOrganizationsEnvironmentsReferencesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateOrganizationsEnvironmentsReferencesRequest,
   output: UpdateOrganizationsEnvironmentsReferencesResponse,
   errors: [],
 }));
 
-/** Deletes a Reference from an environment. Returns the deleted Reference resource. */
 export interface DeleteOrganizationsEnvironmentsReferencesRequest {
   /** Required. The name of the Reference to delete. Must be of the form `organizations/{org}/environments/{env}/references/{ref}`. */
   name: string;
@@ -10191,13 +10190,13 @@ export const DeleteOrganizationsEnvironmentsReferencesResponse = GoogleCloudApig
 
 export type DeleteOrganizationsEnvironmentsReferencesError = CommonErrors;
 
+/** Deletes a Reference from an environment. Returns the deleted Reference resource. */
 export const deleteOrganizationsEnvironmentsReferences: API.OperationMethod<DeleteOrganizationsEnvironmentsReferencesRequest, DeleteOrganizationsEnvironmentsReferencesResponse, DeleteOrganizationsEnvironmentsReferencesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsEnvironmentsReferencesRequest,
   output: DeleteOrganizationsEnvironmentsReferencesResponse,
   errors: [],
 }));
 
-/** Gets a Reference resource. */
 export interface GetOrganizationsEnvironmentsReferencesRequest {
   /** Required. The name of the Reference to get. Must be of the form `organizations/{org}/environments/{env}/references/{ref}`. */
   name: string;
@@ -10215,13 +10214,13 @@ export const GetOrganizationsEnvironmentsReferencesResponse = GoogleCloudApigeeV
 
 export type GetOrganizationsEnvironmentsReferencesError = CommonErrors;
 
+/** Gets a Reference resource. */
 export const getOrganizationsEnvironmentsReferences: API.OperationMethod<GetOrganizationsEnvironmentsReferencesRequest, GetOrganizationsEnvironmentsReferencesResponse, GetOrganizationsEnvironmentsReferencesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsEnvironmentsReferencesRequest,
   output: GetOrganizationsEnvironmentsReferencesResponse,
   errors: [],
 }));
 
-/** Get query status If the query is still in progress, the `state` is set to "running" After the query has completed successfully, `state` is set to "completed" */
 export interface GetOrganizationsEnvironmentsQueriesRequest {
   /** Required. Name of the asynchronous query to get. Must be of the form `organizations/{org}/environments/{env}/queries/{queryId}`. */
   name: string;
@@ -10239,13 +10238,13 @@ export const GetOrganizationsEnvironmentsQueriesResponse = GoogleCloudApigeeV1As
 
 export type GetOrganizationsEnvironmentsQueriesError = CommonErrors;
 
+/** Get query status If the query is still in progress, the `state` is set to "running" After the query has completed successfully, `state` is set to "completed" */
 export const getOrganizationsEnvironmentsQueries: API.OperationMethod<GetOrganizationsEnvironmentsQueriesRequest, GetOrganizationsEnvironmentsQueriesResponse, GetOrganizationsEnvironmentsQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsEnvironmentsQueriesRequest,
   output: GetOrganizationsEnvironmentsQueriesResponse,
   errors: [],
 }));
 
-/** Submit a query to be processed in the background. If the submission of the query succeeds, the API returns a 201 status and an ID that refer to the query. In addition to the HTTP status 201, the `state` of "enqueued" means that the request succeeded. */
 export interface CreateOrganizationsEnvironmentsQueriesRequest {
   /** Required. The parent resource name. Must be of the form `organizations/{org}/environments/{env}`. */
   parent: string;
@@ -10266,13 +10265,13 @@ export const CreateOrganizationsEnvironmentsQueriesResponse = GoogleCloudApigeeV
 
 export type CreateOrganizationsEnvironmentsQueriesError = CommonErrors;
 
+/** Submit a query to be processed in the background. If the submission of the query succeeds, the API returns a 201 status and an ID that refer to the query. In addition to the HTTP status 201, the `state` of "enqueued" means that the request succeeded. */
 export const createOrganizationsEnvironmentsQueries: API.OperationMethod<CreateOrganizationsEnvironmentsQueriesRequest, CreateOrganizationsEnvironmentsQueriesResponse, CreateOrganizationsEnvironmentsQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsEnvironmentsQueriesRequest,
   output: CreateOrganizationsEnvironmentsQueriesResponse,
   errors: [],
 }));
 
-/** After the query is completed, use this API to retrieve the results. If the request succeeds, and there is a non-zero result set, the result is downloaded to the client as a zipped JSON file. The name of the downloaded file will be: OfflineQueryResult-.zip Example: `OfflineQueryResult-9cfc0d85-0f30-46d6-ae6f-318d0cb961bd.zip` */
 export interface GetResultOrganizationsEnvironmentsQueriesRequest {
   /** Required. Name of the asynchronous query result to get. Must be of the form `organizations/{org}/environments/{env}/queries/{queryId}/result`. */
   name: string;
@@ -10290,13 +10289,13 @@ export const GetResultOrganizationsEnvironmentsQueriesResponse = GoogleApiHttpBo
 
 export type GetResultOrganizationsEnvironmentsQueriesError = CommonErrors;
 
+/** After the query is completed, use this API to retrieve the results. If the request succeeds, and there is a non-zero result set, the result is downloaded to the client as a zipped JSON file. The name of the downloaded file will be: OfflineQueryResult-.zip Example: `OfflineQueryResult-9cfc0d85-0f30-46d6-ae6f-318d0cb961bd.zip` */
 export const getResultOrganizationsEnvironmentsQueries: API.OperationMethod<GetResultOrganizationsEnvironmentsQueriesRequest, GetResultOrganizationsEnvironmentsQueriesResponse, GetResultOrganizationsEnvironmentsQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetResultOrganizationsEnvironmentsQueriesRequest,
   output: GetResultOrganizationsEnvironmentsQueriesResponse,
   errors: [],
 }));
 
-/** After the query is completed, use this API to retrieve the results. If the request succeeds, and there is a non-zero result set, the result is sent to the client as a list of urls to JSON files. */
 export interface GetResulturlOrganizationsEnvironmentsQueriesRequest {
   /** Required. Name of the asynchronous query result to get. Must be of the form `organizations/{org}/environments/{env}/queries/{queryId}/resulturl`. */
   name: string;
@@ -10314,13 +10313,13 @@ export const GetResulturlOrganizationsEnvironmentsQueriesResponse = GoogleCloudA
 
 export type GetResulturlOrganizationsEnvironmentsQueriesError = CommonErrors;
 
+/** After the query is completed, use this API to retrieve the results. If the request succeeds, and there is a non-zero result set, the result is sent to the client as a list of urls to JSON files. */
 export const getResulturlOrganizationsEnvironmentsQueries: API.OperationMethod<GetResulturlOrganizationsEnvironmentsQueriesRequest, GetResulturlOrganizationsEnvironmentsQueriesResponse, GetResulturlOrganizationsEnvironmentsQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetResulturlOrganizationsEnvironmentsQueriesRequest,
   output: GetResulturlOrganizationsEnvironmentsQueriesResponse,
   errors: [],
 }));
 
-/** Return a list of Asynchronous Queries */
 export interface ListOrganizationsEnvironmentsQueriesRequest {
   /** Filter response list by returning asynchronous queries that created before this date time. Time must be in ISO date-time format like '2011-12-03T10:16:30Z'. */
   to?: string;
@@ -10356,13 +10355,13 @@ export const ListOrganizationsEnvironmentsQueriesResponse = GoogleCloudApigeeV1L
 
 export type ListOrganizationsEnvironmentsQueriesError = CommonErrors;
 
+/** Return a list of Asynchronous Queries */
 export const listOrganizationsEnvironmentsQueries: API.OperationMethod<ListOrganizationsEnvironmentsQueriesRequest, ListOrganizationsEnvironmentsQueriesResponse, ListOrganizationsEnvironmentsQueriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOrganizationsEnvironmentsQueriesRequest,
   output: ListOrganizationsEnvironmentsQueriesResponse,
   errors: [],
 }));
 
-/** Creates a key value map in an environment. */
 export interface CreateOrganizationsEnvironmentsKeyvaluemapsRequest {
   /** Required. Name of the environment in which to create the key value map. Use the following structure in your request: `organizations/{org}/environments/{env}` */
   parent: string;
@@ -10383,13 +10382,13 @@ export const CreateOrganizationsEnvironmentsKeyvaluemapsResponse = GoogleCloudAp
 
 export type CreateOrganizationsEnvironmentsKeyvaluemapsError = CommonErrors;
 
+/** Creates a key value map in an environment. */
 export const createOrganizationsEnvironmentsKeyvaluemaps: API.OperationMethod<CreateOrganizationsEnvironmentsKeyvaluemapsRequest, CreateOrganizationsEnvironmentsKeyvaluemapsResponse, CreateOrganizationsEnvironmentsKeyvaluemapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsEnvironmentsKeyvaluemapsRequest,
   output: CreateOrganizationsEnvironmentsKeyvaluemapsResponse,
   errors: [],
 }));
 
-/** Update the key value map scoped to an organization, environment, or API proxy. */
 export interface UpdateOrganizationsEnvironmentsKeyvaluemapsRequest {
   /** Required. Scope as indicated by the URI in which to fetch the key value map. Use **one** of the following structures in your request: * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`. * `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`. If the KeyValueMap is under an API Proxy resource that has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -10410,13 +10409,13 @@ export const UpdateOrganizationsEnvironmentsKeyvaluemapsResponse = GoogleCloudAp
 
 export type UpdateOrganizationsEnvironmentsKeyvaluemapsError = CommonErrors;
 
+/** Update the key value map scoped to an organization, environment, or API proxy. */
 export const updateOrganizationsEnvironmentsKeyvaluemaps: API.OperationMethod<UpdateOrganizationsEnvironmentsKeyvaluemapsRequest, UpdateOrganizationsEnvironmentsKeyvaluemapsResponse, UpdateOrganizationsEnvironmentsKeyvaluemapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateOrganizationsEnvironmentsKeyvaluemapsRequest,
   output: UpdateOrganizationsEnvironmentsKeyvaluemapsResponse,
   errors: [],
 }));
 
-/** Get the key value map scoped to an organization, environment, or API proxy. */
 export interface GetOrganizationsEnvironmentsKeyvaluemapsRequest {
   /** Required. Scope as indicated by the URI in which to fetch the key value map. Use **one** of the following structures in your request: * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`. * `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`. If the KeyValueMap is under an API Proxy resource that has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -10434,13 +10433,13 @@ export const GetOrganizationsEnvironmentsKeyvaluemapsResponse = GoogleCloudApige
 
 export type GetOrganizationsEnvironmentsKeyvaluemapsError = CommonErrors;
 
+/** Get the key value map scoped to an organization, environment, or API proxy. */
 export const getOrganizationsEnvironmentsKeyvaluemaps: API.OperationMethod<GetOrganizationsEnvironmentsKeyvaluemapsRequest, GetOrganizationsEnvironmentsKeyvaluemapsResponse, GetOrganizationsEnvironmentsKeyvaluemapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsEnvironmentsKeyvaluemapsRequest,
   output: GetOrganizationsEnvironmentsKeyvaluemapsResponse,
   errors: [],
 }));
 
-/** Deletes a key value map from an environment. */
 export interface DeleteOrganizationsEnvironmentsKeyvaluemapsRequest {
   /** Required. Name of the key value map. Use the following structure in your request: `organizations/{org}/environments/{env}/keyvaluemaps/{keyvaluemap}` */
   name: string;
@@ -10458,13 +10457,13 @@ export const DeleteOrganizationsEnvironmentsKeyvaluemapsResponse = GoogleCloudAp
 
 export type DeleteOrganizationsEnvironmentsKeyvaluemapsError = CommonErrors;
 
+/** Deletes a key value map from an environment. */
 export const deleteOrganizationsEnvironmentsKeyvaluemaps: API.OperationMethod<DeleteOrganizationsEnvironmentsKeyvaluemapsRequest, DeleteOrganizationsEnvironmentsKeyvaluemapsResponse, DeleteOrganizationsEnvironmentsKeyvaluemapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsEnvironmentsKeyvaluemapsRequest,
   output: DeleteOrganizationsEnvironmentsKeyvaluemapsResponse,
   errors: [],
 }));
 
-/** Deletes a key value entry from a key value map scoped to an organization, environment, or API proxy. **Notes:** * After you delete the key value entry, the policy consuming the entry will continue to function with its cached values for a few minutes. This is expected behavior. * Supported for Apigee hybrid 1.8.x and higher. */
 export interface DeleteOrganizationsEnvironmentsKeyvaluemapsEntriesRequest {
   /** Required. Scope as indicated by the URI in which to delete the key value map entry. Use **one** of the following structures in your request: * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}/entries/{entry}`. * `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}/entries/{entry}` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}/entries/{entry}`. If the KeyValueMap is under an API Proxy resource that has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -10482,13 +10481,13 @@ export const DeleteOrganizationsEnvironmentsKeyvaluemapsEntriesResponse = Google
 
 export type DeleteOrganizationsEnvironmentsKeyvaluemapsEntriesError = CommonErrors;
 
+/** Deletes a key value entry from a key value map scoped to an organization, environment, or API proxy. **Notes:** * After you delete the key value entry, the policy consuming the entry will continue to function with its cached values for a few minutes. This is expected behavior. * Supported for Apigee hybrid 1.8.x and higher. */
 export const deleteOrganizationsEnvironmentsKeyvaluemapsEntries: API.OperationMethod<DeleteOrganizationsEnvironmentsKeyvaluemapsEntriesRequest, DeleteOrganizationsEnvironmentsKeyvaluemapsEntriesResponse, DeleteOrganizationsEnvironmentsKeyvaluemapsEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsEnvironmentsKeyvaluemapsEntriesRequest,
   output: DeleteOrganizationsEnvironmentsKeyvaluemapsEntriesResponse,
   errors: [],
 }));
 
-/** Update key value entry scoped to an organization, environment, or API proxy for an existing key. */
 export interface UpdateOrganizationsEnvironmentsKeyvaluemapsEntriesRequest {
   /** Required. Scope as indicated by the URI in which to create the key value map entry. Use **one** of the following structures in your request: * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`. * `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`. If the KeyValueMap is under an API Proxy resource that has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -10509,13 +10508,13 @@ export const UpdateOrganizationsEnvironmentsKeyvaluemapsEntriesResponse = Google
 
 export type UpdateOrganizationsEnvironmentsKeyvaluemapsEntriesError = CommonErrors;
 
+/** Update key value entry scoped to an organization, environment, or API proxy for an existing key. */
 export const updateOrganizationsEnvironmentsKeyvaluemapsEntries: API.OperationMethod<UpdateOrganizationsEnvironmentsKeyvaluemapsEntriesRequest, UpdateOrganizationsEnvironmentsKeyvaluemapsEntriesResponse, UpdateOrganizationsEnvironmentsKeyvaluemapsEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateOrganizationsEnvironmentsKeyvaluemapsEntriesRequest,
   output: UpdateOrganizationsEnvironmentsKeyvaluemapsEntriesResponse,
   errors: [],
 }));
 
-/** Lists key value entries for key values maps scoped to an organization, environment, or API proxy. **Note**: Supported for Apigee hybrid 1.8.x and higher. */
 export interface ListOrganizationsEnvironmentsKeyvaluemapsEntriesRequest {
   /** Optional. Maximum number of key value entries to return. If unspecified, at most 100 entries will be returned. */
   pageSize?: number;
@@ -10539,7 +10538,8 @@ export const ListOrganizationsEnvironmentsKeyvaluemapsEntriesResponse = GoogleCl
 
 export type ListOrganizationsEnvironmentsKeyvaluemapsEntriesError = CommonErrors;
 
-export const listOrganizationsEnvironmentsKeyvaluemapsEntries = API.makePaginated(() => ({
+/** Lists key value entries for key values maps scoped to an organization, environment, or API proxy. **Note**: Supported for Apigee hybrid 1.8.x and higher. */
+export const listOrganizationsEnvironmentsKeyvaluemapsEntries: API.PaginatedOperationMethod<ListOrganizationsEnvironmentsKeyvaluemapsEntriesRequest, ListOrganizationsEnvironmentsKeyvaluemapsEntriesResponse, ListOrganizationsEnvironmentsKeyvaluemapsEntriesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsEnvironmentsKeyvaluemapsEntriesRequest,
   output: ListOrganizationsEnvironmentsKeyvaluemapsEntriesResponse,
   errors: [],
@@ -10549,7 +10549,6 @@ export const listOrganizationsEnvironmentsKeyvaluemapsEntries = API.makePaginate
   },
 }));
 
-/** Get the key value entry value for a key value map scoped to an organization, environment, or API proxy. **Note**: Supported for Apigee hybrid 1.8.x and higher. */
 export interface GetOrganizationsEnvironmentsKeyvaluemapsEntriesRequest {
   /** Required. Scope as indicated by the URI in which to fetch the key value map entry/value. Use **one** of the following structures in your request: * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}/entries/{entry}`. * `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}/entries/{entry}` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}/entries/{entry}`. If the KeyValueMap is under an API Proxy resource that has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -10567,13 +10566,13 @@ export const GetOrganizationsEnvironmentsKeyvaluemapsEntriesResponse = GoogleClo
 
 export type GetOrganizationsEnvironmentsKeyvaluemapsEntriesError = CommonErrors;
 
+/** Get the key value entry value for a key value map scoped to an organization, environment, or API proxy. **Note**: Supported for Apigee hybrid 1.8.x and higher. */
 export const getOrganizationsEnvironmentsKeyvaluemapsEntries: API.OperationMethod<GetOrganizationsEnvironmentsKeyvaluemapsEntriesRequest, GetOrganizationsEnvironmentsKeyvaluemapsEntriesResponse, GetOrganizationsEnvironmentsKeyvaluemapsEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsEnvironmentsKeyvaluemapsEntriesRequest,
   output: GetOrganizationsEnvironmentsKeyvaluemapsEntriesResponse,
   errors: [],
 }));
 
-/** Creates key value entries in a key value map scoped to an organization, environment, or API proxy. **Note**: Supported for Apigee hybrid 1.8.x and higher. */
 export interface CreateOrganizationsEnvironmentsKeyvaluemapsEntriesRequest {
   /** Required. Scope as indicated by the URI in which to create the key value map entry. Use **one** of the following structures in your request: * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`. * `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`. If the KeyValueMap is under an API Proxy resource that has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   parent: string;
@@ -10594,13 +10593,13 @@ export const CreateOrganizationsEnvironmentsKeyvaluemapsEntriesResponse = Google
 
 export type CreateOrganizationsEnvironmentsKeyvaluemapsEntriesError = CommonErrors;
 
+/** Creates key value entries in a key value map scoped to an organization, environment, or API proxy. **Note**: Supported for Apigee hybrid 1.8.x and higher. */
 export const createOrganizationsEnvironmentsKeyvaluemapsEntries: API.OperationMethod<CreateOrganizationsEnvironmentsKeyvaluemapsEntriesRequest, CreateOrganizationsEnvironmentsKeyvaluemapsEntriesResponse, CreateOrganizationsEnvironmentsKeyvaluemapsEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsEnvironmentsKeyvaluemapsEntriesRequest,
   output: CreateOrganizationsEnvironmentsKeyvaluemapsEntriesResponse,
   errors: [],
 }));
 
-/** Deletes a TargetServer from an environment. Returns the deleted TargetServer resource. */
 export interface DeleteOrganizationsEnvironmentsTargetserversRequest {
   /** Required. The name of the TargetServer to delete. Must be of the form `organizations/{org}/environments/{env}/targetservers/{target_server_id}`. */
   name: string;
@@ -10618,13 +10617,13 @@ export const DeleteOrganizationsEnvironmentsTargetserversResponse = GoogleCloudA
 
 export type DeleteOrganizationsEnvironmentsTargetserversError = CommonErrors;
 
+/** Deletes a TargetServer from an environment. Returns the deleted TargetServer resource. */
 export const deleteOrganizationsEnvironmentsTargetservers: API.OperationMethod<DeleteOrganizationsEnvironmentsTargetserversRequest, DeleteOrganizationsEnvironmentsTargetserversResponse, DeleteOrganizationsEnvironmentsTargetserversError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsEnvironmentsTargetserversRequest,
   output: DeleteOrganizationsEnvironmentsTargetserversResponse,
   errors: [],
 }));
 
-/** Gets a TargetServer resource. */
 export interface GetOrganizationsEnvironmentsTargetserversRequest {
   /** Required. The name of the TargetServer to get. Must be of the form `organizations/{org}/environments/{env}/targetservers/{target_server_id}`. */
   name: string;
@@ -10642,13 +10641,13 @@ export const GetOrganizationsEnvironmentsTargetserversResponse = GoogleCloudApig
 
 export type GetOrganizationsEnvironmentsTargetserversError = CommonErrors;
 
+/** Gets a TargetServer resource. */
 export const getOrganizationsEnvironmentsTargetservers: API.OperationMethod<GetOrganizationsEnvironmentsTargetserversRequest, GetOrganizationsEnvironmentsTargetserversResponse, GetOrganizationsEnvironmentsTargetserversError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsEnvironmentsTargetserversRequest,
   output: GetOrganizationsEnvironmentsTargetserversResponse,
   errors: [],
 }));
 
-/** Creates a TargetServer in the specified environment. */
 export interface CreateOrganizationsEnvironmentsTargetserversRequest {
   /** Required. The parent environment name under which the TargetServer will be created. Must be of the form `organizations/{org}/environments/{env}`. */
   parent: string;
@@ -10672,13 +10671,13 @@ export const CreateOrganizationsEnvironmentsTargetserversResponse = GoogleCloudA
 
 export type CreateOrganizationsEnvironmentsTargetserversError = CommonErrors;
 
+/** Creates a TargetServer in the specified environment. */
 export const createOrganizationsEnvironmentsTargetservers: API.OperationMethod<CreateOrganizationsEnvironmentsTargetserversRequest, CreateOrganizationsEnvironmentsTargetserversResponse, CreateOrganizationsEnvironmentsTargetserversError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsEnvironmentsTargetserversRequest,
   output: CreateOrganizationsEnvironmentsTargetserversResponse,
   errors: [],
 }));
 
-/** Updates an existing TargetServer. Note that this operation has PUT semantics; it will replace the entirety of the existing TargetServer with the resource in the request body. */
 export interface UpdateOrganizationsEnvironmentsTargetserversRequest {
   /** Required. The name of the TargetServer to replace. Must be of the form `organizations/{org}/environments/{env}/targetservers/{target_server_id}`. */
   name: string;
@@ -10699,13 +10698,13 @@ export const UpdateOrganizationsEnvironmentsTargetserversResponse = GoogleCloudA
 
 export type UpdateOrganizationsEnvironmentsTargetserversError = CommonErrors;
 
+/** Updates an existing TargetServer. Note that this operation has PUT semantics; it will replace the entirety of the existing TargetServer with the resource in the request body. */
 export const updateOrganizationsEnvironmentsTargetservers: API.OperationMethod<UpdateOrganizationsEnvironmentsTargetserversRequest, UpdateOrganizationsEnvironmentsTargetserversResponse, UpdateOrganizationsEnvironmentsTargetserversError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateOrganizationsEnvironmentsTargetserversRequest,
   output: UpdateOrganizationsEnvironmentsTargetserversResponse,
   errors: [],
 }));
 
-/** Deletes a cache. */
 export interface DeleteOrganizationsEnvironmentsCachesRequest {
   /** Required. Cache resource name of the form: `organizations/{organization_id}/environments/{environment_id}/caches/{cache_id}` */
   name: string;
@@ -10723,13 +10722,13 @@ export const DeleteOrganizationsEnvironmentsCachesResponse = GoogleProtobufEmpty
 
 export type DeleteOrganizationsEnvironmentsCachesError = CommonErrors;
 
+/** Deletes a cache. */
 export const deleteOrganizationsEnvironmentsCaches: API.OperationMethod<DeleteOrganizationsEnvironmentsCachesRequest, DeleteOrganizationsEnvironmentsCachesResponse, DeleteOrganizationsEnvironmentsCachesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsEnvironmentsCachesRequest,
   output: DeleteOrganizationsEnvironmentsCachesResponse,
   errors: [],
 }));
 
-/** Lists IDs of apps within an organization that have the specified app status (approved or revoked) or are of the specified app type (developer or company). */
 export interface ListOrganizationsAppsRequest {
   /** Optional. The filter expression to be used to get the list of apps, where filtering can be done on developerEmail, apiProduct, consumerKey, status, appId, appName, appType and appGroup. Examples: "developerEmail=foo@bar.com", "appType=AppGroup", or "appType=Developer" "filter" is supported from ver 1.10.0 and above. */
   filter?: string;
@@ -10783,7 +10782,8 @@ export const ListOrganizationsAppsResponse = GoogleCloudApigeeV1ListAppsResponse
 
 export type ListOrganizationsAppsError = CommonErrors;
 
-export const listOrganizationsApps = API.makePaginated(() => ({
+/** Lists IDs of apps within an organization that have the specified app status (approved or revoked) or are of the specified app type (developer or company). */
+export const listOrganizationsApps: API.PaginatedOperationMethod<ListOrganizationsAppsRequest, ListOrganizationsAppsResponse, ListOrganizationsAppsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsAppsRequest,
   output: ListOrganizationsAppsResponse,
   errors: [],
@@ -10793,7 +10793,6 @@ export const listOrganizationsApps = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the app profile for the specified app ID. */
 export interface GetOrganizationsAppsRequest {
   /** Required. App ID in the following format: `organizations/{org}/apps/{app}` */
   name: string;
@@ -10811,13 +10810,13 @@ export const GetOrganizationsAppsResponse = GoogleCloudApigeeV1App;
 
 export type GetOrganizationsAppsError = CommonErrors;
 
+/** Gets the app profile for the specified app ID. */
 export const getOrganizationsApps: API.OperationMethod<GetOrganizationsAppsRequest, GetOrganizationsAppsResponse, GetOrganizationsAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsAppsRequest,
   output: GetOrganizationsAppsResponse,
   errors: [],
 }));
 
-/** Lists spaces under an organization. */
 export interface ListOrganizationsSpacesRequest {
   /** Optional. The maximum number of spaces to return. The service may return fewer than this value. If unspecified, at most 50 spaces will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
@@ -10841,7 +10840,8 @@ export const ListOrganizationsSpacesResponse = GoogleCloudApigeeV1ListSpacesResp
 
 export type ListOrganizationsSpacesError = CommonErrors;
 
-export const listOrganizationsSpaces = API.makePaginated(() => ({
+/** Lists spaces under an organization. */
+export const listOrganizationsSpaces: API.PaginatedOperationMethod<ListOrganizationsSpacesRequest, ListOrganizationsSpacesResponse, ListOrganizationsSpacesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsSpacesRequest,
   output: ListOrganizationsSpacesResponse,
   errors: [],
@@ -10851,7 +10851,6 @@ export const listOrganizationsSpaces = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes an organization space. */
 export interface DeleteOrganizationsSpacesRequest {
   /** Required. Apigee organization space name in the following format: `organizations/{org}/spaces/{space}` */
   name: string;
@@ -10869,13 +10868,13 @@ export const DeleteOrganizationsSpacesResponse = GoogleProtobufEmpty;
 
 export type DeleteOrganizationsSpacesError = CommonErrors;
 
+/** Deletes an organization space. */
 export const deleteOrganizationsSpaces: API.OperationMethod<DeleteOrganizationsSpacesRequest, DeleteOrganizationsSpacesResponse, DeleteOrganizationsSpacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsSpacesRequest,
   output: DeleteOrganizationsSpacesResponse,
   errors: [],
 }));
 
-/** Callers must have apigee.spaces.getIamPolicy. */
 export interface GetIamPolicyOrganizationsSpacesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -10896,13 +10895,13 @@ export const GetIamPolicyOrganizationsSpacesResponse = GoogleIamV1Policy;
 
 export type GetIamPolicyOrganizationsSpacesError = CommonErrors;
 
+/** Callers must have apigee.spaces.getIamPolicy. */
 export const getIamPolicyOrganizationsSpaces: API.OperationMethod<GetIamPolicyOrganizationsSpacesRequest, GetIamPolicyOrganizationsSpacesResponse, GetIamPolicyOrganizationsSpacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyOrganizationsSpacesRequest,
   output: GetIamPolicyOrganizationsSpacesResponse,
   errors: [],
 }));
 
-/** Callers don't need any permissions. */
 export interface TestIamPermissionsOrganizationsSpacesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -10923,13 +10922,13 @@ export const TestIamPermissionsOrganizationsSpacesResponse = GoogleIamV1TestIamP
 
 export type TestIamPermissionsOrganizationsSpacesError = CommonErrors;
 
+/** Callers don't need any permissions. */
 export const testIamPermissionsOrganizationsSpaces: API.OperationMethod<TestIamPermissionsOrganizationsSpacesRequest, TestIamPermissionsOrganizationsSpacesResponse, TestIamPermissionsOrganizationsSpacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsOrganizationsSpacesRequest,
   output: TestIamPermissionsOrganizationsSpacesResponse,
   errors: [],
 }));
 
-/** Create a space under an organization. */
 export interface CreateOrganizationsSpacesRequest {
   /** Required. Name of the Google Cloud project in which to associate the Apigee space. Pass the information as a query parameter using the following structure in your request: `organizations/` */
   parent: string;
@@ -10953,13 +10952,13 @@ export const CreateOrganizationsSpacesResponse = GoogleCloudApigeeV1Space;
 
 export type CreateOrganizationsSpacesError = CommonErrors;
 
+/** Create a space under an organization. */
 export const createOrganizationsSpaces: API.OperationMethod<CreateOrganizationsSpacesRequest, CreateOrganizationsSpacesResponse, CreateOrganizationsSpacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsSpacesRequest,
   output: CreateOrganizationsSpacesResponse,
   errors: [],
 }));
 
-/** IAM META APIs Callers must have apigee.spaces.setIamPolicy. */
 export interface SetIamPolicyOrganizationsSpacesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -10980,13 +10979,13 @@ export const SetIamPolicyOrganizationsSpacesResponse = GoogleIamV1Policy;
 
 export type SetIamPolicyOrganizationsSpacesError = CommonErrors;
 
+/** IAM META APIs Callers must have apigee.spaces.setIamPolicy. */
 export const setIamPolicyOrganizationsSpaces: API.OperationMethod<SetIamPolicyOrganizationsSpacesRequest, SetIamPolicyOrganizationsSpacesResponse, SetIamPolicyOrganizationsSpacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyOrganizationsSpacesRequest,
   output: SetIamPolicyOrganizationsSpacesResponse,
   errors: [],
 }));
 
-/** Get a space under an Organization. */
 export interface GetOrganizationsSpacesRequest {
   /** Required. Apigee organization space name in the following format: `organizations/{org}/spaces/{space}` */
   name: string;
@@ -11004,13 +11003,13 @@ export const GetOrganizationsSpacesResponse = GoogleCloudApigeeV1Space;
 
 export type GetOrganizationsSpacesError = CommonErrors;
 
+/** Get a space under an Organization. */
 export const getOrganizationsSpaces: API.OperationMethod<GetOrganizationsSpacesRequest, GetOrganizationsSpacesResponse, GetOrganizationsSpacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsSpacesRequest,
   output: GetOrganizationsSpacesResponse,
   errors: [],
 }));
 
-/** Updates a space. */
 export interface PatchOrganizationsSpacesRequest {
   /** Required. Name of the space in the following format: `organizations/{org}/spaces/{space_id}`. */
   name: string;
@@ -11034,13 +11033,13 @@ export const PatchOrganizationsSpacesResponse = GoogleCloudApigeeV1Space;
 
 export type PatchOrganizationsSpacesError = CommonErrors;
 
+/** Updates a space. */
 export const patchOrganizationsSpaces: API.OperationMethod<PatchOrganizationsSpacesRequest, PatchOrganizationsSpacesResponse, PatchOrganizationsSpacesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsSpacesRequest,
   output: PatchOrganizationsSpacesResponse,
   errors: [],
 }));
 
-/** Deletes an Apigee runtime instance. The instance stops serving requests and the runtime data is deleted. **Note:** Not supported for Apigee hybrid. */
 export interface DeleteOrganizationsInstancesRequest {
   /** Required. Name of the instance. Use the following structure in your request: `organizations/{org}/instances/{instance}`. */
   name: string;
@@ -11058,13 +11057,13 @@ export const DeleteOrganizationsInstancesResponse = GoogleLongrunningOperation;
 
 export type DeleteOrganizationsInstancesError = CommonErrors;
 
+/** Deletes an Apigee runtime instance. The instance stops serving requests and the runtime data is deleted. **Note:** Not supported for Apigee hybrid. */
 export const deleteOrganizationsInstances: API.OperationMethod<DeleteOrganizationsInstancesRequest, DeleteOrganizationsInstancesResponse, DeleteOrganizationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsInstancesRequest,
   output: DeleteOrganizationsInstancesResponse,
   errors: [],
 }));
 
-/** Lists all Apigee runtime instances for the organization. **Note:** Not supported for Apigee hybrid. */
 export interface ListOrganizationsInstancesRequest {
   /** Required. Name of the organization. Use the following structure in your request: `organizations/{org}`. */
   parent: string;
@@ -11088,7 +11087,8 @@ export const ListOrganizationsInstancesResponse = GoogleCloudApigeeV1ListInstanc
 
 export type ListOrganizationsInstancesError = CommonErrors;
 
-export const listOrganizationsInstances = API.makePaginated(() => ({
+/** Lists all Apigee runtime instances for the organization. **Note:** Not supported for Apigee hybrid. */
+export const listOrganizationsInstances: API.PaginatedOperationMethod<ListOrganizationsInstancesRequest, ListOrganizationsInstancesResponse, ListOrganizationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsInstancesRequest,
   output: ListOrganizationsInstancesResponse,
   errors: [],
@@ -11098,7 +11098,6 @@ export const listOrganizationsInstances = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the details for an Apigee runtime instance. **Note:** Not supported for Apigee hybrid. */
 export interface GetOrganizationsInstancesRequest {
   /** Required. Name of the instance. Use the following structure in your request: `organizations/{org}/instances/{instance}`. */
   name: string;
@@ -11116,13 +11115,13 @@ export const GetOrganizationsInstancesResponse = GoogleCloudApigeeV1Instance;
 
 export type GetOrganizationsInstancesError = CommonErrors;
 
+/** Gets the details for an Apigee runtime instance. **Note:** Not supported for Apigee hybrid. */
 export const getOrganizationsInstances: API.OperationMethod<GetOrganizationsInstancesRequest, GetOrganizationsInstancesResponse, GetOrganizationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsInstancesRequest,
   output: GetOrganizationsInstancesResponse,
   errors: [],
 }));
 
-/** Updates an Apigee runtime instance. You can update the fields described in NodeConfig. No other fields will be updated. **Note:** Not supported for Apigee hybrid. */
 export interface PatchOrganizationsInstancesRequest {
   /** Required. Name of the instance. Use the following structure in your request: `organizations/{org}/instances/{instance}`. */
   name: string;
@@ -11146,13 +11145,13 @@ export const PatchOrganizationsInstancesResponse = GoogleLongrunningOperation;
 
 export type PatchOrganizationsInstancesError = CommonErrors;
 
+/** Updates an Apigee runtime instance. You can update the fields described in NodeConfig. No other fields will be updated. **Note:** Not supported for Apigee hybrid. */
 export const patchOrganizationsInstances: API.OperationMethod<PatchOrganizationsInstancesRequest, PatchOrganizationsInstancesResponse, PatchOrganizationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsInstancesRequest,
   output: PatchOrganizationsInstancesResponse,
   errors: [],
 }));
 
-/** Reports the latest status for a runtime instance. */
 export interface ReportStatusOrganizationsInstancesRequest {
   /** The name of the instance reporting this status. For SaaS the request will be rejected if no instance exists under this name. Format is organizations/{org}/instances/{instance} */
   instance: string;
@@ -11173,13 +11172,13 @@ export const ReportStatusOrganizationsInstancesResponse = GoogleCloudApigeeV1Rep
 
 export type ReportStatusOrganizationsInstancesError = CommonErrors;
 
+/** Reports the latest status for a runtime instance. */
 export const reportStatusOrganizationsInstances: API.OperationMethod<ReportStatusOrganizationsInstancesRequest, ReportStatusOrganizationsInstancesResponse, ReportStatusOrganizationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReportStatusOrganizationsInstancesRequest,
   output: ReportStatusOrganizationsInstancesResponse,
   errors: [],
 }));
 
-/** Creates an Apigee runtime instance. The instance is accessible from the authorized network configured on the organization. **Note:** Not supported for Apigee hybrid. */
 export interface CreateOrganizationsInstancesRequest {
   /** Required. Name of the organization. Use the following structure in your request: `organizations/{org}`. */
   parent: string;
@@ -11200,13 +11199,13 @@ export const CreateOrganizationsInstancesResponse = GoogleLongrunningOperation;
 
 export type CreateOrganizationsInstancesError = CommonErrors;
 
+/** Creates an Apigee runtime instance. The instance is accessible from the authorized network configured on the organization. **Note:** Not supported for Apigee hybrid. */
 export const createOrganizationsInstances: API.OperationMethod<CreateOrganizationsInstancesRequest, CreateOrganizationsInstancesResponse, CreateOrganizationsInstancesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsInstancesRequest,
   output: CreateOrganizationsInstancesResponse,
   errors: [],
 }));
 
-/** Gets a CanaryEvaluation for an organization. */
 export interface GetOrganizationsInstancesCanaryevaluationsRequest {
   /** Required. Name of the CanaryEvaluation. Use the following structure in your request: `organizations/{org}/instances/* /canaryevaluations/{evaluation}` */
   name: string;
@@ -11224,13 +11223,13 @@ export const GetOrganizationsInstancesCanaryevaluationsResponse = GoogleCloudApi
 
 export type GetOrganizationsInstancesCanaryevaluationsError = CommonErrors;
 
+/** Gets a CanaryEvaluation for an organization. */
 export const getOrganizationsInstancesCanaryevaluations: API.OperationMethod<GetOrganizationsInstancesCanaryevaluationsRequest, GetOrganizationsInstancesCanaryevaluationsResponse, GetOrganizationsInstancesCanaryevaluationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsInstancesCanaryevaluationsRequest,
   output: GetOrganizationsInstancesCanaryevaluationsResponse,
   errors: [],
 }));
 
-/** Creates a new canary evaluation for an organization. */
 export interface CreateOrganizationsInstancesCanaryevaluationsRequest {
   /** Required. Name of the organization. Use the following structure in your request: `organizations/{org}/instances/{instance}`. */
   parent: string;
@@ -11251,13 +11250,13 @@ export const CreateOrganizationsInstancesCanaryevaluationsResponse = GoogleLongr
 
 export type CreateOrganizationsInstancesCanaryevaluationsError = CommonErrors;
 
+/** Creates a new canary evaluation for an organization. */
 export const createOrganizationsInstancesCanaryevaluations: API.OperationMethod<CreateOrganizationsInstancesCanaryevaluationsRequest, CreateOrganizationsInstancesCanaryevaluationsResponse, CreateOrganizationsInstancesCanaryevaluationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsInstancesCanaryevaluationsRequest,
   output: CreateOrganizationsInstancesCanaryevaluationsResponse,
   errors: [],
 }));
 
-/** Gets an attachment. **Note:** Not supported for Apigee hybrid. */
 export interface GetOrganizationsInstancesAttachmentsRequest {
   /** Required. Name of the attachment. Use the following structure in your request: `organizations/{org}/instances/{instance}/attachments/{attachment}` */
   name: string;
@@ -11275,13 +11274,13 @@ export const GetOrganizationsInstancesAttachmentsResponse = GoogleCloudApigeeV1I
 
 export type GetOrganizationsInstancesAttachmentsError = CommonErrors;
 
+/** Gets an attachment. **Note:** Not supported for Apigee hybrid. */
 export const getOrganizationsInstancesAttachments: API.OperationMethod<GetOrganizationsInstancesAttachmentsRequest, GetOrganizationsInstancesAttachmentsResponse, GetOrganizationsInstancesAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsInstancesAttachmentsRequest,
   output: GetOrganizationsInstancesAttachmentsResponse,
   errors: [],
 }));
 
-/** Deletes an attachment. **Note:** Not supported for Apigee hybrid. */
 export interface DeleteOrganizationsInstancesAttachmentsRequest {
   /** Required. Name of the attachment. Use the following structure in your request: `organizations/{org}/instances/{instance}/attachments/{attachment}`. */
   name: string;
@@ -11299,13 +11298,13 @@ export const DeleteOrganizationsInstancesAttachmentsResponse = GoogleLongrunning
 
 export type DeleteOrganizationsInstancesAttachmentsError = CommonErrors;
 
+/** Deletes an attachment. **Note:** Not supported for Apigee hybrid. */
 export const deleteOrganizationsInstancesAttachments: API.OperationMethod<DeleteOrganizationsInstancesAttachmentsRequest, DeleteOrganizationsInstancesAttachmentsResponse, DeleteOrganizationsInstancesAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsInstancesAttachmentsRequest,
   output: DeleteOrganizationsInstancesAttachmentsResponse,
   errors: [],
 }));
 
-/** Creates a new attachment of an environment to an instance. **Note:** Not supported for Apigee hybrid. */
 export interface CreateOrganizationsInstancesAttachmentsRequest {
   /** Required. Name of the instance. Use the following structure in your request: `organizations/{org}/instances/{instance}`. */
   parent: string;
@@ -11326,13 +11325,13 @@ export const CreateOrganizationsInstancesAttachmentsResponse = GoogleLongrunning
 
 export type CreateOrganizationsInstancesAttachmentsError = CommonErrors;
 
+/** Creates a new attachment of an environment to an instance. **Note:** Not supported for Apigee hybrid. */
 export const createOrganizationsInstancesAttachments: API.OperationMethod<CreateOrganizationsInstancesAttachmentsRequest, CreateOrganizationsInstancesAttachmentsResponse, CreateOrganizationsInstancesAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsInstancesAttachmentsRequest,
   output: CreateOrganizationsInstancesAttachmentsResponse,
   errors: [],
 }));
 
-/** Lists all attachments to an instance. **Note:** Not supported for Apigee hybrid. */
 export interface ListOrganizationsInstancesAttachmentsRequest {
   /** Maximum number of instance attachments to return. Defaults to 25. */
   pageSize?: number;
@@ -11356,7 +11355,8 @@ export const ListOrganizationsInstancesAttachmentsResponse = GoogleCloudApigeeV1
 
 export type ListOrganizationsInstancesAttachmentsError = CommonErrors;
 
-export const listOrganizationsInstancesAttachments = API.makePaginated(() => ({
+/** Lists all attachments to an instance. **Note:** Not supported for Apigee hybrid. */
+export const listOrganizationsInstancesAttachments: API.PaginatedOperationMethod<ListOrganizationsInstancesAttachmentsRequest, ListOrganizationsInstancesAttachmentsResponse, ListOrganizationsInstancesAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsInstancesAttachmentsRequest,
   output: ListOrganizationsInstancesAttachmentsResponse,
   errors: [],
@@ -11366,7 +11366,6 @@ export const listOrganizationsInstancesAttachments = API.makePaginated(() => ({
   },
 }));
 
-/** Activates the NAT address. The Apigee instance can now use this for Internet egress traffic. **Note:** Not supported for Apigee hybrid. */
 export interface ActivateOrganizationsInstancesNatAddressesRequest {
   /** Required. Name of the nat address. Use the following structure in your request: `organizations/{org}/instances/{instances}/natAddresses/{nataddress}`` */
   name: string;
@@ -11387,13 +11386,13 @@ export const ActivateOrganizationsInstancesNatAddressesResponse = GoogleLongrunn
 
 export type ActivateOrganizationsInstancesNatAddressesError = CommonErrors;
 
+/** Activates the NAT address. The Apigee instance can now use this for Internet egress traffic. **Note:** Not supported for Apigee hybrid. */
 export const activateOrganizationsInstancesNatAddresses: API.OperationMethod<ActivateOrganizationsInstancesNatAddressesRequest, ActivateOrganizationsInstancesNatAddressesResponse, ActivateOrganizationsInstancesNatAddressesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ActivateOrganizationsInstancesNatAddressesRequest,
   output: ActivateOrganizationsInstancesNatAddressesResponse,
   errors: [],
 }));
 
-/** Gets the details of a NAT address. **Note:** Not supported for Apigee hybrid. */
 export interface GetOrganizationsInstancesNatAddressesRequest {
   /** Required. Name of the nat address. Use the following structure in your request: `organizations/{org}/instances/{instances}/natAddresses/{nataddress}` */
   name: string;
@@ -11411,13 +11410,13 @@ export const GetOrganizationsInstancesNatAddressesResponse = GoogleCloudApigeeV1
 
 export type GetOrganizationsInstancesNatAddressesError = CommonErrors;
 
+/** Gets the details of a NAT address. **Note:** Not supported for Apigee hybrid. */
 export const getOrganizationsInstancesNatAddresses: API.OperationMethod<GetOrganizationsInstancesNatAddressesRequest, GetOrganizationsInstancesNatAddressesResponse, GetOrganizationsInstancesNatAddressesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsInstancesNatAddressesRequest,
   output: GetOrganizationsInstancesNatAddressesResponse,
   errors: [],
 }));
 
-/** Creates a NAT address. The address is created in the RESERVED state and a static external IP address will be provisioned. At this time, the instance will not use this IP address for Internet egress traffic. The address can be activated for use once any required firewall IP whitelisting has been completed. **Note:** Not supported for Apigee hybrid. */
 export interface CreateOrganizationsInstancesNatAddressesRequest {
   /** Required. Name of the instance. Use the following structure in your request: `organizations/{org}/instances/{instance}` */
   parent: string;
@@ -11438,13 +11437,13 @@ export const CreateOrganizationsInstancesNatAddressesResponse = GoogleLongrunnin
 
 export type CreateOrganizationsInstancesNatAddressesError = CommonErrors;
 
+/** Creates a NAT address. The address is created in the RESERVED state and a static external IP address will be provisioned. At this time, the instance will not use this IP address for Internet egress traffic. The address can be activated for use once any required firewall IP whitelisting has been completed. **Note:** Not supported for Apigee hybrid. */
 export const createOrganizationsInstancesNatAddresses: API.OperationMethod<CreateOrganizationsInstancesNatAddressesRequest, CreateOrganizationsInstancesNatAddressesResponse, CreateOrganizationsInstancesNatAddressesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsInstancesNatAddressesRequest,
   output: CreateOrganizationsInstancesNatAddressesResponse,
   errors: [],
 }));
 
-/** Deletes the NAT address. Connections that are actively using the address are drained before it is removed. **Note:** Not supported for Apigee hybrid. */
 export interface DeleteOrganizationsInstancesNatAddressesRequest {
   /** Required. Name of the nat address. Use the following structure in your request: `organizations/{org}/instances/{instances}/natAddresses/{nataddress}`` */
   name: string;
@@ -11462,13 +11461,13 @@ export const DeleteOrganizationsInstancesNatAddressesResponse = GoogleLongrunnin
 
 export type DeleteOrganizationsInstancesNatAddressesError = CommonErrors;
 
+/** Deletes the NAT address. Connections that are actively using the address are drained before it is removed. **Note:** Not supported for Apigee hybrid. */
 export const deleteOrganizationsInstancesNatAddresses: API.OperationMethod<DeleteOrganizationsInstancesNatAddressesRequest, DeleteOrganizationsInstancesNatAddressesResponse, DeleteOrganizationsInstancesNatAddressesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsInstancesNatAddressesRequest,
   output: DeleteOrganizationsInstancesNatAddressesResponse,
   errors: [],
 }));
 
-/** Lists the NAT addresses for an Apigee instance. **Note:** Not supported for Apigee hybrid. */
 export interface ListOrganizationsInstancesNatAddressesRequest {
   /** Maximum number of natAddresses to return. Defaults to 25. */
   pageSize?: number;
@@ -11492,7 +11491,8 @@ export const ListOrganizationsInstancesNatAddressesResponse = GoogleCloudApigeeV
 
 export type ListOrganizationsInstancesNatAddressesError = CommonErrors;
 
-export const listOrganizationsInstancesNatAddresses = API.makePaginated(() => ({
+/** Lists the NAT addresses for an Apigee instance. **Note:** Not supported for Apigee hybrid. */
+export const listOrganizationsInstancesNatAddresses: API.PaginatedOperationMethod<ListOrganizationsInstancesNatAddressesRequest, ListOrganizationsInstancesNatAddressesResponse, ListOrganizationsInstancesNatAddressesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsInstancesNatAddressesRequest,
   output: ListOrganizationsInstancesNatAddressesResponse,
   errors: [],
@@ -11502,7 +11502,6 @@ export const listOrganizationsInstancesNatAddresses = API.makePaginated(() => ({
   },
 }));
 
-/** Similar to GetHostStats except that the response is less verbose. */
 export interface GetOrganizationsOptimizedHostStatsRequest {
   /** Maximum number of result items to return. */
   limit?: string;
@@ -11562,13 +11561,13 @@ export const GetOrganizationsOptimizedHostStatsResponse = GoogleCloudApigeeV1Opt
 
 export type GetOrganizationsOptimizedHostStatsError = CommonErrors;
 
+/** Similar to GetHostStats except that the response is less verbose. */
 export const getOrganizationsOptimizedHostStats: API.OperationMethod<GetOrganizationsOptimizedHostStatsRequest, GetOrganizationsOptimizedHostStatsResponse, GetOrganizationsOptimizedHostStatsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsOptimizedHostStatsRequest,
   output: GetOrganizationsOptimizedHostStatsResponse,
   errors: [],
 }));
 
-/** Creates a new DNS zone. */
 export interface CreateOrganizationsDnsZonesRequest {
   /** Required. Organization where the DNS zone will be created. */
   parent: string;
@@ -11592,13 +11591,13 @@ export const CreateOrganizationsDnsZonesResponse = GoogleLongrunningOperation;
 
 export type CreateOrganizationsDnsZonesError = CommonErrors;
 
+/** Creates a new DNS zone. */
 export const createOrganizationsDnsZones: API.OperationMethod<CreateOrganizationsDnsZonesRequest, CreateOrganizationsDnsZonesResponse, CreateOrganizationsDnsZonesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsDnsZonesRequest,
   output: CreateOrganizationsDnsZonesResponse,
   errors: [],
 }));
 
-/** Enumerates DNS zones that have been created but not yet deleted. */
 export interface ListOrganizationsDnsZonesRequest {
   /** Optional. Maximum number of DNS zones to return. If unspecified, at most 25 DNS zones will be returned. */
   pageSize?: number;
@@ -11622,7 +11621,8 @@ export const ListOrganizationsDnsZonesResponse = GoogleCloudApigeeV1ListDnsZones
 
 export type ListOrganizationsDnsZonesError = CommonErrors;
 
-export const listOrganizationsDnsZones = API.makePaginated(() => ({
+/** Enumerates DNS zones that have been created but not yet deleted. */
+export const listOrganizationsDnsZones: API.PaginatedOperationMethod<ListOrganizationsDnsZonesRequest, ListOrganizationsDnsZonesResponse, ListOrganizationsDnsZonesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsDnsZonesRequest,
   output: ListOrganizationsDnsZonesResponse,
   errors: [],
@@ -11632,7 +11632,6 @@ export const listOrganizationsDnsZones = API.makePaginated(() => ({
   },
 }));
 
-/** Fetches the representation of an existing DNS zone. */
 export interface GetOrganizationsDnsZonesRequest {
   /** Required. Name of the DNS zone to fetch. Use the following structure in your request: `organizations/{org}/dnsZones/{dns_zone}`. */
   name: string;
@@ -11650,13 +11649,13 @@ export const GetOrganizationsDnsZonesResponse = GoogleCloudApigeeV1DnsZone;
 
 export type GetOrganizationsDnsZonesError = CommonErrors;
 
+/** Fetches the representation of an existing DNS zone. */
 export const getOrganizationsDnsZones: API.OperationMethod<GetOrganizationsDnsZonesRequest, GetOrganizationsDnsZonesResponse, GetOrganizationsDnsZonesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsDnsZonesRequest,
   output: GetOrganizationsDnsZonesResponse,
   errors: [],
 }));
 
-/** Deletes a previously created DNS zone. */
 export interface DeleteOrganizationsDnsZonesRequest {
   /** Required. Name of the DNS zone to delete. Use the following structure in your request: `organizations/{org}/dnsZones/{dns_zone}`. */
   name: string;
@@ -11674,13 +11673,13 @@ export const DeleteOrganizationsDnsZonesResponse = GoogleLongrunningOperation;
 
 export type DeleteOrganizationsDnsZonesError = CommonErrors;
 
+/** Deletes a previously created DNS zone. */
 export const deleteOrganizationsDnsZones: API.OperationMethod<DeleteOrganizationsDnsZonesRequest, DeleteOrganizationsDnsZonesResponse, DeleteOrganizationsDnsZonesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsDnsZonesRequest,
   output: DeleteOrganizationsDnsZonesResponse,
   errors: [],
 }));
 
-/** Return a list of Security Reports at host level. */
 export interface ListOrganizationsHostSecurityReportsRequest {
   /** Filter response list by user who submitted queries. */
   submittedBy?: string;
@@ -11722,7 +11721,8 @@ export const ListOrganizationsHostSecurityReportsResponse = GoogleCloudApigeeV1L
 
 export type ListOrganizationsHostSecurityReportsError = CommonErrors;
 
-export const listOrganizationsHostSecurityReports = API.makePaginated(() => ({
+/** Return a list of Security Reports at host level. */
+export const listOrganizationsHostSecurityReports: API.PaginatedOperationMethod<ListOrganizationsHostSecurityReportsRequest, ListOrganizationsHostSecurityReportsResponse, ListOrganizationsHostSecurityReportsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsHostSecurityReportsRequest,
   output: ListOrganizationsHostSecurityReportsResponse,
   errors: [],
@@ -11732,7 +11732,6 @@ export const listOrganizationsHostSecurityReports = API.makePaginated(() => ({
   },
 }));
 
-/** After the query is completed, use this API to retrieve the results. If the request succeeds, and there is a non-zero result set, the result is downloaded to the client as a zipped JSON file. The name of the downloaded file will be: OfflineQueryResult-.zip Example: `OfflineQueryResult-9cfc0d85-0f30-46d6-ae6f-318d0cb961bd.zip` */
 export interface GetResultOrganizationsHostSecurityReportsRequest {
   /** Required. Name of the security report result to get. Must be of the form `organizations/{org}/securityReports/{reportId}/result`. */
   name: string;
@@ -11750,13 +11749,13 @@ export const GetResultOrganizationsHostSecurityReportsResponse = GoogleApiHttpBo
 
 export type GetResultOrganizationsHostSecurityReportsError = CommonErrors;
 
+/** After the query is completed, use this API to retrieve the results. If the request succeeds, and there is a non-zero result set, the result is downloaded to the client as a zipped JSON file. The name of the downloaded file will be: OfflineQueryResult-.zip Example: `OfflineQueryResult-9cfc0d85-0f30-46d6-ae6f-318d0cb961bd.zip` */
 export const getResultOrganizationsHostSecurityReports: API.OperationMethod<GetResultOrganizationsHostSecurityReportsRequest, GetResultOrganizationsHostSecurityReportsResponse, GetResultOrganizationsHostSecurityReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetResultOrganizationsHostSecurityReportsRequest,
   output: GetResultOrganizationsHostSecurityReportsResponse,
   errors: [],
 }));
 
-/** Get status of a query submitted at host level. If the query is still in progress, the `state` is set to "running" After the query has completed successfully, `state` is set to "completed" */
 export interface GetOrganizationsHostSecurityReportsRequest {
   /** Required. Name of the security report to get. Must be of the form `organizations/{org}/securityReports/{reportId}`. */
   name: string;
@@ -11774,13 +11773,13 @@ export const GetOrganizationsHostSecurityReportsResponse = GoogleCloudApigeeV1Se
 
 export type GetOrganizationsHostSecurityReportsError = CommonErrors;
 
+/** Get status of a query submitted at host level. If the query is still in progress, the `state` is set to "running" After the query has completed successfully, `state` is set to "completed" */
 export const getOrganizationsHostSecurityReports: API.OperationMethod<GetOrganizationsHostSecurityReportsRequest, GetOrganizationsHostSecurityReportsResponse, GetOrganizationsHostSecurityReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsHostSecurityReportsRequest,
   output: GetOrganizationsHostSecurityReportsResponse,
   errors: [],
 }));
 
-/** Submit a query at host level to be processed in the background. If the submission of the query succeeds, the API returns a 201 status and an ID that refer to the query. In addition to the HTTP status 201, the `state` of "enqueued" means that the request succeeded. */
 export interface CreateOrganizationsHostSecurityReportsRequest {
   /** Required. The parent resource name. Must be of the form `organizations/{org}`. */
   parent: string;
@@ -11801,13 +11800,13 @@ export const CreateOrganizationsHostSecurityReportsResponse = GoogleCloudApigeeV
 
 export type CreateOrganizationsHostSecurityReportsError = CommonErrors;
 
+/** Submit a query at host level to be processed in the background. If the submission of the query succeeds, the API returns a 201 status and an ID that refer to the query. In addition to the HTTP status 201, the `state` of "enqueued" means that the request succeeded. */
 export const createOrganizationsHostSecurityReports: API.OperationMethod<CreateOrganizationsHostSecurityReportsRequest, CreateOrganizationsHostSecurityReportsResponse, CreateOrganizationsHostSecurityReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsHostSecurityReportsRequest,
   output: CreateOrganizationsHostSecurityReportsResponse,
   errors: [],
 }));
 
-/** After the query is completed, use this API to view the query result when result size is small. */
 export interface GetResultViewOrganizationsHostSecurityReportsRequest {
   /** Required. Name of the security report result view to get. Must be of the form `organizations/{org}/securityReports/{reportId}/resultView`. */
   name: string;
@@ -11825,13 +11824,13 @@ export const GetResultViewOrganizationsHostSecurityReportsResponse = GoogleCloud
 
 export type GetResultViewOrganizationsHostSecurityReportsError = CommonErrors;
 
+/** After the query is completed, use this API to view the query result when result size is small. */
 export const getResultViewOrganizationsHostSecurityReports: API.OperationMethod<GetResultViewOrganizationsHostSecurityReportsRequest, GetResultViewOrganizationsHostSecurityReportsResponse, GetResultViewOrganizationsHostSecurityReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetResultViewOrganizationsHostSecurityReportsRequest,
   output: GetResultViewOrganizationsHostSecurityReportsResponse,
   errors: [],
 }));
 
-/** Lists all APIM service extensions in an organization. */
 export interface ListOrganizationsApimServiceExtensionsRequest {
   /** Optional. Maximum number of items to return. If unspecified, at most 25 service extension will be returned. */
   pageSize?: number;
@@ -11855,7 +11854,8 @@ export const ListOrganizationsApimServiceExtensionsResponse = GoogleCloudApigeeV
 
 export type ListOrganizationsApimServiceExtensionsError = CommonErrors;
 
-export const listOrganizationsApimServiceExtensions = API.makePaginated(() => ({
+/** Lists all APIM service extensions in an organization. */
+export const listOrganizationsApimServiceExtensions: API.PaginatedOperationMethod<ListOrganizationsApimServiceExtensionsRequest, ListOrganizationsApimServiceExtensionsResponse, ListOrganizationsApimServiceExtensionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsApimServiceExtensionsRequest,
   output: ListOrganizationsApimServiceExtensionsResponse,
   errors: [],
@@ -11865,7 +11865,6 @@ export const listOrganizationsApimServiceExtensions = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes APIM service extension from an organization. */
 export interface DeleteOrganizationsApimServiceExtensionsRequest {
   /** Required. Name of the service extension. Use the following structure in your request: `organizations/{org}/apimServiceExtensions/{extension_id}` */
   name: string;
@@ -11883,13 +11882,13 @@ export const DeleteOrganizationsApimServiceExtensionsResponse = GoogleLongrunnin
 
 export type DeleteOrganizationsApimServiceExtensionsError = CommonErrors;
 
+/** Deletes APIM service extension from an organization. */
 export const deleteOrganizationsApimServiceExtensions: API.OperationMethod<DeleteOrganizationsApimServiceExtensionsRequest, DeleteOrganizationsApimServiceExtensionsResponse, DeleteOrganizationsApimServiceExtensionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsApimServiceExtensionsRequest,
   output: DeleteOrganizationsApimServiceExtensionsResponse,
   errors: [],
 }));
 
-/** Creates an APIM ServiceExtension in an organization. */
 export interface CreateOrganizationsApimServiceExtensionsRequest {
   /** Optional. ID used to uniquely identify of the service extension. It must conform with RFC-1034, is restricted to lower-cased letters, numbers and hyphens, and can have a maximum length of 63 characters. Additionally, the first character must be a letter and the last a letter or a number. */
   apimServiceExtensionId?: string;
@@ -11913,13 +11912,13 @@ export const CreateOrganizationsApimServiceExtensionsResponse = GoogleLongrunnin
 
 export type CreateOrganizationsApimServiceExtensionsError = CommonErrors;
 
+/** Creates an APIM ServiceExtension in an organization. */
 export const createOrganizationsApimServiceExtensions: API.OperationMethod<CreateOrganizationsApimServiceExtensionsRequest, CreateOrganizationsApimServiceExtensionsResponse, CreateOrganizationsApimServiceExtensionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsApimServiceExtensionsRequest,
   output: CreateOrganizationsApimServiceExtensionsResponse,
   errors: [],
 }));
 
-/** Gets APIM service extension details. */
 export interface GetOrganizationsApimServiceExtensionsRequest {
   /** Required. Name of the service extension. Use the following structure in your request: `organizations/{org}/apimServiceExtensions/{extension_id}` */
   name: string;
@@ -11937,13 +11936,13 @@ export const GetOrganizationsApimServiceExtensionsResponse = GoogleCloudApigeeV1
 
 export type GetOrganizationsApimServiceExtensionsError = CommonErrors;
 
+/** Gets APIM service extension details. */
 export const getOrganizationsApimServiceExtensions: API.OperationMethod<GetOrganizationsApimServiceExtensionsRequest, GetOrganizationsApimServiceExtensionsResponse, GetOrganizationsApimServiceExtensionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsApimServiceExtensionsRequest,
   output: GetOrganizationsApimServiceExtensionsResponse,
   errors: [],
 }));
 
-/** Updates an APIM service extension in an organization. */
 export interface PatchOrganizationsApimServiceExtensionsRequest {
   /** Identifier. unique name of the APIM service extension. The name must conform with RFC-1034, is restricted to lower-cased letters, numbers and hyphens, and can have a maximum length of 63 characters. Additionally, the first character must be a letter and the last a letter or a number. */
   name: string;
@@ -11970,13 +11969,13 @@ export const PatchOrganizationsApimServiceExtensionsResponse = GoogleLongrunning
 
 export type PatchOrganizationsApimServiceExtensionsError = CommonErrors;
 
+/** Updates an APIM service extension in an organization. */
 export const patchOrganizationsApimServiceExtensions: API.OperationMethod<PatchOrganizationsApimServiceExtensionsRequest, PatchOrganizationsApimServiceExtensionsResponse, PatchOrganizationsApimServiceExtensionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsApimServiceExtensionsRequest,
   output: PatchOrganizationsApimServiceExtensionsResponse,
   errors: [],
 }));
 
-/** Retrieve a custom report definition. */
 export interface GetOrganizationsReportsRequest {
   /** Required. Custom Report name of the form: `organizations/{organization_id}/reports/{report_name}` */
   name: string;
@@ -11994,13 +11993,13 @@ export const GetOrganizationsReportsResponse = GoogleCloudApigeeV1CustomReport;
 
 export type GetOrganizationsReportsError = CommonErrors;
 
+/** Retrieve a custom report definition. */
 export const getOrganizationsReports: API.OperationMethod<GetOrganizationsReportsRequest, GetOrganizationsReportsResponse, GetOrganizationsReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsReportsRequest,
   output: GetOrganizationsReportsResponse,
   errors: [],
 }));
 
-/** Creates a Custom Report for an Organization. A Custom Report provides Apigee Customers to create custom dashboards in addition to the standard dashboards which are provided. The Custom Report in its simplest form contains specifications about metrics, dimensions and filters. It is important to note that the custom report by itself does not provide an executable entity. The Edge UI converts the custom report definition into an analytics query and displays the result in a chart. */
 export interface CreateOrganizationsReportsRequest {
   /** Required. The parent organization name under which the Custom Report will be created. Must be of the form: `organizations/{organization_id}/reports` */
   parent: string;
@@ -12021,13 +12020,13 @@ export const CreateOrganizationsReportsResponse = GoogleCloudApigeeV1CustomRepor
 
 export type CreateOrganizationsReportsError = CommonErrors;
 
+/** Creates a Custom Report for an Organization. A Custom Report provides Apigee Customers to create custom dashboards in addition to the standard dashboards which are provided. The Custom Report in its simplest form contains specifications about metrics, dimensions and filters. It is important to note that the custom report by itself does not provide an executable entity. The Edge UI converts the custom report definition into an analytics query and displays the result in a chart. */
 export const createOrganizationsReports: API.OperationMethod<CreateOrganizationsReportsRequest, CreateOrganizationsReportsResponse, CreateOrganizationsReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsReportsRequest,
   output: CreateOrganizationsReportsResponse,
   errors: [],
 }));
 
-/** Deletes an existing custom report definition */
 export interface DeleteOrganizationsReportsRequest {
   /** Required. Custom Report name of the form: `organizations/{organization_id}/reports/{report_name}` */
   name: string;
@@ -12045,13 +12044,13 @@ export const DeleteOrganizationsReportsResponse = GoogleCloudApigeeV1DeleteCusto
 
 export type DeleteOrganizationsReportsError = CommonErrors;
 
+/** Deletes an existing custom report definition */
 export const deleteOrganizationsReports: API.OperationMethod<DeleteOrganizationsReportsRequest, DeleteOrganizationsReportsResponse, DeleteOrganizationsReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsReportsRequest,
   output: DeleteOrganizationsReportsResponse,
   errors: [],
 }));
 
-/** Return a list of Custom Reports */
 export interface ListOrganizationsReportsRequest {
   /** Required. The parent organization name under which the API product will be listed `organizations/{organization_id}/reports` */
   parent: string;
@@ -12072,13 +12071,13 @@ export const ListOrganizationsReportsResponse = GoogleCloudApigeeV1ListCustomRep
 
 export type ListOrganizationsReportsError = CommonErrors;
 
+/** Return a list of Custom Reports */
 export const listOrganizationsReports: API.OperationMethod<ListOrganizationsReportsRequest, ListOrganizationsReportsResponse, ListOrganizationsReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOrganizationsReportsRequest,
   output: ListOrganizationsReportsResponse,
   errors: [],
 }));
 
-/** Update an existing custom report definition */
 export interface UpdateOrganizationsReportsRequest {
   /** Required. Custom Report name of the form: `organizations/{organization_id}/reports/{report_name}` */
   name: string;
@@ -12099,13 +12098,13 @@ export const UpdateOrganizationsReportsResponse = GoogleCloudApigeeV1CustomRepor
 
 export type UpdateOrganizationsReportsError = CommonErrors;
 
+/** Update an existing custom report definition */
 export const updateOrganizationsReports: API.OperationMethod<UpdateOrganizationsReportsRequest, UpdateOrganizationsReportsResponse, UpdateOrganizationsReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateOrganizationsReportsRequest,
   output: UpdateOrganizationsReportsResponse,
   errors: [],
 }));
 
-/** Gets configuration details for an API product. The API product name required in the request URL is the internal name of the product, not the display name. While they may be the same, it depends on whether the API product was created via the UI or the API. View the list of API products to verify the internal name. */
 export interface GetOrganizationsApiproductsRequest {
   /** Required. Name of the API product. Use the following structure in your request: `organizations/{org}/apiproducts/{apiproduct}` If the resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -12123,13 +12122,13 @@ export const GetOrganizationsApiproductsResponse = GoogleCloudApigeeV1ApiProduct
 
 export type GetOrganizationsApiproductsError = CommonErrors;
 
+/** Gets configuration details for an API product. The API product name required in the request URL is the internal name of the product, not the display name. While they may be the same, it depends on whether the API product was created via the UI or the API. View the list of API products to verify the internal name. */
 export const getOrganizationsApiproducts: API.OperationMethod<GetOrganizationsApiproductsRequest, GetOrganizationsApiproductsResponse, GetOrganizationsApiproductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsApiproductsRequest,
   output: GetOrganizationsApiproductsResponse,
   errors: [],
 }));
 
-/** Moves an API product to a different space. */
 export interface MoveOrganizationsApiproductsRequest {
   /** Required. API product to move in the following format: `organizations/{org}/apiproducts/{apiproduct} */
   name: string;
@@ -12150,13 +12149,13 @@ export const MoveOrganizationsApiproductsResponse = GoogleCloudApigeeV1ApiProduc
 
 export type MoveOrganizationsApiproductsError = CommonErrors;
 
+/** Moves an API product to a different space. */
 export const moveOrganizationsApiproducts: API.OperationMethod<MoveOrganizationsApiproductsRequest, MoveOrganizationsApiproductsResponse, MoveOrganizationsApiproductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MoveOrganizationsApiproductsRequest,
   output: MoveOrganizationsApiproductsResponse,
   errors: [],
 }));
 
-/** Creates an API product in an organization. You create API products after you have proxied backend services using API proxies. An API product is a collection of API resources combined with quota settings and metadata that you can use to deliver customized and productized API bundles to your developer community. This metadata can include: - Scope - Environments - API proxies - Extensible profile API products enable you repackage APIs on the fly, without having to do any additional coding or configuration. Apigee recommends that you start with a simple API product including only required elements. You then provision credentials to apps to enable them to start testing your APIs. After you have authentication and authorization working against a simple API product, you can iterate to create finer-grained API products, defining different sets of API resources for each API product. **WARNING:** - If you don't specify an API proxy in the request body, *any* app associated with the product can make calls to *any* API in your entire organization. - If you don't specify an environment in the request body, the product allows access to all environments. For more information, see What is an API product? */
 export interface CreateOrganizationsApiproductsRequest {
   /** Required. Name of the organization in which the API product will be created. Use the following structure in your request: `organizations/{org}` If the resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   parent: string;
@@ -12177,13 +12176,13 @@ export const CreateOrganizationsApiproductsResponse = GoogleCloudApigeeV1ApiProd
 
 export type CreateOrganizationsApiproductsError = CommonErrors;
 
+/** Creates an API product in an organization. You create API products after you have proxied backend services using API proxies. An API product is a collection of API resources combined with quota settings and metadata that you can use to deliver customized and productized API bundles to your developer community. This metadata can include: - Scope - Environments - API proxies - Extensible profile API products enable you repackage APIs on the fly, without having to do any additional coding or configuration. Apigee recommends that you start with a simple API product including only required elements. You then provision credentials to apps to enable them to start testing your APIs. After you have authentication and authorization working against a simple API product, you can iterate to create finer-grained API products, defining different sets of API resources for each API product. **WARNING:** - If you don't specify an API proxy in the request body, *any* app associated with the product can make calls to *any* API in your entire organization. - If you don't specify an environment in the request body, the product allows access to all environments. For more information, see What is an API product? */
 export const createOrganizationsApiproducts: API.OperationMethod<CreateOrganizationsApiproductsRequest, CreateOrganizationsApiproductsResponse, CreateOrganizationsApiproductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsApiproductsRequest,
   output: CreateOrganizationsApiproductsResponse,
   errors: [],
 }));
 
-/** Updates or creates API product attributes. This API **replaces** the current list of attributes with the attributes specified in the request body. In this way, you can update existing attributes, add new attributes, or delete existing attributes by omitting them from the request body. **Note**: OAuth access tokens and Key Management Service (KMS) entities (apps, developers, and API products) are cached for 180 seconds (current default). Any custom attributes associated with entities also get cached for at least 180 seconds after entity is accessed during runtime. In this case, the `ExpiresIn` element on the OAuthV2 policy won't be able to expire an access token in less than 180 seconds. */
 export interface AttributesOrganizationsApiproductsRequest {
   /** Required. Name of the API product. Use the following structure in your request: `organizations/{org}/apiproducts/{apiproduct}` If the API Product resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -12204,13 +12203,13 @@ export const AttributesOrganizationsApiproductsResponse = GoogleCloudApigeeV1Att
 
 export type AttributesOrganizationsApiproductsError = CommonErrors;
 
+/** Updates or creates API product attributes. This API **replaces** the current list of attributes with the attributes specified in the request body. In this way, you can update existing attributes, add new attributes, or delete existing attributes by omitting them from the request body. **Note**: OAuth access tokens and Key Management Service (KMS) entities (apps, developers, and API products) are cached for 180 seconds (current default). Any custom attributes associated with entities also get cached for at least 180 seconds after entity is accessed during runtime. In this case, the `ExpiresIn` element on the OAuthV2 policy won't be able to expire an access token in less than 180 seconds. */
 export const attributesOrganizationsApiproducts: API.OperationMethod<AttributesOrganizationsApiproductsRequest, AttributesOrganizationsApiproductsResponse, AttributesOrganizationsApiproductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AttributesOrganizationsApiproductsRequest,
   output: AttributesOrganizationsApiproductsResponse,
   errors: [],
 }));
 
-/** Deletes an API product from an organization. Deleting an API product causes app requests to the resource URIs defined in the API product to fail. Ensure that you create a new API product to serve existing apps, unless your intention is to disable access to the resources defined in the API product. The API product name required in the request URL is the internal name of the product, not the display name. While they may be the same, it depends on whether the API product was created via the UI or the API. View the list of API products to verify the internal name. */
 export interface DeleteOrganizationsApiproductsRequest {
   /** Required. Name of the API product. Use the following structure in your request: `organizations/{org}/apiproducts/{apiproduct}` If the resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -12228,13 +12227,13 @@ export const DeleteOrganizationsApiproductsResponse = GoogleCloudApigeeV1ApiProd
 
 export type DeleteOrganizationsApiproductsError = CommonErrors;
 
+/** Deletes an API product from an organization. Deleting an API product causes app requests to the resource URIs defined in the API product to fail. Ensure that you create a new API product to serve existing apps, unless your intention is to disable access to the resources defined in the API product. The API product name required in the request URL is the internal name of the product, not the display name. While they may be the same, it depends on whether the API product was created via the UI or the API. View the list of API products to verify the internal name. */
 export const deleteOrganizationsApiproducts: API.OperationMethod<DeleteOrganizationsApiproductsRequest, DeleteOrganizationsApiproductsResponse, DeleteOrganizationsApiproductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsApiproductsRequest,
   output: DeleteOrganizationsApiproductsResponse,
   errors: [],
 }));
 
-/** Lists all API product names for an organization. Filter the list by passing an `attributename` and `attibutevalue`. The maximum number of API products returned is 1000. You can paginate the list of API products returned using the `startKey` and `count` query parameters. If the resource has the `space` attribute set, the response may not return all resources. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
 export interface ListOrganizationsApiproductsRequest {
   /** Required. Name of the organization. Use the following structure in your request: `organizations/{org}` If the resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   parent: string;
@@ -12270,13 +12269,13 @@ export const ListOrganizationsApiproductsResponse = GoogleCloudApigeeV1ListApiPr
 
 export type ListOrganizationsApiproductsError = CommonErrors;
 
+/** Lists all API product names for an organization. Filter the list by passing an `attributename` and `attibutevalue`. The maximum number of API products returned is 1000. You can paginate the list of API products returned using the `startKey` and `count` query parameters. If the resource has the `space` attribute set, the response may not return all resources. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
 export const listOrganizationsApiproducts: API.OperationMethod<ListOrganizationsApiproductsRequest, ListOrganizationsApiproductsResponse, ListOrganizationsApiproductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOrganizationsApiproductsRequest,
   output: ListOrganizationsApiproductsResponse,
   errors: [],
 }));
 
-/** Updates an existing API product. You must include all required values, whether or not you are updating them, as well as any optional values that you are updating. The API product name required in the request URL is the internal name of the product, not the display name. While they may be the same, it depends on whether the API product was created via UI or API. View the list of API products to identify their internal names. */
 export interface UpdateOrganizationsApiproductsRequest {
   /** Required. Name of the API product. Use the following structure in your request: `organizations/{org}/apiproducts/{apiproduct}` If the resource has the `space` attribute set, IAM permissions are checked against the Space resource path.To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -12297,13 +12296,13 @@ export const UpdateOrganizationsApiproductsResponse = GoogleCloudApigeeV1ApiProd
 
 export type UpdateOrganizationsApiproductsError = CommonErrors;
 
+/** Updates an existing API product. You must include all required values, whether or not you are updating them, as well as any optional values that you are updating. The API product name required in the request URL is the internal name of the product, not the display name. While they may be the same, it depends on whether the API product was created via UI or API. View the list of API products to identify their internal names. */
 export const updateOrganizationsApiproducts: API.OperationMethod<UpdateOrganizationsApiproductsRequest, UpdateOrganizationsApiproductsResponse, UpdateOrganizationsApiproductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateOrganizationsApiproductsRequest,
   output: UpdateOrganizationsApiproductsResponse,
   errors: [],
 }));
 
-/** Gets the value of an API product attribute. */
 export interface GetOrganizationsApiproductsAttributesRequest {
   /** Required. Name of the API product attribute. Use the following structure in your request: `organizations/{org}/apiproducts/{apiproduct}/attributes/{attribute}` If the API Product resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -12321,13 +12320,13 @@ export const GetOrganizationsApiproductsAttributesResponse = GoogleCloudApigeeV1
 
 export type GetOrganizationsApiproductsAttributesError = CommonErrors;
 
+/** Gets the value of an API product attribute. */
 export const getOrganizationsApiproductsAttributes: API.OperationMethod<GetOrganizationsApiproductsAttributesRequest, GetOrganizationsApiproductsAttributesResponse, GetOrganizationsApiproductsAttributesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsApiproductsAttributesRequest,
   output: GetOrganizationsApiproductsAttributesResponse,
   errors: [],
 }));
 
-/** Updates the value of an API product attribute. **Note**: OAuth access tokens and Key Management Service (KMS) entities (apps, developers, and API products) are cached for 180 seconds (current default). Any custom attributes associated with entities also get cached for at least 180 seconds after entity is accessed during runtime. In this case, the `ExpiresIn` element on the OAuthV2 policy won't be able to expire an access token in less than 180 seconds. */
 export interface UpdateApiProductAttributeOrganizationsApiproductsAttributesRequest {
   /** Required. Name of the API product. Use the following structure in your request: `organizations/{org}/apiproducts/{apiproduct}` If the API Product resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -12348,13 +12347,13 @@ export const UpdateApiProductAttributeOrganizationsApiproductsAttributesResponse
 
 export type UpdateApiProductAttributeOrganizationsApiproductsAttributesError = CommonErrors;
 
+/** Updates the value of an API product attribute. **Note**: OAuth access tokens and Key Management Service (KMS) entities (apps, developers, and API products) are cached for 180 seconds (current default). Any custom attributes associated with entities also get cached for at least 180 seconds after entity is accessed during runtime. In this case, the `ExpiresIn` element on the OAuthV2 policy won't be able to expire an access token in less than 180 seconds. */
 export const updateApiProductAttributeOrganizationsApiproductsAttributes: API.OperationMethod<UpdateApiProductAttributeOrganizationsApiproductsAttributesRequest, UpdateApiProductAttributeOrganizationsApiproductsAttributesResponse, UpdateApiProductAttributeOrganizationsApiproductsAttributesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateApiProductAttributeOrganizationsApiproductsAttributesRequest,
   output: UpdateApiProductAttributeOrganizationsApiproductsAttributesResponse,
   errors: [],
 }));
 
-/** Deletes an API product attribute. */
 export interface DeleteOrganizationsApiproductsAttributesRequest {
   /** Required. Name of the API product attribute. Use the following structure in your request: `organizations/{org}/apiproducts/{apiproduct}/attributes/{attribute}` If the API Product resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -12372,13 +12371,13 @@ export const DeleteOrganizationsApiproductsAttributesResponse = GoogleCloudApige
 
 export type DeleteOrganizationsApiproductsAttributesError = CommonErrors;
 
+/** Deletes an API product attribute. */
 export const deleteOrganizationsApiproductsAttributes: API.OperationMethod<DeleteOrganizationsApiproductsAttributesRequest, DeleteOrganizationsApiproductsAttributesResponse, DeleteOrganizationsApiproductsAttributesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsApiproductsAttributesRequest,
   output: DeleteOrganizationsApiproductsAttributesResponse,
   errors: [],
 }));
 
-/** Lists all API product attributes. */
 export interface ListOrganizationsApiproductsAttributesRequest {
   /** Required. Name of the API product. Use the following structure in your request: `organizations/{org}/apiproducts/{apiproduct}` If the API Product resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   parent: string;
@@ -12396,13 +12395,13 @@ export const ListOrganizationsApiproductsAttributesResponse = GoogleCloudApigeeV
 
 export type ListOrganizationsApiproductsAttributesError = CommonErrors;
 
+/** Lists all API product attributes. */
 export const listOrganizationsApiproductsAttributes: API.OperationMethod<ListOrganizationsApiproductsAttributesRequest, ListOrganizationsApiproductsAttributesResponse, ListOrganizationsApiproductsAttributesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOrganizationsApiproductsAttributesRequest,
   output: ListOrganizationsApiproductsAttributesResponse,
   errors: [],
 }));
 
-/** Gets the details of a rate plan. */
 export interface GetOrganizationsApiproductsRateplansRequest {
   /** Required. Name of the rate plan. Use the following structure in your request: `organizations/{org}/apiproducts/{apiproduct}/rateplans/{rateplan}` If the API Product resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -12420,13 +12419,13 @@ export const GetOrganizationsApiproductsRateplansResponse = GoogleCloudApigeeV1R
 
 export type GetOrganizationsApiproductsRateplansError = CommonErrors;
 
+/** Gets the details of a rate plan. */
 export const getOrganizationsApiproductsRateplans: API.OperationMethod<GetOrganizationsApiproductsRateplansRequest, GetOrganizationsApiproductsRateplansResponse, GetOrganizationsApiproductsRateplansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsApiproductsRateplansRequest,
   output: GetOrganizationsApiproductsRateplansResponse,
   errors: [],
 }));
 
-/** Create a rate plan that is associated with an API product in an organization. Using rate plans, API product owners can monetize their API products by configuring one or more of the following: - Billing frequency - Initial setup fees for using an API product - Payment funding model (postpaid only) - Fixed recurring or consumption-based charges for using an API product - Revenue sharing with developer partners An API product can have multiple rate plans associated with it but *only one* rate plan can be active at any point of time. **Note: From the developer's perspective, they purchase API products not rate plans. */
 export interface CreateOrganizationsApiproductsRateplansRequest {
   /** Required. Name of the API product that is associated with the rate plan. Use the following structure in your request: `organizations/{org}/apiproducts/{apiproduct}` If the API Product resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   parent: string;
@@ -12447,13 +12446,13 @@ export const CreateOrganizationsApiproductsRateplansResponse = GoogleCloudApigee
 
 export type CreateOrganizationsApiproductsRateplansError = CommonErrors;
 
+/** Create a rate plan that is associated with an API product in an organization. Using rate plans, API product owners can monetize their API products by configuring one or more of the following: - Billing frequency - Initial setup fees for using an API product - Payment funding model (postpaid only) - Fixed recurring or consumption-based charges for using an API product - Revenue sharing with developer partners An API product can have multiple rate plans associated with it but *only one* rate plan can be active at any point of time. **Note: From the developer's perspective, they purchase API products not rate plans. */
 export const createOrganizationsApiproductsRateplans: API.OperationMethod<CreateOrganizationsApiproductsRateplansRequest, CreateOrganizationsApiproductsRateplansResponse, CreateOrganizationsApiproductsRateplansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsApiproductsRateplansRequest,
   output: CreateOrganizationsApiproductsRateplansResponse,
   errors: [],
 }));
 
-/** Deletes a rate plan. */
 export interface DeleteOrganizationsApiproductsRateplansRequest {
   /** Required. ID of the rate plan. Use the following structure in your request: `organizations/{org}/apiproducts/{apiproduct}/rateplans/{rateplan}` If the API Product resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -12471,13 +12470,13 @@ export const DeleteOrganizationsApiproductsRateplansResponse = GoogleCloudApigee
 
 export type DeleteOrganizationsApiproductsRateplansError = CommonErrors;
 
+/** Deletes a rate plan. */
 export const deleteOrganizationsApiproductsRateplans: API.OperationMethod<DeleteOrganizationsApiproductsRateplansRequest, DeleteOrganizationsApiproductsRateplansResponse, DeleteOrganizationsApiproductsRateplansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsApiproductsRateplansRequest,
   output: DeleteOrganizationsApiproductsRateplansResponse,
   errors: [],
 }));
 
-/** Lists all the rate plans for an API product. */
 export interface ListOrganizationsApiproductsRateplansRequest {
   /** Flag that specifies whether to expand the results. Set to `true` to get expanded details about each API. Defaults to `false`. */
   expand?: boolean;
@@ -12510,13 +12509,13 @@ export const ListOrganizationsApiproductsRateplansResponse = GoogleCloudApigeeV1
 
 export type ListOrganizationsApiproductsRateplansError = CommonErrors;
 
+/** Lists all the rate plans for an API product. */
 export const listOrganizationsApiproductsRateplans: API.OperationMethod<ListOrganizationsApiproductsRateplansRequest, ListOrganizationsApiproductsRateplansResponse, ListOrganizationsApiproductsRateplansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOrganizationsApiproductsRateplansRequest,
   output: ListOrganizationsApiproductsRateplansResponse,
   errors: [],
 }));
 
-/** Updates an existing rate plan. */
 export interface UpdateOrganizationsApiproductsRateplansRequest {
   /** Required. Name of the rate plan. Use the following structure in your request: `organizations/{org}/apiproducts/{apiproduct}/rateplans/{rateplan}` If the API Product resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -12537,13 +12536,13 @@ export const UpdateOrganizationsApiproductsRateplansResponse = GoogleCloudApigee
 
 export type UpdateOrganizationsApiproductsRateplansError = CommonErrors;
 
+/** Updates an existing rate plan. */
 export const updateOrganizationsApiproductsRateplans: API.OperationMethod<UpdateOrganizationsApiproductsRateplansRequest, UpdateOrganizationsApiproductsRateplansResponse, UpdateOrganizationsApiproductsRateplansError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateOrganizationsApiproductsRateplansRequest,
   output: UpdateOrganizationsApiproductsRateplansResponse,
   errors: [],
 }));
 
-/** Retrieve metrics grouped by dimensions in host level. The types of metrics you can retrieve include traffic, message counts, API call latency, response size, and cache hits and counts. Dimensions let you view metrics in meaningful groups. You can optionally pass dimensions as path parameters to the `stats` API. If dimensions are not specified, the metrics are computed on the entire set of data for the given time range. */
 export interface GetOrganizationsHostStatsRequest {
   /** Maximum number of result items to return. */
   limit?: string;
@@ -12603,13 +12602,13 @@ export const GetOrganizationsHostStatsResponse = GoogleCloudApigeeV1Stats;
 
 export type GetOrganizationsHostStatsError = CommonErrors;
 
+/** Retrieve metrics grouped by dimensions in host level. The types of metrics you can retrieve include traffic, message counts, API call latency, response size, and cache hits and counts. Dimensions let you view metrics in meaningful groups. You can optionally pass dimensions as path parameters to the `stats` API. If dimensions are not specified, the metrics are computed on the entire set of data for the given time range. */
 export const getOrganizationsHostStats: API.OperationMethod<GetOrganizationsHostStatsRequest, GetOrganizationsHostStatsResponse, GetOrganizationsHostStatsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsHostStatsRequest,
   output: GetOrganizationsHostStatsResponse,
   errors: [],
 }));
 
-/** Lists all AppGroups in an organization. A maximum of 1000 AppGroups are returned in the response if PageSize is not specified, or if the PageSize is greater than 1000. */
 export interface ListOrganizationsAppgroupsRequest {
   /** Required. Name of the Apigee organization. Use the following structure in your request: `organizations/{org}`. */
   parent: string;
@@ -12636,7 +12635,8 @@ export const ListOrganizationsAppgroupsResponse = GoogleCloudApigeeV1ListAppGrou
 
 export type ListOrganizationsAppgroupsError = CommonErrors;
 
-export const listOrganizationsAppgroups = API.makePaginated(() => ({
+/** Lists all AppGroups in an organization. A maximum of 1000 AppGroups are returned in the response if PageSize is not specified, or if the PageSize is greater than 1000. */
+export const listOrganizationsAppgroups: API.PaginatedOperationMethod<ListOrganizationsAppgroupsRequest, ListOrganizationsAppgroupsResponse, ListOrganizationsAppgroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsAppgroupsRequest,
   output: ListOrganizationsAppgroupsResponse,
   errors: [],
@@ -12646,7 +12646,6 @@ export const listOrganizationsAppgroups = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an AppGroup. This API replaces the existing AppGroup details with those specified in the request. Include or exclude any existing details that you want to retain or delete, respectively. Note that the state of the AppGroup should be updated using `action`, and not via AppGroup. */
 export interface UpdateOrganizationsAppgroupsRequest {
   /** Required. Name of the AppGroup. Use the following structure in your request: `organizations/{org}/appgroups/{app_group_name}` */
   name: string;
@@ -12670,13 +12669,13 @@ export const UpdateOrganizationsAppgroupsResponse = GoogleCloudApigeeV1AppGroup;
 
 export type UpdateOrganizationsAppgroupsError = CommonErrors;
 
+/** Updates an AppGroup. This API replaces the existing AppGroup details with those specified in the request. Include or exclude any existing details that you want to retain or delete, respectively. Note that the state of the AppGroup should be updated using `action`, and not via AppGroup. */
 export const updateOrganizationsAppgroups: API.OperationMethod<UpdateOrganizationsAppgroupsRequest, UpdateOrganizationsAppgroupsResponse, UpdateOrganizationsAppgroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateOrganizationsAppgroupsRequest,
   output: UpdateOrganizationsAppgroupsResponse,
   errors: [],
 }));
 
-/** Gets the monetization configuration for the AppGroup. */
 export interface GetMonetizationConfigOrganizationsAppgroupsRequest {
   /** Required. Monetization configuration for the AppGroup. Use the following structure in your request: `organizations/{org}/appgroups/{app_group}/monetizationConfig` */
   name: string;
@@ -12694,13 +12693,13 @@ export const GetMonetizationConfigOrganizationsAppgroupsResponse = GoogleCloudAp
 
 export type GetMonetizationConfigOrganizationsAppgroupsError = CommonErrors;
 
+/** Gets the monetization configuration for the AppGroup. */
 export const getMonetizationConfigOrganizationsAppgroups: API.OperationMethod<GetMonetizationConfigOrganizationsAppgroupsRequest, GetMonetizationConfigOrganizationsAppgroupsResponse, GetMonetizationConfigOrganizationsAppgroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetMonetizationConfigOrganizationsAppgroupsRequest,
   output: GetMonetizationConfigOrganizationsAppgroupsResponse,
   errors: [],
 }));
 
-/** Deletes an AppGroup. All app and API keys associations with the AppGroup are also removed. **Warning**: This API will permanently delete the AppGroup and related artifacts. **Note**: The delete operation is asynchronous. The AppGroup is deleted immediately, but its associated resources, such as apps and API keys, may take anywhere from a few seconds to a few minutes to be deleted. */
 export interface DeleteOrganizationsAppgroupsRequest {
   /** Required. Name of the AppGroup. Use the following structure in your request: `organizations/{org}/appgroups/{app_group_name}` */
   name: string;
@@ -12718,13 +12717,13 @@ export const DeleteOrganizationsAppgroupsResponse = GoogleCloudApigeeV1AppGroup;
 
 export type DeleteOrganizationsAppgroupsError = CommonErrors;
 
+/** Deletes an AppGroup. All app and API keys associations with the AppGroup are also removed. **Warning**: This API will permanently delete the AppGroup and related artifacts. **Note**: The delete operation is asynchronous. The AppGroup is deleted immediately, but its associated resources, such as apps and API keys, may take anywhere from a few seconds to a few minutes to be deleted. */
 export const deleteOrganizationsAppgroups: API.OperationMethod<DeleteOrganizationsAppgroupsRequest, DeleteOrganizationsAppgroupsResponse, DeleteOrganizationsAppgroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsAppgroupsRequest,
   output: DeleteOrganizationsAppgroupsResponse,
   errors: [],
 }));
 
-/** Gets the account balance for the AppGroup. */
 export interface GetBalanceOrganizationsAppgroupsRequest {
   /** Required. Account balance for the AppGroup. Use the following structure in your request: `organizations/{org}/appgroups/{app_group}/balance` */
   name: string;
@@ -12742,13 +12741,13 @@ export const GetBalanceOrganizationsAppgroupsResponse = GoogleCloudApigeeV1AppGr
 
 export type GetBalanceOrganizationsAppgroupsError = CommonErrors;
 
+/** Gets the account balance for the AppGroup. */
 export const getBalanceOrganizationsAppgroups: API.OperationMethod<GetBalanceOrganizationsAppgroupsRequest, GetBalanceOrganizationsAppgroupsResponse, GetBalanceOrganizationsAppgroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBalanceOrganizationsAppgroupsRequest,
   output: GetBalanceOrganizationsAppgroupsResponse,
   errors: [],
 }));
 
-/** Creates an AppGroup. Once created, user can register apps under the AppGroup to obtain secret key and password. At creation time, the AppGroup's state is set as `active`. */
 export interface CreateOrganizationsAppgroupsRequest {
   /** Required. Name of the Apigee organization in which the AppGroup is created. Use the following structure in your request: `organizations/{org}`. */
   parent: string;
@@ -12769,13 +12768,13 @@ export const CreateOrganizationsAppgroupsResponse = GoogleCloudApigeeV1AppGroup;
 
 export type CreateOrganizationsAppgroupsError = CommonErrors;
 
+/** Creates an AppGroup. Once created, user can register apps under the AppGroup to obtain secret key and password. At creation time, the AppGroup's state is set as `active`. */
 export const createOrganizationsAppgroups: API.OperationMethod<CreateOrganizationsAppgroupsRequest, CreateOrganizationsAppgroupsResponse, CreateOrganizationsAppgroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsAppgroupsRequest,
   output: CreateOrganizationsAppgroupsResponse,
   errors: [],
 }));
 
-/** Returns the AppGroup details for the provided AppGroup name in the request URI. */
 export interface GetOrganizationsAppgroupsRequest {
   /** Required. Name of the AppGroup. Use the following structure in your request: `organizations/{org}/appgroups/{app_group_name}` */
   name: string;
@@ -12793,13 +12792,13 @@ export const GetOrganizationsAppgroupsResponse = GoogleCloudApigeeV1AppGroup;
 
 export type GetOrganizationsAppgroupsError = CommonErrors;
 
+/** Returns the AppGroup details for the provided AppGroup name in the request URI. */
 export const getOrganizationsAppgroups: API.OperationMethod<GetOrganizationsAppgroupsRequest, GetOrganizationsAppgroupsResponse, GetOrganizationsAppgroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsAppgroupsRequest,
   output: GetOrganizationsAppgroupsResponse,
   errors: [],
 }));
 
-/** Updates the monetization configuration for the AppGroup. */
 export interface UpdateMonetizationConfigOrganizationsAppgroupsRequest {
   /** Required. Monetization configuration for the AppGroup. Use the following structure in your request: `organizations/{org}/appgroups/{app_group}/monetizationConfig` */
   name: string;
@@ -12820,13 +12819,13 @@ export const UpdateMonetizationConfigOrganizationsAppgroupsResponse = GoogleClou
 
 export type UpdateMonetizationConfigOrganizationsAppgroupsError = CommonErrors;
 
+/** Updates the monetization configuration for the AppGroup. */
 export const updateMonetizationConfigOrganizationsAppgroups: API.OperationMethod<UpdateMonetizationConfigOrganizationsAppgroupsRequest, UpdateMonetizationConfigOrganizationsAppgroupsResponse, UpdateMonetizationConfigOrganizationsAppgroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateMonetizationConfigOrganizationsAppgroupsRequest,
   output: UpdateMonetizationConfigOrganizationsAppgroupsResponse,
   errors: [],
 }));
 
-/** Returns the details for an AppGroup app. */
 export interface GetOrganizationsAppgroupsAppsRequest {
   /** Required. Name of the AppGroup app. Use the following structure in your request: `organizations/{org}/appgroups/{app_group_name}/apps/{app}` */
   name: string;
@@ -12844,13 +12843,13 @@ export const GetOrganizationsAppgroupsAppsResponse = GoogleCloudApigeeV1AppGroup
 
 export type GetOrganizationsAppgroupsAppsError = CommonErrors;
 
+/** Returns the details for an AppGroup app. */
 export const getOrganizationsAppgroupsApps: API.OperationMethod<GetOrganizationsAppgroupsAppsRequest, GetOrganizationsAppgroupsAppsResponse, GetOrganizationsAppgroupsAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsAppgroupsAppsRequest,
   output: GetOrganizationsAppgroupsAppsResponse,
   errors: [],
 }));
 
-/** Creates an app and associates it with an AppGroup. This API associates the AppGroup app with the specified API product and auto-generates an API key for the app to use in calls to API proxies inside that API product. The `name` is the unique ID of the app that you can use in API calls. */
 export interface CreateOrganizationsAppgroupsAppsRequest {
   /** Required. Name of the AppGroup. Use the following structure in your request: `organizations/{org}/appgroups/{app_group_name}` */
   parent: string;
@@ -12871,13 +12870,13 @@ export const CreateOrganizationsAppgroupsAppsResponse = GoogleCloudApigeeV1AppGr
 
 export type CreateOrganizationsAppgroupsAppsError = CommonErrors;
 
+/** Creates an app and associates it with an AppGroup. This API associates the AppGroup app with the specified API product and auto-generates an API key for the app to use in calls to API proxies inside that API product. The `name` is the unique ID of the app that you can use in API calls. */
 export const createOrganizationsAppgroupsApps: API.OperationMethod<CreateOrganizationsAppgroupsAppsRequest, CreateOrganizationsAppgroupsAppsResponse, CreateOrganizationsAppgroupsAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsAppgroupsAppsRequest,
   output: CreateOrganizationsAppgroupsAppsResponse,
   errors: [],
 }));
 
-/** Deletes an AppGroup app. **Note**: The delete operation is asynchronous. The AppGroup app is deleted immediately, but its associated resources, such as app keys or access tokens, may take anywhere from a few seconds to a few minutes to be deleted. */
 export interface DeleteOrganizationsAppgroupsAppsRequest {
   /** Required. Name of the AppGroup app. Use the following structure in your request: `organizations/{org}/appgroups/{app_group_name}/apps/{app}` */
   name: string;
@@ -12895,13 +12894,13 @@ export const DeleteOrganizationsAppgroupsAppsResponse = GoogleCloudApigeeV1AppGr
 
 export type DeleteOrganizationsAppgroupsAppsError = CommonErrors;
 
+/** Deletes an AppGroup app. **Note**: The delete operation is asynchronous. The AppGroup app is deleted immediately, but its associated resources, such as app keys or access tokens, may take anywhere from a few seconds to a few minutes to be deleted. */
 export const deleteOrganizationsAppgroupsApps: API.OperationMethod<DeleteOrganizationsAppgroupsAppsRequest, DeleteOrganizationsAppgroupsAppsResponse, DeleteOrganizationsAppgroupsAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsAppgroupsAppsRequest,
   output: DeleteOrganizationsAppgroupsAppsResponse,
   errors: [],
 }));
 
-/** Lists all apps created by an AppGroup in an Apigee organization. Optionally, you can request an expanded view of the AppGroup apps. Lists all AppGroupApps in an AppGroup. A maximum of 1000 AppGroup apps are returned in the response if PageSize is not specified, or if the PageSize is greater than 1000. */
 export interface ListOrganizationsAppgroupsAppsRequest {
   /** Required. Name of the AppGroup. Use the following structure in your request: `organizations/{org}/appgroups/{app_group_name}` */
   parent: string;
@@ -12925,7 +12924,8 @@ export const ListOrganizationsAppgroupsAppsResponse = GoogleCloudApigeeV1ListApp
 
 export type ListOrganizationsAppgroupsAppsError = CommonErrors;
 
-export const listOrganizationsAppgroupsApps = API.makePaginated(() => ({
+/** Lists all apps created by an AppGroup in an Apigee organization. Optionally, you can request an expanded view of the AppGroup apps. Lists all AppGroupApps in an AppGroup. A maximum of 1000 AppGroup apps are returned in the response if PageSize is not specified, or if the PageSize is greater than 1000. */
+export const listOrganizationsAppgroupsApps: API.PaginatedOperationMethod<ListOrganizationsAppgroupsAppsRequest, ListOrganizationsAppgroupsAppsResponse, ListOrganizationsAppgroupsAppsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsAppgroupsAppsRequest,
   output: ListOrganizationsAppgroupsAppsResponse,
   errors: [],
@@ -12935,7 +12935,6 @@ export const listOrganizationsAppgroupsApps = API.makePaginated(() => ({
   },
 }));
 
-/** Updates the details for an AppGroup app. In addition, you can add an API product to an AppGroup app and automatically generate an API key for the app to use when calling APIs in the API product. If you want to use an existing API key for the API product, add the API product to the API key using the UpdateAppGroupAppKey API. Using this API, you cannot update the app name, as it is the primary key used to identify the app and cannot be changed. This API replaces the existing attributes with those specified in the request. Include or exclude any existing attributes that you want to retain or delete, respectively. */
 export interface UpdateOrganizationsAppgroupsAppsRequest {
   /** Required. Name of the AppGroup app. Use the following structure in your request: `organizations/{org}/appgroups/{app_group_name}/apps/{app}` */
   name: string;
@@ -12959,13 +12958,13 @@ export const UpdateOrganizationsAppgroupsAppsResponse = GoogleCloudApigeeV1AppGr
 
 export type UpdateOrganizationsAppgroupsAppsError = CommonErrors;
 
+/** Updates the details for an AppGroup app. In addition, you can add an API product to an AppGroup app and automatically generate an API key for the app to use when calling APIs in the API product. If you want to use an existing API key for the API product, add the API product to the API key using the UpdateAppGroupAppKey API. Using this API, you cannot update the app name, as it is the primary key used to identify the app and cannot be changed. This API replaces the existing attributes with those specified in the request. Include or exclude any existing attributes that you want to retain or delete, respectively. */
 export const updateOrganizationsAppgroupsApps: API.OperationMethod<UpdateOrganizationsAppgroupsAppsRequest, UpdateOrganizationsAppgroupsAppsResponse, UpdateOrganizationsAppgroupsAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateOrganizationsAppgroupsAppsRequest,
   output: UpdateOrganizationsAppgroupsAppsResponse,
   errors: [],
 }));
 
-/** Deletes an app's consumer key and removes all API products associated with the app. After the consumer key is deleted, it cannot be used to access any APIs. */
 export interface DeleteOrganizationsAppgroupsAppsKeysRequest {
   /** Required. Name of the AppGroup app key. Use the following structure in your request: `organizations/{org}/appgroups/{app_group_name}/apps/{app}/keys/{key}` */
   name: string;
@@ -12983,13 +12982,13 @@ export const DeleteOrganizationsAppgroupsAppsKeysResponse = GoogleCloudApigeeV1A
 
 export type DeleteOrganizationsAppgroupsAppsKeysError = CommonErrors;
 
+/** Deletes an app's consumer key and removes all API products associated with the app. After the consumer key is deleted, it cannot be used to access any APIs. */
 export const deleteOrganizationsAppgroupsAppsKeys: API.OperationMethod<DeleteOrganizationsAppgroupsAppsKeysRequest, DeleteOrganizationsAppgroupsAppsKeysResponse, DeleteOrganizationsAppgroupsAppsKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsAppgroupsAppsKeysRequest,
   output: DeleteOrganizationsAppgroupsAppsKeysResponse,
   errors: [],
 }));
 
-/** Gets details for a consumer key for a AppGroup app, including the key and secret value, associated API products, and other information. */
 export interface GetOrganizationsAppgroupsAppsKeysRequest {
   /** Required. Name of the AppGroup app key. Use the following structure in your request: `organizations/{org}/appgroups/{app_group_name}/apps/{app}/keys/{key}` */
   name: string;
@@ -13007,13 +13006,13 @@ export const GetOrganizationsAppgroupsAppsKeysResponse = GoogleCloudApigeeV1AppG
 
 export type GetOrganizationsAppgroupsAppsKeysError = CommonErrors;
 
+/** Gets details for a consumer key for a AppGroup app, including the key and secret value, associated API products, and other information. */
 export const getOrganizationsAppgroupsAppsKeys: API.OperationMethod<GetOrganizationsAppgroupsAppsKeysRequest, GetOrganizationsAppgroupsAppsKeysResponse, GetOrganizationsAppgroupsAppsKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsAppgroupsAppsKeysRequest,
   output: GetOrganizationsAppgroupsAppsKeysResponse,
   errors: [],
 }));
 
-/** Adds an API product to an AppGroupAppKey, enabling the app that holds the key to access the API resources bundled in the API product. In addition, you can add attributes and scopes to the AppGroupAppKey. This API replaces the existing attributes with those specified in the request. Include or exclude any existing attributes that you want to retain or delete, respectively. You can use the same key to access all API products associated with the app. */
 export interface UpdateAppGroupAppKeyOrganizationsAppgroupsAppsKeysRequest {
   /** Required. Name of the AppGroup app key. Use the following structure in your request: `organizations/{org}/appgroups/{app_group_name}/apps/{app}/keys/{key}` */
   name: string;
@@ -13034,13 +13033,13 @@ export const UpdateAppGroupAppKeyOrganizationsAppgroupsAppsKeysResponse = Google
 
 export type UpdateAppGroupAppKeyOrganizationsAppgroupsAppsKeysError = CommonErrors;
 
+/** Adds an API product to an AppGroupAppKey, enabling the app that holds the key to access the API resources bundled in the API product. In addition, you can add attributes and scopes to the AppGroupAppKey. This API replaces the existing attributes with those specified in the request. Include or exclude any existing attributes that you want to retain or delete, respectively. You can use the same key to access all API products associated with the app. */
 export const updateAppGroupAppKeyOrganizationsAppgroupsAppsKeys: API.OperationMethod<UpdateAppGroupAppKeyOrganizationsAppgroupsAppsKeysRequest, UpdateAppGroupAppKeyOrganizationsAppgroupsAppsKeysResponse, UpdateAppGroupAppKeyOrganizationsAppgroupsAppsKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAppGroupAppKeyOrganizationsAppgroupsAppsKeysRequest,
   output: UpdateAppGroupAppKeyOrganizationsAppgroupsAppsKeysResponse,
   errors: [],
 }));
 
-/** Creates a custom consumer key and secret for a AppGroup app. This is particularly useful if you want to migrate existing consumer keys and secrets to Apigee from another system. Consumer keys and secrets can contain letters, numbers, underscores, and hyphens. No other special characters are allowed. To avoid service disruptions, a consumer key and secret should not exceed 2 KBs each. **Note**: When creating the consumer key and secret, an association to API products will not be made. Therefore, you should not specify the associated API products in your request. Instead, use the UpdateAppGroupAppKey API to make the association after the consumer key and secret are created. If a consumer key and secret already exist, you can keep them or delete them using the DeleteAppGroupAppKey API. */
 export interface CreateOrganizationsAppgroupsAppsKeysRequest {
   /** Required. Parent of the AppGroup app key. Use the following structure in your request: `organizations/{org}/appgroups/{app_group_name}/apps/{app}/keys` */
   parent: string;
@@ -13061,13 +13060,13 @@ export const CreateOrganizationsAppgroupsAppsKeysResponse = GoogleCloudApigeeV1A
 
 export type CreateOrganizationsAppgroupsAppsKeysError = CommonErrors;
 
+/** Creates a custom consumer key and secret for a AppGroup app. This is particularly useful if you want to migrate existing consumer keys and secrets to Apigee from another system. Consumer keys and secrets can contain letters, numbers, underscores, and hyphens. No other special characters are allowed. To avoid service disruptions, a consumer key and secret should not exceed 2 KBs each. **Note**: When creating the consumer key and secret, an association to API products will not be made. Therefore, you should not specify the associated API products in your request. Instead, use the UpdateAppGroupAppKey API to make the association after the consumer key and secret are created. If a consumer key and secret already exist, you can keep them or delete them using the DeleteAppGroupAppKey API. */
 export const createOrganizationsAppgroupsAppsKeys: API.OperationMethod<CreateOrganizationsAppgroupsAppsKeysRequest, CreateOrganizationsAppgroupsAppsKeysResponse, CreateOrganizationsAppgroupsAppsKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsAppgroupsAppsKeysRequest,
   output: CreateOrganizationsAppgroupsAppsKeysResponse,
   errors: [],
 }));
 
-/** Approves or revokes the consumer key for an API product. After a consumer key is approved, the app can use it to access APIs. A consumer key that is revoked or pending cannot be used to access an API. Any access tokens associated with a revoked consumer key will remain active. However, Apigee checks the status of the consumer key and if set to `revoked` will not allow access to the API. */
 export interface UpdateAppGroupAppKeyApiProductOrganizationsAppgroupsAppsKeysApiproductsRequest {
   /** Required. Name of the API product in the developer app key in the following format: `organizations/{org}/appgroups/{app_group_name}/apps/{app}/keys/{key}/apiproducts/{apiproduct}` */
   name: string;
@@ -13088,13 +13087,13 @@ export const UpdateAppGroupAppKeyApiProductOrganizationsAppgroupsAppsKeysApiprod
 
 export type UpdateAppGroupAppKeyApiProductOrganizationsAppgroupsAppsKeysApiproductsError = CommonErrors;
 
+/** Approves or revokes the consumer key for an API product. After a consumer key is approved, the app can use it to access APIs. A consumer key that is revoked or pending cannot be used to access an API. Any access tokens associated with a revoked consumer key will remain active. However, Apigee checks the status of the consumer key and if set to `revoked` will not allow access to the API. */
 export const updateAppGroupAppKeyApiProductOrganizationsAppgroupsAppsKeysApiproducts: API.OperationMethod<UpdateAppGroupAppKeyApiProductOrganizationsAppgroupsAppsKeysApiproductsRequest, UpdateAppGroupAppKeyApiProductOrganizationsAppgroupsAppsKeysApiproductsResponse, UpdateAppGroupAppKeyApiProductOrganizationsAppgroupsAppsKeysApiproductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAppGroupAppKeyApiProductOrganizationsAppgroupsAppsKeysApiproductsRequest,
   output: UpdateAppGroupAppKeyApiProductOrganizationsAppgroupsAppsKeysApiproductsResponse,
   errors: [],
 }));
 
-/** Removes an API product from an app's consumer key. After the API product is removed, the app cannot access the API resources defined in that API product. **Note**: The consumer key is not removed, only its association with the API product. */
 export interface DeleteOrganizationsAppgroupsAppsKeysApiproductsRequest {
   /** Required. Parent of the AppGroup app key. Use the following structure in your request: `organizations/{org}/appgroups/{app_group_name}/apps/{app}/keys/{key}/apiproducts/{apiproduct}` */
   name: string;
@@ -13112,13 +13111,13 @@ export const DeleteOrganizationsAppgroupsAppsKeysApiproductsResponse = GoogleClo
 
 export type DeleteOrganizationsAppgroupsAppsKeysApiproductsError = CommonErrors;
 
+/** Removes an API product from an app's consumer key. After the API product is removed, the app cannot access the API resources defined in that API product. **Note**: The consumer key is not removed, only its association with the API product. */
 export const deleteOrganizationsAppgroupsAppsKeysApiproducts: API.OperationMethod<DeleteOrganizationsAppgroupsAppsKeysApiproductsRequest, DeleteOrganizationsAppgroupsAppsKeysApiproductsResponse, DeleteOrganizationsAppgroupsAppsKeysApiproductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsAppgroupsAppsKeysApiproductsRequest,
   output: DeleteOrganizationsAppgroupsAppsKeysApiproductsResponse,
   errors: [],
 }));
 
-/** Creates a subscription to an API product. */
 export interface CreateOrganizationsAppgroupsSubscriptionsRequest {
   /** Required. Name of the appgroup that is purchasing a subscription to the API product. Use the following structure in your request: `organizations/{org}/appgroups/{appgroup}` */
   parent: string;
@@ -13139,13 +13138,13 @@ export const CreateOrganizationsAppgroupsSubscriptionsResponse = GoogleCloudApig
 
 export type CreateOrganizationsAppgroupsSubscriptionsError = CommonErrors;
 
+/** Creates a subscription to an API product. */
 export const createOrganizationsAppgroupsSubscriptions: API.OperationMethod<CreateOrganizationsAppgroupsSubscriptionsRequest, CreateOrganizationsAppgroupsSubscriptionsResponse, CreateOrganizationsAppgroupsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsAppgroupsSubscriptionsRequest,
   output: CreateOrganizationsAppgroupsSubscriptionsResponse,
   errors: [],
 }));
 
-/** List all api product subscriptions for an appgroup. */
 export interface ListOrganizationsAppgroupsSubscriptionsRequest {
   /** Required. Name of the appgroup. Use the following structure in your request: `organizations/{org}/appgroups/{appgroup}` */
   parent: string;
@@ -13169,7 +13168,8 @@ export const ListOrganizationsAppgroupsSubscriptionsResponse = GoogleCloudApigee
 
 export type ListOrganizationsAppgroupsSubscriptionsError = CommonErrors;
 
-export const listOrganizationsAppgroupsSubscriptions = API.makePaginated(() => ({
+/** List all api product subscriptions for an appgroup. */
+export const listOrganizationsAppgroupsSubscriptions: API.PaginatedOperationMethod<ListOrganizationsAppgroupsSubscriptionsRequest, ListOrganizationsAppgroupsSubscriptionsResponse, ListOrganizationsAppgroupsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsAppgroupsSubscriptionsRequest,
   output: ListOrganizationsAppgroupsSubscriptionsResponse,
   errors: [],
@@ -13179,7 +13179,6 @@ export const listOrganizationsAppgroupsSubscriptions = API.makePaginated(() => (
   },
 }));
 
-/** Expires an API product subscription immediately. */
 export interface ExpireOrganizationsAppgroupsSubscriptionsRequest {
   /** Required. Name of the API product subscription. Use the following structure in your request: `organizations/{org}/appgroups/{appgroup}/subscriptions/{subscription}` */
   name: string;
@@ -13200,13 +13199,13 @@ export const ExpireOrganizationsAppgroupsSubscriptionsResponse = GoogleCloudApig
 
 export type ExpireOrganizationsAppgroupsSubscriptionsError = CommonErrors;
 
+/** Expires an API product subscription immediately. */
 export const expireOrganizationsAppgroupsSubscriptions: API.OperationMethod<ExpireOrganizationsAppgroupsSubscriptionsRequest, ExpireOrganizationsAppgroupsSubscriptionsResponse, ExpireOrganizationsAppgroupsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExpireOrganizationsAppgroupsSubscriptionsRequest,
   output: ExpireOrganizationsAppgroupsSubscriptionsResponse,
   errors: [],
 }));
 
-/** Get an api product subscription for an appgroup. */
 export interface GetOrganizationsAppgroupsSubscriptionsRequest {
   /** Required. The name of the AppGroupSubscription to retrieve. Format: `organizations/{org}/appgroups/{appgroup}/subscriptions/{subscription}` */
   name: string;
@@ -13224,13 +13223,13 @@ export const GetOrganizationsAppgroupsSubscriptionsResponse = GoogleCloudApigeeV
 
 export type GetOrganizationsAppgroupsSubscriptionsError = CommonErrors;
 
+/** Get an api product subscription for an appgroup. */
 export const getOrganizationsAppgroupsSubscriptions: API.OperationMethod<GetOrganizationsAppgroupsSubscriptionsRequest, GetOrganizationsAppgroupsSubscriptionsResponse, GetOrganizationsAppgroupsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsAppgroupsSubscriptionsRequest,
   output: GetOrganizationsAppgroupsSubscriptionsResponse,
   errors: [],
 }));
 
-/** Credits the account balance for the AppGroup. */
 export interface CreditOrganizationsAppgroupsBalanceRequest {
   /** Required. Account balance for the AppGroup. Use the following structure in your request: `organizations/{org}/appgroups/{app_group}/balance` */
   name: string;
@@ -13251,13 +13250,13 @@ export const CreditOrganizationsAppgroupsBalanceResponse = GoogleCloudApigeeV1Ap
 
 export type CreditOrganizationsAppgroupsBalanceError = CommonErrors;
 
+/** Credits the account balance for the AppGroup. */
 export const creditOrganizationsAppgroupsBalance: API.OperationMethod<CreditOrganizationsAppgroupsBalanceRequest, CreditOrganizationsAppgroupsBalanceResponse, CreditOrganizationsAppgroupsBalanceError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreditOrganizationsAppgroupsBalanceRequest,
   output: CreditOrganizationsAppgroupsBalanceResponse,
   errors: [],
 }));
 
-/** Adjust the prepaid balance for the AppGroup. This API will be used in scenarios where the AppGroup has been under-charged or over-charged. */
 export interface AdjustOrganizationsAppgroupsBalanceRequest {
   /** Required. Account balance for the AppGroup. Use the following structure in your request: `organizations/{org}/appgroups/{app_group}/balance` */
   name: string;
@@ -13278,13 +13277,13 @@ export const AdjustOrganizationsAppgroupsBalanceResponse = GoogleCloudApigeeV1Ap
 
 export type AdjustOrganizationsAppgroupsBalanceError = CommonErrors;
 
+/** Adjust the prepaid balance for the AppGroup. This API will be used in scenarios where the AppGroup has been under-charged or over-charged. */
 export const adjustOrganizationsAppgroupsBalance: API.OperationMethod<AdjustOrganizationsAppgroupsBalanceRequest, AdjustOrganizationsAppgroupsBalanceResponse, AdjustOrganizationsAppgroupsBalanceError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AdjustOrganizationsAppgroupsBalanceRequest,
   output: AdjustOrganizationsAppgroupsBalanceResponse,
   errors: [],
 }));
 
-/** Creates an endpoint attachment. **Note:** Not supported for Apigee hybrid. */
 export interface CreateOrganizationsEndpointAttachmentsRequest {
   /** Required. Organization the endpoint attachment will be created in. */
   parent: string;
@@ -13308,13 +13307,13 @@ export const CreateOrganizationsEndpointAttachmentsResponse = GoogleLongrunningO
 
 export type CreateOrganizationsEndpointAttachmentsError = CommonErrors;
 
+/** Creates an endpoint attachment. **Note:** Not supported for Apigee hybrid. */
 export const createOrganizationsEndpointAttachments: API.OperationMethod<CreateOrganizationsEndpointAttachmentsRequest, CreateOrganizationsEndpointAttachmentsResponse, CreateOrganizationsEndpointAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsEndpointAttachmentsRequest,
   output: CreateOrganizationsEndpointAttachmentsResponse,
   errors: [],
 }));
 
-/** Lists the endpoint attachments in an organization. */
 export interface ListOrganizationsEndpointAttachmentsRequest {
   /** Optional. Maximum number of endpoint attachments to return. If unspecified, at most 25 attachments will be returned. */
   pageSize?: number;
@@ -13338,7 +13337,8 @@ export const ListOrganizationsEndpointAttachmentsResponse = GoogleCloudApigeeV1L
 
 export type ListOrganizationsEndpointAttachmentsError = CommonErrors;
 
-export const listOrganizationsEndpointAttachments = API.makePaginated(() => ({
+/** Lists the endpoint attachments in an organization. */
+export const listOrganizationsEndpointAttachments: API.PaginatedOperationMethod<ListOrganizationsEndpointAttachmentsRequest, ListOrganizationsEndpointAttachmentsResponse, ListOrganizationsEndpointAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsEndpointAttachmentsRequest,
   output: ListOrganizationsEndpointAttachmentsResponse,
   errors: [],
@@ -13348,7 +13348,6 @@ export const listOrganizationsEndpointAttachments = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the endpoint attachment. */
 export interface GetOrganizationsEndpointAttachmentsRequest {
   /** Required. Name of the endpoint attachment. Use the following structure in your request: `organizations/{org}/endpointAttachments/{endpoint_attachment}` */
   name: string;
@@ -13366,13 +13365,13 @@ export const GetOrganizationsEndpointAttachmentsResponse = GoogleCloudApigeeV1En
 
 export type GetOrganizationsEndpointAttachmentsError = CommonErrors;
 
+/** Gets the endpoint attachment. */
 export const getOrganizationsEndpointAttachments: API.OperationMethod<GetOrganizationsEndpointAttachmentsRequest, GetOrganizationsEndpointAttachmentsResponse, GetOrganizationsEndpointAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsEndpointAttachmentsRequest,
   output: GetOrganizationsEndpointAttachmentsResponse,
   errors: [],
 }));
 
-/** Deletes an endpoint attachment. */
 export interface DeleteOrganizationsEndpointAttachmentsRequest {
   /** Required. Name of the endpoint attachment. Use the following structure in your request: `organizations/{org}/endpointAttachments/{endpoint_attachment}` */
   name: string;
@@ -13390,13 +13389,13 @@ export const DeleteOrganizationsEndpointAttachmentsResponse = GoogleLongrunningO
 
 export type DeleteOrganizationsEndpointAttachmentsError = CommonErrors;
 
+/** Deletes an endpoint attachment. */
 export const deleteOrganizationsEndpointAttachments: API.OperationMethod<DeleteOrganizationsEndpointAttachmentsRequest, DeleteOrganizationsEndpointAttachmentsResponse, DeleteOrganizationsEndpointAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsEndpointAttachmentsRequest,
   output: DeleteOrganizationsEndpointAttachmentsResponse,
   errors: [],
 }));
 
-/** Gets a shared flow by name, including a list of its revisions. */
 export interface GetOrganizationsSharedflowsRequest {
   /** Required. The name of the shared flow to get. Must be of the form: `organizations/{organization_id}/sharedflows/{shared_flow_id}` If the resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -13414,13 +13413,13 @@ export const GetOrganizationsSharedflowsResponse = GoogleCloudApigeeV1SharedFlow
 
 export type GetOrganizationsSharedflowsError = CommonErrors;
 
+/** Gets a shared flow by name, including a list of its revisions. */
 export const getOrganizationsSharedflows: API.OperationMethod<GetOrganizationsSharedflowsRequest, GetOrganizationsSharedflowsResponse, GetOrganizationsSharedflowsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsSharedflowsRequest,
   output: GetOrganizationsSharedflowsResponse,
   errors: [],
 }));
 
-/** Moves an shared flow to a different space. */
 export interface MoveOrganizationsSharedflowsRequest {
   /** Required. Shared Flow to move in the following format: `organizations/{org}/sharedflows/{shared_flow}` */
   name: string;
@@ -13441,13 +13440,13 @@ export const MoveOrganizationsSharedflowsResponse = GoogleCloudApigeeV1SharedFlo
 
 export type MoveOrganizationsSharedflowsError = CommonErrors;
 
+/** Moves an shared flow to a different space. */
 export const moveOrganizationsSharedflows: API.OperationMethod<MoveOrganizationsSharedflowsRequest, MoveOrganizationsSharedflowsResponse, MoveOrganizationsSharedflowsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MoveOrganizationsSharedflowsRequest,
   output: MoveOrganizationsSharedflowsResponse,
   errors: [],
 }));
 
-/** Uploads a ZIP-formatted shared flow configuration bundle to an organization. If the shared flow already exists, this creates a new revision of it. If the shared flow does not exist, this creates it. Once imported, the shared flow revision must be deployed before it can be accessed at runtime. The size limit of a shared flow bundle is 15 MB. */
 export interface CreateOrganizationsSharedflowsRequest {
   /** Required. The name of the parent organization under which to create the shared flow. Must be of the form: `organizations/{organization_id}` If the resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   parent: string;
@@ -13477,13 +13476,13 @@ export const CreateOrganizationsSharedflowsResponse = GoogleCloudApigeeV1SharedF
 
 export type CreateOrganizationsSharedflowsError = CommonErrors;
 
+/** Uploads a ZIP-formatted shared flow configuration bundle to an organization. If the shared flow already exists, this creates a new revision of it. If the shared flow does not exist, this creates it. Once imported, the shared flow revision must be deployed before it can be accessed at runtime. The size limit of a shared flow bundle is 15 MB. */
 export const createOrganizationsSharedflows: API.OperationMethod<CreateOrganizationsSharedflowsRequest, CreateOrganizationsSharedflowsResponse, CreateOrganizationsSharedflowsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsSharedflowsRequest,
   output: CreateOrganizationsSharedflowsResponse,
   errors: [],
 }));
 
-/** Deletes a shared flow and all it's revisions. The shared flow must be undeployed before you can delete it. */
 export interface DeleteOrganizationsSharedflowsRequest {
   /** Required. shared flow name of the form: `organizations/{organization_id}/sharedflows/{shared_flow_id}` If the resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -13501,13 +13500,13 @@ export const DeleteOrganizationsSharedflowsResponse = GoogleCloudApigeeV1SharedF
 
 export type DeleteOrganizationsSharedflowsError = CommonErrors;
 
+/** Deletes a shared flow and all it's revisions. The shared flow must be undeployed before you can delete it. */
 export const deleteOrganizationsSharedflows: API.OperationMethod<DeleteOrganizationsSharedflowsRequest, DeleteOrganizationsSharedflowsResponse, DeleteOrganizationsSharedflowsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsSharedflowsRequest,
   output: DeleteOrganizationsSharedflowsResponse,
   errors: [],
 }));
 
-/** Lists all shared flows in the organization. If the resource has the `space` attribute set, the response may not return all resources. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
 export interface ListOrganizationsSharedflowsRequest {
   /** Required. The name of the parent organization under which to get shared flows. Must be of the form: `organizations/{organization_id}` If the resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   parent: string;
@@ -13534,13 +13533,13 @@ export const ListOrganizationsSharedflowsResponse = GoogleCloudApigeeV1ListShare
 
 export type ListOrganizationsSharedflowsError = CommonErrors;
 
+/** Lists all shared flows in the organization. If the resource has the `space` attribute set, the response may not return all resources. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
 export const listOrganizationsSharedflows: API.OperationMethod<ListOrganizationsSharedflowsRequest, ListOrganizationsSharedflowsResponse, ListOrganizationsSharedflowsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOrganizationsSharedflowsRequest,
   output: ListOrganizationsSharedflowsResponse,
   errors: [],
 }));
 
-/** Lists all deployments of a shared flow. */
 export interface ListOrganizationsSharedflowsDeploymentsRequest {
   /** Required. Name of the shared flow for which to return deployment information in the following format: `organizations/{org}/sharedflows/{sharedflow}` If the shared flow resource has the `space` attribute set, IAM permissions are checked differently . To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   parent: string;
@@ -13558,13 +13557,13 @@ export const ListOrganizationsSharedflowsDeploymentsResponse = GoogleCloudApigee
 
 export type ListOrganizationsSharedflowsDeploymentsError = CommonErrors;
 
+/** Lists all deployments of a shared flow. */
 export const listOrganizationsSharedflowsDeployments: API.OperationMethod<ListOrganizationsSharedflowsDeploymentsRequest, ListOrganizationsSharedflowsDeploymentsResponse, ListOrganizationsSharedflowsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOrganizationsSharedflowsDeploymentsRequest,
   output: ListOrganizationsSharedflowsDeploymentsResponse,
   errors: [],
 }));
 
-/** Updates a shared flow revision. This operation is only allowed on revisions which have never been deployed. After deployment a revision becomes immutable, even if it becomes undeployed. The payload is a ZIP-formatted shared flow. Content type must be either multipart/form-data or application/octet-stream. */
 export interface UpdateSharedFlowRevisionOrganizationsSharedflowsRevisionsRequest {
   /** Required. The name of the shared flow revision to update. Must be of the form: `organizations/{organization_id}/sharedflows/{shared_flow_id}/revisions/{revision_id}` If the resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -13588,13 +13587,13 @@ export const UpdateSharedFlowRevisionOrganizationsSharedflowsRevisionsResponse =
 
 export type UpdateSharedFlowRevisionOrganizationsSharedflowsRevisionsError = CommonErrors;
 
+/** Updates a shared flow revision. This operation is only allowed on revisions which have never been deployed. After deployment a revision becomes immutable, even if it becomes undeployed. The payload is a ZIP-formatted shared flow. Content type must be either multipart/form-data or application/octet-stream. */
 export const updateSharedFlowRevisionOrganizationsSharedflowsRevisions: API.OperationMethod<UpdateSharedFlowRevisionOrganizationsSharedflowsRevisionsRequest, UpdateSharedFlowRevisionOrganizationsSharedflowsRevisionsResponse, UpdateSharedFlowRevisionOrganizationsSharedflowsRevisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateSharedFlowRevisionOrganizationsSharedflowsRevisionsRequest,
   output: UpdateSharedFlowRevisionOrganizationsSharedflowsRevisionsResponse,
   errors: [],
 }));
 
-/** Gets a revision of a shared flow. To download the shared flow configuration bundle for the specified revision as a zip file, set the `format` query parameter to `bundle`. If you are using curl, specify `-o filename.zip` to save the output to a file; otherwise, it displays to `stdout`. Then, develop the shared flow configuration locally and upload the updated sharedFlow configuration revision, as described in [updateSharedFlowRevision](updateSharedFlowRevision). */
 export interface GetOrganizationsSharedflowsRevisionsRequest {
   /** Required. The name of the shared flow revision to get. Must be of the form: `organizations/{organization_id}/sharedflows/{shared_flow_id}/revisions/{revision_id}` If the Shared Flow resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -13615,13 +13614,13 @@ export const GetOrganizationsSharedflowsRevisionsResponse = GoogleApiHttpBody;
 
 export type GetOrganizationsSharedflowsRevisionsError = CommonErrors;
 
+/** Gets a revision of a shared flow. To download the shared flow configuration bundle for the specified revision as a zip file, set the `format` query parameter to `bundle`. If you are using curl, specify `-o filename.zip` to save the output to a file; otherwise, it displays to `stdout`. Then, develop the shared flow configuration locally and upload the updated sharedFlow configuration revision, as described in [updateSharedFlowRevision](updateSharedFlowRevision). */
 export const getOrganizationsSharedflowsRevisions: API.OperationMethod<GetOrganizationsSharedflowsRevisionsRequest, GetOrganizationsSharedflowsRevisionsResponse, GetOrganizationsSharedflowsRevisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsSharedflowsRevisionsRequest,
   output: GetOrganizationsSharedflowsRevisionsResponse,
   errors: [],
 }));
 
-/** Deletes a shared flow and all associated policies, resources, and revisions. You must undeploy the shared flow before deleting it. */
 export interface DeleteOrganizationsSharedflowsRevisionsRequest {
   /** Required. The name of the shared flow revision to delete. Must be of the form: `organizations/{organization_id}/sharedflows/{shared_flow_id}/revisions/{revision_id}` If the Shared Flow resource has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -13639,13 +13638,13 @@ export const DeleteOrganizationsSharedflowsRevisionsResponse = GoogleCloudApigee
 
 export type DeleteOrganizationsSharedflowsRevisionsError = CommonErrors;
 
+/** Deletes a shared flow and all associated policies, resources, and revisions. You must undeploy the shared flow before deleting it. */
 export const deleteOrganizationsSharedflowsRevisions: API.OperationMethod<DeleteOrganizationsSharedflowsRevisionsRequest, DeleteOrganizationsSharedflowsRevisionsResponse, DeleteOrganizationsSharedflowsRevisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsSharedflowsRevisionsRequest,
   output: DeleteOrganizationsSharedflowsRevisionsResponse,
   errors: [],
 }));
 
-/** Lists all deployments of a shared flow revision. */
 export interface ListOrganizationsSharedflowsRevisionsDeploymentsRequest {
   /** Required. Name of the API proxy revision for which to return deployment information in the following format: `organizations/{org}/sharedflows/{sharedflow}/revisions/{rev}`. If the shared flow resource has the `space` attribute set, IAM permissions are checked differently . To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   parent: string;
@@ -13663,13 +13662,13 @@ export const ListOrganizationsSharedflowsRevisionsDeploymentsResponse = GoogleCl
 
 export type ListOrganizationsSharedflowsRevisionsDeploymentsError = CommonErrors;
 
+/** Lists all deployments of a shared flow revision. */
 export const listOrganizationsSharedflowsRevisionsDeployments: API.OperationMethod<ListOrganizationsSharedflowsRevisionsDeploymentsRequest, ListOrganizationsSharedflowsRevisionsDeploymentsResponse, ListOrganizationsSharedflowsRevisionsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOrganizationsSharedflowsRevisionsDeploymentsRequest,
   output: ListOrganizationsSharedflowsRevisionsDeploymentsResponse,
   errors: [],
 }));
 
-/** List Datastores */
 export interface ListOrganizationsAnalyticsDatastoresRequest {
   /** Optional. TargetType is used to fetch all Datastores that match the type */
   targetType?: string;
@@ -13690,13 +13689,13 @@ export const ListOrganizationsAnalyticsDatastoresResponse = GoogleCloudApigeeV1L
 
 export type ListOrganizationsAnalyticsDatastoresError = CommonErrors;
 
+/** List Datastores */
 export const listOrganizationsAnalyticsDatastores: API.OperationMethod<ListOrganizationsAnalyticsDatastoresRequest, ListOrganizationsAnalyticsDatastoresResponse, ListOrganizationsAnalyticsDatastoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOrganizationsAnalyticsDatastoresRequest,
   output: ListOrganizationsAnalyticsDatastoresResponse,
   errors: [],
 }));
 
-/** Update a Datastore */
 export interface UpdateOrganizationsAnalyticsDatastoresRequest {
   /** Required. The resource name of datastore to be updated. Must be of the form `organizations/{org}/analytics/datastores/{datastoreId}` */
   name: string;
@@ -13717,13 +13716,13 @@ export const UpdateOrganizationsAnalyticsDatastoresResponse = GoogleCloudApigeeV
 
 export type UpdateOrganizationsAnalyticsDatastoresError = CommonErrors;
 
+/** Update a Datastore */
 export const updateOrganizationsAnalyticsDatastores: API.OperationMethod<UpdateOrganizationsAnalyticsDatastoresRequest, UpdateOrganizationsAnalyticsDatastoresResponse, UpdateOrganizationsAnalyticsDatastoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateOrganizationsAnalyticsDatastoresRequest,
   output: UpdateOrganizationsAnalyticsDatastoresResponse,
   errors: [],
 }));
 
-/** Delete a Datastore from an org. */
 export interface DeleteOrganizationsAnalyticsDatastoresRequest {
   /** Required. Resource name of the Datastore to be deleted. Must be of the form `organizations/{org}/analytics/datastores/{datastoreId}` */
   name: string;
@@ -13741,13 +13740,13 @@ export const DeleteOrganizationsAnalyticsDatastoresResponse = GoogleProtobufEmpt
 
 export type DeleteOrganizationsAnalyticsDatastoresError = CommonErrors;
 
+/** Delete a Datastore from an org. */
 export const deleteOrganizationsAnalyticsDatastores: API.OperationMethod<DeleteOrganizationsAnalyticsDatastoresRequest, DeleteOrganizationsAnalyticsDatastoresResponse, DeleteOrganizationsAnalyticsDatastoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsAnalyticsDatastoresRequest,
   output: DeleteOrganizationsAnalyticsDatastoresResponse,
   errors: [],
 }));
 
-/** Create a Datastore for an org */
 export interface CreateOrganizationsAnalyticsDatastoresRequest {
   /** Required. The parent organization name. Must be of the form `organizations/{org}`. */
   parent: string;
@@ -13768,13 +13767,13 @@ export const CreateOrganizationsAnalyticsDatastoresResponse = GoogleCloudApigeeV
 
 export type CreateOrganizationsAnalyticsDatastoresError = CommonErrors;
 
+/** Create a Datastore for an org */
 export const createOrganizationsAnalyticsDatastores: API.OperationMethod<CreateOrganizationsAnalyticsDatastoresRequest, CreateOrganizationsAnalyticsDatastoresResponse, CreateOrganizationsAnalyticsDatastoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsAnalyticsDatastoresRequest,
   output: CreateOrganizationsAnalyticsDatastoresResponse,
   errors: [],
 }));
 
-/** Get a Datastore */
 export interface GetOrganizationsAnalyticsDatastoresRequest {
   /** Required. Resource name of the Datastore to be get. Must be of the form `organizations/{org}/analytics/datastores/{datastoreId}` */
   name: string;
@@ -13792,13 +13791,13 @@ export const GetOrganizationsAnalyticsDatastoresResponse = GoogleCloudApigeeV1Da
 
 export type GetOrganizationsAnalyticsDatastoresError = CommonErrors;
 
+/** Get a Datastore */
 export const getOrganizationsAnalyticsDatastores: API.OperationMethod<GetOrganizationsAnalyticsDatastoresRequest, GetOrganizationsAnalyticsDatastoresResponse, GetOrganizationsAnalyticsDatastoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsAnalyticsDatastoresRequest,
   output: GetOrganizationsAnalyticsDatastoresResponse,
   errors: [],
 }));
 
-/** Test if Datastore configuration is correct. This includes checking if credentials provided by customer have required permissions in target destination storage */
 export interface TestOrganizationsAnalyticsDatastoresRequest {
   /** Required. The parent organization name Must be of the form `organizations/{org}` */
   parent: string;
@@ -13819,13 +13818,13 @@ export const TestOrganizationsAnalyticsDatastoresResponse = GoogleCloudApigeeV1T
 
 export type TestOrganizationsAnalyticsDatastoresError = CommonErrors;
 
+/** Test if Datastore configuration is correct. This includes checking if credentials provided by customer have required permissions in target destination storage */
 export const testOrganizationsAnalyticsDatastores: API.OperationMethod<TestOrganizationsAnalyticsDatastoresRequest, TestOrganizationsAnalyticsDatastoresResponse, TestOrganizationsAnalyticsDatastoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestOrganizationsAnalyticsDatastoresRequest,
   output: TestOrganizationsAnalyticsDatastoresResponse,
   errors: [],
 }));
 
-/** Lists all deployments of API proxies or shared flows. */
 export interface ListOrganizationsDeploymentsRequest {
   /** Optional. Flag that specifies whether to return shared flow or API proxy deployments. Set to `true` to return shared flow deployments; set to `false` to return API proxy deployments. Defaults to `false`. */
   sharedFlows?: boolean;
@@ -13846,13 +13845,13 @@ export const ListOrganizationsDeploymentsResponse = GoogleCloudApigeeV1ListDeplo
 
 export type ListOrganizationsDeploymentsError = CommonErrors;
 
+/** Lists all deployments of API proxies or shared flows. */
 export const listOrganizationsDeployments: API.OperationMethod<ListOrganizationsDeploymentsRequest, ListOrganizationsDeploymentsResponse, ListOrganizationsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOrganizationsDeploymentsRequest,
   output: ListOrganizationsDeploymentsResponse,
   errors: [],
 }));
 
-/** Creates a new environment group. */
 export interface CreateOrganizationsEnvgroupsRequest {
   /** Required. Name of the organization in which to create the environment group in the following format: `organizations/{org}`. */
   parent: string;
@@ -13876,13 +13875,13 @@ export const CreateOrganizationsEnvgroupsResponse = GoogleLongrunningOperation;
 
 export type CreateOrganizationsEnvgroupsError = CommonErrors;
 
+/** Creates a new environment group. */
 export const createOrganizationsEnvgroups: API.OperationMethod<CreateOrganizationsEnvgroupsRequest, CreateOrganizationsEnvgroupsResponse, CreateOrganizationsEnvgroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsEnvgroupsRequest,
   output: CreateOrganizationsEnvgroupsResponse,
   errors: [],
 }));
 
-/** Gets an environment group. */
 export interface GetOrganizationsEnvgroupsRequest {
   /** Required. Name of the environment group in the following format: `organizations/{org}/envgroups/{envgroup}`. */
   name: string;
@@ -13900,13 +13899,13 @@ export const GetOrganizationsEnvgroupsResponse = GoogleCloudApigeeV1EnvironmentG
 
 export type GetOrganizationsEnvgroupsError = CommonErrors;
 
+/** Gets an environment group. */
 export const getOrganizationsEnvgroups: API.OperationMethod<GetOrganizationsEnvgroupsRequest, GetOrganizationsEnvgroupsResponse, GetOrganizationsEnvgroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsEnvgroupsRequest,
   output: GetOrganizationsEnvgroupsResponse,
   errors: [],
 }));
 
-/** Updates an environment group. */
 export interface PatchOrganizationsEnvgroupsRequest {
   /** Required. Name of the environment group to update in the format: `organizations/{org}/envgroups/{envgroup}. */
   name: string;
@@ -13930,13 +13929,13 @@ export const PatchOrganizationsEnvgroupsResponse = GoogleLongrunningOperation;
 
 export type PatchOrganizationsEnvgroupsError = CommonErrors;
 
+/** Updates an environment group. */
 export const patchOrganizationsEnvgroups: API.OperationMethod<PatchOrganizationsEnvgroupsRequest, PatchOrganizationsEnvgroupsResponse, PatchOrganizationsEnvgroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsEnvgroupsRequest,
   output: PatchOrganizationsEnvgroupsResponse,
   errors: [],
 }));
 
-/** Lists all environment groups. */
 export interface ListOrganizationsEnvgroupsRequest {
   /** Required. Name of the organization for which to list environment groups in the following format: `organizations/{org}`. */
   parent: string;
@@ -13960,7 +13959,8 @@ export const ListOrganizationsEnvgroupsResponse = GoogleCloudApigeeV1ListEnviron
 
 export type ListOrganizationsEnvgroupsError = CommonErrors;
 
-export const listOrganizationsEnvgroups = API.makePaginated(() => ({
+/** Lists all environment groups. */
+export const listOrganizationsEnvgroups: API.PaginatedOperationMethod<ListOrganizationsEnvgroupsRequest, ListOrganizationsEnvgroupsResponse, ListOrganizationsEnvgroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsEnvgroupsRequest,
   output: ListOrganizationsEnvgroupsResponse,
   errors: [],
@@ -13970,7 +13970,6 @@ export const listOrganizationsEnvgroups = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes an environment group. */
 export interface DeleteOrganizationsEnvgroupsRequest {
   /** Required. Name of the environment group in the following format: `organizations/{org}/envgroups/{envgroup}`. */
   name: string;
@@ -13988,13 +13987,13 @@ export const DeleteOrganizationsEnvgroupsResponse = GoogleLongrunningOperation;
 
 export type DeleteOrganizationsEnvgroupsError = CommonErrors;
 
+/** Deletes an environment group. */
 export const deleteOrganizationsEnvgroups: API.OperationMethod<DeleteOrganizationsEnvgroupsRequest, DeleteOrganizationsEnvgroupsResponse, DeleteOrganizationsEnvgroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsEnvgroupsRequest,
   output: DeleteOrganizationsEnvgroupsResponse,
   errors: [],
 }));
 
-/** Gets the deployed ingress configuration for an environment group. */
 export interface GetDeployedIngressConfigOrganizationsEnvgroupsRequest {
   /** Required. Name of the deployed configuration for the environment group in the following format: 'organizations/{org}/envgroups/{envgroup}/deployedIngressConfig'. */
   name: string;
@@ -14015,13 +14014,13 @@ export const GetDeployedIngressConfigOrganizationsEnvgroupsResponse = GoogleClou
 
 export type GetDeployedIngressConfigOrganizationsEnvgroupsError = CommonErrors;
 
+/** Gets the deployed ingress configuration for an environment group. */
 export const getDeployedIngressConfigOrganizationsEnvgroups: API.OperationMethod<GetDeployedIngressConfigOrganizationsEnvgroupsRequest, GetDeployedIngressConfigOrganizationsEnvgroupsResponse, GetDeployedIngressConfigOrganizationsEnvgroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDeployedIngressConfigOrganizationsEnvgroupsRequest,
   output: GetDeployedIngressConfigOrganizationsEnvgroupsResponse,
   errors: [],
 }));
 
-/** Gets an environment group attachment. */
 export interface GetOrganizationsEnvgroupsAttachmentsRequest {
   /** Required. Name of the environment group attachment in the following format: `organizations/{org}/envgroups/{envgroup}/attachments/{attachment}` */
   name: string;
@@ -14039,13 +14038,13 @@ export const GetOrganizationsEnvgroupsAttachmentsResponse = GoogleCloudApigeeV1E
 
 export type GetOrganizationsEnvgroupsAttachmentsError = CommonErrors;
 
+/** Gets an environment group attachment. */
 export const getOrganizationsEnvgroupsAttachments: API.OperationMethod<GetOrganizationsEnvgroupsAttachmentsRequest, GetOrganizationsEnvgroupsAttachmentsResponse, GetOrganizationsEnvgroupsAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsEnvgroupsAttachmentsRequest,
   output: GetOrganizationsEnvgroupsAttachmentsResponse,
   errors: [],
 }));
 
-/** Deletes an environment group attachment. */
 export interface DeleteOrganizationsEnvgroupsAttachmentsRequest {
   /** Required. Name of the environment group attachment to delete in the following format: `organizations/{org}/envgroups/{envgroup}/attachments/{attachment}`. */
   name: string;
@@ -14063,13 +14062,13 @@ export const DeleteOrganizationsEnvgroupsAttachmentsResponse = GoogleLongrunning
 
 export type DeleteOrganizationsEnvgroupsAttachmentsError = CommonErrors;
 
+/** Deletes an environment group attachment. */
 export const deleteOrganizationsEnvgroupsAttachments: API.OperationMethod<DeleteOrganizationsEnvgroupsAttachmentsRequest, DeleteOrganizationsEnvgroupsAttachmentsResponse, DeleteOrganizationsEnvgroupsAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsEnvgroupsAttachmentsRequest,
   output: DeleteOrganizationsEnvgroupsAttachmentsResponse,
   errors: [],
 }));
 
-/** Creates a new attachment of an environment to an environment group. */
 export interface CreateOrganizationsEnvgroupsAttachmentsRequest {
   /** Required. EnvironmentGroup under which to create the attachment in the following format: `organizations/{org}/envgroups/{envgroup}`. */
   parent: string;
@@ -14090,13 +14089,13 @@ export const CreateOrganizationsEnvgroupsAttachmentsResponse = GoogleLongrunning
 
 export type CreateOrganizationsEnvgroupsAttachmentsError = CommonErrors;
 
+/** Creates a new attachment of an environment to an environment group. */
 export const createOrganizationsEnvgroupsAttachments: API.OperationMethod<CreateOrganizationsEnvgroupsAttachmentsRequest, CreateOrganizationsEnvgroupsAttachmentsResponse, CreateOrganizationsEnvgroupsAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsEnvgroupsAttachmentsRequest,
   output: CreateOrganizationsEnvgroupsAttachmentsResponse,
   errors: [],
 }));
 
-/** Lists all attachments of an environment group. */
 export interface ListOrganizationsEnvgroupsAttachmentsRequest {
   /** Maximum number of environment group attachments to return. The page size defaults to 25. */
   pageSize?: number;
@@ -14120,7 +14119,8 @@ export const ListOrganizationsEnvgroupsAttachmentsResponse = GoogleCloudApigeeV1
 
 export type ListOrganizationsEnvgroupsAttachmentsError = CommonErrors;
 
-export const listOrganizationsEnvgroupsAttachments = API.makePaginated(() => ({
+/** Lists all attachments of an environment group. */
+export const listOrganizationsEnvgroupsAttachments: API.PaginatedOperationMethod<ListOrganizationsEnvgroupsAttachmentsRequest, ListOrganizationsEnvgroupsAttachmentsResponse, ListOrganizationsEnvgroupsAttachmentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsEnvgroupsAttachmentsRequest,
   output: ListOrganizationsEnvgroupsAttachmentsResponse,
   errors: [],
@@ -14130,7 +14130,6 @@ export const listOrganizationsEnvgroupsAttachments = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an API category. */
 export interface PatchOrganizationsSitesApicategoriesRequest {
   /** Required. Name of the category. Use the following structure in your request: `organizations/{org}/sites/{site}/apicategories/{apicategory}` */
   name: string;
@@ -14151,13 +14150,13 @@ export const PatchOrganizationsSitesApicategoriesResponse = GoogleCloudApigeeV1A
 
 export type PatchOrganizationsSitesApicategoriesError = CommonErrors;
 
+/** Updates an API category. */
 export const patchOrganizationsSitesApicategories: API.OperationMethod<PatchOrganizationsSitesApicategoriesRequest, PatchOrganizationsSitesApicategoriesResponse, PatchOrganizationsSitesApicategoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsSitesApicategoriesRequest,
   output: PatchOrganizationsSitesApicategoriesResponse,
   errors: [],
 }));
 
-/** Gets an API category. */
 export interface GetOrganizationsSitesApicategoriesRequest {
   /** Required. Name of the category. Use the following structure in your request: `organizations/{org}/sites/{site}/apicategories/{apicategory}` */
   name: string;
@@ -14175,13 +14174,13 @@ export const GetOrganizationsSitesApicategoriesResponse = GoogleCloudApigeeV1Api
 
 export type GetOrganizationsSitesApicategoriesError = CommonErrors;
 
+/** Gets an API category. */
 export const getOrganizationsSitesApicategories: API.OperationMethod<GetOrganizationsSitesApicategoriesRequest, GetOrganizationsSitesApicategoriesResponse, GetOrganizationsSitesApicategoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsSitesApicategoriesRequest,
   output: GetOrganizationsSitesApicategoriesResponse,
   errors: [],
 }));
 
-/** Creates a new API category. */
 export interface CreateOrganizationsSitesApicategoriesRequest {
   /** Required. Name of the portal. Use the following structure in your request: `organizations/{org}/sites/{site}` */
   parent: string;
@@ -14202,13 +14201,13 @@ export const CreateOrganizationsSitesApicategoriesResponse = GoogleCloudApigeeV1
 
 export type CreateOrganizationsSitesApicategoriesError = CommonErrors;
 
+/** Creates a new API category. */
 export const createOrganizationsSitesApicategories: API.OperationMethod<CreateOrganizationsSitesApicategoriesRequest, CreateOrganizationsSitesApicategoriesResponse, CreateOrganizationsSitesApicategoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsSitesApicategoriesRequest,
   output: CreateOrganizationsSitesApicategoriesResponse,
   errors: [],
 }));
 
-/** Deletes an API category. */
 export interface DeleteOrganizationsSitesApicategoriesRequest {
   /** Required. Name of the category. Use the following structure in your request: `organizations/{org}/sites/{site}/apicategories/{apicategory}` */
   name: string;
@@ -14226,13 +14225,13 @@ export const DeleteOrganizationsSitesApicategoriesResponse = GoogleCloudApigeeV1
 
 export type DeleteOrganizationsSitesApicategoriesError = CommonErrors;
 
+/** Deletes an API category. */
 export const deleteOrganizationsSitesApicategories: API.OperationMethod<DeleteOrganizationsSitesApicategoriesRequest, DeleteOrganizationsSitesApicategoriesResponse, DeleteOrganizationsSitesApicategoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsSitesApicategoriesRequest,
   output: DeleteOrganizationsSitesApicategoriesResponse,
   errors: [],
 }));
 
-/** Returns the API categories associated with a portal. */
 export interface ListOrganizationsSitesApicategoriesRequest {
   /** Required. Name of the portal. Use the following structure in your request: `organizations/{org}/sites/{site}` */
   parent: string;
@@ -14250,13 +14249,13 @@ export const ListOrganizationsSitesApicategoriesResponse = GoogleCloudApigeeV1Li
 
 export type ListOrganizationsSitesApicategoriesError = CommonErrors;
 
+/** Returns the API categories associated with a portal. */
 export const listOrganizationsSitesApicategories: API.OperationMethod<ListOrganizationsSitesApicategoriesRequest, ListOrganizationsSitesApicategoriesResponse, ListOrganizationsSitesApicategoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOrganizationsSitesApicategoriesRequest,
   output: ListOrganizationsSitesApicategoriesResponse,
   errors: [],
 }));
 
-/** Updates a catalog item. */
 export interface UpdateOrganizationsSitesApidocsRequest {
   /** Required. Name of the catalog item. Use the following structure in your request: `organizations/{org}/sites/{site}/apidocs/{apidoc}` */
   name: string;
@@ -14277,13 +14276,13 @@ export const UpdateOrganizationsSitesApidocsResponse = GoogleCloudApigeeV1ApiDoc
 
 export type UpdateOrganizationsSitesApidocsError = CommonErrors;
 
+/** Updates a catalog item. */
 export const updateOrganizationsSitesApidocs: API.OperationMethod<UpdateOrganizationsSitesApidocsRequest, UpdateOrganizationsSitesApidocsResponse, UpdateOrganizationsSitesApidocsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateOrganizationsSitesApidocsRequest,
   output: UpdateOrganizationsSitesApidocsResponse,
   errors: [],
 }));
 
-/** Returns the catalog items associated with a portal. */
 export interface ListOrganizationsSitesApidocsRequest {
   /** Optional. The maximum number of items to return. The service may return fewer than this value. If unspecified, at most 25 books will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
   pageSize?: number;
@@ -14307,7 +14306,8 @@ export const ListOrganizationsSitesApidocsResponse = GoogleCloudApigeeV1ListApiD
 
 export type ListOrganizationsSitesApidocsError = CommonErrors;
 
-export const listOrganizationsSitesApidocs = API.makePaginated(() => ({
+/** Returns the catalog items associated with a portal. */
+export const listOrganizationsSitesApidocs: API.PaginatedOperationMethod<ListOrganizationsSitesApidocsRequest, ListOrganizationsSitesApidocsResponse, ListOrganizationsSitesApidocsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsSitesApidocsRequest,
   output: ListOrganizationsSitesApidocsResponse,
   errors: [],
@@ -14317,7 +14317,6 @@ export const listOrganizationsSitesApidocs = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a catalog item. */
 export interface DeleteOrganizationsSitesApidocsRequest {
   /** Required. Name of the catalog item. Use the following structure in your request: `organizations/{org}/sites/{site}/apidocs/{apidoc}` */
   name: string;
@@ -14335,13 +14334,13 @@ export const DeleteOrganizationsSitesApidocsResponse = GoogleCloudApigeeV1Delete
 
 export type DeleteOrganizationsSitesApidocsError = CommonErrors;
 
+/** Deletes a catalog item. */
 export const deleteOrganizationsSitesApidocs: API.OperationMethod<DeleteOrganizationsSitesApidocsRequest, DeleteOrganizationsSitesApidocsResponse, DeleteOrganizationsSitesApidocsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsSitesApidocsRequest,
   output: DeleteOrganizationsSitesApidocsResponse,
   errors: [],
 }));
 
-/** Updates the documentation for the specified catalog item. Note that the documentation file contents will not be populated in the return message. */
 export interface UpdateDocumentationOrganizationsSitesApidocsRequest {
   /** Required. Resource name of the catalog item documentation. Use the following structure in your request: `organizations/{org}/sites/{site}/apidocs/{apidoc}/documentation` */
   name: string;
@@ -14362,13 +14361,13 @@ export const UpdateDocumentationOrganizationsSitesApidocsResponse = GoogleCloudA
 
 export type UpdateDocumentationOrganizationsSitesApidocsError = CommonErrors;
 
+/** Updates the documentation for the specified catalog item. Note that the documentation file contents will not be populated in the return message. */
 export const updateDocumentationOrganizationsSitesApidocs: API.OperationMethod<UpdateDocumentationOrganizationsSitesApidocsRequest, UpdateDocumentationOrganizationsSitesApidocsResponse, UpdateDocumentationOrganizationsSitesApidocsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateDocumentationOrganizationsSitesApidocsRequest,
   output: UpdateDocumentationOrganizationsSitesApidocsResponse,
   errors: [],
 }));
 
-/** Creates a new catalog item. */
 export interface CreateOrganizationsSitesApidocsRequest {
   /** Required. Name of the portal. Use the following structure in your request: `organizations/{org}/sites/{site}` */
   parent: string;
@@ -14389,13 +14388,13 @@ export const CreateOrganizationsSitesApidocsResponse = GoogleCloudApigeeV1ApiDoc
 
 export type CreateOrganizationsSitesApidocsError = CommonErrors;
 
+/** Creates a new catalog item. */
 export const createOrganizationsSitesApidocs: API.OperationMethod<CreateOrganizationsSitesApidocsRequest, CreateOrganizationsSitesApidocsResponse, CreateOrganizationsSitesApidocsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsSitesApidocsRequest,
   output: CreateOrganizationsSitesApidocsResponse,
   errors: [],
 }));
 
-/** Gets a catalog item. */
 export interface GetOrganizationsSitesApidocsRequest {
   /** Required. Name of the catalog item. Use the following structure in your request: `organizations/{org}/sites/{site}/apidocs/{apidoc}` */
   name: string;
@@ -14413,13 +14412,13 @@ export const GetOrganizationsSitesApidocsResponse = GoogleCloudApigeeV1ApiDocRes
 
 export type GetOrganizationsSitesApidocsError = CommonErrors;
 
+/** Gets a catalog item. */
 export const getOrganizationsSitesApidocs: API.OperationMethod<GetOrganizationsSitesApidocsRequest, GetOrganizationsSitesApidocsResponse, GetOrganizationsSitesApidocsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsSitesApidocsRequest,
   output: GetOrganizationsSitesApidocsResponse,
   errors: [],
 }));
 
-/** Gets the documentation for the specified catalog item. */
 export interface GetDocumentationOrganizationsSitesApidocsRequest {
   /** Required. Resource name of the catalog item documentation. Use the following structure in your request: `organizations/{org}/sites/{site}/apidocs/{apidoc}/documentation` */
   name: string;
@@ -14437,13 +14436,13 @@ export const GetDocumentationOrganizationsSitesApidocsResponse = GoogleCloudApig
 
 export type GetDocumentationOrganizationsSitesApidocsError = CommonErrors;
 
+/** Gets the documentation for the specified catalog item. */
 export const getDocumentationOrganizationsSitesApidocs: API.OperationMethod<GetDocumentationOrganizationsSitesApidocsRequest, GetDocumentationOrganizationsSitesApidocsResponse, GetDocumentationOrganizationsSitesApidocsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDocumentationOrganizationsSitesApidocsRequest,
   output: GetDocumentationOrganizationsSitesApidocsResponse,
   errors: [],
 }));
 
-/** Lists all feedback reports which have already been submitted. */
 export interface ListOrganizationsSecurityFeedbackRequest {
   /** Required. Name of the organization. Format: `organizations/{org}`. Example: organizations/apigee-organization-name/securityFeedback */
   parent: string;
@@ -14467,7 +14466,8 @@ export const ListOrganizationsSecurityFeedbackResponse = GoogleCloudApigeeV1List
 
 export type ListOrganizationsSecurityFeedbackError = CommonErrors;
 
-export const listOrganizationsSecurityFeedback = API.makePaginated(() => ({
+/** Lists all feedback reports which have already been submitted. */
+export const listOrganizationsSecurityFeedback: API.PaginatedOperationMethod<ListOrganizationsSecurityFeedbackRequest, ListOrganizationsSecurityFeedbackResponse, ListOrganizationsSecurityFeedbackError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsSecurityFeedbackRequest,
   output: ListOrganizationsSecurityFeedbackResponse,
   errors: [],
@@ -14477,7 +14477,6 @@ export const listOrganizationsSecurityFeedback = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a specific feedback report. Used for "undo" of a feedback submission. */
 export interface DeleteOrganizationsSecurityFeedbackRequest {
   /** Required. Name of the SecurityFeedback to delete. Use the following structure in your request: `organizations/{org}/securityFeedback/{feedback_id}` */
   name: string;
@@ -14495,13 +14494,13 @@ export const DeleteOrganizationsSecurityFeedbackResponse = GoogleProtobufEmpty;
 
 export type DeleteOrganizationsSecurityFeedbackError = CommonErrors;
 
+/** Deletes a specific feedback report. Used for "undo" of a feedback submission. */
 export const deleteOrganizationsSecurityFeedback: API.OperationMethod<DeleteOrganizationsSecurityFeedbackRequest, DeleteOrganizationsSecurityFeedbackResponse, DeleteOrganizationsSecurityFeedbackError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsSecurityFeedbackRequest,
   output: DeleteOrganizationsSecurityFeedbackResponse,
   errors: [],
 }));
 
-/** Creates a new report containing customer feedback. */
 export interface CreateOrganizationsSecurityFeedbackRequest {
   /** Required. Name of the organization. Use the following structure in your request: `organizations/{org}`. */
   parent: string;
@@ -14525,13 +14524,13 @@ export const CreateOrganizationsSecurityFeedbackResponse = GoogleCloudApigeeV1Se
 
 export type CreateOrganizationsSecurityFeedbackError = CommonErrors;
 
+/** Creates a new report containing customer feedback. */
 export const createOrganizationsSecurityFeedback: API.OperationMethod<CreateOrganizationsSecurityFeedbackRequest, CreateOrganizationsSecurityFeedbackResponse, CreateOrganizationsSecurityFeedbackError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsSecurityFeedbackRequest,
   output: CreateOrganizationsSecurityFeedbackResponse,
   errors: [],
 }));
 
-/** Gets a specific customer feedback report. */
 export interface GetOrganizationsSecurityFeedbackRequest {
   /** Required. Name of the SecurityFeedback. Format: `organizations/{org}/securityFeedback/{feedback_id}` Example: organizations/apigee-organization-name/securityFeedback/feedback-id */
   name: string;
@@ -14549,13 +14548,13 @@ export const GetOrganizationsSecurityFeedbackResponse = GoogleCloudApigeeV1Secur
 
 export type GetOrganizationsSecurityFeedbackError = CommonErrors;
 
+/** Gets a specific customer feedback report. */
 export const getOrganizationsSecurityFeedback: API.OperationMethod<GetOrganizationsSecurityFeedbackRequest, GetOrganizationsSecurityFeedbackResponse, GetOrganizationsSecurityFeedbackError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsSecurityFeedbackRequest,
   output: GetOrganizationsSecurityFeedbackResponse,
   errors: [],
 }));
 
-/** Updates a specific feedback report. */
 export interface PatchOrganizationsSecurityFeedbackRequest {
   /** Output only. Identifier. The feedback name is intended to be a system-generated uuid. */
   name: string;
@@ -14579,13 +14578,13 @@ export const PatchOrganizationsSecurityFeedbackResponse = GoogleCloudApigeeV1Sec
 
 export type PatchOrganizationsSecurityFeedbackError = CommonErrors;
 
+/** Updates a specific feedback report. */
 export const patchOrganizationsSecurityFeedback: API.OperationMethod<PatchOrganizationsSecurityFeedbackRequest, PatchOrganizationsSecurityFeedbackResponse, PatchOrganizationsSecurityFeedbackError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsSecurityFeedbackRequest,
   output: PatchOrganizationsSecurityFeedbackResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListOrganizationsOperationsRequest {
   /** The standard list page size. */
   pageSize?: number;
@@ -14615,7 +14614,8 @@ export const ListOrganizationsOperationsResponse = GoogleLongrunningListOperatio
 
 export type ListOrganizationsOperationsError = CommonErrors;
 
-export const listOrganizationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listOrganizationsOperations: API.PaginatedOperationMethod<ListOrganizationsOperationsRequest, ListOrganizationsOperationsResponse, ListOrganizationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsOperationsRequest,
   output: ListOrganizationsOperationsResponse,
   errors: [],
@@ -14625,7 +14625,6 @@ export const listOrganizationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetOrganizationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -14643,13 +14642,13 @@ export const GetOrganizationsOperationsResponse = GoogleLongrunningOperation;
 
 export type GetOrganizationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOrganizationsOperations: API.OperationMethod<GetOrganizationsOperationsRequest, GetOrganizationsOperationsResponse, GetOrganizationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsOperationsRequest,
   output: GetOrganizationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a data collector. */
 export interface DeleteOrganizationsDatacollectorsRequest {
   /** Required. Name of the data collector in the following format: `organizations/{org}/datacollectors/{data_collector_id}`. */
   name: string;
@@ -14667,13 +14666,13 @@ export const DeleteOrganizationsDatacollectorsResponse = GoogleProtobufEmpty;
 
 export type DeleteOrganizationsDatacollectorsError = CommonErrors;
 
+/** Deletes a data collector. */
 export const deleteOrganizationsDatacollectors: API.OperationMethod<DeleteOrganizationsDatacollectorsRequest, DeleteOrganizationsDatacollectorsResponse, DeleteOrganizationsDatacollectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsDatacollectorsRequest,
   output: DeleteOrganizationsDatacollectorsResponse,
   errors: [],
 }));
 
-/** Lists all data collectors. */
 export interface ListOrganizationsDatacollectorsRequest {
   /** Maximum number of data collectors to return. The page size defaults to 25. */
   pageSize?: number;
@@ -14697,7 +14696,8 @@ export const ListOrganizationsDatacollectorsResponse = GoogleCloudApigeeV1ListDa
 
 export type ListOrganizationsDatacollectorsError = CommonErrors;
 
-export const listOrganizationsDatacollectors = API.makePaginated(() => ({
+/** Lists all data collectors. */
+export const listOrganizationsDatacollectors: API.PaginatedOperationMethod<ListOrganizationsDatacollectorsRequest, ListOrganizationsDatacollectorsResponse, ListOrganizationsDatacollectorsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsDatacollectorsRequest,
   output: ListOrganizationsDatacollectorsResponse,
   errors: [],
@@ -14707,7 +14707,6 @@ export const listOrganizationsDatacollectors = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a data collector. */
 export interface GetOrganizationsDatacollectorsRequest {
   /** Required. Name of the data collector in the following format: `organizations/{org}/datacollectors/{data_collector_id}`. */
   name: string;
@@ -14725,13 +14724,13 @@ export const GetOrganizationsDatacollectorsResponse = GoogleCloudApigeeV1DataCol
 
 export type GetOrganizationsDatacollectorsError = CommonErrors;
 
+/** Gets a data collector. */
 export const getOrganizationsDatacollectors: API.OperationMethod<GetOrganizationsDatacollectorsRequest, GetOrganizationsDatacollectorsResponse, GetOrganizationsDatacollectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsDatacollectorsRequest,
   output: GetOrganizationsDatacollectorsResponse,
   errors: [],
 }));
 
-/** Updates a data collector. */
 export interface PatchOrganizationsDatacollectorsRequest {
   /** Required. Name of the data collector in the following format: `organizations/{org}/datacollectors/{data_collector_id}`. */
   name: string;
@@ -14755,13 +14754,13 @@ export const PatchOrganizationsDatacollectorsResponse = GoogleCloudApigeeV1DataC
 
 export type PatchOrganizationsDatacollectorsError = CommonErrors;
 
+/** Updates a data collector. */
 export const patchOrganizationsDatacollectors: API.OperationMethod<PatchOrganizationsDatacollectorsRequest, PatchOrganizationsDatacollectorsResponse, PatchOrganizationsDatacollectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsDatacollectorsRequest,
   output: PatchOrganizationsDatacollectorsResponse,
   errors: [],
 }));
 
-/** Creates a new data collector. */
 export interface CreateOrganizationsDatacollectorsRequest {
   /** ID of the data collector. Overrides any ID in the data collector resource. Must be a string beginning with `dc_` that contains only letters, numbers, and underscores. */
   dataCollectorId?: string;
@@ -14785,13 +14784,13 @@ export const CreateOrganizationsDatacollectorsResponse = GoogleCloudApigeeV1Data
 
 export type CreateOrganizationsDatacollectorsError = CommonErrors;
 
+/** Creates a new data collector. */
 export const createOrganizationsDatacollectors: API.OperationMethod<CreateOrganizationsDatacollectorsRequest, CreateOrganizationsDatacollectorsResponse, CreateOrganizationsDatacollectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsDatacollectorsRequest,
   output: CreateOrganizationsDatacollectorsResponse,
   errors: [],
 }));
 
-/** Create a security profile v2. */
 export interface CreateOrganizationsSecurityProfilesV2Request {
   /** Required. The parent resource name. Format: `organizations/{org}` */
   parent: string;
@@ -14815,13 +14814,13 @@ export const CreateOrganizationsSecurityProfilesV2Response = GoogleCloudApigeeV1
 
 export type CreateOrganizationsSecurityProfilesV2Error = CommonErrors;
 
+/** Create a security profile v2. */
 export const createOrganizationsSecurityProfilesV2: API.OperationMethod<CreateOrganizationsSecurityProfilesV2Request, CreateOrganizationsSecurityProfilesV2Response, CreateOrganizationsSecurityProfilesV2Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsSecurityProfilesV2Request,
   output: CreateOrganizationsSecurityProfilesV2Response,
   errors: [],
 }));
 
-/** Get a security profile v2. */
 export interface GetOrganizationsSecurityProfilesV2Request {
   /** Required. The name of the security profile v2 to get. Format: `organizations/{org}/securityProfilesV2/{profile}` */
   name: string;
@@ -14842,13 +14841,13 @@ export const GetOrganizationsSecurityProfilesV2Response = GoogleCloudApigeeV1Sec
 
 export type GetOrganizationsSecurityProfilesV2Error = CommonErrors;
 
+/** Get a security profile v2. */
 export const getOrganizationsSecurityProfilesV2: API.OperationMethod<GetOrganizationsSecurityProfilesV2Request, GetOrganizationsSecurityProfilesV2Response, GetOrganizationsSecurityProfilesV2Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsSecurityProfilesV2Request,
   output: GetOrganizationsSecurityProfilesV2Response,
   errors: [],
 }));
 
-/** Update a security profile V2. */
 export interface PatchOrganizationsSecurityProfilesV2Request {
   /** Identifier. Name of the security profile v2 resource. Format: organizations/{org}/securityProfilesV2/{profile} */
   name: string;
@@ -14872,13 +14871,13 @@ export const PatchOrganizationsSecurityProfilesV2Response = GoogleCloudApigeeV1S
 
 export type PatchOrganizationsSecurityProfilesV2Error = CommonErrors;
 
+/** Update a security profile V2. */
 export const patchOrganizationsSecurityProfilesV2: API.OperationMethod<PatchOrganizationsSecurityProfilesV2Request, PatchOrganizationsSecurityProfilesV2Response, PatchOrganizationsSecurityProfilesV2Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsSecurityProfilesV2Request,
   output: PatchOrganizationsSecurityProfilesV2Response,
   errors: [],
 }));
 
-/** List security profiles v2. */
 export interface ListOrganizationsSecurityProfilesV2Request {
   /** Optional. The maximum number of profiles to return */
   pageSize?: number;
@@ -14905,7 +14904,8 @@ export const ListOrganizationsSecurityProfilesV2Response = GoogleCloudApigeeV1Li
 
 export type ListOrganizationsSecurityProfilesV2Error = CommonErrors;
 
-export const listOrganizationsSecurityProfilesV2 = API.makePaginated(() => ({
+/** List security profiles v2. */
+export const listOrganizationsSecurityProfilesV2: API.PaginatedOperationMethod<ListOrganizationsSecurityProfilesV2Request, ListOrganizationsSecurityProfilesV2Response, ListOrganizationsSecurityProfilesV2Error, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsSecurityProfilesV2Request,
   output: ListOrganizationsSecurityProfilesV2Response,
   errors: [],
@@ -14915,7 +14915,6 @@ export const listOrganizationsSecurityProfilesV2 = API.makePaginated(() => ({
   },
 }));
 
-/** Delete a security profile v2. */
 export interface DeleteOrganizationsSecurityProfilesV2Request {
   /** Required. The name of the security profile v2 to delete. Format: `organizations/{org}/securityProfilesV2/{profile}` */
   name: string;
@@ -14936,13 +14935,13 @@ export const DeleteOrganizationsSecurityProfilesV2Response = GoogleProtobufEmpty
 
 export type DeleteOrganizationsSecurityProfilesV2Error = CommonErrors;
 
+/** Delete a security profile v2. */
 export const deleteOrganizationsSecurityProfilesV2: API.OperationMethod<DeleteOrganizationsSecurityProfilesV2Request, DeleteOrganizationsSecurityProfilesV2Response, DeleteOrganizationsSecurityProfilesV2Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsSecurityProfilesV2Request,
   output: DeleteOrganizationsSecurityProfilesV2Response,
   errors: [],
 }));
 
-/** Gets the account balance for the developer. */
 export interface GetBalanceOrganizationsDevelopersRequest {
   /** Required. Account balance for the developer. Use the following structure in your request: `organizations/{org}/developers/{developer}/balance` */
   name: string;
@@ -14960,13 +14959,13 @@ export const GetBalanceOrganizationsDevelopersResponse = GoogleCloudApigeeV1Deve
 
 export type GetBalanceOrganizationsDevelopersError = CommonErrors;
 
+/** Gets the account balance for the developer. */
 export const getBalanceOrganizationsDevelopers: API.OperationMethod<GetBalanceOrganizationsDevelopersRequest, GetBalanceOrganizationsDevelopersResponse, GetBalanceOrganizationsDevelopersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBalanceOrganizationsDevelopersRequest,
   output: GetBalanceOrganizationsDevelopersResponse,
   errors: [],
 }));
 
-/** Returns the developer details, including the developer's name, email address, apps, and other information. **Note**: The response includes only the first 100 developer apps. */
 export interface GetOrganizationsDevelopersRequest {
   /** Required. Email address of the developer. Use the following structure in your request: `organizations/{org}/developers/{developer_email}` */
   name: string;
@@ -14987,13 +14986,13 @@ export const GetOrganizationsDevelopersResponse = GoogleCloudApigeeV1Developer;
 
 export type GetOrganizationsDevelopersError = CommonErrors;
 
+/** Returns the developer details, including the developer's name, email address, apps, and other information. **Note**: The response includes only the first 100 developer apps. */
 export const getOrganizationsDevelopers: API.OperationMethod<GetOrganizationsDevelopersRequest, GetOrganizationsDevelopersResponse, GetOrganizationsDevelopersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsDevelopersRequest,
   output: GetOrganizationsDevelopersResponse,
   errors: [],
 }));
 
-/** Sets the status of a developer. A developer is `active` by default. If you set a developer's status to `inactive`, the API keys assigned to the developer apps are no longer valid even though the API keys are set to `approved`. Inactive developers can still sign in to the developer portal and create apps; however, any new API keys generated during app creation won't work. To set the status of a developer, set the `action` query parameter to `active` or `inactive`, and the `Content-Type` header to `application/octet-stream`. If successful, the API call returns the following HTTP status code: `204 No Content` */
 export interface SetDeveloperStatusOrganizationsDevelopersRequest {
   /** Required. Name of the developer. Use the following structure in your request: `organizations/{org}/developers/{developer_id}` */
   name: string;
@@ -15014,13 +15013,13 @@ export const SetDeveloperStatusOrganizationsDevelopersResponse = GoogleProtobufE
 
 export type SetDeveloperStatusOrganizationsDevelopersError = CommonErrors;
 
+/** Sets the status of a developer. A developer is `active` by default. If you set a developer's status to `inactive`, the API keys assigned to the developer apps are no longer valid even though the API keys are set to `approved`. Inactive developers can still sign in to the developer portal and create apps; however, any new API keys generated during app creation won't work. To set the status of a developer, set the `action` query parameter to `active` or `inactive`, and the `Content-Type` header to `application/octet-stream`. If successful, the API call returns the following HTTP status code: `204 No Content` */
 export const setDeveloperStatusOrganizationsDevelopers: API.OperationMethod<SetDeveloperStatusOrganizationsDevelopersRequest, SetDeveloperStatusOrganizationsDevelopersResponse, SetDeveloperStatusOrganizationsDevelopersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetDeveloperStatusOrganizationsDevelopersRequest,
   output: SetDeveloperStatusOrganizationsDevelopersResponse,
   errors: [],
 }));
 
-/** Deletes a developer. All apps and API keys associated with the developer are also removed. **Warning**: This API will permanently delete the developer and related artifacts. To avoid permanently deleting developers and their artifacts, set the developer status to `inactive` using the SetDeveloperStatus API. **Note**: The delete operation is asynchronous. The developer is deleted immediately, but its associated resources, such as apps and API keys, may take anywhere from a few seconds to a few minutes to be deleted. */
 export interface DeleteOrganizationsDevelopersRequest {
   /** Required. Email address of the developer. Use the following structure in your request: `organizations/{org}/developers/{developer_email}` */
   name: string;
@@ -15038,13 +15037,13 @@ export const DeleteOrganizationsDevelopersResponse = GoogleCloudApigeeV1Develope
 
 export type DeleteOrganizationsDevelopersError = CommonErrors;
 
+/** Deletes a developer. All apps and API keys associated with the developer are also removed. **Warning**: This API will permanently delete the developer and related artifacts. To avoid permanently deleting developers and their artifacts, set the developer status to `inactive` using the SetDeveloperStatus API. **Note**: The delete operation is asynchronous. The developer is deleted immediately, but its associated resources, such as apps and API keys, may take anywhere from a few seconds to a few minutes to be deleted. */
 export const deleteOrganizationsDevelopers: API.OperationMethod<DeleteOrganizationsDevelopersRequest, DeleteOrganizationsDevelopersResponse, DeleteOrganizationsDevelopersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsDevelopersRequest,
   output: DeleteOrganizationsDevelopersResponse,
   errors: [],
 }));
 
-/** Updates a developer. This API replaces the existing developer details with those specified in the request. Include or exclude any existing details that you want to retain or delete, respectively. The custom attribute limit is 18. **Note**: OAuth access tokens and Key Management Service (KMS) entities (apps, developers, and API products) are cached for 180 seconds (current default). Any custom attributes associated with these entities are cached for at least 180 seconds after the entity is accessed at runtime. Therefore, an `ExpiresIn` element on the OAuthV2 policy won't be able to expire an access token in less than 180 seconds. */
 export interface UpdateOrganizationsDevelopersRequest {
   /** Required. Email address of the developer. Use the following structure in your request: `organizations/{org}/developers/{developer_email}` */
   name: string;
@@ -15065,13 +15064,13 @@ export const UpdateOrganizationsDevelopersResponse = GoogleCloudApigeeV1Develope
 
 export type UpdateOrganizationsDevelopersError = CommonErrors;
 
+/** Updates a developer. This API replaces the existing developer details with those specified in the request. Include or exclude any existing details that you want to retain or delete, respectively. The custom attribute limit is 18. **Note**: OAuth access tokens and Key Management Service (KMS) entities (apps, developers, and API products) are cached for 180 seconds (current default). Any custom attributes associated with these entities are cached for at least 180 seconds after the entity is accessed at runtime. Therefore, an `ExpiresIn` element on the OAuthV2 policy won't be able to expire an access token in less than 180 seconds. */
 export const updateOrganizationsDevelopers: API.OperationMethod<UpdateOrganizationsDevelopersRequest, UpdateOrganizationsDevelopersResponse, UpdateOrganizationsDevelopersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateOrganizationsDevelopersRequest,
   output: UpdateOrganizationsDevelopersResponse,
   errors: [],
 }));
 
-/** Updates developer attributes. This API replaces the existing attributes with those specified in the request. Add new attributes, and include or exclude any existing attributes that you want to retain or remove, respectively. The custom attribute limit is 18. **Note**: OAuth access tokens and Key Management Service (KMS) entities (apps, developers, and API products) are cached for 180 seconds (default). Any custom attributes associated with these entities are cached for at least 180 seconds after the entity is accessed at runtime. Therefore, an `ExpiresIn` element on the OAuthV2 policy won't be able to expire an access token in less than 180 seconds. */
 export interface AttributesOrganizationsDevelopersRequest {
   /** Required. Email address of the developer for which attributes are being updated. Use the following structure in your request: `organizations/{org}/developers/{developer_email}` */
   parent: string;
@@ -15092,13 +15091,13 @@ export const AttributesOrganizationsDevelopersResponse = GoogleCloudApigeeV1Attr
 
 export type AttributesOrganizationsDevelopersError = CommonErrors;
 
+/** Updates developer attributes. This API replaces the existing attributes with those specified in the request. Add new attributes, and include or exclude any existing attributes that you want to retain or remove, respectively. The custom attribute limit is 18. **Note**: OAuth access tokens and Key Management Service (KMS) entities (apps, developers, and API products) are cached for 180 seconds (default). Any custom attributes associated with these entities are cached for at least 180 seconds after the entity is accessed at runtime. Therefore, an `ExpiresIn` element on the OAuthV2 policy won't be able to expire an access token in less than 180 seconds. */
 export const attributesOrganizationsDevelopers: API.OperationMethod<AttributesOrganizationsDevelopersRequest, AttributesOrganizationsDevelopersResponse, AttributesOrganizationsDevelopersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AttributesOrganizationsDevelopersRequest,
   output: AttributesOrganizationsDevelopersResponse,
   errors: [],
 }));
 
-/** Updates the monetization configuration for the developer. */
 export interface UpdateMonetizationConfigOrganizationsDevelopersRequest {
   /** Required. Monetization configuration for the developer. Use the following structure in your request: `organizations/{org}/developers/{developer}/monetizationConfig` */
   name: string;
@@ -15119,13 +15118,13 @@ export const UpdateMonetizationConfigOrganizationsDevelopersResponse = GoogleClo
 
 export type UpdateMonetizationConfigOrganizationsDevelopersError = CommonErrors;
 
+/** Updates the monetization configuration for the developer. */
 export const updateMonetizationConfigOrganizationsDevelopers: API.OperationMethod<UpdateMonetizationConfigOrganizationsDevelopersRequest, UpdateMonetizationConfigOrganizationsDevelopersResponse, UpdateMonetizationConfigOrganizationsDevelopersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateMonetizationConfigOrganizationsDevelopersRequest,
   output: UpdateMonetizationConfigOrganizationsDevelopersResponse,
   errors: [],
 }));
 
-/** Creates a developer. Once created, the developer can register an app and obtain an API key. At creation time, a developer is set as `active`. To change the developer status, use the SetDeveloperStatus API. */
 export interface CreateOrganizationsDevelopersRequest {
   /** Required. Name of the Apigee organization in which the developer is created. Use the following structure in your request: `organizations/{org}`. */
   parent: string;
@@ -15146,13 +15145,13 @@ export const CreateOrganizationsDevelopersResponse = GoogleCloudApigeeV1Develope
 
 export type CreateOrganizationsDevelopersError = CommonErrors;
 
+/** Creates a developer. Once created, the developer can register an app and obtain an API key. At creation time, a developer is set as `active`. To change the developer status, use the SetDeveloperStatus API. */
 export const createOrganizationsDevelopers: API.OperationMethod<CreateOrganizationsDevelopersRequest, CreateOrganizationsDevelopersResponse, CreateOrganizationsDevelopersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsDevelopersRequest,
   output: CreateOrganizationsDevelopersResponse,
   errors: [],
 }));
 
-/** Lists all developers in an organization by email address. By default, the response does not include company developers. Set the `includeCompany` query parameter to `true` to include company developers. **Note**: A maximum of 1000 developers are returned in the response. You paginate the list of developers returned using the `startKey` and `count` query parameters. */
 export interface ListOrganizationsDevelopersRequest {
   /** Required. Name of the Apigee organization. Use the following structure in your request: `organizations/{org}`. */
   parent: string;
@@ -15188,13 +15187,13 @@ export const ListOrganizationsDevelopersResponse = GoogleCloudApigeeV1ListOfDeve
 
 export type ListOrganizationsDevelopersError = CommonErrors;
 
+/** Lists all developers in an organization by email address. By default, the response does not include company developers. Set the `includeCompany` query parameter to `true` to include company developers. **Note**: A maximum of 1000 developers are returned in the response. You paginate the list of developers returned using the `startKey` and `count` query parameters. */
 export const listOrganizationsDevelopers: API.OperationMethod<ListOrganizationsDevelopersRequest, ListOrganizationsDevelopersResponse, ListOrganizationsDevelopersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOrganizationsDevelopersRequest,
   output: ListOrganizationsDevelopersResponse,
   errors: [],
 }));
 
-/** Gets the monetization configuration for the developer. */
 export interface GetMonetizationConfigOrganizationsDevelopersRequest {
   /** Required. Monetization configuration for the developer. Use the following structure in your request: `organizations/{org}/developers/{developer}/monetizationConfig` */
   name: string;
@@ -15212,13 +15211,13 @@ export const GetMonetizationConfigOrganizationsDevelopersResponse = GoogleCloudA
 
 export type GetMonetizationConfigOrganizationsDevelopersError = CommonErrors;
 
+/** Gets the monetization configuration for the developer. */
 export const getMonetizationConfigOrganizationsDevelopers: API.OperationMethod<GetMonetizationConfigOrganizationsDevelopersRequest, GetMonetizationConfigOrganizationsDevelopersResponse, GetMonetizationConfigOrganizationsDevelopersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetMonetizationConfigOrganizationsDevelopersRequest,
   output: GetMonetizationConfigOrganizationsDevelopersResponse,
   errors: [],
 }));
 
-/** Updates a developer attribute. **Note**: OAuth access tokens and Key Management Service (KMS) entities (apps, developers, and API products) are cached for 180 seconds (default). Any custom attributes associated with these entities are cached for at least 180 seconds after the entity is accessed at runtime. Therefore, an `ExpiresIn` element on the OAuthV2 policy won't be able to expire an access token in less than 180 seconds. */
 export interface UpdateDeveloperAttributeOrganizationsDevelopersAttributesRequest {
   /** Required. Name of the developer attribute. Use the following structure in your request: `organizations/{org}/developers/{developer_email}/attributes/{attribute}` */
   name: string;
@@ -15239,13 +15238,13 @@ export const UpdateDeveloperAttributeOrganizationsDevelopersAttributesResponse =
 
 export type UpdateDeveloperAttributeOrganizationsDevelopersAttributesError = CommonErrors;
 
+/** Updates a developer attribute. **Note**: OAuth access tokens and Key Management Service (KMS) entities (apps, developers, and API products) are cached for 180 seconds (default). Any custom attributes associated with these entities are cached for at least 180 seconds after the entity is accessed at runtime. Therefore, an `ExpiresIn` element on the OAuthV2 policy won't be able to expire an access token in less than 180 seconds. */
 export const updateDeveloperAttributeOrganizationsDevelopersAttributes: API.OperationMethod<UpdateDeveloperAttributeOrganizationsDevelopersAttributesRequest, UpdateDeveloperAttributeOrganizationsDevelopersAttributesResponse, UpdateDeveloperAttributeOrganizationsDevelopersAttributesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateDeveloperAttributeOrganizationsDevelopersAttributesRequest,
   output: UpdateDeveloperAttributeOrganizationsDevelopersAttributesResponse,
   errors: [],
 }));
 
-/** Returns the value of the specified developer attribute. */
 export interface GetOrganizationsDevelopersAttributesRequest {
   /** Required. Name of the developer attribute. Use the following structure in your request: `organizations/{org}/developers/{developer_email}/attributes/{attribute}` */
   name: string;
@@ -15263,13 +15262,13 @@ export const GetOrganizationsDevelopersAttributesResponse = GoogleCloudApigeeV1A
 
 export type GetOrganizationsDevelopersAttributesError = CommonErrors;
 
+/** Returns the value of the specified developer attribute. */
 export const getOrganizationsDevelopersAttributes: API.OperationMethod<GetOrganizationsDevelopersAttributesRequest, GetOrganizationsDevelopersAttributesResponse, GetOrganizationsDevelopersAttributesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsDevelopersAttributesRequest,
   output: GetOrganizationsDevelopersAttributesResponse,
   errors: [],
 }));
 
-/** Deletes a developer attribute. */
 export interface DeleteOrganizationsDevelopersAttributesRequest {
   /** Required. Name of the developer attribute. Use the following structure in your request: `organizations/{org}/developers/{developer_email}/attributes/{attribute}` */
   name: string;
@@ -15287,13 +15286,13 @@ export const DeleteOrganizationsDevelopersAttributesResponse = GoogleCloudApigee
 
 export type DeleteOrganizationsDevelopersAttributesError = CommonErrors;
 
+/** Deletes a developer attribute. */
 export const deleteOrganizationsDevelopersAttributes: API.OperationMethod<DeleteOrganizationsDevelopersAttributesRequest, DeleteOrganizationsDevelopersAttributesResponse, DeleteOrganizationsDevelopersAttributesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsDevelopersAttributesRequest,
   output: DeleteOrganizationsDevelopersAttributesResponse,
   errors: [],
 }));
 
-/** Returns a list of all developer attributes. */
 export interface ListOrganizationsDevelopersAttributesRequest {
   /** Required. Email address of the developer for which attributes are being listed. Use the following structure in your request: `organizations/{org}/developers/{developer_email}` */
   parent: string;
@@ -15311,13 +15310,13 @@ export const ListOrganizationsDevelopersAttributesResponse = GoogleCloudApigeeV1
 
 export type ListOrganizationsDevelopersAttributesError = CommonErrors;
 
+/** Returns a list of all developer attributes. */
 export const listOrganizationsDevelopersAttributes: API.OperationMethod<ListOrganizationsDevelopersAttributesRequest, ListOrganizationsDevelopersAttributesResponse, ListOrganizationsDevelopersAttributesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOrganizationsDevelopersAttributesRequest,
   output: ListOrganizationsDevelopersAttributesResponse,
   errors: [],
 }));
 
-/** Credits the account balance for the developer. */
 export interface CreditOrganizationsDevelopersBalanceRequest {
   /** Required. Account balance for the developer. Use the following structure in your request: `organizations/{org}/developers/{developer}/balance` */
   name: string;
@@ -15338,13 +15337,13 @@ export const CreditOrganizationsDevelopersBalanceResponse = GoogleCloudApigeeV1D
 
 export type CreditOrganizationsDevelopersBalanceError = CommonErrors;
 
+/** Credits the account balance for the developer. */
 export const creditOrganizationsDevelopersBalance: API.OperationMethod<CreditOrganizationsDevelopersBalanceRequest, CreditOrganizationsDevelopersBalanceResponse, CreditOrganizationsDevelopersBalanceError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreditOrganizationsDevelopersBalanceRequest,
   output: CreditOrganizationsDevelopersBalanceResponse,
   errors: [],
 }));
 
-/** Adjust the prepaid balance for the developer. This API will be used in scenarios where the developer has been under-charged or over-charged. */
 export interface AdjustOrganizationsDevelopersBalanceRequest {
   /** Required. Account balance for the developer. Use the following structure in your request: `organizations/{org}/developers/{developer}/balance` */
   name: string;
@@ -15365,13 +15364,13 @@ export const AdjustOrganizationsDevelopersBalanceResponse = GoogleCloudApigeeV1D
 
 export type AdjustOrganizationsDevelopersBalanceError = CommonErrors;
 
+/** Adjust the prepaid balance for the developer. This API will be used in scenarios where the developer has been under-charged or over-charged. */
 export const adjustOrganizationsDevelopersBalance: API.OperationMethod<AdjustOrganizationsDevelopersBalanceRequest, AdjustOrganizationsDevelopersBalanceResponse, AdjustOrganizationsDevelopersBalanceError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AdjustOrganizationsDevelopersBalanceRequest,
   output: AdjustOrganizationsDevelopersBalanceResponse,
   errors: [],
 }));
 
-/** Returns the details for a developer app. */
 export interface GetOrganizationsDevelopersAppsRequest {
   /** **Note**: Must be used in conjunction with the `query` parameter. Set to `apiresources` to return the number of API resources that have been approved for access by a developer app in the specified Apigee organization. */
   entity?: string;
@@ -15395,13 +15394,13 @@ export const GetOrganizationsDevelopersAppsResponse = GoogleCloudApigeeV1Develop
 
 export type GetOrganizationsDevelopersAppsError = CommonErrors;
 
+/** Returns the details for a developer app. */
 export const getOrganizationsDevelopersApps: API.OperationMethod<GetOrganizationsDevelopersAppsRequest, GetOrganizationsDevelopersAppsResponse, GetOrganizationsDevelopersAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsDevelopersAppsRequest,
   output: GetOrganizationsDevelopersAppsResponse,
   errors: [],
 }));
 
-/** Creates an app associated with a developer. This API associates the developer app with the specified API product and auto-generates an API key for the app to use in calls to API proxies inside that API product. The `name` is the unique ID of the app that you can use in API calls. The `DisplayName` (set as an attribute) appears in the UI. If you don't set the `DisplayName` attribute, the `name` appears in the UI. */
 export interface CreateOrganizationsDevelopersAppsRequest {
   /** Required. Name of the developer. Use the following structure in your request: `organizations/{org}/developers/{developer_email}` */
   parent: string;
@@ -15422,13 +15421,13 @@ export const CreateOrganizationsDevelopersAppsResponse = GoogleCloudApigeeV1Deve
 
 export type CreateOrganizationsDevelopersAppsError = CommonErrors;
 
+/** Creates an app associated with a developer. This API associates the developer app with the specified API product and auto-generates an API key for the app to use in calls to API proxies inside that API product. The `name` is the unique ID of the app that you can use in API calls. The `DisplayName` (set as an attribute) appears in the UI. If you don't set the `DisplayName` attribute, the `name` appears in the UI. */
 export const createOrganizationsDevelopersApps: API.OperationMethod<CreateOrganizationsDevelopersAppsRequest, CreateOrganizationsDevelopersAppsResponse, CreateOrganizationsDevelopersAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsDevelopersAppsRequest,
   output: CreateOrganizationsDevelopersAppsResponse,
   errors: [],
 }));
 
-/** Updates attributes for a developer app. This API replaces the current attributes with those specified in the request. */
 export interface AttributesOrganizationsDevelopersAppsRequest {
   /** Required. Name of the developer app. Use the following structure in your request: `organizations/{org}/developers/{developer_email}/apps/{app}` */
   name: string;
@@ -15449,13 +15448,13 @@ export const AttributesOrganizationsDevelopersAppsResponse = GoogleCloudApigeeV1
 
 export type AttributesOrganizationsDevelopersAppsError = CommonErrors;
 
+/** Updates attributes for a developer app. This API replaces the current attributes with those specified in the request. */
 export const attributesOrganizationsDevelopersApps: API.OperationMethod<AttributesOrganizationsDevelopersAppsRequest, AttributesOrganizationsDevelopersAppsResponse, AttributesOrganizationsDevelopersAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AttributesOrganizationsDevelopersAppsRequest,
   output: AttributesOrganizationsDevelopersAppsResponse,
   errors: [],
 }));
 
-/** Deletes a developer app. **Note**: The delete operation is asynchronous. The developer app is deleted immediately, but its associated resources, such as app keys or access tokens, may take anywhere from a few seconds to a few minutes to be deleted. */
 export interface DeleteOrganizationsDevelopersAppsRequest {
   /** Required. Name of the developer app. Use the following structure in your request: `organizations/{org}/developers/{developer_email}/apps/{app}` */
   name: string;
@@ -15473,13 +15472,13 @@ export const DeleteOrganizationsDevelopersAppsResponse = GoogleCloudApigeeV1Deve
 
 export type DeleteOrganizationsDevelopersAppsError = CommonErrors;
 
+/** Deletes a developer app. **Note**: The delete operation is asynchronous. The developer app is deleted immediately, but its associated resources, such as app keys or access tokens, may take anywhere from a few seconds to a few minutes to be deleted. */
 export const deleteOrganizationsDevelopersApps: API.OperationMethod<DeleteOrganizationsDevelopersAppsRequest, DeleteOrganizationsDevelopersAppsResponse, DeleteOrganizationsDevelopersAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsDevelopersAppsRequest,
   output: DeleteOrganizationsDevelopersAppsResponse,
   errors: [],
 }));
 
-/** Lists all apps created by a developer in an Apigee organization. Optionally, you can request an expanded view of the developer apps. A maximum of 100 developer apps are returned per API call. You can paginate the list of deveoper apps returned using the `startKey` and `count` query parameters. */
 export interface ListOrganizationsDevelopersAppsRequest {
   /** Optional. Specifies whether to expand the results in shallow mode. Set to `true` to expand the results in shallow mode. */
   shallowExpand?: boolean;
@@ -15509,13 +15508,13 @@ export const ListOrganizationsDevelopersAppsResponse = GoogleCloudApigeeV1ListDe
 
 export type ListOrganizationsDevelopersAppsError = CommonErrors;
 
+/** Lists all apps created by a developer in an Apigee organization. Optionally, you can request an expanded view of the developer apps. A maximum of 100 developer apps are returned per API call. You can paginate the list of deveoper apps returned using the `startKey` and `count` query parameters. */
 export const listOrganizationsDevelopersApps: API.OperationMethod<ListOrganizationsDevelopersAppsRequest, ListOrganizationsDevelopersAppsResponse, ListOrganizationsDevelopersAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOrganizationsDevelopersAppsRequest,
   output: ListOrganizationsDevelopersAppsResponse,
   errors: [],
 }));
 
-/** Updates the details for a developer app. In addition, you can add an API product to a developer app and automatically generate an API key for the app to use when calling APIs in the API product. If you want to use an existing API key for the API product, add the API product to the API key using the UpdateDeveloperAppKey API. Using this API, you cannot update the following: * App name as it is the primary key used to identify the app and cannot be changed. * Scopes associated with the app. Instead, use the ReplaceDeveloperAppKey API. This API replaces the existing attributes with those specified in the request. Include or exclude any existing attributes that you want to retain or delete, respectively. */
 export interface UpdateOrganizationsDevelopersAppsRequest {
   /** Required. Name of the developer app. Use the following structure in your request: `organizations/{org}/developers/{developer_email}/apps/{app}` */
   name: string;
@@ -15536,13 +15535,13 @@ export const UpdateOrganizationsDevelopersAppsResponse = GoogleCloudApigeeV1Deve
 
 export type UpdateOrganizationsDevelopersAppsError = CommonErrors;
 
+/** Updates the details for a developer app. In addition, you can add an API product to a developer app and automatically generate an API key for the app to use when calling APIs in the API product. If you want to use an existing API key for the API product, add the API product to the API key using the UpdateDeveloperAppKey API. Using this API, you cannot update the following: * App name as it is the primary key used to identify the app and cannot be changed. * Scopes associated with the app. Instead, use the ReplaceDeveloperAppKey API. This API replaces the existing attributes with those specified in the request. Include or exclude any existing attributes that you want to retain or delete, respectively. */
 export const updateOrganizationsDevelopersApps: API.OperationMethod<UpdateOrganizationsDevelopersAppsRequest, UpdateOrganizationsDevelopersAppsResponse, UpdateOrganizationsDevelopersAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateOrganizationsDevelopersAppsRequest,
   output: UpdateOrganizationsDevelopersAppsResponse,
   errors: [],
 }));
 
-/** Manages access to a developer app by enabling you to: * Approve or revoke a developer app * Generate a new consumer key and secret for a developer app To approve or revoke a developer app, set the `action` query parameter to `approve` or `revoke`, respectively, and the `Content-Type` header to `application/octet-stream`. If a developer app is revoked, none of its API keys are valid for API calls even though the keys are still approved. If successful, the API call returns the following HTTP status code: `204 No Content` To generate a new consumer key and secret for a developer app, pass the new key/secret details. Rather than replace an existing key, this API generates a new key. In this case, multiple key pairs may be associated with a single developer app. Each key pair has an independent status (`approve` or `revoke`) and expiration time. Any approved, non-expired key can be used in an API call. For example, if you're using API key rotation, you can generate new keys with expiration times that overlap keys that are going to expire. You might also generate a new consumer key/secret if the security of the original key/secret is compromised. The `keyExpiresIn` property defines the expiration time for the API key in milliseconds. If you don't set this property or set it to `-1`, the API key never expires. **Notes**: * When generating a new key/secret, this API replaces the existing attributes, notes, and callback URLs with those specified in the request. Include or exclude any existing information that you want to retain or delete, respectively. * To migrate existing consumer keys and secrets to hybrid from another system, see the CreateDeveloperAppKey API. */
 export interface GenerateKeyPairOrUpdateDeveloperAppStatusOrganizationsDevelopersAppsRequest {
   /** Required. Name of the developer app. Use the following structure in your request: `organizations/{org}/developers/{developer_email}/apps/{app}` */
   name: string;
@@ -15566,13 +15565,13 @@ export const GenerateKeyPairOrUpdateDeveloperAppStatusOrganizationsDevelopersApp
 
 export type GenerateKeyPairOrUpdateDeveloperAppStatusOrganizationsDevelopersAppsError = CommonErrors;
 
+/** Manages access to a developer app by enabling you to: * Approve or revoke a developer app * Generate a new consumer key and secret for a developer app To approve or revoke a developer app, set the `action` query parameter to `approve` or `revoke`, respectively, and the `Content-Type` header to `application/octet-stream`. If a developer app is revoked, none of its API keys are valid for API calls even though the keys are still approved. If successful, the API call returns the following HTTP status code: `204 No Content` To generate a new consumer key and secret for a developer app, pass the new key/secret details. Rather than replace an existing key, this API generates a new key. In this case, multiple key pairs may be associated with a single developer app. Each key pair has an independent status (`approve` or `revoke`) and expiration time. Any approved, non-expired key can be used in an API call. For example, if you're using API key rotation, you can generate new keys with expiration times that overlap keys that are going to expire. You might also generate a new consumer key/secret if the security of the original key/secret is compromised. The `keyExpiresIn` property defines the expiration time for the API key in milliseconds. If you don't set this property or set it to `-1`, the API key never expires. **Notes**: * When generating a new key/secret, this API replaces the existing attributes, notes, and callback URLs with those specified in the request. Include or exclude any existing information that you want to retain or delete, respectively. * To migrate existing consumer keys and secrets to hybrid from another system, see the CreateDeveloperAppKey API. */
 export const generateKeyPairOrUpdateDeveloperAppStatusOrganizationsDevelopersApps: API.OperationMethod<GenerateKeyPairOrUpdateDeveloperAppStatusOrganizationsDevelopersAppsRequest, GenerateKeyPairOrUpdateDeveloperAppStatusOrganizationsDevelopersAppsResponse, GenerateKeyPairOrUpdateDeveloperAppStatusOrganizationsDevelopersAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateKeyPairOrUpdateDeveloperAppStatusOrganizationsDevelopersAppsRequest,
   output: GenerateKeyPairOrUpdateDeveloperAppStatusOrganizationsDevelopersAppsResponse,
   errors: [],
 }));
 
-/** Returns a developer app attribute. */
 export interface GetOrganizationsDevelopersAppsAttributesRequest {
   /** Required. Name of the developer app attribute. Use the following structure in your request: `organizations/{org}/developers/{developer_email}/apps/{app}/attributes/{attribute}` */
   name: string;
@@ -15590,13 +15589,13 @@ export const GetOrganizationsDevelopersAppsAttributesResponse = GoogleCloudApige
 
 export type GetOrganizationsDevelopersAppsAttributesError = CommonErrors;
 
+/** Returns a developer app attribute. */
 export const getOrganizationsDevelopersAppsAttributes: API.OperationMethod<GetOrganizationsDevelopersAppsAttributesRequest, GetOrganizationsDevelopersAppsAttributesResponse, GetOrganizationsDevelopersAppsAttributesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsDevelopersAppsAttributesRequest,
   output: GetOrganizationsDevelopersAppsAttributesResponse,
   errors: [],
 }));
 
-/** Deletes a developer app attribute. */
 export interface DeleteOrganizationsDevelopersAppsAttributesRequest {
   /** Required. Name of the developer app attribute. Use the following structure in your request: `organizations/{org}/developers/{developer_email}/apps/{app}/attributes/{attribute}` */
   name: string;
@@ -15614,13 +15613,13 @@ export const DeleteOrganizationsDevelopersAppsAttributesResponse = GoogleCloudAp
 
 export type DeleteOrganizationsDevelopersAppsAttributesError = CommonErrors;
 
+/** Deletes a developer app attribute. */
 export const deleteOrganizationsDevelopersAppsAttributes: API.OperationMethod<DeleteOrganizationsDevelopersAppsAttributesRequest, DeleteOrganizationsDevelopersAppsAttributesResponse, DeleteOrganizationsDevelopersAppsAttributesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsDevelopersAppsAttributesRequest,
   output: DeleteOrganizationsDevelopersAppsAttributesResponse,
   errors: [],
 }));
 
-/** Updates a developer app attribute. **Note**: OAuth access tokens and Key Management Service (KMS) entities (apps, developers, and API products) are cached for 180 seconds (current default). Any custom attributes associated with these entities are cached for at least 180 seconds after the entity is accessed at runtime. Therefore, an `ExpiresIn` element on the OAuthV2 policy won't be able to expire an access token in less than 180 seconds. */
 export interface UpdateDeveloperAppAttributeOrganizationsDevelopersAppsAttributesRequest {
   /** Required. Name of the developer app attribute. Use the following structure in your request: `organizations/{org}/developers/{developer_email}/apps/{app}/attributes/{attribute}` */
   name: string;
@@ -15641,13 +15640,13 @@ export const UpdateDeveloperAppAttributeOrganizationsDevelopersAppsAttributesRes
 
 export type UpdateDeveloperAppAttributeOrganizationsDevelopersAppsAttributesError = CommonErrors;
 
+/** Updates a developer app attribute. **Note**: OAuth access tokens and Key Management Service (KMS) entities (apps, developers, and API products) are cached for 180 seconds (current default). Any custom attributes associated with these entities are cached for at least 180 seconds after the entity is accessed at runtime. Therefore, an `ExpiresIn` element on the OAuthV2 policy won't be able to expire an access token in less than 180 seconds. */
 export const updateDeveloperAppAttributeOrganizationsDevelopersAppsAttributes: API.OperationMethod<UpdateDeveloperAppAttributeOrganizationsDevelopersAppsAttributesRequest, UpdateDeveloperAppAttributeOrganizationsDevelopersAppsAttributesResponse, UpdateDeveloperAppAttributeOrganizationsDevelopersAppsAttributesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateDeveloperAppAttributeOrganizationsDevelopersAppsAttributesRequest,
   output: UpdateDeveloperAppAttributeOrganizationsDevelopersAppsAttributesResponse,
   errors: [],
 }));
 
-/** Returns a list of all developer app attributes. */
 export interface ListOrganizationsDevelopersAppsAttributesRequest {
   /** Required. Name of the developer app. Use the following structure in your request: `organizations/{org}/developers/{developer_email}/apps/{app}` */
   parent: string;
@@ -15665,13 +15664,13 @@ export const ListOrganizationsDevelopersAppsAttributesResponse = GoogleCloudApig
 
 export type ListOrganizationsDevelopersAppsAttributesError = CommonErrors;
 
+/** Returns a list of all developer app attributes. */
 export const listOrganizationsDevelopersAppsAttributes: API.OperationMethod<ListOrganizationsDevelopersAppsAttributesRequest, ListOrganizationsDevelopersAppsAttributesResponse, ListOrganizationsDevelopersAppsAttributesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOrganizationsDevelopersAppsAttributesRequest,
   output: ListOrganizationsDevelopersAppsAttributesResponse,
   errors: [],
 }));
 
-/** Creates a custom consumer key and secret for a developer app. This is particularly useful if you want to migrate existing consumer keys and secrets to Apigee from another system. Consumer keys and secrets can contain letters, numbers, underscores, and hyphens. No other special characters are allowed. To avoid service disruptions, a consumer key and secret should not exceed 2 KBs each. **Note**: When creating the consumer key and secret, an association to API products will not be made. Therefore, you should not specify the associated API products in your request. Instead, use the UpdateDeveloperAppKey API to make the association after the consumer key and secret are created. If a consumer key and secret already exist, you can keep them or delete them using the DeleteDeveloperAppKey API. **Note**: All keys start out with status=approved, even if status=revoked is passed when the key is created. To revoke a key, use the UpdateDeveloperAppKey API. */
 export interface CreateOrganizationsDevelopersAppsKeysRequest {
   /** Parent of the developer app key. Use the following structure in your request: 'organizations/{org}/developers/{developerEmail}/apps/{appName}' */
   parent: string;
@@ -15692,13 +15691,13 @@ export const CreateOrganizationsDevelopersAppsKeysResponse = GoogleCloudApigeeV1
 
 export type CreateOrganizationsDevelopersAppsKeysError = CommonErrors;
 
+/** Creates a custom consumer key and secret for a developer app. This is particularly useful if you want to migrate existing consumer keys and secrets to Apigee from another system. Consumer keys and secrets can contain letters, numbers, underscores, and hyphens. No other special characters are allowed. To avoid service disruptions, a consumer key and secret should not exceed 2 KBs each. **Note**: When creating the consumer key and secret, an association to API products will not be made. Therefore, you should not specify the associated API products in your request. Instead, use the UpdateDeveloperAppKey API to make the association after the consumer key and secret are created. If a consumer key and secret already exist, you can keep them or delete them using the DeleteDeveloperAppKey API. **Note**: All keys start out with status=approved, even if status=revoked is passed when the key is created. To revoke a key, use the UpdateDeveloperAppKey API. */
 export const createOrganizationsDevelopersAppsKeys: API.OperationMethod<CreateOrganizationsDevelopersAppsKeysRequest, CreateOrganizationsDevelopersAppsKeysResponse, CreateOrganizationsDevelopersAppsKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsDevelopersAppsKeysRequest,
   output: CreateOrganizationsDevelopersAppsKeysResponse,
   errors: [],
 }));
 
-/** Gets details for a consumer key for a developer app, including the key and secret value, associated API products, and other information. */
 export interface GetOrganizationsDevelopersAppsKeysRequest {
   /** Name of the developer app key. Use the following structure in your request: `organizations/{org}/developers/{developer_email}/apps/{app}/keys/{key}` */
   name: string;
@@ -15716,13 +15715,13 @@ export const GetOrganizationsDevelopersAppsKeysResponse = GoogleCloudApigeeV1Dev
 
 export type GetOrganizationsDevelopersAppsKeysError = CommonErrors;
 
+/** Gets details for a consumer key for a developer app, including the key and secret value, associated API products, and other information. */
 export const getOrganizationsDevelopersAppsKeys: API.OperationMethod<GetOrganizationsDevelopersAppsKeysRequest, GetOrganizationsDevelopersAppsKeysResponse, GetOrganizationsDevelopersAppsKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsDevelopersAppsKeysRequest,
   output: GetOrganizationsDevelopersAppsKeysResponse,
   errors: [],
 }));
 
-/** Adds an API product to a developer app key, enabling the app that holds the key to access the API resources bundled in the API product. In addition, you can add attributes and scopes associated with the API product to the developer app key. The status of the key can be updated via "action" Query Parameter. None of the other fields can be updated via this API. This API replaces the existing attributes with those specified in the request. Include or exclude any existing attributes that you want to retain or delete, respectively. None of the other fields can be updated. You can use the same key to access all API products associated with the app. */
 export interface UpdateDeveloperAppKeyOrganizationsDevelopersAppsKeysRequest {
   /** Name of the developer app key. Use the following structure in your request: `organizations/{org}/developers/{developer_email}/apps/{app}/keys/{key}` */
   name: string;
@@ -15746,13 +15745,13 @@ export const UpdateDeveloperAppKeyOrganizationsDevelopersAppsKeysResponse = Goog
 
 export type UpdateDeveloperAppKeyOrganizationsDevelopersAppsKeysError = CommonErrors;
 
+/** Adds an API product to a developer app key, enabling the app that holds the key to access the API resources bundled in the API product. In addition, you can add attributes and scopes associated with the API product to the developer app key. The status of the key can be updated via "action" Query Parameter. None of the other fields can be updated via this API. This API replaces the existing attributes with those specified in the request. Include or exclude any existing attributes that you want to retain or delete, respectively. None of the other fields can be updated. You can use the same key to access all API products associated with the app. */
 export const updateDeveloperAppKeyOrganizationsDevelopersAppsKeys: API.OperationMethod<UpdateDeveloperAppKeyOrganizationsDevelopersAppsKeysRequest, UpdateDeveloperAppKeyOrganizationsDevelopersAppsKeysResponse, UpdateDeveloperAppKeyOrganizationsDevelopersAppsKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateDeveloperAppKeyOrganizationsDevelopersAppsKeysRequest,
   output: UpdateDeveloperAppKeyOrganizationsDevelopersAppsKeysResponse,
   errors: [],
 }));
 
-/** Updates the scope of an app. This API replaces the existing scopes with those specified in the request. Include or exclude any existing scopes that you want to retain or delete, respectively. The specified scopes must already be defined for the API products associated with the app. This API sets the `scopes` element under the `apiProducts` element in the attributes of the app. */
 export interface ReplaceDeveloperAppKeyOrganizationsDevelopersAppsKeysRequest {
   /** Name of the developer app key. Use the following structure in your request: `organizations/{org}/developers/{developer_email}/apps/{app}/keys/{key}` */
   name: string;
@@ -15773,13 +15772,13 @@ export const ReplaceDeveloperAppKeyOrganizationsDevelopersAppsKeysResponse = Goo
 
 export type ReplaceDeveloperAppKeyOrganizationsDevelopersAppsKeysError = CommonErrors;
 
+/** Updates the scope of an app. This API replaces the existing scopes with those specified in the request. Include or exclude any existing scopes that you want to retain or delete, respectively. The specified scopes must already be defined for the API products associated with the app. This API sets the `scopes` element under the `apiProducts` element in the attributes of the app. */
 export const replaceDeveloperAppKeyOrganizationsDevelopersAppsKeys: API.OperationMethod<ReplaceDeveloperAppKeyOrganizationsDevelopersAppsKeysRequest, ReplaceDeveloperAppKeyOrganizationsDevelopersAppsKeysResponse, ReplaceDeveloperAppKeyOrganizationsDevelopersAppsKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReplaceDeveloperAppKeyOrganizationsDevelopersAppsKeysRequest,
   output: ReplaceDeveloperAppKeyOrganizationsDevelopersAppsKeysResponse,
   errors: [],
 }));
 
-/** Deletes an app's consumer key and removes all API products associated with the app. After the consumer key is deleted, it cannot be used to access any APIs. **Note**: After you delete a consumer key, you may want to: 1. Create a new consumer key and secret for the developer app using the CreateDeveloperAppKey API, and subsequently add an API product to the key using the UpdateDeveloperAppKey API. 2. Delete the developer app, if it is no longer required. */
 export interface DeleteOrganizationsDevelopersAppsKeysRequest {
   /** Name of the developer app key. Use the following structure in your request: `organizations/{org}/developers/{developer_email}/apps/{app}/keys/{key}` */
   name: string;
@@ -15797,13 +15796,13 @@ export const DeleteOrganizationsDevelopersAppsKeysResponse = GoogleCloudApigeeV1
 
 export type DeleteOrganizationsDevelopersAppsKeysError = CommonErrors;
 
+/** Deletes an app's consumer key and removes all API products associated with the app. After the consumer key is deleted, it cannot be used to access any APIs. **Note**: After you delete a consumer key, you may want to: 1. Create a new consumer key and secret for the developer app using the CreateDeveloperAppKey API, and subsequently add an API product to the key using the UpdateDeveloperAppKey API. 2. Delete the developer app, if it is no longer required. */
 export const deleteOrganizationsDevelopersAppsKeys: API.OperationMethod<DeleteOrganizationsDevelopersAppsKeysRequest, DeleteOrganizationsDevelopersAppsKeysResponse, DeleteOrganizationsDevelopersAppsKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsDevelopersAppsKeysRequest,
   output: DeleteOrganizationsDevelopersAppsKeysResponse,
   errors: [],
 }));
 
-/** Creates a custom consumer key and secret for a developer app. This is particularly useful if you want to migrate existing consumer keys and secrets to Apigee from another system. Consumer keys and secrets can contain letters, numbers, underscores, and hyphens. No other special characters are allowed. To avoid service disruptions, a consumer key and secret should not exceed 2 KBs each. **Note**: When creating the consumer key and secret, an association to API products will not be made. Therefore, you should not specify the associated API products in your request. Instead, use the UpdateDeveloperAppKey API to make the association after the consumer key and secret are created. If a consumer key and secret already exist, you can keep them or delete them using the DeleteDeveloperAppKey API. **Note**: All keys start out with status=approved, even if status=revoked is passed when the key is created. To revoke a key, use the UpdateDeveloperAppKey API. */
 export interface CreateOrganizationsDevelopersAppsKeysCreateRequest {
   /** Parent of the developer app key. Use the following structure in your request: 'organizations/{org}/developers/{developerEmail}/apps/{appName}' */
   parent: string;
@@ -15824,13 +15823,13 @@ export const CreateOrganizationsDevelopersAppsKeysCreateResponse = GoogleCloudAp
 
 export type CreateOrganizationsDevelopersAppsKeysCreateError = CommonErrors;
 
+/** Creates a custom consumer key and secret for a developer app. This is particularly useful if you want to migrate existing consumer keys and secrets to Apigee from another system. Consumer keys and secrets can contain letters, numbers, underscores, and hyphens. No other special characters are allowed. To avoid service disruptions, a consumer key and secret should not exceed 2 KBs each. **Note**: When creating the consumer key and secret, an association to API products will not be made. Therefore, you should not specify the associated API products in your request. Instead, use the UpdateDeveloperAppKey API to make the association after the consumer key and secret are created. If a consumer key and secret already exist, you can keep them or delete them using the DeleteDeveloperAppKey API. **Note**: All keys start out with status=approved, even if status=revoked is passed when the key is created. To revoke a key, use the UpdateDeveloperAppKey API. */
 export const createOrganizationsDevelopersAppsKeysCreate: API.OperationMethod<CreateOrganizationsDevelopersAppsKeysCreateRequest, CreateOrganizationsDevelopersAppsKeysCreateResponse, CreateOrganizationsDevelopersAppsKeysCreateError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsDevelopersAppsKeysCreateRequest,
   output: CreateOrganizationsDevelopersAppsKeysCreateResponse,
   errors: [],
 }));
 
-/** Removes an API product from an app's consumer key. After the API product is removed, the app cannot access the API resources defined in that API product. **Note**: The consumer key is not removed, only its association with the API product. */
 export interface DeleteOrganizationsDevelopersAppsKeysApiproductsRequest {
   /** Name of the API product in the developer app key in the following format: `organizations/{org}/developers/{developer_email}/apps/{app}/keys/{key}/apiproducts/{apiproduct}` */
   name: string;
@@ -15848,13 +15847,13 @@ export const DeleteOrganizationsDevelopersAppsKeysApiproductsResponse = GoogleCl
 
 export type DeleteOrganizationsDevelopersAppsKeysApiproductsError = CommonErrors;
 
+/** Removes an API product from an app's consumer key. After the API product is removed, the app cannot access the API resources defined in that API product. **Note**: The consumer key is not removed, only its association with the API product. */
 export const deleteOrganizationsDevelopersAppsKeysApiproducts: API.OperationMethod<DeleteOrganizationsDevelopersAppsKeysApiproductsRequest, DeleteOrganizationsDevelopersAppsKeysApiproductsResponse, DeleteOrganizationsDevelopersAppsKeysApiproductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsDevelopersAppsKeysApiproductsRequest,
   output: DeleteOrganizationsDevelopersAppsKeysApiproductsResponse,
   errors: [],
 }));
 
-/** Approves or revokes the consumer key for an API product. After a consumer key is approved, the app can use it to access APIs. A consumer key that is revoked or pending cannot be used to access an API. Any access tokens associated with a revoked consumer key will remain active. However, Apigee checks the status of the consumer key and if set to `revoked` will not allow access to the API. */
 export interface UpdateDeveloperAppKeyApiProductOrganizationsDevelopersAppsKeysApiproductsRequest {
   /** Name of the API product in the developer app key in the following format: `organizations/{org}/developers/{developer_email}/apps/{app}/keys/{key}/apiproducts/{apiproduct}` */
   name: string;
@@ -15875,13 +15874,13 @@ export const UpdateDeveloperAppKeyApiProductOrganizationsDevelopersAppsKeysApipr
 
 export type UpdateDeveloperAppKeyApiProductOrganizationsDevelopersAppsKeysApiproductsError = CommonErrors;
 
+/** Approves or revokes the consumer key for an API product. After a consumer key is approved, the app can use it to access APIs. A consumer key that is revoked or pending cannot be used to access an API. Any access tokens associated with a revoked consumer key will remain active. However, Apigee checks the status of the consumer key and if set to `revoked` will not allow access to the API. */
 export const updateDeveloperAppKeyApiProductOrganizationsDevelopersAppsKeysApiproducts: API.OperationMethod<UpdateDeveloperAppKeyApiProductOrganizationsDevelopersAppsKeysApiproductsRequest, UpdateDeveloperAppKeyApiProductOrganizationsDevelopersAppsKeysApiproductsResponse, UpdateDeveloperAppKeyApiProductOrganizationsDevelopersAppsKeysApiproductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateDeveloperAppKeyApiProductOrganizationsDevelopersAppsKeysApiproductsRequest,
   output: UpdateDeveloperAppKeyApiProductOrganizationsDevelopersAppsKeysApiproductsResponse,
   errors: [],
 }));
 
-/** Gets details for an API product subscription. */
 export interface GetOrganizationsDevelopersSubscriptionsRequest {
   /** Required. Name of the API product subscription. Use the following structure in your request: `organizations/{org}/developers/{developer_email}/subscriptions/{subscription}` */
   name: string;
@@ -15899,13 +15898,13 @@ export const GetOrganizationsDevelopersSubscriptionsResponse = GoogleCloudApigee
 
 export type GetOrganizationsDevelopersSubscriptionsError = CommonErrors;
 
+/** Gets details for an API product subscription. */
 export const getOrganizationsDevelopersSubscriptions: API.OperationMethod<GetOrganizationsDevelopersSubscriptionsRequest, GetOrganizationsDevelopersSubscriptionsResponse, GetOrganizationsDevelopersSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsDevelopersSubscriptionsRequest,
   output: GetOrganizationsDevelopersSubscriptionsResponse,
   errors: [],
 }));
 
-/** Creates a subscription to an API product. */
 export interface CreateOrganizationsDevelopersSubscriptionsRequest {
   /** Required. Email address of the developer that is purchasing a subscription to the API product. Use the following structure in your request: `organizations/{org}/developers/{developer_email}` */
   parent: string;
@@ -15926,13 +15925,13 @@ export const CreateOrganizationsDevelopersSubscriptionsResponse = GoogleCloudApi
 
 export type CreateOrganizationsDevelopersSubscriptionsError = CommonErrors;
 
+/** Creates a subscription to an API product. */
 export const createOrganizationsDevelopersSubscriptions: API.OperationMethod<CreateOrganizationsDevelopersSubscriptionsRequest, CreateOrganizationsDevelopersSubscriptionsResponse, CreateOrganizationsDevelopersSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsDevelopersSubscriptionsRequest,
   output: CreateOrganizationsDevelopersSubscriptionsResponse,
   errors: [],
 }));
 
-/** Lists all API product subscriptions for a developer. */
 export interface ListOrganizationsDevelopersSubscriptionsRequest {
   /** Name of the API product subscription from which to start displaying the list of subscriptions. If omitted, the list starts from the first item. For example, to view the API product subscriptions from 51-150, set the value of `startKey` to the name of the 51st subscription and set the value of `count` to 100. */
   startKey?: string;
@@ -15956,13 +15955,13 @@ export const ListOrganizationsDevelopersSubscriptionsResponse = GoogleCloudApige
 
 export type ListOrganizationsDevelopersSubscriptionsError = CommonErrors;
 
+/** Lists all API product subscriptions for a developer. */
 export const listOrganizationsDevelopersSubscriptions: API.OperationMethod<ListOrganizationsDevelopersSubscriptionsRequest, ListOrganizationsDevelopersSubscriptionsResponse, ListOrganizationsDevelopersSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOrganizationsDevelopersSubscriptionsRequest,
   output: ListOrganizationsDevelopersSubscriptionsResponse,
   errors: [],
 }));
 
-/** Expires an API product subscription immediately. */
 export interface ExpireOrganizationsDevelopersSubscriptionsRequest {
   /** Required. Name of the API product subscription. Use the following structure in your request: `organizations/{org}/developers/{developer_email}/subscriptions/{subscription}` */
   name: string;
@@ -15983,13 +15982,13 @@ export const ExpireOrganizationsDevelopersSubscriptionsResponse = GoogleCloudApi
 
 export type ExpireOrganizationsDevelopersSubscriptionsError = CommonErrors;
 
+/** Expires an API product subscription immediately. */
 export const expireOrganizationsDevelopersSubscriptions: API.OperationMethod<ExpireOrganizationsDevelopersSubscriptionsRequest, ExpireOrganizationsDevelopersSubscriptionsResponse, ExpireOrganizationsDevelopersSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExpireOrganizationsDevelopersSubscriptionsRequest,
   output: ExpireOrganizationsDevelopersSubscriptionsResponse,
   errors: [],
 }));
 
-/** Creates a key value map in an organization. */
 export interface CreateOrganizationsKeyvaluemapsRequest {
   /** Required. Name of the organization in which to create the key value map file. Use the following structure in your request: `organizations/{org}` */
   parent: string;
@@ -16010,13 +16009,13 @@ export const CreateOrganizationsKeyvaluemapsResponse = GoogleCloudApigeeV1KeyVal
 
 export type CreateOrganizationsKeyvaluemapsError = CommonErrors;
 
+/** Creates a key value map in an organization. */
 export const createOrganizationsKeyvaluemaps: API.OperationMethod<CreateOrganizationsKeyvaluemapsRequest, CreateOrganizationsKeyvaluemapsResponse, CreateOrganizationsKeyvaluemapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsKeyvaluemapsRequest,
   output: CreateOrganizationsKeyvaluemapsResponse,
   errors: [],
 }));
 
-/** Update the key value map scoped to an organization, environment, or API proxy. */
 export interface UpdateOrganizationsKeyvaluemapsRequest {
   /** Required. Scope as indicated by the URI in which to fetch the key value map. Use **one** of the following structures in your request: * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`. * `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`. If the KeyValueMap is under an API Proxy resource that has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -16037,13 +16036,13 @@ export const UpdateOrganizationsKeyvaluemapsResponse = GoogleCloudApigeeV1KeyVal
 
 export type UpdateOrganizationsKeyvaluemapsError = CommonErrors;
 
+/** Update the key value map scoped to an organization, environment, or API proxy. */
 export const updateOrganizationsKeyvaluemaps: API.OperationMethod<UpdateOrganizationsKeyvaluemapsRequest, UpdateOrganizationsKeyvaluemapsResponse, UpdateOrganizationsKeyvaluemapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateOrganizationsKeyvaluemapsRequest,
   output: UpdateOrganizationsKeyvaluemapsResponse,
   errors: [],
 }));
 
-/** Deletes a key value map from an organization. */
 export interface DeleteOrganizationsKeyvaluemapsRequest {
   /** Required. Name of the key value map. Use the following structure in your request: `organizations/{org}/keyvaluemaps/{keyvaluemap}` */
   name: string;
@@ -16061,13 +16060,13 @@ export const DeleteOrganizationsKeyvaluemapsResponse = GoogleCloudApigeeV1KeyVal
 
 export type DeleteOrganizationsKeyvaluemapsError = CommonErrors;
 
+/** Deletes a key value map from an organization. */
 export const deleteOrganizationsKeyvaluemaps: API.OperationMethod<DeleteOrganizationsKeyvaluemapsRequest, DeleteOrganizationsKeyvaluemapsResponse, DeleteOrganizationsKeyvaluemapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsKeyvaluemapsRequest,
   output: DeleteOrganizationsKeyvaluemapsResponse,
   errors: [],
 }));
 
-/** Get the key value map scoped to an organization, environment, or API proxy. */
 export interface GetOrganizationsKeyvaluemapsRequest {
   /** Required. Scope as indicated by the URI in which to fetch the key value map. Use **one** of the following structures in your request: * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`. * `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`. If the KeyValueMap is under an API Proxy resource that has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -16085,13 +16084,13 @@ export const GetOrganizationsKeyvaluemapsResponse = GoogleCloudApigeeV1KeyValueM
 
 export type GetOrganizationsKeyvaluemapsError = CommonErrors;
 
+/** Get the key value map scoped to an organization, environment, or API proxy. */
 export const getOrganizationsKeyvaluemaps: API.OperationMethod<GetOrganizationsKeyvaluemapsRequest, GetOrganizationsKeyvaluemapsResponse, GetOrganizationsKeyvaluemapsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsKeyvaluemapsRequest,
   output: GetOrganizationsKeyvaluemapsResponse,
   errors: [],
 }));
 
-/** Creates key value entries in a key value map scoped to an organization, environment, or API proxy. **Note**: Supported for Apigee hybrid 1.8.x and higher. */
 export interface CreateOrganizationsKeyvaluemapsEntriesRequest {
   /** Required. Scope as indicated by the URI in which to create the key value map entry. Use **one** of the following structures in your request: * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`. * `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`. If the KeyValueMap is under an API Proxy resource that has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   parent: string;
@@ -16112,13 +16111,13 @@ export const CreateOrganizationsKeyvaluemapsEntriesResponse = GoogleCloudApigeeV
 
 export type CreateOrganizationsKeyvaluemapsEntriesError = CommonErrors;
 
+/** Creates key value entries in a key value map scoped to an organization, environment, or API proxy. **Note**: Supported for Apigee hybrid 1.8.x and higher. */
 export const createOrganizationsKeyvaluemapsEntries: API.OperationMethod<CreateOrganizationsKeyvaluemapsEntriesRequest, CreateOrganizationsKeyvaluemapsEntriesResponse, CreateOrganizationsKeyvaluemapsEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsKeyvaluemapsEntriesRequest,
   output: CreateOrganizationsKeyvaluemapsEntriesResponse,
   errors: [],
 }));
 
-/** Get the key value entry value for a key value map scoped to an organization, environment, or API proxy. **Note**: Supported for Apigee hybrid 1.8.x and higher. */
 export interface GetOrganizationsKeyvaluemapsEntriesRequest {
   /** Required. Scope as indicated by the URI in which to fetch the key value map entry/value. Use **one** of the following structures in your request: * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}/entries/{entry}`. * `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}/entries/{entry}` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}/entries/{entry}`. If the KeyValueMap is under an API Proxy resource that has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -16136,13 +16135,13 @@ export const GetOrganizationsKeyvaluemapsEntriesResponse = GoogleCloudApigeeV1Ke
 
 export type GetOrganizationsKeyvaluemapsEntriesError = CommonErrors;
 
+/** Get the key value entry value for a key value map scoped to an organization, environment, or API proxy. **Note**: Supported for Apigee hybrid 1.8.x and higher. */
 export const getOrganizationsKeyvaluemapsEntries: API.OperationMethod<GetOrganizationsKeyvaluemapsEntriesRequest, GetOrganizationsKeyvaluemapsEntriesResponse, GetOrganizationsKeyvaluemapsEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsKeyvaluemapsEntriesRequest,
   output: GetOrganizationsKeyvaluemapsEntriesResponse,
   errors: [],
 }));
 
-/** Update key value entry scoped to an organization, environment, or API proxy for an existing key. */
 export interface UpdateOrganizationsKeyvaluemapsEntriesRequest {
   /** Required. Scope as indicated by the URI in which to create the key value map entry. Use **one** of the following structures in your request: * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`. * `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`. If the KeyValueMap is under an API Proxy resource that has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -16163,13 +16162,13 @@ export const UpdateOrganizationsKeyvaluemapsEntriesResponse = GoogleCloudApigeeV
 
 export type UpdateOrganizationsKeyvaluemapsEntriesError = CommonErrors;
 
+/** Update key value entry scoped to an organization, environment, or API proxy for an existing key. */
 export const updateOrganizationsKeyvaluemapsEntries: API.OperationMethod<UpdateOrganizationsKeyvaluemapsEntriesRequest, UpdateOrganizationsKeyvaluemapsEntriesResponse, UpdateOrganizationsKeyvaluemapsEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateOrganizationsKeyvaluemapsEntriesRequest,
   output: UpdateOrganizationsKeyvaluemapsEntriesResponse,
   errors: [],
 }));
 
-/** Lists key value entries for key values maps scoped to an organization, environment, or API proxy. **Note**: Supported for Apigee hybrid 1.8.x and higher. */
 export interface ListOrganizationsKeyvaluemapsEntriesRequest {
   /** Optional. Maximum number of key value entries to return. If unspecified, at most 100 entries will be returned. */
   pageSize?: number;
@@ -16193,7 +16192,8 @@ export const ListOrganizationsKeyvaluemapsEntriesResponse = GoogleCloudApigeeV1L
 
 export type ListOrganizationsKeyvaluemapsEntriesError = CommonErrors;
 
-export const listOrganizationsKeyvaluemapsEntries = API.makePaginated(() => ({
+/** Lists key value entries for key values maps scoped to an organization, environment, or API proxy. **Note**: Supported for Apigee hybrid 1.8.x and higher. */
+export const listOrganizationsKeyvaluemapsEntries: API.PaginatedOperationMethod<ListOrganizationsKeyvaluemapsEntriesRequest, ListOrganizationsKeyvaluemapsEntriesResponse, ListOrganizationsKeyvaluemapsEntriesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsKeyvaluemapsEntriesRequest,
   output: ListOrganizationsKeyvaluemapsEntriesResponse,
   errors: [],
@@ -16203,7 +16203,6 @@ export const listOrganizationsKeyvaluemapsEntries = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a key value entry from a key value map scoped to an organization, environment, or API proxy. **Notes:** * After you delete the key value entry, the policy consuming the entry will continue to function with its cached values for a few minutes. This is expected behavior. * Supported for Apigee hybrid 1.8.x and higher. */
 export interface DeleteOrganizationsKeyvaluemapsEntriesRequest {
   /** Required. Scope as indicated by the URI in which to delete the key value map entry. Use **one** of the following structures in your request: * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}/entries/{entry}`. * `organizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap}/entries/{entry}` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}/entries/{entry}`. If the KeyValueMap is under an API Proxy resource that has the `space` attribute set, IAM permissions are checked against the Space resource path. To learn more, read the [Apigee Spaces Overview](https://cloud.google.com/apigee/docs/api-platform/system-administration/spaces/apigee-spaces-overview). */
   name: string;
@@ -16221,13 +16220,13 @@ export const DeleteOrganizationsKeyvaluemapsEntriesResponse = GoogleCloudApigeeV
 
 export type DeleteOrganizationsKeyvaluemapsEntriesError = CommonErrors;
 
+/** Deletes a key value entry from a key value map scoped to an organization, environment, or API proxy. **Notes:** * After you delete the key value entry, the policy consuming the entry will continue to function with its cached values for a few minutes. This is expected behavior. * Supported for Apigee hybrid 1.8.x and higher. */
 export const deleteOrganizationsKeyvaluemapsEntries: API.OperationMethod<DeleteOrganizationsKeyvaluemapsEntriesRequest, DeleteOrganizationsKeyvaluemapsEntriesResponse, DeleteOrganizationsKeyvaluemapsEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsKeyvaluemapsEntriesRequest,
   output: DeleteOrganizationsKeyvaluemapsEntriesResponse,
   errors: [],
 }));
 
-/** Create a security monitoring condition. */
 export interface CreateOrganizationsSecurityMonitoringConditionsRequest {
   /** Required. The parent resource name. Format: `organizations/{org}` */
   parent: string;
@@ -16251,13 +16250,13 @@ export const CreateOrganizationsSecurityMonitoringConditionsResponse = GoogleClo
 
 export type CreateOrganizationsSecurityMonitoringConditionsError = CommonErrors;
 
+/** Create a security monitoring condition. */
 export const createOrganizationsSecurityMonitoringConditions: API.OperationMethod<CreateOrganizationsSecurityMonitoringConditionsRequest, CreateOrganizationsSecurityMonitoringConditionsResponse, CreateOrganizationsSecurityMonitoringConditionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsSecurityMonitoringConditionsRequest,
   output: CreateOrganizationsSecurityMonitoringConditionsResponse,
   errors: [],
 }));
 
-/** Get a security monitoring condition. */
 export interface GetOrganizationsSecurityMonitoringConditionsRequest {
   /** Required. The name of the security monitoring condition to get. Format: `organizations/{org}/securityMonitoringConditions/{security_monitoring_condition}` */
   name: string;
@@ -16278,13 +16277,13 @@ export const GetOrganizationsSecurityMonitoringConditionsResponse = GoogleCloudA
 
 export type GetOrganizationsSecurityMonitoringConditionsError = CommonErrors;
 
+/** Get a security monitoring condition. */
 export const getOrganizationsSecurityMonitoringConditions: API.OperationMethod<GetOrganizationsSecurityMonitoringConditionsRequest, GetOrganizationsSecurityMonitoringConditionsResponse, GetOrganizationsSecurityMonitoringConditionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsSecurityMonitoringConditionsRequest,
   output: GetOrganizationsSecurityMonitoringConditionsResponse,
   errors: [],
 }));
 
-/** Update a security monitoring condition. */
 export interface PatchOrganizationsSecurityMonitoringConditionsRequest {
   /** Identifier. Name of the security monitoring condition resource. Format: organizations/{org}/securityMonitoringConditions/{security_monitoring_condition} */
   name: string;
@@ -16308,13 +16307,13 @@ export const PatchOrganizationsSecurityMonitoringConditionsResponse = GoogleClou
 
 export type PatchOrganizationsSecurityMonitoringConditionsError = CommonErrors;
 
+/** Update a security monitoring condition. */
 export const patchOrganizationsSecurityMonitoringConditions: API.OperationMethod<PatchOrganizationsSecurityMonitoringConditionsRequest, PatchOrganizationsSecurityMonitoringConditionsResponse, PatchOrganizationsSecurityMonitoringConditionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsSecurityMonitoringConditionsRequest,
   output: PatchOrganizationsSecurityMonitoringConditionsResponse,
   errors: [],
 }));
 
-/** List security monitoring conditions. */
 export interface ListOrganizationsSecurityMonitoringConditionsRequest {
   /** Optional. The risk assessment type of the security monitoring condition. Defaults to ADVANCED_API_SECURITY. */
   riskAssessmentType?: "RISK_ASSESSMENT_TYPE_UNSPECIFIED" | "APIGEE" | "API_HUB" | (string & {});
@@ -16344,7 +16343,8 @@ export const ListOrganizationsSecurityMonitoringConditionsResponse = GoogleCloud
 
 export type ListOrganizationsSecurityMonitoringConditionsError = CommonErrors;
 
-export const listOrganizationsSecurityMonitoringConditions = API.makePaginated(() => ({
+/** List security monitoring conditions. */
+export const listOrganizationsSecurityMonitoringConditions: API.PaginatedOperationMethod<ListOrganizationsSecurityMonitoringConditionsRequest, ListOrganizationsSecurityMonitoringConditionsResponse, ListOrganizationsSecurityMonitoringConditionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsSecurityMonitoringConditionsRequest,
   output: ListOrganizationsSecurityMonitoringConditionsResponse,
   errors: [],
@@ -16354,7 +16354,6 @@ export const listOrganizationsSecurityMonitoringConditions = API.makePaginated((
   },
 }));
 
-/** Delete a security monitoring condition. */
 export interface DeleteOrganizationsSecurityMonitoringConditionsRequest {
   /** Required. The name of the security monitoring condition to delete. Format: `organizations/{org}/securityMonitoringConditions/{security_monitoring_condition}` */
   name: string;
@@ -16375,13 +16374,13 @@ export const DeleteOrganizationsSecurityMonitoringConditionsResponse = GooglePro
 
 export type DeleteOrganizationsSecurityMonitoringConditionsError = CommonErrors;
 
+/** Delete a security monitoring condition. */
 export const deleteOrganizationsSecurityMonitoringConditions: API.OperationMethod<DeleteOrganizationsSecurityMonitoringConditionsRequest, DeleteOrganizationsSecurityMonitoringConditionsResponse, DeleteOrganizationsSecurityMonitoringConditionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsSecurityMonitoringConditionsRequest,
   output: DeleteOrganizationsSecurityMonitoringConditionsResponse,
   errors: [],
 }));
 
-/** Provisions a new Apigee organization with a functioning runtime. This is the standard way to create trial organizations for a free Apigee trial. */
 export interface ProvisionOrganizationProjectsRequest {
   /** Required. Name of the GCP project with which to associate the Apigee organization. */
   project: string;
@@ -16402,13 +16401,13 @@ export const ProvisionOrganizationProjectsResponse = GoogleLongrunningOperation;
 
 export type ProvisionOrganizationProjectsError = CommonErrors;
 
+/** Provisions a new Apigee organization with a functioning runtime. This is the standard way to create trial organizations for a free Apigee trial. */
 export const provisionOrganizationProjects: API.OperationMethod<ProvisionOrganizationProjectsRequest, ProvisionOrganizationProjectsResponse, ProvisionOrganizationProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ProvisionOrganizationProjectsRequest,
   output: ProvisionOrganizationProjectsResponse,
   errors: [],
 }));
 
-/** Lists hybrid services and its trusted issuers service account ids. This api is authenticated and unauthorized(allow all the users) and used by runtime authn-authz service to query control plane's issuer service account ids. */
 export interface ListHybridIssuersRequest {
   /** Required. Must be of the form `hybrid/issuers`. */
   name: string;
@@ -16426,6 +16425,7 @@ export const ListHybridIssuersResponse = GoogleCloudApigeeV1ListHybridIssuersRes
 
 export type ListHybridIssuersError = CommonErrors;
 
+/** Lists hybrid services and its trusted issuers service account ids. This api is authenticated and unauthorized(allow all the users) and used by runtime authn-authz service to query control plane's issuer service account ids. */
 export const listHybridIssuers: API.OperationMethod<ListHybridIssuersRequest, ListHybridIssuersResponse, ListHybridIssuersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListHybridIssuersRequest,
   output: ListHybridIssuersResponse,

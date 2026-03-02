@@ -1770,7 +1770,6 @@ export const UnmountDatastoreRequest: Schema.Schema<UnmountDatastoreRequest> = S
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number;
@@ -1800,7 +1799,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -1810,7 +1810,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets all the principals having bind permission on the intranet VPC associated with the consumer project granted by the Grant API. DnsBindPermission is a global resource and location can only be global. */
 export interface GetDnsBindPermissionProjectsLocationsRequest {
   /** Required. The name of the resource which stores the users/service accounts having the permission to bind to the corresponding intranet VPC of the consumer project. DnsBindPermission is a global resource. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/dnsBindPermission` */
   name: string;
@@ -1828,13 +1827,13 @@ export const GetDnsBindPermissionProjectsLocationsResponse = DnsBindPermission;
 
 export type GetDnsBindPermissionProjectsLocationsError = CommonErrors;
 
+/** Gets all the principals having bind permission on the intranet VPC associated with the consumer project granted by the Grant API. DnsBindPermission is a global resource and location can only be global. */
 export const getDnsBindPermissionProjectsLocations: API.OperationMethod<GetDnsBindPermissionProjectsLocationsRequest, GetDnsBindPermissionProjectsLocationsResponse, GetDnsBindPermissionProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDnsBindPermissionProjectsLocationsRequest,
   output: GetDnsBindPermissionProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -1852,13 +1851,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Accelerates the deletion of a private cloud that is currently in soft deletion A `PrivateCloud` resource in soft deletion has `PrivateCloud.state` set to `SOFT_DELETED` and `PrivateCloud.expireTime` set to the time when deletion can no longer be reversed. */
 export interface PrivateCloudDeletionNowProjectsLocationsPrivateCloudsRequest {
   /** Required. The resource name of the private cloud in softdeletion. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   name: string;
@@ -1879,13 +1878,13 @@ export const PrivateCloudDeletionNowProjectsLocationsPrivateCloudsResponse = Ope
 
 export type PrivateCloudDeletionNowProjectsLocationsPrivateCloudsError = CommonErrors;
 
+/** Accelerates the deletion of a private cloud that is currently in soft deletion A `PrivateCloud` resource in soft deletion has `PrivateCloud.state` set to `SOFT_DELETED` and `PrivateCloud.expireTime` set to the time when deletion can no longer be reversed. */
 export const privateCloudDeletionNowProjectsLocationsPrivateClouds: API.OperationMethod<PrivateCloudDeletionNowProjectsLocationsPrivateCloudsRequest, PrivateCloudDeletionNowProjectsLocationsPrivateCloudsResponse, PrivateCloudDeletionNowProjectsLocationsPrivateCloudsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PrivateCloudDeletionNowProjectsLocationsPrivateCloudsRequest,
   output: PrivateCloudDeletionNowProjectsLocationsPrivateCloudsResponse,
   errors: [],
 }));
 
-/** Creates a new `PrivateCloud` resource in a given project and location. Private clouds of type `STANDARD` and `TIME_LIMITED` are zonal resources, `STRETCHED` private clouds are regional. Creating a private cloud also creates a [management cluster](https://cloud.google.com/vmware-engine/docs/concepts-vmware-components) for that private cloud. */
 export interface CreateProjectsLocationsPrivateCloudsRequest {
   /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -1915,13 +1914,13 @@ export const CreateProjectsLocationsPrivateCloudsResponse = Operation;
 
 export type CreateProjectsLocationsPrivateCloudsError = CommonErrors;
 
+/** Creates a new `PrivateCloud` resource in a given project and location. Private clouds of type `STANDARD` and `TIME_LIMITED` are zonal resources, `STRETCHED` private clouds are regional. Creating a private cloud also creates a [management cluster](https://cloud.google.com/vmware-engine/docs/concepts-vmware-components) for that private cloud. */
 export const createProjectsLocationsPrivateClouds: API.OperationMethod<CreateProjectsLocationsPrivateCloudsRequest, CreateProjectsLocationsPrivateCloudsResponse, CreateProjectsLocationsPrivateCloudsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsPrivateCloudsRequest,
   output: CreateProjectsLocationsPrivateCloudsResponse,
   errors: [],
 }));
 
-/** Schedules a `PrivateCloud` resource for deletion. A `PrivateCloud` resource scheduled for deletion has `PrivateCloud.state` set to `DELETED` and `expireTime` set to the time when deletion is final and can no longer be reversed. The delete operation is marked as done as soon as the `PrivateCloud` is successfully scheduled for deletion (this also applies when `delayHours` is set to zero), and the operation is not kept in pending state until `PrivateCloud` is purged. `PrivateCloud` can be restored using `UndeletePrivateCloud` method before the `expireTime` elapses. When `expireTime` is reached, deletion is final and all private cloud resources are irreversibly removed and billing stops. During the final removal process, `PrivateCloud.state` is set to `PURGING`. `PrivateCloud` can be polled using standard `GET` method for the whole period of deletion and purging. It will not be returned only when it is completely purged. */
 export interface DeleteProjectsLocationsPrivateCloudsRequest {
   /** Optional. Time delay of the deletion specified in hours. The default value is `3`. Specifying a non-zero value for this field changes the value of `PrivateCloud.state` to `DELETED` and sets `expire_time` to the planned deletion time. Deletion can be cancelled before `expire_time` elapses using VmwareEngine.UndeletePrivateCloud. Specifying a value of `0` for this field instead begins the deletion process and ceases billing immediately. During the final deletion process, the value of `PrivateCloud.state` becomes `PURGING`. */
   delayHours?: number;
@@ -1948,13 +1947,13 @@ export const DeleteProjectsLocationsPrivateCloudsResponse = Operation;
 
 export type DeleteProjectsLocationsPrivateCloudsError = CommonErrors;
 
+/** Schedules a `PrivateCloud` resource for deletion. A `PrivateCloud` resource scheduled for deletion has `PrivateCloud.state` set to `DELETED` and `expireTime` set to the time when deletion is final and can no longer be reversed. The delete operation is marked as done as soon as the `PrivateCloud` is successfully scheduled for deletion (this also applies when `delayHours` is set to zero), and the operation is not kept in pending state until `PrivateCloud` is purged. `PrivateCloud` can be restored using `UndeletePrivateCloud` method before the `expireTime` elapses. When `expireTime` is reached, deletion is final and all private cloud resources are irreversibly removed and billing stops. During the final removal process, `PrivateCloud.state` is set to `PURGING`. `PrivateCloud` can be polled using standard `GET` method for the whole period of deletion and purging. It will not be returned only when it is completely purged. */
 export const deleteProjectsLocationsPrivateClouds: API.OperationMethod<DeleteProjectsLocationsPrivateCloudsRequest, DeleteProjectsLocationsPrivateCloudsResponse, DeleteProjectsLocationsPrivateCloudsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsPrivateCloudsRequest,
   output: DeleteProjectsLocationsPrivateCloudsResponse,
   errors: [],
 }));
 
-/** Gets details of the `DnsForwarding` config. */
 export interface GetDnsForwardingProjectsLocationsPrivateCloudsRequest {
   /** Required. The resource name of a `DnsForwarding` to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/dnsForwarding` */
   name: string;
@@ -1972,13 +1971,13 @@ export const GetDnsForwardingProjectsLocationsPrivateCloudsResponse = DnsForward
 
 export type GetDnsForwardingProjectsLocationsPrivateCloudsError = CommonErrors;
 
+/** Gets details of the `DnsForwarding` config. */
 export const getDnsForwardingProjectsLocationsPrivateClouds: API.OperationMethod<GetDnsForwardingProjectsLocationsPrivateCloudsRequest, GetDnsForwardingProjectsLocationsPrivateCloudsResponse, GetDnsForwardingProjectsLocationsPrivateCloudsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDnsForwardingProjectsLocationsPrivateCloudsRequest,
   output: GetDnsForwardingProjectsLocationsPrivateCloudsResponse,
   errors: [],
 }));
 
-/** Restores a private cloud that was previously scheduled for deletion by `DeletePrivateCloud`. A `PrivateCloud` resource scheduled for deletion has `PrivateCloud.state` set to `DELETED` and `PrivateCloud.expireTime` set to the time when deletion can no longer be reversed. */
 export interface UndeleteProjectsLocationsPrivateCloudsRequest {
   /** Required. The resource name of the private cloud scheduled for deletion. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   name: string;
@@ -1999,13 +1998,13 @@ export const UndeleteProjectsLocationsPrivateCloudsResponse = Operation;
 
 export type UndeleteProjectsLocationsPrivateCloudsError = CommonErrors;
 
+/** Restores a private cloud that was previously scheduled for deletion by `DeletePrivateCloud`. A `PrivateCloud` resource scheduled for deletion has `PrivateCloud.state` set to `DELETED` and `PrivateCloud.expireTime` set to the time when deletion can no longer be reversed. */
 export const undeleteProjectsLocationsPrivateClouds: API.OperationMethod<UndeleteProjectsLocationsPrivateCloudsRequest, UndeleteProjectsLocationsPrivateCloudsResponse, UndeleteProjectsLocationsPrivateCloudsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UndeleteProjectsLocationsPrivateCloudsRequest,
   output: UndeleteProjectsLocationsPrivateCloudsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsPrivateCloudsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2026,13 +2025,13 @@ export const TestIamPermissionsProjectsLocationsPrivateCloudsResponse = TestIamP
 
 export type TestIamPermissionsProjectsLocationsPrivateCloudsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsPrivateClouds: API.OperationMethod<TestIamPermissionsProjectsLocationsPrivateCloudsRequest, TestIamPermissionsProjectsLocationsPrivateCloudsResponse, TestIamPermissionsProjectsLocationsPrivateCloudsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsPrivateCloudsRequest,
   output: TestIamPermissionsProjectsLocationsPrivateCloudsResponse,
   errors: [],
 }));
 
-/** Gets details of credentials for NSX appliance. */
 export interface ShowNsxCredentialsProjectsLocationsPrivateCloudsRequest {
   /** Required. The resource name of the private cloud to be queried for credentials. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   privateCloud: string;
@@ -2050,13 +2049,13 @@ export const ShowNsxCredentialsProjectsLocationsPrivateCloudsResponse = Credenti
 
 export type ShowNsxCredentialsProjectsLocationsPrivateCloudsError = CommonErrors;
 
+/** Gets details of credentials for NSX appliance. */
 export const showNsxCredentialsProjectsLocationsPrivateClouds: API.OperationMethod<ShowNsxCredentialsProjectsLocationsPrivateCloudsRequest, ShowNsxCredentialsProjectsLocationsPrivateCloudsResponse, ShowNsxCredentialsProjectsLocationsPrivateCloudsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ShowNsxCredentialsProjectsLocationsPrivateCloudsRequest,
   output: ShowNsxCredentialsProjectsLocationsPrivateCloudsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsPrivateCloudsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2077,13 +2076,13 @@ export const SetIamPolicyProjectsLocationsPrivateCloudsResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsPrivateCloudsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsPrivateClouds: API.OperationMethod<SetIamPolicyProjectsLocationsPrivateCloudsRequest, SetIamPolicyProjectsLocationsPrivateCloudsResponse, SetIamPolicyProjectsLocationsPrivateCloudsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsPrivateCloudsRequest,
   output: SetIamPolicyProjectsLocationsPrivateCloudsResponse,
   errors: [],
 }));
 
-/** Updates the parameters of the `DnsForwarding` config, like associated domains. Only fields specified in `update_mask` are applied. */
 export interface UpdateDnsForwardingProjectsLocationsPrivateCloudsRequest {
   /** Required. Field mask is used to specify the fields to be overwritten in the `DnsForwarding` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
@@ -2110,13 +2109,13 @@ export const UpdateDnsForwardingProjectsLocationsPrivateCloudsResponse = Operati
 
 export type UpdateDnsForwardingProjectsLocationsPrivateCloudsError = CommonErrors;
 
+/** Updates the parameters of the `DnsForwarding` config, like associated domains. Only fields specified in `update_mask` are applied. */
 export const updateDnsForwardingProjectsLocationsPrivateClouds: API.OperationMethod<UpdateDnsForwardingProjectsLocationsPrivateCloudsRequest, UpdateDnsForwardingProjectsLocationsPrivateCloudsResponse, UpdateDnsForwardingProjectsLocationsPrivateCloudsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateDnsForwardingProjectsLocationsPrivateCloudsRequest,
   output: UpdateDnsForwardingProjectsLocationsPrivateCloudsResponse,
   errors: [],
 }));
 
-/** Resets credentials of the NSX appliance. */
 export interface ResetNsxCredentialsProjectsLocationsPrivateCloudsRequest {
   /** Required. The resource name of the private cloud to reset credentials for. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   privateCloud: string;
@@ -2137,13 +2136,13 @@ export const ResetNsxCredentialsProjectsLocationsPrivateCloudsResponse = Operati
 
 export type ResetNsxCredentialsProjectsLocationsPrivateCloudsError = CommonErrors;
 
+/** Resets credentials of the NSX appliance. */
 export const resetNsxCredentialsProjectsLocationsPrivateClouds: API.OperationMethod<ResetNsxCredentialsProjectsLocationsPrivateCloudsRequest, ResetNsxCredentialsProjectsLocationsPrivateCloudsResponse, ResetNsxCredentialsProjectsLocationsPrivateCloudsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetNsxCredentialsProjectsLocationsPrivateCloudsRequest,
   output: ResetNsxCredentialsProjectsLocationsPrivateCloudsResponse,
   errors: [],
 }));
 
-/** Retrieves a `PrivateCloud` resource by its resource name. */
 export interface GetProjectsLocationsPrivateCloudsRequest {
   /** Required. The resource name of the private cloud to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   name: string;
@@ -2161,13 +2160,13 @@ export const GetProjectsLocationsPrivateCloudsResponse = PrivateCloud;
 
 export type GetProjectsLocationsPrivateCloudsError = CommonErrors;
 
+/** Retrieves a `PrivateCloud` resource by its resource name. */
 export const getProjectsLocationsPrivateClouds: API.OperationMethod<GetProjectsLocationsPrivateCloudsRequest, GetProjectsLocationsPrivateCloudsResponse, GetProjectsLocationsPrivateCloudsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsPrivateCloudsRequest,
   output: GetProjectsLocationsPrivateCloudsResponse,
   errors: [],
 }));
 
-/** Modifies a `PrivateCloud` resource. Only the following fields can be updated: `description`. Only fields specified in `updateMask` are applied. During operation processing, the resource is temporarily in the `ACTIVE` state before the operation fully completes. For that period of time, you can't update the resource. Use the operation status to determine when the processing fully completes. */
 export interface PatchProjectsLocationsPrivateCloudsRequest {
   /** Output only. Identifier. The resource name of this private cloud. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   name: string;
@@ -2194,13 +2193,13 @@ export const PatchProjectsLocationsPrivateCloudsResponse = Operation;
 
 export type PatchProjectsLocationsPrivateCloudsError = CommonErrors;
 
+/** Modifies a `PrivateCloud` resource. Only the following fields can be updated: `description`. Only fields specified in `updateMask` are applied. During operation processing, the resource is temporarily in the `ACTIVE` state before the operation fully completes. For that period of time, you can't update the resource. Use the operation status to determine when the processing fully completes. */
 export const patchProjectsLocationsPrivateClouds: API.OperationMethod<PatchProjectsLocationsPrivateCloudsRequest, PatchProjectsLocationsPrivateCloudsResponse, PatchProjectsLocationsPrivateCloudsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsPrivateCloudsRequest,
   output: PatchProjectsLocationsPrivateCloudsResponse,
   errors: [],
 }));
 
-/** Gets details of credentials for Vcenter appliance. */
 export interface ShowVcenterCredentialsProjectsLocationsPrivateCloudsRequest {
   /** Optional. The username of the user to be queried for credentials. The default value of this field is CloudOwner@gve.local. The provided value must be one of the following: CloudOwner@gve.local, solution-user-01@gve.local, solution-user-02@gve.local, solution-user-03@gve.local, solution-user-04@gve.local, solution-user-05@gve.local, zertoadmin@gve.local. */
   username?: string;
@@ -2221,13 +2220,13 @@ export const ShowVcenterCredentialsProjectsLocationsPrivateCloudsResponse = Cred
 
 export type ShowVcenterCredentialsProjectsLocationsPrivateCloudsError = CommonErrors;
 
+/** Gets details of credentials for Vcenter appliance. */
 export const showVcenterCredentialsProjectsLocationsPrivateClouds: API.OperationMethod<ShowVcenterCredentialsProjectsLocationsPrivateCloudsRequest, ShowVcenterCredentialsProjectsLocationsPrivateCloudsResponse, ShowVcenterCredentialsProjectsLocationsPrivateCloudsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ShowVcenterCredentialsProjectsLocationsPrivateCloudsRequest,
   output: ShowVcenterCredentialsProjectsLocationsPrivateCloudsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsPrivateCloudsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2248,13 +2247,13 @@ export const GetIamPolicyProjectsLocationsPrivateCloudsResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsPrivateCloudsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsPrivateClouds: API.OperationMethod<GetIamPolicyProjectsLocationsPrivateCloudsRequest, GetIamPolicyProjectsLocationsPrivateCloudsResponse, GetIamPolicyProjectsLocationsPrivateCloudsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsPrivateCloudsRequest,
   output: GetIamPolicyProjectsLocationsPrivateCloudsResponse,
   errors: [],
 }));
 
-/** Resets credentials of the Vcenter appliance. */
 export interface ResetVcenterCredentialsProjectsLocationsPrivateCloudsRequest {
   /** Required. The resource name of the private cloud to reset credentials for. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   privateCloud: string;
@@ -2275,13 +2274,13 @@ export const ResetVcenterCredentialsProjectsLocationsPrivateCloudsResponse = Ope
 
 export type ResetVcenterCredentialsProjectsLocationsPrivateCloudsError = CommonErrors;
 
+/** Resets credentials of the Vcenter appliance. */
 export const resetVcenterCredentialsProjectsLocationsPrivateClouds: API.OperationMethod<ResetVcenterCredentialsProjectsLocationsPrivateCloudsRequest, ResetVcenterCredentialsProjectsLocationsPrivateCloudsResponse, ResetVcenterCredentialsProjectsLocationsPrivateCloudsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResetVcenterCredentialsProjectsLocationsPrivateCloudsRequest,
   output: ResetVcenterCredentialsProjectsLocationsPrivateCloudsResponse,
   errors: [],
 }));
 
-/** Lists `PrivateCloud` resources in a given project and location. */
 export interface ListProjectsLocationsPrivateCloudsRequest {
   /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
   orderBy?: string;
@@ -2311,7 +2310,8 @@ export const ListProjectsLocationsPrivateCloudsResponse = ListPrivateCloudsRespo
 
 export type ListProjectsLocationsPrivateCloudsError = CommonErrors;
 
-export const listProjectsLocationsPrivateClouds = API.makePaginated(() => ({
+/** Lists `PrivateCloud` resources in a given project and location. */
+export const listProjectsLocationsPrivateClouds: API.PaginatedOperationMethod<ListProjectsLocationsPrivateCloudsRequest, ListProjectsLocationsPrivateCloudsResponse, ListProjectsLocationsPrivateCloudsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsPrivateCloudsRequest,
   output: ListProjectsLocationsPrivateCloudsResponse,
   errors: [],
@@ -2321,7 +2321,6 @@ export const listProjectsLocationsPrivateClouds = API.makePaginated(() => ({
   },
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsPrivateCloudsClustersRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2342,13 +2341,13 @@ export const TestIamPermissionsProjectsLocationsPrivateCloudsClustersResponse = 
 
 export type TestIamPermissionsProjectsLocationsPrivateCloudsClustersError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsPrivateCloudsClusters: API.OperationMethod<TestIamPermissionsProjectsLocationsPrivateCloudsClustersRequest, TestIamPermissionsProjectsLocationsPrivateCloudsClustersResponse, TestIamPermissionsProjectsLocationsPrivateCloudsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsPrivateCloudsClustersRequest,
   output: TestIamPermissionsProjectsLocationsPrivateCloudsClustersResponse,
   errors: [],
 }));
 
-/** Lists `Cluster` resources in a given private cloud. */
 export interface ListProjectsLocationsPrivateCloudsClustersRequest {
   /** The maximum number of clusters to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
   pageSize?: number;
@@ -2378,7 +2377,8 @@ export const ListProjectsLocationsPrivateCloudsClustersResponse = ListClustersRe
 
 export type ListProjectsLocationsPrivateCloudsClustersError = CommonErrors;
 
-export const listProjectsLocationsPrivateCloudsClusters = API.makePaginated(() => ({
+/** Lists `Cluster` resources in a given private cloud. */
+export const listProjectsLocationsPrivateCloudsClusters: API.PaginatedOperationMethod<ListProjectsLocationsPrivateCloudsClustersRequest, ListProjectsLocationsPrivateCloudsClustersResponse, ListProjectsLocationsPrivateCloudsClustersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsPrivateCloudsClustersRequest,
   output: ListProjectsLocationsPrivateCloudsClustersResponse,
   errors: [],
@@ -2388,7 +2388,6 @@ export const listProjectsLocationsPrivateCloudsClusters = API.makePaginated(() =
   },
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsPrivateCloudsClustersRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2409,13 +2408,13 @@ export const SetIamPolicyProjectsLocationsPrivateCloudsClustersResponse = Policy
 
 export type SetIamPolicyProjectsLocationsPrivateCloudsClustersError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsPrivateCloudsClusters: API.OperationMethod<SetIamPolicyProjectsLocationsPrivateCloudsClustersRequest, SetIamPolicyProjectsLocationsPrivateCloudsClustersResponse, SetIamPolicyProjectsLocationsPrivateCloudsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsPrivateCloudsClustersRequest,
   output: SetIamPolicyProjectsLocationsPrivateCloudsClustersResponse,
   errors: [],
 }));
 
-/** Creates a new cluster in a given private cloud. Creating a new cluster provides additional nodes for use in the parent private cloud and requires sufficient [node quota](https://cloud.google.com/vmware-engine/quotas). */
 export interface CreateProjectsLocationsPrivateCloudsClustersRequest {
   /** Optional. True if you want the request to be validated and not executed; false otherwise. */
   validateOnly?: boolean;
@@ -2445,13 +2444,13 @@ export const CreateProjectsLocationsPrivateCloudsClustersResponse = Operation;
 
 export type CreateProjectsLocationsPrivateCloudsClustersError = CommonErrors;
 
+/** Creates a new cluster in a given private cloud. Creating a new cluster provides additional nodes for use in the parent private cloud and requires sufficient [node quota](https://cloud.google.com/vmware-engine/quotas). */
 export const createProjectsLocationsPrivateCloudsClusters: API.OperationMethod<CreateProjectsLocationsPrivateCloudsClustersRequest, CreateProjectsLocationsPrivateCloudsClustersResponse, CreateProjectsLocationsPrivateCloudsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsPrivateCloudsClustersRequest,
   output: CreateProjectsLocationsPrivateCloudsClustersResponse,
   errors: [],
 }));
 
-/** Mounts a `Datastore` on a cluster resource */
 export interface MountDatastoreProjectsLocationsPrivateCloudsClustersRequest {
   /** Required. The resource name of the cluster to mount the datastore. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/clusters/my-cluster` */
   name: string;
@@ -2472,13 +2471,13 @@ export const MountDatastoreProjectsLocationsPrivateCloudsClustersResponse = Oper
 
 export type MountDatastoreProjectsLocationsPrivateCloudsClustersError = CommonErrors;
 
+/** Mounts a `Datastore` on a cluster resource */
 export const mountDatastoreProjectsLocationsPrivateCloudsClusters: API.OperationMethod<MountDatastoreProjectsLocationsPrivateCloudsClustersRequest, MountDatastoreProjectsLocationsPrivateCloudsClustersResponse, MountDatastoreProjectsLocationsPrivateCloudsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MountDatastoreProjectsLocationsPrivateCloudsClustersRequest,
   output: MountDatastoreProjectsLocationsPrivateCloudsClustersResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsPrivateCloudsClustersRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
@@ -2499,13 +2498,13 @@ export const GetIamPolicyProjectsLocationsPrivateCloudsClustersResponse = Policy
 
 export type GetIamPolicyProjectsLocationsPrivateCloudsClustersError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsPrivateCloudsClusters: API.OperationMethod<GetIamPolicyProjectsLocationsPrivateCloudsClustersRequest, GetIamPolicyProjectsLocationsPrivateCloudsClustersResponse, GetIamPolicyProjectsLocationsPrivateCloudsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsPrivateCloudsClustersRequest,
   output: GetIamPolicyProjectsLocationsPrivateCloudsClustersResponse,
   errors: [],
 }));
 
-/** Retrieves a `Cluster` resource by its resource name. */
 export interface GetProjectsLocationsPrivateCloudsClustersRequest {
   /** Required. The cluster resource name to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/clusters/my-cluster` */
   name: string;
@@ -2523,13 +2522,13 @@ export const GetProjectsLocationsPrivateCloudsClustersResponse = Cluster;
 
 export type GetProjectsLocationsPrivateCloudsClustersError = CommonErrors;
 
+/** Retrieves a `Cluster` resource by its resource name. */
 export const getProjectsLocationsPrivateCloudsClusters: API.OperationMethod<GetProjectsLocationsPrivateCloudsClustersRequest, GetProjectsLocationsPrivateCloudsClustersResponse, GetProjectsLocationsPrivateCloudsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsPrivateCloudsClustersRequest,
   output: GetProjectsLocationsPrivateCloudsClustersResponse,
   errors: [],
 }));
 
-/** Modifies a `Cluster` resource. Only fields specified in `updateMask` are applied. During operation processing, the resource is temporarily in the `ACTIVE` state before the operation fully completes. For that period of time, you can't update the resource. Use the operation status to determine when the processing fully completes. */
 export interface PatchProjectsLocationsPrivateCloudsClustersRequest {
   /** Optional. True if you want the request to be validated and not executed; false otherwise. */
   validateOnly?: boolean;
@@ -2559,13 +2558,13 @@ export const PatchProjectsLocationsPrivateCloudsClustersResponse = Operation;
 
 export type PatchProjectsLocationsPrivateCloudsClustersError = CommonErrors;
 
+/** Modifies a `Cluster` resource. Only fields specified in `updateMask` are applied. During operation processing, the resource is temporarily in the `ACTIVE` state before the operation fully completes. For that period of time, you can't update the resource. Use the operation status to determine when the processing fully completes. */
 export const patchProjectsLocationsPrivateCloudsClusters: API.OperationMethod<PatchProjectsLocationsPrivateCloudsClustersRequest, PatchProjectsLocationsPrivateCloudsClustersResponse, PatchProjectsLocationsPrivateCloudsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsPrivateCloudsClustersRequest,
   output: PatchProjectsLocationsPrivateCloudsClustersResponse,
   errors: [],
 }));
 
-/** Unmounts a `Datastore` on a cluster resource */
 export interface UnmountDatastoreProjectsLocationsPrivateCloudsClustersRequest {
   /** Required. The resource name of the cluster to unmount the datastore. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/clusters/my-cluster` */
   name: string;
@@ -2586,13 +2585,13 @@ export const UnmountDatastoreProjectsLocationsPrivateCloudsClustersResponse = Op
 
 export type UnmountDatastoreProjectsLocationsPrivateCloudsClustersError = CommonErrors;
 
+/** Unmounts a `Datastore` on a cluster resource */
 export const unmountDatastoreProjectsLocationsPrivateCloudsClusters: API.OperationMethod<UnmountDatastoreProjectsLocationsPrivateCloudsClustersRequest, UnmountDatastoreProjectsLocationsPrivateCloudsClustersResponse, UnmountDatastoreProjectsLocationsPrivateCloudsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UnmountDatastoreProjectsLocationsPrivateCloudsClustersRequest,
   output: UnmountDatastoreProjectsLocationsPrivateCloudsClustersResponse,
   errors: [],
 }));
 
-/** Deletes a `Cluster` resource. To avoid unintended data loss, migrate or gracefully shut down any workloads running on the cluster before deletion. You cannot delete the management cluster of a private cloud using this method. */
 export interface DeleteProjectsLocationsPrivateCloudsClustersRequest {
   /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -2613,13 +2612,13 @@ export const DeleteProjectsLocationsPrivateCloudsClustersResponse = Operation;
 
 export type DeleteProjectsLocationsPrivateCloudsClustersError = CommonErrors;
 
+/** Deletes a `Cluster` resource. To avoid unintended data loss, migrate or gracefully shut down any workloads running on the cluster before deletion. You cannot delete the management cluster of a private cloud using this method. */
 export const deleteProjectsLocationsPrivateCloudsClusters: API.OperationMethod<DeleteProjectsLocationsPrivateCloudsClustersRequest, DeleteProjectsLocationsPrivateCloudsClustersResponse, DeleteProjectsLocationsPrivateCloudsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsPrivateCloudsClustersRequest,
   output: DeleteProjectsLocationsPrivateCloudsClustersResponse,
   errors: [],
 }));
 
-/** Gets details of a single node. */
 export interface GetProjectsLocationsPrivateCloudsClustersNodesRequest {
   /** Required. The resource name of the node to retrieve. For example: `projects/{project}/locations/{location}/privateClouds/{private_cloud}/clusters/{cluster}/nodes/{node}` */
   name: string;
@@ -2637,13 +2636,13 @@ export const GetProjectsLocationsPrivateCloudsClustersNodesResponse = Node;
 
 export type GetProjectsLocationsPrivateCloudsClustersNodesError = CommonErrors;
 
+/** Gets details of a single node. */
 export const getProjectsLocationsPrivateCloudsClustersNodes: API.OperationMethod<GetProjectsLocationsPrivateCloudsClustersNodesRequest, GetProjectsLocationsPrivateCloudsClustersNodesResponse, GetProjectsLocationsPrivateCloudsClustersNodesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsPrivateCloudsClustersNodesRequest,
   output: GetProjectsLocationsPrivateCloudsClustersNodesResponse,
   errors: [],
 }));
 
-/** Lists nodes in a given cluster. */
 export interface ListProjectsLocationsPrivateCloudsClustersNodesRequest {
   /** Required. The resource name of the cluster to be queried for nodes. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/clusters/my-cluster` */
   parent: string;
@@ -2667,7 +2666,8 @@ export const ListProjectsLocationsPrivateCloudsClustersNodesResponse = ListNodes
 
 export type ListProjectsLocationsPrivateCloudsClustersNodesError = CommonErrors;
 
-export const listProjectsLocationsPrivateCloudsClustersNodes = API.makePaginated(() => ({
+/** Lists nodes in a given cluster. */
+export const listProjectsLocationsPrivateCloudsClustersNodes: API.PaginatedOperationMethod<ListProjectsLocationsPrivateCloudsClustersNodesRequest, ListProjectsLocationsPrivateCloudsClustersNodesResponse, ListProjectsLocationsPrivateCloudsClustersNodesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsPrivateCloudsClustersNodesRequest,
   output: ListProjectsLocationsPrivateCloudsClustersNodesResponse,
   errors: [],
@@ -2677,7 +2677,6 @@ export const listProjectsLocationsPrivateCloudsClustersNodes = API.makePaginated
   },
 }));
 
-/** Deletes a single external IP address. When you delete an external IP address, connectivity between the external IP address and the corresponding internal IP address is lost. */
 export interface DeleteProjectsLocationsPrivateCloudsExternalAddressesRequest {
   /** Required. The resource name of the external IP address to delete. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/externalAddresses/my-ip` */
   name: string;
@@ -2698,13 +2697,13 @@ export const DeleteProjectsLocationsPrivateCloudsExternalAddressesResponse = Ope
 
 export type DeleteProjectsLocationsPrivateCloudsExternalAddressesError = CommonErrors;
 
+/** Deletes a single external IP address. When you delete an external IP address, connectivity between the external IP address and the corresponding internal IP address is lost. */
 export const deleteProjectsLocationsPrivateCloudsExternalAddresses: API.OperationMethod<DeleteProjectsLocationsPrivateCloudsExternalAddressesRequest, DeleteProjectsLocationsPrivateCloudsExternalAddressesResponse, DeleteProjectsLocationsPrivateCloudsExternalAddressesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsPrivateCloudsExternalAddressesRequest,
   output: DeleteProjectsLocationsPrivateCloudsExternalAddressesResponse,
   errors: [],
 }));
 
-/** Lists external IP addresses assigned to VMware workload VMs in a given private cloud. */
 export interface ListProjectsLocationsPrivateCloudsExternalAddressesRequest {
   /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of IP addresses, you can exclude the ones named `example-ip` by specifying `name != "example-ip"`. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-ip") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "example-ip-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "example-ip-2") ``` */
   filter?: string;
@@ -2734,7 +2733,8 @@ export const ListProjectsLocationsPrivateCloudsExternalAddressesResponse = ListE
 
 export type ListProjectsLocationsPrivateCloudsExternalAddressesError = CommonErrors;
 
-export const listProjectsLocationsPrivateCloudsExternalAddresses = API.makePaginated(() => ({
+/** Lists external IP addresses assigned to VMware workload VMs in a given private cloud. */
+export const listProjectsLocationsPrivateCloudsExternalAddresses: API.PaginatedOperationMethod<ListProjectsLocationsPrivateCloudsExternalAddressesRequest, ListProjectsLocationsPrivateCloudsExternalAddressesResponse, ListProjectsLocationsPrivateCloudsExternalAddressesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsPrivateCloudsExternalAddressesRequest,
   output: ListProjectsLocationsPrivateCloudsExternalAddressesResponse,
   errors: [],
@@ -2744,7 +2744,6 @@ export const listProjectsLocationsPrivateCloudsExternalAddresses = API.makePagin
   },
 }));
 
-/** Updates the parameters of a single external IP address. Only fields specified in `update_mask` are applied. During operation processing, the resource is temporarily in the `ACTIVE` state before the operation fully completes. For that period of time, you can't update the resource. Use the operation status to determine when the processing fully completes. */
 export interface PatchProjectsLocationsPrivateCloudsExternalAddressesRequest {
   /** Required. Field mask is used to specify the fields to be overwritten in the `ExternalAddress` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
@@ -2771,13 +2770,13 @@ export const PatchProjectsLocationsPrivateCloudsExternalAddressesResponse = Oper
 
 export type PatchProjectsLocationsPrivateCloudsExternalAddressesError = CommonErrors;
 
+/** Updates the parameters of a single external IP address. Only fields specified in `update_mask` are applied. During operation processing, the resource is temporarily in the `ACTIVE` state before the operation fully completes. For that period of time, you can't update the resource. Use the operation status to determine when the processing fully completes. */
 export const patchProjectsLocationsPrivateCloudsExternalAddresses: API.OperationMethod<PatchProjectsLocationsPrivateCloudsExternalAddressesRequest, PatchProjectsLocationsPrivateCloudsExternalAddressesResponse, PatchProjectsLocationsPrivateCloudsExternalAddressesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsPrivateCloudsExternalAddressesRequest,
   output: PatchProjectsLocationsPrivateCloudsExternalAddressesResponse,
   errors: [],
 }));
 
-/** Creates a new `ExternalAddress` resource in a given private cloud. The network policy that corresponds to the private cloud must have the external IP address network service enabled (`NetworkPolicy.external_ip`). */
 export interface CreateProjectsLocationsPrivateCloudsExternalAddressesRequest {
   /** Required. The resource name of the private cloud to create a new external IP address in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   parent: string;
@@ -2804,13 +2803,13 @@ export const CreateProjectsLocationsPrivateCloudsExternalAddressesResponse = Ope
 
 export type CreateProjectsLocationsPrivateCloudsExternalAddressesError = CommonErrors;
 
+/** Creates a new `ExternalAddress` resource in a given private cloud. The network policy that corresponds to the private cloud must have the external IP address network service enabled (`NetworkPolicy.external_ip`). */
 export const createProjectsLocationsPrivateCloudsExternalAddresses: API.OperationMethod<CreateProjectsLocationsPrivateCloudsExternalAddressesRequest, CreateProjectsLocationsPrivateCloudsExternalAddressesResponse, CreateProjectsLocationsPrivateCloudsExternalAddressesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsPrivateCloudsExternalAddressesRequest,
   output: CreateProjectsLocationsPrivateCloudsExternalAddressesResponse,
   errors: [],
 }));
 
-/** Gets details of a single external IP address. */
 export interface GetProjectsLocationsPrivateCloudsExternalAddressesRequest {
   /** Required. The resource name of the external IP address to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/externalAddresses/my-ip` */
   name: string;
@@ -2828,13 +2827,13 @@ export const GetProjectsLocationsPrivateCloudsExternalAddressesResponse = Extern
 
 export type GetProjectsLocationsPrivateCloudsExternalAddressesError = CommonErrors;
 
+/** Gets details of a single external IP address. */
 export const getProjectsLocationsPrivateCloudsExternalAddresses: API.OperationMethod<GetProjectsLocationsPrivateCloudsExternalAddressesRequest, GetProjectsLocationsPrivateCloudsExternalAddressesResponse, GetProjectsLocationsPrivateCloudsExternalAddressesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsPrivateCloudsExternalAddressesRequest,
   output: GetProjectsLocationsPrivateCloudsExternalAddressesResponse,
   errors: [],
 }));
 
-/** Gets details of a single subnet. */
 export interface GetProjectsLocationsPrivateCloudsSubnetsRequest {
   /** Required. The resource name of the subnet to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/subnets/my-subnet` */
   name: string;
@@ -2852,13 +2851,13 @@ export const GetProjectsLocationsPrivateCloudsSubnetsResponse = Subnet;
 
 export type GetProjectsLocationsPrivateCloudsSubnetsError = CommonErrors;
 
+/** Gets details of a single subnet. */
 export const getProjectsLocationsPrivateCloudsSubnets: API.OperationMethod<GetProjectsLocationsPrivateCloudsSubnetsRequest, GetProjectsLocationsPrivateCloudsSubnetsResponse, GetProjectsLocationsPrivateCloudsSubnetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsPrivateCloudsSubnetsRequest,
   output: GetProjectsLocationsPrivateCloudsSubnetsResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single subnet. Only fields specified in `update_mask` are applied. *Note*: This API is synchronous and always returns a successful `google.longrunning.Operation` (LRO). The returned LRO will only have `done` and `response` fields. */
 export interface PatchProjectsLocationsPrivateCloudsSubnetsRequest {
   /** Output only. Identifier. The resource name of this subnet. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/subnets/my-subnet` */
   name: string;
@@ -2882,13 +2881,13 @@ export const PatchProjectsLocationsPrivateCloudsSubnetsResponse = Operation;
 
 export type PatchProjectsLocationsPrivateCloudsSubnetsError = CommonErrors;
 
+/** Updates the parameters of a single subnet. Only fields specified in `update_mask` are applied. *Note*: This API is synchronous and always returns a successful `google.longrunning.Operation` (LRO). The returned LRO will only have `done` and `response` fields. */
 export const patchProjectsLocationsPrivateCloudsSubnets: API.OperationMethod<PatchProjectsLocationsPrivateCloudsSubnetsRequest, PatchProjectsLocationsPrivateCloudsSubnetsResponse, PatchProjectsLocationsPrivateCloudsSubnetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsPrivateCloudsSubnetsRequest,
   output: PatchProjectsLocationsPrivateCloudsSubnetsResponse,
   errors: [],
 }));
 
-/** Lists subnets in a given private cloud. */
 export interface ListProjectsLocationsPrivateCloudsSubnetsRequest {
   /** Required. The resource name of the private cloud to be queried for subnets. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   parent: string;
@@ -2912,7 +2911,8 @@ export const ListProjectsLocationsPrivateCloudsSubnetsResponse = ListSubnetsResp
 
 export type ListProjectsLocationsPrivateCloudsSubnetsError = CommonErrors;
 
-export const listProjectsLocationsPrivateCloudsSubnets = API.makePaginated(() => ({
+/** Lists subnets in a given private cloud. */
+export const listProjectsLocationsPrivateCloudsSubnets: API.PaginatedOperationMethod<ListProjectsLocationsPrivateCloudsSubnetsRequest, ListProjectsLocationsPrivateCloudsSubnetsResponse, ListProjectsLocationsPrivateCloudsSubnetsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsPrivateCloudsSubnetsRequest,
   output: ListProjectsLocationsPrivateCloudsSubnetsResponse,
   errors: [],
@@ -2922,7 +2922,6 @@ export const listProjectsLocationsPrivateCloudsSubnets = API.makePaginated(() =>
   },
 }));
 
-/** Lists past, ongoing and upcoming `Upgrades` for the given private cloud. */
 export interface ListProjectsLocationsPrivateCloudsUpgradesRequest {
   /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of upgrades, you can exclude the ones named `example-upgrade1` by specifying `name != "example-upgrade1"`. You can also filter nested fields. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-upgrade") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "upgrade-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "upgrade-2") ``` */
   filter?: string;
@@ -2952,7 +2951,8 @@ export const ListProjectsLocationsPrivateCloudsUpgradesResponse = ListUpgradesRe
 
 export type ListProjectsLocationsPrivateCloudsUpgradesError = CommonErrors;
 
-export const listProjectsLocationsPrivateCloudsUpgrades = API.makePaginated(() => ({
+/** Lists past, ongoing and upcoming `Upgrades` for the given private cloud. */
+export const listProjectsLocationsPrivateCloudsUpgrades: API.PaginatedOperationMethod<ListProjectsLocationsPrivateCloudsUpgradesRequest, ListProjectsLocationsPrivateCloudsUpgradesResponse, ListProjectsLocationsPrivateCloudsUpgradesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsPrivateCloudsUpgradesRequest,
   output: ListProjectsLocationsPrivateCloudsUpgradesResponse,
   errors: [],
@@ -2962,7 +2962,6 @@ export const listProjectsLocationsPrivateCloudsUpgrades = API.makePaginated(() =
   },
 }));
 
-/** Retrieves a private cloud `Upgrade` resource by its resource name. */
 export interface GetProjectsLocationsPrivateCloudsUpgradesRequest {
   /** Required. The name of the `Upgrade` resource to be retrieved. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-west1-a/privateClouds/my-cloud/upgrades/my-upgrade` */
   name: string;
@@ -2980,13 +2979,13 @@ export const GetProjectsLocationsPrivateCloudsUpgradesResponse = Upgrade;
 
 export type GetProjectsLocationsPrivateCloudsUpgradesError = CommonErrors;
 
+/** Retrieves a private cloud `Upgrade` resource by its resource name. */
 export const getProjectsLocationsPrivateCloudsUpgrades: API.OperationMethod<GetProjectsLocationsPrivateCloudsUpgradesRequest, GetProjectsLocationsPrivateCloudsUpgradesResponse, GetProjectsLocationsPrivateCloudsUpgradesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsPrivateCloudsUpgradesRequest,
   output: GetProjectsLocationsPrivateCloudsUpgradesResponse,
   errors: [],
 }));
 
-/** Update the private cloud `Upgrade` resource. Only `schedule` field can updated. The schedule can only be updated when the upgrade has not started and schedule edit window is open. Only fields specified in `update_mask` are considered. */
 export interface PatchProjectsLocationsPrivateCloudsUpgradesRequest {
   /** Output only. Identifier. The resource name of the private cloud `Upgrade`. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-west1-a/privateClouds/my-cloud/upgrades/my-upgrade` */
   name: string;
@@ -3013,13 +3012,13 @@ export const PatchProjectsLocationsPrivateCloudsUpgradesResponse = Operation;
 
 export type PatchProjectsLocationsPrivateCloudsUpgradesError = CommonErrors;
 
+/** Update the private cloud `Upgrade` resource. Only `schedule` field can updated. The schedule can only be updated when the upgrade has not started and schedule edit window is open. Only fields specified in `update_mask` are considered. */
 export const patchProjectsLocationsPrivateCloudsUpgrades: API.OperationMethod<PatchProjectsLocationsPrivateCloudsUpgradesRequest, PatchProjectsLocationsPrivateCloudsUpgradesResponse, PatchProjectsLocationsPrivateCloudsUpgradesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsPrivateCloudsUpgradesRequest,
   output: PatchProjectsLocationsPrivateCloudsUpgradesResponse,
   errors: [],
 }));
 
-/** Updates a `ManagementDnsZoneBinding` resource. Only fields specified in `update_mask` are applied. */
 export interface PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -3046,13 +3045,13 @@ export const PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRespons
 
 export type PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError = CommonErrors;
 
+/** Updates a `ManagementDnsZoneBinding` resource. Only fields specified in `update_mask` are applied. */
 export const patchProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.OperationMethod<PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest, PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse, PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest,
   output: PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse,
   errors: [],
 }));
 
-/** Creates a new `ManagementDnsZoneBinding` resource in a private cloud. This RPC creates the DNS binding and the resource that represents the DNS binding of the consumer VPC network to the management DNS zone. A management DNS zone is the Cloud DNS cross-project binding zone that VMware Engine creates for each private cloud. It contains FQDNs and corresponding IP addresses for the private cloud's ESXi hosts and management VM appliances like vCenter and NSX Manager. */
 export interface CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest {
   /** Required. The resource name of the private cloud to create a new management DNS zone binding for. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   parent: string;
@@ -3079,13 +3078,13 @@ export const CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRespon
 
 export type CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError = CommonErrors;
 
+/** Creates a new `ManagementDnsZoneBinding` resource in a private cloud. This RPC creates the DNS binding and the resource that represents the DNS binding of the consumer VPC network to the management DNS zone. A management DNS zone is the Cloud DNS cross-project binding zone that VMware Engine creates for each private cloud. It contains FQDNs and corresponding IP addresses for the private cloud's ESXi hosts and management VM appliances like vCenter and NSX Manager. */
 export const createProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.OperationMethod<CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest, CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse, CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest,
   output: CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse,
   errors: [],
 }));
 
-/** Retrieves a 'ManagementDnsZoneBinding' resource by its resource name. */
 export interface GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest {
   /** Required. The resource name of the management DNS zone binding to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/managementDnsZoneBindings/my-management-dns-zone-binding` */
   name: string;
@@ -3103,13 +3102,13 @@ export const GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse 
 
 export type GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError = CommonErrors;
 
+/** Retrieves a 'ManagementDnsZoneBinding' resource by its resource name. */
 export const getProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.OperationMethod<GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest, GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse, GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest,
   output: GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse,
   errors: [],
 }));
 
-/** Lists Consumer VPCs bound to Management DNS Zone of a given private cloud. */
 export interface ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest {
   /** A page token, received from a previous `ListManagementDnsZoneBindings` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListManagementDnsZoneBindings` must match the call that provided the page token. */
   pageToken?: string;
@@ -3139,7 +3138,8 @@ export const ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse
 
 export type ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError = CommonErrors;
 
-export const listProjectsLocationsPrivateCloudsManagementDnsZoneBindings = API.makePaginated(() => ({
+/** Lists Consumer VPCs bound to Management DNS Zone of a given private cloud. */
+export const listProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.PaginatedOperationMethod<ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest, ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse, ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest,
   output: ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse,
   errors: [],
@@ -3149,7 +3149,6 @@ export const listProjectsLocationsPrivateCloudsManagementDnsZoneBindings = API.m
   },
 }));
 
-/** Retries to create a `ManagementDnsZoneBinding` resource that is in failed state. */
 export interface RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest {
   /** Required. The resource name of the management DNS zone binding to repair. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/managementDnsZoneBindings/my-management-dns-zone-binding` */
   name: string;
@@ -3170,13 +3169,13 @@ export const RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRespon
 
 export type RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError = CommonErrors;
 
+/** Retries to create a `ManagementDnsZoneBinding` resource that is in failed state. */
 export const repairProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.OperationMethod<RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest, RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse, RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest,
   output: RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse,
   errors: [],
 }));
 
-/** Deletes a `ManagementDnsZoneBinding` resource. When a management DNS zone binding is deleted, the corresponding consumer VPC network is no longer bound to the management DNS zone. */
 export interface DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest {
   /** Required. The resource name of the management DNS zone binding to delete. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/managementDnsZoneBindings/my-management-dns-zone-binding` */
   name: string;
@@ -3197,13 +3196,13 @@ export const DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRespon
 
 export type DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError = CommonErrors;
 
+/** Deletes a `ManagementDnsZoneBinding` resource. When a management DNS zone binding is deleted, the corresponding consumer VPC network is no longer bound to the management DNS zone. */
 export const deleteProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.OperationMethod<DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest, DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse, DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest,
   output: DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindingsResponse,
   errors: [],
 }));
 
-/** Creates a new HCX activation key in a given private cloud. */
 export interface CreateProjectsLocationsPrivateCloudsHcxActivationKeysRequest {
   /** Required. The user-provided identifier of the `HcxActivationKey` to be created. This identifier must be unique among `HcxActivationKey` resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
   hcxActivationKeyId?: string;
@@ -3230,13 +3229,13 @@ export const CreateProjectsLocationsPrivateCloudsHcxActivationKeysResponse = Ope
 
 export type CreateProjectsLocationsPrivateCloudsHcxActivationKeysError = CommonErrors;
 
+/** Creates a new HCX activation key in a given private cloud. */
 export const createProjectsLocationsPrivateCloudsHcxActivationKeys: API.OperationMethod<CreateProjectsLocationsPrivateCloudsHcxActivationKeysRequest, CreateProjectsLocationsPrivateCloudsHcxActivationKeysResponse, CreateProjectsLocationsPrivateCloudsHcxActivationKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsPrivateCloudsHcxActivationKeysRequest,
   output: CreateProjectsLocationsPrivateCloudsHcxActivationKeysResponse,
   errors: [],
 }));
 
-/** Retrieves a `HcxActivationKey` resource by its resource name. */
 export interface GetProjectsLocationsPrivateCloudsHcxActivationKeysRequest {
   /** Required. The resource name of the HCX activation key to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/privateClouds/my-cloud/hcxActivationKeys/my-key` */
   name: string;
@@ -3254,13 +3253,13 @@ export const GetProjectsLocationsPrivateCloudsHcxActivationKeysResponse = HcxAct
 
 export type GetProjectsLocationsPrivateCloudsHcxActivationKeysError = CommonErrors;
 
+/** Retrieves a `HcxActivationKey` resource by its resource name. */
 export const getProjectsLocationsPrivateCloudsHcxActivationKeys: API.OperationMethod<GetProjectsLocationsPrivateCloudsHcxActivationKeysRequest, GetProjectsLocationsPrivateCloudsHcxActivationKeysResponse, GetProjectsLocationsPrivateCloudsHcxActivationKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsPrivateCloudsHcxActivationKeysRequest,
   output: GetProjectsLocationsPrivateCloudsHcxActivationKeysResponse,
   errors: [],
 }));
 
-/** Lists `HcxActivationKey` resources in a given private cloud. */
 export interface ListProjectsLocationsPrivateCloudsHcxActivationKeysRequest {
   /** A page token, received from a previous `ListHcxActivationKeys` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListHcxActivationKeys` must match the call that provided the page token. */
   pageToken?: string;
@@ -3284,7 +3283,8 @@ export const ListProjectsLocationsPrivateCloudsHcxActivationKeysResponse = ListH
 
 export type ListProjectsLocationsPrivateCloudsHcxActivationKeysError = CommonErrors;
 
-export const listProjectsLocationsPrivateCloudsHcxActivationKeys = API.makePaginated(() => ({
+/** Lists `HcxActivationKey` resources in a given private cloud. */
+export const listProjectsLocationsPrivateCloudsHcxActivationKeys: API.PaginatedOperationMethod<ListProjectsLocationsPrivateCloudsHcxActivationKeysRequest, ListProjectsLocationsPrivateCloudsHcxActivationKeysResponse, ListProjectsLocationsPrivateCloudsHcxActivationKeysError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsPrivateCloudsHcxActivationKeysRequest,
   output: ListProjectsLocationsPrivateCloudsHcxActivationKeysResponse,
   errors: [],
@@ -3294,7 +3294,6 @@ export const listProjectsLocationsPrivateCloudsHcxActivationKeys = API.makePagin
   },
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3315,13 +3314,13 @@ export const GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysResponse
 
 export type GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeys: API.OperationMethod<GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysRequest, GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysResponse, GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysRequest,
   output: GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3342,13 +3341,13 @@ export const SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysResponse
 
 export type SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeys: API.OperationMethod<SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysRequest, SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysResponse, SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysRequest,
   output: SetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3369,13 +3368,13 @@ export const TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysRe
 
 export type TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeys: API.OperationMethod<TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysRequest, TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysResponse, TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysRequest,
   output: TestIamPermissionsProjectsLocationsPrivateCloudsHcxActivationKeysResponse,
   errors: [],
 }));
 
-/** Create a new logging server for a given private cloud. */
 export interface CreateProjectsLocationsPrivateCloudsLoggingServersRequest {
   /** Required. The user-provided identifier of the `LoggingServer` to be created. This identifier must be unique among `LoggingServer` resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
   loggingServerId?: string;
@@ -3402,13 +3401,13 @@ export const CreateProjectsLocationsPrivateCloudsLoggingServersResponse = Operat
 
 export type CreateProjectsLocationsPrivateCloudsLoggingServersError = CommonErrors;
 
+/** Create a new logging server for a given private cloud. */
 export const createProjectsLocationsPrivateCloudsLoggingServers: API.OperationMethod<CreateProjectsLocationsPrivateCloudsLoggingServersRequest, CreateProjectsLocationsPrivateCloudsLoggingServersResponse, CreateProjectsLocationsPrivateCloudsLoggingServersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsPrivateCloudsLoggingServersRequest,
   output: CreateProjectsLocationsPrivateCloudsLoggingServersResponse,
   errors: [],
 }));
 
-/** Gets details of a logging server. */
 export interface GetProjectsLocationsPrivateCloudsLoggingServersRequest {
   /** Required. The resource name of the Logging Server to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/loggingServers/my-logging-server` */
   name: string;
@@ -3426,13 +3425,13 @@ export const GetProjectsLocationsPrivateCloudsLoggingServersResponse = LoggingSe
 
 export type GetProjectsLocationsPrivateCloudsLoggingServersError = CommonErrors;
 
+/** Gets details of a logging server. */
 export const getProjectsLocationsPrivateCloudsLoggingServers: API.OperationMethod<GetProjectsLocationsPrivateCloudsLoggingServersRequest, GetProjectsLocationsPrivateCloudsLoggingServersResponse, GetProjectsLocationsPrivateCloudsLoggingServersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsPrivateCloudsLoggingServersRequest,
   output: GetProjectsLocationsPrivateCloudsLoggingServersResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single logging server. Only fields specified in `update_mask` are applied. */
 export interface PatchProjectsLocationsPrivateCloudsLoggingServersRequest {
   /** Required. Field mask is used to specify the fields to be overwritten in the `LoggingServer` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
@@ -3459,13 +3458,13 @@ export const PatchProjectsLocationsPrivateCloudsLoggingServersResponse = Operati
 
 export type PatchProjectsLocationsPrivateCloudsLoggingServersError = CommonErrors;
 
+/** Updates the parameters of a single logging server. Only fields specified in `update_mask` are applied. */
 export const patchProjectsLocationsPrivateCloudsLoggingServers: API.OperationMethod<PatchProjectsLocationsPrivateCloudsLoggingServersRequest, PatchProjectsLocationsPrivateCloudsLoggingServersResponse, PatchProjectsLocationsPrivateCloudsLoggingServersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsPrivateCloudsLoggingServersRequest,
   output: PatchProjectsLocationsPrivateCloudsLoggingServersResponse,
   errors: [],
 }));
 
-/** Lists logging servers configured for a given private cloud. */
 export interface ListProjectsLocationsPrivateCloudsLoggingServersRequest {
   /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
   orderBy?: string;
@@ -3495,7 +3494,8 @@ export const ListProjectsLocationsPrivateCloudsLoggingServersResponse = ListLogg
 
 export type ListProjectsLocationsPrivateCloudsLoggingServersError = CommonErrors;
 
-export const listProjectsLocationsPrivateCloudsLoggingServers = API.makePaginated(() => ({
+/** Lists logging servers configured for a given private cloud. */
+export const listProjectsLocationsPrivateCloudsLoggingServers: API.PaginatedOperationMethod<ListProjectsLocationsPrivateCloudsLoggingServersRequest, ListProjectsLocationsPrivateCloudsLoggingServersResponse, ListProjectsLocationsPrivateCloudsLoggingServersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsPrivateCloudsLoggingServersRequest,
   output: ListProjectsLocationsPrivateCloudsLoggingServersResponse,
   errors: [],
@@ -3505,7 +3505,6 @@ export const listProjectsLocationsPrivateCloudsLoggingServers = API.makePaginate
   },
 }));
 
-/** Deletes a single logging server. */
 export interface DeleteProjectsLocationsPrivateCloudsLoggingServersRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -3526,13 +3525,13 @@ export const DeleteProjectsLocationsPrivateCloudsLoggingServersResponse = Operat
 
 export type DeleteProjectsLocationsPrivateCloudsLoggingServersError = CommonErrors;
 
+/** Deletes a single logging server. */
 export const deleteProjectsLocationsPrivateCloudsLoggingServers: API.OperationMethod<DeleteProjectsLocationsPrivateCloudsLoggingServersRequest, DeleteProjectsLocationsPrivateCloudsLoggingServersResponse, DeleteProjectsLocationsPrivateCloudsLoggingServersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsPrivateCloudsLoggingServersRequest,
   output: DeleteProjectsLocationsPrivateCloudsLoggingServersResponse,
   errors: [],
 }));
 
-/** Retrieves a `Announcement` by its resource name. */
 export interface GetProjectsLocationsAnnouncementsRequest {
   /** Required. The resource name of the announcement to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-west1-a/announcements/announcement-uuid` */
   name: string;
@@ -3550,13 +3549,13 @@ export const GetProjectsLocationsAnnouncementsResponse = Announcement;
 
 export type GetProjectsLocationsAnnouncementsError = CommonErrors;
 
+/** Retrieves a `Announcement` by its resource name. */
 export const getProjectsLocationsAnnouncements: API.OperationMethod<GetProjectsLocationsAnnouncementsRequest, GetProjectsLocationsAnnouncementsResponse, GetProjectsLocationsAnnouncementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsAnnouncementsRequest,
   output: GetProjectsLocationsAnnouncementsResponse,
   errors: [],
 }));
 
-/** Lists `Announcements` for a given region and project */
 export interface ListProjectsLocationsAnnouncementsRequest {
   /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
   orderBy?: string;
@@ -3586,7 +3585,8 @@ export const ListProjectsLocationsAnnouncementsResponse = ListAnnouncementsRespo
 
 export type ListProjectsLocationsAnnouncementsError = CommonErrors;
 
-export const listProjectsLocationsAnnouncements = API.makePaginated(() => ({
+/** Lists `Announcements` for a given region and project */
+export const listProjectsLocationsAnnouncements: API.PaginatedOperationMethod<ListProjectsLocationsAnnouncementsRequest, ListProjectsLocationsAnnouncementsResponse, ListProjectsLocationsAnnouncementsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsAnnouncementsRequest,
   output: ListProjectsLocationsAnnouncementsResponse,
   errors: [],
@@ -3596,7 +3596,6 @@ export const listProjectsLocationsAnnouncements = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a `NetworkPeering` resource. When a network peering is deleted for a VMware Engine network, the peer network becomes inaccessible to that VMware Engine network. NetworkPeering is a global resource and location can only be global. */
 export interface DeleteProjectsLocationsNetworkPeeringsRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -3617,13 +3616,13 @@ export const DeleteProjectsLocationsNetworkPeeringsResponse = Operation;
 
 export type DeleteProjectsLocationsNetworkPeeringsError = CommonErrors;
 
+/** Deletes a `NetworkPeering` resource. When a network peering is deleted for a VMware Engine network, the peer network becomes inaccessible to that VMware Engine network. NetworkPeering is a global resource and location can only be global. */
 export const deleteProjectsLocationsNetworkPeerings: API.OperationMethod<DeleteProjectsLocationsNetworkPeeringsRequest, DeleteProjectsLocationsNetworkPeeringsResponse, DeleteProjectsLocationsNetworkPeeringsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsNetworkPeeringsRequest,
   output: DeleteProjectsLocationsNetworkPeeringsResponse,
   errors: [],
 }));
 
-/** Modifies a `NetworkPeering` resource. Only the `description` field can be updated. Only fields specified in `updateMask` are applied. NetworkPeering is a global resource and location can only be global. */
 export interface PatchProjectsLocationsNetworkPeeringsRequest {
   /** Required. Field mask is used to specify the fields to be overwritten in the `NetworkPeering` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
@@ -3650,13 +3649,13 @@ export const PatchProjectsLocationsNetworkPeeringsResponse = Operation;
 
 export type PatchProjectsLocationsNetworkPeeringsError = CommonErrors;
 
+/** Modifies a `NetworkPeering` resource. Only the `description` field can be updated. Only fields specified in `updateMask` are applied. NetworkPeering is a global resource and location can only be global. */
 export const patchProjectsLocationsNetworkPeerings: API.OperationMethod<PatchProjectsLocationsNetworkPeeringsRequest, PatchProjectsLocationsNetworkPeeringsResponse, PatchProjectsLocationsNetworkPeeringsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsNetworkPeeringsRequest,
   output: PatchProjectsLocationsNetworkPeeringsResponse,
   errors: [],
 }));
 
-/** Creates a new network peering between the peer network and VMware Engine network provided in a `NetworkPeering` resource. NetworkPeering is a global resource and location can only be global. */
 export interface CreateProjectsLocationsNetworkPeeringsRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -3683,13 +3682,13 @@ export const CreateProjectsLocationsNetworkPeeringsResponse = Operation;
 
 export type CreateProjectsLocationsNetworkPeeringsError = CommonErrors;
 
+/** Creates a new network peering between the peer network and VMware Engine network provided in a `NetworkPeering` resource. NetworkPeering is a global resource and location can only be global. */
 export const createProjectsLocationsNetworkPeerings: API.OperationMethod<CreateProjectsLocationsNetworkPeeringsRequest, CreateProjectsLocationsNetworkPeeringsResponse, CreateProjectsLocationsNetworkPeeringsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsNetworkPeeringsRequest,
   output: CreateProjectsLocationsNetworkPeeringsResponse,
   errors: [],
 }));
 
-/** Retrieves a `NetworkPeering` resource by its resource name. The resource contains details of the network peering, such as peered networks, import and export custom route configurations, and peering state. NetworkPeering is a global resource and location can only be global. */
 export interface GetProjectsLocationsNetworkPeeringsRequest {
   /** Required. The resource name of the network peering to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/networkPeerings/my-peering` */
   name: string;
@@ -3707,13 +3706,13 @@ export const GetProjectsLocationsNetworkPeeringsResponse = NetworkPeering;
 
 export type GetProjectsLocationsNetworkPeeringsError = CommonErrors;
 
+/** Retrieves a `NetworkPeering` resource by its resource name. The resource contains details of the network peering, such as peered networks, import and export custom route configurations, and peering state. NetworkPeering is a global resource and location can only be global. */
 export const getProjectsLocationsNetworkPeerings: API.OperationMethod<GetProjectsLocationsNetworkPeeringsRequest, GetProjectsLocationsNetworkPeeringsResponse, GetProjectsLocationsNetworkPeeringsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsNetworkPeeringsRequest,
   output: GetProjectsLocationsNetworkPeeringsResponse,
   errors: [],
 }));
 
-/** Lists `NetworkPeering` resources in a given project. NetworkPeering is a global resource and location can only be global. */
 export interface ListProjectsLocationsNetworkPeeringsRequest {
   /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of network peerings, you can exclude the ones named `example-peering` by specifying `name != "example-peering"`. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-peering") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "example-peering-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "example-peering-2") ``` */
   filter?: string;
@@ -3743,7 +3742,8 @@ export const ListProjectsLocationsNetworkPeeringsResponse = ListNetworkPeeringsR
 
 export type ListProjectsLocationsNetworkPeeringsError = CommonErrors;
 
-export const listProjectsLocationsNetworkPeerings = API.makePaginated(() => ({
+/** Lists `NetworkPeering` resources in a given project. NetworkPeering is a global resource and location can only be global. */
+export const listProjectsLocationsNetworkPeerings: API.PaginatedOperationMethod<ListProjectsLocationsNetworkPeeringsRequest, ListProjectsLocationsNetworkPeeringsResponse, ListProjectsLocationsNetworkPeeringsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsNetworkPeeringsRequest,
   output: ListProjectsLocationsNetworkPeeringsResponse,
   errors: [],
@@ -3753,7 +3753,6 @@ export const listProjectsLocationsNetworkPeerings = API.makePaginated(() => ({
   },
 }));
 
-/** Lists the network peering routes exchanged over a peering connection. NetworkPeering is a global resource and location can only be global. */
 export interface ListProjectsLocationsNetworkPeeringsPeeringRoutesRequest {
   /** A page token, received from a previous `ListPeeringRoutes` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPeeringRoutes` must match the call that provided the page token. */
   pageToken?: string;
@@ -3780,7 +3779,8 @@ export const ListProjectsLocationsNetworkPeeringsPeeringRoutesResponse = ListPee
 
 export type ListProjectsLocationsNetworkPeeringsPeeringRoutesError = CommonErrors;
 
-export const listProjectsLocationsNetworkPeeringsPeeringRoutes = API.makePaginated(() => ({
+/** Lists the network peering routes exchanged over a peering connection. NetworkPeering is a global resource and location can only be global. */
+export const listProjectsLocationsNetworkPeeringsPeeringRoutes: API.PaginatedOperationMethod<ListProjectsLocationsNetworkPeeringsPeeringRoutesRequest, ListProjectsLocationsNetworkPeeringsPeeringRoutesResponse, ListProjectsLocationsNetworkPeeringsPeeringRoutesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsNetworkPeeringsPeeringRoutesRequest,
   output: ListProjectsLocationsNetworkPeeringsPeeringRoutesResponse,
   errors: [],
@@ -3790,7 +3790,6 @@ export const listProjectsLocationsNetworkPeeringsPeeringRoutes = API.makePaginat
   },
 }));
 
-/** Creates a new VMware Engine network that can be used by a private cloud. */
 export interface CreateProjectsLocationsVmwareEngineNetworksRequest {
   /** Required. The user-provided identifier of the new VMware Engine network. This identifier must be unique among VMware Engine network resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * For networks of type LEGACY, adheres to the format: `{region-id}-default`. Replace `{region-id}` with the region where you want to create the VMware Engine network. For example, "us-central1-default". * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
   vmwareEngineNetworkId?: string;
@@ -3817,13 +3816,13 @@ export const CreateProjectsLocationsVmwareEngineNetworksResponse = Operation;
 
 export type CreateProjectsLocationsVmwareEngineNetworksError = CommonErrors;
 
+/** Creates a new VMware Engine network that can be used by a private cloud. */
 export const createProjectsLocationsVmwareEngineNetworks: API.OperationMethod<CreateProjectsLocationsVmwareEngineNetworksRequest, CreateProjectsLocationsVmwareEngineNetworksResponse, CreateProjectsLocationsVmwareEngineNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsVmwareEngineNetworksRequest,
   output: CreateProjectsLocationsVmwareEngineNetworksResponse,
   errors: [],
 }));
 
-/** Retrieves a `VmwareEngineNetwork` resource by its resource name. The resource contains details of the VMware Engine network, such as its VMware Engine network type, peered networks in a service project, and state (for example, `CREATING`, `ACTIVE`, `DELETING`). */
 export interface GetProjectsLocationsVmwareEngineNetworksRequest {
   /** Required. The resource name of the VMware Engine network to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/vmwareEngineNetworks/my-network` */
   name: string;
@@ -3841,13 +3840,13 @@ export const GetProjectsLocationsVmwareEngineNetworksResponse = VmwareEngineNetw
 
 export type GetProjectsLocationsVmwareEngineNetworksError = CommonErrors;
 
+/** Retrieves a `VmwareEngineNetwork` resource by its resource name. The resource contains details of the VMware Engine network, such as its VMware Engine network type, peered networks in a service project, and state (for example, `CREATING`, `ACTIVE`, `DELETING`). */
 export const getProjectsLocationsVmwareEngineNetworks: API.OperationMethod<GetProjectsLocationsVmwareEngineNetworksRequest, GetProjectsLocationsVmwareEngineNetworksResponse, GetProjectsLocationsVmwareEngineNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsVmwareEngineNetworksRequest,
   output: GetProjectsLocationsVmwareEngineNetworksResponse,
   errors: [],
 }));
 
-/** Modifies a VMware Engine network resource. Only the following fields can be updated: `description`. Only fields specified in `updateMask` are applied. */
 export interface PatchProjectsLocationsVmwareEngineNetworksRequest {
   /** Required. Field mask is used to specify the fields to be overwritten in the VMware Engine network resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. Only the following fields can be updated: `description`. */
   updateMask?: string;
@@ -3874,13 +3873,13 @@ export const PatchProjectsLocationsVmwareEngineNetworksResponse = Operation;
 
 export type PatchProjectsLocationsVmwareEngineNetworksError = CommonErrors;
 
+/** Modifies a VMware Engine network resource. Only the following fields can be updated: `description`. Only fields specified in `updateMask` are applied. */
 export const patchProjectsLocationsVmwareEngineNetworks: API.OperationMethod<PatchProjectsLocationsVmwareEngineNetworksRequest, PatchProjectsLocationsVmwareEngineNetworksResponse, PatchProjectsLocationsVmwareEngineNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsVmwareEngineNetworksRequest,
   output: PatchProjectsLocationsVmwareEngineNetworksResponse,
   errors: [],
 }));
 
-/** Deletes a `VmwareEngineNetwork` resource. You can only delete a VMware Engine network after all resources that refer to it are deleted. For example, a private cloud, a network peering, and a network policy can all refer to the same VMware Engine network. */
 export interface DeleteProjectsLocationsVmwareEngineNetworksRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -3904,13 +3903,13 @@ export const DeleteProjectsLocationsVmwareEngineNetworksResponse = Operation;
 
 export type DeleteProjectsLocationsVmwareEngineNetworksError = CommonErrors;
 
+/** Deletes a `VmwareEngineNetwork` resource. You can only delete a VMware Engine network after all resources that refer to it are deleted. For example, a private cloud, a network peering, and a network policy can all refer to the same VMware Engine network. */
 export const deleteProjectsLocationsVmwareEngineNetworks: API.OperationMethod<DeleteProjectsLocationsVmwareEngineNetworksRequest, DeleteProjectsLocationsVmwareEngineNetworksResponse, DeleteProjectsLocationsVmwareEngineNetworksError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsVmwareEngineNetworksRequest,
   output: DeleteProjectsLocationsVmwareEngineNetworksResponse,
   errors: [],
 }));
 
-/** Lists `VmwareEngineNetwork` resources in a given project and location. */
 export interface ListProjectsLocationsVmwareEngineNetworksRequest {
   /** Required. The resource name of the location to query for VMware Engine networks. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global` */
   parent: string;
@@ -3940,7 +3939,8 @@ export const ListProjectsLocationsVmwareEngineNetworksResponse = ListVmwareEngin
 
 export type ListProjectsLocationsVmwareEngineNetworksError = CommonErrors;
 
-export const listProjectsLocationsVmwareEngineNetworks = API.makePaginated(() => ({
+/** Lists `VmwareEngineNetwork` resources in a given project and location. */
+export const listProjectsLocationsVmwareEngineNetworks: API.PaginatedOperationMethod<ListProjectsLocationsVmwareEngineNetworksRequest, ListProjectsLocationsVmwareEngineNetworksResponse, ListProjectsLocationsVmwareEngineNetworksError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsVmwareEngineNetworksRequest,
   output: ListProjectsLocationsVmwareEngineNetworksResponse,
   errors: [],
@@ -3950,7 +3950,6 @@ export const listProjectsLocationsVmwareEngineNetworks = API.makePaginated(() =>
   },
 }));
 
-/** Modifies a `NetworkPolicy` resource. Only the following fields can be updated: `internet_access`, `external_ip`, `edge_services_cidr`. Only fields specified in `updateMask` are applied. When updating a network policy, the external IP network service can only be disabled if there are no external IP addresses present in the scope of the policy. Also, a `NetworkService` cannot be updated when `NetworkService.state` is set to `RECONCILING`. During operation processing, the resource is temporarily in the `ACTIVE` state before the operation fully completes. For that period of time, you can't update the resource. Use the operation status to determine when the processing fully completes. */
 export interface PatchProjectsLocationsNetworkPoliciesRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -3977,13 +3976,13 @@ export const PatchProjectsLocationsNetworkPoliciesResponse = Operation;
 
 export type PatchProjectsLocationsNetworkPoliciesError = CommonErrors;
 
+/** Modifies a `NetworkPolicy` resource. Only the following fields can be updated: `internet_access`, `external_ip`, `edge_services_cidr`. Only fields specified in `updateMask` are applied. When updating a network policy, the external IP network service can only be disabled if there are no external IP addresses present in the scope of the policy. Also, a `NetworkService` cannot be updated when `NetworkService.state` is set to `RECONCILING`. During operation processing, the resource is temporarily in the `ACTIVE` state before the operation fully completes. For that period of time, you can't update the resource. Use the operation status to determine when the processing fully completes. */
 export const patchProjectsLocationsNetworkPolicies: API.OperationMethod<PatchProjectsLocationsNetworkPoliciesRequest, PatchProjectsLocationsNetworkPoliciesResponse, PatchProjectsLocationsNetworkPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsNetworkPoliciesRequest,
   output: PatchProjectsLocationsNetworkPoliciesResponse,
   errors: [],
 }));
 
-/** Deletes a `NetworkPolicy` resource. A network policy cannot be deleted when `NetworkService.state` is set to `RECONCILING` for either its external IP or internet access service. */
 export interface DeleteProjectsLocationsNetworkPoliciesRequest {
   /** Required. The resource name of the network policy to delete. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-network-policy` */
   name: string;
@@ -4004,13 +4003,13 @@ export const DeleteProjectsLocationsNetworkPoliciesResponse = Operation;
 
 export type DeleteProjectsLocationsNetworkPoliciesError = CommonErrors;
 
+/** Deletes a `NetworkPolicy` resource. A network policy cannot be deleted when `NetworkService.state` is set to `RECONCILING` for either its external IP or internet access service. */
 export const deleteProjectsLocationsNetworkPolicies: API.OperationMethod<DeleteProjectsLocationsNetworkPoliciesRequest, DeleteProjectsLocationsNetworkPoliciesResponse, DeleteProjectsLocationsNetworkPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsNetworkPoliciesRequest,
   output: DeleteProjectsLocationsNetworkPoliciesResponse,
   errors: [],
 }));
 
-/** Lists `NetworkPolicy` resources in a specified project and location. */
 export interface ListProjectsLocationsNetworkPoliciesRequest {
   /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of network policies, you can exclude the ones named `example-policy` by specifying `name != "example-policy"`. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-policy") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "example-policy-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "example-policy-2") ``` */
   filter?: string;
@@ -4040,7 +4039,8 @@ export const ListProjectsLocationsNetworkPoliciesResponse = ListNetworkPoliciesR
 
 export type ListProjectsLocationsNetworkPoliciesError = CommonErrors;
 
-export const listProjectsLocationsNetworkPolicies = API.makePaginated(() => ({
+/** Lists `NetworkPolicy` resources in a specified project and location. */
+export const listProjectsLocationsNetworkPolicies: API.PaginatedOperationMethod<ListProjectsLocationsNetworkPoliciesRequest, ListProjectsLocationsNetworkPoliciesResponse, ListProjectsLocationsNetworkPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsNetworkPoliciesRequest,
   output: ListProjectsLocationsNetworkPoliciesResponse,
   errors: [],
@@ -4050,7 +4050,6 @@ export const listProjectsLocationsNetworkPolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves a `NetworkPolicy` resource by its resource name. */
 export interface GetProjectsLocationsNetworkPoliciesRequest {
   /** Required. The resource name of the network policy to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-network-policy` */
   name: string;
@@ -4068,13 +4067,13 @@ export const GetProjectsLocationsNetworkPoliciesResponse = NetworkPolicy;
 
 export type GetProjectsLocationsNetworkPoliciesError = CommonErrors;
 
+/** Retrieves a `NetworkPolicy` resource by its resource name. */
 export const getProjectsLocationsNetworkPolicies: API.OperationMethod<GetProjectsLocationsNetworkPoliciesRequest, GetProjectsLocationsNetworkPoliciesResponse, GetProjectsLocationsNetworkPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsNetworkPoliciesRequest,
   output: GetProjectsLocationsNetworkPoliciesResponse,
   errors: [],
 }));
 
-/** Creates a new network policy in a given VMware Engine network of a project and location (region). A new network policy cannot be created if another network policy already exists in the same scope. */
 export interface CreateProjectsLocationsNetworkPoliciesRequest {
   /** Required. The resource name of the location (region) to create the new network policy in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1` */
   parent: string;
@@ -4101,13 +4100,13 @@ export const CreateProjectsLocationsNetworkPoliciesResponse = Operation;
 
 export type CreateProjectsLocationsNetworkPoliciesError = CommonErrors;
 
+/** Creates a new network policy in a given VMware Engine network of a project and location (region). A new network policy cannot be created if another network policy already exists in the same scope. */
 export const createProjectsLocationsNetworkPolicies: API.OperationMethod<CreateProjectsLocationsNetworkPoliciesRequest, CreateProjectsLocationsNetworkPoliciesResponse, CreateProjectsLocationsNetworkPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsNetworkPoliciesRequest,
   output: CreateProjectsLocationsNetworkPoliciesResponse,
   errors: [],
 }));
 
-/** Lists external IP addresses assigned to VMware workload VMs within the scope of the given network policy. */
 export interface FetchExternalAddressesProjectsLocationsNetworkPoliciesRequest {
   /** Required. The resource name of the network policy to query for assigned external IP addresses. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-policy` */
   networkPolicy: string;
@@ -4131,7 +4130,8 @@ export const FetchExternalAddressesProjectsLocationsNetworkPoliciesResponse = Fe
 
 export type FetchExternalAddressesProjectsLocationsNetworkPoliciesError = CommonErrors;
 
-export const fetchExternalAddressesProjectsLocationsNetworkPolicies = API.makePaginated(() => ({
+/** Lists external IP addresses assigned to VMware workload VMs within the scope of the given network policy. */
+export const fetchExternalAddressesProjectsLocationsNetworkPolicies: API.PaginatedOperationMethod<FetchExternalAddressesProjectsLocationsNetworkPoliciesRequest, FetchExternalAddressesProjectsLocationsNetworkPoliciesResponse, FetchExternalAddressesProjectsLocationsNetworkPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: FetchExternalAddressesProjectsLocationsNetworkPoliciesRequest,
   output: FetchExternalAddressesProjectsLocationsNetworkPoliciesResponse,
   errors: [],
@@ -4141,7 +4141,6 @@ export const fetchExternalAddressesProjectsLocationsNetworkPolicies = API.makePa
   },
 }));
 
-/** Gets details of a single external access rule. */
 export interface GetProjectsLocationsNetworkPoliciesExternalAccessRulesRequest {
   /** Required. The resource name of the external access firewall rule to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-policy/externalAccessRules/my-rule` */
   name: string;
@@ -4159,13 +4158,13 @@ export const GetProjectsLocationsNetworkPoliciesExternalAccessRulesResponse = Ex
 
 export type GetProjectsLocationsNetworkPoliciesExternalAccessRulesError = CommonErrors;
 
+/** Gets details of a single external access rule. */
 export const getProjectsLocationsNetworkPoliciesExternalAccessRules: API.OperationMethod<GetProjectsLocationsNetworkPoliciesExternalAccessRulesRequest, GetProjectsLocationsNetworkPoliciesExternalAccessRulesResponse, GetProjectsLocationsNetworkPoliciesExternalAccessRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsNetworkPoliciesExternalAccessRulesRequest,
   output: GetProjectsLocationsNetworkPoliciesExternalAccessRulesResponse,
   errors: [],
 }));
 
-/** Deletes a single external access rule. */
 export interface DeleteProjectsLocationsNetworkPoliciesExternalAccessRulesRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -4186,13 +4185,13 @@ export const DeleteProjectsLocationsNetworkPoliciesExternalAccessRulesResponse =
 
 export type DeleteProjectsLocationsNetworkPoliciesExternalAccessRulesError = CommonErrors;
 
+/** Deletes a single external access rule. */
 export const deleteProjectsLocationsNetworkPoliciesExternalAccessRules: API.OperationMethod<DeleteProjectsLocationsNetworkPoliciesExternalAccessRulesRequest, DeleteProjectsLocationsNetworkPoliciesExternalAccessRulesResponse, DeleteProjectsLocationsNetworkPoliciesExternalAccessRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsNetworkPoliciesExternalAccessRulesRequest,
   output: DeleteProjectsLocationsNetworkPoliciesExternalAccessRulesResponse,
   errors: [],
 }));
 
-/** Lists `ExternalAccessRule` resources in the specified network policy. */
 export interface ListProjectsLocationsNetworkPoliciesExternalAccessRulesRequest {
   /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
   orderBy?: string;
@@ -4222,7 +4221,8 @@ export const ListProjectsLocationsNetworkPoliciesExternalAccessRulesResponse = L
 
 export type ListProjectsLocationsNetworkPoliciesExternalAccessRulesError = CommonErrors;
 
-export const listProjectsLocationsNetworkPoliciesExternalAccessRules = API.makePaginated(() => ({
+/** Lists `ExternalAccessRule` resources in the specified network policy. */
+export const listProjectsLocationsNetworkPoliciesExternalAccessRules: API.PaginatedOperationMethod<ListProjectsLocationsNetworkPoliciesExternalAccessRulesRequest, ListProjectsLocationsNetworkPoliciesExternalAccessRulesResponse, ListProjectsLocationsNetworkPoliciesExternalAccessRulesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsNetworkPoliciesExternalAccessRulesRequest,
   output: ListProjectsLocationsNetworkPoliciesExternalAccessRulesResponse,
   errors: [],
@@ -4232,7 +4232,6 @@ export const listProjectsLocationsNetworkPoliciesExternalAccessRules = API.makeP
   },
 }));
 
-/** Creates a new external access rule in a given network policy. */
 export interface CreateProjectsLocationsNetworkPoliciesExternalAccessRulesRequest {
   /** Required. The resource name of the network policy to create a new external access firewall rule in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-policy` */
   parent: string;
@@ -4259,13 +4258,13 @@ export const CreateProjectsLocationsNetworkPoliciesExternalAccessRulesResponse =
 
 export type CreateProjectsLocationsNetworkPoliciesExternalAccessRulesError = CommonErrors;
 
+/** Creates a new external access rule in a given network policy. */
 export const createProjectsLocationsNetworkPoliciesExternalAccessRules: API.OperationMethod<CreateProjectsLocationsNetworkPoliciesExternalAccessRulesRequest, CreateProjectsLocationsNetworkPoliciesExternalAccessRulesResponse, CreateProjectsLocationsNetworkPoliciesExternalAccessRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsNetworkPoliciesExternalAccessRulesRequest,
   output: CreateProjectsLocationsNetworkPoliciesExternalAccessRulesResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single external access rule. Only fields specified in `update_mask` are applied. */
 export interface PatchProjectsLocationsNetworkPoliciesExternalAccessRulesRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -4292,13 +4291,13 @@ export const PatchProjectsLocationsNetworkPoliciesExternalAccessRulesResponse = 
 
 export type PatchProjectsLocationsNetworkPoliciesExternalAccessRulesError = CommonErrors;
 
+/** Updates the parameters of a single external access rule. Only fields specified in `update_mask` are applied. */
 export const patchProjectsLocationsNetworkPoliciesExternalAccessRules: API.OperationMethod<PatchProjectsLocationsNetworkPoliciesExternalAccessRulesRequest, PatchProjectsLocationsNetworkPoliciesExternalAccessRulesResponse, PatchProjectsLocationsNetworkPoliciesExternalAccessRulesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsNetworkPoliciesExternalAccessRulesRequest,
   output: PatchProjectsLocationsNetworkPoliciesExternalAccessRulesResponse,
   errors: [],
 }));
 
-/** Lists node types */
 export interface ListProjectsLocationsNodeTypesRequest {
   /** The maximum number of node types to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
   pageSize?: number;
@@ -4325,7 +4324,8 @@ export const ListProjectsLocationsNodeTypesResponse = ListNodeTypesResponse;
 
 export type ListProjectsLocationsNodeTypesError = CommonErrors;
 
-export const listProjectsLocationsNodeTypes = API.makePaginated(() => ({
+/** Lists node types */
+export const listProjectsLocationsNodeTypes: API.PaginatedOperationMethod<ListProjectsLocationsNodeTypesRequest, ListProjectsLocationsNodeTypesResponse, ListProjectsLocationsNodeTypesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsNodeTypesRequest,
   output: ListProjectsLocationsNodeTypesResponse,
   errors: [],
@@ -4335,7 +4335,6 @@ export const listProjectsLocationsNodeTypes = API.makePaginated(() => ({
   },
 }));
 
-/** Gets details of a single `NodeType`. */
 export interface GetProjectsLocationsNodeTypesRequest {
   /** Required. The resource name of the node type to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-proj/locations/us-central1-a/nodeTypes/standard-72` */
   name: string;
@@ -4353,13 +4352,13 @@ export const GetProjectsLocationsNodeTypesResponse = NodeType;
 
 export type GetProjectsLocationsNodeTypesError = CommonErrors;
 
+/** Gets details of a single `NodeType`. */
 export const getProjectsLocationsNodeTypes: API.OperationMethod<GetProjectsLocationsNodeTypesRequest, GetProjectsLocationsNodeTypesResponse, GetProjectsLocationsNodeTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsNodeTypesRequest,
   output: GetProjectsLocationsNodeTypesResponse,
   errors: [],
 }));
 
-/** Creates a new `Datastore` resource in a given project and location. */
 export interface CreateProjectsLocationsDatastoresRequest {
   /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -4386,13 +4385,13 @@ export const CreateProjectsLocationsDatastoresResponse = Operation;
 
 export type CreateProjectsLocationsDatastoresError = CommonErrors;
 
+/** Creates a new `Datastore` resource in a given project and location. */
 export const createProjectsLocationsDatastores: API.OperationMethod<CreateProjectsLocationsDatastoresRequest, CreateProjectsLocationsDatastoresResponse, CreateProjectsLocationsDatastoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsDatastoresRequest,
   output: CreateProjectsLocationsDatastoresResponse,
   errors: [],
 }));
 
-/** Deletes a `Datastore` resource. You can only delete a Datastore after all resources that refer to it are deleted. For example, multiple clusters of the same private cloud or different private clouds can refer to the same datastore. */
 export interface DeleteProjectsLocationsDatastoresRequest {
   /** Required. The resource name of the Datastore to be deleted. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/datastore/my-datastore` */
   name: string;
@@ -4416,13 +4415,13 @@ export const DeleteProjectsLocationsDatastoresResponse = Operation;
 
 export type DeleteProjectsLocationsDatastoresError = CommonErrors;
 
+/** Deletes a `Datastore` resource. You can only delete a Datastore after all resources that refer to it are deleted. For example, multiple clusters of the same private cloud or different private clouds can refer to the same datastore. */
 export const deleteProjectsLocationsDatastores: API.OperationMethod<DeleteProjectsLocationsDatastoresRequest, DeleteProjectsLocationsDatastoresResponse, DeleteProjectsLocationsDatastoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDatastoresRequest,
   output: DeleteProjectsLocationsDatastoresResponse,
   errors: [],
 }));
 
-/** Lists `Datastore` resources in a given project and location. */
 export interface ListProjectsLocationsDatastoresRequest {
   /** Required. The resource name of the location to query for Datastores. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1` */
   parent: string;
@@ -4455,7 +4454,8 @@ export const ListProjectsLocationsDatastoresResponse = ListDatastoresResponse;
 
 export type ListProjectsLocationsDatastoresError = CommonErrors;
 
-export const listProjectsLocationsDatastores = API.makePaginated(() => ({
+/** Lists `Datastore` resources in a given project and location. */
+export const listProjectsLocationsDatastores: API.PaginatedOperationMethod<ListProjectsLocationsDatastoresRequest, ListProjectsLocationsDatastoresResponse, ListProjectsLocationsDatastoresError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDatastoresRequest,
   output: ListProjectsLocationsDatastoresResponse,
   errors: [],
@@ -4465,7 +4465,6 @@ export const listProjectsLocationsDatastores = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves a `Datastore` resource by its resource name. The resource contains details of the Datastore, such as its description, subnets, type, and more. */
 export interface GetProjectsLocationsDatastoresRequest {
   /** Required. The resource name of the Datastore to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/datastores/my-datastore` */
   name: string;
@@ -4483,13 +4482,13 @@ export const GetProjectsLocationsDatastoresResponse = Datastore;
 
 export type GetProjectsLocationsDatastoresError = CommonErrors;
 
+/** Retrieves a `Datastore` resource by its resource name. The resource contains details of the Datastore, such as its description, subnets, type, and more. */
 export const getProjectsLocationsDatastores: API.OperationMethod<GetProjectsLocationsDatastoresRequest, GetProjectsLocationsDatastoresResponse, GetProjectsLocationsDatastoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDatastoresRequest,
   output: GetProjectsLocationsDatastoresResponse,
   errors: [],
 }));
 
-/** Modifies a Datastore resource. Only fields specified in `updateMask` are applied. */
 export interface PatchProjectsLocationsDatastoresRequest {
   /** Output only. Identifier. The resource name of this datastore. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/datastores/datastore` */
   name: string;
@@ -4516,13 +4515,13 @@ export const PatchProjectsLocationsDatastoresResponse = Operation;
 
 export type PatchProjectsLocationsDatastoresError = CommonErrors;
 
+/** Modifies a Datastore resource. Only fields specified in `updateMask` are applied. */
 export const patchProjectsLocationsDatastores: API.OperationMethod<PatchProjectsLocationsDatastoresRequest, PatchProjectsLocationsDatastoresResponse, PatchProjectsLocationsDatastoresError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsDatastoresRequest,
   output: PatchProjectsLocationsDatastoresResponse,
   errors: [],
 }));
 
-/** Lists `PrivateConnection` resources in a given project and location. */
 export interface ListProjectsLocationsPrivateConnectionsRequest {
   /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of private connections, you can exclude the ones named `example-connection` by specifying `name != "example-connection"`. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-connection") (createTime > "2022-09-22T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "example-connection-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "example-connection-2") ``` */
   filter?: string;
@@ -4552,7 +4551,8 @@ export const ListProjectsLocationsPrivateConnectionsResponse = ListPrivateConnec
 
 export type ListProjectsLocationsPrivateConnectionsError = CommonErrors;
 
-export const listProjectsLocationsPrivateConnections = API.makePaginated(() => ({
+/** Lists `PrivateConnection` resources in a given project and location. */
+export const listProjectsLocationsPrivateConnections: API.PaginatedOperationMethod<ListProjectsLocationsPrivateConnectionsRequest, ListProjectsLocationsPrivateConnectionsResponse, ListProjectsLocationsPrivateConnectionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsPrivateConnectionsRequest,
   output: ListProjectsLocationsPrivateConnectionsResponse,
   errors: [],
@@ -4562,7 +4562,6 @@ export const listProjectsLocationsPrivateConnections = API.makePaginated(() => (
   },
 }));
 
-/** Deletes a `PrivateConnection` resource. When a private connection is deleted for a VMware Engine network, the connected network becomes inaccessible to that VMware Engine network. */
 export interface DeleteProjectsLocationsPrivateConnectionsRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -4583,13 +4582,13 @@ export const DeleteProjectsLocationsPrivateConnectionsResponse = Operation;
 
 export type DeleteProjectsLocationsPrivateConnectionsError = CommonErrors;
 
+/** Deletes a `PrivateConnection` resource. When a private connection is deleted for a VMware Engine network, the connected network becomes inaccessible to that VMware Engine network. */
 export const deleteProjectsLocationsPrivateConnections: API.OperationMethod<DeleteProjectsLocationsPrivateConnectionsRequest, DeleteProjectsLocationsPrivateConnectionsResponse, DeleteProjectsLocationsPrivateConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsPrivateConnectionsRequest,
   output: DeleteProjectsLocationsPrivateConnectionsResponse,
   errors: [],
 }));
 
-/** Creates a new private connection that can be used for accessing private Clouds. */
 export interface CreateProjectsLocationsPrivateConnectionsRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -4616,13 +4615,13 @@ export const CreateProjectsLocationsPrivateConnectionsResponse = Operation;
 
 export type CreateProjectsLocationsPrivateConnectionsError = CommonErrors;
 
+/** Creates a new private connection that can be used for accessing private Clouds. */
 export const createProjectsLocationsPrivateConnections: API.OperationMethod<CreateProjectsLocationsPrivateConnectionsRequest, CreateProjectsLocationsPrivateConnectionsResponse, CreateProjectsLocationsPrivateConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsPrivateConnectionsRequest,
   output: CreateProjectsLocationsPrivateConnectionsResponse,
   errors: [],
 }));
 
-/** Modifies a `PrivateConnection` resource. Only `description` and `routing_mode` fields can be updated. Only fields specified in `updateMask` are applied. */
 export interface PatchProjectsLocationsPrivateConnectionsRequest {
   /** Required. Field mask is used to specify the fields to be overwritten in the `PrivateConnection` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
@@ -4649,13 +4648,13 @@ export const PatchProjectsLocationsPrivateConnectionsResponse = Operation;
 
 export type PatchProjectsLocationsPrivateConnectionsError = CommonErrors;
 
+/** Modifies a `PrivateConnection` resource. Only `description` and `routing_mode` fields can be updated. Only fields specified in `updateMask` are applied. */
 export const patchProjectsLocationsPrivateConnections: API.OperationMethod<PatchProjectsLocationsPrivateConnectionsRequest, PatchProjectsLocationsPrivateConnectionsResponse, PatchProjectsLocationsPrivateConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsPrivateConnectionsRequest,
   output: PatchProjectsLocationsPrivateConnectionsResponse,
   errors: [],
 }));
 
-/** Retrieves a `PrivateConnection` resource by its resource name. The resource contains details of the private connection, such as connected network, routing mode and state. */
 export interface GetProjectsLocationsPrivateConnectionsRequest {
   /** Required. The resource name of the private connection to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/privateConnections/my-connection` */
   name: string;
@@ -4673,13 +4672,13 @@ export const GetProjectsLocationsPrivateConnectionsResponse = PrivateConnection;
 
 export type GetProjectsLocationsPrivateConnectionsError = CommonErrors;
 
+/** Retrieves a `PrivateConnection` resource by its resource name. The resource contains details of the private connection, such as connected network, routing mode and state. */
 export const getProjectsLocationsPrivateConnections: API.OperationMethod<GetProjectsLocationsPrivateConnectionsRequest, GetProjectsLocationsPrivateConnectionsResponse, GetProjectsLocationsPrivateConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsPrivateConnectionsRequest,
   output: GetProjectsLocationsPrivateConnectionsResponse,
   errors: [],
 }));
 
-/** Lists the private connection routes exchanged over a peering connection. */
 export interface ListProjectsLocationsPrivateConnectionsPeeringRoutesRequest {
   /** Required. The resource name of the private connection to retrieve peering routes from. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-west1/privateConnections/my-connection` */
   parent: string;
@@ -4703,7 +4702,8 @@ export const ListProjectsLocationsPrivateConnectionsPeeringRoutesResponse = List
 
 export type ListProjectsLocationsPrivateConnectionsPeeringRoutesError = CommonErrors;
 
-export const listProjectsLocationsPrivateConnectionsPeeringRoutes = API.makePaginated(() => ({
+/** Lists the private connection routes exchanged over a peering connection. */
+export const listProjectsLocationsPrivateConnectionsPeeringRoutes: API.PaginatedOperationMethod<ListProjectsLocationsPrivateConnectionsPeeringRoutesRequest, ListProjectsLocationsPrivateConnectionsPeeringRoutesResponse, ListProjectsLocationsPrivateConnectionsPeeringRoutesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsPrivateConnectionsPeeringRoutesRequest,
   output: ListProjectsLocationsPrivateConnectionsPeeringRoutesResponse,
   errors: [],
@@ -4713,7 +4713,6 @@ export const listProjectsLocationsPrivateConnectionsPeeringRoutes = API.makePagi
   },
 }));
 
-/** Grants the bind permission to the customer provided principal(user / service account) to bind their DNS zone with the intranet VPC associated with the project. DnsBindPermission is a global resource and location can only be global. */
 export interface GrantProjectsLocationsDnsBindPermissionRequest {
   /** Required. The name of the resource which stores the users/service accounts having the permission to bind to the corresponding intranet VPC of the consumer project. DnsBindPermission is a global resource. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/dnsBindPermission` */
   name: string;
@@ -4734,13 +4733,13 @@ export const GrantProjectsLocationsDnsBindPermissionResponse = Operation;
 
 export type GrantProjectsLocationsDnsBindPermissionError = CommonErrors;
 
+/** Grants the bind permission to the customer provided principal(user / service account) to bind their DNS zone with the intranet VPC associated with the project. DnsBindPermission is a global resource and location can only be global. */
 export const grantProjectsLocationsDnsBindPermission: API.OperationMethod<GrantProjectsLocationsDnsBindPermissionRequest, GrantProjectsLocationsDnsBindPermissionResponse, GrantProjectsLocationsDnsBindPermissionError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GrantProjectsLocationsDnsBindPermissionRequest,
   output: GrantProjectsLocationsDnsBindPermissionResponse,
   errors: [],
 }));
 
-/** Revokes the bind permission from the customer provided principal(user / service account) on the intranet VPC associated with the consumer project. DnsBindPermission is a global resource and location can only be global. */
 export interface RevokeProjectsLocationsDnsBindPermissionRequest {
   /** Required. The name of the resource which stores the users/service accounts having the permission to bind to the corresponding intranet VPC of the consumer project. DnsBindPermission is a global resource. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/dnsBindPermission` */
   name: string;
@@ -4761,13 +4760,13 @@ export const RevokeProjectsLocationsDnsBindPermissionResponse = Operation;
 
 export type RevokeProjectsLocationsDnsBindPermissionError = CommonErrors;
 
+/** Revokes the bind permission from the customer provided principal(user / service account) on the intranet VPC associated with the consumer project. DnsBindPermission is a global resource and location can only be global. */
 export const revokeProjectsLocationsDnsBindPermission: API.OperationMethod<RevokeProjectsLocationsDnsBindPermissionRequest, RevokeProjectsLocationsDnsBindPermissionResponse, RevokeProjectsLocationsDnsBindPermissionError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RevokeProjectsLocationsDnsBindPermissionRequest,
   output: RevokeProjectsLocationsDnsBindPermissionResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -4785,13 +4784,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -4821,7 +4820,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -4831,7 +4831,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -4849,6 +4848,7 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,

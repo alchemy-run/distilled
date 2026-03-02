@@ -895,7 +895,6 @@ export const GoogleCloudFunctionsV2LocationMetadata: Schema.Schema<GoogleCloudFu
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -925,7 +924,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -935,7 +935,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -965,7 +964,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -975,7 +975,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -993,13 +992,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsFunctionsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1020,13 +1019,13 @@ export const SetIamPolicyProjectsLocationsFunctionsResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsFunctionsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsFunctions: API.OperationMethod<SetIamPolicyProjectsLocationsFunctionsRequest, SetIamPolicyProjectsLocationsFunctionsResponse, SetIamPolicyProjectsLocationsFunctionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsFunctionsRequest,
   output: SetIamPolicyProjectsLocationsFunctionsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsFunctionsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1047,13 +1046,13 @@ export const GetIamPolicyProjectsLocationsFunctionsResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsFunctionsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsFunctions: API.OperationMethod<GetIamPolicyProjectsLocationsFunctionsRequest, GetIamPolicyProjectsLocationsFunctionsResponse, GetIamPolicyProjectsLocationsFunctionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsFunctionsRequest,
   output: GetIamPolicyProjectsLocationsFunctionsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsFunctionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1074,13 +1073,13 @@ export const TestIamPermissionsProjectsLocationsFunctionsResponse = TestIamPermi
 
 export type TestIamPermissionsProjectsLocationsFunctionsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsFunctions: API.OperationMethod<TestIamPermissionsProjectsLocationsFunctionsRequest, TestIamPermissionsProjectsLocationsFunctionsResponse, TestIamPermissionsProjectsLocationsFunctionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsFunctionsRequest,
   output: TestIamPermissionsProjectsLocationsFunctionsResponse,
   errors: [],
 }));
 
-/** Returns a function with the given name from the requested project. */
 export interface GetProjectsLocationsFunctionsRequest {
   /** Required. The name of the function which details should be obtained. */
   name: string;
@@ -1101,13 +1100,13 @@ export const GetProjectsLocationsFunctionsResponse = Cloudfunctions_Function;
 
 export type GetProjectsLocationsFunctionsError = CommonErrors;
 
+/** Returns a function with the given name from the requested project. */
 export const getProjectsLocationsFunctions: API.OperationMethod<GetProjectsLocationsFunctionsRequest, GetProjectsLocationsFunctionsResponse, GetProjectsLocationsFunctionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsFunctionsRequest,
   output: GetProjectsLocationsFunctionsResponse,
   errors: [],
 }));
 
-/** Returns a list of functions that belong to the requested project. */
 export interface ListProjectsLocationsFunctionsRequest {
   /** Required. The project and location from which the function should be listed, specified in the format `projects/* /locations/*` If you want to list functions in all locations, use "-" in place of a location. When listing functions in all locations, if one or more location(s) are unreachable, the response will contain functions from all reachable locations along with the names of any unreachable locations. */
   parent: string;
@@ -1137,7 +1136,8 @@ export const ListProjectsLocationsFunctionsResponse = ListFunctionsResponse;
 
 export type ListProjectsLocationsFunctionsError = CommonErrors;
 
-export const listProjectsLocationsFunctions = API.makePaginated(() => ({
+/** Returns a list of functions that belong to the requested project. */
+export const listProjectsLocationsFunctions: API.PaginatedOperationMethod<ListProjectsLocationsFunctionsRequest, ListProjectsLocationsFunctionsResponse, ListProjectsLocationsFunctionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsFunctionsRequest,
   output: ListProjectsLocationsFunctionsResponse,
   errors: [],
@@ -1147,7 +1147,6 @@ export const listProjectsLocationsFunctions = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new function. If a function with the given name already exists in the specified project, the long running operation will return `ALREADY_EXISTS` error. */
 export interface CreateProjectsLocationsFunctionsRequest {
   /** Required. The project and location in which the function should be created, specified in the format `projects/* /locations/*` */
   parent: string;
@@ -1171,13 +1170,13 @@ export const CreateProjectsLocationsFunctionsResponse = Operation;
 
 export type CreateProjectsLocationsFunctionsError = CommonErrors;
 
+/** Creates a new function. If a function with the given name already exists in the specified project, the long running operation will return `ALREADY_EXISTS` error. */
 export const createProjectsLocationsFunctions: API.OperationMethod<CreateProjectsLocationsFunctionsRequest, CreateProjectsLocationsFunctionsResponse, CreateProjectsLocationsFunctionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsFunctionsRequest,
   output: CreateProjectsLocationsFunctionsResponse,
   errors: [],
 }));
 
-/** Updates existing function. */
 export interface PatchProjectsLocationsFunctionsRequest {
   /** A user-defined name of the function. Function names must be unique globally and match pattern `projects/* /locations/* /functions/*` */
   name: string;
@@ -1201,13 +1200,13 @@ export const PatchProjectsLocationsFunctionsResponse = Operation;
 
 export type PatchProjectsLocationsFunctionsError = CommonErrors;
 
+/** Updates existing function. */
 export const patchProjectsLocationsFunctions: API.OperationMethod<PatchProjectsLocationsFunctionsRequest, PatchProjectsLocationsFunctionsResponse, PatchProjectsLocationsFunctionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsFunctionsRequest,
   output: PatchProjectsLocationsFunctionsResponse,
   errors: [],
 }));
 
-/** Creates a 2nd Gen copy of the function configuration based on the 1st Gen function with the given name. This is the first step of the multi step process to upgrade 1st Gen functions to 2nd Gen. Only 2nd Gen configuration is setup as part of this request and traffic continues to be served by 1st Gen. */
 export interface SetupFunctionUpgradeConfigProjectsLocationsFunctionsRequest {
   /** Required. The name of the function which should have configuration copied for upgrade. */
   name: string;
@@ -1228,13 +1227,13 @@ export const SetupFunctionUpgradeConfigProjectsLocationsFunctionsResponse = Oper
 
 export type SetupFunctionUpgradeConfigProjectsLocationsFunctionsError = CommonErrors;
 
+/** Creates a 2nd Gen copy of the function configuration based on the 1st Gen function with the given name. This is the first step of the multi step process to upgrade 1st Gen functions to 2nd Gen. Only 2nd Gen configuration is setup as part of this request and traffic continues to be served by 1st Gen. */
 export const setupFunctionUpgradeConfigProjectsLocationsFunctions: API.OperationMethod<SetupFunctionUpgradeConfigProjectsLocationsFunctionsRequest, SetupFunctionUpgradeConfigProjectsLocationsFunctionsResponse, SetupFunctionUpgradeConfigProjectsLocationsFunctionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetupFunctionUpgradeConfigProjectsLocationsFunctionsRequest,
   output: SetupFunctionUpgradeConfigProjectsLocationsFunctionsResponse,
   errors: [],
 }));
 
-/** Aborts generation upgrade process for a function with the given name from the specified project. Deletes all 2nd Gen copy related configuration and resources which were created during the upgrade process. */
 export interface AbortFunctionUpgradeProjectsLocationsFunctionsRequest {
   /** Required. The name of the function for which upgrade should be aborted. */
   name: string;
@@ -1255,13 +1254,13 @@ export const AbortFunctionUpgradeProjectsLocationsFunctionsResponse = Operation;
 
 export type AbortFunctionUpgradeProjectsLocationsFunctionsError = CommonErrors;
 
+/** Aborts generation upgrade process for a function with the given name from the specified project. Deletes all 2nd Gen copy related configuration and resources which were created during the upgrade process. */
 export const abortFunctionUpgradeProjectsLocationsFunctions: API.OperationMethod<AbortFunctionUpgradeProjectsLocationsFunctionsRequest, AbortFunctionUpgradeProjectsLocationsFunctionsResponse, AbortFunctionUpgradeProjectsLocationsFunctionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AbortFunctionUpgradeProjectsLocationsFunctionsRequest,
   output: AbortFunctionUpgradeProjectsLocationsFunctionsResponse,
   errors: [],
 }));
 
-/** Changes the traffic target of a function from the original 1st Gen function to the 2nd Gen copy. This is the second step of the multi step process to upgrade 1st Gen functions to 2nd Gen. After this operation, all new traffic will be served by 2nd Gen copy. */
 export interface RedirectFunctionUpgradeTrafficProjectsLocationsFunctionsRequest {
   /** Required. The name of the function for which traffic target should be changed to 2nd Gen from 1st Gen. */
   name: string;
@@ -1282,13 +1281,13 @@ export const RedirectFunctionUpgradeTrafficProjectsLocationsFunctionsResponse = 
 
 export type RedirectFunctionUpgradeTrafficProjectsLocationsFunctionsError = CommonErrors;
 
+/** Changes the traffic target of a function from the original 1st Gen function to the 2nd Gen copy. This is the second step of the multi step process to upgrade 1st Gen functions to 2nd Gen. After this operation, all new traffic will be served by 2nd Gen copy. */
 export const redirectFunctionUpgradeTrafficProjectsLocationsFunctions: API.OperationMethod<RedirectFunctionUpgradeTrafficProjectsLocationsFunctionsRequest, RedirectFunctionUpgradeTrafficProjectsLocationsFunctionsResponse, RedirectFunctionUpgradeTrafficProjectsLocationsFunctionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RedirectFunctionUpgradeTrafficProjectsLocationsFunctionsRequest,
   output: RedirectFunctionUpgradeTrafficProjectsLocationsFunctionsResponse,
   errors: [],
 }));
 
-/** Reverts the traffic target of a function from the 2nd Gen copy to the original 1st Gen function. After this operation, all new traffic would be served by the 1st Gen. */
 export interface RollbackFunctionUpgradeTrafficProjectsLocationsFunctionsRequest {
   /** Required. The name of the function for which traffic target should be changed back to 1st Gen from 2nd Gen. */
   name: string;
@@ -1309,13 +1308,13 @@ export const RollbackFunctionUpgradeTrafficProjectsLocationsFunctionsResponse = 
 
 export type RollbackFunctionUpgradeTrafficProjectsLocationsFunctionsError = CommonErrors;
 
+/** Reverts the traffic target of a function from the 2nd Gen copy to the original 1st Gen function. After this operation, all new traffic would be served by the 1st Gen. */
 export const rollbackFunctionUpgradeTrafficProjectsLocationsFunctions: API.OperationMethod<RollbackFunctionUpgradeTrafficProjectsLocationsFunctionsRequest, RollbackFunctionUpgradeTrafficProjectsLocationsFunctionsResponse, RollbackFunctionUpgradeTrafficProjectsLocationsFunctionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RollbackFunctionUpgradeTrafficProjectsLocationsFunctionsRequest,
   output: RollbackFunctionUpgradeTrafficProjectsLocationsFunctionsResponse,
   errors: [],
 }));
 
-/** Finalizes the upgrade after which function upgrade can not be rolled back. This is the last step of the multi step process to upgrade 1st Gen functions to 2nd Gen. Deletes all original 1st Gen related configuration and resources. */
 export interface CommitFunctionUpgradeProjectsLocationsFunctionsRequest {
   /** Required. The name of the function for which upgrade should be finalized. */
   name: string;
@@ -1336,13 +1335,13 @@ export const CommitFunctionUpgradeProjectsLocationsFunctionsResponse = Operation
 
 export type CommitFunctionUpgradeProjectsLocationsFunctionsError = CommonErrors;
 
+/** Finalizes the upgrade after which function upgrade can not be rolled back. This is the last step of the multi step process to upgrade 1st Gen functions to 2nd Gen. Deletes all original 1st Gen related configuration and resources. */
 export const commitFunctionUpgradeProjectsLocationsFunctions: API.OperationMethod<CommitFunctionUpgradeProjectsLocationsFunctionsRequest, CommitFunctionUpgradeProjectsLocationsFunctionsResponse, CommitFunctionUpgradeProjectsLocationsFunctionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CommitFunctionUpgradeProjectsLocationsFunctionsRequest,
   output: CommitFunctionUpgradeProjectsLocationsFunctionsResponse,
   errors: [],
 }));
 
-/** Commits a function upgrade from GCF Gen1 to GCF Gen2. This action deletes the Gen1 function, leaving the Gen2 function active and manageable by the GCFv2 API. */
 export interface CommitFunctionUpgradeAsGen2ProjectsLocationsFunctionsRequest {
   /** Required. The name of the function for which upgrade should be committed to Gen2. */
   name: string;
@@ -1363,13 +1362,13 @@ export const CommitFunctionUpgradeAsGen2ProjectsLocationsFunctionsResponse = Ope
 
 export type CommitFunctionUpgradeAsGen2ProjectsLocationsFunctionsError = CommonErrors;
 
+/** Commits a function upgrade from GCF Gen1 to GCF Gen2. This action deletes the Gen1 function, leaving the Gen2 function active and manageable by the GCFv2 API. */
 export const commitFunctionUpgradeAsGen2ProjectsLocationsFunctions: API.OperationMethod<CommitFunctionUpgradeAsGen2ProjectsLocationsFunctionsRequest, CommitFunctionUpgradeAsGen2ProjectsLocationsFunctionsResponse, CommitFunctionUpgradeAsGen2ProjectsLocationsFunctionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CommitFunctionUpgradeAsGen2ProjectsLocationsFunctionsRequest,
   output: CommitFunctionUpgradeAsGen2ProjectsLocationsFunctionsResponse,
   errors: [],
 }));
 
-/** Deletes a function with the given name from the specified project. If the given function is used by some trigger, the trigger will be updated to remove this function. */
 export interface DeleteProjectsLocationsFunctionsRequest {
   /** Required. The name of the function which should be deleted. */
   name: string;
@@ -1387,13 +1386,13 @@ export const DeleteProjectsLocationsFunctionsResponse = Operation;
 
 export type DeleteProjectsLocationsFunctionsError = CommonErrors;
 
+/** Deletes a function with the given name from the specified project. If the given function is used by some trigger, the trigger will be updated to remove this function. */
 export const deleteProjectsLocationsFunctions: API.OperationMethod<DeleteProjectsLocationsFunctionsRequest, DeleteProjectsLocationsFunctionsResponse, DeleteProjectsLocationsFunctionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsFunctionsRequest,
   output: DeleteProjectsLocationsFunctionsResponse,
   errors: [],
 }));
 
-/** Returns a signed URL for uploading a function source code. For more information about the signed URL usage see: https://cloud.google.com/storage/docs/access-control/signed-urls. Once the function source code upload is complete, the used signed URL should be provided in CreateFunction or UpdateFunction request as a reference to the function source code. When uploading source code to the generated signed URL, please follow these restrictions: * Source file type should be a zip file. * No credentials should be attached - the signed URLs provide access to the target bucket using internal service identity; if credentials were attached, the identity from the credentials would be used, but that identity does not have permissions to upload files to the URL. When making a HTTP PUT request, specify this header: * `content-type: application/zip` Do not specify this header: * `Authorization: Bearer YOUR_TOKEN` */
 export interface GenerateUploadUrlProjectsLocationsFunctionsRequest {
   /** Required. The project and location in which the Google Cloud Storage signed URL should be generated, specified in the format `projects/* /locations/*`. */
   parent: string;
@@ -1414,13 +1413,13 @@ export const GenerateUploadUrlProjectsLocationsFunctionsResponse = GenerateUploa
 
 export type GenerateUploadUrlProjectsLocationsFunctionsError = CommonErrors;
 
+/** Returns a signed URL for uploading a function source code. For more information about the signed URL usage see: https://cloud.google.com/storage/docs/access-control/signed-urls. Once the function source code upload is complete, the used signed URL should be provided in CreateFunction or UpdateFunction request as a reference to the function source code. When uploading source code to the generated signed URL, please follow these restrictions: * Source file type should be a zip file. * No credentials should be attached - the signed URLs provide access to the target bucket using internal service identity; if credentials were attached, the identity from the credentials would be used, but that identity does not have permissions to upload files to the URL. When making a HTTP PUT request, specify this header: * `content-type: application/zip` Do not specify this header: * `Authorization: Bearer YOUR_TOKEN` */
 export const generateUploadUrlProjectsLocationsFunctions: API.OperationMethod<GenerateUploadUrlProjectsLocationsFunctionsRequest, GenerateUploadUrlProjectsLocationsFunctionsResponse, GenerateUploadUrlProjectsLocationsFunctionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateUploadUrlProjectsLocationsFunctionsRequest,
   output: GenerateUploadUrlProjectsLocationsFunctionsResponse,
   errors: [],
 }));
 
-/** Returns a signed URL for downloading deployed function source code. The URL is only valid for a limited period and should be used within 30 minutes of generation. For more information about the signed URL usage see: https://cloud.google.com/storage/docs/access-control/signed-urls */
 export interface GenerateDownloadUrlProjectsLocationsFunctionsRequest {
   /** Required. The name of function for which source code Google Cloud Storage signed URL should be generated. */
   name: string;
@@ -1441,13 +1440,13 @@ export const GenerateDownloadUrlProjectsLocationsFunctionsResponse = GenerateDow
 
 export type GenerateDownloadUrlProjectsLocationsFunctionsError = CommonErrors;
 
+/** Returns a signed URL for downloading deployed function source code. The URL is only valid for a limited period and should be used within 30 minutes of generation. For more information about the signed URL usage see: https://cloud.google.com/storage/docs/access-control/signed-urls */
 export const generateDownloadUrlProjectsLocationsFunctions: API.OperationMethod<GenerateDownloadUrlProjectsLocationsFunctionsRequest, GenerateDownloadUrlProjectsLocationsFunctionsResponse, GenerateDownloadUrlProjectsLocationsFunctionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateDownloadUrlProjectsLocationsFunctionsRequest,
   output: GenerateDownloadUrlProjectsLocationsFunctionsResponse,
   errors: [],
 }));
 
-/** Detaches 2nd Gen function to Cloud Run function. */
 export interface DetachFunctionProjectsLocationsFunctionsRequest {
   /** Required. The name of the function for which should be detached. */
   name: string;
@@ -1468,13 +1467,13 @@ export const DetachFunctionProjectsLocationsFunctionsResponse = Operation;
 
 export type DetachFunctionProjectsLocationsFunctionsError = CommonErrors;
 
+/** Detaches 2nd Gen function to Cloud Run function. */
 export const detachFunctionProjectsLocationsFunctions: API.OperationMethod<DetachFunctionProjectsLocationsFunctionsRequest, DetachFunctionProjectsLocationsFunctionsResponse, DetachFunctionProjectsLocationsFunctionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DetachFunctionProjectsLocationsFunctionsRequest,
   output: DetachFunctionProjectsLocationsFunctionsResponse,
   errors: [],
 }));
 
-/** Returns a list of runtimes that are supported for the requested project. */
 export interface ListProjectsLocationsRuntimesRequest {
   /** Required. The project and location from which the runtimes should be listed, specified in the format `projects/* /locations/*` */
   parent: string;
@@ -1495,6 +1494,7 @@ export const ListProjectsLocationsRuntimesResponse = ListRuntimesResponse;
 
 export type ListProjectsLocationsRuntimesError = CommonErrors;
 
+/** Returns a list of runtimes that are supported for the requested project. */
 export const listProjectsLocationsRuntimes: API.OperationMethod<ListProjectsLocationsRuntimesRequest, ListProjectsLocationsRuntimesResponse, ListProjectsLocationsRuntimesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsRuntimesRequest,
   output: ListProjectsLocationsRuntimesResponse,

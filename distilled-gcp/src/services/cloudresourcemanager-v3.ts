@@ -888,7 +888,6 @@ export const DeleteTagBindingMetadata: Schema.Schema<DeleteTagBindingMetadata> =
 // Operations
 // ==========================================================================
 
-/** List all Liens applied to the `parent` resource. Callers of this method will require permission on the `parent` resource. For example, a Lien with a `parent` of `projects/1234` requires permission `resourcemanager.projects.get`. */
 export interface ListLiensRequest {
   /** Required. The name of the resource to list all attached Liens. For example, `projects/1234`. (google.api.field_policy).resource_type annotation is not set since the parent depends on the meta api implementation. This field could be a project or other sub project resources. */
   parent?: string;
@@ -912,7 +911,8 @@ export const ListLiensResponse_Op = ListLiensResponse;
 
 export type ListLiensError = CommonErrors;
 
-export const listLiens = API.makePaginated(() => ({
+/** List all Liens applied to the `parent` resource. Callers of this method will require permission on the `parent` resource. For example, a Lien with a `parent` of `projects/1234` requires permission `resourcemanager.projects.get`. */
+export const listLiens: API.PaginatedOperationMethod<ListLiensRequest, ListLiensResponse_Op, ListLiensError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListLiensRequest,
   output: ListLiensResponse_Op,
   errors: [],
@@ -922,7 +922,6 @@ export const listLiens = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieve a Lien by `name`. Callers of this method will require permission on the `parent` resource. For example, a Lien with a `parent` of `projects/1234` requires permission `resourcemanager.projects.get` */
 export interface GetLiensRequest {
   /** Required. The name/identifier of the Lien. */
   name: string;
@@ -940,13 +939,13 @@ export const GetLiensResponse = Lien;
 
 export type GetLiensError = CommonErrors;
 
+/** Retrieve a Lien by `name`. Callers of this method will require permission on the `parent` resource. For example, a Lien with a `parent` of `projects/1234` requires permission `resourcemanager.projects.get` */
 export const getLiens: API.OperationMethod<GetLiensRequest, GetLiensResponse, GetLiensError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetLiensRequest,
   output: GetLiensResponse,
   errors: [],
 }));
 
-/** Create a Lien which applies to the resource denoted by the `parent` field. Callers of this method will require permission on the `parent` resource. For example, applying to `projects/1234` requires permission `resourcemanager.projects.updateLiens`. NOTE: Some resources may limit the number of Liens which may be applied. */
 export interface CreateLiensRequest {
   /** Request body */
   body?: Lien;
@@ -964,13 +963,13 @@ export const CreateLiensResponse = Lien;
 
 export type CreateLiensError = CommonErrors;
 
+/** Create a Lien which applies to the resource denoted by the `parent` field. Callers of this method will require permission on the `parent` resource. For example, applying to `projects/1234` requires permission `resourcemanager.projects.updateLiens`. NOTE: Some resources may limit the number of Liens which may be applied. */
 export const createLiens: API.OperationMethod<CreateLiensRequest, CreateLiensResponse, CreateLiensError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateLiensRequest,
   output: CreateLiensResponse,
   errors: [],
 }));
 
-/** Delete a Lien by `name`. Callers of this method will require permission on the `parent` resource. For example, a Lien with a `parent` of `projects/1234` requires permission `resourcemanager.projects.updateLiens`. */
 export interface DeleteLiensRequest {
   /** Required. The name/identifier of the Lien to delete. */
   name: string;
@@ -988,13 +987,13 @@ export const DeleteLiensResponse = Empty;
 
 export type DeleteLiensError = CommonErrors;
 
+/** Delete a Lien by `name`. Callers of this method will require permission on the `parent` resource. For example, a Lien with a `parent` of `projects/1234` requires permission `resourcemanager.projects.updateLiens`. */
 export const deleteLiens: API.OperationMethod<DeleteLiensRequest, DeleteLiensResponse, DeleteLiensError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteLiensRequest,
   output: DeleteLiensResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1012,13 +1011,13 @@ export const GetOperationsResponse = Operation;
 
 export type GetOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOperations: API.OperationMethod<GetOperationsRequest, GetOperationsResponse, GetOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
 }));
 
-/** Retrieves a folder identified by the supplied resource name. Valid folder resource names have the format `folders/{folder_id}` (for example, `folders/1234`). The caller must have `resourcemanager.folders.get` permission on the identified folder. */
 export interface GetFoldersRequest {
   /** Required. The resource name of the folder to retrieve. Must be of the form `folders/{folder_id}`. */
   name: string;
@@ -1036,13 +1035,13 @@ export const GetFoldersResponse = Folder;
 
 export type GetFoldersError = CommonErrors;
 
+/** Retrieves a folder identified by the supplied resource name. Valid folder resource names have the format `folders/{folder_id}` (for example, `folders/1234`). The caller must have `resourcemanager.folders.get` permission on the identified folder. */
 export const getFolders: API.OperationMethod<GetFoldersRequest, GetFoldersResponse, GetFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersRequest,
   output: GetFoldersResponse,
   errors: [],
 }));
 
-/** Lists the folders that are direct descendants of supplied parent resource. `list()` provides a strongly consistent view of the folders underneath the specified parent resource. `list()` returns folders sorted based upon the (ascending) lexical ordering of their display_name. The caller must have `resourcemanager.folders.list` permission on the identified parent. */
 export interface ListFoldersRequest {
   /** Required. The name of the parent resource whose folders are being listed. Only children of this parent resource are listed; descendants are not listed. If the parent is a folder, use the value `folders/{folder_id}`. If the parent is an organization, use the value `organizations/{org_id}`. Access to this method is controlled by checking the `resourcemanager.folders.list` permission on the `parent`. */
   parent?: string;
@@ -1069,7 +1068,8 @@ export const ListFoldersResponse_Op = ListFoldersResponse;
 
 export type ListFoldersError = CommonErrors;
 
-export const listFolders = API.makePaginated(() => ({
+/** Lists the folders that are direct descendants of supplied parent resource. `list()` provides a strongly consistent view of the folders underneath the specified parent resource. `list()` returns folders sorted based upon the (ascending) lexical ordering of their display_name. The caller must have `resourcemanager.folders.list` permission on the identified parent. */
+export const listFolders: API.PaginatedOperationMethod<ListFoldersRequest, ListFoldersResponse_Op, ListFoldersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFoldersRequest,
   output: ListFoldersResponse_Op,
   errors: [],
@@ -1079,7 +1079,6 @@ export const listFolders = API.makePaginated(() => ({
   },
 }));
 
-/** Search for folders that match specific filter criteria. `search()` provides an eventually consistent view of the folders a user has access to which meet the specified filter criteria. This will only return folders on which the caller has the permission `resourcemanager.folders.get`. */
 export interface SearchFoldersRequest {
   /** Optional. The maximum number of folders to return in the response. The server can return fewer folders than requested. If unspecified, server picks an appropriate default. */
   pageSize?: number;
@@ -1103,7 +1102,8 @@ export const SearchFoldersResponse_Op = SearchFoldersResponse;
 
 export type SearchFoldersError = CommonErrors;
 
-export const searchFolders = API.makePaginated(() => ({
+/** Search for folders that match specific filter criteria. `search()` provides an eventually consistent view of the folders a user has access to which meet the specified filter criteria. This will only return folders on which the caller has the permission `resourcemanager.folders.get`. */
+export const searchFolders: API.PaginatedOperationMethod<SearchFoldersRequest, SearchFoldersResponse_Op, SearchFoldersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchFoldersRequest,
   output: SearchFoldersResponse_Op,
   errors: [],
@@ -1113,7 +1113,6 @@ export const searchFolders = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a folder in the resource hierarchy. Returns an `Operation` which can be used to track the progress of the folder creation workflow. Upon success, the `Operation.response` field will be populated with the created Folder. In order to succeed, the addition of this new folder must not violate the folder naming, height, or fanout constraints. + The folder's `display_name` must be distinct from all other folders that share its parent. + The addition of the folder must not cause the active folder hierarchy to exceed a height of 10. Note, the full active + deleted folder hierarchy is allowed to reach a height of 20; this provides additional headroom when moving folders that contain deleted folders. + The addition of the folder must not cause the total number of folders under its parent to exceed 300. If the operation fails due to a folder constraint violation, some errors may be returned by the `CreateFolder` request, with status code `FAILED_PRECONDITION` and an error description. Other folder constraint violations will be communicated in the `Operation`, with the specific `PreconditionFailure` returned in the details list in the `Operation.error` field. The caller must have `resourcemanager.folders.create` permission on the identified parent. */
 export interface CreateFoldersRequest {
   /** Request body */
   body?: Folder;
@@ -1131,13 +1130,13 @@ export const CreateFoldersResponse = Operation;
 
 export type CreateFoldersError = CommonErrors;
 
+/** Creates a folder in the resource hierarchy. Returns an `Operation` which can be used to track the progress of the folder creation workflow. Upon success, the `Operation.response` field will be populated with the created Folder. In order to succeed, the addition of this new folder must not violate the folder naming, height, or fanout constraints. + The folder's `display_name` must be distinct from all other folders that share its parent. + The addition of the folder must not cause the active folder hierarchy to exceed a height of 10. Note, the full active + deleted folder hierarchy is allowed to reach a height of 20; this provides additional headroom when moving folders that contain deleted folders. + The addition of the folder must not cause the total number of folders under its parent to exceed 300. If the operation fails due to a folder constraint violation, some errors may be returned by the `CreateFolder` request, with status code `FAILED_PRECONDITION` and an error description. Other folder constraint violations will be communicated in the `Operation`, with the specific `PreconditionFailure` returned in the details list in the `Operation.error` field. The caller must have `resourcemanager.folders.create` permission on the identified parent. */
 export const createFolders: API.OperationMethod<CreateFoldersRequest, CreateFoldersResponse, CreateFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateFoldersRequest,
   output: CreateFoldersResponse,
   errors: [],
 }));
 
-/** Updates a folder, changing its `display_name`. Changes to the folder `display_name` will be rejected if they violate either the `display_name` formatting rules or the naming constraints described in the CreateFolder documentation. The folder's `display_name` must start and end with a letter or digit, may contain letters, digits, spaces, hyphens and underscores and can be between 3 and 30 characters. This is captured by the regular expression: `\p{L}\p{N}{1,28}[\p{L}\p{N}]`. The caller must have `resourcemanager.folders.update` permission on the identified folder. If the update fails due to the unique name constraint then a `PreconditionFailure` explaining this violation will be returned in the Status.details field. */
 export interface PatchFoldersRequest {
   /** Identifier. The resource name of the folder. Its format is `folders/{folder_id}`, for example: "folders/1234". */
   name: string;
@@ -1161,13 +1160,13 @@ export const PatchFoldersResponse = Operation;
 
 export type PatchFoldersError = CommonErrors;
 
+/** Updates a folder, changing its `display_name`. Changes to the folder `display_name` will be rejected if they violate either the `display_name` formatting rules or the naming constraints described in the CreateFolder documentation. The folder's `display_name` must start and end with a letter or digit, may contain letters, digits, spaces, hyphens and underscores and can be between 3 and 30 characters. This is captured by the regular expression: `\p{L}\p{N}{1,28}[\p{L}\p{N}]`. The caller must have `resourcemanager.folders.update` permission on the identified folder. If the update fails due to the unique name constraint then a `PreconditionFailure` explaining this violation will be returned in the Status.details field. */
 export const patchFolders: API.OperationMethod<PatchFoldersRequest, PatchFoldersResponse, PatchFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchFoldersRequest,
   output: PatchFoldersResponse,
   errors: [],
 }));
 
-/** Moves a folder under a new resource parent. Returns an `Operation` which can be used to track the progress of the folder move workflow. Upon success, the `Operation.response` field will be populated with the moved folder. Upon failure, a `FolderOperationError` categorizing the failure cause will be returned - if the failure occurs synchronously then the `FolderOperationError` will be returned in the `Status.details` field. If it occurs asynchronously, then the FolderOperation will be returned in the `Operation.error` field. In addition, the `Operation.metadata` field will be populated with a `FolderOperation` message as an aid to stateless clients. Folder moves will be rejected if they violate either the naming, height, or fanout constraints described in the CreateFolder documentation. The caller must have `resourcemanager.folders.move` permission on the folder's current and proposed new parent. */
 export interface MoveFoldersRequest {
   /** Required. The resource name of the Folder to move. Must be of the form folders/{folder_id} */
   name: string;
@@ -1188,13 +1187,13 @@ export const MoveFoldersResponse = Operation;
 
 export type MoveFoldersError = CommonErrors;
 
+/** Moves a folder under a new resource parent. Returns an `Operation` which can be used to track the progress of the folder move workflow. Upon success, the `Operation.response` field will be populated with the moved folder. Upon failure, a `FolderOperationError` categorizing the failure cause will be returned - if the failure occurs synchronously then the `FolderOperationError` will be returned in the `Status.details` field. If it occurs asynchronously, then the FolderOperation will be returned in the `Operation.error` field. In addition, the `Operation.metadata` field will be populated with a `FolderOperation` message as an aid to stateless clients. Folder moves will be rejected if they violate either the naming, height, or fanout constraints described in the CreateFolder documentation. The caller must have `resourcemanager.folders.move` permission on the folder's current and proposed new parent. */
 export const moveFolders: API.OperationMethod<MoveFoldersRequest, MoveFoldersResponse, MoveFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MoveFoldersRequest,
   output: MoveFoldersResponse,
   errors: [],
 }));
 
-/** Requests deletion of a folder. The folder is moved into the DELETE_REQUESTED state immediately, and is deleted approximately 30 days later. This method may only be called on an empty folder, where a folder is empty if it doesn't contain any folders or projects in the ACTIVE state. If called on a folder in DELETE_REQUESTED state the operation will result in a no-op success. The caller must have `resourcemanager.folders.delete` permission on the identified folder. */
 export interface DeleteFoldersRequest {
   /** Required. The resource name of the folder to be deleted. Must be of the form `folders/{folder_id}`. */
   name: string;
@@ -1212,13 +1211,13 @@ export const DeleteFoldersResponse = Operation;
 
 export type DeleteFoldersError = CommonErrors;
 
+/** Requests deletion of a folder. The folder is moved into the DELETE_REQUESTED state immediately, and is deleted approximately 30 days later. This method may only be called on an empty folder, where a folder is empty if it doesn't contain any folders or projects in the ACTIVE state. If called on a folder in DELETE_REQUESTED state the operation will result in a no-op success. The caller must have `resourcemanager.folders.delete` permission on the identified folder. */
 export const deleteFolders: API.OperationMethod<DeleteFoldersRequest, DeleteFoldersResponse, DeleteFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteFoldersRequest,
   output: DeleteFoldersResponse,
   errors: [],
 }));
 
-/** Cancels the deletion request for a folder. This method may be called on a folder in any state. If the folder is in the ACTIVE state the result will be a no-op success. In order to succeed, the folder's parent must be in the ACTIVE state. In addition, reintroducing the folder into the tree must not violate folder naming, height, and fanout constraints described in the CreateFolder documentation. The caller must have `resourcemanager.folders.undelete` permission on the identified folder. */
 export interface UndeleteFoldersRequest {
   /** Required. The resource name of the folder to undelete. Must be of the form `folders/{folder_id}`. */
   name: string;
@@ -1239,13 +1238,13 @@ export const UndeleteFoldersResponse = Operation;
 
 export type UndeleteFoldersError = CommonErrors;
 
+/** Cancels the deletion request for a folder. This method may be called on a folder in any state. If the folder is in the ACTIVE state the result will be a no-op success. In order to succeed, the folder's parent must be in the ACTIVE state. In addition, reintroducing the folder into the tree must not violate folder naming, height, and fanout constraints described in the CreateFolder documentation. The caller must have `resourcemanager.folders.undelete` permission on the identified folder. */
 export const undeleteFolders: API.OperationMethod<UndeleteFoldersRequest, UndeleteFoldersResponse, UndeleteFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UndeleteFoldersRequest,
   output: UndeleteFoldersResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a folder. The returned policy may be empty if no such policy or resource exists. The `resource` field should be the folder's resource name, for example: "folders/1234". The caller must have `resourcemanager.folders.getIamPolicy` permission on the identified folder. */
 export interface GetIamPolicyFoldersRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1266,13 +1265,13 @@ export const GetIamPolicyFoldersResponse = Policy;
 
 export type GetIamPolicyFoldersError = CommonErrors;
 
+/** Gets the access control policy for a folder. The returned policy may be empty if no such policy or resource exists. The `resource` field should be the folder's resource name, for example: "folders/1234". The caller must have `resourcemanager.folders.getIamPolicy` permission on the identified folder. */
 export const getIamPolicyFolders: API.OperationMethod<GetIamPolicyFoldersRequest, GetIamPolicyFoldersResponse, GetIamPolicyFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyFoldersRequest,
   output: GetIamPolicyFoldersResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on a folder, replacing any existing policy. The `resource` field should be the folder's resource name, for example: "folders/1234". The caller must have `resourcemanager.folders.setIamPolicy` permission on the identified folder. */
 export interface SetIamPolicyFoldersRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1293,13 +1292,13 @@ export const SetIamPolicyFoldersResponse = Policy;
 
 export type SetIamPolicyFoldersError = CommonErrors;
 
+/** Sets the access control policy on a folder, replacing any existing policy. The `resource` field should be the folder's resource name, for example: "folders/1234". The caller must have `resourcemanager.folders.setIamPolicy` permission on the identified folder. */
 export const setIamPolicyFolders: API.OperationMethod<SetIamPolicyFoldersRequest, SetIamPolicyFoldersResponse, SetIamPolicyFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyFoldersRequest,
   output: SetIamPolicyFoldersResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified folder. The `resource` field should be the folder's resource name, for example: "folders/1234". There are no permissions required for making this API call. */
 export interface TestIamPermissionsFoldersRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1320,13 +1319,13 @@ export const TestIamPermissionsFoldersResponse = TestIamPermissionsResponse;
 
 export type TestIamPermissionsFoldersError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified folder. The `resource` field should be the folder's resource name, for example: "folders/1234". There are no permissions required for making this API call. */
 export const testIamPermissionsFolders: API.OperationMethod<TestIamPermissionsFoldersRequest, TestIamPermissionsFoldersResponse, TestIamPermissionsFoldersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsFoldersRequest,
   output: TestIamPermissionsFoldersResponse,
   errors: [],
 }));
 
-/** Retrieves the Capability identified by the supplied resource name. */
 export interface GetFoldersCapabilitiesRequest {
   /** Required. The name of the capability to get. For example, `folders/123/capabilities/app-management` */
   name: string;
@@ -1344,13 +1343,13 @@ export const GetFoldersCapabilitiesResponse = Capability;
 
 export type GetFoldersCapabilitiesError = CommonErrors;
 
+/** Retrieves the Capability identified by the supplied resource name. */
 export const getFoldersCapabilities: API.OperationMethod<GetFoldersCapabilitiesRequest, GetFoldersCapabilitiesResponse, GetFoldersCapabilitiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFoldersCapabilitiesRequest,
   output: GetFoldersCapabilitiesResponse,
   errors: [],
 }));
 
-/** Updates the Capability. */
 export interface PatchFoldersCapabilitiesRequest {
   /** Immutable. Identifier. The resource name of the capability. Must be in the following form: * `folders/{folder_id}/capabilities/{capability_name}` For example, `folders/123/capabilities/app-management` Following are the allowed {capability_name} values: * `app-management` */
   name: string;
@@ -1374,13 +1373,13 @@ export const PatchFoldersCapabilitiesResponse = Operation;
 
 export type PatchFoldersCapabilitiesError = CommonErrors;
 
+/** Updates the Capability. */
 export const patchFoldersCapabilities: API.OperationMethod<PatchFoldersCapabilitiesRequest, PatchFoldersCapabilitiesResponse, PatchFoldersCapabilitiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchFoldersCapabilitiesRequest,
   output: PatchFoldersCapabilitiesResponse,
   errors: [],
 }));
 
-/** Fetches an organization resource identified by the specified resource name. */
 export interface GetOrganizationsRequest {
   /** Required. The resource name of the Organization to fetch. This is the organization's relative path in the API, formatted as "organizations/[organizationId]". For example, "organizations/1234". */
   name: string;
@@ -1398,13 +1397,13 @@ export const GetOrganizationsResponse = Organization;
 
 export type GetOrganizationsError = CommonErrors;
 
+/** Fetches an organization resource identified by the specified resource name. */
 export const getOrganizations: API.OperationMethod<GetOrganizationsRequest, GetOrganizationsResponse, GetOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsRequest,
   output: GetOrganizationsResponse,
   errors: [],
 }));
 
-/** Searches organization resources that are visible to the user and satisfy the specified filter. This method returns organizations in an unspecified order. New organizations do not necessarily appear at the end of the results, and may take a small amount of time to appear. Search will only return organizations on which the user has the permission `resourcemanager.organizations.get` or has super admin privileges. */
 export interface SearchOrganizationsRequest {
   /** Optional. The maximum number of organizations to return in the response. The server can return fewer organizations than requested. If unspecified, server picks an appropriate default. */
   pageSize?: number;
@@ -1428,7 +1427,8 @@ export const SearchOrganizationsResponse_Op = SearchOrganizationsResponse;
 
 export type SearchOrganizationsError = CommonErrors;
 
-export const searchOrganizations = API.makePaginated(() => ({
+/** Searches organization resources that are visible to the user and satisfy the specified filter. This method returns organizations in an unspecified order. New organizations do not necessarily appear at the end of the results, and may take a small amount of time to appear. Search will only return organizations on which the user has the permission `resourcemanager.organizations.get` or has super admin privileges. */
+export const searchOrganizations: API.PaginatedOperationMethod<SearchOrganizationsRequest, SearchOrganizationsResponse_Op, SearchOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchOrganizationsRequest,
   output: SearchOrganizationsResponse_Op,
   errors: [],
@@ -1438,7 +1438,6 @@ export const searchOrganizations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the access control policy for an organization resource. The policy may be empty if no such policy or resource exists. The `resource` field should be the organization's resource name, for example: "organizations/123". Authorization requires the IAM permission `resourcemanager.organizations.getIamPolicy` on the specified organization. */
 export interface GetIamPolicyOrganizationsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1459,13 +1458,13 @@ export const GetIamPolicyOrganizationsResponse = Policy;
 
 export type GetIamPolicyOrganizationsError = CommonErrors;
 
+/** Gets the access control policy for an organization resource. The policy may be empty if no such policy or resource exists. The `resource` field should be the organization's resource name, for example: "organizations/123". Authorization requires the IAM permission `resourcemanager.organizations.getIamPolicy` on the specified organization. */
 export const getIamPolicyOrganizations: API.OperationMethod<GetIamPolicyOrganizationsRequest, GetIamPolicyOrganizationsResponse, GetIamPolicyOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyOrganizationsRequest,
   output: GetIamPolicyOrganizationsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on an organization resource. Replaces any existing policy. The `resource` field should be the organization's resource name, for example: "organizations/123". Authorization requires the IAM permission `resourcemanager.organizations.setIamPolicy` on the specified organization. */
 export interface SetIamPolicyOrganizationsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1486,13 +1485,13 @@ export const SetIamPolicyOrganizationsResponse = Policy;
 
 export type SetIamPolicyOrganizationsError = CommonErrors;
 
+/** Sets the access control policy on an organization resource. Replaces any existing policy. The `resource` field should be the organization's resource name, for example: "organizations/123". Authorization requires the IAM permission `resourcemanager.organizations.setIamPolicy` on the specified organization. */
 export const setIamPolicyOrganizations: API.OperationMethod<SetIamPolicyOrganizationsRequest, SetIamPolicyOrganizationsResponse, SetIamPolicyOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyOrganizationsRequest,
   output: SetIamPolicyOrganizationsResponse,
   errors: [],
 }));
 
-/** Returns the permissions that a caller has on the specified organization. The `resource` field should be the organization's resource name, for example: "organizations/123". There are no permissions required for making this API call. */
 export interface TestIamPermissionsOrganizationsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1513,13 +1512,13 @@ export const TestIamPermissionsOrganizationsResponse = TestIamPermissionsRespons
 
 export type TestIamPermissionsOrganizationsError = CommonErrors;
 
+/** Returns the permissions that a caller has on the specified organization. The `resource` field should be the organization's resource name, for example: "organizations/123". There are no permissions required for making this API call. */
 export const testIamPermissionsOrganizations: API.OperationMethod<TestIamPermissionsOrganizationsRequest, TestIamPermissionsOrganizationsResponse, TestIamPermissionsOrganizationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsOrganizationsRequest,
   output: TestIamPermissionsOrganizationsResponse,
   errors: [],
 }));
 
-/** Retrieves the project identified by the specified `name` (for example, `projects/415104041262`). The caller must have `resourcemanager.projects.get` permission for this project. */
 export interface GetProjectsRequest {
   /** Required. The name of the project (for example, `projects/415104041262`). */
   name: string;
@@ -1537,13 +1536,13 @@ export const GetProjectsResponse = Project;
 
 export type GetProjectsError = CommonErrors;
 
+/** Retrieves the project identified by the specified `name` (for example, `projects/415104041262`). The caller must have `resourcemanager.projects.get` permission for this project. */
 export const getProjects: API.OperationMethod<GetProjectsRequest, GetProjectsResponse, GetProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsRequest,
   output: GetProjectsResponse,
   errors: [],
 }));
 
-/** Lists projects that are direct children of the specified folder or organization resource. `list()` provides a strongly consistent view of the projects underneath the specified parent resource. `list()` returns projects sorted based upon the (ascending) lexical ordering of their `display_name`. The caller must have `resourcemanager.projects.list` permission on the identified parent. */
 export interface ListProjectsRequest {
   /** Required. The name of the parent resource whose projects are being listed. Only children of this parent resource are listed; descendants are not listed. If the parent is a folder, use the value `folders/{folder_id}`. If the parent is an organization, use the value `organizations/{org_id}`. */
   parent?: string;
@@ -1570,7 +1569,8 @@ export const ListProjectsResponse_Op = ListProjectsResponse;
 
 export type ListProjectsError = CommonErrors;
 
-export const listProjects = API.makePaginated(() => ({
+/** Lists projects that are direct children of the specified folder or organization resource. `list()` provides a strongly consistent view of the projects underneath the specified parent resource. `list()` returns projects sorted based upon the (ascending) lexical ordering of their `display_name`. The caller must have `resourcemanager.projects.list` permission on the identified parent. */
+export const listProjects: API.PaginatedOperationMethod<ListProjectsRequest, ListProjectsResponse_Op, ListProjectsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsRequest,
   output: ListProjectsResponse_Op,
   errors: [],
@@ -1580,7 +1580,6 @@ export const listProjects = API.makePaginated(() => ({
   },
 }));
 
-/** Search for projects that the caller has the `resourcemanager.projects.get` permission on, and also satisfy the specified query. This method returns projects in an unspecified order. This method is eventually consistent with project mutations; this means that a newly created project may not appear in the results or recent updates to an existing project may not be reflected in the results. To retrieve the latest state of a project, use the GetProject method. */
 export interface SearchProjectsRequest {
   /** Optional. A query string for searching for projects that the caller has `resourcemanager.projects.get` permission to. If multiple fields are included in the query, then it will return results that match any of the fields. Some eligible fields are: ``` | Field | Description | |-------------------------|----------------------------------------------| | displayName, name | Filters by displayName. | | parent | Project's parent (for example: folders/123, organizations/*). Prefer parent field over parent.type and parent.id.| | parent.type | Parent's type: `folder` or `organization`. | | parent.id | Parent's id number (for example: 123) | | id, projectId | Filters by projectId. | | state, lifecycleState | Filters by state. | | labels | Filters by label name or value. | | labels.\ (where *key* is the name of a label) | Filters by label name.| ``` Search expressions are case insensitive. Some examples queries: ``` | Query | Description | |------------------|-----------------------------------------------------| | name:how* | The project's name starts with "how". | | name:Howl | The project's name is `Howl` or `howl`. | | name:HOWL | Equivalent to above. | | NAME:howl | Equivalent to above. | | labels.color:* | The project has the label `color`. | | labels.color:red | The project's label `color` has the value `red`. | | labels.color:red labels.size:big | The project's label `color` has the value `red` or its label `size` has the value `big`. | ``` If no query is specified, the call will return projects for which the user has the `resourcemanager.projects.get` permission. */
   query?: string;
@@ -1604,7 +1603,8 @@ export const SearchProjectsResponse_Op = SearchProjectsResponse;
 
 export type SearchProjectsError = CommonErrors;
 
-export const searchProjects = API.makePaginated(() => ({
+/** Search for projects that the caller has the `resourcemanager.projects.get` permission on, and also satisfy the specified query. This method returns projects in an unspecified order. This method is eventually consistent with project mutations; this means that a newly created project may not appear in the results or recent updates to an existing project may not be reflected in the results. To retrieve the latest state of a project, use the GetProject method. */
+export const searchProjects: API.PaginatedOperationMethod<SearchProjectsRequest, SearchProjectsResponse_Op, SearchProjectsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchProjectsRequest,
   output: SearchProjectsResponse_Op,
   errors: [],
@@ -1614,7 +1614,6 @@ export const searchProjects = API.makePaginated(() => ({
   },
 }));
 
-/** Request that a new project be created. The result is an `Operation` which can be used to track the creation process. This process usually takes a few seconds, but can sometimes take much longer. The tracking `Operation` is automatically deleted after a few hours, so there is no need to call `DeleteOperation`. */
 export interface CreateProjectsRequest {
   /** Request body */
   body?: Project;
@@ -1632,13 +1631,13 @@ export const CreateProjectsResponse = Operation;
 
 export type CreateProjectsError = CommonErrors;
 
+/** Request that a new project be created. The result is an `Operation` which can be used to track the creation process. This process usually takes a few seconds, but can sometimes take much longer. The tracking `Operation` is automatically deleted after a few hours, so there is no need to call `DeleteOperation`. */
 export const createProjects: API.OperationMethod<CreateProjectsRequest, CreateProjectsResponse, CreateProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsRequest,
   output: CreateProjectsResponse,
   errors: [],
 }));
 
-/** Updates the `display_name` and labels of the project identified by the specified `name` (for example, `projects/415104041262`). Deleting all labels requires an update mask for labels field. The caller must have `resourcemanager.projects.update` permission for this project. */
 export interface PatchProjectsRequest {
   /** Output only. The unique resource name of the project. It is an int64 generated number prefixed by "projects/". Example: `projects/415104041262` */
   name: string;
@@ -1662,13 +1661,13 @@ export const PatchProjectsResponse = Operation;
 
 export type PatchProjectsError = CommonErrors;
 
+/** Updates the `display_name` and labels of the project identified by the specified `name` (for example, `projects/415104041262`). Deleting all labels requires an update mask for labels field. The caller must have `resourcemanager.projects.update` permission for this project. */
 export const patchProjects: API.OperationMethod<PatchProjectsRequest, PatchProjectsResponse, PatchProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsRequest,
   output: PatchProjectsResponse,
   errors: [],
 }));
 
-/** Move a project to another place in your resource hierarchy, under a new resource parent. Returns an operation which can be used to track the process of the project move workflow. Upon success, the `Operation.response` field will be populated with the moved project. The caller must have `resourcemanager.projects.move` permission on the project, on the project's current and proposed new parent. If project has no current parent, or it currently does not have an associated organization resource, you will also need the `resourcemanager.projects.setIamPolicy` permission in the project. */
 export interface MoveProjectsRequest {
   /** Required. The name of the project to move. */
   name: string;
@@ -1689,13 +1688,13 @@ export const MoveProjectsResponse = Operation;
 
 export type MoveProjectsError = CommonErrors;
 
+/** Move a project to another place in your resource hierarchy, under a new resource parent. Returns an operation which can be used to track the process of the project move workflow. Upon success, the `Operation.response` field will be populated with the moved project. The caller must have `resourcemanager.projects.move` permission on the project, on the project's current and proposed new parent. If project has no current parent, or it currently does not have an associated organization resource, you will also need the `resourcemanager.projects.setIamPolicy` permission in the project. */
 export const moveProjects: API.OperationMethod<MoveProjectsRequest, MoveProjectsResponse, MoveProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: MoveProjectsRequest,
   output: MoveProjectsResponse,
   errors: [],
 }));
 
-/** Marks the project identified by the specified `name` (for example, `projects/415104041262`) for deletion. This method will only affect the project if it has a lifecycle state of ACTIVE. This method changes the Project's lifecycle state from ACTIVE to DELETE_REQUESTED. The deletion starts at an unspecified time, at which point the Project is no longer accessible. Until the deletion completes, you can check the lifecycle state checked by retrieving the project with GetProject, and the project remains visible to ListProjects. However, you cannot update the project. After the deletion completes, the project is not retrievable by the GetProject, ListProjects, and SearchProjects methods. The caller must have `resourcemanager.projects.delete` permissions for this project. */
 export interface DeleteProjectsRequest {
   /** Required. The name of the Project (for example, `projects/415104041262`). */
   name: string;
@@ -1713,13 +1712,13 @@ export const DeleteProjectsResponse = Operation;
 
 export type DeleteProjectsError = CommonErrors;
 
+/** Marks the project identified by the specified `name` (for example, `projects/415104041262`) for deletion. This method will only affect the project if it has a lifecycle state of ACTIVE. This method changes the Project's lifecycle state from ACTIVE to DELETE_REQUESTED. The deletion starts at an unspecified time, at which point the Project is no longer accessible. Until the deletion completes, you can check the lifecycle state checked by retrieving the project with GetProject, and the project remains visible to ListProjects. However, you cannot update the project. After the deletion completes, the project is not retrievable by the GetProject, ListProjects, and SearchProjects methods. The caller must have `resourcemanager.projects.delete` permissions for this project. */
 export const deleteProjects: API.OperationMethod<DeleteProjectsRequest, DeleteProjectsResponse, DeleteProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsRequest,
   output: DeleteProjectsResponse,
   errors: [],
 }));
 
-/** Restores the project identified by the specified `name` (for example, `projects/415104041262`). You can only use this method for a project that has a lifecycle state of DELETE_REQUESTED. After deletion starts, the project cannot be restored. The caller must have `resourcemanager.projects.undelete` permission for this project. */
 export interface UndeleteProjectsRequest {
   /** Required. The name of the project (for example, `projects/415104041262`). Required. */
   name: string;
@@ -1740,13 +1739,13 @@ export const UndeleteProjectsResponse = Operation;
 
 export type UndeleteProjectsError = CommonErrors;
 
+/** Restores the project identified by the specified `name` (for example, `projects/415104041262`). You can only use this method for a project that has a lifecycle state of DELETE_REQUESTED. After deletion starts, the project cannot be restored. The caller must have `resourcemanager.projects.undelete` permission for this project. */
 export const undeleteProjects: API.OperationMethod<UndeleteProjectsRequest, UndeleteProjectsResponse, UndeleteProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UndeleteProjectsRequest,
   output: UndeleteProjectsResponse,
   errors: [],
 }));
 
-/** Returns the IAM access control policy for the specified project, in the format `projects/{ProjectIdOrNumber}` e.g. projects/123. Permission is denied if the policy or the resource do not exist. */
 export interface GetIamPolicyProjectsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1767,13 +1766,13 @@ export const GetIamPolicyProjectsResponse = Policy;
 
 export type GetIamPolicyProjectsError = CommonErrors;
 
+/** Returns the IAM access control policy for the specified project, in the format `projects/{ProjectIdOrNumber}` e.g. projects/123. Permission is denied if the policy or the resource do not exist. */
 export const getIamPolicyProjects: API.OperationMethod<GetIamPolicyProjectsRequest, GetIamPolicyProjectsResponse, GetIamPolicyProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsRequest,
   output: GetIamPolicyProjectsResponse,
   errors: [],
 }));
 
-/** Sets the IAM access control policy for the specified project, in the format `projects/{ProjectIdOrNumber}` e.g. projects/123. CAUTION: This method will replace the existing policy, and cannot be used to append additional IAM settings. Note: Removing service accounts from policies or changing their roles can render services completely inoperable. It is important to understand how the service account is being used before removing or updating its roles. The following constraints apply when using `setIamPolicy()`: + Project does not support `allUsers` and `allAuthenticatedUsers` as `members` in a `Binding` of a `Policy`. + The owner role can be granted to a `user`, `serviceAccount`, or a group that is part of an organization. For example, group@myownpersonaldomain.com could be added as an owner to a project in the myownpersonaldomain.com organization, but not the examplepetstore.com organization. + Service accounts can be made owners of a project directly without any restrictions. However, to be added as an owner, a user must be invited using the Cloud Platform console and must accept the invitation. + A user cannot be granted the owner role using `setIamPolicy()`. The user must be granted the owner role using the Cloud Platform Console and must explicitly accept the invitation. + Invitations to grant the owner role cannot be sent using `setIamPolicy()`; they must be sent only using the Cloud Platform Console. + If the project is not part of an organization, there must be at least one owner who has accepted the Terms of Service (ToS) agreement in the policy. Calling `setIamPolicy()` to remove the last ToS-accepted owner from the policy will fail. This restriction also applies to legacy projects that no longer have owners who have accepted the ToS. Edits to IAM policies will be rejected until the lack of a ToS-accepting owner is rectified. If the project is part of an organization, you can remove all owners, potentially making the organization inaccessible. */
 export interface SetIamPolicyProjectsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1794,13 +1793,13 @@ export const SetIamPolicyProjectsResponse = Policy;
 
 export type SetIamPolicyProjectsError = CommonErrors;
 
+/** Sets the IAM access control policy for the specified project, in the format `projects/{ProjectIdOrNumber}` e.g. projects/123. CAUTION: This method will replace the existing policy, and cannot be used to append additional IAM settings. Note: Removing service accounts from policies or changing their roles can render services completely inoperable. It is important to understand how the service account is being used before removing or updating its roles. The following constraints apply when using `setIamPolicy()`: + Project does not support `allUsers` and `allAuthenticatedUsers` as `members` in a `Binding` of a `Policy`. + The owner role can be granted to a `user`, `serviceAccount`, or a group that is part of an organization. For example, group@myownpersonaldomain.com could be added as an owner to a project in the myownpersonaldomain.com organization, but not the examplepetstore.com organization. + Service accounts can be made owners of a project directly without any restrictions. However, to be added as an owner, a user must be invited using the Cloud Platform console and must accept the invitation. + A user cannot be granted the owner role using `setIamPolicy()`. The user must be granted the owner role using the Cloud Platform Console and must explicitly accept the invitation. + Invitations to grant the owner role cannot be sent using `setIamPolicy()`; they must be sent only using the Cloud Platform Console. + If the project is not part of an organization, there must be at least one owner who has accepted the Terms of Service (ToS) agreement in the policy. Calling `setIamPolicy()` to remove the last ToS-accepted owner from the policy will fail. This restriction also applies to legacy projects that no longer have owners who have accepted the ToS. Edits to IAM policies will be rejected until the lack of a ToS-accepting owner is rectified. If the project is part of an organization, you can remove all owners, potentially making the organization inaccessible. */
 export const setIamPolicyProjects: API.OperationMethod<SetIamPolicyProjectsRequest, SetIamPolicyProjectsResponse, SetIamPolicyProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsRequest,
   output: SetIamPolicyProjectsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified project, in the format `projects/{ProjectIdOrNumber}` e.g. projects/123.. */
 export interface TestIamPermissionsProjectsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1821,13 +1820,13 @@ export const TestIamPermissionsProjectsResponse = TestIamPermissionsResponse;
 
 export type TestIamPermissionsProjectsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified project, in the format `projects/{ProjectIdOrNumber}` e.g. projects/123.. */
 export const testIamPermissionsProjects: API.OperationMethod<TestIamPermissionsProjectsRequest, TestIamPermissionsProjectsResponse, TestIamPermissionsProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsRequest,
   output: TestIamPermissionsProjectsResponse,
   errors: [],
 }));
 
-/** Returns tag bindings directly attached to a GCP resource. */
 export interface GetLocationsTagBindingCollectionsRequest {
   /** Required. The full name of the TagBindingCollection in format: `locations/{location}/tagBindingCollections/{encoded-full-resource-name}` where the enoded-full-resource-name is the UTF-8 encoded name of the resource the TagBindings are bound to. E.g. "locations/global/tagBindingCollections/%2f%2fcloudresourcemanager.googleapis.com%2fprojects%2f123" */
   name: string;
@@ -1845,13 +1844,13 @@ export const GetLocationsTagBindingCollectionsResponse = TagBindingCollection;
 
 export type GetLocationsTagBindingCollectionsError = CommonErrors;
 
+/** Returns tag bindings directly attached to a GCP resource. */
 export const getLocationsTagBindingCollections: API.OperationMethod<GetLocationsTagBindingCollectionsRequest, GetLocationsTagBindingCollectionsResponse, GetLocationsTagBindingCollectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetLocationsTagBindingCollectionsRequest,
   output: GetLocationsTagBindingCollectionsResponse,
   errors: [],
 }));
 
-/** Updates tag bindings directly attached to a GCP resource. Update_mask can be kept empty or "*". */
 export interface PatchLocationsTagBindingCollectionsRequest {
   /** Identifier. The name of the TagBindingCollection, following the convention: `locations/{location}/tagBindingCollections/{encoded-full-resource-name}` where the encoded-full-resource-name is the UTF-8 encoded name of the GCP resource the TagBindings are bound to. "locations/global/tagBindingCollections/%2f%2fcloudresourcemanager.googleapis.com%2fprojects%2f123" */
   name: string;
@@ -1875,13 +1874,13 @@ export const PatchLocationsTagBindingCollectionsResponse = Operation;
 
 export type PatchLocationsTagBindingCollectionsError = CommonErrors;
 
+/** Updates tag bindings directly attached to a GCP resource. Update_mask can be kept empty or "*". */
 export const patchLocationsTagBindingCollections: API.OperationMethod<PatchLocationsTagBindingCollectionsRequest, PatchLocationsTagBindingCollectionsResponse, PatchLocationsTagBindingCollectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchLocationsTagBindingCollectionsRequest,
   output: PatchLocationsTagBindingCollectionsResponse,
   errors: [],
 }));
 
-/** Returns effective tag bindings on a GCP resource. */
 export interface GetLocationsEffectiveTagBindingCollectionsRequest {
   /** Required. The full name of the EffectiveTagBindingCollection in format: `locations/{location}/effectiveTagBindingCollections/{encoded-full-resource-name}` where the encoded-full-resource-name is the UTF-8 encoded name of the resource the TagBindings are bound to. E.g. "locations/global/effectiveTagBindingCollections/%2f%2fcloudresourcemanager.googleapis.com%2fprojects%2f123" */
   name: string;
@@ -1899,13 +1898,13 @@ export const GetLocationsEffectiveTagBindingCollectionsResponse = EffectiveTagBi
 
 export type GetLocationsEffectiveTagBindingCollectionsError = CommonErrors;
 
+/** Returns effective tag bindings on a GCP resource. */
 export const getLocationsEffectiveTagBindingCollections: API.OperationMethod<GetLocationsEffectiveTagBindingCollectionsRequest, GetLocationsEffectiveTagBindingCollectionsResponse, GetLocationsEffectiveTagBindingCollectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetLocationsEffectiveTagBindingCollectionsRequest,
   output: GetLocationsEffectiveTagBindingCollectionsResponse,
   errors: [],
 }));
 
-/** Lists the TagBindings for the given Google Cloud resource, as specified with `parent`. NOTE: The `parent` field is expected to be a full resource name: https://cloud.google.com/apis/design/resource_names#full_resource_name */
 export interface ListTagBindingsRequest {
   /** Required. The full resource name of a resource for which you want to list existing TagBindings. E.g. "//cloudresourcemanager.googleapis.com/projects/123" */
   parent?: string;
@@ -1929,7 +1928,8 @@ export const ListTagBindingsResponse_Op = ListTagBindingsResponse;
 
 export type ListTagBindingsError = CommonErrors;
 
-export const listTagBindings = API.makePaginated(() => ({
+/** Lists the TagBindings for the given Google Cloud resource, as specified with `parent`. NOTE: The `parent` field is expected to be a full resource name: https://cloud.google.com/apis/design/resource_names#full_resource_name */
+export const listTagBindings: API.PaginatedOperationMethod<ListTagBindingsRequest, ListTagBindingsResponse_Op, ListTagBindingsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListTagBindingsRequest,
   output: ListTagBindingsResponse_Op,
   errors: [],
@@ -1939,7 +1939,6 @@ export const listTagBindings = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a TagBinding between a TagValue and a Google Cloud resource. */
 export interface CreateTagBindingsRequest {
   /** Optional. Set to true to perform the validations necessary for creating the resource, but not actually perform the action. */
   validateOnly?: boolean;
@@ -1960,13 +1959,13 @@ export const CreateTagBindingsResponse = Operation;
 
 export type CreateTagBindingsError = CommonErrors;
 
+/** Creates a TagBinding between a TagValue and a Google Cloud resource. */
 export const createTagBindings: API.OperationMethod<CreateTagBindingsRequest, CreateTagBindingsResponse, CreateTagBindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateTagBindingsRequest,
   output: CreateTagBindingsResponse,
   errors: [],
 }));
 
-/** Deletes a TagBinding. */
 export interface DeleteTagBindingsRequest {
   /** Required. The name of the TagBinding. This is a String of the form: `tagBindings/{id}` (e.g. `tagBindings/%2F%2Fcloudresourcemanager.googleapis.com%2Fprojects%2F123/tagValues/456`). */
   name: string;
@@ -1984,13 +1983,13 @@ export const DeleteTagBindingsResponse = Operation;
 
 export type DeleteTagBindingsError = CommonErrors;
 
+/** Deletes a TagBinding. */
 export const deleteTagBindings: API.OperationMethod<DeleteTagBindingsRequest, DeleteTagBindingsResponse, DeleteTagBindingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteTagBindingsRequest,
   output: DeleteTagBindingsResponse,
   errors: [],
 }));
 
-/** Return a list of effective tags for the given Google Cloud resource, as specified in `parent`. */
 export interface ListEffectiveTagsRequest {
   /** Required. The full resource name of a resource for which you want to list the effective tags. E.g. "//cloudresourcemanager.googleapis.com/projects/123" */
   parent?: string;
@@ -2014,7 +2013,8 @@ export const ListEffectiveTagsResponse_Op = ListEffectiveTagsResponse;
 
 export type ListEffectiveTagsError = CommonErrors;
 
-export const listEffectiveTags = API.makePaginated(() => ({
+/** Return a list of effective tags for the given Google Cloud resource, as specified in `parent`. */
+export const listEffectiveTags: API.PaginatedOperationMethod<ListEffectiveTagsRequest, ListEffectiveTagsResponse_Op, ListEffectiveTagsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListEffectiveTagsRequest,
   output: ListEffectiveTagsResponse_Op,
   errors: [],
@@ -2024,7 +2024,6 @@ export const listEffectiveTags = API.makePaginated(() => ({
   },
 }));
 
-/** Lists all TagKeys for a parent resource. */
 export interface ListTagKeysRequest {
   /** Required. The resource name of the TagKey's parent. Must be of the form `organizations/{org_id}` or `projects/{project_id}` or `projects/{project_number}` */
   parent?: string;
@@ -2048,7 +2047,8 @@ export const ListTagKeysResponse_Op = ListTagKeysResponse;
 
 export type ListTagKeysError = CommonErrors;
 
-export const listTagKeys = API.makePaginated(() => ({
+/** Lists all TagKeys for a parent resource. */
+export const listTagKeys: API.PaginatedOperationMethod<ListTagKeysRequest, ListTagKeysResponse_Op, ListTagKeysError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListTagKeysRequest,
   output: ListTagKeysResponse_Op,
   errors: [],
@@ -2058,7 +2058,6 @@ export const listTagKeys = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves a TagKey. This method will return `PERMISSION_DENIED` if the key does not exist or the user does not have permission to view it. */
 export interface GetTagKeysRequest {
   /** Required. A resource name in the format `tagKeys/{id}`, such as `tagKeys/123`. */
   name: string;
@@ -2076,13 +2075,13 @@ export const GetTagKeysResponse = TagKey;
 
 export type GetTagKeysError = CommonErrors;
 
+/** Retrieves a TagKey. This method will return `PERMISSION_DENIED` if the key does not exist or the user does not have permission to view it. */
 export const getTagKeys: API.OperationMethod<GetTagKeysRequest, GetTagKeysResponse, GetTagKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetTagKeysRequest,
   output: GetTagKeysResponse,
   errors: [],
 }));
 
-/** Retrieves a TagKey by its namespaced name. This method will return `PERMISSION_DENIED` if the key does not exist or the user does not have permission to view it. */
 export interface GetNamespacedTagKeysRequest {
   /** Required. A namespaced tag key name in the format `{parentId}/{tagKeyShort}`, such as `42/foo` for a key with short name "foo" under the organization with ID 42 or `r2-d2/bar` for a key with short name "bar" under the project `r2-d2`. */
   name?: string;
@@ -2100,13 +2099,13 @@ export const GetNamespacedTagKeysResponse = TagKey;
 
 export type GetNamespacedTagKeysError = CommonErrors;
 
+/** Retrieves a TagKey by its namespaced name. This method will return `PERMISSION_DENIED` if the key does not exist or the user does not have permission to view it. */
 export const getNamespacedTagKeys: API.OperationMethod<GetNamespacedTagKeysRequest, GetNamespacedTagKeysResponse, GetNamespacedTagKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetNamespacedTagKeysRequest,
   output: GetNamespacedTagKeysResponse,
   errors: [],
 }));
 
-/** Creates a new TagKey. If another request with the same parameters is sent while the original request is in process, the second request will receive an error. A maximum of 1000 TagKeys can exist under a parent at any given time. */
 export interface CreateTagKeysRequest {
   /** Optional. Set to true to perform validations necessary for creating the resource, but not actually perform the action. */
   validateOnly?: boolean;
@@ -2127,13 +2126,13 @@ export const CreateTagKeysResponse = Operation;
 
 export type CreateTagKeysError = CommonErrors;
 
+/** Creates a new TagKey. If another request with the same parameters is sent while the original request is in process, the second request will receive an error. A maximum of 1000 TagKeys can exist under a parent at any given time. */
 export const createTagKeys: API.OperationMethod<CreateTagKeysRequest, CreateTagKeysResponse, CreateTagKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateTagKeysRequest,
   output: CreateTagKeysResponse,
   errors: [],
 }));
 
-/** Updates the attributes of the TagKey resource. */
 export interface PatchTagKeysRequest {
   /** Immutable. The resource name for a TagKey. Must be in the format `tagKeys/{tag_key_id}`, where `tag_key_id` is the generated numeric id for the TagKey. */
   name: string;
@@ -2160,13 +2159,13 @@ export const PatchTagKeysResponse = Operation;
 
 export type PatchTagKeysError = CommonErrors;
 
+/** Updates the attributes of the TagKey resource. */
 export const patchTagKeys: API.OperationMethod<PatchTagKeysRequest, PatchTagKeysResponse, PatchTagKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchTagKeysRequest,
   output: PatchTagKeysResponse,
   errors: [],
 }));
 
-/** Deletes a TagKey. The TagKey cannot be deleted if it has any child TagValues. */
 export interface DeleteTagKeysRequest {
   /** Required. The resource name of a TagKey to be deleted in the format `tagKeys/123`. The TagKey cannot be a parent of any existing TagValues or it will not be deleted successfully. */
   name: string;
@@ -2190,13 +2189,13 @@ export const DeleteTagKeysResponse = Operation;
 
 export type DeleteTagKeysError = CommonErrors;
 
+/** Deletes a TagKey. The TagKey cannot be deleted if it has any child TagValues. */
 export const deleteTagKeys: API.OperationMethod<DeleteTagKeysRequest, DeleteTagKeysResponse, DeleteTagKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteTagKeysRequest,
   output: DeleteTagKeysResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a TagKey. The returned policy may be empty if no such policy or resource exists. The `resource` field should be the TagKey's resource name. For example, "tagKeys/1234". The caller must have `cloudresourcemanager.googleapis.com/tagKeys.getIamPolicy` permission on the specified TagKey. */
 export interface GetIamPolicyTagKeysRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2217,13 +2216,13 @@ export const GetIamPolicyTagKeysResponse = Policy;
 
 export type GetIamPolicyTagKeysError = CommonErrors;
 
+/** Gets the access control policy for a TagKey. The returned policy may be empty if no such policy or resource exists. The `resource` field should be the TagKey's resource name. For example, "tagKeys/1234". The caller must have `cloudresourcemanager.googleapis.com/tagKeys.getIamPolicy` permission on the specified TagKey. */
 export const getIamPolicyTagKeys: API.OperationMethod<GetIamPolicyTagKeysRequest, GetIamPolicyTagKeysResponse, GetIamPolicyTagKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyTagKeysRequest,
   output: GetIamPolicyTagKeysResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on a TagKey, replacing any existing policy. The `resource` field should be the TagKey's resource name. For example, "tagKeys/1234". The caller must have `resourcemanager.tagKeys.setIamPolicy` permission on the identified tagValue. */
 export interface SetIamPolicyTagKeysRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2244,13 +2243,13 @@ export const SetIamPolicyTagKeysResponse = Policy;
 
 export type SetIamPolicyTagKeysError = CommonErrors;
 
+/** Sets the access control policy on a TagKey, replacing any existing policy. The `resource` field should be the TagKey's resource name. For example, "tagKeys/1234". The caller must have `resourcemanager.tagKeys.setIamPolicy` permission on the identified tagValue. */
 export const setIamPolicyTagKeys: API.OperationMethod<SetIamPolicyTagKeysRequest, SetIamPolicyTagKeysResponse, SetIamPolicyTagKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyTagKeysRequest,
   output: SetIamPolicyTagKeysResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified TagKey. The `resource` field should be the TagKey's resource name. For example, "tagKeys/1234". There are no permissions required for making this API call. */
 export interface TestIamPermissionsTagKeysRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2271,13 +2270,13 @@ export const TestIamPermissionsTagKeysResponse = TestIamPermissionsResponse;
 
 export type TestIamPermissionsTagKeysError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified TagKey. The `resource` field should be the TagKey's resource name. For example, "tagKeys/1234". There are no permissions required for making this API call. */
 export const testIamPermissionsTagKeys: API.OperationMethod<TestIamPermissionsTagKeysRequest, TestIamPermissionsTagKeysResponse, TestIamPermissionsTagKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsTagKeysRequest,
   output: TestIamPermissionsTagKeysResponse,
   errors: [],
 }));
 
-/** Lists all TagValues for a specific TagKey. */
 export interface ListTagValuesRequest {
   /** Required. Resource name for the parent of the TagValues to be listed, in the format `tagKeys/123` or `tagValues/123`. */
   parent?: string;
@@ -2301,7 +2300,8 @@ export const ListTagValuesResponse_Op = ListTagValuesResponse;
 
 export type ListTagValuesError = CommonErrors;
 
-export const listTagValues = API.makePaginated(() => ({
+/** Lists all TagValues for a specific TagKey. */
+export const listTagValues: API.PaginatedOperationMethod<ListTagValuesRequest, ListTagValuesResponse_Op, ListTagValuesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListTagValuesRequest,
   output: ListTagValuesResponse_Op,
   errors: [],
@@ -2311,7 +2311,6 @@ export const listTagValues = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves a TagValue. This method will return `PERMISSION_DENIED` if the value does not exist or the user does not have permission to view it. */
 export interface GetTagValuesRequest {
   /** Required. Resource name for TagValue to be fetched in the format `tagValues/456`. */
   name: string;
@@ -2329,13 +2328,13 @@ export const GetTagValuesResponse = TagValue;
 
 export type GetTagValuesError = CommonErrors;
 
+/** Retrieves a TagValue. This method will return `PERMISSION_DENIED` if the value does not exist or the user does not have permission to view it. */
 export const getTagValues: API.OperationMethod<GetTagValuesRequest, GetTagValuesResponse, GetTagValuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetTagValuesRequest,
   output: GetTagValuesResponse,
   errors: [],
 }));
 
-/** Retrieves a TagValue by its namespaced name. This method will return `PERMISSION_DENIED` if the value does not exist or the user does not have permission to view it. */
 export interface GetNamespacedTagValuesRequest {
   /** Required. A namespaced tag value name in the following format: `{parentId}/{tagKeyShort}/{tagValueShort}` Examples: - `42/foo/abc` for a value with short name "abc" under the key with short name "foo" under the organization with ID 42 - `r2-d2/bar/xyz` for a value with short name "xyz" under the key with short name "bar" under the project with ID "r2-d2" */
   name?: string;
@@ -2353,13 +2352,13 @@ export const GetNamespacedTagValuesResponse = TagValue;
 
 export type GetNamespacedTagValuesError = CommonErrors;
 
+/** Retrieves a TagValue by its namespaced name. This method will return `PERMISSION_DENIED` if the value does not exist or the user does not have permission to view it. */
 export const getNamespacedTagValues: API.OperationMethod<GetNamespacedTagValuesRequest, GetNamespacedTagValuesResponse, GetNamespacedTagValuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetNamespacedTagValuesRequest,
   output: GetNamespacedTagValuesResponse,
   errors: [],
 }));
 
-/** Creates a TagValue as a child of the specified TagKey. If a another request with the same parameters is sent while the original request is in process the second request will receive an error. A maximum of 1000 TagValues can exist under a TagKey at any given time. */
 export interface CreateTagValuesRequest {
   /** Optional. Set as true to perform the validations necessary for creating the resource, but not actually perform the action. */
   validateOnly?: boolean;
@@ -2380,13 +2379,13 @@ export const CreateTagValuesResponse = Operation;
 
 export type CreateTagValuesError = CommonErrors;
 
+/** Creates a TagValue as a child of the specified TagKey. If a another request with the same parameters is sent while the original request is in process the second request will receive an error. A maximum of 1000 TagValues can exist under a TagKey at any given time. */
 export const createTagValues: API.OperationMethod<CreateTagValuesRequest, CreateTagValuesResponse, CreateTagValuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateTagValuesRequest,
   output: CreateTagValuesResponse,
   errors: [],
 }));
 
-/** Updates the attributes of the TagValue resource. */
 export interface PatchTagValuesRequest {
   /** Immutable. Resource name for TagValue in the format `tagValues/456`. */
   name: string;
@@ -2413,13 +2412,13 @@ export const PatchTagValuesResponse = Operation;
 
 export type PatchTagValuesError = CommonErrors;
 
+/** Updates the attributes of the TagValue resource. */
 export const patchTagValues: API.OperationMethod<PatchTagValuesRequest, PatchTagValuesResponse, PatchTagValuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchTagValuesRequest,
   output: PatchTagValuesResponse,
   errors: [],
 }));
 
-/** Deletes a TagValue. The TagValue cannot have any bindings when it is deleted. */
 export interface DeleteTagValuesRequest {
   /** Required. Resource name for TagValue to be deleted in the format tagValues/456. */
   name: string;
@@ -2443,13 +2442,13 @@ export const DeleteTagValuesResponse = Operation;
 
 export type DeleteTagValuesError = CommonErrors;
 
+/** Deletes a TagValue. The TagValue cannot have any bindings when it is deleted. */
 export const deleteTagValues: API.OperationMethod<DeleteTagValuesRequest, DeleteTagValuesResponse, DeleteTagValuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteTagValuesRequest,
   output: DeleteTagValuesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a TagValue. The returned policy may be empty if no such policy or resource exists. The `resource` field should be the TagValue's resource name. For example: `tagValues/1234`. The caller must have the `cloudresourcemanager.googleapis.com/tagValues.getIamPolicy` permission on the identified TagValue to get the access control policy. */
 export interface GetIamPolicyTagValuesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2470,13 +2469,13 @@ export const GetIamPolicyTagValuesResponse = Policy;
 
 export type GetIamPolicyTagValuesError = CommonErrors;
 
+/** Gets the access control policy for a TagValue. The returned policy may be empty if no such policy or resource exists. The `resource` field should be the TagValue's resource name. For example: `tagValues/1234`. The caller must have the `cloudresourcemanager.googleapis.com/tagValues.getIamPolicy` permission on the identified TagValue to get the access control policy. */
 export const getIamPolicyTagValues: API.OperationMethod<GetIamPolicyTagValuesRequest, GetIamPolicyTagValuesResponse, GetIamPolicyTagValuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyTagValuesRequest,
   output: GetIamPolicyTagValuesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on a TagValue, replacing any existing policy. The `resource` field should be the TagValue's resource name. For example: `tagValues/1234`. The caller must have `resourcemanager.tagValues.setIamPolicy` permission on the identified tagValue. */
 export interface SetIamPolicyTagValuesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2497,13 +2496,13 @@ export const SetIamPolicyTagValuesResponse = Policy;
 
 export type SetIamPolicyTagValuesError = CommonErrors;
 
+/** Sets the access control policy on a TagValue, replacing any existing policy. The `resource` field should be the TagValue's resource name. For example: `tagValues/1234`. The caller must have `resourcemanager.tagValues.setIamPolicy` permission on the identified tagValue. */
 export const setIamPolicyTagValues: API.OperationMethod<SetIamPolicyTagValuesRequest, SetIamPolicyTagValuesResponse, SetIamPolicyTagValuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyTagValuesRequest,
   output: SetIamPolicyTagValuesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified TagValue. The `resource` field should be the TagValue's resource name. For example: `tagValues/1234`. There are no permissions required for making this API call. */
 export interface TestIamPermissionsTagValuesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2524,13 +2523,13 @@ export const TestIamPermissionsTagValuesResponse = TestIamPermissionsResponse;
 
 export type TestIamPermissionsTagValuesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified TagValue. The `resource` field should be the TagValue's resource name. For example: `tagValues/1234`. There are no permissions required for making this API call. */
 export const testIamPermissionsTagValues: API.OperationMethod<TestIamPermissionsTagValuesRequest, TestIamPermissionsTagValuesResponse, TestIamPermissionsTagValuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsTagValuesRequest,
   output: TestIamPermissionsTagValuesResponse,
   errors: [],
 }));
 
-/** Creates a TagHold. Returns ALREADY_EXISTS if a TagHold with the same resource and origin exists under the same TagValue. */
 export interface CreateTagValuesTagHoldsRequest {
   /** Required. The resource name of the TagHold's parent TagValue. Must be of the form: `tagValues/{tag-value-id}`. */
   parent: string;
@@ -2554,13 +2553,13 @@ export const CreateTagValuesTagHoldsResponse = Operation;
 
 export type CreateTagValuesTagHoldsError = CommonErrors;
 
+/** Creates a TagHold. Returns ALREADY_EXISTS if a TagHold with the same resource and origin exists under the same TagValue. */
 export const createTagValuesTagHolds: API.OperationMethod<CreateTagValuesTagHoldsRequest, CreateTagValuesTagHoldsResponse, CreateTagValuesTagHoldsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateTagValuesTagHoldsRequest,
   output: CreateTagValuesTagHoldsResponse,
   errors: [],
 }));
 
-/** Deletes a TagHold. */
 export interface DeleteTagValuesTagHoldsRequest {
   /** Required. The resource name of the TagHold to delete. Must be of the form: `tagValues/{tag-value-id}/tagHolds/{tag-hold-id}`. */
   name: string;
@@ -2581,13 +2580,13 @@ export const DeleteTagValuesTagHoldsResponse = Operation;
 
 export type DeleteTagValuesTagHoldsError = CommonErrors;
 
+/** Deletes a TagHold. */
 export const deleteTagValuesTagHolds: API.OperationMethod<DeleteTagValuesTagHoldsRequest, DeleteTagValuesTagHoldsResponse, DeleteTagValuesTagHoldsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteTagValuesTagHoldsRequest,
   output: DeleteTagValuesTagHoldsResponse,
   errors: [],
 }));
 
-/** Lists TagHolds under a TagValue. */
 export interface ListTagValuesTagHoldsRequest {
   /** Required. The resource name of the parent TagValue. Must be of the form: `tagValues/{tag-value-id}`. */
   parent: string;
@@ -2614,7 +2613,8 @@ export const ListTagValuesTagHoldsResponse = ListTagHoldsResponse;
 
 export type ListTagValuesTagHoldsError = CommonErrors;
 
-export const listTagValuesTagHolds = API.makePaginated(() => ({
+/** Lists TagHolds under a TagValue. */
+export const listTagValuesTagHolds: API.PaginatedOperationMethod<ListTagValuesTagHoldsRequest, ListTagValuesTagHoldsResponse, ListTagValuesTagHoldsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListTagValuesTagHoldsRequest,
   output: ListTagValuesTagHoldsResponse,
   errors: [],

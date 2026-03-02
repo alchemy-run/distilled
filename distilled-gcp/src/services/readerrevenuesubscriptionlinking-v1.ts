@@ -84,7 +84,6 @@ export const ReaderEntitlements: Schema.Schema<ReaderEntitlements> = Schema.susp
 // Operations
 // ==========================================================================
 
-/** Gets a reader of a publication. Returns NOT_FOUND if the reader does not exist. */
 export interface GetPublicationsReadersRequest {
   /** Required. The resource name of the reader. Format: publications/{publication_id}/readers/{ppid} */
   name: string;
@@ -102,13 +101,13 @@ export const GetPublicationsReadersResponse = Reader;
 
 export type GetPublicationsReadersError = CommonErrors;
 
+/** Gets a reader of a publication. Returns NOT_FOUND if the reader does not exist. */
 export const getPublicationsReaders: API.OperationMethod<GetPublicationsReadersRequest, GetPublicationsReadersResponse, GetPublicationsReadersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPublicationsReadersRequest,
   output: GetPublicationsReadersResponse,
   errors: [],
 }));
 
-/** Removes a publication reader, effectively severing the association with a Google user. If `force` is set to true, any entitlements for this reader will also be deleted. (Otherwise, the request will only work if the reader has no entitlements.) - If the reader does not exist, return NOT_FOUND. - Return FAILED_PRECONDITION if the force field is false (or unset) and entitlements are present. */
 export interface DeletePublicationsReadersRequest {
   /** Required. The resource name of the reader. Format: publications/{publication_id}/readers/{ppid} */
   name: string;
@@ -129,13 +128,13 @@ export const DeletePublicationsReadersResponse = DeleteReaderResponse;
 
 export type DeletePublicationsReadersError = CommonErrors;
 
+/** Removes a publication reader, effectively severing the association with a Google user. If `force` is set to true, any entitlements for this reader will also be deleted. (Otherwise, the request will only work if the reader has no entitlements.) - If the reader does not exist, return NOT_FOUND. - Return FAILED_PRECONDITION if the force field is false (or unset) and entitlements are present. */
 export const deletePublicationsReaders: API.OperationMethod<DeletePublicationsReadersRequest, DeletePublicationsReadersResponse, DeletePublicationsReadersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeletePublicationsReadersRequest,
   output: DeletePublicationsReadersResponse,
   errors: [],
 }));
 
-/** Gets the reader entitlements for a publication reader. - Returns PERMISSION_DENIED if the caller does not have access. - Returns NOT_FOUND if the reader does not exist. */
 export interface GetEntitlementsPublicationsReadersRequest {
   /** Required. The name of the reader entitlements to retrieve. Format: publications/{publication_id}/readers/{reader_id}/entitlements */
   name: string;
@@ -153,13 +152,13 @@ export const GetEntitlementsPublicationsReadersResponse = ReaderEntitlements;
 
 export type GetEntitlementsPublicationsReadersError = CommonErrors;
 
+/** Gets the reader entitlements for a publication reader. - Returns PERMISSION_DENIED if the caller does not have access. - Returns NOT_FOUND if the reader does not exist. */
 export const getEntitlementsPublicationsReaders: API.OperationMethod<GetEntitlementsPublicationsReadersRequest, GetEntitlementsPublicationsReadersResponse, GetEntitlementsPublicationsReadersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEntitlementsPublicationsReadersRequest,
   output: GetEntitlementsPublicationsReadersResponse,
   errors: [],
 }));
 
-/** Updates the reader entitlements for a publication reader. The entire reader entitlements will be overwritten by the new reader entitlements in the payload, like a PUT. - Returns PERMISSION_DENIED if the caller does not have access. - Returns NOT_FOUND if the reader does not exist. */
 export interface UpdateEntitlementsPublicationsReadersRequest {
   /** Output only. The resource name of the singleton. */
   name: string;
@@ -183,6 +182,7 @@ export const UpdateEntitlementsPublicationsReadersResponse = ReaderEntitlements;
 
 export type UpdateEntitlementsPublicationsReadersError = CommonErrors;
 
+/** Updates the reader entitlements for a publication reader. The entire reader entitlements will be overwritten by the new reader entitlements in the payload, like a PUT. - Returns PERMISSION_DENIED if the caller does not have access. - Returns NOT_FOUND if the reader does not exist. */
 export const updateEntitlementsPublicationsReaders: API.OperationMethod<UpdateEntitlementsPublicationsReadersRequest, UpdateEntitlementsPublicationsReadersResponse, UpdateEntitlementsPublicationsReadersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateEntitlementsPublicationsReadersRequest,
   output: UpdateEntitlementsPublicationsReadersResponse,

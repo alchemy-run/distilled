@@ -2442,7 +2442,6 @@ export const ListCloneJobsResponse: Schema.Schema<ListCloneJobsResponse> = Schem
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** Optional. Do not use this field. It is unsupported and is ignored unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: string[];
@@ -2472,7 +2471,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -2482,7 +2482,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -2500,13 +2499,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** List remote source's inventory of VMs. The remote source is the onprem vCenter (remote in the sense it's not in Compute Engine). The inventory describes the list of existing VMs in that source. Note that this operation lists the VMs on the remote source, as opposed to listing the MigratingVms resources in the vmmigration service. */
 export interface FetchInventoryProjectsLocationsSourcesRequest {
   /** A page token, received from a previous `FetchInventory` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `FetchInventory` must match the call that provided the page token. */
   pageToken?: string;
@@ -2533,7 +2532,8 @@ export const FetchInventoryProjectsLocationsSourcesResponse = FetchInventoryResp
 
 export type FetchInventoryProjectsLocationsSourcesError = CommonErrors;
 
-export const fetchInventoryProjectsLocationsSources = API.makePaginated(() => ({
+/** List remote source's inventory of VMs. The remote source is the onprem vCenter (remote in the sense it's not in Compute Engine). The inventory describes the list of existing VMs in that source. Note that this operation lists the VMs on the remote source, as opposed to listing the MigratingVms resources in the vmmigration service. */
+export const fetchInventoryProjectsLocationsSources: API.PaginatedOperationMethod<FetchInventoryProjectsLocationsSourcesRequest, FetchInventoryProjectsLocationsSourcesResponse, FetchInventoryProjectsLocationsSourcesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: FetchInventoryProjectsLocationsSourcesRequest,
   output: FetchInventoryProjectsLocationsSourcesResponse,
   errors: [],
@@ -2543,7 +2543,6 @@ export const fetchInventoryProjectsLocationsSources = API.makePaginated(() => ({
   },
 }));
 
-/** List remote source's inventory of storage resources. The remote source is another cloud vendor (e.g. AWS, Azure). The inventory describes the list of existing storage resources in that source. Note that this operation lists the resources on the remote source, as opposed to listing the MigratingVms resources in the vmmigration service. */
 export interface FetchStorageInventoryProjectsLocationsSourcesRequest {
   /** Required. The type of the storage inventory to fetch. */
   type?: "STORAGE_TYPE_UNSPECIFIED" | "DISKS" | "SNAPSHOTS" | (string & {});
@@ -2573,7 +2572,8 @@ export const FetchStorageInventoryProjectsLocationsSourcesResponse = FetchStorag
 
 export type FetchStorageInventoryProjectsLocationsSourcesError = CommonErrors;
 
-export const fetchStorageInventoryProjectsLocationsSources = API.makePaginated(() => ({
+/** List remote source's inventory of storage resources. The remote source is another cloud vendor (e.g. AWS, Azure). The inventory describes the list of existing storage resources in that source. Note that this operation lists the resources on the remote source, as opposed to listing the MigratingVms resources in the vmmigration service. */
+export const fetchStorageInventoryProjectsLocationsSources: API.PaginatedOperationMethod<FetchStorageInventoryProjectsLocationsSourcesRequest, FetchStorageInventoryProjectsLocationsSourcesResponse, FetchStorageInventoryProjectsLocationsSourcesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: FetchStorageInventoryProjectsLocationsSourcesRequest,
   output: FetchStorageInventoryProjectsLocationsSourcesResponse,
   errors: [],
@@ -2583,7 +2583,6 @@ export const fetchStorageInventoryProjectsLocationsSources = API.makePaginated((
   },
 }));
 
-/** Deletes a single Source. */
 export interface DeleteProjectsLocationsSourcesRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -2604,13 +2603,13 @@ export const DeleteProjectsLocationsSourcesResponse = Operation;
 
 export type DeleteProjectsLocationsSourcesError = CommonErrors;
 
+/** Deletes a single Source. */
 export const deleteProjectsLocationsSources: API.OperationMethod<DeleteProjectsLocationsSourcesRequest, DeleteProjectsLocationsSourcesResponse, DeleteProjectsLocationsSourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsSourcesRequest,
   output: DeleteProjectsLocationsSourcesResponse,
   errors: [],
 }));
 
-/** Lists Sources in a given project and location. */
 export interface ListProjectsLocationsSourcesRequest {
   /** Required. A page token, received from a previous `ListSources` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSources` must match the call that provided the page token. */
   pageToken?: string;
@@ -2640,7 +2639,8 @@ export const ListProjectsLocationsSourcesResponse = ListSourcesResponse;
 
 export type ListProjectsLocationsSourcesError = CommonErrors;
 
-export const listProjectsLocationsSources = API.makePaginated(() => ({
+/** Lists Sources in a given project and location. */
+export const listProjectsLocationsSources: API.PaginatedOperationMethod<ListProjectsLocationsSourcesRequest, ListProjectsLocationsSourcesResponse, ListProjectsLocationsSourcesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsSourcesRequest,
   output: ListProjectsLocationsSourcesResponse,
   errors: [],
@@ -2650,7 +2650,6 @@ export const listProjectsLocationsSources = API.makePaginated(() => ({
   },
 }));
 
-/** Gets details of a single Source. */
 export interface GetProjectsLocationsSourcesRequest {
   /** Required. The Source name. */
   name: string;
@@ -2668,13 +2667,13 @@ export const GetProjectsLocationsSourcesResponse = Source;
 
 export type GetProjectsLocationsSourcesError = CommonErrors;
 
+/** Gets details of a single Source. */
 export const getProjectsLocationsSources: API.OperationMethod<GetProjectsLocationsSourcesRequest, GetProjectsLocationsSourcesResponse, GetProjectsLocationsSourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSourcesRequest,
   output: GetProjectsLocationsSourcesResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single Source. */
 export interface PatchProjectsLocationsSourcesRequest {
   /** Output only. The Source name. */
   name: string;
@@ -2701,13 +2700,13 @@ export const PatchProjectsLocationsSourcesResponse = Operation;
 
 export type PatchProjectsLocationsSourcesError = CommonErrors;
 
+/** Updates the parameters of a single Source. */
 export const patchProjectsLocationsSources: API.OperationMethod<PatchProjectsLocationsSourcesRequest, PatchProjectsLocationsSourcesResponse, PatchProjectsLocationsSourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsSourcesRequest,
   output: PatchProjectsLocationsSourcesResponse,
   errors: [],
 }));
 
-/** Creates a new Source in a given project and location. */
 export interface CreateProjectsLocationsSourcesRequest {
   /** Required. The source identifier. */
   sourceId?: string;
@@ -2734,13 +2733,13 @@ export const CreateProjectsLocationsSourcesResponse = Operation;
 
 export type CreateProjectsLocationsSourcesError = CommonErrors;
 
+/** Creates a new Source in a given project and location. */
 export const createProjectsLocationsSources: API.OperationMethod<CreateProjectsLocationsSourcesRequest, CreateProjectsLocationsSourcesResponse, CreateProjectsLocationsSourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsSourcesRequest,
   output: CreateProjectsLocationsSourcesResponse,
   errors: [],
 }));
 
-/** Lists DatacenterConnectors in a given Source. */
 export interface ListProjectsLocationsSourcesDatacenterConnectorsRequest {
   /** Required. The parent, which owns this collection of connectors. */
   parent: string;
@@ -2770,7 +2769,8 @@ export const ListProjectsLocationsSourcesDatacenterConnectorsResponse = ListData
 
 export type ListProjectsLocationsSourcesDatacenterConnectorsError = CommonErrors;
 
-export const listProjectsLocationsSourcesDatacenterConnectors = API.makePaginated(() => ({
+/** Lists DatacenterConnectors in a given Source. */
+export const listProjectsLocationsSourcesDatacenterConnectors: API.PaginatedOperationMethod<ListProjectsLocationsSourcesDatacenterConnectorsRequest, ListProjectsLocationsSourcesDatacenterConnectorsResponse, ListProjectsLocationsSourcesDatacenterConnectorsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsSourcesDatacenterConnectorsRequest,
   output: ListProjectsLocationsSourcesDatacenterConnectorsResponse,
   errors: [],
@@ -2780,7 +2780,6 @@ export const listProjectsLocationsSourcesDatacenterConnectors = API.makePaginate
   },
 }));
 
-/** Upgrades the appliance relate to this DatacenterConnector to the in-place updateable version. */
 export interface UpgradeApplianceProjectsLocationsSourcesDatacenterConnectorsRequest {
   /** Required. The DatacenterConnector name. */
   datacenterConnector: string;
@@ -2801,13 +2800,13 @@ export const UpgradeApplianceProjectsLocationsSourcesDatacenterConnectorsRespons
 
 export type UpgradeApplianceProjectsLocationsSourcesDatacenterConnectorsError = CommonErrors;
 
+/** Upgrades the appliance relate to this DatacenterConnector to the in-place updateable version. */
 export const upgradeApplianceProjectsLocationsSourcesDatacenterConnectors: API.OperationMethod<UpgradeApplianceProjectsLocationsSourcesDatacenterConnectorsRequest, UpgradeApplianceProjectsLocationsSourcesDatacenterConnectorsResponse, UpgradeApplianceProjectsLocationsSourcesDatacenterConnectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpgradeApplianceProjectsLocationsSourcesDatacenterConnectorsRequest,
   output: UpgradeApplianceProjectsLocationsSourcesDatacenterConnectorsResponse,
   errors: [],
 }));
 
-/** Deletes a single DatacenterConnector. */
 export interface DeleteProjectsLocationsSourcesDatacenterConnectorsRequest {
   /** Required. The DatacenterConnector name. */
   name: string;
@@ -2828,13 +2827,13 @@ export const DeleteProjectsLocationsSourcesDatacenterConnectorsResponse = Operat
 
 export type DeleteProjectsLocationsSourcesDatacenterConnectorsError = CommonErrors;
 
+/** Deletes a single DatacenterConnector. */
 export const deleteProjectsLocationsSourcesDatacenterConnectors: API.OperationMethod<DeleteProjectsLocationsSourcesDatacenterConnectorsRequest, DeleteProjectsLocationsSourcesDatacenterConnectorsResponse, DeleteProjectsLocationsSourcesDatacenterConnectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsSourcesDatacenterConnectorsRequest,
   output: DeleteProjectsLocationsSourcesDatacenterConnectorsResponse,
   errors: [],
 }));
 
-/** Gets details of a single DatacenterConnector. */
 export interface GetProjectsLocationsSourcesDatacenterConnectorsRequest {
   /** Required. The name of the DatacenterConnector. */
   name: string;
@@ -2852,13 +2851,13 @@ export const GetProjectsLocationsSourcesDatacenterConnectorsResponse = Datacente
 
 export type GetProjectsLocationsSourcesDatacenterConnectorsError = CommonErrors;
 
+/** Gets details of a single DatacenterConnector. */
 export const getProjectsLocationsSourcesDatacenterConnectors: API.OperationMethod<GetProjectsLocationsSourcesDatacenterConnectorsRequest, GetProjectsLocationsSourcesDatacenterConnectorsResponse, GetProjectsLocationsSourcesDatacenterConnectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSourcesDatacenterConnectorsRequest,
   output: GetProjectsLocationsSourcesDatacenterConnectorsResponse,
   errors: [],
 }));
 
-/** Creates a new DatacenterConnector in a given Source. */
 export interface CreateProjectsLocationsSourcesDatacenterConnectorsRequest {
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -2885,13 +2884,13 @@ export const CreateProjectsLocationsSourcesDatacenterConnectorsResponse = Operat
 
 export type CreateProjectsLocationsSourcesDatacenterConnectorsError = CommonErrors;
 
+/** Creates a new DatacenterConnector in a given Source. */
 export const createProjectsLocationsSourcesDatacenterConnectors: API.OperationMethod<CreateProjectsLocationsSourcesDatacenterConnectorsRequest, CreateProjectsLocationsSourcesDatacenterConnectorsResponse, CreateProjectsLocationsSourcesDatacenterConnectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsSourcesDatacenterConnectorsRequest,
   output: CreateProjectsLocationsSourcesDatacenterConnectorsResponse,
   errors: [],
 }));
 
-/** Gets a single Utilization Report. */
 export interface GetProjectsLocationsSourcesUtilizationReportsRequest {
   /** Required. The Utilization Report name. */
   name: string;
@@ -2912,13 +2911,13 @@ export const GetProjectsLocationsSourcesUtilizationReportsResponse = Utilization
 
 export type GetProjectsLocationsSourcesUtilizationReportsError = CommonErrors;
 
+/** Gets a single Utilization Report. */
 export const getProjectsLocationsSourcesUtilizationReports: API.OperationMethod<GetProjectsLocationsSourcesUtilizationReportsRequest, GetProjectsLocationsSourcesUtilizationReportsResponse, GetProjectsLocationsSourcesUtilizationReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSourcesUtilizationReportsRequest,
   output: GetProjectsLocationsSourcesUtilizationReportsResponse,
   errors: [],
 }));
 
-/** Deletes a single Utilization Report. */
 export interface DeleteProjectsLocationsSourcesUtilizationReportsRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -2939,13 +2938,13 @@ export const DeleteProjectsLocationsSourcesUtilizationReportsResponse = Operatio
 
 export type DeleteProjectsLocationsSourcesUtilizationReportsError = CommonErrors;
 
+/** Deletes a single Utilization Report. */
 export const deleteProjectsLocationsSourcesUtilizationReports: API.OperationMethod<DeleteProjectsLocationsSourcesUtilizationReportsRequest, DeleteProjectsLocationsSourcesUtilizationReportsResponse, DeleteProjectsLocationsSourcesUtilizationReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsSourcesUtilizationReportsRequest,
   output: DeleteProjectsLocationsSourcesUtilizationReportsResponse,
   errors: [],
 }));
 
-/** Creates a new UtilizationReport. */
 export interface CreateProjectsLocationsSourcesUtilizationReportsRequest {
   /** Required. The Utilization Report's parent. */
   parent: string;
@@ -2972,13 +2971,13 @@ export const CreateProjectsLocationsSourcesUtilizationReportsResponse = Operatio
 
 export type CreateProjectsLocationsSourcesUtilizationReportsError = CommonErrors;
 
+/** Creates a new UtilizationReport. */
 export const createProjectsLocationsSourcesUtilizationReports: API.OperationMethod<CreateProjectsLocationsSourcesUtilizationReportsRequest, CreateProjectsLocationsSourcesUtilizationReportsResponse, CreateProjectsLocationsSourcesUtilizationReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsSourcesUtilizationReportsRequest,
   output: CreateProjectsLocationsSourcesUtilizationReportsResponse,
   errors: [],
 }));
 
-/** Lists Utilization Reports of the given Source. */
 export interface ListProjectsLocationsSourcesUtilizationReportsRequest {
   /** Optional. The filter request. */
   filter?: string;
@@ -3011,7 +3010,8 @@ export const ListProjectsLocationsSourcesUtilizationReportsResponse = ListUtiliz
 
 export type ListProjectsLocationsSourcesUtilizationReportsError = CommonErrors;
 
-export const listProjectsLocationsSourcesUtilizationReports = API.makePaginated(() => ({
+/** Lists Utilization Reports of the given Source. */
+export const listProjectsLocationsSourcesUtilizationReports: API.PaginatedOperationMethod<ListProjectsLocationsSourcesUtilizationReportsRequest, ListProjectsLocationsSourcesUtilizationReportsResponse, ListProjectsLocationsSourcesUtilizationReportsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsSourcesUtilizationReportsRequest,
   output: ListProjectsLocationsSourcesUtilizationReportsResponse,
   errors: [],
@@ -3021,7 +3021,6 @@ export const listProjectsLocationsSourcesUtilizationReports = API.makePaginated(
   },
 }));
 
-/** Resumes a migration for a VM. When called on a paused migration, will start the process of uploading data and creating snapshots; when called on a completed cut-over migration, will update the migration to active state and start the process of uploading data and creating snapshots. */
 export interface ResumeMigrationProjectsLocationsSourcesMigratingVmsRequest {
   /** Required. The name of the MigratingVm. */
   migratingVm: string;
@@ -3042,13 +3041,13 @@ export const ResumeMigrationProjectsLocationsSourcesMigratingVmsResponse = Opera
 
 export type ResumeMigrationProjectsLocationsSourcesMigratingVmsError = CommonErrors;
 
+/** Resumes a migration for a VM. When called on a paused migration, will start the process of uploading data and creating snapshots; when called on a completed cut-over migration, will update the migration to active state and start the process of uploading data and creating snapshots. */
 export const resumeMigrationProjectsLocationsSourcesMigratingVms: API.OperationMethod<ResumeMigrationProjectsLocationsSourcesMigratingVmsRequest, ResumeMigrationProjectsLocationsSourcesMigratingVmsResponse, ResumeMigrationProjectsLocationsSourcesMigratingVmsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResumeMigrationProjectsLocationsSourcesMigratingVmsRequest,
   output: ResumeMigrationProjectsLocationsSourcesMigratingVmsResponse,
   errors: [],
 }));
 
-/** Extend the migrating VM time to live. */
 export interface ExtendMigrationProjectsLocationsSourcesMigratingVmsRequest {
   /** Required. The name of the MigratingVm. */
   migratingVm: string;
@@ -3069,13 +3068,13 @@ export const ExtendMigrationProjectsLocationsSourcesMigratingVmsResponse = Opera
 
 export type ExtendMigrationProjectsLocationsSourcesMigratingVmsError = CommonErrors;
 
+/** Extend the migrating VM time to live. */
 export const extendMigrationProjectsLocationsSourcesMigratingVms: API.OperationMethod<ExtendMigrationProjectsLocationsSourcesMigratingVmsRequest, ExtendMigrationProjectsLocationsSourcesMigratingVmsResponse, ExtendMigrationProjectsLocationsSourcesMigratingVmsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExtendMigrationProjectsLocationsSourcesMigratingVmsRequest,
   output: ExtendMigrationProjectsLocationsSourcesMigratingVmsResponse,
   errors: [],
 }));
 
-/** Deletes a single MigratingVm. */
 export interface DeleteProjectsLocationsSourcesMigratingVmsRequest {
   /** Required. The name of the MigratingVm. */
   name: string;
@@ -3093,13 +3092,13 @@ export const DeleteProjectsLocationsSourcesMigratingVmsResponse = Operation;
 
 export type DeleteProjectsLocationsSourcesMigratingVmsError = CommonErrors;
 
+/** Deletes a single MigratingVm. */
 export const deleteProjectsLocationsSourcesMigratingVms: API.OperationMethod<DeleteProjectsLocationsSourcesMigratingVmsRequest, DeleteProjectsLocationsSourcesMigratingVmsResponse, DeleteProjectsLocationsSourcesMigratingVmsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsSourcesMigratingVmsRequest,
   output: DeleteProjectsLocationsSourcesMigratingVmsResponse,
   errors: [],
 }));
 
-/** Marks a migration as completed, deleting migration resources that are no longer being used. Only applicable after cutover is done. */
 export interface FinalizeMigrationProjectsLocationsSourcesMigratingVmsRequest {
   /** Required. The name of the MigratingVm. */
   migratingVm: string;
@@ -3120,13 +3119,13 @@ export const FinalizeMigrationProjectsLocationsSourcesMigratingVmsResponse = Ope
 
 export type FinalizeMigrationProjectsLocationsSourcesMigratingVmsError = CommonErrors;
 
+/** Marks a migration as completed, deleting migration resources that are no longer being used. Only applicable after cutover is done. */
 export const finalizeMigrationProjectsLocationsSourcesMigratingVms: API.OperationMethod<FinalizeMigrationProjectsLocationsSourcesMigratingVmsRequest, FinalizeMigrationProjectsLocationsSourcesMigratingVmsResponse, FinalizeMigrationProjectsLocationsSourcesMigratingVmsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FinalizeMigrationProjectsLocationsSourcesMigratingVmsRequest,
   output: FinalizeMigrationProjectsLocationsSourcesMigratingVmsResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single MigratingVm. */
 export interface PatchProjectsLocationsSourcesMigratingVmsRequest {
   /** Field mask is used to specify the fields to be overwritten in the MigratingVm resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
@@ -3153,13 +3152,13 @@ export const PatchProjectsLocationsSourcesMigratingVmsResponse = Operation;
 
 export type PatchProjectsLocationsSourcesMigratingVmsError = CommonErrors;
 
+/** Updates the parameters of a single MigratingVm. */
 export const patchProjectsLocationsSourcesMigratingVms: API.OperationMethod<PatchProjectsLocationsSourcesMigratingVmsRequest, PatchProjectsLocationsSourcesMigratingVmsResponse, PatchProjectsLocationsSourcesMigratingVmsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsSourcesMigratingVmsRequest,
   output: PatchProjectsLocationsSourcesMigratingVmsResponse,
   errors: [],
 }));
 
-/** Pauses a migration for a VM. If cycle tasks are running they will be cancelled, preserving source task data. Further replication cycles will not be triggered while the VM is paused. */
 export interface PauseMigrationProjectsLocationsSourcesMigratingVmsRequest {
   /** Required. The name of the MigratingVm. */
   migratingVm: string;
@@ -3180,13 +3179,13 @@ export const PauseMigrationProjectsLocationsSourcesMigratingVmsResponse = Operat
 
 export type PauseMigrationProjectsLocationsSourcesMigratingVmsError = CommonErrors;
 
+/** Pauses a migration for a VM. If cycle tasks are running they will be cancelled, preserving source task data. Further replication cycles will not be triggered while the VM is paused. */
 export const pauseMigrationProjectsLocationsSourcesMigratingVms: API.OperationMethod<PauseMigrationProjectsLocationsSourcesMigratingVmsRequest, PauseMigrationProjectsLocationsSourcesMigratingVmsResponse, PauseMigrationProjectsLocationsSourcesMigratingVmsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PauseMigrationProjectsLocationsSourcesMigratingVmsRequest,
   output: PauseMigrationProjectsLocationsSourcesMigratingVmsResponse,
   errors: [],
 }));
 
-/** Gets details of a single MigratingVm. */
 export interface GetProjectsLocationsSourcesMigratingVmsRequest {
   /** Required. The name of the MigratingVm. */
   name: string;
@@ -3207,13 +3206,13 @@ export const GetProjectsLocationsSourcesMigratingVmsResponse = MigratingVm;
 
 export type GetProjectsLocationsSourcesMigratingVmsError = CommonErrors;
 
+/** Gets details of a single MigratingVm. */
 export const getProjectsLocationsSourcesMigratingVms: API.OperationMethod<GetProjectsLocationsSourcesMigratingVmsRequest, GetProjectsLocationsSourcesMigratingVmsResponse, GetProjectsLocationsSourcesMigratingVmsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSourcesMigratingVmsRequest,
   output: GetProjectsLocationsSourcesMigratingVmsResponse,
   errors: [],
 }));
 
-/** Lists MigratingVms in a given Source. */
 export interface ListProjectsLocationsSourcesMigratingVmsRequest {
   /** Required. A page token, received from a previous `ListMigratingVms` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListMigratingVms` must match the call that provided the page token. */
   pageToken?: string;
@@ -3246,7 +3245,8 @@ export const ListProjectsLocationsSourcesMigratingVmsResponse = ListMigratingVms
 
 export type ListProjectsLocationsSourcesMigratingVmsError = CommonErrors;
 
-export const listProjectsLocationsSourcesMigratingVms = API.makePaginated(() => ({
+/** Lists MigratingVms in a given Source. */
+export const listProjectsLocationsSourcesMigratingVms: API.PaginatedOperationMethod<ListProjectsLocationsSourcesMigratingVmsRequest, ListProjectsLocationsSourcesMigratingVmsResponse, ListProjectsLocationsSourcesMigratingVmsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsSourcesMigratingVmsRequest,
   output: ListProjectsLocationsSourcesMigratingVmsResponse,
   errors: [],
@@ -3256,7 +3256,6 @@ export const listProjectsLocationsSourcesMigratingVms = API.makePaginated(() => 
   },
 }));
 
-/** Creates a new MigratingVm in a given Source. */
 export interface CreateProjectsLocationsSourcesMigratingVmsRequest {
   /** Required. The migratingVm identifier. */
   migratingVmId?: string;
@@ -3283,13 +3282,13 @@ export const CreateProjectsLocationsSourcesMigratingVmsResponse = Operation;
 
 export type CreateProjectsLocationsSourcesMigratingVmsError = CommonErrors;
 
+/** Creates a new MigratingVm in a given Source. */
 export const createProjectsLocationsSourcesMigratingVms: API.OperationMethod<CreateProjectsLocationsSourcesMigratingVmsRequest, CreateProjectsLocationsSourcesMigratingVmsResponse, CreateProjectsLocationsSourcesMigratingVmsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsSourcesMigratingVmsRequest,
   output: CreateProjectsLocationsSourcesMigratingVmsResponse,
   errors: [],
 }));
 
-/** Starts migration for a VM. Starts the process of uploading data and creating snapshots, in replication cycles scheduled by the policy. */
 export interface StartMigrationProjectsLocationsSourcesMigratingVmsRequest {
   /** Required. The name of the MigratingVm. */
   migratingVm: string;
@@ -3310,13 +3309,13 @@ export const StartMigrationProjectsLocationsSourcesMigratingVmsResponse = Operat
 
 export type StartMigrationProjectsLocationsSourcesMigratingVmsError = CommonErrors;
 
+/** Starts migration for a VM. Starts the process of uploading data and creating snapshots, in replication cycles scheduled by the policy. */
 export const startMigrationProjectsLocationsSourcesMigratingVms: API.OperationMethod<StartMigrationProjectsLocationsSourcesMigratingVmsRequest, StartMigrationProjectsLocationsSourcesMigratingVmsResponse, StartMigrationProjectsLocationsSourcesMigratingVmsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StartMigrationProjectsLocationsSourcesMigratingVmsRequest,
   output: StartMigrationProjectsLocationsSourcesMigratingVmsResponse,
   errors: [],
 }));
 
-/** Initiates a Cutover of a specific migrating VM. The returned LRO is completed when the cutover job resource is created and the job is initiated. */
 export interface CreateProjectsLocationsSourcesMigratingVmsCutoverJobsRequest {
   /** Required. The cutover job identifier. */
   cutoverJobId?: string;
@@ -3343,13 +3342,13 @@ export const CreateProjectsLocationsSourcesMigratingVmsCutoverJobsResponse = Ope
 
 export type CreateProjectsLocationsSourcesMigratingVmsCutoverJobsError = CommonErrors;
 
+/** Initiates a Cutover of a specific migrating VM. The returned LRO is completed when the cutover job resource is created and the job is initiated. */
 export const createProjectsLocationsSourcesMigratingVmsCutoverJobs: API.OperationMethod<CreateProjectsLocationsSourcesMigratingVmsCutoverJobsRequest, CreateProjectsLocationsSourcesMigratingVmsCutoverJobsResponse, CreateProjectsLocationsSourcesMigratingVmsCutoverJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsSourcesMigratingVmsCutoverJobsRequest,
   output: CreateProjectsLocationsSourcesMigratingVmsCutoverJobsResponse,
   errors: [],
 }));
 
-/** Gets details of a single CutoverJob. */
 export interface GetProjectsLocationsSourcesMigratingVmsCutoverJobsRequest {
   /** Required. The name of the CutoverJob. */
   name: string;
@@ -3367,13 +3366,13 @@ export const GetProjectsLocationsSourcesMigratingVmsCutoverJobsResponse = Cutove
 
 export type GetProjectsLocationsSourcesMigratingVmsCutoverJobsError = CommonErrors;
 
+/** Gets details of a single CutoverJob. */
 export const getProjectsLocationsSourcesMigratingVmsCutoverJobs: API.OperationMethod<GetProjectsLocationsSourcesMigratingVmsCutoverJobsRequest, GetProjectsLocationsSourcesMigratingVmsCutoverJobsResponse, GetProjectsLocationsSourcesMigratingVmsCutoverJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSourcesMigratingVmsCutoverJobsRequest,
   output: GetProjectsLocationsSourcesMigratingVmsCutoverJobsResponse,
   errors: [],
 }));
 
-/** Lists the CutoverJobs of a migrating VM. Only 25 most recent CutoverJobs are listed. */
 export interface ListProjectsLocationsSourcesMigratingVmsCutoverJobsRequest {
   /** Optional. the order by fields for the result. */
   orderBy?: string;
@@ -3403,7 +3402,8 @@ export const ListProjectsLocationsSourcesMigratingVmsCutoverJobsResponse = ListC
 
 export type ListProjectsLocationsSourcesMigratingVmsCutoverJobsError = CommonErrors;
 
-export const listProjectsLocationsSourcesMigratingVmsCutoverJobs = API.makePaginated(() => ({
+/** Lists the CutoverJobs of a migrating VM. Only 25 most recent CutoverJobs are listed. */
+export const listProjectsLocationsSourcesMigratingVmsCutoverJobs: API.PaginatedOperationMethod<ListProjectsLocationsSourcesMigratingVmsCutoverJobsRequest, ListProjectsLocationsSourcesMigratingVmsCutoverJobsResponse, ListProjectsLocationsSourcesMigratingVmsCutoverJobsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsSourcesMigratingVmsCutoverJobsRequest,
   output: ListProjectsLocationsSourcesMigratingVmsCutoverJobsResponse,
   errors: [],
@@ -3413,7 +3413,6 @@ export const listProjectsLocationsSourcesMigratingVmsCutoverJobs = API.makePagin
   },
 }));
 
-/** Initiates the cancellation of a running cutover job. */
 export interface CancelProjectsLocationsSourcesMigratingVmsCutoverJobsRequest {
   /** Required. The cutover job id */
   name: string;
@@ -3434,13 +3433,13 @@ export const CancelProjectsLocationsSourcesMigratingVmsCutoverJobsResponse = Ope
 
 export type CancelProjectsLocationsSourcesMigratingVmsCutoverJobsError = CommonErrors;
 
+/** Initiates the cancellation of a running cutover job. */
 export const cancelProjectsLocationsSourcesMigratingVmsCutoverJobs: API.OperationMethod<CancelProjectsLocationsSourcesMigratingVmsCutoverJobsRequest, CancelProjectsLocationsSourcesMigratingVmsCutoverJobsResponse, CancelProjectsLocationsSourcesMigratingVmsCutoverJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsSourcesMigratingVmsCutoverJobsRequest,
   output: CancelProjectsLocationsSourcesMigratingVmsCutoverJobsResponse,
   errors: [],
 }));
 
-/** Lists the CloneJobs of a migrating VM. Only 25 most recent CloneJobs are listed. */
 export interface ListProjectsLocationsSourcesMigratingVmsCloneJobsRequest {
   /** Optional. The maximum number of clone jobs to return. The service may return fewer than this value. If unspecified, at most 500 clone jobs will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
@@ -3470,7 +3469,8 @@ export const ListProjectsLocationsSourcesMigratingVmsCloneJobsResponse = ListClo
 
 export type ListProjectsLocationsSourcesMigratingVmsCloneJobsError = CommonErrors;
 
-export const listProjectsLocationsSourcesMigratingVmsCloneJobs = API.makePaginated(() => ({
+/** Lists the CloneJobs of a migrating VM. Only 25 most recent CloneJobs are listed. */
+export const listProjectsLocationsSourcesMigratingVmsCloneJobs: API.PaginatedOperationMethod<ListProjectsLocationsSourcesMigratingVmsCloneJobsRequest, ListProjectsLocationsSourcesMigratingVmsCloneJobsResponse, ListProjectsLocationsSourcesMigratingVmsCloneJobsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsSourcesMigratingVmsCloneJobsRequest,
   output: ListProjectsLocationsSourcesMigratingVmsCloneJobsResponse,
   errors: [],
@@ -3480,7 +3480,6 @@ export const listProjectsLocationsSourcesMigratingVmsCloneJobs = API.makePaginat
   },
 }));
 
-/** Initiates a Clone of a specific migrating VM. */
 export interface CreateProjectsLocationsSourcesMigratingVmsCloneJobsRequest {
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -3507,13 +3506,13 @@ export const CreateProjectsLocationsSourcesMigratingVmsCloneJobsResponse = Opera
 
 export type CreateProjectsLocationsSourcesMigratingVmsCloneJobsError = CommonErrors;
 
+/** Initiates a Clone of a specific migrating VM. */
 export const createProjectsLocationsSourcesMigratingVmsCloneJobs: API.OperationMethod<CreateProjectsLocationsSourcesMigratingVmsCloneJobsRequest, CreateProjectsLocationsSourcesMigratingVmsCloneJobsResponse, CreateProjectsLocationsSourcesMigratingVmsCloneJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsSourcesMigratingVmsCloneJobsRequest,
   output: CreateProjectsLocationsSourcesMigratingVmsCloneJobsResponse,
   errors: [],
 }));
 
-/** Gets details of a single CloneJob. */
 export interface GetProjectsLocationsSourcesMigratingVmsCloneJobsRequest {
   /** Required. The name of the CloneJob. */
   name: string;
@@ -3531,13 +3530,13 @@ export const GetProjectsLocationsSourcesMigratingVmsCloneJobsResponse = CloneJob
 
 export type GetProjectsLocationsSourcesMigratingVmsCloneJobsError = CommonErrors;
 
+/** Gets details of a single CloneJob. */
 export const getProjectsLocationsSourcesMigratingVmsCloneJobs: API.OperationMethod<GetProjectsLocationsSourcesMigratingVmsCloneJobsRequest, GetProjectsLocationsSourcesMigratingVmsCloneJobsResponse, GetProjectsLocationsSourcesMigratingVmsCloneJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSourcesMigratingVmsCloneJobsRequest,
   output: GetProjectsLocationsSourcesMigratingVmsCloneJobsResponse,
   errors: [],
 }));
 
-/** Initiates the cancellation of a running clone job. */
 export interface CancelProjectsLocationsSourcesMigratingVmsCloneJobsRequest {
   /** Required. The clone job id */
   name: string;
@@ -3558,13 +3557,13 @@ export const CancelProjectsLocationsSourcesMigratingVmsCloneJobsResponse = Opera
 
 export type CancelProjectsLocationsSourcesMigratingVmsCloneJobsError = CommonErrors;
 
+/** Initiates the cancellation of a running clone job. */
 export const cancelProjectsLocationsSourcesMigratingVmsCloneJobs: API.OperationMethod<CancelProjectsLocationsSourcesMigratingVmsCloneJobsRequest, CancelProjectsLocationsSourcesMigratingVmsCloneJobsResponse, CancelProjectsLocationsSourcesMigratingVmsCloneJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsSourcesMigratingVmsCloneJobsRequest,
   output: CancelProjectsLocationsSourcesMigratingVmsCloneJobsResponse,
   errors: [],
 }));
 
-/** Lists ReplicationCycles in a given MigratingVM. */
 export interface ListProjectsLocationsSourcesMigratingVmsReplicationCyclesRequest {
   /** Optional. the order by fields for the result. */
   orderBy?: string;
@@ -3594,7 +3593,8 @@ export const ListProjectsLocationsSourcesMigratingVmsReplicationCyclesResponse =
 
 export type ListProjectsLocationsSourcesMigratingVmsReplicationCyclesError = CommonErrors;
 
-export const listProjectsLocationsSourcesMigratingVmsReplicationCycles = API.makePaginated(() => ({
+/** Lists ReplicationCycles in a given MigratingVM. */
+export const listProjectsLocationsSourcesMigratingVmsReplicationCycles: API.PaginatedOperationMethod<ListProjectsLocationsSourcesMigratingVmsReplicationCyclesRequest, ListProjectsLocationsSourcesMigratingVmsReplicationCyclesResponse, ListProjectsLocationsSourcesMigratingVmsReplicationCyclesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsSourcesMigratingVmsReplicationCyclesRequest,
   output: ListProjectsLocationsSourcesMigratingVmsReplicationCyclesResponse,
   errors: [],
@@ -3604,7 +3604,6 @@ export const listProjectsLocationsSourcesMigratingVmsReplicationCycles = API.mak
   },
 }));
 
-/** Gets details of a single ReplicationCycle. */
 export interface GetProjectsLocationsSourcesMigratingVmsReplicationCyclesRequest {
   /** Required. The name of the ReplicationCycle. */
   name: string;
@@ -3622,13 +3621,13 @@ export const GetProjectsLocationsSourcesMigratingVmsReplicationCyclesResponse = 
 
 export type GetProjectsLocationsSourcesMigratingVmsReplicationCyclesError = CommonErrors;
 
+/** Gets details of a single ReplicationCycle. */
 export const getProjectsLocationsSourcesMigratingVmsReplicationCycles: API.OperationMethod<GetProjectsLocationsSourcesMigratingVmsReplicationCyclesRequest, GetProjectsLocationsSourcesMigratingVmsReplicationCyclesResponse, GetProjectsLocationsSourcesMigratingVmsReplicationCyclesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSourcesMigratingVmsReplicationCyclesRequest,
   output: GetProjectsLocationsSourcesMigratingVmsReplicationCyclesResponse,
   errors: [],
 }));
 
-/** Creates a new disk migration job in a given Source. */
 export interface CreateProjectsLocationsSourcesDiskMigrationJobsRequest {
   /** Required. The DiskMigrationJob identifier. The maximum length of this value is 63 characters. Valid characters are lower case Latin letters, digits and hyphen. It must start with a Latin letter and must not end with a hyphen. */
   diskMigrationJobId?: string;
@@ -3655,13 +3654,13 @@ export const CreateProjectsLocationsSourcesDiskMigrationJobsResponse = Operation
 
 export type CreateProjectsLocationsSourcesDiskMigrationJobsError = CommonErrors;
 
+/** Creates a new disk migration job in a given Source. */
 export const createProjectsLocationsSourcesDiskMigrationJobs: API.OperationMethod<CreateProjectsLocationsSourcesDiskMigrationJobsRequest, CreateProjectsLocationsSourcesDiskMigrationJobsResponse, CreateProjectsLocationsSourcesDiskMigrationJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsSourcesDiskMigrationJobsRequest,
   output: CreateProjectsLocationsSourcesDiskMigrationJobsResponse,
   errors: [],
 }));
 
-/** Gets details of a single DiskMigrationJob. */
 export interface GetProjectsLocationsSourcesDiskMigrationJobsRequest {
   /** Required. The name of the DiskMigrationJob. */
   name: string;
@@ -3679,13 +3678,13 @@ export const GetProjectsLocationsSourcesDiskMigrationJobsResponse = DiskMigratio
 
 export type GetProjectsLocationsSourcesDiskMigrationJobsError = CommonErrors;
 
+/** Gets details of a single DiskMigrationJob. */
 export const getProjectsLocationsSourcesDiskMigrationJobs: API.OperationMethod<GetProjectsLocationsSourcesDiskMigrationJobsRequest, GetProjectsLocationsSourcesDiskMigrationJobsResponse, GetProjectsLocationsSourcesDiskMigrationJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSourcesDiskMigrationJobsRequest,
   output: GetProjectsLocationsSourcesDiskMigrationJobsResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single DiskMigrationJob. */
 export interface PatchProjectsLocationsSourcesDiskMigrationJobsRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request timed out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -3712,13 +3711,13 @@ export const PatchProjectsLocationsSourcesDiskMigrationJobsResponse = Operation;
 
 export type PatchProjectsLocationsSourcesDiskMigrationJobsError = CommonErrors;
 
+/** Updates the parameters of a single DiskMigrationJob. */
 export const patchProjectsLocationsSourcesDiskMigrationJobs: API.OperationMethod<PatchProjectsLocationsSourcesDiskMigrationJobsRequest, PatchProjectsLocationsSourcesDiskMigrationJobsResponse, PatchProjectsLocationsSourcesDiskMigrationJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsSourcesDiskMigrationJobsRequest,
   output: PatchProjectsLocationsSourcesDiskMigrationJobsResponse,
   errors: [],
 }));
 
-/** Lists DiskMigrationJobs in a given Source. */
 export interface ListProjectsLocationsSourcesDiskMigrationJobsRequest {
   /** Optional. Ordering of the result list. */
   orderBy?: string;
@@ -3748,7 +3747,8 @@ export const ListProjectsLocationsSourcesDiskMigrationJobsResponse = ListDiskMig
 
 export type ListProjectsLocationsSourcesDiskMigrationJobsError = CommonErrors;
 
-export const listProjectsLocationsSourcesDiskMigrationJobs = API.makePaginated(() => ({
+/** Lists DiskMigrationJobs in a given Source. */
+export const listProjectsLocationsSourcesDiskMigrationJobs: API.PaginatedOperationMethod<ListProjectsLocationsSourcesDiskMigrationJobsRequest, ListProjectsLocationsSourcesDiskMigrationJobsResponse, ListProjectsLocationsSourcesDiskMigrationJobsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsSourcesDiskMigrationJobsRequest,
   output: ListProjectsLocationsSourcesDiskMigrationJobsResponse,
   errors: [],
@@ -3758,7 +3758,6 @@ export const listProjectsLocationsSourcesDiskMigrationJobs = API.makePaginated((
   },
 }));
 
-/** Cancels the disk migration job. */
 export interface CancelProjectsLocationsSourcesDiskMigrationJobsRequest {
   /** Required. The name of the DiskMigrationJob. */
   name: string;
@@ -3779,13 +3778,13 @@ export const CancelProjectsLocationsSourcesDiskMigrationJobsResponse = Operation
 
 export type CancelProjectsLocationsSourcesDiskMigrationJobsError = CommonErrors;
 
+/** Cancels the disk migration job. */
 export const cancelProjectsLocationsSourcesDiskMigrationJobs: API.OperationMethod<CancelProjectsLocationsSourcesDiskMigrationJobsRequest, CancelProjectsLocationsSourcesDiskMigrationJobsResponse, CancelProjectsLocationsSourcesDiskMigrationJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsSourcesDiskMigrationJobsRequest,
   output: CancelProjectsLocationsSourcesDiskMigrationJobsResponse,
   errors: [],
 }));
 
-/** Runs the disk migration job. */
 export interface RunProjectsLocationsSourcesDiskMigrationJobsRequest {
   /** Required. The name of the DiskMigrationJob. */
   name: string;
@@ -3806,13 +3805,13 @@ export const RunProjectsLocationsSourcesDiskMigrationJobsResponse = Operation;
 
 export type RunProjectsLocationsSourcesDiskMigrationJobsError = CommonErrors;
 
+/** Runs the disk migration job. */
 export const runProjectsLocationsSourcesDiskMigrationJobs: API.OperationMethod<RunProjectsLocationsSourcesDiskMigrationJobsRequest, RunProjectsLocationsSourcesDiskMigrationJobsResponse, RunProjectsLocationsSourcesDiskMigrationJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RunProjectsLocationsSourcesDiskMigrationJobsRequest,
   output: RunProjectsLocationsSourcesDiskMigrationJobsResponse,
   errors: [],
 }));
 
-/** Deletes a single DiskMigrationJob. */
 export interface DeleteProjectsLocationsSourcesDiskMigrationJobsRequest {
   /** Required. The name of the DiskMigrationJob. */
   name: string;
@@ -3830,13 +3829,13 @@ export const DeleteProjectsLocationsSourcesDiskMigrationJobsResponse = Operation
 
 export type DeleteProjectsLocationsSourcesDiskMigrationJobsError = CommonErrors;
 
+/** Deletes a single DiskMigrationJob. */
 export const deleteProjectsLocationsSourcesDiskMigrationJobs: API.OperationMethod<DeleteProjectsLocationsSourcesDiskMigrationJobsRequest, DeleteProjectsLocationsSourcesDiskMigrationJobsResponse, DeleteProjectsLocationsSourcesDiskMigrationJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsSourcesDiskMigrationJobsRequest,
   output: DeleteProjectsLocationsSourcesDiskMigrationJobsResponse,
   errors: [],
 }));
 
-/** Creates a new Group in a given project and location. */
 export interface CreateProjectsLocationsGroupsRequest {
   /** Required. The Group's parent. */
   parent: string;
@@ -3863,13 +3862,13 @@ export const CreateProjectsLocationsGroupsResponse = Operation;
 
 export type CreateProjectsLocationsGroupsError = CommonErrors;
 
+/** Creates a new Group in a given project and location. */
 export const createProjectsLocationsGroups: API.OperationMethod<CreateProjectsLocationsGroupsRequest, CreateProjectsLocationsGroupsResponse, CreateProjectsLocationsGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsGroupsRequest,
   output: CreateProjectsLocationsGroupsResponse,
   errors: [],
 }));
 
-/** Lists Groups in a given project and location. */
 export interface ListProjectsLocationsGroupsRequest {
   /** Optional. the order by fields for the result. */
   orderBy?: string;
@@ -3899,7 +3898,8 @@ export const ListProjectsLocationsGroupsResponse = ListGroupsResponse;
 
 export type ListProjectsLocationsGroupsError = CommonErrors;
 
-export const listProjectsLocationsGroups = API.makePaginated(() => ({
+/** Lists Groups in a given project and location. */
+export const listProjectsLocationsGroups: API.PaginatedOperationMethod<ListProjectsLocationsGroupsRequest, ListProjectsLocationsGroupsResponse, ListProjectsLocationsGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsGroupsRequest,
   output: ListProjectsLocationsGroupsResponse,
   errors: [],
@@ -3909,7 +3909,6 @@ export const listProjectsLocationsGroups = API.makePaginated(() => ({
   },
 }));
 
-/** Removes a MigratingVm from a Group. */
 export interface RemoveGroupMigrationProjectsLocationsGroupsRequest {
   /** Required. The name of the Group. */
   group: string;
@@ -3930,13 +3929,13 @@ export const RemoveGroupMigrationProjectsLocationsGroupsResponse = Operation;
 
 export type RemoveGroupMigrationProjectsLocationsGroupsError = CommonErrors;
 
+/** Removes a MigratingVm from a Group. */
 export const removeGroupMigrationProjectsLocationsGroups: API.OperationMethod<RemoveGroupMigrationProjectsLocationsGroupsRequest, RemoveGroupMigrationProjectsLocationsGroupsResponse, RemoveGroupMigrationProjectsLocationsGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveGroupMigrationProjectsLocationsGroupsRequest,
   output: RemoveGroupMigrationProjectsLocationsGroupsResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single Group. */
 export interface PatchProjectsLocationsGroupsRequest {
   /** Field mask is used to specify the fields to be overwritten in the Group resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
@@ -3963,13 +3962,13 @@ export const PatchProjectsLocationsGroupsResponse = Operation;
 
 export type PatchProjectsLocationsGroupsError = CommonErrors;
 
+/** Updates the parameters of a single Group. */
 export const patchProjectsLocationsGroups: API.OperationMethod<PatchProjectsLocationsGroupsRequest, PatchProjectsLocationsGroupsResponse, PatchProjectsLocationsGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsGroupsRequest,
   output: PatchProjectsLocationsGroupsResponse,
   errors: [],
 }));
 
-/** Adds a MigratingVm to a Group. */
 export interface AddGroupMigrationProjectsLocationsGroupsRequest {
   /** Required. The full path name of the Group to add to. */
   group: string;
@@ -3990,13 +3989,13 @@ export const AddGroupMigrationProjectsLocationsGroupsResponse = Operation;
 
 export type AddGroupMigrationProjectsLocationsGroupsError = CommonErrors;
 
+/** Adds a MigratingVm to a Group. */
 export const addGroupMigrationProjectsLocationsGroups: API.OperationMethod<AddGroupMigrationProjectsLocationsGroupsRequest, AddGroupMigrationProjectsLocationsGroupsResponse, AddGroupMigrationProjectsLocationsGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddGroupMigrationProjectsLocationsGroupsRequest,
   output: AddGroupMigrationProjectsLocationsGroupsResponse,
   errors: [],
 }));
 
-/** Gets details of a single Group. */
 export interface GetProjectsLocationsGroupsRequest {
   /** Required. The group name. */
   name: string;
@@ -4014,13 +4013,13 @@ export const GetProjectsLocationsGroupsResponse = Group;
 
 export type GetProjectsLocationsGroupsError = CommonErrors;
 
+/** Gets details of a single Group. */
 export const getProjectsLocationsGroups: API.OperationMethod<GetProjectsLocationsGroupsRequest, GetProjectsLocationsGroupsResponse, GetProjectsLocationsGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsGroupsRequest,
   output: GetProjectsLocationsGroupsResponse,
   errors: [],
 }));
 
-/** Deletes a single Group. */
 export interface DeleteProjectsLocationsGroupsRequest {
   /** Required. The Group name. */
   name: string;
@@ -4041,13 +4040,13 @@ export const DeleteProjectsLocationsGroupsResponse = Operation;
 
 export type DeleteProjectsLocationsGroupsError = CommonErrors;
 
+/** Deletes a single Group. */
 export const deleteProjectsLocationsGroups: API.OperationMethod<DeleteProjectsLocationsGroupsRequest, DeleteProjectsLocationsGroupsResponse, DeleteProjectsLocationsGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsGroupsRequest,
   output: DeleteProjectsLocationsGroupsResponse,
   errors: [],
 }));
 
-/** Lists ImageImports in a given project. */
 export interface ListProjectsLocationsImageImportsRequest {
   /** Optional. The order by fields for the result (according to AIP-132). Currently ordering is only possible by "name" field. */
   orderBy?: string;
@@ -4077,7 +4076,8 @@ export const ListProjectsLocationsImageImportsResponse = ListImageImportsRespons
 
 export type ListProjectsLocationsImageImportsError = CommonErrors;
 
-export const listProjectsLocationsImageImports = API.makePaginated(() => ({
+/** Lists ImageImports in a given project. */
+export const listProjectsLocationsImageImports: API.PaginatedOperationMethod<ListProjectsLocationsImageImportsRequest, ListProjectsLocationsImageImportsResponse, ListProjectsLocationsImageImportsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsImageImportsRequest,
   output: ListProjectsLocationsImageImportsResponse,
   errors: [],
@@ -4087,7 +4087,6 @@ export const listProjectsLocationsImageImports = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new ImageImport in a given project. */
 export interface CreateProjectsLocationsImageImportsRequest {
   /** Required. The image import identifier. This value maximum length is 63 characters, and valid characters are /a-z-/. It must start with an english letter and must not end with a hyphen. */
   imageImportId?: string;
@@ -4114,13 +4113,13 @@ export const CreateProjectsLocationsImageImportsResponse = Operation;
 
 export type CreateProjectsLocationsImageImportsError = CommonErrors;
 
+/** Creates a new ImageImport in a given project. */
 export const createProjectsLocationsImageImports: API.OperationMethod<CreateProjectsLocationsImageImportsRequest, CreateProjectsLocationsImageImportsResponse, CreateProjectsLocationsImageImportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsImageImportsRequest,
   output: CreateProjectsLocationsImageImportsResponse,
   errors: [],
 }));
 
-/** Gets details of a single ImageImport. */
 export interface GetProjectsLocationsImageImportsRequest {
   /** Required. The ImageImport name. */
   name: string;
@@ -4138,13 +4137,13 @@ export const GetProjectsLocationsImageImportsResponse = ImageImport;
 
 export type GetProjectsLocationsImageImportsError = CommonErrors;
 
+/** Gets details of a single ImageImport. */
 export const getProjectsLocationsImageImports: API.OperationMethod<GetProjectsLocationsImageImportsRequest, GetProjectsLocationsImageImportsResponse, GetProjectsLocationsImageImportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsImageImportsRequest,
   output: GetProjectsLocationsImageImportsResponse,
   errors: [],
 }));
 
-/** Deletes a single ImageImport. */
 export interface DeleteProjectsLocationsImageImportsRequest {
   /** Required. The ImageImport name. */
   name: string;
@@ -4165,13 +4164,13 @@ export const DeleteProjectsLocationsImageImportsResponse = Operation;
 
 export type DeleteProjectsLocationsImageImportsError = CommonErrors;
 
+/** Deletes a single ImageImport. */
 export const deleteProjectsLocationsImageImports: API.OperationMethod<DeleteProjectsLocationsImageImportsRequest, DeleteProjectsLocationsImageImportsResponse, DeleteProjectsLocationsImageImportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsImageImportsRequest,
   output: DeleteProjectsLocationsImageImportsResponse,
   errors: [],
 }));
 
-/** Lists ImageImportJobs in a given project. */
 export interface ListProjectsLocationsImageImportsImageImportJobsRequest {
   /** Optional. A page token, received from a previous `ListImageImportJobs` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListImageImportJobs` must match the call that provided the page token. */
   pageToken?: string;
@@ -4201,7 +4200,8 @@ export const ListProjectsLocationsImageImportsImageImportJobsResponse = ListImag
 
 export type ListProjectsLocationsImageImportsImageImportJobsError = CommonErrors;
 
-export const listProjectsLocationsImageImportsImageImportJobs = API.makePaginated(() => ({
+/** Lists ImageImportJobs in a given project. */
+export const listProjectsLocationsImageImportsImageImportJobs: API.PaginatedOperationMethod<ListProjectsLocationsImageImportsImageImportJobsRequest, ListProjectsLocationsImageImportsImageImportJobsResponse, ListProjectsLocationsImageImportsImageImportJobsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsImageImportsImageImportJobsRequest,
   output: ListProjectsLocationsImageImportsImageImportJobsResponse,
   errors: [],
@@ -4211,7 +4211,6 @@ export const listProjectsLocationsImageImportsImageImportJobs = API.makePaginate
   },
 }));
 
-/** Initiates the cancellation of a running ImageImportJob. */
 export interface CancelProjectsLocationsImageImportsImageImportJobsRequest {
   /** Required. The image import job id. */
   name: string;
@@ -4232,13 +4231,13 @@ export const CancelProjectsLocationsImageImportsImageImportJobsResponse = Operat
 
 export type CancelProjectsLocationsImageImportsImageImportJobsError = CommonErrors;
 
+/** Initiates the cancellation of a running ImageImportJob. */
 export const cancelProjectsLocationsImageImportsImageImportJobs: API.OperationMethod<CancelProjectsLocationsImageImportsImageImportJobsRequest, CancelProjectsLocationsImageImportsImageImportJobsResponse, CancelProjectsLocationsImageImportsImageImportJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsImageImportsImageImportJobsRequest,
   output: CancelProjectsLocationsImageImportsImageImportJobsResponse,
   errors: [],
 }));
 
-/** Gets details of a single ImageImportJob. */
 export interface GetProjectsLocationsImageImportsImageImportJobsRequest {
   /** Required. The ImageImportJob name. */
   name: string;
@@ -4256,13 +4255,13 @@ export const GetProjectsLocationsImageImportsImageImportJobsResponse = ImageImpo
 
 export type GetProjectsLocationsImageImportsImageImportJobsError = CommonErrors;
 
+/** Gets details of a single ImageImportJob. */
 export const getProjectsLocationsImageImportsImageImportJobs: API.OperationMethod<GetProjectsLocationsImageImportsImageImportJobsRequest, GetProjectsLocationsImageImportsImageImportJobsResponse, GetProjectsLocationsImageImportsImageImportJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsImageImportsImageImportJobsRequest,
   output: GetProjectsLocationsImageImportsImageImportJobsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list filter. */
   filter?: string;
@@ -4292,7 +4291,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -4302,7 +4302,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -4323,13 +4322,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -4347,13 +4346,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -4371,13 +4370,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Gets details of a single TargetProject. NOTE: TargetProject is a global resource; hence the only supported value for location is `global`. */
 export interface GetProjectsLocationsTargetProjectsRequest {
   /** Required. The TargetProject name. */
   name: string;
@@ -4395,13 +4394,13 @@ export const GetProjectsLocationsTargetProjectsResponse = TargetProject;
 
 export type GetProjectsLocationsTargetProjectsError = CommonErrors;
 
+/** Gets details of a single TargetProject. NOTE: TargetProject is a global resource; hence the only supported value for location is `global`. */
 export const getProjectsLocationsTargetProjects: API.OperationMethod<GetProjectsLocationsTargetProjectsRequest, GetProjectsLocationsTargetProjectsResponse, GetProjectsLocationsTargetProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsTargetProjectsRequest,
   output: GetProjectsLocationsTargetProjectsResponse,
   errors: [],
 }));
 
-/** Creates a new TargetProject in a given project. NOTE: TargetProject is a global resource; hence the only supported value for location is `global`. */
 export interface CreateProjectsLocationsTargetProjectsRequest {
   /** Required. The target_project identifier. */
   targetProjectId?: string;
@@ -4428,13 +4427,13 @@ export const CreateProjectsLocationsTargetProjectsResponse = Operation;
 
 export type CreateProjectsLocationsTargetProjectsError = CommonErrors;
 
+/** Creates a new TargetProject in a given project. NOTE: TargetProject is a global resource; hence the only supported value for location is `global`. */
 export const createProjectsLocationsTargetProjects: API.OperationMethod<CreateProjectsLocationsTargetProjectsRequest, CreateProjectsLocationsTargetProjectsResponse, CreateProjectsLocationsTargetProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsTargetProjectsRequest,
   output: CreateProjectsLocationsTargetProjectsResponse,
   errors: [],
 }));
 
-/** Lists TargetProjects in a given project. NOTE: TargetProject is a global resource; hence the only supported value for location is `global`. */
 export interface ListProjectsLocationsTargetProjectsRequest {
   /** Optional. The filter request. */
   filter?: string;
@@ -4464,7 +4463,8 @@ export const ListProjectsLocationsTargetProjectsResponse = ListTargetProjectsRes
 
 export type ListProjectsLocationsTargetProjectsError = CommonErrors;
 
-export const listProjectsLocationsTargetProjects = API.makePaginated(() => ({
+/** Lists TargetProjects in a given project. NOTE: TargetProject is a global resource; hence the only supported value for location is `global`. */
+export const listProjectsLocationsTargetProjects: API.PaginatedOperationMethod<ListProjectsLocationsTargetProjectsRequest, ListProjectsLocationsTargetProjectsResponse, ListProjectsLocationsTargetProjectsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsTargetProjectsRequest,
   output: ListProjectsLocationsTargetProjectsResponse,
   errors: [],
@@ -4474,7 +4474,6 @@ export const listProjectsLocationsTargetProjects = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a single TargetProject. NOTE: TargetProject is a global resource; hence the only supported value for location is `global`. */
 export interface DeleteProjectsLocationsTargetProjectsRequest {
   /** Required. The TargetProject name. */
   name: string;
@@ -4495,13 +4494,13 @@ export const DeleteProjectsLocationsTargetProjectsResponse = Operation;
 
 export type DeleteProjectsLocationsTargetProjectsError = CommonErrors;
 
+/** Deletes a single TargetProject. NOTE: TargetProject is a global resource; hence the only supported value for location is `global`. */
 export const deleteProjectsLocationsTargetProjects: API.OperationMethod<DeleteProjectsLocationsTargetProjectsRequest, DeleteProjectsLocationsTargetProjectsResponse, DeleteProjectsLocationsTargetProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsTargetProjectsRequest,
   output: DeleteProjectsLocationsTargetProjectsResponse,
   errors: [],
 }));
 
-/** Updates the parameters of a single TargetProject. NOTE: TargetProject is a global resource; hence the only supported value for location is `global`. */
 export interface PatchProjectsLocationsTargetProjectsRequest {
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
@@ -4528,6 +4527,7 @@ export const PatchProjectsLocationsTargetProjectsResponse = Operation;
 
 export type PatchProjectsLocationsTargetProjectsError = CommonErrors;
 
+/** Updates the parameters of a single TargetProject. NOTE: TargetProject is a global resource; hence the only supported value for location is `global`. */
 export const patchProjectsLocationsTargetProjects: API.OperationMethod<PatchProjectsLocationsTargetProjectsRequest, PatchProjectsLocationsTargetProjectsResponse, PatchProjectsLocationsTargetProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsTargetProjectsRequest,
   output: PatchProjectsLocationsTargetProjectsResponse,

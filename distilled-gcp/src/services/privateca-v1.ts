@@ -1206,7 +1206,6 @@ export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspen
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -1236,7 +1235,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -1246,7 +1246,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -1264,13 +1263,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -1300,7 +1299,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -1310,7 +1310,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1328,13 +1327,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -1352,13 +1351,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -1379,13 +1378,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Create a CaPool. */
 export interface CreateProjectsLocationsCaPoolsRequest {
   /** Required. The resource name of the location associated with the CaPool, in the format `projects/* /locations/*`. */
   parent: string;
@@ -1412,13 +1411,13 @@ export const CreateProjectsLocationsCaPoolsResponse = Operation;
 
 export type CreateProjectsLocationsCaPoolsError = CommonErrors;
 
+/** Create a CaPool. */
 export const createProjectsLocationsCaPools: API.OperationMethod<CreateProjectsLocationsCaPoolsRequest, CreateProjectsLocationsCaPoolsResponse, CreateProjectsLocationsCaPoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCaPoolsRequest,
   output: CreateProjectsLocationsCaPoolsResponse,
   errors: [],
 }));
 
-/** Update a CaPool. */
 export interface PatchProjectsLocationsCaPoolsRequest {
   /** Identifier. The resource name for this CaPool in the format `projects/* /locations/* /caPools/*`. */
   name: string;
@@ -1445,13 +1444,13 @@ export const PatchProjectsLocationsCaPoolsResponse = Operation;
 
 export type PatchProjectsLocationsCaPoolsError = CommonErrors;
 
+/** Update a CaPool. */
 export const patchProjectsLocationsCaPools: API.OperationMethod<PatchProjectsLocationsCaPoolsRequest, PatchProjectsLocationsCaPoolsResponse, PatchProjectsLocationsCaPoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCaPoolsRequest,
   output: PatchProjectsLocationsCaPoolsResponse,
   errors: [],
 }));
 
-/** Returns a CaPool. */
 export interface GetProjectsLocationsCaPoolsRequest {
   /** Required. The name of the CaPool to get. */
   name: string;
@@ -1469,13 +1468,13 @@ export const GetProjectsLocationsCaPoolsResponse = CaPool;
 
 export type GetProjectsLocationsCaPoolsError = CommonErrors;
 
+/** Returns a CaPool. */
 export const getProjectsLocationsCaPools: API.OperationMethod<GetProjectsLocationsCaPoolsRequest, GetProjectsLocationsCaPoolsResponse, GetProjectsLocationsCaPoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCaPoolsRequest,
   output: GetProjectsLocationsCaPoolsResponse,
   errors: [],
 }));
 
-/** Lists CaPools. */
 export interface ListProjectsLocationsCaPoolsRequest {
   /** Required. The resource name of the location associated with the CaPools, in the format `projects/* /locations/*`. */
   parent: string;
@@ -1505,7 +1504,8 @@ export const ListProjectsLocationsCaPoolsResponse = ListCaPoolsResponse;
 
 export type ListProjectsLocationsCaPoolsError = CommonErrors;
 
-export const listProjectsLocationsCaPools = API.makePaginated(() => ({
+/** Lists CaPools. */
+export const listProjectsLocationsCaPools: API.PaginatedOperationMethod<ListProjectsLocationsCaPoolsRequest, ListProjectsLocationsCaPoolsResponse, ListProjectsLocationsCaPoolsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCaPoolsRequest,
   output: ListProjectsLocationsCaPoolsResponse,
   errors: [],
@@ -1515,7 +1515,6 @@ export const listProjectsLocationsCaPools = API.makePaginated(() => ({
   },
 }));
 
-/** Delete a CaPool. */
 export interface DeleteProjectsLocationsCaPoolsRequest {
   /** Required. The resource name for this CaPool in the format `projects/* /locations/* /caPools/*`. */
   name: string;
@@ -1539,13 +1538,13 @@ export const DeleteProjectsLocationsCaPoolsResponse = Operation;
 
 export type DeleteProjectsLocationsCaPoolsError = CommonErrors;
 
+/** Delete a CaPool. */
 export const deleteProjectsLocationsCaPools: API.OperationMethod<DeleteProjectsLocationsCaPoolsRequest, DeleteProjectsLocationsCaPoolsResponse, DeleteProjectsLocationsCaPoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCaPoolsRequest,
   output: DeleteProjectsLocationsCaPoolsResponse,
   errors: [],
 }));
 
-/** FetchCaCerts returns the current trust anchor for the CaPool. This will include CA certificate chains for all certificate authorities in the ENABLED, DISABLED, or STAGED states. */
 export interface FetchCaCertsProjectsLocationsCaPoolsRequest {
   /** Required. The resource name for the CaPool in the format `projects/* /locations/* /caPools/*`. */
   caPool: string;
@@ -1566,13 +1565,13 @@ export const FetchCaCertsProjectsLocationsCaPoolsResponse = FetchCaCertsResponse
 
 export type FetchCaCertsProjectsLocationsCaPoolsError = CommonErrors;
 
+/** FetchCaCerts returns the current trust anchor for the CaPool. This will include CA certificate chains for all certificate authorities in the ENABLED, DISABLED, or STAGED states. */
 export const fetchCaCertsProjectsLocationsCaPools: API.OperationMethod<FetchCaCertsProjectsLocationsCaPoolsRequest, FetchCaCertsProjectsLocationsCaPoolsResponse, FetchCaCertsProjectsLocationsCaPoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FetchCaCertsProjectsLocationsCaPoolsRequest,
   output: FetchCaCertsProjectsLocationsCaPoolsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsCaPoolsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1593,13 +1592,13 @@ export const SetIamPolicyProjectsLocationsCaPoolsResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsCaPoolsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsCaPools: API.OperationMethod<SetIamPolicyProjectsLocationsCaPoolsRequest, SetIamPolicyProjectsLocationsCaPoolsResponse, SetIamPolicyProjectsLocationsCaPoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsCaPoolsRequest,
   output: SetIamPolicyProjectsLocationsCaPoolsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsCaPoolsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1620,13 +1619,13 @@ export const GetIamPolicyProjectsLocationsCaPoolsResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsCaPoolsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsCaPools: API.OperationMethod<GetIamPolicyProjectsLocationsCaPoolsRequest, GetIamPolicyProjectsLocationsCaPoolsResponse, GetIamPolicyProjectsLocationsCaPoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsCaPoolsRequest,
   output: GetIamPolicyProjectsLocationsCaPoolsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsCaPoolsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1647,13 +1646,13 @@ export const TestIamPermissionsProjectsLocationsCaPoolsResponse = TestIamPermiss
 
 export type TestIamPermissionsProjectsLocationsCaPoolsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsCaPools: API.OperationMethod<TestIamPermissionsProjectsLocationsCaPoolsRequest, TestIamPermissionsProjectsLocationsCaPoolsResponse, TestIamPermissionsProjectsLocationsCaPoolsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsCaPoolsRequest,
   output: TestIamPermissionsProjectsLocationsCaPoolsResponse,
   errors: [],
 }));
 
-/** Create a new Certificate in a given Project, Location from a particular CaPool. */
 export interface CreateProjectsLocationsCaPoolsCertificatesRequest {
   /** Required. The resource name of the CaPool associated with the Certificate, in the format `projects/* /locations/* /caPools/*`. */
   parent: string;
@@ -1686,13 +1685,13 @@ export const CreateProjectsLocationsCaPoolsCertificatesResponse = Certificate;
 
 export type CreateProjectsLocationsCaPoolsCertificatesError = CommonErrors;
 
+/** Create a new Certificate in a given Project, Location from a particular CaPool. */
 export const createProjectsLocationsCaPoolsCertificates: API.OperationMethod<CreateProjectsLocationsCaPoolsCertificatesRequest, CreateProjectsLocationsCaPoolsCertificatesResponse, CreateProjectsLocationsCaPoolsCertificatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCaPoolsCertificatesRequest,
   output: CreateProjectsLocationsCaPoolsCertificatesResponse,
   errors: [],
 }));
 
-/** Returns a Certificate. */
 export interface GetProjectsLocationsCaPoolsCertificatesRequest {
   /** Required. The name of the Certificate to get. */
   name: string;
@@ -1710,13 +1709,13 @@ export const GetProjectsLocationsCaPoolsCertificatesResponse = Certificate;
 
 export type GetProjectsLocationsCaPoolsCertificatesError = CommonErrors;
 
+/** Returns a Certificate. */
 export const getProjectsLocationsCaPoolsCertificates: API.OperationMethod<GetProjectsLocationsCaPoolsCertificatesRequest, GetProjectsLocationsCaPoolsCertificatesResponse, GetProjectsLocationsCaPoolsCertificatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCaPoolsCertificatesRequest,
   output: GetProjectsLocationsCaPoolsCertificatesResponse,
   errors: [],
 }));
 
-/** Lists Certificates. */
 export interface ListProjectsLocationsCaPoolsCertificatesRequest {
   /** Required. The resource name of the parent associated with the Certificates, in the format `projects/* /locations/* /caPools/*`. The parent resource name can be in one of two forms: 1. **Specific CA Pool:** To list certificates within a single CA Pool: `projects/* /locations/* /caPools/*` 2. **All CA Pools in a Location:** To list certificates across *all* CA Pools in a given project and location, use the wildcard character (`-`) in place of the CA Pool ID. Example: `projects/* /locations/* /caPools/-` See go/ccfe-nested-collections#aggregate-listing for more details. */
   parent: string;
@@ -1746,7 +1745,8 @@ export const ListProjectsLocationsCaPoolsCertificatesResponse = ListCertificates
 
 export type ListProjectsLocationsCaPoolsCertificatesError = CommonErrors;
 
-export const listProjectsLocationsCaPoolsCertificates = API.makePaginated(() => ({
+/** Lists Certificates. */
+export const listProjectsLocationsCaPoolsCertificates: API.PaginatedOperationMethod<ListProjectsLocationsCaPoolsCertificatesRequest, ListProjectsLocationsCaPoolsCertificatesResponse, ListProjectsLocationsCaPoolsCertificatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCaPoolsCertificatesRequest,
   output: ListProjectsLocationsCaPoolsCertificatesResponse,
   errors: [],
@@ -1756,7 +1756,6 @@ export const listProjectsLocationsCaPoolsCertificates = API.makePaginated(() => 
   },
 }));
 
-/** Revoke a Certificate. */
 export interface RevokeProjectsLocationsCaPoolsCertificatesRequest {
   /** Required. The resource name for this Certificate in the format `projects/* /locations/* /caPools/* /certificates/*`. */
   name: string;
@@ -1777,13 +1776,13 @@ export const RevokeProjectsLocationsCaPoolsCertificatesResponse = Certificate;
 
 export type RevokeProjectsLocationsCaPoolsCertificatesError = CommonErrors;
 
+/** Revoke a Certificate. */
 export const revokeProjectsLocationsCaPoolsCertificates: API.OperationMethod<RevokeProjectsLocationsCaPoolsCertificatesRequest, RevokeProjectsLocationsCaPoolsCertificatesResponse, RevokeProjectsLocationsCaPoolsCertificatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RevokeProjectsLocationsCaPoolsCertificatesRequest,
   output: RevokeProjectsLocationsCaPoolsCertificatesResponse,
   errors: [],
 }));
 
-/** Update a Certificate. Currently, the only field you can update is the labels field. */
 export interface PatchProjectsLocationsCaPoolsCertificatesRequest {
   /** Identifier. The resource name for this Certificate in the format `projects/* /locations/* /caPools/* /certificates/*`. */
   name: string;
@@ -1810,13 +1809,13 @@ export const PatchProjectsLocationsCaPoolsCertificatesResponse = Certificate;
 
 export type PatchProjectsLocationsCaPoolsCertificatesError = CommonErrors;
 
+/** Update a Certificate. Currently, the only field you can update is the labels field. */
 export const patchProjectsLocationsCaPoolsCertificates: API.OperationMethod<PatchProjectsLocationsCaPoolsCertificatesRequest, PatchProjectsLocationsCaPoolsCertificatesResponse, PatchProjectsLocationsCaPoolsCertificatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCaPoolsCertificatesRequest,
   output: PatchProjectsLocationsCaPoolsCertificatesResponse,
   errors: [],
 }));
 
-/** Activate a CertificateAuthority that is in state AWAITING_USER_ACTIVATION and is of type SUBORDINATE. After the parent Certificate Authority signs a certificate signing request from FetchCertificateAuthorityCsr, this method can complete the activation process. */
 export interface ActivateProjectsLocationsCaPoolsCertificateAuthoritiesRequest {
   /** Required. The resource name for this CertificateAuthority in the format `projects/* /locations/* /caPools/* /certificateAuthorities/*`. */
   name: string;
@@ -1837,13 +1836,13 @@ export const ActivateProjectsLocationsCaPoolsCertificateAuthoritiesResponse = Op
 
 export type ActivateProjectsLocationsCaPoolsCertificateAuthoritiesError = CommonErrors;
 
+/** Activate a CertificateAuthority that is in state AWAITING_USER_ACTIVATION and is of type SUBORDINATE. After the parent Certificate Authority signs a certificate signing request from FetchCertificateAuthorityCsr, this method can complete the activation process. */
 export const activateProjectsLocationsCaPoolsCertificateAuthorities: API.OperationMethod<ActivateProjectsLocationsCaPoolsCertificateAuthoritiesRequest, ActivateProjectsLocationsCaPoolsCertificateAuthoritiesResponse, ActivateProjectsLocationsCaPoolsCertificateAuthoritiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ActivateProjectsLocationsCaPoolsCertificateAuthoritiesRequest,
   output: ActivateProjectsLocationsCaPoolsCertificateAuthoritiesResponse,
   errors: [],
 }));
 
-/** Create a new CertificateAuthority in a given Project and Location. */
 export interface CreateProjectsLocationsCaPoolsCertificateAuthoritiesRequest {
   /** Required. The resource name of the CaPool associated with the CertificateAuthorities, in the format `projects/* /locations/* /caPools/*`. */
   parent: string;
@@ -1870,13 +1869,13 @@ export const CreateProjectsLocationsCaPoolsCertificateAuthoritiesResponse = Oper
 
 export type CreateProjectsLocationsCaPoolsCertificateAuthoritiesError = CommonErrors;
 
+/** Create a new CertificateAuthority in a given Project and Location. */
 export const createProjectsLocationsCaPoolsCertificateAuthorities: API.OperationMethod<CreateProjectsLocationsCaPoolsCertificateAuthoritiesRequest, CreateProjectsLocationsCaPoolsCertificateAuthoritiesResponse, CreateProjectsLocationsCaPoolsCertificateAuthoritiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCaPoolsCertificateAuthoritiesRequest,
   output: CreateProjectsLocationsCaPoolsCertificateAuthoritiesResponse,
   errors: [],
 }));
 
-/** Disable a CertificateAuthority. */
 export interface DisableProjectsLocationsCaPoolsCertificateAuthoritiesRequest {
   /** Required. The resource name for this CertificateAuthority in the format `projects/* /locations/* /caPools/* /certificateAuthorities/*`. */
   name: string;
@@ -1897,13 +1896,13 @@ export const DisableProjectsLocationsCaPoolsCertificateAuthoritiesResponse = Ope
 
 export type DisableProjectsLocationsCaPoolsCertificateAuthoritiesError = CommonErrors;
 
+/** Disable a CertificateAuthority. */
 export const disableProjectsLocationsCaPoolsCertificateAuthorities: API.OperationMethod<DisableProjectsLocationsCaPoolsCertificateAuthoritiesRequest, DisableProjectsLocationsCaPoolsCertificateAuthoritiesResponse, DisableProjectsLocationsCaPoolsCertificateAuthoritiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DisableProjectsLocationsCaPoolsCertificateAuthoritiesRequest,
   output: DisableProjectsLocationsCaPoolsCertificateAuthoritiesResponse,
   errors: [],
 }));
 
-/** Enable a CertificateAuthority. */
 export interface EnableProjectsLocationsCaPoolsCertificateAuthoritiesRequest {
   /** Required. The resource name for this CertificateAuthority in the format `projects/* /locations/* /caPools/* /certificateAuthorities/*`. */
   name: string;
@@ -1924,13 +1923,13 @@ export const EnableProjectsLocationsCaPoolsCertificateAuthoritiesResponse = Oper
 
 export type EnableProjectsLocationsCaPoolsCertificateAuthoritiesError = CommonErrors;
 
+/** Enable a CertificateAuthority. */
 export const enableProjectsLocationsCaPoolsCertificateAuthorities: API.OperationMethod<EnableProjectsLocationsCaPoolsCertificateAuthoritiesRequest, EnableProjectsLocationsCaPoolsCertificateAuthoritiesResponse, EnableProjectsLocationsCaPoolsCertificateAuthoritiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EnableProjectsLocationsCaPoolsCertificateAuthoritiesRequest,
   output: EnableProjectsLocationsCaPoolsCertificateAuthoritiesResponse,
   errors: [],
 }));
 
-/** Fetch a certificate signing request (CSR) from a CertificateAuthority that is in state AWAITING_USER_ACTIVATION and is of type SUBORDINATE. The CSR must then be signed by the desired parent Certificate Authority, which could be another CertificateAuthority resource, or could be an on-prem certificate authority. See also ActivateCertificateAuthority. */
 export interface FetchProjectsLocationsCaPoolsCertificateAuthoritiesRequest {
   /** Required. The resource name for this CertificateAuthority in the format `projects/* /locations/* /caPools/* /certificateAuthorities/*`. */
   name: string;
@@ -1948,13 +1947,13 @@ export const FetchProjectsLocationsCaPoolsCertificateAuthoritiesResponse = Fetch
 
 export type FetchProjectsLocationsCaPoolsCertificateAuthoritiesError = CommonErrors;
 
+/** Fetch a certificate signing request (CSR) from a CertificateAuthority that is in state AWAITING_USER_ACTIVATION and is of type SUBORDINATE. The CSR must then be signed by the desired parent Certificate Authority, which could be another CertificateAuthority resource, or could be an on-prem certificate authority. See also ActivateCertificateAuthority. */
 export const fetchProjectsLocationsCaPoolsCertificateAuthorities: API.OperationMethod<FetchProjectsLocationsCaPoolsCertificateAuthoritiesRequest, FetchProjectsLocationsCaPoolsCertificateAuthoritiesResponse, FetchProjectsLocationsCaPoolsCertificateAuthoritiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FetchProjectsLocationsCaPoolsCertificateAuthoritiesRequest,
   output: FetchProjectsLocationsCaPoolsCertificateAuthoritiesResponse,
   errors: [],
 }));
 
-/** Returns a CertificateAuthority. */
 export interface GetProjectsLocationsCaPoolsCertificateAuthoritiesRequest {
   /** Required. The name of the CertificateAuthority to get. */
   name: string;
@@ -1972,13 +1971,13 @@ export const GetProjectsLocationsCaPoolsCertificateAuthoritiesResponse = Certifi
 
 export type GetProjectsLocationsCaPoolsCertificateAuthoritiesError = CommonErrors;
 
+/** Returns a CertificateAuthority. */
 export const getProjectsLocationsCaPoolsCertificateAuthorities: API.OperationMethod<GetProjectsLocationsCaPoolsCertificateAuthoritiesRequest, GetProjectsLocationsCaPoolsCertificateAuthoritiesResponse, GetProjectsLocationsCaPoolsCertificateAuthoritiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCaPoolsCertificateAuthoritiesRequest,
   output: GetProjectsLocationsCaPoolsCertificateAuthoritiesResponse,
   errors: [],
 }));
 
-/** Lists CertificateAuthorities. */
 export interface ListProjectsLocationsCaPoolsCertificateAuthoritiesRequest {
   /** Required. The resource name of the CaPool associated with the CertificateAuthorities, in the format `projects/* /locations/* /caPools/*`. */
   parent: string;
@@ -2008,7 +2007,8 @@ export const ListProjectsLocationsCaPoolsCertificateAuthoritiesResponse = ListCe
 
 export type ListProjectsLocationsCaPoolsCertificateAuthoritiesError = CommonErrors;
 
-export const listProjectsLocationsCaPoolsCertificateAuthorities = API.makePaginated(() => ({
+/** Lists CertificateAuthorities. */
+export const listProjectsLocationsCaPoolsCertificateAuthorities: API.PaginatedOperationMethod<ListProjectsLocationsCaPoolsCertificateAuthoritiesRequest, ListProjectsLocationsCaPoolsCertificateAuthoritiesResponse, ListProjectsLocationsCaPoolsCertificateAuthoritiesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCaPoolsCertificateAuthoritiesRequest,
   output: ListProjectsLocationsCaPoolsCertificateAuthoritiesResponse,
   errors: [],
@@ -2018,7 +2018,6 @@ export const listProjectsLocationsCaPoolsCertificateAuthorities = API.makePagina
   },
 }));
 
-/** Undelete a CertificateAuthority that has been deleted. */
 export interface UndeleteProjectsLocationsCaPoolsCertificateAuthoritiesRequest {
   /** Required. The resource name for this CertificateAuthority in the format `projects/* /locations/* /caPools/* /certificateAuthorities/*`. */
   name: string;
@@ -2039,13 +2038,13 @@ export const UndeleteProjectsLocationsCaPoolsCertificateAuthoritiesResponse = Op
 
 export type UndeleteProjectsLocationsCaPoolsCertificateAuthoritiesError = CommonErrors;
 
+/** Undelete a CertificateAuthority that has been deleted. */
 export const undeleteProjectsLocationsCaPoolsCertificateAuthorities: API.OperationMethod<UndeleteProjectsLocationsCaPoolsCertificateAuthoritiesRequest, UndeleteProjectsLocationsCaPoolsCertificateAuthoritiesResponse, UndeleteProjectsLocationsCaPoolsCertificateAuthoritiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UndeleteProjectsLocationsCaPoolsCertificateAuthoritiesRequest,
   output: UndeleteProjectsLocationsCaPoolsCertificateAuthoritiesResponse,
   errors: [],
 }));
 
-/** Delete a CertificateAuthority. */
 export interface DeleteProjectsLocationsCaPoolsCertificateAuthoritiesRequest {
   /** Required. The resource name for this CertificateAuthority in the format `projects/* /locations/* /caPools/* /certificateAuthorities/*`. */
   name: string;
@@ -2075,13 +2074,13 @@ export const DeleteProjectsLocationsCaPoolsCertificateAuthoritiesResponse = Oper
 
 export type DeleteProjectsLocationsCaPoolsCertificateAuthoritiesError = CommonErrors;
 
+/** Delete a CertificateAuthority. */
 export const deleteProjectsLocationsCaPoolsCertificateAuthorities: API.OperationMethod<DeleteProjectsLocationsCaPoolsCertificateAuthoritiesRequest, DeleteProjectsLocationsCaPoolsCertificateAuthoritiesResponse, DeleteProjectsLocationsCaPoolsCertificateAuthoritiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCaPoolsCertificateAuthoritiesRequest,
   output: DeleteProjectsLocationsCaPoolsCertificateAuthoritiesResponse,
   errors: [],
 }));
 
-/** Update a CertificateAuthority. */
 export interface PatchProjectsLocationsCaPoolsCertificateAuthoritiesRequest {
   /** Identifier. The resource name for this CertificateAuthority in the format `projects/* /locations/* /caPools/* /certificateAuthorities/*`. */
   name: string;
@@ -2108,13 +2107,13 @@ export const PatchProjectsLocationsCaPoolsCertificateAuthoritiesResponse = Opera
 
 export type PatchProjectsLocationsCaPoolsCertificateAuthoritiesError = CommonErrors;
 
+/** Update a CertificateAuthority. */
 export const patchProjectsLocationsCaPoolsCertificateAuthorities: API.OperationMethod<PatchProjectsLocationsCaPoolsCertificateAuthoritiesRequest, PatchProjectsLocationsCaPoolsCertificateAuthoritiesResponse, PatchProjectsLocationsCaPoolsCertificateAuthoritiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCaPoolsCertificateAuthoritiesRequest,
   output: PatchProjectsLocationsCaPoolsCertificateAuthoritiesResponse,
   errors: [],
 }));
 
-/** Returns a CertificateRevocationList. */
 export interface GetProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest {
   /** Required. The name of the CertificateRevocationList to get. */
   name: string;
@@ -2132,13 +2131,13 @@ export const GetProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocat
 
 export type GetProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsError = CommonErrors;
 
+/** Returns a CertificateRevocationList. */
 export const getProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationLists: API.OperationMethod<GetProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest, GetProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsResponse, GetProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest,
   output: GetProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsResponse,
   errors: [],
 }));
 
-/** Lists CertificateRevocationLists. */
 export interface ListProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest {
   /** Required. The resource name of the location associated with the CertificateRevocationLists, in the format `projects/* /locations/* /caPools/* /certificateAuthorities/*`. */
   parent: string;
@@ -2168,7 +2167,8 @@ export const ListProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevoca
 
 export type ListProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsError = CommonErrors;
 
-export const listProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationLists = API.makePaginated(() => ({
+/** Lists CertificateRevocationLists. */
+export const listProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationLists: API.PaginatedOperationMethod<ListProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest, ListProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsResponse, ListProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest,
   output: ListProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsResponse,
   errors: [],
@@ -2178,7 +2178,6 @@ export const listProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevoca
   },
 }));
 
-/** Update a CertificateRevocationList. */
 export interface PatchProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest {
   /** Identifier. The resource name for this CertificateRevocationList in the format `projects/* /locations/* /caPools/*certificateAuthorities/* / certificateRevocationLists/*`. */
   name: string;
@@ -2205,13 +2204,13 @@ export const PatchProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevoc
 
 export type PatchProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsError = CommonErrors;
 
+/** Update a CertificateRevocationList. */
 export const patchProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationLists: API.OperationMethod<PatchProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest, PatchProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsResponse, PatchProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest,
   output: PatchProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2232,13 +2231,13 @@ export const SetIamPolicyProjectsLocationsCaPoolsCertificateAuthoritiesCertifica
 
 export type SetIamPolicyProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationLists: API.OperationMethod<SetIamPolicyProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest, SetIamPolicyProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsResponse, SetIamPolicyProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest,
   output: SetIamPolicyProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2259,13 +2258,13 @@ export const GetIamPolicyProjectsLocationsCaPoolsCertificateAuthoritiesCertifica
 
 export type GetIamPolicyProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationLists: API.OperationMethod<GetIamPolicyProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest, GetIamPolicyProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsResponse, GetIamPolicyProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest,
   output: GetIamPolicyProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2286,13 +2285,13 @@ export const TestIamPermissionsProjectsLocationsCaPoolsCertificateAuthoritiesCer
 
 export type TestIamPermissionsProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationLists: API.OperationMethod<TestIamPermissionsProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest, TestIamPermissionsProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsResponse, TestIamPermissionsProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsRequest,
   output: TestIamPermissionsProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationListsResponse,
   errors: [],
 }));
 
-/** Create a new CertificateTemplate in a given Project and Location. */
 export interface CreateProjectsLocationsCertificateTemplatesRequest {
   /** Required. The resource name of the location associated with the CertificateTemplate, in the format `projects/* /locations/*`. */
   parent: string;
@@ -2319,13 +2318,13 @@ export const CreateProjectsLocationsCertificateTemplatesResponse = Operation;
 
 export type CreateProjectsLocationsCertificateTemplatesError = CommonErrors;
 
+/** Create a new CertificateTemplate in a given Project and Location. */
 export const createProjectsLocationsCertificateTemplates: API.OperationMethod<CreateProjectsLocationsCertificateTemplatesRequest, CreateProjectsLocationsCertificateTemplatesResponse, CreateProjectsLocationsCertificateTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsCertificateTemplatesRequest,
   output: CreateProjectsLocationsCertificateTemplatesResponse,
   errors: [],
 }));
 
-/** DeleteCertificateTemplate deletes a CertificateTemplate. */
 export interface DeleteProjectsLocationsCertificateTemplatesRequest {
   /** Required. The resource name for this CertificateTemplate in the format `projects/* /locations/* /certificateTemplates/*`. */
   name: string;
@@ -2346,13 +2345,13 @@ export const DeleteProjectsLocationsCertificateTemplatesResponse = Operation;
 
 export type DeleteProjectsLocationsCertificateTemplatesError = CommonErrors;
 
+/** DeleteCertificateTemplate deletes a CertificateTemplate. */
 export const deleteProjectsLocationsCertificateTemplates: API.OperationMethod<DeleteProjectsLocationsCertificateTemplatesRequest, DeleteProjectsLocationsCertificateTemplatesResponse, DeleteProjectsLocationsCertificateTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsCertificateTemplatesRequest,
   output: DeleteProjectsLocationsCertificateTemplatesResponse,
   errors: [],
 }));
 
-/** Returns a CertificateTemplate. */
 export interface GetProjectsLocationsCertificateTemplatesRequest {
   /** Required. The name of the CertificateTemplate to get. */
   name: string;
@@ -2370,13 +2369,13 @@ export const GetProjectsLocationsCertificateTemplatesResponse = CertificateTempl
 
 export type GetProjectsLocationsCertificateTemplatesError = CommonErrors;
 
+/** Returns a CertificateTemplate. */
 export const getProjectsLocationsCertificateTemplates: API.OperationMethod<GetProjectsLocationsCertificateTemplatesRequest, GetProjectsLocationsCertificateTemplatesResponse, GetProjectsLocationsCertificateTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsCertificateTemplatesRequest,
   output: GetProjectsLocationsCertificateTemplatesResponse,
   errors: [],
 }));
 
-/** Lists CertificateTemplates. */
 export interface ListProjectsLocationsCertificateTemplatesRequest {
   /** Required. The resource name of the location associated with the CertificateTemplates, in the format `projects/* /locations/*`. */
   parent: string;
@@ -2406,7 +2405,8 @@ export const ListProjectsLocationsCertificateTemplatesResponse = ListCertificate
 
 export type ListProjectsLocationsCertificateTemplatesError = CommonErrors;
 
-export const listProjectsLocationsCertificateTemplates = API.makePaginated(() => ({
+/** Lists CertificateTemplates. */
+export const listProjectsLocationsCertificateTemplates: API.PaginatedOperationMethod<ListProjectsLocationsCertificateTemplatesRequest, ListProjectsLocationsCertificateTemplatesResponse, ListProjectsLocationsCertificateTemplatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsCertificateTemplatesRequest,
   output: ListProjectsLocationsCertificateTemplatesResponse,
   errors: [],
@@ -2416,7 +2416,6 @@ export const listProjectsLocationsCertificateTemplates = API.makePaginated(() =>
   },
 }));
 
-/** Update a CertificateTemplate. */
 export interface PatchProjectsLocationsCertificateTemplatesRequest {
   /** Identifier. The resource name for this CertificateTemplate in the format `projects/* /locations/* /certificateTemplates/*`. */
   name: string;
@@ -2443,13 +2442,13 @@ export const PatchProjectsLocationsCertificateTemplatesResponse = Operation;
 
 export type PatchProjectsLocationsCertificateTemplatesError = CommonErrors;
 
+/** Update a CertificateTemplate. */
 export const patchProjectsLocationsCertificateTemplates: API.OperationMethod<PatchProjectsLocationsCertificateTemplatesRequest, PatchProjectsLocationsCertificateTemplatesResponse, PatchProjectsLocationsCertificateTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsCertificateTemplatesRequest,
   output: PatchProjectsLocationsCertificateTemplatesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsLocationsCertificateTemplatesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2470,13 +2469,13 @@ export const SetIamPolicyProjectsLocationsCertificateTemplatesResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsCertificateTemplatesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsLocationsCertificateTemplates: API.OperationMethod<SetIamPolicyProjectsLocationsCertificateTemplatesRequest, SetIamPolicyProjectsLocationsCertificateTemplatesResponse, SetIamPolicyProjectsLocationsCertificateTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsCertificateTemplatesRequest,
   output: SetIamPolicyProjectsLocationsCertificateTemplatesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsLocationsCertificateTemplatesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2497,13 +2496,13 @@ export const GetIamPolicyProjectsLocationsCertificateTemplatesResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsCertificateTemplatesError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsLocationsCertificateTemplates: API.OperationMethod<GetIamPolicyProjectsLocationsCertificateTemplatesRequest, GetIamPolicyProjectsLocationsCertificateTemplatesResponse, GetIamPolicyProjectsLocationsCertificateTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsCertificateTemplatesRequest,
   output: GetIamPolicyProjectsLocationsCertificateTemplatesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsLocationsCertificateTemplatesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2524,6 +2523,7 @@ export const TestIamPermissionsProjectsLocationsCertificateTemplatesResponse = T
 
 export type TestIamPermissionsProjectsLocationsCertificateTemplatesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsLocationsCertificateTemplates: API.OperationMethod<TestIamPermissionsProjectsLocationsCertificateTemplatesRequest, TestIamPermissionsProjectsLocationsCertificateTemplatesResponse, TestIamPermissionsProjectsLocationsCertificateTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsCertificateTemplatesRequest,
   output: TestIamPermissionsProjectsLocationsCertificateTemplatesResponse,

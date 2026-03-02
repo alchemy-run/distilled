@@ -3327,7 +3327,6 @@ export const EnterpriseUpgradeEvent: Schema.Schema<EnterpriseUpgradeEvent> = Sch
 // Operations
 // ==========================================================================
 
-/** Creates an enterprise signup URL. */
 export interface CreateSignupUrlsRequest {
   /** The ID of the Google Cloud Platform project which will own the enterprise. */
   projectId?: string;
@@ -3354,13 +3353,13 @@ export const CreateSignupUrlsResponse = SignupUrl;
 
 export type CreateSignupUrlsError = CommonErrors;
 
+/** Creates an enterprise signup URL. */
 export const createSignupUrls: API.OperationMethod<CreateSignupUrlsRequest, CreateSignupUrlsResponse, CreateSignupUrlsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateSignupUrlsRequest,
   output: CreateSignupUrlsResponse,
   errors: [],
 }));
 
-/** Creates an enterprise. This is the last step in the enterprise signup flow. See also: SigninDetail */
 export interface CreateEnterprisesRequest {
   /** The ID of the Google Cloud Platform project which will own the enterprise. */
   projectId?: string;
@@ -3390,13 +3389,13 @@ export const CreateEnterprisesResponse = Enterprise;
 
 export type CreateEnterprisesError = CommonErrors;
 
+/** Creates an enterprise. This is the last step in the enterprise signup flow. See also: SigninDetail */
 export const createEnterprises: API.OperationMethod<CreateEnterprisesRequest, CreateEnterprisesResponse, CreateEnterprisesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateEnterprisesRequest,
   output: CreateEnterprisesResponse,
   errors: [],
 }));
 
-/** Permanently deletes an enterprise and all accounts and data associated with it. Warning: this will result in a cascaded deletion of all AM API devices associated with the deleted enterprise. Only available for EMM-managed enterprises. */
 export interface DeleteEnterprisesRequest {
   /** The name of the enterprise in the form enterprises/{enterpriseId}. */
   name: string;
@@ -3414,13 +3413,13 @@ export const DeleteEnterprisesResponse = Empty;
 
 export type DeleteEnterprisesError = CommonErrors;
 
+/** Permanently deletes an enterprise and all accounts and data associated with it. Warning: this will result in a cascaded deletion of all AM API devices associated with the deleted enterprise. Only available for EMM-managed enterprises. */
 export const deleteEnterprises: API.OperationMethod<DeleteEnterprisesRequest, DeleteEnterprisesResponse, DeleteEnterprisesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteEnterprisesRequest,
   output: DeleteEnterprisesResponse,
   errors: [],
 }));
 
-/** Gets an enterprise. */
 export interface GetEnterprisesRequest {
   /** The name of the enterprise in the form enterprises/{enterpriseId}. */
   name: string;
@@ -3438,13 +3437,13 @@ export const GetEnterprisesResponse = Enterprise;
 
 export type GetEnterprisesError = CommonErrors;
 
+/** Gets an enterprise. */
 export const getEnterprises: API.OperationMethod<GetEnterprisesRequest, GetEnterprisesResponse, GetEnterprisesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEnterprisesRequest,
   output: GetEnterprisesResponse,
   errors: [],
 }));
 
-/** Updates an enterprise. See also: SigninDetail */
 export interface PatchEnterprisesRequest {
   /** The name of the enterprise in the form enterprises/{enterpriseId}. */
   name: string;
@@ -3468,13 +3467,13 @@ export const PatchEnterprisesResponse = Enterprise;
 
 export type PatchEnterprisesError = CommonErrors;
 
+/** Updates an enterprise. See also: SigninDetail */
 export const patchEnterprises: API.OperationMethod<PatchEnterprisesRequest, PatchEnterprisesResponse, PatchEnterprisesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchEnterprisesRequest,
   output: PatchEnterprisesResponse,
   errors: [],
 }));
 
-/** Lists EMM-managed enterprises. Only BASIC fields are returned. */
 export interface ListEnterprisesRequest {
   /** Required. The Cloud project ID of the EMM managing the enterprises. */
   projectId?: string;
@@ -3501,7 +3500,8 @@ export const ListEnterprisesResponse_Op = ListEnterprisesResponse;
 
 export type ListEnterprisesError = CommonErrors;
 
-export const listEnterprises = API.makePaginated(() => ({
+/** Lists EMM-managed enterprises. Only BASIC fields are returned. */
+export const listEnterprises: API.PaginatedOperationMethod<ListEnterprisesRequest, ListEnterprisesResponse_Op, ListEnterprisesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListEnterprisesRequest,
   output: ListEnterprisesResponse_Op,
   errors: [],
@@ -3511,7 +3511,6 @@ export const listEnterprises = API.makePaginated(() => ({
   },
 }));
 
-/** Generates an enterprise upgrade URL to upgrade an existing managed Google Play Accounts enterprise to a managed Google domain. See the guide (https://developers.google.com/android/management/upgrade-an-enterprise) for more details. */
 export interface GenerateEnterpriseUpgradeUrlEnterprisesRequest {
   /** Required. The name of the enterprise to be upgraded in the form enterprises/{enterpriseId}. */
   name: string;
@@ -3532,13 +3531,13 @@ export const GenerateEnterpriseUpgradeUrlEnterprisesResponse = GenerateEnterpris
 
 export type GenerateEnterpriseUpgradeUrlEnterprisesError = CommonErrors;
 
+/** Generates an enterprise upgrade URL to upgrade an existing managed Google Play Accounts enterprise to a managed Google domain. See the guide (https://developers.google.com/android/management/upgrade-an-enterprise) for more details. */
 export const generateEnterpriseUpgradeUrlEnterprises: API.OperationMethod<GenerateEnterpriseUpgradeUrlEnterprisesRequest, GenerateEnterpriseUpgradeUrlEnterprisesResponse, GenerateEnterpriseUpgradeUrlEnterprisesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateEnterpriseUpgradeUrlEnterprisesRequest,
   output: GenerateEnterpriseUpgradeUrlEnterprisesResponse,
   errors: [],
 }));
 
-/** Creates an enrollment token for a given enterprise. It's up to the caller's responsibility to manage the lifecycle of newly created tokens and deleting them when they're not intended to be used anymore. */
 export interface CreateEnterprisesEnrollmentTokensRequest {
   /** The name of the enterprise in the form enterprises/{enterpriseId}. */
   parent: string;
@@ -3559,13 +3558,13 @@ export const CreateEnterprisesEnrollmentTokensResponse = EnrollmentToken;
 
 export type CreateEnterprisesEnrollmentTokensError = CommonErrors;
 
+/** Creates an enrollment token for a given enterprise. It's up to the caller's responsibility to manage the lifecycle of newly created tokens and deleting them when they're not intended to be used anymore. */
 export const createEnterprisesEnrollmentTokens: API.OperationMethod<CreateEnterprisesEnrollmentTokensRequest, CreateEnterprisesEnrollmentTokensResponse, CreateEnterprisesEnrollmentTokensError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateEnterprisesEnrollmentTokensRequest,
   output: CreateEnterprisesEnrollmentTokensResponse,
   errors: [],
 }));
 
-/** Deletes an enrollment token. This operation invalidates the token, preventing its future use. */
 export interface DeleteEnterprisesEnrollmentTokensRequest {
   /** The name of the enrollment token in the form enterprises/{enterpriseId}/enrollmentTokens/{enrollmentTokenId}. */
   name: string;
@@ -3583,13 +3582,13 @@ export const DeleteEnterprisesEnrollmentTokensResponse = Empty;
 
 export type DeleteEnterprisesEnrollmentTokensError = CommonErrors;
 
+/** Deletes an enrollment token. This operation invalidates the token, preventing its future use. */
 export const deleteEnterprisesEnrollmentTokens: API.OperationMethod<DeleteEnterprisesEnrollmentTokensRequest, DeleteEnterprisesEnrollmentTokensResponse, DeleteEnterprisesEnrollmentTokensError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteEnterprisesEnrollmentTokensRequest,
   output: DeleteEnterprisesEnrollmentTokensResponse,
   errors: [],
 }));
 
-/** Gets an active, unexpired enrollment token. A partial view of the enrollment token is returned. Only the following fields are populated: name, expirationTimestamp, allowPersonalUsage, value, qrCode. This method is meant to help manage active enrollment tokens lifecycle. For security reasons, it's recommended to delete active enrollment tokens as soon as they're not intended to be used anymore. */
 export interface GetEnterprisesEnrollmentTokensRequest {
   /** Required. The name of the enrollment token in the form enterprises/{enterpriseId}/enrollmentTokens/{enrollmentTokenId}. */
   name: string;
@@ -3607,13 +3606,13 @@ export const GetEnterprisesEnrollmentTokensResponse = EnrollmentToken;
 
 export type GetEnterprisesEnrollmentTokensError = CommonErrors;
 
+/** Gets an active, unexpired enrollment token. A partial view of the enrollment token is returned. Only the following fields are populated: name, expirationTimestamp, allowPersonalUsage, value, qrCode. This method is meant to help manage active enrollment tokens lifecycle. For security reasons, it's recommended to delete active enrollment tokens as soon as they're not intended to be used anymore. */
 export const getEnterprisesEnrollmentTokens: API.OperationMethod<GetEnterprisesEnrollmentTokensRequest, GetEnterprisesEnrollmentTokensResponse, GetEnterprisesEnrollmentTokensError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEnterprisesEnrollmentTokensRequest,
   output: GetEnterprisesEnrollmentTokensResponse,
   errors: [],
 }));
 
-/** Lists active, unexpired enrollment tokens for a given enterprise. The list items contain only a partial view of EnrollmentToken object. Only the following fields are populated: name, expirationTimestamp, allowPersonalUsage, value, qrCode. This method is meant to help manage active enrollment tokens lifecycle. For security reasons, it's recommended to delete active enrollment tokens as soon as they're not intended to be used anymore. */
 export interface ListEnterprisesEnrollmentTokensRequest {
   /** Required. The name of the enterprise in the form enterprises/{enterpriseId}. */
   parent: string;
@@ -3637,7 +3636,8 @@ export const ListEnterprisesEnrollmentTokensResponse = ListEnrollmentTokensRespo
 
 export type ListEnterprisesEnrollmentTokensError = CommonErrors;
 
-export const listEnterprisesEnrollmentTokens = API.makePaginated(() => ({
+/** Lists active, unexpired enrollment tokens for a given enterprise. The list items contain only a partial view of EnrollmentToken object. Only the following fields are populated: name, expirationTimestamp, allowPersonalUsage, value, qrCode. This method is meant to help manage active enrollment tokens lifecycle. For security reasons, it's recommended to delete active enrollment tokens as soon as they're not intended to be used anymore. */
+export const listEnterprisesEnrollmentTokens: API.PaginatedOperationMethod<ListEnterprisesEnrollmentTokensRequest, ListEnterprisesEnrollmentTokensResponse, ListEnterprisesEnrollmentTokensError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListEnterprisesEnrollmentTokensRequest,
   output: ListEnterprisesEnrollmentTokensResponse,
   errors: [],
@@ -3647,7 +3647,6 @@ export const listEnterprisesEnrollmentTokens = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a web token to access an embeddable managed Google Play web UI for a given enterprise. */
 export interface CreateEnterprisesWebTokensRequest {
   /** The name of the enterprise in the form enterprises/{enterpriseId}. */
   parent: string;
@@ -3668,13 +3667,13 @@ export const CreateEnterprisesWebTokensResponse = WebToken;
 
 export type CreateEnterprisesWebTokensError = CommonErrors;
 
+/** Creates a web token to access an embeddable managed Google Play web UI for a given enterprise. */
 export const createEnterprisesWebTokens: API.OperationMethod<CreateEnterprisesWebTokensRequest, CreateEnterprisesWebTokensResponse, CreateEnterprisesWebTokensError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateEnterprisesWebTokensRequest,
   output: CreateEnterprisesWebTokensResponse,
   errors: [],
 }));
 
-/** Gets a device. Deleted devices will respond with a 404 error. */
 export interface GetEnterprisesDevicesRequest {
   /** The name of the device in the form enterprises/{enterpriseId}/devices/{deviceId}. */
   name: string;
@@ -3692,13 +3691,13 @@ export const GetEnterprisesDevicesResponse = Device;
 
 export type GetEnterprisesDevicesError = CommonErrors;
 
+/** Gets a device. Deleted devices will respond with a 404 error. */
 export const getEnterprisesDevices: API.OperationMethod<GetEnterprisesDevicesRequest, GetEnterprisesDevicesResponse, GetEnterprisesDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEnterprisesDevicesRequest,
   output: GetEnterprisesDevicesResponse,
   errors: [],
 }));
 
-/** Lists devices for a given enterprise. Deleted devices are not returned in the response. */
 export interface ListEnterprisesDevicesRequest {
   /** The name of the enterprise in the form enterprises/{enterpriseId}. */
   parent: string;
@@ -3722,7 +3721,8 @@ export const ListEnterprisesDevicesResponse = ListDevicesResponse;
 
 export type ListEnterprisesDevicesError = CommonErrors;
 
-export const listEnterprisesDevices = API.makePaginated(() => ({
+/** Lists devices for a given enterprise. Deleted devices are not returned in the response. */
+export const listEnterprisesDevices: API.PaginatedOperationMethod<ListEnterprisesDevicesRequest, ListEnterprisesDevicesResponse, ListEnterprisesDevicesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListEnterprisesDevicesRequest,
   output: ListEnterprisesDevicesResponse,
   errors: [],
@@ -3732,7 +3732,6 @@ export const listEnterprisesDevices = API.makePaginated(() => ({
   },
 }));
 
-/** Updates a device. */
 export interface PatchEnterprisesDevicesRequest {
   /** The name of the device in the form enterprises/{enterpriseId}/devices/{deviceId}. */
   name: string;
@@ -3756,13 +3755,13 @@ export const PatchEnterprisesDevicesResponse = Device;
 
 export type PatchEnterprisesDevicesError = CommonErrors;
 
+/** Updates a device. */
 export const patchEnterprisesDevices: API.OperationMethod<PatchEnterprisesDevicesRequest, PatchEnterprisesDevicesResponse, PatchEnterprisesDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchEnterprisesDevicesRequest,
   output: PatchEnterprisesDevicesResponse,
   errors: [],
 }));
 
-/** Deletes a device. This operation attempts to wipe the device but this is not guaranteed to succeed if the device is offline for an extended period. Deleted devices do not show up in enterprises.devices.list calls and a 404 is returned from enterprises.devices.get. */
 export interface DeleteEnterprisesDevicesRequest {
   /** The name of the device in the form enterprises/{enterpriseId}/devices/{deviceId}. */
   name: string;
@@ -3786,13 +3785,13 @@ export const DeleteEnterprisesDevicesResponse = Empty;
 
 export type DeleteEnterprisesDevicesError = CommonErrors;
 
+/** Deletes a device. This operation attempts to wipe the device but this is not guaranteed to succeed if the device is offline for an extended period. Deleted devices do not show up in enterprises.devices.list calls and a 404 is returned from enterprises.devices.get. */
 export const deleteEnterprisesDevices: API.OperationMethod<DeleteEnterprisesDevicesRequest, DeleteEnterprisesDevicesResponse, DeleteEnterprisesDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteEnterprisesDevicesRequest,
   output: DeleteEnterprisesDevicesResponse,
   errors: [],
 }));
 
-/** Issues a command to a device. The Operation resource returned contains a Command in its metadata field. Use the get operation method to get the status of the command. */
 export interface IssueCommandEnterprisesDevicesRequest {
   /** The name of the device in the form enterprises/{enterpriseId}/devices/{deviceId}. */
   name: string;
@@ -3813,13 +3812,13 @@ export const IssueCommandEnterprisesDevicesResponse = Operation;
 
 export type IssueCommandEnterprisesDevicesError = CommonErrors;
 
+/** Issues a command to a device. The Operation resource returned contains a Command in its metadata field. Use the get operation method to get the status of the command. */
 export const issueCommandEnterprisesDevices: API.OperationMethod<IssueCommandEnterprisesDevicesRequest, IssueCommandEnterprisesDevicesResponse, IssueCommandEnterprisesDevicesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: IssueCommandEnterprisesDevicesRequest,
   output: IssueCommandEnterprisesDevicesResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns UNIMPLEMENTED. */
 export interface ListEnterprisesDevicesOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -3849,7 +3848,8 @@ export const ListEnterprisesDevicesOperationsResponse = ListOperationsResponse;
 
 export type ListEnterprisesDevicesOperationsError = CommonErrors;
 
-export const listEnterprisesDevicesOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns UNIMPLEMENTED. */
+export const listEnterprisesDevicesOperations: API.PaginatedOperationMethod<ListEnterprisesDevicesOperationsRequest, ListEnterprisesDevicesOperationsResponse, ListEnterprisesDevicesOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListEnterprisesDevicesOperationsRequest,
   output: ListEnterprisesDevicesOperationsResponse,
   errors: [],
@@ -3859,7 +3859,6 @@ export const listEnterprisesDevicesOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetEnterprisesDevicesOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -3877,13 +3876,13 @@ export const GetEnterprisesDevicesOperationsResponse = Operation;
 
 export type GetEnterprisesDevicesOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getEnterprisesDevicesOperations: API.OperationMethod<GetEnterprisesDevicesOperationsRequest, GetEnterprisesDevicesOperationsResponse, GetEnterprisesDevicesOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEnterprisesDevicesOperationsRequest,
   output: GetEnterprisesDevicesOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns google.rpc.Code.UNIMPLEMENTED. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of 1, corresponding to Code.CANCELLED. */
 export interface CancelEnterprisesDevicesOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -3901,13 +3900,13 @@ export const CancelEnterprisesDevicesOperationsResponse = Empty;
 
 export type CancelEnterprisesDevicesOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns google.rpc.Code.UNIMPLEMENTED. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of 1, corresponding to Code.CANCELLED. */
 export const cancelEnterprisesDevicesOperations: API.OperationMethod<CancelEnterprisesDevicesOperationsRequest, CancelEnterprisesDevicesOperationsResponse, CancelEnterprisesDevicesOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelEnterprisesDevicesOperationsRequest,
   output: CancelEnterprisesDevicesOperationsResponse,
   errors: [],
 }));
 
-/** Gets a policy. */
 export interface GetEnterprisesPoliciesRequest {
   /** The name of the policy in the form enterprises/{enterpriseId}/policies/{policyId}. */
   name: string;
@@ -3925,13 +3924,13 @@ export const GetEnterprisesPoliciesResponse = Policy;
 
 export type GetEnterprisesPoliciesError = CommonErrors;
 
+/** Gets a policy. */
 export const getEnterprisesPolicies: API.OperationMethod<GetEnterprisesPoliciesRequest, GetEnterprisesPoliciesResponse, GetEnterprisesPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEnterprisesPoliciesRequest,
   output: GetEnterprisesPoliciesResponse,
   errors: [],
 }));
 
-/** Lists policies for a given enterprise. */
 export interface ListEnterprisesPoliciesRequest {
   /** The name of the enterprise in the form enterprises/{enterpriseId}. */
   parent: string;
@@ -3955,7 +3954,8 @@ export const ListEnterprisesPoliciesResponse = ListPoliciesResponse;
 
 export type ListEnterprisesPoliciesError = CommonErrors;
 
-export const listEnterprisesPolicies = API.makePaginated(() => ({
+/** Lists policies for a given enterprise. */
+export const listEnterprisesPolicies: API.PaginatedOperationMethod<ListEnterprisesPoliciesRequest, ListEnterprisesPoliciesResponse, ListEnterprisesPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListEnterprisesPoliciesRequest,
   output: ListEnterprisesPoliciesResponse,
   errors: [],
@@ -3965,7 +3965,6 @@ export const listEnterprisesPolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Updates or creates a policy. */
 export interface PatchEnterprisesPoliciesRequest {
   /** The name of the policy in the form enterprises/{enterpriseId}/policies/{policyId}. */
   name: string;
@@ -3989,13 +3988,13 @@ export const PatchEnterprisesPoliciesResponse = Policy;
 
 export type PatchEnterprisesPoliciesError = CommonErrors;
 
+/** Updates or creates a policy. */
 export const patchEnterprisesPolicies: API.OperationMethod<PatchEnterprisesPoliciesRequest, PatchEnterprisesPoliciesResponse, PatchEnterprisesPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchEnterprisesPoliciesRequest,
   output: PatchEnterprisesPoliciesResponse,
   errors: [],
 }));
 
-/** Deletes a policy. This operation is only permitted if no devices are currently referencing the policy. */
 export interface DeleteEnterprisesPoliciesRequest {
   /** The name of the policy in the form enterprises/{enterpriseId}/policies/{policyId}. */
   name: string;
@@ -4013,13 +4012,13 @@ export const DeleteEnterprisesPoliciesResponse = Empty;
 
 export type DeleteEnterprisesPoliciesError = CommonErrors;
 
+/** Deletes a policy. This operation is only permitted if no devices are currently referencing the policy. */
 export const deleteEnterprisesPolicies: API.OperationMethod<DeleteEnterprisesPoliciesRequest, DeleteEnterprisesPoliciesResponse, DeleteEnterprisesPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteEnterprisesPoliciesRequest,
   output: DeleteEnterprisesPoliciesResponse,
   errors: [],
 }));
 
-/** Updates or creates applications in a policy. */
 export interface ModifyPolicyApplicationsEnterprisesPoliciesRequest {
   /** Required. The name of the Policy containing the ApplicationPolicy objects to be updated, in the form enterprises/{enterpriseId}/policies/{policyId}. */
   name: string;
@@ -4040,13 +4039,13 @@ export const ModifyPolicyApplicationsEnterprisesPoliciesResponse = ModifyPolicyA
 
 export type ModifyPolicyApplicationsEnterprisesPoliciesError = CommonErrors;
 
+/** Updates or creates applications in a policy. */
 export const modifyPolicyApplicationsEnterprisesPolicies: API.OperationMethod<ModifyPolicyApplicationsEnterprisesPoliciesRequest, ModifyPolicyApplicationsEnterprisesPoliciesResponse, ModifyPolicyApplicationsEnterprisesPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ModifyPolicyApplicationsEnterprisesPoliciesRequest,
   output: ModifyPolicyApplicationsEnterprisesPoliciesResponse,
   errors: [],
 }));
 
-/** Removes applications in a policy. */
 export interface RemovePolicyApplicationsEnterprisesPoliciesRequest {
   /** Required. The name of the policy containing the ApplicationPolicy objects to be removed, in the form enterprises/{enterpriseId}/policies/{policyId}. */
   name: string;
@@ -4067,13 +4066,13 @@ export const RemovePolicyApplicationsEnterprisesPoliciesResponse = RemovePolicyA
 
 export type RemovePolicyApplicationsEnterprisesPoliciesError = CommonErrors;
 
+/** Removes applications in a policy. */
 export const removePolicyApplicationsEnterprisesPolicies: API.OperationMethod<RemovePolicyApplicationsEnterprisesPoliciesRequest, RemovePolicyApplicationsEnterprisesPoliciesResponse, RemovePolicyApplicationsEnterprisesPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemovePolicyApplicationsEnterprisesPoliciesRequest,
   output: RemovePolicyApplicationsEnterprisesPoliciesResponse,
   errors: [],
 }));
 
-/** Gets info about an application. */
 export interface GetEnterprisesApplicationsRequest {
   /** The name of the application in the form enterprises/{enterpriseId}/applications/{package_name}. */
   name: string;
@@ -4094,13 +4093,13 @@ export const GetEnterprisesApplicationsResponse = Application;
 
 export type GetEnterprisesApplicationsError = CommonErrors;
 
+/** Gets info about an application. */
 export const getEnterprisesApplications: API.OperationMethod<GetEnterprisesApplicationsRequest, GetEnterprisesApplicationsResponse, GetEnterprisesApplicationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEnterprisesApplicationsRequest,
   output: GetEnterprisesApplicationsResponse,
   errors: [],
 }));
 
-/** Creates a web app. */
 export interface CreateEnterprisesWebAppsRequest {
   /** The name of the enterprise in the form enterprises/{enterpriseId}. */
   parent: string;
@@ -4121,13 +4120,13 @@ export const CreateEnterprisesWebAppsResponse = WebApp;
 
 export type CreateEnterprisesWebAppsError = CommonErrors;
 
+/** Creates a web app. */
 export const createEnterprisesWebApps: API.OperationMethod<CreateEnterprisesWebAppsRequest, CreateEnterprisesWebAppsResponse, CreateEnterprisesWebAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateEnterprisesWebAppsRequest,
   output: CreateEnterprisesWebAppsResponse,
   errors: [],
 }));
 
-/** Gets a web app. */
 export interface GetEnterprisesWebAppsRequest {
   /** The name of the web app in the form enterprises/{enterpriseId}/webApps/{packageName}. */
   name: string;
@@ -4145,13 +4144,13 @@ export const GetEnterprisesWebAppsResponse = WebApp;
 
 export type GetEnterprisesWebAppsError = CommonErrors;
 
+/** Gets a web app. */
 export const getEnterprisesWebApps: API.OperationMethod<GetEnterprisesWebAppsRequest, GetEnterprisesWebAppsResponse, GetEnterprisesWebAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEnterprisesWebAppsRequest,
   output: GetEnterprisesWebAppsResponse,
   errors: [],
 }));
 
-/** Lists web apps for a given enterprise. */
 export interface ListEnterprisesWebAppsRequest {
   /** The name of the enterprise in the form enterprises/{enterpriseId}. */
   parent: string;
@@ -4175,7 +4174,8 @@ export const ListEnterprisesWebAppsResponse = ListWebAppsResponse;
 
 export type ListEnterprisesWebAppsError = CommonErrors;
 
-export const listEnterprisesWebApps = API.makePaginated(() => ({
+/** Lists web apps for a given enterprise. */
+export const listEnterprisesWebApps: API.PaginatedOperationMethod<ListEnterprisesWebAppsRequest, ListEnterprisesWebAppsResponse, ListEnterprisesWebAppsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListEnterprisesWebAppsRequest,
   output: ListEnterprisesWebAppsResponse,
   errors: [],
@@ -4185,7 +4185,6 @@ export const listEnterprisesWebApps = API.makePaginated(() => ({
   },
 }));
 
-/** Updates a web app. */
 export interface PatchEnterprisesWebAppsRequest {
   /** The name of the web app in the form enterprises/{enterpriseId}/webApps/{packageName}. */
   name: string;
@@ -4209,13 +4208,13 @@ export const PatchEnterprisesWebAppsResponse = WebApp;
 
 export type PatchEnterprisesWebAppsError = CommonErrors;
 
+/** Updates a web app. */
 export const patchEnterprisesWebApps: API.OperationMethod<PatchEnterprisesWebAppsRequest, PatchEnterprisesWebAppsResponse, PatchEnterprisesWebAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchEnterprisesWebAppsRequest,
   output: PatchEnterprisesWebAppsResponse,
   errors: [],
 }));
 
-/** Deletes a web app. */
 export interface DeleteEnterprisesWebAppsRequest {
   /** The name of the web app in the form enterprises/{enterpriseId}/webApps/{packageName}. */
   name: string;
@@ -4233,13 +4232,13 @@ export const DeleteEnterprisesWebAppsResponse = Empty;
 
 export type DeleteEnterprisesWebAppsError = CommonErrors;
 
+/** Deletes a web app. */
 export const deleteEnterprisesWebApps: API.OperationMethod<DeleteEnterprisesWebAppsRequest, DeleteEnterprisesWebAppsResponse, DeleteEnterprisesWebAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteEnterprisesWebAppsRequest,
   output: DeleteEnterprisesWebAppsResponse,
   errors: [],
 }));
 
-/** Creates a migration token, to migrate an existing device from being managed by the EMM's Device Policy Controller (DPC) to being managed by the Android Management API. See the guide (https://developers.google.com/android/management/dpc-migration) for more details. */
 export interface CreateEnterprisesMigrationTokensRequest {
   /** Required. The enterprise in which this migration token is created. This must be the same enterprise which already manages the device in the Play EMM API. Format: enterprises/{enterprise} */
   parent: string;
@@ -4260,13 +4259,13 @@ export const CreateEnterprisesMigrationTokensResponse = MigrationToken;
 
 export type CreateEnterprisesMigrationTokensError = CommonErrors;
 
+/** Creates a migration token, to migrate an existing device from being managed by the EMM's Device Policy Controller (DPC) to being managed by the Android Management API. See the guide (https://developers.google.com/android/management/dpc-migration) for more details. */
 export const createEnterprisesMigrationTokens: API.OperationMethod<CreateEnterprisesMigrationTokensRequest, CreateEnterprisesMigrationTokensResponse, CreateEnterprisesMigrationTokensError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateEnterprisesMigrationTokensRequest,
   output: CreateEnterprisesMigrationTokensResponse,
   errors: [],
 }));
 
-/** Gets a migration token. */
 export interface GetEnterprisesMigrationTokensRequest {
   /** Required. The name of the migration token to retrieve. Format: enterprises/{enterprise}/migrationTokens/{migration_token} */
   name: string;
@@ -4284,13 +4283,13 @@ export const GetEnterprisesMigrationTokensResponse = MigrationToken;
 
 export type GetEnterprisesMigrationTokensError = CommonErrors;
 
+/** Gets a migration token. */
 export const getEnterprisesMigrationTokens: API.OperationMethod<GetEnterprisesMigrationTokensRequest, GetEnterprisesMigrationTokensResponse, GetEnterprisesMigrationTokensError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEnterprisesMigrationTokensRequest,
   output: GetEnterprisesMigrationTokensResponse,
   errors: [],
 }));
 
-/** Lists migration tokens. */
 export interface ListEnterprisesMigrationTokensRequest {
   /** Required. The enterprise which the migration tokens belong to. Format: enterprises/{enterprise} */
   parent: string;
@@ -4314,7 +4313,8 @@ export const ListEnterprisesMigrationTokensResponse = ListMigrationTokensRespons
 
 export type ListEnterprisesMigrationTokensError = CommonErrors;
 
-export const listEnterprisesMigrationTokens = API.makePaginated(() => ({
+/** Lists migration tokens. */
+export const listEnterprisesMigrationTokens: API.PaginatedOperationMethod<ListEnterprisesMigrationTokensRequest, ListEnterprisesMigrationTokensResponse, ListEnterprisesMigrationTokensError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListEnterprisesMigrationTokensRequest,
   output: ListEnterprisesMigrationTokensResponse,
   errors: [],
@@ -4324,7 +4324,6 @@ export const listEnterprisesMigrationTokens = API.makePaginated(() => ({
   },
 }));
 
-/** Get the device provisioning information by the identifier provided in the sign-in url. */
 export interface GetProvisioningInfoRequest {
   /** Required. The identifier that Android Device Policy passes to the 3P sign-in page in the form of provisioningInfo/{provisioning_info}. */
   name: string;
@@ -4342,6 +4341,7 @@ export const GetProvisioningInfoResponse = ProvisioningInfo;
 
 export type GetProvisioningInfoError = CommonErrors;
 
+/** Get the device provisioning information by the identifier provided in the sign-in url. */
 export const getProvisioningInfo: API.OperationMethod<GetProvisioningInfoRequest, GetProvisioningInfoResponse, GetProvisioningInfoError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProvisioningInfoRequest,
   output: GetProvisioningInfoResponse,

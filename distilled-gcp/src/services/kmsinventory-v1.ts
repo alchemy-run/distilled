@@ -285,7 +285,6 @@ export const GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse: Schema.S
 // Operations
 // ==========================================================================
 
-/** Returns cryptographic keys managed by Cloud KMS in a given Cloud project. Note that this data is sourced from snapshots, meaning it may not completely reflect the actual state of key metadata at call time. */
 export interface ListProjectsCryptoKeysRequest {
   /** Required. The Google Cloud project for which to retrieve key metadata, in the format `projects/*` */
   parent: string;
@@ -309,7 +308,8 @@ export const ListProjectsCryptoKeysResponse = GoogleCloudKmsInventoryV1ListCrypt
 
 export type ListProjectsCryptoKeysError = CommonErrors;
 
-export const listProjectsCryptoKeys = API.makePaginated(() => ({
+/** Returns cryptographic keys managed by Cloud KMS in a given Cloud project. Note that this data is sourced from snapshots, meaning it may not completely reflect the actual state of key metadata at call time. */
+export const listProjectsCryptoKeys: API.PaginatedOperationMethod<ListProjectsCryptoKeysRequest, ListProjectsCryptoKeysResponse, ListProjectsCryptoKeysError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsCryptoKeysRequest,
   output: ListProjectsCryptoKeysResponse,
   errors: [],
@@ -319,7 +319,6 @@ export const listProjectsCryptoKeys = API.makePaginated(() => ({
   },
 }));
 
-/** Returns aggregate information about the resources protected by the given Cloud KMS CryptoKey. By default, summary of resources within the same Cloud organization as the key will be returned, which requires the KMS organization service account to be configured(refer https://docs.cloud.google.com/kms/docs/view-key-usage#required-roles). If the KMS organization service account is not configured or key's project is not part of an organization, set fallback_scope to `FALLBACK_SCOPE_PROJECT` to retrieve a summary of protected resources within the key's project. */
 export interface GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeysRequest {
   /** Required. The resource name of the CryptoKey. */
   name: string;
@@ -340,13 +339,13 @@ export const GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeysResp
 
 export type GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeysError = CommonErrors;
 
+/** Returns aggregate information about the resources protected by the given Cloud KMS CryptoKey. By default, summary of resources within the same Cloud organization as the key will be returned, which requires the KMS organization service account to be configured(refer https://docs.cloud.google.com/kms/docs/view-key-usage#required-roles). If the KMS organization service account is not configured or key's project is not part of an organization, set fallback_scope to `FALLBACK_SCOPE_PROJECT` to retrieve a summary of protected resources within the key's project. */
 export const getProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeysRequest, GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeysResponse, GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeysRequest,
   output: GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeysResponse,
   errors: [],
 }));
 
-/** Returns metadata about the resources protected by the given Cloud KMS CryptoKey in the given Cloud organization/project. */
 export interface SearchProjectsProtectedResourcesRequest {
   /** Required. A scope can be an organization or a project. Resources protected by the crypto key in provided scope will be returned. The following values are allowed: * organizations/{ORGANIZATION_NUMBER} (e.g., "organizations/12345678") * projects/{PROJECT_ID} (e.g., "projects/foo-bar") * projects/{PROJECT_NUMBER} (e.g., "projects/12345678") */
   scope: string;
@@ -376,7 +375,8 @@ export const SearchProjectsProtectedResourcesResponse = GoogleCloudKmsInventoryV
 
 export type SearchProjectsProtectedResourcesError = CommonErrors;
 
-export const searchProjectsProtectedResources = API.makePaginated(() => ({
+/** Returns metadata about the resources protected by the given Cloud KMS CryptoKey in the given Cloud organization/project. */
+export const searchProjectsProtectedResources: API.PaginatedOperationMethod<SearchProjectsProtectedResourcesRequest, SearchProjectsProtectedResourcesResponse, SearchProjectsProtectedResourcesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchProjectsProtectedResourcesRequest,
   output: SearchProjectsProtectedResourcesResponse,
   errors: [],
@@ -386,7 +386,6 @@ export const searchProjectsProtectedResources = API.makePaginated(() => ({
   },
 }));
 
-/** Returns metadata about the resources protected by the given Cloud KMS CryptoKey in the given Cloud organization/project. */
 export interface SearchOrganizationsProtectedResourcesRequest {
   /** Required. A scope can be an organization or a project. Resources protected by the crypto key in provided scope will be returned. The following values are allowed: * organizations/{ORGANIZATION_NUMBER} (e.g., "organizations/12345678") * projects/{PROJECT_ID} (e.g., "projects/foo-bar") * projects/{PROJECT_NUMBER} (e.g., "projects/12345678") */
   scope: string;
@@ -416,7 +415,8 @@ export const SearchOrganizationsProtectedResourcesResponse = GoogleCloudKmsInven
 
 export type SearchOrganizationsProtectedResourcesError = CommonErrors;
 
-export const searchOrganizationsProtectedResources = API.makePaginated(() => ({
+/** Returns metadata about the resources protected by the given Cloud KMS CryptoKey in the given Cloud organization/project. */
+export const searchOrganizationsProtectedResources: API.PaginatedOperationMethod<SearchOrganizationsProtectedResourcesRequest, SearchOrganizationsProtectedResourcesResponse, SearchOrganizationsProtectedResourcesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchOrganizationsProtectedResourcesRequest,
   output: SearchOrganizationsProtectedResourcesResponse,
   errors: [],

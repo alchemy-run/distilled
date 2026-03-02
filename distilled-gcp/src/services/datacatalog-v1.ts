@@ -1787,7 +1787,6 @@ export const GoogleCloudDatacatalogV1DumpItem: Schema.Schema<GoogleCloudDatacata
 // Operations
 // ==========================================================================
 
-/** Sets the configuration related to the migration to Dataplex Universal Catalog for an organization or project. */
 export interface SetConfigProjectsLocationsRequest {
   /** Required. The organization or project whose config is being specified. */
   name: string;
@@ -1808,13 +1807,13 @@ export const SetConfigProjectsLocationsResponse = GoogleCloudDatacatalogV1Migrat
 
 export type SetConfigProjectsLocationsError = CommonErrors;
 
+/** Sets the configuration related to the migration to Dataplex Universal Catalog for an organization or project. */
 export const setConfigProjectsLocations: API.OperationMethod<SetConfigProjectsLocationsRequest, SetConfigProjectsLocationsResponse, SetConfigProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetConfigProjectsLocationsRequest,
   output: SetConfigProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Retrieves the effective configuration related to the migration from Data Catalog to Dataplex Universal Catalog for a specific organization or project. If there is no specific configuration set for the resource, the setting is checked hierarchicahlly through the ancestors of the resource, starting from the resource itself. */
 export interface RetrieveEffectiveConfigProjectsLocationsRequest {
   /** Required. The resource whose effective config is being retrieved. */
   name: string;
@@ -1832,13 +1831,13 @@ export const RetrieveEffectiveConfigProjectsLocationsResponse = GoogleCloudDatac
 
 export type RetrieveEffectiveConfigProjectsLocationsError = CommonErrors;
 
+/** Retrieves the effective configuration related to the migration from Data Catalog to Dataplex Universal Catalog for a specific organization or project. If there is no specific configuration set for the resource, the setting is checked hierarchicahlly through the ancestors of the resource, starting from the resource itself. */
 export const retrieveEffectiveConfigProjectsLocations: API.OperationMethod<RetrieveEffectiveConfigProjectsLocationsRequest, RetrieveEffectiveConfigProjectsLocationsResponse, RetrieveEffectiveConfigProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RetrieveEffectiveConfigProjectsLocationsRequest,
   output: RetrieveEffectiveConfigProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -1868,7 +1867,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -1878,7 +1878,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1896,13 +1895,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -1920,13 +1919,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -1944,13 +1943,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Creates an entry group. An entry group contains logically related entries together with [Cloud Identity and Access Management](/data-catalog/docs/concepts/iam) policies. These policies specify users who can create, edit, and view entries within entry groups. Data Catalog automatically creates entry groups with names that start with the `@` symbol for the following resources: * BigQuery entries (`@bigquery`) * Pub/Sub topics (`@pubsub`) * Dataproc Metastore services (`@dataproc_metastore_{SERVICE_NAME_HASH}`) You can create your own entry groups for Cloud Storage fileset entries and custom entries together with the corresponding IAM policies. User-created entry groups can't contain the `@` symbol, it is reserved for automatically created groups. Entry groups, like entries, can be searched. A maximum of 10,000 entry groups may be created per organization across all locations. You must enable the Data Catalog API in the project identified by the `parent` parameter. For more information, see [Data Catalog resource project](https://cloud.google.com/data-catalog/docs/concepts/resource-project). */
 export interface CreateProjectsLocationsEntryGroupsRequest {
   /** Required. The names of the project and location that the new entry group belongs to. Note: The entry group itself and its child resources might not be stored in the location specified in its name. */
   parent: string;
@@ -1974,13 +1973,13 @@ export const CreateProjectsLocationsEntryGroupsResponse = GoogleCloudDatacatalog
 
 export type CreateProjectsLocationsEntryGroupsError = CommonErrors;
 
+/** Creates an entry group. An entry group contains logically related entries together with [Cloud Identity and Access Management](/data-catalog/docs/concepts/iam) policies. These policies specify users who can create, edit, and view entries within entry groups. Data Catalog automatically creates entry groups with names that start with the `@` symbol for the following resources: * BigQuery entries (`@bigquery`) * Pub/Sub topics (`@pubsub`) * Dataproc Metastore services (`@dataproc_metastore_{SERVICE_NAME_HASH}`) You can create your own entry groups for Cloud Storage fileset entries and custom entries together with the corresponding IAM policies. User-created entry groups can't contain the `@` symbol, it is reserved for automatically created groups. Entry groups, like entries, can be searched. A maximum of 10,000 entry groups may be created per organization across all locations. You must enable the Data Catalog API in the project identified by the `parent` parameter. For more information, see [Data Catalog resource project](https://cloud.google.com/data-catalog/docs/concepts/resource-project). */
 export const createProjectsLocationsEntryGroups: API.OperationMethod<CreateProjectsLocationsEntryGroupsRequest, CreateProjectsLocationsEntryGroupsResponse, CreateProjectsLocationsEntryGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsEntryGroupsRequest,
   output: CreateProjectsLocationsEntryGroupsResponse,
   errors: [],
 }));
 
-/** Gets an entry group. */
 export interface GetProjectsLocationsEntryGroupsRequest {
   /** Required. The name of the entry group to get. */
   name: string;
@@ -2001,13 +2000,13 @@ export const GetProjectsLocationsEntryGroupsResponse = GoogleCloudDatacatalogV1E
 
 export type GetProjectsLocationsEntryGroupsError = CommonErrors;
 
+/** Gets an entry group. */
 export const getProjectsLocationsEntryGroups: API.OperationMethod<GetProjectsLocationsEntryGroupsRequest, GetProjectsLocationsEntryGroupsResponse, GetProjectsLocationsEntryGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsEntryGroupsRequest,
   output: GetProjectsLocationsEntryGroupsResponse,
   errors: [],
 }));
 
-/** Updates an entry group. You must enable the Data Catalog API in the project identified by the `entry_group.name` parameter. For more information, see [Data Catalog resource project](https://cloud.google.com/data-catalog/docs/concepts/resource-project). */
 export interface PatchProjectsLocationsEntryGroupsRequest {
   /** Identifier. The resource name of the entry group in URL format. Note: The entry group itself and its child resources might not be stored in the location specified in its name. */
   name: string;
@@ -2031,13 +2030,13 @@ export const PatchProjectsLocationsEntryGroupsResponse = GoogleCloudDatacatalogV
 
 export type PatchProjectsLocationsEntryGroupsError = CommonErrors;
 
+/** Updates an entry group. You must enable the Data Catalog API in the project identified by the `entry_group.name` parameter. For more information, see [Data Catalog resource project](https://cloud.google.com/data-catalog/docs/concepts/resource-project). */
 export const patchProjectsLocationsEntryGroups: API.OperationMethod<PatchProjectsLocationsEntryGroupsRequest, PatchProjectsLocationsEntryGroupsResponse, PatchProjectsLocationsEntryGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsEntryGroupsRequest,
   output: PatchProjectsLocationsEntryGroupsResponse,
   errors: [],
 }));
 
-/** Deletes an entry group. You must enable the Data Catalog API in the project identified by the `name` parameter. For more information, see [Data Catalog resource project](https://cloud.google.com/data-catalog/docs/concepts/resource-project). */
 export interface DeleteProjectsLocationsEntryGroupsRequest {
   /** Required. The name of the entry group to delete. */
   name: string;
@@ -2058,13 +2057,13 @@ export const DeleteProjectsLocationsEntryGroupsResponse = Empty;
 
 export type DeleteProjectsLocationsEntryGroupsError = CommonErrors;
 
+/** Deletes an entry group. You must enable the Data Catalog API in the project identified by the `name` parameter. For more information, see [Data Catalog resource project](https://cloud.google.com/data-catalog/docs/concepts/resource-project). */
 export const deleteProjectsLocationsEntryGroups: API.OperationMethod<DeleteProjectsLocationsEntryGroupsRequest, DeleteProjectsLocationsEntryGroupsResponse, DeleteProjectsLocationsEntryGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsEntryGroupsRequest,
   output: DeleteProjectsLocationsEntryGroupsResponse,
   errors: [],
 }));
 
-/** Lists entry groups. */
 export interface ListProjectsLocationsEntryGroupsRequest {
   /** Required. The name of the location that contains the entry groups to list. Can be provided as a URL. */
   parent: string;
@@ -2088,7 +2087,8 @@ export const ListProjectsLocationsEntryGroupsResponse = GoogleCloudDatacatalogV1
 
 export type ListProjectsLocationsEntryGroupsError = CommonErrors;
 
-export const listProjectsLocationsEntryGroups = API.makePaginated(() => ({
+/** Lists entry groups. */
+export const listProjectsLocationsEntryGroups: API.PaginatedOperationMethod<ListProjectsLocationsEntryGroupsRequest, ListProjectsLocationsEntryGroupsResponse, ListProjectsLocationsEntryGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsEntryGroupsRequest,
   output: ListProjectsLocationsEntryGroupsResponse,
   errors: [],
@@ -2098,7 +2098,6 @@ export const listProjectsLocationsEntryGroups = API.makePaginated(() => ({
   },
 }));
 
-/** Sets an access control policy for a resource. Replaces any existing policy. Supported resources are: - Tag templates - Entry groups Note: This method sets policies only within Data Catalog and can't be used to manage policies in BigQuery, Pub/Sub, Dataproc Metastore, and any external Google Cloud Platform resources synced with the Data Catalog. To call this method, you must have the following Google IAM permissions: - `datacatalog.tagTemplates.setIamPolicy` to set policies on tag templates. - `datacatalog.entryGroups.setIamPolicy` to set policies on entry groups. */
 export interface SetIamPolicyProjectsLocationsEntryGroupsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2119,13 +2118,13 @@ export const SetIamPolicyProjectsLocationsEntryGroupsResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsEntryGroupsError = CommonErrors;
 
+/** Sets an access control policy for a resource. Replaces any existing policy. Supported resources are: - Tag templates - Entry groups Note: This method sets policies only within Data Catalog and can't be used to manage policies in BigQuery, Pub/Sub, Dataproc Metastore, and any external Google Cloud Platform resources synced with the Data Catalog. To call this method, you must have the following Google IAM permissions: - `datacatalog.tagTemplates.setIamPolicy` to set policies on tag templates. - `datacatalog.entryGroups.setIamPolicy` to set policies on entry groups. */
 export const setIamPolicyProjectsLocationsEntryGroups: API.OperationMethod<SetIamPolicyProjectsLocationsEntryGroupsRequest, SetIamPolicyProjectsLocationsEntryGroupsResponse, SetIamPolicyProjectsLocationsEntryGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsEntryGroupsRequest,
   output: SetIamPolicyProjectsLocationsEntryGroupsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. May return: * A`NOT_FOUND` error if the resource doesn't exist or you don't have the permission to view it. * An empty policy if the resource exists but doesn't have a set policy. Supported resources are: - Tag templates - Entry groups Note: This method doesn't get policies from Google Cloud Platform resources ingested into Data Catalog. To call this method, you must have the following Google IAM permissions: - `datacatalog.tagTemplates.getIamPolicy` to get policies on tag templates. - `datacatalog.entryGroups.getIamPolicy` to get policies on entry groups. */
 export interface GetIamPolicyProjectsLocationsEntryGroupsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2146,13 +2145,13 @@ export const GetIamPolicyProjectsLocationsEntryGroupsResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsEntryGroupsError = CommonErrors;
 
+/** Gets the access control policy for a resource. May return: * A`NOT_FOUND` error if the resource doesn't exist or you don't have the permission to view it. * An empty policy if the resource exists but doesn't have a set policy. Supported resources are: - Tag templates - Entry groups Note: This method doesn't get policies from Google Cloud Platform resources ingested into Data Catalog. To call this method, you must have the following Google IAM permissions: - `datacatalog.tagTemplates.getIamPolicy` to get policies on tag templates. - `datacatalog.entryGroups.getIamPolicy` to get policies on entry groups. */
 export const getIamPolicyProjectsLocationsEntryGroups: API.OperationMethod<GetIamPolicyProjectsLocationsEntryGroupsRequest, GetIamPolicyProjectsLocationsEntryGroupsResponse, GetIamPolicyProjectsLocationsEntryGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsEntryGroupsRequest,
   output: GetIamPolicyProjectsLocationsEntryGroupsResponse,
   errors: [],
 }));
 
-/** Gets your permissions on a resource. Returns an empty set of permissions if the resource doesn't exist. Supported resources are: - Tag templates - Entry groups Note: This method gets policies only within Data Catalog and can't be used to get policies from BigQuery, Pub/Sub, Dataproc Metastore, and any external Google Cloud Platform resources ingested into Data Catalog. No Google IAM permissions are required to call this method. */
 export interface TestIamPermissionsProjectsLocationsEntryGroupsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2173,13 +2172,13 @@ export const TestIamPermissionsProjectsLocationsEntryGroupsResponse = TestIamPer
 
 export type TestIamPermissionsProjectsLocationsEntryGroupsError = CommonErrors;
 
+/** Gets your permissions on a resource. Returns an empty set of permissions if the resource doesn't exist. Supported resources are: - Tag templates - Entry groups Note: This method gets policies only within Data Catalog and can't be used to get policies from BigQuery, Pub/Sub, Dataproc Metastore, and any external Google Cloud Platform resources ingested into Data Catalog. No Google IAM permissions are required to call this method. */
 export const testIamPermissionsProjectsLocationsEntryGroups: API.OperationMethod<TestIamPermissionsProjectsLocationsEntryGroupsRequest, TestIamPermissionsProjectsLocationsEntryGroupsResponse, TestIamPermissionsProjectsLocationsEntryGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsEntryGroupsRequest,
   output: TestIamPermissionsProjectsLocationsEntryGroupsResponse,
   errors: [],
 }));
 
-/** Creates an entry. You can create entries only with 'FILESET', 'CLUSTER', 'DATA_STREAM', or custom types. Data Catalog automatically creates entries with other types during metadata ingestion from integrated systems. You must enable the Data Catalog API in the project identified by the `parent` parameter. For more information, see [Data Catalog resource project](https://cloud.google.com/data-catalog/docs/concepts/resource-project). An entry group can have a maximum of 100,000 entries. */
 export interface CreateProjectsLocationsEntryGroupsEntriesRequest {
   /** Required. The name of the entry group this entry belongs to. Note: The entry itself and its child resources might not be stored in the location specified in its name. */
   parent: string;
@@ -2203,13 +2202,13 @@ export const CreateProjectsLocationsEntryGroupsEntriesResponse = GoogleCloudData
 
 export type CreateProjectsLocationsEntryGroupsEntriesError = CommonErrors;
 
+/** Creates an entry. You can create entries only with 'FILESET', 'CLUSTER', 'DATA_STREAM', or custom types. Data Catalog automatically creates entries with other types during metadata ingestion from integrated systems. You must enable the Data Catalog API in the project identified by the `parent` parameter. For more information, see [Data Catalog resource project](https://cloud.google.com/data-catalog/docs/concepts/resource-project). An entry group can have a maximum of 100,000 entries. */
 export const createProjectsLocationsEntryGroupsEntries: API.OperationMethod<CreateProjectsLocationsEntryGroupsEntriesRequest, CreateProjectsLocationsEntryGroupsEntriesResponse, CreateProjectsLocationsEntryGroupsEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsEntryGroupsEntriesRequest,
   output: CreateProjectsLocationsEntryGroupsEntriesResponse,
   errors: [],
 }));
 
-/** Updates an existing entry. You must enable the Data Catalog API in the project identified by the `entry.name` parameter. For more information, see [Data Catalog resource project](https://cloud.google.com/data-catalog/docs/concepts/resource-project). */
 export interface PatchProjectsLocationsEntryGroupsEntriesRequest {
   /** Output only. Identifier. The resource name of an entry in URL format. Note: The entry itself and its child resources might not be stored in the location specified in its name. */
   name: string;
@@ -2233,13 +2232,13 @@ export const PatchProjectsLocationsEntryGroupsEntriesResponse = GoogleCloudDatac
 
 export type PatchProjectsLocationsEntryGroupsEntriesError = CommonErrors;
 
+/** Updates an existing entry. You must enable the Data Catalog API in the project identified by the `entry.name` parameter. For more information, see [Data Catalog resource project](https://cloud.google.com/data-catalog/docs/concepts/resource-project). */
 export const patchProjectsLocationsEntryGroupsEntries: API.OperationMethod<PatchProjectsLocationsEntryGroupsEntriesRequest, PatchProjectsLocationsEntryGroupsEntriesResponse, PatchProjectsLocationsEntryGroupsEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsEntryGroupsEntriesRequest,
   output: PatchProjectsLocationsEntryGroupsEntriesResponse,
   errors: [],
 }));
 
-/** Deletes an existing entry. You can delete only the entries created by the CreateEntry method. You must enable the Data Catalog API in the project identified by the `name` parameter. For more information, see [Data Catalog resource project](https://cloud.google.com/data-catalog/docs/concepts/resource-project). */
 export interface DeleteProjectsLocationsEntryGroupsEntriesRequest {
   /** Required. The name of the entry to delete. */
   name: string;
@@ -2257,13 +2256,13 @@ export const DeleteProjectsLocationsEntryGroupsEntriesResponse = Empty;
 
 export type DeleteProjectsLocationsEntryGroupsEntriesError = CommonErrors;
 
+/** Deletes an existing entry. You can delete only the entries created by the CreateEntry method. You must enable the Data Catalog API in the project identified by the `name` parameter. For more information, see [Data Catalog resource project](https://cloud.google.com/data-catalog/docs/concepts/resource-project). */
 export const deleteProjectsLocationsEntryGroupsEntries: API.OperationMethod<DeleteProjectsLocationsEntryGroupsEntriesRequest, DeleteProjectsLocationsEntryGroupsEntriesResponse, DeleteProjectsLocationsEntryGroupsEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsEntryGroupsEntriesRequest,
   output: DeleteProjectsLocationsEntryGroupsEntriesResponse,
   errors: [],
 }));
 
-/** Gets an entry. */
 export interface GetProjectsLocationsEntryGroupsEntriesRequest {
   /** Required. The name of the entry to get. */
   name: string;
@@ -2281,13 +2280,13 @@ export const GetProjectsLocationsEntryGroupsEntriesResponse = GoogleCloudDatacat
 
 export type GetProjectsLocationsEntryGroupsEntriesError = CommonErrors;
 
+/** Gets an entry. */
 export const getProjectsLocationsEntryGroupsEntries: API.OperationMethod<GetProjectsLocationsEntryGroupsEntriesRequest, GetProjectsLocationsEntryGroupsEntriesResponse, GetProjectsLocationsEntryGroupsEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsEntryGroupsEntriesRequest,
   output: GetProjectsLocationsEntryGroupsEntriesResponse,
   errors: [],
 }));
 
-/** Lists entries. Note: Currently, this method can list only custom entries. To get a list of both custom and automatically created entries, use SearchCatalog. */
 export interface ListProjectsLocationsEntryGroupsEntriesRequest {
   /** Required. The name of the entry group that contains the entries to list. Can be provided in URL format. */
   parent: string;
@@ -2314,7 +2313,8 @@ export const ListProjectsLocationsEntryGroupsEntriesResponse = GoogleCloudDataca
 
 export type ListProjectsLocationsEntryGroupsEntriesError = CommonErrors;
 
-export const listProjectsLocationsEntryGroupsEntries = API.makePaginated(() => ({
+/** Lists entries. Note: Currently, this method can list only custom entries. To get a list of both custom and automatically created entries, use SearchCatalog. */
+export const listProjectsLocationsEntryGroupsEntries: API.PaginatedOperationMethod<ListProjectsLocationsEntryGroupsEntriesRequest, ListProjectsLocationsEntryGroupsEntriesResponse, ListProjectsLocationsEntryGroupsEntriesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsEntryGroupsEntriesRequest,
   output: ListProjectsLocationsEntryGroupsEntriesResponse,
   errors: [],
@@ -2324,7 +2324,6 @@ export const listProjectsLocationsEntryGroupsEntries = API.makePaginated(() => (
   },
 }));
 
-/** Modifies entry overview, part of the business context of an Entry. To call this method, you must have the `datacatalog.entries.updateOverview` IAM permission on the corresponding project. */
 export interface ModifyEntryOverviewProjectsLocationsEntryGroupsEntriesRequest {
   /** Required. The full resource name of the entry. */
   name: string;
@@ -2345,13 +2344,13 @@ export const ModifyEntryOverviewProjectsLocationsEntryGroupsEntriesResponse = Go
 
 export type ModifyEntryOverviewProjectsLocationsEntryGroupsEntriesError = CommonErrors;
 
+/** Modifies entry overview, part of the business context of an Entry. To call this method, you must have the `datacatalog.entries.updateOverview` IAM permission on the corresponding project. */
 export const modifyEntryOverviewProjectsLocationsEntryGroupsEntries: API.OperationMethod<ModifyEntryOverviewProjectsLocationsEntryGroupsEntriesRequest, ModifyEntryOverviewProjectsLocationsEntryGroupsEntriesResponse, ModifyEntryOverviewProjectsLocationsEntryGroupsEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ModifyEntryOverviewProjectsLocationsEntryGroupsEntriesRequest,
   output: ModifyEntryOverviewProjectsLocationsEntryGroupsEntriesResponse,
   errors: [],
 }));
 
-/** Modifies contacts, part of the business context of an Entry. To call this method, you must have the `datacatalog.entries.updateContacts` IAM permission on the corresponding project. */
 export interface ModifyEntryContactsProjectsLocationsEntryGroupsEntriesRequest {
   /** Required. The full resource name of the entry. */
   name: string;
@@ -2372,13 +2371,13 @@ export const ModifyEntryContactsProjectsLocationsEntryGroupsEntriesResponse = Go
 
 export type ModifyEntryContactsProjectsLocationsEntryGroupsEntriesError = CommonErrors;
 
+/** Modifies contacts, part of the business context of an Entry. To call this method, you must have the `datacatalog.entries.updateContacts` IAM permission on the corresponding project. */
 export const modifyEntryContactsProjectsLocationsEntryGroupsEntries: API.OperationMethod<ModifyEntryContactsProjectsLocationsEntryGroupsEntriesRequest, ModifyEntryContactsProjectsLocationsEntryGroupsEntriesResponse, ModifyEntryContactsProjectsLocationsEntryGroupsEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ModifyEntryContactsProjectsLocationsEntryGroupsEntriesRequest,
   output: ModifyEntryContactsProjectsLocationsEntryGroupsEntriesResponse,
   errors: [],
 }));
 
-/** Marks an Entry as starred by the current user. Starring information is private to each user. */
 export interface StarProjectsLocationsEntryGroupsEntriesRequest {
   /** Required. The name of the entry to mark as starred. */
   name: string;
@@ -2399,13 +2398,13 @@ export const StarProjectsLocationsEntryGroupsEntriesResponse = GoogleCloudDataca
 
 export type StarProjectsLocationsEntryGroupsEntriesError = CommonErrors;
 
+/** Marks an Entry as starred by the current user. Starring information is private to each user. */
 export const starProjectsLocationsEntryGroupsEntries: API.OperationMethod<StarProjectsLocationsEntryGroupsEntriesRequest, StarProjectsLocationsEntryGroupsEntriesResponse, StarProjectsLocationsEntryGroupsEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StarProjectsLocationsEntryGroupsEntriesRequest,
   output: StarProjectsLocationsEntryGroupsEntriesResponse,
   errors: [],
 }));
 
-/** Marks an Entry as NOT starred by the current user. Starring information is private to each user. */
 export interface UnstarProjectsLocationsEntryGroupsEntriesRequest {
   /** Required. The name of the entry to mark as **not** starred. */
   name: string;
@@ -2426,13 +2425,13 @@ export const UnstarProjectsLocationsEntryGroupsEntriesResponse = GoogleCloudData
 
 export type UnstarProjectsLocationsEntryGroupsEntriesError = CommonErrors;
 
+/** Marks an Entry as NOT starred by the current user. Starring information is private to each user. */
 export const unstarProjectsLocationsEntryGroupsEntries: API.OperationMethod<UnstarProjectsLocationsEntryGroupsEntriesRequest, UnstarProjectsLocationsEntryGroupsEntriesResponse, UnstarProjectsLocationsEntryGroupsEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UnstarProjectsLocationsEntryGroupsEntriesRequest,
   output: UnstarProjectsLocationsEntryGroupsEntriesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. May return: * A`NOT_FOUND` error if the resource doesn't exist or you don't have the permission to view it. * An empty policy if the resource exists but doesn't have a set policy. Supported resources are: - Tag templates - Entry groups Note: This method doesn't get policies from Google Cloud Platform resources ingested into Data Catalog. To call this method, you must have the following Google IAM permissions: - `datacatalog.tagTemplates.getIamPolicy` to get policies on tag templates. - `datacatalog.entryGroups.getIamPolicy` to get policies on entry groups. */
 export interface GetIamPolicyProjectsLocationsEntryGroupsEntriesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2453,13 +2452,13 @@ export const GetIamPolicyProjectsLocationsEntryGroupsEntriesResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsEntryGroupsEntriesError = CommonErrors;
 
+/** Gets the access control policy for a resource. May return: * A`NOT_FOUND` error if the resource doesn't exist or you don't have the permission to view it. * An empty policy if the resource exists but doesn't have a set policy. Supported resources are: - Tag templates - Entry groups Note: This method doesn't get policies from Google Cloud Platform resources ingested into Data Catalog. To call this method, you must have the following Google IAM permissions: - `datacatalog.tagTemplates.getIamPolicy` to get policies on tag templates. - `datacatalog.entryGroups.getIamPolicy` to get policies on entry groups. */
 export const getIamPolicyProjectsLocationsEntryGroupsEntries: API.OperationMethod<GetIamPolicyProjectsLocationsEntryGroupsEntriesRequest, GetIamPolicyProjectsLocationsEntryGroupsEntriesResponse, GetIamPolicyProjectsLocationsEntryGroupsEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsEntryGroupsEntriesRequest,
   output: GetIamPolicyProjectsLocationsEntryGroupsEntriesResponse,
   errors: [],
 }));
 
-/** Gets your permissions on a resource. Returns an empty set of permissions if the resource doesn't exist. Supported resources are: - Tag templates - Entry groups Note: This method gets policies only within Data Catalog and can't be used to get policies from BigQuery, Pub/Sub, Dataproc Metastore, and any external Google Cloud Platform resources ingested into Data Catalog. No Google IAM permissions are required to call this method. */
 export interface TestIamPermissionsProjectsLocationsEntryGroupsEntriesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2480,13 +2479,13 @@ export const TestIamPermissionsProjectsLocationsEntryGroupsEntriesResponse = Tes
 
 export type TestIamPermissionsProjectsLocationsEntryGroupsEntriesError = CommonErrors;
 
+/** Gets your permissions on a resource. Returns an empty set of permissions if the resource doesn't exist. Supported resources are: - Tag templates - Entry groups Note: This method gets policies only within Data Catalog and can't be used to get policies from BigQuery, Pub/Sub, Dataproc Metastore, and any external Google Cloud Platform resources ingested into Data Catalog. No Google IAM permissions are required to call this method. */
 export const testIamPermissionsProjectsLocationsEntryGroupsEntries: API.OperationMethod<TestIamPermissionsProjectsLocationsEntryGroupsEntriesRequest, TestIamPermissionsProjectsLocationsEntryGroupsEntriesResponse, TestIamPermissionsProjectsLocationsEntryGroupsEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsEntryGroupsEntriesRequest,
   output: TestIamPermissionsProjectsLocationsEntryGroupsEntriesResponse,
   errors: [],
 }));
 
-/** Imports entries from a source, such as data previously dumped into a Cloud Storage bucket, into Data Catalog. Import of entries is a sync operation that reconciles the state of the third-party system with the Data Catalog. `ImportEntries` accepts source data snapshots of a third-party system. Snapshot should be delivered as a .wire or base65-encoded .txt file containing a sequence of Protocol Buffer messages of DumpItem type. `ImportEntries` returns a long-running operation resource that can be queried with Operations.GetOperation to return ImportEntriesMetadata and an ImportEntriesResponse message. */
 export interface ImportProjectsLocationsEntryGroupsEntriesRequest {
   /** Required. Target entry group for ingested entries. */
   parent: string;
@@ -2507,13 +2506,13 @@ export const ImportProjectsLocationsEntryGroupsEntriesResponse = Operation;
 
 export type ImportProjectsLocationsEntryGroupsEntriesError = CommonErrors;
 
+/** Imports entries from a source, such as data previously dumped into a Cloud Storage bucket, into Data Catalog. Import of entries is a sync operation that reconciles the state of the third-party system with the Data Catalog. `ImportEntries` accepts source data snapshots of a third-party system. Snapshot should be delivered as a .wire or base65-encoded .txt file containing a sequence of Protocol Buffer messages of DumpItem type. `ImportEntries` returns a long-running operation resource that can be queried with Operations.GetOperation to return ImportEntriesMetadata and an ImportEntriesResponse message. */
 export const importProjectsLocationsEntryGroupsEntries: API.OperationMethod<ImportProjectsLocationsEntryGroupsEntriesRequest, ImportProjectsLocationsEntryGroupsEntriesResponse, ImportProjectsLocationsEntryGroupsEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportProjectsLocationsEntryGroupsEntriesRequest,
   output: ImportProjectsLocationsEntryGroupsEntriesResponse,
   errors: [],
 }));
 
-/** Creates a tag and assigns it to: * An Entry if the method name is `projects.locations.entryGroups.entries.tags.create`. * Or EntryGroupif the method name is `projects.locations.entryGroups.tags.create`. Note: The project identified by the `parent` parameter for the [tag] (https://cloud.google.com/data-catalog/docs/reference/rest/v1/projects.locations.entryGroups.entries.tags/create#path-parameters) and the [tag template] (https://cloud.google.com/data-catalog/docs/reference/rest/v1/projects.locations.tagTemplates/create#path-parameters) used to create the tag must be in the same organization. */
 export interface CreateProjectsLocationsEntryGroupsEntriesTagsRequest {
   /** Required. The name of the resource to attach this tag to. Tags can be attached to entries or entry groups. An entry can have up to 1000 attached tags. Note: The tag and its child resources might not be stored in the location specified in its name. */
   parent: string;
@@ -2534,13 +2533,13 @@ export const CreateProjectsLocationsEntryGroupsEntriesTagsResponse = GoogleCloud
 
 export type CreateProjectsLocationsEntryGroupsEntriesTagsError = CommonErrors;
 
+/** Creates a tag and assigns it to: * An Entry if the method name is `projects.locations.entryGroups.entries.tags.create`. * Or EntryGroupif the method name is `projects.locations.entryGroups.tags.create`. Note: The project identified by the `parent` parameter for the [tag] (https://cloud.google.com/data-catalog/docs/reference/rest/v1/projects.locations.entryGroups.entries.tags/create#path-parameters) and the [tag template] (https://cloud.google.com/data-catalog/docs/reference/rest/v1/projects.locations.tagTemplates/create#path-parameters) used to create the tag must be in the same organization. */
 export const createProjectsLocationsEntryGroupsEntriesTags: API.OperationMethod<CreateProjectsLocationsEntryGroupsEntriesTagsRequest, CreateProjectsLocationsEntryGroupsEntriesTagsResponse, CreateProjectsLocationsEntryGroupsEntriesTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsEntryGroupsEntriesTagsRequest,
   output: CreateProjectsLocationsEntryGroupsEntriesTagsResponse,
   errors: [],
 }));
 
-/** Updates an existing tag. */
 export interface PatchProjectsLocationsEntryGroupsEntriesTagsRequest {
   /** Identifier. The resource name of the tag in URL format where tag ID is a system-generated identifier. Note: The tag itself might not be stored in the location specified in its name. */
   name: string;
@@ -2564,13 +2563,13 @@ export const PatchProjectsLocationsEntryGroupsEntriesTagsResponse = GoogleCloudD
 
 export type PatchProjectsLocationsEntryGroupsEntriesTagsError = CommonErrors;
 
+/** Updates an existing tag. */
 export const patchProjectsLocationsEntryGroupsEntriesTags: API.OperationMethod<PatchProjectsLocationsEntryGroupsEntriesTagsRequest, PatchProjectsLocationsEntryGroupsEntriesTagsResponse, PatchProjectsLocationsEntryGroupsEntriesTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsEntryGroupsEntriesTagsRequest,
   output: PatchProjectsLocationsEntryGroupsEntriesTagsResponse,
   errors: [],
 }));
 
-/** Deletes a tag. */
 export interface DeleteProjectsLocationsEntryGroupsEntriesTagsRequest {
   /** Required. The name of the tag to delete. */
   name: string;
@@ -2588,13 +2587,13 @@ export const DeleteProjectsLocationsEntryGroupsEntriesTagsResponse = Empty;
 
 export type DeleteProjectsLocationsEntryGroupsEntriesTagsError = CommonErrors;
 
+/** Deletes a tag. */
 export const deleteProjectsLocationsEntryGroupsEntriesTags: API.OperationMethod<DeleteProjectsLocationsEntryGroupsEntriesTagsRequest, DeleteProjectsLocationsEntryGroupsEntriesTagsResponse, DeleteProjectsLocationsEntryGroupsEntriesTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsEntryGroupsEntriesTagsRequest,
   output: DeleteProjectsLocationsEntryGroupsEntriesTagsResponse,
   errors: [],
 }));
 
-/** Lists tags assigned to an Entry. The columns in the response are lowercased. */
 export interface ListProjectsLocationsEntryGroupsEntriesTagsRequest {
   /** Required. The name of the Data Catalog resource to list the tags of. The resource can be an Entry or an EntryGroup (without `/entries/{entries}` at the end). */
   parent: string;
@@ -2618,7 +2617,8 @@ export const ListProjectsLocationsEntryGroupsEntriesTagsResponse = GoogleCloudDa
 
 export type ListProjectsLocationsEntryGroupsEntriesTagsError = CommonErrors;
 
-export const listProjectsLocationsEntryGroupsEntriesTags = API.makePaginated(() => ({
+/** Lists tags assigned to an Entry. The columns in the response are lowercased. */
+export const listProjectsLocationsEntryGroupsEntriesTags: API.PaginatedOperationMethod<ListProjectsLocationsEntryGroupsEntriesTagsRequest, ListProjectsLocationsEntryGroupsEntriesTagsResponse, ListProjectsLocationsEntryGroupsEntriesTagsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsEntryGroupsEntriesTagsRequest,
   output: ListProjectsLocationsEntryGroupsEntriesTagsResponse,
   errors: [],
@@ -2628,7 +2628,6 @@ export const listProjectsLocationsEntryGroupsEntriesTags = API.makePaginated(() 
   },
 }));
 
-/** `ReconcileTags` creates or updates a list of tags on the entry. If the ReconcileTagsRequest.force_delete_missing parameter is set, the operation deletes tags not included in the input tag list. `ReconcileTags` returns a long-running operation resource that can be queried with Operations.GetOperation to return ReconcileTagsMetadata and a ReconcileTagsResponse message. Note: SearchCatalog might return stale search results for up to 24 hours after the `ReconcileTags` operation completes. */
 export interface ReconcileProjectsLocationsEntryGroupsEntriesTagsRequest {
   /** Required. Name of Entry to be tagged. */
   parent: string;
@@ -2649,13 +2648,13 @@ export const ReconcileProjectsLocationsEntryGroupsEntriesTagsResponse = Operatio
 
 export type ReconcileProjectsLocationsEntryGroupsEntriesTagsError = CommonErrors;
 
+/** `ReconcileTags` creates or updates a list of tags on the entry. If the ReconcileTagsRequest.force_delete_missing parameter is set, the operation deletes tags not included in the input tag list. `ReconcileTags` returns a long-running operation resource that can be queried with Operations.GetOperation to return ReconcileTagsMetadata and a ReconcileTagsResponse message. Note: SearchCatalog might return stale search results for up to 24 hours after the `ReconcileTags` operation completes. */
 export const reconcileProjectsLocationsEntryGroupsEntriesTags: API.OperationMethod<ReconcileProjectsLocationsEntryGroupsEntriesTagsRequest, ReconcileProjectsLocationsEntryGroupsEntriesTagsResponse, ReconcileProjectsLocationsEntryGroupsEntriesTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReconcileProjectsLocationsEntryGroupsEntriesTagsRequest,
   output: ReconcileProjectsLocationsEntryGroupsEntriesTagsResponse,
   errors: [],
 }));
 
-/** Creates a tag and assigns it to: * An Entry if the method name is `projects.locations.entryGroups.entries.tags.create`. * Or EntryGroupif the method name is `projects.locations.entryGroups.tags.create`. Note: The project identified by the `parent` parameter for the [tag] (https://cloud.google.com/data-catalog/docs/reference/rest/v1/projects.locations.entryGroups.entries.tags/create#path-parameters) and the [tag template] (https://cloud.google.com/data-catalog/docs/reference/rest/v1/projects.locations.tagTemplates/create#path-parameters) used to create the tag must be in the same organization. */
 export interface CreateProjectsLocationsEntryGroupsTagsRequest {
   /** Required. The name of the resource to attach this tag to. Tags can be attached to entries or entry groups. An entry can have up to 1000 attached tags. Note: The tag and its child resources might not be stored in the location specified in its name. */
   parent: string;
@@ -2676,13 +2675,13 @@ export const CreateProjectsLocationsEntryGroupsTagsResponse = GoogleCloudDatacat
 
 export type CreateProjectsLocationsEntryGroupsTagsError = CommonErrors;
 
+/** Creates a tag and assigns it to: * An Entry if the method name is `projects.locations.entryGroups.entries.tags.create`. * Or EntryGroupif the method name is `projects.locations.entryGroups.tags.create`. Note: The project identified by the `parent` parameter for the [tag] (https://cloud.google.com/data-catalog/docs/reference/rest/v1/projects.locations.entryGroups.entries.tags/create#path-parameters) and the [tag template] (https://cloud.google.com/data-catalog/docs/reference/rest/v1/projects.locations.tagTemplates/create#path-parameters) used to create the tag must be in the same organization. */
 export const createProjectsLocationsEntryGroupsTags: API.OperationMethod<CreateProjectsLocationsEntryGroupsTagsRequest, CreateProjectsLocationsEntryGroupsTagsResponse, CreateProjectsLocationsEntryGroupsTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsEntryGroupsTagsRequest,
   output: CreateProjectsLocationsEntryGroupsTagsResponse,
   errors: [],
 }));
 
-/** Updates an existing tag. */
 export interface PatchProjectsLocationsEntryGroupsTagsRequest {
   /** Identifier. The resource name of the tag in URL format where tag ID is a system-generated identifier. Note: The tag itself might not be stored in the location specified in its name. */
   name: string;
@@ -2706,13 +2705,13 @@ export const PatchProjectsLocationsEntryGroupsTagsResponse = GoogleCloudDatacata
 
 export type PatchProjectsLocationsEntryGroupsTagsError = CommonErrors;
 
+/** Updates an existing tag. */
 export const patchProjectsLocationsEntryGroupsTags: API.OperationMethod<PatchProjectsLocationsEntryGroupsTagsRequest, PatchProjectsLocationsEntryGroupsTagsResponse, PatchProjectsLocationsEntryGroupsTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsEntryGroupsTagsRequest,
   output: PatchProjectsLocationsEntryGroupsTagsResponse,
   errors: [],
 }));
 
-/** Deletes a tag. */
 export interface DeleteProjectsLocationsEntryGroupsTagsRequest {
   /** Required. The name of the tag to delete. */
   name: string;
@@ -2730,13 +2729,13 @@ export const DeleteProjectsLocationsEntryGroupsTagsResponse = Empty;
 
 export type DeleteProjectsLocationsEntryGroupsTagsError = CommonErrors;
 
+/** Deletes a tag. */
 export const deleteProjectsLocationsEntryGroupsTags: API.OperationMethod<DeleteProjectsLocationsEntryGroupsTagsRequest, DeleteProjectsLocationsEntryGroupsTagsResponse, DeleteProjectsLocationsEntryGroupsTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsEntryGroupsTagsRequest,
   output: DeleteProjectsLocationsEntryGroupsTagsResponse,
   errors: [],
 }));
 
-/** Lists tags assigned to an Entry. The columns in the response are lowercased. */
 export interface ListProjectsLocationsEntryGroupsTagsRequest {
   /** Required. The name of the Data Catalog resource to list the tags of. The resource can be an Entry or an EntryGroup (without `/entries/{entries}` at the end). */
   parent: string;
@@ -2760,7 +2759,8 @@ export const ListProjectsLocationsEntryGroupsTagsResponse = GoogleCloudDatacatal
 
 export type ListProjectsLocationsEntryGroupsTagsError = CommonErrors;
 
-export const listProjectsLocationsEntryGroupsTags = API.makePaginated(() => ({
+/** Lists tags assigned to an Entry. The columns in the response are lowercased. */
+export const listProjectsLocationsEntryGroupsTags: API.PaginatedOperationMethod<ListProjectsLocationsEntryGroupsTagsRequest, ListProjectsLocationsEntryGroupsTagsResponse, ListProjectsLocationsEntryGroupsTagsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsEntryGroupsTagsRequest,
   output: ListProjectsLocationsEntryGroupsTagsResponse,
   errors: [],
@@ -2770,7 +2770,6 @@ export const listProjectsLocationsEntryGroupsTags = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a tag template. You must enable the Data Catalog API in the project identified by the `parent` parameter. For more information, see [Data Catalog resource project] (https://cloud.google.com/data-catalog/docs/concepts/resource-project). */
 export interface CreateProjectsLocationsTagTemplatesRequest {
   /** Required. The name of the project and the template location [region](https://cloud.google.com/data-catalog/docs/concepts/regions). */
   parent: string;
@@ -2794,13 +2793,13 @@ export const CreateProjectsLocationsTagTemplatesResponse = GoogleCloudDatacatalo
 
 export type CreateProjectsLocationsTagTemplatesError = CommonErrors;
 
+/** Creates a tag template. You must enable the Data Catalog API in the project identified by the `parent` parameter. For more information, see [Data Catalog resource project] (https://cloud.google.com/data-catalog/docs/concepts/resource-project). */
 export const createProjectsLocationsTagTemplates: API.OperationMethod<CreateProjectsLocationsTagTemplatesRequest, CreateProjectsLocationsTagTemplatesResponse, CreateProjectsLocationsTagTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsTagTemplatesRequest,
   output: CreateProjectsLocationsTagTemplatesResponse,
   errors: [],
 }));
 
-/** Gets a tag template. */
 export interface GetProjectsLocationsTagTemplatesRequest {
   /** Required. The name of the tag template to get. */
   name: string;
@@ -2818,13 +2817,13 @@ export const GetProjectsLocationsTagTemplatesResponse = GoogleCloudDatacatalogV1
 
 export type GetProjectsLocationsTagTemplatesError = CommonErrors;
 
+/** Gets a tag template. */
 export const getProjectsLocationsTagTemplates: API.OperationMethod<GetProjectsLocationsTagTemplatesRequest, GetProjectsLocationsTagTemplatesResponse, GetProjectsLocationsTagTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsTagTemplatesRequest,
   output: GetProjectsLocationsTagTemplatesResponse,
   errors: [],
 }));
 
-/** Updates a tag template. You can't update template fields with this method. These fields are separate resources with their own create, update, and delete methods. You must enable the Data Catalog API in the project identified by the `tag_template.name` parameter. For more information, see [Data Catalog resource project](https://cloud.google.com/data-catalog/docs/concepts/resource-project). */
 export interface PatchProjectsLocationsTagTemplatesRequest {
   /** Identifier. The resource name of the tag template in URL format. Note: The tag template itself and its child resources might not be stored in the location specified in its name. */
   name: string;
@@ -2848,13 +2847,13 @@ export const PatchProjectsLocationsTagTemplatesResponse = GoogleCloudDatacatalog
 
 export type PatchProjectsLocationsTagTemplatesError = CommonErrors;
 
+/** Updates a tag template. You can't update template fields with this method. These fields are separate resources with their own create, update, and delete methods. You must enable the Data Catalog API in the project identified by the `tag_template.name` parameter. For more information, see [Data Catalog resource project](https://cloud.google.com/data-catalog/docs/concepts/resource-project). */
 export const patchProjectsLocationsTagTemplates: API.OperationMethod<PatchProjectsLocationsTagTemplatesRequest, PatchProjectsLocationsTagTemplatesResponse, PatchProjectsLocationsTagTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsTagTemplatesRequest,
   output: PatchProjectsLocationsTagTemplatesResponse,
   errors: [],
 }));
 
-/** Deletes a tag template and all tags that use it. You must enable the Data Catalog API in the project identified by the `name` parameter. For more information, see [Data Catalog resource project](https://cloud.google.com/data-catalog/docs/concepts/resource-project). */
 export interface DeleteProjectsLocationsTagTemplatesRequest {
   /** Required. The name of the tag template to delete. */
   name: string;
@@ -2875,13 +2874,13 @@ export const DeleteProjectsLocationsTagTemplatesResponse = Empty;
 
 export type DeleteProjectsLocationsTagTemplatesError = CommonErrors;
 
+/** Deletes a tag template and all tags that use it. You must enable the Data Catalog API in the project identified by the `name` parameter. For more information, see [Data Catalog resource project](https://cloud.google.com/data-catalog/docs/concepts/resource-project). */
 export const deleteProjectsLocationsTagTemplates: API.OperationMethod<DeleteProjectsLocationsTagTemplatesRequest, DeleteProjectsLocationsTagTemplatesResponse, DeleteProjectsLocationsTagTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsTagTemplatesRequest,
   output: DeleteProjectsLocationsTagTemplatesResponse,
   errors: [],
 }));
 
-/** Sets an access control policy for a resource. Replaces any existing policy. Supported resources are: - Tag templates - Entry groups Note: This method sets policies only within Data Catalog and can't be used to manage policies in BigQuery, Pub/Sub, Dataproc Metastore, and any external Google Cloud Platform resources synced with the Data Catalog. To call this method, you must have the following Google IAM permissions: - `datacatalog.tagTemplates.setIamPolicy` to set policies on tag templates. - `datacatalog.entryGroups.setIamPolicy` to set policies on entry groups. */
 export interface SetIamPolicyProjectsLocationsTagTemplatesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2902,13 +2901,13 @@ export const SetIamPolicyProjectsLocationsTagTemplatesResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsTagTemplatesError = CommonErrors;
 
+/** Sets an access control policy for a resource. Replaces any existing policy. Supported resources are: - Tag templates - Entry groups Note: This method sets policies only within Data Catalog and can't be used to manage policies in BigQuery, Pub/Sub, Dataproc Metastore, and any external Google Cloud Platform resources synced with the Data Catalog. To call this method, you must have the following Google IAM permissions: - `datacatalog.tagTemplates.setIamPolicy` to set policies on tag templates. - `datacatalog.entryGroups.setIamPolicy` to set policies on entry groups. */
 export const setIamPolicyProjectsLocationsTagTemplates: API.OperationMethod<SetIamPolicyProjectsLocationsTagTemplatesRequest, SetIamPolicyProjectsLocationsTagTemplatesResponse, SetIamPolicyProjectsLocationsTagTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsTagTemplatesRequest,
   output: SetIamPolicyProjectsLocationsTagTemplatesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. May return: * A`NOT_FOUND` error if the resource doesn't exist or you don't have the permission to view it. * An empty policy if the resource exists but doesn't have a set policy. Supported resources are: - Tag templates - Entry groups Note: This method doesn't get policies from Google Cloud Platform resources ingested into Data Catalog. To call this method, you must have the following Google IAM permissions: - `datacatalog.tagTemplates.getIamPolicy` to get policies on tag templates. - `datacatalog.entryGroups.getIamPolicy` to get policies on entry groups. */
 export interface GetIamPolicyProjectsLocationsTagTemplatesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2929,13 +2928,13 @@ export const GetIamPolicyProjectsLocationsTagTemplatesResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsTagTemplatesError = CommonErrors;
 
+/** Gets the access control policy for a resource. May return: * A`NOT_FOUND` error if the resource doesn't exist or you don't have the permission to view it. * An empty policy if the resource exists but doesn't have a set policy. Supported resources are: - Tag templates - Entry groups Note: This method doesn't get policies from Google Cloud Platform resources ingested into Data Catalog. To call this method, you must have the following Google IAM permissions: - `datacatalog.tagTemplates.getIamPolicy` to get policies on tag templates. - `datacatalog.entryGroups.getIamPolicy` to get policies on entry groups. */
 export const getIamPolicyProjectsLocationsTagTemplates: API.OperationMethod<GetIamPolicyProjectsLocationsTagTemplatesRequest, GetIamPolicyProjectsLocationsTagTemplatesResponse, GetIamPolicyProjectsLocationsTagTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsTagTemplatesRequest,
   output: GetIamPolicyProjectsLocationsTagTemplatesResponse,
   errors: [],
 }));
 
-/** Gets your permissions on a resource. Returns an empty set of permissions if the resource doesn't exist. Supported resources are: - Tag templates - Entry groups Note: This method gets policies only within Data Catalog and can't be used to get policies from BigQuery, Pub/Sub, Dataproc Metastore, and any external Google Cloud Platform resources ingested into Data Catalog. No Google IAM permissions are required to call this method. */
 export interface TestIamPermissionsProjectsLocationsTagTemplatesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2956,13 +2955,13 @@ export const TestIamPermissionsProjectsLocationsTagTemplatesResponse = TestIamPe
 
 export type TestIamPermissionsProjectsLocationsTagTemplatesError = CommonErrors;
 
+/** Gets your permissions on a resource. Returns an empty set of permissions if the resource doesn't exist. Supported resources are: - Tag templates - Entry groups Note: This method gets policies only within Data Catalog and can't be used to get policies from BigQuery, Pub/Sub, Dataproc Metastore, and any external Google Cloud Platform resources ingested into Data Catalog. No Google IAM permissions are required to call this method. */
 export const testIamPermissionsProjectsLocationsTagTemplates: API.OperationMethod<TestIamPermissionsProjectsLocationsTagTemplatesRequest, TestIamPermissionsProjectsLocationsTagTemplatesResponse, TestIamPermissionsProjectsLocationsTagTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsTagTemplatesRequest,
   output: TestIamPermissionsProjectsLocationsTagTemplatesResponse,
   errors: [],
 }));
 
-/** Creates a field in a tag template. You must enable the Data Catalog API in the project identified by the `parent` parameter. For more information, see [Data Catalog resource project](https://cloud.google.com/data-catalog/docs/concepts/resource-project). */
 export interface CreateProjectsLocationsTagTemplatesFieldsRequest {
   /** Required. The name of the project and the template location [region](https://cloud.google.com/data-catalog/docs/concepts/regions). */
   parent: string;
@@ -2986,13 +2985,13 @@ export const CreateProjectsLocationsTagTemplatesFieldsResponse = GoogleCloudData
 
 export type CreateProjectsLocationsTagTemplatesFieldsError = CommonErrors;
 
+/** Creates a field in a tag template. You must enable the Data Catalog API in the project identified by the `parent` parameter. For more information, see [Data Catalog resource project](https://cloud.google.com/data-catalog/docs/concepts/resource-project). */
 export const createProjectsLocationsTagTemplatesFields: API.OperationMethod<CreateProjectsLocationsTagTemplatesFieldsRequest, CreateProjectsLocationsTagTemplatesFieldsResponse, CreateProjectsLocationsTagTemplatesFieldsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsTagTemplatesFieldsRequest,
   output: CreateProjectsLocationsTagTemplatesFieldsResponse,
   errors: [],
 }));
 
-/** Updates a field in a tag template. You can't update the field type with this method. You must enable the Data Catalog API in the project identified by the `name` parameter. For more information, see [Data Catalog resource project](https://cloud.google.com/data-catalog/docs/concepts/resource-project). */
 export interface PatchProjectsLocationsTagTemplatesFieldsRequest {
   /** Required. The name of the tag template field. */
   name: string;
@@ -3016,13 +3015,13 @@ export const PatchProjectsLocationsTagTemplatesFieldsResponse = GoogleCloudDatac
 
 export type PatchProjectsLocationsTagTemplatesFieldsError = CommonErrors;
 
+/** Updates a field in a tag template. You can't update the field type with this method. You must enable the Data Catalog API in the project identified by the `name` parameter. For more information, see [Data Catalog resource project](https://cloud.google.com/data-catalog/docs/concepts/resource-project). */
 export const patchProjectsLocationsTagTemplatesFields: API.OperationMethod<PatchProjectsLocationsTagTemplatesFieldsRequest, PatchProjectsLocationsTagTemplatesFieldsResponse, PatchProjectsLocationsTagTemplatesFieldsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsTagTemplatesFieldsRequest,
   output: PatchProjectsLocationsTagTemplatesFieldsResponse,
   errors: [],
 }));
 
-/** Renames a field in a tag template. You must enable the Data Catalog API in the project identified by the `name` parameter. For more information, see [Data Catalog resource project] (https://cloud.google.com/data-catalog/docs/concepts/resource-project). */
 export interface RenameProjectsLocationsTagTemplatesFieldsRequest {
   /** Required. The name of the tag template field. */
   name: string;
@@ -3043,13 +3042,13 @@ export const RenameProjectsLocationsTagTemplatesFieldsResponse = GoogleCloudData
 
 export type RenameProjectsLocationsTagTemplatesFieldsError = CommonErrors;
 
+/** Renames a field in a tag template. You must enable the Data Catalog API in the project identified by the `name` parameter. For more information, see [Data Catalog resource project] (https://cloud.google.com/data-catalog/docs/concepts/resource-project). */
 export const renameProjectsLocationsTagTemplatesFields: API.OperationMethod<RenameProjectsLocationsTagTemplatesFieldsRequest, RenameProjectsLocationsTagTemplatesFieldsResponse, RenameProjectsLocationsTagTemplatesFieldsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RenameProjectsLocationsTagTemplatesFieldsRequest,
   output: RenameProjectsLocationsTagTemplatesFieldsResponse,
   errors: [],
 }));
 
-/** Deletes a field in a tag template and all uses of this field from the tags based on this template. You must enable the Data Catalog API in the project identified by the `name` parameter. For more information, see [Data Catalog resource project](https://cloud.google.com/data-catalog/docs/concepts/resource-project). */
 export interface DeleteProjectsLocationsTagTemplatesFieldsRequest {
   /** Required. The name of the tag template field to delete. */
   name: string;
@@ -3070,13 +3069,13 @@ export const DeleteProjectsLocationsTagTemplatesFieldsResponse = Empty;
 
 export type DeleteProjectsLocationsTagTemplatesFieldsError = CommonErrors;
 
+/** Deletes a field in a tag template and all uses of this field from the tags based on this template. You must enable the Data Catalog API in the project identified by the `name` parameter. For more information, see [Data Catalog resource project](https://cloud.google.com/data-catalog/docs/concepts/resource-project). */
 export const deleteProjectsLocationsTagTemplatesFields: API.OperationMethod<DeleteProjectsLocationsTagTemplatesFieldsRequest, DeleteProjectsLocationsTagTemplatesFieldsResponse, DeleteProjectsLocationsTagTemplatesFieldsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsTagTemplatesFieldsRequest,
   output: DeleteProjectsLocationsTagTemplatesFieldsResponse,
   errors: [],
 }));
 
-/** Renames an enum value in a tag template. Within a single enum field, enum values must be unique. */
 export interface RenameProjectsLocationsTagTemplatesFieldsEnumValuesRequest {
   /** Required. The name of the enum field value. */
   name: string;
@@ -3097,13 +3096,13 @@ export const RenameProjectsLocationsTagTemplatesFieldsEnumValuesResponse = Googl
 
 export type RenameProjectsLocationsTagTemplatesFieldsEnumValuesError = CommonErrors;
 
+/** Renames an enum value in a tag template. Within a single enum field, enum values must be unique. */
 export const renameProjectsLocationsTagTemplatesFieldsEnumValues: API.OperationMethod<RenameProjectsLocationsTagTemplatesFieldsEnumValuesRequest, RenameProjectsLocationsTagTemplatesFieldsEnumValuesResponse, RenameProjectsLocationsTagTemplatesFieldsEnumValuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RenameProjectsLocationsTagTemplatesFieldsEnumValuesRequest,
   output: RenameProjectsLocationsTagTemplatesFieldsEnumValuesResponse,
   errors: [],
 }));
 
-/** Creates a taxonomy in a specified project. The taxonomy is initially empty, that is, it doesn't contain policy tags. */
 export interface CreateProjectsLocationsTaxonomiesRequest {
   /** Required. Resource name of the project that the taxonomy will belong to. */
   parent: string;
@@ -3124,13 +3123,13 @@ export const CreateProjectsLocationsTaxonomiesResponse = GoogleCloudDatacatalogV
 
 export type CreateProjectsLocationsTaxonomiesError = CommonErrors;
 
+/** Creates a taxonomy in a specified project. The taxonomy is initially empty, that is, it doesn't contain policy tags. */
 export const createProjectsLocationsTaxonomies: API.OperationMethod<CreateProjectsLocationsTaxonomiesRequest, CreateProjectsLocationsTaxonomiesResponse, CreateProjectsLocationsTaxonomiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsTaxonomiesRequest,
   output: CreateProjectsLocationsTaxonomiesResponse,
   errors: [],
 }));
 
-/** Deletes a taxonomy, including all policy tags in this taxonomy, their associated policies, and the policy tags references from BigQuery columns. */
 export interface DeleteProjectsLocationsTaxonomiesRequest {
   /** Required. Resource name of the taxonomy to delete. Note: All policy tags in this taxonomy are also deleted. */
   name: string;
@@ -3148,13 +3147,13 @@ export const DeleteProjectsLocationsTaxonomiesResponse = Empty;
 
 export type DeleteProjectsLocationsTaxonomiesError = CommonErrors;
 
+/** Deletes a taxonomy, including all policy tags in this taxonomy, their associated policies, and the policy tags references from BigQuery columns. */
 export const deleteProjectsLocationsTaxonomies: API.OperationMethod<DeleteProjectsLocationsTaxonomiesRequest, DeleteProjectsLocationsTaxonomiesResponse, DeleteProjectsLocationsTaxonomiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsTaxonomiesRequest,
   output: DeleteProjectsLocationsTaxonomiesResponse,
   errors: [],
 }));
 
-/** Updates a taxonomy, including its display name, description, and activated policy types. */
 export interface PatchProjectsLocationsTaxonomiesRequest {
   /** Identifier. Resource name of this taxonomy in URL format. Note: Policy tag manager generates unique taxonomy IDs. */
   name: string;
@@ -3178,13 +3177,13 @@ export const PatchProjectsLocationsTaxonomiesResponse = GoogleCloudDatacatalogV1
 
 export type PatchProjectsLocationsTaxonomiesError = CommonErrors;
 
+/** Updates a taxonomy, including its display name, description, and activated policy types. */
 export const patchProjectsLocationsTaxonomies: API.OperationMethod<PatchProjectsLocationsTaxonomiesRequest, PatchProjectsLocationsTaxonomiesResponse, PatchProjectsLocationsTaxonomiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsTaxonomiesRequest,
   output: PatchProjectsLocationsTaxonomiesResponse,
   errors: [],
 }));
 
-/** Lists all taxonomies in a project in a particular location that you have a permission to view. */
 export interface ListProjectsLocationsTaxonomiesRequest {
   /** Required. Resource name of the project to list the taxonomies of. */
   parent: string;
@@ -3211,7 +3210,8 @@ export const ListProjectsLocationsTaxonomiesResponse = GoogleCloudDatacatalogV1L
 
 export type ListProjectsLocationsTaxonomiesError = CommonErrors;
 
-export const listProjectsLocationsTaxonomies = API.makePaginated(() => ({
+/** Lists all taxonomies in a project in a particular location that you have a permission to view. */
+export const listProjectsLocationsTaxonomies: API.PaginatedOperationMethod<ListProjectsLocationsTaxonomiesRequest, ListProjectsLocationsTaxonomiesResponse, ListProjectsLocationsTaxonomiesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsTaxonomiesRequest,
   output: ListProjectsLocationsTaxonomiesResponse,
   errors: [],
@@ -3221,7 +3221,6 @@ export const listProjectsLocationsTaxonomies = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a taxonomy. */
 export interface GetProjectsLocationsTaxonomiesRequest {
   /** Required. Resource name of the taxonomy to get. */
   name: string;
@@ -3239,13 +3238,13 @@ export const GetProjectsLocationsTaxonomiesResponse = GoogleCloudDatacatalogV1Ta
 
 export type GetProjectsLocationsTaxonomiesError = CommonErrors;
 
+/** Gets a taxonomy. */
 export const getProjectsLocationsTaxonomies: API.OperationMethod<GetProjectsLocationsTaxonomiesRequest, GetProjectsLocationsTaxonomiesResponse, GetProjectsLocationsTaxonomiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsTaxonomiesRequest,
   output: GetProjectsLocationsTaxonomiesResponse,
   errors: [],
 }));
 
-/** Gets the IAM policy for a policy tag or a taxonomy. */
 export interface GetIamPolicyProjectsLocationsTaxonomiesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3266,13 +3265,13 @@ export const GetIamPolicyProjectsLocationsTaxonomiesResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsTaxonomiesError = CommonErrors;
 
+/** Gets the IAM policy for a policy tag or a taxonomy. */
 export const getIamPolicyProjectsLocationsTaxonomies: API.OperationMethod<GetIamPolicyProjectsLocationsTaxonomiesRequest, GetIamPolicyProjectsLocationsTaxonomiesResponse, GetIamPolicyProjectsLocationsTaxonomiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsTaxonomiesRequest,
   output: GetIamPolicyProjectsLocationsTaxonomiesResponse,
   errors: [],
 }));
 
-/** Sets the IAM policy for a policy tag or a taxonomy. */
 export interface SetIamPolicyProjectsLocationsTaxonomiesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3293,13 +3292,13 @@ export const SetIamPolicyProjectsLocationsTaxonomiesResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsTaxonomiesError = CommonErrors;
 
+/** Sets the IAM policy for a policy tag or a taxonomy. */
 export const setIamPolicyProjectsLocationsTaxonomies: API.OperationMethod<SetIamPolicyProjectsLocationsTaxonomiesRequest, SetIamPolicyProjectsLocationsTaxonomiesResponse, SetIamPolicyProjectsLocationsTaxonomiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsTaxonomiesRequest,
   output: SetIamPolicyProjectsLocationsTaxonomiesResponse,
   errors: [],
 }));
 
-/** Returns your permissions on a specified policy tag or taxonomy. */
 export interface TestIamPermissionsProjectsLocationsTaxonomiesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3320,13 +3319,13 @@ export const TestIamPermissionsProjectsLocationsTaxonomiesResponse = TestIamPerm
 
 export type TestIamPermissionsProjectsLocationsTaxonomiesError = CommonErrors;
 
+/** Returns your permissions on a specified policy tag or taxonomy. */
 export const testIamPermissionsProjectsLocationsTaxonomies: API.OperationMethod<TestIamPermissionsProjectsLocationsTaxonomiesRequest, TestIamPermissionsProjectsLocationsTaxonomiesResponse, TestIamPermissionsProjectsLocationsTaxonomiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsTaxonomiesRequest,
   output: TestIamPermissionsProjectsLocationsTaxonomiesResponse,
   errors: [],
 }));
 
-/** Replaces (updates) a taxonomy and all its policy tags. The taxonomy and its entire hierarchy of policy tags must be represented literally by `SerializedTaxonomy` and the nested `SerializedPolicyTag` messages. This operation automatically does the following: - Deletes the existing policy tags that are missing from the `SerializedPolicyTag`. - Creates policy tags that don't have resource names. They are considered new. - Updates policy tags with valid resources names accordingly. */
 export interface ReplaceProjectsLocationsTaxonomiesRequest {
   /** Required. Resource name of the taxonomy to update. */
   name: string;
@@ -3347,13 +3346,13 @@ export const ReplaceProjectsLocationsTaxonomiesResponse = GoogleCloudDatacatalog
 
 export type ReplaceProjectsLocationsTaxonomiesError = CommonErrors;
 
+/** Replaces (updates) a taxonomy and all its policy tags. The taxonomy and its entire hierarchy of policy tags must be represented literally by `SerializedTaxonomy` and the nested `SerializedPolicyTag` messages. This operation automatically does the following: - Deletes the existing policy tags that are missing from the `SerializedPolicyTag`. - Creates policy tags that don't have resource names. They are considered new. - Updates policy tags with valid resources names accordingly. */
 export const replaceProjectsLocationsTaxonomies: API.OperationMethod<ReplaceProjectsLocationsTaxonomiesRequest, ReplaceProjectsLocationsTaxonomiesResponse, ReplaceProjectsLocationsTaxonomiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReplaceProjectsLocationsTaxonomiesRequest,
   output: ReplaceProjectsLocationsTaxonomiesResponse,
   errors: [],
 }));
 
-/** Creates new taxonomies (including their policy tags) in a given project by importing from inlined or cross-regional sources. For a cross-regional source, new taxonomies are created by copying from a source in another region. For an inlined source, taxonomies and policy tags are created in bulk using nested protocol buffer structures. */
 export interface ImportProjectsLocationsTaxonomiesRequest {
   /** Required. Resource name of project that the imported taxonomies will belong to. */
   parent: string;
@@ -3374,13 +3373,13 @@ export const ImportProjectsLocationsTaxonomiesResponse = GoogleCloudDatacatalogV
 
 export type ImportProjectsLocationsTaxonomiesError = CommonErrors;
 
+/** Creates new taxonomies (including their policy tags) in a given project by importing from inlined or cross-regional sources. For a cross-regional source, new taxonomies are created by copying from a source in another region. For an inlined source, taxonomies and policy tags are created in bulk using nested protocol buffer structures. */
 export const importProjectsLocationsTaxonomies: API.OperationMethod<ImportProjectsLocationsTaxonomiesRequest, ImportProjectsLocationsTaxonomiesResponse, ImportProjectsLocationsTaxonomiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ImportProjectsLocationsTaxonomiesRequest,
   output: ImportProjectsLocationsTaxonomiesResponse,
   errors: [],
 }));
 
-/** Exports taxonomies in the requested type and returns them, including their policy tags. The requested taxonomies must belong to the same project. This method generates `SerializedTaxonomy` protocol buffers with nested policy tags that can be used as input for `ImportTaxonomies` calls. */
 export interface ExportProjectsLocationsTaxonomiesRequest {
   /** Required. Resource name of the project that the exported taxonomies belong to. */
   parent: string;
@@ -3404,13 +3403,13 @@ export const ExportProjectsLocationsTaxonomiesResponse = GoogleCloudDatacatalogV
 
 export type ExportProjectsLocationsTaxonomiesError = CommonErrors;
 
+/** Exports taxonomies in the requested type and returns them, including their policy tags. The requested taxonomies must belong to the same project. This method generates `SerializedTaxonomy` protocol buffers with nested policy tags that can be used as input for `ImportTaxonomies` calls. */
 export const exportProjectsLocationsTaxonomies: API.OperationMethod<ExportProjectsLocationsTaxonomiesRequest, ExportProjectsLocationsTaxonomiesResponse, ExportProjectsLocationsTaxonomiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExportProjectsLocationsTaxonomiesRequest,
   output: ExportProjectsLocationsTaxonomiesResponse,
   errors: [],
 }));
 
-/** Creates a policy tag in a taxonomy. */
 export interface CreateProjectsLocationsTaxonomiesPolicyTagsRequest {
   /** Required. Resource name of the taxonomy that the policy tag will belong to. */
   parent: string;
@@ -3431,13 +3430,13 @@ export const CreateProjectsLocationsTaxonomiesPolicyTagsResponse = GoogleCloudDa
 
 export type CreateProjectsLocationsTaxonomiesPolicyTagsError = CommonErrors;
 
+/** Creates a policy tag in a taxonomy. */
 export const createProjectsLocationsTaxonomiesPolicyTags: API.OperationMethod<CreateProjectsLocationsTaxonomiesPolicyTagsRequest, CreateProjectsLocationsTaxonomiesPolicyTagsResponse, CreateProjectsLocationsTaxonomiesPolicyTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsTaxonomiesPolicyTagsRequest,
   output: CreateProjectsLocationsTaxonomiesPolicyTagsResponse,
   errors: [],
 }));
 
-/** Deletes a policy tag together with the following: * All of its descendant policy tags, if any * Policies associated with the policy tag and its descendants * References from BigQuery table schema of the policy tag and its descendants */
 export interface DeleteProjectsLocationsTaxonomiesPolicyTagsRequest {
   /** Required. Resource name of the policy tag to delete. Note: All of its descendant policy tags are also deleted. */
   name: string;
@@ -3455,13 +3454,13 @@ export const DeleteProjectsLocationsTaxonomiesPolicyTagsResponse = Empty;
 
 export type DeleteProjectsLocationsTaxonomiesPolicyTagsError = CommonErrors;
 
+/** Deletes a policy tag together with the following: * All of its descendant policy tags, if any * Policies associated with the policy tag and its descendants * References from BigQuery table schema of the policy tag and its descendants */
 export const deleteProjectsLocationsTaxonomiesPolicyTags: API.OperationMethod<DeleteProjectsLocationsTaxonomiesPolicyTagsRequest, DeleteProjectsLocationsTaxonomiesPolicyTagsResponse, DeleteProjectsLocationsTaxonomiesPolicyTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsTaxonomiesPolicyTagsRequest,
   output: DeleteProjectsLocationsTaxonomiesPolicyTagsResponse,
   errors: [],
 }));
 
-/** Updates a policy tag, including its display name, description, and parent policy tag. */
 export interface PatchProjectsLocationsTaxonomiesPolicyTagsRequest {
   /** Identifier. Resource name of this policy tag in the URL format. The policy tag manager generates unique taxonomy IDs and policy tag IDs. */
   name: string;
@@ -3485,13 +3484,13 @@ export const PatchProjectsLocationsTaxonomiesPolicyTagsResponse = GoogleCloudDat
 
 export type PatchProjectsLocationsTaxonomiesPolicyTagsError = CommonErrors;
 
+/** Updates a policy tag, including its display name, description, and parent policy tag. */
 export const patchProjectsLocationsTaxonomiesPolicyTags: API.OperationMethod<PatchProjectsLocationsTaxonomiesPolicyTagsRequest, PatchProjectsLocationsTaxonomiesPolicyTagsResponse, PatchProjectsLocationsTaxonomiesPolicyTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsTaxonomiesPolicyTagsRequest,
   output: PatchProjectsLocationsTaxonomiesPolicyTagsResponse,
   errors: [],
 }));
 
-/** Lists all policy tags in a taxonomy. */
 export interface ListProjectsLocationsTaxonomiesPolicyTagsRequest {
   /** Required. Resource name of the taxonomy to list the policy tags of. */
   parent: string;
@@ -3515,7 +3514,8 @@ export const ListProjectsLocationsTaxonomiesPolicyTagsResponse = GoogleCloudData
 
 export type ListProjectsLocationsTaxonomiesPolicyTagsError = CommonErrors;
 
-export const listProjectsLocationsTaxonomiesPolicyTags = API.makePaginated(() => ({
+/** Lists all policy tags in a taxonomy. */
+export const listProjectsLocationsTaxonomiesPolicyTags: API.PaginatedOperationMethod<ListProjectsLocationsTaxonomiesPolicyTagsRequest, ListProjectsLocationsTaxonomiesPolicyTagsResponse, ListProjectsLocationsTaxonomiesPolicyTagsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsTaxonomiesPolicyTagsRequest,
   output: ListProjectsLocationsTaxonomiesPolicyTagsResponse,
   errors: [],
@@ -3525,7 +3525,6 @@ export const listProjectsLocationsTaxonomiesPolicyTags = API.makePaginated(() =>
   },
 }));
 
-/** Gets a policy tag. */
 export interface GetProjectsLocationsTaxonomiesPolicyTagsRequest {
   /** Required. Resource name of the policy tag. */
   name: string;
@@ -3543,13 +3542,13 @@ export const GetProjectsLocationsTaxonomiesPolicyTagsResponse = GoogleCloudDatac
 
 export type GetProjectsLocationsTaxonomiesPolicyTagsError = CommonErrors;
 
+/** Gets a policy tag. */
 export const getProjectsLocationsTaxonomiesPolicyTags: API.OperationMethod<GetProjectsLocationsTaxonomiesPolicyTagsRequest, GetProjectsLocationsTaxonomiesPolicyTagsResponse, GetProjectsLocationsTaxonomiesPolicyTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsTaxonomiesPolicyTagsRequest,
   output: GetProjectsLocationsTaxonomiesPolicyTagsResponse,
   errors: [],
 }));
 
-/** Gets the IAM policy for a policy tag or a taxonomy. */
 export interface GetIamPolicyProjectsLocationsTaxonomiesPolicyTagsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3570,13 +3569,13 @@ export const GetIamPolicyProjectsLocationsTaxonomiesPolicyTagsResponse = Policy;
 
 export type GetIamPolicyProjectsLocationsTaxonomiesPolicyTagsError = CommonErrors;
 
+/** Gets the IAM policy for a policy tag or a taxonomy. */
 export const getIamPolicyProjectsLocationsTaxonomiesPolicyTags: API.OperationMethod<GetIamPolicyProjectsLocationsTaxonomiesPolicyTagsRequest, GetIamPolicyProjectsLocationsTaxonomiesPolicyTagsResponse, GetIamPolicyProjectsLocationsTaxonomiesPolicyTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsLocationsTaxonomiesPolicyTagsRequest,
   output: GetIamPolicyProjectsLocationsTaxonomiesPolicyTagsResponse,
   errors: [],
 }));
 
-/** Sets the IAM policy for a policy tag or a taxonomy. */
 export interface SetIamPolicyProjectsLocationsTaxonomiesPolicyTagsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3597,13 +3596,13 @@ export const SetIamPolicyProjectsLocationsTaxonomiesPolicyTagsResponse = Policy;
 
 export type SetIamPolicyProjectsLocationsTaxonomiesPolicyTagsError = CommonErrors;
 
+/** Sets the IAM policy for a policy tag or a taxonomy. */
 export const setIamPolicyProjectsLocationsTaxonomiesPolicyTags: API.OperationMethod<SetIamPolicyProjectsLocationsTaxonomiesPolicyTagsRequest, SetIamPolicyProjectsLocationsTaxonomiesPolicyTagsResponse, SetIamPolicyProjectsLocationsTaxonomiesPolicyTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsLocationsTaxonomiesPolicyTagsRequest,
   output: SetIamPolicyProjectsLocationsTaxonomiesPolicyTagsResponse,
   errors: [],
 }));
 
-/** Returns your permissions on a specified policy tag or taxonomy. */
 export interface TestIamPermissionsProjectsLocationsTaxonomiesPolicyTagsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -3624,13 +3623,13 @@ export const TestIamPermissionsProjectsLocationsTaxonomiesPolicyTagsResponse = T
 
 export type TestIamPermissionsProjectsLocationsTaxonomiesPolicyTagsError = CommonErrors;
 
+/** Returns your permissions on a specified policy tag or taxonomy. */
 export const testIamPermissionsProjectsLocationsTaxonomiesPolicyTags: API.OperationMethod<TestIamPermissionsProjectsLocationsTaxonomiesPolicyTagsRequest, TestIamPermissionsProjectsLocationsTaxonomiesPolicyTagsResponse, TestIamPermissionsProjectsLocationsTaxonomiesPolicyTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsLocationsTaxonomiesPolicyTagsRequest,
   output: TestIamPermissionsProjectsLocationsTaxonomiesPolicyTagsResponse,
   errors: [],
 }));
 
-/** Searches Data Catalog for multiple resources like entries and tags that match a query. This is a [Custom Method] (https://cloud.google.com/apis/design/custom_methods) that doesn't return all information on a resource, only its ID and high level fields. To get more information, you can subsequently call specific get methods. Note: Data Catalog search queries don't guarantee full recall. Results that match your query might not be returned, even in subsequent result pages. Additionally, returned (and not returned) results can vary if you repeat search queries. For more information, see [Data Catalog search syntax] (https://cloud.google.com/data-catalog/docs/how-to/search-reference). */
 export interface SearchCatalogRequest {
   /** Request body */
   body?: GoogleCloudDatacatalogV1SearchCatalogRequest;
@@ -3648,13 +3647,13 @@ export const SearchCatalogResponse = GoogleCloudDatacatalogV1SearchCatalogRespon
 
 export type SearchCatalogError = CommonErrors;
 
+/** Searches Data Catalog for multiple resources like entries and tags that match a query. This is a [Custom Method] (https://cloud.google.com/apis/design/custom_methods) that doesn't return all information on a resource, only its ID and high level fields. To get more information, you can subsequently call specific get methods. Note: Data Catalog search queries don't guarantee full recall. Results that match your query might not be returned, even in subsequent result pages. Additionally, returned (and not returned) results can vary if you repeat search queries. For more information, see [Data Catalog search syntax] (https://cloud.google.com/data-catalog/docs/how-to/search-reference). */
 export const searchCatalog: API.OperationMethod<SearchCatalogRequest, SearchCatalogResponse, SearchCatalogError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchCatalogRequest,
   output: SearchCatalogResponse,
   errors: [],
 }));
 
-/** Gets an entry by its target resource name. The resource name comes from the source Google Cloud Platform service. */
 export interface LookupEntriesRequest {
   /** The full name of the Google Cloud Platform resource the Data Catalog entry represents. For more information, see [Full Resource Name] (https://cloud.google.com/apis/design/resource_names#full_resource_name). Full names are case-sensitive. For example: * `//bigquery.googleapis.com/projects/{PROJECT_ID}/datasets/{DATASET_ID}/tables/{TABLE_ID}` * `//pubsub.googleapis.com/projects/{PROJECT_ID}/topics/{TOPIC_ID}` */
   linkedResource?: string;
@@ -3684,13 +3683,13 @@ export const LookupEntriesResponse = GoogleCloudDatacatalogV1Entry;
 
 export type LookupEntriesError = CommonErrors;
 
+/** Gets an entry by its target resource name. The resource name comes from the source Google Cloud Platform service. */
 export const lookupEntries: API.OperationMethod<LookupEntriesRequest, LookupEntriesResponse, LookupEntriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LookupEntriesRequest,
   output: LookupEntriesResponse,
   errors: [],
 }));
 
-/** Sets the configuration related to the migration to Dataplex Universal Catalog for an organization or project. */
 export interface SetConfigOrganizationsLocationsRequest {
   /** Required. The organization or project whose config is being specified. */
   name: string;
@@ -3711,13 +3710,13 @@ export const SetConfigOrganizationsLocationsResponse = GoogleCloudDatacatalogV1M
 
 export type SetConfigOrganizationsLocationsError = CommonErrors;
 
+/** Sets the configuration related to the migration to Dataplex Universal Catalog for an organization or project. */
 export const setConfigOrganizationsLocations: API.OperationMethod<SetConfigOrganizationsLocationsRequest, SetConfigOrganizationsLocationsResponse, SetConfigOrganizationsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetConfigOrganizationsLocationsRequest,
   output: SetConfigOrganizationsLocationsResponse,
   errors: [],
 }));
 
-/** Retrieves the configuration related to the migration from Data Catalog to Dataplex Universal Catalog for a specific organization, including all the projects under it which have a separate configuration set. */
 export interface RetrieveConfigOrganizationsLocationsRequest {
   /** Required. The organization whose config is being retrieved. */
   name: string;
@@ -3735,13 +3734,13 @@ export const RetrieveConfigOrganizationsLocationsResponse = GoogleCloudDatacatal
 
 export type RetrieveConfigOrganizationsLocationsError = CommonErrors;
 
+/** Retrieves the configuration related to the migration from Data Catalog to Dataplex Universal Catalog for a specific organization, including all the projects under it which have a separate configuration set. */
 export const retrieveConfigOrganizationsLocations: API.OperationMethod<RetrieveConfigOrganizationsLocationsRequest, RetrieveConfigOrganizationsLocationsResponse, RetrieveConfigOrganizationsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RetrieveConfigOrganizationsLocationsRequest,
   output: RetrieveConfigOrganizationsLocationsResponse,
   errors: [],
 }));
 
-/** Retrieves the effective configuration related to the migration from Data Catalog to Dataplex Universal Catalog for a specific organization or project. If there is no specific configuration set for the resource, the setting is checked hierarchicahlly through the ancestors of the resource, starting from the resource itself. */
 export interface RetrieveEffectiveConfigOrganizationsLocationsRequest {
   /** Required. The resource whose effective config is being retrieved. */
   name: string;
@@ -3759,6 +3758,7 @@ export const RetrieveEffectiveConfigOrganizationsLocationsResponse = GoogleCloud
 
 export type RetrieveEffectiveConfigOrganizationsLocationsError = CommonErrors;
 
+/** Retrieves the effective configuration related to the migration from Data Catalog to Dataplex Universal Catalog for a specific organization or project. If there is no specific configuration set for the resource, the setting is checked hierarchicahlly through the ancestors of the resource, starting from the resource itself. */
 export const retrieveEffectiveConfigOrganizationsLocations: API.OperationMethod<RetrieveEffectiveConfigOrganizationsLocationsRequest, RetrieveEffectiveConfigOrganizationsLocationsResponse, RetrieveEffectiveConfigOrganizationsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RetrieveEffectiveConfigOrganizationsLocationsRequest,
   output: RetrieveEffectiveConfigOrganizationsLocationsResponse,

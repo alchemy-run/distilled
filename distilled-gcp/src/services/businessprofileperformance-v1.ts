@@ -171,7 +171,6 @@ export const ListSearchKeywordImpressionsMonthlyResponse: Schema.Schema<ListSear
 // Operations
 // ==========================================================================
 
-/** Returns the values for each date from a given time range that are associated with the specific daily metric. Example request: `GET https://businessprofileperformance.googleapis.com/v1/locations/12345:getDailyMetricsTimeSeries?dailyMetric=WEBSITE_CLICKS&daily_range.start_date.year=2022&daily_range.start_date.month=1&daily_range.start_date.day=1&daily_range.end_date.year=2022&daily_range.end_date.month=3&daily_range.end_date.day=31` */
 export interface GetDailyMetricsTimeSeriesLocationsRequest {
   /** Required. The location for which the time series should be fetched. Format: locations/{location_id} where location_id is an unobfuscated listing id. */
   name: string;
@@ -225,13 +224,13 @@ export const GetDailyMetricsTimeSeriesLocationsResponse = GetDailyMetricsTimeSer
 
 export type GetDailyMetricsTimeSeriesLocationsError = CommonErrors;
 
+/** Returns the values for each date from a given time range that are associated with the specific daily metric. Example request: `GET https://businessprofileperformance.googleapis.com/v1/locations/12345:getDailyMetricsTimeSeries?dailyMetric=WEBSITE_CLICKS&daily_range.start_date.year=2022&daily_range.start_date.month=1&daily_range.start_date.day=1&daily_range.end_date.year=2022&daily_range.end_date.month=3&daily_range.end_date.day=31` */
 export const getDailyMetricsTimeSeriesLocations: API.OperationMethod<GetDailyMetricsTimeSeriesLocationsRequest, GetDailyMetricsTimeSeriesLocationsResponse, GetDailyMetricsTimeSeriesLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDailyMetricsTimeSeriesLocationsRequest,
   output: GetDailyMetricsTimeSeriesLocationsResponse,
   errors: [],
 }));
 
-/** Returns the values for each date from a given time range and optionally the sub entity type, where applicable, that are associated with the specific daily metrics. Example request: `GET https://businessprofileperformance.googleapis.com/v1/locations/12345:fetchMultiDailyMetricsTimeSeries?dailyMetrics=WEBSITE_CLICKS&dailyMetrics=CALL_CLICKS&daily_range.start_date.year=2022&daily_range.start_date.month=1&daily_range.start_date.day=1&daily_range.end_date.year=2022&daily_range.end_date.month=3&daily_range.end_date.day=31` */
 export interface FetchMultiDailyMetricsTimeSeriesLocationsRequest {
   /** Required. The location for which the time series should be fetched. Format: locations/{location_id} where location_id is an unobfuscated listing id. */
   location: string;
@@ -270,13 +269,13 @@ export const FetchMultiDailyMetricsTimeSeriesLocationsResponse = FetchMultiDaily
 
 export type FetchMultiDailyMetricsTimeSeriesLocationsError = CommonErrors;
 
+/** Returns the values for each date from a given time range and optionally the sub entity type, where applicable, that are associated with the specific daily metrics. Example request: `GET https://businessprofileperformance.googleapis.com/v1/locations/12345:fetchMultiDailyMetricsTimeSeries?dailyMetrics=WEBSITE_CLICKS&dailyMetrics=CALL_CLICKS&daily_range.start_date.year=2022&daily_range.start_date.month=1&daily_range.start_date.day=1&daily_range.end_date.year=2022&daily_range.end_date.month=3&daily_range.end_date.day=31` */
 export const fetchMultiDailyMetricsTimeSeriesLocations: API.OperationMethod<FetchMultiDailyMetricsTimeSeriesLocationsRequest, FetchMultiDailyMetricsTimeSeriesLocationsResponse, FetchMultiDailyMetricsTimeSeriesLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FetchMultiDailyMetricsTimeSeriesLocationsRequest,
   output: FetchMultiDailyMetricsTimeSeriesLocationsResponse,
   errors: [],
 }));
 
-/** Returns the search keywords used to find a business in search or maps. Each search keyword is accompanied by impressions which are aggregated on a monthly basis. Example request: `GET https://businessprofileperformance.googleapis.com/v1/locations/12345/searchkeywords/impressions/monthly?monthly_range.start_month.year=2022&monthly_range.start_month.month=1&monthly_range.end_month.year=2022&monthly_range.end_month.month=3` */
 export interface ListLocationsSearchkeywordsImpressionsMonthlyRequest {
   /** Required. The location for which the time series should be fetched. Format: locations/{location_id} where location_id is an unobfuscated listing id. */
   parent: string;
@@ -318,7 +317,8 @@ export const ListLocationsSearchkeywordsImpressionsMonthlyResponse = ListSearchK
 
 export type ListLocationsSearchkeywordsImpressionsMonthlyError = CommonErrors;
 
-export const listLocationsSearchkeywordsImpressionsMonthly = API.makePaginated(() => ({
+/** Returns the search keywords used to find a business in search or maps. Each search keyword is accompanied by impressions which are aggregated on a monthly basis. Example request: `GET https://businessprofileperformance.googleapis.com/v1/locations/12345/searchkeywords/impressions/monthly?monthly_range.start_month.year=2022&monthly_range.start_month.month=1&monthly_range.end_month.year=2022&monthly_range.end_month.month=3` */
+export const listLocationsSearchkeywordsImpressionsMonthly: API.PaginatedOperationMethod<ListLocationsSearchkeywordsImpressionsMonthlyRequest, ListLocationsSearchkeywordsImpressionsMonthlyResponse, ListLocationsSearchkeywordsImpressionsMonthlyError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListLocationsSearchkeywordsImpressionsMonthlyRequest,
   output: ListLocationsSearchkeywordsImpressionsMonthlyResponse,
   errors: [],

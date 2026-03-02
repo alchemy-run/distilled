@@ -75,7 +75,6 @@ export const SiteVerificationWebResourceListResponse: Schema.Schema<SiteVerifica
 // Operations
 // ==========================================================================
 
-/** Relinquish ownership of a website or domain. */
 export interface DeleteWebResourceRequest {
   /** The id of a verified site or domain. */
   id: string;
@@ -93,13 +92,13 @@ export const DeleteWebResourceResponse: Schema.Schema<DeleteWebResourceResponse>
 
 export type DeleteWebResourceError = CommonErrors;
 
+/** Relinquish ownership of a website or domain. */
 export const deleteWebResource: API.OperationMethod<DeleteWebResourceRequest, DeleteWebResourceResponse, DeleteWebResourceError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteWebResourceRequest,
   output: DeleteWebResourceResponse,
   errors: [],
 }));
 
-/** Get the most current data for a website or domain. */
 export interface GetWebResourceRequest {
   /** The id of a verified site or domain. */
   id: string;
@@ -117,13 +116,13 @@ export const GetWebResourceResponse = SiteVerificationWebResourceResource;
 
 export type GetWebResourceError = CommonErrors;
 
+/** Get the most current data for a website or domain. */
 export const getWebResource: API.OperationMethod<GetWebResourceRequest, GetWebResourceResponse, GetWebResourceError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetWebResourceRequest,
   output: GetWebResourceResponse,
   errors: [],
 }));
 
-/** Get a verification token for placing on a website or domain. */
 export interface GetTokenWebResourceRequest {
   /** Request body */
   body?: SiteVerificationWebResourceGettokenRequest;
@@ -141,13 +140,13 @@ export const GetTokenWebResourceResponse = SiteVerificationWebResourceGettokenRe
 
 export type GetTokenWebResourceError = CommonErrors;
 
+/** Get a verification token for placing on a website or domain. */
 export const getTokenWebResource: API.OperationMethod<GetTokenWebResourceRequest, GetTokenWebResourceResponse, GetTokenWebResourceError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetTokenWebResourceRequest,
   output: GetTokenWebResourceResponse,
   errors: [],
 }));
 
-/** Attempt verification of a website or domain. */
 export interface InsertWebResourceRequest {
   /** The method to use for verifying a site or domain. */
   verificationMethod: string;
@@ -168,13 +167,13 @@ export const InsertWebResourceResponse = SiteVerificationWebResourceResource;
 
 export type InsertWebResourceError = CommonErrors;
 
+/** Attempt verification of a website or domain. */
 export const insertWebResource: API.OperationMethod<InsertWebResourceRequest, InsertWebResourceResponse, InsertWebResourceError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertWebResourceRequest,
   output: InsertWebResourceResponse,
   errors: [],
 }));
 
-/** Get the list of your verified websites and domains. */
 export interface ListWebResourceRequest {
 }
 
@@ -189,13 +188,13 @@ export const ListWebResourceResponse = SiteVerificationWebResourceListResponse;
 
 export type ListWebResourceError = CommonErrors;
 
+/** Get the list of your verified websites and domains. */
 export const listWebResource: API.OperationMethod<ListWebResourceRequest, ListWebResourceResponse, ListWebResourceError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListWebResourceRequest,
   output: ListWebResourceResponse,
   errors: [],
 }));
 
-/** Modify the list of owners for your website or domain. This method supports patch semantics. */
 export interface PatchWebResourceRequest {
   /** The id of a verified site or domain. */
   id: string;
@@ -216,13 +215,13 @@ export const PatchWebResourceResponse = SiteVerificationWebResourceResource;
 
 export type PatchWebResourceError = CommonErrors;
 
+/** Modify the list of owners for your website or domain. This method supports patch semantics. */
 export const patchWebResource: API.OperationMethod<PatchWebResourceRequest, PatchWebResourceResponse, PatchWebResourceError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchWebResourceRequest,
   output: PatchWebResourceResponse,
   errors: [],
 }));
 
-/** Modify the list of owners for your website or domain. */
 export interface UpdateWebResourceRequest {
   /** The id of a verified site or domain. */
   id: string;
@@ -243,6 +242,7 @@ export const UpdateWebResourceResponse = SiteVerificationWebResourceResource;
 
 export type UpdateWebResourceError = CommonErrors;
 
+/** Modify the list of owners for your website or domain. */
 export const updateWebResource: API.OperationMethod<UpdateWebResourceRequest, UpdateWebResourceResponse, UpdateWebResourceError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateWebResourceRequest,
   output: UpdateWebResourceResponse,

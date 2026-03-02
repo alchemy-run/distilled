@@ -1260,7 +1260,6 @@ export const ListAccessProposalsResponse: Schema.Schema<ListAccessProposalsRespo
 // Operations
 // ==========================================================================
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1278,13 +1277,13 @@ export const GetOperationsResponse = Operation;
 
 export type GetOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOperations: API.OperationMethod<GetOperationsRequest, GetOperationsResponse, GetOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOperationsRequest,
   output: GetOperationsResponse,
   errors: [],
 }));
 
-/** Gets information about the user, the user's Drive, and system capabilities. For more information, see [Return user info](https://developers.google.com/workspace/drive/api/guides/user-info). Required: The `fields` parameter must be set. To return the exact fields you need, see [Return specific fields](https://developers.google.com/workspace/drive/api/guides/fields-parameter). */
 export interface GetAboutRequest {
 }
 
@@ -1299,13 +1298,13 @@ export const GetAboutResponse = About;
 
 export type GetAboutError = CommonErrors;
 
+/** Gets information about the user, the user's Drive, and system capabilities. For more information, see [Return user info](https://developers.google.com/workspace/drive/api/guides/user-info). Required: The `fields` parameter must be set. To return the exact fields you need, see [Return specific fields](https://developers.google.com/workspace/drive/api/guides/fields-parameter). */
 export const getAbout: API.OperationMethod<GetAboutRequest, GetAboutResponse, GetAboutError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAboutRequest,
   output: GetAboutResponse,
   errors: [],
 }));
 
-/** Gets a specific app. For more information, see [Return user info](https://developers.google.com/workspace/drive/api/guides/user-info). */
 export interface GetAppsRequest {
   /** The ID of the app. */
   appId: string;
@@ -1323,13 +1322,13 @@ export const GetAppsResponse = App;
 
 export type GetAppsError = CommonErrors;
 
+/** Gets a specific app. For more information, see [Return user info](https://developers.google.com/workspace/drive/api/guides/user-info). */
 export const getApps: API.OperationMethod<GetAppsRequest, GetAppsResponse, GetAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAppsRequest,
   output: GetAppsResponse,
   errors: [],
 }));
 
-/** Lists a user's installed apps. For more information, see [Return user info](https://developers.google.com/workspace/drive/api/guides/user-info). */
 export interface ListAppsRequest {
   /** A comma-separated list of file extensions to limit returned results. All results within the given app query scope which can open any of the given file extensions are included in the response. If `appFilterMimeTypes` are provided as well, the result is a union of the two resulting app lists. */
   appFilterExtensions?: string;
@@ -1353,13 +1352,13 @@ export const ListAppsResponse = AppList;
 
 export type ListAppsError = CommonErrors;
 
+/** Lists a user's installed apps. For more information, see [Return user info](https://developers.google.com/workspace/drive/api/guides/user-info). */
 export const listApps: API.OperationMethod<ListAppsRequest, ListAppsResponse, ListAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListAppsRequest,
   output: ListAppsResponse,
   errors: [],
 }));
 
-/** Gets the starting pageToken for listing future changes. For more information, see [Retrieve changes](https://developers.google.com/workspace/drive/api/guides/manage-changes). */
 export interface GetStartPageTokenChangesRequest {
   /** The ID of the shared drive for which the starting pageToken for listing future changes from that shared drive will be returned. */
   driveId?: string;
@@ -1386,13 +1385,13 @@ export const GetStartPageTokenChangesResponse = StartPageToken;
 
 export type GetStartPageTokenChangesError = CommonErrors;
 
+/** Gets the starting pageToken for listing future changes. For more information, see [Retrieve changes](https://developers.google.com/workspace/drive/api/guides/manage-changes). */
 export const getStartPageTokenChanges: API.OperationMethod<GetStartPageTokenChangesRequest, GetStartPageTokenChangesResponse, GetStartPageTokenChangesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetStartPageTokenChangesRequest,
   output: GetStartPageTokenChangesResponse,
   errors: [],
 }));
 
-/** Lists the changes for a user or shared drive. For more information, see [Retrieve changes](https://developers.google.com/workspace/drive/api/guides/manage-changes). */
 export interface ListChangesRequest {
   /** The shared drive from which changes will be returned. If specified the change IDs will be reflective of the shared drive; use the combined drive ID and change ID as an identifier. */
   driveId?: string;
@@ -1449,7 +1448,8 @@ export const ListChangesResponse = ChangeList;
 
 export type ListChangesError = CommonErrors;
 
-export const listChanges = API.makePaginated(() => ({
+/** Lists the changes for a user or shared drive. For more information, see [Retrieve changes](https://developers.google.com/workspace/drive/api/guides/manage-changes). */
+export const listChanges: API.PaginatedOperationMethod<ListChangesRequest, ListChangesResponse, ListChangesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListChangesRequest,
   output: ListChangesResponse,
   errors: [],
@@ -1459,7 +1459,6 @@ export const listChanges = API.makePaginated(() => ({
   },
 }));
 
-/** Subscribes to changes for a user. For more information, see [Notifications for resource changes](https://developers.google.com/workspace/drive/api/guides/push). */
 export interface WatchChangesRequest {
   /** The shared drive from which changes will be returned. If specified the change IDs will be reflective of the shared drive; use the combined drive ID and change ID as an identifier. */
   driveId?: string;
@@ -1519,13 +1518,13 @@ export const WatchChangesResponse = Channel;
 
 export type WatchChangesError = CommonErrors;
 
+/** Subscribes to changes for a user. For more information, see [Notifications for resource changes](https://developers.google.com/workspace/drive/api/guides/push). */
 export const watchChanges: API.OperationMethod<WatchChangesRequest, WatchChangesResponse, WatchChangesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WatchChangesRequest,
   output: WatchChangesResponse,
   errors: [],
 }));
 
-/** Stops watching resources through this channel. For more information, see [Notifications for resource changes](https://developers.google.com/workspace/drive/api/guides/push). */
 export interface StopChannelsRequest {
   /** Request body */
   body?: Channel;
@@ -1543,13 +1542,13 @@ export const StopChannelsResponse: Schema.Schema<StopChannelsResponse> = Schema.
 
 export type StopChannelsError = CommonErrors;
 
+/** Stops watching resources through this channel. For more information, see [Notifications for resource changes](https://developers.google.com/workspace/drive/api/guides/push). */
 export const stopChannels: API.OperationMethod<StopChannelsRequest, StopChannelsResponse, StopChannelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StopChannelsRequest,
   output: StopChannelsResponse,
   errors: [],
 }));
 
-/** Creates a comment on a file. For more information, see [Manage comments and replies](https://developers.google.com/workspace/drive/api/guides/manage-comments). Required: The `fields` parameter must be set. To return the exact fields you need, see [Return specific fields](https://developers.google.com/workspace/drive/api/guides/fields-parameter). */
 export interface CreateCommentsRequest {
   /** The ID of the file. */
   fileId: string;
@@ -1570,13 +1569,13 @@ export const CreateCommentsResponse = Comment;
 
 export type CreateCommentsError = CommonErrors;
 
+/** Creates a comment on a file. For more information, see [Manage comments and replies](https://developers.google.com/workspace/drive/api/guides/manage-comments). Required: The `fields` parameter must be set. To return the exact fields you need, see [Return specific fields](https://developers.google.com/workspace/drive/api/guides/fields-parameter). */
 export const createComments: API.OperationMethod<CreateCommentsRequest, CreateCommentsResponse, CreateCommentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateCommentsRequest,
   output: CreateCommentsResponse,
   errors: [],
 }));
 
-/** Deletes a comment. For more information, see [Manage comments and replies](https://developers.google.com/workspace/drive/api/guides/manage-comments). */
 export interface DeleteCommentsRequest {
   /** The ID of the file. */
   fileId: string;
@@ -1597,13 +1596,13 @@ export const DeleteCommentsResponse: Schema.Schema<DeleteCommentsResponse> = Sch
 
 export type DeleteCommentsError = CommonErrors;
 
+/** Deletes a comment. For more information, see [Manage comments and replies](https://developers.google.com/workspace/drive/api/guides/manage-comments). */
 export const deleteComments: API.OperationMethod<DeleteCommentsRequest, DeleteCommentsResponse, DeleteCommentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteCommentsRequest,
   output: DeleteCommentsResponse,
   errors: [],
 }));
 
-/** Gets a comment by ID. For more information, see [Manage comments and replies](https://developers.google.com/workspace/drive/api/guides/manage-comments). Required: The `fields` parameter must be set. To return the exact fields you need, see [Return specific fields](https://developers.google.com/workspace/drive/api/guides/fields-parameter). */
 export interface GetCommentsRequest {
   /** The ID of the file. */
   fileId: string;
@@ -1627,13 +1626,13 @@ export const GetCommentsResponse = Comment;
 
 export type GetCommentsError = CommonErrors;
 
+/** Gets a comment by ID. For more information, see [Manage comments and replies](https://developers.google.com/workspace/drive/api/guides/manage-comments). Required: The `fields` parameter must be set. To return the exact fields you need, see [Return specific fields](https://developers.google.com/workspace/drive/api/guides/fields-parameter). */
 export const getComments: API.OperationMethod<GetCommentsRequest, GetCommentsResponse, GetCommentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCommentsRequest,
   output: GetCommentsResponse,
   errors: [],
 }));
 
-/** Lists a file's comments. For more information, see [Manage comments and replies](https://developers.google.com/workspace/drive/api/guides/manage-comments). Required: The `fields` parameter must be set. To return the exact fields you need, see [Return specific fields](https://developers.google.com/workspace/drive/api/guides/fields-parameter). */
 export interface ListCommentsRequest {
   /** The ID of the file. */
   fileId: string;
@@ -1663,7 +1662,8 @@ export const ListCommentsResponse = CommentList;
 
 export type ListCommentsError = CommonErrors;
 
-export const listComments = API.makePaginated(() => ({
+/** Lists a file's comments. For more information, see [Manage comments and replies](https://developers.google.com/workspace/drive/api/guides/manage-comments). Required: The `fields` parameter must be set. To return the exact fields you need, see [Return specific fields](https://developers.google.com/workspace/drive/api/guides/fields-parameter). */
+export const listComments: API.PaginatedOperationMethod<ListCommentsRequest, ListCommentsResponse, ListCommentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCommentsRequest,
   output: ListCommentsResponse,
   errors: [],
@@ -1673,7 +1673,6 @@ export const listComments = API.makePaginated(() => ({
   },
 }));
 
-/** Updates a comment with patch semantics. For more information, see [Manage comments and replies](https://developers.google.com/workspace/drive/api/guides/manage-comments). Required: The `fields` parameter must be set. To return the exact fields you need, see [Return specific fields](https://developers.google.com/workspace/drive/api/guides/fields-parameter). */
 export interface UpdateCommentsRequest {
   /** The ID of the file. */
   fileId: string;
@@ -1697,13 +1696,13 @@ export const UpdateCommentsResponse = Comment;
 
 export type UpdateCommentsError = CommonErrors;
 
+/** Updates a comment with patch semantics. For more information, see [Manage comments and replies](https://developers.google.com/workspace/drive/api/guides/manage-comments). Required: The `fields` parameter must be set. To return the exact fields you need, see [Return specific fields](https://developers.google.com/workspace/drive/api/guides/fields-parameter). */
 export const updateComments: API.OperationMethod<UpdateCommentsRequest, UpdateCommentsResponse, UpdateCommentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateCommentsRequest,
   output: UpdateCommentsResponse,
   errors: [],
 }));
 
-/** Creates a shared drive. For more information, see [Manage shared drives](https://developers.google.com/workspace/drive/api/guides/manage-shareddrives). */
 export interface CreateDrivesRequest {
   /** Required. An ID, such as a random UUID, which uniquely identifies this user's request for idempotent creation of a shared drive. A repeated request by the same user and with the same request ID will avoid creating duplicates by attempting to create the same shared drive. If the shared drive already exists a 409 error will be returned. */
   requestId: string;
@@ -1724,13 +1723,13 @@ export const CreateDrivesResponse = Drive;
 
 export type CreateDrivesError = CommonErrors;
 
+/** Creates a shared drive. For more information, see [Manage shared drives](https://developers.google.com/workspace/drive/api/guides/manage-shareddrives). */
 export const createDrives: API.OperationMethod<CreateDrivesRequest, CreateDrivesResponse, CreateDrivesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateDrivesRequest,
   output: CreateDrivesResponse,
   errors: [],
 }));
 
-/** Permanently deletes a shared drive for which the user is an `organizer`. The shared drive cannot contain any untrashed items. For more information, see [Manage shared drives](https://developers.google.com/workspace/drive/api/guides/manage-shareddrives). */
 export interface DeleteDrivesRequest {
   /** The ID of the shared drive. */
   driveId: string;
@@ -1754,13 +1753,13 @@ export const DeleteDrivesResponse: Schema.Schema<DeleteDrivesResponse> = Schema.
 
 export type DeleteDrivesError = CommonErrors;
 
+/** Permanently deletes a shared drive for which the user is an `organizer`. The shared drive cannot contain any untrashed items. For more information, see [Manage shared drives](https://developers.google.com/workspace/drive/api/guides/manage-shareddrives). */
 export const deleteDrives: API.OperationMethod<DeleteDrivesRequest, DeleteDrivesResponse, DeleteDrivesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteDrivesRequest,
   output: DeleteDrivesResponse,
   errors: [],
 }));
 
-/** Gets a shared drive's metadata by ID. For more information, see [Manage shared drives](https://developers.google.com/workspace/drive/api/guides/manage-shareddrives). */
 export interface GetDrivesRequest {
   /** The ID of the shared drive. */
   driveId: string;
@@ -1781,13 +1780,13 @@ export const GetDrivesResponse = Drive;
 
 export type GetDrivesError = CommonErrors;
 
+/** Gets a shared drive's metadata by ID. For more information, see [Manage shared drives](https://developers.google.com/workspace/drive/api/guides/manage-shareddrives). */
 export const getDrives: API.OperationMethod<GetDrivesRequest, GetDrivesResponse, GetDrivesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDrivesRequest,
   output: GetDrivesResponse,
   errors: [],
 }));
 
-/** Hides a shared drive from the default view. For more information, see [Manage shared drives](https://developers.google.com/workspace/drive/api/guides/manage-shareddrives). */
 export interface HideDrivesRequest {
   /** The ID of the shared drive. */
   driveId: string;
@@ -1805,13 +1804,13 @@ export const HideDrivesResponse = Drive;
 
 export type HideDrivesError = CommonErrors;
 
+/** Hides a shared drive from the default view. For more information, see [Manage shared drives](https://developers.google.com/workspace/drive/api/guides/manage-shareddrives). */
 export const hideDrives: API.OperationMethod<HideDrivesRequest, HideDrivesResponse, HideDrivesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: HideDrivesRequest,
   output: HideDrivesResponse,
   errors: [],
 }));
 
-/** Lists the user's shared drives. This method accepts the `q` parameter, which is a search query combining one or more search terms. For more information, see the [Search for shared drives](/workspace/drive/api/guides/search-shareddrives) guide. */
 export interface ListDrivesRequest {
   /** Maximum number of shared drives to return per page. */
   pageSize?: number;
@@ -1838,7 +1837,8 @@ export const ListDrivesResponse = DriveList;
 
 export type ListDrivesError = CommonErrors;
 
-export const listDrives = API.makePaginated(() => ({
+/** Lists the user's shared drives. This method accepts the `q` parameter, which is a search query combining one or more search terms. For more information, see the [Search for shared drives](/workspace/drive/api/guides/search-shareddrives) guide. */
+export const listDrives: API.PaginatedOperationMethod<ListDrivesRequest, ListDrivesResponse, ListDrivesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListDrivesRequest,
   output: ListDrivesResponse,
   errors: [],
@@ -1848,7 +1848,6 @@ export const listDrives = API.makePaginated(() => ({
   },
 }));
 
-/** Restores a shared drive to the default view. For more information, see [Manage shared drives](https://developers.google.com/workspace/drive/api/guides/manage-shareddrives). */
 export interface UnhideDrivesRequest {
   /** The ID of the shared drive. */
   driveId: string;
@@ -1866,13 +1865,13 @@ export const UnhideDrivesResponse = Drive;
 
 export type UnhideDrivesError = CommonErrors;
 
+/** Restores a shared drive to the default view. For more information, see [Manage shared drives](https://developers.google.com/workspace/drive/api/guides/manage-shareddrives). */
 export const unhideDrives: API.OperationMethod<UnhideDrivesRequest, UnhideDrivesResponse, UnhideDrivesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UnhideDrivesRequest,
   output: UnhideDrivesResponse,
   errors: [],
 }));
 
-/** Updates the metadata for a shared drive. For more information, see [Manage shared drives](https://developers.google.com/workspace/drive/api/guides/manage-shareddrives). */
 export interface UpdateDrivesRequest {
   /** The ID of the shared drive. */
   driveId: string;
@@ -1896,13 +1895,13 @@ export const UpdateDrivesResponse = Drive;
 
 export type UpdateDrivesError = CommonErrors;
 
+/** Updates the metadata for a shared drive. For more information, see [Manage shared drives](https://developers.google.com/workspace/drive/api/guides/manage-shareddrives). */
 export const updateDrives: API.OperationMethod<UpdateDrivesRequest, UpdateDrivesResponse, UpdateDrivesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateDrivesRequest,
   output: UpdateDrivesResponse,
   errors: [],
 }));
 
-/** Creates a copy of a file and applies any requested updates with patch semantics. For more information, see [Create and manage files](https://developers.google.com/workspace/drive/api/guides/create-file). */
 export interface CopyFilesRequest {
   /** The ID of the file. */
   fileId: string;
@@ -1947,13 +1946,13 @@ export const CopyFilesResponse = File;
 
 export type CopyFilesError = CommonErrors;
 
+/** Creates a copy of a file and applies any requested updates with patch semantics. For more information, see [Create and manage files](https://developers.google.com/workspace/drive/api/guides/create-file). */
 export const copyFiles: API.OperationMethod<CopyFilesRequest, CopyFilesResponse, CopyFilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CopyFilesRequest,
   output: CopyFilesResponse,
   errors: [],
 }));
 
-/** Creates a file. For more information, see [Create and manage files](/workspace/drive/api/guides/create-file). This method supports an * /upload* URI and accepts uploaded media with the following characteristics: - *Maximum file size:* 5,120 GB - *Accepted Media MIME types:* `* /*` (Specify a valid MIME type, rather than the literal `* /*` value. The literal `* /*` is only used to indicate that any valid MIME type can be uploaded. For more information, see [Google Workspace and Google Drive supported MIME types](/workspace/drive/api/guides/mime-types).) For more information on uploading files, see [Upload file data](/workspace/drive/api/guides/manage-uploads). Apps creating shortcuts with the `create` method must specify the MIME type `application/vnd.google-apps.shortcut`. Apps should specify a file extension in the `name` property when inserting files with the API. For example, an operation to insert a JPEG file should specify something like `"name": "cat.jpg"` in the metadata. Subsequent `GET` requests include the read-only `fileExtension` property populated with the extension originally specified in the `name` property. When a Google Drive user requests to download a file, or when the file is downloaded through the sync client, Drive builds a full filename (with extension) based on the name. In cases where the extension is missing, Drive attempts to determine the extension based on the file's MIME type. */
 export interface CreateFilesRequest {
   /** Deprecated: Creating files in multiple folders is no longer supported. */
   enforceSingleParent?: boolean;
@@ -1998,13 +1997,13 @@ export const CreateFilesResponse = File;
 
 export type CreateFilesError = CommonErrors;
 
+/** Creates a file. For more information, see [Create and manage files](/workspace/drive/api/guides/create-file). This method supports an * /upload* URI and accepts uploaded media with the following characteristics: - *Maximum file size:* 5,120 GB - *Accepted Media MIME types:* `* /*` (Specify a valid MIME type, rather than the literal `* /*` value. The literal `* /*` is only used to indicate that any valid MIME type can be uploaded. For more information, see [Google Workspace and Google Drive supported MIME types](/workspace/drive/api/guides/mime-types).) For more information on uploading files, see [Upload file data](/workspace/drive/api/guides/manage-uploads). Apps creating shortcuts with the `create` method must specify the MIME type `application/vnd.google-apps.shortcut`. Apps should specify a file extension in the `name` property when inserting files with the API. For example, an operation to insert a JPEG file should specify something like `"name": "cat.jpg"` in the metadata. Subsequent `GET` requests include the read-only `fileExtension` property populated with the extension originally specified in the `name` property. When a Google Drive user requests to download a file, or when the file is downloaded through the sync client, Drive builds a full filename (with extension) based on the name. In cases where the extension is missing, Drive attempts to determine the extension based on the file's MIME type. */
 export const createFiles: API.OperationMethod<CreateFilesRequest, CreateFilesResponse, CreateFilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateFilesRequest,
   output: CreateFilesResponse,
   errors: [],
 }));
 
-/** Permanently deletes a file owned by the user without moving it to the trash. For more information, see [Trash or delete files and folders](https://developers.google.com/workspace/drive/api/guides/delete). If the file belongs to a shared drive, the user must be an `organizer` on the parent folder. If the target is a folder, all descendants owned by the user are also deleted. */
 export interface DeleteFilesRequest {
   /** The ID of the file. */
   fileId: string;
@@ -2031,13 +2030,13 @@ export const DeleteFilesResponse: Schema.Schema<DeleteFilesResponse> = Schema.St
 
 export type DeleteFilesError = CommonErrors;
 
+/** Permanently deletes a file owned by the user without moving it to the trash. For more information, see [Trash or delete files and folders](https://developers.google.com/workspace/drive/api/guides/delete). If the file belongs to a shared drive, the user must be an `organizer` on the parent folder. If the target is a folder, all descendants owned by the user are also deleted. */
 export const deleteFiles: API.OperationMethod<DeleteFilesRequest, DeleteFilesResponse, DeleteFilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteFilesRequest,
   output: DeleteFilesResponse,
   errors: [],
 }));
 
-/** Permanently deletes all of the user's trashed files. For more information, see [Trash or delete files and folders](https://developers.google.com/workspace/drive/api/guides/delete). */
 export interface EmptyTrashFilesRequest {
   /** Deprecated: If an item isn't in a shared drive and its last parent is deleted but the item itself isn't, the item will be placed under its owner's root. */
   enforceSingleParent?: boolean;
@@ -2058,13 +2057,13 @@ export const EmptyTrashFilesResponse: Schema.Schema<EmptyTrashFilesResponse> = S
 
 export type EmptyTrashFilesError = CommonErrors;
 
+/** Permanently deletes all of the user's trashed files. For more information, see [Trash or delete files and folders](https://developers.google.com/workspace/drive/api/guides/delete). */
 export const emptyTrashFiles: API.OperationMethod<EmptyTrashFilesRequest, EmptyTrashFilesResponse, EmptyTrashFilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: EmptyTrashFilesRequest,
   output: EmptyTrashFilesResponse,
   errors: [],
 }));
 
-/** Exports a Google Workspace document to the requested MIME type and returns exported byte content. For more information, see [Download and export files](https://developers.google.com/workspace/drive/api/guides/manage-downloads). Note that the exported content is limited to 10 MB. */
 export interface ExportFilesRequest {
   /** The ID of the file. */
   fileId: string;
@@ -2085,13 +2084,13 @@ export const ExportFilesResponse: Schema.Schema<ExportFilesResponse> = Schema.St
 
 export type ExportFilesError = CommonErrors;
 
+/** Exports a Google Workspace document to the requested MIME type and returns exported byte content. For more information, see [Download and export files](https://developers.google.com/workspace/drive/api/guides/manage-downloads). Note that the exported content is limited to 10 MB. */
 export const exportFiles: API.OperationMethod<ExportFilesRequest, ExportFilesResponse, ExportFilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExportFilesRequest,
   output: ExportFilesResponse,
   errors: [],
 }));
 
-/** Generates a set of file IDs which can be provided in create or copy requests. For more information, see [Create and manage files](https://developers.google.com/workspace/drive/api/guides/create-file). */
 export interface GenerateIdsFilesRequest {
   /** The number of IDs to return. */
   count?: number;
@@ -2115,13 +2114,13 @@ export const GenerateIdsFilesResponse = GeneratedIds;
 
 export type GenerateIdsFilesError = CommonErrors;
 
+/** Generates a set of file IDs which can be provided in create or copy requests. For more information, see [Create and manage files](https://developers.google.com/workspace/drive/api/guides/create-file). */
 export const generateIdsFiles: API.OperationMethod<GenerateIdsFilesRequest, GenerateIdsFilesResponse, GenerateIdsFilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateIdsFilesRequest,
   output: GenerateIdsFilesResponse,
   errors: [],
 }));
 
-/** Gets a file's metadata or content by ID. For more information, see [Search for files and folders](/workspace/drive/api/guides/search-files). If you provide the URL parameter `alt=media`, then the response includes the file contents in the response body. Downloading content with `alt=media` only works if the file is stored in Drive. To download Google Docs, Sheets, and Slides use [`files.export`](/workspace/drive/api/reference/rest/v3/files/export) instead. For more information, see [Download and export files](/workspace/drive/api/guides/manage-downloads). */
 export interface GetFilesRequest {
   /** The ID of the file. */
   fileId: string;
@@ -2154,13 +2153,13 @@ export const GetFilesResponse = File;
 
 export type GetFilesError = CommonErrors;
 
+/** Gets a file's metadata or content by ID. For more information, see [Search for files and folders](/workspace/drive/api/guides/search-files). If you provide the URL parameter `alt=media`, then the response includes the file contents in the response body. Downloading content with `alt=media` only works if the file is stored in Drive. To download Google Docs, Sheets, and Slides use [`files.export`](/workspace/drive/api/reference/rest/v3/files/export) instead. For more information, see [Download and export files](/workspace/drive/api/guides/manage-downloads). */
 export const getFiles: API.OperationMethod<GetFilesRequest, GetFilesResponse, GetFilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFilesRequest,
   output: GetFilesResponse,
   errors: [],
 }));
 
-/** Lists the user's files. For more information, see [Search for files and folders](/workspace/drive/api/guides/search-files). This method accepts the `q` parameter, which is a search query combining one or more search terms. This method returns *all* files by default, including trashed files. If you don't want trashed files to appear in the list, use the `trashed=false` query parameter to remove trashed files from the results. */
 export interface ListFilesRequest {
   /** Specifies a collection of items (files or documents) to which the query applies. Supported items include: * `user` * `domain` * `drive` * `allDrives` Prefer `user` or `drive` to `allDrives` for efficiency. By default, corpora is set to `user`. However, this can change depending on the filter set through the `q` parameter. For more information, see [File organization](https://developers.google.com/workspace/drive/api/guides/about-files#file-organization). */
   corpora?: string;
@@ -2220,7 +2219,8 @@ export const ListFilesResponse = FileList;
 
 export type ListFilesError = CommonErrors;
 
-export const listFiles = API.makePaginated(() => ({
+/** Lists the user's files. For more information, see [Search for files and folders](/workspace/drive/api/guides/search-files). This method accepts the `q` parameter, which is a search query combining one or more search terms. This method returns *all* files by default, including trashed files. If you don't want trashed files to appear in the list, use the `trashed=false` query parameter to remove trashed files from the results. */
+export const listFiles: API.PaginatedOperationMethod<ListFilesRequest, ListFilesResponse, ListFilesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFilesRequest,
   output: ListFilesResponse,
   errors: [],
@@ -2230,7 +2230,6 @@ export const listFiles = API.makePaginated(() => ({
   },
 }));
 
-/** Lists the labels on a file. For more information, see [List labels on a file](https://developers.google.com/workspace/drive/api/guides/list-labels). */
 export interface ListLabelsFilesRequest {
   /** The ID for the file. */
   fileId: string;
@@ -2254,7 +2253,8 @@ export const ListLabelsFilesResponse = LabelList;
 
 export type ListLabelsFilesError = CommonErrors;
 
-export const listLabelsFiles = API.makePaginated(() => ({
+/** Lists the labels on a file. For more information, see [List labels on a file](https://developers.google.com/workspace/drive/api/guides/list-labels). */
+export const listLabelsFiles: API.PaginatedOperationMethod<ListLabelsFilesRequest, ListLabelsFilesResponse, ListLabelsFilesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListLabelsFilesRequest,
   output: ListLabelsFilesResponse,
   errors: [],
@@ -2264,7 +2264,6 @@ export const listLabelsFiles = API.makePaginated(() => ({
   },
 }));
 
-/** Modifies the set of labels applied to a file. For more information, see [Set a label field on a file](https://developers.google.com/workspace/drive/api/guides/set-label). Returns a list of the labels that were added or modified. */
 export interface ModifyLabelsFilesRequest {
   /** The ID of the file to which the labels belong. */
   fileId: string;
@@ -2285,13 +2284,13 @@ export const ModifyLabelsFilesResponse = ModifyLabelsResponse;
 
 export type ModifyLabelsFilesError = CommonErrors;
 
+/** Modifies the set of labels applied to a file. For more information, see [Set a label field on a file](https://developers.google.com/workspace/drive/api/guides/set-label). Returns a list of the labels that were added or modified. */
 export const modifyLabelsFiles: API.OperationMethod<ModifyLabelsFilesRequest, ModifyLabelsFilesResponse, ModifyLabelsFilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ModifyLabelsFilesRequest,
   output: ModifyLabelsFilesResponse,
   errors: [],
 }));
 
-/** Updates a file's metadata, content, or both. When calling this method, only populate fields in the request that you want to modify. When updating fields, some fields might be changed automatically, such as `modifiedDate`. This method supports patch semantics. This method supports an * /upload* URI and accepts uploaded media with the following characteristics: - *Maximum file size:* 5,120 GB - *Accepted Media MIME types:* `* /*` (Specify a valid MIME type, rather than the literal `* /*` value. The literal `* /*` is only used to indicate that any valid MIME type can be uploaded. For more information, see [Google Workspace and Google Drive supported MIME types](/workspace/drive/api/guides/mime-types).) For more information on uploading files, see [Upload file data](/workspace/drive/api/guides/manage-uploads). */
 export interface UpdateFilesRequest {
   /** The ID of the file. */
   fileId: string;
@@ -2342,13 +2341,13 @@ export const UpdateFilesResponse = File;
 
 export type UpdateFilesError = CommonErrors;
 
+/** Updates a file's metadata, content, or both. When calling this method, only populate fields in the request that you want to modify. When updating fields, some fields might be changed automatically, such as `modifiedDate`. This method supports patch semantics. This method supports an * /upload* URI and accepts uploaded media with the following characteristics: - *Maximum file size:* 5,120 GB - *Accepted Media MIME types:* `* /*` (Specify a valid MIME type, rather than the literal `* /*` value. The literal `* /*` is only used to indicate that any valid MIME type can be uploaded. For more information, see [Google Workspace and Google Drive supported MIME types](/workspace/drive/api/guides/mime-types).) For more information on uploading files, see [Upload file data](/workspace/drive/api/guides/manage-uploads). */
 export const updateFiles: API.OperationMethod<UpdateFilesRequest, UpdateFilesResponse, UpdateFilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateFilesRequest,
   output: UpdateFilesResponse,
   errors: [],
 }));
 
-/** Subscribes to changes to a file. For more information, see [Notifications for resource changes](https://developers.google.com/workspace/drive/api/guides/push). */
 export interface WatchFilesRequest {
   /** The ID of the file. */
   fileId: string;
@@ -2384,13 +2383,13 @@ export const WatchFilesResponse = Channel;
 
 export type WatchFilesError = CommonErrors;
 
+/** Subscribes to changes to a file. For more information, see [Notifications for resource changes](https://developers.google.com/workspace/drive/api/guides/push). */
 export const watchFiles: API.OperationMethod<WatchFilesRequest, WatchFilesResponse, WatchFilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WatchFilesRequest,
   output: WatchFilesResponse,
   errors: [],
 }));
 
-/** Downloads the content of a file. For more information, see [Download and export files](https://developers.google.com/workspace/drive/api/guides/manage-downloads). Operations are valid for 24 hours from the time of creation. */
 export interface DownloadFilesRequest {
   /** Required. The ID of the file to download. */
   fileId: string;
@@ -2414,13 +2413,13 @@ export const DownloadFilesResponse = Operation;
 
 export type DownloadFilesError = CommonErrors;
 
+/** Downloads the content of a file. For more information, see [Download and export files](https://developers.google.com/workspace/drive/api/guides/manage-downloads). Operations are valid for 24 hours from the time of creation. */
 export const downloadFiles: API.OperationMethod<DownloadFilesRequest, DownloadFilesResponse, DownloadFilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DownloadFilesRequest,
   output: DownloadFilesResponse,
   errors: [],
 }));
 
-/** Creates a permission for a file or shared drive. For more information, see [Share files, folders, and drives](https://developers.google.com/workspace/drive/api/guides/manage-sharing). **Warning:** Concurrent permissions operations on the same file aren't supported; only the last update is applied. */
 export interface CreatePermissionsRequest {
   /** The ID of the file or shared drive. */
   fileId: string;
@@ -2468,13 +2467,13 @@ export const CreatePermissionsResponse = Permission;
 
 export type CreatePermissionsError = CommonErrors;
 
+/** Creates a permission for a file or shared drive. For more information, see [Share files, folders, and drives](https://developers.google.com/workspace/drive/api/guides/manage-sharing). **Warning:** Concurrent permissions operations on the same file aren't supported; only the last update is applied. */
 export const createPermissions: API.OperationMethod<CreatePermissionsRequest, CreatePermissionsResponse, CreatePermissionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreatePermissionsRequest,
   output: CreatePermissionsResponse,
   errors: [],
 }));
 
-/** Deletes a permission. For more information, see [Share files, folders, and drives](https://developers.google.com/workspace/drive/api/guides/manage-sharing). **Warning:** Concurrent permissions operations on the same file aren't supported; only the last update is applied. */
 export interface DeletePermissionsRequest {
   /** The ID of the file or shared drive. */
   fileId: string;
@@ -2507,13 +2506,13 @@ export const DeletePermissionsResponse: Schema.Schema<DeletePermissionsResponse>
 
 export type DeletePermissionsError = CommonErrors;
 
+/** Deletes a permission. For more information, see [Share files, folders, and drives](https://developers.google.com/workspace/drive/api/guides/manage-sharing). **Warning:** Concurrent permissions operations on the same file aren't supported; only the last update is applied. */
 export const deletePermissions: API.OperationMethod<DeletePermissionsRequest, DeletePermissionsResponse, DeletePermissionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeletePermissionsRequest,
   output: DeletePermissionsResponse,
   errors: [],
 }));
 
-/** Gets a permission by ID. For more information, see [Share files, folders, and drives](https://developers.google.com/workspace/drive/api/guides/manage-sharing). */
 export interface GetPermissionsRequest {
   /** The ID of the file. */
   fileId: string;
@@ -2543,13 +2542,13 @@ export const GetPermissionsResponse = Permission;
 
 export type GetPermissionsError = CommonErrors;
 
+/** Gets a permission by ID. For more information, see [Share files, folders, and drives](https://developers.google.com/workspace/drive/api/guides/manage-sharing). */
 export const getPermissions: API.OperationMethod<GetPermissionsRequest, GetPermissionsResponse, GetPermissionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPermissionsRequest,
   output: GetPermissionsResponse,
   errors: [],
 }));
 
-/** Lists a file's or shared drive's permissions. For more information, see [Share files, folders, and drives](https://developers.google.com/workspace/drive/api/guides/manage-sharing). */
 export interface ListPermissionsRequest {
   /** The ID of the file or shared drive. */
   fileId: string;
@@ -2585,7 +2584,8 @@ export const ListPermissionsResponse = PermissionList;
 
 export type ListPermissionsError = CommonErrors;
 
-export const listPermissions = API.makePaginated(() => ({
+/** Lists a file's or shared drive's permissions. For more information, see [Share files, folders, and drives](https://developers.google.com/workspace/drive/api/guides/manage-sharing). */
+export const listPermissions: API.PaginatedOperationMethod<ListPermissionsRequest, ListPermissionsResponse, ListPermissionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPermissionsRequest,
   output: ListPermissionsResponse,
   errors: [],
@@ -2595,7 +2595,6 @@ export const listPermissions = API.makePaginated(() => ({
   },
 }));
 
-/** Updates a permission with patch semantics. For more information, see [Share files, folders, and drives](https://developers.google.com/workspace/drive/api/guides/manage-sharing). **Warning:** Concurrent permissions operations on the same file aren't supported; only the last update is applied. */
 export interface UpdatePermissionsRequest {
   /** The ID of the file or shared drive. */
   fileId: string;
@@ -2637,13 +2636,13 @@ export const UpdatePermissionsResponse = Permission;
 
 export type UpdatePermissionsError = CommonErrors;
 
+/** Updates a permission with patch semantics. For more information, see [Share files, folders, and drives](https://developers.google.com/workspace/drive/api/guides/manage-sharing). **Warning:** Concurrent permissions operations on the same file aren't supported; only the last update is applied. */
 export const updatePermissions: API.OperationMethod<UpdatePermissionsRequest, UpdatePermissionsResponse, UpdatePermissionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdatePermissionsRequest,
   output: UpdatePermissionsResponse,
   errors: [],
 }));
 
-/** Creates a reply to a comment. For more information, see [Manage comments and replies](https://developers.google.com/workspace/drive/api/guides/manage-comments). */
 export interface CreateRepliesRequest {
   /** The ID of the file. */
   fileId: string;
@@ -2667,13 +2666,13 @@ export const CreateRepliesResponse = Reply;
 
 export type CreateRepliesError = CommonErrors;
 
+/** Creates a reply to a comment. For more information, see [Manage comments and replies](https://developers.google.com/workspace/drive/api/guides/manage-comments). */
 export const createReplies: API.OperationMethod<CreateRepliesRequest, CreateRepliesResponse, CreateRepliesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateRepliesRequest,
   output: CreateRepliesResponse,
   errors: [],
 }));
 
-/** Deletes a reply. For more information, see [Manage comments and replies](https://developers.google.com/workspace/drive/api/guides/manage-comments). */
 export interface DeleteRepliesRequest {
   /** The ID of the file. */
   fileId: string;
@@ -2697,13 +2696,13 @@ export const DeleteRepliesResponse: Schema.Schema<DeleteRepliesResponse> = Schem
 
 export type DeleteRepliesError = CommonErrors;
 
+/** Deletes a reply. For more information, see [Manage comments and replies](https://developers.google.com/workspace/drive/api/guides/manage-comments). */
 export const deleteReplies: API.OperationMethod<DeleteRepliesRequest, DeleteRepliesResponse, DeleteRepliesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRepliesRequest,
   output: DeleteRepliesResponse,
   errors: [],
 }));
 
-/** Gets a reply by ID. For more information, see [Manage comments and replies](https://developers.google.com/workspace/drive/api/guides/manage-comments). */
 export interface GetRepliesRequest {
   /** The ID of the file. */
   fileId: string;
@@ -2730,13 +2729,13 @@ export const GetRepliesResponse = Reply;
 
 export type GetRepliesError = CommonErrors;
 
+/** Gets a reply by ID. For more information, see [Manage comments and replies](https://developers.google.com/workspace/drive/api/guides/manage-comments). */
 export const getReplies: API.OperationMethod<GetRepliesRequest, GetRepliesResponse, GetRepliesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRepliesRequest,
   output: GetRepliesResponse,
   errors: [],
 }));
 
-/** Lists a comment's replies. For more information, see [Manage comments and replies](https://developers.google.com/workspace/drive/api/guides/manage-comments). */
 export interface ListRepliesRequest {
   /** The ID of the file. */
   fileId: string;
@@ -2766,7 +2765,8 @@ export const ListRepliesResponse = ReplyList;
 
 export type ListRepliesError = CommonErrors;
 
-export const listReplies = API.makePaginated(() => ({
+/** Lists a comment's replies. For more information, see [Manage comments and replies](https://developers.google.com/workspace/drive/api/guides/manage-comments). */
+export const listReplies: API.PaginatedOperationMethod<ListRepliesRequest, ListRepliesResponse, ListRepliesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRepliesRequest,
   output: ListRepliesResponse,
   errors: [],
@@ -2776,7 +2776,6 @@ export const listReplies = API.makePaginated(() => ({
   },
 }));
 
-/** Updates a reply with patch semantics. For more information, see [Manage comments and replies](https://developers.google.com/workspace/drive/api/guides/manage-comments). */
 export interface UpdateRepliesRequest {
   /** The ID of the file. */
   fileId: string;
@@ -2803,13 +2802,13 @@ export const UpdateRepliesResponse = Reply;
 
 export type UpdateRepliesError = CommonErrors;
 
+/** Updates a reply with patch semantics. For more information, see [Manage comments and replies](https://developers.google.com/workspace/drive/api/guides/manage-comments). */
 export const updateReplies: API.OperationMethod<UpdateRepliesRequest, UpdateRepliesResponse, UpdateRepliesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateRepliesRequest,
   output: UpdateRepliesResponse,
   errors: [],
 }));
 
-/** Permanently deletes a file version. You can only delete revisions for files with binary content in Google Drive, like images or videos. Revisions for other files, like Google Docs or Sheets, and the last remaining file version can't be deleted. For more information, see [Manage file revisions](https://developers.google.com/drive/api/guides/manage-revisions). */
 export interface DeleteRevisionsRequest {
   /** The ID of the file. */
   fileId: string;
@@ -2830,13 +2829,13 @@ export const DeleteRevisionsResponse: Schema.Schema<DeleteRevisionsResponse> = S
 
 export type DeleteRevisionsError = CommonErrors;
 
+/** Permanently deletes a file version. You can only delete revisions for files with binary content in Google Drive, like images or videos. Revisions for other files, like Google Docs or Sheets, and the last remaining file version can't be deleted. For more information, see [Manage file revisions](https://developers.google.com/drive/api/guides/manage-revisions). */
 export const deleteRevisions: API.OperationMethod<DeleteRevisionsRequest, DeleteRevisionsResponse, DeleteRevisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRevisionsRequest,
   output: DeleteRevisionsResponse,
   errors: [],
 }));
 
-/** Gets a revision's metadata or content by ID. For more information, see [Manage file revisions](https://developers.google.com/workspace/drive/api/guides/manage-revisions). */
 export interface GetRevisionsRequest {
   /** The ID of the file. */
   fileId: string;
@@ -2860,13 +2859,13 @@ export const GetRevisionsResponse = Revision;
 
 export type GetRevisionsError = CommonErrors;
 
+/** Gets a revision's metadata or content by ID. For more information, see [Manage file revisions](https://developers.google.com/workspace/drive/api/guides/manage-revisions). */
 export const getRevisions: API.OperationMethod<GetRevisionsRequest, GetRevisionsResponse, GetRevisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRevisionsRequest,
   output: GetRevisionsResponse,
   errors: [],
 }));
 
-/** Lists a file's revisions. For more information, see [Manage file revisions](https://developers.google.com/workspace/drive/api/guides/manage-revisions). **Important:** The list of revisions returned by this method might be incomplete for files with a large revision history, including frequently edited Google Docs, Sheets, and Slides. Older revisions might be omitted from the response, meaning the first revision returned may not be the oldest existing revision. The revision history visible in the Workspace editor user interface might be more complete than the list returned by the API. */
 export interface ListRevisionsRequest {
   /** The ID of the file. */
   fileId: string;
@@ -2890,7 +2889,8 @@ export const ListRevisionsResponse = RevisionList;
 
 export type ListRevisionsError = CommonErrors;
 
-export const listRevisions = API.makePaginated(() => ({
+/** Lists a file's revisions. For more information, see [Manage file revisions](https://developers.google.com/workspace/drive/api/guides/manage-revisions). **Important:** The list of revisions returned by this method might be incomplete for files with a large revision history, including frequently edited Google Docs, Sheets, and Slides. Older revisions might be omitted from the response, meaning the first revision returned may not be the oldest existing revision. The revision history visible in the Workspace editor user interface might be more complete than the list returned by the API. */
+export const listRevisions: API.PaginatedOperationMethod<ListRevisionsRequest, ListRevisionsResponse, ListRevisionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRevisionsRequest,
   output: ListRevisionsResponse,
   errors: [],
@@ -2900,7 +2900,6 @@ export const listRevisions = API.makePaginated(() => ({
   },
 }));
 
-/** Updates a revision with patch semantics. For more information, see [Manage file revisions](https://developers.google.com/workspace/drive/api/guides/manage-revisions). */
 export interface UpdateRevisionsRequest {
   /** The ID of the file. */
   fileId: string;
@@ -2924,13 +2923,13 @@ export const UpdateRevisionsResponse = Revision;
 
 export type UpdateRevisionsError = CommonErrors;
 
+/** Updates a revision with patch semantics. For more information, see [Manage file revisions](https://developers.google.com/workspace/drive/api/guides/manage-revisions). */
 export const updateRevisions: API.OperationMethod<UpdateRevisionsRequest, UpdateRevisionsResponse, UpdateRevisionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateRevisionsRequest,
   output: UpdateRevisionsResponse,
   errors: [],
 }));
 
-/** Deprecated: Use `drives.create` instead. */
 export interface CreateTeamdrivesRequest {
   /** Required. An ID, such as a random UUID, which uniquely identifies this user's request for idempotent creation of a Team Drive. A repeated request by the same user and with the same request ID will avoid creating duplicates by attempting to create the same Team Drive. If the Team Drive already exists a 409 error will be returned. */
   requestId: string;
@@ -2951,13 +2950,13 @@ export const CreateTeamdrivesResponse = TeamDrive;
 
 export type CreateTeamdrivesError = CommonErrors;
 
+/** Deprecated: Use `drives.create` instead. */
 export const createTeamdrives: API.OperationMethod<CreateTeamdrivesRequest, CreateTeamdrivesResponse, CreateTeamdrivesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateTeamdrivesRequest,
   output: CreateTeamdrivesResponse,
   errors: [],
 }));
 
-/** Deprecated: Use `drives.delete` instead. */
 export interface DeleteTeamdrivesRequest {
   /** The ID of the Team Drive */
   teamDriveId: string;
@@ -2975,13 +2974,13 @@ export const DeleteTeamdrivesResponse: Schema.Schema<DeleteTeamdrivesResponse> =
 
 export type DeleteTeamdrivesError = CommonErrors;
 
+/** Deprecated: Use `drives.delete` instead. */
 export const deleteTeamdrives: API.OperationMethod<DeleteTeamdrivesRequest, DeleteTeamdrivesResponse, DeleteTeamdrivesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteTeamdrivesRequest,
   output: DeleteTeamdrivesResponse,
   errors: [],
 }));
 
-/** Deprecated: Use `drives.get` instead. */
 export interface GetTeamdrivesRequest {
   /** The ID of the Team Drive */
   teamDriveId: string;
@@ -3002,13 +3001,13 @@ export const GetTeamdrivesResponse = TeamDrive;
 
 export type GetTeamdrivesError = CommonErrors;
 
+/** Deprecated: Use `drives.get` instead. */
 export const getTeamdrives: API.OperationMethod<GetTeamdrivesRequest, GetTeamdrivesResponse, GetTeamdrivesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetTeamdrivesRequest,
   output: GetTeamdrivesResponse,
   errors: [],
 }));
 
-/** Deprecated: Use `drives.list` instead. */
 export interface ListTeamdrivesRequest {
   /** Maximum number of Team Drives to return. */
   pageSize?: number;
@@ -3035,7 +3034,8 @@ export const ListTeamdrivesResponse = TeamDriveList;
 
 export type ListTeamdrivesError = CommonErrors;
 
-export const listTeamdrives = API.makePaginated(() => ({
+/** Deprecated: Use `drives.list` instead. */
+export const listTeamdrives: API.PaginatedOperationMethod<ListTeamdrivesRequest, ListTeamdrivesResponse, ListTeamdrivesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListTeamdrivesRequest,
   output: ListTeamdrivesResponse,
   errors: [],
@@ -3045,7 +3045,6 @@ export const listTeamdrives = API.makePaginated(() => ({
   },
 }));
 
-/** Deprecated: Use `drives.update` instead. */
 export interface UpdateTeamdrivesRequest {
   /** The ID of the Team Drive */
   teamDriveId: string;
@@ -3069,13 +3068,13 @@ export const UpdateTeamdrivesResponse = TeamDrive;
 
 export type UpdateTeamdrivesError = CommonErrors;
 
+/** Deprecated: Use `drives.update` instead. */
 export const updateTeamdrives: API.OperationMethod<UpdateTeamdrivesRequest, UpdateTeamdrivesResponse, UpdateTeamdrivesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateTeamdrivesRequest,
   output: UpdateTeamdrivesResponse,
   errors: [],
 }));
 
-/** Gets an Approval by ID. */
 export interface GetApprovalsRequest {
   /** Required. The ID of the file the Approval is on. */
   fileId: string;
@@ -3096,13 +3095,13 @@ export const GetApprovalsResponse = Approval;
 
 export type GetApprovalsError = CommonErrors;
 
+/** Gets an Approval by ID. */
 export const getApprovals: API.OperationMethod<GetApprovalsRequest, GetApprovalsResponse, GetApprovalsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetApprovalsRequest,
   output: GetApprovalsResponse,
   errors: [],
 }));
 
-/** Lists the Approvals on a file. */
 export interface ListApprovalsRequest {
   /** Required. The ID of the file the Approval is on. */
   fileId: string;
@@ -3126,7 +3125,8 @@ export const ListApprovalsResponse = ApprovalList;
 
 export type ListApprovalsError = CommonErrors;
 
-export const listApprovals = API.makePaginated(() => ({
+/** Lists the Approvals on a file. */
+export const listApprovals: API.PaginatedOperationMethod<ListApprovalsRequest, ListApprovalsResponse, ListApprovalsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListApprovalsRequest,
   output: ListApprovalsResponse,
   errors: [],
@@ -3137,7 +3137,6 @@ export const listApprovals = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves an access proposal by ID. For more information, see [Manage pending access proposals](https://developers.google.com/workspace/drive/api/guides/pending-access). */
 export interface GetAccessproposalsRequest {
   /** Required. The ID of the item the request is on. */
   fileId: string;
@@ -3158,13 +3157,13 @@ export const GetAccessproposalsResponse = AccessProposal;
 
 export type GetAccessproposalsError = CommonErrors;
 
+/** Retrieves an access proposal by ID. For more information, see [Manage pending access proposals](https://developers.google.com/workspace/drive/api/guides/pending-access). */
 export const getAccessproposals: API.OperationMethod<GetAccessproposalsRequest, GetAccessproposalsResponse, GetAccessproposalsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccessproposalsRequest,
   output: GetAccessproposalsResponse,
   errors: [],
 }));
 
-/** Approves or denies an access proposal. For more information, see [Manage pending access proposals](https://developers.google.com/workspace/drive/api/guides/pending-access). */
 export interface ResolveAccessproposalsRequest {
   /** Required. The ID of the item the request is on. */
   fileId: string;
@@ -3188,13 +3187,13 @@ export const ResolveAccessproposalsResponse: Schema.Schema<ResolveAccessproposal
 
 export type ResolveAccessproposalsError = CommonErrors;
 
+/** Approves or denies an access proposal. For more information, see [Manage pending access proposals](https://developers.google.com/workspace/drive/api/guides/pending-access). */
 export const resolveAccessproposals: API.OperationMethod<ResolveAccessproposalsRequest, ResolveAccessproposalsResponse, ResolveAccessproposalsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResolveAccessproposalsRequest,
   output: ResolveAccessproposalsResponse,
   errors: [],
 }));
 
-/** List the access proposals on a file. For more information, see [Manage pending access proposals](https://developers.google.com/workspace/drive/api/guides/pending-access). Note: Only approvers are able to list access proposals on a file. If the user isn't an approver, a 403 error is returned. */
 export interface ListAccessproposalsRequest {
   /** Required. The ID of the item the request is on. */
   fileId: string;
@@ -3218,7 +3217,8 @@ export const ListAccessproposalsResponse = ListAccessProposalsResponse;
 
 export type ListAccessproposalsError = CommonErrors;
 
-export const listAccessproposals = API.makePaginated(() => ({
+/** List the access proposals on a file. For more information, see [Manage pending access proposals](https://developers.google.com/workspace/drive/api/guides/pending-access). Note: Only approvers are able to list access proposals on a file. If the user isn't an approver, a 403 error is returned. */
+export const listAccessproposals: API.PaginatedOperationMethod<ListAccessproposalsRequest, ListAccessproposalsResponse, ListAccessproposalsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccessproposalsRequest,
   output: ListAccessproposalsResponse,
   errors: [],

@@ -489,7 +489,6 @@ export const ListDeploymentsResponse: Schema.Schema<ListDeploymentsResponse> = S
 // Operations
 // ==========================================================================
 
-/** Get metrics data for scripts, such as number of executions and active users. */
 export interface GetMetricsProjectsRequest {
   /** Required field indicating what granularity of metrics are returned. */
   metricsGranularity?: "UNSPECIFIED_GRANULARITY" | "WEEKLY" | "DAILY" | (string & {});
@@ -513,13 +512,13 @@ export const GetMetricsProjectsResponse = Metrics;
 
 export type GetMetricsProjectsError = CommonErrors;
 
+/** Get metrics data for scripts, such as number of executions and active users. */
 export const getMetricsProjects: API.OperationMethod<GetMetricsProjectsRequest, GetMetricsProjectsResponse, GetMetricsProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetMetricsProjectsRequest,
   output: GetMetricsProjectsResponse,
   errors: [],
 }));
 
-/** Creates a new, empty script project with no script files and a base manifest file. */
 export interface CreateProjectsRequest {
   /** Request body */
   body?: CreateProjectRequest;
@@ -537,13 +536,13 @@ export const CreateProjectsResponse = Project;
 
 export type CreateProjectsError = CommonErrors;
 
+/** Creates a new, empty script project with no script files and a base manifest file. */
 export const createProjects: API.OperationMethod<CreateProjectsRequest, CreateProjectsResponse, CreateProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsRequest,
   output: CreateProjectsResponse,
   errors: [],
 }));
 
-/** Gets a script project's metadata. */
 export interface GetProjectsRequest {
   /** The script project's Drive ID. */
   scriptId: string;
@@ -561,13 +560,13 @@ export const GetProjectsResponse = Project;
 
 export type GetProjectsError = CommonErrors;
 
+/** Gets a script project's metadata. */
 export const getProjects: API.OperationMethod<GetProjectsRequest, GetProjectsResponse, GetProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsRequest,
   output: GetProjectsResponse,
   errors: [],
 }));
 
-/** Gets the content of the script project, including the code source and metadata for each script file. */
 export interface GetContentProjectsRequest {
   /** The version number of the project to retrieve. If not provided, the project's HEAD version is returned. */
   versionNumber?: number;
@@ -588,13 +587,13 @@ export const GetContentProjectsResponse = Content;
 
 export type GetContentProjectsError = CommonErrors;
 
+/** Gets the content of the script project, including the code source and metadata for each script file. */
 export const getContentProjects: API.OperationMethod<GetContentProjectsRequest, GetContentProjectsResponse, GetContentProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetContentProjectsRequest,
   output: GetContentProjectsResponse,
   errors: [],
 }));
 
-/** Updates the content of the specified script project. This content is stored as the HEAD version, and is used when the script is executed as a trigger, in the script editor, in add-on preview mode, or as a web app or Apps Script API in development mode. This clears all the existing files in the project. */
 export interface UpdateContentProjectsRequest {
   /** The script project's Drive ID. */
   scriptId: string;
@@ -615,13 +614,13 @@ export const UpdateContentProjectsResponse = Content;
 
 export type UpdateContentProjectsError = CommonErrors;
 
+/** Updates the content of the specified script project. This content is stored as the HEAD version, and is used when the script is executed as a trigger, in the script editor, in add-on preview mode, or as a web app or Apps Script API in development mode. This clears all the existing files in the project. */
 export const updateContentProjects: API.OperationMethod<UpdateContentProjectsRequest, UpdateContentProjectsResponse, UpdateContentProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateContentProjectsRequest,
   output: UpdateContentProjectsResponse,
   errors: [],
 }));
 
-/** Creates a deployment of an Apps Script project. */
 export interface CreateProjectsDeploymentsRequest {
   /** The script project's Drive ID. */
   scriptId: string;
@@ -642,13 +641,13 @@ export const CreateProjectsDeploymentsResponse = Deployment;
 
 export type CreateProjectsDeploymentsError = CommonErrors;
 
+/** Creates a deployment of an Apps Script project. */
 export const createProjectsDeployments: API.OperationMethod<CreateProjectsDeploymentsRequest, CreateProjectsDeploymentsResponse, CreateProjectsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsDeploymentsRequest,
   output: CreateProjectsDeploymentsResponse,
   errors: [],
 }));
 
-/** Lists the deployments of an Apps Script project. */
 export interface ListProjectsDeploymentsRequest {
   /** The token for continuing a previous list request on the next page. This should be set to the value of `nextPageToken` from a previous response. */
   pageToken?: string;
@@ -672,7 +671,8 @@ export const ListProjectsDeploymentsResponse = ListDeploymentsResponse;
 
 export type ListProjectsDeploymentsError = CommonErrors;
 
-export const listProjectsDeployments = API.makePaginated(() => ({
+/** Lists the deployments of an Apps Script project. */
+export const listProjectsDeployments: API.PaginatedOperationMethod<ListProjectsDeploymentsRequest, ListProjectsDeploymentsResponse, ListProjectsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsDeploymentsRequest,
   output: ListProjectsDeploymentsResponse,
   errors: [],
@@ -682,7 +682,6 @@ export const listProjectsDeployments = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a deployment of an Apps Script project. */
 export interface DeleteProjectsDeploymentsRequest {
   /** The script project's Drive ID. */
   scriptId: string;
@@ -703,13 +702,13 @@ export const DeleteProjectsDeploymentsResponse = Empty;
 
 export type DeleteProjectsDeploymentsError = CommonErrors;
 
+/** Deletes a deployment of an Apps Script project. */
 export const deleteProjectsDeployments: API.OperationMethod<DeleteProjectsDeploymentsRequest, DeleteProjectsDeploymentsResponse, DeleteProjectsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsDeploymentsRequest,
   output: DeleteProjectsDeploymentsResponse,
   errors: [],
 }));
 
-/** Gets a deployment of an Apps Script project. */
 export interface GetProjectsDeploymentsRequest {
   /** The deployment ID. */
   deploymentId: string;
@@ -730,13 +729,13 @@ export const GetProjectsDeploymentsResponse = Deployment;
 
 export type GetProjectsDeploymentsError = CommonErrors;
 
+/** Gets a deployment of an Apps Script project. */
 export const getProjectsDeployments: API.OperationMethod<GetProjectsDeploymentsRequest, GetProjectsDeploymentsResponse, GetProjectsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsDeploymentsRequest,
   output: GetProjectsDeploymentsResponse,
   errors: [],
 }));
 
-/** Updates a deployment of an Apps Script project. */
 export interface UpdateProjectsDeploymentsRequest {
   /** The deployment ID for this deployment. */
   deploymentId: string;
@@ -760,13 +759,13 @@ export const UpdateProjectsDeploymentsResponse = Deployment;
 
 export type UpdateProjectsDeploymentsError = CommonErrors;
 
+/** Updates a deployment of an Apps Script project. */
 export const updateProjectsDeployments: API.OperationMethod<UpdateProjectsDeploymentsRequest, UpdateProjectsDeploymentsResponse, UpdateProjectsDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateProjectsDeploymentsRequest,
   output: UpdateProjectsDeploymentsResponse,
   errors: [],
 }));
 
-/** List the versions of a script project. */
 export interface ListProjectsVersionsRequest {
   /** The script project's Drive ID. */
   scriptId: string;
@@ -790,7 +789,8 @@ export const ListProjectsVersionsResponse = ListVersionsResponse;
 
 export type ListProjectsVersionsError = CommonErrors;
 
-export const listProjectsVersions = API.makePaginated(() => ({
+/** List the versions of a script project. */
+export const listProjectsVersions: API.PaginatedOperationMethod<ListProjectsVersionsRequest, ListProjectsVersionsResponse, ListProjectsVersionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsVersionsRequest,
   output: ListProjectsVersionsResponse,
   errors: [],
@@ -800,7 +800,6 @@ export const listProjectsVersions = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a version of a script project. */
 export interface GetProjectsVersionsRequest {
   /** The script project's Drive ID. */
   scriptId: string;
@@ -821,13 +820,13 @@ export const GetProjectsVersionsResponse = Version;
 
 export type GetProjectsVersionsError = CommonErrors;
 
+/** Gets a version of a script project. */
 export const getProjectsVersions: API.OperationMethod<GetProjectsVersionsRequest, GetProjectsVersionsResponse, GetProjectsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsVersionsRequest,
   output: GetProjectsVersionsResponse,
   errors: [],
 }));
 
-/** Creates a new immutable version using the current code, with a unique version number. */
 export interface CreateProjectsVersionsRequest {
   /** The script project's Drive ID. */
   scriptId: string;
@@ -848,13 +847,13 @@ export const CreateProjectsVersionsResponse = Version;
 
 export type CreateProjectsVersionsError = CommonErrors;
 
+/** Creates a new immutable version using the current code, with a unique version number. */
 export const createProjectsVersions: API.OperationMethod<CreateProjectsVersionsRequest, CreateProjectsVersionsResponse, CreateProjectsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsVersionsRequest,
   output: CreateProjectsVersionsResponse,
   errors: [],
 }));
 
-/** List information about a script's executed processes, such as process type and current status. */
 export interface ListScriptProcessesProcessesRequest {
   /** Optional field used to limit returned processes to those that were started on or after the given timestamp. */
   "scriptProcessFilter.startTime"?: string;
@@ -899,7 +898,8 @@ export const ListScriptProcessesProcessesResponse = ListScriptProcessesResponse;
 
 export type ListScriptProcessesProcessesError = CommonErrors;
 
-export const listScriptProcessesProcesses = API.makePaginated(() => ({
+/** List information about a script's executed processes, such as process type and current status. */
+export const listScriptProcessesProcesses: API.PaginatedOperationMethod<ListScriptProcessesProcessesRequest, ListScriptProcessesProcessesResponse, ListScriptProcessesProcessesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListScriptProcessesProcessesRequest,
   output: ListScriptProcessesProcessesResponse,
   errors: [],
@@ -909,7 +909,6 @@ export const listScriptProcessesProcesses = API.makePaginated(() => ({
   },
 }));
 
-/** List information about processes made by or on behalf of a user, such as process type and current status. */
 export interface ListProcessesRequest {
   /** Optional field used to limit returned processes to those originating from a script function with the given function name. */
   "userProcessFilter.functionName"?: string;
@@ -957,7 +956,8 @@ export const ListProcessesResponse = ListUserProcessesResponse;
 
 export type ListProcessesError = CommonErrors;
 
-export const listProcesses = API.makePaginated(() => ({
+/** List information about processes made by or on behalf of a user, such as process type and current status. */
+export const listProcesses: API.PaginatedOperationMethod<ListProcessesRequest, ListProcessesResponse, ListProcessesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProcessesRequest,
   output: ListProcessesResponse,
   errors: [],

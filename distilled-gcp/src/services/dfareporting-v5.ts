@@ -5932,7 +5932,6 @@ export const VideoFormatsListResponse: Schema.Schema<VideoFormatsListResponse> =
 // Operations
 // ==========================================================================
 
-/** Gets one account permission group by ID. */
 export interface GetAccountPermissionGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -5953,13 +5952,13 @@ export const GetAccountPermissionGroupsResponse = AccountPermissionGroup;
 
 export type GetAccountPermissionGroupsError = CommonErrors;
 
+/** Gets one account permission group by ID. */
 export const getAccountPermissionGroups: API.OperationMethod<GetAccountPermissionGroupsRequest, GetAccountPermissionGroupsResponse, GetAccountPermissionGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountPermissionGroupsRequest,
   output: GetAccountPermissionGroupsResponse,
   errors: [],
 }));
 
-/** Retrieves the list of account permission groups. */
 export interface ListAccountPermissionGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -5977,13 +5976,13 @@ export const ListAccountPermissionGroupsResponse = AccountPermissionGroupsListRe
 
 export type ListAccountPermissionGroupsError = CommonErrors;
 
+/** Retrieves the list of account permission groups. */
 export const listAccountPermissionGroups: API.OperationMethod<ListAccountPermissionGroupsRequest, ListAccountPermissionGroupsResponse, ListAccountPermissionGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListAccountPermissionGroupsRequest,
   output: ListAccountPermissionGroupsResponse,
   errors: [],
 }));
 
-/** Gets one account permission by ID. */
 export interface GetAccountPermissionsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -6004,13 +6003,13 @@ export const GetAccountPermissionsResponse = AccountPermission;
 
 export type GetAccountPermissionsError = CommonErrors;
 
+/** Gets one account permission by ID. */
 export const getAccountPermissions: API.OperationMethod<GetAccountPermissionsRequest, GetAccountPermissionsResponse, GetAccountPermissionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountPermissionsRequest,
   output: GetAccountPermissionsResponse,
   errors: [],
 }));
 
-/** Retrieves the list of account permissions. */
 export interface ListAccountPermissionsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -6028,13 +6027,13 @@ export const ListAccountPermissionsResponse = AccountPermissionsListResponse;
 
 export type ListAccountPermissionsError = CommonErrors;
 
+/** Retrieves the list of account permissions. */
 export const listAccountPermissions: API.OperationMethod<ListAccountPermissionsRequest, ListAccountPermissionsResponse, ListAccountPermissionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListAccountPermissionsRequest,
   output: ListAccountPermissionsResponse,
   errors: [],
 }));
 
-/** Gets one account by ID. */
 export interface GetAccountsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -6055,13 +6054,13 @@ export const GetAccountsResponse = Account;
 
 export type GetAccountsError = CommonErrors;
 
+/** Gets one account by ID. */
 export const getAccounts: API.OperationMethod<GetAccountsRequest, GetAccountsResponse, GetAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsRequest,
   output: GetAccountsResponse,
   errors: [],
 }));
 
-/** Retrieves the list of accounts, possibly filtered. This method supports paging. */
 export interface ListAccountsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -6100,7 +6099,8 @@ export const ListAccountsResponse = AccountsListResponse;
 
 export type ListAccountsError = CommonErrors;
 
-export const listAccounts = API.makePaginated(() => ({
+/** Retrieves the list of accounts, possibly filtered. This method supports paging. */
+export const listAccounts: API.PaginatedOperationMethod<ListAccountsRequest, ListAccountsResponse, ListAccountsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsRequest,
   output: ListAccountsResponse,
   errors: [],
@@ -6110,7 +6110,6 @@ export const listAccounts = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing account. */
 export interface UpdateAccountsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -6131,13 +6130,13 @@ export const UpdateAccountsResponse = Account;
 
 export type UpdateAccountsError = CommonErrors;
 
+/** Updates an existing account. */
 export const updateAccounts: API.OperationMethod<UpdateAccountsRequest, UpdateAccountsResponse, UpdateAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAccountsRequest,
   output: UpdateAccountsResponse,
   errors: [],
 }));
 
-/** Updates an existing account. This method supports patch semantics. */
 export interface PatchAccountsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -6161,13 +6160,13 @@ export const PatchAccountsResponse = Account;
 
 export type PatchAccountsError = CommonErrors;
 
+/** Updates an existing account. This method supports patch semantics. */
 export const patchAccounts: API.OperationMethod<PatchAccountsRequest, PatchAccountsResponse, PatchAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAccountsRequest,
   output: PatchAccountsResponse,
   errors: [],
 }));
 
-/** Gets the account's active ad summary by account ID. */
 export interface GetAccountActiveAdSummariesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -6188,13 +6187,13 @@ export const GetAccountActiveAdSummariesResponse = AccountActiveAdSummary;
 
 export type GetAccountActiveAdSummariesError = CommonErrors;
 
+/** Gets the account's active ad summary by account ID. */
 export const getAccountActiveAdSummaries: API.OperationMethod<GetAccountActiveAdSummariesRequest, GetAccountActiveAdSummariesResponse, GetAccountActiveAdSummariesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountActiveAdSummariesRequest,
   output: GetAccountActiveAdSummariesResponse,
   errors: [],
 }));
 
-/** Gets one account user profile by ID. */
 export interface GetAccountUserProfilesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -6215,13 +6214,13 @@ export const GetAccountUserProfilesResponse = AccountUserProfile;
 
 export type GetAccountUserProfilesError = CommonErrors;
 
+/** Gets one account user profile by ID. */
 export const getAccountUserProfiles: API.OperationMethod<GetAccountUserProfilesRequest, GetAccountUserProfilesResponse, GetAccountUserProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountUserProfilesRequest,
   output: GetAccountUserProfilesResponse,
   errors: [],
 }));
 
-/** Inserts a new account user profile. */
 export interface InsertAccountUserProfilesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -6242,13 +6241,13 @@ export const InsertAccountUserProfilesResponse = AccountUserProfile;
 
 export type InsertAccountUserProfilesError = CommonErrors;
 
+/** Inserts a new account user profile. */
 export const insertAccountUserProfiles: API.OperationMethod<InsertAccountUserProfilesRequest, InsertAccountUserProfilesResponse, InsertAccountUserProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertAccountUserProfilesRequest,
   output: InsertAccountUserProfilesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of account user profiles, possibly filtered. This method supports paging. */
 export interface ListAccountUserProfilesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -6293,7 +6292,8 @@ export const ListAccountUserProfilesResponse = AccountUserProfilesListResponse;
 
 export type ListAccountUserProfilesError = CommonErrors;
 
-export const listAccountUserProfiles = API.makePaginated(() => ({
+/** Retrieves a list of account user profiles, possibly filtered. This method supports paging. */
+export const listAccountUserProfiles: API.PaginatedOperationMethod<ListAccountUserProfilesRequest, ListAccountUserProfilesResponse, ListAccountUserProfilesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountUserProfilesRequest,
   output: ListAccountUserProfilesResponse,
   errors: [],
@@ -6303,7 +6303,6 @@ export const listAccountUserProfiles = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing account user profile. */
 export interface UpdateAccountUserProfilesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -6324,13 +6323,13 @@ export const UpdateAccountUserProfilesResponse = AccountUserProfile;
 
 export type UpdateAccountUserProfilesError = CommonErrors;
 
+/** Updates an existing account user profile. */
 export const updateAccountUserProfiles: API.OperationMethod<UpdateAccountUserProfilesRequest, UpdateAccountUserProfilesResponse, UpdateAccountUserProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAccountUserProfilesRequest,
   output: UpdateAccountUserProfilesResponse,
   errors: [],
 }));
 
-/** Updates an existing account user profile. This method supports patch semantics. */
 export interface PatchAccountUserProfilesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -6354,13 +6353,13 @@ export const PatchAccountUserProfilesResponse = AccountUserProfile;
 
 export type PatchAccountUserProfilesError = CommonErrors;
 
+/** Updates an existing account user profile. This method supports patch semantics. */
 export const patchAccountUserProfiles: API.OperationMethod<PatchAccountUserProfilesRequest, PatchAccountUserProfilesResponse, PatchAccountUserProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAccountUserProfilesRequest,
   output: PatchAccountUserProfilesResponse,
   errors: [],
 }));
 
-/** Gets one ad by ID. */
 export interface GetAdsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -6381,13 +6380,13 @@ export const GetAdsResponse = Ad;
 
 export type GetAdsError = CommonErrors;
 
+/** Gets one ad by ID. */
 export const getAds: API.OperationMethod<GetAdsRequest, GetAdsResponse, GetAdsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAdsRequest,
   output: GetAdsResponse,
   errors: [],
 }));
 
-/** Inserts a new ad. */
 export interface InsertAdsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -6408,13 +6407,13 @@ export const InsertAdsResponse = Ad;
 
 export type InsertAdsError = CommonErrors;
 
+/** Inserts a new ad. */
 export const insertAds: API.OperationMethod<InsertAdsRequest, InsertAdsResponse, InsertAdsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertAdsRequest,
   output: InsertAdsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of ads, possibly filtered. This method supports paging. */
 export interface ListAdsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -6501,7 +6500,8 @@ export const ListAdsResponse = AdsListResponse;
 
 export type ListAdsError = CommonErrors;
 
-export const listAds = API.makePaginated(() => ({
+/** Retrieves a list of ads, possibly filtered. This method supports paging. */
+export const listAds: API.PaginatedOperationMethod<ListAdsRequest, ListAdsResponse, ListAdsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAdsRequest,
   output: ListAdsResponse,
   errors: [],
@@ -6511,7 +6511,6 @@ export const listAds = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing ad. */
 export interface UpdateAdsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -6532,13 +6531,13 @@ export const UpdateAdsResponse = Ad;
 
 export type UpdateAdsError = CommonErrors;
 
+/** Updates an existing ad. */
 export const updateAds: API.OperationMethod<UpdateAdsRequest, UpdateAdsResponse, UpdateAdsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAdsRequest,
   output: UpdateAdsResponse,
   errors: [],
 }));
 
-/** Updates an existing ad. This method supports patch semantics. */
 export interface PatchAdsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -6562,13 +6561,13 @@ export const PatchAdsResponse = Ad;
 
 export type PatchAdsError = CommonErrors;
 
+/** Updates an existing ad. This method supports patch semantics. */
 export const patchAds: API.OperationMethod<PatchAdsRequest, PatchAdsResponse, PatchAdsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAdsRequest,
   output: PatchAdsResponse,
   errors: [],
 }));
 
-/** Deletes an existing advertiser group. */
 export interface DeleteAdvertiserGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -6589,13 +6588,13 @@ export const DeleteAdvertiserGroupsResponse: Schema.Schema<DeleteAdvertiserGroup
 
 export type DeleteAdvertiserGroupsError = CommonErrors;
 
+/** Deletes an existing advertiser group. */
 export const deleteAdvertiserGroups: API.OperationMethod<DeleteAdvertiserGroupsRequest, DeleteAdvertiserGroupsResponse, DeleteAdvertiserGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAdvertiserGroupsRequest,
   output: DeleteAdvertiserGroupsResponse,
   errors: [],
 }));
 
-/** Gets one advertiser group by ID. */
 export interface GetAdvertiserGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -6616,13 +6615,13 @@ export const GetAdvertiserGroupsResponse = AdvertiserGroup;
 
 export type GetAdvertiserGroupsError = CommonErrors;
 
+/** Gets one advertiser group by ID. */
 export const getAdvertiserGroups: API.OperationMethod<GetAdvertiserGroupsRequest, GetAdvertiserGroupsResponse, GetAdvertiserGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAdvertiserGroupsRequest,
   output: GetAdvertiserGroupsResponse,
   errors: [],
 }));
 
-/** Inserts a new advertiser group. */
 export interface InsertAdvertiserGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -6643,13 +6642,13 @@ export const InsertAdvertiserGroupsResponse = AdvertiserGroup;
 
 export type InsertAdvertiserGroupsError = CommonErrors;
 
+/** Inserts a new advertiser group. */
 export const insertAdvertiserGroups: API.OperationMethod<InsertAdvertiserGroupsRequest, InsertAdvertiserGroupsResponse, InsertAdvertiserGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertAdvertiserGroupsRequest,
   output: InsertAdvertiserGroupsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of advertiser groups, possibly filtered. This method supports paging. */
 export interface ListAdvertiserGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -6685,7 +6684,8 @@ export const ListAdvertiserGroupsResponse = AdvertiserGroupsListResponse;
 
 export type ListAdvertiserGroupsError = CommonErrors;
 
-export const listAdvertiserGroups = API.makePaginated(() => ({
+/** Retrieves a list of advertiser groups, possibly filtered. This method supports paging. */
+export const listAdvertiserGroups: API.PaginatedOperationMethod<ListAdvertiserGroupsRequest, ListAdvertiserGroupsResponse, ListAdvertiserGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAdvertiserGroupsRequest,
   output: ListAdvertiserGroupsResponse,
   errors: [],
@@ -6695,7 +6695,6 @@ export const listAdvertiserGroups = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing advertiser group. */
 export interface UpdateAdvertiserGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -6716,13 +6715,13 @@ export const UpdateAdvertiserGroupsResponse = AdvertiserGroup;
 
 export type UpdateAdvertiserGroupsError = CommonErrors;
 
+/** Updates an existing advertiser group. */
 export const updateAdvertiserGroups: API.OperationMethod<UpdateAdvertiserGroupsRequest, UpdateAdvertiserGroupsResponse, UpdateAdvertiserGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAdvertiserGroupsRequest,
   output: UpdateAdvertiserGroupsResponse,
   errors: [],
 }));
 
-/** Updates an existing advertiser group. This method supports patch semantics. */
 export interface PatchAdvertiserGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -6746,13 +6745,13 @@ export const PatchAdvertiserGroupsResponse = AdvertiserGroup;
 
 export type PatchAdvertiserGroupsError = CommonErrors;
 
+/** Updates an existing advertiser group. This method supports patch semantics. */
 export const patchAdvertiserGroups: API.OperationMethod<PatchAdvertiserGroupsRequest, PatchAdvertiserGroupsResponse, PatchAdvertiserGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAdvertiserGroupsRequest,
   output: PatchAdvertiserGroupsResponse,
   errors: [],
 }));
 
-/** Gets one advertiser by ID. */
 export interface GetAdvertisersRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -6773,13 +6772,13 @@ export const GetAdvertisersResponse = Advertiser;
 
 export type GetAdvertisersError = CommonErrors;
 
+/** Gets one advertiser by ID. */
 export const getAdvertisers: API.OperationMethod<GetAdvertisersRequest, GetAdvertisersResponse, GetAdvertisersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAdvertisersRequest,
   output: GetAdvertisersResponse,
   errors: [],
 }));
 
-/** Inserts a new advertiser. */
 export interface InsertAdvertisersRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -6800,13 +6799,13 @@ export const InsertAdvertisersResponse = Advertiser;
 
 export type InsertAdvertisersError = CommonErrors;
 
+/** Inserts a new advertiser. */
 export const insertAdvertisers: API.OperationMethod<InsertAdvertisersRequest, InsertAdvertisersResponse, InsertAdvertisersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertAdvertisersRequest,
   output: InsertAdvertisersResponse,
   errors: [],
 }));
 
-/** Retrieves a list of advertisers, possibly filtered. This method supports paging. */
 export interface ListAdvertisersRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -6860,7 +6859,8 @@ export const ListAdvertisersResponse = AdvertisersListResponse;
 
 export type ListAdvertisersError = CommonErrors;
 
-export const listAdvertisers = API.makePaginated(() => ({
+/** Retrieves a list of advertisers, possibly filtered. This method supports paging. */
+export const listAdvertisers: API.PaginatedOperationMethod<ListAdvertisersRequest, ListAdvertisersResponse, ListAdvertisersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAdvertisersRequest,
   output: ListAdvertisersResponse,
   errors: [],
@@ -6870,7 +6870,6 @@ export const listAdvertisers = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing advertiser. */
 export interface UpdateAdvertisersRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -6891,13 +6890,13 @@ export const UpdateAdvertisersResponse = Advertiser;
 
 export type UpdateAdvertisersError = CommonErrors;
 
+/** Updates an existing advertiser. */
 export const updateAdvertisers: API.OperationMethod<UpdateAdvertisersRequest, UpdateAdvertisersResponse, UpdateAdvertisersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAdvertisersRequest,
   output: UpdateAdvertisersResponse,
   errors: [],
 }));
 
-/** Updates an existing advertiser. This method supports patch semantics. */
 export interface PatchAdvertisersRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -6921,13 +6920,13 @@ export const PatchAdvertisersResponse = Advertiser;
 
 export type PatchAdvertisersError = CommonErrors;
 
+/** Updates an existing advertiser. This method supports patch semantics. */
 export const patchAdvertisers: API.OperationMethod<PatchAdvertisersRequest, PatchAdvertisersResponse, PatchAdvertisersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAdvertisersRequest,
   output: PatchAdvertisersResponse,
   errors: [],
 }));
 
-/** Inserts a new billing assignment and returns the new assignment. Only one of advertiser_id or campaign_id is support per request. If the new assignment has no effect (assigning a campaign to the parent advertiser billing profile or assigning an advertiser to the account billing profile), no assignment will be returned. */
 export interface InsertBillingAssignmentsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -6951,13 +6950,13 @@ export const InsertBillingAssignmentsResponse = BillingAssignment;
 
 export type InsertBillingAssignmentsError = CommonErrors;
 
+/** Inserts a new billing assignment and returns the new assignment. Only one of advertiser_id or campaign_id is support per request. If the new assignment has no effect (assigning a campaign to the parent advertiser billing profile or assigning an advertiser to the account billing profile), no assignment will be returned. */
 export const insertBillingAssignments: API.OperationMethod<InsertBillingAssignmentsRequest, InsertBillingAssignmentsResponse, InsertBillingAssignmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertBillingAssignmentsRequest,
   output: InsertBillingAssignmentsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of billing assignments. */
 export interface ListBillingAssignmentsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -6978,13 +6977,13 @@ export const ListBillingAssignmentsResponse = BillingAssignmentsListResponse;
 
 export type ListBillingAssignmentsError = CommonErrors;
 
+/** Retrieves a list of billing assignments. */
 export const listBillingAssignments: API.OperationMethod<ListBillingAssignmentsRequest, ListBillingAssignmentsResponse, ListBillingAssignmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListBillingAssignmentsRequest,
   output: ListBillingAssignmentsResponse,
   errors: [],
 }));
 
-/** Gets one billing profile by ID. */
 export interface GetBillingProfilesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -7005,13 +7004,13 @@ export const GetBillingProfilesResponse = BillingProfile;
 
 export type GetBillingProfilesError = CommonErrors;
 
+/** Gets one billing profile by ID. */
 export const getBillingProfiles: API.OperationMethod<GetBillingProfilesRequest, GetBillingProfilesResponse, GetBillingProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBillingProfilesRequest,
   output: GetBillingProfilesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of billing profiles, possibly filtered. This method supports paging. */
 export interface ListBillingProfilesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -7059,7 +7058,8 @@ export const ListBillingProfilesResponse = BillingProfilesListResponse;
 
 export type ListBillingProfilesError = CommonErrors;
 
-export const listBillingProfiles = API.makePaginated(() => ({
+/** Retrieves a list of billing profiles, possibly filtered. This method supports paging. */
+export const listBillingProfiles: API.PaginatedOperationMethod<ListBillingProfilesRequest, ListBillingProfilesResponse, ListBillingProfilesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBillingProfilesRequest,
   output: ListBillingProfilesResponse,
   errors: [],
@@ -7069,7 +7069,6 @@ export const listBillingProfiles = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing billing profile. */
 export interface UpdateBillingProfilesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -7090,13 +7089,13 @@ export const UpdateBillingProfilesResponse = BillingProfile;
 
 export type UpdateBillingProfilesError = CommonErrors;
 
+/** Updates an existing billing profile. */
 export const updateBillingProfiles: API.OperationMethod<UpdateBillingProfilesRequest, UpdateBillingProfilesResponse, UpdateBillingProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateBillingProfilesRequest,
   output: UpdateBillingProfilesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of billing rates. This method supports paging. */
 export interface ListBillingRatesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -7117,13 +7116,13 @@ export const ListBillingRatesResponse = BillingRatesListResponse;
 
 export type ListBillingRatesError = CommonErrors;
 
+/** Retrieves a list of billing rates. This method supports paging. */
 export const listBillingRates: API.OperationMethod<ListBillingRatesRequest, ListBillingRatesResponse, ListBillingRatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListBillingRatesRequest,
   output: ListBillingRatesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of browsers. */
 export interface ListBrowsersRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -7141,13 +7140,13 @@ export const ListBrowsersResponse = BrowsersListResponse;
 
 export type ListBrowsersError = CommonErrors;
 
+/** Retrieves a list of browsers. */
 export const listBrowsers: API.OperationMethod<ListBrowsersRequest, ListBrowsersResponse, ListBrowsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListBrowsersRequest,
   output: ListBrowsersResponse,
   errors: [],
 }));
 
-/** Associates a creative with the specified campaign. This method creates a default ad with dimensions matching the creative in the campaign if such a default ad does not exist already. */
 export interface InsertCampaignCreativeAssociationsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -7171,13 +7170,13 @@ export const InsertCampaignCreativeAssociationsResponse = CampaignCreativeAssoci
 
 export type InsertCampaignCreativeAssociationsError = CommonErrors;
 
+/** Associates a creative with the specified campaign. This method creates a default ad with dimensions matching the creative in the campaign if such a default ad does not exist already. */
 export const insertCampaignCreativeAssociations: API.OperationMethod<InsertCampaignCreativeAssociationsRequest, InsertCampaignCreativeAssociationsResponse, InsertCampaignCreativeAssociationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertCampaignCreativeAssociationsRequest,
   output: InsertCampaignCreativeAssociationsResponse,
   errors: [],
 }));
 
-/** Retrieves the list of creative IDs associated with the specified campaign. This method supports paging. */
 export interface ListCampaignCreativeAssociationsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -7207,7 +7206,8 @@ export const ListCampaignCreativeAssociationsResponse = CampaignCreativeAssociat
 
 export type ListCampaignCreativeAssociationsError = CommonErrors;
 
-export const listCampaignCreativeAssociations = API.makePaginated(() => ({
+/** Retrieves the list of creative IDs associated with the specified campaign. This method supports paging. */
+export const listCampaignCreativeAssociations: API.PaginatedOperationMethod<ListCampaignCreativeAssociationsRequest, ListCampaignCreativeAssociationsResponse, ListCampaignCreativeAssociationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCampaignCreativeAssociationsRequest,
   output: ListCampaignCreativeAssociationsResponse,
   errors: [],
@@ -7217,7 +7217,6 @@ export const listCampaignCreativeAssociations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets one campaign by ID. */
 export interface GetCampaignsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -7238,13 +7237,13 @@ export const GetCampaignsResponse = Campaign;
 
 export type GetCampaignsError = CommonErrors;
 
+/** Gets one campaign by ID. */
 export const getCampaigns: API.OperationMethod<GetCampaignsRequest, GetCampaignsResponse, GetCampaignsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCampaignsRequest,
   output: GetCampaignsResponse,
   errors: [],
 }));
 
-/** Inserts a new campaign. */
 export interface InsertCampaignsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -7265,13 +7264,13 @@ export const InsertCampaignsResponse = Campaign;
 
 export type InsertCampaignsError = CommonErrors;
 
+/** Inserts a new campaign. */
 export const insertCampaigns: API.OperationMethod<InsertCampaignsRequest, InsertCampaignsResponse, InsertCampaignsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertCampaignsRequest,
   output: InsertCampaignsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of campaigns, possibly filtered. This method supports paging. */
 export interface ListCampaignsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -7328,7 +7327,8 @@ export const ListCampaignsResponse = CampaignsListResponse;
 
 export type ListCampaignsError = CommonErrors;
 
-export const listCampaigns = API.makePaginated(() => ({
+/** Retrieves a list of campaigns, possibly filtered. This method supports paging. */
+export const listCampaigns: API.PaginatedOperationMethod<ListCampaignsRequest, ListCampaignsResponse, ListCampaignsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCampaignsRequest,
   output: ListCampaignsResponse,
   errors: [],
@@ -7338,7 +7338,6 @@ export const listCampaigns = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing campaign. */
 export interface UpdateCampaignsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -7359,13 +7358,13 @@ export const UpdateCampaignsResponse = Campaign;
 
 export type UpdateCampaignsError = CommonErrors;
 
+/** Updates an existing campaign. */
 export const updateCampaigns: API.OperationMethod<UpdateCampaignsRequest, UpdateCampaignsResponse, UpdateCampaignsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateCampaignsRequest,
   output: UpdateCampaignsResponse,
   errors: [],
 }));
 
-/** Updates an existing campaign. This method supports patch semantics. */
 export interface PatchCampaignsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -7389,13 +7388,13 @@ export const PatchCampaignsResponse = Campaign;
 
 export type PatchCampaignsError = CommonErrors;
 
+/** Updates an existing campaign. This method supports patch semantics. */
 export const patchCampaigns: API.OperationMethod<PatchCampaignsRequest, PatchCampaignsResponse, PatchCampaignsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchCampaignsRequest,
   output: PatchCampaignsResponse,
   errors: [],
 }));
 
-/** Gets one change log by ID. */
 export interface GetChangeLogsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -7416,13 +7415,13 @@ export const GetChangeLogsResponse = ChangeLog;
 
 export type GetChangeLogsError = CommonErrors;
 
+/** Gets one change log by ID. */
 export const getChangeLogs: API.OperationMethod<GetChangeLogsRequest, GetChangeLogsResponse, GetChangeLogsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetChangeLogsRequest,
   output: GetChangeLogsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of change logs. This method supports paging. */
 export interface ListChangeLogsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -7470,7 +7469,8 @@ export const ListChangeLogsResponse = ChangeLogsListResponse;
 
 export type ListChangeLogsError = CommonErrors;
 
-export const listChangeLogs = API.makePaginated(() => ({
+/** Retrieves a list of change logs. This method supports paging. */
+export const listChangeLogs: API.PaginatedOperationMethod<ListChangeLogsRequest, ListChangeLogsResponse, ListChangeLogsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListChangeLogsRequest,
   output: ListChangeLogsResponse,
   errors: [],
@@ -7480,7 +7480,6 @@ export const listChangeLogs = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves a list of cities, possibly filtered. */
 export interface ListCitiesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -7510,13 +7509,13 @@ export const ListCitiesResponse = CitiesListResponse;
 
 export type ListCitiesError = CommonErrors;
 
+/** Retrieves a list of cities, possibly filtered. */
 export const listCities: API.OperationMethod<ListCitiesRequest, ListCitiesResponse, ListCitiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListCitiesRequest,
   output: ListCitiesResponse,
   errors: [],
 }));
 
-/** Gets one connection type by ID. */
 export interface GetConnectionTypesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -7537,13 +7536,13 @@ export const GetConnectionTypesResponse = ConnectionType;
 
 export type GetConnectionTypesError = CommonErrors;
 
+/** Gets one connection type by ID. */
 export const getConnectionTypes: API.OperationMethod<GetConnectionTypesRequest, GetConnectionTypesResponse, GetConnectionTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetConnectionTypesRequest,
   output: GetConnectionTypesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of connection types. */
 export interface ListConnectionTypesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -7561,13 +7560,13 @@ export const ListConnectionTypesResponse = ConnectionTypesListResponse;
 
 export type ListConnectionTypesError = CommonErrors;
 
+/** Retrieves a list of connection types. */
 export const listConnectionTypes: API.OperationMethod<ListConnectionTypesRequest, ListConnectionTypesResponse, ListConnectionTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListConnectionTypesRequest,
   output: ListConnectionTypesResponse,
   errors: [],
 }));
 
-/** Deletes an existing content category. */
 export interface DeleteContentCategoriesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -7588,13 +7587,13 @@ export const DeleteContentCategoriesResponse: Schema.Schema<DeleteContentCategor
 
 export type DeleteContentCategoriesError = CommonErrors;
 
+/** Deletes an existing content category. */
 export const deleteContentCategories: API.OperationMethod<DeleteContentCategoriesRequest, DeleteContentCategoriesResponse, DeleteContentCategoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteContentCategoriesRequest,
   output: DeleteContentCategoriesResponse,
   errors: [],
 }));
 
-/** Gets one content category by ID. */
 export interface GetContentCategoriesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -7615,13 +7614,13 @@ export const GetContentCategoriesResponse = ContentCategory;
 
 export type GetContentCategoriesError = CommonErrors;
 
+/** Gets one content category by ID. */
 export const getContentCategories: API.OperationMethod<GetContentCategoriesRequest, GetContentCategoriesResponse, GetContentCategoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetContentCategoriesRequest,
   output: GetContentCategoriesResponse,
   errors: [],
 }));
 
-/** Inserts a new content category. */
 export interface InsertContentCategoriesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -7642,13 +7641,13 @@ export const InsertContentCategoriesResponse = ContentCategory;
 
 export type InsertContentCategoriesError = CommonErrors;
 
+/** Inserts a new content category. */
 export const insertContentCategories: API.OperationMethod<InsertContentCategoriesRequest, InsertContentCategoriesResponse, InsertContentCategoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertContentCategoriesRequest,
   output: InsertContentCategoriesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of content categories, possibly filtered. This method supports paging. */
 export interface ListContentCategoriesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -7684,7 +7683,8 @@ export const ListContentCategoriesResponse = ContentCategoriesListResponse;
 
 export type ListContentCategoriesError = CommonErrors;
 
-export const listContentCategories = API.makePaginated(() => ({
+/** Retrieves a list of content categories, possibly filtered. This method supports paging. */
+export const listContentCategories: API.PaginatedOperationMethod<ListContentCategoriesRequest, ListContentCategoriesResponse, ListContentCategoriesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListContentCategoriesRequest,
   output: ListContentCategoriesResponse,
   errors: [],
@@ -7694,7 +7694,6 @@ export const listContentCategories = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing content category. */
 export interface UpdateContentCategoriesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -7715,13 +7714,13 @@ export const UpdateContentCategoriesResponse = ContentCategory;
 
 export type UpdateContentCategoriesError = CommonErrors;
 
+/** Updates an existing content category. */
 export const updateContentCategories: API.OperationMethod<UpdateContentCategoriesRequest, UpdateContentCategoriesResponse, UpdateContentCategoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateContentCategoriesRequest,
   output: UpdateContentCategoriesResponse,
   errors: [],
 }));
 
-/** Updates an existing content category. This method supports patch semantics. */
 export interface PatchContentCategoriesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -7745,13 +7744,13 @@ export const PatchContentCategoriesResponse = ContentCategory;
 
 export type PatchContentCategoriesError = CommonErrors;
 
+/** Updates an existing content category. This method supports patch semantics. */
 export const patchContentCategories: API.OperationMethod<PatchContentCategoriesRequest, PatchContentCategoriesResponse, PatchContentCategoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchContentCategoriesRequest,
   output: PatchContentCategoriesResponse,
   errors: [],
 }));
 
-/** Inserts conversions. */
 export interface BatchinsertConversionsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -7772,13 +7771,13 @@ export const BatchinsertConversionsResponse = ConversionsBatchInsertResponse;
 
 export type BatchinsertConversionsError = CommonErrors;
 
+/** Inserts conversions. */
 export const batchinsertConversions: API.OperationMethod<BatchinsertConversionsRequest, BatchinsertConversionsResponse, BatchinsertConversionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchinsertConversionsRequest,
   output: BatchinsertConversionsResponse,
   errors: [],
 }));
 
-/** Updates existing conversions. */
 export interface BatchupdateConversionsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -7799,13 +7798,13 @@ export const BatchupdateConversionsResponse = ConversionsBatchUpdateResponse;
 
 export type BatchupdateConversionsError = CommonErrors;
 
+/** Updates existing conversions. */
 export const batchupdateConversions: API.OperationMethod<BatchupdateConversionsRequest, BatchupdateConversionsResponse, BatchupdateConversionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchupdateConversionsRequest,
   output: BatchupdateConversionsResponse,
   errors: [],
 }));
 
-/** Gets one country by ID. */
 export interface GetCountriesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -7826,13 +7825,13 @@ export const GetCountriesResponse = Country;
 
 export type GetCountriesError = CommonErrors;
 
+/** Gets one country by ID. */
 export const getCountries: API.OperationMethod<GetCountriesRequest, GetCountriesResponse, GetCountriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCountriesRequest,
   output: GetCountriesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of countries. */
 export interface ListCountriesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -7850,13 +7849,13 @@ export const ListCountriesResponse = CountriesListResponse;
 
 export type ListCountriesError = CommonErrors;
 
+/** Retrieves a list of countries. */
 export const listCountries: API.OperationMethod<ListCountriesRequest, ListCountriesResponse, ListCountriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListCountriesRequest,
   output: ListCountriesResponse,
   errors: [],
 }));
 
-/** Inserts a new creative asset. */
 export interface InsertCreativeAssetsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -7880,13 +7879,13 @@ export const InsertCreativeAssetsResponse = CreativeAssetMetadata;
 
 export type InsertCreativeAssetsError = CommonErrors;
 
+/** Inserts a new creative asset. */
 export const insertCreativeAssets: API.OperationMethod<InsertCreativeAssetsRequest, InsertCreativeAssetsResponse, InsertCreativeAssetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertCreativeAssetsRequest,
   output: InsertCreativeAssetsResponse,
   errors: [],
 }));
 
-/** Deletes an existing creative field. */
 export interface DeleteCreativeFieldsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -7907,13 +7906,13 @@ export const DeleteCreativeFieldsResponse: Schema.Schema<DeleteCreativeFieldsRes
 
 export type DeleteCreativeFieldsError = CommonErrors;
 
+/** Deletes an existing creative field. */
 export const deleteCreativeFields: API.OperationMethod<DeleteCreativeFieldsRequest, DeleteCreativeFieldsResponse, DeleteCreativeFieldsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteCreativeFieldsRequest,
   output: DeleteCreativeFieldsResponse,
   errors: [],
 }));
 
-/** Gets one creative field by ID. */
 export interface GetCreativeFieldsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -7934,13 +7933,13 @@ export const GetCreativeFieldsResponse = CreativeField;
 
 export type GetCreativeFieldsError = CommonErrors;
 
+/** Gets one creative field by ID. */
 export const getCreativeFields: API.OperationMethod<GetCreativeFieldsRequest, GetCreativeFieldsResponse, GetCreativeFieldsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCreativeFieldsRequest,
   output: GetCreativeFieldsResponse,
   errors: [],
 }));
 
-/** Inserts a new creative field. */
 export interface InsertCreativeFieldsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -7961,13 +7960,13 @@ export const InsertCreativeFieldsResponse = CreativeField;
 
 export type InsertCreativeFieldsError = CommonErrors;
 
+/** Inserts a new creative field. */
 export const insertCreativeFields: API.OperationMethod<InsertCreativeFieldsRequest, InsertCreativeFieldsResponse, InsertCreativeFieldsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertCreativeFieldsRequest,
   output: InsertCreativeFieldsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of creative fields, possibly filtered. This method supports paging. */
 export interface ListCreativeFieldsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -8006,7 +8005,8 @@ export const ListCreativeFieldsResponse = CreativeFieldsListResponse;
 
 export type ListCreativeFieldsError = CommonErrors;
 
-export const listCreativeFields = API.makePaginated(() => ({
+/** Retrieves a list of creative fields, possibly filtered. This method supports paging. */
+export const listCreativeFields: API.PaginatedOperationMethod<ListCreativeFieldsRequest, ListCreativeFieldsResponse, ListCreativeFieldsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCreativeFieldsRequest,
   output: ListCreativeFieldsResponse,
   errors: [],
@@ -8016,7 +8016,6 @@ export const listCreativeFields = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing creative field. */
 export interface UpdateCreativeFieldsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -8037,13 +8036,13 @@ export const UpdateCreativeFieldsResponse = CreativeField;
 
 export type UpdateCreativeFieldsError = CommonErrors;
 
+/** Updates an existing creative field. */
 export const updateCreativeFields: API.OperationMethod<UpdateCreativeFieldsRequest, UpdateCreativeFieldsResponse, UpdateCreativeFieldsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateCreativeFieldsRequest,
   output: UpdateCreativeFieldsResponse,
   errors: [],
 }));
 
-/** Updates an existing creative field. This method supports patch semantics. */
 export interface PatchCreativeFieldsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -8067,13 +8066,13 @@ export const PatchCreativeFieldsResponse = CreativeField;
 
 export type PatchCreativeFieldsError = CommonErrors;
 
+/** Updates an existing creative field. This method supports patch semantics. */
 export const patchCreativeFields: API.OperationMethod<PatchCreativeFieldsRequest, PatchCreativeFieldsResponse, PatchCreativeFieldsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchCreativeFieldsRequest,
   output: PatchCreativeFieldsResponse,
   errors: [],
 }));
 
-/** Deletes an existing creative field value. */
 export interface DeleteCreativeFieldValuesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -8097,13 +8096,13 @@ export const DeleteCreativeFieldValuesResponse: Schema.Schema<DeleteCreativeFiel
 
 export type DeleteCreativeFieldValuesError = CommonErrors;
 
+/** Deletes an existing creative field value. */
 export const deleteCreativeFieldValues: API.OperationMethod<DeleteCreativeFieldValuesRequest, DeleteCreativeFieldValuesResponse, DeleteCreativeFieldValuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteCreativeFieldValuesRequest,
   output: DeleteCreativeFieldValuesResponse,
   errors: [],
 }));
 
-/** Gets one creative field value by ID. */
 export interface GetCreativeFieldValuesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -8127,13 +8126,13 @@ export const GetCreativeFieldValuesResponse = CreativeFieldValue;
 
 export type GetCreativeFieldValuesError = CommonErrors;
 
+/** Gets one creative field value by ID. */
 export const getCreativeFieldValues: API.OperationMethod<GetCreativeFieldValuesRequest, GetCreativeFieldValuesResponse, GetCreativeFieldValuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCreativeFieldValuesRequest,
   output: GetCreativeFieldValuesResponse,
   errors: [],
 }));
 
-/** Inserts a new creative field value. */
 export interface InsertCreativeFieldValuesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -8157,13 +8156,13 @@ export const InsertCreativeFieldValuesResponse = CreativeFieldValue;
 
 export type InsertCreativeFieldValuesError = CommonErrors;
 
+/** Inserts a new creative field value. */
 export const insertCreativeFieldValues: API.OperationMethod<InsertCreativeFieldValuesRequest, InsertCreativeFieldValuesResponse, InsertCreativeFieldValuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertCreativeFieldValuesRequest,
   output: InsertCreativeFieldValuesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of creative field values, possibly filtered. This method supports paging. */
 export interface ListCreativeFieldValuesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -8202,7 +8201,8 @@ export const ListCreativeFieldValuesResponse = CreativeFieldValuesListResponse;
 
 export type ListCreativeFieldValuesError = CommonErrors;
 
-export const listCreativeFieldValues = API.makePaginated(() => ({
+/** Retrieves a list of creative field values, possibly filtered. This method supports paging. */
+export const listCreativeFieldValues: API.PaginatedOperationMethod<ListCreativeFieldValuesRequest, ListCreativeFieldValuesResponse, ListCreativeFieldValuesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCreativeFieldValuesRequest,
   output: ListCreativeFieldValuesResponse,
   errors: [],
@@ -8212,7 +8212,6 @@ export const listCreativeFieldValues = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing creative field value. */
 export interface UpdateCreativeFieldValuesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -8236,13 +8235,13 @@ export const UpdateCreativeFieldValuesResponse = CreativeFieldValue;
 
 export type UpdateCreativeFieldValuesError = CommonErrors;
 
+/** Updates an existing creative field value. */
 export const updateCreativeFieldValues: API.OperationMethod<UpdateCreativeFieldValuesRequest, UpdateCreativeFieldValuesResponse, UpdateCreativeFieldValuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateCreativeFieldValuesRequest,
   output: UpdateCreativeFieldValuesResponse,
   errors: [],
 }));
 
-/** Updates an existing creative field value. This method supports patch semantics. */
 export interface PatchCreativeFieldValuesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -8269,13 +8268,13 @@ export const PatchCreativeFieldValuesResponse = CreativeFieldValue;
 
 export type PatchCreativeFieldValuesError = CommonErrors;
 
+/** Updates an existing creative field value. This method supports patch semantics. */
 export const patchCreativeFieldValues: API.OperationMethod<PatchCreativeFieldValuesRequest, PatchCreativeFieldValuesResponse, PatchCreativeFieldValuesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchCreativeFieldValuesRequest,
   output: PatchCreativeFieldValuesResponse,
   errors: [],
 }));
 
-/** Gets one creative group by ID. */
 export interface GetCreativeGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -8296,13 +8295,13 @@ export const GetCreativeGroupsResponse = CreativeGroup;
 
 export type GetCreativeGroupsError = CommonErrors;
 
+/** Gets one creative group by ID. */
 export const getCreativeGroups: API.OperationMethod<GetCreativeGroupsRequest, GetCreativeGroupsResponse, GetCreativeGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCreativeGroupsRequest,
   output: GetCreativeGroupsResponse,
   errors: [],
 }));
 
-/** Inserts a new creative group. */
 export interface InsertCreativeGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -8323,13 +8322,13 @@ export const InsertCreativeGroupsResponse = CreativeGroup;
 
 export type InsertCreativeGroupsError = CommonErrors;
 
+/** Inserts a new creative group. */
 export const insertCreativeGroups: API.OperationMethod<InsertCreativeGroupsRequest, InsertCreativeGroupsResponse, InsertCreativeGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertCreativeGroupsRequest,
   output: InsertCreativeGroupsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of creative groups, possibly filtered. This method supports paging. */
 export interface ListCreativeGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -8371,7 +8370,8 @@ export const ListCreativeGroupsResponse = CreativeGroupsListResponse;
 
 export type ListCreativeGroupsError = CommonErrors;
 
-export const listCreativeGroups = API.makePaginated(() => ({
+/** Retrieves a list of creative groups, possibly filtered. This method supports paging. */
+export const listCreativeGroups: API.PaginatedOperationMethod<ListCreativeGroupsRequest, ListCreativeGroupsResponse, ListCreativeGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCreativeGroupsRequest,
   output: ListCreativeGroupsResponse,
   errors: [],
@@ -8381,7 +8381,6 @@ export const listCreativeGroups = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing creative group. */
 export interface UpdateCreativeGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -8402,13 +8401,13 @@ export const UpdateCreativeGroupsResponse = CreativeGroup;
 
 export type UpdateCreativeGroupsError = CommonErrors;
 
+/** Updates an existing creative group. */
 export const updateCreativeGroups: API.OperationMethod<UpdateCreativeGroupsRequest, UpdateCreativeGroupsResponse, UpdateCreativeGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateCreativeGroupsRequest,
   output: UpdateCreativeGroupsResponse,
   errors: [],
 }));
 
-/** Updates an existing creative group. This method supports patch semantics. */
 export interface PatchCreativeGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -8432,13 +8431,13 @@ export const PatchCreativeGroupsResponse = CreativeGroup;
 
 export type PatchCreativeGroupsError = CommonErrors;
 
+/** Updates an existing creative group. This method supports patch semantics. */
 export const patchCreativeGroups: API.OperationMethod<PatchCreativeGroupsRequest, PatchCreativeGroupsResponse, PatchCreativeGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchCreativeGroupsRequest,
   output: PatchCreativeGroupsResponse,
   errors: [],
 }));
 
-/** Gets one creative by ID. */
 export interface GetCreativesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -8459,13 +8458,13 @@ export const GetCreativesResponse = Creative;
 
 export type GetCreativesError = CommonErrors;
 
+/** Gets one creative by ID. */
 export const getCreatives: API.OperationMethod<GetCreativesRequest, GetCreativesResponse, GetCreativesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCreativesRequest,
   output: GetCreativesResponse,
   errors: [],
 }));
 
-/** Inserts a new creative. */
 export interface InsertCreativesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -8486,13 +8485,13 @@ export const InsertCreativesResponse = Creative;
 
 export type InsertCreativesError = CommonErrors;
 
+/** Inserts a new creative. */
 export const insertCreatives: API.OperationMethod<InsertCreativesRequest, InsertCreativesResponse, InsertCreativesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertCreativesRequest,
   output: InsertCreativesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of creatives, possibly filtered. This method supports paging. */
 export interface ListCreativesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -8558,7 +8557,8 @@ export const ListCreativesResponse = CreativesListResponse;
 
 export type ListCreativesError = CommonErrors;
 
-export const listCreatives = API.makePaginated(() => ({
+/** Retrieves a list of creatives, possibly filtered. This method supports paging. */
+export const listCreatives: API.PaginatedOperationMethod<ListCreativesRequest, ListCreativesResponse, ListCreativesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCreativesRequest,
   output: ListCreativesResponse,
   errors: [],
@@ -8568,7 +8568,6 @@ export const listCreatives = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing creative. */
 export interface UpdateCreativesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -8589,13 +8588,13 @@ export const UpdateCreativesResponse = Creative;
 
 export type UpdateCreativesError = CommonErrors;
 
+/** Updates an existing creative. */
 export const updateCreatives: API.OperationMethod<UpdateCreativesRequest, UpdateCreativesResponse, UpdateCreativesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateCreativesRequest,
   output: UpdateCreativesResponse,
   errors: [],
 }));
 
-/** Updates an existing creative. This method supports patch semantics. */
 export interface PatchCreativesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -8619,13 +8618,13 @@ export const PatchCreativesResponse = Creative;
 
 export type PatchCreativesError = CommonErrors;
 
+/** Updates an existing creative. This method supports patch semantics. */
 export const patchCreatives: API.OperationMethod<PatchCreativesRequest, PatchCreativesResponse, PatchCreativesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchCreativesRequest,
   output: PatchCreativesResponse,
   errors: [],
 }));
 
-/** Retrieves list of report dimension values for a list of filters. */
 export interface QueryDimensionValuesRequest {
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
@@ -8652,7 +8651,8 @@ export const QueryDimensionValuesResponse = DimensionValueList;
 
 export type QueryDimensionValuesError = CommonErrors;
 
-export const queryDimensionValues = API.makePaginated(() => ({
+/** Retrieves list of report dimension values for a list of filters. */
+export const queryDimensionValues: API.PaginatedOperationMethod<QueryDimensionValuesRequest, QueryDimensionValuesResponse, QueryDimensionValuesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: QueryDimensionValuesRequest,
   output: QueryDimensionValuesResponse,
   errors: [],
@@ -8663,7 +8663,6 @@ export const queryDimensionValues = API.makePaginated(() => ({
   },
 }));
 
-/** Gets one directory site by ID. */
 export interface GetDirectorySitesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -8684,13 +8683,13 @@ export const GetDirectorySitesResponse = DirectorySite;
 
 export type GetDirectorySitesError = CommonErrors;
 
+/** Gets one directory site by ID. */
 export const getDirectorySites: API.OperationMethod<GetDirectorySitesRequest, GetDirectorySitesResponse, GetDirectorySitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDirectorySitesRequest,
   output: GetDirectorySitesResponse,
   errors: [],
 }));
 
-/** Inserts a new directory site. */
 export interface InsertDirectorySitesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -8711,13 +8710,13 @@ export const InsertDirectorySitesResponse = DirectorySite;
 
 export type InsertDirectorySitesError = CommonErrors;
 
+/** Inserts a new directory site. */
 export const insertDirectorySites: API.OperationMethod<InsertDirectorySitesRequest, InsertDirectorySitesResponse, InsertDirectorySitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertDirectorySitesRequest,
   output: InsertDirectorySitesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of directory sites, possibly filtered. This method supports paging. */
 export interface ListDirectorySitesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -8768,7 +8767,8 @@ export const ListDirectorySitesResponse = DirectorySitesListResponse;
 
 export type ListDirectorySitesError = CommonErrors;
 
-export const listDirectorySites = API.makePaginated(() => ({
+/** Retrieves a list of directory sites, possibly filtered. This method supports paging. */
+export const listDirectorySites: API.PaginatedOperationMethod<ListDirectorySitesRequest, ListDirectorySitesResponse, ListDirectorySitesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListDirectorySitesRequest,
   output: ListDirectorySitesResponse,
   errors: [],
@@ -8778,7 +8778,6 @@ export const listDirectorySites = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a dynamic feed by ID. */
 export interface GetDynamicFeedsRequest {
   /** Required. Dynamic feed ID. */
   dynamicFeedId: string;
@@ -8796,13 +8795,13 @@ export const GetDynamicFeedsResponse = DynamicFeed;
 
 export type GetDynamicFeedsError = CommonErrors;
 
+/** Gets a dynamic feed by ID. */
 export const getDynamicFeeds: API.OperationMethod<GetDynamicFeedsRequest, GetDynamicFeedsResponse, GetDynamicFeedsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDynamicFeedsRequest,
   output: GetDynamicFeedsResponse,
   errors: [],
 }));
 
-/** Inserts a new dynamic feed. */
 export interface InsertDynamicFeedsRequest {
   /** Request body */
   body?: DynamicFeedsInsertRequest;
@@ -8820,13 +8819,13 @@ export const InsertDynamicFeedsResponse = DynamicFeed;
 
 export type InsertDynamicFeedsError = CommonErrors;
 
+/** Inserts a new dynamic feed. */
 export const insertDynamicFeeds: API.OperationMethod<InsertDynamicFeedsRequest, InsertDynamicFeedsResponse, InsertDynamicFeedsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertDynamicFeedsRequest,
   output: InsertDynamicFeedsResponse,
   errors: [],
 }));
 
-/** Updates a new dynamic feed. For draft feeds, only Element can be updated. For published feeds, only FeedSchedule can be updated. Other fields will be ignored. */
 export interface UpdateDynamicFeedsRequest {
   /** Request body */
   body?: DynamicFeed;
@@ -8844,13 +8843,13 @@ export const UpdateDynamicFeedsResponse = DynamicFeed;
 
 export type UpdateDynamicFeedsError = CommonErrors;
 
+/** Updates a new dynamic feed. For draft feeds, only Element can be updated. For published feeds, only FeedSchedule can be updated. Other fields will be ignored. */
 export const updateDynamicFeeds: API.OperationMethod<UpdateDynamicFeedsRequest, UpdateDynamicFeedsResponse, UpdateDynamicFeedsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateDynamicFeedsRequest,
   output: UpdateDynamicFeedsResponse,
   errors: [],
 }));
 
-/** Retransforms a dynamic feed. Only draft feeds can be retransformed (i.e. the feed has not been published). */
 export interface RetransformDynamicFeedsRequest {
   /** Required. Dynamic feed ID. */
   dynamicFeedId: string;
@@ -8868,13 +8867,13 @@ export const RetransformDynamicFeedsResponse = DynamicFeed;
 
 export type RetransformDynamicFeedsError = CommonErrors;
 
+/** Retransforms a dynamic feed. Only draft feeds can be retransformed (i.e. the feed has not been published). */
 export const retransformDynamicFeeds: API.OperationMethod<RetransformDynamicFeedsRequest, RetransformDynamicFeedsResponse, RetransformDynamicFeedsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RetransformDynamicFeedsRequest,
   output: RetransformDynamicFeedsResponse,
   errors: [],
 }));
 
-/** Gets a dynamic profile by ID. */
 export interface GetDynamicProfilesRequest {
   /** Required. Dynamic profile ID. */
   dynamicProfileId: string;
@@ -8892,13 +8891,13 @@ export const GetDynamicProfilesResponse = DynamicProfile;
 
 export type GetDynamicProfilesError = CommonErrors;
 
+/** Gets a dynamic profile by ID. */
 export const getDynamicProfiles: API.OperationMethod<GetDynamicProfilesRequest, GetDynamicProfilesResponse, GetDynamicProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDynamicProfilesRequest,
   output: GetDynamicProfilesResponse,
   errors: [],
 }));
 
-/** Inserts a new dynamic profile. */
 export interface InsertDynamicProfilesRequest {
   /** Request body */
   body?: DynamicProfile;
@@ -8916,13 +8915,13 @@ export const InsertDynamicProfilesResponse = DynamicProfile;
 
 export type InsertDynamicProfilesError = CommonErrors;
 
+/** Inserts a new dynamic profile. */
 export const insertDynamicProfiles: API.OperationMethod<InsertDynamicProfilesRequest, InsertDynamicProfilesResponse, InsertDynamicProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertDynamicProfilesRequest,
   output: InsertDynamicProfilesResponse,
   errors: [],
 }));
 
-/** Updates an existing dynamic profile. */
 export interface UpdateDynamicProfilesRequest {
   /** Request body */
   body?: DynamicProfile;
@@ -8940,13 +8939,13 @@ export const UpdateDynamicProfilesResponse = DynamicProfile;
 
 export type UpdateDynamicProfilesError = CommonErrors;
 
+/** Updates an existing dynamic profile. */
 export const updateDynamicProfiles: API.OperationMethod<UpdateDynamicProfilesRequest, UpdateDynamicProfilesResponse, UpdateDynamicProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateDynamicProfilesRequest,
   output: UpdateDynamicProfilesResponse,
   errors: [],
 }));
 
-/** Generates code for a dynamic profile, which will need unescaping. */
 export interface GenerateCodeDynamicProfilesRequest {
   /** Required. Dynamic profile ID. */
   dynamicProfileId: string;
@@ -8964,13 +8963,13 @@ export const GenerateCodeDynamicProfilesResponse = DynamicProfileGenerateCodeRes
 
 export type GenerateCodeDynamicProfilesError = CommonErrors;
 
+/** Generates code for a dynamic profile, which will need unescaping. */
 export const generateCodeDynamicProfiles: API.OperationMethod<GenerateCodeDynamicProfilesRequest, GenerateCodeDynamicProfilesResponse, GenerateCodeDynamicProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateCodeDynamicProfilesRequest,
   output: GenerateCodeDynamicProfilesResponse,
   errors: [],
 }));
 
-/** Publish for a dynamic profile. */
 export interface PublishDynamicProfilesRequest {
   /** Required. Dynamic profile ID. */
   dynamicProfileId: string;
@@ -8988,13 +8987,13 @@ export const PublishDynamicProfilesResponse: Schema.Schema<PublishDynamicProfile
 
 export type PublishDynamicProfilesError = CommonErrors;
 
+/** Publish for a dynamic profile. */
 export const publishDynamicProfiles: API.OperationMethod<PublishDynamicProfilesRequest, PublishDynamicProfilesResponse, PublishDynamicProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PublishDynamicProfilesRequest,
   output: PublishDynamicProfilesResponse,
   errors: [],
 }));
 
-/** Deletes an existing dynamic targeting key. */
 export interface DeleteDynamicTargetingKeysRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -9021,13 +9020,13 @@ export const DeleteDynamicTargetingKeysResponse: Schema.Schema<DeleteDynamicTarg
 
 export type DeleteDynamicTargetingKeysError = CommonErrors;
 
+/** Deletes an existing dynamic targeting key. */
 export const deleteDynamicTargetingKeys: API.OperationMethod<DeleteDynamicTargetingKeysRequest, DeleteDynamicTargetingKeysResponse, DeleteDynamicTargetingKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteDynamicTargetingKeysRequest,
   output: DeleteDynamicTargetingKeysResponse,
   errors: [],
 }));
 
-/** Inserts a new dynamic targeting key. Keys must be created at the advertiser level before being assigned to the advertiser's ads, creatives, or placements. There is a maximum of 1000 keys per advertiser, out of which a maximum of 20 keys can be assigned per ad, creative, or placement. */
 export interface InsertDynamicTargetingKeysRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -9048,13 +9047,13 @@ export const InsertDynamicTargetingKeysResponse = DynamicTargetingKey;
 
 export type InsertDynamicTargetingKeysError = CommonErrors;
 
+/** Inserts a new dynamic targeting key. Keys must be created at the advertiser level before being assigned to the advertiser's ads, creatives, or placements. There is a maximum of 1000 keys per advertiser, out of which a maximum of 20 keys can be assigned per ad, creative, or placement. */
 export const insertDynamicTargetingKeys: API.OperationMethod<InsertDynamicTargetingKeysRequest, InsertDynamicTargetingKeysResponse, InsertDynamicTargetingKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertDynamicTargetingKeysRequest,
   output: InsertDynamicTargetingKeysResponse,
   errors: [],
 }));
 
-/** Retrieves a list of dynamic targeting keys. */
 export interface ListDynamicTargetingKeysRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -9084,13 +9083,13 @@ export const ListDynamicTargetingKeysResponse = DynamicTargetingKeysListResponse
 
 export type ListDynamicTargetingKeysError = CommonErrors;
 
+/** Retrieves a list of dynamic targeting keys. */
 export const listDynamicTargetingKeys: API.OperationMethod<ListDynamicTargetingKeysRequest, ListDynamicTargetingKeysResponse, ListDynamicTargetingKeysError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListDynamicTargetingKeysRequest,
   output: ListDynamicTargetingKeysResponse,
   errors: [],
 }));
 
-/** Deletes an existing event tag. */
 export interface DeleteEventTagsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -9111,13 +9110,13 @@ export const DeleteEventTagsResponse: Schema.Schema<DeleteEventTagsResponse> = S
 
 export type DeleteEventTagsError = CommonErrors;
 
+/** Deletes an existing event tag. */
 export const deleteEventTags: API.OperationMethod<DeleteEventTagsRequest, DeleteEventTagsResponse, DeleteEventTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteEventTagsRequest,
   output: DeleteEventTagsResponse,
   errors: [],
 }));
 
-/** Gets one event tag by ID. */
 export interface GetEventTagsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -9138,13 +9137,13 @@ export const GetEventTagsResponse = EventTag;
 
 export type GetEventTagsError = CommonErrors;
 
+/** Gets one event tag by ID. */
 export const getEventTags: API.OperationMethod<GetEventTagsRequest, GetEventTagsResponse, GetEventTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetEventTagsRequest,
   output: GetEventTagsResponse,
   errors: [],
 }));
 
-/** Inserts a new event tag. */
 export interface InsertEventTagsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -9165,13 +9164,13 @@ export const InsertEventTagsResponse = EventTag;
 
 export type InsertEventTagsError = CommonErrors;
 
+/** Inserts a new event tag. */
 export const insertEventTags: API.OperationMethod<InsertEventTagsRequest, InsertEventTagsResponse, InsertEventTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertEventTagsRequest,
   output: InsertEventTagsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of event tags, possibly filtered. */
 export interface ListEventTagsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -9219,13 +9218,13 @@ export const ListEventTagsResponse = EventTagsListResponse;
 
 export type ListEventTagsError = CommonErrors;
 
+/** Retrieves a list of event tags, possibly filtered. */
 export const listEventTags: API.OperationMethod<ListEventTagsRequest, ListEventTagsResponse, ListEventTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListEventTagsRequest,
   output: ListEventTagsResponse,
   errors: [],
 }));
 
-/** Updates an existing event tag. */
 export interface UpdateEventTagsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -9246,13 +9245,13 @@ export const UpdateEventTagsResponse = EventTag;
 
 export type UpdateEventTagsError = CommonErrors;
 
+/** Updates an existing event tag. */
 export const updateEventTags: API.OperationMethod<UpdateEventTagsRequest, UpdateEventTagsResponse, UpdateEventTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateEventTagsRequest,
   output: UpdateEventTagsResponse,
   errors: [],
 }));
 
-/** Updates an existing event tag. This method supports patch semantics. */
 export interface PatchEventTagsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -9276,13 +9275,13 @@ export const PatchEventTagsResponse = EventTag;
 
 export type PatchEventTagsError = CommonErrors;
 
+/** Updates an existing event tag. This method supports patch semantics. */
 export const patchEventTags: API.OperationMethod<PatchEventTagsRequest, PatchEventTagsResponse, PatchEventTagsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchEventTagsRequest,
   output: PatchEventTagsResponse,
   errors: [],
 }));
 
-/** Retrieves a report file by its report ID and file ID. This method supports media download. */
 export interface GetFilesRequest {
   /** The ID of the report. */
   reportId: string;
@@ -9303,13 +9302,13 @@ export const GetFilesResponse = File;
 
 export type GetFilesError = CommonErrors;
 
+/** Retrieves a report file by its report ID and file ID. This method supports media download. */
 export const getFiles: API.OperationMethod<GetFilesRequest, GetFilesResponse, GetFilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFilesRequest,
   output: GetFilesResponse,
   errors: [],
 }));
 
-/** Lists files for a user profile. */
 export interface ListFilesRequest {
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
@@ -9342,7 +9341,8 @@ export const ListFilesResponse = FileList;
 
 export type ListFilesError = CommonErrors;
 
-export const listFiles = API.makePaginated(() => ({
+/** Lists files for a user profile. */
+export const listFiles: API.PaginatedOperationMethod<ListFilesRequest, ListFilesResponse, ListFilesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFilesRequest,
   output: ListFilesResponse,
   errors: [],
@@ -9353,7 +9353,6 @@ export const listFiles = API.makePaginated(() => ({
   },
 }));
 
-/** Gets one floodlight activity group by ID. */
 export interface GetFloodlightActivityGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -9374,13 +9373,13 @@ export const GetFloodlightActivityGroupsResponse = FloodlightActivityGroup;
 
 export type GetFloodlightActivityGroupsError = CommonErrors;
 
+/** Gets one floodlight activity group by ID. */
 export const getFloodlightActivityGroups: API.OperationMethod<GetFloodlightActivityGroupsRequest, GetFloodlightActivityGroupsResponse, GetFloodlightActivityGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFloodlightActivityGroupsRequest,
   output: GetFloodlightActivityGroupsResponse,
   errors: [],
 }));
 
-/** Inserts a new floodlight activity group. */
 export interface InsertFloodlightActivityGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -9401,13 +9400,13 @@ export const InsertFloodlightActivityGroupsResponse = FloodlightActivityGroup;
 
 export type InsertFloodlightActivityGroupsError = CommonErrors;
 
+/** Inserts a new floodlight activity group. */
 export const insertFloodlightActivityGroups: API.OperationMethod<InsertFloodlightActivityGroupsRequest, InsertFloodlightActivityGroupsResponse, InsertFloodlightActivityGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertFloodlightActivityGroupsRequest,
   output: InsertFloodlightActivityGroupsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of floodlight activity groups, possibly filtered. This method supports paging. */
 export interface ListFloodlightActivityGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -9452,7 +9451,8 @@ export const ListFloodlightActivityGroupsResponse = FloodlightActivityGroupsList
 
 export type ListFloodlightActivityGroupsError = CommonErrors;
 
-export const listFloodlightActivityGroups = API.makePaginated(() => ({
+/** Retrieves a list of floodlight activity groups, possibly filtered. This method supports paging. */
+export const listFloodlightActivityGroups: API.PaginatedOperationMethod<ListFloodlightActivityGroupsRequest, ListFloodlightActivityGroupsResponse, ListFloodlightActivityGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFloodlightActivityGroupsRequest,
   output: ListFloodlightActivityGroupsResponse,
   errors: [],
@@ -9462,7 +9462,6 @@ export const listFloodlightActivityGroups = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing floodlight activity group. */
 export interface UpdateFloodlightActivityGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -9483,13 +9482,13 @@ export const UpdateFloodlightActivityGroupsResponse = FloodlightActivityGroup;
 
 export type UpdateFloodlightActivityGroupsError = CommonErrors;
 
+/** Updates an existing floodlight activity group. */
 export const updateFloodlightActivityGroups: API.OperationMethod<UpdateFloodlightActivityGroupsRequest, UpdateFloodlightActivityGroupsResponse, UpdateFloodlightActivityGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateFloodlightActivityGroupsRequest,
   output: UpdateFloodlightActivityGroupsResponse,
   errors: [],
 }));
 
-/** Updates an existing floodlight activity group. This method supports patch semantics. */
 export interface PatchFloodlightActivityGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -9513,13 +9512,13 @@ export const PatchFloodlightActivityGroupsResponse = FloodlightActivityGroup;
 
 export type PatchFloodlightActivityGroupsError = CommonErrors;
 
+/** Updates an existing floodlight activity group. This method supports patch semantics. */
 export const patchFloodlightActivityGroups: API.OperationMethod<PatchFloodlightActivityGroupsRequest, PatchFloodlightActivityGroupsResponse, PatchFloodlightActivityGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchFloodlightActivityGroupsRequest,
   output: PatchFloodlightActivityGroupsResponse,
   errors: [],
 }));
 
-/** Deletes an existing floodlight activity. */
 export interface DeleteFloodlightActivitiesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -9540,13 +9539,13 @@ export const DeleteFloodlightActivitiesResponse: Schema.Schema<DeleteFloodlightA
 
 export type DeleteFloodlightActivitiesError = CommonErrors;
 
+/** Deletes an existing floodlight activity. */
 export const deleteFloodlightActivities: API.OperationMethod<DeleteFloodlightActivitiesRequest, DeleteFloodlightActivitiesResponse, DeleteFloodlightActivitiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteFloodlightActivitiesRequest,
   output: DeleteFloodlightActivitiesResponse,
   errors: [],
 }));
 
-/** Generates a tag for a floodlight activity. */
 export interface GeneratetagFloodlightActivitiesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -9567,13 +9566,13 @@ export const GeneratetagFloodlightActivitiesResponse = FloodlightActivitiesGener
 
 export type GeneratetagFloodlightActivitiesError = CommonErrors;
 
+/** Generates a tag for a floodlight activity. */
 export const generatetagFloodlightActivities: API.OperationMethod<GeneratetagFloodlightActivitiesRequest, GeneratetagFloodlightActivitiesResponse, GeneratetagFloodlightActivitiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GeneratetagFloodlightActivitiesRequest,
   output: GeneratetagFloodlightActivitiesResponse,
   errors: [],
 }));
 
-/** Gets one floodlight activity by ID. */
 export interface GetFloodlightActivitiesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -9594,13 +9593,13 @@ export const GetFloodlightActivitiesResponse = FloodlightActivity;
 
 export type GetFloodlightActivitiesError = CommonErrors;
 
+/** Gets one floodlight activity by ID. */
 export const getFloodlightActivities: API.OperationMethod<GetFloodlightActivitiesRequest, GetFloodlightActivitiesResponse, GetFloodlightActivitiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFloodlightActivitiesRequest,
   output: GetFloodlightActivitiesResponse,
   errors: [],
 }));
 
-/** Inserts a new floodlight activity. */
 export interface InsertFloodlightActivitiesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -9621,13 +9620,13 @@ export const InsertFloodlightActivitiesResponse = FloodlightActivity;
 
 export type InsertFloodlightActivitiesError = CommonErrors;
 
+/** Inserts a new floodlight activity. */
 export const insertFloodlightActivities: API.OperationMethod<InsertFloodlightActivitiesRequest, InsertFloodlightActivitiesResponse, InsertFloodlightActivitiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertFloodlightActivitiesRequest,
   output: InsertFloodlightActivitiesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of floodlight activities, possibly filtered. This method supports paging. */
 export interface ListFloodlightActivitiesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -9684,7 +9683,8 @@ export const ListFloodlightActivitiesResponse = FloodlightActivitiesListResponse
 
 export type ListFloodlightActivitiesError = CommonErrors;
 
-export const listFloodlightActivities = API.makePaginated(() => ({
+/** Retrieves a list of floodlight activities, possibly filtered. This method supports paging. */
+export const listFloodlightActivities: API.PaginatedOperationMethod<ListFloodlightActivitiesRequest, ListFloodlightActivitiesResponse, ListFloodlightActivitiesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListFloodlightActivitiesRequest,
   output: ListFloodlightActivitiesResponse,
   errors: [],
@@ -9694,7 +9694,6 @@ export const listFloodlightActivities = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing floodlight activity. */
 export interface UpdateFloodlightActivitiesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -9715,13 +9714,13 @@ export const UpdateFloodlightActivitiesResponse = FloodlightActivity;
 
 export type UpdateFloodlightActivitiesError = CommonErrors;
 
+/** Updates an existing floodlight activity. */
 export const updateFloodlightActivities: API.OperationMethod<UpdateFloodlightActivitiesRequest, UpdateFloodlightActivitiesResponse, UpdateFloodlightActivitiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateFloodlightActivitiesRequest,
   output: UpdateFloodlightActivitiesResponse,
   errors: [],
 }));
 
-/** Updates an existing floodlight activity. This method supports patch semantics. */
 export interface PatchFloodlightActivitiesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -9745,13 +9744,13 @@ export const PatchFloodlightActivitiesResponse = FloodlightActivity;
 
 export type PatchFloodlightActivitiesError = CommonErrors;
 
+/** Updates an existing floodlight activity. This method supports patch semantics. */
 export const patchFloodlightActivities: API.OperationMethod<PatchFloodlightActivitiesRequest, PatchFloodlightActivitiesResponse, PatchFloodlightActivitiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchFloodlightActivitiesRequest,
   output: PatchFloodlightActivitiesResponse,
   errors: [],
 }));
 
-/** Gets one floodlight configuration by ID. */
 export interface GetFloodlightConfigurationsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -9772,13 +9771,13 @@ export const GetFloodlightConfigurationsResponse = FloodlightConfiguration;
 
 export type GetFloodlightConfigurationsError = CommonErrors;
 
+/** Gets one floodlight configuration by ID. */
 export const getFloodlightConfigurations: API.OperationMethod<GetFloodlightConfigurationsRequest, GetFloodlightConfigurationsResponse, GetFloodlightConfigurationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFloodlightConfigurationsRequest,
   output: GetFloodlightConfigurationsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of floodlight configurations, possibly filtered. */
 export interface ListFloodlightConfigurationsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -9799,13 +9798,13 @@ export const ListFloodlightConfigurationsResponse = FloodlightConfigurationsList
 
 export type ListFloodlightConfigurationsError = CommonErrors;
 
+/** Retrieves a list of floodlight configurations, possibly filtered. */
 export const listFloodlightConfigurations: API.OperationMethod<ListFloodlightConfigurationsRequest, ListFloodlightConfigurationsResponse, ListFloodlightConfigurationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListFloodlightConfigurationsRequest,
   output: ListFloodlightConfigurationsResponse,
   errors: [],
 }));
 
-/** Updates an existing floodlight configuration. */
 export interface UpdateFloodlightConfigurationsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -9826,13 +9825,13 @@ export const UpdateFloodlightConfigurationsResponse = FloodlightConfiguration;
 
 export type UpdateFloodlightConfigurationsError = CommonErrors;
 
+/** Updates an existing floodlight configuration. */
 export const updateFloodlightConfigurations: API.OperationMethod<UpdateFloodlightConfigurationsRequest, UpdateFloodlightConfigurationsResponse, UpdateFloodlightConfigurationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateFloodlightConfigurationsRequest,
   output: UpdateFloodlightConfigurationsResponse,
   errors: [],
 }));
 
-/** Updates an existing floodlight configuration. This method supports patch semantics. */
 export interface PatchFloodlightConfigurationsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -9856,13 +9855,13 @@ export const PatchFloodlightConfigurationsResponse = FloodlightConfiguration;
 
 export type PatchFloodlightConfigurationsError = CommonErrors;
 
+/** Updates an existing floodlight configuration. This method supports patch semantics. */
 export const patchFloodlightConfigurations: API.OperationMethod<PatchFloodlightConfigurationsRequest, PatchFloodlightConfigurationsResponse, PatchFloodlightConfigurationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchFloodlightConfigurationsRequest,
   output: PatchFloodlightConfigurationsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of invoices for a particular issue month. The api only works if the billing profile invoice level is set to either advertiser or campaign non-consolidated invoice level. */
 export interface ListAdvertiserInvoicesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -9892,7 +9891,8 @@ export const ListAdvertiserInvoicesResponse = AdvertiserInvoicesListResponse;
 
 export type ListAdvertiserInvoicesError = CommonErrors;
 
-export const listAdvertiserInvoices = API.makePaginated(() => ({
+/** Retrieves a list of invoices for a particular issue month. The api only works if the billing profile invoice level is set to either advertiser or campaign non-consolidated invoice level. */
+export const listAdvertiserInvoices: API.PaginatedOperationMethod<ListAdvertiserInvoicesRequest, ListAdvertiserInvoicesResponse, ListAdvertiserInvoicesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAdvertiserInvoicesRequest,
   output: ListAdvertiserInvoicesResponse,
   errors: [],
@@ -9902,7 +9902,6 @@ export const listAdvertiserInvoices = API.makePaginated(() => ({
   },
 }));
 
-/** Gets one landing page by ID. */
 export interface GetAdvertiserLandingPagesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -9923,13 +9922,13 @@ export const GetAdvertiserLandingPagesResponse = LandingPage;
 
 export type GetAdvertiserLandingPagesError = CommonErrors;
 
+/** Gets one landing page by ID. */
 export const getAdvertiserLandingPages: API.OperationMethod<GetAdvertiserLandingPagesRequest, GetAdvertiserLandingPagesResponse, GetAdvertiserLandingPagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAdvertiserLandingPagesRequest,
   output: GetAdvertiserLandingPagesResponse,
   errors: [],
 }));
 
-/** Inserts a new landing page. */
 export interface InsertAdvertiserLandingPagesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -9950,13 +9949,13 @@ export const InsertAdvertiserLandingPagesResponse = LandingPage;
 
 export type InsertAdvertiserLandingPagesError = CommonErrors;
 
+/** Inserts a new landing page. */
 export const insertAdvertiserLandingPages: API.OperationMethod<InsertAdvertiserLandingPagesRequest, InsertAdvertiserLandingPagesResponse, InsertAdvertiserLandingPagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertAdvertiserLandingPagesRequest,
   output: InsertAdvertiserLandingPagesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of landing pages. */
 export interface ListAdvertiserLandingPagesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10004,7 +10003,8 @@ export const ListAdvertiserLandingPagesResponse = AdvertiserLandingPagesListResp
 
 export type ListAdvertiserLandingPagesError = CommonErrors;
 
-export const listAdvertiserLandingPages = API.makePaginated(() => ({
+/** Retrieves a list of landing pages. */
+export const listAdvertiserLandingPages: API.PaginatedOperationMethod<ListAdvertiserLandingPagesRequest, ListAdvertiserLandingPagesResponse, ListAdvertiserLandingPagesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAdvertiserLandingPagesRequest,
   output: ListAdvertiserLandingPagesResponse,
   errors: [],
@@ -10014,7 +10014,6 @@ export const listAdvertiserLandingPages = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing landing page. */
 export interface UpdateAdvertiserLandingPagesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10035,13 +10034,13 @@ export const UpdateAdvertiserLandingPagesResponse = LandingPage;
 
 export type UpdateAdvertiserLandingPagesError = CommonErrors;
 
+/** Updates an existing landing page. */
 export const updateAdvertiserLandingPages: API.OperationMethod<UpdateAdvertiserLandingPagesRequest, UpdateAdvertiserLandingPagesResponse, UpdateAdvertiserLandingPagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAdvertiserLandingPagesRequest,
   output: UpdateAdvertiserLandingPagesResponse,
   errors: [],
 }));
 
-/** Updates an existing landing page. This method supports patch semantics. */
 export interface PatchAdvertiserLandingPagesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10065,13 +10064,13 @@ export const PatchAdvertiserLandingPagesResponse = LandingPage;
 
 export type PatchAdvertiserLandingPagesError = CommonErrors;
 
+/** Updates an existing landing page. This method supports patch semantics. */
 export const patchAdvertiserLandingPages: API.OperationMethod<PatchAdvertiserLandingPagesRequest, PatchAdvertiserLandingPagesResponse, PatchAdvertiserLandingPagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAdvertiserLandingPagesRequest,
   output: PatchAdvertiserLandingPagesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of languages. */
 export interface ListLanguagesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10089,13 +10088,13 @@ export const ListLanguagesResponse = LanguagesListResponse;
 
 export type ListLanguagesError = CommonErrors;
 
+/** Retrieves a list of languages. */
 export const listLanguages: API.OperationMethod<ListLanguagesRequest, ListLanguagesResponse, ListLanguagesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListLanguagesRequest,
   output: ListLanguagesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of metros. */
 export interface ListMetrosRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10113,13 +10112,13 @@ export const ListMetrosResponse = MetrosListResponse;
 
 export type ListMetrosError = CommonErrors;
 
+/** Retrieves a list of metros. */
 export const listMetros: API.OperationMethod<ListMetrosRequest, ListMetrosResponse, ListMetrosError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListMetrosRequest,
   output: ListMetrosResponse,
   errors: [],
 }));
 
-/** Gets one mobile app by ID. */
 export interface GetMobileAppsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10140,13 +10139,13 @@ export const GetMobileAppsResponse = MobileApp;
 
 export type GetMobileAppsError = CommonErrors;
 
+/** Gets one mobile app by ID. */
 export const getMobileApps: API.OperationMethod<GetMobileAppsRequest, GetMobileAppsResponse, GetMobileAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetMobileAppsRequest,
   output: GetMobileAppsResponse,
   errors: [],
 }));
 
-/** Retrieves list of available mobile apps. */
 export interface ListMobileAppsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10179,7 +10178,8 @@ export const ListMobileAppsResponse = MobileAppsListResponse;
 
 export type ListMobileAppsError = CommonErrors;
 
-export const listMobileApps = API.makePaginated(() => ({
+/** Retrieves list of available mobile apps. */
+export const listMobileApps: API.PaginatedOperationMethod<ListMobileAppsRequest, ListMobileAppsResponse, ListMobileAppsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListMobileAppsRequest,
   output: ListMobileAppsResponse,
   errors: [],
@@ -10189,7 +10189,6 @@ export const listMobileApps = API.makePaginated(() => ({
   },
 }));
 
-/** Gets one mobile carrier by ID. */
 export interface GetMobileCarriersRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10210,13 +10209,13 @@ export const GetMobileCarriersResponse = MobileCarrier;
 
 export type GetMobileCarriersError = CommonErrors;
 
+/** Gets one mobile carrier by ID. */
 export const getMobileCarriers: API.OperationMethod<GetMobileCarriersRequest, GetMobileCarriersResponse, GetMobileCarriersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetMobileCarriersRequest,
   output: GetMobileCarriersResponse,
   errors: [],
 }));
 
-/** Retrieves a list of mobile carriers. */
 export interface ListMobileCarriersRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10234,13 +10233,13 @@ export const ListMobileCarriersResponse = MobileCarriersListResponse;
 
 export type ListMobileCarriersError = CommonErrors;
 
+/** Retrieves a list of mobile carriers. */
 export const listMobileCarriers: API.OperationMethod<ListMobileCarriersRequest, ListMobileCarriersResponse, ListMobileCarriersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListMobileCarriersRequest,
   output: ListMobileCarriersResponse,
   errors: [],
 }));
 
-/** Gets one operating system by DART ID. */
 export interface GetOperatingSystemsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10261,13 +10260,13 @@ export const GetOperatingSystemsResponse = OperatingSystem;
 
 export type GetOperatingSystemsError = CommonErrors;
 
+/** Gets one operating system by DART ID. */
 export const getOperatingSystems: API.OperationMethod<GetOperatingSystemsRequest, GetOperatingSystemsResponse, GetOperatingSystemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOperatingSystemsRequest,
   output: GetOperatingSystemsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of operating systems. */
 export interface ListOperatingSystemsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10285,13 +10284,13 @@ export const ListOperatingSystemsResponse = OperatingSystemsListResponse;
 
 export type ListOperatingSystemsError = CommonErrors;
 
+/** Retrieves a list of operating systems. */
 export const listOperatingSystems: API.OperationMethod<ListOperatingSystemsRequest, ListOperatingSystemsResponse, ListOperatingSystemsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOperatingSystemsRequest,
   output: ListOperatingSystemsResponse,
   errors: [],
 }));
 
-/** Gets one operating system version by ID. */
 export interface GetOperatingSystemVersionsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10312,13 +10311,13 @@ export const GetOperatingSystemVersionsResponse = OperatingSystemVersion;
 
 export type GetOperatingSystemVersionsError = CommonErrors;
 
+/** Gets one operating system version by ID. */
 export const getOperatingSystemVersions: API.OperationMethod<GetOperatingSystemVersionsRequest, GetOperatingSystemVersionsResponse, GetOperatingSystemVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOperatingSystemVersionsRequest,
   output: GetOperatingSystemVersionsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of operating system versions. */
 export interface ListOperatingSystemVersionsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10336,13 +10335,13 @@ export const ListOperatingSystemVersionsResponse = OperatingSystemVersionsListRe
 
 export type ListOperatingSystemVersionsError = CommonErrors;
 
+/** Retrieves a list of operating system versions. */
 export const listOperatingSystemVersions: API.OperationMethod<ListOperatingSystemVersionsRequest, ListOperatingSystemVersionsResponse, ListOperatingSystemVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOperatingSystemVersionsRequest,
   output: ListOperatingSystemVersionsResponse,
   errors: [],
 }));
 
-/** Updates an existing remarketing list. This method supports patch semantics. */
 export interface PatchRemarketingListsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10366,13 +10365,13 @@ export const PatchRemarketingListsResponse = RemarketingList;
 
 export type PatchRemarketingListsError = CommonErrors;
 
+/** Updates an existing remarketing list. This method supports patch semantics. */
 export const patchRemarketingLists: API.OperationMethod<PatchRemarketingListsRequest, PatchRemarketingListsResponse, PatchRemarketingListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchRemarketingListsRequest,
   output: PatchRemarketingListsResponse,
   errors: [],
 }));
 
-/** Gets one remarketing list by ID. */
 export interface GetRemarketingListsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10393,13 +10392,13 @@ export const GetRemarketingListsResponse = RemarketingList;
 
 export type GetRemarketingListsError = CommonErrors;
 
+/** Gets one remarketing list by ID. */
 export const getRemarketingLists: API.OperationMethod<GetRemarketingListsRequest, GetRemarketingListsResponse, GetRemarketingListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRemarketingListsRequest,
   output: GetRemarketingListsResponse,
   errors: [],
 }));
 
-/** Inserts a new remarketing list. */
 export interface InsertRemarketingListsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10420,13 +10419,13 @@ export const InsertRemarketingListsResponse = RemarketingList;
 
 export type InsertRemarketingListsError = CommonErrors;
 
+/** Inserts a new remarketing list. */
 export const insertRemarketingLists: API.OperationMethod<InsertRemarketingListsRequest, InsertRemarketingListsResponse, InsertRemarketingListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertRemarketingListsRequest,
   output: InsertRemarketingListsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of remarketing lists, possibly filtered. This method supports paging. */
 export interface ListRemarketingListsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10468,7 +10467,8 @@ export const ListRemarketingListsResponse = RemarketingListsListResponse;
 
 export type ListRemarketingListsError = CommonErrors;
 
-export const listRemarketingLists = API.makePaginated(() => ({
+/** Retrieves a list of remarketing lists, possibly filtered. This method supports paging. */
+export const listRemarketingLists: API.PaginatedOperationMethod<ListRemarketingListsRequest, ListRemarketingListsResponse, ListRemarketingListsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRemarketingListsRequest,
   output: ListRemarketingListsResponse,
   errors: [],
@@ -10478,7 +10478,6 @@ export const listRemarketingLists = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing remarketing list. */
 export interface UpdateRemarketingListsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10499,13 +10498,13 @@ export const UpdateRemarketingListsResponse = RemarketingList;
 
 export type UpdateRemarketingListsError = CommonErrors;
 
+/** Updates an existing remarketing list. */
 export const updateRemarketingLists: API.OperationMethod<UpdateRemarketingListsRequest, UpdateRemarketingListsResponse, UpdateRemarketingListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateRemarketingListsRequest,
   output: UpdateRemarketingListsResponse,
   errors: [],
 }));
 
-/** Updates an existing remarketing list share. This method supports patch semantics. */
 export interface PatchRemarketingListSharesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10529,13 +10528,13 @@ export const PatchRemarketingListSharesResponse = RemarketingListShare;
 
 export type PatchRemarketingListSharesError = CommonErrors;
 
+/** Updates an existing remarketing list share. This method supports patch semantics. */
 export const patchRemarketingListShares: API.OperationMethod<PatchRemarketingListSharesRequest, PatchRemarketingListSharesResponse, PatchRemarketingListSharesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchRemarketingListSharesRequest,
   output: PatchRemarketingListSharesResponse,
   errors: [],
 }));
 
-/** Gets one remarketing list share by remarketing list ID. */
 export interface GetRemarketingListSharesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10556,13 +10555,13 @@ export const GetRemarketingListSharesResponse = RemarketingListShare;
 
 export type GetRemarketingListSharesError = CommonErrors;
 
+/** Gets one remarketing list share by remarketing list ID. */
 export const getRemarketingListShares: API.OperationMethod<GetRemarketingListSharesRequest, GetRemarketingListSharesResponse, GetRemarketingListSharesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRemarketingListSharesRequest,
   output: GetRemarketingListSharesResponse,
   errors: [],
 }));
 
-/** Updates an existing remarketing list share. */
 export interface UpdateRemarketingListSharesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10583,13 +10582,13 @@ export const UpdateRemarketingListSharesResponse = RemarketingListShare;
 
 export type UpdateRemarketingListSharesError = CommonErrors;
 
+/** Updates an existing remarketing list share. */
 export const updateRemarketingListShares: API.OperationMethod<UpdateRemarketingListSharesRequest, UpdateRemarketingListSharesResponse, UpdateRemarketingListSharesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateRemarketingListSharesRequest,
   output: UpdateRemarketingListSharesResponse,
   errors: [],
 }));
 
-/** Updates an existing site. This method supports patch semantics. */
 export interface PatchSitesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10613,13 +10612,13 @@ export const PatchSitesResponse = Site;
 
 export type PatchSitesError = CommonErrors;
 
+/** Updates an existing site. This method supports patch semantics. */
 export const patchSites: API.OperationMethod<PatchSitesRequest, PatchSitesResponse, PatchSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchSitesRequest,
   output: PatchSitesResponse,
   errors: [],
 }));
 
-/** Gets one site by ID. */
 export interface GetSitesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10640,13 +10639,13 @@ export const GetSitesResponse = Site;
 
 export type GetSitesError = CommonErrors;
 
+/** Gets one site by ID. */
 export const getSites: API.OperationMethod<GetSitesRequest, GetSitesResponse, GetSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSitesRequest,
   output: GetSitesResponse,
   errors: [],
 }));
 
-/** Inserts a new site. */
 export interface InsertSitesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10667,13 +10666,13 @@ export const InsertSitesResponse = Site;
 
 export type InsertSitesError = CommonErrors;
 
+/** Inserts a new site. */
 export const insertSites: API.OperationMethod<InsertSitesRequest, InsertSitesResponse, InsertSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertSitesRequest,
   output: InsertSitesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of sites, possibly filtered. This method supports paging. */
 export interface ListSitesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10736,7 +10735,8 @@ export const ListSitesResponse = SitesListResponse;
 
 export type ListSitesError = CommonErrors;
 
-export const listSites = API.makePaginated(() => ({
+/** Retrieves a list of sites, possibly filtered. This method supports paging. */
+export const listSites: API.PaginatedOperationMethod<ListSitesRequest, ListSitesResponse, ListSitesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListSitesRequest,
   output: ListSitesResponse,
   errors: [],
@@ -10746,7 +10746,6 @@ export const listSites = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing site. */
 export interface UpdateSitesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10767,13 +10766,13 @@ export const UpdateSitesResponse = Site;
 
 export type UpdateSitesError = CommonErrors;
 
+/** Updates an existing site. */
 export const updateSites: API.OperationMethod<UpdateSitesRequest, UpdateSitesResponse, UpdateSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateSitesRequest,
   output: UpdateSitesResponse,
   errors: [],
 }));
 
-/** Updates an existing subaccount. This method supports patch semantics. */
 export interface PatchSubaccountsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10797,13 +10796,13 @@ export const PatchSubaccountsResponse = Subaccount;
 
 export type PatchSubaccountsError = CommonErrors;
 
+/** Updates an existing subaccount. This method supports patch semantics. */
 export const patchSubaccounts: API.OperationMethod<PatchSubaccountsRequest, PatchSubaccountsResponse, PatchSubaccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchSubaccountsRequest,
   output: PatchSubaccountsResponse,
   errors: [],
 }));
 
-/** Gets one subaccount by ID. */
 export interface GetSubaccountsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10824,13 +10823,13 @@ export const GetSubaccountsResponse = Subaccount;
 
 export type GetSubaccountsError = CommonErrors;
 
+/** Gets one subaccount by ID. */
 export const getSubaccounts: API.OperationMethod<GetSubaccountsRequest, GetSubaccountsResponse, GetSubaccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSubaccountsRequest,
   output: GetSubaccountsResponse,
   errors: [],
 }));
 
-/** Inserts a new subaccount. */
 export interface InsertSubaccountsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10851,13 +10850,13 @@ export const InsertSubaccountsResponse = Subaccount;
 
 export type InsertSubaccountsError = CommonErrors;
 
+/** Inserts a new subaccount. */
 export const insertSubaccounts: API.OperationMethod<InsertSubaccountsRequest, InsertSubaccountsResponse, InsertSubaccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertSubaccountsRequest,
   output: InsertSubaccountsResponse,
   errors: [],
 }));
 
-/** Gets a list of subaccounts, possibly filtered. This method supports paging. */
 export interface ListSubaccountsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10893,7 +10892,8 @@ export const ListSubaccountsResponse = SubaccountsListResponse;
 
 export type ListSubaccountsError = CommonErrors;
 
-export const listSubaccounts = API.makePaginated(() => ({
+/** Gets a list of subaccounts, possibly filtered. This method supports paging. */
+export const listSubaccounts: API.PaginatedOperationMethod<ListSubaccountsRequest, ListSubaccountsResponse, ListSubaccountsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListSubaccountsRequest,
   output: ListSubaccountsResponse,
   errors: [],
@@ -10903,7 +10903,6 @@ export const listSubaccounts = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing subaccount. */
 export interface UpdateSubaccountsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10924,13 +10923,13 @@ export const UpdateSubaccountsResponse = Subaccount;
 
 export type UpdateSubaccountsError = CommonErrors;
 
+/** Updates an existing subaccount. */
 export const updateSubaccounts: API.OperationMethod<UpdateSubaccountsRequest, UpdateSubaccountsResponse, UpdateSubaccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateSubaccountsRequest,
   output: UpdateSubaccountsResponse,
   errors: [],
 }));
 
-/** Updates an existing user role. This method supports patch semantics. */
 export interface PatchUserRolesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10954,13 +10953,13 @@ export const PatchUserRolesResponse = UserRole;
 
 export type PatchUserRolesError = CommonErrors;
 
+/** Updates an existing user role. This method supports patch semantics. */
 export const patchUserRoles: API.OperationMethod<PatchUserRolesRequest, PatchUserRolesResponse, PatchUserRolesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchUserRolesRequest,
   output: PatchUserRolesResponse,
   errors: [],
 }));
 
-/** Gets one user role by ID. */
 export interface GetUserRolesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -10981,13 +10980,13 @@ export const GetUserRolesResponse = UserRole;
 
 export type GetUserRolesError = CommonErrors;
 
+/** Gets one user role by ID. */
 export const getUserRoles: API.OperationMethod<GetUserRolesRequest, GetUserRolesResponse, GetUserRolesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetUserRolesRequest,
   output: GetUserRolesResponse,
   errors: [],
 }));
 
-/** Inserts a new user role. */
 export interface InsertUserRolesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -11008,13 +11007,13 @@ export const InsertUserRolesResponse = UserRole;
 
 export type InsertUserRolesError = CommonErrors;
 
+/** Inserts a new user role. */
 export const insertUserRoles: API.OperationMethod<InsertUserRolesRequest, InsertUserRolesResponse, InsertUserRolesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertUserRolesRequest,
   output: InsertUserRolesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of user roles, possibly filtered. This method supports paging. */
 export interface ListUserRolesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -11056,7 +11055,8 @@ export const ListUserRolesResponse = UserRolesListResponse;
 
 export type ListUserRolesError = CommonErrors;
 
-export const listUserRoles = API.makePaginated(() => ({
+/** Retrieves a list of user roles, possibly filtered. This method supports paging. */
+export const listUserRoles: API.PaginatedOperationMethod<ListUserRolesRequest, ListUserRolesResponse, ListUserRolesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListUserRolesRequest,
   output: ListUserRolesResponse,
   errors: [],
@@ -11066,7 +11066,6 @@ export const listUserRoles = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing user role. */
 export interface UpdateUserRolesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -11087,13 +11086,13 @@ export const UpdateUserRolesResponse = UserRole;
 
 export type UpdateUserRolesError = CommonErrors;
 
+/** Updates an existing user role. */
 export const updateUserRoles: API.OperationMethod<UpdateUserRolesRequest, UpdateUserRolesResponse, UpdateUserRolesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateUserRolesRequest,
   output: UpdateUserRolesResponse,
   errors: [],
 }));
 
-/** Deletes an existing user role. */
 export interface DeleteUserRolesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -11114,13 +11113,13 @@ export const DeleteUserRolesResponse: Schema.Schema<DeleteUserRolesResponse> = S
 
 export type DeleteUserRolesError = CommonErrors;
 
+/** Deletes an existing user role. */
 export const deleteUserRoles: API.OperationMethod<DeleteUserRolesRequest, DeleteUserRolesResponse, DeleteUserRolesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteUserRolesRequest,
   output: DeleteUserRolesResponse,
   errors: [],
 }));
 
-/** Updates an existing targeting template. This method supports patch semantics. */
 export interface PatchTargetingTemplatesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -11144,13 +11143,13 @@ export const PatchTargetingTemplatesResponse = TargetingTemplate;
 
 export type PatchTargetingTemplatesError = CommonErrors;
 
+/** Updates an existing targeting template. This method supports patch semantics. */
 export const patchTargetingTemplates: API.OperationMethod<PatchTargetingTemplatesRequest, PatchTargetingTemplatesResponse, PatchTargetingTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchTargetingTemplatesRequest,
   output: PatchTargetingTemplatesResponse,
   errors: [],
 }));
 
-/** Gets one targeting template by ID. */
 export interface GetTargetingTemplatesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -11171,13 +11170,13 @@ export const GetTargetingTemplatesResponse = TargetingTemplate;
 
 export type GetTargetingTemplatesError = CommonErrors;
 
+/** Gets one targeting template by ID. */
 export const getTargetingTemplates: API.OperationMethod<GetTargetingTemplatesRequest, GetTargetingTemplatesResponse, GetTargetingTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetTargetingTemplatesRequest,
   output: GetTargetingTemplatesResponse,
   errors: [],
 }));
 
-/** Inserts a new targeting template. */
 export interface InsertTargetingTemplatesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -11198,13 +11197,13 @@ export const InsertTargetingTemplatesResponse = TargetingTemplate;
 
 export type InsertTargetingTemplatesError = CommonErrors;
 
+/** Inserts a new targeting template. */
 export const insertTargetingTemplates: API.OperationMethod<InsertTargetingTemplatesRequest, InsertTargetingTemplatesResponse, InsertTargetingTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertTargetingTemplatesRequest,
   output: InsertTargetingTemplatesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of targeting templates, optionally filtered. This method supports paging. */
 export interface ListTargetingTemplatesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -11243,7 +11242,8 @@ export const ListTargetingTemplatesResponse = TargetingTemplatesListResponse;
 
 export type ListTargetingTemplatesError = CommonErrors;
 
-export const listTargetingTemplates = API.makePaginated(() => ({
+/** Retrieves a list of targeting templates, optionally filtered. This method supports paging. */
+export const listTargetingTemplates: API.PaginatedOperationMethod<ListTargetingTemplatesRequest, ListTargetingTemplatesResponse, ListTargetingTemplatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListTargetingTemplatesRequest,
   output: ListTargetingTemplatesResponse,
   errors: [],
@@ -11253,7 +11253,6 @@ export const listTargetingTemplates = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing targeting template. */
 export interface UpdateTargetingTemplatesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -11274,13 +11273,13 @@ export const UpdateTargetingTemplatesResponse = TargetingTemplate;
 
 export type UpdateTargetingTemplatesError = CommonErrors;
 
+/** Updates an existing targeting template. */
 export const updateTargetingTemplates: API.OperationMethod<UpdateTargetingTemplatesRequest, UpdateTargetingTemplatesResponse, UpdateTargetingTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateTargetingTemplatesRequest,
   output: UpdateTargetingTemplatesResponse,
   errors: [],
 }));
 
-/** Updates an existing placement. This method supports patch semantics. */
 export interface PatchPlacementsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -11304,13 +11303,13 @@ export const PatchPlacementsResponse = Placement;
 
 export type PatchPlacementsError = CommonErrors;
 
+/** Updates an existing placement. This method supports patch semantics. */
 export const patchPlacements: API.OperationMethod<PatchPlacementsRequest, PatchPlacementsResponse, PatchPlacementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchPlacementsRequest,
   output: PatchPlacementsResponse,
   errors: [],
 }));
 
-/** Generates tags for a placement. */
 export interface GeneratetagsPlacementsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -11337,13 +11336,13 @@ export const GeneratetagsPlacementsResponse = PlacementsGenerateTagsResponse;
 
 export type GeneratetagsPlacementsError = CommonErrors;
 
+/** Generates tags for a placement. */
 export const generatetagsPlacements: API.OperationMethod<GeneratetagsPlacementsRequest, GeneratetagsPlacementsResponse, GeneratetagsPlacementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GeneratetagsPlacementsRequest,
   output: GeneratetagsPlacementsResponse,
   errors: [],
 }));
 
-/** Gets one placement by ID. */
 export interface GetPlacementsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -11364,13 +11363,13 @@ export const GetPlacementsResponse = Placement;
 
 export type GetPlacementsError = CommonErrors;
 
+/** Gets one placement by ID. */
 export const getPlacements: API.OperationMethod<GetPlacementsRequest, GetPlacementsResponse, GetPlacementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPlacementsRequest,
   output: GetPlacementsResponse,
   errors: [],
 }));
 
-/** Inserts a new placement. */
 export interface InsertPlacementsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -11391,13 +11390,13 @@ export const InsertPlacementsResponse = Placement;
 
 export type InsertPlacementsError = CommonErrors;
 
+/** Inserts a new placement. */
 export const insertPlacements: API.OperationMethod<InsertPlacementsRequest, InsertPlacementsResponse, InsertPlacementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertPlacementsRequest,
   output: InsertPlacementsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of placements, possibly filtered. This method supports paging. */
 export interface ListPlacementsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -11481,7 +11480,8 @@ export const ListPlacementsResponse = PlacementsListResponse;
 
 export type ListPlacementsError = CommonErrors;
 
-export const listPlacements = API.makePaginated(() => ({
+/** Retrieves a list of placements, possibly filtered. This method supports paging. */
+export const listPlacements: API.PaginatedOperationMethod<ListPlacementsRequest, ListPlacementsResponse, ListPlacementsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPlacementsRequest,
   output: ListPlacementsResponse,
   errors: [],
@@ -11491,7 +11491,6 @@ export const listPlacements = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing placement. */
 export interface UpdatePlacementsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -11512,13 +11511,13 @@ export const UpdatePlacementsResponse = Placement;
 
 export type UpdatePlacementsError = CommonErrors;
 
+/** Updates an existing placement. */
 export const updatePlacements: API.OperationMethod<UpdatePlacementsRequest, UpdatePlacementsResponse, UpdatePlacementsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdatePlacementsRequest,
   output: UpdatePlacementsResponse,
   errors: [],
 }));
 
-/** Updates an existing placement group. This method supports patch semantics. */
 export interface PatchPlacementGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -11542,13 +11541,13 @@ export const PatchPlacementGroupsResponse = PlacementGroup;
 
 export type PatchPlacementGroupsError = CommonErrors;
 
+/** Updates an existing placement group. This method supports patch semantics. */
 export const patchPlacementGroups: API.OperationMethod<PatchPlacementGroupsRequest, PatchPlacementGroupsResponse, PatchPlacementGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchPlacementGroupsRequest,
   output: PatchPlacementGroupsResponse,
   errors: [],
 }));
 
-/** Gets one placement group by ID. */
 export interface GetPlacementGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -11569,13 +11568,13 @@ export const GetPlacementGroupsResponse = PlacementGroup;
 
 export type GetPlacementGroupsError = CommonErrors;
 
+/** Gets one placement group by ID. */
 export const getPlacementGroups: API.OperationMethod<GetPlacementGroupsRequest, GetPlacementGroupsResponse, GetPlacementGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPlacementGroupsRequest,
   output: GetPlacementGroupsResponse,
   errors: [],
 }));
 
-/** Inserts a new placement group. */
 export interface InsertPlacementGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -11596,13 +11595,13 @@ export const InsertPlacementGroupsResponse = PlacementGroup;
 
 export type InsertPlacementGroupsError = CommonErrors;
 
+/** Inserts a new placement group. */
 export const insertPlacementGroups: API.OperationMethod<InsertPlacementGroupsRequest, InsertPlacementGroupsResponse, InsertPlacementGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertPlacementGroupsRequest,
   output: InsertPlacementGroupsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of placement groups, possibly filtered. This method supports paging. */
 export interface ListPlacementGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -11677,7 +11676,8 @@ export const ListPlacementGroupsResponse = PlacementGroupsListResponse;
 
 export type ListPlacementGroupsError = CommonErrors;
 
-export const listPlacementGroups = API.makePaginated(() => ({
+/** Retrieves a list of placement groups, possibly filtered. This method supports paging. */
+export const listPlacementGroups: API.PaginatedOperationMethod<ListPlacementGroupsRequest, ListPlacementGroupsResponse, ListPlacementGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPlacementGroupsRequest,
   output: ListPlacementGroupsResponse,
   errors: [],
@@ -11687,7 +11687,6 @@ export const listPlacementGroups = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing placement group. */
 export interface UpdatePlacementGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -11708,13 +11707,13 @@ export const UpdatePlacementGroupsResponse = PlacementGroup;
 
 export type UpdatePlacementGroupsError = CommonErrors;
 
+/** Updates an existing placement group. */
 export const updatePlacementGroups: API.OperationMethod<UpdatePlacementGroupsRequest, UpdatePlacementGroupsResponse, UpdatePlacementGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdatePlacementGroupsRequest,
   output: UpdatePlacementGroupsResponse,
   errors: [],
 }));
 
-/** Updates an existing placement strategy. This method supports patch semantics. */
 export interface PatchPlacementStrategiesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -11738,13 +11737,13 @@ export const PatchPlacementStrategiesResponse = PlacementStrategy;
 
 export type PatchPlacementStrategiesError = CommonErrors;
 
+/** Updates an existing placement strategy. This method supports patch semantics. */
 export const patchPlacementStrategies: API.OperationMethod<PatchPlacementStrategiesRequest, PatchPlacementStrategiesResponse, PatchPlacementStrategiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchPlacementStrategiesRequest,
   output: PatchPlacementStrategiesResponse,
   errors: [],
 }));
 
-/** Deletes an existing placement strategy. */
 export interface DeletePlacementStrategiesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -11765,13 +11764,13 @@ export const DeletePlacementStrategiesResponse: Schema.Schema<DeletePlacementStr
 
 export type DeletePlacementStrategiesError = CommonErrors;
 
+/** Deletes an existing placement strategy. */
 export const deletePlacementStrategies: API.OperationMethod<DeletePlacementStrategiesRequest, DeletePlacementStrategiesResponse, DeletePlacementStrategiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeletePlacementStrategiesRequest,
   output: DeletePlacementStrategiesResponse,
   errors: [],
 }));
 
-/** Gets one placement strategy by ID. */
 export interface GetPlacementStrategiesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -11792,13 +11791,13 @@ export const GetPlacementStrategiesResponse = PlacementStrategy;
 
 export type GetPlacementStrategiesError = CommonErrors;
 
+/** Gets one placement strategy by ID. */
 export const getPlacementStrategies: API.OperationMethod<GetPlacementStrategiesRequest, GetPlacementStrategiesResponse, GetPlacementStrategiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPlacementStrategiesRequest,
   output: GetPlacementStrategiesResponse,
   errors: [],
 }));
 
-/** Inserts a new placement strategy. */
 export interface InsertPlacementStrategiesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -11819,13 +11818,13 @@ export const InsertPlacementStrategiesResponse = PlacementStrategy;
 
 export type InsertPlacementStrategiesError = CommonErrors;
 
+/** Inserts a new placement strategy. */
 export const insertPlacementStrategies: API.OperationMethod<InsertPlacementStrategiesRequest, InsertPlacementStrategiesResponse, InsertPlacementStrategiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertPlacementStrategiesRequest,
   output: InsertPlacementStrategiesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of placement strategies, possibly filtered. This method supports paging. */
 export interface ListPlacementStrategiesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -11861,7 +11860,8 @@ export const ListPlacementStrategiesResponse = PlacementStrategiesListResponse;
 
 export type ListPlacementStrategiesError = CommonErrors;
 
-export const listPlacementStrategies = API.makePaginated(() => ({
+/** Retrieves a list of placement strategies, possibly filtered. This method supports paging. */
+export const listPlacementStrategies: API.PaginatedOperationMethod<ListPlacementStrategiesRequest, ListPlacementStrategiesResponse, ListPlacementStrategiesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPlacementStrategiesRequest,
   output: ListPlacementStrategiesResponse,
   errors: [],
@@ -11871,7 +11871,6 @@ export const listPlacementStrategies = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing placement strategy. */
 export interface UpdatePlacementStrategiesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -11892,13 +11891,13 @@ export const UpdatePlacementStrategiesResponse = PlacementStrategy;
 
 export type UpdatePlacementStrategiesError = CommonErrors;
 
+/** Updates an existing placement strategy. */
 export const updatePlacementStrategies: API.OperationMethod<UpdatePlacementStrategiesRequest, UpdatePlacementStrategiesResponse, UpdatePlacementStrategiesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdatePlacementStrategiesRequest,
   output: UpdatePlacementStrategiesResponse,
   errors: [],
 }));
 
-/** Gets one platform type by ID. */
 export interface GetPlatformTypesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -11919,13 +11918,13 @@ export const GetPlatformTypesResponse = PlatformType;
 
 export type GetPlatformTypesError = CommonErrors;
 
+/** Gets one platform type by ID. */
 export const getPlatformTypes: API.OperationMethod<GetPlatformTypesRequest, GetPlatformTypesResponse, GetPlatformTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPlatformTypesRequest,
   output: GetPlatformTypesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of platform types. */
 export interface ListPlatformTypesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -11943,13 +11942,13 @@ export const ListPlatformTypesResponse = PlatformTypesListResponse;
 
 export type ListPlatformTypesError = CommonErrors;
 
+/** Retrieves a list of platform types. */
 export const listPlatformTypes: API.OperationMethod<ListPlatformTypesRequest, ListPlatformTypesResponse, ListPlatformTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListPlatformTypesRequest,
   output: ListPlatformTypesResponse,
   errors: [],
 }));
 
-/** Gets one postal code by ID. */
 export interface GetPostalCodesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -11970,13 +11969,13 @@ export const GetPostalCodesResponse = PostalCode;
 
 export type GetPostalCodesError = CommonErrors;
 
+/** Gets one postal code by ID. */
 export const getPostalCodes: API.OperationMethod<GetPostalCodesRequest, GetPostalCodesResponse, GetPostalCodesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPostalCodesRequest,
   output: GetPostalCodesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of postal codes. */
 export interface ListPostalCodesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -11994,13 +11993,13 @@ export const ListPostalCodesResponse = PostalCodesListResponse;
 
 export type ListPostalCodesError = CommonErrors;
 
+/** Retrieves a list of postal codes. */
 export const listPostalCodes: API.OperationMethod<ListPostalCodesRequest, ListPostalCodesResponse, ListPostalCodesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListPostalCodesRequest,
   output: ListPostalCodesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of regions. */
 export interface ListRegionsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -12018,13 +12017,13 @@ export const ListRegionsResponse = RegionsListResponse;
 
 export type ListRegionsError = CommonErrors;
 
+/** Retrieves a list of regions. */
 export const listRegions: API.OperationMethod<ListRegionsRequest, ListRegionsResponse, ListRegionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListRegionsRequest,
   output: ListRegionsResponse,
   errors: [],
 }));
 
-/** Gets one remarketing list by ID. */
 export interface GetTargetableRemarketingListsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -12045,13 +12044,13 @@ export const GetTargetableRemarketingListsResponse = TargetableRemarketingList;
 
 export type GetTargetableRemarketingListsError = CommonErrors;
 
+/** Gets one remarketing list by ID. */
 export const getTargetableRemarketingLists: API.OperationMethod<GetTargetableRemarketingListsRequest, GetTargetableRemarketingListsResponse, GetTargetableRemarketingListsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetTargetableRemarketingListsRequest,
   output: GetTargetableRemarketingListsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of targetable remarketing lists, possibly filtered. This method supports paging. */
 export interface ListTargetableRemarketingListsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -12090,7 +12089,8 @@ export const ListTargetableRemarketingListsResponse = TargetableRemarketingLists
 
 export type ListTargetableRemarketingListsError = CommonErrors;
 
-export const listTargetableRemarketingLists = API.makePaginated(() => ({
+/** Retrieves a list of targetable remarketing lists, possibly filtered. This method supports paging. */
+export const listTargetableRemarketingLists: API.PaginatedOperationMethod<ListTargetableRemarketingListsRequest, ListTargetableRemarketingListsResponse, ListTargetableRemarketingListsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListTargetableRemarketingListsRequest,
   output: ListTargetableRemarketingListsResponse,
   errors: [],
@@ -12100,7 +12100,6 @@ export const listTargetableRemarketingLists = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a report by its ID. */
 export interface DeleteReportsRequest {
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
@@ -12121,13 +12120,13 @@ export const DeleteReportsResponse: Schema.Schema<DeleteReportsResponse> = Schem
 
 export type DeleteReportsError = CommonErrors;
 
+/** Deletes a report by its ID. */
 export const deleteReports: API.OperationMethod<DeleteReportsRequest, DeleteReportsResponse, DeleteReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteReportsRequest,
   output: DeleteReportsResponse,
   errors: [],
 }));
 
-/** Retrieves a report by its ID. */
 export interface GetReportsRequest {
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
@@ -12148,13 +12147,13 @@ export const GetReportsResponse = Report;
 
 export type GetReportsError = CommonErrors;
 
+/** Retrieves a report by its ID. */
 export const getReports: API.OperationMethod<GetReportsRequest, GetReportsResponse, GetReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetReportsRequest,
   output: GetReportsResponse,
   errors: [],
 }));
 
-/** Creates a report. */
 export interface InsertReportsRequest {
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
@@ -12175,13 +12174,13 @@ export const InsertReportsResponse = Report;
 
 export type InsertReportsError = CommonErrors;
 
+/** Creates a report. */
 export const insertReports: API.OperationMethod<InsertReportsRequest, InsertReportsResponse, InsertReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertReportsRequest,
   output: InsertReportsResponse,
   errors: [],
 }));
 
-/** Retrieves list of reports. */
 export interface ListReportsRequest {
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
@@ -12214,7 +12213,8 @@ export const ListReportsResponse = ReportList;
 
 export type ListReportsError = CommonErrors;
 
-export const listReports = API.makePaginated(() => ({
+/** Retrieves list of reports. */
+export const listReports: API.PaginatedOperationMethod<ListReportsRequest, ListReportsResponse, ListReportsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListReportsRequest,
   output: ListReportsResponse,
   errors: [],
@@ -12225,7 +12225,6 @@ export const listReports = API.makePaginated(() => ({
   },
 }));
 
-/** Runs a report. */
 export interface RunReportsRequest {
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
@@ -12249,13 +12248,13 @@ export const RunReportsResponse = File;
 
 export type RunReportsError = CommonErrors;
 
+/** Runs a report. */
 export const runReports: API.OperationMethod<RunReportsRequest, RunReportsResponse, RunReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RunReportsRequest,
   output: RunReportsResponse,
   errors: [],
 }));
 
-/** Updates a report. */
 export interface UpdateReportsRequest {
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
@@ -12279,13 +12278,13 @@ export const UpdateReportsResponse = Report;
 
 export type UpdateReportsError = CommonErrors;
 
+/** Updates a report. */
 export const updateReports: API.OperationMethod<UpdateReportsRequest, UpdateReportsResponse, UpdateReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateReportsRequest,
   output: UpdateReportsResponse,
   errors: [],
 }));
 
-/** Retrieves a report file by its report ID and file ID. This method supports media download. */
 export interface GetReportsFilesRequest {
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
@@ -12309,13 +12308,13 @@ export const GetReportsFilesResponse = File;
 
 export type GetReportsFilesError = CommonErrors;
 
+/** Retrieves a report file by its report ID and file ID. This method supports media download. */
 export const getReportsFiles: API.OperationMethod<GetReportsFilesRequest, GetReportsFilesResponse, GetReportsFilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetReportsFilesRequest,
   output: GetReportsFilesResponse,
   errors: [],
 }));
 
-/** Lists files for a report. */
 export interface ListReportsFilesRequest {
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
@@ -12348,7 +12347,8 @@ export const ListReportsFilesResponse = FileList;
 
 export type ListReportsFilesError = CommonErrors;
 
-export const listReportsFiles = API.makePaginated(() => ({
+/** Lists files for a report. */
+export const listReportsFiles: API.PaginatedOperationMethod<ListReportsFilesRequest, ListReportsFilesResponse, ListReportsFilesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListReportsFilesRequest,
   output: ListReportsFilesResponse,
   errors: [],
@@ -12359,7 +12359,6 @@ export const listReportsFiles = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the fields that are compatible to be selected in the respective sections of a report criteria, given the fields already selected in the input report and user permissions. */
 export interface QueryReportsCompatibleFieldsRequest {
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
@@ -12380,13 +12379,13 @@ export const QueryReportsCompatibleFieldsResponse = CompatibleFields;
 
 export type QueryReportsCompatibleFieldsError = CommonErrors;
 
+/** Returns the fields that are compatible to be selected in the respective sections of a report criteria, given the fields already selected in the input report and user permissions. */
 export const queryReportsCompatibleFields: API.OperationMethod<QueryReportsCompatibleFieldsRequest, QueryReportsCompatibleFieldsResponse, QueryReportsCompatibleFieldsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: QueryReportsCompatibleFieldsRequest,
   output: QueryReportsCompatibleFieldsResponse,
   errors: [],
 }));
 
-/** Gets one size by ID. */
 export interface GetSizesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -12407,13 +12406,13 @@ export const GetSizesResponse = Size;
 
 export type GetSizesError = CommonErrors;
 
+/** Gets one size by ID. */
 export const getSizes: API.OperationMethod<GetSizesRequest, GetSizesResponse, GetSizesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSizesRequest,
   output: GetSizesResponse,
   errors: [],
 }));
 
-/** Inserts a new size. */
 export interface InsertSizesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -12434,13 +12433,13 @@ export const InsertSizesResponse = Size;
 
 export type InsertSizesError = CommonErrors;
 
+/** Inserts a new size. */
 export const insertSizes: API.OperationMethod<InsertSizesRequest, InsertSizesResponse, InsertSizesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertSizesRequest,
   output: InsertSizesResponse,
   errors: [],
 }));
 
-/** Retrieves a list of sizes, possibly filtered. Retrieved sizes are globally unique and may include values not currently in use by your account. Due to this, the list of sizes returned by this method may differ from the list seen in the Trafficking UI. */
 export interface ListSizesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -12470,13 +12469,13 @@ export const ListSizesResponse = SizesListResponse;
 
 export type ListSizesError = CommonErrors;
 
+/** Retrieves a list of sizes, possibly filtered. Retrieved sizes are globally unique and may include values not currently in use by your account. Due to this, the list of sizes returned by this method may differ from the list seen in the Trafficking UI. */
 export const listSizes: API.OperationMethod<ListSizesRequest, ListSizesResponse, ListSizesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListSizesRequest,
   output: ListSizesResponse,
   errors: [],
 }));
 
-/** Inserts a new studio creative asset. */
 export interface InsertStudioCreativeAssetsRequest {
   /** Request body */
   body?: DfareportingStudioCreativeAssetsInsertRequest;
@@ -12494,13 +12493,13 @@ export const InsertStudioCreativeAssetsResponse = StudioCreativeAssetsResponse;
 
 export type InsertStudioCreativeAssetsError = CommonErrors;
 
+/** Inserts a new studio creative asset. */
 export const insertStudioCreativeAssets: API.OperationMethod<InsertStudioCreativeAssetsRequest, InsertStudioCreativeAssetsResponse, InsertStudioCreativeAssetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertStudioCreativeAssetsRequest,
   output: InsertStudioCreativeAssetsResponse,
   errors: [],
 }));
 
-/** Gets a studio creative by ID. */
 export interface GetStudioCreativesRequest {
   /** Required. Studio creative ID. */
   studioCreativeId: string;
@@ -12518,13 +12517,13 @@ export const GetStudioCreativesResponse = StudioCreative;
 
 export type GetStudioCreativesError = CommonErrors;
 
+/** Gets a studio creative by ID. */
 export const getStudioCreatives: API.OperationMethod<GetStudioCreativesRequest, GetStudioCreativesResponse, GetStudioCreativesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetStudioCreativesRequest,
   output: GetStudioCreativesResponse,
   errors: [],
 }));
 
-/** Inserts a new studio creative. */
 export interface InsertStudioCreativesRequest {
   /** Request body */
   body?: StudioCreative;
@@ -12542,13 +12541,13 @@ export const InsertStudioCreativesResponse = StudioCreative;
 
 export type InsertStudioCreativesError = CommonErrors;
 
+/** Inserts a new studio creative. */
 export const insertStudioCreatives: API.OperationMethod<InsertStudioCreativesRequest, InsertStudioCreativesResponse, InsertStudioCreativesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertStudioCreativesRequest,
   output: InsertStudioCreativesResponse,
   errors: [],
 }));
 
-/** Publish for a studio creative. */
 export interface PublishStudioCreativesRequest {
   /** Required. Studio creative ID. */
   studioCreativeId: string;
@@ -12566,13 +12565,13 @@ export const PublishStudioCreativesResponse: Schema.Schema<PublishStudioCreative
 
 export type PublishStudioCreativesError = CommonErrors;
 
+/** Publish for a studio creative. */
 export const publishStudioCreatives: API.OperationMethod<PublishStudioCreativesRequest, PublishStudioCreativesResponse, PublishStudioCreativesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PublishStudioCreativesRequest,
   output: PublishStudioCreativesResponse,
   errors: [],
 }));
 
-/** Gets one TvCampaignDetail by ID. */
 export interface GetTvCampaignDetailsRequest {
   /** Required. User profile ID associated with this request. */
   profileId: string;
@@ -12602,13 +12601,13 @@ export const GetTvCampaignDetailsResponse = TvCampaignDetail;
 
 export type GetTvCampaignDetailsError = CommonErrors;
 
+/** Gets one TvCampaignDetail by ID. */
 export const getTvCampaignDetails: API.OperationMethod<GetTvCampaignDetailsRequest, GetTvCampaignDetailsResponse, GetTvCampaignDetailsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetTvCampaignDetailsRequest,
   output: GetTvCampaignDetailsResponse,
   errors: [],
 }));
 
-/** Retrieves a list of TV campaign summaries. */
 export interface ListTvCampaignSummariesRequest {
   /** Required. User profile ID associated with this request. */
   profileId: string;
@@ -12638,13 +12637,13 @@ export const ListTvCampaignSummariesResponse = TvCampaignSummariesListResponse;
 
 export type ListTvCampaignSummariesError = CommonErrors;
 
+/** Retrieves a list of TV campaign summaries. */
 export const listTvCampaignSummaries: API.OperationMethod<ListTvCampaignSummariesRequest, ListTvCampaignSummariesResponse, ListTvCampaignSummariesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListTvCampaignSummariesRequest,
   output: ListTvCampaignSummariesResponse,
   errors: [],
 }));
 
-/** Gets one user profile by ID. */
 export interface GetUserProfilesRequest {
   /** The user profile ID. */
   profileId: string;
@@ -12662,13 +12661,13 @@ export const GetUserProfilesResponse = UserProfile;
 
 export type GetUserProfilesError = CommonErrors;
 
+/** Gets one user profile by ID. */
 export const getUserProfiles: API.OperationMethod<GetUserProfilesRequest, GetUserProfilesResponse, GetUserProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetUserProfilesRequest,
   output: GetUserProfilesResponse,
   errors: [],
 }));
 
-/** Retrieves list of user profiles for a user. */
 export interface ListUserProfilesRequest {
 }
 
@@ -12683,13 +12682,13 @@ export const ListUserProfilesResponse = UserProfileList;
 
 export type ListUserProfilesError = CommonErrors;
 
+/** Retrieves list of user profiles for a user. */
 export const listUserProfiles: API.OperationMethod<ListUserProfilesRequest, ListUserProfilesResponse, ListUserProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListUserProfilesRequest,
   output: ListUserProfilesResponse,
   errors: [],
 }));
 
-/** Gets one user role permission group by ID. */
 export interface GetUserRolePermissionGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -12710,13 +12709,13 @@ export const GetUserRolePermissionGroupsResponse = UserRolePermissionGroup;
 
 export type GetUserRolePermissionGroupsError = CommonErrors;
 
+/** Gets one user role permission group by ID. */
 export const getUserRolePermissionGroups: API.OperationMethod<GetUserRolePermissionGroupsRequest, GetUserRolePermissionGroupsResponse, GetUserRolePermissionGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetUserRolePermissionGroupsRequest,
   output: GetUserRolePermissionGroupsResponse,
   errors: [],
 }));
 
-/** Gets a list of all supported user role permission groups. */
 export interface ListUserRolePermissionGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -12734,13 +12733,13 @@ export const ListUserRolePermissionGroupsResponse = UserRolePermissionGroupsList
 
 export type ListUserRolePermissionGroupsError = CommonErrors;
 
+/** Gets a list of all supported user role permission groups. */
 export const listUserRolePermissionGroups: API.OperationMethod<ListUserRolePermissionGroupsRequest, ListUserRolePermissionGroupsResponse, ListUserRolePermissionGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListUserRolePermissionGroupsRequest,
   output: ListUserRolePermissionGroupsResponse,
   errors: [],
 }));
 
-/** Gets one user role permission by ID. */
 export interface GetUserRolePermissionsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -12761,13 +12760,13 @@ export const GetUserRolePermissionsResponse = UserRolePermission;
 
 export type GetUserRolePermissionsError = CommonErrors;
 
+/** Gets one user role permission by ID. */
 export const getUserRolePermissions: API.OperationMethod<GetUserRolePermissionsRequest, GetUserRolePermissionsResponse, GetUserRolePermissionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetUserRolePermissionsRequest,
   output: GetUserRolePermissionsResponse,
   errors: [],
 }));
 
-/** Gets a list of user role permissions, possibly filtered. */
 export interface ListUserRolePermissionsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -12788,13 +12787,13 @@ export const ListUserRolePermissionsResponse = UserRolePermissionsListResponse;
 
 export type ListUserRolePermissionsError = CommonErrors;
 
+/** Gets a list of user role permissions, possibly filtered. */
 export const listUserRolePermissions: API.OperationMethod<ListUserRolePermissionsRequest, ListUserRolePermissionsResponse, ListUserRolePermissionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListUserRolePermissionsRequest,
   output: ListUserRolePermissionsResponse,
   errors: [],
 }));
 
-/** Gets one video format by ID. */
 export interface GetVideoFormatsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -12815,13 +12814,13 @@ export const GetVideoFormatsResponse = VideoFormat;
 
 export type GetVideoFormatsError = CommonErrors;
 
+/** Gets one video format by ID. */
 export const getVideoFormats: API.OperationMethod<GetVideoFormatsRequest, GetVideoFormatsResponse, GetVideoFormatsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetVideoFormatsRequest,
   output: GetVideoFormatsResponse,
   errors: [],
 }));
 
-/** Lists available video formats. */
 export interface ListVideoFormatsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
@@ -12839,6 +12838,7 @@ export const ListVideoFormatsResponse = VideoFormatsListResponse;
 
 export type ListVideoFormatsError = CommonErrors;
 
+/** Lists available video formats. */
 export const listVideoFormats: API.OperationMethod<ListVideoFormatsRequest, ListVideoFormatsResponse, ListVideoFormatsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListVideoFormatsRequest,
   output: ListVideoFormatsResponse,

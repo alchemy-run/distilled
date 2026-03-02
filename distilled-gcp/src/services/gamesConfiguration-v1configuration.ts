@@ -230,7 +230,6 @@ export const LeaderboardConfigurationListResponse: Schema.Schema<LeaderboardConf
 // Operations
 // ==========================================================================
 
-/** Insert a new leaderboard configuration in this application. */
 export interface InsertLeaderboardConfigurationsRequest {
   /** The application ID from the Google Play developer console. */
   applicationId: string;
@@ -251,13 +250,13 @@ export const InsertLeaderboardConfigurationsResponse = LeaderboardConfiguration;
 
 export type InsertLeaderboardConfigurationsError = CommonErrors;
 
+/** Insert a new leaderboard configuration in this application. */
 export const insertLeaderboardConfigurations: API.OperationMethod<InsertLeaderboardConfigurationsRequest, InsertLeaderboardConfigurationsResponse, InsertLeaderboardConfigurationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertLeaderboardConfigurationsRequest,
   output: InsertLeaderboardConfigurationsResponse,
   errors: [],
 }));
 
-/** Delete the leaderboard configuration with the given ID. */
 export interface DeleteLeaderboardConfigurationsRequest {
   /** The ID of the leaderboard. */
   leaderboardId: string;
@@ -275,13 +274,13 @@ export const DeleteLeaderboardConfigurationsResponse: Schema.Schema<DeleteLeader
 
 export type DeleteLeaderboardConfigurationsError = CommonErrors;
 
+/** Delete the leaderboard configuration with the given ID. */
 export const deleteLeaderboardConfigurations: API.OperationMethod<DeleteLeaderboardConfigurationsRequest, DeleteLeaderboardConfigurationsResponse, DeleteLeaderboardConfigurationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteLeaderboardConfigurationsRequest,
   output: DeleteLeaderboardConfigurationsResponse,
   errors: [],
 }));
 
-/** Returns a list of the leaderboard configurations in this application. */
 export interface ListLeaderboardConfigurationsRequest {
   /** The application ID from the Google Play developer console. */
   applicationId: string;
@@ -305,7 +304,8 @@ export const ListLeaderboardConfigurationsResponse = LeaderboardConfigurationLis
 
 export type ListLeaderboardConfigurationsError = CommonErrors;
 
-export const listLeaderboardConfigurations = API.makePaginated(() => ({
+/** Returns a list of the leaderboard configurations in this application. */
+export const listLeaderboardConfigurations: API.PaginatedOperationMethod<ListLeaderboardConfigurationsRequest, ListLeaderboardConfigurationsResponse, ListLeaderboardConfigurationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListLeaderboardConfigurationsRequest,
   output: ListLeaderboardConfigurationsResponse,
   errors: [],
@@ -316,7 +316,6 @@ export const listLeaderboardConfigurations = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves the metadata of the leaderboard configuration with the given ID. */
 export interface GetLeaderboardConfigurationsRequest {
   /** The ID of the leaderboard. */
   leaderboardId: string;
@@ -334,13 +333,13 @@ export const GetLeaderboardConfigurationsResponse = LeaderboardConfiguration;
 
 export type GetLeaderboardConfigurationsError = CommonErrors;
 
+/** Retrieves the metadata of the leaderboard configuration with the given ID. */
 export const getLeaderboardConfigurations: API.OperationMethod<GetLeaderboardConfigurationsRequest, GetLeaderboardConfigurationsResponse, GetLeaderboardConfigurationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetLeaderboardConfigurationsRequest,
   output: GetLeaderboardConfigurationsResponse,
   errors: [],
 }));
 
-/** Update the metadata of the leaderboard configuration with the given ID. */
 export interface UpdateLeaderboardConfigurationsRequest {
   /** The ID of the leaderboard. */
   leaderboardId: string;
@@ -361,13 +360,13 @@ export const UpdateLeaderboardConfigurationsResponse = LeaderboardConfiguration;
 
 export type UpdateLeaderboardConfigurationsError = CommonErrors;
 
+/** Update the metadata of the leaderboard configuration with the given ID. */
 export const updateLeaderboardConfigurations: API.OperationMethod<UpdateLeaderboardConfigurationsRequest, UpdateLeaderboardConfigurationsResponse, UpdateLeaderboardConfigurationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateLeaderboardConfigurationsRequest,
   output: UpdateLeaderboardConfigurationsResponse,
   errors: [],
 }));
 
-/** Delete the achievement configuration with the given ID. */
 export interface DeleteAchievementConfigurationsRequest {
   /** The ID of the achievement used by this method. */
   achievementId: string;
@@ -385,13 +384,13 @@ export const DeleteAchievementConfigurationsResponse: Schema.Schema<DeleteAchiev
 
 export type DeleteAchievementConfigurationsError = CommonErrors;
 
+/** Delete the achievement configuration with the given ID. */
 export const deleteAchievementConfigurations: API.OperationMethod<DeleteAchievementConfigurationsRequest, DeleteAchievementConfigurationsResponse, DeleteAchievementConfigurationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAchievementConfigurationsRequest,
   output: DeleteAchievementConfigurationsResponse,
   errors: [],
 }));
 
-/** Returns a list of the achievement configurations in this application. */
 export interface ListAchievementConfigurationsRequest {
   /** The application ID from the Google Play developer console. */
   applicationId: string;
@@ -415,7 +414,8 @@ export const ListAchievementConfigurationsResponse = AchievementConfigurationLis
 
 export type ListAchievementConfigurationsError = CommonErrors;
 
-export const listAchievementConfigurations = API.makePaginated(() => ({
+/** Returns a list of the achievement configurations in this application. */
+export const listAchievementConfigurations: API.PaginatedOperationMethod<ListAchievementConfigurationsRequest, ListAchievementConfigurationsResponse, ListAchievementConfigurationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAchievementConfigurationsRequest,
   output: ListAchievementConfigurationsResponse,
   errors: [],
@@ -426,7 +426,6 @@ export const listAchievementConfigurations = API.makePaginated(() => ({
   },
 }));
 
-/** Update the metadata of the achievement configuration with the given ID. */
 export interface UpdateAchievementConfigurationsRequest {
   /** The ID of the achievement used by this method. */
   achievementId: string;
@@ -447,13 +446,13 @@ export const UpdateAchievementConfigurationsResponse = AchievementConfiguration;
 
 export type UpdateAchievementConfigurationsError = CommonErrors;
 
+/** Update the metadata of the achievement configuration with the given ID. */
 export const updateAchievementConfigurations: API.OperationMethod<UpdateAchievementConfigurationsRequest, UpdateAchievementConfigurationsResponse, UpdateAchievementConfigurationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAchievementConfigurationsRequest,
   output: UpdateAchievementConfigurationsResponse,
   errors: [],
 }));
 
-/** Insert a new achievement configuration in this application. */
 export interface InsertAchievementConfigurationsRequest {
   /** The application ID from the Google Play developer console. */
   applicationId: string;
@@ -474,13 +473,13 @@ export const InsertAchievementConfigurationsResponse = AchievementConfiguration;
 
 export type InsertAchievementConfigurationsError = CommonErrors;
 
+/** Insert a new achievement configuration in this application. */
 export const insertAchievementConfigurations: API.OperationMethod<InsertAchievementConfigurationsRequest, InsertAchievementConfigurationsResponse, InsertAchievementConfigurationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertAchievementConfigurationsRequest,
   output: InsertAchievementConfigurationsResponse,
   errors: [],
 }));
 
-/** Retrieves the metadata of the achievement configuration with the given ID. */
 export interface GetAchievementConfigurationsRequest {
   /** The ID of the achievement used by this method. */
   achievementId: string;
@@ -498,6 +497,7 @@ export const GetAchievementConfigurationsResponse = AchievementConfiguration;
 
 export type GetAchievementConfigurationsError = CommonErrors;
 
+/** Retrieves the metadata of the achievement configuration with the given ID. */
 export const getAchievementConfigurations: API.OperationMethod<GetAchievementConfigurationsRequest, GetAchievementConfigurationsResponse, GetAchievementConfigurationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAchievementConfigurationsRequest,
   output: GetAchievementConfigurationsResponse,

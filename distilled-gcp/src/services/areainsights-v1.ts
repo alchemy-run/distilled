@@ -180,7 +180,6 @@ export const ComputeInsightsResponse: Schema.Schema<ComputeInsightsResponse> = S
 // Operations
 // ==========================================================================
 
-/** This method lets you retrieve insights about areas using a variety of filter such as: area, place type, operating status, price level and ratings. Currently "count" and "places" insights are supported. With "count" insights you can answer questions such as "How many restaurant are located in California that are operational, are inexpensive and have an average rating of at least 4 stars" (see `insight` enum for more details). With "places" insights, you can determine which places match the requested filter. Clients can then use those place resource names to fetch more details about each individual place using the Places API. */
 export interface ComputeInsightsV1Request {
   /** Request body */
   body?: ComputeInsightsRequest;
@@ -198,6 +197,7 @@ export const ComputeInsightsV1Response = ComputeInsightsResponse;
 
 export type ComputeInsightsV1Error = CommonErrors;
 
+/** This method lets you retrieve insights about areas using a variety of filter such as: area, place type, operating status, price level and ratings. Currently "count" and "places" insights are supported. With "count" insights you can answer questions such as "How many restaurant are located in California that are operational, are inexpensive and have an average rating of at least 4 stars" (see `insight` enum for more details). With "places" insights, you can determine which places match the requested filter. Clients can then use those place resource names to fetch more details about each individual place using the Places API. */
 export const computeInsightsV1: API.OperationMethod<ComputeInsightsV1Request, ComputeInsightsV1Response, ComputeInsightsV1Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ComputeInsightsV1Request,
   output: ComputeInsightsV1Response,

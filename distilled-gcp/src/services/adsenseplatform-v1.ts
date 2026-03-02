@@ -201,7 +201,6 @@ export const ListSitesResponse: Schema.Schema<ListSitesResponse> = Schema.suspen
 // Operations
 // ==========================================================================
 
-/** Closes a sub-account. */
 export interface ClosePlatformsAccountsRequest {
   /** Required. Account to close. Format: platforms/{platform}/accounts/{account_id} */
   name: string;
@@ -222,13 +221,13 @@ export const ClosePlatformsAccountsResponse = CloseAccountResponse;
 
 export type ClosePlatformsAccountsError = CommonErrors;
 
+/** Closes a sub-account. */
 export const closePlatformsAccounts: API.OperationMethod<ClosePlatformsAccountsRequest, ClosePlatformsAccountsResponse, ClosePlatformsAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ClosePlatformsAccountsRequest,
   output: ClosePlatformsAccountsResponse,
   errors: [],
 }));
 
-/** Lists a partial view of sub-accounts for a specific parent account. */
 export interface ListPlatformsAccountsRequest {
   /** Optional. A page token, received from a previous `ListAccounts` call. Provide this to retrieve the subsequent page. */
   pageToken?: string;
@@ -252,7 +251,8 @@ export const ListPlatformsAccountsResponse = ListAccountsResponse;
 
 export type ListPlatformsAccountsError = CommonErrors;
 
-export const listPlatformsAccounts = API.makePaginated(() => ({
+/** Lists a partial view of sub-accounts for a specific parent account. */
+export const listPlatformsAccounts: API.PaginatedOperationMethod<ListPlatformsAccountsRequest, ListPlatformsAccountsResponse, ListPlatformsAccountsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPlatformsAccountsRequest,
   output: ListPlatformsAccountsResponse,
   errors: [],
@@ -262,7 +262,6 @@ export const listPlatformsAccounts = API.makePaginated(() => ({
   },
 }));
 
-/** Looks up information about a sub-account for a specified creation_request_id. If no account exists for the given creation_request_id, returns 404. */
 export interface LookupPlatformsAccountsRequest {
   /** Required. Platform who parents the account. Format: platforms/{platform} */
   parent: string;
@@ -283,13 +282,13 @@ export const LookupPlatformsAccountsResponse = LookupAccountResponse;
 
 export type LookupPlatformsAccountsError = CommonErrors;
 
+/** Looks up information about a sub-account for a specified creation_request_id. If no account exists for the given creation_request_id, returns 404. */
 export const lookupPlatformsAccounts: API.OperationMethod<LookupPlatformsAccountsRequest, LookupPlatformsAccountsResponse, LookupPlatformsAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LookupPlatformsAccountsRequest,
   output: LookupPlatformsAccountsResponse,
   errors: [],
 }));
 
-/** Creates a sub-account. */
 export interface CreatePlatformsAccountsRequest {
   /** Required. Platform to create an account for. Format: platforms/{platform} */
   parent: string;
@@ -310,13 +309,13 @@ export const CreatePlatformsAccountsResponse = Account;
 
 export type CreatePlatformsAccountsError = CommonErrors;
 
+/** Creates a sub-account. */
 export const createPlatformsAccounts: API.OperationMethod<CreatePlatformsAccountsRequest, CreatePlatformsAccountsResponse, CreatePlatformsAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreatePlatformsAccountsRequest,
   output: CreatePlatformsAccountsResponse,
   errors: [],
 }));
 
-/** Gets information about the selected sub-account. */
 export interface GetPlatformsAccountsRequest {
   /** Required. Account to get information about. Format: platforms/{platform}/accounts/{account_id} */
   name: string;
@@ -334,13 +333,13 @@ export const GetPlatformsAccountsResponse = Account;
 
 export type GetPlatformsAccountsError = CommonErrors;
 
+/** Gets information about the selected sub-account. */
 export const getPlatformsAccounts: API.OperationMethod<GetPlatformsAccountsRequest, GetPlatformsAccountsResponse, GetPlatformsAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPlatformsAccountsRequest,
   output: GetPlatformsAccountsResponse,
   errors: [],
 }));
 
-/** Creates an account event. */
 export interface CreatePlatformsAccountsEventsRequest {
   /** Required. Account to log events about. Format: platforms/{platform}/accounts/{account} */
   parent: string;
@@ -361,13 +360,13 @@ export const CreatePlatformsAccountsEventsResponse = Event;
 
 export type CreatePlatformsAccountsEventsError = CommonErrors;
 
+/** Creates an account event. */
 export const createPlatformsAccountsEvents: API.OperationMethod<CreatePlatformsAccountsEventsRequest, CreatePlatformsAccountsEventsResponse, CreatePlatformsAccountsEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreatePlatformsAccountsEventsRequest,
   output: CreatePlatformsAccountsEventsResponse,
   errors: [],
 }));
 
-/** Gets a site from a specified sub-account. */
 export interface GetPlatformsAccountsSitesRequest {
   /** Required. The name of the site to retrieve. Format: platforms/{platform}/accounts/{account}/sites/{site} */
   name: string;
@@ -385,13 +384,13 @@ export const GetPlatformsAccountsSitesResponse = Site;
 
 export type GetPlatformsAccountsSitesError = CommonErrors;
 
+/** Gets a site from a specified sub-account. */
 export const getPlatformsAccountsSites: API.OperationMethod<GetPlatformsAccountsSitesRequest, GetPlatformsAccountsSitesResponse, GetPlatformsAccountsSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPlatformsAccountsSitesRequest,
   output: GetPlatformsAccountsSitesResponse,
   errors: [],
 }));
 
-/** Requests the review of a site. The site should be in REQUIRES_REVIEW or NEEDS_ATTENTION state. Note: Make sure you place an [ad tag](https://developers.google.com/adsense/platforms/direct/ad-tags) on your site before requesting a review. */
 export interface RequestReviewPlatformsAccountsSitesRequest {
   /** Required. The name of the site to submit for review. Format: platforms/{platform}/accounts/{account}/sites/{site} */
   name: string;
@@ -409,13 +408,13 @@ export const RequestReviewPlatformsAccountsSitesResponse = RequestSiteReviewResp
 
 export type RequestReviewPlatformsAccountsSitesError = CommonErrors;
 
+/** Requests the review of a site. The site should be in REQUIRES_REVIEW or NEEDS_ATTENTION state. Note: Make sure you place an [ad tag](https://developers.google.com/adsense/platforms/direct/ad-tags) on your site before requesting a review. */
 export const requestReviewPlatformsAccountsSites: API.OperationMethod<RequestReviewPlatformsAccountsSitesRequest, RequestReviewPlatformsAccountsSitesResponse, RequestReviewPlatformsAccountsSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RequestReviewPlatformsAccountsSitesRequest,
   output: RequestReviewPlatformsAccountsSitesResponse,
   errors: [],
 }));
 
-/** Deletes a site from a specified account. */
 export interface DeletePlatformsAccountsSitesRequest {
   /** Required. The name of the site to delete. Format: platforms/{platform}/accounts/{account}/sites/{site} */
   name: string;
@@ -433,13 +432,13 @@ export const DeletePlatformsAccountsSitesResponse = Empty;
 
 export type DeletePlatformsAccountsSitesError = CommonErrors;
 
+/** Deletes a site from a specified account. */
 export const deletePlatformsAccountsSites: API.OperationMethod<DeletePlatformsAccountsSitesRequest, DeletePlatformsAccountsSitesResponse, DeletePlatformsAccountsSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeletePlatformsAccountsSitesRequest,
   output: DeletePlatformsAccountsSitesResponse,
   errors: [],
 }));
 
-/** Creates a site for a specified account. */
 export interface CreatePlatformsAccountsSitesRequest {
   /** Required. Account to create site. Format: platforms/{platform}/accounts/{account_id} */
   parent: string;
@@ -460,13 +459,13 @@ export const CreatePlatformsAccountsSitesResponse = Site;
 
 export type CreatePlatformsAccountsSitesError = CommonErrors;
 
+/** Creates a site for a specified account. */
 export const createPlatformsAccountsSites: API.OperationMethod<CreatePlatformsAccountsSitesRequest, CreatePlatformsAccountsSitesResponse, CreatePlatformsAccountsSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreatePlatformsAccountsSitesRequest,
   output: CreatePlatformsAccountsSitesResponse,
   errors: [],
 }));
 
-/** Lists sites for a specific account. */
 export interface ListPlatformsAccountsSitesRequest {
   /** Required. The account which owns the sites. Format: platforms/{platform}/accounts/{account} */
   parent: string;
@@ -490,7 +489,8 @@ export const ListPlatformsAccountsSitesResponse = ListSitesResponse;
 
 export type ListPlatformsAccountsSitesError = CommonErrors;
 
-export const listPlatformsAccountsSites = API.makePaginated(() => ({
+/** Lists sites for a specific account. */
+export const listPlatformsAccountsSites: API.PaginatedOperationMethod<ListPlatformsAccountsSitesRequest, ListPlatformsAccountsSitesResponse, ListPlatformsAccountsSitesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPlatformsAccountsSitesRequest,
   output: ListPlatformsAccountsSitesResponse,
   errors: [],

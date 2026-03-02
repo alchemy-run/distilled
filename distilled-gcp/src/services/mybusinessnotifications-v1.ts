@@ -42,7 +42,6 @@ export const NotificationSetting: Schema.Schema<NotificationSetting> = Schema.su
 // Operations
 // ==========================================================================
 
-/** Returns the pubsub notification settings for the account. */
 export interface GetNotificationSettingAccountsRequest {
   /** Required. The resource name of the notification setting we are trying to fetch. */
   name: string;
@@ -60,13 +59,13 @@ export const GetNotificationSettingAccountsResponse = NotificationSetting;
 
 export type GetNotificationSettingAccountsError = CommonErrors;
 
+/** Returns the pubsub notification settings for the account. */
 export const getNotificationSettingAccounts: API.OperationMethod<GetNotificationSettingAccountsRequest, GetNotificationSettingAccountsResponse, GetNotificationSettingAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetNotificationSettingAccountsRequest,
   output: GetNotificationSettingAccountsResponse,
   errors: [],
 }));
 
-/** Sets the pubsub notification setting for the account informing Google which topic to send pubsub notifications for. Use the notification_types field within notification_setting to manipulate the events an account wants to subscribe to. An account will only have one notification setting resource, and only one pubsub topic can be set. To delete the setting, update with an empty notification_types */
 export interface UpdateNotificationSettingAccountsRequest {
   /** Required. The resource name this setting is for. This is of the form `accounts/{account_id}/notificationSetting`. */
   name: string;
@@ -90,6 +89,7 @@ export const UpdateNotificationSettingAccountsResponse = NotificationSetting;
 
 export type UpdateNotificationSettingAccountsError = CommonErrors;
 
+/** Sets the pubsub notification setting for the account informing Google which topic to send pubsub notifications for. Use the notification_types field within notification_setting to manipulate the events an account wants to subscribe to. An account will only have one notification setting resource, and only one pubsub topic can be set. To delete the setting, update with an empty notification_types */
 export const updateNotificationSettingAccounts: API.OperationMethod<UpdateNotificationSettingAccountsRequest, UpdateNotificationSettingAccountsResponse, UpdateNotificationSettingAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateNotificationSettingAccountsRequest,
   output: UpdateNotificationSettingAccountsResponse,

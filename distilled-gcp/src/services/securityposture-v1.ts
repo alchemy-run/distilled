@@ -774,7 +774,6 @@ export const IacValidationFailureCriteria: Schema.Schema<IacValidationFailureCri
 // Operations
 // ==========================================================================
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListOrganizationsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -804,7 +803,8 @@ export const ListOrganizationsLocationsOperationsResponse = ListOperationsRespon
 
 export type ListOrganizationsLocationsOperationsError = CommonErrors;
 
-export const listOrganizationsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listOrganizationsLocationsOperations: API.PaginatedOperationMethod<ListOrganizationsLocationsOperationsRequest, ListOrganizationsLocationsOperationsResponse, ListOrganizationsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsOperationsRequest,
   output: ListOrganizationsLocationsOperationsResponse,
   errors: [],
@@ -814,7 +814,6 @@ export const listOrganizationsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetOrganizationsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -832,13 +831,13 @@ export const GetOrganizationsLocationsOperationsResponse = Operation;
 
 export type GetOrganizationsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getOrganizationsLocationsOperations: API.OperationMethod<GetOrganizationsLocationsOperationsRequest, GetOrganizationsLocationsOperationsResponse, GetOrganizationsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsOperationsRequest,
   output: GetOrganizationsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteOrganizationsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -856,13 +855,13 @@ export const DeleteOrganizationsLocationsOperationsResponse = Empty;
 
 export type DeleteOrganizationsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteOrganizationsLocationsOperations: API.OperationMethod<DeleteOrganizationsLocationsOperationsRequest, DeleteOrganizationsLocationsOperationsResponse, DeleteOrganizationsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsLocationsOperationsRequest,
   output: DeleteOrganizationsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelOrganizationsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -883,13 +882,13 @@ export const CancelOrganizationsLocationsOperationsResponse = Empty;
 
 export type CancelOrganizationsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelOrganizationsLocationsOperations: API.OperationMethod<CancelOrganizationsLocationsOperationsRequest, CancelOrganizationsLocationsOperationsResponse, CancelOrganizationsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelOrganizationsLocationsOperationsRequest,
   output: CancelOrganizationsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Lists the most recent revisions of all Posture resources in a specified organization and location. */
 export interface ListOrganizationsLocationsPosturesRequest {
   /** Required. The parent resource name, in the format `organizations/{organization}/locations/global`. */
   parent: string;
@@ -916,7 +915,8 @@ export const ListOrganizationsLocationsPosturesResponse = ListPosturesResponse;
 
 export type ListOrganizationsLocationsPosturesError = CommonErrors;
 
-export const listOrganizationsLocationsPostures = API.makePaginated(() => ({
+/** Lists the most recent revisions of all Posture resources in a specified organization and location. */
+export const listOrganizationsLocationsPostures: API.PaginatedOperationMethod<ListOrganizationsLocationsPosturesRequest, ListOrganizationsLocationsPosturesResponse, ListOrganizationsLocationsPosturesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsPosturesRequest,
   output: ListOrganizationsLocationsPosturesResponse,
   errors: [],
@@ -926,7 +926,6 @@ export const listOrganizationsLocationsPostures = API.makePaginated(() => ({
   },
 }));
 
-/** Lists all revisions of a single Posture. */
 export interface ListRevisionsOrganizationsLocationsPosturesRequest {
   /** Required. The name of the Posture, in the format `organizations/{organization}/locations/global/postures/{posture_id}`. */
   name: string;
@@ -950,7 +949,8 @@ export const ListRevisionsOrganizationsLocationsPosturesResponse = ListPostureRe
 
 export type ListRevisionsOrganizationsLocationsPosturesError = CommonErrors;
 
-export const listRevisionsOrganizationsLocationsPostures = API.makePaginated(() => ({
+/** Lists all revisions of a single Posture. */
+export const listRevisionsOrganizationsLocationsPostures: API.PaginatedOperationMethod<ListRevisionsOrganizationsLocationsPosturesRequest, ListRevisionsOrganizationsLocationsPosturesResponse, ListRevisionsOrganizationsLocationsPosturesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRevisionsOrganizationsLocationsPosturesRequest,
   output: ListRevisionsOrganizationsLocationsPosturesResponse,
   errors: [],
@@ -960,7 +960,6 @@ export const listRevisionsOrganizationsLocationsPostures = API.makePaginated(() 
   },
 }));
 
-/** Gets a single revision of a Posture. */
 export interface GetOrganizationsLocationsPosturesRequest {
   /** Required. The name of the Posture, in the format `organizations/{organization}/locations/global/postures/{posture_id}`. */
   name: string;
@@ -981,13 +980,13 @@ export const GetOrganizationsLocationsPosturesResponse = Posture;
 
 export type GetOrganizationsLocationsPosturesError = CommonErrors;
 
+/** Gets a single revision of a Posture. */
 export const getOrganizationsLocationsPostures: API.OperationMethod<GetOrganizationsLocationsPosturesRequest, GetOrganizationsLocationsPosturesResponse, GetOrganizationsLocationsPosturesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsPosturesRequest,
   output: GetOrganizationsLocationsPosturesResponse,
   errors: [],
 }));
 
-/** Creates a new Posture. */
 export interface CreateOrganizationsLocationsPosturesRequest {
   /** Required. The parent resource name, in the format `organizations/{organization}/locations/global`. */
   parent: string;
@@ -1011,13 +1010,13 @@ export const CreateOrganizationsLocationsPosturesResponse = Operation;
 
 export type CreateOrganizationsLocationsPosturesError = CommonErrors;
 
+/** Creates a new Posture. */
 export const createOrganizationsLocationsPostures: API.OperationMethod<CreateOrganizationsLocationsPosturesRequest, CreateOrganizationsLocationsPosturesResponse, CreateOrganizationsLocationsPosturesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsLocationsPosturesRequest,
   output: CreateOrganizationsLocationsPosturesResponse,
   errors: [],
 }));
 
-/** Updates a revision of an existing Posture. If the posture revision that you update is currently deployed, then a new revision of the posture is created. To prevent concurrent updates from overwriting each other, always follow the read-modify-write pattern when you update a posture: 1. Call GetPosture to get the current version of the posture. 2. Update the fields in the posture as needed. 3. Call UpdatePosture to update the posture. Ensure that your request includes the `etag` value from the GetPosture response. **Important:** If you omit the `etag` when you call UpdatePosture, then the updated posture unconditionally overwrites the existing posture. */
 export interface PatchOrganizationsLocationsPosturesRequest {
   /** Required. Identifier. The name of the posture, in the format `organizations/{organization}/locations/global/postures/{posture_id}`. */
   name: string;
@@ -1044,13 +1043,13 @@ export const PatchOrganizationsLocationsPosturesResponse = Operation;
 
 export type PatchOrganizationsLocationsPosturesError = CommonErrors;
 
+/** Updates a revision of an existing Posture. If the posture revision that you update is currently deployed, then a new revision of the posture is created. To prevent concurrent updates from overwriting each other, always follow the read-modify-write pattern when you update a posture: 1. Call GetPosture to get the current version of the posture. 2. Update the fields in the posture as needed. 3. Call UpdatePosture to update the posture. Ensure that your request includes the `etag` value from the GetPosture response. **Important:** If you omit the `etag` when you call UpdatePosture, then the updated posture unconditionally overwrites the existing posture. */
 export const patchOrganizationsLocationsPostures: API.OperationMethod<PatchOrganizationsLocationsPosturesRequest, PatchOrganizationsLocationsPosturesResponse, PatchOrganizationsLocationsPosturesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsLocationsPosturesRequest,
   output: PatchOrganizationsLocationsPosturesResponse,
   errors: [],
 }));
 
-/** Deletes all revisions of a Posture. You can only delete a posture if none of its revisions are deployed. */
 export interface DeleteOrganizationsLocationsPosturesRequest {
   /** Required. The name of the Posture, in the format `organizations/{organization}/locations/global/postures/{posture_id}`. */
   name: string;
@@ -1071,13 +1070,13 @@ export const DeleteOrganizationsLocationsPosturesResponse = Operation;
 
 export type DeleteOrganizationsLocationsPosturesError = CommonErrors;
 
+/** Deletes all revisions of a Posture. You can only delete a posture if none of its revisions are deployed. */
 export const deleteOrganizationsLocationsPostures: API.OperationMethod<DeleteOrganizationsLocationsPosturesRequest, DeleteOrganizationsLocationsPosturesResponse, DeleteOrganizationsLocationsPosturesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsLocationsPosturesRequest,
   output: DeleteOrganizationsLocationsPosturesResponse,
   errors: [],
 }));
 
-/** Extracts existing policies from an organization, folder, or project, and applies them to another organization, folder, or project as a Posture. If the other organization, folder, or project already has a posture, then the result of the long-running operation is an ALREADY_EXISTS error. */
 export interface ExtractOrganizationsLocationsPosturesRequest {
   /** Required. The parent resource name, in the format `organizations/{organization}/locations/global`. */
   parent: string;
@@ -1098,13 +1097,13 @@ export const ExtractOrganizationsLocationsPosturesResponse = Operation;
 
 export type ExtractOrganizationsLocationsPosturesError = CommonErrors;
 
+/** Extracts existing policies from an organization, folder, or project, and applies them to another organization, folder, or project as a Posture. If the other organization, folder, or project already has a posture, then the result of the long-running operation is an ALREADY_EXISTS error. */
 export const extractOrganizationsLocationsPostures: API.OperationMethod<ExtractOrganizationsLocationsPosturesRequest, ExtractOrganizationsLocationsPosturesResponse, ExtractOrganizationsLocationsPosturesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ExtractOrganizationsLocationsPosturesRequest,
   output: ExtractOrganizationsLocationsPosturesResponse,
   errors: [],
 }));
 
-/** Lists every PostureDeployment in a project and location. */
 export interface ListOrganizationsLocationsPostureDeploymentsRequest {
   /** Required. The parent resource name, in the format `organizations/{organization}/locations/global`. */
   parent: string;
@@ -1131,7 +1130,8 @@ export const ListOrganizationsLocationsPostureDeploymentsResponse = ListPostureD
 
 export type ListOrganizationsLocationsPostureDeploymentsError = CommonErrors;
 
-export const listOrganizationsLocationsPostureDeployments = API.makePaginated(() => ({
+/** Lists every PostureDeployment in a project and location. */
+export const listOrganizationsLocationsPostureDeployments: API.PaginatedOperationMethod<ListOrganizationsLocationsPostureDeploymentsRequest, ListOrganizationsLocationsPostureDeploymentsResponse, ListOrganizationsLocationsPostureDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsPostureDeploymentsRequest,
   output: ListOrganizationsLocationsPostureDeploymentsResponse,
   errors: [],
@@ -1141,7 +1141,6 @@ export const listOrganizationsLocationsPostureDeployments = API.makePaginated(()
   },
 }));
 
-/** Gets details for a PostureDeployment. */
 export interface GetOrganizationsLocationsPostureDeploymentsRequest {
   /** Required. The name of the PostureDeployment, in the format `organizations/{organization}/locations/global/postureDeployments/{posture_deployment_id}`. */
   name: string;
@@ -1159,13 +1158,13 @@ export const GetOrganizationsLocationsPostureDeploymentsResponse = PostureDeploy
 
 export type GetOrganizationsLocationsPostureDeploymentsError = CommonErrors;
 
+/** Gets details for a PostureDeployment. */
 export const getOrganizationsLocationsPostureDeployments: API.OperationMethod<GetOrganizationsLocationsPostureDeploymentsRequest, GetOrganizationsLocationsPostureDeploymentsResponse, GetOrganizationsLocationsPostureDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsPostureDeploymentsRequest,
   output: GetOrganizationsLocationsPostureDeploymentsResponse,
   errors: [],
 }));
 
-/** Creates a new PostureDeployment in a given project and location. */
 export interface CreateOrganizationsLocationsPostureDeploymentsRequest {
   /** Required. The parent resource name, in the format `organizations/{organization}/locations/global`. */
   parent: string;
@@ -1189,13 +1188,13 @@ export const CreateOrganizationsLocationsPostureDeploymentsResponse = Operation;
 
 export type CreateOrganizationsLocationsPostureDeploymentsError = CommonErrors;
 
+/** Creates a new PostureDeployment in a given project and location. */
 export const createOrganizationsLocationsPostureDeployments: API.OperationMethod<CreateOrganizationsLocationsPostureDeploymentsRequest, CreateOrganizationsLocationsPostureDeploymentsResponse, CreateOrganizationsLocationsPostureDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsLocationsPostureDeploymentsRequest,
   output: CreateOrganizationsLocationsPostureDeploymentsResponse,
   errors: [],
 }));
 
-/** Updates an existing PostureDeployment. To prevent concurrent updates from overwriting each other, always follow the read-modify-write pattern when you update a posture deployment: 1. Call GetPostureDeployment to get the current version of the deployment. 2. Update the fields in the deployment as needed. 3. Call UpdatePostureDeployment to update the deployment. Ensure that your request includes the `etag` value from the GetPostureDeployment response. **Important:** If you omit the `etag` when you call UpdatePostureDeployment, then the updated deployment unconditionally overwrites the existing deployment. */
 export interface PatchOrganizationsLocationsPostureDeploymentsRequest {
   /** Required. Identifier. The name of the posture deployment, in the format `organizations/{organization}/locations/global/postureDeployments/{deployment_id}`. */
   name: string;
@@ -1219,13 +1218,13 @@ export const PatchOrganizationsLocationsPostureDeploymentsResponse = Operation;
 
 export type PatchOrganizationsLocationsPostureDeploymentsError = CommonErrors;
 
+/** Updates an existing PostureDeployment. To prevent concurrent updates from overwriting each other, always follow the read-modify-write pattern when you update a posture deployment: 1. Call GetPostureDeployment to get the current version of the deployment. 2. Update the fields in the deployment as needed. 3. Call UpdatePostureDeployment to update the deployment. Ensure that your request includes the `etag` value from the GetPostureDeployment response. **Important:** If you omit the `etag` when you call UpdatePostureDeployment, then the updated deployment unconditionally overwrites the existing deployment. */
 export const patchOrganizationsLocationsPostureDeployments: API.OperationMethod<PatchOrganizationsLocationsPostureDeploymentsRequest, PatchOrganizationsLocationsPostureDeploymentsResponse, PatchOrganizationsLocationsPostureDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsLocationsPostureDeploymentsRequest,
   output: PatchOrganizationsLocationsPostureDeploymentsResponse,
   errors: [],
 }));
 
-/** Deletes a PostureDeployment. */
 export interface DeleteOrganizationsLocationsPostureDeploymentsRequest {
   /** Required. The name of the posture deployment, in the format `organizations/{organization}/locations/global/postureDeployments/{posture_id}`. */
   name: string;
@@ -1246,13 +1245,13 @@ export const DeleteOrganizationsLocationsPostureDeploymentsResponse = Operation;
 
 export type DeleteOrganizationsLocationsPostureDeploymentsError = CommonErrors;
 
+/** Deletes a PostureDeployment. */
 export const deleteOrganizationsLocationsPostureDeployments: API.OperationMethod<DeleteOrganizationsLocationsPostureDeploymentsRequest, DeleteOrganizationsLocationsPostureDeploymentsResponse, DeleteOrganizationsLocationsPostureDeploymentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsLocationsPostureDeploymentsRequest,
   output: DeleteOrganizationsLocationsPostureDeploymentsResponse,
   errors: [],
 }));
 
-/** Lists every PostureTemplate in a given organization and location. */
 export interface ListOrganizationsLocationsPostureTemplatesRequest {
   /** Required. The parent resource name, in the format `organizations/{organization}/locations/global`. */
   parent: string;
@@ -1279,7 +1278,8 @@ export const ListOrganizationsLocationsPostureTemplatesResponse = ListPostureTem
 
 export type ListOrganizationsLocationsPostureTemplatesError = CommonErrors;
 
-export const listOrganizationsLocationsPostureTemplates = API.makePaginated(() => ({
+/** Lists every PostureTemplate in a given organization and location. */
+export const listOrganizationsLocationsPostureTemplates: API.PaginatedOperationMethod<ListOrganizationsLocationsPostureTemplatesRequest, ListOrganizationsLocationsPostureTemplatesResponse, ListOrganizationsLocationsPostureTemplatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsPostureTemplatesRequest,
   output: ListOrganizationsLocationsPostureTemplatesResponse,
   errors: [],
@@ -1289,7 +1289,6 @@ export const listOrganizationsLocationsPostureTemplates = API.makePaginated(() =
   },
 }));
 
-/** Gets a single revision of a PostureTemplate. */
 export interface GetOrganizationsLocationsPostureTemplatesRequest {
   /** Required. The name of the PostureTemplate, in the format `organizations/{organization}/locations/global/postureTemplates/{posture_template}`. */
   name: string;
@@ -1310,13 +1309,13 @@ export const GetOrganizationsLocationsPostureTemplatesResponse = PostureTemplate
 
 export type GetOrganizationsLocationsPostureTemplatesError = CommonErrors;
 
+/** Gets a single revision of a PostureTemplate. */
 export const getOrganizationsLocationsPostureTemplates: API.OperationMethod<GetOrganizationsLocationsPostureTemplatesRequest, GetOrganizationsLocationsPostureTemplatesResponse, GetOrganizationsLocationsPostureTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsPostureTemplatesRequest,
   output: GetOrganizationsLocationsPostureTemplatesResponse,
   errors: [],
 }));
 
-/** Lists every Report in a given organization and location. */
 export interface ListOrganizationsLocationsReportsRequest {
   /** Required. The parent resource name, in the format `organizations/{organization}/locations/global`. */
   parent: string;
@@ -1343,7 +1342,8 @@ export const ListOrganizationsLocationsReportsResponse = ListReportsResponse;
 
 export type ListOrganizationsLocationsReportsError = CommonErrors;
 
-export const listOrganizationsLocationsReports = API.makePaginated(() => ({
+/** Lists every Report in a given organization and location. */
+export const listOrganizationsLocationsReports: API.PaginatedOperationMethod<ListOrganizationsLocationsReportsRequest, ListOrganizationsLocationsReportsResponse, ListOrganizationsLocationsReportsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsReportsRequest,
   output: ListOrganizationsLocationsReportsResponse,
   errors: [],
@@ -1353,7 +1353,6 @@ export const listOrganizationsLocationsReports = API.makePaginated(() => ({
   },
 }));
 
-/** Gets details for a Report. */
 export interface GetOrganizationsLocationsReportsRequest {
   /** Required. The name of the report, in the format `organizations/{organization}/locations/global/reports/{report_id}`. */
   name: string;
@@ -1371,13 +1370,13 @@ export const GetOrganizationsLocationsReportsResponse = Report;
 
 export type GetOrganizationsLocationsReportsError = CommonErrors;
 
+/** Gets details for a Report. */
 export const getOrganizationsLocationsReports: API.OperationMethod<GetOrganizationsLocationsReportsRequest, GetOrganizationsLocationsReportsResponse, GetOrganizationsLocationsReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsReportsRequest,
   output: GetOrganizationsLocationsReportsResponse,
   errors: [],
 }));
 
-/** Validates a specified infrastructure-as-code (IaC) configuration, and creates a Report with the validation results. Only Terraform configurations are supported. Only modified assets are validated. */
 export interface CreateIaCValidationReportOrganizationsLocationsReportsRequest {
   /** Required. The parent resource name, in the format `organizations/{organization}/locations/global`. */
   parent: string;
@@ -1398,13 +1397,13 @@ export const CreateIaCValidationReportOrganizationsLocationsReportsResponse = Op
 
 export type CreateIaCValidationReportOrganizationsLocationsReportsError = CommonErrors;
 
+/** Validates a specified infrastructure-as-code (IaC) configuration, and creates a Report with the validation results. Only Terraform configurations are supported. Only modified assets are validated. */
 export const createIaCValidationReportOrganizationsLocationsReports: API.OperationMethod<CreateIaCValidationReportOrganizationsLocationsReportsRequest, CreateIaCValidationReportOrganizationsLocationsReportsResponse, CreateIaCValidationReportOrganizationsLocationsReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateIaCValidationReportOrganizationsLocationsReportsRequest,
   output: CreateIaCValidationReportOrganizationsLocationsReportsResponse,
   errors: [],
 }));
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -1434,7 +1433,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -1444,7 +1444,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -1462,6 +1461,7 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,

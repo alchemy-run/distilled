@@ -1814,7 +1814,6 @@ export const ListPublisherProfilesResponse: Schema.Schema<ListPublisherProfilesR
 // Operations
 // ==========================================================================
 
-/** Creates a creative. */
 export interface CreateAccountsCreativesRequest {
   /** The account that this creative belongs to. Can be used to filter the response of the creatives.list method. */
   accountId: string;
@@ -1838,13 +1837,13 @@ export const CreateAccountsCreativesResponse = Creative;
 
 export type CreateAccountsCreativesError = CommonErrors;
 
+/** Creates a creative. */
 export const createAccountsCreatives: API.OperationMethod<CreateAccountsCreativesRequest, CreateAccountsCreativesResponse, CreateAccountsCreativesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsCreativesRequest,
   output: CreateAccountsCreativesResponse,
   errors: [],
 }));
 
-/** Updates a creative. */
 export interface UpdateAccountsCreativesRequest {
   /** The account that this creative belongs to. Can be used to filter the response of the creatives.list method. */
   accountId: string;
@@ -1868,13 +1867,13 @@ export const UpdateAccountsCreativesResponse = Creative;
 
 export type UpdateAccountsCreativesError = CommonErrors;
 
+/** Updates a creative. */
 export const updateAccountsCreatives: API.OperationMethod<UpdateAccountsCreativesRequest, UpdateAccountsCreativesResponse, UpdateAccountsCreativesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAccountsCreativesRequest,
   output: UpdateAccountsCreativesResponse,
   errors: [],
 }));
 
-/** Gets a creative. */
 export interface GetAccountsCreativesRequest {
   /** The account the creative belongs to. */
   accountId: string;
@@ -1895,13 +1894,13 @@ export const GetAccountsCreativesResponse = Creative;
 
 export type GetAccountsCreativesError = CommonErrors;
 
+/** Gets a creative. */
 export const getAccountsCreatives: API.OperationMethod<GetAccountsCreativesRequest, GetAccountsCreativesResponse, GetAccountsCreativesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsCreativesRequest,
   output: GetAccountsCreativesResponse,
   errors: [],
 }));
 
-/** Lists creatives. */
 export interface ListAccountsCreativesRequest {
   /** The account to list the creatives from. Specify "-" to list all creatives the current user has access to. */
   accountId: string;
@@ -1928,7 +1927,8 @@ export const ListAccountsCreativesResponse = ListCreativesResponse;
 
 export type ListAccountsCreativesError = CommonErrors;
 
-export const listAccountsCreatives = API.makePaginated(() => ({
+/** Lists creatives. */
+export const listAccountsCreatives: API.PaginatedOperationMethod<ListAccountsCreativesRequest, ListAccountsCreativesResponse, ListAccountsCreativesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsCreativesRequest,
   output: ListAccountsCreativesResponse,
   errors: [],
@@ -1938,7 +1938,6 @@ export const listAccountsCreatives = API.makePaginated(() => ({
   },
 }));
 
-/** Watches a creative. Will result in push notifications being sent to the topic when the creative changes status. */
 export interface WatchAccountsCreativesRequest {
   /** The account of the creative to watch. */
   accountId: string;
@@ -1962,13 +1961,13 @@ export const WatchAccountsCreativesResponse = Empty;
 
 export type WatchAccountsCreativesError = CommonErrors;
 
+/** Watches a creative. Will result in push notifications being sent to the topic when the creative changes status. */
 export const watchAccountsCreatives: API.OperationMethod<WatchAccountsCreativesRequest, WatchAccountsCreativesResponse, WatchAccountsCreativesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WatchAccountsCreativesRequest,
   output: WatchAccountsCreativesResponse,
   errors: [],
 }));
 
-/** Stops watching a creative. Will stop push notifications being sent to the topics when the creative changes status. */
 export interface StopWatchingAccountsCreativesRequest {
   /** The account of the creative to stop notifications for. */
   accountId: string;
@@ -1992,13 +1991,13 @@ export const StopWatchingAccountsCreativesResponse = Empty;
 
 export type StopWatchingAccountsCreativesError = CommonErrors;
 
+/** Stops watching a creative. Will stop push notifications being sent to the topics when the creative changes status. */
 export const stopWatchingAccountsCreatives: API.OperationMethod<StopWatchingAccountsCreativesRequest, StopWatchingAccountsCreativesResponse, StopWatchingAccountsCreativesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StopWatchingAccountsCreativesRequest,
   output: StopWatchingAccountsCreativesResponse,
   errors: [],
 }));
 
-/** Associate an existing deal with a creative. */
 export interface AddAccountsCreativesDealAssociationsRequest {
   /** The account the creative belongs to. */
   accountId: string;
@@ -2022,13 +2021,13 @@ export const AddAccountsCreativesDealAssociationsResponse = Empty;
 
 export type AddAccountsCreativesDealAssociationsError = CommonErrors;
 
+/** Associate an existing deal with a creative. */
 export const addAccountsCreativesDealAssociations: API.OperationMethod<AddAccountsCreativesDealAssociationsRequest, AddAccountsCreativesDealAssociationsResponse, AddAccountsCreativesDealAssociationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddAccountsCreativesDealAssociationsRequest,
   output: AddAccountsCreativesDealAssociationsResponse,
   errors: [],
 }));
 
-/** Remove the association between a deal and a creative. */
 export interface RemoveAccountsCreativesDealAssociationsRequest {
   /** The account the creative belongs to. */
   accountId: string;
@@ -2052,13 +2051,13 @@ export const RemoveAccountsCreativesDealAssociationsResponse = Empty;
 
 export type RemoveAccountsCreativesDealAssociationsError = CommonErrors;
 
+/** Remove the association between a deal and a creative. */
 export const removeAccountsCreativesDealAssociations: API.OperationMethod<RemoveAccountsCreativesDealAssociationsRequest, RemoveAccountsCreativesDealAssociationsResponse, RemoveAccountsCreativesDealAssociationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveAccountsCreativesDealAssociationsRequest,
   output: RemoveAccountsCreativesDealAssociationsResponse,
   errors: [],
 }));
 
-/** List all creative-deal associations. */
 export interface ListAccountsCreativesDealAssociationsRequest {
   /** The account to list the associations from. Specify "-" to list all creatives the current user has access to. */
   accountId: string;
@@ -2088,7 +2087,8 @@ export const ListAccountsCreativesDealAssociationsResponse = ListDealAssociation
 
 export type ListAccountsCreativesDealAssociationsError = CommonErrors;
 
-export const listAccountsCreativesDealAssociations = API.makePaginated(() => ({
+/** List all creative-deal associations. */
+export const listAccountsCreativesDealAssociations: API.PaginatedOperationMethod<ListAccountsCreativesDealAssociationsRequest, ListAccountsCreativesDealAssociationsResponse, ListAccountsCreativesDealAssociationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsCreativesDealAssociationsRequest,
   output: ListAccountsCreativesDealAssociationsResponse,
   errors: [],
@@ -2098,7 +2098,6 @@ export const listAccountsCreativesDealAssociations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a client buyer with a given client account ID. */
 export interface GetAccountsClientsRequest {
   /** Numerical account ID of the client's sponsor buyer. (required) */
   accountId: string;
@@ -2119,13 +2118,13 @@ export const GetAccountsClientsResponse = Client;
 
 export type GetAccountsClientsError = CommonErrors;
 
+/** Gets a client buyer with a given client account ID. */
 export const getAccountsClients: API.OperationMethod<GetAccountsClientsRequest, GetAccountsClientsResponse, GetAccountsClientsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsClientsRequest,
   output: GetAccountsClientsResponse,
   errors: [],
 }));
 
-/** Lists all the clients for the current sponsor buyer. */
 export interface ListAccountsClientsRequest {
   /** Unique numerical account ID of the sponsor buyer to list the clients for. */
   accountId: string;
@@ -2152,7 +2151,8 @@ export const ListAccountsClientsResponse = ListClientsResponse;
 
 export type ListAccountsClientsError = CommonErrors;
 
-export const listAccountsClients = API.makePaginated(() => ({
+/** Lists all the clients for the current sponsor buyer. */
+export const listAccountsClients: API.PaginatedOperationMethod<ListAccountsClientsRequest, ListAccountsClientsResponse, ListAccountsClientsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsClientsRequest,
   output: ListAccountsClientsResponse,
   errors: [],
@@ -2162,7 +2162,6 @@ export const listAccountsClients = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new client buyer. */
 export interface CreateAccountsClientsRequest {
   /** Unique numerical account ID for the buyer of which the client buyer is a customer; the sponsor buyer to create a client for. (required) */
   accountId: string;
@@ -2183,13 +2182,13 @@ export const CreateAccountsClientsResponse = Client;
 
 export type CreateAccountsClientsError = CommonErrors;
 
+/** Creates a new client buyer. */
 export const createAccountsClients: API.OperationMethod<CreateAccountsClientsRequest, CreateAccountsClientsResponse, CreateAccountsClientsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsClientsRequest,
   output: CreateAccountsClientsResponse,
   errors: [],
 }));
 
-/** Updates an existing client buyer. */
 export interface UpdateAccountsClientsRequest {
   /** Unique numerical account ID for the buyer of which the client buyer is a customer; the sponsor buyer to update a client for. (required) */
   accountId: string;
@@ -2213,13 +2212,13 @@ export const UpdateAccountsClientsResponse = Client;
 
 export type UpdateAccountsClientsError = CommonErrors;
 
+/** Updates an existing client buyer. */
 export const updateAccountsClients: API.OperationMethod<UpdateAccountsClientsRequest, UpdateAccountsClientsResponse, UpdateAccountsClientsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAccountsClientsRequest,
   output: UpdateAccountsClientsResponse,
   errors: [],
 }));
 
-/** Lists all the known client users for a specified sponsor buyer account ID. */
 export interface ListAccountsClientsUsersRequest {
   /** Numerical account ID of the sponsor buyer of the client to list users for. (required) */
   accountId: string;
@@ -2246,7 +2245,8 @@ export const ListAccountsClientsUsersResponse = ListClientUsersResponse;
 
 export type ListAccountsClientsUsersError = CommonErrors;
 
-export const listAccountsClientsUsers = API.makePaginated(() => ({
+/** Lists all the known client users for a specified sponsor buyer account ID. */
+export const listAccountsClientsUsers: API.PaginatedOperationMethod<ListAccountsClientsUsersRequest, ListAccountsClientsUsersResponse, ListAccountsClientsUsersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsClientsUsersRequest,
   output: ListAccountsClientsUsersResponse,
   errors: [],
@@ -2256,7 +2256,6 @@ export const listAccountsClientsUsers = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing client user. Only the user status can be changed on update. */
 export interface UpdateAccountsClientsUsersRequest {
   /** Numerical account ID of the client's sponsor buyer. (required) */
   accountId: string;
@@ -2283,13 +2282,13 @@ export const UpdateAccountsClientsUsersResponse = ClientUser;
 
 export type UpdateAccountsClientsUsersError = CommonErrors;
 
+/** Updates an existing client user. Only the user status can be changed on update. */
 export const updateAccountsClientsUsers: API.OperationMethod<UpdateAccountsClientsUsersRequest, UpdateAccountsClientsUsersResponse, UpdateAccountsClientsUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAccountsClientsUsersRequest,
   output: UpdateAccountsClientsUsersResponse,
   errors: [],
 }));
 
-/** Retrieves an existing client user. */
 export interface GetAccountsClientsUsersRequest {
   /** Numerical account ID of the client's sponsor buyer. (required) */
   accountId: string;
@@ -2313,13 +2312,13 @@ export const GetAccountsClientsUsersResponse = ClientUser;
 
 export type GetAccountsClientsUsersError = CommonErrors;
 
+/** Retrieves an existing client user. */
 export const getAccountsClientsUsers: API.OperationMethod<GetAccountsClientsUsersRequest, GetAccountsClientsUsersResponse, GetAccountsClientsUsersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsClientsUsersRequest,
   output: GetAccountsClientsUsersResponse,
   errors: [],
 }));
 
-/** Creates and sends out an email invitation to access an Ad Exchange client buyer account. */
 export interface CreateAccountsClientsInvitationsRequest {
   /** Numerical account ID of the client's sponsor buyer. (required) */
   accountId: string;
@@ -2343,13 +2342,13 @@ export const CreateAccountsClientsInvitationsResponse = ClientUserInvitation;
 
 export type CreateAccountsClientsInvitationsError = CommonErrors;
 
+/** Creates and sends out an email invitation to access an Ad Exchange client buyer account. */
 export const createAccountsClientsInvitations: API.OperationMethod<CreateAccountsClientsInvitationsRequest, CreateAccountsClientsInvitationsResponse, CreateAccountsClientsInvitationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsClientsInvitationsRequest,
   output: CreateAccountsClientsInvitationsResponse,
   errors: [],
 }));
 
-/** Retrieves an existing client user invitation. */
 export interface GetAccountsClientsInvitationsRequest {
   /** Numerical account ID of the client's sponsor buyer. (required) */
   accountId: string;
@@ -2373,13 +2372,13 @@ export const GetAccountsClientsInvitationsResponse = ClientUserInvitation;
 
 export type GetAccountsClientsInvitationsError = CommonErrors;
 
+/** Retrieves an existing client user invitation. */
 export const getAccountsClientsInvitations: API.OperationMethod<GetAccountsClientsInvitationsRequest, GetAccountsClientsInvitationsResponse, GetAccountsClientsInvitationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsClientsInvitationsRequest,
   output: GetAccountsClientsInvitationsResponse,
   errors: [],
 }));
 
-/** Lists all the client users invitations for a client with a given account ID. */
 export interface ListAccountsClientsInvitationsRequest {
   /** Numerical account ID of the client's sponsor buyer. (required) */
   accountId: string;
@@ -2406,7 +2405,8 @@ export const ListAccountsClientsInvitationsResponse = ListClientUserInvitationsR
 
 export type ListAccountsClientsInvitationsError = CommonErrors;
 
-export const listAccountsClientsInvitations = API.makePaginated(() => ({
+/** Lists all the client users invitations for a client with a given account ID. */
+export const listAccountsClientsInvitations: API.PaginatedOperationMethod<ListAccountsClientsInvitationsRequest, ListAccountsClientsInvitationsResponse, ListAccountsClientsInvitationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsClientsInvitationsRequest,
   output: ListAccountsClientsInvitationsResponse,
   errors: [],
@@ -2416,7 +2416,6 @@ export const listAccountsClientsInvitations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a proposal given its ID. The proposal is returned at its head revision. */
 export interface GetAccountsProposalsRequest {
   /** Account ID of the buyer. */
   accountId: string;
@@ -2437,13 +2436,13 @@ export const GetAccountsProposalsResponse = Proposal;
 
 export type GetAccountsProposalsError = CommonErrors;
 
+/** Gets a proposal given its ID. The proposal is returned at its head revision. */
 export const getAccountsProposals: API.OperationMethod<GetAccountsProposalsRequest, GetAccountsProposalsResponse, GetAccountsProposalsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsProposalsRequest,
   output: GetAccountsProposalsResponse,
   errors: [],
 }));
 
-/** Create the given proposal. Each created proposal and any deals it contains are assigned a unique ID by the server. */
 export interface CreateAccountsProposalsRequest {
   /** Account ID of the buyer. */
   accountId: string;
@@ -2464,13 +2463,13 @@ export const CreateAccountsProposalsResponse = Proposal;
 
 export type CreateAccountsProposalsError = CommonErrors;
 
+/** Create the given proposal. Each created proposal and any deals it contains are assigned a unique ID by the server. */
 export const createAccountsProposals: API.OperationMethod<CreateAccountsProposalsRequest, CreateAccountsProposalsResponse, CreateAccountsProposalsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsProposalsRequest,
   output: CreateAccountsProposalsResponse,
   errors: [],
 }));
 
-/** Update the given proposal at the client known revision number. If the server revision has advanced since the passed-in `proposal.proposal_revision`, an `ABORTED` error message will be returned. Only the buyer-modifiable fields of the proposal will be updated. Note that the deals in the proposal will be updated to match the passed-in copy. If a passed-in deal does not have a `deal_id`, the server will assign a new unique ID and create the deal. If passed-in deal has a `deal_id`, it will be updated to match the passed-in copy. Any existing deals not present in the passed-in proposal will be deleted. It is an error to pass in a deal with a `deal_id` not present at head. */
 export interface UpdateAccountsProposalsRequest {
   /** Account ID of the buyer. */
   accountId: string;
@@ -2494,13 +2493,13 @@ export const UpdateAccountsProposalsResponse = Proposal;
 
 export type UpdateAccountsProposalsError = CommonErrors;
 
+/** Update the given proposal at the client known revision number. If the server revision has advanced since the passed-in `proposal.proposal_revision`, an `ABORTED` error message will be returned. Only the buyer-modifiable fields of the proposal will be updated. Note that the deals in the proposal will be updated to match the passed-in copy. If a passed-in deal does not have a `deal_id`, the server will assign a new unique ID and create the deal. If passed-in deal has a `deal_id`, it will be updated to match the passed-in copy. Any existing deals not present in the passed-in proposal will be deleted. It is an error to pass in a deal with a `deal_id` not present at head. */
 export const updateAccountsProposals: API.OperationMethod<UpdateAccountsProposalsRequest, UpdateAccountsProposalsResponse, UpdateAccountsProposalsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAccountsProposalsRequest,
   output: UpdateAccountsProposalsResponse,
   errors: [],
 }));
 
-/** List proposals. A filter expression (PQL query) may be specified to filter the results. To retrieve all finalized proposals, regardless if a proposal is being renegotiated, see the FinalizedProposals resource. Note that Bidder/ChildSeat relationships differ from the usual behavior. A Bidder account can only see its child seats' proposals by specifying the ChildSeat's accountId in the request path. */
 export interface ListAccountsProposalsRequest {
   /** Account ID of the buyer. */
   accountId: string;
@@ -2530,7 +2529,8 @@ export const ListAccountsProposalsResponse = ListProposalsResponse;
 
 export type ListAccountsProposalsError = CommonErrors;
 
-export const listAccountsProposals = API.makePaginated(() => ({
+/** List proposals. A filter expression (PQL query) may be specified to filter the results. To retrieve all finalized proposals, regardless if a proposal is being renegotiated, see the FinalizedProposals resource. Note that Bidder/ChildSeat relationships differ from the usual behavior. A Bidder account can only see its child seats' proposals by specifying the ChildSeat's accountId in the request path. */
+export const listAccountsProposals: API.PaginatedOperationMethod<ListAccountsProposalsRequest, ListAccountsProposalsResponse, ListAccountsProposalsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsProposalsRequest,
   output: ListAccountsProposalsResponse,
   errors: [],
@@ -2540,7 +2540,6 @@ export const listAccountsProposals = API.makePaginated(() => ({
   },
 }));
 
-/** Create a new note and attach it to the proposal. The note is assigned a unique ID by the server. The proposal revision number will not increase when associated with a new note. */
 export interface AddNoteAccountsProposalsRequest {
   /** Account ID of the buyer. */
   accountId: string;
@@ -2564,13 +2563,13 @@ export const AddNoteAccountsProposalsResponse = Note;
 
 export type AddNoteAccountsProposalsError = CommonErrors;
 
+/** Create a new note and attach it to the proposal. The note is assigned a unique ID by the server. The proposal revision number will not increase when associated with a new note. */
 export const addNoteAccountsProposals: API.OperationMethod<AddNoteAccountsProposalsRequest, AddNoteAccountsProposalsResponse, AddNoteAccountsProposalsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddNoteAccountsProposalsRequest,
   output: AddNoteAccountsProposalsResponse,
   errors: [],
 }));
 
-/** Cancel an ongoing negotiation on a proposal. This does not cancel or end serving for the deals if the proposal has been finalized, but only cancels a negotiation unilaterally. */
 export interface CancelNegotiationAccountsProposalsRequest {
   /** Account ID of the buyer. */
   accountId: string;
@@ -2594,13 +2593,13 @@ export const CancelNegotiationAccountsProposalsResponse = Proposal;
 
 export type CancelNegotiationAccountsProposalsError = CommonErrors;
 
+/** Cancel an ongoing negotiation on a proposal. This does not cancel or end serving for the deals if the proposal has been finalized, but only cancels a negotiation unilaterally. */
 export const cancelNegotiationAccountsProposals: API.OperationMethod<CancelNegotiationAccountsProposalsRequest, CancelNegotiationAccountsProposalsResponse, CancelNegotiationAccountsProposalsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelNegotiationAccountsProposalsRequest,
   output: CancelNegotiationAccountsProposalsResponse,
   errors: [],
 }));
 
-/** Mark the proposal as accepted at the given revision number. If the number does not match the server's revision number an `ABORTED` error message will be returned. This call updates the proposal_state from `PROPOSED` to `BUYER_ACCEPTED`, or from `SELLER_ACCEPTED` to `FINALIZED`. Upon calling this endpoint, the buyer implicitly agrees to the terms and conditions optionally set within the proposal by the publisher. */
 export interface AcceptAccountsProposalsRequest {
   /** Account ID of the buyer. */
   accountId: string;
@@ -2624,13 +2623,13 @@ export const AcceptAccountsProposalsResponse = Proposal;
 
 export type AcceptAccountsProposalsError = CommonErrors;
 
+/** Mark the proposal as accepted at the given revision number. If the number does not match the server's revision number an `ABORTED` error message will be returned. This call updates the proposal_state from `PROPOSED` to `BUYER_ACCEPTED`, or from `SELLER_ACCEPTED` to `FINALIZED`. Upon calling this endpoint, the buyer implicitly agrees to the terms and conditions optionally set within the proposal by the publisher. */
 export const acceptAccountsProposals: API.OperationMethod<AcceptAccountsProposalsRequest, AcceptAccountsProposalsResponse, AcceptAccountsProposalsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AcceptAccountsProposalsRequest,
   output: AcceptAccountsProposalsResponse,
   errors: [],
 }));
 
-/** You can opt-in to manually update proposals to indicate that setup is complete. By default, proposal setup is automatically completed after their deals are finalized. Contact your Technical Account Manager to opt in. Buyers can call this method when the proposal has been finalized, and all the required creatives have been uploaded using the Creatives API. This call updates the `is_setup_completed` field on the deals in the proposal, and notifies the seller. The server then advances the revision number of the most recent proposal. To mark an individual deal as ready to serve, call `buyers.finalizedDeals.setReadyToServe` in the Marketplace API. */
 export interface CompleteSetupAccountsProposalsRequest {
   /** Account ID of the buyer. */
   accountId: string;
@@ -2654,13 +2653,13 @@ export const CompleteSetupAccountsProposalsResponse = Proposal;
 
 export type CompleteSetupAccountsProposalsError = CommonErrors;
 
+/** You can opt-in to manually update proposals to indicate that setup is complete. By default, proposal setup is automatically completed after their deals are finalized. Contact your Technical Account Manager to opt in. Buyers can call this method when the proposal has been finalized, and all the required creatives have been uploaded using the Creatives API. This call updates the `is_setup_completed` field on the deals in the proposal, and notifies the seller. The server then advances the revision number of the most recent proposal. To mark an individual deal as ready to serve, call `buyers.finalizedDeals.setReadyToServe` in the Marketplace API. */
 export const completeSetupAccountsProposals: API.OperationMethod<CompleteSetupAccountsProposalsRequest, CompleteSetupAccountsProposalsResponse, CompleteSetupAccountsProposalsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CompleteSetupAccountsProposalsRequest,
   output: CompleteSetupAccountsProposalsResponse,
   errors: [],
 }));
 
-/** Update the given proposal to pause serving. This method will set the `DealServingMetadata.DealPauseStatus.has_buyer_paused` bit to true for all deals in the proposal. It is a no-op to pause an already-paused proposal. It is an error to call PauseProposal for a proposal that is not finalized or renegotiating. */
 export interface PauseAccountsProposalsRequest {
   /** Account ID of the buyer. */
   accountId: string;
@@ -2684,13 +2683,13 @@ export const PauseAccountsProposalsResponse = Proposal;
 
 export type PauseAccountsProposalsError = CommonErrors;
 
+/** Update the given proposal to pause serving. This method will set the `DealServingMetadata.DealPauseStatus.has_buyer_paused` bit to true for all deals in the proposal. It is a no-op to pause an already-paused proposal. It is an error to call PauseProposal for a proposal that is not finalized or renegotiating. */
 export const pauseAccountsProposals: API.OperationMethod<PauseAccountsProposalsRequest, PauseAccountsProposalsResponse, PauseAccountsProposalsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PauseAccountsProposalsRequest,
   output: PauseAccountsProposalsResponse,
   errors: [],
 }));
 
-/** Update the given proposal to resume serving. This method will set the `DealServingMetadata.DealPauseStatus.has_buyer_paused` bit to false for all deals in the proposal. Note that if the `has_seller_paused` bit is also set, serving will not resume until the seller also resumes. It is a no-op to resume an already-running proposal. It is an error to call ResumeProposal for a proposal that is not finalized or renegotiating. */
 export interface ResumeAccountsProposalsRequest {
   /** Account ID of the buyer. */
   accountId: string;
@@ -2714,13 +2713,13 @@ export const ResumeAccountsProposalsResponse = Proposal;
 
 export type ResumeAccountsProposalsError = CommonErrors;
 
+/** Update the given proposal to resume serving. This method will set the `DealServingMetadata.DealPauseStatus.has_buyer_paused` bit to false for all deals in the proposal. Note that if the `has_seller_paused` bit is also set, serving will not resume until the seller also resumes. It is a no-op to resume an already-running proposal. It is an error to call ResumeProposal for a proposal that is not finalized or renegotiating. */
 export const resumeAccountsProposals: API.OperationMethod<ResumeAccountsProposalsRequest, ResumeAccountsProposalsResponse, ResumeAccountsProposalsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResumeAccountsProposalsRequest,
   output: ResumeAccountsProposalsResponse,
   errors: [],
 }));
 
-/** List finalized proposals, regardless if a proposal is being renegotiated. A filter expression (PQL query) may be specified to filter the results. The notes will not be returned. */
 export interface ListAccountsFinalizedProposalsRequest {
   /** Account ID of the buyer. */
   accountId: string;
@@ -2750,7 +2749,8 @@ export const ListAccountsFinalizedProposalsResponse = ListProposalsResponse;
 
 export type ListAccountsFinalizedProposalsError = CommonErrors;
 
-export const listAccountsFinalizedProposals = API.makePaginated(() => ({
+/** List finalized proposals, regardless if a proposal is being renegotiated. A filter expression (PQL query) may be specified to filter the results. The notes will not be returned. */
+export const listAccountsFinalizedProposals: API.PaginatedOperationMethod<ListAccountsFinalizedProposalsRequest, ListAccountsFinalizedProposalsResponse, ListAccountsFinalizedProposalsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsFinalizedProposalsRequest,
   output: ListAccountsFinalizedProposalsResponse,
   errors: [],
@@ -2760,7 +2760,6 @@ export const listAccountsFinalizedProposals = API.makePaginated(() => ({
   },
 }));
 
-/** Update given deals to pause serving. This method will set the `DealServingMetadata.DealPauseStatus.has_buyer_paused` bit to true for all listed deals in the request. Currently, this method only applies to PG and PD deals. For PA deals, call accounts.proposals.pause endpoint. It is a no-op to pause already-paused deals. It is an error to call PauseProposalDeals for deals which are not part of the proposal of proposal_id or which are not finalized or renegotiating. */
 export interface PauseAccountsFinalizedProposalsRequest {
   /** Account ID of the buyer. */
   accountId: string;
@@ -2784,13 +2783,13 @@ export const PauseAccountsFinalizedProposalsResponse = Proposal;
 
 export type PauseAccountsFinalizedProposalsError = CommonErrors;
 
+/** Update given deals to pause serving. This method will set the `DealServingMetadata.DealPauseStatus.has_buyer_paused` bit to true for all listed deals in the request. Currently, this method only applies to PG and PD deals. For PA deals, call accounts.proposals.pause endpoint. It is a no-op to pause already-paused deals. It is an error to call PauseProposalDeals for deals which are not part of the proposal of proposal_id or which are not finalized or renegotiating. */
 export const pauseAccountsFinalizedProposals: API.OperationMethod<PauseAccountsFinalizedProposalsRequest, PauseAccountsFinalizedProposalsResponse, PauseAccountsFinalizedProposalsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PauseAccountsFinalizedProposalsRequest,
   output: PauseAccountsFinalizedProposalsResponse,
   errors: [],
 }));
 
-/** Update given deals to resume serving. This method will set the `DealServingMetadata.DealPauseStatus.has_buyer_paused` bit to false for all listed deals in the request. Currently, this method only applies to PG and PD deals. For PA deals, call accounts.proposals.resume endpoint. It is a no-op to resume running deals or deals paused by the other party. It is an error to call ResumeProposalDeals for deals which are not part of the proposal of proposal_id or which are not finalized or renegotiating. */
 export interface ResumeAccountsFinalizedProposalsRequest {
   /** Account ID of the buyer. */
   accountId: string;
@@ -2814,13 +2813,13 @@ export const ResumeAccountsFinalizedProposalsResponse = Proposal;
 
 export type ResumeAccountsFinalizedProposalsError = CommonErrors;
 
+/** Update given deals to resume serving. This method will set the `DealServingMetadata.DealPauseStatus.has_buyer_paused` bit to false for all listed deals in the request. Currently, this method only applies to PG and PD deals. For PA deals, call accounts.proposals.resume endpoint. It is a no-op to resume running deals or deals paused by the other party. It is an error to call ResumeProposalDeals for deals which are not part of the proposal of proposal_id or which are not finalized or renegotiating. */
 export const resumeAccountsFinalizedProposals: API.OperationMethod<ResumeAccountsFinalizedProposalsRequest, ResumeAccountsFinalizedProposalsResponse, ResumeAccountsFinalizedProposalsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResumeAccountsFinalizedProposalsRequest,
   output: ResumeAccountsFinalizedProposalsResponse,
   errors: [],
 }));
 
-/** Gets the requested product by ID. */
 export interface GetAccountsProductsRequest {
   /** Account ID of the buyer. */
   accountId: string;
@@ -2841,13 +2840,13 @@ export const GetAccountsProductsResponse = Product;
 
 export type GetAccountsProductsError = CommonErrors;
 
+/** Gets the requested product by ID. */
 export const getAccountsProducts: API.OperationMethod<GetAccountsProductsRequest, GetAccountsProductsResponse, GetAccountsProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsProductsRequest,
   output: GetAccountsProductsResponse,
   errors: [],
 }));
 
-/** List all products visible to the buyer (optionally filtered by the specified PQL query). */
 export interface ListAccountsProductsRequest {
   /** Account ID of the buyer. */
   accountId: string;
@@ -2874,7 +2873,8 @@ export const ListAccountsProductsResponse = ListProductsResponse;
 
 export type ListAccountsProductsError = CommonErrors;
 
-export const listAccountsProducts = API.makePaginated(() => ({
+/** List all products visible to the buyer (optionally filtered by the specified PQL query). */
+export const listAccountsProducts: API.PaginatedOperationMethod<ListAccountsProductsRequest, ListAccountsProductsResponse, ListAccountsProductsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsProductsRequest,
   output: ListAccountsProductsResponse,
   errors: [],
@@ -2884,7 +2884,6 @@ export const listAccountsProducts = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the requested publisher profile by id. */
 export interface GetAccountsPublisherProfilesRequest {
   /** Account ID of the buyer. */
   accountId: string;
@@ -2905,13 +2904,13 @@ export const GetAccountsPublisherProfilesResponse = PublisherProfile;
 
 export type GetAccountsPublisherProfilesError = CommonErrors;
 
+/** Gets the requested publisher profile by id. */
 export const getAccountsPublisherProfiles: API.OperationMethod<GetAccountsPublisherProfilesRequest, GetAccountsPublisherProfilesResponse, GetAccountsPublisherProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsPublisherProfilesRequest,
   output: GetAccountsPublisherProfilesResponse,
   errors: [],
 }));
 
-/** List all publisher profiles visible to the buyer */
 export interface ListAccountsPublisherProfilesRequest {
   /** Account ID of the buyer. */
   accountId: string;
@@ -2935,7 +2934,8 @@ export const ListAccountsPublisherProfilesResponse = ListPublisherProfilesRespon
 
 export type ListAccountsPublisherProfilesError = CommonErrors;
 
-export const listAccountsPublisherProfiles = API.makePaginated(() => ({
+/** List all publisher profiles visible to the buyer */
+export const listAccountsPublisherProfiles: API.PaginatedOperationMethod<ListAccountsPublisherProfilesRequest, ListAccountsPublisherProfilesResponse, ListAccountsPublisherProfilesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsPublisherProfilesRequest,
   output: ListAccountsPublisherProfilesResponse,
   errors: [],
@@ -2945,7 +2945,6 @@ export const listAccountsPublisherProfiles = API.makePaginated(() => ({
   },
 }));
 
-/** Creates the specified filter set for the account with the given account ID. */
 export interface CreateBiddersAccountsFilterSetsRequest {
   /** Name of the owner (bidder or account) of the filter set to be created. For example: - For a bidder-level filter set for bidder 123: `bidders/123` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456` */
   ownerName: string;
@@ -2969,13 +2968,13 @@ export const CreateBiddersAccountsFilterSetsResponse = FilterSet;
 
 export type CreateBiddersAccountsFilterSetsError = CommonErrors;
 
+/** Creates the specified filter set for the account with the given account ID. */
 export const createBiddersAccountsFilterSets: API.OperationMethod<CreateBiddersAccountsFilterSetsRequest, CreateBiddersAccountsFilterSetsResponse, CreateBiddersAccountsFilterSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateBiddersAccountsFilterSetsRequest,
   output: CreateBiddersAccountsFilterSetsResponse,
   errors: [],
 }));
 
-/** Retrieves the requested filter set for the account with the given account ID. */
 export interface GetBiddersAccountsFilterSetsRequest {
   /** Full name of the resource being requested. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   name: string;
@@ -2993,13 +2992,13 @@ export const GetBiddersAccountsFilterSetsResponse = FilterSet;
 
 export type GetBiddersAccountsFilterSetsError = CommonErrors;
 
+/** Retrieves the requested filter set for the account with the given account ID. */
 export const getBiddersAccountsFilterSets: API.OperationMethod<GetBiddersAccountsFilterSetsRequest, GetBiddersAccountsFilterSetsResponse, GetBiddersAccountsFilterSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBiddersAccountsFilterSetsRequest,
   output: GetBiddersAccountsFilterSetsResponse,
   errors: [],
 }));
 
-/** Lists all filter sets for the account with the given account ID. */
 export interface ListBiddersAccountsFilterSetsRequest {
   /** Name of the owner (bidder or account) of the filter sets to be listed. For example: - For a bidder-level filter set for bidder 123: `bidders/123` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456` */
   ownerName: string;
@@ -3023,7 +3022,8 @@ export const ListBiddersAccountsFilterSetsResponse = ListFilterSetsResponse;
 
 export type ListBiddersAccountsFilterSetsError = CommonErrors;
 
-export const listBiddersAccountsFilterSets = API.makePaginated(() => ({
+/** Lists all filter sets for the account with the given account ID. */
+export const listBiddersAccountsFilterSets: API.PaginatedOperationMethod<ListBiddersAccountsFilterSetsRequest, ListBiddersAccountsFilterSetsResponse, ListBiddersAccountsFilterSetsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsRequest,
   output: ListBiddersAccountsFilterSetsResponse,
   errors: [],
@@ -3033,7 +3033,6 @@ export const listBiddersAccountsFilterSets = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the requested filter set from the account with the given account ID. */
 export interface DeleteBiddersAccountsFilterSetsRequest {
   /** Full name of the resource to delete. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   name: string;
@@ -3051,13 +3050,13 @@ export const DeleteBiddersAccountsFilterSetsResponse = Empty;
 
 export type DeleteBiddersAccountsFilterSetsError = CommonErrors;
 
+/** Deletes the requested filter set from the account with the given account ID. */
 export const deleteBiddersAccountsFilterSets: API.OperationMethod<DeleteBiddersAccountsFilterSetsRequest, DeleteBiddersAccountsFilterSetsResponse, DeleteBiddersAccountsFilterSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteBiddersAccountsFilterSetsRequest,
   output: DeleteBiddersAccountsFilterSetsResponse,
   errors: [],
 }));
 
-/** Lists all metrics that are measured in terms of number of impressions. */
 export interface ListBiddersAccountsFilterSetsImpressionMetricsRequest {
   /** Name of the filter set that should be applied to the requested metrics. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   filterSetName: string;
@@ -3081,7 +3080,8 @@ export const ListBiddersAccountsFilterSetsImpressionMetricsResponse = ListImpres
 
 export type ListBiddersAccountsFilterSetsImpressionMetricsError = CommonErrors;
 
-export const listBiddersAccountsFilterSetsImpressionMetrics = API.makePaginated(() => ({
+/** Lists all metrics that are measured in terms of number of impressions. */
+export const listBiddersAccountsFilterSetsImpressionMetrics: API.PaginatedOperationMethod<ListBiddersAccountsFilterSetsImpressionMetricsRequest, ListBiddersAccountsFilterSetsImpressionMetricsResponse, ListBiddersAccountsFilterSetsImpressionMetricsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsImpressionMetricsRequest,
   output: ListBiddersAccountsFilterSetsImpressionMetricsResponse,
   errors: [],
@@ -3091,7 +3091,6 @@ export const listBiddersAccountsFilterSetsImpressionMetrics = API.makePaginated(
   },
 }));
 
-/** Lists all metrics that are measured in terms of number of bids. */
 export interface ListBiddersAccountsFilterSetsBidMetricsRequest {
   /** Name of the filter set that should be applied to the requested metrics. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   filterSetName: string;
@@ -3115,7 +3114,8 @@ export const ListBiddersAccountsFilterSetsBidMetricsResponse = ListBidMetricsRes
 
 export type ListBiddersAccountsFilterSetsBidMetricsError = CommonErrors;
 
-export const listBiddersAccountsFilterSetsBidMetrics = API.makePaginated(() => ({
+/** Lists all metrics that are measured in terms of number of bids. */
+export const listBiddersAccountsFilterSetsBidMetrics: API.PaginatedOperationMethod<ListBiddersAccountsFilterSetsBidMetricsRequest, ListBiddersAccountsFilterSetsBidMetricsResponse, ListBiddersAccountsFilterSetsBidMetricsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsBidMetricsRequest,
   output: ListBiddersAccountsFilterSetsBidMetricsResponse,
   errors: [],
@@ -3125,7 +3125,6 @@ export const listBiddersAccountsFilterSetsBidMetrics = API.makePaginated(() => (
   },
 }));
 
-/** List all reasons that caused a bid request not to be sent for an impression, with the number of bid requests not sent for each reason. */
 export interface ListBiddersAccountsFilterSetsFilteredBidRequestsRequest {
   /** Name of the filter set that should be applied to the requested metrics. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   filterSetName: string;
@@ -3149,7 +3148,8 @@ export const ListBiddersAccountsFilterSetsFilteredBidRequestsResponse = ListFilt
 
 export type ListBiddersAccountsFilterSetsFilteredBidRequestsError = CommonErrors;
 
-export const listBiddersAccountsFilterSetsFilteredBidRequests = API.makePaginated(() => ({
+/** List all reasons that caused a bid request not to be sent for an impression, with the number of bid requests not sent for each reason. */
+export const listBiddersAccountsFilterSetsFilteredBidRequests: API.PaginatedOperationMethod<ListBiddersAccountsFilterSetsFilteredBidRequestsRequest, ListBiddersAccountsFilterSetsFilteredBidRequestsResponse, ListBiddersAccountsFilterSetsFilteredBidRequestsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsFilteredBidRequestsRequest,
   output: ListBiddersAccountsFilterSetsFilteredBidRequestsResponse,
   errors: [],
@@ -3159,7 +3159,6 @@ export const listBiddersAccountsFilterSetsFilteredBidRequests = API.makePaginate
   },
 }));
 
-/** List all errors that occurred in bid responses, with the number of bid responses affected for each reason. */
 export interface ListBiddersAccountsFilterSetsBidResponseErrorsRequest {
   /** Name of the filter set that should be applied to the requested metrics. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   filterSetName: string;
@@ -3183,7 +3182,8 @@ export const ListBiddersAccountsFilterSetsBidResponseErrorsResponse = ListBidRes
 
 export type ListBiddersAccountsFilterSetsBidResponseErrorsError = CommonErrors;
 
-export const listBiddersAccountsFilterSetsBidResponseErrors = API.makePaginated(() => ({
+/** List all errors that occurred in bid responses, with the number of bid responses affected for each reason. */
+export const listBiddersAccountsFilterSetsBidResponseErrors: API.PaginatedOperationMethod<ListBiddersAccountsFilterSetsBidResponseErrorsRequest, ListBiddersAccountsFilterSetsBidResponseErrorsResponse, ListBiddersAccountsFilterSetsBidResponseErrorsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsBidResponseErrorsRequest,
   output: ListBiddersAccountsFilterSetsBidResponseErrorsResponse,
   errors: [],
@@ -3193,7 +3193,6 @@ export const listBiddersAccountsFilterSetsBidResponseErrors = API.makePaginated(
   },
 }));
 
-/** List all reasons for which bid responses were considered to have no applicable bids, with the number of bid responses affected for each reason. */
 export interface ListBiddersAccountsFilterSetsBidResponsesWithoutBidsRequest {
   /** Name of the filter set that should be applied to the requested metrics. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   filterSetName: string;
@@ -3217,7 +3216,8 @@ export const ListBiddersAccountsFilterSetsBidResponsesWithoutBidsResponse = List
 
 export type ListBiddersAccountsFilterSetsBidResponsesWithoutBidsError = CommonErrors;
 
-export const listBiddersAccountsFilterSetsBidResponsesWithoutBids = API.makePaginated(() => ({
+/** List all reasons for which bid responses were considered to have no applicable bids, with the number of bid responses affected for each reason. */
+export const listBiddersAccountsFilterSetsBidResponsesWithoutBids: API.PaginatedOperationMethod<ListBiddersAccountsFilterSetsBidResponsesWithoutBidsRequest, ListBiddersAccountsFilterSetsBidResponsesWithoutBidsResponse, ListBiddersAccountsFilterSetsBidResponsesWithoutBidsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsBidResponsesWithoutBidsRequest,
   output: ListBiddersAccountsFilterSetsBidResponsesWithoutBidsResponse,
   errors: [],
@@ -3227,7 +3227,6 @@ export const listBiddersAccountsFilterSetsBidResponsesWithoutBids = API.makePagi
   },
 }));
 
-/** List all reasons for which bids were filtered, with the number of bids filtered for each reason. */
 export interface ListBiddersAccountsFilterSetsFilteredBidsRequest {
   /** Name of the filter set that should be applied to the requested metrics. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   filterSetName: string;
@@ -3251,7 +3250,8 @@ export const ListBiddersAccountsFilterSetsFilteredBidsResponse = ListFilteredBid
 
 export type ListBiddersAccountsFilterSetsFilteredBidsError = CommonErrors;
 
-export const listBiddersAccountsFilterSetsFilteredBids = API.makePaginated(() => ({
+/** List all reasons for which bids were filtered, with the number of bids filtered for each reason. */
+export const listBiddersAccountsFilterSetsFilteredBids: API.PaginatedOperationMethod<ListBiddersAccountsFilterSetsFilteredBidsRequest, ListBiddersAccountsFilterSetsFilteredBidsResponse, ListBiddersAccountsFilterSetsFilteredBidsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsFilteredBidsRequest,
   output: ListBiddersAccountsFilterSetsFilteredBidsResponse,
   errors: [],
@@ -3261,7 +3261,6 @@ export const listBiddersAccountsFilterSetsFilteredBids = API.makePaginated(() =>
   },
 }));
 
-/** List all details associated with a specific reason for which bids were filtered, with the number of bids filtered for each detail. */
 export interface ListBiddersAccountsFilterSetsFilteredBidsDetailsRequest {
   /** Name of the filter set that should be applied to the requested metrics. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   filterSetName: string;
@@ -3288,7 +3287,8 @@ export const ListBiddersAccountsFilterSetsFilteredBidsDetailsResponse = ListCrea
 
 export type ListBiddersAccountsFilterSetsFilteredBidsDetailsError = CommonErrors;
 
-export const listBiddersAccountsFilterSetsFilteredBidsDetails = API.makePaginated(() => ({
+/** List all details associated with a specific reason for which bids were filtered, with the number of bids filtered for each detail. */
+export const listBiddersAccountsFilterSetsFilteredBidsDetails: API.PaginatedOperationMethod<ListBiddersAccountsFilterSetsFilteredBidsDetailsRequest, ListBiddersAccountsFilterSetsFilteredBidsDetailsResponse, ListBiddersAccountsFilterSetsFilteredBidsDetailsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsFilteredBidsDetailsRequest,
   output: ListBiddersAccountsFilterSetsFilteredBidsDetailsResponse,
   errors: [],
@@ -3298,7 +3298,6 @@ export const listBiddersAccountsFilterSetsFilteredBidsDetails = API.makePaginate
   },
 }));
 
-/** List all creatives associated with a specific reason for which bids were filtered, with the number of bids filtered for each creative. */
 export interface ListBiddersAccountsFilterSetsFilteredBidsCreativesRequest {
   /** Name of the filter set that should be applied to the requested metrics. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   filterSetName: string;
@@ -3325,7 +3324,8 @@ export const ListBiddersAccountsFilterSetsFilteredBidsCreativesResponse = ListCr
 
 export type ListBiddersAccountsFilterSetsFilteredBidsCreativesError = CommonErrors;
 
-export const listBiddersAccountsFilterSetsFilteredBidsCreatives = API.makePaginated(() => ({
+/** List all creatives associated with a specific reason for which bids were filtered, with the number of bids filtered for each creative. */
+export const listBiddersAccountsFilterSetsFilteredBidsCreatives: API.PaginatedOperationMethod<ListBiddersAccountsFilterSetsFilteredBidsCreativesRequest, ListBiddersAccountsFilterSetsFilteredBidsCreativesResponse, ListBiddersAccountsFilterSetsFilteredBidsCreativesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsFilteredBidsCreativesRequest,
   output: ListBiddersAccountsFilterSetsFilteredBidsCreativesResponse,
   errors: [],
@@ -3335,7 +3335,6 @@ export const listBiddersAccountsFilterSetsFilteredBidsCreatives = API.makePagina
   },
 }));
 
-/** List all reasons for which bids lost in the auction, with the number of bids that lost for each reason. */
 export interface ListBiddersAccountsFilterSetsLosingBidsRequest {
   /** Name of the filter set that should be applied to the requested metrics. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   filterSetName: string;
@@ -3359,7 +3358,8 @@ export const ListBiddersAccountsFilterSetsLosingBidsResponse = ListLosingBidsRes
 
 export type ListBiddersAccountsFilterSetsLosingBidsError = CommonErrors;
 
-export const listBiddersAccountsFilterSetsLosingBids = API.makePaginated(() => ({
+/** List all reasons for which bids lost in the auction, with the number of bids that lost for each reason. */
+export const listBiddersAccountsFilterSetsLosingBids: API.PaginatedOperationMethod<ListBiddersAccountsFilterSetsLosingBidsRequest, ListBiddersAccountsFilterSetsLosingBidsResponse, ListBiddersAccountsFilterSetsLosingBidsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsLosingBidsRequest,
   output: ListBiddersAccountsFilterSetsLosingBidsResponse,
   errors: [],
@@ -3369,7 +3369,6 @@ export const listBiddersAccountsFilterSetsLosingBids = API.makePaginated(() => (
   },
 }));
 
-/** List all reasons for which winning bids were not billable, with the number of bids not billed for each reason. */
 export interface ListBiddersAccountsFilterSetsNonBillableWinningBidsRequest {
   /** Name of the filter set that should be applied to the requested metrics. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   filterSetName: string;
@@ -3393,7 +3392,8 @@ export const ListBiddersAccountsFilterSetsNonBillableWinningBidsResponse = ListN
 
 export type ListBiddersAccountsFilterSetsNonBillableWinningBidsError = CommonErrors;
 
-export const listBiddersAccountsFilterSetsNonBillableWinningBids = API.makePaginated(() => ({
+/** List all reasons for which winning bids were not billable, with the number of bids not billed for each reason. */
+export const listBiddersAccountsFilterSetsNonBillableWinningBids: API.PaginatedOperationMethod<ListBiddersAccountsFilterSetsNonBillableWinningBidsRequest, ListBiddersAccountsFilterSetsNonBillableWinningBidsResponse, ListBiddersAccountsFilterSetsNonBillableWinningBidsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBiddersAccountsFilterSetsNonBillableWinningBidsRequest,
   output: ListBiddersAccountsFilterSetsNonBillableWinningBidsResponse,
   errors: [],
@@ -3403,7 +3403,6 @@ export const listBiddersAccountsFilterSetsNonBillableWinningBids = API.makePagin
   },
 }));
 
-/** Creates the specified filter set for the account with the given account ID. */
 export interface CreateBiddersFilterSetsRequest {
   /** Name of the owner (bidder or account) of the filter set to be created. For example: - For a bidder-level filter set for bidder 123: `bidders/123` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456` */
   ownerName: string;
@@ -3427,13 +3426,13 @@ export const CreateBiddersFilterSetsResponse = FilterSet;
 
 export type CreateBiddersFilterSetsError = CommonErrors;
 
+/** Creates the specified filter set for the account with the given account ID. */
 export const createBiddersFilterSets: API.OperationMethod<CreateBiddersFilterSetsRequest, CreateBiddersFilterSetsResponse, CreateBiddersFilterSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateBiddersFilterSetsRequest,
   output: CreateBiddersFilterSetsResponse,
   errors: [],
 }));
 
-/** Retrieves the requested filter set for the account with the given account ID. */
 export interface GetBiddersFilterSetsRequest {
   /** Full name of the resource being requested. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   name: string;
@@ -3451,13 +3450,13 @@ export const GetBiddersFilterSetsResponse = FilterSet;
 
 export type GetBiddersFilterSetsError = CommonErrors;
 
+/** Retrieves the requested filter set for the account with the given account ID. */
 export const getBiddersFilterSets: API.OperationMethod<GetBiddersFilterSetsRequest, GetBiddersFilterSetsResponse, GetBiddersFilterSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBiddersFilterSetsRequest,
   output: GetBiddersFilterSetsResponse,
   errors: [],
 }));
 
-/** Lists all filter sets for the account with the given account ID. */
 export interface ListBiddersFilterSetsRequest {
   /** Name of the owner (bidder or account) of the filter sets to be listed. For example: - For a bidder-level filter set for bidder 123: `bidders/123` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456` */
   ownerName: string;
@@ -3481,7 +3480,8 @@ export const ListBiddersFilterSetsResponse = ListFilterSetsResponse;
 
 export type ListBiddersFilterSetsError = CommonErrors;
 
-export const listBiddersFilterSets = API.makePaginated(() => ({
+/** Lists all filter sets for the account with the given account ID. */
+export const listBiddersFilterSets: API.PaginatedOperationMethod<ListBiddersFilterSetsRequest, ListBiddersFilterSetsResponse, ListBiddersFilterSetsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBiddersFilterSetsRequest,
   output: ListBiddersFilterSetsResponse,
   errors: [],
@@ -3491,7 +3491,6 @@ export const listBiddersFilterSets = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the requested filter set from the account with the given account ID. */
 export interface DeleteBiddersFilterSetsRequest {
   /** Full name of the resource to delete. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   name: string;
@@ -3509,13 +3508,13 @@ export const DeleteBiddersFilterSetsResponse = Empty;
 
 export type DeleteBiddersFilterSetsError = CommonErrors;
 
+/** Deletes the requested filter set from the account with the given account ID. */
 export const deleteBiddersFilterSets: API.OperationMethod<DeleteBiddersFilterSetsRequest, DeleteBiddersFilterSetsResponse, DeleteBiddersFilterSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteBiddersFilterSetsRequest,
   output: DeleteBiddersFilterSetsResponse,
   errors: [],
 }));
 
-/** Lists all metrics that are measured in terms of number of impressions. */
 export interface ListBiddersFilterSetsImpressionMetricsRequest {
   /** Name of the filter set that should be applied to the requested metrics. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   filterSetName: string;
@@ -3539,7 +3538,8 @@ export const ListBiddersFilterSetsImpressionMetricsResponse = ListImpressionMetr
 
 export type ListBiddersFilterSetsImpressionMetricsError = CommonErrors;
 
-export const listBiddersFilterSetsImpressionMetrics = API.makePaginated(() => ({
+/** Lists all metrics that are measured in terms of number of impressions. */
+export const listBiddersFilterSetsImpressionMetrics: API.PaginatedOperationMethod<ListBiddersFilterSetsImpressionMetricsRequest, ListBiddersFilterSetsImpressionMetricsResponse, ListBiddersFilterSetsImpressionMetricsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBiddersFilterSetsImpressionMetricsRequest,
   output: ListBiddersFilterSetsImpressionMetricsResponse,
   errors: [],
@@ -3549,7 +3549,6 @@ export const listBiddersFilterSetsImpressionMetrics = API.makePaginated(() => ({
   },
 }));
 
-/** Lists all metrics that are measured in terms of number of bids. */
 export interface ListBiddersFilterSetsBidMetricsRequest {
   /** Name of the filter set that should be applied to the requested metrics. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   filterSetName: string;
@@ -3573,7 +3572,8 @@ export const ListBiddersFilterSetsBidMetricsResponse = ListBidMetricsResponse;
 
 export type ListBiddersFilterSetsBidMetricsError = CommonErrors;
 
-export const listBiddersFilterSetsBidMetrics = API.makePaginated(() => ({
+/** Lists all metrics that are measured in terms of number of bids. */
+export const listBiddersFilterSetsBidMetrics: API.PaginatedOperationMethod<ListBiddersFilterSetsBidMetricsRequest, ListBiddersFilterSetsBidMetricsResponse, ListBiddersFilterSetsBidMetricsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBiddersFilterSetsBidMetricsRequest,
   output: ListBiddersFilterSetsBidMetricsResponse,
   errors: [],
@@ -3583,7 +3583,6 @@ export const listBiddersFilterSetsBidMetrics = API.makePaginated(() => ({
   },
 }));
 
-/** List all reasons that caused a bid request not to be sent for an impression, with the number of bid requests not sent for each reason. */
 export interface ListBiddersFilterSetsFilteredBidRequestsRequest {
   /** Name of the filter set that should be applied to the requested metrics. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   filterSetName: string;
@@ -3607,7 +3606,8 @@ export const ListBiddersFilterSetsFilteredBidRequestsResponse = ListFilteredBidR
 
 export type ListBiddersFilterSetsFilteredBidRequestsError = CommonErrors;
 
-export const listBiddersFilterSetsFilteredBidRequests = API.makePaginated(() => ({
+/** List all reasons that caused a bid request not to be sent for an impression, with the number of bid requests not sent for each reason. */
+export const listBiddersFilterSetsFilteredBidRequests: API.PaginatedOperationMethod<ListBiddersFilterSetsFilteredBidRequestsRequest, ListBiddersFilterSetsFilteredBidRequestsResponse, ListBiddersFilterSetsFilteredBidRequestsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBiddersFilterSetsFilteredBidRequestsRequest,
   output: ListBiddersFilterSetsFilteredBidRequestsResponse,
   errors: [],
@@ -3617,7 +3617,6 @@ export const listBiddersFilterSetsFilteredBidRequests = API.makePaginated(() => 
   },
 }));
 
-/** List all errors that occurred in bid responses, with the number of bid responses affected for each reason. */
 export interface ListBiddersFilterSetsBidResponseErrorsRequest {
   /** Name of the filter set that should be applied to the requested metrics. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   filterSetName: string;
@@ -3641,7 +3640,8 @@ export const ListBiddersFilterSetsBidResponseErrorsResponse = ListBidResponseErr
 
 export type ListBiddersFilterSetsBidResponseErrorsError = CommonErrors;
 
-export const listBiddersFilterSetsBidResponseErrors = API.makePaginated(() => ({
+/** List all errors that occurred in bid responses, with the number of bid responses affected for each reason. */
+export const listBiddersFilterSetsBidResponseErrors: API.PaginatedOperationMethod<ListBiddersFilterSetsBidResponseErrorsRequest, ListBiddersFilterSetsBidResponseErrorsResponse, ListBiddersFilterSetsBidResponseErrorsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBiddersFilterSetsBidResponseErrorsRequest,
   output: ListBiddersFilterSetsBidResponseErrorsResponse,
   errors: [],
@@ -3651,7 +3651,6 @@ export const listBiddersFilterSetsBidResponseErrors = API.makePaginated(() => ({
   },
 }));
 
-/** List all reasons for which bid responses were considered to have no applicable bids, with the number of bid responses affected for each reason. */
 export interface ListBiddersFilterSetsBidResponsesWithoutBidsRequest {
   /** Name of the filter set that should be applied to the requested metrics. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   filterSetName: string;
@@ -3675,7 +3674,8 @@ export const ListBiddersFilterSetsBidResponsesWithoutBidsResponse = ListBidRespo
 
 export type ListBiddersFilterSetsBidResponsesWithoutBidsError = CommonErrors;
 
-export const listBiddersFilterSetsBidResponsesWithoutBids = API.makePaginated(() => ({
+/** List all reasons for which bid responses were considered to have no applicable bids, with the number of bid responses affected for each reason. */
+export const listBiddersFilterSetsBidResponsesWithoutBids: API.PaginatedOperationMethod<ListBiddersFilterSetsBidResponsesWithoutBidsRequest, ListBiddersFilterSetsBidResponsesWithoutBidsResponse, ListBiddersFilterSetsBidResponsesWithoutBidsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBiddersFilterSetsBidResponsesWithoutBidsRequest,
   output: ListBiddersFilterSetsBidResponsesWithoutBidsResponse,
   errors: [],
@@ -3685,7 +3685,6 @@ export const listBiddersFilterSetsBidResponsesWithoutBids = API.makePaginated(()
   },
 }));
 
-/** List all reasons for which bids were filtered, with the number of bids filtered for each reason. */
 export interface ListBiddersFilterSetsFilteredBidsRequest {
   /** Name of the filter set that should be applied to the requested metrics. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   filterSetName: string;
@@ -3709,7 +3708,8 @@ export const ListBiddersFilterSetsFilteredBidsResponse = ListFilteredBidsRespons
 
 export type ListBiddersFilterSetsFilteredBidsError = CommonErrors;
 
-export const listBiddersFilterSetsFilteredBids = API.makePaginated(() => ({
+/** List all reasons for which bids were filtered, with the number of bids filtered for each reason. */
+export const listBiddersFilterSetsFilteredBids: API.PaginatedOperationMethod<ListBiddersFilterSetsFilteredBidsRequest, ListBiddersFilterSetsFilteredBidsResponse, ListBiddersFilterSetsFilteredBidsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBiddersFilterSetsFilteredBidsRequest,
   output: ListBiddersFilterSetsFilteredBidsResponse,
   errors: [],
@@ -3719,7 +3719,6 @@ export const listBiddersFilterSetsFilteredBids = API.makePaginated(() => ({
   },
 }));
 
-/** List all details associated with a specific reason for which bids were filtered, with the number of bids filtered for each detail. */
 export interface ListBiddersFilterSetsFilteredBidsDetailsRequest {
   /** Name of the filter set that should be applied to the requested metrics. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   filterSetName: string;
@@ -3746,7 +3745,8 @@ export const ListBiddersFilterSetsFilteredBidsDetailsResponse = ListCreativeStat
 
 export type ListBiddersFilterSetsFilteredBidsDetailsError = CommonErrors;
 
-export const listBiddersFilterSetsFilteredBidsDetails = API.makePaginated(() => ({
+/** List all details associated with a specific reason for which bids were filtered, with the number of bids filtered for each detail. */
+export const listBiddersFilterSetsFilteredBidsDetails: API.PaginatedOperationMethod<ListBiddersFilterSetsFilteredBidsDetailsRequest, ListBiddersFilterSetsFilteredBidsDetailsResponse, ListBiddersFilterSetsFilteredBidsDetailsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBiddersFilterSetsFilteredBidsDetailsRequest,
   output: ListBiddersFilterSetsFilteredBidsDetailsResponse,
   errors: [],
@@ -3756,7 +3756,6 @@ export const listBiddersFilterSetsFilteredBidsDetails = API.makePaginated(() => 
   },
 }));
 
-/** List all creatives associated with a specific reason for which bids were filtered, with the number of bids filtered for each creative. */
 export interface ListBiddersFilterSetsFilteredBidsCreativesRequest {
   /** Name of the filter set that should be applied to the requested metrics. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   filterSetName: string;
@@ -3783,7 +3782,8 @@ export const ListBiddersFilterSetsFilteredBidsCreativesResponse = ListCreativeSt
 
 export type ListBiddersFilterSetsFilteredBidsCreativesError = CommonErrors;
 
-export const listBiddersFilterSetsFilteredBidsCreatives = API.makePaginated(() => ({
+/** List all creatives associated with a specific reason for which bids were filtered, with the number of bids filtered for each creative. */
+export const listBiddersFilterSetsFilteredBidsCreatives: API.PaginatedOperationMethod<ListBiddersFilterSetsFilteredBidsCreativesRequest, ListBiddersFilterSetsFilteredBidsCreativesResponse, ListBiddersFilterSetsFilteredBidsCreativesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBiddersFilterSetsFilteredBidsCreativesRequest,
   output: ListBiddersFilterSetsFilteredBidsCreativesResponse,
   errors: [],
@@ -3793,7 +3793,6 @@ export const listBiddersFilterSetsFilteredBidsCreatives = API.makePaginated(() =
   },
 }));
 
-/** List all reasons for which bids lost in the auction, with the number of bids that lost for each reason. */
 export interface ListBiddersFilterSetsLosingBidsRequest {
   /** Name of the filter set that should be applied to the requested metrics. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   filterSetName: string;
@@ -3817,7 +3816,8 @@ export const ListBiddersFilterSetsLosingBidsResponse = ListLosingBidsResponse;
 
 export type ListBiddersFilterSetsLosingBidsError = CommonErrors;
 
-export const listBiddersFilterSetsLosingBids = API.makePaginated(() => ({
+/** List all reasons for which bids lost in the auction, with the number of bids that lost for each reason. */
+export const listBiddersFilterSetsLosingBids: API.PaginatedOperationMethod<ListBiddersFilterSetsLosingBidsRequest, ListBiddersFilterSetsLosingBidsResponse, ListBiddersFilterSetsLosingBidsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBiddersFilterSetsLosingBidsRequest,
   output: ListBiddersFilterSetsLosingBidsResponse,
   errors: [],
@@ -3827,7 +3827,6 @@ export const listBiddersFilterSetsLosingBids = API.makePaginated(() => ({
   },
 }));
 
-/** List all reasons for which winning bids were not billable, with the number of bids not billed for each reason. */
 export interface ListBiddersFilterSetsNonBillableWinningBidsRequest {
   /** Name of the filter set that should be applied to the requested metrics. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   filterSetName: string;
@@ -3851,7 +3850,8 @@ export const ListBiddersFilterSetsNonBillableWinningBidsResponse = ListNonBillab
 
 export type ListBiddersFilterSetsNonBillableWinningBidsError = CommonErrors;
 
-export const listBiddersFilterSetsNonBillableWinningBids = API.makePaginated(() => ({
+/** List all reasons for which winning bids were not billable, with the number of bids not billed for each reason. */
+export const listBiddersFilterSetsNonBillableWinningBids: API.PaginatedOperationMethod<ListBiddersFilterSetsNonBillableWinningBidsRequest, ListBiddersFilterSetsNonBillableWinningBidsResponse, ListBiddersFilterSetsNonBillableWinningBidsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBiddersFilterSetsNonBillableWinningBidsRequest,
   output: ListBiddersFilterSetsNonBillableWinningBidsResponse,
   errors: [],
@@ -3861,7 +3861,6 @@ export const listBiddersFilterSetsNonBillableWinningBids = API.makePaginated(() 
   },
 }));
 
-/** Creates the specified filter set for the account with the given account ID. */
 export interface CreateBuyersFilterSetsRequest {
   /** Name of the owner (bidder or account) of the filter set to be created. For example: - For a bidder-level filter set for bidder 123: `bidders/123` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456` */
   ownerName: string;
@@ -3885,13 +3884,13 @@ export const CreateBuyersFilterSetsResponse = FilterSet;
 
 export type CreateBuyersFilterSetsError = CommonErrors;
 
+/** Creates the specified filter set for the account with the given account ID. */
 export const createBuyersFilterSets: API.OperationMethod<CreateBuyersFilterSetsRequest, CreateBuyersFilterSetsResponse, CreateBuyersFilterSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateBuyersFilterSetsRequest,
   output: CreateBuyersFilterSetsResponse,
   errors: [],
 }));
 
-/** Retrieves the requested filter set for the account with the given account ID. */
 export interface GetBuyersFilterSetsRequest {
   /** Full name of the resource being requested. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   name: string;
@@ -3909,13 +3908,13 @@ export const GetBuyersFilterSetsResponse = FilterSet;
 
 export type GetBuyersFilterSetsError = CommonErrors;
 
+/** Retrieves the requested filter set for the account with the given account ID. */
 export const getBuyersFilterSets: API.OperationMethod<GetBuyersFilterSetsRequest, GetBuyersFilterSetsResponse, GetBuyersFilterSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetBuyersFilterSetsRequest,
   output: GetBuyersFilterSetsResponse,
   errors: [],
 }));
 
-/** Lists all filter sets for the account with the given account ID. */
 export interface ListBuyersFilterSetsRequest {
   /** Name of the owner (bidder or account) of the filter sets to be listed. For example: - For a bidder-level filter set for bidder 123: `bidders/123` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456` */
   ownerName: string;
@@ -3939,7 +3938,8 @@ export const ListBuyersFilterSetsResponse = ListFilterSetsResponse;
 
 export type ListBuyersFilterSetsError = CommonErrors;
 
-export const listBuyersFilterSets = API.makePaginated(() => ({
+/** Lists all filter sets for the account with the given account ID. */
+export const listBuyersFilterSets: API.PaginatedOperationMethod<ListBuyersFilterSetsRequest, ListBuyersFilterSetsResponse, ListBuyersFilterSetsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBuyersFilterSetsRequest,
   output: ListBuyersFilterSetsResponse,
   errors: [],
@@ -3949,7 +3949,6 @@ export const listBuyersFilterSets = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the requested filter set from the account with the given account ID. */
 export interface DeleteBuyersFilterSetsRequest {
   /** Full name of the resource to delete. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   name: string;
@@ -3967,13 +3966,13 @@ export const DeleteBuyersFilterSetsResponse = Empty;
 
 export type DeleteBuyersFilterSetsError = CommonErrors;
 
+/** Deletes the requested filter set from the account with the given account ID. */
 export const deleteBuyersFilterSets: API.OperationMethod<DeleteBuyersFilterSetsRequest, DeleteBuyersFilterSetsResponse, DeleteBuyersFilterSetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteBuyersFilterSetsRequest,
   output: DeleteBuyersFilterSetsResponse,
   errors: [],
 }));
 
-/** Lists all metrics that are measured in terms of number of impressions. */
 export interface ListBuyersFilterSetsImpressionMetricsRequest {
   /** Name of the filter set that should be applied to the requested metrics. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   filterSetName: string;
@@ -3997,7 +3996,8 @@ export const ListBuyersFilterSetsImpressionMetricsResponse = ListImpressionMetri
 
 export type ListBuyersFilterSetsImpressionMetricsError = CommonErrors;
 
-export const listBuyersFilterSetsImpressionMetrics = API.makePaginated(() => ({
+/** Lists all metrics that are measured in terms of number of impressions. */
+export const listBuyersFilterSetsImpressionMetrics: API.PaginatedOperationMethod<ListBuyersFilterSetsImpressionMetricsRequest, ListBuyersFilterSetsImpressionMetricsResponse, ListBuyersFilterSetsImpressionMetricsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBuyersFilterSetsImpressionMetricsRequest,
   output: ListBuyersFilterSetsImpressionMetricsResponse,
   errors: [],
@@ -4007,7 +4007,6 @@ export const listBuyersFilterSetsImpressionMetrics = API.makePaginated(() => ({
   },
 }));
 
-/** Lists all metrics that are measured in terms of number of bids. */
 export interface ListBuyersFilterSetsBidMetricsRequest {
   /** Name of the filter set that should be applied to the requested metrics. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   filterSetName: string;
@@ -4031,7 +4030,8 @@ export const ListBuyersFilterSetsBidMetricsResponse = ListBidMetricsResponse;
 
 export type ListBuyersFilterSetsBidMetricsError = CommonErrors;
 
-export const listBuyersFilterSetsBidMetrics = API.makePaginated(() => ({
+/** Lists all metrics that are measured in terms of number of bids. */
+export const listBuyersFilterSetsBidMetrics: API.PaginatedOperationMethod<ListBuyersFilterSetsBidMetricsRequest, ListBuyersFilterSetsBidMetricsResponse, ListBuyersFilterSetsBidMetricsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBuyersFilterSetsBidMetricsRequest,
   output: ListBuyersFilterSetsBidMetricsResponse,
   errors: [],
@@ -4041,7 +4041,6 @@ export const listBuyersFilterSetsBidMetrics = API.makePaginated(() => ({
   },
 }));
 
-/** List all reasons that caused a bid request not to be sent for an impression, with the number of bid requests not sent for each reason. */
 export interface ListBuyersFilterSetsFilteredBidRequestsRequest {
   /** Name of the filter set that should be applied to the requested metrics. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   filterSetName: string;
@@ -4065,7 +4064,8 @@ export const ListBuyersFilterSetsFilteredBidRequestsResponse = ListFilteredBidRe
 
 export type ListBuyersFilterSetsFilteredBidRequestsError = CommonErrors;
 
-export const listBuyersFilterSetsFilteredBidRequests = API.makePaginated(() => ({
+/** List all reasons that caused a bid request not to be sent for an impression, with the number of bid requests not sent for each reason. */
+export const listBuyersFilterSetsFilteredBidRequests: API.PaginatedOperationMethod<ListBuyersFilterSetsFilteredBidRequestsRequest, ListBuyersFilterSetsFilteredBidRequestsResponse, ListBuyersFilterSetsFilteredBidRequestsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBuyersFilterSetsFilteredBidRequestsRequest,
   output: ListBuyersFilterSetsFilteredBidRequestsResponse,
   errors: [],
@@ -4075,7 +4075,6 @@ export const listBuyersFilterSetsFilteredBidRequests = API.makePaginated(() => (
   },
 }));
 
-/** List all errors that occurred in bid responses, with the number of bid responses affected for each reason. */
 export interface ListBuyersFilterSetsBidResponseErrorsRequest {
   /** Name of the filter set that should be applied to the requested metrics. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   filterSetName: string;
@@ -4099,7 +4098,8 @@ export const ListBuyersFilterSetsBidResponseErrorsResponse = ListBidResponseErro
 
 export type ListBuyersFilterSetsBidResponseErrorsError = CommonErrors;
 
-export const listBuyersFilterSetsBidResponseErrors = API.makePaginated(() => ({
+/** List all errors that occurred in bid responses, with the number of bid responses affected for each reason. */
+export const listBuyersFilterSetsBidResponseErrors: API.PaginatedOperationMethod<ListBuyersFilterSetsBidResponseErrorsRequest, ListBuyersFilterSetsBidResponseErrorsResponse, ListBuyersFilterSetsBidResponseErrorsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBuyersFilterSetsBidResponseErrorsRequest,
   output: ListBuyersFilterSetsBidResponseErrorsResponse,
   errors: [],
@@ -4109,7 +4109,6 @@ export const listBuyersFilterSetsBidResponseErrors = API.makePaginated(() => ({
   },
 }));
 
-/** List all reasons for which bid responses were considered to have no applicable bids, with the number of bid responses affected for each reason. */
 export interface ListBuyersFilterSetsBidResponsesWithoutBidsRequest {
   /** Name of the filter set that should be applied to the requested metrics. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   filterSetName: string;
@@ -4133,7 +4132,8 @@ export const ListBuyersFilterSetsBidResponsesWithoutBidsResponse = ListBidRespon
 
 export type ListBuyersFilterSetsBidResponsesWithoutBidsError = CommonErrors;
 
-export const listBuyersFilterSetsBidResponsesWithoutBids = API.makePaginated(() => ({
+/** List all reasons for which bid responses were considered to have no applicable bids, with the number of bid responses affected for each reason. */
+export const listBuyersFilterSetsBidResponsesWithoutBids: API.PaginatedOperationMethod<ListBuyersFilterSetsBidResponsesWithoutBidsRequest, ListBuyersFilterSetsBidResponsesWithoutBidsResponse, ListBuyersFilterSetsBidResponsesWithoutBidsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBuyersFilterSetsBidResponsesWithoutBidsRequest,
   output: ListBuyersFilterSetsBidResponsesWithoutBidsResponse,
   errors: [],
@@ -4143,7 +4143,6 @@ export const listBuyersFilterSetsBidResponsesWithoutBids = API.makePaginated(() 
   },
 }));
 
-/** List all reasons for which bids were filtered, with the number of bids filtered for each reason. */
 export interface ListBuyersFilterSetsFilteredBidsRequest {
   /** Name of the filter set that should be applied to the requested metrics. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   filterSetName: string;
@@ -4167,7 +4166,8 @@ export const ListBuyersFilterSetsFilteredBidsResponse = ListFilteredBidsResponse
 
 export type ListBuyersFilterSetsFilteredBidsError = CommonErrors;
 
-export const listBuyersFilterSetsFilteredBids = API.makePaginated(() => ({
+/** List all reasons for which bids were filtered, with the number of bids filtered for each reason. */
+export const listBuyersFilterSetsFilteredBids: API.PaginatedOperationMethod<ListBuyersFilterSetsFilteredBidsRequest, ListBuyersFilterSetsFilteredBidsResponse, ListBuyersFilterSetsFilteredBidsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBuyersFilterSetsFilteredBidsRequest,
   output: ListBuyersFilterSetsFilteredBidsResponse,
   errors: [],
@@ -4177,7 +4177,6 @@ export const listBuyersFilterSetsFilteredBids = API.makePaginated(() => ({
   },
 }));
 
-/** List all details associated with a specific reason for which bids were filtered, with the number of bids filtered for each detail. */
 export interface ListBuyersFilterSetsFilteredBidsDetailsRequest {
   /** Name of the filter set that should be applied to the requested metrics. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   filterSetName: string;
@@ -4204,7 +4203,8 @@ export const ListBuyersFilterSetsFilteredBidsDetailsResponse = ListCreativeStatu
 
 export type ListBuyersFilterSetsFilteredBidsDetailsError = CommonErrors;
 
-export const listBuyersFilterSetsFilteredBidsDetails = API.makePaginated(() => ({
+/** List all details associated with a specific reason for which bids were filtered, with the number of bids filtered for each detail. */
+export const listBuyersFilterSetsFilteredBidsDetails: API.PaginatedOperationMethod<ListBuyersFilterSetsFilteredBidsDetailsRequest, ListBuyersFilterSetsFilteredBidsDetailsResponse, ListBuyersFilterSetsFilteredBidsDetailsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBuyersFilterSetsFilteredBidsDetailsRequest,
   output: ListBuyersFilterSetsFilteredBidsDetailsResponse,
   errors: [],
@@ -4214,7 +4214,6 @@ export const listBuyersFilterSetsFilteredBidsDetails = API.makePaginated(() => (
   },
 }));
 
-/** List all creatives associated with a specific reason for which bids were filtered, with the number of bids filtered for each creative. */
 export interface ListBuyersFilterSetsFilteredBidsCreativesRequest {
   /** Name of the filter set that should be applied to the requested metrics. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   filterSetName: string;
@@ -4241,7 +4240,8 @@ export const ListBuyersFilterSetsFilteredBidsCreativesResponse = ListCreativeSta
 
 export type ListBuyersFilterSetsFilteredBidsCreativesError = CommonErrors;
 
-export const listBuyersFilterSetsFilteredBidsCreatives = API.makePaginated(() => ({
+/** List all creatives associated with a specific reason for which bids were filtered, with the number of bids filtered for each creative. */
+export const listBuyersFilterSetsFilteredBidsCreatives: API.PaginatedOperationMethod<ListBuyersFilterSetsFilteredBidsCreativesRequest, ListBuyersFilterSetsFilteredBidsCreativesResponse, ListBuyersFilterSetsFilteredBidsCreativesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBuyersFilterSetsFilteredBidsCreativesRequest,
   output: ListBuyersFilterSetsFilteredBidsCreativesResponse,
   errors: [],
@@ -4251,7 +4251,6 @@ export const listBuyersFilterSetsFilteredBidsCreatives = API.makePaginated(() =>
   },
 }));
 
-/** List all reasons for which bids lost in the auction, with the number of bids that lost for each reason. */
 export interface ListBuyersFilterSetsLosingBidsRequest {
   /** Name of the filter set that should be applied to the requested metrics. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   filterSetName: string;
@@ -4275,7 +4274,8 @@ export const ListBuyersFilterSetsLosingBidsResponse = ListLosingBidsResponse;
 
 export type ListBuyersFilterSetsLosingBidsError = CommonErrors;
 
-export const listBuyersFilterSetsLosingBids = API.makePaginated(() => ({
+/** List all reasons for which bids lost in the auction, with the number of bids that lost for each reason. */
+export const listBuyersFilterSetsLosingBids: API.PaginatedOperationMethod<ListBuyersFilterSetsLosingBidsRequest, ListBuyersFilterSetsLosingBidsResponse, ListBuyersFilterSetsLosingBidsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBuyersFilterSetsLosingBidsRequest,
   output: ListBuyersFilterSetsLosingBidsResponse,
   errors: [],
@@ -4285,7 +4285,6 @@ export const listBuyersFilterSetsLosingBids = API.makePaginated(() => ({
   },
 }));
 
-/** List all reasons for which winning bids were not billable, with the number of bids not billed for each reason. */
 export interface ListBuyersFilterSetsNonBillableWinningBidsRequest {
   /** Name of the filter set that should be applied to the requested metrics. For example: - For a bidder-level filter set for bidder 123: `bidders/123/filterSets/abc` - For an account-level filter set for the buyer account representing bidder 123: `bidders/123/accounts/123/filterSets/abc` - For an account-level filter set for the child seat buyer account 456 whose bidder is 123: `bidders/123/accounts/456/filterSets/abc` */
   filterSetName: string;
@@ -4309,7 +4308,8 @@ export const ListBuyersFilterSetsNonBillableWinningBidsResponse = ListNonBillabl
 
 export type ListBuyersFilterSetsNonBillableWinningBidsError = CommonErrors;
 
-export const listBuyersFilterSetsNonBillableWinningBids = API.makePaginated(() => ({
+/** List all reasons for which winning bids were not billable, with the number of bids not billed for each reason. */
+export const listBuyersFilterSetsNonBillableWinningBids: API.PaginatedOperationMethod<ListBuyersFilterSetsNonBillableWinningBidsRequest, ListBuyersFilterSetsNonBillableWinningBidsResponse, ListBuyersFilterSetsNonBillableWinningBidsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListBuyersFilterSetsNonBillableWinningBidsRequest,
   output: ListBuyersFilterSetsNonBillableWinningBidsResponse,
   errors: [],

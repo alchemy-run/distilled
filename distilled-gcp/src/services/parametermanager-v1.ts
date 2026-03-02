@@ -183,7 +183,6 @@ export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> = Schem
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -213,7 +212,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -223,7 +223,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -241,13 +240,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists Parameters in a given project and location. */
 export interface ListProjectsLocationsParametersRequest {
   /** Required. Parent value for ListParametersRequest in the format `projects/* /locations/*`. */
   parent: string;
@@ -277,7 +276,8 @@ export const ListProjectsLocationsParametersResponse = ListParametersResponse;
 
 export type ListProjectsLocationsParametersError = CommonErrors;
 
-export const listProjectsLocationsParameters = API.makePaginated(() => ({
+/** Lists Parameters in a given project and location. */
+export const listProjectsLocationsParameters: API.PaginatedOperationMethod<ListProjectsLocationsParametersRequest, ListProjectsLocationsParametersResponse, ListProjectsLocationsParametersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsParametersRequest,
   output: ListProjectsLocationsParametersResponse,
   errors: [],
@@ -287,7 +287,6 @@ export const listProjectsLocationsParameters = API.makePaginated(() => ({
   },
 }));
 
-/** Gets details of a single Parameter. */
 export interface GetProjectsLocationsParametersRequest {
   /** Required. Name of the resource in the format `projects/* /locations/* /parameters/*`. */
   name: string;
@@ -305,13 +304,13 @@ export const GetProjectsLocationsParametersResponse = Parameter;
 
 export type GetProjectsLocationsParametersError = CommonErrors;
 
+/** Gets details of a single Parameter. */
 export const getProjectsLocationsParameters: API.OperationMethod<GetProjectsLocationsParametersRequest, GetProjectsLocationsParametersResponse, GetProjectsLocationsParametersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsParametersRequest,
   output: GetProjectsLocationsParametersResponse,
   errors: [],
 }));
 
-/** Creates a new Parameter in a given project and location. */
 export interface CreateProjectsLocationsParametersRequest {
   /** Required. Value for parent in the format `projects/* /locations/*`. */
   parent: string;
@@ -338,13 +337,13 @@ export const CreateProjectsLocationsParametersResponse = Parameter;
 
 export type CreateProjectsLocationsParametersError = CommonErrors;
 
+/** Creates a new Parameter in a given project and location. */
 export const createProjectsLocationsParameters: API.OperationMethod<CreateProjectsLocationsParametersRequest, CreateProjectsLocationsParametersResponse, CreateProjectsLocationsParametersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsParametersRequest,
   output: CreateProjectsLocationsParametersResponse,
   errors: [],
 }));
 
-/** Updates a single Parameter. */
 export interface PatchProjectsLocationsParametersRequest {
   /** Identifier. [Output only] The resource name of the Parameter in the format `projects/* /locations/* /parameters/*`. */
   name: string;
@@ -371,13 +370,13 @@ export const PatchProjectsLocationsParametersResponse = Parameter;
 
 export type PatchProjectsLocationsParametersError = CommonErrors;
 
+/** Updates a single Parameter. */
 export const patchProjectsLocationsParameters: API.OperationMethod<PatchProjectsLocationsParametersRequest, PatchProjectsLocationsParametersResponse, PatchProjectsLocationsParametersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsParametersRequest,
   output: PatchProjectsLocationsParametersResponse,
   errors: [],
 }));
 
-/** Deletes a single Parameter. */
 export interface DeleteProjectsLocationsParametersRequest {
   /** Required. Name of the resource in the format `projects/* /locations/* /parameters/*`. */
   name: string;
@@ -398,13 +397,13 @@ export const DeleteProjectsLocationsParametersResponse = Empty;
 
 export type DeleteProjectsLocationsParametersError = CommonErrors;
 
+/** Deletes a single Parameter. */
 export const deleteProjectsLocationsParameters: API.OperationMethod<DeleteProjectsLocationsParametersRequest, DeleteProjectsLocationsParametersResponse, DeleteProjectsLocationsParametersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsParametersRequest,
   output: DeleteProjectsLocationsParametersResponse,
   errors: [],
 }));
 
-/** Lists ParameterVersions in a given project, location, and parameter. */
 export interface ListProjectsLocationsParametersVersionsRequest {
   /** Required. Parent value for ListParameterVersionsRequest in the format `projects/* /locations/* /parameters/*`. */
   parent: string;
@@ -434,7 +433,8 @@ export const ListProjectsLocationsParametersVersionsResponse = ListParameterVers
 
 export type ListProjectsLocationsParametersVersionsError = CommonErrors;
 
-export const listProjectsLocationsParametersVersions = API.makePaginated(() => ({
+/** Lists ParameterVersions in a given project, location, and parameter. */
+export const listProjectsLocationsParametersVersions: API.PaginatedOperationMethod<ListProjectsLocationsParametersVersionsRequest, ListProjectsLocationsParametersVersionsResponse, ListProjectsLocationsParametersVersionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsParametersVersionsRequest,
   output: ListProjectsLocationsParametersVersionsResponse,
   errors: [],
@@ -444,7 +444,6 @@ export const listProjectsLocationsParametersVersions = API.makePaginated(() => (
   },
 }));
 
-/** Gets details of a single ParameterVersion. */
 export interface GetProjectsLocationsParametersVersionsRequest {
   /** Required. Name of the resource in the format `projects/* /locations/* /parameters/* /versions/*`. */
   name: string;
@@ -465,13 +464,13 @@ export const GetProjectsLocationsParametersVersionsResponse = ParameterVersion;
 
 export type GetProjectsLocationsParametersVersionsError = CommonErrors;
 
+/** Gets details of a single ParameterVersion. */
 export const getProjectsLocationsParametersVersions: API.OperationMethod<GetProjectsLocationsParametersVersionsRequest, GetProjectsLocationsParametersVersionsResponse, GetProjectsLocationsParametersVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsParametersVersionsRequest,
   output: GetProjectsLocationsParametersVersionsResponse,
   errors: [],
 }));
 
-/** Gets rendered version of a ParameterVersion. */
 export interface RenderProjectsLocationsParametersVersionsRequest {
   /** Required. Name of the resource */
   name: string;
@@ -489,13 +488,13 @@ export const RenderProjectsLocationsParametersVersionsResponse = RenderParameter
 
 export type RenderProjectsLocationsParametersVersionsError = CommonErrors;
 
+/** Gets rendered version of a ParameterVersion. */
 export const renderProjectsLocationsParametersVersions: API.OperationMethod<RenderProjectsLocationsParametersVersionsRequest, RenderProjectsLocationsParametersVersionsResponse, RenderProjectsLocationsParametersVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RenderProjectsLocationsParametersVersionsRequest,
   output: RenderProjectsLocationsParametersVersionsResponse,
   errors: [],
 }));
 
-/** Creates a new ParameterVersion in a given project, location, and parameter. */
 export interface CreateProjectsLocationsParametersVersionsRequest {
   /** Required. Value for parent in the format `projects/* /locations/* /parameters/*`. */
   parent: string;
@@ -522,13 +521,13 @@ export const CreateProjectsLocationsParametersVersionsResponse = ParameterVersio
 
 export type CreateProjectsLocationsParametersVersionsError = CommonErrors;
 
+/** Creates a new ParameterVersion in a given project, location, and parameter. */
 export const createProjectsLocationsParametersVersions: API.OperationMethod<CreateProjectsLocationsParametersVersionsRequest, CreateProjectsLocationsParametersVersionsResponse, CreateProjectsLocationsParametersVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsParametersVersionsRequest,
   output: CreateProjectsLocationsParametersVersionsResponse,
   errors: [],
 }));
 
-/** Updates a single ParameterVersion. */
 export interface PatchProjectsLocationsParametersVersionsRequest {
   /** Identifier. [Output only] The resource name of the ParameterVersion in the format `projects/* /locations/* /parameters/* /versions/*`. */
   name: string;
@@ -555,13 +554,13 @@ export const PatchProjectsLocationsParametersVersionsResponse = ParameterVersion
 
 export type PatchProjectsLocationsParametersVersionsError = CommonErrors;
 
+/** Updates a single ParameterVersion. */
 export const patchProjectsLocationsParametersVersions: API.OperationMethod<PatchProjectsLocationsParametersVersionsRequest, PatchProjectsLocationsParametersVersionsResponse, PatchProjectsLocationsParametersVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsParametersVersionsRequest,
   output: PatchProjectsLocationsParametersVersionsResponse,
   errors: [],
 }));
 
-/** Deletes a single ParameterVersion. */
 export interface DeleteProjectsLocationsParametersVersionsRequest {
   /** Required. Name of the resource in the format `projects/* /locations/* /parameters/* /versions/*`. */
   name: string;
@@ -582,6 +581,7 @@ export const DeleteProjectsLocationsParametersVersionsResponse = Empty;
 
 export type DeleteProjectsLocationsParametersVersionsError = CommonErrors;
 
+/** Deletes a single ParameterVersion. */
 export const deleteProjectsLocationsParametersVersions: API.OperationMethod<DeleteProjectsLocationsParametersVersionsRequest, DeleteProjectsLocationsParametersVersionsResponse, DeleteProjectsLocationsParametersVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsParametersVersionsRequest,
   output: DeleteProjectsLocationsParametersVersionsResponse,

@@ -675,7 +675,6 @@ export const GoogleFirebaseAppdistroV1UploadReleaseResponse: Schema.Schema<Googl
 // Operations
 // ==========================================================================
 
-/** Gets Android App Bundle (AAB) information for a Firebase app. */
 export interface GetAabInfoProjectsAppsRequest {
   /** Required. The name of the `AabInfo` resource to retrieve. Format: `projects/{project_number}/apps/{app}/aabInfo` */
   name: string;
@@ -693,13 +692,13 @@ export const GetAabInfoProjectsAppsResponse = GoogleFirebaseAppdistroV1AabInfo;
 
 export type GetAabInfoProjectsAppsError = CommonErrors;
 
+/** Gets Android App Bundle (AAB) information for a Firebase app. */
 export const getAabInfoProjectsApps: API.OperationMethod<GetAabInfoProjectsAppsRequest, GetAabInfoProjectsAppsResponse, GetAabInfoProjectsAppsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAabInfoProjectsAppsRequest,
   output: GetAabInfoProjectsAppsResponse,
   errors: [],
 }));
 
-/** Gets a release. */
 export interface GetProjectsAppsReleasesRequest {
   /** Required. The name of the release resource to retrieve. Format: projects/{project_number}/apps/{app}/releases/{release} */
   name: string;
@@ -717,13 +716,13 @@ export const GetProjectsAppsReleasesResponse = GoogleFirebaseAppdistroV1Release;
 
 export type GetProjectsAppsReleasesError = CommonErrors;
 
+/** Gets a release. */
 export const getProjectsAppsReleases: API.OperationMethod<GetProjectsAppsReleasesRequest, GetProjectsAppsReleasesResponse, GetProjectsAppsReleasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsAppsReleasesRequest,
   output: GetProjectsAppsReleasesResponse,
   errors: [],
 }));
 
-/** Lists releases. By default, sorts by `createTime` in descending order. */
 export interface ListProjectsAppsReleasesRequest {
   /** Required. The name of the app resource, which is the parent of the release resources. Format: `projects/{project_number}/apps/{app}` */
   parent: string;
@@ -753,7 +752,8 @@ export const ListProjectsAppsReleasesResponse = GoogleFirebaseAppdistroV1ListRel
 
 export type ListProjectsAppsReleasesError = CommonErrors;
 
-export const listProjectsAppsReleases = API.makePaginated(() => ({
+/** Lists releases. By default, sorts by `createTime` in descending order. */
+export const listProjectsAppsReleases: API.PaginatedOperationMethod<ListProjectsAppsReleasesRequest, ListProjectsAppsReleasesResponse, ListProjectsAppsReleasesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsAppsReleasesRequest,
   output: ListProjectsAppsReleasesResponse,
   errors: [],
@@ -763,7 +763,6 @@ export const listProjectsAppsReleases = API.makePaginated(() => ({
   },
 }));
 
-/** Updates a release. */
 export interface PatchProjectsAppsReleasesRequest {
   /** The name of the release resource. Format: `projects/{project_number}/apps/{app}/releases/{release}` */
   name: string;
@@ -787,13 +786,13 @@ export const PatchProjectsAppsReleasesResponse = GoogleFirebaseAppdistroV1Releas
 
 export type PatchProjectsAppsReleasesError = CommonErrors;
 
+/** Updates a release. */
 export const patchProjectsAppsReleases: API.OperationMethod<PatchProjectsAppsReleasesRequest, PatchProjectsAppsReleasesResponse, PatchProjectsAppsReleasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsAppsReleasesRequest,
   output: PatchProjectsAppsReleasesResponse,
   errors: [],
 }));
 
-/** Distributes a release to testers. This call does the following: 1. Creates testers for the specified emails, if none exist. 2. Adds the testers and groups to the release. 3. Sends new testers an invitation email. 4. Sends existing testers a new release email. The request will fail with a `INVALID_ARGUMENT` if it contains a group that doesn't exist. */
 export interface DistributeProjectsAppsReleasesRequest {
   /** Required. The name of the release resource to distribute. Format: `projects/{project_number}/apps/{app}/releases/{release}` */
   name: string;
@@ -814,13 +813,13 @@ export const DistributeProjectsAppsReleasesResponse = GoogleFirebaseAppdistroV1D
 
 export type DistributeProjectsAppsReleasesError = CommonErrors;
 
+/** Distributes a release to testers. This call does the following: 1. Creates testers for the specified emails, if none exist. 2. Adds the testers and groups to the release. 3. Sends new testers an invitation email. 4. Sends existing testers a new release email. The request will fail with a `INVALID_ARGUMENT` if it contains a group that doesn't exist. */
 export const distributeProjectsAppsReleases: API.OperationMethod<DistributeProjectsAppsReleasesRequest, DistributeProjectsAppsReleasesResponse, DistributeProjectsAppsReleasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DistributeProjectsAppsReleasesRequest,
   output: DistributeProjectsAppsReleasesResponse,
   errors: [],
 }));
 
-/** Deletes releases. A maximum of 100 releases can be deleted per request. */
 export interface BatchDeleteProjectsAppsReleasesRequest {
   /** Required. The name of the app resource, which is the parent of the release resources. Format: `projects/{project_number}/apps/{app}` */
   parent: string;
@@ -841,13 +840,13 @@ export const BatchDeleteProjectsAppsReleasesResponse = GoogleProtobufEmpty;
 
 export type BatchDeleteProjectsAppsReleasesError = CommonErrors;
 
+/** Deletes releases. A maximum of 100 releases can be deleted per request. */
 export const batchDeleteProjectsAppsReleases: API.OperationMethod<BatchDeleteProjectsAppsReleasesRequest, BatchDeleteProjectsAppsReleasesResponse, BatchDeleteProjectsAppsReleasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchDeleteProjectsAppsReleasesRequest,
   output: BatchDeleteProjectsAppsReleasesResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsAppsReleasesOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -877,7 +876,8 @@ export const ListProjectsAppsReleasesOperationsResponse = GoogleLongrunningListO
 
 export type ListProjectsAppsReleasesOperationsError = CommonErrors;
 
-export const listProjectsAppsReleasesOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsAppsReleasesOperations: API.PaginatedOperationMethod<ListProjectsAppsReleasesOperationsRequest, ListProjectsAppsReleasesOperationsResponse, ListProjectsAppsReleasesOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsAppsReleasesOperationsRequest,
   output: ListProjectsAppsReleasesOperationsResponse,
   errors: [],
@@ -887,7 +887,6 @@ export const listProjectsAppsReleasesOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsAppsReleasesOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -905,13 +904,13 @@ export const GetProjectsAppsReleasesOperationsResponse = GoogleLongrunningOperat
 
 export type GetProjectsAppsReleasesOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsAppsReleasesOperations: API.OperationMethod<GetProjectsAppsReleasesOperationsRequest, GetProjectsAppsReleasesOperationsResponse, GetProjectsAppsReleasesOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsAppsReleasesOperationsRequest,
   output: GetProjectsAppsReleasesOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsAppsReleasesOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -929,13 +928,13 @@ export const DeleteProjectsAppsReleasesOperationsResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsAppsReleasesOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsAppsReleasesOperations: API.OperationMethod<DeleteProjectsAppsReleasesOperationsRequest, DeleteProjectsAppsReleasesOperationsResponse, DeleteProjectsAppsReleasesOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsAppsReleasesOperationsRequest,
   output: DeleteProjectsAppsReleasesOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsAppsReleasesOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -956,13 +955,13 @@ export const CancelProjectsAppsReleasesOperationsResponse = GoogleProtobufEmpty;
 
 export type CancelProjectsAppsReleasesOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsAppsReleasesOperations: API.OperationMethod<CancelProjectsAppsReleasesOperationsRequest, CancelProjectsAppsReleasesOperationsResponse, CancelProjectsAppsReleasesOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsAppsReleasesOperationsRequest,
   output: CancelProjectsAppsReleasesOperationsResponse,
   errors: [],
 }));
 
-/** Waits until the specified long-running operation is done or reaches at most a specified timeout, returning the latest state. If the operation is already done, the latest state is immediately returned. If the timeout specified is greater than the default HTTP/RPC timeout, the HTTP/RPC timeout is used. If the server does not support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Note that this method is on a best-effort basis. It may return the latest state before the specified timeout (including immediately), meaning even an immediate response is no guarantee that the operation is done. */
 export interface WaitProjectsAppsReleasesOperationsRequest {
   /** The name of the operation resource to wait on. */
   name: string;
@@ -983,13 +982,13 @@ export const WaitProjectsAppsReleasesOperationsResponse = GoogleLongrunningOpera
 
 export type WaitProjectsAppsReleasesOperationsError = CommonErrors;
 
+/** Waits until the specified long-running operation is done or reaches at most a specified timeout, returning the latest state. If the operation is already done, the latest state is immediately returned. If the timeout specified is greater than the default HTTP/RPC timeout, the HTTP/RPC timeout is used. If the server does not support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Note that this method is on a best-effort basis. It may return the latest state before the specified timeout (including immediately), meaning even an immediate response is no guarantee that the operation is done. */
 export const waitProjectsAppsReleasesOperations: API.OperationMethod<WaitProjectsAppsReleasesOperationsRequest, WaitProjectsAppsReleasesOperationsResponse, WaitProjectsAppsReleasesOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: WaitProjectsAppsReleasesOperationsRequest,
   output: WaitProjectsAppsReleasesOperationsResponse,
   errors: [],
 }));
 
-/** Gets a feedback report. */
 export interface GetProjectsAppsReleasesFeedbackReportsRequest {
   /** Required. The name of the feedback report to retrieve. Format: projects/{project_number}/apps/{app}/releases/{release}/feedbackReports/{feedback_report} */
   name: string;
@@ -1007,13 +1006,13 @@ export const GetProjectsAppsReleasesFeedbackReportsResponse = GoogleFirebaseAppd
 
 export type GetProjectsAppsReleasesFeedbackReportsError = CommonErrors;
 
+/** Gets a feedback report. */
 export const getProjectsAppsReleasesFeedbackReports: API.OperationMethod<GetProjectsAppsReleasesFeedbackReportsRequest, GetProjectsAppsReleasesFeedbackReportsResponse, GetProjectsAppsReleasesFeedbackReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsAppsReleasesFeedbackReportsRequest,
   output: GetProjectsAppsReleasesFeedbackReportsResponse,
   errors: [],
 }));
 
-/** Lists feedback reports. By default, sorts by `createTime` in descending order. */
 export interface ListProjectsAppsReleasesFeedbackReportsRequest {
   /** Required. The name of the release resource, which is the parent of the feedback report resources. Format: `projects/{project_number}/apps/{app}/releases/{release}` */
   parent: string;
@@ -1037,7 +1036,8 @@ export const ListProjectsAppsReleasesFeedbackReportsResponse = GoogleFirebaseApp
 
 export type ListProjectsAppsReleasesFeedbackReportsError = CommonErrors;
 
-export const listProjectsAppsReleasesFeedbackReports = API.makePaginated(() => ({
+/** Lists feedback reports. By default, sorts by `createTime` in descending order. */
+export const listProjectsAppsReleasesFeedbackReports: API.PaginatedOperationMethod<ListProjectsAppsReleasesFeedbackReportsRequest, ListProjectsAppsReleasesFeedbackReportsResponse, ListProjectsAppsReleasesFeedbackReportsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsAppsReleasesFeedbackReportsRequest,
   output: ListProjectsAppsReleasesFeedbackReportsResponse,
   errors: [],
@@ -1047,7 +1047,6 @@ export const listProjectsAppsReleasesFeedbackReports = API.makePaginated(() => (
   },
 }));
 
-/** Deletes a feedback report. */
 export interface DeleteProjectsAppsReleasesFeedbackReportsRequest {
   /** Required. The name of the feedback report to delete. Format: projects/{project_number}/apps/{app}/releases/{release}/feedbackReports/{feedback_report} */
   name: string;
@@ -1065,13 +1064,13 @@ export const DeleteProjectsAppsReleasesFeedbackReportsResponse = GoogleProtobufE
 
 export type DeleteProjectsAppsReleasesFeedbackReportsError = CommonErrors;
 
+/** Deletes a feedback report. */
 export const deleteProjectsAppsReleasesFeedbackReports: API.OperationMethod<DeleteProjectsAppsReleasesFeedbackReportsRequest, DeleteProjectsAppsReleasesFeedbackReportsResponse, DeleteProjectsAppsReleasesFeedbackReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsAppsReleasesFeedbackReportsRequest,
   output: DeleteProjectsAppsReleasesFeedbackReportsResponse,
   errors: [],
 }));
 
-/** Batch adds testers. This call adds testers for the specified emails if they don't already exist. Returns all testers specified in the request, including newly created and previously existing testers. This action is idempotent. */
 export interface BatchAddProjectsTestersRequest {
   /** Required. The name of the project resource. Format: `projects/{project_number}` */
   project: string;
@@ -1092,13 +1091,13 @@ export const BatchAddProjectsTestersResponse = GoogleFirebaseAppdistroV1BatchAdd
 
 export type BatchAddProjectsTestersError = CommonErrors;
 
+/** Batch adds testers. This call adds testers for the specified emails if they don't already exist. Returns all testers specified in the request, including newly created and previously existing testers. This action is idempotent. */
 export const batchAddProjectsTesters: API.OperationMethod<BatchAddProjectsTestersRequest, BatchAddProjectsTestersResponse, BatchAddProjectsTestersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchAddProjectsTestersRequest,
   output: BatchAddProjectsTestersResponse,
   errors: [],
 }));
 
-/** Batch removes testers. If found, this call deletes testers for the specified emails. Returns all deleted testers. */
 export interface BatchRemoveProjectsTestersRequest {
   /** Required. The name of the project resource. Format: `projects/{project_number}` */
   project: string;
@@ -1119,13 +1118,13 @@ export const BatchRemoveProjectsTestersResponse = GoogleFirebaseAppdistroV1Batch
 
 export type BatchRemoveProjectsTestersError = CommonErrors;
 
+/** Batch removes testers. If found, this call deletes testers for the specified emails. Returns all deleted testers. */
 export const batchRemoveProjectsTesters: API.OperationMethod<BatchRemoveProjectsTestersRequest, BatchRemoveProjectsTestersResponse, BatchRemoveProjectsTestersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchRemoveProjectsTestersRequest,
   output: BatchRemoveProjectsTestersResponse,
   errors: [],
 }));
 
-/** Lists testers and their resource ids. */
 export interface ListProjectsTestersRequest {
   /** Required. The name of the project resource, which is the parent of the tester resources. Format: `projects/{project_number}` */
   parent: string;
@@ -1152,7 +1151,8 @@ export const ListProjectsTestersResponse = GoogleFirebaseAppdistroV1ListTestersR
 
 export type ListProjectsTestersError = CommonErrors;
 
-export const listProjectsTesters = API.makePaginated(() => ({
+/** Lists testers and their resource ids. */
+export const listProjectsTesters: API.PaginatedOperationMethod<ListProjectsTestersRequest, ListProjectsTestersResponse, ListProjectsTestersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsTestersRequest,
   output: ListProjectsTestersResponse,
   errors: [],
@@ -1162,7 +1162,6 @@ export const listProjectsTesters = API.makePaginated(() => ({
   },
 }));
 
-/** Update a tester. If the testers joins a group they gain access to all releases that the group has access to. */
 export interface PatchProjectsTestersRequest {
   /** The name of the tester resource. Format: `projects/{project_number}/testers/{email_address}` */
   name: string;
@@ -1186,13 +1185,13 @@ export const PatchProjectsTestersResponse = GoogleFirebaseAppdistroV1Tester;
 
 export type PatchProjectsTestersError = CommonErrors;
 
+/** Update a tester. If the testers joins a group they gain access to all releases that the group has access to. */
 export const patchProjectsTesters: API.OperationMethod<PatchProjectsTestersRequest, PatchProjectsTestersResponse, PatchProjectsTestersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsTestersRequest,
   output: PatchProjectsTestersResponse,
   errors: [],
 }));
 
-/** Get a group. */
 export interface GetProjectsGroupsRequest {
   /** Required. The name of the group resource to retrieve. Format: `projects/{project_number}/groups/{group_alias}` */
   name: string;
@@ -1210,13 +1209,13 @@ export const GetProjectsGroupsResponse = GoogleFirebaseAppdistroV1Group;
 
 export type GetProjectsGroupsError = CommonErrors;
 
+/** Get a group. */
 export const getProjectsGroups: API.OperationMethod<GetProjectsGroupsRequest, GetProjectsGroupsResponse, GetProjectsGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsGroupsRequest,
   output: GetProjectsGroupsResponse,
   errors: [],
 }));
 
-/** List groups. */
 export interface ListProjectsGroupsRequest {
   /** Required. The name of the project resource, which is the parent of the group resources. Format: `projects/{project_number}` */
   parent: string;
@@ -1240,7 +1239,8 @@ export const ListProjectsGroupsResponse = GoogleFirebaseAppdistroV1ListGroupsRes
 
 export type ListProjectsGroupsError = CommonErrors;
 
-export const listProjectsGroups = API.makePaginated(() => ({
+/** List groups. */
+export const listProjectsGroups: API.PaginatedOperationMethod<ListProjectsGroupsRequest, ListProjectsGroupsResponse, ListProjectsGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsGroupsRequest,
   output: ListProjectsGroupsResponse,
   errors: [],
@@ -1250,7 +1250,6 @@ export const listProjectsGroups = API.makePaginated(() => ({
   },
 }));
 
-/** Create a group. */
 export interface CreateProjectsGroupsRequest {
   /** Required. The name of the project resource, which is the parent of the group resource. Format: `projects/{project_number}` */
   parent: string;
@@ -1274,13 +1273,13 @@ export const CreateProjectsGroupsResponse = GoogleFirebaseAppdistroV1Group;
 
 export type CreateProjectsGroupsError = CommonErrors;
 
+/** Create a group. */
 export const createProjectsGroups: API.OperationMethod<CreateProjectsGroupsRequest, CreateProjectsGroupsResponse, CreateProjectsGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsGroupsRequest,
   output: CreateProjectsGroupsResponse,
   errors: [],
 }));
 
-/** Update a group. */
 export interface PatchProjectsGroupsRequest {
   /** The name of the group resource. Format: `projects/{project_number}/groups/{group_alias}` */
   name: string;
@@ -1304,13 +1303,13 @@ export const PatchProjectsGroupsResponse = GoogleFirebaseAppdistroV1Group;
 
 export type PatchProjectsGroupsError = CommonErrors;
 
+/** Update a group. */
 export const patchProjectsGroups: API.OperationMethod<PatchProjectsGroupsRequest, PatchProjectsGroupsResponse, PatchProjectsGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsGroupsRequest,
   output: PatchProjectsGroupsResponse,
   errors: [],
 }));
 
-/** Delete a group. */
 export interface DeleteProjectsGroupsRequest {
   /** Required. The name of the group resource. Format: `projects/{project_number}/groups/{group_alias}` */
   name: string;
@@ -1328,13 +1327,13 @@ export const DeleteProjectsGroupsResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsGroupsError = CommonErrors;
 
+/** Delete a group. */
 export const deleteProjectsGroups: API.OperationMethod<DeleteProjectsGroupsRequest, DeleteProjectsGroupsResponse, DeleteProjectsGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsGroupsRequest,
   output: DeleteProjectsGroupsResponse,
   errors: [],
 }));
 
-/** Batch adds members to a group. The testers will gain access to all releases that the groups have access to. */
 export interface BatchJoinProjectsGroupsRequest {
   /** Required. The name of the group resource to which testers are added. Format: `projects/{project_number}/groups/{group_alias}` */
   group: string;
@@ -1355,13 +1354,13 @@ export const BatchJoinProjectsGroupsResponse = GoogleProtobufEmpty;
 
 export type BatchJoinProjectsGroupsError = CommonErrors;
 
+/** Batch adds members to a group. The testers will gain access to all releases that the groups have access to. */
 export const batchJoinProjectsGroups: API.OperationMethod<BatchJoinProjectsGroupsRequest, BatchJoinProjectsGroupsResponse, BatchJoinProjectsGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchJoinProjectsGroupsRequest,
   output: BatchJoinProjectsGroupsResponse,
   errors: [],
 }));
 
-/** Batch removed members from a group. The testers will lose access to all releases that the groups have access to. */
 export interface BatchLeaveProjectsGroupsRequest {
   /** Required. The name of the group resource from which testers are removed. Format: `projects/{project_number}/groups/{group_alias}` */
   group: string;
@@ -1382,13 +1381,13 @@ export const BatchLeaveProjectsGroupsResponse = GoogleProtobufEmpty;
 
 export type BatchLeaveProjectsGroupsError = CommonErrors;
 
+/** Batch removed members from a group. The testers will lose access to all releases that the groups have access to. */
 export const batchLeaveProjectsGroups: API.OperationMethod<BatchLeaveProjectsGroupsRequest, BatchLeaveProjectsGroupsResponse, BatchLeaveProjectsGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchLeaveProjectsGroupsRequest,
   output: BatchLeaveProjectsGroupsResponse,
   errors: [],
 }));
 
-/** Uploads a binary. Uploading a binary can result in a new release being created, an update to an existing release, or a no-op if a release with the same binary already exists. */
 export interface UploadMediaRequest {
   /** Required. The name of the app resource. Format: `projects/{project_number}/apps/{app}` */
   app: string;
@@ -1409,6 +1408,7 @@ export const UploadMediaResponse = GoogleLongrunningOperation;
 
 export type UploadMediaError = CommonErrors;
 
+/** Uploads a binary. Uploading a binary can result in a new release being created, an update to an existing release, or a no-op if a release with the same binary already exists. */
 export const uploadMedia: API.OperationMethod<UploadMediaRequest, UploadMediaResponse, UploadMediaError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UploadMediaRequest,
   output: UploadMediaResponse,

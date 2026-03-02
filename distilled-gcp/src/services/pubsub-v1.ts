@@ -1014,7 +1014,6 @@ export const ListTopicSubscriptionsResponse: Schema.Schema<ListTopicSubscription
 // Operations
 // ==========================================================================
 
-/** Acknowledges the messages associated with the `ack_ids` in the `AcknowledgeRequest`. The Pub/Sub system can remove the relevant messages from the subscription. Acknowledging a message whose ack deadline has expired may succeed, but such a message may be redelivered later. Acknowledging a message more than once will not result in an error. */
 export interface AcknowledgeProjectsSubscriptionsRequest {
   /** Required. The subscription whose message is being acknowledged. Format is `projects/{project}/subscriptions/{sub}`. */
   subscription: string;
@@ -1035,13 +1034,13 @@ export const AcknowledgeProjectsSubscriptionsResponse = Empty;
 
 export type AcknowledgeProjectsSubscriptionsError = CommonErrors;
 
+/** Acknowledges the messages associated with the `ack_ids` in the `AcknowledgeRequest`. The Pub/Sub system can remove the relevant messages from the subscription. Acknowledging a message whose ack deadline has expired may succeed, but such a message may be redelivered later. Acknowledging a message more than once will not result in an error. */
 export const acknowledgeProjectsSubscriptions: API.OperationMethod<AcknowledgeProjectsSubscriptionsRequest, AcknowledgeProjectsSubscriptionsResponse, AcknowledgeProjectsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AcknowledgeProjectsSubscriptionsRequest,
   output: AcknowledgeProjectsSubscriptionsResponse,
   errors: [],
 }));
 
-/** Creates a subscription to a given topic. See the [resource name rules] (https://cloud.google.com/pubsub/docs/pubsub-basics#resource_names). If the subscription already exists, returns `ALREADY_EXISTS`. If the corresponding topic doesn't exist, returns `NOT_FOUND`. If the name is not provided in the request, the server will assign a random name for this subscription on the same project as the topic, conforming to the [resource name format] (https://cloud.google.com/pubsub/docs/pubsub-basics#resource_names). The generated name is populated in the returned Subscription object. Note that for REST API requests, you must specify a name in the request. */
 export interface CreateProjectsSubscriptionsRequest {
   /** Required. Identifier. The name of the subscription. It must have the format `"projects/{project}/subscriptions/{subscription}"`. `{subscription}` must start with a letter, and contain only letters (`[A-Za-z]`), numbers (`[0-9]`), dashes (`-`), underscores (`_`), periods (`.`), tildes (`~`), plus (`+`) or percent signs (`%`). It must be between 3 and 255 characters in length, and it must not start with `"goog"`. */
   name: string;
@@ -1062,13 +1061,13 @@ export const CreateProjectsSubscriptionsResponse = Subscription;
 
 export type CreateProjectsSubscriptionsError = CommonErrors;
 
+/** Creates a subscription to a given topic. See the [resource name rules] (https://cloud.google.com/pubsub/docs/pubsub-basics#resource_names). If the subscription already exists, returns `ALREADY_EXISTS`. If the corresponding topic doesn't exist, returns `NOT_FOUND`. If the name is not provided in the request, the server will assign a random name for this subscription on the same project as the topic, conforming to the [resource name format] (https://cloud.google.com/pubsub/docs/pubsub-basics#resource_names). The generated name is populated in the returned Subscription object. Note that for REST API requests, you must specify a name in the request. */
 export const createProjectsSubscriptions: API.OperationMethod<CreateProjectsSubscriptionsRequest, CreateProjectsSubscriptionsResponse, CreateProjectsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsSubscriptionsRequest,
   output: CreateProjectsSubscriptionsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsSubscriptionsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1089,13 +1088,13 @@ export const SetIamPolicyProjectsSubscriptionsResponse = Policy;
 
 export type SetIamPolicyProjectsSubscriptionsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsSubscriptions: API.OperationMethod<SetIamPolicyProjectsSubscriptionsRequest, SetIamPolicyProjectsSubscriptionsResponse, SetIamPolicyProjectsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsSubscriptionsRequest,
   output: SetIamPolicyProjectsSubscriptionsResponse,
   errors: [],
 }));
 
-/** Lists matching subscriptions. */
 export interface ListProjectsSubscriptionsRequest {
   /** Optional. Maximum number of subscriptions to return. */
   pageSize?: number;
@@ -1119,7 +1118,8 @@ export const ListProjectsSubscriptionsResponse = ListSubscriptionsResponse;
 
 export type ListProjectsSubscriptionsError = CommonErrors;
 
-export const listProjectsSubscriptions = API.makePaginated(() => ({
+/** Lists matching subscriptions. */
+export const listProjectsSubscriptions: API.PaginatedOperationMethod<ListProjectsSubscriptionsRequest, ListProjectsSubscriptionsResponse, ListProjectsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsSubscriptionsRequest,
   output: ListProjectsSubscriptionsResponse,
   errors: [],
@@ -1129,7 +1129,6 @@ export const listProjectsSubscriptions = API.makePaginated(() => ({
   },
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsSubscriptionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1150,13 +1149,13 @@ export const TestIamPermissionsProjectsSubscriptionsResponse = TestIamPermission
 
 export type TestIamPermissionsProjectsSubscriptionsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsSubscriptions: API.OperationMethod<TestIamPermissionsProjectsSubscriptionsRequest, TestIamPermissionsProjectsSubscriptionsResponse, TestIamPermissionsProjectsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsSubscriptionsRequest,
   output: TestIamPermissionsProjectsSubscriptionsResponse,
   errors: [],
 }));
 
-/** Modifies the `PushConfig` for a specified subscription. This may be used to change a push subscription to a pull one (signified by an empty `PushConfig`) or vice versa, or change the endpoint URL and other attributes of a push subscription. Messages will accumulate for delivery continuously through the call regardless of changes to the `PushConfig`. */
 export interface ModifyPushConfigProjectsSubscriptionsRequest {
   /** Required. The name of the subscription. Format is `projects/{project}/subscriptions/{sub}`. */
   subscription: string;
@@ -1177,13 +1176,13 @@ export const ModifyPushConfigProjectsSubscriptionsResponse = Empty;
 
 export type ModifyPushConfigProjectsSubscriptionsError = CommonErrors;
 
+/** Modifies the `PushConfig` for a specified subscription. This may be used to change a push subscription to a pull one (signified by an empty `PushConfig`) or vice versa, or change the endpoint URL and other attributes of a push subscription. Messages will accumulate for delivery continuously through the call regardless of changes to the `PushConfig`. */
 export const modifyPushConfigProjectsSubscriptions: API.OperationMethod<ModifyPushConfigProjectsSubscriptionsRequest, ModifyPushConfigProjectsSubscriptionsResponse, ModifyPushConfigProjectsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ModifyPushConfigProjectsSubscriptionsRequest,
   output: ModifyPushConfigProjectsSubscriptionsResponse,
   errors: [],
 }));
 
-/** Detaches a subscription from this topic. All messages retained in the subscription are dropped. Subsequent `Pull` and `StreamingPull` requests will return FAILED_PRECONDITION. If the subscription is a push subscription, pushes to the endpoint will stop. */
 export interface DetachProjectsSubscriptionsRequest {
   /** Required. The subscription to detach. Format is `projects/{project}/subscriptions/{subscription}`. */
   subscription: string;
@@ -1201,13 +1200,13 @@ export const DetachProjectsSubscriptionsResponse = DetachSubscriptionResponse;
 
 export type DetachProjectsSubscriptionsError = CommonErrors;
 
+/** Detaches a subscription from this topic. All messages retained in the subscription are dropped. Subsequent `Pull` and `StreamingPull` requests will return FAILED_PRECONDITION. If the subscription is a push subscription, pushes to the endpoint will stop. */
 export const detachProjectsSubscriptions: API.OperationMethod<DetachProjectsSubscriptionsRequest, DetachProjectsSubscriptionsResponse, DetachProjectsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DetachProjectsSubscriptionsRequest,
   output: DetachProjectsSubscriptionsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsSubscriptionsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1228,13 +1227,13 @@ export const GetIamPolicyProjectsSubscriptionsResponse = Policy;
 
 export type GetIamPolicyProjectsSubscriptionsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsSubscriptions: API.OperationMethod<GetIamPolicyProjectsSubscriptionsRequest, GetIamPolicyProjectsSubscriptionsResponse, GetIamPolicyProjectsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsSubscriptionsRequest,
   output: GetIamPolicyProjectsSubscriptionsResponse,
   errors: [],
 }));
 
-/** Updates an existing subscription by updating the fields specified in the update mask. Note that certain properties of a subscription, such as its topic, are not modifiable. */
 export interface PatchProjectsSubscriptionsRequest {
   /** Required. Identifier. The name of the subscription. It must have the format `"projects/{project}/subscriptions/{subscription}"`. `{subscription}` must start with a letter, and contain only letters (`[A-Za-z]`), numbers (`[0-9]`), dashes (`-`), underscores (`_`), periods (`.`), tildes (`~`), plus (`+`) or percent signs (`%`). It must be between 3 and 255 characters in length, and it must not start with `"goog"`. */
   name: string;
@@ -1255,13 +1254,13 @@ export const PatchProjectsSubscriptionsResponse = Subscription;
 
 export type PatchProjectsSubscriptionsError = CommonErrors;
 
+/** Updates an existing subscription by updating the fields specified in the update mask. Note that certain properties of a subscription, such as its topic, are not modifiable. */
 export const patchProjectsSubscriptions: API.OperationMethod<PatchProjectsSubscriptionsRequest, PatchProjectsSubscriptionsResponse, PatchProjectsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsSubscriptionsRequest,
   output: PatchProjectsSubscriptionsResponse,
   errors: [],
 }));
 
-/** Gets the configuration details of a subscription. */
 export interface GetProjectsSubscriptionsRequest {
   /** Required. The name of the subscription to get. Format is `projects/{project}/subscriptions/{sub}`. */
   subscription: string;
@@ -1279,13 +1278,13 @@ export const GetProjectsSubscriptionsResponse = Subscription;
 
 export type GetProjectsSubscriptionsError = CommonErrors;
 
+/** Gets the configuration details of a subscription. */
 export const getProjectsSubscriptions: API.OperationMethod<GetProjectsSubscriptionsRequest, GetProjectsSubscriptionsResponse, GetProjectsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsSubscriptionsRequest,
   output: GetProjectsSubscriptionsResponse,
   errors: [],
 }));
 
-/** Seeks an existing subscription to a point in time or to a given snapshot, whichever is provided in the request. Snapshots are used in [Seek] (https://cloud.google.com/pubsub/docs/replay-overview) operations, which allow you to manage message acknowledgments in bulk. That is, you can set the acknowledgment state of messages in an existing subscription to the state captured by a snapshot. Note that both the subscription and the snapshot must be on the same topic. */
 export interface SeekProjectsSubscriptionsRequest {
   /** Required. The subscription to affect. */
   subscription: string;
@@ -1306,13 +1305,13 @@ export const SeekProjectsSubscriptionsResponse = SeekResponse;
 
 export type SeekProjectsSubscriptionsError = CommonErrors;
 
+/** Seeks an existing subscription to a point in time or to a given snapshot, whichever is provided in the request. Snapshots are used in [Seek] (https://cloud.google.com/pubsub/docs/replay-overview) operations, which allow you to manage message acknowledgments in bulk. That is, you can set the acknowledgment state of messages in an existing subscription to the state captured by a snapshot. Note that both the subscription and the snapshot must be on the same topic. */
 export const seekProjectsSubscriptions: API.OperationMethod<SeekProjectsSubscriptionsRequest, SeekProjectsSubscriptionsResponse, SeekProjectsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SeekProjectsSubscriptionsRequest,
   output: SeekProjectsSubscriptionsResponse,
   errors: [],
 }));
 
-/** Modifies the ack deadline for a specific message. This method is useful to indicate that more time is needed to process a message by the subscriber, or to make the message available for redelivery if the processing was interrupted. Note that this does not modify the subscription-level `ackDeadlineSeconds` used for subsequent messages. */
 export interface ModifyAckDeadlineProjectsSubscriptionsRequest {
   /** Required. The name of the subscription. Format is `projects/{project}/subscriptions/{sub}`. */
   subscription: string;
@@ -1333,13 +1332,13 @@ export const ModifyAckDeadlineProjectsSubscriptionsResponse = Empty;
 
 export type ModifyAckDeadlineProjectsSubscriptionsError = CommonErrors;
 
+/** Modifies the ack deadline for a specific message. This method is useful to indicate that more time is needed to process a message by the subscriber, or to make the message available for redelivery if the processing was interrupted. Note that this does not modify the subscription-level `ackDeadlineSeconds` used for subsequent messages. */
 export const modifyAckDeadlineProjectsSubscriptions: API.OperationMethod<ModifyAckDeadlineProjectsSubscriptionsRequest, ModifyAckDeadlineProjectsSubscriptionsResponse, ModifyAckDeadlineProjectsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ModifyAckDeadlineProjectsSubscriptionsRequest,
   output: ModifyAckDeadlineProjectsSubscriptionsResponse,
   errors: [],
 }));
 
-/** Deletes an existing subscription. All messages retained in the subscription are immediately dropped. Calls to `Pull` after deletion will return `NOT_FOUND`. After a subscription is deleted, a new one may be created with the same name, but the new one has no association with the old subscription or its topic unless the same topic is specified. */
 export interface DeleteProjectsSubscriptionsRequest {
   /** Required. The subscription to delete. Format is `projects/{project}/subscriptions/{sub}`. */
   subscription: string;
@@ -1357,13 +1356,13 @@ export const DeleteProjectsSubscriptionsResponse = Empty;
 
 export type DeleteProjectsSubscriptionsError = CommonErrors;
 
+/** Deletes an existing subscription. All messages retained in the subscription are immediately dropped. Calls to `Pull` after deletion will return `NOT_FOUND`. After a subscription is deleted, a new one may be created with the same name, but the new one has no association with the old subscription or its topic unless the same topic is specified. */
 export const deleteProjectsSubscriptions: API.OperationMethod<DeleteProjectsSubscriptionsRequest, DeleteProjectsSubscriptionsResponse, DeleteProjectsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsSubscriptionsRequest,
   output: DeleteProjectsSubscriptionsResponse,
   errors: [],
 }));
 
-/** Pulls messages from the server. */
 export interface PullProjectsSubscriptionsRequest {
   /** Required. The subscription from which messages should be pulled. Format is `projects/{project}/subscriptions/{sub}`. */
   subscription: string;
@@ -1384,13 +1383,13 @@ export const PullProjectsSubscriptionsResponse = PullResponse;
 
 export type PullProjectsSubscriptionsError = CommonErrors;
 
+/** Pulls messages from the server. */
 export const pullProjectsSubscriptions: API.OperationMethod<PullProjectsSubscriptionsRequest, PullProjectsSubscriptionsResponse, PullProjectsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PullProjectsSubscriptionsRequest,
   output: PullProjectsSubscriptionsResponse,
   errors: [],
 }));
 
-/** Validates a schema. */
 export interface ValidateProjectsSchemasRequest {
   /** Required. The name of the project in which to validate schemas. Format is `projects/{project-id}`. */
   parent: string;
@@ -1411,13 +1410,13 @@ export const ValidateProjectsSchemasResponse = ValidateSchemaResponse;
 
 export type ValidateProjectsSchemasError = CommonErrors;
 
+/** Validates a schema. */
 export const validateProjectsSchemas: API.OperationMethod<ValidateProjectsSchemasRequest, ValidateProjectsSchemasResponse, ValidateProjectsSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ValidateProjectsSchemasRequest,
   output: ValidateProjectsSchemasResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsSchemasRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
@@ -1438,13 +1437,13 @@ export const GetIamPolicyProjectsSchemasResponse = Policy;
 
 export type GetIamPolicyProjectsSchemasError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsSchemas: API.OperationMethod<GetIamPolicyProjectsSchemasRequest, GetIamPolicyProjectsSchemasResponse, GetIamPolicyProjectsSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsSchemasRequest,
   output: GetIamPolicyProjectsSchemasResponse,
   errors: [],
 }));
 
-/** Lists all schema revisions for the named schema. */
 export interface ListRevisionsProjectsSchemasRequest {
   /** Required. The name of the schema to list revisions for. */
   name: string;
@@ -1471,7 +1470,8 @@ export const ListRevisionsProjectsSchemasResponse = ListSchemaRevisionsResponse;
 
 export type ListRevisionsProjectsSchemasError = CommonErrors;
 
-export const listRevisionsProjectsSchemas = API.makePaginated(() => ({
+/** Lists all schema revisions for the named schema. */
+export const listRevisionsProjectsSchemas: API.PaginatedOperationMethod<ListRevisionsProjectsSchemasRequest, ListRevisionsProjectsSchemasResponse, ListRevisionsProjectsSchemasError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRevisionsProjectsSchemasRequest,
   output: ListRevisionsProjectsSchemasResponse,
   errors: [],
@@ -1481,7 +1481,6 @@ export const listRevisionsProjectsSchemas = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a schema. */
 export interface CreateProjectsSchemasRequest {
   /** The ID to use for the schema, which will become the final component of the schema's resource name. See https://cloud.google.com/pubsub/docs/pubsub-basics#resource_names for resource name constraints. */
   schemaId?: string;
@@ -1505,13 +1504,13 @@ export const CreateProjectsSchemasResponse = Pubsub_Schema;
 
 export type CreateProjectsSchemasError = CommonErrors;
 
+/** Creates a schema. */
 export const createProjectsSchemas: API.OperationMethod<CreateProjectsSchemasRequest, CreateProjectsSchemasResponse, CreateProjectsSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsSchemasRequest,
   output: CreateProjectsSchemasResponse,
   errors: [],
 }));
 
-/** Deletes a specific schema revision. */
 export interface DeleteRevisionProjectsSchemasRequest {
   /** Optional. This field is deprecated and should not be used for specifying the revision ID. The revision ID should be specified via the `name` parameter. */
   revisionId?: string;
@@ -1532,13 +1531,13 @@ export const DeleteRevisionProjectsSchemasResponse = Pubsub_Schema;
 
 export type DeleteRevisionProjectsSchemasError = CommonErrors;
 
+/** Deletes a specific schema revision. */
 export const deleteRevisionProjectsSchemas: API.OperationMethod<DeleteRevisionProjectsSchemasRequest, DeleteRevisionProjectsSchemasResponse, DeleteRevisionProjectsSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRevisionProjectsSchemasRequest,
   output: DeleteRevisionProjectsSchemasResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsSchemasRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1559,13 +1558,13 @@ export const SetIamPolicyProjectsSchemasResponse = Policy;
 
 export type SetIamPolicyProjectsSchemasError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsSchemas: API.OperationMethod<SetIamPolicyProjectsSchemasRequest, SetIamPolicyProjectsSchemasResponse, SetIamPolicyProjectsSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsSchemasRequest,
   output: SetIamPolicyProjectsSchemasResponse,
   errors: [],
 }));
 
-/** Validates a message against a schema. */
 export interface ValidateMessageProjectsSchemasRequest {
   /** Required. The name of the project in which to validate schemas. Format is `projects/{project-id}`. */
   parent: string;
@@ -1586,13 +1585,13 @@ export const ValidateMessageProjectsSchemasResponse = ValidateMessageResponse;
 
 export type ValidateMessageProjectsSchemasError = CommonErrors;
 
+/** Validates a message against a schema. */
 export const validateMessageProjectsSchemas: API.OperationMethod<ValidateMessageProjectsSchemasRequest, ValidateMessageProjectsSchemasResponse, ValidateMessageProjectsSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ValidateMessageProjectsSchemasRequest,
   output: ValidateMessageProjectsSchemasResponse,
   errors: [],
 }));
 
-/** Lists schemas in a project. */
 export interface ListProjectsSchemasRequest {
   /** Maximum number of schemas to return. */
   pageSize?: number;
@@ -1619,7 +1618,8 @@ export const ListProjectsSchemasResponse = ListSchemasResponse;
 
 export type ListProjectsSchemasError = CommonErrors;
 
-export const listProjectsSchemas = API.makePaginated(() => ({
+/** Lists schemas in a project. */
+export const listProjectsSchemas: API.PaginatedOperationMethod<ListProjectsSchemasRequest, ListProjectsSchemasResponse, ListProjectsSchemasError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsSchemasRequest,
   output: ListProjectsSchemasResponse,
   errors: [],
@@ -1629,7 +1629,6 @@ export const listProjectsSchemas = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a schema. */
 export interface GetProjectsSchemasRequest {
   /** Required. The name of the schema to get. Format is `projects/{project}/schemas/{schema}`. */
   name: string;
@@ -1650,13 +1649,13 @@ export const GetProjectsSchemasResponse = Pubsub_Schema;
 
 export type GetProjectsSchemasError = CommonErrors;
 
+/** Gets a schema. */
 export const getProjectsSchemas: API.OperationMethod<GetProjectsSchemasRequest, GetProjectsSchemasResponse, GetProjectsSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsSchemasRequest,
   output: GetProjectsSchemasResponse,
   errors: [],
 }));
 
-/** Commits a new schema revision to an existing schema. */
 export interface CommitProjectsSchemasRequest {
   /** Required. The name of the schema we are revising. Format is `projects/{project}/schemas/{schema}`. */
   name: string;
@@ -1677,13 +1676,13 @@ export const CommitProjectsSchemasResponse = Pubsub_Schema;
 
 export type CommitProjectsSchemasError = CommonErrors;
 
+/** Commits a new schema revision to an existing schema. */
 export const commitProjectsSchemas: API.OperationMethod<CommitProjectsSchemasRequest, CommitProjectsSchemasResponse, CommitProjectsSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CommitProjectsSchemasRequest,
   output: CommitProjectsSchemasResponse,
   errors: [],
 }));
 
-/** Creates a new schema revision that is a copy of the provided revision_id. */
 export interface RollbackProjectsSchemasRequest {
   /** Required. The schema being rolled back with revision id. */
   name: string;
@@ -1704,13 +1703,13 @@ export const RollbackProjectsSchemasResponse = Pubsub_Schema;
 
 export type RollbackProjectsSchemasError = CommonErrors;
 
+/** Creates a new schema revision that is a copy of the provided revision_id. */
 export const rollbackProjectsSchemas: API.OperationMethod<RollbackProjectsSchemasRequest, RollbackProjectsSchemasResponse, RollbackProjectsSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RollbackProjectsSchemasRequest,
   output: RollbackProjectsSchemasResponse,
   errors: [],
 }));
 
-/** Deletes a schema. */
 export interface DeleteProjectsSchemasRequest {
   /** Required. Name of the schema to delete. Format is `projects/{project}/schemas/{schema}`. */
   name: string;
@@ -1728,13 +1727,13 @@ export const DeleteProjectsSchemasResponse = Empty;
 
 export type DeleteProjectsSchemasError = CommonErrors;
 
+/** Deletes a schema. */
 export const deleteProjectsSchemas: API.OperationMethod<DeleteProjectsSchemasRequest, DeleteProjectsSchemasResponse, DeleteProjectsSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsSchemasRequest,
   output: DeleteProjectsSchemasResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsSchemasRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1755,13 +1754,13 @@ export const TestIamPermissionsProjectsSchemasResponse = TestIamPermissionsRespo
 
 export type TestIamPermissionsProjectsSchemasError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsSchemas: API.OperationMethod<TestIamPermissionsProjectsSchemasRequest, TestIamPermissionsProjectsSchemasResponse, TestIamPermissionsProjectsSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsSchemasRequest,
   output: TestIamPermissionsProjectsSchemasResponse,
   errors: [],
 }));
 
-/** Lists the existing snapshots. Snapshots are used in [Seek]( https://cloud.google.com/pubsub/docs/replay-overview) operations, which allow you to manage message acknowledgments in bulk. That is, you can set the acknowledgment state of messages in an existing subscription to the state captured by a snapshot. */
 export interface ListProjectsSnapshotsRequest {
   /** Optional. The value returned by the last `ListSnapshotsResponse`; indicates that this is a continuation of a prior `ListSnapshots` call, and that the system should return the next page of data. */
   pageToken?: string;
@@ -1785,7 +1784,8 @@ export const ListProjectsSnapshotsResponse = ListSnapshotsResponse;
 
 export type ListProjectsSnapshotsError = CommonErrors;
 
-export const listProjectsSnapshots = API.makePaginated(() => ({
+/** Lists the existing snapshots. Snapshots are used in [Seek]( https://cloud.google.com/pubsub/docs/replay-overview) operations, which allow you to manage message acknowledgments in bulk. That is, you can set the acknowledgment state of messages in an existing subscription to the state captured by a snapshot. */
+export const listProjectsSnapshots: API.PaginatedOperationMethod<ListProjectsSnapshotsRequest, ListProjectsSnapshotsResponse, ListProjectsSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsSnapshotsRequest,
   output: ListProjectsSnapshotsResponse,
   errors: [],
@@ -1795,7 +1795,6 @@ export const listProjectsSnapshots = API.makePaginated(() => ({
   },
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsSnapshotsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1816,13 +1815,13 @@ export const SetIamPolicyProjectsSnapshotsResponse = Policy;
 
 export type SetIamPolicyProjectsSnapshotsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsSnapshots: API.OperationMethod<SetIamPolicyProjectsSnapshotsRequest, SetIamPolicyProjectsSnapshotsResponse, SetIamPolicyProjectsSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsSnapshotsRequest,
   output: SetIamPolicyProjectsSnapshotsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsSnapshotsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1843,13 +1842,13 @@ export const TestIamPermissionsProjectsSnapshotsResponse = TestIamPermissionsRes
 
 export type TestIamPermissionsProjectsSnapshotsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsSnapshots: API.OperationMethod<TestIamPermissionsProjectsSnapshotsRequest, TestIamPermissionsProjectsSnapshotsResponse, TestIamPermissionsProjectsSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsSnapshotsRequest,
   output: TestIamPermissionsProjectsSnapshotsResponse,
   errors: [],
 }));
 
-/** Removes an existing snapshot. Snapshots are used in [Seek] (https://cloud.google.com/pubsub/docs/replay-overview) operations, which allow you to manage message acknowledgments in bulk. That is, you can set the acknowledgment state of messages in an existing subscription to the state captured by a snapshot. When the snapshot is deleted, all messages retained in the snapshot are immediately dropped. After a snapshot is deleted, a new one may be created with the same name, but the new one has no association with the old snapshot or its subscription, unless the same subscription is specified. */
 export interface DeleteProjectsSnapshotsRequest {
   /** Required. The name of the snapshot to delete. Format is `projects/{project}/snapshots/{snap}`. */
   snapshot: string;
@@ -1867,13 +1866,13 @@ export const DeleteProjectsSnapshotsResponse = Empty;
 
 export type DeleteProjectsSnapshotsError = CommonErrors;
 
+/** Removes an existing snapshot. Snapshots are used in [Seek] (https://cloud.google.com/pubsub/docs/replay-overview) operations, which allow you to manage message acknowledgments in bulk. That is, you can set the acknowledgment state of messages in an existing subscription to the state captured by a snapshot. When the snapshot is deleted, all messages retained in the snapshot are immediately dropped. After a snapshot is deleted, a new one may be created with the same name, but the new one has no association with the old snapshot or its subscription, unless the same subscription is specified. */
 export const deleteProjectsSnapshots: API.OperationMethod<DeleteProjectsSnapshotsRequest, DeleteProjectsSnapshotsResponse, DeleteProjectsSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsSnapshotsRequest,
   output: DeleteProjectsSnapshotsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsSnapshotsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -1894,13 +1893,13 @@ export const GetIamPolicyProjectsSnapshotsResponse = Policy;
 
 export type GetIamPolicyProjectsSnapshotsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsSnapshots: API.OperationMethod<GetIamPolicyProjectsSnapshotsRequest, GetIamPolicyProjectsSnapshotsResponse, GetIamPolicyProjectsSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsSnapshotsRequest,
   output: GetIamPolicyProjectsSnapshotsResponse,
   errors: [],
 }));
 
-/** Gets the configuration details of a snapshot. Snapshots are used in [Seek](https://cloud.google.com/pubsub/docs/replay-overview) operations, which allow you to manage message acknowledgments in bulk. That is, you can set the acknowledgment state of messages in an existing subscription to the state captured by a snapshot. */
 export interface GetProjectsSnapshotsRequest {
   /** Required. The name of the snapshot to get. Format is `projects/{project}/snapshots/{snap}`. */
   snapshot: string;
@@ -1918,13 +1917,13 @@ export const GetProjectsSnapshotsResponse = Snapshot;
 
 export type GetProjectsSnapshotsError = CommonErrors;
 
+/** Gets the configuration details of a snapshot. Snapshots are used in [Seek](https://cloud.google.com/pubsub/docs/replay-overview) operations, which allow you to manage message acknowledgments in bulk. That is, you can set the acknowledgment state of messages in an existing subscription to the state captured by a snapshot. */
 export const getProjectsSnapshots: API.OperationMethod<GetProjectsSnapshotsRequest, GetProjectsSnapshotsResponse, GetProjectsSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsSnapshotsRequest,
   output: GetProjectsSnapshotsResponse,
   errors: [],
 }));
 
-/** Creates a snapshot from the requested subscription. Snapshots are used in [Seek](https://cloud.google.com/pubsub/docs/replay-overview) operations, which allow you to manage message acknowledgments in bulk. That is, you can set the acknowledgment state of messages in an existing subscription to the state captured by a snapshot. If the snapshot already exists, returns `ALREADY_EXISTS`. If the requested subscription doesn't exist, returns `NOT_FOUND`. If the backlog in the subscription is too old -- and the resulting snapshot would expire in less than 1 hour -- then `FAILED_PRECONDITION` is returned. See also the `Snapshot.expire_time` field. If the name is not provided in the request, the server will assign a random name for this snapshot on the same project as the subscription, conforming to the [resource name format] (https://cloud.google.com/pubsub/docs/pubsub-basics#resource_names). The generated name is populated in the returned Snapshot object. Note that for REST API requests, you must specify a name in the request. */
 export interface CreateProjectsSnapshotsRequest {
   /** Required. User-provided name for this snapshot. If the name is not provided in the request, the server will assign a random name for this snapshot on the same project as the subscription. Note that for REST API requests, you must specify a name. See the [resource name rules](https://cloud.google.com/pubsub/docs/pubsub-basics#resource_names). Format is `projects/{project}/snapshots/{snap}`. */
   name: string;
@@ -1945,13 +1944,13 @@ export const CreateProjectsSnapshotsResponse = Snapshot;
 
 export type CreateProjectsSnapshotsError = CommonErrors;
 
+/** Creates a snapshot from the requested subscription. Snapshots are used in [Seek](https://cloud.google.com/pubsub/docs/replay-overview) operations, which allow you to manage message acknowledgments in bulk. That is, you can set the acknowledgment state of messages in an existing subscription to the state captured by a snapshot. If the snapshot already exists, returns `ALREADY_EXISTS`. If the requested subscription doesn't exist, returns `NOT_FOUND`. If the backlog in the subscription is too old -- and the resulting snapshot would expire in less than 1 hour -- then `FAILED_PRECONDITION` is returned. See also the `Snapshot.expire_time` field. If the name is not provided in the request, the server will assign a random name for this snapshot on the same project as the subscription, conforming to the [resource name format] (https://cloud.google.com/pubsub/docs/pubsub-basics#resource_names). The generated name is populated in the returned Snapshot object. Note that for REST API requests, you must specify a name in the request. */
 export const createProjectsSnapshots: API.OperationMethod<CreateProjectsSnapshotsRequest, CreateProjectsSnapshotsResponse, CreateProjectsSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsSnapshotsRequest,
   output: CreateProjectsSnapshotsResponse,
   errors: [],
 }));
 
-/** Updates an existing snapshot by updating the fields specified in the update mask. Snapshots are used in [Seek](https://cloud.google.com/pubsub/docs/replay-overview) operations, which allow you to manage message acknowledgments in bulk. That is, you can set the acknowledgment state of messages in an existing subscription to the state captured by a snapshot. */
 export interface PatchProjectsSnapshotsRequest {
   /** Optional. The name of the snapshot. */
   name: string;
@@ -1972,13 +1971,13 @@ export const PatchProjectsSnapshotsResponse = Snapshot;
 
 export type PatchProjectsSnapshotsError = CommonErrors;
 
+/** Updates an existing snapshot by updating the fields specified in the update mask. Snapshots are used in [Seek](https://cloud.google.com/pubsub/docs/replay-overview) operations, which allow you to manage message acknowledgments in bulk. That is, you can set the acknowledgment state of messages in an existing subscription to the state captured by a snapshot. */
 export const patchProjectsSnapshots: API.OperationMethod<PatchProjectsSnapshotsRequest, PatchProjectsSnapshotsResponse, PatchProjectsSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsSnapshotsRequest,
   output: PatchProjectsSnapshotsResponse,
   errors: [],
 }));
 
-/** Creates the given topic with the given name. See the [resource name rules] (https://cloud.google.com/pubsub/docs/pubsub-basics#resource_names). */
 export interface CreateProjectsTopicsRequest {
   /** Required. Identifier. The name of the topic. It must have the format `"projects/{project}/topics/{topic}"`. `{topic}` must start with a letter, and contain only letters (`[A-Za-z]`), numbers (`[0-9]`), dashes (`-`), underscores (`_`), periods (`.`), tildes (`~`), plus (`+`) or percent signs (`%`). It must be between 3 and 255 characters in length, and it must not start with `"goog"`. */
   name: string;
@@ -1999,13 +1998,13 @@ export const CreateProjectsTopicsResponse = Topic;
 
 export type CreateProjectsTopicsError = CommonErrors;
 
+/** Creates the given topic with the given name. See the [resource name rules] (https://cloud.google.com/pubsub/docs/pubsub-basics#resource_names). */
 export const createProjectsTopics: API.OperationMethod<CreateProjectsTopicsRequest, CreateProjectsTopicsResponse, CreateProjectsTopicsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsTopicsRequest,
   output: CreateProjectsTopicsResponse,
   errors: [],
 }));
 
-/** Deletes the topic with the given name. Returns `NOT_FOUND` if the topic does not exist. After a topic is deleted, a new topic may be created with the same name; this is an entirely new topic with none of the old configuration or subscriptions. Existing subscriptions to this topic are not deleted, but their `topic` field is set to `_deleted-topic_`. */
 export interface DeleteProjectsTopicsRequest {
   /** Required. Name of the topic to delete. Format is `projects/{project}/topics/{topic}`. */
   topic: string;
@@ -2023,13 +2022,13 @@ export const DeleteProjectsTopicsResponse = Empty;
 
 export type DeleteProjectsTopicsError = CommonErrors;
 
+/** Deletes the topic with the given name. Returns `NOT_FOUND` if the topic does not exist. After a topic is deleted, a new topic may be created with the same name; this is an entirely new topic with none of the old configuration or subscriptions. Existing subscriptions to this topic are not deleted, but their `topic` field is set to `_deleted-topic_`. */
 export const deleteProjectsTopics: API.OperationMethod<DeleteProjectsTopicsRequest, DeleteProjectsTopicsResponse, DeleteProjectsTopicsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsTopicsRequest,
   output: DeleteProjectsTopicsResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyProjectsTopicsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2050,13 +2049,13 @@ export const SetIamPolicyProjectsTopicsResponse = Policy;
 
 export type SetIamPolicyProjectsTopicsError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyProjectsTopics: API.OperationMethod<SetIamPolicyProjectsTopicsRequest, SetIamPolicyProjectsTopicsResponse, SetIamPolicyProjectsTopicsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyProjectsTopicsRequest,
   output: SetIamPolicyProjectsTopicsResponse,
   errors: [],
 }));
 
-/** Gets the configuration of a topic. */
 export interface GetProjectsTopicsRequest {
   /** Required. The name of the topic to get. Format is `projects/{project}/topics/{topic}`. */
   topic: string;
@@ -2074,13 +2073,13 @@ export const GetProjectsTopicsResponse = Topic;
 
 export type GetProjectsTopicsError = CommonErrors;
 
+/** Gets the configuration of a topic. */
 export const getProjectsTopics: API.OperationMethod<GetProjectsTopicsRequest, GetProjectsTopicsResponse, GetProjectsTopicsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsTopicsRequest,
   output: GetProjectsTopicsResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsProjectsTopicsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -2101,13 +2100,13 @@ export const TestIamPermissionsProjectsTopicsResponse = TestIamPermissionsRespon
 
 export type TestIamPermissionsProjectsTopicsError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsProjectsTopics: API.OperationMethod<TestIamPermissionsProjectsTopicsRequest, TestIamPermissionsProjectsTopicsResponse, TestIamPermissionsProjectsTopicsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsProjectsTopicsRequest,
   output: TestIamPermissionsProjectsTopicsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyProjectsTopicsRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
@@ -2128,13 +2127,13 @@ export const GetIamPolicyProjectsTopicsResponse = Policy;
 
 export type GetIamPolicyProjectsTopicsError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyProjectsTopics: API.OperationMethod<GetIamPolicyProjectsTopicsRequest, GetIamPolicyProjectsTopicsResponse, GetIamPolicyProjectsTopicsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyProjectsTopicsRequest,
   output: GetIamPolicyProjectsTopicsResponse,
   errors: [],
 }));
 
-/** Updates an existing topic by updating the fields specified in the update mask. Note that certain properties of a topic are not modifiable. */
 export interface PatchProjectsTopicsRequest {
   /** Required. Identifier. The name of the topic. It must have the format `"projects/{project}/topics/{topic}"`. `{topic}` must start with a letter, and contain only letters (`[A-Za-z]`), numbers (`[0-9]`), dashes (`-`), underscores (`_`), periods (`.`), tildes (`~`), plus (`+`) or percent signs (`%`). It must be between 3 and 255 characters in length, and it must not start with `"goog"`. */
   name: string;
@@ -2155,13 +2154,13 @@ export const PatchProjectsTopicsResponse = Topic;
 
 export type PatchProjectsTopicsError = CommonErrors;
 
+/** Updates an existing topic by updating the fields specified in the update mask. Note that certain properties of a topic are not modifiable. */
 export const patchProjectsTopics: API.OperationMethod<PatchProjectsTopicsRequest, PatchProjectsTopicsResponse, PatchProjectsTopicsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsTopicsRequest,
   output: PatchProjectsTopicsResponse,
   errors: [],
 }));
 
-/** Adds one or more messages to the topic. Returns `NOT_FOUND` if the topic does not exist. */
 export interface PublishProjectsTopicsRequest {
   /** Required. The messages in the request will be published on this topic. Format is `projects/{project}/topics/{topic}`. */
   topic: string;
@@ -2182,13 +2181,13 @@ export const PublishProjectsTopicsResponse = PublishResponse;
 
 export type PublishProjectsTopicsError = CommonErrors;
 
+/** Adds one or more messages to the topic. Returns `NOT_FOUND` if the topic does not exist. */
 export const publishProjectsTopics: API.OperationMethod<PublishProjectsTopicsRequest, PublishProjectsTopicsResponse, PublishProjectsTopicsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PublishProjectsTopicsRequest,
   output: PublishProjectsTopicsResponse,
   errors: [],
 }));
 
-/** Lists matching topics. */
 export interface ListProjectsTopicsRequest {
   /** Optional. Maximum number of topics to return. */
   pageSize?: number;
@@ -2212,7 +2211,8 @@ export const ListProjectsTopicsResponse = ListTopicsResponse;
 
 export type ListProjectsTopicsError = CommonErrors;
 
-export const listProjectsTopics = API.makePaginated(() => ({
+/** Lists matching topics. */
+export const listProjectsTopics: API.PaginatedOperationMethod<ListProjectsTopicsRequest, ListProjectsTopicsResponse, ListProjectsTopicsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsTopicsRequest,
   output: ListProjectsTopicsResponse,
   errors: [],
@@ -2222,7 +2222,6 @@ export const listProjectsTopics = API.makePaginated(() => ({
   },
 }));
 
-/** Lists the names of the snapshots on this topic. Snapshots are used in [Seek](https://cloud.google.com/pubsub/docs/replay-overview) operations, which allow you to manage message acknowledgments in bulk. That is, you can set the acknowledgment state of messages in an existing subscription to the state captured by a snapshot. */
 export interface ListProjectsTopicsSnapshotsRequest {
   /** Optional. The value returned by the last `ListTopicSnapshotsResponse`; indicates that this is a continuation of a prior `ListTopicSnapshots` call, and that the system should return the next page of data. */
   pageToken?: string;
@@ -2246,7 +2245,8 @@ export const ListProjectsTopicsSnapshotsResponse = ListTopicSnapshotsResponse;
 
 export type ListProjectsTopicsSnapshotsError = CommonErrors;
 
-export const listProjectsTopicsSnapshots = API.makePaginated(() => ({
+/** Lists the names of the snapshots on this topic. Snapshots are used in [Seek](https://cloud.google.com/pubsub/docs/replay-overview) operations, which allow you to manage message acknowledgments in bulk. That is, you can set the acknowledgment state of messages in an existing subscription to the state captured by a snapshot. */
+export const listProjectsTopicsSnapshots: API.PaginatedOperationMethod<ListProjectsTopicsSnapshotsRequest, ListProjectsTopicsSnapshotsResponse, ListProjectsTopicsSnapshotsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsTopicsSnapshotsRequest,
   output: ListProjectsTopicsSnapshotsResponse,
   errors: [],
@@ -2256,7 +2256,6 @@ export const listProjectsTopicsSnapshots = API.makePaginated(() => ({
   },
 }));
 
-/** Lists the names of the attached subscriptions on this topic. */
 export interface ListProjectsTopicsSubscriptionsRequest {
   /** Optional. Maximum number of subscription names to return. */
   pageSize?: number;
@@ -2280,7 +2279,8 @@ export const ListProjectsTopicsSubscriptionsResponse = ListTopicSubscriptionsRes
 
 export type ListProjectsTopicsSubscriptionsError = CommonErrors;
 
-export const listProjectsTopicsSubscriptions = API.makePaginated(() => ({
+/** Lists the names of the attached subscriptions on this topic. */
+export const listProjectsTopicsSubscriptions: API.PaginatedOperationMethod<ListProjectsTopicsSubscriptionsRequest, ListProjectsTopicsSubscriptionsResponse, ListProjectsTopicsSubscriptionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsTopicsSubscriptionsRequest,
   output: ListProjectsTopicsSubscriptionsResponse,
   errors: [],

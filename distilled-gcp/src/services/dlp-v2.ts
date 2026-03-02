@@ -5046,7 +5046,6 @@ export const UtilStatusProto: Schema.Schema<UtilStatusProto> = Schema.suspend(()
 // Operations
 // ==========================================================================
 
-/** Finds potentially sensitive info in content. This method has limits on input size, processing time, and output size. When no InfoTypes or CustomInfoTypes are specified in this request, the system will automatically choose what detectors to run. By default this may be all types, but may change over time as detectors are updated. For how to guides, see https://cloud.google.com/sensitive-data-protection/docs/inspecting-images and https://cloud.google.com/sensitive-data-protection/docs/inspecting-text, */
 export interface InspectProjectsContentRequest {
   /** Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -5067,13 +5066,13 @@ export const InspectProjectsContentResponse = GooglePrivacyDlpV2InspectContentRe
 
 export type InspectProjectsContentError = CommonErrors;
 
+/** Finds potentially sensitive info in content. This method has limits on input size, processing time, and output size. When no InfoTypes or CustomInfoTypes are specified in this request, the system will automatically choose what detectors to run. By default this may be all types, but may change over time as detectors are updated. For how to guides, see https://cloud.google.com/sensitive-data-protection/docs/inspecting-images and https://cloud.google.com/sensitive-data-protection/docs/inspecting-text, */
 export const inspectProjectsContent: API.OperationMethod<InspectProjectsContentRequest, InspectProjectsContentResponse, InspectProjectsContentError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InspectProjectsContentRequest,
   output: InspectProjectsContentResponse,
   errors: [],
 }));
 
-/** De-identifies potentially sensitive info from a ContentItem. This method has limits on input size and output size. See https://cloud.google.com/sensitive-data-protection/docs/deidentify-sensitive-data to learn more. When no InfoTypes or CustomInfoTypes are specified in this request, the system will automatically choose what detectors to run. By default this may be all types, but may change over time as detectors are updated. */
 export interface DeidentifyProjectsContentRequest {
   /** Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -5094,13 +5093,13 @@ export const DeidentifyProjectsContentResponse = GooglePrivacyDlpV2DeidentifyCon
 
 export type DeidentifyProjectsContentError = CommonErrors;
 
+/** De-identifies potentially sensitive info from a ContentItem. This method has limits on input size and output size. See https://cloud.google.com/sensitive-data-protection/docs/deidentify-sensitive-data to learn more. When no InfoTypes or CustomInfoTypes are specified in this request, the system will automatically choose what detectors to run. By default this may be all types, but may change over time as detectors are updated. */
 export const deidentifyProjectsContent: API.OperationMethod<DeidentifyProjectsContentRequest, DeidentifyProjectsContentResponse, DeidentifyProjectsContentError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeidentifyProjectsContentRequest,
   output: DeidentifyProjectsContentResponse,
   errors: [],
 }));
 
-/** Re-identifies content that has been de-identified. See https://cloud.google.com/sensitive-data-protection/docs/pseudonymization#re-identification_in_free_text_code_example to learn more. */
 export interface ReidentifyProjectsContentRequest {
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -5121,13 +5120,13 @@ export const ReidentifyProjectsContentResponse = GooglePrivacyDlpV2ReidentifyCon
 
 export type ReidentifyProjectsContentError = CommonErrors;
 
+/** Re-identifies content that has been de-identified. See https://cloud.google.com/sensitive-data-protection/docs/pseudonymization#re-identification_in_free_text_code_example to learn more. */
 export const reidentifyProjectsContent: API.OperationMethod<ReidentifyProjectsContentRequest, ReidentifyProjectsContentResponse, ReidentifyProjectsContentError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReidentifyProjectsContentRequest,
   output: ReidentifyProjectsContentResponse,
   errors: [],
 }));
 
-/** Finds potentially sensitive info in content. This method has limits on input size, processing time, and output size. When no InfoTypes or CustomInfoTypes are specified in this request, the system will automatically choose what detectors to run. By default this may be all types, but may change over time as detectors are updated. For how to guides, see https://cloud.google.com/sensitive-data-protection/docs/inspecting-images and https://cloud.google.com/sensitive-data-protection/docs/inspecting-text, */
 export interface InspectProjectsLocationsContentRequest {
   /** Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -5148,13 +5147,13 @@ export const InspectProjectsLocationsContentResponse = GooglePrivacyDlpV2Inspect
 
 export type InspectProjectsLocationsContentError = CommonErrors;
 
+/** Finds potentially sensitive info in content. This method has limits on input size, processing time, and output size. When no InfoTypes or CustomInfoTypes are specified in this request, the system will automatically choose what detectors to run. By default this may be all types, but may change over time as detectors are updated. For how to guides, see https://cloud.google.com/sensitive-data-protection/docs/inspecting-images and https://cloud.google.com/sensitive-data-protection/docs/inspecting-text, */
 export const inspectProjectsLocationsContent: API.OperationMethod<InspectProjectsLocationsContentRequest, InspectProjectsLocationsContentResponse, InspectProjectsLocationsContentError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InspectProjectsLocationsContentRequest,
   output: InspectProjectsLocationsContentResponse,
   errors: [],
 }));
 
-/** De-identifies potentially sensitive info from a ContentItem. This method has limits on input size and output size. See https://cloud.google.com/sensitive-data-protection/docs/deidentify-sensitive-data to learn more. When no InfoTypes or CustomInfoTypes are specified in this request, the system will automatically choose what detectors to run. By default this may be all types, but may change over time as detectors are updated. */
 export interface DeidentifyProjectsLocationsContentRequest {
   /** Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -5175,13 +5174,13 @@ export const DeidentifyProjectsLocationsContentResponse = GooglePrivacyDlpV2Deid
 
 export type DeidentifyProjectsLocationsContentError = CommonErrors;
 
+/** De-identifies potentially sensitive info from a ContentItem. This method has limits on input size and output size. See https://cloud.google.com/sensitive-data-protection/docs/deidentify-sensitive-data to learn more. When no InfoTypes or CustomInfoTypes are specified in this request, the system will automatically choose what detectors to run. By default this may be all types, but may change over time as detectors are updated. */
 export const deidentifyProjectsLocationsContent: API.OperationMethod<DeidentifyProjectsLocationsContentRequest, DeidentifyProjectsLocationsContentResponse, DeidentifyProjectsLocationsContentError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeidentifyProjectsLocationsContentRequest,
   output: DeidentifyProjectsLocationsContentResponse,
   errors: [],
 }));
 
-/** Re-identifies content that has been de-identified. See https://cloud.google.com/sensitive-data-protection/docs/pseudonymization#re-identification_in_free_text_code_example to learn more. */
 export interface ReidentifyProjectsLocationsContentRequest {
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -5202,13 +5201,13 @@ export const ReidentifyProjectsLocationsContentResponse = GooglePrivacyDlpV2Reid
 
 export type ReidentifyProjectsLocationsContentError = CommonErrors;
 
+/** Re-identifies content that has been de-identified. See https://cloud.google.com/sensitive-data-protection/docs/pseudonymization#re-identification_in_free_text_code_example to learn more. */
 export const reidentifyProjectsLocationsContent: API.OperationMethod<ReidentifyProjectsLocationsContentRequest, ReidentifyProjectsLocationsContentResponse, ReidentifyProjectsLocationsContentError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReidentifyProjectsLocationsContentRequest,
   output: ReidentifyProjectsLocationsContentResponse,
   errors: [],
 }));
 
-/** Redacts potentially sensitive info from an image. This method has limits on input size, processing time, and output size. See https://cloud.google.com/sensitive-data-protection/docs/redacting-sensitive-data-images to learn more. When no InfoTypes or CustomInfoTypes are specified in this request, the system will automatically choose what detectors to run. By default this may be all types, but may change over time as detectors are updated. Only the first frame of each multiframe image is redacted. Metadata and other frames are omitted in the response. */
 export interface RedactProjectsLocationsImageRequest {
   /** Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -5229,13 +5228,13 @@ export const RedactProjectsLocationsImageResponse = GooglePrivacyDlpV2RedactImag
 
 export type RedactProjectsLocationsImageError = CommonErrors;
 
+/** Redacts potentially sensitive info from an image. This method has limits on input size, processing time, and output size. See https://cloud.google.com/sensitive-data-protection/docs/redacting-sensitive-data-images to learn more. When no InfoTypes or CustomInfoTypes are specified in this request, the system will automatically choose what detectors to run. By default this may be all types, but may change over time as detectors are updated. Only the first frame of each multiframe image is redacted. Metadata and other frames are omitted in the response. */
 export const redactProjectsLocationsImage: API.OperationMethod<RedactProjectsLocationsImageRequest, RedactProjectsLocationsImageResponse, RedactProjectsLocationsImageError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RedactProjectsLocationsImageRequest,
   output: RedactProjectsLocationsImageResponse,
   errors: [],
 }));
 
-/** Returns a list of the sensitive information types that the DLP API supports. See https://cloud.google.com/sensitive-data-protection/docs/infotypes-reference to learn more. */
 export interface ListProjectsLocationsInfoTypesRequest {
   /** The parent resource name. The format of this value is as follows: `locations/{location_id}` */
   parent: string;
@@ -5262,13 +5261,13 @@ export const ListProjectsLocationsInfoTypesResponse = GooglePrivacyDlpV2ListInfo
 
 export type ListProjectsLocationsInfoTypesError = CommonErrors;
 
+/** Returns a list of the sensitive information types that the DLP API supports. See https://cloud.google.com/sensitive-data-protection/docs/infotypes-reference to learn more. */
 export const listProjectsLocationsInfoTypes: API.OperationMethod<ListProjectsLocationsInfoTypesRequest, ListProjectsLocationsInfoTypesResponse, ListProjectsLocationsInfoTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsInfoTypesRequest,
   output: ListProjectsLocationsInfoTypesResponse,
   errors: [],
 }));
 
-/** Creates an InspectTemplate for reusing frequently used configuration for inspecting content, images, and storage. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export interface CreateProjectsLocationsInspectTemplatesRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -5289,13 +5288,13 @@ export const CreateProjectsLocationsInspectTemplatesResponse = GooglePrivacyDlpV
 
 export type CreateProjectsLocationsInspectTemplatesError = CommonErrors;
 
+/** Creates an InspectTemplate for reusing frequently used configuration for inspecting content, images, and storage. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export const createProjectsLocationsInspectTemplates: API.OperationMethod<CreateProjectsLocationsInspectTemplatesRequest, CreateProjectsLocationsInspectTemplatesResponse, CreateProjectsLocationsInspectTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsInspectTemplatesRequest,
   output: CreateProjectsLocationsInspectTemplatesResponse,
   errors: [],
 }));
 
-/** Updates the InspectTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export interface PatchProjectsLocationsInspectTemplatesRequest {
   /** Required. Resource name of organization and inspectTemplate to be updated, for example `organizations/433245324/inspectTemplates/432452342` or projects/project-id/inspectTemplates/432452342. */
   name: string;
@@ -5316,13 +5315,13 @@ export const PatchProjectsLocationsInspectTemplatesResponse = GooglePrivacyDlpV2
 
 export type PatchProjectsLocationsInspectTemplatesError = CommonErrors;
 
+/** Updates the InspectTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export const patchProjectsLocationsInspectTemplates: API.OperationMethod<PatchProjectsLocationsInspectTemplatesRequest, PatchProjectsLocationsInspectTemplatesResponse, PatchProjectsLocationsInspectTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsInspectTemplatesRequest,
   output: PatchProjectsLocationsInspectTemplatesResponse,
   errors: [],
 }));
 
-/** Gets an InspectTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export interface GetProjectsLocationsInspectTemplatesRequest {
   /** Required. Resource name of the organization and inspectTemplate to be read, for example `organizations/433245324/inspectTemplates/432452342` or projects/project-id/inspectTemplates/432452342. */
   name: string;
@@ -5340,13 +5339,13 @@ export const GetProjectsLocationsInspectTemplatesResponse = GooglePrivacyDlpV2In
 
 export type GetProjectsLocationsInspectTemplatesError = CommonErrors;
 
+/** Gets an InspectTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export const getProjectsLocationsInspectTemplates: API.OperationMethod<GetProjectsLocationsInspectTemplatesRequest, GetProjectsLocationsInspectTemplatesResponse, GetProjectsLocationsInspectTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsInspectTemplatesRequest,
   output: GetProjectsLocationsInspectTemplatesResponse,
   errors: [],
 }));
 
-/** Lists InspectTemplates. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export interface ListProjectsLocationsInspectTemplatesRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -5376,7 +5375,8 @@ export const ListProjectsLocationsInspectTemplatesResponse = GooglePrivacyDlpV2L
 
 export type ListProjectsLocationsInspectTemplatesError = CommonErrors;
 
-export const listProjectsLocationsInspectTemplates = API.makePaginated(() => ({
+/** Lists InspectTemplates. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
+export const listProjectsLocationsInspectTemplates: API.PaginatedOperationMethod<ListProjectsLocationsInspectTemplatesRequest, ListProjectsLocationsInspectTemplatesResponse, ListProjectsLocationsInspectTemplatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsInspectTemplatesRequest,
   output: ListProjectsLocationsInspectTemplatesResponse,
   errors: [],
@@ -5386,7 +5386,6 @@ export const listProjectsLocationsInspectTemplates = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes an InspectTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export interface DeleteProjectsLocationsInspectTemplatesRequest {
   /** Required. Resource name of the organization and inspectTemplate to be deleted, for example `organizations/433245324/inspectTemplates/432452342` or projects/project-id/inspectTemplates/432452342. */
   name: string;
@@ -5404,13 +5403,13 @@ export const DeleteProjectsLocationsInspectTemplatesResponse = GoogleProtobufEmp
 
 export type DeleteProjectsLocationsInspectTemplatesError = CommonErrors;
 
+/** Deletes an InspectTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export const deleteProjectsLocationsInspectTemplates: API.OperationMethod<DeleteProjectsLocationsInspectTemplatesRequest, DeleteProjectsLocationsInspectTemplatesResponse, DeleteProjectsLocationsInspectTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsInspectTemplatesRequest,
   output: DeleteProjectsLocationsInspectTemplatesResponse,
   errors: [],
 }));
 
-/** Creates a DeidentifyTemplate for reusing frequently used configuration for de-identifying content, images, and storage. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export interface CreateProjectsLocationsDeidentifyTemplatesRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -5431,13 +5430,13 @@ export const CreateProjectsLocationsDeidentifyTemplatesResponse = GooglePrivacyD
 
 export type CreateProjectsLocationsDeidentifyTemplatesError = CommonErrors;
 
+/** Creates a DeidentifyTemplate for reusing frequently used configuration for de-identifying content, images, and storage. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export const createProjectsLocationsDeidentifyTemplates: API.OperationMethod<CreateProjectsLocationsDeidentifyTemplatesRequest, CreateProjectsLocationsDeidentifyTemplatesResponse, CreateProjectsLocationsDeidentifyTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsDeidentifyTemplatesRequest,
   output: CreateProjectsLocationsDeidentifyTemplatesResponse,
   errors: [],
 }));
 
-/** Updates the DeidentifyTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export interface PatchProjectsLocationsDeidentifyTemplatesRequest {
   /** Required. Resource name of organization and deidentify template to be updated, for example `organizations/433245324/deidentifyTemplates/432452342` or projects/project-id/deidentifyTemplates/432452342. */
   name: string;
@@ -5458,13 +5457,13 @@ export const PatchProjectsLocationsDeidentifyTemplatesResponse = GooglePrivacyDl
 
 export type PatchProjectsLocationsDeidentifyTemplatesError = CommonErrors;
 
+/** Updates the DeidentifyTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export const patchProjectsLocationsDeidentifyTemplates: API.OperationMethod<PatchProjectsLocationsDeidentifyTemplatesRequest, PatchProjectsLocationsDeidentifyTemplatesResponse, PatchProjectsLocationsDeidentifyTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsDeidentifyTemplatesRequest,
   output: PatchProjectsLocationsDeidentifyTemplatesResponse,
   errors: [],
 }));
 
-/** Gets a DeidentifyTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export interface GetProjectsLocationsDeidentifyTemplatesRequest {
   /** Required. Resource name of the organization and deidentify template to be read, for example `organizations/433245324/deidentifyTemplates/432452342` or projects/project-id/deidentifyTemplates/432452342. */
   name: string;
@@ -5482,13 +5481,13 @@ export const GetProjectsLocationsDeidentifyTemplatesResponse = GooglePrivacyDlpV
 
 export type GetProjectsLocationsDeidentifyTemplatesError = CommonErrors;
 
+/** Gets a DeidentifyTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export const getProjectsLocationsDeidentifyTemplates: API.OperationMethod<GetProjectsLocationsDeidentifyTemplatesRequest, GetProjectsLocationsDeidentifyTemplatesResponse, GetProjectsLocationsDeidentifyTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDeidentifyTemplatesRequest,
   output: GetProjectsLocationsDeidentifyTemplatesResponse,
   errors: [],
 }));
 
-/** Lists DeidentifyTemplates. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export interface ListProjectsLocationsDeidentifyTemplatesRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -5518,7 +5517,8 @@ export const ListProjectsLocationsDeidentifyTemplatesResponse = GooglePrivacyDlp
 
 export type ListProjectsLocationsDeidentifyTemplatesError = CommonErrors;
 
-export const listProjectsLocationsDeidentifyTemplates = API.makePaginated(() => ({
+/** Lists DeidentifyTemplates. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
+export const listProjectsLocationsDeidentifyTemplates: API.PaginatedOperationMethod<ListProjectsLocationsDeidentifyTemplatesRequest, ListProjectsLocationsDeidentifyTemplatesResponse, ListProjectsLocationsDeidentifyTemplatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDeidentifyTemplatesRequest,
   output: ListProjectsLocationsDeidentifyTemplatesResponse,
   errors: [],
@@ -5528,7 +5528,6 @@ export const listProjectsLocationsDeidentifyTemplates = API.makePaginated(() => 
   },
 }));
 
-/** Deletes a DeidentifyTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export interface DeleteProjectsLocationsDeidentifyTemplatesRequest {
   /** Required. Resource name of the organization and deidentify template to be deleted, for example `organizations/433245324/deidentifyTemplates/432452342` or projects/project-id/deidentifyTemplates/432452342. */
   name: string;
@@ -5546,13 +5545,13 @@ export const DeleteProjectsLocationsDeidentifyTemplatesResponse = GoogleProtobuf
 
 export type DeleteProjectsLocationsDeidentifyTemplatesError = CommonErrors;
 
+/** Deletes a DeidentifyTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export const deleteProjectsLocationsDeidentifyTemplates: API.OperationMethod<DeleteProjectsLocationsDeidentifyTemplatesRequest, DeleteProjectsLocationsDeidentifyTemplatesResponse, DeleteProjectsLocationsDeidentifyTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDeidentifyTemplatesRequest,
   output: DeleteProjectsLocationsDeidentifyTemplatesResponse,
   errors: [],
 }));
 
-/** Creates a job trigger to run DLP actions such as scanning storage for sensitive information on a set schedule. See https://cloud.google.com/sensitive-data-protection/docs/creating-job-triggers to learn more. */
 export interface CreateProjectsLocationsJobTriggersRequest {
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -5573,13 +5572,13 @@ export const CreateProjectsLocationsJobTriggersResponse = GooglePrivacyDlpV2JobT
 
 export type CreateProjectsLocationsJobTriggersError = CommonErrors;
 
+/** Creates a job trigger to run DLP actions such as scanning storage for sensitive information on a set schedule. See https://cloud.google.com/sensitive-data-protection/docs/creating-job-triggers to learn more. */
 export const createProjectsLocationsJobTriggers: API.OperationMethod<CreateProjectsLocationsJobTriggersRequest, CreateProjectsLocationsJobTriggersResponse, CreateProjectsLocationsJobTriggersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsJobTriggersRequest,
   output: CreateProjectsLocationsJobTriggersResponse,
   errors: [],
 }));
 
-/** Updates a job trigger. See https://cloud.google.com/sensitive-data-protection/docs/creating-job-triggers to learn more. */
 export interface PatchProjectsLocationsJobTriggersRequest {
   /** Required. Resource name of the project and the triggeredJob, for example `projects/dlp-test-project/jobTriggers/53234423`. */
   name: string;
@@ -5600,13 +5599,13 @@ export const PatchProjectsLocationsJobTriggersResponse = GooglePrivacyDlpV2JobTr
 
 export type PatchProjectsLocationsJobTriggersError = CommonErrors;
 
+/** Updates a job trigger. See https://cloud.google.com/sensitive-data-protection/docs/creating-job-triggers to learn more. */
 export const patchProjectsLocationsJobTriggers: API.OperationMethod<PatchProjectsLocationsJobTriggersRequest, PatchProjectsLocationsJobTriggersResponse, PatchProjectsLocationsJobTriggersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsJobTriggersRequest,
   output: PatchProjectsLocationsJobTriggersResponse,
   errors: [],
 }));
 
-/** Inspect hybrid content and store findings to a trigger. The inspection will be processed asynchronously. To review the findings monitor the jobs within the trigger. */
 export interface HybridInspectProjectsLocationsJobTriggersRequest {
   /** Required. Resource name of the trigger to execute a hybrid inspect on, for example `projects/dlp-test-project/jobTriggers/53234423`. */
   name: string;
@@ -5627,13 +5626,13 @@ export const HybridInspectProjectsLocationsJobTriggersResponse = GooglePrivacyDl
 
 export type HybridInspectProjectsLocationsJobTriggersError = CommonErrors;
 
+/** Inspect hybrid content and store findings to a trigger. The inspection will be processed asynchronously. To review the findings monitor the jobs within the trigger. */
 export const hybridInspectProjectsLocationsJobTriggers: API.OperationMethod<HybridInspectProjectsLocationsJobTriggersRequest, HybridInspectProjectsLocationsJobTriggersResponse, HybridInspectProjectsLocationsJobTriggersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: HybridInspectProjectsLocationsJobTriggersRequest,
   output: HybridInspectProjectsLocationsJobTriggersResponse,
   errors: [],
 }));
 
-/** Gets a job trigger. See https://cloud.google.com/sensitive-data-protection/docs/creating-job-triggers to learn more. */
 export interface GetProjectsLocationsJobTriggersRequest {
   /** Required. Resource name of the project and the triggeredJob, for example `projects/dlp-test-project/jobTriggers/53234423`. */
   name: string;
@@ -5651,13 +5650,13 @@ export const GetProjectsLocationsJobTriggersResponse = GooglePrivacyDlpV2JobTrig
 
 export type GetProjectsLocationsJobTriggersError = CommonErrors;
 
+/** Gets a job trigger. See https://cloud.google.com/sensitive-data-protection/docs/creating-job-triggers to learn more. */
 export const getProjectsLocationsJobTriggers: API.OperationMethod<GetProjectsLocationsJobTriggersRequest, GetProjectsLocationsJobTriggersResponse, GetProjectsLocationsJobTriggersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsJobTriggersRequest,
   output: GetProjectsLocationsJobTriggersResponse,
   errors: [],
 }));
 
-/** Lists job triggers. See https://cloud.google.com/sensitive-data-protection/docs/creating-job-triggers to learn more. */
 export interface ListProjectsLocationsJobTriggersRequest {
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -5693,7 +5692,8 @@ export const ListProjectsLocationsJobTriggersResponse = GooglePrivacyDlpV2ListJo
 
 export type ListProjectsLocationsJobTriggersError = CommonErrors;
 
-export const listProjectsLocationsJobTriggers = API.makePaginated(() => ({
+/** Lists job triggers. See https://cloud.google.com/sensitive-data-protection/docs/creating-job-triggers to learn more. */
+export const listProjectsLocationsJobTriggers: API.PaginatedOperationMethod<ListProjectsLocationsJobTriggersRequest, ListProjectsLocationsJobTriggersResponse, ListProjectsLocationsJobTriggersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsJobTriggersRequest,
   output: ListProjectsLocationsJobTriggersResponse,
   errors: [],
@@ -5703,7 +5703,6 @@ export const listProjectsLocationsJobTriggers = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a job trigger. See https://cloud.google.com/sensitive-data-protection/docs/creating-job-triggers to learn more. */
 export interface DeleteProjectsLocationsJobTriggersRequest {
   /** Required. Resource name of the project and the triggeredJob, for example `projects/dlp-test-project/jobTriggers/53234423`. */
   name: string;
@@ -5721,13 +5720,13 @@ export const DeleteProjectsLocationsJobTriggersResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsJobTriggersError = CommonErrors;
 
+/** Deletes a job trigger. See https://cloud.google.com/sensitive-data-protection/docs/creating-job-triggers to learn more. */
 export const deleteProjectsLocationsJobTriggers: API.OperationMethod<DeleteProjectsLocationsJobTriggersRequest, DeleteProjectsLocationsJobTriggersResponse, DeleteProjectsLocationsJobTriggersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsJobTriggersRequest,
   output: DeleteProjectsLocationsJobTriggersResponse,
   errors: [],
 }));
 
-/** Activate a job trigger. Causes the immediate execute of a trigger instead of waiting on the trigger event to occur. */
 export interface ActivateProjectsLocationsJobTriggersRequest {
   /** Required. Resource name of the trigger to activate, for example `projects/dlp-test-project/jobTriggers/53234423`. */
   name: string;
@@ -5748,13 +5747,13 @@ export const ActivateProjectsLocationsJobTriggersResponse = GooglePrivacyDlpV2Dl
 
 export type ActivateProjectsLocationsJobTriggersError = CommonErrors;
 
+/** Activate a job trigger. Causes the immediate execute of a trigger instead of waiting on the trigger event to occur. */
 export const activateProjectsLocationsJobTriggers: API.OperationMethod<ActivateProjectsLocationsJobTriggersRequest, ActivateProjectsLocationsJobTriggersResponse, ActivateProjectsLocationsJobTriggersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ActivateProjectsLocationsJobTriggersRequest,
   output: ActivateProjectsLocationsJobTriggersResponse,
   errors: [],
 }));
 
-/** Creates a config for discovery to scan and profile storage. */
 export interface CreateProjectsLocationsDiscoveryConfigsRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization): + Projects scope: `projects/{project_id}/locations/{location_id}` + Organizations scope: `organizations/{org_id}/locations/{location_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -5775,13 +5774,13 @@ export const CreateProjectsLocationsDiscoveryConfigsResponse = GooglePrivacyDlpV
 
 export type CreateProjectsLocationsDiscoveryConfigsError = CommonErrors;
 
+/** Creates a config for discovery to scan and profile storage. */
 export const createProjectsLocationsDiscoveryConfigs: API.OperationMethod<CreateProjectsLocationsDiscoveryConfigsRequest, CreateProjectsLocationsDiscoveryConfigsResponse, CreateProjectsLocationsDiscoveryConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsDiscoveryConfigsRequest,
   output: CreateProjectsLocationsDiscoveryConfigsResponse,
   errors: [],
 }));
 
-/** Updates a discovery configuration. */
 export interface PatchProjectsLocationsDiscoveryConfigsRequest {
   /** Required. Resource name of the project and the configuration, for example `projects/dlp-test-project/discoveryConfigs/53234423`. */
   name: string;
@@ -5802,13 +5801,13 @@ export const PatchProjectsLocationsDiscoveryConfigsResponse = GooglePrivacyDlpV2
 
 export type PatchProjectsLocationsDiscoveryConfigsError = CommonErrors;
 
+/** Updates a discovery configuration. */
 export const patchProjectsLocationsDiscoveryConfigs: API.OperationMethod<PatchProjectsLocationsDiscoveryConfigsRequest, PatchProjectsLocationsDiscoveryConfigsResponse, PatchProjectsLocationsDiscoveryConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsDiscoveryConfigsRequest,
   output: PatchProjectsLocationsDiscoveryConfigsResponse,
   errors: [],
 }));
 
-/** Gets a discovery configuration. */
 export interface GetProjectsLocationsDiscoveryConfigsRequest {
   /** Required. Resource name of the project and the configuration, for example `projects/dlp-test-project/discoveryConfigs/53234423`. */
   name: string;
@@ -5826,13 +5825,13 @@ export const GetProjectsLocationsDiscoveryConfigsResponse = GooglePrivacyDlpV2Di
 
 export type GetProjectsLocationsDiscoveryConfigsError = CommonErrors;
 
+/** Gets a discovery configuration. */
 export const getProjectsLocationsDiscoveryConfigs: API.OperationMethod<GetProjectsLocationsDiscoveryConfigsRequest, GetProjectsLocationsDiscoveryConfigsResponse, GetProjectsLocationsDiscoveryConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDiscoveryConfigsRequest,
   output: GetProjectsLocationsDiscoveryConfigsResponse,
   errors: [],
 }));
 
-/** Lists discovery configurations. */
 export interface ListProjectsLocationsDiscoveryConfigsRequest {
   /** Required. Parent resource name. The format of this value is as follows: `projects/{project_id}/locations/{location_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -5859,7 +5858,8 @@ export const ListProjectsLocationsDiscoveryConfigsResponse = GooglePrivacyDlpV2L
 
 export type ListProjectsLocationsDiscoveryConfigsError = CommonErrors;
 
-export const listProjectsLocationsDiscoveryConfigs = API.makePaginated(() => ({
+/** Lists discovery configurations. */
+export const listProjectsLocationsDiscoveryConfigs: API.PaginatedOperationMethod<ListProjectsLocationsDiscoveryConfigsRequest, ListProjectsLocationsDiscoveryConfigsResponse, ListProjectsLocationsDiscoveryConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDiscoveryConfigsRequest,
   output: ListProjectsLocationsDiscoveryConfigsResponse,
   errors: [],
@@ -5869,7 +5869,6 @@ export const listProjectsLocationsDiscoveryConfigs = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a discovery configuration. */
 export interface DeleteProjectsLocationsDiscoveryConfigsRequest {
   /** Required. Resource name of the project and the config, for example `projects/dlp-test-project/discoveryConfigs/53234423`. */
   name: string;
@@ -5887,13 +5886,13 @@ export const DeleteProjectsLocationsDiscoveryConfigsResponse = GoogleProtobufEmp
 
 export type DeleteProjectsLocationsDiscoveryConfigsError = CommonErrors;
 
+/** Deletes a discovery configuration. */
 export const deleteProjectsLocationsDiscoveryConfigs: API.OperationMethod<DeleteProjectsLocationsDiscoveryConfigsRequest, DeleteProjectsLocationsDiscoveryConfigsResponse, DeleteProjectsLocationsDiscoveryConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDiscoveryConfigsRequest,
   output: DeleteProjectsLocationsDiscoveryConfigsResponse,
   errors: [],
 }));
 
-/** Creates a new job to inspect storage or calculate risk metrics. See https://cloud.google.com/sensitive-data-protection/docs/inspecting-storage and https://cloud.google.com/sensitive-data-protection/docs/compute-risk-analysis to learn more. When no InfoTypes or CustomInfoTypes are specified in inspect jobs, the system will automatically choose what detectors to run. By default this may be all types, but may change over time as detectors are updated. */
 export interface CreateProjectsLocationsDlpJobsRequest {
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -5914,13 +5913,13 @@ export const CreateProjectsLocationsDlpJobsResponse = GooglePrivacyDlpV2DlpJob;
 
 export type CreateProjectsLocationsDlpJobsError = CommonErrors;
 
+/** Creates a new job to inspect storage or calculate risk metrics. See https://cloud.google.com/sensitive-data-protection/docs/inspecting-storage and https://cloud.google.com/sensitive-data-protection/docs/compute-risk-analysis to learn more. When no InfoTypes or CustomInfoTypes are specified in inspect jobs, the system will automatically choose what detectors to run. By default this may be all types, but may change over time as detectors are updated. */
 export const createProjectsLocationsDlpJobs: API.OperationMethod<CreateProjectsLocationsDlpJobsRequest, CreateProjectsLocationsDlpJobsResponse, CreateProjectsLocationsDlpJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsDlpJobsRequest,
   output: CreateProjectsLocationsDlpJobsResponse,
   errors: [],
 }));
 
-/** Lists DlpJobs that match the specified filter in the request. See https://cloud.google.com/sensitive-data-protection/docs/inspecting-storage and https://cloud.google.com/sensitive-data-protection/docs/compute-risk-analysis to learn more. */
 export interface ListProjectsLocationsDlpJobsRequest {
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -5956,7 +5955,8 @@ export const ListProjectsLocationsDlpJobsResponse = GooglePrivacyDlpV2ListDlpJob
 
 export type ListProjectsLocationsDlpJobsError = CommonErrors;
 
-export const listProjectsLocationsDlpJobs = API.makePaginated(() => ({
+/** Lists DlpJobs that match the specified filter in the request. See https://cloud.google.com/sensitive-data-protection/docs/inspecting-storage and https://cloud.google.com/sensitive-data-protection/docs/compute-risk-analysis to learn more. */
+export const listProjectsLocationsDlpJobs: API.PaginatedOperationMethod<ListProjectsLocationsDlpJobsRequest, ListProjectsLocationsDlpJobsResponse, ListProjectsLocationsDlpJobsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsDlpJobsRequest,
   output: ListProjectsLocationsDlpJobsResponse,
   errors: [],
@@ -5966,7 +5966,6 @@ export const listProjectsLocationsDlpJobs = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running DlpJob. See https://cloud.google.com/sensitive-data-protection/docs/inspecting-storage and https://cloud.google.com/sensitive-data-protection/docs/compute-risk-analysis to learn more. */
 export interface GetProjectsLocationsDlpJobsRequest {
   /** Required. The name of the DlpJob resource. */
   name: string;
@@ -5984,13 +5983,13 @@ export const GetProjectsLocationsDlpJobsResponse = GooglePrivacyDlpV2DlpJob;
 
 export type GetProjectsLocationsDlpJobsError = CommonErrors;
 
+/** Gets the latest state of a long-running DlpJob. See https://cloud.google.com/sensitive-data-protection/docs/inspecting-storage and https://cloud.google.com/sensitive-data-protection/docs/compute-risk-analysis to learn more. */
 export const getProjectsLocationsDlpJobs: API.OperationMethod<GetProjectsLocationsDlpJobsRequest, GetProjectsLocationsDlpJobsResponse, GetProjectsLocationsDlpJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsDlpJobsRequest,
   output: GetProjectsLocationsDlpJobsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running DlpJob. This method indicates that the client is no longer interested in the DlpJob result. The job will be canceled if possible. See https://cloud.google.com/sensitive-data-protection/docs/inspecting-storage and https://cloud.google.com/sensitive-data-protection/docs/compute-risk-analysis to learn more. */
 export interface DeleteProjectsLocationsDlpJobsRequest {
   /** Required. The name of the DlpJob resource to be deleted. */
   name: string;
@@ -6008,13 +6007,13 @@ export const DeleteProjectsLocationsDlpJobsResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsDlpJobsError = CommonErrors;
 
+/** Deletes a long-running DlpJob. This method indicates that the client is no longer interested in the DlpJob result. The job will be canceled if possible. See https://cloud.google.com/sensitive-data-protection/docs/inspecting-storage and https://cloud.google.com/sensitive-data-protection/docs/compute-risk-analysis to learn more. */
 export const deleteProjectsLocationsDlpJobs: API.OperationMethod<DeleteProjectsLocationsDlpJobsRequest, DeleteProjectsLocationsDlpJobsResponse, DeleteProjectsLocationsDlpJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsDlpJobsRequest,
   output: DeleteProjectsLocationsDlpJobsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running DlpJob. The server makes a best effort to cancel the DlpJob, but success is not guaranteed. See https://cloud.google.com/sensitive-data-protection/docs/inspecting-storage and https://cloud.google.com/sensitive-data-protection/docs/compute-risk-analysis to learn more. */
 export interface CancelProjectsLocationsDlpJobsRequest {
   /** Required. The name of the DlpJob resource to be cancelled. */
   name: string;
@@ -6035,13 +6034,13 @@ export const CancelProjectsLocationsDlpJobsResponse = GoogleProtobufEmpty;
 
 export type CancelProjectsLocationsDlpJobsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running DlpJob. The server makes a best effort to cancel the DlpJob, but success is not guaranteed. See https://cloud.google.com/sensitive-data-protection/docs/inspecting-storage and https://cloud.google.com/sensitive-data-protection/docs/compute-risk-analysis to learn more. */
 export const cancelProjectsLocationsDlpJobs: API.OperationMethod<CancelProjectsLocationsDlpJobsRequest, CancelProjectsLocationsDlpJobsResponse, CancelProjectsLocationsDlpJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsDlpJobsRequest,
   output: CancelProjectsLocationsDlpJobsResponse,
   errors: [],
 }));
 
-/** Inspect hybrid content and store findings to a job. To review the findings, inspect the job. Inspection will occur asynchronously. */
 export interface HybridInspectProjectsLocationsDlpJobsRequest {
   /** Required. Resource name of the job to execute a hybrid inspect on, for example `projects/dlp-test-project/dlpJob/53234423`. */
   name: string;
@@ -6062,13 +6061,13 @@ export const HybridInspectProjectsLocationsDlpJobsResponse = GooglePrivacyDlpV2H
 
 export type HybridInspectProjectsLocationsDlpJobsError = CommonErrors;
 
+/** Inspect hybrid content and store findings to a job. To review the findings, inspect the job. Inspection will occur asynchronously. */
 export const hybridInspectProjectsLocationsDlpJobs: API.OperationMethod<HybridInspectProjectsLocationsDlpJobsRequest, HybridInspectProjectsLocationsDlpJobsResponse, HybridInspectProjectsLocationsDlpJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: HybridInspectProjectsLocationsDlpJobsRequest,
   output: HybridInspectProjectsLocationsDlpJobsResponse,
   errors: [],
 }));
 
-/** Finish a running hybrid DlpJob. Triggers the finalization steps and running of any enabled actions that have not yet run. */
 export interface FinishProjectsLocationsDlpJobsRequest {
   /** Required. The name of the DlpJob resource to be finished. */
   name: string;
@@ -6089,13 +6088,13 @@ export const FinishProjectsLocationsDlpJobsResponse = GoogleProtobufEmpty;
 
 export type FinishProjectsLocationsDlpJobsError = CommonErrors;
 
+/** Finish a running hybrid DlpJob. Triggers the finalization steps and running of any enabled actions that have not yet run. */
 export const finishProjectsLocationsDlpJobs: API.OperationMethod<FinishProjectsLocationsDlpJobsRequest, FinishProjectsLocationsDlpJobsResponse, FinishProjectsLocationsDlpJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FinishProjectsLocationsDlpJobsRequest,
   output: FinishProjectsLocationsDlpJobsResponse,
   errors: [],
 }));
 
-/** Creates a pre-built stored infoType to be used for inspection. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export interface CreateProjectsLocationsStoredInfoTypesRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -6116,13 +6115,13 @@ export const CreateProjectsLocationsStoredInfoTypesResponse = GooglePrivacyDlpV2
 
 export type CreateProjectsLocationsStoredInfoTypesError = CommonErrors;
 
+/** Creates a pre-built stored infoType to be used for inspection. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export const createProjectsLocationsStoredInfoTypes: API.OperationMethod<CreateProjectsLocationsStoredInfoTypesRequest, CreateProjectsLocationsStoredInfoTypesResponse, CreateProjectsLocationsStoredInfoTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsStoredInfoTypesRequest,
   output: CreateProjectsLocationsStoredInfoTypesResponse,
   errors: [],
 }));
 
-/** Updates the stored infoType by creating a new version. The existing version will continue to be used until the new version is ready. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export interface PatchProjectsLocationsStoredInfoTypesRequest {
   /** Required. Resource name of organization and storedInfoType to be updated, for example `organizations/433245324/storedInfoTypes/432452342` or projects/project-id/storedInfoTypes/432452342. */
   name: string;
@@ -6143,13 +6142,13 @@ export const PatchProjectsLocationsStoredInfoTypesResponse = GooglePrivacyDlpV2S
 
 export type PatchProjectsLocationsStoredInfoTypesError = CommonErrors;
 
+/** Updates the stored infoType by creating a new version. The existing version will continue to be used until the new version is ready. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export const patchProjectsLocationsStoredInfoTypes: API.OperationMethod<PatchProjectsLocationsStoredInfoTypesRequest, PatchProjectsLocationsStoredInfoTypesResponse, PatchProjectsLocationsStoredInfoTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsStoredInfoTypesRequest,
   output: PatchProjectsLocationsStoredInfoTypesResponse,
   errors: [],
 }));
 
-/** Gets a stored infoType. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export interface GetProjectsLocationsStoredInfoTypesRequest {
   /** Required. Resource name of the organization and storedInfoType to be read, for example `organizations/433245324/storedInfoTypes/432452342` or projects/project-id/storedInfoTypes/432452342. */
   name: string;
@@ -6167,13 +6166,13 @@ export const GetProjectsLocationsStoredInfoTypesResponse = GooglePrivacyDlpV2Sto
 
 export type GetProjectsLocationsStoredInfoTypesError = CommonErrors;
 
+/** Gets a stored infoType. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export const getProjectsLocationsStoredInfoTypes: API.OperationMethod<GetProjectsLocationsStoredInfoTypesRequest, GetProjectsLocationsStoredInfoTypesResponse, GetProjectsLocationsStoredInfoTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsStoredInfoTypesRequest,
   output: GetProjectsLocationsStoredInfoTypesResponse,
   errors: [],
 }));
 
-/** Lists stored infoTypes. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export interface ListProjectsLocationsStoredInfoTypesRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -6203,7 +6202,8 @@ export const ListProjectsLocationsStoredInfoTypesResponse = GooglePrivacyDlpV2Li
 
 export type ListProjectsLocationsStoredInfoTypesError = CommonErrors;
 
-export const listProjectsLocationsStoredInfoTypes = API.makePaginated(() => ({
+/** Lists stored infoTypes. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
+export const listProjectsLocationsStoredInfoTypes: API.PaginatedOperationMethod<ListProjectsLocationsStoredInfoTypesRequest, ListProjectsLocationsStoredInfoTypesResponse, ListProjectsLocationsStoredInfoTypesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsStoredInfoTypesRequest,
   output: ListProjectsLocationsStoredInfoTypesResponse,
   errors: [],
@@ -6213,7 +6213,6 @@ export const listProjectsLocationsStoredInfoTypes = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a stored infoType. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export interface DeleteProjectsLocationsStoredInfoTypesRequest {
   /** Required. Resource name of the organization and storedInfoType to be deleted, for example `organizations/433245324/storedInfoTypes/432452342` or projects/project-id/storedInfoTypes/432452342. */
   name: string;
@@ -6231,13 +6230,13 @@ export const DeleteProjectsLocationsStoredInfoTypesResponse = GoogleProtobufEmpt
 
 export type DeleteProjectsLocationsStoredInfoTypesError = CommonErrors;
 
+/** Deletes a stored infoType. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export const deleteProjectsLocationsStoredInfoTypes: API.OperationMethod<DeleteProjectsLocationsStoredInfoTypesRequest, DeleteProjectsLocationsStoredInfoTypesResponse, DeleteProjectsLocationsStoredInfoTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsStoredInfoTypesRequest,
   output: DeleteProjectsLocationsStoredInfoTypesResponse,
   errors: [],
 }));
 
-/** Lists project data profiles for an organization. */
 export interface ListProjectsLocationsProjectDataProfilesRequest {
   /** Required. organizations/{org_id}/locations/{loc_id} */
   parent: string;
@@ -6267,7 +6266,8 @@ export const ListProjectsLocationsProjectDataProfilesResponse = GooglePrivacyDlp
 
 export type ListProjectsLocationsProjectDataProfilesError = CommonErrors;
 
-export const listProjectsLocationsProjectDataProfiles = API.makePaginated(() => ({
+/** Lists project data profiles for an organization. */
+export const listProjectsLocationsProjectDataProfiles: API.PaginatedOperationMethod<ListProjectsLocationsProjectDataProfilesRequest, ListProjectsLocationsProjectDataProfilesResponse, ListProjectsLocationsProjectDataProfilesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsProjectDataProfilesRequest,
   output: ListProjectsLocationsProjectDataProfilesResponse,
   errors: [],
@@ -6277,7 +6277,6 @@ export const listProjectsLocationsProjectDataProfiles = API.makePaginated(() => 
   },
 }));
 
-/** Gets a project data profile. */
 export interface GetProjectsLocationsProjectDataProfilesRequest {
   /** Required. Resource name, for example `organizations/12345/locations/us/projectDataProfiles/53234423`. */
   name: string;
@@ -6295,13 +6294,13 @@ export const GetProjectsLocationsProjectDataProfilesResponse = GooglePrivacyDlpV
 
 export type GetProjectsLocationsProjectDataProfilesError = CommonErrors;
 
+/** Gets a project data profile. */
 export const getProjectsLocationsProjectDataProfiles: API.OperationMethod<GetProjectsLocationsProjectDataProfilesRequest, GetProjectsLocationsProjectDataProfilesResponse, GetProjectsLocationsProjectDataProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsProjectDataProfilesRequest,
   output: GetProjectsLocationsProjectDataProfilesResponse,
   errors: [],
 }));
 
-/** Lists table data profiles for an organization. */
 export interface ListProjectsLocationsTableDataProfilesRequest {
   /** Required. Resource name of the organization or project, for example `organizations/433245324/locations/europe` or `projects/project-id/locations/asia`. */
   parent: string;
@@ -6331,7 +6330,8 @@ export const ListProjectsLocationsTableDataProfilesResponse = GooglePrivacyDlpV2
 
 export type ListProjectsLocationsTableDataProfilesError = CommonErrors;
 
-export const listProjectsLocationsTableDataProfiles = API.makePaginated(() => ({
+/** Lists table data profiles for an organization. */
+export const listProjectsLocationsTableDataProfiles: API.PaginatedOperationMethod<ListProjectsLocationsTableDataProfilesRequest, ListProjectsLocationsTableDataProfilesResponse, ListProjectsLocationsTableDataProfilesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsTableDataProfilesRequest,
   output: ListProjectsLocationsTableDataProfilesResponse,
   errors: [],
@@ -6341,7 +6341,6 @@ export const listProjectsLocationsTableDataProfiles = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a table data profile. */
 export interface GetProjectsLocationsTableDataProfilesRequest {
   /** Required. Resource name, for example `organizations/12345/locations/us/tableDataProfiles/53234423`. */
   name: string;
@@ -6359,13 +6358,13 @@ export const GetProjectsLocationsTableDataProfilesResponse = GooglePrivacyDlpV2T
 
 export type GetProjectsLocationsTableDataProfilesError = CommonErrors;
 
+/** Gets a table data profile. */
 export const getProjectsLocationsTableDataProfiles: API.OperationMethod<GetProjectsLocationsTableDataProfilesRequest, GetProjectsLocationsTableDataProfilesResponse, GetProjectsLocationsTableDataProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsTableDataProfilesRequest,
   output: GetProjectsLocationsTableDataProfilesResponse,
   errors: [],
 }));
 
-/** Delete a TableDataProfile. Will not prevent the profile from being regenerated if the table is still included in a discovery configuration. */
 export interface DeleteProjectsLocationsTableDataProfilesRequest {
   /** Required. Resource name of the table data profile. */
   name: string;
@@ -6383,13 +6382,13 @@ export const DeleteProjectsLocationsTableDataProfilesResponse = GoogleProtobufEm
 
 export type DeleteProjectsLocationsTableDataProfilesError = CommonErrors;
 
+/** Delete a TableDataProfile. Will not prevent the profile from being regenerated if the table is still included in a discovery configuration. */
 export const deleteProjectsLocationsTableDataProfiles: API.OperationMethod<DeleteProjectsLocationsTableDataProfilesRequest, DeleteProjectsLocationsTableDataProfilesResponse, DeleteProjectsLocationsTableDataProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsTableDataProfilesRequest,
   output: DeleteProjectsLocationsTableDataProfilesResponse,
   errors: [],
 }));
 
-/** Lists column data profiles for an organization. */
 export interface ListProjectsLocationsColumnDataProfilesRequest {
   /** Required. Resource name of the organization or project, for example `organizations/433245324/locations/europe` or `projects/project-id/locations/asia`. */
   parent: string;
@@ -6419,7 +6418,8 @@ export const ListProjectsLocationsColumnDataProfilesResponse = GooglePrivacyDlpV
 
 export type ListProjectsLocationsColumnDataProfilesError = CommonErrors;
 
-export const listProjectsLocationsColumnDataProfiles = API.makePaginated(() => ({
+/** Lists column data profiles for an organization. */
+export const listProjectsLocationsColumnDataProfiles: API.PaginatedOperationMethod<ListProjectsLocationsColumnDataProfilesRequest, ListProjectsLocationsColumnDataProfilesResponse, ListProjectsLocationsColumnDataProfilesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsColumnDataProfilesRequest,
   output: ListProjectsLocationsColumnDataProfilesResponse,
   errors: [],
@@ -6429,7 +6429,6 @@ export const listProjectsLocationsColumnDataProfiles = API.makePaginated(() => (
   },
 }));
 
-/** Gets a column data profile. */
 export interface GetProjectsLocationsColumnDataProfilesRequest {
   /** Required. Resource name, for example `organizations/12345/locations/us/columnDataProfiles/53234423`. */
   name: string;
@@ -6447,13 +6446,13 @@ export const GetProjectsLocationsColumnDataProfilesResponse = GooglePrivacyDlpV2
 
 export type GetProjectsLocationsColumnDataProfilesError = CommonErrors;
 
+/** Gets a column data profile. */
 export const getProjectsLocationsColumnDataProfiles: API.OperationMethod<GetProjectsLocationsColumnDataProfilesRequest, GetProjectsLocationsColumnDataProfilesResponse, GetProjectsLocationsColumnDataProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsColumnDataProfilesRequest,
   output: GetProjectsLocationsColumnDataProfilesResponse,
   errors: [],
 }));
 
-/** Lists file store data profiles for an organization. */
 export interface ListProjectsLocationsFileStoreDataProfilesRequest {
   /** Required. Resource name of the organization or project, for example `organizations/433245324/locations/europe` or `projects/project-id/locations/asia`. */
   parent: string;
@@ -6483,7 +6482,8 @@ export const ListProjectsLocationsFileStoreDataProfilesResponse = GooglePrivacyD
 
 export type ListProjectsLocationsFileStoreDataProfilesError = CommonErrors;
 
-export const listProjectsLocationsFileStoreDataProfiles = API.makePaginated(() => ({
+/** Lists file store data profiles for an organization. */
+export const listProjectsLocationsFileStoreDataProfiles: API.PaginatedOperationMethod<ListProjectsLocationsFileStoreDataProfilesRequest, ListProjectsLocationsFileStoreDataProfilesResponse, ListProjectsLocationsFileStoreDataProfilesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsFileStoreDataProfilesRequest,
   output: ListProjectsLocationsFileStoreDataProfilesResponse,
   errors: [],
@@ -6493,7 +6493,6 @@ export const listProjectsLocationsFileStoreDataProfiles = API.makePaginated(() =
   },
 }));
 
-/** Gets a file store data profile. */
 export interface GetProjectsLocationsFileStoreDataProfilesRequest {
   /** Required. Resource name, for example `organizations/12345/locations/us/fileStoreDataProfiles/53234423`. */
   name: string;
@@ -6511,13 +6510,13 @@ export const GetProjectsLocationsFileStoreDataProfilesResponse = GooglePrivacyDl
 
 export type GetProjectsLocationsFileStoreDataProfilesError = CommonErrors;
 
+/** Gets a file store data profile. */
 export const getProjectsLocationsFileStoreDataProfiles: API.OperationMethod<GetProjectsLocationsFileStoreDataProfilesRequest, GetProjectsLocationsFileStoreDataProfilesResponse, GetProjectsLocationsFileStoreDataProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsFileStoreDataProfilesRequest,
   output: GetProjectsLocationsFileStoreDataProfilesResponse,
   errors: [],
 }));
 
-/** Delete a FileStoreDataProfile. Will not prevent the profile from being regenerated if the resource is still included in a discovery configuration. */
 export interface DeleteProjectsLocationsFileStoreDataProfilesRequest {
   /** Required. Resource name of the file store data profile. */
   name: string;
@@ -6535,13 +6534,13 @@ export const DeleteProjectsLocationsFileStoreDataProfilesResponse = GoogleProtob
 
 export type DeleteProjectsLocationsFileStoreDataProfilesError = CommonErrors;
 
+/** Delete a FileStoreDataProfile. Will not prevent the profile from being regenerated if the resource is still included in a discovery configuration. */
 export const deleteProjectsLocationsFileStoreDataProfiles: API.OperationMethod<DeleteProjectsLocationsFileStoreDataProfilesRequest, DeleteProjectsLocationsFileStoreDataProfilesResponse, DeleteProjectsLocationsFileStoreDataProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsFileStoreDataProfilesRequest,
   output: DeleteProjectsLocationsFileStoreDataProfilesResponse,
   errors: [],
 }));
 
-/** Create a Connection to an external data source. */
 export interface CreateProjectsLocationsConnectionsRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization): + Projects scope: `projects/{project_id}/locations/{location_id}` + Organizations scope: `organizations/{org_id}/locations/{location_id}` */
   parent: string;
@@ -6562,13 +6561,13 @@ export const CreateProjectsLocationsConnectionsResponse = GooglePrivacyDlpV2Conn
 
 export type CreateProjectsLocationsConnectionsError = CommonErrors;
 
+/** Create a Connection to an external data source. */
 export const createProjectsLocationsConnections: API.OperationMethod<CreateProjectsLocationsConnectionsRequest, CreateProjectsLocationsConnectionsResponse, CreateProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsConnectionsRequest,
   output: CreateProjectsLocationsConnectionsResponse,
   errors: [],
 }));
 
-/** Get a Connection by name. */
 export interface GetProjectsLocationsConnectionsRequest {
   /** Required. Resource name in the format: `projects/{project}/locations/{location}/connections/{connection}`. */
   name: string;
@@ -6586,13 +6585,13 @@ export const GetProjectsLocationsConnectionsResponse = GooglePrivacyDlpV2Connect
 
 export type GetProjectsLocationsConnectionsError = CommonErrors;
 
+/** Get a Connection by name. */
 export const getProjectsLocationsConnections: API.OperationMethod<GetProjectsLocationsConnectionsRequest, GetProjectsLocationsConnectionsResponse, GetProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsConnectionsRequest,
   output: GetProjectsLocationsConnectionsResponse,
   errors: [],
 }));
 
-/** Lists Connections in a parent. Use SearchConnections to see all connections within an organization. */
 export interface ListProjectsLocationsConnectionsRequest {
   /** Required. Resource name of the organization or project, for example, `organizations/433245324/locations/europe` or `projects/project-id/locations/asia`. */
   parent: string;
@@ -6619,7 +6618,8 @@ export const ListProjectsLocationsConnectionsResponse = GooglePrivacyDlpV2ListCo
 
 export type ListProjectsLocationsConnectionsError = CommonErrors;
 
-export const listProjectsLocationsConnections = API.makePaginated(() => ({
+/** Lists Connections in a parent. Use SearchConnections to see all connections within an organization. */
+export const listProjectsLocationsConnections: API.PaginatedOperationMethod<ListProjectsLocationsConnectionsRequest, ListProjectsLocationsConnectionsResponse, ListProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsConnectionsRequest,
   output: ListProjectsLocationsConnectionsResponse,
   errors: [],
@@ -6629,7 +6629,6 @@ export const listProjectsLocationsConnections = API.makePaginated(() => ({
   },
 }));
 
-/** Searches for Connections in a parent. */
 export interface SearchProjectsLocationsConnectionsRequest {
   /** Required. Resource name of the organization or project with a wildcard location, for example, `organizations/433245324/locations/-` or `projects/project-id/locations/-`. */
   parent: string;
@@ -6656,7 +6655,8 @@ export const SearchProjectsLocationsConnectionsResponse = GooglePrivacyDlpV2Sear
 
 export type SearchProjectsLocationsConnectionsError = CommonErrors;
 
-export const searchProjectsLocationsConnections = API.makePaginated(() => ({
+/** Searches for Connections in a parent. */
+export const searchProjectsLocationsConnections: API.PaginatedOperationMethod<SearchProjectsLocationsConnectionsRequest, SearchProjectsLocationsConnectionsResponse, SearchProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchProjectsLocationsConnectionsRequest,
   output: SearchProjectsLocationsConnectionsResponse,
   errors: [],
@@ -6666,7 +6666,6 @@ export const searchProjectsLocationsConnections = API.makePaginated(() => ({
   },
 }));
 
-/** Delete a Connection. */
 export interface DeleteProjectsLocationsConnectionsRequest {
   /** Required. Resource name of the Connection to be deleted, in the format: `projects/{project}/locations/{location}/connections/{connection}`. */
   name: string;
@@ -6684,13 +6683,13 @@ export const DeleteProjectsLocationsConnectionsResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsLocationsConnectionsError = CommonErrors;
 
+/** Delete a Connection. */
 export const deleteProjectsLocationsConnections: API.OperationMethod<DeleteProjectsLocationsConnectionsRequest, DeleteProjectsLocationsConnectionsResponse, DeleteProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsConnectionsRequest,
   output: DeleteProjectsLocationsConnectionsResponse,
   errors: [],
 }));
 
-/** Update a Connection. */
 export interface PatchProjectsLocationsConnectionsRequest {
   /** Required. Resource name in the format: `projects/{project}/locations/{location}/connections/{connection}`. */
   name: string;
@@ -6711,13 +6710,13 @@ export const PatchProjectsLocationsConnectionsResponse = GooglePrivacyDlpV2Conne
 
 export type PatchProjectsLocationsConnectionsError = CommonErrors;
 
+/** Update a Connection. */
 export const patchProjectsLocationsConnections: API.OperationMethod<PatchProjectsLocationsConnectionsRequest, PatchProjectsLocationsConnectionsResponse, PatchProjectsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsConnectionsRequest,
   output: PatchProjectsLocationsConnectionsResponse,
   errors: [],
 }));
 
-/** Redacts potentially sensitive info from an image. This method has limits on input size, processing time, and output size. See https://cloud.google.com/sensitive-data-protection/docs/redacting-sensitive-data-images to learn more. When no InfoTypes or CustomInfoTypes are specified in this request, the system will automatically choose what detectors to run. By default this may be all types, but may change over time as detectors are updated. Only the first frame of each multiframe image is redacted. Metadata and other frames are omitted in the response. */
 export interface RedactProjectsImageRequest {
   /** Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -6738,13 +6737,13 @@ export const RedactProjectsImageResponse = GooglePrivacyDlpV2RedactImageResponse
 
 export type RedactProjectsImageError = CommonErrors;
 
+/** Redacts potentially sensitive info from an image. This method has limits on input size, processing time, and output size. See https://cloud.google.com/sensitive-data-protection/docs/redacting-sensitive-data-images to learn more. When no InfoTypes or CustomInfoTypes are specified in this request, the system will automatically choose what detectors to run. By default this may be all types, but may change over time as detectors are updated. Only the first frame of each multiframe image is redacted. Metadata and other frames are omitted in the response. */
 export const redactProjectsImage: API.OperationMethod<RedactProjectsImageRequest, RedactProjectsImageResponse, RedactProjectsImageError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RedactProjectsImageRequest,
   output: RedactProjectsImageResponse,
   errors: [],
 }));
 
-/** Creates an InspectTemplate for reusing frequently used configuration for inspecting content, images, and storage. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export interface CreateProjectsInspectTemplatesRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -6765,13 +6764,13 @@ export const CreateProjectsInspectTemplatesResponse = GooglePrivacyDlpV2InspectT
 
 export type CreateProjectsInspectTemplatesError = CommonErrors;
 
+/** Creates an InspectTemplate for reusing frequently used configuration for inspecting content, images, and storage. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export const createProjectsInspectTemplates: API.OperationMethod<CreateProjectsInspectTemplatesRequest, CreateProjectsInspectTemplatesResponse, CreateProjectsInspectTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsInspectTemplatesRequest,
   output: CreateProjectsInspectTemplatesResponse,
   errors: [],
 }));
 
-/** Updates the InspectTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export interface PatchProjectsInspectTemplatesRequest {
   /** Required. Resource name of organization and inspectTemplate to be updated, for example `organizations/433245324/inspectTemplates/432452342` or projects/project-id/inspectTemplates/432452342. */
   name: string;
@@ -6792,13 +6791,13 @@ export const PatchProjectsInspectTemplatesResponse = GooglePrivacyDlpV2InspectTe
 
 export type PatchProjectsInspectTemplatesError = CommonErrors;
 
+/** Updates the InspectTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export const patchProjectsInspectTemplates: API.OperationMethod<PatchProjectsInspectTemplatesRequest, PatchProjectsInspectTemplatesResponse, PatchProjectsInspectTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsInspectTemplatesRequest,
   output: PatchProjectsInspectTemplatesResponse,
   errors: [],
 }));
 
-/** Gets an InspectTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export interface GetProjectsInspectTemplatesRequest {
   /** Required. Resource name of the organization and inspectTemplate to be read, for example `organizations/433245324/inspectTemplates/432452342` or projects/project-id/inspectTemplates/432452342. */
   name: string;
@@ -6816,13 +6815,13 @@ export const GetProjectsInspectTemplatesResponse = GooglePrivacyDlpV2InspectTemp
 
 export type GetProjectsInspectTemplatesError = CommonErrors;
 
+/** Gets an InspectTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export const getProjectsInspectTemplates: API.OperationMethod<GetProjectsInspectTemplatesRequest, GetProjectsInspectTemplatesResponse, GetProjectsInspectTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsInspectTemplatesRequest,
   output: GetProjectsInspectTemplatesResponse,
   errors: [],
 }));
 
-/** Lists InspectTemplates. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export interface ListProjectsInspectTemplatesRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -6852,7 +6851,8 @@ export const ListProjectsInspectTemplatesResponse = GooglePrivacyDlpV2ListInspec
 
 export type ListProjectsInspectTemplatesError = CommonErrors;
 
-export const listProjectsInspectTemplates = API.makePaginated(() => ({
+/** Lists InspectTemplates. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
+export const listProjectsInspectTemplates: API.PaginatedOperationMethod<ListProjectsInspectTemplatesRequest, ListProjectsInspectTemplatesResponse, ListProjectsInspectTemplatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsInspectTemplatesRequest,
   output: ListProjectsInspectTemplatesResponse,
   errors: [],
@@ -6862,7 +6862,6 @@ export const listProjectsInspectTemplates = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes an InspectTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export interface DeleteProjectsInspectTemplatesRequest {
   /** Required. Resource name of the organization and inspectTemplate to be deleted, for example `organizations/433245324/inspectTemplates/432452342` or projects/project-id/inspectTemplates/432452342. */
   name: string;
@@ -6880,13 +6879,13 @@ export const DeleteProjectsInspectTemplatesResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsInspectTemplatesError = CommonErrors;
 
+/** Deletes an InspectTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export const deleteProjectsInspectTemplates: API.OperationMethod<DeleteProjectsInspectTemplatesRequest, DeleteProjectsInspectTemplatesResponse, DeleteProjectsInspectTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsInspectTemplatesRequest,
   output: DeleteProjectsInspectTemplatesResponse,
   errors: [],
 }));
 
-/** Creates a DeidentifyTemplate for reusing frequently used configuration for de-identifying content, images, and storage. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export interface CreateProjectsDeidentifyTemplatesRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -6907,13 +6906,13 @@ export const CreateProjectsDeidentifyTemplatesResponse = GooglePrivacyDlpV2Deide
 
 export type CreateProjectsDeidentifyTemplatesError = CommonErrors;
 
+/** Creates a DeidentifyTemplate for reusing frequently used configuration for de-identifying content, images, and storage. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export const createProjectsDeidentifyTemplates: API.OperationMethod<CreateProjectsDeidentifyTemplatesRequest, CreateProjectsDeidentifyTemplatesResponse, CreateProjectsDeidentifyTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsDeidentifyTemplatesRequest,
   output: CreateProjectsDeidentifyTemplatesResponse,
   errors: [],
 }));
 
-/** Updates the DeidentifyTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export interface PatchProjectsDeidentifyTemplatesRequest {
   /** Required. Resource name of organization and deidentify template to be updated, for example `organizations/433245324/deidentifyTemplates/432452342` or projects/project-id/deidentifyTemplates/432452342. */
   name: string;
@@ -6934,13 +6933,13 @@ export const PatchProjectsDeidentifyTemplatesResponse = GooglePrivacyDlpV2Deiden
 
 export type PatchProjectsDeidentifyTemplatesError = CommonErrors;
 
+/** Updates the DeidentifyTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export const patchProjectsDeidentifyTemplates: API.OperationMethod<PatchProjectsDeidentifyTemplatesRequest, PatchProjectsDeidentifyTemplatesResponse, PatchProjectsDeidentifyTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsDeidentifyTemplatesRequest,
   output: PatchProjectsDeidentifyTemplatesResponse,
   errors: [],
 }));
 
-/** Gets a DeidentifyTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export interface GetProjectsDeidentifyTemplatesRequest {
   /** Required. Resource name of the organization and deidentify template to be read, for example `organizations/433245324/deidentifyTemplates/432452342` or projects/project-id/deidentifyTemplates/432452342. */
   name: string;
@@ -6958,13 +6957,13 @@ export const GetProjectsDeidentifyTemplatesResponse = GooglePrivacyDlpV2Deidenti
 
 export type GetProjectsDeidentifyTemplatesError = CommonErrors;
 
+/** Gets a DeidentifyTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export const getProjectsDeidentifyTemplates: API.OperationMethod<GetProjectsDeidentifyTemplatesRequest, GetProjectsDeidentifyTemplatesResponse, GetProjectsDeidentifyTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsDeidentifyTemplatesRequest,
   output: GetProjectsDeidentifyTemplatesResponse,
   errors: [],
 }));
 
-/** Lists DeidentifyTemplates. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export interface ListProjectsDeidentifyTemplatesRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -6994,7 +6993,8 @@ export const ListProjectsDeidentifyTemplatesResponse = GooglePrivacyDlpV2ListDei
 
 export type ListProjectsDeidentifyTemplatesError = CommonErrors;
 
-export const listProjectsDeidentifyTemplates = API.makePaginated(() => ({
+/** Lists DeidentifyTemplates. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
+export const listProjectsDeidentifyTemplates: API.PaginatedOperationMethod<ListProjectsDeidentifyTemplatesRequest, ListProjectsDeidentifyTemplatesResponse, ListProjectsDeidentifyTemplatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsDeidentifyTemplatesRequest,
   output: ListProjectsDeidentifyTemplatesResponse,
   errors: [],
@@ -7004,7 +7004,6 @@ export const listProjectsDeidentifyTemplates = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a DeidentifyTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export interface DeleteProjectsDeidentifyTemplatesRequest {
   /** Required. Resource name of the organization and deidentify template to be deleted, for example `organizations/433245324/deidentifyTemplates/432452342` or projects/project-id/deidentifyTemplates/432452342. */
   name: string;
@@ -7022,13 +7021,13 @@ export const DeleteProjectsDeidentifyTemplatesResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsDeidentifyTemplatesError = CommonErrors;
 
+/** Deletes a DeidentifyTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export const deleteProjectsDeidentifyTemplates: API.OperationMethod<DeleteProjectsDeidentifyTemplatesRequest, DeleteProjectsDeidentifyTemplatesResponse, DeleteProjectsDeidentifyTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsDeidentifyTemplatesRequest,
   output: DeleteProjectsDeidentifyTemplatesResponse,
   errors: [],
 }));
 
-/** Creates a job trigger to run DLP actions such as scanning storage for sensitive information on a set schedule. See https://cloud.google.com/sensitive-data-protection/docs/creating-job-triggers to learn more. */
 export interface CreateProjectsJobTriggersRequest {
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -7049,13 +7048,13 @@ export const CreateProjectsJobTriggersResponse = GooglePrivacyDlpV2JobTrigger;
 
 export type CreateProjectsJobTriggersError = CommonErrors;
 
+/** Creates a job trigger to run DLP actions such as scanning storage for sensitive information on a set schedule. See https://cloud.google.com/sensitive-data-protection/docs/creating-job-triggers to learn more. */
 export const createProjectsJobTriggers: API.OperationMethod<CreateProjectsJobTriggersRequest, CreateProjectsJobTriggersResponse, CreateProjectsJobTriggersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsJobTriggersRequest,
   output: CreateProjectsJobTriggersResponse,
   errors: [],
 }));
 
-/** Updates a job trigger. See https://cloud.google.com/sensitive-data-protection/docs/creating-job-triggers to learn more. */
 export interface PatchProjectsJobTriggersRequest {
   /** Required. Resource name of the project and the triggeredJob, for example `projects/dlp-test-project/jobTriggers/53234423`. */
   name: string;
@@ -7076,13 +7075,13 @@ export const PatchProjectsJobTriggersResponse = GooglePrivacyDlpV2JobTrigger;
 
 export type PatchProjectsJobTriggersError = CommonErrors;
 
+/** Updates a job trigger. See https://cloud.google.com/sensitive-data-protection/docs/creating-job-triggers to learn more. */
 export const patchProjectsJobTriggers: API.OperationMethod<PatchProjectsJobTriggersRequest, PatchProjectsJobTriggersResponse, PatchProjectsJobTriggersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsJobTriggersRequest,
   output: PatchProjectsJobTriggersResponse,
   errors: [],
 }));
 
-/** Gets a job trigger. See https://cloud.google.com/sensitive-data-protection/docs/creating-job-triggers to learn more. */
 export interface GetProjectsJobTriggersRequest {
   /** Required. Resource name of the project and the triggeredJob, for example `projects/dlp-test-project/jobTriggers/53234423`. */
   name: string;
@@ -7100,13 +7099,13 @@ export const GetProjectsJobTriggersResponse = GooglePrivacyDlpV2JobTrigger;
 
 export type GetProjectsJobTriggersError = CommonErrors;
 
+/** Gets a job trigger. See https://cloud.google.com/sensitive-data-protection/docs/creating-job-triggers to learn more. */
 export const getProjectsJobTriggers: API.OperationMethod<GetProjectsJobTriggersRequest, GetProjectsJobTriggersResponse, GetProjectsJobTriggersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsJobTriggersRequest,
   output: GetProjectsJobTriggersResponse,
   errors: [],
 }));
 
-/** Lists job triggers. See https://cloud.google.com/sensitive-data-protection/docs/creating-job-triggers to learn more. */
 export interface ListProjectsJobTriggersRequest {
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -7142,7 +7141,8 @@ export const ListProjectsJobTriggersResponse = GooglePrivacyDlpV2ListJobTriggers
 
 export type ListProjectsJobTriggersError = CommonErrors;
 
-export const listProjectsJobTriggers = API.makePaginated(() => ({
+/** Lists job triggers. See https://cloud.google.com/sensitive-data-protection/docs/creating-job-triggers to learn more. */
+export const listProjectsJobTriggers: API.PaginatedOperationMethod<ListProjectsJobTriggersRequest, ListProjectsJobTriggersResponse, ListProjectsJobTriggersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsJobTriggersRequest,
   output: ListProjectsJobTriggersResponse,
   errors: [],
@@ -7152,7 +7152,6 @@ export const listProjectsJobTriggers = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a job trigger. See https://cloud.google.com/sensitive-data-protection/docs/creating-job-triggers to learn more. */
 export interface DeleteProjectsJobTriggersRequest {
   /** Required. Resource name of the project and the triggeredJob, for example `projects/dlp-test-project/jobTriggers/53234423`. */
   name: string;
@@ -7170,13 +7169,13 @@ export const DeleteProjectsJobTriggersResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsJobTriggersError = CommonErrors;
 
+/** Deletes a job trigger. See https://cloud.google.com/sensitive-data-protection/docs/creating-job-triggers to learn more. */
 export const deleteProjectsJobTriggers: API.OperationMethod<DeleteProjectsJobTriggersRequest, DeleteProjectsJobTriggersResponse, DeleteProjectsJobTriggersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsJobTriggersRequest,
   output: DeleteProjectsJobTriggersResponse,
   errors: [],
 }));
 
-/** Activate a job trigger. Causes the immediate execute of a trigger instead of waiting on the trigger event to occur. */
 export interface ActivateProjectsJobTriggersRequest {
   /** Required. Resource name of the trigger to activate, for example `projects/dlp-test-project/jobTriggers/53234423`. */
   name: string;
@@ -7197,13 +7196,13 @@ export const ActivateProjectsJobTriggersResponse = GooglePrivacyDlpV2DlpJob;
 
 export type ActivateProjectsJobTriggersError = CommonErrors;
 
+/** Activate a job trigger. Causes the immediate execute of a trigger instead of waiting on the trigger event to occur. */
 export const activateProjectsJobTriggers: API.OperationMethod<ActivateProjectsJobTriggersRequest, ActivateProjectsJobTriggersResponse, ActivateProjectsJobTriggersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ActivateProjectsJobTriggersRequest,
   output: ActivateProjectsJobTriggersResponse,
   errors: [],
 }));
 
-/** Creates a new job to inspect storage or calculate risk metrics. See https://cloud.google.com/sensitive-data-protection/docs/inspecting-storage and https://cloud.google.com/sensitive-data-protection/docs/compute-risk-analysis to learn more. When no InfoTypes or CustomInfoTypes are specified in inspect jobs, the system will automatically choose what detectors to run. By default this may be all types, but may change over time as detectors are updated. */
 export interface CreateProjectsDlpJobsRequest {
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -7224,13 +7223,13 @@ export const CreateProjectsDlpJobsResponse = GooglePrivacyDlpV2DlpJob;
 
 export type CreateProjectsDlpJobsError = CommonErrors;
 
+/** Creates a new job to inspect storage or calculate risk metrics. See https://cloud.google.com/sensitive-data-protection/docs/inspecting-storage and https://cloud.google.com/sensitive-data-protection/docs/compute-risk-analysis to learn more. When no InfoTypes or CustomInfoTypes are specified in inspect jobs, the system will automatically choose what detectors to run. By default this may be all types, but may change over time as detectors are updated. */
 export const createProjectsDlpJobs: API.OperationMethod<CreateProjectsDlpJobsRequest, CreateProjectsDlpJobsResponse, CreateProjectsDlpJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsDlpJobsRequest,
   output: CreateProjectsDlpJobsResponse,
   errors: [],
 }));
 
-/** Lists DlpJobs that match the specified filter in the request. See https://cloud.google.com/sensitive-data-protection/docs/inspecting-storage and https://cloud.google.com/sensitive-data-protection/docs/compute-risk-analysis to learn more. */
 export interface ListProjectsDlpJobsRequest {
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -7266,7 +7265,8 @@ export const ListProjectsDlpJobsResponse = GooglePrivacyDlpV2ListDlpJobsResponse
 
 export type ListProjectsDlpJobsError = CommonErrors;
 
-export const listProjectsDlpJobs = API.makePaginated(() => ({
+/** Lists DlpJobs that match the specified filter in the request. See https://cloud.google.com/sensitive-data-protection/docs/inspecting-storage and https://cloud.google.com/sensitive-data-protection/docs/compute-risk-analysis to learn more. */
+export const listProjectsDlpJobs: API.PaginatedOperationMethod<ListProjectsDlpJobsRequest, ListProjectsDlpJobsResponse, ListProjectsDlpJobsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsDlpJobsRequest,
   output: ListProjectsDlpJobsResponse,
   errors: [],
@@ -7276,7 +7276,6 @@ export const listProjectsDlpJobs = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running DlpJob. See https://cloud.google.com/sensitive-data-protection/docs/inspecting-storage and https://cloud.google.com/sensitive-data-protection/docs/compute-risk-analysis to learn more. */
 export interface GetProjectsDlpJobsRequest {
   /** Required. The name of the DlpJob resource. */
   name: string;
@@ -7294,13 +7293,13 @@ export const GetProjectsDlpJobsResponse = GooglePrivacyDlpV2DlpJob;
 
 export type GetProjectsDlpJobsError = CommonErrors;
 
+/** Gets the latest state of a long-running DlpJob. See https://cloud.google.com/sensitive-data-protection/docs/inspecting-storage and https://cloud.google.com/sensitive-data-protection/docs/compute-risk-analysis to learn more. */
 export const getProjectsDlpJobs: API.OperationMethod<GetProjectsDlpJobsRequest, GetProjectsDlpJobsResponse, GetProjectsDlpJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsDlpJobsRequest,
   output: GetProjectsDlpJobsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running DlpJob. This method indicates that the client is no longer interested in the DlpJob result. The job will be canceled if possible. See https://cloud.google.com/sensitive-data-protection/docs/inspecting-storage and https://cloud.google.com/sensitive-data-protection/docs/compute-risk-analysis to learn more. */
 export interface DeleteProjectsDlpJobsRequest {
   /** Required. The name of the DlpJob resource to be deleted. */
   name: string;
@@ -7318,13 +7317,13 @@ export const DeleteProjectsDlpJobsResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsDlpJobsError = CommonErrors;
 
+/** Deletes a long-running DlpJob. This method indicates that the client is no longer interested in the DlpJob result. The job will be canceled if possible. See https://cloud.google.com/sensitive-data-protection/docs/inspecting-storage and https://cloud.google.com/sensitive-data-protection/docs/compute-risk-analysis to learn more. */
 export const deleteProjectsDlpJobs: API.OperationMethod<DeleteProjectsDlpJobsRequest, DeleteProjectsDlpJobsResponse, DeleteProjectsDlpJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsDlpJobsRequest,
   output: DeleteProjectsDlpJobsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running DlpJob. The server makes a best effort to cancel the DlpJob, but success is not guaranteed. See https://cloud.google.com/sensitive-data-protection/docs/inspecting-storage and https://cloud.google.com/sensitive-data-protection/docs/compute-risk-analysis to learn more. */
 export interface CancelProjectsDlpJobsRequest {
   /** Required. The name of the DlpJob resource to be cancelled. */
   name: string;
@@ -7345,13 +7344,13 @@ export const CancelProjectsDlpJobsResponse = GoogleProtobufEmpty;
 
 export type CancelProjectsDlpJobsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running DlpJob. The server makes a best effort to cancel the DlpJob, but success is not guaranteed. See https://cloud.google.com/sensitive-data-protection/docs/inspecting-storage and https://cloud.google.com/sensitive-data-protection/docs/compute-risk-analysis to learn more. */
 export const cancelProjectsDlpJobs: API.OperationMethod<CancelProjectsDlpJobsRequest, CancelProjectsDlpJobsResponse, CancelProjectsDlpJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsDlpJobsRequest,
   output: CancelProjectsDlpJobsResponse,
   errors: [],
 }));
 
-/** Creates a pre-built stored infoType to be used for inspection. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export interface CreateProjectsStoredInfoTypesRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -7372,13 +7371,13 @@ export const CreateProjectsStoredInfoTypesResponse = GooglePrivacyDlpV2StoredInf
 
 export type CreateProjectsStoredInfoTypesError = CommonErrors;
 
+/** Creates a pre-built stored infoType to be used for inspection. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export const createProjectsStoredInfoTypes: API.OperationMethod<CreateProjectsStoredInfoTypesRequest, CreateProjectsStoredInfoTypesResponse, CreateProjectsStoredInfoTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsStoredInfoTypesRequest,
   output: CreateProjectsStoredInfoTypesResponse,
   errors: [],
 }));
 
-/** Updates the stored infoType by creating a new version. The existing version will continue to be used until the new version is ready. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export interface PatchProjectsStoredInfoTypesRequest {
   /** Required. Resource name of organization and storedInfoType to be updated, for example `organizations/433245324/storedInfoTypes/432452342` or projects/project-id/storedInfoTypes/432452342. */
   name: string;
@@ -7399,13 +7398,13 @@ export const PatchProjectsStoredInfoTypesResponse = GooglePrivacyDlpV2StoredInfo
 
 export type PatchProjectsStoredInfoTypesError = CommonErrors;
 
+/** Updates the stored infoType by creating a new version. The existing version will continue to be used until the new version is ready. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export const patchProjectsStoredInfoTypes: API.OperationMethod<PatchProjectsStoredInfoTypesRequest, PatchProjectsStoredInfoTypesResponse, PatchProjectsStoredInfoTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsStoredInfoTypesRequest,
   output: PatchProjectsStoredInfoTypesResponse,
   errors: [],
 }));
 
-/** Gets a stored infoType. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export interface GetProjectsStoredInfoTypesRequest {
   /** Required. Resource name of the organization and storedInfoType to be read, for example `organizations/433245324/storedInfoTypes/432452342` or projects/project-id/storedInfoTypes/432452342. */
   name: string;
@@ -7423,13 +7422,13 @@ export const GetProjectsStoredInfoTypesResponse = GooglePrivacyDlpV2StoredInfoTy
 
 export type GetProjectsStoredInfoTypesError = CommonErrors;
 
+/** Gets a stored infoType. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export const getProjectsStoredInfoTypes: API.OperationMethod<GetProjectsStoredInfoTypesRequest, GetProjectsStoredInfoTypesResponse, GetProjectsStoredInfoTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsStoredInfoTypesRequest,
   output: GetProjectsStoredInfoTypesResponse,
   errors: [],
 }));
 
-/** Lists stored infoTypes. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export interface ListProjectsStoredInfoTypesRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -7459,7 +7458,8 @@ export const ListProjectsStoredInfoTypesResponse = GooglePrivacyDlpV2ListStoredI
 
 export type ListProjectsStoredInfoTypesError = CommonErrors;
 
-export const listProjectsStoredInfoTypes = API.makePaginated(() => ({
+/** Lists stored infoTypes. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
+export const listProjectsStoredInfoTypes: API.PaginatedOperationMethod<ListProjectsStoredInfoTypesRequest, ListProjectsStoredInfoTypesResponse, ListProjectsStoredInfoTypesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsStoredInfoTypesRequest,
   output: ListProjectsStoredInfoTypesResponse,
   errors: [],
@@ -7469,7 +7469,6 @@ export const listProjectsStoredInfoTypes = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a stored infoType. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export interface DeleteProjectsStoredInfoTypesRequest {
   /** Required. Resource name of the organization and storedInfoType to be deleted, for example `organizations/433245324/storedInfoTypes/432452342` or projects/project-id/storedInfoTypes/432452342. */
   name: string;
@@ -7487,13 +7486,13 @@ export const DeleteProjectsStoredInfoTypesResponse = GoogleProtobufEmpty;
 
 export type DeleteProjectsStoredInfoTypesError = CommonErrors;
 
+/** Deletes a stored infoType. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export const deleteProjectsStoredInfoTypes: API.OperationMethod<DeleteProjectsStoredInfoTypesRequest, DeleteProjectsStoredInfoTypesResponse, DeleteProjectsStoredInfoTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsStoredInfoTypesRequest,
   output: DeleteProjectsStoredInfoTypesResponse,
   errors: [],
 }));
 
-/** Returns a list of the sensitive information types that the DLP API supports. See https://cloud.google.com/sensitive-data-protection/docs/infotypes-reference to learn more. */
 export interface ListInfoTypesRequest {
   /** The parent resource name. The format of this value is as follows: `locations/{location_id}` */
   parent?: string;
@@ -7520,13 +7519,13 @@ export const ListInfoTypesResponse = GooglePrivacyDlpV2ListInfoTypesResponse;
 
 export type ListInfoTypesError = CommonErrors;
 
+/** Returns a list of the sensitive information types that the DLP API supports. See https://cloud.google.com/sensitive-data-protection/docs/infotypes-reference to learn more. */
 export const listInfoTypes: API.OperationMethod<ListInfoTypesRequest, ListInfoTypesResponse, ListInfoTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListInfoTypesRequest,
   output: ListInfoTypesResponse,
   errors: [],
 }));
 
-/** Returns a list of the sensitive information types that the DLP API supports. See https://cloud.google.com/sensitive-data-protection/docs/infotypes-reference to learn more. */
 export interface ListLocationsInfoTypesRequest {
   /** The parent resource name. The format of this value is as follows: `locations/{location_id}` */
   parent: string;
@@ -7553,13 +7552,13 @@ export const ListLocationsInfoTypesResponse = GooglePrivacyDlpV2ListInfoTypesRes
 
 export type ListLocationsInfoTypesError = CommonErrors;
 
+/** Returns a list of the sensitive information types that the DLP API supports. See https://cloud.google.com/sensitive-data-protection/docs/infotypes-reference to learn more. */
 export const listLocationsInfoTypes: API.OperationMethod<ListLocationsInfoTypesRequest, ListLocationsInfoTypesResponse, ListLocationsInfoTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListLocationsInfoTypesRequest,
   output: ListLocationsInfoTypesResponse,
   errors: [],
 }));
 
-/** Returns a list of the sensitive information types that the DLP API supports. See https://cloud.google.com/sensitive-data-protection/docs/infotypes-reference to learn more. */
 export interface ListOrganizationsLocationsInfoTypesRequest {
   /** The parent resource name. The format of this value is as follows: `locations/{location_id}` */
   parent: string;
@@ -7586,13 +7585,13 @@ export const ListOrganizationsLocationsInfoTypesResponse = GooglePrivacyDlpV2Lis
 
 export type ListOrganizationsLocationsInfoTypesError = CommonErrors;
 
+/** Returns a list of the sensitive information types that the DLP API supports. See https://cloud.google.com/sensitive-data-protection/docs/infotypes-reference to learn more. */
 export const listOrganizationsLocationsInfoTypes: API.OperationMethod<ListOrganizationsLocationsInfoTypesRequest, ListOrganizationsLocationsInfoTypesResponse, ListOrganizationsLocationsInfoTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListOrganizationsLocationsInfoTypesRequest,
   output: ListOrganizationsLocationsInfoTypesResponse,
   errors: [],
 }));
 
-/** Creates an InspectTemplate for reusing frequently used configuration for inspecting content, images, and storage. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export interface CreateOrganizationsLocationsInspectTemplatesRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -7613,13 +7612,13 @@ export const CreateOrganizationsLocationsInspectTemplatesResponse = GooglePrivac
 
 export type CreateOrganizationsLocationsInspectTemplatesError = CommonErrors;
 
+/** Creates an InspectTemplate for reusing frequently used configuration for inspecting content, images, and storage. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export const createOrganizationsLocationsInspectTemplates: API.OperationMethod<CreateOrganizationsLocationsInspectTemplatesRequest, CreateOrganizationsLocationsInspectTemplatesResponse, CreateOrganizationsLocationsInspectTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsLocationsInspectTemplatesRequest,
   output: CreateOrganizationsLocationsInspectTemplatesResponse,
   errors: [],
 }));
 
-/** Updates the InspectTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export interface PatchOrganizationsLocationsInspectTemplatesRequest {
   /** Required. Resource name of organization and inspectTemplate to be updated, for example `organizations/433245324/inspectTemplates/432452342` or projects/project-id/inspectTemplates/432452342. */
   name: string;
@@ -7640,13 +7639,13 @@ export const PatchOrganizationsLocationsInspectTemplatesResponse = GooglePrivacy
 
 export type PatchOrganizationsLocationsInspectTemplatesError = CommonErrors;
 
+/** Updates the InspectTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export const patchOrganizationsLocationsInspectTemplates: API.OperationMethod<PatchOrganizationsLocationsInspectTemplatesRequest, PatchOrganizationsLocationsInspectTemplatesResponse, PatchOrganizationsLocationsInspectTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsLocationsInspectTemplatesRequest,
   output: PatchOrganizationsLocationsInspectTemplatesResponse,
   errors: [],
 }));
 
-/** Gets an InspectTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export interface GetOrganizationsLocationsInspectTemplatesRequest {
   /** Required. Resource name of the organization and inspectTemplate to be read, for example `organizations/433245324/inspectTemplates/432452342` or projects/project-id/inspectTemplates/432452342. */
   name: string;
@@ -7664,13 +7663,13 @@ export const GetOrganizationsLocationsInspectTemplatesResponse = GooglePrivacyDl
 
 export type GetOrganizationsLocationsInspectTemplatesError = CommonErrors;
 
+/** Gets an InspectTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export const getOrganizationsLocationsInspectTemplates: API.OperationMethod<GetOrganizationsLocationsInspectTemplatesRequest, GetOrganizationsLocationsInspectTemplatesResponse, GetOrganizationsLocationsInspectTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsInspectTemplatesRequest,
   output: GetOrganizationsLocationsInspectTemplatesResponse,
   errors: [],
 }));
 
-/** Lists InspectTemplates. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export interface ListOrganizationsLocationsInspectTemplatesRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -7700,7 +7699,8 @@ export const ListOrganizationsLocationsInspectTemplatesResponse = GooglePrivacyD
 
 export type ListOrganizationsLocationsInspectTemplatesError = CommonErrors;
 
-export const listOrganizationsLocationsInspectTemplates = API.makePaginated(() => ({
+/** Lists InspectTemplates. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
+export const listOrganizationsLocationsInspectTemplates: API.PaginatedOperationMethod<ListOrganizationsLocationsInspectTemplatesRequest, ListOrganizationsLocationsInspectTemplatesResponse, ListOrganizationsLocationsInspectTemplatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsInspectTemplatesRequest,
   output: ListOrganizationsLocationsInspectTemplatesResponse,
   errors: [],
@@ -7710,7 +7710,6 @@ export const listOrganizationsLocationsInspectTemplates = API.makePaginated(() =
   },
 }));
 
-/** Deletes an InspectTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export interface DeleteOrganizationsLocationsInspectTemplatesRequest {
   /** Required. Resource name of the organization and inspectTemplate to be deleted, for example `organizations/433245324/inspectTemplates/432452342` or projects/project-id/inspectTemplates/432452342. */
   name: string;
@@ -7728,13 +7727,13 @@ export const DeleteOrganizationsLocationsInspectTemplatesResponse = GoogleProtob
 
 export type DeleteOrganizationsLocationsInspectTemplatesError = CommonErrors;
 
+/** Deletes an InspectTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export const deleteOrganizationsLocationsInspectTemplates: API.OperationMethod<DeleteOrganizationsLocationsInspectTemplatesRequest, DeleteOrganizationsLocationsInspectTemplatesResponse, DeleteOrganizationsLocationsInspectTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsLocationsInspectTemplatesRequest,
   output: DeleteOrganizationsLocationsInspectTemplatesResponse,
   errors: [],
 }));
 
-/** Creates a DeidentifyTemplate for reusing frequently used configuration for de-identifying content, images, and storage. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export interface CreateOrganizationsLocationsDeidentifyTemplatesRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -7755,13 +7754,13 @@ export const CreateOrganizationsLocationsDeidentifyTemplatesResponse = GooglePri
 
 export type CreateOrganizationsLocationsDeidentifyTemplatesError = CommonErrors;
 
+/** Creates a DeidentifyTemplate for reusing frequently used configuration for de-identifying content, images, and storage. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export const createOrganizationsLocationsDeidentifyTemplates: API.OperationMethod<CreateOrganizationsLocationsDeidentifyTemplatesRequest, CreateOrganizationsLocationsDeidentifyTemplatesResponse, CreateOrganizationsLocationsDeidentifyTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsLocationsDeidentifyTemplatesRequest,
   output: CreateOrganizationsLocationsDeidentifyTemplatesResponse,
   errors: [],
 }));
 
-/** Updates the DeidentifyTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export interface PatchOrganizationsLocationsDeidentifyTemplatesRequest {
   /** Required. Resource name of organization and deidentify template to be updated, for example `organizations/433245324/deidentifyTemplates/432452342` or projects/project-id/deidentifyTemplates/432452342. */
   name: string;
@@ -7782,13 +7781,13 @@ export const PatchOrganizationsLocationsDeidentifyTemplatesResponse = GooglePriv
 
 export type PatchOrganizationsLocationsDeidentifyTemplatesError = CommonErrors;
 
+/** Updates the DeidentifyTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export const patchOrganizationsLocationsDeidentifyTemplates: API.OperationMethod<PatchOrganizationsLocationsDeidentifyTemplatesRequest, PatchOrganizationsLocationsDeidentifyTemplatesResponse, PatchOrganizationsLocationsDeidentifyTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsLocationsDeidentifyTemplatesRequest,
   output: PatchOrganizationsLocationsDeidentifyTemplatesResponse,
   errors: [],
 }));
 
-/** Gets a DeidentifyTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export interface GetOrganizationsLocationsDeidentifyTemplatesRequest {
   /** Required. Resource name of the organization and deidentify template to be read, for example `organizations/433245324/deidentifyTemplates/432452342` or projects/project-id/deidentifyTemplates/432452342. */
   name: string;
@@ -7806,13 +7805,13 @@ export const GetOrganizationsLocationsDeidentifyTemplatesResponse = GooglePrivac
 
 export type GetOrganizationsLocationsDeidentifyTemplatesError = CommonErrors;
 
+/** Gets a DeidentifyTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export const getOrganizationsLocationsDeidentifyTemplates: API.OperationMethod<GetOrganizationsLocationsDeidentifyTemplatesRequest, GetOrganizationsLocationsDeidentifyTemplatesResponse, GetOrganizationsLocationsDeidentifyTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsDeidentifyTemplatesRequest,
   output: GetOrganizationsLocationsDeidentifyTemplatesResponse,
   errors: [],
 }));
 
-/** Lists DeidentifyTemplates. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export interface ListOrganizationsLocationsDeidentifyTemplatesRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -7842,7 +7841,8 @@ export const ListOrganizationsLocationsDeidentifyTemplatesResponse = GooglePriva
 
 export type ListOrganizationsLocationsDeidentifyTemplatesError = CommonErrors;
 
-export const listOrganizationsLocationsDeidentifyTemplates = API.makePaginated(() => ({
+/** Lists DeidentifyTemplates. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
+export const listOrganizationsLocationsDeidentifyTemplates: API.PaginatedOperationMethod<ListOrganizationsLocationsDeidentifyTemplatesRequest, ListOrganizationsLocationsDeidentifyTemplatesResponse, ListOrganizationsLocationsDeidentifyTemplatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsDeidentifyTemplatesRequest,
   output: ListOrganizationsLocationsDeidentifyTemplatesResponse,
   errors: [],
@@ -7852,7 +7852,6 @@ export const listOrganizationsLocationsDeidentifyTemplates = API.makePaginated((
   },
 }));
 
-/** Deletes a DeidentifyTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export interface DeleteOrganizationsLocationsDeidentifyTemplatesRequest {
   /** Required. Resource name of the organization and deidentify template to be deleted, for example `organizations/433245324/deidentifyTemplates/432452342` or projects/project-id/deidentifyTemplates/432452342. */
   name: string;
@@ -7870,13 +7869,13 @@ export const DeleteOrganizationsLocationsDeidentifyTemplatesResponse = GooglePro
 
 export type DeleteOrganizationsLocationsDeidentifyTemplatesError = CommonErrors;
 
+/** Deletes a DeidentifyTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export const deleteOrganizationsLocationsDeidentifyTemplates: API.OperationMethod<DeleteOrganizationsLocationsDeidentifyTemplatesRequest, DeleteOrganizationsLocationsDeidentifyTemplatesResponse, DeleteOrganizationsLocationsDeidentifyTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsLocationsDeidentifyTemplatesRequest,
   output: DeleteOrganizationsLocationsDeidentifyTemplatesResponse,
   errors: [],
 }));
 
-/** Creates a job trigger to run DLP actions such as scanning storage for sensitive information on a set schedule. See https://cloud.google.com/sensitive-data-protection/docs/creating-job-triggers to learn more. */
 export interface CreateOrganizationsLocationsJobTriggersRequest {
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -7897,13 +7896,13 @@ export const CreateOrganizationsLocationsJobTriggersResponse = GooglePrivacyDlpV
 
 export type CreateOrganizationsLocationsJobTriggersError = CommonErrors;
 
+/** Creates a job trigger to run DLP actions such as scanning storage for sensitive information on a set schedule. See https://cloud.google.com/sensitive-data-protection/docs/creating-job-triggers to learn more. */
 export const createOrganizationsLocationsJobTriggers: API.OperationMethod<CreateOrganizationsLocationsJobTriggersRequest, CreateOrganizationsLocationsJobTriggersResponse, CreateOrganizationsLocationsJobTriggersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsLocationsJobTriggersRequest,
   output: CreateOrganizationsLocationsJobTriggersResponse,
   errors: [],
 }));
 
-/** Updates a job trigger. See https://cloud.google.com/sensitive-data-protection/docs/creating-job-triggers to learn more. */
 export interface PatchOrganizationsLocationsJobTriggersRequest {
   /** Required. Resource name of the project and the triggeredJob, for example `projects/dlp-test-project/jobTriggers/53234423`. */
   name: string;
@@ -7924,13 +7923,13 @@ export const PatchOrganizationsLocationsJobTriggersResponse = GooglePrivacyDlpV2
 
 export type PatchOrganizationsLocationsJobTriggersError = CommonErrors;
 
+/** Updates a job trigger. See https://cloud.google.com/sensitive-data-protection/docs/creating-job-triggers to learn more. */
 export const patchOrganizationsLocationsJobTriggers: API.OperationMethod<PatchOrganizationsLocationsJobTriggersRequest, PatchOrganizationsLocationsJobTriggersResponse, PatchOrganizationsLocationsJobTriggersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsLocationsJobTriggersRequest,
   output: PatchOrganizationsLocationsJobTriggersResponse,
   errors: [],
 }));
 
-/** Gets a job trigger. See https://cloud.google.com/sensitive-data-protection/docs/creating-job-triggers to learn more. */
 export interface GetOrganizationsLocationsJobTriggersRequest {
   /** Required. Resource name of the project and the triggeredJob, for example `projects/dlp-test-project/jobTriggers/53234423`. */
   name: string;
@@ -7948,13 +7947,13 @@ export const GetOrganizationsLocationsJobTriggersResponse = GooglePrivacyDlpV2Jo
 
 export type GetOrganizationsLocationsJobTriggersError = CommonErrors;
 
+/** Gets a job trigger. See https://cloud.google.com/sensitive-data-protection/docs/creating-job-triggers to learn more. */
 export const getOrganizationsLocationsJobTriggers: API.OperationMethod<GetOrganizationsLocationsJobTriggersRequest, GetOrganizationsLocationsJobTriggersResponse, GetOrganizationsLocationsJobTriggersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsJobTriggersRequest,
   output: GetOrganizationsLocationsJobTriggersResponse,
   errors: [],
 }));
 
-/** Lists job triggers. See https://cloud.google.com/sensitive-data-protection/docs/creating-job-triggers to learn more. */
 export interface ListOrganizationsLocationsJobTriggersRequest {
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -7990,7 +7989,8 @@ export const ListOrganizationsLocationsJobTriggersResponse = GooglePrivacyDlpV2L
 
 export type ListOrganizationsLocationsJobTriggersError = CommonErrors;
 
-export const listOrganizationsLocationsJobTriggers = API.makePaginated(() => ({
+/** Lists job triggers. See https://cloud.google.com/sensitive-data-protection/docs/creating-job-triggers to learn more. */
+export const listOrganizationsLocationsJobTriggers: API.PaginatedOperationMethod<ListOrganizationsLocationsJobTriggersRequest, ListOrganizationsLocationsJobTriggersResponse, ListOrganizationsLocationsJobTriggersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsJobTriggersRequest,
   output: ListOrganizationsLocationsJobTriggersResponse,
   errors: [],
@@ -8000,7 +8000,6 @@ export const listOrganizationsLocationsJobTriggers = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a job trigger. See https://cloud.google.com/sensitive-data-protection/docs/creating-job-triggers to learn more. */
 export interface DeleteOrganizationsLocationsJobTriggersRequest {
   /** Required. Resource name of the project and the triggeredJob, for example `projects/dlp-test-project/jobTriggers/53234423`. */
   name: string;
@@ -8018,13 +8017,13 @@ export const DeleteOrganizationsLocationsJobTriggersResponse = GoogleProtobufEmp
 
 export type DeleteOrganizationsLocationsJobTriggersError = CommonErrors;
 
+/** Deletes a job trigger. See https://cloud.google.com/sensitive-data-protection/docs/creating-job-triggers to learn more. */
 export const deleteOrganizationsLocationsJobTriggers: API.OperationMethod<DeleteOrganizationsLocationsJobTriggersRequest, DeleteOrganizationsLocationsJobTriggersResponse, DeleteOrganizationsLocationsJobTriggersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsLocationsJobTriggersRequest,
   output: DeleteOrganizationsLocationsJobTriggersResponse,
   errors: [],
 }));
 
-/** Creates a config for discovery to scan and profile storage. */
 export interface CreateOrganizationsLocationsDiscoveryConfigsRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization): + Projects scope: `projects/{project_id}/locations/{location_id}` + Organizations scope: `organizations/{org_id}/locations/{location_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -8045,13 +8044,13 @@ export const CreateOrganizationsLocationsDiscoveryConfigsResponse = GooglePrivac
 
 export type CreateOrganizationsLocationsDiscoveryConfigsError = CommonErrors;
 
+/** Creates a config for discovery to scan and profile storage. */
 export const createOrganizationsLocationsDiscoveryConfigs: API.OperationMethod<CreateOrganizationsLocationsDiscoveryConfigsRequest, CreateOrganizationsLocationsDiscoveryConfigsResponse, CreateOrganizationsLocationsDiscoveryConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsLocationsDiscoveryConfigsRequest,
   output: CreateOrganizationsLocationsDiscoveryConfigsResponse,
   errors: [],
 }));
 
-/** Updates a discovery configuration. */
 export interface PatchOrganizationsLocationsDiscoveryConfigsRequest {
   /** Required. Resource name of the project and the configuration, for example `projects/dlp-test-project/discoveryConfigs/53234423`. */
   name: string;
@@ -8072,13 +8071,13 @@ export const PatchOrganizationsLocationsDiscoveryConfigsResponse = GooglePrivacy
 
 export type PatchOrganizationsLocationsDiscoveryConfigsError = CommonErrors;
 
+/** Updates a discovery configuration. */
 export const patchOrganizationsLocationsDiscoveryConfigs: API.OperationMethod<PatchOrganizationsLocationsDiscoveryConfigsRequest, PatchOrganizationsLocationsDiscoveryConfigsResponse, PatchOrganizationsLocationsDiscoveryConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsLocationsDiscoveryConfigsRequest,
   output: PatchOrganizationsLocationsDiscoveryConfigsResponse,
   errors: [],
 }));
 
-/** Gets a discovery configuration. */
 export interface GetOrganizationsLocationsDiscoveryConfigsRequest {
   /** Required. Resource name of the project and the configuration, for example `projects/dlp-test-project/discoveryConfigs/53234423`. */
   name: string;
@@ -8096,13 +8095,13 @@ export const GetOrganizationsLocationsDiscoveryConfigsResponse = GooglePrivacyDl
 
 export type GetOrganizationsLocationsDiscoveryConfigsError = CommonErrors;
 
+/** Gets a discovery configuration. */
 export const getOrganizationsLocationsDiscoveryConfigs: API.OperationMethod<GetOrganizationsLocationsDiscoveryConfigsRequest, GetOrganizationsLocationsDiscoveryConfigsResponse, GetOrganizationsLocationsDiscoveryConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsDiscoveryConfigsRequest,
   output: GetOrganizationsLocationsDiscoveryConfigsResponse,
   errors: [],
 }));
 
-/** Lists discovery configurations. */
 export interface ListOrganizationsLocationsDiscoveryConfigsRequest {
   /** Required. Parent resource name. The format of this value is as follows: `projects/{project_id}/locations/{location_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -8129,7 +8128,8 @@ export const ListOrganizationsLocationsDiscoveryConfigsResponse = GooglePrivacyD
 
 export type ListOrganizationsLocationsDiscoveryConfigsError = CommonErrors;
 
-export const listOrganizationsLocationsDiscoveryConfigs = API.makePaginated(() => ({
+/** Lists discovery configurations. */
+export const listOrganizationsLocationsDiscoveryConfigs: API.PaginatedOperationMethod<ListOrganizationsLocationsDiscoveryConfigsRequest, ListOrganizationsLocationsDiscoveryConfigsResponse, ListOrganizationsLocationsDiscoveryConfigsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsDiscoveryConfigsRequest,
   output: ListOrganizationsLocationsDiscoveryConfigsResponse,
   errors: [],
@@ -8139,7 +8139,6 @@ export const listOrganizationsLocationsDiscoveryConfigs = API.makePaginated(() =
   },
 }));
 
-/** Deletes a discovery configuration. */
 export interface DeleteOrganizationsLocationsDiscoveryConfigsRequest {
   /** Required. Resource name of the project and the config, for example `projects/dlp-test-project/discoveryConfigs/53234423`. */
   name: string;
@@ -8157,13 +8156,13 @@ export const DeleteOrganizationsLocationsDiscoveryConfigsResponse = GoogleProtob
 
 export type DeleteOrganizationsLocationsDiscoveryConfigsError = CommonErrors;
 
+/** Deletes a discovery configuration. */
 export const deleteOrganizationsLocationsDiscoveryConfigs: API.OperationMethod<DeleteOrganizationsLocationsDiscoveryConfigsRequest, DeleteOrganizationsLocationsDiscoveryConfigsResponse, DeleteOrganizationsLocationsDiscoveryConfigsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsLocationsDiscoveryConfigsRequest,
   output: DeleteOrganizationsLocationsDiscoveryConfigsResponse,
   errors: [],
 }));
 
-/** Lists DlpJobs that match the specified filter in the request. See https://cloud.google.com/sensitive-data-protection/docs/inspecting-storage and https://cloud.google.com/sensitive-data-protection/docs/compute-risk-analysis to learn more. */
 export interface ListOrganizationsLocationsDlpJobsRequest {
   /** Required. Parent resource name. The format of this value varies depending on whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -8199,7 +8198,8 @@ export const ListOrganizationsLocationsDlpJobsResponse = GooglePrivacyDlpV2ListD
 
 export type ListOrganizationsLocationsDlpJobsError = CommonErrors;
 
-export const listOrganizationsLocationsDlpJobs = API.makePaginated(() => ({
+/** Lists DlpJobs that match the specified filter in the request. See https://cloud.google.com/sensitive-data-protection/docs/inspecting-storage and https://cloud.google.com/sensitive-data-protection/docs/compute-risk-analysis to learn more. */
+export const listOrganizationsLocationsDlpJobs: API.PaginatedOperationMethod<ListOrganizationsLocationsDlpJobsRequest, ListOrganizationsLocationsDlpJobsResponse, ListOrganizationsLocationsDlpJobsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsDlpJobsRequest,
   output: ListOrganizationsLocationsDlpJobsResponse,
   errors: [],
@@ -8209,7 +8209,6 @@ export const listOrganizationsLocationsDlpJobs = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a pre-built stored infoType to be used for inspection. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export interface CreateOrganizationsLocationsStoredInfoTypesRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -8230,13 +8229,13 @@ export const CreateOrganizationsLocationsStoredInfoTypesResponse = GooglePrivacy
 
 export type CreateOrganizationsLocationsStoredInfoTypesError = CommonErrors;
 
+/** Creates a pre-built stored infoType to be used for inspection. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export const createOrganizationsLocationsStoredInfoTypes: API.OperationMethod<CreateOrganizationsLocationsStoredInfoTypesRequest, CreateOrganizationsLocationsStoredInfoTypesResponse, CreateOrganizationsLocationsStoredInfoTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsLocationsStoredInfoTypesRequest,
   output: CreateOrganizationsLocationsStoredInfoTypesResponse,
   errors: [],
 }));
 
-/** Updates the stored infoType by creating a new version. The existing version will continue to be used until the new version is ready. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export interface PatchOrganizationsLocationsStoredInfoTypesRequest {
   /** Required. Resource name of organization and storedInfoType to be updated, for example `organizations/433245324/storedInfoTypes/432452342` or projects/project-id/storedInfoTypes/432452342. */
   name: string;
@@ -8257,13 +8256,13 @@ export const PatchOrganizationsLocationsStoredInfoTypesResponse = GooglePrivacyD
 
 export type PatchOrganizationsLocationsStoredInfoTypesError = CommonErrors;
 
+/** Updates the stored infoType by creating a new version. The existing version will continue to be used until the new version is ready. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export const patchOrganizationsLocationsStoredInfoTypes: API.OperationMethod<PatchOrganizationsLocationsStoredInfoTypesRequest, PatchOrganizationsLocationsStoredInfoTypesResponse, PatchOrganizationsLocationsStoredInfoTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsLocationsStoredInfoTypesRequest,
   output: PatchOrganizationsLocationsStoredInfoTypesResponse,
   errors: [],
 }));
 
-/** Gets a stored infoType. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export interface GetOrganizationsLocationsStoredInfoTypesRequest {
   /** Required. Resource name of the organization and storedInfoType to be read, for example `organizations/433245324/storedInfoTypes/432452342` or projects/project-id/storedInfoTypes/432452342. */
   name: string;
@@ -8281,13 +8280,13 @@ export const GetOrganizationsLocationsStoredInfoTypesResponse = GooglePrivacyDlp
 
 export type GetOrganizationsLocationsStoredInfoTypesError = CommonErrors;
 
+/** Gets a stored infoType. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export const getOrganizationsLocationsStoredInfoTypes: API.OperationMethod<GetOrganizationsLocationsStoredInfoTypesRequest, GetOrganizationsLocationsStoredInfoTypesResponse, GetOrganizationsLocationsStoredInfoTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsStoredInfoTypesRequest,
   output: GetOrganizationsLocationsStoredInfoTypesResponse,
   errors: [],
 }));
 
-/** Lists stored infoTypes. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export interface ListOrganizationsLocationsStoredInfoTypesRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -8317,7 +8316,8 @@ export const ListOrganizationsLocationsStoredInfoTypesResponse = GooglePrivacyDl
 
 export type ListOrganizationsLocationsStoredInfoTypesError = CommonErrors;
 
-export const listOrganizationsLocationsStoredInfoTypes = API.makePaginated(() => ({
+/** Lists stored infoTypes. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
+export const listOrganizationsLocationsStoredInfoTypes: API.PaginatedOperationMethod<ListOrganizationsLocationsStoredInfoTypesRequest, ListOrganizationsLocationsStoredInfoTypesResponse, ListOrganizationsLocationsStoredInfoTypesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsStoredInfoTypesRequest,
   output: ListOrganizationsLocationsStoredInfoTypesResponse,
   errors: [],
@@ -8327,7 +8327,6 @@ export const listOrganizationsLocationsStoredInfoTypes = API.makePaginated(() =>
   },
 }));
 
-/** Deletes a stored infoType. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export interface DeleteOrganizationsLocationsStoredInfoTypesRequest {
   /** Required. Resource name of the organization and storedInfoType to be deleted, for example `organizations/433245324/storedInfoTypes/432452342` or projects/project-id/storedInfoTypes/432452342. */
   name: string;
@@ -8345,13 +8344,13 @@ export const DeleteOrganizationsLocationsStoredInfoTypesResponse = GoogleProtobu
 
 export type DeleteOrganizationsLocationsStoredInfoTypesError = CommonErrors;
 
+/** Deletes a stored infoType. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export const deleteOrganizationsLocationsStoredInfoTypes: API.OperationMethod<DeleteOrganizationsLocationsStoredInfoTypesRequest, DeleteOrganizationsLocationsStoredInfoTypesResponse, DeleteOrganizationsLocationsStoredInfoTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsLocationsStoredInfoTypesRequest,
   output: DeleteOrganizationsLocationsStoredInfoTypesResponse,
   errors: [],
 }));
 
-/** Lists project data profiles for an organization. */
 export interface ListOrganizationsLocationsProjectDataProfilesRequest {
   /** Required. organizations/{org_id}/locations/{loc_id} */
   parent: string;
@@ -8381,7 +8380,8 @@ export const ListOrganizationsLocationsProjectDataProfilesResponse = GooglePriva
 
 export type ListOrganizationsLocationsProjectDataProfilesError = CommonErrors;
 
-export const listOrganizationsLocationsProjectDataProfiles = API.makePaginated(() => ({
+/** Lists project data profiles for an organization. */
+export const listOrganizationsLocationsProjectDataProfiles: API.PaginatedOperationMethod<ListOrganizationsLocationsProjectDataProfilesRequest, ListOrganizationsLocationsProjectDataProfilesResponse, ListOrganizationsLocationsProjectDataProfilesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsProjectDataProfilesRequest,
   output: ListOrganizationsLocationsProjectDataProfilesResponse,
   errors: [],
@@ -8391,7 +8391,6 @@ export const listOrganizationsLocationsProjectDataProfiles = API.makePaginated((
   },
 }));
 
-/** Gets a project data profile. */
 export interface GetOrganizationsLocationsProjectDataProfilesRequest {
   /** Required. Resource name, for example `organizations/12345/locations/us/projectDataProfiles/53234423`. */
   name: string;
@@ -8409,13 +8408,13 @@ export const GetOrganizationsLocationsProjectDataProfilesResponse = GooglePrivac
 
 export type GetOrganizationsLocationsProjectDataProfilesError = CommonErrors;
 
+/** Gets a project data profile. */
 export const getOrganizationsLocationsProjectDataProfiles: API.OperationMethod<GetOrganizationsLocationsProjectDataProfilesRequest, GetOrganizationsLocationsProjectDataProfilesResponse, GetOrganizationsLocationsProjectDataProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsProjectDataProfilesRequest,
   output: GetOrganizationsLocationsProjectDataProfilesResponse,
   errors: [],
 }));
 
-/** Lists table data profiles for an organization. */
 export interface ListOrganizationsLocationsTableDataProfilesRequest {
   /** Required. Resource name of the organization or project, for example `organizations/433245324/locations/europe` or `projects/project-id/locations/asia`. */
   parent: string;
@@ -8445,7 +8444,8 @@ export const ListOrganizationsLocationsTableDataProfilesResponse = GooglePrivacy
 
 export type ListOrganizationsLocationsTableDataProfilesError = CommonErrors;
 
-export const listOrganizationsLocationsTableDataProfiles = API.makePaginated(() => ({
+/** Lists table data profiles for an organization. */
+export const listOrganizationsLocationsTableDataProfiles: API.PaginatedOperationMethod<ListOrganizationsLocationsTableDataProfilesRequest, ListOrganizationsLocationsTableDataProfilesResponse, ListOrganizationsLocationsTableDataProfilesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsTableDataProfilesRequest,
   output: ListOrganizationsLocationsTableDataProfilesResponse,
   errors: [],
@@ -8455,7 +8455,6 @@ export const listOrganizationsLocationsTableDataProfiles = API.makePaginated(() 
   },
 }));
 
-/** Gets a table data profile. */
 export interface GetOrganizationsLocationsTableDataProfilesRequest {
   /** Required. Resource name, for example `organizations/12345/locations/us/tableDataProfiles/53234423`. */
   name: string;
@@ -8473,13 +8472,13 @@ export const GetOrganizationsLocationsTableDataProfilesResponse = GooglePrivacyD
 
 export type GetOrganizationsLocationsTableDataProfilesError = CommonErrors;
 
+/** Gets a table data profile. */
 export const getOrganizationsLocationsTableDataProfiles: API.OperationMethod<GetOrganizationsLocationsTableDataProfilesRequest, GetOrganizationsLocationsTableDataProfilesResponse, GetOrganizationsLocationsTableDataProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsTableDataProfilesRequest,
   output: GetOrganizationsLocationsTableDataProfilesResponse,
   errors: [],
 }));
 
-/** Delete a TableDataProfile. Will not prevent the profile from being regenerated if the table is still included in a discovery configuration. */
 export interface DeleteOrganizationsLocationsTableDataProfilesRequest {
   /** Required. Resource name of the table data profile. */
   name: string;
@@ -8497,13 +8496,13 @@ export const DeleteOrganizationsLocationsTableDataProfilesResponse = GoogleProto
 
 export type DeleteOrganizationsLocationsTableDataProfilesError = CommonErrors;
 
+/** Delete a TableDataProfile. Will not prevent the profile from being regenerated if the table is still included in a discovery configuration. */
 export const deleteOrganizationsLocationsTableDataProfiles: API.OperationMethod<DeleteOrganizationsLocationsTableDataProfilesRequest, DeleteOrganizationsLocationsTableDataProfilesResponse, DeleteOrganizationsLocationsTableDataProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsLocationsTableDataProfilesRequest,
   output: DeleteOrganizationsLocationsTableDataProfilesResponse,
   errors: [],
 }));
 
-/** Lists column data profiles for an organization. */
 export interface ListOrganizationsLocationsColumnDataProfilesRequest {
   /** Required. Resource name of the organization or project, for example `organizations/433245324/locations/europe` or `projects/project-id/locations/asia`. */
   parent: string;
@@ -8533,7 +8532,8 @@ export const ListOrganizationsLocationsColumnDataProfilesResponse = GooglePrivac
 
 export type ListOrganizationsLocationsColumnDataProfilesError = CommonErrors;
 
-export const listOrganizationsLocationsColumnDataProfiles = API.makePaginated(() => ({
+/** Lists column data profiles for an organization. */
+export const listOrganizationsLocationsColumnDataProfiles: API.PaginatedOperationMethod<ListOrganizationsLocationsColumnDataProfilesRequest, ListOrganizationsLocationsColumnDataProfilesResponse, ListOrganizationsLocationsColumnDataProfilesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsColumnDataProfilesRequest,
   output: ListOrganizationsLocationsColumnDataProfilesResponse,
   errors: [],
@@ -8543,7 +8543,6 @@ export const listOrganizationsLocationsColumnDataProfiles = API.makePaginated(()
   },
 }));
 
-/** Gets a column data profile. */
 export interface GetOrganizationsLocationsColumnDataProfilesRequest {
   /** Required. Resource name, for example `organizations/12345/locations/us/columnDataProfiles/53234423`. */
   name: string;
@@ -8561,13 +8560,13 @@ export const GetOrganizationsLocationsColumnDataProfilesResponse = GooglePrivacy
 
 export type GetOrganizationsLocationsColumnDataProfilesError = CommonErrors;
 
+/** Gets a column data profile. */
 export const getOrganizationsLocationsColumnDataProfiles: API.OperationMethod<GetOrganizationsLocationsColumnDataProfilesRequest, GetOrganizationsLocationsColumnDataProfilesResponse, GetOrganizationsLocationsColumnDataProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsColumnDataProfilesRequest,
   output: GetOrganizationsLocationsColumnDataProfilesResponse,
   errors: [],
 }));
 
-/** Lists file store data profiles for an organization. */
 export interface ListOrganizationsLocationsFileStoreDataProfilesRequest {
   /** Required. Resource name of the organization or project, for example `organizations/433245324/locations/europe` or `projects/project-id/locations/asia`. */
   parent: string;
@@ -8597,7 +8596,8 @@ export const ListOrganizationsLocationsFileStoreDataProfilesResponse = GooglePri
 
 export type ListOrganizationsLocationsFileStoreDataProfilesError = CommonErrors;
 
-export const listOrganizationsLocationsFileStoreDataProfiles = API.makePaginated(() => ({
+/** Lists file store data profiles for an organization. */
+export const listOrganizationsLocationsFileStoreDataProfiles: API.PaginatedOperationMethod<ListOrganizationsLocationsFileStoreDataProfilesRequest, ListOrganizationsLocationsFileStoreDataProfilesResponse, ListOrganizationsLocationsFileStoreDataProfilesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsFileStoreDataProfilesRequest,
   output: ListOrganizationsLocationsFileStoreDataProfilesResponse,
   errors: [],
@@ -8607,7 +8607,6 @@ export const listOrganizationsLocationsFileStoreDataProfiles = API.makePaginated
   },
 }));
 
-/** Gets a file store data profile. */
 export interface GetOrganizationsLocationsFileStoreDataProfilesRequest {
   /** Required. Resource name, for example `organizations/12345/locations/us/fileStoreDataProfiles/53234423`. */
   name: string;
@@ -8625,13 +8624,13 @@ export const GetOrganizationsLocationsFileStoreDataProfilesResponse = GooglePriv
 
 export type GetOrganizationsLocationsFileStoreDataProfilesError = CommonErrors;
 
+/** Gets a file store data profile. */
 export const getOrganizationsLocationsFileStoreDataProfiles: API.OperationMethod<GetOrganizationsLocationsFileStoreDataProfilesRequest, GetOrganizationsLocationsFileStoreDataProfilesResponse, GetOrganizationsLocationsFileStoreDataProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsFileStoreDataProfilesRequest,
   output: GetOrganizationsLocationsFileStoreDataProfilesResponse,
   errors: [],
 }));
 
-/** Delete a FileStoreDataProfile. Will not prevent the profile from being regenerated if the resource is still included in a discovery configuration. */
 export interface DeleteOrganizationsLocationsFileStoreDataProfilesRequest {
   /** Required. Resource name of the file store data profile. */
   name: string;
@@ -8649,13 +8648,13 @@ export const DeleteOrganizationsLocationsFileStoreDataProfilesResponse = GoogleP
 
 export type DeleteOrganizationsLocationsFileStoreDataProfilesError = CommonErrors;
 
+/** Delete a FileStoreDataProfile. Will not prevent the profile from being regenerated if the resource is still included in a discovery configuration. */
 export const deleteOrganizationsLocationsFileStoreDataProfiles: API.OperationMethod<DeleteOrganizationsLocationsFileStoreDataProfilesRequest, DeleteOrganizationsLocationsFileStoreDataProfilesResponse, DeleteOrganizationsLocationsFileStoreDataProfilesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsLocationsFileStoreDataProfilesRequest,
   output: DeleteOrganizationsLocationsFileStoreDataProfilesResponse,
   errors: [],
 }));
 
-/** Create a Connection to an external data source. */
 export interface CreateOrganizationsLocationsConnectionsRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization): + Projects scope: `projects/{project_id}/locations/{location_id}` + Organizations scope: `organizations/{org_id}/locations/{location_id}` */
   parent: string;
@@ -8676,13 +8675,13 @@ export const CreateOrganizationsLocationsConnectionsResponse = GooglePrivacyDlpV
 
 export type CreateOrganizationsLocationsConnectionsError = CommonErrors;
 
+/** Create a Connection to an external data source. */
 export const createOrganizationsLocationsConnections: API.OperationMethod<CreateOrganizationsLocationsConnectionsRequest, CreateOrganizationsLocationsConnectionsResponse, CreateOrganizationsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsLocationsConnectionsRequest,
   output: CreateOrganizationsLocationsConnectionsResponse,
   errors: [],
 }));
 
-/** Get a Connection by name. */
 export interface GetOrganizationsLocationsConnectionsRequest {
   /** Required. Resource name in the format: `projects/{project}/locations/{location}/connections/{connection}`. */
   name: string;
@@ -8700,13 +8699,13 @@ export const GetOrganizationsLocationsConnectionsResponse = GooglePrivacyDlpV2Co
 
 export type GetOrganizationsLocationsConnectionsError = CommonErrors;
 
+/** Get a Connection by name. */
 export const getOrganizationsLocationsConnections: API.OperationMethod<GetOrganizationsLocationsConnectionsRequest, GetOrganizationsLocationsConnectionsResponse, GetOrganizationsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsConnectionsRequest,
   output: GetOrganizationsLocationsConnectionsResponse,
   errors: [],
 }));
 
-/** Lists Connections in a parent. Use SearchConnections to see all connections within an organization. */
 export interface ListOrganizationsLocationsConnectionsRequest {
   /** Required. Resource name of the organization or project, for example, `organizations/433245324/locations/europe` or `projects/project-id/locations/asia`. */
   parent: string;
@@ -8733,7 +8732,8 @@ export const ListOrganizationsLocationsConnectionsResponse = GooglePrivacyDlpV2L
 
 export type ListOrganizationsLocationsConnectionsError = CommonErrors;
 
-export const listOrganizationsLocationsConnections = API.makePaginated(() => ({
+/** Lists Connections in a parent. Use SearchConnections to see all connections within an organization. */
+export const listOrganizationsLocationsConnections: API.PaginatedOperationMethod<ListOrganizationsLocationsConnectionsRequest, ListOrganizationsLocationsConnectionsResponse, ListOrganizationsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsConnectionsRequest,
   output: ListOrganizationsLocationsConnectionsResponse,
   errors: [],
@@ -8743,7 +8743,6 @@ export const listOrganizationsLocationsConnections = API.makePaginated(() => ({
   },
 }));
 
-/** Searches for Connections in a parent. */
 export interface SearchOrganizationsLocationsConnectionsRequest {
   /** Required. Resource name of the organization or project with a wildcard location, for example, `organizations/433245324/locations/-` or `projects/project-id/locations/-`. */
   parent: string;
@@ -8770,7 +8769,8 @@ export const SearchOrganizationsLocationsConnectionsResponse = GooglePrivacyDlpV
 
 export type SearchOrganizationsLocationsConnectionsError = CommonErrors;
 
-export const searchOrganizationsLocationsConnections = API.makePaginated(() => ({
+/** Searches for Connections in a parent. */
+export const searchOrganizationsLocationsConnections: API.PaginatedOperationMethod<SearchOrganizationsLocationsConnectionsRequest, SearchOrganizationsLocationsConnectionsResponse, SearchOrganizationsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: SearchOrganizationsLocationsConnectionsRequest,
   output: SearchOrganizationsLocationsConnectionsResponse,
   errors: [],
@@ -8780,7 +8780,6 @@ export const searchOrganizationsLocationsConnections = API.makePaginated(() => (
   },
 }));
 
-/** Delete a Connection. */
 export interface DeleteOrganizationsLocationsConnectionsRequest {
   /** Required. Resource name of the Connection to be deleted, in the format: `projects/{project}/locations/{location}/connections/{connection}`. */
   name: string;
@@ -8798,13 +8797,13 @@ export const DeleteOrganizationsLocationsConnectionsResponse = GoogleProtobufEmp
 
 export type DeleteOrganizationsLocationsConnectionsError = CommonErrors;
 
+/** Delete a Connection. */
 export const deleteOrganizationsLocationsConnections: API.OperationMethod<DeleteOrganizationsLocationsConnectionsRequest, DeleteOrganizationsLocationsConnectionsResponse, DeleteOrganizationsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsLocationsConnectionsRequest,
   output: DeleteOrganizationsLocationsConnectionsResponse,
   errors: [],
 }));
 
-/** Update a Connection. */
 export interface PatchOrganizationsLocationsConnectionsRequest {
   /** Required. Resource name in the format: `projects/{project}/locations/{location}/connections/{connection}`. */
   name: string;
@@ -8825,13 +8824,13 @@ export const PatchOrganizationsLocationsConnectionsResponse = GooglePrivacyDlpV2
 
 export type PatchOrganizationsLocationsConnectionsError = CommonErrors;
 
+/** Update a Connection. */
 export const patchOrganizationsLocationsConnections: API.OperationMethod<PatchOrganizationsLocationsConnectionsRequest, PatchOrganizationsLocationsConnectionsResponse, PatchOrganizationsLocationsConnectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsLocationsConnectionsRequest,
   output: PatchOrganizationsLocationsConnectionsResponse,
   errors: [],
 }));
 
-/** Creates an InspectTemplate for reusing frequently used configuration for inspecting content, images, and storage. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export interface CreateOrganizationsInspectTemplatesRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -8852,13 +8851,13 @@ export const CreateOrganizationsInspectTemplatesResponse = GooglePrivacyDlpV2Ins
 
 export type CreateOrganizationsInspectTemplatesError = CommonErrors;
 
+/** Creates an InspectTemplate for reusing frequently used configuration for inspecting content, images, and storage. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export const createOrganizationsInspectTemplates: API.OperationMethod<CreateOrganizationsInspectTemplatesRequest, CreateOrganizationsInspectTemplatesResponse, CreateOrganizationsInspectTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsInspectTemplatesRequest,
   output: CreateOrganizationsInspectTemplatesResponse,
   errors: [],
 }));
 
-/** Updates the InspectTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export interface PatchOrganizationsInspectTemplatesRequest {
   /** Required. Resource name of organization and inspectTemplate to be updated, for example `organizations/433245324/inspectTemplates/432452342` or projects/project-id/inspectTemplates/432452342. */
   name: string;
@@ -8879,13 +8878,13 @@ export const PatchOrganizationsInspectTemplatesResponse = GooglePrivacyDlpV2Insp
 
 export type PatchOrganizationsInspectTemplatesError = CommonErrors;
 
+/** Updates the InspectTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export const patchOrganizationsInspectTemplates: API.OperationMethod<PatchOrganizationsInspectTemplatesRequest, PatchOrganizationsInspectTemplatesResponse, PatchOrganizationsInspectTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsInspectTemplatesRequest,
   output: PatchOrganizationsInspectTemplatesResponse,
   errors: [],
 }));
 
-/** Gets an InspectTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export interface GetOrganizationsInspectTemplatesRequest {
   /** Required. Resource name of the organization and inspectTemplate to be read, for example `organizations/433245324/inspectTemplates/432452342` or projects/project-id/inspectTemplates/432452342. */
   name: string;
@@ -8903,13 +8902,13 @@ export const GetOrganizationsInspectTemplatesResponse = GooglePrivacyDlpV2Inspec
 
 export type GetOrganizationsInspectTemplatesError = CommonErrors;
 
+/** Gets an InspectTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export const getOrganizationsInspectTemplates: API.OperationMethod<GetOrganizationsInspectTemplatesRequest, GetOrganizationsInspectTemplatesResponse, GetOrganizationsInspectTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsInspectTemplatesRequest,
   output: GetOrganizationsInspectTemplatesResponse,
   errors: [],
 }));
 
-/** Lists InspectTemplates. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export interface ListOrganizationsInspectTemplatesRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -8939,7 +8938,8 @@ export const ListOrganizationsInspectTemplatesResponse = GooglePrivacyDlpV2ListI
 
 export type ListOrganizationsInspectTemplatesError = CommonErrors;
 
-export const listOrganizationsInspectTemplates = API.makePaginated(() => ({
+/** Lists InspectTemplates. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
+export const listOrganizationsInspectTemplates: API.PaginatedOperationMethod<ListOrganizationsInspectTemplatesRequest, ListOrganizationsInspectTemplatesResponse, ListOrganizationsInspectTemplatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsInspectTemplatesRequest,
   output: ListOrganizationsInspectTemplatesResponse,
   errors: [],
@@ -8949,7 +8949,6 @@ export const listOrganizationsInspectTemplates = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes an InspectTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export interface DeleteOrganizationsInspectTemplatesRequest {
   /** Required. Resource name of the organization and inspectTemplate to be deleted, for example `organizations/433245324/inspectTemplates/432452342` or projects/project-id/inspectTemplates/432452342. */
   name: string;
@@ -8967,13 +8966,13 @@ export const DeleteOrganizationsInspectTemplatesResponse = GoogleProtobufEmpty;
 
 export type DeleteOrganizationsInspectTemplatesError = CommonErrors;
 
+/** Deletes an InspectTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates to learn more. */
 export const deleteOrganizationsInspectTemplates: API.OperationMethod<DeleteOrganizationsInspectTemplatesRequest, DeleteOrganizationsInspectTemplatesResponse, DeleteOrganizationsInspectTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsInspectTemplatesRequest,
   output: DeleteOrganizationsInspectTemplatesResponse,
   errors: [],
 }));
 
-/** Creates a DeidentifyTemplate for reusing frequently used configuration for de-identifying content, images, and storage. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export interface CreateOrganizationsDeidentifyTemplatesRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -8994,13 +8993,13 @@ export const CreateOrganizationsDeidentifyTemplatesResponse = GooglePrivacyDlpV2
 
 export type CreateOrganizationsDeidentifyTemplatesError = CommonErrors;
 
+/** Creates a DeidentifyTemplate for reusing frequently used configuration for de-identifying content, images, and storage. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export const createOrganizationsDeidentifyTemplates: API.OperationMethod<CreateOrganizationsDeidentifyTemplatesRequest, CreateOrganizationsDeidentifyTemplatesResponse, CreateOrganizationsDeidentifyTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsDeidentifyTemplatesRequest,
   output: CreateOrganizationsDeidentifyTemplatesResponse,
   errors: [],
 }));
 
-/** Updates the DeidentifyTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export interface PatchOrganizationsDeidentifyTemplatesRequest {
   /** Required. Resource name of organization and deidentify template to be updated, for example `organizations/433245324/deidentifyTemplates/432452342` or projects/project-id/deidentifyTemplates/432452342. */
   name: string;
@@ -9021,13 +9020,13 @@ export const PatchOrganizationsDeidentifyTemplatesResponse = GooglePrivacyDlpV2D
 
 export type PatchOrganizationsDeidentifyTemplatesError = CommonErrors;
 
+/** Updates the DeidentifyTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export const patchOrganizationsDeidentifyTemplates: API.OperationMethod<PatchOrganizationsDeidentifyTemplatesRequest, PatchOrganizationsDeidentifyTemplatesResponse, PatchOrganizationsDeidentifyTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsDeidentifyTemplatesRequest,
   output: PatchOrganizationsDeidentifyTemplatesResponse,
   errors: [],
 }));
 
-/** Gets a DeidentifyTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export interface GetOrganizationsDeidentifyTemplatesRequest {
   /** Required. Resource name of the organization and deidentify template to be read, for example `organizations/433245324/deidentifyTemplates/432452342` or projects/project-id/deidentifyTemplates/432452342. */
   name: string;
@@ -9045,13 +9044,13 @@ export const GetOrganizationsDeidentifyTemplatesResponse = GooglePrivacyDlpV2Dei
 
 export type GetOrganizationsDeidentifyTemplatesError = CommonErrors;
 
+/** Gets a DeidentifyTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export const getOrganizationsDeidentifyTemplates: API.OperationMethod<GetOrganizationsDeidentifyTemplatesRequest, GetOrganizationsDeidentifyTemplatesResponse, GetOrganizationsDeidentifyTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsDeidentifyTemplatesRequest,
   output: GetOrganizationsDeidentifyTemplatesResponse,
   errors: [],
 }));
 
-/** Lists DeidentifyTemplates. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export interface ListOrganizationsDeidentifyTemplatesRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -9081,7 +9080,8 @@ export const ListOrganizationsDeidentifyTemplatesResponse = GooglePrivacyDlpV2Li
 
 export type ListOrganizationsDeidentifyTemplatesError = CommonErrors;
 
-export const listOrganizationsDeidentifyTemplates = API.makePaginated(() => ({
+/** Lists DeidentifyTemplates. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
+export const listOrganizationsDeidentifyTemplates: API.PaginatedOperationMethod<ListOrganizationsDeidentifyTemplatesRequest, ListOrganizationsDeidentifyTemplatesResponse, ListOrganizationsDeidentifyTemplatesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsDeidentifyTemplatesRequest,
   output: ListOrganizationsDeidentifyTemplatesResponse,
   errors: [],
@@ -9091,7 +9091,6 @@ export const listOrganizationsDeidentifyTemplates = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a DeidentifyTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export interface DeleteOrganizationsDeidentifyTemplatesRequest {
   /** Required. Resource name of the organization and deidentify template to be deleted, for example `organizations/433245324/deidentifyTemplates/432452342` or projects/project-id/deidentifyTemplates/432452342. */
   name: string;
@@ -9109,13 +9108,13 @@ export const DeleteOrganizationsDeidentifyTemplatesResponse = GoogleProtobufEmpt
 
 export type DeleteOrganizationsDeidentifyTemplatesError = CommonErrors;
 
+/** Deletes a DeidentifyTemplate. See https://cloud.google.com/sensitive-data-protection/docs/creating-templates-deid to learn more. */
 export const deleteOrganizationsDeidentifyTemplates: API.OperationMethod<DeleteOrganizationsDeidentifyTemplatesRequest, DeleteOrganizationsDeidentifyTemplatesResponse, DeleteOrganizationsDeidentifyTemplatesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsDeidentifyTemplatesRequest,
   output: DeleteOrganizationsDeidentifyTemplatesResponse,
   errors: [],
 }));
 
-/** Creates a pre-built stored infoType to be used for inspection. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export interface CreateOrganizationsStoredInfoTypesRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` + Organizations scope, location specified: `organizations/{org_id}/locations/{location_id}` + Organizations scope, no location specified (defaults to global): `organizations/{org_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -9136,13 +9135,13 @@ export const CreateOrganizationsStoredInfoTypesResponse = GooglePrivacyDlpV2Stor
 
 export type CreateOrganizationsStoredInfoTypesError = CommonErrors;
 
+/** Creates a pre-built stored infoType to be used for inspection. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export const createOrganizationsStoredInfoTypes: API.OperationMethod<CreateOrganizationsStoredInfoTypesRequest, CreateOrganizationsStoredInfoTypesResponse, CreateOrganizationsStoredInfoTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrganizationsStoredInfoTypesRequest,
   output: CreateOrganizationsStoredInfoTypesResponse,
   errors: [],
 }));
 
-/** Updates the stored infoType by creating a new version. The existing version will continue to be used until the new version is ready. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export interface PatchOrganizationsStoredInfoTypesRequest {
   /** Required. Resource name of organization and storedInfoType to be updated, for example `organizations/433245324/storedInfoTypes/432452342` or projects/project-id/storedInfoTypes/432452342. */
   name: string;
@@ -9163,13 +9162,13 @@ export const PatchOrganizationsStoredInfoTypesResponse = GooglePrivacyDlpV2Store
 
 export type PatchOrganizationsStoredInfoTypesError = CommonErrors;
 
+/** Updates the stored infoType by creating a new version. The existing version will continue to be used until the new version is ready. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export const patchOrganizationsStoredInfoTypes: API.OperationMethod<PatchOrganizationsStoredInfoTypesRequest, PatchOrganizationsStoredInfoTypesResponse, PatchOrganizationsStoredInfoTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchOrganizationsStoredInfoTypesRequest,
   output: PatchOrganizationsStoredInfoTypesResponse,
   errors: [],
 }));
 
-/** Gets a stored infoType. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export interface GetOrganizationsStoredInfoTypesRequest {
   /** Required. Resource name of the organization and storedInfoType to be read, for example `organizations/433245324/storedInfoTypes/432452342` or projects/project-id/storedInfoTypes/432452342. */
   name: string;
@@ -9187,13 +9186,13 @@ export const GetOrganizationsStoredInfoTypesResponse = GooglePrivacyDlpV2StoredI
 
 export type GetOrganizationsStoredInfoTypesError = CommonErrors;
 
+/** Gets a stored infoType. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export const getOrganizationsStoredInfoTypes: API.OperationMethod<GetOrganizationsStoredInfoTypesRequest, GetOrganizationsStoredInfoTypesResponse, GetOrganizationsStoredInfoTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsStoredInfoTypesRequest,
   output: GetOrganizationsStoredInfoTypesResponse,
   errors: [],
 }));
 
-/** Lists stored infoTypes. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export interface ListOrganizationsStoredInfoTypesRequest {
   /** Required. Parent resource name. The format of this value varies depending on the scope of the request (project or organization) and whether you have [specified a processing location](https://cloud.google.com/sensitive-data-protection/docs/specifying-location): + Projects scope, location specified: `projects/{project_id}/locations/{location_id}` + Projects scope, no location specified (defaults to global): `projects/{project_id}` The following example `parent` string specifies a parent project with the identifier `example-project`, and specifies the `europe-west3` location for processing data: parent=projects/example-project/locations/europe-west3 */
   parent: string;
@@ -9223,7 +9222,8 @@ export const ListOrganizationsStoredInfoTypesResponse = GooglePrivacyDlpV2ListSt
 
 export type ListOrganizationsStoredInfoTypesError = CommonErrors;
 
-export const listOrganizationsStoredInfoTypes = API.makePaginated(() => ({
+/** Lists stored infoTypes. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
+export const listOrganizationsStoredInfoTypes: API.PaginatedOperationMethod<ListOrganizationsStoredInfoTypesRequest, ListOrganizationsStoredInfoTypesResponse, ListOrganizationsStoredInfoTypesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsStoredInfoTypesRequest,
   output: ListOrganizationsStoredInfoTypesResponse,
   errors: [],
@@ -9233,7 +9233,6 @@ export const listOrganizationsStoredInfoTypes = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a stored infoType. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export interface DeleteOrganizationsStoredInfoTypesRequest {
   /** Required. Resource name of the organization and storedInfoType to be deleted, for example `organizations/433245324/storedInfoTypes/432452342` or projects/project-id/storedInfoTypes/432452342. */
   name: string;
@@ -9251,6 +9250,7 @@ export const DeleteOrganizationsStoredInfoTypesResponse = GoogleProtobufEmpty;
 
 export type DeleteOrganizationsStoredInfoTypesError = CommonErrors;
 
+/** Deletes a stored infoType. See https://cloud.google.com/sensitive-data-protection/docs/creating-stored-infotypes to learn more. */
 export const deleteOrganizationsStoredInfoTypes: API.OperationMethod<DeleteOrganizationsStoredInfoTypesRequest, DeleteOrganizationsStoredInfoTypesResponse, DeleteOrganizationsStoredInfoTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteOrganizationsStoredInfoTypesRequest,
   output: DeleteOrganizationsStoredInfoTypesResponse,

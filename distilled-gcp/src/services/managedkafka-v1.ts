@@ -897,7 +897,6 @@ export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspen
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -927,7 +926,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -937,7 +937,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets information about a location. */
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -955,13 +954,13 @@ export const GetProjectsLocationsResponse = Location;
 
 export type GetProjectsLocationsError = CommonErrors;
 
+/** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<GetProjectsLocationsRequest, GetProjectsLocationsResponse, GetProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -991,7 +990,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -1001,7 +1001,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1019,13 +1018,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
@@ -1043,13 +1042,13 @@ export const DeleteProjectsLocationsOperationsResponse = Empty;
 
 export type DeleteProjectsLocationsOperationsError = CommonErrors;
 
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
 export const deleteProjectsLocationsOperations: API.OperationMethod<DeleteProjectsLocationsOperationsRequest, DeleteProjectsLocationsOperationsResponse, DeleteProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsOperationsRequest,
   output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -1070,13 +1069,13 @@ export const CancelProjectsLocationsOperationsResponse = Empty;
 
 export type CancelProjectsLocationsOperationsError = CommonErrors;
 
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
 export const cancelProjectsLocationsOperations: API.OperationMethod<CancelProjectsLocationsOperationsRequest, CancelProjectsLocationsOperationsResponse, CancelProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelProjectsLocationsOperationsRequest,
   output: CancelProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Lists the clusters in a given project and location. */
 export interface ListProjectsLocationsClustersRequest {
   /** Required. The parent location whose clusters are to be listed. Structured like `projects/{project}/locations/{location}`. */
   parent: string;
@@ -1106,7 +1105,8 @@ export const ListProjectsLocationsClustersResponse = ListClustersResponse;
 
 export type ListProjectsLocationsClustersError = CommonErrors;
 
-export const listProjectsLocationsClusters = API.makePaginated(() => ({
+/** Lists the clusters in a given project and location. */
+export const listProjectsLocationsClusters: API.PaginatedOperationMethod<ListProjectsLocationsClustersRequest, ListProjectsLocationsClustersResponse, ListProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsClustersRequest,
   output: ListProjectsLocationsClustersResponse,
   errors: [],
@@ -1116,7 +1116,6 @@ export const listProjectsLocationsClusters = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the properties of a single cluster. */
 export interface GetProjectsLocationsClustersRequest {
   /** Required. The name of the cluster whose configuration to return. */
   name: string;
@@ -1137,13 +1136,13 @@ export const GetProjectsLocationsClustersResponse = Cluster;
 
 export type GetProjectsLocationsClustersError = CommonErrors;
 
+/** Returns the properties of a single cluster. */
 export const getProjectsLocationsClusters: API.OperationMethod<GetProjectsLocationsClustersRequest, GetProjectsLocationsClustersResponse, GetProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsClustersRequest,
   output: GetProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Creates a new cluster in a given project and location. */
 export interface CreateProjectsLocationsClustersRequest {
   /** Required. The parent region in which to create the cluster. Structured like `projects/{project}/locations/{location}`. */
   parent: string;
@@ -1170,13 +1169,13 @@ export const CreateProjectsLocationsClustersResponse = Operation;
 
 export type CreateProjectsLocationsClustersError = CommonErrors;
 
+/** Creates a new cluster in a given project and location. */
 export const createProjectsLocationsClusters: API.OperationMethod<CreateProjectsLocationsClustersRequest, CreateProjectsLocationsClustersResponse, CreateProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsClustersRequest,
   output: CreateProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Updates the properties of a single cluster. */
 export interface PatchProjectsLocationsClustersRequest {
   /** Identifier. The name of the cluster. Structured like: projects/{project_number}/locations/{location}/clusters/{cluster_id} */
   name: string;
@@ -1203,13 +1202,13 @@ export const PatchProjectsLocationsClustersResponse = Operation;
 
 export type PatchProjectsLocationsClustersError = CommonErrors;
 
+/** Updates the properties of a single cluster. */
 export const patchProjectsLocationsClusters: API.OperationMethod<PatchProjectsLocationsClustersRequest, PatchProjectsLocationsClustersResponse, PatchProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsClustersRequest,
   output: PatchProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Deletes a single cluster. */
 export interface DeleteProjectsLocationsClustersRequest {
   /** Required. The name of the cluster to delete. */
   name: string;
@@ -1230,13 +1229,13 @@ export const DeleteProjectsLocationsClustersResponse = Operation;
 
 export type DeleteProjectsLocationsClustersError = CommonErrors;
 
+/** Deletes a single cluster. */
 export const deleteProjectsLocationsClusters: API.OperationMethod<DeleteProjectsLocationsClustersRequest, DeleteProjectsLocationsClustersResponse, DeleteProjectsLocationsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsClustersRequest,
   output: DeleteProjectsLocationsClustersResponse,
   errors: [],
 }));
 
-/** Lists the topics in a given cluster. */
 export interface ListProjectsLocationsClustersTopicsRequest {
   /** Required. The parent cluster whose topics are to be listed. Structured like `projects/{project}/locations/{location}/clusters/{cluster}`. */
   parent: string;
@@ -1260,7 +1259,8 @@ export const ListProjectsLocationsClustersTopicsResponse = ListTopicsResponse;
 
 export type ListProjectsLocationsClustersTopicsError = CommonErrors;
 
-export const listProjectsLocationsClustersTopics = API.makePaginated(() => ({
+/** Lists the topics in a given cluster. */
+export const listProjectsLocationsClustersTopics: API.PaginatedOperationMethod<ListProjectsLocationsClustersTopicsRequest, ListProjectsLocationsClustersTopicsResponse, ListProjectsLocationsClustersTopicsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsClustersTopicsRequest,
   output: ListProjectsLocationsClustersTopicsResponse,
   errors: [],
@@ -1270,7 +1270,6 @@ export const listProjectsLocationsClustersTopics = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the properties of a single topic. */
 export interface GetProjectsLocationsClustersTopicsRequest {
   /** Required. The name of the topic whose configuration to return. Structured like: projects/{project}/locations/{location}/clusters/{cluster}/topics/{topic}. */
   name: string;
@@ -1288,13 +1287,13 @@ export const GetProjectsLocationsClustersTopicsResponse = Topic;
 
 export type GetProjectsLocationsClustersTopicsError = CommonErrors;
 
+/** Returns the properties of a single topic. */
 export const getProjectsLocationsClustersTopics: API.OperationMethod<GetProjectsLocationsClustersTopicsRequest, GetProjectsLocationsClustersTopicsResponse, GetProjectsLocationsClustersTopicsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsClustersTopicsRequest,
   output: GetProjectsLocationsClustersTopicsResponse,
   errors: [],
 }));
 
-/** Creates a new topic in a given project and location. */
 export interface CreateProjectsLocationsClustersTopicsRequest {
   /** Required. The parent cluster in which to create the topic. Structured like `projects/{project}/locations/{location}/clusters/{cluster}`. */
   parent: string;
@@ -1318,13 +1317,13 @@ export const CreateProjectsLocationsClustersTopicsResponse = Topic;
 
 export type CreateProjectsLocationsClustersTopicsError = CommonErrors;
 
+/** Creates a new topic in a given project and location. */
 export const createProjectsLocationsClustersTopics: API.OperationMethod<CreateProjectsLocationsClustersTopicsRequest, CreateProjectsLocationsClustersTopicsResponse, CreateProjectsLocationsClustersTopicsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsClustersTopicsRequest,
   output: CreateProjectsLocationsClustersTopicsResponse,
   errors: [],
 }));
 
-/** Updates the properties of a single topic. */
 export interface PatchProjectsLocationsClustersTopicsRequest {
   /** Identifier. The name of the topic. The `topic` segment is used when connecting directly to the cluster. Structured like: projects/{project}/locations/{location}/clusters/{cluster}/topics/{topic} */
   name: string;
@@ -1348,13 +1347,13 @@ export const PatchProjectsLocationsClustersTopicsResponse = Topic;
 
 export type PatchProjectsLocationsClustersTopicsError = CommonErrors;
 
+/** Updates the properties of a single topic. */
 export const patchProjectsLocationsClustersTopics: API.OperationMethod<PatchProjectsLocationsClustersTopicsRequest, PatchProjectsLocationsClustersTopicsResponse, PatchProjectsLocationsClustersTopicsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsClustersTopicsRequest,
   output: PatchProjectsLocationsClustersTopicsResponse,
   errors: [],
 }));
 
-/** Deletes a single topic. */
 export interface DeleteProjectsLocationsClustersTopicsRequest {
   /** Required. The name of the topic to delete. `projects/{project}/locations/{location}/clusters/{cluster}/topics/{topic}`. */
   name: string;
@@ -1372,13 +1371,13 @@ export const DeleteProjectsLocationsClustersTopicsResponse = Empty;
 
 export type DeleteProjectsLocationsClustersTopicsError = CommonErrors;
 
+/** Deletes a single topic. */
 export const deleteProjectsLocationsClustersTopics: API.OperationMethod<DeleteProjectsLocationsClustersTopicsRequest, DeleteProjectsLocationsClustersTopicsResponse, DeleteProjectsLocationsClustersTopicsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsClustersTopicsRequest,
   output: DeleteProjectsLocationsClustersTopicsResponse,
   errors: [],
 }));
 
-/** Lists the consumer groups in a given cluster. */
 export interface ListProjectsLocationsClustersConsumerGroupsRequest {
   /** Required. The parent cluster whose consumer groups are to be listed. Structured like `projects/{project}/locations/{location}/clusters/{cluster}`. */
   parent: string;
@@ -1408,7 +1407,8 @@ export const ListProjectsLocationsClustersConsumerGroupsResponse = ListConsumerG
 
 export type ListProjectsLocationsClustersConsumerGroupsError = CommonErrors;
 
-export const listProjectsLocationsClustersConsumerGroups = API.makePaginated(() => ({
+/** Lists the consumer groups in a given cluster. */
+export const listProjectsLocationsClustersConsumerGroups: API.PaginatedOperationMethod<ListProjectsLocationsClustersConsumerGroupsRequest, ListProjectsLocationsClustersConsumerGroupsResponse, ListProjectsLocationsClustersConsumerGroupsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsClustersConsumerGroupsRequest,
   output: ListProjectsLocationsClustersConsumerGroupsResponse,
   errors: [],
@@ -1418,7 +1418,6 @@ export const listProjectsLocationsClustersConsumerGroups = API.makePaginated(() 
   },
 }));
 
-/** Returns the properties of a single consumer group. */
 export interface GetProjectsLocationsClustersConsumerGroupsRequest {
   /** Required. The name of the consumer group whose configuration to return. `projects/{project}/locations/{location}/clusters/{cluster}/consumerGroups/{consumerGroup}`. */
   name: string;
@@ -1436,13 +1435,13 @@ export const GetProjectsLocationsClustersConsumerGroupsResponse = ConsumerGroup;
 
 export type GetProjectsLocationsClustersConsumerGroupsError = CommonErrors;
 
+/** Returns the properties of a single consumer group. */
 export const getProjectsLocationsClustersConsumerGroups: API.OperationMethod<GetProjectsLocationsClustersConsumerGroupsRequest, GetProjectsLocationsClustersConsumerGroupsResponse, GetProjectsLocationsClustersConsumerGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsClustersConsumerGroupsRequest,
   output: GetProjectsLocationsClustersConsumerGroupsResponse,
   errors: [],
 }));
 
-/** Updates the properties of a single consumer group. */
 export interface PatchProjectsLocationsClustersConsumerGroupsRequest {
   /** Identifier. The name of the consumer group. The `consumer_group` segment is used when connecting directly to the cluster. Structured like: projects/{project}/locations/{location}/clusters/{cluster}/consumerGroups/{consumer_group} */
   name: string;
@@ -1466,13 +1465,13 @@ export const PatchProjectsLocationsClustersConsumerGroupsResponse = ConsumerGrou
 
 export type PatchProjectsLocationsClustersConsumerGroupsError = CommonErrors;
 
+/** Updates the properties of a single consumer group. */
 export const patchProjectsLocationsClustersConsumerGroups: API.OperationMethod<PatchProjectsLocationsClustersConsumerGroupsRequest, PatchProjectsLocationsClustersConsumerGroupsResponse, PatchProjectsLocationsClustersConsumerGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsClustersConsumerGroupsRequest,
   output: PatchProjectsLocationsClustersConsumerGroupsResponse,
   errors: [],
 }));
 
-/** Deletes a single consumer group. */
 export interface DeleteProjectsLocationsClustersConsumerGroupsRequest {
   /** Required. The name of the consumer group to delete. `projects/{project}/locations/{location}/clusters/{cluster}/consumerGroups/{consumerGroup}`. */
   name: string;
@@ -1490,13 +1489,13 @@ export const DeleteProjectsLocationsClustersConsumerGroupsResponse = Empty;
 
 export type DeleteProjectsLocationsClustersConsumerGroupsError = CommonErrors;
 
+/** Deletes a single consumer group. */
 export const deleteProjectsLocationsClustersConsumerGroups: API.OperationMethod<DeleteProjectsLocationsClustersConsumerGroupsRequest, DeleteProjectsLocationsClustersConsumerGroupsResponse, DeleteProjectsLocationsClustersConsumerGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsClustersConsumerGroupsRequest,
   output: DeleteProjectsLocationsClustersConsumerGroupsResponse,
   errors: [],
 }));
 
-/** Lists the acls in a given cluster. */
 export interface ListProjectsLocationsClustersAclsRequest {
   /** Required. The parent cluster whose acls are to be listed. Structured like `projects/{project}/locations/{location}/clusters/{cluster}`. */
   parent: string;
@@ -1520,7 +1519,8 @@ export const ListProjectsLocationsClustersAclsResponse = ListAclsResponse;
 
 export type ListProjectsLocationsClustersAclsError = CommonErrors;
 
-export const listProjectsLocationsClustersAcls = API.makePaginated(() => ({
+/** Lists the acls in a given cluster. */
+export const listProjectsLocationsClustersAcls: API.PaginatedOperationMethod<ListProjectsLocationsClustersAclsRequest, ListProjectsLocationsClustersAclsResponse, ListProjectsLocationsClustersAclsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsClustersAclsRequest,
   output: ListProjectsLocationsClustersAclsResponse,
   errors: [],
@@ -1530,7 +1530,6 @@ export const listProjectsLocationsClustersAcls = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the properties of a single acl. */
 export interface GetProjectsLocationsClustersAclsRequest {
   /** Required. The name of the acl to return. Structured like: `projects/{project}/locations/{location}/clusters/{cluster}/acls/{acl_id}`. The structure of `acl_id` defines the Resource Pattern (resource_type, resource_name, pattern_type) of the acl. See `Acl.name` for details. */
   name: string;
@@ -1548,13 +1547,13 @@ export const GetProjectsLocationsClustersAclsResponse = Acl;
 
 export type GetProjectsLocationsClustersAclsError = CommonErrors;
 
+/** Returns the properties of a single acl. */
 export const getProjectsLocationsClustersAcls: API.OperationMethod<GetProjectsLocationsClustersAclsRequest, GetProjectsLocationsClustersAclsResponse, GetProjectsLocationsClustersAclsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsClustersAclsRequest,
   output: GetProjectsLocationsClustersAclsResponse,
   errors: [],
 }));
 
-/** Creates a new acl in the given project, location, and cluster. */
 export interface CreateProjectsLocationsClustersAclsRequest {
   /** Required. The parent cluster in which to create the acl. Structured like `projects/{project}/locations/{location}/clusters/{cluster}`. */
   parent: string;
@@ -1578,13 +1577,13 @@ export const CreateProjectsLocationsClustersAclsResponse = Acl;
 
 export type CreateProjectsLocationsClustersAclsError = CommonErrors;
 
+/** Creates a new acl in the given project, location, and cluster. */
 export const createProjectsLocationsClustersAcls: API.OperationMethod<CreateProjectsLocationsClustersAclsRequest, CreateProjectsLocationsClustersAclsResponse, CreateProjectsLocationsClustersAclsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsClustersAclsRequest,
   output: CreateProjectsLocationsClustersAclsResponse,
   errors: [],
 }));
 
-/** Updates the properties of a single acl. */
 export interface PatchProjectsLocationsClustersAclsRequest {
   /** Identifier. The name for the acl. Represents a single Resource Pattern. Structured like: projects/{project}/locations/{location}/clusters/{cluster}/acls/{acl_id} The structure of `acl_id` defines the Resource Pattern (resource_type, resource_name, pattern_type) of the acl. `acl_id` is structured like one of the following: For acls on the cluster: `cluster` For acls on a single resource within the cluster: `topic/{resource_name}` `consumerGroup/{resource_name}` `transactionalId/{resource_name}` For acls on all resources that match a prefix: `topicPrefixed/{resource_name}` `consumerGroupPrefixed/{resource_name}` `transactionalIdPrefixed/{resource_name}` For acls on all resources of a given type (i.e. the wildcard literal "*"): `allTopics` (represents `topic/*`) `allConsumerGroups` (represents `consumerGroup/*`) `allTransactionalIds` (represents `transactionalId/*`) */
   name: string;
@@ -1608,13 +1607,13 @@ export const PatchProjectsLocationsClustersAclsResponse = Acl;
 
 export type PatchProjectsLocationsClustersAclsError = CommonErrors;
 
+/** Updates the properties of a single acl. */
 export const patchProjectsLocationsClustersAcls: API.OperationMethod<PatchProjectsLocationsClustersAclsRequest, PatchProjectsLocationsClustersAclsResponse, PatchProjectsLocationsClustersAclsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsClustersAclsRequest,
   output: PatchProjectsLocationsClustersAclsResponse,
   errors: [],
 }));
 
-/** Deletes an acl. */
 export interface DeleteProjectsLocationsClustersAclsRequest {
   /** Required. The name of the acl to delete. Structured like: `projects/{project}/locations/{location}/clusters/{cluster}/acls/{acl_id}`. The structure of `acl_id` defines the Resource Pattern (resource_type, resource_name, pattern_type) of the acl. See `Acl.name` for details. */
   name: string;
@@ -1632,13 +1631,13 @@ export const DeleteProjectsLocationsClustersAclsResponse = Empty;
 
 export type DeleteProjectsLocationsClustersAclsError = CommonErrors;
 
+/** Deletes an acl. */
 export const deleteProjectsLocationsClustersAcls: API.OperationMethod<DeleteProjectsLocationsClustersAclsRequest, DeleteProjectsLocationsClustersAclsResponse, DeleteProjectsLocationsClustersAclsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsClustersAclsRequest,
   output: DeleteProjectsLocationsClustersAclsResponse,
   errors: [],
 }));
 
-/** Incremental update: Adds an acl entry to an acl. Creates the acl if it does not exist yet. */
 export interface AddAclEntryProjectsLocationsClustersAclsRequest {
   /** Required. The name of the acl to add the acl entry to. Structured like: `projects/{project}/locations/{location}/clusters/{cluster}/acls/{acl_id}`. The structure of `acl_id` defines the Resource Pattern (resource_type, resource_name, pattern_type) of the acl. See `Acl.name` for details. */
   acl: string;
@@ -1659,13 +1658,13 @@ export const AddAclEntryProjectsLocationsClustersAclsResponse = AddAclEntryRespo
 
 export type AddAclEntryProjectsLocationsClustersAclsError = CommonErrors;
 
+/** Incremental update: Adds an acl entry to an acl. Creates the acl if it does not exist yet. */
 export const addAclEntryProjectsLocationsClustersAcls: API.OperationMethod<AddAclEntryProjectsLocationsClustersAclsRequest, AddAclEntryProjectsLocationsClustersAclsResponse, AddAclEntryProjectsLocationsClustersAclsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AddAclEntryProjectsLocationsClustersAclsRequest,
   output: AddAclEntryProjectsLocationsClustersAclsResponse,
   errors: [],
 }));
 
-/** Incremental update: Removes an acl entry from an acl. Deletes the acl if its acl entries become empty (i.e. if the removed entry was the last one in the acl). */
 export interface RemoveAclEntryProjectsLocationsClustersAclsRequest {
   /** Required. The name of the acl to remove the acl entry from. Structured like: `projects/{project}/locations/{location}/clusters/{cluster}/acls/{acl_id}`. The structure of `acl_id` defines the Resource Pattern (resource_type, resource_name, pattern_type) of the acl. See `Acl.name` for details. */
   acl: string;
@@ -1686,13 +1685,13 @@ export const RemoveAclEntryProjectsLocationsClustersAclsResponse = RemoveAclEntr
 
 export type RemoveAclEntryProjectsLocationsClustersAclsError = CommonErrors;
 
+/** Incremental update: Removes an acl entry from an acl. Deletes the acl if its acl entries become empty (i.e. if the removed entry was the last one in the acl). */
 export const removeAclEntryProjectsLocationsClustersAcls: API.OperationMethod<RemoveAclEntryProjectsLocationsClustersAclsRequest, RemoveAclEntryProjectsLocationsClustersAclsResponse, RemoveAclEntryProjectsLocationsClustersAclsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RemoveAclEntryProjectsLocationsClustersAclsRequest,
   output: RemoveAclEntryProjectsLocationsClustersAclsResponse,
   errors: [],
 }));
 
-/** Lists the Kafka Connect clusters in a given project and location. */
 export interface ListProjectsLocationsConnectClustersRequest {
   /** Required. The parent project/location whose Connect clusters are to be listed. Structured like `projects/{project}/locations/{location}`. */
   parent: string;
@@ -1722,7 +1721,8 @@ export const ListProjectsLocationsConnectClustersResponse = ListConnectClustersR
 
 export type ListProjectsLocationsConnectClustersError = CommonErrors;
 
-export const listProjectsLocationsConnectClusters = API.makePaginated(() => ({
+/** Lists the Kafka Connect clusters in a given project and location. */
+export const listProjectsLocationsConnectClusters: API.PaginatedOperationMethod<ListProjectsLocationsConnectClustersRequest, ListProjectsLocationsConnectClustersResponse, ListProjectsLocationsConnectClustersError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsConnectClustersRequest,
   output: ListProjectsLocationsConnectClustersResponse,
   errors: [],
@@ -1732,7 +1732,6 @@ export const listProjectsLocationsConnectClusters = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the properties of a single Kafka Connect cluster. */
 export interface GetProjectsLocationsConnectClustersRequest {
   /** Required. The name of the Kafka Connect cluster whose configuration to return. Structured like `projects/{project}/locations/{location}/connectClusters/{connect_cluster_id}`. */
   name: string;
@@ -1750,13 +1749,13 @@ export const GetProjectsLocationsConnectClustersResponse = ConnectCluster;
 
 export type GetProjectsLocationsConnectClustersError = CommonErrors;
 
+/** Returns the properties of a single Kafka Connect cluster. */
 export const getProjectsLocationsConnectClusters: API.OperationMethod<GetProjectsLocationsConnectClustersRequest, GetProjectsLocationsConnectClustersResponse, GetProjectsLocationsConnectClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsConnectClustersRequest,
   output: GetProjectsLocationsConnectClustersResponse,
   errors: [],
 }));
 
-/** Creates a new Kafka Connect cluster in a given project and location. */
 export interface CreateProjectsLocationsConnectClustersRequest {
   /** Required. The parent project/location in which to create the Kafka Connect cluster. Structured like `projects/{project}/locations/{location}/`. */
   parent: string;
@@ -1783,13 +1782,13 @@ export const CreateProjectsLocationsConnectClustersResponse = Operation;
 
 export type CreateProjectsLocationsConnectClustersError = CommonErrors;
 
+/** Creates a new Kafka Connect cluster in a given project and location. */
 export const createProjectsLocationsConnectClusters: API.OperationMethod<CreateProjectsLocationsConnectClustersRequest, CreateProjectsLocationsConnectClustersResponse, CreateProjectsLocationsConnectClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsConnectClustersRequest,
   output: CreateProjectsLocationsConnectClustersResponse,
   errors: [],
 }));
 
-/** Updates the properties of a single Kafka Connect cluster. */
 export interface PatchProjectsLocationsConnectClustersRequest {
   /** Identifier. The name of the Kafka Connect cluster. Structured like: projects/{project_number}/locations/{location}/connectClusters/{connect_cluster_id} */
   name: string;
@@ -1816,13 +1815,13 @@ export const PatchProjectsLocationsConnectClustersResponse = Operation;
 
 export type PatchProjectsLocationsConnectClustersError = CommonErrors;
 
+/** Updates the properties of a single Kafka Connect cluster. */
 export const patchProjectsLocationsConnectClusters: API.OperationMethod<PatchProjectsLocationsConnectClustersRequest, PatchProjectsLocationsConnectClustersResponse, PatchProjectsLocationsConnectClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsConnectClustersRequest,
   output: PatchProjectsLocationsConnectClustersResponse,
   errors: [],
 }));
 
-/** Deletes a single Connect cluster. */
 export interface DeleteProjectsLocationsConnectClustersRequest {
   /** Required. The name of the Kafka Connect cluster to delete. Structured like `projects/{project}/locations/{location}/connectClusters/{connect_cluster_id}`. */
   name: string;
@@ -1843,13 +1842,13 @@ export const DeleteProjectsLocationsConnectClustersResponse = Operation;
 
 export type DeleteProjectsLocationsConnectClustersError = CommonErrors;
 
+/** Deletes a single Connect cluster. */
 export const deleteProjectsLocationsConnectClusters: API.OperationMethod<DeleteProjectsLocationsConnectClustersRequest, DeleteProjectsLocationsConnectClustersResponse, DeleteProjectsLocationsConnectClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsConnectClustersRequest,
   output: DeleteProjectsLocationsConnectClustersResponse,
   errors: [],
 }));
 
-/** Lists the connectors in a given Connect cluster. */
 export interface ListProjectsLocationsConnectClustersConnectorsRequest {
   /** Required. The parent Connect cluster whose connectors are to be listed. Structured like `projects/{project}/locations/{location}/connectClusters/{connect_cluster_id}`. */
   parent: string;
@@ -1873,7 +1872,8 @@ export const ListProjectsLocationsConnectClustersConnectorsResponse = ListConnec
 
 export type ListProjectsLocationsConnectClustersConnectorsError = CommonErrors;
 
-export const listProjectsLocationsConnectClustersConnectors = API.makePaginated(() => ({
+/** Lists the connectors in a given Connect cluster. */
+export const listProjectsLocationsConnectClustersConnectors: API.PaginatedOperationMethod<ListProjectsLocationsConnectClustersConnectorsRequest, ListProjectsLocationsConnectClustersConnectorsResponse, ListProjectsLocationsConnectClustersConnectorsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsConnectClustersConnectorsRequest,
   output: ListProjectsLocationsConnectClustersConnectorsResponse,
   errors: [],
@@ -1883,7 +1883,6 @@ export const listProjectsLocationsConnectClustersConnectors = API.makePaginated(
   },
 }));
 
-/** Returns the properties of a single connector. */
 export interface GetProjectsLocationsConnectClustersConnectorsRequest {
   /** Required. The name of the connector whose configuration to return. Structured like: projects/{project}/locations/{location}/connectClusters/{connectCluster}/connectors/{connector} */
   name: string;
@@ -1901,13 +1900,13 @@ export const GetProjectsLocationsConnectClustersConnectorsResponse = Connector;
 
 export type GetProjectsLocationsConnectClustersConnectorsError = CommonErrors;
 
+/** Returns the properties of a single connector. */
 export const getProjectsLocationsConnectClustersConnectors: API.OperationMethod<GetProjectsLocationsConnectClustersConnectorsRequest, GetProjectsLocationsConnectClustersConnectorsResponse, GetProjectsLocationsConnectClustersConnectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsConnectClustersConnectorsRequest,
   output: GetProjectsLocationsConnectClustersConnectorsResponse,
   errors: [],
 }));
 
-/** Creates a new connector in a given Connect cluster. */
 export interface CreateProjectsLocationsConnectClustersConnectorsRequest {
   /** Required. The parent Connect cluster in which to create the connector. Structured like `projects/{project}/locations/{location}/connectClusters/{connect_cluster_id}`. */
   parent: string;
@@ -1931,13 +1930,13 @@ export const CreateProjectsLocationsConnectClustersConnectorsResponse = Connecto
 
 export type CreateProjectsLocationsConnectClustersConnectorsError = CommonErrors;
 
+/** Creates a new connector in a given Connect cluster. */
 export const createProjectsLocationsConnectClustersConnectors: API.OperationMethod<CreateProjectsLocationsConnectClustersConnectorsRequest, CreateProjectsLocationsConnectClustersConnectorsResponse, CreateProjectsLocationsConnectClustersConnectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsConnectClustersConnectorsRequest,
   output: CreateProjectsLocationsConnectClustersConnectorsResponse,
   errors: [],
 }));
 
-/** Updates the properties of a connector. */
 export interface PatchProjectsLocationsConnectClustersConnectorsRequest {
   /** Identifier. The name of the connector. Structured like: projects/{project}/locations/{location}/connectClusters/{connect_cluster}/connectors/{connector} */
   name: string;
@@ -1961,13 +1960,13 @@ export const PatchProjectsLocationsConnectClustersConnectorsResponse = Connector
 
 export type PatchProjectsLocationsConnectClustersConnectorsError = CommonErrors;
 
+/** Updates the properties of a connector. */
 export const patchProjectsLocationsConnectClustersConnectors: API.OperationMethod<PatchProjectsLocationsConnectClustersConnectorsRequest, PatchProjectsLocationsConnectClustersConnectorsResponse, PatchProjectsLocationsConnectClustersConnectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsConnectClustersConnectorsRequest,
   output: PatchProjectsLocationsConnectClustersConnectorsResponse,
   errors: [],
 }));
 
-/** Deletes a connector. */
 export interface DeleteProjectsLocationsConnectClustersConnectorsRequest {
   /** Required. The name of the connector to delete. Structured like: projects/{project}/locations/{location}/connectClusters/{connectCluster}/connectors/{connector} */
   name: string;
@@ -1985,13 +1984,13 @@ export const DeleteProjectsLocationsConnectClustersConnectorsResponse = Empty;
 
 export type DeleteProjectsLocationsConnectClustersConnectorsError = CommonErrors;
 
+/** Deletes a connector. */
 export const deleteProjectsLocationsConnectClustersConnectors: API.OperationMethod<DeleteProjectsLocationsConnectClustersConnectorsRequest, DeleteProjectsLocationsConnectClustersConnectorsResponse, DeleteProjectsLocationsConnectClustersConnectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsConnectClustersConnectorsRequest,
   output: DeleteProjectsLocationsConnectClustersConnectorsResponse,
   errors: [],
 }));
 
-/** Pauses the connector and its tasks. */
 export interface PauseProjectsLocationsConnectClustersConnectorsRequest {
   /** Required. The name of the connector to pause. Structured like: projects/{project}/locations/{location}/connectClusters/{connectCluster}/connectors/{connector} */
   name: string;
@@ -2012,13 +2011,13 @@ export const PauseProjectsLocationsConnectClustersConnectorsResponse = PauseConn
 
 export type PauseProjectsLocationsConnectClustersConnectorsError = CommonErrors;
 
+/** Pauses the connector and its tasks. */
 export const pauseProjectsLocationsConnectClustersConnectors: API.OperationMethod<PauseProjectsLocationsConnectClustersConnectorsRequest, PauseProjectsLocationsConnectClustersConnectorsResponse, PauseProjectsLocationsConnectClustersConnectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PauseProjectsLocationsConnectClustersConnectorsRequest,
   output: PauseProjectsLocationsConnectClustersConnectorsResponse,
   errors: [],
 }));
 
-/** Resumes the connector and its tasks. */
 export interface ResumeProjectsLocationsConnectClustersConnectorsRequest {
   /** Required. The name of the connector to pause. Structured like: projects/{project}/locations/{location}/connectClusters/{connectCluster}/connectors/{connector} */
   name: string;
@@ -2039,13 +2038,13 @@ export const ResumeProjectsLocationsConnectClustersConnectorsResponse = ResumeCo
 
 export type ResumeProjectsLocationsConnectClustersConnectorsError = CommonErrors;
 
+/** Resumes the connector and its tasks. */
 export const resumeProjectsLocationsConnectClustersConnectors: API.OperationMethod<ResumeProjectsLocationsConnectClustersConnectorsRequest, ResumeProjectsLocationsConnectClustersConnectorsResponse, ResumeProjectsLocationsConnectClustersConnectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ResumeProjectsLocationsConnectClustersConnectorsRequest,
   output: ResumeProjectsLocationsConnectClustersConnectorsResponse,
   errors: [],
 }));
 
-/** Restarts the connector. */
 export interface RestartProjectsLocationsConnectClustersConnectorsRequest {
   /** Required. The name of the connector to restart. Structured like: projects/{project}/locations/{location}/connectClusters/{connectCluster}/connectors/{connector} */
   name: string;
@@ -2066,13 +2065,13 @@ export const RestartProjectsLocationsConnectClustersConnectorsResponse = Restart
 
 export type RestartProjectsLocationsConnectClustersConnectorsError = CommonErrors;
 
+/** Restarts the connector. */
 export const restartProjectsLocationsConnectClustersConnectors: API.OperationMethod<RestartProjectsLocationsConnectClustersConnectorsRequest, RestartProjectsLocationsConnectClustersConnectorsResponse, RestartProjectsLocationsConnectClustersConnectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RestartProjectsLocationsConnectClustersConnectorsRequest,
   output: RestartProjectsLocationsConnectClustersConnectorsResponse,
   errors: [],
 }));
 
-/** Stops the connector. */
 export interface StopProjectsLocationsConnectClustersConnectorsRequest {
   /** Required. The name of the connector to stop. Structured like: projects/{project}/locations/{location}/connectClusters/{connectCluster}/connectors/{connector} */
   name: string;
@@ -2093,13 +2092,13 @@ export const StopProjectsLocationsConnectClustersConnectorsResponse = StopConnec
 
 export type StopProjectsLocationsConnectClustersConnectorsError = CommonErrors;
 
+/** Stops the connector. */
 export const stopProjectsLocationsConnectClustersConnectors: API.OperationMethod<StopProjectsLocationsConnectClustersConnectorsRequest, StopProjectsLocationsConnectClustersConnectorsResponse, StopProjectsLocationsConnectClustersConnectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: StopProjectsLocationsConnectClustersConnectorsRequest,
   output: StopProjectsLocationsConnectClustersConnectorsResponse,
   errors: [],
 }));
 
-/** Get the schema registry instance. */
 export interface GetProjectsLocationsSchemaRegistriesRequest {
   /** Required. The name of the schema registry instance to return. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}` */
   name: string;
@@ -2117,13 +2116,13 @@ export const GetProjectsLocationsSchemaRegistriesResponse = SchemaRegistry;
 
 export type GetProjectsLocationsSchemaRegistriesError = CommonErrors;
 
+/** Get the schema registry instance. */
 export const getProjectsLocationsSchemaRegistries: API.OperationMethod<GetProjectsLocationsSchemaRegistriesRequest, GetProjectsLocationsSchemaRegistriesResponse, GetProjectsLocationsSchemaRegistriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSchemaRegistriesRequest,
   output: GetProjectsLocationsSchemaRegistriesResponse,
   errors: [],
 }));
 
-/** List schema registries. */
 export interface ListProjectsLocationsSchemaRegistriesRequest {
   /** Required. The parent whose schema registry instances are to be listed. Structured like: `projects/{project}/locations/{location}` */
   parent: string;
@@ -2144,13 +2143,13 @@ export const ListProjectsLocationsSchemaRegistriesResponse = ListSchemaRegistrie
 
 export type ListProjectsLocationsSchemaRegistriesError = CommonErrors;
 
+/** List schema registries. */
 export const listProjectsLocationsSchemaRegistries: API.OperationMethod<ListProjectsLocationsSchemaRegistriesRequest, ListProjectsLocationsSchemaRegistriesResponse, ListProjectsLocationsSchemaRegistriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsSchemaRegistriesRequest,
   output: ListProjectsLocationsSchemaRegistriesResponse,
   errors: [],
 }));
 
-/** Create a schema registry instance. */
 export interface CreateProjectsLocationsSchemaRegistriesRequest {
   /** Required. The parent whose schema registry instance is to be created. Structured like: `projects/{project}/locations/{location}` */
   parent: string;
@@ -2171,13 +2170,13 @@ export const CreateProjectsLocationsSchemaRegistriesResponse = SchemaRegistry;
 
 export type CreateProjectsLocationsSchemaRegistriesError = CommonErrors;
 
+/** Create a schema registry instance. */
 export const createProjectsLocationsSchemaRegistries: API.OperationMethod<CreateProjectsLocationsSchemaRegistriesRequest, CreateProjectsLocationsSchemaRegistriesResponse, CreateProjectsLocationsSchemaRegistriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsSchemaRegistriesRequest,
   output: CreateProjectsLocationsSchemaRegistriesResponse,
   errors: [],
 }));
 
-/** Delete a schema registry instance. */
 export interface DeleteProjectsLocationsSchemaRegistriesRequest {
   /** Required. The name of the schema registry instance to delete. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}` */
   name: string;
@@ -2195,13 +2194,13 @@ export const DeleteProjectsLocationsSchemaRegistriesResponse = Empty;
 
 export type DeleteProjectsLocationsSchemaRegistriesError = CommonErrors;
 
+/** Delete a schema registry instance. */
 export const deleteProjectsLocationsSchemaRegistries: API.OperationMethod<DeleteProjectsLocationsSchemaRegistriesRequest, DeleteProjectsLocationsSchemaRegistriesResponse, DeleteProjectsLocationsSchemaRegistriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsSchemaRegistriesRequest,
   output: DeleteProjectsLocationsSchemaRegistriesResponse,
   errors: [],
 }));
 
-/** Get the context. */
 export interface GetProjectsLocationsSchemaRegistriesContextsRequest {
   /** Required. The name of the context to return. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}` */
   name: string;
@@ -2219,13 +2218,13 @@ export const GetProjectsLocationsSchemaRegistriesContextsResponse = Context;
 
 export type GetProjectsLocationsSchemaRegistriesContextsError = CommonErrors;
 
+/** Get the context. */
 export const getProjectsLocationsSchemaRegistriesContexts: API.OperationMethod<GetProjectsLocationsSchemaRegistriesContextsRequest, GetProjectsLocationsSchemaRegistriesContextsResponse, GetProjectsLocationsSchemaRegistriesContextsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSchemaRegistriesContextsRequest,
   output: GetProjectsLocationsSchemaRegistriesContextsResponse,
   errors: [],
 }));
 
-/** List contexts for a schema registry. */
 export interface ListProjectsLocationsSchemaRegistriesContextsRequest {
   /** Required. The parent of the contexts. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}` */
   parent: string;
@@ -2243,13 +2242,13 @@ export const ListProjectsLocationsSchemaRegistriesContextsResponse = HttpBody;
 
 export type ListProjectsLocationsSchemaRegistriesContextsError = CommonErrors;
 
+/** List contexts for a schema registry. */
 export const listProjectsLocationsSchemaRegistriesContexts: API.OperationMethod<ListProjectsLocationsSchemaRegistriesContextsRequest, ListProjectsLocationsSchemaRegistriesContextsResponse, ListProjectsLocationsSchemaRegistriesContextsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsSchemaRegistriesContextsRequest,
   output: ListProjectsLocationsSchemaRegistriesContextsResponse,
   errors: [],
 }));
 
-/** Get the schema for the given schema id. */
 export interface GetProjectsLocationsSchemaRegistriesContextsSchemasRequest {
   /** Required. The name of the schema to return. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/schemas/ids/{schema}` */
   name: string;
@@ -2270,13 +2269,13 @@ export const GetProjectsLocationsSchemaRegistriesContextsSchemasResponse = Manag
 
 export type GetProjectsLocationsSchemaRegistriesContextsSchemasError = CommonErrors;
 
+/** Get the schema for the given schema id. */
 export const getProjectsLocationsSchemaRegistriesContextsSchemas: API.OperationMethod<GetProjectsLocationsSchemaRegistriesContextsSchemasRequest, GetProjectsLocationsSchemaRegistriesContextsSchemasResponse, GetProjectsLocationsSchemaRegistriesContextsSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSchemaRegistriesContextsSchemasRequest,
   output: GetProjectsLocationsSchemaRegistriesContextsSchemasResponse,
   errors: [],
 }));
 
-/** Get the schema string for the given schema id. The response will be the schema string. */
 export interface GetSchemaProjectsLocationsSchemaRegistriesContextsSchemasRequest {
   /** Required. The name of the schema to return. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/schemas/ids/{schema}` */
   name: string;
@@ -2297,13 +2296,13 @@ export const GetSchemaProjectsLocationsSchemaRegistriesContextsSchemasResponse =
 
 export type GetSchemaProjectsLocationsSchemaRegistriesContextsSchemasError = CommonErrors;
 
+/** Get the schema string for the given schema id. The response will be the schema string. */
 export const getSchemaProjectsLocationsSchemaRegistriesContextsSchemas: API.OperationMethod<GetSchemaProjectsLocationsSchemaRegistriesContextsSchemasRequest, GetSchemaProjectsLocationsSchemaRegistriesContextsSchemasResponse, GetSchemaProjectsLocationsSchemaRegistriesContextsSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSchemaProjectsLocationsSchemaRegistriesContextsSchemasRequest,
   output: GetSchemaProjectsLocationsSchemaRegistriesContextsSchemasResponse,
   errors: [],
 }));
 
-/** List the schema versions for the given schema id. The response will be an array of subject-version pairs as: [{"subject":"subject1", "version":1}, {"subject":"subject2", "version":2}]. */
 export interface ListProjectsLocationsSchemaRegistriesContextsSchemasVersionsRequest {
   /** Required. The schema whose schema versions are to be listed. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/schemas/ids/{schema}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/schemas/ids/{schema}` */
   parent: string;
@@ -2327,13 +2326,13 @@ export const ListProjectsLocationsSchemaRegistriesContextsSchemasVersionsRespons
 
 export type ListProjectsLocationsSchemaRegistriesContextsSchemasVersionsError = CommonErrors;
 
+/** List the schema versions for the given schema id. The response will be an array of subject-version pairs as: [{"subject":"subject1", "version":1}, {"subject":"subject2", "version":2}]. */
 export const listProjectsLocationsSchemaRegistriesContextsSchemasVersions: API.OperationMethod<ListProjectsLocationsSchemaRegistriesContextsSchemasVersionsRequest, ListProjectsLocationsSchemaRegistriesContextsSchemasVersionsResponse, ListProjectsLocationsSchemaRegistriesContextsSchemasVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsSchemaRegistriesContextsSchemasVersionsRequest,
   output: ListProjectsLocationsSchemaRegistriesContextsSchemasVersionsResponse,
   errors: [],
 }));
 
-/** List the supported schema types. The response will be an array of schema types. */
 export interface ListProjectsLocationsSchemaRegistriesContextsSchemasTypesRequest {
   /** Required. The parent schema registry whose schema types are to be listed. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}` */
   parent: string;
@@ -2351,13 +2350,13 @@ export const ListProjectsLocationsSchemaRegistriesContextsSchemasTypesResponse =
 
 export type ListProjectsLocationsSchemaRegistriesContextsSchemasTypesError = CommonErrors;
 
+/** List the supported schema types. The response will be an array of schema types. */
 export const listProjectsLocationsSchemaRegistriesContextsSchemasTypes: API.OperationMethod<ListProjectsLocationsSchemaRegistriesContextsSchemasTypesRequest, ListProjectsLocationsSchemaRegistriesContextsSchemasTypesResponse, ListProjectsLocationsSchemaRegistriesContextsSchemasTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsSchemaRegistriesContextsSchemasTypesRequest,
   output: ListProjectsLocationsSchemaRegistriesContextsSchemasTypesResponse,
   errors: [],
 }));
 
-/** List subjects which reference a particular schema id. The response will be an array of subject names. */
 export interface ListProjectsLocationsSchemaRegistriesContextsSchemasSubjectsRequest {
   /** Required. The schema resource whose associated subjects are to be listed. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/schemas/ids/{schema}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/schemas/ids/{schema}` */
   parent: string;
@@ -2381,13 +2380,13 @@ export const ListProjectsLocationsSchemaRegistriesContextsSchemasSubjectsRespons
 
 export type ListProjectsLocationsSchemaRegistriesContextsSchemasSubjectsError = CommonErrors;
 
+/** List subjects which reference a particular schema id. The response will be an array of subject names. */
 export const listProjectsLocationsSchemaRegistriesContextsSchemasSubjects: API.OperationMethod<ListProjectsLocationsSchemaRegistriesContextsSchemasSubjectsRequest, ListProjectsLocationsSchemaRegistriesContextsSchemasSubjectsResponse, ListProjectsLocationsSchemaRegistriesContextsSchemasSubjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsSchemaRegistriesContextsSchemasSubjectsRequest,
   output: ListProjectsLocationsSchemaRegistriesContextsSchemasSubjectsResponse,
   errors: [],
 }));
 
-/** List subjects in the schema registry. The response will be an array of subject names. */
 export interface ListProjectsLocationsSchemaRegistriesContextsSubjectsRequest {
   /** Required. The parent schema registry/context whose subjects are to be listed. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}` */
   parent: string;
@@ -2411,13 +2410,13 @@ export const ListProjectsLocationsSchemaRegistriesContextsSubjectsResponse = Htt
 
 export type ListProjectsLocationsSchemaRegistriesContextsSubjectsError = CommonErrors;
 
+/** List subjects in the schema registry. The response will be an array of subject names. */
 export const listProjectsLocationsSchemaRegistriesContextsSubjects: API.OperationMethod<ListProjectsLocationsSchemaRegistriesContextsSubjectsRequest, ListProjectsLocationsSchemaRegistriesContextsSubjectsResponse, ListProjectsLocationsSchemaRegistriesContextsSubjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsSchemaRegistriesContextsSubjectsRequest,
   output: ListProjectsLocationsSchemaRegistriesContextsSubjectsResponse,
   errors: [],
 }));
 
-/** Delete a subject. The response will be an array of versions of the deleted subject. */
 export interface DeleteProjectsLocationsSchemaRegistriesContextsSubjectsRequest {
   /** Required. The name of the subject to delete. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}` */
   name: string;
@@ -2438,13 +2437,13 @@ export const DeleteProjectsLocationsSchemaRegistriesContextsSubjectsResponse = H
 
 export type DeleteProjectsLocationsSchemaRegistriesContextsSubjectsError = CommonErrors;
 
+/** Delete a subject. The response will be an array of versions of the deleted subject. */
 export const deleteProjectsLocationsSchemaRegistriesContextsSubjects: API.OperationMethod<DeleteProjectsLocationsSchemaRegistriesContextsSubjectsRequest, DeleteProjectsLocationsSchemaRegistriesContextsSubjectsResponse, DeleteProjectsLocationsSchemaRegistriesContextsSubjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsSchemaRegistriesContextsSubjectsRequest,
   output: DeleteProjectsLocationsSchemaRegistriesContextsSubjectsResponse,
   errors: [],
 }));
 
-/** Lookup a schema under the specified subject. */
 export interface LookupVersionProjectsLocationsSchemaRegistriesContextsSubjectsRequest {
   /** Required. The subject to lookup the schema in. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}` */
   parent: string;
@@ -2465,13 +2464,13 @@ export const LookupVersionProjectsLocationsSchemaRegistriesContextsSubjectsRespo
 
 export type LookupVersionProjectsLocationsSchemaRegistriesContextsSubjectsError = CommonErrors;
 
+/** Lookup a schema under the specified subject. */
 export const lookupVersionProjectsLocationsSchemaRegistriesContextsSubjects: API.OperationMethod<LookupVersionProjectsLocationsSchemaRegistriesContextsSubjectsRequest, LookupVersionProjectsLocationsSchemaRegistriesContextsSubjectsResponse, LookupVersionProjectsLocationsSchemaRegistriesContextsSubjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LookupVersionProjectsLocationsSchemaRegistriesContextsSubjectsRequest,
   output: LookupVersionProjectsLocationsSchemaRegistriesContextsSubjectsResponse,
   errors: [],
 }));
 
-/** Get a versioned schema (schema with subject/version) of a subject. */
 export interface GetProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest {
   /** Required. The name of the subject to return versions. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}/versions/{version}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}/versions/{version}` */
   name: string;
@@ -2492,13 +2491,13 @@ export const GetProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRespons
 
 export type GetProjectsLocationsSchemaRegistriesContextsSubjectsVersionsError = CommonErrors;
 
+/** Get a versioned schema (schema with subject/version) of a subject. */
 export const getProjectsLocationsSchemaRegistriesContextsSubjectsVersions: API.OperationMethod<GetProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest, GetProjectsLocationsSchemaRegistriesContextsSubjectsVersionsResponse, GetProjectsLocationsSchemaRegistriesContextsSubjectsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest,
   output: GetProjectsLocationsSchemaRegistriesContextsSubjectsVersionsResponse,
   errors: [],
 }));
 
-/** Get the schema string only for a version of a subject. The response will be the schema string. */
 export interface GetSchemaProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest {
   /** Required. The name of the subject to return versions. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}/versions/{version}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}/versions/{version}` */
   name: string;
@@ -2519,13 +2518,13 @@ export const GetSchemaProjectsLocationsSchemaRegistriesContextsSubjectsVersionsR
 
 export type GetSchemaProjectsLocationsSchemaRegistriesContextsSubjectsVersionsError = CommonErrors;
 
+/** Get the schema string only for a version of a subject. The response will be the schema string. */
 export const getSchemaProjectsLocationsSchemaRegistriesContextsSubjectsVersions: API.OperationMethod<GetSchemaProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest, GetSchemaProjectsLocationsSchemaRegistriesContextsSubjectsVersionsResponse, GetSchemaProjectsLocationsSchemaRegistriesContextsSubjectsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSchemaProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest,
   output: GetSchemaProjectsLocationsSchemaRegistriesContextsSubjectsVersionsResponse,
   errors: [],
 }));
 
-/** Get all versions of a subject. The response will be an array of versions of the subject. */
 export interface ListProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest {
   /** Required. The subject whose versions are to be listed. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}` */
   parent: string;
@@ -2546,13 +2545,13 @@ export const ListProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRespon
 
 export type ListProjectsLocationsSchemaRegistriesContextsSubjectsVersionsError = CommonErrors;
 
+/** Get all versions of a subject. The response will be an array of versions of the subject. */
 export const listProjectsLocationsSchemaRegistriesContextsSubjectsVersions: API.OperationMethod<ListProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest, ListProjectsLocationsSchemaRegistriesContextsSubjectsVersionsResponse, ListProjectsLocationsSchemaRegistriesContextsSubjectsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest,
   output: ListProjectsLocationsSchemaRegistriesContextsSubjectsVersionsResponse,
   errors: [],
 }));
 
-/** Register a new version under a given subject with the given schema. */
 export interface CreateProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest {
   /** Required. The subject to create the version for. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}` */
   parent: string;
@@ -2573,13 +2572,13 @@ export const CreateProjectsLocationsSchemaRegistriesContextsSubjectsVersionsResp
 
 export type CreateProjectsLocationsSchemaRegistriesContextsSubjectsVersionsError = CommonErrors;
 
+/** Register a new version under a given subject with the given schema. */
 export const createProjectsLocationsSchemaRegistriesContextsSubjectsVersions: API.OperationMethod<CreateProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest, CreateProjectsLocationsSchemaRegistriesContextsSubjectsVersionsResponse, CreateProjectsLocationsSchemaRegistriesContextsSubjectsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest,
   output: CreateProjectsLocationsSchemaRegistriesContextsSubjectsVersionsResponse,
   errors: [],
 }));
 
-/** Delete a version of a subject. The response will be the deleted version id. */
 export interface DeleteProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest {
   /** Required. The name of the subject version to delete. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}/versions/{version}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}/versions/{version}` */
   name: string;
@@ -2600,13 +2599,13 @@ export const DeleteProjectsLocationsSchemaRegistriesContextsSubjectsVersionsResp
 
 export type DeleteProjectsLocationsSchemaRegistriesContextsSubjectsVersionsError = CommonErrors;
 
+/** Delete a version of a subject. The response will be the deleted version id. */
 export const deleteProjectsLocationsSchemaRegistriesContextsSubjectsVersions: API.OperationMethod<DeleteProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest, DeleteProjectsLocationsSchemaRegistriesContextsSubjectsVersionsResponse, DeleteProjectsLocationsSchemaRegistriesContextsSubjectsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest,
   output: DeleteProjectsLocationsSchemaRegistriesContextsSubjectsVersionsResponse,
   errors: [],
 }));
 
-/** Get a list of IDs of schemas that reference the schema with the given subject and version. */
 export interface ListProjectsLocationsSchemaRegistriesContextsSubjectsVersionsReferencedbyRequest {
   /** Required. The version to list referenced by. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}/versions/{version}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}/versions/{version}` */
   parent: string;
@@ -2624,13 +2623,13 @@ export const ListProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRefere
 
 export type ListProjectsLocationsSchemaRegistriesContextsSubjectsVersionsReferencedbyError = CommonErrors;
 
+/** Get a list of IDs of schemas that reference the schema with the given subject and version. */
 export const listProjectsLocationsSchemaRegistriesContextsSubjectsVersionsReferencedby: API.OperationMethod<ListProjectsLocationsSchemaRegistriesContextsSubjectsVersionsReferencedbyRequest, ListProjectsLocationsSchemaRegistriesContextsSubjectsVersionsReferencedbyResponse, ListProjectsLocationsSchemaRegistriesContextsSubjectsVersionsReferencedbyError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsSchemaRegistriesContextsSubjectsVersionsReferencedbyRequest,
   output: ListProjectsLocationsSchemaRegistriesContextsSubjectsVersionsReferencedbyResponse,
   errors: [],
 }));
 
-/** Check compatibility of a schema with all versions or a specific version of a subject. */
 export interface CheckCompatibilityProjectsLocationsSchemaRegistriesContextsCompatibilityRequest {
   /** Required. The name of the resource to check compatibility for. The format is either of following: * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/compatibility/subjects/* /versions: Check compatibility with one or more versions of the specified subject. * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/compatibility/subjects/{subject}/versions/{version}: Check compatibility with a specific version of the subject. */
   name: string;
@@ -2651,13 +2650,13 @@ export const CheckCompatibilityProjectsLocationsSchemaRegistriesContextsCompatib
 
 export type CheckCompatibilityProjectsLocationsSchemaRegistriesContextsCompatibilityError = CommonErrors;
 
+/** Check compatibility of a schema with all versions or a specific version of a subject. */
 export const checkCompatibilityProjectsLocationsSchemaRegistriesContextsCompatibility: API.OperationMethod<CheckCompatibilityProjectsLocationsSchemaRegistriesContextsCompatibilityRequest, CheckCompatibilityProjectsLocationsSchemaRegistriesContextsCompatibilityResponse, CheckCompatibilityProjectsLocationsSchemaRegistriesContextsCompatibilityError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CheckCompatibilityProjectsLocationsSchemaRegistriesContextsCompatibilityRequest,
   output: CheckCompatibilityProjectsLocationsSchemaRegistriesContextsCompatibilityResponse,
   errors: [],
 }));
 
-/** Get schema config at global level or for a subject. */
 export interface GetProjectsLocationsSchemaRegistriesContextsConfigRequest {
   /** Required. The resource name to get the config for. It can be either of following: * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/config: Get config at global level. * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/config/{subject}: Get config for a specific subject. */
   name: string;
@@ -2678,13 +2677,13 @@ export const GetProjectsLocationsSchemaRegistriesContextsConfigResponse = Schema
 
 export type GetProjectsLocationsSchemaRegistriesContextsConfigError = CommonErrors;
 
+/** Get schema config at global level or for a subject. */
 export const getProjectsLocationsSchemaRegistriesContextsConfig: API.OperationMethod<GetProjectsLocationsSchemaRegistriesContextsConfigRequest, GetProjectsLocationsSchemaRegistriesContextsConfigResponse, GetProjectsLocationsSchemaRegistriesContextsConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSchemaRegistriesContextsConfigRequest,
   output: GetProjectsLocationsSchemaRegistriesContextsConfigResponse,
   errors: [],
 }));
 
-/** Update config at global level or for a subject. Creates a SchemaSubject-level SchemaConfig if it does not exist. */
 export interface UpdateProjectsLocationsSchemaRegistriesContextsConfigRequest {
   /** Required. The resource name to update the config for. It can be either of following: * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/config: Update config at global level. * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/config/{subject}: Update config for a specific subject. */
   name: string;
@@ -2705,13 +2704,13 @@ export const UpdateProjectsLocationsSchemaRegistriesContextsConfigResponse = Sch
 
 export type UpdateProjectsLocationsSchemaRegistriesContextsConfigError = CommonErrors;
 
+/** Update config at global level or for a subject. Creates a SchemaSubject-level SchemaConfig if it does not exist. */
 export const updateProjectsLocationsSchemaRegistriesContextsConfig: API.OperationMethod<UpdateProjectsLocationsSchemaRegistriesContextsConfigRequest, UpdateProjectsLocationsSchemaRegistriesContextsConfigResponse, UpdateProjectsLocationsSchemaRegistriesContextsConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateProjectsLocationsSchemaRegistriesContextsConfigRequest,
   output: UpdateProjectsLocationsSchemaRegistriesContextsConfigResponse,
   errors: [],
 }));
 
-/** Delete schema config for a subject. */
 export interface DeleteProjectsLocationsSchemaRegistriesContextsConfigRequest {
   /** Required. The resource name of subject to delete the config for. The format is * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/config/{subject} */
   name: string;
@@ -2729,13 +2728,13 @@ export const DeleteProjectsLocationsSchemaRegistriesContextsConfigResponse = Sch
 
 export type DeleteProjectsLocationsSchemaRegistriesContextsConfigError = CommonErrors;
 
+/** Delete schema config for a subject. */
 export const deleteProjectsLocationsSchemaRegistriesContextsConfig: API.OperationMethod<DeleteProjectsLocationsSchemaRegistriesContextsConfigRequest, DeleteProjectsLocationsSchemaRegistriesContextsConfigResponse, DeleteProjectsLocationsSchemaRegistriesContextsConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsSchemaRegistriesContextsConfigRequest,
   output: DeleteProjectsLocationsSchemaRegistriesContextsConfigResponse,
   errors: [],
 }));
 
-/** Get mode at global level or for a subject. */
 export interface GetProjectsLocationsSchemaRegistriesContextsModeRequest {
   /** Required. The resource name of the mode. The format is * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/mode/{subject}: mode for a schema registry, or * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/mode/{subject}: mode for a specific subject in a specific context */
   name: string;
@@ -2753,13 +2752,13 @@ export const GetProjectsLocationsSchemaRegistriesContextsModeResponse = SchemaMo
 
 export type GetProjectsLocationsSchemaRegistriesContextsModeError = CommonErrors;
 
+/** Get mode at global level or for a subject. */
 export const getProjectsLocationsSchemaRegistriesContextsMode: API.OperationMethod<GetProjectsLocationsSchemaRegistriesContextsModeRequest, GetProjectsLocationsSchemaRegistriesContextsModeResponse, GetProjectsLocationsSchemaRegistriesContextsModeError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSchemaRegistriesContextsModeRequest,
   output: GetProjectsLocationsSchemaRegistriesContextsModeResponse,
   errors: [],
 }));
 
-/** Update mode at global level or for a subject. */
 export interface UpdateProjectsLocationsSchemaRegistriesContextsModeRequest {
   /** Required. The resource name of the mode. The format is * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/mode/{subject}: mode for a schema registry, or * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/mode/{subject}: mode for a specific subject in a specific context */
   name: string;
@@ -2780,13 +2779,13 @@ export const UpdateProjectsLocationsSchemaRegistriesContextsModeResponse = Schem
 
 export type UpdateProjectsLocationsSchemaRegistriesContextsModeError = CommonErrors;
 
+/** Update mode at global level or for a subject. */
 export const updateProjectsLocationsSchemaRegistriesContextsMode: API.OperationMethod<UpdateProjectsLocationsSchemaRegistriesContextsModeRequest, UpdateProjectsLocationsSchemaRegistriesContextsModeResponse, UpdateProjectsLocationsSchemaRegistriesContextsModeError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateProjectsLocationsSchemaRegistriesContextsModeRequest,
   output: UpdateProjectsLocationsSchemaRegistriesContextsModeResponse,
   errors: [],
 }));
 
-/** Delete schema mode for a subject. */
 export interface DeleteProjectsLocationsSchemaRegistriesContextsModeRequest {
   /** Required. The resource name of subject to delete the mode for. The format is * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/mode/{subject} * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/mode/{subject} */
   name: string;
@@ -2804,13 +2803,13 @@ export const DeleteProjectsLocationsSchemaRegistriesContextsModeResponse = Schem
 
 export type DeleteProjectsLocationsSchemaRegistriesContextsModeError = CommonErrors;
 
+/** Delete schema mode for a subject. */
 export const deleteProjectsLocationsSchemaRegistriesContextsMode: API.OperationMethod<DeleteProjectsLocationsSchemaRegistriesContextsModeRequest, DeleteProjectsLocationsSchemaRegistriesContextsModeResponse, DeleteProjectsLocationsSchemaRegistriesContextsModeError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsSchemaRegistriesContextsModeRequest,
   output: DeleteProjectsLocationsSchemaRegistriesContextsModeResponse,
   errors: [],
 }));
 
-/** Get the schema for the given schema id. */
 export interface GetProjectsLocationsSchemaRegistriesSchemasRequest {
   /** Required. The name of the schema to return. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/schemas/ids/{schema}` */
   name: string;
@@ -2831,13 +2830,13 @@ export const GetProjectsLocationsSchemaRegistriesSchemasResponse = Managedkafka_
 
 export type GetProjectsLocationsSchemaRegistriesSchemasError = CommonErrors;
 
+/** Get the schema for the given schema id. */
 export const getProjectsLocationsSchemaRegistriesSchemas: API.OperationMethod<GetProjectsLocationsSchemaRegistriesSchemasRequest, GetProjectsLocationsSchemaRegistriesSchemasResponse, GetProjectsLocationsSchemaRegistriesSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSchemaRegistriesSchemasRequest,
   output: GetProjectsLocationsSchemaRegistriesSchemasResponse,
   errors: [],
 }));
 
-/** Get the schema string for the given schema id. The response will be the schema string. */
 export interface GetSchemaProjectsLocationsSchemaRegistriesSchemasRequest {
   /** Required. The name of the schema to return. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/schemas/ids/{schema}` */
   name: string;
@@ -2858,13 +2857,13 @@ export const GetSchemaProjectsLocationsSchemaRegistriesSchemasResponse = HttpBod
 
 export type GetSchemaProjectsLocationsSchemaRegistriesSchemasError = CommonErrors;
 
+/** Get the schema string for the given schema id. The response will be the schema string. */
 export const getSchemaProjectsLocationsSchemaRegistriesSchemas: API.OperationMethod<GetSchemaProjectsLocationsSchemaRegistriesSchemasRequest, GetSchemaProjectsLocationsSchemaRegistriesSchemasResponse, GetSchemaProjectsLocationsSchemaRegistriesSchemasError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSchemaProjectsLocationsSchemaRegistriesSchemasRequest,
   output: GetSchemaProjectsLocationsSchemaRegistriesSchemasResponse,
   errors: [],
 }));
 
-/** List the schema versions for the given schema id. The response will be an array of subject-version pairs as: [{"subject":"subject1", "version":1}, {"subject":"subject2", "version":2}]. */
 export interface ListProjectsLocationsSchemaRegistriesSchemasVersionsRequest {
   /** Required. The schema whose schema versions are to be listed. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/schemas/ids/{schema}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/schemas/ids/{schema}` */
   parent: string;
@@ -2888,13 +2887,13 @@ export const ListProjectsLocationsSchemaRegistriesSchemasVersionsResponse = Http
 
 export type ListProjectsLocationsSchemaRegistriesSchemasVersionsError = CommonErrors;
 
+/** List the schema versions for the given schema id. The response will be an array of subject-version pairs as: [{"subject":"subject1", "version":1}, {"subject":"subject2", "version":2}]. */
 export const listProjectsLocationsSchemaRegistriesSchemasVersions: API.OperationMethod<ListProjectsLocationsSchemaRegistriesSchemasVersionsRequest, ListProjectsLocationsSchemaRegistriesSchemasVersionsResponse, ListProjectsLocationsSchemaRegistriesSchemasVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsSchemaRegistriesSchemasVersionsRequest,
   output: ListProjectsLocationsSchemaRegistriesSchemasVersionsResponse,
   errors: [],
 }));
 
-/** List the supported schema types. The response will be an array of schema types. */
 export interface ListProjectsLocationsSchemaRegistriesSchemasTypesRequest {
   /** Required. The parent schema registry whose schema types are to be listed. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}` */
   parent: string;
@@ -2912,13 +2911,13 @@ export const ListProjectsLocationsSchemaRegistriesSchemasTypesResponse = HttpBod
 
 export type ListProjectsLocationsSchemaRegistriesSchemasTypesError = CommonErrors;
 
+/** List the supported schema types. The response will be an array of schema types. */
 export const listProjectsLocationsSchemaRegistriesSchemasTypes: API.OperationMethod<ListProjectsLocationsSchemaRegistriesSchemasTypesRequest, ListProjectsLocationsSchemaRegistriesSchemasTypesResponse, ListProjectsLocationsSchemaRegistriesSchemasTypesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsSchemaRegistriesSchemasTypesRequest,
   output: ListProjectsLocationsSchemaRegistriesSchemasTypesResponse,
   errors: [],
 }));
 
-/** List subjects which reference a particular schema id. The response will be an array of subject names. */
 export interface ListProjectsLocationsSchemaRegistriesSchemasSubjectsRequest {
   /** Required. The schema resource whose associated subjects are to be listed. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/schemas/ids/{schema}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/schemas/ids/{schema}` */
   parent: string;
@@ -2942,13 +2941,13 @@ export const ListProjectsLocationsSchemaRegistriesSchemasSubjectsResponse = Http
 
 export type ListProjectsLocationsSchemaRegistriesSchemasSubjectsError = CommonErrors;
 
+/** List subjects which reference a particular schema id. The response will be an array of subject names. */
 export const listProjectsLocationsSchemaRegistriesSchemasSubjects: API.OperationMethod<ListProjectsLocationsSchemaRegistriesSchemasSubjectsRequest, ListProjectsLocationsSchemaRegistriesSchemasSubjectsResponse, ListProjectsLocationsSchemaRegistriesSchemasSubjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsSchemaRegistriesSchemasSubjectsRequest,
   output: ListProjectsLocationsSchemaRegistriesSchemasSubjectsResponse,
   errors: [],
 }));
 
-/** List subjects in the schema registry. The response will be an array of subject names. */
 export interface ListProjectsLocationsSchemaRegistriesSubjectsRequest {
   /** Required. The parent schema registry/context whose subjects are to be listed. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}` */
   parent: string;
@@ -2972,13 +2971,13 @@ export const ListProjectsLocationsSchemaRegistriesSubjectsResponse = HttpBody;
 
 export type ListProjectsLocationsSchemaRegistriesSubjectsError = CommonErrors;
 
+/** List subjects in the schema registry. The response will be an array of subject names. */
 export const listProjectsLocationsSchemaRegistriesSubjects: API.OperationMethod<ListProjectsLocationsSchemaRegistriesSubjectsRequest, ListProjectsLocationsSchemaRegistriesSubjectsResponse, ListProjectsLocationsSchemaRegistriesSubjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsSchemaRegistriesSubjectsRequest,
   output: ListProjectsLocationsSchemaRegistriesSubjectsResponse,
   errors: [],
 }));
 
-/** Delete a subject. The response will be an array of versions of the deleted subject. */
 export interface DeleteProjectsLocationsSchemaRegistriesSubjectsRequest {
   /** Required. The name of the subject to delete. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}` */
   name: string;
@@ -2999,13 +2998,13 @@ export const DeleteProjectsLocationsSchemaRegistriesSubjectsResponse = HttpBody;
 
 export type DeleteProjectsLocationsSchemaRegistriesSubjectsError = CommonErrors;
 
+/** Delete a subject. The response will be an array of versions of the deleted subject. */
 export const deleteProjectsLocationsSchemaRegistriesSubjects: API.OperationMethod<DeleteProjectsLocationsSchemaRegistriesSubjectsRequest, DeleteProjectsLocationsSchemaRegistriesSubjectsResponse, DeleteProjectsLocationsSchemaRegistriesSubjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsSchemaRegistriesSubjectsRequest,
   output: DeleteProjectsLocationsSchemaRegistriesSubjectsResponse,
   errors: [],
 }));
 
-/** Lookup a schema under the specified subject. */
 export interface LookupVersionProjectsLocationsSchemaRegistriesSubjectsRequest {
   /** Required. The subject to lookup the schema in. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}` */
   parent: string;
@@ -3026,13 +3025,13 @@ export const LookupVersionProjectsLocationsSchemaRegistriesSubjectsResponse = Sc
 
 export type LookupVersionProjectsLocationsSchemaRegistriesSubjectsError = CommonErrors;
 
+/** Lookup a schema under the specified subject. */
 export const lookupVersionProjectsLocationsSchemaRegistriesSubjects: API.OperationMethod<LookupVersionProjectsLocationsSchemaRegistriesSubjectsRequest, LookupVersionProjectsLocationsSchemaRegistriesSubjectsResponse, LookupVersionProjectsLocationsSchemaRegistriesSubjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LookupVersionProjectsLocationsSchemaRegistriesSubjectsRequest,
   output: LookupVersionProjectsLocationsSchemaRegistriesSubjectsResponse,
   errors: [],
 }));
 
-/** Get a versioned schema (schema with subject/version) of a subject. */
 export interface GetProjectsLocationsSchemaRegistriesSubjectsVersionsRequest {
   /** Required. The name of the subject to return versions. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}/versions/{version}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}/versions/{version}` */
   name: string;
@@ -3053,13 +3052,13 @@ export const GetProjectsLocationsSchemaRegistriesSubjectsVersionsResponse = Sche
 
 export type GetProjectsLocationsSchemaRegistriesSubjectsVersionsError = CommonErrors;
 
+/** Get a versioned schema (schema with subject/version) of a subject. */
 export const getProjectsLocationsSchemaRegistriesSubjectsVersions: API.OperationMethod<GetProjectsLocationsSchemaRegistriesSubjectsVersionsRequest, GetProjectsLocationsSchemaRegistriesSubjectsVersionsResponse, GetProjectsLocationsSchemaRegistriesSubjectsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSchemaRegistriesSubjectsVersionsRequest,
   output: GetProjectsLocationsSchemaRegistriesSubjectsVersionsResponse,
   errors: [],
 }));
 
-/** Get the schema string only for a version of a subject. The response will be the schema string. */
 export interface GetSchemaProjectsLocationsSchemaRegistriesSubjectsVersionsRequest {
   /** Required. The name of the subject to return versions. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}/versions/{version}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}/versions/{version}` */
   name: string;
@@ -3080,13 +3079,13 @@ export const GetSchemaProjectsLocationsSchemaRegistriesSubjectsVersionsResponse 
 
 export type GetSchemaProjectsLocationsSchemaRegistriesSubjectsVersionsError = CommonErrors;
 
+/** Get the schema string only for a version of a subject. The response will be the schema string. */
 export const getSchemaProjectsLocationsSchemaRegistriesSubjectsVersions: API.OperationMethod<GetSchemaProjectsLocationsSchemaRegistriesSubjectsVersionsRequest, GetSchemaProjectsLocationsSchemaRegistriesSubjectsVersionsResponse, GetSchemaProjectsLocationsSchemaRegistriesSubjectsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSchemaProjectsLocationsSchemaRegistriesSubjectsVersionsRequest,
   output: GetSchemaProjectsLocationsSchemaRegistriesSubjectsVersionsResponse,
   errors: [],
 }));
 
-/** Get all versions of a subject. The response will be an array of versions of the subject. */
 export interface ListProjectsLocationsSchemaRegistriesSubjectsVersionsRequest {
   /** Required. The subject whose versions are to be listed. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}` */
   parent: string;
@@ -3107,13 +3106,13 @@ export const ListProjectsLocationsSchemaRegistriesSubjectsVersionsResponse = Htt
 
 export type ListProjectsLocationsSchemaRegistriesSubjectsVersionsError = CommonErrors;
 
+/** Get all versions of a subject. The response will be an array of versions of the subject. */
 export const listProjectsLocationsSchemaRegistriesSubjectsVersions: API.OperationMethod<ListProjectsLocationsSchemaRegistriesSubjectsVersionsRequest, ListProjectsLocationsSchemaRegistriesSubjectsVersionsResponse, ListProjectsLocationsSchemaRegistriesSubjectsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsSchemaRegistriesSubjectsVersionsRequest,
   output: ListProjectsLocationsSchemaRegistriesSubjectsVersionsResponse,
   errors: [],
 }));
 
-/** Register a new version under a given subject with the given schema. */
 export interface CreateProjectsLocationsSchemaRegistriesSubjectsVersionsRequest {
   /** Required. The subject to create the version for. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}` */
   parent: string;
@@ -3134,13 +3133,13 @@ export const CreateProjectsLocationsSchemaRegistriesSubjectsVersionsResponse = C
 
 export type CreateProjectsLocationsSchemaRegistriesSubjectsVersionsError = CommonErrors;
 
+/** Register a new version under a given subject with the given schema. */
 export const createProjectsLocationsSchemaRegistriesSubjectsVersions: API.OperationMethod<CreateProjectsLocationsSchemaRegistriesSubjectsVersionsRequest, CreateProjectsLocationsSchemaRegistriesSubjectsVersionsResponse, CreateProjectsLocationsSchemaRegistriesSubjectsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsSchemaRegistriesSubjectsVersionsRequest,
   output: CreateProjectsLocationsSchemaRegistriesSubjectsVersionsResponse,
   errors: [],
 }));
 
-/** Delete a version of a subject. The response will be the deleted version id. */
 export interface DeleteProjectsLocationsSchemaRegistriesSubjectsVersionsRequest {
   /** Required. The name of the subject version to delete. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}/versions/{version}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}/versions/{version}` */
   name: string;
@@ -3161,13 +3160,13 @@ export const DeleteProjectsLocationsSchemaRegistriesSubjectsVersionsResponse = H
 
 export type DeleteProjectsLocationsSchemaRegistriesSubjectsVersionsError = CommonErrors;
 
+/** Delete a version of a subject. The response will be the deleted version id. */
 export const deleteProjectsLocationsSchemaRegistriesSubjectsVersions: API.OperationMethod<DeleteProjectsLocationsSchemaRegistriesSubjectsVersionsRequest, DeleteProjectsLocationsSchemaRegistriesSubjectsVersionsResponse, DeleteProjectsLocationsSchemaRegistriesSubjectsVersionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsSchemaRegistriesSubjectsVersionsRequest,
   output: DeleteProjectsLocationsSchemaRegistriesSubjectsVersionsResponse,
   errors: [],
 }));
 
-/** Get a list of IDs of schemas that reference the schema with the given subject and version. */
 export interface ListProjectsLocationsSchemaRegistriesSubjectsVersionsReferencedbyRequest {
   /** Required. The version to list referenced by. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}/versions/{version}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}/versions/{version}` */
   parent: string;
@@ -3185,13 +3184,13 @@ export const ListProjectsLocationsSchemaRegistriesSubjectsVersionsReferencedbyRe
 
 export type ListProjectsLocationsSchemaRegistriesSubjectsVersionsReferencedbyError = CommonErrors;
 
+/** Get a list of IDs of schemas that reference the schema with the given subject and version. */
 export const listProjectsLocationsSchemaRegistriesSubjectsVersionsReferencedby: API.OperationMethod<ListProjectsLocationsSchemaRegistriesSubjectsVersionsReferencedbyRequest, ListProjectsLocationsSchemaRegistriesSubjectsVersionsReferencedbyResponse, ListProjectsLocationsSchemaRegistriesSubjectsVersionsReferencedbyError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsLocationsSchemaRegistriesSubjectsVersionsReferencedbyRequest,
   output: ListProjectsLocationsSchemaRegistriesSubjectsVersionsReferencedbyResponse,
   errors: [],
 }));
 
-/** Check compatibility of a schema with all versions or a specific version of a subject. */
 export interface CheckCompatibilityProjectsLocationsSchemaRegistriesCompatibilityRequest {
   /** Required. The name of the resource to check compatibility for. The format is either of following: * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/compatibility/subjects/* /versions: Check compatibility with one or more versions of the specified subject. * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/compatibility/subjects/{subject}/versions/{version}: Check compatibility with a specific version of the subject. */
   name: string;
@@ -3212,13 +3211,13 @@ export const CheckCompatibilityProjectsLocationsSchemaRegistriesCompatibilityRes
 
 export type CheckCompatibilityProjectsLocationsSchemaRegistriesCompatibilityError = CommonErrors;
 
+/** Check compatibility of a schema with all versions or a specific version of a subject. */
 export const checkCompatibilityProjectsLocationsSchemaRegistriesCompatibility: API.OperationMethod<CheckCompatibilityProjectsLocationsSchemaRegistriesCompatibilityRequest, CheckCompatibilityProjectsLocationsSchemaRegistriesCompatibilityResponse, CheckCompatibilityProjectsLocationsSchemaRegistriesCompatibilityError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CheckCompatibilityProjectsLocationsSchemaRegistriesCompatibilityRequest,
   output: CheckCompatibilityProjectsLocationsSchemaRegistriesCompatibilityResponse,
   errors: [],
 }));
 
-/** Get schema config at global level or for a subject. */
 export interface GetProjectsLocationsSchemaRegistriesConfigRequest {
   /** Required. The resource name to get the config for. It can be either of following: * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/config: Get config at global level. * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/config/{subject}: Get config for a specific subject. */
   name: string;
@@ -3239,13 +3238,13 @@ export const GetProjectsLocationsSchemaRegistriesConfigResponse = SchemaConfig;
 
 export type GetProjectsLocationsSchemaRegistriesConfigError = CommonErrors;
 
+/** Get schema config at global level or for a subject. */
 export const getProjectsLocationsSchemaRegistriesConfig: API.OperationMethod<GetProjectsLocationsSchemaRegistriesConfigRequest, GetProjectsLocationsSchemaRegistriesConfigResponse, GetProjectsLocationsSchemaRegistriesConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSchemaRegistriesConfigRequest,
   output: GetProjectsLocationsSchemaRegistriesConfigResponse,
   errors: [],
 }));
 
-/** Update config at global level or for a subject. Creates a SchemaSubject-level SchemaConfig if it does not exist. */
 export interface UpdateProjectsLocationsSchemaRegistriesConfigRequest {
   /** Required. The resource name to update the config for. It can be either of following: * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/config: Update config at global level. * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/config/{subject}: Update config for a specific subject. */
   name: string;
@@ -3266,13 +3265,13 @@ export const UpdateProjectsLocationsSchemaRegistriesConfigResponse = SchemaConfi
 
 export type UpdateProjectsLocationsSchemaRegistriesConfigError = CommonErrors;
 
+/** Update config at global level or for a subject. Creates a SchemaSubject-level SchemaConfig if it does not exist. */
 export const updateProjectsLocationsSchemaRegistriesConfig: API.OperationMethod<UpdateProjectsLocationsSchemaRegistriesConfigRequest, UpdateProjectsLocationsSchemaRegistriesConfigResponse, UpdateProjectsLocationsSchemaRegistriesConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateProjectsLocationsSchemaRegistriesConfigRequest,
   output: UpdateProjectsLocationsSchemaRegistriesConfigResponse,
   errors: [],
 }));
 
-/** Delete schema config for a subject. */
 export interface DeleteProjectsLocationsSchemaRegistriesConfigRequest {
   /** Required. The resource name of subject to delete the config for. The format is * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/config/{subject} */
   name: string;
@@ -3290,13 +3289,13 @@ export const DeleteProjectsLocationsSchemaRegistriesConfigResponse = SchemaConfi
 
 export type DeleteProjectsLocationsSchemaRegistriesConfigError = CommonErrors;
 
+/** Delete schema config for a subject. */
 export const deleteProjectsLocationsSchemaRegistriesConfig: API.OperationMethod<DeleteProjectsLocationsSchemaRegistriesConfigRequest, DeleteProjectsLocationsSchemaRegistriesConfigResponse, DeleteProjectsLocationsSchemaRegistriesConfigError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsSchemaRegistriesConfigRequest,
   output: DeleteProjectsLocationsSchemaRegistriesConfigResponse,
   errors: [],
 }));
 
-/** Get mode at global level or for a subject. */
 export interface GetProjectsLocationsSchemaRegistriesModeRequest {
   /** Required. The resource name of the mode. The format is * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/mode/{subject}: mode for a schema registry, or * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/mode/{subject}: mode for a specific subject in a specific context */
   name: string;
@@ -3314,13 +3313,13 @@ export const GetProjectsLocationsSchemaRegistriesModeResponse = SchemaMode;
 
 export type GetProjectsLocationsSchemaRegistriesModeError = CommonErrors;
 
+/** Get mode at global level or for a subject. */
 export const getProjectsLocationsSchemaRegistriesMode: API.OperationMethod<GetProjectsLocationsSchemaRegistriesModeRequest, GetProjectsLocationsSchemaRegistriesModeResponse, GetProjectsLocationsSchemaRegistriesModeError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsSchemaRegistriesModeRequest,
   output: GetProjectsLocationsSchemaRegistriesModeResponse,
   errors: [],
 }));
 
-/** Update mode at global level or for a subject. */
 export interface UpdateProjectsLocationsSchemaRegistriesModeRequest {
   /** Required. The resource name of the mode. The format is * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/mode/{subject}: mode for a schema registry, or * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/mode/{subject}: mode for a specific subject in a specific context */
   name: string;
@@ -3341,13 +3340,13 @@ export const UpdateProjectsLocationsSchemaRegistriesModeResponse = SchemaMode;
 
 export type UpdateProjectsLocationsSchemaRegistriesModeError = CommonErrors;
 
+/** Update mode at global level or for a subject. */
 export const updateProjectsLocationsSchemaRegistriesMode: API.OperationMethod<UpdateProjectsLocationsSchemaRegistriesModeRequest, UpdateProjectsLocationsSchemaRegistriesModeResponse, UpdateProjectsLocationsSchemaRegistriesModeError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateProjectsLocationsSchemaRegistriesModeRequest,
   output: UpdateProjectsLocationsSchemaRegistriesModeResponse,
   errors: [],
 }));
 
-/** Delete schema mode for a subject. */
 export interface DeleteProjectsLocationsSchemaRegistriesModeRequest {
   /** Required. The resource name of subject to delete the mode for. The format is * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/mode/{subject} * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/mode/{subject} */
   name: string;
@@ -3365,6 +3364,7 @@ export const DeleteProjectsLocationsSchemaRegistriesModeResponse = SchemaMode;
 
 export type DeleteProjectsLocationsSchemaRegistriesModeError = CommonErrors;
 
+/** Delete schema mode for a subject. */
 export const deleteProjectsLocationsSchemaRegistriesMode: API.OperationMethod<DeleteProjectsLocationsSchemaRegistriesModeRequest, DeleteProjectsLocationsSchemaRegistriesModeResponse, DeleteProjectsLocationsSchemaRegistriesModeError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsSchemaRegistriesModeRequest,
   output: DeleteProjectsLocationsSchemaRegistriesModeResponse,

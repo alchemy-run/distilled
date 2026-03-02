@@ -471,7 +471,6 @@ export const GoogleMapsAddressvalidationV1ProvideValidationFeedbackResponse: Sch
 // Operations
 // ==========================================================================
 
-/** Validates an address. */
 export interface ValidateAddressV1Request {
   /** Request body */
   body?: GoogleMapsAddressvalidationV1ValidateAddressRequest;
@@ -489,13 +488,13 @@ export const ValidateAddressV1Response = GoogleMapsAddressvalidationV1ValidateAd
 
 export type ValidateAddressV1Error = CommonErrors;
 
+/** Validates an address. */
 export const validateAddressV1: API.OperationMethod<ValidateAddressV1Request, ValidateAddressV1Response, ValidateAddressV1Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ValidateAddressV1Request,
   output: ValidateAddressV1Response,
   errors: [],
 }));
 
-/** Feedback about the outcome of the sequence of validation attempts. This should be the last call made after a sequence of validation calls for the same address, and should be called once the transaction is concluded. This should only be sent once for the sequence of `ValidateAddress` requests needed to validate an address fully. */
 export interface ProvideValidationFeedbackV1Request {
   /** Request body */
   body?: GoogleMapsAddressvalidationV1ProvideValidationFeedbackRequest;
@@ -513,6 +512,7 @@ export const ProvideValidationFeedbackV1Response = GoogleMapsAddressvalidationV1
 
 export type ProvideValidationFeedbackV1Error = CommonErrors;
 
+/** Feedback about the outcome of the sequence of validation attempts. This should be the last call made after a sequence of validation calls for the same address, and should be called once the transaction is concluded. This should only be sent once for the sequence of `ValidateAddress` requests needed to validate an address fully. */
 export const provideValidationFeedbackV1: API.OperationMethod<ProvideValidationFeedbackV1Request, ProvideValidationFeedbackV1Response, ProvideValidationFeedbackV1Error, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ProvideValidationFeedbackV1Request,
   output: ProvideValidationFeedbackV1Response,

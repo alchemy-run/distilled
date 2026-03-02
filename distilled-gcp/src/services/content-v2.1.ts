@@ -6112,7 +6112,6 @@ export const ProductDeliveryTime: Schema.Schema<ProductDeliveryTime> = Schema.su
 // Operations
 // ==========================================================================
 
-/** Returns information about the authenticated user. */
 export interface AuthinfoAccountsRequest {
 }
 
@@ -6127,13 +6126,13 @@ export const AuthinfoAccountsResponse = AccountsAuthInfoResponse;
 
 export type AuthinfoAccountsError = CommonErrors;
 
+/** Returns information about the authenticated user. */
 export const authinfoAccounts: API.OperationMethod<AuthinfoAccountsRequest, AuthinfoAccountsResponse, AuthinfoAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AuthinfoAccountsRequest,
   output: AuthinfoAccountsResponse,
   errors: [],
 }));
 
-/** Claims the website of a Merchant Center sub-account. Merchant accounts with approved third-party CSSs aren't required to claim a website. */
 export interface ClaimwebsiteAccountsRequest {
   /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
   merchantId: string;
@@ -6157,13 +6156,13 @@ export const ClaimwebsiteAccountsResponse = AccountsClaimWebsiteResponse;
 
 export type ClaimwebsiteAccountsError = CommonErrors;
 
+/** Claims the website of a Merchant Center sub-account. Merchant accounts with approved third-party CSSs aren't required to claim a website. */
 export const claimwebsiteAccounts: API.OperationMethod<ClaimwebsiteAccountsRequest, ClaimwebsiteAccountsResponse, ClaimwebsiteAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ClaimwebsiteAccountsRequest,
   output: ClaimwebsiteAccountsResponse,
   errors: [],
 }));
 
-/** Retrieves, inserts, updates, and deletes multiple Merchant Center (sub-)accounts in a single request. */
 export interface CustombatchAccountsRequest {
   /** Request body */
   body?: AccountsCustomBatchRequest;
@@ -6181,13 +6180,13 @@ export const CustombatchAccountsResponse = AccountsCustomBatchResponse;
 
 export type CustombatchAccountsError = CommonErrors;
 
+/** Retrieves, inserts, updates, and deletes multiple Merchant Center (sub-)accounts in a single request. */
 export const custombatchAccounts: API.OperationMethod<CustombatchAccountsRequest, CustombatchAccountsResponse, CustombatchAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CustombatchAccountsRequest,
   output: CustombatchAccountsResponse,
   errors: [],
 }));
 
-/** Deletes a Merchant Center sub-account. */
 export interface DeleteAccountsRequest {
   /** The ID of the managing account. This must be a multi-client account, and accountId must be the ID of a sub-account of this account. */
   merchantId: string;
@@ -6211,13 +6210,13 @@ export const DeleteAccountsResponse: Schema.Schema<DeleteAccountsResponse> = Sch
 
 export type DeleteAccountsError = CommonErrors;
 
+/** Deletes a Merchant Center sub-account. */
 export const deleteAccounts: API.OperationMethod<DeleteAccountsRequest, DeleteAccountsResponse, DeleteAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountsRequest,
   output: DeleteAccountsResponse,
   errors: [],
 }));
 
-/** Retrieves a Merchant Center account. */
 export interface GetAccountsRequest {
   /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
   merchantId: string;
@@ -6241,13 +6240,13 @@ export const GetAccountsResponse = Account;
 
 export type GetAccountsError = CommonErrors;
 
+/** Retrieves a Merchant Center account. */
 export const getAccounts: API.OperationMethod<GetAccountsRequest, GetAccountsResponse, GetAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountsRequest,
   output: GetAccountsResponse,
   errors: [],
 }));
 
-/** Creates a Merchant Center sub-account. */
 export interface InsertAccountsRequest {
   /** The ID of the managing account. This must be a multi-client account. */
   merchantId: string;
@@ -6268,13 +6267,13 @@ export const InsertAccountsResponse = Account;
 
 export type InsertAccountsError = CommonErrors;
 
+/** Creates a Merchant Center sub-account. */
 export const insertAccounts: API.OperationMethod<InsertAccountsRequest, InsertAccountsResponse, InsertAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertAccountsRequest,
   output: InsertAccountsResponse,
   errors: [],
 }));
 
-/** Performs an action on a link between two Merchant Center accounts, namely accountId and linkedAccountId. */
 export interface LinkAccountsRequest {
   /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
   merchantId: string;
@@ -6298,13 +6297,13 @@ export const LinkAccountsResponse = AccountsLinkResponse;
 
 export type LinkAccountsError = CommonErrors;
 
+/** Performs an action on a link between two Merchant Center accounts, namely accountId and linkedAccountId. */
 export const linkAccounts: API.OperationMethod<LinkAccountsRequest, LinkAccountsResponse, LinkAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: LinkAccountsRequest,
   output: LinkAccountsResponse,
   errors: [],
 }));
 
-/** Lists the sub-accounts in your Merchant Center account. */
 export interface ListAccountsRequest {
   /** The ID of the managing account. This must be a multi-client account. */
   merchantId: string;
@@ -6337,7 +6336,8 @@ export const ListAccountsResponse = AccountsListResponse;
 
 export type ListAccountsError = CommonErrors;
 
-export const listAccounts = API.makePaginated(() => ({
+/** Lists the sub-accounts in your Merchant Center account. */
+export const listAccounts: API.PaginatedOperationMethod<ListAccountsRequest, ListAccountsResponse, ListAccountsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsRequest,
   output: ListAccountsResponse,
   errors: [],
@@ -6347,7 +6347,6 @@ export const listAccounts = API.makePaginated(() => ({
   },
 }));
 
-/** Returns the list of accounts linked to your Merchant Center account. */
 export interface ListlinksAccountsRequest {
   /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
   merchantId: string;
@@ -6374,7 +6373,8 @@ export const ListlinksAccountsResponse = AccountsListLinksResponse;
 
 export type ListlinksAccountsError = CommonErrors;
 
-export const listlinksAccounts = API.makePaginated(() => ({
+/** Returns the list of accounts linked to your Merchant Center account. */
+export const listlinksAccounts: API.PaginatedOperationMethod<ListlinksAccountsRequest, ListlinksAccountsResponse, ListlinksAccountsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListlinksAccountsRequest,
   output: ListlinksAccountsResponse,
   errors: [],
@@ -6384,7 +6384,6 @@ export const listlinksAccounts = API.makePaginated(() => ({
   },
 }));
 
-/** Updates a Merchant Center account. Any fields that are not provided are deleted from the resource. */
 export interface UpdateAccountsRequest {
   /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
   merchantId: string;
@@ -6408,13 +6407,13 @@ export const UpdateAccountsResponse = Account;
 
 export type UpdateAccountsError = CommonErrors;
 
+/** Updates a Merchant Center account. Any fields that are not provided are deleted from the resource. */
 export const updateAccounts: API.OperationMethod<UpdateAccountsRequest, UpdateAccountsResponse, UpdateAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAccountsRequest,
   output: UpdateAccountsResponse,
   errors: [],
 }));
 
-/** Updates labels that are assigned to the Merchant Center account by CSS user. */
 export interface UpdatelabelsAccountsRequest {
   /** The ID of the managing account. */
   merchantId: string;
@@ -6438,13 +6437,13 @@ export const UpdatelabelsAccountsResponse = AccountsUpdateLabelsResponse;
 
 export type UpdatelabelsAccountsError = CommonErrors;
 
+/** Updates labels that are assigned to the Merchant Center account by CSS user. */
 export const updatelabelsAccounts: API.OperationMethod<UpdatelabelsAccountsRequest, UpdatelabelsAccountsResponse, UpdatelabelsAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdatelabelsAccountsRequest,
   output: UpdatelabelsAccountsResponse,
   errors: [],
 }));
 
-/** Request verification code to start phone verification. */
 export interface RequestphoneverificationAccountsRequest {
   /** Required. The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and accountId must be the ID of a sub-account of this account. */
   merchantId: string;
@@ -6468,13 +6467,13 @@ export const RequestphoneverificationAccountsResponse = RequestPhoneVerification
 
 export type RequestphoneverificationAccountsError = CommonErrors;
 
+/** Request verification code to start phone verification. */
 export const requestphoneverificationAccounts: API.OperationMethod<RequestphoneverificationAccountsRequest, RequestphoneverificationAccountsResponse, RequestphoneverificationAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RequestphoneverificationAccountsRequest,
   output: RequestphoneverificationAccountsResponse,
   errors: [],
 }));
 
-/** Validates verification code to verify phone number for the account. If successful this will overwrite the value of `accounts.businessinformation.phoneNumber`. Only verified phone number will replace an existing verified phone number. */
 export interface VerifyphonenumberAccountsRequest {
   /** Required. The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and accountId must be the ID of a sub-account of this account. */
   merchantId: string;
@@ -6498,13 +6497,13 @@ export const VerifyphonenumberAccountsResponse = VerifyPhoneNumberResponse;
 
 export type VerifyphonenumberAccountsError = CommonErrors;
 
+/** Validates verification code to verify phone number for the account. If successful this will overwrite the value of `accounts.businessinformation.phoneNumber`. Only verified phone number will replace an existing verified phone number. */
 export const verifyphonenumberAccounts: API.OperationMethod<VerifyphonenumberAccountsRequest, VerifyphonenumberAccountsResponse, VerifyphonenumberAccountsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: VerifyphonenumberAccountsRequest,
   output: VerifyphonenumberAccountsResponse,
   errors: [],
 }));
 
-/** Uploads credentials for the Merchant Center account. If credentials already exist for this Merchant Center account and purpose, this method updates them. */
 export interface CreateAccountsCredentialsRequest {
   /** Required. The merchant id of the account these credentials belong to. */
   accountId: string;
@@ -6525,13 +6524,13 @@ export const CreateAccountsCredentialsResponse = AccountCredentials;
 
 export type CreateAccountsCredentialsError = CommonErrors;
 
+/** Uploads credentials for the Merchant Center account. If credentials already exist for this Merchant Center account and purpose, this method updates them. */
 export const createAccountsCredentials: API.OperationMethod<CreateAccountsCredentialsRequest, CreateAccountsCredentialsResponse, CreateAccountsCredentialsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsCredentialsRequest,
   output: CreateAccountsCredentialsResponse,
   errors: [],
 }));
 
-/** Lists the labels assigned to an account. */
 export interface ListAccountsLabelsRequest {
   /** Required. The account id for whose labels are to be listed. */
   accountId: string;
@@ -6555,7 +6554,8 @@ export const ListAccountsLabelsResponse = ListAccountLabelsResponse;
 
 export type ListAccountsLabelsError = CommonErrors;
 
-export const listAccountsLabels = API.makePaginated(() => ({
+/** Lists the labels assigned to an account. */
+export const listAccountsLabels: API.PaginatedOperationMethod<ListAccountsLabelsRequest, ListAccountsLabelsResponse, ListAccountsLabelsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountsLabelsRequest,
   output: ListAccountsLabelsResponse,
   errors: [],
@@ -6565,7 +6565,6 @@ export const listAccountsLabels = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new label, not assigned to any account. */
 export interface CreateAccountsLabelsRequest {
   /** Required. The id of the account this label belongs to. */
   accountId: string;
@@ -6586,13 +6585,13 @@ export const CreateAccountsLabelsResponse = AccountLabel;
 
 export type CreateAccountsLabelsError = CommonErrors;
 
+/** Creates a new label, not assigned to any account. */
 export const createAccountsLabels: API.OperationMethod<CreateAccountsLabelsRequest, CreateAccountsLabelsResponse, CreateAccountsLabelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsLabelsRequest,
   output: CreateAccountsLabelsResponse,
   errors: [],
 }));
 
-/** Updates a label. */
 export interface PatchAccountsLabelsRequest {
   /** Required. The id of the account this label belongs to. */
   accountId: string;
@@ -6616,13 +6615,13 @@ export const PatchAccountsLabelsResponse = AccountLabel;
 
 export type PatchAccountsLabelsError = CommonErrors;
 
+/** Updates a label. */
 export const patchAccountsLabels: API.OperationMethod<PatchAccountsLabelsRequest, PatchAccountsLabelsResponse, PatchAccountsLabelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAccountsLabelsRequest,
   output: PatchAccountsLabelsResponse,
   errors: [],
 }));
 
-/** Deletes a label and removes it from all accounts to which it was assigned. */
 export interface DeleteAccountsLabelsRequest {
   /** Required. The id of the account that owns the label. */
   accountId: string;
@@ -6643,13 +6642,13 @@ export const DeleteAccountsLabelsResponse: Schema.Schema<DeleteAccountsLabelsRes
 
 export type DeleteAccountsLabelsError = CommonErrors;
 
+/** Deletes a label and removes it from all accounts to which it was assigned. */
 export const deleteAccountsLabels: API.OperationMethod<DeleteAccountsLabelsRequest, DeleteAccountsLabelsResponse, DeleteAccountsLabelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountsLabelsRequest,
   output: DeleteAccountsLabelsResponse,
   errors: [],
 }));
 
-/** Links return carrier to a merchant account. */
 export interface CreateAccountsReturncarrierRequest {
   /** Required. The Merchant Center Account Id under which the Return Carrier is to be linked. */
   accountId: string;
@@ -6670,13 +6669,13 @@ export const CreateAccountsReturncarrierResponse = AccountReturnCarrier;
 
 export type CreateAccountsReturncarrierError = CommonErrors;
 
+/** Links return carrier to a merchant account. */
 export const createAccountsReturncarrier: API.OperationMethod<CreateAccountsReturncarrierRequest, CreateAccountsReturncarrierResponse, CreateAccountsReturncarrierError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateAccountsReturncarrierRequest,
   output: CreateAccountsReturncarrierResponse,
   errors: [],
 }));
 
-/** Updates a return carrier in the merchant account. */
 export interface PatchAccountsReturncarrierRequest {
   /** Required. The Merchant Center Account Id under which the Return Carrier is to be linked. */
   accountId: string;
@@ -6700,13 +6699,13 @@ export const PatchAccountsReturncarrierResponse = AccountReturnCarrier;
 
 export type PatchAccountsReturncarrierError = CommonErrors;
 
+/** Updates a return carrier in the merchant account. */
 export const patchAccountsReturncarrier: API.OperationMethod<PatchAccountsReturncarrierRequest, PatchAccountsReturncarrierResponse, PatchAccountsReturncarrierError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchAccountsReturncarrierRequest,
   output: PatchAccountsReturncarrierResponse,
   errors: [],
 }));
 
-/** Delete a return carrier in the merchant account. */
 export interface DeleteAccountsReturncarrierRequest {
   /** Required. The Merchant Center Account Id under which the Return Carrier is to be linked. */
   accountId: string;
@@ -6727,13 +6726,13 @@ export const DeleteAccountsReturncarrierResponse: Schema.Schema<DeleteAccountsRe
 
 export type DeleteAccountsReturncarrierError = CommonErrors;
 
+/** Delete a return carrier in the merchant account. */
 export const deleteAccountsReturncarrier: API.OperationMethod<DeleteAccountsReturncarrierRequest, DeleteAccountsReturncarrierResponse, DeleteAccountsReturncarrierError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteAccountsReturncarrierRequest,
   output: DeleteAccountsReturncarrierResponse,
   errors: [],
 }));
 
-/** Lists available return carriers in the merchant account. */
 export interface ListAccountsReturncarrierRequest {
   /** Required. The Merchant Center Account Id under which the Return Carrier is to be linked. */
   accountId: string;
@@ -6751,13 +6750,13 @@ export const ListAccountsReturncarrierResponse = ListAccountReturnCarrierRespons
 
 export type ListAccountsReturncarrierError = CommonErrors;
 
+/** Lists available return carriers in the merchant account. */
 export const listAccountsReturncarrier: API.OperationMethod<ListAccountsReturncarrierRequest, ListAccountsReturncarrierResponse, ListAccountsReturncarrierError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListAccountsReturncarrierRequest,
   output: ListAccountsReturncarrierResponse,
   errors: [],
 }));
 
-/** Retrieves multiple Merchant Center account statuses in a single request. */
 export interface CustombatchAccountstatusesRequest {
   /** Request body */
   body?: AccountstatusesCustomBatchRequest;
@@ -6775,13 +6774,13 @@ export const CustombatchAccountstatusesResponse = AccountstatusesCustomBatchResp
 
 export type CustombatchAccountstatusesError = CommonErrors;
 
+/** Retrieves multiple Merchant Center account statuses in a single request. */
 export const custombatchAccountstatuses: API.OperationMethod<CustombatchAccountstatusesRequest, CustombatchAccountstatusesResponse, CustombatchAccountstatusesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CustombatchAccountstatusesRequest,
   output: CustombatchAccountstatusesResponse,
   errors: [],
 }));
 
-/** Retrieves the status of a Merchant Center account. No itemLevelIssues are returned for multi-client accounts. */
 export interface GetAccountstatusesRequest {
   /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
   merchantId: string;
@@ -6805,13 +6804,13 @@ export const GetAccountstatusesResponse = AccountStatus;
 
 export type GetAccountstatusesError = CommonErrors;
 
+/** Retrieves the status of a Merchant Center account. No itemLevelIssues are returned for multi-client accounts. */
 export const getAccountstatuses: API.OperationMethod<GetAccountstatusesRequest, GetAccountstatusesResponse, GetAccountstatusesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccountstatusesRequest,
   output: GetAccountstatusesResponse,
   errors: [],
 }));
 
-/** Lists the statuses of the sub-accounts in your Merchant Center account. */
 export interface ListAccountstatusesRequest {
   /** The ID of the managing account. This must be a multi-client account. */
   merchantId: string;
@@ -6841,7 +6840,8 @@ export const ListAccountstatusesResponse = AccountstatusesListResponse;
 
 export type ListAccountstatusesError = CommonErrors;
 
-export const listAccountstatuses = API.makePaginated(() => ({
+/** Lists the statuses of the sub-accounts in your Merchant Center account. */
+export const listAccountstatuses: API.PaginatedOperationMethod<ListAccountstatusesRequest, ListAccountstatusesResponse, ListAccountstatusesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccountstatusesRequest,
   output: ListAccountstatusesResponse,
   errors: [],
@@ -6851,7 +6851,6 @@ export const listAccountstatuses = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves and updates tax settings of multiple accounts in a single request. */
 export interface CustombatchAccounttaxRequest {
   /** Request body */
   body?: AccounttaxCustomBatchRequest;
@@ -6869,13 +6868,13 @@ export const CustombatchAccounttaxResponse = AccounttaxCustomBatchResponse;
 
 export type CustombatchAccounttaxError = CommonErrors;
 
+/** Retrieves and updates tax settings of multiple accounts in a single request. */
 export const custombatchAccounttax: API.OperationMethod<CustombatchAccounttaxRequest, CustombatchAccounttaxResponse, CustombatchAccounttaxError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CustombatchAccounttaxRequest,
   output: CustombatchAccounttaxResponse,
   errors: [],
 }));
 
-/** Retrieves the tax settings of the account. */
 export interface GetAccounttaxRequest {
   /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
   merchantId: string;
@@ -6896,13 +6895,13 @@ export const GetAccounttaxResponse = AccountTax;
 
 export type GetAccounttaxError = CommonErrors;
 
+/** Retrieves the tax settings of the account. */
 export const getAccounttax: API.OperationMethod<GetAccounttaxRequest, GetAccounttaxResponse, GetAccounttaxError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetAccounttaxRequest,
   output: GetAccounttaxResponse,
   errors: [],
 }));
 
-/** Lists the tax settings of the sub-accounts in your Merchant Center account. */
 export interface ListAccounttaxRequest {
   /** The ID of the managing account. This must be a multi-client account. */
   merchantId: string;
@@ -6926,7 +6925,8 @@ export const ListAccounttaxResponse = AccounttaxListResponse;
 
 export type ListAccounttaxError = CommonErrors;
 
-export const listAccounttax = API.makePaginated(() => ({
+/** Lists the tax settings of the sub-accounts in your Merchant Center account. */
+export const listAccounttax: API.PaginatedOperationMethod<ListAccounttaxRequest, ListAccounttaxResponse, ListAccounttaxError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListAccounttaxRequest,
   output: ListAccounttaxResponse,
   errors: [],
@@ -6936,7 +6936,6 @@ export const listAccounttax = API.makePaginated(() => ({
   },
 }));
 
-/** Updates the tax settings of the account. Any fields that are not provided are deleted from the resource. */
 export interface UpdateAccounttaxRequest {
   /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
   merchantId: string;
@@ -6960,13 +6959,13 @@ export const UpdateAccounttaxResponse = AccountTax;
 
 export type UpdateAccounttaxError = CommonErrors;
 
+/** Updates the tax settings of the account. Any fields that are not provided are deleted from the resource. */
 export const updateAccounttax: API.OperationMethod<UpdateAccounttaxRequest, UpdateAccounttaxResponse, UpdateAccounttaxError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateAccounttaxRequest,
   output: UpdateAccounttaxResponse,
   errors: [],
 }));
 
-/** Deletes, fetches, gets, inserts and updates multiple datafeeds in a single request. */
 export interface CustombatchDatafeedsRequest {
   /** Request body */
   body?: DatafeedsCustomBatchRequest;
@@ -6984,13 +6983,13 @@ export const CustombatchDatafeedsResponse = DatafeedsCustomBatchResponse;
 
 export type CustombatchDatafeedsError = CommonErrors;
 
+/** Deletes, fetches, gets, inserts and updates multiple datafeeds in a single request. */
 export const custombatchDatafeeds: API.OperationMethod<CustombatchDatafeedsRequest, CustombatchDatafeedsResponse, CustombatchDatafeedsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CustombatchDatafeedsRequest,
   output: CustombatchDatafeedsResponse,
   errors: [],
 }));
 
-/** Deletes a datafeed configuration from your Merchant Center account. */
 export interface DeleteDatafeedsRequest {
   /** The ID of the account that manages the datafeed. This account cannot be a multi-client account. */
   merchantId: string;
@@ -7011,13 +7010,13 @@ export const DeleteDatafeedsResponse: Schema.Schema<DeleteDatafeedsResponse> = S
 
 export type DeleteDatafeedsError = CommonErrors;
 
+/** Deletes a datafeed configuration from your Merchant Center account. */
 export const deleteDatafeeds: API.OperationMethod<DeleteDatafeedsRequest, DeleteDatafeedsResponse, DeleteDatafeedsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteDatafeedsRequest,
   output: DeleteDatafeedsResponse,
   errors: [],
 }));
 
-/** Invokes a fetch for the datafeed in your Merchant Center account. If you need to call this method more than once per day, we recommend you use the [Products service](https://developers.google.com/shopping-content/reference/rest/v2.1/products) to update your product data. */
 export interface FetchnowDatafeedsRequest {
   /** The ID of the account that manages the datafeed. This account cannot be a multi-client account. */
   merchantId: string;
@@ -7038,13 +7037,13 @@ export const FetchnowDatafeedsResponse = DatafeedsFetchNowResponse;
 
 export type FetchnowDatafeedsError = CommonErrors;
 
+/** Invokes a fetch for the datafeed in your Merchant Center account. If you need to call this method more than once per day, we recommend you use the [Products service](https://developers.google.com/shopping-content/reference/rest/v2.1/products) to update your product data. */
 export const fetchnowDatafeeds: API.OperationMethod<FetchnowDatafeedsRequest, FetchnowDatafeedsResponse, FetchnowDatafeedsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: FetchnowDatafeedsRequest,
   output: FetchnowDatafeedsResponse,
   errors: [],
 }));
 
-/** Retrieves a datafeed configuration from your Merchant Center account. */
 export interface GetDatafeedsRequest {
   /** The ID of the account that manages the datafeed. This account cannot be a multi-client account. */
   merchantId: string;
@@ -7065,13 +7064,13 @@ export const GetDatafeedsResponse = Datafeed;
 
 export type GetDatafeedsError = CommonErrors;
 
+/** Retrieves a datafeed configuration from your Merchant Center account. */
 export const getDatafeeds: API.OperationMethod<GetDatafeedsRequest, GetDatafeedsResponse, GetDatafeedsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDatafeedsRequest,
   output: GetDatafeedsResponse,
   errors: [],
 }));
 
-/** Registers a datafeed configuration with your Merchant Center account. */
 export interface InsertDatafeedsRequest {
   /** The ID of the account that manages the datafeed. This account cannot be a multi-client account. */
   merchantId: string;
@@ -7092,13 +7091,13 @@ export const InsertDatafeedsResponse = Datafeed;
 
 export type InsertDatafeedsError = CommonErrors;
 
+/** Registers a datafeed configuration with your Merchant Center account. */
 export const insertDatafeeds: API.OperationMethod<InsertDatafeedsRequest, InsertDatafeedsResponse, InsertDatafeedsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertDatafeedsRequest,
   output: InsertDatafeedsResponse,
   errors: [],
 }));
 
-/** Lists the configurations for datafeeds in your Merchant Center account. */
 export interface ListDatafeedsRequest {
   /** The ID of the account that manages the datafeeds. This account cannot be a multi-client account. */
   merchantId: string;
@@ -7122,7 +7121,8 @@ export const ListDatafeedsResponse = DatafeedsListResponse;
 
 export type ListDatafeedsError = CommonErrors;
 
-export const listDatafeeds = API.makePaginated(() => ({
+/** Lists the configurations for datafeeds in your Merchant Center account. */
+export const listDatafeeds: API.PaginatedOperationMethod<ListDatafeedsRequest, ListDatafeedsResponse, ListDatafeedsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListDatafeedsRequest,
   output: ListDatafeedsResponse,
   errors: [],
@@ -7132,7 +7132,6 @@ export const listDatafeeds = API.makePaginated(() => ({
   },
 }));
 
-/** Updates a datafeed configuration of your Merchant Center account. Any fields that are not provided are deleted from the resource. */
 export interface UpdateDatafeedsRequest {
   /** The ID of the account that manages the datafeed. This account cannot be a multi-client account. */
   merchantId: string;
@@ -7156,13 +7155,13 @@ export const UpdateDatafeedsResponse = Datafeed;
 
 export type UpdateDatafeedsError = CommonErrors;
 
+/** Updates a datafeed configuration of your Merchant Center account. Any fields that are not provided are deleted from the resource. */
 export const updateDatafeeds: API.OperationMethod<UpdateDatafeedsRequest, UpdateDatafeedsResponse, UpdateDatafeedsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateDatafeedsRequest,
   output: UpdateDatafeedsResponse,
   errors: [],
 }));
 
-/** Gets multiple Merchant Center datafeed statuses in a single request. */
 export interface CustombatchDatafeedstatusesRequest {
   /** Request body */
   body?: DatafeedstatusesCustomBatchRequest;
@@ -7180,13 +7179,13 @@ export const CustombatchDatafeedstatusesResponse = DatafeedstatusesCustomBatchRe
 
 export type CustombatchDatafeedstatusesError = CommonErrors;
 
+/** Gets multiple Merchant Center datafeed statuses in a single request. */
 export const custombatchDatafeedstatuses: API.OperationMethod<CustombatchDatafeedstatusesRequest, CustombatchDatafeedstatusesResponse, CustombatchDatafeedstatusesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CustombatchDatafeedstatusesRequest,
   output: CustombatchDatafeedstatusesResponse,
   errors: [],
 }));
 
-/** Retrieves the status of a datafeed from your Merchant Center account. */
 export interface GetDatafeedstatusesRequest {
   /** The ID of the account that manages the datafeed. This account cannot be a multi-client account. */
   merchantId: string;
@@ -7216,13 +7215,13 @@ export const GetDatafeedstatusesResponse = DatafeedStatus;
 
 export type GetDatafeedstatusesError = CommonErrors;
 
+/** Retrieves the status of a datafeed from your Merchant Center account. */
 export const getDatafeedstatuses: API.OperationMethod<GetDatafeedstatusesRequest, GetDatafeedstatusesResponse, GetDatafeedstatusesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDatafeedstatusesRequest,
   output: GetDatafeedstatusesResponse,
   errors: [],
 }));
 
-/** Lists the statuses of the datafeeds in your Merchant Center account. */
 export interface ListDatafeedstatusesRequest {
   /** The ID of the account that manages the datafeeds. This account cannot be a multi-client account. */
   merchantId: string;
@@ -7246,7 +7245,8 @@ export const ListDatafeedstatusesResponse = DatafeedstatusesListResponse;
 
 export type ListDatafeedstatusesError = CommonErrors;
 
-export const listDatafeedstatuses = API.makePaginated(() => ({
+/** Lists the statuses of the datafeeds in your Merchant Center account. */
+export const listDatafeedstatuses: API.PaginatedOperationMethod<ListDatafeedstatusesRequest, ListDatafeedstatusesResponse, ListDatafeedstatusesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListDatafeedstatusesRequest,
   output: ListDatafeedstatusesResponse,
   errors: [],
@@ -7256,7 +7256,6 @@ export const listDatafeedstatuses = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves and/or updates the LIA settings of multiple accounts in a single request. */
 export interface CustombatchLiasettingsRequest {
   /** Request body */
   body?: LiasettingsCustomBatchRequest;
@@ -7274,13 +7273,13 @@ export const CustombatchLiasettingsResponse = LiasettingsCustomBatchResponse;
 
 export type CustombatchLiasettingsError = CommonErrors;
 
+/** Retrieves and/or updates the LIA settings of multiple accounts in a single request. */
 export const custombatchLiasettings: API.OperationMethod<CustombatchLiasettingsRequest, CustombatchLiasettingsResponse, CustombatchLiasettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CustombatchLiasettingsRequest,
   output: CustombatchLiasettingsResponse,
   errors: [],
 }));
 
-/** Retrieves the LIA settings of the account. */
 export interface GetLiasettingsRequest {
   /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
   merchantId: string;
@@ -7301,13 +7300,13 @@ export const GetLiasettingsResponse = LiaSettings;
 
 export type GetLiasettingsError = CommonErrors;
 
+/** Retrieves the LIA settings of the account. */
 export const getLiasettings: API.OperationMethod<GetLiasettingsRequest, GetLiasettingsResponse, GetLiasettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetLiasettingsRequest,
   output: GetLiasettingsResponse,
   errors: [],
 }));
 
-/** Retrieves the list of accessible Business Profiles. */
 export interface GetaccessiblegmbaccountsLiasettingsRequest {
   /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
   merchantId: string;
@@ -7328,13 +7327,13 @@ export const GetaccessiblegmbaccountsLiasettingsResponse = LiasettingsGetAccessi
 
 export type GetaccessiblegmbaccountsLiasettingsError = CommonErrors;
 
+/** Retrieves the list of accessible Business Profiles. */
 export const getaccessiblegmbaccountsLiasettings: API.OperationMethod<GetaccessiblegmbaccountsLiasettingsRequest, GetaccessiblegmbaccountsLiasettingsResponse, GetaccessiblegmbaccountsLiasettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetaccessiblegmbaccountsLiasettingsRequest,
   output: GetaccessiblegmbaccountsLiasettingsResponse,
   errors: [],
 }));
 
-/** Lists the LIA settings of the sub-accounts in your Merchant Center account. */
 export interface ListLiasettingsRequest {
   /** The ID of the managing account. This must be a multi-client account. */
   merchantId: string;
@@ -7358,7 +7357,8 @@ export const ListLiasettingsResponse = LiasettingsListResponse;
 
 export type ListLiasettingsError = CommonErrors;
 
-export const listLiasettings = API.makePaginated(() => ({
+/** Lists the LIA settings of the sub-accounts in your Merchant Center account. */
+export const listLiasettings: API.PaginatedOperationMethod<ListLiasettingsRequest, ListLiasettingsResponse, ListLiasettingsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListLiasettingsRequest,
   output: ListLiasettingsResponse,
   errors: [],
@@ -7368,7 +7368,6 @@ export const listLiasettings = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves the list of POS data providers that have active settings for the all eiligible countries. */
 export interface ListposdataprovidersLiasettingsRequest {
 }
 
@@ -7383,13 +7382,13 @@ export const ListposdataprovidersLiasettingsResponse = LiasettingsListPosDataPro
 
 export type ListposdataprovidersLiasettingsError = CommonErrors;
 
+/** Retrieves the list of POS data providers that have active settings for the all eiligible countries. */
 export const listposdataprovidersLiasettings: API.OperationMethod<ListposdataprovidersLiasettingsRequest, ListposdataprovidersLiasettingsResponse, ListposdataprovidersLiasettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListposdataprovidersLiasettingsRequest,
   output: ListposdataprovidersLiasettingsResponse,
   errors: [],
 }));
 
-/** Requests access to a specified Business Profile. */
 export interface RequestgmbaccessLiasettingsRequest {
   /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
   merchantId: string;
@@ -7413,13 +7412,13 @@ export const RequestgmbaccessLiasettingsResponse = LiasettingsRequestGmbAccessRe
 
 export type RequestgmbaccessLiasettingsError = CommonErrors;
 
+/** Requests access to a specified Business Profile. */
 export const requestgmbaccessLiasettings: API.OperationMethod<RequestgmbaccessLiasettingsRequest, RequestgmbaccessLiasettingsResponse, RequestgmbaccessLiasettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RequestgmbaccessLiasettingsRequest,
   output: RequestgmbaccessLiasettingsResponse,
   errors: [],
 }));
 
-/** Requests inventory validation for the specified country. */
 export interface RequestinventoryverificationLiasettingsRequest {
   /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
   merchantId: string;
@@ -7443,13 +7442,13 @@ export const RequestinventoryverificationLiasettingsResponse = LiasettingsReques
 
 export type RequestinventoryverificationLiasettingsError = CommonErrors;
 
+/** Requests inventory validation for the specified country. */
 export const requestinventoryverificationLiasettings: API.OperationMethod<RequestinventoryverificationLiasettingsRequest, RequestinventoryverificationLiasettingsResponse, RequestinventoryverificationLiasettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RequestinventoryverificationLiasettingsRequest,
   output: RequestinventoryverificationLiasettingsResponse,
   errors: [],
 }));
 
-/** Sets the inventory verification contact for the specified country. */
 export interface SetinventoryverificationcontactLiasettingsRequest {
   /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
   merchantId: string;
@@ -7482,13 +7481,13 @@ export const SetinventoryverificationcontactLiasettingsResponse = LiasettingsSet
 
 export type SetinventoryverificationcontactLiasettingsError = CommonErrors;
 
+/** Sets the inventory verification contact for the specified country. */
 export const setinventoryverificationcontactLiasettings: API.OperationMethod<SetinventoryverificationcontactLiasettingsRequest, SetinventoryverificationcontactLiasettingsResponse, SetinventoryverificationcontactLiasettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetinventoryverificationcontactLiasettingsRequest,
   output: SetinventoryverificationcontactLiasettingsResponse,
   errors: [],
 }));
 
-/** Sets the omnichannel experience for the specified country. Only supported for merchants whose POS data provider is trusted to enable the corresponding experience. For more context, see these help articles [about LFP](https://support.google.com/merchants/answer/7676652) and [how to get started](https://support.google.com/merchants/answer/7676578) with it. */
 export interface SetomnichannelexperienceLiasettingsRequest {
   /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
   merchantId: string;
@@ -7518,13 +7517,13 @@ export const SetomnichannelexperienceLiasettingsResponse = LiaOmnichannelExperie
 
 export type SetomnichannelexperienceLiasettingsError = CommonErrors;
 
+/** Sets the omnichannel experience for the specified country. Only supported for merchants whose POS data provider is trusted to enable the corresponding experience. For more context, see these help articles [about LFP](https://support.google.com/merchants/answer/7676652) and [how to get started](https://support.google.com/merchants/answer/7676578) with it. */
 export const setomnichannelexperienceLiasettings: API.OperationMethod<SetomnichannelexperienceLiasettingsRequest, SetomnichannelexperienceLiasettingsResponse, SetomnichannelexperienceLiasettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetomnichannelexperienceLiasettingsRequest,
   output: SetomnichannelexperienceLiasettingsResponse,
   errors: [],
 }));
 
-/** Sets the POS data provider for the specified country. */
 export interface SetposdataproviderLiasettingsRequest {
   /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
   merchantId: string;
@@ -7554,13 +7553,13 @@ export const SetposdataproviderLiasettingsResponse = LiasettingsSetPosDataProvid
 
 export type SetposdataproviderLiasettingsError = CommonErrors;
 
+/** Sets the POS data provider for the specified country. */
 export const setposdataproviderLiasettings: API.OperationMethod<SetposdataproviderLiasettingsRequest, SetposdataproviderLiasettingsResponse, SetposdataproviderLiasettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetposdataproviderLiasettingsRequest,
   output: SetposdataproviderLiasettingsResponse,
   errors: [],
 }));
 
-/** Updates the LIA settings of the account. Any fields that are not provided are deleted from the resource. */
 export interface UpdateLiasettingsRequest {
   /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
   merchantId: string;
@@ -7584,13 +7583,13 @@ export const UpdateLiasettingsResponse = LiaSettings;
 
 export type UpdateLiasettingsError = CommonErrors;
 
+/** Updates the LIA settings of the account. Any fields that are not provided are deleted from the resource. */
 export const updateLiasettings: API.OperationMethod<UpdateLiasettingsRequest, UpdateLiasettingsResponse, UpdateLiasettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateLiasettingsRequest,
   output: UpdateLiasettingsResponse,
   errors: [],
 }));
 
-/** Updates local inventory for multiple products or stores in a single request. */
 export interface CustombatchLocalinventoryRequest {
   /** Request body */
   body?: LocalinventoryCustomBatchRequest;
@@ -7608,13 +7607,13 @@ export const CustombatchLocalinventoryResponse = LocalinventoryCustomBatchRespon
 
 export type CustombatchLocalinventoryError = CommonErrors;
 
+/** Updates local inventory for multiple products or stores in a single request. */
 export const custombatchLocalinventory: API.OperationMethod<CustombatchLocalinventoryRequest, CustombatchLocalinventoryResponse, CustombatchLocalinventoryError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CustombatchLocalinventoryRequest,
   output: CustombatchLocalinventoryResponse,
   errors: [],
 }));
 
-/** Updates the local inventory of a product in your Merchant Center account. */
 export interface InsertLocalinventoryRequest {
   /** The ID of the account that contains the product. This account cannot be a multi-client account. */
   merchantId: string;
@@ -7638,13 +7637,13 @@ export const InsertLocalinventoryResponse = LocalInventory;
 
 export type InsertLocalinventoryError = CommonErrors;
 
+/** Updates the local inventory of a product in your Merchant Center account. */
 export const insertLocalinventory: API.OperationMethod<InsertLocalinventoryRequest, InsertLocalinventoryResponse, InsertLocalinventoryError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertLocalinventoryRequest,
   output: InsertLocalinventoryResponse,
   errors: [],
 }));
 
-/** Batches multiple POS-related calls in a single request. */
 export interface CustombatchPosRequest {
   /** Request body */
   body?: PosCustomBatchRequest;
@@ -7662,13 +7661,13 @@ export const CustombatchPosResponse = PosCustomBatchResponse;
 
 export type CustombatchPosError = CommonErrors;
 
+/** Batches multiple POS-related calls in a single request. */
 export const custombatchPos: API.OperationMethod<CustombatchPosRequest, CustombatchPosResponse, CustombatchPosError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CustombatchPosRequest,
   output: CustombatchPosResponse,
   errors: [],
 }));
 
-/** Deletes a store for the given merchant. */
 export interface DeletePosRequest {
   /** The ID of the POS or inventory data provider. */
   merchantId: string;
@@ -7692,13 +7691,13 @@ export const DeletePosResponse: Schema.Schema<DeletePosResponse> = Schema.Struct
 
 export type DeletePosError = CommonErrors;
 
+/** Deletes a store for the given merchant. */
 export const deletePos: API.OperationMethod<DeletePosRequest, DeletePosResponse, DeletePosError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeletePosRequest,
   output: DeletePosResponse,
   errors: [],
 }));
 
-/** Retrieves information about the given store. */
 export interface GetPosRequest {
   /** The ID of the POS or inventory data provider. */
   merchantId: string;
@@ -7722,13 +7721,13 @@ export const GetPosResponse = PosStore;
 
 export type GetPosError = CommonErrors;
 
+/** Retrieves information about the given store. */
 export const getPos: API.OperationMethod<GetPosRequest, GetPosResponse, GetPosError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPosRequest,
   output: GetPosResponse,
   errors: [],
 }));
 
-/** Creates a store for the given merchant. */
 export interface InsertPosRequest {
   /** The ID of the POS or inventory data provider. */
   merchantId: string;
@@ -7752,13 +7751,13 @@ export const InsertPosResponse = PosStore;
 
 export type InsertPosError = CommonErrors;
 
+/** Creates a store for the given merchant. */
 export const insertPos: API.OperationMethod<InsertPosRequest, InsertPosResponse, InsertPosError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertPosRequest,
   output: InsertPosResponse,
   errors: [],
 }));
 
-/** Submit inventory for the given merchant. */
 export interface InventoryPosRequest {
   /** The ID of the POS or inventory data provider. */
   merchantId: string;
@@ -7782,13 +7781,13 @@ export const InventoryPosResponse = PosInventoryResponse;
 
 export type InventoryPosError = CommonErrors;
 
+/** Submit inventory for the given merchant. */
 export const inventoryPos: API.OperationMethod<InventoryPosRequest, InventoryPosResponse, InventoryPosError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InventoryPosRequest,
   output: InventoryPosResponse,
   errors: [],
 }));
 
-/** Lists the stores of the target merchant. */
 export interface ListPosRequest {
   /** The ID of the POS or inventory data provider. */
   merchantId: string;
@@ -7809,13 +7808,13 @@ export const ListPosResponse = PosListResponse;
 
 export type ListPosError = CommonErrors;
 
+/** Lists the stores of the target merchant. */
 export const listPos: API.OperationMethod<ListPosRequest, ListPosResponse, ListPosError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListPosRequest,
   output: ListPosResponse,
   errors: [],
 }));
 
-/** Submit a sale event for the given merchant. */
 export interface SalePosRequest {
   /** The ID of the POS or inventory data provider. */
   merchantId: string;
@@ -7839,13 +7838,13 @@ export const SalePosResponse = PosSaleResponse;
 
 export type SalePosError = CommonErrors;
 
+/** Submit a sale event for the given merchant. */
 export const salePos: API.OperationMethod<SalePosRequest, SalePosResponse, SalePosError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SalePosRequest,
   output: SalePosResponse,
   errors: [],
 }));
 
-/** Retrieves, inserts, and deletes multiple products in a single request. */
 export interface CustombatchProductsRequest {
   /** Request body */
   body?: ProductsCustomBatchRequest;
@@ -7863,13 +7862,13 @@ export const CustombatchProductsResponse = ProductsCustomBatchResponse;
 
 export type CustombatchProductsError = CommonErrors;
 
+/** Retrieves, inserts, and deletes multiple products in a single request. */
 export const custombatchProducts: API.OperationMethod<CustombatchProductsRequest, CustombatchProductsResponse, CustombatchProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CustombatchProductsRequest,
   output: CustombatchProductsResponse,
   errors: [],
 }));
 
-/** Deletes a product from your Merchant Center account. */
 export interface DeleteProductsRequest {
   /** The ID of the account that contains the product. This account cannot be a multi-client account. */
   merchantId: string;
@@ -7893,13 +7892,13 @@ export const DeleteProductsResponse: Schema.Schema<DeleteProductsResponse> = Sch
 
 export type DeleteProductsError = CommonErrors;
 
+/** Deletes a product from your Merchant Center account. */
 export const deleteProducts: API.OperationMethod<DeleteProductsRequest, DeleteProductsResponse, DeleteProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProductsRequest,
   output: DeleteProductsResponse,
   errors: [],
 }));
 
-/** Retrieves a product from your Merchant Center account. */
 export interface GetProductsRequest {
   /** The ID of the account that contains the product. This account cannot be a multi-client account. */
   merchantId: string;
@@ -7920,13 +7919,13 @@ export const GetProductsResponse = Product;
 
 export type GetProductsError = CommonErrors;
 
+/** Retrieves a product from your Merchant Center account. */
 export const getProducts: API.OperationMethod<GetProductsRequest, GetProductsResponse, GetProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProductsRequest,
   output: GetProductsResponse,
   errors: [],
 }));
 
-/** Uploads a product to your Merchant Center account. If an item with the same channel, contentLanguage, offerId, and targetCountry already exists, this method updates that entry. */
 export interface InsertProductsRequest {
   /** The ID of the account that contains the product. This account cannot be a multi-client account. */
   merchantId: string;
@@ -7950,13 +7949,13 @@ export const InsertProductsResponse = Product;
 
 export type InsertProductsError = CommonErrors;
 
+/** Uploads a product to your Merchant Center account. If an item with the same channel, contentLanguage, offerId, and targetCountry already exists, this method updates that entry. */
 export const insertProducts: API.OperationMethod<InsertProductsRequest, InsertProductsResponse, InsertProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertProductsRequest,
   output: InsertProductsResponse,
   errors: [],
 }));
 
-/** Updates an existing product in your Merchant Center account. Only updates attributes provided in the request. */
 export interface UpdateProductsRequest {
   /** The ID of the account that contains the product. This account cannot be a multi-client account. */
   merchantId: string;
@@ -7983,13 +7982,13 @@ export const UpdateProductsResponse = Product;
 
 export type UpdateProductsError = CommonErrors;
 
+/** Updates an existing product in your Merchant Center account. Only updates attributes provided in the request. */
 export const updateProducts: API.OperationMethod<UpdateProductsRequest, UpdateProductsResponse, UpdateProductsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateProductsRequest,
   output: UpdateProductsResponse,
   errors: [],
 }));
 
-/** Lists the products in your Merchant Center account. The response might contain fewer items than specified by maxResults. Rely on nextPageToken to determine if there are more items to be requested. */
 export interface ListProductsRequest {
   /** The ID of the account that contains the products. This account cannot be a multi-client account. */
   merchantId: string;
@@ -8013,7 +8012,8 @@ export const ListProductsResponse = ProductsListResponse;
 
 export type ListProductsError = CommonErrors;
 
-export const listProducts = API.makePaginated(() => ({
+/** Lists the products in your Merchant Center account. The response might contain fewer items than specified by maxResults. Rely on nextPageToken to determine if there are more items to be requested. */
+export const listProducts: API.PaginatedOperationMethod<ListProductsRequest, ListProductsResponse, ListProductsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProductsRequest,
   output: ListProductsResponse,
   errors: [],
@@ -8023,7 +8023,6 @@ export const listProducts = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the statuses of multiple products in a single request. */
 export interface CustombatchProductstatusesRequest {
   /** Request body */
   body?: ProductstatusesCustomBatchRequest;
@@ -8041,13 +8040,13 @@ export const CustombatchProductstatusesResponse = ProductstatusesCustomBatchResp
 
 export type CustombatchProductstatusesError = CommonErrors;
 
+/** Gets the statuses of multiple products in a single request. */
 export const custombatchProductstatuses: API.OperationMethod<CustombatchProductstatusesRequest, CustombatchProductstatusesResponse, CustombatchProductstatusesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CustombatchProductstatusesRequest,
   output: CustombatchProductstatusesResponse,
   errors: [],
 }));
 
-/** Gets the status of a product from your Merchant Center account. */
 export interface GetProductstatusesRequest {
   /** The ID of the account that contains the product. This account cannot be a multi-client account. */
   merchantId: string;
@@ -8071,13 +8070,13 @@ export const GetProductstatusesResponse = ProductStatus;
 
 export type GetProductstatusesError = CommonErrors;
 
+/** Gets the status of a product from your Merchant Center account. */
 export const getProductstatuses: API.OperationMethod<GetProductstatusesRequest, GetProductstatusesResponse, GetProductstatusesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProductstatusesRequest,
   output: GetProductstatusesResponse,
   errors: [],
 }));
 
-/** Lists the statuses of the products in your Merchant Center account. */
 export interface ListProductstatusesRequest {
   /** The ID of the account that contains the products. This account cannot be a multi-client account. */
   merchantId: string;
@@ -8104,7 +8103,8 @@ export const ListProductstatusesResponse = ProductstatusesListResponse;
 
 export type ListProductstatusesError = CommonErrors;
 
-export const listProductstatuses = API.makePaginated(() => ({
+/** Lists the statuses of the products in your Merchant Center account. */
+export const listProductstatuses: API.PaginatedOperationMethod<ListProductstatusesRequest, ListProductstatusesResponse, ListProductstatusesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProductstatusesRequest,
   output: ListProductstatusesResponse,
   errors: [],
@@ -8114,7 +8114,6 @@ export const listProductstatuses = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves a Merchant Center account's pubsub notification settings. */
 export interface GetPubsubnotificationsettingsRequest {
   /** The ID of the account for which to get pubsub notification settings. */
   merchantId: string;
@@ -8132,13 +8131,13 @@ export const GetPubsubnotificationsettingsResponse = PubsubNotificationSettings;
 
 export type GetPubsubnotificationsettingsError = CommonErrors;
 
+/** Retrieves a Merchant Center account's pubsub notification settings. */
 export const getPubsubnotificationsettings: API.OperationMethod<GetPubsubnotificationsettingsRequest, GetPubsubnotificationsettingsResponse, GetPubsubnotificationsettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPubsubnotificationsettingsRequest,
   output: GetPubsubnotificationsettingsResponse,
   errors: [],
 }));
 
-/** Register a Merchant Center account for pubsub notifications. Note that cloud topic name shouldn't be provided as part of the request. */
 export interface UpdatePubsubnotificationsettingsRequest {
   /** The ID of the account. */
   merchantId: string;
@@ -8159,13 +8158,13 @@ export const UpdatePubsubnotificationsettingsResponse = PubsubNotificationSettin
 
 export type UpdatePubsubnotificationsettingsError = CommonErrors;
 
+/** Register a Merchant Center account for pubsub notifications. Note that cloud topic name shouldn't be provided as part of the request. */
 export const updatePubsubnotificationsettings: API.OperationMethod<UpdatePubsubnotificationsettingsRequest, UpdatePubsubnotificationsettingsResponse, UpdatePubsubnotificationsettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdatePubsubnotificationsettingsRequest,
   output: UpdatePubsubnotificationsettingsResponse,
   errors: [],
 }));
 
-/** Updates regional inventory for multiple products or regions in a single request. */
 export interface CustombatchRegionalinventoryRequest {
   /** Request body */
   body?: RegionalinventoryCustomBatchRequest;
@@ -8183,13 +8182,13 @@ export const CustombatchRegionalinventoryResponse = RegionalinventoryCustomBatch
 
 export type CustombatchRegionalinventoryError = CommonErrors;
 
+/** Updates regional inventory for multiple products or regions in a single request. */
 export const custombatchRegionalinventory: API.OperationMethod<CustombatchRegionalinventoryRequest, CustombatchRegionalinventoryResponse, CustombatchRegionalinventoryError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CustombatchRegionalinventoryRequest,
   output: CustombatchRegionalinventoryResponse,
   errors: [],
 }));
 
-/** Updates the regional inventory of a product in your Merchant Center account. If a regional inventory with the same region ID already exists, this method updates that entry. */
 export interface InsertRegionalinventoryRequest {
   /** The ID of the account that contains the product. This account cannot be a multi-client account. */
   merchantId: string;
@@ -8213,13 +8212,13 @@ export const InsertRegionalinventoryResponse = RegionalInventory;
 
 export type InsertRegionalinventoryError = CommonErrors;
 
+/** Updates the regional inventory of a product in your Merchant Center account. If a regional inventory with the same region ID already exists, this method updates that entry. */
 export const insertRegionalinventory: API.OperationMethod<InsertRegionalinventoryRequest, InsertRegionalinventoryResponse, InsertRegionalinventoryError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertRegionalinventoryRequest,
   output: InsertRegionalinventoryResponse,
   errors: [],
 }));
 
-/** Retrieves and updates the shipping settings of multiple accounts in a single request. */
 export interface CustombatchShippingsettingsRequest {
   /** Request body */
   body?: ShippingsettingsCustomBatchRequest;
@@ -8237,13 +8236,13 @@ export const CustombatchShippingsettingsResponse = ShippingsettingsCustomBatchRe
 
 export type CustombatchShippingsettingsError = CommonErrors;
 
+/** Retrieves and updates the shipping settings of multiple accounts in a single request. */
 export const custombatchShippingsettings: API.OperationMethod<CustombatchShippingsettingsRequest, CustombatchShippingsettingsResponse, CustombatchShippingsettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CustombatchShippingsettingsRequest,
   output: CustombatchShippingsettingsResponse,
   errors: [],
 }));
 
-/** Retrieves the shipping settings of the account. */
 export interface GetShippingsettingsRequest {
   /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
   merchantId: string;
@@ -8264,13 +8263,13 @@ export const GetShippingsettingsResponse = ShippingSettings;
 
 export type GetShippingsettingsError = CommonErrors;
 
+/** Retrieves the shipping settings of the account. */
 export const getShippingsettings: API.OperationMethod<GetShippingsettingsRequest, GetShippingsettingsResponse, GetShippingsettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetShippingsettingsRequest,
   output: GetShippingsettingsResponse,
   errors: [],
 }));
 
-/** Retrieves supported carriers and carrier services for an account. */
 export interface GetsupportedcarriersShippingsettingsRequest {
   /** The ID of the account for which to retrieve the supported carriers. */
   merchantId: string;
@@ -8288,13 +8287,13 @@ export const GetsupportedcarriersShippingsettingsResponse = ShippingsettingsGetS
 
 export type GetsupportedcarriersShippingsettingsError = CommonErrors;
 
+/** Retrieves supported carriers and carrier services for an account. */
 export const getsupportedcarriersShippingsettings: API.OperationMethod<GetsupportedcarriersShippingsettingsRequest, GetsupportedcarriersShippingsettingsResponse, GetsupportedcarriersShippingsettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetsupportedcarriersShippingsettingsRequest,
   output: GetsupportedcarriersShippingsettingsResponse,
   errors: [],
 }));
 
-/** Retrieves supported holidays for an account. */
 export interface GetsupportedholidaysShippingsettingsRequest {
   /** The ID of the account for which to retrieve the supported holidays. */
   merchantId: string;
@@ -8312,13 +8311,13 @@ export const GetsupportedholidaysShippingsettingsResponse = ShippingsettingsGetS
 
 export type GetsupportedholidaysShippingsettingsError = CommonErrors;
 
+/** Retrieves supported holidays for an account. */
 export const getsupportedholidaysShippingsettings: API.OperationMethod<GetsupportedholidaysShippingsettingsRequest, GetsupportedholidaysShippingsettingsResponse, GetsupportedholidaysShippingsettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetsupportedholidaysShippingsettingsRequest,
   output: GetsupportedholidaysShippingsettingsResponse,
   errors: [],
 }));
 
-/** Retrieves supported pickup services for an account. */
 export interface GetsupportedpickupservicesShippingsettingsRequest {
   /** The ID of the account for which to retrieve the supported pickup services. */
   merchantId: string;
@@ -8336,13 +8335,13 @@ export const GetsupportedpickupservicesShippingsettingsResponse = Shippingsettin
 
 export type GetsupportedpickupservicesShippingsettingsError = CommonErrors;
 
+/** Retrieves supported pickup services for an account. */
 export const getsupportedpickupservicesShippingsettings: API.OperationMethod<GetsupportedpickupservicesShippingsettingsRequest, GetsupportedpickupservicesShippingsettingsResponse, GetsupportedpickupservicesShippingsettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetsupportedpickupservicesShippingsettingsRequest,
   output: GetsupportedpickupservicesShippingsettingsResponse,
   errors: [],
 }));
 
-/** Lists the shipping settings of the sub-accounts in your Merchant Center account. */
 export interface ListShippingsettingsRequest {
   /** The ID of the managing account. This must be a multi-client account. */
   merchantId: string;
@@ -8366,7 +8365,8 @@ export const ListShippingsettingsResponse = ShippingsettingsListResponse;
 
 export type ListShippingsettingsError = CommonErrors;
 
-export const listShippingsettings = API.makePaginated(() => ({
+/** Lists the shipping settings of the sub-accounts in your Merchant Center account. */
+export const listShippingsettings: API.PaginatedOperationMethod<ListShippingsettingsRequest, ListShippingsettingsResponse, ListShippingsettingsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListShippingsettingsRequest,
   output: ListShippingsettingsResponse,
   errors: [],
@@ -8376,7 +8376,6 @@ export const listShippingsettings = API.makePaginated(() => ({
   },
 }));
 
-/** Updates the shipping settings of the account. Any fields that are not provided are deleted from the resource. */
 export interface UpdateShippingsettingsRequest {
   /** The ID of the managing account. If this parameter is not the same as accountId, then this account must be a multi-client account and `accountId` must be the ID of a sub-account of this account. */
   merchantId: string;
@@ -8400,13 +8399,13 @@ export const UpdateShippingsettingsResponse = ShippingSettings;
 
 export type UpdateShippingsettingsError = CommonErrors;
 
+/** Updates the shipping settings of the account. Any fields that are not provided are deleted from the resource. */
 export const updateShippingsettings: API.OperationMethod<UpdateShippingsettingsRequest, UpdateShippingsettingsResponse, UpdateShippingsettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateShippingsettingsRequest,
   output: UpdateShippingsettingsResponse,
   errors: [],
 }));
 
-/** Retrieves a collection from your Merchant Center account. */
 export interface GetCollectionsRequest {
   /** Required. The ID of the account that contains the collection. This account cannot be a multi-client account. */
   merchantId: string;
@@ -8427,13 +8426,13 @@ export const GetCollectionsResponse = Collection;
 
 export type GetCollectionsError = CommonErrors;
 
+/** Retrieves a collection from your Merchant Center account. */
 export const getCollections: API.OperationMethod<GetCollectionsRequest, GetCollectionsResponse, GetCollectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCollectionsRequest,
   output: GetCollectionsResponse,
   errors: [],
 }));
 
-/** Lists the collections in your Merchant Center account. The response might contain fewer items than specified by page_size. Rely on next_page_token to determine if there are more items to be requested. */
 export interface ListCollectionsRequest {
   /** Required. The ID of the account that contains the collection. This account cannot be a multi-client account. */
   merchantId: string;
@@ -8457,7 +8456,8 @@ export const ListCollectionsResponse_Op = ListCollectionsResponse;
 
 export type ListCollectionsError = CommonErrors;
 
-export const listCollections = API.makePaginated(() => ({
+/** Lists the collections in your Merchant Center account. The response might contain fewer items than specified by page_size. Rely on next_page_token to determine if there are more items to be requested. */
+export const listCollections: API.PaginatedOperationMethod<ListCollectionsRequest, ListCollectionsResponse_Op, ListCollectionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCollectionsRequest,
   output: ListCollectionsResponse_Op,
   errors: [],
@@ -8467,7 +8467,6 @@ export const listCollections = API.makePaginated(() => ({
   },
 }));
 
-/** Uploads a collection to your Merchant Center account. If a collection with the same collectionId already exists, this method updates that entry. In each update, the collection is completely replaced by the fields in the body of the update request. */
 export interface CreateCollectionsRequest {
   /** Required. The ID of the account that contains the collection. This account cannot be a multi-client account. */
   merchantId: string;
@@ -8488,13 +8487,13 @@ export const CreateCollectionsResponse = Collection;
 
 export type CreateCollectionsError = CommonErrors;
 
+/** Uploads a collection to your Merchant Center account. If a collection with the same collectionId already exists, this method updates that entry. In each update, the collection is completely replaced by the fields in the body of the update request. */
 export const createCollections: API.OperationMethod<CreateCollectionsRequest, CreateCollectionsResponse, CreateCollectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateCollectionsRequest,
   output: CreateCollectionsResponse,
   errors: [],
 }));
 
-/** Deletes a collection from your Merchant Center account. */
 export interface DeleteCollectionsRequest {
   /** Required. The ID of the account that contains the collection. This account cannot be a multi-client account. */
   merchantId: string;
@@ -8515,13 +8514,13 @@ export const DeleteCollectionsResponse: Schema.Schema<DeleteCollectionsResponse>
 
 export type DeleteCollectionsError = CommonErrors;
 
+/** Deletes a collection from your Merchant Center account. */
 export const deleteCollections: API.OperationMethod<DeleteCollectionsRequest, DeleteCollectionsResponse, DeleteCollectionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteCollectionsRequest,
   output: DeleteCollectionsResponse,
   errors: [],
 }));
 
-/** Lists the daily call quota and usage per method for your Merchant Center account. */
 export interface ListQuotasRequest {
   /** Required. The ID of the account that has quota. This account must be an admin. */
   merchantId: string;
@@ -8545,7 +8544,8 @@ export const ListQuotasResponse = ListMethodQuotasResponse;
 
 export type ListQuotasError = CommonErrors;
 
-export const listQuotas = API.makePaginated(() => ({
+/** Lists the daily call quota and usage per method for your Merchant Center account. */
+export const listQuotas: API.PaginatedOperationMethod<ListQuotasRequest, ListQuotasResponse, ListQuotasError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListQuotasRequest,
   output: ListQuotasResponse,
   errors: [],
@@ -8555,7 +8555,6 @@ export const listQuotas = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the status of a collection from your Merchant Center account. */
 export interface GetCollectionstatusesRequest {
   /** Required. The ID of the account that contains the collection. This account cannot be a multi-client account. */
   merchantId: string;
@@ -8576,13 +8575,13 @@ export const GetCollectionstatusesResponse = CollectionStatus;
 
 export type GetCollectionstatusesError = CommonErrors;
 
+/** Gets the status of a collection from your Merchant Center account. */
 export const getCollectionstatuses: API.OperationMethod<GetCollectionstatusesRequest, GetCollectionstatusesResponse, GetCollectionstatusesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCollectionstatusesRequest,
   output: GetCollectionstatusesResponse,
   errors: [],
 }));
 
-/** Lists the statuses of the collections in your Merchant Center account. */
 export interface ListCollectionstatusesRequest {
   /** Required. The ID of the account that contains the collection. This account cannot be a multi-client account. */
   merchantId: string;
@@ -8606,7 +8605,8 @@ export const ListCollectionstatusesResponse = ListCollectionStatusesResponse;
 
 export type ListCollectionstatusesError = CommonErrors;
 
-export const listCollectionstatuses = API.makePaginated(() => ({
+/** Lists the statuses of the collections in your Merchant Center account. */
+export const listCollectionstatuses: API.PaginatedOperationMethod<ListCollectionstatusesRequest, ListCollectionstatusesResponse, ListCollectionstatusesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCollectionstatusesRequest,
   output: ListCollectionstatusesResponse,
   errors: [],
@@ -8616,7 +8616,6 @@ export const listCollectionstatuses = API.makePaginated(() => ({
   },
 }));
 
-/** Creates a new conversion source. */
 export interface CreateConversionsourcesRequest {
   /** Required. The ID of the account that owns the new conversion source. */
   merchantId: string;
@@ -8637,13 +8636,13 @@ export const CreateConversionsourcesResponse = ConversionSource;
 
 export type CreateConversionsourcesError = CommonErrors;
 
+/** Creates a new conversion source. */
 export const createConversionsources: API.OperationMethod<CreateConversionsourcesRequest, CreateConversionsourcesResponse, CreateConversionsourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateConversionsourcesRequest,
   output: CreateConversionsourcesResponse,
   errors: [],
 }));
 
-/** Updates information of an existing conversion source. */
 export interface PatchConversionsourcesRequest {
   /** Required. The ID of the account that owns the new conversion source. */
   merchantId: string;
@@ -8670,13 +8669,13 @@ export const PatchConversionsourcesResponse = ConversionSource;
 
 export type PatchConversionsourcesError = CommonErrors;
 
+/** Updates information of an existing conversion source. */
 export const patchConversionsources: API.OperationMethod<PatchConversionsourcesRequest, PatchConversionsourcesResponse, PatchConversionsourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchConversionsourcesRequest,
   output: PatchConversionsourcesResponse,
   errors: [],
 }));
 
-/** Archives an existing conversion source. It will be recoverable for 30 days. This archiving behavior is not typical in the Content API and unique to this service. */
 export interface DeleteConversionsourcesRequest {
   /** Required. The ID of the account that owns the new conversion source. */
   merchantId: string;
@@ -8697,13 +8696,13 @@ export const DeleteConversionsourcesResponse: Schema.Schema<DeleteConversionsour
 
 export type DeleteConversionsourcesError = CommonErrors;
 
+/** Archives an existing conversion source. It will be recoverable for 30 days. This archiving behavior is not typical in the Content API and unique to this service. */
 export const deleteConversionsources: API.OperationMethod<DeleteConversionsourcesRequest, DeleteConversionsourcesResponse, DeleteConversionsourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteConversionsourcesRequest,
   output: DeleteConversionsourcesResponse,
   errors: [],
 }));
 
-/** Re-enables an archived conversion source. */
 export interface UndeleteConversionsourcesRequest {
   /** Required. The ID of the account that owns the new conversion source. */
   merchantId: string;
@@ -8727,13 +8726,13 @@ export const UndeleteConversionsourcesResponse: Schema.Schema<UndeleteConversion
 
 export type UndeleteConversionsourcesError = CommonErrors;
 
+/** Re-enables an archived conversion source. */
 export const undeleteConversionsources: API.OperationMethod<UndeleteConversionsourcesRequest, UndeleteConversionsourcesResponse, UndeleteConversionsourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UndeleteConversionsourcesRequest,
   output: UndeleteConversionsourcesResponse,
   errors: [],
 }));
 
-/** Fetches a conversion source. */
 export interface GetConversionsourcesRequest {
   /** Required. The ID of the account that owns the new conversion source. */
   merchantId: string;
@@ -8754,13 +8753,13 @@ export const GetConversionsourcesResponse = ConversionSource;
 
 export type GetConversionsourcesError = CommonErrors;
 
+/** Fetches a conversion source. */
 export const getConversionsources: API.OperationMethod<GetConversionsourcesRequest, GetConversionsourcesResponse, GetConversionsourcesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetConversionsourcesRequest,
   output: GetConversionsourcesResponse,
   errors: [],
 }));
 
-/** Retrieves the list of conversion sources the caller has access to. */
 export interface ListConversionsourcesRequest {
   /** Required. The ID of the account that owns the new conversion source. */
   merchantId: string;
@@ -8787,7 +8786,8 @@ export const ListConversionsourcesResponse = ListConversionSourcesResponse;
 
 export type ListConversionsourcesError = CommonErrors;
 
-export const listConversionsources = API.makePaginated(() => ({
+/** Retrieves the list of conversion sources the caller has access to. */
+export const listConversionsources: API.PaginatedOperationMethod<ListConversionsourcesRequest, ListConversionsourcesResponse, ListConversionsourcesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListConversionsourcesRequest,
   output: ListConversionsourcesResponse,
   errors: [],
@@ -8797,7 +8797,6 @@ export const listConversionsources = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves the status and review eligibility for the free listing program. Returns errors and warnings if they require action to resolve, will become disapprovals, or impact impressions. Use `accountstatuses` to view all issues for an account. */
 export interface GetFreelistingsprogramRequest {
   /** Required. The ID of the account. */
   merchantId: string;
@@ -8815,13 +8814,13 @@ export const GetFreelistingsprogramResponse = FreeListingsProgramStatus;
 
 export type GetFreelistingsprogramError = CommonErrors;
 
+/** Retrieves the status and review eligibility for the free listing program. Returns errors and warnings if they require action to resolve, will become disapprovals, or impact impressions. Use `accountstatuses` to view all issues for an account. */
 export const getFreelistingsprogram: API.OperationMethod<GetFreelistingsprogramRequest, GetFreelistingsprogramResponse, GetFreelistingsprogramError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFreelistingsprogramRequest,
   output: GetFreelistingsprogramResponse,
   errors: [],
 }));
 
-/** Requests a review of free listings in a specific region. This method deprecated. Use the `MerchantSupportService` to view product and account issues and request a review. */
 export interface RequestreviewFreelistingsprogramRequest {
   /** Required. The ID of the account. */
   merchantId: string;
@@ -8842,13 +8841,13 @@ export const RequestreviewFreelistingsprogramResponse: Schema.Schema<Requestrevi
 
 export type RequestreviewFreelistingsprogramError = CommonErrors;
 
+/** Requests a review of free listings in a specific region. This method deprecated. Use the `MerchantSupportService` to view product and account issues and request a review. */
 export const requestreviewFreelistingsprogram: API.OperationMethod<RequestreviewFreelistingsprogramRequest, RequestreviewFreelistingsprogramResponse, RequestreviewFreelistingsprogramError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RequestreviewFreelistingsprogramRequest,
   output: RequestreviewFreelistingsprogramResponse,
   errors: [],
 }));
 
-/** Gets Checkout settings for the given merchant. This includes information about review state, enrollment state and URL settings. */
 export interface GetFreelistingsprogramCheckoutsettingsRequest {
   /** Required. The ID of the account. */
   merchantId: string;
@@ -8866,13 +8865,13 @@ export const GetFreelistingsprogramCheckoutsettingsResponse = CheckoutSettings;
 
 export type GetFreelistingsprogramCheckoutsettingsError = CommonErrors;
 
+/** Gets Checkout settings for the given merchant. This includes information about review state, enrollment state and URL settings. */
 export const getFreelistingsprogramCheckoutsettings: API.OperationMethod<GetFreelistingsprogramCheckoutsettingsRequest, GetFreelistingsprogramCheckoutsettingsResponse, GetFreelistingsprogramCheckoutsettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetFreelistingsprogramCheckoutsettingsRequest,
   output: GetFreelistingsprogramCheckoutsettingsResponse,
   errors: [],
 }));
 
-/** Enrolls merchant in `Checkout` program. */
 export interface InsertFreelistingsprogramCheckoutsettingsRequest {
   /** Required. The ID of the account. */
   merchantId: string;
@@ -8893,13 +8892,13 @@ export const InsertFreelistingsprogramCheckoutsettingsResponse = CheckoutSetting
 
 export type InsertFreelistingsprogramCheckoutsettingsError = CommonErrors;
 
+/** Enrolls merchant in `Checkout` program. */
 export const insertFreelistingsprogramCheckoutsettings: API.OperationMethod<InsertFreelistingsprogramCheckoutsettingsRequest, InsertFreelistingsprogramCheckoutsettingsResponse, InsertFreelistingsprogramCheckoutsettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertFreelistingsprogramCheckoutsettingsRequest,
   output: InsertFreelistingsprogramCheckoutsettingsResponse,
   errors: [],
 }));
 
-/** Deletes `Checkout` settings and unenrolls merchant from `Checkout` program. */
 export interface DeleteFreelistingsprogramCheckoutsettingsRequest {
   /** Required. The ID of the account. */
   merchantId: string;
@@ -8917,13 +8916,13 @@ export const DeleteFreelistingsprogramCheckoutsettingsResponse: Schema.Schema<De
 
 export type DeleteFreelistingsprogramCheckoutsettingsError = CommonErrors;
 
+/** Deletes `Checkout` settings and unenrolls merchant from `Checkout` program. */
 export const deleteFreelistingsprogramCheckoutsettings: API.OperationMethod<DeleteFreelistingsprogramCheckoutsettingsRequest, DeleteFreelistingsprogramCheckoutsettingsResponse, DeleteFreelistingsprogramCheckoutsettingsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteFreelistingsprogramCheckoutsettingsRequest,
   output: DeleteFreelistingsprogramCheckoutsettingsResponse,
   errors: [],
 }));
 
-/** Retrieves the status and review eligibility for the Shopping Ads program. Returns errors and warnings if they require action to resolve, will become disapprovals, or impact impressions. Use `accountstatuses` to view all issues for an account. */
 export interface GetShoppingadsprogramRequest {
   /** Required. The ID of the account. */
   merchantId: string;
@@ -8941,13 +8940,13 @@ export const GetShoppingadsprogramResponse = ShoppingAdsProgramStatus;
 
 export type GetShoppingadsprogramError = CommonErrors;
 
+/** Retrieves the status and review eligibility for the Shopping Ads program. Returns errors and warnings if they require action to resolve, will become disapprovals, or impact impressions. Use `accountstatuses` to view all issues for an account. */
 export const getShoppingadsprogram: API.OperationMethod<GetShoppingadsprogramRequest, GetShoppingadsprogramResponse, GetShoppingadsprogramError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetShoppingadsprogramRequest,
   output: GetShoppingadsprogramResponse,
   errors: [],
 }));
 
-/** Requests a review of Shopping ads in a specific region. This method deprecated. Use the `MerchantSupportService` to view product and account issues and request a review. */
 export interface RequestreviewShoppingadsprogramRequest {
   /** Required. The ID of the account. */
   merchantId: string;
@@ -8968,13 +8967,13 @@ export const RequestreviewShoppingadsprogramResponse: Schema.Schema<Requestrevie
 
 export type RequestreviewShoppingadsprogramError = CommonErrors;
 
+/** Requests a review of Shopping ads in a specific region. This method deprecated. Use the `MerchantSupportService` to view product and account issues and request a review. */
 export const requestreviewShoppingadsprogram: API.OperationMethod<RequestreviewShoppingadsprogramRequest, RequestreviewShoppingadsprogramResponse, RequestreviewShoppingadsprogramError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RequestreviewShoppingadsprogramRequest,
   output: RequestreviewShoppingadsprogramResponse,
   errors: [],
 }));
 
-/** Lists CSS domains affiliated with a CSS group. */
 export interface ListCssesRequest {
   /** Required. The CSS group ID of CSS domains to be listed. */
   cssGroupId: string;
@@ -8998,7 +8997,8 @@ export const ListCssesResponse_Op = ListCssesResponse;
 
 export type ListCssesError = CommonErrors;
 
-export const listCsses = API.makePaginated(() => ({
+/** Lists CSS domains affiliated with a CSS group. */
+export const listCsses: API.PaginatedOperationMethod<ListCssesRequest, ListCssesResponse_Op, ListCssesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCssesRequest,
   output: ListCssesResponse_Op,
   errors: [],
@@ -9008,7 +9008,6 @@ export const listCsses = API.makePaginated(() => ({
   },
 }));
 
-/** Retrieves a single CSS domain by ID. */
 export interface GetCssesRequest {
   /** Required. The ID of the managing account. If this parameter is not the same as [cssDomainId](#cssDomainId), then this ID must be a CSS group ID and `cssDomainId` must be the ID of a CSS domain affiliated with this group. */
   cssGroupId: string;
@@ -9029,13 +9028,13 @@ export const GetCssesResponse = Css;
 
 export type GetCssesError = CommonErrors;
 
+/** Retrieves a single CSS domain by ID. */
 export const getCsses: API.OperationMethod<GetCssesRequest, GetCssesResponse, GetCssesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetCssesRequest,
   output: GetCssesResponse,
   errors: [],
 }));
 
-/** Updates labels that are assigned to a CSS domain by its CSS group. */
 export interface UpdatelabelsCssesRequest {
   /** Required. The CSS group ID of the updated CSS domain. */
   cssGroupId: string;
@@ -9059,13 +9058,13 @@ export const UpdatelabelsCssesResponse = Css;
 
 export type UpdatelabelsCssesError = CommonErrors;
 
+/** Updates labels that are assigned to a CSS domain by its CSS group. */
 export const updatelabelsCsses: API.OperationMethod<UpdatelabelsCssesRequest, UpdatelabelsCssesResponse, UpdatelabelsCssesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdatelabelsCssesRequest,
   output: UpdatelabelsCssesResponse,
   errors: [],
 }));
 
-/** Retrieves merchant performance metrics matching the search query and optionally segmented by selected dimensions. */
 export interface SearchReportsRequest {
   /** Required. Id of the merchant making the call. Must be a standalone account or an MCA subaccount. */
   merchantId: string;
@@ -9086,13 +9085,13 @@ export const SearchReportsResponse = SearchResponse;
 
 export type SearchReportsError = CommonErrors;
 
+/** Retrieves merchant performance metrics matching the search query and optionally segmented by selected dimensions. */
 export const searchReports: API.OperationMethod<SearchReportsRequest, SearchReportsResponse, SearchReportsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SearchReportsRequest,
   output: SearchReportsResponse,
   errors: [],
 }));
 
-/** Provide a list of merchant's issues with a support content and available actions. This content and actions are meant to be rendered and shown in third-party applications. */
 export interface RenderaccountissuesMerchantsupportRequest {
   /** Required. The ID of the account to fetch issues for. */
   merchantId: string;
@@ -9119,13 +9118,13 @@ export const RenderaccountissuesMerchantsupportResponse = RenderAccountIssuesRes
 
 export type RenderaccountissuesMerchantsupportError = CommonErrors;
 
+/** Provide a list of merchant's issues with a support content and available actions. This content and actions are meant to be rendered and shown in third-party applications. */
 export const renderaccountissuesMerchantsupport: API.OperationMethod<RenderaccountissuesMerchantsupportRequest, RenderaccountissuesMerchantsupportResponse, RenderaccountissuesMerchantsupportError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RenderaccountissuesMerchantsupportRequest,
   output: RenderaccountissuesMerchantsupportResponse,
   errors: [],
 }));
 
-/** Provide a list of issues for merchant's product with a support content and available actions. This content and actions are meant to be rendered and shown in third-party applications. */
 export interface RenderproductissuesMerchantsupportRequest {
   /** Required. The ID of the account that contains the product. */
   merchantId: string;
@@ -9155,13 +9154,13 @@ export const RenderproductissuesMerchantsupportResponse = RenderProductIssuesRes
 
 export type RenderproductissuesMerchantsupportError = CommonErrors;
 
+/** Provide a list of issues for merchant's product with a support content and available actions. This content and actions are meant to be rendered and shown in third-party applications. */
 export const renderproductissuesMerchantsupport: API.OperationMethod<RenderproductissuesMerchantsupportRequest, RenderproductissuesMerchantsupportResponse, RenderproductissuesMerchantsupportError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: RenderproductissuesMerchantsupportRequest,
   output: RenderproductissuesMerchantsupportResponse,
   errors: [],
 }));
 
-/** Start an action. The action can be requested by merchants in third-party application. Before merchants can request the action, the third-party application needs to show them action specific content and display a user input form. You can request access using [Trigger action allowlist form](https://docs.google.com/forms/d/e/1FAIpQLSfeV_sBW9MBQv9BMTV6JZ1g11PGHLdHsrefca-9h0LmpU7CUg/viewform?usp=sharing). The action can be successfully started only once all `required` inputs are provided. If any `required` input is missing, or invalid value was provided, the service will return 400 error. Validation errors will contain Ids for all problematic field together with translated, human readable error messages that can be shown to the user. */
 export interface TriggeractionMerchantsupportRequest {
   /** Required. The ID of the merchant's account. */
   merchantId: string;
@@ -9185,13 +9184,13 @@ export const TriggeractionMerchantsupportResponse = TriggerActionResponse;
 
 export type TriggeractionMerchantsupportError = CommonErrors;
 
+/** Start an action. The action can be requested by merchants in third-party application. Before merchants can request the action, the third-party application needs to show them action specific content and display a user input form. You can request access using [Trigger action allowlist form](https://docs.google.com/forms/d/e/1FAIpQLSfeV_sBW9MBQv9BMTV6JZ1g11PGHLdHsrefca-9h0LmpU7CUg/viewform?usp=sharing). The action can be successfully started only once all `required` inputs are provided. If any `required` input is missing, or invalid value was provided, the service will return 400 error. Validation errors will contain Ids for all problematic field together with translated, human readable error messages that can be shown to the user. */
 export const triggeractionMerchantsupport: API.OperationMethod<TriggeractionMerchantsupportRequest, TriggeractionMerchantsupportResponse, TriggeractionMerchantsupportError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TriggeractionMerchantsupportRequest,
   output: TriggeractionMerchantsupportResponse,
   errors: [],
 }));
 
-/** Retrieves a region defined in your Merchant Center account. */
 export interface GetRegionsRequest {
   /** Required. The id of the merchant for which to retrieve region definition. */
   merchantId: string;
@@ -9212,13 +9211,13 @@ export const GetRegionsResponse = Region;
 
 export type GetRegionsError = CommonErrors;
 
+/** Retrieves a region defined in your Merchant Center account. */
 export const getRegions: API.OperationMethod<GetRegionsRequest, GetRegionsResponse, GetRegionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRegionsRequest,
   output: GetRegionsResponse,
   errors: [],
 }));
 
-/** Creates a region definition in your Merchant Center account. */
 export interface CreateRegionsRequest {
   /** Required. The id of the merchant for which to create region definition. */
   merchantId: string;
@@ -9242,13 +9241,13 @@ export const CreateRegionsResponse = Region;
 
 export type CreateRegionsError = CommonErrors;
 
+/** Creates a region definition in your Merchant Center account. */
 export const createRegions: API.OperationMethod<CreateRegionsRequest, CreateRegionsResponse, CreateRegionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateRegionsRequest,
   output: CreateRegionsResponse,
   errors: [],
 }));
 
-/** Updates a region definition in your Merchant Center account. */
 export interface PatchRegionsRequest {
   /** Required. The id of the merchant for which to update region definition. */
   merchantId: string;
@@ -9275,13 +9274,13 @@ export const PatchRegionsResponse = Region;
 
 export type PatchRegionsError = CommonErrors;
 
+/** Updates a region definition in your Merchant Center account. */
 export const patchRegions: API.OperationMethod<PatchRegionsRequest, PatchRegionsResponse, PatchRegionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchRegionsRequest,
   output: PatchRegionsResponse,
   errors: [],
 }));
 
-/** Deletes a region definition from your Merchant Center account. */
 export interface DeleteRegionsRequest {
   /** Required. The id of the merchant for which to delete region definition. */
   merchantId: string;
@@ -9302,13 +9301,13 @@ export const DeleteRegionsResponse: Schema.Schema<DeleteRegionsResponse> = Schem
 
 export type DeleteRegionsError = CommonErrors;
 
+/** Deletes a region definition from your Merchant Center account. */
 export const deleteRegions: API.OperationMethod<DeleteRegionsRequest, DeleteRegionsResponse, DeleteRegionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRegionsRequest,
   output: DeleteRegionsResponse,
   errors: [],
 }));
 
-/** Lists the regions in your Merchant Center account. */
 export interface ListRegionsRequest {
   /** Required. The id of the merchant for which to list region definitions. */
   merchantId: string;
@@ -9332,7 +9331,8 @@ export const ListRegionsResponse_Op = ListRegionsResponse;
 
 export type ListRegionsError = CommonErrors;
 
-export const listRegions = API.makePaginated(() => ({
+/** Lists the regions in your Merchant Center account. */
+export const listRegions: API.PaginatedOperationMethod<ListRegionsRequest, ListRegionsResponse_Op, ListRegionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRegionsRequest,
   output: ListRegionsResponse_Op,
   errors: [],
@@ -9342,7 +9342,6 @@ export const listRegions = API.makePaginated(() => ({
   },
 }));
 
-/** Inserts a promotion for your Merchant Center account. If the promotion already exists, then it updates the promotion instead. To [end or delete] (https://developers.google.com/shopping-content/guides/promotions#end_a_promotion) a promotion update the time period of the promotion to a time that has already passed. */
 export interface CreatePromotionsRequest {
   /** Required. The ID of the account that contains the collection. */
   merchantId: string;
@@ -9363,13 +9362,13 @@ export const CreatePromotionsResponse = Promotion;
 
 export type CreatePromotionsError = CommonErrors;
 
+/** Inserts a promotion for your Merchant Center account. If the promotion already exists, then it updates the promotion instead. To [end or delete] (https://developers.google.com/shopping-content/guides/promotions#end_a_promotion) a promotion update the time period of the promotion to a time that has already passed. */
 export const createPromotions: API.OperationMethod<CreatePromotionsRequest, CreatePromotionsResponse, CreatePromotionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreatePromotionsRequest,
   output: CreatePromotionsResponse,
   errors: [],
 }));
 
-/** Retrieves a promotion from your Merchant Center account. */
 export interface GetPromotionsRequest {
   /** Required. The ID of the account that contains the collection. */
   merchantId: string;
@@ -9390,13 +9389,13 @@ export const GetPromotionsResponse = Promotion;
 
 export type GetPromotionsError = CommonErrors;
 
+/** Retrieves a promotion from your Merchant Center account. */
 export const getPromotions: API.OperationMethod<GetPromotionsRequest, GetPromotionsResponse, GetPromotionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPromotionsRequest,
   output: GetPromotionsResponse,
   errors: [],
 }));
 
-/** List all promotions from your Merchant Center account. */
 export interface ListPromotionsRequest {
   /** Required. The ID of the account that contains the collection. */
   merchantId: string;
@@ -9426,7 +9425,8 @@ export const ListPromotionsResponse = ListPromotionResponse;
 
 export type ListPromotionsError = CommonErrors;
 
-export const listPromotions = API.makePaginated(() => ({
+/** List all promotions from your Merchant Center account. */
+export const listPromotions: API.PaginatedOperationMethod<ListPromotionsRequest, ListPromotionsResponse, ListPromotionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListPromotionsRequest,
   output: ListPromotionsResponse,
   errors: [],
@@ -9436,7 +9436,6 @@ export const listPromotions = API.makePaginated(() => ({
   },
 }));
 
-/** Generates recommendations for a merchant. */
 export interface GenerateRecommendationsRequest {
   /** Required. The ID of the account to fetch recommendations for. */
   merchantId: string;
@@ -9460,13 +9459,13 @@ export const GenerateRecommendationsResponse_Op = GenerateRecommendationsRespons
 
 export type GenerateRecommendationsError = CommonErrors;
 
+/** Generates recommendations for a merchant. */
 export const generateRecommendations: API.OperationMethod<GenerateRecommendationsRequest, GenerateRecommendationsResponse_Op, GenerateRecommendationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GenerateRecommendationsRequest,
   output: GenerateRecommendationsResponse_Op,
   errors: [],
 }));
 
-/** Reports an interaction on a recommendation for a merchant. */
 export interface ReportInteractionRecommendationsRequest {
   /** Required. The ID of the account that wants to report an interaction. */
   merchantId: string;
@@ -9487,13 +9486,13 @@ export const ReportInteractionRecommendationsResponse: Schema.Schema<ReportInter
 
 export type ReportInteractionRecommendationsError = CommonErrors;
 
+/** Reports an interaction on a recommendation for a merchant. */
 export const reportInteractionRecommendations: API.OperationMethod<ReportInteractionRecommendationsRequest, ReportInteractionRecommendationsResponse, ReportInteractionRecommendationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReportInteractionRecommendationsRequest,
   output: ReportInteractionRecommendationsResponse,
   errors: [],
 }));
 
-/** Gets an existing return policy. */
 export interface GetReturnpolicyonlineRequest {
   /** Required. The id of the merchant for which to retrieve the return policy online object. */
   merchantId: string;
@@ -9514,13 +9513,13 @@ export const GetReturnpolicyonlineResponse = ReturnPolicyOnline;
 
 export type GetReturnpolicyonlineError = CommonErrors;
 
+/** Gets an existing return policy. */
 export const getReturnpolicyonline: API.OperationMethod<GetReturnpolicyonlineRequest, GetReturnpolicyonlineResponse, GetReturnpolicyonlineError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetReturnpolicyonlineRequest,
   output: GetReturnpolicyonlineResponse,
   errors: [],
 }));
 
-/** Creates a new return policy. */
 export interface CreateReturnpolicyonlineRequest {
   /** Required. The id of the merchant for which to retrieve the return policy online object. */
   merchantId: string;
@@ -9541,13 +9540,13 @@ export const CreateReturnpolicyonlineResponse = ReturnPolicyOnline;
 
 export type CreateReturnpolicyonlineError = CommonErrors;
 
+/** Creates a new return policy. */
 export const createReturnpolicyonline: API.OperationMethod<CreateReturnpolicyonlineRequest, CreateReturnpolicyonlineResponse, CreateReturnpolicyonlineError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateReturnpolicyonlineRequest,
   output: CreateReturnpolicyonlineResponse,
   errors: [],
 }));
 
-/** Deletes an existing return policy. */
 export interface DeleteReturnpolicyonlineRequest {
   /** Required. The id of the merchant for which to retrieve the return policy online object. */
   merchantId: string;
@@ -9568,13 +9567,13 @@ export const DeleteReturnpolicyonlineResponse: Schema.Schema<DeleteReturnpolicyo
 
 export type DeleteReturnpolicyonlineError = CommonErrors;
 
+/** Deletes an existing return policy. */
 export const deleteReturnpolicyonline: API.OperationMethod<DeleteReturnpolicyonlineRequest, DeleteReturnpolicyonlineResponse, DeleteReturnpolicyonlineError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteReturnpolicyonlineRequest,
   output: DeleteReturnpolicyonlineResponse,
   errors: [],
 }));
 
-/** Updates an existing return policy. */
 export interface PatchReturnpolicyonlineRequest {
   /** Required. The id of the merchant for which to retrieve the return policy online object. */
   merchantId: string;
@@ -9598,13 +9597,13 @@ export const PatchReturnpolicyonlineResponse = ReturnPolicyOnline;
 
 export type PatchReturnpolicyonlineError = CommonErrors;
 
+/** Updates an existing return policy. */
 export const patchReturnpolicyonline: API.OperationMethod<PatchReturnpolicyonlineRequest, PatchReturnpolicyonlineResponse, PatchReturnpolicyonlineError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchReturnpolicyonlineRequest,
   output: PatchReturnpolicyonlineResponse,
   errors: [],
 }));
 
-/** Lists all existing return policies. */
 export interface ListReturnpolicyonlineRequest {
   /** Required. The id of the merchant for which to retrieve the return policy online object. */
   merchantId: string;
@@ -9622,13 +9621,13 @@ export const ListReturnpolicyonlineResponse = ListReturnPolicyOnlineResponse;
 
 export type ListReturnpolicyonlineError = CommonErrors;
 
+/** Lists all existing return policies. */
 export const listReturnpolicyonline: API.OperationMethod<ListReturnpolicyonlineRequest, ListReturnpolicyonlineResponse, ListReturnpolicyonlineError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListReturnpolicyonlineRequest,
   output: ListReturnpolicyonlineResponse,
   errors: [],
 }));
 
-/** Creates new order tracking signal. */
 export interface CreateOrdertrackingsignalsRequest {
   /** The ID of the merchant for which the order signal is created. */
   merchantId: string;
@@ -9649,13 +9648,13 @@ export const CreateOrdertrackingsignalsResponse = OrderTrackingSignal;
 
 export type CreateOrdertrackingsignalsError = CommonErrors;
 
+/** Creates new order tracking signal. */
 export const createOrdertrackingsignals: API.OperationMethod<CreateOrdertrackingsignalsRequest, CreateOrdertrackingsignalsResponse, CreateOrdertrackingsignalsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateOrdertrackingsignalsRequest,
   output: CreateOrdertrackingsignalsResponse,
   errors: [],
 }));
 
-/** Creates or updates the delivery time of a product. */
 export interface CreateProductdeliverytimeRequest {
   /** The Google merchant ID of the account that contains the product. This account cannot be a multi-client account. */
   merchantId: string;
@@ -9676,13 +9675,13 @@ export const CreateProductdeliverytimeResponse = ProductDeliveryTime;
 
 export type CreateProductdeliverytimeError = CommonErrors;
 
+/** Creates or updates the delivery time of a product. */
 export const createProductdeliverytime: API.OperationMethod<CreateProductdeliverytimeRequest, CreateProductdeliverytimeResponse, CreateProductdeliverytimeError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProductdeliverytimeRequest,
   output: CreateProductdeliverytimeResponse,
   errors: [],
 }));
 
-/** Gets `productDeliveryTime` by `productId`. */
 export interface GetProductdeliverytimeRequest {
   /** Required. The Google merchant ID of the account that contains the product. This account cannot be a multi-client account. */
   merchantId: string;
@@ -9703,13 +9702,13 @@ export const GetProductdeliverytimeResponse = ProductDeliveryTime;
 
 export type GetProductdeliverytimeError = CommonErrors;
 
+/** Gets `productDeliveryTime` by `productId`. */
 export const getProductdeliverytime: API.OperationMethod<GetProductdeliverytimeRequest, GetProductdeliverytimeResponse, GetProductdeliverytimeError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProductdeliverytimeRequest,
   output: GetProductdeliverytimeResponse,
   errors: [],
 }));
 
-/** Deletes the delivery time of a product. */
 export interface DeleteProductdeliverytimeRequest {
   /** Required. The Google merchant ID of the account that contains the product. This account cannot be a multi-client account. */
   merchantId: string;
@@ -9730,6 +9729,7 @@ export const DeleteProductdeliverytimeResponse: Schema.Schema<DeleteProductdeliv
 
 export type DeleteProductdeliverytimeError = CommonErrors;
 
+/** Deletes the delivery time of a product. */
 export const deleteProductdeliverytime: API.OperationMethod<DeleteProductdeliverytimeRequest, DeleteProductdeliverytimeResponse, DeleteProductdeliverytimeError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProductdeliverytimeRequest,
   output: DeleteProductdeliverytimeResponse,

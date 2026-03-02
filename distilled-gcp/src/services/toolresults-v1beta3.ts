@@ -1591,7 +1591,6 @@ export const UsedRoboIgnoreDirective: Schema.Schema<UsedRoboIgnoreDirective> = S
 // Operations
 // ==========================================================================
 
-/** Gets the Tool Results settings for a project. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to read from project */
 export interface GetSettingsProjectsRequest {
   /** A Project id. Required. */
   projectId: string;
@@ -1609,13 +1608,13 @@ export const GetSettingsProjectsResponse = ProjectSettings;
 
 export type GetSettingsProjectsError = CommonErrors;
 
+/** Gets the Tool Results settings for a project. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to read from project */
 export const getSettingsProjects: API.OperationMethod<GetSettingsProjectsRequest, GetSettingsProjectsResponse, GetSettingsProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSettingsProjectsRequest,
   output: GetSettingsProjectsResponse,
   errors: [],
 }));
 
-/** Creates resources for settings which have not yet been set. Currently, this creates a single resource: a Google Cloud Storage bucket, to be used as the default bucket for this project. The bucket is created in an FTL-own storage project. Except for in rare cases, calling this method in parallel from multiple clients will only create a single bucket. In order to avoid unnecessary storage charges, the bucket is configured to automatically delete objects older than 90 days. The bucket is created with the following permissions: - Owner access for owners of central storage project (FTL-owned) - Writer access for owners/editors of customer project - Reader access for viewers of customer project The default ACL on objects created in the bucket is: - Owner access for owners of central storage project - Reader access for owners/editors/viewers of customer project See Google Cloud Storage documentation for more details. If there is already a default bucket set and the project can access the bucket, this call does nothing. However, if the project doesn't have the permission to access the bucket or the bucket is deleted, a new bucket will be created. May return any canonical error codes, including the following: - PERMISSION_DENIED - if the user is not authorized to write to project - Any error code raised by Google Cloud Storage */
 export interface InitializeSettingsProjectsRequest {
   /** A Project id. Required. */
   projectId: string;
@@ -1633,13 +1632,13 @@ export const InitializeSettingsProjectsResponse = ProjectSettings;
 
 export type InitializeSettingsProjectsError = CommonErrors;
 
+/** Creates resources for settings which have not yet been set. Currently, this creates a single resource: a Google Cloud Storage bucket, to be used as the default bucket for this project. The bucket is created in an FTL-own storage project. Except for in rare cases, calling this method in parallel from multiple clients will only create a single bucket. In order to avoid unnecessary storage charges, the bucket is configured to automatically delete objects older than 90 days. The bucket is created with the following permissions: - Owner access for owners of central storage project (FTL-owned) - Writer access for owners/editors of customer project - Reader access for viewers of customer project The default ACL on objects created in the bucket is: - Owner access for owners of central storage project - Reader access for owners/editors/viewers of customer project See Google Cloud Storage documentation for more details. If there is already a default bucket set and the project can access the bucket, this call does nothing. However, if the project doesn't have the permission to access the bucket or the bucket is deleted, a new bucket will be created. May return any canonical error codes, including the following: - PERMISSION_DENIED - if the user is not authorized to write to project - Any error code raised by Google Cloud Storage */
 export const initializeSettingsProjects: API.OperationMethod<InitializeSettingsProjectsRequest, InitializeSettingsProjectsResponse, InitializeSettingsProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InitializeSettingsProjectsRequest,
   output: InitializeSettingsProjectsResponse,
   errors: [],
 }));
 
-/** Creates a History. The returned History will have the id set. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to write to project - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the containing project does not exist */
 export interface CreateProjectsHistoriesRequest {
   /** A Project id. Required. */
   projectId: string;
@@ -1663,13 +1662,13 @@ export const CreateProjectsHistoriesResponse = History;
 
 export type CreateProjectsHistoriesError = CommonErrors;
 
+/** Creates a History. The returned History will have the id set. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to write to project - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the containing project does not exist */
 export const createProjectsHistories: API.OperationMethod<CreateProjectsHistoriesRequest, CreateProjectsHistoriesResponse, CreateProjectsHistoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsHistoriesRequest,
   output: CreateProjectsHistoriesResponse,
   errors: [],
 }));
 
-/** Gets a History. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to read project - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the History does not exist */
 export interface GetProjectsHistoriesRequest {
   /** A Project id. Required. */
   projectId: string;
@@ -1690,13 +1689,13 @@ export const GetProjectsHistoriesResponse = History;
 
 export type GetProjectsHistoriesError = CommonErrors;
 
+/** Gets a History. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to read project - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the History does not exist */
 export const getProjectsHistories: API.OperationMethod<GetProjectsHistoriesRequest, GetProjectsHistoriesResponse, GetProjectsHistoriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsHistoriesRequest,
   output: GetProjectsHistoriesResponse,
   errors: [],
 }));
 
-/** Lists Histories for a given Project. The histories are sorted by modification time in descending order. The history_id key will be used to order the history with the same modification time. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to read project - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the History does not exist */
 export interface ListProjectsHistoriesRequest {
   /** A Project id. Required. */
   projectId: string;
@@ -1723,7 +1722,8 @@ export const ListProjectsHistoriesResponse = ListHistoriesResponse;
 
 export type ListProjectsHistoriesError = CommonErrors;
 
-export const listProjectsHistories = API.makePaginated(() => ({
+/** Lists Histories for a given Project. The histories are sorted by modification time in descending order. The history_id key will be used to order the history with the same modification time. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to read project - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the History does not exist */
+export const listProjectsHistories: API.PaginatedOperationMethod<ListProjectsHistoriesRequest, ListProjectsHistoriesResponse, ListProjectsHistoriesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsHistoriesRequest,
   output: ListProjectsHistoriesResponse,
   errors: [],
@@ -1733,7 +1733,6 @@ export const listProjectsHistories = API.makePaginated(() => ({
   },
 }));
 
-/** Creates an Execution. The returned Execution will have the id set. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to write to project - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the containing History does not exist */
 export interface CreateProjectsHistoriesExecutionsRequest {
   /** A Project id. Required. */
   projectId: string;
@@ -1760,13 +1759,13 @@ export const CreateProjectsHistoriesExecutionsResponse = Execution;
 
 export type CreateProjectsHistoriesExecutionsError = CommonErrors;
 
+/** Creates an Execution. The returned Execution will have the id set. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to write to project - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the containing History does not exist */
 export const createProjectsHistoriesExecutions: API.OperationMethod<CreateProjectsHistoriesExecutionsRequest, CreateProjectsHistoriesExecutionsResponse, CreateProjectsHistoriesExecutionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsHistoriesExecutionsRequest,
   output: CreateProjectsHistoriesExecutionsResponse,
   errors: [],
 }));
 
-/** Lists Executions for a given History. The executions are sorted by creation_time in descending order. The execution_id key will be used to order the executions with the same creation_time. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to read project - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the containing History does not exist */
 export interface ListProjectsHistoriesExecutionsRequest {
   /** A Project id. Required. */
   projectId: string;
@@ -1793,7 +1792,8 @@ export const ListProjectsHistoriesExecutionsResponse = ListExecutionsResponse;
 
 export type ListProjectsHistoriesExecutionsError = CommonErrors;
 
-export const listProjectsHistoriesExecutions = API.makePaginated(() => ({
+/** Lists Executions for a given History. The executions are sorted by creation_time in descending order. The execution_id key will be used to order the executions with the same creation_time. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to read project - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the containing History does not exist */
+export const listProjectsHistoriesExecutions: API.PaginatedOperationMethod<ListProjectsHistoriesExecutionsRequest, ListProjectsHistoriesExecutionsResponse, ListProjectsHistoriesExecutionsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsHistoriesExecutionsRequest,
   output: ListProjectsHistoriesExecutionsResponse,
   errors: [],
@@ -1803,7 +1803,6 @@ export const listProjectsHistoriesExecutions = API.makePaginated(() => ({
   },
 }));
 
-/** Gets an Execution. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to write to project - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the Execution does not exist */
 export interface GetProjectsHistoriesExecutionsRequest {
   /** A Project id. Required. */
   projectId: string;
@@ -1827,13 +1826,13 @@ export const GetProjectsHistoriesExecutionsResponse = Execution;
 
 export type GetProjectsHistoriesExecutionsError = CommonErrors;
 
+/** Gets an Execution. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to write to project - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the Execution does not exist */
 export const getProjectsHistoriesExecutions: API.OperationMethod<GetProjectsHistoriesExecutionsRequest, GetProjectsHistoriesExecutionsResponse, GetProjectsHistoriesExecutionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsHistoriesExecutionsRequest,
   output: GetProjectsHistoriesExecutionsResponse,
   errors: [],
 }));
 
-/** Updates an existing Execution with the supplied partial entity. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to write to project - INVALID_ARGUMENT - if the request is malformed - FAILED_PRECONDITION - if the requested state transition is illegal - NOT_FOUND - if the containing History does not exist */
 export interface PatchProjectsHistoriesExecutionsRequest {
   /** A Project id. Required. */
   projectId: string;
@@ -1863,13 +1862,13 @@ export const PatchProjectsHistoriesExecutionsResponse = Execution;
 
 export type PatchProjectsHistoriesExecutionsError = CommonErrors;
 
+/** Updates an existing Execution with the supplied partial entity. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to write to project - INVALID_ARGUMENT - if the request is malformed - FAILED_PRECONDITION - if the requested state transition is illegal - NOT_FOUND - if the containing History does not exist */
 export const patchProjectsHistoriesExecutions: API.OperationMethod<PatchProjectsHistoriesExecutionsRequest, PatchProjectsHistoriesExecutionsResponse, PatchProjectsHistoriesExecutionsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsHistoriesExecutionsRequest,
   output: PatchProjectsHistoriesExecutionsResponse,
   errors: [],
 }));
 
-/** Lists accessibility clusters for a given Step May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to read project - INVALID_ARGUMENT - if the request is malformed - FAILED_PRECONDITION - if an argument in the request happens to be invalid; e.g. if the locale format is incorrect - NOT_FOUND - if the containing Step does not exist */
 export interface AccessibilityClustersProjectsHistoriesExecutionsStepsRequest {
   /** A full resource name of the step. For example, projects/my-project/histories/bh.1234567890abcdef/executions/ 1234567890123456789/steps/bs.1234567890abcdef Required. */
   name: string;
@@ -1890,13 +1889,13 @@ export const AccessibilityClustersProjectsHistoriesExecutionsStepsResponse = Lis
 
 export type AccessibilityClustersProjectsHistoriesExecutionsStepsError = CommonErrors;
 
+/** Lists accessibility clusters for a given Step May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to read project - INVALID_ARGUMENT - if the request is malformed - FAILED_PRECONDITION - if an argument in the request happens to be invalid; e.g. if the locale format is incorrect - NOT_FOUND - if the containing Step does not exist */
 export const accessibilityClustersProjectsHistoriesExecutionsSteps: API.OperationMethod<AccessibilityClustersProjectsHistoriesExecutionsStepsRequest, AccessibilityClustersProjectsHistoriesExecutionsStepsResponse, AccessibilityClustersProjectsHistoriesExecutionsStepsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: AccessibilityClustersProjectsHistoriesExecutionsStepsRequest,
   output: AccessibilityClustersProjectsHistoriesExecutionsStepsResponse,
   errors: [],
 }));
 
-/** Creates a Step. The returned Step will have the id set. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to write to project - INVALID_ARGUMENT - if the request is malformed - FAILED_PRECONDITION - if the step is too large (more than 10Mib) - NOT_FOUND - if the containing Execution does not exist */
 export interface CreateProjectsHistoriesExecutionsStepsRequest {
   /** Required. A Project id. */
   projectId: string;
@@ -1926,13 +1925,13 @@ export const CreateProjectsHistoriesExecutionsStepsResponse = Step;
 
 export type CreateProjectsHistoriesExecutionsStepsError = CommonErrors;
 
+/** Creates a Step. The returned Step will have the id set. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to write to project - INVALID_ARGUMENT - if the request is malformed - FAILED_PRECONDITION - if the step is too large (more than 10Mib) - NOT_FOUND - if the containing Execution does not exist */
 export const createProjectsHistoriesExecutionsSteps: API.OperationMethod<CreateProjectsHistoriesExecutionsStepsRequest, CreateProjectsHistoriesExecutionsStepsResponse, CreateProjectsHistoriesExecutionsStepsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsHistoriesExecutionsStepsRequest,
   output: CreateProjectsHistoriesExecutionsStepsResponse,
   errors: [],
 }));
 
-/** Gets a Step. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to read project - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the Step does not exist */
 export interface GetProjectsHistoriesExecutionsStepsRequest {
   /** A Project id. Required. */
   projectId: string;
@@ -1959,13 +1958,13 @@ export const GetProjectsHistoriesExecutionsStepsResponse = Step;
 
 export type GetProjectsHistoriesExecutionsStepsError = CommonErrors;
 
+/** Gets a Step. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to read project - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the Step does not exist */
 export const getProjectsHistoriesExecutionsSteps: API.OperationMethod<GetProjectsHistoriesExecutionsStepsRequest, GetProjectsHistoriesExecutionsStepsResponse, GetProjectsHistoriesExecutionsStepsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsHistoriesExecutionsStepsRequest,
   output: GetProjectsHistoriesExecutionsStepsResponse,
   errors: [],
 }));
 
-/** Lists Steps for a given Execution. The steps are sorted by creation_time in descending order. The step_id key will be used to order the steps with the same creation_time. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to read project - INVALID_ARGUMENT - if the request is malformed - FAILED_PRECONDITION - if an argument in the request happens to be invalid; e.g. if an attempt is made to list the children of a nonexistent Step - NOT_FOUND - if the containing Execution does not exist */
 export interface ListProjectsHistoriesExecutionsStepsRequest {
   /** A Project id. Required. */
   projectId: string;
@@ -1995,7 +1994,8 @@ export const ListProjectsHistoriesExecutionsStepsResponse = ListStepsResponse;
 
 export type ListProjectsHistoriesExecutionsStepsError = CommonErrors;
 
-export const listProjectsHistoriesExecutionsSteps = API.makePaginated(() => ({
+/** Lists Steps for a given Execution. The steps are sorted by creation_time in descending order. The step_id key will be used to order the steps with the same creation_time. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to read project - INVALID_ARGUMENT - if the request is malformed - FAILED_PRECONDITION - if an argument in the request happens to be invalid; e.g. if an attempt is made to list the children of a nonexistent Step - NOT_FOUND - if the containing Execution does not exist */
+export const listProjectsHistoriesExecutionsSteps: API.PaginatedOperationMethod<ListProjectsHistoriesExecutionsStepsRequest, ListProjectsHistoriesExecutionsStepsResponse, ListProjectsHistoriesExecutionsStepsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsHistoriesExecutionsStepsRequest,
   output: ListProjectsHistoriesExecutionsStepsResponse,
   errors: [],
@@ -2005,7 +2005,6 @@ export const listProjectsHistoriesExecutionsSteps = API.makePaginated(() => ({
   },
 }));
 
-/** Updates an existing Step with the supplied partial entity. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to write project - INVALID_ARGUMENT - if the request is malformed - FAILED_PRECONDITION - if the requested state transition is illegal (e.g try to upload a duplicate xml file), if the updated step is too large (more than 10Mib) - NOT_FOUND - if the containing Execution does not exist */
 export interface PatchProjectsHistoriesExecutionsStepsRequest {
   /** A Project id. Required. */
   projectId: string;
@@ -2038,13 +2037,13 @@ export const PatchProjectsHistoriesExecutionsStepsResponse = Step;
 
 export type PatchProjectsHistoriesExecutionsStepsError = CommonErrors;
 
+/** Updates an existing Step with the supplied partial entity. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to write project - INVALID_ARGUMENT - if the request is malformed - FAILED_PRECONDITION - if the requested state transition is illegal (e.g try to upload a duplicate xml file), if the updated step is too large (more than 10Mib) - NOT_FOUND - if the containing Execution does not exist */
 export const patchProjectsHistoriesExecutionsSteps: API.OperationMethod<PatchProjectsHistoriesExecutionsStepsRequest, PatchProjectsHistoriesExecutionsStepsResponse, PatchProjectsHistoriesExecutionsStepsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsHistoriesExecutionsStepsRequest,
   output: PatchProjectsHistoriesExecutionsStepsResponse,
   errors: [],
 }));
 
-/** Publish xml files to an existing Step. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to write project - INVALID_ARGUMENT - if the request is malformed - FAILED_PRECONDITION - if the requested state transition is illegal, e.g. try to upload a duplicate xml file or a file too large. - NOT_FOUND - if the containing Execution does not exist */
 export interface PublishXunitXmlFilesProjectsHistoriesExecutionsStepsRequest {
   /** A Project id. Required. */
   projectId: string;
@@ -2074,13 +2073,13 @@ export const PublishXunitXmlFilesProjectsHistoriesExecutionsStepsResponse = Step
 
 export type PublishXunitXmlFilesProjectsHistoriesExecutionsStepsError = CommonErrors;
 
+/** Publish xml files to an existing Step. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to write project - INVALID_ARGUMENT - if the request is malformed - FAILED_PRECONDITION - if the requested state transition is illegal, e.g. try to upload a duplicate xml file or a file too large. - NOT_FOUND - if the containing Execution does not exist */
 export const publishXunitXmlFilesProjectsHistoriesExecutionsSteps: API.OperationMethod<PublishXunitXmlFilesProjectsHistoriesExecutionsStepsRequest, PublishXunitXmlFilesProjectsHistoriesExecutionsStepsResponse, PublishXunitXmlFilesProjectsHistoriesExecutionsStepsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PublishXunitXmlFilesProjectsHistoriesExecutionsStepsRequest,
   output: PublishXunitXmlFilesProjectsHistoriesExecutionsStepsResponse,
   errors: [],
 }));
 
-/** Retrieves a PerfMetricsSummary. May return any of the following error code(s): - NOT_FOUND - The specified PerfMetricsSummary does not exist */
 export interface GetPerfMetricsSummaryProjectsHistoriesExecutionsStepsRequest {
   /** The cloud project */
   projectId: string;
@@ -2107,13 +2106,13 @@ export const GetPerfMetricsSummaryProjectsHistoriesExecutionsStepsResponse = Per
 
 export type GetPerfMetricsSummaryProjectsHistoriesExecutionsStepsError = CommonErrors;
 
+/** Retrieves a PerfMetricsSummary. May return any of the following error code(s): - NOT_FOUND - The specified PerfMetricsSummary does not exist */
 export const getPerfMetricsSummaryProjectsHistoriesExecutionsSteps: API.OperationMethod<GetPerfMetricsSummaryProjectsHistoriesExecutionsStepsRequest, GetPerfMetricsSummaryProjectsHistoriesExecutionsStepsResponse, GetPerfMetricsSummaryProjectsHistoriesExecutionsStepsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetPerfMetricsSummaryProjectsHistoriesExecutionsStepsRequest,
   output: GetPerfMetricsSummaryProjectsHistoriesExecutionsStepsResponse,
   errors: [],
 }));
 
-/** Gets details of a Test Case for a Step. Experimental test cases API. Still in active development. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to write to project - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the containing Test Case does not exist */
 export interface GetProjectsHistoriesExecutionsStepsTestCasesRequest {
   /** A Project id. Required. */
   projectId: string;
@@ -2143,13 +2142,13 @@ export const GetProjectsHistoriesExecutionsStepsTestCasesResponse = TestCase;
 
 export type GetProjectsHistoriesExecutionsStepsTestCasesError = CommonErrors;
 
+/** Gets details of a Test Case for a Step. Experimental test cases API. Still in active development. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to write to project - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the containing Test Case does not exist */
 export const getProjectsHistoriesExecutionsStepsTestCases: API.OperationMethod<GetProjectsHistoriesExecutionsStepsTestCasesRequest, GetProjectsHistoriesExecutionsStepsTestCasesResponse, GetProjectsHistoriesExecutionsStepsTestCasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsHistoriesExecutionsStepsTestCasesRequest,
   output: GetProjectsHistoriesExecutionsStepsTestCasesResponse,
   errors: [],
 }));
 
-/** Lists Test Cases attached to a Step. Experimental test cases API. Still in active development. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to write to project - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the containing Step does not exist */
 export interface ListProjectsHistoriesExecutionsStepsTestCasesRequest {
   /** A Project id. Required. */
   projectId: string;
@@ -2182,7 +2181,8 @@ export const ListProjectsHistoriesExecutionsStepsTestCasesResponse = ListTestCas
 
 export type ListProjectsHistoriesExecutionsStepsTestCasesError = CommonErrors;
 
-export const listProjectsHistoriesExecutionsStepsTestCases = API.makePaginated(() => ({
+/** Lists Test Cases attached to a Step. Experimental test cases API. Still in active development. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to write to project - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the containing Step does not exist */
+export const listProjectsHistoriesExecutionsStepsTestCases: API.PaginatedOperationMethod<ListProjectsHistoriesExecutionsStepsTestCasesRequest, ListProjectsHistoriesExecutionsStepsTestCasesResponse, ListProjectsHistoriesExecutionsStepsTestCasesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsHistoriesExecutionsStepsTestCasesRequest,
   output: ListProjectsHistoriesExecutionsStepsTestCasesResponse,
   errors: [],
@@ -2192,7 +2192,6 @@ export const listProjectsHistoriesExecutionsStepsTestCases = API.makePaginated((
   },
 }));
 
-/** Lists thumbnails of images attached to a step. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to read from the project, or from any of the images - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the step does not exist, or if any of the images do not exist */
 export interface ListProjectsHistoriesExecutionsStepsThumbnailsRequest {
   /** A Project id. Required. */
   projectId: string;
@@ -2225,7 +2224,8 @@ export const ListProjectsHistoriesExecutionsStepsThumbnailsResponse = ListStepTh
 
 export type ListProjectsHistoriesExecutionsStepsThumbnailsError = CommonErrors;
 
-export const listProjectsHistoriesExecutionsStepsThumbnails = API.makePaginated(() => ({
+/** Lists thumbnails of images attached to a step. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to read from the project, or from any of the images - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the step does not exist, or if any of the images do not exist */
+export const listProjectsHistoriesExecutionsStepsThumbnails: API.PaginatedOperationMethod<ListProjectsHistoriesExecutionsStepsThumbnailsRequest, ListProjectsHistoriesExecutionsStepsThumbnailsResponse, ListProjectsHistoriesExecutionsStepsThumbnailsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsHistoriesExecutionsStepsThumbnailsRequest,
   output: ListProjectsHistoriesExecutionsStepsThumbnailsResponse,
   errors: [],
@@ -2235,7 +2235,6 @@ export const listProjectsHistoriesExecutionsStepsThumbnails = API.makePaginated(
   },
 }));
 
-/** Creates a PerfMetricsSummary resource. Returns the existing one if it has already been created. May return any of the following error code(s): - NOT_FOUND - The containing Step does not exist */
 export interface CreateProjectsHistoriesExecutionsStepsPerfMetricsSummaryRequest {
   /** The cloud project */
   projectId: string;
@@ -2265,13 +2264,13 @@ export const CreateProjectsHistoriesExecutionsStepsPerfMetricsSummaryResponse = 
 
 export type CreateProjectsHistoriesExecutionsStepsPerfMetricsSummaryError = CommonErrors;
 
+/** Creates a PerfMetricsSummary resource. Returns the existing one if it has already been created. May return any of the following error code(s): - NOT_FOUND - The containing Step does not exist */
 export const createProjectsHistoriesExecutionsStepsPerfMetricsSummary: API.OperationMethod<CreateProjectsHistoriesExecutionsStepsPerfMetricsSummaryRequest, CreateProjectsHistoriesExecutionsStepsPerfMetricsSummaryResponse, CreateProjectsHistoriesExecutionsStepsPerfMetricsSummaryError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsHistoriesExecutionsStepsPerfMetricsSummaryRequest,
   output: CreateProjectsHistoriesExecutionsStepsPerfMetricsSummaryResponse,
   errors: [],
 }));
 
-/** Creates a PerfSampleSeries. May return any of the following error code(s): - ALREADY_EXISTS - PerfMetricSummary already exists for the given Step - NOT_FOUND - The containing Step does not exist */
 export interface CreateProjectsHistoriesExecutionsStepsPerfSampleSeriesRequest {
   /** The cloud project */
   projectId: string;
@@ -2301,13 +2300,13 @@ export const CreateProjectsHistoriesExecutionsStepsPerfSampleSeriesResponse = Pe
 
 export type CreateProjectsHistoriesExecutionsStepsPerfSampleSeriesError = CommonErrors;
 
+/** Creates a PerfSampleSeries. May return any of the following error code(s): - ALREADY_EXISTS - PerfMetricSummary already exists for the given Step - NOT_FOUND - The containing Step does not exist */
 export const createProjectsHistoriesExecutionsStepsPerfSampleSeries: API.OperationMethod<CreateProjectsHistoriesExecutionsStepsPerfSampleSeriesRequest, CreateProjectsHistoriesExecutionsStepsPerfSampleSeriesResponse, CreateProjectsHistoriesExecutionsStepsPerfSampleSeriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsHistoriesExecutionsStepsPerfSampleSeriesRequest,
   output: CreateProjectsHistoriesExecutionsStepsPerfSampleSeriesResponse,
   errors: [],
 }));
 
-/** Gets a PerfSampleSeries. May return any of the following error code(s): - NOT_FOUND - The specified PerfSampleSeries does not exist */
 export interface GetProjectsHistoriesExecutionsStepsPerfSampleSeriesRequest {
   /** The cloud project */
   projectId: string;
@@ -2337,13 +2336,13 @@ export const GetProjectsHistoriesExecutionsStepsPerfSampleSeriesResponse = PerfS
 
 export type GetProjectsHistoriesExecutionsStepsPerfSampleSeriesError = CommonErrors;
 
+/** Gets a PerfSampleSeries. May return any of the following error code(s): - NOT_FOUND - The specified PerfSampleSeries does not exist */
 export const getProjectsHistoriesExecutionsStepsPerfSampleSeries: API.OperationMethod<GetProjectsHistoriesExecutionsStepsPerfSampleSeriesRequest, GetProjectsHistoriesExecutionsStepsPerfSampleSeriesResponse, GetProjectsHistoriesExecutionsStepsPerfSampleSeriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsHistoriesExecutionsStepsPerfSampleSeriesRequest,
   output: GetProjectsHistoriesExecutionsStepsPerfSampleSeriesResponse,
   errors: [],
 }));
 
-/** Lists PerfSampleSeries for a given Step. The request provides an optional filter which specifies one or more PerfMetricsType to include in the result; if none returns all. The resulting PerfSampleSeries are sorted by ids. May return any of the following canonical error codes: - NOT_FOUND - The containing Step does not exist */
 export interface ListProjectsHistoriesExecutionsStepsPerfSampleSeriesRequest {
   /** The cloud project */
   projectId: string;
@@ -2373,13 +2372,13 @@ export const ListProjectsHistoriesExecutionsStepsPerfSampleSeriesResponse = List
 
 export type ListProjectsHistoriesExecutionsStepsPerfSampleSeriesError = CommonErrors;
 
+/** Lists PerfSampleSeries for a given Step. The request provides an optional filter which specifies one or more PerfMetricsType to include in the result; if none returns all. The resulting PerfSampleSeries are sorted by ids. May return any of the following canonical error codes: - NOT_FOUND - The containing Step does not exist */
 export const listProjectsHistoriesExecutionsStepsPerfSampleSeries: API.OperationMethod<ListProjectsHistoriesExecutionsStepsPerfSampleSeriesRequest, ListProjectsHistoriesExecutionsStepsPerfSampleSeriesResponse, ListProjectsHistoriesExecutionsStepsPerfSampleSeriesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsHistoriesExecutionsStepsPerfSampleSeriesRequest,
   output: ListProjectsHistoriesExecutionsStepsPerfSampleSeriesResponse,
   errors: [],
 }));
 
-/** Creates a batch of PerfSamples - a client can submit multiple batches of Perf Samples through repeated calls to this method in order to split up a large request payload - duplicates and existing timestamp entries will be ignored. - the batch operation may partially succeed - the set of elements successfully inserted is returned in the response (omits items which already existed in the database). May return any of the following canonical error codes: - NOT_FOUND - The containing PerfSampleSeries does not exist */
 export interface BatchCreateProjectsHistoriesExecutionsStepsPerfSampleSeriesSamplesRequest {
   /** The cloud project */
   projectId: string;
@@ -2412,13 +2411,13 @@ export const BatchCreateProjectsHistoriesExecutionsStepsPerfSampleSeriesSamplesR
 
 export type BatchCreateProjectsHistoriesExecutionsStepsPerfSampleSeriesSamplesError = CommonErrors;
 
+/** Creates a batch of PerfSamples - a client can submit multiple batches of Perf Samples through repeated calls to this method in order to split up a large request payload - duplicates and existing timestamp entries will be ignored. - the batch operation may partially succeed - the set of elements successfully inserted is returned in the response (omits items which already existed in the database). May return any of the following canonical error codes: - NOT_FOUND - The containing PerfSampleSeries does not exist */
 export const batchCreateProjectsHistoriesExecutionsStepsPerfSampleSeriesSamples: API.OperationMethod<BatchCreateProjectsHistoriesExecutionsStepsPerfSampleSeriesSamplesRequest, BatchCreateProjectsHistoriesExecutionsStepsPerfSampleSeriesSamplesResponse, BatchCreateProjectsHistoriesExecutionsStepsPerfSampleSeriesSamplesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchCreateProjectsHistoriesExecutionsStepsPerfSampleSeriesSamplesRequest,
   output: BatchCreateProjectsHistoriesExecutionsStepsPerfSampleSeriesSamplesResponse,
   errors: [],
 }));
 
-/** Lists the Performance Samples of a given Sample Series - The list results are sorted by timestamps ascending - The default page size is 500 samples; and maximum size allowed 5000 - The response token indicates the last returned PerfSample timestamp - When the results size exceeds the page size, submit a subsequent request including the page token to return the rest of the samples up to the page limit May return any of the following canonical error codes: - OUT_OF_RANGE - The specified request page_token is out of valid range - NOT_FOUND - The containing PerfSampleSeries does not exist */
 export interface ListProjectsHistoriesExecutionsStepsPerfSampleSeriesSamplesRequest {
   /** The cloud project */
   projectId: string;
@@ -2454,7 +2453,8 @@ export const ListProjectsHistoriesExecutionsStepsPerfSampleSeriesSamplesResponse
 
 export type ListProjectsHistoriesExecutionsStepsPerfSampleSeriesSamplesError = CommonErrors;
 
-export const listProjectsHistoriesExecutionsStepsPerfSampleSeriesSamples = API.makePaginated(() => ({
+/** Lists the Performance Samples of a given Sample Series - The list results are sorted by timestamps ascending - The default page size is 500 samples; and maximum size allowed 5000 - The response token indicates the last returned PerfSample timestamp - When the results size exceeds the page size, submit a subsequent request including the page token to return the rest of the samples up to the page limit May return any of the following canonical error codes: - OUT_OF_RANGE - The specified request page_token is out of valid range - NOT_FOUND - The containing PerfSampleSeries does not exist */
+export const listProjectsHistoriesExecutionsStepsPerfSampleSeriesSamples: API.PaginatedOperationMethod<ListProjectsHistoriesExecutionsStepsPerfSampleSeriesSamplesRequest, ListProjectsHistoriesExecutionsStepsPerfSampleSeriesSamplesResponse, ListProjectsHistoriesExecutionsStepsPerfSampleSeriesSamplesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsHistoriesExecutionsStepsPerfSampleSeriesSamplesRequest,
   output: ListProjectsHistoriesExecutionsStepsPerfSampleSeriesSamplesResponse,
   errors: [],
@@ -2464,7 +2464,6 @@ export const listProjectsHistoriesExecutionsStepsPerfSampleSeriesSamples = API.m
   },
 }));
 
-/** Retrieves a single screenshot cluster by its ID */
 export interface GetProjectsHistoriesExecutionsClustersRequest {
   /** A Project id. Required. */
   projectId: string;
@@ -2491,13 +2490,13 @@ export const GetProjectsHistoriesExecutionsClustersResponse = ScreenshotCluster;
 
 export type GetProjectsHistoriesExecutionsClustersError = CommonErrors;
 
+/** Retrieves a single screenshot cluster by its ID */
 export const getProjectsHistoriesExecutionsClusters: API.OperationMethod<GetProjectsHistoriesExecutionsClustersRequest, GetProjectsHistoriesExecutionsClustersResponse, GetProjectsHistoriesExecutionsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsHistoriesExecutionsClustersRequest,
   output: GetProjectsHistoriesExecutionsClustersResponse,
   errors: [],
 }));
 
-/** Lists Screenshot Clusters Returns the list of screenshot clusters corresponding to an execution. Screenshot clusters are created after the execution is finished. Clusters are created from a set of screenshots. Between any two screenshots, a matching score is calculated based off their metadata that determines how similar they are. Screenshots are placed in the cluster that has screens which have the highest matching scores. */
 export interface ListProjectsHistoriesExecutionsClustersRequest {
   /** A Project id. Required. */
   projectId: string;
@@ -2521,13 +2520,13 @@ export const ListProjectsHistoriesExecutionsClustersResponse = ListScreenshotClu
 
 export type ListProjectsHistoriesExecutionsClustersError = CommonErrors;
 
+/** Lists Screenshot Clusters Returns the list of screenshot clusters corresponding to an execution. Screenshot clusters are created after the execution is finished. Clusters are created from a set of screenshots. Between any two screenshots, a matching score is calculated based off their metadata that determines how similar they are. Screenshots are placed in the cluster that has screens which have the highest matching scores. */
 export const listProjectsHistoriesExecutionsClusters: API.OperationMethod<ListProjectsHistoriesExecutionsClustersRequest, ListProjectsHistoriesExecutionsClustersResponse, ListProjectsHistoriesExecutionsClustersError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListProjectsHistoriesExecutionsClustersRequest,
   output: ListProjectsHistoriesExecutionsClustersResponse,
   errors: [],
 }));
 
-/** Gets an Environment. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to read project - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the Environment does not exist */
 export interface GetProjectsHistoriesExecutionsEnvironmentsRequest {
   /** Required. A Project id. */
   projectId: string;
@@ -2554,13 +2553,13 @@ export const GetProjectsHistoriesExecutionsEnvironmentsResponse = Environment;
 
 export type GetProjectsHistoriesExecutionsEnvironmentsError = CommonErrors;
 
+/** Gets an Environment. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to read project - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the Environment does not exist */
 export const getProjectsHistoriesExecutionsEnvironments: API.OperationMethod<GetProjectsHistoriesExecutionsEnvironmentsRequest, GetProjectsHistoriesExecutionsEnvironmentsResponse, GetProjectsHistoriesExecutionsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsHistoriesExecutionsEnvironmentsRequest,
   output: GetProjectsHistoriesExecutionsEnvironmentsResponse,
   errors: [],
 }));
 
-/** Lists Environments for a given Execution. The Environments are sorted by display name. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to read project - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the containing Execution does not exist */
 export interface ListProjectsHistoriesExecutionsEnvironmentsRequest {
   /** Required. A Project id. */
   projectId: string;
@@ -2590,7 +2589,8 @@ export const ListProjectsHistoriesExecutionsEnvironmentsResponse = ListEnvironme
 
 export type ListProjectsHistoriesExecutionsEnvironmentsError = CommonErrors;
 
-export const listProjectsHistoriesExecutionsEnvironments = API.makePaginated(() => ({
+/** Lists Environments for a given Execution. The Environments are sorted by display name. May return any of the following canonical error codes: - PERMISSION_DENIED - if the user is not authorized to read project - INVALID_ARGUMENT - if the request is malformed - NOT_FOUND - if the containing Execution does not exist */
+export const listProjectsHistoriesExecutionsEnvironments: API.PaginatedOperationMethod<ListProjectsHistoriesExecutionsEnvironmentsRequest, ListProjectsHistoriesExecutionsEnvironmentsResponse, ListProjectsHistoriesExecutionsEnvironmentsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsHistoriesExecutionsEnvironmentsRequest,
   output: ListProjectsHistoriesExecutionsEnvironmentsResponse,
   errors: [],

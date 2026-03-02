@@ -171,7 +171,6 @@ export const GoogleCloudAdvisorynotificationsV1Settings: Schema.Schema<GoogleClo
 // Operations
 // ==========================================================================
 
-/** Get notification settings. */
 export interface GetSettingsOrganizationsLocationsRequest {
   /** Required. The resource name of the settings to retrieve. Format: organizations/{organization}/locations/{location}/settings or projects/{projects}/locations/{location}/settings. */
   name: string;
@@ -189,13 +188,13 @@ export const GetSettingsOrganizationsLocationsResponse = GoogleCloudAdvisorynoti
 
 export type GetSettingsOrganizationsLocationsError = CommonErrors;
 
+/** Get notification settings. */
 export const getSettingsOrganizationsLocations: API.OperationMethod<GetSettingsOrganizationsLocationsRequest, GetSettingsOrganizationsLocationsResponse, GetSettingsOrganizationsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSettingsOrganizationsLocationsRequest,
   output: GetSettingsOrganizationsLocationsResponse,
   errors: [],
 }));
 
-/** Update notification settings. */
 export interface UpdateSettingsOrganizationsLocationsRequest {
   /** Identifier. The resource name of the settings to retrieve. Format: organizations/{organization}/locations/{location}/settings or projects/{projects}/locations/{location}/settings. */
   name: string;
@@ -216,13 +215,13 @@ export const UpdateSettingsOrganizationsLocationsResponse = GoogleCloudAdvisoryn
 
 export type UpdateSettingsOrganizationsLocationsError = CommonErrors;
 
+/** Update notification settings. */
 export const updateSettingsOrganizationsLocations: API.OperationMethod<UpdateSettingsOrganizationsLocationsRequest, UpdateSettingsOrganizationsLocationsResponse, UpdateSettingsOrganizationsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateSettingsOrganizationsLocationsRequest,
   output: UpdateSettingsOrganizationsLocationsResponse,
   errors: [],
 }));
 
-/** Lists notifications under a given parent. */
 export interface ListOrganizationsLocationsNotificationsRequest {
   /** Required. The parent, which owns this collection of notifications. Must be of the form "organizations/{organization}/locations/{location}" or "projects/{project}/locations/{location}". */
   parent: string;
@@ -252,7 +251,8 @@ export const ListOrganizationsLocationsNotificationsResponse = GoogleCloudAdviso
 
 export type ListOrganizationsLocationsNotificationsError = CommonErrors;
 
-export const listOrganizationsLocationsNotifications = API.makePaginated(() => ({
+/** Lists notifications under a given parent. */
+export const listOrganizationsLocationsNotifications: API.PaginatedOperationMethod<ListOrganizationsLocationsNotificationsRequest, ListOrganizationsLocationsNotificationsResponse, ListOrganizationsLocationsNotificationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListOrganizationsLocationsNotificationsRequest,
   output: ListOrganizationsLocationsNotificationsResponse,
   errors: [],
@@ -262,7 +262,6 @@ export const listOrganizationsLocationsNotifications = API.makePaginated(() => (
   },
 }));
 
-/** Gets a notification. */
 export interface GetOrganizationsLocationsNotificationsRequest {
   /** Required. A name of the notification to retrieve. Format: organizations/{organization}/locations/{location}/notifications/{notification} or projects/{projects}/locations/{location}/notifications/{notification}. */
   name: string;
@@ -283,13 +282,13 @@ export const GetOrganizationsLocationsNotificationsResponse = GoogleCloudAdvisor
 
 export type GetOrganizationsLocationsNotificationsError = CommonErrors;
 
+/** Gets a notification. */
 export const getOrganizationsLocationsNotifications: API.OperationMethod<GetOrganizationsLocationsNotificationsRequest, GetOrganizationsLocationsNotificationsResponse, GetOrganizationsLocationsNotificationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetOrganizationsLocationsNotificationsRequest,
   output: GetOrganizationsLocationsNotificationsResponse,
   errors: [],
 }));
 
-/** Get notification settings. */
 export interface GetSettingsProjectsLocationsRequest {
   /** Required. The resource name of the settings to retrieve. Format: organizations/{organization}/locations/{location}/settings or projects/{projects}/locations/{location}/settings. */
   name: string;
@@ -307,13 +306,13 @@ export const GetSettingsProjectsLocationsResponse = GoogleCloudAdvisorynotificat
 
 export type GetSettingsProjectsLocationsError = CommonErrors;
 
+/** Get notification settings. */
 export const getSettingsProjectsLocations: API.OperationMethod<GetSettingsProjectsLocationsRequest, GetSettingsProjectsLocationsResponse, GetSettingsProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSettingsProjectsLocationsRequest,
   output: GetSettingsProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Update notification settings. */
 export interface UpdateSettingsProjectsLocationsRequest {
   /** Identifier. The resource name of the settings to retrieve. Format: organizations/{organization}/locations/{location}/settings or projects/{projects}/locations/{location}/settings. */
   name: string;
@@ -334,13 +333,13 @@ export const UpdateSettingsProjectsLocationsResponse = GoogleCloudAdvisorynotifi
 
 export type UpdateSettingsProjectsLocationsError = CommonErrors;
 
+/** Update notification settings. */
 export const updateSettingsProjectsLocations: API.OperationMethod<UpdateSettingsProjectsLocationsRequest, UpdateSettingsProjectsLocationsResponse, UpdateSettingsProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateSettingsProjectsLocationsRequest,
   output: UpdateSettingsProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Lists notifications under a given parent. */
 export interface ListProjectsLocationsNotificationsRequest {
   /** Required. The parent, which owns this collection of notifications. Must be of the form "organizations/{organization}/locations/{location}" or "projects/{project}/locations/{location}". */
   parent: string;
@@ -370,7 +369,8 @@ export const ListProjectsLocationsNotificationsResponse = GoogleCloudAdvisorynot
 
 export type ListProjectsLocationsNotificationsError = CommonErrors;
 
-export const listProjectsLocationsNotifications = API.makePaginated(() => ({
+/** Lists notifications under a given parent. */
+export const listProjectsLocationsNotifications: API.PaginatedOperationMethod<ListProjectsLocationsNotificationsRequest, ListProjectsLocationsNotificationsResponse, ListProjectsLocationsNotificationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsNotificationsRequest,
   output: ListProjectsLocationsNotificationsResponse,
   errors: [],
@@ -380,7 +380,6 @@ export const listProjectsLocationsNotifications = API.makePaginated(() => ({
   },
 }));
 
-/** Gets a notification. */
 export interface GetProjectsLocationsNotificationsRequest {
   /** Required. A name of the notification to retrieve. Format: organizations/{organization}/locations/{location}/notifications/{notification} or projects/{projects}/locations/{location}/notifications/{notification}. */
   name: string;
@@ -401,6 +400,7 @@ export const GetProjectsLocationsNotificationsResponse = GoogleCloudAdvisorynoti
 
 export type GetProjectsLocationsNotificationsError = CommonErrors;
 
+/** Gets a notification. */
 export const getProjectsLocationsNotifications: API.OperationMethod<GetProjectsLocationsNotificationsRequest, GetProjectsLocationsNotificationsResponse, GetProjectsLocationsNotificationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsNotificationsRequest,
   output: GetProjectsLocationsNotificationsResponse,

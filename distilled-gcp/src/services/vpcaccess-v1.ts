@@ -228,7 +228,6 @@ export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspen
 // Operations
 // ==========================================================================
 
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
@@ -258,7 +257,8 @@ export const ListProjectsLocationsResponse = ListLocationsResponse;
 
 export type ListProjectsLocationsError = CommonErrors;
 
-export const listProjectsLocations = API.makePaginated(() => ({
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<ListProjectsLocationsRequest, ListProjectsLocationsResponse, ListProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsRequest,
   output: ListProjectsLocationsResponse,
   errors: [],
@@ -268,7 +268,6 @@ export const listProjectsLocations = API.makePaginated(() => ({
   },
 }));
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
@@ -298,7 +297,8 @@ export const ListProjectsLocationsOperationsResponse = ListOperationsResponse;
 
 export type ListProjectsLocationsOperationsError = CommonErrors;
 
-export const listProjectsLocationsOperations = API.makePaginated(() => ({
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<ListProjectsLocationsOperationsRequest, ListProjectsLocationsOperationsResponse, ListProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsOperationsRequest,
   output: ListProjectsLocationsOperationsResponse,
   errors: [],
@@ -308,7 +308,6 @@ export const listProjectsLocationsOperations = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -326,13 +325,13 @@ export const GetProjectsLocationsOperationsResponse = Operation;
 
 export type GetProjectsLocationsOperationsError = CommonErrors;
 
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
 export const getProjectsLocationsOperations: API.OperationMethod<GetProjectsLocationsOperationsRequest, GetProjectsLocationsOperationsResponse, GetProjectsLocationsOperationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
-/** Creates a Serverless VPC Access connector, returns an operation. */
 export interface CreateProjectsLocationsConnectorsRequest {
   /** Required. The project ID and location in which the configuration should be created, specified in the format `projects/* /locations/*`. */
   parent: string;
@@ -356,13 +355,13 @@ export const CreateProjectsLocationsConnectorsResponse = Operation;
 
 export type CreateProjectsLocationsConnectorsError = CommonErrors;
 
+/** Creates a Serverless VPC Access connector, returns an operation. */
 export const createProjectsLocationsConnectors: API.OperationMethod<CreateProjectsLocationsConnectorsRequest, CreateProjectsLocationsConnectorsResponse, CreateProjectsLocationsConnectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateProjectsLocationsConnectorsRequest,
   output: CreateProjectsLocationsConnectorsResponse,
   errors: [],
 }));
 
-/** Updates a Serverless VPC Access connector, returns an operation. */
 export interface PatchProjectsLocationsConnectorsRequest {
   /** The resource name in the format `projects/* /locations/* /connectors/*`. */
   name: string;
@@ -386,13 +385,13 @@ export const PatchProjectsLocationsConnectorsResponse = Operation;
 
 export type PatchProjectsLocationsConnectorsError = CommonErrors;
 
+/** Updates a Serverless VPC Access connector, returns an operation. */
 export const patchProjectsLocationsConnectors: API.OperationMethod<PatchProjectsLocationsConnectorsRequest, PatchProjectsLocationsConnectorsResponse, PatchProjectsLocationsConnectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchProjectsLocationsConnectorsRequest,
   output: PatchProjectsLocationsConnectorsResponse,
   errors: [],
 }));
 
-/** Gets a Serverless VPC Access connector. Returns NOT_FOUND if the resource does not exist. */
 export interface GetProjectsLocationsConnectorsRequest {
   /** Required. Name of a Serverless VPC Access connector to get. */
   name: string;
@@ -410,13 +409,13 @@ export const GetProjectsLocationsConnectorsResponse = Connector;
 
 export type GetProjectsLocationsConnectorsError = CommonErrors;
 
+/** Gets a Serverless VPC Access connector. Returns NOT_FOUND if the resource does not exist. */
 export const getProjectsLocationsConnectors: API.OperationMethod<GetProjectsLocationsConnectorsRequest, GetProjectsLocationsConnectorsResponse, GetProjectsLocationsConnectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsConnectorsRequest,
   output: GetProjectsLocationsConnectorsResponse,
   errors: [],
 }));
 
-/** Lists Serverless VPC Access connectors. */
 export interface ListProjectsLocationsConnectorsRequest {
   /** Required. The project and location from which the routes should be listed. */
   parent: string;
@@ -440,7 +439,8 @@ export const ListProjectsLocationsConnectorsResponse = ListConnectorsResponse;
 
 export type ListProjectsLocationsConnectorsError = CommonErrors;
 
-export const listProjectsLocationsConnectors = API.makePaginated(() => ({
+/** Lists Serverless VPC Access connectors. */
+export const listProjectsLocationsConnectors: API.PaginatedOperationMethod<ListProjectsLocationsConnectorsRequest, ListProjectsLocationsConnectorsResponse, ListProjectsLocationsConnectorsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsConnectorsRequest,
   output: ListProjectsLocationsConnectorsResponse,
   errors: [],
@@ -450,7 +450,6 @@ export const listProjectsLocationsConnectors = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a Serverless VPC Access connector. Returns NOT_FOUND if the resource does not exist. */
 export interface DeleteProjectsLocationsConnectorsRequest {
   /** Required. Name of a Serverless VPC Access connector to delete. */
   name: string;
@@ -468,6 +467,7 @@ export const DeleteProjectsLocationsConnectorsResponse = Operation;
 
 export type DeleteProjectsLocationsConnectorsError = CommonErrors;
 
+/** Deletes a Serverless VPC Access connector. Returns NOT_FOUND if the resource does not exist. */
 export const deleteProjectsLocationsConnectors: API.OperationMethod<DeleteProjectsLocationsConnectorsRequest, DeleteProjectsLocationsConnectorsResponse, DeleteProjectsLocationsConnectorsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteProjectsLocationsConnectorsRequest,
   output: DeleteProjectsLocationsConnectorsResponse,

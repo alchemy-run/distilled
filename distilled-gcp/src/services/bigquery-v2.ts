@@ -4696,7 +4696,6 @@ export const QueryResponse: Schema.Schema<QueryResponse> = Schema.suspend(() => 
 // Operations
 // ==========================================================================
 
-/** Streams data into BigQuery one record at a time without needing to run a load job. */
 export interface InsertAllTabledataRequest {
   /** Required. Project ID of the destination. */
   projectId: string;
@@ -4723,13 +4722,13 @@ export const InsertAllTabledataResponse = TableDataInsertAllResponse;
 
 export type InsertAllTabledataError = CommonErrors;
 
+/** Streams data into BigQuery one record at a time without needing to run a load job. */
 export const insertAllTabledata: API.OperationMethod<InsertAllTabledataRequest, InsertAllTabledataResponse, InsertAllTabledataError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertAllTabledataRequest,
   output: InsertAllTabledataResponse,
   errors: [],
 }));
 
-/** List the content of a table in rows. */
 export interface ListTabledataRequest {
   /** Subset of fields to return, supports select into sub fields. Example: selected_fields = "a,e.d.f"; */
   selectedFields?: string;
@@ -4771,13 +4770,13 @@ export const ListTabledataResponse = TableDataList;
 
 export type ListTabledataError = CommonErrors;
 
+/** List the content of a table in rows. */
 export const listTabledata: API.OperationMethod<ListTabledataRequest, ListTabledataResponse, ListTabledataError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ListTabledataRequest,
   output: ListTabledataResponse,
   errors: [],
 }));
 
-/** RPC to get the service account for a project used for interactions with Google Cloud KMS */
 export interface GetServiceAccountProjectsRequest {
   /** Required. ID of the project. */
   projectId: string;
@@ -4795,13 +4794,13 @@ export const GetServiceAccountProjectsResponse = GetServiceAccountResponse;
 
 export type GetServiceAccountProjectsError = CommonErrors;
 
+/** RPC to get the service account for a project used for interactions with Google Cloud KMS */
 export const getServiceAccountProjects: API.OperationMethod<GetServiceAccountProjectsRequest, GetServiceAccountProjectsResponse, GetServiceAccountProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetServiceAccountProjectsRequest,
   output: GetServiceAccountProjectsResponse,
   errors: [],
 }));
 
-/** RPC to list projects to which the user has been granted any project role. Users of this method are encouraged to consider the [Resource Manager](https://cloud.google.com/resource-manager/docs/) API, which provides the underlying data for this method and has more capabilities. */
 export interface ListProjectsRequest {
   /** Page token, returned by a previous call, to request the next page of results. If not present, no further pages are present. */
   pageToken?: string;
@@ -4822,7 +4821,8 @@ export const ListProjectsResponse = ProjectList;
 
 export type ListProjectsError = CommonErrors;
 
-export const listProjects = API.makePaginated(() => ({
+/** RPC to list projects to which the user has been granted any project role. Users of this method are encouraged to consider the [Resource Manager](https://cloud.google.com/resource-manager/docs/) API, which provides the underlying data for this method and has more capabilities. */
+export const listProjects: API.PaginatedOperationMethod<ListProjectsRequest, ListProjectsResponse, ListProjectsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsRequest,
   output: ListProjectsResponse,
   errors: [],
@@ -4832,7 +4832,6 @@ export const listProjects = API.makePaginated(() => ({
   },
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsTablesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -4853,13 +4852,13 @@ export const TestIamPermissionsTablesResponse = TestIamPermissionsResponse;
 
 export type TestIamPermissionsTablesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsTables: API.OperationMethod<TestIamPermissionsTablesRequest, TestIamPermissionsTablesResponse, TestIamPermissionsTablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsTablesRequest,
   output: TestIamPermissionsTablesResponse,
   errors: [],
 }));
 
-/** Gets the specified table resource by table ID. This method does not return the data in the table, it only returns the table resource, which describes the structure of this table. */
 export interface GetTablesRequest {
   /** Optional. Specifies the view that determines which table information is returned. By default, basic table information and storage statistics (STORAGE_STATS) are returned. */
   view?: "TABLE_METADATA_VIEW_UNSPECIFIED" | "BASIC" | "STORAGE_STATS" | "FULL" | (string & {});
@@ -4889,13 +4888,13 @@ export const GetTablesResponse = Table;
 
 export type GetTablesError = CommonErrors;
 
+/** Gets the specified table resource by table ID. This method does not return the data in the table, it only returns the table resource, which describes the structure of this table. */
 export const getTables: API.OperationMethod<GetTablesRequest, GetTablesResponse, GetTablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetTablesRequest,
   output: GetTablesResponse,
   errors: [],
 }));
 
-/** Lists all tables in the specified dataset. Requires the READER dataset role. */
 export interface ListTablesRequest {
   /** Required. Dataset ID of the tables to list */
   datasetId: string;
@@ -4922,7 +4921,8 @@ export const ListTablesResponse = TableList;
 
 export type ListTablesError = CommonErrors;
 
-export const listTables = API.makePaginated(() => ({
+/** Lists all tables in the specified dataset. Requires the READER dataset role. */
+export const listTables: API.PaginatedOperationMethod<ListTablesRequest, ListTablesResponse, ListTablesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListTablesRequest,
   output: ListTablesResponse,
   errors: [],
@@ -4932,7 +4932,6 @@ export const listTables = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyTablesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -4953,13 +4952,13 @@ export const GetIamPolicyTablesResponse = Policy;
 
 export type GetIamPolicyTablesError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyTables: API.OperationMethod<GetIamPolicyTablesRequest, GetIamPolicyTablesResponse, GetIamPolicyTablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyTablesRequest,
   output: GetIamPolicyTablesResponse,
   errors: [],
 }));
 
-/** Deletes the table specified by tableId from the dataset. If the table contains data, all the data will be deleted. */
 export interface DeleteTablesRequest {
   /** Required. Project ID of the table to delete */
   projectId: string;
@@ -4983,13 +4982,13 @@ export const DeleteTablesResponse: Schema.Schema<DeleteTablesResponse> = Schema.
 
 export type DeleteTablesError = CommonErrors;
 
+/** Deletes the table specified by tableId from the dataset. If the table contains data, all the data will be deleted. */
 export const deleteTables: API.OperationMethod<DeleteTablesRequest, DeleteTablesResponse, DeleteTablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteTablesRequest,
   output: DeleteTablesResponse,
   errors: [],
 }));
 
-/** Updates information in an existing table. The update method replaces the entire table resource, whereas the patch method only replaces fields that are provided in the submitted table resource. This method supports RFC5789 patch semantics. */
 export interface PatchTablesRequest {
   /** Required. Table ID of the table to update */
   tableId: string;
@@ -5019,13 +5018,13 @@ export const PatchTablesResponse = Table;
 
 export type PatchTablesError = CommonErrors;
 
+/** Updates information in an existing table. The update method replaces the entire table resource, whereas the patch method only replaces fields that are provided in the submitted table resource. This method supports RFC5789 patch semantics. */
 export const patchTables: API.OperationMethod<PatchTablesRequest, PatchTablesResponse, PatchTablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchTablesRequest,
   output: PatchTablesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyTablesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -5046,13 +5045,13 @@ export const SetIamPolicyTablesResponse = Policy;
 
 export type SetIamPolicyTablesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyTables: API.OperationMethod<SetIamPolicyTablesRequest, SetIamPolicyTablesResponse, SetIamPolicyTablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyTablesRequest,
   output: SetIamPolicyTablesResponse,
   errors: [],
 }));
 
-/** Updates information in an existing table. The update method replaces the entire Table resource, whereas the patch method only replaces fields that are provided in the submitted Table resource. */
 export interface UpdateTablesRequest {
   /** Required. Table ID of the table to update */
   tableId: string;
@@ -5082,13 +5081,13 @@ export const UpdateTablesResponse = Table;
 
 export type UpdateTablesError = CommonErrors;
 
+/** Updates information in an existing table. The update method replaces the entire Table resource, whereas the patch method only replaces fields that are provided in the submitted Table resource. */
 export const updateTables: API.OperationMethod<UpdateTablesRequest, UpdateTablesResponse, UpdateTablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateTablesRequest,
   output: UpdateTablesResponse,
   errors: [],
 }));
 
-/** Creates a new, empty table in the dataset. */
 export interface InsertTablesRequest {
   /** Required. Dataset ID of the new table */
   datasetId: string;
@@ -5112,13 +5111,13 @@ export const InsertTablesResponse = Table;
 
 export type InsertTablesError = CommonErrors;
 
+/** Creates a new, empty table in the dataset. */
 export const insertTables: API.OperationMethod<InsertTablesRequest, InsertTablesResponse, InsertTablesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertTablesRequest,
   output: InsertTablesResponse,
   errors: [],
 }));
 
-/** Updates information in an existing dataset. The update method replaces the entire dataset resource, whereas the patch method only replaces fields that are provided in the submitted dataset resource. */
 export interface UpdateDatasetsRequest {
   /** Optional. The version of the provided access policy schema. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. This version refers to the schema version of the access policy and not the version of access policy. This field's value can be equal or more than the access policy schema provided in the request. For example, * Operations updating conditional access policy binding in datasets must specify version 3. Some of the operations are : - Adding a new access policy entry with condition. - Removing an access policy entry with condition. - Updating an access policy entry with condition. * But dataset with no conditional role bindings in access policy may specify any valid value or leave the field unset. If unset or if 0 or 1 value is used for dataset with conditional bindings, request will be rejected. This field will be mapped to IAM Policy version (https://cloud.google.com/iam/docs/policies#versions) and will be used to set policy in IAM. */
   accessPolicyVersion?: number;
@@ -5148,13 +5147,13 @@ export const UpdateDatasetsResponse = Dataset;
 
 export type UpdateDatasetsError = CommonErrors;
 
+/** Updates information in an existing dataset. The update method replaces the entire dataset resource, whereas the patch method only replaces fields that are provided in the submitted dataset resource. */
 export const updateDatasets: API.OperationMethod<UpdateDatasetsRequest, UpdateDatasetsResponse, UpdateDatasetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateDatasetsRequest,
   output: UpdateDatasetsResponse,
   errors: [],
 }));
 
-/** Returns the dataset specified by datasetID. */
 export interface GetDatasetsRequest {
   /** Optional. The version of the access policy schema to fetch. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for conditional access policy binding in datasets must specify version 3. Dataset with no conditional role bindings in access policy may specify any valid value or leave the field unset. This field will be mapped to [IAM Policy version] (https://cloud.google.com/iam/docs/policies#versions) and will be used to fetch policy from IAM. If unset or if 0 or 1 value is used for dataset with conditional bindings, access entry with condition will have role string appended by 'withcond' string followed by a hash value. For example : { "access": [ { "role": "roles/bigquery.dataViewer_with_conditionalbinding_7a34awqsda", "userByEmail": "user@example.com", } ] } Please refer https://cloud.google.com/iam/docs/troubleshooting-withcond for more details. */
   accessPolicyVersion?: number;
@@ -5181,13 +5180,13 @@ export const GetDatasetsResponse = Dataset;
 
 export type GetDatasetsError = CommonErrors;
 
+/** Returns the dataset specified by datasetID. */
 export const getDatasets: API.OperationMethod<GetDatasetsRequest, GetDatasetsResponse, GetDatasetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetDatasetsRequest,
   output: GetDatasetsResponse,
   errors: [],
 }));
 
-/** Creates a new empty dataset. */
 export interface InsertDatasetsRequest {
   /** Required. Project ID of the new dataset */
   projectId: string;
@@ -5211,13 +5210,13 @@ export const InsertDatasetsResponse = Dataset;
 
 export type InsertDatasetsError = CommonErrors;
 
+/** Creates a new empty dataset. */
 export const insertDatasets: API.OperationMethod<InsertDatasetsRequest, InsertDatasetsResponse, InsertDatasetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertDatasetsRequest,
   output: InsertDatasetsResponse,
   errors: [],
 }));
 
-/** Undeletes a dataset which is within time travel window based on datasetId. If a time is specified, the dataset version deleted at that time is undeleted, else the last live version is undeleted. */
 export interface UndeleteDatasetsRequest {
   /** Required. Dataset ID of dataset being deleted */
   datasetId: string;
@@ -5241,13 +5240,13 @@ export const UndeleteDatasetsResponse = Dataset;
 
 export type UndeleteDatasetsError = CommonErrors;
 
+/** Undeletes a dataset which is within time travel window based on datasetId. If a time is specified, the dataset version deleted at that time is undeleted, else the last live version is undeleted. */
 export const undeleteDatasets: API.OperationMethod<UndeleteDatasetsRequest, UndeleteDatasetsResponse, UndeleteDatasetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UndeleteDatasetsRequest,
   output: UndeleteDatasetsResponse,
   errors: [],
 }));
 
-/** Updates information in an existing dataset. The update method replaces the entire dataset resource, whereas the patch method only replaces fields that are provided in the submitted dataset resource. This method supports RFC5789 patch semantics. */
 export interface PatchDatasetsRequest {
   /** Required. Project ID of the dataset being updated */
   projectId: string;
@@ -5277,13 +5276,13 @@ export const PatchDatasetsResponse = Dataset;
 
 export type PatchDatasetsError = CommonErrors;
 
+/** Updates information in an existing dataset. The update method replaces the entire dataset resource, whereas the patch method only replaces fields that are provided in the submitted dataset resource. This method supports RFC5789 patch semantics. */
 export const patchDatasets: API.OperationMethod<PatchDatasetsRequest, PatchDatasetsResponse, PatchDatasetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchDatasetsRequest,
   output: PatchDatasetsResponse,
   errors: [],
 }));
 
-/** Lists all datasets in the specified project to which the user has been granted the READER dataset role. */
 export interface ListDatasetsRequest {
   /** Page token, returned by a previous call, to request the next page of results */
   pageToken?: string;
@@ -5313,7 +5312,8 @@ export const ListDatasetsResponse = DatasetList;
 
 export type ListDatasetsError = CommonErrors;
 
-export const listDatasets = API.makePaginated(() => ({
+/** Lists all datasets in the specified project to which the user has been granted the READER dataset role. */
+export const listDatasets: API.PaginatedOperationMethod<ListDatasetsRequest, ListDatasetsResponse, ListDatasetsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListDatasetsRequest,
   output: ListDatasetsResponse,
   errors: [],
@@ -5323,7 +5323,6 @@ export const listDatasets = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes the dataset specified by the datasetId value. Before you can delete a dataset, you must delete all its tables, either manually or by specifying deleteContents. Immediately after deletion, you can create another dataset with the same name. */
 export interface DeleteDatasetsRequest {
   /** Required. Project ID of the dataset being deleted */
   projectId: string;
@@ -5347,13 +5346,13 @@ export const DeleteDatasetsResponse: Schema.Schema<DeleteDatasetsResponse> = Sch
 
 export type DeleteDatasetsError = CommonErrors;
 
+/** Deletes the dataset specified by the datasetId value. Before you can delete a dataset, you must delete all its tables, either manually or by specifying deleteContents. Immediately after deletion, you can create another dataset with the same name. */
 export const deleteDatasets: API.OperationMethod<DeleteDatasetsRequest, DeleteDatasetsResponse, DeleteDatasetsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteDatasetsRequest,
   output: DeleteDatasetsResponse,
   errors: [],
 }));
 
-/** Lists all row access policies on the specified table. */
 export interface ListRowAccessPoliciesRequest {
   /** The maximum number of results to return in a single response page. Leverage the page tokens to iterate through the entire collection. */
   pageSize?: number;
@@ -5383,7 +5382,8 @@ export const ListRowAccessPoliciesResponse_Op = ListRowAccessPoliciesResponse;
 
 export type ListRowAccessPoliciesError = CommonErrors;
 
-export const listRowAccessPolicies = API.makePaginated(() => ({
+/** Lists all row access policies on the specified table. */
+export const listRowAccessPolicies: API.PaginatedOperationMethod<ListRowAccessPoliciesRequest, ListRowAccessPoliciesResponse_Op, ListRowAccessPoliciesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRowAccessPoliciesRequest,
   output: ListRowAccessPoliciesResponse_Op,
   errors: [],
@@ -5393,7 +5393,6 @@ export const listRowAccessPolicies = API.makePaginated(() => ({
   },
 }));
 
-/** Deletes a row access policy. */
 export interface DeleteRowAccessPoliciesRequest {
   /** If set to true, it deletes the row access policy even if it's the last row access policy on the table and the deletion will widen the access rather narrowing it. */
   force?: boolean;
@@ -5423,13 +5422,13 @@ export const DeleteRowAccessPoliciesResponse: Schema.Schema<DeleteRowAccessPolic
 
 export type DeleteRowAccessPoliciesError = CommonErrors;
 
+/** Deletes a row access policy. */
 export const deleteRowAccessPolicies: API.OperationMethod<DeleteRowAccessPoliciesRequest, DeleteRowAccessPoliciesResponse, DeleteRowAccessPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRowAccessPoliciesRequest,
   output: DeleteRowAccessPoliciesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsRowAccessPoliciesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -5450,13 +5449,13 @@ export const TestIamPermissionsRowAccessPoliciesResponse = TestIamPermissionsRes
 
 export type TestIamPermissionsRowAccessPoliciesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsRowAccessPolicies: API.OperationMethod<TestIamPermissionsRowAccessPoliciesRequest, TestIamPermissionsRowAccessPoliciesResponse, TestIamPermissionsRowAccessPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsRowAccessPoliciesRequest,
   output: TestIamPermissionsRowAccessPoliciesResponse,
   errors: [],
 }));
 
-/** Deletes provided row access policies. */
 export interface BatchDeleteRowAccessPoliciesRequest_Op {
   /** Required. Project ID of the table to delete the row access policies. */
   projectId: string;
@@ -5483,13 +5482,13 @@ export const BatchDeleteRowAccessPoliciesResponse: Schema.Schema<BatchDeleteRowA
 
 export type BatchDeleteRowAccessPoliciesError = CommonErrors;
 
+/** Deletes provided row access policies. */
 export const batchDeleteRowAccessPolicies: API.OperationMethod<BatchDeleteRowAccessPoliciesRequest_Op, BatchDeleteRowAccessPoliciesResponse, BatchDeleteRowAccessPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: BatchDeleteRowAccessPoliciesRequest_Op,
   output: BatchDeleteRowAccessPoliciesResponse,
   errors: [],
 }));
 
-/** Creates a row access policy. */
 export interface InsertRowAccessPoliciesRequest {
   /** Required. Project ID of the table to get the row access policy. */
   projectId: string;
@@ -5516,13 +5515,13 @@ export const InsertRowAccessPoliciesResponse = RowAccessPolicy;
 
 export type InsertRowAccessPoliciesError = CommonErrors;
 
+/** Creates a row access policy. */
 export const insertRowAccessPolicies: API.OperationMethod<InsertRowAccessPoliciesRequest, InsertRowAccessPoliciesResponse, InsertRowAccessPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertRowAccessPoliciesRequest,
   output: InsertRowAccessPoliciesResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyRowAccessPoliciesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -5543,13 +5542,13 @@ export const GetIamPolicyRowAccessPoliciesResponse = Policy;
 
 export type GetIamPolicyRowAccessPoliciesError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyRowAccessPolicies: API.OperationMethod<GetIamPolicyRowAccessPoliciesRequest, GetIamPolicyRowAccessPoliciesResponse, GetIamPolicyRowAccessPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyRowAccessPoliciesRequest,
   output: GetIamPolicyRowAccessPoliciesResponse,
   errors: [],
 }));
 
-/** Updates a row access policy. */
 export interface UpdateRowAccessPoliciesRequest {
   /** Required. Policy ID of the row access policy. */
   policyId: string;
@@ -5579,13 +5578,13 @@ export const UpdateRowAccessPoliciesResponse = RowAccessPolicy;
 
 export type UpdateRowAccessPoliciesError = CommonErrors;
 
+/** Updates a row access policy. */
 export const updateRowAccessPolicies: API.OperationMethod<UpdateRowAccessPoliciesRequest, UpdateRowAccessPoliciesResponse, UpdateRowAccessPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateRowAccessPoliciesRequest,
   output: UpdateRowAccessPoliciesResponse,
   errors: [],
 }));
 
-/** Gets the specified row access policy by policy ID. */
 export interface GetRowAccessPoliciesRequest {
   /** Required. Table ID of the table to get the row access policy. */
   tableId: string;
@@ -5612,13 +5611,13 @@ export const GetRowAccessPoliciesResponse = RowAccessPolicy;
 
 export type GetRowAccessPoliciesError = CommonErrors;
 
+/** Gets the specified row access policy by policy ID. */
 export const getRowAccessPolicies: API.OperationMethod<GetRowAccessPoliciesRequest, GetRowAccessPoliciesResponse, GetRowAccessPoliciesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRowAccessPoliciesRequest,
   output: GetRowAccessPoliciesResponse,
   errors: [],
 }));
 
-/** Runs a BigQuery SQL query synchronously and returns query results if the query completes within a specified timeout. */
 export interface QueryJobsRequest {
   /** Required. Project ID of the query request. */
   projectId: string;
@@ -5639,13 +5638,13 @@ export const QueryJobsResponse = QueryResponse;
 
 export type QueryJobsError = CommonErrors;
 
+/** Runs a BigQuery SQL query synchronously and returns query results if the query completes within a specified timeout. */
 export const queryJobs: API.OperationMethod<QueryJobsRequest, QueryJobsResponse, QueryJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: QueryJobsRequest,
   output: QueryJobsResponse,
   errors: [],
 }));
 
-/** Returns information about a specific job. Job information is available for a six month period after creation. Requires that you're the person who ran the job, or have the Is Owner project role. */
 export interface GetJobsRequest {
   /** Required. Project ID of the requested job. */
   projectId: string;
@@ -5669,13 +5668,13 @@ export const GetJobsResponse = Job;
 
 export type GetJobsError = CommonErrors;
 
+/** Returns information about a specific job. Job information is available for a six month period after creation. Requires that you're the person who ran the job, or have the Is Owner project role. */
 export const getJobs: API.OperationMethod<GetJobsRequest, GetJobsResponse, GetJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetJobsRequest,
   output: GetJobsResponse,
   errors: [],
 }));
 
-/** Starts a new asynchronous job. This API has two different kinds of endpoint URIs, as this method supports a variety of use cases. * The *Metadata* URI is used for most interactions, as it accepts the job configuration directly. * The *Upload* URI is ONLY for the case when you're sending both a load job configuration and a data stream together. In this case, the Upload URI accepts the job configuration and the data as two distinct multipart MIME parts. */
 export interface InsertJobsRequest {
   /** Project ID of project that will be billed for the job. */
   projectId: string;
@@ -5696,13 +5695,13 @@ export const InsertJobsResponse = Job;
 
 export type InsertJobsError = CommonErrors;
 
+/** Starts a new asynchronous job. This API has two different kinds of endpoint URIs, as this method supports a variety of use cases. * The *Metadata* URI is used for most interactions, as it accepts the job configuration directly. * The *Upload* URI is ONLY for the case when you're sending both a load job configuration and a data stream together. In this case, the Upload URI accepts the job configuration and the data as two distinct multipart MIME parts. */
 export const insertJobs: API.OperationMethod<InsertJobsRequest, InsertJobsResponse, InsertJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertJobsRequest,
   output: InsertJobsResponse,
   errors: [],
 }));
 
-/** RPC to get the results of a query job. */
 export interface GetQueryResultsJobsRequest {
   /** The geographic location of the job. You must specify the location to run the job for the following scenarios: * If the location to run a job is not in the `us` or the `eu` multi-regional location * If the job's location is in a single region (for example, `us-central1`) For more information, see how to [specify locations](https://cloud.google.com/bigquery/docs/locations#specify_locations). */
   location?: string;
@@ -5744,13 +5743,13 @@ export const GetQueryResultsJobsResponse = GetQueryResultsResponse;
 
 export type GetQueryResultsJobsError = CommonErrors;
 
+/** RPC to get the results of a query job. */
 export const getQueryResultsJobs: API.OperationMethod<GetQueryResultsJobsRequest, GetQueryResultsJobsResponse, GetQueryResultsJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetQueryResultsJobsRequest,
   output: GetQueryResultsJobsResponse,
   errors: [],
 }));
 
-/** Requests that a job be cancelled. This call will return immediately, and the client will need to poll for the job status to see if the cancel completed successfully. Cancelled jobs may still incur costs. */
 export interface CancelJobsRequest {
   /** The geographic location of the job. You must [specify the location](https://cloud.google.com/bigquery/docs/locations#specify_locations) to run the job for the following scenarios: * If the location to run a job is not in the `us` or the `eu` multi-regional location * If the job's location is in a single region (for example, `us-central1`) */
   location?: string;
@@ -5774,13 +5773,13 @@ export const CancelJobsResponse = JobCancelResponse;
 
 export type CancelJobsError = CommonErrors;
 
+/** Requests that a job be cancelled. This call will return immediately, and the client will need to poll for the job status to see if the cancel completed successfully. Cancelled jobs may still incur costs. */
 export const cancelJobs: API.OperationMethod<CancelJobsRequest, CancelJobsResponse, CancelJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CancelJobsRequest,
   output: CancelJobsResponse,
   errors: [],
 }));
 
-/** Requests the deletion of the metadata of a job. This call returns when the job's metadata is deleted. */
 export interface DeleteJobsRequest {
   /** Required. Job ID of the job for which metadata is to be deleted. If this is a parent job which has child jobs, the metadata from all child jobs will be deleted as well. Direct deletion of the metadata of child jobs is not allowed. */
   jobId: string;
@@ -5804,13 +5803,13 @@ export const DeleteJobsResponse: Schema.Schema<DeleteJobsResponse> = Schema.Stru
 
 export type DeleteJobsError = CommonErrors;
 
+/** Requests the deletion of the metadata of a job. This call returns when the job's metadata is deleted. */
 export const deleteJobs: API.OperationMethod<DeleteJobsRequest, DeleteJobsResponse, DeleteJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteJobsRequest,
   output: DeleteJobsResponse,
   errors: [],
 }));
 
-/** Lists all jobs that you started in the specified project. Job information is available for a six month period after creation. The job list is sorted in reverse chronological order, by job creation time. Requires the Can View project role, or the Is Owner project role if you set the allUsers property. */
 export interface ListJobsRequest {
   /** Min value for job creation time, in milliseconds since the POSIX epoch. If set, only jobs created after or at this timestamp are returned. */
   minCreationTime?: string;
@@ -5852,7 +5851,8 @@ export const ListJobsResponse = JobList;
 
 export type ListJobsError = CommonErrors;
 
-export const listJobs = API.makePaginated(() => ({
+/** Lists all jobs that you started in the specified project. Job information is available for a six month period after creation. The job list is sorted in reverse chronological order, by job creation time. Requires the Can View project role, or the Is Owner project role if you set the allUsers property. */
+export const listJobs: API.PaginatedOperationMethod<ListJobsRequest, ListJobsResponse, ListJobsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListJobsRequest,
   output: ListJobsResponse,
   errors: [],
@@ -5862,7 +5862,6 @@ export const listJobs = API.makePaginated(() => ({
   },
 }));
 
-/** Gets the specified model resource by model ID. */
 export interface GetModelsRequest {
   /** Required. Project ID of the requested model. */
   projectId: string;
@@ -5886,13 +5885,13 @@ export const GetModelsResponse = Model;
 
 export type GetModelsError = CommonErrors;
 
+/** Gets the specified model resource by model ID. */
 export const getModels: API.OperationMethod<GetModelsRequest, GetModelsResponse, GetModelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetModelsRequest,
   output: GetModelsResponse,
   errors: [],
 }));
 
-/** Deletes the model specified by modelId from the dataset. */
 export interface DeleteModelsRequest {
   /** Required. Model ID of the model to delete. */
   modelId: string;
@@ -5916,13 +5915,13 @@ export const DeleteModelsResponse: Schema.Schema<DeleteModelsResponse> = Schema.
 
 export type DeleteModelsError = CommonErrors;
 
+/** Deletes the model specified by modelId from the dataset. */
 export const deleteModels: API.OperationMethod<DeleteModelsRequest, DeleteModelsResponse, DeleteModelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteModelsRequest,
   output: DeleteModelsResponse,
   errors: [],
 }));
 
-/** Lists all models in the specified dataset. Requires the READER dataset role. After retrieving the list of models, you can get information about a particular model by calling the models.get method. */
 export interface ListModelsRequest {
   /** The maximum number of results to return in a single response page. Leverage the page tokens to iterate through the entire collection. */
   maxResults?: number;
@@ -5949,7 +5948,8 @@ export const ListModelsResponse_Op = ListModelsResponse;
 
 export type ListModelsError = CommonErrors;
 
-export const listModels = API.makePaginated(() => ({
+/** Lists all models in the specified dataset. Requires the READER dataset role. After retrieving the list of models, you can get information about a particular model by calling the models.get method. */
+export const listModels: API.PaginatedOperationMethod<ListModelsRequest, ListModelsResponse_Op, ListModelsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListModelsRequest,
   output: ListModelsResponse_Op,
   errors: [],
@@ -5959,7 +5959,6 @@ export const listModels = API.makePaginated(() => ({
   },
 }));
 
-/** Patch specific fields in the specified model. */
 export interface PatchModelsRequest {
   /** Required. Model ID of the model to patch. */
   modelId: string;
@@ -5986,13 +5985,13 @@ export const PatchModelsResponse = Model;
 
 export type PatchModelsError = CommonErrors;
 
+/** Patch specific fields in the specified model. */
 export const patchModels: API.OperationMethod<PatchModelsRequest, PatchModelsResponse, PatchModelsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PatchModelsRequest,
   output: PatchModelsResponse,
   errors: [],
 }));
 
-/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export interface GetIamPolicyRoutinesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -6013,13 +6012,13 @@ export const GetIamPolicyRoutinesResponse = Policy;
 
 export type GetIamPolicyRoutinesError = CommonErrors;
 
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
 export const getIamPolicyRoutines: API.OperationMethod<GetIamPolicyRoutinesRequest, GetIamPolicyRoutinesResponse, GetIamPolicyRoutinesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetIamPolicyRoutinesRequest,
   output: GetIamPolicyRoutinesResponse,
   errors: [],
 }));
 
-/** Creates a new routine in the dataset. */
 export interface InsertRoutinesRequest {
   /** Required. Project ID of the new routine */
   projectId: string;
@@ -6043,13 +6042,13 @@ export const InsertRoutinesResponse = Routine;
 
 export type InsertRoutinesError = CommonErrors;
 
+/** Creates a new routine in the dataset. */
 export const insertRoutines: API.OperationMethod<InsertRoutinesRequest, InsertRoutinesResponse, InsertRoutinesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InsertRoutinesRequest,
   output: InsertRoutinesResponse,
   errors: [],
 }));
 
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export interface SetIamPolicyRoutinesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -6070,13 +6069,13 @@ export const SetIamPolicyRoutinesResponse = Policy;
 
 export type SetIamPolicyRoutinesError = CommonErrors;
 
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
 export const setIamPolicyRoutines: API.OperationMethod<SetIamPolicyRoutinesRequest, SetIamPolicyRoutinesResponse, SetIamPolicyRoutinesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: SetIamPolicyRoutinesRequest,
   output: SetIamPolicyRoutinesResponse,
   errors: [],
 }));
 
-/** Gets the specified routine resource by routine ID. */
 export interface GetRoutinesRequest {
   /** Required. Routine ID of the requested routine */
   routineId: string;
@@ -6103,13 +6102,13 @@ export const GetRoutinesResponse = Routine;
 
 export type GetRoutinesError = CommonErrors;
 
+/** Gets the specified routine resource by routine ID. */
 export const getRoutines: API.OperationMethod<GetRoutinesRequest, GetRoutinesResponse, GetRoutinesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetRoutinesRequest,
   output: GetRoutinesResponse,
   errors: [],
 }));
 
-/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export interface TestIamPermissionsRoutinesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -6130,13 +6129,13 @@ export const TestIamPermissionsRoutinesResponse = TestIamPermissionsResponse;
 
 export type TestIamPermissionsRoutinesError = CommonErrors;
 
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
 export const testIamPermissionsRoutines: API.OperationMethod<TestIamPermissionsRoutinesRequest, TestIamPermissionsRoutinesResponse, TestIamPermissionsRoutinesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: TestIamPermissionsRoutinesRequest,
   output: TestIamPermissionsRoutinesResponse,
   errors: [],
 }));
 
-/** Updates information in an existing routine. The update method replaces the entire Routine resource. */
 export interface UpdateRoutinesRequest {
   /** Required. Project ID of the routine to update */
   projectId: string;
@@ -6163,13 +6162,13 @@ export const UpdateRoutinesResponse = Routine;
 
 export type UpdateRoutinesError = CommonErrors;
 
+/** Updates information in an existing routine. The update method replaces the entire Routine resource. */
 export const updateRoutines: API.OperationMethod<UpdateRoutinesRequest, UpdateRoutinesResponse, UpdateRoutinesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateRoutinesRequest,
   output: UpdateRoutinesResponse,
   errors: [],
 }));
 
-/** Deletes the routine specified by routineId from the dataset. */
 export interface DeleteRoutinesRequest {
   /** Required. Dataset ID of the routine to delete */
   datasetId: string;
@@ -6193,13 +6192,13 @@ export const DeleteRoutinesResponse: Schema.Schema<DeleteRoutinesResponse> = Sch
 
 export type DeleteRoutinesError = CommonErrors;
 
+/** Deletes the routine specified by routineId from the dataset. */
 export const deleteRoutines: API.OperationMethod<DeleteRoutinesRequest, DeleteRoutinesResponse, DeleteRoutinesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteRoutinesRequest,
   output: DeleteRoutinesResponse,
   errors: [],
 }));
 
-/** Lists all routines in the specified dataset. Requires the READER dataset role. */
 export interface ListRoutinesRequest {
   /** Required. Dataset ID of the routines to list */
   datasetId: string;
@@ -6232,7 +6231,8 @@ export const ListRoutinesResponse_Op = ListRoutinesResponse;
 
 export type ListRoutinesError = CommonErrors;
 
-export const listRoutines = API.makePaginated(() => ({
+/** Lists all routines in the specified dataset. Requires the READER dataset role. */
+export const listRoutines: API.PaginatedOperationMethod<ListRoutinesRequest, ListRoutinesResponse_Op, ListRoutinesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListRoutinesRequest,
   output: ListRoutinesResponse_Op,
   errors: [],

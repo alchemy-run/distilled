@@ -870,7 +870,6 @@ export const QueryDriveActivityResponse: Schema.Schema<QueryDriveActivityRespons
 // Operations
 // ==========================================================================
 
-/** Query past activity in Google Drive. */
 export interface QueryActivityRequest {
   /** Request body */
   body?: QueryDriveActivityRequest;
@@ -888,6 +887,7 @@ export const QueryActivityResponse = QueryDriveActivityResponse;
 
 export type QueryActivityError = CommonErrors;
 
+/** Query past activity in Google Drive. */
 export const queryActivity: API.OperationMethod<QueryActivityRequest, QueryActivityResponse, QueryActivityError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: QueryActivityRequest,
   output: QueryActivityResponse,

@@ -264,7 +264,6 @@ export const ReportErrorEventResponse: Schema.Schema<ReportErrorEventResponse> =
 // Operations
 // ==========================================================================
 
-/** Deletes all error events of a given project. */
 export interface DeleteEventsProjectsRequest {
   /** Required. The resource name of the Google Cloud Platform project. Written as `projects/{projectID}` or `projects/{projectID}/locations/{location}`, where `{projectID}` is the [Google Cloud Platform project ID](https://support.google.com/cloud/answer/6158840) and `{location}` is a Cloud region. Examples: `projects/my-project-123`, `projects/my-project-123/locations/global`. For a list of supported locations, see [Supported Regions](https://cloud.google.com/logging/docs/region-support). `global` is the default when unspecified. */
   projectName: string;
@@ -282,13 +281,13 @@ export const DeleteEventsProjectsResponse = DeleteEventsResponse;
 
 export type DeleteEventsProjectsError = CommonErrors;
 
+/** Deletes all error events of a given project. */
 export const deleteEventsProjects: API.OperationMethod<DeleteEventsProjectsRequest, DeleteEventsProjectsResponse, DeleteEventsProjectsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteEventsProjectsRequest,
   output: DeleteEventsProjectsResponse,
   errors: [],
 }));
 
-/** Get the specified group. */
 export interface GetProjectsGroupsRequest {
   /** Required. The group resource name. Written as either `projects/{projectID}/groups/{group_id}` or `projects/{projectID}/locations/{location}/groups/{group_id}`. Call groupStats.list to return a list of groups belonging to this project. Examples: `projects/my-project-123/groups/my-group`, `projects/my-project-123/locations/global/groups/my-group` In the group resource name, the `group_id` is a unique identifier for a particular error group. The identifier is derived from key parts of the error-log content and is treated as Service Data. For information about how Service Data is handled, see [Google Cloud Privacy Notice](https://cloud.google.com/terms/cloud-privacy-notice). For a list of supported locations, see [Supported Regions](https://cloud.google.com/logging/docs/region-support). `global` is the default when unspecified. */
   groupName: string;
@@ -306,13 +305,13 @@ export const GetProjectsGroupsResponse = ErrorGroup;
 
 export type GetProjectsGroupsError = CommonErrors;
 
+/** Get the specified group. */
 export const getProjectsGroups: API.OperationMethod<GetProjectsGroupsRequest, GetProjectsGroupsResponse, GetProjectsGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsGroupsRequest,
   output: GetProjectsGroupsResponse,
   errors: [],
 }));
 
-/** Replace the data for the specified group. Fails if the group does not exist. */
 export interface UpdateProjectsGroupsRequest {
   /** The group resource name. Written as `projects/{projectID}/groups/{group_id}` or `projects/{projectID}/locations/{location}/groups/{group_id}` Examples: `projects/my-project-123/groups/my-group`, `projects/my-project-123/locations/us-central1/groups/my-group` In the group resource name, the `group_id` is a unique identifier for a particular error group. The identifier is derived from key parts of the error-log content and is treated as Service Data. For information about how Service Data is handled, see [Google Cloud Privacy Notice](https://cloud.google.com/terms/cloud-privacy-notice). For a list of supported locations, see [Supported Regions](https://cloud.google.com/logging/docs/region-support). `global` is the default when unspecified. */
   name: string;
@@ -333,13 +332,13 @@ export const UpdateProjectsGroupsResponse = ErrorGroup;
 
 export type UpdateProjectsGroupsError = CommonErrors;
 
+/** Replace the data for the specified group. Fails if the group does not exist. */
 export const updateProjectsGroups: API.OperationMethod<UpdateProjectsGroupsRequest, UpdateProjectsGroupsResponse, UpdateProjectsGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateProjectsGroupsRequest,
   output: UpdateProjectsGroupsResponse,
   errors: [],
 }));
 
-/** Lists the specified groups. */
 export interface ListProjectsGroupStatsRequest {
   /** Required. The resource name of the Google Cloud Platform project. Written as `projects/{projectID}` or `projects/{projectNumber}`, where `{projectID}` and `{projectNumber}` can be found in the [Google Cloud console](https://support.google.com/cloud/answer/6158840). It may also include a location, such as `projects/{projectID}/locations/{location}` where `{location}` is a cloud region. Examples: `projects/my-project-123`, `projects/5551234`, `projects/my-project-123/locations/us-central1`, `projects/5551234/locations/us-central1`. For a list of supported locations, see [Supported Regions](https://cloud.google.com/logging/docs/region-support). `global` is the default when unspecified. Use `-` as a wildcard to request group stats from all regions. */
   projectName: string;
@@ -390,7 +389,8 @@ export const ListProjectsGroupStatsResponse = ListGroupStatsResponse;
 
 export type ListProjectsGroupStatsError = CommonErrors;
 
-export const listProjectsGroupStats = API.makePaginated(() => ({
+/** Lists the specified groups. */
+export const listProjectsGroupStats: API.PaginatedOperationMethod<ListProjectsGroupStatsRequest, ListProjectsGroupStatsResponse, ListProjectsGroupStatsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsGroupStatsRequest,
   output: ListProjectsGroupStatsResponse,
   errors: [],
@@ -400,7 +400,6 @@ export const listProjectsGroupStats = API.makePaginated(() => ({
   },
 }));
 
-/** Lists the specified events. */
 export interface ListProjectsEventsRequest {
   /** Required. The resource name of the Google Cloud Platform project. Written as `projects/{projectID}` or `projects/{projectID}/locations/{location}`, where `{projectID}` is the [Google Cloud Platform project ID](https://support.google.com/cloud/answer/6158840) and `{location}` is a Cloud region. Examples: `projects/my-project-123`, `projects/my-project-123/locations/global`. For a list of supported locations, see [Supported Regions](https://cloud.google.com/logging/docs/region-support). `global` is the default when unspecified. */
   projectName: string;
@@ -439,7 +438,8 @@ export const ListProjectsEventsResponse = ListEventsResponse;
 
 export type ListProjectsEventsError = CommonErrors;
 
-export const listProjectsEvents = API.makePaginated(() => ({
+/** Lists the specified events. */
+export const listProjectsEvents: API.PaginatedOperationMethod<ListProjectsEventsRequest, ListProjectsEventsResponse, ListProjectsEventsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsEventsRequest,
   output: ListProjectsEventsResponse,
   errors: [],
@@ -449,7 +449,6 @@ export const listProjectsEvents = API.makePaginated(() => ({
   },
 }));
 
-/** Report an individual error event and record the event to a log. This endpoint accepts **either** an OAuth token, **or** an [API key](https://support.google.com/cloud/answer/6158862) for authentication. To use an API key, append it to the URL as the value of a `key` parameter. For example: `POST https://clouderrorreporting.googleapis.com/v1beta1/{projectName}/events:report?key=123ABC456` **Note:** [Error Reporting] (https://cloud.google.com/error-reporting) is a service built on Cloud Logging and can analyze log entries when all of the following are true: * Customer-managed encryption keys (CMEK) are disabled on the log bucket. * The log bucket satisfies one of the following: * The log bucket is stored in the same project where the logs originated. * The logs were routed to a project, and then that project stored those logs in a log bucket that it owns. */
 export interface ReportProjectsEventsRequest {
   /** Required. The resource name of the Google Cloud Platform project. Written as `projects/{projectId}`, where `{projectId}` is the [Google Cloud Platform project ID](https://support.google.com/cloud/answer/6158840). Example: // `projects/my-project-123`. */
   projectName: string;
@@ -470,13 +469,13 @@ export const ReportProjectsEventsResponse = ReportErrorEventResponse;
 
 export type ReportProjectsEventsError = CommonErrors;
 
+/** Report an individual error event and record the event to a log. This endpoint accepts **either** an OAuth token, **or** an [API key](https://support.google.com/cloud/answer/6158862) for authentication. To use an API key, append it to the URL as the value of a `key` parameter. For example: `POST https://clouderrorreporting.googleapis.com/v1beta1/{projectName}/events:report?key=123ABC456` **Note:** [Error Reporting] (https://cloud.google.com/error-reporting) is a service built on Cloud Logging and can analyze log entries when all of the following are true: * Customer-managed encryption keys (CMEK) are disabled on the log bucket. * The log bucket satisfies one of the following: * The log bucket is stored in the same project where the logs originated. * The logs were routed to a project, and then that project stored those logs in a log bucket that it owns. */
 export const reportProjectsEvents: API.OperationMethod<ReportProjectsEventsRequest, ReportProjectsEventsResponse, ReportProjectsEventsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: ReportProjectsEventsRequest,
   output: ReportProjectsEventsResponse,
   errors: [],
 }));
 
-/** Deletes all error events of a given project. */
 export interface DeleteEventsProjectsLocationsRequest {
   /** Required. The resource name of the Google Cloud Platform project. Written as `projects/{projectID}` or `projects/{projectID}/locations/{location}`, where `{projectID}` is the [Google Cloud Platform project ID](https://support.google.com/cloud/answer/6158840) and `{location}` is a Cloud region. Examples: `projects/my-project-123`, `projects/my-project-123/locations/global`. For a list of supported locations, see [Supported Regions](https://cloud.google.com/logging/docs/region-support). `global` is the default when unspecified. */
   projectName: string;
@@ -494,13 +493,13 @@ export const DeleteEventsProjectsLocationsResponse = DeleteEventsResponse;
 
 export type DeleteEventsProjectsLocationsError = CommonErrors;
 
+/** Deletes all error events of a given project. */
 export const deleteEventsProjectsLocations: API.OperationMethod<DeleteEventsProjectsLocationsRequest, DeleteEventsProjectsLocationsResponse, DeleteEventsProjectsLocationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: DeleteEventsProjectsLocationsRequest,
   output: DeleteEventsProjectsLocationsResponse,
   errors: [],
 }));
 
-/** Get the specified group. */
 export interface GetProjectsLocationsGroupsRequest {
   /** Required. The group resource name. Written as either `projects/{projectID}/groups/{group_id}` or `projects/{projectID}/locations/{location}/groups/{group_id}`. Call groupStats.list to return a list of groups belonging to this project. Examples: `projects/my-project-123/groups/my-group`, `projects/my-project-123/locations/global/groups/my-group` In the group resource name, the `group_id` is a unique identifier for a particular error group. The identifier is derived from key parts of the error-log content and is treated as Service Data. For information about how Service Data is handled, see [Google Cloud Privacy Notice](https://cloud.google.com/terms/cloud-privacy-notice). For a list of supported locations, see [Supported Regions](https://cloud.google.com/logging/docs/region-support). `global` is the default when unspecified. */
   groupName: string;
@@ -518,13 +517,13 @@ export const GetProjectsLocationsGroupsResponse = ErrorGroup;
 
 export type GetProjectsLocationsGroupsError = CommonErrors;
 
+/** Get the specified group. */
 export const getProjectsLocationsGroups: API.OperationMethod<GetProjectsLocationsGroupsRequest, GetProjectsLocationsGroupsResponse, GetProjectsLocationsGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetProjectsLocationsGroupsRequest,
   output: GetProjectsLocationsGroupsResponse,
   errors: [],
 }));
 
-/** Replace the data for the specified group. Fails if the group does not exist. */
 export interface UpdateProjectsLocationsGroupsRequest {
   /** The group resource name. Written as `projects/{projectID}/groups/{group_id}` or `projects/{projectID}/locations/{location}/groups/{group_id}` Examples: `projects/my-project-123/groups/my-group`, `projects/my-project-123/locations/us-central1/groups/my-group` In the group resource name, the `group_id` is a unique identifier for a particular error group. The identifier is derived from key parts of the error-log content and is treated as Service Data. For information about how Service Data is handled, see [Google Cloud Privacy Notice](https://cloud.google.com/terms/cloud-privacy-notice). For a list of supported locations, see [Supported Regions](https://cloud.google.com/logging/docs/region-support). `global` is the default when unspecified. */
   name: string;
@@ -545,13 +544,13 @@ export const UpdateProjectsLocationsGroupsResponse = ErrorGroup;
 
 export type UpdateProjectsLocationsGroupsError = CommonErrors;
 
+/** Replace the data for the specified group. Fails if the group does not exist. */
 export const updateProjectsLocationsGroups: API.OperationMethod<UpdateProjectsLocationsGroupsRequest, UpdateProjectsLocationsGroupsResponse, UpdateProjectsLocationsGroupsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: UpdateProjectsLocationsGroupsRequest,
   output: UpdateProjectsLocationsGroupsResponse,
   errors: [],
 }));
 
-/** Lists the specified groups. */
 export interface ListProjectsLocationsGroupStatsRequest {
   /** Required. The resource name of the Google Cloud Platform project. Written as `projects/{projectID}` or `projects/{projectNumber}`, where `{projectID}` and `{projectNumber}` can be found in the [Google Cloud console](https://support.google.com/cloud/answer/6158840). It may also include a location, such as `projects/{projectID}/locations/{location}` where `{location}` is a cloud region. Examples: `projects/my-project-123`, `projects/5551234`, `projects/my-project-123/locations/us-central1`, `projects/5551234/locations/us-central1`. For a list of supported locations, see [Supported Regions](https://cloud.google.com/logging/docs/region-support). `global` is the default when unspecified. Use `-` as a wildcard to request group stats from all regions. */
   projectName: string;
@@ -602,7 +601,8 @@ export const ListProjectsLocationsGroupStatsResponse = ListGroupStatsResponse;
 
 export type ListProjectsLocationsGroupStatsError = CommonErrors;
 
-export const listProjectsLocationsGroupStats = API.makePaginated(() => ({
+/** Lists the specified groups. */
+export const listProjectsLocationsGroupStats: API.PaginatedOperationMethod<ListProjectsLocationsGroupStatsRequest, ListProjectsLocationsGroupStatsResponse, ListProjectsLocationsGroupStatsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsGroupStatsRequest,
   output: ListProjectsLocationsGroupStatsResponse,
   errors: [],
@@ -612,7 +612,6 @@ export const listProjectsLocationsGroupStats = API.makePaginated(() => ({
   },
 }));
 
-/** Lists the specified events. */
 export interface ListProjectsLocationsEventsRequest {
   /** Required. The resource name of the Google Cloud Platform project. Written as `projects/{projectID}` or `projects/{projectID}/locations/{location}`, where `{projectID}` is the [Google Cloud Platform project ID](https://support.google.com/cloud/answer/6158840) and `{location}` is a Cloud region. Examples: `projects/my-project-123`, `projects/my-project-123/locations/global`. For a list of supported locations, see [Supported Regions](https://cloud.google.com/logging/docs/region-support). `global` is the default when unspecified. */
   projectName: string;
@@ -651,7 +650,8 @@ export const ListProjectsLocationsEventsResponse = ListEventsResponse;
 
 export type ListProjectsLocationsEventsError = CommonErrors;
 
-export const listProjectsLocationsEvents = API.makePaginated(() => ({
+/** Lists the specified events. */
+export const listProjectsLocationsEvents: API.PaginatedOperationMethod<ListProjectsLocationsEventsRequest, ListProjectsLocationsEventsResponse, ListProjectsLocationsEventsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListProjectsLocationsEventsRequest,
   output: ListProjectsLocationsEventsResponse,
   errors: [],
